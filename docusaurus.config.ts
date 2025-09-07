@@ -14,16 +14,11 @@ const config: Config = {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
 
-  // Set the production url of your site here
-  url: "https://your-docusaurus-site.example.com",
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/",
-
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  // organizationName: "facebook", // Usually your GitHub org/user name.
-  // projectName: "docusaurus", // Usually your repo name.
+  url: "https://oliverdoan.github.io",
+  baseUrl: "/docusaurus/",
+  organizationName: "OliverDoan",
+  projectName: "docusaurus",
+  deploymentBranch: "gh-pages",
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -45,8 +40,7 @@ const config: Config = {
           sidebarPath: "./sidebars.ts",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/OliverDoan/docusaurus/blob/main",
+          editUrl: "https://github.com/OliverDoan/docusaurus/blob/main",
         },
         blog: false, // Optional: disable the blog plugin
         theme: {
