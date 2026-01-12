@@ -81,13 +81,38 @@ const config: Config = {
         src: 'img/logo.svg',
       },
       items: [
+       
         {
           type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          sidebarId: 'javascriptSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: 'JavaScript',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
+        {
+          type: 'docSidebar',
+          sidebarId: 'reactSidebar',
+          position: 'left',
+          label: 'React',
+        },
+       
+        {
+          type: 'docSidebar',
+          sidebarId: 'nextjsSidebar',
+          position: 'left',
+          label: 'Next.js',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'nodejsSidebar',
+          position: 'left',
+          label: 'Node.js',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'javaSidebar',
+          position: 'left',
+          label: 'Java',
+        },
         {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',
@@ -97,47 +122,6 @@ const config: Config = {
     },
     footer: {
       style: 'dark',
-      links: [
-        {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Tutorial',
-              to: '/docs/intro',
-            },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
-            },
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
-            },
-          ],
-        },
-      ],
       copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
     },
     prism: {
