@@ -1,7 +1,7 @@
 ---
 sidebar_position: 9
 ---
-# Ép kiểu trong Java (Type Casting)
+# Ép kiểu trong Java 
 
 Ép kiểu (type casting) là việc **chuyển đổi giá trị từ kiểu dữ liệu này sang kiểu dữ liệu khác**.  
 Java hỗ trợ 2 loại ép kiểu:

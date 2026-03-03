@@ -88,17 +88,18 @@ const config: Config = {
           position: 'left',
           label: 'Java',
         },
-       
+        {
+          type: 'docSidebar',
+          sidebarId: 'ieltsSidebar',
+          position: 'left',
+          label: 'IELTS',
+        },
         {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',
           position: 'right',
         },
       ],
-    },
-    footer: {
-      style: 'dark',
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,

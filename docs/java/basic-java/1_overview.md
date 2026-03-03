@@ -4,176 +4,243 @@ sidebar_position: 1
 
 # Tổng quan về Java
 
-## 1. Giới thiệu
-
-Java là một trong những ngôn ngữ lập trình hướng đối tượng phổ biến nhất hiện nay.  
-Ngôn ngữ này được khởi đầu bởi **James Gosling** và các đồng nghiệp tại **Sun Microsystems** năm 1991.  
-Ban đầu Java có tên là **Oak**, và được tạo ra để lập trình cho các thiết bị gia dụng.
-
-- **1994:** Java được phát hành rộng rãi.  
-- **2010:** Oracle mua lại Sun Microsystems → Java thuộc Oracle.  
-- Java ra đời với triết lý nổi tiếng:  
-  👉 **"Write Once, Run Anywhere" (WORA)**
+> 📚 Nhóm kiến thức: Java Core  
+> 🎯 Mức độ: Cơ bản  
+> 🧠 Mục tiêu: Hiểu Java là gì, vì sao Java phổ biến, vai trò của JVM và các nền tảng Java
 
 ---
 
-## Nội dung
+## 🎯 Mục tiêu
+- Hiểu nguồn gốc và triết lý của Java
+- Nắm các đặc điểm cốt lõi của ngôn ngữ Java
+- Hiểu vai trò của JVM
+- Phân biệt các nền tảng Java (SE, EE, ME)
+
+---
+
+## 📑 Nội dung
 
 1. [Giới thiệu](#1-giới-thiệu)  
 2. [Đặc điểm của ngôn ngữ lập trình Java](#2-đặc-điểm-của-ngôn-ngữ-lập-trình-java)  
 3. [Máy ảo Java (JVM – Java Virtual Machine)](#3-máy-ảo-java-jvm--java-virtual-machine)  
 4. [Các loại ứng dụng phát triển bằng Java](#4-các-loại-ứng-dụng-phát-triển-bằng-java)  
 5. [Các phiên bản của Java](#5-các-phiên-bản-của-java)  
-6. [Các thành phần của Java SE Platform](#6-các-thành-phần-của-java-se-platform)  
+6. [Các thành phần của Java SE Platform](#6-các-thành-phần-của-java-se-platform)
 
 ---
 
-## 2. Đặc điểm của ngôn ngữ lập trình Java
+## 📌 1. Giới thiệu
 
-### 2.1 Tương tự C++ và hướng đối tượng hoàn toàn  
-Trong quá trình tạo ra một ngôn ngữ mới phục vụ cho mục đích chạy được trên nhiều nền tảng, các kỹ sư của Sun MicroSystem muốn tạo ra một ngôn ngữ dễ học và quen thuộc với đa số người lập trình. Vì vậy họ đã sử dụng lại các cú pháp của C và C++.
+Java là một trong những **ngôn ngữ lập trình hướng đối tượng phổ biến nhất** hiện nay.
 
-Tuy nhiên, trong Java thao tác với con trỏ bị lược bỏ nhằm đảo bảo tính an toàn và dễ sử dụng hơn. Các thao tác overload, goto hay các cấu trúc như struct và union cũng được loại bỏ khỏi Java.
+- Được phát triển bởi **James Gosling** và nhóm kỹ sư tại **Sun Microsystems** (1991)
+- Tên ban đầu: **Oak**
+- Mục tiêu ban đầu: lập trình cho **thiết bị gia dụng**
+- **2010:** Oracle mua lại Sun Microsystems → Java thuộc Oracle
 
+### 🧠 Triết lý cốt lõi
+> 👉 **Write Once, Run Anywhere (WORA)**  
+Viết một lần – chạy ở mọi nơi có JVM
 
+---
+
+## 🧠 2. Đặc điểm của ngôn ngữ lập trình Java
+
+---
+
+### 2.1 Hướng đối tượng & cú pháp quen thuộc
+
+- Cú pháp tương tự **C / C++** → dễ tiếp cận
+- Là ngôn ngữ **hướng đối tượng gần như hoàn toàn**
+
+❌ Java **loại bỏ**:
+- Con trỏ (pointer)
+- `goto`
+- `struct`, `union`
+- Một số cơ chế overload nguy hiểm
+
+✅ Mục tiêu:
+- An toàn hơn
+- Dễ học
+- Giảm lỗi runtime
 
 ---
 
 ### 2.2 Tính đóng gói (Encapsulation)
-Java hỗ trợ các access modifier để giới hạn quyền truy cập, bảo vệ dữ liệu khỏi bị truy cập và sửa đổi ngoài ý muốn. Hầu hết mọi người coi tính đóng gói là một khía cạnh của ngôn ngữ hướng đối tượng.
+
+Java hỗ trợ **access modifier** để:
+- Giới hạn quyền truy cập
+- Bảo vệ dữ liệu
+- Kiểm soát hành vi đối tượng
+
+Các modifier phổ biến:
+- `private`
+- `default`
+- `protected`
+- `public`
+
+👉 Encapsulation là **nền tảng của OOP**
 
 ---
 
-### 2.3 Độc lập phần cứng & hệ điều hành (Platform Independent)
-Một chương trình viết bằng ngôn ngữ Java có thể chạy tốt ở nhiều môi trường khác nhau. Gọi là khả năng “cross-platform”. Khả năng độc lập phần cứng và hệ điều hành được thể hiện ở 2 cấp độ là cấp độ mã nguồn và cấp độ nhị phân.
+### 2.3 Độc lập nền tảng (Platform Independent)
 
+Java có khả năng **cross-platform** nhờ JVM.
 
-- **Code Java (.java)** → biên dịch → **Bytecode (.class)**  
-- JVM thông dịch Bytecode thành mã máy thực tế khi chạy.
+📌 Quy trình:
+- Code Java (`.java`)
+- Biên dịch → Bytecode (`.class`)
+- JVM dịch Bytecode → Machine Code
 
-📌 Chính JVM tạo ra khả năng **cross-platform** của Java.
+➡️ **Chính JVM tạo nên khả năng chạy đa nền tảng**
 
 ---
 
-### 2.4 Ngôn ngữ vừa biên dịch vừa thông dịch  
+### 2.4 Vừa biên dịch vừa thông dịch
 
-Ngôn ngữ lập trình thường được chia ra làm 2 loại (tùy theo các hiện thực hóa ngôn ngữ đó) là ngôn ngữ thông dịch (Interpreted Language) và ngôn ngữ biên dịch (Compiled Language).
+Java không thuần **Compiled** hay **Interpreted**
 
-- **Thông dịch (Interpreter)** : Nó dịch từng lệnh rồi chạy từng lệnh, lần sau muốn chạy lại thì phải dịch lại.
-
-- **Biên dịch (Compiler)**: Code sau khi được biên dịch sẽ tạo ra 1 file thường là .exe, và file .exe này có thể đem sử dụng lại không cần biên dịch nữa.
-
-Ngôn ngữ lập trình Java thuộc loại ngôn ngữ thông dịch. Chính xác hơn, Java là loại ngôn ngữ vừa biên dịch (Interpreted Language) vừa thông dịch. Cụ thể như sau
-
-Khi viết mã, hệ thống tạo ra một tệp .java. Khi biên dịch mã nguồn của chương trình sẽ được biên dịch ra mã byte code. Máy ảo Java (Java Virtual Machine) sẽ thông dịch mã byte code này thành machine code  (hay native code) khi nhận được yêu cầu chạy chương trình.
-
-
+🧠 Cách Java hoạt động:
+1. `.java` → Compiler → `.class` (Bytecode)
+2. JVM thông dịch Bytecode → mã máy khi chạy
 
 ![Java Overview](/img/java/overview-1.png)
 
-**Ưu điểm:**  
-- Chạy được trên mọi nền tảng có JVM  
-- Tính linh hoạt cao  
+#### ✅ Ưu điểm
+- Chạy trên mọi nền tảng có JVM
+- Linh hoạt
 
-**Nhược điểm:**  
-- Tốc độ chậm hơn C++ (nhưng vẫn rất tối ưu)
-
----
-
-### 2.5 Cơ chế thu gom rác tự động (Garbage Collection)
-Khi tạo ra các đối tượng trong Java, JRE sẽ tự động cấp phát không gian bộ nhớ cho các đối tượng ở trên heap.
-
-Với ngôn ngữ như C \ C++, bạn sẽ phải yêu cầu hủy vùng nhớ mà bạn đã  cấp phát, để tránh việc thất thoát vùng nhớ. Tuy nhiên vì một lý do nào đó, bạn không hủy một vài vùng nhớ, dẫn đến việc thất thoát và làm giảm hiệu năng chương trình.
-
-Ngôn ngữ lập trình Java hỗ trợ cho bạn điều đó, nghĩa là bạn không phải  tự gọi hủy các vùng nhớ. Bộ thu dọn rác của Java sẽ theo vết các tài nguyên đã được cấp. Khi không có tham chiếu nào đến vùng nhớ, bộ thu dọn rác sẽ tiến hành thu hồi vùng nhớ đã được cấp phát.
-
+#### ❌ Nhược điểm
+- Chậm hơn C++ (nhưng được tối ưu rất tốt bằng JIT)
 
 ---
 
-### 2.6 Đa luồng (Multithreading)
+### 2.5 Thu gom rác tự động (Garbage Collection)
 
-Java hỗ trợ lập trình đa tiến trình (multithread) để thực thi các công việc đồng thời. Đồng thời cũng cung cấp giải pháp đồng bộ giữa các tiến trình (giải pháp sử dụng priority…).
+- Object được cấp phát bộ nhớ trên **Heap**
+- Java **tự động thu hồi bộ nhớ**
+- Tránh memory leak thường gặp ở C/C++
+
+📌 GC sẽ:
+- Theo dõi object
+- Thu hồi object **không còn reference**
+
+---
+
+### 2.6 Hỗ trợ đa luồng (Multithreading)
+
+Java hỗ trợ:
+- Chạy nhiều luồng song song
+- Đồng bộ hoá luồng
+- Quản lý tài nguyên hiệu quả
+
+➡️ Rất phù hợp cho **server-side & enterprise**
 
 ---
 
 ### 2.7 Tương thích ngược (Backward Compatibility)
-Các phiên bản Java mới luôn cố gắng giữ tính tương thích với phiên bản cũ.
 
-- Các API cũ không bị xoá ngay mà thường được **deprecated** trước.  
-- Giảm rủi ro khi cập nhật Java.
-
----
-
-### 2.8 Tính an toàn và bảo mật (Secure)
-
-**Tính an toàn:**
-- Kiểm tra kiểu dữ liệu nghiêm ngặt  
-- Không dùng con trỏ  
-- Tránh tràn bộ nhớ  
-- Tự động cấp phát & giải phóng bộ nhớ  
-- Kiểm soát lỗi tốt
-
-**Tính bảo mật:**
-- Kiểm soát truy cập lớp  
-- JVM kiểm tra bytecode  
-- Trình nạp lớp đảm bảo an toàn khi load class  
-- Môi trường chạy có sandbox bảo vệ
+- API cũ **không bị xoá ngay**
+- Được đánh dấu `@Deprecated`
+- Giúp nâng cấp Java an toàn hơn
 
 ---
 
-## 3. Máy ảo Java (JVM – Java Virtual Machine)
+### 2.8 An toàn & bảo mật
 
-JVM là thành phần cốt lõi giúp Java chạy được trên nhiều nền tảng.
+#### 🔒 An toàn
+- Không dùng pointer
+- Kiểm tra kiểu dữ liệu chặt chẽ
+- GC tự động
+- Quản lý lỗi tốt
 
-- Code Java → Bytecode (.class)  
-- JVM thông dịch Bytecode → Mã máy thực sự  
-- Mỗi hệ điều hành có phiên bản JVM khác nhau
+#### 🛡 Bảo mật
+- JVM kiểm tra bytecode
+- ClassLoader an toàn
+- Sandbox runtime
 
-Ví dụ: JVM cho Windows, Linux, macOS…
+---
+
+## ⚙️ 3. Máy ảo Java (JVM – Java Virtual Machine)
+
+JVM là **trái tim của Java**
+
+📌 Vai trò:
+- Thực thi Bytecode
+- Quản lý bộ nhớ
+- Bảo mật
+- Garbage Collection
+
+📌 Mỗi OS có JVM riêng:
+- Windows
+- Linux
+- macOS
 
 ![JVM Diagram](/img/java/overview-2.png)
 
 ---
 
-## 4. Các loại ứng dụng phát triển bằng Java
+## 🌍 4. Các loại ứng dụng Java
 
-Java có mặt ở khắp nơi:
+Java xuất hiện ở hầu hết mọi lĩnh vực:
 
 ![Java App Types](/img/java/overview-3.png)
 
-- Ứng dụng desktop  
-- Ứng dụng web  
-- Ứng dụng doanh nghiệp (Enterprise)  
-- Ứng dụng di động  
-- Hệ thống nhúng  
-- Game, Big Data, IoT…
+- Desktop Application
+- Web Application
+- Enterprise Application
+- Mobile Application
+- Embedded System
+- Big Data, IoT, Game
 
 ---
 
-## 5. Các phiên bản của Java
+## 📦 5. Các phiên bản Java
 
 ![Java Versions](/img/java/overview-4.png)
 
- **Java SE – Standard Edition**
-- Nền tảng cơ bản  
-- Dùng để xây dựng ứng dụng desktop, console
+### Java SE (Standard Edition)
+- Nền tảng cơ bản
+- Ứng dụng desktop, console
 
- **Java EE – Enterprise Edition**
-- Xây dựng ứng dụng web, microservices, hệ thống doanh nghiệp  
-- Bao gồm Servlet, JSP, JPA, EJB…
+### Java EE (Enterprise Edition)
+- Web, Microservices, Enterprise
+- Servlet, JSP, JPA, EJB
+- Hiện nay chuyển sang **Jakarta EE**
 
- **Java ME – Mobile Edition**
-- Dùng cho thiết bị nhúng, mobile đời cũ
+### Java ME (Micro Edition)
+- Thiết bị nhúng
+- Mobile đời cũ
 
 ---
 
-## 6. Các thành phần của Java SE Platform
+## 🧩 6. Các thành phần của Java SE
 
-Java SE gồm **JRE** và **JDK**:
+Java SE gồm:
 
 ![Java Components](/img/java/overview-5.png)
 
-- **JRE (Java Runtime Environment)**: cung cấp JVM  (Java Virtual Machine) và thư viện được sử dụng để chạy chương trình Java.
+### JRE – Java Runtime Environment
+- JVM
+- Thư viện chuẩn
+- Dùng để **chạy** chương trình Java
 
-- **JDK (Java Development Kit)**: được biết đến như bộ cung cụ phát triển Java, bao gồm: trình biên dịch và trình gỡ rối được sử dụng để phát triển các ứng dụng Java.
+### JDK – Java Development Kit
+- Compiler
+- Debugger
+- Công cụ phát triển
 
+➡️ Dùng để **phát triển + chạy** Java
+
+---
+
+## ❓ Câu hỏi tự kiểm tra
+- Vì sao Java chạy được trên nhiều nền tảng?
+- JVM khác gì JDK?
+- Java là compiled hay interpreted?
+- Garbage Collection giúp gì cho lập trình viên?
+
+---
+
+## 📝 Ghi chú cá nhân
+> (Bổ sung sau khi học xong)
