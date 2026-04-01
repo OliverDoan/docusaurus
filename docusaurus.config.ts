@@ -90,9 +90,9 @@ const config: Config = {
         },
         {
           type: 'docSidebar',
-          sidebarId: 'ieltsSidebar',
+          sidebarId: 'reactSidebar',
           position: 'left',
-          label: 'IELTS',
+          label: 'React',
         },
         {
           href: 'https://github.com/facebook/docusaurus',
