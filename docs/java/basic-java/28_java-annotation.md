@@ -1,130 +1,593 @@
+---
+sidebar_position: 28
+title: "Java Annotation"
+---
+
 # Java Annotation
 
-## Giới thiệu
-**Annotation** trong Java cung cấp **metadata (siêu dữ liệu)** cho code.  
-Chúng **không trực tiếp thay đổi logic chương trình**, nhưng được dùng rộng rãi để:
-- Cung cấp thông tin cho compiler
-- Phân tích code ở runtime
-- Hỗ trợ framework (Spring, Hibernate, JUnit…)
+**Annotation** trong Java la mot dang **metadata (sieu du lieu)** - thong tin mo ta ve code nhung **khong truc tiep thay doi logic chuong trinh**. Annotation giup compiler, framework, va cac cong cu xu ly code tu dong hieu va xu ly code theo cach dac biet.
+
+Hay tuong tuong ban viet mot buc thu. Noi dung thu la **code** cua ban. Nhung tren bao thu, ban ghi them cac ghi chu nhu "KHAN CAP", "XU LY TRUOC", "GUI LAI NEU KHONG NHAN DUOC". Nhung ghi chu nay khong thay doi noi dung thu, nhung giup nguoi xu ly biet phai lam gi voi buc thu do. Annotation cung tuong tu - no "ghi chu" cho code de compiler va framework biet cach xu ly.
+
+Annotation la **nen tang cua Java hien dai**: Spring Boot, JPA/Hibernate, JUnit, Lombok... tat ca deu hoat dong dua tren annotation.
 
 ---
 
-## Nội dung
+## 1. Built-in Annotations (Annotation co san)
 
-1. [Các annotation được sử dụng để làm gì?](#1-các-annotation-được-sử-dụng-để-làm-gì)  
-2. [Cơ bản về Annotations](#2-cơ-bản-về-annotations)  
-3. [Các Annotation sẵn có của Java](#3-các-annotation-sẵn-có-của-java)  
-4. [Cách tạo Custom Annotations](#4-cách-tạo-custom-annotations)  
-5. [Sử dụng Annotation lồng nhau](#5-sử-dụng-annotation-lồng-nhau)  
-
----
-
-## 1. Các annotation được sử dụng để làm gì?
-
-Annotation được dùng để:
-- Kiểm tra lỗi ở compile-time
-- Sinh code tự động
-- Cấu hình framework
-- Giảm code cấu hình thủ công (XML)
-
-Ví dụ:
+### 1.1 `@Override` - Ghi de method cua lop cha
 
 ```java
-@Override
-public String toString() {
-    return "Hello";
+public class Animal {
+    public String makeSound() {
+        return "...";
+    }
+}
+
+public class Dog extends Animal {
+    @Override  // Bao compiler: method nay ghi de method cua lop cha
+    public String makeSound() {
+        return "Gau gau!";
+    }
+
+    // Neu viet sai ten method, compiler se BAO LOI
+    // @Override
+    // public String makeSound2() { }  // Loi! Lop cha khong co makeSound2
+}
+```
+
+**Tai sao nen dung `@Override`:** Neu ban viet sai ten method (vi du `makesound` thay vi `makeSound`), khong co `@Override` thi compiler se tuong ban tao method moi, khong bao loi. Voi `@Override`, compiler se bao loi ngay, giup tranh bug kho tim.
+
+### 1.2 `@Deprecated` - Danh dau da loi thoi
+
+```java
+public class PaymentService {
+    /**
+     * @deprecated Dung {@link #processPaymentV2(String, double)} thay the.
+     * Method nay se bi xoa o version 3.0.
+     */
+    @Deprecated
+    public void processPayment(String cardNumber, double amount) {
+        // Logic cu...
+    }
+
+    public void processPaymentV2(String cardNumber, double amount) {
+        // Logic moi, bao mat hon...
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        PaymentService service = new PaymentService();
+
+        // Compiler se canh bao khi goi method deprecated
+        service.processPayment("1234", 100.0); // Warning: deprecated
+
+        // Nen dung method moi
+        service.processPaymentV2("1234", 100.0); // OK
+    }
+}
+```
+
+### 1.3 `@SuppressWarnings` - Tat canh bao cua compiler
+
+```java
+public class SuppressDemo {
+
+    @SuppressWarnings("unchecked")  // Tat canh bao ve unchecked cast
+    public void example1() {
+        java.util.List rawList = new java.util.ArrayList();
+        rawList.add("hello"); // Khong co generic -> compiler canh bao
+    }
+
+    @SuppressWarnings("deprecation")  // Tat canh bao ve deprecated
+    public void example2() {
+        PaymentService service = new PaymentService();
+        service.processPayment("1234", 100.0); // Khong canh bao nua
+    }
+
+    @SuppressWarnings({"unchecked", "deprecation"})  // Tat nhieu canh bao
+    public void example3() {
+        // ...
+    }
+}
+```
+
+**Cac gia tri thuong dung:**
+
+| Gia tri | Y nghia |
+|---|---|
+| `"unchecked"` | Tat canh bao unchecked cast (generics) |
+| `"deprecation"` | Tat canh bao deprecated |
+| `"unused"` | Tat canh bao bien khong dung |
+| `"all"` | Tat tat ca canh bao |
+
+### 1.4 `@FunctionalInterface` - Danh dau interface ham
+
+```java
+@FunctionalInterface  // Dam bao interface chi co 1 abstract method
+public interface Calculator {
+    double calculate(double a, double b);
+
+    // Co the co default methods
+    default void printResult(double a, double b) {
+        System.out.println("Ket qua: " + calculate(a, b));
+    }
+
+    // NEU them abstract method thu 2 -> Compiler BAO LOI
+    // double anotherMethod(); // Loi!
+}
+
+public class LambdaDemo {
+    public static void main(String[] args) {
+        // Dung voi lambda expression
+        Calculator add = (a, b) -> a + b;
+        Calculator multiply = (a, b) -> a * b;
+
+        add.printResult(3, 4);       // Ket qua: 7.0
+        multiply.printResult(3, 4);  // Ket qua: 12.0
+    }
 }
 ```
 
 ---
 
-## 2. Cơ bản về Annotations
+## 2. Meta-annotations (Annotation cho Annotation)
 
-### 2.1 Cú pháp
+Meta-annotations la cac annotation dung de **dinh nghia cac annotation khac**. Chung chi dinh pham vi, thoi gian ton tai, va cac dac tinh cua annotation.
 
-```java
-@AnnotationName
-```
-
-### 2.2 Vị trí sử dụng
-
-Annotation có thể áp dụng cho:
-- Class
-- Method
-- Field
-- Constructor
-- Parameter
-
----
-
-## 3. Các Annotation sẵn có của Java
-
-### 3.1 @Override
+### 2.1 `@Target` - Annotation duoc dung o dau?
 
 ```java
-@Override
-public String toString() {
-    return "Demo";
-}
-```
+import java.lang.annotation.Target;
+import java.lang.annotation.ElementType;
 
-### 3.2 @Deprecated
-
-```java
-@Deprecated
-public void oldMethod() { }
-```
-
-### 3.3 @SuppressWarnings
-
-```java
-@SuppressWarnings("unchecked")
-List list = new ArrayList();
-```
-
----
-
-## 4. Cách tạo Custom Annotations
-
-### 4.1 Khai báo Annotation
-
-```java
-@Retention(RetentionPolicy.RUNTIME)
+// Chi dung tren METHOD
 @Target(ElementType.METHOD)
-public @interface MyAnnotation {
+public @interface MethodOnly { }
+
+// Dung tren nhieu noi
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
+public @interface MultiTarget { }
+```
+
+**Cac gia tri `ElementType`:**
+
+| Gia tri | Ap dung cho |
+|---|---|
+| `TYPE` | Class, Interface, Enum |
+| `METHOD` | Method |
+| `FIELD` | Field (bien instance) |
+| `PARAMETER` | Tham so cua method |
+| `CONSTRUCTOR` | Constructor |
+| `LOCAL_VARIABLE` | Bien cuc bo |
+| `ANNOTATION_TYPE` | Annotation khac (meta-annotation) |
+| `PACKAGE` | Package |
+
+### 2.2 `@Retention` - Annotation ton tai den khi nao?
+
+```java
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+// Chi ton tai trong source code (bi xoa khi compile)
+@Retention(RetentionPolicy.SOURCE)
+public @interface SourceOnly { }
+
+// Ton tai trong file .class nhung KHONG co o runtime
+@Retention(RetentionPolicy.CLASS)
+public @interface ClassLevel { }
+
+// Ton tai o runtime - co the doc bang Reflection
+@Retention(RetentionPolicy.RUNTIME)
+public @interface RuntimeAvailable { }
+```
+
+**So sanh `RetentionPolicy`:**
+
+| Policy | Source | .class file | Runtime | Dung khi |
+|---|---|---|---|---|
+| `SOURCE` | Co | Khong | Khong | Compiler processing (`@Override`) |
+| `CLASS` | Co | Co | Khong | Bytecode tools (mac dinh) |
+| `RUNTIME` | Co | Co | **Co** | **Reflection** (Spring, JUnit) |
+
+### 2.3 `@Documented` va `@Inherited`
+
+```java
+import java.lang.annotation.*;
+
+// @Documented: Annotation se xuat hien trong Javadoc
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface ApiVersion {
+    String value();
+}
+
+// @Inherited: Lop con tu dong ke thua annotation cua lop cha
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface Auditable { }
+
+@Auditable
+public class BaseEntity { }
+
+// ChildEntity TU DONG co @Auditable (nho @Inherited)
+public class ChildEntity extends BaseEntity { }
+```
+
+---
+
+## 3. Tao Custom Annotation
+
+### 3.1 Annotation don gian
+
+```java
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.annotation.ElementType;
+
+// Dinh nghia annotation
+@Retention(RetentionPolicy.RUNTIME)  // Co the doc o runtime
+@Target(ElementType.METHOD)          // Chi dung tren method
+public @interface LogExecutionTime {
+    String value() default "";       // Tham so tuy chon voi gia tri mac dinh
+}
+```
+
+### 3.2 Annotation voi nhieu tham so
+
+```java
+import java.lang.annotation.*;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface ApiInfo {
+    String author();                       // Bat buoc (khong co default)
+    String version() default "1.0";        // Tuy chon
+    String[] tags() default {};            // Mang voi gia tri mac dinh rong
+    boolean deprecated() default false;    // Boolean voi gia tri mac dinh
+}
+```
+
+### 3.3 Su dung va doc annotation bang Reflection
+
+```java
+import java.lang.reflect.Method;
+
+// Dinh nghia annotation
+@java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
+@java.lang.annotation.Target(java.lang.annotation.ElementType.METHOD)
+@interface RateLimit {
+    int maxRequests() default 100;
+    int timeWindowSeconds() default 60;
+}
+
+// Su dung annotation
+@ApiInfo(author = "Thuan", version = "2.0", tags = {"api", "user"})
+public class UserController {
+
+    @RateLimit(maxRequests = 10, timeWindowSeconds = 30)
+    @LogExecutionTime("getUser")
+    public String getUser(int id) {
+        return "User " + id;
+    }
+
+    @RateLimit  // Dung gia tri mac dinh: 100 requests / 60 giay
+    public String listUsers() {
+        return "All users";
+    }
+}
+
+// Doc annotation bang Reflection
+public class AnnotationReader {
+    public static void main(String[] args) throws Exception {
+        Class<?> clazz = UserController.class;
+
+        // Doc annotation tren class
+        if (clazz.isAnnotationPresent(ApiInfo.class)) {
+            ApiInfo info = clazz.getAnnotation(ApiInfo.class);
+            System.out.println("Author: " + info.author());
+            System.out.println("Version: " + info.version());
+            System.out.println("Tags: " + java.util.Arrays.toString(info.tags()));
+        }
+
+        // Doc annotation tren method
+        for (Method method : clazz.getDeclaredMethods()) {
+            if (method.isAnnotationPresent(RateLimit.class)) {
+                RateLimit limit = method.getAnnotation(RateLimit.class);
+                System.out.println("\nMethod: " + method.getName());
+                System.out.println("  Max requests: " + limit.maxRequests());
+                System.out.println("  Time window: " + limit.timeWindowSeconds() + "s");
+            }
+        }
+    }
+}
+```
+
+**Output:**
+```
+Author: Thuan
+Version: 2.0
+Tags: [api, user]
+
+Method: getUser
+  Max requests: 10
+  Time window: 30s
+
+Method: listUsers
+  Max requests: 100
+  Time window: 60s
+```
+
+---
+
+## 4. Annotation trong cac Framework pho bien
+
+### 4.1 Spring Framework
+
+```java
+import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
+
+// @RestController: Danh dau class la REST API controller
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+
+    // @Autowired: Tu dong inject dependency
+    @Autowired
+    private UserService userService;
+
+    // @GetMapping: Xu ly HTTP GET request
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable int id) {
+        return userService.findById(id);
+    }
+
+    // @PostMapping: Xu ly HTTP POST request
+    @PostMapping
+    public User createUser(@RequestBody UserRequest request) {
+        return userService.create(request);
+    }
+}
+
+// @Service: Danh dau class la business logic layer
+@Service
+public class UserService {
+    @Autowired
+    private UserRepository userRepository;
+
+    public User findById(int id) {
+        return userRepository.findById(id).orElse(null);
+    }
+}
+```
+
+### 4.2 JPA/Hibernate
+
+```java
+import jakarta.persistence.*;
+
+// @Entity: Danh dau class map voi bang trong database
+@Entity
+@Table(name = "users")
+public class User {
+
+    @Id  // Primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-increment
+    private Long id;
+
+    @Column(nullable = false, length = 100)  // Dinh nghia cot
+    private String name;
+
+    @Column(unique = true)  // Cot duy nhat
+    private String email;
+
+    @OneToMany(mappedBy = "user")  // Quan he 1-N
+    private java.util.List<Order> orders;
+
+    // Getters va setters...
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+}
+```
+
+### 4.3 JUnit 5
+
+```java
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class CalculatorTest {
+
+    @BeforeEach  // Chay truoc moi test
+    void setUp() {
+        // Khoi tao...
+    }
+
+    @Test  // Danh dau day la method test
+    @DisplayName("Cong 2 so duong")
+    void testAdd() {
+        assertEquals(5, 2 + 3);
+    }
+
+    @Test
+    @Disabled("Chua implement")  // Bo qua test nay
+    void testDivide() {
+        // TODO
+    }
+
+    @ParameterizedTest  // Test voi nhieu bo du lieu
+    @ValueSource(ints = {1, 2, 3, 4, 5})
+    void testPositive(int number) {
+        assertTrue(number > 0);
+    }
+
+    @AfterEach  // Chay sau moi test
+    void tearDown() {
+        // Don dep...
+    }
+}
+```
+
+---
+
+## 5. Annotation vs Comment
+
+| Tieu chi | Annotation | Comment |
+|---|---|---|
+| Doc boi | **Compiler, JVM, Framework** | Chi con nguoi |
+| Anh huong runtime | Co (voi `RUNTIME` retention) | Khong |
+| Kiem tra loi | Co (vi du `@Override` bao loi compile) | Khong |
+| Sinh code | Co (Lombok, Spring) | Khong |
+| Vi du | `@Override`, `@Autowired` | `// Ghi chu` |
+
+---
+
+## Khi nao dung?
+
+**Dung Annotation khi:**
+- **Ghi de method**: Luon dung `@Override` de compiler kiem tra
+- **Danh dau code cu**: Dung `@Deprecated` khi method se bi xoa
+- **Cau hinh framework**: Spring (`@RestController`, `@Autowired`), JPA (`@Entity`), JUnit (`@Test`)
+- **Validation**: `@NotNull`, `@Size`, `@Email` (Bean Validation)
+- **AOP (Aspect-Oriented Programming)**: `@Transactional`, `@Cacheable`
+- **Tao custom metadata**: Khi can xu ly dac biet bang Reflection
+
+**Best practices:**
+- **Luon dung `@Override`** khi ghi de method cua lop cha hoac interface
+- Dung `@Deprecated` kem theo Javadoc giai thich ly do va phuong an thay the
+- Khi tao custom annotation, luon chi dinh `@Target` va `@Retention`
+- Dung `@Retention(RetentionPolicy.RUNTIME)` neu can doc annotation bang Reflection
+- Tranh lam dung `@SuppressWarnings` - chi dung khi that su hieu tai sao co warning
+
+---
+
+## Loi thuong gap
+
+### 1. Quen `@Override` khi ghi de method
+
+```java
+public class Animal {
+    public String makeSound() { return "..."; }
+}
+
+public class Cat extends Animal {
+    // Sai - viet sai ten nhung khong co @Override nen compiler khong bao loi
+    public String makesound() { // "s" thuong thay vi "S" hoa
+        return "Meo meo!";
+    }
+    // Day la method MOI, KHONG ghi de makeSound()!
+
+    // Dung - co @Override, compiler se bao loi neu ten sai
+    @Override
+    public String makeSound() {
+        return "Meo meo!";
+    }
+}
+```
+
+### 2. Nham RetentionPolicy
+
+```java
+// Sai - dung SOURCE thi khong the doc bang Reflection o runtime
+@java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.SOURCE)
+@interface MyAnnotation {
+    String value();
+}
+
+// O runtime:
+// method.getAnnotation(MyAnnotation.class) -> NULL! Vi annotation da bi xoa
+
+// Dung - dung RUNTIME khi can doc bang Reflection
+@java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
+@interface MyAnnotation2 {
     String value();
 }
 ```
 
-### 4.2 Sử dụng Annotation
+### 3. Quen @Target dan den dung sai vi tri
 
 ```java
-@MyAnnotation("test")
-public void demo() { }
+@java.lang.annotation.Target(java.lang.annotation.ElementType.METHOD)
+@interface MethodOnly {
+    String value() default "";
+}
+
+// Sai - annotation chi cho method, khong the dung tren class
+// @MethodOnly("test")  // Loi compile!
+// public class MyClass { }
+
+// Dung - dung tren method
+public class MyClass {
+    @MethodOnly("test")
+    public void myMethod() { }
+}
+```
+
+### 4. Annotation parameter khong dung kieu
+
+```java
+// Annotation parameter chi chap nhan:
+// - primitive (int, boolean, ...)
+// - String
+// - Class
+// - Enum
+// - Annotation khac
+// - Array cua cac kieu tren
+
+@interface Valid {
+    String name();                    // OK
+    int maxLength() default 100;      // OK
+    Class<?> type() default Object.class; // OK
+    // Object obj();                  // LOI! Object khong duoc phep
+    // java.util.List<String> list(); // LOI! Generic khong duoc phep
+}
 ```
 
 ---
 
-## 5. Sử dụng Annotation lồng nhau
+## Cau hoi phong van
+
+### 1. Annotation va Comment khac nhau nhu the nao?
+
+**Tra loi:** Comment chi la ghi chu cho nguoi doc code, bi compiler bo qua hoan toan va khong anh huong den chuong trinh. Annotation la **metadata** duoc compiler va JVM xu ly: `@Override` giup compiler kiem tra loi ghi de, `@Deprecated` tao ra canh bao, `@Autowired` (Spring) tu dong inject dependency o runtime. Annotation co the ton tai den runtime va duoc doc bang Reflection, con comment thi khong.
+
+### 2. `@Override` co bat buoc khong?
+
+**Tra loi:** Khong bat buoc ve mat cu phap - code van chay khong co `@Override`. Nhung **rat nen dung** vi no giup compiler kiem tra: neu ban ghi de sai ten method, khong co `@Override` thi compiler se tuong ban tao method moi (khong bao loi), dan den bug logic rat kho tim. Voi `@Override`, compiler se bao loi ngay neu method khong thuc su ghi de method nao cua lop cha hay interface.
+
+### 3. `RetentionPolicy` la gi va co may loai?
+
+**Tra loi:** `RetentionPolicy` chi dinh thoi gian ton tai cua annotation. Co 3 loai: (1) **SOURCE** - chi ton tai trong source code, bi xoa khi compile (vi du `@Override`, `@SuppressWarnings`). (2) **CLASS** - ton tai trong file .class nhung khong co o runtime (mac dinh neu khong chi dinh). (3) **RUNTIME** - ton tai o runtime, co the doc bang Reflection API. Phan lon annotation trong framework (Spring, JPA, JUnit) dung `RUNTIME` vi can xu ly o runtime.
+
+### 4. Annotation duoc su dung nhu the nao trong Spring?
+
+**Tra loi:** Spring dung annotation lam **co che cau hinh chinh** thay cho XML: `@Component` / `@Service` / `@Repository` de danh dau bean, Spring tu dong scan va tao instance. `@Autowired` de inject dependency tu dong. `@RestController` + `@GetMapping` / `@PostMapping` de dinh nghia REST API. `@Transactional` de quan ly transaction. `@Configuration` + `@Bean` de cau hinh thu cong. Spring doc cac annotation nay bang Reflection o runtime va thuc hien cac xu ly tuong ung (tao bean, inject, wrap proxy...).
+
+### 5. Lam sao tao custom annotation va doc no o runtime?
+
+**Tra loi:** Tao annotation bang `@interface`, chi dinh `@Retention(RetentionPolicy.RUNTIME)` va `@Target`. Doc bang Reflection: dung `Class.getAnnotation()`, `Method.getAnnotation()`, hoac `isAnnotationPresent()`. Vi du:
 
 ```java
-@Author(
-    name = "GP Coder",
-    date = "2024"
-)
-public class Demo { }
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+@interface Timeout { int value() default 30; }
+
+// Doc:
+Method m = MyClass.class.getMethod("myMethod");
+if (m.isAnnotationPresent(Timeout.class)) {
+    int timeout = m.getAnnotation(Timeout.class).value();
+}
 ```
 
-👉 Annotation có thể chứa:
-- Primitive
-- String
-- Enum
-- Annotation khác
-
----
-
-## Tổng kết
-
-- Annotation là **metadata**, không phải logic
-- Rất quan trọng trong Java hiện đại
-- Hiểu Annotation là nền tảng để học framework
+Day la cach cac framework nhu Spring va JUnit hoat dong ben trong.
