@@ -1,21 +1,21 @@
 ---
 sidebar_position: 30
-title: "Tranh NullPointerException"
+title: "Tránh NullPointerException"
 ---
 
-# Tranh NullPointerException trong Java
+# Tránh NullPointerException trong Java
 
-## NullPointerException la gi?
+## NullPointerException là gì?
 
-**NullPointerException (NPE)** la mot trong nhung loi runtime **pho bien nhat** trong Java. Loi nay xay ra khi chuong trinh co gang truy cap method, field, hoac property cua mot **tham chieu null** -- tuc la mot bien chua tro den bat ky object nao.
+**NullPointerException (NPE)** là một trong những lỗi runtime **phổ biến nhất** trong Java. Lỗi này xảy ra khi chương trình cố gắng truy cập method, field, hoặc property của một **tham chiếu null** -- tức là một biến chưa trỏ đến bất kỳ object nào.
 
-Hay tuong tuong ban co mot **dia chi nha** (bien tham chieu). Binh thuong, dia chi nay tro den mot ngoi nha that (object). Nhung neu dia chi la `null`, tuc la **khong co ngoi nha nao ca**. Khi ban co go cua (goi method) tai dia chi khong ton tai, ban se gap loi -- do chinh la `NullPointerException`.
+Hãy tưởng tượng bạn có một **địa chỉ nhà** (biến tham chiếu). Bình thường, địa chỉ này trỏ đến một ngôi nhà thật (object). Nhưng nếu địa chỉ là `null`, tức là **không có ngôi nhà nào cả**. Khi bạn cố gõ cửa (gọi method) tại địa chỉ không tồn tại, bạn sẽ gặp lỗi -- đó chính là `NullPointerException`.
 
-Hieu va biet cach phong tranh NPE la ky nang thiet yeu cua moi lap trinh vien Java.
+Hiểu và biết cách phòng tránh NPE là kỹ năng thiết yếu của mọi lập trình viên Java.
 
 ---
 
-## 1. Nguyen nhan pho bien gay NPE
+## 1. Nguyên nhân phổ biến gây NPE
 
 ```java
 public class NpeExamples {
@@ -49,9 +49,9 @@ public class NpeExamples {
 
 ---
 
-## 2. Cach phong tranh NPE
+## 2. Cách phòng tránh NPE
 
-### 2.1 Kiem tra null truoc khi su dung
+### 2.1 Kiểm tra null trước khi sử dụng
 
 ```java
 public class NullCheckDemo {
@@ -99,7 +99,7 @@ public class NullSafeCompare {
 }
 ```
 
-### 2.3 Tra ve empty collection thay vi null
+### 2.3 Trả về empty collection thay vì null
 
 ```java
 import java.util.Collections;
@@ -139,7 +139,7 @@ public class ReturnEmptyDemo {
 }
 ```
 
-### 2.4 Su dung Objects.requireNonNull()
+### 2.4 Sử dụng Objects.requireNonNull()
 
 ```java
 import java.util.Objects;
@@ -177,7 +177,7 @@ public class RequireNonNullDemo {
 }
 ```
 
-### 2.5 Su dung Optional (Java 8+)
+### 2.5 Sử dụng Optional (Java 8+)
 
 ```java
 import java.util.Optional;
@@ -223,7 +223,7 @@ public class OptionalDemo {
 }
 ```
 
-### 2.6 Tranh multi-dot syntax (chuoi goi method dai)
+### 2.6 Tránh multi-dot syntax (chuỗi gọi method dài)
 
 ```java
 public class MultiDotDemo {
@@ -274,29 +274,29 @@ public class MultiDotDemo {
 
 ---
 
-## Khi nao dung?
+## Khi nào dùng?
 
-| Ky thuat | Khi nao dung |
+| Kỹ thuật | Khi nào dùng |
 |----------|-------------|
-| `if (x != null)` | Kiem tra don gian, code cu truoc Java 8 |
-| `"constant".equals(var)` | Moi khi so sanh String voi hang so |
-| `Objects.requireNonNull()` | Dau constructor/method, fail-fast pattern |
-| `Optional` | Return type cua method co the khong co gia tri |
-| Return empty collection | Method tra ve List, Set, Map |
-| Tach multi-dot | Chuoi goi method dai hon 2 dot |
+| `if (x != null)` | Kiểm tra đơn giản, code cũ trước Java 8 |
+| `"constant".equals(var)` | Mỗi khi so sánh String với hằng số |
+| `Objects.requireNonNull()` | Đầu constructor/method, fail-fast pattern |
+| `Optional` | Return type của method có thể không có giá trị |
+| Return empty collection | Method trả về List, Set, Map |
+| Tách multi-dot | Chuỗi gọi method dài hơn 2 dot |
 
 **Best practices:**
-- Dung `Optional` lam **return type**, KHONG dung lam parameter.
-- Khong bao gio goi `Optional.get()` ma khong kiem tra `isPresent()` truoc.
-- Uu tien `orElse()`, `orElseGet()`, `map()` thay vi `isPresent() + get()`.
-- Trong constructor va method public, dung `Objects.requireNonNull()` de fail-fast.
-- Luon tra ve empty collection thay vi null.
+- Dùng `Optional` làm **return type**, KHÔNG dùng làm parameter.
+- Không bao giờ gọi `Optional.get()` mà không kiểm tra `isPresent()` trước.
+- Ưu tiên `orElse()`, `orElseGet()`, `map()` thay vì `isPresent() + get()`.
+- Trong constructor và method public, dùng `Objects.requireNonNull()` để fail-fast.
+- Luôn trả về empty collection thay vì null.
 
 ---
 
-## Loi thuong gap
+## Lỗi thường gặp
 
-### Loi 1: Khong kiem tra null truoc khi dung
+### Lỗi 1: Không kiểm tra null trước khi dùng
 
 ```java
 // ❌ Sai: Khong kiem tra
@@ -310,7 +310,7 @@ String name = request.getParameter("name");
 int length = (name != null) ? name.length() : 0;
 ```
 
-### Loi 2: So sanh String voi bien o truoc
+### Lỗi 2: So sánh String với biến ở trước
 
 ```java
 // ❌ Sai: Bien co the null
@@ -323,7 +323,7 @@ if (status.equals("ACTIVE")) { } // NPE!
 if ("ACTIVE".equals(status)) { } // An toan, khong bao gio NPE
 ```
 
-### Loi 3: Lam dung Optional
+### Lỗi 3: Lạm dụng Optional
 
 ```java
 // ❌ Sai: Dung Optional lam parameter
@@ -343,7 +343,7 @@ String name = opt.get(); // NoSuchElementException neu empty!
 String name2 = findName(1).orElse("default");
 ```
 
-### Loi 4: Tra ve null tu method
+### Lỗi 4: Trả về null từ method
 
 ```java
 // ❌ Sai: Tra ve null
@@ -359,41 +359,41 @@ public List<User> findUsers() {
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### Cau 1: NullPointerException la checked hay unchecked exception?
+### Câu 1: NullPointerException là checked hay unchecked exception?
 
-**Tra loi:** NPE la **unchecked exception** (ke thua tu `RuntimeException`). Dieu nay co nghia:
-- Compiler **khong bat buoc** ban phai try-catch hoac khai bao throws.
-- NPE xay ra tai **runtime**, khong phai compile-time.
-- Day la loi **logic cua lap trinh vien**, khong phai loi he thong.
-- Cach xu ly dung la **phong tranh** (null-check, Optional), khong phai try-catch.
+**Trả lời:** NPE là **unchecked exception** (kế thừa từ `RuntimeException`). Điều này có nghĩa:
+- Compiler **không bắt buộc** bạn phải try-catch hoặc khai báo throws.
+- NPE xảy ra tại **runtime**, không phải compile-time.
+- Đây là lỗi **logic của lập trình viên**, không phải lỗi hệ thống.
+- Cách xử lý đúng là **phòng tránh** (null-check, Optional), không phải try-catch.
 
-### Cau 2: Optional la gi va khi nao nen dung?
+### Câu 2: Optional là gì và khi nào nên dùng?
 
-**Tra loi:** `Optional<T>` la mot container class trong `java.util` (Java 8+) co the chua hoac khong chua gia tri non-null.
+**Trả lời:** `Optional<T>` là một container class trong `java.util` (Java 8+) có thể chứa hoặc không chứa giá trị non-null.
 
-**Khi nao dung:**
-- Lam **return type** cua method khi ket qua co the khong co gia tri.
-- Vi du: `Optional<User> findById(int id)`.
+**Khi nào dùng:**
+- Làm **return type** của method khi kết quả có thể không có giá trị.
+- Ví dụ: `Optional<User> findById(int id)`.
 
-**Khi nao KHONG dung:**
-- Lam tham so (parameter) cua method.
-- Lam field cua class (Optional khong implement Serializable).
-- Khi gia tri **luon co** (dung `Objects.requireNonNull()` thay the).
+**Khi nào KHÔNG dùng:**
+- Làm tham số (parameter) của method.
+- Làm field của class (Optional không implement Serializable).
+- Khi giá trị **luôn có** (dùng `Objects.requireNonNull()` thay thế).
 
-### Cau 3: Nhung null-safe pattern nao ban thuong dung?
+### Câu 3: Những null-safe pattern nào bạn thường dùng?
 
-**Tra loi:**
-1. **"constant".equals(var)**: Dat constant truoc khi so sanh String.
-2. **Objects.requireNonNull()**: Fail-fast trong constructor va method.
+**Trả lời:**
+1. **"constant".equals(var)**: Đặt constant trước khi so sánh String.
+2. **Objects.requireNonNull()**: Fail-fast trong constructor và method.
 3. **Optional chain**: `Optional.ofNullable(x).map(...).orElse(default)`.
-4. **Return empty collection**: `Collections.emptyList()` thay vi `null`.
-5. **Null Object pattern**: Tao object "rong" co hanh vi mac dinh thay vi dung null.
+4. **Return empty collection**: `Collections.emptyList()` thay vì `null`.
+5. **Null Object pattern**: Tạo object "rỗng" có hành vi mặc định thay vì dùng null.
 
-### Cau 4: Helpful NullPointerException trong Java 14+ la gi?
+### Câu 4: Helpful NullPointerException trong Java 14+ là gì?
 
-**Tra loi:** Tu Java 14, JVM co the hien thi **thong bao chi tiet** ve nguyen nhan NPE. Vi du:
+**Trả lời:** Từ Java 14, JVM có thể hiển thị **thông báo chi tiết** về nguyên nhân NPE. Ví dụ:
 
 ```
 // Truoc Java 14:
@@ -404,4 +404,4 @@ Exception: java.lang.NullPointerException:
   Cannot invoke "String.length()" because "name" is null
 ```
 
-Thong bao chi **ro ten bien** va **method** gay loi, giup debug nhanh hon rat nhieu. Tu Java 16, tinh nang nay duoc **bat mac dinh**.
+Thông báo chỉ **rõ tên biến** và **method** gây lỗi, giúp debug nhanh hơn rất nhiều. Từ Java 16, tính năng này được **bật mặc định**.

@@ -5,19 +5,19 @@ title: "Mảng (Array) trong Java"
 
 # Mảng (Array) trong Java
 
-**Mảng (Array)** la cau truc du lieu co ban nhat trong Java, dung de **luu tru mot tap hop co dinh cac phan tu cung kieu du lieu** trong mot bien duy nhat. Thay vi khai bao 100 bien rieng le, ban chi can mot mang co 100 phan tu.
+**Mảng (Array)** là cấu trúc dữ liệu cơ bản nhất trong Java, dùng để **lưu trữ một tập hợp cố định các phần tử cùng kiểu dữ liệu** trong một biến duy nhất. Thay vì khai báo 100 biến riêng lẻ, bạn chỉ cần một mảng có 100 phần tử.
 
-Hay hinh dung mang nhu **mot day tu do co so**: moi ngan tu co mot so thu tu (index), bat dau tu 0, va moi ngan chi chua dung mot loai do vat (cung kieu du lieu). Khi ban muon lay do vat o ngan nao, ban chi can goi dung so thu tu cua ngan do.
+Hãy hình dung mảng như **một dãy tủ đồ có số**: mỗi ngăn tủ có một số thứ tự (index), bắt đầu từ 0, và mỗi ngăn chỉ chứa đúng một loại đồ vật (cùng kiểu dữ liệu). Khi bạn muốn lấy đồ vật ở ngăn nào, bạn chỉ cần gọi đúng số thứ tự của ngăn đó.
 
-Mang la nen tang de hieu cac cau truc du lieu phuc tap hon nhu `ArrayList`, `HashMap`, va toan bo Java Collections Framework.
+Mảng là nền tảng để hiểu các cấu trúc dữ liệu phức tạp hơn như `ArrayList`, `HashMap`, và toàn bộ Java Collections Framework.
 
 ---
 
-## 1. Khai bao va khoi tao mang
+## 1. Khai báo và khởi tạo mảng
 
-Java cung cap **3 cach** de khai bao va khoi tao mang:
+Java cung cấp **3 cách** để khai báo và khởi tạo mảng:
 
-### Cach 1: Khai bao truoc, cap phat sau
+### Cách 1: Khai báo trước, cấp phát sau
 
 ```java
 public class ArrayDemo {
@@ -41,7 +41,7 @@ public class ArrayDemo {
 }
 ```
 
-### Cach 2: Khai bao va cap phat cung luc
+### Cách 2: Khai báo và cấp phát cùng lúc
 
 ```java
 public class ArrayDemo2 {
@@ -58,7 +58,7 @@ public class ArrayDemo2 {
 }
 ```
 
-### Cach 3: Khai bao va khoi tao truc tiep (array literal)
+### Cách 3: Khai báo và khởi tạo trực tiếp (array literal)
 
 ```java
 public class ArrayDemo3 {
@@ -75,21 +75,21 @@ public class ArrayDemo3 {
 }
 ```
 
-**Gia tri mac dinh** khi khoi tao mang bang `new`:
+**Giá trị mặc định** khi khởi tạo mảng bằng `new`:
 
-| Kieu du lieu | Gia tri mac dinh |
+| Kiểu dữ liệu | Giá trị mặc định |
 |---|---|
 | `int`, `long`, `short`, `byte` | `0` |
 | `float`, `double` | `0.0` |
 | `boolean` | `false` |
-| `char` | `'\u0000'` (ky tu rong) |
+| `char` | `'\u0000'` (ký tự rỗng) |
 | Object (String, etc.) | `null` |
 
 ---
 
-## 2. Truy cap phan tu (index 0-based)
+## 2. Truy cập phần tử (index 0-based)
 
-Mang trong Java dung **chi so bat dau tu 0**. Mang co `n` phan tu se co chi so tu `0` den `n-1`.
+Mảng trong Java dùng **chỉ số bắt đầu từ 0**. Mảng có `n` phần tử sẽ có chỉ số từ `0` đến `n-1`.
 
 ```java
 public class ArrayAccess {
@@ -107,13 +107,13 @@ public class ArrayAccess {
 }
 ```
 
-**Luu y**: `length` la **thuoc tinh** (property), khong phai method. Viet `arr.length` (khong co dau ngoac), khong phai `arr.length()`.
+**Lưu ý**: `length` là **thuộc tính** (property), không phải method. Viết `arr.length` (không có dấu ngoặc), không phải `arr.length()`.
 
 ---
 
-## 3. Duyet mang
+## 3. Duyệt mảng
 
-### 3.1 Dung vong lap `for` truyen thong
+### 3.1 Dùng vòng lặp `for` truyền thống
 
 ```java
 public class ArrayIteration {
@@ -128,7 +128,7 @@ public class ArrayIteration {
 }
 ```
 
-### 3.2 Dung vong lap `for-each` (enhanced for)
+### 3.2 Dùng vòng lặp `for-each` (enhanced for)
 
 ```java
 public class ForEachDemo {
@@ -151,20 +151,20 @@ public class ForEachDemo {
 }
 ```
 
-**So sanh `for` va `for-each`:**
+**So sánh `for` và `for-each`:**
 
-| Tieu chi | `for` truyen thong | `for-each` |
+| Tiêu chí | `for` truyền thống | `for-each` |
 |---|---|---|
-| Truy cap index | Co | Khong |
-| Thay doi phan tu | Co | Khong truc tiep |
-| Code ngan gon | Khong | Co |
-| Dung khi nao | Can index hoac thay doi | Chi can doc |
+| Truy cập index | Có | Không |
+| Thay đổi phần tử | Có | Không trực tiếp |
+| Code ngắn gọn | Không | Có |
+| Dùng khi nào | Cần index hoặc thay đổi | Chỉ cần đọc |
 
 ---
 
-## 4. Mang 2 chieu (Multidimensional Array)
+## 4. Mảng 2 chiều (Multidimensional Array)
 
-Mang 2 chieu la "mang cua mang" - giong nhu mot **bang (table)** co hang va cot.
+Mảng 2 chiều là "mảng của mảng" - giống như một **bảng (table)** có hàng và cột.
 
 ```java
 public class Array2D {
@@ -199,7 +199,7 @@ public class Array2D {
 }
 ```
 
-**Mang rang cua (Jagged Array)** - moi hang co so cot khac nhau:
+**Mảng răng cưa (Jagged Array)** - mỗi hàng có số cột khác nhau:
 
 ```java
 public class JaggedArray {
@@ -225,9 +225,9 @@ public class JaggedArray {
 
 ---
 
-## 5. Lop tien ich `java.util.Arrays`
+## 5. Lớp tiện ích `java.util.Arrays`
 
-Java cung cap lop `Arrays` voi nhieu method huu ich de lam viec voi mang:
+Java cung cấp lớp `Arrays` với nhiều method hữu ích để làm việc với mảng:
 
 ```java
 import java.util.Arrays;
@@ -283,7 +283,7 @@ public class ArraysUtility {
 
 ## 6. ArrayIndexOutOfBoundsException
 
-Day la loi **pho bien nhat** khi lam viec voi mang. Xay ra khi truy cap index nam ngoai pham vi hop le `[0, length - 1]`.
+Đây là lỗi **phổ biến nhất** khi làm việc với mảng. Xảy ra khi truy cập index nằm ngoài phạm vi hợp lệ `[0, length - 1]`.
 
 ```java
 public class ArrayException {
@@ -312,12 +312,12 @@ public class ArrayException {
 
 ## 7. Array vs ArrayList
 
-| Tieu chi | Array | ArrayList |
+| Tiêu chí | Array | ArrayList |
 |---|---|---|
-| Kich thuoc | **Co dinh** | **Dong** (tu dong mo rong) |
-| Kieu du lieu | Primitive + Object | Chi Object (dung Wrapper) |
-| Hieu suat | **Nhanh hon** | Cham hon (do boxing/unboxing) |
-| Tien ich | `java.util.Arrays` | Nhieu method (`add`, `remove`, ...) |
+| Kích thước | **Cố định** | **Động** (tự động mở rộng) |
+| Kiểu dữ liệu | Primitive + Object | Chỉ Object (dùng Wrapper) |
+| Hiệu suất | **Nhanh hơn** | Chậm hơn (do boxing/unboxing) |
+| Tiện ích | `java.util.Arrays` | Nhiều method (`add`, `remove`, ...) |
 | Syntax | `int[] arr = new int[5]` | `ArrayList<Integer> list = new ArrayList<>()` |
 
 ```java
@@ -357,30 +357,30 @@ public class ArrayVsArrayList {
 
 ---
 
-## Khi nao dung?
+## Khi nào dùng?
 
-**Dung Array khi:**
-- Du lieu co **kich thuoc co dinh** va biet truoc (vi du: 7 ngay trong tuan, 12 thang trong nam)
-- Can **hieu suat cao** nhat (xu ly anh, tinh toan so hoc)
-- Lam viec voi **kieu du lieu nguyen thuy** (`int`, `double`, `char`)
-- Can mang **nhieu chieu** (ma tran, ban co)
+**Dùng Array khi:**
+- Dữ liệu có **kích thước cố định** và biết trước (ví dụ: 7 ngày trong tuần, 12 tháng trong năm)
+- Cần **hiệu suất cao** nhất (xử lý ảnh, tính toán số học)
+- Làm việc với **kiểu dữ liệu nguyên thuỷ** (`int`, `double`, `char`)
+- Cần mảng **nhiều chiều** (ma trận, bàn cờ)
 
-**Dung ArrayList khi:**
-- Khong biet truoc so luong phan tu
-- Can them/xoa phan tu thuong xuyen
-- Can cac method tien loi (`contains`, `indexOf`, `sort`)
+**Dùng ArrayList khi:**
+- Không biết trước số lượng phần tử
+- Cần thêm/xoá phần tử thường xuyên
+- Cần các method tiện lợi (`contains`, `indexOf`, `sort`)
 
 **Best practices:**
-- Luon khoi tao mang truoc khi su dung (tranh `NullPointerException`)
-- Dung `Arrays.toString()` de in mang thay vi `System.out.println(arr)` (se in dia chi bo nho)
-- Dung `for-each` khi chi can doc gia tri, dung `for` khi can index
-- Dung `Arrays.copyOf()` thay vi gan truc tiep `b = a` (tranh 2 bien tro cung 1 mang)
+- Luôn khởi tạo mảng trước khi sử dụng (tránh `NullPointerException`)
+- Dùng `Arrays.toString()` để in mảng thay vì `System.out.println(arr)` (sẽ in địa chỉ bộ nhớ)
+- Dùng `for-each` khi chỉ cần đọc giá trị, dùng `for` khi cần index
+- Dùng `Arrays.copyOf()` thay vì gán trực tiếp `b = a` (tránh 2 biến trỏ cùng 1 mảng)
 
 ---
 
-## Loi thuong gap
+## Lỗi thường gặp
 
-### 1. Truy cap index ngoai pham vi
+### 1. Truy cập index ngoài phạm vi
 
 ```java
 // Sai
@@ -391,7 +391,7 @@ arr[3] = 10; // ArrayIndexOutOfBoundsException! Index hop le la 0, 1, 2
 arr[2] = 10; // Index cuoi cung la length - 1
 ```
 
-### 2. Nham `length` thanh `length()`
+### 2. Nhầm `length` thành `length()`
 
 ```java
 int[] arr = {1, 2, 3};
@@ -407,7 +407,7 @@ String s = "Hello";
 int strLen = s.length(); // method cua String
 ```
 
-### 3. Gan mang = copy tham chieu, khong phai copy gia tri
+### 3. Gán mảng = copy tham chiếu, không phải copy giá trị
 
 ```java
 // Sai - 2 bien tro cung mot mang
@@ -423,7 +423,7 @@ b2[0] = 100;
 System.out.println(a2[0]); // 1 - a2 khong bi anh huong
 ```
 
-### 4. Quen khoi tao mang
+### 4. Quên khởi tạo mảng
 
 ```java
 // Sai
@@ -435,7 +435,7 @@ int[] arr2 = new int[5]; // Khoi tao truoc khi dung
 arr2[0] = 1;
 ```
 
-### 5. In mang truc tiep
+### 5. In mảng trực tiếp
 
 ```java
 int[] arr = {1, 2, 3};
@@ -449,24 +449,24 @@ System.out.println(Arrays.toString(arr)); // [1, 2, 3]
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### 1. Su khac biet giua Array va ArrayList la gi?
+### 1. Sự khác biệt giữa Array và ArrayList là gì?
 
-**Tra loi:** Array co kich thuoc co dinh (khong the thay doi sau khi khoi tao), ho tro ca kieu nguyen thuy va Object, truy cap nhanh hon. ArrayList co kich thuoc dong (tu dong mo rong), chi ho tro Object (dung Wrapper class cho kieu nguyen thuy), cung cap nhieu method tien loi nhu `add()`, `remove()`, `contains()`. Nen dung Array khi biet truoc kich thuoc va can hieu suat, dung ArrayList khi can linh hoat.
+**Trả lời:** Array có kích thước cố định (không thể thay đổi sau khi khởi tạo), hỗ trợ cả kiểu nguyên thuỷ và Object, truy cập nhanh hơn. ArrayList có kích thước động (tự động mở rộng), chỉ hỗ trợ Object (dùng Wrapper class cho kiểu nguyên thuỷ), cung cấp nhiều method tiện lợi như `add()`, `remove()`, `contains()`. Nên dùng Array khi biết trước kích thước và cần hiệu suất, dùng ArrayList khi cần linh hoạt.
 
-### 2. Gia tri mac dinh cua cac phan tu trong mang la gi?
+### 2. Giá trị mặc định của các phần tử trong mảng là gì?
 
-**Tra loi:** Khi khoi tao mang bang `new`, cac phan tu se co gia tri mac dinh: `int/long/short/byte` la `0`, `float/double` la `0.0`, `boolean` la `false`, `char` la `'\u0000'`, cac kieu Object (String, etc.) la `null`.
+**Trả lời:** Khi khởi tạo mảng bằng `new`, các phần tử sẽ có giá trị mặc định: `int/long/short/byte` là `0`, `float/double` là `0.0`, `boolean` là `false`, `char` là `'\u0000'`, các kiểu Object (String, etc.) là `null`.
 
-### 3. Co the thay doi kich thuoc (resize) cua mang sau khi khoi tao khong?
+### 3. Có thể thay đổi kích thước (resize) của mảng sau khi khởi tạo không?
 
-**Tra loi:** Khong. Mang trong Java co kich thuoc co dinh. Muon "thay doi kich thuoc", phai tao mang moi lon hon roi copy du lieu sang bang `Arrays.copyOf()` hoac `System.arraycopy()`. Day chinh la cach `ArrayList` hoat dong ben trong - khi mang noi bo day, no tao mang moi lon gap 1.5 lan va copy du lieu sang.
+**Trả lời:** Không. Mảng trong Java có kích thước cố định. Muốn "thay đổi kích thước", phải tạo mảng mới lớn hơn rồi copy dữ liệu sang bằng `Arrays.copyOf()` hoặc `System.arraycopy()`. Đây chính là cách `ArrayList` hoạt động bên trong - khi mảng nội bộ đầy, nó tạo mảng mới lớn gấp 1.5 lần và copy dữ liệu sang.
 
-### 4. `Arrays.sort()` su dung thuat toan gi?
+### 4. `Arrays.sort()` sử dụng thuật toán gì?
 
-**Tra loi:** Voi mang kieu nguyen thuy (`int[]`, `double[]`...), `Arrays.sort()` su dung **Dual-Pivot Quicksort** (trung binh O(n log n)). Voi mang Object (`String[]`, `Integer[]`...), no su dung **TimSort** (bien the cua Merge Sort, dam bao stable sort va worst-case O(n log n)). TimSort la thuat toan ket hop Merge Sort va Insertion Sort, rat hieu qua voi du lieu thuc te da duoc sap xep mot phan.
+**Trả lời:** Với mảng kiểu nguyên thuỷ (`int[]`, `double[]`...), `Arrays.sort()` sử dụng **Dual-Pivot Quicksort** (trung bình O(n log n)). Với mảng Object (`String[]`, `Integer[]`...), nó sử dụng **TimSort** (biến thể của Merge Sort, đảm bảo stable sort và worst-case O(n log n)). TimSort là thuật toán kết hợp Merge Sort và Insertion Sort, rất hiệu quả với dữ liệu thực tế đã được sắp xếp một phần.
 
-### 5. Tai sao mang bat dau tu index 0 thay vi index 1?
+### 5. Tại sao mảng bắt đầu từ index 0 thay vì index 1?
 
-**Tra loi:** Day la quy uoc tu ngon ngu C. Index thuc chat la **do lech (offset)** tu dia chi dau cua mang trong bo nho. Phan tu dau tien nam ngay tai dia chi dau nen co offset la 0. Cong thuc tinh dia chi: `dia_chi_phan_tu = dia_chi_dau + index * kich_thuoc_kieu_du_lieu`. Voi index 0, dia chi phan tu dau = dia chi dau, khong can tinh toan them.
+**Trả lời:** Đây là quy ước từ ngôn ngữ C. Index thực chất là **độ lệch (offset)** từ địa chỉ đầu của mảng trong bộ nhớ. Phần tử đầu tiên nằm ngay tại địa chỉ đầu nên có offset là 0. Công thức tính địa chỉ: `dia_chi_phan_tu = dia_chi_dau + index * kich_thuoc_kieu_du_lieu`. Với index 0, địa chỉ phần tử đầu = địa chỉ đầu, không cần tính toán thêm.

@@ -5,32 +5,32 @@ title: "Integer Constant Pool"
 
 # Integer Constant Pool trong Java
 
-## Integer Constant Pool la gi?
+## Integer Constant Pool là gì?
 
-**Integer Constant Pool** (hay Integer Cache) la co che toi uu bo nho trong Java. Thay vi tao moi mot object `Integer` moi moi khi ban dung autoboxing, Java **luu san (cache) cac doi tuong Integer** co gia tri tu **-128 den 127** trong bo nho. Khi ban su dung gia tri trong khoang nay, Java se tra ve **cung mot object** thay vi tao object moi.
+**Integer Constant Pool** (hay Integer Cache) là cơ chế tối ưu bộ nhớ trong Java. Thay vì tạo mới một object `Integer` mới mỗi khi bạn dùng autoboxing, Java **lưu sẵn (cache) các đối tượng Integer** có giá trị từ **-128 đến 127** trong bộ nhớ. Khi bạn sử dụng giá trị trong khoảng này, Java sẽ trả về **cùng một object** thay vì tạo object mới.
 
-Hay tuong tuong nhu mot **thu vien sach cong cong**: neu quyen sach ban can la quyen pho bien (gia tri -128 den 127), thu vien da co san mot ban -- moi nguoi deu muon chung quyen do. Nhung neu ban can quyen sach hiem (gia tri ngoai khoang), thu vien phai in rieng mot ban moi cho ban.
+Hãy tưởng tượng như một **thư viện sách công cộng**: nếu quyển sách bạn cần là quyển phổ biến (giá trị -128 đến 127), thư viện đã có sẵn một bản -- mọi người đều mượn chung quyển đó. Nhưng nếu bạn cần quyển sách hiếm (giá trị ngoài khoảng), thư viện phải in riêng một bản mới cho bạn.
 
-Day la chu de **rat hay xuat hien trong phong van Java** va de gay nham lan neu khong hieu ro.
+Đây là chủ đề **rất hay xuất hiện trong phỏng vấn Java** và dễ gây nhầm lẫn nếu không hiểu rõ.
 
 ---
 
-## 1. Co che Integer Cache hoat dong nhu the nao?
+## 1. Cơ chế Integer Cache hoạt động như thế nào?
 
-Khi ban viet:
+Khi bạn viết:
 
 ```java
 Integer a = 127;  // autoboxing: goi Integer.valueOf(127)
 Integer b = 127;  // autoboxing: goi Integer.valueOf(127)
 ```
 
-Java **khong goi `new Integer(127)`**. Thay vao do, no goi `Integer.valueOf(127)`, va method nay se:
+Java **không gọi `new Integer(127)`**. Thay vào đó, nó gọi `Integer.valueOf(127)`, và method này sẽ:
 
-1. Kiem tra xem gia tri `127` co nam trong khoang **-128 den 127** khong.
-2. Neu **co** -- tra ve object da duoc cache san.
-3. Neu **khong** -- tao object `Integer` moi.
+1. Kiểm tra xem giá trị `127` có nằm trong khoảng **-128 đến 127** không.
+2. Nếu **có** -- trả về object đã được cache sẵn.
+3. Nếu **không** -- tạo object `Integer` mới.
 
-Hay xem source code that cua `Integer.valueOf()`:
+Hãy xem source code thật của `Integer.valueOf()`:
 
 ```java
 // Source code ben trong JDK (don gian hoa)
@@ -46,7 +46,7 @@ public static Integer valueOf(int i) {
 
 ## 2. Demo: == cho Integer 127 vs 128
 
-Day la vi du kinh dien trong phong van Java:
+Đây là ví dụ kinh điển trong phỏng vấn Java:
 
 ```java
 public class IntegerCacheDemo {
@@ -81,30 +81,30 @@ public class IntegerCacheDemo {
 }
 ```
 
-**Giai thich ket qua:**
+**Giải thích kết quả:**
 
-| Bieu thuc | Ket qua | Ly do |
+| Biểu thức | Kết quả | Lý do |
 |-----------|---------|-------|
-| `a == b` (127) | `true` | Ca hai tro cung object trong cache |
-| `x == y` (128) | `false` | 128 ngoai cache, tao 2 object khac nhau |
-| `m == n` (new) | `false` | `new` luon tao object moi, khong dung cache |
-| `p == q` (Integer vs int) | `true` | `p` duoc unbox thanh `int`, so sanh gia tri |
+| `a == b` (127) | `true` | Cả hai trỏ cùng object trong cache |
+| `x == y` (128) | `false` | 128 ngoài cache, tạo 2 object khác nhau |
+| `m == n` (new) | `false` | `new` luôn tạo object mới, không dùng cache |
+| `p == q` (Integer vs int) | `true` | `p` được unbox thành `int`, so sánh giá trị |
 
 ---
 
-## 3. Tai sao Java lam vay?
+## 3. Tại sao Java làm vậy?
 
-### Ly do ve performance va memory
+### Lý do về performance và memory
 
-- Cac gia tri nho (-128 den 127) duoc su dung **rat thuong xuyen** trong lap trinh (index mang, dem, co dieu kien...).
-- Thay vi tao hang ngan object `Integer` giong nhau, Java **tao san mot lan** va tai su dung.
-- Tiet kiem **bo nho heap** va giam ap luc **garbage collection**.
+- Các giá trị nhỏ (-128 đến 127) được sử dụng **rất thường xuyên** trong lập trình (index mảng, đếm, cờ điều kiện...).
+- Thay vì tạo hàng ngàn object `Integer` giống nhau, Java **tạo sẵn một lần** và tái sử dụng.
+- Tiết kiệm **bộ nhớ heap** và giảm áp lực **garbage collection**.
 
-### Tai sao lai la -128 den 127?
+### Tại sao lại là -128 đến 127?
 
-- Khoang nay trung voi pham vi cua kieu `byte` (-128 den 127).
-- **Java Language Specification (JLS 5.1.7)** yeu cau bat buoc cache it nhat khoang nay.
-- Co the mo rong upper bound bang JVM option:
+- Khoảng này trùng với phạm vi của kiểu `byte` (-128 đến 127).
+- **Java Language Specification (JLS 5.1.7)** yêu cầu bắt buộc cache ít nhất khoảng này.
+- Có thể mở rộng upper bound bằng JVM option:
 
 ```
 java -XX:AutoBoxCacheMax=1000 MyApp
@@ -112,9 +112,9 @@ java -XX:AutoBoxCacheMax=1000 MyApp
 
 ---
 
-## 4. Tuong tu cho cac Wrapper class khac
+## 4. Tương tự cho các Wrapper class khác
 
-Khong chi `Integer`, nhieu wrapper class khac cung co cache:
+Không chỉ `Integer`, nhiều wrapper class khác cũng có cache:
 
 ```java
 public class OtherCacheDemo {
@@ -156,18 +156,18 @@ public class OtherCacheDemo {
 }
 ```
 
-**Bang tom tat cache:**
+**Bảng tóm tắt cache:**
 
-| Wrapper class | Khoang cache | Ghi chu |
+| Wrapper class | Khoảng cache | Ghi chú |
 |---------------|-------------|---------|
-| `Integer` | -128 den 127 | Co the mo rong bang JVM option |
-| `Long` | -128 den 127 | Khong the mo rong |
-| `Short` | -128 den 127 | Khong the mo rong |
-| `Byte` | -128 den 127 | Toan bo pham vi byte |
-| `Character` | 0 den 127 | Ky tu ASCII co ban |
-| `Boolean` | `true`, `false` | Chi 2 gia tri, luon cache |
-| `Float` | Khong cache | |
-| `Double` | Khong cache | |
+| `Integer` | -128 đến 127 | Có thể mở rộng bằng JVM option |
+| `Long` | -128 đến 127 | Không thể mở rộng |
+| `Short` | -128 đến 127 | Không thể mở rộng |
+| `Byte` | -128 đến 127 | Toàn bộ phạm vi byte |
+| `Character` | 0 đến 127 | Ký tự ASCII cơ bản |
+| `Boolean` | `true`, `false` | Chỉ 2 giá trị, luôn cache |
+| `Float` | Không cache | |
+| `Double` | Không cache | |
 
 ---
 
@@ -193,30 +193,30 @@ public class ValueOfVsNew {
 }
 ```
 
-**Ket luan:** Luon dung `Integer.valueOf()` hoac autoboxing. **Khong bao gio dung `new Integer()`** (da deprecated tu Java 9).
+**Kết luận:** Luôn dùng `Integer.valueOf()` hoặc autoboxing. **Không bao giờ dùng `new Integer()`** (đã deprecated từ Java 9).
 
 ---
 
-## Khi nao dung?
+## Khi nào dùng?
 
-| Tinh huong | Loi khuyen |
+| Tình huống | Lời khuyên |
 |------------|-----------|
-| So sanh 2 gia tri Integer | **Luon dung `equals()`**, khong dung `==` |
-| Tao Integer tu gia tri | Dung `Integer.valueOf()` hoac autoboxing |
-| Can so sanh tham chieu (hiem khi can) | Hieu ro cache range truoc khi dung `==` |
-| Viet code co nhieu gia tri Integer nho | Yen tam, Java da toi uu bang cache |
+| So sánh 2 giá trị Integer | **Luôn dùng `equals()`**, không dùng `==` |
+| Tạo Integer từ giá trị | Dùng `Integer.valueOf()` hoặc autoboxing |
+| Cần so sánh tham chiếu (hiếm khi cần) | Hiểu rõ cache range trước khi dùng `==` |
+| Viết code có nhiều giá trị Integer nhỏ | Yên tâm, Java đã tối ưu bằng cache |
 
 **Best practices:**
-- **Luon dung `equals()`** khi so sanh wrapper objects.
-- Uu tien dung kieu `int` (primitive) khi khong can null.
-- Tranh `new Integer()` -- da deprecated.
-- Khi lam viec voi collection (`List<Integer>`), hieu rang autoboxing dang su dung `valueOf()`.
+- **Luôn dùng `equals()`** khi so sánh wrapper objects.
+- Ưu tiên dùng kiểu `int` (primitive) khi không cần null.
+- Tránh `new Integer()` -- đã deprecated.
+- Khi làm việc với collection (`List<Integer>`), hiểu rằng autoboxing đang sử dụng `valueOf()`.
 
 ---
 
-## Loi thuong gap
+## Lỗi thường gặp
 
-### Loi 1: Dung == de so sanh Integer
+### Lỗi 1: Dùng == để so sánh Integer
 
 ```java
 // ❌ Sai: Dung == cho Integer object
@@ -236,7 +236,7 @@ if (price1.equals(price2)) {  // true
 }
 ```
 
-### Loi 2: Nghi rang == luon sai cho Integer
+### Lỗi 2: Nghĩ rằng == luôn sai cho Integer
 
 ```java
 // ❌ Hieu nham: "== luon tra ve false cho Integer"
@@ -247,7 +247,7 @@ System.out.println(a == b);  // true! Vi 50 nam trong cache
 // Ket qua phu thuoc vao GIA TRI, khong phai luc nao cung false
 ```
 
-### Loi 3: Khong hieu su khac biet giua Integer va int khi dung ==
+### Lỗi 3: Không hiểu sự khác biệt giữa Integer và int khi dùng ==
 
 ```java
 // ❌ Nham lan
@@ -265,7 +265,7 @@ System.out.println(x == y);  // false (so sanh tham chieu)
 // Khi so sanh Integer voi Integer, Java so sanh tham chieu (reference)
 ```
 
-### Loi 4: Dung new Integer() thay vi valueOf()
+### Lỗi 4: Dùng new Integer() thay vì valueOf()
 
 ```java
 // ❌ Sai: Tao object moi khong can thiet
@@ -277,35 +277,35 @@ Integer a = Integer.valueOf(10);  // Hoac don gian: Integer a = 10;
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### Cau 1: Integer a = 127, b = 127. a == b tra ve gi? Tai sao?
+### Câu 1: Integer a = 127, b = 127. a == b trả về gì? Tại sao?
 
-**Tra loi:** Tra ve `true`. Khi autoboxing, Java goi `Integer.valueOf(127)`. Vi 127 nam trong khoang cache (-128 den 127), ca `a` va `b` deu tro den **cung mot object** trong Integer Cache. Toan tu `==` so sanh tham chieu, va vi cung tham chieu nen tra ve `true`.
+**Trả lời:** Trả về `true`. Khi autoboxing, Java gọi `Integer.valueOf(127)`. Vì 127 nằm trong khoảng cache (-128 đến 127), cả `a` và `b` đều trỏ đến **cùng một object** trong Integer Cache. Toán tử `==` so sánh tham chiếu, và vì cùng tham chiếu nên trả về `true`.
 
-### Cau 2: Integer a = 128, b = 128. a == b tra ve gi? Tai sao?
+### Câu 2: Integer a = 128, b = 128. a == b trả về gì? Tại sao?
 
-**Tra loi:** Tra ve `false`. Gia tri 128 nam **ngoai khoang cache** (-128 den 127). Do do, `Integer.valueOf(128)` tao **2 object Integer khac nhau** tren heap. Toan tu `==` so sanh tham chieu, 2 object khac nhau nen tra ve `false`. De so sanh gia tri, phai dung `a.equals(b)` (tra ve `true`).
+**Trả lời:** Trả về `false`. Giá trị 128 nằm **ngoài khoảng cache** (-128 đến 127). Do đó, `Integer.valueOf(128)` tạo **2 object Integer khác nhau** trên heap. Toán tử `==` so sánh tham chiếu, 2 object khác nhau nên trả về `false`. Để so sánh giá trị, phải dùng `a.equals(b)` (trả về `true`).
 
-### Cau 3: Integer.valueOf(10) khac gi new Integer(10)?
+### Câu 3: Integer.valueOf(10) khác gì new Integer(10)?
 
-**Tra loi:**
-- `Integer.valueOf(10)`: Kiem tra cache truoc. Neu gia tri nam trong khoang -128 den 127, tra ve object da cache. Neu ngoai khoang, tao object moi. **Tiet kiem bo nho.**
-- `new Integer(10)`: **Luon tao object moi** tren heap, khong bao gio dung cache. Da **deprecated tu Java 9** vi lang phi bo nho.
-- **Nen dung:** `Integer.valueOf()` hoac autoboxing (`Integer a = 10`).
+**Trả lời:**
+- `Integer.valueOf(10)`: Kiểm tra cache trước. Nếu giá trị nằm trong khoảng -128 đến 127, trả về object đã cache. Nếu ngoài khoảng, tạo object mới. **Tiết kiệm bộ nhớ.**
+- `new Integer(10)`: **Luôn tạo object mới** trên heap, không bao giờ dùng cache. Đã **deprecated từ Java 9** vì lãng phí bộ nhớ.
+- **Nên dùng:** `Integer.valueOf()` hoặc autoboxing (`Integer a = 10`).
 
-### Cau 4: Tai sao Java chi cache -128 den 127?
+### Câu 4: Tại sao Java chỉ cache -128 đến 127?
 
-**Tra loi:** Theo Java Language Specification (JLS 5.1.7), JVM bat buoc phai cache cac gia tri Integer trong khoang -128 den 127. Ly do:
-- Khoang nay trung voi pham vi kieu `byte`, la nhung gia tri **duoc su dung thuong xuyen nhat** (index, bien dem, flag...).
-- Cache giup **giam so luong object** tren heap, giam ap luc garbage collection.
-- Co the tang upper bound bang JVM option `-XX:AutoBoxCacheMax=N`, nhung **khong the giam lower bound** (-128).
+**Trả lời:** Theo Java Language Specification (JLS 5.1.7), JVM bắt buộc phải cache các giá trị Integer trong khoảng -128 đến 127. Lý do:
+- Khoảng này trùng với phạm vi kiểu `byte`, là những giá trị **được sử dụng thường xuyên nhất** (index, biến đếm, flag...).
+- Cache giúp **giảm số lượng object** trên heap, giảm áp lực garbage collection.
+- Có thể tăng upper bound bằng JVM option `-XX:AutoBoxCacheMax=N`, nhưng **không thể giảm lower bound** (-128).
 
-### Cau 5: Lam sao de so sanh 2 Integer an toan?
+### Câu 5: Làm sao để so sánh 2 Integer an toàn?
 
-**Tra loi:** Co 3 cach:
-1. **Dung `equals()`**: `a.equals(b)` -- cach chuan nhat.
-2. **Unbox ve `int`**: `a.intValue() == b.intValue()` -- so sanh primitive.
-3. **Dung `Integer.compare()`**: `Integer.compare(a, b) == 0` -- an toan voi null-safe wrapper.
+**Trả lời:** Có 3 cách:
+1. **Dùng `equals()`**: `a.equals(b)` -- cách chuẩn nhất.
+2. **Unbox về `int`**: `a.intValue() == b.intValue()` -- so sánh primitive.
+3. **Dùng `Integer.compare()`**: `Integer.compare(a, b) == 0` -- an toàn với null-safe wrapper.
 
-**Khong bao gio dung `==`** de so sanh gia tri cua 2 Integer object, vi ket qua phu thuoc vao cache va khong nhat quan.
+**Không bao giờ dùng `==`** để so sánh giá trị của 2 Integer object, vì kết quả phụ thuộc vào cache và không nhất quán.

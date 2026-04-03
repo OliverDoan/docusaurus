@@ -3,17 +3,17 @@ sidebar_position: 21
 title: "Chuyển đổi kiểu dữ liệu"
 ---
 
-# Chuyen doi kieu du lieu trong Java
+# Chuyển đổi kiểu dữ liệu trong Java
 
-**Chuyen doi kieu du lieu (Type Conversion)** la thao tac bien doi gia tri tu kieu nay sang kieu khac, vi du: chuyen mot chuoi `"123"` thanh so nguyen `123`, hoac chuyen so `3.14` thanh chuoi `"3.14"`. Day la thao tac **cuc ky pho bien** trong moi chuong trinh Java.
+**Chuyển đổi kiểu dữ liệu (Type Conversion)** là thao tác biến đổi giá trị từ kiểu này sang kiểu khác, ví dụ: chuyển một chuỗi `"123"` thành số nguyên `123`, hoặc chuyển số `3.14` thành chuỗi `"3.14"`. Đây là thao tác **cực kỳ phổ biến** trong mọi chương trình Java.
 
-Hay tuong tuong ban co mot hop dung **so** (kieu `int`) va mot hop dung **chu** (kieu `String`). Khi ban doc du lieu tu nguoi dung (luon la chuoi), ban can "chuyen so tu hop chu sang hop so" de tinh toan. Khi ban muon hien thi ket qua, ban lai "chuyen so tu hop so sang hop chu" de in ra man hinh. Do chinh la chuyen doi kieu du lieu.
+Hãy tưởng tượng bạn có một hộp đựng **số** (kiểu `int`) và một hộp đựng **chữ** (kiểu `String`). Khi bạn đọc dữ liệu từ người dùng (luôn là chuỗi), bạn cần "chuyển số từ hộp chữ sang hộp số" để tính toán. Khi bạn muốn hiển thị kết quả, bạn lại "chuyển số từ hộp số sang hộp chữ" để in ra màn hình. Đó chính là chuyển đổi kiểu dữ liệu.
 
 ---
 
 ## 1. String sang int
 
-Co 2 cach chinh: `Integer.parseInt()` va `Integer.valueOf()`.
+Có 2 cách chính: `Integer.parseInt()` và `Integer.valueOf()`.
 
 ```java
 public class StringToInt {
@@ -46,10 +46,10 @@ public class StringToInt {
 
 **`parseInt()` vs `valueOf()`:**
 
-| Method | Kieu tra ve | Cache |
+| Method | Kiểu trả về | Cache |
 |---|---|---|
-| `Integer.parseInt("123")` | `int` (primitive) | Khong |
-| `Integer.valueOf("123")` | `Integer` (object) | Co (cache -128 den 127) |
+| `Integer.parseInt("123")` | `int` (primitive) | Không |
+| `Integer.valueOf("123")` | `Integer` (object) | Có (cache -128 đến 127) |
 
 ---
 
@@ -142,7 +142,7 @@ public class StringLongConversion {
 
 ---
 
-## 5. String sang char array va nguoc lai
+## 5. String sang char array và ngược lại
 
 ```java
 public class StringCharConversion {
@@ -184,7 +184,7 @@ public class StringCharConversion {
 
 ---
 
-## 6. Cac chuyen doi khac thuong dung
+## 6. Các chuyển đổi khác thường dùng
 
 ```java
 public class OtherConversions {
@@ -226,32 +226,32 @@ public class OtherConversions {
 
 ---
 
-## 7. Bang tong hop cac phuong thuc chuyen doi
+## 7. Bảng tổng hợp các phương thức chuyển đổi
 
-| Tu | Sang | Phuong thuc |
+| Từ | Sang | Phương thức |
 |---|---|---|
-| `String` | `int` | `Integer.parseInt(s)` hoac `Integer.valueOf(s)` |
-| `String` | `long` | `Long.parseLong(s)` hoac `Long.valueOf(s)` |
-| `String` | `double` | `Double.parseDouble(s)` hoac `Double.valueOf(s)` |
-| `String` | `float` | `Float.parseFloat(s)` hoac `Float.valueOf(s)` |
+| `String` | `int` | `Integer.parseInt(s)` hoặc `Integer.valueOf(s)` |
+| `String` | `long` | `Long.parseLong(s)` hoặc `Long.valueOf(s)` |
+| `String` | `double` | `Double.parseDouble(s)` hoặc `Double.valueOf(s)` |
+| `String` | `float` | `Float.parseFloat(s)` hoặc `Float.valueOf(s)` |
 | `String` | `boolean` | `Boolean.parseBoolean(s)` |
 | `String` | `char[]` | `s.toCharArray()` |
 | `String` | `byte[]` | `s.getBytes(StandardCharsets.UTF_8)` |
-| `int` | `String` | `String.valueOf(n)` hoac `Integer.toString(n)` |
-| `long` | `String` | `String.valueOf(n)` hoac `Long.toString(n)` |
-| `double` | `String` | `String.valueOf(d)` hoac `Double.toString(d)` |
+| `int` | `String` | `String.valueOf(n)` hoặc `Integer.toString(n)` |
+| `long` | `String` | `String.valueOf(n)` hoặc `Long.toString(n)` |
+| `double` | `String` | `String.valueOf(d)` hoặc `Double.toString(d)` |
 | `boolean` | `String` | `String.valueOf(b)` |
 | `char[]` | `String` | `new String(chars)` |
-| `char` | `String` | `String.valueOf(c)` hoac `Character.toString(c)` |
+| `char` | `String` | `String.valueOf(c)` hoặc `Character.toString(c)` |
 | `byte[]` | `String` | `new String(bytes, StandardCharsets.UTF_8)` |
-| `int` | `double` | Tu dong (widening): `double d = intVal;` |
-| `double` | `int` | Ep kieu (narrowing): `int i = (int) doubleVal;` |
+| `int` | `double` | Tự động (widening): `double d = intVal;` |
+| `double` | `int` | Ép kiểu (narrowing): `int i = (int) doubleVal;` |
 
 ---
 
-## 8. Xu ly NumberFormatException
+## 8. Xử lý NumberFormatException
 
-Day la loi xay ra khi ban co gang chuyen mot chuoi **khong hop le** sang so.
+Đây là lỗi xảy ra khi bạn cố gắng chuyển một chuỗi **không hợp lệ** sang số.
 
 ```java
 public class NumberFormatExceptionDemo {
@@ -300,26 +300,26 @@ public class NumberFormatExceptionDemo {
 
 ---
 
-## Khi nao dung?
+## Khi nào dùng?
 
-**Cac tinh huong pho bien:**
-- **Doc input tu nguoi dung**: Scanner tra ve String, can chuyen sang int/double de tinh toan
-- **Doc du lieu tu file/API**: JSON, CSV, database deu tra ve String, can parse sang kieu phu hop
-- **Hien thi ket qua**: Chuyen so sang String de ghep voi cau thong bao
-- **Xu ly form web**: Du lieu tu HTML form luon la String
+**Các tình huống phổ biến:**
+- **Đọc input từ người dùng**: Scanner trả về String, cần chuyển sang int/double để tính toán
+- **Đọc dữ liệu từ file/API**: JSON, CSV, database đều trả về String, cần parse sang kiểu phù hợp
+- **Hiển thị kết quả**: Chuyển số sang String để ghép với câu thông báo
+- **Xử lý form web**: Dữ liệu từ HTML form luôn là String
 
 **Best practices:**
-- **Luon dung try-catch** khi parse tu String sang so (nguoi dung co the nhap sai)
-- Uu tien `String.valueOf()` hon `"" + n` de chuyen so sang chuoi (ro rang va hieu qua hon)
-- Uu tien `Integer.parseInt()` khi can `int`, dung `Integer.valueOf()` khi can `Integer` object
-- **Trim chuoi truoc khi parse**: `Integer.parseInt(input.trim())` de tranh loi do khoang trang
-- Dung `String.format()` khi can dinh dang so phuc tap (padding, so thap phan)
+- **Luôn dùng try-catch** khi parse từ String sang số (người dùng có thể nhập sai)
+- Ưu tiên `String.valueOf()` hơn `"" + n` để chuyển số sang chuỗi (rõ ràng và hiệu quả hơn)
+- Ưu tiên `Integer.parseInt()` khi cần `int`, dùng `Integer.valueOf()` khi cần `Integer` object
+- **Trim chuỗi trước khi parse**: `Integer.parseInt(input.trim())` để tránh lỗi do khoảng trắng
+- Dùng `String.format()` khi cần định dạng số phức tạp (padding, số thập phân)
 
 ---
 
-## Loi thuong gap
+## Lỗi thường gặp
 
-### 1. Khong xu ly NumberFormatException
+### 1. Không xử lý NumberFormatException
 
 ```java
 // Sai - chuong trinh crash neu input khong hop le
@@ -334,7 +334,7 @@ try {
 }
 ```
 
-### 2. Dung parseInt cho so thap phan
+### 2. Dùng parseInt cho số thập phân
 
 ```java
 // Sai - parseInt chi nhan so nguyen
@@ -345,7 +345,7 @@ double num = Double.parseDouble("3.14");
 int intNum = (int) num; // 3 (cat phan thap phan)
 ```
 
-### 3. Nham lan autoboxing va unboxing
+### 3. Nhầm lẫn autoboxing và unboxing
 
 ```java
 // Chu y khi so sanh Integer objects
@@ -359,7 +359,7 @@ System.out.println(c == d);       // false! Ngoai pham vi cache
 System.out.println(c.equals(d));  // true (nen dung .equals())
 ```
 
-### 4. Ep kieu thu hep mat du lieu
+### 4. Ép kiểu thu hẹp mất dữ liệu
 
 ```java
 // Sai - mat du lieu khong biet
@@ -377,20 +377,20 @@ if (bigNumber >= Integer.MIN_VALUE && bigNumber <= Integer.MAX_VALUE) {
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### 1. `Integer.parseInt()` va `Integer.valueOf()` khac nhau nhu the nao?
+### 1. `Integer.parseInt()` và `Integer.valueOf()` khác nhau như thế nào?
 
-**Tra loi:** `parseInt()` tra ve kieu `int` (primitive), con `valueOf()` tra ve kieu `Integer` (wrapper object). `valueOf()` su dung **IntegerCache** de cache cac gia tri tu -128 den 127, nen neu chuyen cung gia tri trong pham vi nay nhieu lan, `valueOf()` se tra ve cung mot object (tiet kiem bo nho). Ngoai pham vi cache, `valueOf()` tao object moi moi lan.
+**Trả lời:** `parseInt()` trả về kiểu `int` (primitive), còn `valueOf()` trả về kiểu `Integer` (wrapper object). `valueOf()` sử dụng **IntegerCache** để cache các giá trị từ -128 đến 127, nên nếu chuyển cùng giá trị trong phạm vi này nhiều lần, `valueOf()` sẽ trả về cùng một object (tiết kiệm bộ nhớ). Ngoài phạm vi cache, `valueOf()` tạo object mới mỗi lần.
 
-### 2. Khi nao xay ra `NumberFormatException`?
+### 2. Khi nào xảy ra `NumberFormatException`?
 
-**Tra loi:** `NumberFormatException` xay ra khi co gang chuyen String sang so nhung chuoi khong hop le. Cac truong hop: chuoi chua ky tu khong phai so (`"abc"`), chuoi rong (`""`), chuoi co khoang trang (`" 123 "` voi mot so method), chuoi co dau thap phan khi dung `parseInt()` (`"3.14"`), chuoi co hau to kieu (`"123L"`), hoac `null`. Luon dung try-catch hoac validate truoc khi parse.
+**Trả lời:** `NumberFormatException` xảy ra khi cố gắng chuyển String sang số nhưng chuỗi không hợp lệ. Các trường hợp: chuỗi chứa ký tự không phải số (`"abc"`), chuỗi rỗng (`""`), chuỗi có khoảng trắng (`" 123 "` với một số method), chuỗi có dấu thập phân khi dùng `parseInt()` (`"3.14"`), chuỗi có hậu tố kiểu (`"123L"`), hoặc `null`. Luôn dùng try-catch hoặc validate trước khi parse.
 
-### 3. `"" + n` va `String.valueOf(n)` khac nhau ve performance nhu the nao?
+### 3. `"" + n` và `String.valueOf(n)` khác nhau về performance như thế nào?
 
-**Tra loi:** `"" + n` duoc compiler chuyen thanh `new StringBuilder().append("").append(n).toString()`, tao ra nhieu object trung gian (StringBuilder, String tam). `String.valueOf(n)` goi truc tiep `Integer.toString(n)`, chi tao 1 String object. Trong vong lap lon, `String.valueOf()` nhanh hon dang ke. Tuy nhien, voi JIT compiler hien dai, su khac biet co the nho. Van khuyen nghi dung `String.valueOf()` vi no ro rang hon ve y dinh.
+**Trả lời:** `"" + n` được compiler chuyển thành `new StringBuilder().append("").append(n).toString()`, tạo ra nhiều object trung gian (StringBuilder, String tạm). `String.valueOf(n)` gọi trực tiếp `Integer.toString(n)`, chỉ tạo 1 String object. Trong vòng lặp lớn, `String.valueOf()` nhanh hơn đáng kể. Tuy nhiên, với JIT compiler hiện đại, sự khác biệt có thể nhỏ. Vẫn khuyến nghị dùng `String.valueOf()` vì nó rõ ràng hơn về ý định.
 
-### 4. Widening va Narrowing casting khac nhau nhu the nao?
+### 4. Widening và Narrowing casting khác nhau như thế nào?
 
-**Tra loi:** **Widening** (mo rong) la chuyen tu kieu nho sang kieu lon (`int` -> `double`), **tu dong** va **khong mat du lieu**. Thu tu: `byte -> short -> int -> long -> float -> double`. **Narrowing** (thu hep) la chuyen tu kieu lon sang kieu nho (`double` -> `int`), **bat buoc phai ep kieu** voi cu phap `(int)` va **co the mat du lieu** (cat phan thap phan hoac tran so). Luon can than khi narrowing.
+**Trả lời:** **Widening** (mở rộng) là chuyển từ kiểu nhỏ sang kiểu lớn (`int` -> `double`), **tự động** và **không mất dữ liệu**. Thứ tự: `byte -> short -> int -> long -> float -> double`. **Narrowing** (thu hẹp) là chuyển từ kiểu lớn sang kiểu nhỏ (`double` -> `int`), **bắt buộc phải ép kiểu** với cú pháp `(int)` và **có thể mất dữ liệu** (cắt phần thập phân hoặc tràn số). Luôn cẩn thận khi narrowing.

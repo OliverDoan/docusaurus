@@ -1,25 +1,25 @@
 ---
 sidebar_position: 4
-title: "Bien trong Java"
+title: "Biến trong Java"
 ---
 
-# Bien trong Java
+# Biến trong Java
 
-Trong lap trinh, **bien (variable)** la mot **o nho** trong bo nho may tinh, duoc dat ten de luu tru du lieu. Hay tuong tuong bien nhu **nhung chiec hop co dan nhan** -- moi hop co ten rieng va ben trong chua mot gia tri nhat dinh. Ban co the mo hop ra xem (doc gia tri), thay doi noi dung ben trong (gan gia tri moi), nhung loai hop (kieu du lieu) quyet dinh ban co the bo gi vao.
+Trong lập trình, **biến (variable)** là một **ô nhớ** trong bộ nhớ máy tính, được đặt tên để lưu trữ dữ liệu. Hãy tưởng tượng biến như **những chiếc hộp có dán nhãn** -- mỗi hộp có tên riêng và bên trong chứa một giá trị nhất định. Bạn có thể mở hộp ra xem (đọc giá trị), thay đổi nội dung bên trong (gán giá trị mới), nhưng loại hộp (kiểu dữ liệu) quyết định bạn có thể bỏ gì vào.
 
-Hieu ro ve bien la buoc dau tien quan trong nhat de hoc bat ky ngon ngu lap trinh nao, vi **moi chuong trinh deu can luu tru va xu ly du lieu**.
+Hiểu rõ về biến là bước đầu tiên quan trọng nhất để học bất kỳ ngôn ngữ lập trình nào, vì **mọi chương trình đều cần lưu trữ và xử lý dữ liệu**.
 
 ---
 
-## 1. Khai bao bien
+## 1. Khai báo biến
 
-### Cu phap
+### Cú pháp
 
 ```java
 KieuDuLieu tenBien = giaTri;
 ```
 
-### Vi du
+### Ví dụ
 
 ```java
 public class KhaiBaoBien {
@@ -48,7 +48,7 @@ public class KhaiBaoBien {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 
 ```
 Ten: Thuan
@@ -59,22 +59,22 @@ Nam sinh: 1995
 x=1, y=2, z=3
 ```
 
-:::warning Luu y
-Khong the khai bao nhieu bien **khac kieu** trong cung mot lenh:
+:::warning Lưu ý
+Không thể khai báo nhiều biến **khác kiểu** trong cùng một lệnh:
 ```java
-int a = 1, long b = 2; // LOI BIEN DICH!
+int a = 1, long b = 2; // LỖI BIÊN DỊCH!
 ```
 :::
 
 ---
 
-## 2. Ba loai bien trong Java
+## 2. Ba loại biến trong Java
 
-Java co 3 loai bien chinh, khac nhau ve **vi tri khai bao**, **vung nho**, va **pham vi ton tai**.
+Java có 3 loại biến chính, khác nhau về **vị trí khai báo**, **vùng nhớ**, và **phạm vi tồn tại**.
 
-### 2.1. Bien cuc bo (Local Variable)
+### 2.1. Biến cục bộ (Local Variable)
 
-Bien cuc bo duoc khai bao **ben trong phuong thuc**, constructor, hoac block `{}`.
+Biến cục bộ được khai báo **bên trong phương thức**, constructor, hoặc block `{}`.
 
 ```java
 public class LocalVariableDemo {
@@ -102,15 +102,15 @@ public class LocalVariableDemo {
 }
 ```
 
-**Dac diem:**
-- Luu tren **Stack**
-- **Khong co** gia tri mac dinh -- **bat buoc** phai khoi tao truoc khi su dung
-- **Khong** co access modifier (public, private...)
-- Bi huy khi thoat khoi block/phuong thuc
+**Đặc điểm:**
+- Lưu trên **Stack**
+- **Không có** giá trị mặc định -- **bắt buộc** phải khởi tạo trước khi sử dụng
+- **Không** có access modifier (public, private...)
+- Bị hủy khi thoát khỏi block/phương thức
 
-### 2.2. Bien instance (Instance Variable)
+### 2.2. Biến instance (Instance Variable)
 
-Bien instance duoc khai bao **trong class nhung ngoai phuong thuc**. Moi doi tuong co **ban sao rieng** cua bien instance.
+Biến instance được khai báo **trong class nhưng ngoài phương thức**. Mỗi đối tượng có **bản sao riêng** của biến instance.
 
 ```java
 public class SinhVien {
@@ -143,15 +143,15 @@ public class SinhVien {
 }
 ```
 
-**Dac diem:**
-- Luu tren **Heap** (cung voi doi tuong)
-- **Co** gia tri mac dinh: `int` = 0, `double` = 0.0, `boolean` = false, `String` = null
-- Co the dung **access modifier** (private, public, protected)
-- Duoc tao khi doi tuong duoc tao (`new`), bi huy khi doi tuong bi Garbage Collection thu hoi
+**Đặc điểm:**
+- Lưu trên **Heap** (cùng với đối tượng)
+- **Có** giá trị mặc định: `int` = 0, `double` = 0.0, `boolean` = false, `String` = null
+- Có thể dùng **access modifier** (private, public, protected)
+- Được tạo khi đối tượng được tạo (`new`), bị hủy khi đối tượng bị Garbage Collection thu hồi
 
-### 2.3. Bien static (Static Variable / Class Variable)
+### 2.3. Biến static (Static Variable / Class Variable)
 
-Bien static duoc khai bao voi tu khoa `static`. **Tat ca doi tuong dung chung mot ban sao duy nhat.**
+Biến static được khai báo với từ khóa `static`. **Tất cả đối tượng dùng chung một bản sao duy nhất.**
 
 ```java
 public class NhanVien {
@@ -192,28 +192,28 @@ public class NhanVien {
 }
 ```
 
-**Dac diem:**
-- Luu tren **Method Area** (Static Memory)
-- Chi co **mot ban sao duy nhat** cho tat ca doi tuong
-- Duoc tao khi class duoc nap, bi huy khi chuong trinh ket thuc
-- Truy cap qua **TenClass.tenBien** (khuyen nghi) hoac qua doi tuong
+**Đặc điểm:**
+- Lưu trên **Method Area** (Static Memory)
+- Chỉ có **một bản sao duy nhất** cho tất cả đối tượng
+- Được tạo khi class được nạp, bị hủy khi chương trình kết thúc
+- Truy cập qua **TenClass.tenBien** (khuyến nghị) hoặc qua đối tượng
 
 ---
 
-## 3. Bang so sanh 3 loai bien
+## 3. Bảng so sánh 3 loại biến
 
-| Tieu chi | Local Variable | Instance Variable | Static Variable |
+| Tiêu chí | Local Variable | Instance Variable | Static Variable |
 |----------|---------------|-------------------|-----------------|
-| **Vi tri khai bao** | Trong method/block | Trong class, ngoai method | Trong class, co tu khoa `static` |
-| **Vung nho** | Stack | Heap | Method Area |
-| **Gia tri mac dinh** | Khong co (phai khoi tao) | Co (0, null, false...) | Co (0, null, false...) |
-| **Pham vi** | Trong block/method | Trong doi tuong | Toan bo class |
-| **So ban sao** | Moi lan goi tao moi | Moi doi tuong 1 ban | 1 ban duy nhat |
-| **Truy cap** | Truc tiep | Qua doi tuong | Qua TenClass.tenBien |
+| **Vị trí khai báo** | Trong method/block | Trong class, ngoài method | Trong class, có từ khóa `static` |
+| **Vùng nhớ** | Stack | Heap | Method Area |
+| **Giá trị mặc định** | Không có (phải khởi tạo) | Có (0, null, false...) | Có (0, null, false...) |
+| **Phạm vi** | Trong block/method | Trong đối tượng | Toàn bộ class |
+| **Số bản sao** | Mỗi lần gọi tạo mới | Mỗi đối tượng 1 bản | 1 bản duy nhất |
+| **Truy cập** | Trực tiếp | Qua đối tượng | Qua TenClass.tenBien |
 
 ---
 
-## 4. Pham vi ton tai (Variable Scope)
+## 4. Phạm vi tồn tại (Variable Scope)
 
 ```java
 public class ScopeDemo {
@@ -252,9 +252,9 @@ public class ScopeDemo {
 
 ---
 
-## 5. Hang so (final)
+## 5. Hằng số (final)
 
-Hang so la bien ma **gia tri khong the thay doi** sau khi da gan. Dung tu khoa `final`.
+Hằng số là biến mà **giá trị không thể thay đổi** sau khi đã gán. Dùng từ khóa `final`.
 
 ```java
 public class HangSoDemo {
@@ -284,28 +284,28 @@ public class HangSoDemo {
 }
 ```
 
-**Quy tac dat ten hang so:**
-- Viet **IN HOA** tat ca
-- Dung dau `_` de ngan cach cac tu
-- Vi du: `MAX_VALUE`, `PI_NUMBER`, `DEFAULT_TIMEOUT`
+**Quy tắc đặt tên hằng số:**
+- Viết **IN HOA** tất cả
+- Dùng dấu `_` để ngăn cách các từ
+- Ví dụ: `MAX_VALUE`, `PI_NUMBER`, `DEFAULT_TIMEOUT`
 
 ---
 
-## 6. Quy tac dat ten bien
+## 6. Quy tắc đặt tên biến
 
-| Loai | Quy tac | Vi du |
+| Loại | Quy tắc | Ví dụ |
 |------|---------|-------|
-| **Bien / Phuong thuc** | camelCase (viet thuong chu dau, hoa chu dau cac tu tiep theo) | `hoTen`, `diemTrungBinh`, `tinhTong()` |
-| **Class / Interface** | PascalCase (viet hoa chu dau moi tu) | `SinhVien`, `NhanVien`, `ArrayList` |
-| **Hang so** | UPPER_SNAKE_CASE | `MAX_VALUE`, `PI`, `DEFAULT_SIZE` |
-| **Package** | Tat ca viet thuong | `com.example.myapp` |
+| **Biến / Phương thức** | camelCase (viết thường chữ đầu, hoa chữ đầu các từ tiếp theo) | `hoTen`, `diemTrungBinh`, `tinhTong()` |
+| **Class / Interface** | PascalCase (viết hoa chữ đầu mỗi từ) | `SinhVien`, `NhanVien`, `ArrayList` |
+| **Hằng số** | UPPER_SNAKE_CASE | `MAX_VALUE`, `PI`, `DEFAULT_SIZE` |
+| **Package** | Tất cả viết thường | `com.example.myapp` |
 
-**Quy tac chung:**
-- Bat dau bang chu cai, `_` hoac `$` (khong bat dau bang so)
-- Khong dung **tu khoa Java** (class, public, static, int...)
-- Phan biet chu hoa/thuong (`age` khac `Age`)
-- Khong chua khoang trang
-- Ten phai co y nghia, mo ta ro muc dich
+**Quy tắc chung:**
+- Bắt đầu bằng chữ cái, `_` hoặc `$` (không bắt đầu bằng số)
+- Không dùng **từ khóa Java** (class, public, static, int...)
+- Phân biệt chữ hoa/thường (`age` khác `Age`)
+- Không chứa khoảng trắng
+- Tên phải có ý nghĩa, mô tả rõ mục đích
 
 ```java
 public class QuyTacDatTen {
@@ -325,9 +325,9 @@ public class QuyTacDatTen {
 
 ---
 
-## 7. Tu khoa `var` (Java 10+)
+## 7. Từ khóa `var` (Java 10+)
 
-Tu Java 10, ban co the dung `var` de Java **tu dong suy ra kieu du lieu** tu gia tri gan:
+Từ Java 10, bạn có thể dùng `var` để Java **tự động suy ra kiểu dữ liệu** từ giá trị gán:
 
 ```java
 public class VarDemo {
@@ -355,61 +355,61 @@ public class VarDemo {
 
 ---
 
-## Khi nao dung?
+## Khi nào dùng?
 
-- **Bien cuc bo (local):** Dung cho du lieu tam thoi trong phuong thuc (dem vong lap, ket qua tinh toan, bien tam)
-- **Bien instance:** Dung khi moi doi tuong can co du lieu rieng (ten, tuoi, dia chi cua moi sinh vien)
-- **Bien static:** Dung khi du lieu chia se cho tat ca doi tuong (so luong doi tuong, ten cong ty, hang so toan cuc)
-- **Hang so (final):** Dung cho gia tri khong bao gio thay doi (PI, MAX_SIZE, URL API)
-- **var:** Dung khi kieu du lieu ro rang tu gia tri gan va muon code gon hon (chi danh cho bien cuc bo)
+- **Biến cục bộ (local):** Dùng cho dữ liệu tạm thời trong phương thức (đếm vòng lặp, kết quả tính toán, biến tạm)
+- **Biến instance:** Dùng khi mỗi đối tượng cần có dữ liệu riêng (tên, tuổi, địa chỉ của mỗi sinh viên)
+- **Biến static:** Dùng khi dữ liệu chia sẻ cho tất cả đối tượng (số lượng đối tượng, tên công ty, hằng số toàn cục)
+- **Hằng số (final):** Dùng cho giá trị không bao giờ thay đổi (PI, MAX_SIZE, URL API)
+- **var:** Dùng khi kiểu dữ liệu rõ ràng từ giá trị gán và muốn code gọn hơn (chỉ dành cho biến cục bộ)
 
 ---
 
-## Loi thuong gap
+## Lỗi thường gặp
 
-### Loi 1: Su dung bien cuc bo chua khoi tao
+### Lỗi 1: Sử dụng biến cục bộ chưa khởi tạo
 
 ```java
 ❌ Sai:
 public void test() {
     int x;
-    System.out.println(x); // LOI: variable x might not have been initialized
+    System.out.println(x); // LỖI: variable x might not have been initialized
 }
 
-✅ Dung:
+✅ Đúng:
 public void test() {
-    int x = 0; // Khoi tao truoc khi dung
+    int x = 0; // Khởi tạo trước khi dùng
     System.out.println(x);
 }
 ```
 
-### Loi 2: Truy cap bien instance tu static method
+### Lỗi 2: Truy cập biến instance từ static method
 
 ```java
 ❌ Sai:
 public class Demo {
-    int x = 10; // Bien instance
+    int x = 10; // Biến instance
 
     public static void main(String[] args) {
-        System.out.println(x); // LOI: non-static variable x cannot be referenced from a static context
+        System.out.println(x); // LỖI: non-static variable x cannot be referenced from a static context
     }
 }
 
-✅ Dung:
+✅ Đúng:
 public class Demo {
     int x = 10;
 
     public static void main(String[] args) {
         Demo obj = new Demo();
-        System.out.println(obj.x); // Truy cap qua doi tuong
+        System.out.println(obj.x); // Truy cập qua đối tượng
     }
 }
 ```
 
-### Loi 3: Nham lan static va instance variable
+### Lỗi 3: Nhầm lẫn static và instance variable
 
 ```java
-❌ Sai: Nghi rang doi gia tri static chi anh huong mot doi tuong
+❌ Sai: Nghĩ rằng đổi giá trị static chỉ ảnh hưởng một đối tượng
 public class Sai {
     static int dem = 0;
 
@@ -417,56 +417,56 @@ public class Sai {
         Sai a = new Sai();
         Sai b = new Sai();
         a.dem = 5;
-        System.out.println(b.dem); // In ra 5, khong phai 0!
+        System.out.println(b.dem); // In ra 5, không phải 0!
     }
 }
 
-✅ Dung: Hieu rang static la dung chung
-// Truy cap bien static qua ten class
-System.out.println(Sai.dem); // Ro rang la bien chung
+✅ Đúng: Hiểu rằng static là dùng chung
+// Truy cập biến static qua tên class
+System.out.println(Sai.dem); // Rõ ràng là biến chung
 ```
 
-### Loi 4: Dat ten bien trung voi tu khoa Java
+### Lỗi 4: Đặt tên biến trùng với từ khóa Java
 
 ```java
 ❌ Sai:
-int class = 5;     // LOI: "class" la tu khoa
-String static = ""; // LOI: "static" la tu khoa
+int class = 5;     // LỖI: "class" là từ khóa
+String static = ""; // LỖI: "static" là từ khóa
 
-✅ Dung:
+✅ Đúng:
 int classId = 5;
 String staticText = "hello";
 ```
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### Cau 1: Su khac biet giua bien instance va bien static?
+### Câu 1: Sự khác biệt giữa biến instance và biến static?
 
-**Tra loi:**
-- **Bien instance:** Thuoc ve **doi tuong**, moi doi tuong co ban sao rieng, luu tren Heap, tao khi `new` doi tuong.
-- **Bien static:** Thuoc ve **class**, chi co mot ban sao duy nhat dung chung cho tat ca doi tuong, luu tren Method Area, tao khi class duoc nap.
-- Vi du: Trong lop `SinhVien`, `ten` la bien instance (moi SV co ten khac nhau), `tenTruong` la bien static (tat ca SV cung truong).
+**Trả lời:**
+- **Biến instance:** Thuộc về **đối tượng**, mỗi đối tượng có bản sao riêng, lưu trên Heap, tạo khi `new` đối tượng.
+- **Biến static:** Thuộc về **class**, chỉ có một bản sao duy nhất dùng chung cho tất cả đối tượng, lưu trên Method Area, tạo khi class được nạp.
+- Ví dụ: Trong lớp `SinhVien`, `ten` là biến instance (mỗi SV có tên khác nhau), `tenTruong` là biến static (tất cả SV cùng trường).
 
-### Cau 2: Bien local co gia tri mac dinh khong?
+### Câu 2: Biến local có giá trị mặc định không?
 
-**Tra loi:** **Khong.** Bien local (cuc bo) **khong co gia tri mac dinh** va **bat buoc phai khoi tao** truoc khi su dung. Neu khong khoi tao, compiler se bao loi `variable might not have been initialized`. Trong khi do, bien instance va static **co gia tri mac dinh** (int=0, boolean=false, object=null).
+**Trả lời:** **Không.** Biến local (cục bộ) **không có giá trị mặc định** và **bắt buộc phải khởi tạo** trước khi sử dụng. Nếu không khởi tạo, compiler sẽ báo lỗi `variable might not have been initialized`. Trong khi đó, biến instance và static **có giá trị mặc định** (int=0, boolean=false, object=null).
 
-### Cau 3: `final` va constant trong Java khac nhau nhu the nao?
+### Câu 3: `final` và constant trong Java khác nhau như thế nào?
 
-**Tra loi:** Trong Java, khong co tu khoa `constant`. Hang so duoc tao bang to hop `static final`. Tu khoa `final` chi ngan viec **gan lai gia tri**, nhung doi tuong ma no tham chieu van co the bi thay doi noi dung (truong hop reference type). Hang so that su (`static final`) thuoc ve class va khong doi trong toan bo thoi gian chay.
+**Trả lời:** Trong Java, không có từ khóa `constant`. Hằng số được tạo bằng tổ hợp `static final`. Từ khóa `final` chỉ ngăn việc **gán lại giá trị**, nhưng đối tượng mà nó tham chiếu vẫn có thể bị thay đổi nội dung (trường hợp reference type). Hằng số thật sự (`static final`) thuộc về class và không đổi trong toàn bộ thời gian chạy.
 
 ```java
 final int[] arr = {1, 2, 3};
-arr[0] = 99;          // OK! Noi dung mang van thay doi duoc
-// arr = new int[5];   // LOI! Khong the gan lai reference
+arr[0] = 99;          // OK! Nội dung mảng vẫn thay đổi được
+// arr = new int[5];   // LỖI! Không thể gán lại reference
 ```
 
-### Cau 4: Tu khoa `var` trong Java hoat dong nhu the nao?
+### Câu 4: Từ khóa `var` trong Java hoạt động như thế nào?
 
-**Tra loi:** `var` (tu Java 10) cho phep **kieu suy luan (type inference)** -- compiler tu dong xac dinh kieu du lieu tu gia tri gan. `var` CHI dung cho **bien cuc bo** da duoc khoi tao. No khong phai kieu du lieu moi, ma chi la cu phap viet tat. Kieu du lieu duoc xac dinh tai thoi diem **bien dich (compile-time)**, khong phai thoi diem chay (runtime), nen van dam bao an toan kieu.
+**Trả lời:** `var` (từ Java 10) cho phép **kiểu suy luận (type inference)** -- compiler tự động xác định kiểu dữ liệu từ giá trị gán. `var` CHỈ dùng cho **biến cục bộ** đã được khởi tạo. Nó không phải kiểu dữ liệu mới, mà chỉ là cú pháp viết tắt. Kiểu dữ liệu được xác định tại thời điểm **biên dịch (compile-time)**, không phải thời điểm chạy (runtime), nên vẫn đảm bảo an toàn kiểu.
 
-### Cau 5: Tai sao nen truy cap bien static qua ten class thay vi doi tuong?
+### Câu 5: Tại sao nên truy cập biến static qua tên class thay vì đối tượng?
 
-**Tra loi:** Vi bien static thuoc ve **class**, khong thuoc ve doi tuong cu the. Truy cap qua ten class (`NhanVien.tongSo`) lam ro rang do la bien chung. Truy cap qua doi tuong (`nv1.tongSo`) gay nham lan, nguoi doc co the nghi do la bien instance. IDE cung se canh bao khi truy cap static member qua doi tuong.
+**Trả lời:** Vì biến static thuộc về **class**, không thuộc về đối tượng cụ thể. Truy cập qua tên class (`NhanVien.tongSo`) làm rõ ràng đó là biến chung. Truy cập qua đối tượng (`nv1.tongSo`) gây nhầm lẫn, người đọc có thể nghĩ đó là biến instance. IDE cũng sẽ cảnh báo khi truy cập static member qua đối tượng.

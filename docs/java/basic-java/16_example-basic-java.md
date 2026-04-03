@@ -1,45 +1,45 @@
 ---
 sidebar_position: 16
-title: "Bai tap minh hoa"
+title: "Bài tập minh họa"
 ---
-# Bai tap minh hoa
+# Bài tập minh họa
 
-## 1. Gioi thieu
+## 1. Giới thiệu
 
-Sau khi da hoc cac kien thuc co ban ve **if-else**, **switch-case**, **vong lap**, **break & continue**, viec **thuc hanh bang cac bai tap cu the** la buoc quan trong nhat de hieu sau va nho lau.
+Sau khi đã học các kiến thức cơ bản về **if-else**, **switch-case**, **vòng lặp**, **break & continue**, việc **thực hành bằng các bài tập cụ thể** là bước quan trọng nhất để hiểu sâu và nhớ lâu.
 
-**Tai sao can thuc hanh?** Ly thuyet chi cho ban hieu khai niem, nhung **viet code that** moi giup ban: nhan dien pattern, xu ly loi, va tu tin giai quyet van de. Cac bai tap duoi day duoc chon loc tu **de thi, phong van va bai tap pho bien** nhat khi hoc Java co ban.
+**Tại sao cần thực hành?** Lý thuyết chỉ cho bạn hiểu khái niệm, nhưng **viết code thật** mới giúp bạn: nhận diện pattern, xử lý lỗi, và tự tin giải quyết vấn đề. Các bài tập dưới đây được chọn lọc từ **đề thi, phỏng vấn và bài tập phổ biến** nhất khi học Java cơ bản.
 
-Moi bai tap gom: **De bai** -> **Phan tich** -> **Code** -> **Output**.
-
----
-
-## Noi dung
-
-1. [Kiem tra chan le](#2-bai-1-kiem-tra-chan-le)
-2. [Tim max 3 so](#3-bai-2-tim-so-lon-nhat-trong-3-so)
-3. [Giai phuong trinh bac 2](#4-bai-3-giai-phuong-trinh-bac-2)
-4. [In bang cuu chuong](#5-bai-4-in-bang-cuu-chuong)
-5. [Tinh tong 1 den n](#6-bai-5-tinh-tong-tu-1-den-n)
-6. [Kiem tra so nguyen to](#7-bai-6-kiem-tra-so-nguyen-to)
-7. [Menu chon phep tinh](#8-bai-7-menu-chon-phep-tinh-may-tinh-don-gian)
-8. [Kiem tra mat khau](#9-bai-8-kiem-tra-mat-khau)
-9. [Dem ky tu trong chuoi](#10-bai-9-dem-ky-tu-trong-chuoi)
-10. [Dao nguoc chuoi](#11-bai-10-dao-nguoc-chuoi)
-11. [Kiem tra palindrome](#12-bai-11-kiem-tra-palindrome)
-12. [Sap xep mang](#13-bai-12-sap-xep-mang-bubble-sort)
+Mỗi bài tập gồm: **Đề bài** -> **Phân tích** -> **Code** -> **Output**.
 
 ---
 
-## 2. Bai 1: Kiem tra chan le
+## Nội dung
 
-### De bai
-Viet chuong trinh kiem tra mot so nguyen la **so chan** hay **so le**.
+1. [Kiểm tra chẵn lẻ](#2-bai-1-kiem-tra-chan-le)
+2. [Tìm max 3 số](#3-bai-2-tim-so-lon-nhat-trong-3-so)
+3. [Giải phương trình bậc 2](#4-bai-3-giai-phuong-trinh-bac-2)
+4. [In bảng cửu chương](#5-bai-4-in-bang-cuu-chuong)
+5. [Tính tổng 1 đến n](#6-bai-5-tinh-tong-tu-1-den-n)
+6. [Kiểm tra số nguyên tố](#7-bai-6-kiem-tra-so-nguyen-to)
+7. [Menu chọn phép tính](#8-bai-7-menu-chon-phep-tinh-may-tinh-don-gian)
+8. [Kiểm tra mật khẩu](#9-bai-8-kiem-tra-mat-khau)
+9. [Đếm ký tự trong chuỗi](#10-bai-9-dem-ky-tu-trong-chuoi)
+10. [Đảo ngược chuỗi](#11-bai-10-dao-nguoc-chuoi)
+11. [Kiểm tra palindrome](#12-bai-11-kiem-tra-palindrome)
+12. [Sắp xếp mảng](#13-bai-12-sap-xep-mang-bubble-sort)
 
-### Phan tich
-- So chan la so **chia het cho 2** (phan du bang 0)
-- So le la so **khong chia het cho 2** (phan du bang 1)
-- Dung toan tu `%` (modulo) de lay phan du
+---
+
+## 2. Bài 1: Kiểm tra chẵn lẻ
+
+### Đề bài
+Viết chương trình kiểm tra một số nguyên là **số chẵn** hay **số lẻ**.
+
+### Phân tích
+- Số chẵn là số **chia hết cho 2** (phần dư bằng 0)
+- Số lẻ là số **không chia hết cho 2** (phần dư bằng 1)
+- Dùng toán tử `%` (modulo) để lấy phần dư
 
 ### Code
 
@@ -64,14 +64,14 @@ public class BaiTap01_ChanLe {
 
 ---
 
-## 3. Bai 2: Tim so lon nhat trong 3 so
+## 3. Bài 2: Tìm số lớn nhất trong 3 số
 
-### De bai
-Cho 3 so nguyen a, b, c. Tim so lon nhat.
+### Đề bài
+Cho 3 số nguyên a, b, c. Tìm số lớn nhất.
 
-### Phan tich
-- So sanh tung cap: a voi b, roi ket qua voi c
-- Hoac dung cach: gia su a la max, roi so sanh voi b va c
+### Phân tích
+- So sánh từng cặp: a với b, rồi kết quả với c
+- Hoặc dùng cách: giả sử a là max, rồi so sánh với b và c
 
 ### Code
 
@@ -103,17 +103,17 @@ So lon nhat: 42
 
 ---
 
-## 4. Bai 3: Giai phuong trinh bac 2
+## 4. Bài 3: Giải phương trình bậc 2
 
-### De bai
-Giai phuong trinh bac 2: **ax^2 + bx + c = 0**
+### Đề bài
+Giải phương trình bậc 2: **ax^2 + bx + c = 0**
 
-### Phan tich
-- Tinh **delta = b^2 - 4ac**
-- Neu delta < 0: vo nghiem
-- Neu delta == 0: nghiem kep x = -b / (2a)
-- Neu delta > 0: hai nghiem phan biet
-- Truong hop dac biet: a == 0 (phuong trinh bac nhat)
+### Phân tích
+- Tính **delta = b^2 - 4ac**
+- Nếu delta < 0: vô nghiệm
+- Nếu delta == 0: nghiệm kép x = -b / (2a)
+- Nếu delta > 0: hai nghiệm phân biệt
+- Trường hợp đặc biệt: a == 0 (phương trình bậc nhất)
 
 ### Code
 
@@ -166,15 +166,15 @@ Hai nghiem:
 
 ---
 
-## 5. Bai 4: In bang cuu chuong
+## 5. Bài 4: In bảng cửu chương
 
-### De bai
-In bang cuu chuong tu 2 den 9.
+### Đề bài
+In bảng cửu chương từ 2 đến 9.
 
-### Phan tich
-- Vong ngoai: duyet so can nhan (2 -> 9)
-- Vong trong: duyet so nhan voi (1 -> 10)
-- Ket qua = so can nhan * so nhan voi
+### Phân tích
+- Vòng ngoài: duyệt số cần nhân (2 -> 9)
+- Vòng trong: duyệt số nhân với (1 -> 10)
+- Kết quả = số cần nhân * số nhân với
 
 ### Code
 
@@ -192,7 +192,7 @@ public class BaiTap04_BangCuuChuong {
 }
 ```
 
-### Output (rut gon)
+### Output (rút gọn)
 ```
 === Bang cuu chuong 2 ===
   2 x  1 =  2
@@ -207,15 +207,15 @@ public class BaiTap04_BangCuuChuong {
 
 ---
 
-## 6. Bai 5: Tinh tong tu 1 den n
+## 6. Bài 5: Tính tổng từ 1 đến n
 
-### De bai
-Tinh tong cac so tu 1 den n: **1 + 2 + 3 + ... + n**
+### Đề bài
+Tính tổng các số từ 1 đến n: **1 + 2 + 3 + ... + n**
 
-### Phan tich
-- Dung bien tich luy `sum`, khoi tao bang 0
-- Moi lan lap: `sum += i`
-- Co the kiem tra bang cong thuc: `n * (n + 1) / 2`
+### Phân tích
+- Dùng biến tích lũy `sum`, khởi tạo bằng 0
+- Mỗi lần lặp: `sum += i`
+- Có thể kiểm tra bằng công thức: `n * (n + 1) / 2`
 
 ### Code
 
@@ -231,7 +231,7 @@ public class BaiTap05_TinhTong {
 
         System.out.println("Tong tu 1 den " + n + " = " + sum);
 
-        // Kiem tra bang cong thuc
+        // Kiểm tra bằng công thức
         int formulaResult = n * (n + 1) / 2;
         System.out.println("Kiem tra (cong thuc): " + formulaResult);
     }
@@ -246,16 +246,16 @@ Kiem tra (cong thuc): 5050
 
 ---
 
-## 7. Bai 6: Kiem tra so nguyen to
+## 7. Bài 6: Kiểm tra số nguyên tố
 
-### De bai
-Kiem tra mot so nguyen n co phai la **so nguyen to** hay khong.
+### Đề bài
+Kiểm tra một số nguyên n có phải là **số nguyên tố** hay không.
 
-### Phan tich
-- So nguyen to la so lon hon 1 va **chi chia het cho 1 va chinh no**
-- Chi can kiem tra tu 2 den **sqrt(n)** (toi uu)
-- Neu n < 2: khong phai so nguyen to
-- Cac so chan > 2: khong phai so nguyen to
+### Phân tích
+- Số nguyên tố là số lớn hơn 1 và **chỉ chia hết cho 1 và chính nó**
+- Chỉ cần kiểm tra từ 2 đến **sqrt(n)** (tối ưu)
+- Nếu n < 2: không phải số nguyên tố
+- Các số chẵn > 2: không phải số nguyên tố
 
 ### Code
 
@@ -272,7 +272,7 @@ public class BaiTap06_SoNguyenTo {
             System.out.println(n + " khong phai so nguyen to");
         }
 
-        // Kiem tra them mot vai so
+        // Kiểm tra thêm một vài số
         int[] testNumbers = {1, 2, 3, 4, 17, 18, 97, 100};
         for (int num : testNumbers) {
             System.out.println(num + " -> " + (checkPrime(num) ? "Nguyen to" : "Khong nguyen to"));
@@ -314,15 +314,15 @@ public class BaiTap06_SoNguyenTo {
 
 ---
 
-## 8. Bai 7: Menu chon phep tinh (may tinh don gian)
+## 8. Bài 7: Menu chọn phép tính (máy tính đơn giản)
 
-### De bai
-Viet chuong trinh may tinh don gian voi 4 phep tinh: cong, tru, nhan, chia. Nguoi dung chon phep tinh tu menu.
+### Đề bài
+Viết chương trình máy tính đơn giản với 4 phép tính: cộng, trừ, nhân, chia. Người dùng chọn phép tính từ menu.
 
-### Phan tich
-- Dung switch-case de xu ly lua chon
-- Xu ly truong hop chia cho 0
-- Dung do-while de cho phep tinh nhieu lan
+### Phân tích
+- Dùng switch-case để xử lý lựa chọn
+- Xử lý trường hợp chia cho 0
+- Dùng do-while để cho phép tính nhiều lần
 
 ### Code
 
@@ -396,7 +396,7 @@ public class BaiTap07_MayTinh {
 }
 ```
 
-### Output (vi du)
+### Output (ví dụ)
 ```
 =============================
    MAY TINH DON GIAN
@@ -414,15 +414,15 @@ Ket qua: 10.00 + 25.00 = 35.00
 
 ---
 
-## 9. Bai 8: Kiem tra mat khau
+## 9. Bài 8: Kiểm tra mật khẩu
 
-### De bai
-Viet chuong trinh yeu cau nguoi dung nhap mat khau. Cho phep nhap toi da 3 lan. Neu dung thi thong bao thanh cong, sai 3 lan thi khoa tai khoan.
+### Đề bài
+Viết chương trình yêu cầu người dùng nhập mật khẩu. Cho phép nhập tối đa 3 lần. Nếu đúng thì thông báo thành công, sai 3 lần thì khóa tài khoản.
 
-### Phan tich
-- Dung vong lap voi bien dem so lan nhap sai
-- Dung String.equals() de so sanh mat khau
-- Dung break khi nhap dung
+### Phân tích
+- Dùng vòng lặp với biến đếm số lần nhập sai
+- Dùng String.equals() để so sánh mật khẩu
+- Dùng break khi nhập đúng
 
 ### Code
 
@@ -464,7 +464,7 @@ public class BaiTap08_KiemTraMatKhau {
 }
 ```
 
-### Output (vi du sai 2 lan, dung lan 3)
+### Output (ví dụ sai 2 lần, đúng lần 3)
 ```
 === DANG NHAP HE THONG ===
 Nhap mat khau (lan 1/3): 123456
@@ -477,15 +477,15 @@ Dang nhap thanh cong! Chao mung ban.
 
 ---
 
-## 10. Bai 9: Dem ky tu trong chuoi
+## 10. Bài 9: Đếm ký tự trong chuỗi
 
-### De bai
-Cho mot chuoi, dem so lan xuat hien cua mot ky tu cu the trong chuoi do.
+### Đề bài
+Cho một chuỗi, đếm số lần xuất hiện của một ký tự cụ thể trong chuỗi đó.
 
-### Phan tich
-- Duyet tung ky tu cua chuoi bang charAt()
-- So sanh voi ky tu can tim
-- Tang bien dem khi tim thay
+### Phân tích
+- Duyệt từng ký tự của chuỗi bằng charAt()
+- So sánh với ký tự cần tìm
+- Tăng biến đếm khi tìm thấy
 
 ### Code
 
@@ -505,7 +505,7 @@ public class BaiTap09_DemKyTu {
         System.out.println("Chuoi: \"" + text + "\"");
         System.out.println("Ky tu '" + target + "' xuat hien " + count + " lan");
 
-        // Dem ca chu hoa va chu thuong
+        // Đếm cả chữ hoa và chữ thường
         char targetIgnoreCase = 'w';
         int countIgnoreCase = 0;
 
@@ -529,15 +529,15 @@ Ky tu 'w' (khong phan biet hoa/thuong) xuat hien 2 lan
 
 ---
 
-## 11. Bai 10: Dao nguoc chuoi
+## 11. Bài 10: Đảo ngược chuỗi
 
-### De bai
-Viet chuong trinh dao nguoc mot chuoi (khong dung StringBuilder.reverse()).
+### Đề bài
+Viết chương trình đảo ngược một chuỗi (không dùng StringBuilder.reverse()).
 
-### Phan tich
-- Duyet chuoi tu cuoi ve dau
-- Noi tung ky tu vao chuoi moi
-- Hoac dung mang char
+### Phân tích
+- Duyệt chuỗi từ cuối về đầu
+- Nối từng ký tự vào chuỗi mới
+- Hoặc dùng mảng char
 
 ### Code
 
@@ -546,14 +546,14 @@ public class BaiTap10_DaoNguocChuoi {
     public static void main(String[] args) {
         String original = "Hello Java";
 
-        // Cach 1: Duyet nguoc
+        // Cách 1: Duyệt ngược
         String reversed1 = "";
         for (int i = original.length() - 1; i >= 0; i--) {
             reversed1 += original.charAt(i);
         }
         System.out.println("Cach 1: " + reversed1);
 
-        // Cach 2: Dung StringBuilder (hieu nang tot hon)
+        // Cách 2: Dùng StringBuilder (hiệu năng tốt hơn)
         StringBuilder sb = new StringBuilder();
         for (int i = original.length() - 1; i >= 0; i--) {
             sb.append(original.charAt(i));
@@ -561,7 +561,7 @@ public class BaiTap10_DaoNguocChuoi {
         String reversed2 = sb.toString();
         System.out.println("Cach 2: " + reversed2);
 
-        // Cach 3: Dung mang char
+        // Cách 3: Dùng mảng char
         char[] chars = original.toCharArray();
         int left = 0;
         int right = chars.length - 1;
@@ -587,15 +587,15 @@ Cach 3: avaJ olleH
 
 ---
 
-## 12. Bai 11: Kiem tra Palindrome
+## 12. Bài 11: Kiểm tra Palindrome
 
-### De bai
-Kiem tra mot chuoi co phai la **palindrome** (doc xuoi va nguoc giong nhau) hay khong. Vi du: "madam", "racecar", "12321".
+### Đề bài
+Kiểm tra một chuỗi có phải là **palindrome** (đọc xuôi và ngược giống nhau) hay không. Ví dụ: "madam", "racecar", "12321".
 
-### Phan tich
-- So sanh ky tu dau voi ky tu cuoi, ky tu thu 2 voi ky tu ke cuoi...
-- Neu tat ca cac cap deu giong nhau -> palindrome
-- Chi can duyet den giua chuoi
+### Phân tích
+- So sánh ký tự đầu với ký tự cuối, ký tự thứ 2 với ký tự kế cuối...
+- Nếu tất cả các cặp đều giống nhau -> palindrome
+- Chỉ cần duyệt đến giữa chuỗi
 
 ### Code
 
@@ -612,7 +612,7 @@ public class BaiTap11_Palindrome {
     }
 
     static boolean isPalindrome(String str) {
-        // Chuyen ve chu thuong de khong phan biet hoa/thuong
+        // Chuyển về chữ thường để không phân biệt hoa/thường
         String s = str.toLowerCase();
         int left = 0;
         int right = s.length() - 1;
@@ -640,16 +640,16 @@ public class BaiTap11_Palindrome {
 
 ---
 
-## 13. Bai 12: Sap xep mang (Bubble Sort)
+## 13. Bài 12: Sắp xếp mảng (Bubble Sort)
 
-### De bai
-Sap xep mot mang so nguyen tang dan bang thuat toan **Bubble Sort**.
+### Đề bài
+Sắp xếp một mảng số nguyên tăng dần bằng thuật toán **Bubble Sort**.
 
-### Phan tich
-- **Bubble Sort**: so sanh tung cap phan tu lien ke, doi cho neu sai thu tu
-- Lap lai cho den khi mang da duoc sap xep
-- Do phuc tap: O(n^2) - phu hop voi mang nho
-- Y tuong: phan tu lon "noi" len cuoi mang nhu bong khi
+### Phân tích
+- **Bubble Sort**: so sánh từng cặp phần tử liền kề, đổi chỗ nếu sai thứ tự
+- Lặp lại cho đến khi mảng đã được sắp xếp
+- Độ phức tạp: O(n^2) - phù hợp với mảng nhỏ
+- Ý tưởng: phần tử lớn "nổi" lên cuối mảng như bong khí
 
 ### Code
 
@@ -668,7 +668,7 @@ public class BaiTap12_BubbleSort {
 
             for (int j = 0; j < n - 1 - i; j++) {
                 if (arr[j] > arr[j + 1]) {
-                    // Doi cho 2 phan tu
+                    // Đổi chỗ 2 phần tử
                     int temp = arr[j];
                     arr[j] = arr[j + 1];
                     arr[j + 1] = temp;
@@ -679,7 +679,7 @@ public class BaiTap12_BubbleSort {
             System.out.print("Sau vong " + (i + 1) + ":   ");
             printArray(arr);
 
-            // Toi uu: neu khong co doi cho nao -> mang da sap xep
+            // Tối ưu: nếu không có đổi chỗ nào -> mảng đã sắp xếp
             if (!swapped) {
                 System.out.println("Mang da sap xep, dung som!");
                 break;
@@ -718,21 +718,21 @@ Ket qua:      [11, 12, 22, 25, 34, 64, 90]
 
 ---
 
-## 14. Tong ket
+## 14. Tổng kết
 
-| Bai | Kien thuc chinh | Do kho |
+| Bài | Kiến thức chính | Độ khó |
 |-----|-----------------|--------|
-| 1. Chan le | if-else, modulo | De |
-| 2. Max 3 so | if, so sanh | De |
-| 3. Phuong trinh bac 2 | if long, Math.sqrt | Trung binh |
-| 4. Bang cuu chuong | Vong lap long | De |
-| 5. Tinh tong | for, bien tich luy | De |
-| 6. So nguyen to | for, break, Math.sqrt | Trung binh |
-| 7. May tinh | switch-case, do-while | Trung binh |
-| 8. Mat khau | for, break, String.equals | Trung binh |
-| 9. Dem ky tu | for, charAt | De |
-| 10. Dao nguoc chuoi | for nguoc, StringBuilder | Trung binh |
-| 11. Palindrome | while, two-pointer | Trung binh |
-| 12. Bubble Sort | Nested loop, swap | Kho |
+| 1. Chẵn lẻ | if-else, modulo | Dễ |
+| 2. Max 3 số | if, so sánh | Dễ |
+| 3. Phương trình bậc 2 | if lồng, Math.sqrt | Trung bình |
+| 4. Bảng cửu chương | Vòng lặp lồng | Dễ |
+| 5. Tính tổng | for, biến tích lũy | Dễ |
+| 6. Số nguyên tố | for, break, Math.sqrt | Trung bình |
+| 7. Máy tính | switch-case, do-while | Trung bình |
+| 8. Mật khẩu | for, break, String.equals | Trung bình |
+| 9. Đếm ký tự | for, charAt | Dễ |
+| 10. Đảo ngược chuỗi | for ngược, StringBuilder | Trung bình |
+| 11. Palindrome | while, two-pointer | Trung bình |
+| 12. Bubble Sort | Nested loop, swap | Khó |
 
-**Loi khuyen:** Hay tu viet code truoc khi xem loi giai. Neu bi ket, doc phan "Phan tich" de lay goi y, roi thu lai. Viec tu suy nghi va debug la cach hoc hieu qua nhat.
+**Lời khuyên:** Hãy tự viết code trước khi xem lời giải. Nếu bị kẹt, đọc phần "Phân tích" để lấy gợi ý, rồi thử lại. Việc tự suy nghĩ và debug là cách học hiệu quả nhất.

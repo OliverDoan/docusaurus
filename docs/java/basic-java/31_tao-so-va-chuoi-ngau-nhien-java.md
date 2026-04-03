@@ -1,21 +1,21 @@
 ---
 sidebar_position: 32
-title: "Tao so va chuoi ngau nhien"
+title: "Tạo số và chuỗi ngẫu nhiên"
 ---
 
-# Tao so va chuoi ngau nhien trong Java
+# Tạo số và chuỗi ngẫu nhiên trong Java
 
-## Gioi thieu
+## Giới thiệu
 
-Tao **so va chuoi ngau nhien** la nhu cau rat pho bien trong lap trinh: tu viec sinh ma OTP, tao mat khau tam, random test data, den tao token bao mat. Java cung cap nhieu cach de lam viec nay, tu don gian (`Math.random()`) den bao mat cao (`SecureRandom`).
+Tạo **số và chuỗi ngẫu nhiên** là nhu cầu rất phổ biến trong lập trình: từ việc sinh mã OTP, tạo mật khẩu tạm, random test data, đến tạo token bảo mật. Java cung cấp nhiều cách để làm việc này, từ đơn giản (`Math.random()`) đến bảo mật cao (`SecureRandom`).
 
-Hay tuong tuong nhu **xuc xac**: `Math.random()` giong nhu xuc xac thuong -- du ngau nhien cho tro choi. `SecureRandom` giong nhu xuc xac duoc kiem dinh dac biet -- du an toan de dung trong casino (bao mat). Tuy vao muc dich, ban chon loai phu hop.
+Hãy tưởng tượng như **xúc xắc**: `Math.random()` giống như xúc xắc thường -- đủ ngẫu nhiên cho trò chơi. `SecureRandom` giống như xúc xắc được kiểm định đặc biệt -- đủ an toàn để dùng trong casino (bảo mật). Tùy vào mục đích, bạn chọn loại phù hợp.
 
 ---
 
-## 1. Math.random() -- Cach don gian nhat
+## 1. Math.random() -- Cách đơn giản nhất
 
-`Math.random()` tra ve mot so `double` ngau nhien trong khoang **[0.0, 1.0)** (tu 0.0 den gan 1.0, khong bao gom 1.0).
+`Math.random()` trả về một số `double` ngẫu nhiên trong khoảng **[0.0, 1.0)** (từ 0.0 đến gần 1.0, không bao gồm 1.0).
 
 ```java
 public class MathRandomDemo {
@@ -41,14 +41,14 @@ public class MathRandomDemo {
 }
 ```
 
-**Uu diem:** Don gian, khong can import.
-**Nhuoc diem:** Chi tra ve `double`, khong co nhieu tuy chon, **khong thread-safe** (su dung shared `Random` instance).
+**Ưu điểm:** Đơn giản, không cần import.
+**Nhược điểm:** Chỉ trả về `double`, không có nhiều tùy chọn, **không thread-safe** (sử dụng shared `Random` instance).
 
 ---
 
-## 2. Lop Random -- Linh hoat hon
+## 2. Lớp Random -- Linh hoạt hơn
 
-`java.util.Random` cung cap nhieu method de tao so ngau nhien voi cac kieu du lieu khac nhau.
+`java.util.Random` cung cấp nhiều method để tạo số ngẫu nhiên với các kiểu dữ liệu khác nhau.
 
 ```java
 import java.util.Random;
@@ -88,7 +88,7 @@ public class RandomClassDemo {
 }
 ```
 
-### Tao so ngau nhien trong khoang [min, max]
+### Tạo số ngẫu nhiên trong khoảng [min, max]
 
 ```java
 import java.util.Random;
@@ -114,7 +114,7 @@ public class RandomRangeDemo {
 }
 ```
 
-### Seed -- Tao ket qua lap lai duoc
+### Seed -- Tạo kết quả lặp lại được
 
 ```java
 import java.util.Random;
@@ -137,9 +137,9 @@ public class SeedDemo {
 
 ---
 
-## 3. ThreadLocalRandom (Java 7+) -- Thread-safe va hieu suat cao
+## 3. ThreadLocalRandom (Java 7+) -- Thread-safe và hiệu suất cao
 
-Trong moi truong multi-thread, `Random` co van de ve **contention** (nhieu thread tranh gianh chung mot instance). `ThreadLocalRandom` giai quyet van de nay bang cach tao **mot Random rieng cho moi thread**.
+Trong môi trường multi-thread, `Random` có vấn đề về **contention** (nhiều thread tranh giành chung một instance). `ThreadLocalRandom` giải quyết vấn đề này bằng cách tạo **một Random riêng cho mỗi thread**.
 
 ```java
 import java.util.concurrent.ThreadLocalRandom;
@@ -170,16 +170,16 @@ public class ThreadLocalRandomDemo {
 }
 ```
 
-**Uu diem so voi Random:**
-- **Khong contention** trong multi-thread (moi thread co instance rieng).
-- **API tien loi**: `nextInt(origin, bound)` -- truyen thang khoang, khong can tinh toan.
-- **Hieu suat cao hon** trong moi truong concurrent.
+**Ưu điểm so với Random:**
+- **Không contention** trong multi-thread (mỗi thread có instance riêng).
+- **API tiện lợi**: `nextInt(origin, bound)` -- truyền thẳng khoảng, không cần tính toán.
+- **Hiệu suất cao hơn** trong môi trường concurrent.
 
 ---
 
-## 4. SecureRandom -- Bao mat cao (cryptographic)
+## 4. SecureRandom -- Bảo mật cao (cryptographic)
 
-`SecureRandom` tao so ngau nhien **khong the doan truoc duoc** (cryptographically strong). Dung cho mat khau, token, ma OTP, khoa ma hoa.
+`SecureRandom` tạo số ngẫu nhiên **không thể đoán trước được** (cryptographically strong). Dùng cho mật khẩu, token, mã OTP, khóa mã hóa.
 
 ```java
 import java.security.SecureRandom;
@@ -214,17 +214,17 @@ public class SecureRandomDemo {
 }
 ```
 
-**Khi nao dung SecureRandom?**
-- Sinh mat khau, token xac thuc.
-- Ma OTP (One-Time Password).
-- Sinh khoa ma hoa, salt, IV.
-- Bat ky tinh huong nao can **bao mat** (khong cho phep ke tan cong doan gia tri tiep theo).
+**Khi nào dùng SecureRandom?**
+- Sinh mật khẩu, token xác thực.
+- Mã OTP (One-Time Password).
+- Sinh khóa mã hóa, salt, IV.
+- Bất kỳ tình huống nào cần **bảo mật** (không cho phép kẻ tấn công đoán giá trị tiếp theo).
 
 ---
 
-## 5. Tao chuoi ngau nhien
+## 5. Tạo chuỗi ngẫu nhiên
 
-### Cach 1: Thu cong voi Random
+### Cách 1: Thủ công với Random
 
 ```java
 import java.util.Random;
@@ -247,7 +247,7 @@ public class RandomStringManual {
 }
 ```
 
-### Cach 2: Su dung UUID
+### Cách 2: Sử dụng UUID
 
 ```java
 import java.util.UUID;
@@ -267,7 +267,7 @@ public class UuidDemo {
 }
 ```
 
-### Cach 3: Su dung Random.ints() va Stream (Java 8+)
+### Cách 3: Sử dụng Random.ints() và Stream (Java 8+)
 
 ```java
 import java.util.Random;
@@ -286,7 +286,7 @@ public class RandomStringStream {
 }
 ```
 
-### Cach 4: Chuoi ngau nhien bao mat (voi SecureRandom)
+### Cách 4: Chuỗi ngẫu nhiên bảo mật (với SecureRandom)
 
 ```java
 import java.security.SecureRandom;
@@ -324,41 +324,41 @@ public class SecureRandomString {
 
 ---
 
-## Tong hop so sanh
+## Tổng hợp so sánh
 
-| Cach | Class | Dac diem | Khi nao dung |
+| Cách | Class | Đặc điểm | Khi nào dùng |
 |------|-------|---------|-------------|
-| `Math.random()` | Math | Don gian, chi tra ve double | Tinh toan nhanh, prototyping |
-| `Random` | java.util | Nhieu kieu du lieu, co seed | Dung chung, game, test data |
-| `ThreadLocalRandom` | java.util.concurrent | Thread-safe, hieu suat cao | Multi-thread, server-side |
-| `SecureRandom` | java.security | Khong doan truoc duoc | Mat khau, token, OTP, crypto |
-| `UUID` | java.util | 128-bit unique ID | ID duy nhat, database key |
+| `Math.random()` | Math | Đơn giản, chỉ trả về double | Tính toán nhanh, prototyping |
+| `Random` | java.util | Nhiều kiểu dữ liệu, có seed | Dùng chung, game, test data |
+| `ThreadLocalRandom` | java.util.concurrent | Thread-safe, hiệu suất cao | Multi-thread, server-side |
+| `SecureRandom` | java.security | Không đoán trước được | Mật khẩu, token, OTP, crypto |
+| `UUID` | java.util | 128-bit unique ID | ID duy nhất, database key |
 
 ---
 
-## Khi nao dung?
+## Khi nào dùng?
 
-| Tinh huong | Giai phap khuyen dung |
+| Tình huống | Giải pháp khuyên dùng |
 |------------|----------------------|
-| Hoc tap, thu nghiem nhanh | `Math.random()` |
-| Game, simulation | `Random` voi seed |
+| Học tập, thử nghiệm nhanh | `Math.random()` |
+| Game, simulation | `Random` với seed |
 | Server multi-thread | `ThreadLocalRandom` |
-| Mat khau, token, OTP | `SecureRandom` |
-| ID duy nhat cho database | `UUID.randomUUID()` |
-| Test data co the lap lai | `Random` voi seed co dinh |
+| Mật khẩu, token, OTP | `SecureRandom` |
+| ID duy nhất cho database | `UUID.randomUUID()` |
+| Test data có thể lặp lại | `Random` với seed cố định |
 
 **Best practices:**
-- **Khong bao gio dung `Math.random()` hay `Random`** cho bao mat (mat khau, token, OTP).
-- Dung `ThreadLocalRandom` thay cho `Random` trong multi-thread.
-- Dung `SecureRandom` cho moi tinh huong lien quan den bao mat.
-- Khi can **ket qua lap lai** (testing), dung seed co dinh.
-- `UUID.randomUUID()` phu hop lam **ID duy nhat**, khong phu hop lam mat khau.
+- **Không bao giờ dùng `Math.random()` hay `Random`** cho bảo mật (mật khẩu, token, OTP).
+- Dùng `ThreadLocalRandom` thay cho `Random` trong multi-thread.
+- Dùng `SecureRandom` cho mọi tình huống liên quan đến bảo mật.
+- Khi cần **kết quả lặp lại** (testing), dùng seed cố định.
+- `UUID.randomUUID()` phù hợp làm **ID duy nhất**, không phù hợp làm mật khẩu.
 
 ---
 
-## Loi thuong gap
+## Lỗi thường gặp
 
-### Loi 1: Dung Random cho bao mat
+### Lỗi 1: Dùng Random cho bảo mật
 
 ```java
 // ❌ Sai: Random co the doan truoc duoc
@@ -375,7 +375,7 @@ secureRandom.nextBytes(bytes);
 String token = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
 ```
 
-### Loi 2: Sai cong thuc random trong khoang
+### Lỗi 2: Sai công thức random trong khoảng
 
 ```java
 // ❌ Sai: Thieu +1 -> khong bao gom max
@@ -388,7 +388,7 @@ int result = random.nextInt(max - min) + min; // Chi tu 1 den 9!
 int result = random.nextInt(max - min + 1) + min; // Tu 1 den 10
 ```
 
-### Loi 3: Dung chung Random instance trong multi-thread
+### Lỗi 3: Dùng chung Random instance trong multi-thread
 
 ```java
 // ❌ Sai: Contention khi nhieu thread dung chung
@@ -401,7 +401,7 @@ static final Random SHARED_RANDOM = new Random();
 int number = ThreadLocalRandom.current().nextInt(100);
 ```
 
-### Loi 4: Khong hieu seed
+### Lỗi 4: Không hiểu seed
 
 ```java
 // ❌ Nham lan: Nghi moi lan chay deu cho ket qua khac
@@ -417,29 +417,29 @@ System.out.println(r2.nextInt(100)); // Moi lan khac nhau
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### Cau 1: Math.random() khac gi Random?
+### Câu 1: Math.random() khác gì Random?
 
-**Tra loi:** `Math.random()` phia ben trong su dung mot instance `Random` static, chi tra ve `double` trong [0.0, 1.0). Lop `Random` linh hoat hon: co nhieu method (`nextInt`, `nextDouble`, `nextBoolean`, `nextLong`...), ho tro seed de tao ket qua lap lai, va co the tao nhieu instance doc lap. **Hieu suat tuong duong**, nhung `Random` cung cap nhieu tuy chon hon.
+**Trả lời:** `Math.random()` phía bên trong sử dụng một instance `Random` static, chỉ trả về `double` trong [0.0, 1.0). Lớp `Random` linh hoạt hơn: có nhiều method (`nextInt`, `nextDouble`, `nextBoolean`, `nextLong`...), hỗ trợ seed để tạo kết quả lặp lại, và có thể tạo nhiều instance độc lập. **Hiệu suất tương đương**, nhưng `Random` cung cấp nhiều tùy chọn hơn.
 
-### Cau 2: SecureRandom khi nao dung? Tai sao khong dung Random?
+### Câu 2: SecureRandom khi nào dùng? Tại sao không dùng Random?
 
-**Tra loi:** Dung `SecureRandom` khi can **bao mat** (mat khau, token, OTP, khoa ma hoa). `Random` su dung thuat toan **pseudo-random** (PRNG) -- neu biet seed, co the tinh toan duoc toan bo day so. `SecureRandom` su dung nguon entropy tu he dieu hanh (nhu `/dev/urandom` tren Linux), tao so **khong the doan truoc**. Trade-off: `SecureRandom` **cham hon** Random, nen chi dung khi that su can bao mat.
+**Trả lời:** Dùng `SecureRandom` khi cần **bảo mật** (mật khẩu, token, OTP, khóa mã hóa). `Random` sử dụng thuật toán **pseudo-random** (PRNG) -- nếu biết seed, có thể tính toán được toàn bộ dãy số. `SecureRandom` sử dụng nguồn entropy từ hệ điều hành (như `/dev/urandom` trên Linux), tạo số **không thể đoán trước**. Trade-off: `SecureRandom` **chậm hơn** Random, nên chỉ dùng khi thật sự cần bảo mật.
 
-### Cau 3: Seed la gi? Tac dung cua seed?
+### Câu 3: Seed là gì? Tác dụng của seed?
 
-**Tra loi:** Seed la gia tri khoi tao cho bo tao so ngau nhien (PRNG). Cung mot seed se tao ra **cung mot day so ngau nhien**. Tac dung:
-- **Testing**: Dung seed co dinh de tao ket qua lap lai, de kiem tra.
-- **Reproducibility**: Trong game, dung seed de tai tao the gioi giong nhau.
-- **Debug**: Khi gap loi, luu seed de tai hien lai tinh huong.
-Neu khong truyen seed, `Random` tu dong dung `System.nanoTime()` lam seed.
+**Trả lời:** Seed là giá trị khởi tạo cho bộ tạo số ngẫu nhiên (PRNG). Cùng một seed sẽ tạo ra **cùng một dãy số ngẫu nhiên**. Tác dụng:
+- **Testing**: Dùng seed cố định để tạo kết quả lặp lại, dễ kiểm tra.
+- **Reproducibility**: Trong game, dùng seed để tái tạo thế giới giống nhau.
+- **Debug**: Khi gặp lỗi, lưu seed để tái hiện lại tình huống.
+Nếu không truyền seed, `Random` tự động dùng `System.nanoTime()` làm seed.
 
-### Cau 4: ThreadLocalRandom khac gi Random?
+### Câu 4: ThreadLocalRandom khác gì Random?
 
-**Tra loi:** `ThreadLocalRandom` duoc thiet ke cho **multi-thread**:
-- Moi thread co **instance rieng**, khong bi contention (tranh gianh lock).
-- API tien loi hon: `nextInt(origin, bound)` -- truyen thang khoang.
-- **Hieu suat cao hon** `Random` trong moi truong concurrent (co the nhanh gap 3-4 lan).
-- Khong the set seed (khong dung cho testing can reproducibility).
-Trong single-thread, hieu suat tuong duong `Random`.
+**Trả lời:** `ThreadLocalRandom` được thiết kế cho **multi-thread**:
+- Mỗi thread có **instance riêng**, không bị contention (tranh giành lock).
+- API tiện lợi hơn: `nextInt(origin, bound)` -- truyền thẳng khoảng.
+- **Hiệu suất cao hơn** `Random` trong môi trường concurrent (có thể nhanh gấp 3-4 lần).
+- Không thể set seed (không dùng cho testing cần reproducibility).
+Trong single-thread, hiệu suất tương đương `Random`.

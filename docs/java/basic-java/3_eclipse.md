@@ -1,31 +1,31 @@
 ---
 sidebar_position: 3
-title: "Chuong trinh Java dau tien"
+title: "Chương trình Java đầu tiên"
 ---
 
-# Chuong trinh Java dau tien
+# Chương trình Java đầu tiên
 
-Sau khi da hieu Java la gi, JVM/JRE/JDK khac nhau ra sao, bay gio la luc ban **thuc hanh viet chuong trinh Java dau tien**. Bai nay se huong dan ban cai dat JDK, viet va chay chuong trinh "Hello World" bang ca **dong lenh (command line)** va **Eclipse IDE**.
+Sau khi đã hiểu Java là gì, JVM/JRE/JDK khác nhau ra sao, bây giờ là lúc bạn **thực hành viết chương trình Java đầu tiên**. Bài này sẽ hướng dẫn bạn cài đặt JDK, viết và chạy chương trình "Hello World" bằng cả **dòng lệnh (command line)** và **Eclipse IDE**.
 
-**Vi du don gian:** Viet chuong trinh giong nhu viet thu -- ban can giay (JDK), but (IDE/text editor), va nguoi nhan (JVM de chay). Bay gio chung ta se "viet la thu dau tien" trong the gioi Java.
+**Ví dụ đơn giản:** Viết chương trình giống như viết thư -- bạn cần giấy (JDK), bút (IDE/text editor), và người nhận (JVM để chạy). Bây giờ chúng ta sẽ "viết lá thư đầu tiên" trong thế giới Java.
 
 ---
 
-## 1. Cai dat JDK
+## 1. Cài đặt JDK
 
-### Buoc 1: Tai JDK
+### Bước 1: Tải JDK
 
-Tai JDK tu trang chinh thuc cua Oracle hoac dung ban OpenJDK:
+Tải JDK từ trang chính thức của Oracle hoặc dùng bản OpenJDK:
 - **Oracle JDK:** https://www.oracle.com/java/technologies/downloads/
 - **OpenJDK (Adoptium):** https://adoptium.net/
 
-:::tip Khuyen nghi
-Chon phien ban **LTS** (Long-Term Support) nhu Java 17 hoac Java 21.
+:::tip Khuyến nghị
+Chọn phiên bản **LTS** (Long-Term Support) như Java 17 hoặc Java 21.
 :::
 
-### Buoc 2: Cai dat va cau hinh
+### Bước 2: Cài đặt và cấu hình
 
-Sau khi cai xong, kiem tra bang dong lenh:
+Sau khi cài xong, kiểm tra bằng dòng lệnh:
 
 ```bash
 # Kiem tra phien ban Java
@@ -35,14 +35,14 @@ java -version
 javac -version
 ```
 
-Ket qua mong doi:
+Kết quả mong đợi:
 
 ```
 java version "17.0.2" 2022-01-18 LTS
 javac 17.0.2
 ```
 
-Neu lenh `javac` khong duoc nhan dien, ban can them **JAVA_HOME** vao bien moi truong:
+Nếu lệnh `javac` không được nhận diện, bạn cần thêm **JAVA_HOME** vào biến môi trường:
 
 ```bash
 # Windows: System Properties > Environment Variables
@@ -56,11 +56,11 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 ---
 
-## 2. Chay Java bang Command Line
+## 2. Chạy Java bằng Command Line
 
-### Buoc 1: Tao file ma nguon
+### Bước 1: Tạo file mã nguồn
 
-Tao file `HelloWorld.java` voi noi dung:
+Tạo file `HelloWorld.java` với nội dung:
 
 ```java
 public class HelloWorld {
@@ -71,41 +71,41 @@ public class HelloWorld {
 }
 ```
 
-:::warning Quan trong
-Ten file **phai trung** voi ten class chua `main`. Class ten `HelloWorld` --> file ten `HelloWorld.java`.
+:::warning Quan trọng
+Tên file **phải trùng** với tên class chứa `main`. Class tên `HelloWorld` --> file tên `HelloWorld.java`.
 :::
 
-### Buoc 2: Bien dich
+### Bước 2: Biên dịch
 
 ```bash
 javac HelloWorld.java
 ```
 
-Neu thanh cong, se tao ra file `HelloWorld.class` (bytecode).
+Nếu thành công, sẽ tạo ra file `HelloWorld.class` (bytecode).
 
-### Buoc 3: Chay
+### Bước 3: Chạy
 
 ```bash
 java HelloWorld
 ```
 
-**Ket qua:**
+**Kết quả:**
 
 ```
 Hello, World!
 Day la chuong trinh Java dau tien cua toi.
 ```
 
-### Quy trinh tong quan
+### Quy trình tổng quan
 
 ```
-HelloWorld.java  --[javac]-->  HelloWorld.class  --[java/JVM]-->  Ket qua
-  (ma nguon)                     (bytecode)                       (man hinh)
+HelloWorld.java  --[javac]-->  HelloWorld.class  --[java/JVM]-->  Kết quả
+  (mã nguồn)                     (bytecode)                       (màn hình)
 ```
 
 ---
 
-## 3. Giai thich chi tiet chuong trinh Hello World
+## 3. Giải thích chi tiết chương trình Hello World
 
 ```java
 public class HelloWorld {
@@ -115,21 +115,21 @@ public class HelloWorld {
 }
 ```
 
-### Phan tich tung thanh phan
+### Phân tích từng thành phần
 
-| Thanh phan | Y nghia |
+| Thành phần | Ý nghĩa |
 |------------|---------|
-| `public` | Access modifier -- lop nay co the truy cap tu bat ky dau |
-| `class` | Tu khoa khai bao mot lop (class) |
-| `HelloWorld` | Ten cua lop (phai trung voi ten file) |
-| `public` (truoc main) | Phuong thuc co the truy cap tu ben ngoai (JVM can truy cap) |
-| `static` | Phuong thuc thuoc ve lop, khong can tao doi tuong de goi |
-| `void` | Phuong thuc khong tra ve gia tri |
-| `main` | Ten phuong thuc -- **diem bat dau** cua moi chuong trinh Java |
-| `String[] args` | Mang chuoi chua tham so dong lenh |
-| `System.out.println()` | In noi dung ra man hinh va xuong dong |
+| `public` | Access modifier -- lớp này có thể truy cập từ bất kỳ đâu |
+| `class` | Từ khóa khai báo một lớp (class) |
+| `HelloWorld` | Tên của lớp (phải trùng với tên file) |
+| `public` (trước main) | Phương thức có thể truy cập từ bên ngoài (JVM cần truy cập) |
+| `static` | Phương thức thuộc về lớp, không cần tạo đối tượng để gọi |
+| `void` | Phương thức không trả về giá trị |
+| `main` | Tên phương thức -- **điểm bắt đầu** của mọi chương trình Java |
+| `String[] args` | Mảng chuỗi chứa tham số dòng lệnh |
+| `System.out.println()` | In nội dung ra màn hình và xuống dòng |
 
-### Tai sao main phai la `public static void main(String[] args)`?
+### Tại sao main phải là `public static void main(String[] args)`?
 
 ```java
 public class GiaiThichMain {
@@ -150,7 +150,7 @@ public class GiaiThichMain {
 }
 ```
 
-Chay voi tham so:
+Chạy với tham số:
 
 ```bash
 javac GiaiThichMain.java
@@ -160,29 +160,29 @@ java GiaiThichMain Xin Chao
 
 ---
 
-## 4. Cai dat va su dung Eclipse IDE
+## 4. Cài đặt và sử dụng Eclipse IDE
 
-### 4.1. Tai va cai Eclipse
+### 4.1. Tải và cài Eclipse
 
-1. Truy cap: https://www.eclipse.org/downloads/
-2. Chon **Eclipse IDE for Java Developers**
-3. Tai va cai dat theo huong dan
+1. Truy cập: https://www.eclipse.org/downloads/
+2. Chọn **Eclipse IDE for Java Developers**
+3. Tải và cài đặt theo hướng dẫn
 
-### 4.2. Tao Java Project trong Eclipse
+### 4.2. Tạo Java Project trong Eclipse
 
-1. Mo Eclipse --> **File** --> **New** --> **Java Project**
-2. Dat ten project (vi du: `MyFirstProject`)
-3. Chon JRE version (vi du: JavaSE-17)
+1. Mở Eclipse --> **File** --> **New** --> **Java Project**
+2. Đặt tên project (ví dụ: `MyFirstProject`)
+3. Chọn JRE version (ví dụ: JavaSE-17)
 4. Click **Finish**
 
-### 4.3. Tao Class moi
+### 4.3. Tạo Class mới
 
-1. Click phai vao **src** --> **New** --> **Class**
-2. Dat ten class: `HelloEclipse`
-3. Tick chon **public static void main(String[] args)**
+1. Click phải vào **src** --> **New** --> **Class**
+2. Đặt tên class: `HelloEclipse`
+3. Tick chọn **public static void main(String[] args)**
 4. Click **Finish**
 
-### 4.4. Viet code
+### 4.4. Viết code
 
 ```java
 public class HelloEclipse {
@@ -204,12 +204,12 @@ public class HelloEclipse {
 }
 ```
 
-### 4.5. Chay chuong trinh
+### 4.5. Chạy chương trình
 
-- **Cach 1:** Click phai vao file --> **Run As** --> **Java Application**
-- **Cach 2:** Nhan **Ctrl + F11**
+- **Cách 1:** Click phải vào file --> **Run As** --> **Java Application**
+- **Cách 2:** Nhấn **Ctrl + F11**
 
-**Ket qua trong Console:**
+**Kết quả trong Console:**
 
 ```
 Xin chao Java phien ban 17!
@@ -219,47 +219,47 @@ Toi dang hoc lap trinh Java.
 
 ---
 
-## 5. Phim tat Eclipse huu ich
+## 5. Phím tắt Eclipse hữu ích
 
-### Phim tat thuong dung nhat
+### Phím tắt thường dùng nhất
 
-| Phim tat | Chuc nang |
+| Phím tắt | Chức năng |
 |----------|-----------|
-| **Ctrl + Space** | Goi y code (autocomplete) |
-| **Ctrl + Shift + F** | Format code tu dong |
-| **Ctrl + Shift + O** | Tu dong import va xoa import thua |
-| **Ctrl + F11** | Chay chuong trinh |
-| **Ctrl + D** | Xoa dong hien tai |
-| **Ctrl + /** | Comment/uncomment dong |
+| **Ctrl + Space** | Gợi ý code (autocomplete) |
+| **Ctrl + Shift + F** | Format code tự động |
+| **Ctrl + Shift + O** | Tự động import và xóa import thừa |
+| **Ctrl + F11** | Chạy chương trình |
+| **Ctrl + D** | Xóa dòng hiện tại |
+| **Ctrl + /** | Comment/uncomment dòng |
 | **Ctrl + Shift + /** | Comment block |
-| **F3** | Nhay den dinh nghia (Go to Definition) |
-| **Ctrl + L** | Nhay den dong bat ky |
-| **Ctrl + 1** | Quick Fix (goi y sua loi) |
+| **F3** | Nhảy đến định nghĩa (Go to Definition) |
+| **Ctrl + L** | Nhảy đến dòng bất kỳ |
+| **Ctrl + 1** | Quick Fix (gợi ý sửa lỗi) |
 
-### Phim tat nang cao
+### Phím tắt nâng cao
 
-| Phim tat | Chuc nang |
+| Phím tắt | Chức năng |
 |----------|-----------|
-| **Alt + Shift + R** | Doi ten bien/class (Rename Refactor) |
-| **Alt + Shift + S --> R** | Tao getter/setter tu dong |
-| **Alt + Shift + S --> O** | Tao constructor tu dong |
-| **Alt + Up/Down** | Di chuyen dong len/xuong |
-| **Ctrl + Alt + Down** | Nhan doi dong hien tai |
-| **Ctrl + Shift + R** | Tim file/class nhanh |
-| **Ctrl + Shift + G** | Tim tat ca noi su dung (Find Usages) |
+| **Alt + Shift + R** | Đổi tên biến/class (Rename Refactor) |
+| **Alt + Shift + S --> R** | Tạo getter/setter tự động |
+| **Alt + Shift + S --> O** | Tạo constructor tự động |
+| **Alt + Up/Down** | Di chuyển dòng lên/xuống |
+| **Ctrl + Alt + Down** | Nhân đôi dòng hiện tại |
+| **Ctrl + Shift + R** | Tìm file/class nhanh |
+| **Ctrl + Shift + G** | Tìm tất cả nơi sử dụng (Find Usages) |
 
-### Template nhanh (go tat roi nhan Ctrl+Space)
+### Template nhanh (gõ tắt rồi nhấn Ctrl+Space)
 
-| Go tat | Ket qua |
+| Gõ tắt | Kết quả |
 |--------|---------|
 | `sysout` + Ctrl+Space | `System.out.println();` |
-| `main` + Ctrl+Space | Tao phuong thuc `main` |
-| `for` + Ctrl+Space | Tao vong lap `for` |
-| `foreach` + Ctrl+Space | Tao vong lap `for-each` |
+| `main` + Ctrl+Space | Tạo phương thức `main` |
+| `for` + Ctrl+Space | Tạo vòng lặp `for` |
+| `foreach` + Ctrl+Space | Tạo vòng lặp `for-each` |
 
 ---
 
-## 6. Vi du them: Chuong trinh tinh tuoi
+## 6. Ví dụ thêm: Chương trình tính tuổi
 
 ```java
 import java.util.Scanner;
@@ -284,7 +284,7 @@ public class TinhTuoi {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 
 ```
 Nhap ten cua ban: Thuan
@@ -294,18 +294,18 @@ Chao Thuan! Ban 31 tuoi.
 
 ---
 
-## Khi nao dung?
+## Khi nào dùng?
 
-- **Command line:** Khi hoc co ban, debug nhanh, hoac lam viec tren server khong co GUI
-- **Eclipse IDE:** Khi lam project lon, can autocomplete, debug, va refactor
-- **IntelliJ IDEA:** Mot lua chon khac rat pho bien, duoc nhieu lap trinh vien Java ua chuong (dac biet khi lam Spring Boot)
-- **Best practice:** Hoc chay bang command line truoc de hieu quy trinh bien dich, sau do chuyen sang IDE de tang nang suat
+- **Command line:** Khi học cơ bản, debug nhanh, hoặc làm việc trên server không có GUI
+- **Eclipse IDE:** Khi làm project lớn, cần autocomplete, debug, và refactor
+- **IntelliJ IDEA:** Một lựa chọn khác rất phổ biến, được nhiều lập trình viên Java ưa chuộng (đặc biệt khi làm Spring Boot)
+- **Best practice:** Học chạy bằng command line trước để hiểu quy trình biên dịch, sau đó chuyển sang IDE để tăng năng suất
 
 ---
 
-## Loi thuong gap
+## Lỗi thường gặp
 
-### Loi 1: Ten file khong trung voi ten class
+### Lỗi 1: Tên file không trùng với tên class
 
 ```java
 // File: hello.java
@@ -317,7 +317,7 @@ public class HelloWorld {  // Ten class la HelloWorld nhung file la hello.java
 }
 
 // File: HelloWorld.java
-✅ Dung:
+✅ Đúng:
 public class HelloWorld {  // Ten class trung voi ten file
     public static void main(String[] args) {
         System.out.println("Hello");
@@ -325,67 +325,67 @@ public class HelloWorld {  // Ten class trung voi ten file
 }
 ```
 
-### Loi 2: Quen dau cham phay (semicolon)
+### Lỗi 2: Quên dấu chấm phẩy (semicolon)
 
 ```java
 ❌ Sai:
-System.out.println("Hello")   // Thieu dau ;
-// Loi: ';' expected
+System.out.println("Hello")   // Thiếu dấu ;
+// Lỗi: ';' expected
 
-✅ Dung:
-System.out.println("Hello");  // Co dau ; cuoi lenh
+✅ Đúng:
+System.out.println("Hello");  // Có dấu ; cuối lệnh
 ```
 
-### Loi 3: Goi `java` voi duoi `.class`
+### Lỗi 3: Gọi `java` với đuôi `.class`
 
 ```bash
 ❌ Sai:
-java HelloWorld.class    # Loi: Could not find or load main class
+java HelloWorld.class    # Lỗi: Could not find or load main class
 
-✅ Dung:
-java HelloWorld          # Khong can duoi .class
+✅ Đúng:
+java HelloWorld          # Không cần đuôi .class
 ```
 
-### Loi 4: Viet sai `main` method
+### Lỗi 4: Viết sai `main` method
 
 ```java
 ❌ Sai:
-public static void Main(String[] args) {  // Chu M viet hoa
-    // JVM khong tim thay main method
+public static void Main(String[] args) {  // Chữ M viết hoa
+    // JVM không tìm thấy main method
 }
 
-✅ Dung:
-public static void main(String[] args) {  // Chu m viet thuong
-    // JVM tim thay va thuc thi
+✅ Đúng:
+public static void main(String[] args) {  // Chữ m viết thường
+    // JVM tìm thấy và thực thi
 }
 ```
 
-### Loi 5: In nham `System.out.Println` (viet hoa P)
+### Lỗi 5: In nhầm `System.out.Println` (viết hoa P)
 
 ```java
 ❌ Sai:
-System.out.Println("Hello");  // Viet hoa P --> loi
+System.out.Println("Hello");  // Viết hoa P --> lỗi
 
-✅ Dung:
-System.out.println("Hello");  // Viet thuong p
+✅ Đúng:
+System.out.println("Hello");  // Viết thường p
 ```
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### Cau 1: Giai thich tung tu trong `public static void main(String[] args)`
+### Câu 1: Giải thích từng từ trong `public static void main(String[] args)`
 
-**Tra loi:**
-- `public`: Access modifier, cho phep JVM truy cap phuong thuc tu bat ky dau
-- `static`: Phuong thuc thuoc ve lop (class-level), JVM goi duoc ma khong can tao doi tuong
-- `void`: Phuong thuc khong tra ve gia tri
-- `main`: Ten phuong thuc dac biet, la diem bat dau (entry point) cua moi chuong trinh Java
-- `String[] args`: Mang chua cac tham so truyen tu dong lenh (command-line arguments)
+**Trả lời:**
+- `public`: Access modifier, cho phép JVM truy cập phương thức từ bất kỳ đâu
+- `static`: Phương thức thuộc về lớp (class-level), JVM gọi được mà không cần tạo đối tượng
+- `void`: Phương thức không trả về giá trị
+- `main`: Tên phương thức đặc biệt, là điểm bắt đầu (entry point) của mọi chương trình Java
+- `String[] args`: Mảng chứa các tham số truyền từ dòng lệnh (command-line arguments)
 
-### Cau 2: Co the overload phuong thuc main duoc khong?
+### Câu 2: Có thể overload phương thức main được không?
 
-**Tra loi:** **Co.** Ban co the overload main voi cac tham so khac nhau. Tuy nhien, JVM chi goi phien ban `public static void main(String[] args)` lam diem bat dau. Cac phien ban overload khac phai duoc goi thu cong.
+**Trả lời:** **Có.** Bạn có thể overload main với các tham số khác nhau. Tuy nhiên, JVM chỉ gọi phiên bản `public static void main(String[] args)` làm điểm bắt đầu. Các phiên bản overload khác phải được gọi thủ công.
 
 ```java
 public class OverloadMain {
@@ -400,11 +400,11 @@ public class OverloadMain {
 }
 ```
 
-### Cau 3: Co the chay chuong trinh Java ma khong co main method khong?
+### Câu 3: Có thể chạy chương trình Java mà không có main method không?
 
-**Tra loi:**
-- **Truoc Java 7:** Co the dung khoi `static {}` de chay code ma khong can `main`.
-- **Tu Java 7 tro di:** **Khong.** JVM bat buoc phai co phuong thuc `main` de khoi chay chuong trinh. Neu khong co, JVM se bao loi: `Main method not found in class`.
+**Trả lời:**
+- **Trước Java 7:** Có thể dùng khối `static {}` để chạy code mà không cần `main`.
+- **Từ Java 7 trở đi:** **Không.** JVM bắt buộc phải có phương thức `main` để khởi chạy chương trình. Nếu không có, JVM sẽ báo lỗi: `Main method not found in class`.
 
 ```java
 // Chi hoat dong truoc Java 7
@@ -417,11 +417,11 @@ public class KhongCoMain {
 // Tu Java 7+: Error: Main method not found
 ```
 
-### Cau 4: Su khac biet giua `System.out.println()` va `System.out.print()`?
+### Câu 4: Sự khác biệt giữa `System.out.println()` và `System.out.print()`?
 
-**Tra loi:**
-- `println()`: In noi dung va **xuong dong** sau khi in
-- `print()`: In noi dung nhung **khong xuong dong**
+**Trả lời:**
+- `println()`: In nội dung và **xuống dòng** sau khi in
+- `print()`: In nội dung nhưng **không xuống dòng**
 
 ```java
 public class PrintDemo {

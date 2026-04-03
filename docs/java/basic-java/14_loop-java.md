@@ -1,61 +1,61 @@
 ---
 sidebar_position: 14
-title: "Vong lap trong Java"
+title: "Vòng lặp trong Java"
 ---
-# Vong lap trong Java
+# Vòng lặp trong Java
 
-## 1. Gioi thieu
+## 1. Giới thiệu
 
-**Vong lap (Loop)** trong Java cho phep chuong trinh **thuc thi mot khoi lenh lap di lap lai** cho den khi mot dieu kien nhat dinh khong con dung.
+**Vòng lặp (Loop)** trong Java cho phép chương trình **thực thi một khối lệnh lặp đi lặp lại** cho đến khi một điều kiện nhất định không còn đúng.
 
-**Tai sao can vong lap?** Trong lap trinh, co rat nhieu tinh huong can lam di lam lai mot viec: duyet danh sach san pham, tinh tong cac so, doi nguoi dung nhap dung mat khau, xu ly tung dong du lieu tu file... Neu khong co vong lap, ban phai viet cung mot dong code hang tram, hang ngan lan - dieu nay la **bat kha thi**.
+**Tại sao cần vòng lặp?** Trong lập trình, có rất nhiều tình huống cần làm đi làm lại một việc: duyệt danh sách sản phẩm, tính tổng các số, đợi người dùng nhập đúng mật khẩu, xử lý từng dòng dữ liệu từ file... Nếu không có vòng lặp, bạn phải viết cùng một dòng code hàng trăm, hàng ngàn lần - điều này là **bất khả thi**.
 
-Hay hinh dung vong lap nhu mot **bang chuyen trong nha may**:
-- San pham di qua tung cong doan (moi vong lap)
-- Khi san pham dat chuan (dieu kien dung), no duoc chuyen ra ngoai (ket thuc vong lap)
-- Neu chua dat, no tiep tuc quay lai (lap tiep)
+Hãy hình dung vòng lặp như một **băng chuyền trong nhà máy**:
+- Sản phẩm đi qua từng công đoạn (mỗi vòng lặp)
+- Khi sản phẩm đạt chuẩn (điều kiện đúng), nó được chuyển ra ngoài (kết thúc vòng lặp)
+- Nếu chưa đạt, nó tiếp tục quay lại (lặp tiếp)
 
 ---
 
-## Noi dung
+## Nội dung
 
-1. [Gioi thieu](#1-gioi-thieu)
-2. [Vong lap for](#2-vong-lap-for)
-3. [Vong lap while](#3-vong-lap-while)
-4. [Vong lap do-while](#4-vong-lap-do-while)
-5. [Vong lap for-each (Enhanced for)](#5-vong-lap-for-each-enhanced-for)
-6. [So sanh cac loai vong lap](#6-so-sanh-cac-loai-vong-lap)
-7. [Vong lap long nhau (Nested loops)](#7-vong-lap-long-nhau-nested-loops)
-8. [Vong lap vo han](#8-vong-lap-vo-han)
+1. [Giới thiệu](#1-gioi-thieu)
+2. [Vòng lặp for](#2-vong-lap-for)
+3. [Vòng lặp while](#3-vong-lap-while)
+4. [Vòng lặp do-while](#4-vong-lap-do-while)
+5. [Vòng lặp for-each (Enhanced for)](#5-vong-lap-for-each-enhanced-for)
+6. [So sánh các loại vòng lặp](#6-so-sanh-cac-loai-vong-lap)
+7. [Vòng lặp lồng nhau (Nested loops)](#7-vong-lap-long-nhau-nested-loops)
+8. [Vòng lặp vô hạn](#8-vong-lap-vo-han)
 9. [Labeled loops](#9-labeled-loops)
-10. [Vi du thuc te](#10-vi-du-thuc-te)
-11. [Khi nao dung?](#11-khi-nao-dung)
-12. [Loi thuong gap](#12-loi-thuong-gap)
-13. [Cau hoi phong van](#13-cau-hoi-phong-van)
+10. [Ví dụ thực tế](#10-vi-du-thuc-te)
+11. [Khi nào dùng?](#11-khi-nao-dung)
+12. [Lỗi thường gặp](#12-loi-thuong-gap)
+13. [Câu hỏi phỏng vấn](#13-cau-hoi-phong-van)
 
 ---
 
-## 2. Vong lap for
+## 2. Vòng lặp for
 
-### 2.1 Cu phap
+### 2.1 Cú pháp
 
 ```java
 for (initialization; condition; update) {
-    // code duoc lap lai
+    // code được lặp lại
 }
 ```
 
-Trong do:
-- **`initialization`**: khoi tao bien dem (chay 1 lan duy nhat)
-- **`condition`**: dieu kien lap (kiem tra truoc moi vong)
-- **`update`**: cap nhat bien dem (chay sau moi vong)
+Trong đó:
+- **`initialization`**: khởi tạo biến đếm (chạy 1 lần duy nhất)
+- **`condition`**: điều kiện lặp (kiểm tra trước mỗi vòng)
+- **`update`**: cập nhật biến đếm (chạy sau mỗi vòng)
 
-### 2.2 Vi du co ban
+### 2.2 Ví dụ cơ bản
 
 ```java
 public class ForLoopDemo {
     public static void main(String[] args) {
-        // In cac so tu 1 den 5
+        // In các số từ 1 đến 5
         for (int i = 1; i <= 5; i++) {
             System.out.println("So: " + i);
         }
@@ -63,7 +63,7 @@ public class ForLoopDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 So: 1
 So: 2
@@ -72,19 +72,19 @@ So: 4
 So: 5
 ```
 
-### 2.3 Qua trinh thuc thi
+### 2.3 Quá trình thực thi
 
 ```
-Buoc 1: int i = 1        (khoi tao)
-Buoc 2: i <= 5 ? true    (kiem tra dieu kien)
-Buoc 3: in "So: 1"       (thuc thi body)
-Buoc 4: i++  -> i = 2    (cap nhat)
-Buoc 5: i <= 5 ? true    (kiem tra lai)
+Bước 1: int i = 1        (khởi tạo)
+Bước 2: i <= 5 ? true    (kiểm tra điều kiện)
+Bước 3: in "So: 1"       (thực thi body)
+Bước 4: i++  -> i = 2    (cập nhật)
+Bước 5: i <= 5 ? true    (kiểm tra lại)
 ...
-Buoc cuoi: i = 6, i <= 5 ? false -> THOAT
+Bước cuối: i = 6, i <= 5 ? false -> THOÁT
 ```
 
-### 2.4 Dem nguoc
+### 2.4 Đếm ngược
 
 ```java
 public class CountdownDemo {
@@ -97,7 +97,7 @@ public class CountdownDemo {
 }
 ```
 
-### 2.5 For voi nhieu bien
+### 2.5 For với nhiều biến
 
 ```java
 public class MultiVarForDemo {
@@ -109,7 +109,7 @@ public class MultiVarForDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 i = 0, j = 10
 i = 1, j = 9
@@ -120,20 +120,20 @@ i = 4, j = 6
 
 ---
 
-## 3. Vong lap while
+## 3. Vòng lặp while
 
-### 3.1 Cu phap
+### 3.1 Cú pháp
 
 ```java
 while (condition) {
-    // code duoc lap lai
+    // code được lặp lại
 }
 ```
 
-- **Kiem tra dieu kien TRUOC** khi thuc thi body
-- Neu dieu kien sai ngay tu dau, body **khong chay lan nao**
+- **Kiểm tra điều kiện TRƯỚC** khi thực thi body
+- Nếu điều kiện sai ngay từ đầu, body **không chạy lần nào**
 
-### 3.2 Vi du
+### 3.2 Ví dụ
 
 ```java
 public class WhileLoopDemo {
@@ -142,13 +142,13 @@ public class WhileLoopDemo {
 
         while (i <= 5) {
             System.out.println("Lan lap thu: " + i);
-            i++; // QUAN TRONG: phai cap nhat bien dem!
+            i++; // QUAN TRỌNG: phải cập nhật biến đếm!
         }
     }
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 Lan lap thu: 1
 Lan lap thu: 2
@@ -157,7 +157,7 @@ Lan lap thu: 4
 Lan lap thu: 5
 ```
 
-### 3.3 While voi dieu kien dong
+### 3.3 While với điều kiện động
 
 ```java
 import java.util.Scanner;
@@ -181,20 +181,20 @@ public class WhileInputDemo {
 
 ---
 
-## 4. Vong lap do-while
+## 4. Vòng lặp do-while
 
-### 4.1 Cu phap
+### 4.1 Cú pháp
 
 ```java
 do {
-    // code duoc lap lai
+    // code được lặp lại
 } while (condition);
 ```
 
-- **Thuc thi body TRUOC**, roi moi kiem tra dieu kien
-- Body luon chay **it nhat 1 lan**, du dieu kien sai ngay tu dau
+- **Thực thi body TRƯỚC**, rồi mới kiểm tra điều kiện
+- Body luôn chạy **ít nhất 1 lần**, dù điều kiện sai ngay từ đầu
 
-### 4.2 Vi du: Body chay du dieu kien sai
+### 4.2 Ví dụ: Body chạy dù điều kiện sai
 
 ```java
 public class DoWhileDemo {
@@ -211,15 +211,15 @@ public class DoWhileDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 Gia tri i: 10
 Ket thuc. i = 11
 ```
 
-Mac du `i = 10` (lon hon 5), body van chay **1 lan**.
+Mặc dù `i = 10` (lớn hơn 5), body vẫn chạy **1 lần**.
 
-### 4.3 Vi du: Menu lua chon
+### 4.3 Ví dụ: Menu lựa chọn
 
 ```java
 import java.util.Scanner;
@@ -260,19 +260,19 @@ public class MenuDemo {
 
 ---
 
-## 5. Vong lap for-each (Enhanced for)
+## 5. Vòng lặp for-each (Enhanced for)
 
-### 5.1 Cu phap
+### 5.1 Cú pháp
 
 ```java
 for (dataType element : collection) {
-    // xu ly tung element
+    // xử lý từng element
 }
 ```
 
-Dung de **duyet qua tung phan tu** cua mang hoac Collection (ArrayList, Set, ...).
+Dùng để **duyệt qua từng phần tử** của mảng hoặc Collection (ArrayList, Set, ...).
 
-### 5.2 Vi du voi mang
+### 5.2 Ví dụ với mảng
 
 ```java
 public class ForEachArrayDemo {
@@ -286,7 +286,7 @@ public class ForEachArrayDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 Trai cay: Tao
 Trai cay: Cam
@@ -294,7 +294,7 @@ Trai cay: Chuoi
 Trai cay: Nho
 ```
 
-### 5.3 Vi du voi ArrayList
+### 5.3 Ví dụ với ArrayList
 
 ```java
 import java.util.ArrayList;
@@ -316,32 +316,32 @@ public class ForEachListDemo {
 }
 ```
 
-### 5.4 Han che cua for-each
+### 5.4 Hạn chế của for-each
 
-- **Khong truy cap duoc index** cua phan tu
-- **Khong the thay doi phan tu** cua mang/collection trong vong lap
-- **Khong the duyet nguoc**
-- **Khong the bo qua phan tu** (khong kiem soat buoc nhay)
+- **Không truy cập được index** của phần tử
+- **Không thể thay đổi phần tử** của mảng/collection trong vòng lặp
+- **Không thể duyệt ngược**
+- **Không thể bỏ qua phần tử** (không kiểm soát bước nhảy)
 
 ---
 
-## 6. So sanh cac loai vong lap
+## 6. So sánh các loại vòng lặp
 
-| Tieu chi | for | while | do-while | for-each |
+| Tiêu chí | for | while | do-while | for-each |
 |---------|-----|-------|----------|----------|
-| Biet truoc so lan lap | Co | Khong | Khong | Co (so phan tu) |
-| Kiem tra dieu kien | Truoc | Truoc | Sau | Tu dong |
-| Chay toi thieu | 0 lan | 0 lan | **1 lan** | 0 lan |
-| Truy cap index | Co | Co | Co | **Khong** |
-| Dung cho | Dem, duyet co index | Dieu kien dong | Menu, nhap lieu | Duyet mang/collection |
+| Biết trước số lần lặp | Có | Không | Không | Có (số phần tử) |
+| Kiểm tra điều kiện | Trước | Trước | Sau | Tự động |
+| Chạy tối thiểu | 0 lần | 0 lần | **1 lần** | 0 lần |
+| Truy cập index | Có | Có | Có | **Không** |
+| Dùng cho | Đếm, duyệt có index | Điều kiện động | Menu, nhập liệu | Duyệt mảng/collection |
 
 ---
 
-## 7. Vong lap long nhau (Nested loops)
+## 7. Vòng lặp lồng nhau (Nested loops)
 
-Vong lap dat ben trong vong lap khac:
+Vòng lặp đặt bên trong vòng lặp khác:
 
-### 7.1 In bang cuu chuong
+### 7.1 In bảng cửu chương
 
 ```java
 public class MultiplicationTable {
@@ -357,7 +357,7 @@ public class MultiplicationTable {
 }
 ```
 
-### 7.2 In hinh tam giac sao
+### 7.2 In hình tam giác sao
 
 ```java
 public class TriangleDemo {
@@ -374,7 +374,7 @@ public class TriangleDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 *
 * *
@@ -383,36 +383,36 @@ public class TriangleDemo {
 * * * * *
 ```
 
-**Luu y:** Vong lap long nhau co **do phuc tap O(n x m)**. Neu n va m lon, hieu nang se giam dang ke. Tranh long qua 3 cap.
+**Lưu ý:** Vòng lặp lồng nhau có **độ phức tạp O(n x m)**. Nếu n và m lớn, hiệu năng sẽ giảm đáng kể. Tránh lồng quá 3 cấp.
 
 ---
 
-## 8. Vong lap vo han
+## 8. Vòng lặp vô hạn
 
-### 8.1 Cach tao vong lap vo han
+### 8.1 Cách tạo vòng lặp vô hạn
 
 ```java
-// Cach 1: for
+// Cách 1: for
 for (;;) {
     System.out.println("Vo han voi for");
 }
 
-// Cach 2: while
+// Cách 2: while
 while (true) {
     System.out.println("Vo han voi while");
 }
 
-// Cach 3: do-while
+// Cách 3: do-while
 do {
     System.out.println("Vo han voi do-while");
 } while (true);
 ```
 
-### 8.2 Khi nao vong lap vo han co ich?
+### 8.2 Khi nào vòng lặp vô hạn có ích?
 
-- **Server** lang nghe ket noi lien tuc
-- **Game loop** chay lien tuc cho den khi nguoi choi thoat
-- **Menu chuong trinh** lap lai cho den khi chon "Thoat"
+- **Server** lắng nghe kết nối liên tục
+- **Game loop** chạy liên tục cho đến khi người chơi thoát
+- **Menu chương trình** lặp lại cho đến khi chọn "Thoát"
 
 ```java
 public class InfiniteLoopUseful {
@@ -425,25 +425,25 @@ public class InfiniteLoopUseful {
 
             if (count >= 5) {
                 System.out.println("Da du 5 lan, thoat!");
-                break; // Thoat vong lap vo han
+                break; // Thoát vòng lặp vô hạn
             }
         }
     }
 }
 ```
 
-### 8.3 Cach tranh vong lap vo han ngoai y muon
+### 8.3 Cách tránh vòng lặp vô hạn ngoài ý muốn
 
-- **Luon cap nhat bien dieu kien** ben trong vong lap
-- **Dat dieu kien thoat ro rang**
-- **Su dung break** khi can thiet
-- **Kiem tra logic** truoc khi chay
+- **Luôn cập nhật biến điều kiện** bên trong vòng lặp
+- **Đặt điều kiện thoát rõ ràng**
+- **Sử dụng break** khi cần thiết
+- **Kiểm tra logic** trước khi chạy
 
 ---
 
 ## 9. Labeled loops
 
-Labeled loop cho phep ban **dat nhan (label)** cho vong lap, roi dung `break` hoac `continue` de **thoat hoac bo qua vong lap cu the** (khong chi vong lap gan nhat):
+Labeled loop cho phép bạn **đặt nhãn (label)** cho vòng lặp, rồi dùng `break` hoặc `continue` để **thoát hoặc bỏ qua vòng lặp cụ thể** (không chỉ vòng lặp gần nhất):
 
 ```java
 public class LabeledLoopDemo {
@@ -454,7 +454,7 @@ public class LabeledLoopDemo {
             for (int j = 1; j <= 3; j++) {
                 if (i == 2 && j == 2) {
                     System.out.println("Break outer tai i=" + i + ", j=" + j);
-                    break outer; // Thoat vong lap ngoai
+                    break outer; // Thoát vòng lặp ngoài
                 }
                 System.out.println("i=" + i + ", j=" + j);
             }
@@ -464,7 +464,7 @@ public class LabeledLoopDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 i=1, j=1
 i=1, j=2
@@ -474,13 +474,13 @@ Break outer tai i=2, j=2
 Ket thuc
 ```
 
-**Luu y:** Labeled loop lam code **kho doc**, nen **han che su dung**. Trong da so truong hop, co the thay the bang cach **tach logic ra method rieng** va dung `return`.
+**Lưu ý:** Labeled loop làm code **khó đọc**, nên **hạn chế sử dụng**. Trong đa số trường hợp, có thể thay thế bằng cách **tách logic ra method riêng** và dùng `return`.
 
 ---
 
-## 10. Vi du thuc te
+## 10. Ví dụ thực tế
 
-### 10.1 Duyet mang tim gia tri lon nhat
+### 10.1 Duyệt mảng tìm giá trị lớn nhất
 
 ```java
 public class FindMaxDemo {
@@ -499,7 +499,7 @@ public class FindMaxDemo {
 }
 ```
 
-### 10.2 Tim kiem phan tu trong mang
+### 10.2 Tìm kiếm phần tử trong mảng
 
 ```java
 public class SearchDemo {
@@ -523,7 +523,7 @@ public class SearchDemo {
 }
 ```
 
-### 10.3 Tinh giai thua
+### 10.3 Tính giai thừa
 
 ```java
 public class FactorialDemo {
@@ -542,51 +542,51 @@ public class FactorialDemo {
 
 ---
 
-## 11. Khi nao dung?
+## 11. Khi nào dùng?
 
 ### for:
-- Biet **chinh xac so lan lap**
-- Can **bien dem** (index)
-- Duyet mang khi can index
+- Biết **chính xác số lần lặp**
+- Cần **biến đếm** (index)
+- Duyệt mảng khi cần index
 
 ### while:
-- **Chua biet truoc** so lan lap
-- Dieu kien phu thuoc **su kien ben ngoai** (nhap lieu, ket noi mang...)
-- **Doc file** cho den het
+- **Chưa biết trước** số lần lặp
+- Điều kiện phụ thuộc **sự kiện bên ngoài** (nhập liệu, kết nối mạng...)
+- **Đọc file** cho đến hết
 
 ### do-while:
-- Can body chay **it nhat 1 lan**
-- **Menu chuong trinh** (hien menu truoc, roi hoi tiep)
-- **Nhap lieu co kiem tra** (nhap truoc, kiem tra sau)
+- Cần body chạy **ít nhất 1 lần**
+- **Menu chương trình** (hiện menu trước, rồi hỏi tiếp)
+- **Nhập liệu có kiểm tra** (nhập trước, kiểm tra sau)
 
 ### for-each:
-- **Duyet toan bo** mang hoac collection
-- **Khong can index**, chi can gia tri
-- **Doc-only** (khong thay doi phan tu)
+- **Duyệt toàn bộ** mảng hoặc collection
+- **Không cần index**, chỉ cần giá trị
+- **Chỉ đọc** (không thay đổi phần tử)
 
 ### Best practices:
-- **Uu tien for-each** khi chi can doc du lieu
-- Tranh **vong lap long qua 3 cap**
-- **Luon dam bao dieu kien thoat** de tranh vong lap vo han
-- **Dat ten bien dem ro rang** (`i`, `j`, `row`, `col`...)
+- **Ưu tiên for-each** khi chỉ cần đọc dữ liệu
+- Tránh **vòng lặp lồng quá 3 cấp**
+- **Luôn đảm bảo điều kiện thoát** để tránh vòng lặp vô hạn
+- **Đặt tên biến đếm rõ ràng** (`i`, `j`, `row`, `col`...)
 
 ---
 
-## 12. Loi thuong gap
+## 12. Lỗi thường gặp
 
-### Loi 1: Quen cap nhat bien dem (vong lap vo han)
+### Lỗi 1: Quên cập nhật biến đếm (vòng lặp vô hạn)
 
 ```java
-// Sai: Quen i++ -> Vong lap vo han!
+// Sai: Quên i++ -> Vòng lặp vô hạn!
 int i = 0;
 while (i < 5) {
     System.out.println(i);
-    // Thieu i++ o day!
+    // Thiếu i++ ở đây!
 }
 ```
 
 ```java
-// Dung: Co cap nhat bien dem
+// Đúng: Có cập nhật biến đếm
 int i = 0;
 while (i < 5) {
     System.out.println(i);
@@ -594,39 +594,39 @@ while (i < 5) {
 }
 ```
 
-### Loi 2: Sai dieu kien vong lap
+### Lỗi 2: Sai điều kiện vòng lặp
 
 ```java
-// Sai: Dieu kien luon dung -> Vo han
-for (int i = 0; i < 10; i--) { // i giam mai, luon < 10
+// Sai: Điều kiện luôn đúng -> Vô hạn
+for (int i = 0; i < 10; i--) { // i giảm mãi, luôn < 10
     System.out.println(i);
 }
 ```
 
 ```java
-// Dung: Dieu kien tien dan ve ket thuc
+// Đúng: Điều kiện tiến dần về kết thúc
 for (int i = 0; i < 10; i++) {
     System.out.println(i);
 }
 ```
 
-### Loi 3: Off-by-one error (sai 1 don vi)
+### Lỗi 3: Off-by-one error (sai 1 đơn vị)
 
 ```java
-// Sai: Muon in 1-10 nhung chi in 1-9
+// Sai: Muốn in 1-10 nhưng chỉ in 1-9
 for (int i = 1; i < 10; i++) {
-    System.out.println(i); // Chi in den 9!
+    System.out.println(i); // Chỉ in đến 9!
 }
 ```
 
 ```java
-// Dung: Dung <= de bao gom ca 10
+// Đúng: Dùng <= để bao gồm cả 10
 for (int i = 1; i <= 10; i++) {
     System.out.println(i);
 }
 ```
 
-### Loi 4: Thay doi collection trong for-each
+### Lỗi 4: Thay đổi collection trong for-each
 
 ```java
 // Sai: ConcurrentModificationException!
@@ -639,13 +639,13 @@ list.add("C");
 
 for (String item : list) {
     if (item.equals("B")) {
-        list.remove(item); // LOI khi chay!
+        list.remove(item); // LỖI khi chạy!
     }
 }
 ```
 
 ```java
-// Dung: Dung Iterator hoac removeIf
+// Đúng: Dùng Iterator hoặc removeIf
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -657,28 +657,28 @@ list.add("C");
 Iterator<String> it = list.iterator();
 while (it.hasNext()) {
     if (it.next().equals("B")) {
-        it.remove(); // An toan
+        it.remove(); // An toàn
     }
 }
 
-// Hoac don gian hon (Java 8+):
+// Hoặc đơn giản hơn (Java 8+):
 // list.removeIf(item -> item.equals("B"));
 ```
 
-### Loi 5: Dung == thay vi equals() khi so sanh String trong vong lap
+### Lỗi 5: Dùng == thay vì equals() khi so sánh String trong vòng lặp
 
 ```java
-// Sai: So sanh tham chieu thay vi noi dung
+// Sai: So sánh tham chiếu thay vì nội dung
 String[] arr = {new String("Java"), new String("Python")};
 for (String s : arr) {
-    if (s == "Java") { // Co the tra ve false!
+    if (s == "Java") { // Có thể trả về false!
         System.out.println("Tim thay");
     }
 }
 ```
 
 ```java
-// Dung: Dung equals()
+// Đúng: Dùng equals()
 String[] arr = {new String("Java"), new String("Python")};
 for (String s : arr) {
     if (s.equals("Java")) {
@@ -689,55 +689,55 @@ for (String s : arr) {
 
 ---
 
-## 13. Cau hoi phong van
+## 13. Câu hỏi phỏng vấn
 
-### Cau 1: Su khac nhau giua `while` va `do-while` la gi?
+### Câu 1: Sự khác nhau giữa `while` và `do-while` là gì?
 
-**Tra loi:**
-- `while` **kiem tra dieu kien TRUOC** khi thuc thi body. Neu dieu kien sai ngay tu dau, body **khong chay lan nao**.
-- `do-while` **thuc thi body TRUOC**, roi moi kiem tra dieu kien. Body luon chay **it nhat 1 lan**.
+**Trả lời:**
+- `while` **kiểm tra điều kiện TRƯỚC** khi thực thi body. Nếu điều kiện sai ngay từ đầu, body **không chạy lần nào**.
+- `do-while` **thực thi body TRƯỚC**, rồi mới kiểm tra điều kiện. Body luôn chạy **ít nhất 1 lần**.
 
 ```java
-// while: khong chay lan nao
+// while: không chạy lần nào
 int x = 10;
 while (x < 5) {
-    System.out.println(x); // Khong in gi ca
+    System.out.println(x); // Không in gì cả
 }
 
-// do-while: chay 1 lan
+// do-while: chạy 1 lần
 int y = 10;
 do {
     System.out.println(y); // In "10"
 } while (y < 5);
 ```
 
-### Cau 2: Su khac nhau giua `for` va `for-each`?
+### Câu 2: Sự khác nhau giữa `for` và `for-each`?
 
-**Tra loi:**
+**Trả lời:**
 
-| Tieu chi | for | for-each |
+| Tiêu chí | for | for-each |
 |---------|-----|----------|
-| Truy cap index | Co | Khong |
-| Thay doi phan tu | Co | Khong truc tiep |
-| Duyet nguoc | Co | Khong |
-| Cu phap | `for (int i=0; ...)` | `for (Type x : arr)` |
-| Loi off-by-one | Co the | Khong |
-| Khi nao dung | Can index, thay doi, duyet nguoc | Doc-only, gon gang |
+| Truy cập index | Có | Không |
+| Thay đổi phần tử | Có | Không trực tiếp |
+| Duyệt ngược | Có | Không |
+| Cú pháp | `for (int i=0; ...)` | `for (Type x : arr)` |
+| Lỗi off-by-one | Có thể | Không |
+| Khi nào dùng | Cần index, thay đổi, duyệt ngược | Chỉ đọc, gọn gàng |
 
-### Cau 3: Co the dung for-each de thay doi (modify) phan tu cua collection khong?
+### Câu 3: Có thể dùng for-each để thay đổi (modify) phần tử của collection không?
 
-**Tra loi:** **Khong truc tiep.** Trong for-each, bien lap (loop variable) la **ban sao** cua gia tri phan tu (voi primitive) hoac ban sao cua tham chieu (voi object). Voi kieu nguyen thuy va String, thay doi bien lap **khong anh huong** den collection goc. Voi object, ban co the **thay doi thuoc tinh ben trong** object (vi cung tham chieu), nhung **khong the thay the phan tu** trong collection. Ngoai ra, **khong duoc add/remove phan tu** trong khi dang duyet bang for-each (se gay `ConcurrentModificationException`).
+**Trả lời:** **Không trực tiếp.** Trong for-each, biến lặp (loop variable) là **bản sao** của giá trị phần tử (với primitive) hoặc bản sao của tham chiếu (với object). Với kiểu nguyên thủy và String, thay đổi biến lặp **không ảnh hưởng** đến collection gốc. Với object, bạn có thể **thay đổi thuộc tính bên trong** object (vì cùng tham chiếu), nhưng **không thể thay thế phần tử** trong collection. Ngoài ra, **không được add/remove phần tử** trong khi đang duyệt bằng for-each (sẽ gây `ConcurrentModificationException`).
 
-### Cau 4: Cach nao de tao vong lap vo han? Khi nao no co ich?
+### Câu 4: Cách nào để tạo vòng lặp vô hạn? Khi nào nó có ích?
 
-**Tra loi:** Co 3 cach chinh:
+**Trả lời:** Có 3 cách chính:
 ```java
 for (;;) { }
 while (true) { }
 do { } while (true);
 ```
-Vong lap vo han co ich trong: **server** lang nghe request lien tuc, **game loop**, **event loop** cua ung dung GUI, **menu chuong trinh** cho den khi nguoi dung chon thoat. Luon phai co **dieu kien `break`** ben trong de ket thuc vong lap khi can.
+Vòng lặp vô hạn có ích trong: **server** lắng nghe request liên tục, **game loop**, **event loop** của ứng dụng GUI, **menu chương trình** cho đến khi người dùng chọn thoát. Luôn phải có **điều kiện `break`** bên trong để kết thúc vòng lặp khi cần.
 
-### Cau 5: Labeled loop la gi? Khi nao nen dung?
+### Câu 5: Labeled loop là gì? Khi nào nên dùng?
 
-**Tra loi:** Labeled loop la vong lap duoc **dat ten (nhan)**, cho phep `break` hoac `continue` tac dong len **vong lap cu the** thay vi chi vong lap gan nhat. Vi du `break outer;` se thoat vong lap ngoai trong nested loop. Tuy nhien, labeled loop lam code **kho doc va kho bao tri**, nen chi dung khi **that su can thiet** (vi du: tim kiem trong ma tran 2 chieu va can thoat ca 2 vong). Trong da so truong hop, nen **tach logic ra method rieng** va dung `return` thay vi labeled loop.
+**Trả lời:** Labeled loop là vòng lặp được **đặt tên (nhãn)**, cho phép `break` hoặc `continue` tác động lên **vòng lặp cụ thể** thay vì chỉ vòng lặp gần nhất. Ví dụ `break outer;` sẽ thoát vòng lặp ngoài trong nested loop. Tuy nhiên, labeled loop làm code **khó đọc và khó bảo trì**, nên chỉ dùng khi **thật sự cần thiết** (ví dụ: tìm kiếm trong ma trận 2 chiều và cần thoát cả 2 vòng). Trong đa số trường hợp, nên **tách logic ra method riêng** và dùng `return` thay vì labeled loop.

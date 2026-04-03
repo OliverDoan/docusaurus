@@ -4,42 +4,42 @@ title: "Break & Continue"
 ---
 # Break & Continue
 
-## 1. Gioi thieu
+## 1. Giới thiệu
 
-Trong Java, **`break`** va **`continue`** la hai cau lenh dieu khien luong thuc thi ben trong vong lap va switch. Chung cho phep ban **can thiep vao qua trinh lap** thay vi de vong lap chay het tu nhien.
+Trong Java, **`break`** và **`continue`** là hai câu lệnh điều khiển luồng thực thi bên trong vòng lặp và switch. Chúng cho phép bạn **can thiệp vào quá trình lặp** thay vì để vòng lặp chạy hết tự nhiên.
 
-- **`break`**: thoat **hoan toan** khoi vong lap hoac switch
-- **`continue`**: bo qua **phan con lai cua lan lap hien tai**, nhay sang lan lap tiep theo
+- **`break`**: thoát **hoàn toàn** khỏi vòng lặp hoặc switch
+- **`continue`**: bỏ qua **phần còn lại của lần lặp hiện tại**, nhảy sang lần lặp tiếp theo
 
-**Tai sao can break va continue?** Khi duyet du lieu, ban thuong khong can xu ly het tat ca. Ví du: tim mot phan tu trong mang thi dung lai ngay khi tim thay (break), hoac bo qua cac du lieu khong hop le khi xu ly (continue). Hai cau lenh nay giup code **hieu qua hon** va **tranh xu ly thua**.
+**Tại sao cần break và continue?** Khi duyệt dữ liệu, bạn thường không cần xử lý hết tất cả. Ví dụ: tìm một phần tử trong mảng thì dừng lại ngay khi tìm thấy (break), hoặc bỏ qua các dữ liệu không hợp lệ khi xử lý (continue). Hai câu lệnh này giúp code **hiệu quả hơn** và **tránh xử lý thừa**.
 
-Hay hinh dung nhu ban dang **doc mot cuon sach**:
-- **`break`** giong nhu ban **dong sach lai** vi da tim thay thong tin can thiet
-- **`continue`** giong nhu ban **lat qua mot trang** vi trang do khong lien quan
+Hãy hình dung như bạn đang **đọc một cuốn sách**:
+- **`break`** giống như bạn **đóng sách lại** vì đã tìm thấy thông tin cần thiết
+- **`continue`** giống như bạn **lật qua một trang** vì trang đó không liên quan
 
 ---
 
-## Noi dung
+## Nội dung
 
-1. [Gioi thieu](#1-gioi-thieu)
-2. [Cau lenh break](#2-cau-lenh-break)
+1. [Giới thiệu](#1-gioi-thieu)
+2. [Câu lệnh break](#2-cau-lenh-break)
 3. [break trong switch](#3-break-trong-switch)
 4. [Labeled break](#4-labeled-break)
-5. [Cau lenh continue](#5-cau-lenh-continue)
+5. [Câu lệnh continue](#5-cau-lenh-continue)
 6. [Labeled continue](#6-labeled-continue)
-7. [So sanh break va continue](#7-so-sanh-break-va-continue)
-8. [Vi du thuc te](#8-vi-du-thuc-te)
-9. [Khi nao dung?](#9-khi-nao-dung)
-10. [Loi thuong gap](#10-loi-thuong-gap)
-11. [Cau hoi phong van](#11-cau-hoi-phong-van)
+7. [So sánh break và continue](#7-so-sanh-break-va-continue)
+8. [Ví dụ thực tế](#8-vi-du-thuc-te)
+9. [Khi nào dùng?](#9-khi-nao-dung)
+10. [Lỗi thường gặp](#10-loi-thuong-gap)
+11. [Câu hỏi phỏng vấn](#11-cau-hoi-phong-van)
 
 ---
 
-## 2. Cau lenh break
+## 2. Câu lệnh break
 
-### 2.1 break trong vong lap
+### 2.1 break trong vòng lặp
 
-`break` **ket thuc ngay lap tuc** vong lap chua no. Code sau vong lap se duoc thuc thi tiep.
+`break` **kết thúc ngay lập tức** vòng lặp chứa nó. Code sau vòng lặp sẽ được thực thi tiếp.
 
 ```java
 public class BreakDemo {
@@ -47,7 +47,7 @@ public class BreakDemo {
         for (int i = 1; i <= 10; i++) {
             if (i == 6) {
                 System.out.println("Gap so 6, dung lai!");
-                break; // Thoat vong lap ngay
+                break; // Thoát vòng lặp ngay
             }
             System.out.println("i = " + i);
         }
@@ -56,7 +56,7 @@ public class BreakDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 i = 1
 i = 2
@@ -67,9 +67,9 @@ Gap so 6, dung lai!
 Da thoat vong lap.
 ```
 
-### 2.2 break chi thoat vong lap gan nhat
+### 2.2 break chỉ thoát vòng lặp gần nhất
 
-Trong vong lap long nhau, `break` **chi thoat vong lap trong cung** (gan nhat):
+Trong vòng lặp lồng nhau, `break` **chỉ thoát vòng lặp trong cùng** (gần nhất):
 
 ```java
 public class BreakNestedDemo {
@@ -77,7 +77,7 @@ public class BreakNestedDemo {
         for (int i = 1; i <= 3; i++) {
             for (int j = 1; j <= 3; j++) {
                 if (j == 2) {
-                    break; // Chi thoat vong for(j), khong thoat for(i)
+                    break; // Chỉ thoát vòng for(j), không thoát for(i)
                 }
                 System.out.println("i=" + i + ", j=" + j);
             }
@@ -86,20 +86,20 @@ public class BreakNestedDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 i=1, j=1
 i=2, j=1
 i=3, j=1
 ```
 
-Moi lan `j == 2`, chi vong `for(j)` bi thoat. Vong `for(i)` van tiep tuc.
+Mỗi lần `j == 2`, chỉ vòng `for(j)` bị thoát. Vòng `for(i)` vẫn tiếp tục.
 
 ---
 
 ## 3. break trong switch
 
-`break` trong switch dung de **ket thuc mot case**, ngan khong cho code chay xuong cac case ben duoi (fall-through):
+`break` trong switch dùng để **kết thúc một case**, ngăn không cho code chạy xuống các case bên dưới (fall-through):
 
 ```java
 public class BreakSwitchDemo {
@@ -109,10 +109,10 @@ public class BreakSwitchDemo {
         switch (option) {
             case 1:
                 System.out.println("Tuy chon 1");
-                break; // Thoat switch
+                break; // Thoát switch
             case 2:
                 System.out.println("Tuy chon 2");
-                break; // Thoat switch
+                break; // Thoát switch
             case 3:
                 System.out.println("Tuy chon 3");
                 break;
@@ -123,7 +123,7 @@ public class BreakSwitchDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 Tuy chon 2
 ```
@@ -132,22 +132,22 @@ Tuy chon 2
 
 ## 4. Labeled break
 
-Khi co vong lap long nhau, `break` thuong chi thoat vong trong cung. Neu muon **thoat vong lap ngoai**, ban dung **labeled break**:
+Khi có vòng lặp lồng nhau, `break` thường chỉ thoát vòng trong cùng. Nếu muốn **thoát vòng lặp ngoài**, bạn dùng **labeled break**:
 
-### 4.1 Cu phap
+### 4.1 Cú pháp
 
 ```java
 labelName:
 for (...) {
     for (...) {
         if (condition) {
-            break labelName; // Thoat vong lap co nhan labelName
+            break labelName; // Thoát vòng lặp có nhãn labelName
         }
     }
 }
 ```
 
-### 4.2 Vi du: Tim kiem trong ma tran
+### 4.2 Ví dụ: Tìm kiếm trong ma trận
 
 ```java
 public class LabeledBreakDemo {
@@ -167,7 +167,7 @@ public class LabeledBreakDemo {
                     System.out.println("Tim thay " + target +
                         " tai vi tri [" + i + "][" + j + "]");
                     found = true;
-                    break search; // Thoat CA HAI vong lap
+                    break search; // Thoát CẢ HAI vòng lặp
                 }
             }
         }
@@ -179,27 +179,27 @@ public class LabeledBreakDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 Tim thay 5 tai vi tri [1][1]
 ```
 
-Neu khong co `break search`, chuong trinh se tiep tuc duyet cac phan tu con lai (khong can thiet).
+Nếu không có `break search`, chương trình sẽ tiếp tục duyệt các phần tử còn lại (không cần thiết).
 
 ---
 
-## 5. Cau lenh continue
+## 5. Câu lệnh continue
 
 ### 5.1 continue trong for
 
-`continue` **bo qua phan code con lai** trong lan lap hien tai va **nhay sang lan lap tiep theo**:
+`continue` **bỏ qua phần code còn lại** trong lần lặp hiện tại và **nhảy sang lần lặp tiếp theo**:
 
 ```java
 public class ContinueForDemo {
     public static void main(String[] args) {
         for (int i = 1; i <= 10; i++) {
             if (i % 2 == 0) {
-                continue; // Bo qua so chan
+                continue; // Bỏ qua số chẵn
             }
             System.out.println("So le: " + i);
         }
@@ -207,7 +207,7 @@ public class ContinueForDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 So le: 1
 So le: 3
@@ -216,7 +216,7 @@ So le: 7
 So le: 9
 ```
 
-Khi `i` la so chan, `continue` lam cho `System.out.println` **khong duoc thuc thi**, va vong lap nhay sang gia tri `i` tiep theo.
+Khi `i` là số chẵn, `continue` làm cho `System.out.println` **không được thực thi**, và vòng lặp nhảy sang giá trị `i` tiếp theo.
 
 ### 5.2 continue trong while
 
@@ -228,7 +228,7 @@ public class ContinueWhileDemo {
         while (i < 10) {
             i++;
             if (i % 3 == 0) {
-                continue; // Bo qua boi cua 3
+                continue; // Bỏ qua bội của 3
             }
             System.out.println("i = " + i);
         }
@@ -236,7 +236,7 @@ public class ContinueWhileDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 i = 1
 i = 2
@@ -247,25 +247,25 @@ i = 8
 i = 10
 ```
 
-**Luu y quan trong:** Trong `while`, bien dem phai duoc **cap nhat TRUOC `continue`**. Neu cap nhat sau continue, dong cap nhat se bi bo qua va gay **vong lap vo han**.
+**Lưu ý quan trọng:** Trong `while`, biến đếm phải được **cập nhật TRƯỚC `continue`**. Nếu cập nhật sau continue, dòng cập nhật sẽ bị bỏ qua và gây **vòng lặp vô hạn**.
 
-### 5.3 Hieu dung luong thuc thi cua continue
+### 5.3 Hiểu đúng luồng thực thi của continue
 
-Trong vong `for`:
+Trong vòng `for`:
 ```
 for (init; condition; update) {
-    // code truoc continue
-    continue; // -> nhay den phan 'update', roi kiem tra 'condition'
-    // code sau continue KHONG duoc thuc thi
+    // code trước continue
+    continue; // -> nhảy đến phần 'update', rồi kiểm tra 'condition'
+    // code sau continue KHÔNG được thực thi
 }
 ```
 
-Trong vong `while`:
+Trong vòng `while`:
 ```
 while (condition) {
-    // code truoc continue
-    continue; // -> nhay den kiem tra 'condition'
-    // code sau continue KHONG duoc thuc thi
+    // code trước continue
+    continue; // -> nhảy đến kiểm tra 'condition'
+    // code sau continue KHÔNG được thực thi
 }
 ```
 
@@ -273,7 +273,7 @@ while (condition) {
 
 ## 6. Labeled continue
 
-Tuong tu labeled break, **labeled continue** cho phep ban **bo qua lan lap hien tai cua vong lap ngoai**:
+Tương tự labeled break, **labeled continue** cho phép bạn **bỏ qua lần lặp hiện tại của vòng lặp ngoài**:
 
 ```java
 public class LabeledContinueDemo {
@@ -282,7 +282,7 @@ public class LabeledContinueDemo {
         for (int i = 1; i <= 3; i++) {
             for (int j = 1; j <= 3; j++) {
                 if (j == 2) {
-                    continue outer; // Bo qua phan con lai, nhay sang i tiep theo
+                    continue outer; // Bỏ qua phần còn lại, nhảy sang i tiếp theo
                 }
                 System.out.println("i=" + i + ", j=" + j);
             }
@@ -291,64 +291,64 @@ public class LabeledContinueDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 i=1, j=1
 i=2, j=1
 i=3, j=1
 ```
 
-Moi khi `j == 2`, `continue outer` lam vong `for(j)` **dung lai** va nhay sang **lan lap tiep theo cua `for(i)`**. Vi vay `j` chi co gia tri 1 trong output.
+Mỗi khi `j == 2`, `continue outer` làm vòng `for(j)` **dừng lại** và nhảy sang **lần lặp tiếp theo của `for(i)`**. Vì vậy `j` chỉ có giá trị 1 trong output.
 
 ---
 
-## 7. So sanh break va continue
+## 7. So sánh break và continue
 
-| Tieu chi | break | continue |
+| Tiêu chí | break | continue |
 |---------|-------|----------|
-| Tac dung | **Thoat hoan toan** vong lap | **Bo qua 1 lan lap**, tiep tuc vong tiep |
-| Pham vi | Vong lap/switch gan nhat | Vong lap gan nhat |
-| Sau khi thuc thi | Code sau vong lap chay | Vong lap tiep tuc |
-| Ho tro label | Co (labeled break) | Co (labeled continue) |
-| Dung trong switch | Co | Khong |
-| Vi du | Tim thay ket qua, dung tim | Bo qua du lieu khong hop le |
+| Tác dụng | **Thoát hoàn toàn** vòng lặp | **Bỏ qua 1 lần lặp**, tiếp tục vòng tiếp |
+| Phạm vi | Vòng lặp/switch gần nhất | Vòng lặp gần nhất |
+| Sau khi thực thi | Code sau vòng lặp chạy | Vòng lặp tiếp tục |
+| Hỗ trợ label | Có (labeled break) | Có (labeled continue) |
+| Dùng trong switch | Có | Không |
+| Ví dụ | Tìm thấy kết quả, dừng tìm | Bỏ qua dữ liệu không hợp lệ |
 
 ---
 
-## 8. Vi du thuc te
+## 8. Ví dụ thực tế
 
-### 8.1 Tim so nguyen to dau tien lon hon n
+### 8.1 Tìm số nguyên tố đầu tiên lớn hơn n
 
 ```java
 public class FindPrimeDemo {
     public static void main(String[] args) {
         int n = 20;
 
-        for (int candidate = n + 1; ; candidate++) { // Vong lap vo han
+        for (int candidate = n + 1; ; candidate++) { // Vòng lặp vô hạn
             boolean isPrime = true;
 
             for (int i = 2; i <= Math.sqrt(candidate); i++) {
                 if (candidate % i == 0) {
                     isPrime = false;
-                    break; // Khong phai so nguyen to, khong can kiem tra tiep
+                    break; // Không phải số nguyên tố, không cần kiểm tra tiếp
                 }
             }
 
             if (isPrime) {
                 System.out.println("So nguyen to dau tien lon hon " + n + " la: " + candidate);
-                break; // Tim thay, thoat vong ngoai
+                break; // Tìm thấy, thoát vòng ngoài
             }
         }
     }
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 So nguyen to dau tien lon hon 20 la: 23
 ```
 
-### 8.2 Loc du lieu hop le tu mang
+### 8.2 Lọc dữ liệu hợp lệ từ mảng
 
 ```java
 public class FilterDataDemo {
@@ -358,7 +358,7 @@ public class FilterDataDemo {
         System.out.println("Diem hop le (1-100):");
         for (int score : scores) {
             if (score < 1 || score > 100) {
-                continue; // Bo qua diem khong hop le
+                continue; // Bỏ qua điểm không hợp lệ
             }
             System.out.println("  Diem: " + score);
         }
@@ -366,7 +366,7 @@ public class FilterDataDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 Diem hop le (1-100):
   Diem: 85
@@ -376,7 +376,7 @@ Diem hop le (1-100):
   Diem: 100
 ```
 
-### 8.3 Tim phan tu chung cua hai mang
+### 8.3 Tìm phần tử chung của hai mảng
 
 ```java
 public class CommonElementsDemo {
@@ -389,7 +389,7 @@ public class CommonElementsDemo {
             for (int b : arr2) {
                 if (a == b) {
                     System.out.println("  " + a);
-                    break; // Tim thay trong arr2, khong can duyet tiep arr2
+                    break; // Tìm thấy trong arr2, không cần duyệt tiếp arr2
                 }
             }
         }
@@ -397,7 +397,7 @@ public class CommonElementsDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 Phan tu chung:
   3
@@ -407,54 +407,54 @@ Phan tu chung:
 
 ---
 
-## 9. Khi nao dung?
+## 9. Khi nào dùng?
 
-### Khi nao dung break:
-- **Tim kiem**: dung lai ngay khi tim thay ket qua
-- **Kiem tra dieu kien**: thoat vong lap khi phat hien loi hoac dieu kien dac biet
-- **Gioi han xu ly**: chi xu ly n phan tu dau tien
-- **Vong lap vo han co dieu kien thoat**: server loop, game loop
+### Khi nào dùng break:
+- **Tìm kiếm**: dừng lại ngay khi tìm thấy kết quả
+- **Kiểm tra điều kiện**: thoát vòng lặp khi phát hiện lỗi hoặc điều kiện đặc biệt
+- **Giới hạn xử lý**: chỉ xử lý n phần tử đầu tiên
+- **Vòng lặp vô hạn có điều kiện thoát**: server loop, game loop
 
-### Khi nao dung continue:
-- **Loc du lieu**: bo qua cac phan tu khong hop le
-- **Dieu kien tien quyet**: chi xu ly phan tu thoa man dieu kien
-- **Tranh if long nhau**: thay vi `if (valid) { ... code dai ... }`, dung `if (!valid) continue;`
+### Khi nào dùng continue:
+- **Lọc dữ liệu**: bỏ qua các phần tử không hợp lệ
+- **Điều kiện tiên quyết**: chỉ xử lý phần tử thỏa mãn điều kiện
+- **Tránh if lồng nhau**: thay vì `if (valid) { ... code dài ... }`, dùng `if (!valid) continue;`
 
-### Khi nao dung labeled break/continue:
-- **Tim kiem trong ma tran** (mang 2 chieu): thoat ca 2 vong khi tim thay
-- **Nested loop phuc tap**: can dieu khien vong lap ngoai tu vong lap trong
-- **Luu y**: Han che su dung, uu tien tach logic ra method rieng
+### Khi nào dùng labeled break/continue:
+- **Tìm kiếm trong ma trận** (mảng 2 chiều): thoát cả 2 vòng khi tìm thấy
+- **Nested loop phức tạp**: cần điều khiển vòng lặp ngoài từ vòng lặp trong
+- **Lưu ý**: Hạn chế sử dụng, ưu tiên tách logic ra method riêng
 
 ### Best practices:
-- **Uu tien logic ro rang** hon la dung break/continue. Neu co the viet lai dieu kien vong lap de tranh break, hay lam vay.
-- **Khong lam dung**: Nhieu break/continue trong mot vong lap lam code kho theo doi
-- **Comment giai thich** tai sao dung break/continue neu logic khong hien nhien
-- **Tach method** thay vi dung labeled loop
+- **Ưu tiên logic rõ ràng** hơn là dùng break/continue. Nếu có thể viết lại điều kiện vòng lặp để tránh break, hãy làm vậy.
+- **Không lạm dụng**: Nhiều break/continue trong một vòng lặp làm code khó theo dõi
+- **Comment giải thích** tại sao dùng break/continue nếu logic không hiển nhiên
+- **Tách method** thay vì dùng labeled loop
 
 ---
 
-## 10. Loi thuong gap
+## 10. Lỗi thường gặp
 
-### Loi 1: Vong lap vo han do continue truoc cap nhat bien dem (while)
+### Lỗi 1: Vòng lặp vô hạn do continue trước cập nhật biến đếm (while)
 
 ```java
-// Sai: Vong lap vo han!
+// Sai: Vòng lặp vô hạn!
 int i = 0;
 while (i < 5) {
     if (i == 3) {
-        continue; // Nhay len kiem tra dieu kien, i van = 3 mai!
+        continue; // Nhảy lên kiểm tra điều kiện, i vẫn = 3 mãi!
     }
     System.out.println(i);
-    i++; // Dong nay bi bo qua khi i == 3
+    i++; // Dòng này bị bỏ qua khi i == 3
 }
 ```
 
 ```java
-// Dung: Cap nhat bien dem TRUOC continue
+// Đúng: Cập nhật biến đếm TRƯỚC continue
 int i = 0;
 while (i < 5) {
     if (i == 3) {
-        i++; // Cap nhat truoc khi continue
+        i++; // Cập nhật trước khi continue
         continue;
     }
     System.out.println(i);
@@ -462,14 +462,14 @@ while (i < 5) {
 }
 ```
 
-### Loi 2: Nham break voi return
+### Lỗi 2: Nhầm break với return
 
 ```java
-// Sai: Dung break nhung muon thoat method
+// Sai: Dùng break nhưng muốn thoát method
 public static void process(int[] arr) {
     for (int x : arr) {
         if (x < 0) {
-            break; // Chi thoat vong lap, method van tiep tuc chay
+            break; // Chỉ thoát vòng lặp, method vẫn tiếp tục chạy
         }
         System.out.println(x);
     }
@@ -478,11 +478,11 @@ public static void process(int[] arr) {
 ```
 
 ```java
-// Dung: Dung return neu muon thoat method
+// Đúng: Dùng return nếu muốn thoát method
 public static void process(int[] arr) {
     for (int x : arr) {
         if (x < 0) {
-            return; // Thoat method luon
+            return; // Thoát method luôn
         }
         System.out.println(x);
     }
@@ -490,37 +490,37 @@ public static void process(int[] arr) {
 }
 ```
 
-### Loi 3: Dung break/continue ngoai vong lap
+### Lỗi 3: Dùng break/continue ngoài vòng lặp
 
 ```java
-// Sai: Loi bien dich!
+// Sai: Lỗi biên dịch!
 if (x > 5) {
-    break; // LOI: break chi dung trong vong lap hoac switch
+    break; // LỖI: break chỉ dùng trong vòng lặp hoặc switch
 }
 ```
 
 ```java
-// Dung: break phai nam trong vong lap hoac switch
+// Đúng: break phải nằm trong vòng lặp hoặc switch
 for (int i = 0; i < 10; i++) {
     if (i > 5) {
-        break; // OK: nam trong for
+        break; // OK: nằm trong for
     }
 }
 ```
 
-### Loi 4: Labeled break/continue voi nhan sai
+### Lỗi 4: Labeled break/continue với nhãn sai
 
 ```java
-// Sai: Nhan khong ton tai
+// Sai: Nhãn không tồn tại
 for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
-        break myLabel; // LOI: 'myLabel' chua duoc dinh nghia
+        break myLabel; // LỖI: 'myLabel' chưa được định nghĩa
     }
 }
 ```
 
 ```java
-// Dung: Dinh nghia nhan dung cho
+// Đúng: Định nghĩa nhãn đúng chỗ
 myLabel:
 for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
@@ -529,10 +529,10 @@ for (int i = 0; i < 3; i++) {
 }
 ```
 
-### Loi 5: Lam dung break thay vi chinh sua dieu kien vong lap
+### Lỗi 5: Lạm dụng break thay vì chỉnh sửa điều kiện vòng lặp
 
 ```java
-// Khong tot: Dung break thay vi dieu kien ro rang
+// Không tốt: Dùng break thay vì điều kiện rõ ràng
 int i = 0;
 while (true) {
     if (i >= 10) {
@@ -544,7 +544,7 @@ while (true) {
 ```
 
 ```java
-// Tot hon: Dieu kien ro rang trong while
+// Tốt hơn: Điều kiện rõ ràng trong while
 int i = 0;
 while (i < 10) {
     System.out.println(i);
@@ -554,13 +554,13 @@ while (i < 10) {
 
 ---
 
-## 11. Cau hoi phong van
+## 11. Câu hỏi phỏng vấn
 
-### Cau 1: Su khac nhau giua `break` va `return` la gi?
+### Câu 1: Sự khác nhau giữa `break` và `return` là gì?
 
-**Tra loi:**
-- `break` chi **thoat vong lap hoac switch** gan nhat. Code sau vong lap/switch trong cung method **van duoc thuc thi**.
-- `return` **thoat khoi toan bo method** va tra ve gia tri (neu co). Code sau `return` trong method **khong duoc thuc thi**.
+**Trả lời:**
+- `break` chỉ **thoát vòng lặp hoặc switch** gần nhất. Code sau vòng lặp/switch trong cùng method **vẫn được thực thi**.
+- `return` **thoát khỏi toàn bộ method** và trả về giá trị (nếu có). Code sau `return` trong method **không được thực thi**.
 
 ```java
 void example() {
@@ -576,58 +576,58 @@ void example() {
 }
 ```
 
-### Cau 2: Labeled break la gi? Cho vi du thuc te.
+### Câu 2: Labeled break là gì? Cho ví dụ thực tế.
 
-**Tra loi:** Labeled break cho phep thoat khoi **vong lap duoc gan nhan cu the**, khong chi vong lap gan nhat. Thuong dung khi can **thoat nhieu cap vong lap long nhau** cung luc. Vi du thuc te: tim kiem mot gia tri trong ma tran 2 chieu, khi tim thay thi thoat ca 2 vong for.
+**Trả lời:** Labeled break cho phép thoát khỏi **vòng lặp được gán nhãn cụ thể**, không chỉ vòng lặp gần nhất. Thường dùng khi cần **thoát nhiều cấp vòng lặp lồng nhau** cùng lúc. Ví dụ thực tế: tìm kiếm một giá trị trong ma trận 2 chiều, khi tìm thấy thì thoát cả 2 vòng for.
 
 ```java
 found:
 for (int row = 0; row < matrix.length; row++) {
     for (int col = 0; col < matrix[row].length; col++) {
         if (matrix[row][col] == target) {
-            break found; // Thoat ca 2 vong
+            break found; // Thoát cả 2 vòng
         }
     }
 }
 ```
 
-### Cau 3: `continue` hoat dong khac nhau the nao trong `for` va `while`?
+### Câu 3: `continue` hoạt động khác nhau thế nào trong `for` và `while`?
 
-**Tra loi:** Trong vong `for`, khi gap `continue`, chuong trinh nhay den **phan update** (vi du `i++`), roi kiem tra condition. Vi vay bien dem **luon duoc cap nhat**. Trong vong `while`, khi gap `continue`, chuong trinh nhay **truc tiep len kiem tra condition**. Neu dong cap nhat bien dem nam **sau `continue`**, no se bi bo qua va co the gay **vong lap vo han**.
+**Trả lời:** Trong vòng `for`, khi gặp `continue`, chương trình nhảy đến **phần update** (ví dụ `i++`), rồi kiểm tra condition. Vì vậy biến đếm **luôn được cập nhật**. Trong vòng `while`, khi gặp `continue`, chương trình nhảy **trực tiếp lên kiểm tra condition**. Nếu dòng cập nhật biến đếm nằm **sau `continue`**, nó sẽ bị bỏ qua và có thể gây **vòng lặp vô hạn**.
 
 ```java
-// for: i++ LUON duoc thuc thi du co continue
+// for: i++ LUÔN được thực thi dù có continue
 for (int i = 0; i < 5; i++) {
-    if (i == 3) continue; // i++ van chay -> i tang len 4
+    if (i == 3) continue; // i++ vẫn chạy -> i tăng lên 4
 }
 
-// while: can cap nhat TRUOC continue
+// while: cần cập nhật TRƯỚC continue
 int i = 0;
 while (i < 5) {
     if (i == 3) {
-        i++; // PHAI cap nhat truoc continue
+        i++; // PHẢI cập nhật trước continue
         continue;
     }
     i++;
 }
 ```
 
-### Cau 4: Co nen dung `break` va `continue` nhieu trong code khong?
+### Câu 4: Có nên dùng `break` và `continue` nhiều trong code không?
 
-**Tra loi:** **Khong nen lam dung.** Mot vai `break` hoac `continue` la binh thuong va giup code hieu qua hon (vi du: dung tim khi da thay, bo qua du lieu khong hop le). Nhung **nhieu break/continue** trong mot vong lap lam luong chuong trinh kho theo doi va kho debug. Trong truong hop do, nen **tach logic ra method rieng**, dung `return` thay cho `break`, hoac **viet lai dieu kien vong lap** cho ro rang hon.
+**Trả lời:** **Không nên lạm dụng.** Một vài `break` hoặc `continue` là bình thường và giúp code hiệu quả hơn (ví dụ: dừng tìm khi đã thấy, bỏ qua dữ liệu không hợp lệ). Nhưng **nhiều break/continue** trong một vòng lặp làm luồng chương trình khó theo dõi và khó debug. Trong trường hợp đó, nên **tách logic ra method riêng**, dùng `return` thay cho `break`, hoặc **viết lại điều kiện vòng lặp** cho rõ ràng hơn.
 
-### Cau 5: `continue` co the dung trong `switch` khong?
+### Câu 5: `continue` có thể dùng trong `switch` không?
 
-**Tra loi:** **Khong truc tiep.** `continue` chi dung trong **vong lap** (for, while, do-while), khong dung trong switch don le. Tuy nhien, neu switch **nam ben trong** mot vong lap, ban co the dung `continue` trong switch de **bo qua lan lap hien tai** cua vong lap ngoai:
+**Trả lời:** **Không trực tiếp.** `continue` chỉ dùng trong **vòng lặp** (for, while, do-while), không dùng trong switch đơn lẻ. Tuy nhiên, nếu switch **nằm bên trong** một vòng lặp, bạn có thể dùng `continue` trong switch để **bỏ qua lần lặp hiện tại** của vòng lặp ngoài:
 
 ```java
 for (int i = 0; i < 5; i++) {
     switch (i) {
         case 2:
-            continue; // Bo qua lan lap i=2 cua vong for
+            continue; // Bỏ qua lần lặp i=2 của vòng for
         default:
             System.out.println(i);
     }
 }
-// Ket qua: 0, 1, 3, 4 (bo qua 2)
+// Kết quả: 0, 1, 3, 4 (bỏ qua 2)
 ```

@@ -3,17 +3,17 @@ sidebar_position: 27
 title: "Sao chép mảng"
 ---
 
-# Sao chep mang trong Java
+# Sao chép mảng trong Java
 
-**Sao chep mang (Clone/Copy Array)** la thao tac tao mot **ban sao doc lap** cua mang goc, de khi thay doi ban sao, mang goc **khong bi anh huong**. Day la thao tac quan trong va thuong xuyen trong Java, dac biet khi truyen mang giua cac method hoac lam viec voi du lieu chia se.
+**Sao chép mảng (Clone/Copy Array)** là thao tác tạo một **bản sao độc lập** của mảng gốc, để khi thay đổi bản sao, mảng gốc **không bị ảnh hưởng**. Đây là thao tác quan trọng và thường xuyên trong Java, đặc biệt khi truyền mảng giữa các method hoặc làm việc với dữ liệu chia sẻ.
 
-Hay tuong tuong ban co mot **tai lieu goc** va muon gui ban sao cho nguoi khac. Neu ban chi gui **lien ket (link)** den tai lieu, nguoi khac sua thi tai lieu goc cung thay doi. Nhung neu ban **photo copy** tai lieu roi gui ban photo, nguoi khac co sua thi tai lieu goc van nguyen ven. Sao chep mang cung tuong tu - ban can tao ban sao thuc su, khong phai chi tao "lien ket" den mang goc.
+Hãy tưởng tượng bạn có một **tài liệu gốc** và muốn gửi bản sao cho người khác. Nếu bạn chỉ gửi **liên kết (link)** đến tài liệu, người khác sửa thì tài liệu gốc cũng thay đổi. Nhưng nếu bạn **photo copy** tài liệu rồi gửi bản photo, người khác có sửa thì tài liệu gốc vẫn nguyên vẹn. Sao chép mảng cũng tương tự - bạn cần tạo bản sao thực sự, không phải chỉ tạo "liên kết" đến mảng gốc.
 
 ---
 
-## 1. Cach 1: Vong lap `for` (co ban)
+## 1. Cách 1: Vòng lặp `for` (cơ bản)
 
-Day la cach don gian nhat, phu hop cho nguoi moi hoc.
+Đây là cách đơn giản nhất, phù hợp cho người mới học.
 
 ```java
 public class CopyWithFor {
@@ -40,12 +40,12 @@ public class CopyWithFor {
 }
 ```
 
-**Uu diem:** De hieu, linh hoat (co the chi copy mot phan, hoac bien doi khi copy).
-**Nhuoc diem:** Code dai, cham hon cac cach khac.
+**Ưu điểm:** Dễ hiểu, linh hoạt (có thể chỉ copy một phần, hoặc biến đổi khi copy).
+**Nhược điểm:** Code dài, chậm hơn các cách khác.
 
 ---
 
-## 2. Cach 2: `Arrays.copyOf()` (pho bien nhat)
+## 2. Cách 2: `Arrays.copyOf()` (phổ biến nhất)
 
 ```java
 import java.util.Arrays;
@@ -89,12 +89,12 @@ public class CopyWithArraysCopyOf {
 }
 ```
 
-**Uu diem:** Gon gang, de doc, linh hoat (co the thay doi kich thuoc).
-**Nhuoc diem:** Voi mang object, chi la shallow copy.
+**Ưu điểm:** Gọn gàng, dễ đọc, linh hoạt (có thể thay đổi kích thước).
+**Nhược điểm:** Với mảng object, chỉ là shallow copy.
 
 ---
 
-## 3. Cach 3: `clone()` (nhanh va tien)
+## 3. Cách 3: `clone()` (nhanh và tiện)
 
 ```java
 import java.util.Arrays;
@@ -120,12 +120,12 @@ public class CopyWithClone {
 }
 ```
 
-**Uu diem:** Cu phap ngan nhat, nhanh.
-**Nhuoc diem:** Khong the thay doi kich thuoc, chi shallow copy voi mang object.
+**Ưu điểm:** Cú pháp ngắn nhất, nhanh.
+**Nhược điểm:** Không thể thay đổi kích thước, chỉ shallow copy với mảng object.
 
 ---
 
-## 4. Cach 4: `System.arraycopy()` (hieu suat cao nhat)
+## 4. Cách 4: `System.arraycopy()` (hiệu suất cao nhất)
 
 ```java
 import java.util.Arrays;
@@ -160,30 +160,30 @@ public class CopyWithSystemArraycopy {
 }
 ```
 
-**Uu diem:** **Hieu suat cao nhat** - la native method, duoc toi uu hoa o cap he thong. Duoc dung trong noi bo cua `ArrayList`, `StringBuilder`, va nhieu lop Java core.
-**Nhuoc diem:** Cu phap phuc tap voi nhieu tham so, de nham.
+**Ưu điểm:** **Hiệu suất cao nhất** - là native method, được tối ưu hoá ở cấp hệ thống. Được dùng trong nội bộ của `ArrayList`, `StringBuilder`, và nhiều lớp Java core.
+**Nhược điểm:** Cú pháp phức tạp với nhiều tham số, dễ nhầm.
 
 ---
 
-## 5. So sanh 4 cach copy
+## 5. So sánh 4 cách copy
 
-| Tieu chi | `for` loop | `Arrays.copyOf()` | `clone()` | `System.arraycopy()` |
+| Tiêu chí | `for` loop | `Arrays.copyOf()` | `clone()` | `System.arraycopy()` |
 |---|---|---|---|---|
-| Do don gian | Trung binh | **Gon nhat** | **Gon nhat** | Phuc tap |
-| Hieu suat | Cham nhat | Nhanh | Nhanh | **Nhanh nhat** |
-| Thay doi kich thuoc | Co | Co | Khong | Co |
-| Copy mot phan | Co | Co (copyOfRange) | Khong | Co |
-| Dung trong thuc te | It | **Nhieu nhat** | Trung binh | Framework/Library |
+| Độ đơn giản | Trung bình | **Gọn nhất** | **Gọn nhất** | Phức tạp |
+| Hiệu suất | Chậm nhất | Nhanh | Nhanh | **Nhanh nhất** |
+| Thay đổi kích thước | Có | Có | Không | Có |
+| Copy một phần | Có | Có (copyOfRange) | Không | Có |
+| Dùng trong thực tế | Ít | **Nhiều nhất** | Trung bình | Framework/Library |
 
 ---
 
-## 6. Shallow Copy vs Deep Copy (RAT QUAN TRONG)
+## 6. Shallow Copy vs Deep Copy (RẤT QUAN TRỌNG)
 
-Voi mang **kieu nguyen thuy** (`int[]`, `double[]`...), tat ca 4 cach tren deu tao **ban sao doc lap hoan toan** vi gia tri duoc copy truc tiep.
+Với mảng **kiểu nguyên thuỷ** (`int[]`, `double[]`...), tất cả 4 cách trên đều tạo **bản sao độc lập hoàn toàn** vì giá trị được copy trực tiếp.
 
-Nhung voi mang **Object** (`String[]`, `Student[]`...), tat ca 4 cach tren chi tao **Shallow Copy** - copy tham chieu (reference), khong copy doi tuong ben trong.
+Nhưng với mảng **Object** (`String[]`, `Student[]`...), tất cả 4 cách trên chỉ tạo **Shallow Copy** - copy tham chiếu (reference), không copy đối tượng bên trong.
 
-### Minh hoa Shallow Copy Bug
+### Minh hoạ Shallow Copy Bug
 
 ```java
 import java.util.Arrays;
@@ -236,7 +236,7 @@ class Student {
 }
 ```
 
-### Deep Copy - Giai phap dung
+### Deep Copy - Giải pháp đúng
 
 ```java
 import java.util.Arrays;
@@ -275,7 +275,7 @@ public class DeepCopyDemo {
 }
 ```
 
-**Minh hoa truc quan:**
+**Minh hoạ trực quan:**
 
 ```
 Shallow Copy:
@@ -290,9 +290,9 @@ Deep Copy:
 
 ---
 
-## 7. Copy mang 2 chieu
+## 7. Copy mảng 2 chiều
 
-Mang 2 chieu la "mang cua mang", nen can **deep copy** de dam bao doc lap hoan toan.
+Mảng 2 chiều là "mảng của mảng", nên cần **deep copy** để đảm bảo độc lập hoàn toàn.
 
 ```java
 import java.util.Arrays;
@@ -325,30 +325,30 @@ public class Copy2DArray {
 
 ---
 
-## Khi nao dung?
+## Khi nào dùng?
 
-**Chon cach copy nao:**
-- **Hoc tap, code don gian** -> `for` loop (de hieu logic)
-- **Code thuc te hang ngay** -> `Arrays.copyOf()` (gon, de doc, linh hoat)
-- **Can copy nhanh toan bo mang** -> `clone()` (ngan gon nhat)
-- **Can hieu suat toi da / copy mot phan** -> `System.arraycopy()` (dung trong library)
+**Chọn cách copy nào:**
+- **Học tập, code đơn giản** -> `for` loop (dễ hiểu logic)
+- **Code thực tế hàng ngày** -> `Arrays.copyOf()` (gọn, dễ đọc, linh hoạt)
+- **Cần copy nhanh toàn bộ mảng** -> `clone()` (ngắn gọn nhất)
+- **Cần hiệu suất tối đa / copy một phần** -> `System.arraycopy()` (dùng trong library)
 
-**Khi nao can Deep Copy:**
-- Mang chua **Object** (khong phai primitive)
-- Ban muon sua ban sao ma **khong anh huong mang goc**
-- Truyen mang vao method va khong muon method thay doi mang goc
+**Khi nào cần Deep Copy:**
+- Mảng chứa **Object** (không phải primitive)
+- Bạn muốn sửa bản sao mà **không ảnh hưởng mảng gốc**
+- Truyền mảng vào method và không muốn method thay đổi mảng gốc
 
 **Best practices:**
-- Voi mang primitive (`int[]`, `double[]`...): bat ky cach nao cung cho ket qua doc lap
-- Voi mang Object: **luon can deep copy** neu muon doc lap hoan toan
-- Dung `Arrays.copyOfRange()` khi chi can copy mot phan cua mang
-- Khi viet method nhan mang, nen copy mang dau vao de dam bao immutability
+- Với mảng primitive (`int[]`, `double[]`...): bất kỳ cách nào cũng cho kết quả độc lập
+- Với mảng Object: **luôn cần deep copy** nếu muốn độc lập hoàn toàn
+- Dùng `Arrays.copyOfRange()` khi chỉ cần copy một phần của mảng
+- Khi viết method nhận mảng, nên copy mảng đầu vào để đảm bảo immutability
 
 ---
 
-## Loi thuong gap
+## Lỗi thường gặp
 
-### 1. Tuong gan mang la copy (phoi bien nhat)
+### 1. Tưởng gán mảng là copy (phổ biến nhất)
 
 ```java
 // Sai - chi copy tham chieu, KHONG phai copy gia tri
@@ -364,7 +364,7 @@ b2[0] = 999;
 System.out.println(a2[0]); // 1 - khong bi anh huong
 ```
 
-### 2. Shallow copy mang Object (tuong la da copy xong)
+### 2. Shallow copy mảng Object (tưởng là đã copy xong)
 
 ```java
 // Sai - tuong rang clone() da copy xong, nhung chi la shallow
@@ -375,7 +375,7 @@ String[] copy = names.clone();
 // NHUNG voi mutable objects thi BI LOI (xem vi du Student o tren)
 ```
 
-### 3. Nham tham so System.arraycopy()
+### 3. Nhầm tham số System.arraycopy()
 
 ```java
 int[] src = {1, 2, 3, 4, 5};
@@ -392,7 +392,7 @@ System.arraycopy(src, 0, dest, 0, 5);
 // ArrayIndexOutOfBoundsException!
 ```
 
-### 4. Quen deep copy mang 2 chieu
+### 4. Quên deep copy mảng 2 chiều
 
 ```java
 // Sai - clone() chi copy lop ngoai
@@ -410,20 +410,20 @@ for (int i = 0; i < matrix.length; i++) {
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### 1. Shallow copy va deep copy khac nhau nhu the nao?
+### 1. Shallow copy và deep copy khác nhau như thế nào?
 
-**Tra loi:** **Shallow copy** chi sao chep cac tham chieu (reference) den cac doi tuong, khong tao doi tuong moi. Ban goc va ban sao cung tro den cung cac doi tuong ben trong, nen thay doi mot ben se anh huong ben kia. **Deep copy** tao cac doi tuong hoan toan moi, sao chep toan bo du lieu. Ban goc va ban sao hoan toan doc lap. Voi mang primitive, shallow copy da du vi gia tri duoc copy truc tiep. Voi mang Object, can deep copy de dam bao doc lap.
+**Trả lời:** **Shallow copy** chỉ sao chép các tham chiếu (reference) đến các đối tượng, không tạo đối tượng mới. Bản gốc và bản sao cùng trỏ đến cùng các đối tượng bên trong, nên thay đổi một bên sẽ ảnh hưởng bên kia. **Deep copy** tạo các đối tượng hoàn toàn mới, sao chép toàn bộ dữ liệu. Bản gốc và bản sao hoàn toàn độc lập. Với mảng primitive, shallow copy đã đủ vì giá trị được copy trực tiếp. Với mảng Object, cần deep copy để đảm bảo độc lập.
 
-### 2. `Arrays.copyOf()` va `System.arraycopy()` khac nhau nhu the nao?
+### 2. `Arrays.copyOf()` và `System.arraycopy()` khác nhau như thế nào?
 
-**Tra loi:** `Arrays.copyOf()` tu tao mang moi voi kich thuoc chi dinh roi copy du lieu vao, tra ve mang moi - gon gang hon. `System.arraycopy()` yeu cau ban tu tao mang dich truoc, nhung cho phep kiem soat chinh xac vi tri copy (offset nguon, offset dich, so luong phan tu) - linh hoat va hieu suat cao hon. Ben trong, `Arrays.copyOf()` thuc chat goi `System.arraycopy()`. Trong thuc te, dung `Arrays.copyOf()` cho don gian, dung `System.arraycopy()` khi can toi uu hoac copy phuc tap.
+**Trả lời:** `Arrays.copyOf()` tự tạo mảng mới với kích thước chỉ định rồi copy dữ liệu vào, trả về mảng mới - gọn gàng hơn. `System.arraycopy()` yêu cầu bạn tự tạo mảng đích trước, nhưng cho phép kiểm soát chính xác vị trí copy (offset nguồn, offset đích, số lượng phần tử) - linh hoạt và hiệu suất cao hơn. Bên trong, `Arrays.copyOf()` thực chất gọi `System.arraycopy()`. Trong thực tế, dùng `Arrays.copyOf()` cho đơn giản, dùng `System.arraycopy()` khi cần tối ưu hoặc copy phức tạp.
 
-### 3. Clone mang chua Object co van de gi?
+### 3. Clone mảng chứa Object có vấn đề gì?
 
-**Tra loi:** `clone()` tren mang Object chi tao **shallow copy** - mang moi chua cac tham chieu den **cung cac doi tuong** voi mang goc. Thay doi thuoc tinh cua doi tuong trong ban sao se anh huong mang goc. De tranh van de nay, can thuc hien deep copy: tao doi tuong moi cho moi phan tu. Co the dung constructor copy, implement `Cloneable`, hoac dung serialization/deserialization.
+**Trả lời:** `clone()` trên mảng Object chỉ tạo **shallow copy** - mảng mới chứa các tham chiếu đến **cùng các đối tượng** với mảng gốc. Thay đổi thuộc tính của đối tượng trong bản sao sẽ ảnh hưởng mảng gốc. Để tránh vấn đề này, cần thực hiện deep copy: tạo đối tượng mới cho mỗi phần tử. Có thể dùng constructor copy, implement `Cloneable`, hoặc dùng serialization/deserialization.
 
-### 4. Mang 2 chieu co can xu ly dac biet khi copy khong?
+### 4. Mảng 2 chiều có cần xử lý đặc biệt khi copy không?
 
-**Tra loi:** Co. Mang 2 chieu trong Java thuc chat la "mang cua mang" (mang ngoai chua tham chieu den cac mang con). Khi dung `clone()` hoac `Arrays.copyOf()`, chi mang ngoai duoc copy, cac mang con van duoc chia se. Can lap qua tung hang va copy rieng tung mang con de co deep copy hoan chinh: `for (int i = 0; i < matrix.length; i++) { copy[i] = Arrays.copyOf(matrix[i], matrix[i].length); }`.
+**Trả lời:** Có. Mảng 2 chiều trong Java thực chất là "mảng của mảng" (mảng ngoài chứa tham chiếu đến các mảng con). Khi dùng `clone()` hoặc `Arrays.copyOf()`, chỉ mảng ngoài được copy, các mảng con vẫn được chia sẻ. Cần lặp qua từng hàng và copy riêng từng mảng con để có deep copy hoàn chỉnh: `for (int i = 0; i < matrix.length; i++) { copy[i] = Arrays.copyOf(matrix[i], matrix[i].length); }`.

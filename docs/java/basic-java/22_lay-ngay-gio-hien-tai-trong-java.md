@@ -3,17 +3,17 @@ sidebar_position: 22
 title: "Lấy ngày giờ hiện tại"
 ---
 
-# Lay ngay gio hien tai trong Java
+# Lấy ngày giờ hiện tại trong Java
 
-**Lay ngay gio hien tai** la thao tac co ban nhung rat thuong xuyen trong moi ung dung: ghi log he thong, hien thi thoi gian cho nguoi dung, tinh toan thoi han, dat lich, xu ly giao dich. Java cung cap **nhieu cach** de lay thoi gian hien tai, tu API cu den API moi.
+**Lấy ngày giờ hiện tại** là thao tác cơ bản nhưng rất thường xuyên trong mọi ứng dụng: ghi log hệ thống, hiển thị thời gian cho người dùng, tính toán thời hạn, đặt lịch, xử lý giao dịch. Java cung cấp **nhiều cách** để lấy thời gian hiện tại, từ API cũ đến API mới.
 
-Hay tuong tuong ban co **nhieu loai dong ho** trong nha: dong ho treo tuong (chi hien ngay gio dia phuong), dong ho thong minh (hien ca timezone), va dong ho so (hien timestamp so). Moi loai dong ho tuong ung voi mot cach lay thoi gian trong Java. Bai nay se giup ban biet khi nao nen dung "dong ho" nao.
+Hãy tưởng tượng bạn có **nhiều loại đồng hồ** trong nhà: đồng hồ treo tường (chỉ hiện ngày giờ địa phương), đồng hồ thông minh (hiện cả timezone), và đồng hồ số (hiện timestamp số). Mỗi loại đồng hồ tương ứng với một cách lấy thời gian trong Java. Bài này sẽ giúp bạn biết khi nào nên dùng "đồng hồ" nào.
 
 ---
 
-## 1. `LocalDate.now()` - Lay ngay hien tai
+## 1. `LocalDate.now()` - Lấy ngày hiện tại
 
-Tra ve **chi ngay** (nam-thang-ngay), khong co gio phut.
+Trả về **chỉ ngày** (năm-tháng-ngày), không có giờ phút.
 
 ```java
 import java.time.LocalDate;
@@ -45,13 +45,13 @@ public class CurrentDateDemo {
 }
 ```
 
-**Khi nao dung:** Hien thi ngay hien tai, kiem tra ngay sinh, tinh ngay het han, khong can thong tin gio.
+**Khi nào dùng:** Hiển thị ngày hiện tại, kiểm tra ngày sinh, tính ngày hết hạn, không cần thông tin giờ.
 
 ---
 
-## 2. `LocalTime.now()` - Lay gio hien tai
+## 2. `LocalTime.now()` - Lấy giờ hiện tại
 
-Tra ve **chi gio** (gio-phut-giay), khong co ngay.
+Trả về **chỉ giờ** (giờ-phút-giây), không có ngày.
 
 ```java
 import java.time.LocalTime;
@@ -90,13 +90,13 @@ public class CurrentTimeDemo {
 }
 ```
 
-**Khi nao dung:** Hien thi gio hien tai, kiem tra gio lam viec, tinh thoi gian con lai trong ngay.
+**Khi nào dùng:** Hiển thị giờ hiện tại, kiểm tra giờ làm việc, tính thời gian còn lại trong ngày.
 
 ---
 
-## 3. `LocalDateTime.now()` - Lay ngay va gio hien tai
+## 3. `LocalDateTime.now()` - Lấy ngày và giờ hiện tại
 
-Tra ve **ngay + gio** (khong co timezone).
+Trả về **ngày + giờ** (không có timezone).
 
 ```java
 import java.time.LocalDateTime;
@@ -129,13 +129,13 @@ public class CurrentDateTimeDemo {
 }
 ```
 
-**Khi nao dung:** Ghi log noi bo, luu thoi gian tao record (don timezone), hien thi thoi gian cho nguoi dung.
+**Khi nào dùng:** Ghi log nội bộ, lưu thời gian tạo record (đơn timezone), hiển thị thời gian cho người dùng.
 
 ---
 
-## 4. `ZonedDateTime.now()` - Lay ngay gio voi timezone
+## 4. `ZonedDateTime.now()` - Lấy ngày giờ với timezone
 
-Tra ve **ngay + gio + timezone**.
+Trả về **ngày + giờ + timezone**.
 
 ```java
 import java.time.ZonedDateTime;
@@ -172,13 +172,13 @@ public class CurrentZonedDemo {
 }
 ```
 
-**Khi nao dung:** Ung dung phuc vu nhieu quoc gia, chuyen doi gio giua cac vung, hien thi gio theo timezone cua nguoi dung.
+**Khi nào dùng:** Ứng dụng phục vụ nhiều quốc gia, chuyển đổi giờ giữa các vùng, hiển thị giờ theo timezone của người dùng.
 
 ---
 
-## 5. `Instant.now()` - Lay timestamp (moc thoi gian tuyet doi)
+## 5. `Instant.now()` - Lấy timestamp (mốc thời gian tuyệt đối)
 
-Tra ve **thoi diem tren truc thoi gian**, luon o **UTC**, khong co timezone hay calendar.
+Trả về **thời điểm trên trục thời gian**, luôn ở **UTC**, không có timezone hay calendar.
 
 ```java
 import java.time.Instant;
@@ -218,11 +218,11 @@ public class CurrentInstantDemo {
 }
 ```
 
-**Khi nao dung:** Luu timestamp vao database, do thoi gian thuc thi, ghi log he thong, so sanh thoi diem giua cac server khac timezone.
+**Khi nào dùng:** Lưu timestamp vào database, đo thời gian thực thi, ghi log hệ thống, so sánh thời điểm giữa các server khác timezone.
 
 ---
 
-## 6. `new Date()` - API cu (legacy)
+## 6. `new Date()` - API cũ (legacy)
 
 ```java
 import java.util.Date;
@@ -252,11 +252,11 @@ public class LegacyDateDemo {
 }
 ```
 
-**Luu y:** `SimpleDateFormat` **KHONG thread-safe**. Khong chia se giua cac thread. Dung `DateTimeFormatter` thay the.
+**Lưu ý:** `SimpleDateFormat` **KHÔNG thread-safe**. Không chia sẻ giữa các thread. Dùng `DateTimeFormatter` thay thế.
 
 ---
 
-## 7. `Calendar.getInstance()` - API cu (legacy)
+## 7. `Calendar.getInstance()` - API cũ (legacy)
 
 ```java
 import java.util.Calendar;
@@ -281,25 +281,25 @@ public class LegacyCalendarDemo {
 }
 ```
 
-**Luu y:** Code dai, de nham month 0-based. Nen dung `java.time` thay the.
+**Lưu ý:** Code dài, dễ nhầm month 0-based. Nên dùng `java.time` thay thế.
 
 ---
 
-## 8. Bang so sanh tat ca cac cach
+## 8. Bảng so sánh tất cả các cách
 
-| Cach | Class | Ket qua | Timezone | Thread-safe | Khuyen nghi |
+| Cách | Class | Kết quả | Timezone | Thread-safe | Khuyến nghị |
 |---|---|---|---|---|---|
-| `LocalDate.now()` | `java.time` | Chi ngay | Khong | Co | **Co** |
-| `LocalTime.now()` | `java.time` | Chi gio | Khong | Co | **Co** |
-| `LocalDateTime.now()` | `java.time` | Ngay + gio | Khong | Co | **Co** |
-| `ZonedDateTime.now()` | `java.time` | Ngay + gio + TZ | Co | Co | **Co** |
-| `Instant.now()` | `java.time` | Timestamp UTC | UTC | Co | **Co** |
-| `new Date()` | `java.util` | Ngay + gio | Khong ro | Khong | Khong |
-| `Calendar.getInstance()` | `java.util` | Ngay + gio | Co | Khong | Khong |
+| `LocalDate.now()` | `java.time` | Chỉ ngày | Không | Có | **Có** |
+| `LocalTime.now()` | `java.time` | Chỉ giờ | Không | Có | **Có** |
+| `LocalDateTime.now()` | `java.time` | Ngày + giờ | Không | Có | **Có** |
+| `ZonedDateTime.now()` | `java.time` | Ngày + giờ + TZ | Có | Có | **Có** |
+| `Instant.now()` | `java.time` | Timestamp UTC | UTC | Có | **Có** |
+| `new Date()` | `java.util` | Ngày + giờ | Không rõ | Không | Không |
+| `Calendar.getInstance()` | `java.util` | Ngày + giờ | Có | Không | Không |
 
 ---
 
-## 9. Format output voi `DateTimeFormatter` va `SimpleDateFormat`
+## 9. Format output với `DateTimeFormatter` và `SimpleDateFormat`
 
 ```java
 import java.time.LocalDateTime;
@@ -385,27 +385,27 @@ public class TimezoneDemo {
 
 ---
 
-## Khi nao dung?
+## Khi nào dùng?
 
-**Huong dan chon API:**
-- **Chi can ngay** (sinh nhat, deadline) -> `LocalDate.now()`
-- **Chi can gio** (gio mo cua, gio hen) -> `LocalTime.now()`
-- **Can ngay + gio** (ghi log, lich hen) -> `LocalDateTime.now()`
-- **Ung dung da quoc gia** -> `ZonedDateTime.now()`
-- **Luu vao database / so sanh giua servers** -> `Instant.now()`
-- **Bao tri code cu** -> `new Date()` hoac `Calendar.getInstance()`
+**Hướng dẫn chọn API:**
+- **Chỉ cần ngày** (sinh nhật, deadline) -> `LocalDate.now()`
+- **Chỉ cần giờ** (giờ mở cửa, giờ hẹn) -> `LocalTime.now()`
+- **Cần ngày + giờ** (ghi log, lịch hẹn) -> `LocalDateTime.now()`
+- **Ứng dụng đa quốc gia** -> `ZonedDateTime.now()`
+- **Lưu vào database / so sánh giữa servers** -> `Instant.now()`
+- **Bảo trì code cũ** -> `new Date()` hoặc `Calendar.getInstance()`
 
 **Best practices:**
-- **Luon dung `java.time`** (Java 8+) cho code moi
-- Luu timestamp vao database bang `Instant` (UTC), chuyen timezone khi hien thi
-- Dung `DateTimeFormatter` (thread-safe) thay vi `SimpleDateFormat` (khong thread-safe)
-- Khi viet unit test, dung `Clock` de inject thoi gian thay vi goi `now()` truc tiep
+- **Luôn dùng `java.time`** (Java 8+) cho code mới
+- Lưu timestamp vào database bằng `Instant` (UTC), chuyển timezone khi hiển thị
+- Dùng `DateTimeFormatter` (thread-safe) thay vì `SimpleDateFormat` (không thread-safe)
+- Khi viết unit test, dùng `Clock` để inject thời gian thay vì gọi `now()` trực tiếp
 
 ---
 
-## Loi thuong gap
+## Lỗi thường gặp
 
-### 1. Dung API cu trong code moi
+### 1. Dùng API cũ trong code mới
 
 ```java
 // Sai - dung API cu, nhieu van de
@@ -418,7 +418,7 @@ LocalDate today2 = LocalDate.now();
 String formatted = today2.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 ```
 
-### 2. Nham timezone khi chuyen doi
+### 2. Nhầm timezone khi chuyển đổi
 
 ```java
 import java.time.LocalDateTime;
@@ -434,7 +434,7 @@ ZonedDateTime vnTime = ZonedDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh"));
 ZonedDateTime usTime = vnTime.withZoneSameInstant(ZoneId.of("America/New_York"));
 ```
 
-### 3. Nham Instant va LocalDateTime
+### 3. Nhầm Instant và LocalDateTime
 
 ```java
 import java.time.Instant;
@@ -456,16 +456,16 @@ LocalDateTime fromInstant = LocalDateTime.ofInstant(instant,
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### 1. Nen dung API nao de lay thoi gian hien tai trong Java?
+### 1. Nên dùng API nào để lấy thời gian hiện tại trong Java?
 
-**Tra loi:** Nen dung goi `java.time` (tu Java 8). Cu the: `LocalDate.now()` cho chi ngay, `LocalTime.now()` cho chi gio, `LocalDateTime.now()` cho ngay + gio, `ZonedDateTime.now()` khi can timezone, `Instant.now()` khi can timestamp UTC. Tranh `java.util.Date` va `java.util.Calendar` vi chung mutable, khong thread-safe, va API kho dung (month bat dau tu 0).
+**Trả lời:** Nên dùng gói `java.time` (từ Java 8). Cụ thể: `LocalDate.now()` cho chỉ ngày, `LocalTime.now()` cho chỉ giờ, `LocalDateTime.now()` cho ngày + giờ, `ZonedDateTime.now()` khi cần timezone, `Instant.now()` khi cần timestamp UTC. Tránh `java.util.Date` và `java.util.Calendar` vì chúng mutable, không thread-safe, và API khó dùng (month bắt đầu từ 0).
 
-### 2. Su khac biet giua `Instant` va `LocalDateTime`?
+### 2. Sự khác biệt giữa `Instant` và `LocalDateTime`?
 
-**Tra loi:** `Instant` dai dien cho mot **thoi diem tuyet doi** tren truc thoi gian (luu bang epoch seconds, luon o UTC), khong gan voi bat ky timezone nao. `LocalDateTime` dai dien cho **ngay va gio tai dia phuong**, khong co thong tin timezone. Vi du: "2026-04-02T14:30" (LocalDateTime) co the la 14:30 o Viet Nam hoac 14:30 o My - hai thoi diem khac nhau. `Instant` thi chi ro chinh xac mot thoi diem duy nhat. Dung `Instant` khi luu vao database, dung `LocalDateTime` khi hien thi cho nguoi dung.
+**Trả lời:** `Instant` đại diện cho một **thời điểm tuyệt đối** trên trục thời gian (lưu bằng epoch seconds, luôn ở UTC), không gắn với bất kỳ timezone nào. `LocalDateTime` đại diện cho **ngày và giờ tại địa phương**, không có thông tin timezone. Ví dụ: "2026-04-02T14:30" (LocalDateTime) có thể là 14:30 ở Việt Nam hoặc 14:30 ở Mỹ - hai thời điểm khác nhau. `Instant` thì chỉ rõ chính xác một thời điểm duy nhất. Dùng `Instant` khi lưu vào database, dùng `LocalDateTime` khi hiển thị cho người dùng.
 
-### 3. Tai sao `SimpleDateFormat` khong an toan trong multi-thread?
+### 3. Tại sao `SimpleDateFormat` không an toàn trong multi-thread?
 
-**Tra loi:** `SimpleDateFormat` luu tru trang thai noi bo (internal `Calendar` object) khi format/parse. Khi 2 thread cung goi `format()` hoac `parse()` tren cung mot instance, chung se ghi de trang thai cua nhau, dan den ket qua sai hoac exception. Giai phap: (1) Dung `DateTimeFormatter` (java.time) - immutable va thread-safe, (2) Tao `SimpleDateFormat` moi trong moi thread, (3) Dung `ThreadLocal<SimpleDateFormat>`.
+**Trả lời:** `SimpleDateFormat` lưu trữ trạng thái nội bộ (internal `Calendar` object) khi format/parse. Khi 2 thread cùng gọi `format()` hoặc `parse()` trên cùng một instance, chúng sẽ ghi đè trạng thái của nhau, dẫn đến kết quả sai hoặc exception. Giải pháp: (1) Dùng `DateTimeFormatter` (java.time) - immutable và thread-safe, (2) Tạo `SimpleDateFormat` mới trong mỗi thread, (3) Dùng `ThreadLocal<SimpleDateFormat>`.

@@ -5,15 +5,15 @@ title: "Date & Time trong Java"
 
 # Date & Time trong Java
 
-**Xu ly ngay gio (Date & Time)** la mot trong nhung tac vu pho bien nhat trong lap trinh: luu thoi diem tao tai khoan, tinh tuoi, dat lich hen, xu ly timezone cho ung dung quoc te. Java cung cap nhieu API de lam viec voi ngay gio, nhung khong phai API nao cung tot.
+**Xử lý ngày giờ (Date & Time)** là một trong những tác vụ phổ biến nhất trong lập trình: lưu thời điểm tạo tài khoản, tính tuổi, đặt lịch hẹn, xử lý timezone cho ứng dụng quốc tế. Java cung cấp nhiều API để làm việc với ngày giờ, nhưng không phải API nào cũng tốt.
 
-Hay hinh dung viec xu ly ngay gio nhu viec **doc dong ho**: API cu (`Date`, `Calendar`) giong nhu mot chiec dong ho cu ky, kim dang bi long, kho doc va hay sai. API moi (`java.time`) giong nhu dong ho thong minh - chinh xac, de doc, va co nhieu tinh nang huu ich.
+Hãy hình dung việc xử lý ngày giờ như việc **đọc đồng hồ**: API cũ (`Date`, `Calendar`) giống như một chiếc đồng hồ cũ kỹ, kim đang bị lỏng, khó đọc và hay sai. API mới (`java.time`) giống như đồng hồ thông minh - chính xác, dễ đọc, và có nhiều tính năng hữu ích.
 
-Bai nay se giup ban hieu ca API cu (de bao tri code legacy) va API moi (de viet code moi chat luong).
+Bài này sẽ giúp bạn hiểu cả API cũ (để bảo trì code legacy) và API mới (để viết code mới chất lượng).
 
 ---
 
-## 1. API cu: `Date` va `Calendar` (truoc Java 8)
+## 1. API cũ: `Date` và `Calendar` (trước Java 8)
 
 ### 1.1 `java.util.Date`
 
@@ -38,11 +38,11 @@ public class OldDateDemo {
 }
 ```
 
-**Van de cua `Date`:**
-- **Mutable** (thay doi duoc): goi `setTime()` se thay doi doi tuong goc, gay ra loi kho debug
-- Nhieu method da bi **deprecated** (`getYear()`, `getMonth()`, `getDay()`)
-- **Khong thread-safe**: 2 thread cung dung 1 doi tuong `Date` co the gay loi
-- Khong phan biet ro "ngay" va "ngay gio"
+**Vấn đề của `Date`:**
+- **Mutable** (thay đổi được): gọi `setTime()` sẽ thay đổi đối tượng gốc, gây ra lỗi khó debug
+- Nhiều method đã bị **deprecated** (`getYear()`, `getMonth()`, `getDay()`)
+- **Không thread-safe**: 2 thread cùng dùng 1 đối tượng `Date` có thể gây lỗi
+- Không phân biệt rõ "ngày" và "ngày giờ"
 
 ### 1.2 `java.util.Calendar`
 
@@ -69,19 +69,19 @@ public class CalendarDemo {
 }
 ```
 
-**Van de cua `Calendar`:**
-- **Month bat dau tu 0**: Thang 1 = 0, Thang 12 = 11 (rat de nham)
-- **Mutable**: `cal.add()` thay doi doi tuong goc
-- Code dai dong, kho doc
-- Khong thread-safe
+**Vấn đề của `Calendar`:**
+- **Month bắt đầu từ 0**: Tháng 1 = 0, Tháng 12 = 11 (rất dễ nhầm)
+- **Mutable**: `cal.add()` thay đổi đối tượng gốc
+- Code dài dòng, khó đọc
+- Không thread-safe
 
 ---
 
-## 2. API moi: `java.time` (Java 8+)
+## 2. API mới: `java.time` (Java 8+)
 
-Tu Java 8, goi `java.time` ra doi de khac phuc toan bo van de cua API cu. Tat ca cac lop trong `java.time` deu la **immutable** (bat bien) va **thread-safe**.
+Từ Java 8, gói `java.time` ra đời để khắc phục toàn bộ vấn đề của API cũ. Tất cả các lớp trong `java.time` đều là **immutable** (bất biến) và **thread-safe**.
 
-### 2.1 `LocalDate` - Chi ngay (khong co gio)
+### 2.1 `LocalDate` - Chỉ ngày (không có giờ)
 
 ```java
 import java.time.LocalDate;
@@ -114,7 +114,7 @@ public class LocalDateDemo {
 }
 ```
 
-### 2.2 `LocalTime` - Chi gio (khong co ngay)
+### 2.2 `LocalTime` - Chỉ giờ (không có ngày)
 
 ```java
 import java.time.LocalTime;
@@ -140,7 +140,7 @@ public class LocalTimeDemo {
 }
 ```
 
-### 2.3 `LocalDateTime` - Ngay + Gio (khong co timezone)
+### 2.3 `LocalDateTime` - Ngày + Giờ (không có timezone)
 
 ```java
 import java.time.LocalDateTime;
@@ -167,7 +167,7 @@ public class LocalDateTimeDemo {
 }
 ```
 
-### 2.4 `ZonedDateTime` - Ngay gio voi timezone
+### 2.4 `ZonedDateTime` - Ngày giờ với timezone
 
 ```java
 import java.time.ZonedDateTime;
@@ -203,7 +203,7 @@ public class ZonedDateTimeDemo {
 }
 ```
 
-### 2.5 `Instant` - Moc thoi gian tuyet doi (timestamp)
+### 2.5 `Instant` - Mốc thời gian tuyệt đối (timestamp)
 
 ```java
 import java.time.Instant;
@@ -239,7 +239,7 @@ public class InstantDemo {
 
 ---
 
-## 3. DateTimeFormatter - Dinh dang va parse ngay gio
+## 3. DateTimeFormatter - Định dạng và parse ngày giờ
 
 ```java
 import java.time.LocalDateTime;
@@ -281,26 +281,26 @@ public class FormatterDemo {
 }
 ```
 
-**Cac ky hieu pattern thuong dung:**
+**Các ký hiệu pattern thường dùng:**
 
-| Ky hieu | Y nghia | Vi du |
+| Ký hiệu | Ý nghĩa | Ví dụ |
 |---|---|---|
-| `yyyy` | Nam 4 chu so | 2026 |
-| `MM` | Thang (01-12) | 04 |
-| `dd` | Ngay (01-31) | 02 |
-| `HH` | Gio 24h (00-23) | 14 |
-| `hh` | Gio 12h (01-12) | 02 |
-| `mm` | Phut (00-59) | 30 |
-| `ss` | Giay (00-59) | 45 |
+| `yyyy` | Năm 4 chữ số | 2026 |
+| `MM` | Tháng (01-12) | 04 |
+| `dd` | Ngày (01-31) | 02 |
+| `HH` | Giờ 24h (00-23) | 14 |
+| `hh` | Giờ 12h (01-12) | 02 |
+| `mm` | Phút (00-59) | 30 |
+| `ss` | Giây (00-59) | 45 |
 | `a` | AM/PM | PM |
-| `EEEE` | Thu (day ten) | Thursday |
-| `MMMM` | Thang (day ten) | April |
+| `EEEE` | Thứ (đầy tên) | Thursday |
+| `MMMM` | Tháng (đầy tên) | April |
 
 ---
 
-## 4. Period va Duration - Khoang cach thoi gian
+## 4. Period và Duration - Khoảng cách thời gian
 
-### 4.1 `Period` - Khoang cach theo ngay/thang/nam
+### 4.1 `Period` - Khoảng cách theo ngày/tháng/năm
 
 ```java
 import java.time.LocalDate;
@@ -329,7 +329,7 @@ public class PeriodDemo {
 }
 ```
 
-### 4.2 `Duration` - Khoang cach theo gio/phut/giay
+### 4.2 `Duration` - Khoảng cách theo giờ/phút/giây
 
 ```java
 import java.time.LocalTime;
@@ -368,15 +368,15 @@ public class DurationDemo {
 
 **Period vs Duration:**
 
-| Tieu chi | Period | Duration |
+| Tiêu chí | Period | Duration |
 |---|---|---|
-| Don vi | Nam, Thang, Ngay | Gio, Phut, Giay, Nano |
-| Dung cho | `LocalDate` | `LocalTime`, `LocalDateTime`, `Instant` |
-| Vi du | "2 nam 3 thang" | "5 gio 30 phut" |
+| Đơn vị | Năm, Tháng, Ngày | Giờ, Phút, Giây, Nano |
+| Dùng cho | `LocalDate` | `LocalTime`, `LocalDateTime`, `Instant` |
+| Ví dụ | "2 năm 3 tháng" | "5 giờ 30 phút" |
 
 ---
 
-## 5. So sanh va cong tru ngay gio
+## 5. So sánh và cộng trừ ngày giờ
 
 ```java
 import java.time.LocalDate;
@@ -422,43 +422,43 @@ public class DateOperations {
 
 ---
 
-## 6. So sanh API cu va API moi
+## 6. So sánh API cũ và API mới
 
-| Tieu chi | `Date` / `Calendar` | `java.time` (Java 8+) |
+| Tiêu chí | `Date` / `Calendar` | `java.time` (Java 8+) |
 |---|---|---|
-| Immutable | Khong (mutable) | Co (immutable) |
-| Thread-safe | Khong | Co |
+| Immutable | Không (mutable) | Có (immutable) |
+| Thread-safe | Không | Có |
 | Month | 0-based (0 = Jan) | 1-based (1 = Jan) |
-| API design | Kho hieu, dai dong | Truc quan, gon gang |
-| Timezone | Phuc tap | Ro rang voi `ZonedDateTime` |
-| Null-safe | Khong | Co |
-| Khuyen nghi | Chi dung khi bao tri code cu | **Luon dung cho code moi** |
+| API design | Khó hiểu, dài dòng | Trực quan, gọn gàng |
+| Timezone | Phức tạp | Rõ ràng với `ZonedDateTime` |
+| Null-safe | Không | Có |
+| Khuyến nghị | Chỉ dùng khi bảo trì code cũ | **Luôn dùng cho code mới** |
 
 ---
 
-## Khi nao dung?
+## Khi nào dùng?
 
-**Chon lop nao cho phu hop:**
-- **`LocalDate`**: Chi can ngay (sinh nhat, ngay het han, ngay le)
-- **`LocalTime`**: Chi can gio (gio mo cua, gio hen)
-- **`LocalDateTime`**: Can ngay + gio nhung khong quan tam timezone (lich hop noi bo)
-- **`ZonedDateTime`**: Ung dung da quoc gia, can chuyen doi timezone
-- **`Instant`**: Luu timestamp vao database, do thoi gian thuc thi, log he thong
-- **`Period`**: Tinh khoang cach theo ngay/thang/nam (tinh tuoi)
-- **`Duration`**: Tinh khoang cach theo gio/phut/giay (do performance)
+**Chọn lớp nào cho phù hợp:**
+- **`LocalDate`**: Chỉ cần ngày (sinh nhật, ngày hết hạn, ngày lễ)
+- **`LocalTime`**: Chỉ cần giờ (giờ mở cửa, giờ hẹn)
+- **`LocalDateTime`**: Cần ngày + giờ nhưng không quan tâm timezone (lịch họp nội bộ)
+- **`ZonedDateTime`**: Ứng dụng đa quốc gia, cần chuyển đổi timezone
+- **`Instant`**: Lưu timestamp vào database, đo thời gian thực thi, log hệ thống
+- **`Period`**: Tính khoảng cách theo ngày/tháng/năm (tính tuổi)
+- **`Duration`**: Tính khoảng cách theo giờ/phút/giây (đo performance)
 
 **Best practices:**
-- **Luon dung `java.time`** cho code moi, tranh `Date` va `Calendar`
-- Luon **ro rang ve timezone** khi ung dung phuc vu nhieu vung
-- Dung `DateTimeFormatter` de format/parse, khong tu xu ly chuoi
-- Luu thoi gian vao database bang **`Instant`** (UTC), chuyen doi timezone khi hien thi
-- Dung `Period.between()` va `Duration.between()` thay vi tu tinh toan
+- **Luôn dùng `java.time`** cho code mới, tránh `Date` và `Calendar`
+- Luôn **rõ ràng về timezone** khi ứng dụng phục vụ nhiều vùng
+- Dùng `DateTimeFormatter` để format/parse, không tự xử lý chuỗi
+- Lưu thời gian vào database bằng **`Instant`** (UTC), chuyển đổi timezone khi hiển thị
+- Dùng `Period.between()` và `Duration.between()` thay vì tự tính toán
 
 ---
 
-## Loi thuong gap
+## Lỗi thường gặp
 
-### 1. Nham month 0-based cua Calendar
+### 1. Nhầm month 0-based của Calendar
 
 ```java
 import java.util.Calendar;
@@ -473,7 +473,7 @@ cal.set(2026, Calendar.MARCH, 15);
 // LocalDate.of(2026, 3, 15) -- thang 3 la thang 3!
 ```
 
-### 2. Quen rang java.time la immutable
+### 2. Quên rằng java.time là immutable
 
 ```java
 import java.time.LocalDate;
@@ -511,7 +511,7 @@ LocalDate date = LocalDate.parse("02/04/2026", formatter);
 System.out.println(date); // 2026-04-02
 ```
 
-### 4. Dung Date thay vi java.time trong code moi
+### 4. Dùng Date thay vì java.time trong code mới
 
 ```java
 // Sai - su dung API cu
@@ -534,23 +534,23 @@ String formatted2 = today.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### 1. Tai sao `java.time` tot hon `Date` va `Calendar`?
+### 1. Tại sao `java.time` tốt hơn `Date` và `Calendar`?
 
-**Tra loi:** `java.time` tot hon vi: (1) **Immutable va thread-safe** - khong the thay doi doi tuong da tao, an toan khi dung da luong. (2) **API truc quan** - `LocalDate.of(2026, 3, 15)` de hieu hon Calendar voi month 0-based. (3) **Tach biet ro rang** - `LocalDate` (chi ngay), `LocalTime` (chi gio), `ZonedDateTime` (co timezone). (4) **DateTimeFormatter thread-safe** - khac voi `SimpleDateFormat` cua API cu.
+**Trả lời:** `java.time` tốt hơn vì: (1) **Immutable và thread-safe** - không thể thay đổi đối tượng đã tạo, an toàn khi dùng đa luồng. (2) **API trực quan** - `LocalDate.of(2026, 3, 15)` dễ hiểu hơn Calendar với month 0-based. (3) **Tách biệt rõ ràng** - `LocalDate` (chỉ ngày), `LocalTime` (chỉ giờ), `ZonedDateTime` (có timezone). (4) **DateTimeFormatter thread-safe** - khác với `SimpleDateFormat` của API cũ.
 
-### 2. `LocalDateTime` va `ZonedDateTime` khac nhau nhu the nao?
+### 2. `LocalDateTime` và `ZonedDateTime` khác nhau như thế nào?
 
-**Tra loi:** `LocalDateTime` luu ngay va gio **khong co thong tin timezone** - giong nhu doc gio tren dong ho treo tuong (chi biet "14:30" nhung khong biet la 14:30 o dau). `ZonedDateTime` luu ngay gio **kem theo timezone cu the** (vi du "14:30 Asia/Ho_Chi_Minh"). Dung `LocalDateTime` cho ung dung don timezone, dung `ZonedDateTime` khi can chuyen doi gio giua cac vung.
+**Trả lời:** `LocalDateTime` lưu ngày và giờ **không có thông tin timezone** - giống như đọc giờ trên đồng hồ treo tường (chỉ biết "14:30" nhưng không biết là 14:30 ở đâu). `ZonedDateTime` lưu ngày giờ **kèm theo timezone cụ thể** (ví dụ "14:30 Asia/Ho_Chi_Minh"). Dùng `LocalDateTime` cho ứng dụng đơn timezone, dùng `ZonedDateTime` khi cần chuyển đổi giờ giữa các vùng.
 
-### 3. `Instant` la gi va khi nao dung?
+### 3. `Instant` là gì và khi nào dùng?
 
-**Tra loi:** `Instant` dai dien cho mot **thoi diem tuyet doi tren truc thoi gian**, duoc luu duoi dang so giay va nano-giay tinh tu epoch (01/01/1970 00:00:00 UTC). No khong co thong tin timezone hay calendar. Dung `Instant` khi can: luu timestamp vao database, do thoi gian thuc thi code, ghi log he thong, so sanh 2 thoi diem bat ke timezone.
+**Trả lời:** `Instant` đại diện cho một **thời điểm tuyệt đối trên trục thời gian**, được lưu dưới dạng số giây và nano-giây tính từ epoch (01/01/1970 00:00:00 UTC). Nó không có thông tin timezone hay calendar. Dùng `Instant` khi cần: lưu timestamp vào database, đo thời gian thực thi code, ghi log hệ thống, so sánh 2 thời điểm bất kể timezone.
 
-### 4. Lam sao format ngay gio voi custom pattern?
+### 4. Làm sao format ngày giờ với custom pattern?
 
-**Tra loi:** Dung `DateTimeFormatter.ofPattern()`:
+**Trả lời:** Dùng `DateTimeFormatter.ofPattern()`:
 
 ```java
 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -558,4 +558,4 @@ String result = LocalDateTime.now().format(formatter); // "02/04/2026 14:30:45"
 LocalDateTime parsed = LocalDateTime.parse("02/04/2026 14:30:45", formatter);
 ```
 
-Cac ky hieu: `yyyy` (nam), `MM` (thang), `dd` (ngay), `HH` (gio 24h), `mm` (phut), `ss` (giay), `EEEE` (thu), `a` (AM/PM). `DateTimeFormatter` la immutable va thread-safe, co the tai su dung an toan.
+Các ký hiệu: `yyyy` (năm), `MM` (tháng), `dd` (ngày), `HH` (giờ 24h), `mm` (phút), `ss` (giây), `EEEE` (thứ), `a` (AM/PM). `DateTimeFormatter` là immutable và thread-safe, có thể tái sử dụng an toàn.

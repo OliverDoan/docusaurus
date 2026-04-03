@@ -1,34 +1,34 @@
 ---
 sidebar_position: 5
-title: "Cac kieu du lieu trong Java"
+title: "Các kiểu dữ liệu trong Java"
 ---
 
-# Cac kieu du lieu trong Java
+# Các kiểu dữ liệu trong Java
 
-Kieu du lieu (data type) quyet dinh **loai gia tri** ma mot bien co the luu tru va **bao nhieu bo nho** duoc cap phat. Trong Java, kieu du lieu duoc chia thanh hai nhom lon: **kieu nguyen thuy (primitive)** va **kieu tham chieu (reference)**.
+Kiểu dữ liệu (data type) quyết định **loại giá trị** mà một biến có thể lưu trữ và **bao nhiêu bộ nhớ** được cấp phát. Trong Java, kiểu dữ liệu được chia thành hai nhóm lớn: **kiểu nguyên thủy (primitive)** và **kiểu tham chiếu (reference)**.
 
-**Vi du don gian:** Hay tuong tuong kieu du lieu giong nhu **loai hop chua do**:
-- Hop nho (byte) -- chua so nho
-- Hop vua (int) -- chua so thuong dung
-- Hop lon (long) -- chua so cuc lon
-- Hop chu (char) -- chua mot ky tu
-- Hop dung/sai (boolean) -- chi co 2 trang thai
+**Ví dụ đơn giản:** Hãy tưởng tượng kiểu dữ liệu giống như **loại hộp chứa đồ**:
+- Hộp nhỏ (byte) -- chứa số nhỏ
+- Hộp vừa (int) -- chứa số thường dùng
+- Hộp lớn (long) -- chứa số cực lớn
+- Hộp chữ (char) -- chứa một ký tự
+- Hộp đúng/sai (boolean) -- chỉ có 2 trạng thái
 
-Chon dung loai hop giup **tiet kiem bo nho** va **tranh loi du lieu**.
+Chọn đúng loại hộp giúp **tiết kiệm bộ nhớ** và **tránh lỗi dữ liệu**.
 
 ---
 
-## 1. Hai nhom kieu du lieu
+## 1. Hai nhóm kiểu dữ liệu
 
 ```
-Kieu du lieu Java
-├── Primitive (Nguyen thuy) -- 8 kieu, luu gia tri truc tiep
-│   ├── So nguyen: byte, short, int, long
-│   ├── So thuc: float, double
-│   ├── Ky tu: char
+Kiểu dữ liệu Java
+├── Primitive (Nguyên thủy) -- 8 kiểu, lưu giá trị trực tiếp
+│   ├── Số nguyên: byte, short, int, long
+│   ├── Số thực: float, double
+│   ├── Ký tự: char
 │   └── Logic: boolean
 │
-└── Reference (Tham chieu) -- luu dia chi vung nho
+└── Reference (Tham chiếu) -- lưu địa chỉ vùng nhớ
     ├── String
     ├── Array
     ├── Class
@@ -37,11 +37,11 @@ Kieu du lieu Java
 
 ---
 
-## 2. Tam kieu nguyen thuy (Primitive Types)
+## 2. Tám kiểu nguyên thủy (Primitive Types)
 
-### Bang tong hop
+### Bảng tổng hợp
 
-| Kieu | Kich thuoc | Gia tri nho nhat | Gia tri lon nhat | Gia tri mac dinh | Vi du |
+| Kiểu | Kích thước | Giá trị nhỏ nhất | Giá trị lớn nhất | Giá trị mặc định | Ví dụ |
 |------|-----------|------------------|------------------|------------------|-------|
 | **byte** | 8 bit (1 byte) | -128 | 127 | 0 | `byte b = 100;` |
 | **short** | 16 bit (2 byte) | -32,768 | 32,767 | 0 | `short s = 30000;` |
@@ -52,7 +52,7 @@ Kieu du lieu Java
 | **boolean** | 1 bit (logic) | false | true | false | `boolean b = true;` |
 | **char** | 16 bit (2 byte) | '\u0000' (0) | '\uffff' (65,535) | '\u0000' | `char c = 'A';` |
 
-### Vi du chi tiet
+### Ví dụ chi tiết
 
 ```java
 public class PrimitiveTypesDemo {
@@ -108,7 +108,7 @@ public class PrimitiveTypesDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 
 ```
 byte: 5, -10
@@ -123,9 +123,9 @@ boolean: true, false
 
 ---
 
-## 3. Cac luu y quan trong
+## 3. Các lưu ý quan trọng
 
-### 3.1. Hau to bat buoc
+### 3.1. Hậu tố bắt buộc
 
 ```java
 public class HauToDemo {
@@ -146,7 +146,7 @@ public class HauToDemo {
 }
 ```
 
-### 3.2. Cac he so trong Java
+### 3.2. Các hệ cơ số trong Java
 
 ```java
 public class HeCoSoDemo {
@@ -165,7 +165,7 @@ public class HeCoSoDemo {
 }
 ```
 
-### 3.3. Dau gach duoi cho de doc (Java 7+)
+### 3.3. Dấu gạch dưới cho dễ đọc (Java 7+)
 
 ```java
 public class UnderscoreDemo {
@@ -188,9 +188,9 @@ public class UnderscoreDemo {
 }
 ```
 
-### 3.4. Overflow va Underflow
+### 3.4. Overflow và Underflow
 
-Khi gia tri vuot qua pham vi cua kieu du lieu, Java **khong bao loi** ma "quay vong":
+Khi giá trị vượt quá phạm vi của kiểu dữ liệu, Java **không báo lỗi** mà "quay vòng":
 
 ```java
 public class OverflowDemo {
@@ -215,9 +215,9 @@ public class OverflowDemo {
 
 ---
 
-## 4. Kieu tham chieu (Reference Types)
+## 4. Kiểu tham chiếu (Reference Types)
 
-Kieu tham chieu luu **dia chi vung nho** (reference) cua doi tuong, khong luu truc tiep gia tri.
+Kiểu tham chiếu lưu **địa chỉ vùng nhớ** (reference) của đối tượng, không lưu trực tiếp giá trị.
 
 ```java
 public class ReferenceTypeDemo {
@@ -242,15 +242,15 @@ public class ReferenceTypeDemo {
 }
 ```
 
-### So sanh Primitive vs Reference
+### So sánh Primitive vs Reference
 
-| Tieu chi | Primitive | Reference |
+| Tiêu chí | Primitive | Reference |
 |----------|-----------|-----------|
-| **Luu tru** | Gia tri truc tiep | Dia chi (reference) |
-| **Vung nho** | Stack | Heap (doi tuong), Stack (reference) |
-| **Gia tri null** | Khong the null | Co the null |
-| **So sanh** | `==` so sanh gia tri | `==` so sanh dia chi, `.equals()` so sanh noi dung |
-| **Hieu nang** | Nhanh hon | Cham hon (tao object tren Heap) |
+| **Lưu trữ** | Giá trị trực tiếp | Địa chỉ (reference) |
+| **Vùng nhớ** | Stack | Heap (đối tượng), Stack (reference) |
+| **Giá trị null** | Không thể null | Có thể null |
+| **So sánh** | `==` so sánh giá trị | `==` so sánh địa chỉ, `.equals()` so sánh nội dung |
+| **Hiệu năng** | Nhanh hơn | Chậm hơn (tạo object trên Heap) |
 
 ```java
 public class SoSanhDemo {
@@ -273,9 +273,9 @@ public class SoSanhDemo {
 
 ## 5. Wrapper Classes
 
-Moi kieu primitive co mot **lop boc (wrapper class)** tuong ung, cho phep su dung primitive nhu doi tuong.
+Mỗi kiểu primitive có một **lớp bọc (wrapper class)** tương ứng, cho phép sử dụng primitive như đối tượng.
 
-| Primitive | Wrapper | Vi du |
+| Primitive | Wrapper | Ví dụ |
 |-----------|---------|-------|
 | byte | Byte | `Byte b = 5;` |
 | short | Short | `Short s = 100;` |
@@ -286,7 +286,7 @@ Moi kieu primitive co mot **lop boc (wrapper class)** tuong ung, cho phep su dun
 | boolean | Boolean | `Boolean b = true;` |
 | char | **Character** | `Character c = 'A';` |
 
-### Autoboxing va Unboxing
+### Autoboxing và Unboxing
 
 ```java
 import java.util.ArrayList;
@@ -327,7 +327,7 @@ public class WrapperDemo {
 }
 ```
 
-### So sanh int vs Integer
+### So sánh int vs Integer
 
 ```java
 public class IntVsInteger {
@@ -359,118 +359,118 @@ public class IntVsInteger {
 
 ---
 
-## Khi nao dung?
+## Khi nào dùng?
 
-| Tinh huong | Kieu nen dung | Ly do |
+| Tình huống | Kiểu nên dùng | Lý do |
 |------------|--------------|-------|
-| Tinh toan thuong ngay, vong lap | `int`, `double` (primitive) | Nhanh, tiet kiem bo nho |
-| Luu trong Collection (List, Map, Set) | Wrapper (Integer, Double...) | Collection khong nhan primitive |
-| Can gia tri null (vi du: chua nhap du lieu) | Wrapper | Primitive khong the null |
-| Du lieu tai chinh, can chinh xac cao | `BigDecimal` | float/double co sai so lam tron |
-| So nguyen nho (-128 den 127) | `byte` | Tiet kiem bo nho khi luu nhieu |
-| Ky tu don le | `char` | Chuoi dung String |
+| Tính toán thường ngày, vòng lặp | `int`, `double` (primitive) | Nhanh, tiết kiệm bộ nhớ |
+| Lưu trong Collection (List, Map, Set) | Wrapper (Integer, Double...) | Collection không nhận primitive |
+| Cần giá trị null (ví dụ: chưa nhập dữ liệu) | Wrapper | Primitive không thể null |
+| Dữ liệu tài chính, cần chính xác cao | `BigDecimal` | float/double có sai số làm tròn |
+| Số nguyên nhỏ (-128 đến 127) | `byte` | Tiết kiệm bộ nhớ khi lưu nhiều |
+| Ký tự đơn lẻ | `char` | Chuỗi dùng String |
 
 ---
 
-## Loi thuong gap
+## Lỗi thường gặp
 
-### Loi 1: Quen hau to L/F
+### Lỗi 1: Quên hậu tố L/F
 
 ```java
 ❌ Sai:
-long soLon = 9999999999;   // LOI: integer number too large
-float pi = 3.14;            // LOI: possible lossy conversion from double to float
+long soLon = 9999999999;   // LỖI: integer number too large
+float pi = 3.14;            // LỖI: possible lossy conversion from double to float
 
-✅ Dung:
-long soLon = 9999999999L;   // Them L cho long
-float pi = 3.14f;           // Them f cho float
+✅ Đúng:
+long soLon = 9999999999L;   // Thêm L cho long
+float pi = 3.14f;           // Thêm f cho float
 ```
 
-### Loi 2: Dung == so sanh Wrapper
+### Lỗi 2: Dùng == so sánh Wrapper
 
 ```java
 ❌ Sai:
 Integer a = 200;
 Integer b = 200;
-if (a == b) {  // false! So sanh dia chi, khong phai gia tri
+if (a == b) {  // false! So sánh địa chỉ, không phải giá trị
     System.out.println("Bang nhau");
 }
 
-✅ Dung:
+✅ Đúng:
 Integer a = 200;
 Integer b = 200;
-if (a.equals(b)) {  // true! So sanh gia tri
+if (a.equals(b)) {  // true! So sánh giá trị
     System.out.println("Bang nhau");
 }
 ```
 
-### Loi 3: Khong xu ly NullPointerException khi unboxing
+### Lỗi 3: Không xử lý NullPointerException khi unboxing
 
 ```java
 ❌ Sai:
 Integer wrapper = null;
 int primitive = wrapper; // RUNTIME ERROR: NullPointerException
 
-✅ Dung:
+✅ Đúng:
 Integer wrapper = null;
-int primitive = (wrapper != null) ? wrapper : 0; // Kiem tra null truoc
+int primitive = (wrapper != null) ? wrapper : 0; // Kiểm tra null trước
 ```
 
-### Loi 4: Dung float cho tien te
+### Lỗi 4: Dùng float cho tiền tệ
 
 ```java
 ❌ Sai:
 float giaTien = 19.99f;
 float tongTien = giaTien * 3;
-System.out.println(tongTien); // 59.970001 (sai so!)
+System.out.println(tongTien); // 59.970001 (sai số!)
 
-✅ Dung:
+✅ Đúng:
 import java.math.BigDecimal;
 BigDecimal giaTien = new BigDecimal("19.99");
 BigDecimal tongTien = giaTien.multiply(new BigDecimal("3"));
-System.out.println(tongTien); // 59.97 (chinh xac)
+System.out.println(tongTien); // 59.97 (chính xác)
 ```
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### Cau 1: Kich thuoc cua tung kieu primitive la bao nhieu? Gia tri mac dinh la gi?
+### Câu 1: Kích thước của từng kiểu primitive là bao nhiêu? Giá trị mặc định là gì?
 
-**Tra loi:**
-- `byte`: 1 byte, mac dinh 0
-- `short`: 2 byte, mac dinh 0
-- `int`: 4 byte, mac dinh 0
-- `long`: 8 byte, mac dinh 0L
-- `float`: 4 byte, mac dinh 0.0f
-- `double`: 8 byte, mac dinh 0.0d
-- `boolean`: khong xac dinh chinh xac (JVM dependent), mac dinh false
-- `char`: 2 byte, mac dinh '\u0000'
+**Trả lời:**
+- `byte`: 1 byte, mặc định 0
+- `short`: 2 byte, mặc định 0
+- `int`: 4 byte, mặc định 0
+- `long`: 8 byte, mặc định 0L
+- `float`: 4 byte, mặc định 0.0f
+- `double`: 8 byte, mặc định 0.0d
+- `boolean`: không xác định chính xác (JVM dependent), mặc định false
+- `char`: 2 byte, mặc định '\u0000'
 
-Luu y: Gia tri mac dinh chi ap dung cho **bien instance va static**. Bien local khong co gia tri mac dinh.
+Lưu ý: Giá trị mặc định chỉ áp dụng cho **biến instance và static**. Biến local không có giá trị mặc định.
 
-### Cau 2: Tai sao String khong phai kieu primitive?
+### Câu 2: Tại sao String không phải kiểu primitive?
 
-**Tra loi:** String la mot **class** (kieu reference) vi:
-- String co the chua nhieu ky tu (kich thuoc khong co dinh)
-- String co cac phuong thuc nhu `length()`, `substring()`, `equals()`...
-- String la doi tuong bất bien (immutable) duoc luu tren Heap
-- String co the la `null`, trong khi primitive khong the
-- Java chi co 8 kieu primitive duoc dinh nghia san trong ngon ngu. Moi thu khac la object.
+**Trả lời:** String là một **class** (kiểu reference) vì:
+- String có thể chứa nhiều ký tự (kích thước không cố định)
+- String có các phương thức như `length()`, `substring()`, `equals()`...
+- String là đối tượng bất biến (immutable) được lưu trên Heap
+- String có thể là `null`, trong khi primitive không thể
+- Java chỉ có 8 kiểu primitive được định nghĩa sẵn trong ngôn ngữ. Mọi thứ khác là object.
 
-### Cau 3: Su khac biet giua float va double?
+### Câu 3: Sự khác biệt giữa float và double?
 
-**Tra loi:**
-- `float`: 32 bit, do chinh xac khoang **6-7 chu so thap phan**, can hau to `f`/`F`
-- `double`: 64 bit, do chinh xac khoang **15-16 chu so thap phan**, la kieu mac dinh cho so thuc
-- Dung `double` khi can do chinh xac cao hon. Dung `float` khi tiet kiem bo nho (vi du: do hoa, game)
-- Ca hai deu **khong chinh xac tuyet doi** do bieu dien IEEE 754 -- khong nen dung cho tinh toan tai chinh (dung `BigDecimal` thay the).
+**Trả lời:**
+- `float`: 32 bit, độ chính xác khoảng **6-7 chữ số thập phân**, cần hậu tố `f`/`F`
+- `double`: 64 bit, độ chính xác khoảng **15-16 chữ số thập phân**, là kiểu mặc định cho số thực
+- Dùng `double` khi cần độ chính xác cao hơn. Dùng `float` khi tiết kiệm bộ nhớ (ví dụ: đồ họa, game)
+- Cả hai đều **không chính xác tuyệt đối** do biểu diễn IEEE 754 -- không nên dùng cho tính toán tài chính (dùng `BigDecimal` thay thế).
 
-### Cau 4: Overflow trong Java xu ly nhu the nao?
+### Câu 4: Overflow trong Java xử lý như thế nào?
 
-**Tra loi:** Java **khong nem exception** khi overflow so nguyen. Gia tri se **quay vong (wrap around)**. Vi du: `Integer.MAX_VALUE + 1` cho ra `Integer.MIN_VALUE`. De phat hien overflow, co the dung:
-- `Math.addExact()`, `Math.multiplyExact()` (tu Java 8) -- nem `ArithmeticException` khi overflow
-- Kieu `long` hoac `BigInteger` cho so lon
+**Trả lời:** Java **không ném exception** khi overflow số nguyên. Giá trị sẽ **quay vòng (wrap around)**. Ví dụ: `Integer.MAX_VALUE + 1` cho ra `Integer.MIN_VALUE`. Để phát hiện overflow, có thể dùng:
+- `Math.addExact()`, `Math.multiplyExact()` (từ Java 8) -- ném `ArithmeticException` khi overflow
+- Kiểu `long` hoặc `BigInteger` cho số lớn
 
 ```java
 try {
@@ -480,6 +480,6 @@ try {
 }
 ```
 
-### Cau 5: Integer cache la gi? Tai sao `Integer.valueOf(127) == Integer.valueOf(127)` la true?
+### Câu 5: Integer cache là gì? Tại sao `Integer.valueOf(127) == Integer.valueOf(127)` là true?
 
-**Tra loi:** Java cache (luu tam) cac doi tuong `Integer` co gia tri tu **-128 den 127**. Khi dung autoboxing hoac `Integer.valueOf()`, neu gia tri nam trong khoang nay, Java tra ve doi tuong da cache san thay vi tao moi. Vi vay `==` tra ve `true` vi cung tham chieu den mot doi tuong. Voi gia tri ngoai khoang nay (nhu 128), Java tao doi tuong moi moi lan, nen `==` tra ve `false`.
+**Trả lời:** Java cache (lưu tạm) các đối tượng `Integer` có giá trị từ **-128 đến 127**. Khi dùng autoboxing hoặc `Integer.valueOf()`, nếu giá trị nằm trong khoảng này, Java trả về đối tượng đã cache sẵn thay vì tạo mới. Vì vậy `==` trả về `true` vì cùng tham chiếu đến một đối tượng. Với giá trị ngoài khoảng này (như 128), Java tạo đối tượng mới mỗi lần, nên `==` trả về `false`.

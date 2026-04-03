@@ -1,29 +1,29 @@
 ---
 sidebar_position: 2
-title: "Phan biet JVM, JRE, JDK"
+title: "Phân biệt JVM, JRE, JDK"
 ---
 
-# Phan biet JVM, JRE, JDK
+# Phân biệt JVM, JRE, JDK
 
-Khi bat dau hoc Java, ban se thuong gap ba thuat ngu: **JVM**, **JRE** va **JDK**. Day la ba thanh phan cot loi cua nen tang Java, va hieu ro chung se giup ban nam duoc cach Java hoat dong tu khi viet code den khi chay chuong trinh.
+Khi bắt đầu học Java, bạn sẽ thường gặp ba thuật ngữ: **JVM**, **JRE** và **JDK**. Đây là ba thành phần cốt lõi của nền tảng Java, và hiểu rõ chúng sẽ giúp bạn nắm được cách Java hoạt động từ khi viết code đến khi chạy chương trình.
 
-**Tuong tu don gian:** Hay tuong tuong ban muon nghe nhac:
-- **JVM** giong nhu **may phat nhac** -- no doc va phat cac ban nhac (bytecode)
-- **JRE** giong nhu **may phat nhac + bo suu tap dia nhac** -- co du de ban thuong thuc nhac
-- **JDK** giong nhu **studio thu am** -- co may phat, dia nhac, va ca cong cu de ban **thu am, mix, san xuat nhac** (phat trien phan mem)
+**Tương tự đơn giản:** Hãy tưởng tượng bạn muốn nghe nhạc:
+- **JVM** giống như **máy phát nhạc** -- nó đọc và phát các bản nhạc (bytecode)
+- **JRE** giống như **máy phát nhạc + bộ sưu tập đĩa nhạc** -- có đủ để bạn thưởng thức nhạc
+- **JDK** giống như **studio thu âm** -- có máy phát, đĩa nhạc, và cả công cụ để bạn **thu âm, mix, sản xuất nhạc** (phát triển phần mềm)
 
 ---
 
 ## 1. JVM -- Java Virtual Machine
 
-### JVM la gi?
+### JVM là gì?
 
-JVM (Java Virtual Machine) la **may ao Java** -- mot phan mem **gia lap moi truong thuc thi** de chay bytecode Java. JVM la ly do Java co the chay tren nhieu nen tang khac nhau.
+JVM (Java Virtual Machine) là **máy ảo Java** -- một phần mềm **giả lập môi trường thực thi** để chạy bytecode Java. JVM là lý do Java có thể chạy trên nhiều nền tảng khác nhau.
 
-### Cach JVM hoat dong
+### Cách JVM hoạt động
 
 ```
-Ma nguon (.java)
+Mã nguồn (.java)
       |
       v
    javac (Compiler)
@@ -32,13 +32,13 @@ Ma nguon (.java)
 Bytecode (.class)
       |
       v
-   JVM (doc bytecode --> chuyen thanh ma may cua tung OS)
+   JVM (đọc bytecode --> chuyển thành mã máy của từng OS)
       |
       v
   Windows / Linux / macOS
 ```
 
-### Cac thanh phan chinh cua JVM
+### Các thành phần chính của JVM
 
 ```java
 // Vi du: Khi ban chay chuong trinh nay
@@ -50,39 +50,39 @@ public class HelloJVM {
 }
 ```
 
-JVM thuc hien cac buoc sau:
+JVM thực hiện các bước sau:
 
-**1. ClassLoader (Bo nap lop)**
-- Nap file `.class` vao bo nho
-- Gom 3 giai doan: **Loading** --> **Linking** --> **Initialization**
+**1. ClassLoader (Bộ nạp lớp)**
+- Nạp file `.class` vào bộ nhớ
+- Gồm 3 giai đoạn: **Loading** --> **Linking** --> **Initialization**
 
 ```
-Loading:    Doc file HelloJVM.class tu dia
-Linking:    Kiem tra bytecode hop le, cap phat bo nho
-Initialize: Gan gia tri ban dau cho cac bien static
+Loading:    Đọc file HelloJVM.class từ đĩa
+Linking:    Kiểm tra bytecode hợp lệ, cấp phát bộ nhớ
+Initialize: Gán giá trị ban đầu cho các biến static
 ```
 
-**2. Runtime Data Areas (Vung du lieu thuc thi)**
+**2. Runtime Data Areas (Vùng dữ liệu thực thi)**
 
-| Vung nho | Muc dich |
+| Vùng nhớ | Mục đích |
 |----------|----------|
-| **Method Area** | Luu thong tin class, static variable, constant pool |
-| **Heap** | Luu doi tuong duoc tao bang `new` |
-| **Stack** | Luu bien cuc bo, tham chieu phuong thuc |
-| **PC Register** | Dia chi lenh dang thuc thi cua moi thread |
-| **Native Method Stack** | Goi phuong thuc native (C/C++) |
+| **Method Area** | Lưu thông tin class, static variable, constant pool |
+| **Heap** | Lưu đối tượng được tạo bằng `new` |
+| **Stack** | Lưu biến cục bộ, tham chiếu phương thức |
+| **PC Register** | Địa chỉ lệnh đang thực thi của mỗi thread |
+| **Native Method Stack** | Gọi phương thức native (C/C++) |
 
-**3. Execution Engine (Bo thuc thi)**
+**3. Execution Engine (Bộ thực thi)**
 
-| Thanh phan | Vai tro |
+| Thành phần | Vai trò |
 |------------|---------|
-| **Interpreter** | Doc va thuc thi bytecode tung dong |
-| **JIT Compiler** | Bien dich bytecode "nong" thanh ma may de tang toc |
-| **Garbage Collector** | Tu dong thu hoi bo nho khong con su dung |
+| **Interpreter** | Đọc và thực thi bytecode từng dòng |
+| **JIT Compiler** | Biên dịch bytecode "nóng" thành mã máy để tăng tốc |
+| **Garbage Collector** | Tự động thu hồi bộ nhớ không còn sử dụng |
 
 ### JIT Compiler (Just-In-Time Compiler)
 
-JIT la "vu khi bi mat" giup Java chay nhanh:
+JIT là "vũ khí bí mật" giúp Java chạy nhanh:
 
 ```java
 public class JITDemo {
@@ -100,34 +100,34 @@ public class JITDemo {
 }
 ```
 
-- Lan dau: Interpreter thong dich tung dong (cham)
-- Sau nhieu lan goi: JIT nhan ra day la **"hot code"** va bien dich thanh ma may
-- Cac lan sau: Chay truc tiep ma may (nhanh nhu C++)
+- Lần đầu: Interpreter thông dịch từng dòng (chậm)
+- Sau nhiều lần gọi: JIT nhận ra đây là **"hot code"** và biên dịch thành mã máy
+- Các lần sau: Chạy trực tiếp mã máy (nhanh như C++)
 
 ---
 
 ## 2. JRE -- Java Runtime Environment
 
-### JRE la gi?
+### JRE là gì?
 
-JRE (Java Runtime Environment) la **moi truong chay Java**. No cung cap moi thu can thiet de **chay** mot chuong trinh Java, nhung **khong co cong cu de phat trien**.
+JRE (Java Runtime Environment) là **môi trường chạy Java**. Nó cung cấp mọi thứ cần thiết để **chạy** một chương trình Java, nhưng **không có công cụ để phát triển**.
 
-### Thanh phan cua JRE
+### Thành phần của JRE
 
 ```
-JRE = JVM + Thu vien chuan (Java Class Libraries) + File ho tro runtime
+JRE = JVM + Thư viện chuẩn (Java Class Libraries) + File hỗ trợ runtime
 ```
 
-| Thanh phan | Mo ta |
+| Thành phần | Mô tả |
 |------------|-------|
-| **JVM** | May ao thuc thi bytecode |
-| **java.lang** | Cac lop co ban: String, Math, System, Object... |
+| **JVM** | Máy ảo thực thi bytecode |
+| **java.lang** | Các lớp cơ bản: String, Math, System, Object... |
 | **java.util** | Collections, Date, Scanner... |
-| **java.io** | Doc/ghi file |
-| **java.net** | Lap trinh mang |
-| **java.sql** | Ket noi co so du lieu |
+| **java.io** | Đọc/ghi file |
+| **java.net** | Lập trình mạng |
+| **java.sql** | Kết nối cơ sở dữ liệu |
 
-### Vi du: Chi can JRE de chay
+### Ví dụ: Chỉ cần JRE để chạy
 
 ```java
 // File: ChaoMung.class (da duoc bien dich san)
@@ -143,35 +143,35 @@ java -version
 # Java HotSpot(TM) 64-Bit Server VM (build 17.0.2+8-86, mixed mode, sharing)
 ```
 
-**Khi nao chi can JRE?**
-- Ban la **nguoi dung cuoi**, chi muon chay ung dung Java (vi du: Minecraft, cong cu doanh nghiep)
-- Ban **khong can** viet hoac bien dich code Java
+**Khi nào chỉ cần JRE?**
+- Bạn là **người dùng cuối**, chỉ muốn chạy ứng dụng Java (ví dụ: Minecraft, công cụ doanh nghiệp)
+- Bạn **không cần** viết hoặc biên dịch code Java
 
 ---
 
 ## 3. JDK -- Java Development Kit
 
-### JDK la gi?
+### JDK là gì?
 
-JDK (Java Development Kit) la **bo cong cu phat trien Java day du**. Neu ban muon **viet va bien dich** code Java, ban **bat buoc phai cai JDK**.
+JDK (Java Development Kit) là **bộ công cụ phát triển Java đầy đủ**. Nếu bạn muốn **viết và biên dịch** code Java, bạn **bắt buộc phải cài JDK**.
 
-### Thanh phan cua JDK
+### Thành phần của JDK
 
 ```
-JDK = JRE + Cong cu phat trien (Development Tools)
+JDK = JRE + Công cụ phát triển (Development Tools)
 ```
 
-| Cong cu | Chuc nang |
+| Công cụ | Chức năng |
 |---------|-----------|
-| **javac** | Trinh bien dich: `.java` --> `.class` (bytecode) |
-| **java** | Thuc thi chuong trinh Java (goi JVM) |
-| **jar** | Dong goi file thanh `.jar` |
-| **javadoc** | Tao tai lieu API tu comment trong code |
-| **jdb** | Trinh go loi (debugger) |
-| **jconsole** | Giam sat hieu nang ung dung |
-| **jshell** | Java REPL -- chay code Java tuong tac (tu Java 9) |
+| **javac** | Trình biên dịch: `.java` --> `.class` (bytecode) |
+| **java** | Thực thi chương trình Java (gọi JVM) |
+| **jar** | Đóng gói file thành `.jar` |
+| **javadoc** | Tạo tài liệu API từ comment trong code |
+| **jdb** | Trình gỡ lỗi (debugger) |
+| **jconsole** | Giám sát hiệu năng ứng dụng |
+| **jshell** | Java REPL -- chạy code Java tương tác (từ Java 9) |
 
-### Vi du su dung cac cong cu JDK
+### Ví dụ sử dụng các công cụ JDK
 
 ```java
 // File: TinhToan.java
@@ -215,7 +215,7 @@ jshell
 
 ---
 
-## 4. So do long nhau: JDK ⊃ JRE ⊃ JVM
+## 4. Sơ đồ lồng nhau: JDK ⊃ JRE ⊃ JVM
 
 ```
 +--------------------------------------------------+
@@ -231,8 +231,8 @@ jshell
 |  |  |  - Runtime Data Areas                 |  |  |
 |  |  +--------------------------------------+  |  |
 |  |                                             |  |
-|  |  + Thu vien chuan (java.lang, java.util...) |  |
-|  |  + File ho tro runtime                      |  |
+|  |  + Thư viện chuẩn (java.lang, java.util...) |  |
+|  |  + File hỗ trợ runtime                      |  |
 |  +--------------------------------------------+  |
 |                                                   |
 |  + javac (Compiler)                               |
@@ -245,97 +245,97 @@ jshell
 
 ---
 
-## 5. Bang so sanh tong hop
+## 5. Bảng so sánh tổng hợp
 
-| Tieu chi | JVM | JRE | JDK |
+| Tiêu chí | JVM | JRE | JDK |
 |----------|-----|-----|-----|
-| **La gi?** | May ao thuc thi bytecode | Moi truong chay Java | Bo cong cu phat trien Java |
-| **Bao gom** | ClassLoader, Execution Engine, GC | JVM + thu vien chuan | JRE + cong cu dev |
-| **Co the bien dich code?** | Khong | Khong | Co (javac) |
-| **Co the chay code?** | Co (bytecode) | Co | Co |
-| **Danh cho** | Nen tang/thuc thi | Nguoi dung cuoi | Lap trinh vien |
-| **Vi du tuong tu** | May phat nhac | May phat + dia nhac | Studio thu am |
+| **Là gì?** | Máy ảo thực thi bytecode | Môi trường chạy Java | Bộ công cụ phát triển Java |
+| **Bao gồm** | ClassLoader, Execution Engine, GC | JVM + thư viện chuẩn | JRE + công cụ dev |
+| **Có thể biên dịch code?** | Không | Không | Có (javac) |
+| **Có thể chạy code?** | Có (bytecode) | Có | Có |
+| **Dành cho** | Nền tảng/thực thi | Người dùng cuối | Lập trình viên |
+| **Ví dụ tương tự** | Máy phát nhạc | Máy phát + đĩa nhạc | Studio thu âm |
 
 ---
 
-## Khi nao dung?
+## Khi nào dùng?
 
-- **Chi cai JRE:** Khi ban la nguoi dung cuoi, chi can chay ung dung Java (vi du chay file `.jar`)
-- **Cai JDK:** Khi ban la lap trinh vien, can viet, bien dich va debug code Java
-- **Best practice:** Luon cai JDK phien ban **LTS** (Long-Term Support) nhu Java 17 hoac Java 21. Su dung tool `sdkman` hoac `jenv` de quan ly nhieu phien ban JDK
+- **Chỉ cài JRE:** Khi bạn là người dùng cuối, chỉ cần chạy ứng dụng Java (ví dụ chạy file `.jar`)
+- **Cài JDK:** Khi bạn là lập trình viên, cần viết, biên dịch và debug code Java
+- **Best practice:** Luôn cài JDK phiên bản **LTS** (Long-Term Support) như Java 17 hoặc Java 21. Sử dụng tool `sdkman` hoặc `jenv` để quản lý nhiều phiên bản JDK
 
-:::tip Luu y
-Tu **Java 11**, Oracle khong con cung cap JRE rieng le. Khi ban cai JDK 11+, no da bao gom moi thu can thiet. Nen thuc te, hau het moi nguoi chi can cai JDK.
+:::tip Lưu ý
+Từ **Java 11**, Oracle không còn cung cấp JRE riêng lẻ. Khi bạn cài JDK 11+, nó đã bao gồm mọi thứ cần thiết. Nên thực tế, hầu hết mọi người chỉ cần cài JDK.
 :::
 
 ---
 
-## Loi thuong gap
+## Lỗi thường gặp
 
-### Loi 1: Nham JVM la platform independent
-
-```
-❌ Sai: "JVM la platform independent"
-✅ Dung: JVM la PLATFORM DEPENDENT (phu thuoc nen tang).
-   Moi OS can cai phien ban JVM rieng.
-   Chinh JAVA (bytecode) moi la platform independent.
-```
-
-### Loi 2: Tuong JRE du de lap trinh
+### Lỗi 1: Nhầm JVM là platform independent
 
 ```
-❌ Sai: Cai JRE roi viet code Java
+❌ Sai: "JVM là platform independent"
+✅ Đúng: JVM là PLATFORM DEPENDENT (phụ thuộc nền tảng).
+   Mỗi OS cần cài phiên bản JVM riêng.
+   Chính JAVA (bytecode) mới là platform independent.
+```
+
+### Lỗi 2: Tưởng JRE đủ để lập trình
+
+```
+❌ Sai: Cài JRE rồi viết code Java
    > javac HelloWorld.java
    > 'javac' is not recognized as a command
 
-✅ Dung: Phai cai JDK de co javac (trinh bien dich).
-   JRE chi co the CHAY chuong trinh, khong the BIEN DICH.
+✅ Đúng: Phải cài JDK để có javac (trình biên dịch).
+   JRE chỉ có thể CHẠY chương trình, không thể BIÊN DỊCH.
 ```
 
-### Loi 3: Khong phan biet ClassLoader va Compiler
+### Lỗi 3: Không phân biệt ClassLoader và Compiler
 
 ```
-❌ Sai: "ClassLoader bien dich code Java"
-✅ Dung: ClassLoader NAP (load) file .class da duoc bien dich vao bo nho.
-   javac (Compiler) moi la thanh phan bien dich .java thanh .class.
+❌ Sai: "ClassLoader biên dịch code Java"
+✅ Đúng: ClassLoader NẠP (load) file .class đã được biên dịch vào bộ nhớ.
+   javac (Compiler) mới là thành phần biên dịch .java thành .class.
 ```
 
-### Loi 4: Quen cau hinh JAVA_HOME
+### Lỗi 4: Quên cấu hình JAVA_HOME
 
 ```
-❌ Sai: Cai JDK xong nhung khong set JAVA_HOME
+❌ Sai: Cài JDK xong nhưng không set JAVA_HOME
    > javac HelloWorld.java
    > 'javac' is not recognized
 
-✅ Dung: Sau khi cai JDK, can them JAVA_HOME vao bien moi truong (environment variable)
-   va them %JAVA_HOME%\bin vao PATH.
+✅ Đúng: Sau khi cài JDK, cần thêm JAVA_HOME vào biến môi trường (environment variable)
+   và thêm %JAVA_HOME%\bin vào PATH.
 ```
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### Cau 1: Phan biet JVM, JRE va JDK?
+### Câu 1: Phân biệt JVM, JRE và JDK?
 
-**Tra loi:**
-- **JVM** la may ao thuc thi bytecode Java. No chuyen bytecode thanh ma may cua tung nen tang cu the.
-- **JRE** gom JVM + thu vien chuan Java, dung de **chay** chuong trinh Java.
-- **JDK** gom JRE + cong cu phat trien (javac, jar, javadoc...), dung de **phat trien** ung dung Java.
-- Quan he long nhau: JDK ⊃ JRE ⊃ JVM.
+**Trả lời:**
+- **JVM** là máy ảo thực thi bytecode Java. Nó chuyển bytecode thành mã máy của từng nền tảng cụ thể.
+- **JRE** gồm JVM + thư viện chuẩn Java, dùng để **chạy** chương trình Java.
+- **JDK** gồm JRE + công cụ phát triển (javac, jar, javadoc...), dùng để **phát triển** ứng dụng Java.
+- Quan hệ lồng nhau: JDK ⊃ JRE ⊃ JVM.
 
-### Cau 2: JIT Compiler la gi? Tai sao can no?
+### Câu 2: JIT Compiler là gì? Tại sao cần nó?
 
-**Tra loi:** JIT (Just-In-Time) Compiler la thanh phan cua JVM, chuyen bytecode thanh **ma may truc tiep** tai thoi diem chay. Thay vi thong dich tung dong (cham), JIT nhan dien cac doan code duoc goi nhieu lan (**hotspot**) va bien dich chung thanh ma may. Cac lan goi tiep theo se chay ma may truc tiep, giup tang hieu nang dang ke -- gan nhu tuong duong voi ngon ngu bien dich nhu C++.
+**Trả lời:** JIT (Just-In-Time) Compiler là thành phần của JVM, chuyển bytecode thành **mã máy trực tiếp** tại thời điểm chạy. Thay vì thông dịch từng dòng (chậm), JIT nhận diện các đoạn code được gọi nhiều lần (**hotspot**) và biên dịch chúng thành mã máy. Các lần gọi tiếp theo sẽ chạy mã máy trực tiếp, giúp tăng hiệu năng đáng kể -- gần như tương đương với ngôn ngữ biên dịch như C++.
 
-### Cau 3: ClassLoader la gi? No hoat dong nhu the nao?
+### Câu 3: ClassLoader là gì? Nó hoạt động như thế nào?
 
-**Tra loi:** ClassLoader la thanh phan cua JVM co nhiem vu **nap cac file .class vao bo nho**. No hoat dong theo 3 giai doan:
-1. **Loading:** Tim va doc file .class tu disk hoac network
-2. **Linking:** Kiem tra bytecode (verification), cap phat bo nho (preparation), giai quyet tham chieu (resolution)
-3. **Initialization:** Thuc thi cac khoi static va gan gia tri cho static variable
+**Trả lời:** ClassLoader là thành phần của JVM có nhiệm vụ **nạp các file .class vào bộ nhớ**. Nó hoạt động theo 3 giai đoạn:
+1. **Loading:** Tìm và đọc file .class từ disk hoặc network
+2. **Linking:** Kiểm tra bytecode (verification), cấp phát bộ nhớ (preparation), giải quyết tham chiếu (resolution)
+3. **Initialization:** Thực thi các khối static và gán giá trị cho static variable
 
-Java co 3 ClassLoader mac dinh: Bootstrap ClassLoader, Extension ClassLoader, va Application ClassLoader, hoat dong theo mo hinh **uy quyen cha (Parent Delegation Model)**.
+Java có 3 ClassLoader mặc định: Bootstrap ClassLoader, Extension ClassLoader, và Application ClassLoader, hoạt động theo mô hình **ủy quyền cha (Parent Delegation Model)**.
 
-### Cau 4: JVM co phai la platform independent khong?
+### Câu 4: JVM có phải là platform independent không?
 
-**Tra loi:** **Khong.** JVM la **platform dependent** (phu thuoc nen tang). Moi he dieu hanh (Windows, Linux, macOS) can mot phien ban JVM rieng. Tuy nhien, **bytecode Java** la platform independent -- cung mot file `.class` chay duoc tren bat ky JVM nao. Chinh nho JVM "dich" bytecode thanh ma may cua tung nen tang cu the ma Java dat duoc tinh "Write Once, Run Anywhere".
+**Trả lời:** **Không.** JVM là **platform dependent** (phụ thuộc nền tảng). Mỗi hệ điều hành (Windows, Linux, macOS) cần một phiên bản JVM riêng. Tuy nhiên, **bytecode Java** là platform independent -- cùng một file `.class` chạy được trên bất kỳ JVM nào. Chính nhờ JVM "dịch" bytecode thành mã máy của từng nền tảng cụ thể mà Java đạt được tính "Write Once, Run Anywhere".

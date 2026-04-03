@@ -1,42 +1,42 @@
 ---
 sidebar_position: 13
-title: "Menh de Switch-case"
+title: "Mệnh đề Switch-case"
 ---
-# Menh de Switch-case
+# Mệnh đề Switch-case
 
-## 1. Gioi thieu
+## 1. Giới thiệu
 
-Trong Java, **menh de switch-case** la mot cau truc dieu khien luong chuong trinh, cho phep ban **so sanh gia tri cua mot bieu thuc voi nhieu truong hop (case) cu the** va thuc thi khoi lenh tuong ung.
+Trong Java, **mệnh đề switch-case** là một cấu trúc điều khiển luồng chương trình, cho phép bạn **so sánh giá trị của một biểu thức với nhiều trường hợp (case) cụ thể** và thực thi khối lệnh tương ứng.
 
-**Tai sao can switch-case?** Khi ban co nhieu lua chon re nhanh ro rang (vi du: menu chon chuc nang, xu ly ngay trong tuan, phan loai vai tro nguoi dung...), viec dung chuoi `if - else if` dai se lam code kho doc va kho bao tri. `switch-case` giup code **gon gang, de doc va de bao tri hon**.
+**Tại sao cần switch-case?** Khi bạn có nhiều lựa chọn rẽ nhánh rõ ràng (ví dụ: menu chọn chức năng, xử lý ngày trong tuần, phân loại vai trò người dùng...), việc dùng chuỗi `if - else if` dài sẽ làm code khó đọc và khó bảo trì. `switch-case` giúp code **gọn gàng, dễ đọc và dễ bảo trì hơn**.
 
-Hay hinh dung `switch-case` nhu mot **bang dieu khien thang may**:
-- Ban nhan so tang (gia tri)
-- Thang may di den dung tang do (case tuong ung)
-- Neu so tang khong ton tai, thang may dung o tang mac dinh (default)
+Hãy hình dung `switch-case` như một **bảng điều khiển thang máy**:
+- Bạn nhấn số tầng (giá trị)
+- Thang máy đi đến đúng tầng đó (case tương ứng)
+- Nếu số tầng không tồn tại, thang máy dừng ở tầng mặc định (default)
 
 ---
 
-## Noi dung
+## Nội dung
 
-1. [Gioi thieu](#1-gioi-thieu)
-2. [Cu phap co ban](#2-cu-phap-co-ban)
-3. [Tu khoa break va hien tuong fall-through](#3-tu-khoa-break-va-hien-tuong-fall-through)
+1. [Giới thiệu](#1-gioi-thieu)
+2. [Cú pháp cơ bản](#2-cu-phap-co-ban)
+3. [Từ khóa break và hiện tượng fall-through](#3-tu-khoa-break-va-hien-tuong-fall-through)
 4. [Default case](#4-default-case)
-5. [Case gop (Multiple case)](#5-case-gop-multiple-case)
-6. [Kieu du lieu ho tro trong switch](#6-kieu-du-lieu-ho-tro-trong-switch)
-7. [Switch voi String (Java 7+)](#7-switch-voi-string-java-7)
-8. [Switch voi enum](#8-switch-voi-enum)
+5. [Case gộp (Multiple case)](#5-case-gop-multiple-case)
+6. [Kiểu dữ liệu hỗ trợ trong switch](#6-kieu-du-lieu-ho-tro-trong-switch)
+7. [Switch với String (Java 7+)](#7-switch-voi-string-java-7)
+8. [Switch với enum](#8-switch-voi-enum)
 9. [Switch Expression (Java 12+ arrow syntax)](#9-switch-expression-java-12-arrow-syntax)
-10. [Tu khoa yield (Java 13+)](#10-tu-khoa-yield-java-13)
-11. [So sanh switch vs if-else](#11-so-sanh-switch-vs-if-else)
-12. [Khi nao dung?](#12-khi-nao-dung)
-13. [Loi thuong gap](#13-loi-thuong-gap)
-14. [Cau hoi phong van](#14-cau-hoi-phong-van)
+10. [Từ khóa yield (Java 13+)](#10-tu-khoa-yield-java-13)
+11. [So sánh switch vs if-else](#11-so-sanh-switch-vs-if-else)
+12. [Khi nào dùng?](#12-khi-nao-dung)
+13. [Lỗi thường gặp](#13-loi-thuong-gap)
+14. [Câu hỏi phỏng vấn](#14-cau-hoi-phong-van)
 
 ---
 
-## 2. Cu phap co ban
+## 2. Cú pháp cơ bản
 
 ```java
 switch (expression) {
@@ -46,19 +46,19 @@ switch (expression) {
     case value2:
         // code khi expression == value2
         break;
-    // ... them cac case khac
+    // ... thêm các case khác
     default:
-        // code khi khong khop case nao
+        // code khi không khớp case nào
 }
 ```
 
-Trong do:
-- **`expression`**: bieu thuc can so sanh (phai tra ve kieu du lieu duoc ho tro)
-- **`case value`**: gia tri cu the de so sanh
-- **`break`**: ket thuc nhanh hien tai, thoat khoi switch
-- **`default`**: nhanh mac dinh khi khong co case nao khop
+Trong đó:
+- **`expression`**: biểu thức cần so sánh (phải trả về kiểu dữ liệu được hỗ trợ)
+- **`case value`**: giá trị cụ thể để so sánh
+- **`break`**: kết thúc nhánh hiện tại, thoát khỏi switch
+- **`default`**: nhánh mặc định khi không có case nào khớp
 
-**Vi du co ban:**
+**Ví dụ cơ bản:**
 
 ```java
 public class SwitchDemo {
@@ -94,18 +94,18 @@ public class SwitchDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 Thu Tu
 ```
 
 ---
 
-## 3. Tu khoa break va hien tuong fall-through
+## 3. Từ khóa break và hiện tượng fall-through
 
-### 3.1 Fall-through la gi?
+### 3.1 Fall-through là gì?
 
-Neu ban **quen dat `break`** sau mot case, chuong trinh se **tiep tuc chay xuyen qua cac case ben duoi** cho den khi gap `break` hoac het switch. Day goi la **fall-through**.
+Nếu bạn **quên đặt `break`** sau một case, chương trình sẽ **tiếp tục chạy xuyên qua các case bên dưới** cho đến khi gặp `break` hoặc hết switch. Đây gọi là **fall-through**.
 
 ```java
 public class FallThroughDemo {
@@ -115,10 +115,10 @@ public class FallThroughDemo {
         switch (x) {
             case 1:
                 System.out.println("One");
-                // Khong co break! -> Fall-through
+                // Không có break! -> Fall-through
             case 2:
                 System.out.println("Two");
-                // Khong co break! -> Fall-through
+                // Không có break! -> Fall-through
             case 3:
                 System.out.println("Three");
                 break;
@@ -129,18 +129,18 @@ public class FallThroughDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 One
 Two
 Three
 ```
 
-Mac du `x == 1`, chuong trinh van chay tiep case 2 va case 3 vi thieu `break`.
+Mặc dù `x == 1`, chương trình vẫn chạy tiếp case 2 và case 3 vì thiếu `break`.
 
-### 3.2 Khi nao fall-through co ich?
+### 3.2 Khi nào fall-through có ích?
 
-Fall-through **co the duoc su dung co y** khi nhieu case co cung xu ly:
+Fall-through **có thể được sử dụng có ý** khi nhiều case có cùng xử lý:
 
 ```java
 public class FallThroughUseful {
@@ -165,7 +165,7 @@ public class FallThroughUseful {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 Mua Dong
 ```
@@ -174,7 +174,7 @@ Mua Dong
 
 ## 4. Default case
 
-`default` la nhanh **mac dinh**, chay khi khong co case nao khop voi gia tri cua expression.
+`default` là nhánh **mặc định**, chạy khi không có case nào khớp với giá trị của expression.
 
 ```java
 public class DefaultDemo {
@@ -195,20 +195,20 @@ public class DefaultDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 Mau khong xac dinh
 ```
 
-**Luu y:**
-- `default` khong bat buoc phai o cuoi, nhung dat o cuoi la **quy uoc chuan** giup code de doc
-- `default` khong can `break` neu dat o cuoi cung
+**Lưu ý:**
+- `default` không bắt buộc phải ở cuối, nhưng đặt ở cuối là **quy ước chuẩn** giúp code dễ đọc
+- `default` không cần `break` nếu đặt ở cuối cùng
 
 ---
 
-## 5. Case gop (Multiple case)
+## 5. Case gộp (Multiple case)
 
-Khi nhieu case co cung xu ly, ban co the gop chung:
+Khi nhiều case có cùng xử lý, bạn có thể gộp chúng:
 
 ```java
 public class MultipleCaseDemo {
@@ -236,35 +236,35 @@ public class MultipleCaseDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 Gioi
 ```
 
 ---
 
-## 6. Kieu du lieu ho tro trong switch
+## 6. Kiểu dữ liệu hỗ trợ trong switch
 
-Java ho tro cac kieu du lieu sau trong `switch`:
+Java hỗ trợ các kiểu dữ liệu sau trong `switch`:
 
-| Kieu du lieu | Ho tro | Ghi chu |
+| Kiểu dữ liệu | Hỗ trợ | Ghi chú |
 |-------------|--------|---------|
-| `byte` | Co | Kieu nguyen thuy |
-| `short` | Co | Kieu nguyen thuy |
-| `int` | Co | Kieu nguyen thuy |
-| `char` | Co | Kieu nguyen thuy |
-| `String` | Co | Tu Java 7 |
-| `enum` | Co | Tu Java 5 |
-| `Byte`, `Short`, `Integer`, `Character` | Co | Wrapper class (auto-unboxing) |
-| `long` | **Khong** | Kieu qua lon |
-| `float`, `double` | **Khong** | Kieu thuc khong chinh xac |
-| `boolean` | **Khong** | Chi co 2 gia tri, dung if-else |
+| `byte` | Có | Kiểu nguyên thủy |
+| `short` | Có | Kiểu nguyên thủy |
+| `int` | Có | Kiểu nguyên thủy |
+| `char` | Có | Kiểu nguyên thủy |
+| `String` | Có | Từ Java 7 |
+| `enum` | Có | Từ Java 5 |
+| `Byte`, `Short`, `Integer`, `Character` | Có | Wrapper class (auto-unboxing) |
+| `long` | **Không** | Kiểu quá lớn |
+| `float`, `double` | **Không** | Kiểu thực không chính xác |
+| `boolean` | **Không** | Chỉ có 2 giá trị, dùng if-else |
 
 ---
 
-## 7. Switch voi String (Java 7+)
+## 7. Switch với String (Java 7+)
 
-Tu Java 7, ban co the dung `String` trong switch:
+Từ Java 7, bạn có thể dùng `String` trong switch:
 
 ```java
 public class SwitchStringDemo {
@@ -288,16 +288,16 @@ public class SwitchStringDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 Quan tri vien - Quyen cao nhat
 ```
 
-**Luu y:** Java su dung `equals()` de so sanh String trong switch, nen **phan biet chu hoa/chu thuong** va **can xu ly null truoc khi truyen vao switch** (tranh `NullPointerException`).
+**Lưu ý:** Java sử dụng `equals()` để so sánh String trong switch, nên **phân biệt chữ hoa/chữ thường** và **cần xử lý null trước khi truyền vào switch** (tránh `NullPointerException`).
 
 ---
 
-## 8. Switch voi enum
+## 8. Switch với enum
 
 ```java
 public class SwitchEnumDemo {
@@ -324,18 +324,18 @@ public class SwitchEnumDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 Mua Ha - Nang nong
 ```
 
-**Luu y:** Trong switch voi enum, **khong can ghi ten enum truoc gia tri** (viet `case SUMMER` thay vi `case Season.SUMMER`).
+**Lưu ý:** Trong switch với enum, **không cần ghi tên enum trước giá trị** (viết `case SUMMER` thay vì `case Season.SUMMER`).
 
 ---
 
 ## 9. Switch Expression (Java 12+ arrow syntax)
 
-Tu Java 12 (preview) va chinh thuc tu **Java 14**, Java ho tro **switch expression** voi cu phap mui ten (`->`):
+Từ Java 12 (preview) và chính thức từ **Java 14**, Java hỗ trợ **switch expression** với cú pháp mũi tên (`->`):
 
 ```java
 public class SwitchExpressionDemo {
@@ -353,19 +353,19 @@ public class SwitchExpressionDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 Ngay lam viec
 ```
 
-**Uu diem cua switch expression:**
-- **Khong can `break`** - moi nhanh tu dong ket thuc
-- **Khong bi fall-through**
-- Co the **gan ket qua vao bien** (switch tra ve gia tri)
-- **Gop nhieu case** bang dau phay: `case 1, 2, 3 ->`
-- Code **ngan gon va an toan hon**
+**Ưu điểm của switch expression:**
+- **Không cần `break`** - mỗi nhánh tự động kết thúc
+- **Không bị fall-through**
+- Có thể **gán kết quả vào biến** (switch trả về giá trị)
+- **Gộp nhiều case** bằng dấu phẩy: `case 1, 2, 3 ->`
+- Code **ngắn gọn và an toàn hơn**
 
-### Switch expression voi khoi lenh:
+### Switch expression với khối lệnh:
 
 ```java
 public class SwitchExpressionBlockDemo {
@@ -391,7 +391,7 @@ public class SwitchExpressionBlockDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 Rat tot!
 Xep loai: Gioi
@@ -399,9 +399,9 @@ Xep loai: Gioi
 
 ---
 
-## 10. Tu khoa yield (Java 13+)
+## 10. Từ khóa yield (Java 13+)
 
-Tu khoa `yield` duoc dung trong switch expression khi ban can **thuc thi nhieu dong code** trong mot case va **tra ve gia tri**:
+Từ khóa `yield` được dùng trong switch expression khi bạn cần **thực thi nhiều dòng code** trong một case và **trả về giá trị**:
 
 ```java
 public class YieldDemo {
@@ -412,7 +412,7 @@ public class YieldDemo {
             case 1, 3, 5, 7, 8, 10, 12 -> 31;
             case 4, 6, 9, 11 -> 30;
             case 2 -> {
-                // Gia su nam khong nhuan
+                // Giả sử năm không nhuận
                 System.out.println("Thang 2 (nam khong nhuan)");
                 yield 28;
             }
@@ -426,68 +426,68 @@ public class YieldDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 So ngay: 31
 ```
 
-**Luu y:**
-- `yield` chi dung trong **switch expression** (khong dung trong switch statement truyen thong)
-- `yield` tuong tu `return` nhung danh cho switch expression
+**Lưu ý:**
+- `yield` chỉ dùng trong **switch expression** (không dùng trong switch statement truyền thống)
+- `yield` tương tự `return` nhưng dành cho switch expression
 
 ---
 
-## 11. So sanh switch vs if-else
+## 11. So sánh switch vs if-else
 
-| Tieu chi | switch-case | if-else |
+| Tiêu chí | switch-case | if-else |
 |---------|-------------|---------|
-| Khi nao dung | So sanh **mot bien** voi **nhieu gia tri cu the** | Dieu kien **phuc tap**, khoang gia tri |
-| Kieu du lieu | byte, short, int, char, String, enum | Bat ky bieu thuc boolean |
-| Do doc | **Gon gang** khi nhieu nhanh | Co the dai va kho doc |
-| Hieu nang | Co the duoc toi uu (jump table) | Kiem tra tuan tu |
-| Dieu kien phuc tap | Khong ho tro (vd: `x > 10`) | Ho tro day du |
-| Khoang gia tri | Khong ho tro (vd: `1-100`) | Ho tro (`x >= 1 && x <= 100`) |
+| Khi nào dùng | So sánh **một biến** với **nhiều giá trị cụ thể** | Điều kiện **phức tạp**, khoảng giá trị |
+| Kiểu dữ liệu | byte, short, int, char, String, enum | Bất kỳ biểu thức boolean |
+| Độ đọc | **Gọn gàng** khi nhiều nhánh | Có thể dài và khó đọc |
+| Hiệu năng | Có thể được tối ưu (jump table) | Kiểm tra tuần tự |
+| Điều kiện phức tạp | Không hỗ trợ (vd: `x > 10`) | Hỗ trợ đầy đủ |
+| Khoảng giá trị | Không hỗ trợ (vd: `1-100`) | Hỗ trợ (`x >= 1 && x <= 100`) |
 
-**Quy tac chon:**
-- Dung **switch** khi: so sanh mot bien voi **cac gia tri roi rac, cu the** (1, 2, 3, "admin", "user",...)
-- Dung **if-else** khi: dieu kien **phuc tap**, **khoang gia tri**, hoac **nhieu bien khac nhau**
+**Quy tắc chọn:**
+- Dùng **switch** khi: so sánh một biến với **các giá trị rời rạc, cụ thể** (1, 2, 3, "admin", "user",...)
+- Dùng **if-else** khi: điều kiện **phức tạp**, **khoảng giá trị**, hoặc **nhiều biến khác nhau**
 
 ---
 
-## 12. Khi nao dung?
+## 12. Khi nào dùng?
 
-### Nen dung switch-case khi:
-- So sanh **mot bien duy nhat** voi **nhieu gia tri cu the**
-- Xu ly **menu lua chon** (chon chuc nang 1, 2, 3,...)
-- Phan loai **trang thai** (status code, role, enum state...)
-- **Thay the chuoi if-else if dai** khi dieu kien la gia tri roi rac
+### Nên dùng switch-case khi:
+- So sánh **một biến duy nhất** với **nhiều giá trị cụ thể**
+- Xử lý **menu lựa chọn** (chọn chức năng 1, 2, 3,...)
+- Phân loại **trạng thái** (status code, role, enum state...)
+- **Thay thế chuỗi if-else if dài** khi điều kiện là giá trị rời rạc
 
 ### Best practices:
-- **Luon dat `break`** sau moi case (tru khi co chu dich fall-through)
-- **Luon co `default`** de xu ly truong hop ngoai du kien
-- **Uu tien switch expression** (Java 14+) de tranh loi fall-through
-- **Xu ly null truoc** khi truyen String vao switch
-- **Comment ro rang** neu co chu dich su dung fall-through
+- **Luôn đặt `break`** sau mỗi case (trừ khi có chủ đích fall-through)
+- **Luôn có `default`** để xử lý trường hợp ngoài dự kiến
+- **Ưu tiên switch expression** (Java 14+) để tránh lỗi fall-through
+- **Xử lý null trước** khi truyền String vào switch
+- **Comment rõ ràng** nếu có chủ đích sử dụng fall-through
 
 ---
 
-## 13. Loi thuong gap
+## 13. Lỗi thường gặp
 
-### Loi 1: Quen `break` gay fall-through ngoai y muon
+### Lỗi 1: Quên `break` gây fall-through ngoài ý muốn
 
 ```java
-// Sai: Thieu break
+// Sai: Thiếu break
 int x = 1;
 switch (x) {
     case 1:
         System.out.println("Mot");
     case 2:
-        System.out.println("Hai"); // Chay ca dong nay!
+        System.out.println("Hai"); // Chạy cả dòng này!
 }
 ```
 
 ```java
-// Dung: Co break
+// Đúng: Có break
 int x = 1;
 switch (x) {
     case 1:
@@ -499,19 +499,19 @@ switch (x) {
 }
 ```
 
-### Loi 2: Truyen null vao switch voi String
+### Lỗi 2: Truyền null vào switch với String
 
 ```java
 // Sai: NullPointerException
 String name = null;
-switch (name) { // Loi NullPointerException o day!
+switch (name) { // Lỗi NullPointerException ở đây!
     case "Java":
         break;
 }
 ```
 
 ```java
-// Dung: Kiem tra null truoc
+// Đúng: Kiểm tra null trước
 String name = null;
 if (name != null) {
     switch (name) {
@@ -526,19 +526,19 @@ if (name != null) {
 }
 ```
 
-### Loi 3: Dung kieu du lieu khong ho tro
+### Lỗi 3: Dùng kiểu dữ liệu không hỗ trợ
 
 ```java
-// Sai: long khong duoc ho tro
+// Sai: long không được hỗ trợ
 long value = 100L;
-switch (value) { // Loi bien dich!
+switch (value) { // Lỗi biên dịch!
     case 100L:
         break;
 }
 ```
 
 ```java
-// Dung: Ep kieu ve int neu gia tri nam trong pham vi
+// Đúng: Ép kiểu về int nếu giá trị nằm trong phạm vi
 long value = 100L;
 switch ((int) value) {
     case 100:
@@ -547,53 +547,53 @@ switch ((int) value) {
 }
 ```
 
-### Loi 4: Case trung gia tri
+### Lỗi 4: Case trùng giá trị
 
 ```java
-// Sai: Hai case cung gia tri -> Loi bien dich
+// Sai: Hai case cùng giá trị -> Lỗi biên dịch
 switch (x) {
     case 1:
         System.out.println("A");
         break;
-    case 1: // Loi: duplicate case label
+    case 1: // Lỗi: duplicate case label
         System.out.println("B");
         break;
 }
 ```
 
-### Loi 5: Dung bien (khong phai hang so) trong case
+### Lỗi 5: Dùng biến (không phải hằng số) trong case
 
 ```java
-// Sai: Case phai la hang so (compile-time constant)
+// Sai: Case phải là hằng số (compile-time constant)
 int a = 1;
 switch (x) {
-    case a: // Loi bien dich! 'a' khong phai hang so
+    case a: // Lỗi biên dịch! 'a' không phải hằng số
         break;
 }
 ```
 
 ```java
-// Dung: Dung hang so (final) hoac literal
+// Đúng: Dùng hằng số (final) hoặc literal
 final int A = 1;
 switch (x) {
-    case A: // OK vi A la compile-time constant
+    case A: // OK vì A là compile-time constant
         break;
-    case 2: // OK vi 2 la literal
+    case 2: // OK vì 2 là literal
         break;
 }
 ```
 
 ---
 
-## 14. Cau hoi phong van
+## 14. Câu hỏi phỏng vấn
 
-### Cau 1: Switch co ho tro kieu `long` khong? Tai sao?
+### Câu 1: Switch có hỗ trợ kiểu `long` không? Tại sao?
 
-**Tra loi:** Khong. Java **khong ho tro `long`** trong switch. Ly do la switch duoc thiet ke de lam viec voi **jump table** (bang nhay) hoac **lookup table** de toi uu hieu nang. Cac bang nay su dung chi muc kieu `int`, nen cac kieu lon hon nhu `long` khong duoc ho tro. Cac kieu `byte`, `short`, `char` duoc ho tro vi chung co the **tu dong mo rong (widening)** len `int`.
+**Trả lời:** Không. Java **không hỗ trợ `long`** trong switch. Lý do là switch được thiết kế để làm việc với **jump table** (bảng nhảy) hoặc **lookup table** để tối ưu hiệu năng. Các bảng này sử dụng chỉ mục kiểu `int`, nên các kiểu lớn hơn như `long` không được hỗ trợ. Các kiểu `byte`, `short`, `char` được hỗ trợ vì chúng có thể **tự động mở rộng (widening)** lên `int`.
 
-### Cau 2: Fall-through la gi? Cho vi du.
+### Câu 2: Fall-through là gì? Cho ví dụ.
 
-**Tra loi:** Fall-through la hien tuong khi **thieu `break`** trong mot case, chuong trinh se **tiep tuc chay xuyen xuong cac case ben duoi** ma khong kiem tra dieu kien. Vi du:
+**Trả lời:** Fall-through là hiện tượng khi **thiếu `break`** trong một case, chương trình sẽ **tiếp tục chạy xuyên xuống các case bên dưới** mà không kiểm tra điều kiện. Ví dụ:
 ```java
 int x = 1;
 switch (x) {
@@ -601,30 +601,30 @@ switch (x) {
     case 2: System.out.println("B");
     case 3: System.out.println("C"); break;
 }
-// Ket qua: A, B, C (du x chi bang 1)
+// Kết quả: A, B, C (dù x chỉ bằng 1)
 ```
-Fall-through co the duoc **su dung co y** khi nhieu case co cung xu ly (case gop), nhung thuong la **loi** neu quen break.
+Fall-through có thể được **sử dụng có ý** khi nhiều case có cùng xử lý (case gộp), nhưng thường là **lỗi** nếu quên break.
 
-### Cau 3: Switch expression trong Java 14 khac gi switch statement truyen thong?
+### Câu 3: Switch expression trong Java 14 khác gì switch statement truyền thống?
 
-**Tra loi:**
+**Trả lời:**
 
-| Tieu chi | Switch statement | Switch expression (Java 14+) |
+| Tiêu chí | Switch statement | Switch expression (Java 14+) |
 |---------|-----------------|------------------------------|
-| Tra ve gia tri | Khong | Co (gan vao bien) |
-| Cu phap | `case X:` voi `break` | `case X ->` (arrow) |
-| Fall-through | Co the xay ra | **Khong co** |
-| `yield` | Khong dung | Dung de tra ve gia tri tu block |
-| An toan | De bi loi fall-through | An toan hon |
-| Exhaustiveness | Khong bat buoc | Bat buoc xu ly het cac case (compiler kiem tra) |
+| Trả về giá trị | Không | Có (gán vào biến) |
+| Cú pháp | `case X:` với `break` | `case X ->` (arrow) |
+| Fall-through | Có thể xảy ra | **Không có** |
+| `yield` | Không dùng | Dùng để trả về giá trị từ block |
+| An toàn | Dễ bị lỗi fall-through | An toàn hơn |
+| Exhaustiveness | Không bắt buộc | Bắt buộc xử lý hết các case (compiler kiểm tra) |
 
-### Cau 4: Tai sao switch khong ho tro `float` va `double`?
+### Câu 4: Tại sao switch không hỗ trợ `float` và `double`?
 
-**Tra loi:** Vi `float` va `double` la kieu du lieu **so thuc dau phay dong**, co van de ve **do chinh xac**. Hai gia tri co ve bang nhau (`0.1 + 0.2` va `0.3`) co the khong thuc su bang nhau trong bo nho. Viec so sanh chinh xac (`==`) voi so thuc la **khong dang tin cay**, nen Java khong cho phep dung chung trong switch.
+**Trả lời:** Vì `float` và `double` là kiểu dữ liệu **số thực dấu phẩy động**, có vấn đề về **độ chính xác**. Hai giá trị có vẻ bằng nhau (`0.1 + 0.2` và `0.3`) có thể không thực sự bằng nhau trong bộ nhớ. Việc so sánh chính xác (`==`) với số thực là **không đáng tin cậy**, nên Java không cho phép dùng chúng trong switch.
 
-### Cau 5: Co the dung switch voi null khong?
+### Câu 5: Có thể dùng switch với null không?
 
-**Tra loi:** Trong **switch truyen thong (truoc Java 21)**, truyen `null` vao switch se gay **`NullPointerException`** ngay tai dong `switch(expression)`. Ban phai kiem tra null truoc khi vao switch. Tu **Java 21 (preview)**, Java ho tro **pattern matching for switch** cho phep xu ly null truc tiep:
+**Trả lời:** Trong **switch truyền thống (trước Java 21)**, truyền `null` vào switch sẽ gây **`NullPointerException`** ngay tại dòng `switch(expression)`. Bạn phải kiểm tra null trước khi vào switch. Từ **Java 21 (preview)**, Java hỗ trợ **pattern matching for switch** cho phép xử lý null trực tiếp:
 ```java
 // Java 21+ (preview)
 switch (str) {
