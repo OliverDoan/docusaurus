@@ -237,3 +237,114 @@ function Form() {
 - **Không đọc/ghi `ref.current` trong quá trình render** (ngoại trừ khởi tạo lần đầu)
 - Ref thay đổi không gây re-render → UI không cập nhật
 - Dùng ref cho DOM và giá trị mutable, dùng state cho UI data
+
+---
+
+## Câu hỏi phỏng vấn
+
+### Câu 1: useRef và useState khác nhau như thế nào?
+**Đáp án:**
+- `useRef` tạo object `{ current: value }` tồn tại suốt vòng đời component. Thay đổi `ref.current` **không gây re-render** và giá trị cập nhật **ngay lập tức**.
+- `useState` lưu giá trị và khi gọi setter, component **re-render**. Giá trị mới chỉ có ở **render tiếp theo**.
+
+```tsx
+// useRef: thay đổi ngay, không re-render
+const countRef = useRef(0);
+countRef.current = 5;
+console.log(countRef.current); // 5 ngay lập tức
+
+// useState: re-render, giá trị mới ở render sau
+const [count, setCount] = useState(0);
+setCount(5);
+console.log(count); // vẫn là 0 trong render hiện tại
+```
+
+Dùng `useRef` cho timer IDs, DOM references, previous values. Dùng `useState` cho dữ liệu cần hiển thị trên UI.
+
+### Câu 2: forwardRef là gì và tại sao cần dùng?
+**Đáp án:**
+`forwardRef` cho phép component con nhận `ref` từ component cha và gắn vào DOM element bên trong. Mặc định, React không cho truyền `ref` như một prop thông thường vì `ref` là prop đặc biệt.
+
+```tsx
+import { forwardRef, useRef } from 'react';
+
+// Component con dùng forwardRef để nhận ref từ cha
+const CustomInput = forwardRef<HTMLInputElement, { placeholder: string }>(
+  ({ placeholder }, ref) => {
+    return <input ref={ref} placeholder={placeholder} />;
+  }
+);
+
+// Component cha truyền ref vào con
+function Form() {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <div>
+      <CustomInput ref={inputRef} placeholder="Type here..." />
+      <button onClick={() => inputRef.current?.focus()}>Focus</button>
+    </div>
+  );
+}
+```
+
+Use case phổ biến: tạo reusable input components, focus management, scroll control từ component cha.
+
+### Câu 3: Callback ref và object ref khác nhau như thế nào?
+**Đáp án:**
+- **Object ref** (`useRef`): tạo object `{ current: null }`, React tự gán DOM node vào `current` khi mount.
+- **Callback ref**: truyền một function vào prop `ref`. React gọi function đó với DOM node khi mount (`node !== null`) và với `null` khi unmount.
+
+```tsx
+// Object ref — cần useEffect để biết khi nào element mount
+const divRef = useRef<HTMLDivElement>(null);
+useEffect(() => {
+  if (divRef.current) {
+    console.log('Element mounted:', divRef.current);
+  }
+}, []);
+<div ref={divRef} />;
+
+// Callback ref — biết NGAY khi element mount/unmount
+const callbackRef = (node: HTMLDivElement | null) => {
+  if (node) {
+    console.log('Element mounted:', node);
+    node.focus(); // Chạy ngay, không cần useEffect
+  } else {
+    console.log('Element unmounted');
+  }
+};
+<div ref={callbackRef} />;
+```
+
+Callback ref hữu ích khi cần chạy logic ngay khi element xuất hiện, ví dụ: auto-focus, đo kích thước, thiết lập IntersectionObserver.
+
+### Câu 4: Khi nào nên dùng ref thay vì state?
+**Đáp án:**
+Dùng `ref` khi giá trị **không ảnh hưởng đến UI** (không cần re-render khi thay đổi):
+
+```tsx
+function Timer() {
+  const [time, setTime] = useState(0);
+  const intervalRef = useRef<number | null>(null); // ref: không hiển thị trên UI
+  const renderCountRef = useRef(0); // ref: đếm render, debug only
+
+  renderCountRef.current += 1;
+
+  const start = () => {
+    // Lưu intervalId vào ref — UI không cần biết intervalId
+    intervalRef.current = setInterval(() => {
+      setTime((t) => t + 1); // state: hiển thị trên UI
+    }, 1000);
+  };
+
+  const stop = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+  };
+
+  return <p>{time}s (rendered {renderCountRef.current} times)</p>;
+}
+```
+
+**Dùng ref cho:** timer/interval IDs, DOM elements, previous values, render count, giá trị mutable không cần hiển thị.
+**Dùng state cho:** text hiển thị, form input values, loading/error states, bất kỳ dữ liệu nào user nhìn thấy.

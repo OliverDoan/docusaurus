@@ -150,3 +150,121 @@ createRoot(document.getElementById('root')!).render(
 - Component render không pure (gọi function 2 lần để kiểm tra)
 - Side effects bị thiếu cleanup trong `useEffect`
 - API deprecated
+
+---
+
+## Câu hỏi phỏng vấn
+
+### Câu 1: Virtual DOM là gì và hoạt động thế nào?
+**Đáp án:**
+Virtual DOM là một bản sao nhẹ của DOM thật, được lưu trong bộ nhớ dưới dạng JavaScript object. Khi state thay đổi, React tạo một Virtual DOM mới, so sánh (diffing) với Virtual DOM cũ, tính toán những thay đổi tối thiểu (reconciliation), rồi chỉ cập nhật những phần thay đổi lên DOM thật.
+
+```jsx
+// Khi state thay đổi, React không cập nhật toàn bộ DOM
+// Mà chỉ cập nhật phần thay đổi:
+
+// Bước 1: State thay đổi -> tạo Virtual DOM mới
+// Bước 2: Diff Virtual DOM cũ vs mới
+// Bước 3: Tìm ra thay đổi tối thiểu
+// Bước 4: Cập nhật DOM thật (chỉ phần thay đổi)
+
+function App() {
+  const [count, setCount] = useState(0);
+  // Khi setCount -> React chỉ cập nhật text node "{count}"
+  // Không render lại toàn bộ <div>
+  return (
+    <div>
+      <h1>Title không đổi</h1>
+      <p>Count: {count}</p>
+    </div>
+  );
+}
+```
+
+Lợi ích: Giảm số lần thao tác DOM thật (vốn rất chậm vì gây reflow/repaint), tăng hiệu suất ứng dụng.
+
+### Câu 2: Render phase và Commit phase khác nhau thế nào?
+**Đáp án:**
+React chia quá trình render thành 2 giai đoạn:
+
+- **Render Phase**: React gọi function component, tạo React elements (Virtual DOM), thực hiện diffing. Giai đoạn này **có thể bị gián đoạn** và **không có side effects** nào lên DOM.
+- **Commit Phase**: React cập nhật DOM thật, chạy side effects (`useEffect`, `useLayoutEffect`). Giai đoạn này **không thể bị gián đoạn**.
+
+```jsx
+function MyComponent() {
+  // === RENDER PHASE ===
+  // React gọi function này để tạo React elements
+  const result = expensiveCalculation();
+
+  // === COMMIT PHASE (sau khi return) ===
+  // React lấy kết quả JSX và cập nhật DOM thật
+  // Sau đó chạy useEffect
+  useEffect(() => {
+    // Side effect chạy trong commit phase
+    document.title = result;
+  }, [result]);
+
+  return <div>{result}</div>;
+}
+```
+
+### Câu 3: React Element và Component khác nhau thế nào?
+**Đáp án:**
+- **React Element** là một plain JavaScript object mô tả một node trên màn hình. Nó được tạo bởi JSX hoặc `React.createElement()` và là **immutable** (không thay đổi sau khi tạo).
+- **React Component** là một function (hoặc class) **trả về** React elements. Component có thể nhận props, quản lý state và được tái sử dụng.
+
+```jsx
+// React Element — một plain object
+const element = <h1>Hello</h1>;
+// Tương đương: React.createElement('h1', null, 'Hello')
+// Kết quả: { type: 'h1', props: { children: 'Hello' } }
+console.log(typeof element); // "object"
+
+// React Component — một function trả về elements
+function Greeting({ name }) {
+  return <h1>Hello, {name}</h1>;
+}
+// Greeting là component, <Greeting name="React" /> tạo ra element
+console.log(typeof Greeting); // "function"
+
+// Mỗi lần render, component tạo element mới
+// Nhưng React chỉ cập nhật DOM khi element thay đổi
+```
+
+### Câu 4: One-way data flow là gì và tại sao React sử dụng nó?
+**Đáp án:**
+One-way data flow (luồng dữ liệu một chiều) có nghĩa là dữ liệu chỉ truyền **từ component cha xuống component con** qua props. Component con **không thể trực tiếp thay đổi** dữ liệu của cha.
+
+```jsx
+// Dữ liệu chỉ chạy một chiều: Parent -> Child
+function Parent() {
+  const [message, setMessage] = useState('Hello');
+
+  // Truyền data xuống qua props
+  // Truyền callback để con "gửi" dữ liệu lên
+  return (
+    <Child
+      message={message}
+      onUpdate={(newMsg) => setMessage(newMsg)}
+    />
+  );
+}
+
+function Child({ message, onUpdate }) {
+  // Không thể thay đổi message trực tiếp
+  // Phải gọi callback của cha
+  return (
+    <div>
+      <p>{message}</p>
+      <button onClick={() => onUpdate('Updated!')}>
+        Update
+      </button>
+    </div>
+  );
+}
+```
+
+Lợi ích:
+- **Dễ debug**: Biết chính xác dữ liệu đến từ đâu (từ cha nào truyền xuống)
+- **Dễ dự đoán**: Luồng dữ liệu rõ ràng, không có side effects ẩn
+- **Dễ bảo trì**: Thay đổi state ở một nơi, tất cả components phụ thuộc tự động cập nhật

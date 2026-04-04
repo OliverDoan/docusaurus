@@ -275,3 +275,153 @@ const dispatch = useAppDispatch();
   {user.name}
 </li>
 ```
+
+---
+
+## Câu hỏi phỏng vấn
+
+### Câu 1: RTK Query khác gì so với tự viết useEffect + fetch?
+**Đáp án:**
+
+Tự viết `useEffect + fetch` phải xử lý **rất nhiều thứ thủ công** mà RTK Query đã giải quyết sẵn:
+
+| Vấn đề | useEffect + fetch | RTK Query |
+|---|---|---|
+| Loading/error state | Tự quản lý useState | Tự động (isLoading, error) |
+| Caching | Không có | Tự động cache, dedup |
+| Refetch khi data cũ | Tự viết logic | Tự động (cache invalidation) |
+| Race conditions | Phải tự handle | Xử lý sẵn |
+| Deduplication | Không có | Cùng query chỉ fetch 1 lần |
+| Polling | Tự viết setInterval | `pollingInterval` option |
+| Prefetching | Tự viết | `prefetch` utility |
+
+```tsx
+// ❌ Tự viết — nhiều boilerplate, dễ bug
+function UserList() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false; // Race condition handling
+    setLoading(true);
+    fetch('/api/users')
+      .then((res) => res.json())
+      .then((data) => { if (!cancelled) setUsers(data); })
+      .catch((err) => { if (!cancelled) setError(err.message); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, []);
+  // Còn phải handle: refetch, caching, dedup, stale data...
+}
+
+// ✅ RTK Query — tất cả đã có sẵn
+function UserList() {
+  const { data: users, isLoading, error, refetch } = useGetUsersQuery();
+  // Caching, dedup, refetch, error handling — tất cả tự động
+}
+```
+
+### Câu 2: Tags (providesTags, invalidatesTags) hoạt động thế nào?
+**Đáp án:**
+
+Tags là hệ thống **cache invalidation** của RTK Query, hoạt động theo mô hình publish-subscribe:
+
+1. **providesTags**: Query endpoint **đăng ký** tag — "data này thuộc nhóm tag X"
+2. **invalidatesTags**: Mutation endpoint **vô hiệu hóa** tag — "tag X đã cũ, cần refetch"
+3. RTK Query tự động refetch tất cả queries có tag bị invalidate
+
+```tsx
+endpoints: (builder) => ({
+  // Query CUNG CẤP tag 'User'
+  getUsers: builder.query<User[], void>({
+    query: () => '/users',
+    providesTags: (result) =>
+      result
+        ? [
+            ...result.map(({ id }) => ({ type: 'User' as const, id })),
+            { type: 'User', id: 'LIST' },
+          ]
+        : [{ type: 'User', id: 'LIST' }],
+  }),
+
+  // Mutation VÔ HIỆU HÓA tag 'User' → getUsers tự refetch
+  createUser: builder.mutation<User, CreateUserDto>({
+    query: (body) => ({ url: '/users', method: 'POST', body }),
+    invalidatesTags: [{ type: 'User', id: 'LIST' }],
+  }),
+
+  // Chỉ invalidate 1 user cụ thể
+  updateUser: builder.mutation({
+    query: ({ id, data }) => ({ url: `/users/${id}`, method: 'PUT', body: data }),
+    invalidatesTags: (result, error, { id }) => [{ type: 'User', id }],
+  }),
+})
+```
+
+Flow: `createUser` thành công → invalidate tag `User:LIST` → `getUsers` tự động refetch → UI cập nhật danh sách mới.
+
+### Câu 3: Optimistic update trong RTK Query triển khai ra sao?
+**Đáp án:**
+
+Optimistic update là kỹ thuật **cập nhật UI ngay lập tức** trước khi server phản hồi, sau đó rollback nếu lỗi. RTK Query hỗ trợ qua `onQueryStarted`:
+
+```tsx
+updateUser: builder.mutation<User, { id: string; data: Partial<User> }>({
+  query: ({ id, data }) => ({
+    url: `/users/${id}`,
+    method: 'PUT',
+    body: data,
+  }),
+  async onQueryStarted({ id, data }, { dispatch, queryFulfilled }) {
+    // Bước 1: Cập nhật cache NGAY LẬP TỨC (trước khi server trả về)
+    const patchResult = dispatch(
+      api.util.updateQueryData('getUsers', undefined, (draft) => {
+        const user = draft.find((u) => u.id === id);
+        if (user) Object.assign(user, data);
+      })
+    );
+
+    try {
+      // Bước 2: Đợi server response
+      await queryFulfilled;
+      // Thành công → cache đã đúng, không cần làm gì thêm
+    } catch {
+      // Bước 3: Lỗi → ROLLBACK về state trước
+      patchResult.undo();
+    }
+  },
+}),
+```
+
+Flow:
+1. User click "Save" → **UI cập nhật ngay** (không chờ loading)
+2. Request gửi đến server
+3. Server OK → giữ nguyên, Server lỗi → **undo** về trạng thái cũ
+
+Ưu điểm: UX mượt mà, user không phải chờ spinner cho mỗi thao tác nhỏ.
+
+### Câu 4: Khi nào nên dùng RTK Query vs TanStack Query?
+**Đáp án:**
+
+| Tiêu chí | RTK Query | TanStack Query |
+|---|---|---|
+| Đã dùng Redux | **Nên dùng** — tích hợp sẵn trong store | Phải thêm layer riêng |
+| Không dùng Redux | Phải setup cả Redux store | **Nên dùng** — standalone |
+| Cache invalidation | Tag-based (providesTags) | Key-based (queryKey) |
+| Optimistic updates | `onQueryStarted` + `patchResult` | `onMutate` + `context` |
+| Infinite scroll | Không hỗ trợ sẵn | `useInfiniteQuery` tích hợp |
+| SSR/Next.js | Cần setup thêm | Hỗ trợ tốt hơn |
+| Bundle size | Đã có nếu dùng RTK | ~13KB thêm |
+| DevTools | Redux DevTools | TanStack Query DevTools |
+
+**Chọn RTK Query khi:**
+- Dự án đã dùng Redux Toolkit
+- Cần server state + client state trong cùng store
+- Team quen thuộc với Redux ecosystem
+
+**Chọn TanStack Query khi:**
+- Không dùng Redux (dùng Zustand, Jotai, hoặc không cần global state)
+- Cần infinite scroll, pagination phức tạp
+- Dự án Next.js / SSR
+- Chỉ cần quản lý server state, client state đơn giản

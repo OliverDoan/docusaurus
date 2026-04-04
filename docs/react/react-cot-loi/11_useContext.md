@@ -234,3 +234,137 @@ function AppProvider({ children }: { children: ReactNode }) {
   );
 }
 ```
+
+---
+
+## Câu hỏi phỏng vấn
+
+### Câu 1: Context API giải quyết vấn đề gì?
+**Đáp án:**
+Context API giải quyết vấn đề **prop drilling** — khi cần truyền data qua nhiều cấp component trung gian mà các component đó không sử dụng data đó.
+
+```tsx
+// KHÔNG có Context: prop drilling qua 3 cấp
+function App() {
+  const [user, setUser] = useState<User | null>(null);
+  return <Layout user={user} />; // Layout không dùng user
+}
+function Layout({ user }: { user: User | null }) {
+  return <Sidebar user={user} />; // Sidebar không dùng user
+}
+function Sidebar({ user }: { user: User | null }) {
+  return <UserAvatar user={user} />; // Chỉ UserAvatar cần user
+}
+
+// CÓ Context: component nào cần thì tự lấy
+function App() {
+  return (
+    <UserProvider>
+      <Layout />
+    </UserProvider>
+  );
+}
+function Layout() { return <Sidebar />; } // Không cần biết về user
+function Sidebar() { return <UserAvatar />; }
+function UserAvatar() {
+  const { user } = useUser(); // Lấy trực tiếp từ Context
+  return <img src={user?.avatar} />;
+}
+```
+
+### Câu 2: Context có vấn đề gì về performance?
+**Đáp án:**
+Khi Context value thay đổi, **tất cả** component gọi `useContext` đều re-render, kể cả khi component chỉ dùng một phần value không thay đổi.
+
+```tsx
+// VẤN ĐỀ: Thay đổi user → ThemeButton cũng re-render dù chỉ dùng theme
+const AppContext = createContext<{
+  user: User | null;
+  theme: string;
+} | null>(null);
+
+function ThemeButton() {
+  const { theme } = useContext(AppContext)!; // Re-render khi user thay đổi!
+  return <button className={theme}>Click</button>;
+}
+
+// GIẢI PHÁP 1: Tách Context riêng cho mỗi concern
+<UserContext.Provider value={{ user, setUser }}>
+  <ThemeContext.Provider value={{ theme, setTheme }}>
+    {children}
+  </ThemeContext.Provider>
+</UserContext.Provider>
+
+// GIẢI PHÁP 2: useMemo cho context value
+function UserProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const value = useMemo(() => ({ user, setUser }), [user]);
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+}
+```
+
+### Câu 3: Khi nào dùng Context, khi nào dùng state management library?
+**Đáp án:**
+**Dùng Context cho:**
+- Data ít thay đổi: theme, locale, auth user
+- Ít consumers (< 20 components dùng)
+- Ứng dụng nhỏ/trung bình
+
+**Dùng state management library (Redux, Zustand, Jotai) cho:**
+- Data thay đổi thường xuyên (real-time data, frequent updates)
+- Nhiều consumers cần select từng phần state (tránh re-render thừa)
+- Cần middleware (logging, persistence, async actions)
+- Ứng dụng lớn, state phức tạp
+
+```tsx
+// Context phù hợp: theme (thay đổi ít, ít consumer)
+const ThemeContext = createContext<'light' | 'dark'>('light');
+
+// Zustand phù hợp: shopping cart (thay đổi thường xuyên, nhiều consumer)
+const useCartStore = create((set) => ({
+  items: [],
+  addItem: (item) => set((state) => ({ items: [...state.items, item] })),
+  totalPrice: 0,
+}));
+// Mỗi component chỉ subscribe phần state cần → tránh re-render thừa
+const totalPrice = useCartStore((state) => state.totalPrice);
+```
+
+### Câu 4: Tại sao nên dùng useMemo cho context value?
+**Đáp án:**
+Mỗi lần Provider component re-render, nếu tạo object mới cho `value`, React thấy reference thay đổi và re-render **tất cả consumers**, kể cả khi data bên trong không đổi.
+
+```tsx
+// SAI: Object mới mỗi render → consumers re-render không cần thiết
+function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const [count, setCount] = useState(0); // State khác
+
+  // Mỗi khi count thay đổi, Provider re-render,
+  // value là object MỚI → tất cả consumers re-render!
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+// ĐÚNG: useMemo giữ reference ổn định khi user không đổi
+function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const [count, setCount] = useState(0);
+
+  const value = useMemo(
+    () => ({ user, login, logout }),
+    [user] // Chỉ tạo object mới khi user thay đổi
+  );
+
+  // count thay đổi → Provider re-render
+  // nhưng value giữ nguyên reference → consumers KHÔNG re-render
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+```

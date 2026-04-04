@@ -317,3 +317,148 @@ function List<T>({ items, renderItem, keyExtractor }: ListProps<T>) {
   renderItem={(user) => <span>{user.name}</span>}
 />
 ```
+
+---
+
+## Câu hỏi phỏng vấn
+
+### Câu 1: Interface vs Type trong TypeScript khác nhau thế nào?
+**Đáp án:**
+
+- `interface` dùng để mô tả hình dạng (shape) của object, hỗ trợ **extends** và **declaration merging** (khai báo nhiều lần cùng tên sẽ tự merge).
+- `type` linh hoạt hơn, dùng cho **union types**, **intersection types**, **utility types**, và các kiểu phức tạp.
+
+```ts
+// Interface — extendable, dùng cho object shapes
+interface User {
+  id: string;
+  name: string;
+}
+
+interface AdminUser extends User {
+  role: 'admin';
+}
+
+// Declaration merging — chỉ interface có
+interface User {
+  email: string; // Tự merge vào User ở trên
+}
+
+// Type — dùng cho union, intersection
+type Status = 'loading' | 'success' | 'error';
+type Response = { data: string } | { error: string };
+
+// Type intersection
+type AdminUser = User & { role: 'admin' };
+```
+
+**Quy tắc:** Dùng `interface` cho props, models (object shapes). Dùng `type` cho unions, mapped types, utility types.
+
+### Câu 2: Cách type props cho React component?
+**Đáp án:**
+
+Định nghĩa interface cho props, sau đó dùng destructuring trong function parameter:
+
+```tsx
+// 1. Định nghĩa interface
+interface ButtonProps {
+  label: string;
+  onClick: () => void;
+  variant?: 'primary' | 'secondary'; // Optional prop
+  disabled?: boolean;
+}
+
+// 2. Dùng trong component
+function Button({ label, onClick, variant = 'primary', disabled = false }: ButtonProps) {
+  return (
+    <button className={`btn-${variant}`} onClick={onClick} disabled={disabled}>
+      {label}
+    </button>
+  );
+}
+
+// 3. Children prop
+interface CardProps {
+  title: string;
+  children: React.ReactNode; // Bất kỳ nội dung React render được
+}
+
+// 4. Kế thừa HTML attributes
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+}
+```
+
+### Câu 3: Generic component trong React viết thế nào?
+**Đáp án:**
+
+Generic component cho phép tạo component tái sử dụng với nhiều kiểu dữ liệu khác nhau, TypeScript sẽ tự infer type từ props:
+
+```tsx
+interface ListProps<T> {
+  items: T[];
+  renderItem: (item: T) => React.ReactNode;
+  keyExtractor: (item: T) => string;
+}
+
+function List<T>({ items, renderItem, keyExtractor }: ListProps<T>) {
+  return (
+    <ul>
+      {items.map((item) => (
+        <li key={keyExtractor(item)}>{renderItem(item)}</li>
+      ))}
+    </ul>
+  );
+}
+
+// Sử dụng — T tự infer là User từ items
+<List
+  items={users}
+  keyExtractor={(user) => user.id}
+  renderItem={(user) => <span>{user.name}</span>}
+/>
+
+// Hoặc chỉ định explicit
+<List<Product>
+  items={products}
+  keyExtractor={(p) => p.id}
+  renderItem={(p) => <span>{p.name} - ${p.price}</span>}
+/>
+```
+
+### Câu 4: Utility types (Partial, Pick, Omit) dùng khi nào?
+**Đáp án:**
+
+Utility types giúp tạo type mới từ type có sẵn mà không cần viết lại:
+
+```ts
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  age: number;
+}
+
+// Partial<T> — tất cả fields trở thành optional
+// Dùng khi: update form (chỉ gửi fields thay đổi)
+type UpdateUser = Partial<User>;
+// { id?: string; name?: string; email?: string; age?: number; }
+
+function updateUser(id: string, data: Partial<User>) {
+  // data có thể chỉ có { name: 'New Name' }
+}
+
+// Pick<T, K> — chọn một số fields
+// Dùng khi: chỉ cần vài fields từ type lớn
+type UserPreview = Pick<User, 'id' | 'name'>;
+// { id: string; name: string; }
+
+// Omit<T, K> — bỏ một số fields
+// Dùng khi: tạo type không có field nào đó (vd: create không cần id)
+type CreateUser = Omit<User, 'id'>;
+// { name: string; email: string; age: number; }
+
+// Record<K, V> — object với key-value types
+// Dùng khi: tạo dictionary/map
+type UserMap = Record<string, User>;
+```

@@ -196,3 +196,86 @@ function Parent() {
 - **Dropdown menu** — tránh bị cắt bởi parent container
 - **Toast/Notification** — hiển thị ở góc màn hình
 - **Fullscreen overlay** — loading screen, image viewer
+
+---
+
+## Câu hỏi phỏng vấn
+
+### Câu 1: Portal là gì và khi nào nên dùng?
+**Đáp án:**
+Portal cho phép render children vào một DOM node **nằm ngoài** parent component trong DOM tree, trong khi vẫn giữ nguyên vị trí trong React component tree.
+
+```tsx
+import { createPortal } from 'react-dom';
+
+function Modal({ children, isOpen }: { children: ReactNode; isOpen: boolean }) {
+  if (!isOpen) return null;
+
+  // Render vào document.body thay vì parent DOM node
+  return createPortal(
+    <div className="modal-overlay">
+      <div className="modal-content">{children}</div>
+    </div>,
+    document.body
+  );
+}
+```
+
+**Khi nào dùng:** Khi component nằm trong parent có `overflow: hidden`, `z-index` thấp, hoặc `transform` khiến modal/tooltip/dropdown bị cắt hoặc hiển thị sai vị trí. Portal render DOM node ra ngoài parent nên không bị ảnh hưởng bởi CSS của parent.
+
+### Câu 2: Event bubbling hoạt động thế nào với Portal?
+**Đáp án:**
+Mặc dù Portal render DOM node ở nơi khác (ví dụ `document.body`), events vẫn **bubble theo React component tree**, không phải DOM tree. Đây là điểm khác biệt quan trọng.
+
+```tsx
+function Parent() {
+  return (
+    // onClick ở đây VẪN bắt được event từ Modal
+    <div onClick={() => console.log('Parent clicked!')}>
+      <Modal isOpen={true} onClose={() => {}}>
+        <button onClick={() => console.log('Button clicked!')}>
+          Click me
+        </button>
+      </Modal>
+    </div>
+  );
+}
+
+// Click button:
+// 1. "Button clicked!" (từ button)
+// 2. "Parent clicked!" (event bubble lên Parent trong React tree)
+// Dù Modal DOM node nằm ở document.body, KHÔNG phải con của div trong DOM
+```
+
+Điều này có nghĩa: Context, event handlers, và tất cả React features hoạt động bình thường với Portal vì React tree không thay đổi.
+
+### Câu 3: Kể các use cases phổ biến của Portal và giải thích tại sao cần dùng Portal cho mỗi trường hợp.
+**Đáp án:**
+
+1. **Modal/Dialog** — Parent có thể có `overflow: hidden` hoặc `z-index` thấp. Portal render modal ở `document.body` nên modal luôn hiển thị trên cùng.
+
+2. **Tooltip/Popover** — Cần position chính xác relative to viewport. Nếu nằm trong parent có `transform` hoặc `position: relative`, tooltip sẽ bị lệch vị trí.
+
+3. **Toast/Notification** — Cần hiển thị ở góc cố định trên màn hình, không phụ thuộc vào component nào trigger nó.
+
+```tsx
+// Toast system dùng Portal
+function ToastContainer() {
+  const { toasts } = useToast();
+
+  return createPortal(
+    <div className="fixed top-4 right-4 z-50 flex flex-col gap-2">
+      {toasts.map((toast) => (
+        <div key={toast.id} className="rounded bg-gray-800 px-4 py-2 text-white">
+          {toast.message}
+        </div>
+      ))}
+    </div>,
+    document.body
+  );
+}
+```
+
+4. **Dropdown menu** — Parent container có `overflow: hidden` sẽ cắt dropdown. Portal cho phép dropdown hiển thị đầy đủ bên ngoài container.
+
+5. **Fullscreen overlay** — Loading screen, image lightbox cần phủ toàn màn hình, không bị giới hạn bởi parent layout.

@@ -251,3 +251,136 @@ src/
 - **Return value rõ ràng** — object cho nhiều values, tuple cho 2 values
 - **Naming convention** — `use` + mô tả chức năng: `useAuth`, `useDebounce`, `useLocalStorage`
 - **Không lạm dụng** — nếu logic chỉ dùng ở 1 component, để trong component
+
+---
+
+## Câu hỏi phỏng vấn
+
+### Câu 1: Rules of Hooks là gì?
+**Đáp án:**
+React có 2 quy tắc bắt buộc khi sử dụng hooks:
+
+1. **Chỉ gọi hooks ở top level** — không gọi trong `if`, `for`, `while`, hoặc nested functions. React dựa vào thứ tự gọi hooks để theo dõi state.
+2. **Chỉ gọi hooks trong React function components hoặc custom hooks** — không gọi trong class components hay functions thường.
+
+```tsx
+// SAI: hook trong điều kiện
+function Component({ isLoggedIn }: { isLoggedIn: boolean }) {
+  if (isLoggedIn) {
+    const [name, setName] = useState(''); // Vi phạm rule 1!
+  }
+}
+
+// ĐÚNG: luôn gọi hook, dùng điều kiện bên trong
+function Component({ isLoggedIn }: { isLoggedIn: boolean }) {
+  const [name, setName] = useState('');
+
+  if (isLoggedIn) {
+    // Dùng name ở đây
+  }
+}
+```
+
+Lý do: React dùng thứ tự gọi hooks để map state với hook tương ứng. Nếu thứ tự thay đổi giữa các render, state sẽ bị sai lệch.
+
+### Câu 2: Tại sao tên custom hook phải bắt đầu bằng "use"?
+**Đáp án:**
+Quy ước `use` prefix có 2 mục đích:
+
+1. **React ESLint plugin** dựa vào prefix `use` để kiểm tra Rules of Hooks. Nếu không bắt đầu bằng `use`, linter không biết đó là hook và không cảnh báo khi vi phạm rules.
+2. **Developer experience** — nhìn vào tên function biết ngay đó là hook, có thể gọi hooks bên trong, và phải tuân theo Rules of Hooks.
+
+```tsx
+// useWindowSize — React biết đây là hook, linter kiểm tra rules
+function useWindowSize() {
+  const [size, setSize] = useState({ width: 0, height: 0 });
+  useEffect(() => {
+    const handler = () => setSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+  return size;
+}
+
+// getWindowSize — linter KHÔNG kiểm tra, dễ vi phạm rules mà không biết
+function getWindowSize() {
+  const [size, setSize] = useState({ width: 0, height: 0 }); // Linter bỏ qua!
+  // ...
+}
+```
+
+### Câu 3: Custom hook khác utility function như thế nào?
+**Đáp án:**
+- **Custom hook** sử dụng React hooks bên trong (`useState`, `useEffect`, `useRef`,...). Nó gắn với React lifecycle và có thể giữ state, chạy side effects.
+- **Utility function** là pure function, không dùng React hooks, không gắn với lifecycle. Có thể dùng ở bất kỳ đâu, không riêng React.
+
+```tsx
+// Custom hook — dùng React hooks, gắn với component lifecycle
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+  return debouncedValue;
+}
+
+// Utility function — pure, không dùng hooks, dùng ở bất kỳ đâu
+function formatCurrency(amount: number, currency = 'VND'): string {
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency,
+  }).format(amount);
+}
+```
+
+Quy tắc: nếu function cần React hooks (state, effects, context,...) thì tạo custom hook. Nếu chỉ là logic tính toán thuần thì tạo utility function.
+
+### Câu 4: Hãy viết custom hook useDebounce và giải thích cách hoạt động.
+**Đáp án:**
+
+```tsx
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    // Đặt timer delay ms sau mới cập nhật debouncedValue
+    const timer = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    // Cleanup: nếu value thay đổi trước khi hết delay,
+    // clear timer cũ → bắt đầu đếm lại
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+// Ứng dụng: search input — chỉ gọi API sau khi user ngừng gõ 300ms
+function SearchPage() {
+  const [query, setQuery] = useState('');
+  const debouncedQuery = useDebounce(query, 300);
+
+  useEffect(() => {
+    if (debouncedQuery) {
+      fetch(`/api/search?q=${debouncedQuery}`)
+        .then((res) => res.json())
+        .then((data) => console.log(data));
+    }
+  }, [debouncedQuery]); // Chỉ fetch khi debouncedQuery thay đổi
+
+  return (
+    <input
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      placeholder="Search..."
+    />
+  );
+}
+```
+
+**Cách hoạt động:** Mỗi khi `value` thay đổi, useEffect tạo một `setTimeout`. Nếu `value` thay đổi lại trước khi hết `delay`, cleanup function clear timer cũ và tạo timer mới. Kết quả: `debouncedValue` chỉ cập nhật khi `value` ngừng thay đổi trong `delay` ms.

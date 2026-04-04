@@ -241,3 +241,153 @@ src/
 - **Small components**: 50-150 dòng là lý tưởng
 - **Tách logic ra custom hooks**: Component chỉ lo render
 - **Flat structure**: Tránh nested quá 3 cấp trong thư mục
+
+---
+
+## Câu hỏi phỏng vấn
+
+### Câu 1: Function component và Class component khác gì nhau?
+**Đáp án:**
+Function component là cách viết được khuyến khích hiện nay, sử dụng hooks để quản lý state và side effects. Class component là cách viết cũ (legacy), dùng lifecycle methods.
+
+```jsx
+// Function Component (hiện đại)
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    document.title = `Count: ${count}`;
+  }, [count]);
+
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+
+// Class Component (legacy)
+class Counter extends React.Component {
+  state = { count: 0 };
+
+  componentDidUpdate() {
+    document.title = `Count: ${this.state.count}`;
+  }
+
+  render() {
+    return (
+      <button onClick={() => this.setState({ count: this.state.count + 1 })}>
+        {this.state.count}
+      </button>
+    );
+  }
+}
+```
+
+Khác biệt chính:
+- **Cú pháp**: Function đơn giản hơn, class cần `this`, `render()`, `constructor()`
+- **State**: Function dùng `useState`, class dùng `this.state` / `this.setState`
+- **Side effects**: Function dùng `useEffect`, class dùng lifecycle methods (`componentDidMount`, `componentDidUpdate`, `componentWillUnmount`)
+- **Logic reuse**: Function dùng custom hooks (dễ), class dùng HOC/render props (phức tạp)
+
+### Câu 2: Composition và inheritance khác nhau thế nào trong React?
+**Đáp án:**
+React ưu tiên **composition** (kết hợp) thay vì **inheritance** (kế thừa). Composition linh hoạt hơn vì cho phép truyền JSX/components qua props thay vì tạo cây kế thừa cứng nhắc.
+
+```jsx
+// ❌ Inheritance approach (KHÔNG nên dùng trong React)
+class SpecialButton extends Button {
+  render() {
+    return <button className="special">{this.props.children}</button>;
+  }
+}
+
+// ✅ Composition approach (KHUYẾN KHÍCH)
+// Component "chứa" component khác qua children hoặc named props
+function Card({ header, children, footer }) {
+  return (
+    <div className="card">
+      {header && <div className="card-header">{header}</div>}
+      <div className="card-body">{children}</div>
+      {footer && <div className="card-footer">{footer}</div>}
+    </div>
+  );
+}
+
+// Sử dụng — linh hoạt, dễ mở rộng
+<Card
+  header={<h2>User Profile</h2>}
+  footer={<button>Save</button>}
+>
+  <p>Name: Alice</p>
+  <p>Email: alice@example.com</p>
+</Card>
+```
+
+Lý do ưu tiên composition: linh hoạt hơn, dễ test, dễ thay đổi, tránh tight coupling giữa các components.
+
+### Câu 3: children prop là gì?
+**Đáp án:**
+`children` là một prop đặc biệt trong React, chứa nội dung nằm giữa opening tag và closing tag của component. Nó cho phép component "bọc" nội dung bất kỳ, tạo layout components và wrapper patterns.
+
+```jsx
+// Khai báo component nhận children
+function Modal({ title, children }: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="modal-overlay">
+      <div className="modal">
+        <h2>{title}</h2>
+        <div className="modal-body">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+// Sử dụng — nội dung giữa tags trở thành children
+<Modal title="Confirm Delete">
+  <p>Are you sure you want to delete this item?</p>
+  <button>Yes</button>
+  <button>Cancel</button>
+</Modal>
+
+// children có thể là bất kỳ React.ReactNode:
+// - String, number
+// - JSX elements
+// - Arrays
+// - null, undefined (không render gì)
+```
+
+### Câu 4: Quy tắc đặt tên component trong React là gì?
+**Đáp án:**
+Component **bắt buộc** phải viết hoa chữ cái đầu (PascalCase). React dựa vào chữ cái đầu để phân biệt giữa HTML tag và custom component.
+
+```jsx
+// ❌ Viết thường → React hiểu là HTML tag
+function userCard() {
+  return <div>Card</div>;
+}
+// <userCard /> → React tìm HTML tag "usercard" → không hoạt động đúng
+
+// ✅ Viết hoa chữ đầu → React hiểu là component
+function UserCard() {
+  return <div>Card</div>;
+}
+// <UserCard /> → React gọi function UserCard()
+
+// Quy tắc đặt tên:
+// PascalCase: UserCard, LoginForm, ProductList
+// Mô tả rõ chức năng: SearchBar (không phải Bar)
+// Prefix theo loại: useAuth (hook), withAuth (HOC)
+
+// Lưu ý với component gán vào biến:
+const components = {
+  header: HeaderComponent,
+  footer: FooterComponent,
+};
+
+// ❌ Không thể dùng trực tiếp
+// <components.header /> → lỗi vì chữ thường
+
+// ✅ Gán vào biến PascalCase trước
+const SelectedComponent = components.header;
+<SelectedComponent />
+```

@@ -216,3 +216,169 @@ function TemperatureConverter() {
   );
 }
 ```
+
+---
+
+## Câu hỏi phỏng vấn
+
+### Câu 1: State và Props khác nhau thế nào?
+**Đáp án:**
+State là dữ liệu **nội bộ** do component tự quản lý, có thể thay đổi và gây re-render. Props là dữ liệu **truyền từ cha**, read-only và component con không được thay đổi.
+
+```jsx
+function Parent() {
+  // State — nội bộ, có thể thay đổi
+  const [count, setCount] = useState(0);
+
+  // count truyền xuống Child thành props
+  return <Child count={count} />;
+}
+
+function Child({ count }) {
+  // count ở đây là PROPS — read-only
+  // ❌ count = 5;  → KHÔNG ĐƯỢC thay đổi props
+  // ✅ Chỉ đọc và hiển thị
+  return <p>{count}</p>;
+}
+```
+
+| | State | Props |
+|---|---|---|
+| Quản lý bởi | Component hiện tại | Component cha |
+| Có thể thay đổi | Co (qua setter) | Khong (read-only) |
+| Khi thay đổi | Re-render component | Cha re-render → con re-render |
+| Mục đích | Dữ liệu thay đổi theo thời gian | Cấu hình component từ bên ngoài |
+
+### Câu 2: Tại sao state phải immutable trong React?
+**Đáp án:**
+React dùng **so sánh reference** (===) để xác định state có thay đổi hay không. Nếu mutate object/array trực tiếp, reference không đổi nên React không nhận ra thay đổi và **không re-render**.
+
+```jsx
+const [user, setUser] = useState({ name: 'Alice', age: 25 });
+
+// ❌ Mutate trực tiếp — React KHÔNG re-render
+const handleWrong = () => {
+  user.name = 'Bob';     // Thay đổi object gốc
+  setUser(user);          // Cùng reference → React bỏ qua
+  // user === user → true → React nghĩ không có gì thay đổi
+};
+
+// ✅ Tạo object mới — React re-render
+const handleCorrect = () => {
+  setUser({ ...user, name: 'Bob' }); // Object mới, reference mới
+  // newObject === user → false → React biết cần re-render
+};
+
+// Tương tự với array:
+const [items, setItems] = useState([1, 2, 3]);
+
+// ❌ Mutate array
+items.push(4);
+setItems(items); // Cùng reference → không re-render
+
+// ✅ Tạo array mới
+setItems([...items, 4]); // Array mới → re-render
+```
+
+### Câu 3: Updater function là gì và khi nào cần dùng?
+**Đáp án:**
+Updater function (dạng `prev => newState`) đảm bảo luôn dùng giá trị state **mới nhất** khi tính toán state tiếp theo. Cần dùng khi state mới **phụ thuộc vào state cũ**, đặc biệt khi gọi setState nhiều lần liên tiếp.
+
+```jsx
+const [count, setCount] = useState(0);
+
+// ❌ Không dùng updater — bug khi gọi liên tiếp
+const incrementThrice = () => {
+  setCount(count + 1); // count = 0 → set 1
+  setCount(count + 1); // count vẫn = 0 (closure) → set 1
+  setCount(count + 1); // count vẫn = 0 → set 1
+  // Kết quả: count = 1 (không phải 3!)
+};
+
+// ✅ Dùng updater function — luôn đúng
+const incrementThrice = () => {
+  setCount((prev) => prev + 1); // prev = 0 → return 1
+  setCount((prev) => prev + 1); // prev = 1 → return 2
+  setCount((prev) => prev + 1); // prev = 2 → return 3
+  // Kết quả: count = 3
+};
+
+// Quy tắc đơn giản:
+// - State mới KHÔNG phụ thuộc state cũ → setCount(5)
+// - State mới PHỤ THUỘC state cũ → setCount(prev => prev + 1)
+```
+
+### Câu 4: State batching là gì?
+**Đáp án:**
+State batching là cơ chế React **gom nhóm** nhiều lần cập nhật state trong cùng một event handler và chỉ **re-render một lần duy nhất**. Từ React 18, batching hoạt động trong mọi ngữ cảnh (event handler, setTimeout, Promise, etc.).
+
+```jsx
+function Form() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = () => {
+    // React BATCH cả 3 setState → chỉ 1 lần re-render
+    setName('Alice');
+    setEmail('alice@example.com');
+    setLoading(true);
+    // Không re-render 3 lần riêng biệt!
+  };
+
+  // React 18+: Batching cũng hoạt động trong async
+  const handleAsync = async () => {
+    const data = await fetchData();
+    // Trước React 18: 2 lần re-render
+    // React 18+: Batch thành 1 lần re-render
+    setName(data.name);
+    setEmail(data.email);
+  };
+
+  // Nếu CẦN re-render ngay lập tức (hiếm khi cần):
+  // import { flushSync } from 'react-dom';
+  // flushSync(() => setName('Alice'));  // Re-render ngay
+  // flushSync(() => setEmail('alice@example.com')); // Re-render lần nữa
+
+  return <div>{name} - {email}</div>;
+}
+```
+
+### Câu 5: Derived state là gì và tại sao không nên tạo state thừa?
+**Đáp án:**
+Derived state (state suy ra) là giá trị có thể **tính được** từ state hoặc props hiện có. Không nên tạo state riêng cho giá trị derived vì sẽ gây ra đồng bộ state phức tạp và bug tiềm ẩn.
+
+```jsx
+// ❌ State thừa — fullName có thể tính từ firstName + lastName
+function UserForm() {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [fullName, setFullName] = useState(''); // THỪA!
+
+  // Phải nhớ đồng bộ fullName mỗi khi firstName/lastName thay đổi
+  // Quên đồng bộ → bug!
+  useEffect(() => {
+    setFullName(`${firstName} ${lastName}`);
+  }, [firstName, lastName]);
+}
+
+// ✅ Tính trực tiếp — không cần state, không cần effect
+function UserForm() {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const fullName = `${firstName} ${lastName}`; // Tính mỗi render
+  // Luôn đúng, không cần đồng bộ
+}
+
+// ✅ Với tính toán tốn kém → dùng useMemo
+function ProductList({ products, filter }) {
+  // Chỉ tính lại khi products hoặc filter thay đổi
+  const filteredProducts = useMemo(
+    () => products.filter((p) => p.name.includes(filter)),
+    [products, filter]
+  );
+  return <ul>{filteredProducts.map(/* ... */)}</ul>;
+}
+```
+
+Quy tắc: Nếu giá trị **tính được** từ state/props khác → **đừng tạo state**, hãy tính trực tiếp trong render.

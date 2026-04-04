@@ -260,3 +260,141 @@ async function handleSignIn(email: string, password: string) {
   }
 }
 ```
+
+---
+
+## Câu hỏi phỏng vấn
+
+### Câu 1: onAuthStateChanged dùng để làm gì và tại sao cần cleanup?
+**Đáp án:**
+
+`onAuthStateChanged` là một **observer (listener)** lắng nghe mọi thay đổi trạng thái authentication của user (đăng nhập, đăng xuất, token refresh). Nó trả về một hàm `unsubscribe` dùng để hủy listener.
+
+Cần cleanup vì khi component unmount mà listener vẫn chạy sẽ gây **memory leak** và lỗi "Can't perform a React state update on an unmounted component":
+
+```tsx
+useEffect(() => {
+  // Đăng ký listener — Firebase gọi callback mỗi khi auth state thay đổi
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    setUser(user);
+    setLoading(false);
+  });
+
+  // Cleanup: hủy listener khi component unmount
+  return () => unsubscribe();
+}, []);
+```
+
+Nếu không gọi `unsubscribe()`, listener tiếp tục chạy ngầm, cố gắng gọi `setUser` trên component đã bị unmount, dẫn đến bug và tốn tài nguyên.
+
+### Câu 2: Cách xử lý lỗi Firebase Authentication?
+**Đáp án:**
+
+Firebase Authentication throw `FirebaseError` với `error.code` cụ thể cho từng loại lỗi. Cách xử lý đúng là dùng `try/catch` và switch theo `error.code` để hiển thị thông báo thân thiện với user:
+
+```tsx
+import { FirebaseError } from 'firebase/app';
+
+async function handleSignIn(email: string, password: string) {
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    if (error instanceof FirebaseError) {
+      switch (error.code) {
+        case 'auth/user-not-found':
+          return 'Email không tồn tại';
+        case 'auth/wrong-password':
+          return 'Mật khẩu không đúng';
+        case 'auth/too-many-requests':
+          return 'Quá nhiều lần thử, vui lòng thử lại sau';
+        case 'auth/invalid-email':
+          return 'Email không hợp lệ';
+        case 'auth/email-already-in-use':
+          return 'Email đã được sử dụng';
+        case 'auth/weak-password':
+          return 'Mật khẩu quá yếu (tối thiểu 6 ký tự)';
+        default:
+          return 'Đăng nhập thất bại';
+      }
+    }
+    return 'Lỗi không xác định';
+  }
+}
+```
+
+Quan trọng: **Không bao giờ** hiển thị raw error message cho user vì có thể lộ thông tin kỹ thuật nhạy cảm.
+
+### Câu 3: So sánh signInWithPopup vs signInWithRedirect?
+**Đáp án:**
+
+| Tiêu chí | `signInWithPopup` | `signInWithRedirect` |
+|----------|-------------------|---------------------|
+| UX | Mở popup nhỏ, user không rời trang | Chuyển hướng sang trang Google, quay lại sau |
+| Mobile | Popup có thể bị chặn bởi trình duyệt | Hoạt động tốt hơn trên mobile |
+| Kết quả | Trả về `Promise<UserCredential>` ngay | Cần dùng `getRedirectResult()` khi quay lại |
+| Đơn giản | Code đơn giản hơn | Cần xử lý thêm khi app reload |
+
+```tsx
+// signInWithPopup — đơn giản, phù hợp desktop
+const result = await signInWithPopup(auth, googleProvider);
+const user = result.user;
+
+// signInWithRedirect — phù hợp mobile
+import { signInWithRedirect, getRedirectResult } from 'firebase/auth';
+
+// Bước 1: Redirect đến Google
+await signInWithRedirect(auth, googleProvider);
+
+// Bước 2: Xử lý kết quả khi quay lại (trong useEffect)
+useEffect(() => {
+  getRedirectResult(auth).then((result) => {
+    if (result) {
+      const user = result.user;
+    }
+  });
+}, []);
+```
+
+Khuyến nghị: Dùng `signInWithPopup` cho desktop web, `signInWithRedirect` cho mobile web để tránh popup bị chặn.
+
+### Câu 4: Tại sao cần AuthContext thay vì gọi Firebase trực tiếp trong component?
+**Đáp án:**
+
+Sử dụng AuthContext (React Context) thay vì gọi Firebase trực tiếp mang lại nhiều lợi ích:
+
+1. **Single Source of Truth**: Chỉ có MỘT listener `onAuthStateChanged` thay vì mỗi component tự tạo listener riêng, tránh lãng phí tài nguyên.
+
+2. **Tránh prop drilling**: Mọi component con đều truy cập được `user` mà không cần truyền props qua nhiều tầng.
+
+3. **Tách biệt logic**: Component không cần biết Firebase tồn tại, chỉ cần gọi `useAuth()`. Nếu sau này đổi sang Auth0 hoặc Supabase, chỉ cần sửa AuthProvider.
+
+4. **Đồng bộ state**: Tất cả component đều nhận cùng một `user` state, tránh tình trạng component A thấy đã login nhưng component B thì chưa.
+
+```tsx
+// AuthContext tập trung toàn bộ logic auth
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Chỉ MỘT listener cho toàn app
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ user, loading, signUp, signIn, logOut }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+// Component chỉ cần gọi hook — không cần biết Firebase
+function ProfilePage() {
+  const { user, logOut } = useAuth();
+  return <p>Hello {user?.displayName}</p>;
+}
+```

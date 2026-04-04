@@ -225,3 +225,149 @@ function Component() {
 ### Cải thiện Error Reporting
 
 React 19 cung cấp thông tin lỗi tốt hơn, bao gồm diffs cho hydration mismatches.
+
+---
+
+## Câu hỏi phỏng vấn
+
+### Câu 1: useActionState là gì và dùng thế nào?
+**Đáp án:**
+
+`useActionState` là hook mới trong React 19, kết hợp **state + action + pending status** trong một hook. Đặc biệt hữu ích cho form handling:
+
+```tsx
+import { useActionState } from 'react';
+
+function AddToCartForm({ itemId }: { itemId: string }) {
+  // [state, formAction, isPending]
+  const [message, formAction, isPending] = useActionState(
+    async (previousState: string | null, formData: FormData) => {
+      // previousState: state trước đó (lần đầu là initialState)
+      // formData: dữ liệu form tự động thu thập
+      const result = await addToCart(itemId);
+      if (result.success) {
+        return 'Added to cart!';
+      }
+      return 'Failed to add';
+    },
+    null // Initial state
+  );
+
+  return (
+    <form action={formAction}>
+      <button type="submit" disabled={isPending}>
+        {isPending ? 'Adding...' : 'Add to Cart'}
+      </button>
+      {message && <p>{message}</p>}
+    </form>
+  );
+}
+```
+
+**Lợi ích so với cách cũ:** Không cần tự quản lý `isLoading`, `error`, `result` bằng nhiều useState riêng lẻ. Một hook xử lý tất cả.
+
+### Câu 2: useOptimistic hook giải quyết vấn đề gì?
+**Đáp án:**
+
+`useOptimistic` giải quyết vấn đề **UI chờ server response** bằng cách hiển thị kết quả dự kiến **ngay lập tức** (optimistic update), sau đó cập nhật lại khi server phản hồi:
+
+```tsx
+import { useOptimistic } from 'react';
+
+function MessageList({ messages, sendMessage }: Props) {
+  const [optimisticMessages, addOptimisticMessage] = useOptimistic(
+    messages, // State thật từ server
+    (currentMessages, newMessage: string) => [
+      ...currentMessages,
+      { id: 'temp', text: newMessage, sending: true }, // UI tạm
+    ]
+  );
+
+  const handleSend = async (formData: FormData) => {
+    const text = formData.get('message') as string;
+    addOptimisticMessage(text); // Hiển thị NGAY (không chờ server)
+    await sendMessage(text);    // Gửi lên server
+    // Khi server trả về → messages prop update → optimistic state tự reset
+  };
+
+  return (
+    <div>
+      {optimisticMessages.map((msg) => (
+        <p key={msg.id} style={{ opacity: msg.sending ? 0.5 : 1 }}>
+          {msg.text}
+        </p>
+      ))}
+      <form action={handleSend}>
+        <input name="message" />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  );
+}
+```
+
+**Vấn đề giải quyết:** User không phải chờ spinner/loading khi thực hiện action. UI phản hồi ngay lập tức, tạo trải nghiệm mượt mà hơn.
+
+### Câu 3: use() hook khác useContext thế nào?
+**Đáp án:**
+
+`use()` là hook mới trong React 19 có thể đọc **Promises** và **Context**, với điểm khác biệt quan trọng: **gọi được trong điều kiện (if/else) và vòng lặp**, điều mà useContext không cho phép:
+
+```tsx
+import { use } from 'react';
+
+// 1. Đọc Promise — kết hợp với Suspense
+function UserProfile({ userPromise }: { userPromise: Promise<User> }) {
+  const user = use(userPromise); // Suspense tự handle loading
+  return <h1>{user.name}</h1>;
+}
+
+// 2. Đọc Context CÓ ĐIỀU KIỆN — useContext KHÔNG làm được
+function StatusDisplay({ showTheme }: { showTheme: boolean }) {
+  if (showTheme) {
+    const theme = use(ThemeContext); // ✅ OK với use()
+    return <p>Theme: {theme}</p>;
+  }
+  return <p>No theme</p>;
+}
+
+// ❌ useContext KHÔNG cho phép gọi trong if
+function StatusDisplay({ showTheme }: { showTheme: boolean }) {
+  if (showTheme) {
+    const theme = useContext(ThemeContext); // ❌ Vi phạm Rules of Hooks!
+  }
+}
+```
+
+**Tóm tắt:** `use()` linh hoạt hơn useContext vì không bị ràng buộc bởi Rules of Hooks (phải gọi ở top level). Ngoài ra còn đọc được Promise.
+
+### Câu 4: React 19 thay đổi gì về ref forwarding?
+**Đáp án:**
+
+React 19 cho phép truyền `ref` trực tiếp như **prop bình thường**, không cần `forwardRef` wrapper nữa:
+
+```tsx
+// ✅ React 19: ref là prop bình thường
+function CustomInput({ ref, placeholder }: {
+  ref?: React.Ref<HTMLInputElement>;
+  placeholder?: string;
+}) {
+  return <input ref={ref} placeholder={placeholder} />;
+}
+
+// Sử dụng
+const inputRef = useRef<HTMLInputElement>(null);
+<CustomInput ref={inputRef} placeholder="Enter text..." />
+
+// ❌ Trước React 19: phải dùng forwardRef
+const CustomInput = forwardRef<HTMLInputElement, Props>((props, ref) => {
+  return <input ref={ref} {...props} />;
+});
+```
+
+**Lợi ích:**
+- **Đơn giản hơn** — bớt một layer wrapper (forwardRef).
+- **TypeScript dễ hơn** — ref là prop bình thường, type như prop khác.
+- **Dễ đọc hơn** — component function nhận ref trực tiếp trong params.
+
+`forwardRef` vẫn hoạt động nhưng sẽ deprecated trong tương lai.

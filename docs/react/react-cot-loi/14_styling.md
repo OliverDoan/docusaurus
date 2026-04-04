@@ -227,3 +227,88 @@ Tailwind dùng **mobile-first** breakpoints:
 - **Dự án thực tế, tốc độ phát triển** → Tailwind CSS (nhanh, consistent)
 - **Design system, theming phức tạp** → Styled Components hoặc CSS-in-JS
 - **Prototype nhanh** → Tailwind CSS
+
+---
+
+## Câu hỏi phỏng vấn
+
+### Câu 1: CSS Modules và Tailwind CSS khác nhau thế nào? Khi nào chọn cái nào?
+**Đáp án:**
+
+| Tiêu chí | CSS Modules | Tailwind CSS |
+|----------|-------------|--------------|
+| Cách viết | File `.module.css` riêng, dùng `styles.className` | Utility classes trực tiếp trong JSX |
+| Scoping | Tự động scoped (class name unique) | Global utilities, không conflict |
+| Tốc độ phát triển | Trung bình (viết CSS riêng) | Nhanh (dùng classes có sẵn) |
+| Bundle size | CSS riêng cho mỗi component | Chỉ generate classes đã dùng (purge) |
+| Customization | Tự do viết CSS bất kỳ | Theo design system, config trong `tailwind.config.js` |
+
+```tsx
+// CSS Modules
+import styles from './Button.module.css';
+<button className={styles.primary}>Click</button>
+
+// Tailwind CSS
+<button className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
+  Click
+</button>
+```
+
+**Chọn CSS Modules khi:** dự án nhỏ, team quen CSS truyền thống, cần custom design không theo system.
+**Chọn Tailwind khi:** cần tốc độ phát triển nhanh, dự án thực tế, team đông (consistent styling), prototype.
+
+### Câu 2: Scoped CSS nghĩa là gì và CSS Modules giải quyết vấn đề này như thế nào?
+**Đáp án:**
+**Scoped CSS** nghĩa là styles chỉ áp dụng cho component hiện tại, không ảnh hưởng đến components khác. CSS thường là global scope nên dễ bị conflict class names giữa các components.
+
+CSS Modules giải quyết bằng cách **tự động hash class names** tại build time:
+
+```css
+/* Button.module.css */
+.button { background: blue; }
+.title { font-size: 16px; }
+```
+
+```tsx
+import styles from './Button.module.css';
+// styles.button = "Button_button_x7yz3" (hash unique)
+// styles.title  = "Button_title_a2bc1"
+<button className={styles.button}>Click</button>
+```
+
+```css
+/* Card.module.css — cùng tên .title nhưng KHÔNG conflict */
+.title { font-size: 24px; }
+```
+
+```tsx
+import styles from './Card.module.css';
+// styles.title = "Card_title_k9mn2" (hash khác)
+<h2 className={styles.title}>Card Title</h2>
+```
+
+Kết quả: hai `.title` class không bao giờ conflict vì tên thực tế sau build hoàn toàn khác nhau.
+
+### Câu 3: Làm thế nào để thiết kế responsive với Tailwind CSS?
+**Đáp án:**
+Tailwind dùng **mobile-first breakpoints** — viết style cho mobile trước, thêm prefix cho màn hình lớn hơn:
+
+```tsx
+<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+  {/* Mobile: 1 cột → sm: 2 cột → md: 3 cột → lg: 4 cột */}
+</div>
+
+<p className="text-sm md:text-base lg:text-lg xl:text-xl">
+  {/* Font size tăng dần theo kích thước màn hình */}
+</p>
+
+<div className="flex flex-col md:flex-row">
+  {/* Mobile: xếp dọc, Tablet+: xếp ngang */}
+  <aside className="w-full md:w-64">Sidebar</aside>
+  <main className="flex-1">Content</main>
+</div>
+```
+
+Breakpoints mặc định: `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px).
+
+Nguyên tắc: **không có prefix = mobile**. Thêm prefix = áp dụng từ breakpoint đó trở lên. Ví dụ `md:grid-cols-3` nghĩa là "từ 768px trở lên thì dùng 3 cột".

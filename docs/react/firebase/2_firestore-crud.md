@@ -269,3 +269,155 @@ service cloud.firestore {
 - `resource.data` — data hiện tại trong document
 - `request.resource.data` — data mới gửi lên
 - **KHÔNG BAO GIỜ** dùng `allow read, write: if true;` trong production
+
+---
+
+## Câu hỏi phỏng vấn
+
+### Câu 1: addDoc vs setDoc khác nhau thế nào?
+**Đáp án:**
+
+| Tiêu chí | `addDoc` | `setDoc` |
+|----------|---------|---------|
+| Document ID | Firebase **tự sinh** ID ngẫu nhiên | Bạn **tự chọn** ID |
+| Tham số | `addDoc(collectionRef, data)` | `setDoc(docRef, data)` |
+| Khi doc tồn tại | Luôn tạo document mới | **Ghi đè** toàn bộ document (trừ khi dùng `merge`) |
+| Use case | Tạo post, comment, order (không cần kiểm soát ID) | Tạo user profile theo UID, config theo key |
+
+```tsx
+// addDoc — ID tự động, luôn tạo mới
+const docRef = await addDoc(collection(db, 'posts'), {
+  title: 'Hello',
+  createdAt: serverTimestamp(),
+});
+console.log('New ID:', docRef.id); // e.g., "xK9f2mZ..."
+
+// setDoc — ID tự chọn, ghi đè nếu tồn tại
+await setDoc(doc(db, 'users', userId), {
+  name: 'Alice',
+  email: 'alice@test.com',
+});
+
+// setDoc với merge — chỉ cập nhật fields được chỉ định, giữ nguyên fields khác
+await setDoc(doc(db, 'users', userId), { name: 'Bob' }, { merge: true });
+```
+
+Lưu ý: `setDoc` không có `merge: true` sẽ **xóa toàn bộ fields cũ** và thay bằng data mới. Đây là lỗi phổ biến khi muốn update nhưng lại dùng `setDoc` thay vì `updateDoc`.
+
+### Câu 2: Firestore Security Rules quan trọng như thế nào?
+**Đáp án:**
+
+Security Rules là lớp bảo vệ **bắt buộc** của Firestore. Không có rules đúng, bất kỳ ai biết projectId đều có thể đọc/ghi toàn bộ database.
+
+Tại sao quan trọng:
+- Firebase config (apiKey, projectId) là **public** và nằm trong client-side code, ai cũng thấy được.
+- Security Rules là **cơ chế duy nhất** kiểm soát quyền truy cập ở server-side.
+- Client-side validation có thể bị bypass hoàn toàn.
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // NGUY HIỂM — KHÔNG BAO GIỜ dùng trong production
+    // match /{document=**} {
+    //   allow read, write: if true;
+    // }
+
+    // ĐÚNG: Kiểm tra authentication và ownership
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // ĐÚNG: Validate data trước khi ghi
+    match /posts/{postId} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0
+        && request.resource.data.title.size() <= 200;
+      allow update, delete: if request.auth.uid == resource.data.authorId;
+    }
+  }
+}
+```
+
+Nguyên tắc: **Deny by default** -- chỉ mở quyền cần thiết, validate cả data type và ownership.
+
+### Câu 3: Cách query data với điều kiện trong Firestore?
+**Đáp án:**
+
+Firestore sử dụng các hàm `query()`, `where()`, `orderBy()`, `limit()` để tạo truy vấn có điều kiện:
+
+```tsx
+import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
+
+// Query đơn giản: lấy posts của một author
+const q = query(
+  collection(db, 'posts'),
+  where('authorId', '==', 'user123')
+);
+
+// Query kết hợp nhiều điều kiện
+const q = query(
+  collection(db, 'posts'),
+  where('status', '==', 'published'),
+  where('category', '==', 'tech'),
+  orderBy('createdAt', 'desc'),
+  limit(20)
+);
+
+// Query với array-contains
+const q = query(
+  collection(db, 'posts'),
+  where('tags', 'array-contains', 'react')
+);
+
+// Query với in operator
+const q = query(
+  collection(db, 'posts'),
+  where('category', 'in', ['tech', 'design', 'science'])
+);
+
+// Thực thi query
+const snapshot = await getDocs(q);
+const results = snapshot.docs.map((doc) => ({
+  id: doc.id,
+  ...doc.data(),
+}));
+```
+
+Lưu ý quan trọng:
+- Firestore **yêu cầu composite index** khi dùng `where()` trên field khác với `orderBy()`. Firebase Console sẽ hiển thị link tạo index khi gặp lỗi.
+- Không thể dùng `!=` hoặc `not-in` kết hợp với `in` hay `array-contains-any` trong cùng một query.
+- Mỗi query chỉ có thể dùng range operators (`<`, `<=`, `>`, `>=`) trên **một field duy nhất**.
+
+### Câu 4: serverTimestamp() dùng để làm gì?
+**Đáp án:**
+
+`serverTimestamp()` tạo timestamp dựa trên **đồng hồ server Firebase**, không phải đồng hồ client. Điều này đảm bảo thời gian chính xác và nhất quán giữa tất cả client.
+
+```tsx
+import { serverTimestamp } from 'firebase/firestore';
+
+// Khi tạo document
+await addDoc(collection(db, 'posts'), {
+  title: 'My Post',
+  content: 'Hello World',
+  createdAt: serverTimestamp(), // Server quyết định thời gian
+  updatedAt: serverTimestamp(),
+});
+
+// Khi update document
+await updateDoc(doc(db, 'posts', postId), {
+  title: 'Updated Title',
+  updatedAt: serverTimestamp(), // Tự động set thời gian update
+});
+```
+
+Tại sao không dùng `new Date()` hoặc `Date.now()`:
+- **Đồng hồ client không đáng tin**: User có thể chỉnh sai giờ, múi giờ khác nhau, hoặc thiết bị lệch thời gian.
+- **Tính nhất quán**: `serverTimestamp()` đảm bảo mọi document đều dùng cùng một nguồn thời gian.
+- **orderBy chính xác**: Khi sort theo `createdAt`, server timestamp cho kết quả đúng thứ tự thực tế.
+- **Security Rules**: Có thể validate `request.resource.data.createdAt == request.time` để chắc chắn client không fake timestamp.

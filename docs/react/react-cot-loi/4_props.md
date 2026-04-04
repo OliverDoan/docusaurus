@@ -238,3 +238,159 @@ function GoodComponent({ user }: { user: User }) {
   return <p>{displayName}</p>;
 }
 ```
+
+---
+
+## Câu hỏi phỏng vấn
+
+### Câu 1: Props và State khác nhau thế nào?
+**Đáp án:**
+Props và State đều là dữ liệu ảnh hưởng đến việc render, nhưng có nguồn gốc và cách quản lý khác nhau:
+
+```jsx
+function Parent() {
+  // State: dữ liệu NỘI BỘ, do component tự quản lý
+  const [count, setCount] = useState(0);
+
+  // Props: dữ liệu TRUYỀN TỪ CHA xuống con
+  return <Child count={count} onIncrement={() => setCount(count + 1)} />;
+}
+
+function Child({ count, onIncrement }) {
+  // count là PROPS — read-only, không thể thay đổi
+  // Muốn thay đổi → gọi callback (onIncrement) để cha cập nhật state
+  return <button onClick={onIncrement}>Count: {count}</button>;
+}
+```
+
+| | Props | State |
+|---|---|---|
+| Nguồn gốc | Từ component cha | Bên trong component |
+| Quyền thay đổi | Read-only (immutable) | Có thể thay đổi (via setter) |
+| Khi thay đổi | Cha re-render → con re-render | Component re-render |
+| Mục đích | Cấu hình component từ bên ngoài | Quản lý dữ liệu nội bộ |
+
+### Câu 2: Props drilling là gì và cách giải quyết?
+**Đáp án:**
+Props drilling là tình trạng phải truyền props qua nhiều cấp component trung gian, dù các component trung gian không sử dụng props đó.
+
+```jsx
+// ❌ Props drilling: theme truyền qua 3 cấp trung gian
+function App() {
+  const [theme, setTheme] = useState('dark');
+  return <Layout theme={theme} />;       // Layout không dùng theme
+}
+function Layout({ theme }) {
+  return <Sidebar theme={theme} />;      // Sidebar không dùng theme
+}
+function Sidebar({ theme }) {
+  return <UserMenu theme={theme} />;     // UserMenu không dùng theme
+}
+function UserMenu({ theme }) {
+  return <div className={theme}>Menu</div>; // Chỉ UserMenu cần
+}
+
+// ✅ Giải pháp 1: Context API
+const ThemeContext = createContext('light');
+
+function App() {
+  const [theme, setTheme] = useState('dark');
+  return (
+    <ThemeContext.Provider value={theme}>
+      <Layout />   {/* Không cần truyền theme */}
+    </ThemeContext.Provider>
+  );
+}
+
+function UserMenu() {
+  const theme = useContext(ThemeContext); // Lấy trực tiếp
+  return <div className={theme}>Menu</div>;
+}
+
+// ✅ Giải pháp 2: Composition
+function App() {
+  const [theme, setTheme] = useState('dark');
+  return (
+    <Layout>
+      <Sidebar>
+        <UserMenu theme={theme} />  {/* Truyền trực tiếp */}
+      </Sidebar>
+    </Layout>
+  );
+}
+```
+
+### Câu 3: Truyền callback function qua props hoạt động thế nào?
+**Đáp án:**
+Vì React dùng one-way data flow (cha → con), component con muốn "gửi" dữ liệu lên cha phải gọi một callback function mà cha truyền xuống qua props.
+
+```jsx
+function TodoList() {
+  const [todos, setTodos] = useState([
+    { id: 1, text: 'Learn React' },
+  ]);
+
+  // Callback được truyền xuống con
+  const handleDelete = (id: number) => {
+    setTodos((prev) => prev.filter((t) => t.id !== id));
+  };
+
+  return (
+    <ul>
+      {todos.map((todo) => (
+        <TodoItem
+          key={todo.id}
+          text={todo.text}
+          onDelete={() => handleDelete(todo.id)}
+        />
+      ))}
+    </ul>
+  );
+}
+
+function TodoItem({ text, onDelete }: {
+  text: string;
+  onDelete: () => void;
+}) {
+  // Con gọi callback → cha cập nhật state → cả hai re-render
+  return (
+    <li>
+      {text}
+      <button onClick={onDelete}>Delete</button>
+    </li>
+  );
+}
+```
+
+Luồng: Con gọi `onDelete()` → Cha thực thi `handleDelete()` → State cha thay đổi → Cha re-render → Con re-render với dữ liệu mới.
+
+### Câu 4: Tại sao props phải immutable?
+**Đáp án:**
+Props phải immutable (không thay đổi) để đảm bảo luồng dữ liệu một chiều rõ ràng, giúp React dự đoán được khi nào cần re-render và tránh side effects không mong muốn.
+
+```jsx
+// ❌ Mutate props → phá vỡ data flow, gây bug khó tìm
+function BadComponent({ user }) {
+  user.name = 'Hacked';  // KHÔNG ĐƯỢC!
+  // Thay đổi này ảnh hưởng đến component cha
+  // vì object truyền theo reference
+  return <p>{user.name}</p>;
+}
+
+// ✅ Tạo giá trị mới nếu cần biến đổi
+function GoodComponent({ user }) {
+  const displayName = user.name.toUpperCase(); // Tạo giá trị mới
+  return <p>{displayName}</p>;
+}
+
+// ✅ Nếu cần "thay đổi" dữ liệu → gọi callback để cha cập nhật
+function EditableUser({ user, onUpdate }) {
+  const handleChange = (e) => {
+    // Tạo object mới, không mutate props
+    onUpdate({ ...user, name: e.target.value });
+  };
+  return <input value={user.name} onChange={handleChange} />;
+}
+```
+
+Nếu props bị mutate: React không nhận ra thay đổi (vì reference giống), component không re-render, UI không đồng bộ với dữ liệu.

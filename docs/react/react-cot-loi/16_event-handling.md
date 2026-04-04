@@ -176,3 +176,109 @@ React tự động dùng **event delegation** — attach một event listener du
   </button>
 ))}
 ```
+
+---
+
+## Câu hỏi phỏng vấn
+
+### Câu 1: SyntheticEvent là gì?
+**Đáp án:**
+SyntheticEvent là wrapper mà React tạo ra bọc quanh native DOM events. Nó cung cấp **API nhất quán** trên mọi trình duyệt (cross-browser compatibility), với cùng properties và methods dù trình duyệt nào.
+
+```tsx
+function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+  // e là SyntheticEvent, không phải native MouseEvent
+  console.log(e.type);        // 'click'
+  console.log(e.target);      // DOM element được click
+  console.log(e.currentTarget); // DOM element có handler
+  console.log(e.nativeEvent);  // Native browser event gốc
+
+  e.preventDefault();    // Hoạt động giống native
+  e.stopPropagation();   // Hoạt động giống native
+}
+
+<button onClick={handleClick}>Click</button>
+```
+
+**Đặc điểm quan trọng:**
+- SyntheticEvent có cùng interface với native events (`preventDefault`, `stopPropagation`, `target`,...)
+- React dùng **event pooling** (React < 17) hoặc tạo event mới mỗi lần (React 17+)
+- Truy cập native event gốc qua `e.nativeEvent` khi cần
+
+### Câu 2: Event delegation trong React hoạt động thế nào?
+**Đáp án:**
+React tự động dùng **event delegation** -- thay vì attach event listener cho mỗi DOM element, React attach **một listener duy nhất ở root** (React 17+: root container, React 16: `document`).
+
+```tsx
+// Dù render 1000 buttons, React chỉ attach 1 click listener ở root
+function ItemList({ items }: { items: Item[] }) {
+  return (
+    <ul>
+      {items.map((item) => (
+        <li key={item.id}>
+          <button onClick={() => handleClick(item.id)}>
+            {item.name}
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+**Cách hoạt động:**
+1. React attach 1 listener cho mỗi event type ở root container
+2. Khi event xảy ra, React xác định target element
+3. React tìm component tương ứng và gọi handler phù hợp
+4. SyntheticEvent simulate bubbling theo React component tree
+
+**Lợi ích:** Hiệu quả bộ nhớ (ít listeners), tự động cleanup khi component unmount, hoạt động nhất quán với dynamic elements (thêm/xóa items không cần add/remove listeners).
+
+### Câu 3: stopPropagation và preventDefault khác nhau thế nào?
+**Đáp án:**
+- `stopPropagation()` — **Ngăn event bubble lên** parent elements. Event không được cha nhận.
+- `preventDefault()` — **Ngăn hành vi mặc định** của trình duyệt. Event vẫn bubble bình thường.
+
+```tsx
+function Example() {
+  return (
+    <div onClick={() => console.log('Parent')}>
+      {/* stopPropagation: ngăn bubble, parent KHÔNG nhận event */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          console.log('Button 1');
+        }}
+      >
+        Stop Propagation
+      </button>
+      {/* Click → chỉ log "Button 1", KHÔNG log "Parent" */}
+
+      {/* preventDefault: ngăn hành vi mặc định, event VẪN bubble */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault(); // Ngăn trang reload
+          console.log('Form submitted');
+        }}
+      >
+        <button type="submit">Submit</button>
+      </form>
+      {/* Submit → "Form submitted" + "Parent" (vẫn bubble) */}
+
+      {/* Dùng cả hai */}
+      <a
+        href="https://example.com"
+        onClick={(e) => {
+          e.preventDefault();     // Ngăn navigate đến URL
+          e.stopPropagation();    // Ngăn bubble lên parent
+          console.log('Link clicked');
+        }}
+      >
+        Custom Link
+      </a>
+    </div>
+  );
+}
+```
+
+**Tóm tắt:** `preventDefault` liên quan đến **hành vi trình duyệt** (submit form, navigate link, right-click menu). `stopPropagation` liên quan đến **event flow** trong component tree.

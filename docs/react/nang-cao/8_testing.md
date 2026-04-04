@@ -295,3 +295,199 @@ test('matches snapshot', () => {
 - [ ] Form validation
 - [ ] API calls (success + error)
 - [ ] Accessibility (roles, labels)
+
+---
+
+## Câu hỏi phỏng vấn
+
+### Câu 1: React Testing Library khuyến khích test theo cách nào?
+**Đáp án:**
+
+React Testing Library khuyến khích **test hành vi (behavior)** từ góc nhìn user, **không test implementation details** (state nội bộ, lifecycle, class names):
+
+```tsx
+// ❌ Test implementation details
+test('sets isOpen state to true', () => {
+  const { result } = renderHook(() => useModal());
+  act(() => result.current.open());
+  expect(result.current.isOpen).toBe(true); // Test state nội bộ
+});
+
+// ❌ Test DOM structure / CSS classes
+test('has correct class', () => {
+  const { container } = render(<Button />);
+  expect(container.querySelector('.btn-primary')).toBeTruthy(); // Test class name
+});
+
+// ✅ Test hành vi — giống cách user tương tác
+test('opens modal when button is clicked', async () => {
+  const user = userEvent.setup();
+  render(<ModalButton />);
+
+  // User thấy gì? → button "Open"
+  await user.click(screen.getByRole('button', { name: 'Open' }));
+
+  // User thấy gì sau khi click? → modal content hiển thị
+  expect(screen.getByRole('dialog')).toBeInTheDocument();
+  expect(screen.getByText('Modal Content')).toBeVisible();
+});
+```
+
+**Nguyên tắc:** "The more your tests resemble the way your software is used, the more confidence they can give you."
+
+### Câu 2: getByRole vs getByTestId: ưu tiên cái nào?
+**Đáp án:**
+
+**Luôn ưu tiên getByRole** vì nó phản ánh cách user (và assistive technology) thấy component. `getByTestId` chỉ là phương án cuối cùng:
+
+```tsx
+// Thứ tự ưu tiên (từ cao → thấp):
+// 1. getByRole — accessible role
+screen.getByRole('button', { name: 'Submit' });
+screen.getByRole('heading', { level: 2 });
+screen.getByRole('textbox', { name: 'Email' });
+
+// 2. getByLabelText — form elements qua label
+screen.getByLabelText('Email');
+
+// 3. getByPlaceholderText — input placeholder
+screen.getByPlaceholderText('Enter email...');
+
+// 4. getByText — visible text content
+screen.getByText('Welcome back!');
+
+// 5. getByTestId — CUỐI CÙNG, khi không có cách nào khác
+screen.getByTestId('custom-dropdown');
+// Cần thêm data-testid vào HTML → không phản ánh user experience
+```
+
+**Tại sao getByRole tốt hơn:**
+- Đảm bảo component **accessible** (screen reader đọc được).
+- Test phản ánh cách user thực sự tìm element.
+- Không phụ thuộc vào implementation (class name, test id có thể thay đổi).
+
+### Câu 3: MSW (Mock Service Worker) là gì?
+**Đáp án:**
+
+MSW (Mock Service Worker) là thư viện **intercept network requests** ở tầng service worker, cho phép mock API responses mà không cần thay đổi code ứng dụng:
+
+```tsx
+import { setupServer } from 'msw/node';
+import { http, HttpResponse } from 'msw';
+
+// 1. Định nghĩa handlers
+const handlers = [
+  http.get('/api/users', () => {
+    return HttpResponse.json([
+      { id: '1', name: 'Alice' },
+      { id: '2', name: 'Bob' },
+    ]);
+  }),
+
+  http.post('/api/users', async ({ request }) => {
+    const body = await request.json();
+    return HttpResponse.json({ id: '3', ...body }, { status: 201 });
+  }),
+];
+
+// 2. Setup server
+const server = setupServer(...handlers);
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
+// 3. Test — component gọi fetch bình thường, MSW intercept
+test('loads users', async () => {
+  render(<UserList />);
+  await screen.findByText('Alice');
+  expect(screen.getByText('Bob')).toBeInTheDocument();
+});
+
+// 4. Override handler cho error case
+test('shows error on API failure', async () => {
+  server.use(
+    http.get('/api/users', () => {
+      return new HttpResponse(null, { status: 500 });
+    })
+  );
+  render(<UserList />);
+  await screen.findByText(/error/i);
+});
+```
+
+**Lợi ích:** Không cần mock fetch/axios trực tiếp, code ứng dụng không thay đổi, hoạt động với bất kỳ HTTP client nào, có thể dùng cả trong browser (development) và Node.js (testing).
+
+### Câu 4: Test custom hooks bằng cách nào?
+**Đáp án:**
+
+Dùng `renderHook` từ `@testing-library/react` để test custom hooks trong môi trường React, và `act` để wrap state updates:
+
+```tsx
+import { renderHook, act } from '@testing-library/react';
+
+// Hook cần test
+function useCounter(initial = 0) {
+  const [count, setCount] = useState(initial);
+  const increment = () => setCount((c) => c + 1);
+  const decrement = () => setCount((c) => c - 1);
+  const reset = () => setCount(initial);
+  return { count, increment, decrement, reset };
+}
+
+// Test
+test('useCounter starts with initial value', () => {
+  const { result } = renderHook(() => useCounter(10));
+  expect(result.current.count).toBe(10);
+});
+
+test('useCounter increments and decrements', () => {
+  const { result } = renderHook(() => useCounter(0));
+
+  act(() => {
+    result.current.increment();
+  });
+  expect(result.current.count).toBe(1);
+
+  act(() => {
+    result.current.decrement();
+  });
+  expect(result.current.count).toBe(0);
+});
+
+// Test hook với async logic
+test('useFetch loads data', async () => {
+  // Setup MSW handler trước
+  const { result } = renderHook(() => useFetch<User[]>('/api/users'));
+
+  // Ban đầu loading
+  expect(result.current.loading).toBe(true);
+
+  // Đợi fetch hoàn thành
+  await waitFor(() => {
+    expect(result.current.loading).toBe(false);
+  });
+
+  expect(result.current.data).toHaveLength(2);
+  expect(result.current.error).toBeNull();
+});
+
+// Test hook với rerender (thay đổi params)
+test('useDebounce delays value', () => {
+  vi.useFakeTimers();
+
+  const { result, rerender } = renderHook(
+    ({ value }) => useDebounce(value, 300),
+    { initialProps: { value: 'hello' } }
+  );
+
+  rerender({ value: 'world' });
+  expect(result.current).toBe('hello'); // Chưa thay đổi
+
+  act(() => vi.advanceTimersByTime(300));
+  expect(result.current).toBe('world'); // Thay đổi sau delay
+
+  vi.useRealTimers();
+});
+```
+
+**Lưu ý:** Luôn wrap state updates trong `act()`. Dùng `waitFor` cho async operations. Dùng `rerender` để test hook với props thay đổi.
