@@ -95,6 +95,18 @@ const config: Config = {
           label: 'React',
         },
         {
+          type: 'docSidebar',
+          sidebarId: 'gitSidebar',
+          position: 'left',
+          label: 'Git',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'javascriptSidebar',
+          position: 'left',
+          label: 'JavaScript',
+        },
+        {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',
           position: 'right',
