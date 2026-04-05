@@ -139,6 +139,12 @@ const config: Config = {
           label: 'FE Interview',
         },
         {
+          type: 'docSidebar',
+          sidebarId: 'nodejsSidebar',
+          position: 'left',
+          label: 'Node.js',
+        },
+        {
           to: '/diem-danh',
           label: 'Điểm danh',
           position: 'right',
@@ -171,6 +177,7 @@ const config: Config = {
             { label: 'Next.js', to: '/docs/nextjs/nen-tang/nextjs-la-gi' },
             { label: 'Git', to: '/docs/git/nen-tang/git-la-gi' },
             { label: 'SEO', to: '/docs/seo/nen-tang/seo-la-gi' },
+            { label: 'Node.js', to: '/docs/nodejs/nen-tang/nodejs-la-gi' },
           ],
         },
         {

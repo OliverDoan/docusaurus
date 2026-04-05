@@ -60,6 +60,14 @@ const docCards: DocCard[] = [
     articles: 25,
     color: '#4285f4',
   },
+  {
+    title: 'Node.js',
+    emoji: '🟢',
+    description: 'Express, MongoDB, PostgreSQL, JWT Authentication, WebSocket và deployment.',
+    link: '/docs/nodejs/nen-tang/nodejs-la-gi',
+    articles: 25,
+    color: '#339933',
+  },
 ];
 
 function HeroSection(): ReactNode {
@@ -74,11 +82,11 @@ function HeroSection(): ReactNode {
         </p>
         <div className="hero-section__stats">
           <div className="hero-section__stat">
-            <span className="hero-section__stat-number">189+</span>
+            <span className="hero-section__stat-number">214+</span>
             <span className="hero-section__stat-label">Bài viết</span>
           </div>
           <div className="hero-section__stat">
-            <span className="hero-section__stat-number">6</span>
+            <span className="hero-section__stat-number">7</span>
             <span className="hero-section__stat-label">Chủ đề</span>
           </div>
         </div>
