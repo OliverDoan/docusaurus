@@ -490,7 +490,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   return children;
 }
 
-// QUAN TRONG: Server PHẢI verify permissions cho mọi API call
+// QUAN TRỌNG: Server PHẢI verify permissions cho mọi API call
 // Frontend route guard chỉ là UX, attacker bypass dễ dàng
 // Server: middleware kiểm tra JWT + role cho mỗi endpoint
 ```

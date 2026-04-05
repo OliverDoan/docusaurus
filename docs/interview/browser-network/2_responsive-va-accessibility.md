@@ -78,7 +78,7 @@ Responsive design và accessibility (a11y) là hai chủ đề mà interviewer d
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Mobile-first nghĩa là CSS mặc định viết cho mobile, sau đó dùng `min-width` media queries để thêm styles cho màn hình lớn hơn. Desktop-first thì ngược lại -- viết cho desktop rồi dùng `max-width` để override cho mobile. Mobile-first được ưu tiên vì: phần lớn user dùng mobile, mobile load ít CSS hơn (performance tốt hơn), và nó buộc developer suy nghĩ content-first."
 
@@ -158,7 +158,7 @@ p {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "`rem` tham chiếu font-size của root element, `em` tham chiếu font-size của parent -- nên `rem` dễ dự đoán hơn, tôi dùng `rem` cho typography và spacing. `vw/vh` là phần trăm viewport, hữu ích cho hero section nhưng cẩn thận 100vh trên mobile. `clamp()` là hàm cho phép set min, preferred, max trong 1 dòng -- cực kỳ mạnh cho fluid typography và spacing mà không cần media query. Ví dụ: `font-size: clamp(1rem, 2.5vw, 2rem)` tự động scale theo viewport nhưng không bao giờ nhỏ hơn 1rem hoặc lớn hơn 2rem."
 
@@ -263,7 +263,7 @@ p {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Media queries kiểm tra điều kiện viewport để áp dụng CSS. Mobile-first dùng `min-width`, desktop-first dùng `max-width`. Breakpoints phổ biến: 768px (tablet), 1024px (laptop), 1280px (desktop). Tính năng mới hơn là container queries -- cho phép component responsive theo kích thước parent container thay vì viewport, rất hữu ích cho design system vì component có thể tự adapt theo context."
 
@@ -417,7 +417,7 @@ function trapFocus(modalElement) {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Accessibility bao gồm 3 trụ cột: semantic HTML để screen reader hiểu cấu trúc trang, keyboard navigation để mọi chức năng dùng được bằng bàn phím, và ARIA attributes cho những trường hợp HTML không đủ diễn đạt. Quan trọng nhất là dùng đúng semantic tags -- `<button>` thay vì `<div onclick>`, `<nav>` thay vì `<div class='nav'>`. Không bao giờ xóa focus outline mà không thay thế, và dùng `focus-visible` thay vì `focus` để chỉ hiện outline khi navigate bằng keyboard."
 
@@ -547,7 +547,7 @@ function toggleAccordion(button) {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "ARIA bổ sung ngữ nghĩa khi semantic HTML không đủ. Có 3 loại: roles (element là gì), states (trạng thái hiện tại như expanded/checked), properties (thuộc tính bổ sung như label/describedby). Nguyên tắc quan trọng nhất: 'No ARIA is better than bad ARIA' -- ưu tiên semantic HTML trước, chỉ dùng ARIA cho custom components như accordion, dropdown, modal. Ví dụ: icon button cần `aria-label`, accordion cần `aria-expanded` + `aria-controls`, dynamic content cần `aria-live`."
 
@@ -631,13 +631,13 @@ test('modal can be closed with Escape key', async ({ page }) => {
 });
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Test a11y gồm 3 tầng: automated tools như axe, Lighthouse phát hiện khoảng 30% lỗi (thiếu alt, contrast kém, ARIA sai). Semi-automated là dùng keyboard navigation và screen reader thử nghiệm. Manual testing với người dùng thực tế phát hiện phần còn lại. Trong dự án, tôi tích hợp axe-core vào CI/CD để catch lỗi sớm, dùng eslint-plugin-jsx-a11y trong development, và định kỳ test bằng VoiceOver/NVDA."
 
 ---
 
-## Bang so sanh responsive units
+## Bảng so sánh responsive units
 
 | Unit | Relative to | Cascading | Good for | Watch out |
 |---|---|---|---|---|
@@ -653,7 +653,7 @@ test('modal can be closed with Escape key', async ({ page }) => {
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
 1. **Nói "mobile-first chỉ là viết min-width"**: Mobile-first là cả một tư duy thiết kế, không chỉ là syntax. Nó bao gồm content priority, performance optimization, và progressive enhancement.
 

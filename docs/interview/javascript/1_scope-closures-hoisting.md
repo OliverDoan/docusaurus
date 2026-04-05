@@ -15,7 +15,7 @@ Phần này tổng hợp những câu hỏi phỏng vấn phổ biến nhất v�
 
 > Hãy giải thích sự khác nhau giữa `var`, `let` và `const`. Khi nào nên dùng cái nào?
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
 JavaScript có hai loại scope chính cho biến:
 
@@ -25,83 +25,83 @@ JavaScript có hai loại scope chính cho biến:
 | Tính chất | `var` | `let` | `const` |
 |---|---|---|---|
 | Scope | Function scope | Block scope | Block scope |
-| Hoisting | Co, khoi tao `undefined` | Co, nhung nam trong TDZ | Co, nhung nam trong TDZ |
-| Re-declaration | Cho phep | Khong cho phep | Khong cho phep |
-| Re-assignment | Cho phep | Cho phep | Khong cho phep |
-| Temporal Dead Zone | Khong | Co | Co |
+| Hoisting | Có, khởi tạo `undefined` | Có, nhưng nằm trong TDZ | Có, nhưng nằm trong TDZ |
+| Re-declaration | Cho phép | Không cho phép | Không cho phép |
+| Re-assignment | Cho phép | Cho phép | Không cho phép |
+| Temporal Dead Zone | Không | Có | Có |
 
-**TDZ (Temporal Dead Zone)** la khoang thoi gian tu khi block bat dau cho den khi bien duoc khai bao. Truy cap bien trong TDZ se gay ra `ReferenceError`.
+**TDZ (Temporal Dead Zone)** là khoảng thời gian từ khi block bắt đầu cho đến khi biến được khai báo. Truy cập biến trong TDZ sẽ gây ra `ReferenceError`.
 
-### Code vi du
+### Code ví dụ
 
 ```javascript
 // Function scope vs Block scope
 function demoScope() {
   if (true) {
-    var a = 1;   // function scope -> ton tai trong toan bo ham
-    let b = 2;   // block scope -> chi ton tai trong if
-    const c = 3; // block scope -> chi ton tai trong if
+    var a = 1;   // function scope -> tồn tại trong toàn bộ hàm
+    let b = 2;   // block scope -> chỉ tồn tại trong if
+    const c = 3; // block scope -> chỉ tồn tại trong if
   }
 
-  console.log(a); // 1 -- var "thoat" ra khoi block
+  console.log(a); // 1 -- var "thoát" ra khỏi block
   // console.log(b); // ReferenceError: b is not defined
   // console.log(c); // ReferenceError: c is not defined
 }
 
 // Re-declaration
 var x = 1;
-var x = 2; // OK, khong loi
+var x = 2; // OK, không lỗi
 
 let y = 1;
 // let y = 2; // SyntaxError: Identifier 'y' has already been declared
 
-// const va mutation
+// const và mutation
 const user = { name: "An" };
-user.name = "Binh"; // OK! const chi ngan re-assignment, khong ngan mutation
-console.log(user.name); // "Binh"
+user.name = "Bình"; // OK! const chỉ ngăn re-assignment, không ngăn mutation
+console.log(user.name); // "Bình"
 
-// const user = { name: "Cuong" }; // TypeError: Assignment to constant variable
+// const user = { name: "Cường" }; // TypeError: Assignment to constant variable
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "`var` la function-scoped va duoc hoisted voi gia tri `undefined`. `let` va `const` la block-scoped va nam trong Temporal Dead Zone cho den khi duoc khai bao. `const` khong cho re-assign nhung object duoc khai bao bang `const` van co the bi mutate. Trong thuc te, toi mac dinh dung `const`, chi dung `let` khi can thay doi gia tri, va hau nhu khong bao gio dung `var` de tranh cac loi lien quan den scope."
+> "`var` là function-scoped và được hoisted với giá trị `undefined`. `let` và `const` là block-scoped và nằm trong Temporal Dead Zone cho đến khi được khai báo. `const` không cho re-assign nhưng object được khai báo bằng `const` vẫn có thể bị mutate. Trong thực tế, tôi mặc định dùng `const`, chỉ dùng `let` khi cần thay đổi giá trị, và hầu như không bao giờ dùng `var` để tránh các lỗi liên quan đến scope."
 
 ---
 
-## Cau 2: Hoisting -- bien, function declaration vs expression `[Intermediate]`
+## Câu 2: Hoisting -- biến, function declaration vs expression `[Intermediate]`
 
-### Cau hoi
+### Câu hỏi
 
-> Giai thich hoisting trong JavaScript. Function declaration va function expression duoc hoist khac nhau nhu the nao?
+> Giải thích hoisting trong JavaScript. Function declaration và function expression được hoist khác nhau như thế nào?
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Hoisting** la co che JavaScript "di chuyen" phan khai bao len dau scope truoc khi code chay. Nhung can hieu chinh xac:
+**Hoisting** là cơ chế JavaScript "di chuyển" phần khai báo lên đầu scope trước khi code chạy. Nhưng cần hiểu chính xác:
 
-- **Function declaration**: Duoc hoist **toan bo** (ca ten va body). Ban co the goi ham truoc khi khai bao.
-- **Function expression**: Chi **ten bien** duoc hoist (neu dung `var`), body thi khong. Goi truoc khai bao se bi loi.
-- **`var`**: Duoc hoist va khoi tao bang `undefined`.
-- **`let`/`const`**: Duoc hoist nhung **khong khoi tao** (TDZ).
+- **Function declaration**: Được hoist **toàn bộ** (cả tên và body). Bạn có thể gọi hàm trước khi khai báo.
+- **Function expression**: Chỉ **tên biến** được hoist (nếu dùng `var`), body thì không. Gọi trước khai báo sẽ bị lỗi.
+- **`var`**: Được hoist và khởi tạo bằng `undefined`.
+- **`let`/`const`**: Được hoist nhưng **không khởi tạo** (TDZ).
 
-### Code vi du
+### Code ví dụ
 
 ```javascript
-// ===== Function Declaration: hoist toan bo =====
-sayHello(); // "Xin chao!" -- chay duoc truoc khi khai bao
+// ===== Function Declaration: hoist toàn bộ =====
+sayHello(); // "Xin chào!" -- chạy được trước khi khai báo
 
 function sayHello() {
-  console.log("Xin chao!");
+  console.log("Xin chào!");
 }
 
-// ===== Function Expression: chi hoist bien =====
+// ===== Function Expression: chỉ hoist biến =====
 // sayBye(); // TypeError: sayBye is not a function
 
 var sayBye = function () {
-  console.log("Tam biet!");
+  console.log("Tạm biệt!");
 };
 
-// ===== Arrow function expression cung tuong tu =====
+// ===== Arrow function expression cũng tương tự =====
 // greet(); // TypeError: greet is not a function
 
 var greet = () => {
@@ -109,47 +109,47 @@ var greet = () => {
 };
 
 // ===== var hoisting =====
-console.log(a); // undefined (khong phai ReferenceError)
+console.log(a); // undefined (không phải ReferenceError)
 var a = 10;
 console.log(a); // 10
 
-// JavaScript "hieu" doan code tren nhu:
-// var a;           // hoist len dau
+// JavaScript "hiểu" đoạn code trên như:
+// var a;           // hoist lên đầu
 // console.log(a); // undefined
 // a = 10;
 // console.log(a); // 10
 
-// ===== let/const hoisting voi TDZ =====
+// ===== let/const hoisting với TDZ =====
 // console.log(b); // ReferenceError: Cannot access 'b' before initialization
 let b = 20;
 
 // ===== Trick question: function trong block =====
-// Hanh vi nay khac nhau giua strict mode va non-strict mode
-// Nen tranh khai bao function trong block
+// Hành vi này khác nhau giữa strict mode và non-strict mode
+// Nên tránh khai báo function trong block
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Hoisting la co che JavaScript di chuyen khai bao len dau scope. Function declaration duoc hoist toan bo, nen co the goi truoc khi khai bao. Function expression chi hoist phan bien -- neu dung `var` thi bien la `undefined`, neu dung `let`/`const` thi nam trong TDZ. Day la ly do chinh ma modern JS khuyen dung `const` voi arrow function de khai bao ham, vi no lam ro rang thu tu phu thuoc trong code."
+> "Hoisting là cơ chế JavaScript di chuyển khai báo lên đầu scope. Function declaration được hoist toàn bộ, nên có thể gọi trước khi khai báo. Function expression chỉ hoist phần biến -- nếu dùng `var` thì biến là `undefined`, nếu dùng `let`/`const` thì nằm trong TDZ. Đây là lý do chính mà modern JS khuyên dùng `const` với arrow function để khai báo hàm, vì nó làm rõ ràng thứ tự phụ thuộc trong code."
 
 ---
 
-## Cau 3: Closures -- dinh nghia, use cases `[Intermediate]`
+## Câu 3: Closures -- định nghĩa, use cases `[Intermediate]`
 
-### Cau hoi
+### Câu hỏi
 
-> Closure la gi? Cho 3 use case thuc te cua closure trong du an.
+> Closure là gì? Cho 3 use case thực tế của closure trong dự án.
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Closure** xay ra khi mot ham "nho" duoc cac bien tu scope ben ngoai, ngay ca khi ham ben ngoai da thuc thi xong. Ve ban chat, closure la su ket hop cua:
+**Closure** xảy ra khi một hàm "nhớ" được các biến từ scope bên ngoài, ngay cả khi hàm bên ngoài đã thực thi xong. Về bản chất, closure là sự kết hợp của:
 
-1. Mot **ham** (function)
-2. Va **lexical environment** noi ham do duoc tao ra
+1. Một **hàm** (function)
+2. Và **lexical environment** nơi hàm đó được tạo ra
 
-Closure ton tai vi JavaScript su dung **lexical scoping** -- scope duoc xac dinh tai thoi diem viet code, khong phai tai thoi diem chay code.
+Closure tồn tại vì JavaScript sử dụng **lexical scoping** -- scope được xác định tại thời điểm viết code, không phải tại thời điểm chạy code.
 
-### Code vi du
+### Code ví dụ
 
 ```javascript
 // ===== Use Case 1: Data Privacy (Module Pattern) =====
@@ -158,12 +158,12 @@ function createWallet(initialBalance) {
 
   return {
     deposit(amount) {
-      if (amount <= 0) throw new Error("So tien phai lon hon 0");
+      if (amount <= 0) throw new Error("Số tiền phải lớn hơn 0");
       balance += amount;
       return balance;
     },
     withdraw(amount) {
-      if (amount > balance) throw new Error("Khong du so du");
+      if (amount > balance) throw new Error("Không đủ số dư");
       balance -= amount;
       return balance;
     },
@@ -177,12 +177,12 @@ const wallet = createWallet(100);
 console.log(wallet.getBalance()); // 100
 wallet.deposit(50);               // 150
 wallet.withdraw(30);              // 120
-// console.log(wallet.balance);   // undefined -- khong truy cap truc tiep duoc!
+// console.log(wallet.balance);   // undefined -- không truy cập trực tiếp được!
 
 // ===== Use Case 2: Factory Functions =====
 function createMultiplier(multiplier) {
   return function (number) {
-    return number * multiplier; // "nho" multiplier tu scope ben ngoai
+    return number * multiplier; // "nhớ" multiplier từ scope bên ngoài
   };
 }
 
@@ -192,60 +192,60 @@ const triple = createMultiplier(3);
 console.log(double(5));  // 10
 console.log(triple(5));  // 15
 
-// ===== Use Case 3: Event Handlers voi trang thai =====
+// ===== Use Case 3: Event Handlers với trạng thái =====
 function createClickCounter(buttonId) {
-  let count = 0; // Moi button co count rieng
+  let count = 0; // Mỗi button có count riêng
 
   const button = document.getElementById(buttonId);
   button.addEventListener("click", function () {
     count++;
-    button.textContent = `Da click ${count} lan`;
+    button.textContent = `Đã click ${count} lần`;
   });
 }
 
-// Moi lan goi tao mot closure doc lap
+// Mỗi lần gọi tạo một closure độc lập
 createClickCounter("btn-1");
 createClickCounter("btn-2");
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Closure la khi mot ham giu tham chieu den cac bien trong lexical scope cua no, ngay ca khi scope do da ket thuc. Ba use case pho bien nhat la: (1) data privacy -- tao bien 'private' ma ben ngoai khong truy cap truc tiep duoc, (2) factory functions -- tao cac ham tuy chinh tu mot ham goc, va (3) event handlers -- moi handler co the giu trang thai rieng ma khong can bien global."
+> "Closure là khi một hàm giữ tham chiếu đến các biến trong lexical scope của nó, ngay cả khi scope đó đã kết thúc. Ba use case phổ biến nhất là: (1) data privacy -- tạo biến 'private' mà bên ngoài không truy cập trực tiếp được, (2) factory functions -- tạo các hàm tùy chỉnh từ một hàm gốc, và (3) event handlers -- mỗi handler có thể giữ trạng thái riêng mà không cần biến global."
 
 ---
 
-## Cau 4: IIFE va Module Pattern `[Intermediate]`
+## Câu 4: IIFE và Module Pattern `[Intermediate]`
 
-### Cau hoi
+### Câu hỏi
 
-> IIFE la gi? Tai sao truoc ES6, IIFE duoc dung rat nhieu? Ngay nay con can dung khong?
+> IIFE là gì? Tại sao trước ES6, IIFE được dùng rất nhiều? Ngày nay còn cần dùng không?
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**IIFE (Immediately Invoked Function Expression)** la mot ham duoc dinh nghia va goi ngay lap tuc. Cu phap:
+**IIFE (Immediately Invoked Function Expression)** là một hàm được định nghĩa và gọi ngay lập tức. Cú pháp:
 
 ```javascript
 (function () {
-  // code chay ngay
+  // code chạy ngay
 })();
 ```
 
-Truoc ES6, JavaScript chi co function scope (khong co `let`/`const`). IIFE la cach **duy nhat** de tao scope rieng, tranh o nhiem global namespace. Day la nen tang cua **Module Pattern**.
+Trước ES6, JavaScript chỉ có function scope (không có `let`/`const`). IIFE là cách **duy nhất** để tạo scope riêng, tránh ô nhiễm global namespace. Đây là nền tảng của **Module Pattern**.
 
-Ngay nay voi ES Modules (`import`/`export`) va block scope (`let`/`const`), IIFE it duoc dung hon. Nhung van huu ich trong mot so truong hop.
+Ngày nay với ES Modules (`import`/`export`) và block scope (`let`/`const`), IIFE ít được dùng hơn. Nhưng vẫn hữu ích trong một số trường hợp.
 
-### Code vi du
+### Code ví dụ
 
 ```javascript
-// ===== IIFE co ban =====
+// ===== IIFE cơ bản =====
 (function () {
-  const secret = "Mat khau cuc ky bi mat";
-  console.log(secret); // "Mat khau cuc ky bi mat"
+  const secret = "Mật khẩu cực kỳ bí mật";
+  console.log(secret); // "Mật khẩu cực kỳ bí mật"
 })();
 
-// console.log(secret); // ReferenceError -- secret khong lo ra ngoai
+// console.log(secret); // ReferenceError -- secret không lộ ra ngoài
 
-// ===== Module Pattern voi IIFE =====
+// ===== Module Pattern với IIFE =====
 const CounterModule = (function () {
   // Private state
   let count = 0;
@@ -259,12 +259,12 @@ const CounterModule = (function () {
   return {
     increment() {
       count++;
-      log(`Tang len ${count}`);
+      log(`Tăng lên ${count}`);
       return count;
     },
     decrement() {
       count--;
-      log(`Giam xuong ${count}`);
+      log(`Giảm xuống ${count}`);
       return count;
     },
     getCount() {
@@ -273,16 +273,16 @@ const CounterModule = (function () {
   };
 })();
 
-CounterModule.increment(); // [Counter] Tang len 1
-CounterModule.increment(); // [Counter] Tang len 2
-CounterModule.decrement(); // [Counter] Giam xuong 1
+CounterModule.increment(); // [Counter] Tăng lên 1
+CounterModule.increment(); // [Counter] Tăng lên 2
+CounterModule.decrement(); // [Counter] Giảm xuống 1
 console.log(CounterModule.getCount()); // 1
 // CounterModule.count -- undefined (private)
 // CounterModule.log  -- undefined (private)
 
-// ===== IIFE voi tham so =====
+// ===== IIFE với tham số =====
 (function (global, $) {
-  // Tranh xung dot voi thu vien khac
+  // Tránh xung đột với thư viện khác
   // global = window, $ = jQuery
   global.myApp = {
     init() {
@@ -291,15 +291,15 @@ console.log(CounterModule.getCount()); // 1
   };
 })(window, jQuery);
 
-// ===== Truong hop IIFE van huu ich ngay nay =====
-// 1. Async IIFE trong file khong phai module
+// ===== Trường hợp IIFE vẫn hữu ích ngày nay =====
+// 1. Async IIFE trong file không phải module
 (async function () {
   const data = await fetch("/api/data");
   const json = await data.json();
   console.log(json);
 })();
 
-// 2. Tao block scope cho switch case
+// 2. Tạo block scope cho switch case
 const result = (() => {
   switch (type) {
     case "A":
@@ -312,33 +312,33 @@ const result = (() => {
 })();
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "IIFE la mot function expression duoc goi ngay khi dinh nghia. Truoc ES6, no la cach chinh de tao private scope vi JavaScript chi co function scope. Module Pattern dua tren IIFE de tao public API va private state. Ngay nay voi ES Modules va `let`/`const`, IIFE it can thiet hon, nhung van huu ich khi can async top-level execution hoac tao gia tri tu complex logic."
+> "IIFE là một function expression được gọi ngay khi định nghĩa. Trước ES6, nó là cách chính để tạo private scope vì JavaScript chỉ có function scope. Module Pattern dựa trên IIFE để tạo public API và private state. Ngày nay với ES Modules và `let`/`const`, IIFE ít cần thiết hơn, nhưng vẫn hữu ích khi cần async top-level execution hoặc tạo giá trị từ complex logic."
 
 ---
 
-## Cau 5: Lexical Environment va Scope Chain `[Senior]`
+## Câu 5: Lexical Environment và Scope Chain `[Senior]`
 
-### Cau hoi
+### Câu hỏi
 
-> Giai thich Lexical Environment la gi va scope chain hoat dong nhu the nao khi JavaScript tim kiem mot bien?
+> Giải thích Lexical Environment là gì và scope chain hoạt động như thế nào khi JavaScript tìm kiếm một biến?
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Moi khi mot execution context duoc tao (goi ham, chay script), JavaScript tao mot **Lexical Environment** gom hai phan:
+Mỗi khi một execution context được tạo (gọi hàm, chạy script), JavaScript tạo một **Lexical Environment** gồm hai phần:
 
-1. **Environment Record**: Luu tru cac bien va ham duoc khai bao trong scope hien tai.
-2. **Outer Reference**: Tham chieu den Lexical Environment cua scope cha (noi ham duoc **dinh nghia**, khong phai noi ham duoc **goi**).
+1. **Environment Record**: Lưu trữ các biến và hàm được khai báo trong scope hiện tại.
+2. **Outer Reference**: Tham chiếu đến Lexical Environment của scope cha (nơi hàm được **định nghĩa**, không phải nơi hàm được **gọi**).
 
-Khi truy cap mot bien, JavaScript thuc hien **scope chain lookup**:
+Khi truy cập một biến, JavaScript thực hiện **scope chain lookup**:
 
-1. Tim trong Environment Record hien tai.
-2. Neu khong thay, di theo outer reference len scope cha.
-3. Lap lai cho den khi toi Global Scope.
-4. Neu van khong thay: `ReferenceError`.
+1. Tìm trong Environment Record hiện tại.
+2. Nếu không thấy, đi theo outer reference lên scope cha.
+3. Lặp lại cho đến khi tới Global Scope.
+4. Nếu vẫn không thấy: `ReferenceError`.
 
-### Code vi du
+### Code ví dụ
 
 ```javascript
 const globalVar = "Global";
@@ -353,10 +353,10 @@ function outer() {
       const innerVar = "Inner";
 
       // Scope chain: inner -> middle -> outer -> global
-      console.log(innerVar);  // "Inner"   -- tim thay o inner
-      console.log(middleVar); // "Middle"  -- tim thay o middle
-      console.log(outerVar);  // "Outer"   -- tim thay o outer
-      console.log(globalVar); // "Global"  -- tim thay o global
+      console.log(innerVar);  // "Inner"   -- tìm thấy ở inner
+      console.log(middleVar); // "Middle"  -- tìm thấy ở middle
+      console.log(outerVar);  // "Outer"   -- tìm thấy ở outer
+      console.log(globalVar); // "Global"  -- tìm thấy ở global
     }
 
     inner();
@@ -368,30 +368,30 @@ function outer() {
 outer();
 
 // ===== Lexical scope vs Dynamic scope =====
-// JavaScript dung LEXICAL scope (static scope)
+// JavaScript dùng LEXICAL scope (static scope)
 const value = "global";
 
 function printValue() {
-  console.log(value); // luon la "global", khong phai "local"
+  console.log(value); // luôn là "global", không phải "local"
 }
 
 function callPrint() {
   const value = "local";
-  printValue(); // "global" -- vi printValue duoc DINH NGHIA o global scope
+  printValue(); // "global" -- vì printValue được ĐỊNH NGHĨA ở global scope
 }
 
 callPrint(); // "global"
 
-// ===== Scope chain voi closure =====
+// ===== Scope chain với closure =====
 function createCounter(name) {
   let count = 0;
-  // Lexical Environment cua createCounter:
+  // Lexical Environment của createCounter:
   // { name: "...", count: 0 } -> outer: global
 
   return {
     increment() {
       count++;
-      // Lexical Environment cua increment:
+      // Lexical Environment của increment:
       // {} -> outer: createCounter's env -> outer: global
       console.log(`${name}: ${count}`);
     },
@@ -404,20 +404,20 @@ const counterB = createCounter("B");
 counterA.increment(); // "A: 1"
 counterA.increment(); // "A: 2"
 counterB.increment(); // "B: 1"
-// Moi closure co Lexical Environment rieng, doc lap!
+// Mỗi closure có Lexical Environment riêng, độc lập!
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Lexical Environment la cau truc du lieu ma JavaScript tao ra moi khi mot execution context moi xuat hien. No gom Environment Record (chua bien/ham trong scope hien tai) va outer reference (tro den scope cha). Scope chain la chuoi cac Lexical Environment lien ket qua outer reference. Khi tim bien, engine di tu trong ra ngoai theo chuoi nay. Dieu quan trong la scope duoc xac dinh tai thoi diem viet code (lexical), khong phai tai thoi diem chay. Day chinh la co so de closure hoat dong."
+> "Lexical Environment là cấu trúc dữ liệu mà JavaScript tạo ra mỗi khi một execution context mới xuất hiện. Nó gồm Environment Record (chứa biến/hàm trong scope hiện tại) và outer reference (trỏ đến scope cha). Scope chain là chuỗi các Lexical Environment liên kết qua outer reference. Khi tìm biến, engine đi từ trong ra ngoài theo chuỗi này. Điều quan trọng là scope được xác định tại thời điểm viết code (lexical), không phải tại thời điểm chạy. Đây chính là cơ sở để closure hoạt động."
 
 ---
 
-## Cau 6: Closures trong loops -- Classic tricky question `[Senior]`
+## Câu 6: Closures trong loops -- Classic tricky question `[Senior]`
 
-### Cau hoi
+### Câu hỏi
 
-> Cho doan code sau, output la gi? Lam sao de fix?
+> Cho đoạn code sau, output là gì? Làm sao để fix?
 
 ```javascript
 for (var i = 0; i < 3; i++) {
@@ -427,55 +427,55 @@ for (var i = 0; i < 3; i++) {
 }
 ```
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Day la cau hoi kinh dien ve closure trong loop:
+Đây là câu hỏi kinh điển về closure trong loop:
 
-- `var` la **function-scoped**, nen chi co **mot bien `i` duy nhat** cho ca vong loop.
-- `setTimeout` callback la mot closure, no **tham chieu den bien `i`**, khong phai **gia tri cua `i`** tai thoi diem tao callback.
-- Khi callback chay (sau 1 giay), vong loop da ket thuc va `i = 3`.
-- Ket qua: in ra `3, 3, 3`.
+- `var` là **function-scoped**, nên chỉ có **một biến `i` duy nhất** cho cả vòng loop.
+- `setTimeout` callback là một closure, nó **tham chiếu đến biến `i`**, không phải **giá trị của `i`** tại thời điểm tạo callback.
+- Khi callback chạy (sau 1 giây), vòng loop đã kết thúc và `i = 3`.
+- Kết quả: in ra `3, 3, 3`.
 
-### Code vi du
+### Code ví dụ
 
 ```javascript
-// ===== Van de =====
+// ===== Vấn đề =====
 for (var i = 0; i < 3; i++) {
   setTimeout(function () {
     console.log(i); // 3, 3, 3
   }, 1000);
 }
 
-// ===== Fix 1: Dung let (don gian nhat, khuyen dung) =====
+// ===== Fix 1: Dùng let (đơn giản nhất, khuyên dùng) =====
 for (let i = 0; i < 3; i++) {
   setTimeout(function () {
     console.log(i); // 0, 1, 2
   }, 1000);
 }
-// let tao block scope moi cho moi lan lap -> moi callback co "ban sao" rieng cua i
+// let tạo block scope mới cho mỗi lần lặp -> mỗi callback có "bản sao" riêng của i
 
-// ===== Fix 2: Dung IIFE (cach cu truoc ES6) =====
+// ===== Fix 2: Dùng IIFE (cách cũ trước ES6) =====
 for (var i = 0; i < 3; i++) {
   (function (j) {
     setTimeout(function () {
       console.log(j); // 0, 1, 2
     }, 1000);
   })(i);
-  // IIFE tao scope moi, "chup lai" gia tri i vao tham so j
+  // IIFE tạo scope mới, "chụp lại" giá trị i vào tham số j
 }
 
-// ===== Fix 3: Dung tham so thu 3 cua setTimeout =====
+// ===== Fix 3: Dùng tham số thứ 3 của setTimeout =====
 for (var i = 0; i < 3; i++) {
   setTimeout(
     function (j) {
       console.log(j); // 0, 1, 2
     },
     1000,
-    i // Truyen i nhu tham so cho callback
+    i // Truyền i như tham số cho callback
   );
 }
 
-// ===== Fix 4: Dung bind =====
+// ===== Fix 4: Dùng bind =====
 for (var i = 0; i < 3; i++) {
   setTimeout(
     function (j) {
@@ -485,10 +485,10 @@ for (var i = 0; i < 3; i++) {
   );
 }
 
-// ===== Nang cao: Hieu sau hon =====
-// Tai sao let fix duoc? Vi voi moi iteration, JS tao mot
-// Lexical Environment moi voi ban sao cua i.
-// Tuong duong voi:
+// ===== Nâng cao: Hiểu sâu hơn =====
+// Tại sao let fix được? Vì với mỗi iteration, JS tạo một
+// Lexical Environment mới với bản sao của i.
+// Tương đương với:
 {
   let i = 0;
   setTimeout(() => console.log(i), 1000);
@@ -503,19 +503,19 @@ for (var i = 0; i < 3; i++) {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Output la `3, 3, 3` vi `var` la function-scoped, chi co mot bien `i` duy nhat. Cac callback closure tham chieu den cung mot bien `i`, va khi chung chay thi `i` da la 3. Cach fix don gian nhat la dung `let` thay `var` -- `let` tao block scope moi cho moi iteration, moi callback se co ban sao rieng cua `i`. Cac cach khac la dung IIFE de tao scope moi hoac truyen `i` qua tham so. Day la vi du kinh dien cho thay closure 'bat' tham chieu, khong phai gia tri."
+> "Output là `3, 3, 3` vì `var` là function-scoped, chỉ có một biến `i` duy nhất. Các callback closure tham chiếu đến cùng một biến `i`, và khi chúng chạy thì `i` đã là 3. Cách fix đơn giản nhất là dùng `let` thay `var` -- `let` tạo block scope mới cho mỗi iteration, mỗi callback sẽ có bản sao riêng của `i`. Các cách khác là dùng IIFE để tạo scope mới hoặc truyền `i` qua tham số. Đây là ví dụ kinh điển cho thấy closure 'bắt' tham chiếu, không phải giá trị."
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
-| Loi | Giai thich dung |
+| Lỗi | Giải thích đúng |
 |---|---|
-| "Hoisting di chuyen code len dau file" | Hoisting chi di chuyen **khai bao**, khong di chuyen code vat ly. Day la co che cua compiler phase. |
-| "Closure la ham ben trong ham" | Closure la ham + lexical environment cua no. Ham ben trong ham chi la dieu kien can, khong du. |
-| "`const` tao bien bat bien (immutable)" | `const` chi ngan **re-assignment**. Object/array khai bao bang `const` van co the bi mutate. |
-| "let va const khong duoc hoist" | Chung **co** duoc hoist, nhung nam trong TDZ nen khong truy cap duoc truoc khi khai bao. |
-| "IIFE chi la cu phap" | IIFE la pattern quan trong tao private scope. No la nen tang cua Module Pattern truoc ES6. |
-| "Closure gay memory leak" | Closure **co the** gay memory leak neu giu reference khong can thiet, nhung ban than no khong phai la leak. Can hieu khi nao reference bi giu va khi nao duoc GC thu hoi. |
+| "Hoisting di chuyển code lên đầu file" | Hoisting chỉ di chuyển **khai báo**, không di chuyển code vật lý. Đây là cơ chế của compiler phase. |
+| "Closure là hàm bên trong hàm" | Closure là hàm + lexical environment của nó. Hàm bên trong hàm chỉ là điều kiện cần, không đủ. |
+| "`const` tạo biến bất biến (immutable)" | `const` chỉ ngăn **re-assignment**. Object/array khai báo bằng `const` vẫn có thể bị mutate. |
+| "let và const không được hoist" | Chúng **có** được hoist, nhưng nằm trong TDZ nên không truy cập được trước khi khai báo. |
+| "IIFE chỉ là cú pháp" | IIFE là pattern quan trọng tạo private scope. Nó là nền tảng của Module Pattern trước ES6. |
+| "Closure gây memory leak" | Closure **có thể** gây memory leak nếu giữ reference không cần thiết, nhưng bản thân nó không phải là leak. Cần hiểu khi nào reference bị giữ và khi nào được GC thu hồi. |

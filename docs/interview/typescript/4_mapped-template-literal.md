@@ -5,29 +5,29 @@ title: "Mapped Types & Template Literal Types"
 
 # Mapped Types & Template Literal Types
 
-Mapped types va template literal types la hai tinh nang nang cao cho phep ban tao ra type moi tu type co san mot cach co he thong. Day la nhom cau hoi thuong xuat hien o level Senior va giup phan biet ung vien hieu sau ve type system.
+Mapped types và template literal types là hai tính năng nâng cao cho phép bạn tạo ra type mới từ type có sẵn một cách có hệ thống. Đây là nhóm câu hỏi thường xuất hiện ở level Senior và giúp phân biệt ứng viên hiểu sâu về type system.
 
 ---
 
-## Cau 1: Mapped types hoat dong nhu the nao? `[Senior]`
+## Câu 1: Mapped types hoạt động như thế nào? `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Mapped types** cho phep ban tao type moi bang cach **lap qua tung key** cua mot type co san va bien doi tung property. Cu phap: `{ [K in keyof T]: NewType }`.
+**Mapped types** cho phép bạn tạo type mới bằng cách **lặp qua từng key** của một type có sẵn và biến đổi từng property. Cú pháp: `{ [K in keyof T]: NewType }`.
 
-Nghi don gian: mapped types giong nhu `Array.map()` nhung cho types -- ban lap qua tung property va tao ra property moi.
+Nghĩ đơn giản: mapped types giống như `Array.map()` nhưng cho types -- bạn lặp qua từng property và tạo ra property mới.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
-// === MAPPED TYPE CO BAN ===
+// === MAPPED TYPE CƠ BẢN ===
 interface User {
   id: number;
   name: string;
   email: string;
 }
 
-// Bien tat ca property thanh optional
+// Biến tất cả property thành optional
 type Optional<T> = {
   [K in keyof T]?: T[K];
 };
@@ -35,7 +35,7 @@ type Optional<T> = {
 type OptionalUser = Optional<User>;
 // { id?: number; name?: string; email?: string }
 
-// Bien tat ca property thanh readonly
+// Biến tất cả property thành readonly
 type Immutable<T> = {
   readonly [K in keyof T]: T[K];
 };
@@ -43,7 +43,7 @@ type Immutable<T> = {
 type ImmutableUser = Immutable<User>;
 // { readonly id: number; readonly name: string; readonly email: string }
 
-// Bien tat ca property thanh nullable
+// Biến tất cả property thành nullable
 type Nullable<T> = {
   [K in keyof T]: T[K] | null;
 };
@@ -51,9 +51,9 @@ type Nullable<T> = {
 type NullableUser = Nullable<User>;
 // { id: number | null; name: string | null; email: string | null }
 
-// === BIEN DOI VALUE TYPE ===
+// === BIẾN ĐỔI VALUE TYPE ===
 
-// Wrap moi property trong Promise
+// Wrap mỗi property trong Promise
 type Async<T> = {
   [K in keyof T]: Promise<T[K]>;
 };
@@ -65,7 +65,7 @@ type AsyncUser = Async<User>;
 //   email: Promise<string>;
 // }
 
-// Bien tat ca property thanh getter function
+// Biến tất cả property thành getter function
 type Getters<T> = {
   [K in keyof T]: () => T[K];
 };
@@ -77,33 +77,33 @@ type UserGetters = Getters<User>;
 //   email: () => string;
 // }
 
-// === MAPPED TYPE VOI CONDITIONAL ===
+// === MAPPED TYPE VỚI CONDITIONAL ===
 type StringKeysOnly<T> = {
   [K in keyof T as T[K] extends string ? K : never]: T[K];
 };
 
 type UserStringFields = StringKeysOnly<User>;
 // { name: string; email: string }
-// id bi loai vi number khong extends string
+// id bị loại vì number không extends string
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Mapped types tao type moi bang cach iterate qua keys cua type co san dung cu phap [K in keyof T]. Co the them/loai modifiers nhu optional (?) va readonly, hoac bien doi value type. Ket hop voi conditional types va key remapping, mapped types cho phep bien doi type rat linh hoat -- vi du loc chi lay string properties, wrap values trong Promise, hoac tao getter/setter types."
+> "Mapped types tạo type mới bằng cách iterate qua keys của type có sẵn dùng cú pháp [K in keyof T]. Có thể thêm/loại modifiers như optional (?) và readonly, hoặc biến đổi value type. Kết hợp với conditional types và key remapping, mapped types cho phép biến đổi type rất linh hoạt -- ví dụ lọc chỉ lấy string properties, wrap values trong Promise, hoặc tạo getter/setter types."
 
 ---
 
-## Cau 2: Modifiers trong mapped types: +readonly, -optional `[Senior]`
+## Câu 2: Modifiers trong mapped types: +readonly, -optional `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Mapped types co the **them (+)** hoac **loai bo (-)** hai modifiers:
-- **`readonly`** / **`-readonly`**: Them hoac loai bo readonly
-- **`?`** / **`-?`**: Them hoac loai bo optional
+Mapped types có thể **thêm (+)** hoặc **loại bỏ (-)** hai modifiers:
+- **`readonly`** / **`-readonly`**: Thêm hoặc loại bỏ readonly
+- **`?`** / **`-?`**: Thêm hoặc loại bỏ optional
 
-Dau `+` la mac dinh nen thuong bo qua. Dau `-` la phan quan trong -- no cho phep **loai bo** modifier da co.
+Dấu `+` là mặc định nên thường bỏ qua. Dấu `-` là phần quan trọng -- nó cho phép **loại bỏ** modifier đã có.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
 interface Config {
@@ -112,34 +112,34 @@ interface Config {
   readonly debug?: boolean;
 }
 
-// === LOAI BO READONLY ===
+// === LOẠI BỎ READONLY ===
 type Mutable<T> = {
   -readonly [K in keyof T]: T[K];
 };
 
 type MutableConfig = Mutable<Config>;
 // { host: string; port: number; debug?: boolean }
-// readonly da bi loai, optional van giu
+// readonly đã bị loại, optional vẫn giữ
 
-// === LOAI BO OPTIONAL ===
+// === LOẠI BỎ OPTIONAL ===
 type Concrete<T> = {
   [K in keyof T]-?: T[K];
 };
 
 type ConcreteConfig = Concrete<Config>;
 // { readonly host: string; readonly port: number; readonly debug: boolean }
-// optional da bi loai, readonly van giu
+// optional đã bị loại, readonly vẫn giữ
 
-// === LOAI BO CA HAI ===
+// === LOẠI BỎ CẢ HAI ===
 type MutableRequired<T> = {
   -readonly [K in keyof T]-?: T[K];
 };
 
 type FullConfig = MutableRequired<Config>;
 // { host: string; port: number; debug: boolean }
-// Ca readonly lan optional deu bi loai
+// Cả readonly lẫn optional đều bị loại
 
-// === THEM CA HAI ===
+// === THÊM CẢ HAI ===
 type ReadonlyOptional<T> = {
   +readonly [K in keyof T]+?: T[K];
 };
@@ -147,15 +147,15 @@ type ReadonlyOptional<T> = {
 type LockedConfig = ReadonlyOptional<Config>;
 // { readonly host?: string; readonly port?: number; readonly debug?: boolean }
 
-// === THUC TE: FORM STATE ===
+// === THỰC TẾ: FORM STATE ===
 interface FormData {
   username: string;
   password: string;
   rememberMe: boolean;
 }
 
-// Form state: tat ca field la optional (chua dien het)
-// va mutable (nguoi dung dang nhap lieu)
+// Form state: tất cả field là optional (chưa điền hết)
+// và mutable (người dùng đang nhập liệu)
 type FormState<T> = {
   -readonly [K in keyof T]+?: T[K];
 };
@@ -163,7 +163,7 @@ type FormState<T> = {
 type LoginFormState = FormState<FormData>;
 // { username?: string; password?: string; rememberMe?: boolean }
 
-// Form errors: moi field co the co error message
+// Form errors: mỗi field có thể có error message
 type FormErrors<T> = {
   [K in keyof T]?: string;
 };
@@ -172,31 +172,31 @@ type LoginFormErrors = FormErrors<FormData>;
 // { username?: string; password?: string; rememberMe?: string }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Mapped types ho tro hai modifiers: readonly va optional (?). Dung dau + de them (mac dinh) va dau - de loai bo. Vi du -readonly loai bo readonly modifier, -? loai bo optional modifier. Day la co che ma Required va Readonly built-in types su dung. Trong thuc te, toi dung pattern nay cho form state -- FormData type la readonly va required, nhung FormState can mutable va optional de theo doi input chua hoan thanh."
+> "Mapped types hỗ trợ hai modifiers: readonly và optional (?). Dùng dấu + để thêm (mặc định) và dấu - để loại bỏ. Ví dụ -readonly loại bỏ readonly modifier, -? loại bỏ optional modifier. Đây là cơ chế mà Required và Readonly built-in types sử dụng. Trong thực tế, tôi dùng pattern này cho form state -- FormData type là readonly và required, nhưng FormState cần mutable và optional để theo dõi input chưa hoàn thành."
 
 ---
 
-## Cau 3: Template literal types `[Senior]`
+## Câu 3: Template literal types `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Template literal types** cho phep ban tao string literal types moi bang cach **noi cac type lai** dung template string syntax. Giong template literals trong JavaScript (`Hello ${name}`), nhung o type level.
+**Template literal types** cho phép bạn tạo string literal types mới bằng cách **nối các type lại** dùng template string syntax. Giống template literals trong JavaScript (`Hello ${name}`), nhưng ở type level.
 
-Khi ket hop voi union types, template literal types tu dong tao ra **tat ca to hop** co the.
+Khi kết hợp với union types, template literal types tự động tạo ra **tất cả tổ hợp** có thể.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
-// === TEMPLATE LITERAL CO BAN ===
+// === TEMPLATE LITERAL CƠ BẢN ===
 type Greeting = `Hello, ${string}`;
 
 const a: Greeting = "Hello, World";  // OK
 const b: Greeting = "Hello, Thuan";  // OK
-// const c: Greeting = "Hi, World";  // Error: khong bat dau bang "Hello, "
+// const c: Greeting = "Hi, World";  // Error: không bắt đầu bằng "Hello, "
 
-// === KET HOP VOI UNION -- TAO TO HOP ===
+// === KẾT HỢP VỚI UNION -- TẠO TỔ HỢP ===
 type Color = "red" | "green" | "blue";
 type Size = "small" | "medium" | "large";
 
@@ -204,7 +204,7 @@ type ColorSize = `${Color}-${Size}`;
 // "red-small" | "red-medium" | "red-large"
 // | "green-small" | "green-medium" | "green-large"
 // | "blue-small" | "blue-medium" | "blue-large"
-// 9 to hop tu dong!
+// 9 tổ hợp tự động!
 
 // === CSS UNITS ===
 type CSSUnit = "px" | "rem" | "em" | "vh" | "vw" | "%";
@@ -212,7 +212,7 @@ type CSSValue = `${number}${CSSUnit}`;
 
 const padding: CSSValue = "16px";    // OK
 const margin: CSSValue = "1.5rem";   // OK
-// const wrong: CSSValue = "16";     // Error: thieu unit
+// const wrong: CSSValue = "16";     // Error: thiếu unit
 
 // === EVENT NAMES ===
 type DomEvent = "click" | "focus" | "blur" | "change";
@@ -225,7 +225,7 @@ type Lower = Lowercase<"HELLO">;     // "hello"
 type Cap = Capitalize<"hello">;      // "Hello"
 type Uncap = Uncapitalize<"Hello">;  // "hello"
 
-// === THUC TE: API ENDPOINTS ===
+// === THỰC TẾ: API ENDPOINTS ===
 type Resource = "users" | "posts" | "comments";
 type Method = "get" | "create" | "update" | "delete";
 
@@ -235,7 +235,7 @@ type ApiMethod = `${Method}${Capitalize<Resource>}`;
 // | "updateUsers" | "updatePosts" | "updateComments"
 // | "deleteUsers" | "deletePosts" | "deleteComments"
 
-// === THUC TE: DOT NOTATION PATH ===
+// === THỰC TẾ: DOT NOTATION PATH ===
 type NestedKeys<T, Prefix extends string = ""> = {
   [K in keyof T & string]: T[K] extends object
     ? NestedKeys<T[K], `${Prefix}${K}.`>
@@ -257,19 +257,19 @@ type SettingPaths = NestedKeys<Settings>;
 // "theme.color" | "theme.fontSize" | "notifications.email" | "notifications.push"
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Template literal types dung backtick syntax o type level de tao string types moi tu cac type khac. Khi ket hop voi union, chung tu dong tao tat ca to hop -- vi du Color x Size tao ra 9 string literals. TypeScript con cung cap 4 intrinsic types: Uppercase, Lowercase, Capitalize, Uncapitalize de bien doi string types. Trong thuc te, toi dung template literals de type-safe event names, API method names, va dot-notation paths cho config objects."
+> "Template literal types dùng backtick syntax ở type level để tạo string types mới từ các type khác. Khi kết hợp với union, chúng tự động tạo tất cả tổ hợp -- ví dụ Color x Size tạo ra 9 string literals. TypeScript còn cung cấp 4 intrinsic types: Uppercase, Lowercase, Capitalize, Uncapitalize để biến đổi string types. Trong thực tế, tôi dùng template literals để type-safe event names, API method names, và dot-notation paths cho config objects."
 
 ---
 
-## Cau 4: Key remapping voi `as` trong mapped types `[Senior]`
+## Câu 4: Key remapping với `as` trong mapped types `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Tu TypeScript 4.1, ban co the **doi ten key** trong mapped types dung tu khoa `as`. Cu phap: `[K in keyof T as NewKey]`. Ket hop voi template literal types, day la cong cu cuc ky manh de tao getters, setters, event handlers tu type co san.
+Từ TypeScript 4.1, bạn có thể **đổi tên key** trong mapped types dùng từ khóa `as`. Cú pháp: `[K in keyof T as NewKey]`. Kết hợp với template literal types, đây là công cụ cực kỳ mạnh để tạo getters, setters, event handlers từ type có sẵn.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
 interface User {
@@ -278,7 +278,7 @@ interface User {
   email: string;
 }
 
-// === TAO GETTERS ===
+// === TẠO GETTERS ===
 type Getters<T> = {
   [K in keyof T as `get${Capitalize<string & K>}`]: () => T[K];
 };
@@ -290,7 +290,7 @@ type UserGetters = Getters<User>;
 //   getEmail: () => string;
 // }
 
-// === TAO SETTERS ===
+// === TẠO SETTERS ===
 type Setters<T> = {
   [K in keyof T as `set${Capitalize<string & K>}`]: (value: T[K]) => void;
 };
@@ -317,15 +317,15 @@ type UserEventHandlers = EventHandlers<User>;
 //   onEmailChange: (newValue: string, oldValue: string) => void;
 // }
 
-// === LOC KEYS BANG AS + NEVER ===
-// Chi giu cac property co type la string
+// === LỌC KEYS BẰNG AS + NEVER ===
+// Chỉ giữ các property có type là string
 type StringProps<T> = {
   [K in keyof T as T[K] extends string ? K : never]: T[K];
 };
 
 type UserStrings = StringProps<User>;
 // { name: string; email: string }
-// age bi loai vi number khong extends string
+// age bị loại vì number không extends string
 
 // === REMOVE PREFIX ===
 type RemovePrefix<
@@ -344,7 +344,7 @@ interface ApiUser {
 type CleanUser = RemovePrefix<ApiUser, "user">;
 // { name: string; age: number; email: string }
 
-// === THUC TE: FORM VALIDATION ===
+// === THỰC TẾ: FORM VALIDATION ===
 type FormValidators<T> = {
   [K in keyof T as `validate${Capitalize<string & K>}`]: (
     value: T[K]
@@ -365,24 +365,24 @@ type RegisterValidators = FormValidators<RegisterForm>;
 // }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Key remapping dung as trong mapped types de doi ten hoac loc keys. Ket hop voi template literal types va Capitalize, ta co the tu dong tao getters, setters, event handlers, validators tu mot interface goc. Dung as + never de loc bo keys -- tuong tu filter. Day la pattern cuc ky huu ich khi xay dung type-safe wrappers cho forms, state management, hoac API clients."
+> "Key remapping dùng as trong mapped types để đổi tên hoặc lọc keys. Kết hợp với template literal types và Capitalize, ta có thể tự động tạo getters, setters, event handlers, validators từ một interface gốc. Dùng as + never để lọc bỏ keys -- tương tự filter. Đây là pattern cực kỳ hữu ích khi xây dựng type-safe wrappers cho forms, state management, hoặc API clients."
 
 ---
 
-## Cau 5: Recursive types `[Senior]`
+## Câu 5: Recursive types `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-TypeScript cho phep **type tham chieu chinh no** (recursive types). Dieu nay cho phep bieu dien cac cau truc du lieu co do sau khong co dinh nhu trees, nested objects, hay JSON.
+TypeScript cho phép **type tham chiếu chính nó** (recursive types). Điều này cho phép biểu diễn các cấu trúc dữ liệu có độ sâu không cố định như trees, nested objects, hay JSON.
 
-Luu y: TypeScript co gioi han do sau de-quy (thay doi theo version), nen can can than voi recursive types qua sau.
+Lưu ý: TypeScript có giới hạn độ sâu đệ quy (thay đổi theo version), nên cần cẩn thận với recursive types quá sâu.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
-// === RECURSIVE TYPE CO BAN: JSON ===
+// === RECURSIVE TYPE CƠ BẢN: JSON ===
 type JsonValue =
   | string
   | number
@@ -423,18 +423,18 @@ interface Config {
   };
 }
 
-// Partial thuong chi lam optional 1 cap
+// Partial thường chỉ làm optional 1 cấp
 type ShallowPartialConfig = Partial<Config>;
 // { database?: { host: string; port: number; credentials: {...} }; ... }
-// Van phai truyen FULL database object neu co database key
+// Vẫn phải truyền FULL database object nếu có database key
 
-// DeepPartial lam optional O MOI CAP
+// DeepPartial làm optional Ở MỌI CẤP
 type DeepPartialConfig = DeepPartial<Config>;
 // { database?: { host?: string; port?: number; credentials?: { username?: string; password?: string } } }
 
 const partialConfig: DeepPartialConfig = {
   database: {
-    port: 5433, // Chi update port, khong can truyen full object
+    port: 5433, // Chỉ update port, không cần truyền full object
   },
 };
 
@@ -446,7 +446,7 @@ type DeepReadonly<T> = {
 };
 
 type FrozenConfig = DeepReadonly<Config>;
-// Tat ca properties o moi cap deu readonly
+// Tất cả properties ở mọi cấp đều readonly
 
 // === TREE STRUCTURE ===
 type TreeNode<T> = {
@@ -504,24 +504,24 @@ type ConfigPaths = PathsOf<Config>;
 // | "logging.format"
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Recursive types la types tham chieu chinh minh, cho phep bieu dien cau truc du lieu co do sau khong co dinh. Ung dung pho bien nhat la DeepPartial va DeepReadonly -- bien doi modifier o moi cap cua nested object. Ngoai ra con dung cho JSON type, tree structures, va dot-notation paths. Can luu y TypeScript co gioi han recursion depth, nen voi cau truc qua sau co the can phai dat dieu kien dung."
+> "Recursive types là types tham chiếu chính mình, cho phép biểu diễn cấu trúc dữ liệu có độ sâu không cố định. Ứng dụng phổ biến nhất là DeepPartial và DeepReadonly -- biến đổi modifier ở mọi cấp của nested object. Ngoài ra còn dùng cho JSON type, tree structures, và dot-notation paths. Cần lưu ý TypeScript có giới hạn recursion depth, nên với cấu trúc quá sâu có thể cần phải đặt điều kiện dừng."
 
 ---
 
-## Cau 6: Real-world use cases: API response typing va form validation `[Senior]`
+## Câu 6: Real-world use cases: API response typing và form validation `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Tat ca cac khai niem mapped types, template literals, va recursive types deu huong toi mot muc tieu: **type safety trong code thuc te**. Cau nay kiem tra kha nang ap dung ly thuyet vao bai toan that.
+Tất cả các khái niệm mapped types, template literals, và recursive types đều hướng tới một mục tiêu: **type safety trong code thực tế**. Câu này kiểm tra khả năng áp dụng lý thuyết vào bài toán thật.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
 // === USE CASE 1: TYPE-SAFE API CLIENT ===
 
-// Dinh nghia API schema
+// Định nghĩa API schema
 interface ApiSchema {
   "/users": {
     GET: { response: User[]; query: { page: number; limit: number } };
@@ -557,14 +557,14 @@ type ApiClient = {
 
 // === USE CASE 2: FORM VALIDATION SYSTEM ===
 
-// Dinh nghia form field types
+// Định nghĩa form field types
 interface LoginForm {
   email: string;
   password: string;
   rememberMe: boolean;
 }
 
-// Tu dong tao validation rules type
+// Tự động tạo validation rules type
 type ValidationRules<T> = {
   [K in keyof T]: {
     required?: boolean;
@@ -577,27 +577,27 @@ type ValidationRules<T> = {
   };
 };
 
-// Su dung
+// Sử dụng
 const loginRules: ValidationRules<LoginForm> = {
   email: {
     required: true,
     pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-    // min: 5, // Error! email la string, khong phai number
+    // min: 5, // Error! email là string, không phải number
   },
   password: {
     required: true,
     minLength: 8,
     maxLength: 100,
     validate: (value) =>
-      /[A-Z]/.test(value) ? null : "Can it nhat 1 chu hoa",
+      /[A-Z]/.test(value) ? null : "Cần ít nhất 1 chữ hoa",
   },
   rememberMe: {
     required: false,
-    // minLength: 3, // Error! boolean khong co minLength
+    // minLength: 3, // Error! boolean không có minLength
   },
 };
 
-// Tu dong tao form state types
+// Tự động tạo form state types
 type FormState<T> = {
   values: Partial<T>;
   errors: { [K in keyof T]?: string };
@@ -631,7 +631,7 @@ type DeepPaths<T, P extends string = ""> = T extends object
 type StatePaths = DeepPaths<StoreState>;
 // "user" | "user.profile" | "user.preferences" | "user.preferences.theme" | ...
 
-// Type-safe get voi path
+// Type-safe get với path
 type GetByPath<T, P extends string> = P extends `${infer Key}.${infer Rest}`
   ? Key extends keyof T
     ? GetByPath<T[Key], Rest>
@@ -647,22 +647,22 @@ type CartItems = GetByPath<StoreState, "cart.items">;
 // CartItem[]
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Mapped types va template literals cho phep xay dung type-safe systems hoat dong o quy mo lon. Voi API client, ta co the dinh nghia schema mot lan va TypeScript se enforce dung params, query, body cho moi endpoint. Voi form validation, mapped types tu dong tao validation rules phu hop voi tung field type -- string co minLength, number co min/max. Va voi state management, template literal types + recursive types cho phep type-safe selectors dung dot notation. Day la nhung patterns toi dung hang ngay trong production."
+> "Mapped types và template literals cho phép xây dựng type-safe systems hoạt động ở quy mô lớn. Với API client, ta có thể định nghĩa schema một lần và TypeScript sẽ enforce đúng params, query, body cho mỗi endpoint. Với form validation, mapped types tự động tạo validation rules phù hợp với từng field type -- string có minLength, number có min/max. Và với state management, template literal types + recursive types cho phép type-safe selectors dùng dot notation. Đây là những patterns tôi dùng hàng ngày trong production."
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
-1. **Khong phan biet duoc `keyof T` va `keyof typeof obj`**: `keyof T` dung khi T la mot type/interface. `keyof typeof obj` dung khi ban muon lay keys tu mot runtime value.
+1. **Không phân biệt được `keyof T` và `keyof typeof obj`**: `keyof T` dùng khi T là một type/interface. `keyof typeof obj` dùng khi bạn muốn lấy keys từ một runtime value.
 
-2. **Quen `string & K` khi dung template literal trong mapped types**: `keyof T` co the tra ve `string | number | symbol`, nhung template literal chi nhan string. Can filter bang `string & K` hoac `K extends string`.
+2. **Quên `string & K` khi dùng template literal trong mapped types**: `keyof T` có thể trả về `string | number | symbol`, nhưng template literal chỉ nhận string. Cần filter bằng `string & K` hoặc `K extends string`.
 
-3. **Viet recursive type qua phuc tap**: Trong interview, hay bat dau tu truong hop don gian (1 cap) roi mo rong ra recursive. Dung nhay thang vao 5-cap nested type.
+3. **Viết recursive type quá phức tạp**: Trong interview, hãy bắt đầu từ trường hợp đơn giản (1 cấp) rồi mở rộng ra recursive. Đừng nhảy thẳng vào 5-cấp nested type.
 
-4. **Khong biet modifier removal syntax**: `-readonly` va `-?` la cu phap dac biet cua mapped types. Nhieu nguoi chi biet them modifier ma khong biet cach loai bo.
+4. **Không biết modifier removal syntax**: `-readonly` và `-?` là cú pháp đặc biệt của mapped types. Nhiều người chỉ biết thêm modifier mà không biết cách loại bỏ.
 
-5. **Nham distributive behavior cua conditional types trong mapped types**: Trong `[K in keyof T]: T[K] extends object ? ... : ...`, conditional type khong distribute vi T[K] khong phai naked type parameter. Hieu ro dieu nay giup tranh bug.
+5. **Nhầm distributive behavior của conditional types trong mapped types**: Trong `[K in keyof T]: T[K] extends object ? ... : ...`, conditional type không distribute vì T[K] không phải naked type parameter. Hiểu rõ điều này giúp tránh bug.
 
-6. **Khong cho duoc vi du thuc te**: Ly thuyet mapped types thi hau nhu ai cung thuoc, nhung interviewer muon nghe ban ap dung vao bai toan cu the. Luon chuan bi 2-3 use cases that.
+6. **Không cho được ví dụ thực tế**: Lý thuyết mapped types thì hầu như ai cũng thuộc, nhưng interviewer muốn nghe bạn áp dụng vào bài toán cụ thể. Luôn chuẩn bị 2-3 use cases thật.

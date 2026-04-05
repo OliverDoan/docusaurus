@@ -5,37 +5,37 @@ title: "HOC, Render Props, Compound Components, Custom Hooks"
 
 # HOC, Render Props, Compound Components, Custom Hooks
 
-React patterns la nhung cach to chuc code de **tai su dung logic**, **tach biet concerns**, va **lam code de bao tri**. Trong phong van, nguoi ta muon biet ban co hieu cac patterns nay khong, tai sao chung ton tai, va khi nao nen dung cai nao.
+React patterns là những cách tổ chức code để **tái sử dụng logic**, **tách biệt concerns**, và **làm code dễ bảo trì**. Trong phỏng vấn, người ta muốn biết bạn có hiểu các patterns này không, tại sao chúng tồn tại, và khi nào nên dùng cái nào.
 
 ---
 
-## Cau 1: Higher-Order Components (HOC) -- pattern nay hoat dong ra sao? Uu va nhuoc diem? `[Intermediate]`
+## Câu 1: Higher-Order Components (HOC) -- pattern này hoạt động ra sao? Ưu và nhược điểm? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**HOC** la mot function nhan vao component va tra ve component moi co them logic. Day la pattern lay cam hung tu higher-order functions trong functional programming.
+**HOC** là một function nhận vào component và trả về component mới có thêm logic. Đây là pattern lấy cảm hứng từ higher-order functions trong functional programming.
 
-**Cong thuc**: `const EnhancedComponent = hoc(WrappedComponent)`
+**Công thức**: `const EnhancedComponent = hoc(WrappedComponent)`
 
-HOC pho bien trong class component era (truoc hooks). VD: `connect()` cua Redux, `withRouter` cua React Router, `withStyles` cua Material UI.
+HOC phổ biến trong class component era (trước hooks). VD: `connect()` của Redux, `withRouter` của React Router, `withStyles` của Material UI.
 
-**Uu diem**:
-- Tai su dung logic giua nhieu components
-- Khong thay doi component goc (composition)
-- Co the compose nhieu HOCs
+**Ưu điểm**:
+- Tái sử dụng logic giữa nhiều components
+- Không thay đổi component gốc (composition)
+- Có thể compose nhiều HOCs
 
-**Nhuoc diem**:
-- "Wrapper hell" -- nhieu HOC chong len nhau
-- Props collision -- HOC va component co the co props trung ten
-- Kho debug -- khong ro props tu dau den
-- Khong linh hoat bang hooks
+**Nhược điểm**:
+- "Wrapper hell" -- nhiều HOC chồng lên nhau
+- Props collision -- HOC và component có thể có props trùng tên
+- Khó debug -- không rõ props từ đâu đến
+- Không linh hoạt bằng hooks
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { useState, useEffect, ComponentType } from 'react';
 
-// HOC: them loading state
+// HOC: thêm loading state
 function withLoading<P extends object>(
   WrappedComponent: ComponentType<P>
 ) {
@@ -52,7 +52,7 @@ function withLoading<P extends object>(
   };
 }
 
-// HOC: them authentication check
+// HOC: thêm authentication check
 function withAuth<P extends object>(
   WrappedComponent: ComponentType<P>
 ) {
@@ -73,52 +73,52 @@ function withAuth<P extends object>(
   };
 }
 
-// Su dung
+// Sử dụng
 function UserProfile({ name }: { name: string }) {
   return <h1>Hello, {name}</h1>;
 }
 
-// Compose nhieu HOCs -- "wrapper hell"
+// Compose nhiều HOCs -- "wrapper hell"
 const EnhancedProfile = withAuth(withLoading(UserProfile));
 
-// Su dung
+// Sử dụng
 function App() {
   return <EnhancedProfile name="John" isLoading={false} />;
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "HOC la function nhan component va tra ve component moi voi logic them vao. Pattern nay pho bien truoc hooks -- connect() cua Redux la vi du dien hinh. Nhuoc diem chinh la wrapper hell, props collision, va kho debug. Ngay nay, custom hooks thay the hau het use cases cua HOC vi don gian va minh bach hon."
+> "HOC là function nhận component và trả về component mới với logic thêm vào. Pattern này phổ biến trước hooks -- connect() của Redux là ví dụ điển hình. Nhược điểm chính là wrapper hell, props collision, và khó debug. Ngày nay, custom hooks thay thế hầu hết use cases của HOC vì đơn giản và minh bạch hơn."
 
 ---
 
-## Cau 2: Render Props pattern -- hoat dong the nao? So voi HOC? `[Intermediate]`
+## Câu 2: Render Props pattern -- hoạt động thế nào? So với HOC? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Render Props** la pattern truyen mot function lam prop, function nay nhan data va tra ve JSX. Component "chia se logic" goi function nay de render UI.
+**Render Props** là pattern truyền một function làm prop, function này nhận data và trả về JSX. Component "chia sẻ logic" gọi function này để render UI.
 
-Co 2 dang:
+Có 2 dạng:
 1. **render prop**: `<Mouse render={(mouse) => <Cat position={mouse} />} />`
 2. **children as function**: `<Mouse>{(mouse) => <Cat position={mouse} />}</Mouse>`
 
-**Uu diem so voi HOC**:
-- Khong co wrapper hell (composition ro rang hon)
-- Khong co props collision
-- Linh hoat hon -- quyet dinh render tai noi su dung
+**Ưu điểm so với HOC**:
+- Không có wrapper hell (composition rõ ràng hơn)
+- Không có props collision
+- Linh hoạt hơn -- quyết định render tại nơi sử dụng
 
-**Nhuoc diem**:
-- "Callback hell" neu nhieu render props chong nhau
-- Performance: inline function tao moi moi render (co the fix voi useCallback)
-- Da duoc thay the phan lon boi custom hooks
+**Nhược điểm**:
+- "Callback hell" nếu nhiều render props chồng nhau
+- Performance: inline function tạo mới mỗi render (có thể fix với useCallback)
+- Đã được thay thế phần lớn bởi custom hooks
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { useState, useEffect } from 'react';
 
-// Render Props: chia se mouse position logic
+// Render Props: chia sẻ mouse position logic
 interface MousePosition {
   x: number;
   y: number;
@@ -142,7 +142,7 @@ function MouseTracker({ children }: MouseTrackerProps) {
   return <>{children(position)}</>;
 }
 
-// Su dung -- quyet dinh render UI tai noi su dung
+// Sử dụng -- quyết định render UI tại nơi sử dụng
 function App() {
   return (
     <MouseTracker>
@@ -192,7 +192,7 @@ function Fetch<T>({ url, children }: FetchProps<T>) {
   return <>{children({ data, loading, error })}</>;
 }
 
-// Su dung
+// Sử dụng
 function UserPage() {
   return (
     <Fetch<User[]> url="/api/users">
@@ -210,30 +210,30 @@ function UserPage() {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Render Props truyen function lam prop de component chia se logic va de consumer quyet dinh render. Uu diem so HOC: khong wrapper hell, khong props collision, linh hoat hon. Nhuoc diem: callback nesting khi nhieu render props. Ngay nay, custom hooks thay the hau het use cases nhung render props van co ich trong mot so truong hop nhu Headless UI libraries."
+> "Render Props truyền function làm prop để component chia sẻ logic và để consumer quyết định render. Ưu điểm so HOC: không wrapper hell, không props collision, linh hoạt hơn. Nhược điểm: callback nesting khi nhiều render props. Ngày nay, custom hooks thay thế hầu hết use cases nhưng render props vẫn có ích trong một số trường hợp như Headless UI libraries."
 
 ---
 
-## Cau 3: Compound Components pattern -- dung khi nao? `[Senior]`
+## Câu 3: Compound Components pattern -- dùng khi nào? `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Compound Components** la pattern noi nhom components lam viec cung nhau va chia se state noi bo. User su dung cac sub-components de compose UI theo cach minh muon.
+**Compound Components** là pattern nơi nhóm components làm việc cùng nhau và chia sẻ state nội bộ. User sử dụng các sub-components để compose UI theo cách mình muốn.
 
-Vi du thuc te: `<select>` va `<option>` -- chung lam viec cung nhau, `<select>` quan ly state, `<option>` hien thi lua chon.
+Ví dụ thực tế: `<select>` và `<option>` -- chúng làm việc cùng nhau, `<select>` quản lý state, `<option>` hiển thị lựa chọn.
 
-**Dung khi**:
-- Xay dung UI library / design system
-- Components can linh hoat ve layout nhung chia se logic
+**Dùng khi**:
+- Xây dựng UI library / design system
+- Components cần linh hoạt về layout nhưng chia sẻ logic
 - VD: Tabs, Accordion, Menu, Modal, Form...
 
-**2 cach implement**:
-1. **React.Children + cloneElement**: cach cu, it linh hoat
-2. **Context API**: cach hien dai, linh hoat hon
+**2 cách implement**:
+1. **React.Children + cloneElement**: cách cũ, ít linh hoạt
+2. **Context API**: cách hiện đại, linh hoạt hơn
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { createContext, useContext, useState } from 'react';
@@ -254,7 +254,7 @@ function useTabsContext() {
   return context;
 }
 
-// Parent component -- quan ly state
+// Parent component -- quản lý state
 function Tabs({
   defaultTab,
   children,
@@ -311,12 +311,12 @@ function TabPanel({
   );
 }
 
-// Gan sub-components vao parent
+// Gán sub-components vào parent
 Tabs.List = TabList;
 Tabs.Tab = Tab;
 Tabs.Panel = TabPanel;
 
-// --- Su dung -- API cuc ky declarative va linh hoat ---
+// --- Sử dụng -- API cực kỳ declarative và linh hoạt ---
 function App() {
   return (
     <Tabs defaultTab="overview">
@@ -328,7 +328,7 @@ function App() {
 
       <Tabs.Panel value="overview">
         <h2>Product Overview</h2>
-        <p>Mo ta san pham o day.</p>
+        <p>Mô tả sản phẩm ở đây.</p>
       </Tabs.Panel>
 
       <Tabs.Panel value="features">
@@ -350,33 +350,33 @@ function App() {
 export default Tabs;
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Compound Components cho phep nhom components chia se state noi bo qua Context. User compose cac sub-components mot cach linh hoat ma khong can biet implementation chi tiet. Pattern nay pho bien trong UI libraries (Radix, Headless UI, Chakra) vi no cung cap API declarative, linh hoat ve layout, va dang encapsulate complexity."
+> "Compound Components cho phép nhóm components chia sẻ state nội bộ qua Context. User compose các sub-components một cách linh hoạt mà không cần biết implementation chi tiết. Pattern này phổ biến trong UI libraries (Radix, Headless UI, Chakra) vì nó cung cấp API declarative, linh hoạt về layout, và đang encapsulate complexity."
 
 ---
 
-## Cau 4: Custom Hooks thay the HOC va Render Props nhu the nao? `[Intermediate]`
+## Câu 4: Custom Hooks thay thế HOC và Render Props như thế nào? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Custom Hooks** la cach hien dai nhat de tai su dung stateful logic. So voi HOC va Render Props:
+**Custom Hooks** là cách hiện đại nhất để tái sử dụng stateful logic. So với HOC và Render Props:
 
-- **Khong thay doi component tree** -- khong them wrapper
-- **Khong props collision** -- tra ve values ro rang
-- **Composable** -- goi nhieu hooks don gian, khong nesting
-- **De test** -- test hook doc lap voi component
-- **TypeScript friendly** -- inference tot hon
+- **Không thay đổi component tree** -- không thêm wrapper
+- **Không props collision** -- trả về values rõ ràng
+- **Composable** -- gọi nhiều hooks đơn giản, không nesting
+- **Dễ test** -- test hook độc lập với component
+- **TypeScript friendly** -- inference tốt hơn
 
-Moi pattern cu (HOC, render props) deu co the viet lai bang custom hook.
+Mọi pattern cũ (HOC, render props) đều có thể viết lại bằng custom hook.
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { useState, useEffect, useCallback } from 'react';
 
-// --- Thay the HOC withAuth ---
-// Truoc (HOC):
+// --- Thay thế HOC withAuth ---
+// Trước (HOC):
 // const ProtectedPage = withAuth(Dashboard);
 
 // Sau (Hook):
@@ -411,7 +411,7 @@ function Dashboard() {
   return <h1>Welcome, {user?.name}</h1>;
 }
 
-// --- Thay the Render Props MouseTracker ---
+// --- Thay thế Render Props MouseTracker ---
 function useMousePosition() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
@@ -441,7 +441,7 @@ function Cursor() {
   );
 }
 
-// --- Compose nhieu hooks -- khong nesting ---
+// --- Compose nhiều hooks -- không nesting ---
 function useWindowSize() {
   const [size, setSize] = useState({
     width: window.innerWidth,
@@ -473,7 +473,7 @@ function useMediaQuery(query: string) {
   return matches;
 }
 
-// Compose -- don gian, khong wrapper hell
+// Compose -- đơn giản, không wrapper hell
 function ResponsiveComponent() {
   const { x, y } = useMousePosition();
   const { width } = useWindowSize();
@@ -489,25 +489,25 @@ function ResponsiveComponent() {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Custom hooks la cach hien dai de tai su dung logic -- khong them wrapper, khong props collision, composable tu nhien. Moi HOC hay render props deu co the viet lai bang hook don gian hon. Hooks cung de test hon va co TypeScript support tot hon. Tuy nhien, compound components van co use case rieng (UI composition), va render props van huu ich trong mot so headless UI libraries."
+> "Custom hooks là cách hiện đại để tái sử dụng logic -- không thêm wrapper, không props collision, composable tự nhiên. Mọi HOC hay render props đều có thể viết lại bằng hook đơn giản hơn. Hooks cũng dễ test hơn và có TypeScript support tốt hơn. Tuy nhiên, compound components vẫn có use case riêng (UI composition), và render props vẫn hữu ích trong một số headless UI libraries."
 
 ---
 
-## Cau 5: Controlled vs Uncontrolled components -- khac nhau gi? `[Intermediate]`
+## Câu 5: Controlled vs Uncontrolled components -- khác nhau gì? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Controlled**: React state la "nguon su that" (source of truth). Moi thay doi input di qua `onChange -> setState -> re-render`.
+**Controlled**: React state là "nguồn sự thật" (source of truth). Mỗi thay đổi input đi qua `onChange -> setState -> re-render`.
 
-**Uncontrolled**: DOM la nguon su that. Dung `ref` de doc gia tri khi can (VD: submit form).
+**Uncontrolled**: DOM là nguồn sự thật. Dùng `ref` để đọc giá trị khi cần (VD: submit form).
 
-**Khi nao dung gi?**
-- Controlled: khi can validate realtime, conditional rendering, format input
-- Uncontrolled: form don gian, file input, hoac dung voi libraries nhu React Hook Form
+**Khi nào dùng gì?**
+- Controlled: khi cần validate realtime, conditional rendering, format input
+- Uncontrolled: form đơn giản, file input, hoặc dùng với libraries như React Hook Form
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { useState, useRef } from 'react';
@@ -523,7 +523,7 @@ function ControlledForm() {
 
     // Validate realtime
     if (value && !value.includes('@')) {
-      setError('Email phai co @');
+      setError('Email phải có @');
     } else {
       setError('');
     }
@@ -540,8 +540,8 @@ function ControlledForm() {
     <form onSubmit={handleSubmit}>
       <input
         type="email"
-        value={email}      // React kiem soat gia tri
-        onChange={handleChange}  // Moi thay doi di qua React
+        value={email}      // React kiểm soát giá trị
+        onChange={handleChange}  // Mỗi thay đổi đi qua React
       />
       {error && <span style={{ color: 'red' }}>{error}</span>}
       <button type="submit">Send</button>
@@ -555,7 +555,7 @@ function UncontrolledForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Doc gia tri tu DOM khi can
+    // Đọc giá trị từ DOM khi cần
     console.log('Submit:', emailRef.current?.value);
   };
 
@@ -563,8 +563,8 @@ function UncontrolledForm() {
     <form onSubmit={handleSubmit}>
       <input
         type="email"
-        ref={emailRef}         // DOM giu gia tri
-        defaultValue=""        // Gia tri ban dau (khong phai value)
+        ref={emailRef}         // DOM giữ giá trị
+        defaultValue=""        // Giá trị ban đầu (không phải value)
       />
       <button type="submit">Send</button>
     </form>
@@ -587,39 +587,39 @@ function UncontrolledForm() {
 // }
 ```
 
-### Bang so sanh
+### Bảng so sánh
 
-| Tieu chi | Controlled | Uncontrolled |
+| Tiêu chí | Controlled | Uncontrolled |
 |----------|-----------|-------------|
 | Source of truth | React state | DOM |
-| Khi nao read value | Moi luc (state) | Khi can (ref) |
-| Re-render | Moi keystroke | Khong (chi khi submit) |
+| Khi nào read value | Mọi lúc (state) | Khi cần (ref) |
+| Re-render | Mỗi keystroke | Không (chỉ khi submit) |
 | Validation | Realtime | Khi submit |
-| Performance | Nhieu re-renders | It re-renders |
+| Performance | Nhiều re-renders | Ít re-renders |
 | Use case | Complex forms, conditional logic | Simple forms, file inputs |
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Controlled components dung React state lam source of truth -- moi thay doi di qua onChange/setState. Uncontrolled dung DOM va ref. Controlled cho phep validate realtime va conditional rendering nhung nhieu re-renders hon. Uncontrolled nhe hon, phu hop form don gian. React Hook Form la best of both worlds -- uncontrolled performance voi controlled-like validation."
+> "Controlled components dùng React state làm source of truth -- mỗi thay đổi đi qua onChange/setState. Uncontrolled dùng DOM và ref. Controlled cho phép validate realtime và conditional rendering nhưng nhiều re-renders hơn. Uncontrolled nhẹ hơn, phù hợp form đơn giản. React Hook Form là best of both worlds -- uncontrolled performance với controlled-like validation."
 
 ---
 
-## Cau 6: Container/Presentational pattern -- con huu ich khong? `[Intermediate]`
+## Câu 6: Container/Presentational pattern -- còn hữu ích không? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Container/Presentational** (hay Smart/Dumb components) la pattern chia component thanh 2 loai:
-- **Container** (Smart): xu ly logic, data fetching, state management
-- **Presentational** (Dumb): chi render UI, nhan data qua props, khong co side effects
+**Container/Presentational** (hay Smart/Dumb components) là pattern chia component thành 2 loại:
+- **Container** (Smart): xử lý logic, data fetching, state management
+- **Presentational** (Dumb): chỉ render UI, nhận data qua props, không có side effects
 
-Pattern nay pho bien truoc hooks. Ngay nay, custom hooks da thay the container components phan lon, nhung y tuong **tach logic va UI** van rat gia tri.
+Pattern này phổ biến trước hooks. Ngày nay, custom hooks đã thay thế container components phần lớn, nhưng ý tưởng **tách logic và UI** vẫn rất giá trị.
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
-// --- CACH CU: Container / Presentational ---
+// --- CÁCH CŨ: Container / Presentational ---
 
-// Presentational -- chi UI, khong logic
+// Presentational -- chỉ UI, không logic
 function UserListView({
   users,
   loading,
@@ -669,9 +669,9 @@ function UserListContainer() {
   );
 }
 
-// --- CACH HIEN DAI: Custom Hook + Component ---
+// --- CÁCH HIỆN ĐẠI: Custom Hook + Component ---
 
-// Hook -- xu ly logic
+// Hook -- xử lý logic
 function useUsers() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
@@ -691,7 +691,7 @@ function useUsers() {
   return { users, loading, refetch: fetchUsers };
 }
 
-// Component -- ket hop logic va UI
+// Component -- kết hợp logic và UI
 function UserList() {
   const { users, loading, refetch } = useUsers();
 
@@ -710,35 +710,35 @@ function UserList() {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Container/Presentational chia logic va UI thanh 2 components rieng. Ngay nay, custom hooks thay the container component -- hook giu logic, component giu UI. Y tuong tach biet concerns van rat gia tri, chi la implementation thay doi. Presentational components (pure UI) van huu ich de reuse va test."
+> "Container/Presentational chia logic và UI thành 2 components riêng. Ngày nay, custom hooks thay thế container component -- hook giữ logic, component giữ UI. Ý tưởng tách biệt concerns vẫn rất giá trị, chỉ là implementation thay đổi. Presentational components (pure UI) vẫn hữu ích để reuse và test."
 
 ---
 
-## Bang so sanh cac React Patterns
+## Bảng so sánh các React Patterns
 
-| Pattern | Use case | Uu diem | Nhuoc diem | Con dung? |
+| Pattern | Use case | Ưu điểm | Nhược điểm | Còn dùng? |
 |---------|----------|---------|------------|-----------|
-| **HOC** | Cross-cutting concerns | Reuse logic, composition | Wrapper hell, props collision | It (legacy code) |
+| **HOC** | Cross-cutting concerns | Reuse logic, composition | Wrapper hell, props collision | Ít (legacy code) |
 | **Render Props** | Flexible rendering | No wrapper, explicit data flow | Callback nesting | Headless UI libs |
-| **Compound Components** | UI composition (tabs, menu) | Declarative API, flexible layout | Phuc tap khi implement | Co (UI libraries) |
-| **Custom Hooks** | Reuse stateful logic | Don gian, composable, no wrapper | Chi cho logic, khong cho UI | **Chinh** |
-| **Controlled/Uncontrolled** | Form handling | Control vs performance | Trade-off | Ca hai |
-| **Container/Presentational** | Tach logic/UI | Clear separation | Thu tuc voi hooks | Y tuong van co gia tri |
+| **Compound Components** | UI composition (tabs, menu) | Declarative API, flexible layout | Phức tạp khi implement | Có (UI libraries) |
+| **Custom Hooks** | Reuse stateful logic | Đơn giản, composable, no wrapper | Chỉ cho logic, không cho UI | **Chính** |
+| **Controlled/Uncontrolled** | Form handling | Control vs performance | Trade-off | Cả hai |
+| **Container/Presentational** | Tách logic/UI | Clear separation | Thừa với hooks | Ý tưởng vẫn có giá trị |
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
-1. **Noi "HOC la outdated, khong can biet"** -- Sai. Nhieu codebases lon van dung HOC. Ban can hieu de doc va maintain legacy code. Va mot so libraries van dung HOC.
+1. **Nói "HOC là outdated, không cần biết"** -- Sai. Nhiều codebases lớn vẫn dùng HOC. Bạn cần hiểu để đọc và maintain legacy code. Và một số libraries vẫn dùng HOC.
 
-2. **Khong biet Compound Components** -- Day la pattern quan trong trong UI libraries. Neu ban xay dung design system, day la must-know.
+2. **Không biết Compound Components** -- Đây là pattern quan trọng trong UI libraries. Nếu bạn xây dựng design system, đây là must-know.
 
-3. **Nham Render Props voi Component Props** -- Render props la pattern cu the: truyen **function** de render, khong phai truyen bat ky prop nao.
+3. **Nhầm Render Props với Component Props** -- Render props là pattern cụ thể: truyền **function** để render, không phải truyền bất kỳ prop nào.
 
-4. **Noi custom hooks "share state"** -- Sai. Custom hooks share **logic**, khong share state. Moi component goi hook co state rieng biet.
+4. **Nói custom hooks "share state"** -- Sai. Custom hooks share **logic**, không share state. Mỗi component gọi hook có state riêng biệt.
 
-5. **Khong phan biet controlled va uncontrolled** -- Day la cau hoi co ban nhung nhieu nguoi tra loi mo ho. Can noi ro: source of truth nam o dau (React state vs DOM).
+5. **Không phân biệt controlled và uncontrolled** -- Đây là câu hỏi cơ bản nhưng nhiều người trả lời mơ hồ. Cần nói rõ: source of truth nằm ở đâu (React state vs DOM).
 
-6. **Khong biet khi nao dung pattern nao** -- Quan trong nhat khong phai biet tat ca patterns, ma la biet **khi nao** dung cai nao. Custom hooks cho logic reuse, compound components cho UI composition, controlled cho complex forms.
+6. **Không biết khi nào dùng pattern nào** -- Quan trọng nhất không phải biết tất cả patterns, mà là biết **khi nào** dùng cái nào. Custom hooks cho logic reuse, compound components cho UI composition, controlled cho complex forms.

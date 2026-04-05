@@ -85,7 +85,7 @@ Pixels:                                   ✓
 ░ = HTML parsing bị block bởi JS
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Critical Rendering Path gồm: parse HTML thành DOM, parse CSS thành CSSOM, kết hợp thành Render Tree, rồi Layout (tính kích thước/vị trí), Paint (vẽ pixels), và Composite (ghép layers). CSS là render-blocking vì browser cần CSSOM trước khi render. JS là parser-blocking vì có thể modify DOM. Để tối ưu CRP: inline critical CSS, dùng `defer`/`async` cho JS, preload fonts, và giảm critical resources."
 
@@ -161,7 +161,7 @@ for (let i = 0; i < 100; i++) {
 document.querySelector('ul').appendChild(fragment); // 1 lần reflow
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Browser parse HTML thành DOM qua các bước: bytes -> characters -> tokens -> nodes -> DOM tree. Quá trình này là incremental, browser render dần khi có đủ nodes. Khi gặp script tag (không defer/async), parser dừng lại đợi script execute xong mới tiếp tục -- đó là lý do ta đặt script ở cuối body hoặc dùng defer. DOM là object model nơi mỗi HTML element trở thành một JavaScript object có thể thao tác được."
 
@@ -249,7 +249,7 @@ console.log(styles.fontSize);   // "16px" (inherited)
 // Nên cache kết quả nếu đọc nhiều lần
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "CSSOM là CSS Object Model -- cây style rules tương tự DOM. CSS là render-blocking vì browser cần CSSOM để tạo Render Tree -- nếu render mà chưa có CSS sẽ gây FOUC. Khác với DOM xây incremental, CSSOM phải xây xong hoàn toàn vì CSS cascade có thể override bất cứ lúc nào. Để tối ưu: inline critical CSS, load non-critical CSS async, dùng media attribute để giảm render-blocking."
 
@@ -363,7 +363,7 @@ function showElement(el) {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Layout (reflow) tính kích thước và vị trí elements -- rất đắt vì thay đổi 1 element có thể cascade ảnh hưởng toàn bộ page. Paint (repaint) vẽ pixels -- đắt nhưng ít hơn reflow. Reflow luôn kèm repaint nhưng repaint không trigger reflow. Để tối ưu: dùng `transform`/`opacity` cho animation (chỉ composite, không reflow), tránh layout thrashing (đọc-ghi-đọc-ghi DOM), batch DOM operations, và dùng CSS class thay vì inline styles."
 
@@ -501,7 +501,7 @@ element.animate(
 );
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Compositing là bước cuối -- browser chia page thành layers, paint riêng từng layer, rồi GPU ghép chúng lại. Elements được promote lên composite layer riêng khi dùng `transform`, `opacity`, `will-change`, hoặc `position: fixed`. Lợi ích: khi layer thay đổi chỉ cần repaint layer đó, GPU composite nhanh hơn CPU. Nhưng cẩn thận layer explosion -- quá nhiều layers tốn GPU memory. Best practice: chỉ promote elements thực sự cần animate."
 
@@ -598,13 +598,13 @@ observer.observe(document.querySelector('.responsive-element'));
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Layout thrashing xảy ra khi JS đọc layout property (offsetWidth, getBoundingClientRect) ngay sau khi ghi DOM, buộc browser tính layout synchronous. Ví dụ: vòng lặp đọc-ghi-đọc-ghi gây N lần forced layout thay vì 1 lần. Cách fix: tách phase đọc và ghi riêng biệt, dùng requestAnimationFrame, dùng ResizeObserver thay vì polling, và CSS containment để giới hạn scope reflow."
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
 1. **Nói DOM construction đợi hết HTML mới bắt đầu**: Sai -- DOM construction là incremental. Browser parse và render dần, đó là lý do bạn thấy page load từ trên xuống.
 

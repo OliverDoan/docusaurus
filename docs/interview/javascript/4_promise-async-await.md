@@ -5,19 +5,19 @@ title: "Promise, Async/Await & Error Handling"
 
 # Promise, Async/Await & Error Handling
 
-Xu ly bat dong bo la phan khong the thieu trong moi du an JavaScript. Interviewer muon biet ban khong chi dung duoc async/await ma con hieu ro lifecycle cua Promise, cac static methods, va cach xu ly loi dung cach.
+Xử lý bất đồng bộ là phần không thể thiếu trong mọi dự án JavaScript. Interviewer muốn biết bạn không chỉ dùng được async/await mà còn hiểu rõ lifecycle của Promise, các static methods, và cách xử lý lỗi đúng cách.
 
 ---
 
-## Cau 1: Promise states va lifecycle `[Intermediate]`
+## Câu 1: Promise states và lifecycle `[Intermediate]`
 
-### Cau hoi
+### Câu hỏi
 
-> Mot Promise co nhung trang thai nao? Mo ta lifecycle cua mot Promise.
+> Một Promise có những trạng thái nào? Mô tả lifecycle của một Promise.
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Mot Promise co **3 trang thai** va chi chuyen doi **mot chieu** (khong quay lai duoc):
+Một Promise có **3 trạng thái** và chỉ chuyển đổi **một chiều** (không quay lại được):
 
 ```
                  resolve(value)
@@ -27,24 +27,24 @@ Mot Promise co **3 trang thai** va chi chuyen doi **mot chieu** (khong quay lai 
     └──────────────────────> Rejected
                                    │
                                    v
-              Ca hai deu la "Settled" (da xac dinh)
+              Cả hai đều là "Settled" (đã xác định)
 ```
 
-| Trang thai | Mo ta | Chuyen tiep |
+| Trạng thái | Mô tả | Chuyển tiếp |
 |---|---|---|
-| **Pending** | Dang cho xu ly | Trang thai ban dau |
-| **Fulfilled** | Thanh cong, co gia tri | Goi `.then(onFulfilled)` |
-| **Rejected** | That bai, co ly do | Goi `.catch(onRejected)` hoac `.then(null, onRejected)` |
+| **Pending** | Đang chờ xử lý | Trạng thái ban đầu |
+| **Fulfilled** | Thành công, có giá trị | Gọi `.then(onFulfilled)` |
+| **Rejected** | Thất bại, có lý do | Gọi `.catch(onRejected)` hoặc `.then(null, onRejected)` |
 
-Mot khi **settled** (fulfilled hoac rejected), Promise **khong the** chuyen trang thai nua. Goi `resolve` hoac `reject` lan thu hai se bi **bo qua**.
+Một khi **settled** (fulfilled hoặc rejected), Promise **không thể** chuyển trạng thái nữa. Gọi `resolve` hoặc `reject` lần thứ hai sẽ bị **bỏ qua**.
 
-### Code vi du
+### Code ví dụ
 
 ```javascript
-// ===== Tao Promise co ban =====
+// ===== Tạo Promise cơ bản =====
 const fetchUser = new Promise((resolve, reject) => {
-  // Executor chay DONG BO ngay khi tao Promise
-  console.log("Bat dau fetch...");
+  // Executor chạy ĐỒNG BỘ ngay khi tạo Promise
+  console.log("Bắt đầu fetch...");
 
   setTimeout(() => {
     const success = Math.random() > 0.3;
@@ -52,134 +52,134 @@ const fetchUser = new Promise((resolve, reject) => {
     if (success) {
       resolve({ id: 1, name: "An" }); // -> Fulfilled
     } else {
-      reject(new Error("Khong ket noi duoc server")); // -> Rejected
+      reject(new Error("Không kết nối được server")); // -> Rejected
     }
   }, 1000);
 });
 
-// Su dung Promise
+// Sử dụng Promise
 fetchUser
   .then((user) => {
-    console.log("Thanh cong:", user.name);
+    console.log("Thành công:", user.name);
   })
   .catch((error) => {
-    console.log("That bai:", error.message);
+    console.log("Thất bại:", error.message);
   })
   .finally(() => {
-    console.log("Hoan tat (du thanh cong hay that bai)");
+    console.log("Hoàn tất (dù thành công hay thất bại)");
   });
 
-// ===== resolve/reject chi co hieu lan dau =====
+// ===== resolve/reject chỉ có hiệu lần đầu =====
 const p = new Promise((resolve, reject) => {
-  resolve("Gia tri 1");       // -> Fulfilled voi "Gia tri 1"
-  resolve("Gia tri 2");       // BI BO QUA -- da settled roi
-  reject(new Error("Loi"));   // BI BO QUA -- da settled roi
+  resolve("Giá trị 1");       // -> Fulfilled với "Giá trị 1"
+  resolve("Giá trị 2");       // BỊ BỎ QUA -- đã settled rồi
+  reject(new Error("Lỗi"));   // BỊ BỎ QUA -- đã settled rồi
 });
 
-p.then(console.log); // "Gia tri 1"
+p.then(console.log); // "Giá trị 1"
 
-// ===== Promise resolve voi mot Promise khac =====
+// ===== Promise resolve với một Promise khác =====
 const inner = new Promise((resolve) => {
-  setTimeout(() => resolve("Tu inner"), 2000);
+  setTimeout(() => resolve("Từ inner"), 2000);
 });
 
 const outer = new Promise((resolve) => {
-  resolve(inner); // outer "doi" inner resolve
+  resolve(inner); // outer "đợi" inner resolve
 });
 
 outer.then((value) => {
-  console.log(value); // "Tu inner" (sau 2 giay)
+  console.log(value); // "Từ inner" (sau 2 giây)
 });
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Promise co 3 trang thai: pending (dang cho), fulfilled (thanh cong voi gia tri), va rejected (that bai voi ly do). Lifecycle bat dau tu pending va chi chuyen sang fulfilled hoac rejected mot lan duy nhat -- khong the dao nguoc hoac chuyen tiep. Executor function chay dong bo ngay khi Promise duoc tao. Dac biet, resolve voi mot Promise khac se 'unwrap' no -- outer promise se doi inner promise settled."
+> "Promise có 3 trạng thái: pending (đang chờ), fulfilled (thành công với giá trị), và rejected (thất bại với lý do). Lifecycle bắt đầu từ pending và chỉ chuyển sang fulfilled hoặc rejected một lần duy nhất -- không thể đảo ngược hoặc chuyển tiếp. Executor function chạy đồng bộ ngay khi Promise được tạo. Đặc biệt, resolve với một Promise khác sẽ 'unwrap' nó -- outer promise sẽ đợi inner promise settled."
 
 ---
 
-## Cau 2: Promise chaining vs Async/Await `[Intermediate]`
+## Câu 2: Promise chaining vs Async/Await `[Intermediate]`
 
-### Cau hoi
+### Câu hỏi
 
-> So sanh Promise chaining va async/await. Khi nao nen dung cai nao?
+> So sánh Promise chaining và async/await. Khi nào nên dùng cái nào?
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Async/await la **syntactic sugar** tren Promise. Code tuong duong nhau, chi khac cu phap:
+Async/await là **syntactic sugar** trên Promise. Code tương đương nhau, chỉ khác cú pháp:
 
-| Tieu chi | Promise Chaining | Async/Await |
+| Tiêu chí | Promise Chaining | Async/Await |
 |---|---|---|
-| Cu phap | `.then().then().catch()` | `await`, `try/catch` |
-| Doc code | Kho doc khi nhieu buoc | Doc nhu code dong bo |
-| Error handling | `.catch()` cuoi chuoi | `try/catch` quen thuoc |
-| Debug | Kho trace qua `.then` chain | Stack trace ro rang hon |
+| Cú pháp | `.then().then().catch()` | `await`, `try/catch` |
+| Đọc code | Khó đọc khi nhiều bước | Đọc như code đồng bộ |
+| Error handling | `.catch()` cuối chuỗi | `try/catch` quen thuộc |
+| Debug | Khó trace qua `.then` chain | Stack trace rõ ràng hơn |
 | Parallel | `Promise.all` | `Promise.all` + `await` |
-| Conditional logic | Kho viet | De viet nhu binh thuong |
+| Conditional logic | Khó viết | Dễ viết như bình thường |
 
-### Code vi du
+### Code ví dụ
 
 ```javascript
 // ===== Promise chaining =====
 function getUserOrdersChaining(userId) {
   return fetchUser(userId)
     .then((user) => {
-      console.log(`Tim thay user: ${user.name}`);
+      console.log(`Tìm thấy user: ${user.name}`);
       return fetchOrders(user.id);
     })
     .then((orders) => {
-      console.log(`Co ${orders.length} don hang`);
+      console.log(`Có ${orders.length} đơn hàng`);
       return fetchOrderDetails(orders[0].id);
     })
     .then((details) => {
-      console.log("Chi tiet:", details);
+      console.log("Chi tiết:", details);
       return details;
     })
     .catch((error) => {
-      console.error("Loi:", error.message);
-      throw error; // Re-throw neu muon caller xu ly
+      console.error("Lỗi:", error.message);
+      throw error; // Re-throw nếu muốn caller xử lý
     });
 }
 
-// ===== Async/Await -- cung logic, de doc hon =====
+// ===== Async/Await -- cùng logic, dễ đọc hơn =====
 async function getUserOrdersAsync(userId) {
   try {
     const user = await fetchUser(userId);
-    console.log(`Tim thay user: ${user.name}`);
+    console.log(`Tìm thấy user: ${user.name}`);
 
     const orders = await fetchOrders(user.id);
-    console.log(`Co ${orders.length} don hang`);
+    console.log(`Có ${orders.length} đơn hàng`);
 
     const details = await fetchOrderDetails(orders[0].id);
-    console.log("Chi tiet:", details);
+    console.log("Chi tiết:", details);
 
     return details;
   } catch (error) {
-    console.error("Loi:", error.message);
+    console.error("Lỗi:", error.message);
     throw error;
   }
 }
 
-// ===== Conditional logic -- async/await vuot troi =====
-// Voi Promise chaining:
+// ===== Conditional logic -- async/await vượt trội =====
+// Với Promise chaining:
 function processPaymentChaining(order) {
   return checkInventory(order)
     .then((inStock) => {
       if (!inStock) {
-        return notifyOutOfStock(order); // Nhanh 1
+        return notifyOutOfStock(order); // Nhánh 1
       }
-      return processPayment(order) // Nhanh 2
+      return processPayment(order) // Nhánh 2
         .then((payment) => {
           if (payment.requiresVerification) {
-            return verifyPayment(payment); // Nhanh 2a
+            return verifyPayment(payment); // Nhánh 2a
           }
-          return payment; // Nhanh 2b
+          return payment; // Nhánh 2b
         });
     })
     .then((result) => sendConfirmation(result));
 }
 
-// Voi Async/Await:
+// Với Async/Await:
 async function processPaymentAsync(order) {
   const inStock = await checkInventory(order);
 
@@ -198,56 +198,56 @@ async function processPaymentAsync(order) {
   return sendConfirmation(payment);
 }
 
-// ===== SAI LAM PHO BIEN: await tuan tu khi co the chay song song =====
-// CHAM:
+// ===== SAI LẦM PHỔ BIẾN: await tuần tự khi có thể chạy song song =====
+// CHẬM:
 async function fetchDataSlow() {
-  const users = await fetchUsers();       // Doi 2s
-  const products = await fetchProducts(); // Doi 2s (bat dau SAU users xong)
-  return { users, products };             // Tong: 4s
+  const users = await fetchUsers();       // Đợi 2s
+  const products = await fetchProducts(); // Đợi 2s (bắt đầu SAU users xong)
+  return { users, products };             // Tổng: 4s
 }
 
 // NHANH:
 async function fetchDataFast() {
   const [users, products] = await Promise.all([
-    fetchUsers(),   // Bat dau ngay
-    fetchProducts() // Bat dau ngay
+    fetchUsers(),   // Bắt đầu ngay
+    fetchProducts() // Bắt đầu ngay
   ]);
-  return { users, products }; // Tong: 2s (chay song song)
+  return { users, products }; // Tổng: 2s (chạy song song)
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Async/await la syntactic sugar tren Promise, lam code doc nhu dong bo. Uu diem lon nhat la conditional logic va error handling de viet hon. Tuy nhien, can chu y khong await tuan tu khi cac task doc lap -- dung Promise.all de chay song song. Toi thuong dung async/await lam mac dinh va quay ve Promise chaining khi can xu ly phuc tap nhu race conditions."
+> "Async/await là syntactic sugar trên Promise, làm code đọc như đồng bộ. Ưu điểm lớn nhất là conditional logic và error handling dễ viết hơn. Tuy nhiên, cần chú ý không await tuần tự khi các task độc lập -- dùng Promise.all để chạy song song. Tôi thường dùng async/await làm mặc định và quay về Promise chaining khi cần xử lý phức tạp như race conditions."
 
 ---
 
-## Cau 3: Promise.all, Promise.allSettled, Promise.race, Promise.any `[Senior]`
+## Câu 3: Promise.all, Promise.allSettled, Promise.race, Promise.any `[Senior]`
 
-### Cau hoi
+### Câu hỏi
 
-> Phan biet 4 static methods cua Promise: `all`, `allSettled`, `race`, `any`. Cho use case cu the cho moi cai.
+> Phân biệt 4 static methods của Promise: `all`, `allSettled`, `race`, `any`. Cho use case cụ thể cho mỗi cái.
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
 | Method | Resolve khi | Reject khi | Use case |
 |---|---|---|---|
-| `Promise.all` | **Tat ca** fulfilled | **Bat ky** rejected | Fetch nhieu API cung luc, can tat ca |
-| `Promise.allSettled` | **Tat ca** settled | **Khong bao gio** reject | Thuc hien nhieu task, muon biet ket qua tung cai |
-| `Promise.race` | **Dau tien** settled (fulfill/reject) | **Dau tien** settled (fulfill/reject) | Timeout, dung ket qua nhanh nhat |
-| `Promise.any` | **Dau tien** fulfilled | **Tat ca** rejected (AggregateError) | Fallback servers, lay ket qua thanh cong dau tien |
+| `Promise.all` | **Tất cả** fulfilled | **Bất kỳ** rejected | Fetch nhiều API cùng lúc, cần tất cả |
+| `Promise.allSettled` | **Tất cả** settled | **Không bao giờ** reject | Thực hiện nhiều task, muốn biết kết quả từng cái |
+| `Promise.race` | **Đầu tiên** settled (fulfill/reject) | **Đầu tiên** settled (fulfill/reject) | Timeout, dùng kết quả nhanh nhất |
+| `Promise.any` | **Đầu tiên** fulfilled | **Tất cả** rejected (AggregateError) | Fallback servers, lấy kết quả thành công đầu tiên |
 
-### Code vi du
+### Code ví dụ
 
 ```javascript
 const fast = new Promise((resolve) => setTimeout(() => resolve("Nhanh"), 100));
-const slow = new Promise((resolve) => setTimeout(() => resolve("Cham"), 300));
+const slow = new Promise((resolve) => setTimeout(() => resolve("Chậm"), 300));
 const fail = new Promise((_, reject) =>
-  setTimeout(() => reject(new Error("Loi")), 200)
+  setTimeout(() => reject(new Error("Lỗi")), 200)
 );
 
-// ===== Promise.all -- "Tat ca hoac khong gi" =====
-// Use case: Fetch user profile + orders + notifications cung luc
+// ===== Promise.all -- "Tất cả hoặc không gì" =====
+// Use case: Fetch user profile + orders + notifications cùng lúc
 async function loadDashboard(userId) {
   try {
     const [profile, orders, notifications] = await Promise.all([
@@ -257,14 +257,14 @@ async function loadDashboard(userId) {
     ]);
     return { profile, orders, notifications };
   } catch (error) {
-    // Neu BAT KY api nao loi -> catch ngay (fast-fail)
-    console.error("Load dashboard that bai:", error);
+    // Nếu BẤT KỲ api nào lỗi -> catch ngay (fast-fail)
+    console.error("Load dashboard thất bại:", error);
     throw error;
   }
 }
 
-// ===== Promise.allSettled -- "Lam het, bao cao tung cai" =====
-// Use case: Gui notification den nhieu nguoi, biet ai gui duoc ai khong
+// ===== Promise.allSettled -- "Làm hết, báo cáo từng cái" =====
+// Use case: Gửi notification đến nhiều người, biết ai gửi được ai không
 async function notifyAllUsers(userIds, message) {
   const results = await Promise.allSettled(
     userIds.map((id) => sendNotification(id, message))
@@ -273,17 +273,17 @@ async function notifyAllUsers(userIds, message) {
   const succeeded = results.filter((r) => r.status === "fulfilled");
   const failed = results.filter((r) => r.status === "rejected");
 
-  console.log(`Thanh cong: ${succeeded.length}, That bai: ${failed.length}`);
+  console.log(`Thành công: ${succeeded.length}, Thất bại: ${failed.length}`);
 
-  // Xu ly cac truong hop that bai
+  // Xử lý các trường hợp thất bại
   failed.forEach((r) => {
-    console.error("Khong gui duoc:", r.reason.message);
+    console.error("Không gửi được:", r.reason.message);
   });
 
   return { succeeded: succeeded.length, failed: failed.length };
 }
 
-// ===== Promise.race -- "Ai nhanh hon" =====
+// ===== Promise.race -- "Ai nhanh hơn" =====
 // Use case: Timeout cho api call
 function fetchWithTimeout(url, timeoutMs) {
   const fetchPromise = fetch(url).then((r) => r.json());
@@ -295,16 +295,16 @@ function fetchWithTimeout(url, timeoutMs) {
   return Promise.race([fetchPromise, timeoutPromise]);
 }
 
-// Su dung
+// Sử dụng
 try {
   const data = await fetchWithTimeout("/api/data", 5000);
   console.log(data);
 } catch (error) {
-  console.log(error.message); // "Request timeout" neu qua 5s
+  console.log(error.message); // "Request timeout" nếu quá 5s
 }
 
-// ===== Promise.any -- "Lay cai thanh cong dau tien" =====
-// Use case: Thu nhieu CDN/server, lay response nhanh nhat
+// ===== Promise.any -- "Lấy cái thành công đầu tiên" =====
+// Use case: Thử nhiều CDN/server, lấy response nhanh nhất
 async function fetchFromFastestMirror(resource) {
   try {
     const data = await Promise.any([
@@ -314,115 +314,115 @@ async function fetchFromFastestMirror(resource) {
     ]);
     return data;
   } catch (error) {
-    // Chi reject khi TAT CA deu fail
-    // error la AggregateError, chua mang errors
-    console.error("Tat ca mirrors deu that bai:", error.errors);
+    // Chỉ reject khi TẤT CẢ đều fail
+    // error là AggregateError, chứa mảng errors
+    console.error("Tất cả mirrors đều thất bại:", error.errors);
     throw error;
   }
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Promise.all reject ngay khi bat ky promise nao fail (fast-fail), phu hop khi can tat ca ket qua. Promise.allSettled doi tat ca settled va tra ve trang thai tung cai, phu hop khi muon biet ket qua cu the. Promise.race tra ve ket qua cua promise settle dau tien (ke ca reject), hay dung cho timeout pattern. Promise.any tra ve ket qua fulfilled dau tien, chi reject khi tat ca fail, phu hop cho fallback strategy."
+> "Promise.all reject ngay khi bất kỳ promise nào fail (fast-fail), phù hợp khi cần tất cả kết quả. Promise.allSettled đợi tất cả settled và trả về trạng thái từng cái, phù hợp khi muốn biết kết quả cụ thể. Promise.race trả về kết quả của promise settle đầu tiên (kể cả reject), hay dùng cho timeout pattern. Promise.any trả về kết quả fulfilled đầu tiên, chỉ reject khi tất cả fail, phù hợp cho fallback strategy."
 
 ---
 
-## Cau 4: Error handling voi async/await va Promise `[Senior]`
+## Câu 4: Error handling với async/await và Promise `[Senior]`
 
-### Cau hoi
+### Câu hỏi
 
-> So sanh cac cach xu ly loi trong async code. Nhung sai lam pho bien nhat la gi?
+> So sánh các cách xử lý lỗi trong async code. Những sai lầm phổ biến nhất là gì?
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Co 3 cach chinh de xu ly loi trong async JavaScript:
+Có 3 cách chính để xử lý lỗi trong async JavaScript:
 
-1. **`.catch()`** tren Promise chain
-2. **`try/catch`** voi async/await
+1. **`.catch()`** trên Promise chain
+2. **`try/catch`** với async/await
 3. **Global handlers** cho unhandled rejections
 
-Nguyen tac vang: **Moi Promise phai co error handler**. Unhandled rejection se gay ra crash trong Node.js va warning trong browser.
+Nguyên tắc vàng: **Mỗi Promise phải có error handler**. Unhandled rejection sẽ gây ra crash trong Node.js và warning trong browser.
 
-### Code vi du
+### Code ví dụ
 
 ```javascript
-// ===== Cach 1: .catch() voi Promise =====
+// ===== Cách 1: .catch() với Promise =====
 fetchUser(1)
   .then((user) => fetchOrders(user.id))
   .then((orders) => processOrders(orders))
   .catch((error) => {
-    // Bat LOI TU BAT KY buoc nao trong chuoi
-    console.error("Pipeline that bai:", error.message);
+    // Bắt LỖI TỪ BẤT KỲ bước nào trong chuỗi
+    console.error("Pipeline thất bại:", error.message);
   });
 
-// ===== Cach 2: try/catch voi async/await =====
+// ===== Cách 2: try/catch với async/await =====
 async function handleUserOrders(userId) {
   try {
     const user = await fetchUser(userId);
     const orders = await fetchOrders(user.id);
     return await processOrders(orders);
   } catch (error) {
-    // Bat loi tu bat ky await nao
+    // Bắt lỗi từ bất kỳ await nào
     if (error instanceof NetworkError) {
-      console.error("Loi mang:", error.message);
+      console.error("Lỗi mạng:", error.message);
       return getCachedData(userId);
     }
     if (error instanceof ValidationError) {
-      console.error("Du lieu khong hop le:", error.message);
+      console.error("Dữ liệu không hợp lệ:", error.message);
       return null;
     }
-    // Re-throw loi khong xu ly duoc
+    // Re-throw lỗi không xử lý được
     throw error;
   }
 }
 
-// ===== SAI LAM 1: Quen catch =====
+// ===== SAI LẦM 1: Quên catch =====
 // BAD -- unhandled rejection!
 async function bad1() {
-  const data = await fetchData(); // Neu loi -> unhandled rejection
+  const data = await fetchData(); // Nếu lỗi -> unhandled rejection
   return data;
 }
-bad1(); // Khong catch!
+bad1(); // Không catch!
 
 // GOOD
 bad1().catch(console.error);
 
-// ===== SAI LAM 2: try/catch khong bat duoc loi trong callback =====
+// ===== SAI LẦM 2: try/catch không bắt được lỗi trong callback =====
 async function bad2() {
   try {
     setTimeout(() => {
-      throw new Error("Loi trong callback"); // try/catch KHONG bat duoc!
+      throw new Error("Lỗi trong callback"); // try/catch KHÔNG bắt được!
     }, 1000);
   } catch (error) {
-    // Khong bao gio chay den day
+    // Không bao giờ chạy đến đây
     console.error(error);
   }
 }
 
-// ===== SAI LAM 3: Swallow error =====
+// ===== SAI LẦM 3: Swallow error =====
 async function bad3() {
   try {
     await riskyOperation();
   } catch (error) {
-    // EMPTY CATCH -- "nuot" loi, khong ai biet co loi!
+    // EMPTY CATCH -- "nuốt" lỗi, không ai biết có lỗi!
   }
 }
 
-// GOOD: Log hoac re-throw
+// GOOD: Log hoặc re-throw
 async function good3() {
   try {
     await riskyOperation();
   } catch (error) {
-    console.error("riskyOperation that bai:", error);
-    throw error; // Hoac return default value co y nghia
+    console.error("riskyOperation thất bại:", error);
+    throw error; // Hoặc return default value có ý nghĩa
   }
 }
 
-// ===== Error handling voi Promise.all =====
-// Van de: Promise.all fail-fast, khong biet cac promise khac the nao
+// ===== Error handling với Promise.all =====
+// Vấn đề: Promise.all fail-fast, không biết các promise khác thế nào
 async function fetchMultiple(urls) {
-  // Cach 1: Wrap tung promise de khong fail-fast
+  // Cách 1: Wrap từng promise để không fail-fast
   const results = await Promise.all(
     urls.map(async (url) => {
       try {
@@ -440,7 +440,7 @@ async function fetchMultiple(urls) {
   return { successes, failures };
 }
 
-// Cach 2: Dung Promise.allSettled (don gian hon)
+// Cách 2: Dùng Promise.allSettled (đơn giản hơn)
 async function fetchMultipleV2(urls) {
   const results = await Promise.allSettled(
     urls.map((url) => fetch(url).then((r) => r.json()))
@@ -452,67 +452,67 @@ async function fetchMultipleV2(urls) {
 // Browser
 window.addEventListener("unhandledrejection", (event) => {
   console.error("Unhandled rejection:", event.reason);
-  event.preventDefault(); // Ngan default behavior
-  // Gui len error tracking service (Sentry, etc.)
+  event.preventDefault(); // Ngăn default behavior
+  // Gửi lên error tracking service (Sentry, etc.)
 });
 
 // Node.js
 process.on("unhandledRejection", (reason, promise) => {
   console.error("Unhandled rejection:", reason);
-  // Gui len error tracking service
+  // Gửi lên error tracking service
 });
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Co 3 cach xu ly loi async: .catch() cho Promise chain, try/catch cho async/await, va global handler cho unhandled rejections. Sai lam pho bien nhat la: (1) quen catch Promise, (2) empty catch block 'nuot' loi, (3) try/catch khong bat duoc loi trong setTimeout/callback. Nguyen tac la moi Promise phai co error handler, va luon log hoac re-throw loi -- khong bao gio de catch block trong."
+> "Có 3 cách xử lý lỗi async: .catch() cho Promise chain, try/catch cho async/await, và global handler cho unhandled rejections. Sai lầm phổ biến nhất là: (1) quên catch Promise, (2) empty catch block 'nuốt' lỗi, (3) try/catch không bắt được lỗi trong setTimeout/callback. Nguyên tắc là mỗi Promise phải có error handler, và luôn log hoặc re-throw lỗi -- không bao giờ để catch block trống."
 
 ---
 
-## Cau 5: Unhandled rejection va best practices `[Senior]`
+## Câu 5: Unhandled rejection và best practices `[Senior]`
 
-### Cau hoi
+### Câu hỏi
 
-> Unhandled rejection la gi? Lam sao de tranh no trong du an thuc te?
+> Unhandled rejection là gì? Làm sao để tránh nó trong dự án thực tế?
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Unhandled rejection** xay ra khi mot Promise bi reject nhung khong co `.catch()` hoac `try/catch` nao xu ly.
+**Unhandled rejection** xảy ra khi một Promise bị reject nhưng không có `.catch()` hoặc `try/catch` nào xử lý.
 
-Trong **Node.js 15+**, unhandled rejection mac dinh se **crash process** (exit code 1). Trong browser, no tao warning trong console.
+Trong **Node.js 15+**, unhandled rejection mặc định sẽ **crash process** (exit code 1). Trong browser, nó tạo warning trong console.
 
-### Code vi du
+### Code ví dụ
 
 ```javascript
-// ===== Cac truong hop gay unhandled rejection =====
+// ===== Các trường hợp gây unhandled rejection =====
 
-// 1. Promise khong co catch
-Promise.reject(new Error("Ai se xu ly toi?"));
+// 1. Promise không có catch
+Promise.reject(new Error("Ai sẽ xử lý tôi?"));
 
-// 2. async function khong duoc catch
+// 2. async function không được catch
 async function oops() {
-  throw new Error("Loi!");
+  throw new Error("Lỗi!");
 }
-oops(); // Tra ve rejected promise, khong ai catch
+oops(); // Trả về rejected promise, không ai catch
 
-// 3. Quen return trong .then chain
+// 3. Quên return trong .then chain
 fetchUser(1)
   .then((user) => {
-    fetchOrders(user.id); // QUEN return! -> Promise nay khong duoc chain
-    // Neu fetchOrders reject -> unhandled rejection
+    fetchOrders(user.id); // QUÊN return! -> Promise này không được chain
+    // Nếu fetchOrders reject -> unhandled rejection
   })
   .catch((error) => {
-    // Chi catch loi tu fetchUser, KHONG catch loi tu fetchOrders
+    // Chỉ catch lỗi từ fetchUser, KHÔNG catch lỗi từ fetchOrders
     console.error(error);
   });
 
-// FIX: Luon return Promise trong .then
+// FIX: Luôn return Promise trong .then
 fetchUser(1)
   .then((user) => {
-    return fetchOrders(user.id); // return de chain
+    return fetchOrders(user.id); // return để chain
   })
   .catch((error) => {
-    // Bat ca loi tu fetchUser VA fetchOrders
+    // Bắt cả lỗi từ fetchUser VÀ fetchOrders
     console.error(error);
   });
 
@@ -551,42 +551,42 @@ async function safeExecute(asyncFn, fallback = null) {
   }
 }
 
-// Su dung
+// Sử dụng
 const data = await safeExecute(
   () => fetchData("/api/users"),
-  [] // Fallback la mang rong
+  [] // Fallback là mảng rỗng
 );
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Unhandled rejection xay ra khi Promise reject ma khong co handler. Node.js 15+ se crash process, nen day la van de nghiem trong. De tranh, toi ap dung: (1) luon catch top-level async calls, (2) luon return Promise trong .then chain, (3) dung global handler nhu safety net, (4) dung wrapper cho async route handlers. Quan trong nhat la treat moi rejected Promise nhu mot error can xu ly."
+> "Unhandled rejection xảy ra khi Promise reject mà không có handler. Node.js 15+ sẽ crash process, nên đây là vấn đề nghiêm trọng. Để tránh, tôi áp dụng: (1) luôn catch top-level async calls, (2) luôn return Promise trong .then chain, (3) dùng global handler như safety net, (4) dùng wrapper cho async route handlers. Quan trọng nhất là treat mỗi rejected Promise như một error cần xử lý."
 
 ---
 
-## Cau 6: Bang so sanh tong hop: Callback vs Promise vs Async/Await `[Intermediate]`
+## Câu 6: Bảng so sánh tổng hợp: Callback vs Promise vs Async/Await `[Intermediate]`
 
-### Cau hoi
+### Câu hỏi
 
-> So sanh 3 cach xu ly bat dong bo trong JavaScript: callback, Promise, async/await.
+> So sánh 3 cách xử lý bất đồng bộ trong JavaScript: callback, Promise, async/await.
 
-### Bang so sanh
+### Bảng so sánh
 
-| Tieu chi | Callback | Promise | Async/Await |
+| Tiêu chí | Callback | Promise | Async/Await |
 |---|---|---|---|
-| Cu phap | `fn(arg, callback)` | `.then().catch()` | `await`, `try/catch` |
-| Xu ly loi | Truyen error vao callback | `.catch()` | `try/catch` |
-| Callback hell | Co | Giam (chaining) | Khong |
-| Code doc | Kho doc khi nhieu tang | Kha doc | Rat de doc |
-| Song song | Kho quan ly | `Promise.all` | `Promise.all` + `await` |
-| Cancel | Thu cong | Thu cong (AbortController) | Thu cong (AbortController) |
-| Debug | Stack trace mat | Stack trace kha | Stack trace tot |
-| Xu ly 1 gia tri | Co | Co | Co |
+| Cú pháp | `fn(arg, callback)` | `.then().catch()` | `await`, `try/catch` |
+| Xử lý lỗi | Truyền error vào callback | `.catch()` | `try/catch` |
+| Callback hell | Có | Giảm (chaining) | Không |
+| Code đọc | Khó đọc khi nhiều tầng | Khá đọc | Rất dễ đọc |
+| Song song | Khó quản lý | `Promise.all` | `Promise.all` + `await` |
+| Cancel | Thủ công | Thủ công (AbortController) | Thủ công (AbortController) |
+| Debug | Stack trace mất | Stack trace khá | Stack trace tốt |
+| Xử lý 1 giá trị | Có | Có | Có |
 
-### Code vi du
+### Code ví dụ
 
 ```javascript
-// ===== Callback style (cu) =====
+// ===== Callback style (cũ) =====
 function getUserCallbackStyle(id, callback) {
   setTimeout(() => {
     const user = { id, name: "An" };
@@ -635,7 +635,7 @@ getUserPromise(1)
   .then((result) => sendConfirmation(result))
   .catch(handleError);
 
-// ===== Async/Await style (khuyen dung) =====
+// ===== Async/Await style (khuyến dùng) =====
 async function processUserOrder(userId) {
   try {
     const user = await getUserPromise(userId);
@@ -662,26 +662,26 @@ function promisify(fn) {
 }
 
 const getUserAsync = promisify(getUserCallbackStyle);
-const user = await getUserAsync(1); // Gio dung duoc async/await!
+const user = await getUserAsync(1); // Giờ dùng được async/await!
 
-// Node.js co san util.promisify:
+// Node.js có sẵn util.promisify:
 // const { promisify } = require('util');
 // const readFileAsync = promisify(fs.readFile);
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Callback la cach cu nhat, de gay 'callback hell' khi nhieu tac vu phu thuoc nhau. Promise giai quyet van de nay bang chaining va .catch() tap trung, nhung van co the kho doc voi conditional logic. Async/await la syntactic sugar tren Promise, lam code doc nhu dong bo, de debug va de viet conditional logic. Ngay nay, async/await la lua chon mac dinh, con callback chi dung voi cac API cu (event emitter, streams). Can biet promisify de convert callback sang Promise khi can."
+> "Callback là cách cũ nhất, dễ gây 'callback hell' khi nhiều tác vụ phụ thuộc nhau. Promise giải quyết vấn đề này bằng chaining và .catch() tập trung, nhưng vẫn có thể khó đọc với conditional logic. Async/await là syntactic sugar trên Promise, làm code đọc như đồng bộ, dễ debug và dễ viết conditional logic. Ngày nay, async/await là lựa chọn mặc định, còn callback chỉ dùng với các API cũ (event emitter, streams). Cần biết promisify để convert callback sang Promise khi cần."
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
-| Loi | Giai thich dung |
+| Lỗi | Giải thích đúng |
 |---|---|
-| "await bien Promise thanh gia tri dong bo" | Sai -- `await` chi tam dung execution cua async function, **khong block** event loop. Code ben ngoai async function van chay binh thuong. |
-| "Promise.all chay cac promise tuan tu" | Sai -- Promise.all nhan cac promise **da bat dau chay**. No chi doi tat ca settled, khong kiem soat thu tu chay. |
-| "async function luon tra ve Promise" | Dung! Nhung nhieu nguoi quen -- ke ca khi return gia tri thuong, no van duoc wrap trong Promise.resolve(). |
-| "try/catch bat duoc moi loi async" | Sai -- try/catch chi bat loi tu **await expression**. Loi trong setTimeout/callback ben trong khong bat duoc. |
-| "Promise.race tra ve ket qua nhanh nhat" | Chua chinh xac -- no tra ve ket qua cua promise **settle** dau tien, ke ca **reject**. Muon lay fulfilled dau tien, dung `Promise.any`. |
-| "Quen return trong .then la loi nho" | Khong -- no gay unhandled rejection, co the crash app trong Node.js. Luon return Promise trong .then chain. |
+| "await biến Promise thành giá trị đồng bộ" | Sai -- `await` chỉ tạm dừng execution của async function, **không block** event loop. Code bên ngoài async function vẫn chạy bình thường. |
+| "Promise.all chạy các promise tuần tự" | Sai -- Promise.all nhận các promise **đã bắt đầu chạy**. Nó chỉ đợi tất cả settled, không kiểm soát thứ tự chạy. |
+| "async function luôn trả về Promise" | Đúng! Nhưng nhiều người quên -- kể cả khi return giá trị thường, nó vẫn được wrap trong Promise.resolve(). |
+| "try/catch bắt được mọi lỗi async" | Sai -- try/catch chỉ bắt lỗi từ **await expression**. Lỗi trong setTimeout/callback bên trong không bắt được. |
+| "Promise.race trả về kết quả nhanh nhất" | Chưa chính xác -- nó trả về kết quả của promise **settle** đầu tiên, kể cả **reject**. Muốn lấy fulfilled đầu tiên, dùng `Promise.any`. |
+| "Quên return trong .then là lỗi nhỏ" | Không -- nó gây unhandled rejection, có thể crash app trong Node.js. Luôn return Promise trong .then chain. |

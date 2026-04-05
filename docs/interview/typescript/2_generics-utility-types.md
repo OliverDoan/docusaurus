@@ -5,24 +5,24 @@ title: "Generics & Utility Types"
 
 # Generics & Utility Types
 
-Generics la mot trong nhung tinh nang manh nhat cua TypeScript -- cho phep ban viet code vua type-safe vua tai su dung duoc. Ket hop voi utility types co san, ban co the bieu dien hau het moi pattern ma khong can lap lai code. Day la nhom cau hoi thuong gap o muc Intermediate den Senior.
+Generics là một trong những tính năng mạnh nhất của TypeScript -- cho phép bạn viết code vừa type-safe vừa tái sử dụng được. Kết hợp với utility types có sẵn, bạn có thể biểu diễn hầu hết mọi pattern mà không cần lặp lại code. Đây là nhóm câu hỏi thường gặp ở mức Intermediate đến Senior.
 
 ---
 
-## Cau 1: Generics la gi? Generic function va generic constraints hoat dong nhu the nao? `[Intermediate]`
+## Câu 1: Generics là gì? Generic function và generic constraints hoạt động như thế nào? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Generics** cho phep ban tao ra cac function, class, interface ma **khong co dinh type cu the** tai thoi diem viet code. Type se duoc "truyen vao" khi su dung, giong nhu truyen tham so cho function.
+**Generics** cho phép bạn tạo ra các function, class, interface mà **không cố định type cụ thể** tại thời điểm viết code. Type sẽ được "truyền vào" khi sử dụng, giống như truyền tham số cho function.
 
-**Generic constraints** (`extends`) cho phep ban gioi han type parameter phai thoa man mot dieu kien nhat dinh -- vi du phai co property `length`, hoac phai la subtype cua mot type nao do.
+**Generic constraints** (`extends`) cho phép bạn giới hạn type parameter phải thỏa mãn một điều kiện nhất định -- ví dụ phải có property `length`, hoặc phải là subtype của một type nào đó.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
-// === GENERIC FUNCTION CO BAN ===
+// === GENERIC FUNCTION CƠ BẢN ===
 
-// Khong co generic -- phai viet nhieu function
+// Không có generic -- phải viết nhiều function
 function identityString(value: string): string {
   return value;
 }
@@ -30,31 +30,31 @@ function identityNumber(value: number): number {
   return value;
 }
 
-// Voi generic -- mot function cho tat ca
+// Với generic -- một function cho tất cả
 function identity<T>(value: T): T {
   return value;
 }
 
-const str = identity("hello");   // T duoc infer la "hello"
-const num = identity(42);        // T duoc infer la 42
-const explicit = identity<string>("hello"); // Chi dinh type ro rang
+const str = identity("hello");   // T được infer là "hello"
+const num = identity(42);        // T được infer là 42
+const explicit = identity<string>("hello"); // Chỉ định type rõ ràng
 
 // === GENERIC CONSTRAINTS ===
 
-// Khong co constraint -- khong truy cap duoc property nao
+// Không có constraint -- không truy cập được property nào
 function logLength<T>(value: T): void {
-  // console.log(value.length); // Error: T khong chac co .length
+  // console.log(value.length); // Error: T không chắc có .length
 }
 
-// Voi constraint: T phai co property length
+// Với constraint: T phải có property length
 function logLengthSafe<T extends { length: number }>(value: T): T {
   console.log(`Length: ${value.length}`); // OK
   return value;
 }
 
-logLengthSafe("hello");        // OK -- string co length
-logLengthSafe([1, 2, 3]);      // OK -- array co length
-// logLengthSafe(42);           // Error -- number khong co length
+logLengthSafe("hello");        // OK -- string có length
+logLengthSafe([1, 2, 3]);      // OK -- array có length
+// logLengthSafe(42);           // Error -- number không có length
 
 // === MULTIPLE TYPE PARAMETERS ===
 function map<T, U>(array: T[], fn: (item: T) => U): U[] {
@@ -62,9 +62,9 @@ function map<T, U>(array: T[], fn: (item: T) => U): U[] {
 }
 
 const numbers = map(["1", "2", "3"], (s) => parseInt(s));
-// T = string, U = number, ket qua: number[]
+// T = string, U = number, kết quả: number[]
 
-// === GENERIC VOI keyof CONSTRAINT ===
+// === GENERIC VỚI keyof CONSTRAINT ===
 function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
   return obj[key];
 }
@@ -73,22 +73,22 @@ const user = { name: "Thuan", age: 28, email: "thuan@dev.com" };
 
 const name = getProperty(user, "name");   // type: string
 const age = getProperty(user, "age");     // type: number
-// getProperty(user, "salary");            // Error: "salary" khong phai key cua user
+// getProperty(user, "salary");            // Error: "salary" không phải key của user
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Generics cho phep viet code tai su dung duoc ma van giu type safety. Thay vi dung any, ta dung type parameter T de TypeScript tu dong suy luan type chinh xac. Generic constraints dung extends de gioi han -- vi du T extends HasLength dam bao T phai co property length. Ket hop voi keyof, ta co the tao cac function type-safe nhu getProperty ma chi chap nhan key that su ton tai tren object."
+> "Generics cho phép viết code tái sử dụng được mà vẫn giữ type safety. Thay vì dùng any, ta dùng type parameter T để TypeScript tự động suy luận type chính xác. Generic constraints dùng extends để giới hạn -- ví dụ T extends HasLength đảm bảo T phải có property length. Kết hợp với keyof, ta có thể tạo các function type-safe như getProperty mà chỉ chấp nhận key thật sự tồn tại trên object."
 
 ---
 
-## Cau 2: Giai thich cac utility types: Partial, Required, Pick, Omit, Record, Readonly `[Intermediate]`
+## Câu 2: Giải thích các utility types: Partial, Required, Pick, Omit, Record, Readonly `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-TypeScript cung cap nhieu **utility types** co san de bien doi type ma khong can viet lai tu dau. Day la nhung type thao tac pho bien nhat.
+TypeScript cung cấp nhiều **utility types** có sẵn để biến đổi type mà không cần viết lại từ đầu. Đây là những type thao tác phổ biến nhất.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
 interface User {
@@ -98,41 +98,41 @@ interface User {
   avatar?: string;
 }
 
-// === PARTIAL<T> -- Tat ca property tro thanh optional ===
+// === PARTIAL<T> -- Tất cả property trở thành optional ===
 type PartialUser = Partial<User>;
 // { id?: number; name?: string; email?: string; avatar?: string }
 
-// Use case: Update function chi can truyen field can update
+// Use case: Update function chỉ cần truyền field cần update
 function updateUser(id: number, updates: Partial<User>): User {
   const existing = getUserById(id);
   return { ...existing, ...updates };
 }
-updateUser(1, { name: "New Name" }); // Chi update name
+updateUser(1, { name: "New Name" }); // Chỉ update name
 
-// === REQUIRED<T> -- Tat ca property tro thanh bat buoc ===
+// === REQUIRED<T> -- Tất cả property trở thành bắt buộc ===
 type RequiredUser = Required<User>;
 // { id: number; name: string; email: string; avatar: string }
-// avatar khong con optional nua!
+// avatar không còn optional nữa!
 
-// === PICK<T, K> -- Chi lay mot so property ===
+// === PICK<T, K> -- Chỉ lấy một số property ===
 type UserPreview = Pick<User, "id" | "name">;
 // { id: number; name: string }
 
-// Use case: API response chi tra ve mot so field
+// Use case: API response chỉ trả về một số field
 function getUserPreview(id: number): UserPreview {
   const user = getUserById(id);
   return { id: user.id, name: user.name };
 }
 
-// === OMIT<T, K> -- Loai bo mot so property ===
+// === OMIT<T, K> -- Loại bỏ một số property ===
 type UserWithoutEmail = Omit<User, "email">;
 // { id: number; name: string; avatar?: string }
 
-// Use case: Tao type cho form (khong can id tu server)
+// Use case: Tạo type cho form (không cần id từ server)
 type CreateUserDto = Omit<User, "id">;
 // { name: string; email: string; avatar?: string }
 
-// === RECORD<K, V> -- Tao object type voi key va value type ===
+// === RECORD<K, V> -- Tạo object type với key và value type ===
 type Role = "admin" | "editor" | "viewer";
 
 type RolePermissions = Record<Role, string[]>;
@@ -144,7 +144,7 @@ const permissions: RolePermissions = {
   viewer: ["read"],
 };
 
-// === READONLY<T> -- Tat ca property tro thanh readonly ===
+// === READONLY<T> -- Tất cả property trở thành readonly ===
 type ReadonlyUser = Readonly<User>;
 
 const frozenUser: ReadonlyUser = {
@@ -155,47 +155,47 @@ const frozenUser: ReadonlyUser = {
 // frozenUser.name = "Other"; // Error: Cannot assign to 'name'
 ```
 
-### Bang tong hop utility types
+### Bảng tổng hợp utility types
 
-| Utility Type | Tac dung | Vi du Input | Vi du Output |
+| Utility Type | Tác dụng | Ví dụ Input | Ví dụ Output |
 |-------------|---------|-------------|-------------|
-| `Partial<T>` | Tat ca optional | `{ a: string; b: number }` | `{ a?: string; b?: number }` |
-| `Required<T>` | Tat ca bat buoc | `{ a?: string; b?: number }` | `{ a: string; b: number }` |
-| `Pick<T, K>` | Chi lay key K | `Pick<User, "name">` | `{ name: string }` |
-| `Omit<T, K>` | Loai bo key K | `Omit<User, "id">` | `{ name; email; ... }` |
-| `Record<K, V>` | Object voi key K, value V | `Record<"a" \| "b", number>` | `{ a: number; b: number }` |
-| `Readonly<T>` | Tat ca readonly | `{ a: string }` | `{ readonly a: string }` |
-| `ReturnType<T>` | Lay return type cua function | `ReturnType<() => string>` | `string` |
-| `Parameters<T>` | Lay parameters type | `Parameters<(a: string) => void>` | `[string]` |
-| `Exclude<T, U>` | Loai U khoi union T | `Exclude<"a" \| "b", "a">` | `"b"` |
-| `Extract<T, U>` | Lay phan chung | `Extract<"a" \| "b", "a" \| "c">` | `"a"` |
-| `NonNullable<T>` | Loai null va undefined | `NonNullable<string \| null>` | `string` |
+| `Partial<T>` | Tất cả optional | `{ a: string; b: number }` | `{ a?: string; b?: number }` |
+| `Required<T>` | Tất cả bắt buộc | `{ a?: string; b?: number }` | `{ a: string; b: number }` |
+| `Pick<T, K>` | Chỉ lấy key K | `Pick<User, "name">` | `{ name: string }` |
+| `Omit<T, K>` | Loại bỏ key K | `Omit<User, "id">` | `{ name; email; ... }` |
+| `Record<K, V>` | Object với key K, value V | `Record<"a" \| "b", number>` | `{ a: number; b: number }` |
+| `Readonly<T>` | Tất cả readonly | `{ a: string }` | `{ readonly a: string }` |
+| `ReturnType<T>` | Lấy return type của function | `ReturnType<() => string>` | `string` |
+| `Parameters<T>` | Lấy parameters type | `Parameters<(a: string) => void>` | `[string]` |
+| `Exclude<T, U>` | Loại U khỏi union T | `Exclude<"a" \| "b", "a">` | `"b"` |
+| `Extract<T, U>` | Lấy phần chung | `Extract<"a" \| "b", "a" \| "c">` | `"a"` |
+| `NonNullable<T>` | Loại null và undefined | `NonNullable<string \| null>` | `string` |
 
-### Dap an mau
+### Đáp án mẫu
 
-> "TypeScript cung cap nhieu utility types de bien doi type ma khong can tao type moi tu dau. Partial bien tat ca property thanh optional -- rat huu ich cho update functions. Pick va Omit cho phep chon hoac loai bo property -- dung cho DTO va API response. Record tao object type tu union keys -- tot cho mapping. Trong du an thuc te, toi dung Omit nhieu nhat de tao CreateDto tu entity type bang cach loai id va timestamps."
+> "TypeScript cung cấp nhiều utility types để biến đổi type mà không cần tạo type mới từ đầu. Partial biến tất cả property thành optional -- rất hữu ích cho update functions. Pick và Omit cho phép chọn hoặc loại bỏ property -- dùng cho DTO và API response. Record tạo object type từ union keys -- tốt cho mapping. Trong dự án thực tế, tôi dùng Omit nhiều nhất để tạo CreateDto từ entity type bằng cách loại id và timestamps."
 
 ---
 
-## Cau 3: Tu implement Partial, Pick, va Omit `[Senior]`
+## Câu 3: Tự implement Partial, Pick, và Omit `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Hieu cach implement utility types giup ban hieu sau ve mapped types va conditional types -- hai khai niem nen tang cua type-level programming trong TypeScript.
+Hiểu cách implement utility types giúp bạn hiểu sâu về mapped types và conditional types -- hai khái niệm nền tảng của type-level programming trong TypeScript.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
-// === TU IMPLEMENT PARTIAL ===
+// === TỰ IMPLEMENT PARTIAL ===
 type MyPartial<T> = {
   [K in keyof T]?: T[K];
 };
 
-// Giai thich:
-// - keyof T: lay tat ca key cua T
-// - [K in keyof T]: lap qua tung key
-// - ?: bien moi property thanh optional
-// - T[K]: giu nguyen type cua property
+// Giải thích:
+// - keyof T: lấy tất cả key của T
+// - [K in keyof T]: lặp qua từng key
+// - ?: biến mỗi property thành optional
+// - T[K]: giữ nguyên type của property
 
 // Test
 interface Todo {
@@ -207,69 +207,69 @@ interface Todo {
 type PartialTodo = MyPartial<Todo>;
 // { title?: string; description?: string; completed?: boolean }
 
-// === TU IMPLEMENT PICK ===
+// === TỰ IMPLEMENT PICK ===
 type MyPick<T, K extends keyof T> = {
   [P in K]: T[P];
 };
 
-// Giai thich:
-// - K extends keyof T: K phai la key cua T (constraint)
-// - [P in K]: chi lap qua cac key trong K (khong phai tat ca key cua T)
-// - T[P]: lay type cua property P trong T
+// Giải thích:
+// - K extends keyof T: K phải là key của T (constraint)
+// - [P in K]: chỉ lặp qua các key trong K (không phải tất cả key của T)
+// - T[P]: lấy type của property P trong T
 
 type TodoPreview = MyPick<Todo, "title" | "completed">;
 // { title: string; completed: boolean }
 
-// === TU IMPLEMENT OMIT ===
+// === TỰ IMPLEMENT OMIT ===
 type MyOmit<T, K extends keyof T> = {
   [P in keyof T as P extends K ? never : P]: T[P];
 };
 
-// Giai thich:
-// - [P in keyof T]: lap qua tat ca key cua T
+// Giải thích:
+// - [P in keyof T]: lặp qua tất cả key của T
 // - as P extends K ? never : P: key remapping
-//   - Neu P nam trong K --> never (loai bo)
-//   - Neu khong --> giu lai P
-// - T[P]: giu nguyen type
+//   - Nếu P nằm trong K --> never (loại bỏ)
+//   - Nếu không --> giữ lại P
+// - T[P]: giữ nguyên type
 
-// Cach implement khac (dung Exclude):
+// Cách implement khác (dùng Exclude):
 type MyOmit2<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 type TodoWithoutDescription = MyOmit<Todo, "description">;
 // { title: string; completed: boolean }
 
-// === TU IMPLEMENT REQUIRED ===
+// === TỰ IMPLEMENT REQUIRED ===
 type MyRequired<T> = {
   [K in keyof T]-?: T[K];
 };
-// -? loai bo optional modifier
+// -? loại bỏ optional modifier
 
-// === TU IMPLEMENT READONLY ===
+// === TỰ IMPLEMENT READONLY ===
 type MyReadonly<T> = {
   readonly [K in keyof T]: T[K];
 };
 
-// === TU IMPLEMENT RECORD ===
+// === TỰ IMPLEMENT RECORD ===
 type MyRecord<K extends keyof any, V> = {
   [P in K]: V;
 };
 
-// keyof any = string | number | symbol (tat ca cac key hop le)
+// keyof any = string | number | symbol (tất cả các key hợp lệ)
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Partial duoc implement bang mapped type: lap qua keyof T va them ? modifier cho moi property. Pick gioi han mapped type chi lap qua cac key K thay vi toan bo keyof T. Omit phuc tap hon -- co the dung key remapping voi as de filter key, hoac combine Pick va Exclude. Hieu cach implement giup toi tu tin tao cac custom utility types cho du an, vi du DeepPartial cho nested objects hoac Mutable de loai readonly."
+> "Partial được implement bằng mapped type: lặp qua keyof T và thêm ? modifier cho mỗi property. Pick giới hạn mapped type chỉ lặp qua các key K thay vì toàn bộ keyof T. Omit phức tạp hơn -- có thể dùng key remapping với as để filter key, hoặc combine Pick và Exclude. Hiểu cách implement giúp tôi tự tin tạo các custom utility types cho dự án, ví dụ DeepPartial cho nested objects hoặc Mutable để loại readonly."
 
 ---
 
-## Cau 4: Generic voi default type parameters `[Intermediate]`
+## Câu 4: Generic với default type parameters `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Tuong tu default parameters cua function, generic type parameters cung co the co gia tri mac dinh. Khi nguoi dung khong truyen type parameter, TypeScript se dung default type.
+Tương tự default parameters của function, generic type parameters cũng có thể có giá trị mặc định. Khi người dùng không truyền type parameter, TypeScript sẽ dùng default type.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
 // === DEFAULT TYPE PARAMETER ===
@@ -279,37 +279,37 @@ interface ApiResponse<TData = unknown, TError = string> {
   error?: TError;
 }
 
-// Su dung voi type cu the
+// Sử dụng với type cụ thể
 const userResponse: ApiResponse<User> = {
   success: true,
   data: { id: 1, name: "Thuan", email: "thuan@dev.com" },
 };
 
-// Su dung voi default (TData = unknown, TError = string)
+// Sử dụng với default (TData = unknown, TError = string)
 const genericResponse: ApiResponse = {
   success: false,
   error: "Something went wrong",
 };
 
-// Chi chi dinh TData, TError dung default
+// Chỉ chỉ định TData, TError dùng default
 const listResponse: ApiResponse<User[]> = {
   success: true,
   data: [{ id: 1, name: "Thuan", email: "thuan@dev.com" }],
 };
 
-// === DEFAULT VOI CONSTRAINT ===
+// === DEFAULT VỚI CONSTRAINT ===
 interface Repository<T extends { id: number | string } = { id: number }> {
   findById(id: T["id"]): Promise<T | null>;
   save(entity: T): Promise<T>;
 }
 
-// Dung default type
+// Dùng default type
 const defaultRepo: Repository = {
   findById: async (id: number) => null,
   save: async (entity) => entity,
 };
 
-// === GENERIC CLASS VOI DEFAULT ===
+// === GENERIC CLASS VỚI DEFAULT ===
 class EventEmitter<TEvents extends Record<string, any> = Record<string, any>> {
   private listeners = new Map<keyof TEvents, Set<Function>>();
 
@@ -334,27 +334,27 @@ type AppEvents = {
 
 const emitter = new EventEmitter<AppEvents>();
 emitter.on("login", (data) => {
-  console.log(data.userId); // type-safe: data la { userId: string }
+  console.log(data.userId); // type-safe: data là { userId: string }
 });
 // emitter.emit("login", { wrong: true }); // Error!
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Default type parameters cho phep tao generic type ma nguoi dung khong bat buoc phai truyen type argument. Giong nhu default function params, default types duoc dung khi khong co explicit type argument va TypeScript khong the infer duoc. Dieu nay rat huu ich cho API design -- vi du ApiResponse co the dung ma khong can chi dinh type cu the, nhung van cho phep type-safe khi can."
+> "Default type parameters cho phép tạo generic type mà người dùng không bắt buộc phải truyền type argument. Giống như default function params, default types được dùng khi không có explicit type argument và TypeScript không thể infer được. Điều này rất hữu ích cho API design -- ví dụ ApiResponse có thể dùng mà không cần chỉ định type cụ thể, nhưng vẫn cho phép type-safe khi cần."
 
 ---
 
-## Cau 5: keyof va typeof operators trong TypeScript `[Intermediate]`
+## Câu 5: keyof và typeof operators trong TypeScript `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-- **`keyof`** lay ra union type cua tat ca **key** cua mot type. Vi du: `keyof User` tra ve `"name" | "age" | "email"`.
-- **`typeof`** trong TypeScript context lay ra **type** cua mot gia tri (khac voi typeof trong JavaScript chi tra ve string).
+- **`keyof`** lấy ra union type của tất cả **key** của một type. Ví dụ: `keyof User` trả về `"name" | "age" | "email"`.
+- **`typeof`** trong TypeScript context lấy ra **type** của một giá trị (khác với typeof trong JavaScript chỉ trả về string).
 
-Hai operator nay ket hop voi nhau rat manh de tao type tu gia tri co san.
+Hai operator này kết hợp với nhau rất mạnh để tạo type từ giá trị có sẵn.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
 // === KEYOF ===
@@ -366,7 +366,7 @@ interface User {
 
 type UserKeys = keyof User; // "id" | "name" | "email"
 
-// Ung dung: type-safe property access
+// Ứng dụng: type-safe property access
 function getValue<T, K extends keyof T>(obj: T, key: K): T[K] {
   return obj[key];
 }
@@ -383,16 +383,16 @@ const config = {
   retries: 3,
 } as const;
 
-// Lay type tu gia tri co san
+// Lấy type từ giá trị có sẵn
 type Config = typeof config;
 // { readonly apiUrl: "https://api.example.com"; readonly timeout: 5000; readonly retries: 3 }
 
 type ConfigKeys = keyof typeof config;
 // "apiUrl" | "timeout" | "retries"
 
-// === KET HOP KEYOF VA TYPEOF ===
+// === KẾT HỢP KEYOF VÀ TYPEOF ===
 
-// Tao type tu enum-like object
+// Tạo type từ enum-like object
 const HTTP_METHODS = {
   GET: "GET",
   POST: "POST",
@@ -403,7 +403,7 @@ const HTTP_METHODS = {
 type HttpMethod = typeof HTTP_METHODS[keyof typeof HTTP_METHODS];
 // "GET" | "POST" | "PUT" | "DELETE"
 
-// Tao type tu function return value
+// Tạo type từ function return value
 function createUser() {
   return {
     id: Math.random(),
@@ -415,7 +415,7 @@ function createUser() {
 type CreatedUser = ReturnType<typeof createUser>;
 // { id: number; name: string; createdAt: Date }
 
-// === KEYOF VOI MAPPED TYPES ===
+// === KEYOF VỚI MAPPED TYPES ===
 type Getters<T> = {
   [K in keyof T as `get${Capitalize<string & K>}`]: () => T[K];
 };
@@ -428,31 +428,31 @@ type UserGetters = Getters<User>;
 // }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "keyof lay union type cua tat ca key trong mot type -- cuc ky huu ich cho type-safe object access. typeof trong type context trich xuat type tu mot gia tri runtime -- cho phep derive type tu objects, functions, va constants ma khong can khai bao type rieng. Ket hop ca hai: keyof typeof cho phep lay keys cua mot runtime object duoi dang type. Pattern nay rat pho bien khi lam viec voi config objects hoac const enums."
+> "keyof lấy union type của tất cả key trong một type -- cực kỳ hữu ích cho type-safe object access. typeof trong type context trích xuất type từ một giá trị runtime -- cho phép derive type từ objects, functions, và constants mà không cần khai báo type riêng. Kết hợp cả hai: keyof typeof cho phép lấy keys của một runtime object dưới dạng type. Pattern này rất phổ biến khi làm việc với config objects hoặc const enums."
 
 ---
 
-## Cau 6: Viet mot generic function `merge` type-safe `[Senior]`
+## Câu 6: Viết một generic function `merge` type-safe `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Cau hoi nay kiem tra kha nang ap dung generics vao bai toan thuc te. Yeu cau: viet function merge hai object ma ket qua phai co type chinh xac, khong mat bat ky type information nao.
+Câu hỏi này kiểm tra khả năng áp dụng generics vào bài toán thực tế. Yêu cầu: viết function merge hai object mà kết quả phải có type chính xác, không mất bất kỳ type information nào.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
-// === BAI TOAN: Type-safe merge ===
+// === BÀI TOÁN: Type-safe merge ===
 
-// Cach SAI -- mat type information
+// Cách SAI -- mất type information
 function mergeWrong(a: object, b: object): object {
   return { ...a, ...b };
 }
 const result1 = mergeWrong({ name: "Thuan" }, { age: 28 });
 // result1.name; // Error: Property 'name' does not exist on type 'object'
 
-// Cach DUNG -- generic giu toan bo type
+// Cách ĐÚNG -- generic giữ toàn bộ type
 function merge<A extends object, B extends object>(a: A, b: B): A & B {
   return { ...a, ...b } as A & B;
 }
@@ -462,7 +462,7 @@ const result2 = merge({ name: "Thuan" }, { age: 28 });
 console.log(result2.name); // OK: string
 console.log(result2.age);  // OK: number
 
-// === NANG CAP: Deep merge voi generics ===
+// === NÂNG CẤP: Deep merge với generics ===
 type DeepMerge<A, B> = {
   [K in keyof A | keyof B]: K extends keyof B
     ? K extends keyof A
@@ -477,7 +477,7 @@ type DeepMerge<A, B> = {
       : never;
 };
 
-// === GENERIC VOI OVERLOADS ===
+// === GENERIC VỚI OVERLOADS ===
 function createElement<T extends "div">(tag: T): HTMLDivElement;
 function createElement<T extends "span">(tag: T): HTMLSpanElement;
 function createElement<T extends "input">(tag: T): HTMLInputElement;
@@ -492,22 +492,22 @@ const input = createElement("input"); // HTMLInputElement
 const custom = createElement("my-component"); // HTMLElement
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "De merge type-safe, ta dung two generic type parameters A va B voi constraint extends object, va return type la A & B (intersection). Dieu nay dam bao ket qua co tat ca property cua ca hai input objects voi type chinh xac. Voi truong hop phuc tap hon nhu deep merge, ta can recursive conditional types. Day la mot pattern rat thuong gap khi xay dung utility functions cho state management hoac config merging."
+> "Để merge type-safe, ta dùng two generic type parameters A và B với constraint extends object, và return type là A & B (intersection). Điều này đảm bảo kết quả có tất cả property của cả hai input objects với type chính xác. Với trường hợp phức tạp hơn như deep merge, ta cần recursive conditional types. Đây là một pattern rất thường gặp khi xây dựng utility functions cho state management hoặc config merging."
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
-1. **Dung any thay vi generic**: Khi interviewer hoi "lam sao viet function tai su dung duoc?", neu ban dung `any` thay vi generic `T`, ban mat type safety va mat diem.
+1. **Dùng any thay vì generic**: Khi interviewer hỏi "làm sao viết function tái sử dụng được?", nếu bạn dùng `any` thay vì generic `T`, bạn mất type safety và mất điểm.
 
-2. **Quen constraint cho generic**: Viet `function log<T>(value: T)` roi truy cap `value.length` se loi. Phai them constraint: `T extends { length: number }`.
+2. **Quên constraint cho generic**: Viết `function log<T>(value: T)` rồi truy cập `value.length` sẽ lỗi. Phải thêm constraint: `T extends { length: number }`.
 
-3. **Nham lan keyof voi Object.keys()**: `keyof` hoat dong o **type level** (compile time), `Object.keys()` hoat dong o **runtime**. Hai cai nay khac nhau ve ban chat.
+3. **Nhầm lẫn keyof với Object.keys()**: `keyof` hoạt động ở **type level** (compile time), `Object.keys()` hoạt động ở **runtime**. Hai cái này khác nhau về bản chất.
 
-4. **Khong biet cach implement utility types**: Neu interviewer hoi "implement Partial", ma ban khong biet mapped types `[K in keyof T]`, do la gap lon. Hay hoc cach implement it nhat Partial, Pick, Omit.
+4. **Không biết cách implement utility types**: Nếu interviewer hỏi "implement Partial", mà bạn không biết mapped types `[K in keyof T]`, đó là gap lớn. Hãy học cách implement ít nhất Partial, Pick, Omit.
 
-5. **Nham generic default voi any**: `T = unknown` nghia la khi khong truyen type, T la unknown (van type-safe). `T = any` thi tat type checking -- hai cai rat khac nhau.
+5. **Nhầm generic default với any**: `T = unknown` nghĩa là khi không truyền type, T là unknown (vẫn type-safe). `T = any` thì tắt type checking -- hai cái rất khác nhau.
 
-6. **Khong hieu typeof trong type context vs runtime**: `typeof` trong TypeScript co hai nghia. Trong type position (`type X = typeof value`), no lay type. Trong expression position (`if (typeof x === "string")`), no la JavaScript typeof operator.
+6. **Không hiểu typeof trong type context vs runtime**: `typeof` trong TypeScript có hai nghĩa. Trong type position (`type X = typeof value`), nó lấy type. Trong expression position (`if (typeof x === "string")`), nó là JavaScript typeof operator.

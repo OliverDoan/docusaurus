@@ -5,20 +5,20 @@ title: "Type Guards, Narrowing & Conditional Types"
 
 # Type Guards, Narrowing & Conditional Types
 
-Type guards va conditional types la cau noi giua logic runtime va type system. Hieu ro chung giup ban viet code vua an toan vua linh hoat -- va day la nhom cau hoi ma interviewer rat thich hoi o muc Senior.
+Type guards và conditional types là cầu nối giữa logic runtime và type system. Hiểu rõ chúng giúp bạn viết code vừa an toàn vừa linh hoạt -- và đây là nhóm câu hỏi mà interviewer rất thích hỏi ở mức Senior.
 
 ---
 
-## Cau 1: typeof va instanceof type guards hoat dong nhu the nao? `[Intermediate]`
+## Câu 1: typeof và instanceof type guards hoạt động như thế nào? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Type guards** la bieu thuc runtime giup TypeScript **thu hep (narrow)** type cua bien trong mot scope cu the.
+**Type guards** là biểu thức runtime giúp TypeScript **thu hẹp (narrow)** type của biến trong một scope cụ thể.
 
-- **`typeof`** kiem tra primitive types: `"string"`, `"number"`, `"boolean"`, `"undefined"`, `"object"`, `"function"`, `"symbol"`, `"bigint"`.
-- **`instanceof`** kiem tra mot object co phai instance cua mot class cu the khong (dua tren prototype chain).
+- **`typeof`** kiểm tra primitive types: `"string"`, `"number"`, `"boolean"`, `"undefined"`, `"object"`, `"function"`, `"symbol"`, `"bigint"`.
+- **`instanceof`** kiểm tra một object có phải instance của một class cụ thể không (dựa trên prototype chain).
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
 // === TYPEOF TYPE GUARD ===
@@ -33,17 +33,17 @@ function formatValue(value: string | number | boolean): string {
     return value.toFixed(2);
   }
 
-  // Narrowed: boolean (TypeScript tu suy luan)
+  // Narrowed: boolean (TypeScript tự suy luận)
   return value ? "Yes" : "No";
 }
 
-// Luu y: typeof null === "object" (quirk cua JavaScript!)
+// Lưu ý: typeof null === "object" (quirk của JavaScript!)
 function processData(data: object | null) {
   if (typeof data === "object") {
-    // Van co the la null! typeof null === "object"
-    // Can check them:
+    // Vẫn có thể là null! typeof null === "object"
+    // Cần check thêm:
     if (data !== null) {
-      // Bay gio moi chac la object
+      // Bây giờ mới chắc là object
     }
   }
 }
@@ -72,7 +72,7 @@ function handleError(error: ApiError | ValidationError) {
   }
 }
 
-// instanceof hoat dong voi class hierarchy
+// instanceof hoạt động với class hierarchy
 class HttpError extends Error {
   constructor(
     public statusCode: number,
@@ -93,7 +93,7 @@ function handle(err: Error) {
     // Narrowed: NotFoundError
     console.log(err.statusCode); // 404
   } else if (err instanceof HttpError) {
-    // Narrowed: HttpError (nhung khong phai NotFoundError)
+    // Narrowed: HttpError (nhưng không phải NotFoundError)
     console.log(err.statusCode);
   } else {
     // Narrowed: Error
@@ -102,22 +102,22 @@ function handle(err: Error) {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "typeof guard kiem tra primitive types tai runtime va TypeScript dung ket qua do de narrow type trong scope tuong ung. instanceof guard dua tren prototype chain de xac dinh class instance, va TypeScript tuong tu narrow type. Diem can nho la typeof null tra ve 'object' -- day la bug kinh dien cua JavaScript nen can check null rieng. Va instanceof chi hoat dong voi class, khong hoat dong voi interface vi interface khong ton tai tai runtime."
+> "typeof guard kiểm tra primitive types tại runtime và TypeScript dùng kết quả đó để narrow type trong scope tương ứng. instanceof guard dựa trên prototype chain để xác định class instance, và TypeScript tương tự narrow type. Điểm cần nhớ là typeof null trả về 'object' -- đây là bug kinh điển của JavaScript nên cần check null riêng. Và instanceof chỉ hoạt động với class, không hoạt động với interface vì interface không tồn tại tại runtime."
 
 ---
 
-## Cau 2: Custom type guards voi tu khoa `is` `[Senior]`
+## Câu 2: Custom type guards với từ khóa `is` `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Khi typeof va instanceof khong du (vi du khi lam viec voi interfaces hoac plain objects), ban co the tao **custom type guard** -- mot function tra ve `value is Type`. Day la cach "day" TypeScript tin rang gia tri co type cu the sau khi function return true.
+Khi typeof và instanceof không đủ (ví dụ khi làm việc với interfaces hoặc plain objects), bạn có thể tạo **custom type guard** -- một function trả về `value is Type`. Đây là cách "dạy" TypeScript tin rằng giá trị có type cụ thể sau khi function return true.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
-// === CUSTOM TYPE GUARD CO BAN ===
+// === CUSTOM TYPE GUARD CƠ BẢN ===
 interface Cat {
   meow: () => void;
   purr: () => void;
@@ -183,7 +183,7 @@ async function fetchUser(id: number): Promise<void> {
   }
 }
 
-// === TYPE GUARD VOI ARRAY FILTERING ===
+// === TYPE GUARD VỚI ARRAY FILTERING ===
 interface Product {
   id: number;
   name: string;
@@ -203,7 +203,7 @@ function isProduct(value: unknown): value is Product {
   );
 }
 
-// Filter array voi type guard -- ket qua duoc narrow!
+// Filter array với type guard -- kết quả được narrow!
 const mixedData: unknown[] = [
   { id: 1, name: "Phone", price: 999 },
   "not a product",
@@ -213,27 +213,27 @@ const mixedData: unknown[] = [
 ];
 
 const products: Product[] = mixedData.filter(isProduct);
-// TypeScript biet products la Product[] vi isProduct la type guard
+// TypeScript biết products là Product[] vì isProduct là type guard
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Custom type guard la function tra ve type predicate dang 'param is Type'. Khi function return true, TypeScript narrow type cua argument trong calling scope. Dieu nay cuc ky huu ich khi lam viec voi interfaces (khong dung duoc instanceof) hoac khi can complex validation logic. Mot use case rat hay la dung type guard voi Array.filter -- TypeScript se tu dong narrow type cua array sau khi filter."
+> "Custom type guard là function trả về type predicate dạng 'param is Type'. Khi function return true, TypeScript narrow type của argument trong calling scope. Điều này cực kỳ hữu ích khi làm việc với interfaces (không dùng được instanceof) hoặc khi cần complex validation logic. Một use case rất hay là dùng type guard với Array.filter -- TypeScript sẽ tự động narrow type của array sau khi filter."
 
 ---
 
-## Cau 3: Discriminated unions la gi va dung nhu the nao? `[Intermediate]`
+## Câu 3: Discriminated unions là gì và dùng như thế nào? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Discriminated unions** (hay tagged unions) la pattern dung mot **property chung** (discriminant) de phan biet giua cac variant cua union type. Property nay thuong la string literal type. TypeScript co the tu dong narrow type dua tren gia tri cua discriminant.
+**Discriminated unions** (hay tagged unions) là pattern dùng một **property chung** (discriminant) để phân biệt giữa các variant của union type. Property này thường là string literal type. TypeScript có thể tự động narrow type dựa trên giá trị của discriminant.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
-// === DISCRIMINATED UNION CO BAN ===
+// === DISCRIMINATED UNION CƠ BẢN ===
 
-// Moi variant co chung property "type" (discriminant)
+// Mỗi variant có chung property "type" (discriminant)
 type Circle = {
   type: "circle";
   radius: number;
@@ -269,7 +269,7 @@ function calculateArea(shape: Shape): number {
   }
 }
 
-// === THUC TE: STATE MANAGEMENT ===
+// === THỰC TẾ: STATE MANAGEMENT ===
 type LoadingState = {
   status: "loading";
 };
@@ -289,19 +289,19 @@ type AsyncState<T> = LoadingState | SuccessState<T> | ErrorState;
 function renderUserProfile(state: AsyncState<User>) {
   switch (state.status) {
     case "loading":
-      return "Dang tai...";
+      return "Đang tải...";
 
     case "success":
       // Narrowed: SuccessState<User>
-      return `Xin chao, ${state.data.name}!`;
+      return `Xin chào, ${state.data.name}!`;
 
     case "error":
       // Narrowed: ErrorState
-      return `Loi: ${state.error}`;
+      return `Lỗi: ${state.error}`;
   }
 }
 
-// === THUC TE: REDUX-STYLE ACTIONS ===
+// === THỰC TẾ: REDUX-STYLE ACTIONS ===
 type IncrementAction = {
   type: "INCREMENT";
   payload: number;
@@ -330,24 +330,24 @@ function counterReducer(state: number, action: CounterAction): number {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Discriminated unions dung mot common property -- thuong la string literal -- lam discriminant de phan biet cac variant. TypeScript tu dong narrow type khi ban check discriminant trong switch/if. Pattern nay cuc ky pho bien trong state management (loading/success/error), Redux actions, va bat ky domain nao co nhieu trang thai. Uu diem lon nhat la type safety -- TypeScript dam bao ban xu ly dung data cho moi variant."
+> "Discriminated unions dùng một common property -- thường là string literal -- làm discriminant để phân biệt các variant. TypeScript tự động narrow type khi bạn check discriminant trong switch/if. Pattern này cực kỳ phổ biến trong state management (loading/success/error), Redux actions, và bất kỳ domain nào có nhiều trạng thái. Ưu điểm lớn nhất là type safety -- TypeScript đảm bảo bạn xử lý đúng data cho mỗi variant."
 
 ---
 
-## Cau 4: Conditional types hoat dong nhu the nao? `[Senior]`
+## Câu 4: Conditional types hoạt động như thế nào? `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Conditional types** co cu phap `T extends U ? X : Y` -- tuong tu ternary operator nhung o type level. Neu T la subtype cua U thi ket qua la X, nguoc lai la Y.
+**Conditional types** có cú pháp `T extends U ? X : Y` -- tương tự ternary operator nhưng ở type level. Nếu T là subtype của U thì kết quả là X, ngược lại là Y.
 
-Khi dung voi union types, conditional types duoc **distribute** -- ap dung cho tung member cua union rieng le.
+Khi dùng với union types, conditional types được **distribute** -- áp dụng cho từng member của union riêng lẻ.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
-// === CONDITIONAL TYPE CO BAN ===
+// === CONDITIONAL TYPE CƠ BẢN ===
 type IsString<T> = T extends string ? "yes" : "no";
 
 type A = IsString<string>;  // "yes"
@@ -359,18 +359,18 @@ type ToArray<T> = T extends any ? T[] : never;
 
 type D = ToArray<string | number>;
 // Distribute: ToArray<string> | ToArray<number>
-// Ket qua: string[] | number[]
-// CHU Y: khong phai (string | number)[]
+// Kết quả: string[] | number[]
+// CHÚ Ý: không phải (string | number)[]
 
-// Ngan distribute bang wrapping trong tuple:
+// Ngăn distribute bằng wrapping trong tuple:
 type ToArrayNonDist<T> = [T] extends [any] ? T[] : never;
 type E = ToArrayNonDist<string | number>;
-// Ket qua: (string | number)[] -- khong distribute!
+// Kết quả: (string | number)[] -- không distribute!
 
-// === THUC TE: EXTRACT VA EXCLUDE ===
-// Day la cach TypeScript implement Exclude va Extract
+// === THỰC TẾ: EXTRACT VÀ EXCLUDE ===
+// Đây là cách TypeScript implement Exclude và Extract
 
-// Exclude: loai cac type trong T ma extends U
+// Exclude: loại các type trong T mà extends U
 type MyExclude<T, U> = T extends U ? never : T;
 
 type F = MyExclude<"a" | "b" | "c", "a">;
@@ -378,29 +378,29 @@ type F = MyExclude<"a" | "b" | "c", "a">;
 // "a" extends "a" ? never : "a"  --> never
 // "b" extends "a" ? never : "b"  --> "b"
 // "c" extends "a" ? never : "c"  --> "c"
-// Ket qua: "b" | "c"
+// Kết quả: "b" | "c"
 
-// Extract: chi giu cac type trong T ma extends U
+// Extract: chỉ giữ các type trong T mà extends U
 type MyExtract<T, U> = T extends U ? T : never;
 
 type G = MyExtract<string | number | boolean, number | boolean>;
-// Ket qua: number | boolean
+// Kết quả: number | boolean
 
-// === CONDITIONAL TYPES THUC TE ===
+// === CONDITIONAL TYPES THỰC TẾ ===
 
 // Flatten array type
 type Flatten<T> = T extends Array<infer Item> ? Item : T;
 
 type H = Flatten<string[]>;    // string
-type I = Flatten<number[][]>;  // number[] (chi flatten 1 cap)
-type J = Flatten<string>;      // string (khong phai array, giu nguyen)
+type I = Flatten<number[][]>;  // number[] (chỉ flatten 1 cấp)
+type J = Flatten<string>;      // string (không phải array, giữ nguyên)
 
 // Unwrap Promise
 type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 
 type K = UnwrapPromise<Promise<string>>;  // string
 type L = UnwrapPromise<Promise<number>>; // number
-type M = UnwrapPromise<string>;           // string (khong phai Promise)
+type M = UnwrapPromise<string>;           // string (không phải Promise)
 
 // Function return type
 type MyReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
@@ -409,36 +409,36 @@ type N = MyReturnType<() => string>;              // string
 type O = MyReturnType<(x: number) => boolean>;    // boolean
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Conditional types dung cu phap T extends U ? X : Y de ra nhanh o type level. Diem quan trong la distributive behavior -- khi T la union, conditional type duoc ap dung cho tung member rieng le. Vi du Exclude va Extract cua TypeScript deu duoc xay dung tren conditional types. Ket hop voi infer keyword, conditional types cho phep trich xuat type tu ben trong cac type phuc tap nhu Promise, Array, hay Function."
+> "Conditional types dùng cú pháp T extends U ? X : Y để rẽ nhánh ở type level. Điểm quan trọng là distributive behavior -- khi T là union, conditional type được áp dụng cho từng member riêng lẻ. Ví dụ Exclude và Extract của TypeScript đều được xây dựng trên conditional types. Kết hợp với infer keyword, conditional types cho phép trích xuất type từ bên trong các type phức tạp như Promise, Array, hay Function."
 
 ---
 
-## Cau 5: Tu khoa `infer` trong conditional types `[Senior]`
+## Câu 5: Từ khóa `infer` trong conditional types `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**`infer`** cho phep ban "khai bao" mot type variable ben trong ve dieu kien cua conditional type. TypeScript se tu dong suy luan type do dua tren context. Chi dung duoc trong phan `extends` cua conditional type.
+**`infer`** cho phép bạn "khai báo" một type variable bên trong vế điều kiện của conditional type. TypeScript sẽ tự động suy luận type đó dựa trên context. Chỉ dùng được trong phần `extends` của conditional type.
 
-Nghi don gian: `infer` la cach ban noi voi TypeScript "hay tu suy ra type nay cho toi".
+Nghĩ đơn giản: `infer` là cách bạn nói với TypeScript "hãy tự suy ra type này cho tôi".
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
-// === INFER CO BAN: LAY ELEMENT TYPE CUA ARRAY ===
+// === INFER CƠ BẢN: LẤY ELEMENT TYPE CỦA ARRAY ===
 type ElementOf<T> = T extends Array<infer E> ? E : never;
 
 type P = ElementOf<string[]>;     // string
 type Q = ElementOf<[1, "two", 3]>; // 1 | "two" | 3
 
-// === INFER: LAY RETURN TYPE ===
+// === INFER: LẤY RETURN TYPE ===
 type GetReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
 
 type R1 = GetReturnType<() => string>;          // string
 type R2 = GetReturnType<() => Promise<number>>; // Promise<number>
 
-// === INFER: LAY PARAMETERS ===
+// === INFER: LẤY PARAMETERS ===
 type GetFirstParam<T> = T extends (first: infer F, ...rest: any[]) => any
   ? F
   : never;
@@ -446,9 +446,9 @@ type GetFirstParam<T> = T extends (first: infer F, ...rest: any[]) => any
 type F1 = GetFirstParam<(name: string, age: number) => void>; // string
 type F2 = GetFirstParam<() => void>;                           // never
 
-// === INFER: LAY PROMISE INNER TYPE (RECURSIVE) ===
+// === INFER: LẤY PROMISE INNER TYPE (RECURSIVE) ===
 type DeepUnwrapPromise<T> = T extends Promise<infer U>
-  ? DeepUnwrapPromise<U>  // Recursive: unwrap tiep neu van la Promise
+  ? DeepUnwrapPromise<U>  // Recursive: unwrap tiếp nếu vẫn là Promise
   : T;
 
 type S1 = DeepUnwrapPromise<Promise<string>>;                // string
@@ -466,7 +466,7 @@ type ExtractRouteParams<T extends string> =
 type Params = ExtractRouteParams<"/users/:userId/posts/:postId">;
 // "userId" | "postId"
 
-// === INFER VOI TUPLE ===
+// === INFER VỚI TUPLE ===
 type Head<T extends any[]> = T extends [infer First, ...any[]]
   ? First
   : never;
@@ -484,24 +484,24 @@ type T2 = Tail<[1, 2, 3]>;  // [2, 3]
 type T3 = Last<[1, 2, 3]>;  // 3
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "infer cho phep khai bao type variable trong phan extends cua conditional type de TypeScript tu suy luan. Vi du, voi `T extends Array<infer E>`, TypeScript se suy ra E la element type cua array. infer cuc ky manh khi ket hop voi recursive types -- vi du DeepUnwrapPromise unwrap nhieu lop Promise, hoac ExtractRouteParams trich xuat param names tu URL pattern. Day la co so cua nhieu utility types nhu ReturnType, Parameters, ConstructorParameters."
+> "infer cho phép khai báo type variable trong phần extends của conditional type để TypeScript tự suy luận. Ví dụ, với `T extends Array<infer E>`, TypeScript sẽ suy ra E là element type của array. infer cực kỳ mạnh khi kết hợp với recursive types -- ví dụ DeepUnwrapPromise unwrap nhiều lớp Promise, hoặc ExtractRouteParams trích xuất param names từ URL pattern. Đây là cơ sở của nhiều utility types như ReturnType, Parameters, ConstructorParameters."
 
 ---
 
-## Cau 6: Exhaustive checking voi never `[Intermediate]`
+## Câu 6: Exhaustive checking với never `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Exhaustive checking** la ky thuat dam bao ban da xu ly **tat ca** truong hop cua mot union type. Dung `never` type o default case -- neu co truong hop nao bi bo sot, TypeScript se bao loi tai compile time.
+**Exhaustive checking** là kỹ thuật đảm bảo bạn đã xử lý **tất cả** trường hợp của một union type. Dùng `never` type ở default case -- nếu có trường hợp nào bị bỏ sót, TypeScript sẽ báo lỗi tại compile time.
 
-Day la mot trong nhung pattern quan trong nhat de tranh bug khi union type duoc mo rong trong tuong lai.
+Đây là một trong những pattern quan trọng nhất để tránh bug khi union type được mở rộng trong tương lai.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
-// === EXHAUSTIVE CHECK CO BAN ===
+// === EXHAUSTIVE CHECK CƠ BẢN ===
 type PaymentMethod = "credit_card" | "bank_transfer" | "e_wallet";
 
 function processPayment(method: PaymentMethod): string {
@@ -513,16 +513,16 @@ function processPayment(method: PaymentMethod): string {
     case "e_wallet":
       return "Processing e-wallet...";
     default:
-      // Neu tat ca case da duoc xu ly, method la never
+      // Nếu tất cả case đã được xử lý, method là never
       const _exhaustive: never = method;
       return _exhaustive;
   }
 }
 
-// Bay gio, neu ai them "crypto" vao PaymentMethod:
+// Bây giờ, nếu ai thêm "crypto" vào PaymentMethod:
 // type PaymentMethod = "credit_card" | "bank_transfer" | "e_wallet" | "crypto";
-// --> TypeScript se bao loi o dong `const _exhaustive: never = method`
-// vi "crypto" khong the gan cho never!
+// --> TypeScript sẽ báo lỗi ở dòng `const _exhaustive: never = method`
+// vì "crypto" không thể gán cho never!
 
 // === HELPER FUNCTION CHO EXHAUSTIVE CHECK ===
 function assertNever(value: never, message?: string): never {
@@ -540,12 +540,12 @@ function sendNotification(type: NotificationType, message: string) {
     case "push":
       return sendPush(message);
     default:
-      // Vua check compile time VUA throw runtime error
+      // Vừa check compile time VỪA throw runtime error
       assertNever(type, `Unknown notification type`);
   }
 }
 
-// === EXHAUSTIVE CHECK VOI IF/ELSE ===
+// === EXHAUSTIVE CHECK VỚI IF/ELSE ===
 type Result<T, E> =
   | { ok: true; value: T }
   | { ok: false; error: E };
@@ -559,8 +559,8 @@ function handleResult<T>(result: Result<T, string>): T {
     throw new Error(result.error);
   }
 
-  // Neu logic dung, dong nay khong bao gio chay
-  // TypeScript biet result la never o day
+  // Nếu logic đúng, dòng này không bao giờ chạy
+  // TypeScript biết result là never ở đây
   const _check: never = result;
   return _check;
 }
@@ -582,22 +582,22 @@ function getButtonStyles(variant: ButtonVariant) {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Exhaustive checking dung never type de dam bao moi truong hop cua union type deu duoc xu ly. O default case, gan gia tri cho bien kieu never -- neu con truong hop nao chua xu ly, TypeScript se bao loi vi type do khong the gan cho never. Toi luon dung pattern nay trong production code vi no bao ve team khi ai do them variant moi vao union -- compiler se chi ra chinh xac nhung cho can cap nhat."
+> "Exhaustive checking dùng never type để đảm bảo mọi trường hợp của union type đều được xử lý. Ở default case, gán giá trị cho biến kiểu never -- nếu còn trường hợp nào chưa xử lý, TypeScript sẽ báo lỗi vì type đó không thể gán cho never. Tôi luôn dùng pattern này trong production code vì nó bảo vệ team khi ai đó thêm variant mới vào union -- compiler sẽ chỉ ra chính xác những chỗ cần cập nhật."
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
-1. **Nham lan typeof tai runtime va tai type level**: `typeof` trong `if (typeof x === "string")` la JavaScript runtime. `typeof` trong `type X = typeof value` la TypeScript compile-time. Hai cai nay khac han nhau.
+1. **Nhầm lẫn typeof tại runtime và tại type level**: `typeof` trong `if (typeof x === "string")` là JavaScript runtime. `typeof` trong `type X = typeof value` là TypeScript compile-time. Hai cái này khác hẳn nhau.
 
-2. **Quen rang instanceof khong hoat dong voi interface**: Interface khong ton tai tai runtime, nen khong the dung instanceof. Phai dung custom type guard hoac discriminant property.
+2. **Quên rằng instanceof không hoạt động với interface**: Interface không tồn tại tại runtime, nên không thể dùng instanceof. Phải dùng custom type guard hoặc discriminant property.
 
-3. **Khong giai thich duoc distributive conditional types**: Khi interviewer hoi "tai sao `ToArray<string | number>` la `string[] | number[]` ma khong phai `(string | number)[]`?", ban phai giai thich duoc distributive behavior.
+3. **Không giải thích được distributive conditional types**: Khi interviewer hỏi "tại sao `ToArray<string | number>` là `string[] | number[]` mà không phải `(string | number)[]`?", bạn phải giải thích được distributive behavior.
 
-4. **Dung as (type assertion) thay vi type guard**: Type assertion (`value as Type`) khong kiem tra runtime -- no chi noi voi TypeScript "tin toi di". Type guard thi kiem tra that su. Interviewer se hoi tai sao type guard an toan hon.
+4. **Dùng as (type assertion) thay vì type guard**: Type assertion (`value as Type`) không kiểm tra runtime -- nó chỉ nói với TypeScript "tin tôi đi". Type guard thì kiểm tra thật sự. Interviewer sẽ hỏi tại sao type guard an toàn hơn.
 
-5. **Khong biet cach ngan distributive behavior**: Wrap type trong tuple `[T] extends [U]` de ngan distribute. Rat nhieu ung vien khong biet trick nay.
+5. **Không biết cách ngăn distributive behavior**: Wrap type trong tuple `[T] extends [U]` để ngăn distribute. Rất nhiều ứng viên không biết trick này.
 
-6. **Quen exhaustive check trong production code**: Neu ban khong dung never check trong switch case, khi union type duoc mo rong, compiler se khong bao loi -- va bug se lot vao production.
+6. **Quên exhaustive check trong production code**: Nếu bạn không dùng never check trong switch case, khi union type được mở rộng, compiler sẽ không báo lỗi -- và bug sẽ lọt vào production.

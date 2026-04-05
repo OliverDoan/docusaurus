@@ -57,7 +57,7 @@ Khi bạn thay đổi `flex-direction`, hai trục này **hoán đổi** cho nha
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Flexbox hoạt động trên hai trục: main axis là hướng xếp item, cross axis vuông góc với nó. Mặc định main axis là ngang nhưng khi đổi `flex-direction: column` thì main axis chuyển thành dọc. Điều này cũng thay đổi hành vi của `justify-content` và `align-items` -- `justify-content` luôn theo main axis, `align-items` luôn theo cross axis."
 
@@ -123,7 +123,7 @@ Shorthand `flex`:
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "`flex-grow` quyết định item giãn ra bao nhiêu khi thừa chỗ, `flex-shrink` quyết định co lại bao nhiêu khi thiếu chỗ, `flex-basis` là kích thước khởi điểm trước khi tính grow/shrink. `flex: 1` là shorthand cho `flex-grow: 1, flex-shrink: 1, flex-basis: 0%` -- nghĩa là item sẽ chia đều không gian với các item khác cũng có `flex: 1`."
 
@@ -198,7 +198,7 @@ Shorthand `flex`:
 .footer  { grid-area: footer; }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "CSS Grid dùng `grid-template-columns` và `grid-template-rows` để định nghĩa lưới. `fr` là đơn vị chia phần không gian còn lại -- `1fr 2fr` nghĩa là cột 2 rộng gấp đôi cột 1. `auto-fill` tạo nhiều cột nhất có thể và giữ cột trống, `auto-fit` cũng tạo nhiều cột nhưng collapse cột trống để item giãn ra lấp đầy container. Trong thực tế, `auto-fit` với `minmax()` là combo phổ biến nhất để làm responsive grid không cần media query."
 
@@ -273,7 +273,7 @@ Shorthand `flex`:
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Stacking context là một lớp 3D ảo xác định thứ tự chồng nhau của elements. `z-index` chỉ so sánh được giữa các element cùng stacking context. Stacking context mới được tạo bởi nhiều thuộc tính CSS như `position` + `z-index`, `opacity` nhỏ hơn 1, `transform`, `filter`... Đây là lý do phổ biến khiến `z-index: 9999` không hoạt động -- vì parent element nằm trong stacking context có thứ tự thấp. Tôi thường dùng `isolation: isolate` để tạo stacking context có chủ đích, tránh side effect."
 
@@ -358,7 +358,7 @@ Shorthand `flex`:
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "BFC là một vùng layout độc lập, nơi mà các element bên trong không ảnh hưởng đến bên ngoài. Nó giải quyết 3 vấn đề chính: margin collapsing giữa parent-child, float containment (parent không bao được float children), và ngăn content chồng lên float element. Cách tạo BFC hiện đại nhất là `display: flow-root`, trước đây thường dùng `overflow: hidden` hoặc clearfix hack."
 
@@ -439,7 +439,7 @@ Shorthand `flex`:
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Flexbox xử lý layout 1 chiều -- hàng hoặc cột, phù hợp cho component-level layout như navbar, card row. Grid xử lý 2 chiều -- hàng và cột cùng lúc, phù hợp cho page-level layout. Trong thực tế tôi thường kết hợp cả hai: Grid cho bố cục tổng thể của trang, Flexbox cho các component nhỏ bên trong. Grid cũng hỗ trợ responsive tốt hơn nhờ `auto-fit` + `minmax()` mà không cần media query."
 
@@ -487,13 +487,13 @@ Shorthand `flex`:
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "CSS box model có 2 chế độ: `content-box` (mặc định) chỉ tính content vào width/height nên tổng kích thước thực tế = width + padding + border. `border-box` bao gồm cả padding và border vào width/height nên kích thước thực tế đúng bằng width bạn set. Trong thực tế, gần như 100% dự án đều dùng `box-sizing: border-box` reset cho tất cả element vì nó trực quan hơn nhiều."
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
 1. **Nhầm lẫn justify-content và align-items khi đổi flex-direction**: Nhiều bạn quên rằng `justify-content` luôn theo main axis. Khi `flex-direction: column`, `justify-content` căn theo chiều dọc chứ không phải ngang.
 

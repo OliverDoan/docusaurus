@@ -5,23 +5,23 @@ title: "Type System: Union, Intersection, Literal Types"
 
 # Type System: Union, Intersection, Literal Types
 
-TypeScript type system la thu khien ngon ngu nay tro nen manh me hon JavaScript thuong rat nhieu. Trong buoi phong van, day la nhom cau hoi xuat hien thuong xuyen nhat -- tu junior den senior. Bai nay se giup ban nam vung cac khai niem co ban nhat cua type system va tra loi tu tin truoc interviewer.
+TypeScript type system là thứ khiến ngôn ngữ này trở nên mạnh mẽ hơn JavaScript thường rất nhiều. Trong buổi phỏng vấn, đây là nhóm câu hỏi xuất hiện thường xuyên nhất -- từ junior đến senior. Bài này sẽ giúp bạn nắm vững các khái niệm cơ bản nhất của type system và trả lời tự tin trước interviewer.
 
 ---
 
-## Cau 1: Union types va intersection types khac nhau the nao? `[Intermediate]`
+## Câu 1: Union types và intersection types khác nhau thế nào? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Union type** (`A | B`) co nghia la gia tri co the la type A **hoac** type B. Ban chi duoc truy cap nhung property chung cua ca hai type.
+**Union type** (`A | B`) có nghĩa là giá trị có thể là type A **hoặc** type B. Bạn chỉ được truy cập những property chung của cả hai type.
 
-**Intersection type** (`A & B`) co nghia la gia tri phai thoa man **ca** type A **va** type B cung luc. Ban duoc truy cap tat ca property cua ca hai type.
+**Intersection type** (`A & B`) có nghĩa là giá trị phải thỏa mãn **cả** type A **và** type B cùng lúc. Bạn được truy cập tất cả property của cả hai type.
 
-Cach nho don gian:
-- Union = "hoac" (OR) -- mo rong tap hop gia tri
-- Intersection = "va" (AND) -- thu hep tap hop gia tri (nhung mo rong tap hop property)
+Cách nhớ đơn giản:
+- Union = "hoặc" (OR) -- mở rộng tập hợp giá trị
+- Intersection = "và" (AND) -- thu hẹp tập hợp giá trị (nhưng mở rộng tập hợp property)
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
 // === UNION TYPE ===
@@ -35,15 +35,15 @@ type Cat = {
   meow: () => void;
 };
 
-// Pet co the la Dog HOAC Cat
+// Pet có thể là Dog HOẶC Cat
 type Pet = Dog | Cat;
 
 function greetPet(pet: Pet) {
-  // Chi truy cap duoc property chung: name
+  // Chỉ truy cập được property chung: name
   console.log(pet.name); // OK
 
-  // Khong truy cap duoc bark() hay meow() truc tiep
-  // vi TypeScript khong biet pet la Dog hay Cat
+  // Không truy cập được bark() hay meow() trực tiếp
+  // vì TypeScript không biết pet là Dog hay Cat
   // pet.bark(); // Error!
 }
 
@@ -56,46 +56,46 @@ type Serializable = {
   serialize: () => string;
 };
 
-// LogAndSerialize phai co CA hai: log() VA serialize()
+// LogAndSerialize phải có CẢ hai: log() VÀ serialize()
 type LogAndSerialize = Loggable & Serializable;
 
 function process(item: LogAndSerialize) {
-  item.log();              // OK -- tu Loggable
-  item.serialize();        // OK -- tu Serializable
+  item.log();              // OK -- từ Loggable
+  item.serialize();        // OK -- từ Serializable
 }
 ```
 
-### Bang so sanh
+### Bảng so sánh
 
-| Tieu chi | Union (`A \| B`) | Intersection (`A & B`) |
+| Tiêu chí | Union (`A \| B`) | Intersection (`A & B`) |
 |----------|-----------------|----------------------|
-| Y nghia | A hoac B | A va B cung luc |
-| Tap gia tri | Mo rong (nhieu gia tri hon) | Thu hep (it gia tri hon) |
-| Property truy cap | Chi property chung | Tat ca property |
-| Ung dung thuong gap | Function nhan nhieu kieu | Mixin, compose types |
-| Tuong tu logic | OR | AND |
+| Ý nghĩa | A hoặc B | A và B cùng lúc |
+| Tập giá trị | Mở rộng (nhiều giá trị hơn) | Thu hẹp (ít giá trị hơn) |
+| Property truy cập | Chỉ property chung | Tất cả property |
+| Ứng dụng thường gặp | Function nhận nhiều kiểu | Mixin, compose types |
+| Tương tự logic | OR | AND |
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Union type cho phep mot gia tri thuoc mot trong nhieu type, giong nhu phep OR. Intersection type yeu cau gia tri phai thoa man tat ca type cung luc, giong nhu phep AND. Dieu thu vi la union mo rong tap hop gia tri nhung thu hep tap hop property truy cap duoc, con intersection thi nguoc lai -- thu hep tap hop gia tri nhung mo rong tap hop property."
+> "Union type cho phép một giá trị thuộc một trong nhiều type, giống như phép OR. Intersection type yêu cầu giá trị phải thỏa mãn tất cả type cùng lúc, giống như phép AND. Điều thú vị là union mở rộng tập hợp giá trị nhưng thu hẹp tập hợp property truy cập được, còn intersection thì ngược lại -- thu hẹp tập hợp giá trị nhưng mở rộng tập hợp property."
 
 ---
 
-## Cau 2: Literal types va type narrowing hoat dong nhu the nao? `[Intermediate]`
+## Câu 2: Literal types và type narrowing hoạt động như thế nào? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Literal types** cho phep ban dinh nghia type la mot gia tri cu the, khong phai chi la kieu du lieu chung chung. Vi du: thay vi `string`, ban co the chi dinh `"success"` hoac `"error"`.
+**Literal types** cho phép bạn định nghĩa type là một giá trị cụ thể, không phải chỉ là kiểu dữ liệu chung chung. Ví dụ: thay vì `string`, bạn có thể chỉ định `"success"` hoặc `"error"`.
 
-**Type narrowing** la qua trinh TypeScript tu dong "thu hep" type dua tren cac dieu kien trong code. Khi ban check `typeof x === "string"`, TypeScript biet rang trong block do, `x` chac chan la `string`.
+**Type narrowing** là quá trình TypeScript tự động "thu hẹp" type dựa trên các điều kiện trong code. Khi bạn check `typeof x === "string"`, TypeScript biết rằng trong block đó, `x` chắc chắn là `string`.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
 // === LITERAL TYPES ===
 type Direction = "up" | "down" | "left" | "right";
 type HttpStatus = 200 | 301 | 404 | 500;
-type Toggle = true | false; // tuong duong boolean, nhung minh hoa y tuong
+type Toggle = true | false; // tương đương boolean, nhưng minh họa ý tưởng
 
 function move(direction: Direction) {
   console.log(`Moving ${direction}`);
@@ -103,55 +103,55 @@ function move(direction: Direction) {
 
 move("up");      // OK
 move("down");    // OK
-// move("diagonal"); // Error: khong phai literal hop le
+// move("diagonal"); // Error: không phải literal hợp lệ
 
 // === TYPE NARROWING ===
 function processValue(value: string | number | null) {
-  // Tai day, value co the la string | number | null
+  // Tại đây, value có thể là string | number | null
 
   if (value === null) {
-    // TypeScript biet: value la null
-    console.log("Gia tri rong");
+    // TypeScript biết: value là null
+    console.log("Giá trị rỗng");
     return;
   }
 
-  // Tai day: value la string | number (da loai null)
+  // Tại đây: value là string | number (đã loại null)
 
   if (typeof value === "string") {
-    // TypeScript biet: value la string
+    // TypeScript biết: value là string
     console.log(value.toUpperCase()); // OK -- string method
   } else {
-    // TypeScript biet: value la number
+    // TypeScript biết: value là number
     console.log(value.toFixed(2)); // OK -- number method
   }
 }
 
-// === CONST ASSERTION -- tao literal type tu gia tri ===
+// === CONST ASSERTION -- tạo literal type từ giá trị ===
 const config = {
   endpoint: "/api/users",
   method: "GET",
 } as const;
 // typeof config = { readonly endpoint: "/api/users"; readonly method: "GET" }
-// Khong phai { endpoint: string; method: string }
+// Không phải { endpoint: string; method: string }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Literal types cho phep gioi han gia tri cua mot bien xuong mot tap hop cu the -- vi du chi cho phep 'success' hoac 'error' thay vi bat ky string nao. Type narrowing la co che TypeScript tu dong suy luan type chinh xac hon dua tren cac control flow nhu if/else, typeof, instanceof. Hai khai niem nay ket hop voi nhau rat manh -- khi ban co union cua literal types, TypeScript co the narrowing xuong dung literal type trong moi nhanh dieu kien."
+> "Literal types cho phép giới hạn giá trị của một biến xuống một tập hợp cụ thể -- ví dụ chỉ cho phép 'success' hoặc 'error' thay vì bất kỳ string nào. Type narrowing là cơ chế TypeScript tự động suy luận type chính xác hơn dựa trên các control flow như if/else, typeof, instanceof. Hai khái niệm này kết hợp với nhau rất mạnh -- khi bạn có union của literal types, TypeScript có thể narrowing xuống đúng literal type trong mỗi nhánh điều kiện."
 
 ---
 
-## Cau 3: Type aliases va interfaces khac nhau nhu the nao? Khi nao dung cai nao? `[Intermediate]`
+## Câu 3: Type aliases và interfaces khác nhau như thế nào? Khi nào dùng cái nào? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Ca hai deu dinh nghia "hinh dang" cua du lieu, nhung co nhung khac biet quan trong:
+Cả hai đều định nghĩa "hình dạng" của dữ liệu, nhưng có những khác biệt quan trọng:
 
-- **Interface** co the duoc **merge** (declaration merging) -- khai bao nhieu lan se tu dong gop lai.
-- **Type alias** co the bieu dien **bat ky type nao**: union, intersection, tuple, primitive, conditional...
-- **Interface** chi bieu dien duoc object shapes va function signatures.
+- **Interface** có thể được **merge** (declaration merging) -- khai báo nhiều lần sẽ tự động gộp lại.
+- **Type alias** có thể biểu diễn **bất kỳ type nào**: union, intersection, tuple, primitive, conditional...
+- **Interface** chỉ biểu diễn được object shapes và function signatures.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
 // === INTERFACE ===
@@ -160,13 +160,13 @@ interface User {
   age: number;
 }
 
-// Declaration merging -- TypeScript tu dong gop 2 khai bao
+// Declaration merging -- TypeScript tự động gộp 2 khai báo
 interface User {
   email: string;
 }
-// Ket qua: User co name, age, VA email
+// Kết quả: User có name, age, VÀ email
 
-// Ke thua (extends)
+// Kế thừa (extends)
 interface Admin extends User {
   role: "admin";
 }
@@ -177,55 +177,55 @@ type UserType = {
   age: number;
 };
 
-// Khong the khai bao lai UserType -- se bao loi!
+// Không thể khai báo lại UserType -- sẽ báo lỗi!
 // type UserType = { email: string }; // Error: Duplicate identifier
 
-// Nhung type alias lam duoc nhieu thu ma interface khong the:
+// Nhưng type alias làm được nhiều thứ mà interface không thể:
 type ID = string | number;                    // Union
 type Pair = [string, number];                  // Tuple
 type Callback = (data: string) => void;        // Function type
 type Keys = keyof User;                        // Utility
 type Nullable<T> = T | null;                   // Generic utility
 
-// Intersection (tuong tu extends nhung linh hoat hon)
+// Intersection (tương tự extends nhưng linh hoạt hơn)
 type AdminType = UserType & { role: "admin" };
 ```
 
-### Bang so sanh chi tiet
+### Bảng so sánh chi tiết
 
-| Tieu chi | Interface | Type Alias |
+| Tiêu chí | Interface | Type Alias |
 |----------|-----------|------------|
-| Object shape | Co | Co |
-| Union types | Khong | Co |
-| Tuple types | Khong | Co |
-| Primitive types | Khong | Co |
-| Declaration merging | Co | Khong |
-| extends keyword | Co | Dung intersection (`&`) |
-| implements (class) | Co | Co (voi object types) |
-| Computed properties | Khong | Co |
-| Conditional types | Khong | Co |
-| Performance (compile) | Nhanh hon chut | Tuong duong |
+| Object shape | Có | Có |
+| Union types | Không | Có |
+| Tuple types | Không | Có |
+| Primitive types | Không | Có |
+| Declaration merging | Có | Không |
+| extends keyword | Có | Dùng intersection (`&`) |
+| implements (class) | Có | Có (với object types) |
+| Computed properties | Không | Có |
+| Conditional types | Không | Có |
+| Performance (compile) | Nhanh hơn chút | Tương đương |
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Interface phu hop khi dinh nghia contract cho object va class, dac biet khi can declaration merging (vi du: mo rong type cua thu vien ben thu ba). Type alias linh hoat hon -- dung duoc voi union, tuple, conditional types. Trong thuc te, nhieu team dung interface cho object shapes va type alias cho moi thu con lai. Ca hai deu compile thanh cung mot JavaScript output."
+> "Interface phù hợp khi định nghĩa contract cho object và class, đặc biệt khi cần declaration merging (ví dụ: mở rộng type của thư viện bên thứ ba). Type alias linh hoạt hơn -- dùng được với union, tuple, conditional types. Trong thực tế, nhiều team dùng interface cho object shapes và type alias cho mọi thứ còn lại. Cả hai đều compile thành cùng một JavaScript output."
 
 ---
 
-## Cau 4: Enum, const enum va union literal khac nhau the nao? `[Intermediate]`
+## Câu 4: Enum, const enum và union literal khác nhau thế nào? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-TypeScript cung cap nhieu cach dinh nghia tap hop gia tri co dinh. Moi cach co trade-off rieng:
+TypeScript cung cấp nhiều cách định nghĩa tập hợp giá trị cố định. Mỗi cách có trade-off riêng:
 
-- **Enum**: Tao ra JavaScript object that su tai runtime
-- **Const enum**: Duoc inline hoan toan tai compile time, khong tao JS object
-- **Union literal**: Thuan type, khong tao bat ky JS code nao
+- **Enum**: Tạo ra JavaScript object thật sự tại runtime
+- **Const enum**: Được inline hoàn toàn tại compile time, không tạo JS object
+- **Union literal**: Thuần type, không tạo bất kỳ JS code nào
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
-// === ENUM (tao JS code tai runtime) ===
+// === ENUM (tạo JS code tại runtime) ===
 enum Direction {
   Up = "UP",
   Down = "DOWN",
@@ -240,11 +240,11 @@ enum Direction {
 //   ...
 // })(Direction || (Direction = {}));
 
-// Dung nhu object tai runtime
+// Dùng như object tại runtime
 console.log(Direction.Up);        // "UP"
 console.log(Direction["Up"]);     // "UP"
 
-// === CONST ENUM (inline, khong tao JS object) ===
+// === CONST ENUM (inline, không tạo JS object) ===
 const enum Status {
   Active = "ACTIVE",
   Inactive = "INACTIVE",
@@ -252,82 +252,82 @@ const enum Status {
 
 const myStatus = Status.Active;
 // JS output: const myStatus = "ACTIVE";
-// Khong co object Status trong JS output!
+// Không có object Status trong JS output!
 
-// === UNION LITERAL (thuan type, zero runtime cost) ===
+// === UNION LITERAL (thuần type, zero runtime cost) ===
 type Color = "red" | "green" | "blue";
 
 function paint(color: Color) {
-  // TypeScript check tai compile time
-  // Khong tao bat ky JS code nao cho Color type
+  // TypeScript check tại compile time
+  // Không tạo bất kỳ JS code nào cho Color type
 }
 
 paint("red");   // OK
-// paint("yellow"); // Error tai compile time
+// paint("yellow"); // Error tại compile time
 ```
 
-### Bang so sanh
+### Bảng so sánh
 
-| Tieu chi | Enum | Const Enum | Union Literal |
+| Tiêu chí | Enum | Const Enum | Union Literal |
 |----------|------|------------|---------------|
-| Runtime JS code | Co (object) | Khong (inline) | Khong |
-| Bundle size | Tang | Khong tang | Khong tang |
-| Reverse mapping | Co (numeric) | Khong | Khong |
-| Iterate duoc | Co (`Object.values`) | Khong | Khong |
-| Dung lam value | Co | Co | Co |
-| Type safety | Tot | Tot | Tot |
-| Tree-shakeable | Kho | Tu dong | Tu dong |
-| Khuyen nghi | Library APIs | Tranh dung | Uu tien dung |
+| Runtime JS code | Có (object) | Không (inline) | Không |
+| Bundle size | Tăng | Không tăng | Không tăng |
+| Reverse mapping | Có (numeric) | Không | Không |
+| Iterate được | Có (`Object.values`) | Không | Không |
+| Dùng làm value | Có | Có | Có |
+| Type safety | Tốt | Tốt | Tốt |
+| Tree-shakeable | Khó | Tự động | Tự động |
+| Khuyến nghị | Library APIs | Tránh dùng | Ưu tiên dùng |
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Enum tao ra JS object that su tai runtime, cho phep reverse mapping va iteration nhung tang bundle size. Const enum duoc inline tai compile time nen khong tang bundle, nhung khong dung duoc voi isolatedModules va khong iterate duoc. Union literal la lua chon tot nhat trong da so truong hop vi hoan toan zero-cost tai runtime va type-safe. Kinh nghiem cua toi la uu tien union literal, chi dung enum khi can iterate qua cac gia tri tai runtime."
+> "Enum tạo ra JS object thật sự tại runtime, cho phép reverse mapping và iteration nhưng tăng bundle size. Const enum được inline tại compile time nên không tăng bundle, nhưng không dùng được với isolatedModules và không iterate được. Union literal là lựa chọn tốt nhất trong đa số trường hợp vì hoàn toàn zero-cost tại runtime và type-safe. Kinh nghiệm của tôi là ưu tiên union literal, chỉ dùng enum khi cần iterate qua các giá trị tại runtime."
 
 ---
 
-## Cau 5: never, unknown, any -- khi nao dung cai nao? `[Senior]`
+## Câu 5: never, unknown, any -- khi nào dùng cái nào? `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Ba type nay dai dien cho ba "muc do" khac nhau trong type system:
+Ba type này đại diện cho ba "mức độ" khác nhau trong type system:
 
-- **`any`**: Tat ca moi thu deu hop le -- tat type checking hoan toan. Giong nhu viet JavaScript thuong.
-- **`unknown`**: An toan hon `any` -- ban phai check type truoc khi dung. La "top type" (moi type deu la subtype cua unknown).
-- **`never`**: Khong co gia tri nao hop le -- la "bottom type". Dai dien cho truong hop khong bao gio xay ra.
+- **`any`**: Tất cả mọi thứ đều hợp lệ -- tắt type checking hoàn toàn. Giống như viết JavaScript thường.
+- **`unknown`**: An toàn hơn `any` -- bạn phải check type trước khi dùng. Là "top type" (mọi type đều là subtype của unknown).
+- **`never`**: Không có giá trị nào hợp lệ -- là "bottom type". Đại diện cho trường hợp không bao giờ xảy ra.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
-// === ANY -- tat type checking (TRANH DUNG!) ===
+// === ANY -- tắt type checking (TRÁNH DÙNG!) ===
 let anything: any = 42;
 anything = "hello";
 anything = { foo: "bar" };
-anything.nonExistent.method(); // Khong loi tai compile time -- NGUY HIEM!
+anything.nonExistent.method(); // Không lỗi tại compile time -- NGUY HIỂM!
 
-// === UNKNOWN -- an toan, bat buoc check truoc khi dung ===
+// === UNKNOWN -- an toàn, bắt buộc check trước khi dùng ===
 let uncertain: unknown = 42;
 
-// uncertain.toFixed(2); // Error! Phai check type truoc
+// uncertain.toFixed(2); // Error! Phải check type trước
 
 if (typeof uncertain === "number") {
-  uncertain.toFixed(2); // OK -- da narrowing thanh number
+  uncertain.toFixed(2); // OK -- đã narrowing thành number
 }
 
-// Use case: Parse JSON an toan
+// Use case: Parse JSON an toàn
 function parseJSON(raw: string): unknown {
   return JSON.parse(raw);
 }
 
 const data = parseJSON('{"name": "Thuan"}');
-// data.name; // Error! Phai check truoc
+// data.name; // Error! Phải check trước
 
 if (typeof data === "object" && data !== null && "name" in data) {
   console.log((data as { name: string }).name); // OK
 }
 
-// === NEVER -- khong bao gio xay ra ===
+// === NEVER -- không bao giờ xảy ra ===
 
-// 1. Function khong bao gio return
+// 1. Function không bao giờ return
 function throwError(message: string): never {
   throw new Error(message);
 }
@@ -344,59 +344,59 @@ function getArea(shape: Shape): number {
     case "triangle":
       return (10 * 5) / 2;
     default:
-      // Neu ai them type moi vao Shape ma quen xu ly,
-      // TypeScript se bao loi o day
+      // Nếu ai thêm type mới vào Shape mà quên xử lý,
+      // TypeScript sẽ báo lỗi ở đây
       const _exhaustive: never = shape;
       return _exhaustive;
   }
 }
 ```
 
-### Bang so sanh
+### Bảng so sánh
 
-| Tieu chi | `any` | `unknown` | `never` |
+| Tiêu chí | `any` | `unknown` | `never` |
 |----------|-------|-----------|---------|
-| Cho phep moi gia tri | Co | Co | Khong |
-| Truy cap property | Co (khong check) | Khong (phai check) | Khong the |
-| Gan cho type khac | Co | Khong (phai check) | Co (subtype moi type) |
-| Type safety | Khong | Co | Co |
-| Vi tri trong type system | Thoat khoi system | Top type | Bottom type |
-| Khi nao dung | Migration JS, escape hatch | Input khong biet type | Exhaustive check, throw |
+| Cho phép mọi giá trị | Có | Có | Không |
+| Truy cập property | Có (không check) | Không (phải check) | Không thể |
+| Gán cho type khác | Có | Không (phải check) | Có (subtype mọi type) |
+| Type safety | Không | Có | Có |
+| Vị trí trong type system | Thoát khỏi system | Top type | Bottom type |
+| Khi nào dùng | Migration JS, escape hatch | Input không biết type | Exhaustive check, throw |
 
-### Dap an mau
+### Đáp án mẫu
 
-> "any la escape hatch -- tat hoan toan type checking, chi nen dung khi migrate tu JavaScript hoac lam viec voi thu vien khong co type. unknown la ban an toan cua any -- chap nhan moi gia tri nhung bat buoc developer phai narrow type truoc khi su dung. never dai dien cho truong hop khong bao gio xay ra -- dung cho exhaustive checking va function khong bao gio return. Trong project moi, toi luon dung unknown thay vi any va dung never de dam bao xu ly het tat ca case trong discriminated unions."
+> "any là escape hatch -- tắt hoàn toàn type checking, chỉ nên dùng khi migrate từ JavaScript hoặc làm việc với thư viện không có type. unknown là bản an toàn của any -- chấp nhận mọi giá trị nhưng bắt buộc developer phải narrow type trước khi sử dụng. never đại diện cho trường hợp không bao giờ xảy ra -- dùng cho exhaustive checking và function không bao giờ return. Trong project mới, tôi luôn dùng unknown thay vì any và dùng never để đảm bảo xử lý hết tất cả case trong discriminated unions."
 
 ---
 
-## Cau 6: Giai thich su khac biet giua type widening va type narrowing `[Senior]`
+## Câu 6: Giải thích sự khác biệt giữa type widening và type narrowing `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Type widening** la khi TypeScript tu dong "mo rong" type cua gia tri. Vi du: khi ban khai bao `let x = "hello"`, TypeScript infer type la `string` (khong phai `"hello"`), vi `let` cho phep reassign.
+**Type widening** là khi TypeScript tự động "mở rộng" type của giá trị. Ví dụ: khi bạn khai báo `let x = "hello"`, TypeScript infer type là `string` (không phải `"hello"`), vì `let` cho phép reassign.
 
-**Type narrowing** la nguoc lai -- TypeScript "thu hep" type dua tren dieu kien trong code de cho phep truy cap property cu the.
+**Type narrowing** là ngược lại -- TypeScript "thu hẹp" type dựa trên điều kiện trong code để cho phép truy cập property cụ thể.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
 // === TYPE WIDENING ===
 
 // let --> widening
-let greeting = "hello";     // type: string (khong phai "hello")
-greeting = "world";         // OK vi type la string
+let greeting = "hello";     // type: string (không phải "hello")
+greeting = "world";         // OK vì type là string
 
-// const --> khong widening (literal type)
+// const --> không widening (literal type)
 const farewell = "goodbye"; // type: "goodbye" (literal type)
 
-// Object properties duoc widening
+// Object properties được widening
 const config = {
-  url: "https://api.com",   // type: string (khong phai literal)
+  url: "https://api.com",   // type: string (không phải literal)
   port: 3000,               // type: number
 };
 config.url = "https://other.com"; // OK
 
-// as const ngan widening
+// as const ngăn widening
 const strictConfig = {
   url: "https://api.com",   // type: "https://api.com" (literal)
   port: 3000,               // type: 3000 (literal)
@@ -410,7 +410,7 @@ type Response =
   | { status: "error"; message: string };
 
 function handleResponse(res: Response) {
-  // res la union type
+  // res là union type
 
   if (res.status === "success") {
     // Narrowed: { status: "success"; data: string[] }
@@ -424,7 +424,7 @@ function handleResponse(res: Response) {
 // Truthiness narrowing
 function printLength(value: string | null | undefined) {
   if (value) {
-    // Narrowed: string (loai null va undefined)
+    // Narrowed: string (loại null và undefined)
     console.log(value.length);
   }
 }
@@ -442,22 +442,22 @@ function moveAnimal(animal: Fish | Bird) {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Type widening xay ra khi TypeScript infer type rong hon literal type -- vi du let x = 'hello' duoc infer la string. Dieu nay hop ly vi let cho phep reassign. Nguoc lai, const thi giu nguyen literal type. Type narrowing la qua trinh TypeScript thu hep type dua tren control flow -- typeof, instanceof, in operator, hoac equality check. Hai co che nay lam viec doi lap nhau: widening mo rong type khi khai bao, narrowing thu hep type khi su dung."
+> "Type widening xảy ra khi TypeScript infer type rộng hơn literal type -- ví dụ let x = 'hello' được infer là string. Điều này hợp lý vì let cho phép reassign. Ngược lại, const thì giữ nguyên literal type. Type narrowing là quá trình TypeScript thu hẹp type dựa trên control flow -- typeof, instanceof, in operator, hoặc equality check. Hai cơ chế này làm việc đối lập nhau: widening mở rộng type khi khai báo, narrowing thu hẹp type khi sử dụng."
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
-1. **Nham lan union va intersection voi tap hop**: Nhieu nguoi nghi intersection type co it property hon (vi "giao" tap hop) -- nhung thuc te intersection **cong don** property, con union **gioi han** property truy cap duoc.
+1. **Nhầm lẫn union và intersection với tập hợp**: Nhiều người nghĩ intersection type có ít property hơn (vì "giao" tập hợp) -- nhưng thực tế intersection **cộng dồn** property, còn union **giới hạn** property truy cập được.
 
-2. **Noi "interface nhanh hon type alias"**: Dieu nay chi dung trong mot so truong hop cu the (declaration merging resolution). Trong thuc te, su khac biet performance la khong dang ke.
+2. **Nói "interface nhanh hơn type alias"**: Điều này chỉ đúng trong một số trường hợp cụ thể (declaration merging resolution). Trong thực tế, sự khác biệt performance là không đáng kể.
 
-3. **Dung any thay vi unknown**: Khi interviewer hoi ve type-safe parsing, neu ban dung `any` thay vi `unknown`, do la red flag. Luon chon `unknown` khi khong biet type cua input.
+3. **Dùng any thay vì unknown**: Khi interviewer hỏi về type-safe parsing, nếu bạn dùng `any` thay vì `unknown`, đó là red flag. Luôn chọn `unknown` khi không biết type của input.
 
-4. **Quen giai thich never trong exhaustive check**: Day la mot pattern cuc ky quan trong trong production code. Neu ban chi noi "never la type khong co gia tri" ma khong cho vi du exhaustive checking, cau tra loi se thieu chieu sau.
+4. **Quên giải thích never trong exhaustive check**: Đây là một pattern cực kỳ quan trọng trong production code. Nếu bạn chỉ nói "never là type không có giá trị" mà không cho ví dụ exhaustive checking, câu trả lời sẽ thiếu chiều sâu.
 
-5. **Khong phan biet literal type va primitive type**: `"hello"` (literal) khac voi `string` (primitive). Hieu su khac biet nay la co ban nhung nhieu ung vien bo qua.
+5. **Không phân biệt literal type và primitive type**: `"hello"` (literal) khác với `string` (primitive). Hiểu sự khác biệt này là cơ bản nhưng nhiều ứng viên bỏ qua.
 
-6. **Nham const enum la luon tot hon enum**: Const enum co van de voi `isolatedModules` (Babel, SWC) va khong iterate duoc tai runtime. Khong phai luc nao cung tot hon.
+6. **Nhầm const enum là luôn tốt hơn enum**: Const enum có vấn đề với `isolatedModules` (Babel, SWC) và không iterate được tại runtime. Không phải lúc nào cũng tốt hơn.

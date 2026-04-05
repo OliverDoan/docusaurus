@@ -5,24 +5,24 @@ title: "Virtual DOM, Reconciliation, React Fiber"
 
 # Virtual DOM, Reconciliation, React Fiber
 
-Khi phong van React o level senior, ban se gap cac cau hoi ve cach React hoat dong ben duoi -- Virtual DOM, diffing algorithm, Fiber architecture, va Concurrent features. Day la nhung kien thuc giup ban hieu **tai sao** React nhanh, chu khong chi **cach dung** React.
+Khi phỏng vấn React ở level senior, bạn sẽ gặp các câu hỏi về cách React hoạt động bên dưới -- Virtual DOM, diffing algorithm, Fiber architecture, và Concurrent features. Đây là những kiến thức giúp bạn hiểu **tại sao** React nhanh, chứ không chỉ **cách dùng** React.
 
 ---
 
-## Cau 1: Virtual DOM la gi? Tai sao React can no? `[Intermediate]`
+## Câu 1: Virtual DOM là gì? Tại sao React cần nó? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Virtual DOM (VDOM)** la mot cay JavaScript object mo ta cau truc UI. Moi khi state thay doi, React tao mot cay VDOM moi, **so sanh** voi cay cu (diffing), roi chi cap nhat nhung phan DOM that su thay doi (patching).
+**Virtual DOM (VDOM)** là một cây JavaScript object mô tả cấu trúc UI. Mỗi khi state thay đổi, React tạo một cây VDOM mới, **so sánh** với cây cũ (diffing), rồi chỉ cập nhật những phần DOM thật sự thay đổi (patching).
 
-Tai sao can? Vi thao tac DOM that (Real DOM) rat **cham** -- moi lan thay doi DOM, browser phai tinh lai layout, paint, composite. Voi VDOM, React **gom nhom** (batch) cac thay doi va chi apply mot lan, giam so lan browser phai lam viec.
+Tại sao cần? Vì thao tác DOM thật (Real DOM) rất **chậm** -- mỗi lần thay đổi DOM, browser phải tính lại layout, paint, composite. Với VDOM, React **gom nhóm** (batch) các thay đổi và chỉ apply một lần, giảm số lần browser phải làm việc.
 
-**Luu y quan trong**: VDOM khong phai luc nao cung nhanh hon thao tac DOM truc tiep. Frameworks nhu Svelte hay SolidJS khong dung VDOM ma van nhanh. Loi the cua VDOM la cho phep viet code **declarative** ma van co performance tot.
+**Lưu ý quan trọng**: VDOM không phải lúc nào cũng nhanh hơn thao tác DOM trực tiếp. Frameworks như Svelte hay SolidJS không dùng VDOM mà vẫn nhanh. Lợi thế của VDOM là cho phép viết code **declarative** mà vẫn có performance tốt.
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
-// Khi ban viet JSX nhu nay:
+// Khi bạn viết JSX như này:
 function App() {
   return (
     <div className="app">
@@ -32,7 +32,7 @@ function App() {
   );
 }
 
-// React chuyen thanh VDOM object (don gian hoa):
+// React chuyển thành VDOM object (đơn giản hóa):
 // {
 //   type: 'div',
 //   props: {
@@ -44,68 +44,68 @@ function App() {
 //   }
 // }
 
-// Khi state thay doi, React tao cay VDOM moi, diff voi cay cu,
-// va chi update phan khac biet tren Real DOM.
+// Khi state thay đổi, React tạo cây VDOM mới, diff với cây cũ,
+// và chỉ update phần khác biệt trên Real DOM.
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Virtual DOM la mot lightweight JavaScript representation cua Real DOM. Khi state thay doi, React tao VDOM moi, dung reconciliation algorithm de tim su khac biet voi VDOM cu, roi batch update Real DOM. Dieu nay cho phep viet code declarative trong khi van co performance tot. Tuy nhien, VDOM co overhead rieng -- no la trade-off giua developer experience va raw performance."
+> "Virtual DOM là một lightweight JavaScript representation của Real DOM. Khi state thay đổi, React tạo VDOM mới, dùng reconciliation algorithm để tìm sự khác biệt với VDOM cũ, rồi batch update Real DOM. Điều này cho phép viết code declarative trong khi vẫn có performance tốt. Tuy nhiên, VDOM có overhead riêng -- nó là trade-off giữa developer experience và raw performance."
 
 ---
 
-## Cau 2: Reconciliation Algorithm (Diffing) hoat dong nhu the nao? `[Senior]`
+## Câu 2: Reconciliation Algorithm (Diffing) hoạt động như thế nào? `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Diffing algorithm cua React dua tren 2 gia dinh (heuristics) de dat O(n) thay vi O(n^3):
+Diffing algorithm của React dựa trên 2 giả định (heuristics) để đạt O(n) thay vì O(n^3):
 
-1. **Hai element khac type** => destroy cay cu, build cay moi hoan toan
-2. **Hai element cung type** => giu nguyen DOM node, chi update attributes/props thay doi
-3. **key prop** giup React nhan dien element nao da thay doi/them/xoa trong danh sach
+1. **Hai element khác type** => destroy cây cũ, build cây mới hoàn toàn
+2. **Hai element cùng type** => giữ nguyên DOM node, chỉ update attributes/props thay đổi
+3. **key prop** giúp React nhận diện element nào đã thay đổi/thêm/xóa trong danh sách
 
-**Quy trinh diffing**:
-- So sanh root element truoc
-- Neu cung type: diff props, roi diff children de quy
-- Neu khac type: unmount cay cu, mount cay moi
-- Voi danh sach children: dung `key` de matching. Khong co key => so sanh theo thu tu (index)
+**Quy trình diffing**:
+- So sánh root element trước
+- Nếu cùng type: diff props, rồi diff children đệ quy
+- Nếu khác type: unmount cây cũ, mount cây mới
+- Với danh sách children: dùng `key` để matching. Không có key => so sánh theo thứ tự (index)
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
-// Case 1: Khac type => destroy va rebuild
-// Truoc
+// Case 1: Khác type => destroy và rebuild
+// Trước
 <div>
   <Counter />
 </div>
 
-// Sau -- React destroy Counter va tao moi span + Counter
+// Sau -- React destroy Counter và tạo mới span + Counter
 <span>
   <Counter />
 </span>
 
-// Case 2: Cung type => chi update props
-// Truoc
+// Case 2: Cùng type => chỉ update props
+// Trước
 <div className="old" title="stuff" />
-// Sau -- React chi update className, giu nguyen DOM node
+// Sau -- React chỉ update className, giữ nguyên DOM node
 <div className="new" title="stuff" />
 
-// Case 3: List khong co key (CHAM)
-// React so sanh theo index, nen insert dau danh sach
-// se khien TAT CA items re-render
+// Case 3: List không có key (CHẬM)
+// React so sánh theo index, nên insert đầu danh sách
+// sẽ khiến TẤT CẢ items re-render
 <ul>
   <li>Duke</li>   {/* index 0 */}
   <li>Villanova</li> {/* index 1 */}
 </ul>
-// Them "Connecticut" o dau => React tuong: Duke->Connecticut, Villanova->Duke, them Villanova
+// Thêm "Connecticut" ở đầu => React tưởng: Duke->Connecticut, Villanova->Duke, thêm Villanova
 // => Update 2 items + insert 1 = 3 operations
 
-// Case 4: List CO key (NHANH)
+// Case 4: List CÓ key (NHANH)
 <ul>
   <li key="duke">Duke</li>
   <li key="villanova">Villanova</li>
 </ul>
-// Them "Connecticut" o dau => React biet chi can insert 1 item moi
+// Thêm "Connecticut" ở đầu => React biết chỉ cần insert 1 item mới
 // => 1 operation
 <ul>
   <li key="connecticut">Connecticut</li>
@@ -114,49 +114,49 @@ Diffing algorithm cua React dua tren 2 gia dinh (heuristics) de dat O(n) thay vi
 </ul>
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "React reconciliation dung 2 heuristics de dat O(n): khac type thi rebuild, cung type thi diff props. Voi danh sach, key prop giup React map element cu voi moi mot cach chinh xac, tranh unnecessary re-renders. Khong nen dung index lam key khi danh sach co the thay doi thu tu, vi no lam sai lech viec matching va gay bug."
+> "React reconciliation dùng 2 heuristics để đạt O(n): khác type thì rebuild, cùng type thì diff props. Với danh sách, key prop giúp React map element cũ với mới một cách chính xác, tránh unnecessary re-renders. Không nên dùng index làm key khi danh sách có thể thay đổi thứ tự, vì nó làm sai lệch việc matching và gây bug."
 
 ---
 
-## Cau 3: React Fiber la gi? Tai sao React can viet lai core algorithm? `[Senior]`
+## Câu 3: React Fiber là gì? Tại sao React cần viết lại core algorithm? `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**React Fiber** la phien ban viet lai hoan toan cua reconciliation engine, ra mat tu React 16. Truoc Fiber, reconciliation la **dong bo** (synchronous) -- khi bat dau render, React phai chay het moi dung duoc. Voi component tree lon, dieu nay lam **block main thread**, gay lag UI.
+**React Fiber** là phiên bản viết lại hoàn toàn của reconciliation engine, ra mắt từ React 16. Trước Fiber, reconciliation là **đồng bộ** (synchronous) -- khi bắt đầu render, React phải chạy hết mới dừng được. Với component tree lớn, điều này làm **block main thread**, gây lag UI.
 
-**Fiber** bien render thanh **incremental** -- co the:
-- **Chia nho** cong viec thanh cac "units of work"
-- **Tam dung** va tiep tuc sau
-- **Uu tien** cong viec (user input > animation > data fetching)
-- **Huy** cong viec khong con can
+**Fiber** biến render thành **incremental** -- có thể:
+- **Chia nhỏ** công việc thành các "units of work"
+- **Tạm dừng** và tiếp tục sau
+- **Ưu tiên** công việc (user input > animation > data fetching)
+- **Hủy** công việc không còn cần
 
-Moi Fiber node la mot JavaScript object dai dien cho mot component, chua thong tin ve type, state, props, parent, child, sibling, va effect flags.
+Mỗi Fiber node là một JavaScript object đại diện cho một component, chứa thông tin về type, state, props, parent, child, sibling, và effect flags.
 
-**2 phase cua Fiber**:
-1. **Render phase** (co the bi interrupt): tao Fiber tree moi, diff voi cay cu, danh dau changes. Khong thay doi DOM.
-2. **Commit phase** (dong bo, khong bi interrupt): apply tat ca changes len Real DOM mot lan.
+**2 phase của Fiber**:
+1. **Render phase** (có thể bị interrupt): tạo Fiber tree mới, diff với cây cũ, đánh dấu changes. Không thay đổi DOM.
+2. **Commit phase** (đồng bộ, không bị interrupt): apply tất cả changes lên Real DOM một lần.
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
-// Fiber node (don gian hoa) -- day la cau truc noi bo React
+// Fiber node (đơn giản hóa) -- đây là cấu trúc nội bộ React
 // {
 //   type: 'div',               // Component type
 //   key: null,
-//   stateNode: HTMLDivElement,  // DOM node thuc te
-//   child: Fiber | null,       // Con dau tien
-//   sibling: Fiber | null,     // Anh em ke tiep
+//   stateNode: HTMLDivElement,  // DOM node thực tế
+//   child: Fiber | null,       // Con đầu tiên
+//   sibling: Fiber | null,     // Anh em kế tiếp
 //   return: Fiber | null,      // Parent
-//   pendingProps: {},           // Props moi
-//   memoizedProps: {},          // Props cu
-//   memoizedState: {},          // State hien tai
+//   pendingProps: {},           // Props mới
+//   memoizedProps: {},          // Props cũ
+//   memoizedState: {},          // State hiện tại
 //   flags: 0,                  // Side effect flags (Placement, Update, Deletion)
 //   lanes: 0,                  // Priority level
 // }
 
-// Vi du: component tree
+// Ví dụ: component tree
 function App() {
   return (
     <div>
@@ -169,34 +169,34 @@ function App() {
   );
 }
 
-// Fiber duyet theo thu tu: App -> div -> Header -> Main -> Article -> Sidebar
-// Moi node la 1 unit of work, co the pause giua cac nodes
+// Fiber duyệt theo thứ tự: App -> div -> Header -> Main -> Article -> Sidebar
+// Mỗi node là 1 unit of work, có thể pause giữa các nodes
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Fiber la phien ban viet lai cua React reconciler de ho tro incremental rendering. No chia cong viec thanh cac units nho, co the pause, resume, va prioritize. Fiber co 2 phase: render phase (co the interrupt, tinh toan changes) va commit phase (dong bo, apply DOM). Dieu nay la nen tang cho Concurrent features nhu useTransition va Suspense."
+> "Fiber là phiên bản viết lại của React reconciler để hỗ trợ incremental rendering. Nó chia công việc thành các units nhỏ, có thể pause, resume, và prioritize. Fiber có 2 phase: render phase (có thể interrupt, tính toán changes) và commit phase (đồng bộ, apply DOM). Điều này là nền tảng cho Concurrent features như useTransition và Suspense."
 
 ---
 
-## Cau 4: Key prop -- tai sao quan trong? Khi nao dung index lam key la ok? `[Intermediate]`
+## Câu 4: Key prop -- tại sao quan trọng? Khi nào dùng index làm key là ok? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-`key` giup React **identify** element nao da thay doi, duoc them, hoac bi xoa trong mot danh sach. Khong co key, React dung **index** lam key mac dinh, va dieu nay co the gay:
+`key` giúp React **identify** element nào đã thay đổi, được thêm, hoặc bị xóa trong một danh sách. Không có key, React dùng **index** làm key mặc định, và điều này có thể gây:
 
-1. **Performance xau**: khi insert dau danh sach, tat ca items bi "shift" index => React tuong tat ca deu thay doi
-2. **Bug**: khi items co internal state (input values, checkbox state), state bi gan sai cho item khac
+1. **Performance xấu**: khi insert đầu danh sách, tất cả items bị "shift" index => React tưởng tất cả đều thay đổi
+2. **Bug**: khi items có internal state (input values, checkbox state), state bị gán sai cho item khác
 
-**Khi nao dung index la ok?**
-- Danh sach **static** (khong them/xoa/sap xep)
-- Items **khong co** internal state
-- Items **khong bao gio** thay doi thu tu
+**Khi nào dùng index là ok?**
+- Danh sách **static** (không thêm/xóa/sắp xếp)
+- Items **không có** internal state
+- Items **không bao giờ** thay đổi thứ tự
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
-// BUG voi index key
+// BUG với index key
 function TodoList() {
   const [todos, setTodos] = useState([
     { id: 1, text: 'Learn React' },
@@ -204,21 +204,21 @@ function TodoList() {
   ]);
 
   const addTodo = () => {
-    // Them item vao DAU danh sach
+    // Thêm item vào ĐẦU danh sách
     setTodos([{ id: Date.now(), text: 'New todo' }, ...todos]);
   };
 
   return (
     <ul>
-      {/* SAI: dung index lam key */}
+      {/* SAI: dùng index làm key */}
       {todos.map((todo, index) => (
         <li key={index}>
-          {/* Input state se bi "nham" khi them item o dau */}
+          {/* Input state sẽ bị "nhầm" khi thêm item ở đầu */}
           <input defaultValue={todo.text} />
         </li>
       ))}
 
-      {/* DUNG: dung unique ID */}
+      {/* ĐÚNG: dùng unique ID */}
       {todos.map(todo => (
         <li key={todo.id}>
           <input defaultValue={todo.text} />
@@ -228,41 +228,41 @@ function TodoList() {
   );
 }
 
-// Key con dung de "reset" component
+// Key còn dùng để "reset" component
 function UserProfile({ userId }: { userId: string }) {
-  // Khi userId thay doi, key thay doi => React unmount va mount moi component
-  // => tat ca internal state duoc reset
+  // Khi userId thay đổi, key thay đổi => React unmount và mount mới component
+  // => tất cả internal state được reset
   return <Profile key={userId} userId={userId} />;
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "key giup React track element trong danh sach qua cac lan render. Dung unique, stable ID lam key -- khong dung index khi danh sach co the thay doi thu tu hoac items co internal state. key con duoc dung de force reset component bang cach thay doi key. Mot meo hay la dung key tren component de reset state thay vi dung useEffect."
+> "key giúp React track element trong danh sách qua các lần render. Dùng unique, stable ID làm key -- không dùng index khi danh sách có thể thay đổi thứ tự hoặc items có internal state. key còn được dùng để force reset component bằng cách thay đổi key. Một mẹo hay là dùng key trên component để reset state thay vì dùng useEffect."
 
 ---
 
-## Cau 5: Dieu gi trigger re-render trong React? Batching hoat dong ra sao? `[Intermediate]`
+## Câu 5: Điều gì trigger re-render trong React? Batching hoạt động ra sao? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Cac trigger re-render**:
-1. `setState` / `dispatch` duoc goi
-2. Parent component re-render (mac dinh, tat ca children re-render)
-3. Context value thay doi (tat ca consumers re-render)
-4. Custom hook state thay doi
+**Các trigger re-render**:
+1. `setState` / `dispatch` được gọi
+2. Parent component re-render (mặc định, tất cả children re-render)
+3. Context value thay đổi (tất cả consumers re-render)
+4. Custom hook state thay đổi
 
-**KHONG trigger re-render**:
-- Thay doi `ref.current`
-- Thay doi bien ngoai component
-- Thay doi props cua component (chi khi parent re-render truyen props moi)
+**KHÔNG trigger re-render**:
+- Thay đổi `ref.current`
+- Thay đổi biến ngoài component
+- Thay đổi props của component (chỉ khi parent re-render truyền props mới)
 
-**Batching** (tu React 18):
-- Tat ca state updates duoc gom lai, chi render 1 lan
-- Ap dung trong moi ngu canh: event handlers, setTimeout, Promises, native events
-- Dung `flushSync` neu can force render ngay (hiem khi can)
+**Batching** (từ React 18):
+- Tất cả state updates được gom lại, chỉ render 1 lần
+- Áp dụng trong mọi ngữ cảnh: event handlers, setTimeout, Promises, native events
+- Dùng `flushSync` nếu cần force render ngay (hiếm khi cần)
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { useState } from 'react';
@@ -272,7 +272,7 @@ function BatchingExample() {
   const [count, setCount] = useState(0);
   const [flag, setFlag] = useState(false);
 
-  console.log('Render!'); // Chi log 1 lan cho moi click
+  console.log('Render!'); // Chỉ log 1 lần cho mỗi click
 
   const handleClick = () => {
     // React 18: batched => 1 render
@@ -283,87 +283,87 @@ function BatchingExample() {
 
   const handleAsync = () => {
     setTimeout(() => {
-      // React 18: VAN batched => 1 render
+      // React 18: VẪN batched => 1 render
       setCount(c => c + 1);
       setFlag(f => !f);
     }, 100);
   };
 
-  // Force immediate render (hiem khi can)
+  // Force immediate render (hiếm khi cần)
   const handleFlush = () => {
     flushSync(() => {
       setCount(c => c + 1);
     });
-    // DOM da update tai day
+    // DOM đã update tại đây
     console.log('DOM updated with new count');
 
     flushSync(() => {
       setFlag(f => !f);
     });
-    // => 2 renders rieng biet
+    // => 2 renders riêng biệt
   };
 
   return <button onClick={handleClick}>{count}</button>;
 }
 
-// Parent re-render => children re-render (ke ca khi props khong doi)
+// Parent re-render => children re-render (kể cả khi props không đổi)
 function Parent() {
   const [count, setCount] = useState(0);
 
   return (
     <div>
       <button onClick={() => setCount(c => c + 1)}>+</button>
-      {/* Child re-render moi lan Parent render, du name khong doi */}
+      {/* Child re-render mỗi lần Parent render, dù name không đổi */}
       <Child name="static" />
     </div>
   );
 }
 
 function Child({ name }: { name: string }) {
-  console.log('Child rendered!'); // Log moi lan parent click
+  console.log('Child rendered!'); // Log mỗi lần parent click
   return <p>{name}</p>;
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Re-render xay ra khi state thay doi, parent re-render, hoac context value thay doi. Tu React 18, tat ca state updates deu duoc automatic batching -- ke ca trong async code. Dung React.memo de ngan child re-render khi props khong doi. flushSync co the force immediate render nhung hiem khi can dung."
+> "Re-render xảy ra khi state thay đổi, parent re-render, hoặc context value thay đổi. Từ React 18, tất cả state updates đều được automatic batching -- kể cả trong async code. Dùng React.memo để ngăn child re-render khi props không đổi. flushSync có thể force immediate render nhưng hiếm khi cần dùng."
 
 ---
 
-## Cau 6: Concurrent Features -- useTransition va useDeferredValue `[Senior]`
+## Câu 6: Concurrent Features -- useTransition và useDeferredValue `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Concurrent React** cho phep React **ngat** render khong khan cap de xu ly cong viec khan cap truoc (nhu user input). 2 hooks chinh:
+**Concurrent React** cho phép React **ngắt** render không khẩn cấp để xử lý công việc khẩn cấp trước (như user input). 2 hooks chính:
 
 **useTransition**:
-- Danh dau state update la "non-urgent" (transition)
-- React uu tien render urgent updates truoc (nhu typing)
-- Tra ve `[isPending, startTransition]`
+- Đánh dấu state update là "non-urgent" (transition)
+- React ưu tiên render urgent updates trước (như typing)
+- Trả về `[isPending, startTransition]`
 
 **useDeferredValue**:
-- Tao mot phien ban "lag" cua gia tri
-- Giong useTransition nhung cho **gia tri** thay vi **action**
-- Huu ich khi khong kiem soat duoc state update (VD: props tu parent)
+- Tạo một phiên bản "lag" của giá trị
+- Giống useTransition nhưng cho **giá trị** thay vì **action**
+- Hữu ích khi không kiểm soát được state update (VD: props từ parent)
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { useState, useTransition, useDeferredValue, memo } from 'react';
 
-// useTransition: uu tien input, defer ket qua tim kiem
+// useTransition: ưu tiên input, defer kết quả tìm kiếm
 function SearchPage() {
   const [query, setQuery] = useState('');
   const [isPending, startTransition] = useTransition();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Urgent: cap nhat input ngay lap tuc
+    // Urgent: cập nhật input ngay lập tức
     setQuery(e.target.value);
 
-    // Non-urgent: cap nhat ket qua tim kiem
+    // Non-urgent: cập nhật kết quả tìm kiếm
     startTransition(() => {
-      // React co the interrupt render nay neu co input moi
+      // React có thể interrupt render này nếu có input mới
       setSearchResults(filterResults(e.target.value));
     });
   };
@@ -371,19 +371,19 @@ function SearchPage() {
   return (
     <div>
       <input value={query} onChange={handleChange} />
-      {isPending && <p>Dang tim kiem...</p>}
+      {isPending && <p>Đang tìm kiếm...</p>}
       <SearchResults />
     </div>
   );
 }
 
-// useDeferredValue: defer gia tri heavy to render
+// useDeferredValue: defer giá trị heavy to render
 function SearchResults({ query }: { query: string }) {
   const deferredQuery = useDeferredValue(query);
   const isStale = query !== deferredQuery;
 
-  // HeavyList render voi gia tri "cu" trong khi user dang go
-  // Khi user ngung go, React render lai voi gia tri moi
+  // HeavyList render với giá trị "cũ" trong khi user đang gõ
+  // Khi user ngừng gõ, React render lại với giá trị mới
   return (
     <div style={{ opacity: isStale ? 0.7 : 1 }}>
       <HeavyList query={deferredQuery} />
@@ -392,7 +392,7 @@ function SearchResults({ query }: { query: string }) {
 }
 
 const HeavyList = memo(({ query }: { query: string }) => {
-  // Gia su: render 10,000 items
+  // Giả sử: render 10,000 items
   const items = generateItems(query); // heavy computation
 
   return (
@@ -405,32 +405,32 @@ const HeavyList = memo(({ query }: { query: string }) => {
 });
 ```
 
-### Bang so sanh
+### Bảng so sánh
 
-| Tieu chi | `useTransition` | `useDeferredValue` |
+| Tiêu chí | `useTransition` | `useDeferredValue` |
 |----------|----------------|-------------------|
-| Kiem soat | **State update** (action) | **Gia tri** (value) |
-| Khi dung | Khi ban kiem soat setState | Khi nhan gia tri tu props/parent |
-| Tra ve | `[isPending, startTransition]` | Deferred value |
-| isPending | Co | Tu tinh: `value !== deferredValue` |
-| Vi du | Filter khi search | Defer props cho heavy child |
+| Kiểm soát | **State update** (action) | **Giá trị** (value) |
+| Khi dùng | Khi bạn kiểm soát setState | Khi nhận giá trị từ props/parent |
+| Trả về | `[isPending, startTransition]` | Deferred value |
+| isPending | Có | Tự tính: `value !== deferredValue` |
+| Ví dụ | Filter khi search | Defer props cho heavy child |
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Concurrent features cho phep React uu tien cong viec quan trong (user input) va defer cong viec it khan cap (render danh sach lon). useTransition danh dau state update la non-urgent, useDeferredValue tao phien ban 'lag' cua gia tri. Ca hai giup giu UI responsive khi render nang. Chung la nen tang cua Fiber architecture -- kha nang interrupt va prioritize render."
+> "Concurrent features cho phép React ưu tiên công việc quan trọng (user input) và defer công việc ít khẩn cấp (render danh sách lớn). useTransition đánh dấu state update là non-urgent, useDeferredValue tạo phiên bản 'lag' của giá trị. Cả hai giúp giữ UI responsive khi render nặng. Chúng là nền tảng của Fiber architecture -- khả năng interrupt và prioritize render."
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
-1. **Noi "Virtual DOM nhanh hon Real DOM"** -- Khong chinh xac. VDOM co overhead rieng. Dung hon la "VDOM cho phep declarative code voi performance chap nhan duoc bang cach batch DOM updates."
+1. **Nói "Virtual DOM nhanh hơn Real DOM"** -- Không chính xác. VDOM có overhead riêng. Đúng hơn là "VDOM cho phép declarative code với performance chấp nhận được bằng cách batch DOM updates."
 
-2. **Khong biet Fiber la gi** -- Fiber la nen tang cua React hien dai. Neu ban dung useTransition, Suspense, hay bat ky concurrent feature nao, ban dang dung Fiber.
+2. **Không biết Fiber là gì** -- Fiber là nền tảng của React hiện đại. Nếu bạn dùng useTransition, Suspense, hay bất kỳ concurrent feature nào, bạn đang dùng Fiber.
 
-3. **Nham "render" voi "DOM update"** -- Render phase tinh toan VDOM, commit phase moi update DOM. Component co the render nhieu lan ma DOM khong doi.
+3. **Nhầm "render" với "DOM update"** -- Render phase tính toán VDOM, commit phase mới update DOM. Component có thể render nhiều lần mà DOM không đổi.
 
-4. **Dung index lam key roi noi "khong sao dau"** -- Chi ok khi danh sach static. Voi danh sach dynamic, index key gay bug kho debug lien quan den internal state.
+4. **Dùng index làm key rồi nói "không sao đâu"** -- Chỉ ok khi danh sách static. Với danh sách dynamic, index key gây bug khó debug liên quan đến internal state.
 
-5. **Khong biet batching trong React 18** -- Truoc 18, chi batch trong event handlers. Tu 18, automatic batching moi noi. Day la thay doi quan trong can biet.
+5. **Không biết batching trong React 18** -- Trước 18, chỉ batch trong event handlers. Từ 18, automatic batching mọi nơi. Đây là thay đổi quan trọng cần biết.
 
-6. **Nham useTransition va useDeferredValue** -- useTransition cho action (setState), useDeferredValue cho value (props). Chon sai hook se khong dat hieu qua mong muon.
+6. **Nhầm useTransition và useDeferredValue** -- useTransition cho action (setState), useDeferredValue cho value (props). Chọn sai hook sẽ không đạt hiệu quả mong muốn.

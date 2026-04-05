@@ -5,172 +5,172 @@ title: "Event Loop, Callback Queue & Microtask"
 
 # Event Loop, Callback Queue & Microtask
 
-Hieu Event Loop la hieu cach JavaScript van hanh. Day la nhom cau hoi ma interviewer dung de phan loai ung vien: neu ban tra loi tot, ban chung minh minh hieu JavaScript o level sau, khong chi biet viet code.
+Hiểu Event Loop là hiểu cách JavaScript vận hành. Đây là nhóm câu hỏi mà interviewer dùng để phân loại ứng viên: nếu bạn trả lời tốt, bạn chứng minh mình hiểu JavaScript ở level sâu, không chỉ biết viết code.
 
 ---
 
-## Cau 1: JavaScript single-threaded model `[Intermediate]`
+## Câu 1: JavaScript single-threaded model `[Intermediate]`
 
-### Cau hoi
+### Câu hỏi
 
-> JavaScript la single-threaded, vay sao no xu ly duoc nhieu tac vu dong thoi (async)?
+> JavaScript là single-threaded, vậy sao nó xử lý được nhiều tác vụ đồng thời (async)?
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-JavaScript engine (V8, SpiderMonkey) chi co **mot thread chinh** de thuc thi code. Nhung no hoat dong trong mot **runtime environment** (browser hoac Node.js) cung cap:
+JavaScript engine (V8, SpiderMonkey) chỉ có **một thread chính** để thực thi code. Nhưng nó hoạt động trong một **runtime environment** (browser hoặc Node.js) cung cấp:
 
 - **Web APIs** (browser): DOM, setTimeout, fetch, XMLHttpRequest
 - **C++ APIs** (Node.js): file system, network, crypto
-- **Event Loop**: Co che dieu phoi giua call stack va cac task queue
+- **Event Loop**: Cơ chế điều phối giữa call stack và các task queue
 
-Mo hinh hoat dong:
+Mô hình hoạt động:
 
 ```
-Call Stack -> Chay code dong bo
+Call Stack -> Chạy code đồng bộ
      |
      v
-Web APIs -> Xu ly async (timer, network, DOM events)
+Web APIs -> Xử lý async (timer, network, DOM events)
      |
      v
-Task Queues -> Doi den khi call stack trong
+Task Queues -> Đợi đến khi call stack trống
      |
      v
-Event Loop -> Day callback tu queue vao call stack
+Event Loop -> Đẩy callback từ queue vào call stack
 ```
 
-### Code vi du
+### Code ví dụ
 
 ```javascript
-console.log("1 - Bat dau");
+console.log("1 - Bắt đầu");
 
 setTimeout(function () {
   console.log("2 - setTimeout");
-}, 0); // Du delay = 0, van phai doi!
+}, 0); // Dù delay = 0, vẫn phải đợi!
 
-console.log("3 - Ket thuc");
+console.log("3 - Kết thúc");
 
 // Output:
-// "1 - Bat dau"
-// "3 - Ket thuc"
+// "1 - Bắt đầu"
+// "3 - Kết thúc"
 // "2 - setTimeout"
 
-// Tai sao? Vi:
-// 1. console.log("1") -> call stack -> chay ngay
-// 2. setTimeout -> chuyen cho Web API -> callback vao macrotask queue
-// 3. console.log("3") -> call stack -> chay ngay
-// 4. Call stack trong -> Event Loop lay callback tu queue -> chay console.log("2")
+// Tại sao? Vì:
+// 1. console.log("1") -> call stack -> chạy ngay
+// 2. setTimeout -> chuyển cho Web API -> callback vào macrotask queue
+// 3. console.log("3") -> call stack -> chạy ngay
+// 4. Call stack trống -> Event Loop lấy callback từ queue -> chạy console.log("2")
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "JavaScript co mot call stack duy nhat (single-threaded), nhung runtime environment (browser/Node.js) cung cap cac API xu ly bat dong bo tren cac thread rieng. Khi tac vu async hoan thanh, callback duoc day vao queue. Event Loop lien tuc kiem tra: khi call stack trong, no lay callback tu queue day vao stack de thuc thi. Day la ly do setTimeout(fn, 0) van chay sau code dong bo -- callback phai doi call stack trong moi duoc thuc thi."
+> "JavaScript có một call stack duy nhất (single-threaded), nhưng runtime environment (browser/Node.js) cung cấp các API xử lý bất đồng bộ trên các thread riêng. Khi tác vụ async hoàn thành, callback được đẩy vào queue. Event Loop liên tục kiểm tra: khi call stack trống, nó lấy callback từ queue đẩy vào stack để thực thi. Đây là lý do setTimeout(fn, 0) vẫn chạy sau code đồng bộ -- callback phải đợi call stack trống mới được thực thi."
 
 ---
 
-## Cau 2: Call Stack, Web APIs, Callback Queue `[Intermediate]`
+## Câu 2: Call Stack, Web APIs, Callback Queue `[Intermediate]`
 
-### Cau hoi
+### Câu hỏi
 
-> Giai thich chi tiet quy trinh thuc thi cua mot lenh `setTimeout` tu khi duoc goi den khi callback chay.
+> Giải thích chi tiết quy trình thực thi của một lệnh `setTimeout` từ khi được gọi đến khi callback chạy.
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Quy trinh 6 buoc:
+Quy trình 6 bước:
 
-1. **Call Stack**: `setTimeout(callback, delay)` duoc push vao stack.
-2. **Web API**: Engine nhan ra day la Web API, chuyen timer cho browser xu ly. `setTimeout` duoc pop khoi stack.
-3. **Timer chay**: Browser bat dau dem thoi gian (tren thread rieng, khong block JS).
-4. **Timer het**: Callback duoc day vao **Macrotask Queue** (hay goi la Callback Queue / Task Queue).
-5. **Event Loop kiem tra**: "Call stack co trong khong?" Neu trong, lay callback tu queue.
-6. **Thuc thi**: Callback duoc push vao Call Stack va chay.
+1. **Call Stack**: `setTimeout(callback, delay)` được push vào stack.
+2. **Web API**: Engine nhận ra đây là Web API, chuyển timer cho browser xử lý. `setTimeout` được pop khỏi stack.
+3. **Timer chạy**: Browser bắt đầu đếm thời gian (trên thread riêng, không block JS).
+4. **Timer hết**: Callback được đẩy vào **Macrotask Queue** (hay gọi là Callback Queue / Task Queue).
+5. **Event Loop kiểm tra**: "Call stack có trống không?" Nếu trống, lấy callback từ queue.
+6. **Thực thi**: Callback được push vào Call Stack và chạy.
 
-### Code vi du
+### Code ví dụ
 
 ```javascript
-// ===== Minh hoa buoc buoc =====
+// ===== Minh hoạ từng bước =====
 function main() {
-  console.log("A"); // Buoc 1: Push main -> push log("A") -> chay -> pop
+  console.log("A"); // Bước 1: Push main -> push log("A") -> chạy -> pop
 
   setTimeout(function timerCallback() {
-    console.log("B"); // Buoc 5-6: Sau 2s, vao queue -> doi stack trong -> chay
+    console.log("B"); // Bước 5-6: Sau 2s, vào queue -> đợi stack trống -> chạy
   }, 2000);
-  // Buoc 2-3: setTimeout pop khoi stack, browser bat dau dem 2s
+  // Bước 2-3: setTimeout pop khỏi stack, browser bắt đầu đếm 2s
 
-  console.log("C"); // Buoc 4: Push log("C") -> chay -> pop
-  // main() pop khoi stack -> stack trong
+  console.log("C"); // Bước 4: Push log("C") -> chạy -> pop
+  // main() pop khỏi stack -> stack trống
 }
 
 main();
-// Output: A, C, (doi 2s), B
+// Output: A, C, (đợi 2s), B
 
-// ===== setTimeout(fn, 0) -- khong phai "chay ngay" =====
+// ===== setTimeout(fn, 0) -- không phải "chạy ngay" =====
 console.log("1");
 
 setTimeout(() => console.log("2"), 0);
 
-// Vong lap nay chay truoc setTimeout callback
+// Vòng lặp này chạy trước setTimeout callback
 for (let i = 0; i < 1000000000; i++) {
-  // Tinh toan nang...
+  // Tính toán nặng...
 }
 
 console.log("3");
 
 // Output: 1, 3, 2
-// Du delay = 0, callback phai doi call stack trong
-// Vong lap chay truoc vi no dang tren call stack
+// Dù delay = 0, callback phải đợi call stack trống
+// Vòng lặp chạy trước vì nó đang trên call stack
 
 // ===== Nested setTimeout vs setInterval =====
-// setInterval co the chong cheo neu callback chay lau
-// setTimeout nested dam bao khoang cach giua cac lan chay
+// setInterval có thể chồng chéo nếu callback chạy lâu
+// setTimeout nested đảm bảo khoảng cách giữa các lần chạy
 
-// setInterval -- co the chong cheo:
+// setInterval -- có thể chồng chéo:
 // setInterval(() => {
-//   doHeavyWork(); // Neu chay > 1000ms, lan sau bat dau truoc khi lan truoc xong
+//   doHeavyWork(); // Nếu chạy > 1000ms, lần sau bắt đầu trước khi lần trước xong
 // }, 1000);
 
-// setTimeout nested -- an toan hon:
+// setTimeout nested -- an toàn hơn:
 function poll() {
   doHeavyWork();
-  setTimeout(poll, 1000); // Chi lap lai SAU KHI work xong
+  setTimeout(poll, 1000); // Chỉ lặp lại SAU KHI work xong
 }
 poll();
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Khi goi setTimeout, no duoc push vao call stack roi nhanh chong pop ra -- browser tiep nhan timer tren thread rieng. Khi timer het, callback vao macrotask queue. Event Loop chi chuyen callback vao call stack khi stack **trong hoan toan**. Dieu nay co nghia setTimeout(fn, 0) khong phai 'chay ngay' -- no chi dam bao callback chay o tick tiep theo cua event loop, sau tat ca code dong bo hien tai."
+> "Khi gọi setTimeout, nó được push vào call stack rồi nhanh chóng pop ra -- browser tiếp nhận timer trên thread riêng. Khi timer hết, callback vào macrotask queue. Event Loop chỉ chuyển callback vào call stack khi stack **trống hoàn toàn**. Điều này có nghĩa setTimeout(fn, 0) không phải 'chạy ngay' -- nó chỉ đảm bảo callback chạy ở tick tiếp theo của event loop, sau tất cả code đồng bộ hiện tại."
 
 ---
 
-## Cau 3: Microtask Queue vs Macrotask Queue `[Senior]`
+## Câu 3: Microtask Queue vs Macrotask Queue `[Senior]`
 
-### Cau hoi
+### Câu hỏi
 
-> Phan biet Microtask Queue va Macrotask Queue. Thu tu uu tien cua chung la gi?
+> Phân biệt Microtask Queue và Macrotask Queue. Thứ tự ưu tiên của chúng là gì?
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-JavaScript co **hai loai queue** voi do uu tien khac nhau:
+JavaScript có **hai loại queue** với độ ưu tiên khác nhau:
 
-| Tieu chi | Microtask Queue | Macrotask Queue |
+| Tiêu chí | Microtask Queue | Macrotask Queue |
 |---|---|---|
-| Do uu tien | **Cao hon** | Thap hon |
-| Gom | Promise `.then`/`.catch`/`.finally`, `queueMicrotask`, `MutationObserver` | `setTimeout`, `setInterval`, `setImmediate` (Node), I/O, UI rendering |
-| Khi nao chay | **Tat ca** microtask duoc xu ly **truoc khi** chuyen sang macrotask tiep theo | Moi lan event loop quay, chi xu ly **mot** macrotask |
-| Blocking render | Co the block neu qua nhieu | Moi macrotask cho phep render giua cac lan |
+| Độ ưu tiên | **Cao hơn** | Thấp hơn |
+| Gồm | Promise `.then`/`.catch`/`.finally`, `queueMicrotask`, `MutationObserver` | `setTimeout`, `setInterval`, `setImmediate` (Node), I/O, UI rendering |
+| Khi nào chạy | **Tất cả** microtask được xử lý **trước khi** chuyển sang macrotask tiếp theo | Mỗi lần event loop quay, chỉ xử lý **một** macrotask |
+| Blocking render | Có thể block nếu quá nhiều | Mỗi macrotask cho phép render giữa các lần |
 
-**Thu tu thuc thi cua Event Loop moi vong:**
+**Thứ tự thực thi của Event Loop mỗi vòng:**
 
-1. Chay het code dong bo tren Call Stack.
-2. Xu ly **tat ca** microtask trong Microtask Queue (ke ca microtask sinh ra trong luc xu ly).
-3. Render UI (neu can).
-4. Lay **mot** macrotask tu Macrotask Queue va thuc thi.
-5. Quay lai buoc 2.
+1. Chạy hết code đồng bộ trên Call Stack.
+2. Xử lý **tất cả** microtask trong Microtask Queue (kể cả microtask sinh ra trong lúc xử lý).
+3. Render UI (nếu cần).
+4. Lấy **một** macrotask từ Macrotask Queue và thực thi.
+5. Quay lại bước 2.
 
-### Code vi du
+### Code ví dụ
 
 ```javascript
-console.log("1 - Dong bo");
+console.log("1 - Đồng bộ");
 
 setTimeout(() => {
   console.log("2 - Macrotask (setTimeout)");
@@ -184,26 +184,26 @@ queueMicrotask(() => {
   console.log("4 - Microtask (queueMicrotask)");
 });
 
-console.log("5 - Dong bo");
+console.log("5 - Đồng bộ");
 
 // Output:
-// 1 - Dong bo
-// 5 - Dong bo
+// 1 - Đồng bộ
+// 5 - Đồng bộ
 // 3 - Microtask (Promise.then)
 // 4 - Microtask (queueMicrotask)
 // 2 - Macrotask (setTimeout)
 
-// Giai thich:
-// 1. Dong bo chay truoc: "1", "5"
-// 2. Microtask chay tiep: "3", "4" (Promise va queueMicrotask)
-// 3. Macrotask cuoi cung: "2" (setTimeout)
+// Giải thích:
+// 1. Đồng bộ chạy trước: "1", "5"
+// 2. Microtask chạy tiếp: "3", "4" (Promise và queueMicrotask)
+// 3. Macrotask cuối cùng: "2" (setTimeout)
 
 // ===== Microtask sinh ra microtask =====
 Promise.resolve().then(() => {
   console.log("Microtask 1");
 
   Promise.resolve().then(() => {
-    console.log("Microtask 2 (sinh ra tu Microtask 1)");
+    console.log("Microtask 2 (sinh ra từ Microtask 1)");
   });
 });
 
@@ -213,81 +213,81 @@ setTimeout(() => {
 
 // Output:
 // Microtask 1
-// Microtask 2 (sinh ra tu Microtask 1)  <-- xu ly truoc macrotask!
+// Microtask 2 (sinh ra từ Microtask 1)  <-- xử lý trước macrotask!
 // Macrotask 1
 
-// CANH BAO: Microtask vo han se block event loop!
+// CẢNH BÁO: Microtask vô hạn sẽ block event loop!
 // function badIdea() {
-//   Promise.resolve().then(badIdea); // NEVER DO THIS -- block vinh vien
+//   Promise.resolve().then(badIdea); // NEVER DO THIS -- block vĩnh viễn
 // }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Microtask queue co uu tien cao hon macrotask queue. Sau moi macrotask (hoac sau khi call stack trong), event loop xu ly **tat ca** microtask truoc khi chuyen sang macrotask tiep theo. Promise callbacks va queueMicrotask vao microtask queue; setTimeout/setInterval vao macrotask queue. Dieu quan trong la microtask sinh ra trong luc xu ly microtask cung duoc xu ly ngay trong cung vong -- nen microtask co the block rendering neu khong can than."
+> "Microtask queue có ưu tiên cao hơn macrotask queue. Sau mỗi macrotask (hoặc sau khi call stack trống), event loop xử lý **tất cả** microtask trước khi chuyển sang macrotask tiếp theo. Promise callbacks và queueMicrotask vào microtask queue; setTimeout/setInterval vào macrotask queue. Điều quan trọng là microtask sinh ra trong lúc xử lý microtask cũng được xử lý ngay trong cùng vòng -- nên microtask có thể block rendering nếu không cẩn thận."
 
 ---
 
-## Cau 4: `requestAnimationFrame` nam o dau? `[Senior]`
+## Câu 4: `requestAnimationFrame` nằm ở đâu? `[Senior]`
 
-### Cau hoi
+### Câu hỏi
 
-> `requestAnimationFrame` (rAF) thuoc microtask hay macrotask? No khac gi `setTimeout`?
+> `requestAnimationFrame` (rAF) thuộc microtask hay macrotask? Nó khác gì `setTimeout`?
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-`requestAnimationFrame` **khong thuoc** microtask hay macrotask queue. No nam trong mot **queue rieng** duoc xu ly truoc moi repaint cua browser.
+`requestAnimationFrame` **không thuộc** microtask hay macrotask queue. Nó nằm trong một **queue riêng** được xử lý trước mỗi repaint của browser.
 
-Thu tu trong mot vong Event Loop:
+Thứ tự trong một vòng Event Loop:
 
-1. Macrotask (1 cai)
-2. Tat ca Microtasks
-3. **requestAnimationFrame callbacks** (neu browser sap repaint)
+1. Macrotask (1 cái)
+2. Tất cả Microtasks
+3. **requestAnimationFrame callbacks** (nếu browser sắp repaint)
 4. Render / Paint
-5. Quay lai buoc 1
+5. Quay lại bước 1
 
-| Tieu chi | `setTimeout(fn, 0)` | `requestAnimationFrame(fn)` |
+| Tiêu chí | `setTimeout(fn, 0)` | `requestAnimationFrame(fn)` |
 |---|---|---|
-| Thoi diem chay | Tick tiep theo cua event loop | Truoc lan repaint tiep theo (~16.67ms / 60fps) |
-| Do chinh xac | Khong dam bao thoi gian | Dong bo voi refresh rate cua man hinh |
+| Thời điểm chạy | Tick tiếp theo của event loop | Trước lần repaint tiếp theo (~16.67ms / 60fps) |
+| Độ chính xác | Không đảm bảo thời gian | Đồng bộ với refresh rate của màn hình |
 | Phù hợp cho | Delay task, debounce | Animation, visual updates |
-| Chay khi tab an | Co | **Khong** (tiet kiem pin/CPU) |
+| Chạy khi tab ẩn | Có | **Không** (tiết kiệm pin/CPU) |
 
-### Code vi du
+### Code ví dụ
 
 ```javascript
-// ===== So sanh setTimeout va rAF =====
+// ===== So sánh setTimeout và rAF =====
 
-// setTimeout -- animation bi giat (khong dong bo voi frame rate)
+// setTimeout -- animation bị giật (không đồng bộ với frame rate)
 function animateWithTimeout(element) {
   let position = 0;
   function step() {
     position += 2;
     element.style.transform = `translateX(${position}px)`;
     if (position < 300) {
-      setTimeout(step, 16); // Co gang 60fps nhung khong chinh xac
+      setTimeout(step, 16); // Cố gắng 60fps nhưng không chính xác
     }
   }
   setTimeout(step, 16);
 }
 
-// rAF -- animation muot ma (dong bo voi frame rate)
+// rAF -- animation mượt mà (đồng bộ với frame rate)
 function animateWithRAF(element) {
   let position = 0;
   function step() {
     position += 2;
     element.style.transform = `translateX(${position}px)`;
     if (position < 300) {
-      requestAnimationFrame(step); // Chay dung truoc moi frame
+      requestAnimationFrame(step); // Chạy đúng trước mỗi frame
     }
   }
   requestAnimationFrame(step);
 }
 
-// ===== rAF nhan timestamp =====
+// ===== rAF nhận timestamp =====
 function smoothAnimation(element) {
   let start = null;
-  const duration = 2000; // 2 giay
+  const duration = 2000; // 2 giây
 
   function step(timestamp) {
     if (!start) start = timestamp;
@@ -304,36 +304,36 @@ function smoothAnimation(element) {
   requestAnimationFrame(step);
 }
 
-// ===== Thu tu thuc thi =====
+// ===== Thứ tự thực thi =====
 setTimeout(() => console.log("setTimeout"), 0);
 
 requestAnimationFrame(() => console.log("rAF"));
 
 Promise.resolve().then(() => console.log("Promise"));
 
-console.log("Dong bo");
+console.log("Đồng bộ");
 
-// Output (thong thuong):
-// Dong bo
+// Output (thông thường):
+// Đồng bộ
 // Promise          (microtask)
-// rAF              (truoc repaint -- co the truoc hoac sau setTimeout)
+// rAF              (trước repaint -- có thể trước hoặc sau setTimeout)
 // setTimeout       (macrotask)
 
-// Luu y: Thu tu rAF va setTimeout khong hoan toan co dinh
-// vi rAF chi chay truoc repaint (60fps = moi ~16.67ms)
+// Lưu ý: Thứ tự rAF và setTimeout không hoàn toàn cố định
+// vì rAF chỉ chạy trước repaint (60fps = mỗi ~16.67ms)
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "requestAnimationFrame khong thuoc microtask hay macrotask -- no nam trong queue rieng duoc xu ly truoc moi repaint cua browser. Khac voi setTimeout, rAF dong bo voi refresh rate cua man hinh (thuong 60fps), nen animation muot hon. No cung tu dong dung khi tab bi an, tiet kiem tai nguyen. Trong thuc te, bat ky thay doi visual nao (animation, scroll effect) nen dung rAF thay vi setTimeout."
+> "requestAnimationFrame không thuộc microtask hay macrotask -- nó nằm trong queue riêng được xử lý trước mỗi repaint của browser. Khác với setTimeout, rAF đồng bộ với refresh rate của màn hình (thường 60fps), nên animation mượt hơn. Nó cũng tự động dừng khi tab bị ẩn, tiết kiệm tài nguyên. Trong thực tế, bất kỳ thay đổi visual nào (animation, scroll effect) nên dùng rAF thay vì setTimeout."
 
 ---
 
-## Cau 5: Promise.then() vs setTimeout -- thu tu thuc thi `[Senior]`
+## Câu 5: Promise.then() vs setTimeout -- thứ tự thực thi `[Senior]`
 
-### Cau hoi
+### Câu hỏi
 
-> Doan code sau output gi? Giai thich chi tiet tu buoc thuc thi.
+> Đoạn code sau output gì? Giải thích chi tiết từng bước thực thi.
 
 ```javascript
 console.log("start");
@@ -352,45 +352,45 @@ setTimeout(() => console.log("timeout 3"), 0);
 console.log("end");
 ```
 
-### Giai thich chi tiet
+### Giải thích chi tiết
 
 ```
-Buoc 1: Chay dong bo
+Bước 1: Chạy đồng bộ
 - console.log("start") -> in "start"
-- setTimeout(timeout1, 0) -> timeout1 vao macrotask queue
-- Promise.resolve().then(handler1) -> handler1 vao microtask queue
-- .then(handler2) -> chua chay, doi handler1 xong
-- setTimeout(timeout3, 0) -> timeout3 vao macrotask queue
+- setTimeout(timeout1, 0) -> timeout1 vào macrotask queue
+- Promise.resolve().then(handler1) -> handler1 vào microtask queue
+- .then(handler2) -> chưa chạy, đợi handler1 xong
+- setTimeout(timeout3, 0) -> timeout3 vào macrotask queue
 - console.log("end") -> in "end"
 
-Trang thai queue:
+Trạng thái queue:
   Microtask: [handler1]
   Macrotask: [timeout1, timeout3]
 
-Buoc 2: Xu ly tat ca microtask
-- handler1 chay: in "promise 1"
-  + setTimeout(timeout2, 0) -> timeout2 vao macrotask queue
-  + handler1 resolve -> handler2 vao microtask queue
+Bước 2: Xử lý tất cả microtask
+- handler1 chạy: in "promise 1"
+  + setTimeout(timeout2, 0) -> timeout2 vào macrotask queue
+  + handler1 resolve -> handler2 vào microtask queue
 
-Trang thai queue:
-  Microtask: [handler2]  <-- moi duoc them
+Trạng thái queue:
+  Microtask: [handler2]  <-- mới được thêm
   Macrotask: [timeout1, timeout3, timeout2]
 
-- handler2 chay: in "promise 2"
+- handler2 chạy: in "promise 2"
 
-Trang thai queue:
-  Microtask: [] (trong)
+Trạng thái queue:
+  Microtask: [] (trống)
   Macrotask: [timeout1, timeout3, timeout2]
 
-Buoc 3: Xu ly macrotask (tung cai mot)
-- timeout1 chay: in "timeout 1"
-- (kiem tra microtask -> trong -> tiep)
-- timeout3 chay: in "timeout 3"
-- (kiem tra microtask -> trong -> tiep)
-- timeout2 chay: in "timeout 2"
+Bước 3: Xử lý macrotask (từng cái một)
+- timeout1 chạy: in "timeout 1"
+- (kiểm tra microtask -> trống -> tiếp)
+- timeout3 chạy: in "timeout 3"
+- (kiểm tra microtask -> trống -> tiếp)
+- timeout2 chạy: in "timeout 2"
 ```
 
-### Dap an
+### Đáp án
 
 ```javascript
 // Output:
@@ -403,17 +403,17 @@ Buoc 3: Xu ly macrotask (tung cai mot)
 // timeout 2
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Output la: start, end, promise 1, promise 2, timeout 1, timeout 3, timeout 2. Dong bo chay truoc (start, end). Roi tat ca microtask (promise 1, promise 2 -- ke ca promise 2 duoc them trong luc xu ly microtask). Cuoi cung la macrotask theo thu tu FIFO (timeout 1, timeout 3, timeout 2). Diem mau chot: setTimeout trong promise callback (timeout 2) vao macrotask queue **sau** timeout 1 va timeout 3, nen no chay cuoi cung."
+> "Output là: start, end, promise 1, promise 2, timeout 1, timeout 3, timeout 2. Đồng bộ chạy trước (start, end). Rồi tất cả microtask (promise 1, promise 2 -- kể cả promise 2 được thêm trong lúc xử lý microtask). Cuối cùng là macrotask theo thứ tự FIFO (timeout 1, timeout 3, timeout 2). Điểm mấu chốt: setTimeout trong promise callback (timeout 2) vào macrotask queue **sau** timeout 1 và timeout 3, nên nó chạy cuối cùng."
 
 ---
 
-## Cau 6: Bai tap output prediction nang cao `[Senior]`
+## Câu 6: Bài tập output prediction nâng cao `[Senior]`
 
-### Cau hoi
+### Câu hỏi
 
-> Du doan output:
+> Dự đoán output:
 
 ```javascript
 async function async1() {
@@ -444,41 +444,41 @@ new Promise((resolve) => {
 console.log("script end");
 ```
 
-### Giai thich chi tiet
+### Giải thích chi tiết
 
 ```
-Diem then chot can hieu:
-- async function THUC THI DONG BO cho den khi gap await
-- await x tuong duong Promise.resolve(x).then(phần sau await)
-- Callback cua Promise constructor chay DONG BO
+Điểm then chốt cần hiểu:
+- async function THỰC THI ĐỒNG BỘ cho đến khi gặp await
+- await x tương đương Promise.resolve(x).then(phần sau await)
+- Callback của Promise constructor chạy ĐỒNG BỘ
 
-Buoc 1: Chay dong bo
+Bước 1: Chạy đồng bộ
 1. console.log("script start") -> in "script start"
-2. setTimeout -> callback vao macrotask queue
-3. Goi async1():
+2. setTimeout -> callback vào macrotask queue
+3. Gọi async1():
    - console.log("async1 start") -> in "async1 start"
    - await async2():
-     + Goi async2() dong bo -> console.log("async2") -> in "async2"
-     + Phan sau await ("async1 end") vao microtask queue
-   - async1 tam dung (yield)
+     + Gọi async2() đồng bộ -> console.log("async2") -> in "async2"
+     + Phần sau await ("async1 end") vào microtask queue
+   - async1 tạm dừng (yield)
 4. new Promise(executor):
-   - executor chay DONG BO -> console.log("promise1") -> in "promise1"
-   - resolve() -> .then callback vao microtask queue
+   - executor chạy ĐỒNG BỘ -> console.log("promise1") -> in "promise1"
+   - resolve() -> .then callback vào microtask queue
 5. console.log("script end") -> in "script end"
 
-Trang thai queue:
+Trạng thái queue:
   Microtask: [async1-continuation, promise2-handler]
   Macrotask: [setTimeout-handler]
 
-Buoc 2: Xu ly microtask
+Bước 2: Xử lý microtask
 - async1-continuation: in "async1 end"
 - promise2-handler: in "promise2"
 
-Buoc 3: Xu ly macrotask
+Bước 3: Xử lý macrotask
 - setTimeout-handler: in "setTimeout"
 ```
 
-### Dap an
+### Đáp án
 
 ```javascript
 // Output:
@@ -492,19 +492,19 @@ Buoc 3: Xu ly macrotask
 // setTimeout
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Output la: script start, async1 start, async2, promise1, script end, async1 end, promise2, setTimeout. Diem mau chot: (1) async function chay dong bo cho den `await`, (2) `await` bien phan con lai thanh microtask, (3) Promise constructor callback chay dong bo -- chi `.then` la async. Hieu dieu nay giup ban doc duoc bat ky doan async code nao."
+> "Output là: script start, async1 start, async2, promise1, script end, async1 end, promise2, setTimeout. Điểm mấu chốt: (1) async function chạy đồng bộ cho đến `await`, (2) `await` biến phần còn lại thành microtask, (3) Promise constructor callback chạy đồng bộ -- chỉ `.then` là async. Hiểu điều này giúp bạn đọc được bất kỳ đoạn async code nào."
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
-| Loi | Giai thich dung |
+| Lỗi | Giải thích đúng |
 |---|---|
-| "setTimeout(fn, 0) chay ngay lap tuc" | Khong -- no phai doi call stack trong va tat ca microtask xu ly xong. Thoi gian toi thieu thuc te khoang 4ms (browser clamp). |
-| "Promise la asynchronous hoan toan" | Sai -- Promise **constructor callback** chay **dong bo**. Chi `.then`/`.catch`/`.finally` la async (microtask). |
-| "Microtask va macrotask xu ly nhu nhau" | Sai -- microtask co uu tien cao hon va **tat ca** duoc xu ly truoc khi chuyen sang macrotask tiep theo. |
-| "async/await bien ham thanh asynchronous" | Khong hoan toan -- async function chay dong bo cho den `await`. Phan truoc await la dong bo, phan sau await la microtask. |
-| "requestAnimationFrame la macrotask" | Sai -- rAF nam trong queue rieng, duoc xu ly truoc repaint, khong phai macrotask. |
-| "JavaScript khong the lam nhieu viec cung luc" | JS engine la single-threaded, nhung runtime (browser/Node) co nhieu thread khac xu ly I/O, timer, network. JS chi co mot thread chay code nhung van co concurrency nho event loop. |
+| "setTimeout(fn, 0) chạy ngay lập tức" | Không -- nó phải đợi call stack trống và tất cả microtask xử lý xong. Thời gian tối thiểu thực tế khoảng 4ms (browser clamp). |
+| "Promise là asynchronous hoàn toàn" | Sai -- Promise **constructor callback** chạy **đồng bộ**. Chỉ `.then`/`.catch`/`.finally` là async (microtask). |
+| "Microtask và macrotask xử lý như nhau" | Sai -- microtask có ưu tiên cao hơn và **tất cả** được xử lý trước khi chuyển sang macrotask tiếp theo. |
+| "async/await biến hàm thành asynchronous" | Không hoàn toàn -- async function chạy đồng bộ cho đến `await`. Phần trước await là đồng bộ, phần sau await là microtask. |
+| "requestAnimationFrame là macrotask" | Sai -- rAF nằm trong queue riêng, được xử lý trước repaint, không phải macrotask. |
+| "JavaScript không thể làm nhiều việc cùng lúc" | JS engine là single-threaded, nhưng runtime (browser/Node) có nhiều thread khác xử lý I/O, timer, network. JS chỉ có một thread chạy code nhưng vẫn có concurrency nhờ event loop. |

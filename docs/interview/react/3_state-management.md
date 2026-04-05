@@ -5,35 +5,35 @@ title: "Context vs Redux vs Zustand vs Jotai"
 
 # Context vs Redux vs Zustand vs Jotai
 
-State management la mot trong nhung chu de duoc hoi nhieu nhat trong phong van React. Khong chi la "ban dung Redux hay Context", ma la **tai sao** chon cai nay thay vi cai kia, **performance implications** la gi, va **khi nao dung cai gi** la hop ly.
+State management là một trong những chủ đề được hỏi nhiều nhất trong phỏng vấn React. Không chỉ là "bạn dùng Redux hay Context", mà là **tại sao** chọn cái này thay vì cái kia, **performance implications** là gì, và **khi nào dùng cái gì** là hợp lý.
 
 ---
 
-## Cau 1: React Context API -- khi nao dung, khi nao khong? Tai sao Context gay performance issues? `[Intermediate]`
+## Câu 1: React Context API -- khi nào dùng, khi nào không? Tại sao Context gây performance issues? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Context API** cho phep truyen data xuong component tree ma khong can prop drilling. No gom 2 phan: `createContext` + `Provider` (cung cap data) va `useContext` (tieu thu data).
+**Context API** cho phép truyền data xuống component tree mà không cần prop drilling. Nó gồm 2 phần: `createContext` + `Provider` (cung cấp data) và `useContext` (tiêu thụ data).
 
-**Van de lon nhat**: khi Context value thay doi, **TAT CA** components dung `useContext` deu re-render -- ke ca khi chung chi dung mot phan nho cua value. Khong co "selector" nhu Redux.
+**Vấn đề lớn nhất**: khi Context value thay đổi, **TẤT CẢ** components dùng `useContext` đều re-render -- kể cả khi chúng chỉ dùng một phần nhỏ của value. Không có "selector" như Redux.
 
-**Khi nao dung Context?**
-- Theme (light/dark) -- it thay doi
-- Authentication state -- it thay doi
-- Locale/language -- it thay doi
-- Cac gia tri it thay doi, nhieu component can
+**Khi nào dùng Context?**
+- Theme (light/dark) -- ít thay đổi
+- Authentication state -- ít thay đổi
+- Locale/language -- ít thay đổi
+- Các giá trị ít thay đổi, nhiều component cần
 
-**Khi nao KHONG dung?**
-- State thay doi thuong xuyen (form input, search, counters)
-- State lon voi nhieu fields ma components chi can 1-2 fields
-- Khi performance la quan trong
+**Khi nào KHÔNG dùng?**
+- State thay đổi thường xuyên (form input, search, counters)
+- State lớn với nhiều fields mà components chỉ cần 1-2 fields
+- Khi performance là quan trọng
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { createContext, useContext, useState, useMemo } from 'react';
 
-// --- VAN DE: Tat ca consumers re-render ---
+// --- VẤN ĐỀ: Tất cả consumers re-render ---
 interface AppState {
   theme: string;
   user: { name: string } | null;
@@ -49,8 +49,8 @@ function AppProvider({ children }: { children: React.ReactNode }) {
     notifications: 0,
   });
 
-  // Moi lan notifications tang, ThemeButton CUNG re-render
-  // du no chi dung theme
+  // Mỗi lần notifications tăng, ThemeButton CŨNG re-render
+  // dù nó chỉ dùng theme
   return (
     <AppContext.Provider value={state}>
       {children}
@@ -58,7 +58,7 @@ function AppProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-// --- GIAI PHAP 1: Tach Context ---
+// --- GIẢI PHÁP 1: Tách Context ---
 const ThemeContext = createContext('light');
 const UserContext = createContext<{ name: string } | null>(null);
 
@@ -75,12 +75,12 @@ function SplitProviders({ children }: { children: React.ReactNode }) {
   );
 }
 
-// --- GIAI PHAP 2: Memo hoa value ---
+// --- GIẢI PHÁP 2: Memo hóa value ---
 function OptimizedProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState('light');
   const [count, setCount] = useState(0);
 
-  // useMemo de tranh tao object moi moi lan render
+  // useMemo để tránh tạo object mới mỗi lần render
   const value = useMemo(() => ({ theme, setTheme }), [theme]);
 
   return (
@@ -91,31 +91,31 @@ function OptimizedProvider({ children }: { children: React.ReactNode }) {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Context tot cho data it thay doi nhu theme, auth, locale. Van de chinh la khong co selector -- khi value thay doi, tat ca consumers re-render. Giai phap: tach nhieu context nho, useMemo cho value, hoac chuyen sang state management library khi can fine-grained subscriptions."
+> "Context tốt cho data ít thay đổi như theme, auth, locale. Vấn đề chính là không có selector -- khi value thay đổi, tất cả consumers re-render. Giải pháp: tách nhiều context nhỏ, useMemo cho value, hoặc chuyển sang state management library khi cần fine-grained subscriptions."
 
 ---
 
-## Cau 2: Redux -- core concepts la gi? Redux Toolkit thay doi gi? `[Intermediate]`
+## Câu 2: Redux -- core concepts là gì? Redux Toolkit thay đổi gì? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Redux** dua tren 3 nguyen tac:
-1. **Single source of truth**: toan bo state nam trong 1 store
-2. **State is read-only**: chi thay doi state qua dispatching actions
-3. **Pure reducers**: reducers la pure functions (state cu + action => state moi)
+**Redux** dựa trên 3 nguyên tắc:
+1. **Single source of truth**: toàn bộ state nằm trong 1 store
+2. **State is read-only**: chỉ thay đổi state qua dispatching actions
+3. **Pure reducers**: reducers là pure functions (state cũ + action => state mới)
 
-**Redux Toolkit (RTK)** la cach chuan de viet Redux hien dai:
-- `createSlice`: gom reducer + actions, cho phep "mutate" state (dung Immer ben trong)
+**Redux Toolkit (RTK)** là cách chuẩn để viết Redux hiện đại:
+- `createSlice`: gom reducer + actions, cho phép "mutate" state (dùng Immer bên trong)
 - `configureStore`: thay `createStore`, auto setup middleware
-- `createAsyncThunk`: xu ly async logic
-- RTK Query: data fetching va caching (thay React Query trong mot so truong hop)
+- `createAsyncThunk`: xử lý async logic
+- RTK Query: data fetching và caching (thay React Query trong một số trường hợp)
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
-// Redux Toolkit -- cach viet Redux hien dai
+// Redux Toolkit -- cách viết Redux hiện đại
 import { createSlice, configureStore, createAsyncThunk } from '@reduxjs/toolkit';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -134,9 +134,9 @@ const usersSlice = createSlice({
     error: null as string | null,
   },
   reducers: {
-    // "Mutation" syntax -- Immer tao immutable update ben trong
+    // Cú pháp "Mutation" -- Immer tạo immutable update bên trong
     addUser(state, action) {
-      state.list.push(action.payload); // OK vi Immer
+      state.list.push(action.payload); // OK vì Immer
     },
     removeUser(state, action) {
       state.list = state.list.filter(u => u.id !== action.payload);
@@ -165,7 +165,7 @@ const store = configureStore({
 
 type RootState = ReturnType<typeof store.getState>;
 
-// Component -- selector chi re-render khi users.list thay doi
+// Component -- selector chỉ re-render khi users.list thay đổi
 function UserList() {
   const users = useSelector((state: RootState) => state.users.list);
   const loading = useSelector((state: RootState) => state.users.loading);
@@ -186,35 +186,35 @@ function UserList() {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Redux co single store, read-only state, va pure reducers. Redux Toolkit don gian hoa viet Redux voi createSlice (dung Immer cho immutable updates voi syntax 'mutation'), configureStore (auto setup), va createAsyncThunk (async logic). useSelector cho phep fine-grained subscriptions -- chi re-render khi selected data thay doi, khac voi Context."
+> "Redux có single store, read-only state, và pure reducers. Redux Toolkit đơn giản hóa viết Redux với createSlice (dùng Immer cho immutable updates với syntax 'mutation'), configureStore (auto setup), và createAsyncThunk (async logic). useSelector cho phép fine-grained subscriptions -- chỉ re-render khi selected data thay đổi, khác với Context."
 
 ---
 
-## Cau 3: Zustand -- don gian hon Redux nhu the nao? `[Intermediate]`
+## Câu 3: Zustand -- đơn giản hơn Redux như thế nào? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Zustand** la lightweight state management (< 1KB). Khac voi Redux:
-- Khong can Provider wrapper
-- Khong can actions/reducers boilerplate
-- API don gian: `create` store, dung hook de access
-- Co selector built-in (fine-grained re-renders)
-- Co the dung ngoai React (vanilla JS)
+**Zustand** là lightweight state management (< 1KB). Khác với Redux:
+- Không cần Provider wrapper
+- Không cần actions/reducers boilerplate
+- API đơn giản: `create` store, dùng hook để access
+- Có selector built-in (fine-grained re-renders)
+- Có thể dùng ngoài React (vanilla JS)
 
-Zustand phu hop cho:
-- Ung dung vua va nho
-- Khi muon it boilerplate
-- Khi can shared state giua components ma khong muon Redux overhead
+Zustand phù hợp cho:
+- Ứng dụng vừa và nhỏ
+- Khi muốn ít boilerplate
+- Khi cần shared state giữa components mà không muốn Redux overhead
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 
-// Dinh nghia store -- don gian, khong can Provider
+// Định nghĩa store -- đơn giản, không cần Provider
 interface TodoStore {
   todos: Todo[];
   filter: 'all' | 'active' | 'done';
@@ -257,9 +257,9 @@ const useTodoStore = create<TodoStore>()(
   )
 );
 
-// Component -- selector chi lay nhung gi can
+// Component -- selector chỉ lấy những gì cần
 function TodoList() {
-  // Chi re-render khi todos thay doi, khong khi filter thay doi
+  // Chỉ re-render khi todos thay đổi, không khi filter thay đổi
   const todos = useTodoStore((state) => state.todos);
   const toggleTodo = useTodoStore((state) => state.toggleTodo);
 
@@ -275,7 +275,7 @@ function TodoList() {
 }
 
 function FilterBar() {
-  // Chi re-render khi filter thay doi
+  // Chỉ re-render khi filter thay đổi
   const filter = useTodoStore((state) => state.filter);
   const setFilter = useTodoStore((state) => state.setFilter);
 
@@ -294,38 +294,38 @@ function FilterBar() {
   );
 }
 
-// Dung ngoai React
+// Dùng ngoài React
 const currentTodos = useTodoStore.getState().todos;
 useTodoStore.subscribe((state) => console.log('State changed:', state));
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Zustand la lightweight alternative cho Redux voi API don gian -- khong can Provider, reducers, hay actions boilerplate. No co built-in selector de fine-grained re-renders, middleware ecosystem (devtools, persist, immer), va co the dung ngoai React. Phu hop cho ung dung khong can full Redux ecosystem."
+> "Zustand là lightweight alternative cho Redux với API đơn giản -- không cần Provider, reducers, hay actions boilerplate. Nó có built-in selector để fine-grained re-renders, middleware ecosystem (devtools, persist, immer), và có thể dùng ngoài React. Phù hợp cho ứng dụng không cần full Redux ecosystem."
 
 ---
 
-## Cau 4: Jotai -- atomic state model khac gi? `[Senior]`
+## Câu 4: Jotai -- atomic state model khác gì? `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Jotai** dung **atomic model** -- moi piece of state la mot "atom" doc lap. Khac voi Redux (1 store lon) hay Zustand (store functions):
+**Jotai** dùng **atomic model** -- mỗi piece of state là một "atom" độc lập. Khác với Redux (1 store lớn) hay Zustand (store functions):
 
-- **Bottom-up**: tao atoms nho, compose thanh state phuc tap
-- **Khong can Provider** (tu Jotai v2)
-- **Fine-grained**: component chi re-render khi atom no subscribe thay doi
-- **Derived atoms**: tinh toan tu cac atoms khac (giong computed/selector)
+- **Bottom-up**: tạo atoms nhỏ, compose thành state phức tạp
+- **Không cần Provider** (từ Jotai v2)
+- **Fine-grained**: component chỉ re-render khi atom nó subscribe thay đổi
+- **Derived atoms**: tính toán từ các atoms khác (giống computed/selector)
 - **Async atoms**: built-in async support
 
-Jotai lay cam hung tu Recoil (Meta) nhung nhe hon va don gian hon.
+Jotai lấy cảm hứng từ Recoil (Meta) nhưng nhẹ hơn và đơn giản hơn.
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 
-// Atoms -- moi atom la 1 don vi state doc lap
+// Atoms -- mỗi atom là 1 đơn vị state độc lập
 const countAtom = atom(0);
 const doubleCountAtom = atom((get) => get(countAtom) * 2); // derived (read-only)
 const themeAtom = atomWithStorage('theme', 'light'); // persist to localStorage
@@ -338,13 +338,13 @@ const userAtom = atom(async () => {
 
 // Writable derived atom
 const incrementAtom = atom(
-  null, // khong co read
+  null, // không có read
   (get, set) => {
     set(countAtom, get(countAtom) + 1);
   }
 );
 
-// Component -- chi re-render khi countAtom thay doi
+// Component -- chỉ re-render khi countAtom thay đổi
 function Counter() {
   const [count, setCount] = useAtom(countAtom);
 
@@ -356,25 +356,25 @@ function Counter() {
   );
 }
 
-// Component -- chi re-render khi doubleCount thay doi
+// Component -- chỉ re-render khi doubleCount thay đổi
 function DoubleDisplay() {
   const doubleCount = useAtomValue(doubleCountAtom); // read-only
   return <p>Double: {doubleCount}</p>;
 }
 
-// Component -- khong re-render vi chi set, khong read
+// Component -- không re-render vì chỉ set, không read
 function IncrementButton() {
   const increment = useSetAtom(incrementAtom); // write-only
   return <button onClick={increment}>Increment</button>;
 }
 
-// Async atom -- tu dong Suspense
+// Async atom -- tự động Suspense
 function UserProfile() {
   const user = useAtomValue(userAtom); // Suspense while loading
   return <p>{user.name}</p>;
 }
 
-// Wrap voi Suspense
+// Wrap với Suspense
 function App() {
   return (
     <React.Suspense fallback={<p>Loading user...</p>}>
@@ -384,70 +384,70 @@ function App() {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Jotai dung atomic model -- moi atom la mot don vi state doc lap, components chi re-render khi atom chung subscribe thay doi. Derived atoms cho computed values, async atoms tich hop voi Suspense. So voi Redux, Jotai co it boilerplate hon va fine-grained re-renders tu nhien. Phu hop cho ung dung can nhieu pieces of independent state."
+> "Jotai dùng atomic model -- mỗi atom là một đơn vị state độc lập, components chỉ re-render khi atom chúng subscribe thay đổi. Derived atoms cho computed values, async atoms tích hợp với Suspense. So với Redux, Jotai có ít boilerplate hơn và fine-grained re-renders tự nhiên. Phù hợp cho ứng dụng cần nhiều pieces of independent state."
 
 ---
 
-## Cau 5: Khi nao dung gi? So sanh chi tiet cac giai phap state management `[Senior]`
+## Câu 5: Khi nào dùng gì? So sánh chi tiết các giải pháp state management `[Senior]`
 
-### Bang so sanh chi tiet
+### Bảng so sánh chi tiết
 
-| Tieu chi | Context | Redux (RTK) | Zustand | Jotai |
+| Tiêu chí | Context | Redux (RTK) | Zustand | Jotai |
 |----------|---------|-------------|---------|-------|
 | **Bundle size** | 0 (built-in) | ~11KB | ~1KB | ~3KB |
-| **Boilerplate** | It | Trung binh (RTK giam nhieu) | Rat it | Rat it |
-| **Learning curve** | Thap | Trung binh - Cao | Thap | Thap |
-| **DevTools** | React DevTools | Redux DevTools (manh) | Redux DevTools (middleware) | Jotai DevTools |
-| **Selector / Fine-grained** | Khong co | useSelector | Built-in selector | Atomic (tu nhien) |
-| **Middleware** | Khong | Phong phu (thunk, saga, RTK Query) | persist, devtools, immer | utils (storage, async) |
-| **Server state** | Khong | RTK Query | Khong (dung React Query) | Async atoms |
-| **Dung ngoai React** | Khong | Co | Co | Khong (React-first) |
-| **TypeScript** | Tot | Tot | Tot | Rat tot |
-| **Ecosystem** | React core | Lon nhat | Dang lon | Trung binh |
+| **Boilerplate** | Ít | Trung bình (RTK giảm nhiều) | Rất ít | Rất ít |
+| **Learning curve** | Thấp | Trung bình - Cao | Thấp | Thấp |
+| **DevTools** | React DevTools | Redux DevTools (mạnh) | Redux DevTools (middleware) | Jotai DevTools |
+| **Selector / Fine-grained** | Không có | useSelector | Built-in selector | Atomic (tự nhiên) |
+| **Middleware** | Không | Phong phú (thunk, saga, RTK Query) | persist, devtools, immer | utils (storage, async) |
+| **Server state** | Không | RTK Query | Không (dùng React Query) | Async atoms |
+| **Dùng ngoài React** | Không | Có | Có | Không (React-first) |
+| **TypeScript** | Tốt | Tốt | Tốt | Rất tốt |
+| **Ecosystem** | React core | Lớn nhất | Đang lớn | Trung bình |
 
-### Khi nao dung gi?
+### Khi nào dùng gì?
 
-| Tinh huong | Chon |
+| Tình huống | Chọn |
 |------------|------|
-| Theme, auth, locale (it thay doi) | **Context** |
-| App lon, nhieu team, can predictability | **Redux Toolkit** |
-| App vua, muon don gian, it boilerplate | **Zustand** |
-| Nhieu state doc lap, atomic mental model | **Jotai** |
+| Theme, auth, locale (ít thay đổi) | **Context** |
+| App lớn, nhiều team, cần predictability | **Redux Toolkit** |
+| App vừa, muốn đơn giản, ít boilerplate | **Zustand** |
+| Nhiều state độc lập, atomic mental model | **Jotai** |
 | Server state (data fetching + caching) | **React Query / TanStack Query** |
 | Form state | **React Hook Form / Formik** |
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Khong co 'best' solution -- tuy vao yeu cau. Context cho data it thay doi. Redux cho app lon can predictability va devtools manh. Zustand cho app muon don gian ma van co selector va middleware. Jotai cho atomic state voi fine-grained re-renders. Va server state nen dung React Query thay vi luu trong client state."
+> "Không có 'best' solution -- tùy vào yêu cầu. Context cho data ít thay đổi. Redux cho app lớn cần predictability và devtools mạnh. Zustand cho app muốn đơn giản mà vẫn có selector và middleware. Jotai cho atomic state với fine-grained re-renders. Và server state nên dùng React Query thay vì lưu trong client state."
 
 ---
 
-## Cau 6: Server State -- React Query / TanStack Query giai quyet van de gi? `[Intermediate]`
+## Câu 6: Server State -- React Query / TanStack Query giải quyết vấn đề gì? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Server state** khac **client state**:
-- Client state: UI state, form state -- ban kiem soat hoan toan
-- Server state: data tu API -- co the outdated, can sync, co loading/error states
+**Server state** khác **client state**:
+- Client state: UI state, form state -- bạn kiểm soát hoàn toàn
+- Server state: data từ API -- có thể outdated, cần sync, có loading/error states
 
-**Van de** khi luu server data trong Redux/Zustand:
-- Phai tu viet loading, error, refetch logic
-- Stale data (data cu)
+**Vấn đề** khi lưu server data trong Redux/Zustand:
+- Phải tự viết loading, error, refetch logic
+- Stale data (data cũ)
 - Cache invalidation
-- Deduplication (nhieu components fetch cung data)
+- Deduplication (nhiều components fetch cùng data)
 - Background refetching
 
-**TanStack Query** giai quyet tat ca:
-- Auto caching va deduplication
+**TanStack Query** giải quyết tất cả:
+- Auto caching và deduplication
 - Stale-while-revalidate strategy
 - Background refetching
 - Optimistic updates
 - Infinite queries / pagination
 - Prefetching
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import {
@@ -462,8 +462,8 @@ import {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5 * 60 * 1000, // 5 phut truoc khi data "stale"
-      gcTime: 10 * 60 * 1000, // 10 phut giu trong cache
+      staleTime: 5 * 60 * 1000, // 5 phút trước khi data "stale"
+      gcTime: 10 * 60 * 1000, // 10 phút giữ trong cache
     },
   },
 });
@@ -476,7 +476,7 @@ function App() {
   );
 }
 
-// Fetch data voi useQuery
+// Fetch data với useQuery
 function UserList() {
   const {
     data: users,
@@ -505,7 +505,7 @@ function UserList() {
   );
 }
 
-// Mutation voi optimistic update
+// Mutation với optimistic update
 function AddUserForm() {
   const queryClient = useQueryClient();
 
@@ -529,11 +529,11 @@ function AddUserForm() {
       return { previous };
     },
     onError: (_err, _newUser, context) => {
-      // Rollback khi loi
+      // Rollback khi lỗi
       queryClient.setQueryData(['users'], context?.previous);
     },
     onSettled: () => {
-      // Refetch de dam bao data dung
+      // Refetch để đảm bảo data đúng
       queryClient.invalidateQueries({ queryKey: ['users'] });
     },
   });
@@ -559,22 +559,22 @@ function AddUserForm() {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "TanStack Query chuyen hoa cho server state management -- tu dong caching, deduplication, background refetching, va stale-while-revalidate. Thay vi luu server data trong Redux/Zustand va tu viet loading/error logic, dung React Query de co out-of-the-box caching, optimistic updates, va cache invalidation. Client state (UI, forms) van dung Context/Zustand/Redux."
+> "TanStack Query chuyên hóa cho server state management -- tự động caching, deduplication, background refetching, và stale-while-revalidate. Thay vì lưu server data trong Redux/Zustand và tự viết loading/error logic, dùng React Query để có out-of-the-box caching, optimistic updates, và cache invalidation. Client state (UI, forms) vẫn dùng Context/Zustand/Redux."
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
-1. **Noi "Redux la over-engineering, dung Context la du"** -- Sai khi app lon. Context khong co selector, gay re-render khong can thiet. Redux Toolkit da giam boilerplate dang ke.
+1. **Nói "Redux là over-engineering, dùng Context là đủ"** -- Sai khi app lớn. Context không có selector, gây re-render không cần thiết. Redux Toolkit đã giảm boilerplate đáng kể.
 
-2. **Khong phan biet client state va server state** -- Day la insight quan trong. Server state can caching, sync, refetch -- nhung thu ma Redux khong duoc thiet ke de lam.
+2. **Không phân biệt client state và server state** -- Đây là insight quan trọng. Server state cần caching, sync, refetch -- những thứ mà Redux không được thiết kế để làm.
 
-3. **So sanh Redux voi Zustand ma khong noi ve use case** -- Moi tool co use case rieng. Quan trong la giai thich **khi nao** dung cai nao, khong phai cai nao "tot hon."
+3. **So sánh Redux với Zustand mà không nói về use case** -- Mỗi tool có use case riêng. Quan trọng là giải thích **khi nào** dùng cái nào, không phải cái nào "tốt hơn."
 
-4. **Khong biet Context gay re-render tat ca consumers** -- Day la van de performance so 1 cua Context. Can noi ro va de xuat giai phap (tach context, useMemo).
+4. **Không biết Context gây re-render tất cả consumers** -- Đây là vấn đề performance số 1 của Context. Cần nói rõ và đề xuất giải pháp (tách context, useMemo).
 
-5. **Noi "Jotai giong Recoil"** -- Giong ve concept (atomic), nhung Jotai nhe hon, khong can Provider (v2+), va API khac. Can noi ro su khac biet.
+5. **Nói "Jotai giống Recoil"** -- Giống về concept (atomic), nhưng Jotai nhẹ hơn, không cần Provider (v2+), và API khác. Cần nói rõ sự khác biệt.
 
-6. **Lam dung Redux cho moi state** -- Form state nen dung React Hook Form, server state nen dung React Query. Redux/Zustand cho shared client state.
+6. **Lạm dụng Redux cho mọi state** -- Form state nên dùng React Hook Form, server state nên dùng React Query. Redux/Zustand cho shared client state.

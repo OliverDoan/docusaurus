@@ -5,48 +5,48 @@ title: "Hooks: useState, useEffect, useRef, useCallback, useMemo"
 
 # Hooks: useState, useEffect, useRef, useCallback, useMemo
 
-React Hooks ra doi tu phien ban 16.8, va bay gio la cach viet React pho bien nhat. Nhung trong phong van, nguoi ta khong hoi ban "hooks la gi" nua -- ho se hoi sau hon, kieu nhu batching hoat dong ra sao, tai sao useEffect chay 2 lan, hay khi nao thi can useCallback. Cung di vao tung cau hoi nhe.
+React Hooks ra đời từ phiên bản 16.8, và bây giờ là cách viết React phổ biến nhất. Nhưng trong phỏng vấn, người ta không hỏi bạn "hooks là gì" nữa -- họ sẽ hỏi sâu hơn, kiểu như batching hoạt động ra sao, tại sao useEffect chạy 2 lần, hay khi nào thì cần useCallback. Cùng đi vào từng câu hỏi nhé.
 
 ---
 
-## Cau 1: useState hoat dong nhu the nao ben trong? Giai thich batching, functional updates va lazy initialization. `[Senior]`
+## Câu 1: useState hoạt động như thế nào bên trong? Giải thích batching, functional updates và lazy initialization. `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-`useState` khong don gian chi la "luu mot gia tri". Ben trong React, moi lan goi `useState`, React luu gia tri do vao mot "fiber node" tuong ung voi component. Khi ban goi `setState`, React khong cap nhat ngay lap tuc ma **batch** (gom nhom) cac cap nhat lai.
+`useState` không đơn giản chỉ là "lưu một giá trị". Bên trong React, mỗi lần gọi `useState`, React lưu giá trị đó vào một "fiber node" tương ứng với component. Khi bạn gọi `setState`, React không cập nhật ngay lập tức mà **batch** (gom nhóm) các cập nhật lại.
 
-**Batching** la gi? Tu React 18 tro di, tat ca cac state updates deu duoc batch -- ke ca trong `setTimeout`, `Promise`, hay event handler. Truoc React 18, chi batch trong React event handlers thoi.
+**Batching** là gì? Từ React 18 trở đi, tất cả các state updates đều được batch -- kể cả trong `setTimeout`, `Promise`, hay event handler. Trước React 18, chỉ batch trong React event handlers thôi.
 
-**Functional updates** la khi ban truyen mot function vao `setState` thay vi gia tri truc tiep. Dieu nay quan trong khi gia tri moi phu thuoc vao gia tri cu.
+**Functional updates** là khi bạn truyền một function vào `setState` thay vì giá trị trực tiếp. Điều này quan trọng khi giá trị mới phụ thuộc vào giá trị cũ.
 
-**Lazy initialization** la khi ban truyen mot function vao `useState(fn)` -- function nay chi chay 1 lan duy nhat khi component mount.
+**Lazy initialization** là khi bạn truyền một function vào `useState(fn)` -- function này chỉ chạy 1 lần duy nhất khi component mount.
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { useState } from 'react';
 
-// Lazy initialization -- ham nay chi chay 1 lan
+// Lazy initialization -- hàm này chỉ chạy 1 lần
 function ExpensiveComponent() {
   const [data, setData] = useState(() => {
-    console.log('Chi chay 1 lan khi mount');
-    return heavyComputation(); // VD: parse JSON lon tu localStorage
+    console.log('Chỉ chạy 1 lần khi mount');
+    return heavyComputation(); // VD: parse JSON lớn từ localStorage
   });
 
   return <div>{data}</div>;
 }
 
-// Functional update -- dam bao luon lay gia tri moi nhat
+// Functional update -- đảm bảo luôn lấy giá trị mới nhất
 function Counter() {
   const [count, setCount] = useState(0);
 
   const incrementThreeTimes = () => {
-    // SAI: chi tang 1 lan vi batching
+    // SAI: chỉ tăng 1 lần vì batching
     // setCount(count + 1);
     // setCount(count + 1);
     // setCount(count + 1);
 
-    // DUNG: tang 3 lan nho functional update
+    // ĐÚNG: tăng 3 lần nhờ functional update
     setCount(prev => prev + 1);
     setCount(prev => prev + 1);
     setCount(prev => prev + 1);
@@ -61,40 +61,40 @@ function BatchingDemo() {
   const [flag, setFlag] = useState(false);
 
   const handleClick = () => {
-    // React 18: chi re-render 1 lan (batched)
+    // React 18: chỉ re-render 1 lần (batched)
     setCount(c => c + 1);
     setFlag(f => !f);
-    // Truoc React 18 trong setTimeout se render 2 lan
-    // React 18+ luon batch
+    // Trước React 18 trong setTimeout sẽ render 2 lần
+    // React 18+ luôn batch
   };
 
   return <button onClick={handleClick}>Click</button>;
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "useState luu state vao fiber node cua component. Tu React 18, tat ca state updates deu duoc automatic batching, ke ca trong async code. Khi can cap nhat dua tren gia tri truoc do, dung functional update `setState(prev => ...)` de tranh stale state. Voi cac gia tri khoi tao ton kem, dung lazy initialization `useState(() => expensiveComputation())` de chi tinh 1 lan khi mount."
+> "useState lưu state vào fiber node của component. Từ React 18, tất cả state updates đều được automatic batching, kể cả trong async code. Khi cần cập nhật dựa trên giá trị trước đó, dùng functional update `setState(prev => ...)` để tránh stale state. Với các giá trị khởi tạo tốn kém, dùng lazy initialization `useState(() => expensiveComputation())` để chỉ tính 1 lần khi mount."
 
 ---
 
-## Cau 2: useEffect -- dependency array hoat dong ra sao? Cleanup function chay khi nao? `[Intermediate]`
+## Câu 2: useEffect -- dependency array hoạt động ra sao? Cleanup function chạy khi nào? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-`useEffect` chay **sau** khi React da commit (paint) DOM len man hinh. No nhan 2 tham so: effect function va dependency array.
+`useEffect` chạy **sau** khi React đã commit (paint) DOM lên màn hình. Nó nhận 2 tham số: effect function và dependency array.
 
-- **Khong co dependency array**: effect chay sau moi lan render
-- **Dependency array rong `[]`**: effect chi chay 1 lan sau mount
-- **Co dependency**: effect chay khi bat ky dependency nao thay doi (so sanh bang `Object.is`)
+- **Không có dependency array**: effect chạy sau mỗi lần render
+- **Dependency array rỗng `[]`**: effect chỉ chạy 1 lần sau mount
+- **Có dependency**: effect chạy khi bất kỳ dependency nào thay đổi (so sánh bằng `Object.is`)
 
-**Cleanup function** chay:
-1. Truoc khi effect chay lai (khi dependency thay doi)
+**Cleanup function** chạy:
+1. Trước khi effect chạy lại (khi dependency thay đổi)
 2. Khi component unmount
 
-Trong React 18 Strict Mode (development), component mount -> unmount -> mount lai, nen effect chay 2 lan. Day la by design de giup ban phat hien bug.
+Trong React 18 Strict Mode (development), component mount -> unmount -> mount lại, nên effect chạy 2 lần. Đây là by design để giúp bạn phát hiện bug.
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { useState, useEffect } from 'react';
@@ -103,7 +103,7 @@ function UserProfile({ userId }: { userId: string }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Dung AbortController de cancel request khi userId thay doi
+    // Dùng AbortController để cancel request khi userId thay đổi
     const controller = new AbortController();
 
     async function fetchUser() {
@@ -122,48 +122,48 @@ function UserProfile({ userId }: { userId: string }) {
 
     fetchUser();
 
-    // Cleanup: cancel request cu khi userId thay doi hoac unmount
+    // Cleanup: cancel request cũ khi userId thay đổi hoặc unmount
     return () => {
       controller.abort();
     };
-  }, [userId]); // Chi chay lai khi userId thay doi
+  }, [userId]); // Chỉ chạy lại khi userId thay đổi
 
   return <div>{user?.name}</div>;
 }
 
 // PITFALL: Object/array trong dependency
 function BadExample({ config }: { config: { theme: string } }) {
-  // SAI: config la object moi moi lan parent render
-  // => effect chay moi lan render
+  // SAI: config là object mới mỗi lần parent render
+  // => effect chạy mỗi lần render
   useEffect(() => {
     applyTheme(config);
-  }, [config]); // config luon "thay doi" vi reference moi
+  }, [config]); // config luôn "thay đổi" vì reference mới
 
-  // DUNG: chi depend vao primitive value
+  // ĐÚNG: chỉ depend vào primitive value
   useEffect(() => {
     applyTheme(config.theme);
-  }, [config.theme]); // string primitive, so sanh chinh xac
+  }, [config.theme]); // string primitive, so sánh chính xác
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "useEffect chay sau khi DOM da paint. Dependency array quyet dinh khi nao effect re-run -- React dung Object.is de so sanh tung dependency. Cleanup function chay truoc moi lan effect re-run va khi unmount. Can luu y: object/array trong dependency se luon 'thay doi' vi reference moi, nen dung primitive values hoac useMemo. Trong Strict Mode, effect chay 2 lan de detect side effect bugs."
+> "useEffect chạy sau khi DOM đã paint. Dependency array quyết định khi nào effect re-run -- React dùng Object.is để so sánh từng dependency. Cleanup function chạy trước mỗi lần effect re-run và khi unmount. Cần lưu ý: object/array trong dependency sẽ luôn 'thay đổi' vì reference mới, nên dùng primitive values hoặc useMemo. Trong Strict Mode, effect chạy 2 lần để detect side effect bugs."
 
 ---
 
-## Cau 3: useRef -- DOM refs va mutable values. Khi nao dung useRef thay vi useState? `[Intermediate]`
+## Câu 3: useRef -- DOM refs và mutable values. Khi nào dùng useRef thay vì useState? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-`useRef` tra ve mot object `{ current: initialValue }` ma **khong thay doi identity** qua cac lan render. No co 2 use case chinh:
+`useRef` trả về một object `{ current: initialValue }` mà **không thay đổi identity** qua các lần render. Nó có 2 use case chính:
 
-1. **DOM refs**: truy cap truc tiep DOM element
-2. **Mutable values**: luu gia tri ma khong gay re-render (interval IDs, previous values, flags...)
+1. **DOM refs**: truy cập trực tiếp DOM element
+2. **Mutable values**: lưu giá trị mà không gây re-render (interval IDs, previous values, flags...)
 
-Khac biet lon nhat voi `useState`: thay doi `ref.current` **KHONG** gay re-render. Gia tri duoc cap nhat ngay lap tuc (dong bo), khong nhu state (bat dong bo, batched).
+Khác biệt lớn nhất với `useState`: thay đổi `ref.current` **KHÔNG** gây re-render. Giá trị được cập nhật ngay lập tức (đồng bộ), không như state (bất đồng bộ, batched).
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { useRef, useState, useEffect } from 'react';
@@ -179,7 +179,7 @@ function AutoFocusInput() {
   return <input ref={inputRef} placeholder="Auto focused!" />;
 }
 
-// Use case 2: Luu gia tri truoc do (previous value)
+// Use case 2: Lưu giá trị trước đó (previous value)
 function usePrevious<T>(value: T): T | undefined {
   const ref = useRef<T | undefined>(undefined);
 
@@ -190,7 +190,7 @@ function usePrevious<T>(value: T): T | undefined {
   return ref.current;
 }
 
-// Use case 3: Interval ID -- khong can re-render khi luu ID
+// Use case 3: Interval ID -- không cần re-render khi lưu ID
 function Timer() {
   const [seconds, setSeconds] = useState(0);
   const intervalRef = useRef<number | null>(null);
@@ -223,36 +223,36 @@ function Timer() {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "useRef tao mot container co `.current` property ma persist qua cac lan render. Dung cho DOM refs va mutable values khong can trigger re-render. Khac voi useState, thay doi ref.current la dong bo va khong re-render. Dung khi can luu interval IDs, previous values, hoac bat ky gia tri nao khong anh huong UI."
+> "useRef tạo một container có `.current` property mà persist qua các lần render. Dùng cho DOM refs và mutable values không cần trigger re-render. Khác với useState, thay đổi ref.current là đồng bộ và không re-render. Dùng khi cần lưu interval IDs, previous values, hoặc bất kỳ giá trị nào không ảnh hưởng UI."
 
 ---
 
-## Cau 4: useCallback vs useMemo -- khac nhau gi? Khi nao thuc su can? `[Senior]`
+## Câu 4: useCallback vs useMemo -- khác nhau gì? Khi nào thực sự cần? `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-- `useMemo(fn, deps)`: **ghi nho gia tri** tra ve cua function `fn`. Chi tinh lai khi deps thay doi.
-- `useCallback(fn, deps)`: **ghi nho chinh function** `fn`. Tuong duong `useMemo(() => fn, deps)`.
+- `useMemo(fn, deps)`: **ghi nhớ giá trị** trả về của function `fn`. Chỉ tính lại khi deps thay đổi.
+- `useCallback(fn, deps)`: **ghi nhớ chính function** `fn`. Tương đương `useMemo(() => fn, deps)`.
 
-**Khi nao can?**
-- `useMemo`: khi tinh toan nang (filter/sort danh sach lon, complex calculation)
-- `useCallback`: khi truyen callback xuong child component duoc wrap boi `React.memo`
+**Khi nào cần?**
+- `useMemo`: khi tính toán nặng (filter/sort danh sách lớn, complex calculation)
+- `useCallback`: khi truyền callback xuống child component được wrap bởi `React.memo`
 
-**Khi nao KHONG can?** -- Day la cau hoi quan trong:
-- Khi child component khong dung `React.memo`
-- Khi tinh toan re (don gian)
-- Khi premature optimization lam code kho doc hon
+**Khi nào KHÔNG cần?** -- Đây là câu hỏi quan trọng:
+- Khi child component không dùng `React.memo`
+- Khi tính toán rẻ (đơn giản)
+- Khi premature optimization làm code khó đọc hơn
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { useState, useMemo, useCallback, memo } from 'react';
 
-// useMemo: ghi nho gia tri tinh toan nang
+// useMemo: ghi nhớ giá trị tính toán nặng
 function ProductList({ products, query }: Props) {
-  // Chi filter lai khi products hoac query thay doi
+  // Chỉ filter lại khi products hoặc query thay đổi
   const filtered = useMemo(() => {
     console.log('Filtering...');
     return products.filter(p =>
@@ -269,7 +269,7 @@ function ProductList({ products, query }: Props) {
   );
 }
 
-// useCallback: ghi nho function de React.memo hoat dong
+// useCallback: ghi nhớ function để React.memo hoạt động
 const ExpensiveChild = memo(({ onClick }: { onClick: () => void }) => {
   console.log('Child rendered');
   return <button onClick={onClick}>Click me</button>;
@@ -279,8 +279,8 @@ function Parent() {
   const [count, setCount] = useState(0);
   const [name, setName] = useState('');
 
-  // Khong co useCallback: ExpensiveChild re-render moi lan Parent render
-  // Co useCallback: ExpensiveChild chi render khi count thay doi
+  // Không có useCallback: ExpensiveChild re-render mỗi lần Parent render
+  // Có useCallback: ExpensiveChild chỉ render khi count thay đổi
   const handleClick = useCallback(() => {
     setCount(c => c + 1);
   }, []);
@@ -295,45 +295,45 @@ function Parent() {
 }
 ```
 
-### Bang so sanh
+### Bảng so sánh
 
-| Tieu chi | `useMemo` | `useCallback` |
+| Tiêu chí | `useMemo` | `useCallback` |
 |----------|-----------|---------------|
-| Ghi nho | **Gia tri** tra ve cua function | **Chinh function** |
-| Tuong duong | `useMemo(() => computeValue(), deps)` | `useMemo(() => fn, deps)` |
-| Use case | Tinh toan nang, derived data | Callback truyen xuong memo child |
-| Khi nao can | Sort/filter danh sach lon | Child dung React.memo |
-| Khi nao khong can | Phep tinh don gian | Child khong dung memo |
+| Ghi nhớ | **Giá trị** trả về của function | **Chính function** |
+| Tương đương | `useMemo(() => computeValue(), deps)` | `useMemo(() => fn, deps)` |
+| Use case | Tính toán nặng, derived data | Callback truyền xuống memo child |
+| Khi nào cần | Sort/filter danh sách lớn | Child dùng React.memo |
+| Khi nào không cần | Phép tính đơn giản | Child không dùng memo |
 
-### Dap an mau
+### Đáp án mẫu
 
-> "useMemo ghi nho gia tri, useCallback ghi nho function. useCallback(fn, deps) tuong duong useMemo(() => fn, deps). useCallback chi huu ich khi truyen callback xuong child component co React.memo. Neu khong co memo, useCallback la vo nghia vi child van re-render do parent render. Khong nen lam dung -- moi hook deu co overhead, chi dung khi do duoc performance improvement thuc su."
+> "useMemo ghi nhớ giá trị, useCallback ghi nhớ function. useCallback(fn, deps) tương đương useMemo(() => fn, deps). useCallback chỉ hữu ích khi truyền callback xuống child component có React.memo. Nếu không có memo, useCallback là vô nghĩa vì child vẫn re-render do parent render. Không nên lạm dụng -- mỗi hook đều có overhead, chỉ dùng khi đo được performance improvement thực sự."
 
 ---
 
-## Cau 5: useLayoutEffect vs useEffect -- khac nhau o dau? `[Senior]`
+## Câu 5: useLayoutEffect vs useEffect -- khác nhau ở đâu? `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Ca hai deu la side effect hooks, nhung khac nhau o **thoi diem chay**:
+Cả hai đều là side effect hooks, nhưng khác nhau ở **thời điểm chạy**:
 
-- `useEffect`: chay **sau** khi browser da paint DOM. Non-blocking.
-- `useLayoutEffect`: chay **truoc** khi browser paint, **sau** khi DOM da update. Blocking.
+- `useEffect`: chạy **sau** khi browser đã paint DOM. Non-blocking.
+- `useLayoutEffect`: chạy **trước** khi browser paint, **sau** khi DOM đã update. Blocking.
 
-`useLayoutEffect` dung khi ban can **doc layout tu DOM va re-render dong bo** truoc khi user nhin thay. Vi du: do kich thuoc element, dieu chinh position, tranh flickering.
+`useLayoutEffect` dùng khi bạn cần **đọc layout từ DOM và re-render đồng bộ** trước khi user nhìn thấy. Ví dụ: đo kích thước element, điều chỉnh position, tránh flickering.
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 
-// useLayoutEffect: tranh flicker khi do va set kich thuoc
+// useLayoutEffect: tránh flicker khi đo và set kích thước
 function Tooltip({ text, targetRect }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [tooltipHeight, setTooltipHeight] = useState(0);
 
-  // Dung useLayoutEffect de do height TRUOC khi paint
-  // Neu dung useEffect, user se thay tooltip nhay vi tri (flicker)
+  // Dùng useLayoutEffect để đo height TRƯỚC khi paint
+  // Nếu dùng useEffect, user sẽ thấy tooltip nhảy vị trí (flicker)
   useLayoutEffect(() => {
     if (ref.current) {
       const { height } = ref.current.getBoundingClientRect();
@@ -342,7 +342,7 @@ function Tooltip({ text, targetRect }: Props) {
   }, [text]);
 
   let top = targetRect.top - tooltipHeight;
-  if (top < 0) top = targetRect.bottom; // Flip neu khong du cho
+  if (top < 0) top = targetRect.bottom; // Flip nếu không đủ chỗ
 
   return (
     <div ref={ref} style={{ position: 'absolute', top, left: targetRect.left }}>
@@ -351,7 +351,7 @@ function Tooltip({ text, targetRect }: Props) {
   );
 }
 
-// useEffect: data fetching, subscriptions (khong can dong bo voi paint)
+// useEffect: data fetching, subscriptions (không cần đồng bộ với paint)
 function DataFetcher() {
   const [data, setData] = useState(null);
 
@@ -365,34 +365,34 @@ function DataFetcher() {
 }
 ```
 
-### Bang so sanh
+### Bảng so sánh
 
-| Tieu chi | `useEffect` | `useLayoutEffect` |
+| Tiêu chí | `useEffect` | `useLayoutEffect` |
 |----------|-------------|-------------------|
-| Thoi diem | Sau paint | Truoc paint, sau DOM update |
-| Blocking | Khong | Co (block paint) |
-| Use case | Data fetching, subscriptions, logging | Do layout, tranh flicker |
-| Performance | Tot hon (non-blocking) | Can than (block render) |
-| SSR | Hoat dong binh thuong | Warning tren server |
+| Thời điểm | Sau paint | Trước paint, sau DOM update |
+| Blocking | Không | Có (block paint) |
+| Use case | Data fetching, subscriptions, logging | Đo layout, tránh flicker |
+| Performance | Tốt hơn (non-blocking) | Cẩn thận (block render) |
+| SSR | Hoạt động bình thường | Warning trên server |
 
-### Dap an mau
+### Đáp án mẫu
 
-> "useEffect chay sau khi browser paint, useLayoutEffect chay truoc paint nhung sau DOM update. Dung useLayoutEffect khi can doc layout (getBoundingClientRect) va cap nhat UI dong bo de tranh flickering. Hau het truong hop dung useEffect la du, chi dung useLayoutEffect khi thuc su can."
+> "useEffect chạy sau khi browser paint, useLayoutEffect chạy trước paint nhưng sau DOM update. Dùng useLayoutEffect khi cần đọc layout (getBoundingClientRect) và cập nhật UI đồng bộ để tránh flickering. Hầu hết trường hợp dùng useEffect là đủ, chỉ dùng useLayoutEffect khi thực sự cần."
 
 ---
 
-## Cau 6: Custom Hooks -- rules la gi? Khi nao tao custom hook? `[Intermediate]`
+## Câu 6: Custom Hooks -- rules là gì? Khi nào tạo custom hook? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Custom hooks la function bat dau bang `use` va co the goi cac hooks khac ben trong. Day la cach **tai su dung stateful logic** giua cac component.
+Custom hooks là function bắt đầu bằng `use` và có thể gọi các hooks khác bên trong. Đây là cách **tái sử dụng stateful logic** giữa các component.
 
-**Rules of Hooks** (bat buoc):
-1. Chi goi hooks o **top level** -- khong trong if/for/nested function
-2. Chi goi hooks trong **React function components** hoac **custom hooks**
-3. Dat ten bat dau bang `use` (convention, va ESLint plugin dua vao day)
+**Rules of Hooks** (bắt buộc):
+1. Chỉ gọi hooks ở **top level** -- không trong if/for/nested function
+2. Chỉ gọi hooks trong **React function components** hoặc **custom hooks**
+3. Đặt tên bắt đầu bằng `use` (convention, và ESLint plugin dựa vào đây)
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { useState, useEffect, useCallback } from 'react';
@@ -451,7 +451,7 @@ function useFetch<T>(url: string) {
   return { data, loading, error };
 }
 
-// Su dung
+// Sử dụng
 function UserList() {
   const { data: users, loading, error } = useFetch<User[]>('/api/users');
   const [theme, setTheme] = useLocalStorage('theme', 'light');
@@ -467,37 +467,37 @@ function UserList() {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Custom hooks la cach extract va tai su dung stateful logic. Chung tuan theo Rules of Hooks: goi o top level, chi trong components hoac hooks khac, va dat ten bat dau bang 'use'. Moi component goi custom hook se co state rieng biet -- hooks khong share state, chi share logic. Custom hooks thay the hoan toan HOC va render props cho viec reuse logic."
+> "Custom hooks là cách extract và tái sử dụng stateful logic. Chúng tuân theo Rules of Hooks: gọi ở top level, chỉ trong components hoặc hooks khác, và đặt tên bắt đầu bằng 'use'. Mỗi component gọi custom hook sẽ có state riêng biệt -- hooks không share state, chỉ share logic. Custom hooks thay thế hoàn toàn HOC và render props cho việc reuse logic."
 
 ---
 
-## Bang tong hop cac Hooks
+## Bảng tổng hợp các Hooks
 
-| Hook | Muc dich | Trigger re-render? | Timing |
+| Hook | Mục đích | Trigger re-render? | Timing |
 |------|----------|-------------------|--------|
-| `useState` | Luu va cap nhat state | Co | Batched |
-| `useEffect` | Side effects | Khong (chi chay effect) | Sau paint |
-| `useLayoutEffect` | Side effects dong bo | Khong (chi chay effect) | Truoc paint |
-| `useRef` | Luu mutable value / DOM ref | Khong | Dong bo |
-| `useMemo` | Ghi nho gia tri tinh toan | Khong truc tiep | Trong render |
-| `useCallback` | Ghi nho function reference | Khong truc tiep | Trong render |
-| `useReducer` | State phuc tap (nhu Redux) | Co | Batched |
-| `useContext` | Doc gia tri tu Context | Co (khi context thay doi) | Trong render |
+| `useState` | Lưu và cập nhật state | Có | Batched |
+| `useEffect` | Side effects | Không (chỉ chạy effect) | Sau paint |
+| `useLayoutEffect` | Side effects đồng bộ | Không (chỉ chạy effect) | Trước paint |
+| `useRef` | Lưu mutable value / DOM ref | Không | Đồng bộ |
+| `useMemo` | Ghi nhớ giá trị tính toán | Không trực tiếp | Trong render |
+| `useCallback` | Ghi nhớ function reference | Không trực tiếp | Trong render |
+| `useReducer` | State phức tạp (như Redux) | Có | Batched |
+| `useContext` | Đọc giá trị từ Context | Có (khi context thay đổi) | Trong render |
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
-1. **Noi "useState cap nhat ngay lap tuc"** -- Sai. State updates la batched va asynchronous. Gia tri moi chi co o lan render tiep theo.
+1. **Nói "useState cập nhật ngay lập tức"** -- Sai. State updates là batched và asynchronous. Giá trị mới chỉ có ở lần render tiếp theo.
 
-2. **Khong biet tai sao useEffect chay 2 lan** -- Do Strict Mode trong development. Giai thich duoc dieu nay cho thay ban hieu React lifecycle.
+2. **Không biết tại sao useEffect chạy 2 lần** -- Do Strict Mode trong development. Giải thích được điều này cho thấy bạn hiểu React lifecycle.
 
-3. **Nham lan useCallback va useMemo** -- useCallback ghi nho function, useMemo ghi nho gia tri. Nho: `useCallback(fn, deps)` = `useMemo(() => fn, deps)`.
+3. **Nhầm lẫn useCallback và useMemo** -- useCallback ghi nhớ function, useMemo ghi nhớ giá trị. Nhớ: `useCallback(fn, deps)` = `useMemo(() => fn, deps)`.
 
-4. **Lam dung useMemo/useCallback** -- Khong phai moi tinh toan deu can memo. Chi dung khi co performance issue thuc su hoac truyen props xuong memo child.
+4. **Lạm dụng useMemo/useCallback** -- Không phải mọi tính toán đều cần memo. Chỉ dùng khi có performance issue thực sự hoặc truyền props xuống memo child.
 
-5. **Khong noi ve cleanup trong useEffect** -- Cleanup la phan cuc ky quan trong. Khong cleanup dan den memory leaks, race conditions, va stale closures.
+5. **Không nói về cleanup trong useEffect** -- Cleanup là phần cực kỳ quan trọng. Không cleanup dẫn đến memory leaks, race conditions, và stale closures.
 
-6. **Noi useRef "giong bien global"** -- Khong dung. Moi component instance co ref rieng. useRef la per-component mutable container.
+6. **Nói useRef "giống biến global"** -- Không đúng. Mỗi component instance có ref riêng. useRef là per-component mutable container.
