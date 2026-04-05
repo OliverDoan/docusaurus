@@ -1,8 +1,18 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import crypto from 'crypto';
+import dotenv from 'dotenv';
+
+// Load .env.local for local development
+dotenv.config({ path: '.env.local' });
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
+
+const sitePassword = process.env.SITE_PASSWORD || '';
+const sitePasswordHash = sitePassword
+  ? crypto.createHash('sha256').update(sitePassword).digest('hex')
+  : '';
 
 const config: Config = {
   title: 'My Site',
@@ -26,6 +36,10 @@ const config: Config = {
   projectName: 'docusaurus', // Usually your repo name.
 
   onBrokenLinks: 'throw',
+
+  customFields: {
+    sitePasswordHash,
+  },
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -121,6 +135,10 @@ const config: Config = {
         {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',
+          position: 'right',
+        },
+        {
+          type: 'custom-logoutButton',
           position: 'right',
         },
       ],
