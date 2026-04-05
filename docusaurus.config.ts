@@ -107,6 +107,12 @@ const config: Config = {
           label: 'JavaScript',
         },
         {
+          type: 'docSidebar',
+          sidebarId: 'nextjsSidebar',
+          position: 'left',
+          label: 'Next.js',
+        },
+        {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',
           position: 'right',
