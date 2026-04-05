@@ -116,3 +116,561 @@
   background: var(--ifm-color-primary);
   color: #fff;
 }
+
+/* ===== Homepage ===== */
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+  color: #fff;
+  padding: 5rem 0 4rem;
+  text-align: center;
+}
+
+.hero-section__title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, #fff 0%, #a8edea 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-section__subtitle {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 540px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.7;
+}
+
+.hero-section__stats {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.hero-section__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-section__stat-number {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #a8edea;
+}
+
+.hero-section__stat-label {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0.25rem;
+}
+
+/* Cards Section */
+.doc-cards-section {
+  padding: 4rem 0 5rem;
+}
+
+.doc-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 996px) {
+  .doc-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero-section__title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .doc-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-section {
+    padding: 3rem 0 2.5rem;
+  }
+
+  .hero-section__title {
+    font-size: 2rem;
+  }
+
+  .hero-section__stats {
+    gap: 2rem;
+  }
+}
+
+/* Doc Card */
+.doc-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem;
+  border-radius: 12px;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-background-surface-color);
+  text-decoration: none !important;
+  color: inherit !important;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.doc-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--card-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.doc-card:hover {
+  border-color: var(--card-accent);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
+}
+
+.doc-card:hover::before {
+  transform: scaleX(1);
+}
+
+.doc-card__emoji {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1;
+}
+
+.doc-card__title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.doc-card__description {
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-700);
+  line-height: 1.6;
+  flex: 1;
+  margin-bottom: 1rem;
+}
+
+.doc-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.doc-card__count {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.doc-card__arrow {
+  font-size: 1.2rem;
+  color: var(--ifm-color-emphasis-400);
+  transition: transform 0.2s ease;
+}
+
+.doc-card:hover .doc-card__arrow {
+  transform: translateX(4px);
+  color: var(--card-accent);
+}
+
+/* ===== Check-in Page ===== */
+
+.checkin-page {
+  padding-bottom: 4rem;
+}
+
+/* Hero */
+.checkin-hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: #fff;
+  padding: 4rem 0 3rem;
+  text-align: center;
+}
+
+.checkin-hero__title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #fff 0%, #e2b0ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.checkin-hero__quote {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 560px;
+  margin: 0 auto 2rem;
+  font-style: italic;
+  line-height: 1.7;
+}
+
+/* Check-in Button */
+.checkin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2.5rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+}
+
+.checkin-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+}
+
+.checkin-btn--done {
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  box-shadow: 0 4px 20px rgba(46, 204, 113, 0.4);
+  cursor: default;
+}
+
+.checkin-btn--animating {
+  animation: checkinPulse 0.8s ease;
+}
+
+.checkin-btn__icon {
+  font-size: 1.4rem;
+}
+
+@keyframes checkinPulse {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.15); }
+  60% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+/* Section */
+.checkin-section {
+  margin-top: 2.5rem;
+}
+
+.checkin-section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+}
+
+/* Stat Cards */
+.checkin-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.checkin-stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-background-surface-color);
+}
+
+.checkin-stat-card--streak {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 1px var(--ifm-color-primary);
+}
+
+.checkin-stat-card__number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--ifm-color-primary);
+  line-height: 1;
+}
+
+.checkin-stat-card__label {
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-600);
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Calendar */
+.checkin-calendar {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: var(--ifm-background-surface-color);
+}
+
+.checkin-calendar__title {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.checkin-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.checkin-calendar__header {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ifm-color-emphasis-500);
+  padding-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.checkin-calendar__cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-800);
+  transition: all 0.2s ease;
+}
+
+.checkin-calendar__cell--empty {
+  background: none;
+}
+
+.checkin-calendar__cell--checked {
+  background: var(--ifm-color-primary);
+  color: #fff;
+}
+
+.checkin-calendar__cell--today {
+  box-shadow: inset 0 0 0 2px var(--ifm-color-primary);
+}
+
+.checkin-calendar__cell--today.checkin-calendar__cell--checked {
+  box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.3);
+  background: linear-gradient(135deg, var(--ifm-color-primary) 0%, #27ae60 100%);
+}
+
+.checkin-calendar__cell--future {
+  opacity: 0.35;
+}
+
+/* Reward Cards */
+.checkin-rewards__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.checkin-reward-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.25rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-background-surface-color);
+  text-align: center;
+  transition: all 0.25s ease;
+}
+
+.checkin-reward-card--achieved {
+  border-color: #f1c40f;
+  background: linear-gradient(135deg, rgba(241, 196, 15, 0.08) 0%, rgba(243, 156, 18, 0.08) 100%);
+  box-shadow: 0 4px 16px rgba(241, 196, 15, 0.15);
+}
+
+.checkin-reward-card__icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.checkin-reward-card__label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.checkin-reward-card__days {
+  font-size: 0.75rem;
+  color: var(--ifm-color-emphasis-500);
+  margin-bottom: 0.75rem;
+}
+
+.checkin-reward-card__progress {
+  width: 100%;
+  height: 6px;
+  background: var(--ifm-color-emphasis-200);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.checkin-reward-card__progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--ifm-color-primary) 0%, #2ecc71 100%);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.checkin-reward-card--achieved .checkin-reward-card__progress-bar {
+  background: linear-gradient(90deg, #f1c40f 0%, #f39c12 100%);
+}
+
+.checkin-reward-card__status {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.checkin-reward-card--achieved .checkin-reward-card__status {
+  color: #f39c12;
+}
+
+/* Weekly Reward */
+.checkin-weekly-reward {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: var(--ifm-background-surface-color);
+  text-align: center;
+}
+
+.checkin-weekly-reward__hint {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+}
+
+.checkin-weekly-reward__upload {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2rem 3rem;
+  border: 2px dashed var(--ifm-color-emphasis-300);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.9rem;
+}
+
+.checkin-weekly-reward__upload:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+  background: rgba(46, 133, 85, 0.04);
+}
+
+.checkin-weekly-reward__upload-icon {
+  font-size: 2rem;
+}
+
+.checkin-weekly-reward__preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.checkin-weekly-reward__image {
+  max-width: 320px;
+  max-height: 320px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.checkin-weekly-reward__remove {
+  background: none;
+  border: 1px solid #e74c3c;
+  color: #e74c3c;
+  border-radius: 6px;
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.checkin-weekly-reward__remove:hover {
+  background: #e74c3c;
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .checkin-hero__title {
+    font-size: 2rem;
+  }
+
+  .checkin-stats {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .checkin-stat-card {
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .checkin-stat-card__number {
+    font-size: 2rem;
+  }
+
+  .checkin-stat-card__label {
+    margin-top: 0;
+  }
+
+  .checkin-rewards__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .checkin-calendar__cell {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .checkin-hero {
+    padding: 2.5rem 0 2rem;
+  }
+
+  .checkin-btn {
+    padding: 0.85rem 1.75rem;
+    font-size: 1rem;
+  }
+
+  .checkin-rewards__grid {
+    grid-template-columns: 1fr;
+  }
+}

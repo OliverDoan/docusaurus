@@ -133,6 +133,17 @@ const config: Config = {
           label: 'SEO',
         },
         {
+          type: 'docSidebar',
+          sidebarId: 'interviewSidebar',
+          position: 'left',
+          label: 'FE Interview',
+        },
+        {
+          to: '/diem-danh',
+          label: 'Điểm danh',
+          position: 'right',
+        },
+        {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',
           position: 'right',
@@ -142,6 +153,34 @@ const config: Config = {
           position: 'right',
         },
       ],
+    },
+    footer: {
+      style: 'dark',
+      links: [
+        {
+          title: 'Tài liệu',
+          items: [
+            { label: 'Java', to: '/docs/java/basic-java/overview' },
+            { label: 'React', to: '/docs/react/nen-tang/es6-essentials' },
+            { label: 'JavaScript', to: '/docs/javascript/nen-tang/overview' },
+          ],
+        },
+        {
+          title: 'Khám phá thêm',
+          items: [
+            { label: 'Next.js', to: '/docs/nextjs/nen-tang/nextjs-la-gi' },
+            { label: 'Git', to: '/docs/git/nen-tang/git-la-gi' },
+            { label: 'SEO', to: '/docs/seo/nen-tang/seo-la-gi' },
+          ],
+        },
+        {
+          title: 'Liên kết',
+          items: [
+            { label: 'GitHub', href: 'https://github.com/OliverDoan' },
+          ],
+        },
+      ],
+      copyright: `© ${new Date().getFullYear()} Dev Notes — Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
