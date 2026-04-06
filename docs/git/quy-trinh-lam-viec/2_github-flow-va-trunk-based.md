@@ -3,32 +3,32 @@ sidebar_position: 2
 title: "GitHub Flow va Trunk-Based Development"
 ---
 
-# GitHub Flow va Trunk-Based Development
+# GitHub Flow và Trunk-Based Development
 
-Git Flow manh me nhung phuc tap. Nhieu team — dac biet nhung team deploy lien tuc — can mot quy trinh nhe hon. Bai nay gioi thieu 2 mo hinh pho bien thay the Git Flow: **GitHub Flow** (don gian, hieu qua cho hau het du an) va **Trunk-Based Development** (tieu chuan vang cua cac ong lon nhu Google, Facebook). Ban se hieu moi mo hinh hoat dong ra sao, uu nhuoc diem, va khi nao nen chon cai nao.
+Git Flow mạnh mẽ nhưng phức tạp. Nhiều team — đặc biệt những team deploy liên tục — cần một quy trình nhẹ hơn. Bài này giới thiệu 2 mô hình phổ biến thay thế Git Flow: **GitHub Flow** (đơn giản, hiệu quả cho hầu hết dự án) và **Trunk-Based Development** (tiêu chuẩn vàng của các ông lớn như Google, Facebook). Bạn sẽ hiểu mỗi mô hình hoạt động ra sao, ưu nhược điểm, và khi nào nên chọn cái nào.
 
 ---
 
 ## 1. GitHub Flow
 
-### 1.1. GitHub Flow la gi?
+### 1.1. GitHub Flow là gì?
 
-GitHub Flow la mo hinh branching **cuc ky don gian** duoc GitHub gioi thieu. Chi co **1 quy tac cot loi**: nhanh `main` luon o trang thai deployable (co the deploy bat ky luc nao).
+GitHub Flow là mô hình branching **cực kỳ đơn giản** được GitHub giới thiệu. Chỉ có **1 quy tắc cốt lõi**: nhánh `main` luôn ở trạng thái deployable (có thể deploy bất kỳ lúc nào).
 
 ```
 +--------------------------------------------------+
-|           GITHUB FLOW — Chi co 6 buoc            |
+|           GITHUB FLOW — Chỉ có 6 bước            |
 +--------------------------------------------------+
-|  1. Tao branch tu main                           |
-|  2. Them commits                                 |
-|  3. Mo Pull Request                              |
-|  4. Review va thao luan                          |
-|  5. Merge vao main                               |
+|  1. Tạo branch từ main                           |
+|  2. Thêm commits                                 |
+|  3. Mở Pull Request                              |
+|  4. Review và thảo luận                          |
+|  5. Merge vào main                               |
 |  6. Deploy                                       |
 +--------------------------------------------------+
 ```
 
-### 1.2. Workflow chi tiet
+### 1.2. Workflow chi tiết
 
 ```
   main:  ---o---o---o-------o---o-------o---o----->
@@ -39,23 +39,23 @@ GitHub Flow la mo hinh branching **cuc ky don gian** duoc GitHub gioi thieu. Chi
               PR created  PR merged + deployed
 ```
 
-**Buoc 1: Tao branch tu main**
+**Bước 1: Tạo branch từ main**
 
 ```bash
-# Luon bat dau tu main moi nhat
+# Luôn bắt đầu từ main mới nhất
 git checkout main
 git pull origin main
 
-# Tao branch voi ten mo ta
+# Tạo branch với tên mô tả
 git checkout -b feature/add-search-bar
-# Hoac: fix/broken-nav-link
-# Hoac: docs/update-readme
+# Hoặc: fix/broken-nav-link
+# Hoặc: docs/update-readme
 ```
 
-**Buoc 2: Code va commit**
+**Bước 2: Code và commit**
 
 ```bash
-# Lam viec binh thuong, commit thuong xuyen
+# Làm việc bình thường, commit thường xuyên
 git add src/components/SearchBar.tsx
 git commit -m "feat: add search bar component"
 
@@ -66,106 +66,106 @@ git add tests/SearchBar.test.tsx
 git commit -m "test: add search bar unit tests"
 ```
 
-**Buoc 3: Push va tao Pull Request**
+**Bước 3: Push và tạo Pull Request**
 
 ```bash
-# Push branch len remote
+# Push branch lên remote
 git push -u origin feature/add-search-bar
 ```
 
-Tren GitHub, tao Pull Request (PR) voi:
-- **Title** ngan gon, ro y
-- **Description** mo ta thay doi, tai sao, cach test
-- **Reviewers** — chi dinh nguoi review
+Trên GitHub, tạo Pull Request (PR) với:
+- **Title** ngắn gọn, rõ ý
+- **Description** mô tả thay đổi, tại sao, cách test
+- **Reviewers** — chỉ định người review
 - **Labels** — feature, bug, docs...
 
-**Buoc 4: Review va thao luan**
+**Bước 4: Review và thảo luận**
 
 ```
 +---------------------------------------------+
 |  Pull Request #42: Add search bar           |
 +---------------------------------------------+
-|  alice: "Nen them debounce cho search"      |
-|  bob: "LGTM, da test tren staging"          |
+|  alice: "Nên thêm debounce cho search"      |
+|  bob: "LGTM, đã test trên staging"          |
 |  CI: All checks passed (green)              |
 |  Review: 2/2 approved                       |
 +---------------------------------------------+
 ```
 
-- Team member review code, de lai comment
-- CI/CD chay tu dong: lint, test, build
-- Tac gia fix feedback, push commit moi
-- Khi du approval va CI xanh → san sang merge
+- Team member review code, để lại comment
+- CI/CD chạy tự động: lint, test, build
+- Tác giả fix feedback, push commit mới
+- Khi đủ approval và CI xanh -> sẵn sàng merge
 
-**Buoc 5: Merge vao main**
+**Bước 5: Merge vào main**
 
 ```bash
-# Tren GitHub: click "Merge pull request"
-# Hoac dung command line:
+# Trên GitHub: click "Merge pull request"
+# Hoặc dùng command line:
 git checkout main
 git pull origin main
 git merge --no-ff feature/add-search-bar
 git push origin main
 
-# Xoa branch da merge
+# Xóa branch đã merge
 git branch -d feature/add-search-bar
 git push origin --delete feature/add-search-bar
 ```
 
-**Buoc 6: Deploy**
+**Bước 6: Deploy**
 
 ```bash
-# Trong GitHub Flow, merge vao main = deploy
-# Thuong thong qua CI/CD tu dong:
+# Trong GitHub Flow, merge vào main = deploy
+# Thường thông qua CI/CD tự động:
 #   main merge → trigger pipeline → deploy to production
 ```
 
-### 1.3. Cac kieu Merge trong GitHub Flow
+### 1.3. Các kiểu Merge trong GitHub Flow
 
-Khi merge PR tren GitHub, ban co 3 lua chon:
+Khi merge PR trên GitHub, bạn có 3 lựa chọn:
 
-| Kieu Merge | Cach hoat dong | Khi nao dung |
+| Kiểu Merge | Cách hoạt động | Khi nào dùng |
 |------------|---------------|--------------|
-| **Merge commit** | Tao merge commit, giu tat ca commits | Muon giu lich su day du |
-| **Squash and merge** | Gop tat ca commits thanh 1 | Feature nho, muon lich su gon |
-| **Rebase and merge** | Dat lai commits len dau main | Muon lich su tuyen tinh, khong merge commit |
+| **Merge commit** | Tạo merge commit, giữ tất cả commits | Muốn giữ lịch sử đầy đủ |
+| **Squash and merge** | Gộp tất cả commits thành 1 | Feature nhỏ, muốn lịch sử gọn |
+| **Rebase and merge** | Đặt lại commits lên đầu main | Muốn lịch sử tuyến tính, không merge commit |
 
 ```bash
-# Squash merge — pho bien nhat trong GitHub Flow
-# 5 commits tren feature branch → 1 commit tren main
+# Squash merge — phổ biến nhất trong GitHub Flow
+# 5 commits trên feature branch → 1 commit trên main
 git checkout main
 git merge --squash feature/add-search-bar
 git commit -m "feat: add search bar with debounce (#42)"
 ```
 
-### 1.4. Uu nhuoc diem cua GitHub Flow
+### 1.4. Ưu nhược điểm của GitHub Flow
 
-**Uu diem:**
+**Ưu điểm:**
 
-| Uu diem | Chi tiet |
+| Ưu điểm | Chi tiết |
 |---------|---------|
-| **Cuc ky don gian** | Chi 1 nhanh chinh, 1 loai branch phu |
-| **CI/CD friendly** | Merge = deploy, phu hop continuous deployment |
-| **Code review tot** | Moi thay doi deu qua PR review |
-| **Linh hoat** | Khong gioi han ten branch, khong quy tac phuc tap |
-| **Nhanh** | It buoc, it ceremony, ship nhanh |
+| **Cực kỳ đơn giản** | Chỉ 1 nhánh chính, 1 loại branch phụ |
+| **CI/CD friendly** | Merge = deploy, phù hợp continuous deployment |
+| **Code review tốt** | Mọi thay đổi đều qua PR review |
+| **Linh hoạt** | Không giới hạn tên branch, không quy tắc phức tạp |
+| **Nhanh** | Ít bước, ít ceremony, ship nhanh |
 
-**Nhuoc diem:**
+**Nhược điểm:**
 
-| Nhuoc diem | Chi tiet |
+| Nhược điểm | Chi tiết |
 |------------|---------|
-| **Khong ho tro nhieu version** | Chi 1 nhanh main, khong co develop/release |
-| **Can CI/CD tot** | Neu khong co CI, code loi co the len production |
-| **Khong co staging rieng** | Khong co release branch de test truoc |
-| **Kho rollback** | Neu deploy loi, phai fix forward hoac revert commit |
+| **Không hỗ trợ nhiều version** | Chỉ 1 nhánh main, không có develop/release |
+| **Cần CI/CD tốt** | Nếu không có CI, code lỗi có thể lên production |
+| **Không có staging riêng** | Không có release branch để test trước |
+| **Khó rollback** | Nếu deploy lỗi, phải fix forward hoặc revert commit |
 
 ---
 
 ## 2. Trunk-Based Development (TBD)
 
-### 2.1. TBD la gi?
+### 2.1. TBD là gì?
 
-Trunk-Based Development la mo hinh ma **tat ca developer commit truc tiep vao 1 nhanh chinh** (trunk, thuong la `main`). Khong co long-lived branches. Neu co branch thi chi **song duoi 1 ngay** (short-lived).
+Trunk-Based Development là mô hình mà **tất cả developer commit trực tiếp vào 1 nhánh chính** (trunk, thường là `main`). Không có long-lived branches. Nếu có branch thì chỉ **sống dưới 1 ngày** (short-lived).
 
 ```
 +----------------------------------------------------------+
@@ -176,7 +176,7 @@ Trunk-Based Development la mo hinh ma **tat ca developer commit truc tiep vao 1 
 |            |     |        |     |                        |
 |            A     B        A     C    (developers)        |
 |                                                          |
-|  Hoac voi short-lived branches (< 1 ngay):               |
+|  Hoặc với short-lived branches (< 1 ngày):               |
 |                                                          |
 |  main:  --o--o--o-----o--o-----o--o--o--o--o-->          |
 |               \  |   / \  |   /                          |
@@ -185,103 +185,103 @@ Trunk-Based Development la mo hinh ma **tat ca developer commit truc tiep vao 1 
 +----------------------------------------------------------+
 ```
 
-### 2.2. Nguyen tac cot loi
+### 2.2. Nguyên tắc cốt lõi
 
 ```
 +-------------------------------------------+
-|  Quy tac TBD:                             |
-|  1. Moi nguoi lam viec tren main          |
-|  2. Commit nho, thuong xuyen (nhieu lan/  |
-|     ngay)                                 |
-|  3. Branch (neu co) < 1 ngay              |
-|  4. Khong long-lived feature branches     |
-|  5. Feature chua hoan thanh → Feature     |
+|  Quy tắc TBD:                             |
+|  1. Mọi người làm việc trên main          |
+|  2. Commit nhỏ, thường xuyên (nhiều lần/  |
+|     ngày)                                 |
+|  3. Branch (nếu có) < 1 ngày              |
+|  4. Không long-lived feature branches     |
+|  5. Feature chưa hoàn thành → Feature     |
 |     Flag                                  |
-|  6. CI chay cho moi commit                |
-|  7. Main luon deployable                  |
+|  6. CI chạy cho mọi commit                |
+|  7. Main luôn deployable                  |
 +-------------------------------------------+
 ```
 
-### 2.3. Workflow chi tiet
+### 2.3. Workflow chi tiết
 
-**Cach 1: Commit truc tiep vao main**
+**Cách 1: Commit trực tiếp vào main**
 
 ```bash
-# Cach nay pho bien o team nho, tin tuong cao
+# Cách này phổ biến ở team nhỏ, tin tưởng cao
 git checkout main
 git pull origin main
 
-# Lam thay doi nho, co focus
+# Làm thay đổi nhỏ, có focus
 git add src/utils/formatDate.ts
 git commit -m "feat: add relative date formatting"
 git push origin main
-# CI chay tu dong ngay khi push
+# CI chạy tự động ngay khi push
 ```
 
-**Cach 2: Short-lived branches (< 1 ngay)**
+**Cách 2: Short-lived branches (< 1 ngày)**
 
 ```bash
-# Sang: tao branch
+# Sáng: tạo branch
 git checkout main
 git pull origin main
 git checkout -b alice/add-date-formatter
 
-# Lam viec trong ngay
+# Làm việc trong ngày
 git add .
 git commit -m "feat: add date formatter utility"
 git add .
 git commit -m "test: add date formatter tests"
 
-# Chieu: push va tao PR
+# Chiều: push và tạo PR
 git push -u origin alice/add-date-formatter
-# Tao PR, review nhanh, merge trong ngay
+# Tạo PR, review nhanh, merge trong ngày
 
-# KHONG de branch qua dem!
+# KHÔNG để branch qua đêm!
 ```
 
-### 2.4. Feature Flags — "Vu khi bi mat" cua TBD
+### 2.4. Feature Flags — "Vũ khí bí mật" của TBD
 
-Feature Flag (hay Feature Toggle) la co dieu khien bat/tat tinh nang ma **khong can deploy lai code**.
+Feature Flag (hay Feature Toggle) là cờ điều khiển bật/tắt tính năng mà **không cần deploy lại code**.
 
-**Tai sao can Feature Flags?**
+**Tại sao cần Feature Flags?**
 
-Trong TBD, code chua hoan thanh van merge vao main. Nhung ban khong muon user thay tinh nang dang lam do! Feature Flag giai quyet dieu nay.
+Trong TBD, code chưa hoàn thành vẫn merge vào main. Nhưng bạn không muốn user thấy tính năng đang làm dở! Feature Flag giải quyết điều này.
 
 ```javascript
-// Vi du Feature Flag don gian
+// Ví dụ Feature Flag đơn giản
 const FEATURE_FLAGS = {
-  NEW_SEARCH: false,       // Dang phat trien, chua bat
-  DARK_MODE: true,         // Da hoan thanh, bat cho tat ca
-  PREMIUM_PLAN: 'beta',    // Chi bat cho beta users
+  NEW_SEARCH: false,       // Đang phát triển, chưa bật
+  DARK_MODE: true,         // Đã hoàn thành, bật cho tất cả
+  PREMIUM_PLAN: 'beta',    // Chỉ bật cho beta users
 };
 
-// Su dung trong code
+// Sử dụng trong code
 function SearchBar() {
-  // Kiem tra flag truoc khi hien thi
+  // Kiểm tra flag trước khi hiển thị
   if (!FEATURE_FLAGS.NEW_SEARCH) {
-    return <OldSearchBar />;  // User thay version cu
+    return <OldSearchBar />;  // User thấy version cũ
   }
-  return <NewSearchBar />;    // Chi developer/tester thay
+  return <NewSearchBar />;    // Chỉ developer/tester thấy
 }
 ```
 
 ```javascript
-// Feature Flag nang cao hon voi dieu kien
+// Feature Flag nâng cao hơn với điều kiện
 function getFeatureFlag(flagName, userId) {
   const flag = flags[flagName];
 
-  // Tat hoan toan
+  // Tắt hoàn toàn
   if (flag === false) return false;
 
-  // Bat hoan toan
+  // Bật hoàn toàn
   if (flag === true) return true;
 
-  // Bat cho 1 nhom cu the
+  // Bật cho 1 nhóm cụ thể
   if (flag === 'beta') {
     return betaUsers.includes(userId);
   }
 
-  // Bat theo ty le (canary release)
+  // Bật theo tỷ lệ (canary release)
   if (typeof flag === 'number') {
     return (hashUserId(userId) % 100) < flag;  // flag = 10 → 10% user
   }
@@ -289,109 +289,109 @@ function getFeatureFlag(flagName, userId) {
   return false;
 }
 
-// Su dung
+// Sử dụng
 if (getFeatureFlag('NEW_CHECKOUT', currentUser.id)) {
-  // Hien thi checkout moi
+  // Hiển thị checkout mới
 }
 ```
 
-**Cac cong cu Feature Flag pho bien:**
+**Các công cụ Feature Flag phổ biến:**
 
-| Tool | Mien phi? | Phu hop |
+| Tool | Miễn phí? | Phù hợp |
 |------|-----------|---------|
-| **LaunchDarkly** | Co free tier | Enterprise, nhieu tinh nang |
-| **Unleash** | Open source | Self-hosted, team trung binh |
-| **Flagsmith** | Open source | Self-hosted hoac cloud |
-| **Environment variables** | Mien phi | Du an nho, don gian |
-| **Config file** | Mien phi | MVP, prototype |
+| **LaunchDarkly** | Có free tier | Enterprise, nhiều tính năng |
+| **Unleash** | Open source | Self-hosted, team trung bình |
+| **Flagsmith** | Open source | Self-hosted hoặc cloud |
+| **Environment variables** | Miễn phí | Dự án nhỏ, đơn giản |
+| **Config file** | Miễn phí | MVP, prototype |
 
-### 2.5. Yeu cau de ap dung TBD
+### 2.5. Yêu cầu để áp dụng TBD
 
 ```
 +-----------------------------------------------------+
-|  Yeu cau tien quyet cho TBD:                        |
+|  Yêu cầu tiên quyết cho TBD:                        |
 +-----------------------------------------------------+
-|  [x] CI/CD pipeline manh, chay nhanh (< 10 phut)   |
+|  [x] CI/CD pipeline mạnh, chạy nhanh (< 10 phút)   |
 |  [x] Test coverage cao (unit + integration)          |
-|  [x] Code review nhanh (trong vong vai gio)          |
+|  [x] Code review nhanh (trong vòng vài giờ)          |
 |  [x] Feature Flags infrastructure                    |
-|  [x] Team co ky luat commit nho, thuong xuyen        |
-|  [x] Monitoring va alerting tot (biet loi ngay)      |
-|  [x] Kha nang rollback nhanh                         |
+|  [x] Team có kỷ luật commit nhỏ, thường xuyên        |
+|  [x] Monitoring và alerting tốt (biết lỗi ngay)      |
+|  [x] Khả năng rollback nhanh                         |
 +-----------------------------------------------------+
 ```
 
-### 2.6. Uu nhuoc diem cua TBD
+### 2.6. Ưu nhược điểm của TBD
 
-**Uu diem:**
+**Ưu điểm:**
 
-| Uu diem | Chi tiet |
+| Ưu điểm | Chi tiết |
 |---------|---------|
-| **Khong merge conflict** | Khong co long-lived branch → khong drift |
-| **CI lien tuc** | Moi commit duoc test ngay |
-| **Deploy nhanh** | Main luon san sang deploy |
-| **Don gian** | Khong can nho quy trinh phuc tap |
-| **Google, Facebook dung** | Da chung minh hieu qua o quy mo lon |
+| **Không merge conflict** | Không có long-lived branch -> không drift |
+| **CI liên tục** | Mọi commit được test ngay |
+| **Deploy nhanh** | Main luôn sẵn sàng deploy |
+| **Đơn giản** | Không cần nhớ quy trình phức tạp |
+| **Google, Facebook dùng** | Đã chứng minh hiệu quả ở quy mô lớn |
 
-**Nhuoc diem:**
+**Nhược điểm:**
 
-| Nhuoc diem | Chi tiet |
+| Nhược điểm | Chi tiết |
 |------------|---------|
-| **Yeu cau CI/CD hoan chinh** | Khong co CI → disaster |
-| **Can Feature Flags** | Them do phuc tap (flag debt) |
-| **Kho cho team moi** | Junior developer co the push code loi |
-| **Can review nhanh** | Neu review cham → block pipeline |
-| **Khong ho tro nhieu version** | Chi co 1 nhanh duy nhat |
+| **Yêu cầu CI/CD hoàn chỉnh** | Không có CI -> disaster |
+| **Cần Feature Flags** | Thêm độ phức tạp (flag debt) |
+| **Khó cho team mới** | Junior developer có thể push code lỗi |
+| **Cần review nhanh** | Nếu review chậm -> block pipeline |
+| **Không hỗ trợ nhiều version** | Chỉ có 1 nhánh duy nhất |
 
 ---
 
-## 3. So sanh chi tiet: Git Flow vs GitHub Flow vs TBD
+## 3. So sánh chi tiết: Git Flow vs GitHub Flow vs TBD
 
-### 3.1. Bang so sanh tong hop
+### 3.1. Bảng so sánh tổng hợp
 
-| Tieu chi | Git Flow | GitHub Flow | Trunk-Based |
+| Tiêu chí | Git Flow | GitHub Flow | Trunk-Based |
 |----------|----------|-------------|-------------|
-| **So nhanh** | 5 loai | 2 (main + feature) | 1 (main) |
-| **Do phuc tap** | Cao | Thap | Rat thap |
-| **Phu hop team** | Lon (>10) | Trung binh (3-15) | Moi kich co |
-| **Release cycle** | Scheduled (2-4 tuan) | Bat ky luc nao | Lien tuc (nhieu lan/ngay) |
-| **CI/CD yeu cau** | Thap | Trung binh | Rat cao |
-| **Feature branches** | Long-lived | Medium (vai ngay) | Khong hoac < 1 ngay |
-| **Version support** | Nhieu version | 1 version | 1 version |
-| **Merge conflicts** | Nhieu | It | Rat it |
-| **Learning curve** | Kho | De | De (nhung can ky luat) |
-| **Deploy frequency** | Thap | Trung binh-cao | Rat cao |
-| **Rollback** | Hotfix branch | Revert commit | Tat feature flag |
+| **Số nhánh** | 5 loại | 2 (main + feature) | 1 (main) |
+| **Độ phức tạp** | Cao | Thấp | Rất thấp |
+| **Phù hợp team** | Lớn (>10) | Trung bình (3-15) | Mọi kích cỡ |
+| **Release cycle** | Scheduled (2-4 tuần) | Bất kỳ lúc nào | Liên tục (nhiều lần/ngày) |
+| **CI/CD yêu cầu** | Thấp | Trung bình | Rất cao |
+| **Feature branches** | Long-lived | Medium (vài ngày) | Không hoặc < 1 ngày |
+| **Version support** | Nhiều version | 1 version | 1 version |
+| **Merge conflicts** | Nhiều | Ít | Rất ít |
+| **Learning curve** | Khó | Dễ | Dễ (nhưng cần kỷ luật) |
+| **Deploy frequency** | Thấp | Trung bình-cao | Rất cao |
+| **Rollback** | Hotfix branch | Revert commit | Tắt feature flag |
 
-### 3.2. Chon mo hinh nao?
+### 3.2. Chọn mô hình nào?
 
 ```
-                    Chon branching model
+                    Chọn branching model
                     ====================
 
-  Ban deploy bao nhieu lan?
+  Bạn deploy bao nhiêu lần?
   |
-  +-- Vai lan/thang (scheduled) --> Git Flow
+  +-- Vài lần/tháng (scheduled) --> Git Flow
   |
-  +-- Vai lan/tuan               --> GitHub Flow
+  +-- Vài lần/tuần               --> GitHub Flow
   |
-  +-- Nhieu lan/ngay             --> Trunk-Based Development
+  +-- Nhiều lần/ngày             --> Trunk-Based Development
 
 
-  Team bao nhieu nguoi?
+  Team bao nhiêu người?
   |
-  +-- 1-3 nguoi  --> GitHub Flow hoac TBD
+  +-- 1-3 người  --> GitHub Flow hoặc TBD
   |
-  +-- 3-10 nguoi --> GitHub Flow
+  +-- 3-10 người --> GitHub Flow
   |
-  +-- 10+ nguoi  --> Git Flow hoac TBD (voi Feature Flags)
+  +-- 10+ người  --> Git Flow hoặc TBD (với Feature Flags)
 
 
-  Du an loai gi?
+  Dự án loại gì?
   |
   +-- Mobile app (iOS/Android)   --> Git Flow
   |
-  +-- Web app (SaaS)             --> GitHub Flow hoac TBD
+  +-- Web app (SaaS)             --> GitHub Flow hoặc TBD
   |
   +-- Library/SDK                --> Git Flow
   |
@@ -402,82 +402,82 @@ if (getFeatureFlag('NEW_CHECKOUT', currentUser.id)) {
 
 ### 3.3. Real-world examples
 
-| Cong ty | Mo hinh | Ly do |
+| Công ty | Mô hình | Lý do |
 |---------|---------|-------|
-| **Google** | Trunk-Based | Monorepo khong lo, CI cuc manh, deploy lien tuc |
-| **Facebook** | Trunk-Based | Nhu Google, dung Feature Flags nhieu |
-| **Netflix** | Trunk-Based | Microservices, deploy doc lap tung service |
-| **GitHub** | GitHub Flow | "Dogfooding" — dung chinh san pham cua minh |
-| **Linux Kernel** | Giong Git Flow | Release versioned, nhieu maintainer |
+| **Google** | Trunk-Based | Monorepo khổng lồ, CI cực mạnh, deploy liên tục |
+| **Facebook** | Trunk-Based | Như Google, dùng Feature Flags nhiều |
+| **Netflix** | Trunk-Based | Microservices, deploy độc lập từng service |
+| **GitHub** | GitHub Flow | "Dogfooding" — dùng chính sản phẩm của mình |
+| **Linux Kernel** | Giống Git Flow | Release versioned, nhiều maintainer |
 | **React (open source)** | GitHub Flow | Open source, PR-driven development |
 | **Enterprise banks** | Git Flow | Compliance, audit trail, scheduled release |
 
 ---
 
-## 4. Loi thuong gap
+## 4. Lỗi thường gặp
 
-### Loi 1: Dung GitHub Flow nhung khong co CI
+### Lỗi 1: Dùng GitHub Flow nhưng không có CI
 
 ```bash
-# Khong co CI → code loi van merge vao main → production bi loi
-# GitHub Flow YEU CAU it nhat:
-# - Lint check tu dong
-# - Unit tests tu dong
-# - Build check tu dong
+# Không có CI → code lỗi vẫn merge vào main → production bị lỗi
+# GitHub Flow YÊU CẦU ít nhất:
+# - Lint check tự động
+# - Unit tests tự động
+# - Build check tự động
 
-# Giai phap: thiet lap CI toi thieu truoc khi dung GitHub Flow
+# Giải pháp: thiết lập CI tối thiểu trước khi dùng GitHub Flow
 # .github/workflows/ci.yml
 ```
 
-### Loi 2: Branch ton tai qua lau trong GitHub Flow
+### Lỗi 2: Branch tồn tại quá lâu trong GitHub Flow
 
 ```bash
-# GitHub Flow branch nen song < 1 tuan
-# Neu branch ton tai > 2 tuan → merge conflict nightmare
+# GitHub Flow branch nên sống < 1 tuần
+# Nếu branch tồn tại > 2 tuần → merge conflict nightmare
 
-# Giai phap: break feature nho hon
-# Thay vi: feature/complete-checkout-system (3 tuan)
-# Lam: feature/checkout-ui (2 ngay)
-#       feature/checkout-api (2 ngay)
-#       feature/checkout-payment (3 ngay)
+# Giải pháp: break feature nhỏ hơn
+# Thay vì: feature/complete-checkout-system (3 tuần)
+# Làm: feature/checkout-ui (2 ngày)
+#       feature/checkout-api (2 ngày)
+#       feature/checkout-payment (3 ngày)
 ```
 
-### Loi 3: Ap dung TBD khi chua san sang
+### Lỗi 3: Áp dụng TBD khi chưa sẵn sàng
 
 ```bash
-# TBD khong co CI/CD = pha hoai
-# Kiem tra truoc khi chuyen sang TBD:
-# 1. CI pipeline chay < 10 phut? (KHONG: chua san sang)
-# 2. Test coverage > 70%? (KHONG: chua san sang)
-# 3. Co feature flag system? (KHONG: chua san sang)
-# 4. Team co ky luat commit nho? (KHONG: can training)
+# TBD không có CI/CD = phá hoại
+# Kiểm tra trước khi chuyển sang TBD:
+# 1. CI pipeline chạy < 10 phút? (KHÔNG: chưa sẵn sàng)
+# 2. Test coverage > 70%? (KHÔNG: chưa sẵn sàng)
+# 3. Có feature flag system? (KHÔNG: chưa sẵn sàng)
+# 4. Team có kỷ luật commit nhỏ? (KHÔNG: cần training)
 ```
 
-### Loi 4: Feature Flag debt
+### Lỗi 4: Feature Flag debt
 
 ```javascript
-// Feature Flag ton tai mai mai → code tro nen kho hieu
+// Feature Flag tồn tại mãi mãi → code trở nên khó hiểu
 
-// SAI: Flag tu 2 nam truoc van con
-if (FEATURE_FLAGS.NEW_SEARCH_V2) {  // Flag nay tu 2022!
+// SAI: Flag từ 2 năm trước vẫn còn
+if (FEATURE_FLAGS.NEW_SEARCH_V2) {  // Flag này từ 2022!
   return <NewSearch />;
 }
-return <OldSearch />;  // Code nay khong bao gio chay nua
+return <OldSearch />;  // Code này không bao giờ chạy nữa
 
-// DUNG: Don dep flag sau khi feature on dinh (2-4 tuan)
-// Xoa flag, xoa code cu, chi giu code moi
+// ĐÚNG: Dọn dẹp flag sau khi feature ổn định (2-4 tuần)
+// Xóa flag, xóa code cũ, chỉ giữ code mới
 return <NewSearch />;
 ```
 
-### Loi 5: Khong bao ve nhanh main
+### Lỗi 5: Không bảo vệ nhánh main
 
 ```bash
-# Main phai duoc bao ve (branch protection):
-# - Require pull request reviews (it nhat 1 nguoi)
+# Main phải được bảo vệ (branch protection):
+# - Require pull request reviews (ít nhất 1 người)
 # - Require status checks to pass (CI xanh)
-# - Khong cho push truc tiep (tru truong hop TBD co CI chat)
+# - Không cho push trực tiếp (trừ trường hợp TBD có CI chặt)
 
-# Thiet lap tren GitHub:
+# Thiết lập trên GitHub:
 # Settings → Branches → Branch protection rules → Add rule
 # Branch name pattern: main
 # [x] Require a pull request before merging
@@ -486,75 +486,75 @@ return <NewSearch />;
 
 ---
 
-## 5. Chuyen doi giua cac mo hinh
+## 5. Chuyển đổi giữa các mô hình
 
-### Tu Git Flow sang GitHub Flow
+### Từ Git Flow sang GitHub Flow
 
 ```bash
-# Buoc 1: Merge develop vao main (dam bao dong bo)
+# Bước 1: Merge develop vào main (đảm bảo đồng bộ)
 git checkout main
 git merge develop
 
-# Buoc 2: Xoa nhanh develop
+# Bước 2: Xóa nhánh develop
 git branch -d develop
 git push origin --delete develop
 
-# Buoc 3: Thiet lap CI/CD cho main
-# Buoc 4: Branch protection cho main
-# Buoc 5: Thong bao team quy trinh moi:
+# Bước 3: Thiết lập CI/CD cho main
+# Bước 4: Branch protection cho main
+# Bước 5: Thông báo team quy trình mới:
 #          main → feature branch → PR → review → merge → deploy
 ```
 
-### Tu GitHub Flow sang TBD
+### Từ GitHub Flow sang TBD
 
 ```bash
-# Buoc 1: Thiet lap Feature Flag system
-# Buoc 2: Tang CI speed (target < 10 phut)
-# Buoc 3: Tang test coverage (target > 80%)
-# Buoc 4: Training team: commit nho, thuong xuyen
-# Buoc 5: Dan chuyen: feature branches < 1 ngay
-# Buoc 6: Cuoi cung: cho phep commit truc tiep vao main
+# Bước 1: Thiết lập Feature Flag system
+# Bước 2: Tăng CI speed (target < 10 phút)
+# Bước 3: Tăng test coverage (target > 80%)
+# Bước 4: Training team: commit nhỏ, thường xuyên
+# Bước 5: Dần chuyển: feature branches < 1 ngày
+# Bước 6: Cuối cùng: cho phép commit trực tiếp vào main
 ```
 
 ---
 
-## 6. Cau hoi phong van
+## 6. Câu hỏi phỏng vấn
 
-### Cau 1: So sanh GitHub Flow va Git Flow. Khi nao chon cai nao?
+### Câu 1: So sánh GitHub Flow và Git Flow. Khi nào chọn cái nào?
 
-**Tra loi:** GitHub Flow chi co 1 nhanh chinh (main) va feature branches ngan han, phu hop cho CI/CD continuous deployment, team trung binh, web app. Git Flow co 5 loai nhanh (main, develop, feature, release, hotfix), phu hop cho scheduled release, team lon, san pham co version. Chon GitHub Flow khi can ship nhanh va don gian. Chon Git Flow khi can kiem soat release chat va ho tro nhieu version.
+**Trả lời:** GitHub Flow chỉ có 1 nhánh chính (main) và feature branches ngắn hạn, phù hợp cho CI/CD continuous deployment, team trung bình, web app. Git Flow có 5 loại nhánh (main, develop, feature, release, hotfix), phù hợp cho scheduled release, team lớn, sản phẩm có version. Chọn GitHub Flow khi cần ship nhanh và đơn giản. Chọn Git Flow khi cần kiểm soát release chặt và hỗ trợ nhiều version.
 
-### Cau 2: Trunk-Based Development la gi? Tai sao Google va Facebook dung?
+### Câu 2: Trunk-Based Development là gì? Tại sao Google và Facebook dùng?
 
-**Tra loi:** TBD la mo hinh ma tat ca developer commit truc tiep vao 1 nhanh chinh (trunk/main), khong co long-lived branches. Google va Facebook dung vi: (1) Loai bo merge conflict tu long-lived branches, (2) CI lien tuc cho moi commit dam bao chat luong, (3) Deploy nhanh — main luon deployable, (4) Feature Flags cho phep code chua hoan thanh van merge duoc an toan. TBD yeu cau CI/CD cuc manh, test coverage cao, va feature flag infrastructure.
+**Trả lời:** TBD là mô hình mà tất cả developer commit trực tiếp vào 1 nhánh chính (trunk/main), không có long-lived branches. Google và Facebook dùng vì: (1) Loại bỏ merge conflict từ long-lived branches, (2) CI liên tục cho mọi commit đảm bảo chất lượng, (3) Deploy nhanh — main luôn deployable, (4) Feature Flags cho phép code chưa hoàn thành vẫn merge được an toàn. TBD yêu cầu CI/CD cực mạnh, test coverage cao, và feature flag infrastructure.
 
-### Cau 3: Feature Flag la gi? Tai sao can trong TBD?
+### Câu 3: Feature Flag là gì? Tại sao cần trong TBD?
 
-**Tra loi:** Feature Flag la co dieu khien bat/tat tinh nang trong code ma khong can deploy lai. Trong TBD, vi khong co feature branches, code chua hoan thanh van merge vao main. Feature Flag giau tinh nang chua san sang khoi end user. Uu diem khac: canary release (bat cho 10% user truoc), A/B testing, kill switch (tat tinh nang loi ngay lap tuc). Can chu y don dep flag sau khi feature on dinh de tranh "flag debt".
+**Trả lời:** Feature Flag là cờ điều khiển bật/tắt tính năng trong code mà không cần deploy lại. Trong TBD, vì không có feature branches, code chưa hoàn thành vẫn merge vào main. Feature Flag giấu tính năng chưa sẵn sàng khỏi end user. Ưu điểm khác: canary release (bật cho 10% user trước), A/B testing, kill switch (tắt tính năng lỗi ngay lập tức). Cần chú ý dọn dẹp flag sau khi feature ổn định để tránh "flag debt".
 
-### Cau 4: Neu team ban dang dung Git Flow va muon chuyen sang GitHub Flow thi lam the nao?
+### Câu 4: Nếu team bạn đang dùng Git Flow và muốn chuyển sang GitHub Flow thì làm thế nào?
 
-**Tra loi:** Chuyen doi dan dan: (1) Dam bao CI/CD pipeline hoan chinh cho nhanh main, (2) Thiet lap branch protection cho main (require PR, require CI pass), (3) Merge develop vao main de dong bo, (4) Ngung tao release branches — deploy truc tiep tu main sau khi merge PR, (5) Ngung tao develop branch cho du an moi, (6) Training team ve quy trinh moi, (7) Sau vai sprint, xoa nhanh develop cu.
+**Trả lời:** Chuyển đổi dần dần: (1) Đảm bảo CI/CD pipeline hoàn chỉnh cho nhánh main, (2) Thiết lập branch protection cho main (require PR, require CI pass), (3) Merge develop vào main để đồng bộ, (4) Ngừng tạo release branches — deploy trực tiếp từ main sau khi merge PR, (5) Ngừng tạo develop branch cho dự án mới, (6) Training team về quy trình mới, (7) Sau vài sprint, xóa nhánh develop cũ.
 
-### Cau 5: So sanh uu nhuoc diem cua Squash Merge, Merge Commit va Rebase Merge khi merge PR?
+### Câu 5: So sánh ưu nhược điểm của Squash Merge, Merge Commit và Rebase Merge khi merge PR?
 
-**Tra loi:** **Merge Commit** giu toan bo lich su cua feature branch trong 1 merge commit — lich su day du nhung co the phuc tap. **Squash Merge** gop tat ca commits thanh 1 — lich su sach nhung mat chi tiet. **Rebase Merge** dat lai tung commit len dau main — lich su tuyen tinh nhung viet lai history (nguy hiem neu khong hieu ro). Pho bien nhat la Squash Merge cho feature nho va Merge Commit cho feature lon can giu lich su chi tiet.
+**Trả lời:** **Merge Commit** giữ toàn bộ lịch sử của feature branch trong 1 merge commit — lịch sử đầy đủ nhưng có thể phức tạp. **Squash Merge** gộp tất cả commits thành 1 — lịch sử sạch nhưng mất chi tiết. **Rebase Merge** đặt lại từng commit lên đầu main — lịch sử tuyến tính nhưng viết lại history (nguy hiểm nếu không hiểu rõ). Phổ biến nhất là Squash Merge cho feature nhỏ và Merge Commit cho feature lớn cần giữ lịch sử chi tiết.
 
 ---
 
-## 7. Tom tat
+## 7. Tóm tắt
 
 ```
 +--------------------------------------------------------------+
 |  GitHub Flow:                                                |
 |  main → feature branch → PR → review → merge → deploy       |
-|  Don gian, phu hop hau het du an                             |
+|  Đơn giản, phù hợp hầu hết dự án                             |
 +--------------------------------------------------------------+
 |  Trunk-Based Development:                                    |
-|  Commit truc tiep vao main (hoac branch < 1 ngay)           |
+|  Commit trực tiếp vào main (hoặc branch < 1 ngày)           |
 |  Feature Flags thay feature branches                         |
-|  Yeu cau: CI/CD manh, test cao, ky luat tot                 |
+|  Yêu cầu: CI/CD mạnh, test cao, kỷ luật tốt                 |
 +--------------------------------------------------------------+
-|  Chon dua tren: deploy frequency, team size, CI maturity     |
+|  Chọn dựa trên: deploy frequency, team size, CI maturity     |
 +--------------------------------------------------------------+
 ```

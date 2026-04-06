@@ -5,19 +5,19 @@ title: "Bảo mật"
 
 # Bao mat
 
-## Gioi thieu
+## Giới thiệu
 
-Bao mat la yeu to **song con** cua moi ung dung web. Mot lo hong bao mat co the dan den:
+Bao mat là yếu tố **sống còn** của mỗi ứng dụng web. Mot lỗ hổng bảo mật có thể dẫn đến:
 
-- Lo lot du lieu nguoi dung
-- Mat quyen kiem soat he thong
-- Thiet hai tai chinh va uy tin
+- Lộ lọt dữ liệu người dùng
+- Mat quyền kiem soat hệ thống
+- Thiệt hại tài chính va uy tín
 
-Next.js cung cap nhieu co che bao mat san co, nhung ban van can hieu va ap dung dung cach. Bai nay se di qua cac moi de doa pho bien va cach phong chong trong Next.js.
+Next.js cung cap nhieu cơ chế bảo mật san co, nhưng bạn van can hieu va ap dứng dụng cach. Bai nay se di qua các mối de doa phổ biến và cách phòng chống trong Next.js.
 
 ---
 
-## Noi dung
+## Nội dung
 
 1. [XSS Prevention](#1-xss-prevention)
 2. [CSRF Protection](#2-csrf-protection)
@@ -29,24 +29,24 @@ Next.js cung cap nhieu co che bao mat san co, nhung ban van can hieu va ap dung 
 8. [Secure Headers Configuration](#8-secure-headers-configuration)
 9. [OWASP Top 10 trong Next.js](#9-owasp-top-10-trong-nextjs)
 10. [Security Checklist](#10-security-checklist)
-11. [Loi thuong gap](#11-loi-thuong-gap)
-12. [Cau hoi phong van](#cau-hoi-phong-van)
+11. [Lỗi thường gặp](#11-loi-thuong-gap)
+12. [Câu hỏi phỏng vấn](#cau-hoi-phong-van)
 
 ---
 
 ## 1. XSS Prevention
 
-XSS (Cross-Site Scripting) la tan cong inject ma JavaScript doc hai vao trang web.
+XSS (Cross-Site Scripting) là tấn công inject ma JavaScript độc hại vao trang web.
 
-### 1.1 React tu dong escape
+### 1.1 React tự động escape
 
-React **tu dong escape** tat ca noi dung truoc khi render, nen phan lon truong hop ban da duoc bao ve:
+React **tự động escape** tất cả nội dung trước khi render, nen phần lớn trường hợp bạn đã được bảo vệ:
 
 ```tsx
-// An toan - React tu dong escape HTML entities
+// An toan - React tự động escape HTML entities
 function Comment({ text }: { text: string }) {
-  // Neu text = "<script>alert('hack')</script>"
-  // React se render: &lt;script&gt;alert('hack')&lt;/script&gt;
+  // Nếu text = "<script>alert('hack')</script>"
+  // React sẽ render: &lt;script&gt;alert('hack')&lt;/script&gt;
   return <p>{text}</p>;
 }
 ```
@@ -54,16 +54,16 @@ function Comment({ text }: { text: string }) {
 ### 1.2 Nguy hiem voi dangerouslySetInnerHTML
 
 ```tsx
-// NGUY HIEM: Khong bao gio dung voi du lieu nguoi dung chua sanitize!
+// NGUY HIEM: Không bao gio dung với dữ liệu người dùng chưa sanitize!
 function UnsafeComponent({ html }: { html: string }) {
   return <div dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
-// Neu bat buoc phai dung, LUON sanitize truoc:
+// Nếu bắt buộc phai dung, LUON sanitize truoc:
 import DOMPurify from "isomorphic-dompurify";
 
 function SafeHtmlComponent({ html }: { html: string }) {
-  // DOMPurify loai bo tat ca script tags va event handlers doc hai
+  // DOMPurify loai bo tất cả script tags va event handlers độc hại
   const cleanHtml = DOMPurify.sanitize(html, {
     ALLOWED_TAGS: ["b", "i", "em", "strong", "a", "p", "br"],
     ALLOWED_ATTR: ["href", "target"],
@@ -76,9 +76,9 @@ function SafeHtmlComponent({ html }: { html: string }) {
 ### 1.3 XSS qua URL
 
 ```tsx
-// NGUY HIEM: URL co the chua javascript: protocol
+// NGUY HIEM: URL có thể chua javascript: protocol
 function UnsafeLink({ url }: { url: string }) {
-  // Neu url = "javascript:alert('hack')" -> XSS!
+  // Nếu url = "javascript:alert('hack')" -> XSS!
   return <a href={url}>Click me</a>;
 }
 
@@ -87,7 +87,7 @@ function SafeLink({ url }: { url: string }) {
   const isValidUrl = (u: string): boolean => {
     try {
       const parsed = new URL(u);
-      // Chi cho phep http va https
+      // Chi cho phép http va https
       return ["http:", "https:"].includes(parsed.protocol);
     } catch {
       return false;
@@ -110,19 +110,19 @@ function SafeLink({ url }: { url: string }) {
 
 ## 2. CSRF Protection
 
-CSRF (Cross-Site Request Forgery) la tan cong gia mao request tu trang web khac.
+CSRF (Cross-Site Request Forgery) là tấn công gia mao request tu trang web khac.
 
-### 2.1 Server Actions tu dong bao ve
+### 2.1 Server Actions tự động bao ve
 
-Next.js Server Actions da tich hop CSRF protection bang cach tu dong tao va kiem tra **CSRF token**:
+Next.js Server Actions đã tích hợp CSRF protection bang cach tự động tạo và kiểm tra **CSRF token**:
 
 ```tsx
 // app/profile/page.tsx
-// Server Action - Next.js tu dong them CSRF token
+// Server Action - Next.js tự động them CSRF token
 async function updateProfile(formData: FormData) {
   "use server";
 
-  // Next.js da kiem tra CSRF token truoc khi code nay chay
+  // Next.js da kiểm tra CSRF token trước khi code nay chay
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
 
@@ -147,7 +147,7 @@ export default function ProfilePage() {
 
 ### 2.2 CSRF cho Route Handlers
 
-Voi Route Handlers, ban can tu bao ve:
+Voi Route Handlers, bạn cần tự bảo vệ:
 
 ```tsx
 // app/api/update-profile/route.ts
@@ -187,7 +187,7 @@ export async function POST(request: NextRequest) {
 
 ## 3. Content Security Policy (CSP)
 
-CSP giup ngan chan XSS bang cach chi cho phep tai resources tu cac nguon tin cay.
+CSP giup ngăn chặn XSS bang cach chi cho phép tai resources tu các nguồn tin cay.
 
 ### 3.1 Cau hinh CSP trong middleware
 
@@ -197,7 +197,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  // Tao nonce ngau nhien cho moi request
+  // Tạo nonce ngau nhien cho mỗi request
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
 
   // Dinh nghia CSP header
@@ -219,7 +219,7 @@ export function middleware(request: NextRequest) {
   const response = NextResponse.next();
   response.headers.set("Content-Security-Policy", cspHeader);
 
-  // Truyen nonce qua header de component su dung
+  // Truyen nonce qua header de component sử dụng
   response.headers.set("x-nonce", nonce);
 
   return response;
@@ -261,14 +261,14 @@ export default async function RootLayout({
 
 ## 4. Rate Limiting
 
-Rate limiting ngan chan abuse bang cach gioi han so request trong mot khoang thoi gian.
+Rate limiting ngăn chặn abuse bang cach giới hạn so request trong một khoảng thời gian.
 
 ### 4.1 Rate limiting don gian voi Map
 
 ```tsx
 // lib/rate-limit.ts
 // Rate limiter don gian dung in-memory Map
-// Luu y: chi hoat dong tren 1 server instance
+// Lưu ý: chi hoạt động tren 1 server instance
 
 interface RateLimitEntry {
   count: number;
@@ -285,13 +285,13 @@ export function rateLimit(
   const now = Date.now();
   const entry = rateLimitMap.get(key);
 
-  // Neu chua co entry hoac da het window -> reset
+  // Nếu chua co entry hoac da het window -> reset
   if (!entry || now > entry.resetTime) {
     rateLimitMap.set(key, { count: 1, resetTime: now + windowMs });
     return { success: true, remaining: limit - 1 };
   }
 
-  // Con trong window -> tang count
+  // Con trong window -> tăng count
   if (entry.count < limit) {
     entry.count++;
     return { success: true, remaining: limit - entry.count };
@@ -327,9 +327,9 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Xu ly dang nhap...
+  // Xu ly đăng nhập...
   const body = await request.json();
-  // ...logic xac thuc
+  // ...logic xác thực
   return NextResponse.json({ success: true });
 }
 ```
@@ -343,14 +343,14 @@ export async function POST(request: NextRequest) {
 ```bash
 # .env.local
 
-# KHONG CO NEXT_PUBLIC_ -> chi co tren server
+# KHONG CO NEXT_PUBLIC_ -> chỉ có trên server
 # An toan cho secrets
 DATABASE_URL="postgresql://user:pass@localhost/db"
 JWT_SECRET="super-secret-key-khong-lo-ra-ngoai"
 API_SECRET_KEY="sk-xxxxxxxxxxxxx"
 
-# CO NEXT_PUBLIC_ -> duoc expose ra client (browser)!
-# CHI DUNG cho thong tin khong nhay cam
+# CO NEXT_PUBLIC_ -> được expose ra client (browser)!
+# CHI DUNG cho thông tin khong nhạy cảm
 NEXT_PUBLIC_API_URL="https://api.example.com"
 NEXT_PUBLIC_APP_NAME="My App"
 ```
@@ -359,12 +359,12 @@ NEXT_PUBLIC_APP_NAME="My App"
 // SAI: dat secret voi NEXT_PUBLIC_ prefix
 // NEXT_PUBLIC_API_KEY="sk-secret" -> Bat ky ai cung thay duoc trong browser!
 
-// DUNG: dung server-side de goi API co secret
+// DUNG: dung server-side de gọi API co secret
 // app/api/ai/route.ts
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-  // API_KEY chi ton tai tren server
+  // API_KEY chỉ tồn tại trên server
   const apiKey = process.env.API_KEY;
 
   if (!apiKey) {
@@ -375,7 +375,7 @@ export async function POST(request: Request) {
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${apiKey}`, // Secret an toan tren server
+      Authorization: `Bearer ${apiKey}`, // Secret an toàn trên server
       "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
@@ -390,7 +390,7 @@ export async function POST(request: Request) {
 
 ```tsx
 // lib/env.ts
-// Validate tat ca env variables can thiet khi ung dung khoi dong
+// Validate tất cả env variables can thiet khi ứng dụng khoi dong
 
 import { z } from "zod";
 
@@ -400,7 +400,7 @@ const envSchema = z.object({
   NEXT_PUBLIC_API_URL: z.string().url(),
 });
 
-// Parse va validate - throw error neu thieu
+// Parse va validate - throw error neu thiếu
 export const env = envSchema.parse({
   DATABASE_URL: process.env.DATABASE_URL,
   JWT_SECRET: process.env.JWT_SECRET,
@@ -415,7 +415,7 @@ export const env = envSchema.parse({
 
 ## 6. Server Actions Security
 
-Server Actions chay tren server nhung duoc trigger tu client. Can bao ve ky:
+Server Actions chay trên server nhung được trigger tu client. Can bao ve ky:
 
 ### 6.1 Luon validate input
 
@@ -440,13 +440,13 @@ const createPostSchema = z.object({
 });
 
 export async function createPost(formData: FormData) {
-  // 1. Kiem tra xac thuc
+  // 1. Kiem tra xác thực
   const session = await auth();
   if (!session?.user) {
     throw new Error("Ban chua dang nhap");
   }
 
-  // 2. Validate input voi Zod
+  // 2. Validate input với Zod
   const rawData = {
     title: formData.get("title"),
     content: formData.get("content"),
@@ -456,16 +456,16 @@ export async function createPost(formData: FormData) {
   const result = createPostSchema.safeParse(rawData);
 
   if (!result.success) {
-    // Tra ve loi validation cu the
+    // Tra ve loi validation cụ thể
     return {
       error: result.error.flatten().fieldErrors,
     };
   }
 
-  // 3. Chi su dung du lieu da validated
+  // 3. Chi sử dụng dữ liệu đã validated
   const { title, content, categoryId } = result.data;
 
-  // 4. Kiem tra quyen
+  // 4. Kiem tra quyền
   const hasPermission = await checkPermission(session.user.id, "create_post");
   if (!hasPermission) {
     throw new Error("Ban khong co quyen tao bai viet");
@@ -485,10 +485,10 @@ export async function createPost(formData: FormData) {
 }
 ```
 
-### 6.2 Khong truyen du lieu nhay cam qua closure
+### 6.2 Không truyền dữ liệu nhạy cảm qua closure
 
 ```tsx
-// SAI: secret bi capture trong closure va co the lo ra client
+// SAI: secret bi capture trong closure va có thể lo ra client
 const secret = process.env.SECRET_KEY;
 async function dangerousAction() {
   "use server";
@@ -499,7 +499,7 @@ async function dangerousAction() {
 // DUNG: doc env variable ben trong Server Action
 async function safeAction() {
   "use server";
-  // Doc truc tiep trong ham - khong bi serialize
+  // Doc truc tiep trong ham - không bị serialize
   const secret = process.env.SECRET_KEY;
   console.log(secret);
 }
@@ -514,7 +514,7 @@ async function safeAction() {
 ```tsx
 // SAI: Truyen truc tiep user input vao SQL -> SQL Injection!
 async function getUser(userId: string) {
-  // Hacker co the nhap: "1; DROP TABLE users; --"
+  // Hacker có thể nhap: "1; DROP TABLE users; --"
   const result = await db.query(`SELECT * FROM users WHERE id = ${userId}`);
   return result;
 }
@@ -523,14 +523,14 @@ async function getUser(userId: string) {
 async function getUser(userId: string) {
   const result = await db.query(
     "SELECT * FROM users WHERE id = $1",
-    [userId]  // Parameter duoc escape tu dong
+    [userId]  // Parameter duoc escape tự động
   );
   return result;
 }
 
 // DUNG: Dung ORM (Prisma, Drizzle)
 async function getUser(userId: number) {
-  // ORM tu dong parameterize
+  // ORM tự động parameterize
   const user = await prisma.user.findUnique({
     where: { id: userId },
   });
@@ -543,7 +543,7 @@ async function getUser(userId: number) {
 ```tsx
 // SAI: Cho phep user chon column de sort
 async function getUsers(sortBy: string) {
-  // sortBy co the la bat ky SQL nao!
+  // sortBy có thể la bất kỳ SQL nao!
   return db.query(`SELECT * FROM users ORDER BY ${sortBy}`);
 }
 
@@ -573,25 +573,25 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        // Ap dung cho tat ca routes
+        // Áp dụng cho tất cả routes
         source: "/(.*)",
         headers: [
           // Chong clickjacking - khong cho embed trong iframe
           { key: "X-Frame-Options", value: "DENY" },
 
-          // Bat buoc browser dung HTTPS
+          // Bắt buộc browser dung HTTPS
           {
             key: "Strict-Transport-Security",
             value: "max-age=63072000; includeSubDomains; preload",
           },
 
-          // Khong cho browser doan MIME type
+          // Không cho browser doan MIME type
           { key: "X-Content-Type-Options", value: "nosniff" },
 
-          // Kiem soat thong tin referrer gui di
+          // Kiem soat thông tin referrer gửi đi
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
 
-          // Khong cho trang web truy cap camera, mic, v.v.
+          // Không cho trang web truy cập camera, mic, v.v.
           {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
@@ -609,16 +609,16 @@ export default nextConfig;
 
 ## 9. OWASP Top 10 trong Next.js
 
-| # | Moi de doa | Cach phong chong trong Next.js |
+| # | Moi de doa | Cach phòng chống trong Next.js |
 |---|-----------|-------------------------------|
 | 1 | Broken Access Control | Kiem tra auth trong middleware, Server Actions |
 | 2 | Cryptographic Failures | Dung HTTPS, hash password voi bcrypt |
 | 3 | Injection | Parameterized queries, validate input |
 | 4 | Insecure Design | Review architecture, threat modeling |
 | 5 | Security Misconfiguration | Secure headers, khong expose stack traces |
-| 6 | Vulnerable Components | Cap nhat dependencies thuong xuyen |
+| 6 | Vulnerable Components | Cap nhat dependencies thường xuyên |
 | 7 | Auth Failures | Dung NextAuth.js/Auth.js, rate limiting |
-| 8 | Data Integrity Failures | Validate input, kiem tra server-side |
+| 8 | Data Integrity Failures | Validate input, kiểm tra server-side |
 | 9 | Logging Failures | Log auth events, monitor bat thuong |
 | 10 | SSRF | Validate URLs, whitelist domains |
 
@@ -626,59 +626,59 @@ export default nextConfig;
 
 ## 10. Security Checklist
 
-Truoc khi deploy, kiem tra tat ca cac muc sau:
+Truoc khi deploy, kiểm tra tất cả các mục sau:
 
 **Authentication va Authorization:**
-- [ ] Moi route can bao ve da co auth check
-- [ ] Server Actions kiem tra session truoc khi xu ly
-- [ ] Middleware chan cac route chua xac thuc
-- [ ] Token co thoi gian het han hop ly
+- [ ] Moi route can bao ve đã có auth check
+- [ ] Server Actions kiểm tra session trước khi xu ly
+- [ ] Middleware chan các route chua xác thực
+- [ ] Token co thời gian het han hợp lý
 
 **Input Validation:**
-- [ ] Tat ca form inputs duoc validate (client + server)
-- [ ] File uploads duoc kiem tra type va size
-- [ ] URLs duoc validate protocol (chi http/https)
+- [ ] Tat ca form inputs được validate (client + server)
+- [ ] File uploads duoc kiểm tra type va size
+- [ ] URLs được validate protocol (chi http/https)
 - [ ] SQL queries dung parameterized
 
 **Headers va Config:**
-- [ ] CSP header duoc cau hinh
+- [ ] CSP header được cấu hình
 - [ ] HSTS header bat
 - [ ] X-Frame-Options: DENY
-- [ ] Khong expose stack traces trong production
+- [ ] Không expose stack traces trong production
 
 **Environment:**
-- [ ] Khong co secrets trong code
-- [ ] NEXT_PUBLIC_ chi dung cho du lieu khong nhay cam
+- [ ] Không co secrets trong code
+- [ ] NEXT_PUBLIC_ chỉ dùng cho dữ liệu khong nhạy cảm
 - [ ] .env files nam trong .gitignore
-- [ ] Environment variables duoc validate khi khoi dong
+- [ ] Environment variables được validate khi khoi dong
 
 **Dependencies:**
-- [ ] Chay `npm audit` thuong xuyen
-- [ ] Cap nhat dependencies co lo hong bao mat
-- [ ] Khong dung packages khong duoc maintain
+- [ ] Chay `npm audit` thường xuyên
+- [ ] Cap nhat dependencies co lỗ hổng bảo mật
+- [ ] Không dung packages không được maintain
 
 ---
 
-## 11. Loi thuong gap
+## 11. Lỗi thường gặp
 
-### Loi 1: Lo API key qua NEXT_PUBLIC_
+### Lỗi 1: Lo API key qua NEXT_PUBLIC_
 
 ```bash
 # SAI: Bat ky ai cung thay duoc trong browser DevTools
 NEXT_PUBLIC_OPENAI_KEY="sk-xxxxx"
 
-# DUNG: Bo NEXT_PUBLIC_ prefix, goi qua API route
+# DUNG: Bo NEXT_PUBLIC_ prefix, gọi qua API route
 OPENAI_KEY="sk-xxxxx"
 ```
 
-### Loi 2: Khong validate input trong Server Actions
+### Lỗi 2: Không validate input trong Server Actions
 
 ```tsx
-// SAI: Tin tuong du lieu tu client
+// SAI: Tin tuong dữ liệu tu client
 async function deleteUser(userId: string) {
   "use server";
   await db.user.delete({ where: { id: userId } });
-  // Hacker co the xoa bat ky user nao!
+  // Hacker có thể xoa bất kỳ user nao!
 }
 
 // DUNG: Kiem tra auth + validate
@@ -688,13 +688,13 @@ async function deleteUser(userId: string) {
   if (!session?.user?.isAdmin) {
     throw new Error("Khong co quyen");
   }
-  // Validate userId la so hop le
+  // Validate userId la so hợp lệ
   const id = z.string().uuid().parse(userId);
   await db.user.delete({ where: { id } });
 }
 ```
 
-### Loi 3: CORS qua rong
+### Lỗi 3: CORS quá rộng
 
 ```tsx
 // SAI: Cho phep moi origin
@@ -702,7 +702,7 @@ headers: {
   "Access-Control-Allow-Origin": "*"
 }
 
-// DUNG: Chi cho phep domain cu the
+// DUNG: Chi cho phép domain cụ thể
 const allowedOrigins = ["https://yourdomain.com"];
 const origin = request.headers.get("origin");
 if (origin && allowedOrigins.includes(origin)) {
@@ -712,66 +712,66 @@ if (origin && allowedOrigins.includes(origin)) {
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### Cau 1: Next.js bao ve chong XSS nhu the nao?
+### Câu 1: Next.js bao ve chong XSS nhu thế nào?
 
-**Tra loi:**
+**Trả lời:**
 
-Next.js dung React, va React **tu dong escape** tat ca noi dung truoc khi render vao DOM. Nghia la neu user nhap `<script>alert('hack')</script>`, React se hien thi dung chuoi do nhu text, khong chay nhu code.
+Next.js dung React, va React **tự động escape** tất cả nội dung trước khi render vào DOM. Nghia la neu user nhap `<script>alert('hack')</script>`, React se hiển thị dung chuoi do nhu text, khong chay nhu code.
 
 Tuy nhien, van co rui ro XSS khi:
-- Dung `dangerouslySetInnerHTML` voi du lieu chua sanitize
+- Dung `dangerouslySetInnerHTML` với dữ liệu chưa sanitize
 - Truyen user input vao `href` (javascript: protocol)
-- Render noi dung tu CMS ma khong sanitize
+- Render nội dung tu CMS ma khong sanitize
 
-Giai phap: sanitize HTML voi DOMPurify, validate URLs, cau hinh CSP header.
+Giai phap: sanitize HTML voi DOMPurify, validate URLs, cấu hình CSP header.
 
-### Cau 2: NEXT_PUBLIC_ khac gi environment variables binh thuong?
+### Câu 2: NEXT_PUBLIC_ khac gi environment variables bình thường?
 
-**Tra loi:**
+**Trả lời:**
 
-- **Khong co prefix**: Chi ton tai tren server (Node.js runtime). An toan cho secrets nhu DB passwords, API keys.
-- **Co NEXT_PUBLIC_ prefix**: Duoc inline vao JavaScript bundle gui xuong browser. **Bat ky ai cung co the doc duoc** qua View Source hoac DevTools.
+- **Không co prefix**: Chi ton tai trên server (Node.js runtime). An toan cho secrets nhu DB passwords, API keys.
+- **Co NEXT_PUBLIC_ prefix**: Duoc inline vao JavaScript bundle gửi xuống browser. **Bat ky ai cung có thể đọc được** qua View Source hoac DevTools.
 
-Quy tac: **KHONG BAO GIO** dat secrets voi `NEXT_PUBLIC_`. Chi dung cho thong tin cong khai nhu API URL, app name.
+Quy tac: **KHONG BAO GIO** dat secrets voi `NEXT_PUBLIC_`. Chi dung cho thông tin cong khai nhu API URL, app name.
 
-### Cau 3: Lam sao bao ve Server Actions?
+### Câu 3: Lam sao bao ve Server Actions?
 
-**Tra loi:**
+**Trả lời:**
 
-Server Actions can duoc bao ve o 3 tang:
+Server Actions can được bảo vệ o 3 tăng:
 
-1. **Authentication**: Kiem tra user da dang nhap chua (session/token)
-2. **Authorization**: Kiem tra user co quyen thuc hien action nay khong
-3. **Input validation**: Validate tat ca du lieu voi Zod hoac schema tuong tu
+1. **Authentication**: Kiem tra user da đăng nhập chua (session/token)
+2. **Authorization**: Kiem tra user co quyền thực hiện action nay khong
+3. **Input validation**: Validate tất cả dữ liệu với Zod hoac schema tương tự
 
-Next.js tu dong them CSRF protection cho Server Actions, nhung ban van can tu them auth va validation. Ngoai ra, tranh truyen secrets qua closure vi chung co the bi serialize.
+Next.js tự động them CSRF protection cho Server Actions, nhưng bạn van can tu them auth va validation. Ngoai ra, tránh truyền secrets qua closure vi chung có thể bi serialize.
 
-### Cau 4: Content Security Policy (CSP) la gi va tai sao can thiet?
+### Câu 4: Content Security Policy (CSP) là gì va tại sao can thiet?
 
-**Tra loi:**
+**Trả lời:**
 
-CSP la HTTP header cho phep ban dinh nghia **nguon nao duoc phep tai resources** (scripts, styles, images) tren trang web cua ban.
+CSP là HTTP header cho phép bạn định nghĩa **nguon nao duoc phep tai resources** (scripts, styles, images) tren trang web của bạn.
 
-Vi du: `script-src 'self'` chi cho phep chay JavaScript tu cung domain, chan tat ca inline scripts va scripts tu domain khac.
+Ví dụ: `script-src 'self'` chi cho phép chay JavaScript tu cùng domain, chan tất cả inline scripts va scripts tu domain khac.
 
-CSP can thiet vi no la **tuyen phong thu cuoi cung** chong XSS. Ke ca khi attacker inject duoc script vao HTML, CSP se chan khong cho script do chay.
+CSP can thiet vi no la **tuyến phòng thủ cuối cùng** chong XSS. Ke ca khi attacker inject duoc script vao HTML, CSP sẽ chặn khong cho script do chay.
 
-Trong Next.js, cau hinh CSP qua middleware va dung nonce cho cac inline scripts hop le.
+Trong Next.js, cấu hình CSP qua middleware va dung nonce cho cac inline scripts hợp lệ.
 
-### Cau 5: Rate limiting quan trong nhu the nao va cach implement?
+### Câu 5: Rate limiting quan trọng nhu thế nào và cách implement?
 
-**Tra loi:**
+**Trả lời:**
 
-Rate limiting ngan chan:
-- **Brute force attacks** (thu nhieu mat khau)
+Rate limiting ngăn chặn:
+- **Brute force attacks** (thu nhieu mật khẩu)
 - **DDoS** (lam qua tai server)
-- **Abuse** (spam, scraping du lieu)
+- **Abuse** (spam, scraping dữ liệu)
 
 Cach implement trong Next.js:
 - **Don gian**: Dung in-memory Map voi IP-based tracking (chi cho 1 instance)
-- **Production**: Dung Redis voi thu vien nhu `@upstash/ratelimit` (ho tro nhieu server instances)
+- **Production**: Dung Redis voi thư viện nhu `@upstash/ratelimit` (hỗ trợ nhiều server instances)
 - **Vercel**: Su dung Vercel WAF hoac Edge Middleware voi KV store
 
-Luon rate limit cac endpoint nhay cam: login, register, forgot-password, va moi API tao du lieu.
+Luon rate limit các endpoint nhạy cảm: login, register, forgot-password, va moi API tao dữ liệu.

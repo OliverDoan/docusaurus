@@ -3,19 +3,19 @@ sidebar_position: 1
 title: "Git Flow — Mo hinh phan nhanh kinh dien"
 ---
 
-# Git Flow — Mo hinh phan nhanh kinh dien
+# Git Flow — Mô hình phân nhánh kinh điển
 
-Khi lam viec trong mot team lon, ban se gap cau hoi: "Ai lam nhanh nao? Merge vao dau? Release luc nao?" Git Flow ra doi de tra loi tat ca nhung cau hoi do. Day la **mo hinh phan nhanh (branching model)** noi tieng nhat trong lich su Git, duoc hang ngan team tren the gioi ap dung. Bai nay se giup ban hieu chi tiet Git Flow la gi, cach hoat dong, va khi nao nen (hoac khong nen) dung no.
+Khi làm việc trong một team lớn, bạn sẽ gặp câu hỏi: "Ai làm nhánh nào? Merge vào đâu? Release lúc nào?" Git Flow ra đời để trả lời tất cả những câu hỏi đó. Đây là **mô hình phân nhánh (branching model)** nổi tiếng nhất trong lịch sử Git, được hàng nghìn team trên thế giới áp dụng. Bài này sẽ giúp bạn hiểu chi tiết Git Flow là gì, cách hoạt động, và khi nào nên (hoặc không nên) dùng nó.
 
 ---
 
-## 1. Git Flow la gi?
+## 1. Git Flow là gì?
 
-Git Flow la mo hinh phan nhanh duoc **Vincent Driessen** gioi thieu nam 2010 trong bai blog kinh dien "A successful Git branching model". Mo hinh nay dinh nghia ro rang:
+Git Flow là mô hình phân nhánh được **Vincent Driessen** giới thiệu năm 2010 trong bài blog kinh điển "A successful Git branching model". Mô hình này định nghĩa rõ ràng:
 
-- **Nhanh nao** dung cho **muc dich nao**
-- **Merge tu dau** vao **dau**
-- **Quy trinh** tu luc bat dau code den luc release
+- **Nhánh nào** dùng cho **mục đích nào**
+- **Merge từ đâu** vào **đâu**
+- **Quy trình** từ lúc bắt đầu code đến lúc release
 
 ```
 +------------------------------------------------------------------+
@@ -35,37 +35,37 @@ Git Flow la mo hinh phan nhanh duoc **Vincent Driessen** gioi thieu nam 2010 tro
 +------------------------------------------------------------------+
 ```
 
-**Y tuong cot loi:** Tach biet hoan toan giua code dang phat trien (develop), code da san sang (release), va code dang chay tren production (main).
+**Ý tưởng cốt lõi:** Tách biệt hoàn toàn giữa code đang phát triển (develop), code đã sẵn sàng (release), và code đang chạy trên production (main).
 
 ---
 
-## 2. Cac nhanh chinh (Main Branches)
+## 2. Các nhánh chính (Main Branches)
 
-Git Flow co **2 nhanh song song vinh vien** — chung ton tai suot vong doi du an:
+Git Flow có **2 nhánh song song vĩnh viễn** — chúng tồn tại suốt vòng đời dự án:
 
-### 2.1. Nhanh `main` (hoac `master`)
+### 2.1. Nhánh `main` (hoặc `master`)
 
 ```bash
-# Nhanh main luon phan anh trang thai PRODUCTION
-# Moi commit tren main = 1 phien ban da release
+# Nhánh main luôn phản ánh trạng thái PRODUCTION
+# Mỗi commit trên main = 1 phiên bản đã release
 git log --oneline main
 # a1b2c3d (tag: v2.1.0) Release 2.1.0
 # d4e5f6g (tag: v2.0.0) Release 2.0.0
 # h7i8j9k (tag: v1.0.0) Release 1.0.0
 ```
 
-| Dac diem | Mo ta |
+| Đặc điểm | Mô tả |
 |----------|-------|
-| Muc dich | Chua code production, da duoc test ky |
-| Ai duoc merge vao | Chi `release/*` va `hotfix/*` |
-| Ai duoc commit truc tiep | **KHONG AI** — tuyet doi khong commit truc tiep |
-| Tag | Moi merge vao main deu duoc tag version |
+| Mục đích | Chứa code production, đã được test kỹ |
+| Ai được merge vào | Chỉ `release/*` và `hotfix/*` |
+| Ai được commit trực tiếp | **KHÔNG AI** — tuyệt đối không commit trực tiếp |
+| Tag | Mỗi merge vào main đều được tag version |
 
-### 2.2. Nhanh `develop`
+### 2.2. Nhánh `develop`
 
 ```bash
-# Nhanh develop la "trung tam tich hop"
-# Noi tat ca feature branches merge vao
+# Nhánh develop là "trung tâm tích hợp"
+# Nơi tất cả feature branches merge vào
 git checkout develop
 git log --oneline
 # f1a2b3c feat: add payment module
@@ -73,22 +73,22 @@ git log --oneline
 # g7h8i9j fix: correct email validation
 ```
 
-| Dac diem | Mo ta |
+| Đặc điểm | Mô tả |
 |----------|-------|
-| Muc dich | Tich hop tat ca feature moi |
-| Ai duoc merge vao | `feature/*` branches |
-| Trang thai | Luon co code moi nhat, co the chua on dinh |
-| Tao tu | Duoc tao tu `main` khi khoi tao du an |
+| Mục đích | Tích hợp tất cả feature mới |
+| Ai được merge vào | `feature/*` branches |
+| Trạng thái | Luôn có code mới nhất, có thể chưa ổn định |
+| Tạo từ | Được tạo từ `main` khi khởi tạo dự án |
 
 ---
 
-## 3. Cac nhanh ho tro (Supporting Branches)
+## 3. Các nhánh hỗ trợ (Supporting Branches)
 
-Ngoai 2 nhanh chinh, Git Flow co **3 loai nhanh tam thoi** — duoc tao ra roi xoa di sau khi hoan thanh:
+Ngoài 2 nhánh chính, Git Flow có **3 loại nhánh tạm thời** — được tạo ra rồi xóa đi sau khi hoàn thành:
 
 ### 3.1. Feature Branches (`feature/*`)
 
-Moi tinh nang moi = 1 feature branch.
+Mỗi tính năng mới = 1 feature branch.
 
 ```
 Workflow:
@@ -100,12 +100,12 @@ Workflow:
 ```
 
 ```bash
-# Buoc 1: Tao feature branch tu develop
+# Bước 1: Tạo feature branch từ develop
 git checkout develop
 git pull origin develop
 git checkout -b feature/login
 
-# Buoc 2: Code binh thuong, commit nhieu lan
+# Bước 2: Code bình thường, commit nhiều lần
 git add .
 git commit -m "feat: add login form UI"
 
@@ -115,22 +115,22 @@ git commit -m "feat: add login API integration"
 git add .
 git commit -m "test: add login unit tests"
 
-# Buoc 3: Merge lai vao develop khi hoan thanh
+# Bước 3: Merge lại vào develop khi hoàn thành
 git checkout develop
 git pull origin develop
 git merge --no-ff feature/login
-# --no-ff: tao merge commit, giu lai lich su nhanh
+# --no-ff: tạo merge commit, giữ lại lịch sử nhánh
 
-# Buoc 4: Xoa feature branch
+# Bước 4: Xóa feature branch
 git branch -d feature/login
 git push origin --delete feature/login
 ```
 
-**Tai sao dung `--no-ff`?** Vi no tao mot merge commit rieng, giup ban thay ro rang "feature nay duoc merge vao luc nao" trong git log. Neu dung fast-forward, cac commit se nam tren 1 duong thang va ban khong phan biet duoc feature nao voi feature nao.
+**Tại sao dùng `--no-ff`?** Vì nó tạo một merge commit riêng, giúp bạn thấy rõ ràng "feature này được merge vào lúc nào" trong git log. Nếu dùng fast-forward, các commit sẽ nằm trên 1 đường thẳng và bạn không phân biệt được feature nào với feature nào.
 
 ```
-# Voi --no-ff (Git Flow khuyen dung)
-*   Merge feature/login into develop   <-- thay ro rang
+# Với --no-ff (Git Flow khuyên dùng)
+*   Merge feature/login into develop   <-- thấy rõ ràng
 |\
 | * feat: add login tests
 | * feat: add login API
@@ -138,7 +138,7 @@ git push origin --delete feature/login
 |/
 *   Previous develop commit
 
-# Khong co --no-ff (fast-forward) — kho theo doi
+# Không có --no-ff (fast-forward) — khó theo dõi
 * feat: add login tests
 * feat: add login API
 * feat: add login form
@@ -147,7 +147,7 @@ git push origin --delete feature/login
 
 ### 3.2. Release Branches (`release/*`)
 
-Khi develop da co du feature cho phien ban moi, tao release branch de "dong bang" va chuan bi release.
+Khi develop đã có đủ feature cho phiên bản mới, tạo release branch để "đóng băng" và chuẩn bị release.
 
 ```
 Workflow:
@@ -159,90 +159,90 @@ Workflow:
 ```
 
 ```bash
-# Buoc 1: Tao release branch tu develop
+# Bước 1: Tạo release branch từ develop
 git checkout develop
 git checkout -b release/1.0.0
 
-# Buoc 2: Chi fix bug, cap nhat version, documentation
-# KHONG them feature moi tren release branch!
+# Bước 2: Chỉ fix bug, cập nhật version, documentation
+# KHÔNG thêm feature mới trên release branch!
 git commit -m "chore: bump version to 1.0.0"
 git commit -m "fix: correct typo in error message"
 git commit -m "docs: update changelog for v1.0.0"
 
-# Buoc 3: Merge vao MAIN va tag
+# Bước 3: Merge vào MAIN và tag
 git checkout main
 git merge --no-ff release/1.0.0
 git tag -a v1.0.0 -m "Release version 1.0.0"
 
-# Buoc 4: Merge nguoc lai vao DEVELOP (de giu cac bug fix)
+# Bước 4: Merge ngược lại vào DEVELOP (để giữ các bug fix)
 git checkout develop
 git merge --no-ff release/1.0.0
 
-# Buoc 5: Xoa release branch
+# Bước 5: Xóa release branch
 git branch -d release/1.0.0
 ```
 
-**Luu y quan trong:** Trong khi release branch dang ton tai, team van co the tiep tuc code feature moi tren develop. Day la uu diem lon cua Git Flow — phat trien song song!
+**Lưu ý quan trọng:** Trong khi release branch đang tồn tại, team vẫn có thể tiếp tục code feature mới trên develop. Đây là ưu điểm lớn của Git Flow — phát triển song song!
 
 ### 3.3. Hotfix Branches (`hotfix/*`)
 
-Bug khẩn cap tren production! Khong the doi den release tiep theo.
+Bug khẩn cấp trên production! Không thể đợi đến release tiếp theo.
 
 ```
 Workflow:
   main    ---*-----------*----> (tag v1.0.1)
               \         /
   hotfix/      *---*---*
-  fix-crash   (sua bug khan cap)
+  fix-crash   (sửa bug khẩn cấp)
               \         \
-  develop      *---------*----> (nhan duoc hotfix)
+  develop      *---------*----> (nhận được hotfix)
 ```
 
 ```bash
-# Buoc 1: Tao hotfix branch tu MAIN (khong phai develop!)
+# Bước 1: Tạo hotfix branch từ MAIN (không phải develop!)
 git checkout main
 git checkout -b hotfix/fix-payment-crash
 
-# Buoc 2: Sua bug khan cap
+# Bước 2: Sửa bug khẩn cấp
 git commit -m "fix: resolve payment gateway crash on null response"
 
-# Buoc 3: Merge vao MAIN va tag
+# Bước 3: Merge vào MAIN và tag
 git checkout main
 git merge --no-ff hotfix/fix-payment-crash
 git tag -a v1.0.1 -m "Hotfix: payment crash resolved"
 
-# Buoc 4: Merge vao DEVELOP (de develop cung co ban sua)
+# Bước 4: Merge vào DEVELOP (để develop cũng có bản sửa)
 git checkout develop
 git merge --no-ff hotfix/fix-payment-crash
 
-# Buoc 5: Xoa hotfix branch
+# Bước 5: Xóa hotfix branch
 git branch -d hotfix/fix-payment-crash
 ```
 
-**Chu y:** Neu dang co release branch ton tai, hotfix nen merge vao release branch thay vi develop (vi release branch se merge vao develop sau).
+**Chú ý:** Nếu đang có release branch tồn tại, hotfix nên merge vào release branch thay vì develop (vì release branch sẽ merge vào develop sau).
 
 ---
 
 ## 4. Git Flow CLI Tool
 
-Thay vi nho tat ca cac buoc tren, ban co the dung tool `git-flow` de tu dong hoa:
+Thay vì nhớ tất cả các bước trên, bạn có thể dùng tool `git-flow` để tự động hóa:
 
 ```bash
-# Cai dat (macOS)
+# Cài đặt (macOS)
 brew install git-flow-avh
 
-# Cai dat (Ubuntu/Debian)
+# Cài đặt (Ubuntu/Debian)
 apt-get install git-flow
 
-# Cai dat (Windows) — co san trong Git for Windows
+# Cài đặt (Windows) — có sẵn trong Git for Windows
 ```
 
-### 4.1. Khoi tao Git Flow
+### 4.1. Khởi tạo Git Flow
 
 ```bash
 git flow init
 
-# Tool se hoi ban dat ten cho cac nhanh:
+# Tool sẽ hỏi bạn đặt tên cho các nhánh:
 # Branch name for production releases: [main]
 # Branch name for "next release" development: [develop]
 # Feature branches prefix: [feature/]
@@ -250,116 +250,116 @@ git flow init
 # Hotfix branches prefix: [hotfix/]
 # Version tag prefix: [v]
 
-# Ket qua: tu dong tao nhanh develop tu main
+# Kết quả: tự động tạo nhánh develop từ main
 ```
 
-### 4.2. Feature workflow voi git-flow CLI
+### 4.2. Feature workflow với git-flow CLI
 
 ```bash
-# Bat dau feature moi (tu dong tao branch tu develop)
+# Bắt đầu feature mới (tự động tạo branch từ develop)
 git flow feature start login
-# Tuong duong: git checkout -b feature/login develop
+# Tương đương: git checkout -b feature/login develop
 
-# Lam viec binh thuong...
+# Làm việc bình thường...
 git add .
 git commit -m "feat: implement login"
 
-# Publish feature len remote (de team khac thay)
+# Publish feature lên remote (để team khác thấy)
 git flow feature publish login
-# Tuong duong: git push -u origin feature/login
+# Tương đương: git push -u origin feature/login
 
-# Ket thuc feature (tu dong merge vao develop va xoa branch)
+# Kết thúc feature (tự động merge vào develop và xóa branch)
 git flow feature finish login
-# Tuong duong:
+# Tương đương:
 #   git checkout develop
 #   git merge --no-ff feature/login
 #   git branch -d feature/login
 ```
 
-### 4.3. Release va Hotfix voi git-flow CLI
+### 4.3. Release và Hotfix với git-flow CLI
 
 ```bash
 # === RELEASE ===
 git flow release start 1.0.0
 # ... fix bugs, update version ...
 git flow release finish 1.0.0
-# Tu dong: merge vao main + develop, tag v1.0.0, xoa branch
+# Tự động: merge vào main + develop, tag v1.0.0, xóa branch
 
 # === HOTFIX ===
 git flow hotfix start fix-crash
-# ... fix bug khan cap ...
+# ... fix bug khẩn cấp ...
 git flow hotfix finish fix-crash
-# Tu dong: merge vao main + develop, tag, xoa branch
+# Tự động: merge vào main + develop, tag, xóa branch
 ```
 
 ---
 
-## 5. Uu diem va Nhuoc diem
+## 5. Ưu điểm và Nhược điểm
 
-### Uu diem
+### Ưu điểm
 
-| Uu diem | Giai thich |
+| Ưu điểm | Giải thích |
 |---------|-----------|
-| **Ro rang, co cau truc** | Moi nguoi biet chinh xac code o dau, merge vao dau |
-| **Parallel development** | Team co the lam nhieu feature cung luc |
-| **Release co kiem soat** | Release branch cho phep test ky truoc khi len production |
-| **Hotfix doc lap** | Sua bug khan cap ma khong anh huong development |
-| **Lich su sach** | `--no-ff` giu lai lich su merge ro rang |
-| **Phu hop versioned release** | Ly tuong cho phan mem co version (v1.0, v2.0, v3.0) |
+| **Rõ ràng, có cấu trúc** | Mọi người biết chính xác code ở đâu, merge vào đâu |
+| **Parallel development** | Team có thể làm nhiều feature cùng lúc |
+| **Release có kiểm soát** | Release branch cho phép test kỹ trước khi lên production |
+| **Hotfix độc lập** | Sửa bug khẩn cấp mà không ảnh hưởng development |
+| **Lịch sử sạch** | `--no-ff` giữ lại lịch sử merge rõ ràng |
+| **Phù hợp versioned release** | Lý tưởng cho phần mềm có version (v1.0, v2.0, v3.0) |
 
-### Nhuoc diem
+### Nhược điểm
 
-| Nhuoc diem | Giai thich |
+| Nhược điểm | Giải thích |
 |------------|-----------|
-| **Phuc tap** | Nhieu loai nhanh, nhieu buoc merge, de nham |
-| **Overhead** | Qua nang ne cho du an nho hoac 1-2 nguoi |
-| **Merge conflicts** | Cang nhieu nhanh song song → cang nhieu conflict |
-| **Khong hop CI/CD** | Git Flow thiet ke cho scheduled release, khong phai continuous deployment |
-| **Long-lived branches** | Feature branch ton tai lau → drift xa khoi develop → merge kho |
-| **Cham** | Qua trinh release mat nhieu buoc manual |
+| **Phức tạp** | Nhiều loại nhánh, nhiều bước merge, dễ nhầm |
+| **Overhead** | Quá nặng nề cho dự án nhỏ hoặc 1-2 người |
+| **Merge conflicts** | Càng nhiều nhánh song song -> càng nhiều conflict |
+| **Không hợp CI/CD** | Git Flow thiết kế cho scheduled release, không phải continuous deployment |
+| **Long-lived branches** | Feature branch tồn tại lâu -> drift xa khỏi develop -> merge khó |
+| **Chậm** | Quá trình release mất nhiều bước manual |
 
 ---
 
-## 6. Khi nao nen dung Git Flow?
+## 6. Khi nào nên dùng Git Flow?
 
-### Nen dung khi:
-
-```
-+---------------------------------------------------+
-|  Dung Git Flow khi:                               |
-|  [x] Team >= 5 nguoi                              |
-|  [x] Release theo lich trinh (2 tuan, 1 thang)    |
-|  [x] San pham co version ro rang (v1.0, v2.0)     |
-|  [x] Can ho tro nhieu version cung luc            |
-|  [x] Moi truong production rieng biet             |
-|  [x] Quy trinh QA nghiem ngat                     |
-+---------------------------------------------------+
-```
-
-**Vi du thuc te:**
-- Ung dung mobile (iOS/Android) — phai submit review, release theo version
-- Phan mem enterprise (ERP, CRM) — khach hang dung version cu, can hotfix
-- Library/SDK — phai duy tri nhieu version (v1.x, v2.x)
-
-### Khong nen dung khi:
+### Nên dùng khi:
 
 ```
 +---------------------------------------------------+
-|  KHONG dung Git Flow khi:                         |
-|  [ ] Team 1-3 nguoi                               |
-|  [ ] Deploy lien tuc (nhieu lan/ngay)             |
-|  [ ] Web app deploy tu dong (CI/CD hoan chinh)    |
-|  [ ] Du an nho, prototype, MVP                    |
-|  [ ] Khong can ho tro nhieu version               |
+|  Dùng Git Flow khi:                               |
+|  [x] Team >= 5 người                              |
+|  [x] Release theo lịch trình (2 tuần, 1 tháng)    |
+|  [x] Sản phẩm có version rõ ràng (v1.0, v2.0)     |
+|  [x] Cần hỗ trợ nhiều version cùng lúc            |
+|  [x] Môi trường production riêng biệt             |
+|  [x] Quy trình QA nghiêm ngặt                     |
++---------------------------------------------------+
+```
+
+**Ví dụ thực tế:**
+- Ứng dụng mobile (iOS/Android) — phải submit review, release theo version
+- Phần mềm enterprise (ERP, CRM) — khách hàng dùng version cũ, cần hotfix
+- Library/SDK — phải duy trì nhiều version (v1.x, v2.x)
+
+### Không nên dùng khi:
+
+```
++---------------------------------------------------+
+|  KHÔNG dùng Git Flow khi:                         |
+|  [ ] Team 1-3 người                               |
+|  [ ] Deploy liên tục (nhiều lần/ngày)             |
+|  [ ] Web app deploy tự động (CI/CD hoàn chỉnh)    |
+|  [ ] Dự án nhỏ, prototype, MVP                    |
+|  [ ] Không cần hỗ trợ nhiều version               |
 +---------------------------------------------------+
 ```
 
 ---
 
-## 7. Tong quan quy trinh day du
+## 7. Tổng quan quy trình đầy đủ
 
 ```
-                            Git Flow - Toan canh
+                            Git Flow - Toàn cảnh
                             ====================
 
   Tag:   v1.0          v1.1      v1.1.1        v2.0
@@ -377,125 +377,125 @@ git flow hotfix finish fix-crash
              login  profile        search  dashboard
 ```
 
-**Buoc theo buoc:**
+**Bước theo bước:**
 
-1. Du an bat dau: tao `main` va `develop`
-2. Developer A: `feature/login` tu develop → code → merge lai develop
-3. Developer B: `feature/profile` tu develop → code → merge lai develop
-4. PM quyet dinh release: `release/1.0` tu develop
-5. QA test tren release branch, fix bug tren release branch
-6. Release xong: merge vao main (tag v1.0) + merge nguoc develop
-7. Bug khan cap tren production: `hotfix/fix-crash` tu main
-8. Hotfix xong: merge vao main (tag v1.0.1) + merge nguoc develop
-9. Lap lai tu buoc 2
+1. Dự án bắt đầu: tạo `main` và `develop`
+2. Developer A: `feature/login` từ develop -> code -> merge lại develop
+3. Developer B: `feature/profile` từ develop -> code -> merge lại develop
+4. PM quyết định release: `release/1.0` từ develop
+5. QA test trên release branch, fix bug trên release branch
+6. Release xong: merge vào main (tag v1.0) + merge ngược develop
+7. Bug khẩn cấp trên production: `hotfix/fix-crash` từ main
+8. Hotfix xong: merge vào main (tag v1.0.1) + merge ngược develop
+9. Lặp lại từ bước 2
 
 ---
 
-## 8. Loi thuong gap
+## 8. Lỗi thường gặp
 
-### Loi 1: Commit truc tiep vao main hoac develop
+### Lỗi 1: Commit trực tiếp vào main hoặc develop
 
 ```bash
-# SAI: commit truc tiep vao develop
+# SAI: commit trực tiếp vào develop
 git checkout develop
-git commit -m "feat: add new feature"  # KHONG duoc lam!
+git commit -m "feat: add new feature"  # KHÔNG được làm!
 
-# DUNG: luon tao branch rieng
+# ĐÚNG: luôn tạo branch riêng
 git checkout -b feature/new-feature develop
 git commit -m "feat: add new feature"
 ```
 
-### Loi 2: Khong merge hotfix vao develop
+### Lỗi 2: Không merge hotfix vào develop
 
 ```bash
-# Sau khi merge hotfix vao main, nhieu nguoi QUEN merge vao develop
-# Hau qua: develop khong co ban sua bug → bug xuat hien lai o release sau
+# Sau khi merge hotfix vào main, nhiều người QUÊN merge vào develop
+# Hậu quả: develop không có bản sửa bug -> bug xuất hiện lại ở release sau
 
-# LUON LUON merge hotfix vao ca main VA develop
+# LUÔN LUÔN merge hotfix vào cả main VÀ develop
 git checkout main
 git merge --no-ff hotfix/fix-crash
 git checkout develop
-git merge --no-ff hotfix/fix-crash  # DUNG quen buoc nay!
+git merge --no-ff hotfix/fix-crash  # ĐỪNG quên bước này!
 ```
 
-### Loi 3: Them feature moi tren release branch
+### Lỗi 3: Thêm feature mới trên release branch
 
 ```bash
-# Release branch chi de fix bug va chuan bi release
-# KHONG them feature moi tren release branch!
+# Release branch chỉ để fix bug và chuẩn bị release
+# KHÔNG thêm feature mới trên release branch!
 
 # SAI
 git checkout release/1.0
-git commit -m "feat: add cool new button"  # KHONG!
+git commit -m "feat: add cool new button"  # KHÔNG!
 
-# DUNG — feature moi phai tren feature branch, merge vao develop
+# ĐÚNG — feature mới phải trên feature branch, merge vào develop
 git checkout -b feature/cool-button develop
 ```
 
-### Loi 4: Dung fast-forward merge
+### Lỗi 4: Dùng fast-forward merge
 
 ```bash
-# SAI: fast-forward lam mat lich su nhanh
+# SAI: fast-forward làm mất lịch sử nhánh
 git checkout develop
-git merge feature/login  # Fast-forward neu co the
+git merge feature/login  # Fast-forward nếu có thể
 
-# DUNG: luon dung --no-ff
+# ĐÚNG: luôn dùng --no-ff
 git checkout develop
-git merge --no-ff feature/login  # Tao merge commit
+git merge --no-ff feature/login  # Tạo merge commit
 ```
 
-### Loi 5: Feature branch song qua lau
+### Lỗi 5: Feature branch sống quá lâu
 
 ```bash
-# Feature branch ton tai > 1-2 tuan → drift xa khoi develop
-# Merge se rat dau dau voi conflicts
+# Feature branch tồn tại > 1-2 tuần -> drift xa khỏi develop
+# Merge sẽ rất đau đầu với conflicts
 
-# Giai phap: thuong xuyen merge develop vao feature branch
+# Giải pháp: thường xuyên merge develop vào feature branch
 git checkout feature/long-feature
-git merge develop  # Cap nhat code moi nhat tu develop
-# Hoac dung rebase (nhung can hieu ro rebase truoc khi dung)
+git merge develop  # Cập nhật code mới nhất từ develop
+# Hoặc dùng rebase (nhưng cần hiểu rõ rebase trước khi dùng)
 ```
 
 ---
 
-## 9. Cau hoi phong van
+## 9. Câu hỏi phỏng vấn
 
-### Cau 1: Git Flow la gi? Giai thich cac nhanh chinh.
+### Câu 1: Git Flow là gì? Giải thích các nhánh chính.
 
-**Tra loi:** Git Flow la mo hinh branching duoc Vincent Driessen gioi thieu nam 2010. No dinh nghia 5 loai nhanh: 2 nhanh vinh vien (main cho production, develop cho tich hop) va 3 nhanh tam thoi (feature cho tinh nang moi, release cho chuan bi phat hanh, hotfix cho sua loi khan cap tren production). Moi loai nhanh co quy tac ro rang ve viec tao tu dau va merge vao dau.
+**Trả lời:** Git Flow là mô hình branching được Vincent Driessen giới thiệu năm 2010. Nó định nghĩa 5 loại nhánh: 2 nhánh vĩnh viễn (main cho production, develop cho tích hợp) và 3 nhánh tạm thời (feature cho tính năng mới, release cho chuẩn bị phát hành, hotfix cho sửa lỗi khẩn cấp trên production). Mỗi loại nhánh có quy tắc rõ ràng về việc tạo từ đâu và merge vào đâu.
 
-### Cau 2: Tai sao Git Flow dung `--no-ff` khi merge?
+### Câu 2: Tại sao Git Flow dùng `--no-ff` khi merge?
 
-**Tra loi:** Flag `--no-ff` (no fast-forward) buoc Git tao mot merge commit rieng biet, ngay ca khi co the fast-forward. Dieu nay giu lai lich su cua feature branch trong git log — ban co the thay ro rang feature nao duoc merge vao luc nao, bao gom tat ca cac commit cua no. Neu dung fast-forward, cac commit se "phang" tren 1 dong va ban khong phan biet duoc boundary giua cac feature.
+**Trả lời:** Flag `--no-ff` (no fast-forward) buộc Git tạo một merge commit riêng biệt, ngay cả khi có thể fast-forward. Điều này giữ lại lịch sử của feature branch trong git log — bạn có thể thấy rõ ràng feature nào được merge vào lúc nào, bao gồm tất cả các commit của nó. Nếu dùng fast-forward, các commit sẽ "phẳng" trên 1 dòng và bạn không phân biệt được boundary giữa các feature.
 
-### Cau 3: Khi nao tao hotfix branch? No khac gi voi feature branch?
+### Câu 3: Khi nào tạo hotfix branch? Nó khác gì với feature branch?
 
-**Tra loi:** Hotfix branch duoc tao khi co bug khan cap tren production can sua ngay lap tuc, khong the doi den release tiep theo. Khac biet lon nhat: hotfix tao tu `main` (code production) va merge vao ca `main` lan `develop`. Feature branch tao tu `develop` va chi merge vao `develop`. Hotfix cung duoc tag version (patch increment, vi du v1.0.0 → v1.0.1).
+**Trả lời:** Hotfix branch được tạo khi có bug khẩn cấp trên production cần sửa ngay lập tức, không thể đợi đến release tiếp theo. Khác biệt lớn nhất: hotfix tạo từ `main` (code production) và merge vào cả `main` lẫn `develop`. Feature branch tạo từ `develop` và chỉ merge vào `develop`. Hotfix cũng được tag version (patch increment, ví dụ v1.0.0 -> v1.0.1).
 
-### Cau 4: Git Flow co nhuoc diem gi? Khi nao khong nen dung?
+### Câu 4: Git Flow có nhược điểm gì? Khi nào không nên dùng?
 
-**Tra loi:** Git Flow phuc tap voi nhieu loai nhanh va buoc merge, tao overhead lon cho team nho. No khong phu hop voi CI/CD continuous deployment vi duoc thiet ke cho scheduled release. Long-lived feature branches co the drift xa khoi develop gay merge conflict lon. Nen can nhac GitHub Flow (don gian hon) cho web app deploy lien tuc, hoac Trunk-Based Development cho team co CI/CD hoan chinh.
+**Trả lời:** Git Flow phức tạp với nhiều loại nhánh và bước merge, tạo overhead lớn cho team nhỏ. Nó không phù hợp với CI/CD continuous deployment vì được thiết kế cho scheduled release. Long-lived feature branches có thể drift xa khỏi develop gây merge conflict lớn. Nên cân nhắc GitHub Flow (đơn giản hơn) cho web app deploy liên tục, hoặc Trunk-Based Development cho team có CI/CD hoàn chỉnh.
 
-### Cau 5: Trong Git Flow, neu dang co release branch va phat hien bug tren production thi xu ly the nao?
+### Câu 5: Trong Git Flow, nếu đang có release branch và phát hiện bug trên production thì xử lý thế nào?
 
-**Tra loi:** Tao hotfix branch tu main nhu binh thuong. Sau khi fix xong, merge hotfix vao main (tag version moi) va merge vao **release branch** (thay vi develop). Ly do: release branch cuoi cung se merge vao develop, nen bug fix se duoc truyen xuong develop thong qua release branch. Neu merge hotfix truc tiep vao develop ma khong qua release branch, co the gay conflict khi release branch merge vao develop sau do.
+**Trả lời:** Tạo hotfix branch từ main như bình thường. Sau khi fix xong, merge hotfix vào main (tag version mới) và merge vào **release branch** (thay vì develop). Lý do: release branch cuối cùng sẽ merge vào develop, nên bug fix sẽ được truyền xuống develop thông qua release branch. Nếu merge hotfix trực tiếp vào develop mà không qua release branch, có thể gây conflict khi release branch merge vào develop sau đó.
 
 ---
 
-## 10. Tom tat
+## 10. Tóm tắt
 
 ```
 +----------------------------------------------------------+
-|  Git Flow — Tom tat nhanh                                |
+|  Git Flow — Tóm tắt nhanh                                |
 +----------------------------------------------------------+
-|  main       = production (chi release va hotfix)         |
-|  develop    = integration (noi feature hop nhat)         |
-|  feature/*  = tinh nang moi (tu develop, vao develop)    |
-|  release/*  = chuan bi release (tu develop, vao main)    |
-|  hotfix/*   = sua khan cap (tu main, vao main+develop)   |
+|  main       = production (chỉ release và hotfix)         |
+|  develop    = integration (nơi feature hợp nhất)         |
+|  feature/*  = tính năng mới (từ develop, vào develop)    |
+|  release/*  = chuẩn bị release (từ develop, vào main)    |
+|  hotfix/*   = sửa khẩn cấp (từ main, vào main+develop)   |
 +----------------------------------------------------------+
 |  CLI tool: git flow init / feature / release / hotfix    |
-|  Luon dung: --no-ff khi merge                            |
-|  Phu hop: team lon, scheduled release, versioned product |
+|  Luôn dùng: --no-ff khi merge                            |
+|  Phù hợp: team lớn, scheduled release, versioned product |
 +----------------------------------------------------------+
 ```

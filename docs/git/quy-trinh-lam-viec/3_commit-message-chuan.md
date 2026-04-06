@@ -3,20 +3,20 @@ sidebar_position: 3
 title: "Commit Message chuan — Conventional Commits"
 ---
 
-# Commit Message chuan — Conventional Commits
+# Commit Message chuẩn — Conventional Commits
 
-Commit message la "nhat ky" cua du an. Mot commit message tot giup ban (va dong nghiep) hieu **tai sao** thay doi duoc thuc hien, khong chi **thay doi gi**. Bai nay se giup ban viet commit message chuyen nghiep theo chuan Conventional Commits — chuan duoc su dung boi hang ngan du an open source va enterprise tren the gioi.
+Commit message là "nhật ký" của dự án. Một commit message tốt giúp bạn (và đồng nghiệp) hiểu **tại sao** thay đổi được thực hiện, không chỉ **thay đổi gì**. Bài này sẽ giúp bạn viết commit message chuyên nghiệp theo chuẩn Conventional Commits — chuẩn được sử dụng bởi hàng nghìn dự án open source và enterprise trên thế giới.
 
 ---
 
-## 1. Tai sao commit message quan trong?
+## 1. Tại sao commit message quan trọng?
 
-Truoc khi hoc cach viet, hay hieu **tai sao** commit message tot lai quan trong den vay:
+Trước khi học cách viết, hãy hiểu **tại sao** commit message tốt lại quan trọng đến vậy:
 
-### 1.1. Git log — Lich su du an
+### 1.1. Git log — Lịch sử dự án
 
 ```bash
-# Commit message xau — doc khong hieu gi
+# Commit message xấu — đọc không hiểu gì
 git log --oneline
 # a1b2c3d fix
 # d4e5f6g update
@@ -24,7 +24,7 @@ git log --oneline
 # j0k1l2m WIP
 # m3n4o5p done
 
-# Commit message tot — hieu ngay du an dang lam gi
+# Commit message tốt — hiểu ngay dự án đang làm gì
 git log --oneline
 # a1b2c3d fix: resolve login timeout on slow networks
 # d4e5f6g feat: add dark mode toggle to settings page
@@ -33,35 +33,35 @@ git log --oneline
 # m3n4o5p perf: optimize image loading with lazy load
 ```
 
-### 1.2. Git blame — Ai viet dong nay va tai sao?
+### 1.2. Git blame — Ai viết dòng này và tại sao?
 
 ```bash
-# git blame cho ban thay ai thay doi dong code nao, va commit message giai thich tai sao
+# git blame cho bạn thấy ai thay đổi dòng code nào, và commit message giải thích tại sao
 git blame src/auth/login.ts
 
-# Ket qua:
+# Kết quả:
 # a1b2c3d (Alice 2024-01-15) const TIMEOUT = 30000;
 #   → Commit: "fix: increase login timeout from 5s to 30s for slow networks"
-#   → Ban hieu NGAY tai sao timeout la 30000 ma khong phai 5000
+#   → Bạn hiểu NGAY tại sao timeout là 30000 mà không phải 5000
 ```
 
-### 1.3. Git bisect — Tim bug nhanh
+### 1.3. Git bisect — Tìm bug nhanh
 
 ```bash
-# git bisect dung binary search de tim commit gay ra bug
+# git bisect dùng binary search để tìm commit gây ra bug
 git bisect start
-git bisect bad          # Commit hien tai co bug
-git bisect good v1.0.0  # Version 1.0 khong co bug
+git bisect bad          # Commit hiện tại có bug
+git bisect good v1.0.0  # Version 1.0 không có bug
 
-# Git se checkout tung commit — ban test va bao good/bad
-# Neu commit message ro rang, ban biet ngay commit nao gay bug:
-# "feat: add new payment gateway" ← A ha! Bug o day!
+# Git sẽ checkout từng commit — bạn test và báo good/bad
+# Nếu commit message rõ ràng, bạn biết ngay commit nào gây bug:
+# "feat: add new payment gateway" ← A ha! Bug ở đây!
 ```
 
-### 1.4. Changelog tu dong
+### 1.4. Changelog tự động
 
 ```bash
-# Voi commit message theo chuan, tools co the tu dong tao changelog:
+# Với commit message theo chuẩn, tools có thể tự động tạo changelog:
 # CHANGELOG.md
 # ## v2.1.0 (2024-03-15)
 # ### Features
@@ -74,17 +74,17 @@ git bisect good v1.0.0  # Version 1.0 khong co bug
 
 ---
 
-## 2. 7 Quy tac viet commit message tot (Chris Beams)
+## 2. 7 Quy tắc viết commit message tốt (Chris Beams)
 
-Chris Beams tong hop 7 quy tac ma hau het developer chuyen nghiep deu dong y:
+Chris Beams tổng hợp 7 quy tắc mà hầu hết developer chuyên nghiệp đều đồng ý:
 
-### Quy tac 1: Tach subject va body bang dong trong
+### Quy tắc 1: Tách subject và body bằng dòng trống
 
 ```bash
-# SAI: tron lan subject va chi tiet
+# SAI: trộn lẫn subject và chi tiết
 git commit -m "Fix login bug that happened when user enters wrong password 3 times and the system locks the account but doesnt show error message to user"
 
-# DUNG: tach ro rang
+# ĐÚNG: tách rõ ràng
 git commit -m "fix: show error message when account is locked
 
 When a user enters wrong password 3 times, the account gets locked.
@@ -92,66 +92,66 @@ Previously, no error message was shown. Now we display a clear
 message explaining the lockout duration."
 ```
 
-### Quy tac 2: Gioi han subject line ~ 50 ky tu (toi da 72)
+### Quy tắc 2: Giới hạn subject line ~ 50 ký tự (tối đa 72)
 
 ```bash
-# SAI: qua dai
+# SAI: quá dài
 git commit -m "fix: resolve the issue where the login page crashes when the user enters a very long email address that exceeds 255 characters"
 
-# DUNG: ngan gon, du y
+# ĐÚNG: ngắn gọn, đủ ý
 git commit -m "fix: prevent crash on oversized email input"
 ```
 
-### Quy tac 3: Viet hoa chu cai dau (cho style truyen thong)
+### Quy tắc 3: Viết hoa chữ cái đầu (cho style truyền thống)
 
 ```bash
-# Style truyen thong (viet hoa)
+# Style truyền thống (viết hoa)
 git commit -m "Add search functionality"
 
-# Style Conventional Commits (khong viet hoa sau type)
+# Style Conventional Commits (không viết hoa sau type)
 git commit -m "feat: add search functionality"
-# ← "add" viet thuong vi da co prefix "feat:"
+# ← "add" viết thường vì đã có prefix "feat:"
 ```
 
-### Quy tac 4: Khong ket thuc subject bang dau cham
+### Quy tắc 4: Không kết thúc subject bằng dấu chấm
 
 ```bash
 # SAI
 git commit -m "feat: add login page."
 
-# DUNG
+# ĐÚNG
 git commit -m "feat: add login page"
 ```
 
-### Quy tac 5: Dung the menh lenh (imperative mood)
+### Quy tắc 5: Dùng thể mệnh lệnh (imperative mood)
 
 ```bash
-# SAI: qua khu hoac hien tai tien trinh
+# SAI: quá khứ hoặc hiện tại tiến trình
 git commit -m "feat: added login page"
 git commit -m "feat: adding login page"
 git commit -m "fix: fixed the bug"
 git commit -m "fix: fixes the bug"
 
-# DUNG: the menh lenh — nhu ra lenh cho code
+# ĐÚNG: thể mệnh lệnh — như ra lệnh cho code
 git commit -m "feat: add login page"
 git commit -m "fix: resolve the crash on login"
 
-# Meo nho: commit message nen hoan thanh cau:
+# Mẹo nhớ: commit message nên hoàn thành câu:
 # "If applied, this commit will ___"
 # "If applied, this commit will ADD LOGIN PAGE" ← ok!
-# "If applied, this commit will ADDED LOGIN PAGE" ← sai ngu phap!
+# "If applied, this commit will ADDED LOGIN PAGE" ← sai ngữ pháp!
 ```
 
-### Quy tac 6: Body giai thich WHAT va WHY (khong phai HOW)
+### Quy tắc 6: Body giải thích WHAT và WHY (không phải HOW)
 
 ```bash
-# SAI: giai thich HOW (doc code cung thay)
+# SAI: giải thích HOW (đọc code cũng thấy)
 git commit -m "fix: change timeout from 5000 to 30000
 
 Changed the TIMEOUT constant in login.ts from 5000 to 30000.
 Also updated the config file."
 
-# DUNG: giai thich WHY
+# ĐÚNG: giải thích WHY
 git commit -m "fix: increase login timeout for slow networks
 
 Users on 3G networks reported frequent timeout errors during
@@ -162,13 +162,13 @@ from production monitoring.
 Reported in issue #1234."
 ```
 
-### Quy tac 7: Moi commit la 1 thay doi logic
+### Quy tắc 7: Mỗi commit là 1 thay đổi logic
 
 ```bash
-# SAI: 1 commit lam qua nhieu thu
+# SAI: 1 commit làm quá nhiều thứ
 git commit -m "fix login, add dark mode, update readme, fix typo"
 
-# DUNG: tach thanh nhieu commit
+# ĐÚNG: tách thành nhiều commit
 git commit -m "fix: resolve login timeout on slow networks"
 git commit -m "feat: add dark mode toggle to settings"
 git commit -m "docs: update API authentication guide"
@@ -177,7 +177,7 @@ git commit -m "fix: correct typo in error message"
 
 ---
 
-## 3. Conventional Commits — Chuan cong nghiep
+## 3. Conventional Commits — Chuẩn công nghiệp
 
 ### 3.1. Format
 
@@ -189,19 +189,19 @@ git commit -m "fix: correct typo in error message"
 [optional footer(s)]
 ```
 
-**Chi tiet:**
+**Chi tiết:**
 
 ```
 feat(auth): add two-factor authentication
   |    |              |
-  |    |              +-- description: mo ta ngan gon (imperative mood)
-  |    +-- scope: pham vi thay doi (optional)
-  +-- type: loai thay doi
+  |    |              +-- description: mô tả ngắn gọn (imperative mood)
+  |    +-- scope: phạm vi thay đổi (optional)
+  +-- type: loại thay đổi
 
 Multi-factor authentication is now required for all admin
 accounts. Users can choose between TOTP app or SMS.
   |
-  +-- body: giai thich chi tiet (optional)
+  +-- body: giải thích chi tiết (optional)
 
 BREAKING CHANGE: Admin accounts must set up 2FA within 7 days
 Closes #456
@@ -209,58 +209,58 @@ Closes #456
   +-- footer: breaking changes, issue references (optional)
 ```
 
-### 3.2. Cac types
+### 3.2. Các types
 
-| Type | Muc dich | Vi du |
+| Type | Mục đích | Ví dụ |
 |------|---------|-------|
-| **feat** | Tinh nang moi | `feat: add user search` |
-| **fix** | Sua loi | `fix: resolve login crash` |
-| **docs** | Tai lieu | `docs: add API guide` |
-| **style** | Format code (khong doi logic) | `style: fix indentation` |
-| **refactor** | Tai cau truc (khong doi behavior) | `refactor: extract auth utils` |
-| **perf** | Cai thien hieu nang | `perf: optimize image loading` |
-| **test** | Them/sua test | `test: add login unit tests` |
-| **build** | Thay doi build system | `build: update webpack config` |
-| **ci** | Thay doi CI config | `ci: add GitHub Actions workflow` |
-| **chore** | Cong viec bao tri | `chore: update dependencies` |
-| **revert** | Revert commit truoc | `revert: revert "feat: add search"` |
+| **feat** | Tính năng mới | `feat: add user search` |
+| **fix** | Sửa lỗi | `fix: resolve login crash` |
+| **docs** | Tài liệu | `docs: add API guide` |
+| **style** | Format code (không đổi logic) | `style: fix indentation` |
+| **refactor** | Tái cấu trúc (không đổi behavior) | `refactor: extract auth utils` |
+| **perf** | Cải thiện hiệu năng | `perf: optimize image loading` |
+| **test** | Thêm/sửa test | `test: add login unit tests` |
+| **build** | Thay đổi build system | `build: update webpack config` |
+| **ci** | Thay đổi CI config | `ci: add GitHub Actions workflow` |
+| **chore** | Công việc bảo trì | `chore: update dependencies` |
+| **revert** | Revert commit trước | `revert: revert "feat: add search"` |
 
-### 3.3. Scope (pham vi)
+### 3.3. Scope (phạm vi)
 
-Scope la optional nhung rat huu ich cho du an lon:
+Scope là optional nhưng rất hữu ích cho dự án lớn:
 
 ```bash
-# Khong co scope — ok cho du an nho
+# Không có scope — ok cho dự án nhỏ
 git commit -m "feat: add dark mode"
 
-# Co scope — tot cho du an lon
+# Có scope — tốt cho dự án lớn
 git commit -m "feat(ui): add dark mode toggle"
 git commit -m "fix(auth): resolve token refresh issue"
 git commit -m "refactor(api): extract common error handler"
 git commit -m "test(payment): add integration tests for Stripe"
 git commit -m "ci(deploy): add staging environment workflow"
 
-# Scope giup loc commit theo module
+# Scope giúp lọc commit theo module
 git log --oneline --grep="auth"
-# Chi thay cac commit lien quan den auth
+# Chỉ thấy các commit liên quan đến auth
 ```
 
 ### 3.4. Breaking Changes
 
-Khi thay doi khong tuong thich nguoc (backward incompatible):
+Khi thay đổi không tương thích ngược (backward incompatible):
 
 ```bash
-# Cach 1: Dung dau ! sau type/scope
+# Cách 1: Dùng dấu ! sau type/scope
 git commit -m "feat(api)!: change response format from XML to JSON"
 
-# Cach 2: Dung BREAKING CHANGE footer
+# Cách 2: Dùng BREAKING CHANGE footer
 git commit -m "feat(api): change response format to JSON
 
 BREAKING CHANGE: All API responses now return JSON instead of XML.
 Clients using XML parsing must update their code.
 Migration guide: https://docs.example.com/migrate-to-json"
 
-# Cach 3: Ket hop ca 2 (khong bat buoc nhung ro rang)
+# Cách 3: Kết hợp cả 2 (không bắt buộc nhưng rõ ràng)
 git commit -m "feat(api)!: change response format to JSON
 
 BREAKING CHANGE: API responses are now JSON only. XML deprecated."
@@ -268,9 +268,9 @@ BREAKING CHANGE: API responses are now JSON only. XML deprecated."
 
 ---
 
-## 4. Vi du commit message tot vs xau
+## 4. Ví dụ commit message tốt vs xấu
 
-### Xau — Khong ai hieu
+### Xấu — Không ai hiểu
 
 ```bash
 git commit -m "fix"
@@ -286,15 +286,15 @@ git commit -m "final fix (for real this time)"
 git commit -m "Monday morning commit"
 ```
 
-### Tot — Chuyen nghiep va ro rang
+### Tốt — Chuyên nghiệp và rõ ràng
 
 ```bash
-# Feature moi
+# Feature mới
 git commit -m "feat(search): add full-text search with Elasticsearch"
 git commit -m "feat(auth): implement OAuth2 login with Google"
 git commit -m "feat(export): add CSV export for transaction history"
 
-# Sua loi
+# Sửa lỗi
 git commit -m "fix(cart): prevent duplicate items when clicking fast"
 git commit -m "fix(upload): handle file size > 10MB gracefully"
 git commit -m "fix(email): correct template rendering on Outlook"
@@ -311,7 +311,7 @@ git commit -m "perf(api): add Redis caching for product listing"
 git commit -m "test(checkout): add e2e tests for payment flow"
 git commit -m "test(auth): increase coverage from 65% to 90%"
 
-# Voi body giai thich chi tiet
+# Với body giải thích chi tiết
 git commit -m "fix(payment): retry failed transactions up to 3 times
 
 Payment gateway occasionally returns timeout errors during peak
@@ -323,28 +323,28 @@ Closes #789"
 
 ---
 
-## 5. Semantic Versioning va Conventional Commits
+## 5. Semantic Versioning và Conventional Commits
 
-Conventional Commits lien ket truc tiep voi **Semantic Versioning (SemVer)**:
+Conventional Commits liên kết trực tiếp với **Semantic Versioning (SemVer)**:
 
 ```
 Version: MAJOR.MINOR.PATCH
          |     |     |
-         |     |     +-- fix: sua loi → tang PATCH (1.0.0 → 1.0.1)
-         |     +-- feat: tinh nang moi → tang MINOR (1.0.0 → 1.1.0)
-         +-- BREAKING CHANGE → tang MAJOR (1.0.0 → 2.0.0)
+         |     |     +-- fix: sửa lỗi → tăng PATCH (1.0.0 → 1.0.1)
+         |     +-- feat: tính năng mới → tăng MINOR (1.0.0 → 1.1.0)
+         +-- BREAKING CHANGE → tăng MAJOR (1.0.0 → 2.0.0)
 ```
 
-| Commit type | SemVer | Vi du |
+| Commit type | SemVer | Ví dụ |
 |------------|--------|-------|
-| `fix:` | PATCH (x.x.1 → x.x.2) | Bug fix, khong doi API |
-| `feat:` | MINOR (x.1.x → x.2.0) | Tinh nang moi, backward compatible |
-| `feat!:` hoac `BREAKING CHANGE:` | MAJOR (1.x.x → 2.0.0) | Thay doi khong tuong thich nguoc |
-| `docs:`, `style:`, `refactor:`, etc. | Khong tang version | Khong anh huong end user |
+| `fix:` | PATCH (x.x.1 → x.x.2) | Bug fix, không đổi API |
+| `feat:` | MINOR (x.1.x → x.2.0) | Tính năng mới, backward compatible |
+| `feat!:` hoặc `BREAKING CHANGE:` | MAJOR (1.x.x → 2.0.0) | Thay đổi không tương thích ngược |
+| `docs:`, `style:`, `refactor:`, etc. | Không tăng version | Không ảnh hưởng end user |
 
 ```bash
-# Vi du vong doi version
-v1.0.0   # Release dau tien
+# Ví dụ vòng đời version
+v1.0.0   # Release đầu tiên
 v1.0.1   # fix: resolve login crash
 v1.0.2   # fix: correct date formatting
 v1.1.0   # feat: add dark mode
@@ -355,25 +355,25 @@ v2.0.0   # feat!: redesign entire API (breaking change)
 
 ---
 
-## 6. Tools tu dong hoa
+## 6. Tools tự động hóa
 
 ### 6.1. Commitlint — Validate commit message
 
-Commitlint kiem tra commit message co dung format hay khong. Neu sai → reject commit.
+Commitlint kiểm tra commit message có đúng format hay không. Nếu sai -> reject commit.
 
 ```bash
-# Cai dat
+# Cài đặt
 npm install --save-dev @commitlint/cli @commitlint/config-conventional
 ```
 
-Tao file cau hinh `commitlint.config.js`:
+Tạo file cấu hình `commitlint.config.js`:
 
 ```javascript
 // commitlint.config.js
 module.exports = {
   extends: ['@commitlint/config-conventional'],
   rules: {
-    // Type phai la 1 trong cac gia tri nay
+    // Type phải là 1 trong các giá trị này
     'type-enum': [
       2,          // 2 = error (0 = disabled, 1 = warning)
       'always',
@@ -382,65 +382,65 @@ module.exports = {
         'perf', 'test', 'build', 'ci', 'chore', 'revert',
       ],
     ],
-    // Subject khong duoc trong
+    // Subject không được trống
     'subject-empty': [2, 'never'],
-    // Subject toi da 72 ky tu
+    // Subject tối đa 72 ký tự
     'subject-max-length': [2, 'always', 72],
-    // Type khong duoc trong
+    // Type không được trống
     'type-empty': [2, 'never'],
-    // Type phai viet thuong
+    // Type phải viết thường
     'type-case': [2, 'always', 'lower-case'],
-    // Subject khong ket thuc bang dau cham
+    // Subject không kết thúc bằng dấu chấm
     'subject-full-stop': [2, 'never', '.'],
   },
 };
 ```
 
-### 6.2. Husky — Git Hooks tu dong
+### 6.2. Husky — Git Hooks tự động
 
-Husky tu dong chay commitlint (va cac tool khac) moi khi commit.
+Husky tự động chạy commitlint (và các tool khác) mỗi khi commit.
 
 ```bash
-# Cai dat Husky
+# Cài đặt Husky
 npm install --save-dev husky
 
-# Khoi tao Husky
+# Khởi tạo Husky
 npx husky init
 
-# Tao commit-msg hook
-# File .husky/commit-msg se duoc tao
+# Tạo commit-msg hook
+# File .husky/commit-msg sẽ được tạo
 ```
 
-Noi dung file `.husky/commit-msg`:
+Nội dung file `.husky/commit-msg`:
 
 ```bash
 #!/usr/bin/env sh
 
-# Chay commitlint de validate commit message
+# Chạy commitlint để validate commit message
 npx --no -- commitlint --edit "$1"
 ```
 
-**Ket qua khi commit sai format:**
+**Kết quả khi commit sai format:**
 
 ```bash
 git commit -m "fix bug"
 # => ERROR: subject may not be empty [subject-empty]
 # => ERROR: type may not be empty [type-empty]
-# => Commit bi reject!
+# => Commit bị reject!
 
 git commit -m "fix: resolve login crash"
-# => Commit thanh cong!
+# => Commit thành công!
 ```
 
-### 6.3. Commitizen — Commit tuong tac
+### 6.3. Commitizen — Commit tương tác
 
-Commitizen huong dan ban viet commit message dung format qua cac buoc tuong tac.
+Commitizen hướng dẫn bạn viết commit message đúng format qua các bước tương tác.
 
 ```bash
-# Cai dat
+# Cài đặt
 npm install --save-dev commitizen cz-conventional-changelog
 
-# Cau hinh trong package.json
+# Cấu hình trong package.json
 # "config": {
 #   "commitizen": {
 #     "path": "cz-conventional-changelog"
@@ -449,11 +449,11 @@ npm install --save-dev commitizen cz-conventional-changelog
 ```
 
 ```bash
-# Thay vi git commit, dung:
+# Thay vì git commit, dùng:
 npx cz
-# Hoac neu cai global: git cz
+# Hoặc nếu cài global: git cz
 
-# Se hien menu tuong tac:
+# Sẽ hiện menu tương tác:
 # ? Select the type of change:
 #   feat:     A new feature
 #   fix:      A bug fix
@@ -469,10 +469,10 @@ npx cz
 # => Commit: "feat(auth): add two-factor authentication"
 ```
 
-### 6.4. Thiet lap day du (step-by-step)
+### 6.4. Thiết lập đầy đủ (step-by-step)
 
 ```bash
-# Buoc 1: Cai dat tat ca packages
+# Bước 1: Cài đặt tất cả packages
 npm install --save-dev \
   @commitlint/cli \
   @commitlint/config-conventional \
@@ -480,54 +480,54 @@ npm install --save-dev \
   commitizen \
   cz-conventional-changelog
 
-# Buoc 2: Khoi tao Husky
+# Bước 2: Khởi tạo Husky
 npx husky init
 
-# Buoc 3: Tao commitlint config
-# Tao file commitlint.config.js (nhu tren)
+# Bước 3: Tạo commitlint config
+# Tạo file commitlint.config.js (như trên)
 
-# Buoc 4: Tao commit-msg hook
-# Noi dung .husky/commit-msg:
+# Bước 4: Tạo commit-msg hook
+# Nội dung .husky/commit-msg:
 # npx --no -- commitlint --edit "$1"
 
-# Buoc 5: Cau hinh commitizen trong package.json
+# Bước 5: Cấu hình commitizen trong package.json
 # "config": {
 #   "commitizen": {
 #     "path": "cz-conventional-changelog"
 #   }
 # }
 
-# Buoc 6: Them script vao package.json
+# Bước 6: Thêm script vào package.json
 # "scripts": {
 #   "commit": "cz",
 #   "prepare": "husky"
 # }
 
-# Su dung:
-npm run commit    # Commit tuong tac voi commitizen
-git commit -m "feat: ..." # Commit thu cong (van duoc validate)
+# Sử dụng:
+npm run commit    # Commit tương tác với commitizen
+git commit -m "feat: ..." # Commit thủ công (vẫn được validate)
 ```
 
 ---
 
 ## 7. Auto-generate CHANGELOG
 
-Voi commit message theo chuan, ban co the tu dong tao CHANGELOG:
+Với commit message theo chuẩn, bạn có thể tự động tạo CHANGELOG:
 
 ```bash
-# Cai dat standard-version (hoac release-please)
+# Cài đặt standard-version (hoặc release-please)
 npm install --save-dev standard-version
 
-# Them script
+# Thêm script
 # "scripts": {
 #   "release": "standard-version"
 # }
 
-# Chay
+# Chạy
 npm run release
 ```
 
-**Ket qua CHANGELOG.md:**
+**Kết quả CHANGELOG.md:**
 
 ```markdown
 # Changelog
@@ -557,11 +557,11 @@ npm run release
 
 ---
 
-## 8. Bang tom tat Types voi Emoji (optional)
+## 8. Bảng tóm tắt Types với Emoji (optional)
 
-Nhieu team thich dung emoji de commit message de doc hon:
+Nhiều team thích dùng emoji để commit message dễ đọc hơn:
 
-| Type | Emoji | Vi du |
+| Type | Emoji | Ví dụ |
 |------|-------|-------|
 | feat | :sparkles: | `feat: add user search` |
 | fix | :bug: | `fix: resolve login crash` |
@@ -575,34 +575,34 @@ Nhieu team thich dung emoji de commit message de doc hon:
 | chore | :wrench: | `chore: update deps` |
 | revert | :rewind: | `revert: undo last feat` |
 
-**Luu y:** Emoji la optional va tuy team. Nhieu du an open source lon KHONG dung emoji vi commitlint mac dinh khong cho phep. Neu muon dung, can cau hinh them.
+**Lưu ý:** Emoji là optional và tùy team. Nhiều dự án open source lớn KHÔNG dùng emoji vì commitlint mặc định không cho phép. Nếu muốn dùng, cần cấu hình thêm.
 
 ---
 
-## 9. Loi thuong gap
+## 9. Lỗi thường gặp
 
-### Loi 1: Commit message qua chung chung
+### Lỗi 1: Commit message quá chung chung
 
 ```bash
-# SAI — doc khong hieu gi
+# SAI — đọc không hiểu gì
 git commit -m "fix: fix bug"
 git commit -m "feat: add feature"
 git commit -m "update: update code"
 
-# DUNG — cu the va ro rang
+# ĐÚNG — cụ thể và rõ ràng
 git commit -m "fix: prevent crash when email field is empty"
 git commit -m "feat: add password strength indicator"
 git commit -m "refactor: simplify date formatting logic"
 ```
 
-### Loi 2: 1 commit lam qua nhieu thu
+### Lỗi 2: 1 commit làm quá nhiều thứ
 
 ```bash
-# SAI — commit khong lo
+# SAI — commit khổng lồ
 git add .
 git commit -m "feat: add login, register, forgot password, and refactor database"
 
-# DUNG — tach thanh nhieu commit nho
+# ĐÚNG — tách thành nhiều commit nhỏ
 git add src/auth/login.ts tests/login.test.ts
 git commit -m "feat(auth): add login page"
 
@@ -616,38 +616,38 @@ git add src/db/
 git commit -m "refactor(db): simplify connection pooling"
 ```
 
-### Loi 3: Dung sai type
+### Lỗi 3: Dùng sai type
 
 ```bash
-# SAI: dung feat cho viec sua loi
-git commit -m "feat: fix login crash"  # Day la fix, khong phai feat!
+# SAI: dùng feat cho việc sửa lỗi
+git commit -m "feat: fix login crash"  # Đây là fix, không phải feat!
 
-# SAI: dung fix cho refactor
-git commit -m "fix: rename variables for clarity"  # Day la refactor!
+# SAI: dùng fix cho refactor
+git commit -m "fix: rename variables for clarity"  # Đây là refactor!
 
-# DUNG: chon type chinh xac
+# ĐÚNG: chọn type chính xác
 git commit -m "fix: resolve login crash on empty password"
 git commit -m "refactor: rename variables for clarity"
 ```
 
-### Loi 4: Khong thiet lap validation
+### Lỗi 4: Không thiết lập validation
 
 ```bash
-# Khong co commitlint/husky → team viet tuy y → CHANGELOG loi → khon gian
+# Không có commitlint/husky → team viết tùy ý → CHANGELOG lỗi → khổ sở
 
-# Giai phap: LUON thiet lap commitlint + husky ngay tu dau du an
-# Chi mat 5 phut setup nhung tiet kiem hang tram gio ve sau
+# Giải pháp: LUÔN thiết lập commitlint + husky ngay từ đầu dự án
+# Chỉ mất 5 phút setup nhưng tiết kiệm hàng trăm giờ về sau
 ```
 
-### Loi 5: Body giai thich HOW thay vi WHY
+### Lỗi 5: Body giải thích HOW thay vì WHY
 
 ```bash
-# SAI: giai thich HOW (doc diff cung thay)
+# SAI: giải thích HOW (đọc diff cũng thấy)
 git commit -m "fix: change MAX_RETRIES from 1 to 3
 
 Changed the constant MAX_RETRIES from 1 to 3 in config.ts line 42."
 
-# DUNG: giai thich WHY
+# ĐÚNG: giải thích WHY
 git commit -m "fix: increase payment retry count to 3
 
 Payment gateway has ~2% transient failure rate during peak hours.
@@ -657,23 +657,23 @@ backoff reduces user-visible errors by 95% based on staging tests."
 
 ---
 
-## 10. Cau hoi phong van
+## 10. Câu hỏi phỏng vấn
 
-### Cau 1: Conventional Commits la gi? Tai sao nen dung?
+### Câu 1: Conventional Commits là gì? Tại sao nên dùng?
 
-**Tra loi:** Conventional Commits la quy uoc viet commit message theo format `type(scope): description`. Nen dung vi: (1) Git log de doc va hieu, (2) Co the tu dong tao CHANGELOG, (3) Tu dong xac dinh version moi (SemVer) dua tren commit types, (4) Giup team thong nhat cach viet, (5) De tim kiem va loc commits theo type/scope.
+**Trả lời:** Conventional Commits là quy ước viết commit message theo format `type(scope): description`. Nên dùng vì: (1) Git log dễ đọc và hiểu, (2) Có thể tự động tạo CHANGELOG, (3) Tự động xác định version mới (SemVer) dựa trên commit types, (4) Giúp team thống nhất cách viết, (5) Dễ tìm kiếm và lọc commits theo type/scope.
 
-### Cau 2: Commit types nao tang version SemVer?
+### Câu 2: Commit types nào tăng version SemVer?
 
-**Tra loi:** `fix` tang PATCH (1.0.0 → 1.0.1), `feat` tang MINOR (1.0.0 → 1.1.0), commit co `BREAKING CHANGE` hoac dau `!` tang MAJOR (1.0.0 → 2.0.0). Cac types khac nhu docs, style, refactor, test, chore khong tang version vi khong anh huong den end user.
+**Trả lời:** `fix` tăng PATCH (1.0.0 -> 1.0.1), `feat` tăng MINOR (1.0.0 -> 1.1.0), commit có `BREAKING CHANGE` hoặc dấu `!` tăng MAJOR (1.0.0 -> 2.0.0). Các types khác như docs, style, refactor, test, chore không tăng version vì không ảnh hưởng đến end user.
 
-### Cau 3: Giai thich cach thiet lap commit message validation cho du an?
+### Câu 3: Giải thích cách thiết lập commit message validation cho dự án?
 
-**Tra loi:** Su dung 3 tools: (1) **commitlint** de validate format — cai dat `@commitlint/cli` va `@commitlint/config-conventional`, tao file config dinh nghia rules. (2) **Husky** de chay commitlint tu dong — tao commit-msg hook goi commitlint. (3) **Commitizen** (optional) de ho tro viet commit tuong tac — nguoi dung chon type, nhap scope va description qua menu. Tat ca cai dat nhu dev dependencies va commit vao repo de tat ca team members dung chung.
+**Trả lời:** Sử dụng 3 tools: (1) **commitlint** để validate format — cài đặt `@commitlint/cli` và `@commitlint/config-conventional`, tạo file config định nghĩa rules. (2) **Husky** để chạy commitlint tự động — tạo commit-msg hook gọi commitlint. (3) **Commitizen** (optional) để hỗ trợ viết commit tương tác — người dùng chọn type, nhập scope và description qua menu. Tất cả cài đặt như dev dependencies và commit vào repo để tất cả team members dùng chung.
 
-### Cau 4: Viet commit message cho tinh huong: ban fix bug khien app crash khi user upload file > 5MB tren trang profile.
+### Câu 4: Viết commit message cho tình huống: bạn fix bug khiến app crash khi user upload file > 5MB trên trang profile.
 
-**Tra loi mau:**
+**Trả lời mẫu:**
 
 ```
 fix(profile): handle file upload exceeding 5MB size limit
@@ -687,13 +687,13 @@ request from reaching it.
 Closes #1234
 ```
 
-### Cau 5: Su khac nhau giua `refactor` va `fix`? Giua `style` va `refactor`?
+### Câu 5: Sự khác nhau giữa `refactor` và `fix`? Giữa `style` và `refactor`?
 
-**Tra loi:** `refactor` thay doi cau truc code nhung **khong doi behavior** — input va output van giong nhau (vi du: doi ten bien, tach function, thay doi design pattern). `fix` sua **behavior sai** — truoc khi fix thi output sai, sau khi fix thi output dung. Con `style` chi thay doi **format** code (indentation, spacing, semicolons) ma **khong doi logic** — ngay ca khong thay doi cau truc. `refactor` co the doi cau truc nhung khong doi behavior; `style` khong doi ca cau truc lan behavior.
+**Trả lời:** `refactor` thay đổi cấu trúc code nhưng **không đổi behavior** — input và output vẫn giống nhau (ví dụ: đổi tên biến, tách function, thay đổi design pattern). `fix` sửa **behavior sai** — trước khi fix thì output sai, sau khi fix thì output đúng. Còn `style` chỉ thay đổi **format** code (indentation, spacing, semicolons) mà **không đổi logic** — ngay cả không thay đổi cấu trúc. `refactor` có thể đổi cấu trúc nhưng không đổi behavior; `style` không đổi cả cấu trúc lẫn behavior.
 
 ---
 
-## 11. Tom tat
+## 11. Tóm tắt
 
 ```
 +--------------------------------------------------------------+
@@ -703,7 +703,7 @@ Closes #1234
 |  Types: feat, fix, docs, style, refactor, perf, test,       |
 |         build, ci, chore, revert                             |
 |                                                              |
-|  Breaking: feat!: ... hoac BREAKING CHANGE: footer           |
+|  Breaking: feat!: ... hoặc BREAKING CHANGE: footer           |
 |                                                              |
 |  SemVer: fix→PATCH, feat→MINOR, breaking→MAJOR              |
 |                                                              |

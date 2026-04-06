@@ -5,7 +5,7 @@ title: "Testing"
 
 # Testing
 
-## Gioi thieu
+## Giới thiệu
 
 Testing (kiểm thử) là một phần **cực kỳ quan trọng** trong quy trình phát triển phần mềm. Trong Next.js, chúng ta cần test nhiều loại thành phần khác nhau:
 
@@ -25,7 +25,7 @@ Next.js hỗ trợ tốt cho 3 công cụ testing chính:
 
 ---
 
-## Noi dung
+## Nội dung
 
 1. [Jest Setup cho Next.js](#1-jest-setup-cho-nextjs)
 2. [React Testing Library](#2-react-testing-library)
@@ -35,8 +35,8 @@ Next.js hỗ trợ tốt cho 3 công cụ testing chính:
 6. [Playwright cho E2E Testing](#6-playwright-cho-e2e-testing)
 7. [Test Organization va Best Practices](#7-test-organization-va-best-practices)
 8. [Coverage Reporting](#8-coverage-reporting)
-9. [Loi thuong gap](#9-loi-thuong-gap)
-10. [Cau hoi phong van](#cau-hoi-phong-van)
+9. [Lỗi thường gặp](#9-loi-thuong-gap)
+10. [Câu hỏi phỏng vấn](#cau-hoi-phong-van)
 
 ---
 
@@ -395,7 +395,7 @@ describe("ProductsPage (Server Component)", () => {
 });
 ```
 
-> **Luu y:** Khi test Server Components, bạn cần await component function vì nó trả về Promise.
+> **Lưu ý:** Khi test Server Components, bạn cần await component function vì nó trả về Promise.
 
 ---
 
@@ -654,7 +654,7 @@ test.describe("Dieu huong trang web", () => {
 
     // Điền form đăng nhập
     await page.getByLabel("Email").fill("user@example.com");
-    await page.getByLabel("Mat khau").fill("password123");
+    await page.getByLabel("Mật khẩu").fill("password123");
 
     // Click nút đăng nhập
     await page.getByRole("button", { name: "Dang nhap" }).click();
@@ -670,7 +670,7 @@ test.describe("Dieu huong trang web", () => {
     await page.goto("/login");
 
     await page.getByLabel("Email").fill("wrong@example.com");
-    await page.getByLabel("Mat khau").fill("wrongpass");
+    await page.getByLabel("Mật khẩu").fill("wrongpass");
     await page.getByRole("button", { name: "Dang nhap" }).click();
 
     // Kiểm tra thông báo lỗi
@@ -710,7 +710,7 @@ test("hien thi san pham tu API", async ({ page }) => {
 
 ## 7. Test Organization va Best Practices
 
-### 7.1 Cau truc thu muc
+### 7.1 Cau truc thư mục
 
 ```
 project/
@@ -737,17 +737,17 @@ project/
 
 ### 7.2 Best Practices
 
-**Do (Nen lam):**
+**Do (Nên làm):**
 - Test behavior, khong test implementation
 - Dung `getByRole`, `getByLabelText` thay vi `getByTestId`
-- Mock o muc nho nhat co the
-- Moi test doc lap, khong phu thuoc test khac
+- Mock o muc nho nhat có thể
+- Moi test độc lập, không phụ thuộc test khac
 
-**Don't (Khong nen lam):**
-- Khong test CSS styling truc tiep
-- Khong test thu vien ben thu 3
-- Khong viet test qua chi tiet ve implementation
-- Khong de test phu thuoc vao thu tu chay
+**Don't (Không nen lam):**
+- Không test CSS styling truc tiep
+- Không test thư viện bên thứ 3
+- Không viet test qua chi tiet ve implementation
+- Không để test phụ thuộc vao thứ tự chay
 
 ---
 
@@ -776,7 +776,7 @@ All files            |   85.71 |    83.33 |   88.89 |   86.96 |
 ### 8.2 Cau hinh coverage threshold
 
 ```tsx
-// jest.config.ts - them phan nay
+// jest.config.ts - thêm phần nay
 const config: Config = {
   // ...config khac
   coverageThreshold: {
@@ -799,9 +799,9 @@ const config: Config = {
 
 ---
 
-## 9. Loi thuong gap
+## 9. Lỗi thường gặp
 
-### Loi 1: "Cannot find module next/jest"
+### Lỗi 1: "Cannot find module next/jest"
 
 ```bash
 # Nguyên nhân: chưa cài đặt đúng dependencies
@@ -809,7 +809,7 @@ const config: Config = {
 npm install -D jest @types/jest ts-jest
 ```
 
-### Loi 2: "useRouter is not a function" trong test
+### Lỗi 2: "useRouter is not a function" trong test
 
 ```tsx
 // Nguyên nhân: chưa mock next/navigation
@@ -829,7 +829,7 @@ jest.mock("next/navigation", () => ({
 }));
 ```
 
-### Loi 3: "act() warning" khi test async component
+### Lỗi 3: "act() warning" khi test async component
 
 ```tsx
 // Nguyên nhân: state update xảy ra sau khi test kết thúc
@@ -846,7 +846,7 @@ await waitFor(() => {
 });
 ```
 
-### Loi 4: Playwright test chay cham
+### Lỗi 4: Playwright test chay cham
 
 ```tsx
 // Giải pháp: chỉ chạy trên 1 browser khi develop
@@ -863,33 +863,33 @@ export default defineConfig({
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### Cau 1: Jest va Playwright khac nhau nhu the nao? Khi nao dung cai nao?
+### Câu 1: Jest va Playwright khac nhau nhu thế nào? Khi nào dùng cai nao?
 
-**Tra loi:**
+**Trả lời:**
 
-| Tieu chi | Jest | Playwright |
+| Tiêu chí | Jest | Playwright |
 |----------|------|------------|
 | Loai test | Unit, Integration | E2E |
-| Moi truong | jsdom (gia lap) | Browser that |
-| Toc do | Nhanh | Cham hon |
-| Pham vi | 1 component/function | Toan bo luong |
+| Môi trường | jsdom (giả lập) | Browser that |
+| Tốc độ | Nhanh | Cham hon |
+| Phạm vi | 1 component/function | Toan bo luông |
 
-- **Jest**: Test logic rieng le, component behavior, API handlers. Chay nhanh, phu hop cho TDD.
-- **Playwright**: Test luong nguoi dung tu dau den cuoi tren browser that. Cham hon nhung sat voi thuc te hon.
+- **Jest**: Test logic riêng le, component behavior, API handlers. Chay nhanh, phù hợp cho TDD.
+- **Playwright**: Test luông người dùng từ đầu den cuoi trên browser that. Cham hon nhung sát với thực tế hon.
 
-Trong du an thuc te, nen dung **ca hai**: Jest cho unit/integration tests (chay moi khi commit), Playwright cho E2E tests (chay truoc khi deploy).
+Trong dự án thực tế, nen dung **ca hai**: Jest cho unit/integration tests (chạy mỗi khi commit), Playwright cho E2E tests (chạy trước khi deploy).
 
-### Cau 2: Lam sao test mot Server Component trong Next.js?
+### Câu 2: Lam sao test mot Server Component trong Next.js?
 
-**Tra loi:**
+**Trả lời:**
 
 Server Components la async functions tra ve JSX. De test:
 
 1. Import truc tiep component function
-2. Await ket qua (vi no la async)
-3. Render ket qua voi React Testing Library
+2. Await kết quả (vi no la async)
+3. Render kết quả voi React Testing Library
 
 ```tsx
 // Server component tra ve Promise<JSX.Element>
@@ -898,25 +898,25 @@ render(Component);
 expect(screen.getByText("Expected text")).toBeInTheDocument();
 ```
 
-Luu y can mock `fetch` hoac bat ky API call nao trong component.
+Lưu ý can mock `fetch` hoac bất kỳ API call nao trong component.
 
-### Cau 3: Tai sao nen dung getByRole thay vi getByTestId?
+### Câu 3: Tai sao nen dung getByRole thay vi getByTestId?
 
-**Tra loi:**
+**Trả lời:**
 
-`getByRole` tim element dua tren accessibility role (nhu `button`, `heading`, `textbox`). Uu diem:
+`getByRole` tim element dua tren accessibility role (nhu `button`, `heading`, `textbox`). Ưu điểm:
 
-- Dam bao component accessible cho nguoi dung screen reader
-- Test gan voi cach nguoi dung thuc su tuong tac
-- Khong phu thuoc vao data-testid (implementation detail)
+- Dam bao component accessible cho người dùng screen reader
+- Test gan với cách người dùng thực sự tương tác
+- Không phụ thuộc vao data-testid (implementation detail)
 
-Chi dung `getByTestId` khi khong co cach nao khac de xac dinh element.
+Chi dung `getByTestId` khi không có cach nào khác để xác định element.
 
-### Cau 4: Lam sao mock API calls trong Playwright?
+### Câu 4: Lam sao mock API calls trong Playwright?
 
-**Tra loi:**
+**Trả lời:**
 
-Dung `page.route()` de intercept va mock HTTP requests:
+Dung `page.route()` để intercept va mock HTTP requests:
 
 ```tsx
 await page.route("**/api/data", (route) => {
@@ -928,18 +928,18 @@ await page.route("**/api/data", (route) => {
 });
 ```
 
-Dieu nay giup test E2E ma khong phu thuoc vao backend that, dam bao test on dinh va nhanh hon.
+Dieu nay giup test E2E ma không phụ thuộc vao backend that, dam bao test ổn định va nhanh hơn.
 
-### Cau 5: Coverage bao nhieu la du?
+### Câu 5: Coverage bao nhiêu la du?
 
-**Tra loi:**
+**Trả lời:**
 
-- **80%** la muc tieu tot cho hau het du an
-- **100%** khong thuc te va khong can thiet
-- Quan trong hon coverage la **chat luong test**: test dung behavior, cover edge cases, va test cac luong loi
+- **80%** la muc tieu tot cho hầu hết dự án
+- **100%** khong thực tế va không cần thiet
+- Quan trong hon coverage la **chat luông test**: test dung behavior, cover edge cases, va test cac luông loi
 
 Tap trung coverage vao:
-- Business logic quan trong
-- Components co nhieu trang thai
-- API handlers co validation phuc tap
-- Utility functions duoc dung nhieu noi
+- Business logic quan trọng
+- Components co nhieu trạng thái
+- API handlers co validation phức tạp
+- Utility functions được dùng nhiều nơi

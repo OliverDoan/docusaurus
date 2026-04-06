@@ -3,100 +3,100 @@ sidebar_position: 5
 title: "Cherry-pick va Stash"
 ---
 
-# Cherry-pick va Stash
+# Cherry-pick và Stash
 
-Trong cong viec hang ngay voi Git, ban se gap hai tinh huong rat thuong xuyen: (1) can **tam cat thay doi dang lam do** de chuyen sang viec khac, va (2) can **lay mot commit cu the** tu branch khac ma khong merge toan bo. **Stash** va **Cherry-pick** la hai cong cu giup ban xu ly chinh xac hai tinh huong nay.
+Trong công việc hàng ngày với Git, bạn sẽ gặp hai tình huống rất thường xuyên: (1) cần **tạm cất thay đổi đang làm dở** để chuyển sang việc khác, và (2) cần **lấy một commit cụ thể** từ branch khác mà không merge toàn bộ. **Stash** và **Cherry-pick** là hai công cụ giúp bạn xử lý chính xác hai tình huống này.
 
 ---
 
-## Phan 1: Git Stash -- Tam cat thay doi
+## Phần 1: Git Stash -- Tạm cất thay đổi
 
-## 1. Stash la gi va tai sao can?
+## 1. Stash là gì và tại sao cần?
 
-### 1.1. Tinh huong thuc te
+### 1.1. Tình huống thực tế
 
-Ban dang code tinh nang moi tren `feature/dashboard`, viet duoc nua chung thi sep bao: "Co bug khan cap tren production, sua ngay!". Ban can:
+Bạn đang code tính năng mới trên `feature/dashboard`, viết được nửa chừng thì sếp bảo: "Có bug khẩn cấp trên production, sửa ngay!". Bạn cần:
 
-1. Chuyen sang branch `hotfix/urgent`
-2. Sua bug
-3. Quay lai `feature/dashboard` va tiep tuc
+1. Chuyển sang branch `hotfix/urgent`
+2. Sửa bug
+3. Quay lại `feature/dashboard` và tiếp tục
 
-**Van de:** Ban chua muon commit code dang lam do (chua xong, chua test). Nhung Git khong cho chuyen branch khi co uncommitted changes (trong mot so truong hop).
+**Vấn đề:** Bạn chưa muốn commit code đang làm dở (chưa xong, chưa test). Nhưng Git không cho chuyển branch khi có uncommitted changes (trong một số trường hợp).
 
-**Giai phap:** `git stash` -- **tam cat (chua) thay doi** vao mot noi an toan, lam sach working directory, de ban chuyen branch tu do.
+**Giải pháp:** `git stash` -- **tạm cất (chứa) thay đổi** vào một nơi an toàn, làm sạch working directory, để bạn chuyển branch tự do.
 
-### 1.2. Stash hoat dong the nao?
+### 1.2. Stash hoạt động thế nào?
 
 ```
-# Truoc khi stash:
-Working Directory: co thay doi (modified files)
-Staging Area: co the co files da staged
+# Trước khi stash:
+Working Directory: có thay đổi (modified files)
+Staging Area: có thể có files đã staged
 
 # Sau khi stash:
-Working Directory: SACH (nhu vua commit xong)
-Staging Area: SACH
-Stash stack: thay doi cua ban duoc luu o day
+Working Directory: SẠCH (như vừa commit xong)
+Staging Area: SẠCH
+Stash stack: thay đổi của bạn được lưu ở đây
 
 # Khi stash pop:
-Working Directory: thay doi duoc khoi phuc
-Stash stack: entry bi xoa
+Working Directory: thay đổi được khôi phục
+Stash stack: entry bị xóa
 ```
 
-Stash hoat dong nhu mot **ngan xep (stack)** -- Last In, First Out (LIFO):
+Stash hoạt động như một **ngăn xếp (stack)** -- Last In, First Out (LIFO):
 
 ```
 +-------------------+
-| stash@{0}: moi nhat |  <-- pop lay cai nay truoc
+| stash@{0}: mới nhất |  <-- pop lấy cái này trước
 +-------------------+
-| stash@{1}: cu hon   |
+| stash@{1}: cũ hơn   |
 +-------------------+
-| stash@{2}: cu nhat  |
+| stash@{2}: cũ nhất   |
 +-------------------+
 ```
 
 ---
 
-## 2. Cac lenh stash co ban
+## 2. Các lệnh stash cơ bản
 
-### 2.1. `git stash` -- Tam cat thay doi
+### 2.1. `git stash` -- Tạm cất thay đổi
 
 ```bash
-# Dang lam viec tren feature/dashboard
+# Đang làm việc trên feature/dashboard
 echo "new feature code" >> dashboard.js
 echo "new styles" >> dashboard.css
 git add dashboard.js  # Stage 1 file
 
-# Tam cat tat ca thay doi (ca staged va unstaged)
+# Tạm cất tất cả thay đổi (cả staged và unstaged)
 git stash
 # Saved working directory and index state WIP on feature/dashboard: abc1234 Last commit message
 
-# Kiem tra: working directory sach
+# Kiểm tra: working directory sạch
 git status
 # On branch feature/dashboard
 # nothing to commit, working tree clean
 
-# Bay gio co the chuyen branch tu do
+# Bây giờ có thể chuyển branch tự do
 git switch hotfix/urgent
 ```
 
-### 2.2. `git stash list` -- Xem danh sach stash
+### 2.2. `git stash list` -- Xem danh sách stash
 
 ```bash
 git stash list
-# stash@{0}: WIP on feature/dashboard: abc1234 Them dashboard layout
-# stash@{1}: WIP on feature/login: def5678 Tao form login
+# stash@{0}: WIP on feature/dashboard: abc1234 Thêm dashboard layout
+# stash@{1}: WIP on feature/login: def5678 Tạo form login
 # stash@{2}: WIP on main: ghi9012 Update README
 
-# Moi entry co:
-# stash@{n}  -- index (0 = moi nhat)
+# Mỗi entry có:
+# stash@{n}  -- index (0 = mới nhất)
 # WIP on <branch>  -- branch khi stash
-# <hash> <message>  -- commit message gan nhat
+# <hash> <message>  -- commit message gần nhất
 ```
 
-### 2.3. `git stash pop` -- Lay lai va xoa khoi stash
+### 2.3. `git stash pop` -- Lấy lại và xóa khỏi stash
 
 ```bash
-# Lay lai thay doi moi nhat (stash@{0})
+# Lấy lại thay đổi mới nhất (stash@{0})
 git stash pop
 # On branch feature/dashboard
 # Changes not staged for commit:
@@ -104,368 +104,368 @@ git stash pop
 #         modified:   dashboard.css
 # Dropped refs/stash@{0} (abc1234...)
 
-# stash@{0} da bi XOA khoi stash list
+# stash@{0} đã bị XÓA khỏi stash list
 git stash list
-# stash@{1} bay gio thanh stash@{0}
-# (cac entry dich len 1 bac)
+# stash@{1} bây giờ thành stash@{0}
+# (các entry dịch lên 1 bậc)
 ```
 
-### 2.4. `git stash apply` -- Lay lai nhung GIU trong stash
+### 2.4. `git stash apply` -- Lấy lại nhưng GIỮ trong stash
 
 ```bash
-# Lay lai thay doi nhung KHONG xoa khoi stash
+# Lấy lại thay đổi nhưng KHÔNG xóa khỏi stash
 git stash apply
-# Thay doi duoc khoi phuc
-# Nhung stash entry VAN CON trong list
+# Thay đổi được khôi phục
+# Nhưng stash entry VẪN CÒN trong list
 
 git stash list
 # stash@{0}: WIP on feature/dashboard: abc1234 ...
-# Van con!
+# Vẫn còn!
 
-# Huu ich khi: muon apply cung stash vao nhieu branch
+# Hữu ích khi: muốn apply cùng stash vào nhiều branch
 git stash apply           # Apply stash@{0}
-git stash apply stash@{2} # Apply stash cu the
+git stash apply stash@{2} # Apply stash cụ thể
 ```
 
-### 2.5. `git stash drop` va `git stash clear`
+### 2.5. `git stash drop` và `git stash clear`
 
 ```bash
-# Xoa 1 stash cu the
+# Xóa 1 stash cụ thể
 git stash drop stash@{1}
 # Dropped stash@{1} (abc1234...)
 
-# Xoa stash moi nhat
+# Xóa stash mới nhất
 git stash drop
 # Dropped refs/stash@{0} (def5678...)
 
-# Xoa TAT CA stash (can than!)
+# Xóa TẤT CẢ stash (cẩn thận!)
 git stash clear
-# Xoa sach, khong lay lai duoc!
+# Xóa sạch, không lấy lại được!
 ```
 
 ---
 
-## 3. Stash nang cao
+## 3. Stash nâng cao
 
-### 3.1. Stash co message -- `git stash push -m`
+### 3.1. Stash có message -- `git stash push -m`
 
 ```bash
-# Mac dinh: message la "WIP on <branch>: <commit>" -- khong mo ta
-# Tot hon: them message mo ta
-git stash push -m "Dashboard: dang lam bieu do doanh thu"
-git stash push -m "Login: them remember me checkbox"
+# Mặc định: message là "WIP on <branch>: <commit>" -- không mô tả
+# Tốt hơn: thêm message mô tả
+git stash push -m "Dashboard: đang làm biểu đồ doanh thu"
+git stash push -m "Login: thêm remember me checkbox"
 
-# Bay gio stash list ro rang hon:
+# Bây giờ stash list rõ ràng hơn:
 git stash list
-# stash@{0}: On feature/login: Login: them remember me checkbox
-# stash@{1}: On feature/dashboard: Dashboard: dang lam bieu do doanh thu
+# stash@{0}: On feature/login: Login: thêm remember me checkbox
+# stash@{1}: On feature/dashboard: Dashboard: đang làm biểu đồ doanh thu
 
-# De tim va apply dung stash khi can
+# Dễ tìm và apply đúng stash khi cần
 ```
 
 ### 3.2. Stash specific files
 
 ```bash
-# Chi stash 1 hoac vai file cu the
-git stash push -m "Chi stash file CSS" style.css layout.css
+# Chỉ stash 1 hoặc vài file cụ thể
+git stash push -m "Chỉ stash file CSS" style.css layout.css
 
-# Cac file khac KHONG bi stash (van o working directory)
+# Các file khác KHÔNG bị stash (vẫn ở working directory)
 
-# Hoac dung pattern:
-git stash push -m "Stash tat ca JS" -- "*.js"
+# Hoặc dùng pattern:
+git stash push -m "Stash tất cả JS" -- "*.js"
 ```
 
 ### 3.3. Stash untracked files -- `--include-untracked`
 
 ```bash
-# Mac dinh: git stash CHI cat file da tracked (da co trong Git)
-# File moi tao (untracked) se KHONG duoc stash!
+# Mặc định: git stash CHỈ cất file đã tracked (đã có trong Git)
+# File mới tạo (untracked) sẽ KHÔNG được stash!
 
 echo "new file" > brand-new.js
 git stash
-# brand-new.js VAN CON trong working directory!
+# brand-new.js VẪN CÒN trong working directory!
 
-# De stash ca untracked files:
-git stash push --include-untracked -m "Ca file moi"
-# Hoac viet tat:
-git stash push -u -m "Ca file moi"
+# Để stash cả untracked files:
+git stash push --include-untracked -m "Cả file mới"
+# Hoặc viết tắt:
+git stash push -u -m "Cả file mới"
 
-# Bay gio brand-new.js cung duoc stash
+# Bây giờ brand-new.js cũng được stash
 git status
 # nothing to commit, working tree clean
 ```
 
-### 3.4. Stash ca ignored files -- `--all`
+### 3.4. Stash cả ignored files -- `--all`
 
 ```bash
-# Stash tat ca, ke ca file trong .gitignore
-git stash push --all -m "Tat ca ke ca node_modules"
-# Hoac:
-git stash push -a -m "Tat ca"
+# Stash tất cả, kể cả file trong .gitignore
+git stash push --all -m "Tất cả kể cả node_modules"
+# Hoặc:
+git stash push -a -m "Tất cả"
 
-# Hiem khi can, nhung huu ich khi muon "reset" hoan toan
+# Hiếm khi cần, nhưng hữu ích khi muốn "reset" hoàn toàn
 ```
 
-### 3.5. Xem noi dung stash
+### 3.5. Xem nội dung stash
 
 ```bash
-# Xem danh sach file trong stash
+# Xem danh sách file trong stash
 git stash show
 # dashboard.js | 5 +++++
 # dashboard.css | 3 +++
 # 2 files changed, 8 insertions(+)
 
-# Xem chi tiet diff
+# Xem chi tiết diff
 git stash show -p
 # diff --git a/dashboard.js b/dashboard.js
 # +new feature code
 # ...
 
-# Xem stash cu the
+# Xem stash cụ thể
 git stash show -p stash@{2}
 ```
 
-### 3.6. Tao branch tu stash
+### 3.6. Tạo branch từ stash
 
 ```bash
-# Khi stash co conflict khi pop (vi branch da thay doi nhieu)
-# Giai phap: tao branch moi tu stash
+# Khi stash có conflict khi pop (vì branch đã thay đổi nhiều)
+# Giải pháp: tạo branch mới từ stash
 git stash branch feature/recovered-work stash@{0}
-# Tao branch moi tu commit khi stash
-# Apply stash va xoa khoi list
-# Khong bao gio co conflict vi quay ve dung trang thai cu
+# Tạo branch mới từ commit khi stash
+# Apply stash và xóa khỏi list
+# Không bao giờ có conflict vì quay về đúng trạng thái cũ
 ```
 
 ---
 
-## 4. Stash workflow thuc te
+## 4. Stash workflow thực tế
 
-### 4.1. Workflow "sua bug khan cap"
+### 4.1. Workflow "sửa bug khẩn cấp"
 
 ```bash
-# Dang lam feature/dashboard
-# Co file da sua nhung chua muon commit
+# Đang làm feature/dashboard
+# Có file đã sửa nhưng chưa muốn commit
 git status
 # modified: dashboard.js
 # modified: chart.js
 # new file: utils.js
 
-# Buoc 1: Stash thay doi
-git stash push -u -m "Dashboard: chart va utils dang lam"
+# Bước 1: Stash thay đổi
+git stash push -u -m "Dashboard: chart và utils đang làm"
 
-# Buoc 2: Chuyen sang hotfix
+# Bước 2: Chuyển sang hotfix
 git switch main
 git pull origin main
 git switch -c hotfix/payment-bug
 
-# Buoc 3: Sua bug
-# ... sua code ...
+# Bước 3: Sửa bug
+# ... sửa code ...
 git add .
-git commit -m "fix: sua loi thanh toan null pointer"
+git commit -m "fix: sửa lỗi thanh toán null pointer"
 git push -u origin hotfix/payment-bug
 
-# Buoc 4: Quay lai feature
+# Bước 4: Quay lại feature
 git switch feature/dashboard
 
-# Buoc 5: Lay lai thay doi
+# Bước 5: Lấy lại thay đổi
 git stash pop
-# Tiep tuc lam viec nhu chua co gi xay ra!
+# Tiếp tục làm việc như chưa có gì xảy ra!
 ```
 
-### 4.2. Workflow "thu y tuong nhanh"
+### 4.2. Workflow "thử ý tưởng nhanh"
 
 ```bash
-# Dang lam feature/A, nay ra y tuong cho feature/B
-# Khong muon tron lan code
+# Đang làm feature/A, nảy ra ý tưởng cho feature/B
+# Không muốn trộn lẫn code
 
-# Stash cong viec hien tai
-git stash push -u -m "Feature A: dang lam UI"
+# Stash công việc hiện tại
+git stash push -u -m "Feature A: đang làm UI"
 
-# Thu y tuong tren branch moi
+# Thử ý tưởng trên branch mới
 git switch -c experiment/idea-B
-# ... viet code thu ...
-# Khong ok? Xoa branch
+# ... viết code thử ...
+# Không ok? Xóa branch
 git switch feature/A
 git branch -D experiment/idea-B
 
-# Lay lai cong viec
+# Lấy lại công việc
 git stash pop
 ```
 
 ---
 
-## Phan 2: Git Cherry-pick -- Chon commit cu the
+## Phần 2: Git Cherry-pick -- Chọn commit cụ thể
 
-## 5. Cherry-pick la gi?
+## 5. Cherry-pick là gì?
 
-### 5.1. Dinh nghia
+### 5.1. Định nghĩa
 
-Cherry-pick cho phep ban **chon mot (hoac vai) commit cu the** tu branch khac va **ap dung vao branch hien tai**. Khong can merge toan bo branch -- chi lay nhung gi ban can.
+Cherry-pick cho phép bạn **chọn một (hoặc vài) commit cụ thể** từ branch khác và **áp dụng vào branch hiện tại**. Không cần merge toàn bộ branch -- chỉ lấy những gì bạn cần.
 
 ```
-# Branch develop co 5 commits:
+# Branch develop có 5 commits:
 develop: A---B---C---D---E
 
-# Ban chi can commit C (sua bug quan trong)
-# Cherry-pick C vao main:
+# Bạn chỉ cần commit C (sửa bug quan trọng)
+# Cherry-pick C vào main:
 
 main:    X---Y---Z---C'
                       ^
-                      C' = ban sao cua C (hash moi, noi dung giong)
+                      C' = bản sao của C (hash mới, nội dung giống)
 
-# develop khong bi anh huong
+# develop không bị ảnh hưởng
 ```
 
-### 5.2. Tai sao goi la "cherry-pick"?
+### 5.2. Tại sao gọi là "cherry-pick"?
 
-Tuong tuong mot cay cherry co nhieu qua. Ban khong hai ca cay (merge), ma chi **nhat (pick) nhung qua chin (cherry)** -- nhung commit cu the ma ban can.
+Tưởng tượng một cây cherry có nhiều quả. Bạn không hái cả cây (merge), mà chỉ **nhặt (pick) những quả chín (cherry)** -- những commit cụ thể mà bạn cần.
 
-### 5.3. ASCII diagram chi tiet
+### 5.3. ASCII diagram chi tiết
 
 ```
-# Truoc cherry-pick:
+# Trước cherry-pick:
 main:    A---B---C
                   \
 develop:           D---E---F---G---H
 
-# Cherry-pick commit F vao main:
+# Cherry-pick commit F vào main:
 main:    A---B---C---F'
                   \
 develop:           D---E---F---G---H
 #                          ^
-#                     Commit goc van o develop
+#                     Commit gốc vẫn ở develop
 
-# F' co noi dung giong F nhung HASH KHAC
-# Vi F' co parent khac (C thay vi E)
+# F' có nội dung giống F nhưng HASH KHÁC
+# Vì F' có parent khác (C thay vì E)
 ```
 
 ---
 
-## 6. Cherry-pick co ban
+## 6. Cherry-pick cơ bản
 
-### 6.1. Cherry-pick mot commit
+### 6.1. Cherry-pick một commit
 
 ```bash
-# Buoc 1: Tim commit hash can cherry-pick
+# Bước 1: Tìm commit hash cần cherry-pick
 git log --oneline develop
-# ghi9012 (develop) Them feature H
-# def5678 Sua bug F          <-- Can commit nay!
-# abc1234 Them feature E
+# ghi9012 (develop) Thêm feature H
+# def5678 Sửa bug F          <-- Cần commit này!
+# abc1234 Thêm feature E
 # ...
 
-# Buoc 2: Chuyen sang branch dich
+# Bước 2: Chuyển sang branch đích
 git switch main
 
-# Buoc 3: Cherry-pick
+# Bước 3: Cherry-pick
 git cherry-pick def5678
-# [main abc1111] Sua bug F
+# [main abc1111] Sửa bug F
 #  1 file changed, 5 insertions(+)
 
-# Commit moi tren main voi noi dung giong F
-# Nhung hash khac (abc1111 thay vi def5678)
+# Commit mới trên main với nội dung giống F
+# Nhưng hash khác (abc1111 thay vì def5678)
 ```
 
-### 6.2. Cherry-pick nhieu commits
+### 6.2. Cherry-pick nhiều commits
 
 ```bash
-# Cherry-pick nhieu commit rieng le
+# Cherry-pick nhiều commit riêng lẻ
 git cherry-pick abc1234 def5678 ghi9012
-# Ap dung 3 commit theo thu tu
+# Áp dụng 3 commit theo thứ tự
 
-# Cherry-pick mot RANGE (tu commit A den commit B)
+# Cherry-pick một RANGE (từ commit A đến commit B)
 git cherry-pick abc1234..ghi9012
-# Ap dung tat ca commit SAU abc1234 den ghi9012
-# CHU Y: KHONG bao gom abc1234!
+# Áp dụng tất cả commit SAU abc1234 đến ghi9012
+# CHÚ Ý: KHÔNG bao gồm abc1234!
 
-# Bao gom ca commit dau:
+# Bao gồm cả commit đầu:
 git cherry-pick abc1234^..ghi9012
-# ^ nghia la "cha cua abc1234" -> bao gom abc1234
+# ^ nghĩa là "cha của abc1234" -> bao gồm abc1234
 ```
 
 ### 6.3. `--no-commit` flag
 
 ```bash
-# Mac dinh: cherry-pick tao commit moi ngay lap tuc
+# Mặc định: cherry-pick tạo commit mới ngay lập tức
 git cherry-pick def5678
-# Commit moi duoc tao
+# Commit mới được tạo
 
-# Voi --no-commit: chi ap dung thay doi, KHONG commit
+# Với --no-commit: chỉ áp dụng thay đổi, KHÔNG commit
 git cherry-pick --no-commit def5678
-# Thay doi duoc staged nhung CHUA commit
-# Ban co the:
-# - Chinh sua them truoc khi commit
-# - Gop nhieu cherry-pick thanh 1 commit
-# - Review thay doi truoc khi commit
+# Thay đổi được staged nhưng CHƯA commit
+# Bạn có thể:
+# - Chỉnh sửa thêm trước khi commit
+# - Gộp nhiều cherry-pick thành 1 commit
+# - Review thay đổi trước khi commit
 
 git cherry-pick --no-commit abc1234
 git cherry-pick --no-commit def5678
-# Gop 2 cherry-pick thanh 1 commit
-git commit -m "Backport: sua 2 bug tu develop"
+# Gộp 2 cherry-pick thành 1 commit
+git commit -m "Backport: sửa 2 bug từ develop"
 ```
 
-### 6.4. Cherry-pick va conflict
+### 6.4. Cherry-pick và conflict
 
 ```bash
 git cherry-pick def5678
 # CONFLICT: Merge conflict in app.js
 
-# Giai quyet giong nhu merge conflict:
-# 1. Mo file, sua conflict markers
+# Giải quyết giống như merge conflict:
+# 1. Mở file, sửa conflict markers
 # 2. git add app.js
 # 3. git cherry-pick --continue
 
-# Hoac huy:
+# Hoặc hủy:
 git cherry-pick --abort
 
-# Bo qua commit nay va tiep tuc:
+# Bỏ qua commit này và tiếp tục:
 git cherry-pick --skip
 ```
 
 ---
 
-## 7. Khi nao dung cherry-pick?
+## 7. Khi nào dùng cherry-pick?
 
-### 7.1. Hotfix -- Sua bug khan cap
+### 7.1. Hotfix -- Sửa bug khẩn cấp
 
 ```bash
-# Bug duoc phat hien va sua tren develop
-# Can deploy fix ngay len production (main)
+# Bug được phát hiện và sửa trên develop
+# Cần deploy fix ngay lên production (main)
 
-# Tren develop:
+# Trên develop:
 git switch develop
-# ... sua bug ...
-git commit -m "fix: sua loi crash khi user chua dang nhap"
+# ... sửa bug ...
+git commit -m "fix: sửa lỗi crash khi user chưa đăng nhập"
 # Commit hash: abc1234
 
-# Cherry-pick vao main (production)
+# Cherry-pick vào main (production)
 git switch main
 git cherry-pick abc1234
 git push origin main
 # Deploy ngay!
 
-# Khong can merge toan bo develop (co the co feature chua san sang)
+# Không cần merge toàn bộ develop (có thể có feature chưa sẵn sàng)
 ```
 
-### 7.2. Backport -- Sua bug cho phien ban cu
+### 7.2. Backport -- Sửa bug cho phiên bản cũ
 
 ```bash
-# Bug duoc sua tren main (phien ban 3.0)
-# Can sua cho ca phien ban 2.x (branch release/2.x)
+# Bug được sửa trên main (phiên bản 3.0)
+# Cần sửa cho cả phiên bản 2.x (branch release/2.x)
 
 git switch release/2.x
-git cherry-pick abc1234  # Commit sua bug tu main
-# Bug duoc sua cho ca phien ban cu
+git cherry-pick abc1234  # Commit sửa bug từ main
+# Bug được sửa cho cả phiên bản cũ
 ```
 
-### 7.3. Lay tinh nang cu the
+### 7.3. Lấy tính năng cụ thể
 
 ```bash
-# Team B co mot tien ich (utility) hay tren branch cua ho
-# Ban muon lay chi tien ich do, khong phai toan bo branch
+# Team B có một tiện ích (utility) hay trên branch của họ
+# Bạn muốn lấy chỉ tiện ích đó, không phải toàn bộ branch
 
 git log --oneline team-b/feature
-# ... nhieu commit ...
-# def5678 feat: them date formatter utility  <-- Chi can cai nay
+# ... nhiều commit ...
+# def5678 feat: thêm date formatter utility  <-- Chỉ cần cái này
 
 git switch feature/my-feature
 git cherry-pick def5678
@@ -473,82 +473,82 @@ git cherry-pick def5678
 
 ---
 
-## 8. Risks cua cherry-pick
+## 8. Risks của cherry-pick
 
 ### 8.1. Duplicate commits
 
 ```
-# Sau khi cherry-pick F vao main:
+# Sau khi cherry-pick F vào main:
 main:    A---B---C---F'
                   \
 develop:           D---E---F---G---H
 
-# Khi merge develop vao main sau do:
+# Khi merge develop vào main sau đó:
 main:    A---B---C---F'---M  (merge commit)
                   \      /
 develop:           D---E---F---G---H
 
-# F va F' co CUNG NOI DUNG nhung KHAC HASH
-# Git thuong xu ly tot (khong conflict)
-# Nhung lich su se co 2 commit giong nhau -- confusing
+# F và F' có CÙNG NỘI DUNG nhưng KHÁC HASH
+# Git thường xử lý tốt (không conflict)
+# Nhưng lịch sử sẽ có 2 commit giống nhau -- confusing
 ```
 
-### 8.2. Mat context
+### 8.2. Mất context
 
 ```bash
-# Commit F tren develop phu thuoc vao commit E (refactor truoc do)
-# Cherry-pick chi F vao main -- khong co E
-# => Code co the bi loi vi thieu context tu E
+# Commit F trên develop phụ thuộc vào commit E (refactor trước đó)
+# Cherry-pick chỉ F vào main -- không có E
+# => Code có thể bị lỗi vì thiếu context từ E
 
-# Cach phong tranh:
-# 1. Cherry-pick ca E va F
+# Cách phòng tránh:
+# 1. Cherry-pick cả E và F
 git cherry-pick E F
 
-# 2. Hoac kiem tra ky commit co phu thuoc gi khong
-git show def5678  # Xem noi dung commit truoc khi cherry-pick
+# 2. Hoặc kiểm tra kỹ commit có phụ thuộc gì không
+git show def5678  # Xem nội dung commit trước khi cherry-pick
 ```
 
-### 8.3. Khi nao KHONG nen dung cherry-pick?
+### 8.3. Khi nào KHÔNG nên dùng cherry-pick?
 
-| Khong nen | Nen dung thay the |
+| Không nên | Nên dùng thay thế |
 |-----------|-------------------|
-| Lay nhieu commit lien tiep tu branch khac | `git merge` hoac `git rebase` |
-| "Sao chep" feature toan bo | `git merge feature-branch` |
-| Thuong xuyen cherry-pick giua 2 branch | Xem lai branching strategy |
-| Commit phu thuoc nhieu commit khac | Merge ca nhom commit |
+| Lấy nhiều commit liên tiếp từ branch khác | `git merge` hoặc `git rebase` |
+| "Sao chép" feature toàn bộ | `git merge feature-branch` |
+| Thường xuyên cherry-pick giữa 2 branch | Xem lại branching strategy |
+| Commit phụ thuộc nhiều commit khác | Merge cả nhóm commit |
 
 ---
 
-## 9. So sanh Stash vs Branch cho viec tam luu
+## 9. So sánh Stash vs Branch cho việc tạm lưu
 
-| Dac diem | `git stash` | Tao branch moi |
+| Đặc điểm | `git stash` | Tạo branch mới |
 |----------|------------|----------------|
-| Toc do | Nhanh (1 lenh) | Cham hon (3 lenh: switch, add, commit) |
-| Pham vi | Tam thoi, ngan han | Dai han, co ten ro rang |
-| Chia se | Khong (chi local) | Co (push len remote) |
-| Lich su | Khong hien thi trong git log | Co commit, hien thi trong log |
-| Tim lai | Kho (stash list khong truc quan) | De (git branch liet ke) |
-| Khi nao dung | Chuyen viec nhanh (vai phut - vai gio) | Tam dung lau (vai ngay+) |
+| Tốc độ | Nhanh (1 lệnh) | Chậm hơn (3 lệnh: switch, add, commit) |
+| Phạm vi | Tạm thời, ngắn hạn | Dài hạn, có tên rõ ràng |
+| Chia sẻ | Không (chỉ local) | Có (push lên remote) |
+| Lịch sử | Không hiển thị trong git log | Có commit, hiển thị trong log |
+| Tìm lại | Khó (stash list không trực quan) | Dễ (git branch liệt kê) |
+| Khi nào dùng | Chuyển việc nhanh (vài phút - vài giờ) | Tạm dừng lâu (vài ngày+) |
 
-### Vi du so sanh
+### Ví dụ so sánh
 
 ```bash
-# Stash: chuyen viec nhanh
-git stash push -u -m "Dang lam X"
+# Stash: chuyển việc nhanh
+git stash push -u -m "Đang làm X"
 git switch hotfix/urgent
-# ... sua bug (30 phut) ...
+# ... sửa bug (30 phút) ...
 git switch feature/X
 git stash pop
 
-# Branch: tam dung lau
+# Branch: tạm dừng lâu
 git switch -c wip/feature-X-paused
 git add .
-git commit -m "WIP: tam dung feature X"
+git commit -m "WIP: tạm dừng feature X"
 git switch hotfix/urgent
-# ... sua bug ...
-# Vai ngay sau:
+# ... sửa bug ...
+# Vài ngày sau:
 git switch wip/feature-X-paused
-# Tiep tuc lam
+# Tiếp tục làm
 ```
 
 ---
@@ -558,27 +558,27 @@ git switch wip/feature-X-paused
 ### 10.1. Hotfix flow
 
 ```
-# 1. Bug phat hien tren production (main)
+# 1. Bug phát hiện trên production (main)
 main:     A---B---C              (production)
                    \
 develop:            D---E---F    (development)
 
-# 2. Sua bug tren develop
+# 2. Sửa bug trên develop
 develop:            D---E---F---G  (G = bug fix)
 
-# 3. Cherry-pick G vao main
-main:     A---B---C---G'         (G' = cherry-pick cua G)
+# 3. Cherry-pick G vào main
+main:     A---B---C---G'         (G' = cherry-pick của G)
                    \
 develop:            D---E---F---G
 
-# 4. Deploy main (co fix)
-# 5. Khi develop merge vao main sau do, Git xu ly G va G' tu dong
+# 4. Deploy main (có fix)
+# 5. Khi develop merge vào main sau đó, Git xử lý G và G' tự động
 ```
 
 ### 10.2. Backport flow
 
 ```
-# Main da o phien ban 3.0, can fix cho 2.x
+# Main đã ở phiên bản 3.0, cần fix cho 2.x
 main (v3.0):      A---B---C---D---FIX---E---F
                                    ^
                                    |
@@ -588,7 +588,7 @@ release/2.x:  X---Y---Z---FIX'   (cherry-pick FIX)
 ### 10.3. Feature pick flow
 
 ```
-# Team A can 1 utility tu team B
+# Team A cần 1 utility từ team B
 team-B/feature:    P---Q---R---S---T
                                ^
                                | cherry-pick
@@ -597,44 +597,44 @@ team-A/feature:    X---Y---S'---Z
 
 ---
 
-## 11. Thuc hanh tong hop
+## 11. Thực hành tổng hợp
 
-### Bai tap 1: Stash workflow
+### Bài tập 1: Stash workflow
 
 ```bash
 mkdir stash-lab && cd stash-lab
 git init
 
-# Tao commit ban dau
+# Tạo commit ban đầu
 echo "version 1" > app.js
 git add app.js
 git commit -m "Initial commit"
 
-# Bat dau lam feature
+# Bắt đầu làm feature
 git switch -c feature/new-ui
 echo "new ui code" >> app.js
 echo "styles" > style.css
 
-# Dot nhien can chuyen viec!
-git stash push -u -m "New UI: dang lam"
+# Đột nhiên cần chuyển việc!
+git stash push -u -m "New UI: đang làm"
 
-# Kiem tra
+# Kiểm tra
 git status             # Clean
-git stash list         # Thay stash
+git stash list         # Thấy stash
 
-# Chuyen sang sua bug
+# Chuyển sang sửa bug
 git switch main
 echo "bugfix" >> app.js
 git add app.js
-git commit -m "fix: sua bug"
+git commit -m "fix: sửa bug"
 
-# Quay lai feature
+# Quay lại feature
 git switch feature/new-ui
 git stash pop
-git status             # Thay doi duoc khoi phuc!
+git status             # Thay đổi được khôi phục!
 ```
 
-### Bai tap 2: Cherry-pick workflow
+### Bài tập 2: Cherry-pick workflow
 
 ```bash
 mkdir cherry-lab && cd cherry-lab
@@ -645,179 +645,179 @@ echo "main v1" > app.js
 git add app.js
 git commit -m "A: initial"
 
-# Tao develop va them commits
+# Tạo develop và thêm commits
 git switch -c develop
 echo "feature 1" > f1.js
 git add f1.js
-git commit -m "D: them feature 1"
+git commit -m "D: thêm feature 1"
 
 echo "bugfix" >> app.js
 git add app.js
-git commit -m "E: sua bug trong app.js"
+git commit -m "E: sửa bug trong app.js"
 
 echo "feature 2" > f2.js
 git add f2.js
-git commit -m "F: them feature 2"
+git commit -m "F: thêm feature 2"
 
-# Chi can commit E (bugfix) cho main
+# Chỉ cần commit E (bugfix) cho main
 git log --oneline
-# abc3 F: them feature 2
-# abc2 E: sua bug trong app.js    <-- Can cai nay
-# abc1 D: them feature 1
+# abc3 F: thêm feature 2
+# abc2 E: sửa bug trong app.js    <-- Cần cái này
+# abc1 D: thêm feature 1
 # abc0 A: initial
 
-# Cherry-pick vao main
+# Cherry-pick vào main
 git switch main
-git cherry-pick abc2  # Thay abc2 bang hash thuc te
-# Chi commit bugfix duoc ap dung, feature 1 va 2 khong
+git cherry-pick abc2  # Thay abc2 bằng hash thực tế
+# Chỉ commit bugfix được áp dụng, feature 1 và 2 không
 
 git log --oneline
-# def1 (HEAD -> main) E: sua bug trong app.js
+# def1 (HEAD -> main) E: sửa bug trong app.js
 # abc0 A: initial
 ```
 
-### Bai tap 3: Cherry-pick voi --no-commit
+### Bài tập 3: Cherry-pick với --no-commit
 
 ```bash
-# Tiep tuc tu bai tap 2
-# Muon lay ca feature 1 va 2 nhung gop thanh 1 commit
+# Tiếp tục từ bài tập 2
+# Muốn lấy cả feature 1 và 2 nhưng gộp thành 1 commit
 
 git cherry-pick --no-commit abc1  # Feature 1
 git cherry-pick --no-commit abc3  # Feature 2
 
 git status
-# Thay doi tu ca 2 commit duoc staged
+# Thay đổi từ cả 2 commit được staged
 
-git commit -m "feat: backport feature 1 va 2 tu develop"
-# Chi 1 commit gon gang
+git commit -m "feat: backport feature 1 và 2 từ develop"
+# Chỉ 1 commit gọn gàng
 ```
 
 ---
 
-## 12. Loi thuong gap
+## 12. Lỗi thường gặp
 
-### Loi 1: Stash pop bi conflict
+### Lỗi 1: Stash pop bị conflict
 
 ```bash
-# Stash luc truoc, nhung branch da thay doi nhieu
+# Stash lúc trước, nhưng branch đã thay đổi nhiều
 git stash pop
 # CONFLICT: Merge conflict in app.js
 
-# Cach 1: Giai quyet conflict
-# Mo file, sua conflict markers
+# Cách 1: Giải quyết conflict
+# Mở file, sửa conflict markers
 git add app.js
-# CHU Y: stash KHONG bi xoa khi pop co conflict!
-# Phai drop thu cong sau khi giai quyet:
+# CHÚ Ý: stash KHÔNG bị xóa khi pop có conflict!
+# Phải drop thủ công sau khi giải quyết:
 git stash drop
 
-# Cach 2: Tao branch moi tu stash (khong bao gio conflict)
+# Cách 2: Tạo branch mới từ stash (không bao giờ conflict)
 git stash branch feature/recovered stash@{0}
 ```
 
-### Loi 2: Stash nhung khong thay file moi
+### Lỗi 2: Stash nhưng không thấy file mới
 
 ```bash
-# Tao file moi
+# Tạo file mới
 echo "new" > new-file.js
 git stash
-# new-file.js VAN CON! (untracked)
+# new-file.js VẪN CÒN! (untracked)
 
-# Dung -u de stash ca untracked files
-git stash push -u -m "Ca file moi"
+# Dùng -u để stash cả untracked files
+git stash push -u -m "Cả file mới"
 ```
 
-### Loi 3: Cherry-pick nham commit
+### Lỗi 3: Cherry-pick nhầm commit
 
 ```bash
-# Cherry-pick nham
+# Cherry-pick nhầm
 git cherry-pick wrong-hash
 # Oh no!
 
-# Huy commit vua tao (chua push):
+# Hủy commit vừa tạo (chưa push):
 git reset --hard HEAD~1
-# Quay lai trang thai truoc cherry-pick
+# Quay lại trạng thái trước cherry-pick
 ```
 
-### Loi 4: Cherry-pick ma quen dependency
+### Lỗi 4: Cherry-pick mà quên dependency
 
 ```bash
-# Commit B phu thuoc commit A (B dung function tao o A)
-# Chi cherry-pick B:
+# Commit B phụ thuộc commit A (B dùng function tạo ở A)
+# Chỉ cherry-pick B:
 git cherry-pick B
-# Code bi loi vi thieu function tu A!
+# Code bị lỗi vì thiếu function từ A!
 
-# Cach dung:
-git cherry-pick A B  # Cherry-pick ca hai, theo thu tu
+# Cách đúng:
+git cherry-pick A B  # Cherry-pick cả hai, theo thứ tự
 ```
 
-### Loi 5: Quen stash va lam mat
+### Lỗi 5: Quên stash và làm mất
 
 ```bash
-# Stash roi quen mat
-# Sau 1 thoi gian, stash van con (khong tu dong het han)
+# Stash rồi quên mất
+# Sau 1 thời gian, stash vẫn còn (không tự động hết hạn)
 git stash list
-# Nhung neu ban lam git stash clear hoac drop...
+# Nhưng nếu bạn làm git stash clear hoặc drop...
 
-# Phong tranh:
-# 1. Luon dung message: git stash push -m "mo ta"
-# 2. Kiem tra stash list dinh ky
-# 3. Neu tam dung lau -> dung branch thay vi stash
+# Phòng tránh:
+# 1. Luôn dùng message: git stash push -m "mô tả"
+# 2. Kiểm tra stash list định kỳ
+# 3. Nếu tạm dừng lâu -> dùng branch thay vì stash
 ```
 
 ---
 
-## 13. Cau hoi phong van
+## 13. Câu hỏi phỏng vấn
 
-### Cau 1: Git stash la gi? Khi nao ban su dung no?
+### Câu 1: Git stash là gì? Khi nào bạn sử dụng nó?
 
-**Tra loi:** `git stash` tam cat (luu tru) cac thay doi chua commit (ca staged va unstaged) vao mot ngan xep (stack), lam sach working directory. Dung khi: (1) can chuyen branch nhung chua muon commit (code chua xong), (2) can pull tu remote nhung co local changes, (3) muon thu nghiem tren clean state. `git stash pop` lay lai thay doi va xoa khoi stack. `git stash apply` lay lai nhung giu trong stack. Mac dinh, stash khong bao gom untracked files -- dung `-u` de bao gom.
+**Trả lời:** `git stash` tạm cất (lưu trữ) các thay đổi chưa commit (cả staged và unstaged) vào một ngăn xếp (stack), làm sạch working directory. Dùng khi: (1) cần chuyển branch nhưng chưa muốn commit (code chưa xong), (2) cần pull từ remote nhưng có local changes, (3) muốn thử nghiệm trên clean state. `git stash pop` lấy lại thay đổi và xóa khỏi stack. `git stash apply` lấy lại nhưng giữ trong stack. Mặc định, stash không bao gồm untracked files -- dùng `-u` để bao gồm.
 
-### Cau 2: Phan biet `git stash pop` va `git stash apply`.
+### Câu 2: Phân biệt `git stash pop` và `git stash apply`.
 
-**Tra loi:** Ca hai deu khoi phuc thay doi tu stash. Khac biet: `pop` = apply + drop (lay ra va xoa khoi stack), `apply` = chi lay ra (khong xoa, stash van con trong stack). Dung `apply` khi: muon apply cung stash vao nhieu branch, hoac muon giu stash lam backup. Luu y: neu `pop` gap conflict, stash se **khong bi xoa** -- ban phai giai quyet conflict roi tu `git stash drop`.
+**Trả lời:** Cả hai đều khôi phục thay đổi từ stash. Khác biệt: `pop` = apply + drop (lấy ra và xóa khỏi stack), `apply` = chỉ lấy ra (không xóa, stash vẫn còn trong stack). Dùng `apply` khi: muốn apply cùng stash vào nhiều branch, hoặc muốn giữ stash làm backup. Lưu ý: nếu `pop` gặp conflict, stash sẽ **không bị xóa** -- bạn phải giải quyết conflict rồi tự `git stash drop`.
 
-### Cau 3: Cherry-pick la gi? Cho vi du tinh huong thuc te.
+### Câu 3: Cherry-pick là gì? Cho ví dụ tình huống thực tế.
 
-**Tra loi:** Cherry-pick ap dung mot commit cu the tu branch nay sang branch khac, tao commit moi voi cung noi dung nhung hash khac. Tinh huong thuc te: team phat hien bug tren production, bug da duoc sua tren branch develop (commit abc123). Thay vi merge toan bo develop (co the co feature chua san sang), dung `git cherry-pick abc123` tren main de chi lay commit sua bug. Deploy ngay ma khong anh huong cac feature dang phat trien.
+**Trả lời:** Cherry-pick áp dụng một commit cụ thể từ branch này sang branch khác, tạo commit mới với cùng nội dung nhưng hash khác. Tình huống thực tế: team phát hiện bug trên production, bug đã được sửa trên branch develop (commit abc123). Thay vì merge toàn bộ develop (có thể có feature chưa sẵn sàng), dùng `git cherry-pick abc123` trên main để chỉ lấy commit sửa bug. Deploy ngay mà không ảnh hưởng các feature đang phát triển.
 
-### Cau 4: Cherry-pick co nhung rui ro gi?
+### Câu 4: Cherry-pick có những rủi ro gì?
 
-**Tra loi:** (1) **Duplicate commits**: commit goc va cherry-pick co cung noi dung nhung hash khac, gay nham lan khi doc lich su va co the conflict khi merge sau do. (2) **Mat context**: commit co the phu thuoc commit khac (vi du: dung function duoc tao o commit truoc) -- cherry-pick chi 1 commit se thieu dependency. (3) **Conflict**: commit duoc tao tren context khac nen de gay conflict khi ap dung. Cach giam rui ro: chi cherry-pick khi that su can thiet, uu tien merge/rebase, va luon test sau khi cherry-pick.
+**Trả lời:** (1) **Duplicate commits**: commit gốc và cherry-pick có cùng nội dung nhưng hash khác, gây nhầm lẫn khi đọc lịch sử và có thể conflict khi merge sau đó. (2) **Mất context**: commit có thể phụ thuộc commit khác (ví dụ: dùng function được tạo ở commit trước) -- cherry-pick chỉ 1 commit sẽ thiếu dependency. (3) **Conflict**: commit được tạo trên context khác nên dễ gây conflict khi áp dụng. Cách giảm rủi ro: chỉ cherry-pick khi thật sự cần thiết, ưu tiên merge/rebase, và luôn test sau khi cherry-pick.
 
-### Cau 5: So sanh stash va tao branch moi de tam luu code. Khi nao dung cai nao?
+### Câu 5: So sánh stash và tạo branch mới để tạm lưu code. Khi nào dùng cái nào?
 
-**Tra loi:** **Stash** phu hop cho tam dung ngan (vai phut den vai gio): nhanh (1 lenh), chi o local, khong tao commit. **Branch** phu hop cho tam dung dai (vai ngay+): co ten ro rang, co the push len remote chia se, co commit trong lich su de tim lai. Quy tac: neu ban quay lai trong cung ngay -> stash. Neu khong chac bao gio quay lai, hoac can chia se voi nguoi khac -> branch. Khong nen de stash qua nhieu (> 5 entries) vi kho quan ly.
+**Trả lời:** **Stash** phù hợp cho tạm dừng ngắn (vài phút đến vài giờ): nhanh (1 lệnh), chỉ ở local, không tạo commit. **Branch** phù hợp cho tạm dừng dài (vài ngày+): có tên rõ ràng, có thể push lên remote chia sẻ, có commit trong lịch sử dễ tìm lại. Quy tắc: nếu bạn quay lại trong cùng ngày -> stash. Nếu không chắc bao giờ quay lại, hoặc cần chia sẻ với người khác -> branch. Không nên để stash quá nhiều (> 5 entries) vì khó quản lý.
 
 ---
 
-## Tom tat
+## Tóm tắt
 
 ### Stash
 
-| Lenh | Chuc nang |
+| Lệnh | Chức năng |
 |------|-----------|
-| `git stash` | Tam cat thay doi (chi tracked files) |
-| `git stash push -u -m "msg"` | Stash voi message, ca untracked files |
-| `git stash push file1 file2` | Stash chi dinh files |
-| `git stash list` | Xem danh sach stash |
-| `git stash show -p` | Xem noi dung stash (diff) |
-| `git stash pop` | Lay lai va xoa khoi stack |
-| `git stash apply` | Lay lai nhung giu trong stack |
-| `git stash drop stash@{n}` | Xoa 1 stash cu the |
-| `git stash clear` | Xoa tat ca stash |
-| `git stash branch <name>` | Tao branch tu stash |
+| `git stash` | Tạm cất thay đổi (chỉ tracked files) |
+| `git stash push -u -m "msg"` | Stash với message, cả untracked files |
+| `git stash push file1 file2` | Stash chỉ định files |
+| `git stash list` | Xem danh sách stash |
+| `git stash show -p` | Xem nội dung stash (diff) |
+| `git stash pop` | Lấy lại và xóa khỏi stack |
+| `git stash apply` | Lấy lại nhưng giữ trong stack |
+| `git stash drop stash@{n}` | Xóa 1 stash cụ thể |
+| `git stash clear` | Xóa tất cả stash |
+| `git stash branch <name>` | Tạo branch từ stash |
 
 ### Cherry-pick
 
-| Lenh | Chuc nang |
+| Lệnh | Chức năng |
 |------|-----------|
-| `git cherry-pick <hash>` | Ap dung 1 commit |
-| `git cherry-pick A B C` | Ap dung nhieu commit |
-| `git cherry-pick A..B` | Ap dung range (khong gom A) |
-| `git cherry-pick A^..B` | Ap dung range (gom ca A) |
-| `git cherry-pick --no-commit <hash>` | Ap dung nhung khong commit |
-| `git cherry-pick --continue` | Tiep tuc sau khi resolve conflict |
-| `git cherry-pick --abort` | Huy cherry-pick |
-| `git cherry-pick --skip` | Bo qua commit hien tai |
+| `git cherry-pick <hash>` | Áp dụng 1 commit |
+| `git cherry-pick A B C` | Áp dụng nhiều commit |
+| `git cherry-pick A..B` | Áp dụng range (không gồm A) |
+| `git cherry-pick A^..B` | Áp dụng range (gồm cả A) |
+| `git cherry-pick --no-commit <hash>` | Áp dụng nhưng không commit |
+| `git cherry-pick --continue` | Tiếp tục sau khi resolve conflict |
+| `git cherry-pick --abort` | Hủy cherry-pick |
+| `git cherry-pick --skip` | Bỏ qua commit hiện tại |
 
-**Ghi nho:** Stash de "tam cat", cherry-pick de "nhat chon". Ca hai la cong cu khong the thieu trong workflow hang ngay cua developer.
+**Ghi nhớ:** Stash để "tạm cất", cherry-pick để "nhặt chọn". Cả hai là công cụ không thể thiếu trong workflow hàng ngày của developer.

@@ -5,13 +5,13 @@ title: "Caching & Revalidation"
 
 # Caching & Revalidation
 
-Caching la mot trong nhung khai niem quan trong nhat khi lam viec voi Next.js, nhung cung la khai niem **kho hieu nhat** voi nhieu nguoi. Next.js co **4 tang caching khac nhau**, moi tang phuc vu mot muc dich rieng. Hay tuong tuong he thong caching nhu viec luu tru thuc an: ban co tu lanh o nha (Router Cache), tu dong o cua hang (Data Cache), kho lanh o nha may (Full Route Cache), va so tay ghi nho cong thuc (Request Memoization).
+Caching là một trong những khái niệm quan trọng nhất khi làm việc với Next.js, nhưng cũng là khái niệm **khó hiểu nhất** với nhiều người. Next.js có **4 tầng caching khác nhau**, mỗi tầng phục vụ một mục đích riêng. Hãy tưởng tượng hệ thống caching như việc lưu trữ thức ăn: bạn có tủ lạnh ở nhà (Router Cache), tự động ở cửa hàng (Data Cache), kho lạnh ở nhà máy (Full Route Cache), và sổ tay ghi nhớ công thức (Request Memoization).
 
 ---
 
 ## 1. 4 Layers of Caching trong Next.js
 
-### Tong quan
+### Tổng quan
 
 ```
 Browser (Client)
@@ -25,14 +25,14 @@ Server
 
 ### Layer 1: Request Memoization (React Cache)
 
-**Muc dich:** Neu nhieu component trong **cung mot request** goi `fetch()` voi cung URL, React chi gui **mot request thuc su** va chia se ket qua cho tat ca.
+**Mục đích:** Nếu nhiều component trong **cùng một request** gọi `fetch()` với cùng URL, React chỉ gửi **một request thực sự** và chia sẻ kết quả cho tất cả.
 
-**Thoi gian song:** Chi trong **mot server render** (mot request duy nhat). Khong persistent giua cac request.
+**Thời gian sống:** Chỉ trong **một server render** (một request duy nhat). Không persistent giữa các request.
 
 ```tsx
 // app/layout.tsx
 async function layUser() {
-  // Goi API nay
+  // Gọi API này
   const res = await fetch('https://api.example.com/user/me');
   return res.json();
 }
@@ -42,7 +42,7 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await layUser(); // Request 1 -- gui request that
+  const user = await layUser(); // Request 1 -- gửi request thật
   return (
     <html>
       <body>
@@ -57,101 +57,101 @@ export default async function Layout({
 ```tsx
 // app/page.tsx
 async function layUser() {
-  // Cung URL -- React KHONG gui request moi!
+  // Cùng URL -- React KHÔNG gửi request mới!
   const res = await fetch('https://api.example.com/user/me');
   return res.json();
 }
 
 export default async function TrangChu() {
-  const user = await layUser(); // Request 2 -- dung ket qua da memo!
+  const user = await layUser(); // Request 2 -- dùng kết quả đã memo!
   return <h1>Dashboard cua {user.ten}</h1>;
 }
 ```
 
-Ket qua: Chi **1 HTTP request** duoc gui di, du `layUser()` duoc goi o 2 noi.
+Kết quả: Chỉ **1 HTTP request** được gửi đi, dù `layUser()` được gọi ở 2 nơi.
 
-### Cach hoat dong
+### Cách hoạt động
 
 ```
 Component A goi fetch(url)
-  --> Kiem tra: co ai da fetch url nay chua?
-  --> Chua: Gui request that, luu ket qua vao memo
-  --> Da co: Tra lai ket qua tu memo
+  --> Kiểm tra: có ai đã fetch url này chưa?
+  --> Chưa: Gửi request thật, lưu kết quả vào memo
+  --> Đã có: Trả lại kết quả từ memo
 
 Component B goi fetch(url)
-  --> Kiem tra: co ai da fetch url nay chua?
-  --> Da co: Tra lai ket qua tu memo (KHONG gui request)
+  --> Kiểm tra: có ai đã fetch url này chưa?
+  --> Đã có: Trả lại kết quả từ memo (KHONG gui request)
 ```
 
-**Dieu kien de memoize:**
-- Cung URL va cung options
-- Cung server render pass
-- Phai la `GET` request (POST khong duoc memoize)
+**Điều kiện để memoize:**
+- Cùng URL và cùng options
+- Cùng server render pass
+- Phải là `GET` request (POST không được memoize)
 
 ---
 
 ### Layer 2: Data Cache (Fetch Cache)
 
-**Muc dich:** Cache response cua `fetch()` **across requests va deployments**. Khac voi Request Memoization (chi trong 1 render), Data Cache ton tai **lau dai** cho den khi bi revalidate.
+**Mục đích:** Cache response của `fetch()` **across requests và deployments**. Khác với Request Memoization (chỉ trong 1 render), Data Cache tồn tại **lâu dài** cho đến khi bị revalidate.
 
-**Thoi gian song:** Persistent (vinh vien) cho den khi revalidate hoac opt out.
+**Thời gian sống:** Persistent (vĩnh viễn) cho đến khi revalidate hoặc opt out.
 
 ```tsx
-// Fetch nay duoc cache vinh vien (mac dinh Next.js 14)
+// Fetch nay được cache vĩnh viễn (mặc định Next.js 14)
 const res = await fetch('https://api.example.com/danh-muc', {
   cache: 'force-cache',
 });
-// Request dau tien: goi API that --> luu vao Data Cache
-// Request thu 2, 3, ...: lay tu Data Cache, KHONG goi API
+// Request đầu tiên: gọi API thật --> lưu vào Data Cache
+// Request thứ 2, 3, ...: lấy từ Data Cache, KHÔNG gọi API
 
-// Fetch nay cache 60 giay
+// Fetch này cache 60 giây
 const res = await fetch('https://api.example.com/san-pham', {
   next: { revalidate: 60 },
 });
-// Trong 60 giay: lay tu Data Cache
-// Sau 60 giay: request tiep theo trigger revalidation
+// Trong 60 giây: lấy từ Data Cache
+// Sau 60 giây: request tiếp theo trigger revalidation
 
-// Fetch nay KHONG cache
+// Fetch này KHÔNG cache
 const res = await fetch('https://api.example.com/gia-vang', {
   cache: 'no-store',
 });
-// Moi request deu goi API that
+// Mọi request đều gọi API thật
 ```
 
-### So sanh Request Memoization vs Data Cache
+### So sánh Request Memoization vs Data Cache
 
-| Tinh nang | Request Memoization | Data Cache |
+| Tính năng | Request Memoization | Data Cache |
 |---|---|---|
-| Ton tai trong | 1 server render | Across requests |
-| Dieu khien boi | React | Next.js |
-| Ap dung cho | fetch GET trong render | fetch voi cache options |
-| Persistent | Khong | Co |
-| Opt out | Khong can | `cache: 'no-store'` |
+| Tồn tại trong | 1 server render | Across requests |
+| Điều khiển bởi | React | Next.js |
+| Áp dụng cho | fetch GET trong render | fetch với cache options |
+| Persistent | Không | Co |
+| Opt out | Không can | `cache: 'no-store'` |
 
 ---
 
 ### Layer 3: Full Route Cache (RSC Payload + HTML)
 
-**Muc dich:** Cache **toan bo ket qua render** cua mot route -- bao gom HTML va RSC (React Server Component) Payload. Khi user truy cap route, Next.js tra trang da render san tu cache thay vi render lai.
+**Mục đích:** Cache **toàn bộ kết quả render** của một route -- bao gồm HTML và RSC (React Server Component) Payload. Khi user truy cập route, Next.js trả trang đã render sẵn từ cache thay vì render lại.
 
-**Thoi gian song:** Persistent cho den khi revalidate. Chi ap dung cho **static routes** (khong co dynamic data).
+**Thời gian sống:** Persistent cho đến khi revalidate. Chỉ áp dụng cho **static routes** (không có dynamic data).
 
 ```tsx
-// Route nay duoc Full Route Cache vi khong co dynamic data
-// app/gioi-thieu/page.tsx
+// Route này được Full Route Cache vì không có dynamic data
+// app/gioi-thiếu/page.tsx
 export default function GioiThieu() {
   return (
     <div>
-      <h1>Gioi thieu cong ty</h1>
-      <p>Noi dung tinh -- cache toan bo trang</p>
+      <h1>Giới thiệu công ty</h1>
+      <p>Nội dung tĩnh -- cache toàn bộ trang</p>
     </div>
   );
 }
-// --> HTML va RSC Payload duoc cache luc build time
+// --> HTML và RSC Payload được cache luc build time
 ```
 
 ```tsx
-// Route nay KHONG duoc Full Route Cache vi co dynamic data
+// Route này KHÔNG được Full Route Cache vì có dynamic data
 // app/dashboard/page.tsx
 export const dynamic = 'force-dynamic';
 
@@ -161,49 +161,49 @@ export default async function Dashboard() {
   });
   // ...
 }
-// --> Render moi moi request
+// --> Render mới mỗi request
 ```
 
-**Cac yeu to khien route tro nen dynamic (khong duoc Full Route Cache):**
-- Su dung `cookies()`, `headers()`, `searchParams`
+**Các yếu tố khiến route trở nên dynamic (không được Full Route Cache):**
+- Sử dụng `cookies()`, `headers()`, `searchParams`
 - `fetch()` voi `cache: 'no-store'`
 - Route segment config: `export const dynamic = 'force-dynamic'`
-- Bat ky dynamic function nao khac
+- Bất kỳ dynamic function nào khác
 
 ---
 
 ### Layer 4: Router Cache (Client-side)
 
-**Muc dich:** Cache RSC Payload **tren browser cua user**. Khi user navigate giua cac trang, Next.js luu trang da visit vao Router Cache. Khi quay lai trang do, hien thi tu cache ngay lap tuc ma khong can request server.
+**Mục đích:** Cache RSC Payload **trên browser của user**. Khi user navigate giữa các trang, Next.js lưu trang đã visit vào Router Cache. Khi quay lại trang đó, hiển thị từ cache ngay lập tức mà không cần request server.
 
-**Thoi gian song:**
-- **Static routes:** 5 phut
-- **Dynamic routes:** 30 giay
+**Thời gian sống:**
+- **Static routes:** 5 phút
+- **Dynamic routes:** 30 giây
 - Reset khi reload trang (hard refresh)
 
 ```
-User truy cap /san-pham
-  --> Request server, nhan RSC Payload
-  --> Luu vao Router Cache
+User truy cập /san-pham
+  --> Request server, nhận RSC Payload
+  --> Lưu vào Router Cache
 
 User navigate sang /gioi-thieu
-  --> Request server, nhan RSC Payload
-  --> Luu vao Router Cache
+  --> Request server, nhận RSC Payload
+  --> Lưu vào Router Cache
 
 User quay lai /san-pham
-  --> Lay tu Router Cache (KHONG request server)
-  --> Hien thi ngay lap tuc (tuong nhu instant)
+  --> Lấy từ Router Cache (KHÔNG request server)
+  --> Hiển thị ngay lập tức (tưởng như instant)
 ```
 
-**Luu y quan trong (Next.js 15+):** Tu Next.js 15, Router Cache **khong cache dynamic routes mac dinh** nua. Ban can opt-in neu muon cache:
+**Lưu ý quan trọng (Next.js 15+):** Từ Next.js 15, Router Cache **không cache dynamic routes mặc định** nữa. Bạn cần opt-in nếu muốn cache:
 
 ```tsx
 // next.config.js (Next.js 15+)
 module.exports = {
   experimental: {
     staleTimes: {
-      dynamic: 30, // Cache dynamic routes 30 giay
-      static: 300, // Cache static routes 5 phut
+      dynamic: 30, // Cache dynamic routes 30 giây
+      static: 300, // Cache static routes 5 phút
     },
   },
 };
@@ -213,27 +213,27 @@ module.exports = {
 
 ## 2. Time-based Revalidation
 
-Time-based revalidation la cach don gian nhat -- tu dong revalidate cache sau **N giay**.
+Time-based revalidation là cách đơn giản nhất -- tự động revalidate cache sau **N giây**.
 
-### Cach 1: Trong fetch options
+### Cách 1: Trong fetch options
 
 ```tsx
-// Revalidate moi 60 giay
+// Revalidate mỗi 60 giây
 const res = await fetch('https://api.example.com/san-pham', {
   next: { revalidate: 60 },
 });
 ```
 
-### Cach 2: Route segment config
+### Cách 2: Route segment config
 
 ```tsx
 // app/tin-tuc/page.tsx
-// Ap dung revalidate cho TOAN BO route
+// Áp dụng revalidate cho TOÀN BỘ route
 export const revalidate = 300; // 5 phut
 
 export default async function TinTuc() {
   const res = await fetch('https://api.example.com/tin-tuc');
-  // Fetch nay se duoc revalidate moi 5 phut
+  // Fetch này sẽ được revalidate mỗi 5 phút
   // ...
 }
 ```
@@ -242,31 +242,31 @@ export default async function TinTuc() {
 
 ```
 T=0s:   Build --> Cache HTML (version 1)
-T=1-59s: Request --> Tra HTML tu cache (version 1) [NHANH]
-T=60s:   Request --> Tra HTML cu (version 1) [NHANH]
-                 --> Trigger re-render o background
-T=61s:   Re-render xong --> Cap nhat cache (version 2)
-T=62s+:  Request --> Tra HTML moi (version 2) [NHANH]
+T=1-59s: Request --> Trả HTML từ cache (version 1) [NHANH]
+T=60s:   Request --> Trả HTML cũ (version 1) [NHANH]
+                 --> Trigger re-render ở background
+T=61s:   Re-render xong --> Cập nhật cache (version 2)
+T=62s+:  Request --> Trả HTML mới (version 2) [NHANH]
 ```
 
-### Quy tac khi nhieu fetch co revalidate khac nhau
+### Quy tắc khi nhiều fetch có revalidate khác nhau
 
-Neu mot route co nhieu fetch voi revalidate khac nhau, **gia tri nho nhat duoc dung** cho toan bo route:
+Nếu một route có nhiều fetch với revalidate khác nhau, **giá trị nhỏ nhất được dùng** cho toàn bộ route:
 
 ```tsx
-// Route nay se revalidate moi 30 giay (gia tri nho nhat)
+// Route này sẽ revalidate mỗi 30 giây (giá trị nhỏ nhất)
 export default async function TrangTongHop() {
-  // Fetch 1: revalidate 30 giay
+  // Fetch 1: revalidate 30 giây
   const giaCoin = await fetch('https://api.example.com/gia-coin', {
     next: { revalidate: 30 },
   });
 
-  // Fetch 2: revalidate 3600 giay (1 gio)
+  // Fetch 2: revalidate 3600 giây (1 giờ)
   const tinTuc = await fetch('https://api.example.com/tin-tuc', {
     next: { revalidate: 3600 },
   });
 
-  // Toan bo route se revalidate moi 30 giay
+  // Toàn bộ route sẽ revalidate mỗi 30 giây
 }
 ```
 
@@ -274,9 +274,9 @@ export default async function TrangTongHop() {
 
 ## 3. On-demand Revalidation
 
-Thay vi doi het thoi gian, ban co the **chu dong revalidate** khi biet du lieu da thay doi. Giong nhu viec ban tu thay doi mon an tren thuc don khi co nguyen lieu moi -- khong can doi het ngay.
+Thay vì đợi hết thời gian, bạn có thể **chủ động revalidate** khi biết dữ liệu đã thay đổi. Giống như việc bạn tự thay đổi món ăn trên thực đơn khi có nguyên liệu mới -- không cần đợi hết ngày.
 
-### `revalidatePath()` -- Revalidate theo duong dan
+### `revalidatePath()` -- Revalidate theo đường dẫn
 
 ```tsx
 // app/actions/san-pham.ts
@@ -285,7 +285,7 @@ Thay vi doi het thoi gian, ban co the **chu dong revalidate** khi biet du lieu d
 import { revalidatePath } from 'next/cache';
 
 export async function taoSanPham(formData: FormData) {
-  // Luu san pham moi vao database
+  // Lưu sản phẩm mới vào database
   await prisma.sanPham.create({
     data: {
       ten: formData.get('ten') as string,
@@ -293,25 +293,25 @@ export async function taoSanPham(formData: FormData) {
     },
   });
 
-  // Revalidate trang danh sach san pham
+  // Revalidate trang danh sách sản phẩm
   revalidatePath('/san-pham');
 
-  // Revalidate toan bo route group
-  revalidatePath('/san-pham', 'layout'); // Revalidate layout + tat ca trang con
+  // Revalidate toàn bộ route group
+  revalidatePath('/san-pham', 'layout'); // Revalidate layout + tất cả trang con
 }
 ```
 
 ### `revalidateTag()` -- Revalidate theo tag
 
-Tag cho phep ban **nhom cac fetch request** va revalidate tat ca cung luc:
+Tag cho phép bạn **nhóm các fetch request** và revalidate tất cả cùng lúc:
 
 ```tsx
 // app/san-pham/page.tsx
-// Gan tag cho fetch request
+// Gán tag cho fetch request
 async function laySanPham() {
   const res = await fetch('https://api.example.com/san-pham', {
     next: {
-      tags: ['san-pham'], // Tag nay de revalidate sau
+      tags: ['san-pham'], // Tag này để revalidate sau
     },
   });
   return res.json();
@@ -320,7 +320,7 @@ async function laySanPham() {
 async function layDanhMuc() {
   const res = await fetch('https://api.example.com/danh-muc', {
     next: {
-      tags: ['san-pham', 'danh-muc'], // Nhieu tag
+      tags: ['san-pham', 'danh-muc'], // Nhiều tag
     },
   });
   return res.json();
@@ -339,15 +339,15 @@ export async function capNhatSanPham(id: string, formData: FormData) {
     data: { ten: formData.get('ten') as string },
   });
 
-  // Revalidate tat ca fetch co tag 'san-pham'
-  // Ca laySanPham() va layDanhMuc() deu bi revalidate
+  // Revalidate tất cả fetch có tag 'san-pham'
+  // Cả laySanPham() và layDanhMuc() đều bị revalidate
   revalidateTag('san-pham');
 }
 ```
 
 ### Revalidate tu API Route (Webhook)
 
-Huu ich khi nhan webhook tu CMS hoac he thong khac:
+Hữu ích khi nhận webhook từ CMS hoặc hệ thống khác:
 
 ```tsx
 // app/api/revalidate/route.ts
@@ -355,7 +355,7 @@ import { revalidateTag } from 'next/cache';
 import { NextRequest } from 'next/server';
 
 export async function POST(request: NextRequest) {
-  // Kiem tra secret de bao mat
+  // Kiểm tra secret để bảo mật
   const secret = request.headers.get('x-revalidate-secret');
   if (secret !== process.env.REVALIDATE_SECRET) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
@@ -368,95 +368,95 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: 'Missing tag' }, { status: 400 });
   }
 
-  // Revalidate tag duoc chi dinh
+  // Revalidate tag được chỉ định
   revalidateTag(tag);
 
   return Response.json({ revalidated: true, tag });
 }
 ```
 
-### So sanh revalidatePath vs revalidateTag
+### So sánh revalidatePath vs revalidateTag
 
-| Tinh nang | `revalidatePath` | `revalidateTag` |
+| Tính năng | `revalidatePath` | `revalidateTag` |
 |---|---|---|
-| Revalidate theo | Duong dan URL | Tag duoc gan cho fetch |
-| Pham vi | 1 route cu the | Tat ca fetch co tag do |
-| Dung khi | Biet chinh xac route nao can cap nhat | Nhieu route dung chung du lieu |
-| Vi du | Sua bai viet `/bai-viet/hello` | Sua danh muc --> tat ca trang dung danh muc |
+| Revalidate theo | Đường dẫn URL | Tag được gán cho fetch |
+| Phạm vi | 1 route cụ thể | Tất cả fetch có tag đó |
+| Dùng khi | Biết chính xác route nào cần cập nhật | Nhiều route dùng chung dữ liệu |
+| Ví dụ | Sửa bài viết `/bai-viet/hello` | Sửa danh mục --> tất cả trang dùng danh mục |
 
 ---
 
 ## 4. Opting Out of Caching
 
-Doi khi ban can **tat caching hoan toan**. Day la cac cach:
+Đôi khi bạn cần **tắt caching hoàn toàn**. Đây là các cách:
 
-### Cap do fetch
+### Cấp độ fetch
 
 ```tsx
-// Tat cache cho 1 fetch cu the
+// Tắt cache cho 1 fetch cụ thể
 const res = await fetch(url, { cache: 'no-store' });
 ```
 
-### Cap do route
+### Cấp độ route
 
 ```tsx
 // app/dashboard/page.tsx
-// Tat cache cho toan bo route
+// Tắt cache cho toàn bộ route
 export const dynamic = 'force-dynamic';
 // HOAC
 export const revalidate = 0;
 ```
 
-### Cap do toan ung dung
+### Cấp độ toàn ứng dụng
 
 ```tsx
-// next.config.js -- KHONG khuyen nghi, nhung co the
+// next.config.js -- KHÔNG khuyến nghị, nhưng có thể
 module.exports = {
   experimental: {
-    // Tat Data Cache mac dinh (Next.js 15 da lam dieu nay)
+    // Tắt Data Cache mặc định (Next.js 15 đã làm điều này)
   },
 };
 ```
 
-### Cap do function
+### Cấp độ function
 
-Su dung dynamic functions se tu dong opt out:
+Sử dụng dynamic functions sẽ tự động opt out:
 
 ```tsx
 import { cookies, headers } from 'next/headers';
 
 export default async function TrangCanh() {
-  // Bat ky ham nao trong so nay se khien route tro thanh dynamic
+  // Bất kỳ hàm nào trong số này sẽ khiến route trở thành dynamic
   const cookieStore = cookies();
   const headerList = headers();
-  // Route nay se khong duoc Full Route Cache
+  // Route này sẽ không được Full Route Cache
 }
 ```
 
 ---
 
-## 5. Cache Tags -- Chien luoc dat ten
+## 5. Cache Tags -- Chiến lược đặt tên
 
-Mot he thong tag tot giup ban revalidate chinh xac nhung gi can thiet:
+Một hệ thống tag tốt giúp bạn revalidate chính xác những gì cần thiết:
 
 ```tsx
-// Chien luoc dat ten tag: [entity]-[scope]-[id]
+// Chiến lược đặt tên tag: [entity]-[scope]-[id]
 
 // Tag chung cho entity
-fetch(url, { next: { tags: ['san-pham'] } }); // Tat ca san pham
-fetch(url, { next: { tags: ['bai-viet'] } }); // Tat ca bai viet
+fetch(url, { next: { tags: ['san-pham'] } }); // Tất cả sản phẩm
+fetch(url, { next: { tags: ['bai-viet'] } }); // Tất cả bài viết
 
-// Tag cu the
-fetch(url, { next: { tags: ['san-pham-123'] } }); // San pham co ID 123
-fetch(url, { next: { tags: ['bai-viet-hello-world'] } }); // 1 bai viet cu the
+// Tag cụ thể
+fetch(url, { next: { tags: ['san-pham-123'] } }); // Sản phẩm có ID 123
+fetch(url, { next: { tags: ['bai-viet-hello-world'] } }); // 1 bài viết cụ thể
 
-// Nhieu tag cho 1 fetch
+// Nhiều tag cho 1 fetch
 fetch(url, {
   next: {
     tags: [
-      'san-pham',           // Revalidate khi bat ky san pham nao thay doi
-      'san-pham-123',       // Revalidate khi san pham 123 thay doi
-      'danh-muc-dien-thoai', // Revalidate khi danh muc thay doi
+      'san-pham',           // Revalidate khi bất kỳ sản phẩm nào thay đổi
+      'san-pham-123',       // Revalidate khi sản phẩm 123 thay đổi
+      'danh-muc-dien-thoai', // Revalidate khi danh mục thay đổi
     ],
   },
 });
@@ -471,17 +471,17 @@ import { revalidateTag } from 'next/cache';
 export async function capNhatSanPham(id: string) {
   await prisma.sanPham.update({ where: { id }, data: { /* ... */ } });
 
-  // Revalidate cu the san pham nay
+  // Revalidate cụ thể sản phẩm này
   revalidateTag(`san-pham-${id}`);
 
-  // Va revalidate danh sach san pham (vi danh sach cung can cap nhat)
+  // Và revalidate danh sách sản phẩm (vì danh sách cũng cần cập nhật)
   revalidateTag('san-pham');
 }
 
 export async function xoaSanPham(id: string) {
   await prisma.sanPham.delete({ where: { id } });
 
-  // Revalidate toan bo san pham vi danh sach da thay doi
+  // Revalidate toàn bộ sản phẩm vì danh sách đã thay đổi
   revalidateTag('san-pham');
 }
 ```
@@ -493,13 +493,13 @@ export async function xoaSanPham(id: string) {
 ### Kiem tra header response
 
 ```bash
-# Kiem tra cache status qua headers
+# Kiểm tra cache status qua headers
 curl -I https://your-site.com/san-pham
 
-# Tim cac headers nay:
-# x-nextjs-cache: HIT    --> Trang duoc lay tu cache
-# x-nextjs-cache: MISS   --> Trang duoc render moi
-# x-nextjs-cache: STALE  --> Trang cu dang duoc revalidate
+# Tìm các headers này:
+# x-nextjs-cache: HIT    --> Trang được lấy từ cache
+# x-nextjs-cache: MISS   --> Trang được render mới
+# x-nextjs-cache: STALE  --> Trang cũ đang được revalidate
 ```
 
 ### Logging trong development
@@ -509,13 +509,13 @@ curl -I https://your-site.com/san-pham
 module.exports = {
   logging: {
     fetches: {
-      fullUrl: true, // Hien thi URL day du cua moi fetch trong console
+      fullUrl: true, // Hiển thị URL đầy đủ của mỗi fetch trong console
     },
   },
 };
 ```
 
-Khi chay `npm run dev`, ban se thay trong terminal:
+Khi chạy `npm run dev`, bạn sẽ thấy trong terminal:
 
 ```bash
 # Output mau:
@@ -526,7 +526,7 @@ GET https://api.example.com/gia-vang 200 in 120ms (cache: SKIP)
 ### Debug trong code
 
 ```tsx
-// Them log de debug caching
+// Thêm log để debug caching
 async function layData() {
   console.log('layData() duoc goi luc:', new Date().toISOString());
 
@@ -543,73 +543,73 @@ async function layData() {
 
 ### Checklist debug caching
 
-Khi cache khong hoat dong nhu mong doi:
+Khi cache không hoạt động như mong đợi:
 
-1. Kiem tra route co dynamic khong: `cookies()`, `headers()`, `searchParams`
-2. Kiem tra fetch options: `cache: 'no-store'` se tat cache
-3. Kiem tra route segment config: `dynamic = 'force-dynamic'`
-4. Kiem tra revalidate value: `revalidate = 0` nghia la khong cache
-5. Trong dev mode (`npm run dev`), caching behavior co the khac production
+1. Kiểm tra route có dynamic không: `cookies()`, `headers()`, `searchParams`
+2. Kiểm tra fetch options: `cache: 'no-store'` se tất cảche
+3. Kiểm tra route segment config: `dynamic = 'force-dynamic'`
+4. Kiểm tra revalidate value: `revalidate = 0` nghĩa là không cache
+5. Trong dev mode (`npm run dev`), caching behavior có thể khác production
 
 ---
 
-## 7. Loi thuong gap
+## 7. Lỗi thường gặp
 
-### Loi 1: Tuong rang dev mode co cache giong production
+### Lỗi 1: Tưởng rằng dev mode có cache giống production
 
 ```bash
 # Development mode (npm run dev):
-# - Data Cache: KHONG hoat dong mac dinh
-# - Full Route Cache: KHONG hoat dong
-# - Router Cache: Hoat dong binh thuong
+# - Data Cache: KHÔNG hoạt động mặc định
+# - Full Route Cache: KHONG hoạt động
+# - Router Cache: Hoạt động bình thường
 
 # Production mode (npm run build && npm run start):
-# - Tat ca cache hoat dong day du
+# - Tất cả cache hoạt động đầy đủ
 
-# De test cache, LUON test voi production build
+# Để test cache, LUÔN test với production build
 npm run build && npm run start
 ```
 
-### Loi 2: Quen revalidate sau khi mutation
+### Lỗi 2: Quên revalidate sau khi mutation
 
 ```tsx
-// SAI -- cap nhat database nhung quen revalidate
+// SAI -- cập nhật database nhưng quên revalidate
 'use server';
 export async function capNhatSanPham(id: string, data: any) {
   await prisma.sanPham.update({ where: { id }, data });
-  // Quen revalidate --> trang van hien du lieu cu!
+  // Quên revalidate --> trang vẫn hiển thị dữ liệu cũ!
 }
 
-// DUNG -- luon revalidate sau mutation
+// ĐÚNG -- luôn revalidate sau mutation
 'use server';
 export async function capNhatSanPham(id: string, data: any) {
   await prisma.sanPham.update({ where: { id }, data });
-  revalidatePath('/san-pham');       // Revalidate danh sach
+  revalidatePath('/san-pham');       // Revalidate danh sách
   revalidatePath(`/san-pham/${id}`); // Revalidate trang chi tiet
 }
 ```
 
-### Loi 3: Nham revalidate va redirect
+### Lỗi 3: Nhầm revalidate và redirect
 
 ```tsx
-// revalidate va redirect la 2 viec KHAC NHAU:
+// revalidate và redirect là 2 việc KHÁC NHAU:
 
-// revalidate: Xoa cache, request tiep theo se render moi
-revalidatePath('/san-pham'); // Khong chuyen trang
+// revalidate: Xóa cache, request tiếp theo sẽ render mới
+revalidatePath('/san-pham'); // Không chuyển trang
 
-// redirect: Chuyen user sang trang khac
-redirect('/san-pham'); // Chuyen trang ngay lap tuc
+// redirect: Chuyển user sang trang khác
+redirect('/san-pham'); // Chuyển trang ngay lập tức
 
-// Thuong dung ca hai:
+// Thường dùng cả hai:
 'use server';
 export async function taoSanPham(formData: FormData) {
   await prisma.sanPham.create({ data: { /* ... */ } });
-  revalidatePath('/san-pham');  // Xoa cache truoc
-  redirect('/san-pham');        // Roi chuyen trang
+  revalidatePath('/san-pham');  // Xóa cache trước
+  redirect('/san-pham');        // Rồi chuyển trang
 }
 ```
 
-### Loi 4: Dung Router Cache cu
+### Lỗi 4: Dùng Router Cache cũ
 
 ```tsx
 'use client';
@@ -619,83 +619,83 @@ export default function NutCapNhat() {
   const router = useRouter();
 
   const capNhat = () => {
-    // router.refresh() xoa Router Cache cho trang hien tai
-    // va re-fetch du lieu tu server
+    // router.refresh() xóa Router Cache cho trang hiện tại
+    // và re-fetch dữ liệu từ server
     router.refresh();
   };
 
-  return <button onClick={capNhat}>Cap nhat du lieu</button>;
+  return <button onClick={capNhat}>Cập nhật dữ liệu</button>;
 }
 ```
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### Cau 1: Mo ta 4 tang caching trong Next.js App Router?
+### Câu 1: Mô tả 4 tầng caching trong Next.js App Router?
 
-**Tra loi:**
+**Trả lời:**
 
-1. **Request Memoization:** Tu dong deduplicate fetch() giong nhau trong cung mot server render. Vi du: layout va page goi cung API --> chi 1 request that su. Dieu khien boi React, chi ton tai trong 1 render pass.
+1. **Request Memoization:** Tự động deduplicate fetch() giống nhau trong cùng một server render. Ví dụ: layout và page gọi cùng API --> chỉ 1 request thật sự. Điều khiển bởi React, chỉ tồn tại trong 1 render pass.
 
-2. **Data Cache:** Cache response cua fetch() across requests. Persistent cho den khi revalidate (time-based hoac on-demand). Dieu khien qua `cache` va `next.revalidate` options cua fetch.
+2. **Data Cache:** Cache response của fetch() across requests. Persistent cho đến khi revalidate (time-based hoac on-demand). Điều khiển qua `cache` và `next.revalidate` options của fetch.
 
-3. **Full Route Cache:** Cache toan bo HTML va RSC Payload cua static routes. Tao luc build time. Route voi dynamic data (cookies, no-store fetch) khong duoc Full Route Cache.
+3. **Full Route Cache:** Cache toàn bộ HTML và RSC Payload của static routes. Tạo lúc build time. Route với dynamic data (cookies, no-store fetch) không được Full Route Cache.
 
-4. **Router Cache:** Cache RSC Payload tren browser (client-side). Khi user navigate giua cac trang, trang da visit duoc luu lai. Quay lai trang do se load tu cache (tuong nhu instant). Reset khi hard refresh.
+4. **Router Cache:** Cache RSC Payload trên browser (client-side). Khi user navigate giữa các trang, trang da visit được lưu lai. Quay lại trang đó sẽ load từ cache (tưởng như instant). Reset khi hard refresh.
 
-### Cau 2: Su khac nhau giua revalidatePath va revalidateTag?
+### Câu 2: Sự khác nhau giữa revalidatePath và revalidateTag?
 
-**Tra loi:**
+**Trả lời:**
 
-- `revalidatePath('/san-pham')`: Revalidate **mot route cu the**. Tat ca data cache lien quan den route do se bi xoa. Phu hop khi biet chinh xac route nao anh huong.
+- `revalidatePath('/san-pham')`: Revalidate **một route cụ thể**. Tất cả data cache liên quan đến route đó sẽ bị xóa. Phù hợp khi biết chính xác route nào ảnh hưởng.
 
-- `revalidateTag('san-pham')`: Revalidate **tat ca fetch co tag do**, bat ke o route nao. Phu hop khi mot loai du lieu duoc su dung o nhieu route khac nhau. Vi du: thay doi danh muc san pham anh huong ca trang danh sach, trang chi tiet, va trang tim kiem.
+- `revalidateTag('san-pham')`: Revalidate **tất cả fetch có tag đó**, bất kể ở route nào. Phù hợp khi một loại dữ liệu được sử dụng ở nhiều route khác nhau. Ví dụ: thay đổi danh mục sản phẩm ảnh hưởng cả trang danh sách, trang chi tiết, và trang tìm kiếm.
 
-Best practice: Dung tag cho du lieu dung chung, dung path cho mutations chi anh huong 1 route.
+Best practice: Dùng tag cho dữ liệu dùng chung, dùng path cho mutations chỉ ảnh hưởng 1 route.
 
-### Cau 3: Tai sao trang cua toi khong cap nhat du lieu moi du da goi revalidatePath?
+### Câu 3: Tại sao trang của tôi không cập nhật dữ liệu mới dù đã gọi revalidatePath?
 
-**Tra loi:**
+**Trả lời:**
 
-Co the do:
-1. **Router Cache:** Browser van cache trang cu. Dung `router.refresh()` hoac hard refresh (Ctrl+Shift+R).
-2. **Sai path:** Kiem tra path truyen vao co dung khong (phai khop voi route structure).
-3. **Dev mode:** Caching behavior trong dev khac production. Test voi `npm run build && npm run start`.
-4. **Timing:** revalidatePath chi danh dau cache la stale. Request **tiep theo** moi nhan du lieu moi.
-5. **CDN Cache:** Neu deploy tren Vercel hay CDN khac, co the CDN van cache response cu.
+Có thể do:
+1. **Router Cache:** Browser vẫn cache trang cũ. Dùng `router.refresh()` hoặc hard refresh (Ctrl+Shift+R).
+2. **Sai path:** Kiểm tra path truyền vào có đúng không (phải khớp với route structure).
+3. **Dev mode:** Caching behavior trong dev khác production. Test với `npm run build && npm run start`.
+4. **Timing:** revalidatePath chỉ đánh dấu cache là stale. Request **tiếp theo** mới nhận dữ liệu mới.
+5. **CDN Cache:** Nếu deploy trên Vercel hay CDN khác, có thể CDN vẫn cache response cũ.
 
-### Cau 4: Lam sao tat hoan toan caching cho mot route?
+### Câu 4: Làm sao tắt hoàn toàn caching cho một route?
 
-**Tra loi:**
+**Trả lời:**
 
-Co nhieu cap do:
+Có nhiều cấp độ:
 
 ```tsx
-// Cap do route (khuyen nghi)
+// Cấp độ route (khuyen nghi)
 export const dynamic = 'force-dynamic';
 
-// Cap do fetch
+// Cấp độ fetch
 fetch(url, { cache: 'no-store' });
 
-// Cap do route (alternative)
+// Cấp độ route (alternative)
 export const revalidate = 0;
 ```
 
-Hoac su dung dynamic functions (`cookies()`, `headers()`) se tu dong opt out khoi caching.
+Hoặc sử dụng dynamic functions (`cookies()`, `headers()`) sẽ tự động opt out khỏi caching.
 
-**Luu y:** Tat cache nghia la moi request deu render moi --> tang tai server va cham hon. Chi tat khi that su can thiet.
+**Lưu ý:** Tắt cache nghĩa là mỗi request đều render mới --> tăng tải server và chậm hơn. Chỉ tắt khi thật sự cần thiết.
 
-### Cau 5: Giải thich Stale-While-Revalidate pattern trong ISR?
+### Câu 5: Giải thích Stale-While-Revalidate pattern trong ISR?
 
-**Tra loi:**
+**Trả lời:**
 
-Stale-While-Revalidate la pattern trong do:
+Stale-While-Revalidate là pattern trong đó:
 
-1. **Stale:** Khi cache het han, request van nhan du lieu cu (stale) ngay lap tuc -- user khong phai doi.
-2. **While-Revalidate:** Dong thoi, Next.js render lai trang o background voi du lieu moi.
-3. **Update:** Khi render xong, cache duoc cap nhat. Request tiep theo nhan du lieu moi.
+1. **Stale:** Khi cache hết hạn, request vẫn nhận dữ liệu cũ (stale) ngay lập tức -- user không phải đợi.
+2. **While-Revalidate:** Đồng thời, Next.js render lại trang ở background với dữ liệu mới.
+3. **Update:** Khi render xong, cache được cập nhật. Request tiếp theo nhận dữ liệu mới.
 
-Uu diem: User luon nhan response nhanh (tu cache), trong khi du lieu van duoc cap nhat o background. Khong ai phai doi "loading" nhu SSR truyen thong.
+Ưu điểm: User luôn nhận response nhanh (từ cache), trong khi dữ liệu vẫn được cập nhật ở background. Không ai phải đợi "loading" như SSR truyền thống.
 
-Nhuoc diem: Co the co 1 request nhan du lieu cu (giua luc cache het han va luc re-render xong). Chap nhan duoc cho hau het truong hop (tin tuc, san pham), khong phu hop cho du lieu can chinh xac tuyet doi (tai chinh, y te).
+Nhược điểm: Có thể có 1 request nhận dữ liệu cũ (giữa lúc cache hết hạn và lúc re-render xong). Chấp nhận được cho hầu hết trường hợp (tin tức, sản phẩm), không phù hợp cho dữ liệu cần chính xác tuyệt đối (tài chính, y tế).

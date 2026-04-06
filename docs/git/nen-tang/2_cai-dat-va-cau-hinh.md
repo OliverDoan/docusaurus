@@ -3,25 +3,25 @@ sidebar_position: 2
 title: "Cai dat va cau hinh Git"
 ---
 
-# Cai dat va cau hinh Git
+# Cài đặt và cấu hình Git
 
-Truoc khi dung Git, ban can cai dat no tren may va thiet lap cau hinh co ban. Bai nay huong dan chi tiet tung buoc cho moi he dieu hanh.
+Trước khi dùng Git, bạn cần cài đặt nó trên máy và thiết lập cấu hình cơ bản. Bài này hướng dẫn chi tiết từng bước cho mỗi hệ điều hành.
 
 ---
 
-## 1. Cai dat Git
+## 1. Cài đặt Git
 
 ### 1.1 Windows
 
-**Cach 1: Git for Windows (khuyen nghi)**
+**Cách 1: Git for Windows (khuyên nghị)**
 
-1. Truy cap [https://git-scm.com/download/win](https://git-scm.com/download/win)
-2. Tai file `.exe` va chay installer
-3. Cac tuy chon quan trong khi cai dat:
+1. Truy cập [https://git-scm.com/download/win](https://git-scm.com/download/win)
+2. Tải file `.exe` và chạy installer
+3. Các tuỳ chọn quan trọng khi cài đặt:
 
 ```
-[x] Git Bash Here          <-- Rat tien, click phai de mo terminal
-[x] Git GUI Here           <-- Tuy chon, co the bo qua
+[x] Git Bash Here          <-- Rất tiện, click phải để mở terminal
+[x] Git GUI Here           <-- Tuỳ chọn, có thể bỏ qua
 [x] Use Visual Studio Code as Git's default editor
 [x] Override the default branch name: main
 [x] Git from the command line and also from 3rd-party software
@@ -31,62 +31,62 @@ Truoc khi dung Git, ban can cai dat no tren may va thiet lap cau hinh co ban. Ba
 [x] Use MinTTY
 ```
 
-**Cach 2: Qua winget (Windows Package Manager)**
+**Cách 2: Qua winget (Windows Package Manager)**
 
 ```powershell
-# Mo PowerShell voi quyen Admin
+# Mở PowerShell với quyền Admin
 winget install --id Git.Git -e --source winget
 ```
 
-**Cach 3: Qua Chocolatey**
+**Cách 3: Qua Chocolatey**
 
 ```powershell
 choco install git
 ```
 
-Sau khi cai xong, mo **Git Bash** hoac **Command Prompt** de kiem tra:
+Sau khi cài xong, mở **Git Bash** hoặc **Command Prompt** để kiểm tra:
 
 ```bash
 git --version
-# Ket qua mong doi: git version 2.44.0.windows.1 (hoac phien ban moi hon)
+# Kết quả mong đợi: git version 2.44.0.windows.1 (hoặc phiên bản mới hơn)
 ```
 
 ### 1.2 macOS
 
-**Cach 1: Homebrew (khuyen nghi)**
+**Cách 1: Homebrew (khuyên nghị)**
 
 ```bash
-# Cai Homebrew neu chua co
+# Cài Homebrew nếu chưa có
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Cai Git
+# Cài Git
 brew install git
 ```
 
-**Cach 2: Xcode Command Line Tools**
+**Cách 2: Xcode Command Line Tools**
 
 ```bash
-# Cach nay cai phien ban Git kem theo macOS (thuong cu hon)
+# Cách này cài phiên bản Git kèm theo macOS (thường cũ hơn)
 xcode-select --install
 ```
 
-**Cach 3: Tai tu website**
+**Cách 3: Tải từ website**
 
-Truy cap [https://git-scm.com/download/mac](https://git-scm.com/download/mac) va tai installer.
+Truy cập [https://git-scm.com/download/mac](https://git-scm.com/download/mac) và tải installer.
 
-Kiem tra:
+Kiểm tra:
 
 ```bash
 git --version
 # git version 2.44.0
 
-# Kiem tra Git duoc cai tu dau
+# Kiểm tra Git được cài từ đâu
 which git
 # /opt/homebrew/bin/git  (Homebrew)
 # /usr/bin/git           (Xcode)
 ```
 
-**Luu y:** Neu `which git` tra ve `/usr/bin/git`, ban dang dung phien ban cu cua macOS. Nen cai qua Homebrew de co phien ban moi nhat.
+**Lưu ý:** Nếu `which git` trả về `/usr/bin/git`, bạn đang dùng phiên bản cũ của macOS. Nên cài qua Homebrew để có phiên bản mới nhất.
 
 ### 1.3 Linux
 
@@ -115,45 +115,45 @@ sudo yum install git
 sudo pacman -S git
 ```
 
-Kiem tra:
+Kiểm tra:
 
 ```bash
 git --version
 # git version 2.43.0
 ```
 
-### 1.4 Kiem tra cai dat thanh cong
+### 1.4 Kiểm tra cài đặt thành công
 
-Bat ke he dieu hanh nao, sau khi cai xong hay chay:
+Bất kể hệ điều hành nào, sau khi cài xong hãy chạy:
 
 ```bash
-# Kiem tra phien ban
+# Kiểm tra phiên bản
 git --version
 
-# Kiem tra Git co trong PATH khong
+# Kiểm tra Git có trong PATH không
 which git      # macOS/Linux
 where git      # Windows (cmd)
 ```
 
-Neu thay phien ban Git hien ra, ban da cai thanh cong.
+Nếu thấy phiên bản Git hiện ra, bạn đã cài thành công.
 
 ---
 
-## 2. Cau hinh co ban (BAT BUOC)
+## 2. Cấu hình cơ bản (BẮT BUỘC)
 
-Sau khi cai Git, viec **dau tien** phai lam la thiet lap ten va email. Git dung thong tin nay de gan vao moi commit.
+Sau khi cài Git, việc **đầu tiên** phải làm là thiết lập tên và email. Git dùng thông tin này để gắn vào mỗi commit.
 
 ```bash
-# Thiet lap ten (hien thi trong lich su commit)
+# Thiết lập tên (hiển thị trong lịch sử commit)
 git config --global user.name "Nguyen Van A"
 
-# Thiet lap email (nen trung voi email GitHub/GitLab)
+# Thiết lập email (nên trùng với email GitHub/GitLab)
 git config --global user.email "nguyenvana@example.com"
 ```
 
-### Tai sao bat buoc?
+### Tại sao bắt buộc?
 
-Moi commit trong Git deu chua thong tin nguoi tao:
+Mỗi commit trong Git đều chứa thông tin người tạo:
 
 ```
 commit a1b2c3d4e5f6...
@@ -163,92 +163,92 @@ Date:   Mon Mar 25 10:30:00 2025 +0700
     feat: them tinh nang dang nhap
 ```
 
-Neu ban khong cau hinh, Git se **tu choi commit** hoac dung thong tin mac dinh cua he thong (co the khong chinh xac).
+Nếu bạn không cấu hình, Git sẽ **từ chối commit** hoặc dùng thông tin mặc định của hệ thống (có thể không chính xác).
 
-### Kiem tra cau hinh
+### Kiểm tra cấu hình
 
 ```bash
-# Xem tat ca cau hinh
+# Xem tất cả cấu hình
 git config --list
 
-# Xem mot cau hinh cu the
+# Xem một cấu hình cụ thể
 git config user.name
 git config user.email
 ```
 
 ---
 
-## 3. Ba cap cau hinh: System, Global, Local
+## 3. Ba cấp cấu hình: System, Global, Local
 
-Git co 3 cap cau hinh, **cap duoi ghi de cap tren**:
+Git có 3 cấp cấu hình, **cấp dưới ghi đè cấp trên**:
 
 ```
 +--------------------------------------------------+
 |                   SYSTEM                          |
 |  /etc/gitconfig (Linux/macOS)                     |
 |  C:\Program Files\Git\etc\gitconfig (Windows)     |
-|  Ap dung cho TAT CA user tren may                 |
+|  Áp dụng cho TẤT CẢ user trên máy               |
 +--------------------------------------------------+
             |
-            v  (bi ghi de boi)
+            v  (bị ghi đè bởi)
 +--------------------------------------------------+
 |                   GLOBAL                          |
-|  ~/.gitconfig hoac ~/.config/git/config           |
-|  Ap dung cho USER hien tai, TAT CA repo           |
+|  ~/.gitconfig hoặc ~/.config/git/config           |
+|  Áp dụng cho USER hiện tại, TẤT CẢ repo          |
 +--------------------------------------------------+
             |
-            v  (bi ghi de boi)
+            v  (bị ghi đè bởi)
 +--------------------------------------------------+
 |                   LOCAL                           |
-|  .git/config (trong thu muc repo)                 |
-|  Chi ap dung cho REPO hien tai                    |
+|  .git/config (trong thư mục repo)                 |
+|  Chỉ áp dụng cho REPO hiện tại                   |
 +--------------------------------------------------+
 ```
 
-### Khi nao dung cap nao?
+### Khi nào dùng cấp nào?
 
-| Cap | Lenh | Khi nao dung |
+| Cấp | Lệnh | Khi nào dùng |
 |-----|------|-------------|
-| `--system` | `git config --system` | IT admin thiet lap cho toan may (hiem khi dung) |
-| `--global` | `git config --global` | Thiet lap ca nhan: ten, email, editor, alias |
-| `--local` | `git config --local` | Thiet lap rieng cho 1 repo: email cong ty khac |
+| `--system` | `git config --system` | IT admin thiết lập cho toàn máy (hiếm khi dùng) |
+| `--global` | `git config --global` | Thiết lập cá nhân: tên, email, editor, alias |
+| `--local` | `git config --local` | Thiết lập riêng cho 1 repo: email công ty khác |
 
-### Vi du thuc te: Dung email khac cho repo cong ty
+### Ví dụ thực tế: Dùng email khác cho repo công ty
 
 ```bash
-# Email ca nhan (global — dung cho moi repo)
+# Email cá nhân (global — dùng cho mọi repo)
 git config --global user.email "personal@gmail.com"
 
-# Email cong ty (local — chi cho repo nay)
+# Email công ty (local — chỉ cho repo này)
 cd ~/work/company-project
 git config --local user.email "nguyenvana@company.com"
 
-# Kiem tra — email local se duoc uu tien trong repo nay
+# Kiểm tra — email local sẽ được ưu tiên trong repo này
 git config user.email
 # nguyenvana@company.com
 ```
 
 ---
 
-## 4. Thiet lap editor mac dinh
+## 4. Thiết lập editor mặc định
 
-Khi Git can ban nhap noi dung (viet commit message, resolve conflict...), no se mo text editor. Mac dinh la **vim** — kho dung voi nguoi moi.
+Khi Git cần bạn nhập nội dung (viết commit message, resolve conflict...), nó sẽ mở text editor. Mặc định là **vim** — khó dùng với người mới.
 
-### Doi sang VS Code (khuyen nghi)
+### Đổi sang VS Code (khuyên nghị)
 
 ```bash
 git config --global core.editor "code --wait"
 ```
 
-`--wait` bao Git doi cho den khi ban dong file trong VS Code truoc khi tiep tuc.
+`--wait` báo Git đợi cho đến khi bạn đóng file trong VS Code trước khi tiếp tục.
 
-### Doi sang cac editor khac
+### Đổi sang các editor khác
 
 ```bash
-# Nano (de dung, trong terminal)
+# Nano (dễ dùng, trong terminal)
 git config --global core.editor "nano"
 
-# Vim (manh, nhung can hoc)
+# Vim (mạnh, nhưng cần học)
 git config --global core.editor "vim"
 
 # Sublime Text
@@ -258,68 +258,68 @@ git config --global core.editor "subl -n -w"
 git config --global core.editor "'C:/Program Files/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
 ```
 
-### Kiem tra editor hien tai
+### Kiểm tra editor hiện tại
 
 ```bash
 git config core.editor
 # code --wait
 ```
 
-### Meo: Thoat khoi vim khi vo tinh vao
+### Mẹo: Thoát khỏi vim khi vô tình vào
 
-Neu ban bi "mac ket" trong vim (chuyen that su xay ra voi nguoi moi):
+Nếu bạn bị "mắc kẹt" trong vim (chuyện thật sự xảy ra với người mới):
 
 ```
-1. Nhan phim Esc (dam bao o Normal mode)
-2. Go   :q!   roi nhan Enter (thoat khong luu)
-   hoac :wq   roi nhan Enter (luu va thoat)
+1. Nhấn phím Esc (đảm bảo ở Normal mode)
+2. Gõ   :q!   rồi nhấn Enter (thoát không lưu)
+   hoặc :wq   rồi nhấn Enter (lưu và thoát)
 ```
 
 ---
 
-## 5. Thiet lap SSH Key
+## 5. Thiết lập SSH Key
 
-SSH Key cho phep ban ket noi voi GitHub/GitLab ma **khong can nhap mat khau** moi lan push/pull.
+SSH Key cho phép bạn kết nối với GitHub/GitLab mà **không cần nhập mật khẩu** mỗi lần push/pull.
 
-### 5.1 Kiem tra SSH key hien co
+### 5.1 Kiểm tra SSH key hiện có
 
 ```bash
 ls -la ~/.ssh
-# Neu thay id_ed25519 va id_ed25519.pub (hoac id_rsa, id_rsa.pub) la da co
+# Nếu thấy id_ed25519 và id_ed25519.pub (hoặc id_rsa, id_rsa.pub) là đã có
 ```
 
-### 5.2 Tao SSH key moi
+### 5.2 Tạo SSH key mới
 
 ```bash
-# Tao key voi thuat toan Ed25519 (khuyen nghi, bao mat hon RSA)
+# Tạo key với thuật toán Ed25519 (khuyên nghị, bảo mật hơn RSA)
 ssh-keygen -t ed25519 -C "nguyenvana@example.com"
 ```
 
-Khi duoc hoi:
+Khi được hỏi:
 
 ```
 Enter file in which to save the key (/home/user/.ssh/id_ed25519):
-# Nhan Enter de dung duong dan mac dinh
+# Nhấn Enter để dùng đường dẫn mặc định
 
 Enter passphrase (empty for no passphrase):
-# Nhap mat khau bao ve key (khuyen nghi) hoac Enter de bo qua
+# Nhập mật khẩu bảo vệ key (khuyên nghị) hoặc Enter để bỏ qua
 
 Enter same passphrase again:
-# Nhap lai mat khau
+# Nhập lại mật khẩu
 ```
 
-### 5.3 Them SSH key vao ssh-agent
+### 5.3 Thêm SSH key vào ssh-agent
 
 ```bash
-# Khoi dong ssh-agent
+# Khởi động ssh-agent
 eval "$(ssh-agent -s)"
 # Agent pid 12345
 
-# Them key vao agent
+# Thêm key vào agent
 ssh-add ~/.ssh/id_ed25519
 ```
 
-**Tren macOS**, them vao `~/.ssh/config` de tu dong load:
+**Trên macOS**, thêm vào `~/.ssh/config` để tự động load:
 
 ```
 Host github.com
@@ -328,10 +328,10 @@ Host github.com
     IdentityFile ~/.ssh/id_ed25519
 ```
 
-### 5.4 Them public key vao GitHub
+### 5.4 Thêm public key vào GitHub
 
 ```bash
-# Copy noi dung public key
+# Copy nội dung public key
 # macOS:
 pbcopy < ~/.ssh/id_ed25519.pub
 
@@ -341,79 +341,79 @@ xclip -selection clipboard < ~/.ssh/id_ed25519.pub
 # Windows (Git Bash):
 clip < ~/.ssh/id_ed25519.pub
 
-# Hoac don gian doc file va copy bang tay:
+# Hoặc đơn giản đọc file và copy bằng tay:
 cat ~/.ssh/id_ed25519.pub
 ```
 
-Sau do vao GitHub:
+Sau đó vào GitHub:
 1. **Settings** > **SSH and GPG keys** > **New SSH key**
-2. Dat ten (vi du: "MacBook Pro cua toi")
-3. Dan public key vao
+2. Đặt tên (ví dụ: "MacBook Pro của tôi")
+3. Dán public key vào
 4. Click **Add SSH key**
 
-### 5.5 Kiem tra ket noi
+### 5.5 Kiểm tra kết nối
 
 ```bash
 ssh -T git@github.com
 ```
 
-Ket qua thanh cong:
+Kết quả thành công:
 
 ```
 Hi nguyenvana! You've successfully authenticated, but GitHub does not provide shell access.
 ```
 
-Neu thay loi `Permission denied`, kiem tra lai:
-- Key da them vao ssh-agent chua?
-- Public key da them vao GitHub chua?
-- Dung key phai khong?
+Nếu thấy lỗi `Permission denied`, kiểm tra lại:
+- Key đã thêm vào ssh-agent chưa?
+- Public key đã thêm vào GitHub chưa?
+- Đúng key phải không?
 
 ---
 
-## 6. Cac cau hinh huu ich khac
+## 6. Các cấu hình hữu ích khác
 
-### 6.1 Line Ending (quan trong khi lam viec nhom Windows + macOS/Linux)
+### 6.1 Line Ending (quan trọng khi làm việc nhóm Windows + macOS/Linux)
 
 ```bash
-# Windows: Tu dong chuyen LF -> CRLF khi checkout, CRLF -> LF khi commit
+# Windows: Tự động chuyển LF -> CRLF khi checkout, CRLF -> LF khi commit
 git config --global core.autocrlf true
 
-# macOS/Linux: Chi canh bao neu co CRLF, chuyen ve LF khi commit
+# macOS/Linux: Chỉ cảnh báo nếu có CRLF, chuyển về LF khi commit
 git config --global core.autocrlf input
 ```
 
-**Tai sao quan trong?** Windows dung `CRLF` (\r\n), macOS/Linux dung `LF` (\n). Neu khong cau hinh, ban se thay "thay doi" o moi dong du khong sua gi — chi vi line ending khac nhau.
+**Tại sao quan trọng?** Windows dùng `CRLF` (\r\n), macOS/Linux dùng `LF` (\n). Nếu không cấu hình, bạn sẽ thấy "thay đổi" ở mọi dòng dù không sửa gì — chỉ vì line ending khác nhau.
 
 ### 6.2 Default Branch Name
 
 ```bash
-# Doi ten branch mac dinh tu "master" sang "main"
+# Đổi tên branch mặc định từ "master" sang "main"
 git config --global init.defaultBranch main
 ```
 
-Tu nam 2020, `main` tro thanh ten mac dinh tren GitHub. Nen dong bo de tranh nham lan.
+Từ năm 2020, `main` trở thành tên mặc định trên GitHub. Nên đồng bộ để tránh nhầm lẫn.
 
 ### 6.3 Pull Strategy
 
 ```bash
-# Dung rebase thay vi merge khi pull (giu lich su sach hon)
+# Dùng rebase thay vì merge khi pull (giữ lịch sử sạch hơn)
 git config --global pull.rebase true
 
-# Hoac chi rebase khi co the fast-forward
+# Hoặc chỉ rebase khi có thể fast-forward
 git config --global pull.ff only
 ```
 
 ### 6.4 Color Output
 
 ```bash
-# Bat mau cho output Git (thuong da bat san)
+# Bật màu cho output Git (thường đã bật sẵn)
 git config --global color.ui auto
 ```
 
-### 6.5 Alias — Tao lenh tat
+### 6.5 Alias — Tạo lệnh tắt
 
 ```bash
-# Alias cho cac lenh hay dung
+# Alias cho các lệnh hay dùng
 git config --global alias.st status
 git config --global alias.co checkout
 git config --global alias.br branch
@@ -421,59 +421,59 @@ git config --global alias.ci commit
 git config --global alias.lg "log --oneline --graph --all --decorate"
 ```
 
-Sau khi thiet lap, ban co the dung:
+Sau khi thiết lập, bạn có thể dùng:
 
 ```bash
 git st          # thay cho git status
 git co main     # thay cho git checkout main
 git br          # thay cho git branch
-git lg          # xem log dep voi graph
+git lg          # xem log đẹp với graph
 ```
 
 ### 6.6 Credential Helper
 
 ```bash
-# macOS: Luu credential trong Keychain
+# macOS: Lưu credential trong Keychain
 git config --global credential.helper osxkeychain
 
-# Windows: Luu credential trong Windows Credential Manager
+# Windows: Lưu credential trong Windows Credential Manager
 git config --global credential.helper manager
 
-# Linux: Cache trong 1 gio (3600 giay)
+# Linux: Cache trong 1 giờ (3600 giây)
 git config --global credential.helper 'cache --timeout=3600'
 ```
 
 ---
 
-## 7. Bang tong hop cau hinh quan trong
+## 7. Bảng tổng hợp cấu hình quan trọng
 
-| Cau hinh | Lenh | Mo ta |
+| Cấu hình | Lệnh | Mô tả |
 |----------|------|-------|
-| Ten | `git config --global user.name "Ten"` | Ten hien thi trong commit |
-| Email | `git config --global user.email "email"` | Email gan voi commit |
+| Tên | `git config --global user.name "Tên"` | Tên hiển thị trong commit |
+| Email | `git config --global user.email "email"` | Email gắn với commit |
 | Editor | `git config --global core.editor "code --wait"` | Editor cho commit message |
-| Line ending | `git config --global core.autocrlf true/input` | Xu ly xuong dong Win/Mac |
-| Default branch | `git config --global init.defaultBranch main` | Ten branch mac dinh |
+| Line ending | `git config --global core.autocrlf true/input` | Xử lý xuống dòng Win/Mac |
+| Default branch | `git config --global init.defaultBranch main` | Tên branch mặc định |
 | Pull strategy | `git config --global pull.rebase true` | Rebase khi pull |
-| Color | `git config --global color.ui auto` | Output co mau |
-| Alias | `git config --global alias.st status` | Lenh tat |
-| Credential | `git config --global credential.helper ...` | Luu mat khau |
+| Color | `git config --global color.ui auto` | Output có màu |
+| Alias | `git config --global alias.st status` | Lệnh tắt |
+| Credential | `git config --global credential.helper ...` | Lưu mật khẩu |
 
 ---
 
-## 8. Xem va sua file cau hinh truc tiep
+## 8. Xem và sửa file cấu hình trực tiếp
 
-Ngoai lenh `git config`, ban co the sua file cau hinh bang tay:
+Ngoài lệnh `git config`, bạn có thể sửa file cấu hình bằng tay:
 
 ```bash
-# Mo file config global bang editor
+# Mở file config global bằng editor
 git config --global --edit
 
-# Xem noi dung file config
+# Xem nội dung file config
 cat ~/.gitconfig
 ```
 
-Noi dung file `~/.gitconfig` tieu bieu:
+Nội dung file `~/.gitconfig` tiêu biểu:
 
 ```ini
 [user]
@@ -506,9 +506,9 @@ Noi dung file `~/.gitconfig` tieu bieu:
 
 ---
 
-## 9. Loi thuong gap
+## 9. Lỗi thường gặp
 
-### Loi 1: Quen cau hinh ten va email
+### Lỗi 1: Quên cấu hình tên và email
 
 ```bash
 git commit -m "first commit"
@@ -518,105 +518,105 @@ git commit -m "first commit"
 #   git config --global user.email "you@example.com"
 #   git config --global user.name "Your Name"
 
-# Cach sua: cau hinh nhu tren
+# Cách sửa: cấu hình như trên
 git config --global user.name "Nguyen Van A"
 git config --global user.email "nguyenvana@example.com"
 ```
 
-### Loi 2: SSH key khong hoat dong
+### Lỗi 2: SSH key không hoạt động
 
 ```bash
 ssh -T git@github.com
 # Permission denied (publickey).
 
-# Kiem tra:
-# 1. Key da tao chua?
+# Kiểm tra:
+# 1. Key đã tạo chưa?
 ls ~/.ssh/id_ed25519.pub
 
-# 2. Key da them vao agent chua?
+# 2. Key đã thêm vào agent chưa?
 ssh-add -l
 
-# 3. Key da them vao GitHub chua?
-# Vao GitHub > Settings > SSH keys de kiem tra
+# 3. Key đã thêm vào GitHub chưa?
+# Vào GitHub > Settings > SSH keys để kiểm tra
 
-# 4. Thu them lai key vao agent
+# 4. Thử thêm lại key vào agent
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 ```
 
-### Loi 3: Mac ket trong vim
+### Lỗi 3: Mắc kẹt trong vim
 
 ```
-# Khi Git mo vim bat ngo:
-# 1. Nhan Esc
-# 2. Go :q! va Enter (thoat khong luu)
-# Sau do cau hinh editor khac:
+# Khi Git mở vim bất ngờ:
+# 1. Nhấn Esc
+# 2. Gõ :q! và Enter (thoát không lưu)
+# Sau đó cấu hình editor khác:
 git config --global core.editor "code --wait"
 ```
 
-### Loi 4: Line ending gay ra diff gia
+### Lỗi 4: Line ending gây ra diff giả
 
 ```bash
-# Trieu chung: git diff hien thi moi dong da thay doi, du ban chi sua 1 dong
-# Nguyen nhan: Line ending khac nhau (CRLF vs LF)
+# Triệu chứng: git diff hiển thị mọi dòng đã thay đổi, dù bạn chỉ sửa 1 dòng
+# Nguyên nhân: Line ending khác nhau (CRLF vs LF)
 
-# Sua:
+# Sửa:
 git config --global core.autocrlf input   # macOS/Linux
 git config --global core.autocrlf true    # Windows
 ```
 
-### Loi 5: Dung HTTPS thay vi SSH
+### Lỗi 5: Dùng HTTPS thay vì SSH
 
 ```bash
-# Trieu chung: Phai nhap username/password moi lan push
-# Kiem tra remote URL:
+# Triệu chứng: Phải nhập username/password mỗi lần push
+# Kiểm tra remote URL:
 git remote -v
 # origin  https://github.com/user/repo.git  <-- HTTPS
 
-# Doi sang SSH:
+# Đổi sang SSH:
 git remote set-url origin git@github.com:user/repo.git
 
-# Kiem tra lai:
+# Kiểm tra lại:
 git remote -v
 # origin  git@github.com:user/repo.git  <-- SSH
 ```
 
 ---
 
-## 10. Cau hoi phong van
+## 10. Câu hỏi phỏng vấn
 
-### Cau 1: Co bao nhieu cap cau hinh trong Git? Giai thich thu tu uu tien.
+### Câu 1: Có bao nhiêu cấp cấu hình trong Git? Giải thích thứ tự ưu tiên.
 
-**Tra loi mau:**
+**Trả lời mẫu:**
 
-> Git co 3 cap cau hinh: system (/etc/gitconfig — toan may), global (~/.gitconfig — user hien tai), va local (.git/config — repo hien tai). Thu tu uu tien tu cao den thap: local > global > system. Nghia la cau hinh local se ghi de global, va global ghi de system. Dieu nay cho phep cau hinh chung o global nhung tuy chinh rieng cho tung repo o local.
+> Git có 3 cấp cấu hình: system (/etc/gitconfig — toàn máy), global (~/.gitconfig — user hiện tại), và local (.git/config — repo hiện tại). Thứ tự ưu tiên từ cao đến thấp: local > global > system. Nghĩa là cấu hình local sẽ ghi đè global, và global ghi đè system. Điều này cho phép cấu hình chung ở global nhưng tuỳ chỉnh riêng cho từng repo ở local.
 
-### Cau 2: Lam the nao de dung email khac nhau cho repo ca nhan va repo cong ty?
+### Câu 2: Làm thế nào để dùng email khác nhau cho repo cá nhân và repo công ty?
 
-**Tra loi mau:**
+**Trả lời mẫu:**
 
-> Dung `git config --global user.email` de thiet lap email mac dinh (ca nhan). Trong repo cong ty, dung `git config --local user.email "email@company.com"` de ghi de. Config local chi ap dung cho repo hien tai, khong anh huong cac repo khac.
+> Dùng `git config --global user.email` để thiết lập email mặc định (cá nhân). Trong repo công ty, dùng `git config --local user.email "email@company.com"` để ghi đè. Config local chỉ áp dụng cho repo hiện tại, không ảnh hưởng các repo khác.
 
-### Cau 3: SSH va HTTPS khac nhau the nao khi lam viec voi remote repo?
+### Câu 3: SSH và HTTPS khác nhau thế nào khi làm việc với remote repo?
 
-**Tra loi mau:**
+**Trả lời mẫu:**
 
-> HTTPS yeu cau nhap username/password (hoac Personal Access Token) moi lan push/pull, co the cache bang credential helper. SSH dung cap key (public/private), sau khi thiet lap mot lan thi khong can nhap lai. SSH bao mat hon va tien hon cho viec su dung hang ngay. HTTPS de thiet lap hon ban dau va khong bi chon boi firewall cong ty.
+> HTTPS yêu cầu nhập username/password (hoặc Personal Access Token) mỗi lần push/pull, có thể cache bằng credential helper. SSH dùng cặp key (public/private), sau khi thiết lập một lần thì không cần nhập lại. SSH bảo mật hơn và tiện hơn cho việc sử dụng hàng ngày. HTTPS dễ thiết lập hơn ban đầu và không bị chặn bởi firewall công ty.
 
-### Cau 4: `core.autocrlf` la gi va tai sao can cau hinh?
+### Câu 4: `core.autocrlf` là gì và tại sao cần cấu hình?
 
-**Tra loi mau:**
+**Trả lời mẫu:**
 
-> `core.autocrlf` xu ly su khac biet ve line ending giua Windows (CRLF - \r\n) va Unix/macOS (LF - \n). Tren Windows, dat `true` de Git tu dong chuyen CRLF -> LF khi commit va LF -> CRLF khi checkout. Tren macOS/Linux, dat `input` de chi chuyen CRLF -> LF khi commit. Dieu nay ngan viec line ending tao ra diff gia khi lam viec nhom da nen tang.
+> `core.autocrlf` xử lý sự khác biệt về line ending giữa Windows (CRLF - \r\n) và Unix/macOS (LF - \n). Trên Windows, đặt `true` để Git tự động chuyển CRLF -> LF khi commit và LF -> CRLF khi checkout. Trên macOS/Linux, đặt `input` để chỉ chuyển CRLF -> LF khi commit. Điều này ngăn việc line ending tạo ra diff giả khi làm việc nhóm đa nền tảng.
 
-### Cau 5: Lam sao de xem toan bo cau hinh Git hien tai va biet cau hinh nao den tu file nao?
+### Câu 5: Làm sao để xem toàn bộ cấu hình Git hiện tại và biết cấu hình nào đến từ file nào?
 
-**Tra loi mau:**
+**Trả lời mẫu:**
 
-> Dung `git config --list` de xem toan bo cau hinh. De biet cau hinh den tu file nao, dung `git config --list --show-origin`. Lenh nay hien thi duong dan file truoc moi gia tri, giup debug khi cau hinh khong nhu mong doi.
+> Dùng `git config --list` để xem toàn bộ cấu hình. Để biết cấu hình đến từ file nào, dùng `git config --list --show-origin`. Lệnh này hiển thị đường dẫn file trước mỗi giá trị, giúp debug khi cấu hình không như mong đợi.
 
 ```bash
-# Vi du output
+# Ví dụ output
 git config --list --show-origin
 # file:/home/user/.gitconfig    user.name=Nguyen Van A
 # file:/home/user/.gitconfig    user.email=personal@gmail.com
@@ -625,16 +625,16 @@ git config --list --show-origin
 
 ---
 
-## Tong ket
+## Tổng kết
 
-| Buoc | Lenh | Mo ta |
+| Bước | Lệnh | Mô tả |
 |------|------|-------|
-| 1 | `git --version` | Kiem tra da cai chua |
-| 2 | `git config --global user.name` | Dat ten |
-| 3 | `git config --global user.email` | Dat email |
-| 4 | `git config --global core.editor` | Chon editor |
-| 5 | `ssh-keygen -t ed25519` | Tao SSH key |
-| 6 | Them key vao GitHub | Ket noi SSH |
-| 7 | `ssh -T git@github.com` | Kiem tra ket noi |
+| 1 | `git --version` | Kiểm tra đã cài chưa |
+| 2 | `git config --global user.name` | Đặt tên |
+| 3 | `git config --global user.email` | Đặt email |
+| 4 | `git config --global core.editor` | Chọn editor |
+| 5 | `ssh-keygen -t ed25519` | Tạo SSH key |
+| 6 | Thêm key vào GitHub | Kết nối SSH |
+| 7 | `ssh -T git@github.com` | Kiểm tra kết nối |
 
-**Buoc tiep theo:** Tim hieu cac khai niem cot loi trong Git — Working Directory, Staging Area, Repository.
+**Bước tiếp theo:** Tìm hiểu các khái niệm cốt lõi trong Git — Working Directory, Staging Area, Repository.

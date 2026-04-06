@@ -3,94 +3,94 @@ sidebar_position: 3
 title: "Rebase — Viet lai lich su commit"
 ---
 
-# Rebase — Viet lai lich su commit
+# Rebase — Viết lại lịch sử commit
 
-Neu merge la cach "an toan va trung thuc" de gop nhanh, thi rebase la cach "sach se va tinh te". Rebase viet lai lich su commit de tao ra mot **dong thoi gian thang tap**, nhu the ban lam moi thu theo trinh tu hoan hao. Day la cong cu manh me nhung cung la **con dao hai luoi** -- dung dung thi tuyet voi, dung sai thi tham hoa.
+Nếu merge là cách "an toàn và trung thực" để gộp nhánh, thì rebase là cách "sạch sẽ và tinh tế". Rebase viết lại lịch sử commit để tạo ra một **dòng thời gian thẳng tắp**, như thể bạn làm mọi thứ theo trình tự hoàn hảo. Đây là công cụ mạnh mẽ nhưng cũng là **con dao hai lưỡi** -- dùng đúng thì tuyệt vời, dùng sai thì thảm họa.
 
 ---
 
-## 1. Rebase la gi?
+## 1. Rebase là gì?
 
-### 1.1. Dinh nghia don gian
+### 1.1. Định nghĩa đơn giản
 
-Rebase = **di chuyen base (goc) cua branch** den mot vi tri moi. Thay vi gop 2 dong lich su lai (nhu merge), rebase **dat lai cac commit cua ban len dau** branch dich.
+Rebase = **di chuyển base (gốc) của branch** đến một vị trí mới. Thay vì gộp 2 dòng lịch sử lại (như merge), rebase **đặt lại các commit của bạn lên đầu** branch đích.
 
-### 1.2. ASCII diagram -- Truoc va sau rebase
+### 1.2. ASCII diagram -- Trước và sau rebase
 
 ```
-# TRUOC REBASE:
-# feature/login duoc tao tu commit C cua main
-# Sau do, main co them commit D, E
+# TRƯỚC REBASE:
+# feature/login được tạo từ commit C của main
+# Sau đó, main có thêm commit D, E
 
 main:          A---B---C---D---E
                         \
 feature/login:           F---G---H
 
-# Base cua feature/login la commit C
-# Nhung main da di xa hon (D, E)
+# Base của feature/login là commit C
+# Nhưng main đã đi xa hơn (D, E)
 ```
 
 ```
 # SAU REBASE (git rebase main):
-# Cac commit F, G, H duoc "nho ra" va "dat lai" sau E
+# Các commit F, G, H được "nhổ ra" và "đặt lại" sau E
 
 main:          A---B---C---D---E
                                 \
 feature/login:                   F'---G'---H'
 
-# F', G', H' la cac commit MOI (hash moi, noi dung tuong tu)
-# Base moi cua feature/login la commit E (tip cua main)
-# Lich su la mot duong thang -- nhu the ban lam F, G, H sau E
+# F', G', H' là các commit MỚI (hash mới, nội dung tương tự)
+# Base mới của feature/login là commit E (tip của main)
+# Lịch sử là một đường thẳng -- như thể bạn làm F, G, H sau E
 ```
 
-**Dieu quan trong:** F', G', H' la cac commit **hoan toan moi** -- chung co hash khac voi F, G, H goc. Git da tao lai chung tren nen tang moi (E thay vi C).
+**Điều quan trọng:** F', G', H' là các commit **hoàn toàn mới** -- chúng có hash khác với F, G, H gốc. Git đã tạo lại chúng trên nền tảng mới (E thay vì C).
 
-### 1.3. Tai sao goi la "rebase"?
+### 1.3. Tại sao gọi là "rebase"?
 
-- **Base** = diem goc ma branch cua ban bat dau (commit C)
-- **Rebase** = thay doi base do (tu C sang E)
-- Noi cach khac: "dat lai nen tang" cho branch cua ban
+- **Base** = điểm gốc mà branch của bạn bắt đầu (commit C)
+- **Rebase** = thay đổi base đó (từ C sang E)
+- Nói cách khác: "đặt lại nền tảng" cho branch của bạn
 
 ---
 
-## 2. Rebase co ban
+## 2. Rebase cơ bản
 
-### 2.1. Lenh co ban
+### 2.1. Lệnh cơ bản
 
 ```bash
-# Dang o feature/login
+# Đang ở feature/login
 git switch feature/login
 
-# Rebase len main (dat lai base la tip cua main)
+# Rebase lên main (đặt lại base là tip của main)
 git rebase main
 
-# Ket qua: cac commit cua feature/login duoc dat lai sau main
-# Applying: F - Tao form login
-# Applying: G - Them validation
-# Applying: H - Ket noi API
+# Kết quả: các commit của feature/login được đặt lại sau main
+# Applying: F - Tạo form login
+# Applying: G - Thêm validation
+# Applying: H - Kết nối API
 ```
 
-### 2.2. Quy trinh chi tiet
+### 2.2. Quy trình chi tiết
 
 ```bash
-# Buoc 1: Cap nhat main moi nhat
+# Bước 1: Cập nhật main mới nhất
 git switch main
 git pull origin main
 
-# Buoc 2: Chuyen sang feature branch
+# Bước 2: Chuyển sang feature branch
 git switch feature/login
 
-# Buoc 3: Rebase len main
+# Bước 3: Rebase lên main
 git rebase main
-# Neu khong co conflict -> Xong!
-# Neu co conflict -> Giai quyet tung commit mot
+# Nếu không có conflict -> Xong!
+# Nếu có conflict -> Giải quyết từng commit một
 
-# Buoc 4: Kiem tra ket qua
+# Bước 4: Kiểm tra kết quả
 git log --oneline --graph
-# Lich su la mot duong thang dep
+# Lịch sử là một đường thẳng đẹp
 ```
 
-### 2.3. Vi du thuc te
+### 2.3. Ví dụ thực tế
 
 ```bash
 # Setup
@@ -103,216 +103,216 @@ git commit -m "A: initial"
 
 echo "line 2" >> file.txt
 git add file.txt
-git commit -m "B: them dong 2"
+git commit -m "B: thêm dòng 2"
 
-# Tao feature branch
+# Tạo feature branch
 git switch -c feature/update
 echo "feature line" >> file.txt
 git add file.txt
-git commit -m "F: them dong feature"
+git commit -m "F: thêm dòng feature"
 
-# Quay lai main, them commit moi
+# Quay lại main, thêm commit mới
 git switch main
 echo "main line" > main.txt
 git add main.txt
-git commit -m "C: them file main.txt"
+git commit -m "C: thêm file main.txt"
 
-# Bay gio: main co commit C, feature co commit F
-# Rebase feature len main
+# Bây giờ: main có commit C, feature có commit F
+# Rebase feature lên main
 git switch feature/update
 git rebase main
-# Applying: F: them dong feature
+# Applying: F: thêm dòng feature
 
-# Kiem tra
+# Kiểm tra
 git log --oneline --graph --all
-# * F' (HEAD -> feature/update) them dong feature
-# * C (main) them file main.txt
-# * B them dong 2
+# * F' (HEAD -> feature/update) thêm dòng feature
+# * C (main) thêm file main.txt
+# * B thêm dòng 2
 # * A initial
-# => Mot duong thang dep!
+# => Một đường thẳng đẹp!
 ```
 
 ---
 
-## 3. Rebase vs Merge -- So sanh chi tiet
+## 3. Rebase vs Merge -- So sánh chi tiết
 
-### 3.1. Bang so sanh
+### 3.1. Bảng so sánh
 
-| Dac diem | Merge | Rebase |
+| Đặc điểm | Merge | Rebase |
 |----------|-------|--------|
-| **Lich su** | Giu nguyen, co nhanh re | Viet lai, mot duong thang |
-| **Merge commit** | Co (voi 3-way merge) | Khong |
-| **Commit goc** | Giu nguyen hash | Tao commit moi (hash moi) |
-| **An toan** | An toan hon (khong thay doi lich su) | Nguy hiem neu dung tren shared branch |
-| **Conflict** | Giai quyet 1 lan | Co the giai quyet nhieu lan (tung commit) |
-| **Git log** | Phuc tap, nhieu nhanh | Sach, de doc |
-| **Rollback** | De (revert merge commit) | Kho hon (commits da bi viet lai) |
-| **Thong tin** | Giu day du (ai, khi nao, branch nao) | Mat thong tin ve branch goc |
+| **Lịch sử** | Giữ nguyên, có nhánh rẽ | Viết lại, một đường thẳng |
+| **Merge commit** | Có (với 3-way merge) | Không |
+| **Commit gốc** | Giữ nguyên hash | Tạo commit mới (hash mới) |
+| **An toàn** | An toàn hơn (không thay đổi lịch sử) | Nguy hiểm nếu dùng trên shared branch |
+| **Conflict** | Giải quyết 1 lần | Có thể giải quyết nhiều lần (từng commit) |
+| **Git log** | Phức tạp, nhiều nhánh | Sạch, dễ đọc |
+| **Rollback** | Dễ (revert merge commit) | Khó hơn (commits đã bị viết lại) |
+| **Thông tin** | Giữ đầy đủ (ai, khi nào, branch nào) | Mất thông tin về branch gốc |
 
-### 3.2. Minh hoa truc quan
+### 3.2. Minh họa trực quan
 
 ```
-# MERGE: Giu nguyen lich su, co merge commit
+# MERGE: Giữ nguyên lịch sử, có merge commit
 main: A---B---C---D---E---M
                \         /
 feature:        F---G---H
 
-# REBASE: Viet lai lich su, mot duong thang
+# REBASE: Viết lại lịch sử, một đường thẳng
 main: A---B---C---D---E
                         \
 feature:                 F'---G'---H'
 
-# Sau khi merge feature vao main (fast-forward vi rebase):
+# Sau khi merge feature vào main (fast-forward vì rebase):
 main: A---B---C---D---E---F'---G'---H'
-# Mot duong thang hoan hao!
+# Một đường thẳng hoàn hảo!
 ```
 
-### 3.3. Khi nao dung merge, khi nao dung rebase?
+### 3.3. Khi nào dùng merge, khi nào dùng rebase?
 
-**Dung MERGE khi:**
-- Gop feature vao main/develop (shared branch)
-- Muon giu lai lich su day du
-- Lam viec nhom va branch da push len remote
-- Can rollback de dang
+**Dùng MERGE khi:**
+- Gộp feature vào main/develop (shared branch)
+- Muốn giữ lại lịch sử đầy đủ
+- Làm việc nhóm và branch đã push lên remote
+- Cần rollback dễ dàng
 
-**Dung REBASE khi:**
-- Cap nhat feature branch voi thay doi moi tu main
-- Don dep lich su truoc khi tao PR
-- Branch chi co minh ban lam viec (chua push hoac chi minh ban push)
-- Muon lich su sach truoc khi merge vao main
+**Dùng REBASE khi:**
+- Cập nhật feature branch với thay đổi mới từ main
+- Dọn dẹp lịch sử trước khi tạo PR
+- Branch chỉ có mình bạn làm việc (chưa push hoặc chỉ mình bạn push)
+- Muốn lịch sử sạch trước khi merge vào main
 
-**Workflow pho bien nhat:**
+**Workflow phổ biến nhất:**
 ```bash
-# 1. Rebase feature branch len main (cap nhat va don dep)
+# 1. Rebase feature branch lên main (cập nhật và dọn dẹp)
 git switch feature/login
 git rebase main
 
-# 2. Merge vao main voi --no-ff (giu dau vet)
+# 2. Merge vào main với --no-ff (giữ dấu vết)
 git switch main
 git merge --no-ff feature/login
-# Ket qua: lich su sach + biet feature nao da merge
+# Kết quả: lịch sử sạch + biết feature nào đã merge
 ```
 
 ---
 
-## 4. Golden Rule -- Quy tac vang
+## 4. Golden Rule -- Quy tắc vàng
 
-:::danger KHONG BAO GIO REBASE NHANH PUBLIC/SHARED
+:::danger KHÔNG BAO GIỜ REBASE NHÁNH PUBLIC/SHARED
 
-Neu branch cua ban da duoc push len remote va **nguoi khac dang lam viec tren do**, TUYET DOI KHONG REBASE.
+Nếu branch của bạn đã được push lên remote và **người khác đang làm việc trên đó**, TUYỆT ĐỐI KHÔNG REBASE.
 
 :::
 
-### 4.1. Tai sao?
+### 4.1. Tại sao?
 
 ```
-# Ban va dong nghiep cung lam tren feature/login:
+# Bạn và đồng nghiệp cùng làm trên feature/login:
 
-# Truoc khi ban rebase:
+# Trước khi bạn rebase:
 origin:        A---B---C
                         \
-feature/login:           F---G---H   (dong nghiep co F, G, H)
+feature/login:           F---G---H   (đồng nghiệp có F, G, H)
 
-# Ban rebase:
+# Bạn rebase:
 origin:        A---B---C---D---E
                                 \
-feature/login:                   F'---G'---H'  (hash MOI!)
+feature/login:                   F'---G'---H'  (hash MỚI!)
 
-# Ban force push len remote
-# Dong nghiep pull ve:
-# - Git thay F, G, H (cu) va F', G', H' (moi) la cac commit KHAC NHAU
-# - Xay ra conflict, duplicate commits, lich su hon don
-# - Dong nghiep rat kho chiu voi ban!
+# Bạn force push lên remote
+# Đồng nghiệp pull về:
+# - Git thấy F, G, H (cũ) và F', G', H' (mới) là các commit KHÁC NHAU
+# - Xảy ra conflict, duplicate commits, lịch sử hỗn độn
+# - Đồng nghiệp rất khó chịu với bạn!
 ```
 
-### 4.2. Quy tac don gian
+### 4.2. Quy tắc đơn giản
 
-- **Branch chi minh ban dung** -> Rebase thoai mai
-- **Branch nhieu nguoi dung** -> Chi dung merge, KHONG rebase
-- **Da push len remote?** -> Rebase chi khi ban la nguoi duy nhat lam viec tren branch do (va ban hieu hau qua cua force push)
+- **Branch chỉ mình bạn dùng** -> Rebase thoải mái
+- **Branch nhiều người dùng** -> Chỉ dùng merge, KHÔNG rebase
+- **Đã push lên remote?** -> Rebase chỉ khi bạn là người duy nhất làm việc trên branch đó (và bạn hiểu hậu quả của force push)
 
 ```bash
-# Sau khi rebase branch da push, ban PHAI force push:
+# Sau khi rebase branch đã push, bạn PHẢI force push:
 git push --force-with-lease origin feature/login
-# --force-with-lease an toan hon --force
-# No kiem tra: remote co thay doi khong tu lan push cuoi?
-# Neu co -> Tu choi (co the nguoi khac da push)
-# Neu khong -> Force push
+# --force-with-lease an toàn hơn --force
+# Nó kiểm tra: remote có thay đổi không từ lần push cuối?
+# Nếu có -> Từ chối (có thể người khác đã push)
+# Nếu không -> Force push
 ```
 
 ---
 
-## 5. Interactive rebase -- Suc manh thuc su
+## 5. Interactive rebase -- Sức mạnh thực sự
 
-### 5.1. Interactive rebase la gi?
+### 5.1. Interactive rebase là gì?
 
-Interactive rebase (`git rebase -i`) cho phep ban **chinh sua lich su commit** -- doi thu tu, gop commit, sua message, xoa commit, va nhieu hon.
+Interactive rebase (`git rebase -i`) cho phép bạn **chỉnh sửa lịch sử commit** -- đổi thứ tự, gộp commit, sửa message, xóa commit, và nhiều hơn.
 
 ```bash
-# Rebase 3 commit gan nhat
+# Rebase 3 commit gần nhất
 git rebase -i HEAD~3
 ```
 
-Git se mo editor voi danh sach commit:
+Git sẽ mở editor với danh sách commit:
 
 ```
-pick abc1234 Tao form login
+pick abc1234 Tạo form login
 pick def5678 fix typo
-pick ghi9012 Them validation
+pick ghi9012 Thêm validation
 
 # Rebase abc1234..ghi9012 onto xyz7890 (3 commands)
 #
 # Commands:
-# p, pick   = su dung commit nay
-# r, reword = su dung commit, nhung sua message
-# e, edit   = su dung commit, dung lai de ban chinh sua
-# s, squash = gop vao commit truoc, giu ca 2 message
-# f, fixup  = gop vao commit truoc, bo message cua commit nay
-# d, drop   = xoa commit nay
+# p, pick   = sử dụng commit này
+# r, reword = sử dụng commit, nhưng sửa message
+# e, edit   = sử dụng commit, dừng lại để bạn chỉnh sửa
+# s, squash = gộp vào commit trước, giữ cả 2 message
+# f, fixup  = gộp vào commit trước, bỏ message của commit này
+# d, drop   = xóa commit này
 ```
 
-### 5.2. Cac lenh trong interactive rebase
+### 5.2. Các lệnh trong interactive rebase
 
-| Lenh | Chuc nang | Khi nao dung |
+| Lệnh | Chức năng | Khi nào dùng |
 |------|-----------|-------------|
-| `pick` (p) | Giu commit nhu cu | Mac dinh, khong thay doi gi |
-| `reword` (r) | Sua commit message | Sua typo trong message, them chi tiet |
-| `edit` (e) | Dung lai de ban sua commit | Tach 1 commit thanh nhieu commit |
-| `squash` (s) | Gop vao commit truoc | Gop nhieu commit nho thanh 1 |
-| `fixup` (f) | Gop vao commit truoc, bo message | Gop commit "fix typo" vao commit chinh |
-| `drop` (d) | Xoa commit | Bo commit khong can thiet |
+| `pick` (p) | Giữ commit như cũ | Mặc định, không thay đổi gì |
+| `reword` (r) | Sửa commit message | Sửa typo trong message, thêm chi tiết |
+| `edit` (e) | Dừng lại để bạn sửa commit | Tách 1 commit thành nhiều commit |
+| `squash` (s) | Gộp vào commit trước | Gộp nhiều commit nhỏ thành 1 |
+| `fixup` (f) | Gộp vào commit trước, bỏ message | Gộp commit "fix typo" vào commit chính |
+| `drop` (d) | Xóa commit | Bỏ commit không cần thiết |
 
-### 5.3. Vi du 1: Gop 3 commit thanh 1
+### 5.3. Ví dụ 1: Gộp 3 commit thành 1
 
 ```bash
-# Lich su hien tai:
+# Lịch sử hiện tại:
 git log --oneline -4
-# ghi9012 fix: sua loi validation
-# def5678 fix: sua typo
-# abc1234 feat: tao form login
+# ghi9012 fix: sửa lỗi validation
+# def5678 fix: sửa typo
+# abc1234 feat: tạo form login
 # xyz7890 initial commit
 
-# Muon gop 3 commit thanh 1:
+# Muốn gộp 3 commit thành 1:
 git rebase -i HEAD~3
 ```
 
-Editor hien thi:
+Editor hiển thị:
 ```
-pick abc1234 feat: tao form login
-pick def5678 fix: sua typo
-pick ghi9012 fix: sua loi validation
-```
-
-Sua thanh:
-```
-pick abc1234 feat: tao form login
-fixup def5678 fix: sua typo
-fixup ghi9012 fix: sua loi validation
+pick abc1234 feat: tạo form login
+pick def5678 fix: sửa typo
+pick ghi9012 fix: sửa lỗi validation
 ```
 
-Ket qua: Chi con **1 commit** "feat: tao form login" chua tat ca thay doi.
+Sửa thành:
+```
+pick abc1234 feat: tạo form login
+fixup def5678 fix: sửa typo
+fixup ghi9012 fix: sửa lỗi validation
+```
 
-### 5.4. Vi du 2: Sua commit message
+Kết quả: Chỉ còn **1 commit** "feat: tạo form login" chứa tất cả thay đổi.
+
+### 5.4. Ví dụ 2: Sửa commit message
 
 ```bash
 git rebase -i HEAD~2
@@ -320,23 +320,23 @@ git rebase -i HEAD~2
 
 Editor:
 ```
-pick abc1234 feat: tao form logn    <-- co typo!
-pick def5678 them validation
+pick abc1234 feat: tạo form logn    <-- có typo!
+pick def5678 thêm validation
 ```
 
-Sua thanh:
+Sửa thành:
 ```
-reword abc1234 feat: tao form logn
-pick def5678 them validation
-```
-
-Luu lai. Git se mo editor lan nua de ban sua message:
-```
-feat: tao form login
-# Sua typo: logn -> login
+reword abc1234 feat: tạo form logn
+pick def5678 thêm validation
 ```
 
-### 5.5. Vi du 3: Doi thu tu commit
+Lưu lại. Git sẽ mở editor lần nữa để bạn sửa message:
+```
+feat: tạo form login
+# Sửa typo: logn -> login
+```
+
+### 5.5. Ví dụ 3: Đổi thứ tự commit
 
 ```bash
 git rebase -i HEAD~3
@@ -344,87 +344,87 @@ git rebase -i HEAD~3
 
 Editor:
 ```
-pick abc1234 Them footer
-pick def5678 Them header
-pick ghi9012 Them navigation
+pick abc1234 Thêm footer
+pick def5678 Thêm header
+pick ghi9012 Thêm navigation
 ```
 
-Doi thu tu (header truoc, navigation, roi footer):
+Đổi thứ tự (header trước, navigation, rồi footer):
 ```
-pick def5678 Them header
-pick ghi9012 Them navigation
-pick abc1234 Them footer
+pick def5678 Thêm header
+pick ghi9012 Thêm navigation
+pick abc1234 Thêm footer
 ```
 
-**Luu y:** Doi thu tu co the gay conflict neu cac commit phu thuoc nhau.
+**Lưu ý:** Đổi thứ tự có thể gây conflict nếu các commit phụ thuộc nhau.
 
-### 5.6. Vi du 4: Xoa commit
+### 5.6. Ví dụ 4: Xóa commit
 
 ```bash
 git rebase -i HEAD~3
 ```
 
 ```
-pick abc1234 Them tinh nang A
-pick def5678 debug: them console.log     <-- Muon xoa!
-pick ghi9012 Them tinh nang B
+pick abc1234 Thêm tính năng A
+pick def5678 debug: thêm console.log     <-- Muốn xóa!
+pick ghi9012 Thêm tính năng B
 ```
 
-Sua thanh:
+Sửa thành:
 ```
-pick abc1234 Them tinh nang A
-drop def5678 debug: them console.log
-pick ghi9012 Them tinh nang B
+pick abc1234 Thêm tính năng A
+drop def5678 debug: thêm console.log
+pick ghi9012 Thêm tính năng B
 ```
 
-Hoac don gian xoa dong do:
+Hoặc đơn giản xóa dòng đó:
 ```
-pick abc1234 Them tinh nang A
-pick ghi9012 Them tinh nang B
+pick abc1234 Thêm tính năng A
+pick ghi9012 Thêm tính năng B
 ```
 
 ---
 
-## 6. `git rebase --onto` -- Rebase nang cao
+## 6. `git rebase --onto` -- Rebase nâng cao
 
-### 6.1. Khi nao can `--onto`?
+### 6.1. Khi nào cần `--onto`?
 
-Khi ban muon **di chuyen mot nhom commit** tu base nay sang base khac.
+Khi bạn muốn **di chuyển một nhóm commit** từ base này sang base khác.
 
 ```
-# Tinh huong: Ban tao feature-B tu feature-A (khong phai tu main)
+# Tình huống: Bạn tạo feature-B từ feature-A (không phải từ main)
 main:       A---B---C
                  \
 feature-A:        D---E
                        \
 feature-B:              F---G
 
-# feature-A da merge vao main.
-# Ban muon feature-B dua tren main thay vi feature-A
+# feature-A đã merge vào main.
+# Bạn muốn feature-B dựa trên main thay vì feature-A
 
-# Dung --onto:
+# Dùng --onto:
 git rebase --onto main feature-A feature-B
 ```
 
-### 6.2. Cu phap
+### 6.2. Cú pháp
 
 ```bash
 git rebase --onto <new-base> <old-base> <branch>
-# Di chuyen cac commit tu <old-base> den <branch>
-# Dat chung len <new-base>
+# Di chuyển các commit từ <old-base> đến <branch>
+# Đặt chúng lên <new-base>
 ```
 
-### 6.3. Vi du thuc te
+### 6.3. Ví dụ thực tế
 
 ```bash
-# Truoc:
+# Trước:
 # main:       A---B---C---D
 #                  \
 # feature-A:       E---F
 #                        \
 # feature-B:              G---H
 
-# Muon di chuyen feature-B (G, H) len main
+# Muốn di chuyển feature-B (G, H) lên main
 git rebase --onto main feature-A feature-B
 
 # Sau:
@@ -434,14 +434,14 @@ git rebase --onto main feature-A feature-B
 ```
 
 ```
-# Mot truong hop khac: bo mot so commit o giua
+# Một trường hợp khác: bỏ một số commit ở giữa
 
-# Truoc:
+# Trước:
 # feature: A---B---C---D---E---F
-#              (bo C va D, chi giu A, B, E, F)
+#              (bỏ C và D, chỉ giữ A, B, E, F)
 
 git rebase --onto B D feature
-# "Lay cac commit sau D tren feature, dat len sau B"
+# "Lấy các commit sau D trên feature, đặt lên sau B"
 
 # Sau:
 # feature: A---B---E'---F'
@@ -449,257 +449,257 @@ git rebase --onto B D feature
 
 ---
 
-## 7. Xu ly conflict trong rebase
+## 7. Xử lý conflict trong rebase
 
-### 7.1. Conflict trong rebase khac merge
+### 7.1. Conflict trong rebase khác merge
 
-Khi rebase, Git ap dung **tung commit mot**. Nen ban co the phai giai quyet conflict **nhieu lan** (moi commit co the co conflict rieng).
+Khi rebase, Git áp dụng **từng commit một**. Nên bạn có thể phải giải quyết conflict **nhiều lần** (mỗi commit có thể có conflict riêng).
 
 ```bash
 git rebase main
 # CONFLICT: file.txt
-# error: could not apply abc1234... Them header
+# error: could not apply abc1234... Thêm header
 
-# Buoc 1: Giai quyet conflict trong file
-# Mo file.txt, sua conflict markers
+# Bước 1: Giải quyết conflict trong file
+# Mở file.txt, sửa conflict markers
 
-# Buoc 2: Stage file da sua
+# Bước 2: Stage file đã sửa
 git add file.txt
 
-# Buoc 3: Tiep tuc rebase
+# Bước 3: Tiếp tục rebase
 git rebase --continue
-# Git ap dung commit tiep theo
-# Co the co conflict nua...
+# Git áp dụng commit tiếp theo
+# Có thể có conflict nữa...
 
-# Lap lai cho den khi xong
+# Lặp lại cho đến khi xong
 ```
 
-### 7.2. Cac lenh trong qua trinh rebase
+### 7.2. Các lệnh trong quá trình rebase
 
 ```bash
-# Tiep tuc sau khi giai quyet conflict
+# Tiếp tục sau khi giải quyết conflict
 git rebase --continue
 
-# Bo qua commit hien tai (khong ap dung commit nay)
+# Bỏ qua commit hiện tại (không áp dụng commit này)
 git rebase --skip
 
-# HUY TOAN BO rebase -- quay lai trang thai ban dau
+# HỦY TOÀN BỘ rebase -- quay lại trạng thái ban đầu
 git rebase --abort
-# An toan 100% -- nhu chua bao gio rebase
+# An toàn 100% -- như chưa bao giờ rebase
 ```
 
-### 7.3. Khi nao nen abort?
+### 7.3. Khi nào nên abort?
 
-- Conflict qua phuc tap, can thoi gian phan tich
-- Nhan ra rebase la sai lam (vi du: rebase nham branch)
-- Muon thao luan voi team truoc
+- Conflict quá phức tạp, cần thời gian phân tích
+- Nhận ra rebase là sai lầm (ví dụ: rebase nhầm branch)
+- Muốn thảo luận với team trước
 
 ---
 
-## 8. Workflow thuc te: Feature branch + Rebase
+## 8. Workflow thực tế: Feature branch + Rebase
 
-### 8.1. Quy trinh hoan chinh
+### 8.1. Quy trình hoàn chỉnh
 
 ```bash
-# 1. Tao feature branch tu main
+# 1. Tạo feature branch từ main
 git switch main
 git pull origin main
 git switch -c feature/user-profile
 
-# 2. Lam viec va commit tren feature branch
+# 2. Làm việc và commit trên feature branch
 echo "<div>Profile</div>" > profile.html
 git add profile.html
-git commit -m "Tao trang profile"
+git commit -m "Tạo trang profile"
 
 echo "<form>Edit</form>" > edit-profile.html
 git add edit-profile.html
-git commit -m "Them form chinh sua profile"
+git commit -m "Thêm form chỉnh sửa profile"
 
-# 3. Truoc khi tao PR, cap nhat voi main
+# 3. Trước khi tạo PR, cập nhật với main
 git switch main
 git pull origin main
 git switch feature/user-profile
 
-# Rebase len main (cap nhat base)
+# Rebase lên main (cập nhật base)
 git rebase main
-# Giai quyet conflict neu co
+# Giải quyết conflict nếu có
 
-# 4. Don dep commit (interactive rebase)
+# 4. Dọn dẹp commit (interactive rebase)
 git rebase -i HEAD~2
-# Gop commit neu can, sua message cho ro rang
+# Gộp commit nếu cần, sửa message cho rõ ràng
 
-# 5. Push len remote
+# 5. Push lên remote
 git push -u origin feature/user-profile
-# Hoac neu da push truoc do:
+# Hoặc nếu đã push trước đó:
 git push --force-with-lease origin feature/user-profile
 
-# 6. Tao Pull Request tren GitHub
+# 6. Tạo Pull Request trên GitHub
 
-# 7. Sau khi PR duoc approve, merge vao main
-# (Thuong lam tren GitHub UI)
+# 7. Sau khi PR được approve, merge vào main
+# (Thường làm trên GitHub UI)
 ```
 
-### 8.2. Cap nhat feature branch hang ngay
+### 8.2. Cập nhật feature branch hàng ngày
 
 ```bash
-# Moi sang, cap nhat feature branch voi main moi nhat
+# Mỗi sáng, cập nhật feature branch với main mới nhất
 git switch main
 git pull origin main
 git switch feature/user-profile
 git rebase main
 
-# Neu co conflict -> giai quyet ngay
-# Viec nay giup conflict nho va de giai quyet
-# Thay vi doi den cuoi roi conflict lon
+# Nếu có conflict -> giải quyết ngay
+# Việc này giúp conflict nhỏ và dễ giải quyết
+# Thay vì đợi đến cuối rồi conflict lớn
 ```
 
 ---
 
-## 9. Risks va cach phong tranh
+## 9. Risks và cách phòng tránh
 
-### 9.1. Risk 1: Mat commit
+### 9.1. Risk 1: Mất commit
 
 ```bash
-# Sau khi rebase, commit goc (F, G, H) van ton tai
-# nhung khong thuoc branch nao
-# Chung se bi garbage collected sau ~30 ngay
+# Sau khi rebase, commit gốc (F, G, H) vẫn tồn tại
+# nhưng không thuộc branch nào
+# Chúng sẽ bị garbage collected sau ~30 ngày
 
-# Phong tranh: dung reflog de phuc hoi
+# Phòng tránh: dùng reflog để phục hồi
 git reflog
-# Tim commit truoc khi rebase
+# Tìm commit trước khi rebase
 # abc1234 HEAD@{5}: rebase (start): checkout main
 
 git switch -c recovery abc1234
-# Phuc hoi thanh cong!
+# Phục hồi thành công!
 ```
 
-### 9.2. Risk 2: Force push de len code cua nguoi khac
+### 9.2. Risk 2: Force push đè lên code của người khác
 
 ```bash
-# SAI: dung --force (nguy hiem)
+# SAI: dùng --force (nguy hiểm)
 git push --force origin feature/shared
-# Neu nguoi khac da push commit moi -> mat commit do!
+# Nếu người khác đã push commit mới -> mất commit đó!
 
-# DUNG: dung --force-with-lease (an toan hon)
+# ĐÚNG: dùng --force-with-lease (an toàn hơn)
 git push --force-with-lease origin feature/shared
-# Kiem tra truoc: co ai push gi moi khong?
-# Neu co -> tu choi, ban phai pull truoc
+# Kiểm tra trước: có ai push gì mới không?
+# Nếu có -> từ chối, bạn phải pull trước
 ```
 
-### 9.3. Risk 3: Rebase nham branch
+### 9.3. Risk 3: Rebase nhầm branch
 
 ```bash
-# Dang o main, vo tinh rebase
+# Đang ở main, vô tình rebase
 git rebase feature/experiment
-# OH NO! Lich su main bi thay doi!
+# OH NO! Lịch sử main bị thay đổi!
 
-# Cuu bang reflog:
+# Cứu bằng reflog:
 git reflog
-# Tim vi tri main truoc khi rebase
+# Tìm vị trí main trước khi rebase
 git reset --hard HEAD@{n}
 ```
 
 ---
 
-## 10. Loi thuong gap
+## 10. Lỗi thường gặp
 
-### Loi 1: Rebase branch da push va nhieu nguoi dung
+### Lỗi 1: Rebase branch đã push và nhiều người dùng
 
 ```bash
-# Ban rebase va force push
+# Bạn rebase và force push
 git push --force origin develop
-# Dong nghiep pull:
+# Đồng nghiệp pull:
 # error: Your local changes would be overwritten
 
-# Cach xu ly cho dong nghiep:
+# Cách xử lý cho đồng nghiệp:
 git fetch origin
 git reset --hard origin/develop
-# Mat cac thay doi chua push cua dong nghiep!
+# Mất các thay đổi chưa push của đồng nghiệp!
 
-# Bai hoc: KHONG rebase branch chung
+# Bài học: KHÔNG rebase branch chung
 ```
 
-### Loi 2: Conflict lien tuc khi rebase nhieu commit
+### Lỗi 2: Conflict liên tục khi rebase nhiều commit
 
 ```bash
-# Rebase 10 commit, phai giai quyet conflict 10 lan!
-# Moi commit co the co conflict khac
+# Rebase 10 commit, phải giải quyết conflict 10 lần!
+# Mỗi commit có thể có conflict khác
 
-# Giai phap 1: Dung rerere (reuse recorded resolution)
+# Giải pháp 1: Dùng rerere (reuse recorded resolution)
 git config --global rerere.enabled true
-# Git nho cach ban giai quyet conflict va tu dong ap dung
+# Git nhớ cách bạn giải quyết conflict và tự động áp dụng
 
-# Giai phap 2: Squash commit truoc khi rebase
-git rebase -i HEAD~10  # Gop thanh 1-2 commit
-git rebase main         # Rebase chi 1-2 commit -> it conflict hon
+# Giải pháp 2: Squash commit trước khi rebase
+git rebase -i HEAD~10  # Gộp thành 1-2 commit
+git rebase main         # Rebase chỉ 1-2 commit -> ít conflict hơn
 ```
 
-### Loi 3: Nham lan giua rebase va merge
+### Lỗi 3: Nhầm lẫn giữa rebase và merge
 
 ```bash
-# Muon cap nhat feature voi main moi nhat
+# Muốn cập nhật feature với main mới nhất
 
-# Dung MERGE (an toan hon, tao merge commit):
+# Dùng MERGE (an toàn hơn, tạo merge commit):
 git switch feature/login
 git merge main
 
-# Dung REBASE (lich su sach hon, viet lai commit):
+# Dùng REBASE (lịch sử sạch hơn, viết lại commit):
 git switch feature/login
 git rebase main
 
-# Ca hai deu cap nhat feature voi main
-# Khac nhau o lich su commit
+# Cả hai đều cập nhật feature với main
+# Khác nhau ở lịch sử commit
 ```
 
-### Loi 4: Quen `--continue` sau khi resolve conflict
+### Lỗi 4: Quên `--continue` sau khi resolve conflict
 
 ```bash
-# Sau khi sua conflict va git add
-# KHONG DUNG git commit (nhu merge)!
-# DUNG: git rebase --continue
+# Sau khi sửa conflict và git add
+# KHÔNG DÙNG git commit (như merge)!
+# ĐÚNG: git rebase --continue
 
 git add file.txt
-git rebase --continue   # DUNG!
-# Khong phai:
-git commit              # SAI! (voi rebase)
+git rebase --continue   # ĐÚNG!
+# Không phải:
+git commit              # SAI! (với rebase)
 ```
 
 ---
 
-## 11. Cau hoi phong van
+## 11. Câu hỏi phỏng vấn
 
-### Cau 1: Giai thich su khac nhau giua merge va rebase. Khi nao dung cai nao?
+### Câu 1: Giải thích sự khác nhau giữa merge và rebase. Khi nào dùng cái nào?
 
-**Tra loi:** **Merge** giu nguyen lich su va tao merge commit -- an toan, khong thay doi commit da ton tai. **Rebase** viet lai lich su bang cach tao commit moi tren base moi -- lich su sach nhung thay doi commit hash. Dung merge khi gop branch vao main (shared branch). Dung rebase khi cap nhat feature branch ca nhan voi thay doi moi tu main. Workflow pho bien: rebase feature len main (cap nhat), roi merge vao main voi `--no-ff` (ghi nhan).
+**Trả lời:** **Merge** giữ nguyên lịch sử và tạo merge commit -- an toàn, không thay đổi commit đã tồn tại. **Rebase** viết lại lịch sử bằng cách tạo commit mới trên base mới -- lịch sử sạch nhưng thay đổi commit hash. Dùng merge khi gộp branch vào main (shared branch). Dùng rebase khi cập nhật feature branch cá nhân với thay đổi mới từ main. Workflow phổ biến: rebase feature lên main (cập nhật), rồi merge vào main với `--no-ff` (ghi nhận).
 
-### Cau 2: "Golden Rule of Rebasing" la gi? Tai sao quan trong?
+### Câu 2: "Golden Rule of Rebasing" là gì? Tại sao quan trọng?
 
-**Tra loi:** Golden Rule: **Khong bao gio rebase branch public/shared** -- tuc la branch ma nguoi khac dang lam viec tren do. Ly do: rebase tao commit moi voi hash moi. Neu ban rebase va force push, dong nghiep da co commit cu tren may ho. Khi ho pull, Git thay 2 bo commit khac nhau (cu va moi) cho cung noi dung -> duplicate commits, conflict, lich su hon don. Chi rebase branch ca nhan ma chi minh ban lam viec.
+**Trả lời:** Golden Rule: **Không bao giờ rebase branch public/shared** -- tức là branch mà người khác đang làm việc trên đó. Lý do: rebase tạo commit mới với hash mới. Nếu bạn rebase và force push, đồng nghiệp đã có commit cũ trên máy họ. Khi họ pull, Git thấy 2 bộ commit khác nhau (cũ và mới) cho cùng nội dung -> duplicate commits, conflict, lịch sử hỗn độn. Chỉ rebase branch cá nhân mà chỉ mình bạn làm việc.
 
-### Cau 3: Interactive rebase dung de lam gi? Cho vi du cu the.
+### Câu 3: Interactive rebase dùng để làm gì? Cho ví dụ cụ thể.
 
-**Tra loi:** Interactive rebase (`git rebase -i`) cho phep chinh sua lich su commit: gop commit (squash/fixup), sua message (reword), xoa commit (drop), doi thu tu, tach commit (edit). Vi du: truoc khi tao PR, ban co 5 commit nho ("wip", "fix typo", "test", "update", "final"). Dung `git rebase -i HEAD~5` va `fixup` 4 commit cuoi vao commit dau tien, `reword` commit dau de co message ro rang. Ket qua: 1 commit sach, de review.
+**Trả lời:** Interactive rebase (`git rebase -i`) cho phép chỉnh sửa lịch sử commit: gộp commit (squash/fixup), sửa message (reword), xóa commit (drop), đổi thứ tự, tách commit (edit). Ví dụ: trước khi tạo PR, bạn có 5 commit nhỏ ("wip", "fix typo", "test", "update", "final"). Dùng `git rebase -i HEAD~5` và `fixup` 4 commit cuối vào commit đầu tiên, `reword` commit đầu để có message rõ ràng. Kết quả: 1 commit sạch, dễ review.
 
-### Cau 4: Dang rebase ma gap conflict. Ban lam gi?
+### Câu 4: Đang rebase mà gặp conflict. Bạn làm gì?
 
-**Tra loi:** Khi rebase gap conflict: (1) Git dung lai o commit gay conflict, (2) Mo file co conflict, doc conflict markers va sua, (3) `git add <file>` cac file da sua, (4) `git rebase --continue` de tiep tuc. Neu conflict qua phuc tap, dung `git rebase --abort` de huy toan bo va quay lai trang thai ban dau. Khac voi merge (giai quyet 1 lan), rebase co the yeu cau giai quyet conflict nhieu lan (moi commit ap dung co the co conflict rieng).
+**Trả lời:** Khi rebase gặp conflict: (1) Git dừng lại ở commit gây conflict, (2) Mở file có conflict, đọc conflict markers và sửa, (3) `git add <file>` các file đã sửa, (4) `git rebase --continue` để tiếp tục. Nếu conflict quá phức tạp, dùng `git rebase --abort` để hủy toàn bộ và quay lại trạng thái ban đầu. Khác với merge (giải quyết 1 lần), rebase có thể yêu cầu giải quyết conflict nhiều lần (mỗi commit áp dụng có thể có conflict riêng).
 
-### Cau 5: `git rebase --onto` dung de lam gi? Cho vi du.
+### Câu 5: `git rebase --onto` dùng để làm gì? Cho ví dụ.
 
-**Tra loi:** `git rebase --onto new-base old-base branch` di chuyen mot nhom commit tu base cu sang base moi. Vi du: ban tao feature-B tu feature-A, nhung feature-A da merge vao main va bi xoa. Bay gio feature-B van dua tren feature-A (cu). Dung `git rebase --onto main feature-A feature-B` de di chuyen cac commit cua feature-B (nhung commit sau feature-A) len main. Ket qua: feature-B dua tren main thay vi feature-A.
+**Trả lời:** `git rebase --onto new-base old-base branch` di chuyển một nhóm commit từ base cũ sang base mới. Ví dụ: bạn tạo feature-B từ feature-A, nhưng feature-A đã merge vào main và bị xóa. Bây giờ feature-B vẫn dựa trên feature-A (cũ). Dùng `git rebase --onto main feature-A feature-B` để di chuyển các commit của feature-B (những commit sau feature-A) lên main. Kết quả: feature-B dựa trên main thay vì feature-A.
 
 ---
 
-## Tom tat
+## Tóm tắt
 
-| Lenh | Chuc nang |
+| Lệnh | Chức năng |
 |------|-----------|
-| `git rebase main` | Rebase branch hien tai len main |
-| `git rebase -i HEAD~n` | Interactive rebase n commit gan nhat |
-| `git rebase --continue` | Tiep tuc sau khi giai quyet conflict |
-| `git rebase --skip` | Bo qua commit hien tai |
-| `git rebase --abort` | Huy toan bo rebase |
-| `git rebase --onto A B C` | Di chuyen commit tu B..C len A |
-| `git push --force-with-lease` | Force push an toan (sau rebase) |
+| `git rebase main` | Rebase branch hiện tại lên main |
+| `git rebase -i HEAD~n` | Interactive rebase n commit gần nhất |
+| `git rebase --continue` | Tiếp tục sau khi giải quyết conflict |
+| `git rebase --skip` | Bỏ qua commit hiện tại |
+| `git rebase --abort` | Hủy toàn bộ rebase |
+| `git rebase --onto A B C` | Di chuyển commit từ B..C lên A |
+| `git push --force-with-lease` | Force push an toàn (sau rebase) |
 
-**Ghi nho:** Rebase la cong cu manh me de giu lich su sach. Nhung luon nho Golden Rule -- chi rebase branch cua rieng ban. Khi nghi ngo, dung merge.
+**Ghi nhớ:** Rebase là công cụ mạnh mẽ để giữ lịch sử sạch. Nhưng luôn nhớ Golden Rule -- chỉ rebase branch của riêng bạn. Khi nghi ngờ, dùng merge.

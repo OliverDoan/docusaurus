@@ -5,25 +5,25 @@ title: "Server Actions"
 
 # Server Actions
 
-Server Actions la mot trong nhung tinh nang dot pha nhat cua Next.js App Router. No cho phep ban **goi ham tren server truc tiep tu Client Component** ma khong can tao API route. Hay tuong tuong ban dang ngoi tai ban trong nha hang va co the goi truc tiep vao bep de dat mon -- khong can goi qua phuc vu. Do la suc manh cua Server Actions.
+Server Actions là một trong những tính năng đột phá nhất của Next.js App Router. Nó cho phép bạn **gọi hàm trên server trực tiếp từ Client Component** mà không cần tạo API route. Hãy tưởng tượng bạn đang ngồi tại bàn trong nhà hàng và có thể gọi trực tiếp vào bếp để đặt món -- không cần gọi qua phục vụ. Đó là sức mạnh của Server Actions.
 
 ---
 
-## 1. Server Actions la gi?
+## 1. Server Actions là gì?
 
-Server Actions la **cac ham async chay tren server**, duoc danh dau bang directive `"use server"`. Ban co the goi chung tu ca Server Components lan Client Components, va chung tu dong xu ly viec gui request tu client den server.
+Server Actions là **các hàm async chạy trên server**, được đánh dấu bằng directive `"use server"`. Bạn có thể gọi chúng từ cả Server Components lẫn Client Components, và chúng tự động xử lý việc gửi request từ client đến server.
 
-### Cach hoat dong
+### Cách hoạt động
 
 ```
-Client (Browser) --> Server Action --> Server (xu ly) --> Tra ket qua ve Client
+Client (Browser) --> Server Action --> Server (xử lý) --> Trả kết quả về Client
 ```
 
-Phia sau, Next.js tu dong:
-1. Tao mot HTTP POST endpoint cho moi Server Action
-2. Serialize tham so tu client sang server
-3. Thuc thi ham tren server
-4. Tra ket qua ve client
+Phía sau, Next.js tự động:
+1. Tạo một HTTP POST endpoint cho mỗi Server Action
+2. Serialize tham số từ client sang server
+3. Thực thi hàm trên server
+4. Trả kết quả về client
 
 ---
 
@@ -33,22 +33,22 @@ Phia sau, Next.js tu dong:
 
 ```tsx
 // app/feedback/page.tsx
-// Server Component -- dinh nghia Server Action ngay trong component
+// Server Component -- định nghĩa Server Action ngay trong component
 
 export default function TrangFeedback() {
-  // Inline Server Action -- dinh nghia trong Server Component body
+  // Inline Server Action -- định nghĩa trong Server Component body
   async function guiFeedback(formData: FormData) {
-    'use server'; // Directive danh dau day la Server Action
+    'use server'; // Directive đánh dấu đây là Server Action
 
     const ten = formData.get('ten') as string;
     const noiDung = formData.get('noiDung') as string;
 
-    // Chay tren server -- co the truy cap database truc tiep
+    // Chạy trên server -- có thể truy cập database trực tiếp
     await prisma.feedback.create({
       data: { ten, noiDung },
     });
 
-    // Revalidate trang de hien thi feedback moi
+    // Revalidate trang để hiển thị feedback mới
     revalidatePath('/feedback');
   }
 
@@ -62,18 +62,18 @@ export default function TrangFeedback() {
 }
 ```
 
-### Module-level Server Actions (file rieng)
+### Module-level Server Actions (file riêng)
 
-Khi ban muon **chia se Server Actions giua nhieu component**, dinh nghia chung trong file rieng:
+Khi bạn muốn **chia sẻ Server Actions giữa nhiều component**, định nghĩa chung trong file riêng:
 
 ```tsx
 // app/actions/san-pham.ts
-'use server'; // Tat ca ham export trong file nay deu la Server Actions
+'use server'; // Tất cả hàm export trong file này đều là Server Actions
 
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
 
-// Tao san pham moi
+// Tạo sản phẩm mới
 export async function taoSanPham(formData: FormData) {
   const ten = formData.get('ten') as string;
   const gia = Number(formData.get('gia'));
@@ -86,7 +86,7 @@ export async function taoSanPham(formData: FormData) {
   revalidatePath('/san-pham');
 }
 
-// Cap nhat san pham
+// Cập nhật sản phẩm
 export async function capNhatSanPham(id: string, formData: FormData) {
   const ten = formData.get('ten') as string;
   const gia = Number(formData.get('gia'));
@@ -99,7 +99,7 @@ export async function capNhatSanPham(id: string, formData: FormData) {
   revalidatePath('/san-pham');
 }
 
-// Xoa san pham
+// Xóa sản phẩm
 export async function xoaSanPham(id: string) {
   await prisma.sanPham.delete({
     where: { id },
@@ -109,7 +109,7 @@ export async function xoaSanPham(id: string) {
 }
 ```
 
-Su dung trong component:
+Sử dụng trong component:
 
 ```tsx
 // app/san-pham/tao-moi/page.tsx
@@ -118,10 +118,10 @@ import { taoSanPham } from '@/app/actions/san-pham';
 export default function TaoSanPham() {
   return (
     <form action={taoSanPham}>
-      <input name="ten" placeholder="Ten san pham" required />
+      <input name="ten" placeholder="Tên sản phẩm" required />
       <input name="gia" type="number" placeholder="Gia" required />
       <textarea name="moTa" placeholder="Mo ta san pham" />
-      <button type="submit">Tao san pham</button>
+      <button type="submit">Tạo sản phẩm</button>
     </form>
   );
 }
@@ -129,25 +129,25 @@ export default function TaoSanPham() {
 
 ---
 
-## 3. Forms voi Server Actions
+## 3. Forms với Server Actions
 
-Trong mo hinh truyen thong, ban can tao API route rồi goi `fetch()` tu client. Voi Server Actions, ban chi can truyen ham truc tiep vao `action` prop cua `<form>`:
+Trong mô hình truyền thống, bạn cần tạo API route rồi gọi `fetch()` từ client. Với Server Actions, bạn chỉ cần truyền hàm trực tiếp vào `action` prop cua `<form>`:
 
-### So sanh cu vs moi
+### So sánh cũ vs mới
 
 ```tsx
 // =============================
-// CACH CU: Can API route
+// CÁCH CŨ: Cần API route
 // =============================
 
-// app/api/lien-he/route.ts -- Phai tao API route rieng
+// app/api/lien-he/route.ts -- Phải tạo API route riêng
 export async function POST(request: Request) {
   const data = await request.json();
   await luuLienHe(data);
   return Response.json({ success: true });
 }
 
-// app/lien-he/FormLienHe.tsx -- Client component goi API
+// app/lien-he/FormLienHe.tsx -- Client component gọi API
 'use client';
 export default function FormLienHe() {
   const handleSubmit = async (e: React.FormEvent) => {
@@ -163,10 +163,10 @@ export default function FormLienHe() {
 
 ```tsx
 // =============================
-// CACH MOI: Server Action (don gian hon nhieu!)
+// CÁCH MỚI: Server Action (đơn giản hơn nhiều!)
 // =============================
 
-// app/lien-he/page.tsx -- Khong can API route
+// app/lien-he/page.tsx -- Không cần API route
 export default function TrangLienHe() {
   async function guiLienHe(formData: FormData) {
     'use server';
@@ -196,9 +196,9 @@ export default function TrangLienHe() {
 
 ## 4. `useFormState` Hook
 
-`useFormState` (tu React DOM) cho phep ban **nhan ket qua tu Server Action** va hien thi cho user. Rat huu ich cho viec hien thi thong bao thanh cong hoac loi validation.
+`useFormState` (từ React DOM) cho phép bạn **nhận kết quả từ Server Action** và hiển thị cho user. Rất hữu ích cho việc hiển thị thông báo thành công hoặc lỗi validation.
 
-> **Luu y:** Tu React 19, `useFormState` duoc doi ten thanh `useActionState`. Xem muc 6 ben duoi.
+> **Lưu ý:** Từ React 19, `useFormState` được đổi tên thành `useActionState`. Xem mục 6 bên dưới.
 
 ```tsx
 'use client';
@@ -207,7 +207,7 @@ export default function TrangLienHe() {
 import { useFormState } from 'react-dom';
 import { dangKyTaiKhoan } from '@/app/actions/auth';
 
-// Kieu du lieu tra ve tu Server Action
+// Kiểu dữ liệu trả về từ Server Action
 type TrangThai = {
   loiLoi?: string;
   thanhCong?: boolean;
@@ -216,7 +216,7 @@ type TrangThai = {
 const trangThaBanDau: TrangThai = {};
 
 export default function FormDangKy() {
-  // useFormState nhan Server Action va trang thai ban dau
+  // useFormState nhận Server Action và trạng thái ban đầu
   const [trangThai, formAction] = useFormState(
     dangKyTaiKhoan,
     trangThaBanDau
@@ -224,30 +224,30 @@ export default function FormDangKy() {
 
   return (
     <form action={formAction}>
-      {/* Hien thi loi neu co */}
+      {/* Hiển thị lỗi nếu có */}
       {trangThai.loiLoi && (
         <div className="loi">{trangThai.loiLoi}</div>
       )}
 
-      {/* Hien thi thong bao thanh cong */}
+      {/* Hiển thị thông báo thành công */}
       {trangThai.thanhCong && (
-        <div className="thanh-cong">Dang ky thanh cong!</div>
+        <div className="thanh-cong">Đăng ký thành công!</div>
       )}
 
       <input name="email" type="email" placeholder="Email" required />
       <input
         name="matKhau"
         type="password"
-        placeholder="Mat khau"
+        placeholder="Mật khẩu"
         required
       />
-      <button type="submit">Dang ky</button>
+      <button type="submit">Đăng ký</button>
     </form>
   );
 }
 ```
 
-Server Action tra ve trang thai:
+Server Action trả về trạng thái:
 
 ```tsx
 // app/actions/auth.ts
@@ -265,16 +265,16 @@ export async function dangKyTaiKhoan(
   const email = formData.get('email') as string;
   const matKhau = formData.get('matKhau') as string;
 
-  // Kiem tra email da ton tai chua
+  // Kiểm tra email đã tồn tại chưa
   const daTonTai = await prisma.user.findUnique({
     where: { email },
   });
 
   if (daTonTai) {
-    return { loiLoi: 'Email nay da duoc dang ky!' };
+    return { loiLoi: 'Email này đã được đăng ký!' };
   }
 
-  // Tao tai khoan moi
+  // Tạo tài khoản mới
   await prisma.user.create({
     data: {
       email,
@@ -290,7 +290,7 @@ export async function dangKyTaiKhoan(
 
 ## 5. `useFormStatus` Hook -- Pending State
 
-`useFormStatus` cho phep ban **biet form dang submit hay khong**. Rat huu ich de hien thi trang thai loading va vo hieu hoa nut submit.
+`useFormStatus` cho phép bạn **biết form đang submit hay không**. Rất hữu ích để hiển thị trạng thái loading và vô hiệu hóa nút submit.
 
 ```tsx
 'use client';
@@ -298,21 +298,21 @@ export async function dangKyTaiKhoan(
 
 import { useFormStatus } from 'react-dom';
 
-// QUAN TRONG: useFormStatus phai dung TRONG component con cua <form>
-// Khong dung duoc trong cung component chua <form>
+// QUAN TRỌNG: useFormStatus phải dùng TRONG component con của <form>
+// Không dùng được trong cùng component chứa <form>
 
 export default function NutSubmit({ text = 'Gui' }: { text?: string }) {
   const { pending } = useFormStatus();
 
   return (
     <button type="submit" disabled={pending}>
-      {pending ? 'Dang xu ly...' : text}
+      {pending ? 'Đang xử lý...' : text}
     </button>
   );
 }
 ```
 
-Su dung:
+Sử dụng:
 
 ```tsx
 // app/lien-he/page.tsx
@@ -321,8 +321,8 @@ import NutSubmit from '@/app/components/NutSubmit';
 export default function TrangLienHe() {
   async function guiLienHe(formData: FormData) {
     'use server';
-    // Xu ly form...
-    await new Promise((r) => setTimeout(r, 2000)); // Mo phong delay
+    // Xử lý form...
+    await new Promise((r) => setTimeout(r, 2000)); // Mô phỏng delay
   }
 
   return (
@@ -331,25 +331,25 @@ export default function TrangLienHe() {
       <input name="email" type="email" required />
       <textarea name="noiDung" required />
 
-      {/* NutSubmit tu dong biet form dang submit */}
-      <NutSubmit text="Gui lien he" />
+      {/* NutSubmit tự động biết form đang submit */}
+      <NutSubmit text="Gửi liên hệ" />
     </form>
   );
 }
 ```
 
-### Luu y ve useFormStatus
+### Lưu ý về useFormStatus
 
-`useFormStatus` chi hoat dong khi component **la con cua `<form>`**. No khong hoat dong neu ban dung trong cung component chua `<form>`:
+`useFormStatus` chỉ hoạt động khi component **là con của `<form>`**. Nó không hoạt động nếu bạn dùng trong cùng component chứa `<form>`:
 
 ```tsx
 'use client';
 
 import { useFormStatus } from 'react-dom';
 
-// SAI -- useFormStatus trong cung component voi <form>
+// SAI -- useFormStatus trong cùng component với <form>
 export default function FormSai() {
-  const { pending } = useFormStatus(); // KHONG hoat dong!
+  const { pending } = useFormStatus(); // KHÔNG hoạt động!
 
   return (
     <form action={serverAction}>
@@ -358,9 +358,9 @@ export default function FormSai() {
   );
 }
 
-// DUNG -- useFormStatus trong component con
+// ĐÚNG -- useFormStatus trong component con
 function NutGuiDung() {
-  const { pending } = useFormStatus(); // Hoat dong!
+  const { pending } = useFormStatus(); // Hoạt động!
   return <button disabled={pending}>Gui</button>;
 }
 
@@ -377,7 +377,7 @@ export default function FormDung() {
 
 ## 6. `useActionState` (React 19)
 
-React 19 gioi thieu `useActionState` thay the `useFormState`, voi cac cai tien:
+React 19 giới thiệu `useActionState` thay thế `useFormState`, với các cải tiến:
 
 ```tsx
 'use client';
@@ -400,34 +400,34 @@ export default function FormTaoSanPham() {
   return (
     <form action={formAction}>
       {trangThai.loi && <p className="loi">{trangThai.loi}</p>}
-      {trangThai.thanhCong && <p className="ok">Tao thanh cong!</p>}
+      {trangThai.thanhCong && <p className="ok">Tạo thành công!</p>}
 
-      <input name="ten" placeholder="Ten san pham" required />
+      <input name="ten" placeholder="Tên sản phẩm" required />
       <input name="gia" type="number" placeholder="Gia" required />
 
-      {/* Khong can component con rieng -- co isPending tren san */}
+      {/* Không cần component con riêng -- có isPending trên sẵn */}
       <button type="submit" disabled={dangGui}>
-        {dangGui ? 'Dang tao...' : 'Tao san pham'}
+        {dangGui ? 'Đang tạo...' : 'Tạo sản phẩm'}
       </button>
     </form>
   );
 }
 ```
 
-### So sanh useFormState vs useActionState
+### So sánh useFormState vs useActionState
 
-| Tinh nang | `useFormState` | `useActionState` |
+| Tính năng | `useFormState` | `useActionState` |
 |---|---|---|
 | Package | `react-dom` | `react` |
 | Return | `[state, formAction]` | `[state, formAction, isPending]` |
-| Pending state | Can `useFormStatus` rieng | Co san `isPending` |
+| Pending state | Cần `useFormStatus` riêng | Có sẵn `isPending` |
 | React version | 18+ | 19+ |
 
 ---
 
-## 7. Validation voi Server Actions (Zod)
+## 7. Validation với Server Actions (Zod)
 
-**LUON validate du lieu tren server.** Khong bao gio tin tuong du lieu tu client.
+**LUÔN validate dữ liệu trên server.** Không bao giờ tin tưởng dữ liệu từ client.
 
 ```tsx
 // app/actions/san-pham.ts
@@ -437,19 +437,19 @@ import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
 
-// Schema validation voi Zod
+// Schema validation với Zod
 const SanPhamSchema = z.object({
   ten: z
     .string()
-    .min(1, 'Ten san pham khong duoc de trong')
-    .max(100, 'Ten san pham qua dai (toi da 100 ky tu)'),
+    .min(1, 'Tên sản phẩm khong duoc de trong')
+    .max(100, 'Tên sản phẩm qua dai (toi da 100 ky tu)'),
   gia: z
     .number()
-    .positive('Gia phai lon hon 0')
-    .max(999999999, 'Gia qua cao'),
+    .positive('Giá phải lớn hơn 0')
+    .max(999999999, 'Giá quá cao'),
   moTa: z
     .string()
-    .max(1000, 'Mo ta qua dai (toi da 1000 ky tu)')
+    .max(1000, 'Mô tả quá dài (tối đa 1000 ký tự)')
     .optional(),
 });
 
@@ -467,21 +467,21 @@ export async function taoSanPham(
   trangThaiTruoc: TrangThai,
   formData: FormData
 ): Promise<TrangThai> {
-  // Parse va validate du lieu
+  // Parse và validate dữ liệu
   const ketQuaValidate = SanPhamSchema.safeParse({
     ten: formData.get('ten'),
     gia: Number(formData.get('gia')),
     moTa: formData.get('moTa') || undefined,
   });
 
-  // Neu validation fail -- tra ve loi chi tiet
+  // Nếu validation fail -- trả về lỗi chi tiết
   if (!ketQuaValidate.success) {
     return {
       loi: ketQuaValidate.error.flatten().fieldErrors,
     };
   }
 
-  // Du lieu da validate -- an toan de luu vao database
+  // Dữ liệu đã validate -- an toàn để lưu vào database
   try {
     await prisma.sanPham.create({
       data: ketQuaValidate.data,
@@ -491,13 +491,13 @@ export async function taoSanPham(
     return { thanhCong: true };
   } catch (error) {
     return {
-      loi: { chung: 'Co loi khi tao san pham. Vui long thu lai.' },
+      loi: { chung: 'Có lỗi khi tạo sản phẩm. Vui lòng thử lại.' },
     };
   }
 }
 ```
 
-Hien thi loi validation trong form:
+Hiển thị lỗi validation trong form:
 
 ```tsx
 'use client';
@@ -512,9 +512,9 @@ export default function FormTaoSanPham() {
   return (
     <form action={formAction}>
       <div>
-        <label>Ten san pham</label>
+        <label>Tên sản phẩm</label>
         <input name="ten" required />
-        {/* Hien thi loi validation cho tung truong */}
+        {/* Hiển thị lỗi validation cho từng trường */}
         {trangThai.loi?.ten && (
           <span className="loi">{trangThai.loi.ten[0]}</span>
         )}
@@ -536,17 +536,17 @@ export default function FormTaoSanPham() {
         )}
       </div>
 
-      {/* Loi chung */}
+      {/* Lỗi chung */}
       {trangThai.loi?.chung && (
         <div className="loi">{trangThai.loi.chung}</div>
       )}
 
       {trangThai.thanhCong && (
-        <div className="thanh-cong">Tao san pham thanh cong!</div>
+        <div className="thanh-cong">Tạo sản phẩm thanh cong!</div>
       )}
 
       <button type="submit" disabled={dangGui}>
-        {dangGui ? 'Dang tao...' : 'Tao san pham'}
+        {dangGui ? 'Đang tạo...' : 'Tạo sản phẩm'}
       </button>
     </form>
   );
@@ -555,9 +555,9 @@ export default function FormTaoSanPham() {
 
 ---
 
-## 8. Optimistic Updates voi `useOptimistic`
+## 8. Optimistic Updates với `useOptimistic`
 
-`useOptimistic` cho phep ban **cap nhat UI ngay lap tuc** truoc khi server tra ket qua. Neu server action that bai, UI tu dong quay lai trang thai cu. Giong nhu ban gui tin nhan -- tin nhan hien ngay tren man hinh, con dau tich "Da gui" se xuat hien sau khi server xac nhan.
+`useOptimistic` cho phép bạn **cập nhật UI ngay lập tức** trước khi server trả kết quả. Nếu server action thất bại, UI tự động quay lại trạng thái cũ. Giống như bạn gửi tin nhắn -- tin nhắn hiện ngay trên màn hình, còn dấu tích "Đã gửi" sẽ xuất hiện sau khi server xác nhận.
 
 ```tsx
 'use client';
@@ -570,7 +570,7 @@ type BinhLuan = {
   id: string;
   noiDung: string;
   nguoiViet: string;
-  dangGui?: boolean; // Danh dau binh luan optimistic (chua gui xong)
+  dangGui?: boolean; // Đánh dấu bình luận optimistic (chưa gửi xong)
 };
 
 export default function DanhSachBinhLuan({
@@ -590,35 +590,35 @@ export default function DanhSachBinhLuan({
   async function xuLyGuiBinhLuan(formData: FormData) {
     const noiDung = formData.get('noiDung') as string;
 
-    // Cap nhat UI ngay lap tuc (optimistic)
+    // Cập nhật UI ngay lập tức (optimistic)
     themBinhLuanOptimistic({
       id: 'temp-' + Date.now(),
       noiDung,
       nguoiViet: 'Ban',
     });
 
-    // Gui len server (chay o background)
+    // Gửi lên server (chạy ở background)
     await themBinhLuan(formData);
   }
 
   return (
     <div>
-      <h2>Binh luan</h2>
+      <h2>Bình luận</h2>
 
-      {/* Hien thi danh sach binh luan (bao gom optimistic) */}
+      {/* Hiển thị danh sách bình luận (bao gồm optimistic) */}
       {binhLuanOptimistic.map((bl) => (
         <div
           key={bl.id}
           style={{ opacity: bl.dangGui ? 0.5 : 1 }}
         >
           <strong>{bl.nguoiViet}:</strong> {bl.noiDung}
-          {bl.dangGui && <span> (dang gui...)</span>}
+          {bl.dangGui && <span> (đang gửi...)</span>}
         </div>
       ))}
 
-      {/* Form them binh luan */}
+      {/* Form thêm bình luận */}
       <form action={xuLyGuiBinhLuan}>
-        <input name="noiDung" placeholder="Viet binh luan..." required />
+        <input name="noiDung" placeholder="Viết bình luận..." required />
         <button type="submit">Gui</button>
       </form>
     </div>
@@ -628,11 +628,11 @@ export default function DanhSachBinhLuan({
 
 ---
 
-## 9. Security: Bao mat Server Actions
+## 9. Security: Bảo mật Server Actions
 
 ### Input Validation
 
-**LUON validate moi input** tu client. Khong bao gio tin tuong `formData`:
+**LUÔN validate mọi input** từ client. Không bao giờ tin tưởng `formData`:
 
 ```tsx
 'use server';
@@ -640,7 +640,7 @@ export default function DanhSachBinhLuan({
 import { z } from 'zod';
 
 export async function capNhatProfile(formData: FormData) {
-  // LUON validate -- user co the sua formData trong DevTools
+  // LUÔN validate -- user có thể sửa formData trong DevTools
   const schema = z.object({
     ten: z.string().min(1).max(100),
     email: z.string().email(),
@@ -652,10 +652,10 @@ export async function capNhatProfile(formData: FormData) {
   });
 
   if (!ketQua.success) {
-    return { loi: 'Du lieu khong hop le' };
+    return { loi: 'Dữ liệu không hợp lệ' };
   }
 
-  // Dung ketQua.data (da validate) thay vi formData
+  // Dùng ketQua.data (đã validate) thay vì formData
   await prisma.user.update({
     where: { id: userId },
     data: ketQua.data,
@@ -665,7 +665,7 @@ export async function capNhatProfile(formData: FormData) {
 
 ### Authentication Check
 
-**LUON kiem tra nguoi dung da dang nhap** truoc khi thuc hien Server Action:
+**LUÔN kiểm tra người dùng đã đăng nhập** trước khi thực hiện Server Action:
 
 ```tsx
 'use server';
@@ -674,22 +674,22 @@ import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 
 export async function xoaBaiViet(baiVietId: string) {
-  // Kiem tra authentication
+  // Kiểm tra authentication
   const session = await auth();
   if (!session?.user) {
     redirect('/dang-nhap');
   }
 
-  // Kiem tra authorization -- chi chu so huu moi duoc xoa
+  // Kiểm tra authorization -- chỉ chủ sở hữu mới được xóa
   const baiViet = await prisma.baiViet.findUnique({
     where: { id: baiVietId },
   });
 
   if (baiViet?.authorId !== session.user.id) {
-    throw new Error('Ban khong co quyen xoa bai viet nay');
+    throw new Error('Bạn không có quyền xóa bài viết này');
   }
 
-  // An toan de xoa
+  // An toàn để xóa
   await prisma.baiViet.delete({
     where: { id: baiVietId },
   });
@@ -698,17 +698,17 @@ export async function xoaBaiViet(baiVietId: string) {
 }
 ```
 
-### Khong tra ve du lieu nhay cam
+### Không trả về dữ liệu nhạy cảm
 
 ```tsx
 'use server';
 
-// SAI -- tra ve toan bo user object (co the chua password hash, etc.)
+// SAI -- trả về toàn bộ user object (có thể chứa password hash, etc.)
 export async function layUser(id: string) {
   return await prisma.user.findUnique({ where: { id } });
 }
 
-// DUNG -- chi tra ve cac truong can thiet
+// ĐÚNG -- chỉ trả về các trường cần thiết
 export async function layUser(id: string) {
   return await prisma.user.findUnique({
     where: { id },
@@ -716,7 +716,7 @@ export async function layUser(id: string) {
       id: true,
       ten: true,
       email: true,
-      // KHONG select password, token, etc.
+      // KHÔNG select password, token, etc.
     },
   });
 }
@@ -724,33 +724,33 @@ export async function layUser(id: string) {
 
 ---
 
-## 10. Loi thuong gap
+## 10. Lỗi thường gặp
 
-### Loi 1: Goi Server Action tu module khong co `"use server"`
+### Lỗi 1: Gọi Server Action từ module không có `"use server"`
 
 ```tsx
-// SAI -- thieu "use server"
+// SAI -- thiếu "use server"
 // app/actions/todo.ts
 export async function taoTodo(formData: FormData) {
-  // Ham nay khong phai Server Action -- se chay tren client!
+  // Hàm này không phải Server Action -- sẽ chạy trên client!
 }
 
-// DUNG -- them "use server" o dau file hoac trong ham
+// ĐÚNG -- thêm "use server" ở đầu file hoặc trong hàm
 // app/actions/todo.ts
 'use server';
 
 export async function taoTodo(formData: FormData) {
-  // Bay gio day la Server Action that su
+  // Bây giờ đây là Server Action thật sự
 }
 ```
 
-### Loi 2: Dung useFormStatus o sai vi tri
+### Lỗi 2: Dùng useFormStatus ở sai vị trí
 
 ```tsx
-// SAI -- useFormStatus trong component chua form
+// SAI -- useFormStatus trong component chứa form
 'use client';
 export default function Form() {
-  const { pending } = useFormStatus(); // KHONG hoat dong!
+  const { pending } = useFormStatus(); // KHÔNG hoạt động!
   return (
     <form action={action}>
       <button disabled={pending}>Gui</button>
@@ -758,112 +758,112 @@ export default function Form() {
   );
 }
 
-// DUNG -- useFormStatus trong component con cua form
+// ĐÚNG -- useFormStatus trong component con cua form
 function SubmitButton() {
   const { pending } = useFormStatus();
   return <button disabled={pending}>Gui</button>;
 }
 ```
 
-### Loi 3: Khong validate du lieu tren server
+### Lỗi 3: Không validate dữ liệu trên server
 
 ```tsx
-// SAI -- tin tuong du lieu tu client
+// SAI -- tin tưởng dữ liệu từ client
 'use server';
 export async function taoUser(formData: FormData) {
   const email = formData.get('email') as string;
-  // Truc tiep insert khong validate -- NGUY HIEM!
+  // Trực tiếp insert không validate -- NGUY HIỂM!
   await db.insert(users).values({ email });
 }
 
-// DUNG -- validate truoc khi xu ly
+// ĐÚNG -- validate trước khi xử lý
 'use server';
 export async function taoUser(formData: FormData) {
   const email = formData.get('email') as string;
   if (!email || !email.includes('@')) {
-    return { loi: 'Email khong hop le' };
+    return { loi: 'Email không hợp lệ' };
   }
   await db.insert(users).values({ email });
 }
 ```
 
-### Loi 4: Truyen ham khong phai Server Action vao form action
+### Lỗi 4: Truyền hàm không phải Server Action vào form action
 
 ```tsx
-// SAI -- ham thuong khong phai Server Action
+// SAI -- hàm thường không phải Server Action
 function xuLy(formData: FormData) {
-  console.log(formData); // Chay tren client, khong phai server!
+  console.log(formData); // Chạy trên client, không phải server!
 }
 
-<form action={xuLy}> {/* Khong hoat dong nhu mong doi */}
+<form action={xuLy}> {/* Không hoạt động như mong đợi */}
 ```
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### Cau 1: Server Actions la gi va chung hoat dong nhu the nao?
+### Câu 1: Server Actions là gì và chúng hoạt động như thế nào?
 
-**Tra loi:**
+**Trả lời:**
 
-Server Actions la cac ham async duoc danh dau bang directive `"use server"`, chay tren server nhung co the duoc goi tu client. Khi ban truyen Server Action vao `<form action>` hoac goi no tu event handler, Next.js tu dong:
+Server Actions là các hàm async được đánh dấu bằng directive `"use server"`, chạy trên server nhưng có thể được gọi từ client. Khi bạn truyền Server Action vào `<form action>` hoặc gọi nó từ event handler, Next.js tự động:
 
-1. Serialize cac tham so (FormData hoac tham so thong thuong)
-2. Gui HTTP POST request den server
-3. Thuc thi ham tren server
-4. Tra ket qua ve client
-5. Tu dong rehydrate UI voi du lieu moi
+1. Serialize các tham số (FormData hoặc tham số thông thường)
+2. Gửi HTTP POST request đến server
+3. Thực thi hàm trên server
+4. Trả kết quả về client
+5. Tự động rehydrate UI với dữ liệu mới
 
-Chung thay the nhu cau tao API routes rieng cho cac thao tac nhu form submission, database mutations, etc.
+Chúng thay thế nhu cầu tạo API routes riêng cho các thao tác như form submission, database mutations, etc.
 
-### Cau 2: Su khac nhau giua Inline va Module-level Server Actions?
+### Câu 2: Sự khác nhau giữa Inline và Module-level Server Actions?
 
-**Tra loi:**
+**Trả lời:**
 
-- **Inline:** Dinh nghia trong body cua Server Component voi `"use server"` trong ham. Tien cho action don gian, dung 1 cho.
+- **Inline:** Định nghĩa trong body của Server Component với `"use server"` trong ham. Tiện cho action đơn giản, dùng 1 chỗ.
 
-- **Module-level:** Dinh nghia trong file rieng voi `"use server"` o dau file. Tat ca ham export deu la Server Actions. Uu diem la co the **tai su dung** o nhieu component, to chuc code sach se hon.
+- **Module-level:** Định nghĩa trong file riêng với `"use server"` ở đầu file. Tất cả hàm export đều là Server Actions. Ưu điểm là có thể **tái sử dụng** ở nhiều component, tổ chức code sạch sẽ hơn.
 
-Module-level la cach duoc khuyen nghi cho du an that vi de bao tri va test.
+Module-level là cách được khuyến nghị cho dự án thật vì dễ bảo trì và test.
 
-### Cau 3: Lam sao bao mat Server Actions?
+### Câu 3: Làm sao bảo mật Server Actions?
 
-**Tra loi:**
+**Trả lời:**
 
-3 nguyen tac bao mat quan trong:
+3 nguyên tắc bảo mật quan trọng:
 
-1. **Validate input:** LUON validate moi du lieu tu client bang Zod hoac Joi. Khong bao gio tin tuong FormData -- user co the sua trong DevTools.
+1. **Validate input:** LUÔN validate mọi dữ liệu từ client bằng Zod hoặc Joi. Không bao giờ tin tưởng FormData -- user có thể sửa trong DevTools.
 
-2. **Authentication:** Kiem tra session/token truoc khi thuc hien bat ky action nao. Dung `auth()` hoac tuong tu.
+2. **Authentication:** Kiểm tra session/token trước khi thực hiện bất kỳ action nào. Dùng `auth()` hoặc tương tự.
 
-3. **Authorization:** Kiem tra quyen cua user. Vi du: chi cho phep user xoa bai viet cua chinh ho.
+3. **Authorization:** Kiểm tra quyền của user. Ví dụ: chỉ cho phép user xóa bài viết của chính họ.
 
-Ngoai ra: khong tra ve du lieu nhay cam (password hash, tokens), dung rate limiting, va log moi action quan trong.
+Ngoài ra: không trả về dữ liệu nhạy cảm (password hash, tokens), dùng rate limiting, và log mọi action quan trọng.
 
-### Cau 4: useOptimistic hoat dong nhu the nao?
+### Câu 4: useOptimistic hoạt động như thế nào?
 
-**Tra loi:**
+**Trả lời:**
 
-`useOptimistic` cho phep cap nhat UI ngay lap tuc (truoc khi server tra ket qua):
+`useOptimistic` cho phép cập nhật UI ngay lập tức (trước khi server trả kết quả):
 
-1. User thuc hien hanh dong (vi du: gui binh luan)
-2. UI cap nhat ngay (hien binh luan moi voi trang thai "dang gui")
-3. Server Action chay o background
-4. Neu thanh cong: Server tra du lieu that, UI cap nhat lai voi du lieu tu server
-5. Neu that bai: UI tu dong quay lai trang thai truoc do
+1. User thực hiện hành động (ví dụ: gửi bình luận)
+2. UI cập nhật ngay (hiện bình luận mới với trạng thái "đang gửi")
+3. Server Action chạy ở background
+4. Nếu thành công: Server trả dữ liệu thật, UI cập nhật lại với dữ liệu từ server
+5. Nếu thất bại: UI tự động quay lại trạng thái trước đó
 
-Diem manh: UX muot ma, khong co cam giac "doi server". Diem yeu: can xu ly truong hop rollback khi server that bai.
+Điểm mạnh: UX mượt mà, không có cảm giác "đợi server". Điểm yếu: cần xử lý trường hợp rollback khi server thất bại.
 
-### Cau 5: Tai sao Server Actions tot hon API Routes cho form handling?
+### Câu 5: Tại sao Server Actions tốt hơn API Routes cho form handling?
 
-**Tra loi:**
+**Trả lời:**
 
-Server Actions uu viet hon API Routes o nhieu diem:
+Server Actions ưu việt hơn API Routes ở nhiều điểm:
 
-1. **It code hon:** Khong can tao file route rieng, khong can fetch(), khong can xu ly request/response
-2. **Type-safe:** TypeScript ho tro tu dau den cuoi -- tham so va ket qua duoc type check
-3. **Progressive Enhancement:** Form voi Server Actions hoat dong ca khi JavaScript bi tat (browser gui POST request binh thuong)
-4. **Tich hop tot:** Tu dong tich hop voi caching (`revalidatePath`, `revalidateTag`) va navigation (`redirect`)
-5. **Colocation:** Logic xu ly dat gan voi UI su dung no, de doc va bao tri hon
+1. **Ít code hơn:** Không cần tạo file route riêng, không cần fetch(), không cần xử lý request/response
+2. **Type-safe:** TypeScript hỗ trợ từ đầu đến cuối -- tham số và kết quả được type check
+3. **Progressive Enhancement:** Form với Server Actions hoạt động cả khi JavaScript bị tắt (browser gửi POST request bình thường)
+4. **Tích hợp tốt:** Tự động tích hợp với caching (`revalidatePath`, `revalidateTag`) và navigation (`redirect`)
+5. **Colocation:** Logic xử lý đặt gần với UI sử dụng nó, dễ đọc và bảo trì hơn
 
-Tuy nhien, API Routes van can thiet cho: webhook, third-party integrations, hoac API public cho mobile app.
+Tuy nhiên, API Routes vẫn cần thiết cho: webhook, third-party integrations, hoặc API public cho mobile app.

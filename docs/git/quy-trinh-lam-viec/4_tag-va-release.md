@@ -3,73 +3,73 @@ sidebar_position: 4
 title: "Tag va Release"
 ---
 
-# Tag va Release
+# Tag và Release
 
-Khi du an cua ban dat den mot moc quan trong — phien ban dau tien, ban sua loi lon, hoac tinh nang moi — ban can **danh dau** thoi diem do trong lich su Git. Day la luc **tag** phat huy tac dung. Ket hop voi **GitHub Releases**, ban co the dong goi phan mem, viet release notes, va phan phoi den nguoi dung. Bai nay se huong dan ban moi thu tu tag co ban den quy trinh release chuyen nghiep.
+Khi dự án của bạn đạt đến một mốc quan trọng — phiên bản đầu tiên, bản sửa lỗi lớn, hoặc tính năng mới — bạn cần **đánh dấu** thời điểm đó trong lịch sử Git. Đây là lúc **tag** phát huy tác dụng. Kết hợp với **GitHub Releases**, bạn có thể đóng gói phần mềm, viết release notes, và phân phối đến người dùng. Bài này sẽ hướng dẫn bạn mọi thứ từ tag cơ bản đến quy trình release chuyên nghiệp.
 
 ---
 
-## 1. Tag la gi?
+## 1. Tag là gì?
 
-Tag la mot **"nhan dan" (label)** tren mot commit cu the trong lich su Git. Khac voi branch (thay doi theo thoi gian), tag la **co dinh** — no luon tro den cung mot commit.
+Tag là một **"nhãn dán" (label)** trên một commit cụ thể trong lịch sử Git. Khác với branch (thay đổi theo thời gian), tag là **cố định** — nó luôn trỏ đến cùng một commit.
 
 ```
   main:  --o---o---o---o---o---o---o---o--->
               |         |              |
             v1.0.0    v1.1.0         v2.0.0
               |         |              |
-           Tag nay luon tro den commit nay, khong bao gio thay doi
+           Tag này luôn trỏ đến commit này, không bao giờ thay đổi
 ```
 
-**Tai sao can tag?**
+**Tại sao cần tag?**
 
-| Muc dich | Giai thich |
+| Mục đích | Giải thích |
 |----------|-----------|
-| **Danh dau release** | "Day la code cua version 1.0.0" |
-| **Diem tham chieu** | Quay lai xem code tai bat ky version nao |
-| **Trigger CI/CD** | Push tag → tu dong build va deploy |
-| **Tao GitHub Release** | Release notes, download binaries |
-| **Debugging** | "Bug nay xuat hien tu version nao?" |
+| **Đánh dấu release** | "Đây là code của version 1.0.0" |
+| **Điểm tham chiếu** | Quay lại xem code tại bất kỳ version nào |
+| **Trigger CI/CD** | Push tag -> tự động build và deploy |
+| **Tạo GitHub Release** | Release notes, download binaries |
+| **Debugging** | "Bug này xuất hiện từ version nào?" |
 
 ---
 
-## 2. Hai loai Tag
+## 2. Hai loại Tag
 
-Git co 2 loai tag, khac nhau ve luong thong tin luu tru:
+Git có 2 loại tag, khác nhau về lượng thông tin lưu trữ:
 
-### 2.1. Lightweight Tag — Don gian
+### 2.1. Lightweight Tag — Đơn giản
 
-Lightweight tag chi la **mot con tro** den commit, khong co them thong tin gi.
+Lightweight tag chỉ là **một con trỏ** đến commit, không có thêm thông tin gì.
 
 ```bash
-# Tao lightweight tag
+# Tạo lightweight tag
 git tag v1.0.0
 
-# Tag tren 1 commit cu the (khong phai HEAD)
+# Tag trên 1 commit cụ thể (không phải HEAD)
 git tag v0.9.0 abc1234
-# abc1234 la hash cua commit ban muon tag
+# abc1234 là hash của commit bạn muốn tag
 
-# Xem thong tin — chi co hash
+# Xem thông tin — chỉ có hash
 git show v1.0.0
 # commit abc1234...
 # Author: ...
 # Date: ...
-# (khong co them thong tin gi ngoai commit)
+# (không có thêm thông tin gì ngoài commit)
 ```
 
-### 2.2. Annotated Tag — Day du thong tin
+### 2.2. Annotated Tag — Đầy đủ thông tin
 
-Annotated tag la mot **Git object** rieng biet, chua day du thong tin:
+Annotated tag là một **Git object** riêng biệt, chứa đầy đủ thông tin:
 
 ```bash
-# Tao annotated tag voi message
+# Tạo annotated tag với message
 git tag -a v1.0.0 -m "Release version 1.0.0 - First stable release"
 
-# Xem thong tin — co nhieu hon
+# Xem thông tin — có nhiều hơn
 git show v1.0.0
 # tag v1.0.0
-# Tagger: Alice <alice@example.com>       ← ai tao tag
-# Date:   Sat Mar 15 10:30:00 2024        ← tao luc nao
+# Tagger: Alice <alice@example.com>       ← ai tạo tag
+# Date:   Sat Mar 15 10:30:00 2024        ← tạo lúc nào
 #
 # Release version 1.0.0 - First stable release  ← message
 #
@@ -77,44 +77,44 @@ git show v1.0.0
 # Author: ...
 ```
 
-### 2.3. So sanh
+### 2.3. So sánh
 
-| Dac diem | Lightweight | Annotated |
+| Đặc điểm | Lightweight | Annotated |
 |----------|------------|-----------|
-| **Tagger (nguoi tao)** | Khong luu | Co luu |
-| **Ngay tao** | Khong luu | Co luu |
-| **Message** | Khong co | Co |
-| **Co the ky GPG** | Khong | Co (`git tag -s`) |
-| **La Git object** | Khong (chi la pointer) | Co |
-| **Khi nao dung** | Tag tam, noi bo | Release chinh thuc |
+| **Tagger (người tạo)** | Không lưu | Có lưu |
+| **Ngày tạo** | Không lưu | Có lưu |
+| **Message** | Không có | Có |
+| **Có thể ký GPG** | Không | Có (`git tag -s`) |
+| **Là Git object** | Không (chỉ là pointer) | Có |
+| **Khi nào dùng** | Tag tạm, nội bộ | Release chính thức |
 
 ```bash
-# Quy tac chung:
-# - Release tags (v1.0.0, v2.0.0) → LUON dung Annotated
-# - Tag tam (test, debug) → Co the dung Lightweight
-# - Co the ky GPG → Chi Annotated
+# Quy tắc chung:
+# - Release tags (v1.0.0, v2.0.0) → LUÔN dùng Annotated
+# - Tag tạm (test, debug) → Có thể dùng Lightweight
+# - Có thể ký GPG → Chỉ Annotated
 
-# Tao annotated tag voi GPG signature (bao mat cao)
+# Tạo annotated tag với GPG signature (bảo mật cao)
 git tag -s v1.0.0 -m "Signed release v1.0.0"
-# Can co GPG key da cau hinh
+# Cần có GPG key đã cấu hình
 ```
 
 ---
 
-## 3. Cac thao tac voi Tag
+## 3. Các thao tác với Tag
 
-### 3.1. Tao tag
+### 3.1. Tạo tag
 
 ```bash
 # --- Lightweight tag ---
-git tag v1.0.0                          # Tag tai HEAD hien tai
-git tag v0.9.0 abc1234                  # Tag tai commit cu the
+git tag v1.0.0                          # Tag tại HEAD hiện tại
+git tag v0.9.0 abc1234                  # Tag tại commit cụ thể
 
 # --- Annotated tag ---
-git tag -a v1.0.0 -m "First release"   # Tag tai HEAD voi message
-git tag -a v1.0.0 abc1234 -m "Release" # Tag tai commit cu the
+git tag -a v1.0.0 -m "First release"   # Tag tại HEAD với message
+git tag -a v1.0.0 abc1234 -m "Release" # Tag tại commit cụ thể
 
-# --- Tag voi nhieu dong message ---
+# --- Tag với nhiều dòng message ---
 git tag -a v2.0.0 -m "Release v2.0.0
 
 Major changes:
@@ -127,17 +127,17 @@ Breaking changes:
 - Old auth tokens invalidated"
 ```
 
-### 3.2. Liet ke tags
+### 3.2. Liệt kê tags
 
 ```bash
-# Liet ke tat ca tags
+# Liệt kê tất cả tags
 git tag
 # v1.0.0
 # v1.0.1
 # v1.1.0
 # v2.0.0
 
-# Loc theo pattern
+# Lọc theo pattern
 git tag -l "v1.*"
 # v1.0.0
 # v1.0.1
@@ -146,14 +146,14 @@ git tag -l "v1.*"
 git tag -l "v2.*"
 # v2.0.0
 
-# Sap xep theo version (khong phai alphabet)
+# Sắp xếp theo version (không phải alphabet)
 git tag -l --sort=-version:refname
 # v2.0.0
 # v1.1.0
 # v1.0.1
 # v1.0.0
 
-# Xem tag voi thong tin commit
+# Xem tag với thông tin commit
 git tag -l -n1
 # v1.0.0   First stable release
 # v1.0.1   Hotfix: payment crash
@@ -161,73 +161,73 @@ git tag -l -n1
 # v2.0.0   Major redesign
 ```
 
-### 3.3. Push tags len remote
+### 3.3. Push tags lên remote
 
 ```bash
-# QUAN TRONG: git push KHONG tu dong push tags!
-# Ban phai push tags rieng:
+# QUAN TRỌNG: git push KHÔNG tự động push tags!
+# Bạn phải push tags riêng:
 
-# Push 1 tag cu the
+# Push 1 tag cụ thể
 git push origin v1.0.0
 
-# Push TAT CA tags cung luc
+# Push TẤT CẢ tags cùng lúc
 git push origin --tags
 
-# Push chi annotated tags (bo qua lightweight)
+# Push chỉ annotated tags (bỏ qua lightweight)
 git push origin --follow-tags
 ```
 
-**Meo:** Cau hinh Git tu dong push annotated tags:
+**Mẹo:** Cấu hình Git tự động push annotated tags:
 
 ```bash
-# Tu dong push annotated tags khi git push
+# Tự động push annotated tags khi git push
 git config --global push.followTags true
 
-# Sau do chi can:
+# Sau đó chỉ cần:
 git push
-# Se push ca commits VA annotated tags
+# Sẽ push cả commits VÀ annotated tags
 ```
 
-### 3.4. Xoa tag
+### 3.4. Xóa tag
 
 ```bash
-# Xoa tag local
+# Xóa tag local
 git tag -d v1.0.0
 # Deleted tag 'v1.0.0'
 
-# Xoa tag tren remote
+# Xóa tag trên remote
 git push origin --delete v1.0.0
-# Hoac:
+# Hoặc:
 git push origin :refs/tags/v1.0.0
 
-# Xoa va tao lai tag (point den commit khac)
+# Xóa và tạo lại tag (point đến commit khác)
 git tag -d v1.0.0
 git tag -a v1.0.0 new-commit-hash -m "Corrected release"
 git push origin --delete v1.0.0
 git push origin v1.0.0
 ```
 
-**Canh bao:** Xoa tag da public la **rat nguy hiem**! Neu nguoi khac da pull tag do, ho se co tag cu tro den commit cu. Chi xoa tag khi thuc su can thiet va thong bao team.
+**Cảnh báo:** Xóa tag đã public là **rất nguy hiểm**! Nếu người khác đã pull tag đó, họ sẽ có tag cũ trỏ đến commit cũ. Chỉ xóa tag khi thực sự cần thiết và thông báo team.
 
-### 3.5. Checkout code tai 1 tag
+### 3.5. Checkout code tại 1 tag
 
 ```bash
-# Xem code tai version cu the
+# Xem code tại version cụ thể
 git checkout v1.0.0
-# Luu y: ban dang o "detached HEAD" state
-# Khong nen commit truc tiep o day
+# Lưu ý: bạn đang ở "detached HEAD" state
+# Không nên commit trực tiếp ở đây
 
-# Neu muon lam viec tu 1 tag cu, tao branch moi
+# Nếu muốn làm việc từ 1 tag cũ, tạo branch mới
 git checkout -b hotfix/v1.0.1 v1.0.0
-# Bay gio ban co branch moi bat dau tu v1.0.0
+# Bây giờ bạn có branch mới bắt đầu từ v1.0.0
 
-# So sanh 2 tags
+# So sánh 2 tags
 git diff v1.0.0 v2.0.0
-git diff v1.0.0 v2.0.0 --stat  # Chi xem ten file thay doi
+git diff v1.0.0 v2.0.0 --stat  # Chỉ xem tên file thay đổi
 
-# Log giua 2 tags
+# Log giữa 2 tags
 git log v1.0.0..v2.0.0 --oneline
-# Thay tat ca commits giua 2 versions
+# Thấy tất cả commits giữa 2 versions
 ```
 
 ---
@@ -239,54 +239,54 @@ git log v1.0.0..v2.0.0 --oneline
 ```
 MAJOR.MINOR.PATCH
   |     |     |
-  |     |     +-- Sua loi, khong doi API     (backward compatible bug fix)
-  |     +-- Them tinh nang moi, khong doi API (backward compatible feature)
-  +-- Thay doi khong tuong thich nguoc        (breaking changes)
+  |     |     +-- Sửa lỗi, không đổi API     (backward compatible bug fix)
+  |     +-- Thêm tính năng mới, không đổi API (backward compatible feature)
+  +-- Thay đổi không tương thích ngược        (breaking changes)
 
-Vi du: 2.4.1
+Ví dụ: 2.4.1
        | | |
-       | | +-- Patch: lan sua loi thu 1
-       | +-- Minor: lan them tinh nang thu 4
-       +-- Major: lan breaking change thu 2
+       | | +-- Patch: lần sửa lỗi thứ 1
+       | +-- Minor: lần thêm tính năng thứ 4
+       +-- Major: lần breaking change thứ 2
 ```
 
-### 4.2. Khi nao tang version nao?
+### 4.2. Khi nào tăng version nào?
 
-| Thay doi | Tang | Vi du | Giai thich |
+| Thay đổi | Tăng | Ví dụ | Giải thích |
 |----------|------|-------|-----------|
-| Sua loi nho | PATCH | 1.0.0 → 1.0.1 | Fix bug, khong doi API |
-| Them tinh nang moi | MINOR | 1.0.0 → 1.1.0 | Them endpoint moi, them option moi |
-| Thay doi breaking | MAJOR | 1.0.0 → 2.0.0 | Xoa endpoint, doi format response |
-| Sua nhieu loi | PATCH | 1.2.3 → 1.2.4 | Van la patch du sua nhieu bug |
-| Them tinh nang + sua loi | MINOR | 1.2.3 → 1.3.0 | MINOR "thang" PATCH, reset PATCH ve 0 |
-| Breaking + tinh nang moi | MAJOR | 1.2.3 → 2.0.0 | MAJOR "thang" tat ca, reset MINOR va PATCH ve 0 |
+| Sửa lỗi nhỏ | PATCH | 1.0.0 → 1.0.1 | Fix bug, không đổi API |
+| Thêm tính năng mới | MINOR | 1.0.0 → 1.1.0 | Thêm endpoint mới, thêm option mới |
+| Thay đổi breaking | MAJOR | 1.0.0 → 2.0.0 | Xóa endpoint, đổi format response |
+| Sửa nhiều lỗi | PATCH | 1.2.3 → 1.2.4 | Vẫn là patch dù sửa nhiều bug |
+| Thêm tính năng + sửa lỗi | MINOR | 1.2.3 → 1.3.0 | MINOR "thắng" PATCH, reset PATCH về 0 |
+| Breaking + tính năng mới | MAJOR | 1.2.3 → 2.0.0 | MAJOR "thắng" tất cả, reset MINOR và PATCH về 0 |
 
 ### 4.3. Pre-release versions
 
-Truoc khi release chinh thuc, ban co the phat hanh ban pre-release:
+Trước khi release chính thức, bạn có thể phát hành bản pre-release:
 
 ```bash
-# Alpha — giai doan phat trien som, nhieu bug
+# Alpha — giai đoạn phát triển sớm, nhiều bug
 git tag -a v2.0.0-alpha.1 -m "Alpha 1 of version 2.0"
 git tag -a v2.0.0-alpha.2 -m "Alpha 2 — fixed major crashes"
 
-# Beta — tinh nang co ban hoan thanh, con bug
+# Beta — tính năng cơ bản hoàn thành, còn bug
 git tag -a v2.0.0-beta.1 -m "Beta 1 — feature complete"
 git tag -a v2.0.0-beta.2 -m "Beta 2 — performance improvements"
 
-# Release Candidate (RC) — gan nhu san sang, chi fix bug
+# Release Candidate (RC) — gần như sẵn sàng, chỉ fix bug
 git tag -a v2.0.0-rc.1 -m "Release candidate 1"
 git tag -a v2.0.0-rc.2 -m "Release candidate 2 — final fixes"
 
-# Release chinh thuc
+# Release chính thức
 git tag -a v2.0.0 -m "Version 2.0.0 — stable release"
 ```
 
 ```
-Thu tu pre-release:
+Thứ tự pre-release:
 alpha.1 < alpha.2 < beta.1 < beta.2 < rc.1 < rc.2 < release
 
-Vong doi day du:
+Vòng đời đầy đủ:
 v2.0.0-alpha.1 → v2.0.0-alpha.2 → v2.0.0-beta.1 →
 v2.0.0-beta.2 → v2.0.0-rc.1 → v2.0.0-rc.2 → v2.0.0
 ```
@@ -294,20 +294,20 @@ v2.0.0-beta.2 → v2.0.0-rc.1 → v2.0.0-rc.2 → v2.0.0
 ### 4.4. Build metadata
 
 ```bash
-# Them thong tin build (khong anh huong version ordering)
+# Thêm thông tin build (không ảnh hưởng version ordering)
 git tag -a v1.0.0+build.123 -m "Build 123"
 git tag -a v1.0.0+20240315 -m "Build date March 15"
 
-# v1.0.0+build.123 == v1.0.0 (cung version, khac build)
+# v1.0.0+build.123 == v1.0.0 (cùng version, khác build)
 ```
 
 ---
 
 ## 5. GitHub Releases
 
-### 5.1. Release la gi?
+### 5.1. Release là gì?
 
-GitHub Release = Tag + Release Notes + Download Files. No la cach de **phan phoi phan mem** den nguoi dung.
+GitHub Release = Tag + Release Notes + Download Files. Nó là cách để **phân phối phần mềm** đến người dùng.
 
 ```
 +----------------------------------------------+
@@ -334,14 +334,14 @@ GitHub Release = Tag + Release Notes + Download Files. No la cach de **phan phoi
 +----------------------------------------------+
 ```
 
-### 5.2. Tao Release bang GitHub CLI
+### 5.2. Tạo Release bằng GitHub CLI
 
 ```bash
-# Buoc 1: Tao tag (neu chua co)
+# Bước 1: Tạo tag (nếu chưa có)
 git tag -a v2.0.0 -m "Version 2.0.0"
 git push origin v2.0.0
 
-# Buoc 2: Tao release tu tag
+# Bước 2: Tạo release từ tag
 gh release create v2.0.0 \
   --title "Version 2.0.0" \
   --notes "## What's New
@@ -353,7 +353,7 @@ gh release create v2.0.0 \
 - Fixed login crash
 - Fixed image upload on Safari"
 
-# Buoc 3: Upload assets (binaries, archives)
+# Bước 3: Upload assets (binaries, archives)
 gh release upload v2.0.0 ./dist/app-linux.tar.gz
 gh release upload v2.0.0 ./dist/app-macos.dmg
 gh release upload v2.0.0 ./dist/app-windows.exe
@@ -361,13 +361,13 @@ gh release upload v2.0.0 ./dist/app-windows.exe
 
 ### 5.3. Auto-generate Release Notes
 
-GitHub co the tu dong tao release notes tu cac PR da merge:
+GitHub có thể tự động tạo release notes từ các PR đã merge:
 
 ```bash
-# Tu dong tao release notes tu PRs
+# Tự động tạo release notes từ PRs
 gh release create v2.0.0 --generate-notes
 
-# Ket qua tu dong:
+# Kết quả tự động:
 # ## What's Changed
 # * feat: add dark mode by @alice in #42
 # * fix: resolve login crash by @bob in #43
@@ -379,7 +379,7 @@ gh release create v2.0.0 --generate-notes
 # **Full Changelog**: v1.0.0...v2.0.0
 ```
 
-**Cau hinh auto-generate** voi file `.github/release.yml`:
+**Cấu hình auto-generate** với file `.github/release.yml`:
 
 ```yaml
 # .github/release.yml
@@ -407,50 +407,50 @@ changelog:
       - "skip-changelog"
 ```
 
-### 5.4. Pre-release va Draft
+### 5.4. Pre-release và Draft
 
 ```bash
-# Tao pre-release (hien thi bang mau vang, khong phai latest)
+# Tạo pre-release (hiển thị bằng màu vàng, không phải latest)
 gh release create v2.0.0-beta.1 \
   --title "v2.0.0 Beta 1" \
   --prerelease \
   --notes "Beta release for testing"
 
-# Tao draft release (chi team thay, chua public)
+# Tạo draft release (chỉ team thấy, chưa public)
 gh release create v2.0.0 \
   --title "Version 2.0.0" \
   --draft \
   --notes "Draft — do not publish yet"
 
-# Publish draft khi san sang
+# Publish draft khi sẵn sàng
 gh release edit v2.0.0 --draft=false
 ```
 
-### 5.5. Cac thao tac khac voi GitHub CLI
+### 5.5. Các thao tác khác với GitHub CLI
 
 ```bash
-# Liet ke tat ca releases
+# Liệt kê tất cả releases
 gh release list
 
-# Xem chi tiet 1 release
+# Xem chi tiết 1 release
 gh release view v2.0.0
 
-# Xoa release (giu lai tag)
+# Xóa release (giữ lại tag)
 gh release delete v2.0.0
 
-# Xoa release VA tag
+# Xóa release VÀ tag
 gh release delete v2.0.0 --cleanup-tag
 
-# Download assets tu release
+# Download assets từ release
 gh release download v2.0.0
 
-# Sua release notes
+# Sửa release notes
 gh release edit v2.0.0 --notes "Updated release notes"
 ```
 
 ---
 
-## 6. Workflow day du: Tu commit den Release
+## 6. Workflow đầy đủ: Từ commit đến Release
 
 ```
   Developer workflow:
@@ -460,17 +460,17 @@ gh release edit v2.0.0 --notes "Updated release notes"
      git add .
      git commit -m "feat: add new feature"
          |
-  2. Merge vao main (qua PR)
+  2. Merge vào main (qua PR)
      git checkout main
      git merge feature/xxx
          |
-  3. Tao tag
+  3. Tạo tag
      git tag -a v1.2.0 -m "Release v1.2.0"
          |
   4. Push tag
      git push origin v1.2.0
          |
-  5. CI/CD triggered (tu dong)
+  5. CI/CD triggered (tự động)
      - Build
      - Test
      - Create artifacts
@@ -479,52 +479,52 @@ gh release edit v2.0.0 --notes "Updated release notes"
      gh release create v1.2.0 --generate-notes
      gh release upload v1.2.0 ./dist/*
          |
-  7. Deploy (tu dong hoac thu cong)
+  7. Deploy (tự động hoặc thủ công)
      - Staging → Production
 ```
 
-**Script tu dong hoa:**
+**Script tự động hóa:**
 
 ```bash
 #!/bin/bash
-# release.sh — Script tao release
+# release.sh — Script tạo release
 
-# Kiem tra tham so
+# Kiểm tra tham số
 VERSION=$1
 if [ -z "$VERSION" ]; then
-  echo "Su dung: ./release.sh v1.2.0"
+  echo "Sử dụng: ./release.sh v1.2.0"
   exit 1
 fi
 
-echo "Tao release $VERSION..."
+echo "Tạo release $VERSION..."
 
-# Dam bao dang o main va cap nhat
+# Đảm bảo đang ở main và cập nhật
 git checkout main
 git pull origin main
 
-# Tao annotated tag
+# Tạo annotated tag
 git tag -a "$VERSION" -m "Release $VERSION"
 
 # Push tag
 git push origin "$VERSION"
 
-# Tao GitHub Release voi auto-generated notes
+# Tạo GitHub Release với auto-generated notes
 gh release create "$VERSION" \
   --title "Release $VERSION" \
   --generate-notes
 
-echo "Release $VERSION da duoc tao thanh cong!"
-echo "Xem tai: https://github.com/$(gh repo view --json nameWithOwner -q .nameWithOwner)/releases/tag/$VERSION"
+echo "Release $VERSION đã được tạo thành công!"
+echo "Xem tại: https://github.com/$(gh repo view --json nameWithOwner -q .nameWithOwner)/releases/tag/$VERSION"
 ```
 
 ---
 
 ## 7. Versioning strategies cho different project types
 
-| Loai du an | Strategy | Vi du |
+| Loại dự án | Strategy | Ví dụ |
 |-----------|----------|-------|
 | **Library/SDK** | Strict SemVer | v1.0.0, v1.1.0, v2.0.0 |
-| **Web App (SaaS)** | Date-based hoac SemVer | v2024.03.15 hoac v3.2.1 |
+| **Web App (SaaS)** | Date-based hoặc SemVer | v2024.03.15 hoặc v3.2.1 |
 | **Mobile App** | SemVer + build number | v2.1.0 (build 142) |
 | **API** | URL versioning + SemVer | /api/v2/ + tag v2.3.1 |
 | **Monorepo** | Per-package versioning | @mylib/core@1.2.0, @mylib/ui@3.0.0 |
@@ -535,7 +535,7 @@ echo "Xem tai: https://github.com/$(gh repo view --json nameWithOwner -q .nameWi
 git tag -a v2024.03.15 -m "Release March 15, 2024"
 git tag -a v2024.03.15.2 -m "Second release of the day"
 
-# Mobile app voi build number
+# Mobile app với build number
 git tag -a v2.1.0-build.142 -m "Build 142 submitted to App Store"
 
 # Monorepo — tag per package
@@ -545,113 +545,113 @@ git tag -a ui@3.0.0 -m "UI package v3.0.0"
 
 ---
 
-## 8. Loi thuong gap
+## 8. Lỗi thường gặp
 
-### Loi 1: Quen push tags
+### Lỗi 1: Quên push tags
 
 ```bash
-# Tao tag nhung quen push → tag chi o local, team khong thay
+# Tạo tag nhưng quên push → tag chỉ ở local, team không thấy
 git tag -a v1.0.0 -m "Release"
-git push origin main  # Chi push commits, KHONG push tag!
+git push origin main  # Chỉ push commits, KHÔNG push tag!
 
-# DUNG: push tag rieng
+# ĐÚNG: push tag riêng
 git push origin v1.0.0
-# Hoac push tat ca tags
+# Hoặc push tất cả tags
 git push origin --tags
 
-# Tot nhat: cau hinh auto push
+# Tốt nhất: cấu hình auto push
 git config --global push.followTags true
 ```
 
-### Loi 2: Tag sai commit
+### Lỗi 2: Tag sai commit
 
 ```bash
-# Tag nhung nhan ra sai commit → can sua
+# Tag nhưng nhận ra sai commit → cần sửa
 
-# Buoc 1: Xoa tag cu (local + remote)
+# Bước 1: Xóa tag cũ (local + remote)
 git tag -d v1.0.0
 git push origin --delete v1.0.0
 
-# Buoc 2: Tao tag moi tai commit dung
+# Bước 2: Tạo tag mới tại commit đúng
 git tag -a v1.0.0 correct-commit-hash -m "Release v1.0.0"
 git push origin v1.0.0
 
-# CANH BAO: Neu nguoi khac da pull tag cu, ho can:
+# CẢNH BÁO: Nếu người khác đã pull tag cũ, họ cần:
 git fetch --tags --force
 ```
 
-### Loi 3: Khong dung annotated tag cho release
+### Lỗi 3: Không dùng annotated tag cho release
 
 ```bash
-# SAI: dung lightweight tag cho release
-git tag v1.0.0  # Khong co thong tin ai tao, khi nao
+# SAI: dùng lightweight tag cho release
+git tag v1.0.0  # Không có thông tin ai tạo, khi nào
 
-# DUNG: dung annotated tag cho release
+# ĐÚNG: dùng annotated tag cho release
 git tag -a v1.0.0 -m "Release v1.0.0 — first stable release"
-# Co: tagger, date, message, co the GPG sign
+# Có: tagger, date, message, có thể GPG sign
 ```
 
-### Loi 4: Version numbering khong nhat quan
+### Lỗi 4: Version numbering không nhất quán
 
 ```bash
-# SAI: nhay lung tung
+# SAI: nhảy lung tung
 v1.0.0 → v1.0.2 → v1.0.5 → v1.1.3 → v3.0.0
 
-# DUNG: tang tuan tu theo SemVer
+# ĐÚNG: tăng tuần tự theo SemVer
 v1.0.0 → v1.0.1 → v1.0.2 → v1.1.0 → v1.2.0 → v2.0.0
 
-# Luu y: MINOR tang thi PATCH reset ve 0
-# v1.2.3 + feat moi = v1.3.0 (KHONG PHAI v1.3.3)
+# Lưu ý: MINOR tăng thì PATCH reset về 0
+# v1.2.3 + feat mới = v1.3.0 (KHÔNG PHẢI v1.3.3)
 ```
 
-### Loi 5: Khong tao release notes
+### Lỗi 5: Không tạo release notes
 
 ```bash
-# Tag ma khong co release notes → nguoi dung khong biet thay doi gi
+# Tag mà không có release notes → người dùng không biết thay đổi gì
 
-# LUON tao release notes, it nhat voi --generate-notes
+# LUÔN tạo release notes, ít nhất với --generate-notes
 gh release create v1.0.0 --generate-notes
 
-# Tot hon: viet release notes cu the voi:
-# - What's New (tinh nang moi)
-# - Bug Fixes (loi da sua)
-# - Breaking Changes (thay doi khong tuong thich)
-# - Migration Guide (huong dan nang cap)
+# Tốt hơn: viết release notes cụ thể với:
+# - What's New (tính năng mới)
+# - Bug Fixes (lỗi đã sửa)
+# - Breaking Changes (thay đổi không tương thích)
+# - Migration Guide (hướng dẫn nâng cấp)
 ```
 
 ---
 
-## 9. Cau hoi phong van
+## 9. Câu hỏi phỏng vấn
 
-### Cau 1: Lightweight tag khac annotated tag nhu the nao? Khi nao dung loai nao?
+### Câu 1: Lightweight tag khác annotated tag như thế nào? Khi nào dùng loại nào?
 
-**Tra loi:** Lightweight tag chi la mot pointer den commit, khong luu them thong tin nao. Annotated tag la mot Git object rieng biet, luu ten nguoi tao (tagger), ngay tao, message, va co the ky GPG. Dung annotated tag cho release chinh thuc vi can ghi lai ai tao, khi nao, va tai sao. Lightweight tag dung cho tag tam thoi hoac noi bo.
+**Trả lời:** Lightweight tag chỉ là một pointer đến commit, không lưu thêm thông tin nào. Annotated tag là một Git object riêng biệt, lưu tên người tạo (tagger), ngày tạo, message, và có thể ký GPG. Dùng annotated tag cho release chính thức vì cần ghi lại ai tạo, khi nào, và tại sao. Lightweight tag dùng cho tag tạm thời hoặc nội bộ.
 
-### Cau 2: Semantic Versioning la gi? Khi nao tang MAJOR, MINOR, PATCH?
+### Câu 2: Semantic Versioning là gì? Khi nào tăng MAJOR, MINOR, PATCH?
 
-**Tra loi:** SemVer la quy uoc dat ten version theo format MAJOR.MINOR.PATCH. Tang PATCH khi sua loi ma khong doi API (backward compatible). Tang MINOR khi them tinh nang moi ma van backward compatible. Tang MAJOR khi co breaking changes — thay doi khong tuong thich nguoc. Khi tang MINOR thi PATCH reset ve 0, khi tang MAJOR thi ca MINOR va PATCH reset ve 0.
+**Trả lời:** SemVer là quy ước đặt tên version theo format MAJOR.MINOR.PATCH. Tăng PATCH khi sửa lỗi mà không đổi API (backward compatible). Tăng MINOR khi thêm tính năng mới mà vẫn backward compatible. Tăng MAJOR khi có breaking changes — thay đổi không tương thích ngược. Khi tăng MINOR thì PATCH reset về 0, khi tăng MAJOR thì cả MINOR và PATCH reset về 0.
 
-### Cau 3: Lam sao de tu dong tao release moi khi push tag?
+### Câu 3: Làm sao để tự động tạo release mới khi push tag?
 
-**Tra loi:** Dung GitHub Actions voi trigger `on: push: tags`. Khi push tag moi, workflow se tu dong: (1) Build ung dung, (2) Chay tests, (3) Tao artifacts (binaries), (4) Tao GitHub Release voi `gh release create` hoac action nhu `softprops/action-gh-release`, (5) Upload artifacts vao release. Ket hop voi Conventional Commits va standard-version, toan bo quy trinh tu commit → tag → release → deploy co the tu dong hoa.
+**Trả lời:** Dùng GitHub Actions với trigger `on: push: tags`. Khi push tag mới, workflow sẽ tự động: (1) Build ứng dụng, (2) Chạy tests, (3) Tạo artifacts (binaries), (4) Tạo GitHub Release với `gh release create` hoặc action như `softprops/action-gh-release`, (5) Upload artifacts vào release. Kết hợp với Conventional Commits và standard-version, toàn bộ quy trình từ commit -> tag -> release -> deploy có thể tự động hóa.
 
-### Cau 4: Pre-release version dung nhu the nao? Cho vi du.
+### Câu 4: Pre-release version dùng như thế nào? Cho ví dụ.
 
-**Tra loi:** Pre-release version su dung dash sau version chinh: `v2.0.0-alpha.1`, `v2.0.0-beta.1`, `v2.0.0-rc.1`. Thu tu: alpha (phat trien som, nhieu bug) → beta (feature complete, con bug) → rc (Release Candidate, gan san sang) → stable release. Tren GitHub, tao pre-release voi flag `--prerelease` de hien thi bang mau vang va khong duoc coi la "latest release". Dieu nay cho phep early adopters test truoc ma khong anh huong nguoi dung binh thuong.
+**Trả lời:** Pre-release version sử dụng dash sau version chính: `v2.0.0-alpha.1`, `v2.0.0-beta.1`, `v2.0.0-rc.1`. Thứ tự: alpha (phát triển sớm, nhiều bug) -> beta (feature complete, còn bug) -> rc (Release Candidate, gần sẵn sàng) -> stable release. Trên GitHub, tạo pre-release với flag `--prerelease` để hiển thị bằng màu vàng và không được coi là "latest release". Điều này cho phép early adopters test trước mà không ảnh hưởng người dùng bình thường.
 
-### Cau 5: Team ban dung monorepo voi 3 packages. Lam sao quan ly versioning?
+### Câu 5: Team bạn dùng monorepo với 3 packages. Làm sao quản lý versioning?
 
-**Tra loi:** Co 2 cach: (1) **Independent versioning** — moi package co version rieng, tag dang `@package-name@1.2.0`. Dung khi cac packages phat trien doc lap, vi du `@mylib/core@1.2.0` va `@mylib/ui@3.0.0`. (2) **Fixed versioning** — tat ca packages dung chung 1 version, tag dang `v1.2.0`. Don gian hon nhung bat buoc tat ca packages release cung luc. Tools nhu Lerna, Changesets, hoac Nx ho tro ca 2 cach. Pho bien nhat la independent versioning vi linh hoat hon.
+**Trả lời:** Có 2 cách: (1) **Independent versioning** — mỗi package có version riêng, tag dạng `@package-name@1.2.0`. Dùng khi các packages phát triển độc lập, ví dụ `@mylib/core@1.2.0` và `@mylib/ui@3.0.0`. (2) **Fixed versioning** — tất cả packages dùng chung 1 version, tag dạng `v1.2.0`. Đơn giản hơn nhưng bắt buộc tất cả packages release cùng lúc. Tools như Lerna, Changesets, hoặc Nx hỗ trợ cả 2 cách. Phổ biến nhất là independent versioning vì linh hoạt hơn.
 
 ---
 
-## 10. Tom tat
+## 10. Tóm tắt
 
 ```
 +--------------------------------------------------------------+
-|  Git Tag — Danh dau diem quan trong trong lich su            |
-|  - Lightweight: chi la pointer (dung cho tag tam)            |
-|  - Annotated: day du thong tin (dung cho release)            |
+|  Git Tag — Đánh dấu điểm quan trọng trong lịch sử            |
+|  - Lightweight: chỉ là pointer (dùng cho tag tạm)            |
+|  - Annotated: đầy đủ thông tin (dùng cho release)            |
 +--------------------------------------------------------------+
 |  SemVer: MAJOR.MINOR.PATCH                                  |
 |  - fix → PATCH, feat → MINOR, breaking → MAJOR              |

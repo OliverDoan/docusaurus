@@ -5,20 +5,20 @@ title: "Deployment & Vercel"
 
 # Deployment & Vercel
 
-## Gioi thieu
+## Giới thiệu
 
-Sau khi xay dung xong ung dung Next.js, buoc tiep theo la **deploy** len production. Next.js ho tro nhieu cach deploy:
+Sau khi xây dựng xong ứng dụng Next.js, bước tiếp theo la **deploy** len production. Next.js hỗ trợ nhiều cách deploy:
 
-| Phuong phap | Uu diem | Phu hop |
+| Phương pháp | Ưu điểm | Phu hop |
 |-------------|---------|---------|
-| Vercel | Zero config, toi uu nhat cho Next.js | Phan lon du an |
-| Self-hosting (Node.js) | Toan quyen kiem soat | Du an can custom server |
-| Docker | Di dong, nhat quan moi truong | Microservices, cloud |
-| Static Export | Don gian, re, nhanh | Trang tinh, khong can SSR |
+| Vercel | Zero config, tối ưu nhat cho Next.js | Phan lon dự án |
+| Self-hosting (Node.js) | Toan quyền kiem soat | Du an can custom server |
+| Docker | Di dong, nhất quán môi trường | Microservices, cloud |
+| Static Export | Don gian, re, nhanh | Trang tinh, không cần SSR |
 
 ---
 
-## Noi dung
+## Nội dung
 
 1. [Vercel Deployment](#1-vercel-deployment)
 2. [Self-hosting voi Node.js](#2-self-hosting-voi-nodejs)
@@ -27,43 +27,43 @@ Sau khi xay dung xong ung dung Next.js, buoc tiep theo la **deploy** len product
 5. [Build Output Analysis](#5-build-output-analysis)
 6. [Environment-specific Config](#6-environment-specific-config)
 7. [Monitoring va Analytics](#7-monitoring-va-analytics)
-8. [Loi thuong gap](#8-loi-thuong-gap)
-9. [Cau hoi phong van](#cau-hoi-phong-van)
+8. [Lỗi thường gặp](#8-loi-thuong-gap)
+9. [Câu hỏi phỏng vấn](#cau-hoi-phong-van)
 
 ---
 
 ## 1. Vercel Deployment
 
-Vercel la nen tang do chinh doi ngu Next.js xay dung, nen ho tro **tot nhat** cho Next.js.
+Vercel là nền tảng do chính doi ngu Next.js xây dựng, nen hỗ trợ **tot nhat** cho Next.js.
 
 ### 1.1 Connect Git Repository
 
-**Buoc 1:** Dang ky tai khoan tai [vercel.com](https://vercel.com)
+**Bước 1:** Đăng ký tài khoản tai [vercel.com](https://vercel.com)
 
-**Buoc 2:** Import repository
+**Bước 2:** Import repository
 
 ```bash
-# Dam bao code da duoc push len GitHub/GitLab/Bitbucket
+# Dam bao code da được push len GitHub/GitLab/Bitbucket
 git add .
 git commit -m "feat: ready for deployment"
 git push origin main
 ```
 
-**Buoc 3:** Tren Vercel Dashboard:
+**Bước 3:** Tren Vercel Dashboard:
 1. Click **"Add New Project"**
 2. Chon Git provider (GitHub, GitLab, Bitbucket)
 3. Chon repository
-4. Vercel tu dong detect Next.js va cau hinh build command
+4. Vercel tự động detect Next.js va cấu hình build command
 5. Click **"Deploy"**
 
-Vercel se tu dong:
+Vercel se tự động:
 - Cai dat dependencies
 - Chay `npm run build`
-- Deploy len CDN toan cau
+- Deploy len CDN toàn cầu
 
 ### 1.2 Environment Variables
 
-Cau hinh environment variables tren Vercel Dashboard:
+Cau hinh environment variables trên Vercel Dashboard:
 
 ```bash
 # Vercel Dashboard -> Settings -> Environment Variables
@@ -73,9 +73,9 @@ JWT_SECRET=my-super-secret-key
 NEXT_PUBLIC_API_URL=https://api.yourdomain.com
 ```
 
-Co the cau hinh khac nhau cho tung moi truong:
+Co the cấu hình khac nhau cho tung môi trường:
 - **Production** - branch main
-- **Preview** - cac branch khac (PR previews)
+- **Preview** - các branch khac (PR previews)
 - **Development** - local development
 
 ```bash
@@ -89,10 +89,10 @@ vercel env pull .env.local
 ### 1.3 Custom Domains
 
 ```bash
-# Buoc 1: Them domain tren Vercel Dashboard
+# Bước 1: Them domain trên Vercel Dashboard
 # Settings -> Domains -> Add Domain
 
-# Buoc 2: Cau hinh DNS records tai nha dang ky domain
+# Bước 2: Cau hinh DNS records tai nha đăng ký domain
 # Type: CNAME
 # Name: www
 # Value: cname.vercel-dns.com
@@ -102,46 +102,46 @@ vercel env pull .env.local
 # Value: 76.76.21.21
 ```
 
-Vercel tu dong:
-- Tao va gia han **SSL certificate** (HTTPS)
+Vercel tự động:
+- Tạo va gia hạn **SSL certificate** (HTTPS)
 - Redirect www sang non-www (hoac nguoc lai)
-- Cau hinh **CDN** toan cau
+- Cau hinh **CDN** toàn cầu
 
 ### 1.4 Preview Deployments
 
-Moi khi tao Pull Request, Vercel tu dong deploy **preview version**:
+Moi khi tao Pull Request, Vercel tự động deploy **preview version**:
 
 ```bash
-# Tao branch moi va push
+# Tạo branch moi va push
 git checkout -b feature/new-homepage
-# ... lam thay doi ...
+# ... lam thay đổi ...
 git add .
 git commit -m "feat: redesign homepage"
 git push -u origin feature/new-homepage
 
-# Tao Pull Request tren GitHub
+# Tạo Pull Request tren GitHub
 # -> Vercel tu dong tao preview URL: https://project-abc123.vercel.app
 # -> Comment tren PR voi link preview
 ```
 
-Loi ich cua Preview Deployments:
-- Team review giao dien truoc khi merge
-- Test tren moi truong giong production
+Lợi ích cua Preview Deployments:
+- Team review giao diện trước khi merge
+- Test tren môi trường giong production
 - Moi commit moi tren PR tao preview moi
 
 ### 1.5 Edge Functions
 
-Vercel Edge Functions chay tren edge network (gan nguoi dung), cuc nhanh:
+Vercel Edge Functions chay trên edge network (gan người dùng), cực nhanh:
 
 ```tsx
 // app/api/geo/route.ts
 import { NextRequest, NextResponse } from "next/server";
 
-// Khai bao chay tren Edge runtime
+// Khai bao chạy trên Edge runtime
 export const runtime = "edge";
 
 export async function GET(request: NextRequest) {
-  // Vercel tu dong cung cap thong tin vi tri
+  // Vercel tự động cung cap thông tin vị trí
   const country = request.headers.get("x-vercel-ip-country") ?? "unknown";
   const city = request.headers.get("x-vercel-ip-city") ?? "unknown";
 
@@ -153,12 +153,12 @@ export async function GET(request: NextRequest) {
 ```
 
 ```tsx
-// middleware.ts - chay tren Edge mac dinh
+// middleware.ts - chạy trên Edge mặc định
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  // Redirect nguoi dung Viet Nam den trang tieng Viet
+  // Redirect người dùng Viet Nam den trang tieng Viet
   const country = request.geo?.country;
 
   if (country === "VN" && !request.nextUrl.pathname.startsWith("/vi")) {
@@ -177,7 +177,7 @@ export const config = {
 
 ## 2. Self-hosting voi Node.js
 
-Khi can toan quyen kiem soat server:
+Khi can toàn quyền kiem soat server:
 
 ### 2.1 Build va chay
 
@@ -198,16 +198,16 @@ node .next/standalone/server.js
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Tao output doc lap, khong can node_modules
+  // Tạo output độc lập, không cần node_modules
   output: "standalone",
 };
 
 export default nextConfig;
 ```
 
-Sau khi build, thu muc `.next/standalone` chua:
+Sau khi build, thư mục `.next/standalone` chua:
 - `server.js` - file server chinh
-- `node_modules/` - chi cac dependencies can thiet (nho hon nhieu)
+- `node_modules/` - chi cac dependencies can thiet (nhỏ hơn nhieu)
 - `.next/` - build output
 
 ```bash
@@ -241,11 +241,11 @@ pm2 save
 
 ## 3. Docker Deployment
 
-### 3.1 Dockerfile toi uu
+### 3.1 Dockerfile tối ưu
 
 ```bash
 # Dockerfile
-# Buoc 1: Cai dependencies
+# Bước 1: Cai dependencies
 FROM node:20-alpine AS deps
 WORKDIR /app
 
@@ -253,7 +253,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --only=production
 
-# Buoc 2: Build ung dung
+# Bước 2: Build ứng dụng
 FROM node:20-alpine AS builder
 WORKDIR /app
 
@@ -263,11 +263,11 @@ COPY . .
 # Build Next.js
 RUN npm run build
 
-# Buoc 3: Production image (nho gon nhat)
+# Bước 3: Production image (nho gon nhat)
 FROM node:20-alpine AS runner
 WORKDIR /app
 
-# Tao user khong phai root (bao mat)
+# Tạo user không phải root (bảo mật)
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
@@ -276,7 +276,7 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Chay voi user khong phai root
+# Chay voi user không phải root
 USER nextjs
 
 # Port va environment
@@ -338,7 +338,7 @@ docker compose up -d
 
 ## 4. Static Export
 
-Export thanh trang HTML tinh, host tren bat ky CDN nao:
+Export thanh trang HTML tinh, host tren bất kỳ CDN nao:
 
 ### 4.1 Cau hinh
 
@@ -350,10 +350,10 @@ const nextConfig: NextConfig = {
   // Export thanh HTML/CSS/JS tinh
   output: "export",
 
-  // Neu host tren sub-path (vd: github.io/my-app)
+  // Nếu host tren sub-path (vd: github.io/my-app)
   // basePath: "/my-app",
 
-  // Tat Image Optimization (khong co server xu ly)
+  // Tat Image Optimization (không có server xu ly)
   images: {
     unoptimized: true,
   },
@@ -364,24 +364,24 @@ export default nextConfig;
 
 ### 4.2 Gioi han cua Static Export
 
-Khi dung `output: "export"`, cac tinh nang sau **KHONG** hoat dong:
+Khi dung `output: "export"`, các tính năng sau **KHONG** hoạt động:
 - Server Components voi dynamic data
 - Route Handlers (API routes)
 - Middleware
 - Incremental Static Regeneration (ISR)
 - Image Optimization (tru khi dung external loader)
 
-### 4.3 Build va deploy
+### 4.3 Build và deploy
 
 ```bash
 # Build
 npm run build
 
-# Output trong thu muc "out/"
+# Output trong thư mục "out/"
 ls out/
 # index.html, about.html, 404.html, _next/, ...
 
-# Deploy len bat ky static hosting nao:
+# Deploy len bất kỳ static hosting nao:
 # - GitHub Pages
 # - Netlify
 # - Cloudflare Pages
@@ -392,7 +392,7 @@ ls out/
 
 ## 5. Build Output Analysis
 
-Sau khi build, Next.js hien thi thong tin huu ich:
+Sau khi build, Next.js hiển thị thông tin hữu ích:
 
 ```bash
 npm run build
@@ -412,12 +412,12 @@ npm run build
 # First Load JS shared by all: 83.6 kB
 ```
 
-**Doc ket qua:**
-- **Size**: JavaScript rieng cua route do
-- **First Load JS**: Tong JS nguoi dung tai khi truy cap (shared + route)
-- **Bieu tuong**: cho biet route duoc render nhu the nao
+**Doc kết quả:**
+- **Size**: JavaScript riêng cua route do
+- **First Load JS**: Tong JS người dùng tai khi truy cập (shared + route)
+- **Bieu tuong**: cho biet route được render nhu thế nào
 
-**Muc tieu:** First Load JS duoi 100kB cho trai nghiem tot.
+**Mục tiêu:** First Load JS dưới 100kB cho trải nghiệm tot.
 
 ---
 
@@ -426,20 +426,20 @@ npm run build
 ### 6.1 Nhieu file .env
 
 ```bash
-# .env                 - Mac dinh cho moi moi truong
+# .env                 - Mac dinh cho moi môi trường
 # .env.local           - Override local (KHONG commit)
 # .env.development     - Chi cho npm run dev
 # .env.production      - Chi cho npm run build/start
 # .env.test            - Chi cho testing
 
-# Thu tu uu tien (cao -> thap):
+# Thu tu ưu tiên (cao -> thap):
 # 1. .env.development.local (hoac .env.production.local)
 # 2. .env.local
 # 3. .env.development (hoac .env.production)
 # 4. .env
 ```
 
-### 6.2 Config theo moi truong trong next.config.ts
+### 6.2 Config theo môi trường trong next.config.ts
 
 ```tsx
 // next.config.ts
@@ -448,10 +448,10 @@ import type { NextConfig } from "next";
 const isProd = process.env.NODE_ENV === "production";
 
 const nextConfig: NextConfig = {
-  // Bat React Strict Mode trong development
+  // Bat React Strict Mođể trống development
   reactStrictMode: true,
 
-  // Cau hinh khac nhau theo moi truong
+  // Cau hinh khac nhau theo môi trường
   images: {
     remotePatterns: isProd
       ? [{ protocol: "https", hostname: "cdn.production.com" }]
@@ -515,9 +515,9 @@ import * as Sentry from "@sentry/nextjs";
 
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-  // Bat theo doi performance
+  // Bat theo dõi performance
   tracesSampleRate: 1.0,
-  // Bat theo doi session replay
+  // Bat theo dõi session replay
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1.0,
 });
@@ -553,60 +553,60 @@ export async function GET() {
 
 ---
 
-## 8. Loi thuong gap
+## 8. Lỗi thường gặp
 
-### Loi 1: Build thanh cong local nhung fail tren Vercel
+### Lỗi 1: Build thành công local nhung fail trên Vercel
 
 ```bash
-# Nguyen nhan pho bien:
+# Nguyen nhan phổ biến:
 # 1. Node version khong khop
-# Giai phap: them vao package.json
+# Giai phap: thêm vào package.json
 # "engines": { "node": ">=20.0.0" }
 
-# 2. Thieu environment variables tren Vercel
-# Giai phap: kiem tra Vercel Dashboard -> Settings -> Environment Variables
+# 2. Thieu environment variables trên Vercel
+# Giai phap: kiểm tra Vercel Dashboard -> Settings -> Environment Variables
 
 # 3. Case-sensitive file names (Linux vs macOS)
-# macOS: "Component.tsx" va "component.tsx" la mot
+# macOS: "Component.tsx" va "component.tsx" là một
 # Linux (Vercel): hai file khac nhau!
-# Giai phap: kiem tra import paths chinh xac
+# Giai phap: kiểm tra import paths chính xác
 ```
 
-### Loi 2: Environment variables khong co gia tri
+### Lỗi 2: Environment variables không có giá trị
 
 ```tsx
-// Nguyen nhan: bien thieu NEXT_PUBLIC_ prefix cho client-side
-// hoac chua them vao Vercel dashboard
+// Nguyen nhan: bien thiếu NEXT_PUBLIC_ prefix cho client-side
+// hoac chua thêm vào Vercel dashboard
 
 // Kiem tra:
-// 1. Server-side: truy cap binh thuong
+// 1. Server-side: truy cập bình thường
 console.log(process.env.DATABASE_URL); // OK
 
-// 2. Client-side: phai co NEXT_PUBLIC_
+// 2. Client-side: phải có NEXT_PUBLIC_
 console.log(process.env.NEXT_PUBLIC_API_URL); // OK
-console.log(process.env.DATABASE_URL); // undefined tren client!
+console.log(process.env.DATABASE_URL); // undefined trên client!
 ```
 
-### Loi 3: Docker image qua lon
+### Lỗi 3: Docker image quá lớn
 
 ```bash
 # Nguyen nhan: khong dung multi-stage build
 # Giai phap: dung Dockerfile multi-stage nhu phan 3.1
 # Va dung output: "standalone" trong next.config.ts
 
-# Kiem tra kich thuoc image:
+# Kiem tra kích thước image:
 docker images nextjs-app
-# Muc tieu: duoi 200MB voi multi-stage + standalone
+# Mục tiêu: dưới 200MB voi multi-stage + standalone
 ```
 
-### Loi 4: Static export thieu trang
+### Lỗi 4: Static export thiếu trang
 
 ```tsx
 // Nguyen nhan: dynamic routes can generateStaticParams
 
 // app/blog/[slug]/page.tsx
 export async function generateStaticParams() {
-  // Phai khai bao tat ca slug co the co
+  // Phai khai báo tất cả slug có thể co
   const posts = await getAllPosts();
   return posts.map((post) => ({
     slug: post.slug,
@@ -616,66 +616,66 @@ export async function generateStaticParams() {
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### Cau 1: So sanh cac phuong phap deploy Next.js?
+### Câu 1: So sánh cac phương pháp deploy Next.js?
 
-**Tra loi:**
+**Trả lời:**
 
-| Phuong phap | SSR | ISR | Edge | Uu diem | Nhuoc diem |
+| Phương pháp | SSR | ISR | Edge | Ưu điểm | Nhược điểm |
 |-------------|-----|-----|------|---------|------------|
-| Vercel | Co | Co | Co | Zero config, toi uu nhat | Cost cao khi scale |
-| Node.js | Co | Co | Khong | Toan quyen kiem soat | Tu quan ly infra |
-| Docker | Co | Co | Khong | Di dong, nhat quan | Phuc tap hon |
-| Static Export | Khong | Khong | Khong | Re, nhanh, don gian | Han che tinh nang |
+| Vercel | Co | Co | Co | Zero config, tối ưu nhat | Cost cao khi scale |
+| Node.js | Co | Co | Không | Toan quyền kiem soat | Tu quan ly infra |
+| Docker | Co | Co | Không | Di dong, nhất quán | Phuc tap hon |
+| Static Export | Không | Không | Không | Re, nhanh, don gian | Han che tính năng |
 
-Chon **Vercel** khi can deploy nhanh, full features. Chon **Docker** khi can tich hop voi he thong co san. Chon **Static Export** khi ung dung khong can server rendering.
+Chon **Vercel** khi can deploy nhanh, full features. Chon **Docker** khi can tích hợp voi hệ thống có sẵn. Chon **Static Export** khi ứng dụng không cần server rendering.
 
-### Cau 2: Lam sao toi uu Docker image cho Next.js?
+### Câu 2: Lam sao tối ưu Docker image cho Next.js?
 
-**Tra loi:**
+**Trả lời:**
 
 3 ky thuat chinh:
 
-1. **Multi-stage build**: Tach build va runtime stage, chi copy output can thiet
-2. **`output: "standalone"`**: Next.js chi copy nhung dependencies thuc su dung, giam kich thuoc tu hang tram MB xuong vai chuc MB
-3. **Alpine base image**: Dung `node:20-alpine` thay vi `node:20` (nho hon ~5x)
+1. **Multi-stage build**: Tach build va runtime stage, chỉ cópy output can thiet
+2. **`output: "standalone"`**: Next.js chỉ cópy nhung dependencies thực sự dung, giảm kích thước tu hang tram MB xuong vai chuc MB
+3. **Alpine base image**: Dung `node:20-alpine` thay vi `node:20` (nhỏ hơn ~5x)
 
-Ket qua: image tu 1GB+ giam xuong con 100-200MB.
+Ket qua: image tu 1GB+ giảm xuong con 100-200MB.
 
-### Cau 3: Preview Deployments hoat dong nhu the nao?
+### Câu 3: Preview Deployments hoạt động nhu thế nào?
 
-**Tra loi:**
+**Trả lời:**
 
 Khi ban push code len mot branch va tao Pull Request:
 
-1. Vercel tu dong detect PR moi
-2. Build va deploy branch do len mot **URL rieng** (vd: `project-abc123.vercel.app`)
+1. Vercel tự động detect PR moi
+2. Build và deploy branch do len mot **URL riêng** (vd: `project-abc123.vercel.app`)
 3. Comment tren PR voi link preview
 4. Moi commit moi tren PR tao deploy moi
 5. Khi merge PR, preview URL bi xoa
 
-Loi ich: team review giao dien tren moi truong giong production ma khong anh huong den site chinh.
+Lợi ích: team review giao diện tren môi trường giong production ma khong ảnh hưởng den site chinh.
 
-### Cau 4: Khi nao nen dung Static Export?
+### Câu 4: Khi nao nen dung Static Export?
 
-**Tra loi:**
+**Trả lời:**
 
 Dung Static Export khi:
-- Trang web **hoan toan tinh** (blog, portfolio, documentation)
-- Khong can **server-side rendering** hay **API routes**
-- Muon host tren **CDN re tien** (GitHub Pages, S3, Cloudflare Pages)
-- Khong can **authentication** phia server
+- Trang web **hoàn toàn tinh** (blog, portfolio, documentation)
+- Không can **server-side rendering** hay **API routes**
+- Muon host tren **CDN rẻ tiền** (GitHub Pages, S3, Cloudflare Pages)
+- Không can **authentication** phia server
 
-Khong dung khi can: SSR, ISR, middleware, route handlers, image optimization tren server.
+Không dung khi can: SSR, ISR, middleware, route handlers, image optimization trên server.
 
-### Cau 5: Lam sao quan ly environment variables an toan khi deploy?
+### Câu 5: Lam sao quan ly environment variables an toàn khi deploy?
 
-**Tra loi:**
+**Trả lời:**
 
-1. **KHONG commit** `.env.local` (them vao `.gitignore`)
-2. **Phan biet** bien server vs client: chi dung `NEXT_PUBLIC_` cho du lieu cong khai
-3. **Vercel**: cau hinh tren Dashboard, tach rieng cho Production/Preview/Development
+1. **KHONG commit** `.env.local` (thêm vào `.gitignore`)
+2. **Phan biet** bien server vs client: chỉ dùng `NEXT_PUBLIC_` cho dữ liệu cong khai
+3. **Vercel**: cấu hình tren Dashboard, tach riêng cho Production/Preview/Development
 4. **Self-hosting**: dung secret manager (AWS Secrets Manager, HashiCorp Vault)
-5. **Docker**: truyen qua `--env-file` hoac Docker secrets
-6. **Validate**: dung Zod de kiem tra tat ca env variables can thiet khi startup
+5. **Docker**: truyền qua `--env-file` hoac Docker secrets
+6. **Validate**: dung Zod de kiểm tra tất cả env variables can thiet khi startup

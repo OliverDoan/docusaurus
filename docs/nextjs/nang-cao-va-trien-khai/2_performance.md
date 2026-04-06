@@ -5,11 +5,11 @@ title: "Performance Optimization"
 
 # Performance Optimization
 
-## Gioi thieu
+## Giới thiệu
 
-Hieu suat (performance) anh huong truc tiep den trai nghiem nguoi dung va thu hang SEO. Next.js da tich hop san rat nhieu toi uu hoa, nhung hieu ro va tan dung dung cach se giup ung dung cua ban nhanh hon dang ke.
+Hieu suat (performance) ảnh hưởng truc tiep den trải nghiệm người dùng va thứ hạng SEO. Next.js đã tích hợp san rat nhieu tối ưu hoa, nhung hieu ro va tan dứng dụng cach se giup ứng dụng của bạn nhanh hơn đáng kể.
 
-Bai nay se di qua tat ca cac ky thuat toi uu hoa trong Next.js:
+Bai nay se di qua tất cả các kỹ thuật tối ưu hoa trong Next.js:
 
 - Built-in optimizations
 - Bundle analysis
@@ -17,11 +17,11 @@ Bai nay se di qua tat ca cac ky thuat toi uu hoa trong Next.js:
 - Image, Font, Script optimization
 - Code splitting
 - Core Web Vitals
-- Do luong hieu suat
+- Do luông hiệu suất
 
 ---
 
-## Noi dung
+## Nội dung
 
 1. [Next.js Built-in Optimizations](#1-nextjs-built-in-optimizations)
 2. [Bundle Analysis](#2-bundle-analysis)
@@ -33,32 +33,32 @@ Bai nay se di qua tat ca cac ky thuat toi uu hoa trong Next.js:
 8. [Prefetching Strategies](#8-prefetching-strategies)
 9. [Core Web Vitals](#9-core-web-vitals)
 10. [next/third-parties](#10-nextthird-parties)
-11. [Do luong Performance](#11-do-luong-performance)
-12. [Loi thuong gap](#12-loi-thuong-gap)
-13. [Cau hoi phong van](#cau-hoi-phong-van)
+11. [Do luông Performance](#11-do-luông-performance)
+12. [Lỗi thường gặp](#12-loi-thuong-gap)
+13. [Câu hỏi phỏng vấn](#cau-hoi-phong-van)
 
 ---
 
 ## 1. Next.js Built-in Optimizations
 
-Next.js tu dong toi uu hoa nhieu thu ma ban khong can cau hinh gi:
+Next.js tự động tối ưu hoa nhiều thứ ma ban không cần cấu hình gi:
 
-| Tinh nang | Mo ta |
+| Tính năng | Mô tả |
 |-----------|-------|
-| Server Components | Giam JavaScript gui xuong client |
+| Server Components | Giam JavaScript gửi xuống client |
 | Automatic Code Splitting | Tach code theo route |
-| Prefetching | Tu dong tai truoc cac trang lien ket |
-| Image Optimization | Nen va resize anh tu dong |
+| Prefetching | Tu dong tai truoc các trang lien ket |
+| Image Optimization | Nen va resize anh tự động |
 | Font Optimization | Tu dong host font, khong layout shift |
-| Script Loading | Kiem soat khi nao script duoc tai |
-| Tree Shaking | Loai bo code khong su dung |
+| Script Loading | Kiem soat khi nào script được tải |
+| Tree Shaking | Loại bỏ code khong sử dụng |
 | Minification | Nen code JavaScript va CSS |
 
 ---
 
 ## 2. Bundle Analysis
 
-De biet dung luong JavaScript cua ung dung, dung `@next/bundle-analyzer`:
+De biet dung lượng JavaScript cua ứng dụng, dung `@next/bundle-analyzer`:
 
 ### 2.1 Cai dat
 
@@ -74,7 +74,7 @@ import type { NextConfig } from "next";
 import withBundleAnalyzer from "@next/bundle-analyzer";
 
 const nextConfig: NextConfig = {
-  // ...cau hinh khac
+  // ...cấu hình khac
 };
 
 // Bọc config với bundle analyzer
@@ -92,31 +92,31 @@ export default config;
 ANALYZE=true npm run build
 ```
 
-Lenh nay se mo trinh duyet hien thi **treemap** cho thay tung package chiem bao nhieu dung luong. Tu do ban biet can toi uu cho nao.
+Lệnh này se mo trinh duyet hiển thị **treemap** cho thay tung package chiem bao nhiêu dung lượng. Tu do ban biet can tối ưu cho nao.
 
-**Meo doc ket qua:**
-- Mau do lon = package chiem nhieu dung luong
-- Tim cac package lon ma ban it dung
-- Xem xet thay the hoac lazy load cac package lon
+**Meo đọc kết quả:**
+- Mau do lon = package chiem nhieu dung lượng
+- Tim các package lon ma ban it dung
+- Xem xet thay the hoac lazy load các package lon
 
 ---
 
 ## 3. Dynamic Imports va Lazy Loading
 
-`next/dynamic` giup tai component chi khi can thiet, giam bundle size ban dau.
+`next/dynamic` giup tai component chi khi can thiet, giảm bundle size ban đầu.
 
 ### 3.1 Dynamic import co ban
 
 ```tsx
-// Thay vi import binh thuong:
+// Thay vi import bình thường:
 // import HeavyChart from "@/components/HeavyChart";
 
 // Dung dynamic import:
 import dynamic from "next/dynamic";
 
-// Component chi duoc tai khi render
+// Component chi được tải khi render
 const HeavyChart = dynamic(() => import("@/components/HeavyChart"), {
-  // Hien thi khi dang tai component
+  // Hien thi khi đang tải component
   loading: () => <p>Dang tai bieu do...</p>,
 });
 
@@ -133,12 +133,12 @@ export default function DashboardPage() {
 
 ### 3.2 Tat SSR cho client-only components
 
-Mot so components chi chay duoc tren client (dung window, document, v.v.):
+Mot so components chỉ chạy duoc trên client (dung window, document, v.v.):
 
 ```tsx
-// Component nay dung thu vien chi chay tren browser
+// Component nay dung thư viện chỉ chạy trên browser
 const MapComponent = dynamic(() => import("@/components/Map"), {
-  // Khong render tren server
+  // Không render trên server
   ssr: false,
   loading: () => <div style={{ height: 400 }}>Dang tai ban do...</div>,
 });
@@ -147,7 +147,7 @@ const MapComponent = dynamic(() => import("@/components/Map"), {
 ### 3.3 Dynamic import voi named exports
 
 ```tsx
-// Neu component la named export (khong phai default)
+// Nếu component la named export (không phải default)
 const SpecificComponent = dynamic(() =>
   import("@/components/MyLib").then((mod) => mod.SpecificComponent)
 );
@@ -157,7 +157,7 @@ const SpecificComponent = dynamic(() =>
 
 ## 4. Image Optimization
 
-Component `next/image` tu dong toi uu hoa hinh anh.
+Component `next/image` tự động tối ưu hoa hinh anh.
 
 ### 4.1 Su dung co ban
 
@@ -173,7 +173,7 @@ export function ProductCard() {
         alt="Ao thun trang"
         width={400}
         height={300}
-        // Lazy load mac dinh - chi tai khi vao viewport
+        // Lazy load mặc định - chi tai khi vao viewport
       />
     </div>
   );
@@ -182,7 +182,7 @@ export function ProductCard() {
 
 ### 4.2 Priority cho anh LCP
 
-Anh quan trong nhat (hero image, banner) can load ngay:
+Anh quan trọng nhat (hero image, banner) can load ngay:
 
 ```tsx
 <Image
@@ -192,7 +192,7 @@ Anh quan trong nhat (hero image, banner) can load ngay:
   height={600}
   // priority=true tat lazy loading, preload anh nay
   priority
-  // placeholder="blur" hien thi anh mo truoc khi load xong
+  // placeholder="blur" hiển thị anh mo trước khi load xong
   placeholder="blur"
   blurDataURL="data:image/jpeg;base64,/9j/4AAQ..."
 />
@@ -207,7 +207,7 @@ Anh quan trong nhat (hero image, banner) can load ngay:
     src="/banner.jpg"
     alt="Banner"
     fill
-    // sizes giup browser chon dung kich thuoc anh
+    // sizes giup browser chon dung kích thước anh
     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
     style={{ objectFit: "cover" }}
   />
@@ -220,7 +220,7 @@ Anh quan trong nhat (hero image, banner) can load ngay:
 // next.config.ts
 const nextConfig: NextConfig = {
   images: {
-    // Cho phep tai anh tu cac domain nay
+    // Cho phep tai anh tu các domain nay
     remotePatterns: [
       {
         protocol: "https",
@@ -232,7 +232,7 @@ const nextConfig: NextConfig = {
         pathname: "/images/**",
       },
     ],
-    // Dinh dang anh uu tien
+    // Dinh dang anh ưu tiên
     formats: ["image/avif", "image/webp"],
   },
 };
@@ -242,7 +242,7 @@ const nextConfig: NextConfig = {
 
 ## 5. Font Optimization
 
-`next/font` tu dong host fonts, khong layout shift (CLS = 0).
+`next/font` tự động host fonts, khong layout shift (CLS = 0).
 
 ### 5.1 Google Fonts
 
@@ -304,7 +304,7 @@ const myFont = localFont({
 
 ## 6. Script Optimization
 
-`next/script` kiem soat khi nao script ben thu 3 duoc tai.
+`next/script` kiem soat khi nào script bên thứ 3 được tải.
 
 ```tsx
 import Script from "next/script";
@@ -352,12 +352,12 @@ export default function RootLayout({
 }
 ```
 
-**Khi nao dung strategy nao:**
+**Khi nào dùng strategy nao:**
 
-| Strategy | Khi nao dung |
+| Strategy | Khi nào dùng |
 |----------|-------------|
 | `beforeInteractive` | Polyfills, bot detection (rat it khi can) |
-| `afterInteractive` | Analytics, tag managers (pho bien nhat) |
+| `afterInteractive` | Analytics, tag managers (phổ biến nhat) |
 | `lazyOnload` | Chat widgets, social media embeds |
 | `worker` | Offload script sang web worker (thuc nghiem) |
 
@@ -365,11 +365,11 @@ export default function RootLayout({
 
 ## 7. Code Splitting
 
-Next.js tu dong thuc hien code splitting:
+Next.js tự động thực hiện code splitting:
 
 ### 7.1 Route-based splitting
 
-Moi route (`page.tsx`) la mot chunk rieng biet. Khi truy cap `/about`, chi JavaScript cua trang `/about` duoc tai.
+Moi route (`page.tsx`) là một chunk riêng biet. Khi truy cập `/about`, chi JavaScript cua trang `/about` được tải.
 
 ### 7.2 Component-based splitting
 
@@ -381,7 +381,7 @@ Dung `next/dynamic` nhu da trinh bay o phan 3.
 // next.config.ts
 const nextConfig: NextConfig = {
   // Chi import nhung function can dung tu package lon
-  // Thay vi import toan bo lodash
+  // Thay vi import toàn bộ lodash
   experimental: {
     optimizePackageImports: [
       "lodash",
@@ -394,10 +394,10 @@ const nextConfig: NextConfig = {
 ```
 
 ```tsx
-// Voi optimizePackageImports, Next.js tu dong tree-shake:
-// Ban viet nhu binh thuong:
+// Voi optimizePackageImports, Next.js tự động tree-shake:
+// Ban viet như bình thường:
 import { debounce, throttle } from "lodash";
-// Next.js chi bundle debounce va throttle, khong phai toan bo lodash
+// Next.js chỉ bundle debounce va throttle, không phải toàn bộ lodash
 ```
 
 ---
@@ -433,7 +433,7 @@ import { useRouter } from "next/navigation";
 export function SmartNavigation() {
   const router = useRouter();
 
-  // Prefetch khi hover (truoc khi click)
+  // Prefetch khi hover (trước khi click)
   const handleMouseEnter = () => {
     router.prefetch("/dashboard");
   };
@@ -453,27 +453,27 @@ export function SmartNavigation() {
 
 ## 9. Core Web Vitals
 
-Google danh gia hieu suat trang web qua 3 chi so Core Web Vitals:
+Google đánh giá hiệu suất trang web qua 3 chi so Core Web Vitals:
 
 ### 9.1 LCP - Largest Contentful Paint
 
-**Muc tieu:** duoi 2.5 giay
+**Mục tiêu:** dưới 2.5 giay
 
-LCP do thoi gian hien thi phan tu lon nhat tren man hinh (thuong la hero image hoac heading chinh).
+LCP do thời gian hiển thị phan tu lon nhat trên màn hình (thuong la hero image hoac heading chinh).
 
-**Cach toi uu:**
+**Cach tối ưu:**
 - Dung `priority` cho hero image
-- Preload font quan trong
-- Su dung Server Components de giam JavaScript
+- Preload font quan trọng
+- Su dung Server Components de giảm JavaScript
 - Tranh render blocking resources
 
 ### 9.2 INP - Interaction to Next Paint
 
-**Muc tieu:** duoi 200ms
+**Mục tiêu:** dưới 200ms
 
-INP (thay the FID tu thang 3/2024) do do tre tu khi nguoi dung tuong tac den khi UI cap nhat.
+INP (thay the FID tu thang 3/2024) do độ trễ tu khi người dùng tương tác den khi UI cập nhật.
 
-**Cach toi uu:**
+**Cach tối ưu:**
 - Giam JavaScript tren main thread
 - Dung `useTransition` cho state updates lon
 - Offload heavy computation sang Web Workers
@@ -488,7 +488,7 @@ export function FilterList({ items }: { items: string[] }) {
   const [isPending, startTransition] = useTransition();
 
   const handleSearch = (value: string) => {
-    setQuery(value); // Cap nhat input ngay lap tuc
+    setQuery(value); // Cap nhat input ngay lập tức
 
     // Danh dau filter la low-priority update
     startTransition(() => {
@@ -519,21 +519,21 @@ export function FilterList({ items }: { items: string[] }) {
 
 ### 9.3 CLS - Cumulative Layout Shift
 
-**Muc tieu:** duoi 0.1
+**Mục tiêu:** dưới 0.1
 
-CLS do muc do nay nhay cua layout khi trang dang tai.
+CLS đo mức độ nhảy cua layout khi trang dang tai.
 
-**Cach toi uu:**
-- Luon dinh nghia `width` va `height` cho images
-- Dung `next/font` (tu dong chong layout shift)
-- Tranh inject noi dung dong phia tren fold
-- Dat placeholder cho noi dung async
+**Cach tối ưu:**
+- Luon định nghĩa `width` va `height` cho images
+- Dung `next/font` (tự động chong layout shift)
+- Tranh inject nội dung dong phia tren fold
+- Dat placeholder cho nội dung async
 
 ---
 
 ## 10. next/third-parties
 
-Next.js cung cap package `@next/third-parties` de tich hop an toan cac dich vu pho bien:
+Next.js cung cap package `@next/third-parties` de tích hợp an toàn cac dich vu phổ biến:
 
 ```bash
 npm install @next/third-parties
@@ -561,7 +561,7 @@ export default function RootLayout({
 ```
 
 ```tsx
-// Trang cu the can YouTube embed
+// Trang cụ thể can YouTube embed
 import { YouTubeEmbed } from "@next/third-parties/google";
 
 export default function VideoPage() {
@@ -577,7 +577,7 @@ export default function VideoPage() {
 
 ---
 
-## 11. Do luong Performance
+## 11. Do luông Performance
 
 ### 11.1 Next.js Speed Insights
 
@@ -610,10 +610,10 @@ export function reportWebVitals(metric: {
   value: number;
   id: string;
 }) {
-  // Gui metric den analytics service
+  // Gửi metric den analytics service
   console.log(`${metric.name}: ${metric.value}`);
 
-  // Gui den endpoint cua ban
+  // Gửi den endpoint của bạn
   fetch("/api/analytics", {
     method: "POST",
     body: JSON.stringify({
@@ -637,14 +637,14 @@ lhci autorun --collect.url=http://localhost:3000
 
 ---
 
-## 12. Loi thuong gap
+## 12. Lỗi thường gặp
 
-### Loi 1: Bundle size lon bat thuong
+### Lỗi 1: Bundle size lon bat thuong
 
 ```tsx
-// Nguyen nhan: import toan bo thu vien thay vi chi function can dung
+// Nguyen nhan: import toàn bộ thư viện thay vi chi function can dung
 
-// SAI: import toan bo lodash (~70KB)
+// SAI: import toàn bộ lodash (~70KB)
 import _ from "lodash";
 const result = _.debounce(fn, 300);
 
@@ -655,34 +655,34 @@ const result = debounce(fn, 300);
 // HOAC: dung optimizePackageImports trong next.config.ts
 ```
 
-### Loi 2: CLS cao do hinh anh
+### Lỗi 2: CLS cao do hinh anh
 
 ```tsx
-// SAI: khong dinh nghia kich thuoc
+// SAI: khong định nghĩa kích thước
 <img src="/photo.jpg" alt="Photo" />
 
 // DUNG: dung next/image voi width va height
 <Image src="/photo.jpg" alt="Photo" width={800} height={600} />
 ```
 
-### Loi 3: LCP cham vi anh hero
+### Lỗi 3: LCP cham vi anh hero
 
 ```tsx
-// SAI: anh hero bi lazy load (mac dinh)
+// SAI: anh hero bi lazy load (mặc định)
 <Image src="/hero.jpg" alt="Hero" width={1200} height={600} />
 
 // DUNG: them priority cho anh hero
 <Image src="/hero.jpg" alt="Hero" width={1200} height={600} priority />
 ```
 
-### Loi 4: Client Component qua lon
+### Lỗi 4: Client Component quá lớn
 
 ```tsx
-// SAI: danh dau "use client" cho toan bo page
+// SAI: đánh dấu "use client" cho toàn bộ page
 "use client"; // Tat ca component con se la client components!
 
-// DUNG: chi danh dau "use client" cho phan can interactivity
-// page.tsx (Server Component - khong co "use client")
+// DUNG: chi đánh dấu "use client" cho phan can interactivity
+// page.tsx (Server Component - không có "use client")
 import { InteractiveButton } from "./InteractiveButton"; // nay la client
 
 export default function Page() {
@@ -698,66 +698,66 @@ export default function Page() {
 
 ---
 
-## Cau hoi phong van
+## Câu hỏi phỏng vấn
 
-### Cau 1: Next.js tu dong toi uu hoa nhung gi?
+### Câu 1: Next.js tự động tối ưu hoa nhung gi?
 
-**Tra loi:**
+**Trả lời:**
 
-Next.js tich hop san cac toi uu hoa:
-- **Server Components**: Giam JS gui xuong client, chi gui HTML
-- **Automatic code splitting**: Moi route la mot JS chunk rieng
+Next.js tích hợp san cac tối ưu hoa:
+- **Server Components**: Giam JS gửi xuống client, chi gui HTML
+- **Automatic code splitting**: Moi route là một JS chunk riêng
 - **Prefetching**: Tu dong tai truoc trang lien ket khi vao viewport
-- **Image optimization**: Tu dong resize, nen, chuyen sang WebP/AVIF
+- **Image optimization**: Tu dong resize, nen, chuyển sang WebP/AVIF
 - **Font optimization**: Self-host fonts, khong layout shift
-- **Tree shaking**: Loai bo code khong dung
+- **Tree shaking**: Loại bỏ code khong dung
 - **Minification**: Nen JS va CSS cho production
 
-### Cau 2: Core Web Vitals la gi? Lam sao toi uu?
+### Câu 2: Core Web Vitals là gì? Lam sao tối ưu?
 
-**Tra loi:**
+**Trả lời:**
 
-Core Web Vitals la 3 chi so Google dung de danh gia trai nghiem nguoi dung:
+Core Web Vitals la 3 chi so Google dung de đánh giá trải nghiệm người dùng:
 
-- **LCP** (Largest Contentful Paint) duoi 2.5s: Toi uu bang priority images, Server Components, preload fonts
-- **INP** (Interaction to Next Paint) duoi 200ms: Giam JS tren main thread, dung `useTransition`
-- **CLS** (Cumulative Layout Shift) duoi 0.1: Dinh nghia kich thuoc images, dung `next/font`
+- **LCP** (Largest Contentful Paint) dưới 2.5s: Toi uu bang priority images, Server Components, preload fonts
+- **INP** (Interaction to Next Paint) dưới 200ms: Giam JS tren main thread, dung `useTransition`
+- **CLS** (Cumulative Layout Shift) dưới 0.1: Dinh nghia kích thước images, dung `next/font`
 
-### Cau 3: Khi nao nen dung dynamic import?
+### Câu 3: Khi nao nen dung dynamic import?
 
-**Tra loi:**
+**Trả lời:**
 
 Dung `next/dynamic` khi:
-- Component **lon** ma khong can hien thi ngay (chart, editor, map)
-- Component **chi chay tren client** (dung window, document)
-- Component **it khi duoc hien thi** (modal, dialog)
-- **Thu vien lon** chi dung o mot vai noi
+- Component **lon** ma không cần hiển thị ngay (chart, editor, map)
+- Component **chỉ chạy trên client** (dung window, document)
+- Component **it khi duoc hiển thị** (modal, dialog)
+- **Thu vien lon** chỉ dùng o mot vai noi
 
-Khong nen dung cho:
+Không nen dung cho:
 - Component nho, nhe
-- Component luon hien thi tren trang
-- Content quan trong cho SEO (can SSR)
+- Component luôn hiển thị tren trang
+- Content quan trọng cho SEO (can SSR)
 
-### Cau 4: Server Components giup toi uu hieu suat nhu the nao?
+### Câu 4: Server Components giup tối ưu hiệu suất nhu thế nào?
 
-**Tra loi:**
+**Trả lời:**
 
-Server Components giup giam dang ke luong JavaScript gui xuong client:
+Server Components giup giảm đáng kể luông JavaScript gửi xuống client:
 
-- Render tren server, chi gui **HTML** xuong client
-- Thu vien nhu `date-fns`, `lodash` chi chay tren server, **khong nam trong client bundle**
-- Data fetching tren server - gan voi data source hon, nhanh hon
+- Render trên server, chi gui **HTML** xuong client
+- Thu vien nhu `date-fns`, `lodash` chỉ chạy trên server, **khong nam trong client bundle**
+- Data fetching trên server - gan voi data source hon, nhanh hơn
 - Chi nhung component co `"use client"` moi gui JavaScript xuong browser
 
 Ket qua: **smaller bundle size, faster page loads, better SEO**.
 
-### Cau 5: Lam sao phan tich va giam bundle size?
+### Câu 5: Lam sao phan tich va giảm bundle size?
 
-**Tra loi:**
+**Trả lời:**
 
-1. Dung `@next/bundle-analyzer` de xem treemap cua bundle
-2. Tim cac package lon va thay the hoac lazy load
+1. Dung `@next/bundle-analyzer` để xem treemap cua bundle
+2. Tim các package lon va thay the hoac lazy load
 3. Dung `optimizePackageImports` trong next.config.ts
-4. Import chi function can dung thay vi toan bo thu vien
-5. Di chuyen heavy libraries sang Server Components
-6. Dung `next/dynamic` cho components lon khong can thiet ngay
+4. Import chi function can dung thay vi toàn bộ thư viện
+5. Di chuyển heavy libraries sang Server Components
+6. Dung `next/dynamic` cho components lon không cần thiet ngay

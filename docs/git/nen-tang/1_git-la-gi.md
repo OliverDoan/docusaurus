@@ -3,9 +3,9 @@ sidebar_position: 1
 title: "Git la gi? Tai sao phai hoc Git?"
 ---
 
-# Git la gi? Tai sao phai hoc Git?
+# Git là gì? Tại sao phải học Git?
 
-Ban da bao gio gap tinh huong nay chua:
+Bạn đã bao giờ gặp tình huống này chưa:
 
 ```
 bao-cao-final.docx
@@ -15,45 +15,45 @@ bao-cao-final-THIET-LA-CUOI-CUNG.docx
 bao-cao-final-CUOI-CUNG-THAT-SU.docx
 ```
 
-Neu co, chuc mung ban — ban dang "quan ly phien ban" bang tay. Va do chinh la ly do Git ra doi.
+Nếu có, chúc mừng bạn — bạn đang "quản lý phiên bản" bằng tay. Và đó chính là lý do Git ra đời.
 
 ---
 
-## 1. Version Control System (VCS) la gi?
+## 1. Version Control System (VCS) là gì?
 
-**Version Control System** (He thong quan ly phien ban) la cong cu giup ban:
+**Version Control System** (Hệ thống quản lý phiên bản) là công cụ giúp bạn:
 
-- **Luu lai lich su** moi thay doi cua du an
-- **Quay lai** bat ky thoi diem nao trong qua khu
-- **Lam viec nhom** ma khong ghi de len code cua nhau
-- **Theo doi** ai da thay doi gi, khi nao, va tai sao
+- **Lưu lại lịch sử** mọi thay đổi của dự án
+- **Quay lại** bất kỳ thời điểm nào trong quá khứ
+- **Làm việc nhóm** mà không ghi đè lên code của nhau
+- **Theo dõi** ai đã thay đổi gì, khi nào, và tại sao
 
-### Tai sao can quan ly phien ban?
+### Tại sao cần quản lý phiên bản?
 
-Hay tuong tuong ban dang viet mot ung dung. Hom nay code chay tot, nhung sang mai ban sua mot tinh nang va bat ngo... moi thu hong het. Khong co VCS, ban phai nho "minh da sua gi" va co gang undo bang tri nho. Voi VCS, ban chi can:
+Hãy tưởng tượng bạn đang viết một ứng dụng. Hôm nay code chạy tốt, nhưng sáng mai bạn sửa một tính năng và bất ngờ... mọi thứ hỏng hết. Không có VCS, bạn phải nhớ "mình đã sửa gì" và cố gắng undo bằng trí nhớ. Với VCS, bạn chỉ cần:
 
 ```bash
-# Quay lai phien ban hom qua — don gian nhu vay
+# Quay lại phiên bản hôm qua — đơn giản như vậy
 git checkout abc1234
 ```
 
-### Khong chi danh cho code
+### Không chỉ dành cho code
 
-VCS khong chi dung cho lap trinh. Bat ky ai lam viec voi file thay doi theo thoi gian deu can:
+VCS không chỉ dùng cho lập trình. Bất kỳ ai làm việc với file thay đổi theo thời gian đều cần:
 
-| Linh vuc | Dung VCS de lam gi |
+| Lĩnh vực | Dùng VCS để làm gì |
 |----------|-------------------|
-| Developer | Quan ly source code, lam viec nhom |
-| Designer | Theo doi thay doi file thiet ke |
+| Developer | Quản lý source code, làm việc nhóm |
+| Designer | Theo dõi thay đổi file thiết kế |
 | Data Scientist | Version data pipelines, notebooks |
-| DevOps | Quan ly infrastructure as code |
-| Technical Writer | Theo doi thay doi tai lieu |
+| DevOps | Quản lý infrastructure as code |
+| Technical Writer | Theo dõi thay đổi tài liệu |
 
 ---
 
-## 2. Lich su phat trien: Tu copy thu cong den Git
+## 2. Lịch sử phát triển: Từ copy thủ công đến Git
 
-### Giai doan 1: Copy thu cong (truoc 1990s)
+### Giai đoạn 1: Copy thủ công (trước 1990s)
 
 ```
 project/
@@ -62,11 +62,11 @@ project-backup-2/
 project-cu-dung-xoa/
 ```
 
-**Van de:** Khong biet phien ban nao moi nhat, khong the so sanh su khac biet, mat file la mat luon.
+**Vấn đề:** Không biết phiên bản nào mới nhất, không thể so sánh sự khác biệt, mất file là mất luôn.
 
-### Giai doan 2: Centralized VCS — CVS, SVN (1990s-2000s)
+### Giai đoạn 2: Centralized VCS — CVS, SVN (1990s-2000s)
 
-CVS (1990) va SVN/Subversion (2000) ra doi voi y tuong: **mot server trung tam** luu toan bo lich su.
+CVS (1990) và SVN/Subversion (2000) ra đời với ý tưởng: **một server trung tâm** lưu toàn bộ lịch sử.
 
 ```
                +------------------+
@@ -81,24 +81,24 @@ CVS (1990) va SVN/Subversion (2000) ra doi voi y tuong: **mot server trung tam**
       copy)        copy)        copy)
 ```
 
-**Uu diem:** Tot hon copy thu cong nhieu.
-**Nhuoc diem:** Server chet = ca team dung lam viec. Khong co mang = khong commit duoc.
+**Ưu điểm:** Tốt hơn copy thủ công nhiều.
+**Nhược điểm:** Server chết = cả team dừng làm việc. Không có mạng = không commit được.
 
-### Giai doan 3: Distributed VCS — Git (2005)
+### Giai đoạn 3: Distributed VCS — Git (2005)
 
-**Linus Torvalds** — nguoi tao ra Linux — da tao Git vao nam 2005 vi bat man voi cac VCS hien tai. Ong can mot he thong:
+**Linus Torvalds** — người tạo ra Linux — đã tạo Git vào năm 2005 vì bất mãn với các VCS hiện tại. Ông cần một hệ thống:
 
-- **Cuc nhanh** (Linux kernel co hang trieu dong code)
-- **Phan tan** (hang ngan developer tren toan the gioi)
-- **Ho tro branching** manh me
-- **Dam bao toan ven du lieu**
+- **Cực nhanh** (Linux kernel có hàng triệu dòng code)
+- **Phân tán** (hàng ngàn developer trên toàn thế giới)
+- **Hỗ trợ branching** mạnh mẽ
+- **Đảm bảo toàn vẹn dữ liệu**
 
-Ket qua: Git ra doi va nhanh chong tro thanh **VCS pho bien nhat the gioi**.
+Kết quả: Git ra đời và nhanh chóng trở thành **VCS phổ biến nhất thế giới**.
 
 ```
-Thoi gian:  1990      2000      2005      Hien tai
+Thời gian:  1990      2000      2005      Hiện tại
             |---------|---------|---------|
-            CVS       SVN       Git       Git thong tri
+            CVS       SVN       Git       Git thống trị
             (Centralized)       (Distributed)
 ```
 
@@ -106,29 +106,29 @@ Thoi gian:  1990      2000      2005      Hien tai
 
 ## 3. Centralized vs Distributed VCS
 
-Day la su khac biet cot loi giua SVN va Git:
+Đây là sự khác biệt cốt lõi giữa SVN và Git:
 
 ### ASCII Diagram: Centralized VCS
 
 ```
                 +------------------+
                 |   CENTRAL SERVER |
-                |   (toan bo       |
-                |    lich su)      |
+                |   (toàn bộ      |
+                |    lịch sử)     |
                 +--------+---------+
                          |
            +-------------+-------------+
            |             |             |
       +----+----+   +----+----+   +----+----+
       |  Dev A  |   |  Dev B  |   |  Dev C  |
-      | (chi co |   | (chi co |   | (chi co |
-      |  ban    |   |  ban    |   |  ban    |
-      |  moi    |   |  moi    |   |  moi    |
-      |  nhat)  |   |  nhat)  |   |  nhat)  |
+      | (chỉ có |   | (chỉ có |   | (chỉ có |
+      |  bản    |   |  bản    |   |  bản    |
+      |  mới    |   |  mới    |   |  mới    |
+      |  nhất)  |   |  nhất)  |   |  nhất)  |
       +---------+   +---------+   +---------+
 
-      --> Moi thao tac deu can ket noi server
-      --> Server chet = team dung hoat dong
+      --> Mọi thao tác đều cần kết nối server
+      --> Server chết = team dừng hoạt động
 ```
 
 ### ASCII Diagram: Distributed VCS (Git)
@@ -138,8 +138,8 @@ Day la su khac biet cot loi giua SVN va Git:
       |  Dev A  |        |  Dev B  |        |  Dev C  |
       | (FULL   |<------>| (FULL   |<------>| (FULL   |
       |  REPO   |        |  REPO   |        |  REPO   |
-      |  + lich |        |  + lich |        |  + lich |
-      |  su)    |        |  su)    |        |  su)    |
+      |  + lịch |        |  + lịch |        |  + lịch |
+      |  sử)    |        |  sử)    |        |  sử)    |
       +----+----+        +----+----+        +----+----+
            |                  |                  |
            +------------------+------------------+
@@ -147,318 +147,318 @@ Day la su khac biet cot loi giua SVN va Git:
                     +---------+---------+
                     |   REMOTE SERVER   |
                     |   (GitHub, etc.)  |
-                    |   (tuy chon,      |
-                    |    khong bat buoc)|
+                    |   (tùy chọn,     |
+                    |    không bắt buộc)|
                     +-------------------+
 
-      --> Moi developer co BAN SAO DAY DU
-      --> Lam viec offline hoan toan duoc
-      --> Server chet? Van lam viec binh thuong
+      --> Mỗi developer có BẢN SAO ĐẦY ĐỦ
+      --> Làm việc offline hoàn toàn được
+      --> Server chết? Vẫn làm việc bình thường
 ```
 
-### Bang so sanh chi tiet
+### Bảng so sánh chi tiết
 
-| Tieu chi | Centralized (SVN) | Distributed (Git) |
+| Tiêu chí | Centralized (SVN) | Distributed (Git) |
 |----------|-------------------|-------------------|
-| Noi luu lich su | Chi tren server | Moi may deu co full history |
-| Lam viec offline | Khong the | Hoan toan duoc |
-| Toc do commit | Cham (qua mang) | Cuc nhanh (local) |
-| Branching | Cham, nang ne | Nhanh, nhe |
-| Single point of failure | Co (server) | Khong |
-| Backup tu nhien | Khong | Co (moi clone la 1 backup) |
-| Hoc su dung | De hon | Kho hon mot chut |
-| Phu hop | Team nho, du an don gian | Moi quy mo du an |
+| Nơi lưu lịch sử | Chỉ trên server | Mỗi máy đều có full history |
+| Làm việc offline | Không thể | Hoàn toàn được |
+| Tốc độ commit | Chậm (qua mạng) | Cực nhanh (local) |
+| Branching | Chậm, nặng nề | Nhanh, nhẹ |
+| Single point of failure | Có (server) | Không |
+| Backup tự nhiên | Không | Có (mỗi clone là 1 backup) |
+| Học sử dụng | Dễ hơn | Khó hơn một chút |
+| Phù hợp | Team nhỏ, dự án đơn giản | Mọi quy mô dự án |
 
 ---
 
-## 4. Git vs SVN — So sanh cu the
+## 4. Git vs SVN — So sánh cụ thể
 
-### Toc do
+### Tốc độ
 
 ```bash
-# SVN: Moi commit phai gui qua mang den server
-svn commit -m "sua loi"  # Mat vai giay den vai phut
+# SVN: Mỗi commit phải gửi qua mạng đến server
+svn commit -m "sua loi"  # Mất vài giây đến vài phút
 
-# Git: Commit ngay tren may local
-git commit -m "sua loi"  # Gan nhu tuc thi (< 1 giay)
+# Git: Commit ngay trên máy local
+git commit -m "sua loi"  # Gần như tức thì (< 1 giây)
 ```
 
 ### Branching
 
 ```bash
-# SVN: Tao branch = copy toan bo thu muc (cham)
-svn copy trunk branches/feature-login  # Copy that su tren server
+# SVN: Tạo branch = copy toàn bộ thư mục (chậm)
+svn copy trunk branches/feature-login  # Copy thật sự trên server
 
-# Git: Tao branch = tao 1 pointer 41 bytes (cuc nhanh)
-git branch feature-login  # Tuc thi, chi tao 1 file nho
+# Git: Tạo branch = tạo 1 pointer 41 bytes (cực nhanh)
+git branch feature-login  # Tức thì, chỉ tạo 1 file nhỏ
 ```
 
-### Lam viec offline
+### Làm việc offline
 
 ```bash
-# SVN: Khong co mang? Khong lam duoc gi nhieu
-svn commit  # LOI: khong ket noi duoc server
-svn log     # LOI: khong ket noi duoc server
+# SVN: Không có mạng? Không làm được gì nhiều
+svn commit  # LỖI: không kết nối được server
+svn log     # LỖI: không kết nối được server
 
-# Git: Khong co mang? Van lam viec binh thuong
+# Git: Không có mạng? Vẫn làm việc bình thường
 git commit -m "feature moi"  # OK — commit local
-git log                       # OK — doc lich su local
-git branch feature-x          # OK — tao branch local
-git diff                      # OK — so sanh thay doi
-# Chi can mang khi push/pull voi remote
+git log                       # OK — đọc lịch sử local
+git branch feature-x          # OK — tạo branch local
+git diff                      # OK — so sánh thay đổi
+# Chỉ cần mạng khi push/pull với remote
 ```
 
-### Bang so sanh tong hop
+### Bảng so sánh tổng hợp
 
-| Tieu chi | SVN | Git |
+| Tiêu chí | SVN | Git |
 |----------|-----|-----|
-| Mo hinh | Centralized | Distributed |
-| Toc do | Cham (mang) | Nhanh (local) |
-| Branch | Nang, copy thu muc | Nhe, chi la pointer |
-| Merge | Kho, hay conflict | Thong minh hon |
-| Offline | Rat han che | Day du |
-| Hoc | De hon | Kho hon ban dau |
-| Disk | It hon (chi co latest) | Nhieu hon (full history) |
-| Phuc hoi | Phu thuoc server | Moi clone la backup |
+| Mô hình | Centralized | Distributed |
+| Tốc độ | Chậm (mạng) | Nhanh (local) |
+| Branch | Nặng, copy thư mục | Nhẹ, chỉ là pointer |
+| Merge | Khó, hay conflict | Thông minh hơn |
+| Offline | Rất hạn chế | Đầy đủ |
+| Học | Dễ hơn | Khó hơn ban đầu |
+| Disk | Ít hơn (chỉ có latest) | Nhiều hơn (full history) |
+| Phục hồi | Phụ thuộc server | Mỗi clone là backup |
 
 ---
 
-## 5. Tai sao Git thong tri?
+## 5. Tại sao Git thống trị?
 
-### 5.1 Toc do vuot troi
+### 5.1 Tốc độ vượt trội
 
-Git lam hau het moi thu tren may local, nen:
-- **Commit:** tuc thi
-- **Xem log:** tuc thi
-- **Tao branch:** tuc thi
-- **So sanh diff:** tuc thi
+Git làm hầu hết mọi thứ trên máy local, nên:
+- **Commit:** tức thì
+- **Xem log:** tức thì
+- **Tạo branch:** tức thì
+- **So sánh diff:** tức thì
 
-Chi co `push` va `pull` la can mang.
+Chỉ có `push` và `pull` là cần mạng.
 
-### 5.2 Branching va Merging manh me
+### 5.2 Branching và Merging mạnh mẽ
 
-Git duoc thiet ke tu dau de branching re va nhanh:
+Git được thiết kế từ đầu để branching rẻ và nhanh:
 
 ```bash
-# Tao branch moi va chuyen sang
+# Tạo branch mới và chuyển sang
 git checkout -b feature/login
 
-# Lam viec, commit nhieu lan...
+# Làm việc, commit nhiều lần...
 git commit -m "them form login"
 git commit -m "them validation"
 
-# Merge ve main
+# Merge về main
 git checkout main
 git merge feature/login
 
-# Xoa branch da merge
+# Xóa branch đã merge
 git branch -d feature/login
 ```
 
-Trong SVN, branching la "viec lon" — can suy nghi truoc khi lam.
-Trong Git, branching la "viec nho" — tao branch cho moi tinh nang, moi bug fix.
+Trong SVN, branching là "việc lớn" — cần suy nghĩ trước khi làm.
+Trong Git, branching là "việc nhỏ" — tạo branch cho mỗi tính năng, mỗi bug fix.
 
-### 5.3 Lam viec offline
+### 5.3 Làm việc offline
 
-Tren may bay? Trong quan cafe mat mang? Van commit, tao branch, xem log binh thuong.
+Trên máy bay? Trong quán cafe mất mạng? Vẫn commit, tạo branch, xem log bình thường.
 
-### 5.4 Cong dong va he sinh thai khong lo
+### 5.4 Cộng đồng và hệ sinh thái khổng lồ
 
-- **GitHub:** 100+ trieu developer
-- **GitLab, Bitbucket:** Cac nen tang lon khac
-- **CI/CD:** Hau het pipeline deu tich hop Git
-- **Moi ngon ngu/framework** deu co `.gitignore` template
+- **GitHub:** 100+ triệu developer
+- **GitLab, Bitbucket:** Các nền tảng lớn khác
+- **CI/CD:** Hầu hết pipeline đều tích hợp Git
+- **Mọi ngôn ngữ/framework** đều có `.gitignore` template
 
-### 5.5 Mien phi va open source
+### 5.5 Miễn phí và open source
 
-Git la phan mem **mien phi**, **ma nguon mo**, phat trien boi cong dong toan cau.
+Git là phần mềm **miễn phí**, **mã nguồn mở**, phát triển bởi cộng đồng toàn cầu.
 
 ---
 
-## 6. Git KHONG PHAI la GitHub
+## 6. Git KHÔNG PHẢI là GitHub
 
-Day la nham lan **pho bien nhat** cua nguoi moi:
+Đây là nhầm lẫn **phổ biến nhất** của người mới:
 
 ```
 +-------------------+        +-------------------+
 |       GIT         |        |      GITHUB       |
 +-------------------+        +-------------------+
-| Phan mem          |        | Dich vu web       |
-| Cai tren may      |        | Truy cap qua      |
-|   cua ban         |        |   trinh duyet     |
-| Quan ly phien ban |        | Luu tru remote    |
-|   LOCAL           |        |   repository      |
-| Mien phi, open    |        | Co ban mien phi,  |
-|   source          |        |   co goi tra phi  |
-| Chay bang dong    |        | Giao dien web +   |
-|   lenh (CLI)      |        |   nhieu tinh nang |
-| Khong can mang    |        | Can mang de truy  |
-|                   |        |   cap             |
+| Phần mềm         |        | Dịch vụ web       |
+| Cài trên máy     |        | Truy cập qua      |
+|   của bạn        |        |   trình duyệt     |
+| Quản lý phiên bản|        | Lưu trữ remote    |
+|   LOCAL          |        |   repository      |
+| Miễn phí, open   |        | Cơ bản miễn phí,  |
+|   source         |        |   có gói trả phí  |
+| Chạy bằng dòng   |        | Giao diện web +   |
+|   lệnh (CLI)     |        |   nhiều tính năng |
+| Không cần mạng   |        | Cần mạng để truy  |
+|                   |        |   cập             |
 +-------------------+        +-------------------+
         |                            |
-        | Git la CONG CU             | GitHub la DICH VU
-        | (nhu Word)                 | (nhu Google Docs)
+        | Git là CÔNG CỤ            | GitHub là DỊCH VỤ
+        | (như Word)                 | (như Google Docs)
         +----------------------------+
 ```
 
-### Cac dich vu tuong tu GitHub
+### Các dịch vụ tương tự GitHub
 
-| Dich vu | Dac diem |
+| Dịch vụ | Đặc điểm |
 |---------|----------|
-| **GitHub** | Pho bien nhat, cong dong lon, GitHub Actions |
-| **GitLab** | Self-hosted, CI/CD tich hop, DevOps platform |
-| **Bitbucket** | Tich hop Jira/Atlassian, free private repos |
-| **Azure DevOps** | Tich hop he sinh thai Microsoft |
+| **GitHub** | Phổ biến nhất, cộng đồng lớn, GitHub Actions |
+| **GitLab** | Self-hosted, CI/CD tích hợp, DevOps platform |
+| **Bitbucket** | Tích hợp Jira/Atlassian, free private repos |
+| **Azure DevOps** | Tích hợp hệ sinh thái Microsoft |
 
-**Luu y:** Ban co the dung Git ma **khong can bat ky dich vu nao** o tren. Git hoat dong hoan toan tren may local cua ban.
+**Lưu ý:** Bạn có thể dùng Git mà **không cần bất kỳ dịch vụ nào** ở trên. Git hoạt động hoàn toàn trên máy local của bạn.
 
 ---
 
-## 7. Ai can hoc Git?
+## 7. Ai cần học Git?
 
-### Developer (bat buoc)
+### Developer (bắt buộc)
 
 ```
-99% cong viec lap trinh yeu cau Git.
-Khong biet Git = Khong di lam duoc.
+99% công việc lập trình yêu cầu Git.
+Không biết Git = Không đi làm được.
 ```
 
-Dung, khong phai noi qua. Hau het moi cong ty, tu startup den tap doan, deu dung Git.
+Đúng, không phải nói quá. Hầu hết mọi công ty, từ startup đến tập đoàn, đều dùng Git.
 
-### Cac vai tro khac
+### Các vai trò khác
 
-| Vai tro | Tai sao can Git |
+| Vai trò | Tại sao cần Git |
 |---------|-----------------|
-| **Frontend Dev** | Quan ly code React/Vue/Angular, lam viec nhom |
-| **Backend Dev** | Quan ly API code, database migrations |
+| **Frontend Dev** | Quản lý code React/Vue/Angular, làm việc nhóm |
+| **Backend Dev** | Quản lý API code, database migrations |
 | **DevOps** | Infrastructure as Code (Terraform, K8s) |
 | **Data Scientist** | Version notebooks, data pipelines |
-| **Mobile Dev** | Quan ly code iOS/Android |
+| **Mobile Dev** | Quản lý code iOS/Android |
 | **Designer** | Version design tokens, design systems |
-| **Technical Writer** | Quan ly documentation (nhu trang nay!) |
-| **QA Engineer** | Quan ly test scripts, test data |
+| **Technical Writer** | Quản lý documentation (như trang này!) |
+| **QA Engineer** | Quản lý test scripts, test data |
 
 ---
 
-## 8. Cach Git luu du lieu
+## 8. Cách Git lưu dữ liệu
 
-Mot diem quan trong ma nhieu nguoi hieu sai: **Git luu snapshot, khong phai diff**.
+Một điểm quan trọng mà nhiều người hiểu sai: **Git lưu snapshot, không phải diff**.
 
-### Cach khac (SVN): Luu su thay doi (delta)
+### Cách khác (SVN): Lưu sự thay đổi (delta)
 
 ```
 Version 1:  [File A v1] [File B v1] [File C v1]
                 |            |
-Version 2:  [delta A2]   [delta B2]  (chi luu phan thay doi)
+Version 2:  [delta A2]   [delta B2]  (chỉ lưu phần thay đổi)
                 |
-Version 3:  [delta A3]               (chi luu phan thay doi)
+Version 3:  [delta A3]               (chỉ lưu phần thay đổi)
 ```
 
-### Cach cua Git: Luu snapshot
+### Cách của Git: Lưu snapshot
 
 ```
 Commit 1:  [File A v1] [File B v1] [File C v1]
                                         |
-Commit 2:  [File A v2] [File B v2] [File C v1] <-- link den v1 (khong copy lai)
+Commit 2:  [File A v2] [File B v2] [File C v1] <-- link đến v1 (không copy lại)
                 |                       |
-Commit 3:  [File A v3] [File B v2] [File C v1] <-- link den cac version cu
+Commit 3:  [File A v3] [File B v2] [File C v1] <-- link đến các version cũ
 ```
 
-Neu file khong doi, Git **khong copy lai** ma chi tao mot **link** den phien ban truoc. Nen Git vua nhanh vua tiet kiem dung luong.
+Nếu file không đổi, Git **không copy lại** mà chỉ tạo một **link** đến phiên bản trước. Nên Git vừa nhanh vừa tiết kiệm dung lượng.
 
 ---
 
-## 9. Loi thuong gap khi moi bat dau
+## 9. Lỗi thường gặp khi mới bắt đầu
 
-### Loi 1: Nghi Git va GitHub la mot thu
+### Lỗi 1: Nghĩ Git và GitHub là một thứ
 
 ```
-SAI:  "Em push code len Git"
-DUNG: "Em push code len GitHub" (hoac GitLab, Bitbucket...)
+SAI:  "Em push code lên Git"
+ĐÚNG: "Em push code lên GitHub" (hoặc GitLab, Bitbucket...)
 
-Git = cong cu tren may local
-GitHub = dich vu luu tru tren cloud
+Git = công cụ trên máy local
+GitHub = dịch vụ lưu trữ trên cloud
 ```
 
-### Loi 2: So Git vi "kho hoc"
+### Lỗi 2: Sợ Git vì "khó học"
 
-Git co nhieu lenh, nhung ban chi can ~10 lenh cho cong viec hang ngay:
+Git có nhiều lệnh, nhưng bạn chỉ cần ~10 lệnh cho công việc hàng ngày:
 
 ```bash
-git init          # Tao repo
+git init          # Tạo repo
 git clone         # Clone repo
-git add           # Them file vao staging
-git commit        # Luu thay doi
-git push          # Day len remote
-git pull          # Keo ve tu remote
-git branch        # Quan ly branch
-git checkout      # Chuyen branch
-git merge         # Gop branch
-git status        # Xem trang thai
+git add           # Thêm file vào staging
+git commit        # Lưu thay đổi
+git push          # Đẩy lên remote
+git pull          # Kéo về từ remote
+git branch        # Quản lý branch
+git checkout      # Chuyển branch
+git merge         # Gộp branch
+git status        # Xem trạng thái
 ```
 
-### Loi 3: Khong hoc Git som
+### Lỗi 3: Không học Git sớm
 
-Nhieu nguoi hoc lap trinh 6 thang roi moi bat dau hoc Git. Sai lam! Nen hoc Git **ngay khi bat dau code** — du la hello world.
+Nhiều người học lập trình 6 tháng rồi mới bắt đầu học Git. Sai lầm! Nên học Git **ngay khi bắt đầu code** — dù là hello world.
 
-### Loi 4: Chi dung GUI ma khong hieu CLI
+### Lỗi 4: Chỉ dùng GUI mà không hiểu CLI
 
-GUI tools (VS Code Git, Sourcetree, GitKraken) rat tien, nhung:
-- Khong giup ban hieu ban chat
-- Khi gap loi, ban khong biet sua
-- Phong van luc nao cung hoi lenh Git
+GUI tools (VS Code Git, Sourcetree, GitKraken) rất tiện, nhưng:
+- Không giúp bạn hiểu bản chất
+- Khi gặp lỗi, bạn không biết sửa
+- Phỏng vấn lúc nào cũng hỏi lệnh Git
 
-**Khuyen nghi:** Hoc CLI truoc, dung GUI sau.
-
----
-
-## 10. Cau hoi phong van
-
-### Cau 1: Git la gi? Giai thich ngan gon.
-
-**Tra loi mau:**
-
-> Git la mot Distributed Version Control System (he thong quan ly phien ban phan tan). No cho phep nhieu nguoi lam viec tren cung mot du an, theo doi moi thay doi, va quay lai bat ky phien ban nao truoc do. Git luu tru toan bo lich su tren may moi developer, cho phep lam viec offline va khong phu thuoc vao server trung tam.
-
-### Cau 2: Phan biet Git va GitHub.
-
-**Tra loi mau:**
-
-> Git la phan mem cai tren may local, quan ly phien ban code. GitHub la dich vu web cho phep luu tru Git repository tren cloud, kem theo cac tinh nang cong tac nhu Pull Request, Issues, Actions. Git co the hoat dong doc lap ma khong can GitHub.
-
-### Cau 3: Tai sao Git dung mo hinh distributed thay vi centralized?
-
-**Tra loi mau:**
-
-> Distributed model cho phep moi developer co ban sao day du cua repository, bao gom toan bo lich su. Dieu nay mang lai: (1) Lam viec offline, (2) Toc do nhanh vi thao tac tren local, (3) Khong co single point of failure, (4) Moi clone la mot backup tu nhien. Day la ly do Git duoc thiet ke boi Linus Torvalds de phuc vu hang ngan developer cua Linux kernel.
-
-### Cau 4: Git luu du lieu nhu the nao — snapshot hay diff?
-
-**Tra loi mau:**
-
-> Git luu du lieu dang snapshot. Moi commit la mot anh chup toan bo trang thai cua project tai thoi diem do. Neu file khong thay doi, Git khong copy lai ma tao mot link den phien ban truoc. Dieu nay khac voi SVN luu theo dang delta (chi luu phan thay doi). Cach luu snapshot giup Git nhanh hon khi chuyen branch va xem lich su.
-
-### Cau 5: Ke ten cac VCS khac ngoai Git va so sanh.
-
-**Tra loi mau:**
-
-> - **SVN (Subversion):** Centralized, pho bien truoc Git, van dung o mot so cong ty lon.
-> - **Mercurial:** Distributed nhu Git, cu phap de hon nhung it pho bien hon.
-> - **Perforce:** Centralized, manh ve file lon (game development, media).
-> - **CVS:** The he dau cua centralized VCS, hien da loi thoi.
-> Git thong tri nho toc do, branching manh, cong dong lon, va su tich hop voi GitHub/GitLab.
+**Khuyến nghị:** Học CLI trước, dùng GUI sau.
 
 ---
 
-## Tong ket
+## 10. Câu hỏi phỏng vấn
 
-| Khai niem | Ghi nho |
+### Câu 1: Git là gì? Giải thích ngắn gọn.
+
+**Trả lời mẫu:**
+
+> Git là một Distributed Version Control System (hệ thống quản lý phiên bản phân tán). Nó cho phép nhiều người làm việc trên cùng một dự án, theo dõi mọi thay đổi, và quay lại bất kỳ phiên bản nào trước đó. Git lưu trữ toàn bộ lịch sử trên máy mỗi developer, cho phép làm việc offline và không phụ thuộc vào server trung tâm.
+
+### Câu 2: Phân biệt Git và GitHub.
+
+**Trả lời mẫu:**
+
+> Git là phần mềm cài trên máy local, quản lý phiên bản code. GitHub là dịch vụ web cho phép lưu trữ Git repository trên cloud, kèm theo các tính năng cộng tác như Pull Request, Issues, Actions. Git có thể hoạt động độc lập mà không cần GitHub.
+
+### Câu 3: Tại sao Git dùng mô hình distributed thay vì centralized?
+
+**Trả lời mẫu:**
+
+> Distributed model cho phép mỗi developer có bản sao đầy đủ của repository, bao gồm toàn bộ lịch sử. Điều này mang lại: (1) Làm việc offline, (2) Tốc độ nhanh vì thao tác trên local, (3) Không có single point of failure, (4) Mỗi clone là một backup tự nhiên. Đây là lý do Git được thiết kế bởi Linus Torvalds để phục vụ hàng ngàn developer của Linux kernel.
+
+### Câu 4: Git lưu dữ liệu như thế nào — snapshot hay diff?
+
+**Trả lời mẫu:**
+
+> Git lưu dữ liệu dạng snapshot. Mỗi commit là một ảnh chụp toàn bộ trạng thái của project tại thời điểm đó. Nếu file không thay đổi, Git không copy lại mà tạo một link đến phiên bản trước. Điều này khác với SVN lưu theo dạng delta (chỉ lưu phần thay đổi). Cách lưu snapshot giúp Git nhanh hơn khi chuyển branch và xem lịch sử.
+
+### Câu 5: Kể tên các VCS khác ngoài Git và so sánh.
+
+**Trả lời mẫu:**
+
+> - **SVN (Subversion):** Centralized, phổ biến trước Git, vẫn dùng ở một số công ty lớn.
+> - **Mercurial:** Distributed như Git, cú pháp dễ hơn nhưng ít phổ biến hơn.
+> - **Perforce:** Centralized, mạnh về file lớn (game development, media).
+> - **CVS:** Thế hệ đầu của centralized VCS, hiện đã lỗi thời.
+> Git thống trị nhờ tốc độ, branching mạnh, cộng đồng lớn, và sự tích hợp với GitHub/GitLab.
+
+---
+
+## Tổng kết
+
+| Khái niệm | Ghi nhớ |
 |-----------|---------|
-| VCS | He thong theo doi thay doi theo thoi gian |
-| Git | Distributed VCS, nhanh, manh, mien phi |
-| GitHub | Dich vu web luu tru Git repo (khong phai Git) |
-| Centralized | 1 server, client chi co ban moi nhat |
-| Distributed | Moi may co full repo + lich su |
-| Snapshot | Git luu anh chup, khong phai diff |
+| VCS | Hệ thống theo dõi thay đổi theo thời gian |
+| Git | Distributed VCS, nhanh, mạnh, miễn phí |
+| GitHub | Dịch vụ web lưu trữ Git repo (không phải Git) |
+| Centralized | 1 server, client chỉ có bản mới nhất |
+| Distributed | Mỗi máy có full repo + lịch sử |
+| Snapshot | Git lưu ảnh chụp, không phải diff |
 
-**Buoc tiep theo:** Cai dat Git tren may va cau hinh co ban.
+**Bước tiếp theo:** Cài đặt Git trên máy và cấu hình cơ bản.

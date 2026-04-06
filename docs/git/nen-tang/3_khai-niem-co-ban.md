@@ -3,15 +3,15 @@ sidebar_position: 3
 title: "Cac khai niem cot loi trong Git"
 ---
 
-# Cac khai niem cot loi trong Git
+# Các khái niệm cốt lõi trong Git
 
-Truoc khi go bat ky lenh Git nao, ban can hieu **cach Git suy nghi**. Bai nay giai thich cac khai niem nen tang ma moi thu trong Git deu xay dung tren do.
+Trước khi gõ bất kỳ lệnh Git nào, bạn cần hiểu **cách Git suy nghĩ**. Bài này giải thích các khái niệm nền tảng mà mọi thứ trong Git đều xây dựng trên đó.
 
 ---
 
-## 1. Ba vung lam viec cua Git
+## 1. Ba vùng làm việc của Git
 
-Day la khai niem **quan trong nhat** de hieu Git. Moi file trong du an cua ban ton tai o mot trong 3 vung:
+Đây là khái niệm **quan trọng nhất** để hiểu Git. Mỗi file trong dự án của bạn tồn tại ở một trong 3 vùng:
 
 ```
 +-------------------+     git add     +-------------------+    git commit    +-------------------+
@@ -19,63 +19,63 @@ Day la khai niem **quan trong nhat** de hieu Git. Moi file trong du an cua ban t
 |  WORKING          |                |  STAGING AREA     |                 |  REPOSITORY       |
 |  DIRECTORY        |                |  (Index)          |                 |  (.git)           |
 |                   |                |                   |                 |                   |
-|  Noi ban VIET     |                |  Noi ban CHUAN    |                 |  Noi Git LUU      |
-|  va CHINH SUA     |                |  BI cho commit    |                 |  VINH VIEN        |
-|  code             |                |  tiep theo        |                 |                   |
+|  Nơi bạn VIẾT    |                |  Nơi bạn CHUẨN   |                 |  Nơi Git LƯU      |
+|  và CHỈNH SỬA    |                |  BỊ cho commit    |                 |  VĨNH VIỄN        |
+|  code             |                |  tiếp theo        |                 |                   |
 |                   | <------------- |                   | <-------------- |                   |
 +-------------------+  git restore   +-------------------+  git restore    +-------------------+
                                                             --staged
 ```
 
-### 1.1 Working Directory (Thu muc lam viec)
+### 1.1 Working Directory (Thư mục làm việc)
 
-Day la **thu muc thuc** tren may tinh cua ban — noi ban mo file, viet code, sua loi.
+Đây là **thư mục thực** trên máy tính của bạn — nơi bạn mở file, viết code, sửa lỗi.
 
 ```bash
-# Ban sua file index.html
-# -> File index.html o trang thai "modified" trong Working Directory
+# Bạn sửa file index.html
+# -> File index.html ở trạng thái "modified" trong Working Directory
 
-# Ban tao file moi style.css
-# -> File style.css o trang thai "untracked" trong Working Directory
+# Bạn tạo file mới style.css
+# -> File style.css ở trạng thái "untracked" trong Working Directory
 ```
 
-**Trang thai file trong Working Directory:**
+**Trạng thái file trong Working Directory:**
 
-| Trang thai | Y nghia |
+| Trạng thái | Ý nghĩa |
 |------------|---------|
-| **Untracked** | File moi, Git chua biet den |
-| **Modified** | File da thay doi so voi lan commit cuoi |
-| **Deleted** | File da bi xoa |
-| **Unmodified** | File khong thay doi gi |
+| **Untracked** | File mới, Git chưa biết đến |
+| **Modified** | File đã thay đổi so với lần commit cuối |
+| **Deleted** | File đã bị xoá |
+| **Unmodified** | File không thay đổi gì |
 
-### 1.2 Staging Area (Vung chuan bi)
+### 1.2 Staging Area (Vùng chuẩn bị)
 
-Day la vung **trung gian** — noi ban chon nhung thay doi nao se duoc dua vao commit tiep theo.
+Đây là vùng **trung gian** — nơi bạn chọn những thay đổi nào sẽ được đưa vào commit tiếp theo.
 
 ```bash
-# Them file vao Staging Area
+# Thêm file vào Staging Area
 git add index.html
-# -> index.html chuyen tu Working Directory sang Staging Area
+# -> index.html chuyển từ Working Directory sang Staging Area
 
-# Them tat ca file da thay doi
+# Thêm tất cả file đã thay đổi
 git add .
 ```
 
-**Tai sao can Staging Area? Tai sao khong commit thang?**
+**Tại sao cần Staging Area? Tại sao không commit thẳng?**
 
-Vi du thuc te: Ban dang lam 2 viec cung luc:
+Ví dụ thực tế: Bạn đang làm 2 việc cùng lúc:
 
 ```bash
-# Ban sua 3 file:
-# - login.js      (tinh nang dang nhap)
-# - register.js   (tinh nang dang ky)
-# - style.css     (sua giao dien)
+# Bạn sửa 3 file:
+# - login.js      (tính năng đăng nhập)
+# - register.js   (tính năng đăng ký)
+# - style.css     (sửa giao diện)
 
-# KHONG CO Staging Area (kieu SVN):
+# KHÔNG CÓ Staging Area (kiểu SVN):
 svn commit -m "them login va sua giao dien"
-# -> Commit het, khong tach duoc
+# -> Commit hết, không tách được
 
-# CO Staging Area (Git):
+# CÓ Staging Area (Git):
 git add login.js
 git commit -m "feat: them tinh nang dang nhap"
 
@@ -84,132 +84,132 @@ git commit -m "feat: them tinh nang dang ky"
 
 git add style.css
 git commit -m "fix: sua loi giao dien trang chu"
-# -> Tach thanh 3 commit ro rang!
+# -> Tách thành 3 commit rõ ràng!
 ```
 
-Staging Area cho phep ban **chon loc** (selective commit) — chi commit nhung gi lien quan voi nhau.
+Staging Area cho phép bạn **chọn lọc** (selective commit) — chỉ commit những gì liên quan với nhau.
 
-### 1.3 Repository (Kho luu tru)
+### 1.3 Repository (Kho lưu trữ)
 
-Day la **co so du lieu** cua Git, nam trong thu muc `.git/`. Khi ban `git commit`, Git lay snapshot tu Staging Area va luu vinh vien vao day.
+Đây là **cơ sở dữ liệu** của Git, nằm trong thư mục `.git/`. Khi bạn `git commit`, Git lấy snapshot từ Staging Area và lưu vĩnh viễn vào đây.
 
 ```bash
 git commit -m "feat: them tinh nang dang nhap"
-# -> Tao 1 commit moi trong Repository
-# -> Commit nay se ton tai MAI MAI (tru khi ban co y xoa)
+# -> Tạo 1 commit mới trong Repository
+# -> Commit này sẽ tồn tại MÃI MÃI (trừ khi bạn cố ý xoá)
 ```
 
-### Toan canh dong chay
+### Toàn cảnh dòng chảy
 
 ```
-Ban sua file  --->  git add  --->  git commit
+Bạn sửa file  --->  git add  --->  git commit
     |                  |               |
     v                  v               v
  Working           Staging         Repository
  Directory          Area           (.git/)
     |                  |               |
-    |   "Toi da sua    |  "Toi muon    |  "Da luu thanh
-    |    xong"         |   commit      |   cong vao
-    |                  |   nhung       |   lich su"
-    |                  |   thay doi    |
-    |                  |   nay"        |
+    |   "Tôi đã sửa   |  "Tôi muốn   |  "Đã lưu thành
+    |    xong"         |   commit      |   công vào
+    |                  |   những       |   lịch sử"
+    |                  |   thay đổi    |
+    |                  |   này"        |
 ```
 
 ---
 
-## 2. Commit la gi?
+## 2. Commit là gì?
 
-### Commit = Snapshot, khong phai Diff
+### Commit = Snapshot, không phải Diff
 
-Nhieu nguoi nghi commit la "luu su thay doi". **Sai.**
+Nhiều người nghĩ commit là "lưu sự thay đổi". **Sai.**
 
-Commit la **anh chup toan bo trang thai** cua du an tai mot thoi diem.
+Commit là **ảnh chụp toàn bộ trạng thái** của dự án tại một thời điểm.
 
 ```
 Commit A:  [index.html v1] [style.css v1] [app.js v1]
     |
     v
 Commit B:  [index.html v2] [style.css v1] [app.js v1]
-    |       (da sua)        (khong doi,     (khong doi,
-    v                        link den v1)    link den v1)
+    |       (đã sửa)        (không đổi,    (không đổi,
+    v                        link đến v1)    link đến v1)
 Commit C:  [index.html v2] [style.css v2] [app.js v2]
-            (link den v2)   (da sua)        (da sua)
+            (link đến v2)   (đã sửa)       (đã sửa)
 ```
 
-**Tuong tu nhu save game:**
+**Tương tự như save game:**
 
 | Game | Git |
 |------|-----|
 | Save game | git commit |
 | Load game | git checkout |
 | Save slot 1, 2, 3... | Commit A, B, C... |
-| Moi save slot = trang thai day du | Moi commit = snapshot day du |
-| Co the load bat ky save nao | Co the checkout bat ky commit nao |
+| Mỗi save slot = trạng thái đầy đủ | Mỗi commit = snapshot đầy đủ |
+| Có thể load bất kỳ save nào | Có thể checkout bất kỳ commit nào |
 
-### Cau truc cua mot commit
+### Cấu trúc của một commit
 
 ```bash
 git log --format=fuller -1
 ```
 
 ```
-commit a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0  <-- SHA-1 hash (dinh danh duy nhat)
-Author:     Nguyen Van A <nguyenvana@example.com>    <-- Nguoi viet code
-AuthorDate: Mon Mar 25 10:30:00 2025 +0700           <-- Ngay viet
-Commit:     Nguyen Van A <nguyenvana@example.com>    <-- Nguoi commit
-CommitDate: Mon Mar 25 10:30:00 2025 +0700           <-- Ngay commit
+commit a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0  <-- SHA-1 hash (định danh duy nhất)
+Author:     Nguyen Van A <nguyenvana@example.com>    <-- Người viết code
+AuthorDate: Mon Mar 25 10:30:00 2025 +0700           <-- Ngày viết
+Commit:     Nguyen Van A <nguyenvana@example.com>    <-- Người commit
+CommitDate: Mon Mar 25 10:30:00 2025 +0700           <-- Ngày commit
 Parent:     f0e1d2c3b4a5...                          <-- Commit cha
 
     feat: them tinh nang dang nhap                   <-- Commit message
 ```
 
-Moi commit chua:
-- **SHA-1 hash** — dinh danh duy nhat (40 ky tu hex)
-- **Author** — nguoi viet code
-- **Committer** — nguoi tao commit (thuong la cung 1 nguoi)
-- **Date** — thoi gian
-- **Parent** — commit truoc do (commit dau tien khong co parent)
-- **Tree** — snapshot cua tat ca file
-- **Message** — mo ta thay doi
+Mỗi commit chứa:
+- **SHA-1 hash** — định danh duy nhất (40 ký tự hex)
+- **Author** — người viết code
+- **Committer** — người tạo commit (thường là cùng 1 người)
+- **Date** — thời gian
+- **Parent** — commit trước đó (commit đầu tiên không có parent)
+- **Tree** — snapshot của tất cả file
+- **Message** — mô tả thay đổi
 
 ---
 
-## 3. SHA-1 Hash — Dinh danh duy nhat
+## 3. SHA-1 Hash — Định danh duy nhất
 
-Moi doi tuong trong Git (commit, file, tree...) deu co mot **SHA-1 hash** — chuoi 40 ky tu hex:
+Mỗi đối tượng trong Git (commit, file, tree...) đều có một **SHA-1 hash** — chuỗi 40 ký tự hex:
 
 ```
 a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0
 ```
 
-### Tai sao dung hash?
+### Tại sao dùng hash?
 
-1. **Duy nhat:** Xac suat 2 commit co cung hash la gan nhu 0
-2. **Toan ven:** Neu noi dung thay doi, hash se khac — phat hien duoc gia mao
-3. **Nhanh:** So sanh 2 hash de biet 2 doi tuong co giong nhau khong
+1. **Duy nhất:** Xác suất 2 commit có cùng hash là gần như 0
+2. **Toàn vẹn:** Nếu nội dung thay đổi, hash sẽ khác — phát hiện được giả mạo
+3. **Nhanh:** So sánh 2 hash để biết 2 đối tượng có giống nhau không
 
-### Su dung hash trong thuc te
+### Sử dụng hash trong thực tế
 
 ```bash
-# Xem chi tiet 1 commit bang full hash
+# Xem chi tiết 1 commit bằng full hash
 git show a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0
 
-# Chi can 7 ky tu dau (Git tu tim)
+# Chỉ cần 7 ký tự đầu (Git tự tìm)
 git show a1b2c3d
 
-# Xem diff giua 2 commit
+# Xem diff giữa 2 commit
 git diff a1b2c3d f4e5d6c
 ```
 
-Ban **khong can nho** full hash. Git chi can du ky tu dau de phan biet (thuong la 7 ky tu).
+Bạn **không cần nhớ** full hash. Git chỉ cần đủ ký tự đầu để phân biệt (thường là 7 ký tự).
 
 ---
 
-## 4. HEAD la gi?
+## 4. HEAD là gì?
 
-**HEAD** la mot **con tro** (pointer) cho Git biet: "Ban dang o dau trong lich su?"
+**HEAD** là một **con trỏ** (pointer) cho Git biết: "Bạn đang ở đâu trong lịch sử?"
 
-### Truong hop binh thuong: HEAD tro den branch
+### Trường hợp bình thường: HEAD trỏ đến branch
 
 ```
                        HEAD
@@ -221,9 +221,9 @@ Ban **khong can nho** full hash. Git chi can du ky tu dau de phan biet (thuong l
 commit A <--- commit B <--- commit C
 ```
 
-HEAD -> main -> commit C. Nghia la ban dang o nhanh `main`, tai commit moi nhat `C`.
+HEAD -> main -> commit C. Nghĩa là bạn đang ở nhánh `main`, tại commit mới nhất `C`.
 
-### Khi ban commit moi
+### Khi bạn commit mới
 
 ```bash
 git commit -m "commit D"
@@ -239,32 +239,32 @@ git commit -m "commit D"
 commit A <--- commit B <--- commit C <--- commit D
 ```
 
-HEAD van tro den `main`, nhung `main` tien len commit D.
+HEAD vẫn trỏ đến `main`, nhưng `main` tiến lên commit D.
 
-### Xem HEAD dang o dau
+### Xem HEAD đang ở đâu
 
 ```bash
 # Xem HEAD
 cat .git/HEAD
-# ref: refs/heads/main   <-- HEAD tro den branch main
+# ref: refs/heads/main   <-- HEAD trỏ đến branch main
 
-# Xem commit ma HEAD dang tro den
+# Xem commit mà HEAD đang trỏ đến
 git rev-parse HEAD
 # a1b2c3d4e5f6...
 ```
 
-### Cac cach tham chieu tuong doi tu HEAD
+### Các cách tham chiếu tương đối từ HEAD
 
 ```bash
-HEAD          # Commit hien tai
-HEAD~1        # Commit truoc do 1 buoc (parent)
-HEAD~2        # Commit truoc do 2 buoc (grandparent)
-HEAD~3        # Commit truoc do 3 buoc
+HEAD          # Commit hiện tại
+HEAD~1        # Commit trước đó 1 bước (parent)
+HEAD~2        # Commit trước đó 2 bước (grandparent)
+HEAD~3        # Commit trước đó 3 bước
 
-# Vi du:
-git show HEAD       # Xem commit hien tai
-git show HEAD~1     # Xem commit truoc
-git diff HEAD~2     # So sanh voi 2 commit truoc
+# Ví dụ:
+git show HEAD       # Xem commit hiện tại
+git show HEAD~1     # Xem commit trước
+git diff HEAD~2     # So sánh với 2 commit trước
 ```
 
 ```
@@ -274,28 +274,28 @@ commit A     commit B     commit C    commit D
 
 ---
 
-## 5. Branch (Nhanh)
+## 5. Branch (Nhánh)
 
-### Branch chi la mot pointer
+### Branch chỉ là một pointer
 
-Day la dieu nhieu nguoi bat ngo: **branch trong Git chi la mot file nho chua hash cua commit**. Khong co "copy code", khong co "thu muc rieng".
+Đây là điều nhiều người bất ngờ: **branch trong Git chỉ là một file nhỏ chứa hash của commit**. Không có "copy code", không có "thư mục riêng".
 
 ```bash
-# Xem noi dung cua branch
+# Xem nội dung của branch
 cat .git/refs/heads/main
-# a1b2c3d4e5f6...   <-- Chi la 1 dong hash!
+# a1b2c3d4e5f6...   <-- Chỉ là 1 dòng hash!
 ```
 
-### Tai sao branch re va nhanh?
+### Tại sao branch rẻ và nhanh?
 
-Vi tao branch = tao 1 file 41 bytes (40 ky tu hash + newline). So sanh:
+Vì tạo branch = tạo 1 file 41 bytes (40 ký tự hash + newline). So sánh:
 
-| He thong | Tao branch | Kich thuoc |
+| Hệ thống | Tạo branch | Kích thước |
 |----------|-----------|------------|
-| SVN | Copy toan bo thu muc | Hang MB-GB |
-| Git | Tao 1 file 41 bytes | 41 bytes |
+| SVN | Copy toàn bộ thư mục | Hàng MB-GB |
+| Git | Tạo 1 file 41 bytes | 41 bytes |
 
-### Branch hoat dong nhu the nao
+### Branch hoạt động như thế nào
 
 ```
                        HEAD
@@ -307,7 +307,7 @@ Vi tao branch = tao 1 file 41 bytes (40 ky tu hash + newline). So sanh:
 commit A <--- commit B <--- commit C
 ```
 
-Tao branch moi:
+Tạo branch mới:
 
 ```bash
 git branch feature
@@ -326,7 +326,7 @@ commit A <--- commit B <--- commit C
                            feature
 ```
 
-Gio ca `main` va `feature` deu tro den commit C. Chuyen sang `feature`:
+Giờ cả `main` và `feature` đều trỏ đến commit C. Chuyển sang `feature`:
 
 ```bash
 git checkout feature
@@ -345,7 +345,7 @@ commit A <--- commit B <--- commit C
                              HEAD
 ```
 
-HEAD chuyen sang `feature`. Commit moi se tien `feature` len:
+HEAD chuyển sang `feature`. Commit mới sẽ tiến `feature` lên:
 
 ```bash
 git commit -m "them tinh nang moi"
@@ -367,15 +367,15 @@ commit A <--- commit B <--- commit C
                                  HEAD
 ```
 
-`main` van o commit C. `feature` tien len commit D. Day la cach Git ho tro **lam viec song song** tren nhieu nhanh.
+`main` vẫn ở commit C. `feature` tiến lên commit D. Đây là cách Git hỗ trợ **làm việc song song** trên nhiều nhánh.
 
 ---
 
 ## 6. Detached HEAD
 
-### Khi nao xay ra?
+### Khi nào xảy ra?
 
-Khi ban checkout truc tiep mot commit (thay vi mot branch):
+Khi bạn checkout trực tiếp một commit (thay vì một branch):
 
 ```bash
 git checkout a1b2c3d
@@ -389,13 +389,13 @@ git checkout a1b2c3d
 commit A <--- commit B <--- commit C
    ^
    |
-  HEAD        <-- HEAD KHONG tro den branch nao!
+  HEAD        <-- HEAD KHÔNG trỏ đến branch nào!
 (detached)
 ```
 
-### Tai sao nguy hiem?
+### Tại sao nguy hiểm?
 
-Neu ban tao commit trong trang thai detached HEAD:
+Nếu bạn tạo commit trong trạng thái detached HEAD:
 
 ```bash
 git commit -m "thu nghiem"
@@ -408,46 +408,46 @@ git commit -m "thu nghiem"
 commit A <--- commit B <--- commit C
    \
     \
-     commit X   <-- Commit nay khong thuoc branch nao!
+     commit X   <-- Commit này không thuộc branch nào!
        ^
        |
       HEAD
 ```
 
-Khi ban chuyen ve `main`, commit X se **khong co branch nao tro den** va co the bi Git don dep (garbage collect) sau mot thoi gian.
+Khi bạn chuyển về `main`, commit X sẽ **không có branch nào trỏ đến** và có thể bị Git dọn dẹp (garbage collect) sau một thời gian.
 
-### Cach xu ly
+### Cách xử lý
 
 ```bash
-# Cach 1: Tao branch moi tai vi tri hien tai
+# Cách 1: Tạo branch mới tại vị trí hiện tại
 git checkout -b save-my-work
 
-# Cach 2: Quay ve branch cu (bo mat commit trong detached HEAD)
+# Cách 2: Quay về branch cũ (bỏ mất commit trong detached HEAD)
 git checkout main
 
-# Cach 3: Neu da quay ve main nhung muon cuu commit cu
-git reflog                    # Tim hash cua commit da mat
-git branch save-my-work abc123   # Tao branch tai commit do
+# Cách 3: Nếu đã quay về main nhưng muốn cứu commit cũ
+git reflog                    # Tìm hash của commit đã mất
+git branch save-my-work abc123   # Tạo branch tại commit đó
 ```
 
-**Quy tac:** Luon lam viec tren branch, tranh trang thai detached HEAD tru khi chi muon **xem** code cu.
+**Quy tắc:** Luôn làm việc trên branch, tránh trạng thái detached HEAD trừ khi chỉ muốn **xem** code cũ.
 
 ---
 
-## 7. So do Commit History
+## 7. Sơ đồ Commit History
 
-Commit history trong Git la mot **Directed Acyclic Graph (DAG)** — do thi co huong, khong co vong lap.
+Commit history trong Git là một **Directed Acyclic Graph (DAG)** — đồ thị có hướng, không có vòng lặp.
 
-### Lich su tuyen tinh (don gian)
+### Lịch sử tuyến tính (đơn giản)
 
 ```
 commit A <--- commit B <--- commit C <--- commit D
 (init)                                    (HEAD -> main)
 ```
 
-Moi commit tro ve parent cua no (commit truoc do).
+Mỗi commit trỏ về parent của nó (commit trước đó).
 
-### Lich su co branching va merging
+### Lịch sử có branching và merging
 
 ```
 commit A <--- commit B <--- commit C <--- commit F (merge) <--- commit G
@@ -457,9 +457,9 @@ commit A <--- commit B <--- commit C <--- commit F (merge) <--- commit G
                   (feature branch)
 ```
 
-Commit F la **merge commit** — co 2 parent (C va E).
+Commit F là **merge commit** — có 2 parent (C và E).
 
-### Doc lich su bang `git log --graph`
+### Đọc lịch sử bằng `git log --graph`
 
 ```bash
 git log --oneline --graph --all
@@ -476,17 +476,17 @@ git log --oneline --graph --all
 * a7b8c9d init project
 ```
 
-Cach doc:
+Cách đọc:
 - `*` = 1 commit
-- `|` = dong lich su cua 1 branch
-- `\` va `/` = branch tach ra hoac merge vao
-- `(HEAD -> main)` = HEAD dang o branch main tai commit nay
+- `|` = dòng lịch sử của 1 branch
+- `\` và `/` = branch tách ra hoặc merge vào
+- `(HEAD -> main)` = HEAD đang ở branch main tại commit này
 
 ---
 
-## 8. Thu muc .git
+## 8. Thư mục .git
 
-Khi ban `git init`, Git tao thu muc `.git/` — **toan bo "bo nao" cua Git** nam o day.
+Khi bạn `git init`, Git tạo thư mục `.git/` — **toàn bộ "bộ não" của Git** nằm ở đây.
 
 ```bash
 ls -la .git/
@@ -494,46 +494,46 @@ ls -la .git/
 
 ```
 .git/
-├── HEAD            # Con tro den branch hien tai
-├── config          # Cau hinh local cua repo nay
-├── description     # Mo ta repo (dung cho GitWeb, it khi can)
-├── hooks/          # Scripts chay tu dong (pre-commit, post-commit...)
+├── HEAD            # Con trỏ đến branch hiện tại
+├── config          # Cấu hình local của repo này
+├── description     # Mô tả repo (dùng cho GitWeb, ít khi cần)
+├── hooks/          # Scripts chạy tự động (pre-commit, post-commit...)
 ├── index           # Staging Area (binary file)
-├── info/           # Thong tin bo sung
-│   └── exclude     # Gitignore local (khong commit)
-├── objects/        # TAT CA du lieu: commits, trees, blobs
-│   ├── pack/       # Du lieu da nen
+├── info/           # Thông tin bổ sung
+│   └── exclude     # Gitignore local (không commit)
+├── objects/        # TẤT CẢ dữ liệu: commits, trees, blobs
+│   ├── pack/       # Dữ liệu đã nén
 │   └── info/
-└── refs/           # BRANCH va TAG pointers
+└── refs/           # BRANCH và TAG pointers
     ├── heads/      # Local branches
-    │   └── main    # File nho chua hash cua commit moi nhat tren main
+    │   └── main    # File nhỏ chứa hash của commit mới nhất trên main
     ├── tags/       # Tags
     └── remotes/    # Remote tracking branches
         └── origin/
             └── main
 ```
 
-### Cac thanh phan quan trong
+### Các thành phần quan trọng
 
-| Thu muc/File | Chuc nang | Ghi chu |
+| Thư mục/File | Chức năng | Ghi chú |
 |-------------|-----------|---------|
-| `HEAD` | Tro den branch hien tai | `ref: refs/heads/main` |
-| `objects/` | Luu tat ca du lieu | commits, files (blobs), trees |
-| `refs/heads/` | Cac branch local | Moi branch = 1 file chua hash |
-| `refs/remotes/` | Cac branch remote | Tracking branches |
-| `refs/tags/` | Cac tag | Danh dau phien ban |
-| `index` | Staging Area | File binary, dung `git ls-files` de doc |
-| `config` | Config local | Ghi de global config |
-| `hooks/` | Hook scripts | Tu dong chay khi commit, push... |
+| `HEAD` | Trỏ đến branch hiện tại | `ref: refs/heads/main` |
+| `objects/` | Lưu tất cả dữ liệu | commits, files (blobs), trees |
+| `refs/heads/` | Các branch local | Mỗi branch = 1 file chứa hash |
+| `refs/remotes/` | Các branch remote | Tracking branches |
+| `refs/tags/` | Các tag | Đánh dấu phiên bản |
+| `index` | Staging Area | File binary, dùng `git ls-files` để đọc |
+| `config` | Config local | Ghi đè global config |
+| `hooks/` | Hook scripts | Tự động chạy khi commit, push... |
 
-### Xem noi dung objects
+### Xem nội dung objects
 
-Git luu 3 loai object:
+Git lưu 3 loại object:
 
 ```
 +-----------+     +-----------+     +-----------+
 |   BLOB    |     |   TREE    |     |  COMMIT   |
-| (noi dung |     | (thu muc) |     | (snapshot)|
+| (nội dung |     | (thư mục) |     | (snapshot)|
 |  file)    |     |           |     |           |
 | "hello"   |     | blob a1.. |     | tree b2.. |
 |           |     | blob c3.. |     | parent d4 |
@@ -541,16 +541,16 @@ Git luu 3 loai object:
 +-----------+     +-----------+     +-----------+
 ```
 
-- **Blob:** Noi dung cua 1 file (khong co ten file!)
-- **Tree:** Giong nhu thu muc — chua danh sach blobs va trees con
-- **Commit:** Metadata + pointer den tree (snapshot)
+- **Blob:** Nội dung của 1 file (không có tên file!)
+- **Tree:** Giống như thư mục — chứa danh sách blobs và trees con
+- **Commit:** Metadata + pointer đến tree (snapshot)
 
 ```bash
-# Xem loai object
+# Xem loại object
 git cat-file -t a1b2c3d
 # commit
 
-# Xem noi dung object
+# Xem nội dung object
 git cat-file -p a1b2c3d
 # tree b4c5d6e7...
 # parent f8a9b0c1...
@@ -560,20 +560,20 @@ git cat-file -p a1b2c3d
 # feat: them tinh nang dang nhap
 ```
 
-**Ban khong can nho chi tiet nay cho cong viec hang ngay.** Nhung hieu cach Git luu du lieu se giup ban debug khi gap van de.
+**Bạn không cần nhớ chi tiết này cho công việc hàng ngày.** Nhưng hiểu cách Git lưu dữ liệu sẽ giúp bạn debug khi gặp vấn đề.
 
 ---
 
 ## 9. File States trong Git
 
-Tong hop trang thai cua file trong Git:
+Tổng hợp trạng thái của file trong Git:
 
 ```
                     Untracked        Unmodified       Modified         Staged
                         |                |                |               |
                         |   git add      |                |               |
                         |--------------->|                |               |
-                        |                |   Sua file     |               |
+                        |                |   Sửa file     |               |
                         |                |--------------->|               |
                         |                |                |   git add     |
                         |                |                |-------------->|
@@ -585,122 +585,122 @@ Tong hop trang thai cua file trong Git:
                         |                |                |               |
 ```
 
-| Trang thai | Mo ta | Hien thi trong `git status` |
+| Trạng thái | Mô tả | Hiển thị trong `git status` |
 |-----------|-------|----------------------------|
-| **Untracked** | File moi, Git chua quan ly | `Untracked files:` (do) |
-| **Unmodified** | File khong thay doi | Khong hien thi |
-| **Modified** | File da sua nhung chua stage | `Changes not staged:` (do) |
-| **Staged** | File da duoc add, san sang commit | `Changes to be committed:` (xanh) |
+| **Untracked** | File mới, Git chưa quản lý | `Untracked files:` (đỏ) |
+| **Unmodified** | File không thay đổi | Không hiển thị |
+| **Modified** | File đã sửa nhưng chưa stage | `Changes not staged:` (đỏ) |
+| **Staged** | File đã được add, sẵn sàng commit | `Changes to be committed:` (xanh) |
 
 ---
 
-## 10. Loi thuong gap
+## 10. Lỗi thường gặp
 
-### Loi 1: Khong hieu tai sao can `git add` truoc `git commit`
+### Lỗi 1: Không hiểu tại sao cần `git add` trước `git commit`
 
 ```bash
-# Nguoi moi thuong hoi: "Tai sao khong commit thang?"
-# Tra loi: Staging Area cho phep ban CHON LOC thay doi
+# Người mới thường hỏi: "Tại sao không commit thẳng?"
+# Trả lời: Staging Area cho phép bạn CHỌN LỌC thay đổi
 
-# Vi du: ban sua 5 file nhung chi muon commit 2 file
+# Ví dụ: bạn sửa 5 file nhưng chỉ muốn commit 2 file
 git add file1.js file2.js
 git commit -m "feat: them tinh nang A"
-# -> Chi 2 file duoc commit
+# -> Chỉ 2 file được commit
 
-# 3 file con lai commit rieng
+# 3 file còn lại commit riêng
 git add file3.js file4.js file5.js
 git commit -m "fix: sua loi B"
 ```
 
-### Loi 2: Nham HEAD voi branch
+### Lỗi 2: Nhầm HEAD với branch
 
 ```
-HEAD  = "Ban dang o dau?"     (con tro di dong)
-Branch = "Nhom commit nay"    (ten nhan cho commit)
+HEAD  = "Bạn đang ở đâu?"     (con trỏ di động)
+Branch = "Nhóm commit này"    (tên nhãn cho commit)
 
-HEAD thuong tro den 1 branch.
-Khi commit, branch tien len, HEAD di theo.
+HEAD thường trỏ đến 1 branch.
+Khi commit, branch tiến lên, HEAD đi theo.
 ```
 
-### Loi 3: Nghi branch la "copy" cua code
+### Lỗi 3: Nghĩ branch là "copy" của code
 
 ```
-SAI:  "Tao branch = copy toan bo code"
-DUNG: "Tao branch = tao 1 pointer 41 bytes"
+SAI:  "Tạo branch = copy toàn bộ code"
+ĐÚNG: "Tạo branch = tạo 1 pointer 41 bytes"
 
-Git KHONG copy bat ky file nao khi tao branch.
-Tat ca branches chia se cung du lieu objects.
+Git KHÔNG copy bất kỳ file nào khi tạo branch.
+Tất cả branches chia sẻ cùng dữ liệu objects.
 ```
 
-### Loi 4: Hoang so khi thay "detached HEAD"
+### Lỗi 4: Hoảng sợ khi thấy "detached HEAD"
 
 ```bash
-# Khong phai loi! Chi la canh bao.
-# Git noi: "Ban dang khong o tren branch nao"
+# Không phải lỗi! Chỉ là cảnh báo.
+# Git nói: "Bạn đang không ở trên branch nào"
 
-# Cach xu ly an toan:
-git checkout -b ten-branch-moi    # Tao branch tai day
-# hoac
-git checkout main                  # Quay ve branch cu
+# Cách xử lý an toàn:
+git checkout -b ten-branch-moi    # Tạo branch tại đây
+# hoặc
+git checkout main                  # Quay về branch cũ
 ```
 
-### Loi 5: Xoa thu muc .git
+### Lỗi 5: Xoá thư mục .git
 
 ```bash
-# TUYET DOI KHONG XOA .git/
-rm -rf .git   # MAT HET LICH SU!
+# TUYỆT ĐỐI KHÔNG XOÁ .git/
+rm -rf .git   # MẤT HẾT LỊCH SỬ!
 
-# .git chua TOAN BO lich su, branches, configs
-# Xoa no = mat het moi thu, chi con file hien tai
+# .git chứa TOÀN BỘ lịch sử, branches, configs
+# Xoá nó = mất hết mọi thứ, chỉ còn file hiện tại
 ```
 
 ---
 
-## 11. Cau hoi phong van
+## 11. Câu hỏi phỏng vấn
 
-### Cau 1: Giai thich 3 vung lam viec cua Git.
+### Câu 1: Giải thích 3 vùng làm việc của Git.
 
-**Tra loi mau:**
+**Trả lời mẫu:**
 
-> Git co 3 vung: (1) Working Directory — noi ban chinh sua file truc tiep, (2) Staging Area (Index) — vung trung gian, chon nhung thay doi can commit, va (3) Repository (.git) — co so du lieu luu tru vinh vien cac commit. Luong lam viec: sua file o Working Directory -> `git add` de dua vao Staging -> `git commit` de luu vao Repository. Staging Area cho phep selective commit — chi commit nhung thay doi lien quan voi nhau.
+> Git có 3 vùng: (1) Working Directory — nơi bạn chỉnh sửa file trực tiếp, (2) Staging Area (Index) — vùng trung gian, chọn những thay đổi cần commit, và (3) Repository (.git) — cơ sở dữ liệu lưu trữ vĩnh viễn các commit. Luồng làm việc: sửa file ở Working Directory -> `git add` để đưa vào Staging -> `git commit` để lưu vào Repository. Staging Area cho phép selective commit — chỉ commit những thay đổi liên quan với nhau.
 
-### Cau 2: Commit trong Git la snapshot hay diff? Giai thich.
+### Câu 2: Commit trong Git là snapshot hay diff? Giải thích.
 
-**Tra loi mau:**
+**Trả lời mẫu:**
 
-> Commit la snapshot — anh chup toan bo trang thai cua du an tai thoi diem commit. Git khong luu diff giua cac version. Tuy nhien, Git toi uu bang cach: neu file khong thay doi, Git chi luu mot link (reference) den blob cu thay vi copy lai. Nho vay Git vua nhanh (truy xuat truc tiep snapshot) vua tiet kiem dung luong (khong luu trung lap).
+> Commit là snapshot — ảnh chụp toàn bộ trạng thái của dự án tại thời điểm commit. Git không lưu diff giữa các version. Tuy nhiên, Git tối ưu bằng cách: nếu file không thay đổi, Git chỉ lưu một link (reference) đến blob cũ thay vì copy lại. Nhờ vậy Git vừa nhanh (truy xuất trực tiếp snapshot) vừa tiết kiệm dung lượng (không lưu trùng lặp).
 
-### Cau 3: HEAD la gi? Detached HEAD la gi?
+### Câu 3: HEAD là gì? Detached HEAD là gì?
 
-**Tra loi mau:**
+**Trả lời mẫu:**
 
-> HEAD la con tro cho biet vi tri hien tai trong lich su Git. Binh thuong, HEAD tro den mot branch (vi du main), va khi commit, branch do tien len commit moi. Detached HEAD xay ra khi checkout truc tiep mot commit thay vi branch — khi do HEAD tro den commit cu the thay vi branch. Commit trong trang thai nay se khong thuoc branch nao va co the bi mat khi chuyen branch. Cach xu ly: tao branch moi tai vi tri do bang `git checkout -b ten-branch`.
+> HEAD là con trỏ cho biết vị trí hiện tại trong lịch sử Git. Bình thường, HEAD trỏ đến một branch (ví dụ main), và khi commit, branch đó tiến lên commit mới. Detached HEAD xảy ra khi checkout trực tiếp một commit thay vì branch — khi đó HEAD trỏ đến commit cụ thể thay vì branch. Commit trong trạng thái này sẽ không thuộc branch nào và có thể bị mất khi chuyển branch. Cách xử lý: tạo branch mới tại vị trí đó bằng `git checkout -b ten-branch`.
 
-### Cau 4: Branch trong Git la gi ve mat ky thuat?
+### Câu 4: Branch trong Git là gì về mặt kỹ thuật?
 
-**Tra loi mau:**
+**Trả lời mẫu:**
 
-> Ve ky thuat, branch chi la mot file nho (41 bytes) chua SHA-1 hash cua commit moi nhat tren branch do. Vi du, file `.git/refs/heads/main` chua hash cua commit cuoi tren main. Vi tao branch chi la tao 1 file nho, nen thao tac branching trong Git cuc nhanh, khac voi SVN phai copy toan bo thu muc.
+> Về kỹ thuật, branch chỉ là một file nhỏ (41 bytes) chứa SHA-1 hash của commit mới nhất trên branch đó. Ví dụ, file `.git/refs/heads/main` chứa hash của commit cuối trên main. Vì tạo branch chỉ là tạo 1 file nhỏ, nên thao tác branching trong Git cực nhanh, khác với SVN phải copy toàn bộ thư mục.
 
-### Cau 5: Git luu du lieu nhu the nao ben trong thu muc .git?
+### Câu 5: Git lưu dữ liệu như thế nào bên trong thư mục .git?
 
-**Tra loi mau:**
+**Trả lời mẫu:**
 
-> Git luu 3 loai object trong `.git/objects/`: (1) Blob — noi dung file (khong co ten file), (2) Tree — giong thu muc, chua danh sach blobs va trees con, (3) Commit — metadata (author, date, message) + pointer den tree root. Moi object duoc dinh danh bang SHA-1 hash cua noi dung. HEAD la file tro den branch hien tai, refs/heads/ chua cac branch pointer, va index la Staging Area.
+> Git lưu 3 loại object trong `.git/objects/`: (1) Blob — nội dung file (không có tên file), (2) Tree — giống thư mục, chứa danh sách blobs và trees con, (3) Commit — metadata (author, date, message) + pointer đến tree root. Mỗi object được định danh bằng SHA-1 hash của nội dung. HEAD là file trỏ đến branch hiện tại, refs/heads/ chứa các branch pointer, và index là Staging Area.
 
 ---
 
-## Tong ket
+## Tổng kết
 
-| Khai niem | Mo ta | Vi von |
+| Khái niệm | Mô tả | Ví von |
 |-----------|-------|--------|
-| Working Directory | Noi ban lam viec | Ban lam viec |
-| Staging Area | Noi chuan bi commit | Gio hang truoc khi thanh toan |
-| Repository | Noi luu vinh vien | Kho hang sau khi thanh toan |
-| Commit | Snapshot cua du an | Save game |
-| SHA-1 Hash | Dinh danh duy nhat | So CMND cua commit |
-| HEAD | Vi tri hien tai | "Ban dang o day" |
-| Branch | Pointer den commit | Nhan dan trang sach |
-| .git/ | Co so du lieu Git | "Bo nao" cua Git |
+| Working Directory | Nơi bạn làm việc | Bàn làm việc |
+| Staging Area | Nơi chuẩn bị commit | Giỏ hàng trước khi thanh toán |
+| Repository | Nơi lưu vĩnh viễn | Kho hàng sau khi thanh toán |
+| Commit | Snapshot của dự án | Save game |
+| SHA-1 Hash | Định danh duy nhất | Số CMND của commit |
+| HEAD | Vị trí hiện tại | "Bạn đang ở đây" |
+| Branch | Pointer đến commit | Nhãn dán trang sách |
+| .git/ | Cơ sở dữ liệu Git | "Bộ não" của Git |
 
-**Buoc tiep theo:** Thuc hanh cac lenh Git co ban — init, add, commit, log, diff.
+**Bước tiếp theo:** Thực hành các lệnh Git cơ bản — init, add, commit, log, diff.

@@ -3,22 +3,22 @@ sidebar_position: 4
 title: "Cac lenh Git co ban"
 ---
 
-# Cac lenh Git co ban
+# Các lệnh Git cơ bản
 
-Bai nay huong dan chi tiet cac lenh Git ban se dung **hang ngay**. Moi lenh deu duoc giai thich **tai sao dung** va **khi nao dung**, khong chi la cu phap.
+Bài này hướng dẫn chi tiết các lệnh Git bạn sẽ dùng **hàng ngày**. Mỗi lệnh đều được giải thích **tại sao dùng** và **khi nào dùng**, không chỉ là cú pháp.
 
 ---
 
-## 1. git init — Tao repository moi
+## 1. git init — Tạo repository mới
 
-### Cong dung
+### Công dụng
 
-Khoi tao mot Git repository moi trong thu muc hien tai. Lenh nay tao thu muc `.git/` chua toan bo co so du lieu cua Git.
+Khởi tạo một Git repository mới trong thư mục hiện tại. Lệnh này tạo thư mục `.git/` chứa toàn bộ cơ sở dữ liệu của Git.
 
-### Cu phap va vi du
+### Cú pháp và ví dụ
 
 ```bash
-# Tao thu muc du an va khoi tao Git
+# Tạo thư mục dự án và khởi tạo Git
 mkdir my-project
 cd my-project
 git init
@@ -30,16 +30,16 @@ Output:
 Initialized empty Git repository in /home/user/my-project/.git/
 ```
 
-### Dieu gi xay ra khi chay `git init`?
+### Điều gì xảy ra khi chạy `git init`?
 
 ```bash
-# Truoc khi init
+# Trước khi init
 my-project/
-└── (trong)
+└── (trống)
 
 # Sau khi init
 my-project/
-└── .git/           <-- Thu muc an, chua toan bo Git database
+└── .git/           <-- Thư mục ẩn, chứa toàn bộ Git database
     ├── HEAD
     ├── config
     ├── objects/
@@ -47,62 +47,62 @@ my-project/
     └── ...
 ```
 
-### Luu y quan trong
+### Lưu ý quan trọng
 
 ```bash
-# DUNG init trong thu muc da co Git repo
+# ĐỪNG init trong thư mục đã có Git repo
 cd my-project
-git init              # Lan dau: OK
-git init              # Lan hai: KHONG loi, nhung khong can thiet
-                      # Git se noi "Reinitialized existing..."
+git init              # Lần đầu: OK
+git init              # Lần hai: KHÔNG lỗi, nhưng không cần thiết
+                      # Git sẽ nói "Reinitialized existing..."
 
-# DUNG init trong thu muc Home (loi pho bien!)
+# ĐỪNG init trong thư mục Home (lỗi phổ biến!)
 cd ~
-git init              # SAI! Se bien toan bo home thanh 1 repo
-                      # De go: rm -rf ~/.git
+git init              # SAI! Sẽ biến toàn bộ home thành 1 repo
+                      # Để gỡ: rm -rf ~/.git
 ```
 
-### Khi nao dung `git init`?
+### Khi nào dùng `git init`?
 
-- Bat dau du an moi tu dau
-- Muon quan ly phien ban cho thu muc co san
-- Khong dung khi muon lay code tu server (dung `git clone`)
+- Bắt đầu dự án mới từ đầu
+- Muốn quản lý phiên bản cho thư mục có sẵn
+- Không dùng khi muốn lấy code từ server (dùng `git clone`)
 
 ---
 
-## 2. git clone — Sao chep repository
+## 2. git clone — Sao chép repository
 
-### Cong dung
+### Công dụng
 
-Tao ban sao day du cua mot remote repository (bao gom toan bo lich su) ve may local.
+Tạo bản sao đầy đủ của một remote repository (bao gồm toàn bộ lịch sử) về máy local.
 
-### Cu phap va vi du
+### Cú pháp và ví dụ
 
 ```bash
-# Clone bang SSH (khuyen nghi — khong can nhap mat khau)
+# Clone bằng SSH (khuyên nghị — không cần nhập mật khẩu)
 git clone git@github.com:username/repo-name.git
 
-# Clone bang HTTPS
+# Clone bằng HTTPS
 git clone https://github.com/username/repo-name.git
 
-# Clone vao thu muc co ten khac
+# Clone vào thư mục có tên khác
 git clone git@github.com:username/repo-name.git my-folder
 
-# Clone chi 1 branch cu the (tiet kiem thoi gian)
+# Clone chỉ 1 branch cụ thể (tiết kiệm thời gian)
 git clone -b develop git@github.com:username/repo-name.git
 
-# Shallow clone — chi lay N commit gan nhat (nhanh hon nhieu)
+# Shallow clone — chỉ lấy N commit gần nhất (nhanh hơn nhiều)
 git clone --depth 1 git@github.com:username/repo-name.git
-# Phu hop khi: repo lon, chi can code moi nhat, CI/CD pipeline
+# Phù hợp khi: repo lớn, chỉ cần code mới nhất, CI/CD pipeline
 ```
 
-### Clone lam gi chinh xac?
+### Clone làm gì chính xác?
 
 ```bash
 git clone git@github.com:username/repo-name.git
 ```
 
-Tuong duong voi:
+Tương đương với:
 
 ```bash
 mkdir repo-name
@@ -113,201 +113,201 @@ git fetch origin
 git checkout main
 ```
 
-Nen `git clone` lam tat ca trong 1 lenh.
+Nên `git clone` làm tất cả trong 1 lệnh.
 
 ### git init vs git clone
 
-| Tinh huong | Dung lenh |
+| Tình huống | Dùng lệnh |
 |-----------|-----------|
-| Du an moi, chua co tren server | `git init` |
-| Lay du an da co tren GitHub/GitLab | `git clone` |
-| Da co repo local, muon ket noi remote | `git init` + `git remote add` |
+| Dự án mới, chưa có trên server | `git init` |
+| Lấy dự án đã có trên GitHub/GitLab | `git clone` |
+| Đã có repo local, muốn kết nối remote | `git init` + `git remote add` |
 
 ---
 
-## 3. git status — Xem trang thai hien tai
+## 3. git status — Xem trạng thái hiện tại
 
-### Cong dung
+### Công dụng
 
-Hien thi trang thai cua Working Directory va Staging Area. Day la lenh ban se chay **nhieu nhat**.
+Hiển thị trạng thái của Working Directory và Staging Area. Đây là lệnh bạn sẽ chạy **nhiều nhất**.
 
-### Cu phap va vi du
+### Cú pháp và ví dụ
 
 ```bash
 git status
 ```
 
-### Doc output cua git status
+### Đọc output của git status
 
 ```bash
-On branch main                              # <- Ban dang o branch nao
-Your branch is up to date with 'origin/main'. # <- So voi remote
+On branch main                              # <- Bạn đang ở branch nào
+Your branch is up to date with 'origin/main'. # <- So với remote
 
-Changes to be committed:                     # <- DA STAGE (xanh la)
+Changes to be committed:                     # <- ĐÃ STAGE (xanh lá)
   (use "git restore --staged <file>..." to unstage)
-        new file:   login.js                 #    File moi da stage
-        modified:   index.html               #    File sua da stage
+        new file:   login.js                 #    File mới đã stage
+        modified:   index.html               #    File sửa đã stage
 
-Changes not staged for commit:               # <- CHUA STAGE (do)
+Changes not staged for commit:               # <- CHƯA STAGE (đỏ)
   (use "git add <file>..." to update)
-        modified:   style.css                #    File sua chua stage
+        modified:   style.css                #    File sửa chưa stage
 
-Untracked files:                             # <- FILE MOI, Git chua biet (do)
+Untracked files:                             # <- FILE MỚI, Git chưa biết (đỏ)
   (use "git add <file>..." to include)
-        README.md                            #    File moi chua track
+        README.md                            #    File mới chưa track
 ```
 
-### Phien ban ngan gon
+### Phiên bản ngắn gọn
 
 ```bash
 git status -s
-# hoac
+# hoặc
 git status --short
 ```
 
 ```
-A  login.js         # A  = Added (da stage file moi)
-M  index.html       # M  = Modified va da stage
- M style.css        #  M = Modified nhung chua stage
-?? README.md        # ?? = Untracked (file moi)
+A  login.js         # A  = Added (đã stage file mới)
+M  index.html       # M  = Modified và đã stage
+ M style.css        #  M = Modified nhưng chưa stage
+?? README.md        # ?? = Untracked (file mới)
 ```
 
-**Cach doc 2 cot:**
-- **Cot trai:** Trang thai trong Staging Area
-- **Cot phai:** Trang thai trong Working Directory
+**Cách đọc 2 cột:**
+- **Cột trái:** Trạng thái trong Staging Area
+- **Cột phải:** Trạng thái trong Working Directory
 
-| Ky hieu | Cot trai (Staging) | Cot phai (Working) |
+| Ký hiệu | Cột trái (Staging) | Cột phải (Working) |
 |---------|-------------------|-------------------|
-| `M` | Da sua va stage | Da sua, chua stage |
-| `A` | File moi da stage | — |
-| `D` | Da xoa va stage | Da xoa, chua stage |
-| `?` | — | File moi, untracked |
-| ` ` | Khong thay doi | Khong thay doi |
+| `M` | Đã sửa và stage | Đã sửa, chưa stage |
+| `A` | File mới đã stage | — |
+| `D` | Đã xoá và stage | Đã xoá, chưa stage |
+| `?` | — | File mới, untracked |
+| ` ` | Không thay đổi | Không thay đổi |
 
 ---
 
-## 4. git add — Dua file vao Staging Area
+## 4. git add — Đưa file vào Staging Area
 
-### Cong dung
+### Công dụng
 
-Chuyen thay doi tu Working Directory vao Staging Area, chuan bi cho commit tiep theo.
+Chuyển thay đổi từ Working Directory vào Staging Area, chuẩn bị cho commit tiếp theo.
 
-### Cu phap va vi du
+### Cú pháp và ví dụ
 
 ```bash
-# Them 1 file cu the
+# Thêm 1 file cụ thể
 git add index.html
 
-# Them nhieu file
+# Thêm nhiều file
 git add index.html style.css app.js
 
-# Them tat ca file trong thu muc hien tai (va con)
+# Thêm tất cả file trong thư mục hiện tại (và con)
 git add .
 
-# Them tat ca file da thay doi (tracked files only, khong them untracked)
+# Thêm tất cả file đã thay đổi (tracked files only, không thêm untracked)
 git add -u
 
-# Them tat ca file (bao gom untracked)
+# Thêm tất cả file (bao gồm untracked)
 git add -A
-# hoac
+# hoặc
 git add --all
 ```
 
-### git add -p — Them tung phan cua file (NANG CAO nhung RAT HAY)
+### git add -p — Thêm từng phần của file (NÂNG CAO nhưng RẤT HAY)
 
-Khi ban sua nhieu cho trong 1 file nhung chi muon stage mot phan:
+Khi bạn sửa nhiều chỗ trong 1 file nhưng chỉ muốn stage một phần:
 
 ```bash
 git add -p style.css
 ```
 
-Git se hien thi tung "hunk" (doan thay doi) va hoi ban:
+Git sẽ hiển thị từng "hunk" (đoạn thay đổi) và hỏi bạn:
 
 ```diff
 @@ -10,6 +10,8 @@
  body {
    margin: 0;
    padding: 0;
-+  background: #f5f5f5;     <-- Thay doi 1
-+  font-family: sans-serif; <-- Thay doi 2
++  background: #f5f5f5;     <-- Thay đổi 1
++  font-family: sans-serif; <-- Thay đổi 2
  }
 
 Stage this hunk [y,n,q,a,d,s,e,?]?
 ```
 
-| Phim | Y nghia |
+| Phím | Ý nghĩa |
 |------|---------|
-| `y` | Stage doan nay (yes) |
-| `n` | Bo qua doan nay (no) |
-| `q` | Thoat (khong stage gi them) |
-| `a` | Stage doan nay va tat ca cac doan con lai |
-| `d` | Bo qua doan nay va tat ca cac doan con lai |
-| `s` | Chia doan nay thanh cac doan nho hon |
-| `e` | Sua bang tay doan nao muon stage |
+| `y` | Stage đoạn này (yes) |
+| `n` | Bỏ qua đoạn này (no) |
+| `q` | Thoát (không stage gì thêm) |
+| `a` | Stage đoạn này và tất cả các đoạn còn lại |
+| `d` | Bỏ qua đoạn này và tất cả các đoạn còn lại |
+| `s` | Chia đoạn này thành các đoạn nhỏ hơn |
+| `e` | Sửa bằng tay đoạn nào muốn stage |
 
-**Tai sao dung `git add -p`?**
+**Tại sao dùng `git add -p`?**
 
-Vi du ban dang sua file va vo tinh them 1 dong `console.log` de debug. Ban muon commit tinh nang nhung khong muon commit dong debug:
+Ví dụ bạn đang sửa file và vô tình thêm 1 dòng `console.log` để debug. Bạn muốn commit tính năng nhưng không muốn commit dòng debug:
 
 ```bash
 git add -p app.js
-# Doan 1: tinh nang moi -> y (stage)
-# Doan 2: console.log debug -> n (bo qua)
+# Đoạn 1: tính năng mới -> y (stage)
+# Đoạn 2: console.log debug -> n (bỏ qua)
 ```
 
 ---
 
-## 5. git commit — Luu thay doi vao Repository
+## 5. git commit — Lưu thay đổi vào Repository
 
-### Cong dung
+### Công dụng
 
-Tao mot commit moi tu nhung gi dang o Staging Area. Day la "save game" cua Git.
+Tạo một commit mới từ những gì đang ở Staging Area. Đây là "save game" của Git.
 
-### Cu phap va vi du
+### Cú pháp và ví dụ
 
 ```bash
-# Commit voi message ngan gon
+# Commit với message ngắn gọn
 git commit -m "feat: them tinh nang dang nhap"
 
-# Commit voi message nhieu dong
+# Commit với message nhiều dòng
 git commit -m "feat: them tinh nang dang nhap
 
 - Them form dang nhap
 - Them validation email
 - Them xu ly loi 401"
 
-# Mo editor de viet message (huu ich cho message dai)
+# Mở editor để viết message (hữu ích cho message dài)
 git commit
-# -> Editor mo ra, viet message, luu va dong
+# -> Editor mở ra, viết message, lưu và đóng
 
-# Commit tat ca file da tracked va modified (bo qua git add)
+# Commit tất cả file đã tracked và modified (bỏ qua git add)
 git commit -am "fix: sua loi hien thi"
-# Chu y: -am CHI ap dung cho file DA TRACKED, khong them file moi
+# Chú ý: -am CHỈ áp dụng cho file ĐÃ TRACKED, không thêm file mới
 ```
 
-### git commit --amend — Sua commit cuoi cung
+### git commit --amend — Sửa commit cuối cùng
 
 ```bash
-# Tinh huong: Ban vua commit nhung quen add 1 file
+# Tình huống: Bạn vừa commit nhưng quên add 1 file
 git add forgotten-file.js
 git commit --amend
-# -> Gop file moi vao commit cuoi, khong tao commit moi
+# -> Gộp file mới vào commit cuối, không tạo commit mới
 
-# Sua commit message cuoi cung
+# Sửa commit message cuối cùng
 git commit --amend -m "feat: them tinh nang dang nhap hoan chinh"
 ```
 
-**CANH BAO:** Chi dung `--amend` cho commit **chua push** len remote. Neu da push, amend se thay doi lich su va gay conflict cho nguoi khac.
+**CẢNH BÁO:** Chỉ dùng `--amend` cho commit **chưa push** lên remote. Nếu đã push, amend sẽ thay đổi lịch sử và gây conflict cho người khác.
 
-### Viet commit message tot
+### Viết commit message tốt
 
 ```bash
-# SAI: Mo ho, khong ro lam gi
+# SAI: Mơ hồ, không rõ làm gì
 git commit -m "fix bug"
 git commit -m "update"
 git commit -m "asdfgh"
 
-# DUNG: Ro rang, theo Conventional Commits
+# ĐÚNG: Rõ ràng, theo Conventional Commits
 git commit -m "feat: them chuc nang tim kiem san pham"
 git commit -m "fix: sua loi khong hien thi avatar user"
 git commit -m "refactor: tach component UserCard thanh file rieng"
@@ -318,149 +318,149 @@ git commit -m "test: them unit test cho UserService"
 **Format Conventional Commits:**
 
 ```
-<type>: <mo ta ngan gon>
+<type>: <mô tả ngắn gọn>
 
-<body - giai thich chi tiet (tuy chon)>
+<body - giải thích chi tiết (tuỳ chọn)>
 ```
 
-| Type | Khi nao dung |
+| Type | Khi nào dùng |
 |------|-------------|
-| `feat` | Them tinh nang moi |
-| `fix` | Sua loi |
-| `refactor` | Refactor code (khong doi hanh vi) |
-| `docs` | Thay doi documentation |
-| `test` | Them/sua test |
-| `chore` | Cong viec bao tri (update dependency...) |
-| `perf` | Cai thien hieu nang |
-| `style` | Sua format code (khong doi logic) |
-| `ci` | Thay doi CI/CD pipeline |
+| `feat` | Thêm tính năng mới |
+| `fix` | Sửa lỗi |
+| `refactor` | Refactor code (không đổi hành vi) |
+| `docs` | Thay đổi documentation |
+| `test` | Thêm/sửa test |
+| `chore` | Công việc bảo trì (update dependency...) |
+| `perf` | Cải thiện hiệu năng |
+| `style` | Sửa format code (không đổi logic) |
+| `ci` | Thay đổi CI/CD pipeline |
 
 ---
 
-## 6. git diff — So sanh su khac biet
+## 6. git diff — So sánh sự khác biệt
 
-### Cong dung
+### Công dụng
 
-Hien thi su khac biet giua cac trang thai cua file. Giup ban biet chinh xac da thay doi gi truoc khi commit.
+Hiển thị sự khác biệt giữa các trạng thái của file. Giúp bạn biết chính xác đã thay đổi gì trước khi commit.
 
-### Cu phap va vi du
+### Cú pháp và ví dụ
 
 ```bash
-# So sanh Working Directory vs Staging Area
-# (nhung thay doi CHUA STAGE)
+# So sánh Working Directory vs Staging Area
+# (những thay đổi CHƯA STAGE)
 git diff
 
-# So sanh Staging Area vs Repository
-# (nhung thay doi DA STAGE, sap duoc commit)
+# So sánh Staging Area vs Repository
+# (những thay đổi ĐÃ STAGE, sắp được commit)
 git diff --staged
-# hoac
-git diff --cached    # Giong --staged
+# hoặc
+git diff --cached    # Giống --staged
 
-# So sanh Working Directory vs Repository
-# (TAT CA thay doi, ca staged va unstaged)
+# So sánh Working Directory vs Repository
+# (TẤT CẢ thay đổi, cả staged và unstaged)
 git diff HEAD
 
-# So sanh giua 2 commit
+# So sánh giữa 2 commit
 git diff abc1234 def5678
 
-# So sanh giua 2 branch
+# So sánh giữa 2 branch
 git diff main feature
 
-# Chi xem ten file da thay doi (khong xem noi dung)
+# Chỉ xem tên file đã thay đổi (không xem nội dung)
 git diff --name-only
 
-# Xem thong ke thay doi (so dong them/xoa)
+# Xem thống kê thay đổi (số dòng thêm/xoá)
 git diff --stat
 ```
 
-### Doc output cua git diff
+### Đọc output của git diff
 
 ```diff
-diff --git a/index.html b/index.html    <-- File duoc so sanh
-index 1234567..abcdefg 100644           <-- Hash cua 2 version
---- a/index.html                        <-- Phien ban cu (truoc thay doi)
-+++ b/index.html                        <-- Phien ban moi (sau thay doi)
-@@ -10,6 +10,8 @@                       <-- Vi tri thay doi: dong 10, 6 dong cu -> 8 dong moi
- <body>                                  <-- Dong khong doi (context)
-   <h1>Hello</h1>                        <-- Dong khong doi
-+  <nav>                                 <-- Dong THEM MOI (dau +, mau xanh)
-+    <a href="/">Home</a>                <-- Dong THEM MOI
-+  </nav>                                <-- Dong THEM MOI
--  <p>Old paragraph</p>                  <-- Dong DA XOA (dau -, mau do)
-+  <p>New paragraph</p>                  <-- Dong THAY THE (them dong moi)
-   <script src="app.js"></script>         <-- Dong khong doi
+diff --git a/index.html b/index.html    <-- File được so sánh
+index 1234567..abcdefg 100644           <-- Hash của 2 version
+--- a/index.html                        <-- Phiên bản cũ (trước thay đổi)
++++ b/index.html                        <-- Phiên bản mới (sau thay đổi)
+@@ -10,6 +10,8 @@                       <-- Vị trí thay đổi: dòng 10, 6 dòng cũ -> 8 dòng mới
+ <body>                                  <-- Dòng không đổi (context)
+   <h1>Hello</h1>                        <-- Dòng không đổi
++  <nav>                                 <-- Dòng THÊM MỚI (dấu +, màu xanh)
++    <a href="/">Home</a>                <-- Dòng THÊM MỚI
++  </nav>                                <-- Dòng THÊM MỚI
+-  <p>Old paragraph</p>                  <-- Dòng ĐÃ XOÁ (dấu -, màu đỏ)
++  <p>New paragraph</p>                  <-- Dòng THAY THẾ (thêm dòng mới)
+   <script src="app.js"></script>         <-- Dòng không đổi
  </body>
 ```
 
-### Cac truong hop so sanh
+### Các trường hợp so sánh
 
 ```
                     git diff           git diff --staged        git diff HEAD
-                   (unstaged)            (staged)              (tat ca)
+                   (unstaged)            (staged)              (tất cả)
                        |                    |                      |
 Working Directory  <---|                    |                      |
         |              |    Staging Area <--|                      |
         |              |         |          |     Repository  <----|
         v              v         v          v         |            |
-   [file da sua]   [chua add]  [da add]   [sap      [da          [moi thay
-                                           commit]   commit]      doi]
+   [file đã sửa]   [chưa add]  [đã add]   [sắp      [đã          [mọi thay
+                                           commit]   commit]      đổi]
 ```
 
 ---
 
-## 7. git log — Xem lich su commit
+## 7. git log — Xem lịch sử commit
 
-### Cong dung
+### Công dụng
 
-Hien thi lich su cac commit, tu moi nhat den cu nhat.
+Hiển thị lịch sử các commit, từ mới nhất đến cũ nhất.
 
-### Cu phap va cac option huu ich
+### Cú pháp và các option hữu ích
 
 ```bash
-# Xem log mac dinh (day du thong tin)
+# Xem log mặc định (đầy đủ thông tin)
 git log
 
-# Moi commit tren 1 dong (ngan gon)
+# Mỗi commit trên 1 dòng (ngắn gọn)
 git log --oneline
 
-# Xem voi so do branching
+# Xem với sơ đồ branching
 git log --oneline --graph
 
-# Xem tat ca branches (khong chi branch hien tai)
+# Xem tất cả branches (không chỉ branch hiện tại)
 git log --oneline --graph --all
 
-# Xem voi ten branch va tag
+# Xem với tên branch và tag
 git log --oneline --graph --all --decorate
 
-# Gioi han so luong commit
-git log -5                    # Chi xem 5 commit gan nhat
-git log --oneline -10        # 10 commit, dang ngan gon
+# Giới hạn số lượng commit
+git log -5                    # Chỉ xem 5 commit gần nhất
+git log --oneline -10        # 10 commit, dạng ngắn gọn
 
-# Loc theo tac gia
+# Lọc theo tác giả
 git log --author="Nguyen Van A"
 
-# Loc theo thoi gian
+# Lọc theo thời gian
 git log --since="2025-01-01"
 git log --since="2 weeks ago"
 git log --after="2025-03-01" --before="2025-03-31"
 
-# Loc theo noi dung commit message
-git log --grep="fix"          # Tim commit co "fix" trong message
-git log --grep="login" -i     # Tim khong phan biet hoa thuong
+# Lọc theo nội dung commit message
+git log --grep="fix"          # Tìm commit có "fix" trong message
+git log --grep="login" -i     # Tìm không phân biệt hoa thường
 
-# Loc theo file cu the
-git log -- index.html         # Chi xem commit lien quan den file nay
+# Lọc theo file cụ thể
+git log -- index.html         # Chỉ xem commit liên quan đến file này
 
-# Loc theo noi dung code
-git log -S "function login"   # Tim commit thay doi chua chuoi nay
-# (rat huu ich khi muon biet ai them/xoa 1 doan code)
+# Lọc theo nội dung code
+git log -S "function login"   # Tìm commit thay đổi chứa chuỗi này
+# (rất hữu ích khi muốn biết ai thêm/xoá 1 đoạn code)
 
-# Format tuy chinh
+# Format tuỳ chỉnh
 git log --pretty=format:"%h - %an, %ar : %s"
 # abc1234 - Nguyen Van A, 2 hours ago : feat: them login
 ```
 
-### Doc output cua git log
+### Đọc output của git log
 
 ```bash
 git log
@@ -468,25 +468,25 @@ git log
 
 ```
 commit a1b2c3d4e5f6 (HEAD -> main, origin/main)  <-- Hash, branches
-Author: Nguyen Van A <email>                       <-- Tac gia
-Date:   Mon Mar 25 10:30:00 2025 +0700            <-- Ngay
+Author: Nguyen Van A <email>                       <-- Tác giả
+Date:   Mon Mar 25 10:30:00 2025 +0700            <-- Ngày
 
     feat: them tinh nang dang nhap                 <-- Message
 
-commit f4e5d6c7b8a9                               <-- Commit truoc do
+commit f4e5d6c7b8a9                               <-- Commit trước đó
 Author: Tran Van B <email>
 Date:   Sun Mar 24 15:00:00 2025 +0700
 
     fix: sua loi hien thi trang chu
 ```
 
-### Lenh log toi khuyen nghi thiet lap alias
+### Lệnh log tôi khuyên nghị thiết lập alias
 
 ```bash
 git config --global alias.lg "log --oneline --graph --all --decorate"
 ```
 
-Sau do dung:
+Sau đó dùng:
 
 ```bash
 git lg
@@ -502,33 +502,33 @@ git lg
 
 ---
 
-## 8. git show — Xem chi tiet 1 commit
+## 8. git show — Xem chi tiết 1 commit
 
-### Cong dung
+### Công dụng
 
-Hien thi chi tiet noi dung cua mot commit cu the — bao gom metadata va diff.
+Hiển thị chi tiết nội dung của một commit cụ thể — bao gồm metadata và diff.
 
-### Cu phap va vi du
+### Cú pháp và ví dụ
 
 ```bash
-# Xem commit moi nhat
+# Xem commit mới nhất
 git show
 
-# Xem commit cu the
+# Xem commit cụ thể
 git show a1b2c3d
 
-# Chi xem metadata, khong xem diff
+# Chỉ xem metadata, không xem diff
 git show --stat a1b2c3d
 
-# Xem noi dung 1 file tai 1 commit cu the
+# Xem nội dung 1 file tại 1 commit cụ thể
 git show a1b2c3d:index.html
-# -> Hien thi noi dung file index.html tai thoi diem commit a1b2c3d
+# -> Hiển thị nội dung file index.html tại thời điểm commit a1b2c3d
 
-# Xem file tai HEAD (commit hien tai)
+# Xem file tại HEAD (commit hiện tại)
 git show HEAD:src/app.js
 ```
 
-### Vi du output
+### Ví dụ output
 
 ```bash
 git show a1b2c3d
@@ -562,41 +562,41 @@ index 0000000..1234567
 
 ---
 
-## 9. Bang tong hop cac lenh
+## 9. Bảng tổng hợp các lệnh
 
-| Lenh | Cong dung | Dung khi |
+| Lệnh | Công dụng | Dùng khi |
 |------|-----------|----------|
-| `git init` | Tao repo moi | Bat dau du an moi |
-| `git clone <url>` | Sao chep repo | Lay code tu server |
-| `git status` | Xem trang thai | Truoc khi add/commit |
-| `git add <file>` | Stage file | Chuan bi commit |
-| `git add .` | Stage tat ca | Commit toan bo thay doi |
-| `git add -p` | Stage tung phan | Chon loc thay doi |
-| `git commit -m "msg"` | Luu thay doi | Sau khi stage |
-| `git commit -am "msg"` | Add + commit | Nhanh, chi file tracked |
-| `git commit --amend` | Sua commit cuoi | Quen file/sai message |
-| `git diff` | Xem thay doi chua stage | Truoc khi add |
-| `git diff --staged` | Xem thay doi da stage | Truoc khi commit |
-| `git log` | Xem lich su | Kiem tra lich su |
-| `git log --oneline --graph` | Xem lich su dep | Tong quan nhanh |
-| `git show <hash>` | Chi tiet 1 commit | Xem commit cu the |
+| `git init` | Tạo repo mới | Bắt đầu dự án mới |
+| `git clone <url>` | Sao chép repo | Lấy code từ server |
+| `git status` | Xem trạng thái | Trước khi add/commit |
+| `git add <file>` | Stage file | Chuẩn bị commit |
+| `git add .` | Stage tất cả | Commit toàn bộ thay đổi |
+| `git add -p` | Stage từng phần | Chọn lọc thay đổi |
+| `git commit -m "msg"` | Lưu thay đổi | Sau khi stage |
+| `git commit -am "msg"` | Add + commit | Nhanh, chỉ file tracked |
+| `git commit --amend` | Sửa commit cuối | Quên file/sai message |
+| `git diff` | Xem thay đổi chưa stage | Trước khi add |
+| `git diff --staged` | Xem thay đổi đã stage | Trước khi commit |
+| `git log` | Xem lịch sử | Kiểm tra lịch sử |
+| `git log --oneline --graph` | Xem lịch sử đẹp | Tổng quan nhanh |
+| `git show <hash>` | Chi tiết 1 commit | Xem commit cụ thể |
 
 ---
 
-## 10. Workflow thuc te: Tu 0 den commit dau tien
+## 10. Workflow thực tế: Từ 0 đến commit đầu tiên
 
-Hay lam theo tung buoc:
+Hãy làm theo từng bước:
 
 ```bash
-# Buoc 1: Tao thu muc du an
+# Bước 1: Tạo thư mục dự án
 mkdir todo-app
 cd todo-app
 
-# Buoc 2: Khoi tao Git
+# Bước 2: Khởi tạo Git
 git init
 # -> Initialized empty Git repository
 
-# Buoc 3: Tao file dau tien
+# Bước 3: Tạo file đầu tiên
 echo '<!DOCTYPE html>
 <html>
 <head><title>Todo App</title></head>
@@ -605,48 +605,48 @@ echo '<!DOCTYPE html>
 </body>
 </html>' > index.html
 
-# Buoc 4: Kiem tra trang thai
+# Bước 4: Kiểm tra trạng thái
 git status
-# -> Untracked files: index.html (do)
+# -> Untracked files: index.html (đỏ)
 
-# Buoc 5: Stage file
+# Bước 5: Stage file
 git add index.html
 git status
 # -> Changes to be committed: new file: index.html (xanh)
 
-# Buoc 6: Commit
+# Bước 6: Commit
 git commit -m "feat: tao trang HTML co ban cho todo app"
 # -> [main (root-commit) abc1234] feat: tao trang HTML co ban
 
-# Buoc 7: Kiem tra log
+# Bước 7: Kiểm tra log
 git log --oneline
 # abc1234 (HEAD -> main) feat: tao trang HTML co ban
 
-# Buoc 8: Tiep tuc lam viec — them CSS
+# Bước 8: Tiếp tục làm việc — thêm CSS
 echo 'body { font-family: sans-serif; margin: 2rem; }
 h1 { color: #333; }' > style.css
 
-# Buoc 9: Kiem tra thay doi
+# Bước 9: Kiểm tra thay đổi
 git status
 # -> Untracked files: style.css
 
 git add style.css
 git commit -m "feat: them file CSS co ban"
 
-# Buoc 10: Xem lich su
+# Bước 10: Xem lịch sử
 git log --oneline
 # def5678 (HEAD -> main) feat: them file CSS co ban
 # abc1234 feat: tao trang HTML co ban
 
-# Buoc 11: Sua file va xem diff
-# (Sua index.html, them link CSS)
+# Bước 11: Sửa file và xem diff
+# (Sửa index.html, thêm link CSS)
 git diff
-# -> Hien thi dong da them/xoa
+# -> Hiển thị dòng đã thêm/xoá
 
 git add .
 git commit -m "feat: ket noi CSS vao trang HTML"
 
-# Xem lich su hoan chinh
+# Xem lịch sử hoàn chỉnh
 git log --oneline --graph
 # * ghi7890 (HEAD -> main) feat: ket noi CSS vao trang HTML
 # * def5678 feat: them file CSS co ban
@@ -655,150 +655,150 @@ git log --oneline --graph
 
 ---
 
-## 11. Loi thuong gap
+## 11. Lỗi thường gặp
 
-### Loi 1: Commit khong co gi (empty commit)
+### Lỗi 1: Commit không có gì (empty commit)
 
 ```bash
 git commit -m "them tinh nang"
 # nothing to commit, working tree clean
 
-# Nguyen nhan: Chua git add!
-# Sua:
+# Nguyên nhân: Chưa git add!
+# Sửa:
 git add .
 git commit -m "them tinh nang"
 ```
 
-### Loi 2: Dung `git add .` o thu muc sai
+### Lỗi 2: Dùng `git add .` ở thư mục sai
 
 ```bash
-# Ban dang o thu muc con nhung muon add tat ca
+# Bạn đang ở thư mục con nhưng muốn add tất cả
 cd src/
-git add .       # Chi add file trong src/, khong phai toan bo project!
+git add .       # Chỉ add file trong src/, không phải toàn bộ project!
 
-# Sua: Quay ve root hoac dung duong dan
+# Sửa: Quay về root hoặc dùng đường dẫn
 cd ..
-git add .       # Add tu root
+git add .       # Add từ root
 
-# Hoac dung -A tu bat ky dau
-git add -A      # Add toan bo thay doi trong repo
+# Hoặc dùng -A từ bất kỳ đâu
+git add -A      # Add toàn bộ thay đổi trong repo
 ```
 
-### Loi 3: Commit nham file
+### Lỗi 3: Commit nhầm file
 
 ```bash
-# Tinh huong: vua commit nham file .env (chua mat khau!)
+# Tình huống: vừa commit nhầm file .env (chứa mật khẩu!)
 
-# Cach 1: Xoa file khoi commit cuoi (neu CHUA push)
-git reset HEAD~1                    # Undo commit cuoi
+# Cách 1: Xoá file khỏi commit cuối (nếu CHƯA push)
+git reset HEAD~1                    # Undo commit cuối
 git reset HEAD .env                 # Unstage file .env
-echo ".env" >> .gitignore          # Them vao gitignore
+echo ".env" >> .gitignore          # Thêm vào gitignore
 git add .gitignore
 git commit -m "chore: them .env vao gitignore"
 
-# Cach 2: Neu DA push — can xoa khoi toan bo lich su
-# (Xem bai ve .gitignore va quan ly file)
+# Cách 2: Nếu ĐÃ push — cần xoá khỏi toàn bộ lịch sử
+# (Xem bài về .gitignore và quản lý file)
 ```
 
-### Loi 4: Quen message khi commit
+### Lỗi 4: Quên message khi commit
 
 ```bash
-# Git mo editor (thuong la vim) khi khong co -m
+# Git mở editor (thường là vim) khi không có -m
 git commit
-# -> vim mo ra, ban khong biet cach dung
+# -> vim mở ra, bạn không biết cách dùng
 
-# Cach 1: Trong vim, nhan i de vao Insert mode, go message
-#          Nhan Esc, go :wq Enter
+# Cách 1: Trong vim, nhấn i để vào Insert mode, gõ message
+#          Nhấn Esc, gõ :wq Enter
 
-# Cach 2: Doi editor (xem bai Cai dat va cau hinh)
+# Cách 2: Đổi editor (xem bài Cài đặt và cấu hình)
 git config --global core.editor "code --wait"
 
-# Cach 3: Luon dung -m
-git commit -m "message cua ban"
+# Cách 3: Luôn dùng -m
+git commit -m "message của bạn"
 ```
 
-### Loi 5: `git commit -am` khong them file moi
+### Lỗi 5: `git commit -am` không thêm file mới
 
 ```bash
-# Tao file moi
+# Tạo file mới
 touch new-feature.js
 
 git commit -am "them tinh nang moi"
-# -> new-feature.js KHONG duoc commit!
+# -> new-feature.js KHÔNG được commit!
 
-# Ly do: -a chi add file DA TRACKED (da commit truoc do)
-# File moi (untracked) phai dung git add truoc
+# Lý do: -a chỉ add file ĐÃ TRACKED (đã commit trước đó)
+# File mới (untracked) phải dùng git add trước
 
-# Sua:
+# Sửa:
 git add new-feature.js
 git commit -m "them tinh nang moi"
 ```
 
 ---
 
-## 12. Cau hoi phong van
+## 12. Câu hỏi phỏng vấn
 
-### Cau 1: Su khac nhau giua `git add .` va `git add -A`?
+### Câu 1: Sự khác nhau giữa `git add .` và `git add -A`?
 
-**Tra loi mau:**
+**Trả lời mẫu:**
 
-> `git add .` them tat ca file moi, da sua, da xoa **trong thu muc hien tai va cac thu muc con**. `git add -A` (hoac `--all`) them tat ca thay doi **trong toan bo repository**, bat ke ban dang o thu muc nao. Khi ban dang o root cua repo, 2 lenh cho ket qua giong nhau. Khac biet chi xuat hien khi ban dang o thu muc con.
+> `git add .` thêm tất cả file mới, đã sửa, đã xoá **trong thư mục hiện tại và các thư mục con**. `git add -A` (hoặc `--all`) thêm tất cả thay đổi **trong toàn bộ repository**, bất kể bạn đang ở thư mục nào. Khi bạn đang ở root của repo, 2 lệnh cho kết quả giống nhau. Khác biệt chỉ xuất hiện khi bạn đang ở thư mục con.
 
-### Cau 2: `git diff` va `git diff --staged` khac nhau the nao?
+### Câu 2: `git diff` và `git diff --staged` khác nhau thế nào?
 
-**Tra loi mau:**
+**Trả lời mẫu:**
 
-> `git diff` so sanh Working Directory voi Staging Area — cho thay nhung thay doi chua duoc `git add`. `git diff --staged` (hoac `--cached`) so sanh Staging Area voi commit cuoi cung — cho thay nhung thay doi da `git add` va se duoc commit. De xem tat ca thay doi (ca staged va unstaged), dung `git diff HEAD`.
+> `git diff` so sánh Working Directory với Staging Area — cho thấy những thay đổi chưa được `git add`. `git diff --staged` (hoặc `--cached`) so sánh Staging Area với commit cuối cùng — cho thấy những thay đổi đã `git add` và sẽ được commit. Để xem tất cả thay đổi (cả staged và unstaged), dùng `git diff HEAD`.
 
-### Cau 3: Lam sao de undo commit cuoi cung?
+### Câu 3: Làm sao để undo commit cuối cùng?
 
-**Tra loi mau:**
+**Trả lời mẫu:**
 
-> Co 3 cach tuy theo muc do:
-> - `git reset --soft HEAD~1`: Undo commit, giu file trong Staging Area. Thich hop khi muon sua message hoac them file.
-> - `git reset --mixed HEAD~1` (mac dinh): Undo commit, chuyen file ve Working Directory. Thich hop khi muon stage lai theo cach khac.
-> - `git reset --hard HEAD~1`: Undo commit VA xoa moi thay doi. **NGUY HIEM** — mat du lieu vinh vien.
-> - `git commit --amend`: Khong undo ma sua commit cuoi (doi message, them file). Chi dung khi chua push.
+> Có 3 cách tuỳ theo mức độ:
+> - `git reset --soft HEAD~1`: Undo commit, giữ file trong Staging Area. Thích hợp khi muốn sửa message hoặc thêm file.
+> - `git reset --mixed HEAD~1` (mặc định): Undo commit, chuyển file về Working Directory. Thích hợp khi muốn stage lại theo cách khác.
+> - `git reset --hard HEAD~1`: Undo commit VÀ xoá mọi thay đổi. **NGUY HIỂM** — mất dữ liệu vĩnh viễn.
+> - `git commit --amend`: Không undo mà sửa commit cuối (đổi message, thêm file). Chỉ dùng khi chưa push.
 
-### Cau 4: Giai thich `git commit -am` va han che cua no.
+### Câu 4: Giải thích `git commit -am` và hạn chế của nó.
 
-**Tra loi mau:**
+**Trả lời mẫu:**
 
-> `git commit -am "message"` ket hop `git add` va `git commit` trong 1 lenh. Flag `-a` tu dong stage tat ca file **da tracked** (da commit truoc do) ma co thay doi. Han che: no **khong** them file moi (untracked files). File moi phai duoc `git add` rieng truoc khi commit. Nen `-am` chi tien khi lam viec voi file da co, khong phu hop khi tao file moi.
+> `git commit -am "message"` kết hợp `git add` và `git commit` trong 1 lệnh. Flag `-a` tự động stage tất cả file **đã tracked** (đã commit trước đó) mà có thay đổi. Hạn chế: nó **không** thêm file mới (untracked files). File mới phải được `git add` riêng trước khi commit. Nên `-am` chỉ tiện khi làm việc với file đã có, không phù hợp khi tạo file mới.
 
-### Cau 5: `git clone --depth 1` la gi va khi nao nen dung?
+### Câu 5: `git clone --depth 1` là gì và khi nào nên dùng?
 
-**Tra loi mau:**
+**Trả lời mẫu:**
 
-> `--depth 1` tao mot "shallow clone" — chi tai commit moi nhat, khong tai toan bo lich su. Dieu nay lam giam dang ke thoi gian va dung luong khi clone repo lon. Su dung trong: CI/CD pipeline (chi can build code moi nhat), thu nhanh code nguoi khac, repo co lich su qua lon. Han che: khong the xem full log, khong the push thay doi (trong mot so truong hop), va mot so thao tac Git se bi gioi han.
+> `--depth 1` tạo một "shallow clone" — chỉ tải commit mới nhất, không tải toàn bộ lịch sử. Điều này làm giảm đáng kể thời gian và dung lượng khi clone repo lớn. Sử dụng trong: CI/CD pipeline (chỉ cần build code mới nhất), thử nhanh code người khác, repo có lịch sử quá lớn. Hạn chế: không thể xem full log, không thể push thay đổi (trong một số trường hợp), và một số thao tác Git sẽ bị giới hạn.
 
 ---
 
-## Tong ket luong lam viec hang ngay
+## Tổng kết luồng làm việc hàng ngày
 
 ```
 +-------+     +--------+     +--------+     +---------+
-| Viet  | --> | Kiem    | --> | Stage  | --> | Commit  |
-| code  |     | tra     |     | (add)  |     |         |
+| Viết  | --> | Kiểm   | --> | Stage  | --> | Commit  |
+| code  |     | tra    |     | (add)  |     |         |
 +-------+     +--------+     +--------+     +---------+
                   |
               git status
               git diff
 ```
 
-10 lenh ban dung moi ngay:
+10 lệnh bạn dùng mỗi ngày:
 
 ```bash
-git status              # 1. Xem trang thai
-git diff                # 2. Xem thay doi
+git status              # 1. Xem trạng thái
+git diff                # 2. Xem thay đổi
 git add <file>          # 3. Stage file
 git commit -m "msg"     # 4. Commit
-git log --oneline       # 5. Xem lich su
-git show                # 6. Xem commit cuoi
-git diff --staged       # 7. Xem thay doi da stage
-git add -p              # 8. Stage chon loc
-git commit --amend      # 9. Sua commit cuoi
+git log --oneline       # 5. Xem lịch sử
+git show                # 6. Xem commit cuối
+git diff --staged       # 7. Xem thay đổi đã stage
+git add -p              # 8. Stage chọn lọc
+git commit --amend      # 9. Sửa commit cuối
 git clone               # 10. Clone repo
 ```
 
-**Buoc tiep theo:** Tim hieu ve `.gitignore` va cach quan ly file trong Git.
+**Bước tiếp theo:** Tìm hiểu về `.gitignore` và cách quản lý file trong Git.

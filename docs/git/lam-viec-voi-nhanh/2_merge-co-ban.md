@@ -3,118 +3,118 @@ sidebar_position: 2
 title: "Merge — Gop nhanh trong Git"
 ---
 
-# Merge — Gop nhanh trong Git
+# Merge — Gộp nhánh trong Git
 
-Sau khi ban lam viec tren mot branch rieng va hoan thanh cong viec, buoc tiep theo la **gop (merge)** cac thay doi do vao branch chinh. Merge la mot trong nhung thao tac quan trong nhat trong Git, va hieu ro cac kieu merge se giup ban lam viec hieu qua hon trong nhom.
+Sau khi bạn làm việc trên một branch riêng và hoàn thành công việc, bước tiếp theo là **gộp (merge)** các thay đổi đó vào branch chính. Merge là một trong những thao tác quan trọng nhất trong Git, và hiểu rõ các kiểu merge sẽ giúp bạn làm việc hiệu quả hơn trong nhóm.
 
 ---
 
-## 1. Merge la gi?
+## 1. Merge là gì?
 
-Merge la qua trinh **gop cac thay doi tu branch nay vao branch khac**. Thong thuong, ban merge branch tinh nang (feature) vao branch chinh (main).
+Merge là quá trình **gộp các thay đổi từ branch này vào branch khác**. Thông thường, bạn merge branch tính năng (feature) vào branch chính (main).
 
 ```bash
-# Dang o branch main, muon gop feature/login vao
+# Đang ở branch main, muốn gộp feature/login vào
 git switch main
 git merge feature/login
 ```
 
-**Nguyen tac co ban:** Luon **chuyen sang branch nhan** truoc khi merge. Neu ban muon gop feature vao main, ban phai **dung tren main** roi merge feature vao.
+**Nguyên tắc cơ bản:** Luôn **chuyển sang branch nhận** trước khi merge. Nếu bạn muốn gộp feature vào main, bạn phải **đứng trên main** rồi merge feature vào.
 
 ```
-# SAI: dang o feature/login, merge main
+# SAI: đang ở feature/login, merge main
 git switch feature/login
 git merge main
-# => Day la merge main vao feature (cap nhat feature), khong phai merge feature vao main
+# => Đây là merge main vào feature (cập nhật feature), không phải merge feature vào main
 
-# DUNG: dang o main, merge feature/login
+# ĐÚNG: đang ở main, merge feature/login
 git switch main
 git merge feature/login
-# => Day la gop feature vao main
+# => Đây là gộp feature vào main
 ```
 
 ---
 
 ## 2. Fast-forward merge
 
-### 2.1. Khi nao xay ra?
+### 2.1. Khi nào xảy ra?
 
-Fast-forward xay ra khi branch main **khong co commit moi nao** ke tu khi ban tao branch feature. Noi cach khac, lich su la mot duong thang:
+Fast-forward xảy ra khi branch main **không có commit mới nào** kể từ khi bạn tạo branch feature. Nói cách khác, lịch sử là một đường thẳng:
 
 ```
-# Truoc khi merge:
+# Trước khi merge:
 main:          A---B---C
                         \
 feature/login:           D---E---F
 
-# Main khong co commit moi sau C
-# => Git chi can "di chuyen" pointer main len F
+# Main không có commit mới sau C
+# => Git chỉ cần "di chuyển" pointer main lên F
 
 # Sau khi merge (fast-forward):
-main:          A---B---C---D---E---F  (main pointer di chuyen len F)
+main:          A---B---C---D---E---F  (main pointer di chuyển lên F)
 ```
 
-### 2.2. Vi du thuc te
+### 2.2. Ví dụ thực tế
 
 ```bash
-# Bat dau tu main
+# Bắt đầu từ main
 git switch main
 git log --oneline
 # abc1234 (HEAD -> main) Initial commit
 
-# Tao va chuyen sang feature
+# Tạo và chuyển sang feature
 git switch -c feature/header
 echo "<header>Logo</header>" > header.html
 git add header.html
-git commit -m "Them header"
+git commit -m "Thêm header"
 
 echo "<nav>Menu</nav>" >> header.html
 git add header.html
-git commit -m "Them navigation"
+git commit -m "Thêm navigation"
 
-# Quay lai main va merge
+# Quay lại main và merge
 git switch main
 git merge feature/login
-# Ket qua:
+# Kết quả:
 # Updating abc1234..def5678
-# Fast-forward          <-- Git bao ban: day la fast-forward
+# Fast-forward          <-- Git báo bạn: đây là fast-forward
 #  header.html | 2 ++
 #  1 file changed, 2 insertions(+)
 ```
 
-### 2.3. Uu va nhuoc diem
+### 2.3. Ưu và nhược điểm
 
-| Uu diem | Nhuoc diem |
+| Ưu điểm | Nhược điểm |
 |---------|------------|
-| Lich su sach, mot duong thang | Khong biet duoc "nhom commit nao thuoc feature nao" |
-| Khong tao merge commit thua | Mat thong tin ve branch (branch da ton tai bao lau, merge khi nao) |
-| De doc log | Kho rollback ca mot feature |
+| Lịch sử sạch, một đường thẳng | Không biết được "nhóm commit nào thuộc feature nào" |
+| Không tạo merge commit thừa | Mất thông tin về branch (branch đã tồn tại bao lâu, merge khi nào) |
+| Dễ đọc log | Khó rollback cả một feature |
 
-### 2.4. `--no-ff` -- Ep tao merge commit
+### 2.4. `--no-ff` -- Ép tạo merge commit
 
-Neu ban muon **giu lai dau vet** cua branch (biet rang nhom commit nay thuoc feature nao), dung `--no-ff`:
+Nếu bạn muốn **giữ lại dấu vết** của branch (biết rằng nhóm commit này thuộc feature nào), dùng `--no-ff`:
 
 ```bash
 git switch main
 git merge --no-ff feature/header
-# Git se mo editor de ban nhap merge commit message
-# Mac dinh: "Merge branch 'feature/header'"
+# Git sẽ mở editor để bạn nhập merge commit message
+# Mặc định: "Merge branch 'feature/header'"
 ```
 
 ```
-# Voi --no-ff, lich su se nhu the nay:
+# Với --no-ff, lịch sử sẽ như thế này:
 main:   A---B---C-----------M  (merge commit)
                  \         /
 feature/header:   D---E---F
 
-# Thay vi fast-forward:
-main:   A---B---C---D---E---F  (khong co merge commit)
+# Thay vì fast-forward:
+main:   A---B---C---D---E---F  (không có merge commit)
 ```
 
-**Khuyen nghi:** Nhieu team bat buoc dung `--no-ff` de lich su ro rang hon. Co the cau hinh mac dinh:
+**Khuyến nghị:** Nhiều team bắt buộc dùng `--no-ff` để lịch sử rõ ràng hơn. Có thể cấu hình mặc định:
 
 ```bash
-# Cau hinh --no-ff mac dinh cho branch main
+# Cấu hình --no-ff mặc định cho branch main
 git config branch.main.mergeoptions "--no-ff"
 ```
 
@@ -122,76 +122,76 @@ git config branch.main.mergeoptions "--no-ff"
 
 ## 3. Three-way merge (3-way merge)
 
-### 3.1. Khi nao xay ra?
+### 3.1. Khi nào xảy ra?
 
-3-way merge xay ra khi **ca hai branch deu co commit moi** ke tu diem re nhanh. Git khong the chi "di chuyen pointer" -- no phai **ket hop thay doi tu ca hai phia**.
+3-way merge xảy ra khi **cả hai branch đều có commit mới** kể từ điểm rẽ nhánh. Git không thể chỉ "di chuyển pointer" -- nó phải **kết hợp thay đổi từ cả hai phía**.
 
 ```
-# Truoc khi merge:
-main:          A---B---C---D---E      (main co commit D, E)
+# Trước khi merge:
+main:          A---B---C---D---E      (main có commit D, E)
                         \
-feature/login:           F---G---H    (feature co commit F, G, H)
+feature/login:           F---G---H    (feature có commit F, G, H)
 
-# Ca hai deu co commit moi tu diem re C
-# Git can so sanh 3 diem: C (base), E (main), H (feature)
+# Cả hai đều có commit mới từ điểm rẽ C
+# Git cần so sánh 3 điểm: C (base), E (main), H (feature)
 ```
 
-### 3.2. Quy trinh 3-way merge
+### 3.2. Quy trình 3-way merge
 
-Git thuc hien 3 buoc:
+Git thực hiện 3 bước:
 
-1. **Tim merge base** -- commit chung gan nhat (C trong vi du tren)
-2. **So sanh** thay doi tu base den main (C -> E) va tu base den feature (C -> H)
-3. **Ket hop** ca hai nhom thay doi va tao **merge commit** (M)
+1. **Tìm merge base** -- commit chung gần nhất (C trong ví dụ trên)
+2. **So sánh** thay đổi từ base đến main (C -> E) và từ base đến feature (C -> H)
+3. **Kết hợp** cả hai nhóm thay đổi và tạo **merge commit** (M)
 
 ```
 # Sau khi merge:
-main:          A---B---C---D---E---M  (merge commit co 2 parent)
+main:          A---B---C---D---E---M  (merge commit có 2 parent)
                         \         /
 feature/login:           F---G---H
 
-# Merge commit M co 2 parent: E va H
-# No la "noi ket noi" hai dong lich su
+# Merge commit M có 2 parent: E và H
+# Nó là "nơi kết nối" hai dòng lịch sử
 ```
 
-### 3.3. Vi du thuc te
+### 3.3. Ví dụ thực tế
 
 ```bash
-# Tao du an moi
+# Tạo dự án mới
 mkdir merge-practice && cd merge-practice
 git init
 
-# Commit dau tien
+# Commit đầu tiên
 echo "line 1" > file.txt
 git add file.txt
 git commit -m "A: initial"
 
-# Tao feature branch
+# Tạo feature branch
 git switch -c feature/update
 
-# Commit tren feature
+# Commit trên feature
 echo "line 2 from feature" >> file.txt
 git add file.txt
-git commit -m "F: them dong 2 tu feature"
+git commit -m "F: thêm dòng 2 từ feature"
 
-# Quay lai main va tao commit moi
+# Quay lại main và tạo commit mới
 git switch main
 echo "# README" > README.md
 git add README.md
-git commit -m "D: them README"
+git commit -m "D: thêm README"
 
-# Bay gio ca main va feature deu co commit moi
-# Merge se la 3-way merge
+# Bây giờ cả main và feature đều có commit mới
+# Merge sẽ là 3-way merge
 git merge feature/update
-# Git se mo editor de nhap merge commit message
-# Mac dinh: "Merge branch 'feature/update'"
+# Git sẽ mở editor để nhập merge commit message
+# Mặc định: "Merge branch 'feature/update'"
 
-# Xem lich su
+# Xem lịch sử
 git log --oneline --graph --all
 # *   M (HEAD -> main) Merge branch 'feature/update'
 # |\
-# | * F (feature/update) them dong 2 tu feature
-# * | D them README
+# | * F (feature/update) thêm dòng 2 từ feature
+# * | D thêm README
 # |/
 # * A initial
 ```
@@ -200,239 +200,239 @@ git log --oneline --graph --all
 
 ## 4. Squash merge
 
-### 4.1. Squash merge la gi?
+### 4.1. Squash merge là gì?
 
-Squash merge **gop tat ca commit tu feature branch thanh MOT commit** tren main, nhung **khong tao merge commit** va **khong luu lai lich su branch**.
+Squash merge **gộp tất cả commit từ feature branch thành MỘT commit** trên main, nhưng **không tạo merge commit** và **không lưu lại lịch sử branch**.
 
 ```
-# Branch feature co 5 commit nho:
+# Branch feature có 5 commit nhỏ:
 feature:  F1---F2---F3---F4---F5
 
-# Squash merge vao main:
+# Squash merge vào main:
 main:     A---B---C---S
 #                      ^
-#                      S = 1 commit chua tat ca thay doi tu F1-F5
+#                      S = 1 commit chứa tất cả thay đổi từ F1-F5
 ```
 
-### 4.2. Cach dung
+### 4.2. Cách dùng
 
 ```bash
 git switch main
 git merge --squash feature/login
-# Ket qua: tat ca thay doi duoc staged nhung CHUA COMMIT
+# Kết quả: tất cả thay đổi được staged nhưng CHƯA COMMIT
 
-# Ban phai tu commit
-git commit -m "feat: them tinh nang dang nhap"
-# Chi 1 commit gon gang tren main
+# Bạn phải tự commit
+git commit -m "feat: thêm tính năng đăng nhập"
+# Chỉ 1 commit gọn gàng trên main
 ```
 
-### 4.3. Khi nao dung squash merge?
+### 4.3. Khi nào dùng squash merge?
 
-| Nen dung khi | Khong nen dung khi |
+| Nên dùng khi | Không nên dùng khi |
 |-------------|-------------------|
-| Feature branch co nhieu commit nho, messy | Moi commit deu co y nghia va can giu lai |
-| Commit message nhu "fix typo", "wip", "test" | Can truy vet lich su chi tiet |
-| Muon main branch co lich su sach | Team can biet ai lam gi khi nao |
-| PR co nhieu commit chinh sua theo review | Branch dai ngay voi nhieu milestone |
+| Feature branch có nhiều commit nhỏ, messy | Mỗi commit đều có ý nghĩa và cần giữ lại |
+| Commit message như "fix typo", "wip", "test" | Cần truy vết lịch sử chi tiết |
+| Muốn main branch có lịch sử sạch | Team cần biết ai làm gì khi nào |
+| PR có nhiều commit chỉnh sửa theo review | Branch dài ngày với nhiều milestone |
 
-**Luu y:** Sau squash merge, Git khong biet branch da duoc merge. `git branch --merged` se KHONG liet ke branch do. Ban can xoa branch thu cong.
+**Lưu ý:** Sau squash merge, Git không biết branch đã được merge. `git branch --merged` sẽ KHÔNG liệt kê branch đó. Bạn cần xóa branch thủ công.
 
 ```bash
 git merge --squash feature/login
-git commit -m "feat: them login"
-# feature/login van hien thi la "chua merge"
+git commit -m "feat: thêm login"
+# feature/login vẫn hiển thị là "chưa merge"
 git branch -d feature/login
 # error: not fully merged
-git branch -D feature/login  # Phai dung -D
+git branch -D feature/login  # Phải dùng -D
 ```
 
 ---
 
-## 5. Huy merge -- `--abort`
+## 5. Hủy merge -- `--abort`
 
-Khi merge gay ra conflict ma ban chua muon giai quyet:
+Khi merge gây ra conflict mà bạn chưa muốn giải quyết:
 
 ```bash
 git merge feature/complex
 # CONFLICT: Merge conflict in app.js
 # Automatic merge failed; fix conflicts and then commit the result.
 
-# Ban chua san sang giai quyet? Huy merge:
+# Bạn chưa sẵn sàng giải quyết? Hủy merge:
 git merge --abort
-# Moi thu quay lai trang thai truoc khi merge
-# Nhu chua co gi xay ra
+# Mọi thứ quay lại trạng thái trước khi merge
+# Như chưa có gì xảy ra
 
-# Kiem tra trang thai
+# Kiểm tra trạng thái
 git status
 # On branch main
 # nothing to commit, working tree clean
 ```
 
-**Khi nao nen dung `--abort`?**
-- Conflict phuc tap, can them thoi gian phan tich
-- Merge nham branch
-- Muon thao luan voi dong nghiep truoc khi resolve
+**Khi nào nên dùng `--abort`?**
+- Conflict phức tạp, cần thêm thời gian phân tích
+- Merge nhầm branch
+- Muốn thảo luận với đồng nghiệp trước khi resolve
 
 ---
 
-## 6. So sanh cac kieu merge
+## 6. So sánh các kiểu merge
 
-| Dac diem | Fast-forward | 3-way merge | Squash merge |
+| Đặc điểm | Fast-forward | 3-way merge | Squash merge |
 |----------|-------------|-------------|--------------|
-| Merge commit | Khong | Co (1 commit) | Khong (ban tu commit) |
-| Lich su branch | Mat | Giu lai | Mat |
-| Do phuc tap | Don gian nhat | Trung binh | Don gian |
-| Rollback feature | Kho (nhieu commit) | De (revert merge commit) | De (revert 1 commit) |
-| Lich su main | Phang, nhieu commit | Co nhanh re | Phang, it commit |
-| Dieu kien | Main khong co commit moi | Ca hai co commit moi | Bat ky |
-| Lenh | `git merge` (tu dong) | `git merge` (tu dong) | `git merge --squash` |
+| Merge commit | Không | Có (1 commit) | Không (bạn tự commit) |
+| Lịch sử branch | Mất | Giữ lại | Mất |
+| Độ phức tạp | Đơn giản nhất | Trung bình | Đơn giản |
+| Rollback feature | Khó (nhiều commit) | Dễ (revert merge commit) | Dễ (revert 1 commit) |
+| Lịch sử main | Phẳng, nhiều commit | Có nhánh rẽ | Phẳng, ít commit |
+| Điều kiện | Main không có commit mới | Cả hai có commit mới | Bất kỳ |
+| Lệnh | `git merge` (tự động) | `git merge` (tự động) | `git merge --squash` |
 
-### Minh hoa truc quan
+### Minh họa trực quan
 
 ```
 # Fast-forward:
-main: A---B---C---D---E---F  (phang, khong thay branch)
+main: A---B---C---D---E---F  (phẳng, không thấy branch)
 
 # 3-way merge (--no-ff):
-main: A---B---C---D---E---M  (thay ro branch)
+main: A---B---C---D---E---M  (thấy rõ branch)
                \         /
 feature:        F---G---H
 
 # Squash merge:
-main: A---B---C---D---E---S  (phang, 1 commit gon)
+main: A---B---C---D---E---S  (phẳng, 1 commit gọn)
 ```
 
 ---
 
 ## 7. Merge strategies
 
-Git ho tro nhieu chien luoc merge. Thuong ban khong can chi dinh -- Git tu chon. Nhung trong mot so truong hop dac biet:
+Git hỗ trợ nhiều chiến lược merge. Thường bạn không cần chỉ định -- Git tự chọn. Nhưng trong một số trường hợp đặc biệt:
 
-### 7.1. Recursive (mac dinh cho 3-way merge)
+### 7.1. Recursive (mặc định cho 3-way merge)
 
 ```bash
 git merge feature/login
-# Git tu dong dung recursive strategy
-# Xu ly tot khi ca 2 branch co thay doi
+# Git tự động dùng recursive strategy
+# Xử lý tốt khi cả 2 branch có thay đổi
 ```
 
-### 7.2. Ours -- Giu phien ban cua main, bo feature
+### 7.2. Ours -- Giữ phiên bản của main, bỏ feature
 
 ```bash
 git merge -s ours feature/old-design
-# Tao merge commit nhung GIU TOAN BO noi dung cua main
-# Code tu feature/old-design bi BO HOAN TOAN
-# Huu ich khi: can "danh dau" branch da merge nhung khong lay code
+# Tạo merge commit nhưng GIỮ TOÀN BỘ nội dung của main
+# Code từ feature/old-design bị BỎ HOÀN TOÀN
+# Hữu ích khi: cần "đánh dấu" branch đã merge nhưng không lấy code
 ```
 
-**Luu y:** `-s ours` (strategy) khac voi `-X ours` (strategy option):
+**Lưu ý:** `-s ours` (strategy) khác với `-X ours` (strategy option):
 
 ```bash
-# -s ours: Bo TOAN BO thay doi tu branch kia
+# -s ours: Bỏ TOÀN BỘ thay đổi từ branch kia
 git merge -s ours feature/old
 
-# -X ours: Chi khi co CONFLICT moi chon phien ban cua minh
-# Nhung thay doi khong conflict van duoc merge binh thuong
+# -X ours: Chỉ khi có CONFLICT mới chọn phiên bản của mình
+# Nhưng thay đổi không conflict vẫn được merge bình thường
 git merge -X ours feature/login
 ```
 
-### 7.3. Theirs -- Khi conflict, uu tien phien ban cua branch kia
+### 7.3. Theirs -- Khi conflict, ưu tiên phiên bản của branch kia
 
 ```bash
 git merge -X theirs feature/redesign
-# Khi co conflict, tu dong chon phien ban tu feature/redesign
-# Thay doi khong conflict van merge binh thuong
+# Khi có conflict, tự động chọn phiên bản từ feature/redesign
+# Thay đổi không conflict vẫn merge bình thường
 ```
 
-**Luu y:** Khong co `-s theirs` strategy. Chi co `-X theirs` (strategy option).
+**Lưu ý:** Không có `-s theirs` strategy. Chỉ có `-X theirs` (strategy option).
 
 ---
 
-## 8. Thuc hanh -- Trai nghiem tat ca cac kieu merge
+## 8. Thực hành -- Trải nghiệm tất cả các kiểu merge
 
-### Bai tap 1: Fast-forward merge
+### Bài tập 1: Fast-forward merge
 
 ```bash
 mkdir merge-lab && cd merge-lab
 git init
 
-# Tao commit ban dau
+# Tạo commit ban đầu
 echo "Hello World" > index.html
 git add index.html
-git commit -m "Initial: tao index.html"
+git commit -m "Initial: tạo index.html"
 
-# Tao feature branch va them commit
+# Tạo feature branch và thêm commit
 git switch -c feature/style
 echo "body { margin: 0; }" > style.css
 git add style.css
-git commit -m "Them file CSS"
+git commit -m "Thêm file CSS"
 
-# Merge vao main (fast-forward)
+# Merge vào main (fast-forward)
 git switch main
 git merge feature/style
-# Chu y dong: "Fast-forward"
+# Chú ý dòng: "Fast-forward"
 
 git log --oneline --graph
-# Lich su la mot duong thang
+# Lịch sử là một đường thẳng
 ```
 
-### Bai tap 2: 3-way merge
+### Bài tập 2: 3-way merge
 
 ```bash
-# Tao feature moi
+# Tạo feature mới
 git switch -c feature/script
 echo "console.log('hello')" > app.js
 git add app.js
-git commit -m "Them JavaScript"
+git commit -m "Thêm JavaScript"
 
-# Quay lai main va tao commit moi
+# Quay lại main và tạo commit mới
 git switch main
 echo "<h1>Welcome</h1>" >> index.html
 git add index.html
-git commit -m "Cap nhat tieu de"
+git commit -m "Cập nhật tiêu đề"
 
 # Merge (3-way)
 git switch main
 git merge feature/script
-# Git tao merge commit
+# Git tạo merge commit
 
 git log --oneline --graph --all
-# Thay ro 2 nhanh hop lai
+# Thấy rõ 2 nhánh hợp lại
 ```
 
-### Bai tap 3: Squash merge
+### Bài tập 3: Squash merge
 
 ```bash
-# Tao feature voi nhieu commit nho
+# Tạo feature với nhiều commit nhỏ
 git switch -c feature/footer
 echo "<footer>" > footer.html
 git add footer.html
-git commit -m "wip: bat dau footer"
+git commit -m "wip: bắt đầu footer"
 
 echo "<footer>Copyright</footer>" > footer.html
 git add footer.html
-git commit -m "wip: them noi dung"
+git commit -m "wip: thêm nội dung"
 
 echo "<footer>Copyright 2024</footer>" > footer.html
 git add footer.html
-git commit -m "fix: sua nam"
+git commit -m "fix: sửa năm"
 
 # Squash merge
 git switch main
 git merge --squash feature/footer
-git commit -m "feat: them footer component"
+git commit -m "feat: thêm footer component"
 
 git log --oneline
-# Chi thay 1 commit gon gang cho footer
+# Chỉ thấy 1 commit gọn gàng cho footer
 ```
 
-### Bai tap 4: So sanh lich su
+### Bài tập 4: So sánh lịch sử
 
 ```bash
-# Xem su khac biet
+# Xem sự khác biệt
 git log --oneline --graph --all
 
-# Thu dung format dep hon
+# Thử dùng format đẹp hơn
 git log --oneline --graph --all --decorate
 ```
 
@@ -440,154 +440,154 @@ git log --oneline --graph --all --decorate
 
 ## 9. Best practices khi merge
 
-### 9.1. Truoc khi merge
+### 9.1. Trước khi merge
 
 ```bash
-# 1. Cap nhat main moi nhat
+# 1. Cập nhật main mới nhất
 git switch main
 git pull origin main
 
-# 2. Merge main vao feature truoc (giai quyet conflict o feature)
+# 2. Merge main vào feature trước (giải quyết conflict ở feature)
 git switch feature/login
 git merge main
-# Giai quyet conflict (neu co) tren feature branch
-# Test lai de dam bao moi thu hoat dong
+# Giải quyết conflict (nếu có) trên feature branch
+# Test lại để đảm bảo mọi thứ hoạt động
 
-# 3. Bay gio merge feature vao main (se la clean merge)
+# 3. Bây giờ merge feature vào main (sẽ là clean merge)
 git switch main
 git merge feature/login
-# Khong con conflict vi da giai quyet o buoc 2
+# Không còn conflict vì đã giải quyết ở bước 2
 ```
 
-### 9.2. Quy trinh chuan trong team
+### 9.2. Quy trình chuẩn trong team
 
-1. **Tao PR/MR** tren GitHub/GitLab
-2. **Code review** boi it nhat 1 nguoi
-3. **CI/CD chay xong** (tests pass, lint pass)
-4. **Merge** bang nut tren GitHub (thuong la squash merge hoac merge commit)
-5. **Xoa branch** sau khi merge
+1. **Tạo PR/MR** trên GitHub/GitLab
+2. **Code review** bởi ít nhất 1 người
+3. **CI/CD chạy xong** (tests pass, lint pass)
+4. **Merge** bằng nút trên GitHub (thường là squash merge hoặc merge commit)
+5. **Xóa branch** sau khi merge
 
 ### 9.3. Merge commit message
 
 ```bash
-# Mac dinh (tot):
+# Mặc định (tốt):
 Merge branch 'feature/login'
 
-# Tot hon -- them context:
+# Tốt hơn -- thêm context:
 Merge branch 'feature/login'
 
-Them he thong dang nhap voi email va mat khau.
-Bao gom: form login, validation, API integration.
+Thêm hệ thống đăng nhập với email và mật khẩu.
+Bao gồm: form login, validation, API integration.
 Reviewed by: @teammate
 
-# Voi squash merge -- tom tat tat ca thay doi:
-feat: them he thong dang nhap (#42)
+# Với squash merge -- tóm tắt tất cả thay đổi:
+feat: thêm hệ thống đăng nhập (#42)
 
-- Tao form dang nhap voi validation
-- Ket noi API authentication
-- Them error handling va loading state
-- Them unit tests cho login flow
+- Tạo form đăng nhập với validation
+- Kết nối API authentication
+- Thêm error handling và loading state
+- Thêm unit tests cho login flow
 ```
 
 ---
 
-## 10. Loi thuong gap
+## 10. Lỗi thường gặp
 
-### Loi 1: Merge nham branch
+### Lỗi 1: Merge nhầm branch
 
 ```bash
-# Vua merge nham feature/wrong vao main
+# Vừa merge nhầm feature/wrong vào main
 git merge feature/wrong
 # Oh no!
 
-# Huy ngay (neu chua push):
+# Hủy ngay (nếu chưa push):
 git reset --hard HEAD~1
-# Quay lai commit truoc merge commit
+# Quay lại commit trước merge commit
 
-# Neu da push:
+# Nếu đã push:
 git revert -m 1 HEAD
-# Tao commit moi "undo" merge commit
-# -m 1 = giu main, bo feature
+# Tạo commit mới "undo" merge commit
+# -m 1 = giữ main, bỏ feature
 ```
 
-### Loi 2: Quen chuyen branch truoc khi merge
+### Lỗi 2: Quên chuyển branch trước khi merge
 
 ```bash
-# Dang o feature/A, merge feature/B vao
+# Đang ở feature/A, merge feature/B vào
 git merge feature/B
-# => feature/B merge vao feature/A, khong phai main!
+# => feature/B merge vào feature/A, không phải main!
 
-# Huy:
+# Hủy:
 git reset --hard HEAD~1
-# Chuyen sang main roi merge lai
+# Chuyển sang main rồi merge lại
 git switch main
 git merge feature/B
 ```
 
-### Loi 3: Merge co conflict nhung an Enter qua nhanh
+### Lỗi 3: Merge có conflict nhưng ấn Enter quá nhanh
 
 ```bash
-# Conflict xay ra nhung ban commit ma chua sua
+# Conflict xảy ra nhưng bạn commit mà chưa sửa
 git add .
 git commit
-# File van con <<<<<<< markers!
+# File vẫn còn <<<<<<< markers!
 
-# Sua: mo file, tim va sua tat ca conflict markers
-# Roi amend commit:
+# Sửa: mở file, tìm và sửa tất cả conflict markers
+# Rồi amend commit:
 git add .
 git commit --amend
 ```
 
-### Loi 4: Fast-forward khi ban muon merge commit
+### Lỗi 4: Fast-forward khi bạn muốn merge commit
 
 ```bash
-# Muon co merge commit nhung Git fast-forward
+# Muốn có merge commit nhưng Git fast-forward
 git merge feature/small
-# Fast-forward -- mat dau vet branch!
+# Fast-forward -- mất dấu vết branch!
 
-# Phong tranh: luon dung --no-ff khi muon giu lich su
-git reset --hard HEAD~1  # Quay lai
+# Phòng tránh: luôn dùng --no-ff khi muốn giữ lịch sử
+git reset --hard HEAD~1  # Quay lại
 git merge --no-ff feature/small
-# Bay gio co merge commit
+# Bây giờ có merge commit
 ```
 
 ---
 
-## 11. Cau hoi phong van
+## 11. Câu hỏi phỏng vấn
 
-### Cau 1: Giai thich su khac nhau giua fast-forward merge va 3-way merge.
+### Câu 1: Giải thích sự khác nhau giữa fast-forward merge và 3-way merge.
 
-**Tra loi:** **Fast-forward** xay ra khi branch dich khong co commit moi nao ke tu khi tao branch nguon -- Git chi di chuyen pointer, khong tao merge commit. **3-way merge** xay ra khi ca hai branch deu co commit moi -- Git phai so sanh 3 diem (merge base, tip cua moi branch), ket hop thay doi va tao merge commit co 2 parent. Fast-forward cho lich su phang nhung mat thong tin branch; 3-way merge giu lai lich su branch nhung phuc tap hon.
+**Trả lời:** **Fast-forward** xảy ra khi branch đích không có commit mới nào kể từ khi tạo branch nguồn -- Git chỉ di chuyển pointer, không tạo merge commit. **3-way merge** xảy ra khi cả hai branch đều có commit mới -- Git phải so sánh 3 điểm (merge base, tip của mỗi branch), kết hợp thay đổi và tạo merge commit có 2 parent. Fast-forward cho lịch sử phẳng nhưng mất thông tin branch; 3-way merge giữ lại lịch sử branch nhưng phức tạp hơn.
 
-### Cau 2: `--no-ff` flag lam gi va tai sao nhieu team bat buoc dung no?
+### Câu 2: `--no-ff` flag làm gì và tại sao nhiều team bắt buộc dùng nó?
 
-**Tra loi:** `--no-ff` (no fast-forward) ep Git **luon tao merge commit**, ke ca khi co the fast-forward. Nhieu team dung no vi: (1) merge commit la "moc" danh dau mot feature hoan thanh, (2) de rollback ca feature bang `git revert`, (3) `git log --graph` hien thi ro cau truc branch, (4) biet ai merge va khi nao. Day la cau hinh mac dinh trong nhieu Git workflow (Git Flow, GitHub Flow).
+**Trả lời:** `--no-ff` (no fast-forward) ép Git **luôn tạo merge commit**, kể cả khi có thể fast-forward. Nhiều team dùng nó vì: (1) merge commit là "mốc" đánh dấu một feature hoàn thành, (2) dễ rollback cả feature bằng `git revert`, (3) `git log --graph` hiển thị rõ cấu trúc branch, (4) biết ai merge và khi nào. Đây là cấu hình mặc định trong nhiều Git workflow (Git Flow, GitHub Flow).
 
-### Cau 3: Squash merge la gi? Khi nao nen dung va khong nen dung?
+### Câu 3: Squash merge là gì? Khi nào nên dùng và không nên dùng?
 
-**Tra loi:** Squash merge gop tat ca commit tu branch nguon thanh mot thay doi duy nhat tren branch dich, roi ban tu commit. **Nen dung** khi feature branch co nhieu commit nho khong co y nghia (wip, fix typo, test), muon main co lich su sach. **Khong nen dung** khi moi commit trong branch deu quan trong va can truy vet, hoac khi nhieu nguoi cung lam tren mot branch (mat thong tin ai lam gi). Luu y: sau squash merge, Git khong biet branch da merge, can xoa branch thu cong bang `-D`.
+**Trả lời:** Squash merge gộp tất cả commit từ branch nguồn thành một thay đổi duy nhất trên branch đích, rồi bạn tự commit. **Nên dùng** khi feature branch có nhiều commit nhỏ không có ý nghĩa (wip, fix typo, test), muốn main có lịch sử sạch. **Không nên dùng** khi mỗi commit trong branch đều quan trọng và cần truy vết, hoặc khi nhiều người cùng làm trên một branch (mất thông tin ai làm gì). Lưu ý: sau squash merge, Git không biết branch đã merge, cần xóa branch thủ công bằng `-D`.
 
-### Cau 4: Ban dang o main va merge nham branch. Chua push. Lam sao khac phuc?
+### Câu 4: Bạn đang ở main và merge nhầm branch. Chưa push. Làm sao khắc phục?
 
-**Tra loi:** Dung `git reset --hard HEAD~1` de quay lai commit truoc merge commit (vi merge commit la commit moi nhat). Neu la squash merge (ban da commit), tuong tu dung `git reset --hard HEAD~1`. Neu da push len remote, dung `git revert -m 1 <merge-commit-hash>` de tao commit moi dao nguoc thay doi -- KHONG dung `reset --hard` tren branch da push vi se gay conflict cho dong nghiep.
+**Trả lời:** Dùng `git reset --hard HEAD~1` để quay lại commit trước merge commit (vì merge commit là commit mới nhất). Nếu là squash merge (bạn đã commit), tương tự dùng `git reset --hard HEAD~1`. Nếu đã push lên remote, dùng `git revert -m 1 <merge-commit-hash>` để tạo commit mới đảo ngược thay đổi -- KHÔNG dùng `reset --hard` trên branch đã push vì sẽ gây conflict cho đồng nghiệp.
 
-### Cau 5: Giai thich `-s ours` va `-X ours` khac nhau the nao?
+### Câu 5: Giải thích `-s ours` và `-X ours` khác nhau thế nào?
 
-**Tra loi:** `-s ours` la **merge strategy** -- no bo **toan bo** thay doi tu branch kia, chi giu noi dung cua branch hien tai, nhung van tao merge commit (danh dau la da merge). Dung khi muon "dong" mot branch cu ma khong lay code. `-X ours` la **strategy option** cho recursive merge -- no chi ap dung khi co **conflict**: chon phien ban cua branch hien tai cho nhung dong conflict, con nhung thay doi khong conflict van duoc merge binh thuong. Tuong tu, `-X theirs` chon phien ban cua branch kia khi conflict.
+**Trả lời:** `-s ours` là **merge strategy** -- nó bỏ **toàn bộ** thay đổi từ branch kia, chỉ giữ nội dung của branch hiện tại, nhưng vẫn tạo merge commit (đánh dấu là đã merge). Dùng khi muốn "đóng" một branch cũ mà không lấy code. `-X ours` là **strategy option** cho recursive merge -- nó chỉ áp dụng khi có **conflict**: chọn phiên bản của branch hiện tại cho những dòng conflict, còn những thay đổi không conflict vẫn được merge bình thường. Tương tự, `-X theirs` chọn phiên bản của branch kia khi conflict.
 
 ---
 
-## Tom tat
+## Tóm tắt
 
-| Lenh | Chuc nang |
+| Lệnh | Chức năng |
 |------|-----------|
-| `git merge <branch>` | Merge branch vao branch hien tai |
-| `git merge --no-ff <branch>` | Merge voi merge commit (khong fast-forward) |
-| `git merge --squash <branch>` | Gop tat ca commit thanh 1 (can commit thu cong) |
-| `git merge --abort` | Huy merge dang co conflict |
-| `git merge -X ours` | Khi conflict, uu tien phien ban hien tai |
-| `git merge -X theirs` | Khi conflict, uu tien phien ban branch kia |
-| `git merge -s ours <branch>` | Giu toan bo phien ban hien tai, bo branch kia |
-| `git log --oneline --graph` | Xem lich su dang cay (de thay merge) |
+| `git merge <branch>` | Merge branch vào branch hiện tại |
+| `git merge --no-ff <branch>` | Merge với merge commit (không fast-forward) |
+| `git merge --squash <branch>` | Gộp tất cả commit thành 1 (cần commit thủ công) |
+| `git merge --abort` | Hủy merge đang có conflict |
+| `git merge -X ours` | Khi conflict, ưu tiên phiên bản hiện tại |
+| `git merge -X theirs` | Khi conflict, ưu tiên phiên bản branch kia |
+| `git merge -s ours <branch>` | Giữ toàn bộ phiên bản hiện tại, bỏ branch kia |
+| `git log --oneline --graph` | Xem lịch sử dạng cây (dễ thấy merge) |
 
-**Ghi nho:** Merge la ky nang co ban nhat khi lam viec nhom voi Git. Hieu ro 3 kieu merge (fast-forward, 3-way, squash) va biet khi nao dung cai nao se giup ban lam viec hieu qua hon.
+**Ghi nhớ:** Merge là kỹ năng cơ bản nhất khi làm việc nhóm với Git. Hiểu rõ 3 kiểu merge (fast-forward, 3-way, squash) và biết khi nào dùng cái nào sẽ giúp bạn làm việc hiệu quả hơn.

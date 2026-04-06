@@ -86,7 +86,7 @@ fetch('https://api.example.com/data')
 </head>
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "HTTP/1.1 gửi 1 request per connection, giới hạn 6 connections/domain. HTTP/2 dùng multiplexing -- nhiều requests trên 1 TCP connection, plus header compression và binary framing. HTTP/3 dùng QUIC (UDP-based) để giải quyết TCP head-of-line blocking -- khi 1 packet mất, chỉ stream đó bị ảnh hưởng, không block toàn bộ. Với HTTP/2, những optimization tricks của HTTP/1.1 như domain sharding, CSS sprites, file concatenation trở nên không cần thiết hoặc phản tác dụng."
 
@@ -217,7 +217,7 @@ Access-Control-Expose-Headers: X-Total-Count, X-Page-Count
 // }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "CORS là cơ chế browser cho phép server kiểm soát cross-origin requests. Same-origin = cùng protocol + domain + port. Simple requests (GET/POST với standard content-type, không custom headers) gửi trực tiếp. Complex requests (PUT/DELETE, `application/json`, custom headers) trigger preflight OPTIONS request để hỏi server trước. Server trả về `Access-Control-Allow-Origin`, `Allow-Methods`, `Allow-Headers` để cho phép. Lưu ý: khi dùng `credentials: 'include'`, `Allow-Origin` không được là wildcard `*`."
 
@@ -300,7 +300,7 @@ fetch('https://api.example.com/profile', {
 });
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Cookie có 3 attributes bảo mật quan trọng: `HttpOnly` ngăn JavaScript đọc cookie (chống XSS steal token), `Secure` chỉ gửi qua HTTPS (chống sniffing), `SameSite` kiểm soát cross-site requests (chống CSRF). Session token nên có cả 3: `HttpOnly; Secure; SameSite=Lax`. SameSite có 3 giá trị: Strict (chỉ same-site), Lax (same-site + top-level navigation, mặc định), None (tất cả, bắt buộc kèm Secure)."
 
@@ -424,7 +424,7 @@ async function refreshAccessToken() {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "JWT gồm 3 phần: Header (algorithm), Payload (claims/data), Signature (chữ ký xác thực). JWT là stateless -- server không cần lưu session, token tự chứa thông tin user. Ưu điểm: scale tốt, cross-domain dễ. Nhược điểm: không revoke được ngay, payload decode dễ dàng. Về storage: tốt nhất là HttpOnly cookie (chống XSS) kết hợp SameSite/CSRF token (chống CSRF). Hoặc dùng pattern: access token trong memory + refresh token trong HttpOnly cookie."
 
@@ -547,7 +547,7 @@ async function generateCodeChallenge(verifier) {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "OAuth 2.0 Authorization Code Flow: user redirect đến auth server, đăng nhập và đồng ý, nhận authorization code qua redirect URL, client backend dùng code + client_secret đổi lấy tokens qua server-to-server request. Cần bước trung gian (code) vì: code chỉ dùng 1 lần và hết hạn nhanh, token được trao đổi qua backend channel an toàn hơn, tránh token xuất hiện trong browser URL. Cho SPA/mobile apps, thêm PKCE extension để bảo vệ code exchange mà không cần client_secret."
 
@@ -625,13 +625,13 @@ async function getProfileToken(token) {
 // Client không cần xử lý token, chỉ cần credentials: 'include'
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Session-based là stateful: server lưu session, client giữ session ID trong cookie. Token-based (JWT) là stateless: token chứa thông tin user, server chỉ cần verify signature. Session dễ revoke nhưng khó scale (cần shared session store). Token dễ scale nhưng khó revoke. Trong thực tế, tôi thường dùng hybrid: JWT trong HttpOnly cookie -- được lợi ích stateless của JWT nhưng an toàn như session cookie."
 
 ---
 
-## Bang so sanh authentication methods
+## Bảng so sánh authentication methods
 
 | Method | Security | Complexity | Scalability | Mobile | Use case |
 |---|---|---|---|---|---|
@@ -643,7 +643,7 @@ async function getProfileToken(token) {
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
 1. **Nói "CORS là lỗi bảo mật"**: CORS là **cơ chế bảo mật**, không phải lỗi. Nó bảo vệ user khỏi cross-origin requests trái phép. Lỗi CORS nghĩa là server chưa cho phép origin của bạn.
 

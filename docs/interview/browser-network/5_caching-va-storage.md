@@ -119,7 +119,7 @@ fetch('/api/data', {
 // Browser tự gửi: If-None-Match: "abc123" khi revalidate
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "HTTP caching có 2 tầng: strong caching (`Cache-Control: max-age`) -- browser dùng cache luôn không hỏi server, và conditional caching (`ETag`/`Last-Modified`) -- browser hỏi server 'có đổi không?', server trả 304 nếu không đổi. Strategy phổ biến: HTML dùng `no-cache` để luôn revalidate, JS/CSS có hashed filename dùng `max-age=31536000, immutable` vì filename thay đổi khi content thay đổi. Sensitive data dùng `no-store` để không cache gì cả."
 
@@ -231,7 +231,7 @@ window.addEventListener('storage', (event) => {
 });
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Cookies nhỏ (4KB), tự gửi lên server mỗi request, hỗ trợ HttpOnly -- dùng cho auth tokens. localStorage lớn (5-10MB), không hết hạn, không gửi lên server -- dùng cho theme, settings, cached data. sessionStorage giống localStorage nhưng mất khi đóng tab -- dùng cho form data tạm thời. Cẩn thận: localStorage/sessionStorage là synchronous API, block main thread khi đọc/ghi dữ liệu lớn. Dùng storage event để đồng bộ giữa các tabs."
 
@@ -371,7 +371,7 @@ async function fetchArticlesWithCache() {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "IndexedDB là NoSQL database trong browser -- async API, lưu hàng trăm MB, hỗ trợ indexes và transactions. Dùng IndexedDB thay localStorage khi: dữ liệu lớn (vượt 5MB), cần query phức tạp (by index, range), cần lưu binary data (files, images), hoặc cần offline-first architecture. Raw API phức tạp nên thực tế hay dùng wrapper library như idb. Pattern phổ biến: hiển thị từ IndexedDB cache trước, fetch fresh data ngầm, update cache + re-render."
 
@@ -567,7 +567,7 @@ function updateApp() {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Service Worker chạy giữa browser và network, intercept requests để quyết định trả từ cache hay network. Lifecycle: register -> install (pre-cache assets) -> activate (dọn cache cũ) -> fetch (intercept requests). 5 caching strategies: Cache First cho static assets, Network First cho API data cần fresh, Stale While Revalidate trả cache ngay và fetch update ngầm, Cache Only cho offline resources, Network Only cho real-time data. Trong thực tế, tôi thường dùng Workbox library vì nó abstract hóa những patterns này."
 
@@ -666,7 +666,7 @@ async function runtimeCache(request) {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Cache API là programmatic storage cho Request/Response pairs, developer kiểm soát hoàn toàn qua JavaScript. Khác HTTP cache ở chỗ: HTTP cache do server kiểm soát qua headers (Cache-Control, ETag), còn Cache API do developer kiểm soát (mở, thêm, xóa, match). Cache API chủ yếu dùng trong Service Worker cho offline-first caching -- developer quyết định cache gì, khi nào invalidate, strategy nào cho từng loại request."
 
@@ -819,13 +819,13 @@ async function isReallyOnline() {
 // };
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
 > "Offline-first có 3 tầng: App Shell (SW cache HTML/CSS/JS), Static Data (Cache API cho images/fonts), Dynamic Data (IndexedDB + Background Sync). Pattern chính: lưu data vào local DB ngay (optimistic UI), queue changes trong outbox, Background Sync API gửi khi online. Cần xử lý conflict resolution khi multiple devices offline cùng lúc. Trong production, nên dùng Workbox library vì nó abstract hóa Service Worker + caching strategies."
 
 ---
 
-## Bang so sanh storage options
+## Bảng so sánh storage options
 
 | Storage | Max Size | Persistence | Async | Data Type | Server Access | Indexed | Use Case |
 |---|---|---|---|---|---|---|---|
@@ -838,7 +838,7 @@ async function isReallyOnline() {
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
 1. **Nhầm `no-cache` với `no-store`**: `no-cache` vẫn lưu cache nhưng **bắt buộc revalidate** với server trước khi dùng. `no-store` hoàn toàn **không lưu** gì cả. Nhiều bạn nghĩ `no-cache` = không cache.
 

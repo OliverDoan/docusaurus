@@ -5,34 +5,34 @@ title: "memo, lazy, Suspense, Code Splitting, Profiler"
 
 # memo, lazy, Suspense, Code Splitting, Profiler
 
-Performance optimization trong React la chu de "senior-level" -- khong phai vi kho, ma vi can hieu **khi nao** optimize va **khi nao** khong. Trong phong van, nguoi ta muon biet ban co hieu React rendering model du de biet optimize dung cho khong.
+Performance optimization trong React là chủ đề "senior-level" -- không phải vì khó, mà vì cần hiểu **khi nào** optimize và **khi nào** không. Trong phỏng vấn, người ta muốn biết bạn có hiểu React rendering model đủ để biết optimize đúng cho không.
 
 ---
 
-## Cau 1: React.memo -- khi nao dung, khi nao khong nen dung? `[Intermediate]`
+## Câu 1: React.memo -- khi nào dùng, khi nào không nên dùng? `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-`React.memo` la HOC boc quanh function component. No **skip re-render** neu props khong thay doi (shallow comparison mac dinh).
+`React.memo` là HOC bọc quanh function component. Nó **skip re-render** nếu props không thay đổi (shallow comparison mặc định).
 
-**Khi nao dung:**
-- Component render nang (nhieu DOM elements, tinh toan phuc tap)
-- Component nhan cung props tu parent render thuong xuyen
-- Component o sau trong tree nhung parent re-render nhieu
+**Khi nào dùng:**
+- Component render nặng (nhiều DOM elements, tính toán phức tạp)
+- Component nhận cùng props từ parent render thường xuyên
+- Component ở sâu trong tree nhưng parent re-render nhiều
 
-**Khi nao KHONG dung:**
-- Component re-render nhanh (don gian, it DOM)
-- Props thay doi gần nhu moi lan render
-- Premature optimization -- memo co overhead rieng (so sanh props)
+**Khi nào KHÔNG dùng:**
+- Component re-render nhanh (đơn giản, ít DOM)
+- Props thay đổi gần như mỗi lần render
+- Premature optimization -- memo có overhead riêng (so sánh props)
 
-**Luu y:** memo chi shallow compare. Neu truyen object/array/function moi moi render, memo vo tac dung => can `useMemo`/`useCallback` cho props do.
+**Lưu ý:** memo chỉ shallow compare. Nếu truyền object/array/function mới mỗi render, memo vô tác dụng => cần `useMemo`/`useCallback` cho props đó.
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { memo, useState, useCallback, useMemo } from 'react';
 
-// Component nang -- nen memo
+// Component nặng -- nên memo
 const ExpensiveChart = memo(function ExpensiveChart({
   data,
   onSelect,
@@ -41,7 +41,7 @@ const ExpensiveChart = memo(function ExpensiveChart({
   onSelect: (index: number) => void;
 }) {
   console.log('Chart rendered!');
-  // Gia su: render SVG phuc tap voi 10,000 diem
+  // Giả sử: render SVG phức tạp với 10,000 điểm
   return (
     <svg width={800} height={400}>
       {data.map((value, i) => (
@@ -64,26 +64,26 @@ function Dashboard() {
   const [count, setCount] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  // useMemo: giu reference cua data stable
+  // useMemo: giữ reference của data stable
   const chartData = useMemo(() => {
     return Array.from({ length: 10000 }, () => Math.random() * 400);
-  }, []); // Chi tao 1 lan
+  }, []); // Chỉ tạo 1 lần
 
-  // useCallback: giu reference cua function stable
+  // useCallback: giữ reference của function stable
   const handleSelect = useCallback((index: number) => {
     setSelectedIndex(index);
   }, []);
 
   return (
     <div>
-      {/* Click button nay KHONG re-render chart (nho memo + stable props) */}
+      {/* Click button này KHÔNG re-render chart (nhờ memo + stable props) */}
       <button onClick={() => setCount(c => c + 1)}>
         Count: {count}
       </button>
 
       <p>Selected: {selectedIndex}</p>
 
-      {/* ExpensiveChart chi re-render khi chartData hoac handleSelect thay doi */}
+      {/* ExpensiveChart chỉ re-render khi chartData hoặc handleSelect thay đổi */}
       <ExpensiveChart data={chartData} onSelect={handleSelect} />
     </div>
   );
@@ -99,49 +99,49 @@ const UserCard = memo(
       </div>
     );
   },
-  // Chi re-render khi user.id thay doi (bo qua cac field khac)
+  // Chỉ re-render khi user.id thay đổi (bỏ qua các field khác)
   (prevProps, nextProps) => prevProps.user.id === nextProps.user.id
 );
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "React.memo skip re-render khi props khong doi (shallow compare). Dung cho components render nang ma parent re-render thuong xuyen. Can ket hop voi useMemo/useCallback de dam bao object/function props stable. Khong nen dung cho moi component -- memo co overhead, chi dung khi do duoc improvement. Co the truyen custom comparison function cho truong hop dac biet."
+> "React.memo skip re-render khi props không đổi (shallow compare). Dùng cho components render nặng mà parent re-render thường xuyên. Cần kết hợp với useMemo/useCallback để đảm bảo object/function props stable. Không nên dùng cho mọi component -- memo có overhead, chỉ dùng khi đó được improvement. Có thể truyền custom comparison function cho trường hợp đặc biệt."
 
 ---
 
-## Cau 2: useMemo va useCallback de optimize performance -- best practices? `[Senior]`
+## Câu 2: useMemo và useCallback để optimize performance -- best practices? `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Nguyen tac vang**: Do truoc, optimize sau.
+**Nguyên tắc vàng**: Đo trước, optimize sau.
 
-`useMemo` va `useCallback` co **overhead rieng**:
-- Luu function/value trong memory
-- So sanh dependencies moi render
-- Tang do phuc tap code
+`useMemo` và `useCallback` có **overhead riêng**:
+- Lưu function/value trong memory
+- So sánh dependencies mỗi render
+- Tăng độ phức tạp code
 
-**Chi dung khi:**
-1. Ket hop voi `React.memo` (dam bao props stable)
-2. Tinh toan thuc su nang (>1ms) -- sort/filter danh sach lon
-3. Value/function duoc dung lam dependency cua hook khac
-4. Tao context value (tranh re-render tat ca consumers)
+**Chỉ dùng khi:**
+1. Kết hợp với `React.memo` (đảm bảo props stable)
+2. Tính toán thực sự nặng (>1ms) -- sort/filter danh sách lớn
+3. Value/function được dùng làm dependency của hook khác
+4. Tạo context value (tránh re-render tất cả consumers)
 
-**KHONG dung khi:**
-- Phep tinh don gian (so hoc, string concat)
-- Component khong dung memo
-- "Phai memo moi thu" mentality
+**KHÔNG dùng khi:**
+- Phép tính đơn giản (số học, string concat)
+- Component không dùng memo
+- "Phải memo mọi thứ" mentality
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { useState, useMemo, useCallback, memo } from 'react';
 
-// --- KHI NEN DUNG ---
+// --- KHI NÊN DÙNG ---
 
-// 1. Tinh toan nang
+// 1. Tính toán nặng
 function SearchResults({ items, query }: { items: Item[]; query: string }) {
-  // DUNG: filter 100,000 items la nang
+  // DÙNG: filter 100,000 items là nặng
   const filtered = useMemo(() => {
     return items
       .filter(item => item.name.toLowerCase().includes(query.toLowerCase()))
@@ -160,7 +160,7 @@ const MemoChild = memo(({ onClick }: { onClick: () => void }) => {
 function Parent() {
   const [count, setCount] = useState(0);
 
-  // DUNG: MemoChild la memo, can stable function reference
+  // DÙNG: MemoChild là memo, cần stable function reference
   const handleClick = useCallback(() => {
     console.log('clicked');
   }, []);
@@ -178,7 +178,7 @@ function Parent() {
 function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState('light');
 
-  // DUNG: tranh tat ca consumers re-render moi lan provider render
+  // DÙNG: tránh tất cả consumers re-render mỗi lần provider render
   const value = useMemo(() => ({ theme, setTheme }), [theme]);
 
   return (
@@ -188,16 +188,16 @@ function ThemeProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-// --- KHI KHONG NEN DUNG ---
+// --- KHI KHÔNG NÊN DÙNG ---
 
 function SimpleComponent({ name }: { name: string }) {
-  // KHONG CAN: phep tinh nay cuc nhanh
+  // KHÔNG CẦN: phép tính này cực nhanh
   // const greeting = useMemo(() => `Hello, ${name}!`, [name]);
-  const greeting = `Hello, ${name}!`; // Nhanh hon, don gian hon
+  const greeting = `Hello, ${name}!`; // Nhanh hơn, đơn giản hơn
 
-  // KHONG CAN: child khong dung memo
+  // KHÔNG CẦN: child không dùng memo
   // const handleClick = useCallback(() => alert('hi'), []);
-  const handleClick = () => alert('hi'); // OK vi child khong memo
+  const handleClick = () => alert('hi'); // OK vì child không memo
 
   return (
     <div>
@@ -208,39 +208,39 @@ function SimpleComponent({ name }: { name: string }) {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "useMemo va useCallback chi huu ich khi co performance problem thuc su -- do bang Profiler truoc. 3 truong hop chinh: tinh toan nang (>1ms), stable props cho memo child, va context value. Khong memo moi thu -- overhead cua memo co the lon hon benefit. Nguyen tac: do truoc, optimize sau."
+> "useMemo và useCallback chỉ hữu ích khi có performance problem thực sự -- đo bằng Profiler trước. 3 trường hợp chính: tính toán nặng (>1ms), stable props cho memo child, và context value. Không memo mọi thứ -- overhead của memo có thể lớn hơn benefit. Nguyên tắc: đo trước, optimize sau."
 
 ---
 
-## Cau 3: React.lazy va Suspense cho code splitting `[Intermediate]`
+## Câu 3: React.lazy và Suspense cho code splitting `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Code splitting** la ky thuat chia bundle thanh cac chunk nho, chi load khi can. Giam thoi gian load trang ban dau.
+**Code splitting** là kỹ thuật chia bundle thành các chunk nhỏ, chỉ load khi cần. Giảm thời gian load trang ban đầu.
 
-**React.lazy**: cho phep import component dong (dynamic import). Component chi duoc download khi render lan dau.
+**React.lazy**: cho phép import component động (dynamic import). Component chỉ được download khi render lần đầu.
 
-**Suspense**: wrapper hien thi fallback UI trong khi component dang load.
+**Suspense**: wrapper hiện thị fallback UI trong khi component đang load.
 
-**Khi nao dung:**
-- Routes -- moi page la 1 chunk
-- Components lon (editor, chart library)
-- Features it dung (settings, admin panel)
-- Modals, dialogs (chi load khi mo)
+**Khi nào dùng:**
+- Routes -- mỗi page là 1 chunk
+- Components lớn (editor, chart library)
+- Features ít dùng (settings, admin panel)
+- Modals, dialogs (chỉ load khi mở)
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { lazy, Suspense, useState } from 'react';
 
-// Dynamic import -- tao chunk rieng
+// Dynamic import -- tạo chunk riêng
 const HeavyEditor = lazy(() => import('./HeavyEditor'));
 const AdminPanel = lazy(() => import('./AdminPanel'));
 const ChartDashboard = lazy(() => import('./ChartDashboard'));
 
-// Named export -- can wrapper
+// Named export -- cần wrapper
 const Settings = lazy(() =>
   import('./Settings').then(module => ({
     default: module.SettingsPage, // Convert named to default export
@@ -253,7 +253,7 @@ function App() {
     <Suspense fallback={<LoadingSpinner />}>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* Moi route la 1 chunk rieng */}
+        {/* Mỗi route là 1 chunk riêng */}
         <Route path="/editor" element={<HeavyEditor />} />
         <Route path="/admin" element={<AdminPanel />} />
         <Route path="/dashboard" element={<ChartDashboard />} />
@@ -267,7 +267,7 @@ function App() {
 function ProductPage() {
   const [showReviews, setShowReviews] = useState(false);
 
-  // ReviewSection chi load khi user click "Show Reviews"
+  // ReviewSection chỉ load khi user click "Show Reviews"
   const ReviewSection = lazy(() => import('./ReviewSection'));
 
   return (
@@ -287,7 +287,7 @@ function ProductPage() {
   );
 }
 
-// Loading component dep hon
+// Loading component đẹp hơn
 function LoadingSpinner() {
   return (
     <div style={{
@@ -297,7 +297,7 @@ function LoadingSpinner() {
       minHeight: '200px',
     }}>
       <div className="spinner" />
-      <p>Dang tai...</p>
+      <p>Đang tải...</p>
     </div>
   );
 }
@@ -327,10 +327,10 @@ class LazyErrorBoundary extends Component<
   }
 }
 
-// Su dung voi Error Boundary
+// Sử dụng với Error Boundary
 function SafeApp() {
   return (
-    <LazyErrorBoundary fallback={<p>Khong the tai module. Thu lai sau.</p>}>
+    <LazyErrorBoundary fallback={<p>Không thể tải module. Thử lại sau.</p>}>
       <Suspense fallback={<LoadingSpinner />}>
         <HeavyEditor />
       </Suspense>
@@ -339,35 +339,35 @@ function SafeApp() {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "React.lazy cho dynamic import components, Suspense hien fallback khi loading. Dung cho route-based splitting (moi page 1 chunk) va component-based splitting (features lon, it dung). Luon wrap voi Error Boundary de xu ly loi load. Ket hop voi bundler (webpack, vite) de tu dong tao chunks."
+> "React.lazy cho dynamic import components, Suspense hiện fallback khi loading. Dùng cho route-based splitting (mỗi page 1 chunk) và component-based splitting (features lớn, ít dùng). Luôn wrap với Error Boundary để xử lý lỗi load. Kết hợp với bundler (webpack, vite) để tự động tạo chunks."
 
 ---
 
-## Cau 4: Dynamic Imports -- ngoai React.lazy con dung the nao? `[Senior]`
+## Câu 4: Dynamic Imports -- ngoài React.lazy còn dùng thế nào? `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Dynamic import** (`import()`) la JavaScript feature, khong chi cua React. Co the dung cho:
-- Load library khi can (VD: moment, lodash)
-- Conditional imports (VD: polyfills cho browser cu)
-- Prefetching (load truoc khi user can)
+**Dynamic import** (`import()`) là JavaScript feature, không chỉ của React. Có thể dùng cho:
+- Load library khi cần (VD: moment, lodash)
+- Conditional imports (VD: polyfills cho browser cũ)
+- Prefetching (load trước khi user cần)
 
-**Khac voi React.lazy**: dynamic import tra ve Promise cua module, co the dung o bat ky dau, khong chi cho components.
+**Khác với React.lazy**: dynamic import trả về Promise của module, có thể dùng ở bất kỳ đâu, không chỉ cho components.
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { useState, useEffect, useCallback } from 'react';
 
-// 1. Load heavy library khi can
+// 1. Load heavy library khi cần
 function MarkdownEditor() {
   const [content, setContent] = useState('');
   const [preview, setPreview] = useState('');
 
   const renderPreview = useCallback(async () => {
-    // Chi load 'marked' library khi user click Preview
+    // Chỉ load 'marked' library khi user click Preview
     const { marked } = await import('marked');
     setPreview(marked.parse(content));
   }, [content]);
@@ -390,17 +390,17 @@ async function initApp() {
     await import('intersection-observer'); // Polyfill
   }
 
-  // Tiep tuc khoi tao app
+  // Tiếp tục khởi tạo app
   const { createRoot } = await import('react-dom/client');
   const { default: App } = await import('./App');
 
   createRoot(document.getElementById('root')!).render(<App />);
 }
 
-// 3. Prefetch -- load truoc khi user can
+// 3. Prefetch -- load trước khi user cần
 function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
   const prefetch = () => {
-    // Khi user hover, bat dau load chunk
+    // Khi user hover, bắt đầu load chunk
     switch (to) {
       case '/dashboard':
         import('./pages/Dashboard');
@@ -443,33 +443,33 @@ async function loadFeature(featureName: string) {
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Dynamic import la JavaScript feature tra ve Promise cua module. Ngoai React.lazy, dung cho: load heavy libraries khi can, conditional polyfills, prefetching tren hover, va feature flags. Webpack magic comments (`webpackChunkName`, `webpackPrefetch`) giup kiem soat chunk naming va loading strategy. Prefetch khi hover la ky thuat don gian nhung rat hieu qua."
+> "Dynamic import là JavaScript feature trả về Promise của module. Ngoài React.lazy, dùng cho: load heavy libraries khi cần, conditional polyfills, prefetching trên hover, và feature flags. Webpack magic comments (`webpackChunkName`, `webpackPrefetch`) giúp kiểm soát chunk naming và loading strategy. Prefetch khi hover là kỹ thuật đơn giản nhưng rất hiệu quả."
 
 ---
 
-## Cau 5: React Profiler -- debug performance nhu the nao? `[Senior]`
+## Câu 5: React Profiler -- debug performance như thế nào? `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**React Profiler** co 2 dang:
-1. **React DevTools Profiler** (browser extension) -- GUI, de dung
+**React Profiler** có 2 dạng:
+1. **React DevTools Profiler** (browser extension) -- GUI, dễ dùng
 2. **Profiler component** (API) -- programmatic, log data
 
-**Cach dung DevTools Profiler:**
-1. Mo React DevTools > tab Profiler
+**Cách dùng DevTools Profiler:**
+1. Mở React DevTools > tab Profiler
 2. Click Record
-3. Thuc hien thao tac can do
+3. Thực hiện thao tác cần đo
 4. Click Stop
-5. Phan tich: commit nao lau, component nao render nhieu
+5. Phân tích: commit nào lâu, component nào render nhiều
 
-**Metrics quan trong:**
-- **Commit duration**: tong thoi gian render 1 commit
-- **Render duration**: thoi gian render 1 component
+**Metrics quan trọng:**
+- **Commit duration**: tổng thời gian render 1 commit
+- **Render duration**: thời gian render 1 component
 - **Why did this render?**: checkbox trong DevTools settings
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 import { Profiler, ProfilerOnRenderCallback, useState } from 'react';
@@ -478,12 +478,12 @@ import { Profiler, ProfilerOnRenderCallback, useState } from 'react';
 const onRender: ProfilerOnRenderCallback = (
   id,            // Profiler id
   phase,         // "mount" | "update"
-  actualDuration,  // Thoi gian render thuc te (ms)
-  baseDuration,    // Thoi gian render khong co memo (ms)
-  startTime,       // Khi React bat dau render commit nay
+  actualDuration,  // Thời gian render thực tế (ms)
+  baseDuration,    // Thời gian render không có memo (ms)
+  startTime,       // Khi React bắt đầu render commit này
   commitTime       // Khi React commit DOM
 ) => {
-  // Log hoac gui metrics len monitoring service
+  // Log hoặc gửi metrics lên monitoring service
   console.table({
     id,
     phase,
@@ -493,7 +493,7 @@ const onRender: ProfilerOnRenderCallback = (
     commitTime,
   });
 
-  // Canh bao neu render qua lau
+  // Cảnh báo nếu render quá lâu
   if (actualDuration > 16) {
     console.warn(
       `[Performance] ${id} took ${actualDuration.toFixed(2)}ms ` +
@@ -516,7 +516,7 @@ function App() {
   );
 }
 
-// Custom hook: do render count
+// Custom hook: đo render count
 function useRenderCount(componentName: string) {
   const renderCount = useRef(0);
   renderCount.current += 1;
@@ -528,7 +528,7 @@ function useRenderCount(componentName: string) {
   return renderCount.current;
 }
 
-// Custom hook: do render time
+// Custom hook: đo render time
 function useRenderTime(componentName: string) {
   const startTime = performance.now();
 
@@ -544,7 +544,7 @@ function useRenderTime(componentName: string) {
   });
 }
 
-// Su dung
+// Sử dụng
 function ProductList() {
   useRenderCount('ProductList');
   useRenderTime('ProductList');
@@ -556,31 +556,31 @@ function ProductList() {
 
 ### Debug workflow
 
-1. **Xac dinh van de**: user bao lag, hay ban thay janky scroll
-2. **Do bang Profiler**: Record interaction, xem commit nao lau
-3. **Tim component cham**: sort by render duration
-4. **Hieu nguyen nhan**: "Why did this render?" trong DevTools
-5. **Optimize**: memo, useMemo, useCallback, hoac restructure
-6. **Do lai**: verify improvement
+1. **Xác định vấn đề**: user báo lag, hay bạn thấy janky scroll
+2. **Đo bằng Profiler**: Record interaction, xem commit nào lâu
+3. **Tìm component chậm**: sort by render duration
+4. **Hiểu nguyên nhân**: "Why did this render?" trong DevTools
+5. **Optimize**: memo, useMemo, useCallback, hoặc restructure
+6. **Đo lại**: verify improvement
 
-### Dap an mau
+### Đáp án mẫu
 
-> "React Profiler (DevTools va API) do render duration cua tung component. Workflow: do truoc, tim bottleneck, optimize, do lai. DevTools Profiler co 'Why did this render?' de hieu nguyen nhan. Profiler API cho phep log metrics programmatically va gui len monitoring. Target: moi commit duoi 16ms cho 60fps."
+> "React Profiler (DevTools và API) đo render duration của từng component. Workflow: đo trước, tìm bottleneck, optimize, đo lại. DevTools Profiler có 'Why did this render?' để hiểu nguyên nhân. Profiler API cho phép log metrics programmatically và gửi lên monitoring. Target: mỗi commit dưới 16ms cho 60fps."
 
 ---
 
-## Cau 6: Virtualization -- render danh sach lon hieu qua `[Senior]`
+## Câu 6: Virtualization -- render danh sách lớn hiệu quả `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Khi render danh sach 10,000+ items, DOM qua nhieu elements se lag. **Virtualization** (windowing) chi render nhung items **trong viewport** -- giam DOM nodes tu 10,000 xuong con ~20-50.
+Khi render danh sách 10,000+ items, DOM quá nhiều elements sẽ lag. **Virtualization** (windowing) chỉ render những items **trong viewport** -- giảm DOM nodes từ 10,000 xuống còn ~20-50.
 
-**Thu vien pho bien:**
-- `react-window`: nhe, don gian (Recommendation cua React docs)
-- `react-virtuoso`: nhieu tinh nang hon (auto-size, grouped, infinite scroll)
+**Thư viện phổ biến:**
+- `react-window`: nhẹ, đơn giản (Recommendation của React docs)
+- `react-virtuoso`: nhiều tính năng hơn (auto-size, grouped, infinite scroll)
 - `@tanstack/react-virtual`: headless, framework-agnostic
 
-### Code vi du
+### Code ví dụ
 
 ```tsx
 // --- react-window: FixedSizeList ---
@@ -602,10 +602,10 @@ function VirtualizedList({ items }: { items: Item[] }) {
 
   return (
     <FixedSizeList
-      height={600}      // Chieu cao container
+      height={600}      // Chiều cao container
       width="100%"
       itemCount={items.length}
-      itemSize={50}     // Chieu cao moi item (fixed)
+      itemSize={50}     // Chiều cao mỗi item (fixed)
     >
       {Row}
     </FixedSizeList>
@@ -624,7 +624,7 @@ function AutoSizeList({ items }: { items: Item[] }) {
         <div className="row" style={{ padding: '10px' }}>
           <h4>{items[index].name}</h4>
           <p>{items[index].email}</p>
-          {/* Moi row co the co chieu cao khac nhau */}
+          {/* Mỗi row có thể có chiều cao khác nhau */}
         </div>
       )}
     />
@@ -641,7 +641,7 @@ function TanStackVirtualList({ items }: { items: Item[] }) {
     count: items.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 50,
-    overscan: 5, // Render them 5 items tren va duoi viewport
+    overscan: 5, // Render thêm 5 items trên và dưới viewport
   });
 
   return (
@@ -710,59 +710,59 @@ function InfiniteList() {
 }
 ```
 
-### Bang so sanh thu vien virtualization
+### Bảng so sánh thư viện virtualization
 
-| Tieu chi | react-window | react-virtuoso | @tanstack/react-virtual |
+| Tiêu chí | react-window | react-virtuoso | @tanstack/react-virtual |
 |----------|-------------|---------------|------------------------|
 | Bundle size | ~6KB | ~15KB | ~5KB |
 | API style | Component-based | Component-based | Headless (hook) |
-| Auto-size items | Khong (can VariableSizeList) | Co | Co (estimate) |
-| Infinite scroll | Can tu viet | Built-in | Can tu viet |
-| Grouped items | Khong | Co | Co |
-| Learning curve | Thap | Thap | Trung binh |
-| Flexibility | Trung binh | Cao | Rat cao |
+| Auto-size items | Không (cần VariableSizeList) | Có | Có (estimate) |
+| Infinite scroll | Cần tự viết | Built-in | Cần tự viết |
+| Grouped items | Không | Có | Có |
+| Learning curve | Thấp | Thấp | Trung bình |
+| Flexibility | Trung bình | Cao | Rất cao |
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Virtualization chi render items trong viewport, giam DOM nodes tu hang ngan xuong hang chuc. react-window cho truong hop don gian, react-virtuoso cho auto-sizing va infinite scroll, @tanstack/react-virtual cho headless approach. Can virtualization khi render > 100-200 items. Ket hop voi useMemo cho data va memo cho Row component de toi uu toi da."
+> "Virtualization chỉ render items trong viewport, giảm DOM nodes từ hàng ngàn xuống hàng chục. react-window cho trường hợp đơn giản, react-virtuoso cho auto-sizing và infinite scroll, @tanstack/react-virtual cho headless approach. Cần virtualization khi render > 100-200 items. Kết hợp với useMemo cho data và memo cho Row component để tối ưu tối đa."
 
 ---
 
-## Bang tong hop cac chien luoc Performance Optimization
+## Bảng tổng hợp các chiến lược Performance Optimization
 
-| Chien luoc | Van de giai quyet | Do phuc tap | Khi nao dung |
+| Chiến lược | Vấn đề giải quyết | Độ phức tạp | Khi nào dùng |
 |------------|------------------|-------------|-------------|
-| `React.memo` | Child re-render khong can thiet | Thap | Component nang, parent render nhieu |
-| `useMemo` | Tinh toan lai khong can thiet | Thap | Sort/filter danh sach lon |
-| `useCallback` | Function reference moi moi render | Thap | Props cho memo child |
-| `React.lazy` | Bundle lon, load cham | Thap | Route splitting, features lon |
-| `Suspense` | Loading state management | Thap | Ket hop voi lazy, data fetching |
-| `useTransition` | UI block khi render nang | Trung binh | Search, filter realtime |
-| `useDeferredValue` | Input lag do render nang | Trung binh | Heavy child voi changing props |
-| Virtualization | Danh sach qua nhieu DOM nodes | Trung binh | > 100-200 items |
-| Code splitting | Initial bundle qua lon | Thap | Moi du an nen lam |
-| Profiler | Khong biet optimize o dau | Thap | Buoc dau tien truoc moi optimization |
+| `React.memo` | Child re-render không cần thiết | Thấp | Component nặng, parent render nhiều |
+| `useMemo` | Tính toán lại không cần thiết | Thấp | Sort/filter danh sách lớn |
+| `useCallback` | Function reference mới mỗi render | Thấp | Props cho memo child |
+| `React.lazy` | Bundle lớn, load chậm | Thấp | Route splitting, features lớn |
+| `Suspense` | Loading state management | Thấp | Kết hợp với lazy, data fetching |
+| `useTransition` | UI block khi render nặng | Trung bình | Search, filter realtime |
+| `useDeferredValue` | Input lag do render nặng | Trung bình | Heavy child với changing props |
+| Virtualization | Danh sách quá nhiều DOM nodes | Trung bình | > 100-200 items |
+| Code splitting | Initial bundle quá lớn | Thấp | Mỗi dự án nên làm |
+| Profiler | Không biết optimize ở đâu | Thấp | Bước đầu tiên trước mỗi optimization |
 
-### Thu tu uu tien khi optimize
+### Thứ tự ưu tiên khi optimize
 
-1. **Do truoc** -- dung Profiler, xac dinh bottleneck
-2. **Code splitting** -- giam initial load (lam luon, khong can do)
-3. **Virtualization** -- neu co danh sach lon
-4. **React.memo + useMemo/useCallback** -- cho components cu the
+1. **Đo trước** -- dùng Profiler, xác định bottleneck
+2. **Code splitting** -- giảm initial load (làm luôn, không cần đo)
+3. **Virtualization** -- nếu có danh sách lớn
+4. **React.memo + useMemo/useCallback** -- cho components cụ thể
 5. **Concurrent features** -- cho UX improvements
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
-1. **"Memo moi thu cho an toan"** -- Sai. Memo co overhead: luu gia tri + so sanh deps. Neu props thay doi thuong xuyen, memo lam cham hon. Do truoc, optimize sau.
+1. **"Memo mọi thứ cho an toàn"** -- Sai. Memo có overhead: lưu giá trị + so sánh deps. Nếu props thay đổi thường xuyên, memo làm chậm hơn. Đo trước, optimize sau.
 
-2. **Khong biet React.lazy can Suspense** -- lazy component PHAI wrap trong Suspense, neu khong se throw error khi loading.
+2. **Không biết React.lazy cần Suspense** -- lazy component PHẢI wrap trong Suspense, nếu không sẽ throw error khi loading.
 
-3. **Nham code splitting voi tree shaking** -- Code splitting chia bundle thanh chunks (load khi can). Tree shaking loai bo unused code (build time). Hai thu khac nhau.
+3. **Nhầm code splitting với tree shaking** -- Code splitting chia bundle thành chunks (load khi cần). Tree shaking loại bỏ unused code (build time). Hai thứ khác nhau.
 
-4. **Khong biet Profiler** -- Neu ban noi "toi optimize" nhung khong noi ve cach do, interviewer se nghi ban dang "guess". Luon do truoc.
+4. **Không biết Profiler** -- Nếu bạn nói "tôi optimize" nhưng không nói về cách đo, interviewer sẽ nghĩ bạn đang "guess". Luôn đo trước.
 
-5. **Noi virtualization la "render them DOM khi scroll"** -- Sai. Virtualization **chi render items trong viewport**, va **recycle** DOM nodes khi scroll. Tong so DOM nodes luon nho.
+5. **Nói virtualization là "render thêm DOM khi scroll"** -- Sai. Virtualization **chỉ render items trong viewport**, và **recycle** DOM nodes khi scroll. Tổng số DOM nodes luôn nhỏ.
 
-6. **Khong noi ve Error Boundary voi lazy** -- Khi network loi, lazy component fail. Can Error Boundary de xu ly gracefully thay vi white screen.
+6. **Không nói về Error Boundary với lazy** -- Khi network lỗi, lazy component fail. Cần Error Boundary để xử lý gracefully thay vì white screen.

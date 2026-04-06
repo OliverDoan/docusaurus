@@ -5,22 +5,22 @@ title: "TS Patterns: Branded Types, Discriminated Unions, infer"
 
 # TS Patterns: Branded Types, Discriminated Unions, infer
 
-Bai nay tong hop nhung advanced patterns ma cac TypeScript developer co kinh nghiem su dung trong production. Day la nhom cau hoi "do chieu sau" -- interviewer muon biet ban khong chi hieu ly thuyet ma con ap dung duoc vao code that.
+Bài này tổng hợp những advanced patterns mà các TypeScript developer có kinh nghiệm sử dụng trong production. Đây là nhóm câu hỏi "độ chiều sâu" -- interviewer muốn biết bạn không chỉ hiểu lý thuyết mà còn áp dụng được vào code thật.
 
 ---
 
-## Cau 1: Branded types (nominal types) la gi va tai sao can dung? `[Senior]`
+## Câu 1: Branded types (nominal types) là gì và tại sao cần dùng? `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-TypeScript dung **structural typing** -- hai types duoc coi la tuong thich neu chung co cung cau truc, bat ke ten goi. Dieu nay doi khi gay ra van de khi ban muon phan biet giua cac type co cung cau truc nhung y nghia khac nhau.
+TypeScript dùng **structural typing** -- hai types được coi là tương thích nếu chúng có cùng cấu trúc, bất kể tên gọi. Điều này đôi khi gây ra vấn đề khi bạn muốn phân biệt giữa các type có cùng cấu trúc nhưng ý nghĩa khác nhau.
 
-**Branded types** (hay nominal types) la pattern them mot **phantom property** (property chi ton tai o type level, khong co tai runtime) de tao ra su khac biet giua cac type co cung underlying type.
+**Branded types** (hay nominal types) là pattern thêm một **phantom property** (property chỉ tồn tại ở type level, không có tại runtime) để tạo ra sự khác biệt giữa các type có cùng underlying type.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
-// === VAN DE: STRUCTURAL TYPING ===
+// === VẤN ĐỀ: STRUCTURAL TYPING ===
 type UserId = string;
 type OrderId = string;
 
@@ -29,10 +29,10 @@ function getUser(id: UserId): User {
 }
 
 const orderId: OrderId = "order_123";
-getUser(orderId); // KHONG LOI! Vi ca hai deu la string
-// Nhung day la BUG -- truyen OrderId vao cho can UserId
+getUser(orderId); // KHÔNG LỖI! Vì cả hai đều là string
+// Nhưng đây là BUG -- truyền OrderId vào cho cần UserId
 
-// === GIAI PHAP: BRANDED TYPES ===
+// === GIẢI PHÁP: BRANDED TYPES ===
 type Brand<T, B extends string> = T & { readonly __brand: B };
 
 type BrandedUserId = Brand<string, "UserId">;
@@ -40,7 +40,7 @@ type BrandedOrderId = Brand<string, "OrderId">;
 
 // Factory functions
 function createUserId(id: string): BrandedUserId {
-  // Co the validate truoc khi tao
+  // Có thể validate trước khi tạo
   if (!id.startsWith("user_")) {
     throw new Error("UserId must start with user_");
   }
@@ -55,7 +55,7 @@ function createOrderId(id: string): BrandedOrderId {
 }
 
 function getUserBranded(id: BrandedUserId): User {
-  return db.findUser(id); // id van la string tai runtime
+  return db.findUser(id); // id vẫn là string tại runtime
 }
 
 const userId = createUserId("user_456");
@@ -64,7 +64,7 @@ const orderId2 = createOrderId("order_789");
 getUserBranded(userId);    // OK
 // getUserBranded(orderId2); // Error! Type 'BrandedOrderId' is not assignable to 'BrandedUserId'
 
-// === THUC TE: TYPE-SAFE UNITS ===
+// === THỰC TẾ: TYPE-SAFE UNITS ===
 type Meters = Brand<number, "Meters">;
 type Kilometers = Brand<number, "Kilometers">;
 type Seconds = Brand<number, "Seconds">;
@@ -79,9 +79,9 @@ function calculateSpeed(distance: Kilometers, time: Seconds): number {
 
 const distance = 5000 as Meters;
 const km = metersToKm(distance); // OK
-// metersToKm(42 as Kilometers); // Error! Khong the truyen Km vao cho Meters
+// metersToKm(42 as Kilometers); // Error! Không thể truyền Km vào cho Meters
 
-// === THUC TE: VALIDATED TYPES ===
+// === THỰC TẾ: VALIDATED TYPES ===
 type Email = Brand<string, "Email">;
 type PhoneNumber = Brand<string, "PhoneNumber">;
 
@@ -102,28 +102,28 @@ function validatePhone(input: string): PhoneNumber {
 }
 
 function sendEmail(to: Email, subject: string): void {
-  // TypeScript dam bao `to` da duoc validate
-  // Khong the truyen raw string vao day
+  // TypeScript đảm bảo `to` đã được validate
+  // Không thể truyền raw string vào đây
 }
 
 const email = validateEmail("thuan@dev.com");
 sendEmail(email, "Hello"); // OK
-// sendEmail("raw@string.com", "Hello"); // Error! string khong phai Email
+// sendEmail("raw@string.com", "Hello"); // Error! string không phải Email
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Branded types giai quyet van de cua structural typing -- khi hai type co cung cau truc nhung y nghia khac nhau. Bang cach them phantom property __brand, ta tao ra su phan biet o type level ma khong anh huong runtime. Pattern nay cuc ky huu ich cho IDs (UserId vs OrderId), units (Meters vs Kilometers), va validated values (Email, PhoneNumber). Gia tri van la string/number tai runtime, nhung TypeScript ngan khong cho truyen nham type."
+> "Branded types giải quyết vấn đề của structural typing -- khi hai type có cùng cấu trúc nhưng ý nghĩa khác nhau. Bằng cách thêm phantom property __brand, ta tạo ra sự phân biệt ở type level mà không ảnh hưởng runtime. Pattern này cực kỳ hữu ích cho IDs (UserId vs OrderId), units (Meters vs Kilometers), và validated values (Email, PhoneNumber). Giá trị vẫn là string/number tại runtime, nhưng TypeScript ngăn không cho truyền nhầm type."
 
 ---
 
-## Cau 2: Builder pattern voi TypeScript `[Senior]`
+## Câu 2: Builder pattern với TypeScript `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Builder pattern** cho phep xay dung object phuc tap tung buoc mot. Trong TypeScript, ta co the dung **generics va method chaining** de dam bao type safety -- compiler se biet nhung field nao da duoc set va khong cho build() neu thieu field bat buoc.
+**Builder pattern** cho phép xây dựng object phức tạp từng bước một. Trong TypeScript, ta có thể dùng **generics và method chaining** để đảm bảo type safety -- compiler sẽ biết những field nào đã được set và không cho build() nếu thiếu field bắt buộc.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
 // === BASIC BUILDER ===
@@ -188,7 +188,7 @@ const request = new RequestBuilder()
 
 // === TYPE-SAFE BUILDER (COMPILE-TIME CHECK) ===
 
-// Track nhung field da duoc set qua generic
+// Track những field đã được set qua generic
 type BuilderState = {
   hasUrl: boolean;
   hasMethod: boolean;
@@ -209,7 +209,7 @@ class TypeSafeBuilder<State extends BuilderState = { hasUrl: false; hasMethod: f
     return this as any;
   }
 
-  // build() chi available khi ca url va method da duoc set
+  // build() chỉ available khi cả url và method đã được set
   build(
     this: TypeSafeBuilder<{ hasUrl: true; hasMethod: true }>
   ): RequestConfig {
@@ -220,13 +220,13 @@ class TypeSafeBuilder<State extends BuilderState = { hasUrl: false; hasMethod: f
 const valid = new TypeSafeBuilder()
   .setUrl("https://api.com")
   .setMethod("GET")
-  .build(); // OK -- ca hai da duoc set
+  .build(); // OK -- cả hai đã được set
 
 // const invalid = new TypeSafeBuilder()
 //   .setUrl("https://api.com")
-//   .build(); // Error! hasMethod la false
+//   .build(); // Error! hasMethod là false
 
-// === FLUENT INTERFACE VOI GENERICS ===
+// === FLUENT INTERFACE VỚI GENERICS ===
 type QueryBuilder<T> = {
   select<K extends keyof T>(...keys: K[]): QueryBuilder<Pick<T, K>>;
   where(condition: Partial<T>): QueryBuilder<T>;
@@ -234,30 +234,30 @@ type QueryBuilder<T> = {
   execute(): Promise<T[]>;
 };
 
-// Usage (minh hoa type flow)
+// Usage (minh họa type flow)
 declare function from<T>(table: string): QueryBuilder<T>;
 
 // const users = await from<User>("users")
 //   .select("name", "email")       // QueryBuilder<Pick<User, "name" | "email">>
 //   .where({ name: "Thuan" })       // OK -- name exists
 //   .orderBy("email")               // OK -- email exists
-//   // .orderBy("age")              // Error! "age" da bi loai boi select
+//   // .orderBy("age")              // Error! "age" đã bị loại bỏ bởi select
 //   .execute();                     // Promise<Pick<User, "name" | "email">[]>
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Builder pattern trong TypeScript co the duoc implement voi hai muc do type safety. Basic builder dung method chaining voi Partial va validate tai runtime trong build(). Advanced builder dung generics de track state -- moi method setter tra ve builder voi updated type, va build() chi available khi tat ca required fields da duoc set. Pattern nay cho phep bat loi thieu field tai compile time thay vi runtime."
+> "Builder pattern trong TypeScript có thể được implement với hai mức độ type safety. Basic builder dùng method chaining với Partial và validate tại runtime trong build(). Advanced builder dùng generics để track state -- mỗi method setter trả về builder với updated type, và build() chỉ available khi tất cả required fields đã được set. Pattern này cho phép bắt lỗi thiếu field tại compile time thay vì runtime."
 
 ---
 
-## Cau 3: Discriminated unions trong state management `[Intermediate]`
+## Câu 3: Discriminated unions trong state management `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Discriminated unions khong chi la pattern TypeScript -- do la cach tot nhat de model trang thai ung dung. Thay vi dung nhieu boolean flags (`isLoading`, `isError`, `hasData`), ban model moi trang thai nhu mot variant rieng biet voi dung data cho trang thai do.
+Discriminated unions không chỉ là pattern TypeScript -- đó là cách tốt nhất để model trạng thái ứng dụng. Thay vì dùng nhiều boolean flags (`isLoading`, `isError`, `hasData`), bạn model mỗi trạng thái như một variant riêng biệt với đúng data cho trạng thái đó.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
 // === SAI: BOOLEAN FLAGS ===
@@ -268,42 +268,42 @@ interface BadState {
   error: string | null;
 }
 
-// Van de: co trang thai khong hop le
+// Vấn đề: có trạng thái không hợp lệ
 const impossible: BadState = {
   isLoading: true,
-  isError: true,     // Vua loading vua error?!
-  data: [],           // Co data ma van loading?!
-  error: "Oops",     // Co error ma van co data?!
+  isError: true,     // Vừa loading vừa error?!
+  data: [],           // Có data mà vẫn loading?!
+  error: "Oops",     // Có error mà vẫn có data?!
 };
 
-// === DUNG: DISCRIMINATED UNIONS ===
+// === ĐÚNG: DISCRIMINATED UNIONS ===
 type UserListState =
   | { status: "idle" }
   | { status: "loading" }
   | { status: "success"; data: User[]; lastUpdated: Date }
   | { status: "error"; error: string; retryCount: number };
 
-// Khong the tao trang thai khong hop le
+// Không thể tạo trạng thái không hợp lệ
 function renderUserList(state: UserListState) {
   switch (state.status) {
     case "idle":
-      return "Chua bat dau tai du lieu";
+      return "Chưa bắt đầu tải dữ liệu";
 
     case "loading":
-      return "Dang tai...";
-      // state.data; // Error! khong co data khi loading
+      return "Đang tải...";
+      // state.data; // Error! không có data khi loading
 
     case "success":
       return state.data.map((u) => u.name).join(", ");
-      // state.error; // Error! khong co error khi success
+      // state.error; // Error! không có error khi success
 
     case "error":
-      return `Loi: ${state.error} (thu lai lan ${state.retryCount})`;
-      // state.data; // Error! khong co data khi error
+      return `Lỗi: ${state.error} (thử lại lần ${state.retryCount})`;
+      // state.data; // Error! không có data khi error
   }
 }
 
-// === THUC TE: AUTH STATE ===
+// === THỰC TẾ: AUTH STATE ===
 type AuthState =
   | { status: "unauthenticated" }
   | { status: "authenticating"; provider: "google" | "github" | "email" }
@@ -312,13 +312,13 @@ type AuthState =
 
 function getAuthHeader(state: AuthState): string | null {
   if (state.status === "authenticated") {
-    // TypeScript biet co token
+    // TypeScript biết có token
     return `Bearer ${state.token}`;
   }
   return null;
 }
 
-// === THUC TE: PAYMENT FLOW ===
+// === THỰC TẾ: PAYMENT FLOW ===
 type PaymentState =
   | { step: "select_method"; methods: PaymentMethod[] }
   | { step: "enter_details"; method: PaymentMethod; formData: Partial<PaymentDetails> }
@@ -372,24 +372,24 @@ function paymentReducer(state: PaymentState, action: PaymentAction): PaymentStat
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Discriminated unions la cach model state tot nhat vi chung lam cho trang thai khong hop le khong the bieu dien duoc. Thay vi nhieu boolean flags co the conflict nhau, moi variant chi chua dung data cho trang thai do. TypeScript tu dong narrow trong switch/if nen ban luon truy cap dung property. Toi dung pattern nay cho tat ca state management -- tu async loading state den complex multi-step flows nhu payment."
+> "Discriminated unions là cách model state tốt nhất vì chúng làm cho trạng thái không hợp lệ không thể biểu diễn được. Thay vì nhiều boolean flags có thể conflict nhau, mỗi variant chỉ chứa đúng data cho trạng thái đó. TypeScript tự động narrow trong switch/if nên bạn luôn truy cập đúng property. Tôi dùng pattern này cho tất cả state management -- từ async loading state đến complex multi-step flows như payment."
 
 ---
 
-## Cau 4: Advanced infer usage `[Senior]`
+## Câu 4: Advanced infer usage `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-`infer` khong chi de lay return type hay element type don gian. O muc advanced, `infer` duoc dung de **phan tich cau truc cua type** -- trich xuat parts tu template literals, tuple positions, function overloads, va hon nua.
+`infer` không chỉ để lấy return type hay element type đơn giản. Ở mức advanced, `infer` được dùng để **phân tích cấu trúc của type** -- trích xuất parts từ template literals, tuple positions, function overloads, và hơn nữa.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
-// === INFER TU TEMPLATE LITERAL ===
+// === INFER TỪ TEMPLATE LITERAL ===
 
-// Trich xuat parts cua URL path
+// Trích xuất parts của URL path
 type ExtractParams<T extends string> =
   T extends `${string}:${infer Param}/${infer Rest}`
     ? { [K in Param | keyof ExtractParams<`/${Rest}`>]: string }
@@ -403,8 +403,8 @@ type UserPostParams = ExtractParams<"/users/:userId/posts/:postId">;
 type UserParams = ExtractParams<"/users/:id">;
 // { id: string }
 
-// === INFER TU FUNCTION OVERLOADS ===
-// Khi function co nhieu overloads, infer lay last overload
+// === INFER TỪ FUNCTION OVERLOADS ===
+// Khi function có nhiều overloads, infer lấy last overload
 type OverloadReturnType<T> = T extends {
   (...args: any[]): infer R1;
   (...args: any[]): infer R2;
@@ -414,16 +414,16 @@ type OverloadReturnType<T> = T extends {
     ? R
     : never;
 
-// === INFER DE UNWRAP NESTED TYPES ===
+// === INFER ĐỂ UNWRAP NESTED TYPES ===
 type UnwrapArray<T> = T extends Array<infer E>
-  ? UnwrapArray<E> // Recursive: tiep tuc unwrap neu van la array
+  ? UnwrapArray<E> // Recursive: tiếp tục unwrap nếu vẫn là array
   : T;
 
 type T1 = UnwrapArray<string[][][]>;  // string
 type T2 = UnwrapArray<number[]>;       // number
-type T3 = UnwrapArray<boolean>;        // boolean (khong phai array)
+type T3 = UnwrapArray<boolean>;        // boolean (không phải array)
 
-// === INFER DE TRICH XUAT GENERIC TYPE ARGUMENT ===
+// === INFER ĐỂ TRÍCH XUẤT GENERIC TYPE ARGUMENT ===
 type UnwrapPromise<T> = T extends Promise<infer U> ? UnwrapPromise<U> : T;
 type UnwrapSet<T> = T extends Set<infer U> ? U : T;
 type UnwrapMap<T> = T extends Map<infer K, infer V> ? [K, V] : T;
@@ -444,7 +444,7 @@ type Popped = Pop<Arr>;        // [1, 2]
 type Shifted = Shift<Arr>;     // [2, 3]
 type Unshifted = Unshift<Arr, 0>; // [0, 1, 2, 3]
 
-// === THUC TE: TYPE-SAFE EVENT SYSTEM ===
+// === THỰC TẾ: TYPE-SAFE EVENT SYSTEM ===
 type EventMap = {
   "user:login": { userId: string; timestamp: Date };
   "user:logout": { userId: string };
@@ -454,14 +454,14 @@ type EventMap = {
 
 type EventName = keyof EventMap;
 
-// Trich xuat namespace tu event name
+// Trích xuất namespace từ event name
 type EventNamespace<T extends string> =
   T extends `${infer NS}:${string}` ? NS : never;
 
 type Namespaces = EventNamespace<EventName>;
 // "user" | "order"
 
-// Lay tat ca events trong mot namespace
+// Lấy tất cả events trong một namespace
 type EventsInNamespace<
   NS extends string,
   T extends string = EventName
@@ -471,19 +471,19 @@ type UserEvents = EventsInNamespace<"user", EventName>;
 // "user:login" | "user:logout"
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "infer la cong cu de-structuring o type level. Ngoai nhung use case co ban nhu ReturnType, infer co the trich xuat params tu URL patterns, manipulate tuples, unwrap nested generics, va parse template literal types. Diem manh la infer cho phep 'pattern matching' tren types -- ban dinh nghia shape can match va infer tu dong suy ra phan con thieu. Trong thuc te, toi dung infer nhieu nhat cho route params extraction va event system typing."
+> "infer là công cụ de-structuring ở type level. Ngoài những use case cơ bản như ReturnType, infer có thể trích xuất params từ URL patterns, manipulate tuples, unwrap nested generics, và parse template literal types. Điểm mạnh là infer cho phép 'pattern matching' trên types -- bạn định nghĩa shape cần match và infer tự động suy ra phần còn thiếu. Trong thực tế, tôi dùng infer nhiều nhất cho route params extraction và event system typing."
 
 ---
 
-## Cau 5: Type-safe event emitter pattern `[Senior]`
+## Câu 5: Type-safe event emitter pattern `[Senior]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-Event emitter la pattern pho bien trong JavaScript nhung thuong thieu type safety. Voi TypeScript generics, ta co the dam bao: moi event name chi chap nhan dung payload type, va listeners nhan dung type cua data.
+Event emitter là pattern phổ biến trong JavaScript nhưng thường thiếu type safety. Với TypeScript generics, ta có thể đảm bảo: mỗi event name chỉ chấp nhận đúng payload type, và listeners nhận đúng type của data.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
 // === TYPE-SAFE EVENT EMITTER ===
@@ -502,7 +502,7 @@ class TypedEventEmitter<TEvents extends Record<string, any>> {
     }
     this.listeners.get(key)!.add(listener);
 
-    // Tra ve unsubscribe function
+    // Trả về unsubscribe function
     return () => {
       this.listeners.get(key)?.delete(listener);
     };
@@ -532,7 +532,7 @@ class TypedEventEmitter<TEvents extends Record<string, any>> {
   }
 }
 
-// === SU DUNG ===
+// === SỬ DỤNG ===
 interface AppEvents {
   "auth:login": { userId: string; email: string };
   "auth:logout": { userId: string };
@@ -542,14 +542,14 @@ interface AppEvents {
 
 const emitter = new TypedEventEmitter<AppEvents>();
 
-// Type-safe: listener nhan dung type
+// Type-safe: listener nhận đúng type
 emitter.on("auth:login", (data) => {
-  console.log(data.userId);  // string -- TypeScript biet!
+  console.log(data.userId);  // string -- TypeScript biết!
   console.log(data.email);   // string
-  // data.title;              // Error! khong co property title
+  // data.title;              // Error! không có property title
 });
 
-// Type-safe: emit phai truyen dung data
+// Type-safe: emit phải truyền đúng data
 emitter.emit("auth:login", {
   userId: "user_123",
   email: "thuan@dev.com",
@@ -557,10 +557,10 @@ emitter.emit("auth:login", {
 
 // emitter.emit("auth:login", { wrong: true }); // Error!
 
-// Type-safe: event name phai hop le
+// Type-safe: event name phải hợp lệ
 // emitter.on("invalid:event", () => {}); // Error!
 
-// === MO RONG: WILDCARD LISTENER ===
+// === MỞ RỘNG: WILDCARD LISTENER ===
 class ExtendedEmitter<TEvents extends Record<string, any>> extends TypedEventEmitter<TEvents> {
   private wildcardListeners = new Set<(event: string, data: any) => void>();
 
@@ -578,19 +578,19 @@ class ExtendedEmitter<TEvents extends Record<string, any>> extends TypedEventEmi
 }
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Type-safe event emitter dung generic parameter `TEvents extends Record<string, any>` de dinh nghia mapping giua event names va payload types. Methods `on()` va `emit()` dung `K extends keyof TEvents` de dam bao chi chap nhan event names hop le va payload dung type. Pattern nay loai bo hoan toan loi sai event name hoac sai payload tai compile time. Trong du an lon, toi tach event types thanh file rieng de moi module co the import va su dung."
+> "Type-safe event emitter dùng generic parameter `TEvents extends Record<string, any>` để định nghĩa mapping giữa event names và payload types. Methods `on()` và `emit()` dùng `K extends keyof TEvents` để đảm bảo chỉ chấp nhận event names hợp lệ và payload đúng type. Pattern này loại bỏ hoàn toàn lỗi sai event name hoặc sai payload tại compile time. Trong dự án lớn, tôi tách event types thành file riêng để mỗi module có thể import và sử dụng."
 
 ---
 
-## Cau 6: Declaration merging `[Intermediate]`
+## Câu 6: Declaration merging `[Intermediate]`
 
-### Giai thich ly thuyet
+### Giải thích lý thuyết
 
-**Declaration merging** la co che TypeScript tu dong **gop nhieu khai bao** cung ten thanh mot. Hoat dong voi interfaces, namespaces, va enums. Day la pattern dung de **mo rong type cua thu vien ben thu ba** ma khong can sua source code.
+**Declaration merging** là cơ chế TypeScript tự động **gộp nhiều khai báo** cùng tên thành một. Hoạt động với interfaces, namespaces, và enums. Đây là pattern dùng để **mở rộng type của thư viện bên thứ ba** mà không cần sửa source code.
 
-### Code vi du
+### Code ví dụ
 
 ```typescript
 // === INTERFACE MERGING ===
@@ -598,12 +598,12 @@ interface Window {
   myCustomProperty: string;
 }
 
-// TypeScript gop vao interface Window san co
-// Bay gio window.myCustomProperty la hop le
+// TypeScript gộp vào interface Window sẵn có
+// Bây giờ window.myCustomProperty là hợp lệ
 
-// === MO RONG THU VIEN ===
+// === MỞ RỘNG THƯ VIỆN ===
 
-// Mo rong Express Request
+// Mở rộng Express Request
 declare namespace Express {
   interface Request {
     user?: {
@@ -614,14 +614,14 @@ declare namespace Express {
   }
 }
 
-// Bay gio trong Express handler:
+// Bây giờ trong Express handler:
 // app.get("/", (req, res) => {
-//   req.user?.role; // TypeScript biet!
-//   req.requestId;  // TypeScript biet!
+//   req.user?.role; // TypeScript biết!
+//   req.requestId;  // TypeScript biết!
 // });
 
 // === MODULE AUGMENTATION ===
-// Mo rong module cua thu vien
+// Mở rộng module của thư viện
 declare module "express-session" {
   interface SessionData {
     userId: string;
@@ -640,9 +640,9 @@ enum Color {
   Yellow = "YELLOW",
 }
 
-// Ket qua: Color co Red, Green, Blue, Yellow
+// Kết quả: Color có Red, Green, Blue, Yellow
 
-// === NAMESPACE MERGING VOI CLASS ===
+// === NAMESPACE MERGING VỚI CLASS ===
 class Album {
   label: Album.AlbumLabel;
 
@@ -658,18 +658,18 @@ namespace Album {
   }
 }
 
-// Album vua la class vua co namespace chua AlbumLabel interface
+// Album vừa là class vừa có namespace chứa AlbumLabel interface
 const album = new Album({ name: "Thriller", color: "gold" });
 
-// === THUC TE: GLOBAL TYPE EXTENSIONS ===
+// === THỰC TẾ: GLOBAL TYPE EXTENSIONS ===
 
-// Them vao globalThis
+// Thêm vào globalThis
 declare global {
   interface Array<T> {
     customGroupBy(fn: (item: T) => string): Record<string, T[]>;
   }
 
-  // Them environment variable types
+  // Thêm environment variable types
   namespace NodeJS {
     interface ProcessEnv {
       DATABASE_URL: string;
@@ -679,53 +679,53 @@ declare global {
   }
 }
 
-// Bay gio process.env.DATABASE_URL la string (khong phai string | undefined)
-// va Array co method customGroupBy
+// Bây giờ process.env.DATABASE_URL là string (không phải string | undefined)
+// và Array có method customGroupBy
 ```
 
-### Dap an mau
+### Đáp án mẫu
 
-> "Declaration merging cho phep nhieu khai bao cung ten duoc gop thanh mot. Interfaces duoc merge tu dong -- khai bao cung interface nhieu lan se cong don tat ca properties. Pattern nay cuc ky huu ich de mo rong types cua thu vien ben thu ba: vi du them user property vao Express Request, them custom fields vao session, hoac dinh nghia environment variables type. Luu y: type aliases khong ho tro merging -- day la mot ly do chinh de chon interface khi can extensibility."
+> "Declaration merging cho phép nhiều khai báo cùng tên được gộp thành một. Interfaces được merge tự động -- khai báo cùng interface nhiều lần sẽ cộng dồn tất cả properties. Pattern này cực kỳ hữu ích để mở rộng types của thư viện bên thứ ba: ví dụ thêm user property vào Express Request, thêm custom fields vào session, hoặc định nghĩa environment variables type. Lưu ý: type aliases không hỗ trợ merging -- đây là một lý do chính để chọn interface khi cần extensibility."
 
 ---
 
-## Bang so sanh patterns va khi nao dung
+## Bảng so sánh patterns và khi nào dùng
 
-| Pattern | Bai toan giai quyet | Khi nao dung | Do phuc tap |
+| Pattern | Bài toán giải quyết | Khi nào dùng | Độ phức tạp |
 |---------|---------------------|-------------|-------------|
-| Branded Types | Nham lan types co cung cau truc | IDs, units, validated values | Trung binh |
-| Builder Pattern | Xay dung object phuc tap | Config objects, queries, requests | Cao |
-| Discriminated Unions | State co nhieu variants | State management, API responses | Thap-Trung binh |
-| Type-safe Events | Event system thieu type safety | Event emitters, pub/sub | Trung binh |
-| Declaration Merging | Mo rong type thu vien | Express, session, env vars | Thap |
-| Exhaustive Check | Bo sot case trong union | Switch/case, reducers | Thap |
-| Conditional + infer | Trich xuat type tu structure | URL params, unwrap generics | Cao |
-| Mapped + Template Literal | Tao type tu type khac | Getters/setters, validators | Cao |
+| Branded Types | Nhầm lẫn types có cùng cấu trúc | IDs, units, validated values | Trung bình |
+| Builder Pattern | Xây dựng object phức tạp | Config objects, queries, requests | Cao |
+| Discriminated Unions | State có nhiều variants | State management, API responses | Thấp-Trung bình |
+| Type-safe Events | Event system thiếu type safety | Event emitters, pub/sub | Trung bình |
+| Declaration Merging | Mở rộng type thư viện | Express, session, env vars | Thấp |
+| Exhaustive Check | Bỏ sót case trong union | Switch/case, reducers | Thấp |
+| Conditional + infer | Trích xuất type từ structure | URL params, unwrap generics | Cao |
+| Mapped + Template Literal | Tạo type từ type khác | Getters/setters, validators | Cao |
 
-### Khi nao nen dung va khi nao nen tranh
+### Khi nào nên dùng và khi nào nên tránh
 
-**Nen dung:**
-- Branded types: Khi co nhieu IDs hoac values cung primitive type trong domain
-- Discriminated unions: Luon luon cho state management
-- Declaration merging: Khi can extend thu vien types
+**Nên dùng:**
+- Branded types: Khi có nhiều IDs hoặc values cùng primitive type trong domain
+- Discriminated unions: Luôn luôn cho state management
+- Declaration merging: Khi cần extend thư viện types
 
-**Nen tranh:**
-- Branded types cho moi string/number -- chi dung khi co nguy co nham lan that su
-- Builder pattern cho simple objects -- overkill neu object chi co 2-3 fields
-- Qua nhieu conditional + infer -- lam code kho doc va maintain
+**Nên tránh:**
+- Branded types cho mọi string/number -- chỉ dùng khi có nguy cơ nhầm lẫn thật sự
+- Builder pattern cho simple objects -- overkill nếu object chỉ có 2-3 fields
+- Quá nhiều conditional + infer -- làm code khó đọc và maintain
 
 ---
 
-## Loi thuong gap khi tra loi
+## Lỗi thường gặp khi trả lời
 
-1. **Khong giai thich duoc tai sao can branded types**: Neu ban chi noi "them __brand property" ma khong giai thich van de cua structural typing truoc, cau tra loi thieu context. Luon bat dau tu van de (UserId vs OrderId) roi moi den giai phap.
+1. **Không giải thích được tại sao cần branded types**: Nếu bạn chỉ nói "thêm __brand property" mà không giải thích vấn đề của structural typing trước, câu trả lời thiếu context. Luôn bắt đầu từ vấn đề (UserId vs OrderId) rồi mới đến giải pháp.
 
-2. **Nham declaration merging voi type intersection**: Merging gop nhieu khai bao thanh mot tai compile time. Intersection (`&`) tao type moi tai type level. Hai cai nay khac nhau ve co che hoat dong.
+2. **Nhầm declaration merging với type intersection**: Merging gộp nhiều khai báo thành một tại compile time. Intersection (`&`) tạo type mới tại type level. Hai cái này khác nhau về cơ chế hoạt động.
 
-3. **Builder pattern khong return `this`**: Neu method trong builder khong return `this`, khong the method chain. Nhieu nguoi quen dieu nay khi implement.
+3. **Builder pattern không return `this`**: Nếu method trong builder không return `this`, không thể method chain. Nhiều người quên điều này khi implement.
 
-4. **Dung boolean flags thay vi discriminated unions**: Khi interviewer hoi ve state management ma ban dung `{ isLoading: boolean; isError: boolean; data: T | null }`, do la red flag. Luon dung discriminated unions voi status field.
+4. **Dùng boolean flags thay vì discriminated unions**: Khi interviewer hỏi về state management mà bạn dùng `{ isLoading: boolean; isError: boolean; data: T | null }`, đó là red flag. Luôn dùng discriminated unions với status field.
 
-5. **Khong biet gioi han cua declaration merging**: Chi hoat dong voi interface, namespace, va enum. Type alias KHONG ho tro merging. Class KHONG ho tro merging voi class khac.
+5. **Không biết giới hạn của declaration merging**: Chỉ hoạt động với interface, namespace, và enum. Type alias KHÔNG hỗ trợ merging. Class KHÔNG hỗ trợ merging với class khác.
 
-6. **Event emitter khong type-safe**: Neu ban implement event emitter ma `on("anyString", ...)` khong bao loi, do khong phai type-safe. Phai dung generic constraint `K extends keyof TEvents`.
+6. **Event emitter không type-safe**: Nếu bạn implement event emitter mà `on("anyString", ...)` không báo lỗi, đó không phải type-safe. Phải dùng generic constraint `K extends keyof TEvents`.

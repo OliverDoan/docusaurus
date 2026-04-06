@@ -4,105 +4,105 @@ title: "String, StringBuffer & StringBuilder"
 ---
 # String, StringBuffer & StringBuilder
 
-## 1. Gioi thieu
+## 1. Giới thiệu
 
-Trong Java, **chuoi (String)** la mot trong nhung kieu du lieu duoc su dung **thuong xuyen nhat**. Hau nhu moi chuong trinh Java deu lam viec voi chuoi: ten nguoi dung, dia chi email, noi dung tin nhan, URL, JSON...
+Trong Java, **chuỗi (String)** là một trong những kiểu dữ liệu được sử dụng **thường xuyên nhất**. Hầu như mọi chương trình Java đều làm việc với chuỗi: tên người dùng, địa chỉ email, nội dung tin nhắn, URL, JSON...
 
-Java cung cap **3 lop chinh** de xu ly chuoi:
-- **`String`** - Bat bien (immutable)
-- **`StringBuffer`** - Thay doi duoc (mutable), an toan luong (thread-safe)
-- **`StringBuilder`** - Thay doi duoc (mutable), nhanh nhat nhung khong an toan luong
+Java cung cấp **3 lớp chính** để xử lý chuỗi:
+- **`String`** - Bất biến (immutable)
+- **`StringBuffer`** - Thay đổi được (mutable), an toàn luồng (thread-safe)
+- **`StringBuilder`** - Thay đổi được (mutable), nhanh nhất nhưng không an toàn luồng
 
-**Tai sao can hieu su khac biet?** Viec chon sai lop chuoi co the dan den: code **cham gap hang tram lan** (noi String trong vong lap), **loi an** trong ung dung da luong, hoac **lang phi bo nho**. Day cung la **cau hoi phong van rat pho bien**.
+**Tại sao cần hiểu sự khác biệt?** Việc chọn sai lớp chuỗi có thể dẫn đến: code **chậm gấp hàng trăm lần** (nối String trong vòng lặp), **lỗi ẩn** trong ứng dụng đa luồng, hoặc **lãng phí bộ nhớ**. Đây cũng là **câu hỏi phỏng vấn rất phổ biến**.
 
-Hay hinh dung:
-- **String** giong nhu **but bi**: viet xong khong the xoa, muon sua phai lay to giay moi
-- **StringBuffer** giong nhu **bang trang co khoa**: nhieu nguoi co the viet nhung phai **doi luot** (thread-safe)
-- **StringBuilder** giong nhu **bang trang ca nhan**: chi mot nguoi viet, **nhanh nhat** vi khong can doi
+Hãy hình dung:
+- **String** giống như **bút bi**: viết xong không thể xóa, muốn sửa phải lấy tờ giấy mới
+- **StringBuffer** giống như **bảng trắng có khóa**: nhiều người có thể viết nhưng phải **đợi lượt** (thread-safe)
+- **StringBuilder** giống như **bảng trắng cá nhân**: chỉ một người viết, **nhanh nhất** vì không cần đợi
 
 ---
 
-## Noi dung
+## Nội dung
 
-1. [Gioi thieu](#1-gioi-thieu)
-2. [Lop String - Bat bien (Immutable)](#2-lop-string---bat-bien-immutable)
+1. [Giới thiệu](#1-gioi-thieu)
+2. [Lớp String - Bất biến (Immutable)](#2-lop-string---bat-bien-immutable)
 3. [String Pool](#3-string-pool)
-4. [Tao String: literal vs new](#4-tao-string-literal-vs-new)
-5. [Lop StringBuffer - Mutable & Thread-safe](#5-lop-stringbuffer---mutable--thread-safe)
-6. [Lop StringBuilder - Mutable & Nhanh nhat](#6-lop-stringbuilder---mutable--nhanh-nhat)
-7. [Bang so sanh String - StringBuffer - StringBuilder](#7-bang-so-sanh-string---stringbuffer---stringbuilder)
-8. [Cac method pho bien](#8-cac-method-pho-bien)
-9. [So sanh hieu nang (Benchmark)](#9-so-sanh-hieu-nang-benchmark)
-10. [Khi nao dung?](#10-khi-nao-dung)
-11. [Loi thuong gap](#11-loi-thuong-gap)
-12. [Cau hoi phong van](#12-cau-hoi-phong-van)
+4. [Tạo String: literal vs new](#4-tao-string-literal-vs-new)
+5. [Lớp StringBuffer - Mutable & Thread-safe](#5-lop-stringbuffer---mutable--thread-safe)
+6. [Lớp StringBuilder - Mutable & Nhanh nhất](#6-lop-stringbuilder---mutable--nhanh-nhat)
+7. [Bảng so sánh String - StringBuffer - StringBuilder](#7-bang-so-sanh-string---stringbuffer---stringbuilder)
+8. [Các method phổ biến](#8-cac-method-pho-bien)
+9. [So sánh hiệu năng (Benchmark)](#9-so-sanh-hieu-nang-benchmark)
+10. [Khi nào dùng?](#10-khi-nao-dung)
+11. [Lỗi thường gặp](#11-loi-thuong-gap)
+12. [Câu hỏi phỏng vấn](#12-cau-hoi-phong-van)
 
 ---
 
-## 2. Lop String - Bat bien (Immutable)
+## 2. Lớp String - Bất biến (Immutable)
 
-### 2.1 String la immutable
+### 2.1 String là immutable
 
-Trong Java, **String la bat bien (immutable)**: mot khi da tao, **noi dung cua no khong the thay doi**. Moi thao tac "thay doi" tren String thuc chat la **tao ra mot doi tuong String moi**.
+Trong Java, **String là bất biến (immutable)**: một khi đã tạo, **nội dung của nó không thể thay đổi**. Mọi thao tác "thay đổi" trên String thực chất là **tạo ra một đối tượng String mới**.
 
 ```java
 public class StringImmutableDemo {
     public static void main(String[] args) {
         String s1 = "Hello";
-        String s2 = s1; // s2 tro cung object voi s1
+        String s2 = s1; // s2 trỏ cùng object với s1
 
-        s1 = s1 + " World"; // Tao object MOI "Hello World"
+        s1 = s1 + " World"; // Tạo object MỚI "Hello World"
 
         System.out.println("s1 = " + s1); // Hello World
-        System.out.println("s2 = " + s2); // Hello (KHONG thay doi!)
+        System.out.println("s2 = " + s2); // Hello (KHÔNG thay đổi!)
     }
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 s1 = Hello World
 s2 = Hello
 ```
 
-Khi thuc hien `s1 = s1 + " World"`:
-1. Java tao object moi `"Hello World"` tren Heap
-2. `s1` bay gio tro den object moi
-3. Object cu `"Hello"` van ton tai, `s2` van tro den no
+Khi thực hiện `s1 = s1 + " World"`:
+1. Java tạo object mới `"Hello World"` trên Heap
+2. `s1` bây giờ trỏ đến object mới
+3. Object cũ `"Hello"` vẫn tồn tại, `s2` vẫn trỏ đến nó
 
-### 2.2 Tai sao String duoc thiet ke la immutable?
+### 2.2 Tại sao String được thiết kế là immutable?
 
-- **An toan**: nhieu bien co the tro den cung mot String (trong String Pool) ma khong so bi thay doi
-- **Thread-safe**: nhieu thread doc cung String ma khong can dong bo
-- **Hashcode caching**: hashcode tinh mot lan va luu lai, giup `HashMap`/`HashSet` nhanh hon
-- **Bao mat**: String dung cho password, URL, class name... khong bi thay doi ngam
+- **An toàn**: nhiều biến có thể trỏ đến cùng một String (trong String Pool) mà không sợ bị thay đổi
+- **Thread-safe**: nhiều thread đọc cùng String mà không cần đồng bộ
+- **Hashcode caching**: hashcode tính một lần và lưu lại, giúp `HashMap`/`HashSet` nhanh hơn
+- **Bảo mật**: String dùng cho password, URL, class name... không bị thay đổi ngầm
 
 ---
 
 ## 3. String Pool
 
-**String Pool** (hay String Constant Pool) la mot vung bo nho dac biet trong Heap, noi Java **luu tru cac String literal** de **tai su dung**, tiet kiem bo nho.
+**String Pool** (hay String Constant Pool) là một vùng bộ nhớ đặc biệt trong Heap, nơi Java **lưu trữ các String literal** để **tái sử dụng**, tiết kiệm bộ nhớ.
 
 ```java
 public class StringPoolDemo {
     public static void main(String[] args) {
-        String s1 = "Java"; // Tao trong String Pool
-        String s2 = "Java"; // Tai su dung tu String Pool
+        String s1 = "Java"; // Tạo trong String Pool
+        String s2 = "Java"; // Tái sử dụng từ String Pool
 
-        String s3 = new String("Java"); // Tao object MOI tren Heap (NGOAI Pool)
+        String s3 = new String("Java"); // Tạo object MỚI trên Heap (NGOÀI Pool)
 
-        System.out.println(s1 == s2);      // true  (cung tham chieu trong Pool)
-        System.out.println(s1 == s3);      // false (khac tham chieu)
-        System.out.println(s1.equals(s3)); // true  (cung noi dung)
+        System.out.println(s1 == s2);      // true  (cùng tham chiếu trong Pool)
+        System.out.println(s1 == s3);      // false (khác tham chiếu)
+        System.out.println(s1.equals(s3)); // true  (cùng nội dung)
 
-        // intern(): dua String vao Pool
+        // intern(): đưa String vào Pool
         String s4 = s3.intern();
-        System.out.println(s1 == s4);      // true  (s4 tro den String trong Pool)
+        System.out.println(s1 == s4);      // true  (s4 trỏ đến String trong Pool)
     }
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 true
 false
@@ -110,29 +110,29 @@ true
 true
 ```
 
-**Cach hoat dong:**
-- Khi ban viet `String s = "Java"`, Java kiem tra Pool:
-  - Neu `"Java"` **da ton tai** trong Pool -> tra ve tham chieu den no
-  - Neu **chua ton tai** -> tao moi trong Pool
-- Khi ban viet `new String("Java")` -> **luon tao object moi** tren Heap (ngoai Pool)
+**Cách hoạt động:**
+- Khi bạn viết `String s = "Java"`, Java kiểm tra Pool:
+  - Nếu `"Java"` **đã tồn tại** trong Pool -> trả về tham chiếu đến nó
+  - Nếu **chưa tồn tại** -> tạo mới trong Pool
+- Khi bạn viết `new String("Java")` -> **luôn tạo object mới** trên Heap (ngoài Pool)
 
 ---
 
-## 4. Tao String: literal vs new
+## 4. Tạo String: literal vs new
 
 ```java
 public class StringCreationDemo {
     public static void main(String[] args) {
-        // Cach 1: String literal (KHUYEN DUNG)
+        // Cách 1: String literal (KHUYÊN DÙNG)
         String a = "Hello";
         String b = "Hello";
-        System.out.println("a == b: " + (a == b));           // true (cung Pool)
+        System.out.println("a == b: " + (a == b));           // true (cùng Pool)
         System.out.println("a.equals(b): " + a.equals(b));   // true
 
-        // Cach 2: new String (TRANH dung khi khong can thiet)
+        // Cách 2: new String (TRÁNH dùng khi không cần thiết)
         String c = new String("Hello");
         String d = new String("Hello");
-        System.out.println("c == d: " + (c == d));           // false (khac object)
+        System.out.println("c == d: " + (c == d));           // false (khác object)
         System.out.println("c.equals(d): " + c.equals(d));   // true
 
         System.out.println("a == c: " + (a == c));           // false
@@ -140,7 +140,7 @@ public class StringCreationDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 a == b: true
 a.equals(b): true
@@ -149,32 +149,32 @@ c.equals(d): true
 a == c: false
 ```
 
-**Quy tac:**
-- **`==`** so sanh **tham chieu** (dia chi bo nho)
-- **`equals()`** so sanh **noi dung** chuoi
-- **Luon dung `equals()`** khi so sanh noi dung String
+**Quy tắc:**
+- **`==`** so sánh **tham chiếu** (địa chỉ bộ nhớ)
+- **`equals()`** so sánh **nội dung** chuỗi
+- **Luôn dùng `equals()`** khi so sánh nội dung String
 
 ---
 
-## 5. Lop StringBuffer - Mutable & Thread-safe
+## 5. Lớp StringBuffer - Mutable & Thread-safe
 
-### 5.1 Dac diem
+### 5.1 Đặc điểm
 
-- **Mutable**: noi dung co the thay doi ma **khong tao object moi**
-- **Thread-safe**: cac method duoc **dong bo (synchronized)**, an toan khi nhieu thread cung truy cap
-- **Cham hon StringBuilder** do overhead cua synchronized
+- **Mutable**: nội dung có thể thay đổi mà **không tạo object mới**
+- **Thread-safe**: các method được **đồng bộ (synchronized)**, an toàn khi nhiều thread cùng truy cập
+- **Chậm hơn StringBuilder** do overhead của synchronized
 
 ```java
 public class StringBufferDemo {
     public static void main(String[] args) {
         StringBuffer sb = new StringBuffer("Hello");
-        System.out.println("Ban dau: " + sb);
+        System.out.println("Ban đầu: " + sb);
         System.out.println("Hashcode: " + System.identityHashCode(sb));
 
         sb.append(" World");
         System.out.println("Sau append: " + sb);
         System.out.println("Hashcode: " + System.identityHashCode(sb));
-        // Hashcode GIONG NHAU -> cung object, khong tao moi!
+        // Hashcode GIỐNG NHAU -> cùng object, không tạo mới!
 
         sb.insert(5, ",");
         System.out.println("Sau insert: " + sb);
@@ -191,12 +191,12 @@ public class StringBufferDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
-Ban dau: Hello
-Hashcode: 1234567 (vi du)
+Ban đầu: Hello
+Hashcode: 1234567 (ví dụ)
 Sau append: Hello World
-Hashcode: 1234567 (GIONG!)
+Hashcode: 1234567 (GIỐNG!)
 Sau insert: Hello, World
 Sau replace: Hi, World
 Sau delete: Hi World
@@ -205,20 +205,20 @@ Sau reverse: dlroW iH
 
 ---
 
-## 6. Lop StringBuilder - Mutable & Nhanh nhat
+## 6. Lớp StringBuilder - Mutable & Nhanh nhất
 
-### 6.1 Dac diem
+### 6.1 Đặc điểm
 
-- **Mutable**: giong StringBuffer
-- **KHONG thread-safe**: khong co synchronized -> **nhanh hon StringBuffer**
-- **Nen dung trong da so truong hop** (ung dung don luong hoac bien cuc bo)
+- **Mutable**: giống StringBuffer
+- **KHÔNG thread-safe**: không có synchronized -> **nhanh hơn StringBuffer**
+- **Nên dùng trong đa số trường hợp** (ứng dụng đơn luồng hoặc biến cục bộ)
 
 ```java
 public class StringBuilderDemo {
     public static void main(String[] args) {
         StringBuilder sb = new StringBuilder();
 
-        // Xay dung chuoi trong vong lap (HIEU QUA)
+        // Xây dựng chuỗi trong vòng lặp (HIỆU QUẢ)
         for (int i = 1; i <= 5; i++) {
             sb.append("Item ").append(i);
             if (i < 5) {
@@ -228,7 +228,7 @@ public class StringBuilderDemo {
 
         System.out.println(sb.toString());
 
-        // Cac method tuong tu StringBuffer
+        // Các method tương tự StringBuffer
         StringBuilder sb2 = new StringBuilder("Java Programming");
         System.out.println("Length: " + sb2.length());          // 16
         System.out.println("Capacity: " + sb2.capacity());     // 33 (16 + 16 + 1)
@@ -238,7 +238,7 @@ public class StringBuilderDemo {
 }
 ```
 
-**Ket qua:**
+**Kết quả:**
 ```
 Item 1, Item 2, Item 3, Item 4, Item 5
 Length: 16
@@ -249,47 +249,47 @@ substring(5): Programming
 
 ---
 
-## 7. Bang so sanh String - StringBuffer - StringBuilder
+## 7. Bảng so sánh String - StringBuffer - StringBuilder
 
-| Tieu chi | String | StringBuffer | StringBuilder |
+| Tiêu chí | String | StringBuffer | StringBuilder |
 |---------|--------|--------------|---------------|
-| **Mutable** | Khong (immutable) | Co | Co |
-| **Thread-safe** | Co (vi immutable) | Co (synchronized) | Khong |
-| **Hieu nang** | Cham nhat (tao object moi) | Trung binh | **Nhanh nhat** |
-| **Khi nao dung** | Chuoi it thay doi | Da luong can thay doi chuoi | Don luong can thay doi chuoi |
-| **String Pool** | Co | Khong | Khong |
-| **equals() override** | Co (so sanh noi dung) | Khong (so sanh tham chieu) | Khong (so sanh tham chieu) |
-| **Ra doi tu** | Java 1.0 | Java 1.0 | Java 1.5 |
+| **Mutable** | Không (immutable) | Có | Có |
+| **Thread-safe** | Có (vì immutable) | Có (synchronized) | Không |
+| **Hiệu năng** | Chậm nhất (tạo object mới) | Trung bình | **Nhanh nhất** |
+| **Khi nào dùng** | Chuỗi ít thay đổi | Đa luồng cần thay đổi chuỗi | Đơn luồng cần thay đổi chuỗi |
+| **String Pool** | Có | Không | Không |
+| **equals() override** | Có (so sánh nội dung) | Không (so sánh tham chiếu) | Không (so sánh tham chiếu) |
+| **Ra đời từ** | Java 1.0 | Java 1.0 | Java 1.5 |
 
 ---
 
-## 8. Cac method pho bien
+## 8. Các method phổ biến
 
-### 8.1 Method cua String
+### 8.1 Method của String
 
 ```java
 public class StringMethodsDemo {
     public static void main(String[] args) {
         String s = "  Hello, Java World!  ";
 
-        // Lay thong tin
+        // Lấy thông tin
         System.out.println("length(): " + s.length());             // 22
         System.out.println("charAt(7): " + s.charAt(7));           // J
         System.out.println("indexOf('J'): " + s.indexOf('J'));     // 7
         System.out.println("lastIndexOf('o'): " + s.lastIndexOf('o')); // 17
         System.out.println("isEmpty(): " + s.isEmpty());           // false
 
-        // Cat chuoi
+        // Cắt chuỗi
         System.out.println("substring(7): " + s.substring(7));           // Java World!
         System.out.println("substring(7,11): " + s.substring(7, 11));   // Java
 
-        // Bien doi (tra ve String MOI, khong thay doi s goc)
+        // Biến đổi (trả về String MỚI, không thay đổi s gốc)
         System.out.println("toUpperCase(): " + s.toUpperCase());   // HELLO, JAVA WORLD!
         System.out.println("toLowerCase(): " + s.toLowerCase());   // hello, java world!
         System.out.println("trim(): '" + s.trim() + "'");          // 'Hello, Java World!'
         System.out.println("replace('o','0'): " + s.replace('o', '0'));  // Hell0, Java W0rld!
 
-        // Tach va noi
+        // Tách và nối
         String csv = "apple,banana,cherry";
         String[] fruits = csv.split(",");
         for (String fruit : fruits) {
@@ -299,7 +299,7 @@ public class StringMethodsDemo {
         String joined = String.join(" - ", fruits);
         System.out.println("join: " + joined);    // apple - banana - cherry
 
-        // Kiem tra
+        // Kiểm tra
         String url = "https://www.google.com";
         System.out.println("startsWith: " + url.startsWith("https"));  // true
         System.out.println("endsWith: " + url.endsWith(".com"));       // true
@@ -308,39 +308,39 @@ public class StringMethodsDemo {
 }
 ```
 
-### 8.2 Method cua StringBuffer/StringBuilder
+### 8.2 Method của StringBuffer/StringBuilder
 
 ```java
 public class BufferBuilderMethodsDemo {
     public static void main(String[] args) {
         StringBuilder sb = new StringBuilder("Hello");
 
-        // Them vao
+        // Thêm vào
         sb.append(" World");            // Hello World
         sb.append(123);                 // Hello World123
         System.out.println("append: " + sb);
 
-        // Chen vao
+        // Chèn vào
         sb.insert(5, ",");             // Hello, World123
         System.out.println("insert: " + sb);
 
-        // Thay the
+        // Thay thế
         sb.replace(13, 16, "");        // Hello, World
         System.out.println("replace: " + sb);
 
-        // Xoa
+        // Xóa
         sb.delete(5, 6);              // Hello World
         System.out.println("delete: " + sb);
 
         sb.deleteCharAt(4);            // Hell World
         System.out.println("deleteCharAt: " + sb);
 
-        // Dao nguoc
+        // Đảo ngược
         sb.reverse();                   // dlroW lleH
         System.out.println("reverse: " + sb);
 
-        // Thong tin
-        sb.reverse(); // tra lai
+        // Thông tin
+        sb.reverse(); // trả lại
         System.out.println("length: " + sb.length());
         System.out.println("capacity: " + sb.capacity());
         System.out.println("charAt(0): " + sb.charAt(0));
@@ -350,23 +350,23 @@ public class BufferBuilderMethodsDemo {
 
 ---
 
-## 9. So sanh hieu nang (Benchmark)
+## 9. So sánh hiệu năng (Benchmark)
 
 ```java
 public class PerformanceBenchmark {
     public static void main(String[] args) {
         int iterations = 100_000;
 
-        // Test 1: String concatenation (CHAM)
+        // Test 1: String concatenation (CHẬM)
         long start1 = System.currentTimeMillis();
         String s = "";
         for (int i = 0; i < iterations; i++) {
-            s += i; // Tao object moi moi lan!
+            s += i; // Tạo object mới mỗi lần!
         }
         long time1 = System.currentTimeMillis() - start1;
         System.out.println("String      : " + time1 + " ms");
 
-        // Test 2: StringBuffer (TRUNG BINH)
+        // Test 2: StringBuffer (TRUNG BÌNH)
         long start2 = System.currentTimeMillis();
         StringBuffer sbuf = new StringBuffer();
         for (int i = 0; i < iterations; i++) {
@@ -375,7 +375,7 @@ public class PerformanceBenchmark {
         long time2 = System.currentTimeMillis() - start2;
         System.out.println("StringBuffer: " + time2 + " ms");
 
-        // Test 3: StringBuilder (NHANH NHAT)
+        // Test 3: StringBuilder (NHANH NHẤT)
         long start3 = System.currentTimeMillis();
         StringBuilder sbld = new StringBuilder();
         for (int i = 0; i < iterations; i++) {
@@ -387,74 +387,74 @@ public class PerformanceBenchmark {
 }
 ```
 
-**Ket qua (tham khao):**
+**Kết quả (tham khảo):**
 ```
 String      : 4500 ms
 StringBuffer: 8 ms
 StringBuilder: 5 ms
 ```
 
-String cham hon **gap hang tram den hang ngan lan** vi moi phep `+=` trong vong lap tao ra **doi tuong String moi**, sao chep noi dung cu sang, roi them noi dung moi. Voi 100.000 lan lap, do la 100.000 doi tuong tam thoi duoc tao va huy.
+String chậm hơn **gấp hàng trăm đến hàng nghìn lần** vì mỗi phép `+=` trong vòng lặp tạo ra **đối tượng String mới**, sao chép nội dung cũ sang, rồi thêm nội dung mới. Với 100.000 lần lặp, đó là 100.000 đối tượng tạm thời được tạo và hủy.
 
 ---
 
-## 10. Khi nao dung?
+## 10. Khi nào dùng?
 
-### Dung String khi:
-- Chuoi **it thay doi** hoac **khong thay doi** (ten, email, URL, config...)
-- Can **so sanh noi dung** chuoi (`equals()`)
-- Dung lam **key trong HashMap/HashSet**
-- **Hang so** (constant) duoc dinh nghia san
+### Dùng String khi:
+- Chuỗi **ít thay đổi** hoặc **không thay đổi** (tên, email, URL, config...)
+- Cần **so sánh nội dung** chuỗi (`equals()`)
+- Dùng làm **key trong HashMap/HashSet**
+- **Hằng số** (constant) được định nghĩa sẵn
 
-### Dung StringBuffer khi:
-- Thay doi chuoi **trong moi truong da luong** (multi-thread)
-- Nhieu thread **cung doc/ghi** mot object chuoi
-- **Can thread-safe** (vi du: logger dung chung giua cac thread)
+### Dùng StringBuffer khi:
+- Thay đổi chuỗi **trong môi trường đa luồng** (multi-thread)
+- Nhiều thread **cùng đọc/ghi** một object chuỗi
+- **Cần thread-safe** (ví dụ: logger dùng chung giữa các thread)
 
-### Dung StringBuilder khi:
-- Thay doi chuoi **trong moi truong don luong** (da so truong hop)
-- **Noi chuoi trong vong lap**
-- Xay dung chuoi dong (SQL query, HTML, JSON...)
-- **Bien cuc bo** trong method (khong can thread-safe)
+### Dùng StringBuilder khi:
+- Thay đổi chuỗi **trong môi trường đơn luồng** (đa số trường hợp)
+- **Nối chuỗi trong vòng lặp**
+- Xây dựng chuỗi động (SQL query, HTML, JSON...)
+- **Biến cục bộ** trong method (không cần thread-safe)
 
 ### Best practices:
-- **Mac dinh chon StringBuilder** khi can thay doi chuoi
-- **Chi dung StringBuffer** khi chac chan can thread-safe
-- **Khong noi String trong vong lap** bang toan tu `+`
-- Dung **`equals()`** de so sanh noi dung, **khong dung `==`**
-- Khi khoi tao StringBuilder, **du tinh capacity** de tranh resize:
+- **Mặc định chọn StringBuilder** khi cần thay đổi chuỗi
+- **Chỉ dùng StringBuffer** khi chắc chắn cần thread-safe
+- **Không nối String trong vòng lặp** bằng toán tử `+`
+- Dùng **`equals()`** để so sánh nội dung, **không dùng `==`**
+- Khi khởi tạo StringBuilder, **dự tính capacity** để tránh resize:
   ```java
-  StringBuilder sb = new StringBuilder(1000); // Du tinh 1000 ky tu
+  StringBuilder sb = new StringBuilder(1000); // Dự tính 1000 ký tự
   ```
 
 ---
 
-## 11. Loi thuong gap
+## 11. Lỗi thường gặp
 
-### Loi 1: So sanh String bang `==` thay vi `equals()`
+### Lỗi 1: So sánh String bằng `==` thay vì `equals()`
 
 ```java
-// Sai: Co the cho ket qua sai
+// Sai: Có thể cho kết quả sai
 String a = new String("hello");
 String b = new String("hello");
-if (a == b) { // false! So sanh tham chieu
-    System.out.println("Giong nhau");
+if (a == b) { // false! So sánh tham chiếu
+    System.out.println("Giống nhau");
 }
 ```
 
 ```java
-// Dung: Dung equals() de so sanh noi dung
+// Đúng: Dùng equals() để so sánh nội dung
 String a = new String("hello");
 String b = new String("hello");
-if (a.equals(b)) { // true! So sanh noi dung
-    System.out.println("Giong nhau");
+if (a.equals(b)) { // true! So sánh nội dung
+    System.out.println("Giống nhau");
 }
 ```
 
-### Loi 2: Noi String trong vong lap (cuc cham)
+### Lỗi 2: Nối String trong vòng lặp (cực chậm)
 
 ```java
-// Sai: Moi lan tao object moi -> O(n^2)
+// Sai: Mỗi lần tạo object mới -> O(n^2)
 String result = "";
 for (int i = 0; i < 10000; i++) {
     result += i; // CHAM!
@@ -462,7 +462,7 @@ for (int i = 0; i < 10000; i++) {
 ```
 
 ```java
-// Dung: Dung StringBuilder -> O(n)
+// Đúng: Dùng StringBuilder -> O(n)
 StringBuilder sb = new StringBuilder();
 for (int i = 0; i < 10000; i++) {
     sb.append(i); // NHANH!
@@ -470,12 +470,12 @@ for (int i = 0; i < 10000; i++) {
 String result = sb.toString();
 ```
 
-### Loi 3: Dung StringBuffer khi khong can thread-safe
+### Lỗi 3: Dùng StringBuffer khi không cần thread-safe
 
 ```java
-// Khong tot: StringBuffer co overhead synchronized khong can thiet
+// Không tốt: StringBuffer có overhead synchronized không cần thiết
 public String buildMessage() {
-    StringBuffer sb = new StringBuffer(); // Bien cuc bo, khong can thread-safe!
+    StringBuffer sb = new StringBuffer(); // Biến cục bộ, không cần thread-safe!
     sb.append("Hello");
     sb.append(" World");
     return sb.toString();
@@ -483,7 +483,7 @@ public String buildMessage() {
 ```
 
 ```java
-// Tot hon: StringBuilder nhanh hon cho bien cuc bo
+// Tốt hơn: StringBuilder nhanh hơn cho biến cục bộ
 public String buildMessage() {
     StringBuilder sb = new StringBuilder();
     sb.append("Hello");
@@ -492,26 +492,26 @@ public String buildMessage() {
 }
 ```
 
-### Loi 4: Goi method tren String ma quen gan ket qua
+### Lỗi 4: Gọi method trên String mà quên gán kết quả
 
 ```java
-// Sai: String la immutable, method tra ve String MOI
+// Sai: String là immutable, method trả về String MỚI
 String s = "  Hello  ";
-s.trim(); // Ket qua bi bo di vi khong gan!
-System.out.println("'" + s + "'"); // '  Hello  ' (van co khoang trang)
+s.trim(); // Kết quả bị bỏ đi vì không gán!
+System.out.println("'" + s + "'"); // '  Hello  ' (vẫn có khoảng trắng)
 ```
 
 ```java
-// Dung: Gan ket qua tra ve
+// Đúng: Gán kết quả trả về
 String s = "  Hello  ";
-s = s.trim(); // Gan lai ket qua
+s = s.trim(); // Gán lại kết quả
 System.out.println("'" + s + "'"); // 'Hello'
 ```
 
-### Loi 5: NullPointerException khi goi method tren null String
+### Lỗi 5: NullPointerException khi gọi method trên null String
 
 ```java
-// Sai: Goi method tren null
+// Sai: Gọi method trên null
 String name = null;
 if (name.equals("admin")) { // NullPointerException!
     System.out.println("Admin");
@@ -519,13 +519,13 @@ if (name.equals("admin")) { // NullPointerException!
 ```
 
 ```java
-// Dung: Dat hang so truoc hoac kiem tra null
+// Đúng: Đặt hằng số trước hoặc kiểm tra null
 String name = null;
-if ("admin".equals(name)) { // An toan, tra ve false
+if ("admin".equals(name)) { // An toàn, trả về false
     System.out.println("Admin");
 }
 
-// Hoac kiem tra null truoc
+// Hoặc kiểm tra null trước
 if (name != null && name.equals("admin")) {
     System.out.println("Admin");
 }
@@ -533,67 +533,67 @@ if (name != null && name.equals("admin")) {
 
 ---
 
-## 12. Cau hoi phong van
+## 12. Câu hỏi phỏng vấn
 
-### Cau 1: Tai sao String la immutable trong Java?
+### Câu 1: Tại sao String là immutable trong Java?
 
-**Tra loi:** String duoc thiet ke la immutable vi nhieu ly do:
-1. **String Pool**: Nhieu bien co the tro cung mot String trong Pool. Neu String mutable, thay doi 1 bien se anh huong tat ca bien khac.
-2. **Thread-safe**: Khong can dong bo hoa khi nhieu thread doc cung String.
-3. **Bao mat**: String dung cho password, URL, class name... Immutable dam bao khong bi thay doi ngam boi code khac.
-4. **Hashcode caching**: Vi noi dung khong doi, hashcode chi tinh 1 lan va luu cache, giup HashMap/HashSet nhanh hon.
-5. **Class loading**: JVM dung String de load class. Neu String bi thay doi, co the load sai class -> loi bao mat.
+**Trả lời:** String được thiết kế là immutable vì nhiều lý do:
+1. **String Pool**: Nhiều biến có thể trỏ cùng một String trong Pool. Nếu String mutable, thay đổi 1 biến sẽ ảnh hưởng tất cả biến khác.
+2. **Thread-safe**: Không cần đồng bộ hóa khi nhiều thread đọc cùng String.
+3. **Bảo mật**: String dùng cho password, URL, class name... Immutable đảm bảo không bị thay đổi ngầm bởi code khác.
+4. **Hashcode caching**: Vì nội dung không đổi, hashcode chỉ tính 1 lần và lưu cache, giúp HashMap/HashSet nhanh hơn.
+5. **Class loading**: JVM dùng String để load class. Nếu String bị thay đổi, có thể load sai class -> lỗi bảo mật.
 
-### Cau 2: String Pool la gi? Hoat dong nhu the nao?
+### Câu 2: String Pool là gì? Hoạt động như thế nào?
 
-**Tra loi:** String Pool (String Constant Pool) la **vung bo nho dac biet trong Heap** (tu Java 7, truoc do nam trong PermGen). Khi tao String bang literal (`String s = "abc"`), Java kiem tra Pool:
-- Neu `"abc"` **da ton tai** -> tra ve tham chieu cu (khong tao moi)
-- Neu **chua ton tai** -> tao moi trong Pool
+**Trả lời:** String Pool (String Constant Pool) là **vùng bộ nhớ đặc biệt trong Heap** (từ Java 7, trước đó nằm trong PermGen). Khi tạo String bằng literal (`String s = "abc"`), Java kiểm tra Pool:
+- Nếu `"abc"` **đã tồn tại** -> trả về tham chiếu cũ (không tạo mới)
+- Nếu **chưa tồn tại** -> tạo mới trong Pool
 
-String tao bang `new String("abc")` **luon tao object moi tren Heap** (ngoai Pool). Co the dung `intern()` de dua String vao Pool.
+String tạo bằng `new String("abc")` **luôn tạo object mới trên Heap** (ngoài Pool). Có thể dùng `intern()` để đưa String vào Pool.
 
-### Cau 3: `==` va `equals()` khac nhau nhu the nao voi String?
+### Câu 3: `==` và `equals()` khác nhau như thế nào với String?
 
-**Tra loi:**
-- **`==`** so sanh **tham chieu** (dia chi bo nho): hai bien co tro den **cung object** khong?
-- **`equals()`** so sanh **noi dung**: hai chuoi co **cung ky tu** khong?
+**Trả lời:**
+- **`==`** so sánh **tham chiếu** (địa chỉ bộ nhớ): hai biến có trỏ đến **cùng object** không?
+- **`equals()`** so sánh **nội dung**: hai chuỗi có **cùng ký tự** không?
 
 ```java
 String a = "hello";
 String b = "hello";
 String c = new String("hello");
 
-a == b;      // true  (cung tham chieu trong Pool)
-a == c;      // false (khac tham chieu, a trong Pool, c tren Heap)
-a.equals(c); // true  (cung noi dung)
+a == b;      // true  (cùng tham chiếu trong Pool)
+a == c;      // false (khác tham chiếu, a trong Pool, c trên Heap)
+a.equals(c); // true  (cùng nội dung)
 ```
 
-**Quy tac:** Luon dung `equals()` khi so sanh noi dung String.
+**Quy tắc:** Luôn dùng `equals()` khi so sánh nội dung String.
 
-### Cau 4: StringBuffer va StringBuilder khac nhau the nao?
+### Câu 4: StringBuffer và StringBuilder khác nhau thế nào?
 
-**Tra loi:**
+**Trả lời:**
 
-| Tieu chi | StringBuffer | StringBuilder |
+| Tiêu chí | StringBuffer | StringBuilder |
 |---------|--------------|---------------|
-| Thread-safe | Co (synchronized) | Khong |
-| Hieu nang | Cham hon | Nhanh hon |
-| Ra doi | Java 1.0 | Java 1.5 |
-| Khi nao dung | Da luong | Don luong |
+| Thread-safe | Có (synchronized) | Không |
+| Hiệu năng | Chậm hơn | Nhanh hơn |
+| Ra đời | Java 1.0 | Java 1.5 |
+| Khi nào dùng | Đa luồng | Đơn luồng |
 
-Ca hai deu **mutable** va co **cung API** (append, insert, delete, reverse...). **StringBuilder nhanh hon** vi khong co overhead cua synchronized. Trong **99% truong hop**, dung StringBuilder la du (vi bien chuoi thuong la bien cuc bo, khong chia se giua thread).
+Cả hai đều **mutable** và có **cùng API** (append, insert, delete, reverse...). **StringBuilder nhanh hơn** vì không có overhead của synchronized. Trong **99% trường hợp**, dùng StringBuilder là đủ (vì biến chuỗi thường là biến cục bộ, không chia sẻ giữa thread).
 
-### Cau 5: Tai sao khong nen noi String trong vong lap? Trinh bay van de hieu nang.
+### Câu 5: Tại sao không nên nối String trong vòng lặp? Trình bày vấn đề hiệu năng.
 
-**Tra loi:** Moi phep `+=` tren String:
-1. Tao **StringBuilder tam** (trong bytecode)
-2. Copy noi dung String cu sang StringBuilder
-3. Append noi dung moi
-4. Goi `toString()` de tao **String moi**
-5. String cu tro thanh **rac** cho GC thu gom
+**Trả lời:** Mỗi phép `+=` trên String:
+1. Tạo **StringBuilder tạm** (trong bytecode)
+2. Copy nội dung String cũ sang StringBuilder
+3. Append nội dung mới
+4. Gọi `toString()` để tạo **String mới**
+5. String cũ trở thành **rác** cho GC thu gom
 
-Voi n lan lap, do phuc tap la **O(n^2)** (vi moi lan copy chuoi ngay cang dai). Trong khi StringBuilder.append() la **O(1)** (amortized), tong la O(n).
+Với n lần lặp, độ phức tạp là **O(n^2)** (vì mỗi lần copy chuỗi ngày càng dài). Trong khi StringBuilder.append() là **O(1)** (amortized), tổng là O(n).
 
-Vi du: noi 100.000 chuoi:
-- String `+=`: **vai giay** (tao 100.000 object tam)
-- StringBuilder: **vai mili-giay** (1 object duy nhat)
+Ví dụ: nối 100.000 chuỗi:
+- String `+=`: **vài giây** (tạo 100.000 object tạm)
+- StringBuilder: **vài mili-giây** (1 object duy nhất)

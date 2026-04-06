@@ -3,88 +3,88 @@ sidebar_position: 4
 title: "Giai quyet conflict trong Git"
 ---
 
-# Giai quyet conflict trong Git
+# Giải quyết conflict trong Git
 
-Conflict (xung dot) la dieu **khong the tranh khoi** khi lam viec nhom voi Git. Nhung thay vi so hai, ban nen xem conflict nhu mot **co hoi de review va cai thien code**. Bai nay se giup ban hieu tai sao conflict xay ra, cach doc conflict markers, va quy trinh giai quyet conflict tu co ban den nang cao.
+Conflict (xung đột) là điều **không thể tránh khỏi** khi làm việc nhóm với Git. Nhưng thay vì sợ hãi, bạn nên xem conflict như một **cơ hội để review và cải thiện code**. Bài này sẽ giúp bạn hiểu tại sao conflict xảy ra, cách đọc conflict markers, và quy trình giải quyết conflict từ cơ bản đến nâng cao.
 
 ---
 
-## 1. Conflict xay ra khi nao va tai sao?
+## 1. Conflict xảy ra khi nào và tại sao?
 
-### 1.1. Dieu kien de xay ra conflict
+### 1.1. Điều kiện để xảy ra conflict
 
-Conflict xay ra khi **hai nguoi (hoac hai branch) cung sua mot dong** trong cung mot file, va Git **khong biet nen chon phien ban nao**.
+Conflict xảy ra khi **hai người (hoặc hai branch) cùng sửa một dòng** trong cùng một file, và Git **không biết nên chọn phiên bản nào**.
 
 ```
-# Developer A (tren feature/header):
-# Sua dong 5 cua file style.css
+# Developer A (trên feature/header):
+# Sửa dòng 5 của file style.css
 body { color: red; }        -->  body { color: blue; }
 
-# Developer B (tren feature/theme):
-# Cung sua dong 5 cua file style.css
+# Developer B (trên feature/theme):
+# Cũng sửa dòng 5 của file style.css
 body { color: red; }        -->  body { color: green; }
 
-# Khi merge: Git khong biet chon blue hay green
+# Khi merge: Git không biết chọn blue hay green
 # => CONFLICT!
 ```
 
-### 1.2. Khi nao KHONG co conflict?
+### 1.2. Khi nào KHÔNG có conflict?
 
-Git thong minh hon ban nghi. Nhieu truong hop Git tu dong giai quyet:
+Git thông minh hơn bạn nghĩ. Nhiều trường hợp Git tự động giải quyết:
 
 ```
-# Truong hop 1: Sua KHAC FILE
-# A sua header.html, B sua footer.html
-# => Khong conflict, Git merge binh thuong
+# Trường hợp 1: Sửa KHÁC FILE
+# A sửa header.html, B sửa footer.html
+# => Không conflict, Git merge bình thường
 
-# Truong hop 2: Sua KHAC DONG trong cung file
-# A sua dong 5, B sua dong 20
-# => Khong conflict, Git gop ca hai
+# Trường hợp 2: Sửa KHÁC DÒNG trong cùng file
+# A sửa dòng 5, B sửa dòng 20
+# => Không conflict, Git gộp cả hai
 
-# Truong hop 3: Mot nguoi sua, nguoi kia khong
-# A sua file.txt, B khong dong file.txt
-# => Khong conflict, Git lay phien ban cua A
+# Trường hợp 3: Một người sửa, người kia không
+# A sửa file.txt, B không động file.txt
+# => Không conflict, Git lấy phiên bản của A
 ```
 
-### 1.3. Cac tinh huong gay conflict
+### 1.3. Các tình huống gây conflict
 
-| Tinh huong | Xay ra khi |
+| Tình huống | Xảy ra khi |
 |-----------|-----------|
-| **Merge conflict** | `git merge branch` -- hai branch cung sua mot dong |
-| **Rebase conflict** | `git rebase main` -- commit cua ban conflict voi main |
-| **Pull conflict** | `git pull` -- remote va local cung sua mot dong |
-| **Cherry-pick conflict** | `git cherry-pick hash` -- commit chon conflict voi branch hien tai |
-| **Stash pop conflict** | `git stash pop` -- stash conflict voi thay doi hien tai |
+| **Merge conflict** | `git merge branch` -- hai branch cùng sửa một dòng |
+| **Rebase conflict** | `git rebase main` -- commit của bạn conflict với main |
+| **Pull conflict** | `git pull` -- remote và local cùng sửa một dòng |
+| **Cherry-pick conflict** | `git cherry-pick hash` -- commit chọn conflict với branch hiện tại |
+| **Stash pop conflict** | `git stash pop` -- stash conflict với thay đổi hiện tại |
 
 ---
 
-## 2. Conflict markers -- Doc va hieu
+## 2. Conflict markers -- Đọc và hiểu
 
-### 2.1. Cau truc conflict markers
+### 2.1. Cấu trúc conflict markers
 
-Khi conflict xay ra, Git chen cac **markers** vao file:
+Khi conflict xảy ra, Git chèn các **markers** vào file:
 
 ```
 <<<<<<< HEAD
-// Day la code cua BRANCH HIEN TAI (branch ban dang dung tren)
+// Đây là code của BRANCH HIỆN TẠI (branch bạn đang đứng trên)
 body { color: blue; }
 =======
-// Day la code cua BRANCH DANG MERGE VAO
+// Đây là code của BRANCH ĐANG MERGE VÀO
 body { color: green; }
 >>>>>>> feature/theme
 ```
 
-Giai thich:
+Giải thích:
 
 ```
-<<<<<<< HEAD              <-- Bat dau vung conflict (phien ban cua ban)
-[code tu branch hien tai]
-=======                   <-- Ranh gioi giua 2 phien ban
-[code tu branch dang merge]
->>>>>>> feature/theme     <-- Ket thuc vung conflict (ten branch kia)
+<<<<<<< HEAD              <-- Bắt đầu vùng conflict (phiên bản của bạn)
+[code từ branch hiện tại]
+=======                   <-- Ranh giới giữa 2 phiên bản
+[code từ branch đang merge]
+>>>>>>> feature/theme     <-- Kết thúc vùng conflict (tên branch kia)
 ```
 
-### 2.2. Vi du thuc te
+### 2.2. Ví dụ thực tế
 
 ```javascript
 // File: app.js
@@ -102,10 +102,10 @@ const config = {
 };
 ```
 
-Ban co 4 lua chon:
+Bạn có 4 lựa chọn:
 
 ```javascript
-// Lua chon 1: Giu phien ban cua ban (HEAD)
+// Lựa chọn 1: Giữ phiên bản của bạn (HEAD)
 const config = {
   theme: 'dark',
   fontSize: 16,
@@ -113,7 +113,7 @@ const config = {
   debug: false,
 };
 
-// Lua chon 2: Lay phien ban tu branch kia
+// Lựa chọn 2: Lấy phiên bản từ branch kia
 const config = {
   theme: 'light',
   fontSize: 14,
@@ -121,26 +121,26 @@ const config = {
   debug: false,
 };
 
-// Lua chon 3: Ket hop ca hai
+// Lựa chọn 3: Kết hợp cả hai
 const config = {
-  theme: 'dark',         // Giu dark tu HEAD
-  fontSize: 16,          // Giu 16 tu HEAD
-  language: 'en',        // Lay en tu feature
+  theme: 'dark',         // Giữ dark từ HEAD
+  fontSize: 16,          // Giữ 16 từ HEAD
+  language: 'en',        // Lấy en từ feature
   debug: false,
 };
 
-// Lua chon 4: Viet lai hoan toan
+// Lựa chọn 4: Viết lại hoàn toàn
 const config = {
-  theme: 'auto',         // Hoan toan moi
+  theme: 'auto',         // Hoàn toàn mới
   fontSize: 15,
   language: 'vi',
   debug: false,
 };
 ```
 
-### 2.3. Nhieu vung conflict trong mot file
+### 2.3. Nhiều vùng conflict trong một file
 
-Mot file co the co **nhieu vung conflict**. Ban phai giai quyet **tat ca** truoc khi commit:
+Một file có thể có **nhiều vùng conflict**. Bạn phải giải quyết **tất cả** trước khi commit:
 
 ```python
 # file: settings.py
@@ -151,7 +151,7 @@ DATABASE_URL = "postgresql://localhost/mydb"
 DATABASE_URL = "postgresql://localhost/testdb"
 >>>>>>> feature/testing
 
-SECRET_KEY = "shared-secret"  # Dong nay khong conflict
+SECRET_KEY = "shared-secret"  # Dòng này không conflict
 
 <<<<<<< HEAD
 DEBUG = False
@@ -162,13 +162,13 @@ LOG_LEVEL = "DEBUG"
 >>>>>>> feature/testing
 ```
 
-**Quan trong:** Sau khi sua xong, dam bao **KHONG con bat ky marker nao** (`<<<<<<<`, `=======`, `>>>>>>>`) trong file. Mot marker sot lai = code bi hong.
+**Quan trọng:** Sau khi sửa xong, đảm bảo **KHÔNG còn bất kỳ marker nào** (`<<<<<<<`, `=======`, `>>>>>>>`) trong file. Một marker sót lại = code bị hỏng.
 
 ---
 
-## 3. Quy trinh giai quyet conflict tung buoc
+## 3. Quy trình giải quyết conflict từng bước
 
-### Buoc 1: Nhan biet conflict
+### Bước 1: Nhận biết conflict
 
 ```bash
 git merge feature/login
@@ -178,7 +178,7 @@ git merge feature/login
 # CONFLICT (content): Merge conflict in style.css
 # Automatic merge failed; fix conflicts and then commit the result.
 
-# Xem trang thai
+# Xem trạng thái
 git status
 # On branch main
 # You have unmerged paths.
@@ -191,162 +191,162 @@ git status
 #         both modified:   style.css
 ```
 
-### Buoc 2: Mo file va tim conflict markers
+### Bước 2: Mở file và tìm conflict markers
 
 ```bash
-# Tim tat ca file co conflict markers
+# Tìm tất cả file có conflict markers
 grep -rn "<<<<<<< " .
 # ./app.js:10:<<<<<<< HEAD
 # ./style.css:5:<<<<<<< HEAD
 
-# Hoac xem danh sach file conflict
+# Hoặc xem danh sách file conflict
 git diff --name-only --diff-filter=U
 # app.js
 # style.css
 ```
 
-### Buoc 3: Sua file -- loai bo markers va chon code dung
+### Bước 3: Sửa file -- loại bỏ markers và chọn code đúng
 
-Mo file trong editor, tim cac vung `<<<<<<<`, quyet dinh giu code nao:
+Mở file trong editor, tìm các vùng `<<<<<<<`, quyết định giữ code nào:
 
 ```javascript
-// TRUOC (co conflict markers):
+// TRƯỚC (có conflict markers):
 function getGreeting(user) {
 <<<<<<< HEAD
-  return `Xin chao, ${user.name}!`;
+  return `Xin chào, ${user.name}!`;
 =======
   return `Hello, ${user.fullName}!`;
 >>>>>>> feature/i18n
 }
 
-// SAU (da giai quyet -- ket hop ca hai):
+// SAU (đã giải quyết -- kết hợp cả hai):
 function getGreeting(user) {
-  return `Xin chao, ${user.fullName}!`;
-  // Giu "Xin chao" tu HEAD, dung "fullName" tu feature
+  return `Xin chào, ${user.fullName}!`;
+  // Giữ "Xin chào" từ HEAD, dùng "fullName" từ feature
 }
 ```
 
-### Buoc 4: Stage file da sua
+### Bước 4: Stage file đã sửa
 
 ```bash
-# Stage tung file
+# Stage từng file
 git add app.js
 git add style.css
 
-# Hoac stage tat ca file da sua
+# Hoặc stage tất cả file đã sửa
 git add .
 ```
 
-### Buoc 5: Commit
+### Bước 5: Commit
 
 ```bash
-# Voi merge conflict:
+# Với merge conflict:
 git commit
-# Git tu dong tao message: "Merge branch 'feature/login'"
-# Hoac ban co the sua message
+# Git tự động tạo message: "Merge branch 'feature/login'"
+# Hoặc bạn có thể sửa message
 
-# Voi rebase conflict:
+# Với rebase conflict:
 git rebase --continue
-# KHONG dung git commit voi rebase!
+# KHÔNG dùng git commit với rebase!
 ```
 
-### Buoc 6: Xac nhan
+### Bước 6: Xác nhận
 
 ```bash
-# Kiem tra khong con conflict
+# Kiểm tra không còn conflict
 git status
 # On branch main
 # nothing to commit, working tree clean
 
-# Kiem tra ket qua merge
+# Kiểm tra kết quả merge
 git log --oneline --graph -5
 # *   abc1234 (HEAD -> main) Merge branch 'feature/login'
 # |\
 # ...
 
-# Kiem tra code hoat dong dung
-# Chay tests, build, etc.
+# Kiểm tra code hoạt động đúng
+# Chạy tests, build, etc.
 ```
 
 ---
 
-## 4. Dung VS Code de resolve conflict
+## 4. Dùng VS Code để resolve conflict
 
-### 4.1. Giao dien VS Code
+### 4.1. Giao diện VS Code
 
-Khi mo file co conflict trong VS Code, ban se thay:
+Khi mở file có conflict trong VS Code, bạn sẽ thấy:
 
 ```
-<<<<<<< HEAD (Current Change)     <-- Highlight mau xanh la
+<<<<<<< HEAD (Current Change)     <-- Highlight màu xanh lá
   theme: 'dark',
 =======
   theme: 'light',
->>>>>>> feature/theme (Incoming Change)  <-- Highlight mau xanh duong
+>>>>>>> feature/theme (Incoming Change)  <-- Highlight màu xanh dương
 ```
 
-VS Code hien thi cac nut:
-- **Accept Current Change** -- Giu code cua ban (HEAD)
-- **Accept Incoming Change** -- Lay code tu branch kia
-- **Accept Both Changes** -- Giu ca hai (xep chong len nhau)
-- **Compare Changes** -- Mo diff view de so sanh
+VS Code hiển thị các nút:
+- **Accept Current Change** -- Giữ code của bạn (HEAD)
+- **Accept Incoming Change** -- Lấy code từ branch kia
+- **Accept Both Changes** -- Giữ cả hai (xếp chồng lên nhau)
+- **Compare Changes** -- Mở diff view để so sánh
 
-### 4.2. Cach dung
+### 4.2. Cách dùng
 
 ```
-1. Mo file co conflict
-2. Tim vung highlight mau
-3. Click nut phu hop:
-   - "Accept Current" neu code cua ban dung
-   - "Accept Incoming" neu code cua branch kia dung
-   - "Accept Both" neu can ca hai
-   - Hoac sua thu cong
-4. Luu file
-5. Lap lai cho tat ca vung conflict trong file
-6. Lap lai cho tat ca file co conflict
+1. Mở file có conflict
+2. Tìm vùng highlight màu
+3. Click nút phù hợp:
+   - "Accept Current" nếu code của bạn đúng
+   - "Accept Incoming" nếu code của branch kia đúng
+   - "Accept Both" nếu cần cả hai
+   - Hoặc sửa thủ công
+4. Lưu file
+5. Lặp lại cho tất cả vùng conflict trong file
+6. Lặp lại cho tất cả file có conflict
 7. git add . && git commit
 ```
 
 ### 4.3. Source Control panel
 
 ```
-1. Click bieu tuong Source Control (nhanh cay) tren sidebar
-2. Trong muc "Merge Changes", thay danh sach file conflict
-3. Click vao file -> mo diff view
-4. Su dung toolbar trong diff view de accept/reject
-5. Sau khi sua xong, click dau "+" de stage file
-6. Nhap commit message va commit
+1. Click biểu tượng Source Control (nhánh cây) trên sidebar
+2. Trong mục "Merge Changes", thấy danh sách file conflict
+3. Click vào file -> mở diff view
+4. Sử dụng toolbar trong diff view để accept/reject
+5. Sau khi sửa xong, click dấu "+" để stage file
+6. Nhập commit message và commit
 ```
 
 ---
 
-## 5. `git mergetool` -- Cong cu resolve chuyen dung
+## 5. `git mergetool` -- Công cụ resolve chuyên dụng
 
-### 5.1. Cau hinh mergetool
+### 5.1. Cấu hình mergetool
 
 ```bash
-# Dung VS Code lam mergetool
+# Dùng VS Code làm mergetool
 git config --global merge.tool vscode
 git config --global mergetool.vscode.cmd 'code --wait --merge $REMOTE $LOCAL $BASE $MERGED'
 
-# Dung vimdiff (co san tren Linux/Mac)
+# Dùng vimdiff (có sẵn trên Linux/Mac)
 git config --global merge.tool vimdiff
 
-# Khong tao file .orig (file backup)
+# Không tạo file .orig (file backup)
 git config --global mergetool.keepBackup false
 ```
 
-### 5.2. Su dung mergetool
+### 5.2. Sử dụng mergetool
 
 ```bash
-# Khi dang co conflict
+# Khi đang có conflict
 git mergetool
-# Git se mo tung file conflict trong tool da cau hinh
+# Git sẽ mở từng file conflict trong tool đã cấu hình
 
-# Voi VS Code: mo 3-way merge editor
-# Panel trai: LOCAL (code cua ban)
-# Panel phai: REMOTE (code tu branch kia)
-# Panel duoi: KET QUA (ban chinh sua o day)
-# Panel tren: BASE (phien ban chung truoc khi ca hai sua)
+# Với VS Code: mở 3-way merge editor
+# Panel trái: LOCAL (code của bạn)
+# Panel phải: REMOTE (code từ branch kia)
+# Panel dưới: KẾT QUẢ (bạn chỉnh sửa ở đây)
+# Panel trên: BASE (phiên bản chung trước khi cả hai sửa)
 ```
 
 ### 5.3. 3-way merge editor trong VS Code
@@ -360,7 +360,7 @@ git mergetool
 +------------------+------------------+
 |            RESULT (Merged)           |
 |  body {                              |
-|    color: ???    <-- Ban chon o day  |
+|    color: ???    <-- Bạn chọn ở đây  |
 |  }                                   |
 +--------------------------------------+
 ```
@@ -376,10 +376,10 @@ git switch main
 git merge feature/login
 # CONFLICT in app.js
 
-# Dac diem:
-# - Giai quyet TAT CA conflict 1 lan
-# - Sau khi sua: git add . && git commit
-# - Tao merge commit
+# Đặc điểm:
+# - Giải quyết TẤT CẢ conflict 1 lần
+# - Sau khi sửa: git add . && git commit
+# - Tạo merge commit
 ```
 
 ### 6.2. Conflict khi rebase
@@ -389,71 +389,71 @@ git switch feature/login
 git rebase main
 # CONFLICT in app.js  (commit 1/3)
 
-# Dac diem:
-# - Giai quyet conflict cho TUNG COMMIT
-# - Sau khi sua: git add . && git rebase --continue
-# - Khong tao merge commit
-# - Co the phai giai quyet conflict NHIEU LAN
+# Đặc điểm:
+# - Giải quyết conflict cho TỪNG COMMIT
+# - Sau khi sửa: git add . && git rebase --continue
+# - Không tạo merge commit
+# - Có thể phải giải quyết conflict NHIỀU LẦN
 ```
 
-### 6.3. So sanh
+### 6.3. So sánh
 
-| Dac diem | Merge conflict | Rebase conflict |
+| Đặc điểm | Merge conflict | Rebase conflict |
 |----------|---------------|-----------------|
-| So lan giai quyet | 1 lan | Co the nhieu lan (tung commit) |
+| Số lần giải quyết | 1 lần | Có thể nhiều lần (từng commit) |
 | Sau khi resolve | `git commit` | `git rebase --continue` |
-| Huy bo | `git merge --abort` | `git rebase --abort` |
-| Merge commit | Co | Khong |
-| Do phuc tap | Thuong don gian hon | Co the phuc tap hon (nhieu lan) |
+| Hủy bỏ | `git merge --abort` | `git rebase --abort` |
+| Merge commit | Có | Không |
+| Độ phức tạp | Thường đơn giản hơn | Có thể phức tạp hơn (nhiều lần) |
 
-### 6.4. Vi du so sanh
+### 6.4. Ví dụ so sánh
 
 ```bash
-# Feature branch co 5 commits, main co thay doi
+# Feature branch có 5 commits, main có thay đổi
 
-# Voi MERGE:
+# Với MERGE:
 git merge feature/login
-# 1 lan giai quyet conflict (gop tat ca thay doi)
+# 1 lần giải quyết conflict (gộp tất cả thay đổi)
 git add .
 git commit
 
-# Voi REBASE:
+# Với REBASE:
 git rebase main
-# Conflict o commit 1 -> sua -> git add . -> git rebase --continue
-# Conflict o commit 3 -> sua -> git add . -> git rebase --continue
-# Commit 2, 4, 5 khong conflict -> tu dong apply
-# Tong cong: giai quyet 2 lan
+# Conflict ở commit 1 -> sửa -> git add . -> git rebase --continue
+# Conflict ở commit 3 -> sửa -> git add . -> git rebase --continue
+# Commit 2, 4, 5 không conflict -> tự động apply
+# Tổng cộng: giải quyết 2 lần
 ```
 
 ---
 
 ## 7. `--ours` vs `--theirs`
 
-### 7.1. Khi dung voi merge
+### 7.1. Khi dùng với merge
 
 ```bash
-# Khi merge va gap conflict:
+# Khi merge và gặp conflict:
 git merge feature/login
 
-# Chon TOAN BO phien ban cua ban cho 1 file:
+# Chọn TOÀN BỘ phiên bản của bạn cho 1 file:
 git checkout --ours app.js
 git add app.js
 
-# Chon TOAN BO phien ban cua branch kia cho 1 file:
+# Chọn TOÀN BỘ phiên bản của branch kia cho 1 file:
 git checkout --theirs style.css
 git add style.css
 
-# Ap dung cho TAT CA conflict files:
-git merge -X ours feature/login     # Uu tien phien ban ban
-git merge -X theirs feature/login   # Uu tien phien ban branch kia
+# Áp dụng cho TẤT CẢ conflict files:
+git merge -X ours feature/login     # Ưu tiên phiên bản bạn
+git merge -X theirs feature/login   # Ưu tiên phiên bản branch kia
 ```
 
-### 7.2. Ours va Theirs tro den dau?
+### 7.2. Ours và Theirs trỏ đến đâu?
 
 ```
 # Khi MERGE:
-# ours   = branch hien tai (branch ban dang dung tren) = HEAD
-# theirs = branch dang merge vao
+# ours   = branch hiện tại (branch bạn đang đứng trên) = HEAD
+# theirs = branch đang merge vào
 
 git switch main
 git merge feature/login
@@ -462,38 +462,38 @@ git merge feature/login
 ```
 
 ```
-# Khi REBASE (CHU Y: NGUOC LAI!):
-# ours   = branch dang rebase LEN (main)
-# theirs = branch cua ban (feature/login)
+# Khi REBASE (CHÚ Ý: NGƯỢC LẠI!):
+# ours   = branch đang rebase LÊN (main)
+# theirs = branch của bạn (feature/login)
 
 git switch feature/login
 git rebase main
-# ours   = main          <-- NGUOC voi merge!
-# theirs = feature/login  <-- NGUOC voi merge!
+# ours   = main          <-- NGƯỢC với merge!
+# theirs = feature/login  <-- NGƯỢC với merge!
 ```
 
-**Day la dieu gay nham lan nhat!** Khi rebase, Git "dat ban sang mot ben" va ap dung tung commit cua ban len main. Nen "ours" la main (base moi), "theirs" la commit cua ban.
+**Đây là điều gây nhầm lẫn nhất!** Khi rebase, Git "đặt bạn sang một bên" và áp dụng từng commit của bạn lên main. Nên "ours" là main (base mới), "theirs" là commit của bạn.
 
-### 7.3. Bang tom tat
+### 7.3. Bảng tóm tắt
 
-| Thao tac | `--ours` la | `--theirs` la |
+| Thao tác | `--ours` là | `--theirs` là |
 |----------|------------|--------------|
-| `git merge feature` (dang o main) | main | feature |
-| `git rebase main` (dang o feature) | main | feature |
-| `git cherry-pick abc` | branch hien tai | commit abc |
+| `git merge feature` (đang ở main) | main | feature |
+| `git rebase main` (đang ở feature) | main | feature |
+| `git cherry-pick abc` | branch hiện tại | commit abc |
 
 ---
 
-## 8. Vi du thuc te -- Tao conflict co y va giai quyet
+## 8. Ví dụ thực tế -- Tạo conflict cố ý và giải quyết
 
-### 8.1. Tao conflict
+### 8.1. Tạo conflict
 
 ```bash
 # Setup
 mkdir conflict-lab && cd conflict-lab
 git init
 
-# Tao file ban dau
+# Tạo file ban đầu
 cat > app.js << 'EOF'
 const app = {
   name: 'My App',
@@ -508,9 +508,9 @@ function start() {
 EOF
 
 git add app.js
-git commit -m "Initial: tao app.js"
+git commit -m "Initial: tạo app.js"
 
-# Tao branch A va sua
+# Tạo branch A và sửa
 git switch -c feature/dark-theme
 cat > app.js << 'EOF'
 const app = {
@@ -527,9 +527,9 @@ function start() {
 EOF
 
 git add app.js
-git commit -m "Chuyen sang dark theme"
+git commit -m "Chuyển sang dark theme"
 
-# Quay lai main va sua CUNG file
+# Quay lại main và sửa CÙNG file
 git switch main
 cat > app.js << 'EOF'
 const app = {
@@ -545,10 +545,10 @@ function start() {
 EOF
 
 git add app.js
-git commit -m "Nang cap len Pro version"
+git commit -m "Nâng cấp lên Pro version"
 ```
 
-### 8.2. Giai quyet conflict
+### 8.2. Giải quyết conflict
 
 ```bash
 # Merge
@@ -556,7 +556,7 @@ git merge feature/dark-theme
 # Auto-merging app.js
 # CONFLICT (content): Merge conflict in app.js
 
-# Xem noi dung file
+# Xem nội dung file
 cat app.js
 # const app = {
 # <<<<<<< HEAD
@@ -583,7 +583,7 @@ cat app.js
 ```
 
 ```bash
-# Giai quyet: ket hop ca hai phien ban
+# Giải quyết: kết hợp cả hai phiên bản
 cat > app.js << 'EOF'
 const app = {
   name: 'My App Pro',
@@ -598,76 +598,76 @@ function start() {
 }
 EOF
 
-# Stage va commit
+# Stage và commit
 git add app.js
-git commit -m "Merge feature/dark-theme: ket hop Pro + dark mode"
+git commit -m "Merge feature/dark-theme: kết hợp Pro + dark mode"
 
-# Xac nhan
+# Xác nhận
 git log --oneline --graph
 # *   abc1234 (HEAD -> main) Merge feature/dark-theme
 # |\
-# | * def5678 (feature/dark-theme) Chuyen sang dark theme
-# * | ghi9012 Nang cap len Pro version
+# | * def5678 (feature/dark-theme) Chuyển sang dark theme
+# * | ghi9012 Nâng cấp lên Pro version
 # |/
-# * jkl3456 Initial: tao app.js
+# * jkl3456 Initial: tạo app.js
 ```
 
 ---
 
-## 9. Tips phong tranh conflict
+## 9. Tips phòng tránh conflict
 
-### 9.1. Pull thuong xuyen
+### 9.1. Pull thường xuyên
 
 ```bash
-# Moi sang khi bat dau lam viec:
+# Mỗi sáng khi bắt đầu làm việc:
 git switch main
 git pull origin main
 git switch feature/my-feature
-git merge main  # Hoac git rebase main
+git merge main  # Hoặc git rebase main
 
-# Cang pull thuong xuyen -> conflict cang nho -> cang de giai quyet
+# Càng pull thường xuyên -> conflict càng nhỏ -> càng dễ giải quyết
 ```
 
-### 9.2. Chia nho Pull Request
+### 9.2. Chia nhỏ Pull Request
 
 ```
-# XAU: 1 PR lon, sua 50 files, 2000 dong code
-# => Rat nhieu conflict, kho review
+# XẤU: 1 PR lớn, sửa 50 files, 2000 dòng code
+# => Rất nhiều conflict, khó review
 
-# TOT: 5 PR nho, moi PR sua 10 files, 400 dong code
-# => It conflict, de review, merge nhanh
+# TỐT: 5 PR nhỏ, mỗi PR sửa 10 files, 400 dòng code
+# => Ít conflict, dễ review, merge nhanh
 ```
 
-### 9.3. Phan chia cong viec ro rang
+### 9.3. Phân chia công việc rõ ràng
 
 ```
-# XAU: A va B cung lam tinh nang login
-# => Conflict chac chan
+# XẤU: A và B cùng làm tính năng login
+# => Conflict chắc chắn
 
-# TOT: A lam frontend login, B lam backend API
-# => It kha nang conflict (khac file)
+# TỐT: A làm frontend login, B làm backend API
+# => Ít khả năng conflict (khác file)
 ```
 
-### 9.4. Giao tiep trong team
+### 9.4. Giao tiếp trong team
 
 ```
-# Truoc khi sua file quan trong (config, shared utils):
-# 1. Thong bao tren Slack/Teams
-# 2. Merge nhanh, khong de branch ton dong lau
-# 3. Review va merge PR som
+# Trước khi sửa file quan trọng (config, shared utils):
+# 1. Thông báo trên Slack/Teams
+# 2. Merge nhanh, không để branch tồn đọng lâu
+# 3. Review và merge PR sớm
 ```
 
-### 9.5. Su dung `.gitattributes`
+### 9.5. Sử dụng `.gitattributes`
 
 ```bash
 # File: .gitattributes
-# Chi dinh merge strategy cho cac file cu the
+# Chỉ định merge strategy cho các file cụ thể
 
-# Luon giu phien ban cua branch hien tai cho lock files
+# Luôn giữ phiên bản của branch hiện tại cho lock files
 package-lock.json merge=ours
 yarn.lock merge=ours
 
-# Binary files: khong merge, chon manual
+# Binary files: không merge, chọn manual
 *.png binary
 *.jpg binary
 ```
@@ -676,42 +676,42 @@ yarn.lock merge=ours
 
 ## 10. Conflict trong file binary
 
-### 10.1. Van de
+### 10.1. Vấn đề
 
-Git **khong the merge file binary** (hinh anh, PDF, file nen...). Khi conflict:
+Git **không thể merge file binary** (hình ảnh, PDF, file nén...). Khi conflict:
 
 ```bash
 git merge feature/new-logo
 # CONFLICT (content): Merge conflict in logo.png
 # warning: Cannot merge binary files: logo.png
 
-# File logo.png o trang thai hong -- khong mo duoc!
+# File logo.png ở trạng thái hỏng -- không mở được!
 ```
 
-### 10.2. Cach giai quyet
+### 10.2. Cách giải quyết
 
 ```bash
-# Chon phien ban cua ban:
+# Chọn phiên bản của bạn:
 git checkout --ours logo.png
 git add logo.png
 
-# Hoac chon phien ban cua branch kia:
+# Hoặc chọn phiên bản của branch kia:
 git checkout --theirs logo.png
 git add logo.png
 
 # Commit
-git commit -m "Resolve: chon logo moi tu feature/new-logo"
+git commit -m "Resolve: chọn logo mới từ feature/new-logo"
 ```
 
-### 10.3. Phong tranh conflict binary
+### 10.3. Phòng tránh conflict binary
 
-- Dung **Git LFS** (Large File Storage) cho file lon
-- **Khong sua cung mot file binary** tren nhieu branch
-- Dat ten khac nhau neu can nhieu phien ban: `logo-v1.png`, `logo-v2.png`
-- Dung `.gitattributes` de chi dinh cach xu ly
+- Dùng **Git LFS** (Large File Storage) cho file lớn
+- **Không sửa cùng một file binary** trên nhiều branch
+- Đặt tên khác nhau nếu cần nhiều phiên bản: `logo-v1.png`, `logo-v2.png`
+- Dùng `.gitattributes` để chỉ định cách xử lý
 
 ```bash
-# Cau hinh Git LFS
+# Cấu hình Git LFS
 git lfs install
 git lfs track "*.png"
 git lfs track "*.psd"
@@ -720,126 +720,126 @@ git add .gitattributes
 
 ---
 
-## 11. Loi thuong gap
+## 11. Lỗi thường gặp
 
-### Loi 1: Commit ma van con conflict markers
+### Lỗi 1: Commit mà vẫn còn conflict markers
 
 ```bash
-# Ban commit nhung file van con <<<<<<< markers
+# Bạn commit nhưng file vẫn còn <<<<<<< markers
 git add .
 git commit -m "resolve conflict"
-# Code bi hong vi con markers trong file!
+# Code bị hỏng vì còn markers trong file!
 
-# Kiem tra truoc khi commit:
+# Kiểm tra trước khi commit:
 grep -rn "<<<<<<< " .
 grep -rn "=======" .
 grep -rn ">>>>>>> " .
-# Neu con ket qua -> chua sua het!
+# Nếu còn kết quả -> chưa sửa hết!
 
-# Sua va amend:
-# Sua file...
+# Sửa và amend:
+# Sửa file...
 git add .
 git commit --amend
 ```
 
-### Loi 2: Merge --abort khong hoat dong
+### Lỗi 2: Merge --abort không hoạt động
 
 ```bash
 git merge --abort
 # error: Entry 'file.txt' would be overwritten by merge. Cannot merge.
 
-# Nguyen nhan: ban co thay doi chua commit
-# Cach xu ly:
+# Nguyên nhân: bạn có thay đổi chưa commit
+# Cách xử lý:
 git stash
 git merge --abort
 git stash pop
 ```
 
-### Loi 3: Nham lan ours/theirs khi rebase
+### Lỗi 3: Nhầm lẫn ours/theirs khi rebase
 
 ```bash
-# Dang rebase feature len main
+# Đang rebase feature lên main
 git rebase main
 
-# Muon giu code cua FEATURE (code cua ban):
-git checkout --theirs file.txt    # DUNG (theirs = feature khi rebase)
-# KHONG PHAI:
+# Muốn giữ code của FEATURE (code của bạn):
+git checkout --theirs file.txt    # ĐÚNG (theirs = feature khi rebase)
+# KHÔNG PHẢI:
 git checkout --ours file.txt      # SAI (ours = main khi rebase)
 
-# Nho: khi rebase, ours va theirs BI DAO NGUOC so voi merge!
+# Nhớ: khi rebase, ours và theirs BỊ ĐẢO NGƯỢC so với merge!
 ```
 
-### Loi 4: Quen giai quyet conflict o mot file
+### Lỗi 4: Quên giải quyết conflict ở một file
 
 ```bash
-# Merge co conflict o 3 file, ban chi sua 2 file
+# Merge có conflict ở 3 file, bạn chỉ sửa 2 file
 git add app.js style.css
 git commit
 # error: Committing is not possible because you have unmerged paths.
 # Hint: Fix them up in the work tree, and then use 'git add <file>'
 
-# Xem file nao chua resolve:
+# Xem file nào chưa resolve:
 git status
 # Unmerged paths:
-#         both modified:   config.js    <-- Chua sua!
+#         both modified:   config.js    <-- Chưa sửa!
 
-# Sua config.js, roi:
+# Sửa config.js, rồi:
 git add config.js
 git commit
 ```
 
-### Loi 5: Merge tao ra code sai nhung khong co conflict
+### Lỗi 5: Merge tạo ra code sai nhưng không có conflict
 
 ```bash
-# Doi khi Git merge "thanh cong" nhung ket qua sai
-# Vi du: A xoa function, B goi function do
-# Git merge khong conflict (khac dong) nhung code bi loi runtime
+# Đôi khi Git merge "thành công" nhưng kết quả sai
+# Ví dụ: A xóa function, B gọi function đó
+# Git merge không conflict (khác dòng) nhưng code bị lỗi runtime
 
-# Cach phong tranh:
-# 1. LUON chay tests sau khi merge
-# 2. Review ket qua merge (git diff HEAD~1)
-# 3. Build va test truoc khi push
+# Cách phòng tránh:
+# 1. LUÔN chạy tests sau khi merge
+# 2. Review kết quả merge (git diff HEAD~1)
+# 3. Build và test trước khi push
 ```
 
 ---
 
-## 12. Cau hoi phong van
+## 12. Câu hỏi phỏng vấn
 
-### Cau 1: Conflict trong Git xay ra khi nao? Cho vi du cu the.
+### Câu 1: Conflict trong Git xảy ra khi nào? Cho ví dụ cụ thể.
 
-**Tra loi:** Conflict xay ra khi hai branch cung thay doi **cung dong** trong **cung file**. Vi du: developer A sua dong 10 cua `app.js` thanh `color: blue`, developer B cung sua dong 10 thanh `color: green`. Khi merge, Git khong biet chon phien ban nao nen danh dau conflict. Conflict KHONG xay ra khi: sua khac file, sua khac dong trong cung file, hoac chi mot phia sua.
+**Trả lời:** Conflict xảy ra khi hai branch cùng thay đổi **cùng dòng** trong **cùng file**. Ví dụ: developer A sửa dòng 10 của `app.js` thành `color: blue`, developer B cũng sửa dòng 10 thành `color: green`. Khi merge, Git không biết chọn phiên bản nào nên đánh dấu conflict. Conflict KHÔNG xảy ra khi: sửa khác file, sửa khác dòng trong cùng file, hoặc chỉ một phía sửa.
 
-### Cau 2: Mo ta quy trinh giai quyet merge conflict.
+### Câu 2: Mô tả quy trình giải quyết merge conflict.
 
-**Tra loi:** (1) Chay `git merge` va nhan thong bao conflict, (2) dung `git status` de xem file nao conflict, (3) mo tung file, tim conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`), (4) quyet dinh giu code nao (ours, theirs, hoac ket hop), (5) xoa tat ca conflict markers, (6) `git add` cac file da sua, (7) `git commit` de hoan tat merge. Truoc khi commit, nen kiem tra bang `grep "<<<<<<< "` de dam bao khong con markers.
+**Trả lời:** (1) Chạy `git merge` và nhận thông báo conflict, (2) dùng `git status` để xem file nào conflict, (3) mở từng file, tìm conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`), (4) quyết định giữ code nào (ours, theirs, hoặc kết hợp), (5) xóa tất cả conflict markers, (6) `git add` các file đã sửa, (7) `git commit` để hoàn tất merge. Trước khi commit, nên kiểm tra bằng `grep "<<<<<<< "` để đảm bảo không còn markers.
 
-### Cau 3: `--ours` va `--theirs` trong merge va rebase co gi khac nhau?
+### Câu 3: `--ours` và `--theirs` trong merge và rebase có gì khác nhau?
 
-**Tra loi:** Trong **merge**: `--ours` = branch hien tai (dang dung tren), `--theirs` = branch dang merge vao. Trong **rebase**: bi **dao nguoc** -- `--ours` = branch base (main), `--theirs` = branch cua ban (feature). Ly do: khi rebase, Git tam thoi "bo ban sang mot ben" va ap dung commit cua ban len base, nen base tro thanh "ours". Day la diem gay nham lan nhat va thuong bi hoi trong phong van.
+**Trả lời:** Trong **merge**: `--ours` = branch hiện tại (đang đứng trên), `--theirs` = branch đang merge vào. Trong **rebase**: bị **đảo ngược** -- `--ours` = branch base (main), `--theirs` = branch của bạn (feature). Lý do: khi rebase, Git tạm thời "bỏ bạn sang một bên" và áp dụng commit của bạn lên base, nên base trở thành "ours". Đây là điểm gây nhầm lẫn nhất và thường bị hỏi trong phỏng vấn.
 
-### Cau 4: Lam sao phong tranh conflict khi lam viec nhom?
+### Câu 4: Làm sao phòng tránh conflict khi làm việc nhóm?
 
-**Tra loi:** (1) **Pull thuong xuyen** -- cap nhat main moi ngay va merge/rebase vao feature branch, (2) **Chia nho PR** -- PR nho it conflict hon va merge nhanh hon, (3) **Phan chia cong viec ro** -- tranh 2 nguoi cung sua 1 file, (4) **Giao tiep** -- thong bao khi sua file quan trong, (5) **Merge PR som** -- khong de branch ton dong qua lau, (6) dung `.gitattributes` cho file dac biet nhu lock files.
+**Trả lời:** (1) **Pull thường xuyên** -- cập nhật main mỗi ngày và merge/rebase vào feature branch, (2) **Chia nhỏ PR** -- PR nhỏ ít conflict hơn và merge nhanh hơn, (3) **Phân chia công việc rõ** -- tránh 2 người cùng sửa 1 file, (4) **Giao tiếp** -- thông báo khi sửa file quan trọng, (5) **Merge PR sớm** -- không để branch tồn đọng quá lâu, (6) dùng `.gitattributes` cho file đặc biệt như lock files.
 
-### Cau 5: Giai quyet conflict khi merge va khi rebase khac nhau the nao?
+### Câu 5: Giải quyết conflict khi merge và khi rebase khác nhau thế nào?
 
-**Tra loi:** Khi **merge**, ban giai quyet **tat ca conflict 1 lan** roi commit (merge commit). Khi **rebase**, Git ap dung **tung commit mot**, nen ban co the phai giai quyet conflict **nhieu lan** (moi commit co the gay conflict rieng). Sau khi resolve conflict khi merge, dung `git commit`. Sau khi resolve conflict khi rebase, dung `git rebase --continue` (khong dung `git commit`). Ca hai deu co the huy bang `--abort`.
+**Trả lời:** Khi **merge**, bạn giải quyết **tất cả conflict 1 lần** rồi commit (merge commit). Khi **rebase**, Git áp dụng **từng commit một**, nên bạn có thể phải giải quyết conflict **nhiều lần** (mỗi commit có thể gây conflict riêng). Sau khi resolve conflict khi merge, dùng `git commit`. Sau khi resolve conflict khi rebase, dùng `git rebase --continue` (không dùng `git commit`). Cả hai đều có thể hủy bằng `--abort`.
 
 ---
 
-## Tom tat
+## Tóm tắt
 
-| Lenh | Chuc nang |
+| Lệnh | Chức năng |
 |------|-----------|
-| `git status` | Xem file nao dang conflict |
-| `git diff --name-only --diff-filter=U` | Liet ke file conflict |
-| `git checkout --ours <file>` | Chon phien ban cua branch hien tai |
-| `git checkout --theirs <file>` | Chon phien ban cua branch kia |
-| `git merge --abort` | Huy merge |
-| `git rebase --abort` | Huy rebase |
-| `git rebase --continue` | Tiep tuc rebase sau khi resolve |
-| `git merge -X ours` | Merge, uu tien ours khi conflict |
-| `git merge -X theirs` | Merge, uu tien theirs khi conflict |
-| `git mergetool` | Mo cong cu resolve chuyen dung |
+| `git status` | Xem file nào đang conflict |
+| `git diff --name-only --diff-filter=U` | Liệt kê file conflict |
+| `git checkout --ours <file>` | Chọn phiên bản của branch hiện tại |
+| `git checkout --theirs <file>` | Chọn phiên bản của branch kia |
+| `git merge --abort` | Hủy merge |
+| `git rebase --abort` | Hủy rebase |
+| `git rebase --continue` | Tiếp tục rebase sau khi resolve |
+| `git merge -X ours` | Merge, ưu tiên ours khi conflict |
+| `git merge -X theirs` | Merge, ưu tiên theirs khi conflict |
+| `git mergetool` | Mở công cụ resolve chuyên dụng |
 
-**Ghi nho:** Conflict la binh thuong -- khong phai loi. Giai quyet conflict la ky nang quan trong cua moi developer. Cang lam nhieu, ban cang tu tin va nhanh nhen khi gap conflict.
+**Ghi nhớ:** Conflict là bình thường -- không phải lỗi. Giải quyết conflict là kỹ năng quan trọng của mọi developer. Càng làm nhiều, bạn càng tự tin và nhanh nhẹn khi gặp conflict.

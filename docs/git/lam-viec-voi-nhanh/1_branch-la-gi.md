@@ -3,20 +3,20 @@ sidebar_position: 1
 title: "Branch la gi? Tao va quan ly nhanh"
 ---
 
-# Branch la gi? Tao va quan ly nhanh
+# Branch là gì? Tạo và quản lý nhánh
 
-Khi lam viec voi Git, ban se nhanh chong nhan ra rang lam tat ca moi thu tren mot dong thoi gian duy nhat la mot y tuong toi te. Tuong tuong ban dang viet tinh nang moi, dong nghiep dang sua bug, nguoi khac dang thi nghiem -- tat ca tren cung mot noi. Hon don la dieu chac chan. **Branch** (nhanh) chinh la giai phap cho van de nay.
+Khi làm việc với Git, bạn sẽ nhanh chóng nhận ra rằng làm tất cả mọi thứ trên một dòng thời gian duy nhất là một ý tưởng tồi tệ. Tưởng tượng bạn đang viết tính năng mới, đồng nghiệp đang sửa bug, người khác đang thí nghiệm -- tất cả trên cùng một nơi. Hỗn độn là điều chắc chắn. **Branch** (nhánh) chính là giải pháp cho vấn đề này.
 
 ---
 
-## 1. Branch la gi?
+## 1. Branch là gì?
 
-### 1.1. Metaphor cay -- Than chinh va nhanh cay
+### 1.1. Metaphor cây -- Thân chính và nhánh cây
 
-Hay tuong tuong du an cua ban nhu mot **cai cay**:
+Hãy tưởng tượng dự án của bạn như một **cái cây**:
 
-- **Than chinh (trunk)** = nhanh `main` -- day la phien ban on dinh, chinh thuc
-- **Nhanh cay (branch)** = cac nhanh lam viec -- moi nhanh la mot huong phat trien doc lap
+- **Thân chính (trunk)** = nhánh `main` -- đây là phiên bản ổn định, chính thức
+- **Nhánh cây (branch)** = các nhánh làm việc -- mỗi nhánh là một hướng phát triển độc lập
 
 ```
         feature/login
@@ -26,11 +26,11 @@ main ----*----*----*----*
         bugfix/header
 ```
 
-Moi nhanh cay co the **phat trien doc lap** ma khong anh huong den than chinh. Khi nhanh da "chin" (hoan thanh), ban **ghep no lai** vao than chinh.
+Mỗi nhánh cây có thể **phát triển độc lập** mà không ảnh hưởng đến thân chính. Khi nhánh đã "chín" (hoàn thành), bạn **ghép nó lại** vào thân chính.
 
-### 1.2. Dinh nghia ky thuat -- Branch la mot pointer
+### 1.2. Định nghĩa kỹ thuật -- Branch là một pointer
 
-Trong Git, branch **khong phai la mot ban sao cua toan bo du an**. No chi la mot **con tro (pointer)** tro den mot commit cu the.
+Trong Git, branch **không phải là một bản sao của toàn bộ dự án**. Nó chỉ là một **con trỏ (pointer)** trỏ đến một commit cụ thể.
 
 ```
                     main (pointer)
@@ -42,91 +42,91 @@ commit-A --> commit-B --> commit-C
                        feature/login (pointer)
 ```
 
-- Moi branch chi la mot file nho (41 bytes) chua hash cua commit ma no tro den
-- Tao branch moi **cuc nhanh** vi Git chi can tao them mot pointer
-- Khong sao chep file, khong ton dung luong
+- Mỗi branch chỉ là một file nhỏ (41 bytes) chứa hash của commit mà nó trỏ đến
+- Tạo branch mới **cực nhanh** vì Git chỉ cần tạo thêm một pointer
+- Không sao chép file, không tốn dung lượng
 
-**Dieu nay khac voi SVN** -- noi tao branch nghia la sao chep toan bo thu muc du an. Git thong minh hon nhieu.
+**Điều này khác với SVN** -- nơi tạo branch nghĩa là sao chép toàn bộ thư mục dự án. Git thông minh hơn nhiều.
 
-### 1.3. HEAD -- Ban dang o dau?
+### 1.3. HEAD -- Bạn đang ở đâu?
 
-`HEAD` la mot pointer dac biet, tro den **branch hien tai** ma ban dang lam viec:
+`HEAD` là một pointer đặc biệt, trỏ đến **branch hiện tại** mà bạn đang làm việc:
 
 ```
 HEAD --> main --> commit-C
 
-# Khi chuyen sang feature/login:
+# Khi chuyển sang feature/login:
 HEAD --> feature/login --> commit-C
 ```
 
-Khi ban commit, branch ma HEAD dang tro den se **di chuyen len phia truoc** (tro den commit moi). Cac branch khac giu nguyen.
+Khi bạn commit, branch mà HEAD đang trỏ đến sẽ **di chuyển lên phía trước** (trỏ đến commit mới). Các branch khác giữ nguyên.
 
 ---
 
-## 2. Tai sao can branch?
+## 2. Tại sao cần branch?
 
-### 2.1. Parallel development -- Lam viec song song
+### 2.1. Parallel development -- Làm việc song song
 
-Khong co branch:
+Không có branch:
 ```
-Developer A: dang sua file login.js
-Developer B: cung sua file login.js
-=> CONFLICT lien tuc, mat thoi gian giai quyet
-```
-
-Co branch:
-```
-Developer A: lam tren feature/login
-Developer B: lam tren feature/dashboard
-=> Moi nguoi mot nhanh, khong can nhau
+Developer A: đang sửa file login.js
+Developer B: cũng sửa file login.js
+=> CONFLICT liên tục, mất thời gian giải quyết
 ```
 
-### 2.2. Isolation -- Co lap thay doi
+Có branch:
+```
+Developer A: làm trên feature/login
+Developer B: làm trên feature/dashboard
+=> Mỗi người một nhánh, không cản nhau
+```
 
-Branch tao ra mot **khong gian lam viec rieng**. Neu ban lam hong gi do tren branch cua minh, **main van an toan**. Ban co the:
+### 2.2. Isolation -- Cô lập thay đổi
 
-- Xoa branch do va bat dau lai
-- Sua xong roi moi merge vao main
-- De dong nghiep review truoc khi merge
+Branch tạo ra một **không gian làm việc riêng**. Nếu bạn làm hỏng gì đó trên branch của mình, **main vẫn an toàn**. Bạn có thể:
 
-### 2.3. Experimentation -- Thi nghiem tu do
+- Xoá branch đó và bắt đầu lại
+- Sửa xong rồi mới merge vào main
+- Để đồng nghiệp review trước khi merge
 
-Muon thu mot y tuong moi? Tao branch, thi nghiem thoai mai:
+### 2.3. Experimentation -- Thí nghiệm tự do
+
+Muốn thử một ý tưởng mới? Tạo branch, thí nghiệm thoải mái:
 
 ```bash
-# Tao nhanh thi nghiem
+# Tạo nhánh thí nghiệm
 git switch -c experiment/new-algorithm
 
-# Lam gi thi lam...
-# Neu thanh cong -> merge vao main
-# Neu that bai -> xoa branch, khong ai biet :)
+# Làm gì thì làm...
+# Nếu thành công -> merge vào main
+# Nếu thất bại -> xoá branch, không ai biết :)
 git branch -d experiment/new-algorithm
 ```
 
 ---
 
-## 3. Cac lenh co ban ve branch
+## 3. Các lệnh cơ bản về branch
 
-### 3.1. Liet ke branches
+### 3.1. Liệt kê branches
 
 ```bash
-# Xem tat ca branch local
+# Xem tất cả branch local
 git branch
-# Ket qua:
+# Kết quả:
 #   feature/login
-# * main              <-- dau * chi branch hien tai
+# * main              <-- dấu * chỉ branch hiện tại
 #   bugfix/header
 
-# Xem branch local kem commit cuoi
+# Xem branch local kèm commit cuối
 git branch -v
-# Ket qua:
-#   feature/login  a1b2c3d Them form dang nhap
+# Kết quả:
+#   feature/login  a1b2c3d Thêm form đăng nhập
 # * main           e4f5g6h Update README
-#   bugfix/header  i7j8k9l Sua header responsive
+#   bugfix/header  i7j8k9l Sửa header responsive
 
-# Xem TAT CA branch (ca local va remote)
+# Xem TẤT CẢ branch (cả local và remote)
 git branch -a
-# Ket qua:
+# Kết quả:
 #   feature/login
 # * main
 #   bugfix/header
@@ -134,155 +134,155 @@ git branch -a
 #   remotes/origin/feature/login
 #   remotes/origin/develop
 
-# Xem chi branch da merge vao branch hien tai
+# Xem chỉ branch đã merge vào branch hiện tại
 git branch --merged
 
-# Xem branch CHUA merge (can than khi xoa)
+# Xem branch CHƯA merge (cẩn thận khi xoá)
 git branch --no-merged
 ```
 
-### 3.2. Tao branch moi
+### 3.2. Tạo branch mới
 
 ```bash
-# Tao branch moi (nhung KHONG chuyen sang)
+# Tạo branch mới (nhưng KHÔNG chuyển sang)
 git branch feature/login
-# Ban van dang o branch cu
+# Bạn vẫn đang ở branch cũ
 
-# Tao branch moi TU mot commit cu the
+# Tạo branch mới TỪ một commit cụ thể
 git branch hotfix/urgent abc1234
-# Tao branch tu commit co hash abc1234
+# Tạo branch từ commit có hash abc1234
 
-# Tao branch moi tu mot branch khac
+# Tạo branch mới từ một branch khác
 git branch feature/v2 develop
-# Tao feature/v2 tu vi tri cua develop
+# Tạo feature/v2 từ vị trí của develop
 ```
 
-### 3.3. Xoa branch
+### 3.3. Xoá branch
 
 ```bash
-# Xoa branch da merge (an toan)
+# Xoá branch đã merge (an toàn)
 git branch -d feature/login
-# Git se kiem tra: branch nay da merge chua?
-# Neu chua merge -> Git tu choi xoa, bao ve ban
+# Git sẽ kiểm tra: branch này đã merge chưa?
+# Nếu chưa merge -> Git từ chối xoá, bảo vệ bạn
 
-# Xoa branch CHUA merge (ep buoc -- can than!)
+# Xoá branch CHƯA merge (ép buộc -- cẩn thận!)
 git branch -D feature/login
 # -D = --delete --force
-# Mat het commit tren branch nay (tru khi co reflog)
+# Mất hết commit trên branch này (trừ khi có reflog)
 
-# Xoa branch tren remote
+# Xoá branch trên remote
 git push origin --delete feature/login
-# Hoac cu phap ngan:
+# Hoặc cú pháp ngắn:
 git push origin :feature/login
 ```
 
-**Luu y quan trong:** Khong the xoa branch ma ban dang dung tren do. Phai chuyen sang branch khac truoc.
+**Lưu ý quan trọng:** Không thể xoá branch mà bạn đang đứng trên đó. Phải chuyển sang branch khác trước.
 
 ```bash
-# KHONG DUOC: dang o main ma xoa main
+# KHÔNG ĐƯỢC: đang ở main mà xoá main
 git branch -d main
 # error: Cannot delete branch 'main' checked out
 
-# DUNG: chuyen sang branch khac truoc
+# ĐÚNG: chuyển sang branch khác trước
 git switch develop
 git branch -d feature/old
 ```
 
 ---
 
-## 4. Chuyen doi giua cac branch
+## 4. Chuyển đổi giữa các branch
 
-### 4.1. `git switch` (hien dai -- tu Git 2.23+)
+### 4.1. `git switch` (hiện đại -- từ Git 2.23+)
 
 ```bash
-# Chuyen sang branch da ton tai
+# Chuyển sang branch đã tồn tại
 git switch feature/login
 
-# Tao branch moi VA chuyen sang luon
+# Tạo branch mới VÀ chuyển sang luôn
 git switch -c feature/dashboard
 # -c = --create
 
-# Tao branch moi tu mot diem cu the
+# Tạo branch mới từ một điểm cụ thể
 git switch -c hotfix/urgent main
-# Tao hotfix/urgent tu main va chuyen sang
+# Tạo hotfix/urgent từ main và chuyển sang
 
-# Quay lai branch truoc do (nhu cd -)
+# Quay lại branch trước đó (như cd -)
 git switch -
-# Rat tien loi khi chuyen qua lai giua 2 branch
+# Rất tiện lợi khi chuyển qua lại giữa 2 branch
 ```
 
-### 4.2. `git checkout` (cu -- van hoat dong)
+### 4.2. `git checkout` (cũ -- vẫn hoạt động)
 
 ```bash
-# Chuyen branch
+# Chuyển branch
 git checkout feature/login
 
-# Tao va chuyen
+# Tạo và chuyển
 git checkout -b feature/dashboard
 ```
 
-### 4.3. Tai sao `git switch` tot hon `git checkout`?
+### 4.3. Tại sao `git switch` tốt hơn `git checkout`?
 
-`git checkout` la lenh "da nang" qua muc -- no lam qua nhieu viec:
+`git checkout` là lệnh "đa năng" quá mức -- nó làm quá nhiều việc:
 
-| Hanh dong | `git checkout` | Lenh hien dai |
+| Hành động | `git checkout` | Lệnh hiện đại |
 |-----------|---------------|---------------|
-| Chuyen branch | `git checkout feature` | `git switch feature` |
-| Tao + chuyen branch | `git checkout -b feature` | `git switch -c feature` |
-| Khoi phuc file | `git checkout -- file.txt` | `git restore file.txt` |
-| Khoi phuc tu commit | `git checkout abc123 -- file.txt` | `git restore --source abc123 file.txt` |
+| Chuyển branch | `git checkout feature` | `git switch feature` |
+| Tạo + chuyển branch | `git checkout -b feature` | `git switch -c feature` |
+| Khôi phục file | `git checkout -- file.txt` | `git restore file.txt` |
+| Khôi phục từ commit | `git checkout abc123 -- file.txt` | `git restore --source abc123 file.txt` |
 
-Van de cua `git checkout`:
+Vấn đề của `git checkout`:
 
 ```bash
-# Chuyen sang branch ten "main"? Hay khoi phuc file ten "main"?
+# Chuyển sang branch tên "main"? Hay khôi phục file tên "main"?
 git checkout main
-# Git phai doan y ban -- de gay nham lan!
+# Git phải đoán ý bạn -- dễ gây nhầm lẫn!
 
-# Voi git switch/restore -- ro rang hon:
-git switch main          # Chuyen branch
-git restore main         # Khoi phuc file ten "main"
+# Với git switch/restore -- rõ ràng hơn:
+git switch main          # Chuyển branch
+git restore main         # Khôi phục file tên "main"
 ```
 
-**Khuyen nghi:** Luon dung `git switch` va `git restore`. Chi dung `git checkout` khi lam viec voi Git phien ban cu (truoc 2.23).
+**Khuyên nghị:** Luôn dùng `git switch` và `git restore`. Chỉ dùng `git checkout` khi làm việc với Git phiên bản cũ (trước 2.23).
 
 ---
 
-## 5. Naming conventions -- Quy tac dat ten branch
+## 5. Naming conventions -- Quy tắc đặt tên branch
 
-### 5.1. Cac prefix pho bien
+### 5.1. Các prefix phổ biến
 
-| Prefix | Muc dich | Vi du |
+| Prefix | Mục đích | Ví dụ |
 |--------|----------|-------|
-| `feature/` | Tinh nang moi | `feature/user-authentication` |
-| `bugfix/` | Sua loi (khong khan cap) | `bugfix/login-redirect` |
-| `hotfix/` | Sua loi khan cap tren production | `hotfix/payment-crash` |
-| `release/` | Chuan bi release phien ban moi | `release/v2.1.0` |
-| `docs/` | Cap nhat tai lieu | `docs/api-guide` |
-| `refactor/` | Tai cau truc code | `refactor/auth-module` |
-| `test/` | Them hoac sua test | `test/integration-api` |
-| `chore/` | Cong viec bao tri | `chore/update-dependencies` |
+| `feature/` | Tính năng mới | `feature/user-authentication` |
+| `bugfix/` | Sửa lỗi (không khẩn cấp) | `bugfix/login-redirect` |
+| `hotfix/` | Sửa lỗi khẩn cấp trên production | `hotfix/payment-crash` |
+| `release/` | Chuẩn bị release phiên bản mới | `release/v2.1.0` |
+| `docs/` | Cập nhật tài liệu | `docs/api-guide` |
+| `refactor/` | Tái cấu trúc code | `refactor/auth-module` |
+| `test/` | Thêm hoặc sửa test | `test/integration-api` |
+| `chore/` | Công việc bảo trì | `chore/update-dependencies` |
 
-### 5.2. Quy tac dat ten tot
+### 5.2. Quy tắc đặt tên tốt
 
 ```bash
-# TOT -- mo ta ro rang, co prefix
+# TỐT -- mô tả rõ ràng, có prefix
 feature/user-authentication
 bugfix/fix-login-redirect-loop
 hotfix/payment-null-pointer
 
-# XAU -- khong ro rang
+# XẤU -- không rõ ràng
 my-branch
 fix
 test123
 thuans-branch
 ```
 
-**Nguyen tac:**
-- Dung chu thuong va dau gach noi `-` (khong dung dau cach, underscore)
-- Bat dau bang prefix phan loai
-- Mo ta ngan gon nhung du hieu
-- Co the them ticket ID: `feature/JIRA-123-user-auth`
+**Nguyên tắc:**
+- Dùng chữ thường và dấu gạch nối `-` (không dùng dấu cách, underscore)
+- Bắt đầu bằng prefix phân loại
+- Mô tả ngắn gọn nhưng đủ hiểu
+- Có thể thêm ticket ID: `feature/JIRA-123-user-auth`
 
 ---
 
@@ -291,298 +291,298 @@ thuans-branch
 ### 6.1. Local branch vs Remote branch
 
 ```
-Local (may ban)              Remote (GitHub/GitLab)
+Local (máy bạn)              Remote (GitHub/GitLab)
 -----------------            ---------------------
 main                    -->  origin/main
 feature/login           -->  origin/feature/login
-bugfix/header           -->  (chua push len)
-                              origin/develop (chua pull ve)
+bugfix/header           -->  (chưa push lên)
+                              origin/develop (chưa pull về)
 ```
 
-- **Local branch:** Chi ton tai tren may ban
-- **Remote-tracking branch:** Ban sao cua branch tren remote, luu o local voi ten `origin/<branch>`
-- **Tracking relationship:** Lien ket giua local va remote branch
+- **Local branch:** Chỉ tồn tại trên máy bạn
+- **Remote-tracking branch:** Bản sao của branch trên remote, lưu ở local với tên `origin/<branch>`
+- **Tracking relationship:** Liên kết giữa local và remote branch
 
-### 6.2. Thiet lap tracking
+### 6.2. Thiết lập tracking
 
 ```bash
-# Push branch moi len remote va thiet lap tracking
+# Push branch mới lên remote và thiết lập tracking
 git push -u origin feature/login
 # -u = --set-upstream
-# Lan sau chi can: git push (khong can chi dinh remote va branch)
+# Lần sau chỉ cần: git push (không cần chỉ định remote và branch)
 
 # Xem tracking information
 git branch -vv
-# Ket qua:
-#   feature/login  a1b2c3d [origin/feature/login] Them form login
+# Kết quả:
+#   feature/login  a1b2c3d [origin/feature/login] Thêm form login
 # * main           e4f5g6h [origin/main] Update README
-#   bugfix/header  i7j8k9l Sua header  <-- khong co tracking
+#   bugfix/header  i7j8k9l Sửa header  <-- không có tracking
 
-# Thiet lap tracking cho branch da ton tai
+# Thiết lập tracking cho branch đã tồn tại
 git branch --set-upstream-to=origin/feature/login feature/login
-# Hoac ngan hon:
+# Hoặc ngắn hơn:
 git branch -u origin/feature/login
 ```
 
 ### 6.3. Fetch vs Pull
 
 ```bash
-# Fetch: tai ve thong tin tu remote (KHONG merge)
+# Fetch: tải về thông tin từ remote (KHÔNG merge)
 git fetch origin
-# Cap nhat tat ca remote-tracking branches
-# Ban co the xem thay doi truoc khi merge
+# Cập nhật tất cả remote-tracking branches
+# Bạn có thể xem thay đổi trước khi merge
 
-# Pull: fetch + merge (hoac rebase)
+# Pull: fetch + merge (hoặc rebase)
 git pull origin main
-# Tuong duong:
+# Tương đương:
 # git fetch origin
 # git merge origin/main
 ```
 
 ---
 
-## 7. ASCII diagram -- Branch diverge va merge
+## 7. ASCII diagram -- Branch diverge và merge
 
 ```
-# Ban dau: chi co main
+# Ban đầu: chỉ có main
 main: A---B---C
 
-# Tao feature/login tu commit C
+# Tạo feature/login từ commit C
 main:          A---B---C
                         \
-feature/login:           (dang o C)
+feature/login:           (đang ở C)
 
-# Lam viec tren ca 2 branch
+# Làm việc trên cả 2 branch
 main:          A---B---C---D---E
                         \
 feature/login:           F---G---H
 
-# Merge feature/login vao main
+# Merge feature/login vào main
 main:          A---B---C---D---E---M  (merge commit)
                         \         /
 feature/login:           F---G---H
 
-# Sau khi merge, co the xoa feature/login
+# Sau khi merge, có thể xoá feature/login
 main:          A---B---C---D---E---M
 ```
 
-Xem truc quan bang lenh:
+Xem trực quan bằng lệnh:
 ```bash
 git log --oneline --graph --all
-# Ket qua:
+# Kết quả:
 # *   M (HEAD -> main) Merge branch 'feature/login'
 # |\
-# | * H (feature/login) Hoan thien login
-# | * G Them validation
-# | * F Tao form login
+# | * H (feature/login) Hoàn thiện login
+# | * G Thêm validation
+# | * F Tạo form login
 # * | E Update homepage
-# * | D Them footer
+# * | D Thêm footer
 # |/
 # * C Initial commit
-# * B Them README
+# * B Thêm README
 # * A First commit
 ```
 
 ---
 
-## 8. Quan ly branches -- Khi nao tao, khi nao xoa
+## 8. Quản lý branches -- Khi nào tạo, khi nào xoá
 
-### 8.1. Khi nao tao branch moi?
+### 8.1. Khi nào tạo branch mới?
 
-- **Bat dau tinh nang moi** -- luon tao branch rieng
-- **Sua bug** -- tao branch tu main hoac release
-- **Thi nghiem** -- tao branch de thu y tuong
-- **Review code** -- moi PR tuong ung voi mot branch
+- **Bắt đầu tính năng mới** -- luôn tạo branch riêng
+- **Sửa bug** -- tạo branch từ main hoặc release
+- **Thí nghiệm** -- tạo branch để thử ý tưởng
+- **Review code** -- mỗi PR tương ứng với một branch
 
-**Nguyen tac vang:** Moi don vi cong viec (feature, bugfix, task) = 1 branch.
+**Nguyên tắc vàng:** Mỗi đơn vị công việc (feature, bugfix, task) = 1 branch.
 
-### 8.2. Khi nao xoa branch?
+### 8.2. Khi nào xoá branch?
 
 ```bash
-# Sau khi da merge thanh cong
+# Sau khi đã merge thành công
 git branch -d feature/login
 
-# Kiem tra cac branch da merge (an toan de xoa)
+# Kiểm tra các branch đã merge (an toàn để xoá)
 git branch --merged main
-# Liet ke cac branch da merge vao main
+# Liệt kê các branch đã merge vào main
 
-# Doc dep branch remote da merge
+# Dọn dẹp branch remote đã merge
 git fetch --prune
-# Xoa cac remote-tracking branch ma remote da xoa
+# Xoá các remote-tracking branch mà remote đã xoá
 ```
 
-### 8.3. Don dep branch dinh ky
+### 8.3. Dọn dẹp branch định kỳ
 
 ```bash
-# Xem cac branch cu (khong hoat dong > 3 thang)
+# Xem các branch cũ (không hoạt động > 3 tháng)
 git for-each-ref --sort=-committerdate --format='%(committerdate:short) %(refname:short)' refs/heads/
 
-# Xoa tat ca branch da merge (tru main va develop)
+# Xoá tất cả branch đã merge (trừ main và develop)
 git branch --merged main | grep -v "main\|develop" | xargs git branch -d
 ```
 
 ---
 
-## 9. Thuc hanh -- Bai tap tu lam
+## 9. Thực hành -- Bài tập tự làm
 
-### Bai tap 1: Tao va quan ly branch
+### Bài tập 1: Tạo và quản lý branch
 
 ```bash
-# 1. Tao thu muc du an moi
+# 1. Tạo thư mục dự án mới
 mkdir git-branch-practice && cd git-branch-practice
 git init
 
-# 2. Tao commit dau tien tren main
+# 2. Tạo commit đầu tiên trên main
 echo "# My Project" > README.md
 git add README.md
 git commit -m "Initial commit"
 
-# 3. Tao branch feature/header
+# 3. Tạo branch feature/header
 git switch -c feature/header
 
-# 4. Lam viec tren feature/header
+# 4. Làm việc trên feature/header
 echo "<header>My Header</header>" > header.html
 git add header.html
-git commit -m "Them header"
+git commit -m "Thêm header"
 
-# 5. Quay lai main
+# 5. Quay lại main
 git switch main
 
-# 6. Tao branch feature/footer
+# 6. Tạo branch feature/footer
 git switch -c feature/footer
 echo "<footer>My Footer</footer>" > footer.html
 git add footer.html
-git commit -m "Them footer"
+git commit -m "Thêm footer"
 
-# 7. Xem tat ca branches
+# 7. Xem tất cả branches
 git branch -v
 
 # 8. Xem graph
 git log --oneline --graph --all
 ```
 
-### Bai tap 2: Xoa branch
+### Bài tập 2: Xoá branch
 
 ```bash
-# Merge feature/header vao main truoc
+# Merge feature/header vào main trước
 git switch main
 git merge feature/header
 
-# Xoa branch da merge
+# Xoá branch đã merge
 git branch -d feature/header
-# Thanh cong!
+# Thành công!
 
-# Thu xoa branch chua merge
+# Thử xoá branch chưa merge
 git branch -d feature/footer
 # error: The branch 'feature/footer' is not fully merged
-# Git bao ve ban! Dung -D neu chac chan muon xoa
+# Git bảo vệ bạn! Dùng -D nếu chắc chắn muốn xoá
 ```
 
 ---
 
-## 10. Loi thuong gap
+## 10. Lỗi thường gặp
 
-### Loi 1: Quen commit truoc khi chuyen branch
+### Lỗi 1: Quên commit trước khi chuyển branch
 
 ```bash
-# Dang edit file tren feature/login
-# Chuyen sang main ma chua commit
+# Đang edit file trên feature/login
+# Chuyển sang main mà chưa commit
 git switch main
-# Cac thay doi CHUA COMMIT se di theo ban sang main!
-# => Dung git stash hoac commit truoc khi chuyen
+# Các thay đổi CHƯA COMMIT sẽ đi theo bạn sang main!
+# => Dùng git stash hoặc commit trước khi chuyển
 
-# Cach xu ly:
-git stash                    # Cat tam thay doi
-git switch main              # Chuyen branch
-# ... lam viec ...
-git switch feature/login     # Quay lai
-git stash pop                # Lay lai thay doi
+# Cách xử lý:
+git stash                    # Cất tạm thay đổi
+git switch main              # Chuyển branch
+# ... làm việc ...
+git switch feature/login     # Quay lại
+git stash pop                # Lấy lại thay đổi
 ```
 
-### Loi 2: Xoa nham branch chua merge
+### Lỗi 2: Xoá nhầm branch chưa merge
 
 ```bash
-# Xoa nham bang -D
+# Xoá nhầm bằng -D
 git branch -D feature/important
 # OH NO!
 
-# Cuu bang reflog (trong vong 30 ngay)
+# Cứu bằng reflog (trong vòng 30 ngày)
 git reflog
-# Tim hash commit cuoi cua branch da xoa
-# abc1234 HEAD@{5}: commit: Tinh nang quan trong
+# Tìm hash commit cuối của branch đã xoá
+# abc1234 HEAD@{5}: commit: Tính năng quan trọng
 
 git switch -c feature/important abc1234
-# Phuc hoi thanh cong!
+# Phục hồi thành công!
 ```
 
-### Loi 3: Tao branch tu sai vi tri
+### Lỗi 3: Tạo branch từ sai vị trí
 
 ```bash
-# Muon tao branch tu main nhung dang o feature/old
+# Muốn tạo branch từ main nhưng đang ở feature/old
 git switch -c feature/new
-# Branch moi se bat dau tu feature/old, khong phai main!
+# Branch mới sẽ bắt đầu từ feature/old, không phải main!
 
-# Cach dung:
+# Cách đúng:
 git switch -c feature/new main
-# Chi dinh ro: tao tu main
+# Chỉ định rõ: tạo từ main
 ```
 
-### Loi 4: Ten branch co dau cach hoac ky tu dac biet
+### Lỗi 4: Tên branch có dấu cách hoặc ký tự đặc biệt
 
 ```bash
 # SAI:
-git switch -c "feature/my feature"    # Dau cach
-git switch -c feature/login@v2        # Ky tu @
+git switch -c "feature/my feature"    # Dấu cách
+git switch -c feature/login@v2        # Ký tự @
 
-# DUNG:
-git switch -c feature/my-feature      # Dau gach noi
-git switch -c feature/login-v2        # Dau gach noi
+# ĐÚNG:
+git switch -c feature/my-feature      # Dấu gạch nối
+git switch -c feature/login-v2        # Dấu gạch nối
 ```
 
 ---
 
-## 11. Cau hoi phong van
+## 11. Câu hỏi phỏng vấn
 
-### Cau 1: Branch trong Git hoat dong nhu the nao? Tai sao tao branch trong Git nhanh hon SVN?
+### Câu 1: Branch trong Git hoạt động như thế nào? Tại sao tạo branch trong Git nhanh hơn SVN?
 
-**Tra loi:** Trong Git, branch chi la mot **pointer (con tro) nhe** tro den mot commit cu the. Tao branch chi can tao mot file 41 bytes chua commit hash -- thao tac O(1). Trong SVN, tao branch nghia la **sao chep toan bo thu muc** du an -- thao tac O(n) voi n la kich thuoc du an. Day la ly do Git khuyen khich su dung branch nhieu, trong khi SVN coi branch la thao tac "nang".
+**Trả lời:** Trong Git, branch chỉ là một **pointer (con trỏ) nhẹ** trỏ đến một commit cụ thể. Tạo branch chỉ cần tạo một file 41 bytes chứa commit hash -- thao tác O(1). Trong SVN, tạo branch nghĩa là **sao chép toàn bộ thư mục** dự án -- thao tác O(n) với n là kích thước dự án. Đây là lý do Git khuyến khích sử dụng branch nhiều, trong khi SVN coi branch là thao tác "nặng".
 
-### Cau 2: HEAD la gi? Detached HEAD la gi va khi nao xay ra?
+### Câu 2: HEAD là gì? Detached HEAD là gì và khi nào xảy ra?
 
-**Tra loi:** `HEAD` la pointer tro den branch hien tai. Binh thuong: `HEAD -> main -> commit-C`. **Detached HEAD** xay ra khi HEAD tro truc tiep vao mot commit thay vi mot branch (vi du: `git checkout abc1234`). Trong trang thai nay, cac commit moi se khong thuoc branch nao va co the bi mat khi chuyen branch. Cach xu ly: tao branch moi tu vi tri do bang `git switch -c branch-name`.
+**Trả lời:** `HEAD` là pointer trỏ đến branch hiện tại. Bình thường: `HEAD -> main -> commit-C`. **Detached HEAD** xảy ra khi HEAD trỏ trực tiếp vào một commit thay vì một branch (ví dụ: `git checkout abc1234`). Trong trạng thái này, các commit mới sẽ không thuộc branch nào và có thể bị mất khi chuyển branch. Cách xử lý: tạo branch mới từ vị trí đó bằng `git switch -c branch-name`.
 
-### Cau 3: Su khac nhau giua `git switch` va `git checkout` la gi?
+### Câu 3: Sự khác nhau giữa `git switch` và `git checkout` là gì?
 
-**Tra loi:** `git checkout` la lenh cu, lam nhieu viec cung luc: chuyen branch, khoi phuc file, tao branch. Tu Git 2.23, lenh nay duoc tach thanh hai lenh rieng biet: `git switch` (chuyen/tao branch) va `git restore` (khoi phuc file). `git switch` an toan hon vi no **chi lam mot viec** -- chuyen branch, tranh nham lan giua chuyen branch va khoi phuc file.
+**Trả lời:** `git checkout` là lệnh cũ, làm nhiều việc cùng lúc: chuyển branch, khôi phục file, tạo branch. Từ Git 2.23, lệnh này được tách thành hai lệnh riêng biệt: `git switch` (chuyển/tạo branch) và `git restore` (khôi phục file). `git switch` an toàn hơn vì nó **chỉ làm một việc** -- chuyển branch, tránh nhầm lẫn giữa chuyển branch và khôi phục file.
 
-### Cau 4: Lam the nao de biet branch nao da merge va co the xoa an toan?
+### Câu 4: Làm thế nào để biết branch nào đã merge và có thể xoá an toàn?
 
-**Tra loi:** Dung `git branch --merged main` de liet ke cac branch da merge vao main. Nhung branch nay co the xoa an toan bang `git branch -d`. Dung `git branch --no-merged main` de xem cac branch chua merge -- can than khi xoa nhung branch nay. Trong teamwork, thuong don dep branch sau khi PR da merge tren GitHub/GitLab.
+**Trả lời:** Dùng `git branch --merged main` để liệt kê các branch đã merge vào main. Những branch này có thể xoá an toàn bằng `git branch -d`. Dùng `git branch --no-merged main` để xem các branch chưa merge -- cẩn thận khi xoá những branch này. Trong teamwork, thường dọn dẹp branch sau khi PR đã merge trên GitHub/GitLab.
 
-### Cau 5: Giai thich su khac nhau giua local branch, remote branch va remote-tracking branch.
+### Câu 5: Giải thích sự khác nhau giữa local branch, remote branch và remote-tracking branch.
 
-**Tra loi:**
-- **Local branch** (`main`): ton tai tren may ban, ban co the commit truc tiep
-- **Remote branch** (`origin/main` tren server): ton tai tren server (GitHub/GitLab)
-- **Remote-tracking branch** (`origin/main` tren may ban): ban sao local cua remote branch, duoc cap nhat khi `git fetch`. Day la "anh chup" trang thai cua remote, giup ban so sanh local voi remote ma khong can ket noi mang
+**Trả lời:**
+- **Local branch** (`main`): tồn tại trên máy bạn, bạn có thể commit trực tiếp
+- **Remote branch** (`origin/main` trên server): tồn tại trên server (GitHub/GitLab)
+- **Remote-tracking branch** (`origin/main` trên máy bạn): bản sao local của remote branch, được cập nhật khi `git fetch`. Đây là "ảnh chụp" trạng thái của remote, giúp bạn so sánh local với remote mà không cần kết nối mạng
 
-Lenh `git fetch` cap nhat remote-tracking branches. Lenh `git pull` = `git fetch` + `git merge`.
+Lệnh `git fetch` cập nhật remote-tracking branches. Lệnh `git pull` = `git fetch` + `git merge`.
 
 ---
 
-## Tom tat
+## Tóm tắt
 
-| Lenh | Chuc nang |
+| Lệnh | Chức năng |
 |------|-----------|
-| `git branch` | Liet ke branches |
-| `git branch <ten>` | Tao branch moi |
-| `git branch -d <ten>` | Xoa branch da merge |
-| `git branch -D <ten>` | Xoa branch (ep buoc) |
-| `git branch -a` | Xem tat ca branches (ca remote) |
+| `git branch` | Liệt kê branches |
+| `git branch <tên>` | Tạo branch mới |
+| `git branch -d <tên>` | Xoá branch đã merge |
+| `git branch -D <tên>` | Xoá branch (ép buộc) |
+| `git branch -a` | Xem tất cả branches (cả remote) |
 | `git branch -vv` | Xem tracking info |
-| `git switch <ten>` | Chuyen branch |
-| `git switch -c <ten>` | Tao va chuyen branch |
-| `git switch -` | Quay lai branch truoc do |
-| `git push -u origin <ten>` | Push va thiet lap tracking |
+| `git switch <tên>` | Chuyển branch |
+| `git switch -c <tên>` | Tạo và chuyển branch |
+| `git switch -` | Quay lại branch trước đó |
+| `git push -u origin <tên>` | Push và thiết lập tracking |
 
-**Ghi nho:** Branch trong Git re va nhanh. Hay tao branch cho moi don vi cong viec -- dung ngai tao nhieu branch!
+**Ghi nhớ:** Branch trong Git rẻ và nhanh. Hãy tạo branch cho mỗi đơn vị công việc -- đừng ngại tạo nhiều branch!

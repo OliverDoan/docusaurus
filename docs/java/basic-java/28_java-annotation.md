@@ -5,17 +5,17 @@ title: "Java Annotation"
 
 # Java Annotation
 
-**Annotation** trong Java la mot dang **metadata (sieu du lieu)** - thong tin mo ta ve code nhung **khong truc tiep thay doi logic chuong trinh**. Annotation giup compiler, framework, va cac cong cu xu ly code tu dong hieu va xu ly code theo cach dac biet.
+**Annotation** trong Java là một dạng **metadata (siêu dữ liệu)** - thông tin mô tả về code nhưng **không trực tiếp thay đổi logic chương trình**. Annotation giúp compiler, framework, và các công cụ xử lý code tự động hiểu và xử lý code theo cách đặc biệt.
 
-Hay tuong tuong ban viet mot buc thu. Noi dung thu la **code** cua ban. Nhung tren bao thu, ban ghi them cac ghi chu nhu "KHAN CAP", "XU LY TRUOC", "GUI LAI NEU KHONG NHAN DUOC". Nhung ghi chu nay khong thay doi noi dung thu, nhung giup nguoi xu ly biet phai lam gi voi buc thu do. Annotation cung tuong tu - no "ghi chu" cho code de compiler va framework biet cach xu ly.
+Hãy tưởng tượng bạn viết một bức thư. Nội dung thư là **code** của bạn. Nhưng trên bao thư, bạn ghi thêm các ghi chú như "KHẨN CẤP", "XỬ LÝ TRƯỚC", "GỬI LẠI NẾU KHÔNG NHẬN ĐƯỢC". Những ghi chú này không thay đổi nội dung thư, nhưng giúp người xử lý biết phải làm gì với bức thư đó. Annotation cũng tương tự - nó "ghi chú" cho code để compiler và framework biết cách xử lý.
 
-Annotation la **nen tang cua Java hien dai**: Spring Boot, JPA/Hibernate, JUnit, Lombok... tat ca deu hoat dong dua tren annotation.
+Annotation là **nền tảng của Java hiện đại**: Spring Boot, JPA/Hibernate, JUnit, Lombok... tất cả đều hoạt động dựa trên annotation.
 
 ---
 
-## 1. Built-in Annotations (Annotation co san)
+## 1. Built-in Annotations (Annotation có sẵn)
 
-### 1.1 `@Override` - Ghi de method cua lop cha
+### 1.1 `@Override` - Ghi đè method của lớp cha
 
 ```java
 public class Animal {
@@ -25,34 +25,34 @@ public class Animal {
 }
 
 public class Dog extends Animal {
-    @Override  // Bao compiler: method nay ghi de method cua lop cha
+    @Override  // Báo compiler: method này ghi đè method của lớp cha
     public String makeSound() {
         return "Gau gau!";
     }
 
-    // Neu viet sai ten method, compiler se BAO LOI
+    // Nếu viết sai tên method, compiler sẽ BÁO LỖI
     // @Override
-    // public String makeSound2() { }  // Loi! Lop cha khong co makeSound2
+    // public String makeSound2() { }  // Lỗi! Lớp cha không có makeSound2
 }
 ```
 
-**Tai sao nen dung `@Override`:** Neu ban viet sai ten method (vi du `makesound` thay vi `makeSound`), khong co `@Override` thi compiler se tuong ban tao method moi, khong bao loi. Voi `@Override`, compiler se bao loi ngay, giup tranh bug kho tim.
+**Tại sao nên dùng `@Override`:** Nếu bạn viết sai tên method (ví dụ `makesound` thay vì `makeSound`), không có `@Override` thì compiler sẽ tưởng bạn tạo method mới, không báo lỗi. Với `@Override`, compiler sẽ báo lỗi ngay, giúp tránh bug khó tìm.
 
-### 1.2 `@Deprecated` - Danh dau da loi thoi
+### 1.2 `@Deprecated` - Đánh dấu đã lỗi thời
 
 ```java
 public class PaymentService {
     /**
-     * @deprecated Dung {@link #processPaymentV2(String, double)} thay the.
-     * Method nay se bi xoa o version 3.0.
+     * @deprecated Dùng {@link #processPaymentV2(String, double)} thay thế.
+     * Method này sẽ bị xóa ở version 3.0.
      */
     @Deprecated
     public void processPayment(String cardNumber, double amount) {
-        // Logic cu...
+        // Logic cũ...
     }
 
     public void processPaymentV2(String cardNumber, double amount) {
-        // Logic moi, bao mat hon...
+        // Logic mới, bảo mật hơn...
     }
 }
 
@@ -60,62 +60,62 @@ public class Main {
     public static void main(String[] args) {
         PaymentService service = new PaymentService();
 
-        // Compiler se canh bao khi goi method deprecated
+        // Compiler sẽ cảnh báo khi gọi method deprecated
         service.processPayment("1234", 100.0); // Warning: deprecated
 
-        // Nen dung method moi
+        // Nên dùng method mới
         service.processPaymentV2("1234", 100.0); // OK
     }
 }
 ```
 
-### 1.3 `@SuppressWarnings` - Tat canh bao cua compiler
+### 1.3 `@SuppressWarnings` - Tắt cảnh báo của compiler
 
 ```java
 public class SuppressDemo {
 
-    @SuppressWarnings("unchecked")  // Tat canh bao ve unchecked cast
+    @SuppressWarnings("unchecked")  // Tắt cảnh báo về unchecked cast
     public void example1() {
         java.util.List rawList = new java.util.ArrayList();
-        rawList.add("hello"); // Khong co generic -> compiler canh bao
+        rawList.add("hello"); // Không có generic -> compiler cảnh báo
     }
 
-    @SuppressWarnings("deprecation")  // Tat canh bao ve deprecated
+    @SuppressWarnings("deprecation")  // Tắt cảnh báo về deprecated
     public void example2() {
         PaymentService service = new PaymentService();
-        service.processPayment("1234", 100.0); // Khong canh bao nua
+        service.processPayment("1234", 100.0); // Không cảnh báo nữa
     }
 
-    @SuppressWarnings({"unchecked", "deprecation"})  // Tat nhieu canh bao
+    @SuppressWarnings({"unchecked", "deprecation"})  // Tắt nhiều cảnh báo
     public void example3() {
         // ...
     }
 }
 ```
 
-**Cac gia tri thuong dung:**
+**Các giá trị thường dùng:**
 
-| Gia tri | Y nghia |
+| Giá trị | Ý nghĩa |
 |---|---|
-| `"unchecked"` | Tat canh bao unchecked cast (generics) |
-| `"deprecation"` | Tat canh bao deprecated |
-| `"unused"` | Tat canh bao bien khong dung |
-| `"all"` | Tat tat ca canh bao |
+| `"unchecked"` | Tắt cảnh báo unchecked cast (generics) |
+| `"deprecation"` | Tắt cảnh báo deprecated |
+| `"unused"` | Tắt cảnh báo biến không dùng |
+| `"all"` | Tắt tất cả cảnh báo |
 
-### 1.4 `@FunctionalInterface` - Danh dau interface ham
+### 1.4 `@FunctionalInterface` - Đánh dấu interface hàm
 
 ```java
-@FunctionalInterface  // Dam bao interface chi co 1 abstract method
+@FunctionalInterface  // Đảm bảo interface chỉ có 1 abstract method
 public interface Calculator {
     double calculate(double a, double b);
 
     // Co the co default methods
     default void printResult(double a, double b) {
-        System.out.println("Ket qua: " + calculate(a, b));
+        System.out.println("Kết quả: " + calculate(a, b));
     }
 
-    // NEU them abstract method thu 2 -> Compiler BAO LOI
-    // double anotherMethod(); // Loi!
+    // NẾU thêm abstract method thứ 2 -> Compiler BÁO LỖI
+    // double anotherMethod(); // Lỗi!
 }
 
 public class LambdaDemo {
