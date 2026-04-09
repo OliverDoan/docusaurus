@@ -157,6 +157,12 @@ const config: Config = {
           label: 'Claude Code',
         },
         {
+          type: 'docSidebar',
+          sidebarId: 'ieltsSidebar',
+          position: 'left',
+          label: 'IELTS',
+        },
+        {
           to: '/diem-danh',
           label: 'Điểm danh',
           position: 'right',
@@ -192,6 +198,7 @@ const config: Config = {
             { label: 'Node.js', to: '/docs/nodejs/nen-tang/nodejs-la-gi' },
             { label: 'Docker', to: '/docs/docker/nen-tang/docker-la-gi' },
             { label: 'Claude Code', to: '/docs/claude-code/nen-tang/claude-code-la-gi' },
+            { label: 'IELTS', to: '/docs/ielts/ngu-phap/danh-tu' },
           ],
         },
         {
