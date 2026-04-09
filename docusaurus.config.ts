@@ -151,6 +151,12 @@ const config: Config = {
           label: 'Docker',
         },
         {
+          type: 'docSidebar',
+          sidebarId: 'claudeCodeSidebar',
+          position: 'left',
+          label: 'Claude Code',
+        },
+        {
           to: '/diem-danh',
           label: 'Điểm danh',
           position: 'right',
@@ -185,6 +191,7 @@ const config: Config = {
             { label: 'SEO', to: '/docs/seo/nen-tang/seo-la-gi' },
             { label: 'Node.js', to: '/docs/nodejs/nen-tang/nodejs-la-gi' },
             { label: 'Docker', to: '/docs/docker/nen-tang/docker-la-gi' },
+            { label: 'Claude Code', to: '/docs/claude-code/nen-tang/claude-code-la-gi' },
           ],
         },
         {
