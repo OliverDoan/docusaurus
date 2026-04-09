@@ -145,6 +145,12 @@ const config: Config = {
           label: 'Node.js',
         },
         {
+          type: 'docSidebar',
+          sidebarId: 'dockerSidebar',
+          position: 'left',
+          label: 'Docker',
+        },
+        {
           to: '/diem-danh',
           label: 'Điểm danh',
           position: 'right',
@@ -178,6 +184,7 @@ const config: Config = {
             { label: 'Git', to: '/docs/git/nen-tang/git-la-gi' },
             { label: 'SEO', to: '/docs/seo/nen-tang/seo-la-gi' },
             { label: 'Node.js', to: '/docs/nodejs/nen-tang/nodejs-la-gi' },
+            { label: 'Docker', to: '/docs/docker/nen-tang/docker-la-gi' },
           ],
         },
         {
