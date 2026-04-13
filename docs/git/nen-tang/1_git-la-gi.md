@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Git la gi? Tai sao phai hoc Git?"
+title: "1. Git la gi? Tai sao phai hoc Git?"
 ---
 
 # Git là gì? Tại sao phải học Git?

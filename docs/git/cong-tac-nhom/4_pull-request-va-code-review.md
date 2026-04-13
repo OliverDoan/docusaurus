@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Pull Request và Code Review"
+title: "4. Pull Request và Code Review"
 ---
 
 # Pull Request và Code Review

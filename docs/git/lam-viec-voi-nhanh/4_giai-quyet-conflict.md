@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Giai quyet conflict trong Git"
+title: "4. Giai quyet conflict trong Git"
 ---
 
 # Giải quyết conflict trong Git

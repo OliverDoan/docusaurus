@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Tổng quan về JavaScript"
+title: "1. Tổng quan về JavaScript"
 ---
 
 # Tổng quan về JavaScript

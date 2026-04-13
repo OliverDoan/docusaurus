@@ -1,6 +1,6 @@
 ---
 sidebar_position: 6
-title: "JSON"
+title: "6. JSON"
 ---
 
 # JSON

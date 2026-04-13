@@ -1,6 +1,6 @@
 ---
 sidebar_position: 22
-title: "Lấy ngày giờ hiện tại"
+title: "22. Lấy ngày giờ hiện tại"
 ---
 
 # Lấy ngày giờ hiện tại trong Java

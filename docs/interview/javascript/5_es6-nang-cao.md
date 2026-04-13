@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "ES6+: Destructuring, Spread, Proxy, WeakMap, Symbol"
+title: "5. ES6+: Destructuring, Spread, Proxy, WeakMap, Symbol"
 ---
 
 # ES6+: Destructuring, Spread, Proxy, WeakMap, Symbol

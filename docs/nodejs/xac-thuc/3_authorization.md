@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Authorization & Roles"
+title: "3. Authorization title: "Authorization & Roles" Roles"
 ---
 
 # Authorization & Roles

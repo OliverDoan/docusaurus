@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Mạo từ (Articles)"
+title: "2. Mạo từ (Articles)"
 ---
 
 # Mạo từ (Articles)

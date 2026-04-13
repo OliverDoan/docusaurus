@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Cac lenh Dockerfile chi tiet"
+title: "3. Cac lenh Dockerfile chi tiet"
 ---
 
 # Các lệnh Dockerfile chi tiết

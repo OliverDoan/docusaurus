@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "CI/CD & Monorepo"
+title: "5. CI/CD title: "CI/CD & Monorepo" Monorepo"
 ---
 
 # CI/CD & Monorepo

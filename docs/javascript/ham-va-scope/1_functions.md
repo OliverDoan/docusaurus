@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Hàm (Functions)"
+title: "1. Hàm (Functions)"
 ---
 
 # Hàm (Functions)

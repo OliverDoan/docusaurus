@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Các kiểu dữ liệu trong Java"
+title: "5. Các kiểu dữ liệu trong Java"
 ---
 
 # Các kiểu dữ liệu trong Java

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "URL và cấu trúc trang"
+title: "3. URL và cấu trúc trang"
 ---
 
 # URL và cấu trúc trang

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Submodule và Monorepo"
+title: "4. Submodule và Monorepo"
 ---
 
 # Submodule và Monorepo

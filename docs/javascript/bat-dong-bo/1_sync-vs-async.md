@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Đồng bộ vs Bất đồng bộ"
+title: "1. Đồng bộ vs Bất đồng bộ"
 ---
 
 # Đồng bộ vs Bất đồng bộ

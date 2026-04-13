@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Props"
+title: "4. Props"
 ---
 
 # Props

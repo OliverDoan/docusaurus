@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Tổng quan React"
+title: "1. Tổng quan React"
 ---
 
 # Tổng quan React

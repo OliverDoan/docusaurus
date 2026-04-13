@@ -1,6 +1,6 @@
 ---
 sidebar_position: 12
-title: "4 tính chất của OOP"
+title: "12. 4 tính chất của OOP"
 ---
 
 # 4 tính chất của OOP

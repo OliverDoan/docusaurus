@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Cache-Control, ETag, Service Worker, localStorage, IndexedDB"
+title: "5. Cache-Control, ETag, Service Worker, localStorage, IndexedDB"
 ---
 
 # Cache-Control, ETag, Service Worker, localStorage, IndexedDB

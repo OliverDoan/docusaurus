@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "NPM & Package Management"
+title: "3. NPM title: "NPM & Package Management" Package Management"
 ---
 
 # NPM & Package Management

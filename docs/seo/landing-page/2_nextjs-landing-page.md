@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Landing Page với Next.js"
+title: "2. Landing Page với Next.js"
 ---
 
 # Landing Page với Next.js

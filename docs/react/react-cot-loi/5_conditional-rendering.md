@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Render có điều kiện"
+title: "5. Render có điều kiện"
 ---
 
 # Render có điều kiện (Conditional Rendering)

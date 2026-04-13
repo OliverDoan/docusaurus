@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Middleware"
+title: "4. Middleware"
 ---
 
 # Middleware

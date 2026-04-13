@@ -1,6 +1,6 @@
 ---
 sidebar_position: 11
-title: "useContext & Context API"
+title: "11. useContext title: "useContext & Context API" Context API"
 ---
 
 # useContext & Context API

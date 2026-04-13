@@ -1,6 +1,6 @@
 ---
 sidebar_position: 9
-title: "Ép kiểu trong Java"
+title: "9. Ép kiểu trong Java"
 ---
 
 # Ép kiểu trong Java

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Deployment & Vercel"
+title: "4. Deployment title: "Deployment & Vercel" Vercel"
 ---
 
 # Deployment & Vercel

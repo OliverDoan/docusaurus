@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Git Bisect và Debug — Tìm commit gây bug"
+title: "3. Git Bisect và Debug — Tìm commit gây bug"
 ---
 
 # Git Bisect và Debug — Tìm commit gây bug

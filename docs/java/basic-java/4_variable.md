@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Biến trong Java"
+title: "4. Biến trong Java"
 ---
 
 # Biến trong Java

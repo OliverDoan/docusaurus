@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Mảng (Array)"
+title: "1. Mảng (Array)"
 ---
 
 # Mảng (Array)

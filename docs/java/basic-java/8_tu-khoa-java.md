@@ -1,6 +1,6 @@
 ---
 sidebar_position: 8
-title: "Từ khóa trong Java"
+title: "8. Từ khóa trong Java"
 ---
 
 # Từ khóa trong Java

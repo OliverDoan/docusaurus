@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "TypeScript với React"
+title: "1. TypeScript với React"
 ---
 
 # TypeScript với React

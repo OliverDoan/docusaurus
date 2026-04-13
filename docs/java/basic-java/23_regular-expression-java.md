@@ -1,3 +1,8 @@
+---
+sidebar_position: 23
+title: "23. Regular Expression trong Java"
+---
+
 # Regular Expression trong Java
 
 ## Giới thiệu

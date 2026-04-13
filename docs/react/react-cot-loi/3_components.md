@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Components"
+title: "3. Components"
 ---
 
 # Components

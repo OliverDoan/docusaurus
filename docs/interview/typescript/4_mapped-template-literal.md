@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Mapped Types & Template Literal Types"
+title: "4. Mapped Types title: "Mapped Types & Template Literal Types" Template Literal Types"
 ---
 
 # Mapped Types & Template Literal Types

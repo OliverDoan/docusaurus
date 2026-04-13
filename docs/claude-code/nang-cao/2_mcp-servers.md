@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "MCP Servers"
+title: "2. MCP Servers"
 ---
 
 # MCP Servers

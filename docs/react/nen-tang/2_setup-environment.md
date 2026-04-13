@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Cài đặt môi trường"
+title: "2. Cài đặt môi trường"
 ---
 
 # Cài đặt môi trường

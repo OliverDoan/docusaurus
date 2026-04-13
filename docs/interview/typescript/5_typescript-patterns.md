@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "TS Patterns: Branded Types, Discriminated Unions, infer"
+title: "5. TS Patterns: Branded Types, Discriminated Unions, infer"
 ---
 
 # TS Patterns: Branded Types, Discriminated Unions, infer

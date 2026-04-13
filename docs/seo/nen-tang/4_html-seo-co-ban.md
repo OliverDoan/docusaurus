@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "HTML SEO cơ bản"
+title: "4. HTML SEO cơ bản"
 ---
 
 # HTML SEO cơ bản

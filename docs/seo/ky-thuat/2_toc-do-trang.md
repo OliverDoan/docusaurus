@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Tốc độ trang"
+title: "2. Tốc độ trang"
 ---
 
 # Tốc độ trang

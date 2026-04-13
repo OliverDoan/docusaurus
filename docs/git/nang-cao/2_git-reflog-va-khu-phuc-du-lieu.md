@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Git Reflog — Khôi phục dữ liệu đã mất"
+title: "2. Git Reflog — Khôi phục dữ liệu đã mất"
 ---
 
 # Git Reflog — Khôi phục dữ liệu đã mất

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Docker Compose la gi?"
+title: "1. Docker Compose la gi?"
 ---
 
 # Docker Compose là gì?

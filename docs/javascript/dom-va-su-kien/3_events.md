@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Sự kiện (Events)"
+title: "3. Sự kiện (Events)"
 ---
 
 # Sự kiện (Events)

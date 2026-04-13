@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "JSX"
+title: "2. JSX"
 ---
 
 # JSX

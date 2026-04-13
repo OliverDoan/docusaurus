@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Bảo mật"
+title: "3. Bảo mật"
 ---
 
 # Bao mat

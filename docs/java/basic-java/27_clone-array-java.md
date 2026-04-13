@@ -1,6 +1,6 @@
 ---
 sidebar_position: 27
-title: "Sao chép mảng"
+title: "27. Sao chép mảng"
 ---
 
 # Sao chép mảng trong Java

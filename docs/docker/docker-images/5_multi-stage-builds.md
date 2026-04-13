@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Multi-stage Builds"
+title: "5. Multi-stage Builds"
 ---
 
 # Multi-stage Builds

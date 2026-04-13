@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Redis & Caching"
+title: "3. Redis title: "Redis & Caching" Caching"
 ---
 
 # Redis & Caching

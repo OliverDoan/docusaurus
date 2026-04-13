@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Virtual DOM, Reconciliation, React Fiber"
+title: "2. Virtual DOM, Reconciliation, React Fiber"
 ---
 
 # Virtual DOM, Reconciliation, React Fiber

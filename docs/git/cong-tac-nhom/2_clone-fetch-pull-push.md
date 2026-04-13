@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Clone, Fetch, Pull, Push — 4 lệnh remote cốt lõi"
+title: "2. Clone, Fetch, Pull, Push — 4 lệnh remote cốt lõi"
 ---
 
 # Clone, Fetch, Pull, Push — 4 lệnh remote cốt lõi

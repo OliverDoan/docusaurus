@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "this, Prototype & Kế thừa trong JS"
+title: "2. this, Prototype title: "this, Prototype & Kế thừa trong JS" Kế thừa trong JS"
 ---
 
 # this, Prototype & Kế thừa trong JS

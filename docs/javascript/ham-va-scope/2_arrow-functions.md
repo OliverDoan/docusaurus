@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Arrow Functions"
+title: "2. Arrow Functions"
 ---
 
 # Arrow Functions

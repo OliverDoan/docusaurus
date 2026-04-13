@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Debug va fix loi"
+title: "2. Debug va fix loi"
 ---
 
 # Debug và fix lỗi

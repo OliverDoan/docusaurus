@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Responsive Design, Media Queries, a11y, ARIA"
+title: "2. Responsive Design, Media Queries, a11y, ARIA"
 ---
 
 # Responsive Design, Media Queries, a11y, ARIA

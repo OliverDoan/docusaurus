@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Từ định lượng (Quantifiers)"
+title: "4. Từ định lượng (Quantifiers)"
 ---
 
 # Từ định lượng (Quantifiers)

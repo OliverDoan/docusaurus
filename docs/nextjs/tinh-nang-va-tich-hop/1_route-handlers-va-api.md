@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Route Handlers & API"
+title: "1. Route Handlers title: "Route Handlers & API" API"
 ---
 
 # Route Handlers & API

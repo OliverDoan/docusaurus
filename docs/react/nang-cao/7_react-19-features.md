@@ -1,6 +1,6 @@
 ---
 sidebar_position: 7
-title: "React 19"
+title: "7. React 19"
 ---
 
 # React 19 — Tính năng mới

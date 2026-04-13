@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Gọi API — Fetch & Axios"
+title: "2. Gọi API — Fetch title: "Gọi API — Fetch & Axios" Axios"
 ---
 
 # Gọi API — Fetch & Axios

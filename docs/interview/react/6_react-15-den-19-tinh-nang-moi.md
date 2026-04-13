@@ -1,6 +1,6 @@
 ---
 sidebar_position: 6
-title: "React 15 → 19: Toàn bộ tính năng mới & lý do ra đời"
+title: "6. React 15 → 19: Toàn bộ tính năng mới title: "React 15 → 19: Toàn bộ tính năng mới & lý do ra đời" lý do ra đời"
 ---
 
 # React 15 → 19: Toàn bộ tính năng mới & lý do ra đời

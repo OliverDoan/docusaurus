@@ -1,6 +1,6 @@
 ---
 sidebar_position: 10
-title: "Inner Class trong Java"
+title: "10. Inner Class trong Java"
 ---
 
 # Inner Class trong Java

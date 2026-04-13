@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Hình ảnh và media SEO"
+title: "4. Hình ảnh và media SEO"
 ---
 
 # Hình ảnh và media SEO

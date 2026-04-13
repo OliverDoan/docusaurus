@@ -1,6 +1,6 @@
 ---
 sidebar_position: 32
-title: "Tạo số và chuỗi ngẫu nhiên"
+title: "32. Tạo số và chuỗi ngẫu nhiên"
 ---
 
 # Tạo số và chuỗi ngẫu nhiên trong Java

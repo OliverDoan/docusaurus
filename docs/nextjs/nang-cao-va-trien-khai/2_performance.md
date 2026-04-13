@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Performance Optimization"
+title: "2. Performance Optimization"
 ---
 
 # Performance Optimization

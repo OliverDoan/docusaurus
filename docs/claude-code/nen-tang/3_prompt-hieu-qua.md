@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Viet prompt hieu qua"
+title: "3. Viet prompt hieu qua"
 ---
 
 # Viết prompt hiệu quả

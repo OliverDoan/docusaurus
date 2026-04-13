@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Best Practices va bao mat"
+title: "4. Best Practices va bao mat"
 ---
 
 # Best Practices và Bảo mật

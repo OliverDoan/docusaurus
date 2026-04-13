@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Type Guards, Narrowing & Conditional Types"
+title: "3. Type Guards, Narrowing title: "Type Guards, Narrowing & Conditional Types" Conditional Types"
 ---
 
 # Type Guards, Narrowing & Conditional Types

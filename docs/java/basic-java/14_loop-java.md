@@ -1,6 +1,6 @@
 ---
 sidebar_position: 14
-title: "Vòng lặp trong Java"
+title: "14. Vòng lặp trong Java"
 ---
 # Vòng lặp trong Java
 

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Streaming & Suspense"
+title: "5. Streaming title: "Streaming & Suspense" Suspense"
 ---
 
 # Streaming & Suspense

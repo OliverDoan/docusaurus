@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Object"
+title: "3. Object"
 ---
 
 # Object

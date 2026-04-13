@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Đại từ (Pronouns)"
+title: "3. Đại từ (Pronouns)"
 ---
 
 # Đại từ (Pronouns)

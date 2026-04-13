@@ -1,6 +1,6 @@
 ---
 sidebar_position: 14
-title: "Nguyên tắc lập trình trong Java"
+title: "14. Nguyên tắc lập trình trong Java"
 ---
 
 # Nguyên tắc lập trình trong Java

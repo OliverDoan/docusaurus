@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "GitHub cơ bản"
+title: "3. GitHub cơ bản"
 ---
 
 # GitHub cơ bản

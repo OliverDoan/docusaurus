@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "TypeScript & Cấu hình"
+title: "5. TypeScript title: "TypeScript & Cấu hình" Cấu hình"
 ---
 
 # TypeScript & Cấu hình

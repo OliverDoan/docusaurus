@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Monorepo, Micro-frontends, Module Federation"
+title: "1. Monorepo, Micro-frontends, Module Federation"
 ---
 
 # Monorepo, Micro-frontends, Module Federation

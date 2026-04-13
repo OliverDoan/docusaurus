@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "HTTP/2/3, CORS, Cookies, JWT, OAuth"
+title: "4. HTTP/2/3, CORS, Cookies, JWT, OAuth"
 ---
 
 # HTTP/2/3, CORS, Cookies, JWT, OAuth

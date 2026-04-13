@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Server & Client Components"
+title: "4. Server title: "Server & Client Components" Client Components"
 ---
 
 # Server & Client Components

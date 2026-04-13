@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Điều hướng & Link"
+title: "3. Điều hướng title: "Điều hướng & Link" Link"
 ---
 
 # Điều hướng & Link

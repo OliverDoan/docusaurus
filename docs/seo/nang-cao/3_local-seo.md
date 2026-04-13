@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Local SEO"
+title: "3. Local SEO"
 ---
 
 # Local SEO — Tối ưu SEO cho doanh nghiệp địa phương

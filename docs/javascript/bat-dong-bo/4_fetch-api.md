@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Fetch API"
+title: "4. Fetch API"
 ---
 
 # Fetch API

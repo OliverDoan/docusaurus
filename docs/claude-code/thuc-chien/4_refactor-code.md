@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Refactor code"
+title: "4. Refactor code"
 ---
 
 # Refactor code

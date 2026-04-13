@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "SEO cho React SPA"
+title: "3. SEO cho React SPA"
 ---
 
 # SEO cho React SPA

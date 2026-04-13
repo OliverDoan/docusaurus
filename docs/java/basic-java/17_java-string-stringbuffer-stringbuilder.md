@@ -1,6 +1,6 @@
 ---
 sidebar_position: 17
-title: "String, StringBuffer & StringBuilder"
+title: "17. String, StringBuffer title: "String, StringBuffer & StringBuilder" StringBuilder"
 ---
 # String, StringBuffer & StringBuilder
 

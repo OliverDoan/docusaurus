@@ -1,6 +1,6 @@
 ---
 sidebar_position: 18
-title: "Heap Space vs Stack"
+title: "18. Heap Space vs Stack"
 ---
 # Heap Space vs Stack
 

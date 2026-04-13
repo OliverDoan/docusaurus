@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Reset, Revert, Amend — Sửa lỗi trong Git"
+title: "1. Reset, Revert, Amend — Sửa lỗi trong Git"
 ---
 
 # Reset, Revert, Amend — Sửa lỗi trong Git

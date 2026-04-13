@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Async/Await"
+title: "3. Async/Await"
 ---
 
 # Async/Await

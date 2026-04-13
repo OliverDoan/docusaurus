@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Context vs Redux vs Zustand vs Jotai"
+title: "3. Context vs Redux vs Zustand vs Jotai"
 ---
 
 # Context vs Redux vs Zustand vs Jotai

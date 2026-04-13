@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Xử lý lỗi (Error Handling)"
+title: "5. Xử lý lỗi (Error Handling)"
 ---
 
 # Xử lý lỗi (Error Handling)

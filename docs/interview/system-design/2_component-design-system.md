@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Component API Design, Design System, Storybook"
+title: "2. Component API Design, Design System, Storybook"
 ---
 
 # Component API Design, Design System, Storybook

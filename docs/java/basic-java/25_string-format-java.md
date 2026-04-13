@@ -1,3 +1,8 @@
+---
+sidebar_position: 25
+title: "25. String Format"
+---
+
 # String Format
 ## Giới thiệu
 Trong Java, **String Format** giúp chúng ta **định dạng chuỗi một cách linh hoạt và chuyên nghiệp**, đặc biệt hữu ích khi:

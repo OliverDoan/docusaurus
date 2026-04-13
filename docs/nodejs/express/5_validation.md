@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Input Validation"
+title: "5. Input Validation"
 ---
 
 # Input Validation

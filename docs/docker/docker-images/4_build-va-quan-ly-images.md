@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Build va quan ly Images"
+title: "4. Build va quan ly Images"
 ---
 
 # Build và quản lý Images

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Công cụ SEO thiết yếu"
+title: "5. Công cụ SEO thiết yếu"
 ---
 
 # Công cụ SEO thiết yếu

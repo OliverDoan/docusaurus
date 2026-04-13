@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "DOM, CSSOM, Render Tree, Repaint, Reflow"
+title: "3. DOM, CSSOM, Render Tree, Repaint, Reflow"
 ---
 
 # DOM, CSSOM, Render Tree, Repaint, Reflow

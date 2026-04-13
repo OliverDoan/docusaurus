@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Generics & Utility Types"
+title: "2. Generics title: "Generics & Utility Types" Utility Types"
 ---
 
 # Generics & Utility Types

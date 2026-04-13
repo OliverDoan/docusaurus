@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Tổng quan về OOP trong Java"
+title: "1. Tổng quan về OOP trong Java"
 ---
 
 # Tổng quan về OOP trong Java

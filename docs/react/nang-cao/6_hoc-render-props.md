@@ -1,6 +1,6 @@
 ---
 sidebar_position: 6
-title: "HOC & Render Props"
+title: "6. HOC title: "HOC & Render Props" Render Props"
 ---
 
 # HOC & Render Props

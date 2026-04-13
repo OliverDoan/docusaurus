@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Nghiên cứu từ khóa cho developer"
+title: "3. Nghiên cứu từ khóa cho developer"
 ---
 
 # Nghiên cứu từ khóa cho developer

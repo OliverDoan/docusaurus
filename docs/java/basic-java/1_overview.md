@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Tổng quan về Java"
+title: "1. Tổng quan về Java"
 ---
 
 # Tổng quan về Java

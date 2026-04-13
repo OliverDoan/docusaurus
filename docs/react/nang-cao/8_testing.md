@@ -1,6 +1,6 @@
 ---
 sidebar_position: 8
-title: "Testing"
+title: "8. Testing"
 ---
 
 # Testing React Components

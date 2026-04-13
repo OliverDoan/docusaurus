@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Tips va tricks tong hop"
+title: "5. Tips va tricks tong hop"
 ---
 
 # Tips và tricks tổng hợp

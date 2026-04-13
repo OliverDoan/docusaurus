@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Routing"
+title: "3. Routing"
 ---
 
 # Routing trong Express

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Claude Code la gi?"
+title: "1. Claude Code la gi?"
 ---
 
 # Claude Code là gì?

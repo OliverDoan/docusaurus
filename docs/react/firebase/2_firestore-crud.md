@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Firestore CRUD"
+title: "2. Firestore CRUD"
 ---
 
 # Firestore CRUD

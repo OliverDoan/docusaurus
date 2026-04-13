@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Redux Toolkit"
+title: "1. Redux Toolkit"
 ---
 
 # Redux Toolkit

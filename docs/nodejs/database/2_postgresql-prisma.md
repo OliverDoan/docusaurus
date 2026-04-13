@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "PostgreSQL & Prisma"
+title: "2. PostgreSQL title: "PostgreSQL & Prisma" Prisma"
 ---
 
 # PostgreSQL & Prisma

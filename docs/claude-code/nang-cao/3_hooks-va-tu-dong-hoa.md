@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Hooks va tu dong hoa"
+title: "3. Hooks va tu dong hoa"
 ---
 
 # Hooks và tự động hoá

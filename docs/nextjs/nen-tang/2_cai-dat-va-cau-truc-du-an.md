@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Cài đặt & Cấu trúc dự án"
+title: "2. Cài đặt title: "Cài đặt & Cấu trúc dự án" Cấu trúc dự án"
 ---
 
 # Cài đặt & Cấu trúc dự án

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Remote Repository — Kho lưu trữ từ xa"
+title: "1. Remote Repository — Kho lưu trữ từ xa"
 ---
 
 # Remote Repository — Kho lưu trữ từ xa

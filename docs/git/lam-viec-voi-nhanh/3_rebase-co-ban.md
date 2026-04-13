@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Rebase — Viet lai lich su commit"
+title: "3. Rebase — Viet lai lich su commit"
 ---
 
 # Rebase — Viết lại lịch sử commit

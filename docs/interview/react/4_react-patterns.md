@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "HOC, Render Props, Compound Components, Custom Hooks"
+title: "4. HOC, Render Props, Compound Components, Custom Hooks"
 ---
 
 # HOC, Render Props, Compound Components, Custom Hooks

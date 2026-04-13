@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Content SEO"
+title: "5. Content SEO"
 ---
 
 # Content SEO

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Event Loop, Callback Queue & Microtask"
+title: "3. Event Loop, Callback Queue title: "Event Loop, Callback Queue & Microtask" Microtask"
 ---
 
 # Event Loop, Callback Queue & Microtask

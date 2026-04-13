@@ -1,6 +1,6 @@
 ---
 sidebar_position: 29
-title: "Integer Constant Pool"
+title: "29. Integer Constant Pool"
 ---
 
 # Integer Constant Pool trong Java

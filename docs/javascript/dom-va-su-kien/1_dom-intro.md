@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "DOM là gì?"
+title: "1. DOM là gì?"
 ---
 
 # DOM là gì?

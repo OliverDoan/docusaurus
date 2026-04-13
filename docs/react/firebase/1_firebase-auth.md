@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Firebase Authentication"
+title: "1. Firebase Authentication"
 ---
 
 # Firebase Authentication

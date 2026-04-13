@@ -1,6 +1,6 @@
 ---
 sidebar_position: 6
-title: "LocalStorage & SessionStorage"
+title: "6. LocalStorage title: "LocalStorage & SessionStorage" SessionStorage"
 ---
 
 # LocalStorage & SessionStorage

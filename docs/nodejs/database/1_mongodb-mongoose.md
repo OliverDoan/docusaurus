@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "MongoDB & Mongoose"
+title: "1. MongoDB title: "MongoDB & Mongoose" Mongoose"
 ---
 
 # MongoDB & Mongoose

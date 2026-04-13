@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Hooks: useState, useEffect, useRef, useCallback, useMemo"
+title: "1. Hooks: useState, useEffect, useRef, useCallback, useMemo"
 ---
 
 # Hooks: useState, useEffect, useRef, useCallback, useMemo

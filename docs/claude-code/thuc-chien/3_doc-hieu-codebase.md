@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Doc hieu codebase"
+title: "3. Doc hieu codebase"
 ---
 
 # Đọc hiểu codebase

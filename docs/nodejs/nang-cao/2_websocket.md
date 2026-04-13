@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "WebSocket & Real-time"
+title: "2. WebSocket title: "WebSocket & Real-time" Real-time"
 ---
 
 # WebSocket & Real-time

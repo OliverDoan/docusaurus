@@ -1,6 +1,6 @@
 ---
 sidebar_position: 13
-title: "Nguyên lý SOLID"
+title: "13. Nguyên lý SOLID"
 ---
 
 # Nguyên lý SOLID

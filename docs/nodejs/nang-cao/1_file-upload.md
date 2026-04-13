@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "File Upload"
+title: "1. File Upload"
 ---
 
 # File Upload

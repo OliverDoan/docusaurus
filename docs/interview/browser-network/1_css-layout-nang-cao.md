@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Flexbox, Grid, Stacking Context, BFC"
+title: "1. Flexbox, Grid, Stacking Context, BFC"
 ---
 
 # Flexbox, Grid, Stacking Context, BFC

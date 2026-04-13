@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Cac khai niem cot loi trong Git"
+title: "3. Cac khai niem cot loi trong Git"
 ---
 
 # Các khái niệm cốt lõi trong Git

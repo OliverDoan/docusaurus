@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Environment Variables"
+title: "5. Environment Variables"
 ---
 
 # Environment Variables

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Next.js là gì?"
+title: "1. Next.js là gì?"
 ---
 
 # Next.js là gì?

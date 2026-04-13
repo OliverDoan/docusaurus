@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Danh từ (Nouns)"
+title: "1. Danh từ (Nouns)"
 ---
 
 # Danh từ (Nouns)

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Deployment"
+title: "4. Deployment"
 ---
 
 # Deployment

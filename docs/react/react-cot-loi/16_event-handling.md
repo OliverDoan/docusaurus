@@ -1,6 +1,6 @@
 ---
 sidebar_position: 16
-title: "Xử lý sự kiện"
+title: "16. Xử lý sự kiện"
 ---
 
 # Xử lý sự kiện (Event Handling)

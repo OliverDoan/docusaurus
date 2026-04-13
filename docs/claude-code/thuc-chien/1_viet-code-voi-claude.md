@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Viet code voi Claude Code"
+title: "1. Viet code voi Claude Code"
 ---
 
 # Viết code với Claude Code

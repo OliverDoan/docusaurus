@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Caching & Revalidation"
+title: "4. Caching title: "Caching & Revalidation" Revalidation"
 ---
 
 # Caching & Revalidation

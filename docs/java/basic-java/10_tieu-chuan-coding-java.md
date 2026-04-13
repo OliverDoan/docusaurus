@@ -1,6 +1,6 @@
 ---
 sidebar_position: 10
-title: "Tiêu chuẩn Coding trong Java"
+title: "10. Tiêu chuẩn Coding trong Java"
 ---
 
 # Tiêu chuẩn Coding trong Java

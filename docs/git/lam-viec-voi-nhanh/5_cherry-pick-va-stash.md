@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Cherry-pick va Stash"
+title: "5. Cherry-pick va Stash"
 ---
 
 # Cherry-pick và Stash

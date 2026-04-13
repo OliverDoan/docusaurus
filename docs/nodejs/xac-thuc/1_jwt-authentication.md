@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "JWT Authentication"
+title: "1. JWT Authentication"
 ---
 
 # JWT Authentication

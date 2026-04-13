@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "ES6+ cần biết cho React"
+title: "1. ES6+ cần biết cho React"
 ---
 
 # ES6+ cần biết cho React

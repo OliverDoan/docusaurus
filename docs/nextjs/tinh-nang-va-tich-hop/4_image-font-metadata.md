@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Image, Font & Metadata"
+title: "4. Image, Font title: "Image, Font & Metadata" Metadata"
 ---
 
 # Image, Font & Metadata

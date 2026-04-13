@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Testing"
+title: "3. Testing"
 ---
 
 # Testing Node.js Applications

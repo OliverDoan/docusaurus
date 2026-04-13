@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "E-commerce SEO"
+title: "2. E-commerce SEO"
 ---
 
 # E-commerce SEO — Tối ưu SEO cho website thương mại điện tử

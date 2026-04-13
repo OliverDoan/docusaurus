@@ -1,6 +1,6 @@
 ---
 sidebar_position: 8
-title: "useEffect"
+title: "8. useEffect"
 ---
 
 # useEffect

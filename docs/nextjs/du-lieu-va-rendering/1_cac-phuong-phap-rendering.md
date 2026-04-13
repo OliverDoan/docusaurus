@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Các phương pháp Rendering"
+title: "1. Các phương pháp Rendering"
 ---
 
 # Các phương pháp Rendering

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Template Literals"
+title: "1. Template Literals"
 ---
 
 # Template Literals

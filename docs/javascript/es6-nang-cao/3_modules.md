@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Modules (import/export)"
+title: "3. Modules (import/export)"
 ---
 
 # Modules (import/export)

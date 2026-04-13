@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Core Web Vitals, Bundle Analysis, Lazy Loading"
+title: "3. Core Web Vitals, Bundle Analysis, Lazy Loading"
 ---
 
 # Core Web Vitals, Bundle Analysis, Lazy Loading

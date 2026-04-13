@@ -1,6 +1,6 @@
 ---
 sidebar_position: 21
-title: "Chuyển đổi kiểu dữ liệu"
+title: "21. Chuyển đổi kiểu dữ liệu"
 ---
 
 # Chuyển đổi kiểu dữ liệu trong Java

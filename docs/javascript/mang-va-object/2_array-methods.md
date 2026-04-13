@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Phương thức mảng"
+title: "2. Phương thức mảng"
 ---
 
 # Phương thức mảng

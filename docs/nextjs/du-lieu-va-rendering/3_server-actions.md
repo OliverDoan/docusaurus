@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Server Actions"
+title: "3. Server Actions"
 ---
 
 # Server Actions

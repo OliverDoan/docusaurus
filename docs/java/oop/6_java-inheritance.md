@@ -1,6 +1,6 @@
 ---
 sidebar_position: 6
-title: "Tính kế thừa (Inheritance)"
+title: "6. Tính kế thừa (Inheritance)"
 ---
 
 # Tính kế thừa (Inheritance)

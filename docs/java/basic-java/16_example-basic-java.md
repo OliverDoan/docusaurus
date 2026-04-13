@@ -1,6 +1,6 @@
 ---
 sidebar_position: 16
-title: "Bài tập minh họa"
+title: "16. Bài tập minh họa"
 ---
 # Bài tập minh họa
 

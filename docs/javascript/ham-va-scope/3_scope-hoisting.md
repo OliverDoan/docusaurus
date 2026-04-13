@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Scope & Hoisting"
+title: "3. Scope title: "Scope & Hoisting" Hoisting"
 ---
 
 # Scope & Hoisting

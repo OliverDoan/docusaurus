@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Query Optimization"
+title: "5. Query Optimization"
 ---
 
 # Query Optimization

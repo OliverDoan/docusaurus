@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Slash commands va phim tat"
+title: "4. Slash commands va phim tat"
 ---
 
 # Slash commands và phím tắt

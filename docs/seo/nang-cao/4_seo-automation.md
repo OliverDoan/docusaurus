@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Tự động hóa SEO"
+title: "4. Tự động hóa SEO"
 ---
 
 # Tự động hóa SEO — Monitoring, Scripting và CI/CD

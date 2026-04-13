@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Tính đóng gói (Encapsulation)"
+title: "5. Tính đóng gói (Encapsulation)"
 ---
 
 # Tính đóng gói (Encapsulation)

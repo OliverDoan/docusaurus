@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Type System: Union, Intersection, Literal Types"
+title: "1. Type System: Union, Intersection, Literal Types"
 ---
 
 # Type System: Union, Intersection, Literal Types

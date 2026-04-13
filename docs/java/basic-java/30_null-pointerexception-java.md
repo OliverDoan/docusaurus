@@ -1,6 +1,6 @@
 ---
 sidebar_position: 30
-title: "Tránh NullPointerException"
+title: "30. Tránh NullPointerException"
 ---
 
 # Tránh NullPointerException trong Java

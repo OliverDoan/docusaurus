@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Kiểu dữ liệu"
+title: "3. Kiểu dữ liệu"
 ---
 
 # Kiểu dữ liệu

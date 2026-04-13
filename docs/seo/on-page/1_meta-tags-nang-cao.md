@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Meta Tags nâng cao"
+title: "1. Meta Tags nâng cao"
 ---
 
 # Meta Tags nâng cao

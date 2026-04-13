@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "memo, lazy, Suspense, Code Splitting, Profiler"
+title: "5. memo, lazy, Suspense, Code Splitting, Profiler"
 ---
 
 # memo, lazy, Suspense, Code Splitting, Profiler

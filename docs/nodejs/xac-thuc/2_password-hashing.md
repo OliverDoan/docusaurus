@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Password Hashing"
+title: "2. Password Hashing"
 ---
 
 # Password Hashing

@@ -1,3 +1,8 @@
+---
+sidebar_position: 24
+title: "24. Truyền giá trị và tham chiếu"
+---
+
 # Truyền giá trị và tham chiếu
 
 ## Giới thiệu

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Promise"
+title: "2. Promise"
 ---
 
 # Promise

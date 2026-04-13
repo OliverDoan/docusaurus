@@ -1,6 +1,6 @@
 ---
 sidebar_position: 19
-title: "Mảng (Array) trong Java"
+title: "19. Mảng (Array) trong Java"
 ---
 
 # Mảng (Array) trong Java

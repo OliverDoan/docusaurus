@@ -1,6 +1,6 @@
 ---
 sidebar_position: 13
-title: "Vòng đời Component"
+title: "13. Vòng đời Component"
 ---
 
 # Vòng đời Component (Component Lifecycle)

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Git Flow — Mo hinh phan nhanh kinh dien"
+title: "1. Git Flow — Mo hinh phan nhanh kinh dien"
 ---
 
 # Git Flow — Mô hình phân nhánh kinh điển

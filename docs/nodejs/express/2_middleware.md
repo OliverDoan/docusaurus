@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Middleware"
+title: "2. Middleware"
 ---
 
 # Middleware trong Express

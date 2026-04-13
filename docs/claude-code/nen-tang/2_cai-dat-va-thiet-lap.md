@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Cai dat va thiet lap"
+title: "2. Cai dat va thiet lap"
 ---
 
 # Cài đặt và thiết lập

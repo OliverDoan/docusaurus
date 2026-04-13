@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Security Best Practices"
+title: "5. Security Best Practices"
 ---
 
 # Security Best Practices

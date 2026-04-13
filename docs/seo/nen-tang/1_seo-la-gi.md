@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "SEO là gì?"
+title: "1. SEO là gì?"
 ---
 
 # SEO là gì?

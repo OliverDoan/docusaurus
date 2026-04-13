@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: ".gitignore va quan ly file"
+title: "5. .gitignore va quan ly file"
 ---
 
 # .gitignore và quản lý file

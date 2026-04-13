@@ -1,6 +1,6 @@
 ---
 sidebar_position: 10
-title: "Custom Hooks"
+title: "10. Custom Hooks"
 ---
 
 # Custom Hooks

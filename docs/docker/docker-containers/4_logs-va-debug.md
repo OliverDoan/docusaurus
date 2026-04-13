@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Logs va Debug Container"
+title: "4. Logs va Debug Container"
 ---
 
 # Logs và Debug Container

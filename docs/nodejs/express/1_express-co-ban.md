@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Express.js cơ bản"
+title: "1. Express.js cơ bản"
 ---
 
 # Express.js cơ bản

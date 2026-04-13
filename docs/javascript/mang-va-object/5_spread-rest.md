@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Spread & Rest Operators"
+title: "5. Spread title: "Spread & Rest Operators" Rest Operators"
 ---
 
 # Spread & Rest Operators

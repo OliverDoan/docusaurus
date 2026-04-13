@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Phân biệt JVM, JRE, JDK"
+title: "2. Phân biệt JVM, JRE, JDK"
 ---
 
 # Phân biệt JVM, JRE, JDK

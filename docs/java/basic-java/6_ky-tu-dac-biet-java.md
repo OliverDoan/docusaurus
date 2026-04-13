@@ -1,6 +1,6 @@
 ---
 sidebar_position: 6
-title: "Ky tu dac biet trong Java"
+title: "6. Ky tu dac biet trong Java"
 ---
 
 # Ky tu dac biet trong Java

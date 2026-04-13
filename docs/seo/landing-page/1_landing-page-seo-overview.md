@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Landing Page chuẩn SEO"
+title: "1. Landing Page chuẩn SEO"
 ---
 
 # Landing Page chuẩn SEO

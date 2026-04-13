@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Google hoạt động thế nào"
+title: "2. Google hoạt động thế nào"
 ---
 
 # Google hoạt động thế nào

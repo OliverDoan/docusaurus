@@ -1,6 +1,6 @@
 ---
 sidebar_position: 7
-title: "Tính đa hình (Polymorphism)"
+title: "7. Tính đa hình (Polymorphism)"
 ---
 
 # Tính đa hình (Polymorphism)

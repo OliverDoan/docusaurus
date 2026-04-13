@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Firebase Storage & Realtime"
+title: "3. Firebase Storage title: "Firebase Storage & Realtime" Realtime"
 ---
 
 # Firebase Storage & Realtime Listener

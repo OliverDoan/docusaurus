@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Data Fetching"
+title: "2. Data Fetching"
 ---
 
 # Data Fetching

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Dynamic Routes"
+title: "2. Dynamic Routes"
 ---
 
 # Dynamic Routes

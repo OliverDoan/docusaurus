@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Branch la gi? Tao va quan ly nhanh"
+title: "1. Branch la gi? Tao va quan ly nhanh"
 ---
 
 # Branch là gì? Tạo và quản lý nhánh

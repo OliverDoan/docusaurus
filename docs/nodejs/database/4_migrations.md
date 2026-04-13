@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Database Migrations"
+title: "4. Database Migrations"
 ---
 
 # Database Migrations

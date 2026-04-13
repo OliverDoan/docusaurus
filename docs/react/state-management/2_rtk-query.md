@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "RTK Query"
+title: "2. RTK Query"
 ---
 
 # RTK Query

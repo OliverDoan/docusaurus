@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "JavaScript SEO"
+title: "4. JavaScript SEO"
 ---
 
 # JavaScript SEO

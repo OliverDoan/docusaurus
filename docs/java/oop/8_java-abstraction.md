@@ -1,6 +1,6 @@
 ---
 sidebar_position: 8
-title: "Tính trừu tượng (Abstraction)"
+title: "8. Tính trừu tượng (Abstraction)"
 ---
 
 # Tính trừu tượng (Abstraction)

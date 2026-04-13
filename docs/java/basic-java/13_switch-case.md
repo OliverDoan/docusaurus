@@ -1,6 +1,6 @@
 ---
 sidebar_position: 13
-title: "Mệnh đề Switch-case"
+title: "13. Mệnh đề Switch-case"
 ---
 # Mệnh đề Switch-case
 

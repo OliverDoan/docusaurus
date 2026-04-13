@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Chương trình Java đầu tiên"
+title: "3. Chương trình Java đầu tiên"
 ---
 
 # Chương trình Java đầu tiên

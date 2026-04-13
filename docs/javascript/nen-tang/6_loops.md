@@ -1,6 +1,6 @@
 ---
 sidebar_position: 6
-title: "Vòng lặp"
+title: "6. Vòng lặp"
 ---
 
 # Vòng lặp

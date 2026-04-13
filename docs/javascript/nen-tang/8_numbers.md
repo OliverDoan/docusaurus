@@ -1,6 +1,6 @@
 ---
 sidebar_position: 8
-title: "Số & Math"
+title: "8. Số title: "Số & Math" Math"
 ---
 
 # Số & Math

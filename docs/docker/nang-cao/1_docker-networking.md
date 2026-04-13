@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Docker Networking"
+title: "1. Docker Networking"
 ---
 
 # Docker Networking

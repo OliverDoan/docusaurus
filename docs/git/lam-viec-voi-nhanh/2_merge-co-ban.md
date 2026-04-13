@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Merge — Gop nhanh trong Git"
+title: "2. Merge — Gop nhanh trong Git"
 ---
 
 # Merge — Gộp nhánh trong Git

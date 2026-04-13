@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Chiến lược SEO tổng thể"
+title: "5. Chiến lược SEO tổng thể"
 ---
 
 # Chiến lược SEO tổng thể — Audit, Roadmap và Case Studies

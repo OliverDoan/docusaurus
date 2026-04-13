@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Git Hooks và Tự động hóa"
+title: "5. Git Hooks và Tự động hóa"
 ---
 
 # Git Hooks và Tự động hóa

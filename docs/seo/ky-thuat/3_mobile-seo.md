@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Mobile SEO"
+title: "3. Mobile SEO"
 ---
 
 # Mobile SEO

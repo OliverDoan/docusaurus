@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Tối ưu hiệu suất"
+title: "4. Tối ưu hiệu suất"
 ---
 
 # Tối ưu hiệu suất (Performance Optimization)

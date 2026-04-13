@@ -1,6 +1,6 @@
 ---
 sidebar_position: 7
-title: "Toán tử trong Java"
+title: "7. Toán tử trong Java"
 ---
 
 # Toán tử trong Java

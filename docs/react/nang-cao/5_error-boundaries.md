@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Error Boundaries"
+title: "5. Error Boundaries"
 ---
 
 # Error Boundaries

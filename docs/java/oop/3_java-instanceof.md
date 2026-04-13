@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "Toán tử instanceof"
+title: "3. Toán tử instanceof"
 ---
 
 # Toán tử instanceof

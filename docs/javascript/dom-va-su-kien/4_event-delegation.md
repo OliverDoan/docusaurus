@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Event Delegation"
+title: "4. Event Delegation"
 ---
 
 # Event Delegation

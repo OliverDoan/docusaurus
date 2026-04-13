@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Thao tác DOM"
+title: "2. Thao tác DOM"
 ---
 
 # Thao tác DOM

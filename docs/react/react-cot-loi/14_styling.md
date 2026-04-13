@@ -1,6 +1,6 @@
 ---
 sidebar_position: 14
-title: "Styling"
+title: "14. Styling"
 ---
 
 # Styling (CSS Modules & Tailwind CSS)

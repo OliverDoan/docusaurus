@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "App Router cơ bản"
+title: "3. App Router cơ bản"
 ---
 
 # App Router cơ bản

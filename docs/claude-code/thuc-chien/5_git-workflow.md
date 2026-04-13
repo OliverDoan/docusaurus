@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "Git workflow voi Claude Code"
+title: "5. Git workflow voi Claude Code"
 ---
 
 # Git workflow với Claude Code

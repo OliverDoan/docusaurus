@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Structured Data và Schema.org"
+title: "2. Structured Data và Schema.org"
 ---
 
 # Structured Data và Schema.org

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "Module System"
+title: "2. Module System"
 ---
 
 # Module System trong Node.js

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "CLAUDE.md va custom instructions"
+title: "1. CLAUDE.md va custom instructions"
 ---
 
 # CLAUDE.md và Custom Instructions

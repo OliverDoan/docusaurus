@@ -1,3 +1,8 @@
+---
+sidebar_position: 26
+title: "26. Enum trong Java"
+---
+
 # Enum trong Java
 
 ## Giới thiệu

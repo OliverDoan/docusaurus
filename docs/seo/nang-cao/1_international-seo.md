@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "International SEO"
+title: "1. International SEO"
 ---
 
 # International SEO — Tối ưu SEO cho website đa ngôn ngữ

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "Rate Limiting"
+title: "4. Rate Limiting"
 ---
 
 # Rate Limiting

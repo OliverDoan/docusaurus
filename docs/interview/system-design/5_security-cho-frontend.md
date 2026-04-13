@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "XSS, CSRF, CSP, Subresource Integrity, OWASP Top 10"
+title: "5. XSS, CSRF, CSP, Subresource Integrity, OWASP Top 10"
 ---
 
 # XSS, CSRF, CSP, Subresource Integrity, OWASP Top 10

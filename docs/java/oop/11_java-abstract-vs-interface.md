@@ -1,6 +1,6 @@
 ---
 sidebar_position: 11
-title: "So sánh Abstract Class và Interface"
+title: "11. So sánh Abstract Class và Interface"
 ---
 
 # So sánh Abstract Class và Interface
