@@ -1,9 +1,25 @@
 ---
 sidebar_position: 3
-title: "3. NPM title: "NPM & Package Management" Package Management"
+title: "3. NPM & Package Management"
 ---
 
 # NPM & Package Management
+
+
+---
+
+## Mục lục
+
+- [NPM là gì?](#npm-là-gì)
+- [Khởi tạo project](#khởi-tạo-project)
+- [Cài đặt packages](#cài-đặt-packages)
+- [dependencies vs devDependencies](#dependencies-vs-devdependencies)
+- [Versioning (SemVer)](#versioning-semver)
+- [NPM Scripts](#npm-scripts)
+- [package-lock.json](#package-lockjson)
+- [Tóm tắt](#tóm-tắt)
+
+---
 
 ## NPM là gì?
 

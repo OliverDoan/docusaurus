@@ -9,6 +9,21 @@ TypeScript type system là thứ khiến ngôn ngữ này trở nên mạnh mẽ
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: Union types và intersection types khác nhau thế nào? `[Intermediate]`](#câu-1-union-types-và-intersection-types-khác-nhau-thế-nào-intermediate)
+- [Câu 2: Literal types và type narrowing hoạt động như thế nào? `[Intermediate]`](#câu-2-literal-types-và-type-narrowing-hoạt-động-như-thế-nào-intermediate)
+- [Câu 3: Type aliases và interfaces khác nhau như thế nào? Khi nào dùng cái nào? `[Intermediate]`](#câu-3-type-aliases-và-interfaces-khác-nhau-như-thế-nào-khi-nào-dùng-cái-nào-intermediate)
+- [Câu 4: Enum, const enum và union literal khác nhau thế nào? `[Intermediate]`](#câu-4-enum-const-enum-và-union-literal-khác-nhau-thế-nào-intermediate)
+- [Câu 5: never, unknown, any -- khi nào dùng cái nào? `[Senior]`](#câu-5-never-unknown-any-khi-nào-dùng-cái-nào-senior)
+- [Câu 6: Giải thích sự khác biệt giữa type widening và type narrowing `[Senior]`](#câu-6-giải-thích-sự-khác-biệt-giữa-type-widening-và-type-narrowing-senior)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: Union types và intersection types khác nhau thế nào? `[Intermediate]`
 
 ### Giải thích lý thuyết

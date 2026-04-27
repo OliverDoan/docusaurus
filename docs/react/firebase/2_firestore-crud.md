@@ -5,6 +5,23 @@ title: "2. Firestore CRUD"
 
 # Firestore CRUD
 
+
+---
+
+## Mục lục
+
+- [Firestore là gì?](#firestore-là-gì)
+- [Setup](#setup)
+- [Create (Thêm document)](#create-thêm-document)
+- [Read (Đọc data)](#read-đọc-data)
+- [Update (Cập nhật)](#update-cập-nhật)
+- [Delete (Xóa)](#delete-xóa)
+- [Custom Hook: useFirestore](#custom-hook-usefirestore)
+- [Security Rules](#security-rules)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Firestore là gì?
 
 Cloud Firestore là NoSQL database của Firebase, lưu trữ data dạng **documents** trong **collections**. Hỗ trợ realtime sync và offline.

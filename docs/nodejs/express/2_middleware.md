@@ -5,6 +5,23 @@ title: "2. Middleware"
 
 # Middleware trong Express
 
+
+---
+
+## Mục lục
+
+- [Middleware là gì?](#middleware-là-gì)
+- [Cấu trúc Middleware](#cấu-trúc-middleware)
+- [Application-level Middleware](#application-level-middleware)
+- [Built-in Middleware](#built-in-middleware)
+- [Third-party Middleware phổ biến](#third-party-middleware-phổ-biến)
+- [Custom Middleware thực tế](#custom-middleware-thực-tế)
+- [Error Handling Middleware](#error-handling-middleware)
+- [Thứ tự Middleware quan trọng](#thứ-tự-middleware-quan-trọng)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## Middleware là gì?
 
 Middleware là hàm có quyền truy cập `req`, `res`, và hàm `next()`. Chúng xử lý request theo chuỗi (pipeline).

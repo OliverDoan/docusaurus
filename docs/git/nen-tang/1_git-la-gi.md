@@ -19,6 +19,25 @@ Nếu có, chúc mừng bạn — bạn đang "quản lý phiên bản" bằng t
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Version Control System (VCS) là gì?](#1-version-control-system-vcs-là-gì)
+- [2. Lịch sử phát triển: Từ copy thủ công đến Git](#2-lịch-sử-phát-triển-từ-copy-thủ-công-đến-git)
+- [3. Centralized vs Distributed VCS](#3-centralized-vs-distributed-vcs)
+- [4. Git vs SVN — So sánh cụ thể](#4-git-vs-svn-so-sánh-cụ-thể)
+- [5. Tại sao Git thống trị?](#5-tại-sao-git-thống-trị)
+- [6. Git KHÔNG PHẢI là GitHub](#6-git-không-phải-là-github)
+- [7. Ai cần học Git?](#7-ai-cần-học-git)
+- [8. Cách Git lưu dữ liệu](#8-cách-git-lưu-dữ-liệu)
+- [9. Lỗi thường gặp khi mới bắt đầu](#9-lỗi-thường-gặp-khi-mới-bắt-đầu)
+- [10. Câu hỏi phỏng vấn](#10-câu-hỏi-phỏng-vấn)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Version Control System (VCS) là gì?
 
 **Version Control System** (Hệ thống quản lý phiên bản) là công cụ giúp bạn:

@@ -5,6 +5,21 @@ title: "2. Phương thức mảng"
 
 # Phương thức mảng
 
+
+---
+
+## Mục lục
+
+- [Phương thức mảng là gì?](#phương-thức-mảng-là-gì)
+- [Tại sao phương thức mảng ra đời?](#tại-sao-phương-thức-mảng-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Immutable vs Mutating methods (quan trọng!)](#immutable-vs-mutating-methods-quan-trọng)
+- [Khi nào dùng method nào?](#khi-nào-dùng-method-nào)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Phương thức mảng là gì?
 
 Hãy tưởng tượng bạn có một **danh sách học sinh** và cần thực hiện các thao tác: tìm học sinh giỏi nhất, lọc ra ai đậu, tính điểm trung bình... Thay vì viết vòng lặp `for` thủ công cho mỗi thao tác, JavaScript cung cấp sẵn các **phương thức (methods)** để làm việc này nhanh gọn hơn.

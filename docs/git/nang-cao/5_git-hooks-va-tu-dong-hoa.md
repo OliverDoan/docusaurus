@@ -9,6 +9,28 @@ Bạn có bao giờ quên chạy lint trước khi commit? Hoặc đồng nghi�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Git Hooks là gì?](#1-git-hooks-là-gì)
+- [2. Các loại hooks](#2-các-loại-hooks)
+- [3. Tạo hook thủ công](#3-tạo-hook-thủ-công)
+- [4. Husky — Chia sẻ hooks cho cả team](#4-husky-chia-sẻ-hooks-cho-cả-team)
+- [5. lint-staged — Chỉ lint files đã stage](#5-lint-staged-chỉ-lint-files-đã-stage)
+- [6. commitlint — Validate commit message](#6-commitlint-validate-commit-message)
+- [7. Setup hoàn chỉnh: Husky + lint-staged + commitlint + Prettier](#7-setup-hoàn-chỉnh-husky-lint-staged-commitlint-prettier)
+- [8. Pre-push hook: Chạy tests trước khi push](#8-pre-push-hook-chạy-tests-trước-khi-push)
+- [9. --no-verify: Bypass hooks](#9-no-verify-bypass-hooks)
+- [10. Server-side hooks](#10-server-side-hooks)
+- [11. Bảng tổng hợp hooks và use cases](#11-bảng-tổng-hợp-hooks-và-use-cases)
+- [12. Lỗi thường gặp](#12-lỗi-thường-gặp)
+- [13. Câu hỏi phỏng vấn](#13-câu-hỏi-phỏng-vấn)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## 1. Git Hooks là gì?
 
 Git Hooks là **scripts tự động chạy** khi một sự kiện Git xảy ra. Ví dụ: trước khi commit, Git có thể chạy linter; trước khi push, Git có thể chạy tests.

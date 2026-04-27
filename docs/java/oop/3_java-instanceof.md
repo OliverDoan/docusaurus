@@ -9,6 +9,25 @@ Trong Java, đôi khi bạn cần kiểm tra xem một đối tượng có thu�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. instanceof là gì?](#1-instanceof-là-gì)
+- [2. instanceof với hệ thống kế thừa (Class Hierarchy)](#2-instanceof-với-hệ-thống-kế-thừa-class-hierarchy)
+- [3. instanceof với Interface](#3-instanceof-với-interface)
+- [4. instanceof với null](#4-instanceof-với-null)
+- [5. Downcasting an toàn với instanceof](#5-downcasting-an-toàn-với-instanceof)
+- [6. Pattern Matching instanceof (Java 16+)](#6-pattern-matching-instanceof-java-16)
+- [7. Khi nào nên và KHÔNG nên dùng instanceof](#7-khi-nào-nên-và-không-nên-dùng-instanceof)
+- [8. Ví dụ thực tế: Override equals()](#8-ví-dụ-thực-tế-override-equals)
+- [9. Lỗi thường gặp](#9-lỗi-thường-gặp)
+- [10. Tổng kết](#10-tổng-kết)
+- [11. Câu hỏi phỏng vấn](#11-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. instanceof là gì?
 
 `instanceof` là **toán tử so sánh kiểu** (type comparison operator). Nó kiểm tra xem một đối tượng có phải là thể hiện (instance) của một class, subclass hoặc interface cụ thể hay không.

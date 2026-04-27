@@ -9,6 +9,24 @@ Bài này hướng dẫn cài đặt Docker trên cả 3 hệ điều hành: **m
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Docker Desktop vs Docker Engine](#1-docker-desktop-vs-docker-engine)
+- [2. Cài trên macOS](#2-cài-trên-macos)
+- [3. Cài trên Windows](#3-cài-trên-windows)
+- [4. Cài trên Ubuntu/Debian Linux](#4-cài-trên-ubuntudebian-linux)
+- [5. Chạy Container đầu tiên](#5-chạy-container-đầu-tiên)
+- [6. Chạy thử một web server](#6-chạy-thử-một-web-server)
+- [7. Cấu hình Docker Desktop (tuỳ chọn)](#7-cấu-hình-docker-desktop-tuỳ-chọn)
+- [8. Xác minh hoàn chỉnh](#8-xác-minh-hoàn-chỉnh)
+- [9. Xử lý lỗi thường gặp](#9-xử-lý-lỗi-thường-gặp)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Docker Desktop vs Docker Engine
 
 Trước khi cài, cần hiểu 2 phiên bản:

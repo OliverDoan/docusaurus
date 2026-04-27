@@ -5,6 +5,20 @@ title: "1. Mảng (Array)"
 
 # Mảng (Array)
 
+
+---
+
+## Mục lục
+
+- [Mảng là gì?](#mảng-là-gì)
+- [Tại sao mảng ra đời?](#tại-sao-mảng-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Mảng là gì?
 
 Hãy tưởng tượng bạn có **danh sách mua sắm** ghi trên giấy:

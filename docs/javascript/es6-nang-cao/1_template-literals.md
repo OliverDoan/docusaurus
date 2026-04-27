@@ -5,6 +5,20 @@ title: "1. Template Literals"
 
 # Template Literals
 
+
+---
+
+## Mục lục
+
+- [Template Literals là gì?](#template-literals-là-gì)
+- [Tại sao Template Literals ra đời?](#tại-sao-template-literals-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Template Literals là gì?
 
 Template Literals (hay Template Strings) là cách viết chuỗi (string) mới trong JavaScript, sử dụng dấu **backtick** (`` ` ``) thay vì dấu nháy đơn (`'`) hoặc nháy kép (`"`).

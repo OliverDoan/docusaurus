@@ -9,6 +9,24 @@ Mặc định container có thể dùng toàn bộ tài nguyên của host. Bài
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Tại sao cần giới hạn tài nguyên?](#1-tại-sao-cần-giới-hạn-tài-nguyên)
+- [2. Giới hạn Memory (RAM)](#2-giới-hạn-memory-ram)
+- [3. Giới hạn CPU](#3-giới-hạn-cpu)
+- [4. Giới hạn Disk I/O](#4-giới-hạn-disk-io)
+- [5. Giới hạn số Process (PIDs)](#5-giới-hạn-số-process-pids)
+- [6. Update Resource Limits](#6-update-resource-limits)
+- [7. Monitoring Resources](#7-monitoring-resources)
+- [8. Khuyến nghị cho từng loại service](#8-khuyến-nghị-cho-từng-loại-service)
+- [9. Bài tập thực hành](#9-bài-tập-thực-hành)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Tại sao cần giới hạn tài nguyên?
 
 Không giới hạn tài nguyên có thể dẫn đến:

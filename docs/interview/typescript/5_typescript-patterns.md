@@ -9,6 +9,22 @@ Bài này tổng hợp những advanced patterns mà các TypeScript developer c
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: Branded types (nominal types) là gì và tại sao cần dùng? `[Senior]`](#câu-1-branded-types-nominal-types-là-gì-và-tại-sao-cần-dùng-senior)
+- [Câu 2: Builder pattern với TypeScript `[Senior]`](#câu-2-builder-pattern-với-typescript-senior)
+- [Câu 3: Discriminated unions trong state management `[Intermediate]`](#câu-3-discriminated-unions-trong-state-management-intermediate)
+- [Câu 4: Advanced infer usage `[Senior]`](#câu-4-advanced-infer-usage-senior)
+- [Câu 5: Type-safe event emitter pattern `[Senior]`](#câu-5-type-safe-event-emitter-pattern-senior)
+- [Câu 6: Declaration merging `[Intermediate]`](#câu-6-declaration-merging-intermediate)
+- [Bảng so sánh patterns và khi nào dùng](#bảng-so-sánh-patterns-và-khi-nào-dùng)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: Branded types (nominal types) là gì và tại sao cần dùng? `[Senior]`
 
 ### Giải thích lý thuyết

@@ -5,6 +5,21 @@ title: "3. Async/Await"
 
 # Async/Await
 
+
+---
+
+## Mục lục
+
+- [Async/Await là gì?](#asyncawait-là-gì)
+- [Tại sao Async/Await ra đời?](#tại-sao-asyncawait-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [So sánh: Callback vs Promise vs Async/Await](#so-sánh-callback-vs-promise-vs-asyncawait)
+- [Khi nào dùng Async/Await?](#khi-nào-dùng-asyncawait)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Async/Await là gì?
 
 **Async/Await** là cú pháp giúp viết code bất đồng bộ **trông giống như code đồng bộ** — dễ đọc, dễ hiểu, dễ debug.

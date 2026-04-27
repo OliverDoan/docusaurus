@@ -9,6 +9,21 @@ Khi phỏng vấn React ở level senior, bạn sẽ gặp các câu hỏi về 
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: Virtual DOM là gì? Tại sao React cần nó? `[Intermediate]`](#câu-1-virtual-dom-là-gì-tại-sao-react-cần-nó-intermediate)
+- [Câu 2: Reconciliation Algorithm (Diffing) hoạt động như thế nào? `[Senior]`](#câu-2-reconciliation-algorithm-diffing-hoạt-động-như-thế-nào-senior)
+- [Câu 3: React Fiber là gì? Tại sao React cần viết lại core algorithm? `[Senior]`](#câu-3-react-fiber-là-gì-tại-sao-react-cần-viết-lại-core-algorithm-senior)
+- [Câu 4: Key prop -- tại sao quan trọng? Khi nào dùng index làm key là ok? `[Intermediate]`](#câu-4-key-prop-tại-sao-quan-trọng-khi-nào-dùng-index-làm-key-là-ok-intermediate)
+- [Câu 5: Điều gì trigger re-render trong React? Batching hoạt động ra sao? `[Intermediate]`](#câu-5-điều-gì-trigger-re-render-trong-react-batching-hoạt-động-ra-sao-intermediate)
+- [Câu 6: Concurrent Features -- useTransition và useDeferredValue `[Senior]`](#câu-6-concurrent-features-usetransition-và-usedeferredvalue-senior)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: Virtual DOM là gì? Tại sao React cần nó? `[Intermediate]`
 
 ### Giải thích lý thuyết

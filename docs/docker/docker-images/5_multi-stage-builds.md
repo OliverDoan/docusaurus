@@ -9,6 +9,23 @@ Multi-stage build là kỹ thuật nâng cao giúp tạo ra image production nh�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Vấn đề: Image quá lớn](#1-vấn-đề-image-quá-lớn)
+- [2. Multi-stage Build là gì?](#2-multi-stage-build-là-gì)
+- [3. Cú pháp](#3-cú-pháp)
+- [4. Ví dụ thực tế](#4-ví-dụ-thực-tế)
+- [5. So sánh kết quả](#5-so-sánh-kết-quả)
+- [6. Build stage cụ thể](#6-build-stage-cụ-thể)
+- [7. Tips nâng cao](#7-tips-nâng-cao)
+- [8. Bài tập thực hành](#8-bài-tập-thực-hành)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Vấn đề: Image quá lớn
 
 Khi build ứng dụng, bạn cần **build tools** (compiler, dev dependencies...) nhưng **không cần chúng khi chạy**.

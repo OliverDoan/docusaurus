@@ -9,6 +9,20 @@ Bài này tổng hợp các best practices quan trọng nhất khi làm việc v
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Dockerfile Best Practices](#1-dockerfile-best-practices)
+- [2. Security Best Practices](#2-security-best-practices)
+- [3. Performance Best Practices](#3-performance-best-practices)
+- [4. Development Best Practices](#4-development-best-practices)
+- [5. Networking Best Practices](#5-networking-best-practices)
+- [6. Tổng kết Checklist](#6-tổng-kết-checklist)
+
+---
+
 ## 1. Dockerfile Best Practices
 
 ### Chọn base image tốt

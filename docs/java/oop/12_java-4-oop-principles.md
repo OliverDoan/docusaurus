@@ -5,6 +5,26 @@ title: "12. 4 tính chất của OOP"
 
 # 4 tính chất của OOP
 
+
+---
+
+## Mục lục
+
+- [Giới thiệu](#giới-thiệu)
+- [1. Encapsulation -- Tính đóng gói](#1-encapsulation-tính-đóng-gói)
+- [2. Inheritance -- Tính kế thừa](#2-inheritance-tính-kế-thừa)
+- [3. Polymorphism -- Tính đa hình](#3-polymorphism-tính-đa-hình)
+- [4. Abstraction -- Tính trừu tượng](#4-abstraction-tính-trừu-tượng)
+- [4 tính chất phối hợp với nhau](#4-tính-chất-phối-hợp-với-nhau)
+- [OOP vs Procedural Programming](#oop-vs-procedural-programming)
+- [Hiểu lầm phổ biến về OOP](#hiểu-lầm-phổ-biến-về-oop)
+- [Bảng tổng hợp: Khi nào tính chất nào hữu ích nhất](#bảng-tổng-hợp-khi-nào-tính-chất-nào-hữu-ích-nhất)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## Giới thiệu
 
 Lập trình hướng đối tượng (OOP) dựa trên 4 tính chất nền tảng: **Encapsulation** (Đóng gói), **Inheritance** (Kế thừa), **Polymorphism** (Đa hình), và **Abstraction** (Trừu tượng). Bốn tính chất này không tồn tại độc lập -- chúng **phối hợp chặt chẽ** với nhau để tạo ra code dễ bảo trì, mở rộng và tái sử dụng.

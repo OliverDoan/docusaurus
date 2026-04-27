@@ -9,6 +9,23 @@ Khi container bị xoá, dữ liệu bên trong cũng mất theo. **Volumes** gi
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Vấn đề: Dữ liệu mất khi xoá container](#1-vấn-đề-dữ-liệu-mất-khi-xoá-container)
+- [2. Các loại lưu trữ trong Docker](#2-các-loại-lưu-trữ-trong-docker)
+- [3. Named Volumes](#3-named-volumes)
+- [4. Bind Mounts](#4-bind-mounts)
+- [5. tmpfs Mounts](#5-tmpfs-mounts)
+- [6. Volumes trong Docker Compose](#6-volumes-trong-docker-compose)
+- [7. Backup và Restore Volumes](#7-backup-và-restore-volumes)
+- [8. Best Practices](#8-best-practices)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Vấn đề: Dữ liệu mất khi xoá container
 
 ```bash

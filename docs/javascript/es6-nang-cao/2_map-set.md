@@ -1,9 +1,27 @@
 ---
 sidebar_position: 2
-title: "2. Map title: "Map & Set" Set"
+title: "2. Map & Set"
 ---
 
 # Map & Set
+
+
+---
+
+## Mục lục
+
+- [Map là gì?](#map-là-gì)
+- [Set là gì?](#set-là-gì)
+- [Tại sao Map & Set ra đời?](#tại-sao-map-set-ra-đời)
+- [Cách sử dụng Map](#cách-sử-dụng-map)
+- [Map vs Object -- bảng so sánh chi tiết](#map-vs-object-bảng-so-sánh-chi-tiết)
+- [Cách sử dụng Set](#cách-sử-dụng-set)
+- [WeakMap và WeakSet (giới thiệu ngắn)](#weakmap-và-weakset-giới-thiệu-ngắn)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## Map là gì?
 

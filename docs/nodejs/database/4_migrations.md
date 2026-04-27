@@ -5,6 +5,19 @@ title: "4. Database Migrations"
 
 # Database Migrations
 
+
+---
+
+## Mục lục
+
+- [Migration là gì?](#migration-là-gì)
+- [Prisma Migrations](#prisma-migrations)
+- [Knex.js Migrations](#knexjs-migrations)
+- [Best Practices](#best-practices)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## Migration là gì?
 
 Migration là cách quản lý thay đổi schema database theo phiên bản — giống git cho database.

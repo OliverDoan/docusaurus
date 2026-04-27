@@ -5,6 +5,26 @@ title: "6. Tính kế thừa (Inheritance)"
 
 # Tính kế thừa (Inheritance)
 
+
+---
+
+## Mục lục
+
+- [Ví dụ thực tế để hiểu kế thừa](#ví-dụ-thực-tế-để-hiểu-kế-thừa)
+- [Kế thừa là gì?](#kế-thừa-là-gì)
+- [Các kiểu kế thừa trong Java](#các-kiểu-kế-thừa-trong-java)
+- [Tại sao Java không hỗ trợ đa kế thừa (Multiple Inheritance)?](#tại-sao-java-không-hỗ-trợ-đa-kế-thừa-multiple-inheritance)
+- [Ghi đè phương thức (Method Overriding) với `@Override`](#ghi-đè-phương-thức-method-overriding-với-override)
+- [Từ khóa `super`](#từ-khóa-super)
+- [Quan hệ IS-A](#quan-hệ-is-a)
+- [Kế thừa (IS-A) vs Composition (HAS-A)](#kế-thừa-is-a-vs-composition-has-a)
+- [Access Modifier `protected` trong kế thừa](#access-modifier-protected-trong-kế-thừa)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Tổng kết](#tổng-kết)
+- [Cau hoi phong van](#cau-hoi-phong-van)
+
+---
+
 ## Ví dụ thực tế để hiểu kế thừa
 
 Hãy tưởng tượng bạn là con trong một gia đình. Bạn **thừa hưởng** rất nhiều thứ từ bố mẹ: màu mắt, nhóm máu, chiều cao tiềm năng, thậm chí cả tính cách. Nhưng bạn cũng có những đặc điểm riêng mà bố mẹ không có -- có thể bạn giỏi vẽ hơn, hoặc bạn chơi guitar.

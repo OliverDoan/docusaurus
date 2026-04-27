@@ -5,6 +5,20 @@ title: "4. Closures"
 
 # Closures
 
+
+---
+
+## Mục lục
+
+- [Closure là gì?](#closure-là-gì)
+- [Tại sao Closure ra đời?](#tại-sao-closure-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Closure là gì?
 
 Closure là khi một hàm **"nhớ" được các biến** từ scope bên ngoài, **ngay cả khi scope đó đã kết thúc**. Nói cách khác, hàm bên trong "mang theo" môi trường nơi nó được tạo ra.

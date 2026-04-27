@@ -9,6 +9,26 @@ Trước khi gõ bất kỳ lệnh Git nào, bạn cần hiểu **cách Git suy 
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Ba vùng làm việc của Git](#1-ba-vùng-làm-việc-của-git)
+- [2. Commit là gì?](#2-commit-là-gì)
+- [3. SHA-1 Hash — Định danh duy nhất](#3-sha-1-hash-định-danh-duy-nhất)
+- [4. HEAD là gì?](#4-head-là-gì)
+- [5. Branch (Nhánh)](#5-branch-nhánh)
+- [6. Detached HEAD](#6-detached-head)
+- [7. Sơ đồ Commit History](#7-sơ-đồ-commit-history)
+- [8. Thư mục .git](#8-thư-mục-git)
+- [9. File States trong Git](#9-file-states-trong-git)
+- [10. Lỗi thường gặp](#10-lỗi-thường-gặp)
+- [11. Câu hỏi phỏng vấn](#11-câu-hỏi-phỏng-vấn)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Ba vùng làm việc của Git
 
 Đây là khái niệm **quan trọng nhất** để hiểu Git. Mỗi file trong dự án của bạn tồn tại ở một trong 3 vùng:

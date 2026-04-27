@@ -11,6 +11,27 @@ Hãy tưởng tượng bạn có **nhiều loại đồng hồ** trong nhà: đ�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. `LocalDate.now()` - Lấy ngày hiện tại](#1-localdatenow-lấy-ngày-hiện-tại)
+- [2. `LocalTime.now()` - Lấy giờ hiện tại](#2-localtimenow-lấy-giờ-hiện-tại)
+- [3. `LocalDateTime.now()` - Lấy ngày và giờ hiện tại](#3-localdatetimenow-lấy-ngày-và-giờ-hiện-tại)
+- [4. `ZonedDateTime.now()` - Lấy ngày giờ với timezone](#4-zoneddatetimenow-lấy-ngày-giờ-với-timezone)
+- [5. `Instant.now()` - Lấy timestamp (mốc thời gian tuyệt đối)](#5-instantnow-lấy-timestamp-mốc-thời-gian-tuyệt-đối)
+- [6. `new Date()` - API cũ (legacy)](#6-new-date-api-cũ-legacy)
+- [7. `Calendar.getInstance()` - API cũ (legacy)](#7-calendargetinstance-api-cũ-legacy)
+- [8. Bảng so sánh tất cả các cách](#8-bảng-so-sánh-tất-cả-các-cách)
+- [9. Format output với `DateTimeFormatter` và `SimpleDateFormat`](#9-format-output-với-datetimeformatter-và-simpledateformat)
+- [10. Timezone handling](#10-timezone-handling)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. `LocalDate.now()` - Lấy ngày hiện tại
 
 Trả về **chỉ ngày** (năm-tháng-ngày), không có giờ phút.

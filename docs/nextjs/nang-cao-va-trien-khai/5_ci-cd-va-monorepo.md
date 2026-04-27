@@ -1,9 +1,29 @@
 ---
 sidebar_position: 5
-title: "5. CI/CD title: "CI/CD & Monorepo" Monorepo"
+title: "5. CI/CD & Monorepo"
 ---
 
 # CI/CD & Monorepo
+
+
+---
+
+## Mục lục
+
+- [Tổng quan](#tổng-quan)
+- [GitHub Actions cho Next.js](#github-actions-cho-nextjs)
+- [Caching trong CI](#caching-trong-ci)
+- [Turborepo cho Monorepo](#turborepo-cho-monorepo)
+- [pnpm Workspaces](#pnpm-workspaces)
+- [Shared Packages](#shared-packages)
+- [CI/CD cho Monorepo](#cicd-cho-monorepo)
+- [Environment Management](#environment-management)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Monorepo Best Practices](#monorepo-best-practices)
+- [Tổng kết](#tổng-kết)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## Tổng quan
 

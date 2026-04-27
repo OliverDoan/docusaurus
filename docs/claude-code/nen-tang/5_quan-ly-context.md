@@ -9,6 +9,25 @@ Context window là "bộ nhớ ngắn hạn" của Claude Code. Quản lý tốt
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Context window là gì?](#1-context-window-là-gì)
+- [2. Dấu hiệu context đầy](#2-dấu-hiệu-context-đầy)
+- [3. Cách quản lý context](#3-cách-quản-lý-context)
+- [4. CLAUDE.md — Context cố định](#4-claudemd-context-cố-định)
+- [Commands](#commands)
+- [Architecture](#architecture)
+- [Conventions](#conventions)
+- [Rules](#rules)
+- [5. Mention file thay vì để Claude tự tìm](#5-mention-file-thay-vì-để-claude-tự-tìm)
+- [6. Tóm tắt best practices](#6-tóm-tắt-best-practices)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Context window là gì?
 
 Claude Code có giới hạn lượng thông tin có thể "nhớ" trong 1 session:

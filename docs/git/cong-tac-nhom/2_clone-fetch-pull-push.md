@@ -9,6 +9,25 @@ Trong Git, có 4 lệnh chính để tương tác với remote repository: **clo
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. `git clone` — Tải repo từ remote về local](#1-git-clone-tải-repo-từ-remote-về-local)
+- [2. `git fetch` — Tải thay đổi, KHÔNG merge](#2-git-fetch-tải-thay-đổi-không-merge)
+- [3. `git pull` — Fetch + Merge (tất cả trong 1 lệnh)](#3-git-pull-fetch-merge-tất-cả-trong-1-lệnh)
+- [4. `git push` — Đẩy commit lên remote](#4-git-push-đẩy-commit-lên-remote)
+- [5. So sánh chi tiết: Fetch vs Pull](#5-so-sánh-chi-tiết-fetch-vs-pull)
+- [6. `git push --force` và `--force-with-lease`](#6-git-push-force-và-force-with-lease)
+- [7. Push Rejected — Tại sao và cách xử lý](#7-push-rejected-tại-sao-và-cách-xử-lý)
+- [8. Workflow thực tế hàng ngày](#8-workflow-thực-tế-hàng-ngày)
+- [9. Mẹo hữu ích](#9-mẹo-hữu-ích)
+- [10. Lỗi thường gặp](#10-lỗi-thường-gặp)
+- [11. Câu hỏi phỏng vấn](#11-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. `git clone` — Tải repo từ remote về local
 
 `git clone` là lệnh bạn dùng **đúng một lần** khi bắt đầu làm việc với một dự án. Nó tải toàn bộ repository (code, lịch sử commit, branches, tags) từ remote về máy tính của bạn.

@@ -5,6 +5,24 @@ title: "1. Redux Toolkit"
 
 # Redux Toolkit
 
+
+---
+
+## Mục lục
+
+- [Redux Toolkit là gì?](#redux-toolkit-là-gì)
+- [Khái niệm cốt lõi](#khái-niệm-cốt-lõi)
+- [createSlice](#createslice)
+- [configureStore](#configurestore)
+- [useSelector & useDispatch](#useselector-usedispatch)
+- [Ví dụ thực tế: Todo Slice](#ví-dụ-thực-tế-todo-slice)
+- [createAsyncThunk](#createasyncthunk)
+- [Redux DevTools](#redux-devtools)
+- [Cấu trúc thư mục](#cấu-trúc-thư-mục)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Redux Toolkit là gì?
 
 Redux Toolkit (RTK) là cách chính thức, đơn giản hóa để viết Redux. Giảm boilerplate so với Redux thuần.

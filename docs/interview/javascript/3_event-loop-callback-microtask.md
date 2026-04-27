@@ -1,11 +1,26 @@
 ---
 sidebar_position: 3
-title: "3. Event Loop, Callback Queue title: "Event Loop, Callback Queue & Microtask" Microtask"
+title: "3. Event Loop, Callback Queue & Microtask"
 ---
 
 # Event Loop, Callback Queue & Microtask
 
 Hiểu Event Loop là hiểu cách JavaScript vận hành. Đây là nhóm câu hỏi mà interviewer dùng để phân loại ứng viên: nếu bạn trả lời tốt, bạn chứng minh mình hiểu JavaScript ở level sâu, không chỉ biết viết code.
+
+---
+
+
+---
+
+## Mục lục
+
+- [Câu 1: JavaScript single-threaded model `[Intermediate]`](#câu-1-javascript-single-threaded-model-intermediate)
+- [Câu 2: Call Stack, Web APIs, Callback Queue `[Intermediate]`](#câu-2-call-stack-web-apis-callback-queue-intermediate)
+- [Câu 3: Microtask Queue vs Macrotask Queue `[Senior]`](#câu-3-microtask-queue-vs-macrotask-queue-senior)
+- [Câu 4: `requestAnimationFrame` nằm ở đâu? `[Senior]`](#câu-4-requestanimationframe-nằm-ở-đâu-senior)
+- [Câu 5: Promise.then() vs setTimeout -- thứ tự thực thi `[Senior]`](#câu-5-promisethen-vs-settimeout-thứ-tự-thực-thi-senior)
+- [Câu 6: Bài tập output prediction nâng cao `[Senior]`](#câu-6-bài-tập-output-prediction-nâng-cao-senior)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
 
 ---
 

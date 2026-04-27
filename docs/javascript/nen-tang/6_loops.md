@@ -5,6 +5,21 @@ title: "6. Vòng lặp"
 
 # Vòng lặp
 
+
+---
+
+## Mục lục
+
+- [Vòng lặp là gì?](#vòng-lặp-là-gì)
+- [Tại sao có nhiều loại vòng lặp?](#tại-sao-có-nhiều-loại-vòng-lặp)
+- [Cách sử dụng](#cách-sử-dụng)
+- [break và continue](#break-và-continue)
+- [Khi nào dùng loại nào?](#khi-nào-dùng-loại-nào)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Vòng lặp là gì?
 
 **Vòng lặp** (loop) cho phép chương trình **lặp lại** một đoạn code nhiều lần mà không cần viết lại.

@@ -9,6 +9,21 @@ Khi task phức tạp, Claude Code có thể tạo "sub-agents" — các agent p
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Sub-agents là gì?](#1-sub-agents-là-gì)
+- [2. Khi nào Claude Code dùng sub-agents?](#2-khi-nào-claude-code-dùng-sub-agents)
+- [3. Gợi ý Claude Code dùng sub-agents](#3-gợi-ý-claude-code-dùng-sub-agents)
+- [4. Extended Thinking](#4-extended-thinking)
+- [5. Plan mode](#5-plan-mode)
+- [6. Task tracking](#6-task-tracking)
+- [Tips](#tips)
+
+---
+
 ## 1. Sub-agents là gì?
 
 ```

@@ -9,6 +9,21 @@ title: "2. Dockerfile co ban"
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Dockerfile là gì?](#1-dockerfile-là-gì)
+- [2. Các lệnh Dockerfile cơ bản](#2-các-lệnh-dockerfile-cơ-bản)
+- [3. Ví dụ thực tế](#3-ví-dụ-thực-tế)
+- [4. .dockerignore](#4-dockerignore)
+- [5. Build Context](#5-build-context)
+- [6. Bài tập thực hành](#6-bài-tập-thực-hành)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Dockerfile là gì?
 
 Dockerfile giống như một **công thức nấu ăn**:

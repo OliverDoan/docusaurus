@@ -9,6 +9,24 @@ Chạy Docker trong production khác rất nhiều so với development. Bài n�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Development vs Production](#1-development-vs-production)
+- [2. Dockerfile cho Production](#2-dockerfile-cho-production)
+- [3. Docker Compose cho Production](#3-docker-compose-cho-production)
+- [4. Logging trong Production](#4-logging-trong-production)
+- [5. Health Checks](#5-health-checks)
+- [6. Deployment Strategies](#6-deployment-strategies)
+- [7. Monitoring](#7-monitoring)
+- [8. Backup Strategy](#8-backup-strategy)
+- [9. Checklist Production](#9-checklist-production)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Development vs Production
 
 | Yếu tố | Development | Production |

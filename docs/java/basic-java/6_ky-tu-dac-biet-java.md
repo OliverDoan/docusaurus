@@ -11,6 +11,21 @@ Trong Java, mot so ky tu khong the go truc tiep vao chuoi (String) hoac ky tu (c
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Bang ky tu dac biet (Escape Sequences)](#1-bang-ky-tu-dac-biet-escape-sequences)
+- [2. Vi du chi tiet tung escape sequence](#2-vi-du-chi-tiet-tung-escape-sequence)
+- [3. Unicode trong Java](#3-unicode-trong-java)
+- [4. Ung dung thuc te](#4-ung-dung-thuc-te)
+- [Khi nao dung?](#khi-nao-dung)
+- [Loi thuong gap](#loi-thuong-gap)
+- [Cau hoi phong van](#cau-hoi-phong-van)
+
+---
+
 ## 1. Bang ky tu dac biet (Escape Sequences)
 
 | Ky tu thoat | Ten goi | Mo ta | Ma Unicode |

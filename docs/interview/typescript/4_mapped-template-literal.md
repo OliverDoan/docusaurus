@@ -1,11 +1,26 @@
 ---
 sidebar_position: 4
-title: "4. Mapped Types title: "Mapped Types & Template Literal Types" Template Literal Types"
+title: "4. Mapped Types & Template Literal Types"
 ---
 
 # Mapped Types & Template Literal Types
 
 Mapped types và template literal types là hai tính năng nâng cao cho phép bạn tạo ra type mới từ type có sẵn một cách có hệ thống. Đây là nhóm câu hỏi thường xuất hiện ở level Senior và giúp phân biệt ứng viên hiểu sâu về type system.
+
+---
+
+
+---
+
+## Mục lục
+
+- [Câu 1: Mapped types hoạt động như thế nào? `[Senior]`](#câu-1-mapped-types-hoạt-động-như-thế-nào-senior)
+- [Câu 2: Modifiers trong mapped types: +readonly, -optional `[Senior]`](#câu-2-modifiers-trong-mapped-types-readonly-optional-senior)
+- [Câu 3: Template literal types `[Senior]`](#câu-3-template-literal-types-senior)
+- [Câu 4: Key remapping với `as` trong mapped types `[Senior]`](#câu-4-key-remapping-với-as-trong-mapped-types-senior)
+- [Câu 5: Recursive types `[Senior]`](#câu-5-recursive-types-senior)
+- [Câu 6: Real-world use cases: API response typing và form validation `[Senior]`](#câu-6-real-world-use-cases-api-response-typing-và-form-validation-senior)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
 
 ---
 

@@ -5,6 +5,19 @@ title: "2. Module System"
 
 # Module System trong Node.js
 
+
+---
+
+## Mục lục
+
+- [CommonJS (CJS)](#commonjs-cjs)
+- [ES Modules (ESM)](#es-modules-esm)
+- [Built-in Modules quan trọng](#built-in-modules-quan-trọng)
+- [So sánh CJS vs ESM](#so-sánh-cjs-vs-esm)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## CommonJS (CJS)
 
 Hệ thống module mặc định của Node.js:

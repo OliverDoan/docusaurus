@@ -5,6 +5,28 @@ title: "11. So sánh Abstract Class và Interface"
 
 # So sánh Abstract Class và Interface
 
+
+---
+
+## Mục lục
+
+- [Giới thiệu](#giới-thiệu)
+- [Ôn nhanh Abstract Class](#ôn-nhanh-abstract-class)
+- [Ôn nhanh Interface](#ôn-nhanh-interface)
+- [Bảng so sánh chi tiết](#bảng-so-sánh-chi-tiết)
+- [Thay đổi quan trọng từ Java 8](#thay-đổi-quan-trọng-từ-java-8)
+- [Thay đổi từ Java 9: Private method trong Interface](#thay-đổi-từ-java-9-private-method-trong-interface)
+- [Khi nào dùng Abstract Class?](#khi-nào-dùng-abstract-class)
+- [Khi nào dùng Interface?](#khi-nào-dùng-interface)
+- [Design Pattern: Template Method (Abstract Class)](#design-pattern-template-method-abstract-class)
+- [Design Pattern: Strategy (Interface)](#design-pattern-strategy-interface)
+- [Ví dụ thực tế: Hệ thống thanh toán kết hợp cả hai](#ví-dụ-thực-tế-hệ-thống-thanh-toán-kết-hợp-cả-hai)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## Giới thiệu
 
 Nếu bạn đã học qua abstract class và interface, chắc hẳn bạn từng tự hỏi: "Hai thứ này khác nhau chỗ nào? Khi nào dùng cái nào?" Đây là một trong những câu hỏi **kinh điển nhất** trong phỏng vấn Java, và cũng là chủ đề mà nhiều bạn mới học hay bị nhầm lẫn.

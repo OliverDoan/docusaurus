@@ -5,6 +5,23 @@ title: "1. Next.js là gì?"
 
 # Next.js là gì?
 
+
+---
+
+## Mục lục
+
+- [Giới thiệu Next.js](#giới-thiệu-nextjs)
+- [Tại sao chọn Next.js?](#tại-sao-chọn-nextjs)
+- [Các tính năng chính của Next.js](#các-tính-năng-chính-của-nextjs)
+- [Lịch sử phát triển Next.js](#lịch-sử-phát-triển-nextjs)
+- [Khi nào nên dùng Next.js?](#khi-nào-nên-dùng-nextjs)
+- [Hello World với Next.js](#hello-world-với-nextjs)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Tổng kết](#tổng-kết)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Giới thiệu Next.js
 
 Next.js là một **React framework** dành cho production, được phát triển bởi **Vercel**. Nếu bạn đã biết React, hãy nghĩ Next.js như một "bản nâng cấp" giúp bạn xây dựng ứng dụng web hoàn chỉnh mà không cần tự cấu hình hàng loạt công cụ.

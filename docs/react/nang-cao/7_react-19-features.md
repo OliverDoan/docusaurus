@@ -5,6 +5,23 @@ title: "7. React 19"
 
 # React 19 — Tính năng mới
 
+
+---
+
+## Mục lục
+
+- [Tổng quan](#tổng-quan)
+- [Actions](#actions)
+- [useOptimistic](#useoptimistic)
+- [use() Hook](#use-hook)
+- [ref as prop](#ref-as-prop)
+- [Document Metadata](#document-metadata)
+- [Stylesheets](#stylesheets)
+- [Cải tiến khác](#cải-tiến-khác)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Tổng quan
 
 React 19 (stable 2024) mang đến nhiều cải tiến lớn, đặc biệt cho Server Components và form handling.

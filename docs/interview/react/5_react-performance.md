@@ -9,6 +9,22 @@ Performance optimization trong React là chủ đề "senior-level" -- không ph
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: React.memo -- khi nào dùng, khi nào không nên dùng? `[Intermediate]`](#câu-1-reactmemo-khi-nào-dùng-khi-nào-không-nên-dùng-intermediate)
+- [Câu 2: useMemo và useCallback để optimize performance -- best practices? `[Senior]`](#câu-2-usememo-và-usecallback-để-optimize-performance-best-practices-senior)
+- [Câu 3: React.lazy và Suspense cho code splitting `[Intermediate]`](#câu-3-reactlazy-và-suspense-cho-code-splitting-intermediate)
+- [Câu 4: Dynamic Imports -- ngoài React.lazy còn dùng thế nào? `[Senior]`](#câu-4-dynamic-imports-ngoài-reactlazy-còn-dùng-thế-nào-senior)
+- [Câu 5: React Profiler -- debug performance như thế nào? `[Senior]`](#câu-5-react-profiler-debug-performance-như-thế-nào-senior)
+- [Câu 6: Virtualization -- render danh sách lớn hiệu quả `[Senior]`](#câu-6-virtualization-render-danh-sách-lớn-hiệu-quả-senior)
+- [Bảng tổng hợp các chiến lược Performance Optimization](#bảng-tổng-hợp-các-chiến-lược-performance-optimization)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: React.memo -- khi nào dùng, khi nào không nên dùng? `[Intermediate]`
 
 ### Giải thích lý thuyết

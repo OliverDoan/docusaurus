@@ -9,6 +9,23 @@ Java là một trong những ngôn ngữ lập trình phổ biến nhất thế 
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Java là gì?](#1-java-là-gì)
+- [2. Lịch sử hình thành](#2-lịch-sử-hình-thành)
+- [3. Các đặc điểm nổi bật của Java](#3-các-đặc-điểm-nổi-bật-của-java)
+- [4. Các nền tảng Java](#4-các-nền-tảng-java)
+- [5. Quy trình biên dịch và thực thi](#5-quy-trình-biên-dịch-và-thực-thi)
+- [6. Ứng dụng thực tế của Java](#6-ứng-dụng-thực-tế-của-java)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Java là gì?
 
 Java là **ngôn ngữ lập trình hướng đối tượng** (Object-Oriented Programming - OOP), được thiết kế để **đơn giản, an toàn và độc lập nền tảng**.

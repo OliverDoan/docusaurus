@@ -11,6 +11,25 @@ Hãy hình dung `if-else` giống như **ngã rẽ trên đường**: khi bạn 
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Nội dung](#nội-dung)
+- [1. if đơn giản](#1-if-đơn-giản)
+- [2. if-else](#2-if-else)
+- [3. if-else if-else (Ladder)](#3-if-else-if-else-ladder)
+- [4. Nested if (if lồng nhau)](#4-nested-if-if-lồng-nhau)
+- [5. Toán tử Ternary thay thế if-else](#5-toán-tử-ternary-thay-thế-if-else)
+- [6. Ví dụ thực tế](#6-ví-dụ-thực-tế)
+- [7. Best Practices](#7-best-practices)
+- [8. Khi nào dùng?](#8-khi-nào-dùng)
+- [9. Lỗi thường gặp](#9-lỗi-thường-gặp)
+- [10. Câu hỏi phỏng vấn](#10-câu-hỏi-phỏng-vấn)
+
+---
+
 ## Nội dung
 
 1. [if đơn giản](#1-if-đơn-giản)

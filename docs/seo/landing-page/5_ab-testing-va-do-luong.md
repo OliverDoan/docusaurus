@@ -5,6 +5,20 @@ title: "5. A/B Testing và đo lường SEO"
 
 # A/B Testing và đo lường SEO
 
+## Mục lục
+
+- [A/B testing landing pages mà không ảnh hưởng SEO](#ab-testing-landing-pages-mà-không-ảnh-hưởng-seo)
+- [Google Analytics 4 setup cho SEO tracking](#google-analytics-4-setup-cho-seo-tracking)
+- [Conversion tracking và attribution](#conversion-tracking-và-attribution)
+- [SEO KPIs cho landing page](#seo-kpis-cho-landing-page)
+- [Google Search Console performance data](#google-search-console-performance-data)
+- [Tools cho A/B testing và đo lường](#tools-cho-ab-testing-và-đo-lường)
+- [Custom event tracking patterns](#custom-event-tracking-patterns)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## A/B testing landing pages mà không ảnh hưởng SEO
 
 A/B testing là cách khoa học nhất để cải thiện conversion rate. Nhưng nếu làm sai, bạn có thể phá hỏng SEO ranking. Cùng tìm hiểu cách test đúng.

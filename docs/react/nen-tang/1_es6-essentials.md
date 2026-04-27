@@ -5,6 +5,25 @@ title: "1. ES6+ cần biết cho React"
 
 # ES6+ cần biết cho React
 
+
+---
+
+## Mục lục
+
+- [Arrow Functions](#arrow-functions)
+- [Destructuring](#destructuring)
+- [Spread & Rest Operators (...)](#spread-rest-operators)
+- [Template Literals](#template-literals)
+- [Modules (import / export)](#modules-import-export)
+- [Array Methods (dùng rất nhiều trong React)](#array-methods-dùng-rất-nhiều-trong-react)
+- [Optional Chaining (?.) & Nullish Coalescing (??)](#optional-chaining-nullish-coalescing)
+- [Promises & Async/Await](#promises-asyncawait)
+- [Ternary Operator](#ternary-operator)
+- [Short-circuit Evaluation](#short-circuit-evaluation)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Arrow Functions
 
 ```js

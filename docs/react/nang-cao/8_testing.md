@@ -5,6 +5,25 @@ title: "8. Testing"
 
 # Testing React Components
 
+
+---
+
+## Mục lục
+
+- [Công cụ](#công-cụ)
+- [Setup (Vitest + React Testing Library)](#setup-vitest-react-testing-library)
+- [Nguyên tắc Testing Library](#nguyên-tắc-testing-library)
+- [Ví dụ: Test component đơn giản](#ví-dụ-test-component-đơn-giản)
+- [Test interactions](#test-interactions)
+- [Test form](#test-form)
+- [Test async (API calls)](#test-async-api-calls)
+- [Test hooks](#test-hooks)
+- [Các pattern test phổ biến](#các-pattern-test-phổ-biến)
+- [Checklist test React](#checklist-test-react)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Công cụ
 
 | Công cụ | Vai trò |

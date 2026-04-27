@@ -9,6 +9,22 @@ Docker và CI/CD là cặp đôi hoàn hảo. Bài này hướng dẫn cách s�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Tại sao Docker + CI/CD?](#1-tại-sao-docker-cicd)
+- [2. GitHub Actions + Docker](#2-github-actions-docker)
+- [3. Multi-platform Builds](#3-multi-platform-builds)
+- [4. Deploy to Server](#4-deploy-to-server)
+- [5. CI/CD Pipeline hoàn chỉnh](#5-cicd-pipeline-hoàn-chỉnh)
+- [6. Caching trong CI](#6-caching-trong-ci)
+- [7. Bài tập thực hành](#7-bài-tập-thực-hành)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Tại sao Docker + CI/CD?
 
 ### Không có Docker

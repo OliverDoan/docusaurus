@@ -9,6 +9,22 @@ title: "4. HTTP/2/3, CORS, Cookies, JWT, OAuth"
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: So sánh HTTP/1.1, HTTP/2, và HTTP/3. Tại sao HTTP/2 nhanh hơn? `[Intermediate]`](#câu-1-so-sánh-http11-http2-và-http3-tại-sao-http2-nhanh-hơn-intermediate)
+- [Câu 2: CORS là gì? Giải thích preflight request, simple request vs complex request `[Intermediate]`](#câu-2-cors-là-gì-giải-thích-preflight-request-simple-request-vs-complex-request-intermediate)
+- [Câu 3: So sánh Cookie attributes -- SameSite, Secure, HttpOnly. Tại sao chúng quan trọng cho bảo mật? `[Intermediate]`](#câu-3-so-sánh-cookie-attributes-samesite-secure-httponly-tại-sao-chúng-quan-trọng-cho-bảo-mật-intermediate)
+- [Câu 4: JWT là gì? Structure, ưu nhược điểm, và lưu trữ ở đâu? `[Intermediate]`](#câu-4-jwt-là-gì-structure-ưu-nhược-điểm-và-lưu-trữ-ở-đâu-intermediate)
+- [Câu 5: Mô tả OAuth 2.0 Authorization Code Flow. Tại sao cần Authorization Code thay vì trả token trực tiếp? `[Senior]`](#câu-5-mô-tả-oauth-20-authorization-code-flow-tại-sao-cần-authorization-code-thay-vì-trả-token-trực-tiếp-senior)
+- [Câu 6: So sánh Session-based và Token-based authentication `[Intermediate]`](#câu-6-so-sánh-session-based-và-token-based-authentication-intermediate)
+- [Bảng so sánh authentication methods](#bảng-so-sánh-authentication-methods)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: So sánh HTTP/1.1, HTTP/2, và HTTP/3. Tại sao HTTP/2 nhanh hơn? `[Intermediate]`
 
 ### Giải thích lý thuyết

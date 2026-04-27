@@ -11,6 +11,23 @@ Hãy hình dung coding standards giống như **quy tắc chính tả và ngữ 
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Nội dung](#nội-dung)
+- [1. Naming Conventions (Quy ước đặt tên)](#1-naming-conventions-quy-ước-đặt-tên)
+- [2. Indentation và Braces (Thụt lề và ngoặc nhọn)](#2-indentation-và-braces-thụt-lề-và-ngoặc-nhọn)
+- [3. Comments (Chú thích)](#3-comments-chú-thích)
+- [4. Code Organization (Tổ chức code)](#4-code-organization-tổ-chức-code)
+- [5. Clean Code Principles (Nguyên tắc code sạch)](#5-clean-code-principles-nguyên-tắc-code-sạch)
+- [6. Khi nào dùng?](#6-khi-nào-dùng)
+- [7. Lỗi thường gặp](#7-lỗi-thường-gặp)
+- [8. Câu hỏi phỏng vấn](#8-câu-hỏi-phỏng-vấn)
+
+---
+
 ## Nội dung
 
 1. [Naming Conventions (Quy ước đặt tên)](#1-naming-conventions-quy-ước-đặt-tên)

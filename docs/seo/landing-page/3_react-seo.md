@@ -5,6 +5,19 @@ title: "3. SEO cho React SPA"
 
 # SEO cho React SPA
 
+## Mục lục
+
+- [Vấn đề SEO của Single Page Application](#vấn-đề-seo-của-single-page-application)
+- [React Helmet / react-helmet-async cho meta tags](#react-helmet-react-helmet-async-cho-meta-tags)
+- [React Router và SEO](#react-router-và-seo)
+- [Prerendering solutions](#prerendering-solutions)
+- [Khi nào chọn SPA vs SSR vs SSG?](#khi-nào-chọn-spa-vs-ssr-vs-ssg)
+- [So sánh: Next.js vs Gatsby vs Remix cho SEO](#so-sánh-nextjs-vs-gatsby-vs-remix-cho-seo)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Vấn đề SEO của Single Page Application
 
 React SPA (Single Page Application) có một vấn đề cốt lõi với SEO: nội dung được render bằng JavaScript trên browser. Khi Googlebot crawl trang, ban đầu nó nhận được một file HTML gần như trống rỗng.

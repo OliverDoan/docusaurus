@@ -5,6 +5,20 @@ title: "5. Query Optimization"
 
 # Query Optimization
 
+
+---
+
+## Mục lục
+
+- [N+1 Problem](#n1-problem)
+- [Indexing](#indexing)
+- [Select chỉ fields cần thiết](#select-chỉ-fields-cần-thiết)
+- [Pagination](#pagination)
+- [Connection Pooling](#connection-pooling)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## N+1 Problem
 
 ```js

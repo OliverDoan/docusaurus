@@ -5,6 +5,20 @@ title: "3. Object"
 
 # Object
 
+
+---
+
+## Mục lục
+
+- [Object là gì?](#object-là-gì)
+- [Tại sao object ra đời?](#tại-sao-object-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Object là gì?
 
 Hãy tưởng tượng **thẻ sinh viên** của bạn:

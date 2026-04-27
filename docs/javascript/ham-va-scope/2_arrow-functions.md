@@ -5,6 +5,22 @@ title: "2. Arrow Functions"
 
 # Arrow Functions
 
+
+---
+
+## Mục lục
+
+- [Arrow Function là gì?](#arrow-function-là-gì)
+- [Tại sao Arrow Function ra đời?](#tại-sao-arrow-function-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Arrow Function KHÔNG có `this` riêng](#arrow-function-không-có-this-riêng)
+- [So sánh Arrow Function vs Function Thường](#so-sánh-arrow-function-vs-function-thường)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Arrow Function là gì?
 
 Arrow function (hàm mũi tên) là cú pháp **viết tắt** để tạo hàm trong JavaScript, sử dụng ký hiệu `=>`. Arrow function ngắn gọn hơn function thường và có hành vi đặc biệt với từ khóa `this`.

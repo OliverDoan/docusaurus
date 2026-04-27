@@ -5,6 +5,23 @@ title: "4. Props"
 
 # Props
 
+
+---
+
+## Mục lục
+
+- [Props là gì?](#props-là-gì)
+- [Destructuring props](#destructuring-props)
+- [Default props](#default-props)
+- [children prop](#children-prop)
+- [Truyền function qua props (Callback)](#truyền-function-qua-props-callback)
+- [Props Drilling — Vấn đề và giải pháp](#props-drilling-vấn-đề-và-giải-pháp)
+- [Spread props](#spread-props)
+- [Props là immutable](#props-là-immutable)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Props là gì?
 
 Props (properties) là cách truyền dữ liệu từ component cha xuống component con. Props là **read-only** — component con không được phép thay đổi props nhận được.

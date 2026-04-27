@@ -5,6 +5,20 @@ title: "30. Tránh NullPointerException"
 
 # Tránh NullPointerException trong Java
 
+
+---
+
+## Mục lục
+
+- [NullPointerException là gì?](#nullpointerexception-là-gì)
+- [1. Nguyên nhân phổ biến gây NPE](#1-nguyên-nhân-phổ-biến-gây-npe)
+- [2. Cách phòng tránh NPE](#2-cách-phòng-tránh-npe)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## NullPointerException là gì?
 
 **NullPointerException (NPE)** là một trong những lỗi runtime **phổ biến nhất** trong Java. Lỗi này xảy ra khi chương trình cố gắng truy cập method, field, hoặc property của một **tham chiếu null** -- tức là một biến chưa trỏ đến bất kỳ object nào.

@@ -9,6 +9,21 @@ Security trong frontend thường bị xem nhẹ -- nhiều dev nghĩ "security 
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: XSS là gì? Có bao nhiêu loại? Phòng chống như thế nào? `[Senior]`](#câu-1-xss-là-gì-có-bao-nhiêu-loại-phòng-chống-như-thế-nào-senior)
+- [Câu 2: CSRF là gì? SameSite cookies giải quyết như thế nào? `[Intermediate]`](#câu-2-csrf-là-gì-samesite-cookies-giải-quyết-như-thế-nào-intermediate)
+- [Câu 3: Content Security Policy (CSP) là gì? `[Senior]`](#câu-3-content-security-policy-csp-là-gì-senior)
+- [Câu 4: Subresource Integrity (SRI) là gì? `[Intermediate]`](#câu-4-subresource-integrity-sri-là-gì-intermediate)
+- [Câu 5: OWASP Top 10 cho frontend -- những risks nào liên quan? `[Senior]`](#câu-5-owasp-top-10-cho-frontend-những-risks-nào-liên-quan-senior)
+- [Câu 6: Secure headers và input sanitization? `[Intermediate]`](#câu-6-secure-headers-và-input-sanitization-intermediate)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: XSS là gì? Có bao nhiêu loại? Phòng chống như thế nào? `[Senior]`
 
 ### Giải thích lý thuyết

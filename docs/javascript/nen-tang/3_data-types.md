@@ -5,6 +5,23 @@ title: "3. Kiểu dữ liệu"
 
 # Kiểu dữ liệu
 
+
+---
+
+## Mục lục
+
+- [Kiểu dữ liệu là gì?](#kiểu-dữ-liệu-là-gì)
+- [Tại sao cần phân biệt kiểu dữ liệu?](#tại-sao-cần-phân-biệt-kiểu-dữ-liệu)
+- [Kiểu Primitive (Nguyên thủy)](#kiểu-primitive-nguyên-thủy)
+- [Kiểu Reference (Tham chiếu)](#kiểu-reference-tham-chiếu)
+- [Kiểm tra kiểu với typeof](#kiểm-tra-kiểu-với-typeof)
+- [Type Coercion (Ép kiểu tự động)](#type-coercion-ép-kiểu-tự-động)
+- [Truthy và Falsy](#truthy-và-falsy)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Kiểu dữ liệu là gì?
 
 **Kiểu dữ liệu** (data type) cho JavaScript biết **loại giá trị** mà biến đang lưu trữ — là số, chữ, đúng/sai, hay không có gì.

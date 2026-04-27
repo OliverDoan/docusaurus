@@ -5,6 +5,20 @@ title: "5. Xử lý lỗi (Error Handling)"
 
 # Xử lý lỗi (Error Handling)
 
+
+---
+
+## Mục lục
+
+- [Xử lý lỗi là gì?](#xử-lý-lỗi-là-gì)
+- [Tại sao cần xử lý lỗi?](#tại-sao-cần-xử-lý-lỗi)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Xử lý lỗi là gì?
 
 **Error Handling** (xử lý lỗi) là cách để chương trình **phát hiện và xử lý** các tình huống bất thường thay vì **bị crash** (dừng đột ngột).

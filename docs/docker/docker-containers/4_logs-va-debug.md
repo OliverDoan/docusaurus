@@ -9,6 +9,22 @@ Khi container gặp vấn đề, bạn cần biết cách xem logs và debug. B�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Docker Logs](#1-docker-logs)
+- [2. Debug Container không chạy được](#2-debug-container-không-chạy-được)
+- [3. Exec — Debug container đang chạy](#3-exec-debug-container-đang-chạy)
+- [4. Docker Events](#4-docker-events)
+- [5. Resource Monitoring](#5-resource-monitoring)
+- [6. Healthcheck Debugging](#6-healthcheck-debugging)
+- [7. Troubleshooting Checklist](#7-troubleshooting-checklist)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Docker Logs
 
 ### Xem logs cơ bản

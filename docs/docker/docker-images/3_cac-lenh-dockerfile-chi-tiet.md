@@ -9,6 +9,24 @@ Bài trước đã giới thiệu các lệnh cơ bản. Bài này đi sâu vào
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. ENTRYPOINT vs CMD](#1-entrypoint-vs-cmd)
+- [2. ARG — Build-time variables](#2-arg-build-time-variables)
+- [3. LABEL — Metadata](#3-label-metadata)
+- [4. HEALTHCHECK — Kiểm tra sức khoẻ](#4-healthcheck-kiểm-tra-sức-khoẻ)
+- [5. VOLUME — Khai báo mount point](#5-volume-khai-báo-mount-point)
+- [6. USER — Chạy với user không phải root](#6-user-chạy-với-user-không-phải-root)
+- [7. SHELL — Thay đổi shell mặc định](#7-shell-thay-đổi-shell-mặc-định)
+- [8. STOPSIGNAL — Signal khi dừng container](#8-stopsignal-signal-khi-dừng-container)
+- [9. Ví dụ Dockerfile hoàn chỉnh](#9-ví-dụ-dockerfile-hoàn-chỉnh)
+- [10. Tổng kết tất cả lệnh Dockerfile](#10-tổng-kết-tất-cả-lệnh-dockerfile)
+
+---
+
 ## 1. ENTRYPOINT vs CMD
 
 Đây là câu hỏi phổ biến nhất: **ENTRYPOINT và CMD khác gì nhau?**

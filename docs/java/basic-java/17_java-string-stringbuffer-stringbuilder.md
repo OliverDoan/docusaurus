@@ -1,8 +1,29 @@
 ---
 sidebar_position: 17
-title: "17. String, StringBuffer title: "String, StringBuffer & StringBuilder" StringBuilder"
+title: "17. String, StringBuffer & StringBuilder"
 ---
 # String, StringBuffer & StringBuilder
+
+
+---
+
+## Mục lục
+
+- [1. Giới thiệu](#1-giới-thiệu)
+- [Nội dung](#nội-dung)
+- [2. Lớp String - Bất biến (Immutable)](#2-lớp-string-bất-biến-immutable)
+- [3. String Pool](#3-string-pool)
+- [4. Tạo String: literal vs new](#4-tạo-string-literal-vs-new)
+- [5. Lớp StringBuffer - Mutable & Thread-safe](#5-lớp-stringbuffer-mutable-thread-safe)
+- [6. Lớp StringBuilder - Mutable & Nhanh nhất](#6-lớp-stringbuilder-mutable-nhanh-nhất)
+- [7. Bảng so sánh String - StringBuffer - StringBuilder](#7-bảng-so-sánh-string-stringbuffer-stringbuilder)
+- [8. Các method phổ biến](#8-các-method-phổ-biến)
+- [9. So sánh hiệu năng (Benchmark)](#9-so-sánh-hiệu-năng-benchmark)
+- [10. Khi nào dùng?](#10-khi-nào-dùng)
+- [11. Lỗi thường gặp](#11-lỗi-thường-gặp)
+- [12. Câu hỏi phỏng vấn](#12-câu-hỏi-phỏng-vấn)
+
+---
 
 ## 1. Giới thiệu
 

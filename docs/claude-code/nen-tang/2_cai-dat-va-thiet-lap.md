@@ -7,6 +7,25 @@ title: "2. Cai dat va thiet lap"
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Yêu cầu](#1-yêu-cầu)
+- [2. Cài đặt](#2-cài-đặt)
+- [3. Xác thực](#3-xác-thực)
+- [4. Chạy Claude Code](#4-chạy-claude-code)
+- [5. Cấu hình cơ bản](#5-cấu-hình-cơ-bản)
+- [Commands](#commands)
+- [Architecture](#architecture)
+- [Rules](#rules)
+- [6. Phím tắt cần nhớ](#6-phím-tắt-cần-nhớ)
+- [7. Chạy thử](#7-chạy-thử)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Yêu cầu
 
 - **Node.js** >= 18 (kiểm tra: `node --version`)

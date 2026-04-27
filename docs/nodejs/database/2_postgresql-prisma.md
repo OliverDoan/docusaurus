@@ -1,9 +1,24 @@
 ---
 sidebar_position: 2
-title: "2. PostgreSQL title: "PostgreSQL & Prisma" Prisma"
+title: "2. PostgreSQL & Prisma"
 ---
 
 # PostgreSQL & Prisma
+
+
+---
+
+## Mục lục
+
+- [Prisma là gì?](#prisma-là-gì)
+- [Cài đặt](#cài-đặt)
+- [Schema](#schema)
+- [Migration](#migration)
+- [CRUD Operations](#crud-operations)
+- [Filtering & Pagination](#filtering-pagination)
+- [Tóm tắt](#tóm-tắt)
+
+---
 
 ## Prisma là gì?
 

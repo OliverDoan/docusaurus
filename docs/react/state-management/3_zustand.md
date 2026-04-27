@@ -5,6 +5,24 @@ title: "3. Zustand"
 
 # Zustand
 
+
+---
+
+## Mục lục
+
+- [Zustand là gì?](#zustand-là-gì)
+- [Tạo Store](#tạo-store)
+- [Sử dụng trong Component](#sử-dụng-trong-component)
+- [Ví dụ thực tế: Shopping Cart](#ví-dụ-thực-tế-shopping-cart)
+- [Persist State (lưu vào localStorage)](#persist-state-lưu-vào-localstorage)
+- [Middleware](#middleware)
+- [Async Actions](#async-actions)
+- [Truy cập store ngoài React](#truy-cập-store-ngoài-react)
+- [Zustand vs Redux Toolkit](#zustand-vs-redux-toolkit)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Zustand là gì?
 
 Zustand là thư viện state management siêu nhẹ (~1KB). Không cần Provider, không cần boilerplate, API đơn giản.

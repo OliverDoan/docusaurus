@@ -5,6 +5,20 @@ title: "16. Xử lý sự kiện"
 
 # Xử lý sự kiện (Event Handling)
 
+
+---
+
+## Mục lục
+
+- [Cú pháp cơ bản](#cú-pháp-cơ-bản)
+- [Synthetic Events](#synthetic-events)
+- [Event Handler Patterns](#event-handler-patterns)
+- [Event Propagation](#event-propagation)
+- [Event Delegation](#event-delegation)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Cú pháp cơ bản
 
 ```tsx

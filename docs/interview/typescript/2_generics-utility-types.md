@@ -1,11 +1,26 @@
 ---
 sidebar_position: 2
-title: "2. Generics title: "Generics & Utility Types" Utility Types"
+title: "2. Generics & Utility Types"
 ---
 
 # Generics & Utility Types
 
 Generics là một trong những tính năng mạnh nhất của TypeScript -- cho phép bạn viết code vừa type-safe vừa tái sử dụng được. Kết hợp với utility types có sẵn, bạn có thể biểu diễn hầu hết mọi pattern mà không cần lặp lại code. Đây là nhóm câu hỏi thường gặp ở mức Intermediate đến Senior.
+
+---
+
+
+---
+
+## Mục lục
+
+- [Câu 1: Generics là gì? Generic function và generic constraints hoạt động như thế nào? `[Intermediate]`](#câu-1-generics-là-gì-generic-function-và-generic-constraints-hoạt-động-như-thế-nào-intermediate)
+- [Câu 2: Giải thích các utility types: Partial, Required, Pick, Omit, Record, Readonly `[Intermediate]`](#câu-2-giải-thích-các-utility-types-partial-required-pick-omit-record-readonly-intermediate)
+- [Câu 3: Tự implement Partial, Pick, và Omit `[Senior]`](#câu-3-tự-implement-partial-pick-và-omit-senior)
+- [Câu 4: Generic với default type parameters `[Intermediate]`](#câu-4-generic-với-default-type-parameters-intermediate)
+- [Câu 5: keyof và typeof operators trong TypeScript `[Intermediate]`](#câu-5-keyof-và-typeof-operators-trong-typescript-intermediate)
+- [Câu 6: Viết một generic function `merge` type-safe `[Senior]`](#câu-6-viết-một-generic-function-merge-type-safe-senior)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
 
 ---
 

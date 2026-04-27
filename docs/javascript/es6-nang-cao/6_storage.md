@@ -1,9 +1,24 @@
 ---
 sidebar_position: 6
-title: "6. LocalStorage title: "LocalStorage & SessionStorage" SessionStorage"
+title: "6. LocalStorage & SessionStorage"
 ---
 
 # LocalStorage & SessionStorage
+
+
+---
+
+## Mục lục
+
+- [Web Storage API là gì?](#web-storage-api-là-gì)
+- [Tại sao Web Storage ra đời?](#tại-sao-web-storage-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [localStorage vs sessionStorage vs Cookies -- bảng so sánh](#localstorage-vs-sessionstorage-vs-cookies-bảng-so-sánh)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## Web Storage API là gì?
 

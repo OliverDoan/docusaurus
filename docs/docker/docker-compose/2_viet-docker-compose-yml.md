@@ -9,6 +9,26 @@ Bài này đi chi tiết từng phần của file docker-compose.yml. Sau bài n
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Service Configuration](#1-service-configuration)
+- [2. Ports](#2-ports)
+- [3. Environment Variables](#3-environment-variables)
+- [4. Volumes](#4-volumes)
+- [5. depends_on](#5-dependson)
+- [6. Restart Policy](#6-restart-policy)
+- [7. Resource Limits](#7-resource-limits)
+- [8. Healthcheck](#8-healthcheck)
+- [9. Networks](#9-networks)
+- [10. Profiles](#10-profiles)
+- [11. Ví dụ tổng hợp](#11-ví-dụ-tổng-hợp)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Service Configuration
 
 ### Dùng image có sẵn

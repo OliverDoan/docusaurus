@@ -5,6 +5,21 @@ title: "4. Tối ưu hiệu suất"
 
 # Tối ưu hiệu suất (Performance Optimization)
 
+
+---
+
+## Mục lục
+
+- [React.memo](#reactmemo)
+- [Code Splitting với lazy()](#code-splitting-với-lazy)
+- [Virtualization cho danh sách dài](#virtualization-cho-danh-sách-dài)
+- [Tránh re-render thừa](#tránh-re-render-thừa)
+- [Image Optimization](#image-optimization)
+- [Profiling](#profiling)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## React.memo
 
 Ngăn component re-render khi props không thay đổi:

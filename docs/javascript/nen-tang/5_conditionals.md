@@ -5,6 +5,20 @@ title: "5. Câu lệnh điều kiện"
 
 # Câu lệnh điều kiện
 
+
+---
+
+## Mục lục
+
+- [Câu lệnh điều kiện là gì?](#câu-lệnh-điều-kiện-là-gì)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Truthy và Falsy trong điều kiện](#truthy-và-falsy-trong-điều-kiện)
+- [Khi nào dùng switch vs if...else?](#khi-nào-dùng-switch-vs-ifelse)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Câu lệnh điều kiện là gì?
 
 **Câu lệnh điều kiện** (conditional statement) cho phép chương trình **đưa ra quyết định** — thực hiện code khác nhau tùy thuộc vào điều kiện đúng hay sai.

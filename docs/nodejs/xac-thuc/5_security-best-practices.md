@@ -5,6 +5,21 @@ title: "5. Security Best Practices"
 
 # Security Best Practices
 
+
+---
+
+## Mục lục
+
+- [Helmet — Security Headers](#helmet-security-headers)
+- [CORS](#cors)
+- [Input Sanitization](#input-sanitization)
+- [SQL Injection Prevention](#sql-injection-prevention)
+- [Security Checklist](#security-checklist)
+- [npm audit](#npm-audit)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## Helmet — Security Headers
 
 ```bash

@@ -5,6 +5,24 @@ title: "24. Truyền giá trị và tham chiếu"
 
 # Truyền giá trị và tham chiếu
 
+
+---
+
+## Mục lục
+
+- [Giới thiệu](#giới-thiệu)
+- [Nội dung](#nội-dung)
+- [1. Truyền giá trị là gì?](#1-truyền-giá-trị-là-gì)
+- [2. Truyền tham chiếu là gì?](#2-truyền-tham-chiếu-là-gì)
+- [3. Truyền tham trị với kiểu nguyên thủy](#3-truyền-tham-trị-với-kiểu-nguyên-thủy)
+- [4. Truyền object trong Java](#4-truyền-object-trong-java)
+- [5. Thay đổi thuộc tính của object](#5-thay-đổi-thuộc-tính-của-object)
+- [6. Gán object mới trong phương thức](#6-gán-object-mới-trong-phương-thức)
+- [7. Kết luận: Java truyền gì?](#7-kết-luận-java-truyền-gì)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## Giới thiệu
 Một trong những chủ đề **dễ gây nhầm lẫn nhất** với người học Java là:
 > Java truyền **giá trị** hay **tham chiếu** khi gọi phương thức?

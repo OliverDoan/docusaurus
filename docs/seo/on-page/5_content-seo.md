@@ -5,6 +5,22 @@ title: "5. Content SEO"
 
 # Content SEO
 
+## Mục lục
+
+- [Content là vua, nhưng content nào mới là vua?](#content-là-vua-nhưng-content-nào-mới-là-vua)
+- [E-E-A-T: Tiêu chuẩn chất lượng của Google](#e-e-a-t-tiêu-chuẩn-chất-lượng-của-google)
+- [Featured Snippets Optimization](#featured-snippets-optimization)
+- [Topic Clusters va Pillar Content](#topic-clusters-va-pillar-content)
+- [Content Freshness (Độ tươi mới của nội dung)](#content-freshness-độ-tươi-mới-của-nội-dung)
+- [Readability và User Engagement](#readability-và-user-engagement)
+- [FAQ Sections va People Also Ask](#faq-sections-va-people-also-ask)
+- [Table of Contents (Mục lục) tự động](#table-of-contents-mục-lục-tự-động)
+- [Heading Structure (Cấu trúc heading)](#heading-structure-cấu-trúc-heading)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Content là vua, nhưng content nào mới là vua?
 
 "Content is king" là câu nói được nhắc đi nhắc lại, nhưng không phải content nào cũng giúp tăng ranking. Google ngày càng thông minh hơn trong việc đánh giá chất lượng nội dung. Bài này sẽ giúp bạn hiểu Google muốn thấy gì trong nội dung của bạn — từ góc nhìn kỹ thuật.

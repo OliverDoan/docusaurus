@@ -11,6 +11,25 @@ Hãy tưởng tượng bạn có một hộp đựng **số** (kiểu `int`) và
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. String sang int](#1-string-sang-int)
+- [2. int sang String](#2-int-sang-string)
+- [3. String sang double / double sang String](#3-string-sang-double-double-sang-string)
+- [4. String sang long / long sang String](#4-string-sang-long-long-sang-string)
+- [5. String sang char array và ngược lại](#5-string-sang-char-array-và-ngược-lại)
+- [6. Các chuyển đổi khác thường dùng](#6-các-chuyển-đổi-khác-thường-dùng)
+- [7. Bảng tổng hợp các phương thức chuyển đổi](#7-bảng-tổng-hợp-các-phương-thức-chuyển-đổi)
+- [8. Xử lý NumberFormatException](#8-xử-lý-numberformatexception)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. String sang int
 
 Có 2 cách chính: `Integer.parseInt()` và `Integer.valueOf()`.

@@ -18,6 +18,22 @@ Chọn đúng loại hộp giúp **tiết kiệm bộ nhớ** và **tránh lỗi
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Hai nhóm kiểu dữ liệu](#1-hai-nhóm-kiểu-dữ-liệu)
+- [2. Tám kiểu nguyên thủy (Primitive Types)](#2-tám-kiểu-nguyên-thủy-primitive-types)
+- [3. Các lưu ý quan trọng](#3-các-lưu-ý-quan-trọng)
+- [4. Kiểu tham chiếu (Reference Types)](#4-kiểu-tham-chiếu-reference-types)
+- [5. Wrapper Classes](#5-wrapper-classes)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Hai nhóm kiểu dữ liệu
 
 ```

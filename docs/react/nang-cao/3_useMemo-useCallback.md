@@ -1,9 +1,24 @@
 ---
 sidebar_position: 3
-title: "3. useMemo title: "useMemo & useCallback" useCallback"
+title: "3. useMemo & useCallback"
 ---
 
 # useMemo & useCallback
+
+
+---
+
+## Mục lục
+
+- [Vấn đề: Tính toán lại không cần thiết](#vấn-đề-tính-toán-lại-không-cần-thiết)
+- [useMemo](#usememo)
+- [useCallback](#usecallback)
+- [Khi nào nên dùng?](#khi-nào-nên-dùng)
+- [Kết hợp với React.memo](#kết-hợp-với-reactmemo)
+- [Quy tắc vàng](#quy-tắc-vàng)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## Vấn đề: Tính toán lại không cần thiết
 

@@ -1,8 +1,28 @@
 ---
 sidebar_position: 15
-title: "15. Break title: "Break & Continue" Continue"
+title: "15. Break & Continue"
 ---
 # Break & Continue
+
+
+---
+
+## Mục lục
+
+- [1. Giới thiệu](#1-giới-thiệu)
+- [Nội dung](#nội-dung)
+- [2. Câu lệnh break](#2-câu-lệnh-break)
+- [3. break trong switch](#3-break-trong-switch)
+- [4. Labeled break](#4-labeled-break)
+- [5. Câu lệnh continue](#5-câu-lệnh-continue)
+- [6. Labeled continue](#6-labeled-continue)
+- [7. So sánh break và continue](#7-so-sánh-break-và-continue)
+- [8. Ví dụ thực tế](#8-ví-dụ-thực-tế)
+- [9. Khi nào dùng?](#9-khi-nào-dùng)
+- [10. Lỗi thường gặp](#10-lỗi-thường-gặp)
+- [11. Câu hỏi phỏng vấn](#11-câu-hỏi-phỏng-vấn)
+
+---
 
 ## 1. Giới thiệu
 

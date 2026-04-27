@@ -1,9 +1,25 @@
 ---
 sidebar_position: 5
-title: "5. Spread title: "Spread & Rest Operators" Rest Operators"
+title: "5. Spread & Rest Operators"
 ---
 
 # Spread & Rest Operators
+
+
+---
+
+## Mục lục
+
+- [Spread operator là gì?](#spread-operator-là-gì)
+- [Rest operator là gì?](#rest-operator-là-gì)
+- [Tại sao Spread & Rest ra đời?](#tại-sao-spread-rest-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Spread vs Rest — Cùng cú pháp, khác ngữ cảnh](#spread-vs-rest-cùng-cú-pháp-khác-ngữ-cảnh)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## Spread operator là gì?
 

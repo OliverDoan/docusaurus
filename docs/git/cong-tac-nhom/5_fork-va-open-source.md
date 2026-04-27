@@ -9,6 +9,32 @@ title: "5. Fork và đóng góp Open Source"
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Fork là gì?](#1-fork-là-gì)
+- [2. Fork vs Clone — Khác nhau cơ bản](#2-fork-vs-clone-khác-nhau-cơ-bản)
+- [3. Workflow đóng góp Open Source — Từng bước chi tiết](#3-workflow-đóng-góp-open-source-từng-bước-chi-tiết)
+- [4. Sync Fork với Upstream](#4-sync-fork-với-upstream)
+- [5. CONTRIBUTING.md — Đọc trước khi đóng góp](#5-contributingmd-đọc-trước-khi-đóng-góp)
+- [Getting Started](#getting-started)
+- [Development Workflow](#development-workflow)
+- [Coding Standards](#coding-standards)
+- [Commit Convention](#commit-convention)
+- [Pull Request Process](#pull-request-process)
+- [Code of Conduct](#code-of-conduct)
+- [6. Code of Conduct — Quy tắc ứng xử](#6-code-of-conduct-quy-tắc-ứng-xử)
+- [7. Good First Issues — Bắt đầu từ đâu?](#7-good-first-issues-bắt-đầu-từ-đâu)
+- [8. Etiquette — Quy tắc ứng xử khi đóng góp](#8-etiquette-quy-tắc-ứng-xử-khi-đóng-góp)
+- [9. Lợi ích đóng góp Open Source](#9-lợi-ích-đóng-góp-open-source)
+- [10. Lỗi thường gặp](#10-lỗi-thường-gặp)
+- [11. Ví dụ thực hành đầy đủ](#11-ví-dụ-thực-hành-đầy-đủ)
+- [12. Câu hỏi phỏng vấn](#12-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Fork là gì?
 
 **Fork** là tạo một **bản sao hoàn chỉnh** của repository dưới **tài khoản GitHub của bạn**. Bản sao này hoàn toàn độc lập — bạn có toàn quyền push code, tạo branch, xóa branch mà không ảnh hưởng đến repo gốc.

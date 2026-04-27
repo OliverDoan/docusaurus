@@ -5,6 +5,20 @@ title: "3. Local SEO"
 
 # Local SEO — Tối ưu SEO cho doanh nghiệp địa phương
 
+## Mục lục
+
+- [Giới thiệu](#giới-thiệu)
+- [1. Google Business Profile Optimization](#1-google-business-profile-optimization)
+- [2. Local Schema Markup (JSON-LD)](#2-local-schema-markup-json-ld)
+- [3. NAP Consistency (Name, Address, Phone)](#3-nap-consistency-name-address-phone)
+- [4. Google Maps Embed và SEO](#4-google-maps-embed-và-seo)
+- [5. Local Keyword Targeting](#5-local-keyword-targeting)
+- [6. Reviews và Reputation Management](#6-reviews-và-reputation-management)
+- [7. Lỗi thường gặp](#7-lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Giới thiệu
 
 Local SEO khác hoàn toàn so với SEO thông thường. Khi ai đó search "quán phở ngon gần đây" hoặc "sửa laptop quận 1", Google không trả về kết quả organic thông thường mà hiển thị **Local Pack** (cụm 3 kết quả Google Maps) phía trên cùng SERP. Nếu doanh nghiệp bạn không xuất hiện trong Local Pack, bạn gần như vô hình với khách hàng local.

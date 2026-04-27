@@ -5,6 +5,21 @@ title: "4. Classes"
 
 # Classes
 
+
+---
+
+## Mục lục
+
+- [Class là gì?](#class-là-gì)
+- [Tại sao Classes ra đời?](#tại-sao-classes-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Class vs Function Constructor](#class-vs-function-constructor)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Class là gì?
 
 **Class** là một **bản thiết kế** (blueprint) để tạo ra các **object** có cùng cấu trúc và hành vi. Từ class, bạn có thể tạo ra **nhiều object** (gọi là **instance**), mỗi object có dữ liệu riêng nhưng chia sẻ cùng các phương thức (method).

@@ -4,6 +4,29 @@ title: "16. Bài tập minh họa"
 ---
 # Bài tập minh họa
 
+
+---
+
+## Mục lục
+
+- [1. Giới thiệu](#1-giới-thiệu)
+- [Nội dung](#nội-dung)
+- [2. Bài 1: Kiểm tra chẵn lẻ](#2-bài-1-kiểm-tra-chẵn-lẻ)
+- [3. Bài 2: Tìm số lớn nhất trong 3 số](#3-bài-2-tìm-số-lớn-nhất-trong-3-số)
+- [4. Bài 3: Giải phương trình bậc 2](#4-bài-3-giải-phương-trình-bậc-2)
+- [5. Bài 4: In bảng cửu chương](#5-bài-4-in-bảng-cửu-chương)
+- [6. Bài 5: Tính tổng từ 1 đến n](#6-bài-5-tính-tổng-từ-1-đến-n)
+- [7. Bài 6: Kiểm tra số nguyên tố](#7-bài-6-kiểm-tra-số-nguyên-tố)
+- [8. Bài 7: Menu chọn phép tính (máy tính đơn giản)](#8-bài-7-menu-chọn-phép-tính-máy-tính-đơn-giản)
+- [9. Bài 8: Kiểm tra mật khẩu](#9-bài-8-kiểm-tra-mật-khẩu)
+- [10. Bài 9: Đếm ký tự trong chuỗi](#10-bài-9-đếm-ký-tự-trong-chuỗi)
+- [11. Bài 10: Đảo ngược chuỗi](#11-bài-10-đảo-ngược-chuỗi)
+- [12. Bài 11: Kiểm tra Palindrome](#12-bài-11-kiểm-tra-palindrome)
+- [13. Bài 12: Sắp xếp mảng (Bubble Sort)](#13-bài-12-sắp-xếp-mảng-bubble-sort)
+- [14. Tổng kết](#14-tổng-kết)
+
+---
+
 ## 1. Giới thiệu
 
 Sau khi đã học các kiến thức cơ bản về **if-else**, **switch-case**, **vòng lặp**, **break & continue**, việc **thực hành bằng các bài tập cụ thể** là bước quan trọng nhất để hiểu sâu và nhớ lâu.

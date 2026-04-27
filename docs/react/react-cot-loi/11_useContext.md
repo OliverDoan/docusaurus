@@ -1,9 +1,25 @@
 ---
 sidebar_position: 11
-title: "11. useContext title: "useContext & Context API" Context API"
+title: "11. useContext & Context API"
 ---
 
 # useContext & Context API
+
+
+---
+
+## Mục lục
+
+- [Vấn đề Context giải quyết](#vấn-đề-context-giải-quyết)
+- [Tạo và sử dụng Context](#tạo-và-sử-dụng-context)
+- [Ví dụ thực tế: Authentication Context](#ví-dụ-thực-tế-authentication-context)
+- [Nhiều Context lồng nhau](#nhiều-context-lồng-nhau)
+- [Khi nào dùng Context?](#khi-nào-dùng-context)
+- [Performance với Context](#performance-với-context)
+- [Pattern: Context + useReducer](#pattern-context-usereducer)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## Vấn đề Context giải quyết
 

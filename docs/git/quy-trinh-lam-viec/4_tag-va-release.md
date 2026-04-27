@@ -9,6 +9,25 @@ Khi dự án của bạn đạt đến một mốc quan trọng — phiên bản
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Tag là gì?](#1-tag-là-gì)
+- [2. Hai loại Tag](#2-hai-loại-tag)
+- [3. Các thao tác với Tag](#3-các-thao-tác-với-tag)
+- [4. Semantic Versioning (SemVer)](#4-semantic-versioning-semver)
+- [5. GitHub Releases](#5-github-releases)
+- [Bug Fixes](#bug-fixes)
+- [6. Workflow đầy đủ: Từ commit đến Release](#6-workflow-đầy-đủ-từ-commit-đến-release)
+- [7. Versioning strategies cho different project types](#7-versioning-strategies-cho-different-project-types)
+- [8. Lỗi thường gặp](#8-lỗi-thường-gặp)
+- [9. Câu hỏi phỏng vấn](#9-câu-hỏi-phỏng-vấn)
+- [10. Tóm tắt](#10-tóm-tắt)
+
+---
+
 ## 1. Tag là gì?
 
 Tag là một **"nhãn dán" (label)** trên một commit cụ thể trong lịch sử Git. Khác với branch (thay đổi theo thời gian), tag là **cố định** — nó luôn trỏ đến cùng một commit.

@@ -5,6 +5,20 @@ title: "4. Destructuring"
 
 # Destructuring
 
+
+---
+
+## Mục lục
+
+- [Destructuring là gì?](#destructuring-là-gì)
+- [Tại sao destructuring ra đời?](#tại-sao-destructuring-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Destructuring là gì?
 
 Hãy tưởng tượng bạn nhận được một **hộp quà** có 3 món bên trong: áo, giày, và mũ. Thay vì mở hộp ra rồi lấy từng món:

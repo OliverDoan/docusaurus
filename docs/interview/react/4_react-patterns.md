@@ -9,6 +9,22 @@ React patterns là những cách tổ chức code để **tái sử dụng logic
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: Higher-Order Components (HOC) -- pattern này hoạt động ra sao? Ưu và nhược điểm? `[Intermediate]`](#câu-1-higher-order-components-hoc-pattern-này-hoạt-động-ra-sao-ưu-và-nhược-điểm-intermediate)
+- [Câu 2: Render Props pattern -- hoạt động thế nào? So với HOC? `[Intermediate]`](#câu-2-render-props-pattern-hoạt-động-thế-nào-so-với-hoc-intermediate)
+- [Câu 3: Compound Components pattern -- dùng khi nào? `[Senior]`](#câu-3-compound-components-pattern-dùng-khi-nào-senior)
+- [Câu 4: Custom Hooks thay thế HOC và Render Props như thế nào? `[Intermediate]`](#câu-4-custom-hooks-thay-thế-hoc-và-render-props-như-thế-nào-intermediate)
+- [Câu 5: Controlled vs Uncontrolled components -- khác nhau gì? `[Intermediate]`](#câu-5-controlled-vs-uncontrolled-components-khác-nhau-gì-intermediate)
+- [Câu 6: Container/Presentational pattern -- còn hữu ích không? `[Intermediate]`](#câu-6-containerpresentational-pattern-còn-hữu-ích-không-intermediate)
+- [Bảng so sánh các React Patterns](#bảng-so-sánh-các-react-patterns)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: Higher-Order Components (HOC) -- pattern này hoạt động ra sao? Ưu và nhược điểm? `[Intermediate]`
 
 ### Giải thích lý thuyết

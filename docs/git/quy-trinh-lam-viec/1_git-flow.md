@@ -9,6 +9,24 @@ Khi làm việc trong một team lớn, bạn sẽ gặp câu hỏi: "Ai làm nh
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Git Flow là gì?](#1-git-flow-là-gì)
+- [2. Các nhánh chính (Main Branches)](#2-các-nhánh-chính-main-branches)
+- [3. Các nhánh hỗ trợ (Supporting Branches)](#3-các-nhánh-hỗ-trợ-supporting-branches)
+- [4. Git Flow CLI Tool](#4-git-flow-cli-tool)
+- [5. Ưu điểm và Nhược điểm](#5-ưu-điểm-và-nhược-điểm)
+- [6. Khi nào nên dùng Git Flow?](#6-khi-nào-nên-dùng-git-flow)
+- [7. Tổng quan quy trình đầy đủ](#7-tổng-quan-quy-trình-đầy-đủ)
+- [8. Lỗi thường gặp](#8-lỗi-thường-gặp)
+- [9. Câu hỏi phỏng vấn](#9-câu-hỏi-phỏng-vấn)
+- [10. Tóm tắt](#10-tóm-tắt)
+
+---
+
 ## 1. Git Flow là gì?
 
 Git Flow là mô hình phân nhánh được **Vincent Driessen** giới thiệu năm 2010 trong bài blog kinh điển "A successful Git branching model". Mô hình này định nghĩa rõ ràng:

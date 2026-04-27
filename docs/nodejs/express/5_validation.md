@@ -5,6 +5,19 @@ title: "5. Input Validation"
 
 # Input Validation
 
+
+---
+
+## Mục lục
+
+- [Tại sao cần validate?](#tại-sao-cần-validate)
+- [Joi — Schema Validation](#joi-schema-validation)
+- [Validation Middleware](#validation-middleware)
+- [Validate Params & Query](#validate-params-query)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## Tại sao cần validate?
 
 - Ngăn chặn dữ liệu không hợp lệ vào database

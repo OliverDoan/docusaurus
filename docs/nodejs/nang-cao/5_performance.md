@@ -5,6 +5,21 @@ title: "5. Performance Optimization"
 
 # Performance Optimization
 
+
+---
+
+## Mục lục
+
+- [Compression](#compression)
+- [Clustering](#clustering)
+- [Caching Strategies](#caching-strategies)
+- [Streaming cho large data](#streaming-cho-large-data)
+- [Monitoring](#monitoring)
+- [Checklist Performance](#checklist-performance)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## Compression
 
 ```bash

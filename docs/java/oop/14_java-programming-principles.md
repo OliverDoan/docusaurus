@@ -9,6 +9,28 @@ Viết code chạy được thì ai cũng làm được. Nhưng viết code **d�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. DRY — Don't Repeat Yourself](#1-dry-dont-repeat-yourself)
+- [2. KISS — Keep It Simple, Stupid](#2-kiss-keep-it-simple-stupid)
+- [3. YAGNI — You Aren't Gonna Need It](#3-yagni-you-arent-gonna-need-it)
+- [4. Nguyên tắc Boy Scout](#4-nguyên-tắc-boy-scout)
+- [5. Fail Fast](#5-fail-fast)
+- [6. Law of Demeter (LoD) — Nguyên tắc ít biết](#6-law-of-demeter-lod-nguyên-tắc-ít-biết)
+- [7. Composition over Inheritance — Ưu tiên Composition](#7-composition-over-inheritance-ưu-tiên-composition)
+- [8. Nguyên tắc Least Astonishment (Bất ngờ nhỏ nhất)](#8-nguyên-tắc-least-astonishment-bất-ngờ-nhỏ-nhất)
+- [9. Định luật Brook](#9-định-luật-brook)
+- [10. Định luật Conway](#10-định-luật-conway)
+- [11. SOLID — 5 Nguyên lý thiết kế OOP](#11-solid-5-nguyên-lý-thiết-kế-oop)
+- [12. Tổng kết](#12-tổng-kết)
+- [13. Lỗi thường gặp](#13-lỗi-thường-gặp)
+- [14. Câu hỏi phỏng vấn](#14-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. DRY — Don't Repeat Yourself
 
 **DRY** nghĩa là: **Đừng lặp lại chính mình.** Nếu một đoạn logic xuất hiện ở nhiều nơi, hãy trích xuất thành method hoặc class chung.

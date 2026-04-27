@@ -9,6 +9,22 @@ Phần này tập trung vào các câu hỏi phỏng vấn về CSS layout nâng
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: Giải thích main axis và cross axis trong Flexbox. Khi nào chúng thay đổi? `[Intermediate]`](#câu-1-giải-thích-main-axis-và-cross-axis-trong-flexbox-khi-nào-chúng-thay-đổi-intermediate)
+- [Câu 2: Phân biệt flex-grow, flex-shrink, flex-basis. Viết shorthand `flex: 1` nghĩa là gì? `[Intermediate]`](#câu-2-phân-biệt-flex-grow-flex-shrink-flex-basis-viết-shorthand-flex-1-nghĩa-là-gì-intermediate)
+- [Câu 3: CSS Grid -- giải thích grid-template, fr unit, và sự khác nhau giữa auto-fill và auto-fit `[Intermediate]`](#câu-3-css-grid-giải-thích-grid-template-fr-unit-và-sự-khác-nhau-giữa-auto-fill-và-auto-fit-intermediate)
+- [Câu 4: Stacking Context là gì? Khi nào một stacking context mới được tạo ra? `[Senior]`](#câu-4-stacking-context-là-gì-khi-nào-một-stacking-context-mới-được-tạo-ra-senior)
+- [Câu 5: Block Formatting Context (BFC) là gì? Nó giải quyết vấn đề gì? `[Senior]`](#câu-5-block-formatting-context-bfc-là-gì-nó-giải-quyết-vấn-đề-gì-senior)
+- [Câu 6: So sánh Flexbox và Grid. Khi nào dùng cái nào? `[Intermediate]`](#câu-6-so-sánh-flexbox-và-grid-khi-nào-dùng-cái-nào-intermediate)
+- [Câu bonus: Box model -- content-box vs border-box `[Intermediate]`](#câu-bonus-box-model-content-box-vs-border-box-intermediate)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: Giải thích main axis và cross axis trong Flexbox. Khi nào chúng thay đổi? `[Intermediate]`
 
 ### Giải thích lý thuyết

@@ -9,6 +9,30 @@ Trong công việc hàng ngày với Git, bạn sẽ gặp hai tình huống r�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Phần 1: Git Stash -- Tạm cất thay đổi](#phần-1-git-stash-tạm-cất-thay-đổi)
+- [1. Stash là gì và tại sao cần?](#1-stash-là-gì-và-tại-sao-cần)
+- [2. Các lệnh stash cơ bản](#2-các-lệnh-stash-cơ-bản)
+- [3. Stash nâng cao](#3-stash-nâng-cao)
+- [4. Stash workflow thực tế](#4-stash-workflow-thực-tế)
+- [Phần 2: Git Cherry-pick -- Chọn commit cụ thể](#phần-2-git-cherry-pick-chọn-commit-cụ-thể)
+- [5. Cherry-pick là gì?](#5-cherry-pick-là-gì)
+- [6. Cherry-pick cơ bản](#6-cherry-pick-cơ-bản)
+- [7. Khi nào dùng cherry-pick?](#7-khi-nào-dùng-cherry-pick)
+- [8. Risks của cherry-pick](#8-risks-của-cherry-pick)
+- [9. So sánh Stash vs Branch cho việc tạm lưu](#9-so-sánh-stash-vs-branch-cho-việc-tạm-lưu)
+- [10. ASCII diagrams cho cherry-pick flow](#10-ascii-diagrams-cho-cherry-pick-flow)
+- [11. Thực hành tổng hợp](#11-thực-hành-tổng-hợp)
+- [12. Lỗi thường gặp](#12-lỗi-thường-gặp)
+- [13. Câu hỏi phỏng vấn](#13-câu-hỏi-phỏng-vấn)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## Phần 1: Git Stash -- Tạm cất thay đổi
 
 ## 1. Stash là gì và tại sao cần?

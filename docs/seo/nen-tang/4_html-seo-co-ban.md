@@ -9,6 +9,21 @@ Mỗi dòng HTML bạn viết đều ảnh hưởng đến cách Google "hiểu"
 
 ---
 
+## Mục lục
+
+- [1. Title Tag -- Tag quan trọng nhất cho SEO](#1-title-tag-tag-quan-trọng-nhất-cho-seo)
+- [2. Meta Description -- Quảng cáo miễn phí trên Google](#2-meta-description-quảng-cáo-miễn-phí-trên-google)
+- [3. Heading Hierarchy -- Cấu trúc nội dung](#3-heading-hierarchy-cấu-trúc-nội-dung)
+- [4. Semantic HTML5 -- Code có ý nghĩa](#4-semantic-html5-code-có-ý-nghĩa)
+- [5. Image SEO -- Alt text và tối ưu hình ảnh](#5-image-seo-alt-text-và-tối-ưu-hình-ảnh)
+- [6. Các meta tags khác cho SEO](#6-các-meta-tags-khác-cho-seo)
+- [7. Template HTML hoàn chỉnh cho SEO](#7-template-html-hoàn-chỉnh-cho-seo)
+- [8. Lỗi thường gặp](#8-lỗi-thường-gặp)
+- [9. Tổng kết](#9-tổng-kết)
+- [10. Câu hỏi phỏng vấn](#10-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Title Tag -- Tag quan trọng nhất cho SEO
 
 ### 1.1. Title tag là gì?

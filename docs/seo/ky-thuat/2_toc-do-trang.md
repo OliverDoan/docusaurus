@@ -5,6 +5,21 @@ title: "2. Tốc độ trang"
 
 # Tốc độ trang
 
+## Mục lục
+
+- [Tại sao tốc độ trang quan trọng?](#tại-sao-tốc-độ-trang-quan-trọng)
+- [Critical Rendering Path](#critical-rendering-path)
+- [Code Splitting và Lazy Loading](#code-splitting-và-lazy-loading)
+- [Tối ưu CSS](#tối-ưu-css)
+- [Tối ưu JavaScript](#tối-ưu-javascript)
+- [CDN — Content Delivery Network](#cdn-content-delivery-network)
+- [Caching Strategies](#caching-strategies)
+- [Đo lường và phân tích](#đo-lường-và-phân-tích)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Tại sao tốc độ trang quan trọng?
 
 Tốc độ trang ảnh hưởng trực tiếp đến cả trải nghiệm người dùng và SEO. Theo nghiên cứu của Google:

@@ -5,6 +5,19 @@ title: "1. Landing Page chuẩn SEO"
 
 # Landing Page chuẩn SEO
 
+## Mục lục
+
+- [Landing page SEO-friendly vs Landing page chạy ads](#landing-page-seo-friendly-vs-landing-page-chạy-ads)
+- [Above-the-fold content optimization](#above-the-fold-content-optimization)
+- [Hero section: H1 và primary keyword](#hero-section-h1-và-primary-keyword)
+- [CTA placement và SEO considerations](#cta-placement-và-seo-considerations)
+- [Page structure chuẩn cho landing page](#page-structure-chuẩn-cho-landing-page)
+- [Semantic HTML cho landing page](#semantic-html-cho-landing-page)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Landing page SEO-friendly vs Landing page chạy ads
 
 Rất nhiều bạn nhầm lẫn giữa hai loại landing page này. Cùng mổ xẻ sự khác biệt:

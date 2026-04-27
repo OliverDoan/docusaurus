@@ -5,6 +5,20 @@ title: "1. JWT Authentication"
 
 # JWT Authentication
 
+
+---
+
+## Mục lục
+
+- [JWT là gì?](#jwt-là-gì)
+- [Cài đặt](#cài-đặt)
+- [Đăng ký (Register)](#đăng-ký-register)
+- [Đăng nhập (Login)](#đăng-nhập-login)
+- [Auth Middleware](#auth-middleware)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## JWT là gì?
 
 **JSON Web Token** (JWT) là chuẩn mở để truyền thông tin an toàn giữa các bên dưới dạng JSON object, được ký số (signed).

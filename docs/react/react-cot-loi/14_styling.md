@@ -5,6 +5,19 @@ title: "14. Styling"
 
 # Styling (CSS Modules & Tailwind CSS)
 
+
+---
+
+## Mục lục
+
+- [Các cách styling trong React](#các-cách-styling-trong-react)
+- [CSS Modules](#css-modules)
+- [Tailwind CSS](#tailwind-css)
+- [Khi nào dùng gì?](#khi-nào-dùng-gì)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Các cách styling trong React
 
 | Cách | Ưu điểm | Nhược điểm |

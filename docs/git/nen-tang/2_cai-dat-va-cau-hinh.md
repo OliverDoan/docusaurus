@@ -9,6 +9,25 @@ Trước khi dùng Git, bạn cần cài đặt nó trên máy và thiết lập
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Cài đặt Git](#1-cài-đặt-git)
+- [2. Cấu hình cơ bản (BẮT BUỘC)](#2-cấu-hình-cơ-bản-bắt-buộc)
+- [3. Ba cấp cấu hình: System, Global, Local](#3-ba-cấp-cấu-hình-system-global-local)
+- [4. Thiết lập editor mặc định](#4-thiết-lập-editor-mặc-định)
+- [5. Thiết lập SSH Key](#5-thiết-lập-ssh-key)
+- [6. Các cấu hình hữu ích khác](#6-các-cấu-hình-hữu-ích-khác)
+- [7. Bảng tổng hợp cấu hình quan trọng](#7-bảng-tổng-hợp-cấu-hình-quan-trọng)
+- [8. Xem và sửa file cấu hình trực tiếp](#8-xem-và-sửa-file-cấu-hình-trực-tiếp)
+- [9. Lỗi thường gặp](#9-lỗi-thường-gặp)
+- [10. Câu hỏi phỏng vấn](#10-câu-hỏi-phỏng-vấn)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Cài đặt Git
 
 ### 1.1 Windows

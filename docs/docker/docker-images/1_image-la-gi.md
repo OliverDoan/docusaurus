@@ -9,6 +9,22 @@ Docker Image là nền tảng của mọi thứ trong Docker. Hiểu rõ Image s
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Image — Bản thiết kế của Container](#1-image-bản-thiết-kế-của-container)
+- [2. Cấu trúc Layers](#2-cấu-trúc-layers)
+- [3. Xem thông tin Image](#3-xem-thông-tin-image)
+- [4. Image ID và Digest](#4-image-id-và-digest)
+- [5. Quản lý Image Tags](#5-quản-lý-image-tags)
+- [6. Dangling Images](#6-dangling-images)
+- [7. Bài tập thực hành](#7-bài-tập-thực-hành)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Image — Bản thiết kế của Container
 
 **Docker Image** là một gói (package) read-only chứa mọi thứ cần thiết để chạy ứng dụng:

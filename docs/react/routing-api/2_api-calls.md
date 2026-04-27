@@ -1,9 +1,26 @@
 ---
 sidebar_position: 2
-title: "2. Gọi API — Fetch title: "Gọi API — Fetch & Axios" Axios"
+title: "2. Gọi API — Fetch & Axios"
 ---
 
 # Gọi API — Fetch & Axios
+
+
+---
+
+## Mục lục
+
+- [Fetch API (built-in)](#fetch-api-built-in)
+- [Axios](#axios)
+- [Fetch vs Axios](#fetch-vs-axios)
+- [Pattern: Gọi API trong React component](#pattern-gọi-api-trong-react-component)
+- [AbortController — Hủy request](#abortcontroller-hủy-request)
+- [Custom Hook: useFetch](#custom-hook-usefetch)
+- [Thực hành: TMDB API](#thực-hành-tmdb-api)
+- [Nên dùng TanStack Query cho production](#nên-dùng-tanstack-query-cho-production)
+- [Cau hoi phong van](#cau-hoi-phong-van)
+
+---
 
 ## Fetch API (built-in)
 

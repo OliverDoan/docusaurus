@@ -5,6 +5,23 @@ title: "1. DOM là gì?"
 
 # DOM là gì?
 
+
+---
+
+## Mục lục
+
+- [DOM là gì?](#dom-là-gì)
+- [Cấu trúc DOM Tree](#cấu-trúc-dom-tree)
+- [Các loại Node trong DOM](#các-loại-node-trong-dom)
+- [document và window](#document-và-window)
+- [Tại sao DOM ra đời?](#tại-sao-dom-ra-đời)
+- [Cách truy cập DOM cơ bản](#cách-truy-cập-dom-cơ-bản)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## DOM là gì?
 
 **DOM (Document Object Model)** là **bản đồ cây gia phả của trang web**. Khi trình duyệt đọc file HTML, nó sẽ xây dựng một "cây" đại diện cho toàn bộ trang web -- gọi là **DOM tree**. JavaScript dùng cây này để **đọc, thay đổi, thêm hoặc xóa** bất kỳ phần tử nào trên trang.

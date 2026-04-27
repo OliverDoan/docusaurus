@@ -1,9 +1,24 @@
 ---
 sidebar_position: 6
-title: "6. Danh sách title: "Danh sách & Keys" Keys"
+title: "6. Danh sách & Keys"
 ---
 
 # Danh sách & Keys
+
+
+---
+
+## Mục lục
+
+- [Render danh sách với map()](#render-danh-sách-với-map)
+- [Key là gì và tại sao quan trọng?](#key-là-gì-và-tại-sao-quan-trọng)
+- [Chọn key đúng](#chọn-key-đúng)
+- [Rules của key](#rules-của-key)
+- [Render danh sách phức tạp](#render-danh-sách-phức-tạp)
+- [Key để reset component](#key-để-reset-component)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## Render danh sách với map()
 

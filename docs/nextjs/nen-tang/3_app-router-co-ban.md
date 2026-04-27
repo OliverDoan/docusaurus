@@ -5,6 +5,24 @@ title: "3. App Router cơ bản"
 
 # App Router cơ bản
 
+
+---
+
+## Mục lục
+
+- [App Router vs Pages Router](#app-router-vs-pages-router)
+- [page.tsx — Entry point cho mỗi route](#pagetsx-entry-point-cho-mỗi-route)
+- [layout.tsx — Layout dùng chung](#layouttsx-layout-dùng-chung)
+- [loading.tsx — Loading UI tự động](#loadingtsx-loading-ui-tự-động)
+- [template.tsx vs layout.tsx](#templatetsx-vs-layouttsx)
+- [Metadata API](#metadata-api)
+- [Route Groups](#route-groups)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Tổng kết](#tổng-kết)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## App Router vs Pages Router
 
 Next.js có **hai hệ thống routing**: App Router (mới, khuyến nghị) và Pages Router (cũ, vẫn hỗ trợ). Bài này tập trung vào App Router — hướng đi tương lai của Next.js.

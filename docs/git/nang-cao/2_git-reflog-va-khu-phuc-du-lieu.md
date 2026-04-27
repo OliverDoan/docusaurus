@@ -9,6 +9,28 @@ Bạn đã bao giờ `reset --hard` nhầm và nghĩ rằng code đã mất vĩn
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Reflog là gì?](#1-reflog-là-gì)
+- [2. Đọc output của git reflog](#2-đọc-output-của-git-reflog)
+- [3. Reflog vs Log — Khác nhau cơ bản](#3-reflog-vs-log-khác-nhau-cơ-bản)
+- [4. Recover lost commits sau reset --hard](#4-recover-lost-commits-sau-reset-hard)
+- [5. Recover deleted branch](#5-recover-deleted-branch)
+- [6. Reflog cho nhánh cụ thể](#6-reflog-cho-nhánh-cụ-thể)
+- [7. Thời gian lưu trữ reflog](#7-thời-gian-lưu-trữ-reflog)
+- [8. git fsck — Tìm dangling objects](#8-git-fsck-tìm-dangling-objects)
+- [9. Garbage Collection: Khi nào object THỰC SỰ bị xóa?](#9-garbage-collection-khi-nào-object-thực-sự-bị-xóa)
+- [10. Workflow khôi phục hoàn chỉnh](#10-workflow-khôi-phục-hoàn-chỉnh)
+- [11. Mẹo thực tế](#11-mẹo-thực-tế)
+- [12. Lỗi thường gặp](#12-lỗi-thường-gặp)
+- [13. Câu hỏi phỏng vấn](#13-câu-hỏi-phỏng-vấn)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## 1. Reflog là gì?
 
 **Reflog** (reference log) là nhật ký ghi lại MỌI lần HEAD thay đổi trên máy local của bạn. Mỗi khi bạn commit, reset, checkout, merge, rebase... Git đều ghi lại một entry trong reflog.

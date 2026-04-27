@@ -5,6 +5,20 @@ title: "2. Password Hashing"
 
 # Password Hashing
 
+
+---
+
+## Mục lục
+
+- [Tại sao cần hash password?](#tại-sao-cần-hash-password)
+- [bcrypt](#bcrypt)
+- [Salt Rounds](#salt-rounds)
+- [Tích hợp với Mongoose](#tích-hợp-với-mongoose)
+- [Password Validation Rules](#password-validation-rules)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## Tại sao cần hash password?
 
 - **Không bao giờ** lưu password dạng plain text

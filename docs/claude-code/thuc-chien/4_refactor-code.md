@@ -9,6 +9,22 @@ Refactor = cải thiện code mà không thay đổi behavior. Claude Code rất
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Tách file lớn](#1-tách-file-lớn)
+- [2. Extract logic ra hook / utility](#2-extract-logic-ra-hook-utility)
+- [3. Cải thiện naming](#3-cải-thiện-naming)
+- [4. Xoá code chết](#4-xoá-code-chết)
+- [5. Modernize code](#5-modernize-code)
+- [6. Cải thiện type safety](#6-cải-thiện-type-safety)
+- [7. Quy tắc refactor an toàn](#7-quy-tắc-refactor-an-toàn)
+- [Tips](#tips)
+
+---
+
 ## 1. Tách file lớn
 
 ```

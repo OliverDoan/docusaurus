@@ -5,6 +5,20 @@ title: "1. Hàm (Functions)"
 
 # Hàm (Functions)
 
+
+---
+
+## Mục lục
+
+- [Hàm là gì?](#hàm-là-gì)
+- [Tại sao cần hàm?](#tại-sao-cần-hàm)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Hàm là gì?
 
 Hàm (function) là một **khối lệnh có tên**, được viết một lần và có thể **gọi lại nhiều lần**. Hàm nhận đầu vào, xử lý, rồi trả về kết quả.

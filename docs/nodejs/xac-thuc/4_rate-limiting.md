@@ -5,6 +5,19 @@ title: "4. Rate Limiting"
 
 # Rate Limiting
 
+
+---
+
+## Mục lục
+
+- [Tại sao cần Rate Limiting?](#tại-sao-cần-rate-limiting)
+- [express-rate-limit](#express-rate-limit)
+- [Rate limit cho endpoints nhạy cảm](#rate-limit-cho-endpoints-nhạy-cảm)
+- [Rate Limiting với Redis](#rate-limiting-với-redis)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## Tại sao cần Rate Limiting?
 
 - Ngăn chặn **brute-force attacks** (đoán password)

@@ -5,6 +5,28 @@ title: "3. Bảo mật"
 
 # Bao mat
 
+
+---
+
+## Mục lục
+
+- [Giới thiệu](#giới-thiệu)
+- [Nội dung](#nội-dung)
+- [1. XSS Prevention](#1-xss-prevention)
+- [2. CSRF Protection](#2-csrf-protection)
+- [3. Content Security Policy (CSP)](#3-content-security-policy-csp)
+- [4. Rate Limiting](#4-rate-limiting)
+- [5. Environment Variable Security](#5-environment-variable-security)
+- [6. Server Actions Security](#6-server-actions-security)
+- [7. SQL Injection Prevention](#7-sql-injection-prevention)
+- [8. Secure Headers Configuration](#8-secure-headers-configuration)
+- [9. OWASP Top 10 trong Next.js](#9-owasp-top-10-trong-nextjs)
+- [10. Security Checklist](#10-security-checklist)
+- [11. Lỗi thường gặp](#11-lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Giới thiệu
 
 Bao mat là yếu tố **sống còn** của mỗi ứng dụng web. Mot lỗ hổng bảo mật có thể dẫn đến:

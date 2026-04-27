@@ -5,6 +5,20 @@ title: "4. Hiệu suất Landing Page"
 
 # Hiệu suất Landing Page
 
+## Mục lục
+
+- [Performance metrics ảnh hưởng SEO ranking](#performance-metrics-ảnh-hưởng-seo-ranking)
+- [Hero image optimization](#hero-image-optimization)
+- [Font loading strategies](#font-loading-strategies)
+- [Reducing JavaScript bundle](#reducing-javascript-bundle)
+- [CSS optimization](#css-optimization)
+- [Lazy loading below-the-fold content](#lazy-loading-below-the-fold-content)
+- [Resource hints tổng hợp](#resource-hints-tổng-hợp)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Performance metrics ảnh hưởng SEO ranking
 
 Google sử dụng Core Web Vitals như ranking signal chính thức từ 2021. Với landing page, mỗi millisecond đều quan trọng vì ảnh hưởng cả ranking lẫn conversion rate.

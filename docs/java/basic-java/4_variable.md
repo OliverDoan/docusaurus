@@ -11,6 +11,24 @@ Hiểu rõ về biến là bước đầu tiên quan trọng nhất để học 
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Khai báo biến](#1-khai-báo-biến)
+- [2. Ba loại biến trong Java](#2-ba-loại-biến-trong-java)
+- [3. Bảng so sánh 3 loại biến](#3-bảng-so-sánh-3-loại-biến)
+- [4. Phạm vi tồn tại (Variable Scope)](#4-phạm-vi-tồn-tại-variable-scope)
+- [5. Hằng số (final)](#5-hằng-số-final)
+- [6. Quy tắc đặt tên biến](#6-quy-tắc-đặt-tên-biến)
+- [7. Từ khóa `var` (Java 10+)](#7-từ-khóa-var-java-10)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Khai báo biến
 
 ### Cú pháp

@@ -5,6 +5,21 @@ title: "5. Callback Functions"
 
 # Callback Functions
 
+
+---
+
+## Mục lục
+
+- [Callback là gì?](#callback-là-gì)
+- [Tại sao Callback ra đời?](#tại-sao-callback-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Callback Hell (Hỏa ngục Callback)](#callback-hell-hỏa-ngục-callback)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Callback là gì?
 
 Callback là một **hàm được truyền vào hàm khác** như tham số, và được **gọi lại** (called back) tại thời điểm thích hợp. Bạn không gọi callback trực tiếp — bạn "giao" nó cho hàm khác và hàm đó sẽ gọi nó khi cần.

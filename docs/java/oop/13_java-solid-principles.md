@@ -5,6 +5,24 @@ title: "13. Nguyên lý SOLID"
 
 # Nguyên lý SOLID
 
+
+---
+
+## Mục lục
+
+- [Giới thiệu](#giới-thiệu)
+- [S -- Single Responsibility Principle (SRP)](#s-single-responsibility-principle-srp)
+- [O -- Open/Closed Principle (OCP)](#o-openclosed-principle-ocp)
+- [L -- Liskov Substitution Principle (LSP)](#l-liskov-substitution-principle-lsp)
+- [I -- Interface Segregation Principle (ISP)](#i-interface-segregation-principle-isp)
+- [D -- Dependency Inversion Principle (DIP)](#d-dependency-inversion-principle-dip)
+- [Bảng tổng hợp SOLID](#bảng-tổng-hợp-solid)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## Giới thiệu
 
 SOLID là tập hợp 5 nguyên lý thiết kế hướng đối tượng được giới thiệu bởi Robert C. Martin (Uncle Bob). Đây không phải là "luật cứng" mà là **kim chỉ nam** giúp bạn viết code dễ bảo trì, mở rộng và test.

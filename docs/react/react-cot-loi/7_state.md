@@ -5,6 +5,23 @@ title: "7. State"
 
 # State
 
+
+---
+
+## Mục lục
+
+- [State là gì?](#state-là-gì)
+- [useState](#usestate)
+- [Cập nhật state đúng cách](#cập-nhật-state-đúng-cách)
+- [Updater function](#updater-function)
+- [State batching](#state-batching)
+- [State vs biến thường](#state-vs-biến-thường)
+- [Derived state (state suy ra)](#derived-state-state-suy-ra)
+- [Lifting state up](#lifting-state-up)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## State là gì?
 
 State là dữ liệu **nội bộ** của component, khi state thay đổi → component **re-render** (render lại UI). Khác với props (nhận từ cha), state được quản lý bởi chính component đó.

@@ -5,6 +5,22 @@ title: "1. Express.js cơ bản"
 
 # Express.js cơ bản
 
+
+---
+
+## Mục lục
+
+- [Express là gì?](#express-là-gì)
+- [Cài đặt](#cài-đặt)
+- [Hello World](#hello-world)
+- [HTTP Methods](#http-methods)
+- [Request Object](#request-object)
+- [Response Object](#response-object)
+- [Parse JSON body](#parse-json-body)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## Express là gì?
 
 Express.js là **web framework** phổ biến nhất cho Node.js — tối giản, linh hoạt, mạnh mẽ.

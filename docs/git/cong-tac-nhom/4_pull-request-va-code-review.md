@@ -9,6 +9,33 @@ Pull Request (PR) và Code Review là **hai trụ cột** của quy trình phát
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Pull Request (PR) là gì?](#1-pull-request-pr-là-gì)
+- [2. Tạo Pull Request trên GitHub](#2-tạo-pull-request-trên-github)
+- [3. PR Template — Mẫu mô tả PR](#3-pr-template-mẫu-mô-tả-pr)
+- [Summary](#summary)
+- [Changes](#changes)
+- [Type of Change](#type-of-change)
+- [Test Plan](#test-plan)
+- [Screenshots](#screenshots)
+- [Checklist](#checklist)
+- [4. Code Review — Tại sao quan trọng?](#4-code-review-tại-sao-quan-trọng)
+- [5. Review trên GitHub](#5-review-trên-github)
+- [6. Suggestion Feature — Đề xuất code trực tiếp](#6-suggestion-feature-đề-xuất-code-trực-tiếp)
+- [7. Draft PR — Work in Progress](#7-draft-pr-work-in-progress)
+- [8. Merge Options — 3 cách merge PR](#8-merge-options-3-cách-merge-pr)
+- [9. Resolving PR Conflicts](#9-resolving-pr-conflicts)
+- [10. CI/CD Checks trên PR](#10-cicd-checks-trên-pr)
+- [11. Best Practices](#11-best-practices)
+- [12. Lỗi thường gặp](#12-lỗi-thường-gặp)
+- [13. Câu hỏi phỏng vấn](#13-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Pull Request (PR) là gì?
 
 **Pull Request** là một **đề xuất** (request) để merge code từ nhánh này sang nhánh khác. Nó nói: "Tôi đã hoàn thành code trên nhánh feature, hãy **kéo** (pull) code của tôi vào nhánh main."

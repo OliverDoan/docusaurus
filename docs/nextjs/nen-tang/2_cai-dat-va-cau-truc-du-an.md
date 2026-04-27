@@ -1,9 +1,27 @@
 ---
 sidebar_position: 2
-title: "2. Cài đặt title: "Cài đặt & Cấu trúc dự án" Cấu trúc dự án"
+title: "2. Cài đặt & Cấu trúc dự án"
 ---
 
 # Cài đặt & Cấu trúc dự án
+
+
+---
+
+## Mục lục
+
+- [Yêu cầu hệ thống](#yêu-cầu-hệ-thống)
+- [Cài đặt với create-next-app](#cài-đặt-với-create-next-app)
+- [Cấu trúc thư mục chi tiết](#cấu-trúc-thư-mục-chi-tiết)
+- [Scripts trong package.json](#scripts-trong-packagejson)
+- [Dependencies trong package.json](#dependencies-trong-packagejson)
+- [Quy ước đặt tên file trong Next.js](#quy-ước-đặt-tên-file-trong-nextjs)
+- [Cấu trúc dự án thực tế (khuyến nghị)](#cấu-trúc-dự-án-thực-tế-khuyến-nghị)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Tổng kết](#tổng-kết)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## Yêu cầu hệ thống
 

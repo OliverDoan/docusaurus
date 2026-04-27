@@ -9,6 +9,21 @@ Hooks cho phép bạn chạy lệnh tự động khi Claude Code thực hiện c
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Hooks là gì?](#1-hooks-là-gì)
+- [2. Các loại Hook](#2-các-loại-hook)
+- [3. Cấu hình Hooks](#3-cấu-hình-hooks)
+- [4. Biến môi trường trong Hooks](#4-biến-môi-trường-trong-hooks)
+- [5. Khi nào dùng Hooks?](#5-khi-nào-dùng-hooks)
+- [6. Lưu ý](#6-lưu-ý)
+- [Tips](#tips)
+
+---
+
 ## 1. Hooks là gì?
 
 ```

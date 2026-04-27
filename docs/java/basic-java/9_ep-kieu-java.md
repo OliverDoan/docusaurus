@@ -11,6 +11,25 @@ Hãy hình dung ép kiểu giống như **đổi tiền tệ**: bạn có 100 US
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Nội dung](#nội-dung)
+- [1. Type Casting là gì?](#1-type-casting-là-gì)
+- [2. Ép kiểu nới rộng (Widening Casting)](#2-ép-kiểu-nới-rộng-widening-casting)
+- [3. Ép kiểu thu hẹp (Narrowing Casting)](#3-ép-kiểu-thu-hẹp-narrowing-casting)
+- [4. Ép kiểu với Wrapper Classes](#4-ép-kiểu-với-wrapper-classes)
+- [5. Chuyển đổi String sang Number và ngược lại](#5-chuyển-đổi-string-sang-number-và-ngược-lại)
+- [6. Mất dữ liệu khi Narrowing](#6-mất-dữ-liệu-khi-narrowing)
+- [7. Bảng tổng hợp ép kiểu](#7-bảng-tổng-hợp-ép-kiểu)
+- [8. Khi nào dùng?](#8-khi-nào-dùng)
+- [9. Lỗi thường gặp](#9-lỗi-thường-gặp)
+- [10. Câu hỏi phỏng vấn](#10-câu-hỏi-phỏng-vấn)
+
+---
+
 ## Nội dung
 
 1. [Type Casting là gì?](#1-type-casting-là-gì)

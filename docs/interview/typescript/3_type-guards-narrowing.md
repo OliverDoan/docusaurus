@@ -1,11 +1,26 @@
 ---
 sidebar_position: 3
-title: "3. Type Guards, Narrowing title: "Type Guards, Narrowing & Conditional Types" Conditional Types"
+title: "3. Type Guards, Narrowing & Conditional Types"
 ---
 
 # Type Guards, Narrowing & Conditional Types
 
 Type guards và conditional types là cầu nối giữa logic runtime và type system. Hiểu rõ chúng giúp bạn viết code vừa an toàn vừa linh hoạt -- và đây là nhóm câu hỏi mà interviewer rất thích hỏi ở mức Senior.
+
+---
+
+
+---
+
+## Mục lục
+
+- [Câu 1: typeof và instanceof type guards hoạt động như thế nào? `[Intermediate]`](#câu-1-typeof-và-instanceof-type-guards-hoạt-động-như-thế-nào-intermediate)
+- [Câu 2: Custom type guards với từ khóa `is` `[Senior]`](#câu-2-custom-type-guards-với-từ-khóa-is-senior)
+- [Câu 3: Discriminated unions là gì và dùng như thế nào? `[Intermediate]`](#câu-3-discriminated-unions-là-gì-và-dùng-như-thế-nào-intermediate)
+- [Câu 4: Conditional types hoạt động như thế nào? `[Senior]`](#câu-4-conditional-types-hoạt-động-như-thế-nào-senior)
+- [Câu 5: Từ khóa `infer` trong conditional types `[Senior]`](#câu-5-từ-khóa-infer-trong-conditional-types-senior)
+- [Câu 6: Exhaustive checking với never `[Intermediate]`](#câu-6-exhaustive-checking-với-never-intermediate)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
 
 ---
 

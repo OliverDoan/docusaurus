@@ -5,6 +5,23 @@ title: "1. Đồng bộ vs Bất đồng bộ"
 
 # Đồng bộ vs Bất đồng bộ
 
+
+---
+
+## Mục lục
+
+- [Đồng bộ (Synchronous) là gì?](#đồng-bộ-synchronous-là-gì)
+- [Bất đồng bộ (Asynchronous) là gì?](#bất-đồng-bộ-asynchronous-là-gì)
+- [Tại sao JavaScript cần bất đồng bộ?](#tại-sao-javascript-cần-bất-đồng-bộ)
+- [Event Loop — "Bộ não" của JavaScript bất đồng bộ](#event-loop-bộ-não-của-javascript-bất-đồng-bộ)
+- [Cách sử dụng: setTimeout và setInterval](#cách-sử-dụng-settimeout-và-setinterval)
+- [So sánh Đồng bộ vs Bất đồng bộ](#so-sánh-đồng-bộ-vs-bất-đồng-bộ)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Đồng bộ (Synchronous) là gì?
 
 **Đồng bộ** nghĩa là các công việc được thực hiện **tuần tự, liên tiếp** — công việc trước phải xong rồi mới bắt đầu công việc sau.

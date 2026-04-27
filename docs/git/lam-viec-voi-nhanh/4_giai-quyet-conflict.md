@@ -9,6 +9,27 @@ Conflict (xung đột) là điều **không thể tránh khỏi** khi làm việ
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Conflict xảy ra khi nào và tại sao?](#1-conflict-xảy-ra-khi-nào-và-tại-sao)
+- [2. Conflict markers -- Đọc và hiểu](#2-conflict-markers-đọc-và-hiểu)
+- [3. Quy trình giải quyết conflict từng bước](#3-quy-trình-giải-quyết-conflict-từng-bước)
+- [4. Dùng VS Code để resolve conflict](#4-dùng-vs-code-để-resolve-conflict)
+- [5. `git mergetool` -- Công cụ resolve chuyên dụng](#5-git-mergetool-công-cụ-resolve-chuyên-dụng)
+- [6. Conflict trong merge vs rebase](#6-conflict-trong-merge-vs-rebase)
+- [7. `--ours` vs `--theirs`](#7-ours-vs-theirs)
+- [8. Ví dụ thực tế -- Tạo conflict cố ý và giải quyết](#8-ví-dụ-thực-tế-tạo-conflict-cố-ý-và-giải-quyết)
+- [9. Tips phòng tránh conflict](#9-tips-phòng-tránh-conflict)
+- [10. Conflict trong file binary](#10-conflict-trong-file-binary)
+- [11. Lỗi thường gặp](#11-lỗi-thường-gặp)
+- [12. Câu hỏi phỏng vấn](#12-câu-hỏi-phỏng-vấn)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## 1. Conflict xảy ra khi nào và tại sao?
 
 ### 1.1. Điều kiện để xảy ra conflict

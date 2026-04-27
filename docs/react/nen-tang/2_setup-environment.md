@@ -5,6 +5,22 @@ title: "2. Cài đặt môi trường"
 
 # Cài đặt môi trường
 
+
+---
+
+## Mục lục
+
+- [Node.js & NPM](#nodejs-npm)
+- [VS Code Extensions khuyến khích](#vs-code-extensions-khuyến-khích)
+- [Tạo dự án React](#tạo-dự-án-react)
+- [Cấu trúc dự án Vite + React](#cấu-trúc-dự-án-vite-react)
+- [Scripts thường dùng](#scripts-thường-dùng)
+- [Git cơ bản cho dự án React](#git-cơ-bản-cho-dự-án-react)
+- [Cấu trúc thư mục nên dùng (khi project lớn hơn)](#cấu-trúc-thư-mục-nên-dùng-khi-project-lớn-hơn)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Node.js & NPM
 
 React cần Node.js để chạy build tools và package manager.

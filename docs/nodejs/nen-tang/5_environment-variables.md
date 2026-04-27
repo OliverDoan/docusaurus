@@ -5,6 +5,20 @@ title: "5. Environment Variables"
 
 # Environment Variables
 
+
+---
+
+## Mục lục
+
+- [Tại sao cần Environment Variables?](#tại-sao-cần-environment-variables)
+- [process.env](#processenv)
+- [Sử dụng dotenv](#sử-dụng-dotenv)
+- [Validate Environment Variables](#validate-environment-variables)
+- [Nhiều môi trường](#nhiều-môi-trường)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## Tại sao cần Environment Variables?
 
 - **Bảo mật** — Không hardcode secrets vào source code

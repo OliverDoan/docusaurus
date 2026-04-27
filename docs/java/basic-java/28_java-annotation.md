@@ -13,6 +13,22 @@ Annotation là **nền tảng của Java hiện đại**: Spring Boot, JPA/Hiber
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Built-in Annotations (Annotation có sẵn)](#1-built-in-annotations-annotation-có-sẵn)
+- [2. Meta-annotations (Annotation cho Annotation)](#2-meta-annotations-annotation-cho-annotation)
+- [3. Tao Custom Annotation](#3-tao-custom-annotation)
+- [4. Annotation trong cac Framework pho bien](#4-annotation-trong-cac-framework-pho-bien)
+- [5. Annotation vs Comment](#5-annotation-vs-comment)
+- [Khi nao dung?](#khi-nao-dung)
+- [Loi thuong gap](#loi-thuong-gap)
+- [Cau hoi phong van](#cau-hoi-phong-van)
+
+---
+
 ## 1. Built-in Annotations (Annotation có sẵn)
 
 ### 1.1 `@Override` - Ghi đè method của lớp cha

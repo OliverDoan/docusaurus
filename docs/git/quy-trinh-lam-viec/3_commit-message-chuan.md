@@ -9,6 +9,27 @@ Commit message là "nhật ký" của dự án. Một commit message tốt giúp
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Tại sao commit message quan trọng?](#1-tại-sao-commit-message-quan-trọng)
+- [2. 7 Quy tắc viết commit message tốt (Chris Beams)](#2-7-quy-tắc-viết-commit-message-tốt-chris-beams)
+- [3. Conventional Commits — Chuẩn công nghiệp](#3-conventional-commits-chuẩn-công-nghiệp)
+- [4. Ví dụ commit message tốt vs xấu](#4-ví-dụ-commit-message-tốt-vs-xấu)
+- [5. Semantic Versioning và Conventional Commits](#5-semantic-versioning-và-conventional-commits)
+- [6. Tools tự động hóa](#6-tools-tự-động-hóa)
+- [7. Auto-generate CHANGELOG](#7-auto-generate-changelog)
+- [[2.1.0] - 2024-03-15](#210-2024-03-15)
+- [[2.0.0] - 2024-02-01](#200-2024-02-01)
+- [8. Bảng tóm tắt Types với Emoji (optional)](#8-bảng-tóm-tắt-types-với-emoji-optional)
+- [9. Lỗi thường gặp](#9-lỗi-thường-gặp)
+- [10. Câu hỏi phỏng vấn](#10-câu-hỏi-phỏng-vấn)
+- [11. Tóm tắt](#11-tóm-tắt)
+
+---
+
 ## 1. Tại sao commit message quan trọng?
 
 Trước khi học cách viết, hãy hiểu **tại sao** commit message tốt lại quan trọng đến vậy:

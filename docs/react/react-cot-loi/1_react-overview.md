@@ -5,6 +5,22 @@ title: "1. Tổng quan React"
 
 # Tổng quan React
 
+
+---
+
+## Mục lục
+
+- [React là gì?](#react-là-gì)
+- [Virtual DOM](#virtual-dom)
+- [Cách React render](#cách-react-render)
+- [React Element vs Component](#react-element-vs-component)
+- [Tạo dự án React](#tạo-dự-án-react)
+- [One-way Data Flow](#one-way-data-flow)
+- [Strict Mode](#strict-mode)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## React là gì?
 
 React là một thư viện JavaScript do Facebook (Meta) phát triển, dùng để xây dựng giao diện người dùng (UI). React tập trung vào **view layer** — phần hiển thị của ứng dụng.

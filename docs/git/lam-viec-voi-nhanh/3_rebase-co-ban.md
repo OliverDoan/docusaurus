@@ -9,6 +9,26 @@ Nếu merge là cách "an toàn và trung thực" để gộp nhánh, thì rebas
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Rebase là gì?](#1-rebase-là-gì)
+- [2. Rebase cơ bản](#2-rebase-cơ-bản)
+- [3. Rebase vs Merge -- So sánh chi tiết](#3-rebase-vs-merge-so-sánh-chi-tiết)
+- [4. Golden Rule -- Quy tắc vàng](#4-golden-rule-quy-tắc-vàng)
+- [5. Interactive rebase -- Sức mạnh thực sự](#5-interactive-rebase-sức-mạnh-thực-sự)
+- [6. `git rebase --onto` -- Rebase nâng cao](#6-git-rebase-onto-rebase-nâng-cao)
+- [7. Xử lý conflict trong rebase](#7-xử-lý-conflict-trong-rebase)
+- [8. Workflow thực tế: Feature branch + Rebase](#8-workflow-thực-tế-feature-branch-rebase)
+- [9. Risks và cách phòng tránh](#9-risks-và-cách-phòng-tránh)
+- [10. Lỗi thường gặp](#10-lỗi-thường-gặp)
+- [11. Câu hỏi phỏng vấn](#11-câu-hỏi-phỏng-vấn)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## 1. Rebase là gì?
 
 ### 1.1. Định nghĩa đơn giản

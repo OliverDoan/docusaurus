@@ -5,6 +5,24 @@ title: "4. Toán tử"
 
 # Toán tử
 
+
+---
+
+## Mục lục
+
+- [Toán tử là gì?](#toán-tử-là-gì)
+- [Toán tử số học (Arithmetic)](#toán-tử-số-học-arithmetic)
+- [Toán tử gán (Assignment)](#toán-tử-gán-assignment)
+- [Toán tử so sánh (Comparison)](#toán-tử-so-sánh-comparison)
+- [Toán tử logic (Logical)](#toán-tử-logic-logical)
+- [Toán tử ba ngôi (Ternary)](#toán-tử-ba-ngôi-ternary)
+- [Nullish Coalescing (??) — ES2020](#nullish-coalescing-es2020)
+- [Optional Chaining (?.) — ES2020](#optional-chaining-es2020)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Toán tử là gì?
 
 **Toán tử** (operator) là các ký hiệu đặc biệt dùng để **thực hiện phép tính** hoặc **so sánh** các giá trị.

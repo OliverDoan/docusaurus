@@ -9,6 +9,27 @@ Bài này hướng dẫn chi tiết các lệnh Git bạn sẽ dùng **hàng ng�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. git init — Tạo repository mới](#1-git-init-tạo-repository-mới)
+- [2. git clone — Sao chép repository](#2-git-clone-sao-chép-repository)
+- [3. git status — Xem trạng thái hiện tại](#3-git-status-xem-trạng-thái-hiện-tại)
+- [4. git add — Đưa file vào Staging Area](#4-git-add-đưa-file-vào-staging-area)
+- [5. git commit — Lưu thay đổi vào Repository](#5-git-commit-lưu-thay-đổi-vào-repository)
+- [6. git diff — So sánh sự khác biệt](#6-git-diff-so-sánh-sự-khác-biệt)
+- [7. git log — Xem lịch sử commit](#7-git-log-xem-lịch-sử-commit)
+- [8. git show — Xem chi tiết 1 commit](#8-git-show-xem-chi-tiết-1-commit)
+- [9. Bảng tổng hợp các lệnh](#9-bảng-tổng-hợp-các-lệnh)
+- [10. Workflow thực tế: Từ 0 đến commit đầu tiên](#10-workflow-thực-tế-từ-0-đến-commit-đầu-tiên)
+- [11. Lỗi thường gặp](#11-lỗi-thường-gặp)
+- [12. Câu hỏi phỏng vấn](#12-câu-hỏi-phỏng-vấn)
+- [Tổng kết luồng làm việc hàng ngày](#tổng-kết-luồng-làm-việc-hàng-ngày)
+
+---
+
 ## 1. git init — Tạo repository mới
 
 ### Công dụng

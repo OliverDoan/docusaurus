@@ -11,6 +11,19 @@ Bài này sẽ đi sâu vào cách Google hoạt động từ góc nhìn technic
 
 ---
 
+## Mục lục
+
+- [1. Pipeline tổng quan: Crawl → Index → Rank](#1-pipeline-tổng-quan-crawl-index-rank)
+- [2. Bước 1: Crawl -- Googlebot thu thập dữ liệu](#2-bước-1-crawl-googlebot-thu-thập-dữ-liệu)
+- [3. Bước 2: Index -- Google phân tích và lưu trữ](#3-bước-2-index-google-phân-tích-và-lưu-trữ)
+- [4. Bước 3: Rank -- Google xếp hạng kết quả](#4-bước-3-rank-google-xếp-hạng-kết-quả)
+- [5. Thực hành: Kiểm tra website của bạn](#5-thực-hành-kiểm-tra-website-của-bạn)
+- [6. Lỗi thường gặp](#6-lỗi-thường-gặp)
+- [7. Tổng kết](#7-tổng-kết)
+- [8. Câu hỏi phỏng vấn](#8-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Pipeline tổng quan: Crawl → Index → Rank
 
 ```

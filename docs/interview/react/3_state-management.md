@@ -9,6 +9,21 @@ State management là một trong những chủ đề được hỏi nhiều nh�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: React Context API -- khi nào dùng, khi nào không? Tại sao Context gây performance issues? `[Intermediate]`](#câu-1-react-context-api-khi-nào-dùng-khi-nào-không-tại-sao-context-gây-performance-issues-intermediate)
+- [Câu 2: Redux -- core concepts là gì? Redux Toolkit thay đổi gì? `[Intermediate]`](#câu-2-redux-core-concepts-là-gì-redux-toolkit-thay-đổi-gì-intermediate)
+- [Câu 3: Zustand -- đơn giản hơn Redux như thế nào? `[Intermediate]`](#câu-3-zustand-đơn-giản-hơn-redux-như-thế-nào-intermediate)
+- [Câu 4: Jotai -- atomic state model khác gì? `[Senior]`](#câu-4-jotai-atomic-state-model-khác-gì-senior)
+- [Câu 5: Khi nào dùng gì? So sánh chi tiết các giải pháp state management `[Senior]`](#câu-5-khi-nào-dùng-gì-so-sánh-chi-tiết-các-giải-pháp-state-management-senior)
+- [Câu 6: Server State -- React Query / TanStack Query giải quyết vấn đề gì? `[Intermediate]`](#câu-6-server-state-react-query-tanstack-query-giải-quyết-vấn-đề-gì-intermediate)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: React Context API -- khi nào dùng, khi nào không? Tại sao Context gây performance issues? `[Intermediate]`
 
 ### Giải thích lý thuyết

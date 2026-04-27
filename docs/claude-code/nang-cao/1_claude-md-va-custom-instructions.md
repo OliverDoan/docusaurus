@@ -9,6 +9,25 @@ CLAUDE.md là "bộ não" cố định của Claude Code cho project. Config đ�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. CLAUDE.md là gì?](#1-claudemd-là-gì)
+- [2. Template CLAUDE.md](#2-template-claudemd)
+- [Commands](#commands)
+- [Architecture](#architecture)
+- [Project Structure](#project-structure)
+- [Conventions](#conventions)
+- [Rules](#rules)
+- [3. Quy tắc viết CLAUDE.md tốt](#3-quy-tắc-viết-claudemd-tốt)
+- [4. Nhiều cấp CLAUDE.md](#4-nhiều-cấp-claudemd)
+- [5. Settings file](#5-settings-file)
+- [Tips](#tips)
+
+---
+
 ## 1. CLAUDE.md là gì?
 
 File `CLAUDE.md` ở root project được Claude Code **tự đọc** mỗi khi bắt đầu session. Nó chứa thông tin về project mà bạn muốn Claude Code luôn biết.

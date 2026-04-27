@@ -9,6 +9,21 @@ Claude Code rất mạnh trong việc tìm và fix bug. Bài này dạy cách t�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Fix lỗi TypeScript / Build](#1-fix-lỗi-typescript-build)
+- [2. Fix test fail](#2-fix-test-fail)
+- [3. Fix bug từ mô tả](#3-fix-bug-từ-mô-tả)
+- [4. Debug từng bước](#4-debug-từng-bước)
+- [5. Fix performance](#5-fix-performance)
+- [6. Pattern fix lỗi hiệu quả](#6-pattern-fix-lỗi-hiệu-quả)
+- [Tips debug](#tips-debug)
+
+---
+
 ## 1. Fix lỗi TypeScript / Build
 
 ```

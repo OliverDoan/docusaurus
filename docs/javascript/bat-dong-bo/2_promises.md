@@ -5,6 +5,22 @@ title: "2. Promise"
 
 # Promise
 
+
+---
+
+## Mục lục
+
+- [Promise là gì?](#promise-là-gì)
+- [3 trạng thái của Promise](#3-trạng-thái-của-promise)
+- [Tại sao Promise ra đời?](#tại-sao-promise-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Promise Static Methods](#promise-static-methods)
+- [Khi nào dùng Promise?](#khi-nào-dùng-promise)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Promise là gì?
 
 **Promise** là một đối tượng đại diện cho **kết quả của một tác vụ bất đồng bộ** — tác vụ đó có thể **thành công** hoặc **thất bại** trong tương lai.

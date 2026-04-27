@@ -9,6 +9,23 @@ Quản lý biến môi trường đúng cách là kỹ năng quan trọng khi l�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Tại sao cần biến môi trường?](#1-tại-sao-cần-biến-môi-trường)
+- [2. Các cách truyền biến môi trường](#2-các-cách-truyền-biến-môi-trường)
+- [3. Thứ tự ưu tiên](#3-thứ-tự-ưu-tiên)
+- [4. Nhiều file .env cho nhiều môi trường](#4-nhiều-file-env-cho-nhiều-môi-trường)
+- [5. Secrets (Bảo mật)](#5-secrets-bảo-mật)
+- [6. Kiểm tra biến môi trường](#6-kiểm-tra-biến-môi-trường)
+- [7. Best Practices](#7-best-practices)
+- [8. Bài tập thực hành](#8-bài-tập-thực-hành)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Tại sao cần biến môi trường?
 
 Biến môi trường giúp:

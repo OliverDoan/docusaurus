@@ -5,6 +5,26 @@ title: "1. Testing"
 
 # Testing
 
+
+---
+
+## Mục lục
+
+- [Giới thiệu](#giới-thiệu)
+- [Nội dung](#nội-dung)
+- [1. Jest Setup cho Next.js](#1-jest-setup-cho-nextjs)
+- [2. React Testing Library](#2-react-testing-library)
+- [3. Testing Server Components](#3-testing-server-components)
+- [4. Testing Client Components](#4-testing-client-components)
+- [5. Testing Route Handlers](#5-testing-route-handlers)
+- [6. Playwright cho E2E Testing](#6-playwright-cho-e2e-testing)
+- [7. Test Organization va Best Practices](#7-test-organization-va-best-practices)
+- [8. Coverage Reporting](#8-coverage-reporting)
+- [9. Lỗi thường gặp](#9-lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Giới thiệu
 
 Testing (kiểm thử) là một phần **cực kỳ quan trọng** trong quy trình phát triển phần mềm. Trong Next.js, chúng ta cần test nhiều loại thành phần khác nhau:

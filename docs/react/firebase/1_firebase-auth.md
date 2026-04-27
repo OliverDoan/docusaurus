@@ -5,6 +5,24 @@ title: "1. Firebase Authentication"
 
 # Firebase Authentication
 
+
+---
+
+## Mục lục
+
+- [Setup Firebase](#setup-firebase)
+- [Email/Password Authentication](#emailpassword-authentication)
+- [Google Sign-In](#google-sign-in)
+- [Auth State Observer](#auth-state-observer)
+- [Auth Context](#auth-context)
+- [Authentication Flow](#authentication-flow)
+- [Protected Routes](#protected-routes)
+- [Password Reset](#password-reset)
+- [Error Handling](#error-handling)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Setup Firebase
 
 ### Tạo project

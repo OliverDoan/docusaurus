@@ -9,6 +9,21 @@ Thiết kế component tốt là kỹ năng phân biệt một frontend develope
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: Nguyên tắc thiết kế Component API tốt là gì? `[Intermediate]`](#câu-1-nguyên-tắc-thiết-kế-component-api-tốt-là-gì-intermediate)
+- [Câu 2: Composition vs Configuration -- khi nào dùng pattern nào? `[Senior]`](#câu-2-composition-vs-configuration-khi-nào-dùng-pattern-nào-senior)
+- [Câu 3: Design System bao gồm những gì? Cách xây dựng? `[Senior]`](#câu-3-design-system-bao-gồm-những-gì-cách-xây-dựng-senior)
+- [Câu 4: Storybook dùng để làm gì? Visual testing hoạt động ra sao? `[Intermediate]`](#câu-4-storybook-dùng-để-làm-gì-visual-testing-hoạt-động-ra-sao-intermediate)
+- [Câu 5: Atomic Design là gì? Áp dụng vào React như thế nào? `[Intermediate]`](#câu-5-atomic-design-là-gì-áp-dụng-vào-react-như-thế-nào-intermediate)
+- [Câu 6: Headless UI pattern là gì? Tại sao ngày càng phổ biến? `[Senior]`](#câu-6-headless-ui-pattern-là-gì-tại-sao-ngày-càng-phổ-biến-senior)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: Nguyên tắc thiết kế Component API tốt là gì? `[Intermediate]`
 
 ### Giải thích lý thuyết

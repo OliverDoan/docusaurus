@@ -9,6 +9,24 @@ Data fetching (lấy dữ liệu) là một trong những việc quan trọng nh
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. fetch() trong Server Components](#1-fetch-trong-server-components)
+- [2. Caching Behavior Mặc Định](#2-caching-behavior-mặc-định)
+- [3. `cache: 'no-store'` vs `cache: 'force-cache'`](#3-cache-no-store-vs-cache-force-cache)
+- [4. `next: { revalidate: N }` Option](#4-next-revalidate-n-option)
+- [5. Fetching Data trong Layouts vs Pages](#5-fetching-data-trong-layouts-vs-pages)
+- [6. Sequential vs Parallel Data Fetching](#6-sequential-vs-parallel-data-fetching)
+- [7. Dùng Database Trực Tiếp trong Server Components](#7-dùng-database-trực-tiếp-trong-server-components)
+- [8. Error Handling Khi Fetch](#8-error-handling-khi-fetch)
+- [9. Lỗi thường gặp](#9-lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. fetch() trong Server Components
 
 ### Extended Fetch API

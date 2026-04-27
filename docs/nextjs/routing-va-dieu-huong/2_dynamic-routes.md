@@ -5,6 +5,23 @@ title: "2. Dynamic Routes"
 
 # Dynamic Routes
 
+
+---
+
+## Mục lục
+
+- [Dynamic Segments](#dynamic-segments)
+- [Catch-all Segments `[...slug]`](#catch-all-segments-slug)
+- [Optional Catch-all `[[...slug]]`](#optional-catch-all-slug)
+- [generateStaticParams — Static Generation cho Dynamic Routes](#generatestaticparams-static-generation-cho-dynamic-routes)
+- [searchParams — Query String](#searchparams-query-string)
+- [TypeScript Types cho Params](#typescript-types-cho-params)
+- [Ví dụ thực tế: Blog hoàn chỉnh](#ví-dụ-thực-tế-blog-hoàn-chỉnh)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Dynamic Segments
 
 Dynamic Routes cho phép tạo route từ **dữ liệu động** — không cần biết trước tất cả URL. Thay vì tạo file cho mỗi bài viết blog, bạn tạo **một route template** xử lý tất cả.

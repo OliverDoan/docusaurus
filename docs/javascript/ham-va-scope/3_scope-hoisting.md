@@ -1,9 +1,25 @@
 ---
 sidebar_position: 3
-title: "3. Scope title: "Scope & Hoisting" Hoisting"
+title: "3. Scope & Hoisting"
 ---
 
 # Scope & Hoisting
+
+
+---
+
+## Mục lục
+
+- [Scope là gì?](#scope-là-gì)
+- [Tại sao cần hiểu Scope?](#tại-sao-cần-hiểu-scope)
+- [Các loại Scope](#các-loại-scope)
+- [Scope Chain (Chuỗi Scope)](#scope-chain-chuỗi-scope)
+- [Hoisting](#hoisting)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## Scope là gì?
 

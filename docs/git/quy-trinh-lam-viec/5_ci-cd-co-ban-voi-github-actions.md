@@ -9,6 +9,30 @@ Bạn đã biết cách viết code, tạo branch, merge PR. Nhưng ai sẽ **ki
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. CI/CD là gì?](#1-cicd-là-gì)
+- [2. GitHub Actions Overview](#2-github-actions-overview)
+- [3. Triggers (Events)](#3-triggers-events)
+- [4. Ví dụ Workflow Node.js (đầy đủ)](#4-ví-dụ-workflow-nodejs-đầy-đủ)
+- [5. Ví dụ Workflow Java](#5-ví-dụ-workflow-java)
+- [6. Environment Variables và Secrets](#6-environment-variables-và-secrets)
+- [7. Matrix Strategy — Test nhiều version](#7-matrix-strategy-test-nhiều-version)
+- [8. Caching — Tăng tốc Pipeline](#8-caching-tăng-tốc-pipeline)
+- [9. Artifacts — Lưu kết quả](#9-artifacts-lưu-kết-quả)
+- [10. Branch Protection + Required Checks](#10-branch-protection-required-checks)
+- [11. Deploy Workflow cơ bản](#11-deploy-workflow-cơ-bản)
+- [12. GitHub Actions Marketplace — Popular Actions](#12-github-actions-marketplace-popular-actions)
+- [13. Bảng tổng hợp Syntax YAML quan trọng](#13-bảng-tổng-hợp-syntax-yaml-quan-trọng)
+- [14. Lỗi thường gặp](#14-lỗi-thường-gặp)
+- [15. Câu hỏi phỏng vấn](#15-câu-hỏi-phỏng-vấn)
+- [16. Tóm tắt](#16-tóm-tắt)
+
+---
+
 ## 1. CI/CD là gì?
 
 ### 1.1. Continuous Integration (CI)

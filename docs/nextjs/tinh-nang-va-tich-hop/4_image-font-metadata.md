@@ -1,9 +1,23 @@
 ---
 sidebar_position: 4
-title: "4. Image, Font title: "Image, Font & Metadata" Metadata"
+title: "4. Image, Font & Metadata"
 ---
 
 # Image, Font & Metadata
+
+
+---
+
+## Mục lục
+
+- [next/image — Tối ưu hình ảnh tự động](#nextimage-tối-ưu-hình-ảnh-tự-động)
+- [next/font — Zero Layout Shift](#nextfont-zero-layout-shift)
+- [Metadata API — SEO và Social Sharing](#metadata-api-seo-và-social-sharing)
+- [SEO Best Practices](#seo-best-practices)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## next/image — Tối ưu hình ảnh tự động
 

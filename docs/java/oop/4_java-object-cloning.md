@@ -9,6 +9,23 @@ Hãy tưởng tượng bạn có một bản thiết kế nhà (object) và mu�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Object Cloning là gì?](#1-object-cloning-là-gì)
+- [2. Shallow Copy vs Deep Copy](#2-shallow-copy-vs-deep-copy)
+- [3. Cloneable interface và clone()](#3-cloneable-interface-và-clone)
+- [4. Deep Clone](#4-deep-clone)
+- [5. Copy Constructor — Giải pháp thay thế](#5-copy-constructor-giải-pháp-thay-thế)
+- [6. So sánh các phương pháp Clone](#6-so-sánh-các-phương-pháp-clone)
+- [7. Clone bằng Serialization](#7-clone-bằng-serialization)
+- [8. Lỗi thường gặp](#8-lỗi-thường-gặp)
+- [9. Câu hỏi phỏng vấn](#9-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Object Cloning là gì?
 
 **Object Cloning** là quá trình tạo một **bản sao** (copy) của một object. Object mới có cùng giá trị các field với object gốc.

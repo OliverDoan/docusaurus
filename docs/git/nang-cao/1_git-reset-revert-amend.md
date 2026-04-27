@@ -9,6 +9,23 @@ Ai cũng mắc sai lầm khi commit — viết sai message, quên thêm file, ho
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. git commit --amend](#1-git-commit-amend)
+- [2. git reset](#2-git-reset)
+- [3. git revert](#3-git-revert)
+- [4. Bảng so sánh: Amend vs Reset vs Revert](#4-bảng-so-sánh-amend-vs-reset-vs-revert)
+- [5. Decision Tree: Chọn lệnh nào?](#5-decision-tree-chọn-lệnh-nào)
+- [6. Ví dụ thực tế: Undo sai lầm phổ biến](#6-ví-dụ-thực-tế-undo-sai-lầm-phổ-biến)
+- [7. Lỗi thường gặp](#7-lỗi-thường-gặp)
+- [8. Câu hỏi phỏng vấn](#8-câu-hỏi-phỏng-vấn)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## 1. git commit --amend
 
 ### Sửa commit message cuối cùng

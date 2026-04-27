@@ -5,6 +5,23 @@ title: "4. Fetch API"
 
 # Fetch API
 
+
+---
+
+## Mục lục
+
+- [Fetch là gì?](#fetch-là-gì)
+- [Tại sao Fetch ra đời?](#tại-sao-fetch-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Response Object](#response-object)
+- [Headers và CORS](#headers-và-cors)
+- [Error Handling — Điểm QUAN TRỌNG NHẤT](#error-handling-điểm-quan-trọng-nhất)
+- [Khi nào dùng Fetch?](#khi-nào-dùng-fetch)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Fetch là gì?
 
 **Fetch API** là cách hiện đại để **gửi request (yêu cầu) đến server và nhận response (phản hồi)** trong JavaScript. Nó dựa trên Promise, thay thế cho XMLHttpRequest cũ.

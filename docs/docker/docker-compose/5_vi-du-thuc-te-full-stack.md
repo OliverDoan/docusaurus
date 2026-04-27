@@ -9,6 +9,20 @@ Bài này tổng hợp kiến thức Docker Compose qua các ví dụ full-stack
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Node.js + PostgreSQL + Redis](#1-nodejs-postgresql-redis)
+- [2. Next.js + PostgreSQL + Prisma](#2-nextjs-postgresql-prisma)
+- [3. Nginx Reverse Proxy + Multiple Services](#3-nginx-reverse-proxy-multiple-services)
+- [4. Development Environment hoàn chỉnh](#4-development-environment-hoàn-chỉnh)
+- [5. Workflow thường dùng](#5-workflow-thường-dùng)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Node.js + PostgreSQL + Redis
 
 Stack phổ biến nhất cho web application:

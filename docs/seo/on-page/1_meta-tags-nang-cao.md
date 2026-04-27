@@ -5,6 +5,21 @@ title: "1. Meta Tags nâng cao"
 
 # Meta Tags nâng cao
 
+## Mục lục
+
+- [Meta tags là gì và tại sao quan trọng?](#meta-tags-là-gì-và-tại-sao-quan-trọng)
+- [Open Graph Tags](#open-graph-tags)
+- [Twitter Card Meta Tags](#twitter-card-meta-tags)
+- [Canonical Tags](#canonical-tags)
+- [Hreflang cho trang đa ngôn ngữ](#hreflang-cho-trang-đa-ngôn-ngữ)
+- [Triển khai với Next.js Metadata API](#triển-khai-với-nextjs-metadata-api)
+- [Triển khai với React Helmet](#triển-khai-với-react-helmet)
+- [Robots Meta Tag](#robots-meta-tag)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Meta tags là gì và tại sao quan trọng?
 
 Nếu bạn chỉ biết đến `<title>` và `<meta name="description">` thì bạn mới chỉ biết phần nổi của SEO meta tags. Trong thực tế, một trang web muốn rank tốt và hiển thị đẹp trên mạng xã hội cần rất nhiều loại meta tags khác nhau.

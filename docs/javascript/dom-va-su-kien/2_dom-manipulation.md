@@ -5,6 +5,20 @@ title: "2. Thao tác DOM"
 
 # Thao tác DOM
 
+
+---
+
+## Mục lục
+
+- [Thao tác DOM là gì?](#thao-tác-dom-là-gì)
+- [Tại sao thao tác DOM ra đời?](#tại-sao-thao-tác-dom-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Thao tác DOM là gì?
 
 **Thao tác DOM (DOM Manipulation)** là việc dùng JavaScript để **tìm, thay đổi, thêm hoặc xóa** các phần tử trên trang web. Đây là kỹ năng cơ bản nhất của lập trình frontend.

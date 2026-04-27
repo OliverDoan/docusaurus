@@ -5,6 +5,22 @@ title: "4. Event Delegation"
 
 # Event Delegation
 
+
+---
+
+## Mục lục
+
+- [Event Delegation là gì?](#event-delegation-là-gì)
+- [Tại sao Event Delegation ra đời?](#tại-sao-event-delegation-ra-đời)
+- [Event Bubbling -- Nền tảng của Delegation](#event-bubbling-nền-tảng-của-delegation)
+- [Cách sử dụng](#cách-sử-dụng)
+- [So sánh: Gắn listener từng element vs Delegation](#so-sánh-gắn-listener-từng-element-vs-delegation)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Event Delegation là gì?
 
 **Event Delegation** là kỹ thuật **gắn 1 event listener lên phần tử CHA**, thay vì gắn listener cho **từng phần tử con** riêng lẻ. Khi sự kiện xảy ra trên phần tử con, nó sẽ **nổi bọt (bubble)** lên cha, và cha sẽ xử lý sự kiện đó.

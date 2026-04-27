@@ -5,6 +5,22 @@ title: "33. Marker Interface"
 
 # Marker Interface trong Java
 
+
+---
+
+## Mục lục
+
+- [Marker Interface là gì?](#marker-interface-là-gì)
+- [1. Cấu trúc của Marker Interface](#1-cấu-trúc-của-marker-interface)
+- [2. Built-in Marker Interface trong Java](#2-built-in-marker-interface-trong-java)
+- [3. Tạo Custom Marker Interface](#3-tạo-custom-marker-interface)
+- [4. Marker Interface vs Annotation](#4-marker-interface-vs-annotation)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Marker Interface là gì?
 
 **Marker Interface** (hay còn gọi là **Tagging Interface**) là một interface **không có bất kỳ method hay constant nào**. Nó là một interface rỗng, chỉ được dùng để **đánh dấu (mark)** rằng một class có một khả năng hoặc đặc tính nào đó.

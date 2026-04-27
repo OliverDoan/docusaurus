@@ -11,6 +11,24 @@ Hãy tưởng tượng bạn có một **tài liệu gốc** và muốn gửi b�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Cách 1: Vòng lặp `for` (cơ bản)](#1-cách-1-vòng-lặp-for-cơ-bản)
+- [2. Cách 2: `Arrays.copyOf()` (phổ biến nhất)](#2-cách-2-arrayscopyof-phổ-biến-nhất)
+- [3. Cách 3: `clone()` (nhanh và tiện)](#3-cách-3-clone-nhanh-và-tiện)
+- [4. Cách 4: `System.arraycopy()` (hiệu suất cao nhất)](#4-cách-4-systemarraycopy-hiệu-suất-cao-nhất)
+- [5. So sánh 4 cách copy](#5-so-sánh-4-cách-copy)
+- [6. Shallow Copy vs Deep Copy (RẤT QUAN TRỌNG)](#6-shallow-copy-vs-deep-copy-rất-quan-trọng)
+- [7. Copy mảng 2 chiều](#7-copy-mảng-2-chiều)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Cách 1: Vòng lặp `for` (cơ bản)
 
 Đây là cách đơn giản nhất, phù hợp cho người mới học.

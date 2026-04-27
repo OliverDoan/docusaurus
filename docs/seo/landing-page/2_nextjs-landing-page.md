@@ -5,6 +5,20 @@ title: "2. Landing Page với Next.js"
 
 # Landing Page với Next.js
 
+## Mục lục
+
+- [Tại sao Next.js là lựa chọn hàng đầu cho landing page SEO?](#tại-sao-nextjs-là-lựa-chọn-hàng-đầu-cho-landing-page-seo)
+- [Next.js App Router cho landing page](#nextjs-app-router-cho-landing-page)
+- [Metadata API cho SEO](#metadata-api-cho-seo)
+- [Static Generation cho landing page](#static-generation-cho-landing-page)
+- [Image optimization với next/image](#image-optimization-với-nextimage)
+- [Font optimization với next/font](#font-optimization-với-nextfont)
+- [Component structure cho landing page SEO-friendly](#component-structure-cho-landing-page-seo-friendly)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Tại sao Next.js là lựa chọn hàng đầu cho landing page SEO?
 
 Next.js giải quyết gần như mọi vấn đề SEO mà React thuần gặp phải. Với App Router, bạn có server-side rendering mặc định, static generation cho landing page, và API tối ưu metadata mạnh mẽ.

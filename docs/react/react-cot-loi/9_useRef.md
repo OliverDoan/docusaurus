@@ -5,6 +5,23 @@ title: "9. useRef"
 
 # useRef
 
+
+---
+
+## Mục lục
+
+- [useRef là gì?](#useref-là-gì)
+- [Hai use case chính](#hai-use-case-chính)
+- [Ref vs State](#ref-vs-state)
+- [DOM operations với ref](#dom-operations-với-ref)
+- [Previous value pattern](#previous-value-pattern)
+- [Callback ref](#callback-ref)
+- [forwardRef](#forwardref)
+- [Lưu ý quan trọng](#lưu-ý-quan-trọng)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## useRef là gì?
 
 `useRef` tạo một object `{ current: value }` tồn tại suốt vòng đời component. Khác với state, thay đổi ref **không gây re-render**.

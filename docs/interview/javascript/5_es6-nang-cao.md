@@ -9,6 +9,21 @@ ES6+ mang đến rất nhiều tính năng mạnh mẽ mà interviewer thường
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: Destructuring nâng cao `[Intermediate]`](#câu-1-destructuring-nâng-cao-intermediate)
+- [Câu 2: Spread và Rest operator `[Intermediate]`](#câu-2-spread-và-rest-operator-intermediate)
+- [Câu 3: Symbol -- use cases và well-known symbols `[Senior]`](#câu-3-symbol-use-cases-và-well-known-symbols-senior)
+- [Câu 4: WeakMap, WeakSet vs Map, Set `[Senior]`](#câu-4-weakmap-weakset-vs-map-set-senior)
+- [Câu 5: Proxy và Reflect `[Senior]`](#câu-5-proxy-và-reflect-senior)
+- [Câu 6: Optional chaining, nullish coalescing `[Intermediate]`](#câu-6-optional-chaining-nullish-coalescing-intermediate)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: Destructuring nâng cao `[Intermediate]`
 
 ### Câu hỏi

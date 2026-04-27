@@ -9,6 +9,24 @@ Tổng hợp các tips hay nhất để dùng Claude Code hiệu quả hơn.
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Pipe input vào Claude Code](#1-pipe-input-vào-claude-code)
+- [2. One-shot commands](#2-one-shot-commands)
+- [3. Tiếp tục session trước](#3-tiếp-tục-session-trước)
+- [4. Dùng tiếng Việt hiệu quả](#4-dùng-tiếng-việt-hiệu-quả)
+- [5. Review trước khi accept](#5-review-trước-khi-accept)
+- [6. Khi Claude Code sai](#6-khi-claude-code-sai)
+- [7. Tối ưu chi phí](#7-tối-ưu-chi-phí)
+- [8. Workflow hàng ngày](#8-workflow-hàng-ngày)
+- [9. Checklist dùng Claude Code hiệu quả](#9-checklist-dùng-claude-code-hiệu-quả)
+- [10. Tổng kết: 5 quy tắc vàng](#10-tổng-kết-5-quy-tắc-vàng)
+
+---
+
 ## 1. Pipe input vào Claude Code
 
 ```bash

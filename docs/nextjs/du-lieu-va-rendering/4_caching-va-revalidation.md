@@ -1,11 +1,27 @@
 ---
 sidebar_position: 4
-title: "4. Caching title: "Caching & Revalidation" Revalidation"
+title: "4. Caching & Revalidation"
 ---
 
 # Caching & Revalidation
 
 Caching là một trong những khái niệm quan trọng nhất khi làm việc với Next.js, nhưng cũng là khái niệm **khó hiểu nhất** với nhiều người. Next.js có **4 tầng caching khác nhau**, mỗi tầng phục vụ một mục đích riêng. Hãy tưởng tượng hệ thống caching như việc lưu trữ thức ăn: bạn có tủ lạnh ở nhà (Router Cache), tự động ở cửa hàng (Data Cache), kho lạnh ở nhà máy (Full Route Cache), và sổ tay ghi nhớ công thức (Request Memoization).
+
+---
+
+
+---
+
+## Mục lục
+
+- [1. 4 Layers of Caching trong Next.js](#1-4-layers-of-caching-trong-nextjs)
+- [2. Time-based Revalidation](#2-time-based-revalidation)
+- [3. On-demand Revalidation](#3-on-demand-revalidation)
+- [4. Opting Out of Caching](#4-opting-out-of-caching)
+- [5. Cache Tags -- Chiến lược đặt tên](#5-cache-tags-chiến-lược-đặt-tên)
+- [6. Debugging Cache Behavior](#6-debugging-cache-behavior)
+- [7. Lỗi thường gặp](#7-lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 

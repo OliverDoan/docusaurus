@@ -9,6 +9,24 @@ Hãy tưởng tượng bạn đến **máy ATM** rút tiền. Bạn nhấn nút,
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Encapsulation là gì?](#1-encapsulation-là-gì)
+- [2. Cách thực hiện Encapsulation](#2-cách-thực-hiện-encapsulation)
+- [3. Validation trong Setter](#3-validation-trong-setter)
+- [4. Read-Only và Write-Only Fields](#4-read-only-và-write-only-fields)
+- [5. Immutable Class](#5-immutable-class)
+- [6. JavaBean Conventions](#6-javabean-conventions)
+- [7. Encapsulation vs Abstraction](#7-encapsulation-vs-abstraction)
+- [8. Lợi ích của Encapsulation](#8-lợi-ích-của-encapsulation)
+- [9. Lỗi thường gặp](#9-lỗi-thường-gặp)
+- [10. Câu hỏi phỏng vấn](#10-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Encapsulation là gì?
 
 **Encapsulation** (tính đóng gói) là một trong **4 tính chất cơ bản** của OOP. Encapsulation gộp **dữ liệu** (fields) và **hành vi** (methods) vào cùng một class, đồng thời **ẩn giấu chi tiết bên trong** và chỉ cho phép truy cập qua các method công khai.

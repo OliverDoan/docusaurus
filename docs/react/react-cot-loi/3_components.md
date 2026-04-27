@@ -5,6 +5,20 @@ title: "3. Components"
 
 # Components
 
+
+---
+
+## Mục lục
+
+- [Function Component](#function-component)
+- [Class Component (Legacy)](#class-component-legacy)
+- [Cấu trúc một component tốt](#cấu-trúc-một-component-tốt)
+- [Component Composition](#component-composition)
+- [Tổ chức components](#tổ-chức-components)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Function Component
 
 Cách viết component chính thức và được khuyến khích hiện nay:

@@ -5,6 +5,24 @@ title: "23. Regular Expression trong Java"
 
 # Regular Expression trong Java
 
+
+---
+
+## Mục lục
+
+- [Giới thiệu](#giới-thiệu)
+- [Nội dung](#nội-dung)
+- [1. Biểu thức chính quy là gì?](#1-biểu-thức-chính-quy-là-gì)
+- [2. Các lớp Regex trong Java](#2-các-lớp-regex-trong-java)
+- [3. Các ký tự Regex thường dùng](#3-các-ký-tự-regex-thường-dùng)
+- [4. Ví dụ kiểm tra chuỗi với Regex](#4-ví-dụ-kiểm-tra-chuỗi-với-regex)
+- [5. Tìm kiếm chuỗi với Regex](#5-tìm-kiếm-chuỗi-với-regex)
+- [6. Thay thế chuỗi với Regex](#6-thay-thế-chuỗi-với-regex)
+- [7. Lỗi thường gặp khi dùng Regex](#7-lỗi-thường-gặp-khi-dùng-regex)
+- [8. Lời kết](#8-lời-kết)
+
+---
+
 ## Giới thiệu
 **Biểu thức chính quy (Regular Expression – Regex)** là một công cụ mạnh dùng để:
 - Kiểm tra chuỗi có đúng định dạng hay không

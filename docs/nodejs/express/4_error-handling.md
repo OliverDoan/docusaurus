@@ -5,6 +5,22 @@ title: "4. Error Handling"
 
 # Error Handling trong Express
 
+
+---
+
+## Mục lục
+
+- [Vấn đề](#vấn-đề)
+- [Custom Error Class](#custom-error-class)
+- [Sử dụng trong Routes](#sử-dụng-trong-routes)
+- [Global Error Handler](#global-error-handler)
+- [Async Error Wrapper](#async-error-wrapper)
+- [404 Handler](#404-handler)
+- [Unhandled Errors (Safety Net)](#unhandled-errors-safety-net)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## Vấn đề
 
 Nếu không xử lý lỗi đúng cách, server có thể crash hoặc trả về lỗi không rõ ràng.

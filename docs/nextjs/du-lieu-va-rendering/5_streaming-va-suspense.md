@@ -1,9 +1,29 @@
 ---
 sidebar_position: 5
-title: "5. Streaming title: "Streaming & Suspense" Suspense"
+title: "5. Streaming & Suspense"
 ---
 
 # Streaming & Suspense
+
+
+---
+
+## Mục lục
+
+- [Streaming SSR là gì?](#streaming-ssr-là-gì)
+- [React Suspense](#react-suspense)
+- [loading.tsx — Suspense Boundary tự động](#loadingtsx-suspense-boundary-tự-động)
+- [Partial Rendering — Nội dung hiện dần](#partial-rendering-nội-dung-hiện-dần)
+- [Nested Suspense Boundaries](#nested-suspense-boundaries)
+- [Streaming với Server Components](#streaming-với-server-components)
+- [Sequential vs Parallel Data Fetching với Suspense](#sequential-vs-parallel-data-fetching-với-suspense)
+- [Real-world Example: Dashboard hoàn chỉnh](#real-world-example-dashboard-hoàn-chỉnh)
+- [Best Practices](#best-practices)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Tổng kết](#tổng-kết)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## Streaming SSR là gì?
 

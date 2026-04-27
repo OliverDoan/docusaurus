@@ -5,6 +5,19 @@ title: "4. Deployment"
 
 # Deployment
 
+
+---
+
+## Mục lục
+
+- [Chuẩn bị Production](#chuẩn-bị-production)
+- [Docker](#docker)
+- [PM2 — Process Manager](#pm2-process-manager)
+- [Environment Variables trong Production](#environment-variables-trong-production)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## Chuẩn bị Production
 
 ```js

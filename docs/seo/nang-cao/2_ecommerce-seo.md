@@ -5,6 +5,19 @@ title: "2. E-commerce SEO"
 
 # E-commerce SEO — Tối ưu SEO cho website thương mại điện tử
 
+## Mục lục
+
+- [Giới thiệu](#giới-thiệu)
+- [1. Product Page SEO Optimization](#1-product-page-seo-optimization)
+- [2. Category Page Structure và Faceted Navigation](#2-category-page-structure-và-faceted-navigation)
+- [3. Product Schema Markup (JSON-LD)](#3-product-schema-markup-json-ld)
+- [4. Pagination và Infinite Scroll SEO](#4-pagination-và-infinite-scroll-seo)
+- [5. Xử lý sản phẩm hết hàng](#5-xử-lý-sản-phẩm-hết-hàng)
+- [6. Lỗi thường gặp](#6-lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Giới thiệu
 
 E-commerce SEO khác biệt khá nhiều so với blog hay landing page SEO. Bạn phải xử lý hàng nghìn trang sản phẩm, faceted navigation tạo ra hàng triệu URL combination, pagination phức tạp, và sản phẩm hết hàng liên tục. Một lỗi nhỏ trong cấu trúc URL có thể khiến Google crawl budget bị lãng phí, hoặc tệ hơn — duplicate content trên hàng nghìn trang.

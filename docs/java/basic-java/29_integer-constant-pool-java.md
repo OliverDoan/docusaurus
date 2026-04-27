@@ -5,6 +5,23 @@ title: "29. Integer Constant Pool"
 
 # Integer Constant Pool trong Java
 
+
+---
+
+## Mục lục
+
+- [Integer Constant Pool là gì?](#integer-constant-pool-là-gì)
+- [1. Cơ chế Integer Cache hoạt động như thế nào?](#1-cơ-chế-integer-cache-hoạt-động-như-thế-nào)
+- [2. Demo: == cho Integer 127 vs 128](#2-demo-cho-integer-127-vs-128)
+- [3. Tại sao Java làm vậy?](#3-tại-sao-java-làm-vậy)
+- [4. Tương tự cho các Wrapper class khác](#4-tương-tự-cho-các-wrapper-class-khác)
+- [5. Integer.valueOf() vs new Integer()](#5-integervalueof-vs-new-integer)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Integer Constant Pool là gì?
 
 **Integer Constant Pool** (hay Integer Cache) là cơ chế tối ưu bộ nhớ trong Java. Thay vì tạo mới một object `Integer` mới mỗi khi bạn dùng autoboxing, Java **lưu sẵn (cache) các đối tượng Integer** có giá trị từ **-128 đến 127** trong bộ nhớ. Khi bạn sử dụng giá trị trong khoảng này, Java sẽ trả về **cùng một object** thay vì tạo object mới.

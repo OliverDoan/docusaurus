@@ -1,9 +1,27 @@
 ---
 sidebar_position: 5
-title: "5. TypeScript title: "TypeScript & Cấu hình" Cấu hình"
+title: "5. TypeScript & Cấu hình"
 ---
 
 # TypeScript & Cấu hình
+
+
+---
+
+## Mục lục
+
+- [TypeScript trong Next.js](#typescript-trong-nextjs)
+- [tsconfig.json giải thích chi tiết](#tsconfigjson-giải-thích-chi-tiết)
+- [next.config.ts — Cấu hình Next.js](#nextconfigts-cấu-hình-nextjs)
+- [Environment Variables](#environment-variables)
+- [Path Aliases — Import gọn gàng](#path-aliases-import-gọn-gàng)
+- [ESLint — Kiểm tra chất lượng code](#eslint-kiểm-tra-chất-lượng-code)
+- [Prettier — Format code tự động](#prettier-format-code-tự-động)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Tổng kết](#tổng-kết)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## TypeScript trong Next.js
 

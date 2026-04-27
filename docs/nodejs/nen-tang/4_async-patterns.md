@@ -7,6 +7,20 @@ title: "4. Async Patterns"
 
 Node.js là non-blocking, nên xử lý bất đồng bộ là kỹ năng cốt lõi.
 
+
+---
+
+## Mục lục
+
+- [1. Callbacks](#1-callbacks)
+- [2. Promises](#2-promises)
+- [3. Async/Await](#3-asyncawait)
+- [Xử lý song song](#xử-lý-song-song)
+- [Error Handling Best Practices](#error-handling-best-practices)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## 1. Callbacks
 
 Cách cổ điển nhất:

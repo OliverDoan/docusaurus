@@ -11,6 +11,20 @@ Bài này sẽ giúp bạn hiểu SEO từ góc nhìn **developer** -- không ph
 
 ---
 
+## Mục lục
+
+- [1. SEO là gì?](#1-seo-là-gì)
+- [2. SEO vs SEM vs PPC -- Phân biệt rõ ràng](#2-seo-vs-sem-vs-ppc-phân-biệt-rõ-ràng)
+- [3. SEO tác động đến business như thế nào?](#3-seo-tác-động-đến-business-như-thế-nào)
+- [4. Vai trò của developer trong SEO](#4-vai-trò-của-developer-trong-seo)
+- [5. Ba trụ cột của SEO](#5-ba-trụ-cột-của-seo)
+- [6. Ví dụ: Trang HTML tốt vs xấu cho SEO](#6-ví-dụ-trang-html-tốt-vs-xấu-cho-seo)
+- [7. Lỗi thường gặp](#7-lỗi-thường-gặp)
+- [8. Tổng kết](#8-tổng-kết)
+- [9. Câu hỏi phỏng vấn](#9-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. SEO là gì?
 
 **SEO (Search Engine Optimization)** là quá trình tối ưu website để cải thiện thứ hạng trên kết quả tìm kiếm tự nhiên (organic search results) của các công cụ tìm kiếm như Google, Bing, Yahoo.

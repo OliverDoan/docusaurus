@@ -9,6 +9,23 @@ Networking là cách các containers giao tiếp với nhau và với thế gi�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Tổng quan Network trong Docker](#1-tổng-quan-network-trong-docker)
+- [2. Bridge Network (Mặc định)](#2-bridge-network-mặc-định)
+- [3. Host Network](#3-host-network)
+- [4. None Network](#4-none-network)
+- [5. Quản lý Networks](#5-quản-lý-networks)
+- [6. Docker Compose Networking](#6-docker-compose-networking)
+- [7. DNS trong Docker](#7-dns-trong-docker)
+- [8. Bài tập thực hành](#8-bài-tập-thực-hành)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Tổng quan Network trong Docker
 
 Khi cài Docker, 3 networks được tạo sẵn:

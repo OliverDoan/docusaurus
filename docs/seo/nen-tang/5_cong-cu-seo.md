@@ -9,6 +9,20 @@ Bạn không thể cải thiện thứ hạng SEO nếu không **đo lường** 
 
 ---
 
+## Mục lục
+
+- [1. Google Search Console -- Bảng điều khiển SEO #1](#1-google-search-console-bảng-điều-khiển-seo-1)
+- [2. Google Lighthouse -- SEO Audit tự động](#2-google-lighthouse-seo-audit-tự-động)
+- [3. Chrome DevTools cho SEO](#3-chrome-devtools-cho-seo)
+- [4. Google PageSpeed Insights](#4-google-pagespeed-insights)
+- [5. Các công cụ SEO khác](#5-các-công-cụ-seo-khác)
+- [6. Workflow SEO Audit cho developer](#6-workflow-seo-audit-cho-developer)
+- [7. Lỗi thường gặp](#7-lỗi-thường-gặp)
+- [8. Tổng kết](#8-tổng-kết)
+- [9. Câu hỏi phỏng vấn](#9-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Google Search Console -- Bảng điều khiển SEO #1
 
 ### 1.1. Google Search Console (GSC) là gì?

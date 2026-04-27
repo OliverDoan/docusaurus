@@ -1,9 +1,22 @@
 ---
 sidebar_position: 3
-title: "3. Authorization title: "Authorization & Roles" Roles"
+title: "3. Authorization & Roles"
 ---
 
 # Authorization & Roles
+
+
+---
+
+## Mục lục
+
+- [Authentication vs Authorization](#authentication-vs-authorization)
+- [Role-Based Access Control (RBAC)](#role-based-access-control-rbac)
+- [Resource Ownership](#resource-ownership)
+- [Phân biệt HTTP Status Codes](#phân-biệt-http-status-codes)
+- [Tóm tắt](#tóm-tắt)
+
+---
 
 ## Authentication vs Authorization
 

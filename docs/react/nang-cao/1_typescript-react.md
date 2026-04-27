@@ -5,6 +5,23 @@ title: "1. TypeScript với React"
 
 # TypeScript với React
 
+
+---
+
+## Mục lục
+
+- [Tại sao dùng TypeScript?](#tại-sao-dùng-typescript)
+- [Cài đặt](#cài-đặt)
+- [TypeScript cơ bản](#typescript-cơ-bản)
+- [Typing Props](#typing-props)
+- [Typing Hooks](#typing-hooks)
+- [Typing Custom Hooks](#typing-custom-hooks)
+- [Utility Types hữu ích](#utility-types-hữu-ích)
+- [Generic Component](#generic-component)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Tại sao dùng TypeScript?
 
 - **Phát hiện lỗi sớm** — lỗi type được bắt khi viết code, không phải runtime

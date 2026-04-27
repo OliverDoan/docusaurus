@@ -5,6 +5,21 @@ title: "2. useReducer"
 
 # useReducer
 
+
+---
+
+## Mục lục
+
+- [useReducer là gì?](#usereducer-là-gì)
+- [Ví dụ cơ bản: Counter](#ví-dụ-cơ-bản-counter)
+- [Ví dụ thực tế: Todo App](#ví-dụ-thực-tế-todo-app)
+- [Ví dụ: Fetch data với useReducer](#ví-dụ-fetch-data-với-usereducer)
+- [useState vs useReducer](#usestate-vs-usereducer)
+- [Reducer rules](#reducer-rules)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## useReducer là gì?
 
 `useReducer` là alternative cho `useState` khi state logic phức tạp — nhiều sub-values hoặc state tiếp theo phụ thuộc vào state trước đó. Lấy cảm hứng từ Redux pattern.

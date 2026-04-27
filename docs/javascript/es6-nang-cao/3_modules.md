@@ -5,6 +5,21 @@ title: "3. Modules (import/export)"
 
 # Modules (import/export)
 
+
+---
+
+## Mục lục
+
+- [Module là gì?](#module-là-gì)
+- [Tại sao Modules ra đời?](#tại-sao-modules-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [CommonJS vs ES Modules](#commonjs-vs-es-modules)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Module là gì?
 
 **Module** là cách chia ứng dụng JavaScript thành **nhiều file nhỏ**, mỗi file đảm nhận **một chức năng riêng**. Các file này có thể **xuất** (export) những thứ cần chia sẻ và **nhập** (import) những thứ cần sử dụng từ file khác.

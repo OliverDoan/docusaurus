@@ -9,6 +9,21 @@ Prompt tốt = kết quả tốt. Bài này dạy bạn cách "ra lệnh" cho Cl
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Nguyên tắc vàng](#1-nguyên-tắc-vàng)
+- [2. Các loại prompt hay dùng](#2-các-loại-prompt-hay-dùng)
+- [3. Kỹ thuật prompt nâng cao](#3-kỹ-thuật-prompt-nâng-cao)
+- [4. Prompt tiếng Việt vs tiếng Anh](#4-prompt-tiếng-việt-vs-tiếng-anh)
+- [5. Những sai lầm phổ biến](#5-những-sai-lầm-phổ-biến)
+- [6. Template prompt hay dùng](#6-template-prompt-hay-dùng)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Nguyên tắc vàng
 
 ### Rõ ràng > Ngắn gọn

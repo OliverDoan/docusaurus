@@ -4,6 +4,27 @@ title: "18. Heap Space vs Stack"
 ---
 # Heap Space vs Stack
 
+
+---
+
+## Mục lục
+
+- [1. Giới thiệu](#1-giới-thiệu)
+- [Nội dung](#nội-dung)
+- [2. Stack Memory](#2-stack-memory)
+- [3. Heap Memory](#3-heap-memory)
+- [4. Ví dụ minh họa: biến nằm ở đâu?](#4-ví-dụ-minh-họa-biến-nằm-ở-đâu)
+- [5. StackOverflowError](#5-stackoverflowerror)
+- [6. OutOfMemoryError](#6-outofmemoryerror)
+- [7. Garbage Collection cơ bản](#7-garbage-collection-cơ-bản)
+- [8. Cấu hình bộ nhớ JVM (-Xms, -Xmx, -Xss)](#8-cấu-hình-bộ-nhớ-jvm-xms-xmx-xss)
+- [9. Bảng so sánh Stack vs Heap](#9-bảng-so-sánh-stack-vs-heap)
+- [10. Khi nào dùng?](#10-khi-nào-dùng)
+- [11. Lỗi thường gặp](#11-lỗi-thường-gặp)
+- [12. Câu hỏi phỏng vấn](#12-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Giới thiệu
 
 Trong Java, **bộ nhớ (memory)** là tài nguyên quan trọng nhất mà chương trình sử dụng. JVM (Java Virtual Machine) quản lý bộ nhớ tự động, nhưng để viết code **hiệu quả, tránh lỗi runtime**, bạn cần hiểu **2 vùng bộ nhớ chính**: **Stack** và **Heap**.

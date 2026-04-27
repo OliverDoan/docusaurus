@@ -5,6 +5,25 @@ title: "2. Authentication"
 
 # Authentication
 
+
+---
+
+## Mục lục
+
+- [Tổng quan authentication trong Next.js](#tổng-quan-authentication-trong-nextjs)
+- [NextAuth.js / Auth.js Setup](#nextauthjs-authjs-setup)
+- [Providers chi tiết](#providers-chi-tiết)
+- [Session Management: JWT vs Database Sessions](#session-management-jwt-vs-database-sessions)
+- [Protecting Routes với Middleware](#protecting-routes-với-middleware)
+- [Server-side Authentication Checks](#server-side-authentication-checks)
+- [Client-side Session Access](#client-side-session-access)
+- [Role-based Access Control (RBAC)](#role-based-access-control-rbac)
+- [Security Best Practices](#security-best-practices)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Tổng quan authentication trong Next.js
 
 Authentication (xác thực) là quá trình xác minh danh tính người dùng — trả lời câu hỏi "Bạn là ai?". Authorization (phân quyền) quyết định "Bạn được làm gì?".

@@ -5,6 +5,23 @@ title: "2. JSX"
 
 # JSX
 
+
+---
+
+## Mục lục
+
+- [JSX là gì?](#jsx-là-gì)
+- [Rules cơ bản](#rules-cơ-bản)
+- [Expressions trong JSX](#expressions-trong-jsx)
+- [Inline Styles](#inline-styles)
+- [Conditional trong JSX](#conditional-trong-jsx)
+- [Render danh sách](#render-danh-sách)
+- [Spread attributes](#spread-attributes)
+- [Kiểu dữ liệu mà JSX KHÔNG render](#kiểu-dữ-liệu-mà-jsx-không-render)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## JSX là gì?
 
 JSX (JavaScript XML) là một phần mở rộng cú pháp cho JavaScript, cho phép viết code giống HTML trong JavaScript. JSX **không phải HTML** — nó được biên dịch thành các lệnh gọi `React.createElement()`.

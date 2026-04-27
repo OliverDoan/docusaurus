@@ -1,6 +1,6 @@
 ---
 sidebar_position: 11
-title: "11. Autoboxing title: "Autoboxing & Unboxing" Unboxing"
+title: "11. Autoboxing & Unboxing"
 ---
 
 # Autoboxing & Unboxing trong Java
@@ -8,6 +8,25 @@ title: "11. Autoboxing title: "Autoboxing & Unboxing" Unboxing"
 **Autoboxing** là quá trình Java **tự động chuyển đổi** từ kiểu nguyên thủy (primitive) sang kiểu Wrapper tương ứng (ví dụ `int` -> `Integer`). **Unboxing** là quá trình ngược lại: từ Wrapper sang primitive (ví dụ `Integer` -> `int`). Tính năng này xuất hiện từ **Java 5**, giúp lập trình viên không cần chuyển đổi thủ công.
 
 Hãy hình dung primitive như **tiền mặt** (nhanh, gọn, trực tiếp), còn Wrapper như **ví điện tử** (là một "đối tượng" chứa tiền, có thêm nhiều tính năng nhưng nặng hơn). **Autoboxing** giống như khi bạn **nạp tiền mặt vào ví điện tử** -- Java tự làm giúp bạn. **Unboxing** giống như **rút tiền từ ví ra tiền mặt** -- cũng tự động, nhưng nếu ví rỗng (`null`) thì sẽ bị lỗi!
+
+---
+
+
+---
+
+## Mục lục
+
+- [Nội dung](#nội-dung)
+- [1. Primitive vs Wrapper Classes](#1-primitive-vs-wrapper-classes)
+- [2. Autoboxing (Primitive -> Wrapper)](#2-autoboxing-primitive-wrapper)
+- [3. Unboxing (Wrapper -> Primitive)](#3-unboxing-wrapper-primitive)
+- [4. Integer Cache (-128 đến 127)](#4-integer-cache-128-đến-127)
+- [5. NullPointerException khi Unboxing null](#5-nullpointerexception-khi-unboxing-null)
+- [6. Performance Impact trong vòng lặp](#6-performance-impact-trong-vòng-lặp)
+- [7. Autoboxing trong Collections](#7-autoboxing-trong-collections)
+- [8. Khi nào dùng?](#8-khi-nào-dùng)
+- [9. Lỗi thường gặp](#9-lỗi-thường-gặp)
+- [10. Câu hỏi phỏng vấn](#10-câu-hỏi-phỏng-vấn)
 
 ---
 

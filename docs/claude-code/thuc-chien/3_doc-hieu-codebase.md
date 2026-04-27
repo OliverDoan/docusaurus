@@ -9,6 +9,21 @@ Vào project mới mà không hiểu gì? Claude Code giúp bạn hiểu codebas
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Tổng quan project](#1-tổng-quan-project)
+- [2. Hiểu 1 feature cụ thể](#2-hiểu-1-feature-cụ-thể)
+- [3. Hiểu 1 file / function](#3-hiểu-1-file-function)
+- [4. Tìm code liên quan](#4-tìm-code-liên-quan)
+- [5. So sánh và đánh giá](#5-so-sánh-và-đánh-giá)
+- [6. Onboarding nhanh](#6-onboarding-nhanh)
+- [Tips](#tips)
+
+---
+
 ## 1. Tổng quan project
 
 ```

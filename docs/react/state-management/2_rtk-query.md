@@ -5,6 +5,24 @@ title: "2. RTK Query"
 
 # RTK Query
 
+
+---
+
+## Mục lục
+
+- [RTK Query là gì?](#rtk-query-là-gì)
+- [Tạo API Slice](#tạo-api-slice)
+- [Thêm vào Store](#thêm-vào-store)
+- [Sử dụng Queries](#sử-dụng-queries)
+- [Sử dụng Mutations](#sử-dụng-mutations)
+- [Cache & Tags](#cache-tags)
+- [Polling (auto-refresh)](#polling-auto-refresh)
+- [Query với pagination](#query-với-pagination)
+- [Kỹ thuật nâng cao](#kỹ-thuật-nâng-cao)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## RTK Query là gì?
 
 RTK Query là data fetching & caching tool tích hợp trong Redux Toolkit. Tự động quản lý loading state, caching, invalidation, polling — không cần viết thunk hay slice cho API calls.

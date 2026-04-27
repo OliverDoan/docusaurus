@@ -4,6 +4,29 @@ title: "13. Mệnh đề Switch-case"
 ---
 # Mệnh đề Switch-case
 
+
+---
+
+## Mục lục
+
+- [1. Giới thiệu](#1-giới-thiệu)
+- [Nội dung](#nội-dung)
+- [2. Cú pháp cơ bản](#2-cú-pháp-cơ-bản)
+- [3. Từ khóa break và hiện tượng fall-through](#3-từ-khóa-break-và-hiện-tượng-fall-through)
+- [4. Default case](#4-default-case)
+- [5. Case gộp (Multiple case)](#5-case-gộp-multiple-case)
+- [6. Kiểu dữ liệu hỗ trợ trong switch](#6-kiểu-dữ-liệu-hỗ-trợ-trong-switch)
+- [7. Switch với String (Java 7+)](#7-switch-với-string-java-7)
+- [8. Switch với enum](#8-switch-với-enum)
+- [9. Switch Expression (Java 12+ arrow syntax)](#9-switch-expression-java-12-arrow-syntax)
+- [10. Từ khóa yield (Java 13+)](#10-từ-khóa-yield-java-13)
+- [11. So sánh switch vs if-else](#11-so-sánh-switch-vs-if-else)
+- [12. Khi nào dùng?](#12-khi-nào-dùng)
+- [13. Lỗi thường gặp](#13-lỗi-thường-gặp)
+- [14. Câu hỏi phỏng vấn](#14-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Giới thiệu
 
 Trong Java, **mệnh đề switch-case** là một cấu trúc điều khiển luồng chương trình, cho phép bạn **so sánh giá trị của một biểu thức với nhiều trường hợp (case) cụ thể** và thực thi khối lệnh tương ứng.

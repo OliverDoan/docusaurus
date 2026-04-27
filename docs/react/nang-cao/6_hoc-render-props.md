@@ -1,11 +1,25 @@
 ---
 sidebar_position: 6
-title: "6. HOC title: "HOC & Render Props" Render Props"
+title: "6. HOC & Render Props"
 ---
 
 # HOC & Render Props
 
 > Đây là các patterns **legacy** — custom hooks đã thay thế hầu hết use cases. Tuy nhiên cần biết vì nhiều codebase và thư viện cũ vẫn sử dụng.
+
+
+---
+
+## Mục lục
+
+- [Higher-Order Component (HOC)](#higher-order-component-hoc)
+- [Render Props](#render-props)
+- [Custom Hook — Giải pháp thay thế](#custom-hook-giải-pháp-thay-thế)
+- [Khi nào vẫn dùng HOC?](#khi-nào-vẫn-dùng-hoc)
+- [So sánh](#so-sánh)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## Higher-Order Component (HOC)
 

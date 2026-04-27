@@ -5,6 +5,21 @@ title: "8. useEffect"
 
 # useEffect
 
+
+---
+
+## Mục lục
+
+- [useEffect là gì?](#useeffect-là-gì)
+- [Dependency Array](#dependency-array)
+- [Cleanup function](#cleanup-function)
+- [Data fetching](#data-fetching)
+- [Các lỗi thường gặp](#các-lỗi-thường-gặp)
+- [useEffect với Strict Mode](#useeffect-với-strict-mode)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## useEffect là gì?
 
 `useEffect` cho phép thực hiện **side effects** trong function component — những thao tác xảy ra "bên ngoài" quá trình render: gọi API, subscriptions, thao tác DOM, timers.

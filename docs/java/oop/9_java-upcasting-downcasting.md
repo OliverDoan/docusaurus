@@ -9,6 +9,23 @@ Trong cuộc sống, mọi **con chó** đều là **động vật**, nhưng kh�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Type Casting trong OOP là gì?](#1-type-casting-trong-oop-là-gì)
+- [2. Upcasting (Child → Parent)](#2-upcasting-child-parent)
+- [3. Downcasting (Parent → Child)](#3-downcasting-parent-child)
+- [4. Kiểm tra an toàn với instanceof](#4-kiểm-tra-an-toàn-với-instanceof)
+- [5. Ví dụ thực tế: Hệ thống thanh toán](#5-ví-dụ-thực-tế-hệ-thống-thanh-toán)
+- [6. Upcasting/Downcasting với Interface](#6-upcastingdowncasting-với-interface)
+- [7. Tổng kết](#7-tổng-kết)
+- [8. Lỗi thường gặp](#8-lỗi-thường-gặp)
+- [9. Câu hỏi phỏng vấn](#9-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Type Casting trong OOP là gì?
 
 Trong Java, khi các class có quan hệ kế thừa (IS-A), bạn có thể chuyển đổi kiểu giữa parent và child class.

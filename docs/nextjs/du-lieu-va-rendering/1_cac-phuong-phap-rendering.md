@@ -9,6 +9,23 @@ Khi bạn xây dựng một ứng dụng web với Next.js, một trong những 
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. SSR -- Server-Side Rendering](#1-ssr-server-side-rendering)
+- [2. SSG -- Static Site Generation](#2-ssg-static-site-generation)
+- [3. ISR -- Incremental Static Regeneration](#3-isr-incremental-static-regeneration)
+- [4. CSR -- Client-Side Rendering](#4-csr-client-side-rendering)
+- [5. Bảng so sánh: SSR vs SSG vs ISR vs CSR](#5-bảng-so-sánh-ssr-vs-ssg-vs-isr-vs-csr)
+- [6. Khi nào dùng phương pháp nào?](#6-khi-nào-dùng-phương-pháp-nào)
+- [7. Hybrid Rendering trong Next.js](#7-hybrid-rendering-trong-nextjs)
+- [8. Loi thuong gap](#8-loi-thuong-gap)
+- [Cau hoi phong van](#cau-hoi-phong-van)
+
+---
+
 ## 1. SSR -- Server-Side Rendering
 
 ### SSR là gì?

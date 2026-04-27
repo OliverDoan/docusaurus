@@ -9,6 +9,21 @@ Git Flow mạnh mẽ nhưng phức tạp. Nhiều team — đặc biệt những
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. GitHub Flow](#1-github-flow)
+- [2. Trunk-Based Development (TBD)](#2-trunk-based-development-tbd)
+- [3. So sánh chi tiết: Git Flow vs GitHub Flow vs TBD](#3-so-sánh-chi-tiết-git-flow-vs-github-flow-vs-tbd)
+- [4. Lỗi thường gặp](#4-lỗi-thường-gặp)
+- [5. Chuyển đổi giữa các mô hình](#5-chuyển-đổi-giữa-các-mô-hình)
+- [6. Câu hỏi phỏng vấn](#6-câu-hỏi-phỏng-vấn)
+- [7. Tóm tắt](#7-tóm-tắt)
+
+---
+
 ## 1. GitHub Flow
 
 ### 1.1. GitHub Flow là gì?

@@ -9,6 +9,21 @@ Hiểu được browser rendering pipeline là cách bạn "level up" từ một
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: Mô tả Critical Rendering Path -- từ khi browser nhận HTML đến khi user thấy pixels trên màn hình `[Senior]`](#câu-1-mô-tả-critical-rendering-path-từ-khi-browser-nhận-html-đến-khi-user-thấy-pixels-trên-màn-hình-senior)
+- [Câu 2: DOM construction hoạt động thế nào? Parse HTML thành DOM tree có các bước gì? `[Intermediate]`](#câu-2-dom-construction-hoạt-động-thế-nào-parse-html-thành-dom-tree-có-các-bước-gì-intermediate)
+- [Câu 3: CSSOM là gì? Tại sao CSS được gọi là "render-blocking"? `[Intermediate]`](#câu-3-cssom-là-gì-tại-sao-css-được-gọi-là-render-blocking-intermediate)
+- [Câu 4: Phân biệt Layout (Reflow) và Paint (Repaint). Cái nào "đắt" hơn? `[Senior]`](#câu-4-phân-biệt-layout-reflow-và-paint-repaint-cái-nào-đắt-hơn-senior)
+- [Câu 5: Composite layers là gì? Khi nào browser tạo layer mới? `[Senior]`](#câu-5-composite-layers-là-gì-khi-nào-browser-tạo-layer-mới-senior)
+- [Câu 6: Layout thrashing là gì? Cách phòng tránh? `[Senior]`](#câu-6-layout-thrashing-là-gì-cách-phòng-tránh-senior)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: Mô tả Critical Rendering Path -- từ khi browser nhận HTML đến khi user thấy pixels trên màn hình `[Senior]`
 
 ### Giải thích lý thuyết

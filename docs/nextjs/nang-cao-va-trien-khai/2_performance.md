@@ -5,6 +5,29 @@ title: "2. Performance Optimization"
 
 # Performance Optimization
 
+
+---
+
+## Mục lục
+
+- [Giới thiệu](#giới-thiệu)
+- [Nội dung](#nội-dung)
+- [1. Next.js Built-in Optimizations](#1-nextjs-built-in-optimizations)
+- [2. Bundle Analysis](#2-bundle-analysis)
+- [3. Dynamic Imports va Lazy Loading](#3-dynamic-imports-va-lazy-loading)
+- [4. Image Optimization](#4-image-optimization)
+- [5. Font Optimization](#5-font-optimization)
+- [6. Script Optimization](#6-script-optimization)
+- [7. Code Splitting](#7-code-splitting)
+- [8. Prefetching Strategies](#8-prefetching-strategies)
+- [9. Core Web Vitals](#9-core-web-vitals)
+- [10. next/third-parties](#10-nextthird-parties)
+- [11. Do luông Performance](#11-do-luông-performance)
+- [12. Lỗi thường gặp](#12-lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Giới thiệu
 
 Hieu suat (performance) ảnh hưởng truc tiep den trải nghiệm người dùng va thứ hạng SEO. Next.js đã tích hợp san rat nhieu tối ưu hoa, nhung hieu ro va tan dứng dụng cach se giup ứng dụng của bạn nhanh hơn đáng kể.

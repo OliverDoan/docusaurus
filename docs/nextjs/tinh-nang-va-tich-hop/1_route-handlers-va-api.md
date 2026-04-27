@@ -1,9 +1,29 @@
 ---
 sidebar_position: 1
-title: "1. Route Handlers title: "Route Handlers & API" API"
+title: "1. Route Handlers & API"
 ---
 
 # Route Handlers & API
+
+
+---
+
+## Mục lục
+
+- [Route Handlers là gì?](#route-handlers-là-gì)
+- [Tạo Route Handler đầu tiên](#tạo-route-handler-đầu-tiên)
+- [HTTP Methods](#http-methods)
+- [Request và Response objects](#request-và-response-objects)
+- [Dynamic Route Handlers](#dynamic-route-handlers)
+- [Streaming Responses](#streaming-responses)
+- [CORS Headers](#cors-headers)
+- [Cookies và Headers API](#cookies-và-headers-api)
+- [Route Handlers vs Server Actions](#route-handlers-vs-server-actions)
+- [Real-world: REST API cho CRUD operations](#real-world-rest-api-cho-crud-operations)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## Route Handlers là gì?
 

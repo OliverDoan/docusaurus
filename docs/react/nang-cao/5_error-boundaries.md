@@ -5,6 +5,21 @@ title: "5. Error Boundaries"
 
 # Error Boundaries
 
+
+---
+
+## Mục lục
+
+- [Vấn đề](#vấn-đề)
+- [Error Boundary là gì?](#error-boundary-là-gì)
+- [Sử dụng](#sử-dụng)
+- [react-error-boundary (thư viện)](#react-error-boundary-thư-viện)
+- [Error Boundary KHÔNG bắt](#error-boundary-không-bắt)
+- [Kết hợp với Suspense](#kết-hợp-với-suspense)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Vấn đề
 
 Khi một component throw error trong quá trình render, **toàn bộ React app** crash và hiển thị màn hình trắng. Error Boundary bắt lỗi và hiển thị fallback UI.

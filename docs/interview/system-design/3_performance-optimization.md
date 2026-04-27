@@ -9,6 +9,21 @@ Performance là một trong những chủ đề mà interviewer Senior rất th�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: Core Web Vitals là gì? Đo bằng cách nào? `[Intermediate]`](#câu-1-core-web-vitals-là-gì-đo-bằng-cách-nào-intermediate)
+- [Câu 2: Bundle analysis -- làm sao biết bundle quá lớn ở đâu? `[Intermediate]`](#câu-2-bundle-analysis-làm-sao-biết-bundle-quá-lớn-ở-đâu-intermediate)
+- [Câu 3: Tree shaking hoạt động như thế nào? `[Intermediate]`](#câu-3-tree-shaking-hoạt-động-như-thế-nào-intermediate)
+- [Câu 4: Code splitting strategies -- khi nào split, split ở đâu? `[Senior]`](#câu-4-code-splitting-strategies-khi-nào-split-split-ở-đâu-senior)
+- [Câu 5: Image optimization -- best practices hiện đại? `[Intermediate]`](#câu-5-image-optimization-best-practices-hiện-đại-intermediate)
+- [Câu 6: Font optimization -- tại sao font gây layout shift? `[Intermediate]`](#câu-6-font-optimization-tại-sao-font-gây-layout-shift-intermediate)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: Core Web Vitals là gì? Đo bằng cách nào? `[Intermediate]`
 
 ### Giải thích lý thuyết

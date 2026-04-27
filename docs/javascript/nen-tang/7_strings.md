@@ -5,6 +5,21 @@ title: "7. Chuỗi (String)"
 
 # Chuỗi (String)
 
+
+---
+
+## Mục lục
+
+- [String là gì?](#string-là-gì)
+- [Ba cách tạo string](#ba-cách-tạo-string)
+- [Tại sao Template Literal ra đời?](#tại-sao-template-literal-ra-đời)
+- [Các phương thức String phổ biến](#các-phương-thức-string-phổ-biến)
+- [String là Immutable (Bất biến)](#string-là-immutable-bất-biến)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## String là gì?
 
 **String** (chuỗi) là kiểu dữ liệu dùng để lưu trữ **văn bản** — bất kỳ ký tự nào: chữ cái, số, dấu câu, emoji...

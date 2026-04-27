@@ -9,6 +9,21 @@ Khi dự án lớn lên, bạn sẽ gặp câu hỏi: "Nên tổ chức code th�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Git Submodules](#1-git-submodules)
+- [2. Monorepo](#2-monorepo)
+- [3. Git Subtree — Alternative cho Submodule](#3-git-subtree-alternative-cho-submodule)
+- [4. Khi nào dùng gì?](#4-khi-nào-dùng-gì)
+- [5. Lỗi thường gặp](#5-lỗi-thường-gặp)
+- [6. Câu hỏi phỏng vấn](#6-câu-hỏi-phỏng-vấn)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## 1. Git Submodules
 
 ### Submodule là gì?

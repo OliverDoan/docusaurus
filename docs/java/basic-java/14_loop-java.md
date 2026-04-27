@@ -4,6 +4,28 @@ title: "14. Vòng lặp trong Java"
 ---
 # Vòng lặp trong Java
 
+
+---
+
+## Mục lục
+
+- [1. Giới thiệu](#1-giới-thiệu)
+- [Nội dung](#nội-dung)
+- [2. Vòng lặp for](#2-vòng-lặp-for)
+- [3. Vòng lặp while](#3-vòng-lặp-while)
+- [4. Vòng lặp do-while](#4-vòng-lặp-do-while)
+- [5. Vòng lặp for-each (Enhanced for)](#5-vòng-lặp-for-each-enhanced-for)
+- [6. So sánh các loại vòng lặp](#6-so-sánh-các-loại-vòng-lặp)
+- [7. Vòng lặp lồng nhau (Nested loops)](#7-vòng-lặp-lồng-nhau-nested-loops)
+- [8. Vòng lặp vô hạn](#8-vòng-lặp-vô-hạn)
+- [9. Labeled loops](#9-labeled-loops)
+- [10. Ví dụ thực tế](#10-ví-dụ-thực-tế)
+- [11. Khi nào dùng?](#11-khi-nào-dùng)
+- [12. Lỗi thường gặp](#12-lỗi-thường-gặp)
+- [13. Câu hỏi phỏng vấn](#13-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Giới thiệu
 
 **Vòng lặp (Loop)** trong Java cho phép chương trình **thực thi một khối lệnh lặp đi lặp lại** cho đến khi một điều kiện nhất định không còn đúng.

@@ -9,6 +9,24 @@ Khi bạn làm việc một mình trên máy tính, Git hoạt động hoàn to�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Remote là gì?](#1-remote-là-gì)
+- [2. `origin` — Remote mặc định](#2-origin-remote-mặc-định)
+- [3. Quản lý Remote](#3-quản-lý-remote)
+- [4. Multiple Remotes — Khi nào cần nhiều remote?](#4-multiple-remotes-khi-nào-cần-nhiều-remote)
+- [5. Tracking Branches — Nhánh theo dõi](#5-tracking-branches-nhánh-theo-dõi)
+- [6. HTTPS vs SSH — So sánh chi tiết](#6-https-vs-ssh-so-sánh-chi-tiết)
+- [7. Personal Access Token (PAT) cho HTTPS](#7-personal-access-token-pat-cho-https)
+- [8. Sơ đồ tổng quan: Local vs Remote](#8-sơ-đồ-tổng-quan-local-vs-remote)
+- [9. Lỗi thường gặp](#9-lỗi-thường-gặp)
+- [10. Câu hỏi phỏng vấn](#10-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Remote là gì?
 
 **Remote repository** (repo từ xa) là một bản sao của repository được lưu trữ trên một **server** (máy chủ), thường là các dịch vụ như GitHub, GitLab, hoặc Bitbucket.

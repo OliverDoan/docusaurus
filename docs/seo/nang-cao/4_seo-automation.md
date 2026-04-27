@@ -5,6 +5,20 @@ title: "4. Tự động hóa SEO"
 
 # Tự động hóa SEO — Monitoring, Scripting và CI/CD
 
+## Mục lục
+
+- [Giới thiệu](#giới-thiệu)
+- [1. SEO Monitoring với Node.js Scripts](#1-seo-monitoring-với-nodejs-scripts)
+- [2. Automated Sitemap Generation](#2-automated-sitemap-generation)
+- [3. Broken Link Checking Automation](#3-broken-link-checking-automation)
+- [4. Google Search Console API Integration](#4-google-search-console-api-integration)
+- [5. Lighthouse CI trong GitHub Actions](#5-lighthouse-ci-trong-github-actions)
+- [6. Automated Meta Tag Validation](#6-automated-meta-tag-validation)
+- [7. Lỗi thường gặp](#7-lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Giới thiệu
 
 SEO không phải là "setup xong rồi quên". Website thay đổi liên tục — deploy code mới, thêm trang, sửa URL — và mỗi thay đổi đều có thể phá hỏng SEO mà bạn không biết cho đến khi traffic tụt. Giải pháp là tự động hóa: viết scripts kiểm tra SEO, tích hợp vào CI/CD, và setup monitoring tự động.

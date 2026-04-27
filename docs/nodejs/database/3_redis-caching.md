@@ -1,9 +1,24 @@
 ---
 sidebar_position: 3
-title: "3. Redis title: "Redis & Caching" Caching"
+title: "3. Redis & Caching"
 ---
 
 # Redis & Caching
+
+
+---
+
+## Mục lục
+
+- [Redis là gì?](#redis-là-gì)
+- [Cài đặt](#cài-đặt)
+- [Kết nối](#kết-nối)
+- [Các lệnh cơ bản](#các-lệnh-cơ-bản)
+- [Cache Middleware](#cache-middleware)
+- [Cache Invalidation](#cache-invalidation)
+- [Tóm tắt](#tóm-tắt)
+
+---
 
 ## Redis là gì?
 

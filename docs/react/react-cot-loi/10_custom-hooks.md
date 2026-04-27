@@ -5,6 +5,20 @@ title: "10. Custom Hooks"
 
 # Custom Hooks
 
+
+---
+
+## Mục lục
+
+- [Custom Hook là gì?](#custom-hook-là-gì)
+- [Rules](#rules)
+- [Các Custom Hook phổ biến](#các-custom-hook-phổ-biến)
+- [Tổ chức Custom Hooks](#tổ-chức-custom-hooks)
+- [Nguyên tắc thiết kế](#nguyên-tắc-thiết-kế)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Custom Hook là gì?
 
 Custom hook là function bắt đầu bằng `use`, chứa logic tái sử dụng dùng các React hooks bên trong. Cho phép **tách logic ra khỏi component** và chia sẻ giữa nhiều components.

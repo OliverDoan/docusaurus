@@ -13,6 +13,24 @@ Mảng là nền tảng để hiểu các cấu trúc dữ liệu phức tạp h
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Khai báo và khởi tạo mảng](#1-khai-báo-và-khởi-tạo-mảng)
+- [2. Truy cập phần tử (index 0-based)](#2-truy-cập-phần-tử-index-0-based)
+- [3. Duyệt mảng](#3-duyệt-mảng)
+- [4. Mảng 2 chiều (Multidimensional Array)](#4-mảng-2-chiều-multidimensional-array)
+- [5. Lớp tiện ích `java.util.Arrays`](#5-lớp-tiện-ích-javautilarrays)
+- [6. ArrayIndexOutOfBoundsException](#6-arrayindexoutofboundsexception)
+- [7. Array vs ArrayList](#7-array-vs-arraylist)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Khai báo và khởi tạo mảng
 
 Java cung cấp **3 cách** để khai báo và khởi tạo mảng:

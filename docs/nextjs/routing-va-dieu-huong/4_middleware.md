@@ -5,6 +5,25 @@ title: "4. Middleware"
 
 # Middleware
 
+
+---
+
+## Mục lục
+
+- [Middleware là gì?](#middleware-là-gì)
+- [Convention và vị trí file](#convention-và-vị-trí-file)
+- [Cấu trúc cơ bản](#cấu-trúc-cơ-bản)
+- [Matcher Config chi tiết](#matcher-config-chi-tiết)
+- [NextRequest API](#nextrequest-api)
+- [NextResponse API](#nextresponse-api)
+- [Use Cases thực tế](#use-cases-thực-tế)
+- [Chaining Middleware Logic](#chaining-middleware-logic)
+- [Performance Considerations](#performance-considerations)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Middleware là gì?
 
 Middleware trong Next.js là code chạy **trước khi request được xử lý** bởi route handler hoặc page. Nó cho phép bạn can thiệp vào request/response cycle — redirect, rewrite URL, thêm headers, kiểm tra authentication, v.v.

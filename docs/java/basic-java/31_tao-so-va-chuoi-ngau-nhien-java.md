@@ -5,6 +5,24 @@ title: "32. Tạo số và chuỗi ngẫu nhiên"
 
 # Tạo số và chuỗi ngẫu nhiên trong Java
 
+
+---
+
+## Mục lục
+
+- [Giới thiệu](#giới-thiệu)
+- [1. Math.random() -- Cách đơn giản nhất](#1-mathrandom-cách-đơn-giản-nhất)
+- [2. Lớp Random -- Linh hoạt hơn](#2-lớp-random-linh-hoạt-hơn)
+- [3. ThreadLocalRandom (Java 7+) -- Thread-safe và hiệu suất cao](#3-threadlocalrandom-java-7-thread-safe-và-hiệu-suất-cao)
+- [4. SecureRandom -- Bảo mật cao (cryptographic)](#4-securerandom-bảo-mật-cao-cryptographic)
+- [5. Tạo chuỗi ngẫu nhiên](#5-tạo-chuỗi-ngẫu-nhiên)
+- [Tổng hợp so sánh](#tổng-hợp-so-sánh)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Giới thiệu
 
 Tạo **số và chuỗi ngẫu nhiên** là nhu cầu rất phổ biến trong lập trình: từ việc sinh mã OTP, tạo mật khẩu tạm, random test data, đến tạo token bảo mật. Java cung cấp nhiều cách để làm việc này, từ đơn giản (`Math.random()`) đến bảo mật cao (`SecureRandom`).

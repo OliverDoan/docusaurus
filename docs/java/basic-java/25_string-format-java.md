@@ -4,6 +4,21 @@ title: "25. String Format"
 ---
 
 # String Format
+
+---
+
+## Mục lục
+
+- [Giới thiệu](#giới-thiệu)
+- [Nội dung](#nội-dung)
+- [1. Sử dụng System.out.printf](#1-sử-dụng-systemoutprintf)
+- [2. Quy tắc định dạng chuỗi](#2-quy-tắc-định-dạng-chuỗi)
+- [3. Sử dụng String.format](#3-sử-dụng-stringformat)
+- [4. Sử dụng java.text.MessageFormat](#4-sử-dụng-javatextmessageformat)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## Giới thiệu
 Trong Java, **String Format** giúp chúng ta **định dạng chuỗi một cách linh hoạt và chuyên nghiệp**, đặc biệt hữu ích khi:
 - In dữ liệu ra màn hình

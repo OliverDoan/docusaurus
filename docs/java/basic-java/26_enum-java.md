@@ -5,6 +5,25 @@ title: "26. Enum trong Java"
 
 # Enum trong Java
 
+
+---
+
+## Mục lục
+
+- [Giới thiệu](#giới-thiệu)
+- [Nội dung](#nội-dung)
+- [1. Khai báo enum](#1-khai-báo-enum)
+- [2. Duyệt các phần tử trong enum](#2-duyệt-các-phần-tử-trong-enum)
+- [3. Khởi tạo giá trị đặc biệt cho hằng số enum](#3-khởi-tạo-giá-trị-đặc-biệt-cho-hằng-số-enum)
+- [4. So sánh các phần tử java enum](#4-so-sánh-các-phần-tử-java-enum)
+- [5. Enum có thể sử dụng như tham số trong câu lệnh switch](#5-enum-có-thể-sử-dụng-như-tham-số-trong-câu-lệnh-switch)
+- [6. Ghi đè phương thức trong Enum](#6-ghi-đè-phương-thức-trong-enum)
+- [7. Phương thức trừu tượng (abstract method) trong Enum](#7-phương-thức-trừu-tượng-abstract-method-trong-enum)
+- [8. Enum có thể implement một Interface](#8-enum-có-thể-implement-một-interface)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## Giới thiệu
 **Enum (Enumeration)** trong Java là một kiểu dữ liệu đặc biệt dùng để **định nghĩa một tập hợp các hằng số cố định**.
 

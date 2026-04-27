@@ -9,6 +9,26 @@ Khi làm việc với Git, bạn sẽ nhanh chóng nhận ra rằng làm tất c
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Branch là gì?](#1-branch-là-gì)
+- [2. Tại sao cần branch?](#2-tại-sao-cần-branch)
+- [3. Các lệnh cơ bản về branch](#3-các-lệnh-cơ-bản-về-branch)
+- [4. Chuyển đổi giữa các branch](#4-chuyển-đổi-giữa-các-branch)
+- [5. Naming conventions -- Quy tắc đặt tên branch](#5-naming-conventions-quy-tắc-đặt-tên-branch)
+- [6. Branch tracking -- Local vs Remote](#6-branch-tracking-local-vs-remote)
+- [7. ASCII diagram -- Branch diverge và merge](#7-ascii-diagram-branch-diverge-và-merge)
+- [8. Quản lý branches -- Khi nào tạo, khi nào xoá](#8-quản-lý-branches-khi-nào-tạo-khi-nào-xoá)
+- [9. Thực hành -- Bài tập tự làm](#9-thực-hành-bài-tập-tự-làm)
+- [10. Lỗi thường gặp](#10-lỗi-thường-gặp)
+- [11. Câu hỏi phỏng vấn](#11-câu-hỏi-phỏng-vấn)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## 1. Branch là gì?
 
 ### 1.1. Metaphor cây -- Thân chính và nhánh cây

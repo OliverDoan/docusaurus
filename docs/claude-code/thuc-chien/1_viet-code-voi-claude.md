@@ -9,6 +9,21 @@ Bài này hướng dẫn workflow viết code hiệu quả: từ tạo file mớ
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Tạo file mới](#1-tạo-file-mới)
+- [2. Implement feature](#2-implement-feature)
+- [3. Viết code theo pattern có sẵn](#3-viết-code-theo-pattern-có-sẵn)
+- [4. Tạo types và interfaces](#4-tạo-types-và-interfaces)
+- [5. Viết test](#5-viết-test)
+- [6. Workflow khuyến nghị](#6-workflow-khuyến-nghị)
+- [Tips](#tips)
+
+---
+
 ## 1. Tạo file mới
 
 ```

@@ -1,11 +1,26 @@
 ---
 sidebar_position: 6
-title: "6. React 15 → 19: Toàn bộ tính năng mới title: "React 15 → 19: Toàn bộ tính năng mới & lý do ra đời" lý do ra đời"
+title: "6. React 15 → 19: Toàn bộ tính năng mới & lý do ra đời"
 ---
 
 # React 15 → 19: Toàn bộ tính năng mới & lý do ra đời
 
 Nếu bạn học React từ phiên bản 15, bạn đã bỏ lỡ rất nhiều thay đổi lớn. Bài này sẽ đi qua **toàn bộ** những tính năng mới từ React 16 đến React 19, giải thích **lý do** từng tính năng ra đời, và cho code ví dụ thực tế.
+
+---
+
+
+---
+
+## Mục lục
+
+- [Tổng quan: React qua các phiên bản](#tổng-quan-react-qua-các-phiên-bản)
+- [Phần 1: React 16 -- Viết lại từ đầu](#phần-1-react-16-viết-lại-từ-đầu)
+- [Phần 2: React 17 -- Bước đệm, không có tính năng mới](#phần-2-react-17-bước-đệm-không-có-tính-năng-mới)
+- [Phần 3: React 18 -- Concurrent React](#phần-3-react-18-concurrent-react)
+- [Phần 4: React 19 -- Actions, Server Components & React Compiler](#phần-4-react-19-actions-server-components-react-compiler)
+- [Phần 5: Bảng tổng hợp -- mỗi tính năng và lý do ra đời](#phần-5-bảng-tổng-hợp-mỗi-tính-năng-và-lý-do-ra-đời)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
 
 ---
 

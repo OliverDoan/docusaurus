@@ -5,6 +5,26 @@ title: "5. Styling"
 
 # Styling
 
+
+---
+
+## Mục lục
+
+- [Tổng quan các phương pháp styling trong Next.js](#tổng-quan-các-phương-pháp-styling-trong-nextjs)
+- [CSS Modules — Built-in, Scoped](#css-modules-built-in-scoped)
+- [Tailwind CSS — Utility-first](#tailwind-css-utility-first)
+- [Global CSS](#global-css)
+- [CSS-in-JS — Hạn chế với Server Components](#css-in-js-hạn-chế-với-server-components)
+- [Sass/SCSS Support](#sassscss-support)
+- [Conditional Styling Patterns](#conditional-styling-patterns)
+- [Responsive Design Patterns](#responsive-design-patterns)
+- [Dark Mode Implementation](#dark-mode-implementation)
+- [CSS Organization Best Practices](#css-organization-best-practices)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Tổng quan các phương pháp styling trong Next.js
 
 Next.js hỗ trợ nhiều phương pháp styling. Mỗi cách có ưu/nhược điểm riêng:

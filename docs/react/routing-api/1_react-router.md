@@ -5,6 +5,25 @@ title: "1. React Router"
 
 # React Router
 
+
+---
+
+## Mục lục
+
+- [Cài đặt](#cài-đặt)
+- [Setup cơ bản](#setup-cơ-bản)
+- [Dynamic Routes (URL Params)](#dynamic-routes-url-params)
+- [Nested Routes](#nested-routes)
+- [Programmatic Navigation](#programmatic-navigation)
+- [Query Parameters](#query-parameters)
+- [Protected Routes](#protected-routes)
+- [useLocation](#uselocation)
+- [Passing state qua navigation](#passing-state-qua-navigation)
+- [Lazy Loading Routes](#lazy-loading-routes)
+- [Cau hoi phong van](#cau-hoi-phong-van)
+
+---
+
 ## Cài đặt
 
 ```bash

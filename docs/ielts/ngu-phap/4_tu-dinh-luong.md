@@ -5,6 +5,24 @@ title: "4. Từ định lượng (Quantifiers)"
 
 # Từ định lượng (Quantifiers)
 
+
+---
+
+## Mục lục
+
+- [Định nghĩa](#định-nghĩa)
+- [Kiến thức nền: Countable vs Uncountable](#kiến-thức-nền-countable-vs-uncountable)
+- [1. SOME — ANY](#1-some-any)
+- [2. MUCH — MANY — A LOT OF](#2-much-many-a-lot-of)
+- [3. A LITTLE — A FEW](#3-a-little-a-few)
+- [4. TOO MUCH — TOO MANY](#4-too-much-too-many)
+- [5. NOT ENOUGH](#5-not-enough)
+- [6. ALL — MOST — SOME — NO / NONE](#6-all-most-some-no-none)
+- [Bảng tổng hợp](#bảng-tổng-hợp)
+- [Bài tập](#bài-tập)
+
+---
+
 ## Định nghĩa
 
 > **Từ định lượng (Quantifier)** là từ hoặc cụm từ chỉ **số lượng** hoặc **mức độ** của danh từ, trả lời câu hỏi: **"Bao nhiêu?"**, **"Nhiều hay ít?"**, **"Một vài hay tất cả?"**

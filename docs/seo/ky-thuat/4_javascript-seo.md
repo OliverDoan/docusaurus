@@ -5,6 +5,21 @@ title: "4. JavaScript SEO"
 
 # JavaScript SEO
 
+## Mục lục
+
+- [Vấn đề cốt lõi](#vấn-đề-cốt-lõi)
+- [CSR vs SSR vs SSG vs ISR](#csr-vs-ssr-vs-ssg-vs-isr)
+- [Google render JavaScript như thế nào?](#google-render-javascript-như-thế-nào)
+- [Vấn đề SEO của SPA](#vấn-đề-seo-của-spa)
+- [Solutions: Framework có hỗ trợ SEO](#solutions-framework-có-hỗ-trợ-seo)
+- [Dynamic Rendering](#dynamic-rendering)
+- [Prerendering Strategies](#prerendering-strategies)
+- [Kiểm tra JavaScript SEO](#kiểm-tra-javascript-seo)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Vấn đề cốt lõi
 
 JavaScript frameworks hiện đại (React, Vue, Angular) render nội dung phía client. Khi Googlebot truy cập trang, nó nhận được một file HTML gần như trống rỗng:

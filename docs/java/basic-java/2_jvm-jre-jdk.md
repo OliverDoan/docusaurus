@@ -14,6 +14,22 @@ Khi bắt đầu học Java, bạn sẽ thường gặp ba thuật ngữ: **JVM*
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. JVM -- Java Virtual Machine](#1-jvm-java-virtual-machine)
+- [2. JRE -- Java Runtime Environment](#2-jre-java-runtime-environment)
+- [3. JDK -- Java Development Kit](#3-jdk-java-development-kit)
+- [4. Sơ đồ lồng nhau: JDK ⊃ JRE ⊃ JVM](#4-sơ-đồ-lồng-nhau-jdk-jre-jvm)
+- [5. Bảng so sánh tổng hợp](#5-bảng-so-sánh-tổng-hợp)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. JVM -- Java Virtual Machine
 
 ### JVM là gì?

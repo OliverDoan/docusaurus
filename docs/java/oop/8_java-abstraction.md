@@ -5,6 +5,25 @@ title: "8. Tính trừu tượng (Abstraction)"
 
 # Tính trừu tượng (Abstraction)
 
+
+---
+
+## Mục lục
+
+- [Ví dụ thực tế để hiểu trừu tượng](#ví-dụ-thực-tế-để-hiểu-trừu-tượng)
+- [Trừu tượng là gì?](#trừu-tượng-là-gì)
+- [Abstract Class](#abstract-class)
+- [Abstract Class vs Concrete Class](#abstract-class-vs-concrete-class)
+- [Interface](#interface)
+- [Abstract Class vs Interface: Bảng so sánh chi tiết](#abstract-class-vs-interface-bảng-so-sánh-chi-tiết)
+- [Khi nào dùng Abstract Class? Khi nào dùng Interface?](#khi-nào-dùng-abstract-class-khi-nào-dùng-interface)
+- [Triển khai nhiều Interface](#triển-khai-nhiều-interface)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Tổng kết](#tổng-kết)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Ví dụ thực tế để hiểu trừu tượng
 
 Hãy nghĩ về việc **lái xe**. Khi bạn ngồi lên xe hơi:

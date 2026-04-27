@@ -1,9 +1,27 @@
 ---
 sidebar_position: 3
-title: "3. Điều hướng title: "Điều hướng & Link" Link"
+title: "3. Điều hướng & Link"
 ---
 
 # Điều hướng & Link
+
+
+---
+
+## Mục lục
+
+- [Tổng quan các cách điều hướng](#tổng-quan-các-cách-điều-hướng)
+- [Link Component](#link-component)
+- [useRouter Hook](#userouter-hook)
+- [redirect() — Server-side Redirect](#redirect-server-side-redirect)
+- [usePathname Hook](#usepathname-hook)
+- [useSearchParams Hook](#usesearchparams-hook)
+- [Programmatic Navigation Patterns](#programmatic-navigation-patterns)
+- [Active Link Styling](#active-link-styling)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## Tổng quan các cách điều hướng
 

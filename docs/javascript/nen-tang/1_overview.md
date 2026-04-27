@@ -5,6 +5,21 @@ title: "1. Tổng quan về JavaScript"
 
 # Tổng quan về JavaScript
 
+
+---
+
+## Mục lục
+
+- [JavaScript là gì?](#javascript-là-gì)
+- [Tại sao JavaScript ra đời?](#tại-sao-javascript-ra-đời)
+- [JavaScript KHÔNG phải Java](#javascript-không-phải-java)
+- [Cách chạy JavaScript](#cách-chạy-javascript)
+- [Khi nào dùng JavaScript?](#khi-nào-dùng-javascript)
+- [Lỗi thường gặp khi mới học](#lỗi-thường-gặp-khi-mới-học)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## JavaScript là gì?
 
 **JavaScript** (viết tắt: JS) là một ngôn ngữ lập trình được dùng để tạo ra các trang web **tương tác** — nghĩa là trang web có thể phản hồi lại hành động của người dùng (click chuột, gõ bàn phím, cuộn trang...).

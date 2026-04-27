@@ -5,6 +5,27 @@ title: "7. Tính đa hình (Polymorphism)"
 
 # Tính đa hình (Polymorphism)
 
+
+---
+
+## Mục lục
+
+- [Ví dụ thực tế để hiểu đa hình](#ví-dụ-thực-tế-để-hiểu-đa-hình)
+- [Đa hình là gì?](#đa-hình-là-gì)
+- [Đa hình tại compile-time: Method Overloading](#đa-hình-tại-compile-time-method-overloading)
+- [Đa hình tại runtime: Method Overriding](#đa-hình-tại-runtime-method-overriding)
+- [Dynamic Method Dispatch](#dynamic-method-dispatch)
+- [Đa hình với Interface](#đa-hình-với-interface)
+- [Covariant Return Types](#covariant-return-types)
+- [Đa hình KHÔNG áp dụng cho fields (thuộc tính)](#đa-hình-không-áp-dụng-cho-fields-thuộc-tính)
+- [So sánh Overloading và Overriding](#so-sánh-overloading-và-overriding)
+- [Tại sao đa hình quan trọng?](#tại-sao-đa-hình-quan-trọng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Tổng kết](#tổng-kết)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Ví dụ thực tế để hiểu đa hình
 
 Hãy nghĩ về hành động **"đi"**. Cùng là "đi" nhưng mỗi người thực hiện khác nhau:

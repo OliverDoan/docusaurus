@@ -5,6 +5,20 @@ title: "1. Node.js là gì?"
 
 # Node.js là gì?
 
+
+---
+
+## Mục lục
+
+- [Giới thiệu](#giới-thiệu)
+- [Kiến trúc Node.js](#kiến-trúc-nodejs)
+- [Cài đặt Node.js](#cài-đặt-nodejs)
+- [Chạy chương trình đầu tiên](#chạy-chương-trình-đầu-tiên)
+- [Node.js vs Browser JavaScript](#nodejs-vs-browser-javascript)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## Giới thiệu
 
 Node.js là một **runtime environment** cho phép chạy JavaScript bên ngoài trình duyệt, được xây dựng trên **V8 JavaScript Engine** của Google Chrome.

@@ -9,6 +9,21 @@ Claude Code tích hợp git trực tiếp. Commit, tạo PR, review code — t�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Commit](#1-commit)
+- [2. Tạo Pull Request](#2-tạo-pull-request)
+- [3. Review PR](#3-review-pr)
+- [4. Xem thay đổi trước khi commit](#4-xem-thay-đổi-trước-khi-commit)
+- [5. Quản lý branch](#5-quản-lý-branch)
+- [6. Workflow đầy đủ](#6-workflow-đầy-đủ)
+- [Tips](#tips)
+
+---
+
 ## 1. Commit
 
 ```

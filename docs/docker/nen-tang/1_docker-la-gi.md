@@ -16,6 +16,21 @@ Nếu bạn từng gặp bất kỳ tình huống nào ở trên, **Docker** ch�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Docker là gì?](#1-docker-là-gì)
+- [2. Tại sao cần Docker?](#2-tại-sao-cần-docker)
+- [3. Docker vs Virtual Machine (VM)](#3-docker-vs-virtual-machine-vm)
+- [4. Các khái niệm cốt lõi](#4-các-khái-niệm-cốt-lõi)
+- [5. Docker giải quyết vấn đề gì trong thực tế?](#5-docker-giải-quyết-vấn-đề-gì-trong-thực-tế)
+- [6. Luồng làm việc với Docker](#6-luồng-làm-việc-với-docker)
+- [7. Tổng kết](#7-tổng-kết)
+
+---
+
 ## 1. Docker là gì?
 
 **Docker** là một nền tảng mã nguồn mở giúp bạn **đóng gói, phân phối và chạy ứng dụng** trong các môi trường cô lập gọi là **container**.

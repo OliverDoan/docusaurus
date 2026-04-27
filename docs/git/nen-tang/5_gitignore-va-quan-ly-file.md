@@ -9,6 +9,28 @@ Không phải mọi file trong dự án đều nên được Git theo dõi. File
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. .gitignore là gì?](#1-gitignore-là-gì)
+- [2. Cú pháp .gitignore](#2-cú-pháp-gitignore)
+- [3. Template .gitignore cho các loại project](#3-template-gitignore-cho-các-loại-project)
+- [4. Global .gitignore](#4-global-gitignore)
+- [5. .gitkeep — Track thư mục rỗng](#5-gitkeep-track-thư-mục-rỗng)
+- [6. git rm — Xoá file khỏi Git](#6-git-rm-xoá-file-khỏi-git)
+- [7. git mv — Đổi tên / Di chuyển file](#7-git-mv-đổi-tên-di-chuyển-file)
+- [8. Xử lý file đã commit nhầm](#8-xử-lý-file-đã-commit-nhầm)
+- [9. git clean — Dọn dẹp untracked files](#9-git-clean-dọn-dẹp-untracked-files)
+- [10. Kiểm tra .gitignore có hoạt động không](#10-kiểm-tra-gitignore-có-hoạt-động-không)
+- [11. Bảng cú pháp .gitignore patterns](#11-bảng-cú-pháp-gitignore-patterns)
+- [12. Lỗi thường gặp](#12-lỗi-thường-gặp)
+- [13. Câu hỏi phỏng vấn](#13-câu-hỏi-phỏng-vấn)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. .gitignore là gì?
 
 `.gitignore` là file đặc biệt mà Git đọc để biết **những file/thư mục nào cần bỏ qua** — không track, không commit.

@@ -1,9 +1,25 @@
 ---
 sidebar_position: 3
-title: "3. Database title: "Database & ORM" ORM"
+title: "3. Database & ORM"
 ---
 
 # Database & ORM
+
+
+---
+
+## Mục lục
+
+- [Kết nối database trong Next.js](#kết-nối-database-trong-nextjs)
+- [Prisma ORM — Hướng dẫn chi tiết](#prisma-orm-hướng-dẫn-chi-tiết)
+- [Drizzle ORM — Alternative nhẹ hơn](#drizzle-orm-alternative-nhẹ-hơn)
+- [Database Connection Pooling (Serverless)](#database-connection-pooling-serverless)
+- [Sử dụng với Server Components và Server Actions](#sử-dụng-với-server-components-và-server-actions)
+- [Environment Variables cho Database URL](#environment-variables-cho-database-url)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## Kết nối database trong Next.js
 

@@ -1,11 +1,26 @@
 ---
 sidebar_position: 4
-title: "4. Promise, Async/Await title: "Promise, Async/Await & Error Handling" Error Handling"
+title: "4. Promise, Async/Await & Error Handling"
 ---
 
 # Promise, Async/Await & Error Handling
 
 Xử lý bất đồng bộ là phần không thể thiếu trong mọi dự án JavaScript. Interviewer muốn biết bạn không chỉ dùng được async/await mà còn hiểu rõ lifecycle của Promise, các static methods, và cách xử lý lỗi đúng cách.
+
+---
+
+
+---
+
+## Mục lục
+
+- [Câu 1: Promise states và lifecycle `[Intermediate]`](#câu-1-promise-states-và-lifecycle-intermediate)
+- [Câu 2: Promise chaining vs Async/Await `[Intermediate]`](#câu-2-promise-chaining-vs-asyncawait-intermediate)
+- [Câu 3: Promise.all, Promise.allSettled, Promise.race, Promise.any `[Senior]`](#câu-3-promiseall-promiseallsettled-promiserace-promiseany-senior)
+- [Câu 4: Error handling với async/await và Promise `[Senior]`](#câu-4-error-handling-với-asyncawait-và-promise-senior)
+- [Câu 5: Unhandled rejection và best practices `[Senior]`](#câu-5-unhandled-rejection-và-best-practices-senior)
+- [Câu 6: Bảng so sánh tổng hợp: Callback vs Promise vs Async/Await `[Intermediate]`](#câu-6-bảng-so-sánh-tổng-hợp-callback-vs-promise-vs-asyncawait-intermediate)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
 
 ---
 

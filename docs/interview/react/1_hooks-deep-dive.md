@@ -9,6 +9,22 @@ React Hooks ra đời từ phiên bản 16.8, và bây giờ là cách viết Re
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: useState hoạt động như thế nào bên trong? Giải thích batching, functional updates và lazy initialization. `[Senior]`](#câu-1-usestate-hoạt-động-như-thế-nào-bên-trong-giải-thích-batching-functional-updates-và-lazy-initialization-senior)
+- [Câu 2: useEffect -- dependency array hoạt động ra sao? Cleanup function chạy khi nào? `[Intermediate]`](#câu-2-useeffect-dependency-array-hoạt-động-ra-sao-cleanup-function-chạy-khi-nào-intermediate)
+- [Câu 3: useRef -- DOM refs và mutable values. Khi nào dùng useRef thay vì useState? `[Intermediate]`](#câu-3-useref-dom-refs-và-mutable-values-khi-nào-dùng-useref-thay-vì-usestate-intermediate)
+- [Câu 4: useCallback vs useMemo -- khác nhau gì? Khi nào thực sự cần? `[Senior]`](#câu-4-usecallback-vs-usememo-khác-nhau-gì-khi-nào-thực-sự-cần-senior)
+- [Câu 5: useLayoutEffect vs useEffect -- khác nhau ở đâu? `[Senior]`](#câu-5-uselayouteffect-vs-useeffect-khác-nhau-ở-đâu-senior)
+- [Câu 6: Custom Hooks -- rules là gì? Khi nào tạo custom hook? `[Intermediate]`](#câu-6-custom-hooks-rules-là-gì-khi-nào-tạo-custom-hook-intermediate)
+- [Bảng tổng hợp các Hooks](#bảng-tổng-hợp-các-hooks)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: useState hoạt động như thế nào bên trong? Giải thích batching, functional updates và lazy initialization. `[Senior]`
 
 ### Giải thích lý thuyết

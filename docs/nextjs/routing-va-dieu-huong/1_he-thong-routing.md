@@ -5,6 +5,24 @@ title: "1. Hệ thống Routing"
 
 # Hệ thống Routing
 
+
+---
+
+## Mục lục
+
+- [File-based Routing là gì?](#file-based-routing-là-gì)
+- [Các file đặc biệt trong route](#các-file-đặc-biệt-trong-route)
+- [Route Groups](#route-groups)
+- [Parallel Routes](#parallel-routes)
+- [Intercepting Routes](#intercepting-routes)
+- [Colocation — Đặt file cùng route](#colocation-đặt-file-cùng-route)
+- [Private Folders](#private-folders)
+- [Tổng hợp cấu trúc dự án thực tế](#tổng-hợp-cấu-trúc-dự-án-thực-tế)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## File-based Routing là gì?
 
 Trong Next.js App Router, **routing dựa trên cấu trúc thư mục** (file-based routing). Bạn không cần cấu hình router riêng như React Router — chỉ cần tạo folder và file, Next.js tự động tạo route tương ứng.

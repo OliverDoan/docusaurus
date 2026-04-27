@@ -11,6 +11,21 @@ Bài này hướng dẫn keyword research từ góc nhìn developer -- không ph
 
 ---
 
+## Mục lục
+
+- [1. Keyword là gì?](#1-keyword-là-gì)
+- [2. Search Intent -- Hiểu mục đích tìm kiếm](#2-search-intent-hiểu-mục-đích-tìm-kiếm)
+- [3. Long-tail vs Short-tail Keywords](#3-long-tail-vs-short-tail-keywords)
+- [4. Công cụ nghiên cứu từ khóa](#4-công-cụ-nghiên-cứu-từ-khóa)
+- [5. Quy trình tìm keyword cho tech landing page](#5-quy-trình-tìm-keyword-cho-tech-landing-page)
+- [6. Keyword Placement -- Đặt từ khóa ở đâu trong code](#6-keyword-placement-đặt-từ-khóa-ở-đâu-trong-code)
+- [7. Keyword cho Docusaurus/Documentation site](#7-keyword-cho-docusaurusdocumentation-site)
+- [8. Lỗi thường gặp](#8-lỗi-thường-gặp)
+- [9. Tổng kết](#9-tổng-kết)
+- [10. Câu hỏi phỏng vấn](#10-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Keyword là gì?
 
 **Keyword** (từ khóa) là **cụm từ** mà user gõ vào Google khi tìm kiếm. Mỗi keyword đại diện cho một **nhu cầu** cụ thể.

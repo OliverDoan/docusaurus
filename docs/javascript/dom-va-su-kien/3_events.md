@@ -5,6 +5,20 @@ title: "3. Sự kiện (Events)"
 
 # Sự kiện (Events)
 
+
+---
+
+## Mục lục
+
+- [Event là gì?](#event-là-gì)
+- [Tại sao Event ra đời?](#tại-sao-event-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Event là gì?
 
 **Event (sự kiện)** là **bất kỳ hành động nào xảy ra** trên trang web -- người dùng click chuột, gõ phím, cuộn trang, tải trang xong... JavaScript có thể **lắng nghe** các sự kiện này và **phản hồi** bằng cách chạy một hàm (gọi là **event handler**).

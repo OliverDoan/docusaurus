@@ -5,6 +5,21 @@ title: "6. JSON"
 
 # JSON
 
+
+---
+
+## Mục lục
+
+- [JSON là gì?](#json-là-gì)
+- [Tại sao JSON ra đời?](#tại-sao-json-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [JSON vs JavaScript Object](#json-vs-javascript-object)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## JSON là gì?
 
 Hãy tưởng tượng bạn muốn gửi **thông tin cá nhân** cho bạn bè qua tin nhắn. Bạn không thể gửi nguyên một "đối tượng người" qua mạng, mà phải viết thành **văn bản** (text):

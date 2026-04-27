@@ -9,6 +9,21 @@ Bài này tổng hợp các lệnh Docker CLI bạn sẽ dùng hàng ngày. Hãy
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Nhóm lệnh quản lý Image](#1-nhóm-lệnh-quản-lý-image)
+- [2. Nhóm lệnh quản lý Container](#2-nhóm-lệnh-quản-lý-container)
+- [3. Nhóm lệnh thông tin và debug](#3-nhóm-lệnh-thông-tin-và-debug)
+- [4. Nhóm lệnh dọn dẹp](#4-nhóm-lệnh-dọn-dẹp)
+- [5. Bảng tóm tắt lệnh hay dùng](#5-bảng-tóm-tắt-lệnh-hay-dùng)
+- [6. Bài tập thực hành](#6-bài-tập-thực-hành)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Nhóm lệnh quản lý Image
 
 ### Tải image từ Docker Hub

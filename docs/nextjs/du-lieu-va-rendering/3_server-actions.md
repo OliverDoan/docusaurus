@@ -9,6 +9,25 @@ Server Actions là một trong những tính năng đột phá nhất của Next
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Server Actions là gì?](#1-server-actions-là-gì)
+- [2. Inline Server Actions vs Module-level](#2-inline-server-actions-vs-module-level)
+- [3. Forms với Server Actions](#3-forms-với-server-actions)
+- [4. `useFormState` Hook](#4-useformstate-hook)
+- [5. `useFormStatus` Hook -- Pending State](#5-useformstatus-hook-pending-state)
+- [6. `useActionState` (React 19)](#6-useactionstate-react-19)
+- [7. Validation với Server Actions (Zod)](#7-validation-với-server-actions-zod)
+- [8. Optimistic Updates với `useOptimistic`](#8-optimistic-updates-với-useoptimistic)
+- [9. Security: Bảo mật Server Actions](#9-security-bảo-mật-server-actions)
+- [10. Lỗi thường gặp](#10-lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Server Actions là gì?
 
 Server Actions là **các hàm async chạy trên server**, được đánh dấu bằng directive `"use server"`. Bạn có thể gọi chúng từ cả Server Components lẫn Client Components, và chúng tự động xử lý việc gửi request từ client đến server.

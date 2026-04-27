@@ -5,6 +5,21 @@ title: "1. Claude Code la gi?"
 
 # Claude Code là gì?
 
+
+---
+
+## Mục lục
+
+- [Tóm tắt 1 dòng](#tóm-tắt-1-dòng)
+- [1. Claude Code vs Claude Chat](#1-claude-code-vs-claude-chat)
+- [2. Claude Code làm được gì?](#2-claude-code-làm-được-gì)
+- [3. Khi nào dùng Claude Code?](#3-khi-nào-dùng-claude-code)
+- [4. Cách hoạt động](#4-cách-hoạt-động)
+- [5. Các model trong Claude Code](#5-các-model-trong-claude-code)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## Tóm tắt 1 dòng
 
 **Claude Code** là AI coding assistant chạy trực tiếp trong terminal, có thể đọc, viết, chạy code và dùng git — như có một lập trình viên senior ngồi cạnh bạn.

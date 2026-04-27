@@ -9,6 +9,23 @@ Bài này hướng dẫn chi tiết quá trình build image, tối ưu hoá cach
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Docker Build chi tiết](#1-docker-build-chi-tiết)
+- [2. Tối ưu Layer Caching](#2-tối-ưu-layer-caching)
+- [3. Giảm dung lượng Image](#3-giảm-dung-lượng-image)
+- [4. Xem và phân tích Image](#4-xem-và-phân-tích-image)
+- [5. Tag Strategy (Chiến lược đánh tag)](#5-tag-strategy-chiến-lược-đánh-tag)
+- [6. Export và Import Image](#6-export-và-import-image)
+- [7. Quản lý Images hàng ngày](#7-quản-lý-images-hàng-ngày)
+- [8. Bài tập thực hành](#8-bài-tập-thực-hành)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Docker Build chi tiết
 
 ### Lệnh build cơ bản

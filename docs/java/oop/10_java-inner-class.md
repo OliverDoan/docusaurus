@@ -9,6 +9,23 @@ Hãy tưởng tượng một chiếc **xe hơi** (outer class) có **động cơ
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Inner Class là gì?](#1-inner-class-là-gì)
+- [2. Member Inner Class](#2-member-inner-class)
+- [3. Static Nested Class](#3-static-nested-class)
+- [4. Local Inner Class](#4-local-inner-class)
+- [5. Anonymous Inner Class](#5-anonymous-inner-class)
+- [6. Lambda thay thế Anonymous Class (Java 8+)](#6-lambda-thay-thế-anonymous-class-java-8)
+- [7. So sánh 4 loại Inner Class](#7-so-sánh-4-loại-inner-class)
+- [8. Lỗi thường gặp](#8-lỗi-thường-gặp)
+- [9. Câu hỏi phỏng vấn](#9-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. Inner Class là gì?
 
 Inner class là class được khai báo **bên trong** một class khác. Java hỗ trợ 4 loại inner class:

@@ -5,6 +5,19 @@ title: "1. Core Web Vitals"
 
 # Core Web Vitals
 
+## Mục lục
+
+- [Core Web Vitals là gì?](#core-web-vitals-là-gì)
+- [LCP — Largest Contentful Paint](#lcp-largest-contentful-paint)
+- [INP — Interaction to Next Paint](#inp-interaction-to-next-paint)
+- [CLS — Cumulative Layout Shift](#cls-cumulative-layout-shift)
+- [Đo lường Core Web Vitals](#đo-lường-core-web-vitals)
+- [Ảnh hưởng đến Google Ranking](#ảnh-hưởng-đến-google-ranking)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Core Web Vitals là gì?
 
 Core Web Vitals là bộ 3 chỉ số đo lường trải nghiệm người dùng thực tế trên website, do Google định nghĩa. Từ năm 2021, Google chính thức đưa các chỉ số này vào thuật toán xếp hạng tìm kiếm.

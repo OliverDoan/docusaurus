@@ -5,6 +5,21 @@ title: "5. Crawl và Index"
 
 # Crawl và Index
 
+## Mục lục
+
+- [Crawl và Index khác nhau thế nào?](#crawl-và-index-khác-nhau-thế-nào)
+- [robots.txt](#robotstxt)
+- [XML Sitemap](#xml-sitemap)
+- [Canonical URLs](#canonical-urls)
+- [Meta Robots Directives](#meta-robots-directives)
+- [Crawl Budget](#crawl-budget)
+- [Google Search Console — Index Coverage](#google-search-console-index-coverage)
+- [Tổng hợp: Quy trình kiểm tra Technical SEO](#tổng-hợp-quy-trình-kiểm-tra-technical-seo)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Crawl và Index khác nhau thế nào?
 
 Nhiều developer nhầm lẫn giữa crawl và index. Đây là 2 bước riêng biệt:

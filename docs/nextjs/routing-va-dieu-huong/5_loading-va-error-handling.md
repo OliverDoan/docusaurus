@@ -1,9 +1,27 @@
 ---
 sidebar_position: 5
-title: "5. Loading title: "Loading & Error Handling" Error Handling"
+title: "5. Loading & Error Handling"
 ---
 
 # Loading & Error Handling
+
+
+---
+
+## Mục lục
+
+- [Tổng quan](#tổng-quan)
+- [loading.tsx — Automatic Loading UI](#loadingtsx-automatic-loading-ui)
+- [error.tsx — Error Boundary cho Route Segments](#errortsx-error-boundary-cho-route-segments)
+- [not-found.tsx — Trang 404](#not-foundtsx-trang-404)
+- [global-error.tsx — Root Error Handling](#global-errortsx-root-error-handling)
+- [Nested Error Boundaries](#nested-error-boundaries)
+- [Recovery from Errors — Hàm reset()](#recovery-from-errors-hàm-reset)
+- [Custom Error Pages với Styling đẹp](#custom-error-pages-với-styling-đẹp)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## Tổng quan
 

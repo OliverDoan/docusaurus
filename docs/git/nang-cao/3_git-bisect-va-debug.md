@@ -9,6 +9,22 @@ Bạn phát hiện bug nhưng không biết nó xuất hiện từ commit nào? 
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Git Bisect — Binary Search tìm commit gây bug](#1-git-bisect-binary-search-tìm-commit-gây-bug)
+- [2. Git Blame — Ai sửa dòng nào?](#2-git-blame-ai-sửa-dòng-nào)
+- [3. Git Log Debugging](#3-git-log-debugging)
+- [4. So sánh: Khi nào dùng bisect vs blame vs log -S](#4-so-sánh-khi-nào-dùng-bisect-vs-blame-vs-log-s)
+- [5. Kỹ thuật debug nâng cao](#5-kỹ-thuật-debug-nâng-cao)
+- [6. Lỗi thường gặp](#6-lỗi-thường-gặp)
+- [7. Câu hỏi phỏng vấn](#7-câu-hỏi-phỏng-vấn)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## 1. Git Bisect — Binary Search tìm commit gây bug
 
 ### Bisect là gì?

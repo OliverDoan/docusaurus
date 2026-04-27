@@ -5,6 +5,23 @@ title: "2. Biến (var, let, const)"
 
 # Biến (var, let, const)
 
+
+---
+
+## Mục lục
+
+- [Biến là gì?](#biến-là-gì)
+- [Ba cách khai báo biến: var, let, const](#ba-cách-khai-báo-biến-var-let-const)
+- [Tại sao let và const ra đời?](#tại-sao-let-và-const-ra-đời)
+- [Cách sử dụng](#cách-sử-dụng)
+- [Hoisting (Kéo lên)](#hoisting-kéo-lên)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Quy tắc đặt tên biến](#quy-tắc-đặt-tên-biến)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Biến là gì?
 
 **Biến** (variable) là một "hộp chứa" dùng để **lưu trữ dữ liệu** trong chương trình. Mỗi biến có một **tên** và một **giá trị**.

@@ -5,6 +5,21 @@ title: "3. Routing"
 
 # Routing trong Express
 
+
+---
+
+## Mục lục
+
+- [Router cơ bản](#router-cơ-bản)
+- [Cấu trúc thư mục](#cấu-trúc-thư-mục)
+- [Controller Pattern](#controller-pattern)
+- [Route Parameters](#route-parameters)
+- [Query Parameters](#query-parameters)
+- [Route Grouping](#route-grouping)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## Router cơ bản
 
 Express Router cho phép tổ chức routes thành modules riêng biệt:

@@ -95,30 +95,17 @@ const config: Config = {
         src: 'img/logo.svg',
       },
       items: [
-       
         {
           type: 'docSidebar',
-          sidebarId: 'javaSidebar',
+          sidebarId: 'javascriptSidebar',
           position: 'left',
-          label: 'Java',
+          label: 'JavaScript',
         },
         {
           type: 'docSidebar',
           sidebarId: 'reactSidebar',
           position: 'left',
           label: 'React',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'gitSidebar',
-          position: 'left',
-          label: 'Git',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'javascriptSidebar',
-          position: 'left',
-          label: 'JavaScript',
         },
         {
           type: 'docSidebar',
@@ -132,6 +119,22 @@ const config: Config = {
           position: 'left',
           label: 'SEO',
         },
+        {
+          type: 'docSidebar',
+          sidebarId: 'javaSidebar',
+          position: 'left',
+          label: 'Java',
+        },
+        
+        {
+          type: 'docSidebar',
+          sidebarId: 'gitSidebar',
+          position: 'left',
+          label: 'Git',
+        },
+       
+        
+        
         {
           type: 'docSidebar',
           sidebarId: 'interviewSidebar',

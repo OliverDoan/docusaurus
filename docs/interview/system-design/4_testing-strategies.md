@@ -9,6 +9,21 @@ Testing là chủ đề mà nhiều frontend developer "biết phải test" như
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: Testing Pyramid vs Testing Trophy -- khác nhau thế nào? `[Intermediate]`](#câu-1-testing-pyramid-vs-testing-trophy-khác-nhau-thế-nào-intermediate)
+- [Câu 2: Testing Library -- triết lý và best practices? `[Intermediate]`](#câu-2-testing-library-triết-lý-và-best-practices-intermediate)
+- [Câu 3: E2E Testing -- Cypress vs Playwright? `[Senior]`](#câu-3-e2e-testing-cypress-vs-playwright-senior)
+- [Câu 4: Mocking strategies -- MSW vs jest.mock? `[Senior]`](#câu-4-mocking-strategies-msw-vs-jestmock-senior)
+- [Câu 5: TDD trong frontend -- có thực tế không? `[Senior]`](#câu-5-tdd-trong-frontend-có-thực-tế-không-senior)
+- [Câu 6: Test coverage -- khi nào đủ? Target bao nhiêu phần trăm? `[Intermediate]`](#câu-6-test-coverage-khi-nào-đủ-target-bao-nhiêu-phần-trăm-intermediate)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: Testing Pyramid vs Testing Trophy -- khác nhau thế nào? `[Intermediate]`
 
 ### Giải thích lý thuyết

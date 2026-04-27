@@ -9,6 +9,21 @@ Khi dự án frontend lớn dần, một trong những quyết định quan tr�
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: Monorepo vs Polyrepo -- khi nào dùng cái nào? `[Senior]`](#câu-1-monorepo-vs-polyrepo-khi-nào-dùng-cái-nào-senior)
+- [Câu 2: Micro-frontends là gì? Khi nào nên dùng? `[Senior]`](#câu-2-micro-frontends-là-gì-khi-nào-nên-dùng-senior)
+- [Câu 3: Module Federation hoạt động như thế nào? `[Senior]`](#câu-3-module-federation-hoạt-động-như-thế-nào-senior)
+- [Câu 4: Quản lý packages trong monorepo như thế nào? `[Intermediate]`](#câu-4-quản-lý-packages-trong-monorepo-như-thế-nào-intermediate)
+- [Câu 5: Code sharing strategies giữa các app? `[Intermediate]`](#câu-5-code-sharing-strategies-giữa-các-app-intermediate)
+- [Câu 6: Làm sao quyết định kiến trúc frontend cho dự án mới? `[Senior]`](#câu-6-làm-sao-quyết-định-kiến-trúc-frontend-cho-dự-án-mới-senior)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: Monorepo vs Polyrepo -- khi nào dùng cái nào? `[Senior]`
 
 ### Giải thích lý thuyết

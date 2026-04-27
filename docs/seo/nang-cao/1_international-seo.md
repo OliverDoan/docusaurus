@@ -5,6 +5,20 @@ title: "1. International SEO"
 
 # International SEO — Tối ưu SEO cho website đa ngôn ngữ
 
+## Mục lục
+
+- [Giới thiệu](#giới-thiệu)
+- [1. Kiến trúc URL cho website đa ngôn ngữ](#1-kiến-trúc-url-cho-website-đa-ngôn-ngữ)
+- [2. Hreflang — Cách Google hiểu ngôn ngữ của trang](#2-hreflang-cách-google-hiểu-ngôn-ngữ-của-trang)
+- [3. Content Localization vs Translation](#3-content-localization-vs-translation)
+- [4. Geo-targeting trong Google Search Console](#4-geo-targeting-trong-google-search-console)
+- [5. Next.js i18n Routing cho SEO](#5-nextjs-i18n-routing-cho-seo)
+- [6. Lỗi thường gặp](#6-lỗi-thường-gặp)
+- [7. Debug hreflang](#7-debug-hreflang)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Giới thiệu
 
 Bạn có một sản phẩm tốt, website chạy mượt, SEO trong nước đã ổn — giờ muốn mở rộng ra thị trường quốc tế. Vấn đề là Google không tự biết trang nào dành cho user Việt Nam, trang nào cho user Nhật Bản. Nếu không cấu hình đúng, Google có thể index nhầm phiên bản ngôn ngữ, gây ra duplicate content, hoặc hiển thị trang tiếng Anh cho user đang search bằng tiếng Việt.

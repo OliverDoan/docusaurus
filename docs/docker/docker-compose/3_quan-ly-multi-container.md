@@ -9,6 +9,23 @@ Bài này hướng dẫn các thao tác quản lý hàng ngày khi làm việc v
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Lifecycle Commands](#1-lifecycle-commands)
+- [2. Monitoring](#2-monitoring)
+- [3. Exec và Run](#3-exec-và-run)
+- [4. Scale Services](#4-scale-services)
+- [5. Compose Profiles](#5-compose-profiles)
+- [6. Multiple Compose Files](#6-multiple-compose-files)
+- [7. Useful Patterns](#7-useful-patterns)
+- [8. Bài tập thực hành](#8-bài-tập-thực-hành)
+- [Tổng kết](#tổng-kết)
+
+---
+
 ## 1. Lifecycle Commands
 
 ### Start / Stop / Restart

@@ -5,6 +5,20 @@ title: "13. Vòng đời Component"
 
 # Vòng đời Component (Component Lifecycle)
 
+
+---
+
+## Mục lục
+
+- [Ba giai đoạn](#ba-giai-đoạn)
+- [Function Component (Hooks)](#function-component-hooks)
+- [So sánh Class Lifecycle vs Hooks](#so-sánh-class-lifecycle-vs-hooks)
+- [useLayoutEffect vs useEffect](#uselayouteffect-vs-useeffect)
+- [Patterns với Lifecycle](#patterns-với-lifecycle)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Ba giai đoạn
 
 Mỗi component trải qua 3 giai đoạn:

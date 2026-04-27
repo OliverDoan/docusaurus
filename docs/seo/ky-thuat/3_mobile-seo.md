@@ -5,6 +5,22 @@ title: "3. Mobile SEO"
 
 # Mobile SEO
 
+## Mục lục
+
+- [Mobile-First Indexing là gì?](#mobile-first-indexing-là-gì)
+- [Ba cách tiếp cận Mobile](#ba-cách-tiếp-cận-mobile)
+- [Viewport Meta Tag](#viewport-meta-tag)
+- [Responsive Design cho SEO](#responsive-design-cho-seo)
+- [Touch-Friendly Design](#touch-friendly-design)
+- [AMP — Còn phù hợp không?](#amp-còn-phù-hợp-không)
+- [Mobile Usability Testing](#mobile-usability-testing)
+- [Structured Data cho Mobile](#structured-data-cho-mobile)
+- [Checklist Mobile SEO](#checklist-mobile-seo)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Mobile-First Indexing là gì?
 
 Từ năm 2023, Google đã hoàn tất chuyển sang **Mobile-First Indexing** cho toàn bộ website. Nghĩa là:

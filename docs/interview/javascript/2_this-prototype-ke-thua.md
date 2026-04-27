@@ -1,11 +1,26 @@
 ---
 sidebar_position: 2
-title: "2. this, Prototype title: "this, Prototype & Kế thừa trong JS" Kế thừa trong JS"
+title: "2. this, Prototype & Kế thừa trong JS"
 ---
 
 # this, Prototype & Kế thừa trong JS
 
 `this` là một trong những khái niệm gây nhiều nhầm lẫn nhất trong JavaScript. Kết hợp với prototype chain và kế thừa, đây là nhóm câu hỏi mà interviewer rất thích dùng để đánh giá mức độ hiểu sâu về ngôn ngữ của ứng viên.
+
+---
+
+
+---
+
+## Mục lục
+
+- [Câu 1: `this` trong các context khác nhau `[Intermediate]`](#câu-1-this-trong-các-context-khác-nhau-intermediate)
+- [Câu 2: `call`, `apply`, `bind` `[Intermediate]`](#câu-2-call-apply-bind-intermediate)
+- [Câu 3: Prototype Chain `[Senior]`](#câu-3-prototype-chain-senior)
+- [Câu 4: ES6 Class vs Prototype-based inheritance `[Senior]`](#câu-4-es6-class-vs-prototype-based-inheritance-senior)
+- [Câu 5: `Object.create()` vs `new` `[Senior]`](#câu-5-objectcreate-vs-new-senior)
+- [Câu 6: Bài tập thực hành tổng hợp `[Senior]`](#câu-6-bài-tập-thực-hành-tổng-hợp-senior)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
 
 ---
 

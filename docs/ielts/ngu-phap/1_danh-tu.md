@@ -5,6 +5,25 @@ title: "1. Danh từ (Nouns)"
 
 # Danh từ (Nouns)
 
+
+---
+
+## Mục lục
+
+- [Định nghĩa](#định-nghĩa)
+- [Sơ đồ tổng quan các loại danh từ](#sơ-đồ-tổng-quan-các-loại-danh-từ)
+- [1. Singular Nouns — Danh từ số ít](#1-singular-nouns-danh-từ-số-ít)
+- [2. Plural Nouns — Danh từ số nhiều](#2-plural-nouns-danh-từ-số-nhiều)
+- [3. Common Nouns — Danh từ chung](#3-common-nouns-danh-từ-chung)
+- [4. Proper Nouns — Danh từ riêng](#4-proper-nouns-danh-từ-riêng)
+- [5. Countable Nouns — Danh từ đếm được](#5-countable-nouns-danh-từ-đếm-được)
+- [6. Uncountable Nouns — Danh từ không đếm được](#6-uncountable-nouns-danh-từ-không-đếm-được)
+- [7. Irregular Plural Nouns — Danh từ số nhiều bất quy tắc](#7-irregular-plural-nouns-danh-từ-số-nhiều-bất-quy-tắc)
+- [Tổng kết Mind Map](#tổng-kết-mind-map)
+- [Bài tập nhanh](#bài-tập-nhanh)
+
+---
+
 ## Định nghĩa
 
 > **Danh từ (Noun)** là từ dùng để chỉ **người** (person), **sự vật** (thing), **địa điểm** (place), **khái niệm** (idea), **động vật** (animal).

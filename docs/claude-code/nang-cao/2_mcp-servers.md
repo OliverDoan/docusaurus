@@ -9,6 +9,21 @@ title: "2. MCP Servers"
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. MCP là gì?](#1-mcp-là-gì)
+- [2. Cách thêm MCP Server](#2-cách-thêm-mcp-server)
+- [3. MCP Servers phổ biến](#3-mcp-servers-phổ-biến)
+- [4. Ví dụ: Figma MCP](#4-ví-dụ-figma-mcp)
+- [5. Ví dụ: Database MCP](#5-ví-dụ-database-mcp)
+- [6. Khi nào cần MCP?](#6-khi-nào-cần-mcp)
+- [Tips](#tips)
+
+---
+
 ## 1. MCP là gì?
 
 ```

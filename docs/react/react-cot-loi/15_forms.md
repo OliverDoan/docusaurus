@@ -5,6 +5,20 @@ title: "15. Forms"
 
 # Forms
 
+
+---
+
+## Mục lục
+
+- [Controlled Components](#controlled-components)
+- [Quản lý form phức tạp với object state](#quản-lý-form-phức-tạp-với-object-state)
+- [Uncontrolled Components](#uncontrolled-components)
+- [Form Validation](#form-validation)
+- [Textarea và Select](#textarea-và-select)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Controlled Components
 
 React kiểm soát giá trị input thông qua state — đây là cách chuẩn:

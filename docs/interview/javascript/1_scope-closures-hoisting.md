@@ -1,11 +1,26 @@
 ---
 sidebar_position: 1
-title: "1. Scope, Closures title: "Scope, Closures & Hoisting" Hoisting"
+title: "1. Scope, Closures & Hoisting"
 ---
 
 # Scope, Closures & Hoisting
 
 Phần này tổng hợp những câu hỏi phỏng vấn phổ biến nhất về Scope, Closures và Hoisting trong JavaScript. Đây là nền tảng mà hầu hết interviewer sẽ hỏi ở vòng đầu tiên, vì nó phản ánh rõ bạn hiểu JavaScript "sâu" đến đâu.
+
+---
+
+
+---
+
+## Mục lục
+
+- [Câu 1: Phân biệt `var`, `let`, `const` -- Block scope vs Function scope `[Intermediate]`](#câu-1-phân-biệt-var-let-const-block-scope-vs-function-scope-intermediate)
+- [Câu 2: Hoisting -- biến, function declaration vs expression `[Intermediate]`](#câu-2-hoisting-biến-function-declaration-vs-expression-intermediate)
+- [Câu 3: Closures -- định nghĩa, use cases `[Intermediate]`](#câu-3-closures-định-nghĩa-use-cases-intermediate)
+- [Câu 4: IIFE và Module Pattern `[Intermediate]`](#câu-4-iife-và-module-pattern-intermediate)
+- [Câu 5: Lexical Environment và Scope Chain `[Senior]`](#câu-5-lexical-environment-và-scope-chain-senior)
+- [Câu 6: Closures trong loops -- Classic tricky question `[Senior]`](#câu-6-closures-trong-loops-classic-tricky-question-senior)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
 
 ---
 

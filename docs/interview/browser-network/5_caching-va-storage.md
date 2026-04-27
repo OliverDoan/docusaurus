@@ -9,6 +9,22 @@ Caching và storage là vũ khí tối thượng để tối ưu performance. In
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: HTTP Caching -- giải thích Cache-Control headers, ETag, và Last-Modified `[Intermediate]`](#câu-1-http-caching-giải-thích-cache-control-headers-etag-và-last-modified-intermediate)
+- [Câu 2: So sánh localStorage, sessionStorage, và cookies. Khi nào dùng cái nào? `[Intermediate]`](#câu-2-so-sánh-localstorage-sessionstorage-và-cookies-khi-nào-dùng-cái-nào-intermediate)
+- [Câu 3: IndexedDB là gì? Khi nào nên dùng thay vì localStorage? `[Intermediate]`](#câu-3-indexeddb-là-gì-khi-nào-nên-dùng-thay-vì-localstorage-intermediate)
+- [Câu 4: Service Worker lifecycle -- install, activate, fetch. Giải thích caching strategies `[Senior]`](#câu-4-service-worker-lifecycle-install-activate-fetch-giải-thích-caching-strategies-senior)
+- [Câu 5: Cache API là gì? Khác gì HTTP cache? `[Senior]`](#câu-5-cache-api-là-gì-khác-gì-http-cache-senior)
+- [Câu 6: Offline-first patterns -- làm sao xây dựng app hoạt động khi mất mạng? `[Senior]`](#câu-6-offline-first-patterns-làm-sao-xây-dựng-app-hoạt-động-khi-mất-mạng-senior)
+- [Bảng so sánh storage options](#bảng-so-sánh-storage-options)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: HTTP Caching -- giải thích Cache-Control headers, ETag, và Last-Modified `[Intermediate]`
 
 ### Giải thích lý thuyết

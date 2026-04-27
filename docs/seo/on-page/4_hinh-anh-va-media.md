@@ -5,6 +5,23 @@ title: "4. Hình ảnh và media SEO"
 
 # Hình ảnh và media SEO
 
+## Mục lục
+
+- [Tại sao hình ảnh SEO quan trọng?](#tại-sao-hình-ảnh-seo-quan-trọng)
+- [Alt Text (Thuộc tính alt)](#alt-text-thuộc-tính-alt)
+- [Tên file hình ảnh](#tên-file-hình-ảnh)
+- [Định dạng hình ảnh hiện đại](#định-dạng-hình-ảnh-hiện-đại)
+- [Thẻ `<picture>` và Art Direction](#thẻ-picture-và-art-direction)
+- [Responsive Images voi srcset va sizes](#responsive-images-voi-srcset-va-sizes)
+- [Lazy Loading](#lazy-loading)
+- [next/image Component](#nextimage-component)
+- [Video SEO](#video-seo)
+- [Cumulative Layout Shift (CLS) và hình ảnh](#cumulative-layout-shift-cls-và-hình-ảnh)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Tại sao hình ảnh SEO quan trọng?
 
 Hình ảnh chiếm khoảng 50% dung lượng trang web trung bình. Tối ưu hình ảnh không chỉ giúp trang tải nhanh hơn (Core Web Vitals) mà còn giúp trang xuất hiện trên Google Images — nguồn traffic mà nhiều người bỏ qua.

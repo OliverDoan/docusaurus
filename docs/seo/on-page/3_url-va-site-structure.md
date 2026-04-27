@@ -5,6 +5,19 @@ title: "3. URL và cấu trúc trang"
 
 # URL và cấu trúc trang
 
+## Mục lục
+
+- [URL thân thiện với SEO](#url-thân-thiện-với-seo)
+- [Internal Linking (Liên kết nội bộ)](#internal-linking-liên-kết-nội-bộ)
+- [Breadcrumbs](#breadcrumbs)
+- [XML Sitemap](#xml-sitemap)
+- [Redirects: 301 vs 302](#redirects-301-vs-302)
+- [Cấu trúc trang SEO-friendly](#cấu-trúc-trang-seo-friendly)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## URL thân thiện với SEO
 
 URL là một trong những tín hiệu SEO đầu tiên mà Google nhìn thấy. Một URL tốt giúp cả người dùng và search engine hiểu nội dung trang trước khi click vào.

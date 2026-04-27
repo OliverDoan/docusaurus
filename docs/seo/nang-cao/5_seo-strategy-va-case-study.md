@@ -5,6 +5,20 @@ title: "5. Chiến lược SEO tổng thể"
 
 # Chiến lược SEO tổng thể — Audit, Roadmap và Case Studies
 
+## Mục lục
+
+- [Giới thiệu](#giới-thiệu)
+- [1. SEO Audit Checklist](#1-seo-audit-checklist)
+- [2. SEO Roadmap cho Website Mới](#2-seo-roadmap-cho-website-mới)
+- [3. Case Study 1: Tối ưu Next.js Landing Page từ Score 40 lên 95](#3-case-study-1-tối-ưu-nextjs-landing-page-từ-score-40-lên-95)
+- [4. Case Study 2: SPA sang SSR Migration — Ảnh hưởng Traffic](#4-case-study-2-spa-sang-ssr-migration-ảnh-hưởng-traffic)
+- [5. SEO cho Developer — Career Implications](#5-seo-cho-developer-career-implications)
+- [6. Tools và Resources cho Continuous Learning](#6-tools-và-resources-cho-continuous-learning)
+- [7. Lỗi thường gặp](#7-lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Giới thiệu
 
 Biết kỹ thuật SEO riêng lẻ là chưa đủ. Bạn cần biết cách kết hợp chúng thành một chiến lược tổng thể: audit hiện trạng, lập roadmap thực hiện, đo lường kết quả, và điều chỉnh liên tục. Bài này tổng hợp mọi thứ từ các bài trước thành framework hành động, kèm case studies thực tế để bạn thấy quá trình từ lý thuyết đến kết quả.

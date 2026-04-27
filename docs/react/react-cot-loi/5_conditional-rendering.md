@@ -5,6 +5,22 @@ title: "5. Render có điều kiện"
 
 # Render có điều kiện (Conditional Rendering)
 
+
+---
+
+## Mục lục
+
+- [if/else (Early return)](#ifelse-early-return)
+- [Ternary operator](#ternary-operator)
+- [Logical AND (&&)](#logical-and)
+- [Nullish coalescing (??)](#nullish-coalescing)
+- [Object mapping (thay switch)](#object-mapping-thay-switch)
+- [Render danh sách có điều kiện](#render-danh-sách-có-điều-kiện)
+- [Pattern: Component hiển thị theo điều kiện](#pattern-component-hiển-thị-theo-điều-kiện)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## if/else (Early return)
 
 Dùng khi muốn render hoàn toàn khác nhau:

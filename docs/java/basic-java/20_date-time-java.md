@@ -1,6 +1,6 @@
 ---
 sidebar_position: 20
-title: "20. Date title: "Date & Time trong Java" Time trong Java"
+title: "20. Date & Time trong Java"
 ---
 
 # Date & Time trong Java
@@ -10,6 +10,23 @@ title: "20. Date title: "Date & Time trong Java" Time trong Java"
 Hãy hình dung việc xử lý ngày giờ như việc **đọc đồng hồ**: API cũ (`Date`, `Calendar`) giống như một chiếc đồng hồ cũ kỹ, kim đang bị lỏng, khó đọc và hay sai. API mới (`java.time`) giống như đồng hồ thông minh - chính xác, dễ đọc, và có nhiều tính năng hữu ích.
 
 Bài này sẽ giúp bạn hiểu cả API cũ (để bảo trì code legacy) và API mới (để viết code mới chất lượng).
+
+---
+
+
+---
+
+## Mục lục
+
+- [1. API cũ: `Date` và `Calendar` (trước Java 8)](#1-api-cũ-date-và-calendar-trước-java-8)
+- [2. API mới: `java.time` (Java 8+)](#2-api-mới-javatime-java-8)
+- [3. DateTimeFormatter - Định dạng và parse ngày giờ](#3-datetimeformatter-định-dạng-và-parse-ngày-giờ)
+- [4. Period và Duration - Khoảng cách thời gian](#4-period-và-duration-khoảng-cách-thời-gian)
+- [5. So sánh và cộng trừ ngày giờ](#5-so-sánh-và-cộng-trừ-ngày-giờ)
+- [6. So sánh API cũ và API mới](#6-so-sánh-api-cũ-và-api-mới)
+- [Khi nào dùng?](#khi-nào-dùng)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 

@@ -9,6 +9,20 @@ Slash commands (`/command`) là các lệnh đặc biệt giúp bạn làm việ
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Các lệnh cơ bản](#1-các-lệnh-cơ-bản)
+- [2. Lệnh hay dùng nhất](#2-lệnh-hay-dùng-nhất)
+- [3. Phím tắt quan trọng](#3-phím-tắt-quan-trọng)
+- [4. Chạy Claude Code với options](#4-chạy-claude-code-với-options)
+- [5. Mention file với @](#5-mention-file-với)
+- [Tổng kết nhanh](#tổng-kết-nhanh)
+
+---
+
 ## 1. Các lệnh cơ bản
 
 | Lệnh | Chức năng |

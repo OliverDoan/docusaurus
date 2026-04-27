@@ -9,6 +9,22 @@ Responsive design và accessibility (a11y) là hai chủ đề mà interviewer d
 
 ---
 
+
+---
+
+## Mục lục
+
+- [Câu 1: Mobile-first vs Desktop-first approach -- khác nhau thế nào và tại sao mobile-first được ưu tiên? `[Intermediate]`](#câu-1-mobile-first-vs-desktop-first-approach-khác-nhau-thế-nào-và-tại-sao-mobile-first-được-ưu-tiên-intermediate)
+- [Câu 2: Giải thích sự khác nhau giữa các responsive units: rem, em, vw, vh, và hàm clamp() `[Intermediate]`](#câu-2-giải-thích-sự-khác-nhau-giữa-các-responsive-units-rem-em-vw-vh-và-hàm-clamp-intermediate)
+- [Câu 3: Media queries -- breakpoints phổ biến, min-width vs max-width, và container queries `[Intermediate]`](#câu-3-media-queries-breakpoints-phổ-biến-min-width-vs-max-width-và-container-queries-intermediate)
+- [Câu 4: Accessibility cơ bản -- semantic HTML, focus management, và tại sao nó quan trọng `[Intermediate]`](#câu-4-accessibility-cơ-bản-semantic-html-focus-management-và-tại-sao-nó-quan-trọng-intermediate)
+- [Câu 5: ARIA roles, states, và properties -- khi nào cần dùng, khi nào không? `[Senior]`](#câu-5-aria-roles-states-và-properties-khi-nào-cần-dùng-khi-nào-không-senior)
+- [Câu 6: Làm sao test accessibility? Kể tên các tool và phương pháp `[Senior]`](#câu-6-làm-sao-test-accessibility-kể-tên-các-tool-và-phương-pháp-senior)
+- [Bảng so sánh responsive units](#bảng-so-sánh-responsive-units)
+- [Lỗi thường gặp khi trả lời](#lỗi-thường-gặp-khi-trả-lời)
+
+---
+
 ## Câu 1: Mobile-first vs Desktop-first approach -- khác nhau thế nào và tại sao mobile-first được ưu tiên? `[Intermediate]`
 
 ### Giải thích lý thuyết

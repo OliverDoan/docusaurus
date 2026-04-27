@@ -1,9 +1,27 @@
 ---
 sidebar_position: 4
-title: "4. Server title: "Server & Client Components" Client Components"
+title: "4. Server & Client Components"
 ---
 
 # Server & Client Components
+
+
+---
+
+## Mục lục
+
+- [Tổng quan](#tổng-quan)
+- [Server Components là gì?](#server-components-là-gì)
+- [Client Components là gì?](#client-components-là-gì)
+- [Bảng so sánh: Server vs Client Components](#bảng-so-sánh-server-vs-client-components)
+- [Composition Patterns](#composition-patterns)
+- [Data Flow giữa Server và Client](#data-flow-giữa-server-và-client)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Quy tắc quyết định: Server hay Client?](#quy-tắc-quyết-định-server-hay-client)
+- [Tổng kết](#tổng-kết)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## Tổng quan
 

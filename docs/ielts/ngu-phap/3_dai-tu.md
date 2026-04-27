@@ -5,6 +5,26 @@ title: "3. Đại từ (Pronouns)"
 
 # Đại từ (Pronouns)
 
+
+---
+
+## Mục lục
+
+- [Định nghĩa](#định-nghĩa)
+- [Sơ đồ tổng quan](#sơ-đồ-tổng-quan)
+- [1. Subject Pronouns — Đại từ chủ ngữ](#1-subject-pronouns-đại-từ-chủ-ngữ)
+- [2. Object Pronouns — Đại từ tân ngữ](#2-object-pronouns-đại-từ-tân-ngữ)
+- [3. Possessive Adjectives — Tính từ sở hữu](#3-possessive-adjectives-tính-từ-sở-hữu)
+- [4. Possessive Pronouns — Đại từ sở hữu](#4-possessive-pronouns-đại-từ-sở-hữu)
+- [5. Reflexive Pronouns — Đại từ phản thân](#5-reflexive-pronouns-đại-từ-phản-thân)
+- [6. Demonstrative Pronouns — Đại từ chỉ định](#6-demonstrative-pronouns-đại-từ-chỉ-định)
+- [7. Interrogative Pronouns — Đại từ nghi vấn](#7-interrogative-pronouns-đại-từ-nghi-vấn)
+- [8. Indefinite Pronouns — Đại từ bất định](#8-indefinite-pronouns-đại-từ-bất-định)
+- [Bảng tổng hợp tất cả đại từ](#bảng-tổng-hợp-tất-cả-đại-từ)
+- [Bài tập](#bài-tập)
+
+---
+
 ## Định nghĩa
 
 > **Đại từ (Pronoun)** là từ được dùng để **thay thế cho danh từ** trong câu, tránh lặp lại danh từ.

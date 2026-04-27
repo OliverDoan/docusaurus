@@ -1,9 +1,20 @@
 ---
 sidebar_position: 2
-title: "2. WebSocket title: "WebSocket & Real-time" Real-time"
+title: "2. WebSocket & Real-time"
 ---
 
 # WebSocket & Real-time
+
+
+---
+
+## Mục lục
+
+- [Socket.IO](#socketio)
+- [Rooms](#rooms)
+- [Tóm tắt](#tóm-tắt)
+
+---
 
 ## Socket.IO
 

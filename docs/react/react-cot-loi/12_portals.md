@@ -5,6 +5,21 @@ title: "12. Portals"
 
 # Portals
 
+
+---
+
+## Mục lục
+
+- [Portal là gì?](#portal-là-gì)
+- [Tại sao cần Portal?](#tại-sao-cần-portal)
+- [Ví dụ: Modal](#ví-dụ-modal)
+- [Ví dụ: Tooltip](#ví-dụ-tooltip)
+- [Event Bubbling với Portal](#event-bubbling-với-portal)
+- [Các use case phổ biến](#các-use-case-phổ-biến)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Portal là gì?
 
 Portal cho phép render children vào một DOM node **nằm ngoài** parent component trong DOM tree. Component vẫn nằm trong React tree (nhận context, events bubble), nhưng DOM node nằm ở nơi khác.

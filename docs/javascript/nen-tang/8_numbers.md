@@ -1,9 +1,26 @@
 ---
 sidebar_position: 8
-title: "8. Số title: "Số & Math" Math"
+title: "8. Số & Math"
 ---
 
 # Số & Math
+
+
+---
+
+## Mục lục
+
+- [Number trong JavaScript là gì?](#number-trong-javascript-là-gì)
+- [Các giá trị Number đặc biệt](#các-giá-trị-number-đặc-biệt)
+- [Chuyển đổi sang Number](#chuyển-đổi-sang-number)
+- [Kiểm tra số](#kiểm-tra-số)
+- [Định dạng số](#định-dạng-số)
+- [Math Object](#math-object)
+- [Floating Point: 0.1 + 0.2 !== 0.3](#floating-point-01-02-03)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
 
 ## Number trong JavaScript là gì?
 

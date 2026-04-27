@@ -5,6 +5,19 @@ title: "2. Structured Data và Schema.org"
 
 # Structured Data và Schema.org
 
+## Mục lục
+
+- [Structured Data là gì?](#structured-data-là-gì)
+- [Schema.org là gì?](#schemaorg-là-gì)
+- [JSON-LD Cơ bản](#json-ld-cơ-bản)
+- [Các Schema Type phổ biến](#các-schema-type-phổ-biến)
+- [Triển khai JSON-LD trong Next.js](#triển-khai-json-ld-trong-nextjs)
+- [Kiểm tra Structured Data](#kiểm-tra-structured-data)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
 ## Structured Data là gì?
 
 Khi bạn đọc một trang web, bạn hiểu ngay đâu là tiêu đề, đâu là giá sản phẩm, đâu là đánh giá. Nhưng Google chỉ thấy một dòng HTML — nó không "hiểu" ngữ nghĩa của dữ liệu như con người.

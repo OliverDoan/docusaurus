@@ -9,6 +9,26 @@ Sau khi bạn làm việc trên một branch riêng và hoàn thành công việ
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. Merge là gì?](#1-merge-là-gì)
+- [2. Fast-forward merge](#2-fast-forward-merge)
+- [3. Three-way merge (3-way merge)](#3-three-way-merge-3-way-merge)
+- [4. Squash merge](#4-squash-merge)
+- [5. Hủy merge -- `--abort`](#5-hủy-merge-abort)
+- [6. So sánh các kiểu merge](#6-so-sánh-các-kiểu-merge)
+- [7. Merge strategies](#7-merge-strategies)
+- [8. Thực hành -- Trải nghiệm tất cả các kiểu merge](#8-thực-hành-trải-nghiệm-tất-cả-các-kiểu-merge)
+- [9. Best practices khi merge](#9-best-practices-khi-merge)
+- [10. Lỗi thường gặp](#10-lỗi-thường-gặp)
+- [11. Câu hỏi phỏng vấn](#11-câu-hỏi-phỏng-vấn)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
 ## 1. Merge là gì?
 
 Merge là quá trình **gộp các thay đổi từ branch này vào branch khác**. Thông thường, bạn merge branch tính năng (feature) vào branch chính (main).

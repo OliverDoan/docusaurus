@@ -9,6 +9,44 @@ GitHub là nền tảng phổ biến nhất thế giới để lưu trữ code v
 
 ---
 
+
+---
+
+## Mục lục
+
+- [1. GitHub là gì?](#1-github-là-gì)
+- [2. GitHub vs GitLab vs Bitbucket](#2-github-vs-gitlab-vs-bitbucket)
+- [3. Tạo Repository trên GitHub](#3-tạo-repository-trên-github)
+- [4. README.md — Bộ mặt của dự án](#4-readmemd-bộ-mặt-của-dự-án)
+- [Features](#features)
+- [Demo](#demo)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [5. Issues — Quản lý công việc](#5-issues-quản-lý-công-việc)
+- [Bug: Login form doesn't validate email](#bug-login-form-doesnt-validate-email)
+- [6. GitHub Projects — Kanban Board](#6-github-projects-kanban-board)
+- [7. GitHub Pages — Hosting miễn phí](#7-github-pages-hosting-miễn-phí)
+- [8. GitHub Actions — CI/CD Overview](#8-github-actions-cicd-overview)
+- [9. Settings quan trọng](#9-settings-quan-trọng)
+- [10. Thư mục `.github/` — Cấu hình dự án](#10-thư-mục-github-cấu-hình-dự-án)
+- [Describe the bug](#describe-the-bug)
+- [Steps to reproduce](#steps-to-reproduce)
+- [Expected behavior](#expected-behavior)
+- [Screenshots](#screenshots)
+- [Environment](#environment)
+- [Summary](#summary)
+- [Type of change](#type-of-change)
+- [Checklist](#checklist)
+- [Test plan](#test-plan)
+- [Screenshots (if applicable)](#screenshots-if-applicable)
+- [11. Lỗi thường gặp](#11-lỗi-thường-gặp)
+- [12. Câu hỏi phỏng vấn](#12-câu-hỏi-phỏng-vấn)
+
+---
+
 ## 1. GitHub là gì?
 
 **GitHub** = Git hosting + collaboration platform + social network cho developer.
