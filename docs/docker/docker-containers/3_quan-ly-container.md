@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "3. Quan ly Container"
+title: "3. Quản lý Container"
 ---
 
 # Quản lý Container

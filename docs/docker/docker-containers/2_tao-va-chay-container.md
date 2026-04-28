@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "2. Tao va chay Container"
+title: "2. Tạo và chạy Container"
 ---
 
 # Tạo và chạy Container

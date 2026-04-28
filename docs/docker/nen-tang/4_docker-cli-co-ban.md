@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "4. Docker CLI co ban"
+title: "4. Docker CLI cơ bản"
 ---
 
 # Docker CLI cơ bản

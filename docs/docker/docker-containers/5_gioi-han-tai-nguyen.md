@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "5. Gioi han tai nguyen Container"
+title: "5. Giới hạn tài nguyên Container"
 ---
 
 # Giới hạn tài nguyên Container

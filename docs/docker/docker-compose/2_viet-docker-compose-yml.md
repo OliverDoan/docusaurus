@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "2. Viet docker-compose.yml"
+title: "2. Viết docker-compose.yml"
 ---
 
 # Viết docker-compose.yml

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "2. Dockerfile co ban"
+title: "2. Dockerfile cơ bản"
 ---
 
 # Dockerfile cơ bản

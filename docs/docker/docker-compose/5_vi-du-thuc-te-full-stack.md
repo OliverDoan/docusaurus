@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "5. Vi du thuc te: Full-stack app"
+title: "5. Ví dụ thực tế: Full-stack app"
 ---
 
 # Ví dụ thực tế: Full-stack app

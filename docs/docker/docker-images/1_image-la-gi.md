@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "1. Docker Image la gi?"
+title: "1. Docker Image là gì?"
 ---
 
 # Docker Image là gì?

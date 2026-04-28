@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "5. Docker Hub va Registry"
+title: "5. Docker Hub và Registry"
 ---
 
 # Docker Hub và Registry

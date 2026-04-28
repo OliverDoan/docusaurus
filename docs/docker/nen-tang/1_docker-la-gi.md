@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "1. Docker la gi? Tai sao can Docker?"
+title: "1. Docker là gì? Tại sao cần Docker?"
 ---
 
 # Docker là gì? Tại sao cần Docker?

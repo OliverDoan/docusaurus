@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "4. Environment va bien moi truong"
+title: "4. Environment và biến môi trường"
 ---
 
 # Environment và biến môi trường

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "3. Kien truc Docker"
+title: "3. Kiến trúc Docker"
 ---
 
 # Kiến trúc Docker
