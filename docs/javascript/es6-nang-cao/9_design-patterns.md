@@ -15,6 +15,7 @@ title: "9. Design Patterns"
 - [Singleton Pattern](#singleton-pattern)
 - [Factory Pattern](#factory-pattern)
 - [Observer Pattern](#observer-pattern)
+- [Decorator Pattern](#decorator-pattern)
 - [Ứng dụng trong JavaScript/React](#ứng-dụng-trong-javascriptreact)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
@@ -412,6 +413,218 @@ cart.emit("itemAdded", { id: 1, name: "iPhone 16", stock: 10 });
 
 ---
 
+## Decorator Pattern
+
+**Decorator** thêm **hành vi mới** vào một object mà **không thay đổi object gốc**. Nó "bao quanh" (wrap) object gốc và mở rộng tính năng.
+
+> **Ví dụ thực tế:** Trang trí nhà — bạn có một căn nhà (object gốc), bạn có thể dán hình dán tường, treo tranh, đặt đèn (decorators) mà không phá hủy nhà. Mỗi trang trí thêm một tính năng mới nhưng nhà vẫn là nhà.
+
+### Cách 1: Function Wrapper
+
+```javascript
+// Object gốc
+function makeEspresso() {
+  return { name: "Espresso", gia: 20000 };
+}
+
+// Decorators — thêm tính năng
+function themSua(caphe) {
+  return {
+    ...caphe,
+    name: caphe.name + " + Sữa",
+    gia: caphe.gia + 5000
+  };
+}
+
+function themCaramel(caphe) {
+  return {
+    ...caphe,
+    name: caphe.name + " + Caramel",
+    gia: caphe.gia + 3000
+  };
+}
+
+function themChocolate(caphe) {
+  return {
+    ...caphe,
+    name: caphe.name + " + Chocolate",
+    gia: caphe.gia + 4000
+  };
+}
+
+// Áp dụng decorators — có thể kết hợp linh hoạt
+let caphe = makeEspresso();
+console.log(caphe); // { name: "Espresso", gia: 20000 }
+
+caphe = themSua(caphe);
+console.log(caphe); // { name: "Espresso + Sữa", gia: 25000 }
+
+caphe = themCaramel(caphe);
+console.log(caphe); // { name: "Espresso + Sữa + Caramel", gia: 28000 }
+
+caphe = themChocolate(caphe);
+console.log(caphe); // { name: "Espresso + Sữa + Caramel + Chocolate", gia: 32000 }
+```
+
+### Cách 2: Class Decorator (Higher-Order Function)
+
+```javascript
+// Class gốc
+class User {
+  constructor(name) {
+    this.name = name;
+  }
+
+  info() {
+    return `Người dùng: ${this.name}`;
+  }
+}
+
+// Decorator — thêm logging
+function withLogging(UserClass) {
+  return class extends UserClass {
+    info() {
+      console.log(`[LOG] Lấy thông tin user...`);
+      return super.info();
+    }
+  };
+}
+
+// Decorator — thêm caching
+function withCaching(UserClass) {
+  return class extends UserClass {
+    constructor(...args) {
+      super(...args);
+      this.cache = {};
+    }
+
+    info() {
+      if (this.cache.info) {
+        console.log(`[CACHE] Trả về từ cache`);
+        return this.cache.info;
+      }
+      const result = super.info();
+      this.cache.info = result;
+      return result;
+    }
+  };
+}
+
+// Áp dụng decorators — thứ tự quan trọng!
+const DecoratedUser = withLogging(withCaching(User));
+const user = new DecoratedUser("Minh");
+
+console.log(user.info()); // [LOG] Lấy thông tin user... → Người dùng: Minh
+console.log(user.info()); // [CACHE] Trả về từ cache → Người dùng: Minh
+```
+
+### Cách 3: Logging Decorator (use case thực tế)
+
+```javascript
+// Tạo decorator ghi log
+function logExecutionTime(fn, methodName) {
+  return function(...args) {
+    const start = Date.now();
+    const result = fn.apply(this, args);
+    const duration = Date.now() - start;
+    console.log(`[${methodName}] Thực thi mất ${duration}ms`);
+    return result;
+  };
+}
+
+class Calculator {
+  constructor() {
+    this.add = logExecutionTime(this.add, "add");
+    this.fibonacci = logExecutionTime(this.fibonacci, "fibonacci");
+  }
+
+  add(a, b) {
+    return a + b;
+  }
+
+  fibonacci(n) {
+    if (n <= 1) return n;
+    return this.fibonacci(n - 1) + this.fibonacci(n - 2);
+  }
+}
+
+const calc = new Calculator();
+console.log(calc.add(5, 3));       // [add] Thực thi mất 0ms → 8
+console.log(calc.fibonacci(10));   // [fibonacci] Thực thi mất 5ms → 55
+```
+
+### Cách 4: Permission/Validation Decorator
+
+```javascript
+// Decorator — kiểm tra quyền
+function requireAdmin(target, propertyKey, descriptor) {
+  const originalMethod = descriptor.value;
+
+  descriptor.value = function(userId, ...args) {
+    if (!this.isAdmin(userId)) {
+      throw new Error("❌ Không có quyền!");
+    }
+    console.log("✅ Kiểm tra quyền thành công");
+    return originalMethod.apply(this, [userId, ...args]);
+  };
+
+  return descriptor;
+}
+
+class Database {
+  constructor() {
+    this.admins = [1, 2]; // User 1 và 2 là admin
+  }
+
+  isAdmin(userId) {
+    return this.admins.includes(userId);
+  }
+
+  deleteUser(userId, targetId) {
+    console.log(`Đang xóa user ${targetId}...`);
+    return { success: true };
+  }
+
+  deleteAdmin(userId, adminId) {
+    // Có thể thêm @requireAdmin decorator ở đây
+    if (!this.isAdmin(userId)) {
+      throw new Error("❌ Không có quyền xóa admin!");
+    }
+    console.log(`Đang xóa admin ${adminId}...`);
+    return { success: true };
+  }
+}
+
+const db = new Database();
+
+// User 1 là admin → được phép
+db.deleteAdmin(1, 3); // ✅ Đang xóa admin 3...
+
+// User 5 không là admin → bị từ chối
+try {
+  db.deleteAdmin(5, 2); // ❌ Không có quyền xóa admin!
+} catch (error) {
+  console.error(error.message);
+}
+```
+
+### So sánh Decorator vs Inheritance
+
+```javascript
+// ❌ Inheritance — phải tạo class mới cho mỗi tổ hợp
+class BasicUser {}
+class LoggingUser extends BasicUser {}
+class CachingLoggingUser extends LoggingUser {}
+class CachingLoggingValidatingUser extends CachingLoggingUser {}
+// ... lâu dài, rigid
+
+// ✅ Decorator — linh hoạt, tổ hợp được
+const user = withValidation(withCaching(withLogging(BasicUser)));
+// Có thể thay đổi thứ tự, thêm/bớt bất cứ lúc nào
+```
+
+---
+
 ## Ứng dụng trong JavaScript/React
 
 ### Observer trong DOM Events
@@ -518,6 +731,116 @@ function useEventBus() {
   }, []);
 
   return { on, emit };
+}
+```
+
+### Decorator trong React — HOC (Higher-Order Component)
+
+```javascript
+// HOC = Decorator pattern trong React
+// Thêm tính năng vào component mà không thay đổi component gốc
+
+// Component gốc
+function UserCard({ user }) {
+  return (
+    <div className="card">
+      <h2>{user.name}</h2>
+      <p>{user.email}</p>
+    </div>
+  );
+}
+
+// Decorator HOC — thêm loading + error handling
+function withDataFetching(WrappedComponent) {
+  return function DataFetchingComponent({ userId, ...props }) {
+    const [data, setData] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
+    const [error, setError] = React.useState(null);
+
+    React.useEffect(() => {
+      fetch(`/api/users/${userId}`)
+        .then(res => res.json())
+        .then(data => {
+          setData(data);
+          setLoading(false);
+        })
+        .catch(err => {
+          setError(err.message);
+          setLoading(false);
+        });
+    }, [userId]);
+
+    if (loading) return <p>Đang tải...</p>;
+    if (error) return <p>Lỗi: {error}</p>;
+
+    return <WrappedComponent user={data} {...props} />;
+  };
+}
+
+// Decorator HOC — thêm theme
+function withTheme(WrappedComponent) {
+  return function ThemedComponent(props) {
+    const { theme } = useContext(ThemeContext);
+    return (
+      <div className={`theme-${theme}`}>
+        <WrappedComponent {...props} theme={theme} />
+      </div>
+    );
+  };
+}
+
+// Áp dụng nhiều decorators — tạo nên component cuối cùng
+const EnhancedUserCard = withTheme(withDataFetching(UserCard));
+
+// Sử dụng
+function App() {
+  return <EnhancedUserCard userId={1} />;
+}
+```
+
+### Decorator trong React — Custom Hook Wrapper
+
+```javascript
+// Custom hook = Decorator pattern
+function useLogger(hookName) {
+  React.useEffect(() => {
+    console.log(`[${hookName}] Component mounted`);
+    return () => console.log(`[${hookName}] Component unmounted`);
+  }, [hookName]);
+}
+
+function useAsync(fn, deps) {
+  const [data, setData] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    let isMounted = true;
+    fn().then(result => {
+      if (isMounted) {
+        setData(result);
+        setLoading(false);
+      }
+    });
+    return () => { isMounted = false; };
+  }, deps);
+
+  return { data, loading };
+}
+
+// Decorator — kết hợp hooks
+function useAsyncWithLogging(fn, deps, name) {
+  useLogger(name); // Ghi log mount/unmount
+  return useAsync(fn, deps); // Xử lý async
+}
+
+function MyComponent() {
+  const { data, loading } = useAsyncWithLogging(
+    () => fetch("/api/data").then(r => r.json()),
+    [],
+    "MyComponent"
+  );
+
+  return loading ? <p>Loading...</p> : <p>{data}</p>;
 }
 ```
 
