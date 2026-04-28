@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "2. Cai dat va cau hinh Git"
+title: "2. Cài đặt và cấu hình Git"
 ---
 
 # Cài đặt và cấu hình Git

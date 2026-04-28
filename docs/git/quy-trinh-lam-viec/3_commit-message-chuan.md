@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "3. Commit Message chuan — Conventional Commits"
+title: "3. Commit Message chuẩn — Conventional Commits"
 ---
 
 # Commit Message chuẩn — Conventional Commits

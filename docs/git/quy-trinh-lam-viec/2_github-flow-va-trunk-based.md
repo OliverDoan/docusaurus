@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "2. GitHub Flow va Trunk-Based Development"
+title: "2. GitHub Flow và Trunk-Based Development"
 ---
 
 # GitHub Flow và Trunk-Based Development

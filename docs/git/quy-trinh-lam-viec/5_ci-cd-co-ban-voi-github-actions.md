@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "5. CI/CD co ban voi GitHub Actions"
+title: "5. CI/CD cơ bản với GitHub Actions"
 ---
 
 # CI/CD cơ bản với GitHub Actions

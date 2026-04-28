@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "4. Tag va Release"
+title: "4. Tag và Release"
 ---
 
 # Tag và Release

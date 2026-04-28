@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "4. Cac lenh Git co ban"
+title: "4. Các lệnh Git cơ bản"
 ---
 
 # Các lệnh Git cơ bản
