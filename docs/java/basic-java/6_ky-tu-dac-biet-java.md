@@ -1,16 +1,15 @@
 ---
 sidebar_position: 6
-title: "6. Ky tu dac biet trong Java"
+title: "6. Ký tự đặc biệt trong Java"
 ---
 
-# Ky tu dac biet trong Java
+# Ký tự đặc biệt trong Java
 
 Trong Java, mot so ky tu khong the go truc tiep vao chuoi (String) hoac ky tu (char) -- vi du nhu dau xuong dong, tab, hoac dau nhay kep. De bieu dien chung, Java su dung **escape sequences** (chuoi thoat) -- bat dau bang dau gach cheo nguoc `\`.
 
 **Vi du don gian:** Hay tuong tuong ban dang viet thu va muon **xuong dong** hoac **tab** -- ban khong the chi "nhan Enter" trong code vi Java se hieu sai. Thay vao do, ban dung **ky hieu dac biet** nhu `\n` (xuong dong) hoac `\t` (tab) de "ra lenh" cho may tinh.
 
 ---
-
 
 ---
 
@@ -28,18 +27,18 @@ Trong Java, mot so ky tu khong the go truc tiep vao chuoi (String) hoac ky tu (c
 
 ## 1. Bang ky tu dac biet (Escape Sequences)
 
-| Ky tu thoat | Ten goi | Mo ta | Ma Unicode |
-|-------------|---------|-------|-----------|
-| `\n` | Newline | Xuong dong moi | U+000A |
-| `\t` | Tab | Chen khoang trang tab (thuong 4-8 ky tu) | U+0009 |
-| `\r` | Carriage Return | Dua con tro ve dau dong | U+000D |
-| `\\` | Backslash | In dau gach cheo nguoc `\` | U+005C |
-| `\"` | Double Quote | In dau nhay kep `"` | U+0022 |
-| `\'` | Single Quote | In dau nhay don `'` | U+0027 |
-| `\b` | Backspace | Xoa lui mot ky tu | U+0008 |
-| `\f` | Form Feed | Day sang trang moi (dung trong in an) | U+000C |
-| `\0` | Null Character | Ky tu null | U+0000 |
-| `\uXXXX` | Unicode | Ky tu Unicode (XXXX la ma hex 4 chu so) | Tuy theo ma |
+| Ky tu thoat | Ten goi         | Mo ta                                    | Ma Unicode  |
+| ----------- | --------------- | ---------------------------------------- | ----------- |
+| `\n`        | Newline         | Xuong dong moi                           | U+000A      |
+| `\t`        | Tab             | Chen khoang trang tab (thuong 4-8 ky tu) | U+0009      |
+| `\r`        | Carriage Return | Dua con tro ve dau dong                  | U+000D      |
+| `\\`        | Backslash       | In dau gach cheo nguoc `\`               | U+005C      |
+| `\"`        | Double Quote    | In dau nhay kep `"`                      | U+0022      |
+| `\'`        | Single Quote    | In dau nhay don `'`                      | U+0027      |
+| `\b`        | Backspace       | Xoa lui mot ky tu                        | U+0008      |
+| `\f`        | Form Feed       | Day sang trang moi (dung trong in an)    | U+000C      |
+| `\0`        | Null Character  | Ky tu null                               | U+0000      |
+| `\uXXXX`    | Unicode         | Ky tu Unicode (XXXX la ma hex 4 chu so)  | Tuy theo ma |
 
 ---
 
@@ -374,18 +373,19 @@ public class TextBlockDemo {
 
 ## Khi nao dung?
 
-| Escape sequence | Khi nao dung |
-|-----------------|-------------|
-| `\n` | Format output nhieu dong, ghi file text, log message |
-| `\t` | Tao bang, can chinh cot, format output gon gang |
-| `\\` | Duong dan file Windows, regex pattern, JSON |
-| `\"` | In chuoi chua dau nhay kep, tao JSON/HTML/XML |
-| `\'` | Khai bao char la dau nhay don |
-| `\r\n` | Xu ly file text tren Windows (CRLF) |
-| `\uXXXX` | Ky tu dac biet, bieu tuong, ho tro da ngon ngu |
+| Escape sequence    | Khi nao dung                                          |
+| ------------------ | ----------------------------------------------------- |
+| `\n`               | Format output nhieu dong, ghi file text, log message  |
+| `\t`               | Tao bang, can chinh cot, format output gon gang       |
+| `\\`               | Duong dan file Windows, regex pattern, JSON           |
+| `\"`               | In chuoi chua dau nhay kep, tao JSON/HTML/XML         |
+| `\'`               | Khai bao char la dau nhay don                         |
+| `\r\n`             | Xu ly file text tren Windows (CRLF)                   |
+| `\uXXXX`           | Ky tu dac biet, bieu tuong, ho tro da ngon ngu        |
 | Text Block (`"""`) | Chuoi nhieu dong phuc tap (Java 13+): JSON, SQL, HTML |
 
 **Best practice:**
+
 - Uu tien **Text Block** (Java 13+) cho chuoi nhieu dong thay vi noi nhieu `\n`
 - Dung `System.lineSeparator()` thay vi `\n` khi can tuong thich da nen tang
 - Dung `java.io.File.separator` thay vi `\\` cho duong dan file
@@ -458,6 +458,7 @@ boolean match = "123".matches("\\d+");
 ### Cau 2: Lam sao in dau nhay kep ben trong String?
 
 **Tra loi:** Co 3 cach:
+
 1. **Escape bang `\"`:** `System.out.println("Noi \"Xin chao\"");`
 2. **Text Block (Java 13+):** Dung `"""` khong can escape dau nhay kep don le
 3. **Unicode:** `System.out.println("Noi \u0022Xin chao\u0022");` (it dung vi kho doc)
@@ -471,6 +472,7 @@ Cach 1 la pho bien nhat. Cach 2 duoc khuyen nghi khi lam viec voi chuoi nhieu do
 ### Cau 4: Su khac biet giua `\n` va `System.lineSeparator()`?
 
 **Tra loi:**
+
 - `\n` luon la ky tu **Line Feed (LF)**, bat ke he dieu hanh
 - `System.lineSeparator()` tra ve ky tu xuong dong **dung cua OS hien tai**: `\n` tren Linux/macOS, `\r\n` tren Windows
 - Khi ghi file hoac xu ly text can tuong thich da nen tang, nen dung `System.lineSeparator()`. Khi chi in ra console, `\n` la du.
