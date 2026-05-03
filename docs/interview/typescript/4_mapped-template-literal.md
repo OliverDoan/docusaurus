@@ -9,9 +9,6 @@ Mapped types và template literal types là hai tính năng nâng cao cho phép 
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: Mapped types hoạt động như thế nào? `[Senior]`](#câu-1-mapped-types-hoạt-động-như-thế-nào-senior)
@@ -113,6 +110,7 @@ type UserStringFields = StringKeysOnly<User>;
 ### Giải thích lý thuyết
 
 Mapped types có thể **thêm (+)** hoặc **loại bỏ (-)** hai modifiers:
+
 - **`readonly`** / **`-readonly`**: Thêm hoặc loại bỏ readonly
 - **`?`** / **`-?`**: Thêm hoặc loại bỏ optional
 
@@ -207,8 +205,8 @@ Khi kết hợp với union types, template literal types tự động tạo ra 
 // === TEMPLATE LITERAL CƠ BẢN ===
 type Greeting = `Hello, ${string}`;
 
-const a: Greeting = "Hello, World";  // OK
-const b: Greeting = "Hello, Thuan";  // OK
+const a: Greeting = "Hello, World"; // OK
+const b: Greeting = "Hello, Thuan"; // OK
 // const c: Greeting = "Hi, World";  // Error: không bắt đầu bằng "Hello, "
 
 // === KẾT HỢP VỚI UNION -- TẠO TỔ HỢP ===
@@ -225,8 +223,8 @@ type ColorSize = `${Color}-${Size}`;
 type CSSUnit = "px" | "rem" | "em" | "vh" | "vw" | "%";
 type CSSValue = `${number}${CSSUnit}`;
 
-const padding: CSSValue = "16px";    // OK
-const margin: CSSValue = "1.5rem";   // OK
+const padding: CSSValue = "16px"; // OK
+const margin: CSSValue = "1.5rem"; // OK
 // const wrong: CSSValue = "16";     // Error: thiếu unit
 
 // === EVENT NAMES ===
@@ -235,10 +233,10 @@ type EventHandler = `on${Capitalize<DomEvent>}`;
 // "onClick" | "onFocus" | "onBlur" | "onChange"
 
 // === INTRINSIC STRING MANIPULATION TYPES ===
-type Upper = Uppercase<"hello">;     // "HELLO"
-type Lower = Lowercase<"HELLO">;     // "hello"
-type Cap = Capitalize<"hello">;      // "Hello"
-type Uncap = Uncapitalize<"Hello">;  // "hello"
+type Upper = Uppercase<"hello">; // "HELLO"
+type Lower = Lowercase<"HELLO">; // "hello"
+type Cap = Capitalize<"hello">; // "Hello"
+type Uncap = Uncapitalize<"Hello">; // "hello"
 
 // === THỰC TẾ: API ENDPOINTS ===
 type Resource = "users" | "posts" | "comments";
@@ -321,7 +319,7 @@ type UserSetters = Setters<User>;
 type EventHandlers<T> = {
   [K in keyof T as `on${Capitalize<string & K>}Change`]: (
     newValue: T[K],
-    oldValue: T[K]
+    oldValue: T[K],
   ) => void;
 };
 
@@ -343,11 +341,10 @@ type UserStrings = StringProps<User>;
 // age bị loại vì number không extends string
 
 // === REMOVE PREFIX ===
-type RemovePrefix<
-  T,
-  Prefix extends string
-> = {
-  [K in keyof T as K extends `${Prefix}${infer Rest}` ? Uncapitalize<Rest> : K]: T[K];
+type RemovePrefix<T, Prefix extends string> = {
+  [K in keyof T as K extends `${Prefix}${infer Rest}`
+    ? Uncapitalize<Rest>
+    : K]: T[K];
 };
 
 interface ApiUser {
@@ -362,7 +359,7 @@ type CleanUser = RemovePrefix<ApiUser, "user">;
 // === THỰC TẾ: FORM VALIDATION ===
 type FormValidators<T> = {
   [K in keyof T as `validate${Capitalize<string & K>}`]: (
-    value: T[K]
+    value: T[K],
   ) => string | null;
 };
 
@@ -418,9 +415,7 @@ const validJson: JsonValue = {
 
 // === DEEP PARTIAL ===
 type DeepPartial<T> = {
-  [K in keyof T]?: T[K] extends object
-    ? DeepPartial<T[K]>
-    : T[K];
+  [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K];
 };
 
 interface Config {
@@ -455,9 +450,7 @@ const partialConfig: DeepPartialConfig = {
 
 // === DEEP READONLY ===
 type DeepReadonly<T> = {
-  readonly [K in keyof T]: T[K] extends object
-    ? DeepReadonly<T[K]>
-    : T[K];
+  readonly [K in keyof T]: T[K] extends object ? DeepReadonly<T[K]> : T[K];
 };
 
 type FrozenConfig = DeepReadonly<Config>;
@@ -564,7 +557,7 @@ type ApiClient = {
       ? (
           options: (P extends undefined ? {} : { params: P }) &
             (Q extends undefined ? {} : { query: Q }) &
-            (B extends undefined ? {} : { body: B })
+            (B extends undefined ? {} : { body: B }),
         ) => Promise<R>
       : never;
   };
@@ -603,8 +596,7 @@ const loginRules: ValidationRules<LoginForm> = {
     required: true,
     minLength: 8,
     maxLength: 100,
-    validate: (value) =>
-      /[A-Z]/.test(value) ? null : "Cần ít nhất 1 chữ hoa",
+    validate: (value) => (/[A-Z]/.test(value) ? null : "Cần ít nhất 1 chữ hoa"),
   },
   rememberMe: {
     required: false,

@@ -9,9 +9,6 @@ Git Flow mạnh mẽ nhưng phức tạp. Nhiều team — đặc biệt những
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. GitHub Flow](#1-github-flow)
@@ -89,6 +86,7 @@ git push -u origin feature/add-search-bar
 ```
 
 Trên GitHub, tạo Pull Request (PR) với:
+
 - **Title** ngắn gọn, rõ ý
 - **Description** mô tả thay đổi, tại sao, cách test
 - **Reviewers** — chỉ định người review
@@ -139,11 +137,11 @@ git push origin --delete feature/add-search-bar
 
 Khi merge PR trên GitHub, bạn có 3 lựa chọn:
 
-| Kiểu Merge | Cách hoạt động | Khi nào dùng |
-|------------|---------------|--------------|
-| **Merge commit** | Tạo merge commit, giữ tất cả commits | Muốn giữ lịch sử đầy đủ |
-| **Squash and merge** | Gộp tất cả commits thành 1 | Feature nhỏ, muốn lịch sử gọn |
-| **Rebase and merge** | Đặt lại commits lên đầu main | Muốn lịch sử tuyến tính, không merge commit |
+| Kiểu Merge           | Cách hoạt động                       | Khi nào dùng                                |
+| -------------------- | ------------------------------------ | ------------------------------------------- |
+| **Merge commit**     | Tạo merge commit, giữ tất cả commits | Muốn giữ lịch sử đầy đủ                     |
+| **Squash and merge** | Gộp tất cả commits thành 1           | Feature nhỏ, muốn lịch sử gọn               |
+| **Rebase and merge** | Đặt lại commits lên đầu main         | Muốn lịch sử tuyến tính, không merge commit |
 
 ```bash
 # Squash merge — phổ biến nhất trong GitHub Flow
@@ -157,22 +155,22 @@ git commit -m "feat: add search bar with debounce (#42)"
 
 **Ưu điểm:**
 
-| Ưu điểm | Chi tiết |
-|---------|---------|
-| **Cực kỳ đơn giản** | Chỉ 1 nhánh chính, 1 loại branch phụ |
-| **CI/CD friendly** | Merge = deploy, phù hợp continuous deployment |
-| **Code review tốt** | Mọi thay đổi đều qua PR review |
-| **Linh hoạt** | Không giới hạn tên branch, không quy tắc phức tạp |
-| **Nhanh** | Ít bước, ít ceremony, ship nhanh |
+| Ưu điểm             | Chi tiết                                          |
+| ------------------- | ------------------------------------------------- |
+| **Cực kỳ đơn giản** | Chỉ 1 nhánh chính, 1 loại branch phụ              |
+| **CI/CD friendly**  | Merge = deploy, phù hợp continuous deployment     |
+| **Code review tốt** | Mọi thay đổi đều qua PR review                    |
+| **Linh hoạt**       | Không giới hạn tên branch, không quy tắc phức tạp |
+| **Nhanh**           | Ít bước, ít ceremony, ship nhanh                  |
 
 **Nhược điểm:**
 
-| Nhược điểm | Chi tiết |
-|------------|---------|
-| **Không hỗ trợ nhiều version** | Chỉ 1 nhánh main, không có develop/release |
-| **Cần CI/CD tốt** | Nếu không có CI, code lỗi có thể lên production |
-| **Không có staging riêng** | Không có release branch để test trước |
-| **Khó rollback** | Nếu deploy lỗi, phải fix forward hoặc revert commit |
+| Nhược điểm                     | Chi tiết                                            |
+| ------------------------------ | --------------------------------------------------- |
+| **Không hỗ trợ nhiều version** | Chỉ 1 nhánh main, không có develop/release          |
+| **Cần CI/CD tốt**              | Nếu không có CI, code lỗi có thể lên production     |
+| **Không có staging riêng**     | Không có release branch để test trước               |
+| **Khó rollback**               | Nếu deploy lỗi, phải fix forward hoặc revert commit |
 
 ---
 
@@ -265,18 +263,18 @@ Trong TBD, code chưa hoàn thành vẫn merge vào main. Nhưng bạn không mu
 ```javascript
 // Ví dụ Feature Flag đơn giản
 const FEATURE_FLAGS = {
-  NEW_SEARCH: false,       // Đang phát triển, chưa bật
-  DARK_MODE: true,         // Đã hoàn thành, bật cho tất cả
-  PREMIUM_PLAN: 'beta',    // Chỉ bật cho beta users
+  NEW_SEARCH: false, // Đang phát triển, chưa bật
+  DARK_MODE: true, // Đã hoàn thành, bật cho tất cả
+  PREMIUM_PLAN: "beta", // Chỉ bật cho beta users
 };
 
 // Sử dụng trong code
 function SearchBar() {
   // Kiểm tra flag trước khi hiển thị
   if (!FEATURE_FLAGS.NEW_SEARCH) {
-    return <OldSearchBar />;  // User thấy version cũ
+    return <OldSearchBar />; // User thấy version cũ
   }
-  return <NewSearchBar />;    // Chỉ developer/tester thấy
+  return <NewSearchBar />; // Chỉ developer/tester thấy
 }
 ```
 
@@ -292,33 +290,33 @@ function getFeatureFlag(flagName, userId) {
   if (flag === true) return true;
 
   // Bật cho 1 nhóm cụ thể
-  if (flag === 'beta') {
+  if (flag === "beta") {
     return betaUsers.includes(userId);
   }
 
   // Bật theo tỷ lệ (canary release)
-  if (typeof flag === 'number') {
-    return (hashUserId(userId) % 100) < flag;  // flag = 10 → 10% user
+  if (typeof flag === "number") {
+    return hashUserId(userId) % 100 < flag; // flag = 10 → 10% user
   }
 
   return false;
 }
 
 // Sử dụng
-if (getFeatureFlag('NEW_CHECKOUT', currentUser.id)) {
+if (getFeatureFlag("NEW_CHECKOUT", currentUser.id)) {
   // Hiển thị checkout mới
 }
 ```
 
 **Các công cụ Feature Flag phổ biến:**
 
-| Tool | Miễn phí? | Phù hợp |
-|------|-----------|---------|
-| **LaunchDarkly** | Có free tier | Enterprise, nhiều tính năng |
-| **Unleash** | Open source | Self-hosted, team trung bình |
-| **Flagsmith** | Open source | Self-hosted hoặc cloud |
-| **Environment variables** | Miễn phí | Dự án nhỏ, đơn giản |
-| **Config file** | Miễn phí | MVP, prototype |
+| Tool                      | Miễn phí?    | Phù hợp                      |
+| ------------------------- | ------------ | ---------------------------- |
+| **LaunchDarkly**          | Có free tier | Enterprise, nhiều tính năng  |
+| **Unleash**               | Open source  | Self-hosted, team trung bình |
+| **Flagsmith**             | Open source  | Self-hosted hoặc cloud       |
+| **Environment variables** | Miễn phí     | Dự án nhỏ, đơn giản          |
+| **Config file**           | Miễn phí     | MVP, prototype               |
 
 ### 2.5. Yêu cầu để áp dụng TBD
 
@@ -340,23 +338,23 @@ if (getFeatureFlag('NEW_CHECKOUT', currentUser.id)) {
 
 **Ưu điểm:**
 
-| Ưu điểm | Chi tiết |
-|---------|---------|
-| **Không merge conflict** | Không có long-lived branch -> không drift |
-| **CI liên tục** | Mọi commit được test ngay |
-| **Deploy nhanh** | Main luôn sẵn sàng deploy |
-| **Đơn giản** | Không cần nhớ quy trình phức tạp |
-| **Google, Facebook dùng** | Đã chứng minh hiệu quả ở quy mô lớn |
+| Ưu điểm                   | Chi tiết                                  |
+| ------------------------- | ----------------------------------------- |
+| **Không merge conflict**  | Không có long-lived branch -> không drift |
+| **CI liên tục**           | Mọi commit được test ngay                 |
+| **Deploy nhanh**          | Main luôn sẵn sàng deploy                 |
+| **Đơn giản**              | Không cần nhớ quy trình phức tạp          |
+| **Google, Facebook dùng** | Đã chứng minh hiệu quả ở quy mô lớn       |
 
 **Nhược điểm:**
 
-| Nhược điểm | Chi tiết |
-|------------|---------|
-| **Yêu cầu CI/CD hoàn chỉnh** | Không có CI -> disaster |
-| **Cần Feature Flags** | Thêm độ phức tạp (flag debt) |
-| **Khó cho team mới** | Junior developer có thể push code lỗi |
-| **Cần review nhanh** | Nếu review chậm -> block pipeline |
-| **Không hỗ trợ nhiều version** | Chỉ có 1 nhánh duy nhất |
+| Nhược điểm                     | Chi tiết                              |
+| ------------------------------ | ------------------------------------- |
+| **Yêu cầu CI/CD hoàn chỉnh**   | Không có CI -> disaster               |
+| **Cần Feature Flags**          | Thêm độ phức tạp (flag debt)          |
+| **Khó cho team mới**           | Junior developer có thể push code lỗi |
+| **Cần review nhanh**           | Nếu review chậm -> block pipeline     |
+| **Không hỗ trợ nhiều version** | Chỉ có 1 nhánh duy nhất               |
 
 ---
 
@@ -364,19 +362,19 @@ if (getFeatureFlag('NEW_CHECKOUT', currentUser.id)) {
 
 ### 3.1. Bảng so sánh tổng hợp
 
-| Tiêu chí | Git Flow | GitHub Flow | Trunk-Based |
-|----------|----------|-------------|-------------|
-| **Số nhánh** | 5 loại | 2 (main + feature) | 1 (main) |
-| **Độ phức tạp** | Cao | Thấp | Rất thấp |
-| **Phù hợp team** | Lớn (>10) | Trung bình (3-15) | Mọi kích cỡ |
-| **Release cycle** | Scheduled (2-4 tuần) | Bất kỳ lúc nào | Liên tục (nhiều lần/ngày) |
-| **CI/CD yêu cầu** | Thấp | Trung bình | Rất cao |
-| **Feature branches** | Long-lived | Medium (vài ngày) | Không hoặc < 1 ngày |
-| **Version support** | Nhiều version | 1 version | 1 version |
-| **Merge conflicts** | Nhiều | Ít | Rất ít |
-| **Learning curve** | Khó | Dễ | Dễ (nhưng cần kỷ luật) |
-| **Deploy frequency** | Thấp | Trung bình-cao | Rất cao |
-| **Rollback** | Hotfix branch | Revert commit | Tắt feature flag |
+| Tiêu chí             | Git Flow             | GitHub Flow        | Trunk-Based               |
+| -------------------- | -------------------- | ------------------ | ------------------------- |
+| **Số nhánh**         | 5 loại               | 2 (main + feature) | 1 (main)                  |
+| **Độ phức tạp**      | Cao                  | Thấp               | Rất thấp                  |
+| **Phù hợp team**     | Lớn (>10)            | Trung bình (3-15)  | Mọi kích cỡ               |
+| **Release cycle**    | Scheduled (2-4 tuần) | Bất kỳ lúc nào     | Liên tục (nhiều lần/ngày) |
+| **CI/CD yêu cầu**    | Thấp                 | Trung bình         | Rất cao                   |
+| **Feature branches** | Long-lived           | Medium (vài ngày)  | Không hoặc < 1 ngày       |
+| **Version support**  | Nhiều version        | 1 version          | 1 version                 |
+| **Merge conflicts**  | Nhiều                | Ít                 | Rất ít                    |
+| **Learning curve**   | Khó                  | Dễ                 | Dễ (nhưng cần kỷ luật)    |
+| **Deploy frequency** | Thấp                 | Trung bình-cao     | Rất cao                   |
+| **Rollback**         | Hotfix branch        | Revert commit      | Tắt feature flag          |
 
 ### 3.2. Chọn mô hình nào?
 
@@ -417,15 +415,15 @@ if (getFeatureFlag('NEW_CHECKOUT', currentUser.id)) {
 
 ### 3.3. Real-world examples
 
-| Công ty | Mô hình | Lý do |
-|---------|---------|-------|
-| **Google** | Trunk-Based | Monorepo khổng lồ, CI cực mạnh, deploy liên tục |
-| **Facebook** | Trunk-Based | Như Google, dùng Feature Flags nhiều |
-| **Netflix** | Trunk-Based | Microservices, deploy độc lập từng service |
-| **GitHub** | GitHub Flow | "Dogfooding" — dùng chính sản phẩm của mình |
-| **Linux Kernel** | Giống Git Flow | Release versioned, nhiều maintainer |
-| **React (open source)** | GitHub Flow | Open source, PR-driven development |
-| **Enterprise banks** | Git Flow | Compliance, audit trail, scheduled release |
+| Công ty                 | Mô hình        | Lý do                                           |
+| ----------------------- | -------------- | ----------------------------------------------- |
+| **Google**              | Trunk-Based    | Monorepo khổng lồ, CI cực mạnh, deploy liên tục |
+| **Facebook**            | Trunk-Based    | Như Google, dùng Feature Flags nhiều            |
+| **Netflix**             | Trunk-Based    | Microservices, deploy độc lập từng service      |
+| **GitHub**              | GitHub Flow    | "Dogfooding" — dùng chính sản phẩm của mình     |
+| **Linux Kernel**        | Giống Git Flow | Release versioned, nhiều maintainer             |
+| **React (open source)** | GitHub Flow    | Open source, PR-driven development              |
+| **Enterprise banks**    | Git Flow       | Compliance, audit trail, scheduled release      |
 
 ---
 
@@ -474,10 +472,11 @@ if (getFeatureFlag('NEW_CHECKOUT', currentUser.id)) {
 // Feature Flag tồn tại mãi mãi → code trở nên khó hiểu
 
 // SAI: Flag từ 2 năm trước vẫn còn
-if (FEATURE_FLAGS.NEW_SEARCH_V2) {  // Flag này từ 2022!
+if (FEATURE_FLAGS.NEW_SEARCH_V2) {
+  // Flag này từ 2022!
   return <NewSearch />;
 }
-return <OldSearch />;  // Code này không bao giờ chạy nữa
+return <OldSearch />; // Code này không bao giờ chạy nữa
 
 // ĐÚNG: Dọn dẹp flag sau khi feature ổn định (2-4 tuần)
 // Xóa flag, xóa code cũ, chỉ giữ code mới

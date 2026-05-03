@@ -9,9 +9,6 @@ Performance optimization trong React là chủ đề "senior-level" -- không ph
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: React.memo -- khi nào dùng, khi nào không nên dùng? `[Intermediate]`](#câu-1-reactmemo-khi-nào-dùng-khi-nào-không-nên-dùng-intermediate)
@@ -32,11 +29,13 @@ Performance optimization trong React là chủ đề "senior-level" -- không ph
 `React.memo` là HOC bọc quanh function component. Nó **skip re-render** nếu props không thay đổi (shallow comparison mặc định).
 
 **Khi nào dùng:**
+
 - Component render nặng (nhiều DOM elements, tính toán phức tạp)
 - Component nhận cùng props từ parent render thường xuyên
 - Component ở sâu trong tree nhưng parent re-render nhiều
 
 **Khi nào KHÔNG dùng:**
+
 - Component re-render nhanh (đơn giản, ít DOM)
 - Props thay đổi gần như mỗi lần render
 - Premature optimization -- memo có overhead riêng (so sánh props)
@@ -46,7 +45,7 @@ Performance optimization trong React là chủ đề "senior-level" -- không ph
 ### Code ví dụ
 
 ```tsx
-import { memo, useState, useCallback, useMemo } from 'react';
+import { memo, useState, useCallback, useMemo } from "react";
 
 // Component nặng -- nên memo
 const ExpensiveChart = memo(function ExpensiveChart({
@@ -56,7 +55,7 @@ const ExpensiveChart = memo(function ExpensiveChart({
   data: number[];
   onSelect: (index: number) => void;
 }) {
-  console.log('Chart rendered!');
+  console.log("Chart rendered!");
   // Giả sử: render SVG phức tạp với 10,000 điểm
   return (
     <svg width={800} height={400}>
@@ -93,9 +92,7 @@ function Dashboard() {
   return (
     <div>
       {/* Click button này KHÔNG re-render chart (nhờ memo + stable props) */}
-      <button onClick={() => setCount(c => c + 1)}>
-        Count: {count}
-      </button>
+      <button onClick={() => setCount((c) => c + 1)}>Count: {count}</button>
 
       <p>Selected: {selectedIndex}</p>
 
@@ -116,7 +113,7 @@ const UserCard = memo(
     );
   },
   // Chỉ re-render khi user.id thay đổi (bỏ qua các field khác)
-  (prevProps, nextProps) => prevProps.user.id === nextProps.user.id
+  (prevProps, nextProps) => prevProps.user.id === nextProps.user.id,
 );
 ```
 
@@ -133,17 +130,20 @@ const UserCard = memo(
 **Nguyên tắc vàng**: Đo trước, optimize sau.
 
 `useMemo` và `useCallback` có **overhead riêng**:
+
 - Lưu function/value trong memory
 - So sánh dependencies mỗi render
 - Tăng độ phức tạp code
 
 **Chỉ dùng khi:**
+
 1. Kết hợp với `React.memo` (đảm bảo props stable)
 2. Tính toán thực sự nặng (>1ms) -- sort/filter danh sách lớn
 3. Value/function được dùng làm dependency của hook khác
 4. Tạo context value (tránh re-render tất cả consumers)
 
 **KHÔNG dùng khi:**
+
 - Phép tính đơn giản (số học, string concat)
 - Component không dùng memo
 - "Phải memo mọi thứ" mentality
@@ -151,7 +151,7 @@ const UserCard = memo(
 ### Code ví dụ
 
 ```tsx
-import { useState, useMemo, useCallback, memo } from 'react';
+import { useState, useMemo, useCallback, memo } from "react";
 
 // --- KHI NÊN DÙNG ---
 
@@ -160,7 +160,7 @@ function SearchResults({ items, query }: { items: Item[]; query: string }) {
   // DÙNG: filter 100,000 items là nặng
   const filtered = useMemo(() => {
     return items
-      .filter(item => item.name.toLowerCase().includes(query.toLowerCase()))
+      .filter((item) => item.name.toLowerCase().includes(query.toLowerCase()))
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [items, query]);
 
@@ -169,7 +169,7 @@ function SearchResults({ items, query }: { items: Item[]; query: string }) {
 
 // 2. Stable reference cho memo child
 const MemoChild = memo(({ onClick }: { onClick: () => void }) => {
-  console.log('MemoChild rendered');
+  console.log("MemoChild rendered");
   return <button onClick={onClick}>Click</button>;
 });
 
@@ -178,13 +178,13 @@ function Parent() {
 
   // DÙNG: MemoChild là memo, cần stable function reference
   const handleClick = useCallback(() => {
-    console.log('clicked');
+    console.log("clicked");
   }, []);
 
   return (
     <div>
       <p>{count}</p>
-      <button onClick={() => setCount(c => c + 1)}>+</button>
+      <button onClick={() => setCount((c) => c + 1)}>+</button>
       <MemoChild onClick={handleClick} />
     </div>
   );
@@ -192,15 +192,13 @@ function Parent() {
 
 // 3. Context value
 function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState("light");
 
   // DÙNG: tránh tất cả consumers re-render mỗi lần provider render
   const value = useMemo(() => ({ theme, setTheme }), [theme]);
 
   return (
-    <ThemeContext.Provider value={value}>
-      {children}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 }
 
@@ -213,7 +211,7 @@ function SimpleComponent({ name }: { name: string }) {
 
   // KHÔNG CẦN: child không dùng memo
   // const handleClick = useCallback(() => alert('hi'), []);
-  const handleClick = () => alert('hi'); // OK vì child không memo
+  const handleClick = () => alert("hi"); // OK vì child không memo
 
   return (
     <div>
@@ -241,6 +239,7 @@ function SimpleComponent({ name }: { name: string }) {
 **Suspense**: wrapper hiện thị fallback UI trong khi component đang load.
 
 **Khi nào dùng:**
+
 - Routes -- mỗi page là 1 chunk
 - Components lớn (editor, chart library)
 - Features ít dùng (settings, admin panel)
@@ -249,18 +248,18 @@ function SimpleComponent({ name }: { name: string }) {
 ### Code ví dụ
 
 ```tsx
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense, useState } from "react";
 
 // Dynamic import -- tạo chunk riêng
-const HeavyEditor = lazy(() => import('./HeavyEditor'));
-const AdminPanel = lazy(() => import('./AdminPanel'));
-const ChartDashboard = lazy(() => import('./ChartDashboard'));
+const HeavyEditor = lazy(() => import("./HeavyEditor"));
+const AdminPanel = lazy(() => import("./AdminPanel"));
+const ChartDashboard = lazy(() => import("./ChartDashboard"));
 
 // Named export -- cần wrapper
 const Settings = lazy(() =>
-  import('./Settings').then(module => ({
+  import("./Settings").then((module) => ({
     default: module.SettingsPage, // Convert named to default export
-  }))
+  })),
 );
 
 // Route-based code splitting
@@ -284,15 +283,13 @@ function ProductPage() {
   const [showReviews, setShowReviews] = useState(false);
 
   // ReviewSection chỉ load khi user click "Show Reviews"
-  const ReviewSection = lazy(() => import('./ReviewSection'));
+  const ReviewSection = lazy(() => import("./ReviewSection"));
 
   return (
     <div>
       <ProductInfo />
 
-      <button onClick={() => setShowReviews(true)}>
-        Show Reviews
-      </button>
+      <button onClick={() => setShowReviews(true)}>Show Reviews</button>
 
       {showReviews && (
         <Suspense fallback={<p>Loading reviews...</p>}>
@@ -306,12 +303,14 @@ function ProductPage() {
 // Loading component đẹp hơn
 function LoadingSpinner() {
   return (
-    <div style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      minHeight: '200px',
-    }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "200px",
+      }}
+    >
       <div className="spinner" />
       <p>Đang tải...</p>
     </div>
@@ -319,7 +318,7 @@ function LoadingSpinner() {
 }
 
 // Error Boundary cho lazy components
-import { Component, ErrorInfo } from 'react';
+import { Component, ErrorInfo } from "react";
 
 class LazyErrorBoundary extends Component<
   { children: React.ReactNode; fallback: React.ReactNode },
@@ -332,7 +331,7 @@ class LazyErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error('Lazy load failed:', error, info);
+    console.error("Lazy load failed:", error, info);
   }
 
   render() {
@@ -366,6 +365,7 @@ function SafeApp() {
 ### Giải thích lý thuyết
 
 **Dynamic import** (`import()`) là JavaScript feature, không chỉ của React. Có thể dùng cho:
+
 - Load library khi cần (VD: moment, lodash)
 - Conditional imports (VD: polyfills cho browser cũ)
 - Prefetching (load trước khi user cần)
@@ -375,25 +375,22 @@ function SafeApp() {
 ### Code ví dụ
 
 ```tsx
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 
 // 1. Load heavy library khi cần
 function MarkdownEditor() {
-  const [content, setContent] = useState('');
-  const [preview, setPreview] = useState('');
+  const [content, setContent] = useState("");
+  const [preview, setPreview] = useState("");
 
   const renderPreview = useCallback(async () => {
     // Chỉ load 'marked' library khi user click Preview
-    const { marked } = await import('marked');
+    const { marked } = await import("marked");
     setPreview(marked.parse(content));
   }, [content]);
 
   return (
     <div>
-      <textarea
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-      />
+      <textarea value={content} onChange={(e) => setContent(e.target.value)} />
       <button onClick={renderPreview}>Preview</button>
       <div dangerouslySetInnerHTML={{ __html: preview }} />
     </div>
@@ -403,14 +400,14 @@ function MarkdownEditor() {
 // 2. Conditional import -- polyfill
 async function initApp() {
   if (!window.IntersectionObserver) {
-    await import('intersection-observer'); // Polyfill
+    await import("intersection-observer"); // Polyfill
   }
 
   // Tiếp tục khởi tạo app
-  const { createRoot } = await import('react-dom/client');
-  const { default: App } = await import('./App');
+  const { createRoot } = await import("react-dom/client");
+  const { default: App } = await import("./App");
 
-  createRoot(document.getElementById('root')!).render(<App />);
+  createRoot(document.getElementById("root")!).render(<App />);
 }
 
 // 3. Prefetch -- load trước khi user cần
@@ -418,11 +415,11 @@ function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
   const prefetch = () => {
     // Khi user hover, bắt đầu load chunk
     switch (to) {
-      case '/dashboard':
-        import('./pages/Dashboard');
+      case "/dashboard":
+        import("./pages/Dashboard");
         break;
-      case '/settings':
-        import('./pages/Settings');
+      case "/settings":
+        import("./pages/Settings");
         break;
     }
   };
@@ -435,20 +432,21 @@ function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
 }
 
 // 4. Webpack magic comments
-const AdminPanel = lazy(() =>
-  import(
-    /* webpackChunkName: "admin" */
-    /* webpackPrefetch: true */
-    './AdminPanel'
-  )
+const AdminPanel = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "admin" */
+      /* webpackPrefetch: true */
+      "./AdminPanel"
+    ),
 );
 
 // 5. Feature flags -- load feature conditionally
 async function loadFeature(featureName: string) {
   const features: Record<string, () => Promise<any>> = {
-    'new-editor': () => import('./features/NewEditor'),
-    'analytics': () => import('./features/Analytics'),
-    'ai-assist': () => import('./features/AIAssist'),
+    "new-editor": () => import("./features/NewEditor"),
+    analytics: () => import("./features/Analytics"),
+    "ai-assist": () => import("./features/AIAssist"),
   };
 
   const loader = features[featureName];
@@ -470,10 +468,12 @@ async function loadFeature(featureName: string) {
 ### Giải thích lý thuyết
 
 **React Profiler** có 2 dạng:
+
 1. **React DevTools Profiler** (browser extension) -- GUI, dễ dùng
 2. **Profiler component** (API) -- programmatic, log data
 
 **Cách dùng DevTools Profiler:**
+
 1. Mở React DevTools > tab Profiler
 2. Click Record
 3. Thực hiện thao tác cần đo
@@ -481,6 +481,7 @@ async function loadFeature(featureName: string) {
 5. Phân tích: commit nào lâu, component nào render nhiều
 
 **Metrics quan trọng:**
+
 - **Commit duration**: tổng thời gian render 1 commit
 - **Render duration**: thời gian render 1 component
 - **Why did this render?**: checkbox trong DevTools settings
@@ -488,16 +489,16 @@ async function loadFeature(featureName: string) {
 ### Code ví dụ
 
 ```tsx
-import { Profiler, ProfilerOnRenderCallback, useState } from 'react';
+import { Profiler, ProfilerOnRenderCallback, useState } from "react";
 
 // Profiler component -- log render data
 const onRender: ProfilerOnRenderCallback = (
-  id,            // Profiler id
-  phase,         // "mount" | "update"
-  actualDuration,  // Thời gian render thực tế (ms)
-  baseDuration,    // Thời gian render không có memo (ms)
-  startTime,       // Khi React bắt đầu render commit này
-  commitTime       // Khi React commit DOM
+  id, // Profiler id
+  phase, // "mount" | "update"
+  actualDuration, // Thời gian render thực tế (ms)
+  baseDuration, // Thời gian render không có memo (ms)
+  startTime, // Khi React bắt đầu render commit này
+  commitTime, // Khi React commit DOM
 ) => {
   // Log hoặc gửi metrics lên monitoring service
   console.table({
@@ -513,7 +514,7 @@ const onRender: ProfilerOnRenderCallback = (
   if (actualDuration > 16) {
     console.warn(
       `[Performance] ${id} took ${actualDuration.toFixed(2)}ms ` +
-      `(target: 16ms for 60fps)`
+        `(target: 16ms for 60fps)`,
     );
   }
 };
@@ -553,17 +554,15 @@ function useRenderTime(componentName: string) {
     const duration = endTime - startTime;
 
     if (duration > 16) {
-      console.warn(
-        `[Slow Render] ${componentName}: ${duration.toFixed(2)}ms`
-      );
+      console.warn(`[Slow Render] ${componentName}: ${duration.toFixed(2)}ms`);
     }
   });
 }
 
 // Sử dụng
 function ProductList() {
-  useRenderCount('ProductList');
-  useRenderTime('ProductList');
+  useRenderCount("ProductList");
+  useRenderTime("ProductList");
 
   // ... render logic
   return <div>Products</div>;
@@ -592,6 +591,7 @@ function ProductList() {
 Khi render danh sách 10,000+ items, DOM quá nhiều elements sẽ lag. **Virtualization** (windowing) chỉ render những items **trong viewport** -- giảm DOM nodes từ 10,000 xuống còn ~20-50.
 
 **Thư viện phổ biến:**
+
 - `react-window`: nhẹ, đơn giản (Recommendation của React docs)
 - `react-virtuoso`: nhiều tính năng hơn (auto-size, grouped, infinite scroll)
 - `@tanstack/react-virtual`: headless, framework-agnostic
@@ -600,7 +600,7 @@ Khi render danh sách 10,000+ items, DOM quá nhiều elements sẽ lag. **Virtu
 
 ```tsx
 // --- react-window: FixedSizeList ---
-import { FixedSizeList } from 'react-window';
+import { FixedSizeList } from "react-window";
 
 interface Item {
   id: number;
@@ -609,7 +609,13 @@ interface Item {
 }
 
 function VirtualizedList({ items }: { items: Item[] }) {
-  const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => (
+  const Row = ({
+    index,
+    style,
+  }: {
+    index: number;
+    style: React.CSSProperties;
+  }) => (
     <div style={style} className="row">
       <span>{items[index].name}</span>
       <span>{items[index].email}</span>
@@ -618,10 +624,10 @@ function VirtualizedList({ items }: { items: Item[] }) {
 
   return (
     <FixedSizeList
-      height={600}      // Chiều cao container
+      height={600} // Chiều cao container
       width="100%"
       itemCount={items.length}
-      itemSize={50}     // Chiều cao mỗi item (fixed)
+      itemSize={50} // Chiều cao mỗi item (fixed)
     >
       {Row}
     </FixedSizeList>
@@ -629,15 +635,15 @@ function VirtualizedList({ items }: { items: Item[] }) {
 }
 
 // --- react-virtuoso: VariableSizeList voi auto-sizing ---
-import { Virtuoso } from 'react-virtuoso';
+import { Virtuoso } from "react-virtuoso";
 
 function AutoSizeList({ items }: { items: Item[] }) {
   return (
     <Virtuoso
-      style={{ height: '600px' }}
+      style={{ height: "600px" }}
       totalCount={items.length}
       itemContent={(index) => (
-        <div className="row" style={{ padding: '10px' }}>
+        <div className="row" style={{ padding: "10px" }}>
           <h4>{items[index].name}</h4>
           <p>{items[index].email}</p>
           {/* Mỗi row có thể có chiều cao khác nhau */}
@@ -648,7 +654,7 @@ function AutoSizeList({ items }: { items: Item[] }) {
 }
 
 // --- @tanstack/react-virtual: headless ---
-import { useVirtualizer } from '@tanstack/react-virtual';
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 function TanStackVirtualList({ items }: { items: Item[] }) {
   const parentRef = useRef<HTMLDivElement>(null);
@@ -661,25 +667,22 @@ function TanStackVirtualList({ items }: { items: Item[] }) {
   });
 
   return (
-    <div
-      ref={parentRef}
-      style={{ height: '600px', overflow: 'auto' }}
-    >
+    <div ref={parentRef} style={{ height: "600px", overflow: "auto" }}>
       <div
         style={{
           height: `${virtualizer.getTotalSize()}px`,
-          width: '100%',
-          position: 'relative',
+          width: "100%",
+          position: "relative",
         }}
       >
         {virtualizer.getVirtualItems().map((virtualRow) => (
           <div
             key={virtualRow.key}
             style={{
-              position: 'absolute',
+              position: "absolute",
               top: 0,
               left: 0,
-              width: '100%',
+              width: "100%",
               height: `${virtualRow.size}px`,
               transform: `translateY(${virtualRow.start}px)`,
             }}
@@ -704,13 +707,13 @@ function InfiniteList() {
     const res = await fetch(`/api/items?offset=${items.length}&limit=50`);
     const newItems = await res.json();
 
-    setItems(prev => [...prev, ...newItems]);
+    setItems((prev) => [...prev, ...newItems]);
     setLoading(false);
   }, [items.length, loading]);
 
   return (
     <Virtuoso
-      style={{ height: '100vh' }}
+      style={{ height: "100vh" }}
       data={items}
       endReached={loadMore}
       itemContent={(index, item) => (
@@ -719,7 +722,7 @@ function InfiniteList() {
         </div>
       )}
       components={{
-        Footer: () => loading ? <p>Loading more...</p> : null,
+        Footer: () => (loading ? <p>Loading more...</p> : null),
       }}
     />
   );
@@ -728,15 +731,15 @@ function InfiniteList() {
 
 ### Bảng so sánh thư viện virtualization
 
-| Tiêu chí | react-window | react-virtuoso | @tanstack/react-virtual |
-|----------|-------------|---------------|------------------------|
-| Bundle size | ~6KB | ~15KB | ~5KB |
-| API style | Component-based | Component-based | Headless (hook) |
-| Auto-size items | Không (cần VariableSizeList) | Có | Có (estimate) |
-| Infinite scroll | Cần tự viết | Built-in | Cần tự viết |
-| Grouped items | Không | Có | Có |
-| Learning curve | Thấp | Thấp | Trung bình |
-| Flexibility | Trung bình | Cao | Rất cao |
+| Tiêu chí        | react-window                 | react-virtuoso  | @tanstack/react-virtual |
+| --------------- | ---------------------------- | --------------- | ----------------------- |
+| Bundle size     | ~6KB                         | ~15KB           | ~5KB                    |
+| API style       | Component-based              | Component-based | Headless (hook)         |
+| Auto-size items | Không (cần VariableSizeList) | Có              | Có (estimate)           |
+| Infinite scroll | Cần tự viết                  | Built-in        | Cần tự viết             |
+| Grouped items   | Không                        | Có              | Có                      |
+| Learning curve  | Thấp                         | Thấp            | Trung bình              |
+| Flexibility     | Trung bình                   | Cao             | Rất cao                 |
 
 ### Đáp án mẫu
 
@@ -746,18 +749,18 @@ function InfiniteList() {
 
 ## Bảng tổng hợp các chiến lược Performance Optimization
 
-| Chiến lược | Vấn đề giải quyết | Độ phức tạp | Khi nào dùng |
-|------------|------------------|-------------|-------------|
-| `React.memo` | Child re-render không cần thiết | Thấp | Component nặng, parent render nhiều |
-| `useMemo` | Tính toán lại không cần thiết | Thấp | Sort/filter danh sách lớn |
-| `useCallback` | Function reference mới mỗi render | Thấp | Props cho memo child |
-| `React.lazy` | Bundle lớn, load chậm | Thấp | Route splitting, features lớn |
-| `Suspense` | Loading state management | Thấp | Kết hợp với lazy, data fetching |
-| `useTransition` | UI block khi render nặng | Trung bình | Search, filter realtime |
-| `useDeferredValue` | Input lag do render nặng | Trung bình | Heavy child với changing props |
-| Virtualization | Danh sách quá nhiều DOM nodes | Trung bình | > 100-200 items |
-| Code splitting | Initial bundle quá lớn | Thấp | Mỗi dự án nên làm |
-| Profiler | Không biết optimize ở đâu | Thấp | Bước đầu tiên trước mỗi optimization |
+| Chiến lược         | Vấn đề giải quyết                 | Độ phức tạp | Khi nào dùng                         |
+| ------------------ | --------------------------------- | ----------- | ------------------------------------ |
+| `React.memo`       | Child re-render không cần thiết   | Thấp        | Component nặng, parent render nhiều  |
+| `useMemo`          | Tính toán lại không cần thiết     | Thấp        | Sort/filter danh sách lớn            |
+| `useCallback`      | Function reference mới mỗi render | Thấp        | Props cho memo child                 |
+| `React.lazy`       | Bundle lớn, load chậm             | Thấp        | Route splitting, features lớn        |
+| `Suspense`         | Loading state management          | Thấp        | Kết hợp với lazy, data fetching      |
+| `useTransition`    | UI block khi render nặng          | Trung bình  | Search, filter realtime              |
+| `useDeferredValue` | Input lag do render nặng          | Trung bình  | Heavy child với changing props       |
+| Virtualization     | Danh sách quá nhiều DOM nodes     | Trung bình  | > 100-200 items                      |
+| Code splitting     | Initial bundle quá lớn            | Thấp        | Mỗi dự án nên làm                    |
+| Profiler           | Không biết optimize ở đâu         | Thấp        | Bước đầu tiên trước mỗi optimization |
 
 ### Thứ tự ưu tiên khi optimize
 

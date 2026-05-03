@@ -11,9 +11,6 @@ Hãy tưởng tượng bạn có một **tài liệu gốc** và muốn gửi b�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Cách 1: Vòng lặp `for` (cơ bản)](#1-cách-1-vòng-lặp-for-cơ-bản)
@@ -185,13 +182,13 @@ public class CopyWithSystemArraycopy {
 
 ## 5. So sánh 4 cách copy
 
-| Tiêu chí | `for` loop | `Arrays.copyOf()` | `clone()` | `System.arraycopy()` |
-|---|---|---|---|---|
-| Độ đơn giản | Trung bình | **Gọn nhất** | **Gọn nhất** | Phức tạp |
-| Hiệu suất | Chậm nhất | Nhanh | Nhanh | **Nhanh nhất** |
-| Thay đổi kích thước | Có | Có | Không | Có |
-| Copy một phần | Có | Có (copyOfRange) | Không | Có |
-| Dùng trong thực tế | Ít | **Nhiều nhất** | Trung bình | Framework/Library |
+| Tiêu chí            | `for` loop | `Arrays.copyOf()` | `clone()`    | `System.arraycopy()` |
+| ------------------- | ---------- | ----------------- | ------------ | -------------------- |
+| Độ đơn giản         | Trung bình | **Gọn nhất**      | **Gọn nhất** | Phức tạp             |
+| Hiệu suất           | Chậm nhất  | Nhanh             | Nhanh        | **Nhanh nhất**       |
+| Thay đổi kích thước | Có         | Có                | Không        | Có                   |
+| Copy một phần       | Có         | Có (copyOfRange)  | Không        | Có                   |
+| Dùng trong thực tế  | Ít         | **Nhiều nhất**    | Trung bình   | Framework/Library    |
 
 ---
 
@@ -346,17 +343,20 @@ public class Copy2DArray {
 ## Khi nào dùng?
 
 **Chọn cách copy nào:**
+
 - **Học tập, code đơn giản** -> `for` loop (dễ hiểu logic)
 - **Code thực tế hàng ngày** -> `Arrays.copyOf()` (gọn, dễ đọc, linh hoạt)
 - **Cần copy nhanh toàn bộ mảng** -> `clone()` (ngắn gọn nhất)
 - **Cần hiệu suất tối đa / copy một phần** -> `System.arraycopy()` (dùng trong library)
 
 **Khi nào cần Deep Copy:**
+
 - Mảng chứa **Object** (không phải primitive)
 - Bạn muốn sửa bản sao mà **không ảnh hưởng mảng gốc**
 - Truyền mảng vào method và không muốn method thay đổi mảng gốc
 
 **Best practices:**
+
 - Với mảng primitive (`int[]`, `double[]`...): bất kỳ cách nào cũng cho kết quả độc lập
 - Với mảng Object: **luôn cần deep copy** nếu muốn độc lập hoàn toàn
 - Dùng `Arrays.copyOfRange()` khi chỉ cần copy một phần của mảng

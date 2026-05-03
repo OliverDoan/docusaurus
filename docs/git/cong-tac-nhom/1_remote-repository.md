@@ -9,9 +9,6 @@ Khi bạn làm việc một mình trên máy tính, Git hoạt động hoàn to�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Remote là gì?](#1-remote-là-gì)
@@ -46,13 +43,13 @@ Hãy tưởng tượng thế này:
 
 **Tại sao cần remote?**
 
-| Lý do | Giải thích |
-|-------|------------|
-| **Sao lưu** | Code không bị mất nếu máy tính hỏng |
-| **Cộng tác** | Nhiều người cùng làm việc trên 1 dự án |
-| **Chia sẻ** | Người khác có thể xem và sử dụng code |
-| **CI/CD** | Tự động kiểm tra và triển khai code |
-| **Code review** | Đồng đội review code trước khi merge |
+| Lý do           | Giải thích                             |
+| --------------- | -------------------------------------- |
+| **Sao lưu**     | Code không bị mất nếu máy tính hỏng    |
+| **Cộng tác**    | Nhiều người cùng làm việc trên 1 dự án |
+| **Chia sẻ**     | Người khác có thể xem và sử dụng code  |
+| **CI/CD**       | Tự động kiểm tra và triển khai code    |
+| **Code review** | Đồng đội review code trước khi merge   |
 
 ---
 
@@ -91,6 +88,7 @@ git remote -v
 ```
 
 Bạn sẽ thấy **2 dòng** cho mỗi remote:
+
 - **(fetch)** — URL dùng để tải dữ liệu về (download)
 - **(push)** — URL dùng để đẩy dữ liệu lên (upload)
 
@@ -171,6 +169,7 @@ git remote show origin
 ```
 
 Thông tin bao gồm:
+
 - **URL** fetch và push
 - **HEAD branch** — nhánh mặc định trên remote
 - **Remote branches** — các nhánh trên remote và trạng thái tracking
@@ -346,16 +345,16 @@ git remote add origin git@github.com:username/project.git
 
 ### Bảng so sánh
 
-| Tiêu chí | HTTPS | SSH |
-|-----------|-------|-----|
-| **URL format** | `https://github.com/user/repo.git` | `git@github.com:user/repo.git` |
-| **Xác thực** | Username + PAT (Personal Access Token) | SSH key pair (public + private) |
-| **Cài đặt ban đầu** | Dễ, chỉ cần tạo PAT | Phức tạp hơn, cần tạo SSH key |
-| **Bảo mật** | Tốt (token-based) | Rất tốt (key-based) |
-| **Firewall** | Ít bị chặn (port 443) | Có thể bị chặn (port 22) |
-| **Tiện lợi** | Cần nhập token (hoặc cache) | Không cần nhập gì sau khi setup |
-| **Phù hợp** | Người mới, môi trường corporate | Developer có kinh nghiệm |
-| **Đổi máy** | Cần tạo PAT mới hoặc copy token | Cần copy SSH key hoặc tạo mới |
+| Tiêu chí            | HTTPS                                  | SSH                             |
+| ------------------- | -------------------------------------- | ------------------------------- |
+| **URL format**      | `https://github.com/user/repo.git`     | `git@github.com:user/repo.git`  |
+| **Xác thực**        | Username + PAT (Personal Access Token) | SSH key pair (public + private) |
+| **Cài đặt ban đầu** | Dễ, chỉ cần tạo PAT                    | Phức tạp hơn, cần tạo SSH key   |
+| **Bảo mật**         | Tốt (token-based)                      | Rất tốt (key-based)             |
+| **Firewall**        | Ít bị chặn (port 443)                  | Có thể bị chặn (port 22)        |
+| **Tiện lợi**        | Cần nhập token (hoặc cache)            | Không cần nhập gì sau khi setup |
+| **Phù hợp**         | Người mới, môi trường corporate        | Developer có kinh nghiệm        |
+| **Đổi máy**         | Cần tạo PAT mới hoặc copy token        | Cần copy SSH key hoặc tạo mới   |
 
 ### Thiết lập SSH key (từng bước)
 
@@ -444,13 +443,13 @@ git config --global credential.helper 'cache --timeout=3600'
 
 **Bảo mật PAT:**
 
-| Nên | Không nên |
-|-----|-----------|
-| Đặt thời hạn ngắn (30-90 ngày) | Tạo token vĩnh viễn |
-| Chọn ít quyền nhất cần thiết | Chọn tất cả scopes |
-| Dùng credential helper | Lưu token trong file text |
-| Tạo token riêng cho mỗi thiết bị | Dùng chung 1 token |
-| Xóa token khi không dùng | Để token cũ tồn tại |
+| Nên                              | Không nên                 |
+| -------------------------------- | ------------------------- |
+| Đặt thời hạn ngắn (30-90 ngày)   | Tạo token vĩnh viễn       |
+| Chọn ít quyền nhất cần thiết     | Chọn tất cả scopes        |
+| Dùng credential helper           | Lưu token trong file text |
+| Tạo token riêng cho mỗi thiết bị | Dùng chung 1 token        |
+| Xóa token khi không dùng         | Để token cũ tồn tại       |
 
 ---
 

@@ -9,9 +9,6 @@ State management là một trong những chủ đề được hỏi nhiều nh�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: React Context API -- khi nào dùng, khi nào không? Tại sao Context gây performance issues? `[Intermediate]`](#câu-1-react-context-api-khi-nào-dùng-khi-nào-không-tại-sao-context-gây-performance-issues-intermediate)
@@ -33,12 +30,14 @@ State management là một trong những chủ đề được hỏi nhiều nh�
 **Vấn đề lớn nhất**: khi Context value thay đổi, **TẤT CẢ** components dùng `useContext` đều re-render -- kể cả khi chúng chỉ dùng một phần nhỏ của value. Không có "selector" như Redux.
 
 **Khi nào dùng Context?**
+
 - Theme (light/dark) -- ít thay đổi
 - Authentication state -- ít thay đổi
 - Locale/language -- ít thay đổi
 - Các giá trị ít thay đổi, nhiều component cần
 
 **Khi nào KHÔNG dùng?**
+
 - State thay đổi thường xuyên (form input, search, counters)
 - State lớn với nhiều fields mà components chỉ cần 1-2 fields
 - Khi performance là quan trọng
@@ -46,7 +45,7 @@ State management là một trong những chủ đề được hỏi nhiều nh�
 ### Code ví dụ
 
 ```tsx
-import { createContext, useContext, useState, useMemo } from 'react';
+import { createContext, useContext, useState, useMemo } from "react";
 
 // --- VẤN ĐỀ: Tất cả consumers re-render ---
 interface AppState {
@@ -59,49 +58,41 @@ const AppContext = createContext<AppState | null>(null);
 
 function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AppState>({
-    theme: 'light',
+    theme: "light",
     user: null,
     notifications: 0,
   });
 
   // Mỗi lần notifications tăng, ThemeButton CŨNG re-render
   // dù nó chỉ dùng theme
-  return (
-    <AppContext.Provider value={state}>
-      {children}
-    </AppContext.Provider>
-  );
+  return <AppContext.Provider value={state}>{children}</AppContext.Provider>;
 }
 
 // --- GIẢI PHÁP 1: Tách Context ---
-const ThemeContext = createContext('light');
+const ThemeContext = createContext("light");
 const UserContext = createContext<{ name: string } | null>(null);
 
 function SplitProviders({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState("light");
   const [user, setUser] = useState<{ name: string } | null>(null);
 
   return (
     <ThemeContext.Provider value={theme}>
-      <UserContext.Provider value={user}>
-        {children}
-      </UserContext.Provider>
+      <UserContext.Provider value={user}>{children}</UserContext.Provider>
     </ThemeContext.Provider>
   );
 }
 
 // --- GIẢI PHÁP 2: Memo hóa value ---
 function OptimizedProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState("light");
   const [count, setCount] = useState(0);
 
   // useMemo để tránh tạo object mới mỗi lần render
   const value = useMemo(() => ({ theme, setTheme }), [theme]);
 
   return (
-    <ThemeContext.Provider value={value}>
-      {children}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 }
 ```
@@ -117,11 +108,13 @@ function OptimizedProvider({ children }: { children: React.ReactNode }) {
 ### Giải thích lý thuyết
 
 **Redux** dựa trên 3 nguyên tắc:
+
 1. **Single source of truth**: toàn bộ state nằm trong 1 store
 2. **State is read-only**: chỉ thay đổi state qua dispatching actions
 3. **Pure reducers**: reducers là pure functions (state cũ + action => state mới)
 
 **Redux Toolkit (RTK)** là cách chuẩn để viết Redux hiện đại:
+
 - `createSlice`: gom reducer + actions, cho phép "mutate" state (dùng Immer bên trong)
 - `configureStore`: thay `createStore`, auto setup middleware
 - `createAsyncThunk`: xử lý async logic
@@ -131,18 +124,22 @@ function OptimizedProvider({ children }: { children: React.ReactNode }) {
 
 ```tsx
 // Redux Toolkit -- cách viết Redux hiện đại
-import { createSlice, configureStore, createAsyncThunk } from '@reduxjs/toolkit';
-import { useSelector, useDispatch } from 'react-redux';
+import {
+  createSlice,
+  configureStore,
+  createAsyncThunk,
+} from "@reduxjs/toolkit";
+import { useSelector, useDispatch } from "react-redux";
 
 // Async thunk
-const fetchUsers = createAsyncThunk('users/fetch', async () => {
-  const res = await fetch('/api/users');
+const fetchUsers = createAsyncThunk("users/fetch", async () => {
+  const res = await fetch("/api/users");
   return res.json();
 });
 
 // Slice = reducer + actions
 const usersSlice = createSlice({
-  name: 'users',
+  name: "users",
   initialState: {
     list: [] as User[],
     loading: false,
@@ -154,7 +151,7 @@ const usersSlice = createSlice({
       state.list.push(action.payload); // OK vì Immer
     },
     removeUser(state, action) {
-      state.list = state.list.filter(u => u.id !== action.payload);
+      state.list = state.list.filter((u) => u.id !== action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -168,7 +165,7 @@ const usersSlice = createSlice({
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message ?? 'Failed';
+        state.error = action.error.message ?? "Failed";
       });
   },
 });
@@ -192,7 +189,7 @@ function UserList() {
     <div>
       <button onClick={() => dispatch(fetchUsers())}>Load Users</button>
       <ul>
-        {users.map(u => (
+        {users.map((u) => (
           <li key={u.id}>{u.name}</li>
         ))}
       </ul>
@@ -212,6 +209,7 @@ function UserList() {
 ### Giải thích lý thuyết
 
 **Zustand** là lightweight state management (< 1KB). Khác với Redux:
+
 - Không cần Provider wrapper
 - Không cần actions/reducers boilerplate
 - API đơn giản: `create` store, dùng hook để access
@@ -219,6 +217,7 @@ function UserList() {
 - Có thể dùng ngoài React (vanilla JS)
 
 Zustand phù hợp cho:
+
 - Ứng dụng vừa và nhỏ
 - Khi muốn ít boilerplate
 - Khi cần shared state giữa components mà không muốn Redux overhead
@@ -226,16 +225,16 @@ Zustand phù hợp cho:
 ### Code ví dụ
 
 ```tsx
-import { create } from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { devtools, persist } from "zustand/middleware";
 
 // Định nghĩa store -- đơn giản, không cần Provider
 interface TodoStore {
   todos: Todo[];
-  filter: 'all' | 'active' | 'done';
+  filter: "all" | "active" | "done";
   addTodo: (text: string) => void;
   toggleTodo: (id: number) => void;
-  setFilter: (filter: 'all' | 'active' | 'done') => void;
+  setFilter: (filter: "all" | "active" | "done") => void;
 }
 
 const useTodoStore = create<TodoStore>()(
@@ -243,7 +242,7 @@ const useTodoStore = create<TodoStore>()(
     persist(
       (set) => ({
         todos: [],
-        filter: 'all',
+        filter: "all",
 
         addTodo: (text) =>
           set(
@@ -251,25 +250,25 @@ const useTodoStore = create<TodoStore>()(
               todos: [...state.todos, { id: Date.now(), text, done: false }],
             }),
             false,
-            'addTodo' // action name cho devtools
+            "addTodo", // action name cho devtools
           ),
 
         toggleTodo: (id) =>
           set(
             (state) => ({
               todos: state.todos.map((t) =>
-                t.id === id ? { ...t, done: !t.done } : t
+                t.id === id ? { ...t, done: !t.done } : t,
               ),
             }),
             false,
-            'toggleTodo'
+            "toggleTodo",
           ),
 
         setFilter: (filter) => set({ filter }),
       }),
-      { name: 'todo-storage' } // persist to localStorage
-    )
-  )
+      { name: "todo-storage" }, // persist to localStorage
+    ),
+  ),
 );
 
 // Component -- selector chỉ lấy những gì cần
@@ -282,7 +281,7 @@ function TodoList() {
     <ul>
       {todos.map((todo) => (
         <li key={todo.id} onClick={() => toggleTodo(todo.id)}>
-          {todo.done ? '✓' : '○'} {todo.text}
+          {todo.done ? "✓" : "○"} {todo.text}
         </li>
       ))}
     </ul>
@@ -296,11 +295,11 @@ function FilterBar() {
 
   return (
     <div>
-      {(['all', 'active', 'done'] as const).map((f) => (
+      {(["all", "active", "done"] as const).map((f) => (
         <button
           key={f}
           onClick={() => setFilter(f)}
-          style={{ fontWeight: filter === f ? 'bold' : 'normal' }}
+          style={{ fontWeight: filter === f ? "bold" : "normal" }}
         >
           {f}
         </button>
@@ -311,7 +310,7 @@ function FilterBar() {
 
 // Dùng ngoài React
 const currentTodos = useTodoStore.getState().todos;
-useTodoStore.subscribe((state) => console.log('State changed:', state));
+useTodoStore.subscribe((state) => console.log("State changed:", state));
 ```
 
 ### Đáp án mẫu
@@ -337,17 +336,17 @@ Jotai lấy cảm hứng từ Recoil (Meta) nhưng nhẹ hơn và đơn giản h
 ### Code ví dụ
 
 ```tsx
-import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { atomWithStorage } from 'jotai/utils';
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
 // Atoms -- mỗi atom là 1 đơn vị state độc lập
 const countAtom = atom(0);
 const doubleCountAtom = atom((get) => get(countAtom) * 2); // derived (read-only)
-const themeAtom = atomWithStorage('theme', 'light'); // persist to localStorage
+const themeAtom = atomWithStorage("theme", "light"); // persist to localStorage
 
 // Async atom
 const userAtom = atom(async () => {
-  const res = await fetch('/api/user');
+  const res = await fetch("/api/user");
   return res.json();
 });
 
@@ -356,7 +355,7 @@ const incrementAtom = atom(
   null, // không có read
   (get, set) => {
     set(countAtom, get(countAtom) + 1);
-  }
+  },
 );
 
 // Component -- chỉ re-render khi countAtom thay đổi
@@ -409,29 +408,29 @@ function App() {
 
 ### Bảng so sánh chi tiết
 
-| Tiêu chí | Context | Redux (RTK) | Zustand | Jotai |
-|----------|---------|-------------|---------|-------|
-| **Bundle size** | 0 (built-in) | ~11KB | ~1KB | ~3KB |
-| **Boilerplate** | Ít | Trung bình (RTK giảm nhiều) | Rất ít | Rất ít |
-| **Learning curve** | Thấp | Trung bình - Cao | Thấp | Thấp |
-| **DevTools** | React DevTools | Redux DevTools (mạnh) | Redux DevTools (middleware) | Jotai DevTools |
-| **Selector / Fine-grained** | Không có | useSelector | Built-in selector | Atomic (tự nhiên) |
-| **Middleware** | Không | Phong phú (thunk, saga, RTK Query) | persist, devtools, immer | utils (storage, async) |
-| **Server state** | Không | RTK Query | Không (dùng React Query) | Async atoms |
-| **Dùng ngoài React** | Không | Có | Có | Không (React-first) |
-| **TypeScript** | Tốt | Tốt | Tốt | Rất tốt |
-| **Ecosystem** | React core | Lớn nhất | Đang lớn | Trung bình |
+| Tiêu chí                    | Context        | Redux (RTK)                        | Zustand                     | Jotai                  |
+| --------------------------- | -------------- | ---------------------------------- | --------------------------- | ---------------------- |
+| **Bundle size**             | 0 (built-in)   | ~11KB                              | ~1KB                        | ~3KB                   |
+| **Boilerplate**             | Ít             | Trung bình (RTK giảm nhiều)        | Rất ít                      | Rất ít                 |
+| **Learning curve**          | Thấp           | Trung bình - Cao                   | Thấp                        | Thấp                   |
+| **DevTools**                | React DevTools | Redux DevTools (mạnh)              | Redux DevTools (middleware) | Jotai DevTools         |
+| **Selector / Fine-grained** | Không có       | useSelector                        | Built-in selector           | Atomic (tự nhiên)      |
+| **Middleware**              | Không          | Phong phú (thunk, saga, RTK Query) | persist, devtools, immer    | utils (storage, async) |
+| **Server state**            | Không          | RTK Query                          | Không (dùng React Query)    | Async atoms            |
+| **Dùng ngoài React**        | Không          | Có                                 | Có                          | Không (React-first)    |
+| **TypeScript**              | Tốt            | Tốt                                | Tốt                         | Rất tốt                |
+| **Ecosystem**               | React core     | Lớn nhất                           | Đang lớn                    | Trung bình             |
 
 ### Khi nào dùng gì?
 
-| Tình huống | Chọn |
-|------------|------|
-| Theme, auth, locale (ít thay đổi) | **Context** |
-| App lớn, nhiều team, cần predictability | **Redux Toolkit** |
-| App vừa, muốn đơn giản, ít boilerplate | **Zustand** |
-| Nhiều state độc lập, atomic mental model | **Jotai** |
-| Server state (data fetching + caching) | **React Query / TanStack Query** |
-| Form state | **React Hook Form / Formik** |
+| Tình huống                               | Chọn                             |
+| ---------------------------------------- | -------------------------------- |
+| Theme, auth, locale (ít thay đổi)        | **Context**                      |
+| App lớn, nhiều team, cần predictability  | **Redux Toolkit**                |
+| App vừa, muốn đơn giản, ít boilerplate   | **Zustand**                      |
+| Nhiều state độc lập, atomic mental model | **Jotai**                        |
+| Server state (data fetching + caching)   | **React Query / TanStack Query** |
+| Form state                               | **React Hook Form / Formik**     |
 
 ### Đáp án mẫu
 
@@ -444,10 +443,12 @@ function App() {
 ### Giải thích lý thuyết
 
 **Server state** khác **client state**:
+
 - Client state: UI state, form state -- bạn kiểm soát hoàn toàn
 - Server state: data từ API -- có thể outdated, cần sync, có loading/error states
 
 **Vấn đề** khi lưu server data trong Redux/Zustand:
+
 - Phải tự viết loading, error, refetch logic
 - Stale data (data cũ)
 - Cache invalidation
@@ -455,6 +456,7 @@ function App() {
 - Background refetching
 
 **TanStack Query** giải quyết tất cả:
+
 - Auto caching và deduplication
 - Stale-while-revalidate strategy
 - Background refetching
@@ -471,7 +473,7 @@ import {
   useQueryClient,
   QueryClient,
   QueryClientProvider,
-} from '@tanstack/react-query';
+} from "@tanstack/react-query";
 
 // Setup
 const queryClient = new QueryClient({
@@ -500,10 +502,10 @@ function UserList() {
     error,
     refetch,
   } = useQuery({
-    queryKey: ['users'], // Cache key
+    queryKey: ["users"], // Cache key
     queryFn: async () => {
-      const res = await fetch('/api/users');
-      if (!res.ok) throw new Error('Failed to fetch');
+      const res = await fetch("/api/users");
+      if (!res.ok) throw new Error("Failed to fetch");
       return res.json() as Promise<User[]>;
     },
   });
@@ -526,18 +528,18 @@ function AddUserForm() {
 
   const mutation = useMutation({
     mutationFn: async (newUser: { name: string; email: string }) => {
-      const res = await fetch('/api/users', {
-        method: 'POST',
+      const res = await fetch("/api/users", {
+        method: "POST",
         body: JSON.stringify(newUser),
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       });
       return res.json();
     },
     // Optimistic update
     onMutate: async (newUser) => {
-      await queryClient.cancelQueries({ queryKey: ['users'] });
-      const previous = queryClient.getQueryData(['users']);
-      queryClient.setQueryData(['users'], (old: User[]) => [
+      await queryClient.cancelQueries({ queryKey: ["users"] });
+      const previous = queryClient.getQueryData(["users"]);
+      queryClient.setQueryData(["users"], (old: User[]) => [
         ...old,
         { ...newUser, id: Date.now() }, // temporary ID
       ]);
@@ -545,11 +547,11 @@ function AddUserForm() {
     },
     onError: (_err, _newUser, context) => {
       // Rollback khi lỗi
-      queryClient.setQueryData(['users'], context?.previous);
+      queryClient.setQueryData(["users"], context?.previous);
     },
     onSettled: () => {
       // Refetch để đảm bảo data đúng
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
     },
   });
 
@@ -557,8 +559,8 @@ function AddUserForm() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     mutation.mutate({
-      name: formData.get('name') as string,
-      email: formData.get('email') as string,
+      name: formData.get("name") as string,
+      email: formData.get("email") as string,
     });
   };
 
@@ -567,7 +569,7 @@ function AddUserForm() {
       <input name="name" placeholder="Name" required />
       <input name="email" placeholder="Email" required />
       <button type="submit" disabled={mutation.isPending}>
-        {mutation.isPending ? 'Adding...' : 'Add User'}
+        {mutation.isPending ? "Adding..." : "Add User"}
       </button>
     </form>
   );

@@ -9,9 +9,6 @@ title: "4. HTTP/2/3, CORS, Cookies, JWT, OAuth"
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: So sánh HTTP/1.1, HTTP/2, và HTTP/3. Tại sao HTTP/2 nhanh hơn? `[Intermediate]`](#câu-1-so-sánh-http11-http2-và-http3-tại-sao-http2-nhanh-hơn-intermediate)
@@ -29,16 +26,16 @@ title: "4. HTTP/2/3, CORS, Cookies, JWT, OAuth"
 
 ### Giải thích lý thuyết
 
-| Feature | HTTP/1.1 | HTTP/2 | HTTP/3 |
-|---|---|---|---|
-| **Year** | 1997 | 2015 | 2022 |
-| **Transport** | TCP | TCP | **QUIC (UDP)** |
-| **Multiplexing** | Không (1 request/connection) | Có (nhiều request/connection) | Có + không head-of-line blocking |
-| **Header** | Text, lặp lại mỗi request | Binary, HPACK compression | Binary, QPACK compression |
-| **Server Push** | Không | Có | Có (ít dùng) |
-| **Connection** | 6 connections/domain | 1 connection đủ | 1 connection, không handshake TCP |
-| **TLS** | Optional (HTTPS riêng) | Thực tế bắt buộc | TLS 1.3 tích hợp sẵn |
-| **Head-of-line blocking** | Có (TCP + HTTP level) | TCP level vẫn có | Không (QUIC giải quyết) |
+| Feature                   | HTTP/1.1                     | HTTP/2                        | HTTP/3                            |
+| ------------------------- | ---------------------------- | ----------------------------- | --------------------------------- |
+| **Year**                  | 1997                         | 2015                          | 2022                              |
+| **Transport**             | TCP                          | TCP                           | **QUIC (UDP)**                    |
+| **Multiplexing**          | Không (1 request/connection) | Có (nhiều request/connection) | Có + không head-of-line blocking  |
+| **Header**                | Text, lặp lại mỗi request    | Binary, HPACK compression     | Binary, QPACK compression         |
+| **Server Push**           | Không                        | Có                            | Có (ít dùng)                      |
+| **Connection**            | 6 connections/domain         | 1 connection đủ               | 1 connection, không handshake TCP |
+| **TLS**                   | Optional (HTTPS riêng)       | Thực tế bắt buộc              | TLS 1.3 tích hợp sẵn              |
+| **Head-of-line blocking** | Có (TCP + HTTP level)        | TCP level vẫn có              | Không (QUIC giải quyết)           |
 
 **Tại sao HTTP/2 nhanh hơn HTTP/1.1:**
 
@@ -48,6 +45,7 @@ title: "4. HTTP/2/3, CORS, Cookies, JWT, OAuth"
 4. **Server Push**: Server gửi resource trước khi client yêu cầu (ví dụ: push CSS khi client request HTML)
 
 **Tại sao HTTP/3 (QUIC) tốt hơn HTTP/2:**
+
 - HTTP/2 vẫn dùng TCP -- nếu 1 packet bị mất, **tất cả streams** đều bị block (TCP head-of-line blocking)
 - QUIC (UDP) giải quyết: mỗi stream độc lập, packet loss 1 stream không ảnh hưởng stream khác
 - Handshake nhanh hơn: QUIC kết hợp transport + TLS handshake (0-RTT reconnect)
@@ -56,12 +54,11 @@ title: "4. HTTP/2/3, CORS, Cookies, JWT, OAuth"
 
 ```javascript
 // Kiểm tra HTTP protocol version
-fetch('https://api.example.com/data')
-  .then(response => {
-    // Không có API trực tiếp để check HTTP version trong fetch
-    // Nhưng có thể xem trong DevTools -> Network -> Protocol column
-    console.log(response.headers);
-  });
+fetch("https://api.example.com/data").then((response) => {
+  // Không có API trực tiếp để check HTTP version trong fetch
+  // Nhưng có thể xem trong DevTools -> Network -> Protocol column
+  console.log(response.headers);
+});
 
 // HTTP/2 Server Push hint (từ server)
 // Server response header:
@@ -89,7 +86,13 @@ fetch('https://api.example.com/data')
   <link rel="preconnect" href="https://api.example.com" />
 
   <!-- Preload: tải critical resources ngay -->
-  <link rel="preload" href="/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin />
+  <link
+    rel="preload"
+    href="/fonts/Inter.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin
+  />
   <link rel="preload" href="/critical.css" as="style" />
 
   <!-- Prefetch: tải resources cho trang tiếp theo (low priority) -->
@@ -115,6 +118,7 @@ fetch('https://api.example.com/data')
 **CORS (Cross-Origin Resource Sharing)** là cơ chế bảo mật cho phép server kiểm soát **ai được gọi API** từ browser.
 
 **Same-origin**: hai URLs có cùng **protocol + domain + port**.
+
 ```
 https://example.com/api    -- same origin với https://example.com/page
 https://example.com:3000   -- KHÁC origin (port khác)
@@ -124,15 +128,16 @@ https://api.example.com    -- KHÁC origin (subdomain khác)
 
 **Simple request vs Preflight request:**
 
-| | Simple Request | Preflight (Complex) Request |
-|---|---|---|
-| **Gửi trực tiếp?** | Có | Không -- gửi OPTIONS trước |
-| **Method** | GET, HEAD, POST | PUT, DELETE, PATCH, hoặc custom |
-| **Content-Type** | text/plain, multipart/form-data, application/x-www-form-urlencoded | application/json, hoặc custom |
-| **Custom headers?** | Không | Có (Authorization, X-Custom-*) |
-| **Preflight?** | Không | Có (OPTIONS request) |
+|                     | Simple Request                                                     | Preflight (Complex) Request     |
+| ------------------- | ------------------------------------------------------------------ | ------------------------------- |
+| **Gửi trực tiếp?**  | Có                                                                 | Không -- gửi OPTIONS trước      |
+| **Method**          | GET, HEAD, POST                                                    | PUT, DELETE, PATCH, hoặc custom |
+| **Content-Type**    | text/plain, multipart/form-data, application/x-www-form-urlencoded | application/json, hoặc custom   |
+| **Custom headers?** | Không                                                              | Có (Authorization, X-Custom-\*) |
+| **Preflight?**      | Không                                                              | Có (OPTIONS request)            |
 
 **Preflight flow:**
+
 ```
 1. Browser gửi OPTIONS request (tự động, không phải dev viết code)
    -> Origin: https://myapp.com
@@ -157,25 +162,25 @@ https://api.example.com    -- KHÁC origin (subdomain khác)
 // Browser tự thêm Origin header và xử lý preflight
 
 // Simple request (không trigger preflight)
-fetch('https://api.example.com/data', {
-  method: 'GET',
+fetch("https://api.example.com/data", {
+  method: "GET",
   // Không custom headers -> simple request
 });
 
 // Complex request (trigger preflight OPTIONS)
-fetch('https://api.example.com/data', {
-  method: 'PUT',
+fetch("https://api.example.com/data", {
+  method: "PUT",
   headers: {
-    'Content-Type': 'application/json', // -> trigger preflight
-    'Authorization': 'Bearer token123',  // -> trigger preflight
+    "Content-Type": "application/json", // -> trigger preflight
+    Authorization: "Bearer token123", // -> trigger preflight
   },
-  body: JSON.stringify({ name: 'John' }),
+  body: JSON.stringify({ name: "John" }),
 });
 
 // Gửi cookies cross-origin
-fetch('https://api.example.com/data', {
-  method: 'GET',
-  credentials: 'include', // Gửi cookies cross-origin
+fetch("https://api.example.com/data", {
+  method: "GET",
+  credentials: "include", // Gửi cookies cross-origin
   // Server phải trả: Access-Control-Allow-Credentials: true
   // VÀ Access-Control-Allow-Origin KHÔNG được là * (phải specific origin)
 });
@@ -243,24 +248,25 @@ Access-Control-Expose-Headers: X-Total-Count, X-Page-Count
 
 ### Giải thích lý thuyết
 
-| Attribute | Giá trị | Mục đích |
-|---|---|---|
-| **HttpOnly** | boolean | JS **không đọc được** cookie (chống XSS steal token) |
-| **Secure** | boolean | Chỉ gửi qua **HTTPS** (chống sniffing) |
-| **SameSite** | Strict / Lax / None | Kiểm soát cookie gửi **cross-site** (chống CSRF) |
-| **Domain** | string | Cookie gửi cho domain nào |
-| **Path** | string | Cookie gửi cho path nào |
-| **Max-Age / Expires** | number / date | Thời gian sống (session cookie nếu không set) |
+| Attribute             | Giá trị             | Mục đích                                             |
+| --------------------- | ------------------- | ---------------------------------------------------- |
+| **HttpOnly**          | boolean             | JS **không đọc được** cookie (chống XSS steal token) |
+| **Secure**            | boolean             | Chỉ gửi qua **HTTPS** (chống sniffing)               |
+| **SameSite**          | Strict / Lax / None | Kiểm soát cookie gửi **cross-site** (chống CSRF)     |
+| **Domain**            | string              | Cookie gửi cho domain nào                            |
+| **Path**              | string              | Cookie gửi cho path nào                              |
+| **Max-Age / Expires** | number / date       | Thời gian sống (session cookie nếu không set)        |
 
 **SameSite chi tiết:**
 
-| Value | Cookie gửi khi | Use case |
-|---|---|---|
-| `Strict` | Chỉ same-site requests | Banking, sensitive actions |
-| `Lax` (mặc định) | Same-site + top-level navigation (click link) | Hầu hết use cases |
-| `None` | Tất cả requests (cần Secure) | Third-party cookies, OAuth |
+| Value            | Cookie gửi khi                                | Use case                   |
+| ---------------- | --------------------------------------------- | -------------------------- |
+| `Strict`         | Chỉ same-site requests                        | Banking, sensitive actions |
+| `Lax` (mặc định) | Same-site + top-level navigation (click link) | Hầu hết use cases          |
+| `None`           | Tất cả requests (cần Secure)                  | Third-party cookies, OAuth |
 
 **Bảo mật cookie checklist:**
+
 - Session token: `HttpOnly` + `Secure` + `SameSite=Lax`
 - CSRF token: `SameSite=Strict`
 - Third-party: `SameSite=None; Secure` (bắt buộc cả hai)
@@ -299,7 +305,7 @@ function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) {
-    return parts.pop().split(';').shift();
+    return parts.pop().split(";").shift();
   }
   return null;
 }
@@ -308,8 +314,8 @@ function getCookie(name) {
 document.cookie = "theme=; path=/; max-age=0";
 
 // Fetch với cookies
-fetch('https://api.example.com/profile', {
-  credentials: 'include', // Gửi cookies cross-origin
+fetch("https://api.example.com/profile", {
+  credentials: "include", // Gửi cookies cross-origin
   // 'same-origin' (mặc định): chỉ gửi cho same-origin
   // 'include': gửi cho cả cross-origin
   // 'omit': không gửi cookies
@@ -329,48 +335,49 @@ fetch('https://api.example.com/profile', {
 **JWT (JSON Web Token)** là một token tự chứa thông tin (self-contained), dùng để authenticate và authorize mà **không cần server lưu session**.
 
 **JWT structure:** 3 phần, ngăn cách bằng dấu chấm:
+
 ```
 xxxxx.yyyyy.zzzzz
 Header.Payload.Signature
 ```
 
-| Part | Chứa | Ví dụ (decoded) |
-|---|---|---|
-| **Header** | Algorithm + token type | `{"alg": "HS256", "typ": "JWT"}` |
-| **Payload** | Claims (data) | `{"sub": "1234", "name": "John", "exp": 1700000000}` |
-| **Signature** | Chữ ký xác thực | `HMACSHA256(base64(header) + "." + base64(payload), secret)` |
+| Part          | Chứa                   | Ví dụ (decoded)                                              |
+| ------------- | ---------------------- | ------------------------------------------------------------ |
+| **Header**    | Algorithm + token type | `{"alg": "HS256", "typ": "JWT"}`                             |
+| **Payload**   | Claims (data)          | `{"sub": "1234", "name": "John", "exp": 1700000000}`         |
+| **Signature** | Chữ ký xác thực        | `HMACSHA256(base64(header) + "." + base64(payload), secret)` |
 
 **Ưu nhược điểm:**
 
-| Ưu điểm | Nhược điểm |
-|---|---|
-| Stateless (server không lưu session) | Không thể revoke ngay (phải đợi hết hạn) |
-| Scale tốt (không cần shared session store) | Payload lớn hơn session ID |
-| Cross-domain dễ dàng | Payload dễ decode (base64, không encrypt) |
-| Chứa thông tin user (giảm DB queries) | Cần refresh token strategy |
+| Ưu điểm                                    | Nhược điểm                                |
+| ------------------------------------------ | ----------------------------------------- |
+| Stateless (server không lưu session)       | Không thể revoke ngay (phải đợi hết hạn)  |
+| Scale tốt (không cần shared session store) | Payload lớn hơn session ID                |
+| Cross-domain dễ dàng                       | Payload dễ decode (base64, không encrypt) |
+| Chứa thông tin user (giảm DB queries)      | Cần refresh token strategy                |
 
 **Lưu trữ JWT ở đâu?**
 
-| Cách | XSS safe? | CSRF safe? | Recommendation |
-|---|---|---|---|
-| localStorage | Không (JS đọc được) | Có | Không khuyến khích cho auth tokens |
-| sessionStorage | Không (JS đọc được) | Có | Tạm OK, mất khi đóng tab |
-| HttpOnly Cookie | Có | Không (cần SameSite/CSRF token) | **Khuyến khích nhất** |
-| Memory (JS variable) | Có (mất khi refresh) | Có | Kết hợp refresh token |
+| Cách                 | XSS safe?            | CSRF safe?                      | Recommendation                     |
+| -------------------- | -------------------- | ------------------------------- | ---------------------------------- |
+| localStorage         | Không (JS đọc được)  | Có                              | Không khuyến khích cho auth tokens |
+| sessionStorage       | Không (JS đọc được)  | Có                              | Tạm OK, mất khi đóng tab           |
+| HttpOnly Cookie      | Có                   | Không (cần SameSite/CSRF token) | **Khuyến khích nhất**              |
+| Memory (JS variable) | Có (mất khi refresh) | Có                              | Kết hợp refresh token              |
 
 ### Code ví dụ
 
 ```javascript
 // JWT decode (KHÔNG PHẢI verify -- chỉ đọc payload)
 function decodeJWT(token) {
-  const parts = token.split('.');
+  const parts = token.split(".");
   if (parts.length !== 3) {
-    throw new Error('Invalid JWT');
+    throw new Error("Invalid JWT");
   }
 
   const payload = parts[1];
   // Base64url decode
-  const decoded = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+  const decoded = atob(payload.replace(/-/g, "+").replace(/_/g, "/"));
   return JSON.parse(decoded);
 }
 
@@ -388,8 +395,8 @@ function isTokenExpired(token) {
 
 // Client chỉ cần gửi credentials
 async function fetchProfile() {
-  const res = await fetch('/api/profile', {
-    credentials: 'include', // Browser tự gửi cookie
+  const res = await fetch("/api/profile", {
+    credentials: "include", // Browser tự gửi cookie
   });
   return res.json();
 }
@@ -398,11 +405,11 @@ async function fetchProfile() {
 let accessToken = null;
 
 async function login(email, password) {
-  const res = await fetch('/api/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+  const res = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
-    credentials: 'include', // Refresh token trong HttpOnly cookie
+    credentials: "include", // Refresh token trong HttpOnly cookie
   });
   const data = await res.json();
   accessToken = data.accessToken; // Access token trong memory
@@ -418,20 +425,20 @@ async function fetchWithAuth(url, options = {}) {
     ...options,
     headers: {
       ...options.headers,
-      'Authorization': `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 }
 
 async function refreshAccessToken() {
-  const res = await fetch('/api/auth/refresh', {
-    method: 'POST',
-    credentials: 'include', // Gửi refresh token cookie
+  const res = await fetch("/api/auth/refresh", {
+    method: "POST",
+    credentials: "include", // Gửi refresh token cookie
   });
 
   if (!res.ok) {
     // Refresh token hết hạn -> redirect to login
-    window.location.href = '/login';
+    window.location.href = "/login";
     return;
   }
 
@@ -453,6 +460,7 @@ async function refreshAccessToken() {
 **OAuth 2.0** là protocol cho phép app (client) truy cập resources của user trên service khác (resource server) **mà không cần biết password** của user.
 
 **4 roles trong OAuth:**
+
 1. **Resource Owner**: User (chủ tài khoản)
 2. **Client**: App muốn truy cập (ví dụ: app của bạn)
 3. **Authorization Server**: Server cấp token (ví dụ: Google Auth)
@@ -490,6 +498,7 @@ async function refreshAccessToken() {
 ```
 
 **Tại sao cần Authorization Code (bước trung gian)?**
+
 - Code chỉ dùng 1 lần, hết hạn nhanh (thường 10 phút)
 - Token được trao đổi qua **backend channel** (server-to-server), không qua browser URL
 - Browser URL bar và history **có thể bị lộ** -- nếu trả token trực tiếp qua URL = token bị expose
@@ -501,15 +510,15 @@ async function refreshAccessToken() {
 // Frontend: Initiate OAuth flow
 function loginWithGoogle() {
   const params = new URLSearchParams({
-    response_type: 'code',
-    client_id: 'YOUR_CLIENT_ID',
-    redirect_uri: 'https://yourapp.com/callback',
-    scope: 'openid email profile',
+    response_type: "code",
+    client_id: "YOUR_CLIENT_ID",
+    redirect_uri: "https://yourapp.com/callback",
+    scope: "openid email profile",
     state: generateRandomState(), // CSRF protection
   });
 
   // Lưu state để verify khi callback
-  sessionStorage.setItem('oauth_state', params.get('state'));
+  sessionStorage.setItem("oauth_state", params.get("state"));
 
   // Redirect to Google
   window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?${params}`;
@@ -518,27 +527,27 @@ function loginWithGoogle() {
 // Frontend: Handle callback
 async function handleOAuthCallback() {
   const params = new URLSearchParams(window.location.search);
-  const code = params.get('code');
-  const state = params.get('state');
+  const code = params.get("code");
+  const state = params.get("state");
 
   // Verify state (CSRF protection)
-  const savedState = sessionStorage.getItem('oauth_state');
+  const savedState = sessionStorage.getItem("oauth_state");
   if (state !== savedState) {
-    throw new Error('CSRF attack detected! State mismatch.');
+    throw new Error("CSRF attack detected! State mismatch.");
   }
-  sessionStorage.removeItem('oauth_state');
+  sessionStorage.removeItem("oauth_state");
 
   // Gửi code lên backend để đổi lấy tokens
-  const response = await fetch('/api/auth/google/callback', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+  const response = await fetch("/api/auth/google/callback", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ code }),
-    credentials: 'include',
+    credentials: "include",
   });
 
   if (response.ok) {
     // Backend đã set session cookie
-    window.location.href = '/dashboard';
+    window.location.href = "/dashboard";
   }
 }
 
@@ -547,19 +556,19 @@ function generateCodeVerifier() {
   const array = new Uint8Array(32);
   crypto.getRandomValues(array);
   return btoa(String.fromCharCode(...array))
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=/g, '');
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=/g, "");
 }
 
 async function generateCodeChallenge(verifier) {
   const encoder = new TextEncoder();
   const data = encoder.encode(verifier);
-  const hash = await crypto.subtle.digest('SHA-256', data);
+  const hash = await crypto.subtle.digest("SHA-256", data);
   return btoa(String.fromCharCode(...new Uint8Array(hash)))
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=/g, '');
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=/g, "");
 }
 ```
 
@@ -573,20 +582,21 @@ async function generateCodeChallenge(verifier) {
 
 ### Giải thích lý thuyết
 
-| Tiêu chí | Session-based | Token-based (JWT) |
-|---|---|---|
-| **State** | Stateful (server lưu session) | Stateless (token tự chứa info) |
-| **Storage (server)** | Session store (Redis, DB) | Không cần (chỉ lưu secret key) |
-| **Storage (client)** | Session ID trong cookie | Token trong cookie/memory/localStorage |
-| **Scaling** | Cần shared session store | Dễ scale (bất kỳ server nào verify được) |
-| **Revocation** | Dễ (xóa session) | Khó (phải dùng blacklist hoặc đợi expire) |
-| **Cross-domain** | Khó (cookie-based) | Dễ (token gửi qua header) |
-| **Size** | Nhỏ (chỉ session ID) | Lớn (payload chứa claims) |
-| **Mobile support** | Phức tạp | Tốt (gửi qua Authorization header) |
-| **CSRF** | Cần CSRF token | Không cần nếu dùng Authorization header |
-| **XSS** | An toàn hơn (HttpOnly cookie) | Phụ thuộc cách lưu trữ |
+| Tiêu chí             | Session-based                 | Token-based (JWT)                         |
+| -------------------- | ----------------------------- | ----------------------------------------- |
+| **State**            | Stateful (server lưu session) | Stateless (token tự chứa info)            |
+| **Storage (server)** | Session store (Redis, DB)     | Không cần (chỉ lưu secret key)            |
+| **Storage (client)** | Session ID trong cookie       | Token trong cookie/memory/localStorage    |
+| **Scaling**          | Cần shared session store      | Dễ scale (bất kỳ server nào verify được)  |
+| **Revocation**       | Dễ (xóa session)              | Khó (phải dùng blacklist hoặc đợi expire) |
+| **Cross-domain**     | Khó (cookie-based)            | Dễ (token gửi qua header)                 |
+| **Size**             | Nhỏ (chỉ session ID)          | Lớn (payload chứa claims)                 |
+| **Mobile support**   | Phức tạp                      | Tốt (gửi qua Authorization header)        |
+| **CSRF**             | Cần CSRF token                | Không cần nếu dùng Authorization header   |
+| **XSS**              | An toàn hơn (HttpOnly cookie) | Phụ thuộc cách lưu trữ                    |
 
 **Khi nào dùng cái nào:**
+
 - **Session-based**: Traditional web apps, cần revoke ngay, server render
 - **Token-based**: SPAs, mobile apps, microservices, cross-domain
 
@@ -596,11 +606,11 @@ async function generateCodeChallenge(verifier) {
 // Session-based authentication flow
 // 1. Login
 async function loginSession(email, password) {
-  const res = await fetch('/api/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+  const res = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
-    credentials: 'include', // Nhận session cookie
+    credentials: "include", // Nhận session cookie
   });
   // Server set cookie: session_id=abc123; HttpOnly; Secure; SameSite=Lax
   return res.json();
@@ -608,8 +618,8 @@ async function loginSession(email, password) {
 
 // 2. Authenticated request (cookie tự gửi)
 async function getProfile() {
-  const res = await fetch('/api/profile', {
-    credentials: 'include', // Browser tự gửi session cookie
+  const res = await fetch("/api/profile", {
+    credentials: "include", // Browser tự gửi session cookie
   });
   return res.json();
 }
@@ -617,9 +627,9 @@ async function getProfile() {
 // Token-based authentication flow
 // 1. Login
 async function loginToken(email, password) {
-  const res = await fetch('/api/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+  const res = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
   });
   const data = await res.json();
@@ -628,9 +638,9 @@ async function loginToken(email, password) {
 
 // 2. Authenticated request (token gửi manual)
 async function getProfileToken(token) {
-  const res = await fetch('/api/profile', {
+  const res = await fetch("/api/profile", {
     headers: {
-      'Authorization': `Bearer ${token}`, // Gửi token trong header
+      Authorization: `Bearer ${token}`, // Gửi token trong header
     },
   });
   return res.json();
@@ -649,13 +659,13 @@ async function getProfileToken(token) {
 
 ## Bảng so sánh authentication methods
 
-| Method | Security | Complexity | Scalability | Mobile | Use case |
-|---|---|---|---|---|---|
-| Session + Cookie | Cao | Thấp | Trung bình | Khó | Traditional web |
-| JWT in localStorage | Thấp (XSS) | Thấp | Cao | Tốt | Quick prototype |
-| JWT in HttpOnly Cookie | Cao | Trung bình | Cao | Trung bình | Production SPA |
-| JWT in Memory + Refresh | Cao | Cao | Cao | Tốt | Production SPA |
-| OAuth 2.0 + PKCE | Rất cao | Cao | Cao | Tốt | Third-party auth |
+| Method                  | Security   | Complexity | Scalability | Mobile     | Use case         |
+| ----------------------- | ---------- | ---------- | ----------- | ---------- | ---------------- |
+| Session + Cookie        | Cao        | Thấp       | Trung bình  | Khó        | Traditional web  |
+| JWT in localStorage     | Thấp (XSS) | Thấp       | Cao         | Tốt        | Quick prototype  |
+| JWT in HttpOnly Cookie  | Cao        | Trung bình | Cao         | Trung bình | Production SPA   |
+| JWT in Memory + Refresh | Cao        | Cao        | Cao         | Tốt        | Production SPA   |
+| OAuth 2.0 + PKCE        | Rất cao    | Cao        | Cao         | Tốt        | Third-party auth |
 
 ---
 

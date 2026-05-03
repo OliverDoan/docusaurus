@@ -9,9 +9,6 @@ Caching là một trong những khái niệm quan trọng nhất khi làm việc
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. 4 Layers of Caching trong Next.js](#1-4-layers-of-caching-trong-nextjs)
@@ -49,7 +46,7 @@ Server
 // app/layout.tsx
 async function layUser() {
   // Gọi API này
-  const res = await fetch('https://api.example.com/user/me');
+  const res = await fetch("https://api.example.com/user/me");
   return res.json();
 }
 
@@ -74,7 +71,7 @@ export default async function Layout({
 // app/page.tsx
 async function layUser() {
   // Cùng URL -- React KHÔNG gửi request mới!
-  const res = await fetch('https://api.example.com/user/me');
+  const res = await fetch("https://api.example.com/user/me");
   return res.json();
 }
 
@@ -100,6 +97,7 @@ Component B goi fetch(url)
 ```
 
 **Điều kiện để memoize:**
+
 - Cùng URL và cùng options
 - Cùng server render pass
 - Phải là `GET` request (POST không được memoize)
@@ -114,35 +112,35 @@ Component B goi fetch(url)
 
 ```tsx
 // Fetch nay được cache vĩnh viễn (mặc định Next.js 14)
-const res = await fetch('https://api.example.com/danh-muc', {
-  cache: 'force-cache',
+const res = await fetch("https://api.example.com/danh-muc", {
+  cache: "force-cache",
 });
 // Request đầu tiên: gọi API thật --> lưu vào Data Cache
 // Request thứ 2, 3, ...: lấy từ Data Cache, KHÔNG gọi API
 
 // Fetch này cache 60 giây
-const res = await fetch('https://api.example.com/san-pham', {
+const res = await fetch("https://api.example.com/san-pham", {
   next: { revalidate: 60 },
 });
 // Trong 60 giây: lấy từ Data Cache
 // Sau 60 giây: request tiếp theo trigger revalidation
 
 // Fetch này KHÔNG cache
-const res = await fetch('https://api.example.com/gia-vang', {
-  cache: 'no-store',
+const res = await fetch("https://api.example.com/gia-vang", {
+  cache: "no-store",
 });
 // Mọi request đều gọi API thật
 ```
 
 ### So sánh Request Memoization vs Data Cache
 
-| Tính năng | Request Memoization | Data Cache |
-|---|---|---|
-| Tồn tại trong | 1 server render | Across requests |
-| Điều khiển bởi | React | Next.js |
-| Áp dụng cho | fetch GET trong render | fetch với cache options |
-| Persistent | Không | Co |
-| Opt out | Không can | `cache: 'no-store'` |
+| Tính năng      | Request Memoization    | Data Cache              |
+| -------------- | ---------------------- | ----------------------- |
+| Tồn tại trong  | 1 server render        | Across requests         |
+| Điều khiển bởi | React                  | Next.js                 |
+| Áp dụng cho    | fetch GET trong render | fetch với cache options |
+| Persistent     | Không                  | Co                      |
+| Opt out        | Không can              | `cache: 'no-store'`     |
 
 ---
 
@@ -169,11 +167,11 @@ export default function GioiThieu() {
 ```tsx
 // Route này KHÔNG được Full Route Cache vì có dynamic data
 // app/dashboard/page.tsx
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function Dashboard() {
-  const data = await fetch('https://api.example.com/stats', {
-    cache: 'no-store',
+  const data = await fetch("https://api.example.com/stats", {
+    cache: "no-store",
   });
   // ...
 }
@@ -181,6 +179,7 @@ export default async function Dashboard() {
 ```
 
 **Các yếu tố khiến route trở nên dynamic (không được Full Route Cache):**
+
 - Sử dụng `cookies()`, `headers()`, `searchParams`
 - `fetch()` voi `cache: 'no-store'`
 - Route segment config: `export const dynamic = 'force-dynamic'`
@@ -193,6 +192,7 @@ export default async function Dashboard() {
 **Mục đích:** Cache RSC Payload **trên browser của user**. Khi user navigate giữa các trang, Next.js lưu trang đã visit vào Router Cache. Khi quay lại trang đó, hiển thị từ cache ngay lập tức mà không cần request server.
 
 **Thời gian sống:**
+
 - **Static routes:** 5 phút
 - **Dynamic routes:** 30 giây
 - Reset khi reload trang (hard refresh)
@@ -235,7 +235,7 @@ Time-based revalidation là cách đơn giản nhất -- tự động revalidate
 
 ```tsx
 // Revalidate mỗi 60 giây
-const res = await fetch('https://api.example.com/san-pham', {
+const res = await fetch("https://api.example.com/san-pham", {
   next: { revalidate: 60 },
 });
 ```
@@ -248,7 +248,7 @@ const res = await fetch('https://api.example.com/san-pham', {
 export const revalidate = 300; // 5 phut
 
 export default async function TinTuc() {
-  const res = await fetch('https://api.example.com/tin-tuc');
+  const res = await fetch("https://api.example.com/tin-tuc");
   // Fetch này sẽ được revalidate mỗi 5 phút
   // ...
 }
@@ -273,12 +273,12 @@ Nếu một route có nhiều fetch với revalidate khác nhau, **giá trị nh
 // Route này sẽ revalidate mỗi 30 giây (giá trị nhỏ nhất)
 export default async function TrangTongHop() {
   // Fetch 1: revalidate 30 giây
-  const giaCoin = await fetch('https://api.example.com/gia-coin', {
+  const giaCoin = await fetch("https://api.example.com/gia-coin", {
     next: { revalidate: 30 },
   });
 
   // Fetch 2: revalidate 3600 giây (1 giờ)
-  const tinTuc = await fetch('https://api.example.com/tin-tuc', {
+  const tinTuc = await fetch("https://api.example.com/tin-tuc", {
     next: { revalidate: 3600 },
   });
 
@@ -296,24 +296,24 @@ Thay vì đợi hết thời gian, bạn có thể **chủ động revalidate** 
 
 ```tsx
 // app/actions/san-pham.ts
-'use server';
+"use server";
 
-import { revalidatePath } from 'next/cache';
+import { revalidatePath } from "next/cache";
 
 export async function taoSanPham(formData: FormData) {
   // Lưu sản phẩm mới vào database
   await prisma.sanPham.create({
     data: {
-      ten: formData.get('ten') as string,
-      gia: Number(formData.get('gia')),
+      ten: formData.get("ten") as string,
+      gia: Number(formData.get("gia")),
     },
   });
 
   // Revalidate trang danh sách sản phẩm
-  revalidatePath('/san-pham');
+  revalidatePath("/san-pham");
 
   // Revalidate toàn bộ route group
-  revalidatePath('/san-pham', 'layout'); // Revalidate layout + tất cả trang con
+  revalidatePath("/san-pham", "layout"); // Revalidate layout + tất cả trang con
 }
 ```
 
@@ -325,18 +325,18 @@ Tag cho phép bạn **nhóm các fetch request** và revalidate tất cả cùng
 // app/san-pham/page.tsx
 // Gán tag cho fetch request
 async function laySanPham() {
-  const res = await fetch('https://api.example.com/san-pham', {
+  const res = await fetch("https://api.example.com/san-pham", {
     next: {
-      tags: ['san-pham'], // Tag này để revalidate sau
+      tags: ["san-pham"], // Tag này để revalidate sau
     },
   });
   return res.json();
 }
 
 async function layDanhMuc() {
-  const res = await fetch('https://api.example.com/danh-muc', {
+  const res = await fetch("https://api.example.com/danh-muc", {
     next: {
-      tags: ['san-pham', 'danh-muc'], // Nhiều tag
+      tags: ["san-pham", "danh-muc"], // Nhiều tag
     },
   });
   return res.json();
@@ -345,19 +345,19 @@ async function layDanhMuc() {
 
 ```tsx
 // app/actions/san-pham.ts
-'use server';
+"use server";
 
-import { revalidateTag } from 'next/cache';
+import { revalidateTag } from "next/cache";
 
 export async function capNhatSanPham(id: string, formData: FormData) {
   await prisma.sanPham.update({
     where: { id },
-    data: { ten: formData.get('ten') as string },
+    data: { ten: formData.get("ten") as string },
   });
 
   // Revalidate tất cả fetch có tag 'san-pham'
   // Cả laySanPham() và layDanhMuc() đều bị revalidate
-  revalidateTag('san-pham');
+  revalidateTag("san-pham");
 }
 ```
 
@@ -367,21 +367,21 @@ Hữu ích khi nhận webhook từ CMS hoặc hệ thống khác:
 
 ```tsx
 // app/api/revalidate/route.ts
-import { revalidateTag } from 'next/cache';
-import { NextRequest } from 'next/server';
+import { revalidateTag } from "next/cache";
+import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
   // Kiểm tra secret để bảo mật
-  const secret = request.headers.get('x-revalidate-secret');
+  const secret = request.headers.get("x-revalidate-secret");
   if (secret !== process.env.REVALIDATE_SECRET) {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const body = await request.json();
   const tag = body.tag;
 
   if (!tag) {
-    return Response.json({ error: 'Missing tag' }, { status: 400 });
+    return Response.json({ error: "Missing tag" }, { status: 400 });
   }
 
   // Revalidate tag được chỉ định
@@ -393,12 +393,12 @@ export async function POST(request: NextRequest) {
 
 ### So sánh revalidatePath vs revalidateTag
 
-| Tính năng | `revalidatePath` | `revalidateTag` |
-|---|---|---|
-| Revalidate theo | Đường dẫn URL | Tag được gán cho fetch |
-| Phạm vi | 1 route cụ thể | Tất cả fetch có tag đó |
-| Dùng khi | Biết chính xác route nào cần cập nhật | Nhiều route dùng chung dữ liệu |
-| Ví dụ | Sửa bài viết `/bai-viet/hello` | Sửa danh mục --> tất cả trang dùng danh mục |
+| Tính năng       | `revalidatePath`                      | `revalidateTag`                             |
+| --------------- | ------------------------------------- | ------------------------------------------- |
+| Revalidate theo | Đường dẫn URL                         | Tag được gán cho fetch                      |
+| Phạm vi         | 1 route cụ thể                        | Tất cả fetch có tag đó                      |
+| Dùng khi        | Biết chính xác route nào cần cập nhật | Nhiều route dùng chung dữ liệu              |
+| Ví dụ           | Sửa bài viết `/bai-viet/hello`        | Sửa danh mục --> tất cả trang dùng danh mục |
 
 ---
 
@@ -410,7 +410,7 @@ export async function POST(request: NextRequest) {
 
 ```tsx
 // Tắt cache cho 1 fetch cụ thể
-const res = await fetch(url, { cache: 'no-store' });
+const res = await fetch(url, { cache: "no-store" });
 ```
 
 ### Cấp độ route
@@ -418,7 +418,7 @@ const res = await fetch(url, { cache: 'no-store' });
 ```tsx
 // app/dashboard/page.tsx
 // Tắt cache cho toàn bộ route
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 // HOAC
 export const revalidate = 0;
 ```
@@ -439,7 +439,7 @@ module.exports = {
 Sử dụng dynamic functions sẽ tự động opt out:
 
 ```tsx
-import { cookies, headers } from 'next/headers';
+import { cookies, headers } from "next/headers";
 
 export default async function TrangCanh() {
   // Bất kỳ hàm nào trong số này sẽ khiến route trở thành dynamic
@@ -459,20 +459,20 @@ Một hệ thống tag tốt giúp bạn revalidate chính xác những gì cầ
 // Chiến lược đặt tên tag: [entity]-[scope]-[id]
 
 // Tag chung cho entity
-fetch(url, { next: { tags: ['san-pham'] } }); // Tất cả sản phẩm
-fetch(url, { next: { tags: ['bai-viet'] } }); // Tất cả bài viết
+fetch(url, { next: { tags: ["san-pham"] } }); // Tất cả sản phẩm
+fetch(url, { next: { tags: ["bai-viet"] } }); // Tất cả bài viết
 
 // Tag cụ thể
-fetch(url, { next: { tags: ['san-pham-123'] } }); // Sản phẩm có ID 123
-fetch(url, { next: { tags: ['bai-viet-hello-world'] } }); // 1 bài viết cụ thể
+fetch(url, { next: { tags: ["san-pham-123"] } }); // Sản phẩm có ID 123
+fetch(url, { next: { tags: ["bai-viet-hello-world"] } }); // 1 bài viết cụ thể
 
 // Nhiều tag cho 1 fetch
 fetch(url, {
   next: {
     tags: [
-      'san-pham',           // Revalidate khi bất kỳ sản phẩm nào thay đổi
-      'san-pham-123',       // Revalidate khi sản phẩm 123 thay đổi
-      'danh-muc-dien-thoai', // Revalidate khi danh mục thay đổi
+      "san-pham", // Revalidate khi bất kỳ sản phẩm nào thay đổi
+      "san-pham-123", // Revalidate khi sản phẩm 123 thay đổi
+      "danh-muc-dien-thoai", // Revalidate khi danh mục thay đổi
     ],
   },
 });
@@ -480,25 +480,30 @@ fetch(url, {
 
 ```tsx
 // app/actions/san-pham.ts
-'use server';
+"use server";
 
-import { revalidateTag } from 'next/cache';
+import { revalidateTag } from "next/cache";
 
 export async function capNhatSanPham(id: string) {
-  await prisma.sanPham.update({ where: { id }, data: { /* ... */ } });
+  await prisma.sanPham.update({
+    where: { id },
+    data: {
+      /* ... */
+    },
+  });
 
   // Revalidate cụ thể sản phẩm này
   revalidateTag(`san-pham-${id}`);
 
   // Và revalidate danh sách sản phẩm (vì danh sách cũng cần cập nhật)
-  revalidateTag('san-pham');
+  revalidateTag("san-pham");
 }
 
 export async function xoaSanPham(id: string) {
   await prisma.sanPham.delete({ where: { id } });
 
   // Revalidate toàn bộ sản phẩm vì danh sách đã thay đổi
-  revalidateTag('san-pham');
+  revalidateTag("san-pham");
 }
 ```
 
@@ -544,14 +549,14 @@ GET https://api.example.com/gia-vang 200 in 120ms (cache: SKIP)
 ```tsx
 // Thêm log để debug caching
 async function layData() {
-  console.log('layData() duoc goi luc:', new Date().toISOString());
+  console.log("layData() duoc goi luc:", new Date().toISOString());
 
-  const res = await fetch('https://api.example.com/data', {
-    next: { revalidate: 60, tags: ['data'] },
+  const res = await fetch("https://api.example.com/data", {
+    next: { revalidate: 60, tags: ["data"] },
   });
 
-  console.log('Response status:', res.status);
-  console.log('Cache status:', res.headers.get('x-cache'));
+  console.log("Response status:", res.status);
+  console.log("Cache status:", res.headers.get("x-cache"));
 
   return res.json();
 }
@@ -590,17 +595,17 @@ npm run build && npm run start
 
 ```tsx
 // SAI -- cập nhật database nhưng quên revalidate
-'use server';
+"use server";
 export async function capNhatSanPham(id: string, data: any) {
   await prisma.sanPham.update({ where: { id }, data });
   // Quên revalidate --> trang vẫn hiển thị dữ liệu cũ!
 }
 
 // ĐÚNG -- luôn revalidate sau mutation
-'use server';
+("use server");
 export async function capNhatSanPham(id: string, data: any) {
   await prisma.sanPham.update({ where: { id }, data });
-  revalidatePath('/san-pham');       // Revalidate danh sách
+  revalidatePath("/san-pham"); // Revalidate danh sách
   revalidatePath(`/san-pham/${id}`); // Revalidate trang chi tiet
 }
 ```
@@ -611,25 +616,29 @@ export async function capNhatSanPham(id: string, data: any) {
 // revalidate và redirect là 2 việc KHÁC NHAU:
 
 // revalidate: Xóa cache, request tiếp theo sẽ render mới
-revalidatePath('/san-pham'); // Không chuyển trang
+revalidatePath("/san-pham"); // Không chuyển trang
 
 // redirect: Chuyển user sang trang khác
-redirect('/san-pham'); // Chuyển trang ngay lập tức
+redirect("/san-pham"); // Chuyển trang ngay lập tức
 
 // Thường dùng cả hai:
-'use server';
+("use server");
 export async function taoSanPham(formData: FormData) {
-  await prisma.sanPham.create({ data: { /* ... */ } });
-  revalidatePath('/san-pham');  // Xóa cache trước
-  redirect('/san-pham');        // Rồi chuyển trang
+  await prisma.sanPham.create({
+    data: {
+      /* ... */
+    },
+  });
+  revalidatePath("/san-pham"); // Xóa cache trước
+  redirect("/san-pham"); // Rồi chuyển trang
 }
 ```
 
 ### Lỗi 4: Dùng Router Cache cũ
 
 ```tsx
-'use client';
-import { useRouter } from 'next/navigation';
+"use client";
+import { useRouter } from "next/navigation";
 
 export default function NutCapNhat() {
   const router = useRouter();
@@ -675,6 +684,7 @@ Best practice: Dùng tag cho dữ liệu dùng chung, dùng path cho mutations c
 **Trả lời:**
 
 Có thể do:
+
 1. **Router Cache:** Browser vẫn cache trang cũ. Dùng `router.refresh()` hoặc hard refresh (Ctrl+Shift+R).
 2. **Sai path:** Kiểm tra path truyền vào có đúng không (phải khớp với route structure).
 3. **Dev mode:** Caching behavior trong dev khác production. Test với `npm run build && npm run start`.
@@ -689,10 +699,10 @@ Có nhiều cấp độ:
 
 ```tsx
 // Cấp độ route (khuyen nghi)
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 // Cấp độ fetch
-fetch(url, { cache: 'no-store' });
+fetch(url, { cache: "no-store" });
 
 // Cấp độ route (alternative)
 export const revalidate = 0;

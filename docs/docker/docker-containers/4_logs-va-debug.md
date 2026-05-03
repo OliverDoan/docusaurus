@@ -9,9 +9,6 @@ Khi container gặp vấn đề, bạn cần biết cách xem logs và debug. B�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Docker Logs](#1-docker-logs)
@@ -96,15 +93,15 @@ docker inspect -f '{{.State.Error}}' my-container
 
 ### Exit codes phổ biến
 
-| Exit Code | Ý nghĩa | Nguyên nhân thường gặp |
-|----------|---------|----------------------|
-| 0 | Thành công | Container chạy xong task |
-| 1 | Lỗi ứng dụng | Code lỗi, missing config |
-| 126 | Permission denied | Không có quyền thực thi |
-| 127 | Command not found | Lệnh CMD/ENTRYPOINT sai |
-| 137 | Killed (SIGKILL) | Out of Memory (OOM) |
-| 139 | Segfault (SIGSEGV) | Lỗi memory ứng dụng |
-| 143 | Terminated (SIGTERM) | Docker stop (graceful) |
+| Exit Code | Ý nghĩa              | Nguyên nhân thường gặp   |
+| --------- | -------------------- | ------------------------ |
+| 0         | Thành công           | Container chạy xong task |
+| 1         | Lỗi ứng dụng         | Code lỗi, missing config |
+| 126       | Permission denied    | Không có quyền thực thi  |
+| 127       | Command not found    | Lệnh CMD/ENTRYPOINT sai  |
+| 137       | Killed (SIGKILL)     | Out of Memory (OOM)      |
+| 139       | Segfault (SIGSEGV)   | Lỗi memory ứng dụng      |
+| 143       | Terminated (SIGTERM) | Docker stop (graceful)   |
 
 ### Chạy container với shell để debug
 
@@ -216,13 +213,13 @@ web         0.5%    45MiB / 7.77GiB     0.56%   1.2kB / 648B   0B / 4.1kB
 db          2.3%    256MiB / 512MiB     50%     5.1kB / 3.2kB  12MB / 45MB
 ```
 
-| Cột | Ý nghĩa |
-|-----|---------|
-| CPU % | Phần trăm CPU đang dùng |
+| Cột             | Ý nghĩa                  |
+| --------------- | ------------------------ |
+| CPU %           | Phần trăm CPU đang dùng  |
 | MEM USAGE/LIMIT | RAM đang dùng / Giới hạn |
-| MEM % | Phần trăm RAM |
-| NET I/O | Network input / output |
-| BLOCK I/O | Disk read / write |
+| MEM %           | Phần trăm RAM            |
+| NET I/O         | Network input / output   |
+| BLOCK I/O       | Disk read / write        |
 
 ### Phát hiện OOM (Out of Memory)
 
@@ -334,14 +331,14 @@ docker update --restart no my-container
 
 ## Tổng kết
 
-| Công cụ | Dùng khi |
-|---------|---------|
-| `docker logs` | Xem output của ứng dụng |
-| `docker exec` | Chạy lệnh trong container đang chạy |
-| `docker inspect` | Xem chi tiết cấu hình container |
-| `docker stats` | Monitor CPU/RAM/Network |
-| `docker events` | Theo dõi sự kiện Docker |
-| `docker top` | Xem processes trong container |
-| `docker diff` | Xem file đã thay đổi |
-| Exit code 137 | OOM Kill → Tăng memory |
-| Exit code 127 | Command not found → Kiểm tra CMD |
+| Công cụ          | Dùng khi                            |
+| ---------------- | ----------------------------------- |
+| `docker logs`    | Xem output của ứng dụng             |
+| `docker exec`    | Chạy lệnh trong container đang chạy |
+| `docker inspect` | Xem chi tiết cấu hình container     |
+| `docker stats`   | Monitor CPU/RAM/Network             |
+| `docker events`  | Theo dõi sự kiện Docker             |
+| `docker top`     | Xem processes trong container       |
+| `docker diff`    | Xem file đã thay đổi                |
+| Exit code 137    | OOM Kill → Tăng memory              |
+| Exit code 127    | Command not found → Kiểm tra CMD    |

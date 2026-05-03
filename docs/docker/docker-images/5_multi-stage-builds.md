@@ -9,9 +9,6 @@ Multi-stage build là kỹ thuật nâng cao giúp tạo ra image production nh�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Vấn đề: Image quá lớn](#1-vấn-đề-image-quá-lớn)
@@ -258,12 +255,12 @@ ENTRYPOINT ["/server"]
 
 ## 5. So sánh kết quả
 
-| Ứng dụng | Không multi-stage | Có multi-stage | Giảm |
-|----------|------------------|---------------|------|
-| React app | ~800MB | ~50MB | 94% |
-| Node.js API | ~350MB | ~150MB | 57% |
-| Python API | ~500MB | ~200MB | 60% |
-| Go API | ~400MB | ~10MB | 97% |
+| Ứng dụng    | Không multi-stage | Có multi-stage | Giảm |
+| ----------- | ----------------- | -------------- | ---- |
+| React app   | ~800MB            | ~50MB          | 94%  |
+| Node.js API | ~350MB            | ~150MB         | 57%  |
+| Python API  | ~500MB            | ~200MB         | 60%  |
+| Go API      | ~400MB            | ~10MB          | 97%  |
 
 ---
 
@@ -396,14 +393,14 @@ docker run -d -p 8080:80 react-app
 
 ## Tổng kết
 
-| Khái niệm | Giải thích |
-|-----------|-----------|
+| Khái niệm       | Giải thích                    |
+| --------------- | ----------------------------- |
 | **Multi-stage** | Nhiều FROM trong 1 Dockerfile |
-| **AS** | Đặt tên cho stage |
-| **COPY --from** | Copy file từ stage khác |
-| **--target** | Build chỉ 1 stage cụ thể |
-| **Stage cuối** | Chỉ stage cuối thành image |
-| **Kết quả** | Image nhỏ hơn 50-97% |
+| **AS**          | Đặt tên cho stage             |
+| **COPY --from** | Copy file từ stage khác       |
+| **--target**    | Build chỉ 1 stage cụ thể      |
+| **Stage cuối**  | Chỉ stage cuối thành image    |
+| **Kết quả**     | Image nhỏ hơn 50-97%          |
 
 ### Khi nào dùng Multi-stage?
 

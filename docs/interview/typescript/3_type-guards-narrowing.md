@@ -9,9 +9,6 @@ Type guards và conditional types là cầu nối giữa logic runtime và type 
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: typeof và instanceof type guards hoạt động như thế nào? `[Intermediate]`](#câu-1-typeof-và-instanceof-type-guards-hoạt-động-như-thế-nào-intermediate)
@@ -67,14 +64,12 @@ function processData(data: object | null) {
 class ApiError {
   constructor(
     public statusCode: number,
-    public message: string
+    public message: string,
   ) {}
 }
 
 class ValidationError {
-  constructor(
-    public fields: Record<string, string>
-  ) {}
+  constructor(public fields: Record<string, string>) {}
 }
 
 function handleError(error: ApiError | ValidationError) {
@@ -91,7 +86,7 @@ function handleError(error: ApiError | ValidationError) {
 class HttpError extends Error {
   constructor(
     public statusCode: number,
-    message: string
+    message: string,
   ) {
     super(message);
   }
@@ -365,8 +360,8 @@ Khi dùng với union types, conditional types được **distribute** -- áp d�
 // === CONDITIONAL TYPE CƠ BẢN ===
 type IsString<T> = T extends string ? "yes" : "no";
 
-type A = IsString<string>;  // "yes"
-type B = IsString<number>;  // "no"
+type A = IsString<string>; // "yes"
+type B = IsString<number>; // "no"
 type C = IsString<"hello">; // "yes" (literal extends string)
 
 // === DISTRIBUTIVE CONDITIONAL TYPES ===
@@ -406,22 +401,22 @@ type G = MyExtract<string | number | boolean, number | boolean>;
 // Flatten array type
 type Flatten<T> = T extends Array<infer Item> ? Item : T;
 
-type H = Flatten<string[]>;    // string
-type I = Flatten<number[][]>;  // number[] (chỉ flatten 1 cấp)
-type J = Flatten<string>;      // string (không phải array, giữ nguyên)
+type H = Flatten<string[]>; // string
+type I = Flatten<number[][]>; // number[] (chỉ flatten 1 cấp)
+type J = Flatten<string>; // string (không phải array, giữ nguyên)
 
 // Unwrap Promise
 type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 
-type K = UnwrapPromise<Promise<string>>;  // string
+type K = UnwrapPromise<Promise<string>>; // string
 type L = UnwrapPromise<Promise<number>>; // number
-type M = UnwrapPromise<string>;           // string (không phải Promise)
+type M = UnwrapPromise<string>; // string (không phải Promise)
 
 // Function return type
 type MyReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
 
-type N = MyReturnType<() => string>;              // string
-type O = MyReturnType<(x: number) => boolean>;    // boolean
+type N = MyReturnType<() => string>; // string
+type O = MyReturnType<(x: number) => boolean>; // boolean
 ```
 
 ### Đáp án mẫu
@@ -444,13 +439,13 @@ Nghĩ đơn giản: `infer` là cách bạn nói với TypeScript "hãy tự suy
 // === INFER CƠ BẢN: LẤY ELEMENT TYPE CỦA ARRAY ===
 type ElementOf<T> = T extends Array<infer E> ? E : never;
 
-type P = ElementOf<string[]>;     // string
+type P = ElementOf<string[]>; // string
 type Q = ElementOf<[1, "two", 3]>; // 1 | "two" | 3
 
 // === INFER: LẤY RETURN TYPE ===
 type GetReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
 
-type R1 = GetReturnType<() => string>;          // string
+type R1 = GetReturnType<() => string>; // string
 type R2 = GetReturnType<() => Promise<number>>; // Promise<number>
 
 // === INFER: LẤY PARAMETERS ===
@@ -459,15 +454,16 @@ type GetFirstParam<T> = T extends (first: infer F, ...rest: any[]) => any
   : never;
 
 type F1 = GetFirstParam<(name: string, age: number) => void>; // string
-type F2 = GetFirstParam<() => void>;                           // never
+type F2 = GetFirstParam<() => void>; // never
 
 // === INFER: LẤY PROMISE INNER TYPE (RECURSIVE) ===
-type DeepUnwrapPromise<T> = T extends Promise<infer U>
-  ? DeepUnwrapPromise<U>  // Recursive: unwrap tiếp nếu vẫn là Promise
-  : T;
+type DeepUnwrapPromise<T> =
+  T extends Promise<infer U>
+    ? DeepUnwrapPromise<U> // Recursive: unwrap tiếp nếu vẫn là Promise
+    : T;
 
-type S1 = DeepUnwrapPromise<Promise<string>>;                // string
-type S2 = DeepUnwrapPromise<Promise<Promise<number>>>;       // number
+type S1 = DeepUnwrapPromise<Promise<string>>; // string
+type S2 = DeepUnwrapPromise<Promise<Promise<number>>>; // number
 type S3 = DeepUnwrapPromise<Promise<Promise<Promise<boolean>>>>; // boolean
 
 // === INFER TRONG TEMPLATE LITERAL ===
@@ -482,21 +478,15 @@ type Params = ExtractRouteParams<"/users/:userId/posts/:postId">;
 // "userId" | "postId"
 
 // === INFER VỚI TUPLE ===
-type Head<T extends any[]> = T extends [infer First, ...any[]]
-  ? First
-  : never;
+type Head<T extends any[]> = T extends [infer First, ...any[]] ? First : never;
 
-type Tail<T extends any[]> = T extends [any, ...infer Rest]
-  ? Rest
-  : never;
+type Tail<T extends any[]> = T extends [any, ...infer Rest] ? Rest : never;
 
-type Last<T extends any[]> = T extends [...any[], infer L]
-  ? L
-  : never;
+type Last<T extends any[]> = T extends [...any[], infer L] ? L : never;
 
-type T1 = Head<[1, 2, 3]>;  // 1
-type T2 = Tail<[1, 2, 3]>;  // [2, 3]
-type T3 = Last<[1, 2, 3]>;  // 3
+type T1 = Head<[1, 2, 3]>; // 1
+type T2 = Tail<[1, 2, 3]>; // [2, 3]
+type T3 = Last<[1, 2, 3]>; // 3
 ```
 
 ### Đáp án mẫu
@@ -561,9 +551,7 @@ function sendNotification(type: NotificationType, message: string) {
 }
 
 // === EXHAUSTIVE CHECK VỚI IF/ELSE ===
-type Result<T, E> =
-  | { ok: true; value: T }
-  | { ok: false; error: E };
+type Result<T, E> = { ok: true; value: T } | { ok: false; error: E };
 
 function handleResult<T>(result: Result<T, string>): T {
   if (result.ok === true) {

@@ -9,9 +9,6 @@ Hãy tưởng tượng bạn có một bản thiết kế nhà (object) và mu�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Object Cloning là gì?](#1-object-cloning-là-gì)
@@ -41,12 +38,12 @@ Student s2 = (Student) s1.clone(); // Một dòng!
 
 ### Tại sao cần cloning?
 
-| Tình huống | Giải pháp |
-|---|---|
-| Tạo bản sao object để chỉnh sửa mà không ảnh hưởng bản gốc | Clone |
-| Lưu trạng thái object tại một thời điểm (snapshot) | Clone |
-| Truyền bản sao vào method thay vì truyền reference gốc | Clone |
-| Prototype design pattern | Clone |
+| Tình huống                                                 | Giải pháp |
+| ---------------------------------------------------------- | --------- |
+| Tạo bản sao object để chỉnh sửa mà không ảnh hưởng bản gốc | Clone     |
+| Lưu trạng thái object tại một thời điểm (snapshot)         | Clone     |
+| Truyền bản sao vào method thay vì truyền reference gốc     | Clone     |
+| Prototype design pattern                                   | Clone     |
 
 ---
 
@@ -76,20 +73,21 @@ Deep:     [name: "An", address: ──→ {city: "HCM"}]  (address riêng!)
 
 ### So sánh
 
-| Tiêu chí | Shallow Copy | Deep Copy |
-|---|---|---|
-| **Primitive fields** | Copy giá trị | Copy giá trị |
-| **Reference fields** | Copy địa chỉ (dùng chung) | Copy toàn bộ object con |
-| **Độc lập** | Không hoàn toàn | Hoàn toàn |
-| **Tốc độ** | Nhanh | Chậm hơn |
-| **Bộ nhớ** | Ít hơn | Nhiều hơn |
-| **Rủi ro** | Thay đổi bản sao ảnh hưởng bản gốc | An toàn |
+| Tiêu chí             | Shallow Copy                       | Deep Copy               |
+| -------------------- | ---------------------------------- | ----------------------- |
+| **Primitive fields** | Copy giá trị                       | Copy giá trị            |
+| **Reference fields** | Copy địa chỉ (dùng chung)          | Copy toàn bộ object con |
+| **Độc lập**          | Không hoàn toàn                    | Hoàn toàn               |
+| **Tốc độ**           | Nhanh                              | Chậm hơn                |
+| **Bộ nhớ**           | Ít hơn                             | Nhiều hơn               |
+| **Rủi ro**           | Thay đổi bản sao ảnh hưởng bản gốc | An toàn                 |
 
 ---
 
 ## 3. Cloneable interface và clone()
 
 Java cung cấp cơ chế clone thông qua:
+
 1. Implement interface `Cloneable`
 2. Override method `clone()` từ class `Object`
 
@@ -289,12 +287,12 @@ System.out.println(s1.address.city); // HCM — không bị ảnh hưởng!
 
 ## 6. So sánh các phương pháp Clone
 
-| Phương pháp | Ưu điểm | Nhược điểm |
-|---|---|---|
-| **clone() (Shallow)** | Nhanh, đơn giản | Reference fields dùng chung |
-| **clone() (Deep)** | Độc lập hoàn toàn | Phải override clone() ở mọi class con |
-| **Copy Constructor** | Rõ ràng, không cần Cloneable | Phải viết constructor cho mỗi class |
-| **Serialization** | Deep copy tự động mọi field | Chậm, cần Serializable |
+| Phương pháp           | Ưu điểm                      | Nhược điểm                            |
+| --------------------- | ---------------------------- | ------------------------------------- |
+| **clone() (Shallow)** | Nhanh, đơn giản              | Reference fields dùng chung           |
+| **clone() (Deep)**    | Độc lập hoàn toàn            | Phải override clone() ở mọi class con |
+| **Copy Constructor**  | Rõ ràng, không cần Cloneable | Phải viết constructor cho mỗi class   |
+| **Serialization**     | Deep copy tự động mọi field  | Chậm, cần Serializable                |
 
 ---
 
@@ -413,6 +411,7 @@ public Object clone() throws CloneNotSupportedException {
 ### Câu 4: Copy constructor vs clone(), nên dùng cái nào?
 
 **Trả lời:** Trong thực tế, **copy constructor được ưa chuộng hơn** vì:
+
 - Không cần implement interface hay ép kiểu
 - Rõ ràng và dễ đọc
 - Không ném checked exception
@@ -423,6 +422,7 @@ Effective Java (Joshua Bloch) cũng khuyến nghị dùng copy constructor hoặ
 ### Câu 5: Làm sao để deep clone một object phức tạp có nhiều tầng reference?
 
 **Trả lời:** Có 3 cách:
+
 1. **Override clone() thủ công** — clone từng field ở mỗi tầng. Chính xác nhưng tốn công khi object phức tạp.
 2. **Copy constructor** — tạo constructor nhận object cùng type và copy từng field. Rõ ràng nhất.
 3. **Serialization** — serialize object thành byte array rồi deserialize lại. Tự động deep copy mọi tầng, nhưng yêu cầu tất cả class implement `Serializable` và chậm hơn.

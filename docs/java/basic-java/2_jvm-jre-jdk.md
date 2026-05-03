@@ -8,12 +8,10 @@ title: "2. Phân biệt JVM, JRE, JDK"
 Khi bắt đầu học Java, bạn sẽ thường gặp ba thuật ngữ: **JVM**, **JRE** và **JDK**. Đây là ba thành phần cốt lõi của nền tảng Java, và hiểu rõ chúng sẽ giúp bạn nắm được cách Java hoạt động từ khi viết code đến khi chạy chương trình.
 
 **Tương tự đơn giản:** Hãy tưởng tượng bạn muốn nghe nhạc:
+
 - **JVM** giống như **máy phát nhạc** -- nó đọc và phát các bản nhạc (bytecode)
 - **JRE** giống như **máy phát nhạc + bộ sưu tập đĩa nhạc** -- có đủ để bạn thưởng thức nhạc
 - **JDK** giống như **studio thu âm** -- có máy phát, đĩa nhạc, và cả công cụ để bạn **thu âm, mix, sản xuất nhạc** (phát triển phần mềm)
-
----
-
 
 ---
 
@@ -69,6 +67,7 @@ public class HelloJVM {
 JVM thực hiện các bước sau:
 
 **1. ClassLoader (Bộ nạp lớp)**
+
 - Nạp file `.class` vào bộ nhớ
 - Gồm 3 giai đoạn: **Loading** --> **Linking** --> **Initialization**
 
@@ -80,21 +79,21 @@ Initialize: Gán giá trị ban đầu cho các biến static
 
 **2. Runtime Data Areas (Vùng dữ liệu thực thi)**
 
-| Vùng nhớ | Mục đích |
-|----------|----------|
-| **Method Area** | Lưu thông tin class, static variable, constant pool |
-| **Heap** | Lưu đối tượng được tạo bằng `new` |
-| **Stack** | Lưu biến cục bộ, tham chiếu phương thức |
-| **PC Register** | Địa chỉ lệnh đang thực thi của mỗi thread |
-| **Native Method Stack** | Gọi phương thức native (C/C++) |
+| Vùng nhớ                | Mục đích                                            |
+| ----------------------- | --------------------------------------------------- |
+| **Method Area**         | Lưu thông tin class, static variable, constant pool |
+| **Heap**                | Lưu đối tượng được tạo bằng `new`                   |
+| **Stack**               | Lưu biến cục bộ, tham chiếu phương thức             |
+| **PC Register**         | Địa chỉ lệnh đang thực thi của mỗi thread           |
+| **Native Method Stack** | Gọi phương thức native (C/C++)                      |
 
 **3. Execution Engine (Bộ thực thi)**
 
-| Thành phần | Vai trò |
-|------------|---------|
-| **Interpreter** | Đọc và thực thi bytecode từng dòng |
-| **JIT Compiler** | Biên dịch bytecode "nóng" thành mã máy để tăng tốc |
-| **Garbage Collector** | Tự động thu hồi bộ nhớ không còn sử dụng |
+| Thành phần            | Vai trò                                            |
+| --------------------- | -------------------------------------------------- |
+| **Interpreter**       | Đọc và thực thi bytecode từng dòng                 |
+| **JIT Compiler**      | Biên dịch bytecode "nóng" thành mã máy để tăng tốc |
+| **Garbage Collector** | Tự động thu hồi bộ nhớ không còn sử dụng           |
 
 ### JIT Compiler (Just-In-Time Compiler)
 
@@ -134,14 +133,14 @@ JRE (Java Runtime Environment) là **môi trường chạy Java**. Nó cung cấ
 JRE = JVM + Thư viện chuẩn (Java Class Libraries) + File hỗ trợ runtime
 ```
 
-| Thành phần | Mô tả |
-|------------|-------|
-| **JVM** | Máy ảo thực thi bytecode |
+| Thành phần    | Mô tả                                           |
+| ------------- | ----------------------------------------------- |
+| **JVM**       | Máy ảo thực thi bytecode                        |
 | **java.lang** | Các lớp cơ bản: String, Math, System, Object... |
-| **java.util** | Collections, Date, Scanner... |
-| **java.io** | Đọc/ghi file |
-| **java.net** | Lập trình mạng |
-| **java.sql** | Kết nối cơ sở dữ liệu |
+| **java.util** | Collections, Date, Scanner...                   |
+| **java.io**   | Đọc/ghi file                                    |
+| **java.net**  | Lập trình mạng                                  |
+| **java.sql**  | Kết nối cơ sở dữ liệu                           |
 
 ### Ví dụ: Chỉ cần JRE để chạy
 
@@ -160,6 +159,7 @@ java -version
 ```
 
 **Khi nào chỉ cần JRE?**
+
 - Bạn là **người dùng cuối**, chỉ muốn chạy ứng dụng Java (ví dụ: Minecraft, công cụ doanh nghiệp)
 - Bạn **không cần** viết hoặc biên dịch code Java
 
@@ -177,15 +177,15 @@ JDK (Java Development Kit) là **bộ công cụ phát triển Java đầy đủ
 JDK = JRE + Công cụ phát triển (Development Tools)
 ```
 
-| Công cụ | Chức năng |
-|---------|-----------|
-| **javac** | Trình biên dịch: `.java` --> `.class` (bytecode) |
-| **java** | Thực thi chương trình Java (gọi JVM) |
-| **jar** | Đóng gói file thành `.jar` |
-| **javadoc** | Tạo tài liệu API từ comment trong code |
-| **jdb** | Trình gỡ lỗi (debugger) |
-| **jconsole** | Giám sát hiệu năng ứng dụng |
-| **jshell** | Java REPL -- chạy code Java tương tác (từ Java 9) |
+| Công cụ      | Chức năng                                         |
+| ------------ | ------------------------------------------------- |
+| **javac**    | Trình biên dịch: `.java` --> `.class` (bytecode)  |
+| **java**     | Thực thi chương trình Java (gọi JVM)              |
+| **jar**      | Đóng gói file thành `.jar`                        |
+| **javadoc**  | Tạo tài liệu API từ comment trong code            |
+| **jdb**      | Trình gỡ lỗi (debugger)                           |
+| **jconsole** | Giám sát hiệu năng ứng dụng                       |
+| **jshell**   | Java REPL -- chạy code Java tương tác (từ Java 9) |
 
 ### Ví dụ sử dụng các công cụ JDK
 
@@ -263,14 +263,14 @@ jshell
 
 ## 5. Bảng so sánh tổng hợp
 
-| Tiêu chí | JVM | JRE | JDK |
-|----------|-----|-----|-----|
-| **Là gì?** | Máy ảo thực thi bytecode | Môi trường chạy Java | Bộ công cụ phát triển Java |
-| **Bao gồm** | ClassLoader, Execution Engine, GC | JVM + thư viện chuẩn | JRE + công cụ dev |
-| **Có thể biên dịch code?** | Không | Không | Có (javac) |
-| **Có thể chạy code?** | Có (bytecode) | Có | Có |
-| **Dành cho** | Nền tảng/thực thi | Người dùng cuối | Lập trình viên |
-| **Ví dụ tương tự** | Máy phát nhạc | Máy phát + đĩa nhạc | Studio thu âm |
+| Tiêu chí                   | JVM                               | JRE                  | JDK                        |
+| -------------------------- | --------------------------------- | -------------------- | -------------------------- |
+| **Là gì?**                 | Máy ảo thực thi bytecode          | Môi trường chạy Java | Bộ công cụ phát triển Java |
+| **Bao gồm**                | ClassLoader, Execution Engine, GC | JVM + thư viện chuẩn | JRE + công cụ dev          |
+| **Có thể biên dịch code?** | Không                             | Không                | Có (javac)                 |
+| **Có thể chạy code?**      | Có (bytecode)                     | Có                   | Có                         |
+| **Dành cho**               | Nền tảng/thực thi                 | Người dùng cuối      | Lập trình viên             |
+| **Ví dụ tương tự**         | Máy phát nhạc                     | Máy phát + đĩa nhạc  | Studio thu âm              |
 
 ---
 
@@ -334,6 +334,7 @@ Từ **Java 11**, Oracle không còn cung cấp JRE riêng lẻ. Khi bạn cài 
 ### Câu 1: Phân biệt JVM, JRE và JDK?
 
 **Trả lời:**
+
 - **JVM** là máy ảo thực thi bytecode Java. Nó chuyển bytecode thành mã máy của từng nền tảng cụ thể.
 - **JRE** gồm JVM + thư viện chuẩn Java, dùng để **chạy** chương trình Java.
 - **JDK** gồm JRE + công cụ phát triển (javac, jar, javadoc...), dùng để **phát triển** ứng dụng Java.
@@ -346,6 +347,7 @@ Từ **Java 11**, Oracle không còn cung cấp JRE riêng lẻ. Khi bạn cài 
 ### Câu 3: ClassLoader là gì? Nó hoạt động như thế nào?
 
 **Trả lời:** ClassLoader là thành phần của JVM có nhiệm vụ **nạp các file .class vào bộ nhớ**. Nó hoạt động theo 3 giai đoạn:
+
 1. **Loading:** Tìm và đọc file .class từ disk hoặc network
 2. **Linking:** Kiểm tra bytecode (verification), cấp phát bộ nhớ (preparation), giải quyết tham chiếu (resolution)
 3. **Initialization:** Thực thi các khối static và gán giá trị cho static variable

@@ -9,9 +9,6 @@ Khi làm việc với Git, bạn sẽ nhanh chóng nhận ra rằng làm tất c
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Branch là gì?](#1-branch-là-gì)
@@ -88,6 +85,7 @@ Khi bạn commit, branch mà HEAD đang trỏ đến sẽ **di chuyển lên ph�
 ### 2.1. Parallel development -- Làm việc song song
 
 Không có branch:
+
 ```
 Developer A: đang sửa file login.js
 Developer B: cũng sửa file login.js
@@ -95,6 +93,7 @@ Developer B: cũng sửa file login.js
 ```
 
 Có branch:
+
 ```
 Developer A: làm trên feature/login
 Developer B: làm trên feature/dashboard
@@ -245,11 +244,11 @@ git checkout -b feature/dashboard
 
 `git checkout` là lệnh "đa năng" quá mức -- nó làm quá nhiều việc:
 
-| Hành động | `git checkout` | Lệnh hiện đại |
-|-----------|---------------|---------------|
-| Chuyển branch | `git checkout feature` | `git switch feature` |
-| Tạo + chuyển branch | `git checkout -b feature` | `git switch -c feature` |
-| Khôi phục file | `git checkout -- file.txt` | `git restore file.txt` |
+| Hành động           | `git checkout`                    | Lệnh hiện đại                          |
+| ------------------- | --------------------------------- | -------------------------------------- |
+| Chuyển branch       | `git checkout feature`            | `git switch feature`                   |
+| Tạo + chuyển branch | `git checkout -b feature`         | `git switch -c feature`                |
+| Khôi phục file      | `git checkout -- file.txt`        | `git restore file.txt`                 |
 | Khôi phục từ commit | `git checkout abc123 -- file.txt` | `git restore --source abc123 file.txt` |
 
 Vấn đề của `git checkout`:
@@ -272,16 +271,16 @@ git restore main         # Khôi phục file tên "main"
 
 ### 5.1. Các prefix phổ biến
 
-| Prefix | Mục đích | Ví dụ |
-|--------|----------|-------|
-| `feature/` | Tính năng mới | `feature/user-authentication` |
-| `bugfix/` | Sửa lỗi (không khẩn cấp) | `bugfix/login-redirect` |
-| `hotfix/` | Sửa lỗi khẩn cấp trên production | `hotfix/payment-crash` |
-| `release/` | Chuẩn bị release phiên bản mới | `release/v2.1.0` |
-| `docs/` | Cập nhật tài liệu | `docs/api-guide` |
-| `refactor/` | Tái cấu trúc code | `refactor/auth-module` |
-| `test/` | Thêm hoặc sửa test | `test/integration-api` |
-| `chore/` | Công việc bảo trì | `chore/update-dependencies` |
+| Prefix      | Mục đích                         | Ví dụ                         |
+| ----------- | -------------------------------- | ----------------------------- |
+| `feature/`  | Tính năng mới                    | `feature/user-authentication` |
+| `bugfix/`   | Sửa lỗi (không khẩn cấp)         | `bugfix/login-redirect`       |
+| `hotfix/`   | Sửa lỗi khẩn cấp trên production | `hotfix/payment-crash`        |
+| `release/`  | Chuẩn bị release phiên bản mới   | `release/v2.1.0`              |
+| `docs/`     | Cập nhật tài liệu                | `docs/api-guide`              |
+| `refactor/` | Tái cấu trúc code                | `refactor/auth-module`        |
+| `test/`     | Thêm hoặc sửa test               | `test/integration-api`        |
+| `chore/`    | Công việc bảo trì                | `chore/update-dependencies`   |
 
 ### 5.2. Quy tắc đặt tên tốt
 
@@ -299,6 +298,7 @@ thuans-branch
 ```
 
 **Nguyên tắc:**
+
 - Dùng chữ thường và dấu gạch nối `-` (không dùng dấu cách, underscore)
 - Bắt đầu bằng prefix phân loại
 - Mô tả ngắn gọn nhưng đủ hiểu
@@ -387,6 +387,7 @@ main:          A---B---C---D---E---M
 ```
 
 Xem trực quan bằng lệnh:
+
 ```bash
 git log --oneline --graph --all
 # Kết quả:
@@ -582,6 +583,7 @@ git switch -c feature/login-v2        # Dấu gạch nối
 ### Câu 5: Giải thích sự khác nhau giữa local branch, remote branch và remote-tracking branch.
 
 **Trả lời:**
+
 - **Local branch** (`main`): tồn tại trên máy bạn, bạn có thể commit trực tiếp
 - **Remote branch** (`origin/main` trên server): tồn tại trên server (GitHub/GitLab)
 - **Remote-tracking branch** (`origin/main` trên máy bạn): bản sao local của remote branch, được cập nhật khi `git fetch`. Đây là "ảnh chụp" trạng thái của remote, giúp bạn so sánh local với remote mà không cần kết nối mạng
@@ -592,17 +594,17 @@ Lệnh `git fetch` cập nhật remote-tracking branches. Lệnh `git pull` = `g
 
 ## Tóm tắt
 
-| Lệnh | Chức năng |
-|------|-----------|
-| `git branch` | Liệt kê branches |
-| `git branch <tên>` | Tạo branch mới |
-| `git branch -d <tên>` | Xoá branch đã merge |
-| `git branch -D <tên>` | Xoá branch (ép buộc) |
-| `git branch -a` | Xem tất cả branches (cả remote) |
-| `git branch -vv` | Xem tracking info |
-| `git switch <tên>` | Chuyển branch |
-| `git switch -c <tên>` | Tạo và chuyển branch |
-| `git switch -` | Quay lại branch trước đó |
-| `git push -u origin <tên>` | Push và thiết lập tracking |
+| Lệnh                       | Chức năng                       |
+| -------------------------- | ------------------------------- |
+| `git branch`               | Liệt kê branches                |
+| `git branch <tên>`         | Tạo branch mới                  |
+| `git branch -d <tên>`      | Xoá branch đã merge             |
+| `git branch -D <tên>`      | Xoá branch (ép buộc)            |
+| `git branch -a`            | Xem tất cả branches (cả remote) |
+| `git branch -vv`           | Xem tracking info               |
+| `git switch <tên>`         | Chuyển branch                   |
+| `git switch -c <tên>`      | Tạo và chuyển branch            |
+| `git switch -`             | Quay lại branch trước đó        |
+| `git push -u origin <tên>` | Push và thiết lập tracking      |
 
 **Ghi nhớ:** Branch trong Git rẻ và nhanh. Hãy tạo branch cho mỗi đơn vị công việc -- đừng ngại tạo nhiều branch!

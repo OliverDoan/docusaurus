@@ -13,9 +13,6 @@ Java hiện có khoảng **50 từ khóa**. Lưu ý: `true`, `false`, `null` **k
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Nội dung](#nội-dung)
@@ -53,12 +50,12 @@ Java hiện có khoảng **50 từ khóa**. Lưu ý: `true`, `false`, `null` **k
 
 Các từ khóa kiểm soát ai được phép truy cập thành phần nào trong chương trình.
 
-| Từ khóa | Phạm vi truy cập |
-|---------|-----------------|
-| `public` | Truy cập từ **mọi nơi** |
-| `protected` | Truy cập trong **cùng package** và **class con** (subclass) |
-| `private` | Chỉ truy cập trong **chính class đó** |
-| *(không ghi)* | **Default** -- chỉ truy cập trong **cùng package** |
+| Từ khóa       | Phạm vi truy cập                                            |
+| ------------- | ----------------------------------------------------------- |
+| `public`      | Truy cập từ **mọi nơi**                                     |
+| `protected`   | Truy cập trong **cùng package** và **class con** (subclass) |
+| `private`     | Chỉ truy cập trong **chính class đó**                       |
+| _(không ghi)_ | **Default** -- chỉ truy cập trong **cùng package**          |
 
 ```java
 public class Student {
@@ -81,17 +78,17 @@ public class Student {
 
 ## 2. Nhóm khai báo Class/Interface
 
-| Từ khóa | Ý nghĩa |
-|---------|---------|
-| `class` | Khai báo một lớp |
-| `interface` | Khai báo một interface (chỉ định nghĩa hành vi) |
-| `enum` | Khai báo kiểu liệt kê |
-| `extends` | Kế thừa từ lớp cha |
-| `implements` | Triển khai interface |
-| `abstract` | Khai báo lớp/phương thức trừu tượng |
-| `new` | Tạo đối tượng mới |
-| `this` | Tham chiếu đến đối tượng hiện tại |
-| `super` | Tham chiếu đến lớp cha |
+| Từ khóa      | Ý nghĩa                                         |
+| ------------ | ----------------------------------------------- |
+| `class`      | Khai báo một lớp                                |
+| `interface`  | Khai báo một interface (chỉ định nghĩa hành vi) |
+| `enum`       | Khai báo kiểu liệt kê                           |
+| `extends`    | Kế thừa từ lớp cha                              |
+| `implements` | Triển khai interface                            |
+| `abstract`   | Khai báo lớp/phương thức trừu tượng             |
+| `new`        | Tạo đối tượng mới                               |
+| `this`       | Tham chiếu đến đối tượng hiện tại               |
+| `super`      | Tham chiếu đến lớp cha                          |
 
 ```java
 // Khai báo interface
@@ -143,17 +140,17 @@ public class KeywordClassDemo {
 
 ## 3. Nhóm kiểu dữ liệu
 
-| Từ khóa | Ý nghĩa |
-|---------|---------|
-| `byte` | Số nguyên 8-bit (-128 đến 127) |
-| `short` | Số nguyên 16-bit |
-| `int` | Số nguyên 32-bit |
-| `long` | Số nguyên 64-bit |
-| `float` | Số thực 32-bit |
-| `double` | Số thực 64-bit |
-| `char` | Ký tự Unicode 16-bit |
+| Từ khóa   | Ý nghĩa                          |
+| --------- | -------------------------------- |
+| `byte`    | Số nguyên 8-bit (-128 đến 127)   |
+| `short`   | Số nguyên 16-bit                 |
+| `int`     | Số nguyên 32-bit                 |
+| `long`    | Số nguyên 64-bit                 |
+| `float`   | Số thực 32-bit                   |
+| `double`  | Số thực 64-bit                   |
+| `char`    | Ký tự Unicode 16-bit             |
 | `boolean` | Giá trị logic (`true` / `false`) |
-| `void` | Phương thức không trả về giá trị |
+| `void`    | Phương thức không trả về giá trị |
 
 ```java
 public class DataTypeKeywords {
@@ -183,19 +180,19 @@ public class DataTypeKeywords {
 
 ## 4. Nhóm điều khiển luồng (Control Flow)
 
-| Từ khóa | Ý nghĩa |
-|---------|---------|
-| `if` | Điều kiện nếu |
-| `else` | Nhánh ngược lại của `if` |
-| `switch` | Rẽ nhánh theo giá trị |
-| `case` | Một nhánh trong `switch` |
-| `default` | Nhánh mặc định trong `switch` |
-| `for` | Vòng lặp `for` |
-| `while` | Vòng lặp `while` |
-| `do` | Vòng lặp `do-while` |
-| `break` | Thoát khỏi vòng lặp hoặc `switch` |
+| Từ khóa    | Ý nghĩa                                    |
+| ---------- | ------------------------------------------ |
+| `if`       | Điều kiện nếu                              |
+| `else`     | Nhánh ngược lại của `if`                   |
+| `switch`   | Rẽ nhánh theo giá trị                      |
+| `case`     | Một nhánh trong `switch`                   |
+| `default`  | Nhánh mặc định trong `switch`              |
+| `for`      | Vòng lặp `for`                             |
+| `while`    | Vòng lặp `while`                           |
+| `do`       | Vòng lặp `do-while`                        |
+| `break`    | Thoát khỏi vòng lặp hoặc `switch`          |
 | `continue` | Bỏ qua lần lặp hiện tại, sang lần lặp tiếp |
-| `return` | Trả về giá trị và kết thúc phương thức |
+| `return`   | Trả về giá trị và kết thúc phương thức     |
 
 ```java
 public class ControlFlowKeywords {
@@ -237,13 +234,13 @@ public class ControlFlowKeywords {
 
 ## 5. Nhóm xử lý ngoại lệ (Exception)
 
-| Từ khóa | Ý nghĩa |
-|---------|---------|
-| `try` | Bao khối code có thể xảy ra lỗi |
-| `catch` | Bắt và xử lý ngoại lệ |
+| Từ khóa   | Ý nghĩa                                                                |
+| --------- | ---------------------------------------------------------------------- |
+| `try`     | Bao khối code có thể xảy ra lỗi                                        |
+| `catch`   | Bắt và xử lý ngoại lệ                                                  |
 | `finally` | Luôn chạy dù có ngoại lệ hay không (thường dùng để dọn dẹp tài nguyên) |
-| `throw` | Ném ra một ngoại lệ |
-| `throws` | Khai báo phương thức có thể ném ngoại lệ |
+| `throw`   | Ném ra một ngoại lệ                                                    |
+| `throws`  | Khai báo phương thức có thể ném ngoại lệ                               |
 
 ```java
 public class ExceptionKeywords {
@@ -276,16 +273,16 @@ public class ExceptionKeywords {
 
 ## 6. Nhóm Modifier khác
 
-| Từ khóa | Ý nghĩa |
-|---------|---------|
-| `static` | Thuộc về **class**, không cần tạo object để truy cập |
-| `final` | **Không thể thay đổi**: biến hằng, method không override, class không kế thừa |
-| `abstract` | Lớp/phương thức trừu tượng, chưa có triển khai |
-| `synchronized` | Đồng bộ hóa trong đa luồng (chỉ 1 thread truy cập tại một thời điểm) |
-| `volatile` | Biến luôn đọc từ bộ nhớ chính (main memory), không cache |
-| `transient` | Biến không được lưu khi serialize đối tượng |
-| `native` | Phương thức được triển khai bằng ngôn ngữ khác (C/C++) qua JNI |
-| `strictfp` | Đảm bảo phép tính float point nhất quán trên mọi nền tảng |
+| Từ khóa        | Ý nghĩa                                                                       |
+| -------------- | ----------------------------------------------------------------------------- |
+| `static`       | Thuộc về **class**, không cần tạo object để truy cập                          |
+| `final`        | **Không thể thay đổi**: biến hằng, method không override, class không kế thừa |
+| `abstract`     | Lớp/phương thức trừu tượng, chưa có triển khai                                |
+| `synchronized` | Đồng bộ hóa trong đa luồng (chỉ 1 thread truy cập tại một thời điểm)          |
+| `volatile`     | Biến luôn đọc từ bộ nhớ chính (main memory), không cache                      |
+| `transient`    | Biến không được lưu khi serialize đối tượng                                   |
+| `native`       | Phương thức được triển khai bằng ngôn ngữ khác (C/C++) qua JNI                |
+| `strictfp`     | Đảm bảo phép tính float point nhất quán trên mọi nền tảng                     |
 
 ```java
 public class ModifierKeywords {
@@ -320,12 +317,12 @@ public class ModifierKeywords {
 
 ## 7. Nhóm từ khóa khác
 
-| Từ khóa | Ý nghĩa |
-|---------|---------|
-| `package` | Khai báo package chứa class |
-| `import` | Nhập class từ package khác |
-| `instanceof` | Kiểm tra object có thuộc kiểu nào |
-| `assert` | Kiểm tra điều kiện (thường dùng trong debug/test) |
+| Từ khóa      | Ý nghĩa                                           |
+| ------------ | ------------------------------------------------- |
+| `package`    | Khai báo package chứa class                       |
+| `import`     | Nhập class từ package khác                        |
+| `instanceof` | Kiểm tra object có thuộc kiểu nào                 |
+| `assert`     | Kiểm tra điều kiện (thường dùng trong debug/test) |
 
 ```java
 package com.example.demo; // Khai báo package
@@ -354,9 +351,9 @@ public class OtherKeywords {
 
 Java có **2 từ khóa dành riêng** nhưng **chưa bao giờ được sử dụng** trong bất kỳ phiên bản nào:
 
-| Từ khóa | Ghi chú |
-|---------|---------|
-| `goto` | Tồn tại trong C/C++, Java giữ lại nhưng **không dùng** (tránh code khó đọc) |
+| Từ khóa | Ghi chú                                                                     |
+| ------- | --------------------------------------------------------------------------- |
+| `goto`  | Tồn tại trong C/C++, Java giữ lại nhưng **không dùng** (tránh code khó đọc) |
 | `const` | Tương tự `final`, Java giữ lại nhưng **không dùng** (dùng `final` thay thế) |
 
 ```java
@@ -374,18 +371,19 @@ final int MAX_SIZE = 100;
 
 ### Bảng tóm tắt theo nhóm
 
-| Khi muốn | Dùng từ khóa |
-|----------|--------------|
-| Kiểm soát ai truy cập được | `public`, `private`, `protected` |
-| Tạo class/interface | `class`, `interface`, `abstract`, `enum` |
-| Kế thừa và triển khai | `extends`, `implements` |
-| Rẽ nhánh, vòng lặp | `if`, `else`, `switch`, `for`, `while`, `do`, `break`, `continue` |
-| Xử lý lỗi | `try`, `catch`, `finally`, `throw`, `throws` |
-| Biến/method dùng chung cho cả class | `static` |
-| Giá trị không đổi | `final` |
-| Lập trình đa luồng | `synchronized`, `volatile` |
+| Khi muốn                            | Dùng từ khóa                                                      |
+| ----------------------------------- | ----------------------------------------------------------------- |
+| Kiểm soát ai truy cập được          | `public`, `private`, `protected`                                  |
+| Tạo class/interface                 | `class`, `interface`, `abstract`, `enum`                          |
+| Kế thừa và triển khai               | `extends`, `implements`                                           |
+| Rẽ nhánh, vòng lặp                  | `if`, `else`, `switch`, `for`, `while`, `do`, `break`, `continue` |
+| Xử lý lỗi                           | `try`, `catch`, `finally`, `throw`, `throws`                      |
+| Biến/method dùng chung cho cả class | `static`                                                          |
+| Giá trị không đổi                   | `final`                                                           |
+| Lập trình đa luồng                  | `synchronized`, `volatile`                                        |
 
 **Best practices**:
+
 - Luôn dùng **access modifier rõ ràng** (`public`, `private`, `protected`) thay vì để mặc định.
 - Dùng `final` cho hằng số và biến không nên thay đổi.
 - Dùng `static` cho tiện ích dùng chung không cần trạng thái riêng.
@@ -465,11 +463,11 @@ switch (day) {
 
 **A**: Ba từ tuy giống tên nhưng hoàn toàn khác mục đích:
 
-| Từ khóa | Loại | Ý nghĩa |
-|---------|------|---------|
-| `final` | Keyword (modifier) | Biến không gán lại, method không override, class không kế thừa |
-| `finally` | Keyword (exception) | Khối code luôn chạy sau try-catch, dù có lỗi hay không |
-| `finalize()` | Method (Object class) | Được GC gọi trước khi thu hồi object (deprecated từ Java 9) |
+| Từ khóa      | Loại                  | Ý nghĩa                                                        |
+| ------------ | --------------------- | -------------------------------------------------------------- |
+| `final`      | Keyword (modifier)    | Biến không gán lại, method không override, class không kế thừa |
+| `finally`    | Keyword (exception)   | Khối code luôn chạy sau try-catch, dù có lỗi hay không         |
+| `finalize()` | Method (Object class) | Được GC gọi trước khi thu hồi object (deprecated từ Java 9)    |
 
 ```java
 // final: hằng số
@@ -528,14 +526,14 @@ Lưu ý: static method **không thể** truy cập trực tiếp instance variab
 
 **A**:
 
-| Tiêu chí | Abstract class | Interface |
-|----------|---------------|-----------|
-| Khai báo | `abstract class` | `interface` |
-| Method có body | Có thể có | Chỉ có default/static method (Java 8+) |
-| Constructor | Có | Không |
-| Biến | Mọi loại | Chỉ `public static final` |
-| Kế thừa | Chỉ extends **1** class | Implements **nhiều** interface |
-| Khi nào dùng | Chia sẻ code chung giữa các class liên quan | Định nghĩa "hợp đồng" hành vi cho class không liên quan |
+| Tiêu chí       | Abstract class                              | Interface                                               |
+| -------------- | ------------------------------------------- | ------------------------------------------------------- |
+| Khai báo       | `abstract class`                            | `interface`                                             |
+| Method có body | Có thể có                                   | Chỉ có default/static method (Java 8+)                  |
+| Constructor    | Có                                          | Không                                                   |
+| Biến           | Mọi loại                                    | Chỉ `public static final`                               |
+| Kế thừa        | Chỉ extends **1** class                     | Implements **nhiều** interface                          |
+| Khi nào dùng   | Chia sẻ code chung giữa các class liên quan | Định nghĩa "hợp đồng" hành vi cho class không liên quan |
 
 ---
 

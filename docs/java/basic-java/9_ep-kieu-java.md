@@ -11,9 +11,6 @@ Hãy hình dung ép kiểu giống như **đổi tiền tệ**: bạn có 100 US
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Nội dung](#nội-dung)
@@ -49,9 +46,9 @@ Hãy hình dung ép kiểu giống như **đổi tiền tệ**: bạn có 100 US
 
 Type Casting là việc **chuyển một giá trị từ kiểu dữ liệu này sang kiểu dữ liệu khác**. Java hỗ trợ 2 loại chính:
 
-| Loại | Tên gọi | Đặc điểm |
-|------|---------|----------|
-| **Implicit** (ngầm định) | Widening Casting | Tự động, không mất dữ liệu |
+| Loại                      | Tên gọi           | Đặc điểm                             |
+| ------------------------- | ----------------- | ------------------------------------ |
+| **Implicit** (ngầm định)  | Widening Casting  | Tự động, không mất dữ liệu           |
 | **Explicit** (tường minh) | Narrowing Casting | Phải ép thủ công, có thể mất dữ liệu |
 
 ```java
@@ -269,15 +266,15 @@ public class DataLossDemo {
 
 ## 7. Bảng tổng hợp ép kiểu
 
-| Từ kiểu / Sang kiểu | byte | short | char | int | long | float | double |
-|---------------------|------|-------|------|-----|------|-------|--------|
-| **byte** | -- | Auto | Cast | Auto | Auto | Auto | Auto |
-| **short** | Cast | -- | Cast | Auto | Auto | Auto | Auto |
-| **char** | Cast | Cast | -- | Auto | Auto | Auto | Auto |
-| **int** | Cast | Cast | Cast | -- | Auto | Auto | Auto |
-| **long** | Cast | Cast | Cast | Cast | -- | Auto | Auto |
-| **float** | Cast | Cast | Cast | Cast | Cast | -- | Auto |
-| **double** | Cast | Cast | Cast | Cast | Cast | Cast | -- |
+| Từ kiểu / Sang kiểu | byte | short | char | int  | long | float | double |
+| ------------------- | ---- | ----- | ---- | ---- | ---- | ----- | ------ |
+| **byte**            | --   | Auto  | Cast | Auto | Auto | Auto  | Auto   |
+| **short**           | Cast | --    | Cast | Auto | Auto | Auto  | Auto   |
+| **char**            | Cast | Cast  | --   | Auto | Auto | Auto  | Auto   |
+| **int**             | Cast | Cast  | Cast | --   | Auto | Auto  | Auto   |
+| **long**            | Cast | Cast  | Cast | Cast | --   | Auto  | Auto   |
+| **float**           | Cast | Cast  | Cast | Cast | Cast | --    | Auto   |
+| **double**          | Cast | Cast  | Cast | Cast | Cast | Cast  | --     |
 
 - **Auto**: Ép kiểu tự động (widening), không cần viết gì thêm.
 - **Cast**: Ép kiểu thủ công (narrowing), cần `(type)`.
@@ -288,15 +285,16 @@ public class DataLossDemo {
 
 ## 8. Khi nào dùng?
 
-| Tình huống | Loại ép kiểu | Ví dụ |
-|-----------|-------------|-------|
-| Tính toán giữa các kiểu khác nhau | Widening (tự động) | `int + double -> double` |
-| Đọc dữ liệu từ người dùng | String -> Number | `Integer.parseInt(input)` |
-| Hiển thị dữ liệu | Number -> String | `String.valueOf(number)` |
-| Tiết kiệm bộ nhớ | Narrowing (thủ công) | `(byte) intValue` |
-| Kiểm tra kiểu trước khi ép | `instanceof` + cast | `if (obj instanceof String) (String) obj` |
+| Tình huống                        | Loại ép kiểu         | Ví dụ                                     |
+| --------------------------------- | -------------------- | ----------------------------------------- |
+| Tính toán giữa các kiểu khác nhau | Widening (tự động)   | `int + double -> double`                  |
+| Đọc dữ liệu từ người dùng         | String -> Number     | `Integer.parseInt(input)`                 |
+| Hiển thị dữ liệu                  | Number -> String     | `String.valueOf(number)`                  |
+| Tiết kiệm bộ nhớ                  | Narrowing (thủ công) | `(byte) intValue`                         |
+| Kiểm tra kiểu trước khi ép        | `instanceof` + cast  | `if (obj instanceof String) (String) obj` |
 
 **Best practices**:
+
 - Ưu tiên widening casting (tự động) khi có thể.
 - Luôn kiểm tra phạm vi giá trị trước khi narrowing casting.
 - Dùng `try-catch` khi parse String sang Number để xử lý dữ liệu không hợp lệ.
@@ -372,12 +370,12 @@ System.out.println(d);           // 1.23456789012345E14 (chính xác hơn)
 
 **A**:
 
-| Tiêu chí | Implicit (Widening) | Explicit (Narrowing) |
-|----------|-------------------|--------------------|
-| Hướng chuyển | Kiểu nhỏ -> kiểu lớn | Kiểu lớn -> kiểu nhỏ |
-| Cú pháp | Tự động, không viết gì | Phải dùng `(type)` |
-| Mất dữ liệu | Thường không (ngoại trừ `long->float`) | Có thể mất |
-| Ví dụ | `double d = 10;` | `int i = (int) 3.14;` |
+| Tiêu chí     | Implicit (Widening)                    | Explicit (Narrowing)  |
+| ------------ | -------------------------------------- | --------------------- |
+| Hướng chuyển | Kiểu nhỏ -> kiểu lớn                   | Kiểu lớn -> kiểu nhỏ  |
+| Cú pháp      | Tự động, không viết gì                 | Phải dùng `(type)`    |
+| Mất dữ liệu  | Thường không (ngoại trừ `long->float`) | Có thể mất            |
+| Ví dụ        | `double d = 10;`                       | `int i = (int) 3.14;` |
 
 ---
 
@@ -437,10 +435,10 @@ boolean backToBoolean = (intFlag != 0); // OK
 
 **A**:
 
-| Cách | Code | Ghi chú |
-|------|------|---------|
-| `String.valueOf()` | `String.valueOf(42)` | An toàn nhất, xử lý `null` (trả về `"null"`) |
-| `Integer.toString()` | `Integer.toString(42)` | Rõ ràng, nhưng chỉ dùng cho kiểu cụ thể |
-| Nối chuỗi rỗng | `42 + ""` | Ngắn gọn nhưng tạo thêm StringBuilder ngầm |
+| Cách                 | Code                   | Ghi chú                                      |
+| -------------------- | ---------------------- | -------------------------------------------- |
+| `String.valueOf()`   | `String.valueOf(42)`   | An toàn nhất, xử lý `null` (trả về `"null"`) |
+| `Integer.toString()` | `Integer.toString(42)` | Rõ ràng, nhưng chỉ dùng cho kiểu cụ thể      |
+| Nối chuỗi rỗng       | `42 + ""`              | Ngắn gọn nhưng tạo thêm StringBuilder ngầm   |
 
 Khuyến nghị: dùng `String.valueOf()` vì an toàn và đa năng nhất.

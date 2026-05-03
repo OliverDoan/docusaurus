@@ -9,9 +9,6 @@ Sau khi bạn làm việc trên một branch riêng và hoàn thành công việ
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Merge là gì?](#1-merge-là-gì)
@@ -104,11 +101,11 @@ git merge feature/login
 
 ### 2.3. Ưu và nhược điểm
 
-| Ưu điểm | Nhược điểm |
-|---------|------------|
-| Lịch sử sạch, một đường thẳng | Không biết được "nhóm commit nào thuộc feature nào" |
-| Không tạo merge commit thừa | Mất thông tin về branch (branch đã tồn tại bao lâu, merge khi nào) |
-| Dễ đọc log | Khó rollback cả một feature |
+| Ưu điểm                       | Nhược điểm                                                         |
+| ----------------------------- | ------------------------------------------------------------------ |
+| Lịch sử sạch, một đường thẳng | Không biết được "nhóm commit nào thuộc feature nào"                |
+| Không tạo merge commit thừa   | Mất thông tin về branch (branch đã tồn tại bao lâu, merge khi nào) |
+| Dễ đọc log                    | Khó rollback cả một feature                                        |
 
 ### 2.4. `--no-ff` -- Ép tạo merge commit
 
@@ -248,12 +245,12 @@ git commit -m "feat: thêm tính năng đăng nhập"
 
 ### 4.3. Khi nào dùng squash merge?
 
-| Nên dùng khi | Không nên dùng khi |
-|-------------|-------------------|
-| Feature branch có nhiều commit nhỏ, messy | Mỗi commit đều có ý nghĩa và cần giữ lại |
-| Commit message như "fix typo", "wip", "test" | Cần truy vết lịch sử chi tiết |
-| Muốn main branch có lịch sử sạch | Team cần biết ai làm gì khi nào |
-| PR có nhiều commit chỉnh sửa theo review | Branch dài ngày với nhiều milestone |
+| Nên dùng khi                                 | Không nên dùng khi                       |
+| -------------------------------------------- | ---------------------------------------- |
+| Feature branch có nhiều commit nhỏ, messy    | Mỗi commit đều có ý nghĩa và cần giữ lại |
+| Commit message như "fix typo", "wip", "test" | Cần truy vết lịch sử chi tiết            |
+| Muốn main branch có lịch sử sạch             | Team cần biết ai làm gì khi nào          |
+| PR có nhiều commit chỉnh sửa theo review     | Branch dài ngày với nhiều milestone      |
 
 **Lưu ý:** Sau squash merge, Git không biết branch đã được merge. `git branch --merged` sẽ KHÔNG liệt kê branch đó. Bạn cần xóa branch thủ công.
 
@@ -289,6 +286,7 @@ git status
 ```
 
 **Khi nào nên dùng `--abort`?**
+
 - Conflict phức tạp, cần thêm thời gian phân tích
 - Merge nhầm branch
 - Muốn thảo luận với đồng nghiệp trước khi resolve
@@ -297,15 +295,15 @@ git status
 
 ## 6. So sánh các kiểu merge
 
-| Đặc điểm | Fast-forward | 3-way merge | Squash merge |
-|----------|-------------|-------------|--------------|
-| Merge commit | Không | Có (1 commit) | Không (bạn tự commit) |
-| Lịch sử branch | Mất | Giữ lại | Mất |
-| Độ phức tạp | Đơn giản nhất | Trung bình | Đơn giản |
-| Rollback feature | Khó (nhiều commit) | Dễ (revert merge commit) | Dễ (revert 1 commit) |
-| Lịch sử main | Phẳng, nhiều commit | Có nhánh rẽ | Phẳng, ít commit |
-| Điều kiện | Main không có commit mới | Cả hai có commit mới | Bất kỳ |
-| Lệnh | `git merge` (tự động) | `git merge` (tự động) | `git merge --squash` |
+| Đặc điểm         | Fast-forward             | 3-way merge              | Squash merge          |
+| ---------------- | ------------------------ | ------------------------ | --------------------- |
+| Merge commit     | Không                    | Có (1 commit)            | Không (bạn tự commit) |
+| Lịch sử branch   | Mất                      | Giữ lại                  | Mất                   |
+| Độ phức tạp      | Đơn giản nhất            | Trung bình               | Đơn giản              |
+| Rollback feature | Khó (nhiều commit)       | Dễ (revert merge commit) | Dễ (revert 1 commit)  |
+| Lịch sử main     | Phẳng, nhiều commit      | Có nhánh rẽ              | Phẳng, ít commit      |
+| Điều kiện        | Main không có commit mới | Cả hai có commit mới     | Bất kỳ                |
+| Lệnh             | `git merge` (tự động)    | `git merge` (tự động)    | `git merge --squash`  |
 
 ### Minh họa trực quan
 
@@ -599,15 +597,15 @@ git merge --no-ff feature/small
 
 ## Tóm tắt
 
-| Lệnh | Chức năng |
-|------|-----------|
-| `git merge <branch>` | Merge branch vào branch hiện tại |
-| `git merge --no-ff <branch>` | Merge với merge commit (không fast-forward) |
+| Lệnh                          | Chức năng                                       |
+| ----------------------------- | ----------------------------------------------- |
+| `git merge <branch>`          | Merge branch vào branch hiện tại                |
+| `git merge --no-ff <branch>`  | Merge với merge commit (không fast-forward)     |
 | `git merge --squash <branch>` | Gộp tất cả commit thành 1 (cần commit thủ công) |
-| `git merge --abort` | Hủy merge đang có conflict |
-| `git merge -X ours` | Khi conflict, ưu tiên phiên bản hiện tại |
-| `git merge -X theirs` | Khi conflict, ưu tiên phiên bản branch kia |
-| `git merge -s ours <branch>` | Giữ toàn bộ phiên bản hiện tại, bỏ branch kia |
-| `git log --oneline --graph` | Xem lịch sử dạng cây (dễ thấy merge) |
+| `git merge --abort`           | Hủy merge đang có conflict                      |
+| `git merge -X ours`           | Khi conflict, ưu tiên phiên bản hiện tại        |
+| `git merge -X theirs`         | Khi conflict, ưu tiên phiên bản branch kia      |
+| `git merge -s ours <branch>`  | Giữ toàn bộ phiên bản hiện tại, bỏ branch kia   |
+| `git log --oneline --graph`   | Xem lịch sử dạng cây (dễ thấy merge)            |
 
 **Ghi nhớ:** Merge là kỹ năng cơ bản nhất khi làm việc nhóm với Git. Hiểu rõ 3 kiểu merge (fast-forward, 3-way, squash) và biết khi nào dùng cái nào sẽ giúp bạn làm việc hiệu quả hơn.

@@ -11,9 +11,6 @@ Hãy hình dung toán tử giống như **các phép tính trong toán học** m
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Nội dung](#nội-dung)
@@ -53,13 +50,13 @@ Hãy hình dung toán tử giống như **các phép tính trong toán học** m
 
 Dùng để thực hiện các phép tính toán cơ bản trên số.
 
-| Toán tử | Ý nghĩa | Ví dụ | Kết quả |
-|---------|---------|-------|---------|
-| `+` | Cộng | `10 + 3` | `13` |
-| `-` | Trừ | `10 - 3` | `7` |
-| `*` | Nhân | `10 * 3` | `30` |
-| `/` | Chia | `10 / 3` | `3` (chia nguyên) |
-| `%` | Chia lấy dư | `10 % 3` | `1` |
+| Toán tử | Ý nghĩa     | Ví dụ    | Kết quả           |
+| ------- | ----------- | -------- | ----------------- |
+| `+`     | Cộng        | `10 + 3` | `13`              |
+| `-`     | Trừ         | `10 - 3` | `7`               |
+| `*`     | Nhân        | `10 * 3` | `30`              |
+| `/`     | Chia        | `10 / 3` | `3` (chia nguyên) |
+| `%`     | Chia lấy dư | `10 % 3` | `1`               |
 
 ```java
 public class ArithmeticDemo {
@@ -87,19 +84,19 @@ public class ArithmeticDemo {
 
 Dùng để gán giá trị cho biến. Ngoài phép gán cơ bản `=`, Java còn có các toán tử gán kết hợp giúp viết code ngắn gọn hơn.
 
-| Toán tử | Ý nghĩa | Tương đương |
-|---------|---------|-------------|
-| `=` | Gán | `x = 5` |
-| `+=` | Cộng rồi gán | `x = x + 5` |
-| `-=` | Trừ rồi gán | `x = x - 5` |
-| `*=` | Nhân rồi gán | `x = x * 5` |
-| `/=` | Chia rồi gán | `x = x / 5` |
-| `%=` | Chia dư rồi gán | `x = x % 5` |
-| `&=` | AND bit rồi gán | `x = x & 5` |
-| `\|=` | OR bit rồi gán | `x = x \| 5` |
-| `^=` | XOR bit rồi gán | `x = x ^ 5` |
-| `<<=` | Dịch trái rồi gán | `x = x << 2` |
-| `>>=` | Dịch phải rồi gán | `x = x >> 2` |
+| Toán tử | Ý nghĩa           | Tương đương  |
+| ------- | ----------------- | ------------ |
+| `=`     | Gán               | `x = 5`      |
+| `+=`    | Cộng rồi gán      | `x = x + 5`  |
+| `-=`    | Trừ rồi gán       | `x = x - 5`  |
+| `*=`    | Nhân rồi gán      | `x = x * 5`  |
+| `/=`    | Chia rồi gán      | `x = x / 5`  |
+| `%=`    | Chia dư rồi gán   | `x = x % 5`  |
+| `&=`    | AND bit rồi gán   | `x = x & 5`  |
+| `\|=`   | OR bit rồi gán    | `x = x \| 5` |
+| `^=`    | XOR bit rồi gán   | `x = x ^ 5`  |
+| `<<=`   | Dịch trái rồi gán | `x = x << 2` |
+| `>>=`   | Dịch phải rồi gán | `x = x >> 2` |
 
 ```java
 public class AssignmentDemo {
@@ -130,14 +127,14 @@ public class AssignmentDemo {
 
 So sánh hai giá trị, luôn trả về kiểu `boolean` (`true` hoặc `false`).
 
-| Toán tử | Ý nghĩa | Ví dụ | Kết quả |
-|---------|---------|-------|---------|
-| `==` | Bằng nhau | `5 == 5` | `true` |
-| `!=` | Khác nhau | `5 != 3` | `true` |
-| `>` | Lớn hơn | `5 > 3` | `true` |
-| `<` | Nhỏ hơn | `5 < 3` | `false` |
-| `>=` | Lớn hơn hoặc bằng | `5 >= 5` | `true` |
-| `<=` | Nhỏ hơn hoặc bằng | `3 <= 5` | `true` |
+| Toán tử | Ý nghĩa           | Ví dụ    | Kết quả |
+| ------- | ----------------- | -------- | ------- |
+| `==`    | Bằng nhau         | `5 == 5` | `true`  |
+| `!=`    | Khác nhau         | `5 != 3` | `true`  |
+| `>`     | Lớn hơn           | `5 > 3`  | `true`  |
+| `<`     | Nhỏ hơn           | `5 < 3`  | `false` |
+| `>=`    | Lớn hơn hoặc bằng | `5 >= 5` | `true`  |
+| `<=`    | Nhỏ hơn hoặc bằng | `3 <= 5` | `true`  |
 
 ```java
 public class ComparisonDemo {
@@ -167,11 +164,11 @@ public class ComparisonDemo {
 
 Dùng để kết hợp nhiều điều kiện boolean.
 
-| Toán tử | Ý nghĩa | Mô tả |
-|---------|---------|-------|
-| `&&` | AND (ngắn mạch) | `true` nếu **cả hai** điều kiện đều `true` |
-| `\|\|` | OR (ngắn mạch) | `true` nếu **ít nhất một** điều kiện `true` |
-| `!` | NOT | Đảo ngược giá trị boolean |
+| Toán tử | Ý nghĩa         | Mô tả                                       |
+| ------- | --------------- | ------------------------------------------- |
+| `&&`    | AND (ngắn mạch) | `true` nếu **cả hai** điều kiện đều `true`  |
+| `\|\|`  | OR (ngắn mạch)  | `true` nếu **ít nhất một** điều kiện `true` |
+| `!`     | NOT             | Đảo ngược giá trị boolean                   |
 
 **Short-circuit (ngắn mạch)**: Với `&&`, nếu vế trái là `false`, Java **không kiểm tra** vế phải. Với `||`, nếu vế trái là `true`, Java **không kiểm tra** vế phải.
 
@@ -215,15 +212,15 @@ public class LogicalDemo {
 
 Thao tác trực tiếp trên từng **bit** của số nguyên. Ít dùng trong lập trình thông thường nhưng rất quan trọng trong xử lý hệ thống, mạng, mã hóa.
 
-| Toán tử | Ý nghĩa | Mô tả |
-|---------|---------|-------|
-| `&` | AND bit | Cả hai bit đều 1 thì kết quả là 1 |
-| `\|` | OR bit | Ít nhất một bit là 1 thì kết quả là 1 |
-| `^` | XOR bit | Hai bit khác nhau thì kết quả là 1 |
-| `~` | NOT bit | Đảo ngược tất cả bit |
-| `<<` | Dịch trái | Nhân với 2^n |
-| `>>` | Dịch phải (có dấu) | Chia cho 2^n, giữ bit dấu |
-| `>>>` | Dịch phải (không dấu) | Chia cho 2^n, thêm 0 ở đầu |
+| Toán tử | Ý nghĩa               | Mô tả                                 |
+| ------- | --------------------- | ------------------------------------- |
+| `&`     | AND bit               | Cả hai bit đều 1 thì kết quả là 1     |
+| `\|`    | OR bit                | Ít nhất một bit là 1 thì kết quả là 1 |
+| `^`     | XOR bit               | Hai bit khác nhau thì kết quả là 1    |
+| `~`     | NOT bit               | Đảo ngược tất cả bit                  |
+| `<<`    | Dịch trái             | Nhân với 2^n                          |
+| `>>`    | Dịch phải (có dấu)    | Chia cho 2^n, giữ bit dấu             |
+| `>>>`   | Dịch phải (không dấu) | Chia cho 2^n, thêm 0 ở đầu            |
 
 ```java
 public class BitwiseDemo {
@@ -255,12 +252,12 @@ public class BitwiseDemo {
 
 ## 6. Toán tử tăng giảm (Increment/Decrement)
 
-| Toán tử | Ý nghĩa | Mô tả |
-|---------|---------|-------|
-| `++x` | Pre-increment | Tăng trước, rồi dùng giá trị |
-| `x++` | Post-increment | Dùng giá trị trước, rồi tăng |
-| `--x` | Pre-decrement | Giảm trước, rồi dùng giá trị |
-| `x--` | Post-decrement | Dùng giá trị trước, rồi giảm |
+| Toán tử | Ý nghĩa        | Mô tả                        |
+| ------- | -------------- | ---------------------------- |
+| `++x`   | Pre-increment  | Tăng trước, rồi dùng giá trị |
+| `x++`   | Post-increment | Dùng giá trị trước, rồi tăng |
+| `--x`   | Pre-decrement  | Giảm trước, rồi dùng giá trị |
+| `x--`   | Post-decrement | Dùng giá trị trước, rồi giảm |
 
 ```java
 public class IncrementDemo {
@@ -290,6 +287,7 @@ public class IncrementDemo {
 Toán tử ba ngôi (`?:`) là cách viết ngắn gọn của `if-else` đơn giản.
 
 **Cú pháp**:
+
 ```
 biến = (điều_kiện) ? giá_trị_nếu_true : giá_trị_nếu_false;
 ```
@@ -356,22 +354,22 @@ public class InstanceOfDemo {
 
 Khi một biểu thức có nhiều toán tử, Java sẽ thực hiện theo thứ tự ưu tiên từ **cao xuống thấp**:
 
-| Thứ tự | Toán tử | Mô tả |
-|--------|---------|-------|
-| 1 | `()` | Ngoặc tròn (cao nhất) |
-| 2 | `++`, `--`, `!`, `~` | Unary (một ngôi) |
-| 3 | `*`, `/`, `%` | Nhân, chia, chia dư |
-| 4 | `+`, `-` | Cộng, trừ |
-| 5 | `<<`, `>>`, `>>>` | Dịch bit |
-| 6 | `<`, `<=`, `>`, `>=`, `instanceof` | So sánh |
-| 7 | `==`, `!=` | Bằng, khác |
-| 8 | `&` | AND bit |
-| 9 | `^` | XOR bit |
-| 10 | `\|` | OR bit |
-| 11 | `&&` | AND logic |
-| 12 | `\|\|` | OR logic |
-| 13 | `? :` | Ternary |
-| 14 | `=`, `+=`, `-=`, ... | Gán (thấp nhất) |
+| Thứ tự | Toán tử                            | Mô tả                 |
+| ------ | ---------------------------------- | --------------------- |
+| 1      | `()`                               | Ngoặc tròn (cao nhất) |
+| 2      | `++`, `--`, `!`, `~`               | Unary (một ngôi)      |
+| 3      | `*`, `/`, `%`                      | Nhân, chia, chia dư   |
+| 4      | `+`, `-`                           | Cộng, trừ             |
+| 5      | `<<`, `>>`, `>>>`                  | Dịch bit              |
+| 6      | `<`, `<=`, `>`, `>=`, `instanceof` | So sánh               |
+| 7      | `==`, `!=`                         | Bằng, khác            |
+| 8      | `&`                                | AND bit               |
+| 9      | `^`                                | XOR bit               |
+| 10     | `\|`                               | OR bit                |
+| 11     | `&&`                               | AND logic             |
+| 12     | `\|\|`                             | OR logic              |
+| 13     | `? :`                              | Ternary               |
+| 14     | `=`, `+=`, `-=`, ...               | Gán (thấp nhất)       |
 
 ```java
 public class PrecedenceDemo {
@@ -401,17 +399,18 @@ public class PrecedenceDemo {
 
 ## 10. Khi nào dùng?
 
-| Nhóm toán tử | Khi nào dùng |
-|--------------|-------------|
-| Arithmetic (`+`, `-`, `*`, `/`, `%`) | Tính toán số học, xử lý dữ liệu số |
-| Assignment (`=`, `+=`, `-=`...) | Gán và cập nhật giá trị biến |
-| Comparison (`==`, `!=`, `<`, `>`...) | Viết điều kiện trong `if`, `while`, `for` |
-| Logical (`&&`, `\|\|`, `!`) | Kết hợp nhiều điều kiện phức tạp |
-| Bitwise (`&`, `\|`, `^`, `<<`, `>>`) | Xử lý cấp bit: flag, permission, mã hóa |
-| Ternary (`? :`) | Thay thế `if-else` đơn giản, gán giá trị có điều kiện |
-| `instanceof` | Kiểm tra kiểu trước khi ép kiểu (casting) |
+| Nhóm toán tử                         | Khi nào dùng                                          |
+| ------------------------------------ | ----------------------------------------------------- |
+| Arithmetic (`+`, `-`, `*`, `/`, `%`) | Tính toán số học, xử lý dữ liệu số                    |
+| Assignment (`=`, `+=`, `-=`...)      | Gán và cập nhật giá trị biến                          |
+| Comparison (`==`, `!=`, `<`, `>`...) | Viết điều kiện trong `if`, `while`, `for`             |
+| Logical (`&&`, `\|\|`, `!`)          | Kết hợp nhiều điều kiện phức tạp                      |
+| Bitwise (`&`, `\|`, `^`, `<<`, `>>`) | Xử lý cấp bit: flag, permission, mã hóa               |
+| Ternary (`? :`)                      | Thay thế `if-else` đơn giản, gán giá trị có điều kiện |
+| `instanceof`                         | Kiểm tra kiểu trước khi ép kiểu (casting)             |
 
 **Best practices**:
+
 - Luôn dùng `()` khi biểu thức phức tạp để tránh nhầm ưu tiên.
 - Dùng `equals()` thay vì `==` khi so sánh **giá trị** của object (String, Integer...).
 - Cẩn thận phép chia nguyên (`int / int`) sẽ bỏ phần thập phân.
@@ -535,6 +534,7 @@ Nên dùng khi logic đơn giản (gán giá trị có điều kiện). Không n
 ### Q4: `i++` và `++i` khác nhau thế nào?
 
 **A**:
+
 - `i++` (post-increment): **dùng giá trị hiện tại** của `i` trong biểu thức, **sau đó** mới tăng `i` lên 1.
 - `++i` (pre-increment): **tăng `i` lên 1 trước**, rồi mới dùng giá trị mới trong biểu thức.
 

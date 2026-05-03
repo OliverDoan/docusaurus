@@ -9,9 +9,6 @@ Lập trình hướng đối tượng (Object-Oriented Programming -- OOP) là n
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. OOP là gì?](#1-oop-là-gì)
@@ -47,18 +44,19 @@ Từ **một bản thiết kế** (class), bạn có thể xây **nhiều ngôi 
 
 ### Bốn tính chất của OOP
 
-| Tính chất | Tiếng Anh | Ý nghĩa | Ví dụ đời thực |
-|-----------|-----------|----------|----------------|
-| Đóng gói | Encapsulation | Ẩn dữ liệu bên trong, chỉ cho phép truy cập qua giao diện | Máy ATM: bạn bấm nút rút tiền, không cần biết bên trong xử lý thế nào |
-| Kế thừa | Inheritance | Lớp con kế thừa đặc điểm của lớp cha | Con mèo kế thừa đặc điểm của động vật |
-| Đa hình | Polymorphism | Cùng một hành vi nhưng ứng xử khác nhau | Cùng nói "chào", nhưng người Việt nói "Xin chào", người Anh nói "Hello" |
-| Trừu tượng | Abstraction | Ẩn chi tiết phức tạp, chỉ hiển thị phần cần thiết | Remote TV: bạn bấm nút, không cần biết mạch điện bên trong |
+| Tính chất  | Tiếng Anh     | Ý nghĩa                                                   | Ví dụ đời thực                                                          |
+| ---------- | ------------- | --------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Đóng gói   | Encapsulation | Ẩn dữ liệu bên trong, chỉ cho phép truy cập qua giao diện | Máy ATM: bạn bấm nút rút tiền, không cần biết bên trong xử lý thế nào   |
+| Kế thừa    | Inheritance   | Lớp con kế thừa đặc điểm của lớp cha                      | Con mèo kế thừa đặc điểm của động vật                                   |
+| Đa hình    | Polymorphism  | Cùng một hành vi nhưng ứng xử khác nhau                   | Cùng nói "chào", nhưng người Việt nói "Xin chào", người Anh nói "Hello" |
+| Trừu tượng | Abstraction   | Ẩn chi tiết phức tạp, chỉ hiển thị phần cần thiết         | Remote TV: bạn bấm nút, không cần biết mạch điện bên trong              |
 
 ---
 
 ## 2. Class (Lớp)
 
 **Class** là bản thiết kế (blueprint/template) để tạo ra đối tượng. Class định nghĩa:
+
 - **Thuộc tính (fields/attributes):** đặc điểm của đối tượng
 - **Phương thức (methods):** hành vi của đối tượng
 
@@ -102,6 +100,7 @@ public class SinhVien {
 ```
 
 **Giải thích:**
+
 - `SinhVien` là tên class (viết hoa chữ cái đầu -- PascalCase)
 - `hoTen`, `tuoi`, `diemTrungBinh`, `nganh` là các thuộc tính
 - `hocBai()`, `thiCuoiKy()`, `xemDiem()` là các phương thức
@@ -141,13 +140,13 @@ public class Main {
 
 ### So sánh Class và Object
 
-| Tiêu chí | Class | Object |
-|----------|-------|--------|
-| Định nghĩa | Bản thiết kế, khuôn mẫu | Thể hiện cụ thể của class |
-| Bộ nhớ | Không cấp phát bộ nhớ khi khai báo | Được cấp phát bộ nhớ khi dùng `new` |
-| Tạo bằng | Từ khóa `class` | Từ khóa `new` |
-| Số lượng | Khai báo một lần | Tạo được nhiều object từ một class |
-| Ví dụ | Bản vẽ ngôi nhà | Ngôi nhà thực tế |
+| Tiêu chí   | Class                              | Object                              |
+| ---------- | ---------------------------------- | ----------------------------------- |
+| Định nghĩa | Bản thiết kế, khuôn mẫu            | Thể hiện cụ thể của class           |
+| Bộ nhớ     | Không cấp phát bộ nhớ khi khai báo | Được cấp phát bộ nhớ khi dùng `new` |
+| Tạo bằng   | Từ khóa `class`                    | Từ khóa `new`                       |
+| Số lượng   | Khai báo một lần                   | Tạo được nhiều object từ một class  |
+| Ví dụ      | Bản vẽ ngôi nhà                    | Ngôi nhà thực tế                    |
 
 ---
 
@@ -376,12 +375,12 @@ public class HoaDon {
 
 ### Tại sao cần Package?
 
-| Lý do | Giải thích |
-|-------|-----------|
-| Tổ chức code | Nhóm các class liên quan (ví dụ: tất cả class về thanh toán vào một package) |
-| Tránh trùng tên | Hai class cùng tên `User` có thể tồn tại trong hai package khác nhau |
-| Kiểm soát truy cập | Package ảnh hưởng đến phạm vi truy cập (access modifier) |
-| Tái sử dụng | Dễ dàng import class từ package khác |
+| Lý do              | Giải thích                                                                   |
+| ------------------ | ---------------------------------------------------------------------------- |
+| Tổ chức code       | Nhóm các class liên quan (ví dụ: tất cả class về thanh toán vào một package) |
+| Tránh trùng tên    | Hai class cùng tên `User` có thể tồn tại trong hai package khác nhau         |
+| Kiểm soát truy cập | Package ảnh hưởng đến phạm vi truy cập (access modifier)                     |
+| Tái sử dụng        | Dễ dàng import class từ package khác                                         |
 
 ### Cách khai báo Package
 
@@ -401,12 +400,12 @@ public class SinhVien {
 com.tendomainngược.tenproject.module
 ```
 
-| Ví dụ | Giải thích |
-|-------|-----------|
-| `com.google.search` | Package thuộc Google, module search |
-| `com.myapp.model` | Package chứa các class dữ liệu |
-| `com.myapp.service` | Package chứa logic nghiệp vụ |
-| `com.myapp.controller` | Package xử lý request |
+| Ví dụ                  | Giải thích                          |
+| ---------------------- | ----------------------------------- |
+| `com.google.search`    | Package thuộc Google, module search |
+| `com.myapp.model`      | Package chứa các class dữ liệu      |
+| `com.myapp.service`    | Package chứa logic nghiệp vụ        |
+| `com.myapp.controller` | Package xử lý request               |
 
 ### Import class từ Package khác
 
@@ -427,13 +426,13 @@ public class Main {
 
 ### Package có sẵn trong Java (Built-in)
 
-| Package | Chứa gì |
-|---------|---------|
+| Package     | Chứa gì                                                                 |
+| ----------- | ----------------------------------------------------------------------- |
 | `java.lang` | Các class cơ bản: `String`, `Math`, `System`, `Object` (tự động import) |
-| `java.util` | Collections, Date, Random, Scanner... |
-| `java.io` | Đọc/ghi file |
-| `java.net` | Lập trình mạng |
-| `java.sql` | Kết nối database |
+| `java.util` | Collections, Date, Random, Scanner...                                   |
+| `java.io`   | Đọc/ghi file                                                            |
+| `java.net`  | Lập trình mạng                                                          |
+| `java.sql`  | Kết nối database                                                        |
 
 ---
 
@@ -443,12 +442,12 @@ Access Modifier quyết định **ai có thể truy cập** vào class, field ho
 
 ### Bảng tổng hợp
 
-| Modifier | Trong class | Cùng package | Subclass (khác package) | Mọi nơi |
-|----------|:-----------:|:------------:|:----------------------:|:--------:|
-| `private` | CO | KHONG | KHONG | KHONG |
-| default (không viết gì) | CO | CO | KHONG | KHONG |
-| `protected` | CO | CO | CO | KHONG |
-| `public` | CO | CO | CO | CO |
+| Modifier                | Trong class | Cùng package | Subclass (khác package) | Mọi nơi |
+| ----------------------- | :---------: | :----------: | :---------------------: | :-----: |
+| `private`               |     CO      |    KHONG     |          KHONG          |  KHONG  |
+| default (không viết gì) |     CO      |      CO      |          KHONG          |  KHONG  |
+| `protected`             |     CO      |      CO      |           CO            |  KHONG  |
+| `public`                |     CO      |      CO      |           CO            |   CO    |
 
 ### Ví dụ minh họa chi tiết
 
@@ -508,13 +507,13 @@ public class Main {
 
 ### Nguyên tắc chọn Access Modifier
 
-| Tình huống | Nên dùng | Lý do |
-|-----------|----------|-------|
-| Field (thuộc tính) | `private` | Bảo vệ dữ liệu, truy cập qua getter/setter |
-| Getter/Setter | `public` | Cho phép bên ngoài đọc/ghi dữ liệu |
-| Method nội bộ | `private` | Không cần cho bên ngoài biết |
-| Method cho subclass | `protected` | Cho phép class con override |
-| Method cho mọi người | `public` | API công khai |
+| Tình huống           | Nên dùng    | Lý do                                      |
+| -------------------- | ----------- | ------------------------------------------ |
+| Field (thuộc tính)   | `private`   | Bảo vệ dữ liệu, truy cập qua getter/setter |
+| Getter/Setter        | `public`    | Cho phép bên ngoài đọc/ghi dữ liệu         |
+| Method nội bộ        | `private`   | Không cần cho bên ngoài biết               |
+| Method cho subclass  | `protected` | Cho phép class con override                |
+| Method cho mọi người | `public`    | API công khai                              |
 
 ---
 
@@ -523,6 +522,7 @@ public class Main {
 ### Từ khóa `new`
 
 Từ khóa `new` thực hiện 3 bước:
+
 1. **Cấp phát bộ nhớ** trên Heap cho object mới
 2. **Gọi constructor** để khởi tạo object
 3. **Trả về tham chiếu** (địa chỉ) đến object trên Heap
@@ -551,12 +551,12 @@ STACK (Ngan xep)                 HEAP (Vung nho dong)
                                 +---------------------------+
 ```
 
-| Stack | Heap |
-|-------|------|
-| Luu bien local va tham chieu | Luu object duoc tao boi `new` |
-| Tu dong giai phong khi ra khoi scope | Garbage Collector don dep |
-| Truy cap nhanh | Truy cap cham hon Stack |
-| Kich thuoc nho | Kich thuoc lon |
+| Stack                                | Heap                          |
+| ------------------------------------ | ----------------------------- |
+| Luu bien local va tham chieu         | Luu object duoc tao boi `new` |
+| Tu dong giai phong khi ra khoi scope | Garbage Collector don dep     |
+| Truy cap nhanh                       | Truy cap cham hon Stack       |
+| Kich thuoc nho                       | Kich thuoc lon                |
 
 ### Ví dụ: Hai biến cùng trỏ đến một object
 
@@ -646,16 +646,16 @@ public class TaiKhoan {
 
 ## 10. Tổng kết
 
-| Khái niệm | Mô tả | Ví dụ |
-|-----------|-------|-------|
-| Class | Bản thiết kế cho đối tượng | `class SinhVien { ... }` |
-| Object | Thể hiện cụ thể của class | `new SinhVien()` |
-| Field | Thuộc tính/dữ liệu của object | `String hoTen;` |
-| Method | Hành vi/chức năng của object | `void hocBai() { ... }` |
-| Constructor | Hàm tạo, khởi tạo object | `SinhVien(String hoTen)` |
-| Package | Nhóm các class liên quan | `package com.myapp.model;` |
-| Access Modifier | Phạm vi truy cập | `private`, `public`, `protected` |
-| `new` | Tạo object trên Heap | `new SinhVien()` |
+| Khái niệm       | Mô tả                         | Ví dụ                            |
+| --------------- | ----------------------------- | -------------------------------- |
+| Class           | Bản thiết kế cho đối tượng    | `class SinhVien { ... }`         |
+| Object          | Thể hiện cụ thể của class     | `new SinhVien()`                 |
+| Field           | Thuộc tính/dữ liệu của object | `String hoTen;`                  |
+| Method          | Hành vi/chức năng của object  | `void hocBai() { ... }`          |
+| Constructor     | Hàm tạo, khởi tạo object      | `SinhVien(String hoTen)`         |
+| Package         | Nhóm các class liên quan      | `package com.myapp.model;`       |
+| Access Modifier | Phạm vi truy cập              | `private`, `public`, `protected` |
+| `new`           | Tạo object trên Heap          | `new SinhVien()`                 |
 
 ---
 
@@ -683,13 +683,13 @@ Xe xe2 = new Xe();  // Object 2
 
 **Tra loi:**
 
-| Tiêu chí | Constructor | Method |
-|----------|-------------|--------|
-| Tên | Trùng tên class | Đặt tên tự do |
-| Kiểu trả về | Không có | Có (`void`, `int`, `String`...) |
-| Gọi khi nào | Tự động khi `new` | Gọi thủ công qua object |
-| Mục đích | Khởi tạo object | Thực hiện hành vi |
-| Kế thừa | Không bị kế thừa | Có thể bị kế thừa |
+| Tiêu chí    | Constructor       | Method                          |
+| ----------- | ----------------- | ------------------------------- |
+| Tên         | Trùng tên class   | Đặt tên tự do                   |
+| Kiểu trả về | Không có          | Có (`void`, `int`, `String`...) |
+| Gọi khi nào | Tự động khi `new` | Gọi thủ công qua object         |
+| Mục đích    | Khởi tạo object   | Thực hiện hành vi               |
+| Kế thừa     | Không bị kế thừa  | Có thể bị kế thừa               |
 
 ### Cau 3: Nếu không viết constructor, chuyện gì xảy ra?
 

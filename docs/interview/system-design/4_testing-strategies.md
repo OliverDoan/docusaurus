@@ -9,9 +9,6 @@ Testing là chủ đề mà nhiều frontend developer "biết phải test" như
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: Testing Pyramid vs Testing Trophy -- khác nhau thế nào? `[Intermediate]`](#câu-1-testing-pyramid-vs-testing-trophy-khác-nhau-thế-nào-intermediate)
@@ -56,14 +53,14 @@ Testing là chủ đề mà nhiều frontend developer "biết phải test" như
 
 ### Bảng so sánh
 
-| Tiêu chí | Testing Pyramid | Testing Trophy |
-|----------|----------------|----------------|
-| **Focus** | Unit tests chiếm majority | Integration tests chiếm majority |
-| **Triết lý** | Test từng unit isolated | Test như user thực sự dùng |
-| **Mocking** | Mock nhiều | Mock ít (chỉ mock network) |
-| **Confidence per test** | Thấp (quá isolated) | Cao (test real interactions) |
-| **Speed** | Rất nhanh | Nhanh (jsdom) |
-| **Phù hợp** | Backend, pure logic | Frontend, UI components |
+| Tiêu chí                | Testing Pyramid           | Testing Trophy                   |
+| ----------------------- | ------------------------- | -------------------------------- |
+| **Focus**               | Unit tests chiếm majority | Integration tests chiếm majority |
+| **Triết lý**            | Test từng unit isolated   | Test như user thực sự dùng       |
+| **Mocking**             | Mock nhiều                | Mock ít (chỉ mock network)       |
+| **Confidence per test** | Thấp (quá isolated)       | Cao (test real interactions)     |
+| **Speed**               | Rất nhanh                 | Nhanh (jsdom)                    |
+| **Phù hợp**             | Backend, pure logic       | Frontend, UI components          |
 
 ### Code ví dụ
 
@@ -133,6 +130,7 @@ describe('LoginForm', () => {
 > "The more your tests resemble the way your software is used, the more confidence they can give you."
 
 RTL khuyến khích:
+
 - Query by **role**, **label**, **text** -- cách user tìm elements
 - **Không** query by `className`, `testId` (trừ khi không có cách khác)
 - Test **behavior**, không test **implementation details**
@@ -239,10 +237,10 @@ test('shows error when fetch fails', async () => {
 **Test custom hooks:**
 
 ```typescript
-import { renderHook, act } from '@testing-library/react';
-import { useCounter } from './useCounter';
+import { renderHook, act } from "@testing-library/react";
+import { useCounter } from "./useCounter";
 
-test('useCounter increments and decrements', () => {
+test("useCounter increments and decrements", () => {
   const { result } = renderHook(() => useCounter(0));
 
   expect(result.current.count).toBe(0);
@@ -271,19 +269,19 @@ test('useCounter increments and decrements', () => {
 
 **E2E (End-to-End) tests** chạy browser thật, tương tác với app như user thật. Chúng test **toàn bộ stack** -- frontend, API, database.
 
-| Feature | Cypress | Playwright |
-|---------|---------|------------|
-| **Browsers** | Chrome, Firefox, Edge (Webkit limited) | Chrome, Firefox, Safari (WebKit) |
-| **Language** | JavaScript/TypeScript only | JS/TS, Python, Java, C# |
-| **Architecture** | Runs inside browser | Controls browser from outside |
-| **Parallelism** | Paid (Cypress Cloud) hoặc tự setup | Built-in, free |
-| **Auto-wait** | Có (commands are auto-retried) | Có (actions auto-wait for elements) |
-| **API testing** | `cy.request()` | `request` context |
-| **Network mocking** | `cy.intercept()` | `page.route()` |
-| **Debugging** | Time-travel, screenshots, video | Trace viewer, screenshots, video |
-| **Speed** | Chậm hơn (single browser) | Nhanh hơn (parallel by default) |
-| **Learning curve** | Dễ hơn | Trung bình |
-| **Community** | Lớn, mature | Đang grow nhanh |
+| Feature             | Cypress                                | Playwright                          |
+| ------------------- | -------------------------------------- | ----------------------------------- |
+| **Browsers**        | Chrome, Firefox, Edge (Webkit limited) | Chrome, Firefox, Safari (WebKit)    |
+| **Language**        | JavaScript/TypeScript only             | JS/TS, Python, Java, C#             |
+| **Architecture**    | Runs inside browser                    | Controls browser from outside       |
+| **Parallelism**     | Paid (Cypress Cloud) hoặc tự setup     | Built-in, free                      |
+| **Auto-wait**       | Có (commands are auto-retried)         | Có (actions auto-wait for elements) |
+| **API testing**     | `cy.request()`                         | `request` context                   |
+| **Network mocking** | `cy.intercept()`                       | `page.route()`                      |
+| **Debugging**       | Time-travel, screenshots, video        | Trace viewer, screenshots, video    |
+| **Speed**           | Chậm hơn (single browser)              | Nhanh hơn (parallel by default)     |
+| **Learning curve**  | Dễ hơn                                 | Trung bình                          |
+| **Community**       | Lớn, mature                            | Đang grow nhanh                     |
 
 ### Code ví dụ
 
@@ -291,46 +289,46 @@ test('useCounter increments and decrements', () => {
 
 ```typescript
 // cypress/e2e/login.cy.ts
-describe('Login Flow', () => {
+describe("Login Flow", () => {
   beforeEach(() => {
     // Reset state
-    cy.visit('/login');
+    cy.visit("/login");
   });
 
-  it('successfully logs in with valid credentials', () => {
+  it("successfully logs in with valid credentials", () => {
     // Type credentials
-    cy.get('[data-testid="email-input"]').type('user@example.com');
-    cy.get('[data-testid="password-input"]').type('password123');
+    cy.get('[data-testid="email-input"]').type("user@example.com");
+    cy.get('[data-testid="password-input"]').type("password123");
 
     // Mock API response
-    cy.intercept('POST', '/api/auth/login', {
+    cy.intercept("POST", "/api/auth/login", {
       statusCode: 200,
-      body: { token: 'fake-jwt-token', user: { name: 'Alice' } },
-    }).as('loginRequest');
+      body: { token: "fake-jwt-token", user: { name: "Alice" } },
+    }).as("loginRequest");
 
     // Submit
     cy.get('[data-testid="login-button"]').click();
 
     // Wait for API call
-    cy.wait('@loginRequest');
+    cy.wait("@loginRequest");
 
     // Assert redirect to dashboard
-    cy.url().should('include', '/dashboard');
-    cy.contains('Welcome, Alice').should('be.visible');
+    cy.url().should("include", "/dashboard");
+    cy.contains("Welcome, Alice").should("be.visible");
   });
 
-  it('shows error for invalid credentials', () => {
-    cy.intercept('POST', '/api/auth/login', {
+  it("shows error for invalid credentials", () => {
+    cy.intercept("POST", "/api/auth/login", {
       statusCode: 401,
-      body: { error: 'Invalid credentials' },
-    }).as('loginRequest');
+      body: { error: "Invalid credentials" },
+    }).as("loginRequest");
 
-    cy.get('[data-testid="email-input"]').type('wrong@example.com');
-    cy.get('[data-testid="password-input"]').type('wrongpass');
+    cy.get('[data-testid="email-input"]').type("wrong@example.com");
+    cy.get('[data-testid="password-input"]').type("wrongpass");
     cy.get('[data-testid="login-button"]').click();
 
-    cy.wait('@loginRequest');
-    cy.contains('Invalid credentials').should('be.visible');
+    cy.wait("@loginRequest");
+    cy.contains("Invalid credentials").should("be.visible");
   });
 });
 ```
@@ -339,50 +337,50 @@ describe('Login Flow', () => {
 
 ```typescript
 // tests/login.spec.ts
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('Login Flow', () => {
+test.describe("Login Flow", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/login');
+    await page.goto("/login");
   });
 
-  test('successfully logs in with valid credentials', async ({ page }) => {
+  test("successfully logs in with valid credentials", async ({ page }) => {
     // Mock API
-    await page.route('**/api/auth/login', async (route) => {
+    await page.route("**/api/auth/login", async (route) => {
       await route.fulfill({
         status: 200,
-        contentType: 'application/json',
+        contentType: "application/json",
         body: JSON.stringify({
-          token: 'fake-jwt-token',
-          user: { name: 'Alice' },
+          token: "fake-jwt-token",
+          user: { name: "Alice" },
         }),
       });
     });
 
     // Fill form
-    await page.getByLabel('Email').fill('user@example.com');
-    await page.getByLabel('Password').fill('password123');
-    await page.getByRole('button', { name: 'Login' }).click();
+    await page.getByLabel("Email").fill("user@example.com");
+    await page.getByLabel("Password").fill("password123");
+    await page.getByRole("button", { name: "Login" }).click();
 
     // Assert
     await expect(page).toHaveURL(/.*dashboard/);
-    await expect(page.getByText('Welcome, Alice')).toBeVisible();
+    await expect(page.getByText("Welcome, Alice")).toBeVisible();
   });
 
-  test('shows error for invalid credentials', async ({ page }) => {
-    await page.route('**/api/auth/login', async (route) => {
+  test("shows error for invalid credentials", async ({ page }) => {
+    await page.route("**/api/auth/login", async (route) => {
       await route.fulfill({
         status: 401,
-        contentType: 'application/json',
-        body: JSON.stringify({ error: 'Invalid credentials' }),
+        contentType: "application/json",
+        body: JSON.stringify({ error: "Invalid credentials" }),
       });
     });
 
-    await page.getByLabel('Email').fill('wrong@example.com');
-    await page.getByLabel('Password').fill('wrongpass');
-    await page.getByRole('button', { name: 'Login' }).click();
+    await page.getByLabel("Email").fill("wrong@example.com");
+    await page.getByLabel("Password").fill("wrongpass");
+    await page.getByRole("button", { name: "Login" }).click();
 
-    await expect(page.getByText('Invalid credentials')).toBeVisible();
+    await expect(page.getByText("Invalid credentials")).toBeVisible();
   });
 });
 ```
@@ -426,48 +424,42 @@ test('displays user', async () => {
 
 ```typescript
 // mocks/handlers.ts
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from "msw";
 
 export const handlers = [
   // Mock GET /api/users/:id
-  http.get('/api/users/:id', ({ params }) => {
+  http.get("/api/users/:id", ({ params }) => {
     return HttpResponse.json({
       id: params.id,
-      name: 'Alice',
-      email: 'alice@example.com',
+      name: "Alice",
+      email: "alice@example.com",
     });
   }),
 
   // Mock POST /api/users
-  http.post('/api/users', async ({ request }) => {
+  http.post("/api/users", async ({ request }) => {
     const body = await request.json();
-    return HttpResponse.json(
-      { id: '123', ...body },
-      { status: 201 }
-    );
+    return HttpResponse.json({ id: "123", ...body }, { status: 201 });
   }),
 
   // Mock error
-  http.get('/api/users/404', () => {
-    return HttpResponse.json(
-      { error: 'User not found' },
-      { status: 404 }
-    );
+  http.get("/api/users/404", () => {
+    return HttpResponse.json({ error: "User not found" }, { status: 404 });
   }),
 ];
 ```
 
 ```typescript
 // mocks/server.ts
-import { setupServer } from 'msw/node';
-import { handlers } from './handlers';
+import { setupServer } from "msw/node";
+import { handlers } from "./handlers";
 
 export const server = setupServer(...handlers);
 ```
 
 ```typescript
 // jest.setup.ts (hoặc vitest.setup.ts)
-import { server } from './mocks/server';
+import { server } from "./mocks/server";
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
@@ -529,15 +521,15 @@ test('shows loading state', async () => {
 
 ### Bảng so sánh
 
-| Tiêu chí | jest.mock | MSW |
-|----------|-----------|-----|
-| **Mock level** | Module/function | Network (HTTP) |
-| **Coupling** | Gắn chặt implementation | Loose, chỉ gắn API contract |
-| **Refactor-proof** | Thấp (đổi internal → break) | Cao (đổi internal, giữ API → OK) |
-| **Reusable** | Mỗi test file mock riêng | Handlers dùng chung test + Storybook + dev |
-| **Browser support** | Không | Có (Service Worker) |
-| **Learning curve** | Dễ | Trung bình |
-| **Setup** | Zero | Cần setup server |
+| Tiêu chí            | jest.mock                   | MSW                                        |
+| ------------------- | --------------------------- | ------------------------------------------ |
+| **Mock level**      | Module/function             | Network (HTTP)                             |
+| **Coupling**        | Gắn chặt implementation     | Loose, chỉ gắn API contract                |
+| **Refactor-proof**  | Thấp (đổi internal → break) | Cao (đổi internal, giữ API → OK)           |
+| **Reusable**        | Mỗi test file mock riêng    | Handlers dùng chung test + Storybook + dev |
+| **Browser support** | Không                       | Có (Service Worker)                        |
+| **Learning curve**  | Dễ                          | Trung bình                                 |
+| **Setup**           | Zero                        | Cần setup server                           |
 
 ### Đáp án mẫu
 
@@ -707,6 +699,7 @@ export function TodoList() {
 Test coverage đo **bao nhiêu % code** được execute bởi tests. Nhưng **coverage cao không đồng nghĩa với tests tốt** -- bạn có thể đạt 100% coverage mà không assert gì cả.
 
 **Các loại coverage:**
+
 - **Statement coverage**: % statements được execute
 - **Branch coverage**: % branches (if/else) được test
 - **Function coverage**: % functions được gọi
@@ -747,19 +740,15 @@ Test coverage đo **bao nhiêu % code** được execute bởi tests. Nhưng **c
 
 ```typescript
 // vitest.config.ts
-import { defineConfig } from 'vitest/config';
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
     coverage: {
-      provider: 'v8',
-      reporter: ['text', 'html', 'lcov'],
-      include: ['src/**/*.{ts,tsx}'],
-      exclude: [
-        'src/**/*.stories.{ts,tsx}',
-        'src/**/*.d.ts',
-        'src/types/**',
-      ],
+      provider: "v8",
+      reporter: ["text", "html", "lcov"],
+      include: ["src/**/*.{ts,tsx}"],
+      exclude: ["src/**/*.stories.{ts,tsx}", "src/**/*.d.ts", "src/types/**"],
       thresholds: {
         lines: 80,
         branches: 70,
@@ -773,14 +762,14 @@ export default defineConfig({
 
 ### Bảng coverage guidelines
 
-| Code Type | Target Coverage | Lý do |
-|-----------|----------------|-------|
-| **Utils/helpers** | 90-100% | Pure functions, dễ test, quan trọng |
-| **Custom hooks** | 80-90% | Business logic core |
-| **Components (logic)** | 70-80% | Test behavior, không test styling |
-| **Components (UI)** | 50-70% | Visual test (Storybook) bổ sung |
-| **Pages** | 30-50% | E2E tests cover phần này |
-| **Config files** | 0% | Exclude khỏi coverage |
+| Code Type              | Target Coverage | Lý do                               |
+| ---------------------- | --------------- | ----------------------------------- |
+| **Utils/helpers**      | 90-100%         | Pure functions, dễ test, quan trọng |
+| **Custom hooks**       | 80-90%          | Business logic core                 |
+| **Components (logic)** | 70-80%          | Test behavior, không test styling   |
+| **Components (UI)**    | 50-70%          | Visual test (Storybook) bổ sung     |
+| **Pages**              | 30-50%          | E2E tests cover phần này            |
+| **Config files**       | 0%              | Exclude khỏi coverage               |
 
 ### Đáp án mẫu
 
@@ -790,15 +779,15 @@ export default defineConfig({
 
 ### Bảng so sánh Testing Tools
 
-| Tool | Type | Speed | DX | Ecosystem | Best For |
-|------|------|-------|-----|-----------|----------|
-| **Jest** | Unit + Integration | Nhanh | Tốt | Lớn nhất | Existing projects |
-| **Vitest** | Unit + Integration | Rất nhanh | Tốt nhất | Growing | Vite projects, new projects |
-| **Testing Library** | Integration | Nhanh (jsdom) | Tốt | Lớn | Component testing |
-| **Cypress** | E2E | Chậm | Rất tốt (GUI) | Lớn | E2E, visual testing |
-| **Playwright** | E2E | Nhanh | Tốt | Growing | Multi-browser E2E |
-| **MSW** | Mocking | N/A | Tốt | Lớn | API mocking |
-| **Storybook** | Visual | N/A | Tốt | Lớn | Component dev + visual testing |
+| Tool                | Type               | Speed         | DX            | Ecosystem | Best For                       |
+| ------------------- | ------------------ | ------------- | ------------- | --------- | ------------------------------ |
+| **Jest**            | Unit + Integration | Nhanh         | Tốt           | Lớn nhất  | Existing projects              |
+| **Vitest**          | Unit + Integration | Rất nhanh     | Tốt nhất      | Growing   | Vite projects, new projects    |
+| **Testing Library** | Integration        | Nhanh (jsdom) | Tốt           | Lớn       | Component testing              |
+| **Cypress**         | E2E                | Chậm          | Rất tốt (GUI) | Lớn       | E2E, visual testing            |
+| **Playwright**      | E2E                | Nhanh         | Tốt           | Growing   | Multi-browser E2E              |
+| **MSW**             | Mocking            | N/A           | Tốt           | Lớn       | API mocking                    |
+| **Storybook**       | Visual             | N/A           | Tốt           | Lớn       | Component dev + visual testing |
 
 ---
 

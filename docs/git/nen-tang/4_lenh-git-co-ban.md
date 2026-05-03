@@ -9,9 +9,6 @@ Bài này hướng dẫn chi tiết các lệnh Git bạn sẽ dùng **hàng ng�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. git init — Tạo repository mới](#1-git-init-tạo-repository-mới)
@@ -138,10 +135,10 @@ Nên `git clone` làm tất cả trong 1 lệnh.
 
 ### git init vs git clone
 
-| Tình huống | Dùng lệnh |
-|-----------|-----------|
-| Dự án mới, chưa có trên server | `git init` |
-| Lấy dự án đã có trên GitHub/GitLab | `git clone` |
+| Tình huống                            | Dùng lệnh                     |
+| ------------------------------------- | ----------------------------- |
+| Dự án mới, chưa có trên server        | `git init`                    |
+| Lấy dự án đã có trên GitHub/GitLab    | `git clone`                   |
 | Đã có repo local, muốn kết nối remote | `git init` + `git remote add` |
 
 ---
@@ -194,16 +191,17 @@ M  index.html       # M  = Modified và đã stage
 ```
 
 **Cách đọc 2 cột:**
+
 - **Cột trái:** Trạng thái trong Staging Area
 - **Cột phải:** Trạng thái trong Working Directory
 
-| Ký hiệu | Cột trái (Staging) | Cột phải (Working) |
-|---------|-------------------|-------------------|
-| `M` | Đã sửa và stage | Đã sửa, chưa stage |
-| `A` | File mới đã stage | — |
-| `D` | Đã xoá và stage | Đã xoá, chưa stage |
-| `?` | — | File mới, untracked |
-| ` ` | Không thay đổi | Không thay đổi |
+| Ký hiệu | Cột trái (Staging) | Cột phải (Working)  |
+| ------- | ------------------ | ------------------- |
+| `M`     | Đã sửa và stage    | Đã sửa, chưa stage  |
+| `A`     | File mới đã stage  | —                   |
+| `D`     | Đã xoá và stage    | Đã xoá, chưa stage  |
+| `?`     | —                  | File mới, untracked |
+| ` `     | Không thay đổi     | Không thay đổi      |
 
 ---
 
@@ -256,15 +254,15 @@ Git sẽ hiển thị từng "hunk" (đoạn thay đổi) và hỏi bạn:
 Stage this hunk [y,n,q,a,d,s,e,?]?
 ```
 
-| Phím | Ý nghĩa |
-|------|---------|
-| `y` | Stage đoạn này (yes) |
-| `n` | Bỏ qua đoạn này (no) |
-| `q` | Thoát (không stage gì thêm) |
-| `a` | Stage đoạn này và tất cả các đoạn còn lại |
-| `d` | Bỏ qua đoạn này và tất cả các đoạn còn lại |
-| `s` | Chia đoạn này thành các đoạn nhỏ hơn |
-| `e` | Sửa bằng tay đoạn nào muốn stage |
+| Phím | Ý nghĩa                                    |
+| ---- | ------------------------------------------ |
+| `y`  | Stage đoạn này (yes)                       |
+| `n`  | Bỏ qua đoạn này (no)                       |
+| `q`  | Thoát (không stage gì thêm)                |
+| `a`  | Stage đoạn này và tất cả các đoạn còn lại  |
+| `d`  | Bỏ qua đoạn này và tất cả các đoạn còn lại |
+| `s`  | Chia đoạn này thành các đoạn nhỏ hơn       |
+| `e`  | Sửa bằng tay đoạn nào muốn stage           |
 
 **Tại sao dùng `git add -p`?**
 
@@ -344,17 +342,17 @@ git commit -m "test: them unit test cho UserService"
 <body - giải thích chi tiết (tuỳ chọn)>
 ```
 
-| Type | Khi nào dùng |
-|------|-------------|
-| `feat` | Thêm tính năng mới |
-| `fix` | Sửa lỗi |
-| `refactor` | Refactor code (không đổi hành vi) |
-| `docs` | Thay đổi documentation |
-| `test` | Thêm/sửa test |
-| `chore` | Công việc bảo trì (update dependency...) |
-| `perf` | Cải thiện hiệu năng |
-| `style` | Sửa format code (không đổi logic) |
-| `ci` | Thay đổi CI/CD pipeline |
+| Type       | Khi nào dùng                             |
+| ---------- | ---------------------------------------- |
+| `feat`     | Thêm tính năng mới                       |
+| `fix`      | Sửa lỗi                                  |
+| `refactor` | Refactor code (không đổi hành vi)        |
+| `docs`     | Thay đổi documentation                   |
+| `test`     | Thêm/sửa test                            |
+| `chore`    | Công việc bảo trì (update dependency...) |
+| `perf`     | Cải thiện hiệu năng                      |
+| `style`    | Sửa format code (không đổi logic)        |
+| `ci`       | Thay đổi CI/CD pipeline                  |
 
 ---
 
@@ -585,22 +583,22 @@ index 0000000..1234567
 
 ## 9. Bảng tổng hợp các lệnh
 
-| Lệnh | Công dụng | Dùng khi |
-|------|-----------|----------|
-| `git init` | Tạo repo mới | Bắt đầu dự án mới |
-| `git clone <url>` | Sao chép repo | Lấy code từ server |
-| `git status` | Xem trạng thái | Trước khi add/commit |
-| `git add <file>` | Stage file | Chuẩn bị commit |
-| `git add .` | Stage tất cả | Commit toàn bộ thay đổi |
-| `git add -p` | Stage từng phần | Chọn lọc thay đổi |
-| `git commit -m "msg"` | Lưu thay đổi | Sau khi stage |
-| `git commit -am "msg"` | Add + commit | Nhanh, chỉ file tracked |
-| `git commit --amend` | Sửa commit cuối | Quên file/sai message |
-| `git diff` | Xem thay đổi chưa stage | Trước khi add |
-| `git diff --staged` | Xem thay đổi đã stage | Trước khi commit |
-| `git log` | Xem lịch sử | Kiểm tra lịch sử |
-| `git log --oneline --graph` | Xem lịch sử đẹp | Tổng quan nhanh |
-| `git show <hash>` | Chi tiết 1 commit | Xem commit cụ thể |
+| Lệnh                        | Công dụng               | Dùng khi                |
+| --------------------------- | ----------------------- | ----------------------- |
+| `git init`                  | Tạo repo mới            | Bắt đầu dự án mới       |
+| `git clone <url>`           | Sao chép repo           | Lấy code từ server      |
+| `git status`                | Xem trạng thái          | Trước khi add/commit    |
+| `git add <file>`            | Stage file              | Chuẩn bị commit         |
+| `git add .`                 | Stage tất cả            | Commit toàn bộ thay đổi |
+| `git add -p`                | Stage từng phần         | Chọn lọc thay đổi       |
+| `git commit -m "msg"`       | Lưu thay đổi            | Sau khi stage           |
+| `git commit -am "msg"`      | Add + commit            | Nhanh, chỉ file tracked |
+| `git commit --amend`        | Sửa commit cuối         | Quên file/sai message   |
+| `git diff`                  | Xem thay đổi chưa stage | Trước khi add           |
+| `git diff --staged`         | Xem thay đổi đã stage   | Trước khi commit        |
+| `git log`                   | Xem lịch sử             | Kiểm tra lịch sử        |
+| `git log --oneline --graph` | Xem lịch sử đẹp         | Tổng quan nhanh         |
+| `git show <hash>`           | Chi tiết 1 commit       | Xem commit cụ thể       |
 
 ---
 
@@ -776,6 +774,7 @@ git commit -m "them tinh nang moi"
 **Trả lời mẫu:**
 
 > Có 3 cách tuỳ theo mức độ:
+>
 > - `git reset --soft HEAD~1`: Undo commit, giữ file trong Staging Area. Thích hợp khi muốn sửa message hoặc thêm file.
 > - `git reset --mixed HEAD~1` (mặc định): Undo commit, chuyển file về Working Directory. Thích hợp khi muốn stage lại theo cách khác.
 > - `git reset --hard HEAD~1`: Undo commit VÀ xoá mọi thay đổi. **NGUY HIỂM** — mất dữ liệu vĩnh viễn.

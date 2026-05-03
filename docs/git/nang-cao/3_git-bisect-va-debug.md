@@ -9,9 +9,6 @@ Bạn phát hiện bug nhưng không biết nó xuất hiện từ commit nào? 
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Git Bisect — Binary Search tìm commit gây bug](#1-git-bisect-binary-search-tìm-commit-gây-bug)
@@ -176,6 +173,7 @@ git bisect run ./test-bug.sh
 ```
 
 Script `test-bug.sh` cần:
+
 - Exit code 0 = GOOD (không bug)
 - Exit code 1-124, 126, 127 = BAD (có bug)
 - Exit code 125 = SKIP (không test được)
@@ -225,6 +223,7 @@ f5e6d7c8 (Tran Thi B   2024-01-12 14:22:33 +0700  6) }
 ```
 
 Mỗi dòng hiển thị:
+
 - **SHA** commit sửa dòng đó lần cuối
 - **Tác giả** sửa dòng đó
 - **Ngày giờ** sửa
@@ -391,14 +390,14 @@ git log --merges --oneline
 
 ## 4. So sánh: Khi nào dùng bisect vs blame vs log -S
 
-| Tình huống | Công cụ | Lý do |
-|-----------|---------|-------|
-| "Bug xuất hiện lúc nào?" | `git bisect` | Binary search nhanh, tìm chính xác commit |
-| "Ai sửa dòng này?" | `git blame` | Hiển thị tác giả và commit cho từng dòng |
-| "Function này được thêm/xóa ở commit nào?" | `git log -S` | Tìm commit thay đổi sự tồn tại của chuỗi |
-| "Dòng code dạng X bị sửa ở đâu?" | `git log -G` | Tìm commit match regex trong diff |
-| "File này đã bị xóa khi nào?" | `git log --diff-filter=D` | Filter commits theo loại thay đổi |
-| "Commit nào sửa file pricing.js?" | `git log -- pricing.js` | Lịch sử commits ảnh hưởng file cụ thể |
+| Tình huống                                 | Công cụ                   | Lý do                                     |
+| ------------------------------------------ | ------------------------- | ----------------------------------------- |
+| "Bug xuất hiện lúc nào?"                   | `git bisect`              | Binary search nhanh, tìm chính xác commit |
+| "Ai sửa dòng này?"                         | `git blame`               | Hiển thị tác giả và commit cho từng dòng  |
+| "Function này được thêm/xóa ở commit nào?" | `git log -S`              | Tìm commit thay đổi sự tồn tại của chuỗi  |
+| "Dòng code dạng X bị sửa ở đâu?"           | `git log -G`              | Tìm commit match regex trong diff         |
+| "File này đã bị xóa khi nào?"              | `git log --diff-filter=D` | Filter commits theo loại thay đổi         |
+| "Commit nào sửa file pricing.js?"          | `git log -- pricing.js`   | Lịch sử commits ảnh hưởng file cụ thể     |
 
 ### Workflow debug tổng hợp
 
@@ -557,6 +556,7 @@ Hiệu quả vì độ phức tạp O(log n): với 1000 commits chỉ cần ~10
 ### Câu 2: Sự khác nhau giữa `git log -S` và `git log -G`?
 
 **Trả lời:**
+
 - `-S "string"` (pickaxe): Tìm commits mà **số lần xuất hiện** của chuỗi thay đổi. Nghĩa là chuỗi được thêm mới hoặc xóa đi. Nếu chuỗi chỉ bị di chuyển (refactor) mà số lần xuất hiện không đổi, `-S` sẽ bỏ qua.
 - `-G "regex"`: Tìm commits mà **diff** chứa dòng match regex. Bất kỳ thay đổi nào có dòng match đều được hiển thị, kể cả khi chỉ sửa nhỏ trong dòng đó.
 
@@ -566,14 +566,17 @@ Tóm lại: `-S` tìm khi chuỗi xuất hiện/biến mất, `-G` tìm khi dòn
 
 **Trả lời:**
 Tạo file `.git-blame-ignore-revs` chứa SHA của các formatting commits, rồi cấu hình:
+
 ```bash
 git config blame.ignoreRevsFile .git-blame-ignore-revs
 ```
+
 Git blame sẽ bỏ qua các commits đó và hiển thị commit logic thực sự. Commit file `.git-blame-ignore-revs` vào repo để cả team dùng được. GitHub cũng hỗ trợ file này trên web UI.
 
 ### Câu 4: Giải thích quy trình git bisect từ đầu đến cuối.
 
 **Trả lời:**
+
 1. `git bisect start` — bắt đầu session
 2. `git bisect bad` — đánh dấu commit hiện tại (hoặc chỉ định SHA) là có bug
 3. `git bisect good <ref>` — đánh dấu commit không có bug
@@ -585,6 +588,7 @@ Git blame sẽ bỏ qua các commits đó và hiển thị commit logic thực s
 ### Câu 5: Làm sao tìm lịch sử của file đã bị xóa?
 
 **Trả lời:**
+
 ```bash
 # Xem toàn bộ lịch sử file (kể cả sau khi bị xóa)
 git log --all --full-history -- path/to/deleted-file
@@ -595,6 +599,7 @@ git log --diff-filter=D -- path/to/deleted-file
 # Khôi phục file từ commit trước khi xóa
 git checkout <sha-commit-xoa>~1 -- path/to/deleted-file
 ```
+
 Dùng `--all` để tìm trên tất cả branches, `--full-history` để không bỏ qua history simplification.
 
 ---

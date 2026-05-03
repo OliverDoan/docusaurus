@@ -9,9 +9,6 @@ Trước khi dùng Git, bạn cần cài đặt nó trên máy và thiết lập
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Cài đặt Git](#1-cài-đặt-git)
@@ -226,11 +223,11 @@ Git có 3 cấp cấu hình, **cấp dưới ghi đè cấp trên**:
 
 ### Khi nào dùng cấp nào?
 
-| Cấp | Lệnh | Khi nào dùng |
-|-----|------|-------------|
+| Cấp        | Lệnh                  | Khi nào dùng                                    |
+| ---------- | --------------------- | ----------------------------------------------- |
 | `--system` | `git config --system` | IT admin thiết lập cho toàn máy (hiếm khi dùng) |
-| `--global` | `git config --global` | Thiết lập cá nhân: tên, email, editor, alias |
-| `--local` | `git config --local` | Thiết lập riêng cho 1 repo: email công ty khác |
+| `--global` | `git config --global` | Thiết lập cá nhân: tên, email, editor, alias    |
+| `--local`  | `git config --local`  | Thiết lập riêng cho 1 repo: email công ty khác  |
 
 ### Ví dụ thực tế: Dùng email khác cho repo công ty
 
@@ -365,6 +362,7 @@ cat ~/.ssh/id_ed25519.pub
 ```
 
 Sau đó vào GitHub:
+
 1. **Settings** > **SSH and GPG keys** > **New SSH key**
 2. Đặt tên (ví dụ: "MacBook Pro của tôi")
 3. Dán public key vào
@@ -383,6 +381,7 @@ Hi nguyenvana! You've successfully authenticated, but GitHub does not provide sh
 ```
 
 Nếu thấy lỗi `Permission denied`, kiểm tra lại:
+
 - Key đã thêm vào ssh-agent chưa?
 - Public key đã thêm vào GitHub chưa?
 - Đúng key phải không?
@@ -466,17 +465,17 @@ git config --global credential.helper 'cache --timeout=3600'
 
 ## 7. Bảng tổng hợp cấu hình quan trọng
 
-| Cấu hình | Lệnh | Mô tả |
-|----------|------|-------|
-| Tên | `git config --global user.name "Tên"` | Tên hiển thị trong commit |
-| Email | `git config --global user.email "email"` | Email gắn với commit |
-| Editor | `git config --global core.editor "code --wait"` | Editor cho commit message |
-| Line ending | `git config --global core.autocrlf true/input` | Xử lý xuống dòng Win/Mac |
-| Default branch | `git config --global init.defaultBranch main` | Tên branch mặc định |
-| Pull strategy | `git config --global pull.rebase true` | Rebase khi pull |
-| Color | `git config --global color.ui auto` | Output có màu |
-| Alias | `git config --global alias.st status` | Lệnh tắt |
-| Credential | `git config --global credential.helper ...` | Lưu mật khẩu |
+| Cấu hình       | Lệnh                                            | Mô tả                     |
+| -------------- | ----------------------------------------------- | ------------------------- |
+| Tên            | `git config --global user.name "Tên"`           | Tên hiển thị trong commit |
+| Email          | `git config --global user.email "email"`        | Email gắn với commit      |
+| Editor         | `git config --global core.editor "code --wait"` | Editor cho commit message |
+| Line ending    | `git config --global core.autocrlf true/input`  | Xử lý xuống dòng Win/Mac  |
+| Default branch | `git config --global init.defaultBranch main`   | Tên branch mặc định       |
+| Pull strategy  | `git config --global pull.rebase true`          | Rebase khi pull           |
+| Color          | `git config --global color.ui auto`             | Output có màu             |
+| Alias          | `git config --global alias.st status`           | Lệnh tắt                  |
+| Credential     | `git config --global credential.helper ...`     | Lưu mật khẩu              |
 
 ---
 
@@ -646,14 +645,14 @@ git config --list --show-origin
 
 ## Tổng kết
 
-| Bước | Lệnh | Mô tả |
-|------|------|-------|
-| 1 | `git --version` | Kiểm tra đã cài chưa |
-| 2 | `git config --global user.name` | Đặt tên |
-| 3 | `git config --global user.email` | Đặt email |
-| 4 | `git config --global core.editor` | Chọn editor |
-| 5 | `ssh-keygen -t ed25519` | Tạo SSH key |
-| 6 | Thêm key vào GitHub | Kết nối SSH |
-| 7 | `ssh -T git@github.com` | Kiểm tra kết nối |
+| Bước | Lệnh                              | Mô tả                |
+| ---- | --------------------------------- | -------------------- |
+| 1    | `git --version`                   | Kiểm tra đã cài chưa |
+| 2    | `git config --global user.name`   | Đặt tên              |
+| 3    | `git config --global user.email`  | Đặt email            |
+| 4    | `git config --global core.editor` | Chọn editor          |
+| 5    | `ssh-keygen -t ed25519`           | Tạo SSH key          |
+| 6    | Thêm key vào GitHub               | Kết nối SSH          |
+| 7    | `ssh -T git@github.com`           | Kiểm tra kết nối     |
 
 **Bước tiếp theo:** Tìm hiểu các khái niệm cốt lõi trong Git — Working Directory, Staging Area, Repository.

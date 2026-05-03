@@ -9,9 +9,6 @@ Phần này tập trung vào các câu hỏi phỏng vấn về CSS layout nâng
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: Giải thích main axis và cross axis trong Flexbox. Khi nào chúng thay đổi? `[Intermediate]`](#câu-1-giải-thích-main-axis-và-cross-axis-trong-flexbox-khi-nào-chúng-thay-đổi-intermediate)
@@ -36,12 +33,12 @@ Flexbox hoạt động trên hai trục:
 
 Khi bạn thay đổi `flex-direction`, hai trục này **hoán đổi** cho nhau:
 
-| `flex-direction` | Main axis | Cross axis |
-|---|---|---|
-| `row` (mặc định) | Ngang (trái -> phải) | Dọc (trên -> dưới) |
-| `row-reverse` | Ngang (phải -> trái) | Dọc (trên -> dưới) |
-| `column` | Dọc (trên -> dưới) | Ngang (trái -> phải) |
-| `column-reverse` | Dọc (dưới -> trên) | Ngang (trái -> phải) |
+| `flex-direction` | Main axis            | Cross axis           |
+| ---------------- | -------------------- | -------------------- |
+| `row` (mặc định) | Ngang (trái -> phải) | Dọc (trên -> dưới)   |
+| `row-reverse`    | Ngang (phải -> trái) | Dọc (trên -> dưới)   |
+| `column`         | Dọc (trên -> dưới)   | Ngang (trái -> phải) |
+| `column-reverse` | Dọc (dưới -> trên)   | Ngang (trái -> phải) |
 
 Điều quan trọng: `justify-content` luôn điều khiển **main axis**, còn `align-items` luôn điều khiển **cross axis**. Vì vậy khi `flex-direction: column`, `justify-content` sẽ căn theo **chiều dọc**.
 
@@ -52,16 +49,16 @@ Khi bạn thay đổi `flex-direction`, hai trục này **hoán đổi** cho nha
 .container-row {
   display: flex;
   flex-direction: row;
-  justify-content: center;    /* Căn giữa theo chiều ngang */
-  align-items: center;        /* Căn giữa theo chiều dọc */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
 }
 
 /* Đổi sang column: main axis = dọc */
 .container-column {
   display: flex;
   flex-direction: column;
-  justify-content: center;    /* Bây giờ căn giữa theo chiều DỌC */
-  align-items: center;        /* Bây giờ căn giữa theo chiều NGANG */
+  justify-content: center; /* Bây giờ căn giữa theo chiều DỌC */
+  align-items: center; /* Bây giờ căn giữa theo chiều NGANG */
 }
 
 /* Trick căn giữa hoàn hảo */
@@ -85,13 +82,14 @@ Khi bạn thay đổi `flex-direction`, hai trục này **hoán đổi** cho nha
 
 Ba thuộc tính này quyết định cách flex item **chia sẻ không gian** trong container:
 
-| Thuộc tính | Mặc định | Ý nghĩa |
-|---|---|---|
-| `flex-grow` | `0` | Tỷ lệ **giãn ra** khi container còn thừa chỗ |
-| `flex-shrink` | `1` | Tỷ lệ **co lại** khi container thiếu chỗ |
-| `flex-basis` | `auto` | Kích thước **ban đầu** trước khi grow/shrink |
+| Thuộc tính    | Mặc định | Ý nghĩa                                      |
+| ------------- | -------- | -------------------------------------------- |
+| `flex-grow`   | `0`      | Tỷ lệ **giãn ra** khi container còn thừa chỗ |
+| `flex-shrink` | `1`      | Tỷ lệ **co lại** khi container thiếu chỗ     |
+| `flex-basis`  | `auto`   | Kích thước **ban đầu** trước khi grow/shrink |
 
 Shorthand `flex`:
+
 - `flex: 1` tương đương `flex: 1 1 0%` (grow=1, shrink=1, basis=0%)
 - `flex: auto` tương đương `flex: 1 1 auto`
 - `flex: none` tương đương `flex: 0 0 auto`
@@ -155,11 +153,11 @@ Shorthand `flex`:
 
 **`auto-fill` vs `auto-fit`**: cả hai đều dùng trong `repeat()` để tạo responsive grid mà **không cần media query**, nhưng khác nhau khi container rộng hơn nội dung:
 
-| | `auto-fill` | `auto-fit` |
-|---|---|---|
+|              | `auto-fill`                   | `auto-fit`                           |
+| ------------ | ----------------------------- | ------------------------------------ |
 | Khi thừa chỗ | Tạo **cột trống** (invisible) | **Collapse** cột trống, item giãn ra |
-| Khi đủ item | Giống nhau | Giống nhau |
-| Use case | Grid cần giữ cấu trúc cố định | Grid cần item lấp đầy container |
+| Khi đủ item  | Giống nhau                    | Giống nhau                           |
+| Use case     | Grid cần giữ cấu trúc cố định | Grid cần item lấp đầy container      |
 
 ### Code ví dụ
 
@@ -207,11 +205,21 @@ Shorthand `flex`:
   min-height: 100vh;
 }
 
-.header  { grid-area: header; }
-.sidebar { grid-area: sidebar; }
-.main    { grid-area: main; }
-.aside   { grid-area: aside; }
-.footer  { grid-area: footer; }
+.header {
+  grid-area: header;
+}
+.sidebar {
+  grid-area: sidebar;
+}
+.main {
+  grid-area: main;
+}
+.aside {
+  grid-area: aside;
+}
+.footer {
+  grid-area: footer;
+}
 ```
 
 ### Đáp án mẫu
@@ -230,17 +238,17 @@ Shorthand `flex`:
 
 **Khi nào tạo stacking context mới:**
 
-| Điều kiện | Ví dụ |
-|---|---|
-| Root element | `<html>` |
-| `position` khác `static` + có `z-index` | `position: relative; z-index: 1` |
-| `position: fixed` hoặc `sticky` | Luôn tạo stacking context |
-| `opacity` nhỏ hơn 1 | `opacity: 0.99` |
-| `transform` khác `none` | `transform: translateZ(0)` |
-| `filter` khác `none` | `filter: blur(0)` |
-| `isolation: isolate` | Tạo stacking context "có chủ đích" |
-| Flex/Grid item có `z-index` | Không cần `position` |
-| `will-change` với một số giá trị | `will-change: transform` |
+| Điều kiện                               | Ví dụ                              |
+| --------------------------------------- | ---------------------------------- |
+| Root element                            | `<html>`                           |
+| `position` khác `static` + có `z-index` | `position: relative; z-index: 1`   |
+| `position: fixed` hoặc `sticky`         | Luôn tạo stacking context          |
+| `opacity` nhỏ hơn 1                     | `opacity: 0.99`                    |
+| `transform` khác `none`                 | `transform: translateZ(0)`         |
+| `filter` khác `none`                    | `filter: blur(0)`                  |
+| `isolation: isolate`                    | Tạo stacking context "có chủ đích" |
+| Flex/Grid item có `z-index`             | Không cần `position`               |
+| `will-change` với một số giá trị        | `will-change: transform`           |
 
 ### Code ví dụ
 
@@ -309,13 +317,13 @@ Shorthand `flex`:
 
 **Cách tạo BFC:**
 
-| Cách | Code |
-|---|---|
-| `overflow` khác `visible` | `overflow: hidden` hoặc `overflow: auto` |
-| `display: flow-root` | Cách hiện đại, rõ ràng nhất |
-| `display: flex` hoặc `grid` | Flex/Grid container tạo BFC |
-| `float` khác `none` | `float: left` |
-| `position: absolute/fixed` | Element ra khỏi flow |
+| Cách                        | Code                                     |
+| --------------------------- | ---------------------------------------- |
+| `overflow` khác `visible`   | `overflow: hidden` hoặc `overflow: auto` |
+| `display: flow-root`        | Cách hiện đại, rõ ràng nhất              |
+| `display: flex` hoặc `grid` | Flex/Grid container tạo BFC              |
+| `float` khác `none`         | `float: left`                            |
+| `position: absolute/fixed`  | Element ra khỏi flow                     |
 
 ### Code ví dụ
 
@@ -384,18 +392,19 @@ Shorthand `flex`:
 
 ### Giải thích lý thuyết
 
-| Tiêu chí | Flexbox | Grid |
-|---|---|---|
-| **Chiều** | 1 chiều (hàng HOẶC cột) | 2 chiều (hàng VÀ cột) |
-| **Điều khiển** | Từ content ra (content-first) | Từ layout vào (layout-first) |
-| **Alignment** | Dọc theo 1 trục | Cả 2 trục cùng lúc |
-| **Item sizing** | Dựa vào nội dung + flex rules | Dựa vào grid track definitions |
-| **Overlap** | Không hỗ trợ | Hỗ trợ (grid items chồng nhau) |
-| **Use case chính** | Navbar, card row, centering | Page layout, dashboard, gallery |
-| **Responsive** | Cần media queries hoặc `flex-wrap` | `auto-fit` + `minmax()` |
-| **Browser support** | Rất tốt | Rất tốt (IE không hỗ trợ đầy đủ) |
+| Tiêu chí            | Flexbox                            | Grid                             |
+| ------------------- | ---------------------------------- | -------------------------------- |
+| **Chiều**           | 1 chiều (hàng HOẶC cột)            | 2 chiều (hàng VÀ cột)            |
+| **Điều khiển**      | Từ content ra (content-first)      | Từ layout vào (layout-first)     |
+| **Alignment**       | Dọc theo 1 trục                    | Cả 2 trục cùng lúc               |
+| **Item sizing**     | Dựa vào nội dung + flex rules      | Dựa vào grid track definitions   |
+| **Overlap**         | Không hỗ trợ                       | Hỗ trợ (grid items chồng nhau)   |
+| **Use case chính**  | Navbar, card row, centering        | Page layout, dashboard, gallery  |
+| **Responsive**      | Cần media queries hoặc `flex-wrap` | `auto-fit` + `minmax()`          |
+| **Browser support** | Rất tốt                            | Rất tốt (IE không hỗ trợ đầy đủ) |
 
 **Nguyên tắc chọn:**
+
 - Layout **1 chiều** (hàng button, navbar, card list) -> **Flexbox**
 - Layout **2 chiều** (page layout, dashboard grid) -> **Grid**
 - Khi item size phụ thuộc **nội dung** -> **Flexbox**
@@ -467,11 +476,11 @@ Shorthand `flex`:
 
 **Box model** quyết định cách tính kích thước element:
 
-| | `content-box` (mặc định) | `border-box` |
-|---|---|---|
-| `width` bao gồm | Chỉ content | Content + padding + border |
-| Tổng kích thước | width + padding + border | width (đã bao gồm tất cả) |
-| Dễ tính toán? | Khó (phải cộng thêm) | Dễ (what you set is what you get) |
+|                 | `content-box` (mặc định) | `border-box`                      |
+| --------------- | ------------------------ | --------------------------------- |
+| `width` bao gồm | Chỉ content              | Content + padding + border        |
+| Tổng kích thước | width + padding + border | width (đã bao gồm tất cả)         |
+| Dễ tính toán?   | Khó (phải cộng thêm)     | Dễ (what you set is what you get) |
 
 ### Code ví dụ
 
@@ -487,7 +496,7 @@ Shorthand `flex`:
 .content-box-example {
   box-sizing: content-box;
   width: 200px;
-  padding: 16px;     /* +32px */
+  padding: 16px; /* +32px */
   border: 5px solid; /* +10px */
   /* Tổng thực tế: 200 + 32 + 10 = 242px */
 }

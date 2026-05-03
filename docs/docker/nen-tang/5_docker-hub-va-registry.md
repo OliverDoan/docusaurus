@@ -9,9 +9,6 @@ Docker Hub là nơi bạn tìm, tải và chia sẻ Docker Image. Bài này hư�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Docker Hub là gì?](#1-docker-hub-là-gì)
@@ -28,17 +25,18 @@ Docker Hub là nơi bạn tìm, tải và chia sẻ Docker Image. Bài này hư�
 ## 1. Docker Hub là gì?
 
 **Docker Hub** (hub.docker.com) là registry công khai lớn nhất thế giới, tương tự:
+
 - **npm** cho Node.js packages
 - **PyPI** cho Python packages
 - **GitHub** cho source code
 
 Docker Hub chứa hàng triệu image, chia thành:
 
-| Loại | Ví dụ | Đặc điểm |
-|------|-------|-----------|
-| **Official Images** | `nginx`, `node`, `postgres` | Docker Inc. kiểm duyệt, đáng tin cậy |
-| **Verified Publisher** | `bitnami/nginx` | Nhà cung cấp xác minh |
-| **Community** | `username/my-app` | Người dùng tự đăng |
+| Loại                   | Ví dụ                       | Đặc điểm                             |
+| ---------------------- | --------------------------- | ------------------------------------ |
+| **Official Images**    | `nginx`, `node`, `postgres` | Docker Inc. kiểm duyệt, đáng tin cậy |
+| **Verified Publisher** | `bitnami/nginx`             | Nhà cung cấp xác minh                |
+| **Community**          | `username/my-app`           | Người dùng tự đăng                   |
 
 ---
 
@@ -78,12 +76,12 @@ docker pull node:latest      # Luôn là version mới nhất
 
 ### Hiểu các biến thể Image
 
-| Tag suffix | Base OS | Dung lượng | Khi nào dùng |
-|-----------|---------|-----------|-------------|
-| (không có) | Debian | ~300-900MB | Cần đầy đủ tools |
-| `-slim` | Debian (minimal) | ~150-200MB | Cần gọn hơn |
-| `-alpine` | Alpine Linux | ~50-100MB | Production, CI/CD |
-| `-bookworm` | Debian 12 | ~300-900MB | Cần Debian cụ thể |
+| Tag suffix  | Base OS          | Dung lượng | Khi nào dùng      |
+| ----------- | ---------------- | ---------- | ----------------- |
+| (không có)  | Debian           | ~300-900MB | Cần đầy đủ tools  |
+| `-slim`     | Debian (minimal) | ~150-200MB | Cần gọn hơn       |
+| `-alpine`   | Alpine Linux     | ~50-100MB  | Production, CI/CD |
+| `-bookworm` | Debian 12        | ~300-900MB | Cần Debian cụ thể |
 
 ```bash
 # So sánh dung lượng
@@ -204,12 +202,12 @@ docker pull ghcr.io/username/my-app:v1.0
 
 ### Các Private Registry khác
 
-| Registry | Cloud | Ghi chú |
-|----------|-------|---------|
-| **Amazon ECR** | AWS | Tích hợp ECS, EKS |
-| **Google Artifact Registry** | GCP | Tích hợp GKE |
-| **Azure Container Registry** | Azure | Tích hợp AKS |
-| **Harbor** | Self-hosted | Mã nguồn mở |
+| Registry                     | Cloud       | Ghi chú           |
+| ---------------------------- | ----------- | ----------------- |
+| **Amazon ECR**               | AWS         | Tích hợp ECS, EKS |
+| **Google Artifact Registry** | GCP         | Tích hợp GKE      |
+| **Azure Container Registry** | Azure       | Tích hợp AKS      |
+| **Harbor**                   | Self-hosted | Mã nguồn mở       |
 
 ---
 
@@ -221,12 +219,12 @@ docker pull ghcr.io/username/my-app:v1.0
 [registry]/[namespace]/[repository]:[tag]
 ```
 
-| Phần | Ví dụ | Mặc định |
-|------|-------|----------|
-| `registry` | `ghcr.io`, `ecr.aws` | `docker.io` (Docker Hub) |
-| `namespace` | `library`, `username` | `library` (official images) |
-| `repository` | `nginx`, `my-app` | (bắt buộc) |
-| `tag` | `latest`, `v1.0`, `alpine` | `latest` |
+| Phần         | Ví dụ                      | Mặc định                    |
+| ------------ | -------------------------- | --------------------------- |
+| `registry`   | `ghcr.io`, `ecr.aws`       | `docker.io` (Docker Hub)    |
+| `namespace`  | `library`, `username`      | `library` (official images) |
+| `repository` | `nginx`, `my-app`          | (bắt buộc)                  |
+| `tag`        | `latest`, `v1.0`, `alpine` | `latest`                    |
 
 ### Ví dụ
 
@@ -252,6 +250,7 @@ ghcr.io/username/my-app:v1.0
 ### Chọn Image
 
 1. **Luôn dùng tag cụ thể**, tránh `latest`:
+
    ```bash
    # Tốt — version rõ ràng, reproducible
    FROM node:20-alpine
@@ -286,12 +285,12 @@ docker system df
 
 ## Tổng kết
 
-| Khái niệm | Mô tả |
-|-----------|--------|
-| **Docker Hub** | Registry công khai mặc định |
-| **Official Image** | Image được Docker Inc. kiểm duyệt |
-| **Tag** | Phiên bản của image (`node:20-alpine`) |
-| **Alpine** | Bản Linux siêu nhẹ, ưu tiên cho production |
-| **Private Registry** | Kho image riêng (ghcr.io, ECR, ACR...) |
-| **docker pull** | Tải image về |
-| **docker push** | Đẩy image lên registry |
+| Khái niệm            | Mô tả                                      |
+| -------------------- | ------------------------------------------ |
+| **Docker Hub**       | Registry công khai mặc định                |
+| **Official Image**   | Image được Docker Inc. kiểm duyệt          |
+| **Tag**              | Phiên bản của image (`node:20-alpine`)     |
+| **Alpine**           | Bản Linux siêu nhẹ, ưu tiên cho production |
+| **Private Registry** | Kho image riêng (ghcr.io, ECR, ACR...)     |
+| **docker pull**      | Tải image về                               |
+| **docker push**      | Đẩy image lên registry                     |

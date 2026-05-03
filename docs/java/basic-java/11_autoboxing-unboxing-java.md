@@ -11,9 +11,6 @@ Hãy hình dung primitive như **tiền mặt** (nhanh, gọn, trực tiếp), c
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Nội dung](#nội-dung)
@@ -49,18 +46,19 @@ Hãy hình dung primitive như **tiền mặt** (nhanh, gọn, trực tiếp), c
 
 Java có **8 kiểu nguyên thủy** và mỗi kiểu có một **Wrapper class** tương ứng:
 
-| Primitive | Wrapper | Giá trị mặc định (field) |
-|-----------|---------|--------------------------|
-| `byte` | `Byte` | `0` vs `null` |
-| `short` | `Short` | `0` vs `null` |
-| `int` | `Integer` | `0` vs `null` |
-| `long` | `Long` | `0L` vs `null` |
-| `float` | `Float` | `0.0f` vs `null` |
-| `double` | `Double` | `0.0` vs `null` |
-| `char` | `Character` | `'\u0000'` vs `null` |
-| `boolean` | `Boolean` | `false` vs `null` |
+| Primitive | Wrapper     | Giá trị mặc định (field) |
+| --------- | ----------- | ------------------------ |
+| `byte`    | `Byte`      | `0` vs `null`            |
+| `short`   | `Short`     | `0` vs `null`            |
+| `int`     | `Integer`   | `0` vs `null`            |
+| `long`    | `Long`      | `0L` vs `null`           |
+| `float`   | `Float`     | `0.0f` vs `null`         |
+| `double`  | `Double`    | `0.0` vs `null`          |
+| `char`    | `Character` | `'\u0000'` vs `null`     |
+| `boolean` | `Boolean`   | `false` vs `null`        |
 
 **Khác biệt quan trọng**:
+
 - Primitive **không thể null**, Wrapper **có thể null**.
 - Primitive **không thể dùng trong Generics** (`List<int>` sai), Wrapper thì được (`List<Integer>` đúng).
 - Primitive **nhanh hơn**, Wrapper tạo object trên heap nên **chậm hơn**.
@@ -327,14 +325,15 @@ public class CollectionAutoboxingDemo {
 
 ## 8. Khi nào dùng?
 
-| Dùng Primitive | Dùng Wrapper |
-|----------------|-------------|
-| Tính toán, vòng lặp (cần hiệu năng) | Dùng trong Collections (`List<Integer>`) |
-| Giá trị luôn có, không bao giờ null | Cần biểu thị "không có giá trị" (`null`) |
-| Biến local trong method | Field trong entity/DTO có thể null |
-| Không cần method đặc biệt | Cần gọi method (`parseInt`, `compareTo`...) |
+| Dùng Primitive                      | Dùng Wrapper                                |
+| ----------------------------------- | ------------------------------------------- |
+| Tính toán, vòng lặp (cần hiệu năng) | Dùng trong Collections (`List<Integer>`)    |
+| Giá trị luôn có, không bao giờ null | Cần biểu thị "không có giá trị" (`null`)    |
+| Biến local trong method             | Field trong entity/DTO có thể null          |
+| Không cần method đặc biệt           | Cần gọi method (`parseInt`, `compareTo`...) |
 
 **Best practices**:
+
 - **Ưu tiên primitive** khi không cần null và không dùng trong Generics.
 - Luôn **kiểm tra null** trước khi unboxing Wrapper.
 - **Dùng `equals()`** thay vì `==` khi so sánh Wrapper (trừ khi bạn hiểu rõ Integer cache).
@@ -434,7 +433,7 @@ Integer d = Integer.valueOf(127);
 // c == d -> true (cùng object từ cache)
 ```
 
-*Lưu ý: `new Integer(int)` đã deprecated từ Java 9, nên dùng `Integer.valueOf()` thay thế.*
+_Lưu ý: `new Integer(int)` đã deprecated từ Java 9, nên dùng `Integer.valueOf()` thay thế._
 
 ---
 
@@ -458,6 +457,7 @@ numbers.add(42); // Autoboxing: int -> Integer
 **A**: Khi biến Wrapper có giá trị **`null`** và bị unboxing sang primitive. Compiler chuyển unboxing thành gọi method (ví dụ `.intValue()`), mà gọi method trên `null` sẽ ném NPE.
 
 Các trường hợp thường gặp:
+
 1. Gán Wrapper null cho biến primitive: `int x = nullInteger;`
 2. Dùng Wrapper null trong phép tính: `int sum = nullInteger + 5;`
 3. Dùng Boolean null trong điều kiện: `if (nullBoolean) { }`
@@ -468,6 +468,7 @@ Các trường hợp thường gặp:
 ### Q4: `==` vs `equals()` với Integer Wrapper -- giải thích chi tiết?
 
 **A**:
+
 - `==` so sánh **reference** (có phải cùng object hay không).
 - `equals()` so sánh **giá trị** bên trong.
 
@@ -488,6 +489,7 @@ System.out.println(c.equals(d)); // true  (giá trị vẫn bằng)
 ### Q5: Autoboxing ảnh hưởng hiệu năng như thế nào?
 
 **A**: Mỗi lần autoboxing, Java tạo (hoặc lấy từ cache) một **object Wrapper trên heap**. Trong vòng lặp lớn, điều này tạo ra hàng triệu object tạm, gây:
+
 1. **Tốn bộ nhớ**: mỗi Integer object chiếm khoảng 16 bytes (so với 4 bytes cho `int`).
 2. **Tăng áp lực GC**: Garbage Collector phải thu hồi các object tạm.
 3. **Chậm hơn đáng kể**: có thể chậm gấp 5-10 lần so với dùng primitive.

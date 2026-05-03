@@ -9,9 +9,6 @@ Bài này tổng hợp kiến thức Docker Compose qua các ví dụ full-stack
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Node.js + PostgreSQL + Redis](#1-nodejs-postgresql-redis)
@@ -43,7 +40,7 @@ services:
       DATABASE_URL: postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-secret}@db:5432/${DB_NAME:-myapp}
       REDIS_URL: redis://cache:6379
     volumes:
-      - ./src:/app/src    # Hot reload cho development
+      - ./src:/app/src # Hot reload cho development
     depends_on:
       db:
         condition: service_healthy
@@ -60,9 +57,9 @@ services:
       POSTGRES_DB: ${DB_NAME:-myapp}
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # SQL khởi tạo
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql # SQL khởi tạo
     ports:
-      - "5432:5432"  # Expose cho dev tools (DBeaver, pgAdmin)
+      - "5432:5432" # Expose cho dev tools (DBeaver, pgAdmin)
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
       interval: 5s
@@ -113,7 +110,7 @@ services:
   app:
     build:
       context: .
-      target: development  # Multi-stage: dùng stage dev
+      target: development # Multi-stage: dùng stage dev
     ports:
       - "3000:3000"
     environment:
@@ -279,7 +276,7 @@ services:
       target: development
     ports:
       - "3000:3000"
-      - "9229:9229"  # Node.js debugger
+      - "9229:9229" # Node.js debugger
     environment:
       NODE_ENV: development
       DATABASE_URL: postgresql://postgres:dev@db:5432/devdb
@@ -318,8 +315,8 @@ services:
   mailhog:
     image: mailhog/mailhog
     ports:
-      - "1025:1025"   # SMTP
-      - "8025:8025"   # Web UI
+      - "1025:1025" # SMTP
+      - "8025:8025" # Web UI
     profiles:
       - dev
 
@@ -418,12 +415,12 @@ docker compose exec -T db psql -U postgres myapp < backup.sql
 
 ## Tổng kết
 
-| Pattern | Mô tả |
-|---------|--------|
-| **App + DB + Cache** | Stack phổ biến nhất |
-| **Reverse Proxy** | Nginx phía trước, route đến services |
-| **Multi-stage dev/prod** | `--target` để chọn stage |
-| **Profiles** | `--profile dev` cho dev tools |
-| **Override files** | `docker-compose.override.yml` cho dev |
-| **Volume cho node_modules** | Tránh xung đột host/container |
-| **Healthcheck + depends_on** | Đợi DB ready trước khi start app |
+| Pattern                      | Mô tả                                 |
+| ---------------------------- | ------------------------------------- |
+| **App + DB + Cache**         | Stack phổ biến nhất                   |
+| **Reverse Proxy**            | Nginx phía trước, route đến services  |
+| **Multi-stage dev/prod**     | `--target` để chọn stage              |
+| **Profiles**                 | `--profile dev` cho dev tools         |
+| **Override files**           | `docker-compose.override.yml` cho dev |
+| **Volume cho node_modules**  | Tránh xung đột host/container         |
+| **Healthcheck + depends_on** | Đợi DB ready trước khi start app      |

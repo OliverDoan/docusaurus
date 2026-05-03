@@ -9,9 +9,6 @@ Trước khi gõ bất kỳ lệnh Git nào, bạn cần hiểu **cách Git suy 
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Ba vùng làm việc của Git](#1-ba-vùng-làm-việc-của-git)
@@ -61,12 +58,12 @@ Trước khi gõ bất kỳ lệnh Git nào, bạn cần hiểu **cách Git suy 
 
 **Trạng thái file trong Working Directory:**
 
-| Trạng thái | Ý nghĩa |
-|------------|---------|
-| **Untracked** | File mới, Git chưa biết đến |
-| **Modified** | File đã thay đổi so với lần commit cuối |
-| **Deleted** | File đã bị xoá |
-| **Unmodified** | File không thay đổi gì |
+| Trạng thái     | Ý nghĩa                                 |
+| -------------- | --------------------------------------- |
+| **Untracked**  | File mới, Git chưa biết đến             |
+| **Modified**   | File đã thay đổi so với lần commit cuối |
+| **Deleted**    | File đã bị xoá                          |
+| **Unmodified** | File không thay đổi gì                  |
 
 ### 1.2 Staging Area (Vùng chuẩn bị)
 
@@ -158,13 +155,13 @@ Commit C:  [index.html v2] [style.css v2] [app.js v2]
 
 **Tương tự như save game:**
 
-| Game | Git |
-|------|-----|
-| Save game | git commit |
-| Load game | git checkout |
-| Save slot 1, 2, 3... | Commit A, B, C... |
-| Mỗi save slot = trạng thái đầy đủ | Mỗi commit = snapshot đầy đủ |
-| Có thể load bất kỳ save nào | Có thể checkout bất kỳ commit nào |
+| Game                              | Git                               |
+| --------------------------------- | --------------------------------- |
+| Save game                         | git commit                        |
+| Load game                         | git checkout                      |
+| Save slot 1, 2, 3...              | Commit A, B, C...                 |
+| Mỗi save slot = trạng thái đầy đủ | Mỗi commit = snapshot đầy đủ      |
+| Có thể load bất kỳ save nào       | Có thể checkout bất kỳ commit nào |
 
 ### Cấu trúc của một commit
 
@@ -184,6 +181,7 @@ Parent:     f0e1d2c3b4a5...                          <-- Commit cha
 ```
 
 Mỗi commit chứa:
+
 - **SHA-1 hash** — định danh duy nhất (40 ký tự hex)
 - **Author** — người viết code
 - **Committer** — người tạo commit (thường là cùng 1 người)
@@ -310,10 +308,10 @@ cat .git/refs/heads/main
 
 Vì tạo branch = tạo 1 file 41 bytes (40 ký tự hash + newline). So sánh:
 
-| Hệ thống | Tạo branch | Kích thước |
-|----------|-----------|------------|
-| SVN | Copy toàn bộ thư mục | Hàng MB-GB |
-| Git | Tạo 1 file 41 bytes | 41 bytes |
+| Hệ thống | Tạo branch           | Kích thước |
+| -------- | -------------------- | ---------- |
+| SVN      | Copy toàn bộ thư mục | Hàng MB-GB |
+| Git      | Tạo 1 file 41 bytes  | 41 bytes   |
 
 ### Branch hoạt động như thế nào
 
@@ -497,6 +495,7 @@ git log --oneline --graph --all
 ```
 
 Cách đọc:
+
 - `*` = 1 commit
 - `|` = dòng lịch sử của 1 branch
 - `\` và `/` = branch tách ra hoặc merge vào
@@ -535,16 +534,16 @@ ls -la .git/
 
 ### Các thành phần quan trọng
 
-| Thư mục/File | Chức năng | Ghi chú |
-|-------------|-----------|---------|
-| `HEAD` | Trỏ đến branch hiện tại | `ref: refs/heads/main` |
-| `objects/` | Lưu tất cả dữ liệu | commits, files (blobs), trees |
-| `refs/heads/` | Các branch local | Mỗi branch = 1 file chứa hash |
-| `refs/remotes/` | Các branch remote | Tracking branches |
-| `refs/tags/` | Các tag | Đánh dấu phiên bản |
-| `index` | Staging Area | File binary, dùng `git ls-files` để đọc |
-| `config` | Config local | Ghi đè global config |
-| `hooks/` | Hook scripts | Tự động chạy khi commit, push... |
+| Thư mục/File    | Chức năng               | Ghi chú                                 |
+| --------------- | ----------------------- | --------------------------------------- |
+| `HEAD`          | Trỏ đến branch hiện tại | `ref: refs/heads/main`                  |
+| `objects/`      | Lưu tất cả dữ liệu      | commits, files (blobs), trees           |
+| `refs/heads/`   | Các branch local        | Mỗi branch = 1 file chứa hash           |
+| `refs/remotes/` | Các branch remote       | Tracking branches                       |
+| `refs/tags/`    | Các tag                 | Đánh dấu phiên bản                      |
+| `index`         | Staging Area            | File binary, dùng `git ls-files` để đọc |
+| `config`        | Config local            | Ghi đè global config                    |
+| `hooks/`        | Hook scripts            | Tự động chạy khi commit, push...        |
 
 ### Xem nội dung objects
 
@@ -605,12 +604,12 @@ Tổng hợp trạng thái của file trong Git:
                         |                |                |               |
 ```
 
-| Trạng thái | Mô tả | Hiển thị trong `git status` |
-|-----------|-------|----------------------------|
-| **Untracked** | File mới, Git chưa quản lý | `Untracked files:` (đỏ) |
-| **Unmodified** | File không thay đổi | Không hiển thị |
-| **Modified** | File đã sửa nhưng chưa stage | `Changes not staged:` (đỏ) |
-| **Staged** | File đã được add, sẵn sàng commit | `Changes to be committed:` (xanh) |
+| Trạng thái     | Mô tả                             | Hiển thị trong `git status`       |
+| -------------- | --------------------------------- | --------------------------------- |
+| **Untracked**  | File mới, Git chưa quản lý        | `Untracked files:` (đỏ)           |
+| **Unmodified** | File không thay đổi               | Không hiển thị                    |
+| **Modified**   | File đã sửa nhưng chưa stage      | `Changes not staged:` (đỏ)        |
+| **Staged**     | File đã được add, sẵn sàng commit | `Changes to be committed:` (xanh) |
 
 ---
 
@@ -712,15 +711,15 @@ rm -rf .git   # MẤT HẾT LỊCH SỬ!
 
 ## Tổng kết
 
-| Khái niệm | Mô tả | Ví von |
-|-----------|-------|--------|
-| Working Directory | Nơi bạn làm việc | Bàn làm việc |
-| Staging Area | Nơi chuẩn bị commit | Giỏ hàng trước khi thanh toán |
-| Repository | Nơi lưu vĩnh viễn | Kho hàng sau khi thanh toán |
-| Commit | Snapshot của dự án | Save game |
-| SHA-1 Hash | Định danh duy nhất | Số CMND của commit |
-| HEAD | Vị trí hiện tại | "Bạn đang ở đây" |
-| Branch | Pointer đến commit | Nhãn dán trang sách |
-| .git/ | Cơ sở dữ liệu Git | "Bộ não" của Git |
+| Khái niệm         | Mô tả               | Ví von                        |
+| ----------------- | ------------------- | ----------------------------- |
+| Working Directory | Nơi bạn làm việc    | Bàn làm việc                  |
+| Staging Area      | Nơi chuẩn bị commit | Giỏ hàng trước khi thanh toán |
+| Repository        | Nơi lưu vĩnh viễn   | Kho hàng sau khi thanh toán   |
+| Commit            | Snapshot của dự án  | Save game                     |
+| SHA-1 Hash        | Định danh duy nhất  | Số CMND của commit            |
+| HEAD              | Vị trí hiện tại     | "Bạn đang ở đây"              |
+| Branch            | Pointer đến commit  | Nhãn dán trang sách           |
+| .git/             | Cơ sở dữ liệu Git   | "Bộ não" của Git              |
 
 **Bước tiếp theo:** Thực hành các lệnh Git cơ bản — init, add, commit, log, diff.

@@ -9,9 +9,6 @@ Nếu merge là cách "an toàn và trung thực" để gộp nhánh, thì rebas
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Rebase là gì?](#1-rebase-là-gì)
@@ -158,16 +155,16 @@ git log --oneline --graph --all
 
 ### 3.1. Bảng so sánh
 
-| Đặc điểm | Merge | Rebase |
-|----------|-------|--------|
-| **Lịch sử** | Giữ nguyên, có nhánh rẽ | Viết lại, một đường thẳng |
-| **Merge commit** | Có (với 3-way merge) | Không |
-| **Commit gốc** | Giữ nguyên hash | Tạo commit mới (hash mới) |
-| **An toàn** | An toàn hơn (không thay đổi lịch sử) | Nguy hiểm nếu dùng trên shared branch |
-| **Conflict** | Giải quyết 1 lần | Có thể giải quyết nhiều lần (từng commit) |
-| **Git log** | Phức tạp, nhiều nhánh | Sạch, dễ đọc |
-| **Rollback** | Dễ (revert merge commit) | Khó hơn (commits đã bị viết lại) |
-| **Thông tin** | Giữ đầy đủ (ai, khi nào, branch nào) | Mất thông tin về branch gốc |
+| Đặc điểm         | Merge                                | Rebase                                    |
+| ---------------- | ------------------------------------ | ----------------------------------------- |
+| **Lịch sử**      | Giữ nguyên, có nhánh rẽ              | Viết lại, một đường thẳng                 |
+| **Merge commit** | Có (với 3-way merge)                 | Không                                     |
+| **Commit gốc**   | Giữ nguyên hash                      | Tạo commit mới (hash mới)                 |
+| **An toàn**      | An toàn hơn (không thay đổi lịch sử) | Nguy hiểm nếu dùng trên shared branch     |
+| **Conflict**     | Giải quyết 1 lần                     | Có thể giải quyết nhiều lần (từng commit) |
+| **Git log**      | Phức tạp, nhiều nhánh                | Sạch, dễ đọc                              |
+| **Rollback**     | Dễ (revert merge commit)             | Khó hơn (commits đã bị viết lại)          |
+| **Thông tin**    | Giữ đầy đủ (ai, khi nào, branch nào) | Mất thông tin về branch gốc               |
 
 ### 3.2. Minh họa trực quan
 
@@ -190,18 +187,21 @@ main: A---B---C---D---E---F'---G'---H'
 ### 3.3. Khi nào dùng merge, khi nào dùng rebase?
 
 **Dùng MERGE khi:**
+
 - Gộp feature vào main/develop (shared branch)
 - Muốn giữ lại lịch sử đầy đủ
 - Làm việc nhóm và branch đã push lên remote
 - Cần rollback dễ dàng
 
 **Dùng REBASE khi:**
+
 - Cập nhật feature branch với thay đổi mới từ main
 - Dọn dẹp lịch sử trước khi tạo PR
 - Branch chỉ có mình bạn làm việc (chưa push hoặc chỉ mình bạn push)
 - Muốn lịch sử sạch trước khi merge vào main
 
 **Workflow phổ biến nhất:**
+
 ```bash
 # 1. Rebase feature branch lên main (cập nhật và dọn dẹp)
 git switch feature/login
@@ -293,14 +293,14 @@ pick ghi9012 Thêm validation
 
 ### 5.2. Các lệnh trong interactive rebase
 
-| Lệnh | Chức năng | Khi nào dùng |
-|------|-----------|-------------|
-| `pick` (p) | Giữ commit như cũ | Mặc định, không thay đổi gì |
-| `reword` (r) | Sửa commit message | Sửa typo trong message, thêm chi tiết |
-| `edit` (e) | Dừng lại để bạn sửa commit | Tách 1 commit thành nhiều commit |
-| `squash` (s) | Gộp vào commit trước | Gộp nhiều commit nhỏ thành 1 |
-| `fixup` (f) | Gộp vào commit trước, bỏ message | Gộp commit "fix typo" vào commit chính |
-| `drop` (d) | Xóa commit | Bỏ commit không cần thiết |
+| Lệnh         | Chức năng                        | Khi nào dùng                           |
+| ------------ | -------------------------------- | -------------------------------------- |
+| `pick` (p)   | Giữ commit như cũ                | Mặc định, không thay đổi gì            |
+| `reword` (r) | Sửa commit message               | Sửa typo trong message, thêm chi tiết  |
+| `edit` (e)   | Dừng lại để bạn sửa commit       | Tách 1 commit thành nhiều commit       |
+| `squash` (s) | Gộp vào commit trước             | Gộp nhiều commit nhỏ thành 1           |
+| `fixup` (f)  | Gộp vào commit trước, bỏ message | Gộp commit "fix typo" vào commit chính |
+| `drop` (d)   | Xóa commit                       | Bỏ commit không cần thiết              |
 
 ### 5.3. Ví dụ 1: Gộp 3 commit thành 1
 
@@ -317,6 +317,7 @@ git rebase -i HEAD~3
 ```
 
 Editor hiển thị:
+
 ```
 pick abc1234 feat: tạo form login
 pick def5678 fix: sửa typo
@@ -324,6 +325,7 @@ pick ghi9012 fix: sửa lỗi validation
 ```
 
 Sửa thành:
+
 ```
 pick abc1234 feat: tạo form login
 fixup def5678 fix: sửa typo
@@ -339,18 +341,21 @@ git rebase -i HEAD~2
 ```
 
 Editor:
+
 ```
 pick abc1234 feat: tạo form logn    <-- có typo!
 pick def5678 thêm validation
 ```
 
 Sửa thành:
+
 ```
 reword abc1234 feat: tạo form logn
 pick def5678 thêm validation
 ```
 
 Lưu lại. Git sẽ mở editor lần nữa để bạn sửa message:
+
 ```
 feat: tạo form login
 # Sửa typo: logn -> login
@@ -363,6 +368,7 @@ git rebase -i HEAD~3
 ```
 
 Editor:
+
 ```
 pick abc1234 Thêm footer
 pick def5678 Thêm header
@@ -370,6 +376,7 @@ pick ghi9012 Thêm navigation
 ```
 
 Đổi thứ tự (header trước, navigation, rồi footer):
+
 ```
 pick def5678 Thêm header
 pick ghi9012 Thêm navigation
@@ -391,6 +398,7 @@ pick ghi9012 Thêm tính năng B
 ```
 
 Sửa thành:
+
 ```
 pick abc1234 Thêm tính năng A
 drop def5678 debug: thêm console.log
@@ -398,6 +406,7 @@ pick ghi9012 Thêm tính năng B
 ```
 
 Hoặc đơn giản xóa dòng đó:
+
 ```
 pick abc1234 Thêm tính năng A
 pick ghi9012 Thêm tính năng B
@@ -712,14 +721,14 @@ git commit              # SAI! (với rebase)
 
 ## Tóm tắt
 
-| Lệnh | Chức năng |
-|------|-----------|
-| `git rebase main` | Rebase branch hiện tại lên main |
-| `git rebase -i HEAD~n` | Interactive rebase n commit gần nhất |
-| `git rebase --continue` | Tiếp tục sau khi giải quyết conflict |
-| `git rebase --skip` | Bỏ qua commit hiện tại |
-| `git rebase --abort` | Hủy toàn bộ rebase |
-| `git rebase --onto A B C` | Di chuyển commit từ B..C lên A |
-| `git push --force-with-lease` | Force push an toàn (sau rebase) |
+| Lệnh                          | Chức năng                            |
+| ----------------------------- | ------------------------------------ |
+| `git rebase main`             | Rebase branch hiện tại lên main      |
+| `git rebase -i HEAD~n`        | Interactive rebase n commit gần nhất |
+| `git rebase --continue`       | Tiếp tục sau khi giải quyết conflict |
+| `git rebase --skip`           | Bỏ qua commit hiện tại               |
+| `git rebase --abort`          | Hủy toàn bộ rebase                   |
+| `git rebase --onto A B C`     | Di chuyển commit từ B..C lên A       |
+| `git push --force-with-lease` | Force push an toàn (sau rebase)      |
 
 **Ghi nhớ:** Rebase là công cụ mạnh mẽ để giữ lịch sử sạch. Nhưng luôn nhớ Golden Rule -- chỉ rebase branch của riêng bạn. Khi nghi ngờ, dùng merge.

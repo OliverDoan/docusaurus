@@ -9,9 +9,6 @@ title: "5. Fork và đóng góp Open Source"
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Fork là gì?](#1-fork-là-gì)
@@ -60,6 +57,7 @@ title: "5. Fork và đóng góp Open Source"
 **Tại sao cần fork?**
 
 Bạn không thể push code trực tiếp vào repo của người khác (trừ khi được thêm làm collaborator). Fork cho phép bạn:
+
 1. Có bản sao để thoải mái thử nghiệm
 2. Code tính năng mới hoặc fix bug
 3. Tạo Pull Request từ fork về repo gốc
@@ -71,16 +69,16 @@ Bạn không thể push code trực tiếp vào repo của người khác (trừ
 
 Đây là câu hỏi nhiều người mới nhầm lẫn:
 
-| Tiêu chí | Fork | Clone |
-|-----------|------|-------|
-| **Hành động** | Sao chép repo trên GitHub (server → server) | Tải repo về máy local (server → local) |
-| **Ở đâu** | Trên GitHub (tạo repo mới dưới account bạn) | Trên máy tính local |
-| **Quyền push** | Có (vào fork của bạn) | Phụ thuộc quyền trên remote |
-| **Liên kết với gốc** | GitHub ghi nhận fork relationship | Chỉ là remote URL |
-| **Dùng khi** | Đóng góp open source (không có quyền push) | Làm việc hàng ngày (có quyền push) |
-| **Tạo bằng** | Nút "Fork" trên GitHub | `git clone <url>` |
-| **Số lượng** | Mỗi người 1 fork per repo | Clone bao nhiêu lần cũng được |
-| **Nhìn thấy trên GitHub** | Có (repo mới trong account) | Không (chỉ có trên local) |
+| Tiêu chí                  | Fork                                        | Clone                                  |
+| ------------------------- | ------------------------------------------- | -------------------------------------- |
+| **Hành động**             | Sao chép repo trên GitHub (server → server) | Tải repo về máy local (server → local) |
+| **Ở đâu**                 | Trên GitHub (tạo repo mới dưới account bạn) | Trên máy tính local                    |
+| **Quyền push**            | Có (vào fork của bạn)                       | Phụ thuộc quyền trên remote            |
+| **Liên kết với gốc**      | GitHub ghi nhận fork relationship           | Chỉ là remote URL                      |
+| **Dùng khi**              | Đóng góp open source (không có quyền push)  | Làm việc hàng ngày (có quyền push)     |
+| **Tạo bằng**              | Nút "Fork" trên GitHub                      | `git clone <url>`                      |
+| **Số lượng**              | Mỗi người 1 fork per repo                   | Clone bao nhiêu lần cũng được          |
+| **Nhìn thấy trên GitHub** | Có (repo mới trong account)                 | Không (chỉ có trên local)              |
 
 ### Khi nào dùng cái nào?
 
@@ -162,6 +160,7 @@ git remote -v
 ```
 
 **Tại sao cần upstream?**
+
 - Repo gốc tiếp tục phát triển (người khác merge code mới)
 - Bạn cần cập nhật fork để không bị lỗi thời
 - `upstream` cho phép bạn fetch code mới nhất từ repo gốc
@@ -185,6 +184,7 @@ git checkout -b feat/add-dark-mode
 ```
 
 **Quy tắc đặt tên branch:**
+
 - `fix/mô-tả-ngắn` — sửa bug
 - `feat/mô-tả-ngắn` — tính năng mới
 - `docs/mô-tả-ngắn` — cập nhật tài liệu
@@ -209,6 +209,7 @@ git commit -m "fix: handle null input in parseDate"
 ```
 
 **Lưu ý khi commit:**
+
 - Mỗi commit nên có 1 mục đích rõ ràng
 - Commit message theo conventional commits format
 - Đọc CONTRIBUTING.md xem dự án có yêu cầu gì đặc biệt không
@@ -328,12 +329,14 @@ Hầu hết dự án open source đều có file **CONTRIBUTING.md** hướng d�
 # Contributing to Project XYZ
 
 ## Getting Started
+
 - Fork the repository
 - Clone your fork
 - Install dependencies: npm install
 - Run tests: npm test
 
 ## Development Workflow
+
 1. Create a branch from `main`
 2. Make changes
 3. Run tests locally
@@ -341,12 +344,14 @@ Hầu hết dự án open source đều có file **CONTRIBUTING.md** hướng d�
 5. Push and create PR
 
 ## Coding Standards
+
 - Use ESLint + Prettier
 - TypeScript strict mode
 - 80% test coverage minimum
 - No console.log in production code
 
 ## Commit Convention
+
 - feat: New feature
 - fix: Bug fix
 - docs: Documentation only
@@ -355,6 +360,7 @@ Hầu hết dự án open source đều có file **CONTRIBUTING.md** hướng d�
 - test: Adding or updating tests
 
 ## Pull Request Process
+
 1. Update documentation if needed
 2. Add tests for new features
 3. Ensure all tests pass
@@ -362,10 +368,12 @@ Hầu hết dự án open source đều có file **CONTRIBUTING.md** hướng d�
 5. Squash commits before merge
 
 ## Code of Conduct
+
 Please read our CODE_OF_CONDUCT.md
 ```
 
 **Tại sao quan trọng:**
+
 - Mỗi dự án có quy tắc riêng
 - Không đọc = PR bị reject = lãng phí thời gian
 - Maintainers đánh giá cao contributor đọc kỹ guidelines
@@ -378,13 +386,13 @@ Please read our CODE_OF_CONDUCT.md
 
 ### Nguyên tắc chung
 
-| Nên | Không nên |
-|-----|-----------|
-| Tôn trọng mọi người | Xúc phạm, quấy rối |
-| Ngôn ngữ lịch sự, chuyên nghiệp | Ngôn ngữ thô tục, mỉa mai |
-| Chấp nhận feedback xây dựng | Phản ứng defensive |
-| Focus vào vấn đề, không phải con người | Tấn công cá nhân |
-| Kiên nhẫn với người mới | Coi thường người mới |
+| Nên                                    | Không nên                 |
+| -------------------------------------- | ------------------------- |
+| Tôn trọng mọi người                    | Xúc phạm, quấy rối        |
+| Ngôn ngữ lịch sự, chuyên nghiệp        | Ngôn ngữ thô tục, mỉa mai |
+| Chấp nhận feedback xây dựng            | Phản ứng defensive        |
+| Focus vào vấn đề, không phải con người | Tấn công cá nhân          |
+| Kiên nhẫn với người mới                | Coi thường người mới      |
 
 ### Contributor Covenant
 
@@ -422,15 +430,15 @@ Nếu bạn mới bắt đầu đóng góp open source, đừng ngay lập tức
 
 ### Các loại đóng góp dễ bắt đầu
 
-| Loại | Mô tả | Khó? |
-|------|--------|------|
-| **Fix typo** | Sửa lỗi chính tả trong docs | Dễ nhất |
-| **Update docs** | Cải thiện hướng dẫn sử dụng | Dễ |
-| **Add tests** | Viết thêm test cases | Vừa |
-| **Fix small bug** | Sửa bug đã được mô tả rõ | Vừa |
-| **Translation** | Dịch docs sang ngôn ngữ khác | Dễ-Vừa |
-| **Code cleanup** | Refactor, remove deprecated code | Vừa |
-| **New feature** | Thêm tính năng mới | Khó |
+| Loại              | Mô tả                            | Khó?    |
+| ----------------- | -------------------------------- | ------- |
+| **Fix typo**      | Sửa lỗi chính tả trong docs      | Dễ nhất |
+| **Update docs**   | Cải thiện hướng dẫn sử dụng      | Dễ      |
+| **Add tests**     | Viết thêm test cases             | Vừa     |
+| **Fix small bug** | Sửa bug đã được mô tả rõ         | Vừa     |
+| **Translation**   | Dịch docs sang ngôn ngữ khác     | Dễ-Vừa  |
+| **Code cleanup**  | Refactor, remove deprecated code | Vừa     |
+| **New feature**   | Thêm tính năng mới               | Khó     |
 
 ### Quy trình chọn issue
 
@@ -486,8 +494,10 @@ Trước khi tạo PR, kiểm tra:
 
 ```markdown
 # Comment mẫu khi muốn nhận issue:
+
 "Hi @maintainer, I'd like to work on this issue.
 I've read the contributing guide and I think the approach would be:
+
 1. Update the validation logic in `src/utils.js`
 2. Add test cases for edge cases
 3. Update the docs
@@ -495,9 +505,11 @@ I've read the contributing guide and I think the approach would be:
 Is this the right approach? Happy to discuss before starting."
 
 # Comment mẫu khi submit PR:
+
 "This PR fixes #123 by adding input validation to the search form.
 
 Changes:
+
 - Added email format validation
 - Added error messages for invalid inputs
 - Added 5 test cases
@@ -524,13 +536,13 @@ SAI:   "I don't think tests are necessary for this small change."
 
 ### Cho sự nghiệp
 
-| Lợi ích | Giải thích |
-|---------|------------|
-| **Portfolio** | GitHub profile là CV sống — nhà tuyển dụng xem contributions |
-| **Kinh nghiệm thực tế** | Làm việc với codebase lớn, code review, CI/CD |
-| **Networking** | Kết nối với developer giỏi trên toàn cầu |
-| **References** | Maintainers có thể viết recommendation |
-| **Job opportunities** | Nhiều công ty tuyển dụng từ open source contributors |
+| Lợi ích                 | Giải thích                                                   |
+| ----------------------- | ------------------------------------------------------------ |
+| **Portfolio**           | GitHub profile là CV sống — nhà tuyển dụng xem contributions |
+| **Kinh nghiệm thực tế** | Làm việc với codebase lớn, code review, CI/CD                |
+| **Networking**          | Kết nối với developer giỏi trên toàn cầu                     |
+| **References**          | Maintainers có thể viết recommendation                       |
+| **Job opportunities**   | Nhiều công ty tuyển dụng từ open source contributors         |
 
 ### Cho kỹ năng
 

@@ -160,28 +160,6 @@ const config: Config = {
           label: 'Docker',
         },
         {
-          type: 'docSidebar',
-          sidebarId: 'claudeCodeSidebar',
-          position: 'left',
-          label: 'Claude Code',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'ieltsSidebar',
-          position: 'left',
-          label: 'IELTS',
-        },
-        {
-          to: '/diem-danh',
-          label: 'Điểm danh',
-          position: 'right',
-        },
-        {
-          href: 'https://github.com/facebook/docusaurus',
-          label: 'GitHub',
-          position: 'right',
-        },
-        {
           type: 'custom-logoutButton',
           position: 'right',
         },
@@ -189,34 +167,34 @@ const config: Config = {
     },
     footer: {
       style: 'dark',
-      links: [
-        {
-          title: 'Tài liệu',
-          items: [
-            { label: 'Java', to: '/docs/java/basic-java/overview' },
-            { label: 'React', to: '/docs/react/nen-tang/es6-essentials' },
-            { label: 'JavaScript', to: '/docs/javascript/nen-tang/overview' },
-          ],
-        },
-        {
-          title: 'Khám phá thêm',
-          items: [
-            { label: 'Next.js', to: '/docs/nextjs/nen-tang/nextjs-la-gi' },
-            { label: 'Git', to: '/docs/git/nen-tang/git-la-gi' },
-            { label: 'SEO', to: '/docs/seo/nen-tang/seo-la-gi' },
-            { label: 'Node.js', to: '/docs/nodejs/nen-tang/nodejs-la-gi' },
-            { label: 'Docker', to: '/docs/docker/nen-tang/docker-la-gi' },
-            { label: 'Claude Code', to: '/docs/claude-code/nen-tang/claude-code-la-gi' },
-            { label: 'IELTS', to: '/docs/ielts/ngu-phap/danh-tu' },
-          ],
-        },
-        {
-          title: 'Liên kết',
-          items: [
-            { label: 'GitHub', href: 'https://github.com/OliverDoan' },
-          ],
-        },
-      ],
+      // links: [
+      //   {
+      //     title: 'Tài liệu',
+      //     items: [
+      //       { label: 'Java', to: '/docs/java/basic-java/overview' },
+      //       { label: 'React', to: '/docs/react/nen-tang/es6-essentials' },
+      //       { label: 'JavaScript', to: '/docs/javascript/nen-tang/overview' },
+      //     ],
+      //   },
+      //   {
+      //     title: 'Khám phá thêm',
+      //     items: [
+      //       { label: 'Next.js', to: '/docs/nextjs/nen-tang/nextjs-la-gi' },
+      //       { label: 'Git', to: '/docs/git/nen-tang/git-la-gi' },
+      //       { label: 'SEO', to: '/docs/seo/nen-tang/seo-la-gi' },
+      //       { label: 'Node.js', to: '/docs/nodejs/nen-tang/nodejs-la-gi' },
+      //       { label: 'Docker', to: '/docs/docker/nen-tang/docker-la-gi' },
+      //       { label: 'Claude Code', to: '/docs/claude-code/nen-tang/claude-code-la-gi' },
+      //       { label: 'IELTS', to: '/docs/ielts/ngu-phap/danh-tu' },
+      //     ],
+      //   },
+      //   {
+      //     title: 'Liên kết',
+      //     items: [
+      //       { label: 'GitHub', href: 'https://github.com/OliverDoan' },
+      //     ],
+      //   },
+      // ],
       copyright: `© ${new Date().getFullYear()} Dev Notes — Built with Docusaurus.`,
     },
     prism: {

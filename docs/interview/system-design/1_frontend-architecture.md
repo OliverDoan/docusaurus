@@ -9,9 +9,6 @@ Khi dự án frontend lớn dần, một trong những quyết định quan tr�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: Monorepo vs Polyrepo -- khi nào dùng cái nào? `[Senior]`](#câu-1-monorepo-vs-polyrepo-khi-nào-dùng-cái-nào-senior)
@@ -36,17 +33,17 @@ Nghe đơn giản, nhưng quyết định này ảnh hưởng đến mọi thứ
 
 ### Bảng so sánh Monorepo vs Polyrepo
 
-| Tiêu chí | Monorepo | Polyrepo |
-|----------|----------|----------|
-| **Code sharing** | Dễ dàng, import trực tiếp | Phải publish npm package |
-| **Dependency management** | Thống nhất version | Mỗi repo tự quản lý |
-| **CI/CD** | Phức tạp hơn (cần affected detection) | Đơn giản, mỗi repo có pipeline riêng |
-| **Refactoring** | Atomic changes across packages | Phải coordinate nhiều PRs |
-| **Onboarding** | Clone 1 repo là có hết | Phải biết repo nào làm gì |
-| **Git history** | Lớn, cần sparse checkout | Gọn, focused |
-| **Team autonomy** | Thấp hơn (shared rules) | Cao (mỗi team tự quyết) |
-| **Tooling** | Cần Nx/Turborepo/Lerna | Standard git workflow |
-| **Phù hợp** | 1 team hoặc nhiều team làm chung product | Nhiều team độc lập, ít share code |
+| Tiêu chí                  | Monorepo                                 | Polyrepo                             |
+| ------------------------- | ---------------------------------------- | ------------------------------------ |
+| **Code sharing**          | Dễ dàng, import trực tiếp                | Phải publish npm package             |
+| **Dependency management** | Thống nhất version                       | Mỗi repo tự quản lý                  |
+| **CI/CD**                 | Phức tạp hơn (cần affected detection)    | Đơn giản, mỗi repo có pipeline riêng |
+| **Refactoring**           | Atomic changes across packages           | Phải coordinate nhiều PRs            |
+| **Onboarding**            | Clone 1 repo là có hết                   | Phải biết repo nào làm gì            |
+| **Git history**           | Lớn, cần sparse checkout                 | Gọn, focused                         |
+| **Team autonomy**         | Thấp hơn (shared rules)                  | Cao (mỗi team tự quyết)              |
+| **Tooling**               | Cần Nx/Turborepo/Lerna                   | Standard git workflow                |
+| **Phù hợp**               | 1 team hoặc nhiều team làm chung product | Nhiều team độc lập, ít share code    |
 
 ### Code ví dụ
 
@@ -111,12 +108,12 @@ Config Nx (`nx.json`):
 
 ### Bảng so sánh Monorepo Tools
 
-| Tool | Ưu điểm | Nhược điểm | Phù hợp |
-|------|---------|------------|---------|
-| **Nx** | Full-featured, computation caching, generators | Learning curve cao, opinionated | Enterprise, large teams |
-| **Turborepo** | Đơn giản, nhanh, remote caching | Ít features hơn Nx | Small-medium teams |
-| **Lerna** | Mature, flexible | Chậm hơn, ít maintain (nay thuộc Nx) | Legacy projects |
-| **pnpm workspaces** | Lightweight, built-in | Chỉ là package manager, không có task runner | Minimal setup |
+| Tool                | Ưu điểm                                        | Nhược điểm                                   | Phù hợp                 |
+| ------------------- | ---------------------------------------------- | -------------------------------------------- | ----------------------- |
+| **Nx**              | Full-featured, computation caching, generators | Learning curve cao, opinionated              | Enterprise, large teams |
+| **Turborepo**       | Đơn giản, nhanh, remote caching                | Ít features hơn Nx                           | Small-medium teams      |
+| **Lerna**           | Mature, flexible                               | Chậm hơn, ít maintain (nay thuộc Nx)         | Legacy projects         |
+| **pnpm workspaces** | Lightweight, built-in                          | Chỉ là package manager, không có task runner | Minimal setup           |
 
 ### Đáp án mẫu
 
@@ -131,6 +128,7 @@ Config Nx (`nx.json`):
 **Micro-frontends** là pattern chia một ứng dụng frontend lớn thành nhiều ứng dụng nhỏ độc lập, mỗi cái do **một team sở hữu và deploy riêng**. Ý tưởng tương tự microservices ở backend.
 
 Mỗi micro-frontend có thể:
+
 - Dùng **framework khác nhau** (team A dùng React, team B dùng Vue)
 - **Deploy độc lập** mà không ảnh hưởng team khác
 - Có **lifecycle riêng** (build, test, release)
@@ -178,8 +176,8 @@ function App() {
 
 <script>
   // Mỗi micro-frontend tự mount vào container
-  window.headerApp.mount(document.getElementById('header-container'));
-  window.productApp.mount(document.getElementById('product-container'));
+  window.headerApp.mount(document.getElementById("header-container"));
+  window.productApp.mount(document.getElementById("product-container"));
 </script>
 ```
 
@@ -187,17 +185,17 @@ function App() {
 
 ```javascript
 // webpack.config.js của Host App
-const { ModuleFederationPlugin } = require('webpack').container;
+const { ModuleFederationPlugin } = require("webpack").container;
 
 module.exports = {
   plugins: [
     new ModuleFederationPlugin({
-      name: 'shell',
+      name: "shell",
       remotes: {
-        headerApp: 'headerApp@https://team-a.cdn.com/remoteEntry.js',
-        productApp: 'productApp@https://team-b.cdn.com/remoteEntry.js',
+        headerApp: "headerApp@https://team-a.cdn.com/remoteEntry.js",
+        productApp: "productApp@https://team-b.cdn.com/remoteEntry.js",
       },
-      shared: ['react', 'react-dom'],
+      shared: ["react", "react-dom"],
     }),
   ],
 };
@@ -216,6 +214,7 @@ module.exports = {
 **Module Federation** là tính năng của Webpack 5 cho phép một ứng dụng JavaScript **load code từ ứng dụng khác tại runtime**. Không cần npm publish, không cần build lại -- cứ deploy là app kia tự nhận code mới.
 
 Các khái niệm chính:
+
 - **Host**: App tiêu thụ (consume) remote modules
 - **Remote**: App cung cấp (expose) modules cho host
 - **Shared**: Dependencies dùng chung (React, lodash...)
@@ -227,23 +226,23 @@ Các khái niệm chính:
 
 ```javascript
 // webpack.config.js
-const { ModuleFederationPlugin } = require('webpack').container;
+const { ModuleFederationPlugin } = require("webpack").container;
 
 module.exports = {
   output: {
-    publicPath: 'https://team-header.cdn.com/',
+    publicPath: "https://team-header.cdn.com/",
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'headerApp',
-      filename: 'remoteEntry.js',
+      name: "headerApp",
+      filename: "remoteEntry.js",
       exposes: {
-        './Header': './src/components/Header',
-        './UserMenu': './src/components/UserMenu',
+        "./Header": "./src/components/Header",
+        "./UserMenu": "./src/components/UserMenu",
       },
       shared: {
-        react: { singleton: true, requiredVersion: '^18.0.0' },
-        'react-dom': { singleton: true, requiredVersion: '^18.0.0' },
+        react: { singleton: true, requiredVersion: "^18.0.0" },
+        "react-dom": { singleton: true, requiredVersion: "^18.0.0" },
       },
     }),
   ],
@@ -257,13 +256,13 @@ module.exports = {
 module.exports = {
   plugins: [
     new ModuleFederationPlugin({
-      name: 'shell',
+      name: "shell",
       remotes: {
-        headerApp: 'headerApp@https://team-header.cdn.com/remoteEntry.js',
+        headerApp: "headerApp@https://team-header.cdn.com/remoteEntry.js",
       },
       shared: {
-        react: { singleton: true, requiredVersion: '^18.0.0' },
-        'react-dom': { singleton: true, requiredVersion: '^18.0.0' },
+        react: { singleton: true, requiredVersion: "^18.0.0" },
+        "react-dom": { singleton: true, requiredVersion: "^18.0.0" },
       },
     }),
   ],
@@ -300,7 +299,7 @@ function App() {
 
 ```typescript
 // src/types/remotes.d.ts
-declare module 'headerApp/Header' {
+declare module "headerApp/Header" {
   const Header: React.ComponentType<{
     title?: string;
     showLogo?: boolean;
@@ -308,7 +307,7 @@ declare module 'headerApp/Header' {
   export default Header;
 }
 
-declare module 'headerApp/UserMenu' {
+declare module "headerApp/UserMenu" {
   const UserMenu: React.ComponentType<{
     userId: string;
   }>;
@@ -329,6 +328,7 @@ declare module 'headerApp/UserMenu' {
 Package management trong monorepo phức tạp hơn single repo vì bạn phải xử lý **internal dependencies** (package A depend on package B trong cùng repo) và **external dependencies** (npm packages).
 
 Hai vấn đề chính:
+
 1. **Hoisting**: Dependencies được pull lên root `node_modules` để tránh duplicate
 2. **Workspaces**: Cơ chế để package manager hiểu cấu trúc monorepo
 
@@ -338,8 +338,8 @@ Hai vấn đề chính:
 
 ```yaml
 packages:
-  - 'apps/*'
-  - 'packages/*'
+  - "apps/*"
+  - "packages/*"
 ```
 
 **Package.json của shared UI package:**
@@ -440,14 +440,14 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  role: 'admin' | 'user' | 'editor';
+  role: "admin" | "user" | "editor";
   createdAt: Date;
 }
 
 export interface CreateUserDTO {
   email: string;
   name: string;
-  role: User['role'];
+  role: User["role"];
 }
 
 export interface ApiResponse<T> {
@@ -461,9 +461,9 @@ export interface ApiResponse<T> {
 
 ```typescript
 // packages/api-client/src/user-api.ts
-import type { User, CreateUserDTO, ApiResponse } from '@mycompany/types';
+import type { User, CreateUserDTO, ApiResponse } from "@mycompany/types";
 
-const BASE_URL = process.env.API_URL || 'https://api.mycompany.com';
+const BASE_URL = process.env.API_URL || "https://api.mycompany.com";
 
 export async function fetchUser(id: string): Promise<ApiResponse<User>> {
   const response = await fetch(`${BASE_URL}/users/${id}`);
@@ -471,11 +471,11 @@ export async function fetchUser(id: string): Promise<ApiResponse<User>> {
 }
 
 export async function createUser(
-  data: CreateUserDTO
+  data: CreateUserDTO,
 ): Promise<ApiResponse<User>> {
   const response = await fetch(`${BASE_URL}/users`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
   return response.json();
@@ -486,9 +486,9 @@ export async function createUser(
 
 ```typescript
 // packages/hooks/src/useUser.ts
-import { useState, useEffect } from 'react';
-import { fetchUser } from '@mycompany/api-client';
-import type { User } from '@mycompany/types';
+import { useState, useEffect } from "react";
+import { fetchUser } from "@mycompany/api-client";
+import type { User } from "@mycompany/types";
 
 export function useUser(userId: string) {
   const [user, setUser] = useState<User | null>(null);
@@ -507,13 +507,15 @@ export function useUser(userId: string) {
       if (result.success && result.data) {
         setUser(result.data);
       } else {
-        setError(result.error || 'Failed to fetch user');
+        setError(result.error || "Failed to fetch user");
       }
       setLoading(false);
     }
 
     load();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [userId]);
 
   return { user, loading, error };
@@ -552,15 +554,15 @@ Deploy frequency?
 
 ### Bảng Decision Matrix
 
-| Yếu tố | Monolith | Monorepo | Micro-frontends |
-|---------|----------|----------|-----------------|
-| Team 1-5 | Tốt nhất | OK | Overkill |
-| Team 5-15 | Khó scale | Tốt nhất | OK |
-| Team 15+ | Bottleneck | OK | Tốt nhất |
-| Setup cost | Thấp | Trung bình | Cao |
-| Maintenance | Thấp | Trung bình | Cao |
-| Performance | Tốt nhất | Tốt | Cần optimize |
-| DX | Đơn giản | Tốt | Phức tạp |
+| Yếu tố      | Monolith   | Monorepo   | Micro-frontends |
+| ----------- | ---------- | ---------- | --------------- |
+| Team 1-5    | Tốt nhất   | OK         | Overkill        |
+| Team 5-15   | Khó scale  | Tốt nhất   | OK              |
+| Team 15+    | Bottleneck | OK         | Tốt nhất        |
+| Setup cost  | Thấp       | Trung bình | Cao             |
+| Maintenance | Thấp       | Trung bình | Cao             |
+| Performance | Tốt nhất   | Tốt        | Cần optimize    |
+| DX          | Đơn giản   | Tốt        | Phức tạp        |
 
 ### Đáp án mẫu
 

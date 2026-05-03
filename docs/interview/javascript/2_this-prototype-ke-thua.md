@@ -9,9 +9,6 @@ title: "2. this, Prototype & Kế thừa trong JS"
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: `this` trong các context khác nhau `[Intermediate]`](#câu-1-this-trong-các-context-khác-nhau-intermediate)
@@ -34,15 +31,15 @@ title: "2. this, Prototype & Kế thừa trong JS"
 
 `this` trong JavaScript **không cố định** -- nó được xác định **tại thời điểm gọi hàm**, không phải tại thời điểm định nghĩa (ngoại trừ arrow function). Có 5 quy tắc chính:
 
-| Context | Giá trị của `this` |
-|---|---|
-| Global (non-strict) | `window` (browser) / `global` (Node) |
-| Global (strict mode) | `undefined` |
-| Method call (`obj.fn()`) | Object phía trước dấu `.` |
-| Constructor (`new Fn()`) | Object mới được tạo |
-| Arrow function | Kế thừa `this` từ scope cha (lexical this) |
-| Event handler (DOM) | Element nhận event |
-| `call`/`apply`/`bind` | Object được truyền vào |
+| Context                  | Giá trị của `this`                         |
+| ------------------------ | ------------------------------------------ |
+| Global (non-strict)      | `window` (browser) / `global` (Node)       |
+| Global (strict mode)     | `undefined`                                |
+| Method call (`obj.fn()`) | Object phía trước dấu `.`                  |
+| Constructor (`new Fn()`) | Object mới được tạo                        |
+| Arrow function           | Kế thừa `this` từ scope cha (lexical this) |
+| Event handler (DOM)      | Element nhận event                         |
+| `call`/`apply`/`bind`    | Object được truyền vào                     |
 
 ### Code ví dụ
 
@@ -121,11 +118,11 @@ team.printMembers();
 
 Cả ba đều dùng để **gán `this` cho hàm**, nhưng cách hoạt động khác nhau:
 
-| Phương thức | Cú pháp | Gọi ngay? | Trả về |
-|---|---|---|---|
-| `call` | `fn.call(thisArg, a, b, c)` | Có | Kết quả của hàm |
-| `apply` | `fn.apply(thisArg, [a, b, c])` | Có | Kết quả của hàm |
-| `bind` | `fn.bind(thisArg, a, b)` | Không | Hàm mới với this đã bind |
+| Phương thức | Cú pháp                        | Gọi ngay? | Trả về                   |
+| ----------- | ------------------------------ | --------- | ------------------------ |
+| `call`      | `fn.call(thisArg, a, b, c)`    | Có        | Kết quả của hàm          |
+| `apply`     | `fn.apply(thisArg, [a, b, c])` | Có        | Kết quả của hàm          |
+| `bind`      | `fn.bind(thisArg, a, b)`       | Không     | Hàm mới với this đã bind |
 
 Mẹo nhớ: **C**all = **C**omma (tham số cách nhau bằng dấu phẩy), **A**pply = **A**rray (tham số là array).
 
@@ -192,8 +189,8 @@ function multiply(a, b) {
 const double = multiply.bind(null, 2); // a = 2, đợi b
 const triple = multiply.bind(null, 3); // a = 3, đợi b
 
-console.log(double(5));  // 10
-console.log(triple(5));  // 15
+console.log(double(5)); // 10
+console.log(triple(5)); // 15
 ```
 
 ### Đáp án mẫu
@@ -240,24 +237,24 @@ puppy.name = "Lucky";
 
 // Prototype chain: puppy -> dog -> animal -> Object.prototype -> null
 
-console.log(puppy.name);  // "Lucky"        -- tìm thấy ở puppy
+console.log(puppy.name); // "Lucky"        -- tìm thấy ở puppy
 console.log(puppy.bark()); // "Lucky: Gâu gâu!" -- tìm thấy ở dog
-console.log(puppy.eat());  // "Lucky đang ăn" -- tìm thấy ở animal
-console.log(puppy.type);  // "Animal"       -- tìm thấy ở animal
+console.log(puppy.eat()); // "Lucky đang ăn" -- tìm thấy ở animal
+console.log(puppy.type); // "Animal"       -- tìm thấy ở animal
 
 // ===== Kiểm tra prototype =====
-console.log(Object.getPrototypeOf(puppy) === dog);    // true
-console.log(Object.getPrototypeOf(dog) === animal);    // true
+console.log(Object.getPrototypeOf(puppy) === dog); // true
+console.log(Object.getPrototypeOf(dog) === animal); // true
 
-console.log(puppy.hasOwnProperty("name"));  // true
-console.log(puppy.hasOwnProperty("bark"));  // false -- bark ở dog
-console.log(puppy.hasOwnProperty("eat"));   // false -- eat ở animal
+console.log(puppy.hasOwnProperty("name")); // true
+console.log(puppy.hasOwnProperty("bark")); // false -- bark ở dog
+console.log(puppy.hasOwnProperty("eat")); // false -- eat ở animal
 
 // ===== Property shadowing =====
 dog.type = "Dog"; // Tạo property "type" trên dog, KHÔNG sửa animal.type
-console.log(dog.type);    // "Dog"    -- dog's own property
+console.log(dog.type); // "Dog"    -- dog's own property
 console.log(animal.type); // "Animal" -- không bị thay đổi
-console.log(puppy.type);  // "Dog"    -- tìm thấy ở dog (gần hơn animal)
+console.log(puppy.type); // "Dog"    -- tìm thấy ở dog (gần hơn animal)
 
 // ===== Constructor function và prototype =====
 function Vehicle(brand) {
@@ -291,14 +288,14 @@ console.log(car instanceof Vehicle); // true
 
 ES6 `class` là **syntactic sugar** trên prototype-based inheritance. Nó **không** tạo ra một cơ chế kế thừa mới -- vẫn dùng prototype chain phía sau.
 
-| Tiêu chí | Prototype Pattern | ES6 Class |
-|---|---|---|
-| Cú pháp | Verbose, khó đọc | Sạch, quen thuộc với dev OOP |
-| Hoisting | Function declaration được hoist | Class **không** được hoist (TDZ) |
-| Strict mode | Tùy chọn | **Luôn strict mode** |
-| `new` | Có thể quên `new` | Bắt buộc `new`, báo lỗi nếu không |
-| Method enumerable | `for...in` có thể thấy | Methods **không** enumerable |
-| Cơ chế bên trong | Prototype chain | Prototype chain (y hệt) |
+| Tiêu chí          | Prototype Pattern               | ES6 Class                         |
+| ----------------- | ------------------------------- | --------------------------------- |
+| Cú pháp           | Verbose, khó đọc                | Sạch, quen thuộc với dev OOP      |
+| Hoisting          | Function declaration được hoist | Class **không** được hoist (TDZ)  |
+| Strict mode       | Tùy chọn                        | **Luôn strict mode**              |
+| `new`             | Có thể quên `new`               | Bắt buộc `new`, báo lỗi nếu không |
+| Method enumerable | `for...in` có thể thấy          | Methods **không** enumerable      |
+| Cơ chế bên trong  | Prototype chain                 | Prototype chain (y hệt)           |
 
 ### Code ví dụ
 
@@ -327,7 +324,7 @@ Dog.prototype.bark = function () {
 
 const rex = new Dog("Rex", "Husky");
 console.log(rex.speak()); // "Rex kêu"
-console.log(rex.bark());  // "Rex (Husky): Gâu gâu!"
+console.log(rex.bark()); // "Rex (Husky): Gâu gâu!"
 
 // ===== ES6 Class -- tương đương 100% =====
 class AnimalClass {
@@ -353,11 +350,11 @@ class DogClass extends AnimalClass {
 
 const lucky = new DogClass("Lucky", "Corgi");
 console.log(lucky.speak()); // "Lucky kêu"
-console.log(lucky.bark());  // "Lucky (Corgi): Gâu gâu!"
+console.log(lucky.bark()); // "Lucky (Corgi): Gâu gâu!"
 
 // ===== Chứng minh class là syntactic sugar =====
-console.log(typeof AnimalClass);  // "function" -- class thực chất là function!
-console.log(lucky.__proto__ === DogClass.prototype);          // true
+console.log(typeof AnimalClass); // "function" -- class thực chất là function!
+console.log(lucky.__proto__ === DogClass.prototype); // true
 console.log(DogClass.prototype.__proto__ === AnimalClass.prototype); // true
 
 // ===== ES2022 class features =====
@@ -400,7 +397,7 @@ class BankAccount {
 
 const acc = new BankAccount("An", 1000);
 acc.deposit(500);
-console.log(acc.balance);  // 1500
+console.log(acc.balance); // 1500
 // console.log(acc.#balance); // SyntaxError: Private field
 console.log(BankAccount.getBankInfo()); // "Ngân hàng: VN Bank"
 ```
@@ -419,13 +416,13 @@ console.log(BankAccount.getBankInfo()); // "Ngân hàng: VN Bank"
 
 ### Giải thích lý thuyết
 
-| Tiêu chí | `new Constructor()` | `Object.create(proto)` |
-|---|---|---|
-| Tạo object mới | Có | Có |
-| Gọi constructor | Có | **Không** |
-| Set prototype | `Constructor.prototype` | Object được truyền vào |
-| Linh hoạt | Thấp (phải có constructor) | Cao (bất kỳ object nào làm prototype) |
-| Use case | Tạo instance từ class/constructor | Prototype delegation, mixin |
+| Tiêu chí        | `new Constructor()`               | `Object.create(proto)`                |
+| --------------- | --------------------------------- | ------------------------------------- |
+| Tạo object mới  | Có                                | Có                                    |
+| Gọi constructor | Có                                | **Không**                             |
+| Set prototype   | `Constructor.prototype`           | Object được truyền vào                |
+| Linh hoạt       | Thấp (phải có constructor)        | Cao (bất kỳ object nào làm prototype) |
+| Use case        | Tạo instance từ class/constructor | Prototype delegation, mixin           |
 
 ### Code ví dụ
 
@@ -456,7 +453,7 @@ const carPrototype = {
 const honda = Object.create(carPrototype);
 honda.brand = "Honda";
 console.log(honda.drive()); // "Lái xe Honda"
-console.log(honda.honk());  // "Bíp bíp!"
+console.log(honda.honk()); // "Bíp bíp!"
 
 // ===== Object.create(null) -- "pure dictionary" =====
 const dict = Object.create(null);
@@ -521,13 +518,13 @@ const obj = {
   },
 };
 
-console.log(obj.getName());         // ?
-console.log(obj.getNameArrow());    // ?
-console.log(obj.getNameNested());   // ?
+console.log(obj.getName()); // ?
+console.log(obj.getNameArrow()); // ?
+console.log(obj.getNameNested()); // ?
 
 const { getName, getNameArrow, getNameNested } = obj;
-console.log(getName());             // ?
-console.log(getNameNested());       // ?
+console.log(getName()); // ?
+console.log(getNameNested()); // ?
 ```
 
 ### Giải thích và đáp án
@@ -563,11 +560,11 @@ console.log(getNameNested());
 
 ## Lỗi thường gặp khi trả lời
 
-| Lỗi | Giải thích đúng |
-|---|---|
-| "Arrow function có this riêng" | Arrow function **không có** this riêng, nó kế thừa từ lexical scope cha. |
-| "Class là cơ chế kế thừa mới" | Class là syntactic sugar, vẫn dùng prototype chain. `typeof MyClass` trả về `"function"`. |
-| "`this` luôn là object gọi hàm" | Không đúng với arrow function, global context, và explicit binding. |
+| Lỗi                               | Giải thích đúng                                                                                                            |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| "Arrow function có this riêng"    | Arrow function **không có** this riêng, nó kế thừa từ lexical scope cha.                                                   |
+| "Class là cơ chế kế thừa mới"     | Class là syntactic sugar, vẫn dùng prototype chain. `typeof MyClass` trả về `"function"`.                                  |
+| "`this` luôn là object gọi hàm"   | Không đúng với arrow function, global context, và explicit binding.                                                        |
 | "Prototype và `__proto__` là một" | `prototype` là property của function (constructor). `__proto__` là link trên mỗi object trỏ đến prototype của constructor. |
-| "`Object.create` giống `new`" | `Object.create` **không** gọi constructor. `new` gọi constructor, set `this`, và return object mới. |
-| "`bind` thay đổi this vĩnh viễn" | `bind` trả về hàm **mới** với this đã bind. Hàm gốc không bị ảnh hưởng. Nhưng một hàm đã bind không thể bind lại. |
+| "`Object.create` giống `new`"     | `Object.create` **không** gọi constructor. `new` gọi constructor, set `this`, và return object mới.                        |
+| "`bind` thay đổi this vĩnh viễn"  | `bind` trả về hàm **mới** với this đã bind. Hàm gốc không bị ảnh hưởng. Nhưng một hàm đã bind không thể bind lại.          |

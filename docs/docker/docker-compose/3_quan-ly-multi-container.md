@@ -9,9 +9,6 @@ Bài này hướng dẫn các thao tác quản lý hàng ngày khi làm việc v
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Lifecycle Commands](#1-lifecycle-commands)
@@ -162,12 +159,12 @@ docker compose run --rm web sh
 
 ### Khác biệt exec vs run
 
-| | exec | run |
-|---|---|---|
-| Container | Dùng container đang chạy | Tạo container mới |
-| Service phải đang chạy | Co | Khong |
-| Ports | Dùng ports đã map | Không map ports (mặc định) |
-| Dọn dẹp | Không tạo gì | Dùng `--rm` để tự xoá |
+|                        | exec                     | run                        |
+| ---------------------- | ------------------------ | -------------------------- |
+| Container              | Dùng container đang chạy | Tạo container mới          |
+| Service phải đang chạy | Co                       | Khong                      |
+| Ports                  | Dùng ports đã map        | Không map ports (mặc định) |
+| Dọn dẹp                | Không tạo gì             | Dùng `--rm` để tự xoá      |
 
 ---
 
@@ -264,7 +261,7 @@ services:
 services:
   web:
     volumes:
-      - ./src:/app/src  # Hot reload
+      - ./src:/app/src # Hot reload
     environment:
       NODE_ENV: development
 ```
@@ -414,15 +411,15 @@ docker compose down -v
 
 ## Tổng kết
 
-| Lệnh | Chức năng |
-|-------|-----------|
-| `docker compose up -d` | Start tất cả |
-| `docker compose down` | Stop + remove |
-| `docker compose down -v` | Stop + remove + xoá volumes |
-| `docker compose ps` | Xem trạng thái |
-| `docker compose logs -f` | Follow logs |
-| `docker compose exec` | Lệnh trong service đang chạy |
-| `docker compose run --rm` | Lệnh 1 lần (container mới) |
-| `docker compose --scale` | Scale service |
-| `docker compose build` | Build images |
-| `docker compose --profile` | Chạy profile cụ thể |
+| Lệnh                       | Chức năng                    |
+| -------------------------- | ---------------------------- |
+| `docker compose up -d`     | Start tất cả                 |
+| `docker compose down`      | Stop + remove                |
+| `docker compose down -v`   | Stop + remove + xoá volumes  |
+| `docker compose ps`        | Xem trạng thái               |
+| `docker compose logs -f`   | Follow logs                  |
+| `docker compose exec`      | Lệnh trong service đang chạy |
+| `docker compose run --rm`  | Lệnh 1 lần (container mới)   |
+| `docker compose --scale`   | Scale service                |
+| `docker compose build`     | Build images                 |
+| `docker compose --profile` | Chạy profile cụ thể          |

@@ -9,9 +9,6 @@ Conflict (xung đột) là điều **không thể tránh khỏi** khi làm việ
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Conflict xảy ra khi nào và tại sao?](#1-conflict-xảy-ra-khi-nào-và-tại-sao)
@@ -69,13 +66,13 @@ Git thông minh hơn bạn nghĩ. Nhiều trường hợp Git tự động giả
 
 ### 1.3. Các tình huống gây conflict
 
-| Tình huống | Xảy ra khi |
-|-----------|-----------|
-| **Merge conflict** | `git merge branch` -- hai branch cùng sửa một dòng |
-| **Rebase conflict** | `git rebase main` -- commit của bạn conflict với main |
-| **Pull conflict** | `git pull` -- remote và local cùng sửa một dòng |
+| Tình huống               | Xảy ra khi                                                         |
+| ------------------------ | ------------------------------------------------------------------ |
+| **Merge conflict**       | `git merge branch` -- hai branch cùng sửa một dòng                 |
+| **Rebase conflict**      | `git rebase main` -- commit của bạn conflict với main              |
+| **Pull conflict**        | `git pull` -- remote và local cùng sửa một dòng                    |
 | **Cherry-pick conflict** | `git cherry-pick hash` -- commit chọn conflict với branch hiện tại |
-| **Stash pop conflict** | `git stash pop` -- stash conflict với thay đổi hiện tại |
+| **Stash pop conflict**   | `git stash pop` -- stash conflict với thay đổi hiện tại            |
 
 ---
 
@@ -128,33 +125,33 @@ Bạn có 4 lựa chọn:
 ```javascript
 // Lựa chọn 1: Giữ phiên bản của bạn (HEAD)
 const config = {
-  theme: 'dark',
+  theme: "dark",
   fontSize: 16,
-  language: 'vi',
+  language: "vi",
   debug: false,
 };
 
 // Lựa chọn 2: Lấy phiên bản từ branch kia
 const config = {
-  theme: 'light',
+  theme: "light",
   fontSize: 14,
-  language: 'en',
+  language: "en",
   debug: false,
 };
 
 // Lựa chọn 3: Kết hợp cả hai
 const config = {
-  theme: 'dark',         // Giữ dark từ HEAD
-  fontSize: 16,          // Giữ 16 từ HEAD
-  language: 'en',        // Lấy en từ feature
+  theme: "dark", // Giữ dark từ HEAD
+  fontSize: 16, // Giữ 16 từ HEAD
+  language: "en", // Lấy en từ feature
   debug: false,
 };
 
 // Lựa chọn 4: Viết lại hoàn toàn
 const config = {
-  theme: 'auto',         // Hoàn toàn mới
+  theme: "auto", // Hoàn toàn mới
   fontSize: 15,
-  language: 'vi',
+  language: "vi",
   debug: false,
 };
 ```
@@ -306,6 +303,7 @@ Khi mở file có conflict trong VS Code, bạn sẽ thấy:
 ```
 
 VS Code hiển thị các nút:
+
 - **Accept Current Change** -- Giữ code của bạn (HEAD)
 - **Accept Incoming Change** -- Lấy code từ branch kia
 - **Accept Both Changes** -- Giữ cả hai (xếp chồng lên nhau)
@@ -419,13 +417,13 @@ git rebase main
 
 ### 6.3. So sánh
 
-| Đặc điểm | Merge conflict | Rebase conflict |
-|----------|---------------|-----------------|
-| Số lần giải quyết | 1 lần | Có thể nhiều lần (từng commit) |
-| Sau khi resolve | `git commit` | `git rebase --continue` |
-| Hủy bỏ | `git merge --abort` | `git rebase --abort` |
-| Merge commit | Có | Không |
-| Độ phức tạp | Thường đơn giản hơn | Có thể phức tạp hơn (nhiều lần) |
+| Đặc điểm          | Merge conflict      | Rebase conflict                 |
+| ----------------- | ------------------- | ------------------------------- |
+| Số lần giải quyết | 1 lần               | Có thể nhiều lần (từng commit)  |
+| Sau khi resolve   | `git commit`        | `git rebase --continue`         |
+| Hủy bỏ            | `git merge --abort` | `git rebase --abort`            |
+| Merge commit      | Có                  | Không                           |
+| Độ phức tạp       | Thường đơn giản hơn | Có thể phức tạp hơn (nhiều lần) |
 
 ### 6.4. Ví dụ so sánh
 
@@ -497,11 +495,11 @@ git rebase main
 
 ### 7.3. Bảng tóm tắt
 
-| Thao tác | `--ours` là | `--theirs` là |
-|----------|------------|--------------|
-| `git merge feature` (đang ở main) | main | feature |
-| `git rebase main` (đang ở feature) | main | feature |
-| `git cherry-pick abc` | branch hiện tại | commit abc |
+| Thao tác                           | `--ours` là     | `--theirs` là |
+| ---------------------------------- | --------------- | ------------- |
+| `git merge feature` (đang ở main)  | main            | feature       |
+| `git rebase main` (đang ở feature) | main            | feature       |
+| `git cherry-pick abc`              | branch hiện tại | commit abc    |
 
 ---
 
@@ -850,17 +848,17 @@ git commit
 
 ## Tóm tắt
 
-| Lệnh | Chức năng |
-|------|-----------|
-| `git status` | Xem file nào đang conflict |
-| `git diff --name-only --diff-filter=U` | Liệt kê file conflict |
-| `git checkout --ours <file>` | Chọn phiên bản của branch hiện tại |
-| `git checkout --theirs <file>` | Chọn phiên bản của branch kia |
-| `git merge --abort` | Hủy merge |
-| `git rebase --abort` | Hủy rebase |
-| `git rebase --continue` | Tiếp tục rebase sau khi resolve |
-| `git merge -X ours` | Merge, ưu tiên ours khi conflict |
-| `git merge -X theirs` | Merge, ưu tiên theirs khi conflict |
-| `git mergetool` | Mở công cụ resolve chuyên dụng |
+| Lệnh                                   | Chức năng                          |
+| -------------------------------------- | ---------------------------------- |
+| `git status`                           | Xem file nào đang conflict         |
+| `git diff --name-only --diff-filter=U` | Liệt kê file conflict              |
+| `git checkout --ours <file>`           | Chọn phiên bản của branch hiện tại |
+| `git checkout --theirs <file>`         | Chọn phiên bản của branch kia      |
+| `git merge --abort`                    | Hủy merge                          |
+| `git rebase --abort`                   | Hủy rebase                         |
+| `git rebase --continue`                | Tiếp tục rebase sau khi resolve    |
+| `git merge -X ours`                    | Merge, ưu tiên ours khi conflict   |
+| `git merge -X theirs`                  | Merge, ưu tiên theirs khi conflict |
+| `git mergetool`                        | Mở công cụ resolve chuyên dụng     |
 
 **Ghi nhớ:** Conflict là bình thường -- không phải lỗi. Giải quyết conflict là kỹ năng quan trọng của mọi developer. Càng làm nhiều, bạn càng tự tin và nhanh nhẹn khi gặp conflict.

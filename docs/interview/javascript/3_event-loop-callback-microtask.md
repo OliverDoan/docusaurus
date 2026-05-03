@@ -9,9 +9,6 @@ Hiểu Event Loop là hiểu cách JavaScript vận hành. Đây là nhóm câu 
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: JavaScript single-threaded model `[Intermediate]`](#câu-1-javascript-single-threaded-model-intermediate)
@@ -167,12 +164,12 @@ poll();
 
 JavaScript có **hai loại queue** với độ ưu tiên khác nhau:
 
-| Tiêu chí | Microtask Queue | Macrotask Queue |
-|---|---|---|
-| Độ ưu tiên | **Cao hơn** | Thấp hơn |
-| Gồm | Promise `.then`/`.catch`/`.finally`, `queueMicrotask`, `MutationObserver` | `setTimeout`, `setInterval`, `setImmediate` (Node), I/O, UI rendering |
-| Khi nào chạy | **Tất cả** microtask được xử lý **trước khi** chuyển sang macrotask tiếp theo | Mỗi lần event loop quay, chỉ xử lý **một** macrotask |
-| Blocking render | Có thể block nếu quá nhiều | Mỗi macrotask cho phép render giữa các lần |
+| Tiêu chí        | Microtask Queue                                                               | Macrotask Queue                                                       |
+| --------------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| Độ ưu tiên      | **Cao hơn**                                                                   | Thấp hơn                                                              |
+| Gồm             | Promise `.then`/`.catch`/`.finally`, `queueMicrotask`, `MutationObserver`     | `setTimeout`, `setInterval`, `setImmediate` (Node), I/O, UI rendering |
+| Khi nào chạy    | **Tất cả** microtask được xử lý **trước khi** chuyển sang macrotask tiếp theo | Mỗi lần event loop quay, chỉ xử lý **một** macrotask                  |
+| Blocking render | Có thể block nếu quá nhiều                                                    | Mỗi macrotask cho phép render giữa các lần                            |
 
 **Thứ tự thực thi của Event Loop mỗi vòng:**
 
@@ -261,12 +258,12 @@ Thứ tự trong một vòng Event Loop:
 4. Render / Paint
 5. Quay lại bước 1
 
-| Tiêu chí | `setTimeout(fn, 0)` | `requestAnimationFrame(fn)` |
-|---|---|---|
-| Thời điểm chạy | Tick tiếp theo của event loop | Trước lần repaint tiếp theo (~16.67ms / 60fps) |
-| Độ chính xác | Không đảm bảo thời gian | Đồng bộ với refresh rate của màn hình |
-| Phù hợp cho | Delay task, debounce | Animation, visual updates |
-| Chạy khi tab ẩn | Có | **Không** (tiết kiệm pin/CPU) |
+| Tiêu chí        | `setTimeout(fn, 0)`           | `requestAnimationFrame(fn)`                    |
+| --------------- | ----------------------------- | ---------------------------------------------- |
+| Thời điểm chạy  | Tick tiếp theo của event loop | Trước lần repaint tiếp theo (~16.67ms / 60fps) |
+| Độ chính xác    | Không đảm bảo thời gian       | Đồng bộ với refresh rate của màn hình          |
+| Phù hợp cho     | Delay task, debounce          | Animation, visual updates                      |
+| Chạy khi tab ẩn | Có                            | **Không** (tiết kiệm pin/CPU)                  |
 
 ### Code ví dụ
 
@@ -515,11 +512,11 @@ Bước 3: Xử lý macrotask
 
 ## Lỗi thường gặp khi trả lời
 
-| Lỗi | Giải thích đúng |
-|---|---|
-| "setTimeout(fn, 0) chạy ngay lập tức" | Không -- nó phải đợi call stack trống và tất cả microtask xử lý xong. Thời gian tối thiểu thực tế khoảng 4ms (browser clamp). |
-| "Promise là asynchronous hoàn toàn" | Sai -- Promise **constructor callback** chạy **đồng bộ**. Chỉ `.then`/`.catch`/`.finally` là async (microtask). |
-| "Microtask và macrotask xử lý như nhau" | Sai -- microtask có ưu tiên cao hơn và **tất cả** được xử lý trước khi chuyển sang macrotask tiếp theo. |
-| "async/await biến hàm thành asynchronous" | Không hoàn toàn -- async function chạy đồng bộ cho đến `await`. Phần trước await là đồng bộ, phần sau await là microtask. |
-| "requestAnimationFrame là macrotask" | Sai -- rAF nằm trong queue riêng, được xử lý trước repaint, không phải macrotask. |
+| Lỗi                                            | Giải thích đúng                                                                                                                                                                    |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "setTimeout(fn, 0) chạy ngay lập tức"          | Không -- nó phải đợi call stack trống và tất cả microtask xử lý xong. Thời gian tối thiểu thực tế khoảng 4ms (browser clamp).                                                      |
+| "Promise là asynchronous hoàn toàn"            | Sai -- Promise **constructor callback** chạy **đồng bộ**. Chỉ `.then`/`.catch`/`.finally` là async (microtask).                                                                    |
+| "Microtask và macrotask xử lý như nhau"        | Sai -- microtask có ưu tiên cao hơn và **tất cả** được xử lý trước khi chuyển sang macrotask tiếp theo.                                                                            |
+| "async/await biến hàm thành asynchronous"      | Không hoàn toàn -- async function chạy đồng bộ cho đến `await`. Phần trước await là đồng bộ, phần sau await là microtask.                                                          |
+| "requestAnimationFrame là macrotask"           | Sai -- rAF nằm trong queue riêng, được xử lý trước repaint, không phải macrotask.                                                                                                  |
 | "JavaScript không thể làm nhiều việc cùng lúc" | JS engine là single-threaded, nhưng runtime (browser/Node) có nhiều thread khác xử lý I/O, timer, network. JS chỉ có một thread chạy code nhưng vẫn có concurrency nhờ event loop. |

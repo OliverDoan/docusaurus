@@ -13,9 +13,6 @@ Bài này sẽ giúp bạn hiểu cả API cũ (để bảo trì code legacy) v�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. API cũ: `Date` và `Calendar` (trước Java 8)](#1-api-cũ-date-và-calendar-trước-java-8)
@@ -56,6 +53,7 @@ public class OldDateDemo {
 ```
 
 **Vấn đề của `Date`:**
+
 - **Mutable** (thay đổi được): gọi `setTime()` sẽ thay đổi đối tượng gốc, gây ra lỗi khó debug
 - Nhiều method đã bị **deprecated** (`getYear()`, `getMonth()`, `getDay()`)
 - **Không thread-safe**: 2 thread cùng dùng 1 đối tượng `Date` có thể gây lỗi
@@ -87,6 +85,7 @@ public class CalendarDemo {
 ```
 
 **Vấn đề của `Calendar`:**
+
 - **Month bắt đầu từ 0**: Tháng 1 = 0, Tháng 12 = 11 (rất dễ nhầm)
 - **Mutable**: `cal.add()` thay đổi đối tượng gốc
 - Code dài dòng, khó đọc
@@ -300,18 +299,18 @@ public class FormatterDemo {
 
 **Các ký hiệu pattern thường dùng:**
 
-| Ký hiệu | Ý nghĩa | Ví dụ |
-|---|---|---|
-| `yyyy` | Năm 4 chữ số | 2026 |
-| `MM` | Tháng (01-12) | 04 |
-| `dd` | Ngày (01-31) | 02 |
-| `HH` | Giờ 24h (00-23) | 14 |
-| `hh` | Giờ 12h (01-12) | 02 |
-| `mm` | Phút (00-59) | 30 |
-| `ss` | Giây (00-59) | 45 |
-| `a` | AM/PM | PM |
-| `EEEE` | Thứ (đầy tên) | Thursday |
-| `MMMM` | Tháng (đầy tên) | April |
+| Ký hiệu | Ý nghĩa         | Ví dụ    |
+| ------- | --------------- | -------- |
+| `yyyy`  | Năm 4 chữ số    | 2026     |
+| `MM`    | Tháng (01-12)   | 04       |
+| `dd`    | Ngày (01-31)    | 02       |
+| `HH`    | Giờ 24h (00-23) | 14       |
+| `hh`    | Giờ 12h (01-12) | 02       |
+| `mm`    | Phút (00-59)    | 30       |
+| `ss`    | Giây (00-59)    | 45       |
+| `a`     | AM/PM           | PM       |
+| `EEEE`  | Thứ (đầy tên)   | Thursday |
+| `MMMM`  | Tháng (đầy tên) | April    |
 
 ---
 
@@ -385,11 +384,11 @@ public class DurationDemo {
 
 **Period vs Duration:**
 
-| Tiêu chí | Period | Duration |
-|---|---|---|
-| Đơn vị | Năm, Tháng, Ngày | Giờ, Phút, Giây, Nano |
-| Dùng cho | `LocalDate` | `LocalTime`, `LocalDateTime`, `Instant` |
-| Ví dụ | "2 năm 3 tháng" | "5 giờ 30 phút" |
+| Tiêu chí | Period           | Duration                                |
+| -------- | ---------------- | --------------------------------------- |
+| Đơn vị   | Năm, Tháng, Ngày | Giờ, Phút, Giây, Nano                   |
+| Dùng cho | `LocalDate`      | `LocalTime`, `LocalDateTime`, `Instant` |
+| Ví dụ    | "2 năm 3 tháng"  | "5 giờ 30 phút"                         |
 
 ---
 
@@ -441,21 +440,22 @@ public class DateOperations {
 
 ## 6. So sánh API cũ và API mới
 
-| Tiêu chí | `Date` / `Calendar` | `java.time` (Java 8+) |
-|---|---|---|
-| Immutable | Không (mutable) | Có (immutable) |
-| Thread-safe | Không | Có |
-| Month | 0-based (0 = Jan) | 1-based (1 = Jan) |
-| API design | Khó hiểu, dài dòng | Trực quan, gọn gàng |
-| Timezone | Phức tạp | Rõ ràng với `ZonedDateTime` |
-| Null-safe | Không | Có |
-| Khuyến nghị | Chỉ dùng khi bảo trì code cũ | **Luôn dùng cho code mới** |
+| Tiêu chí    | `Date` / `Calendar`          | `java.time` (Java 8+)       |
+| ----------- | ---------------------------- | --------------------------- |
+| Immutable   | Không (mutable)              | Có (immutable)              |
+| Thread-safe | Không                        | Có                          |
+| Month       | 0-based (0 = Jan)            | 1-based (1 = Jan)           |
+| API design  | Khó hiểu, dài dòng           | Trực quan, gọn gàng         |
+| Timezone    | Phức tạp                     | Rõ ràng với `ZonedDateTime` |
+| Null-safe   | Không                        | Có                          |
+| Khuyến nghị | Chỉ dùng khi bảo trì code cũ | **Luôn dùng cho code mới**  |
 
 ---
 
 ## Khi nào dùng?
 
 **Chọn lớp nào cho phù hợp:**
+
 - **`LocalDate`**: Chỉ cần ngày (sinh nhật, ngày hết hạn, ngày lễ)
 - **`LocalTime`**: Chỉ cần giờ (giờ mở cửa, giờ hẹn)
 - **`LocalDateTime`**: Cần ngày + giờ nhưng không quan tâm timezone (lịch họp nội bộ)
@@ -465,6 +465,7 @@ public class DateOperations {
 - **`Duration`**: Tính khoảng cách theo giờ/phút/giây (đo performance)
 
 **Best practices:**
+
 - **Luôn dùng `java.time`** cho code mới, tránh `Date` và `Calendar`
 - Luôn **rõ ràng về timezone** khi ứng dụng phục vụ nhiều vùng
 - Dùng `DateTimeFormatter` để format/parse, không tự xử lý chuỗi

@@ -9,9 +9,6 @@ Bài này đi chi tiết từng phần của file docker-compose.yml. Sau bài n
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Service Configuration](#1-service-configuration)
@@ -167,7 +164,7 @@ services:
       - pgdata:/var/lib/postgresql/data
 
 volumes:
-  pgdata:  # Khai báo named volume
+  pgdata: # Khai báo named volume
 ```
 
 ### Bind mounts (mount thư mục host)
@@ -196,7 +193,7 @@ volumes:
 services:
   web:
     volumes:
-      - /app/node_modules  # Anonymous volume (Docker quản lý)
+      - /app/node_modules # Anonymous volume (Docker quản lý)
 ```
 
 ---
@@ -264,11 +261,11 @@ services:
     restart: always
 ```
 
-| Giá trị | Ý nghĩa |
-|---------|---------|
-| `no` | Không restart (mặc định) |
-| `always` | Luôn restart |
-| `on-failure` | Restart khi crash |
+| Giá trị          | Ý nghĩa                       |
+| ---------------- | ----------------------------- |
+| `no`             | Không restart (mặc định)      |
+| `always`         | Luôn restart                  |
+| `on-failure`     | Restart khi crash             |
 | `unless-stopped` | Restart trừ khi manually stop |
 
 ---
@@ -470,17 +467,17 @@ DB_PASSWORD=supersecret123
 
 ## Tổng kết
 
-| Thuộc tính | Chức năng |
-|-----------|-----------|
-| `image` | Dùng image có sẵn |
-| `build` | Build từ Dockerfile |
-| `ports` | Map port host:container |
-| `environment` | Biến môi trường |
-| `env_file` | Load biến từ file |
-| `volumes` | Mount data |
-| `depends_on` | Thứ tự start |
-| `restart` | Auto-restart policy |
-| `healthcheck` | Kiểm tra sức khoẻ |
-| `deploy.resources` | Giới hạn CPU/RAM |
-| `networks` | Network tuỳ chỉnh |
-| `profiles` | Services tuỳ chọn |
+| Thuộc tính         | Chức năng               |
+| ------------------ | ----------------------- |
+| `image`            | Dùng image có sẵn       |
+| `build`            | Build từ Dockerfile     |
+| `ports`            | Map port host:container |
+| `environment`      | Biến môi trường         |
+| `env_file`         | Load biến từ file       |
+| `volumes`          | Mount data              |
+| `depends_on`       | Thứ tự start            |
+| `restart`          | Auto-restart policy     |
+| `healthcheck`      | Kiểm tra sức khoẻ       |
+| `deploy.resources` | Giới hạn CPU/RAM        |
+| `networks`         | Network tuỳ chỉnh       |
+| `profiles`         | Services tuỳ chọn       |

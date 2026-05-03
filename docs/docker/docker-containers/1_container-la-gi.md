@@ -9,9 +9,6 @@ Container là khái niệm trung tâm của Docker. Bài này giải thích chi 
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Container — Instance đang chạy của Image](#1-container-instance-đang-chạy-của-image)
@@ -40,13 +37,13 @@ Image (bản thiết kế)  →  Container (đang chạy)
 
 ### So sánh
 
-| Image | Container |
-|-------|-----------|
-| Class | Object |
-| Khuôn bánh | Chiếc bánh |
-| File ISO | Máy tính đã cài |
-| Dockerfile → build | Image → run |
-| Không thay đổi | Có thể thay đổi (writable layer) |
+| Image              | Container                        |
+| ------------------ | -------------------------------- |
+| Class              | Object                           |
+| Khuôn bánh         | Chiếc bánh                       |
+| File ISO           | Máy tính đã cài                  |
+| Dockerfile → build | Image → run                      |
+| Không thay đổi     | Có thể thay đổi (writable layer) |
 
 ### Một Image → Nhiều Containers
 
@@ -130,13 +127,13 @@ Khi container chạy, Docker thêm một **writable layer** lên trên các imag
 
 ### Các trạng thái
 
-| Trạng thái | Mô tả | Lệnh vào | Lệnh ra |
-|-----------|--------|----------|---------|
-| **Created** | Đã tạo, chưa chạy | `docker create` | `docker start` |
-| **Running** | Đang chạy | `docker start/run` | `docker stop/kill` |
-| **Paused** | Tạm dừng (freeze) | `docker pause` | `docker unpause` |
-| **Stopped** | Đã dừng | `docker stop` | `docker start/rm` |
-| **Removed** | Đã xoá | `docker rm` | — |
+| Trạng thái  | Mô tả             | Lệnh vào           | Lệnh ra            |
+| ----------- | ----------------- | ------------------ | ------------------ |
+| **Created** | Đã tạo, chưa chạy | `docker create`    | `docker start`     |
+| **Running** | Đang chạy         | `docker start/run` | `docker stop/kill` |
+| **Paused**  | Tạm dừng (freeze) | `docker pause`     | `docker unpause`   |
+| **Stopped** | Đã dừng           | `docker stop`      | `docker start/rm`  |
+| **Removed** | Đã xoá            | `docker rm`        | —                  |
 
 ---
 
@@ -215,12 +212,12 @@ docker attach my-container
 
 ### Khác biệt exec vs attach
 
-| | exec | attach |
-|---|---|---|
-| **Tạo process mới** | Co | Khong |
-| **Kết nối vào** | Process mới | Process chính (PID 1) |
-| **Dừng container khi exit** | Khong | Co (nếu dùng Ctrl+C) |
-| **Use case** | Debug, chạy lệnh | Xem output |
+|                             | exec             | attach                |
+| --------------------------- | ---------------- | --------------------- |
+| **Tạo process mới**         | Co               | Khong                 |
+| **Kết nối vào**             | Process mới      | Process chính (PID 1) |
+| **Dừng container khi exit** | Khong            | Co (nếu dùng Ctrl+C)  |
+| **Use case**                | Debug, chạy lệnh | Xem output            |
 
 ---
 
@@ -245,11 +242,11 @@ docker run --restart on-failure:5 nginx
 docker run --restart unless-stopped nginx
 ```
 
-| Policy | Khi nào restart |
-|--------|----------------|
-| `no` | Không bao giờ |
-| `always` | Luôn luôn (kể cả reboot máy) |
-| `on-failure` | Chỉ khi crash (exit code != 0) |
+| Policy           | Khi nào restart                                       |
+| ---------------- | ----------------------------------------------------- |
+| `no`             | Không bao giờ                                         |
+| `always`         | Luôn luôn (kể cả reboot máy)                          |
+| `on-failure`     | Chỉ khi crash (exit code != 0)                        |
 | `unless-stopped` | Như `always` nhưng không restart nếu đã manually stop |
 
 ---
@@ -358,15 +355,15 @@ docker rm -f web
 
 ## Tổng kết
 
-| Khái niệm | Giải thích |
-|-----------|-----------|
-| **Container** | Instance đang chạy của Image |
+| Khái niệm          | Giải thích                           |
+| ------------------ | ------------------------------------ |
+| **Container**      | Instance đang chạy của Image         |
 | **Writable layer** | Layer đọc-ghi, mất khi xoá container |
-| **docker run** | Tạo + chạy container |
-| **docker exec** | Chạy lệnh trong container đang chạy |
-| **-d** | Chạy nền |
-| **-it** | Interactive terminal |
-| **-p** | Map port host:container |
-| **-e** | Biến môi trường |
-| **--restart** | Tự restart khi crash |
-| **--rm** | Tự xoá khi dừng |
+| **docker run**     | Tạo + chạy container                 |
+| **docker exec**    | Chạy lệnh trong container đang chạy  |
+| **-d**             | Chạy nền                             |
+| **-it**            | Interactive terminal                 |
+| **-p**             | Map port host:container              |
+| **-e**             | Biến môi trường                      |
+| **--restart**      | Tự restart khi crash                 |
+| **--rm**           | Tự xoá khi dừng                      |

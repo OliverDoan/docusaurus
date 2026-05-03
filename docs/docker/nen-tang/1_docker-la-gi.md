@@ -16,9 +16,6 @@ Nếu bạn từng gặp bất kỳ tình huống nào ở trên, **Docker** ch�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Docker là gì?](#1-docker-là-gì)
@@ -52,6 +49,7 @@ Hãy tưởng tượng Docker như một **hộp vận chuyển tiêu chuẩn (s
 > **Docker = Ứng dụng của bạn + Mọi thứ nó cần để chạy → Đóng gói thành 1 đơn vị duy nhất**
 
 Cái "mọi thứ nó cần" bao gồm:
+
 - Hệ điều hành (OS) cơ bản (thường là Linux nhẹ)
 - Runtime (Node.js, Python, Java...)
 - Thư viện và dependency
@@ -179,14 +177,14 @@ Nhiều người nhầm Docker với máy ảo (Virtual Machine). Hãy so sánh:
 
 ### So sánh chi tiết
 
-| Tiêu chí | Virtual Machine | Docker Container |
-|-----------|----------------|-----------------|
-| **Khởi động** | Vài phút | Vài giây |
-| **Dung lượng** | Hàng GB (có cả OS) | Hàng MB (chỉ app + libs) |
-| **Hiệu suất** | Chậm hơn (qua Hypervisor) | Gần như native |
-| **Cô lập** | Hoàn toàn (OS riêng) | Chia sẻ kernel |
-| **Số lượng** | 5-10 VMs/máy | Hàng trăm containers/máy |
-| **Use case** | Cần OS khác nhau | Cùng OS, khác ứng dụng |
+| Tiêu chí       | Virtual Machine           | Docker Container         |
+| -------------- | ------------------------- | ------------------------ |
+| **Khởi động**  | Vài phút                  | Vài giây                 |
+| **Dung lượng** | Hàng GB (có cả OS)        | Hàng MB (chỉ app + libs) |
+| **Hiệu suất**  | Chậm hơn (qua Hypervisor) | Gần như native           |
+| **Cô lập**     | Hoàn toàn (OS riêng)      | Chia sẻ kernel           |
+| **Số lượng**   | 5-10 VMs/máy              | Hàng trăm containers/máy |
+| **Use case**   | Cần OS khác nhau          | Cùng OS, khác ứng dụng   |
 
 ### Khi nào dùng gì?
 
@@ -251,21 +249,21 @@ docker pull nginx:latest   # Tải image Nginx
 
 ### Cho Developer
 
-| Tình huống | Không có Docker | Có Docker |
-|-----------|----------------|-----------|
-| Setup project | Cài thủ công từng tool | `docker compose up` |
-| Chuyển máy | Setup lại từ đầu | Copy Dockerfile, chạy |
-| Onboard member | Viết tài liệu dài 10 trang | Gửi Dockerfile + `docker compose up` |
-| Test nhiều version | Cài đè lên nhau | Chạy container khác version |
+| Tình huống         | Không có Docker            | Có Docker                            |
+| ------------------ | -------------------------- | ------------------------------------ |
+| Setup project      | Cài thủ công từng tool     | `docker compose up`                  |
+| Chuyển máy         | Setup lại từ đầu           | Copy Dockerfile, chạy                |
+| Onboard member     | Viết tài liệu dài 10 trang | Gửi Dockerfile + `docker compose up` |
+| Test nhiều version | Cài đè lên nhau            | Chạy container khác version          |
 
 ### Cho DevOps / Deployment
 
-| Tình huống | Không có Docker | Có Docker |
-|-----------|----------------|-----------|
-| Deploy lên server | SSH, cài đặt thủ công | Push image, pull và chạy |
-| Scale ứng dụng | Mua server mới, cài lại | Tạo thêm container |
-| Rollback | Pray and revert | Chạy lại image version cũ |
-| CI/CD | Script phức tạp | Build image → Push → Deploy |
+| Tình huống        | Không có Docker         | Có Docker                   |
+| ----------------- | ----------------------- | --------------------------- |
+| Deploy lên server | SSH, cài đặt thủ công   | Push image, pull và chạy    |
+| Scale ứng dụng    | Mua server mới, cài lại | Tạo thêm container          |
+| Rollback          | Pray and revert         | Chạy lại image version cũ   |
+| CI/CD             | Script phức tạp         | Build image → Push → Deploy |
 
 ---
 
@@ -285,15 +283,16 @@ docker pull nginx:latest   # Tải image Nginx
 
 ## 7. Tổng kết
 
-| Khái niệm | Giải thích |
-|-----------|-----------|
-| **Docker** | Nền tảng đóng gói và chạy ứng dụng trong container |
-| **Container** | Môi trường cô lập, nhẹ, chạy ứng dụng |
-| **Image** | Bản thiết kế để tạo container |
-| **Dockerfile** | File hướng dẫn cách build image |
-| **Docker Hub** | Kho chứa image công khai |
+| Khái niệm      | Giải thích                                         |
+| -------------- | -------------------------------------------------- |
+| **Docker**     | Nền tảng đóng gói và chạy ứng dụng trong container |
+| **Container**  | Môi trường cô lập, nhẹ, chạy ứng dụng              |
+| **Image**      | Bản thiết kế để tạo container                      |
+| **Dockerfile** | File hướng dẫn cách build image                    |
+| **Docker Hub** | Kho chứa image công khai                           |
 
 ### Docker KHÔNG phải là:
+
 - ❌ Máy ảo (Virtual Machine) — Docker nhẹ hơn nhiều
 - ❌ Chỉ dành cho production — Dùng trong development cũng rất hiệu quả
 - ❌ Chỉ dành cho Linux — Chạy được trên Windows, macOS, Linux

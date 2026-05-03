@@ -1,9 +1,9 @@
 ---
 sidebar_position: 2
-title: "2. Performance Optimization"
+title: "2. Tối ưu hóa Hiệu năng"
 ---
 
-# Performance Optimization
+# Tối ưu hóa Hiệu năng
 
 
 ---

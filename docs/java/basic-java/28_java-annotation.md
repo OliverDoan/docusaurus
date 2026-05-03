@@ -13,9 +13,6 @@ Annotation là **nền tảng của Java hiện đại**: Spring Boot, JPA/Hiber
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Built-in Annotations (Annotation có sẵn)](#1-built-in-annotations-annotation-có-sẵn)
@@ -111,12 +108,12 @@ public class SuppressDemo {
 
 **Các giá trị thường dùng:**
 
-| Giá trị | Ý nghĩa |
-|---|---|
-| `"unchecked"` | Tắt cảnh báo unchecked cast (generics) |
-| `"deprecation"` | Tắt cảnh báo deprecated |
-| `"unused"` | Tắt cảnh báo biến không dùng |
-| `"all"` | Tắt tất cả cảnh báo |
+| Giá trị         | Ý nghĩa                                |
+| --------------- | -------------------------------------- |
+| `"unchecked"`   | Tắt cảnh báo unchecked cast (generics) |
+| `"deprecation"` | Tắt cảnh báo deprecated                |
+| `"unused"`      | Tắt cảnh báo biến không dùng           |
+| `"all"`         | Tắt tất cả cảnh báo                    |
 
 ### 1.4 `@FunctionalInterface` - Đánh dấu interface hàm
 
@@ -169,16 +166,16 @@ public @interface MultiTarget { }
 
 **Cac gia tri `ElementType`:**
 
-| Gia tri | Ap dung cho |
-|---|---|
-| `TYPE` | Class, Interface, Enum |
-| `METHOD` | Method |
-| `FIELD` | Field (bien instance) |
-| `PARAMETER` | Tham so cua method |
-| `CONSTRUCTOR` | Constructor |
-| `LOCAL_VARIABLE` | Bien cuc bo |
+| Gia tri           | Ap dung cho                       |
+| ----------------- | --------------------------------- |
+| `TYPE`            | Class, Interface, Enum            |
+| `METHOD`          | Method                            |
+| `FIELD`           | Field (bien instance)             |
+| `PARAMETER`       | Tham so cua method                |
+| `CONSTRUCTOR`     | Constructor                       |
+| `LOCAL_VARIABLE`  | Bien cuc bo                       |
 | `ANNOTATION_TYPE` | Annotation khac (meta-annotation) |
-| `PACKAGE` | Package |
+| `PACKAGE`         | Package                           |
 
 ### 2.2 `@Retention` - Annotation ton tai den khi nao?
 
@@ -201,11 +198,11 @@ public @interface RuntimeAvailable { }
 
 **So sanh `RetentionPolicy`:**
 
-| Policy | Source | .class file | Runtime | Dung khi |
-|---|---|---|---|---|
-| `SOURCE` | Co | Khong | Khong | Compiler processing (`@Override`) |
-| `CLASS` | Co | Co | Khong | Bytecode tools (mac dinh) |
-| `RUNTIME` | Co | Co | **Co** | **Reflection** (Spring, JUnit) |
+| Policy    | Source | .class file | Runtime | Dung khi                          |
+| --------- | ------ | ----------- | ------- | --------------------------------- |
+| `SOURCE`  | Co     | Khong       | Khong   | Compiler processing (`@Override`) |
+| `CLASS`   | Co     | Co          | Khong   | Bytecode tools (mac dinh)         |
+| `RUNTIME` | Co     | Co          | **Co**  | **Reflection** (Spring, JUnit)    |
 
 ### 2.3 `@Documented` va `@Inherited`
 
@@ -324,6 +321,7 @@ public class AnnotationReader {
 ```
 
 **Output:**
+
 ```
 Author: Thuan
 Version: 2.0
@@ -459,19 +457,20 @@ public class CalculatorTest {
 
 ## 5. Annotation vs Comment
 
-| Tieu chi | Annotation | Comment |
-|---|---|---|
-| Doc boi | **Compiler, JVM, Framework** | Chi con nguoi |
-| Anh huong runtime | Co (voi `RUNTIME` retention) | Khong |
-| Kiem tra loi | Co (vi du `@Override` bao loi compile) | Khong |
-| Sinh code | Co (Lombok, Spring) | Khong |
-| Vi du | `@Override`, `@Autowired` | `// Ghi chu` |
+| Tieu chi          | Annotation                             | Comment       |
+| ----------------- | -------------------------------------- | ------------- |
+| Doc boi           | **Compiler, JVM, Framework**           | Chi con nguoi |
+| Anh huong runtime | Co (voi `RUNTIME` retention)           | Khong         |
+| Kiem tra loi      | Co (vi du `@Override` bao loi compile) | Khong         |
+| Sinh code         | Co (Lombok, Spring)                    | Khong         |
+| Vi du             | `@Override`, `@Autowired`              | `// Ghi chu`  |
 
 ---
 
 ## Khi nao dung?
 
 **Dung Annotation khi:**
+
 - **Ghi de method**: Luon dung `@Override` de compiler kiem tra
 - **Danh dau code cu**: Dung `@Deprecated` khi method se bi xoa
 - **Cau hinh framework**: Spring (`@RestController`, `@Autowired`), JPA (`@Entity`), JUnit (`@Test`)
@@ -480,6 +479,7 @@ public class CalculatorTest {
 - **Tao custom metadata**: Khi can xu ly dac biet bang Reflection
 
 **Best practices:**
+
 - **Luon dung `@Override`** khi ghi de method cua lop cha hoac interface
 - Dung `@Deprecated` kem theo Javadoc giai thich ly do va phuong an thay the
 - Khi tao custom annotation, luon chi dinh `@Target` va `@Retention`

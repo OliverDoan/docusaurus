@@ -9,9 +9,6 @@ Trong thực tế, ứng dụng không chỉ có 1 container. Một ứng dụng
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Vấn đề: Quản lý nhiều containers](#1-vấn-đề-quản-lý-nhiều-containers)
@@ -109,13 +106,13 @@ docker compose down
 
 ### Ưu điểm
 
-| Không có Compose | Có Compose |
-|-----------------|-----------|
-| Nhiều lệnh docker run dài | 1 file YAML + 1 lệnh |
-| Quản lý network thủ công | Tự tạo network |
-| Nhớ thứ tự start | `depends_on` quản lý |
-| Khó chia sẻ setup | Commit file YAML vào git |
-| Dễ quên options | Mọi config trong 1 file |
+| Không có Compose          | Có Compose               |
+| ------------------------- | ------------------------ |
+| Nhiều lệnh docker run dài | 1 file YAML + 1 lệnh     |
+| Quản lý network thủ công  | Tự tạo network           |
+| Nhớ thứ tự start          | `depends_on` quản lý     |
+| Khó chia sẻ setup         | Commit file YAML vào git |
+| Dễ quên options           | Mọi config trong 1 file  |
 
 ### Cài đặt
 
@@ -352,13 +349,13 @@ docker compose down -v
 
 ## Tổng kết
 
-| Khái niệm | Giải thích |
-|-----------|-----------|
-| **Docker Compose** | Tool quản lý multi-container |
-| **docker-compose.yml** | File YAML định nghĩa services |
-| **services** | Các container cần chạy |
-| **volumes** | Lưu trữ persistent data |
-| **networks** | Tự tạo, services gọi nhau bằng tên |
-| **depends_on** | Thứ tự start services |
-| `docker compose up -d` | Start tất cả |
-| `docker compose down` | Stop và xoá tất cả |
+| Khái niệm              | Giải thích                         |
+| ---------------------- | ---------------------------------- |
+| **Docker Compose**     | Tool quản lý multi-container       |
+| **docker-compose.yml** | File YAML định nghĩa services      |
+| **services**           | Các container cần chạy             |
+| **volumes**            | Lưu trữ persistent data            |
+| **networks**           | Tự tạo, services gọi nhau bằng tên |
+| **depends_on**         | Thứ tự start services              |
+| `docker compose up -d` | Start tất cả                       |
+| `docker compose down`  | Stop và xoá tất cả                 |

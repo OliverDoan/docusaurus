@@ -9,9 +9,6 @@ Hiểu cách Docker hoạt động bên trong sẽ giúp bạn debug nhanh hơn 
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Kiến trúc Client-Server](#1-kiến-trúc-client-server)
@@ -52,11 +49,11 @@ Docker sử dụng mô hình **Client-Server**:
 
 ### Ba thành phần chính
 
-| Thành phần | Vai trò | Ví dụ |
-|-----------|--------|-------|
-| **Docker Client** | Giao diện người dùng (CLI) | `docker run`, `docker build` |
-| **Docker Daemon** | Xử lý mọi thao tác | Tạo container, build image |
-| **Docker Registry** | Kho lưu trữ image | Docker Hub, GitHub Container Registry |
+| Thành phần          | Vai trò                    | Ví dụ                                 |
+| ------------------- | -------------------------- | ------------------------------------- |
+| **Docker Client**   | Giao diện người dùng (CLI) | `docker run`, `docker build`          |
+| **Docker Daemon**   | Xử lý mọi thao tác         | Tạo container, build image            |
+| **Docker Registry** | Kho lưu trữ image          | Docker Hub, GitHub Container Registry |
 
 ---
 
@@ -158,12 +155,12 @@ Container là một **instance đang chạy** của image, với thêm một **w
 
 Docker container chia sẻ **kernel** của Host OS nhưng cô lập:
 
-| Cô lập | Chia sẻ |
-|--------|--------|
-| Filesystem (riêng) | Kernel Linux |
+| Cô lập                | Chia sẻ                   |
+| --------------------- | ------------------------- |
+| Filesystem (riêng)    | Kernel Linux              |
 | Process space (riêng) | CPU / RAM (giới hạn được) |
-| Network (riêng) | |
-| Users (riêng) | |
+| Network (riêng)       |                           |
+| Users (riêng)         |                           |
 
 ### Vòng đời của Container
 
@@ -207,12 +204,12 @@ Registry là nơi lưu trữ và phân phối Docker Image, giống như GitHub 
 
 ### Các Registry phổ biến
 
-| Registry | URL | Đặc điểm |
-|----------|-----|-----------|
-| **Docker Hub** | hub.docker.com | Mặc định, lớn nhất |
-| **GitHub Container Registry** | ghcr.io | Tích hợp GitHub |
-| **Amazon ECR** | aws.amazon.com/ecr | Tích hợp AWS |
-| **Google Artifact Registry** | cloud.google.com | Tích hợp GCP |
+| Registry                      | URL                | Đặc điểm           |
+| ----------------------------- | ------------------ | ------------------ |
+| **Docker Hub**                | hub.docker.com     | Mặc định, lớn nhất |
+| **GitHub Container Registry** | ghcr.io            | Tích hợp GitHub    |
+| **Amazon ECR**                | aws.amazon.com/ecr | Tích hợp AWS       |
+| **Google Artifact Registry**  | cloud.google.com   | Tích hợp GCP       |
 
 ### Luồng hoạt động
 
@@ -246,14 +243,14 @@ Docker sử dụng các tính năng của Linux kernel:
 
 Cô lập tài nguyên giữa các container:
 
-| Namespace | Cô lập gì | Ý nghĩa |
-|-----------|-----------|---------|
-| **PID** | Process IDs | Mỗi container có PID 1 riêng |
-| **NET** | Network | Mỗi container có IP riêng |
-| **MNT** | Mount points | Mỗi container có filesystem riêng |
-| **UTS** | Hostname | Mỗi container có hostname riêng |
-| **IPC** | Inter-process comm. | Container không thể truy cập process khác |
-| **USER** | User IDs | Container có user riêng |
+| Namespace | Cô lập gì           | Ý nghĩa                                   |
+| --------- | ------------------- | ----------------------------------------- |
+| **PID**   | Process IDs         | Mỗi container có PID 1 riêng              |
+| **NET**   | Network             | Mỗi container có IP riêng                 |
+| **MNT**   | Mount points        | Mỗi container có filesystem riêng         |
+| **UTS**   | Hostname            | Mỗi container có hostname riêng           |
+| **IPC**   | Inter-process comm. | Container không thể truy cập process khác |
+| **USER**  | User IDs            | Container có user riêng                   |
 
 ### Control Groups (cgroups)
 
@@ -324,13 +321,13 @@ Thực tế là tổ hợp của 5 layers riêng biệt
 
 ### Ghi nhớ
 
-| Khái niệm | Một câu |
-|-----------|--------|
-| **Client** | Nơi bạn gõ lệnh |
-| **Daemon** | Nơi xử lý lệnh |
-| **Image** | Bản thiết kế read-only, gồm nhiều layers |
-| **Container** | Image + writable layer đang chạy |
-| **Registry** | Kho lưu trữ image online |
-| **Namespace** | Cô lập tài nguyên |
-| **Cgroup** | Giới hạn tài nguyên |
-| **Layer** | Mỗi lệnh Dockerfile tạo 1 layer |
+| Khái niệm     | Một câu                                  |
+| ------------- | ---------------------------------------- |
+| **Client**    | Nơi bạn gõ lệnh                          |
+| **Daemon**    | Nơi xử lý lệnh                           |
+| **Image**     | Bản thiết kế read-only, gồm nhiều layers |
+| **Container** | Image + writable layer đang chạy         |
+| **Registry**  | Kho lưu trữ image online                 |
+| **Namespace** | Cô lập tài nguyên                        |
+| **Cgroup**    | Giới hạn tài nguyên                      |
+| **Layer**     | Mỗi lệnh Dockerfile tạo 1 layer          |

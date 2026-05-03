@@ -9,9 +9,6 @@ Trong Java, đôi khi bạn cần kiểm tra xem một đối tượng có thu�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. instanceof là gì?](#1-instanceof-là-gì)
@@ -151,13 +148,13 @@ public class TestInstanceof {
 
 ### Bảng tóm tắt kết quả
 
-| Biểu thức | Kết quả | Giải thích |
-|-----------|---------|-----------|
-| `cho instanceof Cho` | `true` | Chinh la kieu Cho |
-| `cho instanceof DongVat` | `true` | Cho la con cua DongVat |
-| `husky instanceof DongVat` | `true` | ChoHusky la chau cua DongVat |
-| `dv instanceof Cho` | `false` | DongVat KHONG phai Cho |
-| `cho instanceof Meo` | Loi bien dich | Cho va Meo khong co quan he cha-con |
+| Biểu thức                  | Kết quả       | Giải thích                          |
+| -------------------------- | ------------- | ----------------------------------- |
+| `cho instanceof Cho`       | `true`        | Chinh la kieu Cho                   |
+| `cho instanceof DongVat`   | `true`        | Cho la con cua DongVat              |
+| `husky instanceof DongVat` | `true`        | ChoHusky la chau cua DongVat        |
+| `dv instanceof Cho`        | `false`       | DongVat KHONG phai Cho              |
+| `cho instanceof Meo`       | Loi bien dich | Cho va Meo khong co quan he cha-con |
 
 ---
 
@@ -425,12 +422,12 @@ if (obj instanceof String s && s.length() > 5) {
 
 ### Nên dùng
 
-| Tình huống | Ví dụ |
-|-----------|-------|
-| Downcasting an toàn | Kiểm tra trước khi ép kiểu |
-| Xử lý nhiều kiểu khác nhau | Method nhận `Object` parameter |
-| Kiểm tra interface | Xem object có implement interface không |
-| equals() method | So sánh kiểu trước khi so sánh giá trị |
+| Tình huống                 | Ví dụ                                   |
+| -------------------------- | --------------------------------------- |
+| Downcasting an toàn        | Kiểm tra trước khi ép kiểu              |
+| Xử lý nhiều kiểu khác nhau | Method nhận `Object` parameter          |
+| Kiểm tra interface         | Xem object có implement interface không |
+| equals() method            | So sánh kiểu trước khi so sánh giá trị  |
 
 ### KHÔNG nên dùng (Ưu tiên đa hình)
 
@@ -597,15 +594,15 @@ void ve(HinhHoc hinh) {
 
 ## 10. Tổng kết
 
-| Khái niệm | Mô tả |
-|-----------|-------|
-| `instanceof` | Toán tử kiểm tra kiểu đối tượng tại runtime |
-| Kết quả | `true` hoặc `false` |
-| Với `null` | Luôn trả về `false` |
-| Kế thừa | Object class con cũng là kiểu class cha |
-| Interface | Object class implement interface cũng trả về `true` |
-| Pattern Matching (Java 16+) | `obj instanceof Type var` -- kiểm tra + ép kiểu cùng lúc |
-| Best practice | Ưu tiên đa hình, chỉ dùng `instanceof` khi thực sự cần thiết |
+| Khái niệm                   | Mô tả                                                        |
+| --------------------------- | ------------------------------------------------------------ |
+| `instanceof`                | Toán tử kiểm tra kiểu đối tượng tại runtime                  |
+| Kết quả                     | `true` hoặc `false`                                          |
+| Với `null`                  | Luôn trả về `false`                                          |
+| Kế thừa                     | Object class con cũng là kiểu class cha                      |
+| Interface                   | Object class implement interface cũng trả về `true`          |
+| Pattern Matching (Java 16+) | `obj instanceof Type var` -- kiểm tra + ép kiểu cùng lúc     |
+| Best practice               | Ưu tiên đa hình, chỉ dùng `instanceof` khi thực sự cần thiết |
 
 ---
 
@@ -662,6 +659,7 @@ Biến `s` chỉ tồn tại trong phạm vi (scope) mà Java chắc chắn ki�
 **Tra loi:**
 
 Ưu tiên **đa hình (polymorphism)** khi các class có cùng hành vi nhưng cách thực hiện khác nhau. Dùng `instanceof` khi:
+
 - Bạn không kiểm soát được class hierarchy (ví dụ: class từ thư viện bên ngoài)
 - Cần kiểm tra interface
 - Override `equals()`, `hashCode()`

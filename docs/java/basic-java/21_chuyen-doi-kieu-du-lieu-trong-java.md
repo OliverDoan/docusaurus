@@ -11,9 +11,6 @@ Hãy tưởng tượng bạn có một hộp đựng **số** (kiểu `int`) và
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. String sang int](#1-string-sang-int)
@@ -65,10 +62,10 @@ public class StringToInt {
 
 **`parseInt()` vs `valueOf()`:**
 
-| Method | Kiểu trả về | Cache |
-|---|---|---|
-| `Integer.parseInt("123")` | `int` (primitive) | Không |
-| `Integer.valueOf("123")` | `Integer` (object) | Có (cache -128 đến 127) |
+| Method                    | Kiểu trả về        | Cache                   |
+| ------------------------- | ------------------ | ----------------------- |
+| `Integer.parseInt("123")` | `int` (primitive)  | Không                   |
+| `Integer.valueOf("123")`  | `Integer` (object) | Có (cache -128 đến 127) |
 
 ---
 
@@ -247,24 +244,24 @@ public class OtherConversions {
 
 ## 7. Bảng tổng hợp các phương thức chuyển đổi
 
-| Từ | Sang | Phương thức |
-|---|---|---|
-| `String` | `int` | `Integer.parseInt(s)` hoặc `Integer.valueOf(s)` |
-| `String` | `long` | `Long.parseLong(s)` hoặc `Long.valueOf(s)` |
-| `String` | `double` | `Double.parseDouble(s)` hoặc `Double.valueOf(s)` |
-| `String` | `float` | `Float.parseFloat(s)` hoặc `Float.valueOf(s)` |
-| `String` | `boolean` | `Boolean.parseBoolean(s)` |
-| `String` | `char[]` | `s.toCharArray()` |
-| `String` | `byte[]` | `s.getBytes(StandardCharsets.UTF_8)` |
-| `int` | `String` | `String.valueOf(n)` hoặc `Integer.toString(n)` |
-| `long` | `String` | `String.valueOf(n)` hoặc `Long.toString(n)` |
-| `double` | `String` | `String.valueOf(d)` hoặc `Double.toString(d)` |
-| `boolean` | `String` | `String.valueOf(b)` |
-| `char[]` | `String` | `new String(chars)` |
-| `char` | `String` | `String.valueOf(c)` hoặc `Character.toString(c)` |
-| `byte[]` | `String` | `new String(bytes, StandardCharsets.UTF_8)` |
-| `int` | `double` | Tự động (widening): `double d = intVal;` |
-| `double` | `int` | Ép kiểu (narrowing): `int i = (int) doubleVal;` |
+| Từ        | Sang      | Phương thức                                      |
+| --------- | --------- | ------------------------------------------------ |
+| `String`  | `int`     | `Integer.parseInt(s)` hoặc `Integer.valueOf(s)`  |
+| `String`  | `long`    | `Long.parseLong(s)` hoặc `Long.valueOf(s)`       |
+| `String`  | `double`  | `Double.parseDouble(s)` hoặc `Double.valueOf(s)` |
+| `String`  | `float`   | `Float.parseFloat(s)` hoặc `Float.valueOf(s)`    |
+| `String`  | `boolean` | `Boolean.parseBoolean(s)`                        |
+| `String`  | `char[]`  | `s.toCharArray()`                                |
+| `String`  | `byte[]`  | `s.getBytes(StandardCharsets.UTF_8)`             |
+| `int`     | `String`  | `String.valueOf(n)` hoặc `Integer.toString(n)`   |
+| `long`    | `String`  | `String.valueOf(n)` hoặc `Long.toString(n)`      |
+| `double`  | `String`  | `String.valueOf(d)` hoặc `Double.toString(d)`    |
+| `boolean` | `String`  | `String.valueOf(b)`                              |
+| `char[]`  | `String`  | `new String(chars)`                              |
+| `char`    | `String`  | `String.valueOf(c)` hoặc `Character.toString(c)` |
+| `byte[]`  | `String`  | `new String(bytes, StandardCharsets.UTF_8)`      |
+| `int`     | `double`  | Tự động (widening): `double d = intVal;`         |
+| `double`  | `int`     | Ép kiểu (narrowing): `int i = (int) doubleVal;`  |
 
 ---
 
@@ -322,12 +319,14 @@ public class NumberFormatExceptionDemo {
 ## Khi nào dùng?
 
 **Các tình huống phổ biến:**
+
 - **Đọc input từ người dùng**: Scanner trả về String, cần chuyển sang int/double để tính toán
 - **Đọc dữ liệu từ file/API**: JSON, CSV, database đều trả về String, cần parse sang kiểu phù hợp
 - **Hiển thị kết quả**: Chuyển số sang String để ghép với câu thông báo
 - **Xử lý form web**: Dữ liệu từ HTML form luôn là String
 
 **Best practices:**
+
 - **Luôn dùng try-catch** khi parse từ String sang số (người dùng có thể nhập sai)
 - Ưu tiên `String.valueOf()` hơn `"" + n` để chuyển số sang chuỗi (rõ ràng và hiệu quả hơn)
 - Ưu tiên `Integer.parseInt()` khi cần `int`, dùng `Integer.valueOf()` khi cần `Integer` object

@@ -9,9 +9,6 @@ GitHub là nền tảng phổ biến nhất thế giới để lưu trữ code v
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. GitHub là gì?](#1-github-là-gì)
@@ -53,34 +50,34 @@ GitHub là nền tảng phổ biến nhất thế giới để lưu trữ code v
 
 GitHub không chỉ là nơi lưu code. Nó cung cấp:
 
-| Tính năng | Mô tả |
-|-----------|-------|
-| **Repository hosting** | Lưu trữ Git repo trên cloud |
-| **Pull Requests** | Code review và merge code |
-| **Issues** | Quản lý bug, feature requests |
-| **Actions** | CI/CD pipeline tự động |
-| **Projects** | Kanban board quản lý dự án |
-| **Pages** | Hosting website tĩnh miễn phí |
-| **Discussions** | Diễn đàn thảo luận cho dự án |
-| **Wiki** | Tài liệu dự án |
-| **Security** | Quét lỗ hổng bảo mật tự động |
-| **Codespaces** | Môi trường phát triển trên cloud |
+| Tính năng              | Mô tả                            |
+| ---------------------- | -------------------------------- |
+| **Repository hosting** | Lưu trữ Git repo trên cloud      |
+| **Pull Requests**      | Code review và merge code        |
+| **Issues**             | Quản lý bug, feature requests    |
+| **Actions**            | CI/CD pipeline tự động           |
+| **Projects**           | Kanban board quản lý dự án       |
+| **Pages**              | Hosting website tĩnh miễn phí    |
+| **Discussions**        | Diễn đàn thảo luận cho dự án     |
+| **Wiki**               | Tài liệu dự án                   |
+| **Security**           | Quét lỗ hổng bảo mật tự động     |
+| **Codespaces**         | Môi trường phát triển trên cloud |
 
 ---
 
 ## 2. GitHub vs GitLab vs Bitbucket
 
-| Tiêu chí | GitHub | GitLab | Bitbucket |
-|-----------|--------|--------|-----------|
-| **Chủ sở hữu** | Microsoft | GitLab Inc. | Atlassian |
-| **Phổ biến** | Lớn nhất thế giới | Phổ biến trong enterprise | Phổ biến với team dùng Jira |
-| **Private repos miễn phí** | Unlimited | Unlimited | 5 users miễn phí |
-| **CI/CD** | GitHub Actions | GitLab CI (tích hợp sẵn) | Bitbucket Pipelines |
-| **Self-hosted** | GitHub Enterprise | GitLab CE (miễn phí) | Bitbucket Data Center |
-| **Ưu điểm nổi bật** | Cộng đồng open source lớn nhất | DevOps all-in-one | Tích hợp Jira, Confluence |
-| **Open source** | Không | Có (CE edition) | Không |
-| **Container registry** | GHCR | Tích hợp sẵn | Không có |
-| **Phù hợp** | Open source, startup, mọi quy mô | Enterprise DevOps | Team dùng Atlassian suite |
+| Tiêu chí                   | GitHub                           | GitLab                    | Bitbucket                   |
+| -------------------------- | -------------------------------- | ------------------------- | --------------------------- |
+| **Chủ sở hữu**             | Microsoft                        | GitLab Inc.               | Atlassian                   |
+| **Phổ biến**               | Lớn nhất thế giới                | Phổ biến trong enterprise | Phổ biến với team dùng Jira |
+| **Private repos miễn phí** | Unlimited                        | Unlimited                 | 5 users miễn phí            |
+| **CI/CD**                  | GitHub Actions                   | GitLab CI (tích hợp sẵn)  | Bitbucket Pipelines         |
+| **Self-hosted**            | GitHub Enterprise                | GitLab CE (miễn phí)      | Bitbucket Data Center       |
+| **Ưu điểm nổi bật**        | Cộng đồng open source lớn nhất   | DevOps all-in-one         | Tích hợp Jira, Confluence   |
+| **Open source**            | Không                            | Có (CE edition)           | Không                       |
+| **Container registry**     | GHCR                             | Tích hợp sẵn              | Không có                    |
+| **Phù hợp**                | Open source, startup, mọi quy mô | Enterprise DevOps         | Team dùng Atlassian suite   |
 
 **Khuyên cho người mới:** Bắt đầu với **GitHub** vì cộng đồng lớn nhất, nhiều tài liệu, và hầu hết dự án open source đều ở đây.
 
@@ -102,14 +99,14 @@ GitHub không chỉ là nơi lưu code. Nó cung cấp:
 
 ### Public vs Private
 
-| Tiêu chí | Public | Private |
-|-----------|--------|---------|
-| **Ai xem được** | Tất cả mọi người | Chỉ bạn và collaborators |
-| **Fork** | Ai cũng fork được | Chỉ collaborators |
-| **Giá** | Miễn phí | Miễn phí |
-| **GitHub Pages** | Miễn phí | Cần GitHub Pro |
-| **Phù hợp** | Open source, portfolio | Code công ty, dự án cá nhân |
-| **SEO** | Google index được | Không index |
+| Tiêu chí         | Public                 | Private                     |
+| ---------------- | ---------------------- | --------------------------- |
+| **Ai xem được**  | Tất cả mọi người       | Chỉ bạn và collaborators    |
+| **Fork**         | Ai cũng fork được      | Chỉ collaborators           |
+| **Giá**          | Miễn phí               | Miễn phí                    |
+| **GitHub Pages** | Miễn phí               | Cần GitHub Pro              |
+| **Phù hợp**      | Open source, portfolio | Code công ty, dự án cá nhân |
+| **SEO**          | Google index được      | Không index                 |
 
 ### Kết nối local repo với GitHub
 
@@ -196,6 +193,7 @@ Badges hiển thị trạng thái dự án một cách trực quan:
 Kết quả: các huy hiệu màu sắc hiển thị build pass/fail, license, version, coverage...
 
 **Tại sao README quan trọng:**
+
 - Ấn tượng đầu tiên cho nhà tuyển dụng
 - Giúp người mới bắt đầu nhanh
 - Chuyên nghiệp hóa dự án
@@ -213,25 +211,31 @@ Issues là hệ thống **quản lý công việc** tích hợp trong GitHub. D�
 ## Bug: Login form doesn't validate email
 
 ### Describe the bug
+
 When submitting the login form with an invalid email (e.g., "abc"),
 the form submits without showing an error message.
 
 ### Steps to reproduce
+
 1. Go to /login
 2. Enter "abc" in email field
 3. Enter any password
 4. Click "Login"
 
 ### Expected behavior
+
 Show error message: "Please enter a valid email"
 
 ### Actual behavior
+
 Form submits and shows generic "Login failed" error
 
 ### Screenshots
+
 (Đính kèm screenshot nếu có)
 
 ### Environment
+
 - OS: macOS 14.0
 - Browser: Chrome 120
 - Version: 2.1.0
@@ -241,16 +245,16 @@ Form submits and shows generic "Login failed" error
 
 GitHub cho phép gắn **labels** (nhãn) cho issues:
 
-| Label | Màu | Ý nghĩa |
-|-------|-----|---------|
-| `bug` | Đỏ | Lỗi cần sửa |
-| `feature` | Xanh lá | Tính năng mới |
-| `enhancement` | Xanh dương | Cải thiện tính năng có |
-| `documentation` | Tím | Cập nhật tài liệu |
-| `good first issue` | Xanh nhạt | Phù hợp người mới |
-| `help wanted` | Vàng | Cần người giúp |
-| `priority: high` | Đỏ đậm | Ưu tiên cao |
-| `wontfix` | Trắng | Sẽ không sửa |
+| Label              | Màu        | Ý nghĩa                |
+| ------------------ | ---------- | ---------------------- |
+| `bug`              | Đỏ         | Lỗi cần sửa            |
+| `feature`          | Xanh lá    | Tính năng mới          |
+| `enhancement`      | Xanh dương | Cải thiện tính năng có |
+| `documentation`    | Tím        | Cập nhật tài liệu      |
+| `good first issue` | Xanh nhạt  | Phù hợp người mới      |
+| `help wanted`      | Vàng       | Cần người giúp         |
+| `priority: high`   | Đỏ đậm     | Ưu tiên cao            |
+| `wontfix`          | Trắng      | Sẽ không sửa           |
 
 ### Milestones — Mốc dự án
 
@@ -298,6 +302,7 @@ GitHub Projects cung cấp **Kanban board** để quản lý workflow trực qua
 ### Tự động hóa
 
 GitHub Projects hỗ trợ tự động hóa:
+
 - Issue mới tạo -> tự động vào cột **Backlog**
 - PR được merge -> issue tự động chuyển sang **Done**
 - Issue được assign -> chuyển sang **In Progress**
@@ -347,6 +352,7 @@ git push -u origin gh-pages
 ```
 
 **Phù hợp cho:**
+
 - Portfolio cá nhân
 - Tài liệu dự án (Docusaurus, MkDocs, VitePress)
 - Blog tĩnh (Jekyll, Hugo)
@@ -379,7 +385,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install dependencies
         run: npm install
@@ -396,13 +402,13 @@ jobs:
 
 ### Workflow trigger (khi nào chạy)
 
-| Trigger | Mô tả |
-|---------|-------|
-| `push` | Khi push code |
-| `pull_request` | Khi tạo hoặc update PR |
-| `schedule` | Chạy theo lịch (cron) |
-| `workflow_dispatch` | Chạy thủ công |
-| `release` | Khi tạo release |
+| Trigger             | Mô tả                  |
+| ------------------- | ---------------------- |
+| `push`              | Khi push code          |
+| `pull_request`      | Khi tạo hoặc update PR |
+| `schedule`          | Chạy theo lịch (cron)  |
+| `workflow_dispatch` | Chạy thủ công          |
+| `release`           | Khi tạo release        |
 
 ### Xem kết quả Actions
 
@@ -435,20 +441,22 @@ Nhánh: main
 
 **Tại sao cần branch protection:**
 
-| Không có protection | Có protection |
-|--------------------|---------------|
-| Ai cũng push thẳng main được | Phải tạo PR |
-| Không ai review code | Bắt buộc có approval |
-| Tests có thể bị skip | CI phải pass |
-| Code lỗi vào production | Code được kiểm tra kỹ |
+| Không có protection          | Có protection         |
+| ---------------------------- | --------------------- |
+| Ai cũng push thẳng main được | Phải tạo PR           |
+| Không ai review code         | Bắt buộc có approval  |
+| Tests có thể bị skip         | CI phải pass          |
+| Code lỗi vào production      | Code được kiểm tra kỹ |
 
 ### Collaborators — Quản lý thành viên
 
 **Cho repo cá nhân:**
+
 - Settings > Collaborators > Add people
 - Mời qua username hoặc email
 
 **Cho Organization:**
+
 - Tạo **Teams** với quyền khác nhau
 - **Read** — chỉ xem
 - **Write** — push code, quản lý issues
@@ -501,30 +509,36 @@ Dockerfile       @devops-team
 ### Issue Template
 
 ```markdown
-<!-- .github/ISSUE_TEMPLATE/bug_report.md -->
----
+## <!-- .github/ISSUE_TEMPLATE/bug_report.md -->
+
 name: Bug Report
 about: Report a bug to help us improve
 title: '[BUG] '
 labels: 'bug'
 assignees: ''
+
 ---
 
 ## Describe the bug
+
 A clear description of the bug.
 
 ## Steps to reproduce
+
 1. Go to '...'
 2. Click on '...'
 3. See error
 
 ## Expected behavior
+
 What should happen.
 
 ## Screenshots
+
 If applicable, add screenshots.
 
 ## Environment
+
 - OS: [e.g., macOS 14.0]
 - Browser: [e.g., Chrome 120]
 - Version: [e.g., 2.1.0]
@@ -534,6 +548,7 @@ If applicable, add screenshots.
 
 ```markdown
 <!-- .github/PULL_REQUEST_TEMPLATE.md -->
+
 ## Summary
 
 Mô tả ngắn gọn thay đổi.

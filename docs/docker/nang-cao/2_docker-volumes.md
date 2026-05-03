@@ -9,9 +9,6 @@ Khi container bị xoá, dữ liệu bên trong cũng mất theo. **Volumes** gi
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Vấn đề: Dữ liệu mất khi xoá container](#1-vấn-đề-dữ-liệu-mất-khi-xoá-container)
@@ -74,11 +71,11 @@ docker run -d --name temp-db postgres:16 -e POSTGRES_PASSWORD=test
 └─────────────────────────────────────────┘
 ```
 
-| Loại | Lưu ở đâu | Persist | Dùng khi |
-|------|-----------|---------|---------|
-| **Named Volume** | Docker quản lý | Co | Database, uploads |
-| **Bind Mount** | Thư mục host cụ thể | Co | Development, config |
-| **tmpfs** | RAM | Khong | Data tạm, sensitive |
+| Loại             | Lưu ở đâu           | Persist | Dùng khi            |
+| ---------------- | ------------------- | ------- | ------------------- |
+| **Named Volume** | Docker quản lý      | Co      | Database, uploads   |
+| **Bind Mount**   | Thư mục host cụ thể | Co      | Development, config |
+| **tmpfs**        | RAM                 | Khong   | Data tạm, sensitive |
 
 ---
 
@@ -262,7 +259,7 @@ services:
   app:
     build: .
     volumes:
-      - .:/app                        # Mount toàn bộ code
+      - .:/app # Mount toàn bộ code
       - node_modules:/app/node_modules # Nhưng node_modules dùng volume riêng
 
 volumes:
@@ -354,17 +351,17 @@ docker exec -i pg psql -U postgres mydb < backup.sql
 
 ## Tổng kết
 
-| Loại | Cú pháp | Dùng khi |
-|------|---------|---------|
-| **Named Volume** | `-v mydata:/app/data` | Database, persistent data |
-| **Bind Mount** | `-v ./src:/app/src` | Development, config |
-| **tmpfs** | `--tmpfs /app/temp` | Data tạm, sensitive |
-| **Read-only** | `-v ./conf:/etc/conf:ro` | Config files |
+| Loại             | Cú pháp                  | Dùng khi                  |
+| ---------------- | ------------------------ | ------------------------- |
+| **Named Volume** | `-v mydata:/app/data`    | Database, persistent data |
+| **Bind Mount**   | `-v ./src:/app/src`      | Development, config       |
+| **tmpfs**        | `--tmpfs /app/temp`      | Data tạm, sensitive       |
+| **Read-only**    | `-v ./conf:/etc/conf:ro` | Config files              |
 
-| Lệnh | Chức năng |
-|-------|-----------|
-| `docker volume create` | Tạo volume |
-| `docker volume ls` | Liệt kê |
-| `docker volume inspect` | Chi tiết |
-| `docker volume rm` | Xoá |
-| `docker volume prune` | Xoá không dùng |
+| Lệnh                    | Chức năng      |
+| ----------------------- | -------------- |
+| `docker volume create`  | Tạo volume     |
+| `docker volume ls`      | Liệt kê        |
+| `docker volume inspect` | Chi tiết       |
+| `docker volume rm`      | Xoá            |
+| `docker volume prune`   | Xoá không dùng |

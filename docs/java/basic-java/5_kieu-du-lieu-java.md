@@ -8,6 +8,7 @@ title: "5. Các kiểu dữ liệu trong Java"
 Kiểu dữ liệu (data type) quyết định **loại giá trị** mà một biến có thể lưu trữ và **bao nhiêu bộ nhớ** được cấp phát. Trong Java, kiểu dữ liệu được chia thành hai nhóm lớn: **kiểu nguyên thủy (primitive)** và **kiểu tham chiếu (reference)**.
 
 **Ví dụ đơn giản:** Hãy tưởng tượng kiểu dữ liệu giống như **loại hộp chứa đồ**:
+
 - Hộp nhỏ (byte) -- chứa số nhỏ
 - Hộp vừa (int) -- chứa số thường dùng
 - Hộp lớn (long) -- chứa số cực lớn
@@ -15,9 +16,6 @@ Kiểu dữ liệu (data type) quyết định **loại giá trị** mà một b
 - Hộp đúng/sai (boolean) -- chỉ có 2 trạng thái
 
 Chọn đúng loại hộp giúp **tiết kiệm bộ nhớ** và **tránh lỗi dữ liệu**.
-
----
-
 
 ---
 
@@ -57,16 +55,16 @@ Kiểu dữ liệu Java
 
 ### Bảng tổng hợp
 
-| Kiểu | Kích thước | Giá trị nhỏ nhất | Giá trị lớn nhất | Giá trị mặc định | Ví dụ |
-|------|-----------|------------------|------------------|------------------|-------|
-| **byte** | 8 bit (1 byte) | -128 | 127 | 0 | `byte b = 100;` |
-| **short** | 16 bit (2 byte) | -32,768 | 32,767 | 0 | `short s = 30000;` |
-| **int** | 32 bit (4 byte) | -2,147,483,648 | 2,147,483,647 | 0 | `int i = 100000;` |
-| **long** | 64 bit (8 byte) | -9.2 x 10^18 | 9.2 x 10^18 | 0L | `long l = 999999999L;` |
-| **float** | 32 bit (4 byte) | ~1.4 x 10^-45 | ~3.4 x 10^38 | 0.0f | `float f = 3.14f;` |
-| **double** | 64 bit (8 byte) | ~4.9 x 10^-324 | ~1.7 x 10^308 | 0.0d | `double d = 3.14159;` |
-| **boolean** | 1 bit (logic) | false | true | false | `boolean b = true;` |
-| **char** | 16 bit (2 byte) | '\u0000' (0) | '\uffff' (65,535) | '\u0000' | `char c = 'A';` |
+| Kiểu        | Kích thước      | Giá trị nhỏ nhất | Giá trị lớn nhất  | Giá trị mặc định | Ví dụ                  |
+| ----------- | --------------- | ---------------- | ----------------- | ---------------- | ---------------------- |
+| **byte**    | 8 bit (1 byte)  | -128             | 127               | 0                | `byte b = 100;`        |
+| **short**   | 16 bit (2 byte) | -32,768          | 32,767            | 0                | `short s = 30000;`     |
+| **int**     | 32 bit (4 byte) | -2,147,483,648   | 2,147,483,647     | 0                | `int i = 100000;`      |
+| **long**    | 64 bit (8 byte) | -9.2 x 10^18     | 9.2 x 10^18       | 0L               | `long l = 999999999L;` |
+| **float**   | 32 bit (4 byte) | ~1.4 x 10^-45    | ~3.4 x 10^38      | 0.0f             | `float f = 3.14f;`     |
+| **double**  | 64 bit (8 byte) | ~4.9 x 10^-324   | ~1.7 x 10^308     | 0.0d             | `double d = 3.14159;`  |
+| **boolean** | 1 bit (logic)   | false            | true              | false            | `boolean b = true;`    |
+| **char**    | 16 bit (2 byte) | '\u0000' (0)     | '\uffff' (65,535) | '\u0000'         | `char c = 'A';`        |
 
 ### Ví dụ chi tiết
 
@@ -260,13 +258,13 @@ public class ReferenceTypeDemo {
 
 ### So sánh Primitive vs Reference
 
-| Tiêu chí | Primitive | Reference |
-|----------|-----------|-----------|
-| **Lưu trữ** | Giá trị trực tiếp | Địa chỉ (reference) |
-| **Vùng nhớ** | Stack | Heap (đối tượng), Stack (reference) |
-| **Giá trị null** | Không thể null | Có thể null |
-| **So sánh** | `==` so sánh giá trị | `==` so sánh địa chỉ, `.equals()` so sánh nội dung |
-| **Hiệu năng** | Nhanh hơn | Chậm hơn (tạo object trên Heap) |
+| Tiêu chí         | Primitive            | Reference                                          |
+| ---------------- | -------------------- | -------------------------------------------------- |
+| **Lưu trữ**      | Giá trị trực tiếp    | Địa chỉ (reference)                                |
+| **Vùng nhớ**     | Stack                | Heap (đối tượng), Stack (reference)                |
+| **Giá trị null** | Không thể null       | Có thể null                                        |
+| **So sánh**      | `==` so sánh giá trị | `==` so sánh địa chỉ, `.equals()` so sánh nội dung |
+| **Hiệu năng**    | Nhanh hơn            | Chậm hơn (tạo object trên Heap)                    |
 
 ```java
 public class SoSanhDemo {
@@ -291,16 +289,16 @@ public class SoSanhDemo {
 
 Mỗi kiểu primitive có một **lớp bọc (wrapper class)** tương ứng, cho phép sử dụng primitive như đối tượng.
 
-| Primitive | Wrapper | Ví dụ |
-|-----------|---------|-------|
-| byte | Byte | `Byte b = 5;` |
-| short | Short | `Short s = 100;` |
-| int | **Integer** | `Integer i = 42;` |
-| long | Long | `Long l = 999L;` |
-| float | Float | `Float f = 3.14f;` |
-| double | Double | `Double d = 2.718;` |
-| boolean | Boolean | `Boolean b = true;` |
-| char | **Character** | `Character c = 'A';` |
+| Primitive | Wrapper       | Ví dụ                |
+| --------- | ------------- | -------------------- |
+| byte      | Byte          | `Byte b = 5;`        |
+| short     | Short         | `Short s = 100;`     |
+| int       | **Integer**   | `Integer i = 42;`    |
+| long      | Long          | `Long l = 999L;`     |
+| float     | Float         | `Float f = 3.14f;`   |
+| double    | Double        | `Double d = 2.718;`  |
+| boolean   | Boolean       | `Boolean b = true;`  |
+| char      | **Character** | `Character c = 'A';` |
 
 ### Autoboxing và Unboxing
 
@@ -377,14 +375,14 @@ public class IntVsInteger {
 
 ## Khi nào dùng?
 
-| Tình huống | Kiểu nên dùng | Lý do |
-|------------|--------------|-------|
-| Tính toán thường ngày, vòng lặp | `int`, `double` (primitive) | Nhanh, tiết kiệm bộ nhớ |
-| Lưu trong Collection (List, Map, Set) | Wrapper (Integer, Double...) | Collection không nhận primitive |
-| Cần giá trị null (ví dụ: chưa nhập dữ liệu) | Wrapper | Primitive không thể null |
-| Dữ liệu tài chính, cần chính xác cao | `BigDecimal` | float/double có sai số làm tròn |
-| Số nguyên nhỏ (-128 đến 127) | `byte` | Tiết kiệm bộ nhớ khi lưu nhiều |
-| Ký tự đơn lẻ | `char` | Chuỗi dùng String |
+| Tình huống                                  | Kiểu nên dùng                | Lý do                           |
+| ------------------------------------------- | ---------------------------- | ------------------------------- |
+| Tính toán thường ngày, vòng lặp             | `int`, `double` (primitive)  | Nhanh, tiết kiệm bộ nhớ         |
+| Lưu trong Collection (List, Map, Set)       | Wrapper (Integer, Double...) | Collection không nhận primitive |
+| Cần giá trị null (ví dụ: chưa nhập dữ liệu) | Wrapper                      | Primitive không thể null        |
+| Dữ liệu tài chính, cần chính xác cao        | `BigDecimal`                 | float/double có sai số làm tròn |
+| Số nguyên nhỏ (-128 đến 127)                | `byte`                       | Tiết kiệm bộ nhớ khi lưu nhiều  |
+| Ký tự đơn lẻ                                | `char`                       | Chuỗi dùng String               |
 
 ---
 
@@ -454,6 +452,7 @@ System.out.println(tongTien); // 59.97 (chính xác)
 ### Câu 1: Kích thước của từng kiểu primitive là bao nhiêu? Giá trị mặc định là gì?
 
 **Trả lời:**
+
 - `byte`: 1 byte, mặc định 0
 - `short`: 2 byte, mặc định 0
 - `int`: 4 byte, mặc định 0
@@ -468,6 +467,7 @@ Lưu ý: Giá trị mặc định chỉ áp dụng cho **biến instance và sta
 ### Câu 2: Tại sao String không phải kiểu primitive?
 
 **Trả lời:** String là một **class** (kiểu reference) vì:
+
 - String có thể chứa nhiều ký tự (kích thước không cố định)
 - String có các phương thức như `length()`, `substring()`, `equals()`...
 - String là đối tượng bất biến (immutable) được lưu trên Heap
@@ -477,6 +477,7 @@ Lưu ý: Giá trị mặc định chỉ áp dụng cho **biến instance và sta
 ### Câu 3: Sự khác biệt giữa float và double?
 
 **Trả lời:**
+
 - `float`: 32 bit, độ chính xác khoảng **6-7 chữ số thập phân**, cần hậu tố `f`/`F`
 - `double`: 64 bit, độ chính xác khoảng **15-16 chữ số thập phân**, là kiểu mặc định cho số thực
 - Dùng `double` khi cần độ chính xác cao hơn. Dùng `float` khi tiết kiệm bộ nhớ (ví dụ: đồ họa, game)
@@ -485,6 +486,7 @@ Lưu ý: Giá trị mặc định chỉ áp dụng cho **biến instance và sta
 ### Câu 4: Overflow trong Java xử lý như thế nào?
 
 **Trả lời:** Java **không ném exception** khi overflow số nguyên. Giá trị sẽ **quay vòng (wrap around)**. Ví dụ: `Integer.MAX_VALUE + 1` cho ra `Integer.MIN_VALUE`. Để phát hiện overflow, có thể dùng:
+
 - `Math.addExact()`, `Math.multiplyExact()` (từ Java 8) -- ném `ArithmeticException` khi overflow
 - Kiểu `long` hoặc `BigInteger` cho số lớn
 

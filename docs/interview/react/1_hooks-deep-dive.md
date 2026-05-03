@@ -9,9 +9,6 @@ React Hooks ra đời từ phiên bản 16.8, và bây giờ là cách viết Re
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: useState hoạt động như thế nào bên trong? Giải thích batching, functional updates và lazy initialization. `[Senior]`](#câu-1-usestate-hoạt-động-như-thế-nào-bên-trong-giải-thích-batching-functional-updates-và-lazy-initialization-senior)
@@ -40,12 +37,12 @@ React Hooks ra đời từ phiên bản 16.8, và bây giờ là cách viết Re
 ### Code ví dụ
 
 ```tsx
-import { useState } from 'react';
+import { useState } from "react";
 
 // Lazy initialization -- hàm này chỉ chạy 1 lần
 function ExpensiveComponent() {
   const [data, setData] = useState(() => {
-    console.log('Chỉ chạy 1 lần khi mount');
+    console.log("Chỉ chạy 1 lần khi mount");
     return heavyComputation(); // VD: parse JSON lớn từ localStorage
   });
 
@@ -63,9 +60,9 @@ function Counter() {
     // setCount(count + 1);
 
     // ĐÚNG: tăng 3 lần nhờ functional update
-    setCount(prev => prev + 1);
-    setCount(prev => prev + 1);
-    setCount(prev => prev + 1);
+    setCount((prev) => prev + 1);
+    setCount((prev) => prev + 1);
+    setCount((prev) => prev + 1);
   };
 
   return <button onClick={incrementThreeTimes}>{count}</button>;
@@ -78,8 +75,8 @@ function BatchingDemo() {
 
   const handleClick = () => {
     // React 18: chỉ re-render 1 lần (batched)
-    setCount(c => c + 1);
-    setFlag(f => !f);
+    setCount((c) => c + 1);
+    setFlag((f) => !f);
     // Trước React 18 trong setTimeout sẽ render 2 lần
     // React 18+ luôn batch
   };
@@ -105,6 +102,7 @@ function BatchingDemo() {
 - **Có dependency**: effect chạy khi bất kỳ dependency nào thay đổi (so sánh bằng `Object.is`)
 
 **Cleanup function** chạy:
+
 1. Trước khi effect chạy lại (khi dependency thay đổi)
 2. Khi component unmount
 
@@ -113,7 +111,7 @@ Trong React 18 Strict Mode (development), component mount -> unmount -> mount l�
 ### Code ví dụ
 
 ```tsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 function UserProfile({ userId }: { userId: string }) {
   const [user, setUser] = useState(null);
@@ -130,8 +128,8 @@ function UserProfile({ userId }: { userId: string }) {
         const data = await res.json();
         setUser(data);
       } catch (err) {
-        if (err.name !== 'AbortError') {
-          console.error('Fetch failed:', err);
+        if (err.name !== "AbortError") {
+          console.error("Fetch failed:", err);
         }
       }
     }
@@ -182,7 +180,7 @@ Khác biệt lớn nhất với `useState`: thay đổi `ref.current` **KHÔNG**
 ### Code ví dụ
 
 ```tsx
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from "react";
 
 // Use case 1: DOM ref
 function AutoFocusInput() {
@@ -214,7 +212,7 @@ function Timer() {
   const start = () => {
     if (intervalRef.current !== null) return;
     intervalRef.current = window.setInterval(() => {
-      setSeconds(s => s + 1);
+      setSeconds((s) => s + 1);
     }, 1000);
   };
 
@@ -253,10 +251,12 @@ function Timer() {
 - `useCallback(fn, deps)`: **ghi nhớ chính function** `fn`. Tương đương `useMemo(() => fn, deps)`.
 
 **Khi nào cần?**
+
 - `useMemo`: khi tính toán nặng (filter/sort danh sách lớn, complex calculation)
 - `useCallback`: khi truyền callback xuống child component được wrap bởi `React.memo`
 
 **Khi nào KHÔNG cần?** -- Đây là câu hỏi quan trọng:
+
 - Khi child component không dùng `React.memo`
 - Khi tính toán rẻ (đơn giản)
 - Khi premature optimization làm code khó đọc hơn
@@ -264,21 +264,21 @@ function Timer() {
 ### Code ví dụ
 
 ```tsx
-import { useState, useMemo, useCallback, memo } from 'react';
+import { useState, useMemo, useCallback, memo } from "react";
 
 // useMemo: ghi nhớ giá trị tính toán nặng
 function ProductList({ products, query }: Props) {
   // Chỉ filter lại khi products hoặc query thay đổi
   const filtered = useMemo(() => {
-    console.log('Filtering...');
-    return products.filter(p =>
-      p.name.toLowerCase().includes(query.toLowerCase())
+    console.log("Filtering...");
+    return products.filter((p) =>
+      p.name.toLowerCase().includes(query.toLowerCase()),
     );
   }, [products, query]);
 
   return (
     <ul>
-      {filtered.map(p => (
+      {filtered.map((p) => (
         <li key={p.id}>{p.name}</li>
       ))}
     </ul>
@@ -287,23 +287,23 @@ function ProductList({ products, query }: Props) {
 
 // useCallback: ghi nhớ function để React.memo hoạt động
 const ExpensiveChild = memo(({ onClick }: { onClick: () => void }) => {
-  console.log('Child rendered');
+  console.log("Child rendered");
   return <button onClick={onClick}>Click me</button>;
 });
 
 function Parent() {
   const [count, setCount] = useState(0);
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
 
   // Không có useCallback: ExpensiveChild re-render mỗi lần Parent render
   // Có useCallback: ExpensiveChild chỉ render khi count thay đổi
   const handleClick = useCallback(() => {
-    setCount(c => c + 1);
+    setCount((c) => c + 1);
   }, []);
 
   return (
     <div>
-      <input value={name} onChange={e => setName(e.target.value)} />
+      <input value={name} onChange={(e) => setName(e.target.value)} />
       <ExpensiveChild onClick={handleClick} />
       <p>Count: {count}</p>
     </div>
@@ -313,13 +313,13 @@ function Parent() {
 
 ### Bảng so sánh
 
-| Tiêu chí | `useMemo` | `useCallback` |
-|----------|-----------|---------------|
-| Ghi nhớ | **Giá trị** trả về của function | **Chính function** |
-| Tương đương | `useMemo(() => computeValue(), deps)` | `useMemo(() => fn, deps)` |
-| Use case | Tính toán nặng, derived data | Callback truyền xuống memo child |
-| Khi nào cần | Sort/filter danh sách lớn | Child dùng React.memo |
-| Khi nào không cần | Phép tính đơn giản | Child không dùng memo |
+| Tiêu chí          | `useMemo`                             | `useCallback`                    |
+| ----------------- | ------------------------------------- | -------------------------------- |
+| Ghi nhớ           | **Giá trị** trả về của function       | **Chính function**               |
+| Tương đương       | `useMemo(() => computeValue(), deps)` | `useMemo(() => fn, deps)`        |
+| Use case          | Tính toán nặng, derived data          | Callback truyền xuống memo child |
+| Khi nào cần       | Sort/filter danh sách lớn             | Child dùng React.memo            |
+| Khi nào không cần | Phép tính đơn giản                    | Child không dùng memo            |
 
 ### Đáp án mẫu
 
@@ -341,7 +341,7 @@ Cả hai đều là side effect hooks, nhưng khác nhau ở **thời điểm ch
 ### Code ví dụ
 
 ```tsx
-import { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 
 // useLayoutEffect: tránh flicker khi đo và set kích thước
 function Tooltip({ text, targetRect }: Props) {
@@ -361,7 +361,7 @@ function Tooltip({ text, targetRect }: Props) {
   if (top < 0) top = targetRect.bottom; // Flip nếu không đủ chỗ
 
   return (
-    <div ref={ref} style={{ position: 'absolute', top, left: targetRect.left }}>
+    <div ref={ref} style={{ position: "absolute", top, left: targetRect.left }}>
       {text}
     </div>
   );
@@ -372,8 +372,8 @@ function DataFetcher() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch('/api/data')
-      .then(res => res.json())
+    fetch("/api/data")
+      .then((res) => res.json())
       .then(setData);
   }, []);
 
@@ -383,13 +383,13 @@ function DataFetcher() {
 
 ### Bảng so sánh
 
-| Tiêu chí | `useEffect` | `useLayoutEffect` |
-|----------|-------------|-------------------|
-| Thời điểm | Sau paint | Trước paint, sau DOM update |
-| Blocking | Không | Có (block paint) |
-| Use case | Data fetching, subscriptions, logging | Đo layout, tránh flicker |
-| Performance | Tốt hơn (non-blocking) | Cẩn thận (block render) |
-| SSR | Hoạt động bình thường | Warning trên server |
+| Tiêu chí    | `useEffect`                           | `useLayoutEffect`           |
+| ----------- | ------------------------------------- | --------------------------- |
+| Thời điểm   | Sau paint                             | Trước paint, sau DOM update |
+| Blocking    | Không                                 | Có (block paint)            |
+| Use case    | Data fetching, subscriptions, logging | Đo layout, tránh flicker    |
+| Performance | Tốt hơn (non-blocking)                | Cẩn thận (block render)     |
+| SSR         | Hoạt động bình thường                 | Warning trên server         |
 
 ### Đáp án mẫu
 
@@ -404,6 +404,7 @@ function DataFetcher() {
 Custom hooks là function bắt đầu bằng `use` và có thể gọi các hooks khác bên trong. Đây là cách **tái sử dụng stateful logic** giữa các component.
 
 **Rules of Hooks** (bắt buộc):
+
 1. Chỉ gọi hooks ở **top level** -- không trong if/for/nested function
 2. Chỉ gọi hooks trong **React function components** hoặc **custom hooks**
 3. Đặt tên bắt đầu bằng `use` (convention, và ESLint plugin dựa vào đây)
@@ -411,7 +412,7 @@ Custom hooks là function bắt đầu bằng `use` và có thể gọi các hoo
 ### Code ví dụ
 
 ```tsx
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 
 // Custom hook: useLocalStorage
 function useLocalStorage<T>(key: string, initialValue: T) {
@@ -424,13 +425,16 @@ function useLocalStorage<T>(key: string, initialValue: T) {
     }
   });
 
-  const setValue = useCallback((value: T | ((val: T) => T)) => {
-    setStoredValue(prev => {
-      const valueToStore = value instanceof Function ? value(prev) : value;
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
-      return valueToStore;
-    });
-  }, [key]);
+  const setValue = useCallback(
+    (value: T | ((val: T) => T)) => {
+      setStoredValue((prev) => {
+        const valueToStore = value instanceof Function ? value(prev) : value;
+        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        return valueToStore;
+      });
+    },
+    [key],
+  );
 
   return [storedValue, setValue] as const;
 }
@@ -452,7 +456,7 @@ function useFetch<T>(url: string) {
         const json = await res.json();
         setData(json);
       } catch (err) {
-        if (err.name !== 'AbortError') {
+        if (err.name !== "AbortError") {
           setError(err as Error);
         }
       } finally {
@@ -469,15 +473,17 @@ function useFetch<T>(url: string) {
 
 // Sử dụng
 function UserList() {
-  const { data: users, loading, error } = useFetch<User[]>('/api/users');
-  const [theme, setTheme] = useLocalStorage('theme', 'light');
+  const { data: users, loading, error } = useFetch<User[]>("/api/users");
+  const [theme, setTheme] = useLocalStorage("theme", "light");
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   return (
     <ul>
-      {users?.map(u => <li key={u.id}>{u.name}</li>)}
+      {users?.map((u) => (
+        <li key={u.id}>{u.name}</li>
+      ))}
     </ul>
   );
 }
@@ -491,16 +497,16 @@ function UserList() {
 
 ## Bảng tổng hợp các Hooks
 
-| Hook | Mục đích | Trigger re-render? | Timing |
-|------|----------|-------------------|--------|
-| `useState` | Lưu và cập nhật state | Có | Batched |
-| `useEffect` | Side effects | Không (chỉ chạy effect) | Sau paint |
-| `useLayoutEffect` | Side effects đồng bộ | Không (chỉ chạy effect) | Trước paint |
-| `useRef` | Lưu mutable value / DOM ref | Không | Đồng bộ |
-| `useMemo` | Ghi nhớ giá trị tính toán | Không trực tiếp | Trong render |
-| `useCallback` | Ghi nhớ function reference | Không trực tiếp | Trong render |
-| `useReducer` | State phức tạp (như Redux) | Có | Batched |
-| `useContext` | Đọc giá trị từ Context | Có (khi context thay đổi) | Trong render |
+| Hook              | Mục đích                    | Trigger re-render?        | Timing       |
+| ----------------- | --------------------------- | ------------------------- | ------------ |
+| `useState`        | Lưu và cập nhật state       | Có                        | Batched      |
+| `useEffect`       | Side effects                | Không (chỉ chạy effect)   | Sau paint    |
+| `useLayoutEffect` | Side effects đồng bộ        | Không (chỉ chạy effect)   | Trước paint  |
+| `useRef`          | Lưu mutable value / DOM ref | Không                     | Đồng bộ      |
+| `useMemo`         | Ghi nhớ giá trị tính toán   | Không trực tiếp           | Trong render |
+| `useCallback`     | Ghi nhớ function reference  | Không trực tiếp           | Trong render |
+| `useReducer`      | State phức tạp (như Redux)  | Có                        | Batched      |
+| `useContext`      | Đọc giá trị từ Context      | Có (khi context thay đổi) | Trong render |
 
 ---
 

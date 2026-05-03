@@ -9,9 +9,6 @@ Không phải mọi file trong dự án đều nên được Git theo dõi. File
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. .gitignore là gì?](#1-gitignore-là-gì)
@@ -37,15 +34,15 @@ Không phải mọi file trong dự án đều nên được Git theo dõi. File
 
 ### Tại sao cần .gitignore?
 
-| Loại file | Lý do bỏ qua | Ví dụ |
-|-----------|-------------|-------|
-| **Dependencies** | Có thể tải lại bằng package manager | `node_modules/`, `venv/` |
-| **Build output** | Được tạo từ source code | `dist/`, `build/`, `*.class` |
-| **File tạm** | Không có giá trị | `*.tmp`, `*.swp`, `.DS_Store` |
-| **Secrets** | **NGUY HIỂM** nếu commit | `.env`, `credentials.json` |
-| **IDE config** | Riêng từng người | `.idea/`, `.vscode/settings.json` |
-| **OS files** | Hệ điều hành tạo ra | `.DS_Store`, `Thumbs.db` |
-| **Log files** | Dữ liệu runtime | `*.log`, `logs/` |
+| Loại file        | Lý do bỏ qua                        | Ví dụ                             |
+| ---------------- | ----------------------------------- | --------------------------------- |
+| **Dependencies** | Có thể tải lại bằng package manager | `node_modules/`, `venv/`          |
+| **Build output** | Được tạo từ source code             | `dist/`, `build/`, `*.class`      |
+| **File tạm**     | Không có giá trị                    | `*.tmp`, `*.swp`, `.DS_Store`     |
+| **Secrets**      | **NGUY HIỂM** nếu commit            | `.env`, `credentials.json`        |
+| **IDE config**   | Riêng từng người                    | `.idea/`, `.vscode/settings.json` |
+| **OS files**     | Hệ điều hành tạo ra                 | `.DS_Store`, `Thumbs.db`          |
+| **Log files**    | Dữ liệu runtime                     | `*.log`, `logs/`                  |
 
 ### Ví dụ thực tế
 
@@ -96,16 +93,16 @@ build/
 
 ### Ký tự đặc biệt (Wildcards)
 
-| Pattern | Ý nghĩa | Ví dụ |
-|---------|---------|-------|
-| `*` | Bất kỳ chuỗi nào (không chứa `/`) | `*.log` = tất cả file .log |
-| `**` | Bất kỳ chuỗi nào (BAO GỒM `/`) | `**/logs` = thư mục logs ở bất kỳ đâu |
-| `?` | Bất kỳ 1 ký tự | `file?.txt` = file1.txt, fileA.txt |
-| `[abc]` | Một trong các ký tự | `file[123].txt` = file1.txt, file2.txt |
-| `[0-9]` | Phạm vi ký tự | `file[0-9].txt` = file0.txt đến file9.txt |
-| `/` ở đầu | Chỉ ở thư mục root | `/build` = chỉ thư mục build ở root |
-| `/` ở cuối | Chỉ áp dụng cho thư mục | `logs/` = thư mục logs, không phải file logs |
-| `!` | Ngoại lệ — KHÔNG bỏ qua | `!important.log` = track file này dù có `*.log` |
+| Pattern    | Ý nghĩa                           | Ví dụ                                           |
+| ---------- | --------------------------------- | ----------------------------------------------- |
+| `*`        | Bất kỳ chuỗi nào (không chứa `/`) | `*.log` = tất cả file .log                      |
+| `**`       | Bất kỳ chuỗi nào (BAO GỒM `/`)    | `**/logs` = thư mục logs ở bất kỳ đâu           |
+| `?`        | Bất kỳ 1 ký tự                    | `file?.txt` = file1.txt, fileA.txt              |
+| `[abc]`    | Một trong các ký tự               | `file[123].txt` = file1.txt, file2.txt          |
+| `[0-9]`    | Phạm vi ký tự                     | `file[0-9].txt` = file0.txt đến file9.txt       |
+| `/` ở đầu  | Chỉ ở thư mục root                | `/build` = chỉ thư mục build ở root             |
+| `/` ở cuối | Chỉ áp dụng cho thư mục           | `logs/` = thư mục logs, không phải file logs    |
+| `!`        | Ngoại lệ — KHÔNG bỏ qua           | `!important.log` = track file này dù có `*.log` |
 
 ### Ví dụ nâng cao
 
@@ -347,10 +344,10 @@ Desktop.ini
 
 **Tại sao dùng global thay vì local?**
 
-| Cách | Khi nào dùng |
-|------|-------------|
-| Global gitignore | File riêng của BẠN: IDE, OS (không liên quan dự án) |
-| Local .gitignore (trong repo) | File riêng của DỰ ÁN: node_modules, build, .env |
+| Cách                          | Khi nào dùng                                        |
+| ----------------------------- | --------------------------------------------------- |
+| Global gitignore              | File riêng của BẠN: IDE, OS (không liên quan dự án) |
+| Local .gitignore (trong repo) | File riêng của DỰ ÁN: node_modules, build, .env     |
 
 Không nên thêm `.idea/` hay `.DS_Store` vào `.gitignore` của dự án — vì không phải ai cũng dùng IntelliJ hay macOS. Mỗi người tự cấu hình global của mình.
 
@@ -415,12 +412,12 @@ git commit -m "chore: them secret.env vao gitignore"
 
 **Khi nào dùng `--cached`?**
 
-| Tình huống | Lệnh |
-|-----------|------|
-| File không cần nữa, xoá luôn | `git rm file.txt` |
-| File cần giữ trên máy, chỉ xoá khỏi Git | `git rm --cached file.txt` |
-| Xoá cả thư mục | `git rm -r folder/` |
-| Xoá thư mục khỏi Git, giữ trên máy | `git rm -r --cached folder/` |
+| Tình huống                              | Lệnh                         |
+| --------------------------------------- | ---------------------------- |
+| File không cần nữa, xoá luôn            | `git rm file.txt`            |
+| File cần giữ trên máy, chỉ xoá khỏi Git | `git rm --cached file.txt`   |
+| Xoá cả thư mục                          | `git rm -r folder/`          |
+| Xoá thư mục khỏi Git, giữ trên máy      | `git rm -r --cached folder/` |
 
 ### Ví dụ thực tế: Xoá node_modules đã commit nhầm
 
@@ -533,12 +530,12 @@ git push origin --force --all
 
 **Tại sao BFG tốt hơn git filter-branch?**
 
-| Tiêu chí | git filter-branch | BFG Repo-Cleaner |
-|----------|-------------------|-----------------|
-| Tốc độ | Chậm (xử lý từng commit) | Nhanh hơn 10-720x |
-| Cú pháp | Phức tạp | Đơn giản |
-| An toàn | Có thể làm hỏng repo | An toàn hơn |
-| Git docs | "Không khuyên nghị dùng" | Được khuyên nghị |
+| Tiêu chí | git filter-branch        | BFG Repo-Cleaner  |
+| -------- | ------------------------ | ----------------- |
+| Tốc độ   | Chậm (xử lý từng commit) | Nhanh hơn 10-720x |
+| Cú pháp  | Phức tạp                 | Đơn giản          |
+| An toàn  | Có thể làm hỏng repo     | An toàn hơn       |
+| Git docs | "Không khuyên nghị dùng" | Được khuyên nghị  |
 
 ---
 
@@ -592,14 +589,14 @@ git clean -fd
 
 ### Bảng tổng hợp git clean flags
 
-| Flag | Ý nghĩa | Ví dụ |
-|------|---------|-------|
-| `-n` | Dry run (chỉ hiển thị, không xoá) | `git clean -n` |
-| `-f` | Force — xoá thật | `git clean -f` |
-| `-d` | Bao gồm thư mục | `git clean -fd` |
-| `-x` | Bao gồm file bị ignore | `git clean -fx` |
-| `-X` | CHỈ xoá file bị ignore | `git clean -fX` |
-| `-i` | Interactive (hỏi từng file) | `git clean -i` |
+| Flag | Ý nghĩa                           | Ví dụ           |
+| ---- | --------------------------------- | --------------- |
+| `-n` | Dry run (chỉ hiển thị, không xoá) | `git clean -n`  |
+| `-f` | Force — xoá thật                  | `git clean -f`  |
+| `-d` | Bao gồm thư mục                   | `git clean -fd` |
+| `-x` | Bao gồm file bị ignore            | `git clean -fx` |
+| `-X` | CHỈ xoá file bị ignore            | `git clean -fX` |
+| `-i` | Interactive (hỏi từng file)       | `git clean -i`  |
 
 ---
 
@@ -646,19 +643,19 @@ git commit -m "xoa .env khoi tracking"
 
 ## 11. Bảng cú pháp .gitignore patterns
 
-| Pattern | Ý nghĩa | Match | Không match |
-|---------|---------|-------|------------|
-| `*.log` | Tất cả file .log | `error.log`, `debug.log` | `logs/` (thư mục) |
-| `logs/` | Thư mục tên "logs" | `logs/`, `src/logs/` | `logs` (file) |
-| `/logs` | Thư mục "logs" Ở ROOT | `logs/` (root) | `src/logs/` |
-| `logs/*` | Nội dung trong logs | `logs/a.txt` | `logs/` (giữ thư mục) |
-| `**/logs` | "logs" ở bất kỳ cấp | `logs/`, `a/logs/`, `a/b/logs/` | — |
-| `*.py[cod]` | .pyc, .pyo, .pyd | `file.pyc`, `file.pyo` | `file.py` |
-| `!important.log` | Ngoại lệ | Giữ `important.log` | — |
-| `doc/**/*.pdf` | .pdf trong doc/ | `doc/a.pdf`, `doc/b/c.pdf` | `other/a.pdf` |
-| `temp?` | temp + 1 ký tự | `temp1`, `tempA` | `temp`, `temp12` |
-| `#` | Comment | (bị bỏ qua) | — |
-| Dòng trống | (bị bỏ qua) | — | — |
+| Pattern          | Ý nghĩa               | Match                           | Không match           |
+| ---------------- | --------------------- | ------------------------------- | --------------------- |
+| `*.log`          | Tất cả file .log      | `error.log`, `debug.log`        | `logs/` (thư mục)     |
+| `logs/`          | Thư mục tên "logs"    | `logs/`, `src/logs/`            | `logs` (file)         |
+| `/logs`          | Thư mục "logs" Ở ROOT | `logs/` (root)                  | `src/logs/`           |
+| `logs/*`         | Nội dung trong logs   | `logs/a.txt`                    | `logs/` (giữ thư mục) |
+| `**/logs`        | "logs" ở bất kỳ cấp   | `logs/`, `a/logs/`, `a/b/logs/` | —                     |
+| `*.py[cod]`      | .pyc, .pyo, .pyd      | `file.pyc`, `file.pyo`          | `file.py`             |
+| `!important.log` | Ngoại lệ              | Giữ `important.log`             | —                     |
+| `doc/**/*.pdf`   | .pdf trong doc/       | `doc/a.pdf`, `doc/b/c.pdf`      | `other/a.pdf`         |
+| `temp?`          | temp + 1 ký tự        | `temp1`, `tempA`                | `temp`, `temp12`      |
+| `#`              | Comment               | (bị bỏ qua)                     | —                     |
+| Dòng trống       | (bị bỏ qua)           | —                               | —                     |
 
 ---
 
@@ -775,16 +772,16 @@ git status
 
 ## Tổng kết
 
-| Công việc | Lệnh / File |
-|-----------|------------|
-| Bỏ qua file | Thêm vào `.gitignore` |
+| Công việc                     | Lệnh / File                    |
+| ----------------------------- | ------------------------------ |
+| Bỏ qua file                   | Thêm vào `.gitignore`          |
 | Bỏ qua file cá nhân (IDE, OS) | Thêm vào `~/.gitignore_global` |
-| Giữ thư mục rỗng | Thêm `.gitkeep` |
-| Xoá file khỏi Git + ổ cứng | `git rm file` |
-| Xoá file khỏi Git, giữ ổ cứng | `git rm --cached file` |
-| Đổi tên / di chuyển file | `git mv old new` |
-| Dọn dẹp file untracked | `git clean -fd` (cẩn thận!) |
-| Xoá file khỏi toàn bộ lịch sử | BFG Repo-Cleaner |
-| Kiểm tra .gitignore | `git check-ignore -v file` |
+| Giữ thư mục rỗng              | Thêm `.gitkeep`                |
+| Xoá file khỏi Git + ổ cứng    | `git rm file`                  |
+| Xoá file khỏi Git, giữ ổ cứng | `git rm --cached file`         |
+| Đổi tên / di chuyển file      | `git mv old new`               |
+| Dọn dẹp file untracked        | `git clean -fd` (cẩn thận!)    |
+| Xoá file khỏi toàn bộ lịch sử | BFG Repo-Cleaner               |
+| Kiểm tra .gitignore           | `git check-ignore -v file`     |
 
 **Nhớ:** `.gitignore` chỉ ảnh hưởng file CHƯA tracked. File đã commit phải `git rm --cached` trước.

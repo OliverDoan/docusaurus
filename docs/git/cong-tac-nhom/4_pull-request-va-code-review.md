@@ -9,9 +9,6 @@ Pull Request (PR) và Code Review là **hai trụ cột** của quy trình phát
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Pull Request (PR) là gì?](#1-pull-request-pr-là-gì)
@@ -66,13 +63,13 @@ Có PR (an toàn):
 
 ### PR = Cơ hội để:
 
-| Mục đích | Giải thích |
-|----------|------------|
-| **Review code** | Đồng đội kiểm tra logic, bảo mật, hiệu suất |
-| **Thảo luận** | Trao đổi về cách tiếp cận, đề xuất cải tiến |
-| **Chạy tests tự động** | CI/CD kiểm tra build, tests, lint |
-| **Tài liệu hóa** | Mô tả thay đổi, lý do, cách test |
-| **Chia sẻ kiến thức** | Cả team học từ code của nhau |
+| Mục đích               | Giải thích                                  |
+| ---------------------- | ------------------------------------------- |
+| **Review code**        | Đồng đội kiểm tra logic, bảo mật, hiệu suất |
+| **Thảo luận**          | Trao đổi về cách tiếp cận, đề xuất cải tiến |
+| **Chạy tests tự động** | CI/CD kiểm tra build, tests, lint           |
+| **Tài liệu hóa**       | Mô tả thay đổi, lý do, cách test            |
+| **Chia sẻ kiến thức**  | Cả team học từ code của nhau                |
 
 ---
 
@@ -100,28 +97,31 @@ git push -u origin feature/add-search
 
 Khi tạo PR trên GitHub, bạn cần điền:
 
-| Thành phần | Mô tả | Bắt buộc? |
-|------------|-------|-----------|
-| **Title** | Tiêu đề ngắn gọn mô tả thay đổi | Có |
-| **Description** | Mô tả chi tiết: tại sao, cách, ảnh hưởng | Nên có |
-| **Reviewers** | Ai sẽ review code | Nên chọn |
-| **Assignees** | Ai chịu trách nhiệm PR này | Tùy team |
-| **Labels** | Nhãn phân loại (bug, feature, docs...) | Nên có |
-| **Milestone** | PR thuộc milestone nào | Tùy team |
-| **Projects** | PR thuộc project board nào | Tùy team |
+| Thành phần      | Mô tả                                    | Bắt buộc? |
+| --------------- | ---------------------------------------- | --------- |
+| **Title**       | Tiêu đề ngắn gọn mô tả thay đổi          | Có        |
+| **Description** | Mô tả chi tiết: tại sao, cách, ảnh hưởng | Nên có    |
+| **Reviewers**   | Ai sẽ review code                        | Nên chọn  |
+| **Assignees**   | Ai chịu trách nhiệm PR này               | Tùy team  |
+| **Labels**      | Nhãn phân loại (bug, feature, docs...)   | Nên có    |
+| **Milestone**   | PR thuộc milestone nào                   | Tùy team  |
+| **Projects**    | PR thuộc project board nào               | Tùy team  |
 
 ### Viết Title tốt
 
 ```markdown
 # SAI: Quá chung chung
+
 Fix bug
 Update code
 Some changes
 
 # SAI: Quá dài
+
 Fix the bug where the login button doesn't work when user enters email without @ symbol and clicks submit
 
 # ĐÚNG: Ngắn gọn, rõ ràng, dùng conventional commits
+
 feat: add search functionality with autocomplete
 fix: resolve login validation for invalid email format
 refactor: extract auth logic into separate service
@@ -138,12 +138,14 @@ Một PR template tốt giúp đảm bảo mọi PR đều có đủ thông tin 
 
 ```markdown
 ## Summary
+
 <!-- Mô tả ngắn gọn: thay đổi gì, tại sao -->
 
 Thêm tính năng tìm kiếm sản phẩm với autocomplete.
 Cần thiết để cải thiện UX theo feedback từ user survey (Issue #45).
 
 ## Changes
+
 <!-- Liệt kê các thay đổi chính -->
 
 - Thêm component `SearchBar` với debounce 300ms
@@ -158,6 +160,7 @@ Cần thiết để cải thiện UX theo feedback từ user survey (Issue #45).
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 
 ## Test Plan
+
 <!-- Mô tả cách test thay đổi này -->
 
 - [x] Unit tests: `npm test -- --grep "search"`
@@ -166,10 +169,11 @@ Cần thiết để cải thiện UX theo feedback từ user survey (Issue #45).
 - [ ] Performance: kiểm tra response time < 200ms
 
 ## Screenshots
+
 <!-- Đính kèm screenshots nếu có thay đổi UI -->
 
-| Before | After |
-|--------|-------|
+| Before       | After        |
+| ------------ | ------------ |
 | (screenshot) | (screenshot) |
 
 ## Checklist
@@ -212,24 +216,26 @@ Developer viết code               Developer viết code
                                                          (code tốt hơn!)
 ```
 
-| Lợi ích | Giải thích |
-|---------|------------|
-| **Phát hiện bug sớm** | 2 cặp mắt tốt hơn 1 |
-| **Cải thiện code quality** | Góp ý về cấu trúc, naming, patterns |
-| **Chia sẻ kiến thức** | Cả team hiểu toàn bộ codebase |
-| **Đảm bảo consistency** | Code style nhất quán trong dự án |
-| **Mentoring** | Senior hướng dẫn junior thông qua review |
-| **Giảm bus factor** | Nhiều người hiểu code = ít rủi ro |
+| Lợi ích                    | Giải thích                               |
+| -------------------------- | ---------------------------------------- |
+| **Phát hiện bug sớm**      | 2 cặp mắt tốt hơn 1                      |
+| **Cải thiện code quality** | Góp ý về cấu trúc, naming, patterns      |
+| **Chia sẻ kiến thức**      | Cả team hiểu toàn bộ codebase            |
+| **Đảm bảo consistency**    | Code style nhất quán trong dự án         |
+| **Mentoring**              | Senior hướng dẫn junior thông qua review |
+| **Giảm bus factor**        | Nhiều người hiểu code = ít rủi ro        |
 
 ### Mindset khi review (RẤT QUAN TRỌNG)
 
 **Người review:**
+
 - Tôn trọng — code là sản phẩm trí tuệ của người khác
 - Mang tính xây dựng — không chỉ chê, mà gợi ý cách tốt hơn
 - Hỏi thay vì phán xét — "Tại sao chọn cách này?" thay vì "Cách này sai"
 - Khen khi code tốt — nhận xét tích cực cũng quan trọng
 
 **Người được review:**
+
 - Không defensive — feedback là để cải thiện, không phải tấn công
 - Giải thích context — reviewer có thể thiếu bối cảnh
 - Cảm ơn reviewer — họ bỏ thời gian đọc code của bạn
@@ -342,6 +348,7 @@ Có thể suggest thay đổi nhiều dòng bằng cách chọn (drag) nhiều d
 ### Batch suggestions
 
 Nếu có nhiều suggestions, tác giả có thể:
+
 1. Click **"Add suggestion to batch"** cho từng suggestion
 2. Sau khi thêm hết, click **"Commit suggestions"**
 3. Tất cả suggestions được apply trong **1 commit** duy nhất
@@ -363,13 +370,13 @@ Trên GitHub khi tạo PR:
 
 ### Đặc điểm Draft PR
 
-| Tính năng | Draft PR | Regular PR |
-|-----------|----------|------------|
-| **Merge được?** | Không | Có |
-| **Review được?** | Có | Có |
-| **CI chạy?** | Có (tùy cấu hình) | Có |
-| **Giao diện** | Nhãn "Draft" xám | Nhãn "Open" xanh |
-| **Thông báo reviewer** | Không (ít spam) | Có |
+| Tính năng              | Draft PR          | Regular PR       |
+| ---------------------- | ----------------- | ---------------- |
+| **Merge được?**        | Không             | Có               |
+| **Review được?**       | Có                | Có               |
+| **CI chạy?**           | Có (tùy cấu hình) | Có               |
+| **Giao diện**          | Nhãn "Draft" xám  | Nhãn "Open" xanh |
+| **Thông báo reviewer** | Không (ít spam)   | Có               |
 
 ### Khi nào dùng Draft PR
 
@@ -405,6 +412,7 @@ Sau merge (merge commit):
 ```
 
 **Đặc điểm:**
+
 - Giữ nguyên tất cả commit từ feature branch
 - Tạo thêm 1 merge commit
 - Lịch sử rõ ràng: biết khi nào nhánh được merge
@@ -425,6 +433,7 @@ Sau squash merge:
 ```
 
 **Đặc điểm:**
+
 - Gộp tất cả commit thành 1 commit
 - Lịch sử main sạch sẽ (1 commit = 1 feature)
 - Mất chi tiết commit riêng lẻ
@@ -445,6 +454,7 @@ Sau rebase merge:
 ```
 
 **Đặc điểm:**
+
 - Đặt lại commit lên đầu main (thẳng hàng)
 - Không tạo merge commit
 - Lịch sử thẳng (linear), dễ đọc
@@ -453,14 +463,14 @@ Sau rebase merge:
 
 ### So sánh 3 options
 
-| Tiêu chí | Merge Commit | Squash | Rebase |
-|-----------|-------------|--------|--------|
-| **Lịch sử** | Đầy đủ, có nhánh rẽ | Gọn, 1 commit/feature | Thẳng, giữ từng commit |
-| **Merge commit** | Có | Không | Không |
-| **Commit hash** | Giữ nguyên | Commit mới | Hash mới |
-| **Rollback** | Revert merge commit | Revert 1 commit | Revert từng commit |
-| **Đọc log** | Phức tạp | Đơn giản nhất | Đơn giản |
-| **Phổ biến** | Team truyền thống | Team hiện đại | Team pro |
+| Tiêu chí         | Merge Commit        | Squash                | Rebase                 |
+| ---------------- | ------------------- | --------------------- | ---------------------- |
+| **Lịch sử**      | Đầy đủ, có nhánh rẽ | Gọn, 1 commit/feature | Thẳng, giữ từng commit |
+| **Merge commit** | Có                  | Không                 | Không                  |
+| **Commit hash**  | Giữ nguyên          | Commit mới            | Hash mới               |
+| **Rollback**     | Revert merge commit | Revert 1 commit       | Revert từng commit     |
+| **Đọc log**      | Phức tạp            | Đơn giản nhất         | Đơn giản               |
+| **Phổ biến**     | Team truyền thống   | Team hiện đại         | Team pro               |
 
 **Khuyên dùng cho người mới:** **Squash and Merge** — lịch sử main luôn sạch, 1 commit = 1 PR, dễ revert.
 
@@ -558,6 +568,7 @@ git push origin feature/add-search
 ### Branch protection + CI
 
 Nếu repo có branch protection yêu cầu checks pass:
+
 - **Tất cả checks phải pass** mới được merge
 - Nút "Merge" bị disable cho đến khi checks pass
 - Reviewer không thể bypass (nếu cấu hình đúng)

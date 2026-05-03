@@ -9,9 +9,6 @@ Khi làm việc trong một team lớn, bạn sẽ gặp câu hỏi: "Ai làm nh
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Git Flow là gì?](#1-git-flow-là-gì)
@@ -72,12 +69,12 @@ git log --oneline main
 # h7i8j9k (tag: v1.0.0) Release 1.0.0
 ```
 
-| Đặc điểm | Mô tả |
-|----------|-------|
-| Mục đích | Chứa code production, đã được test kỹ |
-| Ai được merge vào | Chỉ `release/*` và `hotfix/*` |
+| Đặc điểm                 | Mô tả                                           |
+| ------------------------ | ----------------------------------------------- |
+| Mục đích                 | Chứa code production, đã được test kỹ           |
+| Ai được merge vào        | Chỉ `release/*` và `hotfix/*`                   |
 | Ai được commit trực tiếp | **KHÔNG AI** — tuyệt đối không commit trực tiếp |
-| Tag | Mỗi merge vào main đều được tag version |
+| Tag                      | Mỗi merge vào main đều được tag version         |
 
 ### 2.2. Nhánh `develop`
 
@@ -91,12 +88,12 @@ git log --oneline
 # g7h8i9j fix: correct email validation
 ```
 
-| Đặc điểm | Mô tả |
-|----------|-------|
-| Mục đích | Tích hợp tất cả feature mới |
-| Ai được merge vào | `feature/*` branches |
-| Trạng thái | Luôn có code mới nhất, có thể chưa ổn định |
-| Tạo từ | Được tạo từ `main` khi khởi tạo dự án |
+| Đặc điểm          | Mô tả                                      |
+| ----------------- | ------------------------------------------ |
+| Mục đích          | Tích hợp tất cả feature mới                |
+| Ai được merge vào | `feature/*` branches                       |
+| Trạng thái        | Luôn có code mới nhất, có thể chưa ổn định |
+| Tạo từ            | Được tạo từ `main` khi khởi tạo dự án      |
 
 ---
 
@@ -316,25 +313,25 @@ git flow hotfix finish fix-crash
 
 ### Ưu điểm
 
-| Ưu điểm | Giải thích |
-|---------|-----------|
-| **Rõ ràng, có cấu trúc** | Mọi người biết chính xác code ở đâu, merge vào đâu |
-| **Parallel development** | Team có thể làm nhiều feature cùng lúc |
-| **Release có kiểm soát** | Release branch cho phép test kỹ trước khi lên production |
-| **Hotfix độc lập** | Sửa bug khẩn cấp mà không ảnh hưởng development |
-| **Lịch sử sạch** | `--no-ff` giữ lại lịch sử merge rõ ràng |
-| **Phù hợp versioned release** | Lý tưởng cho phần mềm có version (v1.0, v2.0, v3.0) |
+| Ưu điểm                       | Giải thích                                               |
+| ----------------------------- | -------------------------------------------------------- |
+| **Rõ ràng, có cấu trúc**      | Mọi người biết chính xác code ở đâu, merge vào đâu       |
+| **Parallel development**      | Team có thể làm nhiều feature cùng lúc                   |
+| **Release có kiểm soát**      | Release branch cho phép test kỹ trước khi lên production |
+| **Hotfix độc lập**            | Sửa bug khẩn cấp mà không ảnh hưởng development          |
+| **Lịch sử sạch**              | `--no-ff` giữ lại lịch sử merge rõ ràng                  |
+| **Phù hợp versioned release** | Lý tưởng cho phần mềm có version (v1.0, v2.0, v3.0)      |
 
 ### Nhược điểm
 
-| Nhược điểm | Giải thích |
-|------------|-----------|
-| **Phức tạp** | Nhiều loại nhánh, nhiều bước merge, dễ nhầm |
-| **Overhead** | Quá nặng nề cho dự án nhỏ hoặc 1-2 người |
-| **Merge conflicts** | Càng nhiều nhánh song song -> càng nhiều conflict |
-| **Không hợp CI/CD** | Git Flow thiết kế cho scheduled release, không phải continuous deployment |
-| **Long-lived branches** | Feature branch tồn tại lâu -> drift xa khỏi develop -> merge khó |
-| **Chậm** | Quá trình release mất nhiều bước manual |
+| Nhược điểm              | Giải thích                                                                |
+| ----------------------- | ------------------------------------------------------------------------- |
+| **Phức tạp**            | Nhiều loại nhánh, nhiều bước merge, dễ nhầm                               |
+| **Overhead**            | Quá nặng nề cho dự án nhỏ hoặc 1-2 người                                  |
+| **Merge conflicts**     | Càng nhiều nhánh song song -> càng nhiều conflict                         |
+| **Không hợp CI/CD**     | Git Flow thiết kế cho scheduled release, không phải continuous deployment |
+| **Long-lived branches** | Feature branch tồn tại lâu -> drift xa khỏi develop -> merge khó          |
+| **Chậm**                | Quá trình release mất nhiều bước manual                                   |
 
 ---
 
@@ -355,6 +352,7 @@ git flow hotfix finish fix-crash
 ```
 
 **Ví dụ thực tế:**
+
 - Ứng dụng mobile (iOS/Android) — phải submit review, release theo version
 - Phần mềm enterprise (ERP, CRM) — khách hàng dùng version cũ, cần hotfix
 - Library/SDK — phải duy trì nhiều version (v1.x, v2.x)

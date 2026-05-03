@@ -9,9 +9,6 @@ Bạn đã biết cách viết code, tạo branch, merge PR. Nhưng ai sẽ **ki
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. CI/CD là gì?](#1-cicd-là-gì)
@@ -60,11 +57,13 @@ CI là quy trình **tự động kiểm tra code** mỗi khi developer push ho�
 ```
 
 **Không có CI:**
+
 - Developer A push code lỗi -> không ai biết
 - Developer B pull code -> "Tại sao code của tôi không chạy?"
 - Chiều thứ 6, toàn team mất 3 giờ debug code của A
 
 **Có CI:**
+
 - Developer A push code lỗi -> CI báo lỗi ngay trong 5 phút
 - Developer A fix trước khi bất kỳ ai bị ảnh hưởng
 - Team luôn có code base sạch, chạy được
@@ -84,20 +83,20 @@ CI là quy trình **tự động kiểm tra code** mỗi khi developer push ho�
   +---------------------+
 ```
 
-| Khái niệm | Giải thích |
-|-----------|-----------|
-| **Continuous Delivery** | Tự động build và chuẩn bị deploy, nhưng **cần người bấm nút** để deploy lên production |
+| Khái niệm                 | Giải thích                                                                                          |
+| ------------------------- | --------------------------------------------------------------------------------------------------- |
+| **Continuous Delivery**   | Tự động build và chuẩn bị deploy, nhưng **cần người bấm nút** để deploy lên production              |
 | **Continuous Deployment** | Tự động deploy lên production **không cần người bấm nút** — mỗi commit qua test -> tự động lên prod |
 
 ### 1.3. Tại sao CI/CD quan trọng?
 
-| Lợi ích | Không có CI/CD | Có CI/CD |
-|---------|---------------|----------|
-| **Phát hiện lỗi** | Thứ 6 mới biết | 5 phút sau khi push |
-| **Deploy** | Thủ công, mất 2-3 giờ | Tự động, 10-15 phút |
-| **Nhất quán** | "Works on my machine" | Môi trường giống nhau |
-| **Tự tin** | "Không dám merge, sợ hỏng" | "CI xanh, merge thoải mái" |
-| **Tốc độ ship** | 1-2 lần/tháng | Nhiều lần/ngày |
+| Lợi ích           | Không có CI/CD             | Có CI/CD                   |
+| ----------------- | -------------------------- | -------------------------- |
+| **Phát hiện lỗi** | Thứ 6 mới biết             | 5 phút sau khi push        |
+| **Deploy**        | Thủ công, mất 2-3 giờ      | Tự động, 10-15 phút        |
+| **Nhất quán**     | "Works on my machine"      | Môi trường giống nhau      |
+| **Tự tin**        | "Không dám merge, sợ hỏng" | "CI xanh, merge thoải mái" |
+| **Tốc độ ship**   | 1-2 lần/tháng              | Nhiều lần/ngày             |
 
 ---
 
@@ -127,14 +126,14 @@ CI là quy trình **tự động kiểm tra code** mỗi khi developer push ho�
 +-------------------------------------------------------+
 ```
 
-| Khái niệm | Giải thích | Ví dụ |
-|-----------|-----------|-------|
-| **Workflow** | File YAML định nghĩa toàn bộ pipeline | `.github/workflows/ci.yml` |
-| **Event/Trigger** | Sự kiện kích hoạt workflow | push, pull_request, schedule |
-| **Job** | Nhóm các bước chạy trên 1 runner | test, build, deploy |
-| **Step** | 1 bước cụ thể trong job | checkout, install, run tests |
-| **Action** | Bước được đóng gói sẵn, tái sử dụng | `actions/checkout@v4` |
-| **Runner** | Máy ảo chạy job | `ubuntu-latest`, `macos-latest` |
+| Khái niệm         | Giải thích                            | Ví dụ                           |
+| ----------------- | ------------------------------------- | ------------------------------- |
+| **Workflow**      | File YAML định nghĩa toàn bộ pipeline | `.github/workflows/ci.yml`      |
+| **Event/Trigger** | Sự kiện kích hoạt workflow            | push, pull_request, schedule    |
+| **Job**           | Nhóm các bước chạy trên 1 runner      | test, build, deploy             |
+| **Step**          | 1 bước cụ thể trong job               | checkout, install, run tests    |
+| **Action**        | Bước được đóng gói sẵn, tái sử dụng   | `actions/checkout@v4`           |
+| **Runner**        | Máy ảo chạy job                       | `ubuntu-latest`, `macos-latest` |
 
 ### 2.2. Cấu trúc file workflow
 
@@ -213,12 +212,12 @@ on:
   push:
     branches: [main]
     paths:
-      - 'src/**'           # Chỉ khi file trong src/ thay đổi
-      - 'tests/**'         # Hoặc file trong tests/ thay đổi
-      - 'package.json'     # Hoặc package.json thay đổi
+      - "src/**" # Chỉ khi file trong src/ thay đổi
+      - "tests/**" # Hoặc file trong tests/ thay đổi
+      - "package.json" # Hoặc package.json thay đổi
     paths-ignore:
-      - '**/*.md'          # Bỏ qua file markdown
-      - 'docs/**'          # Bỏ qua folder docs
+      - "**/*.md" # Bỏ qua file markdown
+      - "docs/**" # Bỏ qua folder docs
 ```
 
 ---
@@ -234,16 +233,16 @@ name: CI
 # Khi nào chạy?
 on:
   push:
-    branches: [main, develop]     # Push lên main hoặc develop
+    branches: [main, develop] # Push lên main hoặc develop
   pull_request:
-    branches: [main]              # PR vào main
+    branches: [main] # PR vào main
 
 # Các job cần chạy
 jobs:
   # Job 1: Lint và Test
   test:
-    name: Lint & Test             # Tên hiển thị trên GitHub
-    runs-on: ubuntu-latest        # Máy ảo Ubuntu mới nhất
+    name: Lint & Test # Tên hiển thị trên GitHub
+    runs-on: ubuntu-latest # Máy ảo Ubuntu mới nhất
 
     steps:
       # Bước 1: Lấy code từ repo
@@ -254,8 +253,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'           # Version Node.js
-          cache: 'npm'                 # Cache npm để tăng tốc
+          node-version: "20" # Version Node.js
+          cache: "npm" # Cache npm để tăng tốc
 
       # Bước 3: Cài đặt dependencies
       - name: Install dependencies
@@ -281,13 +280,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coverage/              # Folder chứa coverage report
+          path: coverage/ # Folder chứa coverage report
 
   # Job 2: Build
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: test                        # Chỉ chạy SAU khi test PASS
+    needs: test # Chỉ chạy SAU khi test PASS
     # needs: đảm bảo test pass trước khi build
 
     steps:
@@ -297,8 +296,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -310,7 +309,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-output
-          path: build/                 # Folder chứa kết quả build
+          path: build/ # Folder chứa kết quả build
 ```
 
 ### 4.2. Giải thích từng phần
@@ -326,17 +325,17 @@ on:
 
 # jobs: Định nghĩa các công việc cần làm
 jobs:
-  test:                          # ID của job (bạn đặt tên)
-    name: "Lint & Test"          # Tên hiển thị (tùy chọn)
-    runs-on: ubuntu-latest       # Máy ảo chạy job
+  test: # ID của job (bạn đặt tên)
+    name: "Lint & Test" # Tên hiển thị (tùy chọn)
+    runs-on: ubuntu-latest # Máy ảo chạy job
 
-    steps:                       # Danh sách các bước
-      - name: "Checkout"         # Tên bước (tùy chọn)
-        uses: actions/checkout@v4  # Dùng action có sẵn
+    steps: # Danh sách các bước
+      - name: "Checkout" # Tên bước (tùy chọn)
+        uses: actions/checkout@v4 # Dùng action có sẵn
         # uses: gọi action từ Marketplace
 
       - name: "Run tests"
-        run: npm test            # Chạy lệnh shell
+        run: npm test # Chạy lệnh shell
         # run: chạy lệnh trực tiếp
 ```
 
@@ -367,9 +366,9 @@ jobs:
       - name: Setup JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
-          distribution: 'temurin'    # Eclipse Temurin (miễn phí)
-          cache: 'maven'             # Cache Maven dependencies
+          java-version: "21"
+          distribution: "temurin" # Eclipse Temurin (miễn phí)
+          cache: "maven" # Cache Maven dependencies
 
       # Build và test với Maven
       - name: Build with Maven
@@ -383,7 +382,7 @@ jobs:
 
       # Upload test results
       - name: Upload test results
-        if: always()                 # Chạy cả khi test FAIL
+        if: always() # Chạy cả khi test FAIL
         uses: actions/upload-artifact@v4
         with:
           name: test-results
@@ -456,6 +455,7 @@ jobs:
 ```
 
 **Lưu ý quan trọng:**
+
 - Secrets được **mã hóa** và chỉ giải mã khi chạy
 - Secrets **KHÔNG** hiển thị trong logs (được mask bằng `***`)
 - Forked repos **KHÔNG** truy cập được secrets của repo gốc (bảo mật)
@@ -481,15 +481,15 @@ jobs:
         # Loại trừ cấu hình cụ thể
         exclude:
           - os: macos-latest
-            node-version: 18    # Không test Node 18 trên macOS
+            node-version: 18 # Không test Node 18 trên macOS
 
         # Thêm cấu hình đặc biệt
         include:
           - os: ubuntu-latest
             node-version: 20
-            experimental: true  # Thêm biến tùy chọn
+            experimental: true # Thêm biến tùy chọn
 
-      fail-fast: false  # Không dừng các job khác nếu 1 job fail
+      fail-fast: false # Không dừng các job khác nếu 1 job fail
 
     steps:
       - uses: actions/checkout@v4
@@ -531,14 +531,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'           # Tự động cache node_modules
+          node-version: "20"
+          cache: "npm" # Tự động cache node_modules
 
       # Cách 2: Cache thủ công (linh hoạt hơn)
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
-          path: node_modules           # Folder cần cache
+          path: node_modules # Folder cần cache
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
           # Key duy nhất dựa trên OS và nội dung package-lock.json
           # Khi package-lock.json thay đổi → cache miss → cài lại
@@ -582,19 +582,19 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm test -- --coverage
 
       # Upload coverage report
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
-        if: always()                     # Upload cả khi test fail
+        if: always() # Upload cả khi test fail
         with:
           name: coverage-report
           path: coverage/
-          retention-days: 30             # Giữ 30 ngày
+          retention-days: 30 # Giữ 30 ngày
 
   build:
     runs-on: ubuntu-latest
@@ -603,8 +603,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm run build
 
@@ -665,6 +665,7 @@ gh api repos/{owner}/{repo}/branches/main/protection \
 ```
 
 **Kết quả:** Không ai có thể merge PR vào main khi:
+
 - CI chưa pass (đỏ)
 - Chưa có ít nhất 1 approval
 - Branch chưa cập nhật với main mới nhất
@@ -679,7 +680,7 @@ name: Deploy
 
 on:
   push:
-    branches: [main]    # Chỉ deploy khi merge vào main
+    branches: [main] # Chỉ deploy khi merge vào main
 
 jobs:
   # Bước 1: Test
@@ -690,8 +691,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm run lint
       - run: npm test
@@ -700,13 +701,13 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: test             # Đợi test pass
+    needs: test # Đợi test pass
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm run build
       - uses: actions/upload-artifact@v4
@@ -719,7 +720,7 @@ jobs:
     name: Deploy to Staging
     runs-on: ubuntu-latest
     needs: build
-    environment: staging     # GitHub Environment (có thể thêm approval)
+    environment: staging # GitHub Environment (có thể thêm approval)
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -735,7 +736,7 @@ jobs:
     name: Deploy to Production
     runs-on: ubuntu-latest
     needs: deploy-staging
-    environment: production  # Có thể cấu hình required reviewers
+    environment: production # Có thể cấu hình required reviewers
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -760,42 +761,42 @@ jobs:
 
 ## 12. GitHub Actions Marketplace — Popular Actions
 
-| Action | Mục đích | Sử dụng |
-|--------|---------|---------|
-| `actions/checkout@v4` | Lấy code từ repo | Hầu như mọi workflow |
-| `actions/setup-node@v4` | Cài đặt Node.js | Dự án JavaScript/TypeScript |
-| `actions/setup-java@v4` | Cài đặt JDK | Dự án Java |
-| `actions/setup-python@v5` | Cài đặt Python | Dự án Python |
-| `actions/cache@v4` | Cache files | Tăng tốc pipeline |
-| `actions/upload-artifact@v4` | Upload kết quả | Lưu build output, reports |
-| `actions/download-artifact@v4` | Download từ job trước | Deploy artifacts |
-| `softprops/action-gh-release@v2` | Tạo GitHub Release | Release tự động |
-| `codecov/codecov-action@v4` | Upload code coverage | Theo dõi test coverage |
-| `docker/build-push-action@v5` | Build và push Docker | Container deployment |
+| Action                           | Mục đích              | Sử dụng                     |
+| -------------------------------- | --------------------- | --------------------------- |
+| `actions/checkout@v4`            | Lấy code từ repo      | Hầu như mọi workflow        |
+| `actions/setup-node@v4`          | Cài đặt Node.js       | Dự án JavaScript/TypeScript |
+| `actions/setup-java@v4`          | Cài đặt JDK           | Dự án Java                  |
+| `actions/setup-python@v5`        | Cài đặt Python        | Dự án Python                |
+| `actions/cache@v4`               | Cache files           | Tăng tốc pipeline           |
+| `actions/upload-artifact@v4`     | Upload kết quả        | Lưu build output, reports   |
+| `actions/download-artifact@v4`   | Download từ job trước | Deploy artifacts            |
+| `softprops/action-gh-release@v2` | Tạo GitHub Release    | Release tự động             |
+| `codecov/codecov-action@v4`      | Upload code coverage  | Theo dõi test coverage      |
+| `docker/build-push-action@v5`    | Build và push Docker  | Container deployment        |
 
 ---
 
 ## 13. Bảng tổng hợp Syntax YAML quan trọng
 
-| Syntax | Mục đích | Ví dụ |
-|--------|---------|-------|
-| `name:` | Tên workflow/job/step | `name: CI Pipeline` |
-| `on:` | Trigger events | `on: push`, `on: pull_request` |
-| `jobs:` | Định nghĩa các jobs | `jobs: test: ...` |
-| `runs-on:` | Máy ảo chạy job | `runs-on: ubuntu-latest` |
-| `steps:` | Danh sách bước | `steps: - name: ...` |
-| `uses:` | Dùng action có sẵn | `uses: actions/checkout@v4` |
-| `run:` | Chạy lệnh shell | `run: npm test` |
-| `with:` | Tham số cho action | `with: node-version: '20'` |
-| `env:` | Biến môi trường | `env: NODE_ENV: production` |
-| `if:` | Điều kiện chạy | `if: github.ref == 'refs/heads/main'` |
-| `needs:` | Phụ thuộc job khác | `needs: test` |
-| `strategy.matrix:` | Chạy nhiều cấu hình | `matrix: node: [18, 20]` |
-| `secrets.*` | Truy cập secrets | `${{ secrets.API_KEY }}` |
-| `github.*` | Thông tin sự kiện | `${{ github.sha }}` |
-| `always()` | Luôn chạy (cả khi fail) | `if: always()` |
-| `failure()` | Chỉ chạy khi fail | `if: failure()` |
-| `success()` | Chỉ chạy khi pass | `if: success()` |
+| Syntax             | Mục đích                | Ví dụ                                 |
+| ------------------ | ----------------------- | ------------------------------------- |
+| `name:`            | Tên workflow/job/step   | `name: CI Pipeline`                   |
+| `on:`              | Trigger events          | `on: push`, `on: pull_request`        |
+| `jobs:`            | Định nghĩa các jobs     | `jobs: test: ...`                     |
+| `runs-on:`         | Máy ảo chạy job         | `runs-on: ubuntu-latest`              |
+| `steps:`           | Danh sách bước          | `steps: - name: ...`                  |
+| `uses:`            | Dùng action có sẵn      | `uses: actions/checkout@v4`           |
+| `run:`             | Chạy lệnh shell         | `run: npm test`                       |
+| `with:`            | Tham số cho action      | `with: node-version: '20'`            |
+| `env:`             | Biến môi trường         | `env: NODE_ENV: production`           |
+| `if:`              | Điều kiện chạy          | `if: github.ref == 'refs/heads/main'` |
+| `needs:`           | Phụ thuộc job khác      | `needs: test`                         |
+| `strategy.matrix:` | Chạy nhiều cấu hình     | `matrix: node: [18, 20]`              |
+| `secrets.*`        | Truy cập secrets        | `${{ secrets.API_KEY }}`              |
+| `github.*`         | Thông tin sự kiện       | `${{ github.sha }}`                   |
+| `always()`         | Luôn chạy (cả khi fail) | `if: always()`                        |
+| `failure()`        | Chỉ chạy khi fail       | `if: failure()`                       |
+| `success()`        | Chỉ chạy khi pass       | `if: success()`                       |
 
 ---
 
@@ -883,7 +884,7 @@ jobs:
 - uses: actions/cache@v4
   with:
     path: node_modules
-    key: my-cache           # Key cố định → luôn dùng cache cũ!
+    key: my-cache # Key cố định → luôn dùng cache cũ!
 
 # ĐÚNG: Key thay đổi khi package-lock.json thay đổi
 - uses: actions/cache@v4

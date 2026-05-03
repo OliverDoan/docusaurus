@@ -9,9 +9,6 @@ Khi phỏng vấn React ở level senior, bạn sẽ gặp các câu hỏi về 
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: Virtual DOM là gì? Tại sao React cần nó? `[Intermediate]`](#câu-1-virtual-dom-là-gì-tại-sao-react-cần-nó-intermediate)
@@ -80,6 +77,7 @@ Diffing algorithm của React dựa trên 2 giả định (heuristics) để đ�
 3. **key prop** giúp React nhận diện element nào đã thay đổi/thêm/xóa trong danh sách
 
 **Quy trình diffing**:
+
 - So sánh root element trước
 - Nếu cùng type: diff props, rồi diff children đệ quy
 - Nếu khác type: unmount cây cũ, mount cây mới
@@ -142,6 +140,7 @@ Diffing algorithm của React dựa trên 2 giả định (heuristics) để đ�
 **React Fiber** là phiên bản viết lại hoàn toàn của reconciliation engine, ra mắt từ React 16. Trước Fiber, reconciliation là **đồng bộ** (synchronous) -- khi bắt đầu render, React phải chạy hết mới dừng được. Với component tree lớn, điều này làm **block main thread**, gây lag UI.
 
 **Fiber** biến render thành **incremental** -- có thể:
+
 - **Chia nhỏ** công việc thành các "units of work"
 - **Tạm dừng** và tiếp tục sau
 - **Ưu tiên** công việc (user input > animation > data fetching)
@@ -150,6 +149,7 @@ Diffing algorithm của React dựa trên 2 giả định (heuristics) để đ�
 Mỗi Fiber node là một JavaScript object đại diện cho một component, chứa thông tin về type, state, props, parent, child, sibling, và effect flags.
 
 **2 phase của Fiber**:
+
 1. **Render phase** (có thể bị interrupt): tạo Fiber tree mới, diff với cây cũ, đánh dấu changes. Không thay đổi DOM.
 2. **Commit phase** (đồng bộ, không bị interrupt): apply tất cả changes lên Real DOM một lần.
 
@@ -204,6 +204,7 @@ function App() {
 2. **Bug**: khi items có internal state (input values, checkbox state), state bị gán sai cho item khác
 
 **Khi nào dùng index là ok?**
+
 - Danh sách **static** (không thêm/xóa/sắp xếp)
 - Items **không có** internal state
 - Items **không bao giờ** thay đổi thứ tự
@@ -214,13 +215,13 @@ function App() {
 // BUG với index key
 function TodoList() {
   const [todos, setTodos] = useState([
-    { id: 1, text: 'Learn React' },
-    { id: 2, text: 'Build app' },
+    { id: 1, text: "Learn React" },
+    { id: 2, text: "Build app" },
   ]);
 
   const addTodo = () => {
     // Thêm item vào ĐẦU danh sách
-    setTodos([{ id: Date.now(), text: 'New todo' }, ...todos]);
+    setTodos([{ id: Date.now(), text: "New todo" }, ...todos]);
   };
 
   return (
@@ -234,7 +235,7 @@ function TodoList() {
       ))}
 
       {/* ĐÚNG: dùng unique ID */}
-      {todos.map(todo => (
+      {todos.map((todo) => (
         <li key={todo.id}>
           <input defaultValue={todo.text} />
         </li>
@@ -262,17 +263,20 @@ function UserProfile({ userId }: { userId: string }) {
 ### Giải thích lý thuyết
 
 **Các trigger re-render**:
+
 1. `setState` / `dispatch` được gọi
 2. Parent component re-render (mặc định, tất cả children re-render)
 3. Context value thay đổi (tất cả consumers re-render)
 4. Custom hook state thay đổi
 
 **KHÔNG trigger re-render**:
+
 - Thay đổi `ref.current`
 - Thay đổi biến ngoài component
 - Thay đổi props của component (chỉ khi parent re-render truyền props mới)
 
 **Batching** (từ React 18):
+
 - Tất cả state updates được gom lại, chỉ render 1 lần
 - Áp dụng trong mọi ngữ cảnh: event handlers, setTimeout, Promises, native events
 - Dùng `flushSync` nếu cần force render ngay (hiếm khi cần)
@@ -280,40 +284,40 @@ function UserProfile({ userId }: { userId: string }) {
 ### Code ví dụ
 
 ```tsx
-import { useState } from 'react';
-import { flushSync } from 'react-dom';
+import { useState } from "react";
+import { flushSync } from "react-dom";
 
 function BatchingExample() {
   const [count, setCount] = useState(0);
   const [flag, setFlag] = useState(false);
 
-  console.log('Render!'); // Chỉ log 1 lần cho mỗi click
+  console.log("Render!"); // Chỉ log 1 lần cho mỗi click
 
   const handleClick = () => {
     // React 18: batched => 1 render
-    setCount(c => c + 1);
-    setFlag(f => !f);
+    setCount((c) => c + 1);
+    setFlag((f) => !f);
     // 2 state updates, 1 render
   };
 
   const handleAsync = () => {
     setTimeout(() => {
       // React 18: VẪN batched => 1 render
-      setCount(c => c + 1);
-      setFlag(f => !f);
+      setCount((c) => c + 1);
+      setFlag((f) => !f);
     }, 100);
   };
 
   // Force immediate render (hiếm khi cần)
   const handleFlush = () => {
     flushSync(() => {
-      setCount(c => c + 1);
+      setCount((c) => c + 1);
     });
     // DOM đã update tại đây
-    console.log('DOM updated with new count');
+    console.log("DOM updated with new count");
 
     flushSync(() => {
-      setFlag(f => !f);
+      setFlag((f) => !f);
     });
     // => 2 renders riêng biệt
   };
@@ -327,7 +331,7 @@ function Parent() {
 
   return (
     <div>
-      <button onClick={() => setCount(c => c + 1)}>+</button>
+      <button onClick={() => setCount((c) => c + 1)}>+</button>
       {/* Child re-render mỗi lần Parent render, dù name không đổi */}
       <Child name="static" />
     </div>
@@ -335,7 +339,7 @@ function Parent() {
 }
 
 function Child({ name }: { name: string }) {
-  console.log('Child rendered!'); // Log mỗi lần parent click
+  console.log("Child rendered!"); // Log mỗi lần parent click
   return <p>{name}</p>;
 }
 ```
@@ -353,11 +357,13 @@ function Child({ name }: { name: string }) {
 **Concurrent React** cho phép React **ngắt** render không khẩn cấp để xử lý công việc khẩn cấp trước (như user input). 2 hooks chính:
 
 **useTransition**:
+
 - Đánh dấu state update là "non-urgent" (transition)
 - React ưu tiên render urgent updates trước (như typing)
 - Trả về `[isPending, startTransition]`
 
 **useDeferredValue**:
+
 - Tạo một phiên bản "lag" của giá trị
 - Giống useTransition nhưng cho **giá trị** thay vì **action**
 - Hữu ích khi không kiểm soát được state update (VD: props từ parent)
@@ -365,11 +371,11 @@ function Child({ name }: { name: string }) {
 ### Code ví dụ
 
 ```tsx
-import { useState, useTransition, useDeferredValue, memo } from 'react';
+import { useState, useTransition, useDeferredValue, memo } from "react";
 
 // useTransition: ưu tiên input, defer kết quả tìm kiếm
 function SearchPage() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [isPending, startTransition] = useTransition();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -412,7 +418,7 @@ const HeavyList = memo(({ query }: { query: string }) => {
 
   return (
     <ul>
-      {items.map(item => (
+      {items.map((item) => (
         <li key={item.id}>{item.name}</li>
       ))}
     </ul>
@@ -422,13 +428,13 @@ const HeavyList = memo(({ query }: { query: string }) => {
 
 ### Bảng so sánh
 
-| Tiêu chí | `useTransition` | `useDeferredValue` |
-|----------|----------------|-------------------|
-| Kiểm soát | **State update** (action) | **Giá trị** (value) |
-| Khi dùng | Khi bạn kiểm soát setState | Khi nhận giá trị từ props/parent |
-| Trả về | `[isPending, startTransition]` | Deferred value |
-| isPending | Có | Tự tính: `value !== deferredValue` |
-| Ví dụ | Filter khi search | Defer props cho heavy child |
+| Tiêu chí  | `useTransition`                | `useDeferredValue`                 |
+| --------- | ------------------------------ | ---------------------------------- |
+| Kiểm soát | **State update** (action)      | **Giá trị** (value)                |
+| Khi dùng  | Khi bạn kiểm soát setState     | Khi nhận giá trị từ props/parent   |
+| Trả về    | `[isPending, startTransition]` | Deferred value                     |
+| isPending | Có                             | Tự tính: `value !== deferredValue` |
+| Ví dụ     | Filter khi search              | Defer props cho heavy child        |
 
 ### Đáp án mẫu
 

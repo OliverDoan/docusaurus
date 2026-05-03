@@ -9,9 +9,6 @@ Trong công việc hàng ngày với Git, bạn sẽ gặp hai tình huống r�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Phần 1: Git Stash -- Tạm cất thay đổi](#phần-1-git-stash-tạm-cất-thay-đổi)
@@ -534,25 +531,25 @@ git show def5678  # Xem nội dung commit trước khi cherry-pick
 
 ### 8.3. Khi nào KHÔNG nên dùng cherry-pick?
 
-| Không nên | Nên dùng thay thế |
-|-----------|-------------------|
+| Không nên                                 | Nên dùng thay thế             |
+| ----------------------------------------- | ----------------------------- |
 | Lấy nhiều commit liên tiếp từ branch khác | `git merge` hoặc `git rebase` |
-| "Sao chép" feature toàn bộ | `git merge feature-branch` |
-| Thường xuyên cherry-pick giữa 2 branch | Xem lại branching strategy |
-| Commit phụ thuộc nhiều commit khác | Merge cả nhóm commit |
+| "Sao chép" feature toàn bộ                | `git merge feature-branch`    |
+| Thường xuyên cherry-pick giữa 2 branch    | Xem lại branching strategy    |
+| Commit phụ thuộc nhiều commit khác        | Merge cả nhóm commit          |
 
 ---
 
 ## 9. So sánh Stash vs Branch cho việc tạm lưu
 
-| Đặc điểm | `git stash` | Tạo branch mới |
-|----------|------------|----------------|
-| Tốc độ | Nhanh (1 lệnh) | Chậm hơn (3 lệnh: switch, add, commit) |
-| Phạm vi | Tạm thời, ngắn hạn | Dài hạn, có tên rõ ràng |
-| Chia sẻ | Không (chỉ local) | Có (push lên remote) |
-| Lịch sử | Không hiển thị trong git log | Có commit, hiển thị trong log |
-| Tìm lại | Khó (stash list không trực quan) | Dễ (git branch liệt kê) |
-| Khi nào dùng | Chuyển việc nhanh (vài phút - vài giờ) | Tạm dừng lâu (vài ngày+) |
+| Đặc điểm     | `git stash`                            | Tạo branch mới                         |
+| ------------ | -------------------------------------- | -------------------------------------- |
+| Tốc độ       | Nhanh (1 lệnh)                         | Chậm hơn (3 lệnh: switch, add, commit) |
+| Phạm vi      | Tạm thời, ngắn hạn                     | Dài hạn, có tên rõ ràng                |
+| Chia sẻ      | Không (chỉ local)                      | Có (push lên remote)                   |
+| Lịch sử      | Không hiển thị trong git log           | Có commit, hiển thị trong log          |
+| Tìm lại      | Khó (stash list không trực quan)       | Dễ (git branch liệt kê)                |
+| Khi nào dùng | Chuyển việc nhanh (vài phút - vài giờ) | Tạm dừng lâu (vài ngày+)               |
 
 ### Ví dụ so sánh
 
@@ -818,30 +815,30 @@ git stash list
 
 ### Stash
 
-| Lệnh | Chức năng |
-|------|-----------|
-| `git stash` | Tạm cất thay đổi (chỉ tracked files) |
+| Lệnh                         | Chức năng                             |
+| ---------------------------- | ------------------------------------- |
+| `git stash`                  | Tạm cất thay đổi (chỉ tracked files)  |
 | `git stash push -u -m "msg"` | Stash với message, cả untracked files |
-| `git stash push file1 file2` | Stash chỉ định files |
-| `git stash list` | Xem danh sách stash |
-| `git stash show -p` | Xem nội dung stash (diff) |
-| `git stash pop` | Lấy lại và xóa khỏi stack |
-| `git stash apply` | Lấy lại nhưng giữ trong stack |
-| `git stash drop stash@{n}` | Xóa 1 stash cụ thể |
-| `git stash clear` | Xóa tất cả stash |
-| `git stash branch <name>` | Tạo branch từ stash |
+| `git stash push file1 file2` | Stash chỉ định files                  |
+| `git stash list`             | Xem danh sách stash                   |
+| `git stash show -p`          | Xem nội dung stash (diff)             |
+| `git stash pop`              | Lấy lại và xóa khỏi stack             |
+| `git stash apply`            | Lấy lại nhưng giữ trong stack         |
+| `git stash drop stash@{n}`   | Xóa 1 stash cụ thể                    |
+| `git stash clear`            | Xóa tất cả stash                      |
+| `git stash branch <name>`    | Tạo branch từ stash                   |
 
 ### Cherry-pick
 
-| Lệnh | Chức năng |
-|------|-----------|
-| `git cherry-pick <hash>` | Áp dụng 1 commit |
-| `git cherry-pick A B C` | Áp dụng nhiều commit |
-| `git cherry-pick A..B` | Áp dụng range (không gồm A) |
-| `git cherry-pick A^..B` | Áp dụng range (gồm cả A) |
-| `git cherry-pick --no-commit <hash>` | Áp dụng nhưng không commit |
-| `git cherry-pick --continue` | Tiếp tục sau khi resolve conflict |
-| `git cherry-pick --abort` | Hủy cherry-pick |
-| `git cherry-pick --skip` | Bỏ qua commit hiện tại |
+| Lệnh                                 | Chức năng                         |
+| ------------------------------------ | --------------------------------- |
+| `git cherry-pick <hash>`             | Áp dụng 1 commit                  |
+| `git cherry-pick A B C`              | Áp dụng nhiều commit              |
+| `git cherry-pick A..B`               | Áp dụng range (không gồm A)       |
+| `git cherry-pick A^..B`              | Áp dụng range (gồm cả A)          |
+| `git cherry-pick --no-commit <hash>` | Áp dụng nhưng không commit        |
+| `git cherry-pick --continue`         | Tiếp tục sau khi resolve conflict |
+| `git cherry-pick --abort`            | Hủy cherry-pick                   |
+| `git cherry-pick --skip`             | Bỏ qua commit hiện tại            |
 
 **Ghi nhớ:** Stash để "tạm cất", cherry-pick để "nhặt chọn". Cả hai là công cụ không thể thiếu trong workflow hàng ngày của developer.

@@ -9,9 +9,6 @@ Viết code chạy được thì ai cũng làm được. Nhưng viết code **d�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. DRY — Don't Repeat Yourself](#1-dry-dont-repeat-yourself)
@@ -369,6 +366,7 @@ class OrderService {
 ### Quy tắc cụ thể
 
 Một method `m` của class `C` chỉ nên gọi method của:
+
 1. **Chính `C`** (this)
 2. **Object được tạo trong `m`** (local variables)
 3. **Parameter của `m`**
@@ -394,7 +392,7 @@ class Example {
 
 ## 7. Composition over Inheritance — Ưu tiên Composition
 
-**"Ưu tiên composition hơn inheritance"** là lời khuyên từ cuốn *Design Patterns* (Gang of Four). Thay vì kế thừa để tái sử dụng code, hãy **chứa object** (HAS-A) thay vì **là loại** (IS-A).
+**"Ưu tiên composition hơn inheritance"** là lời khuyên từ cuốn _Design Patterns_ (Gang of Four). Thay vì kế thừa để tái sử dụng code, hãy **chứa object** (HAS-A) thay vì **là loại** (IS-A).
 
 ### Vấn đề của Inheritance
 
@@ -458,13 +456,13 @@ class Penguin {
 
 ### So sánh
 
-| Tiêu chí | Inheritance | Composition |
-|---|---|---|
-| **Quan hệ** | IS-A (là loại) | HAS-A (có) |
-| **Linh hoạt** | Cứng nhắc (compile-time) | Linh hoạt (runtime) |
-| **Coupling** | Chặt (child phụ thuộc parent) | Lỏng (chỉ phụ thuộc interface) |
-| **Thay đổi hành vi** | Khó (phải override) | Dễ (swap implementation) |
-| **Khi nào dùng** | Quan hệ IS-A rõ ràng | Mặc định — ưu tiên dùng |
+| Tiêu chí             | Inheritance                   | Composition                    |
+| -------------------- | ----------------------------- | ------------------------------ |
+| **Quan hệ**          | IS-A (là loại)                | HAS-A (có)                     |
+| **Linh hoạt**        | Cứng nhắc (compile-time)      | Linh hoạt (runtime)            |
+| **Coupling**         | Chặt (child phụ thuộc parent) | Lỏng (chỉ phụ thuộc interface) |
+| **Thay đổi hành vi** | Khó (phải override)           | Dễ (swap implementation)       |
+| **Khi nào dùng**     | Quan hệ IS-A rõ ràng          | Mặc định — ưu tiên dùng        |
 
 ---
 
@@ -537,7 +535,7 @@ class UserService {
 
 > "Thêm người vào dự án phần mềm đang trễ chỉ làm nó trễ hơn."
 >
-> — Fred Brooks, *The Mythical Man-Month* (1975)
+> — Fred Brooks, _The Mythical Man-Month_ (1975)
 
 ### Tại sao?
 
@@ -564,11 +562,11 @@ class UserService {
 
 ### Ví dụ
 
-| Cấu trúc team | Kiến trúc hệ thống |
-|---|---|
-| Team Frontend + Team Backend | Monolith với 2 layer |
-| Team theo sản phẩm (A, B, C) | Microservices cho từng sản phẩm |
-| Team theo chức năng (Auth, Payment, Inventory) | Microservices theo domain |
+| Cấu trúc team                                  | Kiến trúc hệ thống              |
+| ---------------------------------------------- | ------------------------------- |
+| Team Frontend + Team Backend                   | Monolith với 2 layer            |
+| Team theo sản phẩm (A, B, C)                   | Microservices cho từng sản phẩm |
+| Team theo chức năng (Auth, Payment, Inventory) | Microservices theo domain       |
 
 ### Ý nghĩa cho developer
 
@@ -802,17 +800,17 @@ UserService service2 = new UserService(new PostgreSQLDatabase());
 
 ## 12. Tổng kết
 
-| Nguyên tắc | Ý nghĩa | Một câu ghi nhớ |
-|---|---|---|
-| **DRY** | Không lặp logic | "Một sự thật, một nơi" |
-| **KISS** | Đơn giản nhất có thể | "Đừng over-engineer" |
-| **YAGNI** | Không code trước khi cần | "Viết khi nào cần khi đó" |
-| **Boy Scout** | Cải thiện dần | "Rời đi tốt hơn khi đến" |
-| **Fail Fast** | Phát hiện lỗi sớm | "Sai sớm, sửa dễ" |
-| **Law of Demeter** | Ít biết về nhau | "Chỉ nói chuyện với bạn thân" |
-| **Composition > Inheritance** | Ưu tiên HAS-A | "Chứa, đừng kế thừa" |
-| **Least Astonishment** | Không gây bất ngờ | "Code đúng như tên gọi" |
-| **SOLID** | 5 nguyên lý OOP | "S-O-L-I-D" |
+| Nguyên tắc                    | Ý nghĩa                  | Một câu ghi nhớ               |
+| ----------------------------- | ------------------------ | ----------------------------- |
+| **DRY**                       | Không lặp logic          | "Một sự thật, một nơi"        |
+| **KISS**                      | Đơn giản nhất có thể     | "Đừng over-engineer"          |
+| **YAGNI**                     | Không code trước khi cần | "Viết khi nào cần khi đó"     |
+| **Boy Scout**                 | Cải thiện dần            | "Rời đi tốt hơn khi đến"      |
+| **Fail Fast**                 | Phát hiện lỗi sớm        | "Sai sớm, sửa dễ"             |
+| **Law of Demeter**            | Ít biết về nhau          | "Chỉ nói chuyện với bạn thân" |
+| **Composition > Inheritance** | Ưu tiên HAS-A            | "Chứa, đừng kế thừa"          |
+| **Least Astonishment**        | Không gây bất ngờ        | "Code đúng như tên gọi"       |
+| **SOLID**                     | 5 nguyên lý OOP          | "S-O-L-I-D"                   |
 
 ---
 

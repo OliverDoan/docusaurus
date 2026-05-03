@@ -11,9 +11,6 @@ Hiểu rõ về biến là bước đầu tiên quan trọng nhất để học 
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Khai báo biến](#1-khai-báo-biến)
@@ -79,9 +76,11 @@ x=1, y=2, z=3
 
 :::warning Lưu ý
 Không thể khai báo nhiều biến **khác kiểu** trong cùng một lệnh:
+
 ```java
 int a = 1, long b = 2; // LỖI BIÊN DỊCH!
 ```
+
 :::
 
 ---
@@ -121,6 +120,7 @@ public class LocalVariableDemo {
 ```
 
 **Đặc điểm:**
+
 - Lưu trên **Stack**
 - **Không có** giá trị mặc định -- **bắt buộc** phải khởi tạo trước khi sử dụng
 - **Không** có access modifier (public, private...)
@@ -162,6 +162,7 @@ public class SinhVien {
 ```
 
 **Đặc điểm:**
+
 - Lưu trên **Heap** (cùng với đối tượng)
 - **Có** giá trị mặc định: `int` = 0, `double` = 0.0, `boolean` = false, `String` = null
 - Có thể dùng **access modifier** (private, public, protected)
@@ -211,6 +212,7 @@ public class NhanVien {
 ```
 
 **Đặc điểm:**
+
 - Lưu trên **Method Area** (Static Memory)
 - Chỉ có **một bản sao duy nhất** cho tất cả đối tượng
 - Được tạo khi class được nạp, bị hủy khi chương trình kết thúc
@@ -220,14 +222,14 @@ public class NhanVien {
 
 ## 3. Bảng so sánh 3 loại biến
 
-| Tiêu chí | Local Variable | Instance Variable | Static Variable |
-|----------|---------------|-------------------|-----------------|
-| **Vị trí khai báo** | Trong method/block | Trong class, ngoài method | Trong class, có từ khóa `static` |
-| **Vùng nhớ** | Stack | Heap | Method Area |
-| **Giá trị mặc định** | Không có (phải khởi tạo) | Có (0, null, false...) | Có (0, null, false...) |
-| **Phạm vi** | Trong block/method | Trong đối tượng | Toàn bộ class |
-| **Số bản sao** | Mỗi lần gọi tạo mới | Mỗi đối tượng 1 bản | 1 bản duy nhất |
-| **Truy cập** | Trực tiếp | Qua đối tượng | Qua TenClass.tenBien |
+| Tiêu chí             | Local Variable           | Instance Variable         | Static Variable                  |
+| -------------------- | ------------------------ | ------------------------- | -------------------------------- |
+| **Vị trí khai báo**  | Trong method/block       | Trong class, ngoài method | Trong class, có từ khóa `static` |
+| **Vùng nhớ**         | Stack                    | Heap                      | Method Area                      |
+| **Giá trị mặc định** | Không có (phải khởi tạo) | Có (0, null, false...)    | Có (0, null, false...)           |
+| **Phạm vi**          | Trong block/method       | Trong đối tượng           | Toàn bộ class                    |
+| **Số bản sao**       | Mỗi lần gọi tạo mới      | Mỗi đối tượng 1 bản       | 1 bản duy nhất                   |
+| **Truy cập**         | Trực tiếp                | Qua đối tượng             | Qua TenClass.tenBien             |
 
 ---
 
@@ -303,6 +305,7 @@ public class HangSoDemo {
 ```
 
 **Quy tắc đặt tên hằng số:**
+
 - Viết **IN HOA** tất cả
 - Dùng dấu `_` để ngăn cách các từ
 - Ví dụ: `MAX_VALUE`, `PI_NUMBER`, `DEFAULT_TIMEOUT`
@@ -311,14 +314,15 @@ public class HangSoDemo {
 
 ## 6. Quy tắc đặt tên biến
 
-| Loại | Quy tắc | Ví dụ |
-|------|---------|-------|
+| Loại                   | Quy tắc                                                       | Ví dụ                                  |
+| ---------------------- | ------------------------------------------------------------- | -------------------------------------- |
 | **Biến / Phương thức** | camelCase (viết thường chữ đầu, hoa chữ đầu các từ tiếp theo) | `hoTen`, `diemTrungBinh`, `tinhTong()` |
-| **Class / Interface** | PascalCase (viết hoa chữ đầu mỗi từ) | `SinhVien`, `NhanVien`, `ArrayList` |
-| **Hằng số** | UPPER_SNAKE_CASE | `MAX_VALUE`, `PI`, `DEFAULT_SIZE` |
-| **Package** | Tất cả viết thường | `com.example.myapp` |
+| **Class / Interface**  | PascalCase (viết hoa chữ đầu mỗi từ)                          | `SinhVien`, `NhanVien`, `ArrayList`    |
+| **Hằng số**            | UPPER_SNAKE_CASE                                              | `MAX_VALUE`, `PI`, `DEFAULT_SIZE`      |
+| **Package**            | Tất cả viết thường                                            | `com.example.myapp`                    |
 
 **Quy tắc chung:**
+
 - Bắt đầu bằng chữ cái, `_` hoặc `$` (không bắt đầu bằng số)
 - Không dùng **từ khóa Java** (class, public, static, int...)
 - Phân biệt chữ hoa/thường (`age` khác `Age`)
@@ -463,6 +467,7 @@ String staticText = "hello";
 ### Câu 1: Sự khác biệt giữa biến instance và biến static?
 
 **Trả lời:**
+
 - **Biến instance:** Thuộc về **đối tượng**, mỗi đối tượng có bản sao riêng, lưu trên Heap, tạo khi `new` đối tượng.
 - **Biến static:** Thuộc về **class**, chỉ có một bản sao duy nhất dùng chung cho tất cả đối tượng, lưu trên Method Area, tạo khi class được nạp.
 - Ví dụ: Trong lớp `SinhVien`, `ten` là biến instance (mỗi SV có tên khác nhau), `tenTruong` là biến static (tất cả SV cùng trường).

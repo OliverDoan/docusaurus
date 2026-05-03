@@ -9,9 +9,6 @@ Hãy tưởng tượng bạn đến **máy ATM** rút tiền. Bạn nhấn nút,
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Encapsulation là gì?](#1-encapsulation-là-gì)
@@ -48,9 +45,9 @@ Hãy tưởng tượng bạn đến **máy ATM** rút tiền. Bạn nhấn nút,
 
 ### Hai khía cạnh của Encapsulation
 
-| Khía cạnh | Giải thích | Cách thực hiện |
-|---|---|---|
-| **Data Hiding** | Ẩn dữ liệu khỏi bên ngoài | Khai báo fields là `private` |
+| Khía cạnh              | Giải thích                          | Cách thực hiện                      |
+| ---------------------- | ----------------------------------- | ----------------------------------- |
+| **Data Hiding**        | Ẩn dữ liệu khỏi bên ngoài           | Khai báo fields là `private`        |
 | **Data Encapsulation** | Cung cấp cách truy cập có kiểm soát | Dùng `getter` và `setter` công khai |
 
 ---
@@ -269,12 +266,12 @@ System.out.println(total);  // 1200.0 USD — Object mới
 
 ### Quy tắc Immutable Class
 
-| Quy tắc | Giải thích |
-|---|---|
-| Class phải `final` | Ngăn subclass thay đổi hành vi |
-| Tất cả fields phải `private final` | Không thể thay đổi sau constructor |
-| Không có setter | Không thể modify từ bên ngoài |
-| Nếu field là mutable object, trả về defensive copy trong getter | Ngăn thay đổi gián tiếp |
+| Quy tắc                                                         | Giải thích                         |
+| --------------------------------------------------------------- | ---------------------------------- |
+| Class phải `final`                                              | Ngăn subclass thay đổi hành vi     |
+| Tất cả fields phải `private final`                              | Không thể thay đổi sau constructor |
+| Không có setter                                                 | Không thể modify từ bên ngoài      |
+| Nếu field là mutable object, trả về defensive copy trong getter | Ngăn thay đổi gián tiếp            |
 
 ---
 
@@ -308,11 +305,11 @@ public class Product {
 
 ### Quy tắc đặt tên
 
-| Loại | Quy tắc | Ví dụ |
-|---|---|---|
-| Getter (non-boolean) | `get` + tên field viết hoa chữ đầu | `getName()` |
-| Getter (boolean) | `is` + tên field viết hoa chữ đầu | `isAvailable()` |
-| Setter | `set` + tên field viết hoa chữ đầu | `setName(String name)` |
+| Loại                 | Quy tắc                            | Ví dụ                  |
+| -------------------- | ---------------------------------- | ---------------------- |
+| Getter (non-boolean) | `get` + tên field viết hoa chữ đầu | `getName()`            |
+| Getter (boolean)     | `is` + tên field viết hoa chữ đầu  | `isAvailable()`        |
+| Setter               | `set` + tên field viết hoa chữ đầu | `setName(String name)` |
 
 ---
 
@@ -320,25 +317,25 @@ public class Product {
 
 Hai khái niệm hay bị nhầm lẫn:
 
-| Tiêu chí | Encapsulation | Abstraction |
-|---|---|---|
-| **Mục đích** | Ẩn **dữ liệu** (data hiding) | Ẩn **chi tiết triển khai** (implementation hiding) |
-| **Cách thực hiện** | `private` fields + getter/setter | Abstract class, Interface |
-| **Trả lời câu hỏi** | "Làm sao bảo vệ dữ liệu?" | "Cần biết gì, không cần biết gì?" |
-| **Ví dụ thực tế** | Két sắt: bảo vệ tiền bên trong | Remote TV: chỉ thấy nút bấm, không thấy mạch điện |
-| **Level** | Class level (thiết kế class) | Design level (thiết kế hệ thống) |
+| Tiêu chí            | Encapsulation                    | Abstraction                                        |
+| ------------------- | -------------------------------- | -------------------------------------------------- |
+| **Mục đích**        | Ẩn **dữ liệu** (data hiding)     | Ẩn **chi tiết triển khai** (implementation hiding) |
+| **Cách thực hiện**  | `private` fields + getter/setter | Abstract class, Interface                          |
+| **Trả lời câu hỏi** | "Làm sao bảo vệ dữ liệu?"        | "Cần biết gì, không cần biết gì?"                  |
+| **Ví dụ thực tế**   | Két sắt: bảo vệ tiền bên trong   | Remote TV: chỉ thấy nút bấm, không thấy mạch điện  |
+| **Level**           | Class level (thiết kế class)     | Design level (thiết kế hệ thống)                   |
 
 ---
 
 ## 8. Lợi ích của Encapsulation
 
-| Lợi ích | Giải thích |
-|---|---|
-| **Kiểm soát dữ liệu** | Validation trong setter ngăn dữ liệu không hợp lệ |
+| Lợi ích                | Giải thích                                                        |
+| ---------------------- | ----------------------------------------------------------------- |
+| **Kiểm soát dữ liệu**  | Validation trong setter ngăn dữ liệu không hợp lệ                 |
 | **Linh hoạt thay đổi** | Thay đổi cách lưu trữ bên trong mà không ảnh hưởng code bên ngoài |
-| **Dễ bảo trì** | Logic tập trung trong class, không phân tán khắp nơi |
-| **Bảo mật** | Ẩn dữ liệu nhạy cảm (password, internal state) |
-| **Tái sử dụng** | Class đóng gói tốt có thể dùng ở nhiều nơi |
+| **Dễ bảo trì**         | Logic tập trung trong class, không phân tán khắp nơi              |
+| **Bảo mật**            | Ẩn dữ liệu nhạy cảm (password, internal state)                    |
+| **Tái sử dụng**        | Class đóng gói tốt có thể dùng ở nhiều nơi                        |
 
 ### Ví dụ linh hoạt thay đổi
 

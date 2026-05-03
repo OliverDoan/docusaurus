@@ -9,9 +9,6 @@ Bài này hướng dẫn cài đặt Docker trên cả 3 hệ điều hành: **m
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Docker Desktop vs Docker Engine](#1-docker-desktop-vs-docker-engine)
@@ -31,12 +28,12 @@ Bài này hướng dẫn cài đặt Docker trên cả 3 hệ điều hành: **m
 
 Trước khi cài, cần hiểu 2 phiên bản:
 
-| | Docker Desktop | Docker Engine |
-|---|---|---|
-| **Dành cho** | macOS, Windows | Linux |
-| **Giao diện** | Có GUI (giao diện đồ họa) | Chỉ có CLI (dòng lệnh) |
-| **Bao gồm** | Docker Engine + Docker Compose + GUI | Chỉ Docker Engine |
-| **Phù hợp** | Developer cá nhân | Server production |
+|               | Docker Desktop                       | Docker Engine          |
+| ------------- | ------------------------------------ | ---------------------- |
+| **Dành cho**  | macOS, Windows                       | Linux                  |
+| **Giao diện** | Có GUI (giao diện đồ họa)            | Chỉ có CLI (dòng lệnh) |
+| **Bao gồm**   | Docker Engine + Docker Compose + GUI | Chỉ Docker Engine      |
+| **Phù hợp**   | Developer cá nhân                    | Server production      |
 
 **Khuyến nghị**: Nếu dùng macOS hoặc Windows → cài **Docker Desktop**. Nếu dùng Linux → cài **Docker Engine**.
 
@@ -45,6 +42,7 @@ Trước khi cài, cần hiểu 2 phiên bản:
 ## 2. Cài trên macOS
 
 ### Yêu cầu hệ thống
+
 - macOS 12 (Monterey) trở lên
 - Chip Apple Silicon (M1/M2/M3) hoặc Intel
 - Ít nhất 4GB RAM
@@ -67,6 +65,7 @@ open /Applications/Docker.app
 ```
 
 Lần đầu mở sẽ cần:
+
 - Cấp quyền hệ thống (nhập password)
 - Đợi Docker Engine khởi động (icon trên menu bar chuyển sang xanh)
 
@@ -85,6 +84,7 @@ docker compose version
 ## 3. Cài trên Windows
 
 ### Yêu cầu hệ thống
+
 - Windows 10/11 (64-bit)
 - WSL 2 (Windows Subsystem for Linux) đã bật
 - Ít nhất 4GB RAM
@@ -252,11 +252,11 @@ Vào **Docker Desktop → Settings** để tuỳ chỉnh:
 
 ### Resources (Tài nguyên)
 
-| Cấu hình | Khuyến nghị |
-|----------|------------|
-| **CPUs** | 50% số core (VD: 4 core → để 2) |
+| Cấu hình   | Khuyến nghị                                          |
+| ---------- | ---------------------------------------------------- |
+| **CPUs**   | 50% số core (VD: 4 core → để 2)                      |
 | **Memory** | 4GB cho dev thông thường, 8GB nếu chạy nhiều service |
-| **Disk** | 60GB trở lên |
+| **Disk**   | 60GB trở lên                                         |
 
 ### General
 
@@ -334,10 +334,10 @@ sudo systemctl restart docker
 
 ## Tổng kết
 
-| Hệ điều hành | Cách cài | Ghi chú |
-|-------------|---------|---------|
-| **macOS** | `brew install --cask docker` | Hoặc tải từ web |
-| **Windows** | Tải Docker Desktop + WSL 2 | Cần bật WSL 2 trước |
-| **Ubuntu** | `apt-get install docker-ce` | Thêm user vào group docker |
+| Hệ điều hành | Cách cài                     | Ghi chú                    |
+| ------------ | ---------------------------- | -------------------------- |
+| **macOS**    | `brew install --cask docker` | Hoặc tải từ web            |
+| **Windows**  | Tải Docker Desktop + WSL 2   | Cần bật WSL 2 trước        |
+| **Ubuntu**   | `apt-get install docker-ce`  | Thêm user vào group docker |
 
 Bạn đã có Docker trên máy. Bài tiếp theo sẽ tìm hiểu **kiến trúc Docker** hoạt động như thế nào.

@@ -9,9 +9,6 @@ Docker và CI/CD là cặp đôi hoàn hảo. Bài này hướng dẫn cách s�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Tại sao Docker + CI/CD?](#1-tại-sao-docker-cicd)
@@ -228,7 +225,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    needs: build-and-push  # Chạy sau khi build xong
+    needs: build-and-push # Chạy sau khi build xong
 
     steps:
       - name: Deploy to server
@@ -374,7 +371,7 @@ Push code → Test → Build Image → Push to Registry → Deploy to Server
     context: .
     push: true
     tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-    cache-from: type=gha        # Đọc cache từ GitHub Actions
+    cache-from: type=gha # Đọc cache từ GitHub Actions
     cache-to: type=gha,mode=max # Lưu cache vào GitHub Actions
 ```
 
@@ -411,13 +408,13 @@ Tạo một pipeline đơn giản cho project Node.js:
 
 ## Tổng kết
 
-| Bước | Công cụ | Mô tả |
-|------|---------|--------|
-| **Test** | `docker build --target test` | Chạy test trong container |
-| **Build** | `docker/build-push-action` | Build multi-platform image |
-| **Push** | GHCR / Docker Hub | Lưu image lên registry |
-| **Deploy** | SSH / Webhook | Pull + restart trên server |
-| **Cache** | GHA cache / Registry cache | Tăng tốc build |
+| Bước       | Công cụ                      | Mô tả                      |
+| ---------- | ---------------------------- | -------------------------- |
+| **Test**   | `docker build --target test` | Chạy test trong container  |
+| **Build**  | `docker/build-push-action`   | Build multi-platform image |
+| **Push**   | GHCR / Docker Hub            | Lưu image lên registry     |
+| **Deploy** | SSH / Webhook                | Pull + restart trên server |
+| **Cache**  | GHA cache / Registry cache   | Tăng tốc build             |
 
 ### Quy trình khuyến nghị
 

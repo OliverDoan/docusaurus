@@ -9,9 +9,6 @@ Bài này hướng dẫn cách quản lý container hiệu quả: liệt kê, l�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Liệt kê và lọc Container](#1-liệt-kê-và-lọc-container)
@@ -95,11 +92,11 @@ docker stop -t 30 my-container
 docker kill my-container
 ```
 
-| | docker stop | docker kill |
-|---|---|---|
-| **Signal** | SIGTERM → SIGKILL | SIGKILL |
-| **Graceful** | Co (app có thể cleanup) | Khong |
-| **Khi nào dùng** | Bình thường | Container bị treo |
+|                  | docker stop             | docker kill       |
+| ---------------- | ----------------------- | ----------------- |
+| **Signal**       | SIGTERM → SIGKILL       | SIGKILL           |
+| **Graceful**     | Co (app có thể cleanup) | Khong             |
+| **Khi nào dùng** | Bình thường             | Container bị treo |
 
 ### Khởi động lại
 
@@ -227,6 +224,7 @@ docker commit -a "dev@example.com" -m "Custom nginx" my-container custom-nginx:v
 ```
 
 **Lưu ý**: `docker commit` tạo image từ trạng thái hiện tại của container. Tuy nhiên, nên dùng **Dockerfile** thay vì commit vì Dockerfile:
+
 - Reproducible (có thể build lại)
 - Version control (lưu trong git)
 - Transparent (biết image chứa gì)
@@ -302,16 +300,16 @@ docker system df
 
 ## Tổng kết
 
-| Thao tác | Lệnh |
-|---------|-------|
-| **Liệt kê** | `docker ps [-a]` |
-| **Lọc** | `docker ps --filter "..."` |
-| **Dừng** | `docker stop` (graceful) / `docker kill` (force) |
-| **Khởi động** | `docker start` / `docker restart` |
-| **Đổi tên** | `docker rename` |
-| **Update config** | `docker update --memory=1g` |
-| **Chi tiết** | `docker inspect` |
-| **Processes** | `docker top` |
-| **File changes** | `docker diff` |
-| **Commit** | `docker commit` (ưu tiên Dockerfile) |
-| **Dọn dẹp** | `docker container prune` |
+| Thao tác          | Lệnh                                             |
+| ----------------- | ------------------------------------------------ |
+| **Liệt kê**       | `docker ps [-a]`                                 |
+| **Lọc**           | `docker ps --filter "..."`                       |
+| **Dừng**          | `docker stop` (graceful) / `docker kill` (force) |
+| **Khởi động**     | `docker start` / `docker restart`                |
+| **Đổi tên**       | `docker rename`                                  |
+| **Update config** | `docker update --memory=1g`                      |
+| **Chi tiết**      | `docker inspect`                                 |
+| **Processes**     | `docker top`                                     |
+| **File changes**  | `docker diff`                                    |
+| **Commit**        | `docker commit` (ưu tiên Dockerfile)             |
+| **Dọn dẹp**       | `docker container prune`                         |

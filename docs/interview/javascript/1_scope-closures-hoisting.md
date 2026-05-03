@@ -9,9 +9,6 @@ Phần này tổng hợp những câu hỏi phỏng vấn phổ biến nhất v�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: Phân biệt `var`, `let`, `const` -- Block scope vs Function scope `[Intermediate]`](#câu-1-phân-biệt-var-let-const-block-scope-vs-function-scope-intermediate)
@@ -37,13 +34,13 @@ JavaScript có hai loại scope chính cho biến:
 - **Function scope**: Biến tồn tại trong toàn bộ hàm chứa nó. `var` tuân theo kiểu này.
 - **Block scope**: Biến chỉ tồn tại bên trong cặp `{}` gần nhất. `let` và `const` tuân theo kiểu này.
 
-| Tính chất | `var` | `let` | `const` |
-|---|---|---|---|
-| Scope | Function scope | Block scope | Block scope |
-| Hoisting | Có, khởi tạo `undefined` | Có, nhưng nằm trong TDZ | Có, nhưng nằm trong TDZ |
-| Re-declaration | Cho phép | Không cho phép | Không cho phép |
-| Re-assignment | Cho phép | Cho phép | Không cho phép |
-| Temporal Dead Zone | Không | Có | Có |
+| Tính chất          | `var`                    | `let`                   | `const`                 |
+| ------------------ | ------------------------ | ----------------------- | ----------------------- |
+| Scope              | Function scope           | Block scope             | Block scope             |
+| Hoisting           | Có, khởi tạo `undefined` | Có, nhưng nằm trong TDZ | Có, nhưng nằm trong TDZ |
+| Re-declaration     | Cho phép                 | Không cho phép          | Không cho phép          |
+| Re-assignment      | Cho phép                 | Cho phép                | Không cho phép          |
+| Temporal Dead Zone | Không                    | Có                      | Có                      |
 
 **TDZ (Temporal Dead Zone)** là khoảng thời gian từ khi block bắt đầu cho đến khi biến được khai báo. Truy cập biến trong TDZ sẽ gây ra `ReferenceError`.
 
@@ -53,8 +50,8 @@ JavaScript có hai loại scope chính cho biến:
 // Function scope vs Block scope
 function demoScope() {
   if (true) {
-    var a = 1;   // function scope -> tồn tại trong toàn bộ hàm
-    let b = 2;   // block scope -> chỉ tồn tại trong if
+    var a = 1; // function scope -> tồn tại trong toàn bộ hàm
+    let b = 2; // block scope -> chỉ tồn tại trong if
     const c = 3; // block scope -> chỉ tồn tại trong if
   }
 
@@ -190,8 +187,8 @@ function createWallet(initialBalance) {
 
 const wallet = createWallet(100);
 console.log(wallet.getBalance()); // 100
-wallet.deposit(50);               // 150
-wallet.withdraw(30);              // 120
+wallet.deposit(50); // 150
+wallet.withdraw(30); // 120
 // console.log(wallet.balance);   // undefined -- không truy cập trực tiếp được!
 
 // ===== Use Case 2: Factory Functions =====
@@ -204,8 +201,8 @@ function createMultiplier(multiplier) {
 const double = createMultiplier(2);
 const triple = createMultiplier(3);
 
-console.log(double(5));  // 10
-console.log(triple(5));  // 15
+console.log(double(5)); // 10
+console.log(triple(5)); // 15
 
 // ===== Use Case 3: Event Handlers với trạng thái =====
 function createClickCounter(buttonId) {
@@ -368,9 +365,9 @@ function outer() {
       const innerVar = "Inner";
 
       // Scope chain: inner -> middle -> outer -> global
-      console.log(innerVar);  // "Inner"   -- tìm thấy ở inner
+      console.log(innerVar); // "Inner"   -- tìm thấy ở inner
       console.log(middleVar); // "Middle"  -- tìm thấy ở middle
-      console.log(outerVar);  // "Outer"   -- tìm thấy ở outer
+      console.log(outerVar); // "Outer"   -- tìm thấy ở outer
       console.log(globalVar); // "Global"  -- tìm thấy ở global
     }
 
@@ -486,7 +483,7 @@ for (var i = 0; i < 3; i++) {
       console.log(j); // 0, 1, 2
     },
     1000,
-    i // Truyền i như tham số cho callback
+    i, // Truyền i như tham số cho callback
   );
 }
 
@@ -496,7 +493,7 @@ for (var i = 0; i < 3; i++) {
     function (j) {
       console.log(j); // 0, 1, 2
     }.bind(null, i),
-    1000
+    1000,
   );
 }
 
@@ -526,11 +523,11 @@ for (var i = 0; i < 3; i++) {
 
 ## Lỗi thường gặp khi trả lời
 
-| Lỗi | Giải thích đúng |
-|---|---|
-| "Hoisting di chuyển code lên đầu file" | Hoisting chỉ di chuyển **khai báo**, không di chuyển code vật lý. Đây là cơ chế của compiler phase. |
-| "Closure là hàm bên trong hàm" | Closure là hàm + lexical environment của nó. Hàm bên trong hàm chỉ là điều kiện cần, không đủ. |
-| "`const` tạo biến bất biến (immutable)" | `const` chỉ ngăn **re-assignment**. Object/array khai báo bằng `const` vẫn có thể bị mutate. |
-| "let và const không được hoist" | Chúng **có** được hoist, nhưng nằm trong TDZ nên không truy cập được trước khi khai báo. |
-| "IIFE chỉ là cú pháp" | IIFE là pattern quan trọng tạo private scope. Nó là nền tảng của Module Pattern trước ES6. |
-| "Closure gây memory leak" | Closure **có thể** gây memory leak nếu giữ reference không cần thiết, nhưng bản thân nó không phải là leak. Cần hiểu khi nào reference bị giữ và khi nào được GC thu hồi. |
+| Lỗi                                     | Giải thích đúng                                                                                                                                                           |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "Hoisting di chuyển code lên đầu file"  | Hoisting chỉ di chuyển **khai báo**, không di chuyển code vật lý. Đây là cơ chế của compiler phase.                                                                       |
+| "Closure là hàm bên trong hàm"          | Closure là hàm + lexical environment của nó. Hàm bên trong hàm chỉ là điều kiện cần, không đủ.                                                                            |
+| "`const` tạo biến bất biến (immutable)" | `const` chỉ ngăn **re-assignment**. Object/array khai báo bằng `const` vẫn có thể bị mutate.                                                                              |
+| "let và const không được hoist"         | Chúng **có** được hoist, nhưng nằm trong TDZ nên không truy cập được trước khi khai báo.                                                                                  |
+| "IIFE chỉ là cú pháp"                   | IIFE là pattern quan trọng tạo private scope. Nó là nền tảng của Module Pattern trước ES6.                                                                                |
+| "Closure gây memory leak"               | Closure **có thể** gây memory leak nếu giữ reference không cần thiết, nhưng bản thân nó không phải là leak. Cần hiểu khi nào reference bị giữ và khi nào được GC thu hồi. |

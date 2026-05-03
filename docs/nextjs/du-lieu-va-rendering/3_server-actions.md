@@ -9,9 +9,6 @@ Server Actions là một trong những tính năng đột phá nhất của Next
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Server Actions là gì?](#1-server-actions-là-gì)
@@ -39,6 +36,7 @@ Client (Browser) --> Server Action --> Server (xử lý) --> Trả kết quả v
 ```
 
 Phía sau, Next.js tự động:
+
 1. Tạo một HTTP POST endpoint cho mỗi Server Action
 2. Serialize tham số từ client sang server
 3. Thực thi hàm trên server
@@ -57,10 +55,10 @@ Phía sau, Next.js tự động:
 export default function TrangFeedback() {
   // Inline Server Action -- định nghĩa trong Server Component body
   async function guiFeedback(formData: FormData) {
-    'use server'; // Directive đánh dấu đây là Server Action
+    "use server"; // Directive đánh dấu đây là Server Action
 
-    const ten = formData.get('ten') as string;
-    const noiDung = formData.get('noiDung') as string;
+    const ten = formData.get("ten") as string;
+    const noiDung = formData.get("noiDung") as string;
 
     // Chạy trên server -- có thể truy cập database trực tiếp
     await prisma.feedback.create({
@@ -68,7 +66,7 @@ export default function TrangFeedback() {
     });
 
     // Revalidate trang để hiển thị feedback mới
-    revalidatePath('/feedback');
+    revalidatePath("/feedback");
   }
 
   return (
@@ -87,35 +85,35 @@ Khi bạn muốn **chia sẻ Server Actions giữa nhiều component**, định 
 
 ```tsx
 // app/actions/san-pham.ts
-'use server'; // Tất cả hàm export trong file này đều là Server Actions
+"use server"; // Tất cả hàm export trong file này đều là Server Actions
 
-import { prisma } from '@/lib/prisma';
-import { revalidatePath } from 'next/cache';
+import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 // Tạo sản phẩm mới
 export async function taoSanPham(formData: FormData) {
-  const ten = formData.get('ten') as string;
-  const gia = Number(formData.get('gia'));
-  const moTa = formData.get('moTa') as string;
+  const ten = formData.get("ten") as string;
+  const gia = Number(formData.get("gia"));
+  const moTa = formData.get("moTa") as string;
 
   await prisma.sanPham.create({
     data: { ten, gia, moTa },
   });
 
-  revalidatePath('/san-pham');
+  revalidatePath("/san-pham");
 }
 
 // Cập nhật sản phẩm
 export async function capNhatSanPham(id: string, formData: FormData) {
-  const ten = formData.get('ten') as string;
-  const gia = Number(formData.get('gia'));
+  const ten = formData.get("ten") as string;
+  const gia = Number(formData.get("gia"));
 
   await prisma.sanPham.update({
     where: { id },
     data: { ten, gia },
   });
 
-  revalidatePath('/san-pham');
+  revalidatePath("/san-pham");
 }
 
 // Xóa sản phẩm
@@ -124,7 +122,7 @@ export async function xoaSanPham(id: string) {
     where: { id },
   });
 
-  revalidatePath('/san-pham');
+  revalidatePath("/san-pham");
 }
 ```
 
@@ -132,7 +130,7 @@ Sử dụng trong component:
 
 ```tsx
 // app/san-pham/tao-moi/page.tsx
-import { taoSanPham } from '@/app/actions/san-pham';
+import { taoSanPham } from "@/app/actions/san-pham";
 
 export default function TaoSanPham() {
   return (
@@ -167,12 +165,12 @@ export async function POST(request: Request) {
 }
 
 // app/lien-he/FormLienHe.tsx -- Client component gọi API
-'use client';
+("use client");
 export default function FormLienHe() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await fetch('/api/lien-he', {
-      method: 'POST',
+    await fetch("/api/lien-he", {
+      method: "POST",
       body: JSON.stringify({ ten, email, noiDung }),
     });
   };
@@ -188,16 +186,16 @@ export default function FormLienHe() {
 // app/lien-he/page.tsx -- Không cần API route
 export default function TrangLienHe() {
   async function guiLienHe(formData: FormData) {
-    'use server';
-    const ten = formData.get('ten') as string;
-    const email = formData.get('email') as string;
-    const noiDung = formData.get('noiDung') as string;
+    "use server";
+    const ten = formData.get("ten") as string;
+    const email = formData.get("email") as string;
+    const noiDung = formData.get("noiDung") as string;
 
     await prisma.lienHe.create({
       data: { ten, email, noiDung },
     });
 
-    redirect('/lien-he/cam-on');
+    redirect("/lien-he/cam-on");
   }
 
   return (
@@ -220,11 +218,11 @@ export default function TrangLienHe() {
 > **Lưu ý:** Từ React 19, `useFormState` được đổi tên thành `useActionState`. Xem mục 6 bên dưới.
 
 ```tsx
-'use client';
+"use client";
 // app/dang-ky/FormDangKy.tsx
 
-import { useFormState } from 'react-dom';
-import { dangKyTaiKhoan } from '@/app/actions/auth';
+import { useFormState } from "react-dom";
+import { dangKyTaiKhoan } from "@/app/actions/auth";
 
 // Kiểu dữ liệu trả về từ Server Action
 type TrangThai = {
@@ -236,17 +234,12 @@ const trangThaBanDau: TrangThai = {};
 
 export default function FormDangKy() {
   // useFormState nhận Server Action và trạng thái ban đầu
-  const [trangThai, formAction] = useFormState(
-    dangKyTaiKhoan,
-    trangThaBanDau
-  );
+  const [trangThai, formAction] = useFormState(dangKyTaiKhoan, trangThaBanDau);
 
   return (
     <form action={formAction}>
       {/* Hiển thị lỗi nếu có */}
-      {trangThai.loiLoi && (
-        <div className="loi">{trangThai.loiLoi}</div>
-      )}
+      {trangThai.loiLoi && <div className="loi">{trangThai.loiLoi}</div>}
 
       {/* Hiển thị thông báo thành công */}
       {trangThai.thanhCong && (
@@ -254,12 +247,7 @@ export default function FormDangKy() {
       )}
 
       <input name="email" type="email" placeholder="Email" required />
-      <input
-        name="matKhau"
-        type="password"
-        placeholder="Mật khẩu"
-        required
-      />
+      <input name="matKhau" type="password" placeholder="Mật khẩu" required />
       <button type="submit">Đăng ký</button>
     </form>
   );
@@ -270,7 +258,7 @@ Server Action trả về trạng thái:
 
 ```tsx
 // app/actions/auth.ts
-'use server';
+"use server";
 
 type TrangThai = {
   loiLoi?: string;
@@ -279,10 +267,10 @@ type TrangThai = {
 
 export async function dangKyTaiKhoan(
   trangThaiTruoc: TrangThai,
-  formData: FormData
+  formData: FormData,
 ): Promise<TrangThai> {
-  const email = formData.get('email') as string;
-  const matKhau = formData.get('matKhau') as string;
+  const email = formData.get("email") as string;
+  const matKhau = formData.get("matKhau") as string;
 
   // Kiểm tra email đã tồn tại chưa
   const daTonTai = await prisma.user.findUnique({
@@ -290,7 +278,7 @@ export async function dangKyTaiKhoan(
   });
 
   if (daTonTai) {
-    return { loiLoi: 'Email này đã được đăng ký!' };
+    return { loiLoi: "Email này đã được đăng ký!" };
   }
 
   // Tạo tài khoản mới
@@ -312,20 +300,20 @@ export async function dangKyTaiKhoan(
 `useFormStatus` cho phép bạn **biết form đang submit hay không**. Rất hữu ích để hiển thị trạng thái loading và vô hiệu hóa nút submit.
 
 ```tsx
-'use client';
+"use client";
 // app/components/NutSubmit.tsx
 
-import { useFormStatus } from 'react-dom';
+import { useFormStatus } from "react-dom";
 
 // QUAN TRỌNG: useFormStatus phải dùng TRONG component con của <form>
 // Không dùng được trong cùng component chứa <form>
 
-export default function NutSubmit({ text = 'Gui' }: { text?: string }) {
+export default function NutSubmit({ text = "Gui" }: { text?: string }) {
   const { pending } = useFormStatus();
 
   return (
     <button type="submit" disabled={pending}>
-      {pending ? 'Đang xử lý...' : text}
+      {pending ? "Đang xử lý..." : text}
     </button>
   );
 }
@@ -335,11 +323,11 @@ Sử dụng:
 
 ```tsx
 // app/lien-he/page.tsx
-import NutSubmit from '@/app/components/NutSubmit';
+import NutSubmit from "@/app/components/NutSubmit";
 
 export default function TrangLienHe() {
   async function guiLienHe(formData: FormData) {
-    'use server';
+    "use server";
     // Xử lý form...
     await new Promise((r) => setTimeout(r, 2000)); // Mô phỏng delay
   }
@@ -362,9 +350,9 @@ export default function TrangLienHe() {
 `useFormStatus` chỉ hoạt động khi component **là con của `<form>`**. Nó không hoạt động nếu bạn dùng trong cùng component chứa `<form>`:
 
 ```tsx
-'use client';
+"use client";
 
-import { useFormStatus } from 'react-dom';
+import { useFormStatus } from "react-dom";
 
 // SAI -- useFormStatus trong cùng component với <form>
 export default function FormSai() {
@@ -399,10 +387,10 @@ export default function FormDung() {
 React 19 giới thiệu `useActionState` thay thế `useFormState`, với các cải tiến:
 
 ```tsx
-'use client';
+"use client";
 // app/san-pham/FormTaoSanPham.tsx
 
-import { useActionState } from 'react';
+import { useActionState } from "react";
 
 type TrangThai = {
   loi?: string;
@@ -411,10 +399,10 @@ type TrangThai = {
 
 export default function FormTaoSanPham() {
   // useActionState: (action, initialState) => [state, formAction, isPending]
-  const [trangThai, formAction, dangGui] = useActionState(
-    taoSanPhamAction,
-    { loi: undefined, thanhCong: false } as TrangThai
-  );
+  const [trangThai, formAction, dangGui] = useActionState(taoSanPhamAction, {
+    loi: undefined,
+    thanhCong: false,
+  } as TrangThai);
 
   return (
     <form action={formAction}>
@@ -426,7 +414,7 @@ export default function FormTaoSanPham() {
 
       {/* Không cần component con riêng -- có isPending trên sẵn */}
       <button type="submit" disabled={dangGui}>
-        {dangGui ? 'Đang tạo...' : 'Tạo sản phẩm'}
+        {dangGui ? "Đang tạo..." : "Tạo sản phẩm"}
       </button>
     </form>
   );
@@ -435,12 +423,12 @@ export default function FormTaoSanPham() {
 
 ### So sánh useFormState vs useActionState
 
-| Tính năng | `useFormState` | `useActionState` |
-|---|---|---|
-| Package | `react-dom` | `react` |
-| Return | `[state, formAction]` | `[state, formAction, isPending]` |
-| Pending state | Cần `useFormStatus` riêng | Có sẵn `isPending` |
-| React version | 18+ | 19+ |
+| Tính năng     | `useFormState`            | `useActionState`                 |
+| ------------- | ------------------------- | -------------------------------- |
+| Package       | `react-dom`               | `react`                          |
+| Return        | `[state, formAction]`     | `[state, formAction, isPending]` |
+| Pending state | Cần `useFormStatus` riêng | Có sẵn `isPending`               |
+| React version | 18+                       | 19+                              |
 
 ---
 
@@ -450,26 +438,20 @@ export default function FormTaoSanPham() {
 
 ```tsx
 // app/actions/san-pham.ts
-'use server';
+"use server";
 
-import { z } from 'zod';
-import { prisma } from '@/lib/prisma';
-import { revalidatePath } from 'next/cache';
+import { z } from "zod";
+import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 // Schema validation với Zod
 const SanPhamSchema = z.object({
   ten: z
     .string()
-    .min(1, 'Tên sản phẩm khong duoc de trong')
-    .max(100, 'Tên sản phẩm qua dai (toi da 100 ky tu)'),
-  gia: z
-    .number()
-    .positive('Giá phải lớn hơn 0')
-    .max(999999999, 'Giá quá cao'),
-  moTa: z
-    .string()
-    .max(1000, 'Mô tả quá dài (tối đa 1000 ký tự)')
-    .optional(),
+    .min(1, "Tên sản phẩm khong duoc de trong")
+    .max(100, "Tên sản phẩm qua dai (toi da 100 ky tu)"),
+  gia: z.number().positive("Giá phải lớn hơn 0").max(999999999, "Giá quá cao"),
+  moTa: z.string().max(1000, "Mô tả quá dài (tối đa 1000 ký tự)").optional(),
 });
 
 type TrangThai = {
@@ -484,13 +466,13 @@ type TrangThai = {
 
 export async function taoSanPham(
   trangThaiTruoc: TrangThai,
-  formData: FormData
+  formData: FormData,
 ): Promise<TrangThai> {
   // Parse và validate dữ liệu
   const ketQuaValidate = SanPhamSchema.safeParse({
-    ten: formData.get('ten'),
-    gia: Number(formData.get('gia')),
-    moTa: formData.get('moTa') || undefined,
+    ten: formData.get("ten"),
+    gia: Number(formData.get("gia")),
+    moTa: formData.get("moTa") || undefined,
   });
 
   // Nếu validation fail -- trả về lỗi chi tiết
@@ -506,11 +488,11 @@ export async function taoSanPham(
       data: ketQuaValidate.data,
     });
 
-    revalidatePath('/san-pham');
+    revalidatePath("/san-pham");
     return { thanhCong: true };
   } catch (error) {
     return {
-      loi: { chung: 'Có lỗi khi tạo sản phẩm. Vui lòng thử lại.' },
+      loi: { chung: "Có lỗi khi tạo sản phẩm. Vui lòng thử lại." },
     };
   }
 }
@@ -519,11 +501,11 @@ export async function taoSanPham(
 Hiển thị lỗi validation trong form:
 
 ```tsx
-'use client';
+"use client";
 // app/san-pham/tao-moi/FormTao.tsx
 
-import { useActionState } from 'react';
-import { taoSanPham } from '@/app/actions/san-pham';
+import { useActionState } from "react";
+import { taoSanPham } from "@/app/actions/san-pham";
 
 export default function FormTaoSanPham() {
   const [trangThai, formAction, dangGui] = useActionState(taoSanPham, {});
@@ -556,16 +538,14 @@ export default function FormTaoSanPham() {
       </div>
 
       {/* Lỗi chung */}
-      {trangThai.loi?.chung && (
-        <div className="loi">{trangThai.loi.chung}</div>
-      )}
+      {trangThai.loi?.chung && <div className="loi">{trangThai.loi.chung}</div>}
 
       {trangThai.thanhCong && (
         <div className="thanh-cong">Tạo sản phẩm thanh cong!</div>
       )}
 
       <button type="submit" disabled={dangGui}>
-        {dangGui ? 'Đang tạo...' : 'Tạo sản phẩm'}
+        {dangGui ? "Đang tạo..." : "Tạo sản phẩm"}
       </button>
     </form>
   );
@@ -579,11 +559,11 @@ export default function FormTaoSanPham() {
 `useOptimistic` cho phép bạn **cập nhật UI ngay lập tức** trước khi server trả kết quả. Nếu server action thất bại, UI tự động quay lại trạng thái cũ. Giống như bạn gửi tin nhắn -- tin nhắn hiện ngay trên màn hình, còn dấu tích "Đã gửi" sẽ xuất hiện sau khi server xác nhận.
 
 ```tsx
-'use client';
+"use client";
 // app/components/DanhSachBinhLuan.tsx
 
-import { useOptimistic } from 'react';
-import { themBinhLuan } from '@/app/actions/binh-luan';
+import { useOptimistic } from "react";
+import { themBinhLuan } from "@/app/actions/binh-luan";
 
 type BinhLuan = {
   id: string;
@@ -603,17 +583,17 @@ export default function DanhSachBinhLuan({
     (danhSachHienTai: BinhLuan[], binhLuanMoi: BinhLuan) => [
       ...danhSachHienTai,
       { ...binhLuanMoi, dangGui: true },
-    ]
+    ],
   );
 
   async function xuLyGuiBinhLuan(formData: FormData) {
-    const noiDung = formData.get('noiDung') as string;
+    const noiDung = formData.get("noiDung") as string;
 
     // Cập nhật UI ngay lập tức (optimistic)
     themBinhLuanOptimistic({
-      id: 'temp-' + Date.now(),
+      id: "temp-" + Date.now(),
       noiDung,
-      nguoiViet: 'Ban',
+      nguoiViet: "Ban",
     });
 
     // Gửi lên server (chạy ở background)
@@ -626,10 +606,7 @@ export default function DanhSachBinhLuan({
 
       {/* Hiển thị danh sách bình luận (bao gồm optimistic) */}
       {binhLuanOptimistic.map((bl) => (
-        <div
-          key={bl.id}
-          style={{ opacity: bl.dangGui ? 0.5 : 1 }}
-        >
+        <div key={bl.id} style={{ opacity: bl.dangGui ? 0.5 : 1 }}>
           <strong>{bl.nguoiViet}:</strong> {bl.noiDung}
           {bl.dangGui && <span> (đang gửi...)</span>}
         </div>
@@ -654,9 +631,9 @@ export default function DanhSachBinhLuan({
 **LUÔN validate mọi input** từ client. Không bao giờ tin tưởng `formData`:
 
 ```tsx
-'use server';
+"use server";
 
-import { z } from 'zod';
+import { z } from "zod";
 
 export async function capNhatProfile(formData: FormData) {
   // LUÔN validate -- user có thể sửa formData trong DevTools
@@ -666,12 +643,12 @@ export async function capNhatProfile(formData: FormData) {
   });
 
   const ketQua = schema.safeParse({
-    ten: formData.get('ten'),
-    email: formData.get('email'),
+    ten: formData.get("ten"),
+    email: formData.get("email"),
   });
 
   if (!ketQua.success) {
-    return { loi: 'Dữ liệu không hợp lệ' };
+    return { loi: "Dữ liệu không hợp lệ" };
   }
 
   // Dùng ketQua.data (đã validate) thay vì formData
@@ -687,16 +664,16 @@ export async function capNhatProfile(formData: FormData) {
 **LUÔN kiểm tra người dùng đã đăng nhập** trước khi thực hiện Server Action:
 
 ```tsx
-'use server';
+"use server";
 
-import { auth } from '@/lib/auth';
-import { redirect } from 'next/navigation';
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export async function xoaBaiViet(baiVietId: string) {
   // Kiểm tra authentication
   const session = await auth();
   if (!session?.user) {
-    redirect('/dang-nhap');
+    redirect("/dang-nhap");
   }
 
   // Kiểm tra authorization -- chỉ chủ sở hữu mới được xóa
@@ -705,7 +682,7 @@ export async function xoaBaiViet(baiVietId: string) {
   });
 
   if (baiViet?.authorId !== session.user.id) {
-    throw new Error('Bạn không có quyền xóa bài viết này');
+    throw new Error("Bạn không có quyền xóa bài viết này");
   }
 
   // An toàn để xóa
@@ -713,14 +690,14 @@ export async function xoaBaiViet(baiVietId: string) {
     where: { id: baiVietId },
   });
 
-  revalidatePath('/bai-viet');
+  revalidatePath("/bai-viet");
 }
 ```
 
 ### Không trả về dữ liệu nhạy cảm
 
 ```tsx
-'use server';
+"use server";
 
 // SAI -- trả về toàn bộ user object (có thể chứa password hash, etc.)
 export async function layUser(id: string) {
@@ -756,7 +733,7 @@ export async function taoTodo(formData: FormData) {
 
 // ĐÚNG -- thêm "use server" ở đầu file hoặc trong hàm
 // app/actions/todo.ts
-'use server';
+("use server");
 
 export async function taoTodo(formData: FormData) {
   // Bây giờ đây là Server Action thật sự
@@ -767,7 +744,7 @@ export async function taoTodo(formData: FormData) {
 
 ```tsx
 // SAI -- useFormStatus trong component chứa form
-'use client';
+"use client";
 export default function Form() {
   const { pending } = useFormStatus(); // KHÔNG hoạt động!
   return (
@@ -788,19 +765,19 @@ function SubmitButton() {
 
 ```tsx
 // SAI -- tin tưởng dữ liệu từ client
-'use server';
+"use server";
 export async function taoUser(formData: FormData) {
-  const email = formData.get('email') as string;
+  const email = formData.get("email") as string;
   // Trực tiếp insert không validate -- NGUY HIỂM!
   await db.insert(users).values({ email });
 }
 
 // ĐÚNG -- validate trước khi xử lý
-'use server';
+("use server");
 export async function taoUser(formData: FormData) {
-  const email = formData.get('email') as string;
-  if (!email || !email.includes('@')) {
-    return { loi: 'Email không hợp lệ' };
+  const email = formData.get("email") as string;
+  if (!email || !email.includes("@")) {
+    return { loi: "Email không hợp lệ" };
   }
   await db.insert(users).values({ email });
 }

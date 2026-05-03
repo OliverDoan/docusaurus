@@ -9,9 +9,6 @@ Bạn có bao giờ quên chạy lint trước khi commit? Hoặc đồng nghi�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Git Hooks là gì?](#1-git-hooks-là-gì)
@@ -72,24 +69,24 @@ Workflow Git với hooks:
 
 ### Client-side hooks (chạy trên máy developer)
 
-| Hook | Khi nào chạy | Dùng để |
-|------|-------------|---------|
-| `pre-commit` | Trước khi tạo commit | Lint, format, chạy tests nhanh |
-| `prepare-commit-msg` | Sau khi tạo message mặc định | Tự thêm ticket ID, template |
-| `commit-msg` | Sau khi user nhập message | Validate format commit message |
-| `post-commit` | Sau khi commit thành công | Thông báo, trigger build |
-| `pre-push` | Trước khi push | Chạy full tests, type check |
-| `post-checkout` | Sau khi checkout branch | Install dependencies |
-| `pre-rebase` | Trước khi rebase | Cảnh báo nếu rebase shared branch |
-| `post-merge` | Sau khi merge | Install dependencies mới |
+| Hook                 | Khi nào chạy                 | Dùng để                           |
+| -------------------- | ---------------------------- | --------------------------------- |
+| `pre-commit`         | Trước khi tạo commit         | Lint, format, chạy tests nhanh    |
+| `prepare-commit-msg` | Sau khi tạo message mặc định | Tự thêm ticket ID, template       |
+| `commit-msg`         | Sau khi user nhập message    | Validate format commit message    |
+| `post-commit`        | Sau khi commit thành công    | Thông báo, trigger build          |
+| `pre-push`           | Trước khi push               | Chạy full tests, type check       |
+| `post-checkout`      | Sau khi checkout branch      | Install dependencies              |
+| `pre-rebase`         | Trước khi rebase             | Cảnh báo nếu rebase shared branch |
+| `post-merge`         | Sau khi merge                | Install dependencies mới          |
 
 ### Server-side hooks (chạy trên Git server)
 
-| Hook | Khi nào chạy | Dùng để |
-|------|-------------|---------|
-| `pre-receive` | Trước khi nhận push | Reject push vi phạm policy |
-| `update` | Mỗi branch được update | Kiểm tra từng branch |
-| `post-receive` | Sau khi nhận push | Deploy, thông báo, CI trigger |
+| Hook           | Khi nào chạy           | Dùng để                       |
+| -------------- | ---------------------- | ----------------------------- |
+| `pre-receive`  | Trước khi nhận push    | Reject push vi phạm policy    |
+| `update`       | Mỗi branch được update | Kiểm tra từng branch          |
+| `post-receive` | Sau khi nhận push      | Deploy, thông báo, CI trigger |
 
 ---
 
@@ -243,16 +240,9 @@ npm install --save-dev lint-staged
 ```json
 {
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{css,scss}": [
-      "prettier --write"
-    ],
-    "*.{json,md}": [
-      "prettier --write"
-    ]
+    "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{css,scss}": ["prettier --write"],
+    "*.{json,md}": ["prettier --write"]
   }
 }
 ```
@@ -307,6 +297,7 @@ Workflow:
 ### Tại sao cần?
 
 Commit messages không theo quy ước gây khó khăn khi:
+
 - Đọc lịch sử (`git log`)
 - Tạo changelog tự động
 - Tìm commit liên quan
@@ -341,34 +332,34 @@ Tạo file `commitlint.config.js`:
 ```javascript
 // commitlint.config.js
 module.exports = {
-  extends: ['@commitlint/config-conventional'],
+  extends: ["@commitlint/config-conventional"],
   rules: {
     // Type phải là một trong các giá trị sau
-    'type-enum': [
-      2,           // 2 = error (bắt buộc)
-      'always',
+    "type-enum": [
+      2, // 2 = error (bắt buộc)
+      "always",
       [
-        'feat',     // Tính năng mới
-        'fix',      // Sửa bug
-        'docs',     // Documentation
-        'style',    // Formatting, không ảnh hưởng logic
-        'refactor', // Refactor code
-        'perf',     // Cải thiện performance
-        'test',     // Thêm/sửa tests
-        'chore',    // Maintenance tasks
-        'ci',       // CI/CD changes
-        'build',    // Build system
-        'revert',   // Revert commit trước
+        "feat", // Tính năng mới
+        "fix", // Sửa bug
+        "docs", // Documentation
+        "style", // Formatting, không ảnh hưởng logic
+        "refactor", // Refactor code
+        "perf", // Cải thiện performance
+        "test", // Thêm/sửa tests
+        "chore", // Maintenance tasks
+        "ci", // CI/CD changes
+        "build", // Build system
+        "revert", // Revert commit trước
       ],
     ],
     // Subject không được trống
-    'subject-empty': [2, 'never'],
+    "subject-empty": [2, "never"],
     // Subject tối đa 100 ký tự
-    'subject-max-length': [2, 'always', 100],
+    "subject-max-length": [2, "always", 100],
     // Type không được trống
-    'type-empty': [2, 'never'],
+    "type-empty": [2, "never"],
     // Type phải viết thường
-    'type-case': [2, 'always', 'lower-case'],
+    "type-case": [2, "always", "lower-case"],
   },
 };
 ```
@@ -431,13 +422,8 @@ npx husky init
     "test": "jest"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{css,scss,md,json}": [
-      "prettier --write"
-    ]
+    "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{css,scss,md,json}": ["prettier --write"]
   }
 }
 ```
@@ -447,7 +433,7 @@ npx husky init
 ```javascript
 // commitlint.config.js
 module.exports = {
-  extends: ['@commitlint/config-conventional'],
+  extends: ["@commitlint/config-conventional"],
 };
 ```
 
@@ -632,19 +618,19 @@ GitLab Protected Branches:
 
 ## 11. Bảng tổng hợp hooks và use cases
 
-| Hook | Loại | Khi nào chạy | Use case phổ biến |
-|------|------|-------------|-------------------|
-| `pre-commit` | Client | Trước commit | lint-staged, format, spell check |
-| `prepare-commit-msg` | Client | Tạo message | Tự thêm ticket ID từ branch name |
-| `commit-msg` | Client | Validate message | commitlint, enforce format |
-| `post-commit` | Client | Sau commit | Thông báo Slack, log |
-| `pre-push` | Client | Trước push | Tests, type check, build check |
-| `post-checkout` | Client | Sau checkout | `npm install` nếu package.json đổi |
-| `post-merge` | Client | Sau merge | `npm install` nếu package.json đổi |
-| `pre-rebase` | Client | Trước rebase | Cảnh báo rebase shared branch |
-| `pre-receive` | Server | Trước nhận push | Reject push vi phạm policy |
-| `update` | Server | Update mỗi ref | Branch protection |
-| `post-receive` | Server | Sau nhận push | Deploy, CI trigger, notification |
+| Hook                 | Loại   | Khi nào chạy     | Use case phổ biến                  |
+| -------------------- | ------ | ---------------- | ---------------------------------- |
+| `pre-commit`         | Client | Trước commit     | lint-staged, format, spell check   |
+| `prepare-commit-msg` | Client | Tạo message      | Tự thêm ticket ID từ branch name   |
+| `commit-msg`         | Client | Validate message | commitlint, enforce format         |
+| `post-commit`        | Client | Sau commit       | Thông báo Slack, log               |
+| `pre-push`           | Client | Trước push       | Tests, type check, build check     |
+| `post-checkout`      | Client | Sau checkout     | `npm install` nếu package.json đổi |
+| `post-merge`         | Client | Sau merge        | `npm install` nếu package.json đổi |
+| `pre-rebase`         | Client | Trước rebase     | Cảnh báo rebase shared branch      |
+| `pre-receive`        | Server | Trước nhận push  | Reject push vi phạm policy         |
+| `update`             | Server | Update mỗi ref   | Branch protection                  |
+| `post-receive`       | Server | Sau nhận push    | Deploy, CI trigger, notification   |
 
 ---
 
@@ -733,6 +719,7 @@ git commit -m "feat: ..."
 
 **Trả lời:**
 Git hooks là scripts tự động chạy tại các sự kiện Git. Hooks phổ biến:
+
 - `pre-commit`: chạy trước commit, dùng để lint/format code
 - `commit-msg`: validate format commit message
 - `pre-push`: chạy trước push, dùng để chạy tests
@@ -751,6 +738,7 @@ Husky giải quyết bằng cách lưu hooks trong `.husky/` (tracked bởi Git)
 
 **Trả lời:**
 lint-staged chỉ chạy linter/formatter trên files đã được `git add` (staged), không phải toàn bộ project. Lý do:
+
 - **Tốc độ**: Project lớn có hàng nghìn files, lint tất cả mỗi commit rất chậm
 - **Phạm vi**: Chỉ cần kiểm tra code bạn đang commit, không phải code cũ
 - **Tránh noise**: Không muốn fix lint errors trong files mình không sửa
@@ -759,6 +747,7 @@ lint-staged chỉ chạy linter/formatter trên files đã được `git add` (s
 
 **Trả lời:**
 Conventional Commits là quy ước format commit message: `<type>(<scope>): <description>`. Ví dụ:
+
 - `feat: thêm chức năng tìm kiếm`
 - `fix(auth): sửa lỗi token hết hạn`
 - `docs: cập nhật README`
@@ -770,6 +759,7 @@ Lợi ích: git log dễ đọc, tự động tạo changelog, dễ tìm commit 
 
 **Trả lời:**
 `--no-verify` bỏ qua tất cả hooks (pre-commit, commit-msg). Nên dùng khi:
+
 - WIP commits trên branch cá nhân (sẽ squash/amend sau)
 - Hotfix khẩn cấp cần deploy ngay
 - Hook bị lỗi cần fix

@@ -9,9 +9,6 @@ Bài này đi sâu vào các kịch bản thực tế khi tạo và chạy conta
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Chạy Web Server](#1-chạy-web-server)
@@ -150,6 +147,7 @@ docker run -d \
 ```
 
 **Giải thích:**
+
 - `-v $(pwd):/app` — Mount thư mục hiện tại vào container
 - `-w /app` — Đặt working directory
 - Code thay đổi trên host → Container thấy ngay (hot reload)
@@ -338,11 +336,11 @@ docker rm -f no-limit limited
 
 ## Tổng kết
 
-| Kịch bản | Lệnh chính |
-|----------|-----------|
-| **Web server** | `docker run -d -p 8080:80 nginx` |
-| **Database** | `docker run -d -p 5432:5432 -e ... -v ... postgres` |
-| **Dev với hot reload** | `docker run -d -v $(pwd):/app ...` |
-| **Script 1 lần** | `docker run --rm ...` |
-| **Giới hạn tài nguyên** | `--memory=512m --cpus=1` |
-| **Auto restart** | `--restart unless-stopped` |
+| Kịch bản                | Lệnh chính                                          |
+| ----------------------- | --------------------------------------------------- |
+| **Web server**          | `docker run -d -p 8080:80 nginx`                    |
+| **Database**            | `docker run -d -p 5432:5432 -e ... -v ... postgres` |
+| **Dev với hot reload**  | `docker run -d -v $(pwd):/app ...`                  |
+| **Script 1 lần**        | `docker run --rm ...`                               |
+| **Giới hạn tài nguyên** | `--memory=512m --cpus=1`                            |
+| **Auto restart**        | `--restart unless-stopped`                          |

@@ -11,9 +11,6 @@ Hãy hình dung `if-else` giống như **ngã rẽ trên đường**: khi bạn 
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Nội dung](#nội-dung)
@@ -448,15 +445,16 @@ if (age > 18) {
 
 ## 8. Khi nào dùng?
 
-| Tình huống | Nên dùng |
-|-----------|---------|
-| 1-2 điều kiện đơn giản | `if-else` hoặc ternary |
-| Nhiều điều kiện phức tạp | `if-else if-else` ladder |
-| Kiểm tra giá trị cụ thể (==) | Cân nhắc `switch-case` (gọn hơn) |
-| Gán giá trị có điều kiện (1 dòng) | Toán tử ternary `? :` |
-| Kiểm tra null trước khi xử lý | Guard clause pattern |
+| Tình huống                        | Nên dùng                         |
+| --------------------------------- | -------------------------------- |
+| 1-2 điều kiện đơn giản            | `if-else` hoặc ternary           |
+| Nhiều điều kiện phức tạp          | `if-else if-else` ladder         |
+| Kiểm tra giá trị cụ thể (==)      | Cân nhắc `switch-case` (gọn hơn) |
+| Gán giá trị có điều kiện (1 dòng) | Toán tử ternary `? :`            |
+| Kiểm tra null trước khi xử lý     | Guard clause pattern             |
 
 **So sánh if-else vs switch-case**:
+
 - `if-else`: dùng cho **điều kiện phức tạp** (range, nhiều biến, logic kết hợp `&&`, `||`).
 - `switch-case`: dùng cho **so sánh giá trị cụ thể** của một biến (enum, String, int).
 
@@ -589,6 +587,7 @@ System.out.println(a.equals(c));   // true (cùng nội dung)
 ### Q2: Toán tử ternary có thể thay thế mọi if-else không?
 
 **A**: **Không.** Toán tử ternary chỉ phù hợp cho trường hợp **gán giá trị có điều kiện** (trả về một giá trị). Không thể dùng ternary khi:
+
 - Cần thực hiện **nhiều câu lệnh** trong mỗi nhánh.
 - Cần **gọi method void** (không trả về giá trị).
 - Logic phức tạp với **nhiều điều kiện** (lồng ternary gây khó đọc).
@@ -645,6 +644,7 @@ String displayName = optName.orElse("Khách");
 **A**: Guard clause (hay "early return") là kỹ thuật **kiểm tra điều kiện không hợp lệ và `return` sớm** ở đầu method, thay vì lồng toàn bộ logic trong `if` nhiều cấp.
 
 Lợi ích:
+
 - **Giảm nesting**: code phẳng, không thụt vào sâu.
 - **Dễ đọc**: đọc tuần tự từ trên xuống, "loại bỏ" trường hợp không hợp lệ trước.
 - **Dễ bảo trì**: thêm điều kiện mới chỉ cần thêm một guard clause.
@@ -667,11 +667,11 @@ public double calculateDiscount(Customer customer) {
 
 **A**:
 
-| Tiêu chí | `if-else` | `switch-case` |
-|----------|----------|--------------|
-| Kiểu điều kiện | Bất kỳ (range, logic phức tạp) | So sánh **giá trị cụ thể** |
-| Biến so sánh | Nhiều biến, kết hợp `&&`, `\|\|` | Một biến (`int`, `String`, `enum`) |
-| Ví dụ | `if (age > 18 && hasLicense)` | `switch (dayOfWeek)` |
-| Đọc được | Tốt cho logic phức tạp | Tốt cho danh sách giá trị |
+| Tiêu chí       | `if-else`                        | `switch-case`                      |
+| -------------- | -------------------------------- | ---------------------------------- |
+| Kiểu điều kiện | Bất kỳ (range, logic phức tạp)   | So sánh **giá trị cụ thể**         |
+| Biến so sánh   | Nhiều biến, kết hợp `&&`, `\|\|` | Một biến (`int`, `String`, `enum`) |
+| Ví dụ          | `if (age > 18 && hasLicense)`    | `switch (dayOfWeek)`               |
+| Đọc được       | Tốt cho logic phức tạp           | Tốt cho danh sách giá trị          |
 
 Quy tắc ngón tay cái: nếu bạn đang so sánh **một biến với nhiều giá trị cụ thể** (ví dụ: ngày trong tuần, mã lỗi, enum...), dùng `switch-case` sẽ gọn và rõ ràng hơn.

@@ -9,9 +9,6 @@ Data fetching (lấy dữ liệu) là một trong những việc quan trọng nh
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. fetch() trong Server Components](#1-fetch-trong-server-components)
@@ -39,16 +36,16 @@ Next.js mở rộng `fetch()` API gốc của Web với các options bổ sung �
 
 async function layBaiViet() {
   // fetch() được Next.js mở rộng với các option đặc biệt
-  const res = await fetch('https://api.example.com/bai-viet', {
+  const res = await fetch("https://api.example.com/bai-viet", {
     // Options cua Next.js
     next: {
       revalidate: 3600, // Revalidate mỗi 1 giờ (3600 giây)
-      tags: ['bai-viet'], // Tag để revalidate theo yêu cầu
+      tags: ["bai-viet"], // Tag để revalidate theo yêu cầu
     },
   });
 
   if (!res.ok) {
-    throw new Error('Không thể tải bài viết');
+    throw new Error("Không thể tải bài viết");
   }
 
   return res.json();
@@ -88,11 +85,11 @@ export default async function TrangBaiViet() {
 
 ```tsx
 // Next.js 14: Mặc định là cache (force-cache)
-const res = await fetch('https://api.example.com/data');
+const res = await fetch("https://api.example.com/data");
 // Tương đương với: fetch(url, { cache: 'force-cache' })
 
 // Next.js 15+: Mặc định là KHÔNG cache (no-store)
-const res = await fetch('https://api.example.com/data');
+const res = await fetch("https://api.example.com/data");
 // Tương đương với: fetch(url, { cache: 'no-store' })
 ```
 
@@ -102,17 +99,17 @@ Luôn **chỉ định rõ ràng** caching behavior để code rõ ràng, tránh 
 
 ```tsx
 // 1. Không cache -- lấy dữ liệu mới mỗi request
-const freshData = await fetch('https://api.example.com/data', {
-  cache: 'no-store',
+const freshData = await fetch("https://api.example.com/data", {
+  cache: "no-store",
 });
 
 // 2. Cache vĩnh viễn -- chỉ fetch 1 lần (lúc build hoặc request đầu)
-const cachedData = await fetch('https://api.example.com/data', {
-  cache: 'force-cache',
+const cachedData = await fetch("https://api.example.com/data", {
+  cache: "force-cache",
 });
 
 // 3. Cache với thời gian -- tự động refresh sau N giây
-const timedData = await fetch('https://api.example.com/data', {
+const timedData = await fetch("https://api.example.com/data", {
   next: { revalidate: 60 }, // Refresh sau 60 giây
 });
 ```
@@ -130,8 +127,8 @@ Mỗi request đều gọi API thật sự. Phù hợp cho dữ liệu thay đ�
 // Giá vàng thay đổi liên tục -- không nên cache
 
 async function layGiaVang() {
-  const res = await fetch('https://api.example.com/gia-vang', {
-    cache: 'no-store', // Luôn lấy dữ liệu mới nhất
+  const res = await fetch("https://api.example.com/gia-vang", {
+    cache: "no-store", // Luôn lấy dữ liệu mới nhất
   });
   return res.json();
 }
@@ -142,9 +139,9 @@ export default async function TrangGiaVang() {
   return (
     <div>
       <h1>Giá vàng hôm nay</h1>
-      <p>SJC mua vao: {giaVang.sjc.mua.toLocaleString('vi-VN')}d/luong</p>
-      <p>SJC ban ra: {giaVang.sjc.ban.toLocaleString('vi-VN')}d/luong</p>
-      <p>Cập nhật: {new Date().toLocaleString('vi-VN')}</p>
+      <p>SJC mua vao: {giaVang.sjc.mua.toLocaleString("vi-VN")}d/luong</p>
+      <p>SJC ban ra: {giaVang.sjc.ban.toLocaleString("vi-VN")}d/luong</p>
+      <p>Cập nhật: {new Date().toLocaleString("vi-VN")}</p>
     </div>
   );
 }
@@ -159,8 +156,8 @@ Dữ liệu chỉ fetch **một lần duy nhất** và được cache. Phù hợ
 // Danh mục sản phẩm ít thay đổi -- cache vĩnh viễn
 
 async function layDanhMuc() {
-  const res = await fetch('https://api.example.com/danh-muc', {
-    cache: 'force-cache', // Cache vĩnh viễn (đến khi redeploy)
+  const res = await fetch("https://api.example.com/danh-muc", {
+    cache: "force-cache", // Cache vĩnh viễn (đến khi redeploy)
   });
   return res.json();
 }
@@ -192,15 +189,12 @@ Revalidate cho phép bạn **cache dữ liệu nhưng tự động làm mới** 
 // Thời tiết cập nhật mỗi 10 phút (600 giây)
 
 async function layThoiTiet(thanhPho: string) {
-  const res = await fetch(
-    `https://api.example.com/thoi-tiet?tp=${thanhPho}`,
-    {
-      next: {
-        revalidate: 600, // Revalidate sau 10 phút
-        tags: ['thoi-tiet', `thoi-tiet-${thanhPho}`], // Tags để on-demand revalidate
-      },
-    }
-  );
+  const res = await fetch(`https://api.example.com/thoi-tiet?tp=${thanhPho}`, {
+    next: {
+      revalidate: 600, // Revalidate sau 10 phút
+      tags: ["thoi-tiet", `thoi-tiet-${thanhPho}`], // Tags để on-demand revalidate
+    },
+  });
 
   if (!res.ok) {
     throw new Error(`Không thể tải thời tiết cho ${thanhPho}`);
@@ -212,9 +206,9 @@ async function layThoiTiet(thanhPho: string) {
 export default async function TrangThoiTiet() {
   // Fetch song song nhiều thành phố
   const [hanoi, hcm, danang] = await Promise.all([
-    layThoiTiet('hanoi'),
-    layThoiTiet('hochiminh'),
-    layThoiTiet('danang'),
+    layThoiTiet("hanoi"),
+    layThoiTiet("hochiminh"),
+    layThoiTiet("danang"),
   ]);
 
   return (
@@ -232,14 +226,14 @@ export default async function TrangThoiTiet() {
 
 ### Các giá trị revalidate thường dùng
 
-| Giá trị | Thời gian | Phù hợp cho |
-|---|---|---|
-| `0` | Không cache | Dữ liệu real-time |
-| `60` | 1 phút | Giá sản phẩm, tỷ giá |
-| `300` | 5 phút | Danh sách bài viết |
-| `3600` | 1 giờ | Trang danh mục |
-| `86400` | 1 ngày | Trang giới thiệu |
-| `false` | Vĩnh viễn | Nội dung tĩnh |
+| Giá trị | Thời gian   | Phù hợp cho          |
+| ------- | ----------- | -------------------- |
+| `0`     | Không cache | Dữ liệu real-time    |
+| `60`    | 1 phút      | Giá sản phẩm, tỷ giá |
+| `300`   | 5 phút      | Danh sách bài viết   |
+| `3600`  | 1 giờ       | Trang danh mục       |
+| `86400` | 1 ngày      | Trang giới thiệu     |
+| `false` | Vĩnh viễn   | Nội dung tĩnh        |
 
 ---
 
@@ -254,8 +248,8 @@ Layout được chia sẻ giữa nhiều trang con. Dữ liệu fetch trong layo
 // Layout của dashboard -- fetch thông tin user 1 lần, chia sẻ cho mọi trang con
 
 async function layThongTinUser() {
-  const res = await fetch('https://api.example.com/user/me', {
-    cache: 'no-store', // Luôn lấy thông tin mới nhất
+  const res = await fetch("https://api.example.com/user/me", {
+    cache: "no-store", // Luôn lấy thông tin mới nhất
   });
   return res.json();
 }
@@ -295,8 +289,8 @@ Page là nội dung cụ thể cho từng route. Dữ liệu chỉ cần cho tra
 // Trang đơn hàng -- chỉ fetch đơn hàng, không cần fetch lại user info
 
 async function layDonHang() {
-  const res = await fetch('https://api.example.com/don-hang', {
-    cache: 'no-store',
+  const res = await fetch("https://api.example.com/don-hang", {
+    cache: "no-store",
   });
   return res.json();
 }
@@ -307,15 +301,13 @@ export default async function TrangDonHang() {
   return (
     <div>
       <h1>Đơn hàng của bạn</h1>
-      {donHangs.map(
-        (dh: { id: string; ngay: string; tongTien: number }) => (
-          <div key={dh.id}>
-            <p>Mã đơn: {dh.id}</p>
-            <p>Ngày: {dh.ngay}</p>
-            <p>Tổng tiền: {dh.tongTien.toLocaleString('vi-VN')}d</p>
-          </div>
-        )
-      )}
+      {donHangs.map((dh: { id: string; ngay: string; tongTien: number }) => (
+        <div key={dh.id}>
+          <p>Mã đơn: {dh.id}</p>
+          <p>Ngày: {dh.ngay}</p>
+          <p>Tổng tiền: {dh.tongTien.toLocaleString("vi-VN")}d</p>
+        </div>
+      ))}
     </div>
   );
 }
@@ -346,9 +338,7 @@ async function layUser(id: string) {
 
 async function layDonHangCuaUser(userId: string) {
   // Phải có userId trước mới fetch được đơn hàng
-  const res = await fetch(
-    `https://api.example.com/users/${userId}/don-hang`
-  );
+  const res = await fetch(`https://api.example.com/users/${userId}/don-hang`);
   return res.json();
 }
 
@@ -381,22 +371,22 @@ Các request **độc lập với nhau** -- chạy đồng thời bằng `Promis
 // PARALLEL -- 3 request độc lập, chạy đồng thời
 
 async function layThongKe() {
-  const res = await fetch('https://api.example.com/thong-ke', {
-    cache: 'no-store',
+  const res = await fetch("https://api.example.com/thong-ke", {
+    cache: "no-store",
   });
   return res.json();
 }
 
 async function layDonHangGanDay() {
-  const res = await fetch('https://api.example.com/don-hang?limit=5', {
-    cache: 'no-store',
+  const res = await fetch("https://api.example.com/don-hang?limit=5", {
+    cache: "no-store",
   });
   return res.json();
 }
 
 async function layThongBao() {
-  const res = await fetch('https://api.example.com/thong-bao', {
-    cache: 'no-store',
+  const res = await fetch("https://api.example.com/thong-bao", {
+    cache: "no-store",
   });
   return res.json();
 }
@@ -413,7 +403,7 @@ export default async function Dashboard() {
     <div>
       <h1>Dashboard</h1>
       <div>
-        <p>Tổng doanh thu: {thongKe.doanhThu.toLocaleString('vi-VN')}d</p>
+        <p>Tổng doanh thu: {thongKe.doanhThu.toLocaleString("vi-VN")}d</p>
         <p>Đơn hàng gần đây: {donHangs.length}</p>
         <p>Thông báo mới: {thongBao.length}</p>
       </div>
@@ -446,13 +436,13 @@ Một ưu điểm lớn của Server Components là bạn có thể **truy vấn
 ```tsx
 // app/san-pham/page.tsx
 // Truy vấn database trực tiếp -- không cần API route!
-import { prisma } from '@/lib/prisma';
+import { prisma } from "@/lib/prisma";
 
 export default async function TrangSanPham() {
   // Query Prisma trực tiếp trong Server Component
   const sanPhams = await prisma.sanPham.findMany({
     where: { conHang: true },
-    orderBy: { ngayTao: 'desc' },
+    orderBy: { ngayTao: "desc" },
     take: 20,
   });
 
@@ -462,7 +452,7 @@ export default async function TrangSanPham() {
       {sanPhams.map((sp) => (
         <div key={sp.id}>
           <h2>{sp.ten}</h2>
-          <p>{sp.gia.toLocaleString('vi-VN')}d</p>
+          <p>{sp.gia.toLocaleString("vi-VN")}d</p>
         </div>
       ))}
     </div>
@@ -473,9 +463,9 @@ export default async function TrangSanPham() {
 ```tsx
 // app/bai-viet/[slug]/page.tsx
 // Dùng Drizzle ORM trực tiếp
-import { db } from '@/lib/db';
-import { baiViet } from '@/lib/schema';
-import { eq } from 'drizzle-orm';
+import { db } from "@/lib/db";
+import { baiViet } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 
 export default async function TrangBaiViet({
   params,
@@ -516,7 +506,7 @@ export default async function TrangBaiViet({
 
 ```tsx
 // app/san-pham/error.tsx
-'use client'; // error.tsx BẮT BUỘC phải là Client Component
+"use client"; // error.tsx BẮT BUỘC phải là Client Component
 
 export default function LỗiSanPham({
   error,
@@ -539,7 +529,7 @@ export default function LỗiSanPham({
 
 ```tsx
 // app/san-pham/[id]/page.tsx
-import { notFound } from 'next/navigation';
+import { notFound } from "next/navigation";
 
 async function laySanPham(id: string) {
   const res = await fetch(`https://api.example.com/san-pham/${id}`, {
@@ -551,7 +541,7 @@ async function laySanPham(id: string) {
   }
 
   if (!res.ok) {
-    throw new Error('Lỗi khi tải sản phẩm');
+    throw new Error("Lỗi khi tải sản phẩm");
   }
 
   return res.json();
@@ -585,7 +575,7 @@ export default async function ChiTietSanPham({
 
 async function fetchAnToan<T>(url: string, fallback: T): Promise<T> {
   try {
-    const res = await fetch(url, { cache: 'no-store' });
+    const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) {
       throw new Error(`HTTP ${res.status}`);
     }
@@ -599,17 +589,17 @@ async function fetchAnToan<T>(url: string, fallback: T): Promise<T> {
 export default async function Dashboard() {
   // Mỗi phần có thể fail độc lập mà không ảnh hưởng phần khác
   const [thongKe, donHangs] = await Promise.all([
-    fetchAnToan('https://api.example.com/thong-ke', {
+    fetchAnToan("https://api.example.com/thong-ke", {
       doanhThu: 0,
       tongDon: 0,
     }),
-    fetchAnToan('https://api.example.com/don-hang', []),
+    fetchAnToan("https://api.example.com/don-hang", []),
   ]);
 
   return (
     <div>
       <h1>Dashboard</h1>
-      <p>Doanh thu: {thongKe.doanhThu.toLocaleString('vi-VN')}đ</p>
+      <p>Doanh thu: {thongKe.doanhThu.toLocaleString("vi-VN")}đ</p>
       <p>Đơn hàng: {donHangs.length}</p>
     </div>
   );
@@ -623,15 +613,15 @@ export default async function Dashboard() {
 ### Lỗi 1: Fetch data trong Client Component thay vì Server Component
 
 ```tsx
-'use client';
+"use client";
 // SAI -- Fetch bằng useEffect trong Client Component (chậm hơn, waterfall)
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export default function SanPham() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('/api/san-pham')
+    fetch("/api/san-pham")
       .then((res) => res.json())
       .then(setData);
   }, []);
@@ -643,7 +633,7 @@ export default function SanPham() {
 ```tsx
 // ĐÚNG -- Fetch trực tiếp trong Server Component (nhanh hơn, SEO tốt)
 export default async function SanPham() {
-  const res = await fetch('https://api.example.com/san-pham');
+  const res = await fetch("https://api.example.com/san-pham");
   const data = await res.json();
 
   return <div>{/* render data */}</div>;
@@ -668,15 +658,15 @@ const data = await res.json();
 
 ```tsx
 // SAI -- 3 request chạy tuần tự (chậm!)
-const users = await fetch('/api/users').then((r) => r.json());
-const posts = await fetch('/api/posts').then((r) => r.json());
-const comments = await fetch('/api/comments').then((r) => r.json());
+const users = await fetch("/api/users").then((r) => r.json());
+const posts = await fetch("/api/posts").then((r) => r.json());
+const comments = await fetch("/api/comments").then((r) => r.json());
 
 // ĐÚNG -- 3 request chạy song song (nhanh!)
 const [users, posts, comments] = await Promise.all([
-  fetch('/api/users').then((r) => r.json()),
-  fetch('/api/posts').then((r) => r.json()),
-  fetch('/api/comments').then((r) => r.json()),
+  fetch("/api/users").then((r) => r.json()),
+  fetch("/api/posts").then((r) => r.json()),
+  fetch("/api/comments").then((r) => r.json()),
 ]);
 ```
 
@@ -693,6 +683,7 @@ Layout không re-render khi navigate giữa các trang con. Nếu bạn cần d�
 **Trả lời:**
 
 Next.js mở rộng native `fetch()` với 2 option chính:
+
 - `cache`: Kiểm soát caching behavior (`'no-store'` hoặc `'force-cache'`)
 - `next.revalidate`: Thời gian (giây) để tự động revalidate cache
 - `next.tags`: Mảng các tag để hỗ trợ on-demand revalidation với `revalidateTag()`

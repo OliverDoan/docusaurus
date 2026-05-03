@@ -9,9 +9,6 @@ Quản lý biến môi trường đúng cách là kỹ năng quan trọng khi l�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Tại sao cần biến môi trường?](#1-tại-sao-cần-biến-môi-trường)
@@ -29,6 +26,7 @@ Quản lý biến môi trường đúng cách là kỹ năng quan trọng khi l�
 ## 1. Tại sao cần biến môi trường?
 
 Biến môi trường giúp:
+
 - **Tách config ra khỏi code** (12-Factor App)
 - **Khác nhau giữa các môi trường** (dev, staging, production)
 - **Bảo mật**: Không hardcode passwords/API keys trong code
@@ -322,7 +320,7 @@ Trong code ứng dụng:
 
 ```javascript
 // Node.js
-const required = ['DATABASE_URL', 'REDIS_URL', 'API_KEY'];
+const required = ["DATABASE_URL", "REDIS_URL", "API_KEY"];
 for (const key of required) {
   if (!process.env[key]) {
     console.error(`Missing required env: ${key}`);
@@ -390,12 +388,12 @@ docker compose down
 
 ## Tổng kết
 
-| Cách | Khi nào dùng |
-|------|-------------|
-| `environment:` inline | Biến không nhạy cảm, ít biến |
-| `env_file: .env` | Nhiều biến, tách file riêng |
-| Variable substitution `${}` | Dynamic config (version, port) |
-| `${VAR:-default}` | Giá trị mặc định |
-| `--env-file` flag | Chọn file .env theo môi trường |
-| `secrets:` | Passwords, API keys (production) |
-| `.env.example` | Document biến cần thiết |
+| Cách                        | Khi nào dùng                     |
+| --------------------------- | -------------------------------- |
+| `environment:` inline       | Biến không nhạy cảm, ít biến     |
+| `env_file: .env`            | Nhiều biến, tách file riêng      |
+| Variable substitution `${}` | Dynamic config (version, port)   |
+| `${VAR:-default}`           | Giá trị mặc định                 |
+| `--env-file` flag           | Chọn file .env theo môi trường   |
+| `secrets:`                  | Passwords, API keys (production) |
+| `.env.example`              | Document biến cần thiết          |

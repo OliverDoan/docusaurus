@@ -9,9 +9,6 @@ Bài này tổng hợp các lệnh Docker CLI bạn sẽ dùng hàng ngày. Hãy
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Nhóm lệnh quản lý Image](#1-nhóm-lệnh-quản-lý-image)
@@ -106,16 +103,16 @@ docker run -d \
 
 ### Giải thích các flags quan trọng
 
-| Flag | Ý nghĩa | Ví dụ |
-|------|---------|-------|
-| `-d` | Chạy nền (detach) | `docker run -d nginx` |
-| `-it` | Interactive + TTY (vào terminal) | `docker run -it ubuntu bash` |
-| `-p` | Map port host:container | `-p 8080:80` |
-| `--name` | Đặt tên container | `--name my-app` |
-| `-e` | Đặt biến môi trường | `-e DB_HOST=localhost` |
-| `-v` | Mount volume | `-v ./data:/app/data` |
-| `--rm` | Tự xoá khi dừng | `docker run --rm nginx` |
-| `--restart` | Tự restart | `--restart unless-stopped` |
+| Flag        | Ý nghĩa                          | Ví dụ                        |
+| ----------- | -------------------------------- | ---------------------------- |
+| `-d`        | Chạy nền (detach)                | `docker run -d nginx`        |
+| `-it`       | Interactive + TTY (vào terminal) | `docker run -it ubuntu bash` |
+| `-p`        | Map port host:container          | `-p 8080:80`                 |
+| `--name`    | Đặt tên container                | `--name my-app`              |
+| `-e`        | Đặt biến môi trường              | `-e DB_HOST=localhost`       |
+| `-v`        | Mount volume                     | `-v ./data:/app/data`        |
+| `--rm`      | Tự xoá khi dừng                  | `docker run --rm nginx`      |
+| `--restart` | Tự restart                       | `--restart unless-stopped`   |
 
 ### Liệt kê container
 
@@ -265,34 +262,34 @@ docker volume prune
 
 ### Image
 
-| Lệnh | Mô tả |
-|-------|--------|
-| `docker pull <image>` | Tải image |
-| `docker images` | Liệt kê images |
-| `docker rmi <image>` | Xoá image |
-| `docker image prune` | Xoá images không dùng |
+| Lệnh                       | Mô tả                     |
+| -------------------------- | ------------------------- |
+| `docker pull <image>`      | Tải image                 |
+| `docker images`            | Liệt kê images            |
+| `docker rmi <image>`       | Xoá image                 |
+| `docker image prune`       | Xoá images không dùng     |
 | `docker build -t <name> .` | Build image từ Dockerfile |
 
 ### Container
 
-| Lệnh | Mô tả |
-|-------|--------|
-| `docker run <image>` | Tạo + chạy container |
-| `docker ps` | Liệt kê container đang chạy |
-| `docker ps -a` | Liệt kê tất cả container |
-| `docker stop <name>` | Dừng container |
-| `docker rm <name>` | Xoá container |
-| `docker exec -it <name> bash` | Vào container |
-| `docker logs <name>` | Xem logs |
+| Lệnh                          | Mô tả                       |
+| ----------------------------- | --------------------------- |
+| `docker run <image>`          | Tạo + chạy container        |
+| `docker ps`                   | Liệt kê container đang chạy |
+| `docker ps -a`                | Liệt kê tất cả container    |
+| `docker stop <name>`          | Dừng container              |
+| `docker rm <name>`            | Xoá container               |
+| `docker exec -it <name> bash` | Vào container               |
+| `docker logs <name>`          | Xem logs                    |
 
 ### Hệ thống
 
-| Lệnh | Mô tả |
-|-------|--------|
-| `docker system df` | Xem dung lượng |
-| `docker system prune` | Dọn dẹp |
-| `docker stats` | Monitor tài nguyên |
-| `docker info` | Thông tin Docker Engine |
+| Lệnh                  | Mô tả                   |
+| --------------------- | ----------------------- |
+| `docker system df`    | Xem dung lượng          |
+| `docker system prune` | Dọn dẹp                 |
+| `docker stats`        | Monitor tài nguyên      |
+| `docker info`         | Thông tin Docker Engine |
 
 ---
 
@@ -336,6 +333,7 @@ docker system df
 ## Tổng kết
 
 Các lệnh cần nhớ để bắt đầu:
+
 1. `docker run` — Chạy container
 2. `docker ps` — Xem container
 3. `docker stop` / `docker rm` — Dừng / Xoá container

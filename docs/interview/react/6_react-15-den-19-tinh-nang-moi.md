@@ -9,9 +9,6 @@ Nếu bạn học React từ phiên bản 15, bạn đã bỏ lỡ rất nhiều
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Tổng quan: React qua các phiên bản](#tổng-quan-react-qua-các-phiên-bản)
@@ -26,16 +23,16 @@ Nếu bạn học React từ phiên bản 15, bạn đã bỏ lỡ rất nhiều
 
 ## Tổng quan: React qua các phiên bản
 
-| Phiên bản | Năm | Thay đổi lớn nhất |
-|-----------|-----|-------------------|
-| React 15 | 2016 | Stack reconciler, class components, `createClass` |
-| React 16 | 2017 | **Fiber**, Error Boundaries, Portals, Fragments |
-| React 16.3 | 2018 | **New Context API**, `getDerivedStateFromProps` |
-| React 16.6 | 2018 | `React.memo`, `React.lazy`, `Suspense` |
-| React 16.8 | 2019 | **Hooks** -- thay đổi lớn nhất kể từ React ra đời |
-| React 17 | 2020 | Không có tính năng mới (bước đệm) |
-| React 18 | 2022 | **Concurrent rendering**, automatic batching, `useTransition` |
-| React 19 | 2024 | **Actions**, `use()`, Server Components, React Compiler |
+| Phiên bản  | Năm  | Thay đổi lớn nhất                                             |
+| ---------- | ---- | ------------------------------------------------------------- |
+| React 15   | 2016 | Stack reconciler, class components, `createClass`             |
+| React 16   | 2017 | **Fiber**, Error Boundaries, Portals, Fragments               |
+| React 16.3 | 2018 | **New Context API**, `getDerivedStateFromProps`               |
+| React 16.6 | 2018 | `React.memo`, `React.lazy`, `Suspense`                        |
+| React 16.8 | 2019 | **Hooks** -- thay đổi lớn nhất kể từ React ra đời             |
+| React 17   | 2020 | Không có tính năng mới (bước đệm)                             |
+| React 18   | 2022 | **Concurrent rendering**, automatic batching, `useTransition` |
+| React 19   | 2024 | **Actions**, `use()`, Server Components, React Compiler       |
 
 ---
 
@@ -46,6 +43,7 @@ Nếu bạn học React từ phiên bản 15, bạn đã bỏ lỡ rất nhiều
 **Vấn đề với React 15:** React 15 dùng **Stack Reconciler** -- khi bắt đầu render, nó chạy đồng bộ từ đầu đến cuối, **không thể dừng giữa chừng**. Với component tree lớn, main thread bị block, UI lag, animation giật.
 
 **Giải pháp:** React 16 viết lại hoàn toàn reconciler thành **Fiber**. Fiber chia render thành các "units of work" nhỏ, có thể:
+
 - Tạm dừng và tiếp tục sau
 - Ưu tiên công việc (user input > animation > data fetch)
 - Hủy công việc không cần thiết
@@ -73,7 +71,7 @@ Nếu bạn học React từ phiên bản 15, bạn đã bỏ lỡ rất nhiều
 // React 15: lỗi 1 component = crash cả app
 // React 16+: Error Boundary bắt lỗi và hiện fallback
 
-import { Component, ErrorInfo } from 'react';
+import { Component, ErrorInfo } from "react";
 
 class ErrorBoundary extends Component<
   { children: React.ReactNode; fallback: React.ReactNode },
@@ -87,7 +85,7 @@ class ErrorBoundary extends Component<
 
   componentDidCatch(error: Error, info: ErrorInfo) {
     // Log lỗi lên monitoring service (Sentry, DataDog...)
-    console.error('Error caught:', error, info.componentStack);
+    console.error("Error caught:", error, info.componentStack);
   }
 
   render() {
@@ -119,26 +117,30 @@ function App() {
 **Giải pháp:** `ReactDOM.createPortal(child, container)` -- render child vào bất kỳ DOM node nào, nhưng events vẫn bubble lên React tree bình thường.
 
 ```tsx
-import { createPortal } from 'react-dom';
+import { createPortal } from "react-dom";
 
-function Modal({ children, isOpen }: { children: React.ReactNode; isOpen: boolean }) {
+function Modal({
+  children,
+  isOpen,
+}: {
+  children: React.ReactNode;
+  isOpen: boolean;
+}) {
   if (!isOpen) return null;
 
   // Render vào document.body thay vì parent component
   return createPortal(
     <div className="modal-overlay">
-      <div className="modal-content">
-        {children}
-      </div>
+      <div className="modal-content">{children}</div>
     </div>,
-    document.body
+    document.body,
   );
 }
 
 // onClick trong Modal VẪN bubble lên App (React tree, không phải DOM tree)
 function App() {
   return (
-    <div onClick={() => console.log('Click from modal bubbles here!')}>
+    <div onClick={() => console.log("Click from modal bubbles here!")}>
       <Modal isOpen={true}>
         <button>Click me</button>
       </Modal>
@@ -159,7 +161,9 @@ function App() {
 // React 15: phải có wrapper div
 function OldWay() {
   return (
-    <div> {/* div này không cần thiết, làm hỏng CSS */}
+    <div>
+      {" "}
+      {/* div này không cần thiết, làm hỏng CSS */}
       <td>Hello</td>
       <td>World</td>
     </div>
@@ -177,10 +181,14 @@ function NewWay() {
 }
 
 // Fragment với key (trong loops)
-function Glossary({ items }: { items: { id: string; term: string; desc: string }[] }) {
+function Glossary({
+  items,
+}: {
+  items: { id: string; term: string; desc: string }[];
+}) {
   return (
     <dl>
-      {items.map(item => (
+      {items.map((item) => (
         <React.Fragment key={item.id}>
           <dt>{item.term}</dt>
           <dd>{item.desc}</dd>
@@ -202,9 +210,9 @@ function Glossary({ items }: { items: { id: string; term: string; desc: string }
 ```tsx
 // React 15: experimental context (KHÔNG NÊN DÙNG)
 // React 16.3+: stable Context API
-import { createContext, useContext } from 'react';
+import { createContext, useContext } from "react";
 
-const ThemeContext = createContext('light');
+const ThemeContext = createContext("light");
 
 function App() {
   return (
@@ -252,6 +260,7 @@ const NewWay = React.memo(function NewWay({ name }: { name: string }) {
 ### 1.7 Hooks (React 16.8) -- Thay đổi lớn nhất `[Intermediate]`
 
 **Vấn đề với class components:**
+
 1. **`this` binding** -- phải bind methods trong constructor hoặc dùng arrow functions
 2. **Lifecycle methods phức tạp** -- logic bị trải rải giữa `componentDidMount`, `componentDidUpdate`, `componentWillUnmount`
 3. **Không thể reuse stateful logic** -- HOC và render props gây wrapper hell
@@ -290,7 +299,7 @@ class Counter extends React.Component {
 }
 
 // React 16.8+: hooks -- ngắn gọn, rõ ràng
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 function Counter() {
   const [count, setCount] = useState(0);
@@ -298,24 +307,26 @@ function Counter() {
   // Mount + update logic ở MỘT CHỖ
   useEffect(() => {
     document.title = `Count: ${count}`;
-    return () => { /* cleanup */ };
+    return () => {
+      /* cleanup */
+    };
   }, [count]);
 
-  return <button onClick={() => setCount(c => c + 1)}>{count}</button>;
+  return <button onClick={() => setCount((c) => c + 1)}>{count}</button>;
 }
 ```
 
 ### Bảng tổng hợp Hooks cơ bản
 
-| Hook | Mục đích | Thay thế class API |
-|------|----------|--------------------|
-| `useState` | Lưu state | `this.state` + `this.setState` |
-| `useEffect` | Side effects | `componentDidMount` + `componentDidUpdate` + `componentWillUnmount` |
-| `useContext` | Đọc Context | `static contextType` / `Context.Consumer` |
-| `useReducer` | State phức tạp | `this.setState` với reducer logic |
-| `useRef` | Mutable ref / DOM ref | `React.createRef()` |
-| `useMemo` | Ghi nhớ giá trị | Manual trong `shouldComponentUpdate` |
-| `useCallback` | Ghi nhớ function | Bind trong constructor |
+| Hook          | Mục đích              | Thay thế class API                                                  |
+| ------------- | --------------------- | ------------------------------------------------------------------- |
+| `useState`    | Lưu state             | `this.state` + `this.setState`                                      |
+| `useEffect`   | Side effects          | `componentDidMount` + `componentDidUpdate` + `componentWillUnmount` |
+| `useContext`  | Đọc Context           | `static contextType` / `Context.Consumer`                           |
+| `useReducer`  | State phức tạp        | `this.setState` với reducer logic                                   |
+| `useRef`      | Mutable ref / DOM ref | `React.createRef()`                                                 |
+| `useMemo`     | Ghi nhớ giá trị       | Manual trong `shouldComponentUpdate`                                |
+| `useCallback` | Ghi nhớ function      | Bind trong constructor                                              |
 
 ---
 
@@ -329,7 +340,7 @@ function Counter() {
 
 ```tsx
 // React 15-16: BẮT BUỘC import React
-import React from 'react'; // Xóa dòng này => lỗi
+import React from "react"; // Xóa dòng này => lỗi
 
 function App() {
   return <h1>Hello</h1>;
@@ -365,12 +376,12 @@ function App() {
 
 ```tsx
 // React 15-17: cũ
-import ReactDOM from 'react-dom';
-ReactDOM.render(<App />, document.getElementById('root'));
+import ReactDOM from "react-dom";
+ReactDOM.render(<App />, document.getElementById("root"));
 
 // React 18+: mới -- bắt buộc cho concurrent features
-import { createRoot } from 'react-dom/client';
-const root = createRoot(document.getElementById('root')!);
+import { createRoot } from "react-dom/client";
+const root = createRoot(document.getElementById("root")!);
 root.render(<App />);
 ```
 
@@ -383,19 +394,19 @@ root.render(<App />);
 ```tsx
 // React 15-17: trong setTimeout, mỗi setState = 1 render
 setTimeout(() => {
-  setCount(1);  // render 1
+  setCount(1); // render 1
   setFlag(true); // render 2 => 2 renders!
 }, 100);
 
 // React 18+: luôn batch
 setTimeout(() => {
-  setCount(1);   // batch
+  setCount(1); // batch
   setFlag(true); // batch => chỉ 1 render!
 }, 100);
 
 // Muốn force render ngay (hiếm khi cần):
-import { flushSync } from 'react-dom';
-flushSync(() => setCount(1));  // render ngay
+import { flushSync } from "react-dom";
+flushSync(() => setCount(1)); // render ngay
 flushSync(() => setFlag(true)); // render ngay
 ```
 
@@ -406,10 +417,10 @@ flushSync(() => setFlag(true)); // render ngay
 **Giải pháp:** `useTransition` đánh dấu state update là "non-urgent". React ưu tiên render input trước, defer render danh sách.
 
 ```tsx
-import { useState, useTransition } from 'react';
+import { useState, useTransition } from "react";
 
 function Search() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [results, setResults] = useState<string[]>([]);
   const [isPending, startTransition] = useTransition();
 
@@ -427,7 +438,9 @@ function Search() {
       <input value={query} onChange={handleChange} />
       {isPending && <p>Đang tìm...</p>}
       <ul>
-        {results.map(r => <li key={r}>{r}</li>)}
+        {results.map((r) => (
+          <li key={r}>{r}</li>
+        ))}
       </ul>
     </div>
   );
@@ -441,7 +454,7 @@ function Search() {
 **Giải pháp:** `useDeferredValue` tạo phiên bản "lag" của giá trị.
 
 ```tsx
-import { useDeferredValue, memo } from 'react';
+import { useDeferredValue, memo } from "react";
 
 function SearchResults({ query }: { query: string }) {
   const deferredQuery = useDeferredValue(query);
@@ -457,7 +470,13 @@ function SearchResults({ query }: { query: string }) {
 const HeavyList = memo(({ query }: { query: string }) => {
   // Render 10,000 items -- sẽ dùng giá trị "cũ" khi user đang gõ
   const items = filterItems(query);
-  return <ul>{items.map(i => <li key={i.id}>{i.name}</li>)}</ul>;
+  return (
+    <ul>
+      {items.map((i) => (
+        <li key={i.id}>{i.name}</li>
+      ))}
+    </ul>
+  );
 });
 ```
 
@@ -468,7 +487,7 @@ const HeavyList = memo(({ query }: { query: string }) => {
 **Giải pháp:** `useId` tạo unique ID consistent giữa server và client.
 
 ```tsx
-import { useId } from 'react';
+import { useId } from "react";
 
 function FormField({ label }: { label: string }) {
   const id = useId(); // ':r1:', ':r2:'... stable giữa SSR và client
@@ -489,30 +508,30 @@ function FormField({ label }: { label: string }) {
 **Giải pháp:** `useSyncExternalStore` đảm bảo tất cả components đọc cùng 1 snapshot.
 
 ```tsx
-import { useSyncExternalStore } from 'react';
+import { useSyncExternalStore } from "react";
 
 // Custom hook: subscribe vào browser online status
 function useOnlineStatus() {
   return useSyncExternalStore(
     // subscribe function
     (callback) => {
-      window.addEventListener('online', callback);
-      window.addEventListener('offline', callback);
+      window.addEventListener("online", callback);
+      window.addEventListener("offline", callback);
       return () => {
-        window.removeEventListener('online', callback);
-        window.removeEventListener('offline', callback);
+        window.removeEventListener("online", callback);
+        window.removeEventListener("offline", callback);
       };
     },
     // getSnapshot (client)
     () => navigator.onLine,
     // getServerSnapshot (SSR)
-    () => true
+    () => true,
   );
 }
 
 function StatusBar() {
   const isOnline = useOnlineStatus();
-  return <p>{isOnline ? 'Online' : 'Offline'}</p>;
+  return <p>{isOnline ? "Online" : "Offline"}</p>;
 }
 ```
 
@@ -529,7 +548,7 @@ React 19 là bản cập nhật lớn nhất kể từ Hooks. Tập trung vào: 
 **Giải pháp:** `use()` có thể đọc Promise và Context **bất kỳ đâu** trong component, kể cả trong if/for (không bị ràng buộc như hooks thường).
 
 ```tsx
-import { use, Suspense } from 'react';
+import { use, Suspense } from "react";
 
 // use() với Promise -- đọc data trực tiếp
 function UserProfile({ userPromise }: { userPromise: Promise<User> }) {
@@ -580,28 +599,28 @@ function Button({ showIcon }: { showIcon: boolean }) {
 **Giải pháp:** **Actions** -- truyền async function vào `action` prop của `<form>`. `useActionState` quản lý state của action (pending, result, error).
 
 ```tsx
-import { useActionState } from 'react';
+import { useActionState } from "react";
 
 // Action function -- nhận state trước đó và formData
 async function submitForm(
   previousState: { message: string } | null,
-  formData: FormData
+  formData: FormData,
 ) {
-  const name = formData.get('name') as string;
+  const name = formData.get("name") as string;
 
   if (!name) {
-    return { message: 'Tên không được để trống!' };
+    return { message: "Tên không được để trống!" };
   }
 
   // Gọi API
-  const res = await fetch('/api/users', {
-    method: 'POST',
+  const res = await fetch("/api/users", {
+    method: "POST",
     body: JSON.stringify({ name }),
-    headers: { 'Content-Type': 'application/json' },
+    headers: { "Content-Type": "application/json" },
   });
 
   if (!res.ok) {
-    return { message: 'Lỗi server, thử lại sau.' };
+    return { message: "Lỗi server, thử lại sau." };
   }
 
   return { message: `Đã tạo user: ${name}` };
@@ -617,7 +636,7 @@ function CreateUserForm() {
     <form action={formAction}>
       <input name="name" placeholder="Tên" disabled={isPending} />
       <button type="submit" disabled={isPending}>
-        {isPending ? 'Đang tạo...' : 'Tạo user'}
+        {isPending ? "Đang tạo..." : "Tạo user"}
       </button>
       {state?.message && <p>{state.message}</p>}
     </form>
@@ -626,6 +645,7 @@ function CreateUserForm() {
 ```
 
 **Tại sao action thay vì onSubmit?**
+
 - `action` tự động wrap trong transition (isPending miễn phí)
 - Hoạt động với chưa có JavaScript (progressive enhancement)
 - Tích hợp với Server Actions (React Server Components)
@@ -639,7 +659,7 @@ function CreateUserForm() {
 **Giải pháp:** `useFormStatus` cho component con đọc pending state của form cha gần nhất.
 
 ```tsx
-import { useFormStatus } from 'react-dom';
+import { useFormStatus } from "react-dom";
 
 // Component con -- tự động biết form parent đang pending
 function SubmitButton() {
@@ -647,7 +667,7 @@ function SubmitButton() {
 
   return (
     <button type="submit" disabled={pending}>
-      {pending ? 'Đang gửi...' : 'Gửi'}
+      {pending ? "Đang gửi..." : "Gửi"}
     </button>
   );
 }
@@ -655,7 +675,7 @@ function SubmitButton() {
 // Form parent -- không cần truyền pending xuống
 function ContactForm() {
   async function sendMessage(formData: FormData) {
-    'use server'; // Server Action (nếu dùng RSC)
+    "use server"; // Server Action (nếu dùng RSC)
     await saveMessage(formData);
   }
 
@@ -677,7 +697,7 @@ function ContactForm() {
 **Giải pháp:** `useOptimistic` hiển thị giá trị "lạc quan" ngay lập tức, rollback nếu lỗi.
 
 ```tsx
-import { useOptimistic, useActionState } from 'react';
+import { useOptimistic, useActionState } from "react";
 
 interface Message {
   id: number;
@@ -693,28 +713,28 @@ function MessageList({ messages }: { messages: Message[] }) {
     (currentMessages, newMessage: string) => [
       ...currentMessages,
       { id: Date.now(), text: newMessage, sending: true },
-    ]
+    ],
   );
 
   async function sendMessage(formData: FormData) {
-    const text = formData.get('message') as string;
+    const text = formData.get("message") as string;
     addOptimisticMessage(text); // Hiển thị NGAY LẬP TỨC
 
     // Gửi lên server -- nếu lỗi, React tự động rollback
-    await fetch('/api/messages', {
-      method: 'POST',
+    await fetch("/api/messages", {
+      method: "POST",
       body: JSON.stringify({ text }),
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   }
 
   return (
     <div>
       <ul>
-        {optimisticMessages.map(msg => (
+        {optimisticMessages.map((msg) => (
           <li key={msg.id} style={{ opacity: msg.sending ? 0.6 : 1 }}>
             {msg.text}
-            {msg.sending && ' (đang gửi...)'}
+            {msg.sending && " (đang gửi...)"}
           </li>
         ))}
       </ul>
@@ -738,7 +758,7 @@ function MessageList({ messages }: { messages: Message[] }) {
 
 ```tsx
 // React 15-18: phải dùng forwardRef
-import { forwardRef } from 'react';
+import { forwardRef } from "react";
 
 const OldInput = forwardRef<HTMLInputElement, { label: string }>(
   function OldInput({ label }, ref) {
@@ -748,11 +768,17 @@ const OldInput = forwardRef<HTMLInputElement, { label: string }>(
         <input ref={ref} />
       </div>
     );
-  }
+  },
 );
 
 // React 19: ref là prop bình thường!
-function NewInput({ label, ref }: { label: string; ref?: React.Ref<HTMLInputElement> }) {
+function NewInput({
+  label,
+  ref,
+}: {
+  label: string;
+  ref?: React.Ref<HTMLInputElement>;
+}) {
   return (
     <div>
       <label>{label}</label>
@@ -784,7 +810,7 @@ function OldWay() {
   // Phải dùng useEffect riêng để cleanup
   useEffect(() => {
     if (!element) return;
-    const observer = new IntersectionObserver(entries => {
+    const observer = new IntersectionObserver((entries) => {
       console.log(entries);
     });
     observer.observe(element);
@@ -800,7 +826,7 @@ function NewWay() {
     <div
       ref={(element) => {
         if (!element) return;
-        const observer = new IntersectionObserver(entries => {
+        const observer = new IntersectionObserver((entries) => {
           console.log(entries);
         });
         observer.observe(element);
@@ -849,6 +875,7 @@ function BlogPost({ post }: { post: { title: string; description: string } }) {
 ### 4.8 Server Components (RSC) `[Senior]`
 
 **Vấn đề:**
+
 1. Client phải download JavaScript cho mọi component, kể cả những component chỉ render HTML tĩnh
 2. Data fetching phải qua API: server -> API -> client -> render
 3. Secrets (API keys, DB connections) không thể dùng trên client
@@ -861,13 +888,13 @@ function BlogPost({ post }: { post: { title: string; description: string } }) {
 
 // Truy cập database TRỰC TIẾP -- không cần API route!
 async function UsersPage() {
-  const users = await db.query('SELECT * FROM users');
+  const users = await db.query("SELECT * FROM users");
 
   return (
     <div>
       <h1>Users</h1>
       <ul>
-        {users.map(u => (
+        {users.map((u) => (
           <li key={u.id}>{u.name}</li>
         ))}
       </ul>
@@ -879,27 +906,27 @@ async function UsersPage() {
 
 // Client Component -- cần 'use client' directive
 // File: app/users/SearchBar.tsx
-'use client';
+("use client");
 
-import { useState } from 'react';
+import { useState } from "react";
 
 function SearchBar() {
-  const [query, setQuery] = useState('');
-  return <input value={query} onChange={e => setQuery(e.target.value)} />;
+  const [query, setQuery] = useState("");
+  return <input value={query} onChange={(e) => setQuery(e.target.value)} />;
 }
 ```
 
 **Server Components vs Client Components:**
 
-| Tiêu chí | Server Component | Client Component |
-|----------|-----------------|-----------------|
-| Chạy ở đâu | Chỉ server | Server (SSR) + Client |
-| JavaScript gửi xuống client | **Không** | **Có** |
-| Dùng hooks (useState, useEffect) | **Không** | **Có** |
-| Truy cập database/file system | **Có** | **Không** |
-| Dùng secrets (API keys) | **Có** | **Không** |
-| Event handlers (onClick) | **Không** | **Có** |
-| Directive | Không cần (mặc định) | `'use client'` |
+| Tiêu chí                         | Server Component     | Client Component      |
+| -------------------------------- | -------------------- | --------------------- |
+| Chạy ở đâu                       | Chỉ server           | Server (SSR) + Client |
+| JavaScript gửi xuống client      | **Không**            | **Có**                |
+| Dùng hooks (useState, useEffect) | **Không**            | **Có**                |
+| Truy cập database/file system    | **Có**               | **Không**             |
+| Dùng secrets (API keys)          | **Có**               | **Không**             |
+| Event handlers (onClick)         | **Không**            | **Có**                |
+| Directive                        | Không cần (mặc định) | `'use client'`        |
 
 ---
 
@@ -912,24 +939,24 @@ function SearchBar() {
 ```tsx
 // Server Action -- chạy trên server
 // File: app/actions.ts
-'use server';
+"use server";
 
 export async function createUser(formData: FormData) {
-  const name = formData.get('name') as string;
-  const email = formData.get('email') as string;
+  const name = formData.get("name") as string;
+  const email = formData.get("email") as string;
 
   // Truy cập DB trực tiếp -- đây là server code!
   await db.insert(users).values({ name, email });
 
   // Revalidate cache
-  revalidatePath('/users');
+  revalidatePath("/users");
 }
 
 // Client Component -- gọi Server Action
 // File: app/users/CreateForm.tsx
-'use client';
+("use client");
 
-import { createUser } from '../actions';
+import { createUser } from "../actions";
 
 function CreateUserForm() {
   return (
@@ -959,8 +986,8 @@ function CreateUserForm() {
 // TRƯỚC React Compiler: phải tự memo
 function ProductList({ products, query }: Props) {
   const filtered = useMemo(
-    () => products.filter(p => p.name.includes(query)),
-    [products, query]
+    () => products.filter((p) => p.name.includes(query)),
+    [products, query],
   );
 
   const handleSelect = useCallback((id: string) => {
@@ -973,7 +1000,7 @@ function ProductList({ products, query }: Props) {
 // SAU React Compiler: viết bình thường, compiler tự optimize!
 function ProductList({ products, query }: Props) {
   // Compiler tự động memo giá trị này
-  const filtered = products.filter(p => p.name.includes(query));
+  const filtered = products.filter((p) => p.name.includes(query));
 
   // Compiler tự động memo function này
   const handleSelect = (id: string) => {
@@ -985,6 +1012,7 @@ function ProductList({ products, query }: Props) {
 ```
 
 **React Compiler yêu cầu:**
+
 - Code tuân theo Rules of React (pure components, không mutation)
 - Cài đặt `babel-plugin-react-compiler` hoặc `eslint-plugin-react-compiler`
 - Hiện tại đang được dùng tại Meta (Instagram, Facebook)
@@ -993,33 +1021,33 @@ function ProductList({ products, query }: Props) {
 
 ## Phần 5: Bảng tổng hợp -- mỗi tính năng và lý do ra đời
 
-| Tính năng | Phiên bản | Vấn đề giải quyết | Thay thế cái gì |
-|-----------|-----------|-------------------|-----------------|
-| Fiber | 16 | Render đồng bộ block main thread | Stack reconciler |
-| Error Boundaries | 16 | 1 lỗi crash cả app | Không có |
-| Portals | 16 | Modal/tooltip bị z-index, overflow issues | Hack DOM thủ công |
-| Fragments | 16 | Wrapper div thừa | Không có |
-| New Context API | 16.3 | Prop drilling, experimental API cũ | Context cũ (experimental) |
-| React.memo | 16.6 | Function component không thể skip re-render | PureComponent (chỉ class) |
-| React.lazy + Suspense | 16.6 | Code splitting cần thư viện riêng | react-loadable |
-| Hooks | 16.8 | Class component problems (this, lifecycle, reuse logic) | Class components |
-| JSX Transform | 17 | Phải import React mỗi file | `import React` |
-| createRoot | 18 | Cần API mới cho concurrent | `ReactDOM.render` |
-| Automatic Batching | 18 | Chỉ batch trong event handlers | Manual batching |
-| useTransition | 18 | UI lag khi render nặng | Debounce/throttle |
-| useDeferredValue | 18 | Không kiểm soát được state update | Không có |
-| useId | 18 | Hydration mismatch IDs | Math.random() / counter |
-| useSyncExternalStore | 18 | Tearing trong concurrent mode | Không có |
-| `use()` | 19 | Boilerplate đọc async data | useState + useEffect |
-| useActionState | 19 | Form submission boilerplate | useState + try/catch |
-| useFormStatus | 19 | Child không biết form pending | Prop drilling isPending |
-| useOptimistic | 19 | UI chậm chờ server response | Manual optimistic state |
-| ref as prop | 19 | forwardRef verbose | forwardRef |
-| Ref cleanup | 19 | Không cleanup được ref | useEffect workaround |
-| Document metadata | 19 | Cần react-helmet cho title/meta | react-helmet |
-| Server Components | 19 | Client JS quá nhiều, không truy cập DB | API routes |
-| Server Actions | 19 | Tự tạo API route cho mutations | REST API / tRPC |
-| React Compiler | 19 | Tự dùng useMemo/useCallback | useMemo, useCallback |
+| Tính năng             | Phiên bản | Vấn đề giải quyết                                       | Thay thế cái gì           |
+| --------------------- | --------- | ------------------------------------------------------- | ------------------------- |
+| Fiber                 | 16        | Render đồng bộ block main thread                        | Stack reconciler          |
+| Error Boundaries      | 16        | 1 lỗi crash cả app                                      | Không có                  |
+| Portals               | 16        | Modal/tooltip bị z-index, overflow issues               | Hack DOM thủ công         |
+| Fragments             | 16        | Wrapper div thừa                                        | Không có                  |
+| New Context API       | 16.3      | Prop drilling, experimental API cũ                      | Context cũ (experimental) |
+| React.memo            | 16.6      | Function component không thể skip re-render             | PureComponent (chỉ class) |
+| React.lazy + Suspense | 16.6      | Code splitting cần thư viện riêng                       | react-loadable            |
+| Hooks                 | 16.8      | Class component problems (this, lifecycle, reuse logic) | Class components          |
+| JSX Transform         | 17        | Phải import React mỗi file                              | `import React`            |
+| createRoot            | 18        | Cần API mới cho concurrent                              | `ReactDOM.render`         |
+| Automatic Batching    | 18        | Chỉ batch trong event handlers                          | Manual batching           |
+| useTransition         | 18        | UI lag khi render nặng                                  | Debounce/throttle         |
+| useDeferredValue      | 18        | Không kiểm soát được state update                       | Không có                  |
+| useId                 | 18        | Hydration mismatch IDs                                  | Math.random() / counter   |
+| useSyncExternalStore  | 18        | Tearing trong concurrent mode                           | Không có                  |
+| `use()`               | 19        | Boilerplate đọc async data                              | useState + useEffect      |
+| useActionState        | 19        | Form submission boilerplate                             | useState + try/catch      |
+| useFormStatus         | 19        | Child không biết form pending                           | Prop drilling isPending   |
+| useOptimistic         | 19        | UI chậm chờ server response                             | Manual optimistic state   |
+| ref as prop           | 19        | forwardRef verbose                                      | forwardRef                |
+| Ref cleanup           | 19        | Không cleanup được ref                                  | useEffect workaround      |
+| Document metadata     | 19        | Cần react-helmet cho title/meta                         | react-helmet              |
+| Server Components     | 19        | Client JS quá nhiều, không truy cập DB                  | API routes                |
+| Server Actions        | 19        | Tự tạo API route cho mutations                          | REST API / tRPC           |
+| React Compiler        | 19        | Tự dùng useMemo/useCallback                             | useMemo, useCallback      |
 
 ---
 

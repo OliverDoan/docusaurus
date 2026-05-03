@@ -9,9 +9,6 @@ Trong Java, `this`, `super`, `static` và `final` là bốn từ khóa cực k�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Từ khóa `this`](#1-từ-khóa-this)
@@ -283,14 +280,14 @@ cho.inThongTin();  // Lucky - 3 tuoi - Giong: Golden Retriever
 
 ### So sánh `this` và `super`
 
-| Tiêu chí | `this` | `super` |
-|----------|--------|---------|
-| Tham chiếu đến | Object hiện tại (class đang viết) | Object của class cha |
-| Truy cập field | `this.fieldName` | `super.fieldName` |
-| Gọi method | `this.methodName()` | `super.methodName()` |
-| Gọi constructor | `this(args)` -- constructor cùng class | `super(args)` -- constructor class cha |
-| Vị trí gọi constructor | Dòng đầu tiên | Dòng đầu tiên |
-| Kết hợp | Không thể dùng cùng lúc `this()` và `super()` | Không thể dùng cùng lúc `super()` và `this()` |
+| Tiêu chí               | `this`                                        | `super`                                       |
+| ---------------------- | --------------------------------------------- | --------------------------------------------- |
+| Tham chiếu đến         | Object hiện tại (class đang viết)             | Object của class cha                          |
+| Truy cập field         | `this.fieldName`                              | `super.fieldName`                             |
+| Gọi method             | `this.methodName()`                           | `super.methodName()`                          |
+| Gọi constructor        | `this(args)` -- constructor cùng class        | `super(args)` -- constructor class cha        |
+| Vị trí gọi constructor | Dòng đầu tiên                                 | Dòng đầu tiên                                 |
+| Kết hợp                | Không thể dùng cùng lúc `this()` và `super()` | Không thể dùng cùng lúc `super()` và `this()` |
 
 ---
 
@@ -429,12 +426,12 @@ public class Demo {
 
 ### Khi nào nên dùng static?
 
-| Nên dùng static | Không nên dùng static |
-|-----------------|----------------------|
+| Nên dùng static                                            | Không nên dùng static                        |
+| ---------------------------------------------------------- | -------------------------------------------- |
 | Hàm tiện ích (utility): `Math.abs()`, `Integer.parseInt()` | Method cần truy cập dữ liệu riêng của object |
-| Hằng số dùng chung: `static final` | Field thay đổi theo từng object |
-| Factory method: `List.of()`, `Map.of()` | Method phụ thuộc vào trạng thái object |
-| Bộ đếm, cấu hình dùng chung | Logic nghiệp vụ phức tạp |
+| Hằng số dùng chung: `static final`                         | Field thay đổi theo từng object              |
+| Factory method: `List.of()`, `Map.of()`                    | Method phụ thuộc vào trạng thái object       |
+| Bộ đếm, cấu hình dùng chung                                | Logic nghiệp vụ phức tạp                     |
 
 ---
 
@@ -542,22 +539,22 @@ public final class TienTe {
 
 ### So sánh static vs non-static
 
-| Tiêu chí | `static` | Non-static |
-|----------|----------|------------|
-| Thuộc về | Class | Object cụ thể |
-| Truy cập | `ClassName.member` | `object.member` |
-| Bộ nhớ | Một bản duy nhất | Mỗi object một bản |
-| Truy cập `this` | Không thể | Có thể |
-| Truy cập non-static member | Không trực tiếp | Có thể |
-| Ví dụ | `Math.PI`, `Integer.parseInt()` | `"hello".length()` |
+| Tiêu chí                   | `static`                        | Non-static         |
+| -------------------------- | ------------------------------- | ------------------ |
+| Thuộc về                   | Class                           | Object cụ thể      |
+| Truy cập                   | `ClassName.member`              | `object.member`    |
+| Bộ nhớ                     | Một bản duy nhất                | Mỗi object một bản |
+| Truy cập `this`            | Không thể                       | Có thể             |
+| Truy cập non-static member | Không trực tiếp                 | Có thể             |
+| Ví dụ                      | `Math.PI`, `Integer.parseInt()` | `"hello".length()` |
 
 ### So sánh final variable vs final method vs final class
 
-| Tiêu chí | final variable | final method | final class |
-|----------|---------------|-------------|-------------|
-| Ý nghĩa | Không thể thay đổi giá trị | Không thể override | Không thể kế thừa |
-| Áp dụng | Biến local, field, parameter | Method trong class | Toàn bộ class |
-| Ví dụ | `final int X = 10;` | `final void show() {}` | `final class Util {}` |
+| Tiêu chí | final variable               | final method           | final class           |
+| -------- | ---------------------------- | ---------------------- | --------------------- |
+| Ý nghĩa  | Không thể thay đổi giá trị   | Không thể override     | Không thể kế thừa     |
+| Áp dụng  | Biến local, field, parameter | Method trong class     | Toàn bộ class         |
+| Ví dụ    | `final int X = 10;`          | `final void show() {}` | `final class Util {}` |
 
 ---
 
@@ -654,12 +651,12 @@ list = new ArrayList<>();  // LOI! Khong the tro sang object khac
 
 ## 6. Tổng kết
 
-| Từ khóa | Ý nghĩa | Ví dụ điển hình |
-|---------|---------|----------------|
-| `this` | Tham chiếu đến object hiện tại | `this.name = name;` |
-| `super` | Tham chiếu đến class cha | `super.methodName();` |
-| `static` | Thuộc về class, chia sẻ giữa mọi object | `static int count;` |
-| `final` | Không thể thay đổi/override/kế thừa | `final double PI = 3.14;` |
+| Từ khóa  | Ý nghĩa                                 | Ví dụ điển hình           |
+| -------- | --------------------------------------- | ------------------------- |
+| `this`   | Tham chiếu đến object hiện tại          | `this.name = name;`       |
+| `super`  | Tham chiếu đến class cha                | `super.methodName();`     |
+| `static` | Thuộc về class, chia sẻ giữa mọi object | `static int count;`       |
+| `final`  | Không thể thay đổi/override/kế thừa     | `final double PI = 3.14;` |
 
 ---
 

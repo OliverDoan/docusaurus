@@ -9,9 +9,6 @@ ES6+ mang đến rất nhiều tính năng mạnh mẽ mà interviewer thường
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: Destructuring nâng cao `[Intermediate]`](#câu-1-destructuring-nâng-cao-intermediate)
@@ -72,22 +69,22 @@ const {
   status,
 } = response;
 
-console.log(name);     // "An"
-console.log(city);     // "Ha Noi"
-console.log(page);     // 1
-console.log(status);   // 200
+console.log(name); // "An"
+console.log(city); // "Ha Noi"
+console.log(page); // 1
+console.log(status); // 200
 // Lưu ý: "data", "user", "address", "meta" KHÔNG là biến -- chỉ là đường dẫn
 
 // ===== Default values =====
 const config = { theme: "dark" };
 
 const {
-  theme = "light",       // có giá trị -> "dark"
-  language = "vi",       // undefined -> dùng default "vi"
-  fontSize = 14,         // undefined -> dùng default 14
+  theme = "light", // có giá trị -> "dark"
+  language = "vi", // undefined -> dùng default "vi"
+  fontSize = 14, // undefined -> dùng default 14
 } = config;
 
-console.log(theme);    // "dark" (giá trị thực)
+console.log(theme); // "dark" (giá trị thực)
 console.log(language); // "vi" (default)
 console.log(fontSize); // 14 (default)
 
@@ -110,14 +107,18 @@ const {
 } = apiResponse;
 
 console.log(userName); // "An"
-console.log(userAge);  // 25
+console.log(userAge); // 25
 
 // ===== Rename + Default =====
 const { role: userRole = "member" } = {};
 console.log(userRole); // "member"
 
 // ===== Array destructuring nâng cao =====
-const matrix = [[1, 2], [3, 4], [5, 6]];
+const matrix = [
+  [1, 2],
+  [3, 4],
+  [5, 6],
+];
 const [[a, b], [c, d], [e, f]] = matrix;
 console.log(a, b, c, d, e, f); // 1 2 3 4 5 6
 
@@ -171,10 +172,10 @@ console.log(safeA); // undefined (không lỗi)
 
 Cùng cú pháp `...` nhưng hai chức năng:
 
-| Chức năng | Vị trí | Ý nghĩa |
-|---|---|---|
-| **Spread** | Trong array/object literal, function call | "Trải ra" các phần tử |
-| **Rest** | Trong destructuring, function params | "Thu gom" phần còn lại |
+| Chức năng  | Vị trí                                    | Ý nghĩa                |
+| ---------- | ----------------------------------------- | ---------------------- |
+| **Spread** | Trong array/object literal, function call | "Trải ra" các phần tử  |
+| **Rest**   | Trong destructuring, function params      | "Thu gom" phần còn lại |
 
 **Quan trọng**: Spread chỉ tạo **shallow copy** -- object/array lồng bên trong vẫn là reference!
 
@@ -186,8 +187,8 @@ Cùng cú pháp `...` nhưng hai chức năng:
 // Spread array
 const arr1 = [1, 2, 3];
 const arr2 = [4, 5, 6];
-const merged = [...arr1, ...arr2];     // [1, 2, 3, 4, 5, 6]
-const withExtra = [0, ...arr1, 99];    // [0, 1, 2, 3, 99]
+const merged = [...arr1, ...arr2]; // [1, 2, 3, 4, 5, 6]
+const withExtra = [0, ...arr1, 99]; // [0, 1, 2, 3, 99]
 
 // Spread object
 const defaults = { theme: "light", lang: "vi", fontSize: 14 };
@@ -204,7 +205,7 @@ console.log(Math.max(...numbers)); // 5 -- tương đương Math.max(3, 1, 4, 1,
 
 // Rest trong destructuring
 const { theme: t, ...otherConfig } = config;
-console.log(t);           // "dark"
+console.log(t); // "dark"
 console.log(otherConfig); // { lang: "vi", fontSize: 16 }
 
 // Rest trong function params
@@ -260,7 +261,7 @@ const users = [
 
 // Update user id=2, không mutate array gốc
 const updatedUsers = users.map((user) =>
-  user.id === 2 ? { ...user, name: "Binh Updated" } : user
+  user.id === 2 ? { ...user, name: "Binh Updated" } : user,
 );
 // original users vẫn như cũ
 ```
@@ -282,6 +283,7 @@ const updatedUsers = users.map((user) =>
 **Symbol** là primitive type được giới thiệu trong ES6. Mỗi Symbol là **duy nhất** (unique), không bao giờ bằng Symbol khác.
 
 Use cases chính:
+
 1. **Unique property keys**: Tránh trùng tên property
 2. **Constants không trùng**: Enum pattern
 3. **Well-known Symbols**: Tùy chỉnh hành vi của các built-in operations
@@ -311,12 +313,12 @@ const request = {
   [CREATED_AT]: Date.now(),
 };
 
-console.log(request.url);        // "/api/users"
+console.log(request.url); // "/api/users"
 console.log(request[LOG_LEVEL]); // "debug"
 
 // Symbol keys KHÔNG xuất hiện trong:
-console.log(Object.keys(request));           // ["url", "method"]
-console.log(JSON.stringify(request));         // '{"url":"/api/users","method":"GET"}'
+console.log(Object.keys(request)); // ["url", "method"]
+console.log(JSON.stringify(request)); // '{"url":"/api/users","method":"GET"}'
 // Chỉ thấy qua:
 console.log(Object.getOwnPropertySymbols(request)); // [Symbol(logLevel), Symbol(createdAt)]
 
@@ -392,8 +394,8 @@ class Money {
 }
 
 const price = new Money(100000, "VND");
-console.log(+price);      // 100000 (number hint)
-console.log(`${price}`);   // "100000 VND" (string hint)
+console.log(+price); // 100000 (number hint)
+console.log(`${price}`); // "100000 VND" (string hint)
 console.log(price + 50000); // 150000 (default hint)
 ```
 
@@ -411,13 +413,13 @@ console.log(price + 50000); // 150000 (default hint)
 
 ### Giải thích lý thuyết
 
-| Tiêu chí | Map | WeakMap |
-|---|---|---|
-| Key types | Bất kỳ giá trị | Chỉ **object** (và non-registered symbol) |
-| Garbage Collection | Key bị giữ reference (không bị GC) | Key là **weak reference** (có thể bị GC) |
-| Iterable | Có (`for...of`, `.forEach`, `.keys()`) | **Không** |
-| `.size` | Có | **Không** |
-| Use case | General-purpose | Cache, private data, metadata |
+| Tiêu chí           | Map                                    | WeakMap                                   |
+| ------------------ | -------------------------------------- | ----------------------------------------- |
+| Key types          | Bất kỳ giá trị                         | Chỉ **object** (và non-registered symbol) |
+| Garbage Collection | Key bị giữ reference (không bị GC)     | Key là **weak reference** (có thể bị GC)  |
+| Iterable           | Có (`for...of`, `.forEach`, `.keys()`) | **Không**                                 |
+| `.size`            | Có                                     | **Không**                                 |
+| Use case           | General-purpose                        | Cache, private data, metadata             |
 
 Tương tự cho Set vs WeakSet.
 
@@ -484,7 +486,7 @@ class User {
 }
 
 const user = new User("An", "secret123");
-console.log(user.name);                   // "An"
+console.log(user.name); // "An"
 console.log(user.checkPassword("secret123")); // true
 // Không thể truy cập password từ bên ngoài
 // Khi user bị GC -> privateData tự động dọn sạch
@@ -550,13 +552,13 @@ item1 = null; // item bị GC -> WeakSet tự động xóa
 
 **Reflect** cung cấp các static methods tương ứng với các trap của Proxy, đảm bảo thực hiện hành vi mặc định đúng cách.
 
-| Trap | Thao tác bị chặn | Reflect tương ứng |
-|---|---|---|
-| `get` | Đọc property | `Reflect.get()` |
-| `set` | Ghi property | `Reflect.set()` |
-| `has` | Operator `in` | `Reflect.has()` |
+| Trap             | Thao tác bị chặn  | Reflect tương ứng          |
+| ---------------- | ----------------- | -------------------------- |
+| `get`            | Đọc property      | `Reflect.get()`            |
+| `set`            | Ghi property      | `Reflect.set()`            |
+| `has`            | Operator `in`     | `Reflect.has()`            |
 | `deleteProperty` | Operator `delete` | `Reflect.deleteProperty()` |
-| `apply` | Gọi function | `Reflect.apply()` |
+| `apply`          | Gọi function      | `Reflect.apply()`          |
 
 ### Code ví dụ
 
@@ -579,7 +581,7 @@ function createValidatedObject(schema) {
 
         return Reflect.set(target, property, value);
       },
-    }
+    },
   );
 }
 
@@ -589,8 +591,8 @@ const user = createValidatedObject({
   email: (v) => typeof v === "string" && v.includes("@"),
 });
 
-user.name = "An";        // OK
-user.age = 25;           // OK
+user.name = "An"; // OK
+user.age = 25; // OK
 user.email = "an@ex.com"; // OK
 // user.age = -5;         // Error: Giá trị không hợp lệ cho "age": -5
 // user.phone = "123";    // Error: Property "phone" không được phép
@@ -611,8 +613,8 @@ function createLoggingProxy(target, label) {
 }
 
 const config = createLoggingProxy({ theme: "dark" }, "Config");
-config.theme;            // [Config] GET theme = "dark"
-config.language = "vi";  // [Config] SET language = "vi"
+config.theme; // [Config] GET theme = "dark"
+config.language = "vi"; // [Config] SET language = "vi"
 
 // ===== Negative array index (Python-style) =====
 function createNegativeArray(array) {
@@ -631,7 +633,7 @@ function createNegativeArray(array) {
 const arr = createNegativeArray([10, 20, 30, 40, 50]);
 console.log(arr[-1]); // 50
 console.log(arr[-2]); // 40
-console.log(arr[0]);  // 10
+console.log(arr[0]); // 10
 
 // ===== Reactive data (giống Vue 3 reactivity system) =====
 function reactive(obj, onChange) {
@@ -673,11 +675,11 @@ state.count = 1; // Không log (giá trị không thay đổi)
 
 ### Giải thích lý thuyết
 
-| Operator | Cú pháp | Mục đích |
-|---|---|---|
-| `?.` | `obj?.prop`, `arr?.[0]`, `fn?.()` | Truy cập an toàn, trả về `undefined` nếu null/undefined |
-| `??` | `a ?? b` | Trả về `b` chỉ khi `a` là `null` hoặc `undefined` |
-| `\|\|` | `a \|\| b` | Trả về `b` khi `a` là **falsy** (0, "", false, null, undefined, NaN) |
+| Operator | Cú pháp                           | Mục đích                                                             |
+| -------- | --------------------------------- | -------------------------------------------------------------------- |
+| `?.`     | `obj?.prop`, `arr?.[0]`, `fn?.()` | Truy cập an toàn, trả về `undefined` nếu null/undefined              |
+| `??`     | `a ?? b`                          | Trả về `b` chỉ khi `a` là `null` hoặc `undefined`                    |
+| `\|\|`   | `a \|\| b`                        | Trả về `b` khi `a` là **falsy** (0, "", false, null, undefined, NaN) |
 
 **Điểm khác biệt quan trọng**: `??` chỉ xét `null`/`undefined`, còn `||` xét tất cả falsy values.
 
@@ -715,16 +717,16 @@ const result = user?.getFullName?.(); // undefined nếu không có method
 // ===== Nullish coalescing =====
 
 // Vấn đề với || :
-const port1 = 0 || 3000;        // 3000 -- SAI! 0 là port hợp lệ
-const debug1 = false || true;     // true -- SAI! false là giá trị có ý nghĩa
-const title1 = "" || "Default";  // "Default" -- Có thể SAI nếu "" là hợp lệ
+const port1 = 0 || 3000; // 3000 -- SAI! 0 là port hợp lệ
+const debug1 = false || true; // true -- SAI! false là giá trị có ý nghĩa
+const title1 = "" || "Default"; // "Default" -- Có thể SAI nếu "" là hợp lệ
 
 // Với ?? :
-const port2 = 0 ?? 3000;        // 0 -- ĐÚNG! 0 không phải null/undefined
-const debug2 = false ?? true;     // false -- ĐÚNG!
-const title2 = "" ?? "Default";  // "" -- ĐÚNG!
-const name2 = null ?? "Guest";   // "Guest" -- ĐÚNG! null -> dùng default
-const age2 = undefined ?? 18;    // 18 -- ĐÚNG! undefined -> dùng default
+const port2 = 0 ?? 3000; // 0 -- ĐÚNG! 0 không phải null/undefined
+const debug2 = false ?? true; // false -- ĐÚNG!
+const title2 = "" ?? "Default"; // "" -- ĐÚNG!
+const name2 = null ?? "Guest"; // "Guest" -- ĐÚNG! null -> dùng default
+const age2 = undefined ?? 18; // 18 -- ĐÚNG! undefined -> dùng default
 
 // ===== Kết hợp ?. và ?? =====
 const config = {
@@ -778,11 +780,11 @@ console.log(getUserDisplayName(null));
 
 ## Lỗi thường gặp khi trả lời
 
-| Lỗi | Giải thích đúng |
-|---|---|
-| "Spread tạo deep copy" | Sai -- spread chỉ tạo **shallow copy**. Nested objects vẫn là reference. Dùng `structuredClone` cho deep copy. |
-| "Symbol giống string constant" | Không -- Symbol là **duy nhất**, hai Symbol với cùng description vẫn khác nhau. String constants có thể trùng. |
-| "WeakMap chậm hơn Map" | Không nhất thiết. WeakMap có trade-off khác: không iterable, không có `.size`, nhưng performance get/set tương đương. Lợi thế chính là memory management. |
-| "Proxy giống middleware" | Gần đúng nhưng không chính xác. Proxy chặn **thao tác trên object** (get, set, delete), middleware chặn **request/response**. Proxy hoạt động ở level thấp hơn. |
-| "`??` giống `\|\|`" | Sai -- `??` chỉ xét null/undefined. `\|\|` xét tất cả falsy values (0, "", false, NaN). Đây là khác biệt cực kỳ quan trọng trong thực tế. |
-| "Destructuring tạo biến cho tất cả levels" | Sai -- khi nested destructure như `{ a: { b } } = obj`, chỉ `b` là biến. `a` chỉ là "đường dẫn", không trở thành biến. |
+| Lỗi                                        | Giải thích đúng                                                                                                                                                 |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "Spread tạo deep copy"                     | Sai -- spread chỉ tạo **shallow copy**. Nested objects vẫn là reference. Dùng `structuredClone` cho deep copy.                                                  |
+| "Symbol giống string constant"             | Không -- Symbol là **duy nhất**, hai Symbol với cùng description vẫn khác nhau. String constants có thể trùng.                                                  |
+| "WeakMap chậm hơn Map"                     | Không nhất thiết. WeakMap có trade-off khác: không iterable, không có `.size`, nhưng performance get/set tương đương. Lợi thế chính là memory management.       |
+| "Proxy giống middleware"                   | Gần đúng nhưng không chính xác. Proxy chặn **thao tác trên object** (get, set, delete), middleware chặn **request/response**. Proxy hoạt động ở level thấp hơn. |
+| "`??` giống `\|\|`"                        | Sai -- `??` chỉ xét null/undefined. `\|\|` xét tất cả falsy values (0, "", false, NaN). Đây là khác biệt cực kỳ quan trọng trong thực tế.                       |
+| "Destructuring tạo biến cho tất cả levels" | Sai -- khi nested destructure như `{ a: { b } } = obj`, chỉ `b` là biến. `a` chỉ là "đường dẫn", không trở thành biến.                                          |

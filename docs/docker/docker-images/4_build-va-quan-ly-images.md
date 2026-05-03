@@ -9,9 +9,6 @@ Bài này hướng dẫn chi tiết quá trình build image, tối ưu hoá cach
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Docker Build chi tiết](#1-docker-build-chi-tiết)
@@ -192,6 +189,7 @@ dive my-app:v1.0
 ```
 
 Dive cho phép:
+
 - Xem dung lượng từng layer
 - Tìm file lớn không cần thiết
 - Đánh giá hiệu quả image
@@ -311,6 +309,7 @@ docker image prune -a --filter "until=24h"
 So sánh thời gian build giữa 2 Dockerfile sau:
 
 **Dockerfile.bad:**
+
 ```dockerfile
 FROM node:20
 WORKDIR /app
@@ -320,6 +319,7 @@ CMD ["npm", "start"]
 ```
 
 **Dockerfile.good:**
+
 ```dockerfile
 FROM node:20-alpine
 WORKDIR /app
@@ -360,12 +360,12 @@ docker images my-app
 
 ## Tổng kết
 
-| Kỹ thuật | Lợi ích |
-|----------|---------|
-| **Layer ordering** | Copy dependency files trước code → cache tốt hơn |
-| **Alpine images** | Giảm 50-80% dung lượng |
-| **Gộp RUN** | Ít layers, nhỏ hơn |
-| **.dockerignore** | Build context nhỏ hơn, build nhanh hơn |
-| **npm ci** | Cài nhanh, deterministic |
-| **Multi-tag** | Quản lý version tốt hơn |
-| **docker image prune** | Giải phóng ổ cứng |
+| Kỹ thuật               | Lợi ích                                          |
+| ---------------------- | ------------------------------------------------ |
+| **Layer ordering**     | Copy dependency files trước code → cache tốt hơn |
+| **Alpine images**      | Giảm 50-80% dung lượng                           |
+| **Gộp RUN**            | Ít layers, nhỏ hơn                               |
+| **.dockerignore**      | Build context nhỏ hơn, build nhanh hơn           |
+| **npm ci**             | Cài nhanh, deterministic                         |
+| **Multi-tag**          | Quản lý version tốt hơn                          |
+| **docker image prune** | Giải phóng ổ cứng                                |

@@ -9,9 +9,6 @@ Performance là một trong những chủ đề mà interviewer Senior rất th�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: Core Web Vitals là gì? Đo bằng cách nào? `[Intermediate]`](#câu-1-core-web-vitals-là-gì-đo-bằng-cách-nào-intermediate)
@@ -38,11 +35,11 @@ Performance là một trong những chủ đề mà interviewer Senior rất th�
 
 ### Bảng tổng hợp Core Web Vitals
 
-| Metric | Đo cái gì | Good | Needs Improvement | Poor |
-|--------|-----------|------|-------------------|------|
-| **LCP** | Loading speed | ≤ 2.5s | 2.5s - 4s | > 4s |
-| **INP** | Responsiveness | ≤ 200ms | 200ms - 500ms | > 500ms |
-| **CLS** | Visual stability | ≤ 0.1 | 0.1 - 0.25 | > 0.25 |
+| Metric  | Đo cái gì        | Good    | Needs Improvement | Poor    |
+| ------- | ---------------- | ------- | ----------------- | ------- |
+| **LCP** | Loading speed    | ≤ 2.5s  | 2.5s - 4s         | > 4s    |
+| **INP** | Responsiveness   | ≤ 200ms | 200ms - 500ms     | > 500ms |
+| **CLS** | Visual stability | ≤ 0.1   | 0.1 - 0.25        | > 0.25  |
 
 ### Code ví dụ
 
@@ -50,24 +47,24 @@ Performance là một trong những chủ đề mà interviewer Senior rất th�
 
 ```typescript
 // utils/web-vitals.ts
-import { onLCP, onINP, onCLS, type Metric } from 'web-vitals';
+import { onLCP, onINP, onCLS, type Metric } from "web-vitals";
 
 function sendToAnalytics(metric: Metric) {
   const body = {
     name: metric.name,
     value: metric.value,
-    rating: metric.rating,     // 'good' | 'needs-improvement' | 'poor'
-    delta: metric.delta,       // Thay đổi so với lần đo trước
-    id: metric.id,             // Unique ID cho mỗi metric instance
+    rating: metric.rating, // 'good' | 'needs-improvement' | 'poor'
+    delta: metric.delta, // Thay đổi so với lần đo trước
+    id: metric.id, // Unique ID cho mỗi metric instance
     navigationType: metric.navigationType,
   };
 
   // Gửi lên analytics service
   if (navigator.sendBeacon) {
-    navigator.sendBeacon('/api/analytics', JSON.stringify(body));
+    navigator.sendBeacon("/api/analytics", JSON.stringify(body));
   } else {
-    fetch('/api/analytics', {
-      method: 'POST',
+    fetch("/api/analytics", {
+      method: "POST",
       body: JSON.stringify(body),
       keepalive: true,
     });
@@ -84,12 +81,7 @@ onCLS(sendToAnalytics);
 
 ```html
 <!-- Preload hero image (LCP element phổ biến nhất) -->
-<link
-  rel="preload"
-  as="image"
-  href="/hero-image.webp"
-  fetchpriority="high"
-/>
+<link rel="preload" as="image" href="/hero-image.webp" fetchpriority="high" />
 
 <!-- Preload critical font -->
 <link
@@ -108,12 +100,12 @@ onCLS(sendToAnalytics);
 img {
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 9;  /* Reserve space trước khi load */
+  aspect-ratio: 16 / 9; /* Reserve space trước khi load */
 }
 
 /* Skeleton placeholder cho async content */
 .card-skeleton {
-  min-height: 200px;  /* Reserve space */
+  min-height: 200px; /* Reserve space */
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
@@ -173,13 +165,13 @@ npx webpack-bundle-analyzer stats.json
 
 ```javascript
 // webpack.config.js
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 module.exports = {
   plugins: [
     new BundleAnalyzerPlugin({
-      analyzerMode: 'static',       // Tạo HTML report
-      reportFilename: 'bundle-report.html',
+      analyzerMode: "static", // Tạo HTML report
+      reportFilename: "bundle-report.html",
       openAnalyzer: false,
     }),
   ],
@@ -198,8 +190,8 @@ ANALYZE=true npm run build
 
 ```javascript
 // next.config.js
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
 });
 
 module.exports = withBundleAnalyzer({
@@ -211,22 +203,22 @@ module.exports = withBundleAnalyzer({
 
 ```typescript
 // BAD: Import cả lodash (71KB gzipped)
-import _ from 'lodash';
-const result = _.get(obj, 'a.b.c');
+import _ from "lodash";
+const result = _.get(obj, "a.b.c");
 
 // GOOD: Import chỉ function cần (2KB)
-import get from 'lodash/get';
-const result = get(obj, 'a.b.c');
+import get from "lodash/get";
+const result = get(obj, "a.b.c");
 
 // BETTER: Dùng native (0KB)
 const result = obj?.a?.b?.c;
 
 // BAD: Import cả moment.js (67KB gzipped + locales)
-import moment from 'moment';
+import moment from "moment";
 
 // GOOD: Dùng date-fns (tree-shakeable) hoặc dayjs (2KB)
-import { format } from 'date-fns';
-import dayjs from 'dayjs';
+import { format } from "date-fns";
+import dayjs from "dayjs";
 ```
 
 **Budget enforcement trong CI:**
@@ -263,6 +255,7 @@ import dayjs from 'dayjs';
 Bundler phân tích `import`/`export` statements (static, không thay đổi runtime) để xác định function/variable nào thực sự được dùng, rồi loại bỏ phần còn lại.
 
 **Điều kiện để tree shaking hoạt động:**
+
 1. Dùng ES modules (`import`/`export`), không phải CommonJS (`require`/`module.exports`)
 2. Package có `"sideEffects": false` trong `package.json`
 3. Code không có side effects ở top-level
@@ -287,7 +280,7 @@ export function multiply(a: number, b: number): number {
 }
 
 // app.ts -- chỉ import add
-import { add } from './utils/math';
+import { add } from "./utils/math";
 console.log(add(1, 2));
 
 // Sau tree shaking: subtract và multiply bị loại bỏ khỏi bundle
@@ -304,7 +297,7 @@ module.exports = {
 };
 
 // Bundler phải include cả object vì không biết property nào sẽ được access runtime
-const math = require('./utils/math');
+const math = require("./utils/math");
 ```
 
 **Side effects ngăn tree shaking:**
@@ -361,6 +354,7 @@ npm run build
 **Code splitting** chia JavaScript bundle thành nhiều chunks nhỏ, load on-demand thay vì load tất cả upfront. Mục tiêu: giảm **initial load time** bằng cách chỉ load code cần cho page hiện tại.
 
 **3 chiến lược chính:**
+
 1. **Route-based splitting**: Mỗi route là 1 chunk (phổ biến nhất)
 2. **Component-based splitting**: Lazy load heavy components (charts, editors, modals)
 3. **Library-based splitting**: Tách vendor code ra chunk riêng
@@ -432,29 +426,29 @@ function NavLink({ to, children }: { to: string; children: React.ReactNode }) {
 
 ```typescript
 // Named chunks cho debugging
-const Dashboard = lazy(() =>
-  import(/* webpackChunkName: "dashboard" */ './pages/Dashboard')
+const Dashboard = lazy(
+  () => import(/* webpackChunkName: "dashboard" */ "./pages/Dashboard"),
 );
 
 // Prefetch hint -- load trong background khi browser idle
-const Settings = lazy(() =>
-  import(/* webpackPrefetch: true */ './pages/Settings')
+const Settings = lazy(
+  () => import(/* webpackPrefetch: true */ "./pages/Settings"),
 );
 
 // Preload hint -- load song song với current chunk
-const CriticalFeature = lazy(() =>
-  import(/* webpackPreload: true */ './components/CriticalFeature')
+const CriticalFeature = lazy(
+  () => import(/* webpackPreload: true */ "./components/CriticalFeature"),
 );
 ```
 
 ### Bảng so sánh các chiến lược
 
-| Chiến lược | Khi nào dùng | Ưu điểm | Nhược điểm |
-|-----------|-------------|---------|------------|
-| **Route-based** | Luôn dùng (default) | Dễ implement, natural split point | Không optimize within-page |
-| **Component-based** | Heavy components (charts, editors) | Giảm initial bundle đáng kể | Cần Suspense boundaries |
-| **Vendor splitting** | Large dependencies | Cache tốt (vendor ít thay đổi) | Config phức tạp |
-| **Prefetch** | Predictable navigation | No loading delay | Waste bandwidth nếu user không navigate |
+| Chiến lược           | Khi nào dùng                       | Ưu điểm                           | Nhược điểm                              |
+| -------------------- | ---------------------------------- | --------------------------------- | --------------------------------------- |
+| **Route-based**      | Luôn dùng (default)                | Dễ implement, natural split point | Không optimize within-page              |
+| **Component-based**  | Heavy components (charts, editors) | Giảm initial bundle đáng kể       | Cần Suspense boundaries                 |
+| **Vendor splitting** | Large dependencies                 | Cache tốt (vendor ít thay đổi)    | Config phức tạp                         |
+| **Prefetch**         | Predictable navigation             | No loading delay                  | Waste bandwidth nếu user không navigate |
 
 ### Đáp án mẫu
 
@@ -469,6 +463,7 @@ const CriticalFeature = lazy(() =>
 Images thường chiếm **50-70% page weight**. Optimize images là cách nhanh nhất để improve Core Web Vitals, đặc biệt LCP.
 
 **Hierarchy of image optimization:**
+
 1. **Chọn format đúng**: WebP > JPEG cho photos, SVG cho icons/illustrations
 2. **Responsive images**: Serve size phù hợp với viewport
 3. **Lazy loading**: Chỉ load images trong viewport
@@ -521,11 +516,7 @@ function HeroBanner() {
 <!-- srcset + sizes cho responsive images -->
 <img
   src="/product-800.jpg"
-  srcset="
-    /product-400.jpg 400w,
-    /product-800.jpg 800w,
-    /product-1200.jpg 1200w
-  "
+  srcset="/product-400.jpg 400w, /product-800.jpg 800w, /product-1200.jpg 1200w"
   sizes="(max-width: 640px) 100vw,
          (max-width: 1024px) 50vw,
          33vw"
@@ -592,13 +583,13 @@ function LazyImage({ src, alt, ...props }: React.ImgHTMLAttributes<HTMLImageElem
 
 ### Bảng so sánh image formats
 
-| Format | Compression | Transparency | Animation | Browser Support | Use Case |
-|--------|------------|--------------|-----------|----------------|----------|
-| **JPEG** | Lossy, tốt | Không | Không | 100% | Photos (fallback) |
-| **PNG** | Lossless | Có | Không | 100% | Screenshots, logos |
-| **WebP** | Lossy + Lossless | Có | Có | 97%+ | Photos (modern) |
-| **AVIF** | Lossy, tốt nhất | Có | Có | 92%+ | Photos (next-gen) |
-| **SVG** | Vector | Có | Có (SMIL) | 100% | Icons, illustrations |
+| Format   | Compression      | Transparency | Animation | Browser Support | Use Case             |
+| -------- | ---------------- | ------------ | --------- | --------------- | -------------------- |
+| **JPEG** | Lossy, tốt       | Không        | Không     | 100%            | Photos (fallback)    |
+| **PNG**  | Lossless         | Có           | Không     | 100%            | Screenshots, logos   |
+| **WebP** | Lossy + Lossless | Có           | Có        | 97%+            | Photos (modern)      |
+| **AVIF** | Lossy, tốt nhất  | Có           | Có        | 92%+            | Photos (next-gen)    |
+| **SVG**  | Vector           | Có           | Có (SMIL) | 100%            | Icons, illustrations |
 
 ### Đáp án mẫu
 
@@ -629,16 +620,16 @@ Custom fonts là nguyên nhân phổ biến gây **CLS** (layout shift) và **LC
 
   <style>
     @font-face {
-      font-family: 'Inter';
-      src: url('/fonts/Inter-Regular.woff2') format('woff2');
+      font-family: "Inter";
+      src: url("/fonts/Inter-Regular.woff2") format("woff2");
       font-weight: 400;
       font-style: normal;
-      font-display: swap;  /* Show fallback immediately, swap when loaded */
+      font-display: swap; /* Show fallback immediately, swap when loaded */
     }
 
     @font-face {
-      font-family: 'Inter';
-      src: url('/fonts/Inter-Bold.woff2') format('woff2');
+      font-family: "Inter";
+      src: url("/fonts/Inter-Bold.woff2") format("woff2");
       font-weight: 700;
       font-style: normal;
       font-display: swap;
@@ -652,15 +643,15 @@ Custom fonts là nguyên nhân phổ biến gây **CLS** (layout shift) và **LC
 ```css
 /* Matching fallback font metrics để giảm layout shift */
 @font-face {
-  font-family: 'Inter';
-  src: url('/fonts/Inter-Regular.woff2') format('woff2');
+  font-family: "Inter";
+  src: url("/fonts/Inter-Regular.woff2") format("woff2");
   font-display: swap;
 }
 
 /* Adjust fallback font để match custom font metrics */
 @font-face {
-  font-family: 'Inter Fallback';
-  src: local('Arial');
+  font-family: "Inter Fallback";
+  src: local("Arial");
   ascent-override: 90%;
   descent-override: 22%;
   line-gap-override: 0%;
@@ -668,7 +659,7 @@ Custom fonts là nguyên nhân phổ biến gây **CLS** (layout shift) và **LC
 }
 
 body {
-  font-family: 'Inter', 'Inter Fallback', sans-serif;
+  font-family: "Inter", "Inter Fallback", sans-serif;
 }
 ```
 
@@ -701,13 +692,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ### Bảng so sánh font-display values
 
-| Value | Behavior | FOUT | FOIT | CLS Risk | Use Case |
-|-------|----------|------|------|----------|----------|
-| `swap` | Fallback ngay, swap khi ready | Có | Không | Trung bình | Text content (default) |
-| `optional` | Fallback ngay, swap chỉ nếu cực nhanh | Ít | Không | Thấp nhất | Body text, CLS-critical |
-| `block` | Invisible 3s, rồi fallback | Không | Có (3s) | Không | Icons, brand text |
-| `fallback` | Invisible 100ms, swap trong 3s | Ít | Ít | Thấp | Balance giữa swap và block |
-| `auto` | Browser quyết định | Tùy | Tùy | Tùy | Không recommend |
+| Value      | Behavior                              | FOUT  | FOIT    | CLS Risk   | Use Case                   |
+| ---------- | ------------------------------------- | ----- | ------- | ---------- | -------------------------- |
+| `swap`     | Fallback ngay, swap khi ready         | Có    | Không   | Trung bình | Text content (default)     |
+| `optional` | Fallback ngay, swap chỉ nếu cực nhanh | Ít    | Không   | Thấp nhất  | Body text, CLS-critical    |
+| `block`    | Invisible 3s, rồi fallback            | Không | Có (3s) | Không      | Icons, brand text          |
+| `fallback` | Invisible 100ms, swap trong 3s        | Ít    | Ít      | Thấp       | Balance giữa swap và block |
+| `auto`     | Browser quyết định                    | Tùy   | Tùy     | Tùy        | Không recommend            |
 
 ### Đáp án mẫu
 

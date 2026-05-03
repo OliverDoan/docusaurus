@@ -9,9 +9,6 @@ Xử lý bất đồng bộ là phần không thể thiếu trong mọi dự án
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: Promise states và lifecycle `[Intermediate]`](#câu-1-promise-states-và-lifecycle-intermediate)
@@ -45,11 +42,11 @@ Một Promise có **3 trạng thái** và chỉ chuyển đổi **một chiều*
               Cả hai đều là "Settled" (đã xác định)
 ```
 
-| Trạng thái | Mô tả | Chuyển tiếp |
-|---|---|---|
-| **Pending** | Đang chờ xử lý | Trạng thái ban đầu |
-| **Fulfilled** | Thành công, có giá trị | Gọi `.then(onFulfilled)` |
-| **Rejected** | Thất bại, có lý do | Gọi `.catch(onRejected)` hoặc `.then(null, onRejected)` |
+| Trạng thái    | Mô tả                  | Chuyển tiếp                                             |
+| ------------- | ---------------------- | ------------------------------------------------------- |
+| **Pending**   | Đang chờ xử lý         | Trạng thái ban đầu                                      |
+| **Fulfilled** | Thành công, có giá trị | Gọi `.then(onFulfilled)`                                |
+| **Rejected**  | Thất bại, có lý do     | Gọi `.catch(onRejected)` hoặc `.then(null, onRejected)` |
 
 Một khi **settled** (fulfilled hoặc rejected), Promise **không thể** chuyển trạng thái nữa. Gọi `resolve` hoặc `reject` lần thứ hai sẽ bị **bỏ qua**.
 
@@ -86,9 +83,9 @@ fetchUser
 
 // ===== resolve/reject chỉ có hiệu lần đầu =====
 const p = new Promise((resolve, reject) => {
-  resolve("Giá trị 1");       // -> Fulfilled với "Giá trị 1"
-  resolve("Giá trị 2");       // BỊ BỎ QUA -- đã settled rồi
-  reject(new Error("Lỗi"));   // BỊ BỎ QUA -- đã settled rồi
+  resolve("Giá trị 1"); // -> Fulfilled với "Giá trị 1"
+  resolve("Giá trị 2"); // BỊ BỎ QUA -- đã settled rồi
+  reject(new Error("Lỗi")); // BỊ BỎ QUA -- đã settled rồi
 });
 
 p.then(console.log); // "Giá trị 1"
@@ -123,14 +120,14 @@ outer.then((value) => {
 
 Async/await là **syntactic sugar** trên Promise. Code tương đương nhau, chỉ khác cú pháp:
 
-| Tiêu chí | Promise Chaining | Async/Await |
-|---|---|---|
-| Cú pháp | `.then().then().catch()` | `await`, `try/catch` |
-| Đọc code | Khó đọc khi nhiều bước | Đọc như code đồng bộ |
-| Error handling | `.catch()` cuối chuỗi | `try/catch` quen thuộc |
-| Debug | Khó trace qua `.then` chain | Stack trace rõ ràng hơn |
-| Parallel | `Promise.all` | `Promise.all` + `await` |
-| Conditional logic | Khó viết | Dễ viết như bình thường |
+| Tiêu chí          | Promise Chaining            | Async/Await             |
+| ----------------- | --------------------------- | ----------------------- |
+| Cú pháp           | `.then().then().catch()`    | `await`, `try/catch`    |
+| Đọc code          | Khó đọc khi nhiều bước      | Đọc như code đồng bộ    |
+| Error handling    | `.catch()` cuối chuỗi       | `try/catch` quen thuộc  |
+| Debug             | Khó trace qua `.then` chain | Stack trace rõ ràng hơn |
+| Parallel          | `Promise.all`               | `Promise.all` + `await` |
+| Conditional logic | Khó viết                    | Dễ viết như bình thường |
 
 ### Code ví dụ
 
@@ -216,16 +213,16 @@ async function processPaymentAsync(order) {
 // ===== SAI LẦM PHỔ BIẾN: await tuần tự khi có thể chạy song song =====
 // CHẬM:
 async function fetchDataSlow() {
-  const users = await fetchUsers();       // Đợi 2s
+  const users = await fetchUsers(); // Đợi 2s
   const products = await fetchProducts(); // Đợi 2s (bắt đầu SAU users xong)
-  return { users, products };             // Tổng: 4s
+  return { users, products }; // Tổng: 4s
 }
 
 // NHANH:
 async function fetchDataFast() {
   const [users, products] = await Promise.all([
-    fetchUsers(),   // Bắt đầu ngay
-    fetchProducts() // Bắt đầu ngay
+    fetchUsers(), // Bắt đầu ngay
+    fetchProducts(), // Bắt đầu ngay
   ]);
   return { users, products }; // Tổng: 2s (chạy song song)
 }
@@ -245,12 +242,12 @@ async function fetchDataFast() {
 
 ### Giải thích lý thuyết
 
-| Method | Resolve khi | Reject khi | Use case |
-|---|---|---|---|
-| `Promise.all` | **Tất cả** fulfilled | **Bất kỳ** rejected | Fetch nhiều API cùng lúc, cần tất cả |
-| `Promise.allSettled` | **Tất cả** settled | **Không bao giờ** reject | Thực hiện nhiều task, muốn biết kết quả từng cái |
-| `Promise.race` | **Đầu tiên** settled (fulfill/reject) | **Đầu tiên** settled (fulfill/reject) | Timeout, dùng kết quả nhanh nhất |
-| `Promise.any` | **Đầu tiên** fulfilled | **Tất cả** rejected (AggregateError) | Fallback servers, lấy kết quả thành công đầu tiên |
+| Method               | Resolve khi                           | Reject khi                            | Use case                                          |
+| -------------------- | ------------------------------------- | ------------------------------------- | ------------------------------------------------- |
+| `Promise.all`        | **Tất cả** fulfilled                  | **Bất kỳ** rejected                   | Fetch nhiều API cùng lúc, cần tất cả              |
+| `Promise.allSettled` | **Tất cả** settled                    | **Không bao giờ** reject              | Thực hiện nhiều task, muốn biết kết quả từng cái  |
+| `Promise.race`       | **Đầu tiên** settled (fulfill/reject) | **Đầu tiên** settled (fulfill/reject) | Timeout, dùng kết quả nhanh nhất                  |
+| `Promise.any`        | **Đầu tiên** fulfilled                | **Tất cả** rejected (AggregateError)  | Fallback servers, lấy kết quả thành công đầu tiên |
 
 ### Code ví dụ
 
@@ -258,7 +255,7 @@ async function fetchDataFast() {
 const fast = new Promise((resolve) => setTimeout(() => resolve("Nhanh"), 100));
 const slow = new Promise((resolve) => setTimeout(() => resolve("Chậm"), 300));
 const fail = new Promise((_, reject) =>
-  setTimeout(() => reject(new Error("Lỗi")), 200)
+  setTimeout(() => reject(new Error("Lỗi")), 200),
 );
 
 // ===== Promise.all -- "Tất cả hoặc không gì" =====
@@ -282,7 +279,7 @@ async function loadDashboard(userId) {
 // Use case: Gửi notification đến nhiều người, biết ai gửi được ai không
 async function notifyAllUsers(userIds, message) {
   const results = await Promise.allSettled(
-    userIds.map((id) => sendNotification(id, message))
+    userIds.map((id) => sendNotification(id, message)),
   );
 
   const succeeded = results.filter((r) => r.status === "fulfilled");
@@ -446,7 +443,7 @@ async function fetchMultiple(urls) {
       } catch (error) {
         return { url, data: null, error: error.message };
       }
-    })
+    }),
   );
 
   const successes = results.filter((r) => r.error === null);
@@ -458,7 +455,7 @@ async function fetchMultiple(urls) {
 // Cách 2: Dùng Promise.allSettled (đơn giản hơn)
 async function fetchMultipleV2(urls) {
   const results = await Promise.allSettled(
-    urls.map((url) => fetch(url).then((r) => r.json()))
+    urls.map((url) => fetch(url).then((r) => r.json())),
   );
   return results;
 }
@@ -569,7 +566,7 @@ async function safeExecute(asyncFn, fallback = null) {
 // Sử dụng
 const data = await safeExecute(
   () => fetchData("/api/users"),
-  [] // Fallback là mảng rỗng
+  [], // Fallback là mảng rỗng
 );
 ```
 
@@ -587,16 +584,16 @@ const data = await safeExecute(
 
 ### Bảng so sánh
 
-| Tiêu chí | Callback | Promise | Async/Await |
-|---|---|---|---|
-| Cú pháp | `fn(arg, callback)` | `.then().catch()` | `await`, `try/catch` |
-| Xử lý lỗi | Truyền error vào callback | `.catch()` | `try/catch` |
-| Callback hell | Có | Giảm (chaining) | Không |
-| Code đọc | Khó đọc khi nhiều tầng | Khá đọc | Rất dễ đọc |
-| Song song | Khó quản lý | `Promise.all` | `Promise.all` + `await` |
-| Cancel | Thủ công | Thủ công (AbortController) | Thủ công (AbortController) |
-| Debug | Stack trace mất | Stack trace khá | Stack trace tốt |
-| Xử lý 1 giá trị | Có | Có | Có |
+| Tiêu chí        | Callback                  | Promise                    | Async/Await                |
+| --------------- | ------------------------- | -------------------------- | -------------------------- |
+| Cú pháp         | `fn(arg, callback)`       | `.then().catch()`          | `await`, `try/catch`       |
+| Xử lý lỗi       | Truyền error vào callback | `.catch()`                 | `try/catch`                |
+| Callback hell   | Có                        | Giảm (chaining)            | Không                      |
+| Code đọc        | Khó đọc khi nhiều tầng    | Khá đọc                    | Rất dễ đọc                 |
+| Song song       | Khó quản lý               | `Promise.all`              | `Promise.all` + `await`    |
+| Cancel          | Thủ công                  | Thủ công (AbortController) | Thủ công (AbortController) |
+| Debug           | Stack trace mất           | Stack trace khá            | Stack trace tốt            |
+| Xử lý 1 giá trị | Có                        | Có                         | Có                         |
 
 ### Code ví dụ
 
@@ -692,11 +689,11 @@ const user = await getUserAsync(1); // Giờ dùng được async/await!
 
 ## Lỗi thường gặp khi trả lời
 
-| Lỗi | Giải thích đúng |
-|---|---|
+| Lỗi                                        | Giải thích đúng                                                                                                                           |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | "await biến Promise thành giá trị đồng bộ" | Sai -- `await` chỉ tạm dừng execution của async function, **không block** event loop. Code bên ngoài async function vẫn chạy bình thường. |
-| "Promise.all chạy các promise tuần tự" | Sai -- Promise.all nhận các promise **đã bắt đầu chạy**. Nó chỉ đợi tất cả settled, không kiểm soát thứ tự chạy. |
-| "async function luôn trả về Promise" | Đúng! Nhưng nhiều người quên -- kể cả khi return giá trị thường, nó vẫn được wrap trong Promise.resolve(). |
-| "try/catch bắt được mọi lỗi async" | Sai -- try/catch chỉ bắt lỗi từ **await expression**. Lỗi trong setTimeout/callback bên trong không bắt được. |
-| "Promise.race trả về kết quả nhanh nhất" | Chưa chính xác -- nó trả về kết quả của promise **settle** đầu tiên, kể cả **reject**. Muốn lấy fulfilled đầu tiên, dùng `Promise.any`. |
-| "Quên return trong .then là lỗi nhỏ" | Không -- nó gây unhandled rejection, có thể crash app trong Node.js. Luôn return Promise trong .then chain. |
+| "Promise.all chạy các promise tuần tự"     | Sai -- Promise.all nhận các promise **đã bắt đầu chạy**. Nó chỉ đợi tất cả settled, không kiểm soát thứ tự chạy.                          |
+| "async function luôn trả về Promise"       | Đúng! Nhưng nhiều người quên -- kể cả khi return giá trị thường, nó vẫn được wrap trong Promise.resolve().                                |
+| "try/catch bắt được mọi lỗi async"         | Sai -- try/catch chỉ bắt lỗi từ **await expression**. Lỗi trong setTimeout/callback bên trong không bắt được.                             |
+| "Promise.race trả về kết quả nhanh nhất"   | Chưa chính xác -- nó trả về kết quả của promise **settle** đầu tiên, kể cả **reject**. Muốn lấy fulfilled đầu tiên, dùng `Promise.any`.   |
+| "Quên return trong .then là lỗi nhỏ"       | Không -- nó gây unhandled rejection, có thể crash app trong Node.js. Luôn return Promise trong .then chain.                               |

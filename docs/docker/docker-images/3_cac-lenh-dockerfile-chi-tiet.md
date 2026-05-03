@@ -9,9 +9,6 @@ Bài trước đã giới thiệu các lệnh cơ bản. Bài này đi sâu vào
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. ENTRYPOINT vs CMD](#1-entrypoint-vs-cmd)
@@ -86,11 +83,11 @@ docker run my-app test.js
 
 ### Khi nào dùng gì?
 
-| Tình huống | Dùng |
-|-----------|------|
-| Ứng dụng thông thường | `CMD` |
-| CLI tool (luôn chạy 1 binary) | `ENTRYPOINT` |
-| Binary + arguments thay đổi | `ENTRYPOINT + CMD` |
+| Tình huống                    | Dùng               |
+| ----------------------------- | ------------------ |
+| Ứng dụng thông thường         | `CMD`              |
+| CLI tool (luôn chạy 1 binary) | `ENTRYPOINT`       |
+| Binary + arguments thay đổi   | `ENTRYPOINT + CMD` |
 
 ### Dạng exec vs shell
 
@@ -134,12 +131,12 @@ docker build --build-arg APP_ENV=staging -t my-app .
 
 ### ARG vs ENV
 
-| | ARG | ENV |
-|---|---|---|
-| **Có khi build** | Co | Co |
-| **Có khi chạy container** | Khong | Co |
-| **Override cách nào** | `--build-arg` | `-e` hoặc `--env` |
-| **Use case** | Version, build config | Runtime config |
+|                           | ARG                   | ENV               |
+| ------------------------- | --------------------- | ----------------- |
+| **Có khi build**          | Co                    | Co                |
+| **Có khi chạy container** | Khong                 | Co                |
+| **Override cách nào**     | `--build-arg`         | `-e` hoặc `--env` |
+| **Use case**              | Version, build config | Runtime config    |
 
 ---
 
@@ -183,12 +180,12 @@ CMD ["node", "server.js"]
 
 ### Các tham số
 
-| Tham số | Mặc định | Ý nghĩa |
-|---------|----------|---------|
-| `--interval` | 30s | Kiểm tra mỗi bao lâu |
-| `--timeout` | 30s | Timeout cho mỗi lần check |
-| `--start-period` | 0s | Thời gian chờ trước khi bắt đầu check |
-| `--retries` | 3 | Số lần fail trước khi đánh dấu "unhealthy" |
+| Tham số          | Mặc định | Ý nghĩa                                    |
+| ---------------- | -------- | ------------------------------------------ |
+| `--interval`     | 30s      | Kiểm tra mỗi bao lâu                       |
+| `--timeout`      | 30s      | Timeout cho mỗi lần check                  |
+| `--start-period` | 0s       | Thời gian chờ trước khi bắt đầu check      |
+| `--retries`      | 3        | Số lần fail trước khi đánh dấu "unhealthy" |
 
 ### Trạng thái health
 
@@ -357,21 +354,21 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 ## 10. Tổng kết tất cả lệnh Dockerfile
 
-| Lệnh | Chức năng | Ghi chú |
-|-------|-----------|---------|
-| `FROM` | Image cơ sở | Bắt buộc, dòng đầu tiên |
-| `WORKDIR` | Thư mục làm việc | Tạo nếu chưa có |
-| `COPY` | Copy file vào image | Dùng thường xuyên nhất |
-| `ADD` | COPY + giải nén + URL | Ưu tiên COPY |
-| `RUN` | Chạy lệnh khi build | Mỗi RUN = 1 layer |
-| `CMD` | Lệnh mặc định khi chạy | Ghi đè được |
-| `ENTRYPOINT` | Lệnh cố định khi chạy | Không ghi đè được |
-| `ENV` | Biến môi trường | Tồn tại khi chạy container |
-| `ARG` | Biến build-time | Chỉ tồn tại khi build |
-| `EXPOSE` | Khai báo port | Chỉ là documentation |
-| `VOLUME` | Khai báo mount point | Cho persistent data |
-| `USER` | Chuyển user | Nên dùng non-root |
-| `HEALTHCHECK` | Kiểm tra sức khoẻ | Khuyến nghị cho production |
-| `LABEL` | Metadata | Version, maintainer |
-| `SHELL` | Thay đổi shell | Hiếm khi dùng |
-| `STOPSIGNAL` | Signal dừng | Mặc định SIGTERM |
+| Lệnh          | Chức năng              | Ghi chú                    |
+| ------------- | ---------------------- | -------------------------- |
+| `FROM`        | Image cơ sở            | Bắt buộc, dòng đầu tiên    |
+| `WORKDIR`     | Thư mục làm việc       | Tạo nếu chưa có            |
+| `COPY`        | Copy file vào image    | Dùng thường xuyên nhất     |
+| `ADD`         | COPY + giải nén + URL  | Ưu tiên COPY               |
+| `RUN`         | Chạy lệnh khi build    | Mỗi RUN = 1 layer          |
+| `CMD`         | Lệnh mặc định khi chạy | Ghi đè được                |
+| `ENTRYPOINT`  | Lệnh cố định khi chạy  | Không ghi đè được          |
+| `ENV`         | Biến môi trường        | Tồn tại khi chạy container |
+| `ARG`         | Biến build-time        | Chỉ tồn tại khi build      |
+| `EXPOSE`      | Khai báo port          | Chỉ là documentation       |
+| `VOLUME`      | Khai báo mount point   | Cho persistent data        |
+| `USER`        | Chuyển user            | Nên dùng non-root          |
+| `HEALTHCHECK` | Kiểm tra sức khoẻ      | Khuyến nghị cho production |
+| `LABEL`       | Metadata               | Version, maintainer        |
+| `SHELL`       | Thay đổi shell         | Hiếm khi dùng              |
+| `STOPSIGNAL`  | Signal dừng            | Mặc định SIGTERM           |

@@ -9,9 +9,6 @@ title: "2. Dockerfile cơ bản"
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Dockerfile là gì?](#1-dockerfile-là-gì)
@@ -341,11 +338,11 @@ mkdir docker-practice && cd docker-practice
 Tạo file `server.js`:
 
 ```javascript
-const http = require('http');
+const http = require("http");
 
 const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-  res.end('<h1>Xin chào từ Docker!</h1><p>Container đang chạy.</p>');
+  res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+  res.end("<h1>Xin chào từ Docker!</h1><p>Container đang chạy.</p>");
 });
 
 const PORT = process.env.PORT || 3000;
@@ -406,16 +403,16 @@ docker rm -f practice
 
 ## Tổng kết
 
-| Lệnh Dockerfile | Chức năng |
-|-----------------|-----------|
-| `FROM` | Image cơ sở (bắt buộc, dòng đầu tiên) |
-| `WORKDIR` | Thư mục làm việc |
-| `COPY` | Copy file từ host vào image |
-| `RUN` | Chạy lệnh khi build |
-| `CMD` | Lệnh chạy khi container khởi động |
-| `EXPOSE` | Khai báo port (documentation) |
-| `ENV` | Biến môi trường |
-| `ADD` | Giống COPY + giải nén tar |
+| Lệnh Dockerfile | Chức năng                             |
+| --------------- | ------------------------------------- |
+| `FROM`          | Image cơ sở (bắt buộc, dòng đầu tiên) |
+| `WORKDIR`       | Thư mục làm việc                      |
+| `COPY`          | Copy file từ host vào image           |
+| `RUN`           | Chạy lệnh khi build                   |
+| `CMD`           | Lệnh chạy khi container khởi động     |
+| `EXPOSE`        | Khai báo port (documentation)         |
+| `ENV`           | Biến môi trường                       |
+| `ADD`           | Giống COPY + giải nén tar             |
 
 ### Quy tắc nhớ
 

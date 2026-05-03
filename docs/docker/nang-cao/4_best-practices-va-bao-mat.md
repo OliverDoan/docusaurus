@@ -9,9 +9,6 @@ Bài này tổng hợp các best practices quan trọng nhất khi làm việc v
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Dockerfile Best Practices](#1-dockerfile-best-practices)
@@ -253,8 +250,8 @@ services:
 services:
   app:
     volumes:
-      - ./src:/app/src              # Code hot reload
-      - node_modules:/app/node_modules  # Tránh xung đột
+      - ./src:/app/src # Code hot reload
+      - node_modules:/app/node_modules # Tránh xung đột
 volumes:
   node_modules:
 ```
@@ -314,7 +311,7 @@ services:
   api:
     networks: [frontend, backend]
   db:
-    networks: [backend]  # Không thể truy cập từ nginx
+    networks: [backend] # Không thể truy cập từ nginx
 
 networks:
   frontend:

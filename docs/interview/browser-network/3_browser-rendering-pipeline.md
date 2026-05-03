@@ -9,9 +9,6 @@ Hiểu được browser rendering pipeline là cách bạn "level up" từ một
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: Mô tả Critical Rendering Path -- từ khi browser nhận HTML đến khi user thấy pixels trên màn hình `[Senior]`](#câu-1-mô-tả-critical-rendering-path-từ-khi-browser-nhận-html-đến-khi-user-thấy-pixels-trên-màn-hình-senior)
@@ -38,17 +35,18 @@ CSS  → CSSOM → |
 
 **Các bước chi tiết:**
 
-| Bước | Input | Output | Blocking? |
-|---|---|---|---|
-| 1. **Parse HTML** | HTML bytes | DOM tree | - |
-| 2. **Parse CSS** | CSS bytes | CSSOM tree | Render-blocking |
-| 3. **Execute JS** | Script tags | Modified DOM/CSSOM | Parser-blocking |
-| 4. **Render Tree** | DOM + CSSOM | Visible elements + styles | - |
-| 5. **Layout** | Render tree | Kích thước + vị trí mỗi element | - |
-| 6. **Paint** | Layout info | Pixels cho mỗi layer | - |
-| 7. **Composite** | Painted layers | Final image trên màn hình | GPU-accelerated |
+| Bước               | Input          | Output                          | Blocking?       |
+| ------------------ | -------------- | ------------------------------- | --------------- |
+| 1. **Parse HTML**  | HTML bytes     | DOM tree                        | -               |
+| 2. **Parse CSS**   | CSS bytes      | CSSOM tree                      | Render-blocking |
+| 3. **Execute JS**  | Script tags    | Modified DOM/CSSOM              | Parser-blocking |
+| 4. **Render Tree** | DOM + CSSOM    | Visible elements + styles       | -               |
+| 5. **Layout**      | Render tree    | Kích thước + vị trí mỗi element | -               |
+| 6. **Paint**       | Layout info    | Pixels cho mỗi layer            | -               |
+| 7. **Composite**   | Painted layers | Final image trên màn hình       | GPU-accelerated |
 
 **Hai khái niệm blocking quan trọng:**
+
 - **CSS là render-blocking**: Browser không render gì cho đến khi CSSOM xây xong (tránh FOUC -- Flash of Unstyled Content)
 - **JS là parser-blocking**: Browser dừng parse HTML khi gặp `<script>` (trừ khi có `async`/`defer`)
 
@@ -57,29 +55,40 @@ CSS  → CSSOM → |
 ```html
 <!-- Thứ tự resources ảnh hưởng CRP -->
 <html>
-<head>
-  <!-- CSS render-blocking: phải load xong trước khi render -->
-  <link rel="stylesheet" href="critical.css" />
+  <head>
+    <!-- CSS render-blocking: phải load xong trước khi render -->
+    <link rel="stylesheet" href="critical.css" />
 
-  <!-- Non-critical CSS: load async -->
-  <link rel="stylesheet" href="non-critical.css" media="print" onload="this.media='all'" />
+    <!-- Non-critical CSS: load async -->
+    <link
+      rel="stylesheet"
+      href="non-critical.css"
+      media="print"
+      onload="this.media='all'"
+    />
 
-  <!-- Preload font (tránh layout shift) -->
-  <link rel="preload" href="/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Preload font (tránh layout shift) -->
+    <link
+      rel="preload"
+      href="/fonts/Inter.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
 
-  <!-- JS parser-blocking: dừng HTML parsing -->
-  <script src="blocking.js"></script>
+    <!-- JS parser-blocking: dừng HTML parsing -->
+    <script src="blocking.js"></script>
 
-  <!-- JS async: download song song, execute khi ready (không đảm bảo thứ tự) -->
-  <script async src="analytics.js"></script>
+    <!-- JS async: download song song, execute khi ready (không đảm bảo thứ tự) -->
+    <script async src="analytics.js"></script>
 
-  <!-- JS defer: download song song, execute sau khi HTML parse xong (đảm bảo thứ tự) -->
-  <script defer src="app.js"></script>
-</head>
-<body>
-  <!-- Content render SAU khi CSS load + JS blocking execute -->
-  <h1>Hello World</h1>
-</body>
+    <!-- JS defer: download song song, execute sau khi HTML parse xong (đảm bảo thứ tự) -->
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <!-- Content render SAU khi CSS load + JS blocking execute -->
+    <h1>Hello World</h1>
+  </body>
 </html>
 ```
 
@@ -116,15 +125,16 @@ Browser chuyển HTML bytes thành DOM tree qua 4 bước:
 Bytes → Characters → Tokens → Nodes → DOM Tree
 ```
 
-| Bước | Ví dụ |
-|---|---|
-| **Bytes** | `3C 68 74 6D 6C 3E` |
-| **Characters** | `<html><head>...` |
-| **Tokens** | StartTag: html, StartTag: head, EndTag: head... |
-| **Nodes** | HTMLHtmlElement, HTMLHeadElement... |
-| **DOM Tree** | Cây phân cấp các nodes |
+| Bước           | Ví dụ                                           |
+| -------------- | ----------------------------------------------- |
+| **Bytes**      | `3C 68 74 6D 6C 3E`                             |
+| **Characters** | `<html><head>...`                               |
+| **Tokens**     | StartTag: html, StartTag: head, EndTag: head... |
+| **Nodes**      | HTMLHtmlElement, HTMLHeadElement...             |
+| **DOM Tree**   | Cây phân cấp các nodes                          |
 
 **Đặc điểm quan trọng:**
+
 - DOM construction là **incremental** -- browser bắt đầu render ngay khi có đủ nodes, không đợi toàn bộ HTML
 - Khi gặp `<script>` (không có async/defer), parser **dừng lại** và đợi script download + execute
 - Khi gặp `<link rel="stylesheet">`, parser tiếp tục nhưng **rendering bị block**
@@ -145,35 +155,35 @@ Bytes → Characters → Tokens → Nodes → DOM Tree
 //                   └── Text ("Hello")
 
 // Truy cập DOM tree
-const div = document.getElementById('app');
-console.log(div.nodeType);     // 1 (ELEMENT_NODE)
-console.log(div.nodeName);     // "DIV"
-console.log(div.childNodes);   // NodeList [p]
-console.log(div.parentNode);   // body
+const div = document.getElementById("app");
+console.log(div.nodeType); // 1 (ELEMENT_NODE)
+console.log(div.nodeName); // "DIV"
+console.log(div.childNodes); // NodeList [p]
+console.log(div.parentNode); // body
 
 // DOM API thao tác tree
-const newP = document.createElement('p');     // Tạo node mới
-newP.textContent = 'New paragraph';            // Set content
-div.appendChild(newP);                         // Thêm vào tree
+const newP = document.createElement("p"); // Tạo node mới
+newP.textContent = "New paragraph"; // Set content
+div.appendChild(newP); // Thêm vào tree
 
 // Mỗi thao tác DOM đều có thể trigger reflow/repaint
 // Nên batch DOM operations:
 
 // WRONG: Trigger reflow mỗi lần append
 for (let i = 0; i < 100; i++) {
-  const li = document.createElement('li');
+  const li = document.createElement("li");
   li.textContent = `Item ${i}`;
-  document.querySelector('ul').appendChild(li); // 100 lần reflow!
+  document.querySelector("ul").appendChild(li); // 100 lần reflow!
 }
 
 // CORRECT: Dùng DocumentFragment
 const fragment = document.createDocumentFragment();
 for (let i = 0; i < 100; i++) {
-  const li = document.createElement('li');
+  const li = document.createElement("li");
   li.textContent = `Item ${i}`;
   fragment.appendChild(li); // Không trigger reflow
 }
-document.querySelector('ul').appendChild(fragment); // 1 lần reflow
+document.querySelector("ul").appendChild(fragment); // 1 lần reflow
 ```
 
 ### Đáp án mẫu
@@ -189,17 +199,20 @@ document.querySelector('ul').appendChild(fragment); // 1 lần reflow
 **CSSOM (CSS Object Model)** là phiên bản "DOM" của CSS -- một tree structure chứa tất cả style rules đã được parse.
 
 **Quá trình xây CSSOM:**
+
 ```
 CSS Bytes → Characters → Tokens → Nodes → CSSOM Tree
 ```
 
 **Tại sao CSS là render-blocking:**
+
 1. Browser cần CSSOM để tạo Render Tree
 2. Không có CSSOM = không biết element nào visible, kích thước bao nhiêu
 3. Render mà không có CSS = **FOUC** (Flash of Unstyled Content) -- rất xấu UX
 4. Vì vậy browser **chờ** CSSOM xong mới render
 
 **CSSOM khác DOM:**
+
 - DOM xây incremental (parse dần)
 - CSSOM phải xây **hoàn chỉnh** trước khi dùng (vì CSS cascade -- rule sau có thể override rule trước)
 
@@ -218,8 +231,15 @@ CSS Bytes → Characters → Tokens → Nodes → CSSOM Tree
   <!-- Optimization: critical CSS inline -->
   <style>
     /* Inline CSS quan trọng nhất để render above-the-fold content */
-    body { margin: 0; font-family: system-ui; }
-    .hero { height: 100vh; display: flex; align-items: center; }
+    body {
+      margin: 0;
+      font-family: system-ui;
+    }
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+    }
   </style>
 
   <!-- Non-critical CSS load async -->
@@ -256,9 +276,9 @@ CSS Bytes → Characters → Tokens → Nodes → CSSOM Tree
 //           └── font-size: 16px (inherited from body)
 
 // Truy cập CSSOM qua JavaScript
-const styles = window.getComputedStyle(document.querySelector('.container'));
-console.log(styles.width);      // "800px" (computed value, không phải 80%)
-console.log(styles.fontSize);   // "16px" (inherited)
+const styles = window.getComputedStyle(document.querySelector(".container"));
+console.log(styles.width); // "800px" (computed value, không phải 80%)
+console.log(styles.fontSize); // "16px" (inherited)
 
 // Mỗi lần gọi getComputedStyle có thể trigger style recalculation
 // Nên cache kết quả nếu đọc nhiều lần
@@ -274,15 +294,16 @@ console.log(styles.fontSize);   // "16px" (inherited)
 
 ### Giải thích lý thuyết
 
-| | Layout (Reflow) | Paint (Repaint) |
-|---|---|---|
-| **Trigger** | Thay đổi kích thước/vị trí element | Thay đổi visual appearance (không thay đổi layout) |
-| **Tính toán** | Kích thước + vị trí **tất cả** element bị ảnh hưởng | Vẽ pixels cho element bị thay đổi |
-| **Chi phí** | **Rất đắt** (cascade effect) | Đắt nhưng ít hơn reflow |
-| **Cascade** | Reflow 1 element có thể trigger reflow toàn bộ page | Chỉ ảnh hưởng element bị thay đổi |
-| **Ví dụ trigger** | width, height, margin, padding, font-size, display | color, background, visibility, box-shadow |
+|                   | Layout (Reflow)                                     | Paint (Repaint)                                    |
+| ----------------- | --------------------------------------------------- | -------------------------------------------------- |
+| **Trigger**       | Thay đổi kích thước/vị trí element                  | Thay đổi visual appearance (không thay đổi layout) |
+| **Tính toán**     | Kích thước + vị trí **tất cả** element bị ảnh hưởng | Vẽ pixels cho element bị thay đổi                  |
+| **Chi phí**       | **Rất đắt** (cascade effect)                        | Đắt nhưng ít hơn reflow                            |
+| **Cascade**       | Reflow 1 element có thể trigger reflow toàn bộ page | Chỉ ảnh hưởng element bị thay đổi                  |
+| **Ví dụ trigger** | width, height, margin, padding, font-size, display  | color, background, visibility, box-shadow          |
 
 **Mối quan hệ:**
+
 ```
 Reflow → luôn kèm Repaint (vì vị trí thay đổi thì phải vẽ lại)
 Repaint → KHÔNG trigger Reflow (chỉ vẽ lại, không tính layout)
@@ -290,24 +311,24 @@ Repaint → KHÔNG trigger Reflow (chỉ vẽ lại, không tính layout)
 
 **Thuộc tính CSS và chi phí:**
 
-| Chỉ Composite (rẻ nhất) | Chỉ Repaint | Trigger Reflow (đắt nhất) |
-|---|---|---|
-| `transform` | `color` | `width`, `height` |
-| `opacity` | `background` | `margin`, `padding` |
-| `will-change` | `border-color` | `font-size` |
-| | `box-shadow` | `display` |
-| | `visibility` | `position` |
-| | | `top`, `left`, `right`, `bottom` |
+| Chỉ Composite (rẻ nhất) | Chỉ Repaint    | Trigger Reflow (đắt nhất)        |
+| ----------------------- | -------------- | -------------------------------- |
+| `transform`             | `color`        | `width`, `height`                |
+| `opacity`               | `background`   | `margin`, `padding`              |
+| `will-change`           | `border-color` | `font-size`                      |
+|                         | `box-shadow`   | `display`                        |
+|                         | `visibility`   | `position`                       |
+|                         |                | `top`, `left`, `right`, `bottom` |
 
 ### Code ví dụ
 
 ```javascript
 // WRONG: Layout thrashing -- đọc rồi ghi liên tục
 function resizeAllBoxes() {
-  const boxes = document.querySelectorAll('.box');
-  boxes.forEach(box => {
+  const boxes = document.querySelectorAll(".box");
+  boxes.forEach((box) => {
     const width = box.offsetWidth; // Đọc -> trigger reflow để lấy giá trị mới nhất
-    box.style.width = (width * 1.1) + 'px'; // Ghi -> invalidate layout
+    box.style.width = width * 1.1 + "px"; // Ghi -> invalidate layout
     // Lần đọc tiếp theo sẽ trigger reflow LẠI!
   });
 }
@@ -315,14 +336,14 @@ function resizeAllBoxes() {
 
 // CORRECT: Batch đọc trước, ghi sau
 function resizeAllBoxesBetter() {
-  const boxes = document.querySelectorAll('.box');
+  const boxes = document.querySelectorAll(".box");
 
   // Bước 1: Đọc hết (1 lần reflow)
-  const widths = Array.from(boxes).map(box => box.offsetWidth);
+  const widths = Array.from(boxes).map((box) => box.offsetWidth);
 
   // Bước 2: Ghi hết (1 lần reflow cuối)
   boxes.forEach((box, i) => {
-    box.style.width = (widths[i] * 1.1) + 'px';
+    box.style.width = widths[i] * 1.1 + "px";
   });
 }
 
@@ -338,13 +359,13 @@ function animateBox(box, targetX) {
 // CORRECT: Dùng CSS class thay vì inline styles
 function showElement(el) {
   // WRONG: nhiều style changes = nhiều reflow
-  el.style.display = 'block';
-  el.style.width = '200px';
-  el.style.height = '200px';
-  el.style.margin = '16px';
+  el.style.display = "block";
+  el.style.width = "200px";
+  el.style.height = "200px";
+  el.style.margin = "16px";
 
   // CORRECT: 1 class change = 1 reflow
-  el.classList.add('visible');
+  el.classList.add("visible");
 }
 ```
 
@@ -359,22 +380,26 @@ function showElement(el) {
 
 /* Animation performance: transform + opacity = chỉ composite */
 .animate-good {
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .animate-good:hover {
   transform: scale(1.05) translateY(-4px); /* Không trigger reflow */
-  opacity: 0.9;                            /* Không trigger reflow */
+  opacity: 0.9; /* Không trigger reflow */
 }
 
 /* Animation anti-pattern: width/height/top/left */
 .animate-bad {
-  transition: width 0.3s ease, top 0.3s ease;
+  transition:
+    width 0.3s ease,
+    top 0.3s ease;
 }
 
 .animate-bad:hover {
-  width: 110%;  /* Trigger REFLOW mỗi frame! */
-  top: -4px;    /* Trigger REFLOW mỗi frame! */
+  width: 110%; /* Trigger REFLOW mỗi frame! */
+  top: -4px; /* Trigger REFLOW mỗi frame! */
 }
 ```
 
@@ -391,19 +416,20 @@ function showElement(el) {
 **Compositing** là bước cuối cùng trong rendering pipeline. Browser chia page thành nhiều **layers** (lớp), paint mỗi layer riêng biệt, rồi **ghép** (composite) chúng lại trên GPU.
 
 **Tại sao layers quan trọng:**
+
 - Khi 1 layer thay đổi, chỉ cần repaint layer đó, không ảnh hưởng layer khác
 - GPU composite nhanh hơn CPU paint
 - Animation trên separate layer = **smooth 60fps**
 
 **Khi nào browser tạo layer mới:**
 
-| Trigger | Ví dụ |
-|---|---|
-| `transform` (3D hoặc animated) | `transform: translateZ(0)` |
-| `opacity` (animated) | `opacity: 0.99` |
-| `will-change` | `will-change: transform` |
-| `position: fixed` | Fixed elements |
-| `video`, `canvas`, `iframe` | Media elements |
+| Trigger                         | Ví dụ                              |
+| ------------------------------- | ---------------------------------- |
+| `transform` (3D hoặc animated)  | `transform: translateZ(0)`         |
+| `opacity` (animated)            | `opacity: 0.99`                    |
+| `will-change`                   | `will-change: transform`           |
+| `position: fixed`               | Fixed elements                     |
+| `video`, `canvas`, `iframe`     | Media elements                     |
 | Overlap với layer có composited | Element chồng lên animated element |
 
 **Cẩn thận: Layer explosion!** Quá nhiều layers = tốn memory GPU. Không nên promote tất cả elements lên layer riêng.
@@ -455,14 +481,22 @@ function showElement(el) {
 
 /* Approach 1: CHẬM -- reflow mỗi frame */
 @keyframes move-bad {
-  from { left: 0; }
-  to { left: 100px; }
+  from {
+    left: 0;
+  }
+  to {
+    left: 100px;
+  }
 }
 
 /* Approach 2: NHANH -- chỉ composite */
 @keyframes move-good {
-  from { transform: translateX(0); }
-  to { transform: translateX(100px); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100px);
+  }
 }
 
 .moving-element {
@@ -502,17 +536,14 @@ function animate(element, start, end, duration) {
 }
 
 // Web Animations API (modern, declarative)
-const element = document.querySelector('.box');
+const element = document.querySelector(".box");
 element.animate(
-  [
-    { transform: 'translateX(0)' },
-    { transform: 'translateX(100px)' }
-  ],
+  [{ transform: "translateX(0)" }, { transform: "translateX(100px)" }],
   {
     duration: 1000,
-    easing: 'ease-in-out',
-    fill: 'forwards'
-  }
+    easing: "ease-in-out",
+    fill: "forwards",
+  },
 );
 ```
 
@@ -535,38 +566,38 @@ Thrashing:   Ghi, Đọc, Ghi, Đọc, Ghi, Đọc -> Layout, Layout, Layout
 
 **Các property trigger forced layout khi đọc:**
 
-| Category | Properties |
-|---|---|
+| Category    | Properties                                                   |
+| ----------- | ------------------------------------------------------------ |
 | **Element** | `offsetTop/Left/Width/Height`, `clientTop/Left/Width/Height` |
-| **Element** | `scrollTop/Left/Width/Height` |
-| **Element** | `getBoundingClientRect()`, `getComputedStyle()` |
-| **Window** | `scrollX/Y`, `innerWidth/Height` |
+| **Element** | `scrollTop/Left/Width/Height`                                |
+| **Element** | `getBoundingClientRect()`, `getComputedStyle()`              |
+| **Window**  | `scrollX/Y`, `innerWidth/Height`                             |
 
 ### Code ví dụ
 
 ```javascript
 // WRONG: Layout thrashing
 function resizeCards() {
-  const cards = document.querySelectorAll('.card');
-  cards.forEach(card => {
+  const cards = document.querySelectorAll(".card");
+  cards.forEach((card) => {
     // Đọc (trigger layout vì DOM vừa thay đổi ở iteration trước)
     const height = card.offsetHeight;
     // Ghi (invalidate layout)
-    card.style.height = (height + 20) + 'px';
+    card.style.height = height + 20 + "px";
     // Vòng lặp tiếp: đọc lại -> layout lại -> O(n) forced layouts!
   });
 }
 
 // CORRECT: Tách đọc và ghi
 function resizeCardsOptimized() {
-  const cards = document.querySelectorAll('.card');
+  const cards = document.querySelectorAll(".card");
 
   // Phase 1: Đọc tất cả (1 lần layout)
-  const heights = Array.from(cards).map(card => card.offsetHeight);
+  const heights = Array.from(cards).map((card) => card.offsetHeight);
 
   // Phase 2: Ghi tất cả (1 lần layout khi browser cần)
   cards.forEach((card, i) => {
-    card.style.height = (heights[i] + 20) + 'px';
+    card.style.height = heights[i] + 20 + "px";
   });
 }
 
@@ -577,12 +608,12 @@ function updateLayout() {
 
   // Ghi trong frame tiếp theo
   requestAnimationFrame(() => {
-    element.style.width = (width * 2) + 'px';
+    element.style.width = width * 2 + "px";
   });
 }
 
 // CORRECT: Dùng ResizeObserver thay vì poll layout
-const observer = new ResizeObserver(entries => {
+const observer = new ResizeObserver((entries) => {
   for (const entry of entries) {
     const { width, height } = entry.contentRect;
     // Không trigger forced layout vì ResizeObserver
@@ -591,7 +622,7 @@ const observer = new ResizeObserver(entries => {
   }
 });
 
-observer.observe(document.querySelector('.responsive-element'));
+observer.observe(document.querySelector(".responsive-element"));
 
 // CORRECT: CSS containment để giới hạn scope reflow
 // contain: layout -- reflow trong element không ảnh hưởng ngoài

@@ -9,9 +9,6 @@ Ai cũng mắc sai lầm khi commit — viết sai message, quên thêm file, ho
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. git commit --amend](#1-git-commit-amend)
@@ -203,11 +200,11 @@ git reset --hard origin/main
 
 ### Bảng so sánh 3 mode reset
 
-| Mode | HEAD | Staging Area | Working Directory | Mức độ nguy hiểm |
-|------|------|-------------|-------------------|-------------------|
-| `--soft` | Di chuyển | Giữ nguyên | Giữ nguyên | Thấp |
-| `--mixed` | Di chuyển | Reset | Giữ nguyên | Trung bình |
-| `--hard` | Di chuyển | Reset | Reset | CAO |
+| Mode      | HEAD      | Staging Area | Working Directory | Mức độ nguy hiểm |
+| --------- | --------- | ------------ | ----------------- | ---------------- |
+| `--soft`  | Di chuyển | Giữ nguyên   | Giữ nguyên        | Thấp             |
+| `--mixed` | Di chuyển | Reset        | Giữ nguyên        | Trung bình       |
+| `--hard`  | Di chuyển | Reset        | Reset             | CAO              |
 
 ### Reset file cụ thể (unstage)
 
@@ -318,14 +315,14 @@ git push                   # Push bình thường, team nhận revert commit
 
 ## 4. Bảng so sánh: Amend vs Reset vs Revert
 
-| Tiêu chí | `amend` | `reset` | `revert` |
-|-----------|---------|---------|----------|
-| Cơ chế | Thay thế commit cuối | Di chuyển HEAD về commit cũ | Tạo commit mới đảo ngược |
-| Thay đổi history | Co (SHA mới) | Co (xoa commits) | Khong (chi them commit) |
-| An toàn cho shared branch | KHONG | KHONG | CO |
-| Phạm vi | Chỉ commit cuối | Bất kỳ commit nào | Bất kỳ commit nào |
-| Khi nào dùng | Sửa nhỏ commit vừa tạo | Undo trên local branch | Undo trên shared branch |
-| Cần force push? | Co (nếu đã push) | Co (nếu đã push) | Không |
+| Tiêu chí                  | `amend`                | `reset`                     | `revert`                 |
+| ------------------------- | ---------------------- | --------------------------- | ------------------------ |
+| Cơ chế                    | Thay thế commit cuối   | Di chuyển HEAD về commit cũ | Tạo commit mới đảo ngược |
+| Thay đổi history          | Co (SHA mới)           | Co (xoa commits)            | Khong (chi them commit)  |
+| An toàn cho shared branch | KHONG                  | KHONG                       | CO                       |
+| Phạm vi                   | Chỉ commit cuối        | Bất kỳ commit nào           | Bất kỳ commit nào        |
+| Khi nào dùng              | Sửa nhỏ commit vừa tạo | Undo trên local branch      | Undo trên shared branch  |
+| Cần force push?           | Co (nếu đã push)       | Co (nếu đã push)            | Không                    |
 
 ---
 
@@ -493,6 +490,7 @@ git status
 ### Câu 1: Sự khác nhau giữa `git reset` và `git revert`?
 
 **Trả lời:**
+
 - `git reset` thay đổi history bằng cách di chuyển HEAD về commit trước. Commits bị "xóa" khỏi branch. Nguy hiểm trên shared branches vì thay đổi history mà người khác đã có.
 - `git revert` tạo một commit MỚI chứa nội dung đảo ngược. History được giữ nguyên, chỉ thêm commit. An toàn cho shared branches.
 - Nguyên tắc: dùng `reset` cho local, `revert` cho shared branches.
@@ -500,6 +498,7 @@ git status
 ### Câu 2: Giải thích 3 mode của `git reset`.
 
 **Trả lời:**
+
 - `--soft`: Chỉ di chuyển HEAD. Staging area và working directory giữ nguyên. Thay đổi nằm ở staged.
 - `--mixed` (mặc định): Di chuyển HEAD + reset staging area. Working directory giữ nguyên. Thay đổi nằm ở unstaged.
 - `--hard`: Di chuyển HEAD + reset staging area + reset working directory. Mọi thay đổi bị xóa. Nguy hiểm nhất.
@@ -507,9 +506,11 @@ git status
 ### Câu 3: Làm sao undo commit cuối mà không mất code?
 
 **Trả lời:**
+
 ```bash
 git reset --soft HEAD~1
 ```
+
 Commit cuối bị undo, nhưng mọi thay đổi vẫn nằm trong staging area, sẵn sàng commit lại. Đây là cách an toàn nhất để undo commit trên local.
 
 ### Câu 4: `git commit --amend` có tạo commit mới không?
@@ -526,12 +527,12 @@ Có. `--amend` thực chất tạo một commit hoàn toàn mới (SHA khác) th
 
 ## Tóm tắt
 
-| Tình huống | Lệnh |
-|-----------|------|
-| Sửa message commit cuối (chưa push) | `git commit --amend` |
+| Tình huống                            | Lệnh                                           |
+| ------------------------------------- | ---------------------------------------------- |
+| Sửa message commit cuối (chưa push)   | `git commit --amend`                           |
 | Thêm file vào commit cuối (chưa push) | `git add file && git commit --amend --no-edit` |
-| Undo commit, giữ thay đổi staged | `git reset --soft HEAD~1` |
-| Undo commit, giữ thay đổi unstaged | `git reset HEAD~1` |
-| Undo commit, xóa sạch thay đổi | `git reset --hard HEAD~1` |
-| Undo commit trên shared branch | `git revert <commit-hash>` |
-| Unstage file | `git restore --staged <file>` |
+| Undo commit, giữ thay đổi staged      | `git reset --soft HEAD~1`                      |
+| Undo commit, giữ thay đổi unstaged    | `git reset HEAD~1`                             |
+| Undo commit, xóa sạch thay đổi        | `git reset --hard HEAD~1`                      |
+| Undo commit trên shared branch        | `git revert <commit-hash>`                     |
+| Unstage file                          | `git restore --staged <file>`                  |

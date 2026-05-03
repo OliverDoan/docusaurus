@@ -9,9 +9,6 @@ Trong Git, có 4 lệnh chính để tương tác với remote repository: **clo
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. `git clone` — Tải repo từ remote về local](#1-git-clone-tải-repo-từ-remote-về-local)
@@ -60,6 +57,7 @@ git clone --depth 10 https://github.com/username/project.git
 ```
 
 **Khi nào dùng:**
+
 - CI/CD pipeline — chỉ cần code mới nhất, không cần lịch sử
 - Repo rất lớn (Linux kernel, Chromium...)
 - Chỉ muốn xem code nhanh, không cần đóng góp
@@ -258,13 +256,13 @@ Sau git pull --rebase:
 
 ### Tại sao `pull --rebase` thường tốt hơn?
 
-| Tiêu chí | `git pull` (merge) | `git pull --rebase` |
-|-----------|-------------------|-------------------|
-| **Lịch sử** | Nhiều merge commit, rối | Thẳng, sạch |
-| **Đọc log** | Khó theo dõi | Dễ theo dõi |
-| **Conflict** | Giải quyết 1 lần | Giải quyết từng commit |
-| **An toàn** | Không thay đổi commit | Tạo lại commit (hash mới) |
-| **Khi nào dùng** | Merge nhánh feature | Cập nhật nhánh đang làm |
+| Tiêu chí         | `git pull` (merge)      | `git pull --rebase`       |
+| ---------------- | ----------------------- | ------------------------- |
+| **Lịch sử**      | Nhiều merge commit, rối | Thẳng, sạch               |
+| **Đọc log**      | Khó theo dõi            | Dễ theo dõi               |
+| **Conflict**     | Giải quyết 1 lần        | Giải quyết từng commit    |
+| **An toàn**      | Không thay đổi commit   | Tạo lại commit (hash mới) |
+| **Khi nào dùng** | Merge nhánh feature     | Cập nhật nhánh đang làm   |
 
 **Khuyên dùng:** Cấu hình `pull --rebase` làm mặc định:
 
@@ -384,19 +382,20 @@ git branch -d feature/old
 
 ## 5. So sánh chi tiết: Fetch vs Pull
 
-| Tiêu chí | `git fetch` | `git pull` |
-|-----------|------------|-----------|
-| **Hành động** | Chỉ tải dữ liệu | Tải + merge |
-| **Thay đổi code?** | KHÔNG | CÓ |
-| **An toàn** | Rất an toàn | Có thể gây conflict |
-| **Merge tự động?** | Không | Có |
-| **Dùng khi** | Muốn xem trước | Muốn cập nhật nhanh |
-| **Tương đương** | `git fetch` | `git fetch` + `git merge` |
-| **Working dir** | Không thay đổi | Có thể thay đổi |
-| **Khi conflict** | Không xảy ra | Cần giải quyết ngay |
-| **Khuyên dùng** | Khi cần cẩn thận | Khi tin chắc an toàn |
+| Tiêu chí           | `git fetch`      | `git pull`                |
+| ------------------ | ---------------- | ------------------------- |
+| **Hành động**      | Chỉ tải dữ liệu  | Tải + merge               |
+| **Thay đổi code?** | KHÔNG            | CÓ                        |
+| **An toàn**        | Rất an toàn      | Có thể gây conflict       |
+| **Merge tự động?** | Không            | Có                        |
+| **Dùng khi**       | Muốn xem trước   | Muốn cập nhật nhanh       |
+| **Tương đương**    | `git fetch`      | `git fetch` + `git merge` |
+| **Working dir**    | Không thay đổi   | Có thể thay đổi           |
+| **Khi conflict**   | Không xảy ra     | Cần giải quyết ngay       |
+| **Khuyên dùng**    | Khi cần cẩn thận | Khi tin chắc an toàn      |
 
 **Quy tắc ngón tay cái:**
+
 - **Đang code dở** -> dùng `git fetch` rồi xem trước
 - **Vừa bắt đầu ngày mới** -> dùng `git pull --rebase`
 - **Nhánh chung nhiều người** -> dùng `git fetch` + review + `git merge`
@@ -427,6 +426,7 @@ Sau force push:
 ```
 
 **Khi nào dùng `--force`:**
+
 - Sau khi rebase nhánh feature CÁ NHÂN (chỉ mình bạn dùng)
 - Sau khi amend commit chưa ai pull
 - **KHÔNG BAO GIỜ** dùng trên nhánh `main` hoặc nhánh chung
@@ -454,10 +454,10 @@ Nếu đồng đội đã push commit mới:
 
 **So sánh:**
 
-| Lệnh | Kiểm tra trước? | Rủi ro mất code | Khuyên dùng? |
-|-------|-----------------|-----------------|--------------|
-| `git push --force` | KHÔNG | CAO | Tránh |
-| `git push --force-with-lease` | CÓ | THẤP | Dùng thay --force |
+| Lệnh                          | Kiểm tra trước? | Rủi ro mất code | Khuyên dùng?      |
+| ----------------------------- | --------------- | --------------- | ----------------- |
+| `git push --force`            | KHÔNG           | CAO             | Tránh             |
+| `git push --force-with-lease` | CÓ              | THẤP            | Dùng thay --force |
 
 ---
 

@@ -9,9 +9,6 @@ Caching và storage là vũ khí tối thượng để tối ưu performance. In
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: HTTP Caching -- giải thích Cache-Control headers, ETag, và Last-Modified `[Intermediate]`](#câu-1-http-caching-giải-thích-cache-control-headers-etag-và-last-modified-intermediate)
@@ -37,16 +34,16 @@ HTTP caching hoạt động ở **2 tầng:**
 
 **Cache-Control directives quan trọng:**
 
-| Directive | Ý nghĩa |
-|---|---|
-| `max-age=3600` | Cache trong 3600 giây |
-| `no-cache` | Phải revalidate với server trước khi dùng cache |
-| `no-store` | Không cache gì cả (sensitive data) |
-| `public` | CDN/proxy có thể cache |
-| `private` | Chỉ browser cache (không CDN) |
-| `immutable` | Resource không bao giờ thay đổi (hashed filenames) |
-| `stale-while-revalidate=60` | Dùng cache cũ trong khi revalidate ngầm |
-| `must-revalidate` | Khi hết hạn, BẮT BUỘC revalidate (không dùng stale) |
+| Directive                   | Ý nghĩa                                             |
+| --------------------------- | --------------------------------------------------- |
+| `max-age=3600`              | Cache trong 3600 giây                               |
+| `no-cache`                  | Phải revalidate với server trước khi dùng cache     |
+| `no-store`                  | Không cache gì cả (sensitive data)                  |
+| `public`                    | CDN/proxy có thể cache                              |
+| `private`                   | Chỉ browser cache (không CDN)                       |
+| `immutable`                 | Resource không bao giờ thay đổi (hashed filenames)  |
+| `stale-while-revalidate=60` | Dùng cache cũ trong khi revalidate ngầm             |
+| `must-revalidate`           | Khi hết hạn, BẮT BUỘC revalidate (không dùng stale) |
 
 **Flow chi tiết:**
 
@@ -105,24 +102,24 @@ Pragma: no-cache
 // Mặc định: browser tự xử lý cache theo headers
 
 // Force no cache (bypass cache)
-fetch('/api/data', {
-  cache: 'no-store', // Không dùng cache, không lưu cache
+fetch("/api/data", {
+  cache: "no-store", // Không dùng cache, không lưu cache
 });
 
 // Dùng cache nếu có, revalidate ngầm
-fetch('/api/data', {
-  cache: 'no-cache', // Luôn revalidate với server
+fetch("/api/data", {
+  cache: "no-cache", // Luôn revalidate với server
 });
 
 // Chỉ dùng cache (offline mode)
-fetch('/api/data', {
-  cache: 'force-cache', // Dùng cache bất kể hết hạn hay chưa
+fetch("/api/data", {
+  cache: "force-cache", // Dùng cache bất kể hết hạn hay chưa
 });
 
 // Dùng cache cũ nếu có, nếu không mới fetch
-fetch('/api/data', {
-  cache: 'only-if-cached', // Chỉ dùng cache, error nếu không có
-  mode: 'same-origin',     // Bắt buộc với only-if-cached
+fetch("/api/data", {
+  cache: "only-if-cached", // Chỉ dùng cache, error nếu không có
+  mode: "same-origin", // Bắt buộc với only-if-cached
 });
 
 // Versioned URLs (cache busting)
@@ -145,45 +142,48 @@ fetch('/api/data', {
 
 ### Giải thích lý thuyết
 
-| Tiêu chí | Cookie | localStorage | sessionStorage |
-|---|---|---|---|
-| **Dung lượng** | ~4KB | ~5-10MB | ~5-10MB |
-| **Gửi lên server?** | Tự động mỗi request | Không | Không |
-| **Expires** | Set được (Max-Age/Expires) | Không hết hạn | Khi đóng tab |
-| **Scope** | Per domain + path | Per origin | Per origin + per tab |
-| **API** | `document.cookie` (string) | `getItem`/`setItem` (clean) | `getItem`/`setItem` (clean) |
-| **HttpOnly** | Có (JS không đọc được) | Không (luôn đọc được JS) | Không |
-| **Server access** | Có (tự gửi kèm request) | Không | Không |
+| Tiêu chí            | Cookie                     | localStorage                | sessionStorage              |
+| ------------------- | -------------------------- | --------------------------- | --------------------------- |
+| **Dung lượng**      | ~4KB                       | ~5-10MB                     | ~5-10MB                     |
+| **Gửi lên server?** | Tự động mỗi request        | Không                       | Không                       |
+| **Expires**         | Set được (Max-Age/Expires) | Không hết hạn               | Khi đóng tab                |
+| **Scope**           | Per domain + path          | Per origin                  | Per origin + per tab        |
+| **API**             | `document.cookie` (string) | `getItem`/`setItem` (clean) | `getItem`/`setItem` (clean) |
+| **HttpOnly**        | Có (JS không đọc được)     | Không (luôn đọc được JS)    | Không                       |
+| **Server access**   | Có (tự gửi kèm request)    | Không                       | Không                       |
 
 **Khi nào dùng cái nào:**
 
-| Storage | Use case |
-|---|---|
-| **Cookie** | Auth tokens (HttpOnly), CSRF tokens, user preferences cần server biết |
-| **localStorage** | Theme, language, non-sensitive settings, cache data nhỏ |
-| **sessionStorage** | Form data tạm thời, one-time tokens, wizard state |
+| Storage            | Use case                                                              |
+| ------------------ | --------------------------------------------------------------------- |
+| **Cookie**         | Auth tokens (HttpOnly), CSRF tokens, user preferences cần server biết |
+| **localStorage**   | Theme, language, non-sensitive settings, cache data nhỏ               |
+| **sessionStorage** | Form data tạm thời, one-time tokens, wizard state                     |
 
 ### Code ví dụ
 
 ```javascript
 // localStorage API
-localStorage.setItem('theme', 'dark');
-localStorage.getItem('theme');     // "dark"
-localStorage.removeItem('theme');
-localStorage.clear();              // Xóa tất cả
+localStorage.setItem("theme", "dark");
+localStorage.getItem("theme"); // "dark"
+localStorage.removeItem("theme");
+localStorage.clear(); // Xóa tất cả
 
 // Lưu object (phải JSON.stringify)
-const user = { name: 'John', preferences: { theme: 'dark' } };
-localStorage.setItem('user', JSON.stringify(user));
+const user = { name: "John", preferences: { theme: "dark" } };
+localStorage.setItem("user", JSON.stringify(user));
 
-const stored = JSON.parse(localStorage.getItem('user'));
+const stored = JSON.parse(localStorage.getItem("user"));
 console.log(stored.name); // "John"
 
 // sessionStorage API (giống localStorage nhưng per-tab)
-sessionStorage.setItem('formData', JSON.stringify({
-  step: 2,
-  email: 'john@example.com',
-}));
+sessionStorage.setItem(
+  "formData",
+  JSON.stringify({
+    step: 2,
+    email: "john@example.com",
+  }),
+);
 // Đóng tab -> mất dữ liệu
 // Mở tab mới -> sessionStorage trống
 
@@ -199,7 +199,7 @@ const storage = {
       localStorage.setItem(key, JSON.stringify(item));
     } catch (e) {
       // QuotaExceededError: storage đầy
-      console.error('Storage full, clearing old data');
+      console.error("Storage full, clearing old data");
       localStorage.clear();
       localStorage.setItem(key, JSON.stringify(item));
     }
@@ -230,18 +230,18 @@ const storage = {
 };
 
 // Sử dụng
-storage.set('cached_data', { users: [] }, 5 * 60 * 1000); // TTL 5 phút
-const data = storage.get('cached_data'); // null nếu hết hạn
+storage.set("cached_data", { users: [] }, 5 * 60 * 1000); // TTL 5 phút
+const data = storage.get("cached_data"); // null nếu hết hạn
 
 // Storage event: lắng nghe thay đổi từ tab KHÁC
-window.addEventListener('storage', (event) => {
-  console.log('Key changed:', event.key);
-  console.log('Old value:', event.oldValue);
-  console.log('New value:', event.newValue);
-  console.log('From URL:', event.url);
+window.addEventListener("storage", (event) => {
+  console.log("Key changed:", event.key);
+  console.log("Old value:", event.oldValue);
+  console.log("New value:", event.newValue);
+  console.log("From URL:", event.url);
 
   // Use case: đồng bộ theme giữa các tabs
-  if (event.key === 'theme') {
+  if (event.key === "theme") {
     document.body.className = event.newValue;
   }
 });
@@ -258,6 +258,7 @@ window.addEventListener('storage', (event) => {
 ### Giải thích lý thuyết
 
 **IndexedDB** là database NoSQL trong browser, hỗ trợ:
+
 - Lưu trữ lượng lớn dữ liệu (hàng trăm MB)
 - API **asynchronous** (không block main thread)
 - **Structured data** với indexes để query nhanh
@@ -266,17 +267,18 @@ window.addEventListener('storage', (event) => {
 
 **So sánh localStorage vs IndexedDB:**
 
-| Tiêu chí | localStorage | IndexedDB |
-|---|---|---|
-| **Dung lượng** | 5-10MB | Hàng trăm MB (browser cho phép) |
-| **API** | Synchronous | Asynchronous |
-| **Data type** | Chỉ string | Bất kỳ (object, blob, file...) |
-| **Query** | Chỉ key-based | Indexes, ranges, cursors |
-| **Transactions** | Không | Có |
-| **Performance** | Chậm với data lớn | Nhanh với data lớn |
-| **Complexity** | Đơn giản | Phức tạp (nên dùng wrapper) |
+| Tiêu chí         | localStorage      | IndexedDB                       |
+| ---------------- | ----------------- | ------------------------------- |
+| **Dung lượng**   | 5-10MB            | Hàng trăm MB (browser cho phép) |
+| **API**          | Synchronous       | Asynchronous                    |
+| **Data type**    | Chỉ string        | Bất kỳ (object, blob, file...)  |
+| **Query**        | Chỉ key-based     | Indexes, ranges, cursors        |
+| **Transactions** | Không             | Có                              |
+| **Performance**  | Chậm với data lớn | Nhanh với data lớn              |
+| **Complexity**   | Đơn giản          | Phức tạp (nên dùng wrapper)     |
 
 **Khi nào dùng IndexedDB:**
+
 - Lưu offline data (email client, note app)
 - Cache API responses lớn
 - Lưu files/images offline
@@ -289,15 +291,15 @@ window.addEventListener('storage', (event) => {
 // IndexedDB raw API (phức tạp -- nên dùng wrapper)
 function openDB() {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open('MyApp', 1);
+    const request = indexedDB.open("MyApp", 1);
 
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
       // Tạo object store (giống table)
-      if (!db.objectStoreNames.contains('articles')) {
-        const store = db.createObjectStore('articles', { keyPath: 'id' });
-        store.createIndex('by_date', 'publishedAt');
-        store.createIndex('by_category', 'category');
+      if (!db.objectStoreNames.contains("articles")) {
+        const store = db.createObjectStore("articles", { keyPath: "id" });
+        store.createIndex("by_date", "publishedAt");
+        store.createIndex("by_category", "category");
       }
     };
 
@@ -309,8 +311,8 @@ function openDB() {
 async function saveArticle(article) {
   const db = await openDB();
   return new Promise((resolve, reject) => {
-    const tx = db.transaction('articles', 'readwrite');
-    const store = tx.objectStore('articles');
+    const tx = db.transaction("articles", "readwrite");
+    const store = tx.objectStore("articles");
     const request = store.put(article);
     request.onsuccess = () => resolve();
     request.onerror = () => reject(request.error);
@@ -319,40 +321,40 @@ async function saveArticle(article) {
 
 // Dùng wrapper library: idb (khuyến khích)
 // npm install idb
-import { openDB as openIDB } from 'idb';
+import { openDB as openIDB } from "idb";
 
-const dbPromise = openIDB('MyApp', 1, {
+const dbPromise = openIDB("MyApp", 1, {
   upgrade(db) {
-    const store = db.createObjectStore('articles', { keyPath: 'id' });
-    store.createIndex('by_date', 'publishedAt');
-    store.createIndex('by_category', 'category');
+    const store = db.createObjectStore("articles", { keyPath: "id" });
+    store.createIndex("by_date", "publishedAt");
+    store.createIndex("by_category", "category");
   },
 });
 
 // CRUD operations (clean async/await)
 async function addArticle(article) {
   const db = await dbPromise;
-  await db.put('articles', article);
+  await db.put("articles", article);
 }
 
 async function getArticle(id) {
   const db = await dbPromise;
-  return db.get('articles', id);
+  return db.get("articles", id);
 }
 
 async function getAllArticles() {
   const db = await dbPromise;
-  return db.getAll('articles');
+  return db.getAll("articles");
 }
 
 async function getArticlesByCategory(category) {
   const db = await dbPromise;
-  return db.getAllFromIndex('articles', 'by_category', category);
+  return db.getAllFromIndex("articles", "by_category", category);
 }
 
 async function deleteArticle(id) {
   const db = await dbPromise;
-  await db.delete('articles', id);
+  await db.delete("articles", id);
 }
 
 // Use case: Offline-first data sync
@@ -360,19 +362,19 @@ async function fetchArticlesWithCache() {
   const db = await dbPromise;
 
   // 1. Trả về cached data ngay (fast)
-  const cached = await db.getAll('articles');
+  const cached = await db.getAll("articles");
   if (cached.length > 0) {
     renderArticles(cached); // Hiển thị ngay từ cache
   }
 
   // 2. Fetch fresh data (background)
   try {
-    const response = await fetch('/api/articles');
+    const response = await fetch("/api/articles");
     const fresh = await response.json();
 
     // 3. Update cache
-    const tx = db.transaction('articles', 'readwrite');
-    const store = tx.objectStore('articles');
+    const tx = db.transaction("articles", "readwrite");
+    const store = tx.objectStore("articles");
     for (const article of fresh) {
       await store.put(article);
     }
@@ -382,7 +384,7 @@ async function fetchArticlesWithCache() {
     renderArticles(fresh);
   } catch (error) {
     // Offline: cached data đã hiển thị rồi
-    console.log('Offline mode, using cached data');
+    console.log("Offline mode, using cached data");
   }
 }
 ```
@@ -405,62 +407,66 @@ async function fetchArticlesWithCache() {
 1. Register -> 2. Install -> 3. Wait -> 4. Activate -> 5. Fetch/Message
 ```
 
-| Phase | Xảy ra khi | Làm gì |
-|---|---|---|
-| **Register** | Page load | Browser download SW file |
-| **Install** | Lần đầu hoặc SW file thay đổi | Pre-cache static assets |
-| **Wait** | SW cũ vẫn đang control pages | Đợi tất cả tabs đóng |
-| **Activate** | SW cũ releases control | Dọn cache cũ |
-| **Fetch** | Mỗi network request | Intercept + quyết định response |
+| Phase        | Xảy ra khi                    | Làm gì                          |
+| ------------ | ----------------------------- | ------------------------------- |
+| **Register** | Page load                     | Browser download SW file        |
+| **Install**  | Lần đầu hoặc SW file thay đổi | Pre-cache static assets         |
+| **Wait**     | SW cũ vẫn đang control pages  | Đợi tất cả tabs đóng            |
+| **Activate** | SW cũ releases control        | Dọn cache cũ                    |
+| **Fetch**    | Mỗi network request           | Intercept + quyết định response |
 
 **Caching strategies:**
 
-| Strategy | Mô tả | Use case |
-|---|---|---|
-| **Cache First** | Check cache trước, fallback network | Static assets (JS, CSS, images) |
-| **Network First** | Check network trước, fallback cache | API data (cần fresh) |
-| **Stale While Revalidate** | Trả cache ngay + fetch update ngầm | News feeds, profiles |
-| **Cache Only** | Chỉ cache, không network | Offline-only resources |
-| **Network Only** | Chỉ network, không cache | Auth, real-time data |
+| Strategy                   | Mô tả                               | Use case                        |
+| -------------------------- | ----------------------------------- | ------------------------------- |
+| **Cache First**            | Check cache trước, fallback network | Static assets (JS, CSS, images) |
+| **Network First**          | Check network trước, fallback cache | API data (cần fresh)            |
+| **Stale While Revalidate** | Trả cache ngay + fetch update ngầm  | News feeds, profiles            |
+| **Cache Only**             | Chỉ cache, không network            | Offline-only resources          |
+| **Network Only**           | Chỉ network, không cache            | Auth, real-time data            |
 
 ### Code ví dụ
 
 ```javascript
 // service-worker.js
 
-const CACHE_NAME = 'my-app-v1';
+const CACHE_NAME = "my-app-v1";
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/app.js',
-  '/offline.html',
+  "/",
+  "/index.html",
+  "/styles.css",
+  "/app.js",
+  "/offline.html",
 ];
 
 // 1. Install: pre-cache static assets
-self.addEventListener('install', (event) => {
+self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(STATIC_ASSETS))
-      .then(() => self.skipWaiting()) // Activate ngay, không đợi
+    caches
+      .open(CACHE_NAME)
+      .then((cache) => cache.addAll(STATIC_ASSETS))
+      .then(() => self.skipWaiting()), // Activate ngay, không đợi
   );
 });
 
 // 2. Activate: dọn cache cũ
-self.addEventListener('activate', (event) => {
+self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(
-        keys
-          .filter(key => key !== CACHE_NAME)
-          .map(key => caches.delete(key))
-      ))
-      .then(() => self.clients.claim()) // Control pages ngay
+    caches
+      .keys()
+      .then((keys) =>
+        Promise.all(
+          keys
+            .filter((key) => key !== CACHE_NAME)
+            .map((key) => caches.delete(key)),
+        ),
+      )
+      .then(() => self.clients.claim()), // Control pages ngay
   );
 });
 
 // 3. Fetch: intercept requests
-self.addEventListener('fetch', (event) => {
+self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
 
   // Strategy 1: Cache First (static assets)
@@ -470,7 +476,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Strategy 2: Network First (API)
-  if (url.pathname.startsWith('/api/')) {
+  if (url.pathname.startsWith("/api/")) {
     event.respondWith(networkFirst(event.request));
     return;
   }
@@ -490,7 +496,7 @@ async function cacheFirst(request) {
     cache.put(request, response.clone());
     return response;
   } catch {
-    return new Response('Offline', { status: 503 });
+    return new Response("Offline", { status: 503 });
   }
 }
 
@@ -504,10 +510,10 @@ async function networkFirst(request) {
   } catch {
     const cached = await caches.match(request);
     if (cached) return cached;
-    return new Response(
-      JSON.stringify({ error: 'Offline' }),
-      { headers: { 'Content-Type': 'application/json' }, status: 503 }
-    );
+    return new Response(JSON.stringify({ error: "Offline" }), {
+      headers: { "Content-Type": "application/json" },
+      status: 503,
+    });
   }
 }
 
@@ -518,7 +524,7 @@ async function staleWhileRevalidate(request) {
 
   // Fetch update in background
   const fetchPromise = fetch(request)
-    .then(response => {
+    .then((response) => {
       cache.put(request, response.clone());
       return response;
     })
@@ -535,20 +541,20 @@ function isStaticAsset(url) {
 
 ```javascript
 // Register Service Worker từ main app
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', async () => {
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register('/sw.js', {
-        scope: '/',
+      const registration = await navigator.serviceWorker.register("/sw.js", {
+        scope: "/",
       });
 
-      console.log('SW registered:', registration.scope);
+      console.log("SW registered:", registration.scope);
 
       // Kiểm tra update
-      registration.addEventListener('updatefound', () => {
+      registration.addEventListener("updatefound", () => {
         const newWorker = registration.installing;
-        newWorker.addEventListener('statechange', () => {
-          if (newWorker.state === 'installed') {
+        newWorker.addEventListener("statechange", () => {
+          if (newWorker.state === "installed") {
             if (navigator.serviceWorker.controller) {
               // New version available
               showUpdateBanner();
@@ -557,14 +563,14 @@ if ('serviceWorker' in navigator) {
         });
       });
     } catch (error) {
-      console.error('SW registration failed:', error);
+      console.error("SW registration failed:", error);
     }
   });
 }
 
 // Notify user about updates
 function showUpdateBanner() {
-  const banner = document.createElement('div');
+  const banner = document.createElement("div");
   banner.innerHTML = `
     New version available!
     <button onclick="updateApp()">Update</button>
@@ -573,12 +579,11 @@ function showUpdateBanner() {
 }
 
 function updateApp() {
-  navigator.serviceWorker.getRegistration()
-    .then(reg => {
-      if (reg && reg.waiting) {
-        reg.waiting.postMessage({ type: 'SKIP_WAITING' });
-      }
-    });
+  navigator.serviceWorker.getRegistration().then((reg) => {
+    if (reg && reg.waiting) {
+      reg.waiting.postMessage({ type: "SKIP_WAITING" });
+    }
+  });
   window.location.reload();
 }
 ```
@@ -595,17 +600,18 @@ function updateApp() {
 
 **Cache API** là programmatic storage cho Request/Response pairs, thường dùng cùng Service Worker.
 
-| | HTTP Cache | Cache API |
-|---|---|---|
-| **Kiểm soát bởi** | Server (headers) | Developer (JavaScript) |
-| **Granularity** | Per-resource (URL) | Per-request (method + URL + vary) |
-| **Invalidation** | TTL + ETag + max-age | Manual (developer xóa) |
-| **Access** | Browser tự quản lý | `caches.open()`, `cache.match()` |
-| **Dùng trong** | Tất cả requests | Chủ yếu Service Worker |
-| **Multiple caches** | 1 HTTP cache | Nhiều named caches |
-| **Offline** | Không | Có (chính mục đích chính) |
+|                     | HTTP Cache           | Cache API                         |
+| ------------------- | -------------------- | --------------------------------- |
+| **Kiểm soát bởi**   | Server (headers)     | Developer (JavaScript)            |
+| **Granularity**     | Per-resource (URL)   | Per-request (method + URL + vary) |
+| **Invalidation**    | TTL + ETag + max-age | Manual (developer xóa)            |
+| **Access**          | Browser tự quản lý   | `caches.open()`, `cache.match()`  |
+| **Dùng trong**      | Tất cả requests      | Chủ yếu Service Worker            |
+| **Multiple caches** | 1 HTTP cache         | Nhiều named caches                |
+| **Offline**         | Không                | Có (chính mục đích chính)         |
 
 **Cache API flow:**
+
 ```
 Request -> Service Worker -> Cache API -> có? -> trả response
                                       -> không? -> fetch từ network -> lưu vào Cache API -> trả response
@@ -618,42 +624,42 @@ Request -> Service Worker -> Cache API -> có? -> trả response
 // Nhưng chủ yếu dùng trong SW
 
 // Mở hoặc tạo cache mới
-const cache = await caches.open('api-cache-v1');
+const cache = await caches.open("api-cache-v1");
 
 // Thêm response vào cache
 await cache.put(
-  new Request('/api/articles'),
+  new Request("/api/articles"),
   new Response(JSON.stringify(articles), {
-    headers: { 'Content-Type': 'application/json' },
-  })
+    headers: { "Content-Type": "application/json" },
+  }),
 );
 
 // Tìm trong cache
-const response = await caches.match(new Request('/api/articles'));
+const response = await caches.match(new Request("/api/articles"));
 if (response) {
   const data = await response.json();
-  console.log('From cache:', data);
+  console.log("From cache:", data);
 }
 
 // Cache addAll (fetch + cache nhiều URLs)
-const staticCache = await caches.open('static-v1');
+const staticCache = await caches.open("static-v1");
 await staticCache.addAll([
-  '/index.html',
-  '/styles.css',
-  '/app.js',
-  '/logo.png',
+  "/index.html",
+  "/styles.css",
+  "/app.js",
+  "/logo.png",
 ]);
 
 // Xóa cache cũ
 const keys = await caches.keys();
 for (const key of keys) {
-  if (key !== 'api-cache-v2') {
+  if (key !== "api-cache-v2") {
     await caches.delete(key);
   }
 }
 
 // Pattern: Runtime caching với versioning
-const RUNTIME_CACHE = 'runtime-v1';
+const RUNTIME_CACHE = "runtime-v1";
 const MAX_ENTRIES = 50;
 
 async function runtimeCache(request) {
@@ -696,19 +702,19 @@ async function runtimeCache(request) {
 
 **3 tầng offline-first:**
 
-| Tầng | Công nghệ | Cache gì |
-|---|---|---|
-| **App Shell** | Service Worker + Cache API | HTML, CSS, JS (UI framework) |
-| **Static Data** | Cache API + IndexedDB | Images, fonts, static content |
-| **Dynamic Data** | IndexedDB + Background Sync | API responses, user data |
+| Tầng             | Công nghệ                   | Cache gì                      |
+| ---------------- | --------------------------- | ----------------------------- |
+| **App Shell**    | Service Worker + Cache API  | HTML, CSS, JS (UI framework)  |
+| **Static Data**  | Cache API + IndexedDB       | Images, fonts, static content |
+| **Dynamic Data** | IndexedDB + Background Sync | API responses, user data      |
 
 **Sync strategies:**
 
-| Strategy | Mô tả | Use case |
-|---|---|---|
-| **Background Sync** | Queue actions offline, sync khi online | Send message, submit form |
-| **Periodic Background Sync** | Fetch data định kỳ khi online | News feed, email |
-| **Conflict resolution** | Last-write-wins, merge, manual | Collaborative editing |
+| Strategy                     | Mô tả                                  | Use case                  |
+| ---------------------------- | -------------------------------------- | ------------------------- |
+| **Background Sync**          | Queue actions offline, sync khi online | Send message, submit form |
+| **Periodic Background Sync** | Fetch data định kỳ khi online          | News feed, email          |
+| **Conflict resolution**      | Last-write-wins, merge, manual         | Collaborative editing     |
 
 ### Code ví dụ
 
@@ -720,8 +726,8 @@ async function runtimeCache(request) {
 
 // 2. Offline data sync với Background Sync API
 // service-worker.js
-self.addEventListener('sync', (event) => {
-  if (event.tag === 'sync-messages') {
+self.addEventListener("sync", (event) => {
+  if (event.tag === "sync-messages") {
     event.waitUntil(syncMessages());
   }
 });
@@ -729,17 +735,17 @@ self.addEventListener('sync', (event) => {
 async function syncMessages() {
   // Đọc queued messages từ IndexedDB
   const db = await openDB();
-  const messages = await db.getAll('outbox');
+  const messages = await db.getAll("outbox");
 
   for (const message of messages) {
     try {
-      await fetch('/api/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(message),
       });
       // Xóa khỏi outbox sau khi gửi thành công
-      await db.delete('outbox', message.id);
+      await db.delete("outbox", message.id);
     } catch {
       // Vẫn offline, sync sẽ retry
       break;
@@ -753,30 +759,30 @@ async function sendMessage(content) {
   const message = {
     id: crypto.randomUUID(),
     content,
-    status: 'pending',
+    status: "pending",
     timestamp: Date.now(),
   };
 
   const db = await openDB();
-  await db.put('messages', message);    // Hiển thị trong UI
-  await db.put('outbox', message);      // Queue để sync
+  await db.put("messages", message); // Hiển thị trong UI
+  await db.put("outbox", message); // Queue để sync
 
   // 2. Hiển thị ngay trong UI (optimistic)
   renderMessage(message);
 
   // 3. Register background sync
-  if ('serviceWorker' in navigator && 'SyncManager' in window) {
+  if ("serviceWorker" in navigator && "SyncManager" in window) {
     const reg = await navigator.serviceWorker.ready;
-    await reg.sync.register('sync-messages');
+    await reg.sync.register("sync-messages");
   } else {
     // Fallback: thử gửi ngay
     try {
-      await fetch('/api/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      await fetch("/api/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(message),
       });
-      await db.delete('outbox', message.id);
+      await db.delete("outbox", message.id);
     } catch {
       // Sẽ retry khi online
     }
@@ -784,23 +790,23 @@ async function sendMessage(content) {
 }
 
 // 3. Online/offline detection
-window.addEventListener('online', () => {
-  console.log('Back online! Syncing...');
-  showStatusBar('Online - Syncing data...');
+window.addEventListener("online", () => {
+  console.log("Back online! Syncing...");
+  showStatusBar("Online - Syncing data...");
   syncPendingData();
 });
 
-window.addEventListener('offline', () => {
-  console.log('Gone offline');
-  showStatusBar('Offline - Changes will sync when online');
+window.addEventListener("offline", () => {
+  console.log("Gone offline");
+  showStatusBar("Offline - Changes will sync when online");
 });
 
 // Reliable online check (navigator.onLine không đáng tin)
 async function isReallyOnline() {
   try {
-    const response = await fetch('/api/health', {
-      method: 'HEAD',
-      cache: 'no-store',
+    const response = await fetch("/api/health", {
+      method: "HEAD",
+      cache: "no-store",
     });
     return response.ok;
   } catch {
@@ -843,14 +849,14 @@ async function isReallyOnline() {
 
 ## Bảng so sánh storage options
 
-| Storage | Max Size | Persistence | Async | Data Type | Server Access | Indexed | Use Case |
-|---|---|---|---|---|---|---|---|
-| **Cookie** | ~4KB | Configurable | No | String | Yes (auto-send) | No | Auth, preferences |
-| **localStorage** | 5-10MB | Permanent | No | String | No | No | Settings, small cache |
-| **sessionStorage** | 5-10MB | Tab lifetime | No | String | No | No | Form state, temp data |
-| **IndexedDB** | 100MB+ | Permanent | Yes | Any (object, blob) | No | Yes | Large data, offline |
-| **Cache API** | 100MB+ | Permanent | Yes | Request/Response | No | No | HTTP responses, SW |
-| **HTTP Cache** | Varies | TTL-based | N/A | HTTP responses | N/A | No | All HTTP resources |
+| Storage            | Max Size | Persistence  | Async | Data Type          | Server Access   | Indexed | Use Case              |
+| ------------------ | -------- | ------------ | ----- | ------------------ | --------------- | ------- | --------------------- |
+| **Cookie**         | ~4KB     | Configurable | No    | String             | Yes (auto-send) | No      | Auth, preferences     |
+| **localStorage**   | 5-10MB   | Permanent    | No    | String             | No              | No      | Settings, small cache |
+| **sessionStorage** | 5-10MB   | Tab lifetime | No    | String             | No              | No      | Form state, temp data |
+| **IndexedDB**      | 100MB+   | Permanent    | Yes   | Any (object, blob) | No              | Yes     | Large data, offline   |
+| **Cache API**      | 100MB+   | Permanent    | Yes   | Request/Response   | No              | No      | HTTP responses, SW    |
+| **HTTP Cache**     | Varies   | TTL-based    | N/A   | HTTP responses     | N/A             | No      | All HTTP resources    |
 
 ---
 

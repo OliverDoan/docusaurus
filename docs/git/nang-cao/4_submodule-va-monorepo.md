@@ -9,9 +9,6 @@ Khi dự án lớn lên, bạn sẽ gặp câu hỏi: "Nên tổ chức code th�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Git Submodules](#1-git-submodules)
@@ -42,6 +39,7 @@ main-project/           ← repo chính
 ```
 
 **Tại sao dùng submodule?**
+
 - Chia sẻ thư viện chung giữa nhiều dự án
 - Quản lý phiên bản thư viện chung (pin version cụ thể)
 - Giữ repo chính nhẹ (không chứa code thư viện)
@@ -54,6 +52,7 @@ git submodule add https://github.com/team/shared-lib.git libs/shared
 ```
 
 Lệnh này tạo ra:
+
 1. Clone repo `shared-lib` vào `libs/shared/`
 2. Tạo file `.gitmodules` (hoặc thêm entry)
 3. Stage cả hai thay đổi
@@ -170,13 +169,13 @@ git commit -m "chore: xóa shared-lib submodule"
 
 ### Ưu nhược điểm Submodules
 
-| Ưu điểm | Nhược điểm |
-|---------|-----------|
-| Pin version cụ thể | Phức tạp cho người mới |
-| Mỗi repo có lịch sử riêng | Clone phải thêm `--recurse-submodules` |
-| Quản lý quyền truy cập riêng | Xóa submodule rất rườm rà |
-| Phù hợp thư viện ít thay đổi | Detached HEAD gây nhầm lẫn |
-| CI/CD riêng cho từng module | Dễ quên update submodule |
+| Ưu điểm                      | Nhược điểm                             |
+| ---------------------------- | -------------------------------------- |
+| Pin version cụ thể           | Phức tạp cho người mới                 |
+| Mỗi repo có lịch sử riêng    | Clone phải thêm `--recurse-submodules` |
+| Quản lý quyền truy cập riêng | Xóa submodule rất rườm rà              |
+| Phù hợp thư viện ít thay đổi | Detached HEAD gây nhầm lẫn             |
+| CI/CD riêng cho từng module  | Dễ quên update submodule               |
 
 ---
 
@@ -214,21 +213,22 @@ company-monorepo/
 
 ### Monorepo vs Polyrepo — So sánh
 
-| Tiêu chí | Monorepo | Polyrepo (nhiều repo) |
-|-----------|----------|----------------------|
-| Cấu trúc | 1 repo chứa mọi thứ | Mỗi project 1 repo |
-| Code sharing | Import trực tiếp | Publish package, version |
-| Atomic changes | 1 PR sửa nhiều packages | Nhiều PR across repos |
-| CI/CD | Phức tạp (cần biết sửa gì) | Đơn giản (mỗi repo riêng) |
-| Dependency | Luôn đồng bộ version | Có thể version mismatch |
-| Repo size | Lớn theo thời gian | Mỗi repo nhỏ gọn |
-| Onboarding | Clone 1 lần, có mọi thứ | Cần biết clone repo nào |
-| Quyền truy cập | Khó giới hạn (1 repo) | Dễ (mỗi repo riêng) |
-| Tooling cần | Nx, Turborepo, Bazel... | Git cơ bản là đủ |
+| Tiêu chí       | Monorepo                   | Polyrepo (nhiều repo)     |
+| -------------- | -------------------------- | ------------------------- |
+| Cấu trúc       | 1 repo chứa mọi thứ        | Mỗi project 1 repo        |
+| Code sharing   | Import trực tiếp           | Publish package, version  |
+| Atomic changes | 1 PR sửa nhiều packages    | Nhiều PR across repos     |
+| CI/CD          | Phức tạp (cần biết sửa gì) | Đơn giản (mỗi repo riêng) |
+| Dependency     | Luôn đồng bộ version       | Có thể version mismatch   |
+| Repo size      | Lớn theo thời gian         | Mỗi repo nhỏ gọn          |
+| Onboarding     | Clone 1 lần, có mọi thứ    | Cần biết clone repo nào   |
+| Quyền truy cập | Khó giới hạn (1 repo)      | Dễ (mỗi repo riêng)       |
+| Tooling cần    | Nx, Turborepo, Bazel...    | Git cơ bản là đủ          |
 
 ### Ưu điểm Monorepo
 
 **1. Code sharing dễ dàng:**
+
 ```
 # Polyrepo: phải publish package, install, version...
 npm publish @company/utils
@@ -240,6 +240,7 @@ import { formatDate } from '@company/utils'
 ```
 
 **2. Atomic changes (thay đổi đồng thời nhiều package):**
+
 ```bash
 # Sửa API client + cập nhật web app + cập nhật mobile app
 # Tất cả trong 1 PR, 1 review, 1 merge
@@ -247,6 +248,7 @@ import { formatDate } from '@company/utils'
 ```
 
 **3. Single CI pipeline:**
+
 ```
 # 1 pipeline build/test tất cả packages affected
 # Turborepo/Nx biết package nào bị ảnh hưởng → chỉ build đó
@@ -255,6 +257,7 @@ import { formatDate } from '@company/utils'
 ### Nhược điểm Monorepo
 
 **1. Repo lớn dần:**
+
 ```bash
 # Repo có thể lên GB sau vài năm
 git clone company-monorepo
@@ -262,12 +265,14 @@ git clone company-monorepo
 ```
 
 **2. CI complexity:**
+
 ```
 # Mỗi PR cần biết affected packages để chạy đúng tests
 # Cần tool chuyên dụng: Nx, Turborepo
 ```
 
 **3. Khó phân quyền:**
+
 ```
 # Frontend team chỉ cần sửa apps/web/
 # Nhưng họ có thể xem + sửa tất cả code trong repo
@@ -276,14 +281,14 @@ git clone company-monorepo
 
 ### Tools phổ biến cho Monorepo
 
-| Tool | Ngôn ngữ | Đặc điểm |
-|------|----------|----------|
-| **Turborepo** | JavaScript/TypeScript | Nhanh, dễ setup, caching |
-| **Nx** | JavaScript/TypeScript | Mạnh, nhiều tính năng, plugin ecosystem |
-| **Lerna** | JavaScript/TypeScript | Quản lý versioning, publishing |
-| **Rush** | JavaScript/TypeScript | Microsoft, enterprise-grade |
-| **Bazel** | Đa ngôn ngữ | Google, scale lớn, phức tạp |
-| **Pants** | Python, Go, Java | Build system cho backend |
+| Tool          | Ngôn ngữ              | Đặc điểm                                |
+| ------------- | --------------------- | --------------------------------------- |
+| **Turborepo** | JavaScript/TypeScript | Nhanh, dễ setup, caching                |
+| **Nx**        | JavaScript/TypeScript | Mạnh, nhiều tính năng, plugin ecosystem |
+| **Lerna**     | JavaScript/TypeScript | Quản lý versioning, publishing          |
+| **Rush**      | JavaScript/TypeScript | Microsoft, enterprise-grade             |
+| **Bazel**     | Đa ngôn ngữ           | Google, scale lớn, phức tạp             |
+| **Pants**     | Python, Go, Java      | Build system cho backend                |
 
 ### Sparse Checkout — Chỉ clone phần cần thiết
 
@@ -385,16 +390,16 @@ git subtree push --prefix=libs/shared shared-lib main
 
 ### Subtree vs Submodule — So sánh
 
-| Tiêu chí | Submodule | Subtree |
-|-----------|-----------|---------|
-| Cơ chế | Con trỏ (SHA) | Copy code vào repo |
-| Clone | Cần `--recurse-submodules` | Clone bình thường |
-| Lịch sử | Tách biệt hoàn toàn | Gộp vào repo chính |
-| Update | `git submodule update` | `git subtree pull` |
-| Đồng nghiệp | Phải biết về submodules | Không cần biết gì đặc biệt |
-| Repo size | Nhỏ (chỉ chứa con trỏ) | Lớn hơn (chứa toàn bộ code) |
-| Phức tạp | Cao (nhiều bước, dễ nhầm) | Thấp hơn |
-| Push ngược | Vào submodule, commit riêng | `git subtree push` |
+| Tiêu chí    | Submodule                   | Subtree                     |
+| ----------- | --------------------------- | --------------------------- |
+| Cơ chế      | Con trỏ (SHA)               | Copy code vào repo          |
+| Clone       | Cần `--recurse-submodules`  | Clone bình thường           |
+| Lịch sử     | Tách biệt hoàn toàn         | Gộp vào repo chính          |
+| Update      | `git submodule update`      | `git subtree pull`          |
+| Đồng nghiệp | Phải biết về submodules     | Không cần biết gì đặc biệt  |
+| Repo size   | Nhỏ (chỉ chứa con trỏ)      | Lớn hơn (chứa toàn bộ code) |
+| Phức tạp    | Cao (nhiều bước, dễ nhầm)   | Thấp hơn                    |
+| Push ngược  | Vào submodule, commit riêng | `git subtree push`          |
 
 ---
 
@@ -424,12 +429,12 @@ Bạn cần chia sẻ code giữa nhiều repos?
 
 ### Tóm tắt theo quy mô
 
-| Quy mô | Đề xuất |
-|---------|---------|
-| Solo/nhóm nhỏ, vài projects | Polyrepo hoặc Monorepo đơn giản |
-| Team 5-20, shared libraries | Submodule hoặc Subtree |
-| Team 20-100, nhiều apps liên quan | Monorepo + Turborepo/Nx |
-| Enterprise, 100+, đa ngôn ngữ | Monorepo + Bazel/Pants |
+| Quy mô                            | Đề xuất                         |
+| --------------------------------- | ------------------------------- |
+| Solo/nhóm nhỏ, vài projects       | Polyrepo hoặc Monorepo đơn giản |
+| Team 5-20, shared libraries       | Submodule hoặc Subtree          |
+| Team 20-100, nhiều apps liên quan | Monorepo + Turborepo/Nx         |
+| Enterprise, 100+, đa ngôn ngữ     | Monorepo + Bazel/Pants          |
 
 ---
 
@@ -523,12 +528,14 @@ Cơ chế: file `.gitmodules` chứa URL và path, repo chính track SHA commit 
 ### Câu 2: So sánh Monorepo và Polyrepo. Khi nào dùng cái nào?
 
 **Trả lời:**
+
 - **Monorepo**: 1 repo chứa tất cả projects. Ưu điểm: code sharing dễ, atomic changes, dependency luôn đồng bộ. Nhược điểm: repo lớn, CI phức tạp, khó phân quyền. Dùng khi: nhiều apps liên quan chặt, shared code nhiều, cùng team phát triển.
 - **Polyrepo**: mỗi project 1 repo. Ưu điểm: đơn giản, repo nhỏ, phân quyền rõ ràng, CI đơn giản. Nhược điểm: code sharing khó (publish package), dependency dễ lệch version, cross-repo changes phức tạp. Dùng khi: projects độc lập, team khác nhau, security cần phân quyền.
 
 ### Câu 3: Subtree khác Submodule thế nào?
 
 **Trả lời:**
+
 - **Submodule**: Repo chính chứa con trỏ (reference) đến commit cụ thể của repo con. Clone cần `--recurse-submodules`. Lịch sử tách biệt.
 - **Subtree**: Code từ repo con được copy thẳng vào repo chính, trở thành một phần của repo. Clone bình thường. Lịch sử gộp.
 
@@ -545,6 +552,7 @@ Cách dùng: `git sparse-checkout set apps/web packages/utils`. Git chỉ hiển
 
 **Trả lời:**
 Xóa submodule cần nhiều bước:
+
 1. `git rm <path>` — xóa submodule khỏi working tree và index
 2. `rm -rf .git/modules/<path>` — xóa cached metadata
 3. Commit thay đổi

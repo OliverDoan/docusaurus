@@ -9,9 +9,6 @@ Responsive design và accessibility (a11y) là hai chủ đề mà interviewer d
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: Mobile-first vs Desktop-first approach -- khác nhau thế nào và tại sao mobile-first được ưu tiên? `[Intermediate]`](#câu-1-mobile-first-vs-desktop-first-approach-khác-nhau-thế-nào-và-tại-sao-mobile-first-được-ưu-tiên-intermediate)
@@ -29,15 +26,16 @@ Responsive design và accessibility (a11y) là hai chủ đề mà interviewer d
 
 ### Giải thích lý thuyết
 
-| | Mobile-first | Desktop-first |
-|---|---|---|
-| **Bắt đầu từ** | Thiết kế cho mobile trước | Thiết kế cho desktop trước |
-| **Media queries** | Dùng `min-width` (thêm tính năng khi rộng hơn) | Dùng `max-width` (bớt tính năng khi hẹp hơn) |
-| **CSS mặc định** | Styles cho mobile | Styles cho desktop |
-| **Progressive enhancement** | Thêm dần từ đơn giản -> phức tạp | Bỏ bớt từ phức tạp -> đơn giản |
-| **Performance** | Mobile tải ít CSS hơn | Mobile tải tất cả CSS rồi override |
+|                             | Mobile-first                                   | Desktop-first                                |
+| --------------------------- | ---------------------------------------------- | -------------------------------------------- |
+| **Bắt đầu từ**              | Thiết kế cho mobile trước                      | Thiết kế cho desktop trước                   |
+| **Media queries**           | Dùng `min-width` (thêm tính năng khi rộng hơn) | Dùng `max-width` (bớt tính năng khi hẹp hơn) |
+| **CSS mặc định**            | Styles cho mobile                              | Styles cho desktop                           |
+| **Progressive enhancement** | Thêm dần từ đơn giản -> phức tạp               | Bỏ bớt từ phức tạp -> đơn giản               |
+| **Performance**             | Mobile tải ít CSS hơn                          | Mobile tải tất cả CSS rồi override           |
 
 **Tại sao mobile-first được ưu tiên:**
+
 1. **Lượng truy cập mobile chiếm hơn 60%** thị trường toàn cầu
 2. **Progressive enhancement** (thêm dần) dễ quản lý hơn graceful degradation (bỏ bớt)
 3. **Performance tốt hơn**: mobile không phải load CSS dư thừa
@@ -104,17 +102,18 @@ Responsive design và accessibility (a11y) là hai chủ đề mà interviewer d
 
 ### Giải thích lý thuyết
 
-| Unit | Reference | Ví dụ | Use case |
-|---|---|---|---|
-| `px` | Cố định (absolute) | `font-size: 16px` | Khi cần chính xác pixel |
-| `em` | Font-size của **parent element** | `padding: 1.5em` | Component-scoped sizing |
-| `rem` | Font-size của **root** (`<html>`) | `font-size: 1.25rem` | Typography, spacing |
-| `vw` | 1% **chiều rộng viewport** | `width: 50vw` | Full-width sections |
-| `vh` | 1% **chiều cao viewport** | `height: 100vh` | Full-height hero |
-| `%` | Kích thước **parent element** | `width: 50%` | Fluid layout |
-| `clamp()` | Min, preferred, max | `font-size: clamp(1rem, 2.5vw, 2rem)` | Fluid typography |
+| Unit      | Reference                         | Ví dụ                                 | Use case                |
+| --------- | --------------------------------- | ------------------------------------- | ----------------------- |
+| `px`      | Cố định (absolute)                | `font-size: 16px`                     | Khi cần chính xác pixel |
+| `em`      | Font-size của **parent element**  | `padding: 1.5em`                      | Component-scoped sizing |
+| `rem`     | Font-size của **root** (`<html>`) | `font-size: 1.25rem`                  | Typography, spacing     |
+| `vw`      | 1% **chiều rộng viewport**        | `width: 50vw`                         | Full-width sections     |
+| `vh`      | 1% **chiều cao viewport**         | `height: 100vh`                       | Full-height hero        |
+| `%`       | Kích thước **parent element**     | `width: 50%`                          | Fluid layout            |
+| `clamp()` | Min, preferred, max               | `font-size: clamp(1rem, 2.5vw, 2rem)` | Fluid typography        |
 
 **`clamp(min, preferred, max)`** là hàm CSS cực kỳ mạnh:
+
 - Giá trị preferred được dùng khi nằm trong khoảng min-max
 - Không bao giờ nhỏ hơn min hoặc lớn hơn max
 - Thay thế hoàn toàn media queries cho typography responsive
@@ -132,24 +131,24 @@ html {
 }
 
 .child-rem {
-  font-size: 1.5rem;  /* = 24px (16 * 1.5) -- tham chiếu root */
-  padding: 1rem;      /* = 16px */
+  font-size: 1.5rem; /* = 24px (16 * 1.5) -- tham chiếu root */
+  padding: 1rem; /* = 16px */
 }
 
 .child-em {
-  font-size: 1.5em;   /* = 30px (20 * 1.5) -- tham chiếu parent */
-  padding: 1em;       /* = 30px (tham chiếu chính font-size của element!) */
+  font-size: 1.5em; /* = 30px (20 * 1.5) -- tham chiếu parent */
+  padding: 1em; /* = 30px (tham chiếu chính font-size của element!) */
 }
 
 /* Viewport units */
 .hero {
-  height: 100vh;        /* Full chiều cao viewport */
-  width: 100vw;         /* Full chiều rộng viewport */
+  height: 100vh; /* Full chiều cao viewport */
+  width: 100vw; /* Full chiều rộng viewport */
 }
 
 /* Cẩn thận: 100vh trên mobile bao gồm thanh address bar */
 .hero-safe {
-  height: 100dvh;       /* Dynamic viewport height -- trừ address bar */
+  height: 100dvh; /* Dynamic viewport height -- trừ address bar */
 }
 
 /* clamp() -- fluid typography không cần media query */
@@ -186,13 +185,13 @@ p {
 
 **Breakpoints phổ biến** (Tailwind CSS convention):
 
-| Breakpoint | Pixel | Target |
-|---|---|---|
-| `sm` | 640px | Mobile landscape |
-| `md` | 768px | Tablet |
-| `lg` | 1024px | Laptop |
-| `xl` | 1280px | Desktop |
-| `2xl` | 1536px | Large desktop |
+| Breakpoint | Pixel  | Target           |
+| ---------- | ------ | ---------------- |
+| `sm`       | 640px  | Mobile landscape |
+| `md`       | 768px  | Tablet           |
+| `lg`       | 1024px | Laptop           |
+| `xl`       | 1280px | Desktop          |
+| `2xl`      | 1536px | Large desktop    |
 
 **Container Queries** (tính năng mới): Media queries dựa vào kích thước **viewport**, nhưng container queries dựa vào kích thước **parent container**. Điều này giải quyết vấn đề component cần responsive theo context mà nó nằm trong, không phải theo viewport.
 
@@ -298,17 +297,18 @@ p {
 3. **Screen reader support**: Nội dung phải được "đọc" được bởi screen reader
 
 **Semantic HTML quan trọng vì:**
+
 - Screen reader dựa vào tag để hiểu cấu trúc trang
 - SEO engine cũng dựa vào semantic tags
 - Browser cung cấp behavior mặc định (ví dụ: `<button>` tự focus được, `<div>` thì không)
 
-| Anti-pattern | Semantic |
-|---|---|
-| `<div onclick="...">Click me</div>` | `<button>Click me</button>` |
-| `<div class="header">` | `<header>` |
-| `<span class="link">` | `<a href="...">` |
-| `<div class="list"><div>Item</div></div>` | `<ul><li>Item</li></ul>` |
-| `<b>Important</b>` | `<strong>Important</strong>` |
+| Anti-pattern                              | Semantic                     |
+| ----------------------------------------- | ---------------------------- |
+| `<div onclick="...">Click me</div>`       | `<button>Click me</button>`  |
+| `<div class="header">`                    | `<header>`                   |
+| `<span class="link">`                     | `<a href="...">`             |
+| `<div class="list"><div>Item</div></div>` | `<ul><li>Item</li></ul>`     |
+| `<b>Important</b>`                        | `<strong>Important</strong>` |
 
 ### Code ví dụ
 
@@ -356,7 +356,7 @@ p {
 
 /* CORRECT: Custom focus style */
 *:focus-visible {
-  outline: 2px solid #4A90D9;
+  outline: 2px solid #4a90d9;
   outline-offset: 2px;
   border-radius: 2px;
 }
@@ -387,36 +387,40 @@ button:focus-visible {
 // Focus management trong modal
 function openModal(modalElement) {
   const previouslyFocused = document.activeElement;
-  modalElement.setAttribute('aria-hidden', 'false');
-  modalElement.style.display = 'block';
+  modalElement.setAttribute("aria-hidden", "false");
+  modalElement.style.display = "block";
 
   // Focus vào element đầu tiên có thể focus trong modal
   const firstFocusable = modalElement.querySelector(
-    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
   );
   if (firstFocusable) {
     firstFocusable.focus();
   }
 
   // Khi đóng modal, trả focus về element trước đó
-  modalElement.addEventListener('close', () => {
-    modalElement.setAttribute('aria-hidden', 'true');
-    if (previouslyFocused) {
-      previouslyFocused.focus();
-    }
-  }, { once: true });
+  modalElement.addEventListener(
+    "close",
+    () => {
+      modalElement.setAttribute("aria-hidden", "true");
+      if (previouslyFocused) {
+        previouslyFocused.focus();
+      }
+    },
+    { once: true },
+  );
 }
 
 // Focus trap: giữ focus trong modal
 function trapFocus(modalElement) {
   const focusableElements = modalElement.querySelectorAll(
-    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
   );
   const firstEl = focusableElements[0];
   const lastEl = focusableElements[focusableElements.length - 1];
 
-  modalElement.addEventListener('keydown', (e) => {
-    if (e.key !== 'Tab') return;
+  modalElement.addEventListener("keydown", (e) => {
+    if (e.key !== "Tab") return;
 
     if (e.shiftKey) {
       if (document.activeElement === firstEl) {
@@ -449,23 +453,23 @@ function trapFocus(modalElement) {
 
 **3 loại ARIA:**
 
-| Loại | Ví dụ | Mục đích |
-|---|---|---|
-| **Roles** | `role="dialog"`, `role="alert"` | Định nghĩa element là gì |
-| **States** | `aria-expanded`, `aria-checked` | Trạng thái hiện tại (thay đổi) |
+| Loại           | Ví dụ                            | Mục đích                            |
+| -------------- | -------------------------------- | ----------------------------------- |
+| **Roles**      | `role="dialog"`, `role="alert"`  | Định nghĩa element là gì            |
+| **States**     | `aria-expanded`, `aria-checked`  | Trạng thái hiện tại (thay đổi)      |
 | **Properties** | `aria-label`, `aria-describedby` | Thuộc tính bổ sung (thường cố định) |
 
 **ARIA quan trọng nhất cần biết:**
 
-| Attribute | Dùng khi |
-|---|---|
-| `aria-label` | Element không có visible text (icon button) |
-| `aria-labelledby` | Element được label bởi element khác |
-| `aria-describedby` | Mô tả bổ sung (error message, help text) |
-| `aria-hidden="true"` | Ẩn khỏi screen reader (decorative content) |
-| `aria-expanded` | Accordion, dropdown menu |
-| `aria-live` | Nội dung thay đổi động (toast, notification) |
-| `role="alert"` | Thông báo quan trọng, screen reader đọc ngay |
+| Attribute            | Dùng khi                                     |
+| -------------------- | -------------------------------------------- |
+| `aria-label`         | Element không có visible text (icon button)  |
+| `aria-labelledby`    | Element được label bởi element khác          |
+| `aria-describedby`   | Mô tả bổ sung (error message, help text)     |
+| `aria-hidden="true"` | Ẩn khỏi screen reader (decorative content)   |
+| `aria-expanded`      | Accordion, dropdown menu                     |
+| `aria-live`          | Nội dung thay đổi động (toast, notification) |
+| `role="alert"`       | Thông báo quan trọng, screen reader đọc ngay |
 
 ### Code ví dụ
 
@@ -481,19 +485,10 @@ function trapFocus(modalElement) {
 </button>
 
 <!-- CORRECT: aria-expanded cho accordion -->
-<button
-  aria-expanded="false"
-  aria-controls="panel-1"
-  id="accordion-1"
->
+<button aria-expanded="false" aria-controls="panel-1" id="accordion-1">
   Section 1
 </button>
-<div
-  id="panel-1"
-  role="region"
-  aria-labelledby="accordion-1"
-  hidden
->
+<div id="panel-1" role="region" aria-labelledby="accordion-1" hidden>
   Panel content...
 </div>
 
@@ -542,23 +537,23 @@ function trapFocus(modalElement) {
 ```javascript
 // Cập nhật aria-live region khi search
 function updateSearchResults(count) {
-  const liveRegion = document.getElementById('search-results-count');
+  const liveRegion = document.getElementById("search-results-count");
   liveRegion.textContent = `Found ${count} results`;
   // Screen reader sẽ tự động đọc nội dung mới vì aria-live="polite"
 }
 
 // Toggle accordion accessible
 function toggleAccordion(button) {
-  const isExpanded = button.getAttribute('aria-expanded') === 'true';
-  const panelId = button.getAttribute('aria-controls');
+  const isExpanded = button.getAttribute("aria-expanded") === "true";
+  const panelId = button.getAttribute("aria-controls");
   const panel = document.getElementById(panelId);
 
-  button.setAttribute('aria-expanded', String(!isExpanded));
+  button.setAttribute("aria-expanded", String(!isExpanded));
 
   if (isExpanded) {
-    panel.setAttribute('hidden', '');
+    panel.setAttribute("hidden", "");
   } else {
-    panel.removeAttribute('hidden');
+    panel.removeAttribute("hidden");
   }
 }
 ```
@@ -575,19 +570,21 @@ function toggleAccordion(button) {
 
 **Testing a11y gồm 3 tầng:**
 
-| Tầng | Tool / Phương pháp | Phát hiện được |
-|---|---|---|
-| **Automated** | axe, Lighthouse, eslint-plugin-jsx-a11y | ~30% lỗi a11y (thiếu alt, contrast, ARIA sai) |
-| **Semi-automated** | Screen reader (VoiceOver, NVDA), tab navigation | ~60% lỗi a11y (flow, context, keyboard) |
-| **Manual** | User testing với người khuyết tật | 100% lỗi a11y (real experience) |
+| Tầng               | Tool / Phương pháp                              | Phát hiện được                                |
+| ------------------ | ----------------------------------------------- | --------------------------------------------- |
+| **Automated**      | axe, Lighthouse, eslint-plugin-jsx-a11y         | ~30% lỗi a11y (thiếu alt, contrast, ARIA sai) |
+| **Semi-automated** | Screen reader (VoiceOver, NVDA), tab navigation | ~60% lỗi a11y (flow, context, keyboard)       |
+| **Manual**         | User testing với người khuyết tật               | 100% lỗi a11y (real experience)               |
 
 **Automated tools:**
+
 - **axe DevTools** (browser extension): Scan page và report lỗi a11y
 - **Lighthouse** (Chrome DevTools): Audit accessibility score
 - **eslint-plugin-jsx-a11y**: Catch lỗi trong code (React)
 - **Pa11y**: CI/CD integration
 
 **Keyboard testing checklist:**
+
 - Tab qua tất cả interactive elements
 - Enter/Space activate buttons
 - Escape đóng modal/dropdown
@@ -600,12 +597,12 @@ function toggleAccordion(button) {
 // Automated testing với axe-core trong Jest
 // npm install @axe-core/react jest-axe
 
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe, toHaveNoViolations } from "jest-axe";
 
 expect.extend(toHaveNoViolations);
 
-test('component has no accessibility violations', async () => {
-  const container = document.createElement('div');
+test("component has no accessibility violations", async () => {
+  const container = document.createElement("div");
   document.body.appendChild(container);
 
   // Render component vào container
@@ -624,22 +621,22 @@ test('component has no accessibility violations', async () => {
 
 // Playwright a11y testing
 // playwright.config.ts
-const { test, expect } = require('@playwright/test');
-const AxeBuilder = require('@axe-core/playwright').default;
+const { test, expect } = require("@playwright/test");
+const AxeBuilder = require("@axe-core/playwright").default;
 
-test('homepage should not have accessibility violations', async ({ page }) => {
-  await page.goto('/');
+test("homepage should not have accessibility violations", async ({ page }) => {
+  await page.goto("/");
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations).toEqual([]);
 });
 
 // Keyboard navigation test
-test('modal can be closed with Escape key', async ({ page }) => {
-  await page.goto('/');
+test("modal can be closed with Escape key", async ({ page }) => {
+  await page.goto("/");
   await page.click('[data-testid="open-modal"]');
   await expect(page.locator('[role="dialog"]')).toBeVisible();
 
-  await page.keyboard.press('Escape');
+  await page.keyboard.press("Escape");
   await expect(page.locator('[role="dialog"]')).not.toBeVisible();
 
   // Verify focus returns to trigger element
@@ -655,17 +652,17 @@ test('modal can be closed with Escape key', async ({ page }) => {
 
 ## Bảng so sánh responsive units
 
-| Unit | Relative to | Cascading | Good for | Watch out |
-|---|---|---|---|---|
-| `px` | Absolute | No | Borders, shadows | Not responsive |
-| `em` | Parent font-size | Yes (compounds!) | Component-scoped padding | Compounding: nested em multiply |
-| `rem` | Root font-size | No | Typography, spacing | Only relative to root |
-| `%` | Parent dimension | Yes | Widths | Height % needs parent height |
-| `vw` | Viewport width | No | Full-width layouts | Includes scrollbar width |
-| `vh` | Viewport height | No | Full-height sections | Mobile address bar issue |
-| `dvh` | Dynamic viewport | No | Mobile full-height | Newer browsers only |
-| `ch` | Width of "0" character | No | Prose max-width | Varies by font |
-| `clamp()` | Mixed | No | Fluid typography | Needs min/max values |
+| Unit      | Relative to            | Cascading        | Good for                 | Watch out                       |
+| --------- | ---------------------- | ---------------- | ------------------------ | ------------------------------- |
+| `px`      | Absolute               | No               | Borders, shadows         | Not responsive                  |
+| `em`      | Parent font-size       | Yes (compounds!) | Component-scoped padding | Compounding: nested em multiply |
+| `rem`     | Root font-size         | No               | Typography, spacing      | Only relative to root           |
+| `%`       | Parent dimension       | Yes              | Widths                   | Height % needs parent height    |
+| `vw`      | Viewport width         | No               | Full-width layouts       | Includes scrollbar width        |
+| `vh`      | Viewport height        | No               | Full-height sections     | Mobile address bar issue        |
+| `dvh`     | Dynamic viewport       | No               | Mobile full-height       | Newer browsers only             |
+| `ch`      | Width of "0" character | No               | Prose max-width          | Varies by font                  |
+| `clamp()` | Mixed                  | No               | Fluid typography         | Needs min/max values            |
 
 ---
 

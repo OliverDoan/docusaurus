@@ -9,9 +9,6 @@ Trong cuộc sống, mọi **con chó** đều là **động vật**, nhưng kh�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Type Casting trong OOP là gì?](#1-type-casting-trong-oop-là-gì)
@@ -50,10 +47,10 @@ class Cat extends Animal {
 }
 ```
 
-| Loại | Hướng chuyển | Tính chất | Cú pháp |
-|---|---|---|---|
-| **Upcasting** | Child → Parent | Ngầm định, luôn an toàn | `Animal a = new Dog();` |
-| **Downcasting** | Parent → Child | Tường minh, có rủi ro | `Dog d = (Dog) animal;` |
+| Loại            | Hướng chuyển   | Tính chất               | Cú pháp                 |
+| --------------- | -------------- | ----------------------- | ----------------------- |
+| **Upcasting**   | Child → Parent | Ngầm định, luôn an toàn | `Animal a = new Dog();` |
+| **Downcasting** | Parent → Child | Tường minh, có rủi ro   | `Dog d = (Dog) animal;` |
 
 ---
 
@@ -292,14 +289,14 @@ if (flyer instanceof Bird bird) {
 
 ## 7. Tổng kết
 
-| Tiêu chí | Upcasting | Downcasting |
-|---|---|---|
-| **Hướng** | Child → Parent | Parent → Child |
-| **Cú pháp** | Ngầm định (implicit) | Tường minh (explicit) |
-| **An toàn** | Luôn an toàn | Có thể `ClassCastException` |
-| **Mục đích** | Đa hình, xử lý chung | Truy cập method riêng của child |
-| **Kiểm tra** | Không cần | Dùng `instanceof` trước |
-| **Ví dụ** | `Animal a = new Dog();` | `Dog d = (Dog) animal;` |
+| Tiêu chí     | Upcasting               | Downcasting                     |
+| ------------ | ----------------------- | ------------------------------- |
+| **Hướng**    | Child → Parent          | Parent → Child                  |
+| **Cú pháp**  | Ngầm định (implicit)    | Tường minh (explicit)           |
+| **An toàn**  | Luôn an toàn            | Có thể `ClassCastException`     |
+| **Mục đích** | Đa hình, xử lý chung    | Truy cập method riêng của child |
+| **Kiểm tra** | Không cần               | Dùng `instanceof` trước         |
+| **Ví dụ**    | `Animal a = new Dog();` | `Dog d = (Dog) animal;`         |
 
 ---
 

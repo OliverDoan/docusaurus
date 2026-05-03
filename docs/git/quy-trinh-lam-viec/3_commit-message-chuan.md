@@ -9,9 +9,6 @@ Commit message là "nhật ký" của dự án. Một commit message tốt giúp
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Tại sao commit message quan trọng?](#1-tại-sao-commit-message-quan-trọng)
@@ -232,19 +229,19 @@ Closes #456
 
 ### 3.2. Các types
 
-| Type | Mục đích | Ví dụ |
-|------|---------|-------|
-| **feat** | Tính năng mới | `feat: add user search` |
-| **fix** | Sửa lỗi | `fix: resolve login crash` |
-| **docs** | Tài liệu | `docs: add API guide` |
-| **style** | Format code (không đổi logic) | `style: fix indentation` |
-| **refactor** | Tái cấu trúc (không đổi behavior) | `refactor: extract auth utils` |
-| **perf** | Cải thiện hiệu năng | `perf: optimize image loading` |
-| **test** | Thêm/sửa test | `test: add login unit tests` |
-| **build** | Thay đổi build system | `build: update webpack config` |
-| **ci** | Thay đổi CI config | `ci: add GitHub Actions workflow` |
-| **chore** | Công việc bảo trì | `chore: update dependencies` |
-| **revert** | Revert commit trước | `revert: revert "feat: add search"` |
+| Type         | Mục đích                          | Ví dụ                               |
+| ------------ | --------------------------------- | ----------------------------------- |
+| **feat**     | Tính năng mới                     | `feat: add user search`             |
+| **fix**      | Sửa lỗi                           | `fix: resolve login crash`          |
+| **docs**     | Tài liệu                          | `docs: add API guide`               |
+| **style**    | Format code (không đổi logic)     | `style: fix indentation`            |
+| **refactor** | Tái cấu trúc (không đổi behavior) | `refactor: extract auth utils`      |
+| **perf**     | Cải thiện hiệu năng               | `perf: optimize image loading`      |
+| **test**     | Thêm/sửa test                     | `test: add login unit tests`        |
+| **build**    | Thay đổi build system             | `build: update webpack config`      |
+| **ci**       | Thay đổi CI config                | `ci: add GitHub Actions workflow`   |
+| **chore**    | Công việc bảo trì                 | `chore: update dependencies`        |
+| **revert**   | Revert commit trước               | `revert: revert "feat: add search"` |
 
 ### 3.3. Scope (phạm vi)
 
@@ -356,12 +353,12 @@ Version: MAJOR.MINOR.PATCH
          +-- BREAKING CHANGE → tăng MAJOR (1.0.0 → 2.0.0)
 ```
 
-| Commit type | SemVer | Ví dụ |
-|------------|--------|-------|
-| `fix:` | PATCH (x.x.1 → x.x.2) | Bug fix, không đổi API |
-| `feat:` | MINOR (x.1.x → x.2.0) | Tính năng mới, backward compatible |
-| `feat!:` hoặc `BREAKING CHANGE:` | MAJOR (1.x.x → 2.0.0) | Thay đổi không tương thích ngược |
-| `docs:`, `style:`, `refactor:`, etc. | Không tăng version | Không ảnh hưởng end user |
+| Commit type                          | SemVer                | Ví dụ                              |
+| ------------------------------------ | --------------------- | ---------------------------------- |
+| `fix:`                               | PATCH (x.x.1 → x.x.2) | Bug fix, không đổi API             |
+| `feat:`                              | MINOR (x.1.x → x.2.0) | Tính năng mới, backward compatible |
+| `feat!:` hoặc `BREAKING CHANGE:`     | MAJOR (1.x.x → 2.0.0) | Thay đổi không tương thích ngược   |
+| `docs:`, `style:`, `refactor:`, etc. | Không tăng version    | Không ảnh hưởng end user           |
 
 ```bash
 # Ví dụ vòng đời version
@@ -392,27 +389,36 @@ Tạo file cấu hình `commitlint.config.js`:
 ```javascript
 // commitlint.config.js
 module.exports = {
-  extends: ['@commitlint/config-conventional'],
+  extends: ["@commitlint/config-conventional"],
   rules: {
     // Type phải là 1 trong các giá trị này
-    'type-enum': [
-      2,          // 2 = error (0 = disabled, 1 = warning)
-      'always',
+    "type-enum": [
+      2, // 2 = error (0 = disabled, 1 = warning)
+      "always",
       [
-        'feat', 'fix', 'docs', 'style', 'refactor',
-        'perf', 'test', 'build', 'ci', 'chore', 'revert',
+        "feat",
+        "fix",
+        "docs",
+        "style",
+        "refactor",
+        "perf",
+        "test",
+        "build",
+        "ci",
+        "chore",
+        "revert",
       ],
     ],
     // Subject không được trống
-    'subject-empty': [2, 'never'],
+    "subject-empty": [2, "never"],
     // Subject tối đa 72 ký tự
-    'subject-max-length': [2, 'always', 72],
+    "subject-max-length": [2, "always", 72],
     // Type không được trống
-    'type-empty': [2, 'never'],
+    "type-empty": [2, "never"],
     // Type phải viết thường
-    'type-case': [2, 'always', 'lower-case'],
+    "type-case": [2, "always", "lower-case"],
     // Subject không kết thúc bằng dấu chấm
-    'subject-full-stop': [2, 'never', '.'],
+    "subject-full-stop": [2, "never", "."],
   },
 };
 ```
@@ -557,23 +563,23 @@ npm run release
 
 ### Features
 
-* **search:** add full-text search with Elasticsearch ([a1b2c3d])
-* **auth:** implement OAuth2 login with Google ([d4e5f6g])
+- **search:** add full-text search with Elasticsearch ([a1b2c3d])
+- **auth:** implement OAuth2 login with Google ([d4e5f6g])
 
 ### Bug Fixes
 
-* **cart:** prevent duplicate items when clicking fast ([g7h8i9j])
-* **email:** correct template rendering on Outlook ([j0k1l2m])
+- **cart:** prevent duplicate items when clicking fast ([g7h8i9j])
+- **email:** correct template rendering on Outlook ([j0k1l2m])
 
 ### Performance Improvements
 
-* **images:** add WebP conversion and lazy loading ([m3n4o5p])
+- **images:** add WebP conversion and lazy loading ([m3n4o5p])
 
 ## [2.0.0] - 2024-02-01
 
 ### BREAKING CHANGES
 
-* **api:** change response format from XML to JSON ([p6q7r8s])
+- **api:** change response format from XML to JSON ([p6q7r8s])
 ```
 
 ---
@@ -582,19 +588,19 @@ npm run release
 
 Nhiều team thích dùng emoji để commit message dễ đọc hơn:
 
-| Type | Emoji | Ví dụ |
-|------|-------|-------|
-| feat | :sparkles: | `feat: add user search` |
-| fix | :bug: | `fix: resolve login crash` |
-| docs | :memo: | `docs: update API guide` |
-| style | :art: | `style: format code` |
-| refactor | :recycle: | `refactor: extract utils` |
-| perf | :zap: | `perf: optimize queries` |
-| test | :white_check_mark: | `test: add unit tests` |
-| build | :package: | `build: update webpack` |
-| ci | :construction_worker: | `ci: add deploy pipeline` |
-| chore | :wrench: | `chore: update deps` |
-| revert | :rewind: | `revert: undo last feat` |
+| Type     | Emoji                 | Ví dụ                      |
+| -------- | --------------------- | -------------------------- |
+| feat     | :sparkles:            | `feat: add user search`    |
+| fix      | :bug:                 | `fix: resolve login crash` |
+| docs     | :memo:                | `docs: update API guide`   |
+| style    | :art:                 | `style: format code`       |
+| refactor | :recycle:             | `refactor: extract utils`  |
+| perf     | :zap:                 | `perf: optimize queries`   |
+| test     | :white_check_mark:    | `test: add unit tests`     |
+| build    | :package:             | `build: update webpack`    |
+| ci       | :construction_worker: | `ci: add deploy pipeline`  |
+| chore    | :wrench:              | `chore: update deps`       |
+| revert   | :rewind:              | `revert: undo last feat`   |
 
 **Lưu ý:** Emoji là optional và tùy team. Nhiều dự án open source lớn KHÔNG dùng emoji vì commitlint mặc định không cho phép. Nếu muốn dùng, cần cấu hình thêm.
 

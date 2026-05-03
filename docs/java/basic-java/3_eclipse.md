@@ -11,9 +11,6 @@ Sau khi đã hiểu Java là gì, JVM/JRE/JDK khác nhau ra sao, bây giờ là 
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Cài đặt JDK](#1-cài-đặt-jdk)
@@ -33,6 +30,7 @@ Sau khi đã hiểu Java là gì, JVM/JRE/JDK khác nhau ra sao, bây giờ là 
 ### Bước 1: Tải JDK
 
 Tải JDK từ trang chính thức của Oracle hoặc dùng bản OpenJDK:
+
 - **Oracle JDK:** https://www.oracle.com/java/technologies/downloads/
 - **OpenJDK (Adoptium):** https://adoptium.net/
 
@@ -134,17 +132,17 @@ public class HelloWorld {
 
 ### Phân tích từng thành phần
 
-| Thành phần | Ý nghĩa |
-|------------|---------|
-| `public` | Access modifier -- lớp này có thể truy cập từ bất kỳ đâu |
-| `class` | Từ khóa khai báo một lớp (class) |
-| `HelloWorld` | Tên của lớp (phải trùng với tên file) |
-| `public` (trước main) | Phương thức có thể truy cập từ bên ngoài (JVM cần truy cập) |
-| `static` | Phương thức thuộc về lớp, không cần tạo đối tượng để gọi |
-| `void` | Phương thức không trả về giá trị |
-| `main` | Tên phương thức -- **điểm bắt đầu** của mọi chương trình Java |
-| `String[] args` | Mảng chuỗi chứa tham số dòng lệnh |
-| `System.out.println()` | In nội dung ra màn hình và xuống dòng |
+| Thành phần             | Ý nghĩa                                                       |
+| ---------------------- | ------------------------------------------------------------- |
+| `public`               | Access modifier -- lớp này có thể truy cập từ bất kỳ đâu      |
+| `class`                | Từ khóa khai báo một lớp (class)                              |
+| `HelloWorld`           | Tên của lớp (phải trùng với tên file)                         |
+| `public` (trước main)  | Phương thức có thể truy cập từ bên ngoài (JVM cần truy cập)   |
+| `static`               | Phương thức thuộc về lớp, không cần tạo đối tượng để gọi      |
+| `void`                 | Phương thức không trả về giá trị                              |
+| `main`                 | Tên phương thức -- **điểm bắt đầu** của mọi chương trình Java |
+| `String[] args`        | Mảng chuỗi chứa tham số dòng lệnh                             |
+| `System.out.println()` | In nội dung ra màn hình và xuống dòng                         |
 
 ### Tại sao main phải là `public static void main(String[] args)`?
 
@@ -240,38 +238,38 @@ Toi dang hoc lap trinh Java.
 
 ### Phím tắt thường dùng nhất
 
-| Phím tắt | Chức năng |
-|----------|-----------|
-| **Ctrl + Space** | Gợi ý code (autocomplete) |
-| **Ctrl + Shift + F** | Format code tự động |
-| **Ctrl + Shift + O** | Tự động import và xóa import thừa |
-| **Ctrl + F11** | Chạy chương trình |
-| **Ctrl + D** | Xóa dòng hiện tại |
-| **Ctrl + /** | Comment/uncomment dòng |
-| **Ctrl + Shift + /** | Comment block |
-| **F3** | Nhảy đến định nghĩa (Go to Definition) |
-| **Ctrl + L** | Nhảy đến dòng bất kỳ |
-| **Ctrl + 1** | Quick Fix (gợi ý sửa lỗi) |
+| Phím tắt             | Chức năng                              |
+| -------------------- | -------------------------------------- |
+| **Ctrl + Space**     | Gợi ý code (autocomplete)              |
+| **Ctrl + Shift + F** | Format code tự động                    |
+| **Ctrl + Shift + O** | Tự động import và xóa import thừa      |
+| **Ctrl + F11**       | Chạy chương trình                      |
+| **Ctrl + D**         | Xóa dòng hiện tại                      |
+| **Ctrl + /**         | Comment/uncomment dòng                 |
+| **Ctrl + Shift + /** | Comment block                          |
+| **F3**               | Nhảy đến định nghĩa (Go to Definition) |
+| **Ctrl + L**         | Nhảy đến dòng bất kỳ                   |
+| **Ctrl + 1**         | Quick Fix (gợi ý sửa lỗi)              |
 
 ### Phím tắt nâng cao
 
-| Phím tắt | Chức năng |
-|----------|-----------|
-| **Alt + Shift + R** | Đổi tên biến/class (Rename Refactor) |
-| **Alt + Shift + S --> R** | Tạo getter/setter tự động |
-| **Alt + Shift + S --> O** | Tạo constructor tự động |
-| **Alt + Up/Down** | Di chuyển dòng lên/xuống |
-| **Ctrl + Alt + Down** | Nhân đôi dòng hiện tại |
-| **Ctrl + Shift + R** | Tìm file/class nhanh |
-| **Ctrl + Shift + G** | Tìm tất cả nơi sử dụng (Find Usages) |
+| Phím tắt                  | Chức năng                            |
+| ------------------------- | ------------------------------------ |
+| **Alt + Shift + R**       | Đổi tên biến/class (Rename Refactor) |
+| **Alt + Shift + S --> R** | Tạo getter/setter tự động            |
+| **Alt + Shift + S --> O** | Tạo constructor tự động              |
+| **Alt + Up/Down**         | Di chuyển dòng lên/xuống             |
+| **Ctrl + Alt + Down**     | Nhân đôi dòng hiện tại               |
+| **Ctrl + Shift + R**      | Tìm file/class nhanh                 |
+| **Ctrl + Shift + G**      | Tìm tất cả nơi sử dụng (Find Usages) |
 
 ### Template nhanh (gõ tắt rồi nhấn Ctrl+Space)
 
-| Gõ tắt | Kết quả |
-|--------|---------|
-| `sysout` + Ctrl+Space | `System.out.println();` |
-| `main` + Ctrl+Space | Tạo phương thức `main` |
-| `for` + Ctrl+Space | Tạo vòng lặp `for` |
+| Gõ tắt                 | Kết quả                 |
+| ---------------------- | ----------------------- |
+| `sysout` + Ctrl+Space  | `System.out.println();` |
+| `main` + Ctrl+Space    | Tạo phương thức `main`  |
+| `for` + Ctrl+Space     | Tạo vòng lặp `for`      |
 | `foreach` + Ctrl+Space | Tạo vòng lặp `for-each` |
 
 ---
@@ -394,6 +392,7 @@ System.out.println("Hello");  // Viết thường p
 ### Câu 1: Giải thích từng từ trong `public static void main(String[] args)`
 
 **Trả lời:**
+
 - `public`: Access modifier, cho phép JVM truy cập phương thức từ bất kỳ đâu
 - `static`: Phương thức thuộc về lớp (class-level), JVM gọi được mà không cần tạo đối tượng
 - `void`: Phương thức không trả về giá trị
@@ -420,6 +419,7 @@ public class OverloadMain {
 ### Câu 3: Có thể chạy chương trình Java mà không có main method không?
 
 **Trả lời:**
+
 - **Trước Java 7:** Có thể dùng khối `static {}` để chạy code mà không cần `main`.
 - **Từ Java 7 trở đi:** **Không.** JVM bắt buộc phải có phương thức `main` để khởi chạy chương trình. Nếu không có, JVM sẽ báo lỗi: `Main method not found in class`.
 
@@ -437,6 +437,7 @@ public class KhongCoMain {
 ### Câu 4: Sự khác biệt giữa `System.out.println()` và `System.out.print()`?
 
 **Trả lời:**
+
 - `println()`: In nội dung và **xuống dòng** sau khi in
 - `print()`: In nội dung nhưng **không xuống dòng**
 

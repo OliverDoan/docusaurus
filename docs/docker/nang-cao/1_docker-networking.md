@@ -9,9 +9,6 @@ Networking là cách các containers giao tiếp với nhau và với thế gi�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Tổng quan Network trong Docker](#1-tổng-quan-network-trong-docker)
@@ -41,12 +38,12 @@ docker network ls
 
 ### Các loại Network Driver
 
-| Driver | Mô tả | Khi nào dùng |
-|--------|--------|-------------|
-| **bridge** | Network mặc định, containers giao tiếp qua bridge | Hầu hết trường hợp |
-| **host** | Container dùng network của host trực tiếp | Cần hiệu năng network cao |
-| **none** | Không có network | Container cô lập hoàn toàn |
-| **overlay** | Network giữa nhiều Docker hosts | Docker Swarm |
+| Driver      | Mô tả                                             | Khi nào dùng               |
+| ----------- | ------------------------------------------------- | -------------------------- |
+| **bridge**  | Network mặc định, containers giao tiếp qua bridge | Hầu hết trường hợp         |
+| **host**    | Container dùng network của host trực tiếp         | Cần hiệu năng network cao  |
+| **none**    | Không có network                                  | Container cô lập hoàn toàn |
+| **overlay** | Network giữa nhiều Docker hosts                   | Docker Swarm               |
 
 ---
 
@@ -96,12 +93,12 @@ docker exec app ping web
 
 ### So sánh Default vs Custom Bridge
 
-| | Default Bridge | Custom Bridge |
-|---|---|---|
-| **DNS resolution** | Khong (chỉ IP) | Co (dùng tên container) |
-| **Cô lập** | Tất cả container cùng network | Chỉ container được add |
-| **Kết nối/ngắt khi đang chạy** | Khong | Co |
-| **Cấu hình** | Không tuỳ chỉnh được | Tuỳ chỉnh subnet, gateway |
+|                                | Default Bridge                | Custom Bridge             |
+| ------------------------------ | ----------------------------- | ------------------------- |
+| **DNS resolution**             | Khong (chỉ IP)                | Co (dùng tên container)   |
+| **Cô lập**                     | Tất cả container cùng network | Chỉ container được add    |
+| **Kết nối/ngắt khi đang chạy** | Khong                         | Co                        |
+| **Cấu hình**                   | Không tuỳ chỉnh được          | Tuỳ chỉnh subnet, gateway |
 
 ---
 
@@ -321,10 +318,10 @@ docker network rm practice-net isolated-net
 
 ## Tổng kết
 
-| Network Driver | Đặc điểm | DNS | Use case |
-|---------------|-----------|-----|---------|
-| **bridge** (default) | Cô lập cơ bản | Khong | Test nhanh |
-| **bridge** (custom) | Cô lập + DNS | Co | **Khuyến nghị** |
-| **host** | Dùng network host | - | Hiệu năng cao (Linux) |
-| **none** | Không network | - | Cô lập hoàn toàn |
-| **Compose default** | Custom bridge tự tạo | Co | Multi-container |
+| Network Driver       | Đặc điểm             | DNS   | Use case              |
+| -------------------- | -------------------- | ----- | --------------------- |
+| **bridge** (default) | Cô lập cơ bản        | Khong | Test nhanh            |
+| **bridge** (custom)  | Cô lập + DNS         | Co    | **Khuyến nghị**       |
+| **host**             | Dùng network host    | -     | Hiệu năng cao (Linux) |
+| **none**             | Không network        | -     | Cô lập hoàn toàn      |
+| **Compose default**  | Custom bridge tự tạo | Co    | Multi-container       |

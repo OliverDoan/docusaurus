@@ -9,9 +9,6 @@ Docker Image là nền tảng của mọi thứ trong Docker. Hiểu rõ Image s
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Image — Bản thiết kế của Container](#1-image-bản-thiết-kế-của-container)
@@ -35,14 +32,14 @@ Docker Image = OS cơ bản + Runtime + Libraries + Code + Config
 
 ### So sánh dễ hiểu
 
-| Thế giới thực | Docker |
-|---------------|--------|
-| File ISO cài Windows | Docker Image |
+| Thế giới thực          | Docker           |
+| ---------------------- | ---------------- |
+| File ISO cài Windows   | Docker Image     |
 | Máy tính đã cài từ ISO | Docker Container |
-| Khuôn bánh | Image |
-| Chiếc bánh | Container |
-| Class trong OOP | Image |
-| Object (instance) | Container |
+| Khuôn bánh             | Image            |
+| Chiếc bánh             | Container        |
+| Class trong OOP        | Image            |
+| Object (instance)      | Container        |
 
 ### Đặc điểm quan trọng
 
@@ -276,11 +273,11 @@ docker system df
 
 ## Tổng kết
 
-| Khái niệm | Giải thích |
-|-----------|-----------|
-| **Image** | Gói read-only chứa OS + runtime + code |
-| **Layer** | Mỗi lệnh Dockerfile tạo 1 layer |
-| **Tag** | Nhãn version cho image (`node:20-alpine`) |
-| **Dangling** | Image không có tag (`<none>`) |
-| **Image ID** | SHA256 hash duy nhất cho mỗi image |
-| **Digest** | Hash trên Registry, đảm bảo tính toàn vẹn |
+| Khái niệm    | Giải thích                                |
+| ------------ | ----------------------------------------- |
+| **Image**    | Gói read-only chứa OS + runtime + code    |
+| **Layer**    | Mỗi lệnh Dockerfile tạo 1 layer           |
+| **Tag**      | Nhãn version cho image (`node:20-alpine`) |
+| **Dangling** | Image không có tag (`<none>`)             |
+| **Image ID** | SHA256 hash duy nhất cho mỗi image        |
+| **Digest**   | Hash trên Registry, đảm bảo tính toàn vẹn |

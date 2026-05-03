@@ -19,9 +19,6 @@ Nếu có, chúc mừng bạn — bạn đang "quản lý phiên bản" bằng t
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Version Control System (VCS) là gì?](#1-version-control-system-vcs-là-gì)
@@ -60,13 +57,13 @@ git checkout abc1234
 
 VCS không chỉ dùng cho lập trình. Bất kỳ ai làm việc với file thay đổi theo thời gian đều cần:
 
-| Lĩnh vực | Dùng VCS để làm gì |
-|----------|-------------------|
-| Developer | Quản lý source code, làm việc nhóm |
-| Designer | Theo dõi thay đổi file thiết kế |
-| Data Scientist | Version data pipelines, notebooks |
-| DevOps | Quản lý infrastructure as code |
-| Technical Writer | Theo dõi thay đổi tài liệu |
+| Lĩnh vực         | Dùng VCS để làm gì                 |
+| ---------------- | ---------------------------------- |
+| Developer        | Quản lý source code, làm việc nhóm |
+| Designer         | Theo dõi thay đổi file thiết kế    |
+| Data Scientist   | Version data pipelines, notebooks  |
+| DevOps           | Quản lý infrastructure as code     |
+| Technical Writer | Theo dõi thay đổi tài liệu         |
 
 ---
 
@@ -177,16 +174,16 @@ Thời gian:  1990      2000      2005      Hiện tại
 
 ### Bảng so sánh chi tiết
 
-| Tiêu chí | Centralized (SVN) | Distributed (Git) |
-|----------|-------------------|-------------------|
-| Nơi lưu lịch sử | Chỉ trên server | Mỗi máy đều có full history |
-| Làm việc offline | Không thể | Hoàn toàn được |
-| Tốc độ commit | Chậm (qua mạng) | Cực nhanh (local) |
-| Branching | Chậm, nặng nề | Nhanh, nhẹ |
-| Single point of failure | Có (server) | Không |
-| Backup tự nhiên | Không | Có (mỗi clone là 1 backup) |
-| Học sử dụng | Dễ hơn | Khó hơn một chút |
-| Phù hợp | Team nhỏ, dự án đơn giản | Mọi quy mô dự án |
+| Tiêu chí                | Centralized (SVN)        | Distributed (Git)           |
+| ----------------------- | ------------------------ | --------------------------- |
+| Nơi lưu lịch sử         | Chỉ trên server          | Mỗi máy đều có full history |
+| Làm việc offline        | Không thể                | Hoàn toàn được              |
+| Tốc độ commit           | Chậm (qua mạng)          | Cực nhanh (local)           |
+| Branching               | Chậm, nặng nề            | Nhanh, nhẹ                  |
+| Single point of failure | Có (server)              | Không                       |
+| Backup tự nhiên         | Không                    | Có (mỗi clone là 1 backup)  |
+| Học sử dụng             | Dễ hơn                   | Khó hơn một chút            |
+| Phù hợp                 | Team nhỏ, dự án đơn giản | Mọi quy mô dự án            |
 
 ---
 
@@ -229,16 +226,16 @@ git diff                      # OK — so sánh thay đổi
 
 ### Bảng so sánh tổng hợp
 
-| Tiêu chí | SVN | Git |
-|----------|-----|-----|
-| Mô hình | Centralized | Distributed |
-| Tốc độ | Chậm (mạng) | Nhanh (local) |
-| Branch | Nặng, copy thư mục | Nhẹ, chỉ là pointer |
-| Merge | Khó, hay conflict | Thông minh hơn |
-| Offline | Rất hạn chế | Đầy đủ |
-| Học | Dễ hơn | Khó hơn ban đầu |
-| Disk | Ít hơn (chỉ có latest) | Nhiều hơn (full history) |
-| Phục hồi | Phụ thuộc server | Mỗi clone là backup |
+| Tiêu chí | SVN                    | Git                      |
+| -------- | ---------------------- | ------------------------ |
+| Mô hình  | Centralized            | Distributed              |
+| Tốc độ   | Chậm (mạng)            | Nhanh (local)            |
+| Branch   | Nặng, copy thư mục     | Nhẹ, chỉ là pointer      |
+| Merge    | Khó, hay conflict      | Thông minh hơn           |
+| Offline  | Rất hạn chế            | Đầy đủ                   |
+| Học      | Dễ hơn                 | Khó hơn ban đầu          |
+| Disk     | Ít hơn (chỉ có latest) | Nhiều hơn (full history) |
+| Phục hồi | Phụ thuộc server       | Mỗi clone là backup      |
 
 ---
 
@@ -247,6 +244,7 @@ git diff                      # OK — so sánh thay đổi
 ### 5.1 Tốc độ vượt trội
 
 Git làm hầu hết mọi thứ trên máy local, nên:
+
 - **Commit:** tức thì
 - **Xem log:** tức thì
 - **Tạo branch:** tức thì
@@ -322,12 +320,12 @@ Git là phần mềm **miễn phí**, **mã nguồn mở**, phát triển bởi 
 
 ### Các dịch vụ tương tự GitHub
 
-| Dịch vụ | Đặc điểm |
-|---------|----------|
-| **GitHub** | Phổ biến nhất, cộng đồng lớn, GitHub Actions |
-| **GitLab** | Self-hosted, CI/CD tích hợp, DevOps platform |
-| **Bitbucket** | Tích hợp Jira/Atlassian, free private repos |
-| **Azure DevOps** | Tích hợp hệ sinh thái Microsoft |
+| Dịch vụ          | Đặc điểm                                     |
+| ---------------- | -------------------------------------------- |
+| **GitHub**       | Phổ biến nhất, cộng đồng lớn, GitHub Actions |
+| **GitLab**       | Self-hosted, CI/CD tích hợp, DevOps platform |
+| **Bitbucket**    | Tích hợp Jira/Atlassian, free private repos  |
+| **Azure DevOps** | Tích hợp hệ sinh thái Microsoft              |
 
 **Lưu ý:** Bạn có thể dùng Git mà **không cần bất kỳ dịch vụ nào** ở trên. Git hoạt động hoàn toàn trên máy local của bạn.
 
@@ -346,16 +344,16 @@ Không biết Git = Không đi làm được.
 
 ### Các vai trò khác
 
-| Vai trò | Tại sao cần Git |
-|---------|-----------------|
-| **Frontend Dev** | Quản lý code React/Vue/Angular, làm việc nhóm |
-| **Backend Dev** | Quản lý API code, database migrations |
-| **DevOps** | Infrastructure as Code (Terraform, K8s) |
-| **Data Scientist** | Version notebooks, data pipelines |
-| **Mobile Dev** | Quản lý code iOS/Android |
-| **Designer** | Version design tokens, design systems |
-| **Technical Writer** | Quản lý documentation (như trang này!) |
-| **QA Engineer** | Quản lý test scripts, test data |
+| Vai trò              | Tại sao cần Git                               |
+| -------------------- | --------------------------------------------- |
+| **Frontend Dev**     | Quản lý code React/Vue/Angular, làm việc nhóm |
+| **Backend Dev**      | Quản lý API code, database migrations         |
+| **DevOps**           | Infrastructure as Code (Terraform, K8s)       |
+| **Data Scientist**   | Version notebooks, data pipelines             |
+| **Mobile Dev**       | Quản lý code iOS/Android                      |
+| **Designer**         | Version design tokens, design systems         |
+| **Technical Writer** | Quản lý documentation (như trang này!)        |
+| **QA Engineer**      | Quản lý test scripts, test data               |
 
 ---
 
@@ -423,6 +421,7 @@ Nhiều người học lập trình 6 tháng rồi mới bắt đầu học Git.
 ### Lỗi 4: Chỉ dùng GUI mà không hiểu CLI
 
 GUI tools (VS Code Git, Sourcetree, GitKraken) rất tiện, nhưng:
+
 - Không giúp bạn hiểu bản chất
 - Khi gặp lỗi, bạn không biết sửa
 - Phỏng vấn lúc nào cũng hỏi lệnh Git
@@ -465,19 +464,19 @@ GUI tools (VS Code Git, Sourcetree, GitKraken) rất tiện, nhưng:
 > - **Mercurial:** Distributed như Git, cú pháp dễ hơn nhưng ít phổ biến hơn.
 > - **Perforce:** Centralized, mạnh về file lớn (game development, media).
 > - **CVS:** Thế hệ đầu của centralized VCS, hiện đã lỗi thời.
-> Git thống trị nhờ tốc độ, branching mạnh, cộng đồng lớn, và sự tích hợp với GitHub/GitLab.
+>   Git thống trị nhờ tốc độ, branching mạnh, cộng đồng lớn, và sự tích hợp với GitHub/GitLab.
 
 ---
 
 ## Tổng kết
 
-| Khái niệm | Ghi nhớ |
-|-----------|---------|
-| VCS | Hệ thống theo dõi thay đổi theo thời gian |
-| Git | Distributed VCS, nhanh, mạnh, miễn phí |
-| GitHub | Dịch vụ web lưu trữ Git repo (không phải Git) |
-| Centralized | 1 server, client chỉ có bản mới nhất |
-| Distributed | Mỗi máy có full repo + lịch sử |
-| Snapshot | Git lưu ảnh chụp, không phải diff |
+| Khái niệm   | Ghi nhớ                                       |
+| ----------- | --------------------------------------------- |
+| VCS         | Hệ thống theo dõi thay đổi theo thời gian     |
+| Git         | Distributed VCS, nhanh, mạnh, miễn phí        |
+| GitHub      | Dịch vụ web lưu trữ Git repo (không phải Git) |
+| Centralized | 1 server, client chỉ có bản mới nhất          |
+| Distributed | Mỗi máy có full repo + lịch sử                |
+| Snapshot    | Git lưu ảnh chụp, không phải diff             |
 
 **Bước tiếp theo:** Cài đặt Git trên máy và cấu hình cơ bản.

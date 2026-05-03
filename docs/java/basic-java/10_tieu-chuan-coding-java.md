@@ -11,9 +11,6 @@ Hãy hình dung coding standards giống như **quy tắc chính tả và ngữ 
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Nội dung](#nội-dung)
@@ -119,14 +116,14 @@ package com.example.student_manager;  // Không dùng gạch dưới
 
 ### Bảng tổng hợp
 
-| Thành phần | Quy tắc | Ví dụ |
-|-----------|---------|-------|
-| Class, Interface, Enum | PascalCase | `StudentManager`, `Serializable` |
-| Method | camelCase, bắt đầu bằng động từ | `calculateTotal()`, `getName()` |
-| Variable | camelCase, danh từ | `studentAge`, `firstName` |
-| Constant (`static final`) | UPPER_SNAKE_CASE | `MAX_SIZE`, `BASE_URL` |
-| Package | lowercase | `com.example.project` |
-| Enum values | UPPER_SNAKE_CASE | `PENDING`, `IN_PROGRESS` |
+| Thành phần                | Quy tắc                         | Ví dụ                            |
+| ------------------------- | ------------------------------- | -------------------------------- |
+| Class, Interface, Enum    | PascalCase                      | `StudentManager`, `Serializable` |
+| Method                    | camelCase, bắt đầu bằng động từ | `calculateTotal()`, `getName()`  |
+| Variable                  | camelCase, danh từ              | `studentAge`, `firstName`        |
+| Constant (`static final`) | UPPER_SNAKE_CASE                | `MAX_SIZE`, `BASE_URL`           |
+| Package                   | lowercase                       | `com.example.project`            |
+| Enum values               | UPPER_SNAKE_CASE                | `PENDING`, `IN_PROGRESS`         |
 
 ---
 
@@ -443,15 +440,16 @@ if (age > LEGAL_AGE) {
 
 **Luôn luôn!** Coding standards nên được áp dụng **từ dòng code đầu tiên** của dự án.
 
-| Tình huống | Áp dụng gì |
-|-----------|-----------|
-| Bắt đầu dự án mới | Thống nhất coding standards với team từ đầu |
-| Viết code hàng ngày | Naming conventions, indentation, clean code |
-| Viết class/method public | Javadoc comment |
-| Code review | Kiểm tra theo coding standards |
-| Dự án cá nhân | Vẫn nên tuân thủ, tạo thói quen tốt |
+| Tình huống               | Áp dụng gì                                  |
+| ------------------------ | ------------------------------------------- |
+| Bắt đầu dự án mới        | Thống nhất coding standards với team từ đầu |
+| Viết code hàng ngày      | Naming conventions, indentation, clean code |
+| Viết class/method public | Javadoc comment                             |
+| Code review              | Kiểm tra theo coding standards              |
+| Dự án cá nhân            | Vẫn nên tuân thủ, tạo thói quen tốt         |
 
 **Best practices**:
+
 - Dùng **IDE formatter** (IntelliJ, Eclipse) để tự động format code.
 - Dùng **Checkstyle**, **SonarQube** để kiểm tra coding standards tự động.
 - Thống nhất coding standards trong file **CONTRIBUTING.md** hoặc **code style config** của dự án.
@@ -547,12 +545,12 @@ import java.io.IOException;
 
 **A**:
 
-| Convention | Áp dụng cho | Ví dụ |
-|-----------|-----------|-------|
-| **PascalCase** | Class, Interface, Enum, Annotation | `StudentService`, `Comparable` |
-| **camelCase** | Method, variable, parameter | `calculateTotal()`, `studentAge` |
-| **UPPER_SNAKE_CASE** | Constant (`static final`), Enum value | `MAX_SIZE`, `HTTP_OK` |
-| **lowercase** | Package | `com.example.service` |
+| Convention           | Áp dụng cho                           | Ví dụ                            |
+| -------------------- | ------------------------------------- | -------------------------------- |
+| **PascalCase**       | Class, Interface, Enum, Annotation    | `StudentService`, `Comparable`   |
+| **camelCase**        | Method, variable, parameter           | `calculateTotal()`, `studentAge` |
+| **UPPER_SNAKE_CASE** | Constant (`static final`), Enum value | `MAX_SIZE`, `HTTP_OK`            |
+| **lowercase**        | Package                               | `com.example.service`            |
 
 ---
 
@@ -561,6 +559,7 @@ import java.io.IOException;
 **A**: Javadoc comment bắt đầu bằng `/**` và kết thúc bằng `*/`. Nó được Java tool `javadoc` sử dụng để **tự động tạo tài liệu API** dạng HTML.
 
 Nên dùng Javadoc cho:
+
 - Mọi class, interface public.
 - Mọi method public và protected.
 - Các field public quan trọng.

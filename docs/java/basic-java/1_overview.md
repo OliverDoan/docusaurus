@@ -9,9 +9,6 @@ Java là một trong những ngôn ngữ lập trình phổ biến nhất thế 
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Java là gì?](#1-java-là-gì)
@@ -44,13 +41,13 @@ Chương trình này in ra màn hình dòng chữ `Xin chao, toi la Java!`. Đâ
 
 ## 2. Lịch sử hình thành
 
-| Mốc thời gian | Sự kiện |
-|---------------|---------|
-| **1991** | **James Gosling** và nhóm kỹ sư tại **Sun Microsystems** bắt đầu phát triển. Tên ban đầu là **Oak** |
-| **1995** | Đổi tên thành **Java**, phát hành phiên bản đầu tiên |
-| **2006** | Sun Microsystems phát hành Java dưới giấy phép mã nguồn mở |
-| **2010** | **Oracle** mua lại Sun Microsystems, Java thuộc về Oracle |
-| **Hiện nay** | Java liên tục cập nhật (6 tháng/phiên bản), phiên bản mới nhất là Java 21+ (LTS) |
+| Mốc thời gian | Sự kiện                                                                                             |
+| ------------- | --------------------------------------------------------------------------------------------------- |
+| **1991**      | **James Gosling** và nhóm kỹ sư tại **Sun Microsystems** bắt đầu phát triển. Tên ban đầu là **Oak** |
+| **1995**      | Đổi tên thành **Java**, phát hành phiên bản đầu tiên                                                |
+| **2006**      | Sun Microsystems phát hành Java dưới giấy phép mã nguồn mở                                          |
+| **2010**      | **Oracle** mua lại Sun Microsystems, Java thuộc về Oracle                                           |
+| **Hiện nay**  | Java liên tục cập nhật (6 tháng/phiên bản), phiên bản mới nhất là Java 21+ (LTS)                    |
 
 ---
 
@@ -156,11 +153,11 @@ public class MultiThreadDemo {
 
 ## 4. Các nền tảng Java
 
-| Nền tảng | Tên đầy đủ | Mục đích |
-|----------|-----------|----------|
-| **Java SE** | Standard Edition | Ứng dụng desktop, console, thư viện core |
+| Nền tảng    | Tên đầy đủ                             | Mục đích                                           |
+| ----------- | -------------------------------------- | -------------------------------------------------- |
+| **Java SE** | Standard Edition                       | Ứng dụng desktop, console, thư viện core           |
 | **Java EE** | Enterprise Edition (nay là Jakarta EE) | Web, Microservices, Enterprise (Servlet, JPA, EJB) |
-| **Java ME** | Micro Edition | Thiết bị nhúng, IoT, điện thoại đời cũ |
+| **Java ME** | Micro Edition                          | Thiết bị nhúng, IoT, điện thoại đời cũ             |
 
 ---
 
@@ -197,14 +194,14 @@ java HelloWorld         # Buoc 3-4: JVM thuc thi
 
 ## 6. Ứng dụng thực tế của Java
 
-| Lĩnh vực | Ví dụ cụ thể |
-|----------|-------------|
-| **Android** | Phần lớn ứng dụng Android được viết bằng Java (hoặc Kotlin trên nền JVM) |
-| **Web Backend** | Spring Boot, Spring MVC -- dùng trong ngân hàng, thương mại điện tử |
-| **Big Data** | Apache Hadoop, Apache Spark đều viết bằng Java |
-| **Enterprise** | Hệ thống ERP, CRM của các tập đoàn lớn |
-| **Game** | Minecraft được viết bằng Java |
-| **IoT** | Thiết bị nhúng, smart home |
+| Lĩnh vực        | Ví dụ cụ thể                                                             |
+| --------------- | ------------------------------------------------------------------------ |
+| **Android**     | Phần lớn ứng dụng Android được viết bằng Java (hoặc Kotlin trên nền JVM) |
+| **Web Backend** | Spring Boot, Spring MVC -- dùng trong ngân hàng, thương mại điện tử      |
+| **Big Data**    | Apache Hadoop, Apache Spark đều viết bằng Java                           |
+| **Enterprise**  | Hệ thống ERP, CRM của các tập đoàn lớn                                   |
+| **Game**        | Minecraft được viết bằng Java                                            |
+| **IoT**         | Thiết bị nhúng, smart home                                               |
 
 ---
 
@@ -264,6 +261,7 @@ java HelloWorld         # Buoc 3-4: JVM thuc thi
 ### Câu 5: Sự khác biệt giữa JDK, JRE và JVM?
 
 **Trả lời:**
+
 - **JVM** (Java Virtual Machine): Máy ảo thực thi bytecode
 - **JRE** (Java Runtime Environment): JVM + thư viện chuẩn, dùng để **chạy** chương trình Java
 - **JDK** (Java Development Kit): JRE + công cụ phát triển (javac, jar, javadoc...), dùng để **phát triển** Java

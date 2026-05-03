@@ -9,9 +9,6 @@ Chạy Docker trong production khác rất nhiều so với development. Bài n�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Development vs Production](#1-development-vs-production)
@@ -29,16 +26,16 @@ Chạy Docker trong production khác rất nhiều so với development. Bài n�
 
 ## 1. Development vs Production
 
-| Yếu tố | Development | Production |
-|---------|------------|-----------|
-| **Dockerfile** | Cài devDependencies | Chỉ production dependencies |
-| **Source code** | Bind mount (hot reload) | COPY vào image |
-| **Debug** | Port debug mở | Đóng hết |
-| **Logging** | stdout đủ | Structured logging, log driver |
-| **Restart** | Manual | Auto-restart |
-| **Health check** | Tuỳ chọn | Bắt buộc |
-| **Security** | Chạy root OK | Non-root bắt buộc |
-| **Resources** | Không giới hạn | Giới hạn CPU/RAM |
+| Yếu tố           | Development             | Production                     |
+| ---------------- | ----------------------- | ------------------------------ |
+| **Dockerfile**   | Cài devDependencies     | Chỉ production dependencies    |
+| **Source code**  | Bind mount (hot reload) | COPY vào image                 |
+| **Debug**        | Port debug mở           | Đóng hết                       |
+| **Logging**      | stdout đủ               | Structured logging, log driver |
+| **Restart**      | Manual                  | Auto-restart                   |
+| **Health check** | Tuỳ chọn                | Bắt buộc                       |
+| **Security**     | Chạy root OK            | Non-root bắt buộc              |
+| **Resources**    | Không giới hạn          | Giới hạn CPU/RAM               |
 
 ---
 
@@ -172,9 +169,9 @@ services:
     logging:
       driver: "json-file"
       options:
-        max-size: "10m"   # Mỗi file log tối đa 10MB
-        max-file: "5"     # Giữ tối đa 5 file
-        compress: "true"  # Nén file cũ
+        max-size: "10m" # Mỗi file log tối đa 10MB
+        max-file: "5" # Giữ tối đa 5 file
+        compress: "true" # Nén file cũ
 ```
 
 ### Structured Logging
@@ -183,15 +180,17 @@ services:
 
 ```javascript
 // Thay vì
-console.log('User logged in: john');
+console.log("User logged in: john");
 
 // Dùng structured logging
-console.log(JSON.stringify({
-  level: 'info',
-  event: 'user_login',
-  user: 'john',
-  timestamp: new Date().toISOString()
-}));
+console.log(
+  JSON.stringify({
+    level: "info",
+    event: "user_login",
+    user: "john",
+    timestamp: new Date().toISOString(),
+  }),
+);
 ```
 
 ---
@@ -208,19 +207,19 @@ console.log(JSON.stringify({
 
 ```javascript
 // /health endpoint
-app.get('/health', async (req, res) => {
+app.get("/health", async (req, res) => {
   try {
     // Kiểm tra database connection
-    await db.query('SELECT 1');
+    await db.query("SELECT 1");
 
     // Kiểm tra Redis connection
     await redis.ping();
 
-    res.status(200).json({ status: 'healthy' });
+    res.status(200).json({ status: "healthy" });
   } catch (error) {
     res.status(503).json({
-      status: 'unhealthy',
-      error: error.message
+      status: "unhealthy",
+      error: error.message,
     });
   }
 });
@@ -343,6 +342,7 @@ docker run --rm \
 Trước khi deploy lên production:
 
 ### Image
+
 - [ ] Multi-stage build (image nhỏ)
 - [ ] Non-root user
 - [ ] Specific image tags (không dùng `latest`)
@@ -350,23 +350,27 @@ Trước khi deploy lên production:
 - [ ] Scan vulnerabilities
 
 ### Container
+
 - [ ] Resource limits (CPU, Memory)
 - [ ] Health checks
 - [ ] Restart policy (`unless-stopped` hoặc `always`)
 - [ ] Log rotation (`max-size`, `max-file`)
 
 ### Data
+
 - [ ] Named volumes cho persistent data
 - [ ] Backup strategy
 - [ ] Không bind mount source code
 
 ### Security
+
 - [ ] Không hardcode secrets
 - [ ] Secrets qua env vars hoặc Docker secrets
 - [ ] Network isolation (frontend/backend)
 - [ ] Minimal base images (Alpine)
 
 ### Monitoring
+
 - [ ] Health check endpoints
 - [ ] Resource monitoring
 - [ ] Log aggregation
@@ -376,13 +380,13 @@ Trước khi deploy lên production:
 
 ## Tổng kết
 
-| Aspect | Recommendation |
-|--------|---------------|
+| Aspect         | Recommendation                       |
+| -------------- | ------------------------------------ |
 | **Dockerfile** | Multi-stage, non-root, specific tags |
-| **Resources** | Always set limits |
-| **Health** | Always add health checks |
-| **Restart** | `unless-stopped` or `always` |
-| **Logging** | JSON driver + rotation |
-| **Secrets** | Env vars, never hardcode |
-| **Backup** | Automated daily backups |
-| **Deploy** | Pull + Up, or Blue-Green |
+| **Resources**  | Always set limits                    |
+| **Health**     | Always add health checks             |
+| **Restart**    | `unless-stopped` or `always`         |
+| **Logging**    | JSON driver + rotation               |
+| **Secrets**    | Env vars, never hardcode             |
+| **Backup**     | Automated daily backups              |
+| **Deploy**     | Pull + Up, or Blue-Green             |

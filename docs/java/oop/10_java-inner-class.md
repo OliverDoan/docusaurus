@@ -9,9 +9,6 @@ Hãy tưởng tượng một chiếc **xe hơi** (outer class) có **động cơ
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Inner Class là gì?](#1-inner-class-là-gì)
@@ -30,12 +27,12 @@ Hãy tưởng tượng một chiếc **xe hơi** (outer class) có **động cơ
 
 Inner class là class được khai báo **bên trong** một class khác. Java hỗ trợ 4 loại inner class:
 
-| Loại | Vị trí khai báo | Truy cập outer | Static? |
-|---|---|---|---|
-| **Member Inner Class** | Trong body của outer class | Có (mọi member) | Không |
-| **Static Nested Class** | Trong body, có `static` | Chỉ static members | Có |
-| **Local Inner Class** | Trong method | Có + local variables (effectively final) | Không |
-| **Anonymous Inner Class** | Trong expression | Có + local variables (effectively final) | Không |
+| Loại                      | Vị trí khai báo            | Truy cập outer                           | Static? |
+| ------------------------- | -------------------------- | ---------------------------------------- | ------- |
+| **Member Inner Class**    | Trong body của outer class | Có (mọi member)                          | Không   |
+| **Static Nested Class**   | Trong body, có `static`    | Chỉ static members                       | Có      |
+| **Local Inner Class**     | Trong method               | Có + local variables (effectively final) | Không   |
+| **Anonymous Inner Class** | Trong expression           | Có + local variables (effectively final) | Không   |
 
 ### Tại sao dùng inner class?
 
@@ -317,28 +314,28 @@ Runnable r2 = () -> System.out.println("Hello");
 
 ### Khi nào dùng Lambda, khi nào dùng Anonymous Class?
 
-| Tiêu chí | Lambda | Anonymous Class |
-|---|---|---|
-| **Functional interface** (1 method) | Dùng Lambda | Cũng được, nhưng dài hơn |
-| **Interface có nhiều methods** | Không dùng được | Dùng anonymous class |
+| Tiêu chí                              | Lambda                                | Anonymous Class                       |
+| ------------------------------------- | ------------------------------------- | ------------------------------------- |
+| **Functional interface** (1 method)   | Dùng Lambda                           | Cũng được, nhưng dài hơn              |
+| **Interface có nhiều methods**        | Không dùng được                       | Dùng anonymous class                  |
 | **Cần truy cập `this` của anonymous** | Không (`this` trỏ về enclosing class) | Có (`this` trỏ về anonymous instance) |
-| **Extend abstract class** | Không dùng được | Dùng anonymous class |
-| **Code phức tạp (nhiều dòng)** | Nên dùng named class | Dùng được nhưng khó đọc |
+| **Extend abstract class**             | Không dùng được                       | Dùng anonymous class                  |
+| **Code phức tạp (nhiều dòng)**        | Nên dùng named class                  | Dùng được nhưng khó đọc               |
 
 ---
 
 ## 7. So sánh 4 loại Inner Class
 
-| Tiêu chí | Member Inner | Static Nested | Local Inner | Anonymous |
-|---|---|---|---|---|
-| **Vị trí** | Trong class | Trong class | Trong method | Trong expression |
-| **Có `static`?** | Không | Có | Không | Không |
-| **Cần outer instance?** | Có | Không | Có (ngầm) | Có (ngầm) |
-| **Truy cập outer members** | Tất cả | Chỉ static | Tất cả | Tất cả |
-| **Truy cập local vars** | N/A | N/A | Effectively final | Effectively final |
-| **Có tên?** | Có | Có | Có | Không |
-| **Tạo nhiều instance?** | Có | Có | Có | Thường chỉ 1 |
-| **Dùng phổ biến** | Ít | Builder, Entry | Rất ít | Rất phổ biến |
+| Tiêu chí                   | Member Inner | Static Nested  | Local Inner       | Anonymous         |
+| -------------------------- | ------------ | -------------- | ----------------- | ----------------- |
+| **Vị trí**                 | Trong class  | Trong class    | Trong method      | Trong expression  |
+| **Có `static`?**           | Không        | Có             | Không             | Không             |
+| **Cần outer instance?**    | Có           | Không          | Có (ngầm)         | Có (ngầm)         |
+| **Truy cập outer members** | Tất cả       | Chỉ static     | Tất cả            | Tất cả            |
+| **Truy cập local vars**    | N/A          | N/A            | Effectively final | Effectively final |
+| **Có tên?**                | Có           | Có             | Có                | Không             |
+| **Tạo nhiều instance?**    | Có           | Có             | Có                | Thường chỉ 1      |
+| **Dùng phổ biến**          | Ít           | Builder, Entry | Rất ít            | Rất phổ biến      |
 
 ---
 

@@ -9,9 +9,6 @@ TypeScript type system là thứ khiến ngôn ngữ này trở nên mạnh mẽ
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: Union types và intersection types khác nhau thế nào? `[Intermediate]`](#câu-1-union-types-và-intersection-types-khác-nhau-thế-nào-intermediate)
@@ -33,6 +30,7 @@ TypeScript type system là thứ khiến ngôn ngữ này trở nên mạnh mẽ
 **Intersection type** (`A & B`) có nghĩa là giá trị phải thỏa mãn **cả** type A **và** type B cùng lúc. Bạn được truy cập tất cả property của cả hai type.
 
 Cách nhớ đơn giản:
+
 - Union = "hoặc" (OR) -- mở rộng tập hợp giá trị
 - Intersection = "và" (AND) -- thu hẹp tập hợp giá trị (nhưng mở rộng tập hợp property)
 
@@ -75,20 +73,20 @@ type Serializable = {
 type LogAndSerialize = Loggable & Serializable;
 
 function process(item: LogAndSerialize) {
-  item.log();              // OK -- từ Loggable
-  item.serialize();        // OK -- từ Serializable
+  item.log(); // OK -- từ Loggable
+  item.serialize(); // OK -- từ Serializable
 }
 ```
 
 ### Bảng so sánh
 
-| Tiêu chí | Union (`A \| B`) | Intersection (`A & B`) |
-|----------|-----------------|----------------------|
-| Ý nghĩa | A hoặc B | A và B cùng lúc |
-| Tập giá trị | Mở rộng (nhiều giá trị hơn) | Thu hẹp (ít giá trị hơn) |
-| Property truy cập | Chỉ property chung | Tất cả property |
-| Ứng dụng thường gặp | Function nhận nhiều kiểu | Mixin, compose types |
-| Tương tự logic | OR | AND |
+| Tiêu chí            | Union (`A \| B`)            | Intersection (`A & B`)   |
+| ------------------- | --------------------------- | ------------------------ |
+| Ý nghĩa             | A hoặc B                    | A và B cùng lúc          |
+| Tập giá trị         | Mở rộng (nhiều giá trị hơn) | Thu hẹp (ít giá trị hơn) |
+| Property truy cập   | Chỉ property chung          | Tất cả property          |
+| Ứng dụng thường gặp | Function nhận nhiều kiểu    | Mixin, compose types     |
+| Tương tự logic      | OR                          | AND                      |
 
 ### Đáp án mẫu
 
@@ -116,8 +114,8 @@ function move(direction: Direction) {
   console.log(`Moving ${direction}`);
 }
 
-move("up");      // OK
-move("down");    // OK
+move("up"); // OK
+move("down"); // OK
 // move("diagonal"); // Error: không phải literal hợp lệ
 
 // === TYPE NARROWING ===
@@ -196,11 +194,11 @@ type UserType = {
 // type UserType = { email: string }; // Error: Duplicate identifier
 
 // Nhưng type alias làm được nhiều thứ mà interface không thể:
-type ID = string | number;                    // Union
-type Pair = [string, number];                  // Tuple
-type Callback = (data: string) => void;        // Function type
-type Keys = keyof User;                        // Utility
-type Nullable<T> = T | null;                   // Generic utility
+type ID = string | number; // Union
+type Pair = [string, number]; // Tuple
+type Callback = (data: string) => void; // Function type
+type Keys = keyof User; // Utility
+type Nullable<T> = T | null; // Generic utility
 
 // Intersection (tương tự extends nhưng linh hoạt hơn)
 type AdminType = UserType & { role: "admin" };
@@ -208,18 +206,18 @@ type AdminType = UserType & { role: "admin" };
 
 ### Bảng so sánh chi tiết
 
-| Tiêu chí | Interface | Type Alias |
-|----------|-----------|------------|
-| Object shape | Có | Có |
-| Union types | Không | Có |
-| Tuple types | Không | Có |
-| Primitive types | Không | Có |
-| Declaration merging | Có | Không |
-| extends keyword | Có | Dùng intersection (`&`) |
-| implements (class) | Có | Có (với object types) |
-| Computed properties | Không | Có |
-| Conditional types | Không | Có |
-| Performance (compile) | Nhanh hơn chút | Tương đương |
+| Tiêu chí              | Interface      | Type Alias              |
+| --------------------- | -------------- | ----------------------- |
+| Object shape          | Có             | Có                      |
+| Union types           | Không          | Có                      |
+| Tuple types           | Không          | Có                      |
+| Primitive types       | Không          | Có                      |
+| Declaration merging   | Có             | Không                   |
+| extends keyword       | Có             | Dùng intersection (`&`) |
+| implements (class)    | Có             | Có (với object types)   |
+| Computed properties   | Không          | Có                      |
+| Conditional types     | Không          | Có                      |
+| Performance (compile) | Nhanh hơn chút | Tương đương             |
 
 ### Đáp án mẫu
 
@@ -256,8 +254,8 @@ enum Direction {
 // })(Direction || (Direction = {}));
 
 // Dùng như object tại runtime
-console.log(Direction.Up);        // "UP"
-console.log(Direction["Up"]);     // "UP"
+console.log(Direction.Up); // "UP"
+console.log(Direction["Up"]); // "UP"
 
 // === CONST ENUM (inline, không tạo JS object) ===
 const enum Status {
@@ -277,22 +275,22 @@ function paint(color: Color) {
   // Không tạo bất kỳ JS code nào cho Color type
 }
 
-paint("red");   // OK
+paint("red"); // OK
 // paint("yellow"); // Error tại compile time
 ```
 
 ### Bảng so sánh
 
-| Tiêu chí | Enum | Const Enum | Union Literal |
-|----------|------|------------|---------------|
-| Runtime JS code | Có (object) | Không (inline) | Không |
-| Bundle size | Tăng | Không tăng | Không tăng |
-| Reverse mapping | Có (numeric) | Không | Không |
-| Iterate được | Có (`Object.values`) | Không | Không |
-| Dùng làm value | Có | Có | Có |
-| Type safety | Tốt | Tốt | Tốt |
-| Tree-shakeable | Khó | Tự động | Tự động |
-| Khuyến nghị | Library APIs | Tránh dùng | Ưu tiên dùng |
+| Tiêu chí        | Enum                 | Const Enum     | Union Literal |
+| --------------- | -------------------- | -------------- | ------------- |
+| Runtime JS code | Có (object)          | Không (inline) | Không         |
+| Bundle size     | Tăng                 | Không tăng     | Không tăng    |
+| Reverse mapping | Có (numeric)         | Không          | Không         |
+| Iterate được    | Có (`Object.values`) | Không          | Không         |
+| Dùng làm value  | Có                   | Có             | Có            |
+| Type safety     | Tốt                  | Tốt            | Tốt           |
+| Tree-shakeable  | Khó                  | Tự động        | Tự động       |
+| Khuyến nghị     | Library APIs         | Tránh dùng     | Ưu tiên dùng  |
 
 ### Đáp án mẫu
 
@@ -369,14 +367,14 @@ function getArea(shape: Shape): number {
 
 ### Bảng so sánh
 
-| Tiêu chí | `any` | `unknown` | `never` |
-|----------|-------|-----------|---------|
-| Cho phép mọi giá trị | Có | Có | Không |
-| Truy cập property | Có (không check) | Không (phải check) | Không thể |
-| Gán cho type khác | Có | Không (phải check) | Có (subtype mọi type) |
-| Type safety | Không | Có | Có |
-| Vị trí trong type system | Thoát khỏi system | Top type | Bottom type |
-| Khi nào dùng | Migration JS, escape hatch | Input không biết type | Exhaustive check, throw |
+| Tiêu chí                 | `any`                      | `unknown`             | `never`                 |
+| ------------------------ | -------------------------- | --------------------- | ----------------------- |
+| Cho phép mọi giá trị     | Có                         | Có                    | Không                   |
+| Truy cập property        | Có (không check)           | Không (phải check)    | Không thể               |
+| Gán cho type khác        | Có                         | Không (phải check)    | Có (subtype mọi type)   |
+| Type safety              | Không                      | Có                    | Có                      |
+| Vị trí trong type system | Thoát khỏi system          | Top type              | Bottom type             |
+| Khi nào dùng             | Migration JS, escape hatch | Input không biết type | Exhaustive check, throw |
 
 ### Đáp án mẫu
 
@@ -398,23 +396,23 @@ function getArea(shape: Shape): number {
 // === TYPE WIDENING ===
 
 // let --> widening
-let greeting = "hello";     // type: string (không phải "hello")
-greeting = "world";         // OK vì type là string
+let greeting = "hello"; // type: string (không phải "hello")
+greeting = "world"; // OK vì type là string
 
 // const --> không widening (literal type)
 const farewell = "goodbye"; // type: "goodbye" (literal type)
 
 // Object properties được widening
 const config = {
-  url: "https://api.com",   // type: string (không phải literal)
-  port: 3000,               // type: number
+  url: "https://api.com", // type: string (không phải literal)
+  port: 3000, // type: number
 };
 config.url = "https://other.com"; // OK
 
 // as const ngăn widening
 const strictConfig = {
-  url: "https://api.com",   // type: "https://api.com" (literal)
-  port: 3000,               // type: 3000 (literal)
+  url: "https://api.com", // type: "https://api.com" (literal)
+  port: 3000, // type: 3000 (literal)
 } as const;
 // strictConfig.url = "other"; // Error: readonly
 
@@ -452,7 +450,7 @@ function moveAnimal(animal: Fish | Bird) {
   if ("swim" in animal) {
     animal.swim(); // Narrowed: Fish
   } else {
-    animal.fly();  // Narrowed: Bird
+    animal.fly(); // Narrowed: Bird
   }
 }
 ```

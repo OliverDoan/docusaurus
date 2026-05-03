@@ -9,9 +9,6 @@ React patterns là những cách tổ chức code để **tái sử dụng logic
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: Higher-Order Components (HOC) -- pattern này hoạt động ra sao? Ưu và nhược điểm? `[Intermediate]`](#câu-1-higher-order-components-hoc-pattern-này-hoạt-động-ra-sao-ưu-và-nhược-điểm-intermediate)
@@ -36,11 +33,13 @@ React patterns là những cách tổ chức code để **tái sử dụng logic
 HOC phổ biến trong class component era (trước hooks). VD: `connect()` của Redux, `withRouter` của React Router, `withStyles` của Material UI.
 
 **Ưu điểm**:
+
 - Tái sử dụng logic giữa nhiều components
 - Không thay đổi component gốc (composition)
 - Có thể compose nhiều HOCs
 
 **Nhược điểm**:
+
 - "Wrapper hell" -- nhiều HOC chồng lên nhau
 - Props collision -- HOC và component có thể có props trùng tên
 - Khó debug -- không rõ props từ đâu đến
@@ -49,15 +48,11 @@ HOC phổ biến trong class component era (trước hooks). VD: `connect()` c�
 ### Code ví dụ
 
 ```tsx
-import { useState, useEffect, ComponentType } from 'react';
+import { useState, useEffect, ComponentType } from "react";
 
 // HOC: thêm loading state
-function withLoading<P extends object>(
-  WrappedComponent: ComponentType<P>
-) {
-  return function WithLoadingComponent(
-    props: P & { isLoading: boolean }
-  ) {
+function withLoading<P extends object>(WrappedComponent: ComponentType<P>) {
+  return function WithLoadingComponent(props: P & { isLoading: boolean }) {
     const { isLoading, ...rest } = props;
 
     if (isLoading) {
@@ -69,15 +64,13 @@ function withLoading<P extends object>(
 }
 
 // HOC: thêm authentication check
-function withAuth<P extends object>(
-  WrappedComponent: ComponentType<P>
-) {
+function withAuth<P extends object>(WrappedComponent: ComponentType<P>) {
   return function WithAuthComponent(props: P) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [checking, setChecking] = useState(true);
 
     useEffect(() => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       setIsAuthenticated(!!token);
       setChecking(false);
     }, []);
@@ -116,15 +109,18 @@ function App() {
 **Render Props** là pattern truyền một function làm prop, function này nhận data và trả về JSX. Component "chia sẻ logic" gọi function này để render UI.
 
 Có 2 dạng:
+
 1. **render prop**: `<Mouse render={(mouse) => <Cat position={mouse} />} />`
 2. **children as function**: `<Mouse>{(mouse) => <Cat position={mouse} />}</Mouse>`
 
 **Ưu điểm so với HOC**:
+
 - Không có wrapper hell (composition rõ ràng hơn)
 - Không có props collision
 - Linh hoạt hơn -- quyết định render tại nơi sử dụng
 
 **Nhược điểm**:
+
 - "Callback hell" nếu nhiều render props chồng nhau
 - Performance: inline function tạo mới mỗi render (có thể fix với useCallback)
 - Đã được thay thế phần lớn bởi custom hooks
@@ -132,7 +128,7 @@ Có 2 dạng:
 ### Code ví dụ
 
 ```tsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 // Render Props: chia sẻ mouse position logic
 interface MousePosition {
@@ -151,8 +147,8 @@ function MouseTracker({ children }: MouseTrackerProps) {
     const handleMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
     };
-    window.addEventListener('mousemove', handleMove);
-    return () => window.removeEventListener('mousemove', handleMove);
+    window.addEventListener("mousemove", handleMove);
+    return () => window.removeEventListener("mousemove", handleMove);
   }, []);
 
   return <>{children(position)}</>;
@@ -164,16 +160,18 @@ function App() {
     <MouseTracker>
       {(mouse) => (
         <div>
-          <p>Mouse: {mouse.x}, {mouse.y}</p>
+          <p>
+            Mouse: {mouse.x}, {mouse.y}
+          </p>
           <div
             style={{
-              position: 'absolute',
+              position: "absolute",
               left: mouse.x - 10,
               top: mouse.y - 10,
               width: 20,
               height: 20,
-              borderRadius: '50%',
-              background: 'red',
+              borderRadius: "50%",
+              background: "red",
             }}
           />
         </div>
@@ -217,7 +215,9 @@ function UserPage() {
         if (error) return <p>Error: {error.message}</p>;
         return (
           <ul>
-            {data?.map((u) => <li key={u.id}>{u.name}</li>)}
+            {data?.map((u) => (
+              <li key={u.id}>{u.name}</li>
+            ))}
           </ul>
         );
       }}
@@ -241,18 +241,20 @@ function UserPage() {
 Ví dụ thực tế: `<select>` và `<option>` -- chúng làm việc cùng nhau, `<select>` quản lý state, `<option>` hiển thị lựa chọn.
 
 **Dùng khi**:
+
 - Xây dựng UI library / design system
 - Components cần linh hoạt về layout nhưng chia sẻ logic
 - VD: Tabs, Accordion, Menu, Modal, Form...
 
 **2 cách implement**:
+
 1. **React.Children + cloneElement**: cách cũ, ít linh hoạt
 2. **Context API**: cách hiện đại, linh hoạt hơn
 
 ### Code ví dụ
 
 ```tsx
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from "react";
 
 // --- Compound Component: Tabs ---
 interface TabsContextType {
@@ -265,7 +267,7 @@ const TabsContext = createContext<TabsContextType | null>(null);
 function useTabsContext() {
   const context = useContext(TabsContext);
   if (!context) {
-    throw new Error('Tabs components must be used within <Tabs>');
+    throw new Error("Tabs components must be used within <Tabs>");
   }
   return context;
 }
@@ -289,18 +291,28 @@ function Tabs({
 
 // Sub-component: Tab list
 function TabList({ children }: { children: React.ReactNode }) {
-  return <div className="tab-list" role="tablist">{children}</div>;
+  return (
+    <div className="tab-list" role="tablist">
+      {children}
+    </div>
+  );
 }
 
 // Sub-component: Tab trigger
-function Tab({ value, children }: { value: string; children: React.ReactNode }) {
+function Tab({
+  value,
+  children,
+}: {
+  value: string;
+  children: React.ReactNode;
+}) {
   const { activeTab, setActiveTab } = useTabsContext();
 
   return (
     <button
       role="tab"
       aria-selected={activeTab === value}
-      className={activeTab === value ? 'tab active' : 'tab'}
+      className={activeTab === value ? "tab active" : "tab"}
       onClick={() => setActiveTab(value)}
     >
       {children}
@@ -389,7 +401,7 @@ Mọi pattern cũ (HOC, render props) đều có thể viết lại bằng custo
 ### Code ví dụ
 
 ```tsx
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 
 // --- Thay thế HOC withAuth ---
 // Trước (HOC):
@@ -401,9 +413,9 @@ function useAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
-      fetch('/api/me', {
+      fetch("/api/me", {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => res.json())
@@ -435,8 +447,8 @@ function useMousePosition() {
     const handler = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
     };
-    window.addEventListener('mousemove', handler);
-    return () => window.removeEventListener('mousemove', handler);
+    window.addEventListener("mousemove", handler);
+    return () => window.removeEventListener("mousemove", handler);
   }, []);
 
   return position;
@@ -445,15 +457,17 @@ function useMousePosition() {
 function Cursor() {
   const { x, y } = useMousePosition();
   return (
-    <div style={{
-      position: 'absolute',
-      left: x - 10,
-      top: y - 10,
-      width: 20,
-      height: 20,
-      borderRadius: '50%',
-      background: 'red',
-    }} />
+    <div
+      style={{
+        position: "absolute",
+        left: x - 10,
+        top: y - 10,
+        width: 20,
+        height: 20,
+        borderRadius: "50%",
+        background: "red",
+      }}
+    />
   );
 }
 
@@ -467,8 +481,8 @@ function useWindowSize() {
   useEffect(() => {
     const handler = () =>
       setSize({ width: window.innerWidth, height: window.innerHeight });
-    window.addEventListener('resize', handler);
-    return () => window.removeEventListener('resize', handler);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
   }, []);
 
   return size;
@@ -476,14 +490,14 @@ function useWindowSize() {
 
 function useMediaQuery(query: string) {
   const [matches, setMatches] = useState(
-    () => window.matchMedia(query).matches
+    () => window.matchMedia(query).matches,
   );
 
   useEffect(() => {
     const mql = window.matchMedia(query);
     const handler = (e: MediaQueryListEvent) => setMatches(e.matches);
-    mql.addEventListener('change', handler);
-    return () => mql.removeEventListener('change', handler);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
   }, [query]);
 
   return matches;
@@ -493,13 +507,15 @@ function useMediaQuery(query: string) {
 function ResponsiveComponent() {
   const { x, y } = useMousePosition();
   const { width } = useWindowSize();
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
     <div>
-      <p>Mouse: {x}, {y}</p>
+      <p>
+        Mouse: {x}, {y}
+      </p>
       <p>Width: {width}px</p>
-      <p>{isMobile ? 'Mobile' : 'Desktop'}</p>
+      <p>{isMobile ? "Mobile" : "Desktop"}</p>
     </div>
   );
 }
@@ -520,35 +536,36 @@ function ResponsiveComponent() {
 **Uncontrolled**: DOM là nguồn sự thật. Dùng `ref` để đọc giá trị khi cần (VD: submit form).
 
 **Khi nào dùng gì?**
+
 - Controlled: khi cần validate realtime, conditional rendering, format input
 - Uncontrolled: form đơn giản, file input, hoặc dùng với libraries như React Hook Form
 
 ### Code ví dụ
 
 ```tsx
-import { useState, useRef } from 'react';
+import { useState, useRef } from "react";
 
 // --- CONTROLLED ---
 function ControlledForm() {
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setEmail(value);
 
     // Validate realtime
-    if (value && !value.includes('@')) {
-      setError('Email phải có @');
+    if (value && !value.includes("@")) {
+      setError("Email phải có @");
     } else {
-      setError('');
+      setError("");
     }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!error) {
-      console.log('Submit:', email);
+      console.log("Submit:", email);
     }
   };
 
@@ -556,10 +573,10 @@ function ControlledForm() {
     <form onSubmit={handleSubmit}>
       <input
         type="email"
-        value={email}      // React kiểm soát giá trị
-        onChange={handleChange}  // Mỗi thay đổi đi qua React
+        value={email} // React kiểm soát giá trị
+        onChange={handleChange} // Mỗi thay đổi đi qua React
       />
-      {error && <span style={{ color: 'red' }}>{error}</span>}
+      {error && <span style={{ color: "red" }}>{error}</span>}
       <button type="submit">Send</button>
     </form>
   );
@@ -572,15 +589,15 @@ function UncontrolledForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Đọc giá trị từ DOM khi cần
-    console.log('Submit:', emailRef.current?.value);
+    console.log("Submit:", emailRef.current?.value);
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <input
         type="email"
-        ref={emailRef}         // DOM giữ giá trị
-        defaultValue=""        // Giá trị ban đầu (không phải value)
+        ref={emailRef} // DOM giữ giá trị
+        defaultValue="" // Giá trị ban đầu (không phải value)
       />
       <button type="submit">Send</button>
     </form>
@@ -605,14 +622,14 @@ function UncontrolledForm() {
 
 ### Bảng so sánh
 
-| Tiêu chí | Controlled | Uncontrolled |
-|----------|-----------|-------------|
-| Source of truth | React state | DOM |
-| Khi nào read value | Mọi lúc (state) | Khi cần (ref) |
-| Re-render | Mỗi keystroke | Không (chỉ khi submit) |
-| Validation | Realtime | Khi submit |
-| Performance | Nhiều re-renders | Ít re-renders |
-| Use case | Complex forms, conditional logic | Simple forms, file inputs |
+| Tiêu chí           | Controlled                       | Uncontrolled              |
+| ------------------ | -------------------------------- | ------------------------- |
+| Source of truth    | React state                      | DOM                       |
+| Khi nào read value | Mọi lúc (state)                  | Khi cần (ref)             |
+| Re-render          | Mỗi keystroke                    | Không (chỉ khi submit)    |
+| Validation         | Realtime                         | Khi submit                |
+| Performance        | Nhiều re-renders                 | Ít re-renders             |
+| Use case           | Complex forms, conditional logic | Simple forms, file inputs |
 
 ### Đáp án mẫu
 
@@ -625,6 +642,7 @@ function UncontrolledForm() {
 ### Giải thích lý thuyết
 
 **Container/Presentational** (hay Smart/Dumb components) là pattern chia component thành 2 loại:
+
 - **Container** (Smart): xử lý logic, data fetching, state management
 - **Presentational** (Dumb): chỉ render UI, nhận data qua props, không có side effects
 
@@ -652,7 +670,9 @@ function UserListView({
       <button onClick={onRefresh}>Refresh</button>
       <ul>
         {users.map((u) => (
-          <li key={u.id}>{u.name} - {u.email}</li>
+          <li key={u.id}>
+            {u.name} - {u.email}
+          </li>
         ))}
       </ul>
     </div>
@@ -666,7 +686,7 @@ function UserListContainer() {
 
   const fetchUsers = async () => {
     setLoading(true);
-    const res = await fetch('/api/users');
+    const res = await fetch("/api/users");
     const data = await res.json();
     setUsers(data);
     setLoading(false);
@@ -677,11 +697,7 @@ function UserListContainer() {
   }, []);
 
   return (
-    <UserListView
-      users={users}
-      loading={loading}
-      onRefresh={fetchUsers}
-    />
+    <UserListView users={users} loading={loading} onRefresh={fetchUsers} />
   );
 }
 
@@ -694,7 +710,7 @@ function useUsers() {
 
   const fetchUsers = useCallback(async () => {
     setLoading(true);
-    const res = await fetch('/api/users');
+    const res = await fetch("/api/users");
     const data = await res.json();
     setUsers(data);
     setLoading(false);
@@ -718,7 +734,9 @@ function UserList() {
       <button onClick={refetch}>Refresh</button>
       <ul>
         {users.map((u) => (
-          <li key={u.id}>{u.name} - {u.email}</li>
+          <li key={u.id}>
+            {u.name} - {u.email}
+          </li>
         ))}
       </ul>
     </div>
@@ -734,14 +752,14 @@ function UserList() {
 
 ## Bảng so sánh các React Patterns
 
-| Pattern | Use case | Ưu điểm | Nhược điểm | Còn dùng? |
-|---------|----------|---------|------------|-----------|
-| **HOC** | Cross-cutting concerns | Reuse logic, composition | Wrapper hell, props collision | Ít (legacy code) |
-| **Render Props** | Flexible rendering | No wrapper, explicit data flow | Callback nesting | Headless UI libs |
-| **Compound Components** | UI composition (tabs, menu) | Declarative API, flexible layout | Phức tạp khi implement | Có (UI libraries) |
-| **Custom Hooks** | Reuse stateful logic | Đơn giản, composable, no wrapper | Chỉ cho logic, không cho UI | **Chính** |
-| **Controlled/Uncontrolled** | Form handling | Control vs performance | Trade-off | Cả hai |
-| **Container/Presentational** | Tách logic/UI | Clear separation | Thừa với hooks | Ý tưởng vẫn có giá trị |
+| Pattern                      | Use case                    | Ưu điểm                          | Nhược điểm                    | Còn dùng?              |
+| ---------------------------- | --------------------------- | -------------------------------- | ----------------------------- | ---------------------- |
+| **HOC**                      | Cross-cutting concerns      | Reuse logic, composition         | Wrapper hell, props collision | Ít (legacy code)       |
+| **Render Props**             | Flexible rendering          | No wrapper, explicit data flow   | Callback nesting              | Headless UI libs       |
+| **Compound Components**      | UI composition (tabs, menu) | Declarative API, flexible layout | Phức tạp khi implement        | Có (UI libraries)      |
+| **Custom Hooks**             | Reuse stateful logic        | Đơn giản, composable, no wrapper | Chỉ cho logic, không cho UI   | **Chính**              |
+| **Controlled/Uncontrolled**  | Form handling               | Control vs performance           | Trade-off                     | Cả hai                 |
+| **Container/Presentational** | Tách logic/UI               | Clear separation                 | Thừa với hooks                | Ý tưởng vẫn có giá trị |
 
 ---
 

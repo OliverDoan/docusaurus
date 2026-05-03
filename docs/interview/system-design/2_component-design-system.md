@@ -9,9 +9,6 @@ Thiết kế component tốt là kỹ năng phân biệt một frontend develope
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: Nguyên tắc thiết kế Component API tốt là gì? `[Intermediate]`](#câu-1-nguyên-tắc-thiết-kế-component-api-tốt-là-gì-intermediate)
@@ -205,13 +202,13 @@ function SelectItem({ value, children }: { value: string; children: React.ReactN
 
 ### Bảng so sánh
 
-| Tiêu chí | Configuration | Composition |
-|----------|---------------|-------------|
-| **Dễ dùng** | Nhanh, ít code | Cần hiểu pattern |
-| **Flexibility** | Thấp (cần escape hatches) | Cao (tự quyết layout) |
-| **Bundle size** | Lớn hơn (tất cả features) | Nhỏ hơn (chỉ import cần) |
-| **Phù hợp** | Internal tools, simple use cases | Design system, public libraries |
-| **Ví dụ thực tế** | Ant Design, Material UI v4 | Radix UI, Headless UI, shadcn/ui |
+| Tiêu chí          | Configuration                    | Composition                      |
+| ----------------- | -------------------------------- | -------------------------------- |
+| **Dễ dùng**       | Nhanh, ít code                   | Cần hiểu pattern                 |
+| **Flexibility**   | Thấp (cần escape hatches)        | Cao (tự quyết layout)            |
+| **Bundle size**   | Lớn hơn (tất cả features)        | Nhỏ hơn (chỉ import cần)         |
+| **Phù hợp**       | Internal tools, simple use cases | Design system, public libraries  |
+| **Ví dụ thực tế** | Ant Design, Material UI v4       | Radix UI, Headless UI, shadcn/ui |
 
 ### Đáp án mẫu
 
@@ -239,18 +236,18 @@ Design System không chỉ là component library. Nó là **hệ thống hoàn c
 // tokens/colors.ts
 export const colors = {
   // Primitive tokens (raw values)
-  blue50: '#eff6ff',
-  blue100: '#dbeafe',
-  blue500: '#3b82f6',
-  blue600: '#2563eb',
-  blue700: '#1d4ed8',
+  blue50: "#eff6ff",
+  blue100: "#dbeafe",
+  blue500: "#3b82f6",
+  blue600: "#2563eb",
+  blue700: "#1d4ed8",
 
-  gray50: '#f9fafb',
-  gray100: '#f3f4f6',
-  gray900: '#111827',
+  gray50: "#f9fafb",
+  gray100: "#f3f4f6",
+  gray900: "#111827",
 
-  red500: '#ef4444',
-  green500: '#22c55e',
+  red500: "#ef4444",
+  green500: "#22c55e",
 } as const;
 
 // Semantic tokens (meaningful names)
@@ -264,7 +261,7 @@ export const semanticColors = {
   // Text
   textPrimary: colors.gray900,
   textSecondary: colors.gray100,
-  textOnPrimary: '#ffffff',
+  textOnPrimary: "#ffffff",
 
   // Border
   borderDefault: colors.gray100,
@@ -273,13 +270,13 @@ export const semanticColors = {
 
 // tokens/spacing.ts
 export const spacing = {
-  xs: '4px',
-  sm: '8px',
-  md: '16px',
-  lg: '24px',
-  xl: '32px',
-  '2xl': '48px',
-  '3xl': '64px',
+  xs: "4px",
+  sm: "8px",
+  md: "16px",
+  lg: "24px",
+  xl: "32px",
+  "2xl": "48px",
+  "3xl": "64px",
 } as const;
 
 // tokens/typography.ts
@@ -289,13 +286,13 @@ export const typography = {
     mono: "'JetBrains Mono', 'Fira Code', monospace",
   },
   fontSize: {
-    xs: '0.75rem',    // 12px
-    sm: '0.875rem',   // 14px
-    base: '1rem',     // 16px
-    lg: '1.125rem',   // 18px
-    xl: '1.25rem',    // 20px
-    '2xl': '1.5rem',  // 24px
-    '3xl': '1.875rem', // 30px
+    xs: "0.75rem", // 12px
+    sm: "0.875rem", // 14px
+    base: "1rem", // 16px
+    lg: "1.125rem", // 18px
+    xl: "1.25rem", // 20px
+    "2xl": "1.5rem", // 24px
+    "3xl": "1.875rem", // 30px
   },
   fontWeight: {
     normal: 400,
@@ -377,6 +374,7 @@ export function Button({
 **Storybook** là tool để phát triển UI components trong môi trường **isolated** -- không cần chạy cả app, không cần fake data từ API. Mỗi "story" là một state cụ thể của component.
 
 Storybook phục vụ 3 mục đích:
+
 1. **Development**: Develop component isolated, nhanh hơn
 2. **Documentation**: Living docs, luôn up-to-date
 3. **Testing**: Visual regression, interaction testing, accessibility
@@ -764,16 +762,16 @@ import * as Select from '@radix-ui/react-select';
 
 ### Bảng so sánh Component Library Approaches
 
-| Tiêu chí | Styled (MUI, Ant Design) | Headless (Radix, React Aria) | Copy-paste (shadcn/ui) |
-|----------|--------------------------|------------------------------|------------------------|
-| **Setup speed** | Nhanh nhất | Trung bình | Trung bình |
-| **Customization** | Khó (override theme) | Cao (tự style) | Cao nhất (own code) |
-| **Bundle size** | Lớn | Nhỏ | Nhỏ nhất (chỉ copy cần) |
-| **Accessibility** | Built-in | Built-in | Built-in (từ Radix) |
-| **Consistency** | Cao (có sẵn theme) | Tự quản lý | Tự quản lý |
-| **Upgrade** | npm update | npm update | Manual (own code) |
-| **Ownership** | Thấp (vendor lock-in) | Trung bình | Cao nhất |
-| **Phù hợp** | Internal tools, MVP | Design system, custom brand | Custom design, full control |
+| Tiêu chí          | Styled (MUI, Ant Design) | Headless (Radix, React Aria) | Copy-paste (shadcn/ui)      |
+| ----------------- | ------------------------ | ---------------------------- | --------------------------- |
+| **Setup speed**   | Nhanh nhất               | Trung bình                   | Trung bình                  |
+| **Customization** | Khó (override theme)     | Cao (tự style)               | Cao nhất (own code)         |
+| **Bundle size**   | Lớn                      | Nhỏ                          | Nhỏ nhất (chỉ copy cần)     |
+| **Accessibility** | Built-in                 | Built-in                     | Built-in (từ Radix)         |
+| **Consistency**   | Cao (có sẵn theme)       | Tự quản lý                   | Tự quản lý                  |
+| **Upgrade**       | npm update               | npm update                   | Manual (own code)           |
+| **Ownership**     | Thấp (vendor lock-in)    | Trung bình                   | Cao nhất                    |
+| **Phù hợp**       | Internal tools, MVP      | Design system, custom brand  | Custom design, full control |
 
 ### Đáp án mẫu
 

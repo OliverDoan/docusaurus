@@ -9,9 +9,6 @@ Khi dự án của bạn đạt đến một mốc quan trọng — phiên bản
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. Tag là gì?](#1-tag-là-gì)
@@ -42,13 +39,13 @@ Tag là một **"nhãn dán" (label)** trên một commit cụ thể trong lịc
 
 **Tại sao cần tag?**
 
-| Mục đích | Giải thích |
-|----------|-----------|
-| **Đánh dấu release** | "Đây là code của version 1.0.0" |
-| **Điểm tham chiếu** | Quay lại xem code tại bất kỳ version nào |
-| **Trigger CI/CD** | Push tag -> tự động build và deploy |
-| **Tạo GitHub Release** | Release notes, download binaries |
-| **Debugging** | "Bug này xuất hiện từ version nào?" |
+| Mục đích               | Giải thích                               |
+| ---------------------- | ---------------------------------------- |
+| **Đánh dấu release**   | "Đây là code của version 1.0.0"          |
+| **Điểm tham chiếu**    | Quay lại xem code tại bất kỳ version nào |
+| **Trigger CI/CD**      | Push tag -> tự động build và deploy      |
+| **Tạo GitHub Release** | Release notes, download binaries         |
+| **Debugging**          | "Bug này xuất hiện từ version nào?"      |
 
 ---
 
@@ -98,14 +95,14 @@ git show v1.0.0
 
 ### 2.3. So sánh
 
-| Đặc điểm | Lightweight | Annotated |
-|----------|------------|-----------|
-| **Tagger (người tạo)** | Không lưu | Có lưu |
-| **Ngày tạo** | Không lưu | Có lưu |
-| **Message** | Không có | Có |
-| **Có thể ký GPG** | Không | Có (`git tag -s`) |
-| **Là Git object** | Không (chỉ là pointer) | Có |
-| **Khi nào dùng** | Tag tạm, nội bộ | Release chính thức |
+| Đặc điểm               | Lightweight            | Annotated          |
+| ---------------------- | ---------------------- | ------------------ |
+| **Tagger (người tạo)** | Không lưu              | Có lưu             |
+| **Ngày tạo**           | Không lưu              | Có lưu             |
+| **Message**            | Không có               | Có                 |
+| **Có thể ký GPG**      | Không                  | Có (`git tag -s`)  |
+| **Là Git object**      | Không (chỉ là pointer) | Có                 |
+| **Khi nào dùng**       | Tag tạm, nội bộ        | Release chính thức |
 
 ```bash
 # Quy tắc chung:
@@ -271,13 +268,13 @@ Ví dụ: 2.4.1
 
 ### 4.2. Khi nào tăng version nào?
 
-| Thay đổi | Tăng | Ví dụ | Giải thích |
-|----------|------|-------|-----------|
-| Sửa lỗi nhỏ | PATCH | 1.0.0 → 1.0.1 | Fix bug, không đổi API |
-| Thêm tính năng mới | MINOR | 1.0.0 → 1.1.0 | Thêm endpoint mới, thêm option mới |
-| Thay đổi breaking | MAJOR | 1.0.0 → 2.0.0 | Xóa endpoint, đổi format response |
-| Sửa nhiều lỗi | PATCH | 1.2.3 → 1.2.4 | Vẫn là patch dù sửa nhiều bug |
-| Thêm tính năng + sửa lỗi | MINOR | 1.2.3 → 1.3.0 | MINOR "thắng" PATCH, reset PATCH về 0 |
+| Thay đổi                 | Tăng  | Ví dụ         | Giải thích                                      |
+| ------------------------ | ----- | ------------- | ----------------------------------------------- |
+| Sửa lỗi nhỏ              | PATCH | 1.0.0 → 1.0.1 | Fix bug, không đổi API                          |
+| Thêm tính năng mới       | MINOR | 1.0.0 → 1.1.0 | Thêm endpoint mới, thêm option mới              |
+| Thay đổi breaking        | MAJOR | 1.0.0 → 2.0.0 | Xóa endpoint, đổi format response               |
+| Sửa nhiều lỗi            | PATCH | 1.2.3 → 1.2.4 | Vẫn là patch dù sửa nhiều bug                   |
+| Thêm tính năng + sửa lỗi | MINOR | 1.2.3 → 1.3.0 | MINOR "thắng" PATCH, reset PATCH về 0           |
 | Breaking + tính năng mới | MAJOR | 1.2.3 → 2.0.0 | MAJOR "thắng" tất cả, reset MINOR và PATCH về 0 |
 
 ### 4.3. Pre-release versions
@@ -540,14 +537,14 @@ echo "Xem tại: https://github.com/$(gh repo view --json nameWithOwner -q .name
 
 ## 7. Versioning strategies cho different project types
 
-| Loại dự án | Strategy | Ví dụ |
-|-----------|----------|-------|
-| **Library/SDK** | Strict SemVer | v1.0.0, v1.1.0, v2.0.0 |
-| **Web App (SaaS)** | Date-based hoặc SemVer | v2024.03.15 hoặc v3.2.1 |
-| **Mobile App** | SemVer + build number | v2.1.0 (build 142) |
-| **API** | URL versioning + SemVer | /api/v2/ + tag v2.3.1 |
-| **Monorepo** | Per-package versioning | @mylib/core@1.2.0, @mylib/ui@3.0.0 |
-| **Game** | Marketing version | v1.0 "Season 3 Update" |
+| Loại dự án         | Strategy                | Ví dụ                              |
+| ------------------ | ----------------------- | ---------------------------------- |
+| **Library/SDK**    | Strict SemVer           | v1.0.0, v1.1.0, v2.0.0             |
+| **Web App (SaaS)** | Date-based hoặc SemVer  | v2024.03.15 hoặc v3.2.1            |
+| **Mobile App**     | SemVer + build number   | v2.1.0 (build 142)                 |
+| **API**            | URL versioning + SemVer | /api/v2/ + tag v2.3.1              |
+| **Monorepo**       | Per-package versioning  | @mylib/core@1.2.0, @mylib/ui@3.0.0 |
+| **Game**           | Marketing version       | v1.0 "Season 3 Update"             |
 
 ```bash
 # Date-based versioning (CalVer)

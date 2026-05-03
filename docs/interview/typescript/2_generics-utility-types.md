@@ -9,9 +9,6 @@ Generics là một trong những tính năng mạnh nhất của TypeScript -- c
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: Generics là gì? Generic function và generic constraints hoạt động như thế nào? `[Intermediate]`](#câu-1-generics-là-gì-generic-function-và-generic-constraints-hoạt-động-như-thế-nào-intermediate)
@@ -50,8 +47,8 @@ function identity<T>(value: T): T {
   return value;
 }
 
-const str = identity("hello");   // T được infer là "hello"
-const num = identity(42);        // T được infer là 42
+const str = identity("hello"); // T được infer là "hello"
+const num = identity(42); // T được infer là 42
 const explicit = identity<string>("hello"); // Chỉ định type rõ ràng
 
 // === GENERIC CONSTRAINTS ===
@@ -67,8 +64,8 @@ function logLengthSafe<T extends { length: number }>(value: T): T {
   return value;
 }
 
-logLengthSafe("hello");        // OK -- string có length
-logLengthSafe([1, 2, 3]);      // OK -- array có length
+logLengthSafe("hello"); // OK -- string có length
+logLengthSafe([1, 2, 3]); // OK -- array có length
 // logLengthSafe(42);           // Error -- number không có length
 
 // === MULTIPLE TYPE PARAMETERS ===
@@ -86,8 +83,8 @@ function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
 
 const user = { name: "Thuan", age: 28, email: "thuan@dev.com" };
 
-const name = getProperty(user, "name");   // type: string
-const age = getProperty(user, "age");     // type: number
+const name = getProperty(user, "name"); // type: string
+const age = getProperty(user, "age"); // type: number
 // getProperty(user, "salary");            // Error: "salary" không phải key của user
 ```
 
@@ -172,19 +169,19 @@ const frozenUser: ReadonlyUser = {
 
 ### Bảng tổng hợp utility types
 
-| Utility Type | Tác dụng | Ví dụ Input | Ví dụ Output |
-|-------------|---------|-------------|-------------|
-| `Partial<T>` | Tất cả optional | `{ a: string; b: number }` | `{ a?: string; b?: number }` |
-| `Required<T>` | Tất cả bắt buộc | `{ a?: string; b?: number }` | `{ a: string; b: number }` |
-| `Pick<T, K>` | Chỉ lấy key K | `Pick<User, "name">` | `{ name: string }` |
-| `Omit<T, K>` | Loại bỏ key K | `Omit<User, "id">` | `{ name; email; ... }` |
-| `Record<K, V>` | Object với key K, value V | `Record<"a" \| "b", number>` | `{ a: number; b: number }` |
-| `Readonly<T>` | Tất cả readonly | `{ a: string }` | `{ readonly a: string }` |
-| `ReturnType<T>` | Lấy return type của function | `ReturnType<() => string>` | `string` |
-| `Parameters<T>` | Lấy parameters type | `Parameters<(a: string) => void>` | `[string]` |
-| `Exclude<T, U>` | Loại U khỏi union T | `Exclude<"a" \| "b", "a">` | `"b"` |
-| `Extract<T, U>` | Lấy phần chung | `Extract<"a" \| "b", "a" \| "c">` | `"a"` |
-| `NonNullable<T>` | Loại null và undefined | `NonNullable<string \| null>` | `string` |
+| Utility Type     | Tác dụng                     | Ví dụ Input                       | Ví dụ Output                 |
+| ---------------- | ---------------------------- | --------------------------------- | ---------------------------- |
+| `Partial<T>`     | Tất cả optional              | `{ a: string; b: number }`        | `{ a?: string; b?: number }` |
+| `Required<T>`    | Tất cả bắt buộc              | `{ a?: string; b?: number }`      | `{ a: string; b: number }`   |
+| `Pick<T, K>`     | Chỉ lấy key K                | `Pick<User, "name">`              | `{ name: string }`           |
+| `Omit<T, K>`     | Loại bỏ key K                | `Omit<User, "id">`                | `{ name; email; ... }`       |
+| `Record<K, V>`   | Object với key K, value V    | `Record<"a" \| "b", number>`      | `{ a: number; b: number }`   |
+| `Readonly<T>`    | Tất cả readonly              | `{ a: string }`                   | `{ readonly a: string }`     |
+| `ReturnType<T>`  | Lấy return type của function | `ReturnType<() => string>`        | `string`                     |
+| `Parameters<T>`  | Lấy parameters type          | `Parameters<(a: string) => void>` | `[string]`                   |
+| `Exclude<T, U>`  | Loại U khỏi union T          | `Exclude<"a" \| "b", "a">`        | `"b"`                        |
+| `Extract<T, U>`  | Lấy phần chung               | `Extract<"a" \| "b", "a" \| "c">` | `"a"`                        |
+| `NonNullable<T>` | Loại null và undefined       | `NonNullable<string \| null>`     | `string`                     |
 
 ### Đáp án mẫu
 
@@ -387,8 +384,8 @@ function getValue<T, K extends keyof T>(obj: T, key: K): T[K] {
 }
 
 const user: User = { id: 1, name: "Thuan", email: "thuan@dev.com" };
-const name = getValue(user, "name");   // type: string
-const id = getValue(user, "id");       // type: number
+const name = getValue(user, "name"); // type: string
+const id = getValue(user, "id"); // type: number
 // getValue(user, "phone");             // Error!
 
 // === TYPEOF (trong type context) ===
@@ -415,7 +412,7 @@ const HTTP_METHODS = {
   DELETE: "DELETE",
 } as const;
 
-type HttpMethod = typeof HTTP_METHODS[keyof typeof HTTP_METHODS];
+type HttpMethod = (typeof HTTP_METHODS)[keyof typeof HTTP_METHODS];
 // "GET" | "POST" | "PUT" | "DELETE"
 
 // Tạo type từ function return value
@@ -475,7 +472,7 @@ function merge<A extends object, B extends object>(a: A, b: B): A & B {
 const result2 = merge({ name: "Thuan" }, { age: 28 });
 // type: { name: string } & { age: number }
 console.log(result2.name); // OK: string
-console.log(result2.age);  // OK: number
+console.log(result2.age); // OK: number
 
 // === NÂNG CẤP: Deep merge với generics ===
 type DeepMerge<A, B> = {
@@ -501,8 +498,8 @@ function createElement(tag: string): HTMLElement {
   return document.createElement(tag);
 }
 
-const div = createElement("div");     // HTMLDivElement
-const span = createElement("span");   // HTMLSpanElement
+const div = createElement("div"); // HTMLDivElement
+const span = createElement("span"); // HTMLSpanElement
 const input = createElement("input"); // HTMLInputElement
 const custom = createElement("my-component"); // HTMLElement
 ```

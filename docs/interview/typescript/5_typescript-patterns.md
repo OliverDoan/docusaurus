@@ -9,9 +9,6 @@ Bài này tổng hợp những advanced patterns mà các TypeScript developer c
 
 ---
 
-
----
-
 ## Mục lục
 
 - [Câu 1: Branded types (nominal types) là gì và tại sao cần dùng? `[Senior]`](#câu-1-branded-types-nominal-types-là-gì-và-tại-sao-cần-dùng-senior)
@@ -77,7 +74,7 @@ function getUserBranded(id: BrandedUserId): User {
 const userId = createUserId("user_456");
 const orderId2 = createOrderId("order_789");
 
-getUserBranded(userId);    // OK
+getUserBranded(userId); // OK
 // getUserBranded(orderId2); // Error! Type 'BrandedOrderId' is not assignable to 'BrandedUserId'
 
 // === THỰC TẾ: TYPE-SAFE UNITS ===
@@ -129,7 +126,7 @@ sendEmail(email, "Hello"); // OK
 
 ### Đáp án mẫu
 
-> "Branded types giải quyết vấn đề của structural typing -- khi hai type có cùng cấu trúc nhưng ý nghĩa khác nhau. Bằng cách thêm phantom property __brand, ta tạo ra sự phân biệt ở type level mà không ảnh hưởng runtime. Pattern này cực kỳ hữu ích cho IDs (UserId vs OrderId), units (Meters vs Kilometers), và validated values (Email, PhoneNumber). Giá trị vẫn là string/number tại runtime, nhưng TypeScript ngăn không cho truyền nhầm type."
+> "Branded types giải quyết vấn đề của structural typing -- khi hai type có cùng cấu trúc nhưng ý nghĩa khác nhau. Bằng cách thêm phantom property \_\_brand, ta tạo ra sự phân biệt ở type level mà không ảnh hưởng runtime. Pattern này cực kỳ hữu ích cho IDs (UserId vs OrderId), units (Meters vs Kilometers), và validated values (Email, PhoneNumber). Giá trị vẫn là string/number tại runtime, nhưng TypeScript ngăn không cho truyền nhầm type."
 
 ---
 
@@ -210,7 +207,9 @@ type BuilderState = {
   hasMethod: boolean;
 };
 
-class TypeSafeBuilder<State extends BuilderState = { hasUrl: false; hasMethod: false }> {
+class TypeSafeBuilder<
+  State extends BuilderState = { hasUrl: false; hasMethod: false },
+> {
   private config: Partial<RequestConfig> = {};
 
   setUrl(url: string): TypeSafeBuilder<State & { hasUrl: true }> {
@@ -219,7 +218,7 @@ class TypeSafeBuilder<State extends BuilderState = { hasUrl: false; hasMethod: f
   }
 
   setMethod(
-    method: RequestConfig["method"]
+    method: RequestConfig["method"],
   ): TypeSafeBuilder<State & { hasMethod: true }> {
     this.config.method = method;
     return this as any;
@@ -227,7 +226,7 @@ class TypeSafeBuilder<State extends BuilderState = { hasUrl: false; hasMethod: f
 
   // build() chỉ available khi cả url và method đã được set
   build(
-    this: TypeSafeBuilder<{ hasUrl: true; hasMethod: true }>
+    this: TypeSafeBuilder<{ hasUrl: true; hasMethod: true }>,
   ): RequestConfig {
     return this.config as RequestConfig;
   }
@@ -287,9 +286,9 @@ interface BadState {
 // Vấn đề: có trạng thái không hợp lệ
 const impossible: BadState = {
   isLoading: true,
-  isError: true,     // Vừa loading vừa error?!
-  data: [],           // Có data mà vẫn loading?!
-  error: "Oops",     // Có error mà vẫn có data?!
+  isError: true, // Vừa loading vừa error?!
+  data: [], // Có data mà vẫn loading?!
+  error: "Oops", // Có error mà vẫn có data?!
 };
 
 // === ĐÚNG: DISCRIMINATED UNIONS ===
@@ -307,15 +306,15 @@ function renderUserList(state: UserListState) {
 
     case "loading":
       return "Đang tải...";
-      // state.data; // Error! không có data khi loading
+    // state.data; // Error! không có data khi loading
 
     case "success":
       return state.data.map((u) => u.name).join(", ");
-      // state.error; // Error! không có error khi success
+    // state.error; // Error! không có error khi success
 
     case "error":
       return `Lỗi: ${state.error} (thử lại lần ${state.retryCount})`;
-      // state.data; // Error! không có data khi error
+    // state.data; // Error! không có data khi error
   }
 }
 
@@ -337,7 +336,11 @@ function getAuthHeader(state: AuthState): string | null {
 // === THỰC TẾ: PAYMENT FLOW ===
 type PaymentState =
   | { step: "select_method"; methods: PaymentMethod[] }
-  | { step: "enter_details"; method: PaymentMethod; formData: Partial<PaymentDetails> }
+  | {
+      step: "enter_details";
+      method: PaymentMethod;
+      formData: Partial<PaymentDetails>;
+    }
   | { step: "confirming"; method: PaymentMethod; details: PaymentDetails }
   | { step: "processing"; transactionId: string }
   | { step: "completed"; transactionId: string; receipt: Receipt }
@@ -351,7 +354,10 @@ type PaymentAction =
   | { type: "PAYMENT_FAILED"; error: string; canRetry: boolean }
   | { type: "RETRY" };
 
-function paymentReducer(state: PaymentState, action: PaymentAction): PaymentState {
+function paymentReducer(
+  state: PaymentState,
+  action: PaymentAction,
+): PaymentState {
   switch (action.type) {
     case "SELECT_METHOD":
       return {
@@ -431,13 +437,14 @@ type OverloadReturnType<T> = T extends {
     : never;
 
 // === INFER ĐỂ UNWRAP NESTED TYPES ===
-type UnwrapArray<T> = T extends Array<infer E>
-  ? UnwrapArray<E> // Recursive: tiếp tục unwrap nếu vẫn là array
-  : T;
+type UnwrapArray<T> =
+  T extends Array<infer E>
+    ? UnwrapArray<E> // Recursive: tiếp tục unwrap nếu vẫn là array
+    : T;
 
-type T1 = UnwrapArray<string[][][]>;  // string
-type T2 = UnwrapArray<number[]>;       // number
-type T3 = UnwrapArray<boolean>;        // boolean (không phải array)
+type T1 = UnwrapArray<string[][][]>; // string
+type T2 = UnwrapArray<number[]>; // number
+type T3 = UnwrapArray<boolean>; // boolean (không phải array)
 
 // === INFER ĐỂ TRÍCH XUẤT GENERIC TYPE ARGUMENT ===
 type UnwrapPromise<T> = T extends Promise<infer U> ? UnwrapPromise<U> : T;
@@ -445,8 +452,8 @@ type UnwrapSet<T> = T extends Set<infer U> ? U : T;
 type UnwrapMap<T> = T extends Map<infer K, infer V> ? [K, V] : T;
 
 type A = UnwrapPromise<Promise<Promise<string>>>; // string
-type B = UnwrapSet<Set<number>>;                   // number
-type C = UnwrapMap<Map<string, User>>;             // [string, User]
+type B = UnwrapSet<Set<number>>; // number
+type C = UnwrapMap<Map<string, User>>; // [string, User]
 
 // === INFER TRONG TUPLE MANIPULATION ===
 type Push<T extends any[], V> = [...T, V];
@@ -455,9 +462,9 @@ type Shift<T extends any[]> = T extends [any, ...infer Rest] ? Rest : never;
 type Unshift<T extends any[], V> = [V, ...T];
 
 type Arr = [1, 2, 3];
-type Pushed = Push<Arr, 4>;    // [1, 2, 3, 4]
-type Popped = Pop<Arr>;        // [1, 2]
-type Shifted = Shift<Arr>;     // [2, 3]
+type Pushed = Push<Arr, 4>; // [1, 2, 3, 4]
+type Popped = Pop<Arr>; // [1, 2]
+type Shifted = Shift<Arr>; // [2, 3]
 type Unshifted = Unshift<Arr, 0>; // [0, 1, 2, 3]
 
 // === THỰC TẾ: TYPE-SAFE EVENT SYSTEM ===
@@ -471,8 +478,9 @@ type EventMap = {
 type EventName = keyof EventMap;
 
 // Trích xuất namespace từ event name
-type EventNamespace<T extends string> =
-  T extends `${infer NS}:${string}` ? NS : never;
+type EventNamespace<T extends string> = T extends `${infer NS}:${string}`
+  ? NS
+  : never;
 
 type Namespaces = EventNamespace<EventName>;
 // "user" | "order"
@@ -480,7 +488,7 @@ type Namespaces = EventNamespace<EventName>;
 // Lấy tất cả events trong một namespace
 type EventsInNamespace<
   NS extends string,
-  T extends string = EventName
+  T extends string = EventName,
 > = T extends `${NS}:${infer Name}` ? `${NS}:${Name}` : never;
 
 type UserEvents = EventsInNamespace<"user", EventName>;
@@ -510,7 +518,7 @@ class TypedEventEmitter<TEvents extends Record<string, any>> {
 
   on<K extends keyof TEvents>(
     event: K,
-    listener: Listener<TEvents[K]>
+    listener: Listener<TEvents[K]>,
   ): () => void {
     const key = event as string;
     if (!this.listeners.has(key)) {
@@ -531,7 +539,7 @@ class TypedEventEmitter<TEvents extends Record<string, any>> {
 
   once<K extends keyof TEvents>(
     event: K,
-    listener: Listener<TEvents[K]>
+    listener: Listener<TEvents[K]>,
   ): void {
     const unsubscribe = this.on(event, (data) => {
       listener(data);
@@ -553,15 +561,15 @@ interface AppEvents {
   "auth:login": { userId: string; email: string };
   "auth:logout": { userId: string };
   "notification:new": { title: string; body: string; priority: "low" | "high" };
-  "error": { code: number; message: string };
+  error: { code: number; message: string };
 }
 
 const emitter = new TypedEventEmitter<AppEvents>();
 
 // Type-safe: listener nhận đúng type
 emitter.on("auth:login", (data) => {
-  console.log(data.userId);  // string -- TypeScript biết!
-  console.log(data.email);   // string
+  console.log(data.userId); // string -- TypeScript biết!
+  console.log(data.email); // string
   // data.title;              // Error! không có property title
 });
 
@@ -577,10 +585,14 @@ emitter.emit("auth:login", {
 // emitter.on("invalid:event", () => {}); // Error!
 
 // === MỞ RỘNG: WILDCARD LISTENER ===
-class ExtendedEmitter<TEvents extends Record<string, any>> extends TypedEventEmitter<TEvents> {
+class ExtendedEmitter<
+  TEvents extends Record<string, any>,
+> extends TypedEventEmitter<TEvents> {
   private wildcardListeners = new Set<(event: string, data: any) => void>();
 
-  onAny(listener: <K extends keyof TEvents>(event: K, data: TEvents[K]) => void): () => void {
+  onAny(
+    listener: <K extends keyof TEvents>(event: K, data: TEvents[K]) => void,
+  ): () => void {
     this.wildcardListeners.add(listener as any);
     return () => {
       this.wildcardListeners.delete(listener as any);
@@ -707,25 +719,27 @@ declare global {
 
 ## Bảng so sánh patterns và khi nào dùng
 
-| Pattern | Bài toán giải quyết | Khi nào dùng | Độ phức tạp |
-|---------|---------------------|-------------|-------------|
-| Branded Types | Nhầm lẫn types có cùng cấu trúc | IDs, units, validated values | Trung bình |
-| Builder Pattern | Xây dựng object phức tạp | Config objects, queries, requests | Cao |
-| Discriminated Unions | State có nhiều variants | State management, API responses | Thấp-Trung bình |
-| Type-safe Events | Event system thiếu type safety | Event emitters, pub/sub | Trung bình |
-| Declaration Merging | Mở rộng type thư viện | Express, session, env vars | Thấp |
-| Exhaustive Check | Bỏ sót case trong union | Switch/case, reducers | Thấp |
-| Conditional + infer | Trích xuất type từ structure | URL params, unwrap generics | Cao |
-| Mapped + Template Literal | Tạo type từ type khác | Getters/setters, validators | Cao |
+| Pattern                   | Bài toán giải quyết             | Khi nào dùng                      | Độ phức tạp     |
+| ------------------------- | ------------------------------- | --------------------------------- | --------------- |
+| Branded Types             | Nhầm lẫn types có cùng cấu trúc | IDs, units, validated values      | Trung bình      |
+| Builder Pattern           | Xây dựng object phức tạp        | Config objects, queries, requests | Cao             |
+| Discriminated Unions      | State có nhiều variants         | State management, API responses   | Thấp-Trung bình |
+| Type-safe Events          | Event system thiếu type safety  | Event emitters, pub/sub           | Trung bình      |
+| Declaration Merging       | Mở rộng type thư viện           | Express, session, env vars        | Thấp            |
+| Exhaustive Check          | Bỏ sót case trong union         | Switch/case, reducers             | Thấp            |
+| Conditional + infer       | Trích xuất type từ structure    | URL params, unwrap generics       | Cao             |
+| Mapped + Template Literal | Tạo type từ type khác           | Getters/setters, validators       | Cao             |
 
 ### Khi nào nên dùng và khi nào nên tránh
 
 **Nên dùng:**
+
 - Branded types: Khi có nhiều IDs hoặc values cùng primitive type trong domain
 - Discriminated unions: Luôn luôn cho state management
 - Declaration merging: Khi cần extend thư viện types
 
 **Nên tránh:**
+
 - Branded types cho mọi string/number -- chỉ dùng khi có nguy cơ nhầm lẫn thật sự
 - Builder pattern cho simple objects -- overkill nếu object chỉ có 2-3 fields
 - Quá nhiều conditional + infer -- làm code khó đọc và maintain
@@ -734,7 +748,7 @@ declare global {
 
 ## Lỗi thường gặp khi trả lời
 
-1. **Không giải thích được tại sao cần branded types**: Nếu bạn chỉ nói "thêm __brand property" mà không giải thích vấn đề của structural typing trước, câu trả lời thiếu context. Luôn bắt đầu từ vấn đề (UserId vs OrderId) rồi mới đến giải pháp.
+1. **Không giải thích được tại sao cần branded types**: Nếu bạn chỉ nói "thêm \_\_brand property" mà không giải thích vấn đề của structural typing trước, câu trả lời thiếu context. Luôn bắt đầu từ vấn đề (UserId vs OrderId) rồi mới đến giải pháp.
 
 2. **Nhầm declaration merging với type intersection**: Merging gộp nhiều khai báo thành một tại compile time. Intersection (`&`) tạo type mới tại type level. Hai cái này khác nhau về cơ chế hoạt động.
 

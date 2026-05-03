@@ -11,9 +11,6 @@ Hãy tưởng tượng bạn có **nhiều loại đồng hồ** trong nhà: đ�
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. `LocalDate.now()` - Lấy ngày hiện tại](#1-localdatenow-lấy-ngày-hiện-tại)
@@ -308,15 +305,15 @@ public class LegacyCalendarDemo {
 
 ## 8. Bảng so sánh tất cả các cách
 
-| Cách | Class | Kết quả | Timezone | Thread-safe | Khuyến nghị |
-|---|---|---|---|---|---|
-| `LocalDate.now()` | `java.time` | Chỉ ngày | Không | Có | **Có** |
-| `LocalTime.now()` | `java.time` | Chỉ giờ | Không | Có | **Có** |
-| `LocalDateTime.now()` | `java.time` | Ngày + giờ | Không | Có | **Có** |
-| `ZonedDateTime.now()` | `java.time` | Ngày + giờ + TZ | Có | Có | **Có** |
-| `Instant.now()` | `java.time` | Timestamp UTC | UTC | Có | **Có** |
-| `new Date()` | `java.util` | Ngày + giờ | Không rõ | Không | Không |
-| `Calendar.getInstance()` | `java.util` | Ngày + giờ | Có | Không | Không |
+| Cách                     | Class       | Kết quả         | Timezone | Thread-safe | Khuyến nghị |
+| ------------------------ | ----------- | --------------- | -------- | ----------- | ----------- |
+| `LocalDate.now()`        | `java.time` | Chỉ ngày        | Không    | Có          | **Có**      |
+| `LocalTime.now()`        | `java.time` | Chỉ giờ         | Không    | Có          | **Có**      |
+| `LocalDateTime.now()`    | `java.time` | Ngày + giờ      | Không    | Có          | **Có**      |
+| `ZonedDateTime.now()`    | `java.time` | Ngày + giờ + TZ | Có       | Có          | **Có**      |
+| `Instant.now()`          | `java.time` | Timestamp UTC   | UTC      | Có          | **Có**      |
+| `new Date()`             | `java.util` | Ngày + giờ      | Không rõ | Không       | Không       |
+| `Calendar.getInstance()` | `java.util` | Ngày + giờ      | Có       | Không       | Không       |
 
 ---
 
@@ -409,6 +406,7 @@ public class TimezoneDemo {
 ## Khi nào dùng?
 
 **Hướng dẫn chọn API:**
+
 - **Chỉ cần ngày** (sinh nhật, deadline) -> `LocalDate.now()`
 - **Chỉ cần giờ** (giờ mở cửa, giờ hẹn) -> `LocalTime.now()`
 - **Cần ngày + giờ** (ghi log, lịch hẹn) -> `LocalDateTime.now()`
@@ -417,6 +415,7 @@ public class TimezoneDemo {
 - **Bảo trì code cũ** -> `new Date()` hoặc `Calendar.getInstance()`
 
 **Best practices:**
+
 - **Luôn dùng `java.time`** (Java 8+) cho code mới
 - Lưu timestamp vào database bằng `Instant` (UTC), chuyển timezone khi hiển thị
 - Dùng `DateTimeFormatter` (thread-safe) thay vì `SimpleDateFormat` (không thread-safe)

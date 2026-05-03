@@ -9,9 +9,6 @@ Khi bạn xây dựng một ứng dụng web với Next.js, một trong những 
 
 ---
 
-
----
-
 ## Mục lục
 
 - [1. SSR -- Server-Side Rendering](#1-ssr-server-side-rendering)
@@ -48,12 +45,12 @@ Trong Next.js App Router, bạn chỉ cần fetch data mà **không cache** là 
 
 async function laySanPham() {
   // cache: 'no-store' = không cache = render mỗi request (SSR)
-  const res = await fetch('https://api.example.com/san-pham', {
-    cache: 'no-store',
+  const res = await fetch("https://api.example.com/san-pham", {
+    cache: "no-store",
   });
 
   if (!res.ok) {
-    throw new Error('Không thể tải danh sách sản phẩm');
+    throw new Error("Không thể tải danh sách sản phẩm");
   }
 
   return res.json();
@@ -65,11 +62,11 @@ export default async function TrangSanPham() {
   return (
     <div>
       <h1>Danh sách sản phẩm</h1>
-      <p>Cập nhật lúc: {new Date().toLocaleString('vi-VN')}</p>
+      <p>Cập nhật lúc: {new Date().toLocaleString("vi-VN")}</p>
       <ul>
         {sanPhams.map((sp: { id: number; ten: string; gia: number }) => (
           <li key={sp.id}>
-            {sp.ten} - {sp.gia.toLocaleString('vi-VN')}đ
+            {sp.ten} - {sp.gia.toLocaleString("vi-VN")}đ
           </li>
         ))}
       </ul>
@@ -83,17 +80,17 @@ Bạn cũng có thể dùng `export const dynamic = 'force-dynamic'` ở đầu 
 ```tsx
 // app/dashboard/page.tsx
 // Ép toàn bộ trang thành SSR
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function Dashboard() {
-  const data = await fetch('https://api.example.com/dashboard');
+  const data = await fetch("https://api.example.com/dashboard");
   const thongKe = await data.json();
 
   return (
     <div>
       <h1>Dashboard</h1>
       <p>Tổng đơn hàng hôm nay: {thongKe.tongDon}</p>
-      <p>Doanh thu: {thongKe.doanhThu.toLocaleString('vi-VN')}đ</p>
+      <p>Doanh thu: {thongKe.doanhThu.toLocaleString("vi-VN")}đ</p>
     </div>
   );
 }
@@ -140,7 +137,7 @@ Với trang có dynamic routes, dùng `generateStaticParams` để Next.js biế
 
 // Hàm này chạy lúc build -- trả về danh sách slug cần generate
 export async function generateStaticParams() {
-  const res = await fetch('https://api.example.com/bai-viet');
+  const res = await fetch("https://api.example.com/bai-viet");
   const baiViets = await res.json();
 
   // Trả về mảng các params cho từng trang
@@ -157,7 +154,7 @@ export default async function TrangBaiViet({
 }) {
   const res = await fetch(
     `https://api.example.com/bai-viet/${params.slug}`,
-    { cache: 'force-cache' } // Cache vĩnh viễn (SSG behavior)
+    { cache: "force-cache" }, // Cache vĩnh viễn (SSG behavior)
   );
   const baiViet = await res.json();
 
@@ -192,7 +189,7 @@ ISR là **sự kết hợp giữa SSG và SSR**. Trang được generate tĩnh l
 // Trang tin tức -- revalidate mỗi 60 giây
 
 async function layTinTuc() {
-  const res = await fetch('https://api.example.com/tin-tuc', {
+  const res = await fetch("https://api.example.com/tin-tuc", {
     next: { revalidate: 60 }, // Tự động cập nhật mỗi 60 giây
   });
   return res.json();
@@ -223,7 +220,7 @@ Bạn cũng có thể set revalidate cho toàn bộ route:
 export const revalidate = 300;
 
 export default async function TrangSanPham() {
-  const res = await fetch('https://api.example.com/san-pham');
+  const res = await fetch("https://api.example.com/san-pham");
   const sanPhams = await res.json();
 
   return (
@@ -254,11 +251,11 @@ CSR có nghĩa là **browser tải về JavaScript, rồi tự render nội dung
 Trong Next.js App Router, CSR được dùng qua `"use client"` directive:
 
 ```tsx
-'use client';
+"use client";
 // app/components/TimKiemSanPham.tsx
 // Component tìm kiếm -- render hoàn toàn trên browser
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 interface SanPham {
   id: number;
@@ -267,7 +264,7 @@ interface SanPham {
 }
 
 export default function TimKiemSanPham() {
-  const [tuKhoa, setTuKhoa] = useState('');
+  const [tuKhoa, setTuKhoa] = useState("");
   const [ketQua, setKetQua] = useState<SanPham[]>([]);
   const [dangTai, setDangTai] = useState(false);
 
@@ -285,7 +282,7 @@ export default function TimKiemSanPham() {
         const data = await res.json();
         setKetQua(data);
       } catch (error) {
-        console.error('Lỗi tìm kiếm:', error);
+        console.error("Lỗi tìm kiếm:", error);
       } finally {
         setDangTai(false);
       }
@@ -308,7 +305,7 @@ export default function TimKiemSanPham() {
       <ul>
         {ketQua.map((sp) => (
           <li key={sp.id}>
-            {sp.ten} - {sp.gia.toLocaleString('vi-VN')}đ
+            {sp.ten} - {sp.gia.toLocaleString("vi-VN")}đ
           </li>
         ))}
       </ul>
@@ -321,15 +318,15 @@ export default function TimKiemSanPham() {
 
 ## 5. Bảng so sánh: SSR vs SSG vs ISR vs CSR
 
-| Tiêu chí | SSR | SSG | ISR | CSR |
-|---|---|---|---|---|
-| **Thời điểm render** | Mỗi request | Lúc build | Lúc build + revalidate | Trên browser |
-| **Tốc độ (TTFB)** | Chậm hơn | Nhanh nhất | Nhanh (như SSG) | Nhanh (HTML trống) |
-| **SEO** | Tot | Tot | Tot | Kem |
-| **Dữ liệu** | Luôn mới nhất | Cũ (từ lúc build) | Tương đối mới | Luôn mới nhất |
-| **Tải server** | Cao | Thấp nhất | Thấp | Thấp |
-| **Phù hợp cho** | Dashboard, real-time | Blog, docs, landing | E-commerce, tin tức | SPA, form, chat |
-| **Caching** | Không cache HTML | Cache trên CDN | Cache + auto-refresh | Cache trên client |
+| Tiêu chí             | SSR                  | SSG                 | ISR                    | CSR                |
+| -------------------- | -------------------- | ------------------- | ---------------------- | ------------------ |
+| **Thời điểm render** | Mỗi request          | Lúc build           | Lúc build + revalidate | Trên browser       |
+| **Tốc độ (TTFB)**    | Chậm hơn             | Nhanh nhất          | Nhanh (như SSG)        | Nhanh (HTML trống) |
+| **SEO**              | Tot                  | Tot                 | Tot                    | Kem                |
+| **Dữ liệu**          | Luôn mới nhất        | Cũ (từ lúc build)   | Tương đối mới          | Luôn mới nhất      |
+| **Tải server**       | Cao                  | Thấp nhất           | Thấp                   | Thấp               |
+| **Phù hợp cho**      | Dashboard, real-time | Blog, docs, landing | E-commerce, tin tức    | SPA, form, chat    |
+| **Caching**          | Không cache HTML     | Cache trên CDN      | Cache + auto-refresh   | Cache trên client  |
 
 ### Tóm tắt trực quan
 
@@ -358,14 +355,14 @@ Dữ liệu có thay đổi theo từng user không?
 
 ### Ví dụ thực tế
 
-| Loại trang | Phương pháp | Lý do |
-|---|---|---|
-| Trang chủ công ty | SSG | Nội dung ít thay đổi, cần tốc độ |
-| Blog cá nhân | SSG / ISR | Bài viết ít thay đổi |
-| Trang sản phẩm e-commerce | ISR (60s) | Giá và tồn kho thỉnh thoảng thay đổi |
-| Feed mạng xã hội | SSR | Dữ liệu khác nhau theo user, cần SEO |
-| Dashboard admin | CSR | Không cần SEO, tương tác nhiều |
-| Trang thanh toán | CSR | Không cần SEO, logic phức tạp |
+| Loại trang                | Phương pháp | Lý do                                |
+| ------------------------- | ----------- | ------------------------------------ |
+| Trang chủ công ty         | SSG         | Nội dung ít thay đổi, cần tốc độ     |
+| Blog cá nhân              | SSG / ISR   | Bài viết ít thay đổi                 |
+| Trang sản phẩm e-commerce | ISR (60s)   | Giá và tồn kho thỉnh thoảng thay đổi |
+| Feed mạng xã hội          | SSR         | Dữ liệu khác nhau theo user, cần SEO |
+| Dashboard admin           | CSR         | Không cần SEO, tương tác nhiều       |
+| Trang thanh toán          | CSR         | Không cần SEO, logic phức tạp        |
 
 ---
 
@@ -385,23 +382,23 @@ export default function TrangChu() {
 export const revalidate = 300;
 
 export default async function SanPham() {
-  const data = await fetch('https://api.example.com/san-pham');
+  const data = await fetch("https://api.example.com/san-pham");
   // ...
 }
 ```
 
 ```tsx
 // app/dashboard/page.tsx -- SSR (luôn mới nhất)
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function Dashboard() {
-  const data = await fetch('https://api.example.com/stats');
+  const data = await fetch("https://api.example.com/stats");
   // ...
 }
 ```
 
 ```tsx
-'use client';
+"use client";
 // app/components/Chat.tsx -- CSR (tương tác real-time)
 export default function Chat() {
   // WebSocket, useState, useEffect...
@@ -415,7 +412,7 @@ Bạn có thể mix Server Components (SSR/SSG) với Client Components (CSR) tr
 ```tsx
 // app/san-pham/[id]/page.tsx
 // Server Component -- render trên server (SSR hoặc ISR)
-import ThemVaoGio from '@/components/ThemVaoGio';
+import ThemVaoGio from "@/components/ThemVaoGio";
 
 export default async function ChiTietSanPham({
   params,
@@ -433,7 +430,7 @@ export default async function ChiTietSanPham({
       {/* Nội dung tĩnh -- render server, SEO tốt */}
       <h1>{sp.ten}</h1>
       <p>{sp.moTa}</p>
-      <p>Giá: {sp.gia.toLocaleString('vi-VN')}đ</p>
+      <p>Giá: {sp.gia.toLocaleString("vi-VN")}đ</p>
 
       {/* Component tương tác -- render client */}
       <ThemVaoGio sanPhamId={sp.id} />
@@ -443,11 +440,11 @@ export default async function ChiTietSanPham({
 ```
 
 ```tsx
-'use client';
+"use client";
 // app/components/ThemVaoGio.tsx
 // Client Component -- xử lý tương tác
 
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function ThemVaoGio({ sanPhamId }: { sanPhamId: number }) {
   const [soLuong, setSoLuong] = useState(1);
@@ -468,7 +465,7 @@ export default function ThemVaoGio({ sanPhamId }: { sanPhamId: number }) {
         max={10}
       />
       <button onClick={xuLyThemVaoGio}>
-        {daThemVaoGio ? 'Da them vao gio!' : 'Them vao gio hang'}
+        {daThemVaoGio ? "Da them vao gio!" : "Them vao gio hang"}
       </button>
     </div>
   );
@@ -490,8 +487,8 @@ export default async function TrangSanPham() {
 
 // DUNG -- Fetch truc tiep trong Server Component
 export default async function TrangSanPham() {
-  const res = await fetch('https://api.example.com/san-pham', {
-    cache: 'no-store',
+  const res = await fetch("https://api.example.com/san-pham", {
+    cache: "no-store",
   });
   const data = await res.json();
   // ...
@@ -502,7 +499,7 @@ export default async function TrangSanPham() {
 
 ```tsx
 // SAI -- Thieu "use client"
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function BoiDem() {
   const [dem, setDem] = useState(0); // LOI runtime!
@@ -510,9 +507,9 @@ export default function BoiDem() {
 }
 
 // DUNG -- Them "use client" o dong dau tien
-'use client';
+("use client");
 
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function BoiDem() {
   const [dem, setDem] = useState(0);
@@ -526,7 +523,7 @@ export default function BoiDem() {
 // Ca hai deu co nghia la "khong cache" nhung cach dung khac nhau:
 
 // Cach 1: Dung option cache
-fetch(url, { cache: 'no-store' });
+fetch(url, { cache: "no-store" });
 
 // Cach 2: Dung next.revalidate = 0
 fetch(url, { next: { revalidate: 0 } });
@@ -562,13 +559,15 @@ SSG tao HTML tinh luc build, nhung **van can server de chay `next build`**. Sau 
 Co 3 cach chinh:
 
 1. Dung `cache: 'no-store'` trong fetch:
+
 ```tsx
-fetch(url, { cache: 'no-store' });
+fetch(url, { cache: "no-store" });
 ```
 
 2. Dung route segment config:
+
 ```tsx
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 ```
 
 3. Su dung dynamic functions nhu `cookies()`, `headers()`, hoac `searchParams` -- Next.js tu dong chuyen sang SSR.
@@ -585,6 +584,7 @@ ISR hoat dong theo mo hinh **stale-while-revalidate**:
 4. Khi re-generate xong, request tiep theo se nhan HTML moi.
 
 Vi du voi `revalidate: 60`:
+
 - Giay 0-59: Moi request nhan HTML da cache
 - Giay 60: Request nay nhan HTML cu, nhung trigger re-generate
 - Giay 61+: Cac request tiep theo nhan HTML moi (neu re-generate xong)
@@ -594,6 +594,7 @@ Vi du voi `revalidate: 60`:
 **Tra loi:**
 
 Khong nen dung CSR khi:
+
 - Trang can **SEO tot** (search engine kho doc noi dung CSR)
 - Trang can **hien thi noi dung nhanh** (FCP, LCP) -- CSR phai doi tai JS truoc khi render
 - Nguoi dung co **ket noi mang cham** hoac **thiet bi yeu** -- render tren client ton tai nguyen cua thiet bi
@@ -606,6 +607,7 @@ Khong nen dung CSR khi:
 Hybrid rendering la kha nang **ket hop nhieu phuong phap rendering trong cung mot ung dung**. Day la diem manh cot loi cua Next.js.
 
 Vi du mot trang e-commerce:
+
 - **Trang chu**: SSG (noi dung tinh, toc do cao)
 - **Trang danh muc san pham**: ISR voi `revalidate: 300` (cap nhat moi 5 phut)
 - **Trang chi tiet san pham**: ISR voi `revalidate: 60` (gia co the thay doi)
