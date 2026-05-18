@@ -1,6 +1,6 @@
 ---
-sidebar_position: 3
-title: "3. Modules (import/export)"
+sidebar_position: 1
+title: "1. Modules (import/export, CommonJS, ESM)"
 ---
 
 # Modules (import/export)

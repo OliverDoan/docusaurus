@@ -1,6 +1,6 @@
 ---
-sidebar_position: 8
-title: "8. Iterator & Generator"
+sidebar_position: 1
+title: "1. Iterator & Generator"
 ---
 
 # Iterator & Generator

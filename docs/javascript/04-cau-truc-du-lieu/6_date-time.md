@@ -1,6 +1,6 @@
 ---
-sidebar_position: 9
-title: "9. Ngày & Thời gian (Date)"
+sidebar_position: 6
+title: "6. Ngày & Thời gian (Date)"
 ---
 
 # Ngày & Thời gian (Date)

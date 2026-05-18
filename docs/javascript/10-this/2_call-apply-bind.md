@@ -1,6 +1,6 @@
 ---
-sidebar_position: 7
-title: "7. Call, Apply, Bind"
+sidebar_position: 2
+title: "2. Call, Apply, Bind"
 ---
 
 # Call, Apply, Bind

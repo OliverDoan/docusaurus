@@ -1,6 +1,6 @@
 ---
-sidebar_position: 9
-title: "9. Design Patterns"
+sidebar_position: 3
+title: "3. Design Patterns"
 ---
 
 # Design Patterns

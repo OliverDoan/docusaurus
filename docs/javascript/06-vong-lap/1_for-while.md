@@ -1,6 +1,6 @@
 ---
-sidebar_position: 6
-title: "6. Vòng lặp"
+sidebar_position: 1
+title: "1. Vòng lặp (for, while, do...while)"
 ---
 
 # Vòng lặp

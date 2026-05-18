@@ -1,6 +1,6 @@
 ---
-sidebar_position: 2
-title: "2. Biến (var, let, const)"
+sidebar_position: 1
+title: "1. Biến (var, let, const)"
 ---
 
 # Biến (var, let, const)

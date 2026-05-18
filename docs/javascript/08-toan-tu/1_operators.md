@@ -1,6 +1,6 @@
 ---
-sidebar_position: 4
-title: "4. Toán tử"
+sidebar_position: 1
+title: "1. Toán tử"
 ---
 
 # Toán tử

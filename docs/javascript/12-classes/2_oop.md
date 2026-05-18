@@ -1,6 +1,6 @@
 ---
-sidebar_position: 7
-title: "7. OOP trong JavaScript"
+sidebar_position: 2
+title: "2. OOP trong JavaScript"
 ---
 
 # OOP trong JavaScript

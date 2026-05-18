@@ -1,6 +1,6 @@
 ---
-sidebar_position: 5
-title: "5. Câu lệnh điều kiện"
+sidebar_position: 1
+title: "1. Câu lệnh điều kiện (if/else, switch)"
 ---
 
 # Câu lệnh điều kiện

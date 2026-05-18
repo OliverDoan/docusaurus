@@ -1,6 +1,6 @@
 ---
-sidebar_position: 4
-title: "4. Classes"
+sidebar_position: 1
+title: "1. Classes"
 ---
 
 # Classes

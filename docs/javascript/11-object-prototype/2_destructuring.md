@@ -1,6 +1,6 @@
 ---
-sidebar_position: 4
-title: "4. Destructuring"
+sidebar_position: 2
+title: "2. Destructuring"
 ---
 
 # Destructuring

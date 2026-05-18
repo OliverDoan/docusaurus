@@ -1,6 +1,6 @@
 ---
-sidebar_position: 10
-title: "10. Biểu thức chính quy (Regex)"
+sidebar_position: 2
+title: "2. Biểu thức chính quy (Regex)"
 ---
 
 # Biểu thức chính quy (Regex)

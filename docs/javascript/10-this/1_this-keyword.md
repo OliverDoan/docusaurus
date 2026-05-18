@@ -1,6 +1,6 @@
 ---
-sidebar_position: 6
-title: "6. Keyword this"
+sidebar_position: 1
+title: "1. Keyword this"
 ---
 
 # Keyword this

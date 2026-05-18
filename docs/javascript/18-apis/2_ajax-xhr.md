@@ -1,6 +1,6 @@
 ---
-sidebar_position: 5
-title: "5. Ajax & XMLHttpRequest"
+sidebar_position: 2
+title: "2. Ajax & XMLHttpRequest"
 ---
 
 # Ajax & XMLHttpRequest
@@ -245,7 +245,7 @@ fetch("/api/users")
   .catch(error => console.error(error));
 ```
 
-> **Tham khảo:** Xem chi tiết Fetch API tại bài [Fetch API](../bat-dong-bo/4_fetch-api.md) và cách làm việc với JSON tại bài [JSON](../mang-va-object/6_json.md).
+> **Tham khảo:** Xem chi tiết Fetch API tại bài [Fetch API](./1_fetch-api.md) và cách làm việc với JSON tại bài [JSON](../04-cau-truc-du-lieu/5_json.md).
 
 ### 3. Axios (Thư viện bên thứ 3) — Tốt nhất
 

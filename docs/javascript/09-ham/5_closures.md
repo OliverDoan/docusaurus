@@ -1,6 +1,6 @@
 ---
-sidebar_position: 4
-title: "4. Closures"
+sidebar_position: 5
+title: "5. Closures"
 ---
 
 # Closures

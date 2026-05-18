@@ -1,6 +1,6 @@
 ---
-sidebar_position: 7
-title: "7. Chuỗi (String)"
+sidebar_position: 3
+title: "3. Chuỗi (String)"
 ---
 
 # Chuỗi (String)
