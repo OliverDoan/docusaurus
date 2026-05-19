@@ -103,6 +103,12 @@ const config: Config = {
         },
         {
           type: 'docSidebar',
+          sidebarId: 'typescriptSidebar',
+          position: 'left',
+          label: 'TypeScript',
+        },
+        {
+          type: 'docSidebar',
           sidebarId: 'reactSidebar',
           position: 'left',
           label: 'React',

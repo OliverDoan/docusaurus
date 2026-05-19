@@ -1,0 +1,132 @@
+---
+sidebar_position: 2
+title: "2. TypeScript vs JavaScript"
+---
+
+# TypeScript vs JavaScript
+
+---
+
+## Mục lục
+
+- [So sánh tổng quan](#so-sánh-tổng-quan)
+- [Static typing vs Dynamic typing](#static-typing-vs-dynamic-typing)
+- [Compile-time vs Runtime](#compile-time-vs-runtime)
+- [Khi nào nên dùng TypeScript?](#khi-nào-nên-dùng-typescript)
+
+---
+
+## So sánh tổng quan
+
+| Tiêu chí | JavaScript | TypeScript |
+|----------|-----------|------------|
+| Loại | Ngôn ngữ chạy thực thi | Superset của JS, compile thành JS |
+| Type system | Dynamic, weak | Static, structural |
+| Phát hiện lỗi | Runtime | Compile-time |
+| Tooling (IDE hint) | Hạn chế | Mạnh (IntelliSense, refactor) |
+| Cần build step? | Không (chạy trực tiếp) | Có (qua `tsc` hoặc bundler) |
+| Học khó hơn? | Dễ hơn | Cần học type + JS |
+| File extension | `.js`, `.mjs`, `.cjs` | `.ts`, `.tsx` |
+
+---
+
+## Static typing vs Dynamic typing
+
+JavaScript là **dynamic** — kiểu được xác định tại lúc chạy:
+
+```js
+let x = 10;
+x = "hello"; // OK
+x = true;    // OK
+```
+
+TypeScript là **static** — kiểu được khai báo trước, kiểm tra tại compile:
+
+```ts
+let x: number = 10;
+x = "hello"; // Error: Type 'string' is not assignable to type 'number'
+```
+
+:::info[Phân tích]
+
+TypeScript dùng **structural typing** (kiểu cấu trúc), không phải
+**nominal typing** (kiểu định danh) như Java/C#.
+
+Hai type khác tên nhưng cùng "hình dạng" thì **tương thích**:
+
+```ts
+interface Point { x: number; y: number; }
+interface Coord { x: number; y: number; }
+
+const p: Point = { x: 1, y: 2 };
+const c: Coord = p; // OK — cùng shape
+```
+
+Đây là lý do TypeScript rất linh hoạt khi làm việc với object literal,
+nhưng cũng là nguồn của một số bug "trùng shape không mong muốn".
+
+:::
+
+---
+
+## Compile-time vs Runtime
+
+JavaScript chỉ kiểm tra lỗi khi code thực sự chạy:
+
+```js
+const user = { name: "An" };
+console.log(user.age.toFixed(2)); // TypeError tại runtime
+```
+
+TypeScript bắt lỗi ngay khi viết:
+
+```ts
+const user = { name: "An" };
+console.log(user.age.toFixed(2));
+// Error: Property 'age' does not exist on type '{ name: string; }'
+```
+
+:::warning[Cần lưu ý]
+
+Type của TypeScript **không tồn tại tại runtime**. Code dưới đây pass
+compile nhưng vẫn có thể crash:
+
+```ts
+function process(data: User) {
+  console.log(data.name.toUpperCase());
+}
+
+// Dữ liệu từ API có thể không đúng type
+const apiData = JSON.parse(response) as User; // 'as' chỉ nói dối TS
+process(apiData); // Crash nếu apiData.name không phải string
+```
+
+→ Phải **validate runtime** ở biên hệ thống (API, user input, file).
+Đừng tin tưởng `as` để bỏ qua kiểm tra.
+
+:::
+
+---
+
+## Khi nào nên dùng TypeScript?
+
+**Nên dùng:**
+
+- Project trung bình – lớn (≥ vài nghìn dòng code).
+- Nhiều người cùng làm.
+- Dự án dài hạn, cần maintain.
+- Backend Node.js, frontend React/Next.js production.
+
+**Có thể bỏ qua:**
+
+- Script nhỏ một file, dùng một lần.
+- Prototype nhanh để demo concept.
+- Học JS thuần lần đầu (nên nắm JS trước rồi học TS).
+
+:::tip[Mẹo]
+
+Các framework hiện đại (Next.js, Nuxt, Remix, NestJS, Astro) đều có
+**TypeScript template** mặc định. Khi tạo project mới, chọn template
+TypeScript ngay từ đầu sẽ ít công hơn là migrate sau.
+
+:::
