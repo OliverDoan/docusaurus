@@ -1,0 +1,243 @@
+---
+sidebar_position: 1
+title: "1. Event Loop, setTimeout, setInterval"
+---
+
+# Event Loop, setTimeout, setInterval
+
+---
+
+## Mục lục
+
+- [Single-threaded model](#single-threaded-model)
+- [Event Loop](#event-loop)
+- [Macrotask vs Microtask](#macrotask-vs-microtask)
+- [setTimeout và setInterval](#settimeout-và-setinterval)
+- [queueMicrotask, requestAnimationFrame](#queuemicrotask-requestanimationframe)
+
+---
+
+## Single-threaded model
+
+JavaScript chạy trên **một luồng duy nhất** — một thời điểm chỉ thực
+thi một thứ. Nhưng vẫn xử lý được nhiều việc cùng lúc nhờ **event
+loop** + I/O bất đồng bộ.
+
+```js
+console.log("1");
+setTimeout(() => console.log("2"), 0);
+console.log("3");
+
+// In: 1, 3, 2
+```
+
+Tại sao `2` ra cuối? Vì `setTimeout` đẩy callback vào **queue**, được
+chạy **sau** khi call stack rỗng.
+
+---
+
+## Event Loop
+
+Mô hình runtime của JS gồm:
+
+- **Call Stack** — function đang chạy.
+- **Task Queue (Macrotask)** — `setTimeout`, `setInterval`, I/O, UI event.
+- **Microtask Queue** — Promise callback, `queueMicrotask`, `MutationObserver`.
+- **Heap** — bộ nhớ chứa object.
+
+Event loop:
+
+```
+1. Pop frame từ call stack đến khi rỗng.
+2. Chạy hết microtask queue.
+3. (Browser) render UI nếu cần.
+4. Lấy 1 task từ macrotask queue → push vào stack.
+5. Lặp lại từ bước 1.
+```
+
+:::info[Phân tích]
+
+**Microtask luôn ưu tiên hơn macrotask:**
+
+```js
+console.log("1");
+
+setTimeout(() => console.log("2"), 0);
+
+Promise.resolve().then(() => console.log("3"));
+
+console.log("4");
+
+// In: 1, 4, 3, 2
+```
+
+Giải thích:
+
+1. Sync code: `1` → `4`.
+2. Call stack rỗng → flush microtask queue → `3`.
+3. Lấy macrotask → `2`.
+
+Điều này có hệ quả thực tế: **Promise.then chạy nhanh hơn setTimeout(0)**.
+Code dạng:
+
+```js
+function spam() {
+  Promise.resolve().then(spam);
+}
+spam(); // browser bị treo
+```
+
+Vô tận microtask → browser không bao giờ chạy macrotask (cả render UI).
+Trong khi:
+
+```js
+function spamMacro() {
+  setTimeout(spamMacro, 0);
+}
+spamMacro(); // browser vẫn responsive
+```
+
+Browser được nghỉ giữa các macrotask để render.
+
+:::
+
+---
+
+## Macrotask vs Microtask
+
+| Loại | Bao gồm |
+|------|---------|
+| Macrotask | `setTimeout`, `setInterval`, `setImmediate` (Node), I/O, UI event |
+| Microtask | `Promise.then`, `queueMicrotask`, `MutationObserver`, `process.nextTick` (Node) |
+
+```js
+setTimeout(() => console.log("macro 1"), 0);
+queueMicrotask(() => console.log("micro 1"));
+Promise.resolve().then(() => console.log("micro 2"));
+setTimeout(() => console.log("macro 2"), 0);
+
+// In: micro 1, micro 2, macro 1, macro 2
+```
+
+---
+
+## setTimeout và setInterval
+
+```js
+const id = setTimeout(() => {
+  console.log("Sau 1 giây");
+}, 1000);
+
+clearTimeout(id); // hủy
+```
+
+```js
+const id = setInterval(() => {
+  console.log("Mỗi giây");
+}, 1000);
+
+clearInterval(id);
+```
+
+:::warning[Cần lưu ý]
+
+**`setTimeout(fn, 0)` KHÔNG chạy ngay**:
+
+- Browser/Node có **delay tối thiểu** ~4ms (HTML spec).
+- Callback đợi call stack rỗng + flush microtask.
+- Nested timeout sâu → thêm clamping (làm chậm hơn).
+
+Nếu thực sự muốn "chạy sớm nhất có thể sau code hiện tại":
+
+```js
+queueMicrotask(fn);     // sớm hơn setTimeout(0)
+Promise.resolve().then(fn); // tương đương
+```
+
+`setInterval` có drift — không chạy đúng `1000ms` mỗi lần nếu callback
+mất thời gian. Đếm chính xác nên dùng `Date.now()` so sánh:
+
+```js
+const start = Date.now();
+setInterval(() => {
+  const elapsed = Date.now() - start;
+  // dùng elapsed thay vì giả định mỗi tick = 1000ms
+}, 1000);
+```
+
+:::
+
+---
+
+## queueMicrotask, requestAnimationFrame
+
+**`queueMicrotask`** — đẩy callback vào microtask queue:
+
+```js
+queueMicrotask(() => {
+  // chạy ngay sau code hiện tại, trước macrotask
+});
+```
+
+**`requestAnimationFrame` (browser)** — sync với frame rate (60fps):
+
+```js
+function animate() {
+  // cập nhật DOM/canvas
+  requestAnimationFrame(animate);
+}
+
+requestAnimationFrame(animate);
+```
+
+`rAF` chạy **trước render** — guarantee không drop frame:
+
+```js
+// Tệ — setTimeout có thể trễ
+setTimeout(updateAnimation, 16);
+
+// Tốt — đồng bộ với refresh rate
+requestAnimationFrame(updateAnimation);
+```
+
+:::info[Phân tích]
+
+**Thứ tự ưu tiên trong một "tick" của event loop** (browser):
+
+1. **Sync code** trong call stack.
+2. **Microtask queue** (cho đến khi rỗng).
+3. **requestAnimationFrame** callback (nếu sắp render).
+4. **Render** (paint, composite).
+5. **Macrotask** (1 task).
+
+Trong Node.js cũng tương tự nhưng có thêm `process.nextTick` (ưu tiên cao
+nhất, cao hơn microtask) và các phase của libuv (timers, I/O callbacks,
+poll, check, close).
+
+Hiểu thứ tự này giúp debug:
+- Tại sao state update không reflect trong DOM ngay.
+- Tại sao animation giật.
+- Tại sao một số bug chỉ xảy ra với data lớn (microtask starvation).
+
+:::
+
+:::tip[Mẹo]
+
+**`AbortController` để cancel async**:
+
+```js
+const ctrl = new AbortController();
+
+// Fetch
+fetch(url, { signal: ctrl.signal });
+
+// Sau X ms tự cancel
+setTimeout(() => ctrl.abort(), 5000);
+
+// Hủy thủ công
+button.onclick = () => ctrl.abort();
+```
+
+Pattern modern thay cho việc track `setTimeout` id thủ công.
+
+:::

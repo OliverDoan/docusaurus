@@ -95,7 +95,12 @@ const config: Config = {
         src: 'img/logo.svg',
       },
       items: [
-        
+        {
+          type: 'docSidebar',
+          sidebarId: 'javascriptSidebar',
+          position: 'left',
+          label: 'JavaScript',
+        },
         {
           type: 'docSidebar',
           sidebarId: 'typescriptSidebar',
