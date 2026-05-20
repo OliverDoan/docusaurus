@@ -121,44 +121,50 @@ const config: Config = {
         },
         {
           type: 'docSidebar',
-          sidebarId: 'seoSidebar',
+          sidebarId: 'backendSidebar',
           position: 'left',
-          label: 'SEO',
+          label: 'Backend',
         },
-        {
-          type: 'docSidebar',
-          sidebarId: 'javaSidebar',
-          position: 'left',
-          label: 'Java',
-        },
+        // {
+        //   type: 'docSidebar',
+        //   sidebarId: 'seoSidebar',
+        //   position: 'left',
+        //   label: 'SEO',
+        // },
+        // {
+        //   type: 'docSidebar',
+        //   sidebarId: 'javaSidebar',
+        //   position: 'left',
+        //   label: 'Java',
+        // },
         
-        {
-          type: 'docSidebar',
-          sidebarId: 'gitSidebar',
-          position: 'left',
-          label: 'Git',
-        },
+        // {
+        //   type: 'docSidebar',
+        //   sidebarId: 'gitSidebar',
+        //   position: 'left',
+        //   label: 'Git',
+        // },
        
         
         
-        {
-          type: 'docSidebar',
-          sidebarId: 'interviewSidebar',
-          position: 'left',
-          label: 'FE Interview',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'nodejsSidebar',
-          position: 'left',
-          label: 'Node.js',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'dockerSidebar',
-          position: 'left',
-          label: 'Docker',
-        },
+        // {
+        //   type: 'docSidebar',
+        //   sidebarId: 'interviewSidebar',
+        //   position: 'left',
+        //   label: 'FE Interview',
+        // },
+        // {
+        //   type: 'docSidebar',
+        //   sidebarId: 'nodejsSidebar',
+        //   position: 'left',
+        //   label: 'Node.js',
+        // },
+        // {
+        //   type: 'docSidebar',
+        //   sidebarId: 'dockerSidebar',
+        //   position: 'left',
+        //   label: 'Docker',
+        // },
         {
           type: 'custom-logoutButton',
           position: 'right',

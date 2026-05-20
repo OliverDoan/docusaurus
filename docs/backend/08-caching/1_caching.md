@@ -1,0 +1,375 @@
+---
+sidebar_position: 1
+title: "1. Caching: Redis, Memcached, HTTP Cache"
+---
+
+# Caching: Redis, Memcached, HTTP Cache
+
+---
+
+## Mục lục
+
+- [Caching layers](#caching-layers)
+- [Redis (khuyến nghị)](#redis-khuyến-nghị)
+- [Memcached](#memcached)
+- [HTTP Caching](#http-caching)
+- [CDN Caching](#cdn-caching)
+- [Cache patterns](#cache-patterns)
+
+---
+
+## Caching layers
+
+Web app có nhiều layer cache:
+
+```
+[Browser cache]
+    ↓
+[CDN cache] (CloudFlare, CloudFront)
+    ↓
+[Reverse Proxy cache] (Nginx, Varnish)
+    ↓
+[Application cache] (in-memory, LRU)
+    ↓
+[Distributed cache] (Redis, Memcached)
+    ↓
+[Database query cache]
+    ↓
+[Database storage]
+```
+
+Mỗi layer giảm load cho layer dưới. Cache đúng = **10-100x faster**.
+
+---
+
+## Redis (khuyến nghị)
+
+**In-memory data store** — phổ biến nhất 2026.
+
+```bash
+docker run -d --name redis -p 6379:6379 redis:7-alpine
+```
+
+```ts
+import Redis from "ioredis";
+
+const redis = new Redis(process.env.REDIS_URL);
+
+// Set / Get
+await redis.set("user:1", JSON.stringify(user));
+const cached = await redis.get("user:1");
+
+// Với expire (1 hour)
+await redis.set("user:1", JSON.stringify(user), "EX", 3600);
+
+// Delete
+await redis.del("user:1");
+
+// Increment
+await redis.incr("page_view:home");
+```
+
+**Data structures** đặc biệt của Redis:
+
+```ts
+// List (queue, recent items)
+await redis.lpush("recent_searches", "query1");
+await redis.lrange("recent_searches", 0, 9); // 10 mới nhất
+
+// Set (unique)
+await redis.sadd("user:1:roles", "admin", "editor");
+const isAdmin = await redis.sismember("user:1:roles", "admin");
+
+// Sorted Set (leaderboard)
+await redis.zadd("leaderboard", 100, "user1");
+await redis.zrevrange("leaderboard", 0, 9, "WITHSCORES"); // top 10
+
+// Hash (object)
+await redis.hset("user:1", "name", "An", "age", 25);
+const name = await redis.hget("user:1", "name");
+
+// Pub/Sub
+await redis.publish("channel", "message");
+redis.subscribe("channel");
+redis.on("message", (channel, msg) => console.log(msg));
+
+// Streams (event log)
+await redis.xadd("events", "*", "type", "login", "userId", "1");
+```
+
+**Use case**:
+
+- **Session store** — share session giữa nhiều server.
+- **Cache layer** — query result, computed value.
+- **Rate limiting** — counter + expire.
+- **Queue** (basic) — Bull, BullMQ.
+- **Leaderboard** — sorted set.
+- **Pub/Sub** — real-time event.
+- **Locks** — distributed lock.
+
+:::info[Phân tích]
+
+**Redis ecosystem 2026**:
+
+- **Redis OSS** — open source.
+- **Redis Stack** — Redis + JSON + Search + Graph + Bloom filter.
+- **Upstash** — serverless Redis, HTTP/REST API, pay-per-request.
+- **AWS ElastiCache** — managed Redis trong AWS.
+- **Redis Cloud** — Redis Labs managed.
+- **Valkey** — fork community sau Redis license change 2024.
+
+Năm 2024, Redis chuyển license sang **dual SSPL/RSAL** — không 100%
+open source nữa. **Valkey** (Linux Foundation) là fork miễn phí
+compatible. Cloud provider lớn (AWS, GCP) đã chuyển Valkey.
+
+App code không cần đổi — protocol giống nhau. Chỉ chọn provider/distribution.
+
+:::
+
+---
+
+## Memcached
+
+**Older sibling** của Redis. Đơn giản hơn:
+
+- **Key-value only** — không có data structure phức tạp.
+- **In-memory** — không persist.
+- **Multi-threaded** — scale CPU tốt.
+- **Smaller memory footprint**.
+
+```bash
+docker run -d --name memcached -p 11211:11211 memcached:1.6-alpine
+```
+
+```ts
+import { Client } from "memjs";
+
+const cache = Client.create();
+await cache.set("key", "value", { expires: 3600 });
+const { value } = await cache.get("key");
+```
+
+**Khi dùng Memcached over Redis?**
+
+- App **chỉ cần cache đơn giản** (key-value, expire).
+- Memory cực kỳ critical.
+- Đã có infrastructure Memcached.
+
+→ Redis cover được 99% case, **start với Redis** default.
+
+---
+
+## HTTP Caching
+
+**Cache ở client + proxy** thông qua HTTP headers.
+
+**`Cache-Control`**:
+
+```
+# Cache 1h, ai cũng cache được
+Cache-Control: public, max-age=3600
+
+# Private — chỉ browser cache, không CDN
+Cache-Control: private, max-age=600
+
+# No cache — phải revalidate trước khi dùng
+Cache-Control: no-cache
+
+# No store — không cache ở đâu
+Cache-Control: no-store
+
+# Combo
+Cache-Control: public, max-age=86400, s-maxage=604800, immutable
+```
+
+Directives:
+
+- `max-age=N` — cache N giây.
+- `s-maxage=N` — cache N giây ở **shared cache** (CDN).
+- `public` — bất kỳ cache lưu được.
+- `private` — chỉ user cache.
+- `no-cache` — phải validate trước dùng.
+- `no-store` — không cache.
+- `immutable` — không bao giờ thay đổi.
+- `stale-while-revalidate=N` — serve stale + refresh background.
+
+**`ETag`** — validate cache còn fresh:
+
+```
+Response:
+ETag: "abc123"
+
+Request lần sau:
+If-None-Match: "abc123"
+
+Response:
+304 Not Modified  (no body, save bandwidth)
+```
+
+**`Last-Modified`** — timestamp-based:
+
+```
+Response: Last-Modified: Mon, 5 May 2026 10:00:00 GMT
+Request:  If-Modified-Since: Mon, 5 May 2026 10:00:00 GMT
+Response: 304 Not Modified
+```
+
+:::tip[Mẹo]
+
+**Strategy theo content type**:
+
+| Content | Cache-Control |
+|---------|--------------|
+| Static asset có hash (`app-abc123.js`) | `public, max-age=31536000, immutable` |
+| Image | `public, max-age=86400, s-maxage=604800` |
+| HTML page | `public, max-age=0, s-maxage=60, stale-while-revalidate=3600` |
+| API user-specific | `private, max-age=60` |
+| Sensitive | `no-store` |
+
+**Hash filename** = cache forever. Build tool (Vite, Webpack) tự handle:
+
+```
+app.abc123.js
+app.def456.js  (next build)
+```
+
+Browser cache vô tận file `app.abc123.js`, deploy mới dùng filename mới.
+
+:::
+
+---
+
+## CDN Caching
+
+**CDN (Content Delivery Network)** — cache + serve gần user.
+
+Provider:
+
+- **CloudFlare** — free tier rộng, anti-DDoS.
+- **AWS CloudFront**.
+- **Fastly** — edge programmable.
+- **Vercel** / **Netlify Edge**.
+- **bunny.net** — pricing thấp.
+
+CDN cache:
+
+- **Static asset** (JS, CSS, image, font).
+- **HTML page** (nếu `Cache-Control: s-maxage`).
+- **API response** (nếu cache-able).
+
+**Purge cache** khi update:
+
+```bash
+# CloudFlare CLI
+curl -X POST "https://api.cloudflare.com/.../purge_cache" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"files":["https://example.com/page.html"]}'
+```
+
+---
+
+## Cache patterns
+
+**1. Cache-Aside (Lazy loading)** — phổ biến nhất:
+
+```ts
+async function getUser(id: string) {
+  // Check cache
+  const cached = await redis.get(`user:${id}`);
+  if (cached) return JSON.parse(cached);
+
+  // Miss → query DB
+  const user = await db.user.findUnique({ where: { id } });
+
+  // Store cache
+  await redis.set(`user:${id}`, JSON.stringify(user), "EX", 3600);
+
+  return user;
+}
+```
+
+**2. Write-Through** — write cả cache + DB:
+
+```ts
+async function updateUser(id: string, data) {
+  const user = await db.user.update({ where: { id }, data });
+  await redis.set(`user:${id}`, JSON.stringify(user), "EX", 3600);
+  return user;
+}
+```
+
+**3. Write-Behind** — write cache, async flush DB:
+
+```ts
+async function logEvent(event) {
+  await redis.lpush("event_queue", JSON.stringify(event));
+  // Worker đọc queue, batch insert DB
+}
+```
+
+**4. Cache Invalidation**:
+
+```ts
+// Delete key sau khi update
+async function updatePost(id, data) {
+  await db.post.update({ where: { id }, data });
+  await redis.del(`post:${id}`);
+  await redis.del("posts:list");  // list cache cũng invalid
+}
+```
+
+:::info[Phân tích]
+
+**Cache invalidation là 1 trong 2 vấn đề khó nhất trong CS** (cùng với
+naming).
+
+Pitfall thường gặp:
+
+**1. Stale data**:
+- Update DB, quên invalidate cache.
+- → User thấy data cũ.
+
+**2. Cache stampede**:
+- 1000 user cùng request, key expire → 1000 query DB cùng lúc.
+- Fix: **lock** (chỉ 1 query DB, các request khác đợi), hoặc
+  **early refresh** (refresh background trước khi expire).
+
+**3. Cache penetration**:
+- Query key không tồn tại (`user:non-exist`) → mỗi lần đều miss → DB.
+- Fix: cache **negative result** (`user:non-exist → "null"`, expire short).
+
+**4. Cache avalanche**:
+- Nhiều key expire cùng lúc → DB overwhelmed.
+- Fix: **random jitter** vào TTL (±10%).
+
+```ts
+const ttl = 3600 + Math.floor(Math.random() * 600); // 3600-4200s
+await redis.set(key, value, "EX", ttl);
+```
+
+**5. Hot key**:
+- 1 key được query rất nhiều → Redis instance bottleneck.
+- Fix: local cache layer trước Redis, hoặc replicate hot key.
+
+Senior backend dev biết handle các case này — distinguish junior/mid.
+
+:::
+
+:::tip[Mẹo]
+
+**Quy tắc cache thực dụng**:
+
+1. **Don't cache prematurely** — đo trước, biết bottleneck đâu.
+2. **Cache read-heavy, mutate ít** — user profile, product catalog.
+3. **Don't cache personal-specific** nếu invalidate khó — order, balance.
+4. **TTL ngắn** an toàn hơn TTL dài (max 1h cho data dynamic).
+5. **Invalidate on write** — đừng dựa TTL hoàn toàn.
+6. **Monitor hit rate** — < 80% có thể không đáng cache.
+
+Tool monitor cache:
+
+- `redis-cli --stat` — operation per second.
+- `redis-cli INFO stats` — hit/miss ratio.
+- Datadog, New Relic Redis integration.
+
+:::
