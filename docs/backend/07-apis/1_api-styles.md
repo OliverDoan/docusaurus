@@ -7,6 +7,64 @@ title: "1. API Styles: REST, GraphQL, gRPC"
 
 ---
 
+## API Styles là gì?
+
+**API Style** = **phong cách/kiến trúc thiết kế API** — quy ước về cách
+client và server giao tiếp với nhau qua mạng.
+
+Mỗi style trả lời 4 câu hỏi cốt lõi:
+
+| Câu hỏi | REST | GraphQL | gRPC | tRPC | SOAP |
+|---|---|---|---|---|---|
+| **Transport?** (giao thức) | HTTP/1.1 | HTTP | HTTP/2 | HTTP | HTTP/SMTP |
+| **Format?** (định dạng data) | JSON | JSON | Protobuf (binary) | JSON | XML |
+| **Contract?** (hợp đồng) | OpenAPI (optional) | Schema SDL | `.proto` file | TypeScript types | WSDL |
+| **Paradigm?** (mô hình) | Resource-oriented | Query-oriented | Function call (RPC) | Function call (RPC) | Document-oriented |
+
+### Tại sao có nhiều API styles?
+
+Vì **không có "one size fits all"** — mỗi context có ràng buộc khác nhau:
+
+- **Bandwidth thấp** (mobile 3G) → cần format nhỏ → gRPC / GraphQL thắng.
+- **Public API cho dev khắp thế giới** → cần dễ học, debug bằng `curl` → REST thắng.
+- **Microservice internal** → ưu tiên tốc độ, type-safe → gRPC.
+- **Full-stack TypeScript** → muốn share type không cần codegen → tRPC.
+- **Enterprise legacy** → đã có hệ thống SOAP 20 năm → phải duy trì.
+
+### 2 trục phân loại chính
+
+**Trục 1: Resource vs RPC**
+
+```
+RESOURCE-oriented              RPC-oriented
+(noun, "what")                 (verb, "do what")
+─────────────────────────────────────────────
+REST                           gRPC, tRPC, SOAP
+GET /users/1                   userService.getUser({id: 1})
+```
+
+REST nói "đây là resource, dùng HTTP verb thao tác". RPC nói "gọi hàm này
+với tham số kia" — giống gọi function local.
+
+**Trục 2: Text vs Binary**
+
+```
+TEXT (human-readable)          BINARY (machine-optimized)
+─────────────────────────────────────────────
+REST (JSON), GraphQL, SOAP     gRPC (Protobuf)
+Debug dễ bằng curl/browser     Nhanh hơn 5-10x, nhỏ hơn
+```
+
+### Mental model nhanh khi chọn API style
+
+Hỏi 3 câu:
+
+1. **Ai dùng?** Public → REST. Internal team → tRPC / gRPC. Mobile → GraphQL.
+2. **Performance critical?** Có → gRPC. Không → REST.
+3. **Cần flexible query?** Có (UI nhiều biến thể) → GraphQL. Không → REST.
+
+---
+
 ## Mục lục
 
 - [REST](#rest)

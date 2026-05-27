@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "1. Git và Workflow"
+title: "Git và Workflow"
 ---
 
 # Git và Workflow

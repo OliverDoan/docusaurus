@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "1. Internet hoạt động ra sao?"
+title: "Internet hoạt động ra sao?"
 ---
 
 # Internet hoạt động ra sao?
@@ -22,71 +22,27 @@ title: "1. Internet hoạt động ra sao?"
 **Internet** = mạng lưới toàn cầu của các máy tính kết nối qua **TCP/IP**.
 Mỗi máy có **IP address** duy nhất, giao tiếp với nhau qua các **protocol**.
 
-Stack mạng cơ bản (TCP/IP):
+TCP/IP – Bộ giao thức chuẩn của Internet, gồm:
 
-| Layer | Ví dụ |
-|-------|-------|
-| **Application** | HTTP, DNS, SMTP, SSH |
-| **Transport** | TCP (reliable), UDP (fast) |
-| **Network** | IP (routing) |
-| **Link** | Ethernet, Wi-Fi |
+- TCP (Transmission Control Protocol): đảm bảo dữ liệu được gửi đầy đủ, đúng thứ tự, không lỗi.
+- IP (Internet Protocol): chịu trách nhiệm định tuyến và đánh địa chỉ để dữ liệu đến đúng máy đích.
 
+Protocol (giao thức) – Bộ quy tắc chung quy định cách các máy tính "nói chuyện" với nhau. Ví dụ:
+
+- HTTP/HTTPS: truy cập web
+- FTP: truyền file
+- SMTP: gửi email
+- DNS: chuyển tên miền (google.com) thành IP address
 ---
 
 ## HTTP / HTTPS
 
-**HTTP (HyperText Transfer Protocol)** — giao thức request/response cho web.
+**HTTP (HyperText Transfer Protocol)** — giao thức request/response cho web. Nhược điểm: dữ liệu truyền dạng văn bản thô, dễ bị đọc lén.
 
-Request:
 
-```
-GET /api/users HTTP/1.1
-Host: example.com
-Accept: application/json
-Authorization: Bearer token123
-```
 
-Response:
-
-```
-HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 234
-
-{"users": [...]}
-```
-
-**Status codes:**
-
-- **1xx** Informational.
-- **2xx** Success (200 OK, 201 Created, 204 No Content).
-- **3xx** Redirect (301 Permanent, 302 Found, 304 Not Modified).
-- **4xx** Client error (400 Bad Request, 401 Unauthorized, 403 Forbidden,
-  404 Not Found, 429 Too Many Requests).
-- **5xx** Server error (500 Internal, 502 Bad Gateway, 503 Unavailable,
-  504 Timeout).
-
-**HTTPS** = HTTP + **TLS encryption** — chống nghe lén, tamper. Bắt buộc
+**HTTPS (HTTP Secure)** = HTTP + **TLS encryption** — chống nghe lén, tamper. Bắt buộc
 trong production.
-
-:::info[Phân tích]
-
-**HTTP versions** evolve theo thời gian:
-
-- **HTTP/1.1** (1997): mỗi request 1 connection (hoặc keep-alive). Phổ
-  biến nhất.
-- **HTTP/2** (2015): multiplex nhiều stream trong 1 connection, header
-  compression. Đa số website hiện đại dùng.
-- **HTTP/3** (2022): dùng **QUIC** (UDP-based) thay TCP — nhanh hơn,
-  recover packet loss tốt.
-
-Backend developer cần biết:
-
-- **Idempotent** methods: GET, PUT, DELETE — gọi lại an toàn.
-- **Safe** methods: GET, HEAD — không thay đổi state.
-- **Cacheable**: GET (default), POST cần header.
-
-:::
 
 ---
 
@@ -116,29 +72,6 @@ Flow khi vào `example.com`:
 6. Browser kết nối IP đó.
 ```
 
-**DNS record types:**
-
-| Type | Mục đích |
-|------|---------|
-| `A` | Domain → IPv4 |
-| `AAAA` | Domain → IPv6 |
-| `CNAME` | Alias domain → domain khác |
-| `MX` | Mail server |
-| `TXT` | Metadata (SPF, DKIM, verification) |
-| `NS` | Nameserver |
-| `CAA` | Authorize ai issue SSL cert |
-
-:::tip[Mẹo]
-
-**DNS TTL** quyết định thời gian cache:
-
-- TTL ngắn (60s): đổi DNS nhanh, nhưng load cao.
-- TTL dài (1h, 24h): ít load, đổi DNS phải đợi.
-
-Khi migrate server, **giảm TTL trước 24h**, đổi xong tăng lại. Pattern
-chuẩn cho mọi DNS change quan trọng.
-
-:::
 
 ---
 

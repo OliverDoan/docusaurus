@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "1. Repo Hosting Services"
+title: "Repo Hosting Services"
 ---
 
 # Repo Hosting Services
@@ -19,12 +19,12 @@ title: "1. Repo Hosting Services"
 
 ## So sánh
 
-| Service | Free tier | CI/CD | Container Registry | Vendor |
-|---------|-----------|-------|---------------------|--------|
-| **GitHub** | Unlimited private repo | GitHub Actions | GHCR | Microsoft |
-| **GitLab** | Unlimited private repo | GitLab CI | Container Registry | GitLab Inc |
-| **Bitbucket** | 5 users | Pipelines | Container Registry | Atlassian |
-| **Gitea / Forgejo** | Self-host | Drone/Woodpecker | Optional | Open source |
+| Service             | Free tier              | CI/CD            | Container Registry | Vendor      |
+| ------------------- | ---------------------- | ---------------- | ------------------ | ----------- |
+| **GitHub**          | Unlimited private repo | GitHub Actions   | GHCR               | Microsoft   |
+| **GitLab**          | Unlimited private repo | GitLab CI        | Container Registry | GitLab Inc  |
+| **Bitbucket**       | 5 users                | Pipelines        | Container Registry | Atlassian   |
+| **Gitea / Forgejo** | Self-host              | Drone/Woodpecker | Optional           | Open source |
 
 ---
 
@@ -103,46 +103,3 @@ Phù hợp:
 - Air-gapped environment.
 
 Trade-off: phải tự maintain — security update, backup, scaling.
-
-:::tip[Mẹo]
-
-**Lựa chọn năm 2026**:
-
-```
-Default: GitHub
-├─ Free tier rộng cho mọi project.
-├─ AI tooling (Copilot) tốt nhất.
-├─ Community + integration ecosystem lớn nhất.
-└─ Career: portfolio public dễ visibility.
-
-Khi nào dùng khác?
-├─ Self-host bắt buộc → GitLab / Gitea
-├─ Team dùng Jira → Bitbucket
-├─ Đã GitLab CI mature → giữ GitLab
-└─ Edu / non-profit có free pro → tùy
-```
-
-Solo dev hoặc startup: **GitHub** không lý do để dùng khác.
-
-:::
-
-:::info[Phân tích]
-
-**Tận dụng GitHub features cho backend project**:
-
-- **Actions**: CI test + deploy.
-- **Secrets**: store env vars securely.
-- **Releases**: tag version + artifact.
-- **Issues + Projects**: track work.
-- **Pull Requests**: code review.
-- **Discussions**: Q&A community.
-- **Wiki**: documentation.
-- **Pages**: static site / docs site.
-- **Dependabot**: auto update dependency.
-- **Code scanning**: detect vulnerability.
-- **Sponsorship**: monetize OSS work.
-
-Đa số free cho public repo, generous cho private. Pro plan $4/month
-unlock GitHub Copilot Pro.
-
-:::

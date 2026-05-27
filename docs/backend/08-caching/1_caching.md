@@ -1,9 +1,76 @@
 ---
 sidebar_position: 1
-title: "1. Caching: Redis, Memcached, HTTP Cache"
+title: "Caching: Redis, Memcached, HTTP Cache"
 ---
 
 # Caching: Redis, Memcached, HTTP Cache
+
+---
+
+## Caching là gì?
+
+**Caching** = **lưu tạm kết quả** của một phép tính/truy vấn **đắt tiền** ở
+một nơi **truy cập nhanh hơn**, để lần sau dùng lại mà không phải tính/query
+lại từ đầu.
+
+Tương tự đời thường:
+
+- **Note dán bàn** — số điện thoại hay gọi, không cần mở danh bạ mỗi lần.
+- **Tủ lạnh** — đồ ăn nấu sẵn, không cần đi chợ + nấu mỗi bữa.
+- **Bộ nhớ ngắn hạn** của não — nhớ tên người vừa gặp, không cần "query" lại.
+
+### Tại sao cần caching?
+
+Vì **tốc độ truy cập** chênh lệch rất lớn giữa các tầng lưu trữ:
+
+| Tầng | Thời gian truy cập | So sánh tương đối |
+|---|---|---|
+| CPU register | ~1 ns | 1 giây |
+| L1 cache | ~1 ns | 1 giây |
+| RAM | ~100 ns | 1.5 phút |
+| SSD | ~100 μs | 1 ngày |
+| Database query (cùng region) | ~1-10 ms | 1-10 ngày |
+| HTTP request (cross-region) | ~100 ms | 3 tháng |
+| Database query (phức tạp, JOIN nhiều) | ~1 s | 3 năm |
+
+→ Cache 1 query DB phức tạp vào RAM/Redis = **giảm 100-10000x latency**.
+
+### Nguyên lý hoạt động
+
+```
+[Request] → Check cache?
+              ├─ HIT  → return cached value (nhanh)
+              └─ MISS → query source (chậm)
+                       → lưu vào cache
+                       → return value
+```
+
+**Hit rate** = `hit / (hit + miss)`. Cache tốt thường ≥ 80%.
+
+### Đánh đổi cốt lõi
+
+Cache không miễn phí — bạn đánh đổi:
+
+| Được | Mất |
+|---|---|
+| **Latency** thấp hơn | **Consistency** — data có thể stale (cũ) |
+| **Throughput** cao hơn | **Complexity** — phải invalidate đúng lúc |
+| **Cost** thấp hơn (ít query DB) | **Memory** — cache tốn RAM |
+
+> *"There are only two hard things in Computer Science: cache invalidation
+> and naming things."* — Phil Karlton.
+
+### Mental model: khi nào nên cache?
+
+3 câu hỏi:
+
+1. **Data có đắt để tính/query không?** (DB join phức tạp, API external, AI inference) → đáng cache.
+2. **Data có được đọc nhiều hơn ghi không?** (product catalog, user profile) → đáng cache.
+3. **Stale data trong N giây có chấp nhận được không?** (feed, dashboard) → đáng cache.
+
+Nếu cả 3 câu là **Có** → cache. Nếu data đổi liên tục và phải real-time
+(balance tài khoản, inventory bán hàng) → cân nhắc kỹ hoặc dùng cache với
+TTL rất ngắn + invalidate chặt.
 
 ---
 

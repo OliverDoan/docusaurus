@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "1. Chọn ngôn ngữ Backend"
+title: "Chọn ngôn ngữ Backend"
 ---
 
 # Chọn ngôn ngữ Backend
@@ -9,27 +9,11 @@ title: "1. Chọn ngôn ngữ Backend"
 
 ## Mục lục
 
-- [Quy tắc chọn ngôn ngữ](#quy-tắc-chọn-ngôn-ngữ)
 - [Top khuyến nghị](#top-khuyến-nghị)
 - [Phổ biến khác](#phổ-biến-khác)
 - [So sánh](#so-sánh)
 
----
 
-## Quy tắc chọn ngôn ngữ
-
-**Quy tắc vàng**: học **1 ngôn ngữ thật chắc** trước khi nhảy sang
-ngôn ngữ khác.
-
-Tiêu chí chọn:
-
-- **Job market** ở khu vực bạn ở.
-- **Type project** (web API, system, data, AI).
-- **Sở thích cá nhân** — code lâu dài.
-- **Cộng đồng + tài liệu**.
-- **Performance** vs **DX**.
-
-→ Không có ngôn ngữ "tốt nhất" — chỉ có "phù hợp nhất" cho use case.
 
 ---
 
@@ -143,49 +127,4 @@ Tiêu chí chọn:
 | **Ruby** | Chậm | Dễ | Giảm | Đẹp |
 | **Rust** | **Cực cao** | **Khó** | Tăng | Strict |
 
-:::info[Phân tích]
 
-**Lời khuyên cho từng tình huống**:
-
-| Tình huống | Đề xuất |
-|-----------|---------|
-| Mới học, làm web app | **Node.js (TypeScript)** hoặc Python (FastAPI) |
-| AI/ML/data science | Python |
-| Microservice high-performance | Go hoặc Rust |
-| Enterprise truyền thống | Java (Spring Boot) hoặc C# |
-| Startup small team | Node.js + TypeScript (full-stack TS) |
-| Maintain code 10+ năm | Java, C#, Go (typed, mature) |
-
-**Đừng nhảy ngôn ngữ liên tục** — nghĩ "Go xịn rồi học Go" rồi "Rust nhanh
-học Rust" → kết quả là không biết sâu cái nào.
-
-Pick 1 → master → 1-2 năm → cân nhắc thứ 2 nếu cần.
-
-:::
-
-:::tip[Mẹo]
-
-**Lộ trình thực dụng cho Vietnam 2026**:
-
-**Path 1** (mainstream):
-
-1. Node.js + TypeScript (cùng JS roadmap).
-2. PostgreSQL + Redis.
-3. Docker + AWS/GCP.
-
-**Path 2** (system/performance):
-
-1. Go.
-2. PostgreSQL + Redis.
-3. Kubernetes.
-
-**Path 3** (Python data/AI):
-
-1. Python + FastAPI.
-2. PostgreSQL + Redis.
-3. Data tools (Pandas, NumPy, AI lib).
-
-3 path đều có job tốt. Chọn path **bạn thấy thú vị** — sẽ học sâu hơn,
-không bỏ giữa chừng.
-
-:::
