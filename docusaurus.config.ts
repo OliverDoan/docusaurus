@@ -125,18 +125,24 @@ const config: Config = {
           position: 'left',
           label: 'Backend',
         },
+        {
+          type: 'docSidebar',
+          sidebarId: 'interviewSidebar',
+          position: 'left',
+          label: 'FE Interview',
+        },
         // {
         //   type: 'docSidebar',
         //   sidebarId: 'seoSidebar',
         //   position: 'left',
         //   label: 'SEO',
         // },
-        // {
-        //   type: 'docSidebar',
-        //   sidebarId: 'javaSidebar',
-        //   position: 'left',
-        //   label: 'Java',
-        // },
+        {
+          type: 'docSidebar',
+          sidebarId: 'javaSidebar',
+          position: 'left',
+          label: 'Java',
+        },
         
         // {
         //   type: 'docSidebar',
@@ -147,12 +153,6 @@ const config: Config = {
        
         
         
-        // {
-        //   type: 'docSidebar',
-        //   sidebarId: 'interviewSidebar',
-        //   position: 'left',
-        //   label: 'FE Interview',
-        // },
         // {
         //   type: 'docSidebar',
         //   sidebarId: 'nodejsSidebar',
