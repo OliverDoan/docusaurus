@@ -143,7 +143,7 @@ const config: Config = {
           position: 'left',
           label: 'Java',
         },
-        
+        { type: 'docSidebar', sidebarId: 'reactNativeSidebar', label: 'React Native' },
         // {
         //   type: 'docSidebar',
         //   sidebarId: 'gitSidebar',
