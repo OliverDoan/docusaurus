@@ -127,6 +127,12 @@ const config: Config = {
         },
         {
           type: 'docSidebar',
+          sidebarId: 'sqlSidebar',
+          position: 'left',
+          label: 'SQL',
+        },
+        {
+          type: 'docSidebar',
           sidebarId: 'interviewSidebar',
           position: 'left',
           label: 'FE Interview',
