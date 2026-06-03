@@ -389,6 +389,87 @@ if (obj) doSomething(obj);
 
 ---
 
+## Câu 7: Arrow function khác regular function ở những điểm nào? `[Intermediate]`
+
+### Câu hỏi
+
+> Liệt kê các khác biệt giữa arrow function và `function` thường. Khi nào em **không** được dùng arrow function?
+>
+> ```javascript
+> const obj = {
+>   name: "A",
+>   regular() { return this.name; },
+>   arrow: () => this.name,
+> };
+> obj.regular(); // ?
+> obj.arrow();   // ?
+> ```
+
+### Giải thích lý thuyết
+
+| Đặc điểm                  | Arrow function `() => {}`                  | Regular `function () {}`                  |
+| ------------------------- | ------------------------------------------ | ----------------------------------------- |
+| `this`                    | **Lexical** — kế thừa từ scope ngoài, không bind lại được | Động — phụ thuộc cách gọi (4 quy tắc binding) |
+| `arguments`               | **Không có** (lấy `arguments` lexical)     | Có object `arguments`                     |
+| Dùng với `new`            | **Không** — `TypeError: not a constructor` | Có (constructor)                          |
+| `prototype` property      | Không có                                   | Có                                        |
+| Hoisting                  | Không (là biến — theo `let`/`const`/`var`) | Function declaration được hoist toàn bộ   |
+| `yield` / generator       | Không thể là generator                     | Có thể (`function*`)                      |
+| Cú pháp implicit return   | Có (`x => x * 2`)                           | Không, luôn cần `return`                  |
+| Là method (`super`, named)| Không nên dùng làm method                  | Phù hợp làm method                        |
+
+**Khi KHÔNG dùng arrow function:**
+
+1. **Object method** cần `this` trỏ tới object — arrow lấy `this` lexical (thường là `window`/`undefined`).
+2. **Prototype method** — `Foo.prototype.bar = () => {}` sai `this`.
+3. **Constructor** — không `new` được.
+4. **Event handler DOM** khi cần `this` = element (`addEventListener` callback).
+5. **Generator** hoặc khi cần `arguments` object.
+
+### Code minh hoạ
+
+```javascript
+const obj = {
+  name: "A",
+  regular() { return this.name; },
+  arrow: () => this.name, // this = lexical (module/global), KHÔNG phải obj
+};
+obj.regular(); // "A"
+obj.arrow();   // undefined (this.name ở scope ngoài)
+
+// arguments
+function regular() { return arguments.length; }
+const arrow = () => arguments; // ReferenceError (hoặc lấy arguments ngoài)
+regular(1, 2, 3); // 3
+// → arrow muốn nhận nhiều tham số thì dùng rest: (...args) => args.length
+
+// new
+const Person = (name) => { this.name = name; };
+new Person("A"); // TypeError: Person is not a constructor
+
+// Lợi thế arrow: giữ this trong callback (không cần bind)
+class Timer {
+  seconds = 0;
+  start() {
+    setInterval(() => { this.seconds++; }, 1000); // this = instance ✔
+  }
+}
+
+// Bẫy: arrow làm event handler khi cần this = element
+button.addEventListener("click", function () {
+  this.classList.toggle("active"); // this = button ✔
+});
+button.addEventListener("click", () => {
+  // this KHÔNG phải button → dùng e.currentTarget thay thế
+});
+```
+
+### Đáp án mẫu
+
+> "Khác biệt cốt lõi: arrow function **không có `this` riêng** — nó lấy `this` theo lexical scope nơi định nghĩa, và không thể đổi bằng `call/apply/bind`. Ngoài ra arrow **không có `arguments`**, **không dùng được với `new`** (không phải constructor, không có `prototype`), và không làm generator được. Với đoạn code trên: `obj.regular()` trả `'A'` vì `this` trỏ tới `obj`, còn `obj.arrow()` trả `undefined` vì `this` là scope ngoài chứ không phải `obj`. Vì vậy em **không** dùng arrow cho object method, prototype method, constructor, hay event handler cần `this` = element. Ngược lại, arrow rất hợp làm callback trong `setInterval`, `.map`, hay React class field `handleClick = () => {}` vì nó tự giữ `this` của scope ngoài, khỏi cần `bind`."
+
+---
+
 ## Bẫy thường gặp khi trả lời
 
 | Sai lầm                                              | Đúng là                                                                |
@@ -398,3 +479,5 @@ if (obj) doSomething(obj);
 | "Optional chaining cho phép gán giá trị"             | Không — `a?.b = c` SyntaxError                                          |
 | "Generator phải dùng async"                          | Generator đồng bộ; `async function*` mới là async generator            |
 | "ESM và CJS interop hoàn toàn"                       | Có nhiều edge case (default export, `__dirname`, `require.cache`)      |
+| "Arrow function chỉ là cú pháp ngắn của function"    | Khác về `this`, `arguments`, `new`, `prototype`, generator             |
+| "Arrow function dùng được làm object method"         | Sai `this` — dùng shorthand method `regular() {}` thay thế             |

@@ -25,6 +25,77 @@ title: "1. Hệ quản trị Relational Database"
 với **cột (column)** và **dòng (row)** có cấu trúc nghiêm ngặt
 (**schema**), liên kết qua **foreign key**.
 
+:::info[Thuật ngữ]
+
+**RDBMS (Relational Database Management System)** = **Hệ quản trị Cơ sở
+dữ liệu Quan hệ** — phần mềm quản lý RDB.
+
+PostgreSQL, MySQL/MariaDB, SQLite, MS SQL Server, Oracle DB — tất cả
+đều là **các RDBMS**. Khi nghe "chọn RDBMS nào?" tức là chọn 1 trong
+nhóm trên.
+
+Phân biệt:
+
+- **RDB** = mô hình dữ liệu (table, row, column, foreign key).
+- **RDBMS** = phần mềm hiện thực mô hình đó (Postgres, MySQL…).
+- **SQL** = ngôn ngữ giao tiếp với RDBMS.
+
+:::
+
+:::info[SQL là gì?]
+
+**SQL (Structured Query Language)** = **Ngôn ngữ truy vấn có cấu trúc**
+— ngôn ngữ **chuẩn ANSI/ISO** để giao tiếp với RDBMS: định nghĩa
+schema, thêm/sửa/xoá/đọc data, phân quyền, transaction.
+
+Mỗi RDBMS có **dialect (biến thể)** riêng nhưng phần lớn cú pháp giống
+nhau:
+
+- **PostgreSQL** — PL/pgSQL
+- **MySQL** — MySQL SQL
+- **SQLite** — SQL (subset)
+- **MS SQL Server** — T-SQL (Transact-SQL)
+- **Oracle** — PL/SQL
+
+SQL chia thành các **nhóm lệnh chính**:
+
+| Nhóm    | Tên đầy đủ                   | Mục đích            | Lệnh tiêu biểu                        |
+| ------- | ---------------------------- | ------------------- | ------------------------------------- |
+| **DDL** | Data Definition Language     | Định nghĩa cấu trúc | `CREATE`, `ALTER`, `DROP`, `TRUNCATE` |
+| **DML** | Data Manipulation Language   | Thao tác data       | `INSERT`, `UPDATE`, `DELETE`          |
+| **DQL** | Data Query Language          | Truy vấn data       | `SELECT`                              |
+| **DCL** | Data Control Language        | Phân quyền          | `GRANT`, `REVOKE`                     |
+| **TCL** | Transaction Control Language | Quản lý giao dịch   | `COMMIT`, `ROLLBACK`, `SAVEPOINT`     |
+
+Ví dụ minh hoạ từng nhóm:
+
+```sql
+-- DDL: tạo bảng
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(255) UNIQUE
+);
+
+-- DML: thêm data
+INSERT INTO users (email) VALUES ('alice@example.com');
+
+-- DQL: đọc data
+SELECT * FROM users WHERE email LIKE '%@example.com';
+
+-- DCL: phân quyền
+GRANT SELECT ON users TO readonly_user;
+
+-- TCL: giao dịch
+BEGIN;
+  UPDATE users SET email = 'new@example.com' WHERE id = 1;
+COMMIT;
+```
+
+**Học SQL quan trọng hơn học 1 RDBMS cụ thể** — vì khi đã thạo SQL,
+chuyển giữa Postgres/MySQL/SQLite chỉ là khác biệt nhỏ.
+
+:::
+
 ```sql
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -95,6 +166,7 @@ Connection string:
 postgresql://user:password@localhost:5432/dbname
 ```
 
+<!--
 :::info[Phân tích]
 
 **Tại sao PostgreSQL thắng 2026?**
@@ -118,7 +190,7 @@ Cloud PostgreSQL provider hot 2026:
 Neon đặc biệt thú vị — **branch database** (snapshot trong giây) cho
 preview environment, không phải spin up DB mới.
 
-:::
+::: -->
 
 ---
 
@@ -261,15 +333,15 @@ Developer rarely chọn Oracle cho project mới — quá phức tạp, expensiv
 
 ## So sánh tổng kết
 
-| | PostgreSQL | MySQL | SQLite | MS SQL | Oracle |
-|--|-----------|-------|--------|--------|--------|
-| **Cost** | Free | Free | Free | $$ | $$$$ |
-| **Complexity** | Vừa | Đơn giản | **Cực đơn giản** | Vừa | Phức tạp |
-| **Feature** | **Mạnh nhất** OSS | Trung bình | Hạn chế | Mạnh | **Mạnh nhất** |
-| **Performance** | Tốt | Tốt | Excellent read | Tốt | Excellent |
-| **Scale** | Tốt | **Rất tốt** (Vitess) | Hạn chế | Tốt | Excellent |
-| **Job market VN** | Đang lên | Phổ biến | Embedded | Enterprise | Banking |
-| **Khuyến nghị 2026** | **#1** | OK | Mobile/Edge | Nếu MS stack | Nếu enterprise lớn |
+|                      | PostgreSQL        | MySQL                | SQLite           | MS SQL       | Oracle             |
+| -------------------- | ----------------- | -------------------- | ---------------- | ------------ | ------------------ |
+| **Cost**             | Free              | Free                 | Free             | $$           | $$$$               |
+| **Complexity**       | Vừa               | Đơn giản             | **Cực đơn giản** | Vừa          | Phức tạp           |
+| **Feature**          | **Mạnh nhất** OSS | Trung bình           | Hạn chế          | Mạnh         | **Mạnh nhất**      |
+| **Performance**      | Tốt               | Tốt                  | Excellent read   | Tốt          | Excellent          |
+| **Scale**            | Tốt               | **Rất tốt** (Vitess) | Hạn chế          | Tốt          | Excellent          |
+| **Job market VN**    | Đang lên          | Phổ biến             | Embedded         | Enterprise   | Banking            |
+| **Khuyến nghị 2026** | **#1**            | OK                   | Mobile/Edge      | Nếu MS stack | Nếu enterprise lớn |
 
 :::tip[Mẹo]
 

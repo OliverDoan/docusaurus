@@ -402,6 +402,79 @@ obj = null; // có thể bị GC bất kỳ lúc nào
 
 ---
 
+## Câu 7: Vòng lặp nào chạy nhanh nhất? `[Intermediate]`
+
+### Câu hỏi
+
+> Trong JS có `for`, `for...of`, `forEach`, `for...in`, `map/filter/reduce`. Vòng lặp nào chạy nhanh nhất và tại sao? Em chọn loại nào trong code thực tế?
+
+### Giải thích lý thuyết
+
+Thứ tự tốc độ (nhanh → chậm) trên mảng, đo trong V8 với data lớn:
+
+| Loop                       | Tốc độ tương đối | Lý do                                                              |
+| -------------------------- | ---------------- | ------------------------------------------------------------------ |
+| `for` classic (cache len)  | **Nhanh nhất**   | Không gọi callback, không tạo iterator, chỉ tăng index             |
+| `for...of`                 | Nhanh            | Dùng iterator protocol (`Symbol.iterator`) — có chút overhead       |
+| `forEach`                  | Trung bình       | Mỗi phần tử gọi 1 callback → tốn function call overhead             |
+| `map` / `filter` / `reduce`| Trung bình–chậm  | Callback + tạo mảng/giá trị mới → cấp phát memory                   |
+| `for...in`                 | **Chậm nhất**    | Duyệt cả **key** (string) + đi lên **prototype chain**, không nên dùng cho mảng |
+
+Ba điểm cần nhấn mạnh trong phỏng vấn:
+
+1. **`for` classic thắng** vì không có overhead gọi hàm và không tạo object trung gian. Nhưng phải **cache `length`** (`for (let i = 0, n = arr.length; i < n; i++)`) để khỏi đọc property mỗi vòng.
+2. **`for...in` KHÔNG dùng cho mảng** — nó duyệt key dạng string, kể cả property kế thừa và property tự thêm, sai cả thứ tự lẫn ý nghĩa. `for...in` chỉ hợp khi duyệt key của plain object.
+3. Trong **thực tế**, khác biệt thường **không đáng kể** với mảng vài nghìn phần tử. V8 tối ưu rất mạnh. → Ưu tiên **readability** (`map`/`for...of`), chỉ micro-optimize sau khi **đo** và xác định đây là hot path.
+
+### Code minh hoạ
+
+```javascript
+const arr = Array.from({ length: 1_000_000 }, (_, i) => i);
+
+// NHANH NHẤT: for classic, cache length
+let sum = 0;
+for (let i = 0, n = arr.length; i < n; i++) {
+  sum += arr[i];
+}
+
+// for...of — readable, hơi chậm hơn do iterator
+let sum2 = 0;
+for (const x of arr) sum2 += x;
+
+// forEach — callback overhead, KHÔNG break/continue được, không await tuần tự được
+let sum3 = 0;
+arr.forEach((x) => { sum3 += x; });
+
+// reduce — functional, tạo overhead callback mỗi phần tử
+const sum4 = arr.reduce((acc, x) => acc + x, 0);
+
+// for...in — CHẬM NHẤT + SAI cho mảng
+for (const i in arr) {
+  // i là string "0", "1", ... và duyệt cả property kế thừa
+}
+```
+
+```javascript
+// Cách đo đúng (đừng tin cảm tính)
+function bench(label, fn) {
+  const t0 = performance.now();
+  fn();
+  console.log(`${label}: ${(performance.now() - t0).toFixed(2)}ms`);
+}
+
+bench("for", () => { for (let i = 0, n = arr.length; i < n; i++) arr[i]; });
+bench("for...of", () => { for (const x of arr) x; });
+bench("forEach", () => arr.forEach((x) => x));
+bench("reduce", () => arr.reduce((a, x) => a + x, 0));
+// Lưu ý: chạy nhiều lần, bỏ lần đầu (JIT warm-up) mới có số đáng tin
+```
+
+### Đáp án mẫu
+
+> "Nhanh nhất là **`for` classic** có cache `length` — vì nó không gọi callback và không tạo iterator hay mảng trung gian, chỉ tăng index thuần. Sau đó là `for...of` (tốn chút overhead của iterator protocol), rồi `forEach` và `map/reduce` (mỗi phần tử gọi 1 callback). Chậm nhất là **`for...in`** — nó duyệt key dạng string và đi lên cả prototype chain, nên em **không bao giờ** dùng cho mảng, chỉ dùng để duyệt key của plain object. Nhưng quan trọng hơn: với mảng vài nghìn phần tử thì khác biệt gần như không cảm nhận được vì V8 tối ưu rất mạnh — nên em ưu tiên **đọc dễ hiểu** (`map`, `for...of`) và chỉ đổi sang `for` classic khi đo được đây thực sự là bottleneck. Em cũng nhớ: `forEach` không `break`/`continue` được và không `await` tuần tự được — cần những cái đó thì phải dùng `for...of`."
+
+---
+
 ## Bẫy thường gặp khi trả lời
 
 | Sai lầm                                                | Đúng là                                                            |
@@ -411,3 +484,5 @@ obj = null; // có thể bị GC bất kỳ lúc nào
 | "`indexOf` tìm được NaN"                               | Không, dùng `.includes` cho NaN                                    |
 | "Gán `= null` luôn giúp GC sớm hơn"                    | Local scope tự xử; chỉ hữu ích ở global/closure dài hạn            |
 | "Web Worker share memory với main thread"              | Không (trừ SharedArrayBuffer); message phải postMessage qua structured clone |
+| "Dùng `for...in` để duyệt mảng"                        | Sai — duyệt key string + prototype chain; mảng dùng `for`/`for...of` |
+| "`forEach` nhanh hơn `for` vì là built-in"             | Ngược lại — callback overhead làm `forEach` chậm hơn `for` classic |

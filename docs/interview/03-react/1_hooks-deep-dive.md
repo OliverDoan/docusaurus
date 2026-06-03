@@ -490,6 +490,93 @@ function MeasuredBox() {
 
 ---
 
+## Câu 7: Functional Component vs Class Component — khác gì, chọn cái nào? `[Junior]`
+
+### Câu hỏi
+
+> So sánh Functional Component và Class Component. Hooks thay thế lifecycle method như thế nào? Năm 2026 còn lý do nào để viết Class Component không?
+
+### Giải thích lý thuyết
+
+| Tiêu chí              | Functional Component                          | Class Component                                |
+| --------------------- | --------------------------------------------- | ---------------------------------------------- |
+| Cú pháp               | Hàm trả về JSX                                | `class extends React.Component`, có `render()` |
+| State                 | `useState` / `useReducer`                     | `this.state` + `this.setState`                 |
+| Side effect           | `useEffect` / `useLayoutEffect`               | Lifecycle method (`componentDidMount`...)      |
+| `this`                | Không có (tránh hẳn bug binding `this`)       | Phải bind `this` cho handler                   |
+| Tái dùng logic        | **Custom hook** (gọn, compose được)           | HOC / render props (lồng nhau, "wrapper hell") |
+| Code lượng            | Ngắn hơn rõ rệt                               | Nhiều boilerplate                              |
+| Tối ưu                | `React.memo`, `useMemo`, React Compiler       | `PureComponent`, `shouldComponentUpdate`       |
+| Khuyến nghị 2026      | **Mặc định** — React docs viết bằng FC + hook | Chỉ legacy + 1 ngoại lệ (Error Boundary)       |
+
+**Hooks thay thế lifecycle** như thế nào:
+
+| Class lifecycle                              | Functional (hook) tương đương                                |
+| -------------------------------------------- | ------------------------------------------------------------ |
+| `componentDidMount`                          | `useEffect(() => {...}, [])`                                 |
+| `componentDidUpdate`                         | `useEffect(() => {...}, [deps])`                             |
+| `componentWillUnmount`                       | `useEffect(() => { return () => {...} }, [])` (cleanup)      |
+| `getDerivedStateFromError` / `componentDidCatch` | **Chưa có** hook tương đương → vẫn phải dùng class      |
+
+**Ngoại lệ duy nhất còn cần class (2026): Error Boundary.** React chưa có hook để catch render error, nên Error Boundary vẫn phải là class (hoặc dùng lib `react-error-boundary` bọc sẵn).
+
+### Code minh hoạ
+
+```jsx
+// CLASS COMPONENT — nhiều boilerplate, phải lo this
+class Counter extends React.Component {
+  state = { count: 0 };
+
+  // phải bind this hoặc dùng class field arrow
+  increment = () => this.setState((s) => ({ count: s.count + 1 }));
+
+  componentDidMount() {
+    document.title = `Count: ${this.state.count}`;
+  }
+  componentDidUpdate() {
+    document.title = `Count: ${this.state.count}`;
+  }
+
+  render() {
+    return <button onClick={this.increment}>{this.state.count}</button>;
+  }
+}
+
+// FUNCTIONAL COMPONENT — ngắn gọn, không this, logic gom theo concern
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  // gộp mount + update vào 1 effect theo dependency
+  useEffect(() => {
+    document.title = `Count: ${count}`;
+  }, [count]);
+
+  return <button onClick={() => setCount((c) => c + 1)}>{count}</button>;
+}
+```
+
+```jsx
+// Ngoại lệ vẫn cần class: Error Boundary
+class ErrorBoundary extends React.Component {
+  state = { hasError: false };
+  static getDerivedStateFromError() { return { hasError: true }; }
+  componentDidCatch(error, info) { logError(error, info); }
+  render() {
+    return this.state.hasError ? <Fallback /> : this.props.children;
+  }
+}
+```
+
+### Đáp án mẫu
+
+> "Khác biệt lớn nhất: Functional Component là **hàm** dùng hooks (`useState`, `useEffect`) cho state và side effect, còn Class Component dùng `this.state`, `setState` và lifecycle method. FC không có `this` nên tránh hẳn lớp bug binding `this` trong event handler, code ngắn hơn nhiều, và tái dùng logic bằng **custom hook** thay vì HOC/render props vốn gây 'wrapper hell'.
+>
+> Về lifecycle: `componentDidMount` ↔ `useEffect(fn, [])`, `componentDidUpdate` ↔ `useEffect(fn, [deps])`, `componentWillUnmount` ↔ hàm cleanup return trong `useEffect`. Điểm hay của hook là gom logic **theo concern** (data fetch một effect, subscription một effect) thay vì rải rác qua nhiều lifecycle như class.
+>
+> Năm 2026 em **mặc định dùng Functional Component** — React docs đã viết toàn bộ bằng FC + hooks, React Compiler cũng tối ưu cho FC. Lý do duy nhất còn phải viết class là **Error Boundary**, vì chưa có hook nào catch được render error — nhưng em thường dùng lib `react-error-boundary` để khỏi tự viết class. Còn lại, codebase mới em không viết class component nữa."
+
+---
+
 ## Bẫy thường gặp khi trả lời
 
 | Sai lầm                                                | Đúng là                                                              |
@@ -499,3 +586,6 @@ function MeasuredBox() {
 | "Hook trong custom hook chia sẻ state"                 | Mỗi caller có state riêng                                            |
 | "`useRef` trigger re-render khi `.current` đổi"        | Không — ref change KHÔNG trigger re-render (đó là feature)            |
 | "useState lazy initial dùng `useState(compute())`"     | Phải pass function: `useState(() => compute())`                       |
+| "Functional Component không có lifecycle"              | Có — qua `useEffect` (mount/update/unmount đều map được)             |
+| "Class Component đã bị xoá khỏi React"                 | Vẫn hỗ trợ (không deprecated); chỉ là không nên dùng cho code mới    |
+| "Hook thay thế được mọi thứ của class"                 | Chưa — Error Boundary (`componentDidCatch`) vẫn phải là class        |

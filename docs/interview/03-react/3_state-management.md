@@ -526,6 +526,211 @@ const paymentMachine = createMachine({
 
 ---
 
+## Câu 7: Controlled vs Uncontrolled Components `[Intermediate]`
+
+### Câu hỏi
+
+> Phân biệt controlled và uncontrolled component trong React. Em chọn cái nào khi làm form, và vì sao?
+
+### Giải thích lý thuyết
+
+Khác biệt nằm ở **ai là source of truth cho giá trị input**.
+
+- **Controlled**: React state giữ giá trị. Input nhận `value` từ state và mọi thay đổi đi qua `onChange` → `setState`. React kiểm soát hoàn toàn.
+- **Uncontrolled**: DOM tự giữ giá trị. React không quản lý từng keystroke; khi cần đọc giá trị thì lấy qua `ref` (hoặc lúc submit). Dùng `defaultValue` cho giá trị khởi tạo.
+
+| Tiêu chí                  | Controlled                          | Uncontrolled                         |
+| ------------------------- | ----------------------------------- | ------------------------------------ |
+| Source of truth           | React state                         | DOM                                  |
+| Đọc giá trị               | Từ state (luôn có sẵn)              | Qua `ref` khi cần                    |
+| Giá trị khởi tạo          | `value={state}`                     | `defaultValue` / `defaultChecked`    |
+| Validate real-time        | Dễ (mỗi keystroke có state)        | Khó (phải đọc ref)                   |
+| Format/mask khi gõ        | Dễ                                  | Khó                                  |
+| Disable nút submit động   | Dễ                                  | Khó                                  |
+| Re-render mỗi keystroke   | Có (cần lưu ý performance)          | Không                                |
+| Tích hợp non-React / file | Khó (`<input type=file>` luôn uncontrolled) | Tự nhiên                     |
+| Code lượng                | Nhiều hơn                           | Gọn hơn                              |
+
+**Điểm mấu chốt**: React **khuyến nghị controlled** cho hầu hết form vì state là single source of truth — dễ validate, format, điều khiển UI theo giá trị. Uncontrolled hợp cho form đơn giản, file input, hoặc khi tích hợp thư viện ngoài.
+
+### Code minh hoạ
+
+```jsx
+// === Controlled — React state là source of truth ===
+import { useState } from "react";
+
+function ControlledForm() {
+  const [email, setEmail] = useState("");
+
+  // Validate real-time dễ dàng vì luôn có giá trị trong state
+  const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  return (
+    <form>
+      <input
+        value={email}                              // value đến từ state
+        onChange={(e) => setEmail(e.target.value)} // mọi thay đổi qua state
+      />
+      {!isValid && email && <span>Email không hợp lệ</span>}
+      <button disabled={!isValid}>Gửi</button>
+    </form>
+  );
+}
+
+// === Uncontrolled — DOM giữ giá trị, đọc qua ref ===
+import { useRef } from "react";
+
+function UncontrolledForm() {
+  const emailRef = useRef(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Chỉ đọc giá trị khi submit
+    console.log(emailRef.current.value);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input ref={emailRef} defaultValue="" />  {/* defaultValue, không phải value */}
+      <button>Gửi</button>
+    </form>
+  );
+}
+
+// === File input LUÔN uncontrolled (read-only với React) ===
+function FileUpload() {
+  const fileRef = useRef(null);
+  const handleSubmit = () => {
+    const file = fileRef.current.files[0]; // bắt buộc đọc qua ref
+  };
+  return <input type="file" ref={fileRef} />;
+}
+
+// ❌ Bẫy: value mà không có onChange → input bị "khoá", warning từ React
+<input value={email} /> // read-only! Phải có onChange hoặc dùng defaultValue
+
+// ❌ Bẫy: value={undefined} → input nhảy giữa uncontrolled và controlled
+<input value={user?.email} /> // nếu user undefined → warning "switching controlled"
+// ✅ Fix: value={user?.email ?? ""}
+```
+
+### Đáp án mẫu
+
+> "Khác biệt cốt lõi là **ai giữ source of truth cho giá trị input**. Controlled thì React state giữ — input có `value={state}` và mọi thay đổi đi qua `onChange`. Uncontrolled thì DOM tự giữ, React chỉ đọc qua `ref` khi cần (thường lúc submit), dùng `defaultValue` cho giá trị khởi tạo.
+>
+> Mặc định em dùng **controlled** cho hầu hết form, vì state là single source of truth nên làm gì cũng dễ: validate real-time mỗi keystroke, format/mask (số điện thoại, tiền tệ), disable nút submit theo điều kiện, đồng bộ nhiều field với nhau. React cũng khuyến nghị controlled.
+>
+> Em dùng **uncontrolled** khi form rất đơn giản chỉ cần đọc lúc submit, hoặc bắt buộc — như `<input type='file'>` luôn uncontrolled vì lý do bảo mật (JS không set được giá trị file). Uncontrolled cũng tránh re-render mỗi keystroke nên nhẹ hơn cho form lớn.
+>
+> Thực tế production em hiếm khi tự quản state từng field — dùng **React Hook Form**. Nó thông minh ở chỗ dùng uncontrolled (ref) bên dưới để tránh re-render, nhưng vẫn cho API validate tiện như controlled — lấy được cả performance lẫn DX.
+>
+> Hai bẫy hay gặp: (1) đặt `value` mà quên `onChange` → input bị khoá, React warning; (2) `value={user?.email}` khi `user` undefined → input nhảy giữa uncontrolled và controlled, React warning — fix bằng `?? ''`."
+
+### Bẫy thường gặp khi trả lời
+
+- **`value` thiếu `onChange`** → input read-only, React cảnh báo. Dùng `readOnly` nếu cố ý, hoặc thêm `onChange`.
+- **`value={undefined}` rồi sau đó có giá trị** → React báo "changing an uncontrolled input to controlled". Luôn khởi tạo `value={x ?? ""}`.
+- **File input** không thể controlled — luôn đọc qua `ref`.
+- **Performance**: controlled re-render mỗi keystroke; với form rất lớn cân nhắc uncontrolled hoặc React Hook Form.
+
+---
+
+## Câu 8: So sánh các cách gọi API trong React `[Intermediate]`
+
+### Câu hỏi
+
+> Trong React có những cách nào để gọi API? So sánh `fetch` + `useEffect`, `axios`, TanStack Query (React Query), SWR, RTK Query. Em chọn cái nào cho dự án thật và vì sao?
+
+### Giải thích lý thuyết
+
+Chia làm 2 nhóm bản chất khác nhau:
+
+- **HTTP client** (chỉ lo *gửi request*): `fetch`, `axios` — không có cache, không dedupe, không quản lý loading/error giúp bạn.
+- **Data-fetching / server-state library** (lo cả *vòng đời của data*): TanStack Query, SWR, RTK Query — bọc lên HTTP client và thêm cache, dedupe, refetch, retry...
+
+| Tiêu chí               | `fetch` + `useEffect` | `axios`            | TanStack Query        | SWR                   | RTK Query             |
+| ---------------------- | --------------------- | ------------------ | --------------------- | --------------------- | --------------------- |
+| Bản chất               | HTTP API trình duyệt  | HTTP client (lib)  | Server-state manager  | Server-state manager  | Redux Toolkit add-on  |
+| Cache                  | Tự viết tay           | Tự viết tay        | **Built-in**          | **Built-in**          | **Built-in**          |
+| Dedupe request         | Không                 | Không              | **Có**                | **Có**                | **Có**                |
+| Background refetch     | Không                 | Không              | **Có** (focus/reconnect) | **Có**             | **Có**                |
+| Retry / cancel         | Tự viết (AbortController) | Có cancel token / interceptor | **Có**         | **Có**                | **Có**                |
+| Loading/error state    | Tự quản lý 3 biến     | Tự quản lý         | `isLoading`/`isError` | `isLoading`/`error`   | `isLoading`/`isError` |
+| Mutation + invalidate  | Tự viết               | Tự viết            | `useMutation`         | `useSWRMutation`      | `useMutation`         |
+| Interceptor / transform| Không                 | **Có** (mạnh)      | Qua queryFn           | Qua fetcher           | Qua baseQuery         |
+| Bundle size            | 0 (native)            | ~13kb              | ~12kb                 | ~4kb (nhẹ nhất)       | đi kèm RTK            |
+| Phù hợp khi            | Demo, 1-2 call đơn giản | Cần interceptor, dự án không dùng query lib | **Mặc định cho app thật** | App nhẹ, ưa tối giản | Đã dùng Redux Toolkit |
+
+**Điểm mấu chốt cho phỏng vấn:** `fetch`/`axios` chỉ là *cách gửi request*; chúng **không phải** giải pháp quản lý server state. Câu hỏi thật sự không phải "fetch hay axios" mà là "**có cần một server-state library không?**" — và với app production có nhiều API thì câu trả lời gần như luôn là **có**.
+
+### Code minh hoạ
+
+```jsx
+// 1. fetch + useEffect — phải tự lo loading/error/cleanup/race
+function UserManual({ id }) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const controller = new AbortController(); // chống race condition
+    setLoading(true);
+    fetch(`/api/users/${id}`, { signal: controller.signal })
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`); // fetch KHÔNG tự throw khi 4xx/5xx
+        return r.json();
+      })
+      .then(setData)
+      .catch((e) => { if (e.name !== "AbortError") setError(e); })
+      .finally(() => setLoading(false));
+    return () => controller.abort(); // cleanup khi id đổi / unmount
+  }, [id]);
+  // ...không cache, không dedupe, đổi tab về không refetch
+}
+
+// 2. axios — gọn hơn fetch, tự throw khi non-2xx, có interceptor
+const api = axios.create({ baseURL: "/api" });
+api.interceptors.request.use((cfg) => {
+  cfg.headers.Authorization = `Bearer ${getToken()}`; // gắn token tập trung
+  return cfg;
+});
+// nhưng vẫn phải tự useState + useEffect như trên → vẫn không có cache/dedupe
+
+// 3. TanStack Query — cache, dedupe, refetch, retry built-in
+function User({ id }) {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["user", id],
+    queryFn: () => api.get(`/users/${id}`).then((r) => r.data),
+    staleTime: 60_000,
+  });
+  if (isLoading) return <Spinner />;
+  if (isError) return <Error />;
+  return <Profile user={data} />;
+}
+
+// 4. SWR — API tối giản, nhẹ nhất
+function UserSWR({ id }) {
+  const { data, error, isLoading } = useSWR(`/api/users/${id}`, fetcher);
+}
+
+// 5. RTK Query — sinh hook tự động từ endpoint, hợp khi đã có Redux
+const api = createApi({
+  baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
+  endpoints: (b) => ({ getUser: b.query({ query: (id) => `/users/${id}` }) }),
+});
+// dùng: const { data, isLoading } = api.useGetUserQuery(id);
+```
+
+### Đáp án mẫu
+
+> "Em chia làm 2 tầng. Tầng dưới là **HTTP client** — `fetch` (native, không cần cài) hoặc `axios` (gọn hơn, tự throw khi status non-2xx, có interceptor để gắn token và transform tập trung). Tầng trên là **server-state library** — TanStack Query, SWR, RTK Query — lo cache, dedupe, background refetch, retry, và quản lý `isLoading`/`isError` giúp mình.
+>
+> Vấn đề của `fetch` + `useEffect` thuần là phải tự viết tay rất nhiều: 3 biến state, cleanup chống **race condition** bằng `AbortController`, và vẫn không có cache hay dedupe — 2 component cùng gọi 1 endpoint là 2 request. `axios` đỡ hơn về cú pháp nhưng bản chất vẫn là HTTP client, không giải quyết server state.
+>
+> Cho app production em **mặc định dùng TanStack Query** (hoặc SWR nếu muốn nhẹ và tối giản) đặt trên `axios`. Còn nếu codebase đã dùng Redux Toolkit thì RTK Query là lựa chọn tự nhiên vì tích hợp sẵn store. Em chỉ dùng `fetch` trần khi là call một lần đơn giản hoặc trong Server Component của Next.js (nơi `fetch` đã được Next mở rộng caching). Tóm lại: `fetch`/`axios` trả lời câu *gửi request thế nào*, còn React Query/SWR trả lời câu *quản lý data sau khi nhận thế nào* — hai việc khác nhau."
+
+---
+
 ## Bẫy thường gặp khi trả lời
 
 | Sai lầm                                                | Đúng là                                                              |
@@ -535,3 +740,6 @@ const paymentMachine = createMachine({
 | "Zustand chỉ phù hợp dự án nhỏ"                        | Zustand scale được; Redux Toolkit phù hợp khi cần convention team    |
 | "Optimistic update luôn nên dùng"                      | Chỉ với action 99% thành công; payment/delete nên show loading       |
 | "State machine là overkill"                            | Với flow nhiều mode, viết flag boolean dễ bug hơn nhiều              |
+| "Uncontrolled gọn hơn nên luôn dùng"                   | Controlled là default để validate/format real-time; uncontrolled cho file input & form đơn giản |
+| "axios với React Query là 2 lựa chọn loại trừ nhau"    | Bổ sung nhau — React Query gọi axios trong `queryFn`                |
+| "`fetch` tự throw khi server trả 404/500"              | Không — chỉ reject khi network fail; phải tự check `res.ok`         |

@@ -99,7 +99,93 @@ export default function InteractiveChart() {
 
 ---
 
-## Câu 2: ISR và Stale-While-Revalidate `[Intermediate]`
+## Câu 2: SPA (CSR) vs SSR — so sánh và khi nào dùng `[Intermediate]`
+
+### Câu hỏi
+
+> So sánh SPA (Single Page Application / Client-Side Rendering) và SSR (Server-Side Rendering). Next.js giải quyết nhược điểm của SPA thuần như thế nào?
+
+### Giải thích lý thuyết
+
+**SPA / CSR**: server trả về 1 file HTML gần như rỗng + bundle JS. Browser tải JS, chạy React, fetch data, rồi mới render UI. Mọi điều hướng sau đó là client-side (đổi view bằng JS, không reload trang).
+
+**SSR**: server render component thành HTML hoàn chỉnh mỗi request, gửi về browser. User thấy nội dung ngay; sau đó React **hydrate** để gắn event listener, biến HTML tĩnh thành app tương tác.
+
+| Tiêu chí               | SPA (CSR)                                  | SSR                                         |
+| ---------------------- | ------------------------------------------ | ------------------------------------------- |
+| Render ở đâu           | Browser (sau khi tải JS)                   | Server (mỗi request)                        |
+| First paint / FCP      | Chậm (chờ JS tải + chạy + fetch)           | Nhanh (HTML có sẵn nội dung)                |
+| TTFB                   | Nhanh (HTML rỗng)                          | Chậm hơn (server render trước)              |
+| SEO                    | Yếu (crawler thấy HTML rỗng)               | Tốt (HTML đầy đủ nội dung)                  |
+| Tải server             | Nhẹ (chỉ serve static)                     | Nặng (render mỗi request)                   |
+| Sau khi load           | Điều hướng nhanh, mượt (không reload)      | Mỗi navigation có thể cần round-trip server |
+| Social share (OG tags) | Không hoạt động (meta tag render client)   | Hoạt động (meta có trong HTML)              |
+| Độ phức tạp            | Đơn giản (frontend thuần)                  | Phức tạp (cần Node server, lo hydration)    |
+
+**Điểm mấu chốt**: SPA tối ưu cho **TTI sau lần load đầu** và app tương tác cao (dashboard sau login); SSR tối ưu cho **first paint + SEO** (landing page, blog, e-commerce). Đây không phải "cái nào tốt hơn" mà là trade-off theo use case.
+
+### Code minh hoạ
+
+```jsx
+// === SPA thuần (kiểu Create React App / Vite) ===
+// index.html chỉ có: <div id="root"></div>
+// Toàn bộ render xảy ra ở client
+import { useEffect, useState } from "react";
+
+function ProductPage({ id }) {
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+    // Fetch chạy ở browser → user thấy loading trước, content sau
+    fetch(`/api/products/${id}`).then((r) => r.json()).then(setProduct);
+  }, [id]);
+
+  if (!product) return <Spinner />; // crawler thường chỉ thấy cái này
+  return <Article product={product} />;
+}
+
+// === SSR với Next.js App Router (Server Component) ===
+// app/products/[id]/page.tsx
+export default async function ProductPage({ params }) {
+  // Fetch chạy Ở SERVER → HTML gửi về đã có sẵn nội dung
+  const product = await fetch(`https://api.example.com/products/${params.id}`, {
+    cache: "no-store", // SSR mỗi request
+  }).then((r) => r.json());
+
+  // Crawler nhận HTML đầy đủ → SEO tốt
+  return <Article product={product} />;
+}
+
+// === Next.js = hybrid: SSR cho first paint + SPA navigation sau đó ===
+// Sau khi page SSR load xong, <Link> điều hướng kiểu client-side (như SPA)
+import Link from "next/link";
+
+export default function Nav() {
+  // Click link này KHÔNG reload trang — prefetch + client-side transition
+  // Vừa có SEO/first-paint của SSR, vừa có UX mượt của SPA
+  return <Link href="/products/2">Sản phẩm khác</Link>;
+}
+```
+
+### Đáp án mẫu
+
+> "SPA (CSR) render hoàn toàn ở browser: server trả HTML rỗng + bundle JS, client tải JS rồi mới fetch data và render. SSR render HTML hoàn chỉnh ở server mỗi request, gửi về cho user thấy ngay, sau đó React hydrate để gắn interactivity.
+>
+> Trade-off chính: **SPA** first paint chậm (phải chờ JS tải + chạy + fetch) và SEO yếu vì crawler thường chỉ thấy `<div id='root'>` rỗng, nhưng bù lại sau lần load đầu thì điều hướng cực mượt (không reload) và server rất nhẹ. **SSR** ngược lại: first paint nhanh, SEO tốt, OG tag cho social share hoạt động, nhưng TTFB chậm hơn và server tải nặng vì render mỗi request.
+>
+> Điểm hay của Next.js là nó **hybrid** chứ không bắt chọn một bên. Lần đầu vào page thì SSR (hoặc SSG) — user thấy nội dung ngay, crawler đọc được, OG tag đầy đủ. Nhưng khi đã ở trong app, dùng `<Link>` thì điều hướng là client-side transition kèm prefetch — mượt y như SPA, không reload trang. Vậy là lấy được first-paint + SEO của SSR và UX navigation của SPA cùng lúc.
+>
+> Em chọn theo use case: trang public cần SEO (landing, blog, product) → SSR/SSG; phần sau đăng nhập như dashboard, không cần SEO, tương tác cao → để CSR (client component) là đủ và nhẹ server."
+
+### Khi nào dùng cái nào
+
+- **Chọn SPA/CSR khi**: app sau authentication (dashboard, admin, trello-like), không cần SEO, tương tác client cao, muốn server nhẹ (chỉ serve static + API).
+- **Chọn SSR khi**: cần SEO + first paint nhanh, data thay đổi theo request hoặc personalized, cần OG tag cho social share.
+- **Thực tế với Next.js**: kết hợp — SSG/SSR cho trang public, client component cho phần interactive, tận dụng `<Link>` để có SPA-like navigation sau lần load đầu.
+
+---
+
+## Câu 3: ISR và Stale-While-Revalidate `[Intermediate]`
 
 ### Câu hỏi
 
@@ -161,7 +247,7 @@ revalidateTag("products"); // mọi page tag products refresh
 
 ---
 
-## Câu 3: Hydration error — nguyên nhân và cách fix `[Intermediate]`
+## Câu 4: Hydration error — nguyên nhân và cách fix `[Intermediate]`
 
 ### Câu hỏi
 
@@ -244,7 +330,7 @@ function ResponsiveLayout() {
 
 ---
 
-## Câu 4: SEO trong Next.js — Metadata API `[Intermediate]`
+## Câu 5: SEO trong Next.js — Metadata API `[Intermediate]`
 
 ### Câu hỏi
 
@@ -379,7 +465,7 @@ function BlogPost({ post }) {
 
 ---
 
-## Câu 5: Edge Runtime vs Node.js Runtime `[Senior]`
+## Câu 6: Edge Runtime vs Node.js Runtime `[Senior]`
 
 ### Câu hỏi
 
@@ -450,7 +536,7 @@ export function middleware(req) {
 
 ---
 
-## Câu 6: Streaming SSR + Partial Pre-rendering `[Senior]`
+## Câu 7: Streaming SSR + Partial Pre-rendering `[Senior]`
 
 ### Câu hỏi
 

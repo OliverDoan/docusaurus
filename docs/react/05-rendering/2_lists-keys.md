@@ -239,6 +239,6 @@ Nhưng nếu **merge thành 1 list**:
 // Nếu id trùng → bug
 ```
 
-→ Prefix key khi merge: `key={`a-${u.id}`}` cho list A.
+→ Prefix key khi merge: ``key={`a-${u.id}`}`` cho list A.
 
 :::
