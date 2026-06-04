@@ -1,0 +1,33 @@
+﻿Tên,Trạng thái
+📂 1. Giới thiệu,
+   ↳ TypeScript là gì?,Chưa học
+   ↳ TypeScript vs JavaScript,Chưa học
+   ↳ Cài đặt và chạy TypeScript,Chưa học
+   ↳ tsconfig.json và Compiler Options,Chưa học
+📂 2. Types,
+   ↳ Primitive Types,Chưa học
+   ↳ Object Types,Chưa học
+   ↳ Top types và Bottom types,Chưa học
+   ↳ Type Assertions,Chưa học
+   ↳ Type Inference và Compatibility,Chưa học
+📂 3. Kết hợp & Thu hẹp Type,
+   ↳ Combining Types,Chưa học
+   ↳ Type Guards và Narrowing,Chưa học
+📂 4. Functions & Interfaces,
+   ↳ Typing Functions,Chưa học
+   ↳ Interfaces,Chưa học
+📂 5. Classes,
+   ↳ Class cơ bản và Access Modifiers,Chưa học
+   ↳ Abstract Classes và Inheritance,Chưa học
+   ↳ Method Overriding và Constructor Overloading,Chưa học
+📂 6. Generics,
+   ↳ Generics,Chưa học
+📂 7. Utility Types & Decorators,
+   ↳ Utility Types,Chưa học
+   ↳ Decorators,Chưa học
+📂 8. Advanced Types,
+   ↳ Advanced Types,Chưa học
+📂 9. Modules,
+   ↳ TypeScript Modules,Chưa học
+📂 10. Ecosystem,
+   ↳ Ecosystem,Chưa học

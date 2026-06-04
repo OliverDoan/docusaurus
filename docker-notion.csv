@@ -1,0 +1,31 @@
+﻿Tên,Trạng thái
+📂 1. Nền tảng,
+   ↳ Docker là gì? Tại sao cần Docker?,Chưa học
+   ↳ Cài đặt Docker,Chưa học
+   ↳ Kiến trúc Docker,Chưa học
+   ↳ Docker CLI cơ bản,Chưa học
+   ↳ Docker Hub và Registry,Chưa học
+📂 2. Docker Images,
+   ↳ Docker Image là gì?,Chưa học
+   ↳ Dockerfile cơ bản,Chưa học
+   ↳ Các lệnh Dockerfile chi tiết,Chưa học
+   ↳ Build và quản lý Images,Chưa học
+   ↳ Multi-stage Builds,Chưa học
+📂 3. Docker Containers,
+   ↳ Container là gì?,Chưa học
+   ↳ Tạo và chạy Container,Chưa học
+   ↳ Quản lý Container,Chưa học
+   ↳ Logs và Debug Container,Chưa học
+   ↳ Giới hạn tài nguyên Container,Chưa học
+📂 4. Docker Compose,
+   ↳ Docker Compose là gì?,Chưa học
+   ↳ Viết docker-compose.yml,Chưa học
+   ↳ Quản lý multi-container,Chưa học
+   ↳ Environment và biến môi trường,Chưa học
+   ↳ Ví dụ thực tế: Full-stack app,Chưa học
+📂 5. Nâng cao,
+   ↳ Docker Networking,Chưa học
+   ↳ Docker Volumes,Chưa học
+   ↳ Docker trong Production,Chưa học
+   ↳ Best Practices và bảo mật,Chưa học
+   ↳ Docker với CI/CD,Chưa học

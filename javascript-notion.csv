@@ -1,0 +1,56 @@
+﻿Tên,Trạng thái
+📂 1. Giới thiệu,
+   ↳ JavaScript là gì?,Chưa học
+   ↳ Lịch sử JavaScript,Chưa học
+   ↳ JavaScript Versions,Chưa học
+   ↳ Cách chạy JavaScript,Chưa học
+📂 2. Variables,
+"   ↳ Khai báo biến: var, let, const",Chưa học
+   ↳ Hoisting và Quy tắc đặt tên,Chưa học
+   ↳ Scope (Phạm vi biến),Chưa học
+📂 3. Data Types,
+   ↳ Primitive Types,Chưa học
+   ↳ Object và typeof,Chưa học
+   ↳ Prototype và Prototypal Inheritance,Chưa học
+   ↳ Built-in Objects,Chưa học
+📂 4. Type Casting,
+   ↳ Type Casting,Chưa học
+📂 5. Data Structures,
+"   ↳ Map, Set, WeakMap, WeakSet",Chưa học
+   ↳ Arrays và Typed Arrays,Chưa học
+📂 6. Equality Comparisons,
+   ↳ Equality Comparisons,Chưa học
+📂 7. Loops and Iterations,
+   ↳ Loops and Iterations,Chưa học
+📂 8. Control Flow,
+   ↳ Conditional Statements,Chưa học
+   ↳ Exception Handling,Chưa học
+📂 9. Expressions & Operators,
+   ↳ Operators,Chưa học
+📂 10. Functions,
+   ↳ Function Parameters,Chưa học
+   ↳ Arrow Functions và IIFE,Chưa học
+"   ↳ Function Internals: arguments, Stack",Chưa học
+"   ↳ Recursion, Lexical Scope, Closures",Chưa học
+📂 11. DOM APIs,
+   ↳ DOM Manipulation và Events,Chưa học
+📂 12. Strict Mode,
+   ↳ Strict Mode,Chưa học
+📂 13. this keyword,
+   ↳ this trong các ngữ cảnh,Chưa học
+"   ↳ call, apply, bind và Function Borrowing",Chưa học
+📂 14. Asynchronous JavaScript,
+"   ↳ Event Loop, setTimeout, setInterval",Chưa học
+"   ↳ Callbacks, Promises, async/await",Chưa học
+📂 15. Working with APIs,
+"   ↳ XMLHttpRequest, Fetch API",Chưa học
+📂 16. Classes,
+   ↳ Classes,Chưa học
+📂 17. Iterators and Generators,
+   ↳ Iterators và Generators,Chưa học
+📂 18. Modules,
+   ↳ Modules: CommonJS vs ES Modules,Chưa học
+📂 19. Memory Management,
+   ↳ Memory Management,Chưa học
+📂 20. Browser DevTools,
+   ↳ Browser DevTools,Chưa học

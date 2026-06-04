@@ -1,0 +1,286 @@
+﻿Tên,Trạng thái
+📂 1. Java Core,
+📁 1. Basic Java,
+   ↳ Tổng quan về ngôn ngữ lập trình Java,Chưa học
+"   ↳ Phân biệt JVM, JRE, JDK",Chưa học
+   ↳ Chương trình Java đầu tiên,Chưa học
+   ↳ Tạo chương trình Java đầu tiên với Eclipse IDE,Chưa học
+   ↳ Biến trong Java,Chưa học
+   ↳ Các kiểu dữ liệu trong Java,Chưa học
+   ↳ Một số ký tự đặc biệt trong Java,Chưa học
+   ↳ Toán tử trong Java,Chưa học
+   ↳ Một số từ khóa trong Java,Chưa học
+   ↳ Ép kiểu trong Java - Type casting,Chưa học
+   ↳ Tiêu chuẩn coding trong Java - Coding Standards,Chưa học
+   ↳ Autoboxing và Unboxing trong Java,Chưa học
+   ↳ Mệnh đề if-else trong Java,Chưa học
+   ↳ Mệnh đề switch-case trong Java,Chưa học
+"   ↳ Vòng lặp for, while, do-while trong Java",Chưa học
+"   ↳ Câu lệnh điều khiển vòng lặp - break, continue",Chưa học
+   ↳ Minh họa sử dụng cấu trúc điều khiển trong Java,Chưa học
+"   ↳ Java String, StringBuffer và StringBuilder",Chưa học
+   ↳ Quản lý bộ nhớ Heap Space vs Stack,Chưa học
+   ↳ Mảng (Array) trong Java,Chưa học
+   ↳ Regular Expression trong Java,Chưa học
+   ↳ Truyền giá trị - pass by value trong Java,Chưa học
+   ↳ Hướng dẫn sử dụng String Format trong Java,Chưa học
+   ↳ Enum trong Java,Chưa học
+   ↳ Sao chép các phần tử của mảng sang mảng khác,Chưa học
+   ↳ Hướng dẫn sử dụng Java Annotation,Chưa học
+   ↳ Integer Constant Pool trong Java,Chưa học
+   ↳ Tránh lỗi NullPointerException trong Java,Chưa học
+   ↳ Tránh lỗi ConcurrentModificationException trong Java,Chưa học
+   ↳ Tạo số và chuỗi ngẫu nhiên trong Java,Chưa học
+   ↳ Marker Interface trong Java,Chưa học
+📁 2. Lập trình hướng đối tượng (OOP),
+   ↳ Lập trình hướng đối tượng (OOPs) trong Java,Chưa học
+   ↳ Từ khóa this và super trong Java,Chưa học
+   ↳ Từ khóa static và final trong Java,Chưa học
+   ↳ Toán tử instanceof trong Java,Chưa học
+   ↳ Object cloning trong Java,Chưa học
+   ↳ Tính đóng gói (Encapsulation) trong Java,Chưa học
+   ↳ Tính kế thừa (Inheritance) trong Java,Chưa học
+   ↳ Tính đa hình (Polymorphism) trong Java,Chưa học
+   ↳ Tính trừu tượng (Abstraction) trong Java,Chưa học
+   ↳ Cơ chế Upcasting và Downcasting trong Java,Chưa học
+   ↳ Lớp lồng nhau trong Java - Java inner class,Chưa học
+📁 3. Exception Handling,
+   ↳ Xử lý ngoại lệ trong Java - Exception Handling,Chưa học
+   ↳ Từ khóa throw và throws trong Java,Chưa học
+   ↳ Custom Exception trong Java,Chưa học
+   ↳ Xử lý ngoại lệ khi ghi đè phương thức trong Java,Chưa học
+   ↳ Tính năng mới về ngoại lệ trong Java 7: try-with-resources và multi-catch,Chưa học
+   ↳ Tránh lỗi NullPointerException trong Java,Chưa học
+   ↳ Tránh lỗi ConcurrentModificationException trong Java,Chưa học
+📁 4. Multi-thread,
+   ↳ Lập trình đa luồng trong Java - Java Multi-threading,Chưa học
+   ↳ Luồng Daemon (Daemon Thread) trong Java,Chưa học
+   ↳ Đồng bộ hóa các luồng trong Java - synchronized,Chưa học
+   ↳ Hướng dẫn tạo và sử dụng ThreadPool trong Java - ExecutorService,Chưa học
+   ↳ Lập trình đa luồng với Callable và Future trong Java,Chưa học
+   ↳ Sử dụng Fork/Join Framework với ForkJoinPool trong Java,Chưa học
+   ↳ Sử dụng CountDownLatch trong Java,Chưa học
+   ↳ Sử dụng CyclicBarrier trong Java,Chưa học
+   ↳ Lập trình đa luồng với CompletableFuture trong Java 8,Chưa học
+   ↳ Sử dụng Semaphore trong Java,Chưa học
+📁 5. Java I/O,
+   ↳ Serialization và Deserialization trong Java,Chưa học
+   ↳ Giới thiệu luồng vào ra (I/O) trong Java,Chưa học
+   ↳ Hướng dẫn sử dụng luồng vào ra nhị phân trong Java - Byte Stream,Chưa học
+   ↳ Hướng dẫn sử dụng luồng vào ra ký tự trong Java - Character Stream,Chưa học
+   ↳ Thao tác với tập tin và thư mục trong Java,Chưa học
+   ↳ Hướng dẫn sử dụng lớp Console trong Java,Chưa học
+   ↳ Hướng dẫn sử dụng lớp FilePermission trong Java,Chưa học
+   ↳ Giới thiệu java.io.tmpdir,Chưa học
+   ↳ Hướng dẫn sử dụng Printing Service trong Java,Chưa học
+   ↳ Đọc ghi file CSV trong Java,Chưa học
+   ↳ Hướng dẫn nén và giải nén trong Java - Zip,Chưa học
+   ↳ Hướng dẫn đọc và ghi file Excel trong Java với Apache POI,Chưa học
+   ↳ Hướng dẫn xuất dữ liệu lớn ra file Excel với Apache POI - SXSSF,Chưa học
+"   ↳ Hướng dẫn xuất dữ liệu ra file Word, PDF với xDocReport",Chưa học
+   ↳ Chuyển đổi Java Object sang XML và XML sang Java Object với JAXB,Chưa học
+   ↳ Phân tích nội dung HTML với thư viện Jsoup,Chưa học
+   ↳ Giới thiệu WatchService API trong Java,Chưa học
+📁 6. Networking,
+   ↳ Lập trình mạng với Java - Java Networking,Chưa học
+   ↳ Xây dựng ứng dụng Client-Server với Socket trong Java,Chưa học
+📁 7. Reflection,
+   ↳ Hướng dẫn sử dụng Java Reflection,Chưa học
+   ↳ Kết hợp Java Reflection và Java Annotations,Chưa học
+   ↳ Tạo instance của một class mà không gọi từ khoá new,Chưa học
+📁 8. Collection,
+   ↳ Collection trong Java,Chưa học
+   ↳ ArrayList trong Java,Chưa học
+   ↳ LinkedList trong Java,Chưa học
+   ↳ So sánh ArrayList và LinkedList trong Java,Chưa học
+   ↳ List Interface trong Java,Chưa học
+   ↳ So sánh Array và ArrayList trong Java,Chưa học
+   ↳ Set Interface trong Java,Chưa học
+   ↳ HashSet trong Java,Chưa học
+   ↳ LinkedHashSet trong Java,Chưa học
+"   ↳ TreeSet và sử dụng Comparable, Comparator trong Java",Chưa học
+"   ↳ So sánh HashSet, LinkedHashSet và TreeSet trong Java",Chưa học
+   ↳ Map Interface trong Java,Chưa học
+   ↳ Lớp HashMap trong Java,Chưa học
+   ↳ HashMap trong Java hoạt động như thế nào,Chưa học
+   ↳ Lớp LinkedHashMap trong Java,Chưa học
+   ↳ Lớp TreeMap trong Java,Chưa học
+   ↳ So sánh HashMap và HashSet trong Java,Chưa học
+   ↳ Hashtable trong Java,Chưa học
+   ↳ So sánh HashMap và Hashtable trong Java,Chưa học
+   ↳ Lớp Properties trong Java,Chưa học
+   ↳ Vector trong Java,Chưa học
+   ↳ So sánh ArrayList và Vector trong Java,Chưa học
+   ↳ Queue và PriorityQueue trong Java,Chưa học
+   ↳ Deque và ArrayDeque trong Java,Chưa học
+   ↳ Lớp Collections trong Java - Collections Utility Class,Chưa học
+   ↳ Loại bỏ các phần tử trùng trong một ArrayList,Chưa học
+   ↳ Chuyển đổi từ HashMap sang ArrayList,Chưa học
+   ↳ Chuyển đổi Array sang ArrayList và ngược lại,Chưa học
+   ↳ Hướng dẫn sử dụng Java Generics,Chưa học
+📁 9. JDBC,
+   ↳ Hướng dẫn kết nối cơ sở dữ liệu với Java JDBC,Chưa học
+   ↳ Sử dụng JDBC API thực thi câu lệnh truy vấn dữ liệu,Chưa học
+   ↳ Giới thiệu JDBC Connection Pool,Chưa học
+   ↳ Giới thiệu về Hibernate,Chưa học
+📁 10. Java 8,
+   ↳ Giới thiệu Java 8,Chưa học
+   ↳ Interface trong Java 8 - Default method và Static method,Chưa học
+   ↳ Functional Interface trong Java 8,Chưa học
+   ↳ Phương thức tham chiếu trong Java 8 - Method References,Chưa học
+   ↳ Biểu thức Lambda trong Java 8 - Lambda Expressions,Chưa học
+   ↳ Phương thức forEach() trong Java 8,Chưa học
+   ↳ Giới thiệu về Stream API trong Java 8,Chưa học
+   ↳ Optional trong Java 8,Chưa học
+   ↳ Predicate trong Java 8,Chưa học
+   ↳ Consumer trong Java 8,Chưa học
+   ↳ Supplier trong Java 8,Chưa học
+   ↳ Function trong Java 8,Chưa học
+   ↳ Lớp Collectors trong Java 8,Chưa học
+   ↳ Sắp xếp trong Java 8 - Comparator,Chưa học
+   ↳ Date Time API trong Java 8,Chưa học
+   ↳ Tìm hiểu cơ chế Lazy Evaluation của Stream trong Java 8,Chưa học
+   ↳ Refactoring Design Pattern với tính năng mới trong Java 8,Chưa học
+   ↳ Base64 encoding và decoding trong Java 8,Chưa học
+📂 2. Design Pattern,
+📁 1. Creational Pattern,
+   ↳ Singleton Pattern,Chưa học
+   ↳ Factory Method Pattern,Chưa học
+   ↳ Abstract Factory Pattern,Chưa học
+   ↳ Prototype Pattern,Chưa học
+   ↳ Builder Pattern,Chưa học
+   ↳ Object Pool Pattern,Chưa học
+   ↳ Service Locator Pattern,Chưa học
+   ↳ Dependency Injection Pattern,Chưa học
+   ↳ Google Guice - Giới thiệu,Chưa học
+   ↳ Google Guice - Binding,Chưa học
+   ↳ Google Guice - Injection và Scope,Chưa học
+   ↳ Google Guice - AOP,Chưa học
+📁 2. Structural Pattern,
+   ↳ Adapter Pattern,Chưa học
+   ↳ Bridge Pattern,Chưa học
+   ↳ Composite Pattern,Chưa học
+   ↳ Decorator Pattern,Chưa học
+   ↳ Facade Pattern,Chưa học
+   ↳ Flyweight Pattern,Chưa học
+   ↳ Proxy Pattern,Chưa học
+   ↳ DAO Pattern,Chưa học
+📁 3. Behavioral Pattern,
+   ↳ Chain of Responsibility Pattern,Chưa học
+   ↳ Command Pattern,Chưa học
+   ↳ Interpreter Pattern,Chưa học
+   ↳ Iterator Pattern,Chưa học
+   ↳ Mediator Pattern,Chưa học
+   ↳ Memento Pattern,Chưa học
+   ↳ Observer Pattern,Chưa học
+   ↳ State Pattern,Chưa học
+   ↳ Strategy Pattern,Chưa học
+   ↳ Template Method Pattern,Chưa học
+   ↳ Visitor Pattern,Chưa học
+   ↳ Null Object Pattern,Chưa học
+📂 3. Web Service,
+📁 1. SOAP,
+   ↳ Tìm hiểu về Web Service,Chưa học
+   ↳ Java Web Services - JAX-WS - SOAP,Chưa học
+   ↳ Giới thiệu SOAP UI và thực hiện test Web Service,Chưa học
+   ↳ SOAP Web service - Authentication trong JAX-WS,Chưa học
+   ↳ SOAP Web service - Upload và Download file với MTOM,Chưa học
+📁 2. REST,
+   ↳ Java Web Services - Jersey JAX-RS - REST và test với Postman,Chưa học
+   ↳ Tạo ứng dụng Java RESTful Client với Jersey Client 2.x,Chưa học
+   ↳ REST Web service - Upload và Download file với Jersey 2.x,Chưa học
+   ↳ REST Web service - HTTP Status Code và xử lý ngoại lệ với Jersey 2.x,Chưa học
+   ↳ REST Web service - Filter và Interceptor với Jersey 2.x (Phần 1),Chưa học
+   ↳ REST Web service - Filter và Interceptor với Jersey 2.x (Phần 2),Chưa học
+   ↳ Tìm hiểu về xác thực và phân quyền trong ứng dụng (Authentication vs Authorization),Chưa học
+   ↳ REST Web service - Basic Authentication trong Jersey 2.x,Chưa học
+   ↳ Giới thiệu JSON Web Token (JWT),Chưa học
+   ↳ REST Web service - JWT Token-based Authentication trong Jersey 2.x,Chưa học
+   ↳ Tạo ứng dụng Java RESTful Client không dùng thư viện bên thứ ba (HttpURLConnection),Chưa học
+   ↳ Tạo ứng dụng Java RESTful Client với thư viện OkHttp,Chưa học
+   ↳ Tạo ứng dụng Java RESTful Client với thư viện Retrofit,Chưa học
+   ↳ Giới thiệu Feign - Tạo Java RESTful Client đơn giản,Chưa học
+   ↳ Giới thiệu HATEOAS,Chưa học
+   ↳ Giới thiệu Swagger - Tài liệu cho RESTful API,Chưa học
+   ↳ Test Jersey REST API với JUnit,Chưa học
+   ↳ Test REST Web Service đơn giản hơn với REST Assured,Chưa học
+   ↳ Triển khai ứng dụng Jersey REST Web service lên Tomcat Server,Chưa học
+   ↳ Giới thiệu Castle Mock - Mock REST API và SOAP web service,Chưa học
+📂 4. Java Library,
+📁 1. Report,
+   ↳ Đọc ghi file CSV trong Java,Chưa học
+   ↳ Đọc và ghi file Excel trong Java với Apache POI,Chưa học
+   ↳ Xuất dữ liệu lớn ra file Excel với Apache POI,Chưa học
+"   ↳ Xuất dữ liệu ra file Word, PDF với xDocReport",Chưa học
+   ↳ Chuyển đổi Java Object sang XML và XML sang Java Object với JAXB,Chưa học
+📁 2. JSON,
+   ↳ Giới thiệu JSON,Chưa học
+   ↳ Hướng dẫn sử dụng thư viện Gson,Chưa học
+   ↳ Hướng dẫn Gson Streaming API để đọc và ghi JSON,Chưa học
+   ↳ Hướng dẫn sử dụng Gson Annotations,Chưa học
+   ↳ Hướng dẫn sử dụng Gson ExclusionStrategy,Chưa học
+   ↳ Gson Custom Serialization và Deserialization,Chưa học
+   ↳ Hướng dẫn sử dụng Gson TypeAdapter,Chưa học
+   ↳ Hướng dẫn sử dụng thư viện Jackson,Chưa học
+📁 3. Unit Test,
+   ↳ Tìm hiểu về kiểm thử (Testing) trong phát triển phần mềm,Chưa học
+   ↳ Unit Testing trong phát triển phần mềm hiện đại,Chưa học
+   ↳ Giới thiệu JUnit,Chưa học
+   ↳ Một số Annotation cơ bản của JUnit,Chưa học
+"   ↳ Một số API của JUnit - Assert, Assume, Test Runner",Chưa học
+   ↳ Thực thi một nhóm các class test trong JUnit (Test Suite),Chưa học
+   ↳ JUnit - Parameterized Test,Chưa học
+   ↳ Đơn giản hóa Unit Test với JUnit Rule,Chưa học
+   ↳ JUnit - Hamcrest Matchers,Chưa học
+   ↳ JUnit - Custom Hamcrest Matchers,Chưa học
+   ↳ Chạy lại một failed Test trong JUnit,Chưa học
+   ↳ Lắng nghe các sự kiện khi test được thực thi trong JUnit (RunListener),Chưa học
+   ↳ JUnit - HTML Report với Surefire Maven plugin,Chưa học
+   ↳ Giới thiệu Mockito,Chưa học
+   ↳ Mockito - Annotations,Chưa học
+   ↳ Mockito - Control mock's behavior,Chưa học
+   ↳ Mockito - Verifying Behavior,Chưa học
+   ↳ Giới thiệu PowerMock,Chưa học
+   ↳ PowerMockito - Suppressing Unwanted Behavior,Chưa học
+   ↳ Test một Abstract Class trong Java,Chưa học
+📁 4. Message Queue,
+   ↳ Giới thiệu JMS - Java Message Service,Chưa học
+   ↳ Cài đặt ActiveMQ,Chưa học
+   ↳ Kết nối JMS Client với ActiveMQ,Chưa học
+   ↳ Giới thiệu RabbitMQ,Chưa học
+   ↳ Cài đặt RabbitMQ,Chưa học
+   ↳ Giới thiệu RabbitMQ Management Interface,Chưa học
+   ↳ Kết nối AMQP Client với RabbitMQ Server,Chưa học
+   ↳ Work Queues trong RabbitMQ,Chưa học
+   ↳ Sử dụng Direct Exchange trong RabbitMQ,Chưa học
+   ↳ Sử dụng Fanout Exchange trong RabbitMQ,Chưa học
+   ↳ Sử dụng Topic Exchange (Publish/Subscribe) trong RabbitMQ,Chưa học
+   ↳ Sử dụng Headers Exchange trong RabbitMQ,Chưa học
+   ↳ Sử dụng binding Exchange to Exchange trong RabbitMQ,Chưa học
+   ↳ Sử dụng Alternate Exchange trong RabbitMQ,Chưa học
+   ↳ Sử dụng Dead Letter Exchange trong RabbitMQ,Chưa học
+   ↳ Sử dụng Publisher Confirm trong RabbitMQ,Chưa học
+   ↳ Kết nối RabbitMQ sử dụng Web STOMP Plugin,Chưa học
+   ↳ Giới thiệu CloudAMQP - RabbitMQ server trên Cloud,Chưa học
+📁 5. JPA / Hibernate,
+   ↳ Tổng quan về JPA - Java Persistence API,Chưa học
+   ↳ Giới thiệu về Hibernate,Chưa học
+   ↳ Cài đặt và sử dụng Hibernate,Chưa học
+   ↳ Hibernate Mapping Type,Chưa học
+   ↳ Các Annotation của Hibernate,Chưa học
+   ↳ Sử dụng Hibernate Tool tạo Entity tự động từ table,Chưa học
+   ↳ Tạo database table tự động từ Hibernate Entity,Chưa học
+   ↳ Xây dựng Entity và DAO class trong Hibernate,Chưa học
+   ↳ Hibernate Query Language (HQL),Chưa học
+   ↳ Hibernate Criteria Query Language (HCQL),Chưa học
+   ↳ Hibernate Native SQL Queries,Chưa học
+   ↳ Hibernate Lifecycle,Chưa học
+   ↳ Hibernate Cache,Chưa học
+   ↳ Hibernate Logging,Chưa học
+   ↳ Hibernate Batch Processing,Chưa học
+   ↳ Hibernate Interceptor và StatementInspector,Chưa học
+📂 5. Chủ đề khác,
+📁 1. Clean Code & Nguyên tắc,
+   ↳ Clean Code - Viết mã sạch trong Java,Chưa học
+   ↳ Các nguyên tắc và định luật trong lập trình,Chưa học
+   ↳ Các nguyên lý thiết kế hướng đối tượng - SOLID,Chưa học

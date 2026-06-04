@@ -1,0 +1,101 @@
+﻿Tên,Trạng thái
+📂 1. Học cơ bản,
+   ↳ Cú pháp cơ bản,Chưa học
+   ↳ Vòng đời của chương trình,Chưa học
+   ↳ Kiểu dữ liệu,Chưa học
+   ↳ Biến và phạm vi,Chưa học
+   ↳ Ép kiểu (Type Casting),Chưa học
+   ↳ Chuỗi (String) và các phương thức,Chưa học
+   ↳ Toán tử và phép toán,Chưa học
+   ↳ Mảng (Arrays),Chưa học
+   ↳ Câu điều kiện,Chưa học
+   ↳ Vòng lặp (Loops),Chưa học
+   ↳ Giới thiệu về OOP,Chưa học
+📂 2. Cơ bản về OOP,
+   ↳ Lớp và Đối tượng (Class & Object),Chưa học
+   ↳ Thuộc tính và Phương thức,Chưa học
+   ↳ Phạm vi truy cập (Access Specifiers),Chưa học
+   ↳ Từ khóa static,Chưa học
+   ↳ Từ khóa final,Chưa học
+   ↳ Lớp lồng nhau (Nested Classes),Chưa học
+   ↳ Gói (Packages),Chưa học
+📂 3. OOP nâng cao,
+   ↳ Vòng đời đối tượng (Object Lifecycle),Chưa học
+   ↳ Kế thừa (Inheritance),Chưa học
+   ↳ Trừu tượng (Abstraction),Chưa học
+   ↳ Method Chaining (gọi chuỗi phương thức),Chưa học
+   ↳ Đóng gói (Encapsulation),Chưa học
+   ↳ Interfaces,Chưa học
+   ↳ Enums,Chưa học
+   ↳ Record,Chưa học
+   ↳ Nạp chồng và Ghi đè (Overloading / Overriding),Chưa học
+   ↳ Khối khởi tạo (Initializer Block),Chưa học
+   ↳ Static vs Dynamic Binding,Chưa học
+   ↳ Pass by Value / Pass by Reference,Chưa học
+📂 4. Tính năng nâng cao,
+   ↳ Xử lý ngoại lệ (Exception Handling),Chưa học
+   ↳ Biểu thức Lambda (Lambda Expressions),Chưa học
+   ↳ Chú thích (Annotations),Chưa học
+   ↳ Hệ thống Module (Java Module System),Chưa học
+   ↳ Optional,Chưa học
+   ↳ Dependency Injection (Tiêm phụ thuộc),Chưa học
+📂 5. Collections,
+   ↳ Array vs ArrayList,Chưa học
+   ↳ Set,Chưa học
+   ↳ Map,Chưa học
+   ↳ Queue (Hàng đợi),Chưa học
+   ↳ Deque (Hàng đợi hai đầu),Chưa học
+   ↳ Stack (Ngăn xếp),Chưa học
+   ↳ Iterator,Chưa học
+   ↳ Generic Collections,Chưa học
+📂 6. Đa luồng (Concurrency),
+   ↳ Luồng (Threads),Chưa học
+   ↳ Đa luồng cơ bản (Concurrency),Chưa học
+   ↳ Mô hình bộ nhớ Java (Java Memory Model),Chưa học
+   ↳ Từ khóa volatile,Chưa học
+   ↳ Virtual Threads (Luồng ảo),Chưa học
+📂 7. Lập trình hàm,
+   ↳ Hàm bậc cao (High Order Functions),Chưa học
+   ↳ Functional Interfaces,Chưa học
+   ↳ Kết hợp hàm (Functional Composition),Chưa học
+   ↳ Stream API,Chưa học
+📂 8. Core Java,
+   ↳ Biểu thức chính quy (Regular Expressions),Chưa học
+   ↳ Thao tác I/O (Input/Output),Chưa học
+   ↳ Thao tác với File,Chưa học
+   ↳ Lập trình mạng (Networking),Chưa học
+   ↳ Mã hóa (Cryptography),Chưa học
+📂 9. Công cụ Build,
+   ↳ Tổng quan công cụ Build,Chưa học
+   ↳ Maven,Chưa học
+   ↳ Gradle,Chưa học
+   ↳ Bazel,Chưa học
+📂 10. Web Frameworks,
+   ↳ Tổng quan Web Frameworks,Chưa học
+   ↳ Spring & Spring Boot (⭐ phổ biến nhất),Chưa học
+   ↳ Quarkus,Chưa học
+   ↳ Javalin,Chưa học
+   ↳ Play Framework,Chưa học
+📂 11. Truy cập CSDL,
+   ↳ Tổng quan truy cập CSDL,Chưa học
+   ↳ JDBC,Chưa học
+   ↳ Hibernate,Chưa học
+   ↳ Spring Data JPA,Chưa học
+   ↳ EBean,Chưa học
+📂 12. Logging,
+   ↳ Tổng quan về Logging,Chưa học
+   ↳ SLF4J,Chưa học
+   ↳ Logback,Chưa học
+   ↳ Log4j2,Chưa học
+   ↳ TinyLog,Chưa học
+📂 13. Testing,
+   ↳ Unit Testing (Kiểm thử đơn vị),Chưa học
+   ↳ JUnit,Chưa học
+   ↳ TestNG,Chưa học
+   ↳ Mockito (Mocking),Chưa học
+   ↳ Integration Testing (Kiểm thử tích hợp),Chưa học
+   ↳ REST Assured,Chưa học
+   ↳ JMeter,Chưa học
+   ↳ Behavior Testing & Cucumber-JVM,Chưa học
+📂 14. Tài liệu (Javadoc),
+   ↳ Javadoc,Chưa học

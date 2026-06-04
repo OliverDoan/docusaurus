@@ -1,0 +1,31 @@
+﻿Tên,Trạng thái
+📂 1. Nền tảng,
+   ↳ Node.js là gì?,Chưa học
+   ↳ Module System,Chưa học
+   ↳ NPM & Package Management,Chưa học
+   ↳ Async Patterns,Chưa học
+   ↳ Environment Variables,Chưa học
+📂 2. Express.js,
+   ↳ Express.js cơ bản,Chưa học
+   ↳ Middleware,Chưa học
+   ↳ Routing,Chưa học
+   ↳ Error Handling,Chưa học
+   ↳ Input Validation,Chưa học
+📂 3. Database,
+   ↳ MongoDB & Mongoose,Chưa học
+   ↳ PostgreSQL & Prisma,Chưa học
+   ↳ Redis & Caching,Chưa học
+   ↳ Database Migrations,Chưa học
+   ↳ Query Optimization,Chưa học
+📂 4. Xác thực & Bảo mật,
+   ↳ JWT Authentication,Chưa học
+   ↳ Password Hashing,Chưa học
+   ↳ Authorization & Roles,Chưa học
+   ↳ Rate Limiting,Chưa học
+   ↳ Security Best Practices,Chưa học
+📂 5. Nâng cao,
+   ↳ File Upload,Chưa học
+   ↳ WebSocket & Real-time,Chưa học
+   ↳ Testing,Chưa học
+   ↳ Deployment,Chưa học
+   ↳ Performance Optimization,Chưa học

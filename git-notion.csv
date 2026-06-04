@@ -1,0 +1,31 @@
+﻿Tên,Trạng thái
+📂 1. Nền tảng,
+   ↳ Git là gì? Tại sao phải học Git?,Chưa học
+   ↳ Cài đặt và cấu hình Git,Chưa học
+   ↳ Các khái niệm cốt lõi trong Git,Chưa học
+   ↳ Các lệnh Git cơ bản,Chưa học
+   ↳ .gitignore và quản lý file,Chưa học
+📂 2. Làm việc với nhánh,
+   ↳ Branch là gì? Tạo và quản lý nhánh,Chưa học
+   ↳ Merge — Gộp nhánh trong Git,Chưa học
+   ↳ Rebase — Viết lại lịch sử commit,Chưa học
+   ↳ Giải quyết conflict trong Git,Chưa học
+   ↳ Cherry-pick và Stash,Chưa học
+📂 3. Cộng tác nhóm & Remote,
+   ↳ Remote Repository — Kho lưu trữ từ xa,Chưa học
+"   ↳ Clone, Fetch, Pull, Push — 4 lệnh remote cốt lõi",Chưa học
+   ↳ GitHub cơ bản,Chưa học
+   ↳ Pull Request và Code Review,Chưa học
+   ↳ Fork và đóng góp Open Source,Chưa học
+📂 4. Quy trình & Best Practices,
+   ↳ Git Flow — Mô hình phân nhánh kinh điển,Chưa học
+   ↳ GitHub Flow và Trunk-Based Development,Chưa học
+   ↳ Commit Message chuẩn — Conventional Commits,Chưa học
+   ↳ Tag và Release,Chưa học
+   ↳ CI/CD cơ bản với GitHub Actions,Chưa học
+📂 5. Nâng cao,
+"   ↳ Reset, Revert, Amend — Sửa lỗi trong Git",Chưa học
+   ↳ Git Reflog — Khôi phục dữ liệu đã mất,Chưa học
+   ↳ Git Bisect và Debug — Tìm commit gây bug,Chưa học
+   ↳ Submodule và Monorepo,Chưa học
+   ↳ Git Hooks và Tự động hóa,Chưa học

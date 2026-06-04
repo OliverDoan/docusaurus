@@ -1,0 +1,48 @@
+﻿Tên,Trạng thái
+📂 1. Introduction,
+   ↳ Tại sao chọn Next.js?,Chưa học
+   ↳ JavaScript và React Frameworks,Chưa học
+📂 2. Getting Started,
+   ↳ Tạo project Next.js,Chưa học
+   ↳ Rendering Strategies,Chưa học
+📂 3. Routing,
+   ↳ Routing Basics,Chưa học
+   ↳ Pages Router vs App Router,Chưa học
+📂 4. Routing Patterns,
+   ↳ Routing Patterns,Chưa học
+📂 5. Structuring Routes,
+   ↳ Structuring Routes và API Endpoints,Chưa học
+"   ↳ Static vs Dynamic, Streaming, Redirects",Chưa học
+📂 6. Middleware,
+   ↳ Middleware Basics,Chưa học
+"   ↳ Cookies, Headers, Auth trong Middleware",Chưa học
+📂 7. Internationalization,
+   ↳ Internationalization (i18n),Chưa học
+📂 8. Working with Data,
+   ↳ Fetching Data,Chưa học
+"   ↳ Data Sources: REST, GraphQL, Database, ORM",Chưa học
+📂 9. Data Fetching Patterns,
+   ↳ Data Fetching Patterns,Chưa học
+   ↳ Sensitive Data và Server Actions,Chưa học
+📂 10. Caching Data,
+   ↳ Caching Layers,Chưa học
+   ↳ Cache Management và Revalidation,Chưa học
+📂 11. Rendering,
+   ↳ Server vs Client Components,Chưa học
+   ↳ Boundaries và Streaming,Chưa học
+📂 12. Runtimes,
+   ↳ Node.js vs Edge Runtime,Chưa học
+📂 13. Writing CSS,
+   ↳ Writing CSS trong Next.js,Chưa học
+📂 14. Optimizations,
+"   ↳ Asset Optimization: Image, Font, Script",Chưa học
+"   ↳ Code Optimization: Metadata, Lazy Loading, Bundling",Chưa học
+   ↳ Monitoring và Observability,Chưa học
+📂 15. Configuring,
+"   ↳ TypeScript, ESLint, Environment Variables",Chưa học
+📂 16. Testing,
+   ↳ Testing Next.js App,Chưa học
+📂 17. Preparing for Production,
+   ↳ Production Checklist,Chưa học
+📂 18. Deployment,
+   ↳ Deployment Options,Chưa học

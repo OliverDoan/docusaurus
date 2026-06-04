@@ -1,0 +1,49 @@
+﻿Tên,Trạng thái
+📂 1. JavaScript,
+"   ↳ Scope, Closure & Hoisting",Chưa học
+"   ↳ this, Prototype & Kế thừa",Chưa học
+"   ↳ Async, Promise & Event Loop",Chưa học
+   ↳ ES6+ và các tính năng modern,Chưa học
+"   ↳ Memory, Performance & Debugging",Chưa học
+📂 2. TypeScript,
+   ↳ Type System Fundamentals,Chưa học
+   ↳ Generics,Chưa học
+   ↳ Utility Types & Mapped Types,Chưa học
+   ↳ Advanced Patterns trong production,Chưa học
+📂 3. React,
+   ↳ Hooks Deep Dive,Chưa học
+   ↳ Rendering & Reconciliation,Chưa học
+   ↳ State Management,Chưa học
+   ↳ React Performance,Chưa học
+   ↳ Patterns & React 19,Chưa học
+   ↳ Tooling & Build Setup,Chưa học
+📂 4. Next.js,
+   ↳ Rendering Modes (SSR/SSG/ISR/CSR),Chưa học
+   ↳ App Router & Routing,Chưa học
+   ↳ Data Fetching & Caching Strategy,Chưa học
+   ↳ Optimization & Deployment,Chưa học
+📂 5. CSS & Browser,
+   ↳ CSS Layout & Modern Techniques,Chưa học
+   ↳ Responsive Design & Accessibility,Chưa học
+   ↳ Browser Rendering Pipeline,Chưa học
+"   ↳ HTTP, Storage & Networking",Chưa học
+📂 6. System Design,
+   ↳ Frontend Architecture,Chưa học
+   ↳ Scalability & Performance,Chưa học
+   ↳ Security & Testing Strategy,Chưa học
+   ↳ Web Security & Risk Management,Chưa học
+   ↳ Performance & Build Optimization,Chưa học
+"   ↳ Growth, SEO & Traffic Engineering",Chưa học
+📂 7. Behavioral,
+   ↳ Problem Solving & Technical Judgement,Chưa học
+   ↳ Leadership & Growth (Senior+),Chưa học
+   ↳ EQ & Emotional Intelligence,Chưa học
+📂 8. Specialized Topics,
+   ↳ Testing Strategy,Chưa học
+   ↳ Forms & Validation Deep Dive,Chưa học
+   ↳ AI Integration trong FE (2024-2025),Chưa học
+   ↳ Real-time & Modern Web APIs,Chưa học
+📂 9. SQL & Databases,
+   ↳ Queries & JOINs,Chưa học
+   ↳ Indexing & Performance,Chưa học
+   ↳ Transactions & Data Modeling,Chưa học

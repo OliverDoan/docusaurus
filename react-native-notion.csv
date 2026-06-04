@@ -1,0 +1,33 @@
+﻿Tên,Trạng thái
+📂 1. Introduction,
+   ↳ Giới thiệu React Native,Chưa học
+📂 2. Pre-requisites,
+   ↳ Kiến thức tiên quyết,Chưa học
+📂 3. Environment Setup,
+   ↳ Cài đặt môi trường,Chưa học
+📂 4. Development Workflow,
+   ↳ Development Workflow,Chưa học
+📂 5. Core Components,
+   ↳ Core Components,Chưa học
+📂 6. Lists & Scrolling,
+   ↳ Lists & Scrolling,Chưa học
+📂 7. Platform Specific Code,
+   ↳ Platform Specific Code,Chưa học
+📂 8. Styling,
+"   ↳ Styling -- StyleSheet, Flexbox, Accessibility",Chưa học
+📂 9. Interactions,
+"   ↳ Interactions -- Touch, Gesture, Animation",Chưa học
+📂 10. Networking,
+"   ↳ Networking -- Fetch, WebSocket, Connectivity",Chưa học
+📂 11. Security,
+"   ↳ Security -- Auth, Storage, Permissions",Chưa học
+📂 12. Storage,
+"   ↳ Storage -- AsyncStorage, SQLite, FileSystem",Chưa học
+📂 13. Testing,
+"   ↳ Testing -- Jest, RNTL, Detox",Chưa học
+📂 14. Native Modules,
+   ↳ Native Modules,Chưa học
+📂 15. Performance,
+   ↳ Performance Optimization,Chưa học
+📂 16. Publishing Apps,
+   ↳ Publishing -- App Store và Play Store,Chưa học

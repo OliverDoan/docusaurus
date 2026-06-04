@@ -1,0 +1,54 @@
+﻿Tên,Trạng thái
+📂 1. Chuẩn bị,
+   ↳ Chuẩn bị trước khi học React,Chưa học
+📂 2. CLI Tools,
+   ↳ CLI Tools để tạo project React,Chưa học
+📂 3. Components,
+   ↳ Functional Components,Chưa học
+   ↳ Class Components (Legacy),Chưa học
+📂 4. Component Basics,
+   ↳ JSX,Chưa học
+   ↳ Props vs State,Chưa học
+   ↳ Conditional Rendering,Chưa học
+   ↳ Composition,Chưa học
+📂 5. Rendering,
+   ↳ Component Lifecycle,Chưa học
+   ↳ Lists and Keys,Chưa học
+   ↳ Render Props,Chưa học
+   ↳ Refs,Chưa học
+   ↳ Events,Chưa học
+   ↳ Higher Order Components (HOC),Chưa học
+📂 6. Hooks,
+   ↳ useState và useEffect,Chưa học
+"   ↳ useRef, useCallback, useMemo, useReducer, useContext",Chưa học
+   ↳ Custom Hooks,Chưa học
+   ↳ Rules of Hooks,Chưa học
+📂 7. Routers,
+   ↳ Routing trong React,Chưa học
+📂 8. State Management,
+   ↳ Context API,Chưa học
+   ↳ State Management Libraries,Chưa học
+📂 9. Writing CSS,
+   ↳ Writing CSS trong React,Chưa học
+📂 10. Component Libraries,
+   ↳ Component Libraries,Chưa học
+📂 11. Headless Libraries,
+   ↳ Headless Component Libraries,Chưa học
+📂 12. API Calls,
+   ↳ API Calls trong React,Chưa học
+📂 13. Testing,
+   ↳ Testing React App,Chưa học
+📂 14. Frameworks,
+   ↳ React Frameworks,Chưa học
+📂 15. Forms,
+   ↳ Forms trong React,Chưa học
+📂 16. Types & Validation,
+   ↳ Types và Validation,Chưa học
+📂 17. Advanced Topics,
+   ↳ Error Boundaries và Suspense,Chưa học
+   ↳ React 19 Features,Chưa học
+   ↳ Performance Optimization,Chưa học
+📂 18. Animation,
+   ↳ Animation trong React,Chưa học
+📂 19. Mobile Applications,
+   ↳ Mobile Applications (React Native),Chưa học

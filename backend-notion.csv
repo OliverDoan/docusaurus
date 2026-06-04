@@ -1,0 +1,58 @@
+﻿Tên,Trạng thái
+📂 1. Introduction,
+   ↳ Internet hoạt động ra sao?,Chưa học
+📂 2. Frontend Basics,
+   ↳ Frontend Basics cho Backend Dev,Chưa học
+📂 3. Pick a Language,
+   ↳ Chọn ngôn ngữ Backend,Chưa học
+📂 4. Version Control (Git),
+   ↳ Git và Workflow,Chưa học
+📂 5. Repo Hosting,
+   ↳ Repo Hosting Services,Chưa học
+📂 6. Relational Databases,
+   ↳ Hệ quản trị Relational Database,Chưa học
+   ↳ Khái niệm Database quan trọng,Chưa học
+📂 7. APIs,
+"   ↳ API Styles: REST, GraphQL, gRPC",Chưa học
+   ↳ Authentication và Authorization,Chưa học
+📂 8. Caching,
+"   ↳ Caching: Redis, Memcached, HTTP Cache",Chưa học
+📂 9. Web Security,
+   ↳ Hashing và Network Security,Chưa học
+"   ↳ Application Security: SQL Injection, XSS, CSRF",Chưa học
+📂 10. Web Servers,
+"   ↳ Web Servers: Nginx, Apache, Caddy",Chưa học
+📂 11. AI in Development,
+"   ↳ AI Basics: LLM, Embeddings, RAG",Chưa học
+📂 12. AI Assisted Coding,
+   ↳ AI Coding Tools và Applications,Chưa học
+📂 13. Building AI Features,
+   ↳ Building AI-powered Features,Chưa học
+📂 14. Testing,
+   ↳ Testing Backend,Chưa học
+📂 15. CI/CD,
+"   ↳ CI/CD: Pipelines, GitHub Actions",Chưa học
+📂 16. More about Databases,
+"   ↳ ACID, Normalization, ORMs, Query Optimization",Chưa học
+📂 17. Containerization,
+   ↳ Docker và Kubernetes,Chưa học
+📂 18. Message Brokers,
+"   ↳ Message Brokers: Kafka, RabbitMQ, Redis",Chưa học
+📂 19. Search Engines,
+"   ↳ Search Engines: Elasticsearch, Meilisearch, Typesense",Chưa học
+📂 20. Architectural Patterns,
+"   ↳ Monolith, Microservices, Serverless",Chưa học
+📂 21. Design & Architecture,
+"   ↳ Design Patterns, DDD, CQRS, Event Sourcing",Chưa học
+📂 22. Real-Time Data,
+"   ↳ WebSocket, SSE, Long Polling",Chưa học
+📂 23. Scaling Databases,
+"   ↳ Scaling: Replication, Sharding, CAP Theorem",Chưa học
+📂 24. NoSQL Databases,
+"   ↳ NoSQL: Document, Key-Value, Wide-Column, Graph, Time-Series",Chưa học
+📂 25. Building For Scale,
+   ↳ Building For Scale,Chưa học
+📂 26. Observability,
+"   ↳ Observability: Metrics, Logs, Tracing",Chưa học
+📂 27. Mitigation Strategies,
+   ↳ Mitigation Strategies,Chưa học
