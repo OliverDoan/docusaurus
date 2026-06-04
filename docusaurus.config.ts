@@ -155,6 +155,12 @@ const config: Config = {
           position: 'left',
           label: 'Java (gpcoder)',
         },
+        {
+          type: 'docSidebar',
+          sidebarId: 'javaInterviewSidebar',
+          position: 'left',
+          label: 'Java Interview',
+        },
         { type: 'docSidebar', sidebarId: 'reactNativeSidebar', label: 'React Native' },
         // {
         //   type: 'docSidebar',
