@@ -161,13 +161,19 @@ const config: Config = {
           position: 'left',
           label: 'Java Interview',
         },
+        {
+          type: 'docSidebar',
+          sidebarId: 'claudeSidebar',
+          position: 'left',
+          label: 'Claude',
+        },
         { type: 'docSidebar', sidebarId: 'reactNativeSidebar', label: 'React Native' },
-        // {
-        //   type: 'docSidebar',
-        //   sidebarId: 'gitSidebar',
-        //   position: 'left',
-        //   label: 'Git',
-        // },
+        {
+          type: 'docSidebar',
+          sidebarId: 'gitSidebar',
+          position: 'left',
+          label: 'Git',
+        },
        
         
         
