@@ -1,0 +1,170 @@
+---
+sidebar_position: 5
+title: "5. Ép kiểu (Type Casting)"
+---
+
+# Ép kiểu (Type Casting)
+
+---
+
+## Mục lục
+
+- [Ép kiểu là gì?](#ép-kiểu-là-gì)
+- [Ép kiểu ngầm định (widening)](#ép-kiểu-ngầm-định-widening)
+- [Ép kiểu tường minh (narrowing)](#ép-kiểu-tường-minh-narrowing)
+- [Mất mát dữ liệu khi ép kiểu thu hẹp](#mất-mát-dữ-liệu-khi-ép-kiểu-thu-hẹp)
+- [Chuyển đổi giữa số và chuỗi](#chuyển-đổi-giữa-số-và-chuỗi)
+- [Ép kiểu trong phép tính](#ép-kiểu-trong-phép-tính)
+- [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Tóm tắt](#tóm-tắt)
+
+---
+
+## Ép kiểu là gì?
+
+**Ép kiểu** (type casting — chuyển một giá trị từ kiểu dữ liệu này sang kiểu khác) cần thiết khi bạn muốn dùng một giá trị ở dạng khác. Ví dụ: bạn có một số thực `9.7` nhưng cần lấy phần nguyên `9`.
+
+Có hai hướng ép kiểu giữa các số:
+
+- **Mở rộng** (widening — từ kiểu nhỏ sang kiểu lớn hơn): an toàn, tự động.
+- **Thu hẹp** (narrowing — từ kiểu lớn sang kiểu nhỏ hơn): có thể mất dữ liệu, phải làm thủ công.
+
+---
+
+## Ép kiểu ngầm định (widening)
+
+**Ép kiểu ngầm định** (implicit casting — Java tự động làm, không cần bạn viết gì thêm) xảy ra khi chuyển từ kiểu nhỏ sang kiểu lớn hơn. Vì kiểu lớn chứa được mọi giá trị của kiểu nhỏ nên không mất dữ liệu.
+
+Thứ tự mở rộng: `byte → short → int → long → float → double`
+
+```java
+public class ViDuMoRong {
+    public static void main(String[] args) {
+        int soNguyen = 100;
+
+        // int -> long: tự động, an toàn
+        long soLon = soNguyen;     // không cần viết gì thêm
+
+        // int -> double: tự động
+        double soThuc = soNguyen;  // 100 trở thành 100.0
+
+        System.out.println("long: " + soLon);    // 100
+        System.out.println("double: " + soThuc); // 100.0
+    }
+}
+```
+
+---
+
+## Ép kiểu tường minh (narrowing)
+
+**Ép kiểu tường minh** (explicit casting — bạn phải tự ghi rõ kiểu đích trong ngoặc) cần khi chuyển từ kiểu lớn sang kiểu nhỏ. Cú pháp: đặt `(kiểuĐích)` trước giá trị.
+
+```java
+public class ViDuThuHep {
+    public static void main(String[] args) {
+        double soThuc = 9.78;
+
+        // double -> int: phải ép tường minh bằng (int)
+        int soNguyen = (int) soThuc; // phần thập phân bị cắt bỏ
+
+        System.out.println("Goc: " + soThuc);       // 9.78
+        System.out.println("Sau ep: " + soNguyen);  // 9 (mất phần .78)
+    }
+}
+```
+
+Java buộc bạn ghi rõ `(int)` để bạn **ý thức được** rằng dữ liệu có thể bị mất.
+
+---
+
+## Mất mát dữ liệu khi ép kiểu thu hẹp
+
+Khi ép từ kiểu lớn sang kiểu nhỏ không chứa nổi giá trị, kết quả có thể sai lệch:
+
+```java
+public class ViDuMatDuLieu {
+    public static void main(String[] args) {
+        // 1) Cắt phần thập phân
+        double gia = 199.99;
+        int giaLamTron = (int) gia;  // 199, KHÔNG làm tròn, chỉ cắt
+        System.out.println(giaLamTron);
+
+        // 2) Tràn số (overflow) khi giá trị vượt phạm vi
+        int soLon = 130;
+        byte soNho = (byte) soLon;   // byte chỉ tới 127 -> bị "tràn"
+        System.out.println(soNho);   // ra giá trị âm bất ngờ: -126
+    }
+}
+```
+
+Bài học: ép kiểu thu hẹp chỉ **cắt** chứ không **làm tròn**, và nếu vượt phạm vi sẽ bị **tràn số** (overflow — giá trị vượt giới hạn và quay vòng).
+
+---
+
+## Chuyển đổi giữa số và chuỗi
+
+Đây là nhu cầu rất phổ biến, nhưng KHÔNG dùng cú pháp `(kiểu)` mà dùng các phương thức hỗ trợ.
+
+```java
+public class ViDuSoVaChuoi {
+    public static void main(String[] args) {
+        // --- Số sang chuỗi (String) ---
+        int tuoi = 25;
+        String tuoiChuoi = String.valueOf(tuoi); // "25"
+        String cach2 = "" + tuoi;                 // ghép với chuỗi rỗng
+
+        // --- Chuỗi sang số ---
+        String soChuoi = "100";
+        int so = Integer.parseInt(soChuoi);       // 100 dạng int
+        double soThuc = Double.parseDouble("3.14"); // 3.14 dạng double
+
+        System.out.println(tuoiChuoi + " | " + so + " | " + soThuc);
+    }
+}
+```
+
+Ghi nhớ:
+
+- Số → chuỗi: `String.valueOf(...)` hoặc ghép `"" + so`.
+- Chuỗi → số nguyên: `Integer.parseInt(...)`.
+- Chuỗi → số thực: `Double.parseDouble(...)`.
+
+---
+
+## Ép kiểu trong phép tính
+
+Khi chia hai số nguyên, Java cho kết quả nguyên (cắt phần thập phân). Muốn kết quả thực, phải ép một toán hạng sang `double`.
+
+```java
+public class ViDuPhepTinh {
+    public static void main(String[] args) {
+        int a = 7, b = 2;
+
+        // Chia hai int -> kết quả int (cắt phần dư)
+        System.out.println(a / b);          // 3 (KHÔNG phải 3.5)
+
+        // Ép một bên sang double để có kết quả đúng
+        System.out.println((double) a / b); // 3.5
+    }
+}
+```
+
+---
+
+## Lỗi thường gặp
+
+- **Tưởng `(int)` làm tròn**: thực ra nó chỉ **cắt** phần thập phân.
+- **Chia hai số nguyên rồi mong số thực**: `7/2` ra `3`, phải ép `(double)`.
+- **`Integer.parseInt("abc")`** → lỗi `NumberFormatException` vì chuỗi không phải số.
+- **Tràn số** khi ép giá trị quá lớn vào kiểu nhỏ (`byte`, `short`).
+- **Dùng `(String) so`** để chuyển số sang chuỗi → sai, phải dùng `String.valueOf(...)`.
+
+---
+
+## Tóm tắt
+
+- **Mở rộng** (nhỏ → lớn) tự động, an toàn; **thu hẹp** (lớn → nhỏ) phải ghi `(kiểu)` và có thể mất dữ liệu.
+- Ép kiểu thu hẹp **cắt** phần thập phân, không làm tròn; vượt phạm vi gây **tràn số**.
+- Số → chuỗi: `String.valueOf`; chuỗi → số: `Integer.parseInt`, `Double.parseDouble`.
+- Chia hai `int` ra kết quả `int`; ép `(double)` để được số thực.
