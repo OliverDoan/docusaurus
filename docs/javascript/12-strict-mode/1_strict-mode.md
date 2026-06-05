@@ -5,6 +5,8 @@ title: "1. Strict Mode"
 
 # Strict Mode
 
+**Strict mode** (chế độ nghiêm ngặt) là một cách báo cho JavaScript chạy code của bạn theo những quy tắc chặt chẽ hơn. Khi bật strict mode, những lỗi vốn bị "âm thầm bỏ qua" sẽ được báo ngay thành lỗi rõ ràng, giúp bạn phát hiện sai sót sớm và viết code an toàn hơn. Với người mới học, đây là một thói quen tốt nên dùng vì nó ngăn nhiều lỗi phổ biến.
+
 ---
 
 ## Mục lục

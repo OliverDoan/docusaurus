@@ -5,6 +5,8 @@ title: "1. Operators"
 
 # Operators
 
+**Operators** (toán tử) là các ký hiệu đặc biệt giúp bạn thực hiện thao tác trên dữ liệu, ví dụ cộng hai số (`+`), so sánh hai giá trị (`===`), hay gán giá trị cho biến (`=`). JavaScript có nhiều nhóm toán tử như số học (**arithmetic**), gán (**assignment**), so sánh (**comparison**) và logic (**logical**). Hiểu rõ các toán tử là bước cơ bản để viết được mọi biểu thức và logic trong chương trình.
+
 ---
 
 ## Mục lục

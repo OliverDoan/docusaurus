@@ -5,6 +5,8 @@ title: "2. Arrow Functions và IIFE"
 
 # Arrow Functions và IIFE
 
+**Arrow function** (hàm mũi tên) là cách viết hàm ngắn gọn dùng cú pháp `=>`, được giới thiệu từ ES6 và rất phổ biến trong code hiện đại. Khác với hàm thường, arrow function không có `this` riêng nên có những trường hợp không nên dùng. **IIFE** (Immediately Invoked Function Expression — hàm tự gọi ngay khi vừa định nghĩa) là kỹ thuật chạy một hàm tức thì, thường dùng để tạo phạm vi riêng tránh làm "ô nhiễm" biến toàn cục.
+
 ---
 
 ## Mục lục

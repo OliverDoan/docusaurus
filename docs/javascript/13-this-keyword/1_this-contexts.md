@@ -5,6 +5,8 @@ title: "1. this trong các ngữ cảnh"
 
 # this trong các ngữ cảnh
 
+**this** (từ khoá tham chiếu tới đối tượng đang gọi hàm) là một giá trị đặc biệt trong JavaScript có thể thay đổi tuỳ theo **cách** và **nơi** hàm được gọi, chứ không cố định như biến thông thường. Cùng một hàm nhưng khi gọi ở ngữ cảnh khác nhau (trong object, đứng một mình, hay trong sự kiện) thì `this` lại trỏ tới những thứ khác nhau. Bài này giúp người mới hiểu `this` mang giá trị gì trong từng tình huống để tránh nhầm lẫn thường gặp.
+
 ---
 
 ## Mục lục

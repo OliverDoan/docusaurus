@@ -5,6 +5,8 @@ title: "1. Equality Comparisons"
 
 # Equality Comparisons
 
+**Equality comparison** (so sánh bằng) là việc kiểm tra xem hai giá trị có "bằng nhau" hay không, một thao tác cực kỳ phổ biến trong lập trình. JavaScript có nhiều cách so sánh: `==` (loose equality - so sánh lỏng, có tự động chuyển đổi kiểu) và `===` (strict equality - so sánh chặt, không chuyển đổi kiểu). Hiểu rõ sự khác biệt giữa chúng giúp người mới tránh được vô số lỗi khó hiểu khi so sánh số với chuỗi, `null` với `undefined`, v.v.
+
 ---
 
 ## Mục lục

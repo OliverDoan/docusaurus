@@ -5,6 +5,8 @@ title: "1. Memory Management"
 
 # Memory Management
 
+**Memory Management** (quản lý bộ nhớ — cách chương trình cấp phát và thu hồi vùng nhớ) là việc JavaScript tự lo lượng bộ nhớ mà code của bạn sử dụng khi tạo biến, đối tượng hay hàm. JavaScript có **Garbage Collector** (bộ thu gom rác — tự động giải phóng vùng nhớ không còn dùng tới), nên bạn không phải xoá bộ nhớ thủ công như một số ngôn ngữ khác. Bài này giúp người mới hiểu bộ nhớ được cấp phát và giải phóng ra sao, cũng như cách tránh **memory leak** (rò rỉ bộ nhớ — bộ nhớ không được giải phóng dù không còn cần).
+
 ---
 
 ## Mục lục

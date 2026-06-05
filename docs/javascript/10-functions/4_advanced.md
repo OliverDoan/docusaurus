@@ -5,6 +5,8 @@ title: "4. Recursion, Lexical Scope, Closures"
 
 # Recursion, Lexical Scope, Closures
 
+Bài này giới thiệu ba khái niệm quan trọng về hàm. **Recursion** (đệ quy) là khi một hàm tự gọi lại chính nó để giải quyết bài toán theo từng bước nhỏ hơn. **Lexical scope** (phạm vi từ vựng) là quy tắc xác định một hàm có thể "nhìn thấy" và dùng được những biến nào dựa trên vị trí nó được viết trong code. **Closure** (bao đóng) là khả năng một hàm vẫn ghi nhớ và truy cập được các biến ở phạm vi bên ngoài ngay cả sau khi hàm cha đã chạy xong.
+
 ---
 
 ## Mục lục

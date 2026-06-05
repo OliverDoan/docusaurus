@@ -5,6 +5,17 @@ title: "1. Type Casting"
 
 # Type Casting
 
+**Type Casting** (ép kiểu — chuyển đổi kiểu dữ liệu) là việc **chuyển một giá trị từ kiểu dữ liệu này sang kiểu khác**, ví dụ từ chuỗi `"42"` (string) sang số `42` (number), hoặc từ số sang chuỗi.
+
+Vì sao cần? Vì dữ liệu thường đến ở dạng không mong muốn — ví dụ ô nhập liệu trên web luôn trả về **chuỗi**, nên muốn tính toán bạn phải đổi nó sang **số** trước.
+
+```js
+"42" + 1            // "421"  -> bị nối chuỗi vì "42" là string
+Number("42") + 1    // 43     -> đã ép sang số nên cộng đúng
+```
+
+Trong JavaScript, việc ép kiểu xảy ra theo **hai cách**: do bạn chủ động làm, hoặc do JavaScript **tự động** làm ngầm — đó chính là nội dung phần dưới đây.
+
 ---
 
 ## Mục lục

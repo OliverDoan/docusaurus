@@ -5,6 +5,8 @@ title: "3. JavaScript Versions"
 
 # JavaScript Versions
 
+JavaScript có nhiều phiên bản (version) được phát hành qua từng năm, mỗi bản bổ sung thêm tính năng mới giúp viết code gọn và mạnh hơn. Các phiên bản này được đặt tên theo chuẩn **ECMAScript** (viết tắt ES, ví dụ ES6 / ES2015). Người mới nên nắm khái niệm này để hiểu vì sao một số cú pháp chỉ chạy được trên phiên bản mới.
+
 ---
 
 ## Mục lục

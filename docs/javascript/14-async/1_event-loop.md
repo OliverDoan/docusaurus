@@ -5,6 +5,8 @@ title: "1. Event Loop, setTimeout, setInterval"
 
 # Event Loop, setTimeout, setInterval
 
+JavaScript chỉ chạy một việc tại một thời điểm, nhưng vẫn xử lý được nhiều tác vụ "song song" nhờ **event loop** (vòng lặp sự kiện — cơ chế điều phối, quyết định đoạn code nào được chạy tiếp theo). Khi cần hẹn giờ chạy code, ta dùng `setTimeout` (chạy một lần sau khoảng thời gian chờ) và `setInterval` (chạy lặp lại đều đặn). Bài này giúp người mới hiểu vì sao code bất đồng bộ lại chạy "sau" dù được viết "trước".
+
 ---
 
 ## Mục lục

@@ -5,6 +5,8 @@ title: "1. Iterators và Generators"
 
 # Iterators và Generators
 
+**Iterator** (bộ lặp — đối tượng cho phép duyệt qua từng phần tử một) là cơ chế giúp bạn đi qua lần lượt các giá trị trong một tập dữ liệu, chẳng hạn như mảng hay chuỗi. **Generator** (hàm sinh giá trị từng phần) là loại hàm đặc biệt có thể tạm dừng và tiếp tục, sinh ra từng giá trị mỗi khi được gọi thay vì trả về tất cả cùng lúc. Bài này giúp người mới hiểu cách JavaScript duyệt dữ liệu và tạo ra các chuỗi giá trị một cách linh hoạt.
+
 ---
 
 ## Mục lục

@@ -5,6 +5,8 @@ title: "1. JavaScript là gì?"
 
 # JavaScript là gì?
 
+JavaScript là ngôn ngữ lập trình phổ biến nhất cho web, giúp trang web trở nên "sống động" và tương tác được với người dùng (như bấm nút, hiện thông báo, kiểm tra biểu mẫu). Bài này giới thiệu khái niệm tổng quan; phần định nghĩa chi tiết nằm ngay bên dưới.
+
 ---
 
 ## Mục lục
@@ -21,6 +23,8 @@ title: "1. JavaScript là gì?"
 **JavaScript (JS)** là ngôn ngữ lập trình **thông dịch**, ban đầu sinh
 ra để tạo tương tác cho trang web. Ngày nay nó chạy được cả ở **trình
 duyệt**, **server (Node.js)**, **mobile**, **desktop** và **embedded**.
+
+> **Thông dịch** (interpret) là cách chạy code mà máy **đọc và thực thi từng dòng ngay lập tức**, không cần biên dịch toàn bộ ra file riêng trước. Trái với **biên dịch** (compile) — phải dịch toàn bộ chương trình sang ngôn ngữ máy rồi mới chạy.
 
 ```js
 console.log("Hello, JavaScript!");

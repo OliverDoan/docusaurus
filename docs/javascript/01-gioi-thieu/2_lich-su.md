@@ -5,6 +5,8 @@ title: "2. Lịch sử JavaScript"
 
 # Lịch sử JavaScript
 
+Bài này kể lại hành trình của JavaScript: từ lúc ra đời chỉ trong 10 ngày năm 1995, qua "cuộc chiến trình duyệt" (browser war), đến khi được chuẩn hoá thành **ECMAScript** (bản tiêu chuẩn chính thức của ngôn ngữ) và bùng nổ nhờ **Node.js**. Hiểu lịch sử giúp người mới biết vì sao JavaScript có nhiều cách viết khác nhau và tại sao nó lại quan trọng đến vậy ngày nay.
+
 ---
 
 ## Mục lục
