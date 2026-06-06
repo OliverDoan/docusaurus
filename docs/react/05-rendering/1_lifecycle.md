@@ -5,6 +5,8 @@ title: "1. Component Lifecycle"
 
 # Component Lifecycle
 
+**Lifecycle** (vòng đời component) là chuỗi các giai đoạn mà một component trải qua: từ khi được tạo và hiển thị lần đầu (**mount** — gắn vào DOM), khi cập nhật do thay đổi state hoặc props (**update**), cho tới khi bị gỡ khỏi giao diện (**unmount** — gỡ khỏi DOM). Hiểu vòng đời giúp bạn biết khi nào component **render** (vẽ ra giao diện) và khi nào nên chạy các tác vụ phụ. Với component dạng hàm, ta điều khiển vòng đời này chủ yếu thông qua các hook.
+
 ---
 
 ## Mục lục

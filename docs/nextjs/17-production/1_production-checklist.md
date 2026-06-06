@@ -5,6 +5,8 @@ title: "1. Production Checklist"
 
 # Production Checklist
 
+**Production** (môi trường vận hành thật, nơi người dùng cuối truy cập) đòi hỏi ứng dụng phải nhanh, an toàn và ổn định. **Checklist** (danh sách kiểm tra) là tập hợp các hạng mục cần rà soát trước khi đưa ứng dụng lên môi trường này, bao gồm hiệu năng, bảo mật, SEO và khả năng truy cập. Với người mới, đi qua từng mục giúp bạn không bỏ sót bước quan trọng nào trước ngày ra mắt.
+
 ---
 
 ## Mục lục

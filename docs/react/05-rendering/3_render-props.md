@@ -5,6 +5,8 @@ title: "3. Render Props"
 
 # Render Props
 
+**Render props** (truyền hàm render qua prop) là kỹ thuật chia sẻ logic giữa các component bằng cách truyền vào một prop có giá trị là một hàm trả về JSX. Component cha sẽ gọi hàm này để quyết định nội dung được hiển thị, nhờ đó tách phần xử lý logic ra khỏi phần giao diện. Đây là một trong những cách tái sử dụng code phổ biến trước khi custom hook ra đời.
+
 ---
 
 ## Mục lục

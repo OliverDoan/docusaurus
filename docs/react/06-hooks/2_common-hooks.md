@@ -5,6 +5,8 @@ title: "2. useRef, useCallback, useMemo, useReducer, useContext"
 
 # useRef, useCallback, useMemo, useReducer, useContext
 
+Đây là nhóm **hook** (hàm đặc biệt cho phép dùng state và tính năng React trong functional component) thường dùng sau khi đã nắm `useState` và `useEffect`. `useRef` giữ một giá trị không gây render lại (ví dụ tham chiếu tới phần tử DOM); `useMemo` và `useCallback` giúp **memoize** (ghi nhớ kết quả để tránh tính toán lại không cần thiết) nhằm tối ưu hiệu năng. `useReducer` quản lý state phức tạp theo kiểu **reducer** (hàm nhận state cũ và action rồi trả về state mới), còn `useContext` đọc dữ liệu được chia sẻ qua Context mà không cần truyền props từng cấp.
+
 ---
 
 ## Mục lục

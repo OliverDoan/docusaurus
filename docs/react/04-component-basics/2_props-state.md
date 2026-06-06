@@ -5,6 +5,8 @@ title: "2. Props vs State"
 
 # Props vs State
 
+**Props** (dữ liệu truyền từ component cha vào, không sửa được) và **state** (dữ liệu nội bộ của component, có thể thay đổi theo thời gian) là hai cách quản lý dữ liệu cốt lõi trong React. Hiểu rõ khi nào dùng props, khi nào dùng state giúp bạn tránh nhiều lỗi phổ biến khi mới học. Bài này so sánh hai khái niệm, cách cập nhật state đúng cách và kỹ thuật **lifting state up** (đưa state lên component cha để nhiều component cùng dùng chung).
+
 ---
 
 ## Mục lục

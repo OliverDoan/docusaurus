@@ -5,6 +5,8 @@ title: "2. Cookies, Headers, Auth trong Middleware"
 
 # Cookies, Headers, Auth trong Middleware
 
+Bài này đi sâu vào các tính năng thường dùng bên trong **middleware** (lớp trung gian xử lý request) của Next.js. Bạn sẽ làm việc với **cookies** (mẩu dữ liệu nhỏ trình duyệt lưu để ghi nhớ trạng thái người dùng), **headers** (thông tin đi kèm mỗi request/response) và **authentication** (xác thực — kiểm tra danh tính người dùng). Đây là nền tảng để xây dựng các luồng đăng nhập và giới hạn truy cập ngay tại lớp trung gian.
+
 ---
 
 ## Mục lục

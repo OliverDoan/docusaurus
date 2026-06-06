@@ -5,6 +5,8 @@ title: "1. Functional Components"
 
 # Functional Components
 
+**Functional component** (component viết dưới dạng hàm JavaScript) là cách hiện đại và phổ biến nhất để tạo một khối giao diện trong React. Đó chỉ là một hàm nhận **props** (dữ liệu truyền vào từ component cha) và trả về **JSX** (đoạn mô tả giao diện trông giống HTML). Bài này hướng dẫn cách khai báo functional component, truyền props, ghép các component lại với nhau và quy tắc đặt tên.
+
 ---
 
 ## Mục lục

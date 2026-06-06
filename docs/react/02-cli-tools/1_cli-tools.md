@@ -5,6 +5,8 @@ title: "1. CLI Tools để tạo project React"
 
 # CLI Tools để tạo project React
 
+**CLI tools** (công cụ chạy bằng dòng lệnh trong terminal) giúp tạo nhanh một dự án React đã cấu hình sẵn, thay vì phải thiết lập thủ công từ đầu. Chỉ với một câu lệnh, bạn có ngay cấu trúc thư mục, file cấu hình và các package cần thiết để bắt đầu code. Bài này so sánh các công cụ phổ biến (Vite, Next.js, Bun) và giúp bạn chọn đúng công cụ cho từng loại dự án.
+
 ---
 
 ## Mục lục

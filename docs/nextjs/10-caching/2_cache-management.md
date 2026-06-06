@@ -5,6 +5,8 @@ title: "2. Cache Management và Revalidation"
 
 # Cache Management và Revalidation
 
+Quản lý cache (**cache management**) là việc kiểm soát khi nào dữ liệu đã lưu đệm cần được làm mới. **Revalidation** (làm mới lại) là quá trình cập nhật lại dữ liệu cache để người dùng luôn thấy nội dung mới, thay vì dữ liệu cũ. Bài này giới thiệu cách làm mới cache theo thời gian hoặc theo yêu cầu để giữ trang web vừa nhanh vừa chính xác.
+
 ---
 
 ## Mục lục

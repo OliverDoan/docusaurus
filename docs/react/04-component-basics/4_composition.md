@@ -5,6 +5,8 @@ title: "4. Composition"
 
 # Composition
 
+**Composition** (tổ hợp component) là cách xây dựng giao diện phức tạp bằng cách lồng ghép và kết hợp nhiều component nhỏ lại với nhau, thay vì kế thừa. Trong React, ta thường truyền các component con qua **children prop** (nội dung nằm giữa thẻ mở và thẻ đóng) để tạo các thành phần linh hoạt, tái sử dụng được. Đây là cách tiếp cận chính thức được React khuyến khích để chia sẻ và tái dùng UI.
+
 ---
 
 ## Mục lục

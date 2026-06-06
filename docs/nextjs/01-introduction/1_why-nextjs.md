@@ -5,6 +5,8 @@ title: "1. Tại sao chọn Next.js?"
 
 # Tại sao chọn Next.js?
 
+**Next.js** là một **framework** (bộ khung phát triển) xây dựng trên thư viện React, giúp tạo ứng dụng web nhanh và tối ưu sẵn. Nó bổ sung các tính năng mà React thuần còn thiếu như **SSR** (server-side rendering — kết xuất trang ở phía máy chủ), định tuyến tự động và tối ưu hiệu năng. Bài này giải thích vì sao Next.js là lựa chọn phổ biến cho người mới bắt đầu.
+
 ---
 
 ## Mục lục

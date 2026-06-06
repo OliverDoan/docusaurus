@@ -5,6 +5,8 @@ title: "1. Routing Basics"
 
 # Routing Basics
 
+**Routing** (định tuyến — ánh xạ URL tới trang hiển thị) là cách Next.js quyết định nội dung nào xuất hiện ứng với mỗi địa chỉ web. Trong App Router, các khái niệm nền tảng gồm **page** (trang nội dung), **layout** (bố cục chung cho nhiều trang) và **template** (bố cục tạo mới lại sau mỗi lần điều hướng). Bài này giới thiệu những thuật ngữ định tuyến cốt lõi mà người mới cần biết.
+
 ---
 
 ## Mục lục

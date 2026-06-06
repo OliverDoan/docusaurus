@@ -5,6 +5,8 @@ title: "2. Pages Router vs App Router"
 
 # Pages Router vs App Router
 
+Next.js có hai hệ thống định tuyến song song: **Pages Router** (router cũ, dùng thư mục `pages/`) và **App Router** (router mới, dùng thư mục `app/` và được khuyến nghị). Cả hai đều dựa trên cấu trúc thư mục để tạo URL, nhưng App Router hỗ trợ thêm Server Components và bố cục lồng nhau. Bài này so sánh hai router để bạn biết nên chọn loại nào.
+
 ---
 
 ## Mục lục

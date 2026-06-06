@@ -5,6 +5,8 @@ title: "3. Conditional Rendering"
 
 # Conditional Rendering
 
+**Conditional rendering** (hiển thị giao diện có điều kiện) là việc quyết định hiển thị nội dung nào tùy theo trạng thái dữ liệu, ví dụ hiện vòng quay tải khi đang chờ hoặc hiện nội dung khi đã có dữ liệu. React không có cú pháp riêng cho việc này mà tận dụng chính JavaScript, như toán tử ba ngôi (`? :`), toán tử `&&` hay câu lệnh `return` sớm. Bài này giới thiệu các cách viết conditional rendering thông dụng cùng những lỗi thường gặp cần tránh.
+
 ---
 
 ## Mục lục

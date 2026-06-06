@@ -5,6 +5,8 @@ title: "1. Middleware Basics"
 
 # Middleware Basics
 
+**Middleware** (lớp trung gian xử lý request) là đoạn code chạy trước khi request đến được trang hoặc route đích trong Next.js. Nó cho phép bạn kiểm tra, chỉnh sửa hoặc chuyển hướng request một cách tập trung — ví dụ kiểm tra đăng nhập, đổi ngôn ngữ, hay viết lại đường dẫn. Bài này giới thiệu cách tạo middleware cơ bản và những trường hợp dùng phổ biến cho người mới.
+
 ---
 
 ## Mục lục

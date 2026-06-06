@@ -5,6 +5,8 @@ title: "2. TypeScript vs JavaScript"
 
 # TypeScript vs JavaScript
 
+Bài này so sánh **TypeScript** và **JavaScript** để bạn hiểu khi nào nên dùng cái nào. Khác biệt cốt lõi nằm ở chỗ JavaScript là ngôn ngữ **dynamic typing** (kiểu động — xác định khi chạy), còn TypeScript là **static typing** (kiểu tĩnh — kiểm tra khi biên dịch). Nhờ đó TypeScript phát hiện lỗi tại **compile-time** (lúc biên dịch) thay vì để lỗi xảy ra tại **runtime** (lúc chạy) như JavaScript.
+
 ---
 
 ## Mục lục

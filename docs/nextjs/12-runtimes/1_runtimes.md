@@ -5,6 +5,8 @@ title: "1. Node.js vs Edge Runtime"
 
 # Node.js vs Edge Runtime
 
+**Runtime** (môi trường chạy) là nền tảng nơi code của bạn thực thi trên server. Next.js cung cấp hai lựa chọn: **Node.js Runtime** đầy đủ tính năng, và **Edge Runtime** nhẹ hơn, chạy gần người dùng để phản hồi nhanh. Bài này so sánh hai môi trường này và gợi ý khi nào nên chọn loại nào.
+
 ---
 
 ## Mục lục

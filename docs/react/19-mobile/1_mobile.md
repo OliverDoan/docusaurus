@@ -5,6 +5,8 @@ title: "1. Mobile Applications (React Native)"
 
 # Mobile Applications (React Native)
 
+**React Native** là framework cho phép bạn dùng kiến thức React để xây dựng ứng dụng di động chạy thật trên cả iOS và Android, thay vì chỉ chạy trên trình duyệt. Nó dùng cùng cách viết component và hook như React web, nhưng kết xuất ra giao diện gốc (native) của điện thoại. Bài này giới thiệu cách bắt đầu với React Native, công cụ **Expo** (bộ công cụ giúp dựng app nhanh) và cách điều hướng màn hình.
+
 ---
 
 ## Mục lục

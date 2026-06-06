@@ -5,6 +5,8 @@ title: "2. JavaScript và React Frameworks"
 
 # JavaScript và React Frameworks
 
+Trước khi học Next.js, bạn cần nắm vững **JavaScript** (ngôn ngữ lập trình của web) và **React** (thư viện xây dựng giao diện theo component). Một **framework** (bộ khung) như Next.js, Remix hay Astro được xây dựng dựa trên React để bổ sung định tuyến, kết xuất và công cụ phát triển. Bài này điểm qua kiến thức nền cần có và so sánh các framework phổ biến.
+
 ---
 
 ## Mục lục

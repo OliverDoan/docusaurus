@@ -5,6 +5,8 @@ title: "1. Context API"
 
 # Context API
 
+**Context API** là tính năng có sẵn của React giúp chia sẻ dữ liệu giữa nhiều component mà không phải truyền **props** (dữ liệu truyền từ component cha xuống con) qua từng cấp một, tránh tình trạng **prop drilling** (truyền props lòng vòng qua nhiều tầng trung gian). Bạn tạo một Context, bọc cây component bằng **Provider** (thành phần cung cấp dữ liệu) rồi dùng `useContext` để đọc dữ liệu ở bất kỳ component con nào. Đây là cách quản lý state dùng chung đơn giản, không cần cài thêm thư viện ngoài.
+
 ---
 
 ## Mục lục

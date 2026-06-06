@@ -5,6 +5,8 @@ title: "1. Types và Validation"
 
 # Types và Validation
 
+Trong React, **Types** (kiểu dữ liệu) giúp bạn khai báo rõ ràng props và state nhận giá trị gì, thường dùng cùng TypeScript để bắt lỗi ngay khi viết code. **Validation** (kiểm tra dữ liệu hợp lệ) đảm bảo dữ liệu truyền vào component đúng định dạng mong đợi, tránh lỗi khi chạy. Bài này giới thiệu cách dùng TypeScript cho component và kiểm tra dữ liệu lúc chạy (runtime).
+
 ---
 
 ## Mục lục

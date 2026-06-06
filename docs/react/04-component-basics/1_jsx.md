@@ -5,6 +5,8 @@ title: "1. JSX"
 
 # JSX
 
+**JSX** (cú pháp cho phép viết HTML ngay trong JavaScript) là cách React mô tả giao diện sẽ hiển thị. Nó trông giống HTML nhưng thực chất là JavaScript, nên được trình biên dịch (Babel hoặc SWC) chuyển thành các lời gọi hàm trước khi chạy trên trình duyệt. Bài này giải thích JSX là gì, các quy tắc cú pháp, cách nhúng JavaScript vào JSX và cách nó được biên dịch.
+
 ---
 
 ## Mục lục

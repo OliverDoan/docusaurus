@@ -5,6 +5,8 @@ title: "2. State Management Libraries"
 
 # State Management Libraries
 
+**State management libraries** (thư viện quản lý state) là các thư viện ngoài giúp tổ chức và chia sẻ **state** (trạng thái, dữ liệu thay đổi theo thời gian) trên toàn ứng dụng một cách gọn gàng hơn khi dự án lớn dần. Khi state dùng chung trở nên phức tạp, Context API có thể chưa đủ tối ưu, nên ta dùng các thư viện như Zustand, Jotai hay Redux Toolkit. Bài này so sánh các lựa chọn phổ biến để bạn chọn công cụ phù hợp với nhu cầu.
+
 ---
 
 ## Mục lục

@@ -5,6 +5,8 @@ title: "3. Custom Hooks"
 
 # Custom Hooks
 
+**Custom hook** (hook tự viết) là một hàm JavaScript do bạn tự tạo, có tên bắt đầu bằng `use` và bên trong dùng lại các hook có sẵn của React. Mục đích là gom **logic** (đoạn xử lý) bị lặp lại ở nhiều component vào một chỗ để tái sử dụng, giúp code gọn gàng và dễ bảo trì hơn. Ví dụ bạn có thể viết `useFetch` để dùng lại logic gọi API ở nhiều nơi.
+
 ---
 
 ## Mục lục

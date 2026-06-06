@@ -5,6 +5,8 @@ title: "1. Structuring Routes và API Endpoints"
 
 # Structuring Routes và API Endpoints
 
+Bài này hướng dẫn cách tổ chức thư mục route sao cho gọn gàng và dễ bảo trì khi dự án lớn dần. Bạn sẽ làm quen với **co-location** (đặt các file liên quan cạnh nhau trong cùng thư mục route), **private folder** (thư mục bắt đầu bằng `_` không tạo URL) và **route handler** (file xử lý yêu cầu API ngay trong thư mục `app/`). Đây là nền tảng để xây dựng cả trang giao diện lẫn **API endpoint** (điểm cuối API — đường dẫn nhận và trả dữ liệu).
+
 ---
 
 ## Mục lục

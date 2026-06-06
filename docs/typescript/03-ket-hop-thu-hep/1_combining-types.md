@@ -5,6 +5,8 @@ title: "1. Combining Types"
 
 # Combining Types
 
+**Combining types** (kết hợp kiểu) là cách ghép nhiều kiểu lại với nhau để mô tả dữ liệu linh hoạt hơn. Hai cách phổ biến là **union type** (kiểu hợp — giá trị có thể là một trong nhiều kiểu) và **intersection type** (kiểu giao — giá trị phải thỏa mãn đồng thời nhiều kiểu). Nhờ vậy bạn có thể diễn đạt chính xác những trường hợp mà một kiểu đơn lẻ không đủ.
+
 ---
 
 ## Mục lục

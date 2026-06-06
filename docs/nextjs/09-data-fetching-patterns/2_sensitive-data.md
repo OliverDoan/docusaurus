@@ -5,6 +5,8 @@ title: "2. Sensitive Data và Server Actions"
 
 # Sensitive Data và Server Actions
 
+Dữ liệu nhạy cảm (**sensitive data**) là những thông tin bí mật như khóa API, mật khẩu, token mà tuyệt đối không được lộ ra phía trình duyệt. **Server Actions** (hàm chạy trên máy chủ) là cơ chế của Next.js cho phép bạn xử lý logic và truy cập dữ liệu ngay trên server mà không cần tự viết API riêng. Bài này hướng dẫn cách giữ thông tin bí mật ở phía server và tránh rò rỉ ra client khi gửi dữ liệu đi.
+
 ---
 
 ## Mục lục

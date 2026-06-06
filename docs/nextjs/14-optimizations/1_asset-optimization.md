@@ -5,6 +5,8 @@ title: "1. Asset Optimization: Image, Font, Script"
 
 # Asset Optimization: Image, Font, Script
 
+Tối ưu **asset** (tài nguyên tĩnh: ảnh, font chữ, script) là việc giảm dung lượng và thời gian tải các tệp đi kèm trang web để trang hiển thị nhanh hơn. Next.js cung cấp sẵn các thành phần như `next/image`, `next/font` và `next/script` giúp tự động nén ảnh, nạp font hiệu quả và kiểm soát thời điểm chạy script. Nhờ đó người mới chỉ cần dùng đúng công cụ là đã có hiệu năng tốt mà không cần cấu hình thủ công phức tạp.
+
 ---
 
 ## Mục lục

@@ -5,6 +5,8 @@ title: "1. Writing CSS trong Next.js"
 
 # Writing CSS trong Next.js
 
+**CSS** (ngôn ngữ định kiểu, dùng để tạo màu sắc, bố cục và giao diện cho trang web) có thể được viết theo nhiều cách trong Next.js. Bạn có thể dùng CSS toàn cục (**global CSS**), **CSS Modules** (CSS đóng gói riêng cho từng component), hoặc các thư viện như Tailwind CSS. Bài này giới thiệu các cách viết CSS phổ biến và khi nào nên dùng mỗi cách.
+
 ---
 
 ## Mục lục

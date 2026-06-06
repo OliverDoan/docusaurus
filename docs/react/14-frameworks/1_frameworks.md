@@ -5,6 +5,8 @@ title: "1. React Frameworks"
 
 # React Frameworks
 
+**React framework** (bộ khung dựng sẵn xây trên nền React) bổ sung những thứ React thuần không có sẵn như định tuyến trang (routing), kết xuất phía máy chủ và cấu trúc dự án theo quy ước. Nhờ đó người mới không phải tự lắp ghép nhiều công cụ rời rạc mà có ngay nền tảng đầy đủ để làm web hoàn chỉnh. Bài này giới thiệu các framework phổ biến như Next.js, Remix, Astro để bạn biết cách lựa chọn.
+
 ---
 
 ## Mục lục

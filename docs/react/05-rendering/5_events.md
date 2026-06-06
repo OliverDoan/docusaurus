@@ -5,6 +5,8 @@ title: "5. Events"
 
 # Events
 
+**Events** (sự kiện người dùng như click, gõ phím, di chuột) là cách React phản hồi lại các tương tác trên giao diện. Bạn gắn một **event handler** (hàm xử lý sự kiện) vào phần tử qua các prop như `onClick`, `onChange`. React bọc sự kiện gốc của trình duyệt trong **Synthetic Event** (sự kiện tổng hợp giúp hoạt động đồng nhất trên mọi trình duyệt).
+
 ---
 
 ## Mục lục

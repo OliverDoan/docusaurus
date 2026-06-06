@@ -5,6 +5,8 @@ title: "1. Deployment Options"
 
 # Deployment Options
 
+**Deployment** (triển khai) là quá trình đưa ứng dụng Next.js từ máy của bạn lên một máy chủ trực tuyến để mọi người có thể truy cập qua Internet. Bài này so sánh các nền tảng triển khai phổ biến như Vercel, Netlify, Cloudflare Pages và AWS Amplify. Với người mới, hiểu các lựa chọn này giúp bạn chọn nơi lưu trữ phù hợp với nhu cầu và ngân sách của dự án.
+
 ---
 
 ## Mục lục

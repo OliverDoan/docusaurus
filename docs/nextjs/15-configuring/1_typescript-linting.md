@@ -5,6 +5,8 @@ title: "1. TypeScript, ESLint, Environment Variables"
 
 # TypeScript, ESLint, Environment Variables
 
+Bài này giới thiệu các công cụ cấu hình nền tảng cho dự án Next.js: **TypeScript** (ngôn ngữ thêm kiểu dữ liệu cho JavaScript để bắt lỗi sớm), **ESLint** (công cụ kiểm tra và cảnh báo lỗi/phong cách code) và **environment variables** (biến môi trường: giá trị cấu hình như khoá API tách khỏi mã nguồn). Nắm vững những thứ này giúp người mới viết code an toàn, nhất quán và dễ bảo trì hơn.
+
 ---
 
 ## Mục lục

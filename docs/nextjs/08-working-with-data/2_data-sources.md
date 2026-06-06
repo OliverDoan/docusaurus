@@ -5,6 +5,8 @@ title: "2. Data Sources: REST, GraphQL, Database, ORM"
 
 # Data Sources: REST, GraphQL, Database, ORM
 
+**Data source** (nguồn dữ liệu) là nơi ứng dụng lấy dữ liệu để hiển thị. Bài này giới thiệu các nguồn phổ biến: **REST API** (giao tiếp qua các endpoint URL theo chuẩn HTTP), **GraphQL** (ngôn ngữ truy vấn cho phép lấy đúng dữ liệu cần), **database** (cơ sở dữ liệu — kết nối trực tiếp) và **ORM** (object-relational mapping — thư viện ánh xạ bảng dữ liệu thành đối tượng code, ví dụ Prisma, Drizzle). Người mới sẽ nắm được khi nào nên dùng nguồn nào trong Next.js.
+
 ---
 
 ## Mục lục

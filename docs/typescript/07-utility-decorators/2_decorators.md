@@ -5,6 +5,8 @@ title: "2. Decorators"
 
 # Decorators
 
+**Decorator** (chú thích gắn thêm hành vi) là một cú pháp đặc biệt bắt đầu bằng dấu `@`, dùng để gắn thêm hoặc thay đổi hành vi cho class, phương thức hay thuộc tính mà không phải sửa trực tiếp bên trong chúng. Đây thực chất là một hàm chạy lúc khai báo để bổ sung logic như ghi log, kiểm tra quyền hay đăng ký metadata. Bài này giúp người mới học hiểu khái niệm decorator và cách dùng phổ biến của nó trong TypeScript.
+
 ---
 
 ## Mục lục
