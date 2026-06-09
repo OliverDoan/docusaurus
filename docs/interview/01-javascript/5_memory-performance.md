@@ -475,6 +475,57 @@ bench("reduce", () => arr.reduce((a, x) => a + x, 0));
 
 ---
 
+## Câu 8: `<script defer>` vs `<script async>` — khác nhau thế nào? `[Intermediate]`
+
+### Câu hỏi
+
+> Khi nhúng JS vào HTML có `defer` và `async`. Hai cái khác nhau ở điểm nào? Em dùng cái nào cho file app chính, cái nào cho script analytics, và tại sao?
+
+### Giải thích lý thuyết
+
+Cả `defer` và `async` đều khiến script **tải song song** (không chặn việc parse HTML). Khác biệt nằm ở **thời điểm thực thi** và **thứ tự**:
+
+| Thuộc tính   | Tải (download)     | Thực thi (execute)            | Giữ thứ tự khai báo? | Chặn HTML parse? |
+| ------------ | ------------------ | ----------------------------- | -------------------- | ---------------- |
+| (mặc định)   | Chặn parse để tải  | Ngay khi tải xong             | Có                   | **Có**           |
+| `async`      | Song song          | **Ngay khi tải xong** (bất kỳ)| **Không**            | Có thể, khi exec |
+| `defer`      | Song song          | **Sau khi parse HTML xong**   | **Có**               | Không            |
+
+Ba điểm cần nhấn mạnh trong phỏng vấn:
+
+1. **`async` = "tải xong là chạy ngay"** → file nào tải xong trước chạy trước, **không đảm bảo thứ tự**. Phù hợp script **độc lập** (analytics, ads, tracking) — không phụ thuộc DOM hay script khác.
+2. **`defer` = "đợi parse xong HTML rồi mới chạy, theo đúng thứ tự khai báo"** → an toàn cho code thao tác DOM và code có **phụ thuộc** (vd `jquery.js` phải chạy trước `plugin.js`).
+3. Với `async`, script có thể chạy **giữa lúc HTML chưa parse xong** → nếu nó truy cập một element chưa tồn tại sẽ lỗi. `defer` luôn chạy sau khi DOM đã sẵn sàng (ngay trước `DOMContentLoaded`).
+
+Bổ sung: `<script type="module">` mặc định đã có hành vi như `defer`.
+
+### Code minh hoạ
+
+```html
+<!-- ✅ defer: app chính, thao tác DOM + có thứ tự phụ thuộc -->
+<head>
+  <script src="jquery.js" defer></script>
+  <script src="plugin.js" defer></script>  <!-- chạy SAU jquery, đúng thứ tự -->
+  <script src="app.js" defer></script>     <!-- chạy SAU cùng, DOM đã sẵn sàng -->
+</head>
+
+<!-- ✅ async: analytics độc lập, chạy lúc nào cũng được -->
+<script src="https://analytics.example.com/track.js" async></script>
+```
+
+```html
+<!-- ❌ Dùng async cho code có thứ tự → plugin.js có thể chạy TRƯỚC jquery.js
+     (vì tải xong trước) → "jQuery is not defined" -->
+<script src="jquery.js" async></script>
+<script src="plugin.js" async></script>
+```
+
+### Đáp án mẫu
+
+> "Cả hai đều tải song song, không chặn parse HTML. Khác nhau ở lúc **chạy**: `async` chạy **ngay khi file tải xong** nên thứ tự **không đảm bảo** — file nhẹ tải xong trước sẽ chạy trước; còn `defer` đợi **parse HTML xong** mới chạy và giữ **đúng thứ tự khai báo**. Vì vậy em dùng **`defer`** cho file app chính — nó thao tác DOM và thường có phụ thuộc (như thư viện phải load trước), `defer` đảm bảo DOM đã sẵn sàng và thứ tự đúng. Em dùng **`async`** cho script độc lập như Google Analytics — nó không phụ thuộc ai, chạy sớm lúc nào cũng được, không nên bắt nó chờ. Một lưu ý nữa: `<script type='module'>` mặc định đã defer rồi."
+
+---
+
 ## Bẫy thường gặp khi trả lời
 
 | Sai lầm                                                | Đúng là                                                            |
@@ -486,3 +537,4 @@ bench("reduce", () => arr.reduce((a, x) => a + x, 0));
 | "Web Worker share memory với main thread"              | Không (trừ SharedArrayBuffer); message phải postMessage qua structured clone |
 | "Dùng `for...in` để duyệt mảng"                        | Sai — duyệt key string + prototype chain; mảng dùng `for`/`for...of` |
 | "`forEach` nhanh hơn `for` vì là built-in"             | Ngược lại — callback overhead làm `forEach` chậm hơn `for` classic |
+| "`async` giữ đúng thứ tự script như `defer`"           | Không — `async` chạy ngay khi tải xong, thứ tự bất kỳ; chỉ `defer` giữ thứ tự |

@@ -5,6 +5,8 @@ title: "Repo Hosting Services"
 
 # Repo Hosting Services
 
+Sau khi biết Git, bạn cần một nơi trên mạng để lưu trữ và chia sẻ code, gọi là dịch vụ repo hosting. Bài này so sánh các lựa chọn phổ biến như GitHub, GitLab, Bitbucket và giải pháp tự host (Gitea/Forgejo), kèm ưu điểm và trường hợp dùng phù hợp, giúp bạn chọn được nền tảng hợp lý cho dự án và làm việc nhóm.
+
 ---
 
 ## Mục lục

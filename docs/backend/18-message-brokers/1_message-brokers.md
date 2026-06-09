@@ -5,6 +5,8 @@ title: "1. Message Brokers: Kafka, RabbitMQ, Redis"
 
 # Message Brokers: Kafka, RabbitMQ, Redis
 
+Message broker là "người trung gian" giúp các phần trong hệ thống gửi tin nhắn cho nhau mà không cần gọi trực tiếp, nhờ vậy việc nặng (gửi email, xử lý ảnh) được làm ngầm phía sau còn người dùng vẫn nhận phản hồi nhanh. Nó quan trọng vì giúp ứng dụng chịu tải tốt hơn, tự retry khi lỗi và dễ mở rộng. Bài này giới thiệu các công cụ phổ biến như Kafka, RabbitMQ, Redis; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

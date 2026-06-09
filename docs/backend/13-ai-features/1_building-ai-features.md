@@ -5,6 +5,8 @@ title: "1. Building AI-powered Features"
 
 # Building AI-powered Features
 
+Xây tính năng AI nghĩa là cho ứng dụng của bạn gọi tới các mô hình ngôn ngữ lớn (LLM) như Claude, GPT, Gemini để làm việc như chat, tóm tắt, trích xuất dữ liệu hay tự động hoá tác vụ. Bài này giới thiệu các cách tích hợp cơ bản: gọi chat, stream kết quả từng chữ cho mượt, ép AI trả về JSON đúng khuôn, cho AI gọi function (tool use), prompt engineering, AI agent và chuẩn MCP. Đây là kỹ năng ngày càng quan trọng vì hầu hết sản phẩm hiện đại đều cần một chút "thông minh" từ AI.
+
 ---
 
 ## Mục lục

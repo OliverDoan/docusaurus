@@ -5,6 +5,8 @@ title: "1. Web Servers: Nginx, Apache, Caddy"
 
 # Web Servers: Nginx, Apache, Caddy
 
+Web server là phần mềm đứng giữa internet và code ứng dụng của bạn, lo việc phục vụ file tĩnh, chuyển tiếp request tới backend, xử lý HTTPS và phân phối tải. Bài này giới thiệu ba web server phổ biến nhất là Nginx, Apache và Caddy cùng các khái niệm reverse proxy và load balancing. Hiểu chúng giúp bạn deploy ứng dụng lên server thật một cách an toàn và chịu được nhiều người dùng cùng lúc.
+
 ---
 
 ## Mục lục

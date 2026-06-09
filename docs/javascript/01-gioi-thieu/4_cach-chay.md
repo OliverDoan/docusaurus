@@ -68,6 +68,50 @@ console.log("Hello");
 → Quy tắc: dùng **`defer`** cho hầu hết trường hợp; **`async`** cho
 analytics/ads độc lập; **`type="module"`** cho code dùng `import`/`export`.
 
+**Ví dụ trực quan** — giả sử trang có 1 đoạn HTML và 1 script muốn đọc nó:
+
+```html
+<!-- ❌ Mặc định: script chạy NGAY tại đây, lúc này <h1> bên dưới
+     CHƯA tồn tại → báo lỗi "Cannot read properties of null" -->
+<script>
+  document.querySelector("h1").textContent = "Đã đổi!"; // LỖI
+</script>
+
+<h1>Tiêu đề gốc</h1>
+```
+
+```html
+<!-- ✅ defer: trình duyệt parse hết HTML trước, rồi mới chạy script
+     → lúc chạy thì <h1> đã có sẵn → hoạt động đúng -->
+<head>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <h1>Tiêu đề gốc</h1>
+</body>
+<!-- app.js: document.querySelector("h1").textContent = "Đã đổi!"; OK -->
+```
+
+**Ví dụ về thứ tự** — có 3 file phụ thuộc nhau (`jquery` → `plugin` → `app`):
+
+```html
+<!-- defer: GIỮ đúng thứ tự khai báo → jquery chạy trước, rồi plugin, rồi app -->
+<script src="jquery.js" defer></script>
+<script src="plugin.js" defer></script>
+<script src="app.js" defer></script>
+
+<!-- async: file nào tải xong TRƯỚC thì chạy TRƯỚC → có thể app.js chạy
+     trước jquery.js → vỡ phụ thuộc. KHÔNG dùng async cho code có thứ tự! -->
+<script src="jquery.js" async></script>
+<script src="plugin.js" async></script>
+<script src="app.js" async></script>
+```
+
+```html
+<!-- async hợp lý: script độc lập, không phụ thuộc ai, chạy lúc nào cũng được -->
+<script src="https://analytics.example.com/track.js" async></script>
+```
+
 :::
 
 ---

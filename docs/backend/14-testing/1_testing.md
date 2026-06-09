@@ -5,6 +5,8 @@ title: "1. Testing Backend"
 
 # Testing Backend
 
+Testing là viết code để tự động kiểm tra xem code chính của bạn có chạy đúng hay không, thay vì phải bấm thử bằng tay mỗi lần. Bài này đi qua tháp testing (unit, integration, E2E), cách test hàm thuần, test API kèm database, test luồng người dùng đầy đủ, load test và phương pháp TDD. Có test tốt giúp bạn sửa code mà không sợ làm hỏng chỗ khác, và yên tâm hơn mỗi khi deploy.
+
 ---
 
 ## Mục lục

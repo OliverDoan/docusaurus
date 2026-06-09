@@ -5,6 +5,8 @@ title: "Git và Workflow"
 
 # Git và Workflow
 
+Git là công cụ quản lý phiên bản (version control) gần như bắt buộc với mọi lập trình viên, giúp lưu lại lịch sử thay đổi code và làm việc nhóm mà không giẫm chân nhau. Bài này hướng dẫn các lệnh Git cơ bản, cách dùng branch, merge và rebase, xử lý conflict cùng những workflow phổ biến để bạn quản lý dự án gọn gàng và chuyên nghiệp.
+
 ---
 
 ## Mục lục

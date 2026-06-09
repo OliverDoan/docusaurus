@@ -5,6 +5,8 @@ title: "1. AI Coding Tools và Applications"
 
 # AI Coding Tools và Applications
 
+Bài này giới thiệu các công cụ lập trình hỗ trợ bởi AI phổ biến năm 2026 như Claude Code, Cursor, GitHub Copilot và cách dùng chúng để sinh code, refactor, viết test hay review code. Những công cụ này giúp bạn code nhanh hơn nhiều lần, nhưng cũng có điểm cần lưu ý để không bị phụ thuộc hay tin tưởng mù quáng. Nắm được cách dùng đúng giúp bạn biến AI thành trợ thủ đắc lực thay vì cái bẫy.
+
 ---
 
 ## Mục lục

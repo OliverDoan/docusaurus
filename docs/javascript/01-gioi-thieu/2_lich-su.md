@@ -25,6 +25,8 @@ Năm **1995**, **Brendan Eich** tại Netscape được giao nhiệm vụ tạo
 ngôn ngữ kịch bản cho trình duyệt **Netscape Navigator**. Ông hoàn thành
 prototype đầu tiên trong **10 ngày**.
 
+> **Prototype** (bản mẫu) là một **phiên bản thử nghiệm sơ khai** của sản phẩm, làm nhanh để chạy thử và chứng minh ý tưởng khả thi — chưa hoàn chỉnh, còn thiếu tính năng. Ở đây nghĩa là Brendan Eich dựng được bản JavaScript chạy được đầu tiên chỉ trong 10 ngày, rồi mới hoàn thiện dần sau đó. (Lưu ý: từ này khác với khái niệm *prototype* trong cơ chế kế thừa của JavaScript.)
+
 Tên ngôn ngữ qua các giai đoạn:
 
 - **Mocha** (tên nội bộ ban đầu).
@@ -35,11 +37,40 @@ Tên ngôn ngữ qua các giai đoạn:
 
 ## Cuộc chiến trình duyệt
 
-Microsoft nhanh chóng tạo **JScript** cho Internet Explorer (1996) —
-phiên bản "clone" JavaScript. Hai bản không tương thích, gây đau đầu
-cho dev web.
+"Cuộc chiến trình duyệt" (browser war) là giai đoạn cuối thập niên 1990,
+khi **Netscape** và **Microsoft** đua nhau giành thị phần trình duyệt
+bằng cách tự thêm tính năng riêng — thay vì cùng theo một chuẩn.
 
-→ Cần một **chuẩn chung** để các trình duyệt cùng tuân thủ.
+Diễn biến chính:
+
+- **1995**: Netscape Navigator thống trị, đi kèm **JavaScript**.
+- **1996**: Microsoft tung **Internet Explorer** kèm **JScript** — một
+  bản "clone" JavaScript (vì JS là của Netscape, Microsoft không được
+  dùng đúng tên).
+- Hai hãng liên tục thêm tính năng độc quyền chỉ chạy trên trình duyệt
+  của mình, không thèm tương thích với nhau.
+
+Hệ quả với dev web:
+
+- Cùng một đoạn code chạy **khác nhau** (hoặc lỗi) trên IE và Netscape.
+- Phải viết code **rẽ nhánh** kiểu "nếu là IE thì làm thế này, nếu là
+  Netscape thì làm thế kia" → tốn công, dễ lỗi.
+- Xuất hiện huy hiệu **"Best viewed in Internet Explorer"** trên nhiều
+  website — dấu hiệu của sự phân mảnh.
+
+→ Cần một **chuẩn chung** để các trình duyệt cùng tuân thủ, dẫn tới sự
+ra đời của **ECMAScript** (mục bên dưới).
+
+:::info[Phân tích]
+
+Microsoft cuối cùng **thắng cuộc chiến thứ nhất**: IE đạt ~95% thị phần
+đầu những năm 2000 sau khi được nhúng sẵn vào Windows. Nhưng việc IE
+"đứng yên không cải tiến" suốt nhiều năm sau đó lại mở đường cho
+**Firefox** (2004) và **Chrome** (2008) — châm ngòi cho **cuộc chiến
+trình duyệt lần hai**. Bài học còn nguyên giá trị: **đứng ngoài chuẩn
+chung** giúp thắng ngắn hạn nhưng gây hại lâu dài cho cả hệ sinh thái.
+
+:::
 
 ---
 
@@ -48,6 +79,8 @@ cho dev web.
 Năm **1997**, Netscape gửi JS lên **ECMA International** để chuẩn hoá.
 Chuẩn được đặt tên là **ECMAScript (ES)** — vì "JavaScript" là trademark
 của Sun/Oracle.
+
+> **ECMA International** là một **tổ chức tiêu chuẩn quốc tế** (lập năm 1961, trụ sở tại Geneva, Thụy Sĩ), chuyên xây dựng các chuẩn cho công nghệ thông tin và truyền thông. "Chuẩn hoá" nghĩa là tổ chức này đặt ra **bộ quy tắc chung** để mọi trình duyệt cùng tuân theo, nhờ vậy cùng một đoạn code JavaScript chạy giống nhau ở Chrome, Firefox, Safari... Ngoài JavaScript (ECMAScript), ECMA còn chuẩn hoá nhiều công nghệ khác như JSON, C#, Dart.
 
 Các phiên bản quan trọng:
 

@@ -5,6 +5,8 @@ title: "1. Search Engines: Elasticsearch, Meilisearch, Typesense"
 
 # Search Engines: Elasticsearch, Meilisearch, Typesense
 
+Search engine là công cụ chuyên đi tìm kiếm văn bản, giúp người dùng gõ vài chữ là ra kết quả đúng ý dù gõ sai chính tả, nhanh hơn nhiều so với câu lệnh tìm kiếm thường của database. Nó quan trọng với các trang web cần ô tìm kiếm tốt như bán hàng hay tra cứu tài liệu. Bài này giới thiệu các lựa chọn như Elasticsearch, Meilisearch, Typesense; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

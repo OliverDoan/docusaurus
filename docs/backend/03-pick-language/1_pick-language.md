@@ -5,6 +5,8 @@ title: "Chọn ngôn ngữ Backend"
 
 # Chọn ngôn ngữ Backend
 
+Một trong những quyết định đầu tiên khi học backend là chọn ngôn ngữ lập trình để theo. Bài này giới thiệu các lựa chọn phổ biến như Node.js, Python, Go, Java, C#, PHP, Ruby, Rust kèm ưu/nhược điểm, framework tiêu biểu và bảng so sánh nhanh. Mục tiêu là giúp bạn chọn được ngôn ngữ phù hợp với mục tiêu nghề nghiệp và loại dự án mình muốn làm.
+
 ---
 
 ## Mục lục

@@ -159,8 +159,14 @@ loop, một trong các topic kinh điển của JS.
 
 ## Lexical Scope
 
-**Lexical scope** = scope được xác định bởi **vị trí code khi viết**,
-không phải bởi **vị trí khi gọi**.
+**Lexical scope** (còn gọi là *static scope*) = scope được xác định bởi
+**vị trí code khi viết**, không phải bởi **vị trí khi gọi**.
+
+> Chữ **"lexical"** nghĩa là "thuộc về văn bản code". Tức là chỉ cần
+> **nhìn vào nơi bạn viết** một function trong file — lồng bên trong
+> function/block nào — là đã biết nó truy cập được những biến nào.
+> Điều này được "chốt" ngay lúc viết code, và **không thay đổi** dù sau
+> này bạn gọi function đó từ đâu.
 
 ```js
 function outer() {
@@ -177,10 +183,51 @@ const fn = outer();
 fn(); // "An" — vẫn truy cập được name
 ```
 
-`inner` được viết bên trong `outer`, nên nó **luôn truy cập được**
+`inner` được **viết bên trong** `outer`, nên nó **luôn truy cập được**
 biến của `outer`, kể cả khi gọi từ bên ngoài.
 
-Đây là nền tảng của **closure** (sẽ học sâu ở phần Functions).
+### Quyết định lúc viết, không phải lúc gọi
+
+Điểm cốt lõi dễ nhầm: biến mà một function "nhìn thấy" phụ thuộc vào
+**nơi nó được định nghĩa**, KHÔNG phải nơi nó được gọi.
+
+```js
+const message = "global";
+
+function inner() {
+  console.log(message); // luôn nhìn lên nơi inner ĐƯỢC VIẾT
+}
+
+function outer() {
+  const message = "local trong outer";
+  inner(); // gọi inner ở đây, nhưng...
+}
+
+outer(); // In ra "global", KHÔNG phải "local trong outer"
+```
+
+`inner` được viết ở top-level (cạnh biến `message = "global"`), nên dù
+được **gọi bên trong** `outer`, nó vẫn lấy `message` ở nơi nó được viết
+ra. Nếu JavaScript dùng *dynamic scope* (lấy biến theo nơi gọi) thì kết
+quả sẽ là `"local trong outer"` — nhưng JS **không** làm vậy.
+
+:::info[Lexical scope vs Dynamic scope]
+
+| Tiêu chí | Lexical scope (JS dùng) | Dynamic scope |
+|----------|-------------------------|---------------|
+| Quyết định khi nào | Lúc **viết** code (static) | Lúc **chạy/gọi** hàm |
+| Lấy biến từ đâu | Nơi hàm **được định nghĩa** | Nơi hàm **được gọi** |
+| Đoán kết quả | Dễ — nhìn cấu trúc code | Khó — phải lần theo call stack |
+
+Hầu hết ngôn ngữ hiện đại (JavaScript, Python, C...) dùng **lexical
+scope** vì nó dễ đọc, dễ suy luận và an toàn hơn. Dynamic scope hiếm gặp
+(vd Bash, Emacs Lisp cũ).
+
+:::
+
+Đây là nền tảng của **closure** (sẽ học sâu ở phần Functions): vì scope
+được "chốt" theo vị trí viết, function con vẫn nhớ và truy cập được biến
+của scope cha **kể cả khi scope cha đã kết thúc**.
 
 ---
 

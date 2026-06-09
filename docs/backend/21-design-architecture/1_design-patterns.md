@@ -5,6 +5,8 @@ title: "1. Design Patterns, DDD, CQRS, Event Sourcing"
 
 # Design Patterns, DDD, CQRS, Event Sourcing
 
+Đây là những "khuôn mẫu" và cách tổ chức code đã được đúc kết để giải quyết các bài toán thường gặp khi viết phần mềm phức tạp. Hiểu chúng quan trọng vì giúp code dễ đọc, dễ bảo trì và xử lý tốt các nghiệp vụ rắc rối, nhưng cũng cần biết khi nào không nên dùng để tránh làm mọi thứ phức tạp quá mức. Bài này giới thiệu Design Patterns, DDD, CQRS và Event Sourcing; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

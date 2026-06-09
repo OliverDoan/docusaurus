@@ -5,6 +5,8 @@ title: "2. Application Security: SQL Injection, XSS, CSRF"
 
 # Application Security: SQL Injection, XSS, CSRF
 
+Bài này giới thiệu các lỗ hổng bảo mật hay gặp nhất ở tầng ứng dụng như SQL Injection, XSS, CSRF cùng cách phòng chống chúng. Đây đều là những lỗi kinh điển khiến hacker có thể đánh cắp dữ liệu, chiếm tài khoản người dùng hoặc phá hủy database của bạn. Nắm được những kiến thức này giúp bạn viết code an toàn ngay từ đầu thay vì sửa lỗi sau khi bị tấn công.
+
 ---
 
 ## Mục lục

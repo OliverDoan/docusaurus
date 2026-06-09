@@ -5,6 +5,8 @@ title: "Frontend Basics cho Backend Dev"
 
 # Frontend Basics cho Backend Dev
 
+Backend luôn phục vụ cho một client nào đó (web, mobile, app khác), nên dù làm backend bạn vẫn nên biết frontend cơ bản. Bài này điểm qua HTML, CSS và JavaScript ở mức đủ dùng, để bạn thiết kế API hợp lý, debug được khi giao diện hiển thị sai và phối hợp trơn tru với frontend dev.
+
 ---
 
 ## Mục lục

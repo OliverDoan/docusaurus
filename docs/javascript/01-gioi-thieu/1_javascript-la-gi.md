@@ -46,6 +46,8 @@ console.log("Hello, JavaScript!");
 
 JavaScript cần một **engine** để chạy. Mỗi môi trường có engine riêng:
 
+> **Engine** (động cơ JavaScript) là một **chương trình** có nhiệm vụ **đọc code JavaScript và biến nó thành lệnh mà máy tính thực thi được**. Bạn viết JS, nhưng CPU không hiểu JS — engine đứng giữa làm "phiên dịch": nó phân tích cú pháp (parse) code, chuyển thành dạng máy hiểu, rồi chạy. Engine thường được viết bằng C++ và nhúng sẵn trong trình duyệt hoặc môi trường như Node.js, nên bạn không cần cài riêng. Ví dụ: gõ `console.log("Hi")` trong Chrome, chính engine **V8** sẽ xử lý và in ra kết quả.
+
 | Môi trường | Engine |
 |-----------|--------|
 | Chrome, Edge, Node.js, Bun | **V8** |

@@ -5,6 +5,8 @@ title: "2. Khái niệm Database quan trọng"
 
 # Khái niệm Database quan trọng
 
+Khi đã chọn được database, bạn cần nắm vài khái niệm cốt lõi để dùng nó hiệu quả và tránh lỗi thường gặp. Bài này giải thích schema và migration, index, join, foreign key, vấn đề N+1 và transaction. Đây là những kiến thức nền tảng giúp bạn thiết kế dữ liệu gọn gàng và viết truy vấn chạy nhanh, đúng đắn.
+
 ---
 
 ## Mục lục

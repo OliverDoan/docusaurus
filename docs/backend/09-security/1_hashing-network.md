@@ -5,6 +5,8 @@ title: "1. Hashing và Network Security"
 
 # Hashing và Network Security
 
+Bài này nói về hai mảng nền tảng giúp giữ an toàn cho hệ thống backend: hashing (cách biến mật khẩu và dữ liệu thành chuỗi không thể đảo ngược) và bảo mật tầng mạng (HTTPS/TLS, CORS, CSP). Hiểu rõ những thứ này giúp bạn lưu mật khẩu an toàn, mã hóa đường truyền giữa client và server, và chặn các kiểu tấn công phổ biến trên web. Đây là kiến thức bắt buộc trước khi đưa bất kỳ ứng dụng nào lên môi trường thật.
+
 ---
 
 ## Mục lục

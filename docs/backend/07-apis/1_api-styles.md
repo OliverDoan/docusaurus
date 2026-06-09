@@ -5,6 +5,8 @@ title: "1. API Styles: REST, GraphQL, gRPC"
 
 # API Styles: REST, GraphQL, gRPC
 
+API Style là phong cách thiết kế API, tức là cách client và server "nói chuyện" với nhau qua mạng. Bài này giới thiệu các phong cách phổ biến như REST, GraphQL, gRPC, tRPC và SOAP, cùng cách chọn cái phù hợp cho từng tình huống. Hiểu chúng giúp bạn xây dựng giao tiếp giữa frontend và backend đúng đắn, dễ dùng và hiệu quả.
+
 ---
 
 ## API Styles là gì?
