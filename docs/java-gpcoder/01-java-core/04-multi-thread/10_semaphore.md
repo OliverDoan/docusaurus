@@ -5,6 +5,8 @@ title: "Sử dụng Semaphore trong Java"
 
 # Sử dụng Semaphore trong Java
 
+Semaphore là công cụ đồng bộ hóa giúp kiểm soát số lượng luồng được truy cập một tài nguyên dùng chung cùng lúc, ví dụ giới hạn số kết nối database hay số request đến API. Bài này giải thích cách Semaphore hoạt động qua cơ chế "giấy phép" (permit), phân loại counting và binary semaphore, cùng nhiều ví dụ thực tế. Đây là kỹ thuật hữu ích để điều tiết tải và tránh quá tải hệ thống.
+
 ## Semaphore là gì?
 
 **Semaphore** (đèn hiệu — cơ chế đồng bộ hóa kiểm soát số luồng được truy cập tài nguyên dùng chung cùng một lúc) là class trong `java.util.concurrent`.

@@ -5,6 +5,8 @@ title: "Test một Abstract Class trong Java"
 
 # Test một Abstract Class trong Java
 
+Abstract class không thể khởi tạo trực tiếp bằng `new`, nên việc kiểm thử các phương thức cụ thể bên trong nó đòi hỏi vài kỹ thuật riêng. Bài này trình bày 4 cách phổ biến để test abstract class: tạo subclass ẩn danh, tạo lớp con test riêng, dùng Mockito và dùng PowerMock. Hiểu các cách này giúp bạn viết test cho cả những lớp cha trừu tượng một cách gọn gàng.
+
 ## Vấn đề khi test Abstract Class
 
 **Abstract class** (lớp trừu tượng) là lớp không thể khởi tạo trực tiếp bằng `new`. Điều này đặt ra câu hỏi: làm thế nào để kiểm thử các phương thức cụ thể (concrete method) trong abstract class mà không cần tạo subclass thật?

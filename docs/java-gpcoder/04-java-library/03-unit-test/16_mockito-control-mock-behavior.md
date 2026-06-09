@@ -5,6 +5,8 @@ title: "Mockito - Control mock's behavior"
 
 # Mockito — Control mock's behavior (Kiểm soát hành vi của mock)
 
+Khi viết unit test với Mockito, sau khi tạo mock bạn cần "dạy" cho nó biết phải trả về gì hay làm gì khi được gọi — đó chính là kiểm soát hành vi của mock. Bài này hướng dẫn các cách stub thường gặp như trả về giá trị, ném exception, gọi phương thức thật và dùng argument matcher để so khớp tham số linh hoạt. Nắm vững phần này giúp bạn cô lập đối tượng cần test khỏi các phụ thuộc bên ngoài.
+
 ## Giới thiệu
 
 Sau khi tạo mock, bước tiếp theo là **stubbing** (định nghĩa hành vi) — chỉ định mock sẽ làm gì khi một phương thức được gọi với các tham số nhất định. Mockito cung cấp nhiều cách để kiểm soát hành vi: trả về giá trị, ném exception, gọi phương thức thật, hoặc thực hiện logic tùy chỉnh.

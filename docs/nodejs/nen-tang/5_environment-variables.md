@@ -5,6 +5,7 @@ title: "5. Environment Variables"
 
 # Environment Variables
 
+Environment variables (biến môi trường) là cách lưu cấu hình và thông tin nhạy cảm như mật khẩu, API key bên ngoài source code. Bài này hướng dẫn truy cập biến qua `process.env`, dùng thư viện dotenv cho local, validate biến bắt buộc khi khởi động và quản lý nhiều môi trường khác nhau. Cách làm này vừa bảo mật vừa giúp app linh hoạt theo từng môi trường.
 
 ---
 

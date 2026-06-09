@@ -5,6 +5,8 @@ title: "Command Pattern"
 
 # Java Design Pattern - Command
 
+Command là mẫu thiết kế hành vi đóng gói một yêu cầu thành một đối tượng riêng, chứa đầy đủ thông tin để thực thi. Nhờ vậy bạn có thể tách người ra lệnh khỏi người thực hiện, xếp hàng lệnh, ghi log và đặc biệt là hỗ trợ hoàn tác (undo/redo). Pattern này rất hữu ích cho nút bấm GUI hay trình soạn thảo. Bài này giới thiệu tổng quan; phần chi tiết và ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 **Command** (Lệnh) là một mẫu thiết kế hành vi đóng gói một yêu cầu thành một đối tượng độc lập, chứa đầy đủ thông tin về yêu cầu đó. Điều này cho phép bạn tham số hóa các phương thức với các yêu cầu khác nhau, trì hoãn hoặc xếp hàng yêu cầu, và hỗ trợ hoàn tác (undo).

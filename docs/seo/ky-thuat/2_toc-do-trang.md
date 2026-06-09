@@ -5,6 +5,8 @@ title: "2. Tốc độ trang"
 
 # Tốc độ trang
 
+Tốc độ trang là việc trang web tải và hiển thị nhanh đến đâu, ảnh hưởng trực tiếp đến cả trải nghiệm người dùng lẫn thứ hạng trên Google. Trang chậm khiến người dùng rời đi và bị đánh giá thấp về SEO. Bài này giúp bạn hiểu cách trình duyệt render trang (critical rendering path) rồi áp dụng các kỹ thuật tối ưu như code splitting, lazy loading, tối ưu CSS/JS, CDN và caching; phần chi tiết nằm bên dưới.
+
 ## Mục lục
 
 - [Tại sao tốc độ trang quan trọng?](#tại-sao-tốc-độ-trang-quan-trọng)

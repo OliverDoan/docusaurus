@@ -5,6 +5,8 @@ title: "Lập trình đa luồng trong Java - Java Multi-threading"
 
 # Lập trình đa luồng trong Java - Java Multi-threading
 
+Lập trình đa luồng là kỹ thuật cho phép một chương trình chạy nhiều tác vụ cùng lúc, giúp tận dụng CPU đa nhân và xử lý đồng thời hiệu quả. Bài này giới thiệu khái niệm Thread, vì sao cần đa luồng, các cách tạo luồng trong Java (kế thừa `Thread`, dùng `Runnable`, lambda) cùng vòng đời và các phương thức điều khiển luồng. Đây là nền tảng quan trọng trước khi học các chủ đề nâng cao như đồng bộ hóa hay thread pool.
+
 ## Giới thiệu
 
 **Multi-threading** (lập trình đa luồng) là kỹ thuật cho phép một chương trình thực thi nhiều **Thread** (luồng — đơn vị thực thi nhỏ nhất của một tiến trình) cùng một lúc. Mỗi luồng chạy độc lập nhưng chia sẻ chung vùng nhớ (heap) của tiến trình (**Process** — chương trình đang chạy).

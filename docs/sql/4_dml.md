@@ -5,6 +5,8 @@ title: "4. DML — Thao tác dữ liệu"
 
 # DML — Thao tác dữ liệu
 
+DML (Data Manipulation Language) là nhóm câu lệnh dùng để truy vấn và thay đổi dữ liệu bên trong bảng. Bài này tập trung vào câu lệnh SELECT (FROM, WHERE, JOIN, GROUP BY, HAVING, ORDER BY) cùng INSERT, UPDATE, DELETE. Đây là nhóm lệnh bạn dùng hằng ngày, nên nắm vững thứ tự thực thi và cách lọc dữ liệu là rất quan trọng.
+
 ---
 
 ## Mục lục

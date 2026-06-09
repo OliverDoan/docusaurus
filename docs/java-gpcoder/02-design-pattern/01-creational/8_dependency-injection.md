@@ -5,6 +5,8 @@ title: "Dependency Injection Pattern"
 
 # Java Design Pattern - Dependency Injection
 
+Dependency Injection (DI - tiêm phụ thuộc) là một mẫu thiết kế và nguyên tắc quan trọng, trong đó các phụ thuộc của một đối tượng được cung cấp từ bên ngoài thay vì để đối tượng tự tạo ra. Cách này giúp giảm sự phụ thuộc cứng giữa các lớp, làm code dễ thay thế và dễ kiểm thử hơn nhiều. Đây là nền tảng của hầu hết các ứng dụng Java hiện đại như Spring Boot. Bài này giới thiệu khái niệm tổng quan và các hình thức DI; phần chi tiết với ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 **Dependency Injection** (DI — tiêm phụ thuộc) là một **Creational Design Pattern** (và cũng là nguyên tắc thiết kế) trong đó các phụ thuộc của một đối tượng được **cung cấp từ bên ngoài** thay vì đối tượng tự tạo ra. Đây là hiện thực hóa của nguyên tắc **Inversion of Control** (IoC — đảo ngược sự kiểm soát).

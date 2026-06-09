@@ -5,6 +5,8 @@ title: "REST Web service - Basic Authentication trong Jersey 2.x"
 
 # REST Web service - Basic Authentication trong Jersey 2.x
 
+Basic Authentication là cách xác thực HTTP đơn giản nhất: client gửi username và password (mã hóa Base64) trong header của mỗi request. Bài này hướng dẫn triển khai Basic Auth trong Jersey 2.x từ đầu đến cuối — tạo model User, viết filter giải mã và kiểm tra thông tin đăng nhập, gắn SecurityContext và test bằng Jersey Client. Đây là điểm khởi đầu tốt để hiểu cơ chế xác thực trước khi học các phương thức nâng cao hơn như JWT.
+
 ## Basic Authentication là gì?
 
 **Basic Authentication** (xác thực cơ bản) là phương thức xác thực HTTP đơn giản nhất. Client gửi username và password được mã hóa **Base64** trong header `Authorization` của mỗi request.

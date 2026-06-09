@@ -5,6 +5,8 @@ title: "Hibernate Query Language (HQL)"
 
 # Hibernate Query Language (HQL)
 
+HQL là ngôn ngữ truy vấn của Hibernate, nhìn rất giống SQL nhưng làm việc với tên class và tên field Java thay vì tên bảng và tên cột. Nhờ đó bạn viết truy vấn theo tư duy hướng đối tượng, độc lập với loại database đang dùng. Bài này giới thiệu cú pháp HQL cơ bản, các mệnh đề như JOIN, GROUP BY, subquery, bulk update/delete và Named Query.
+
 ## HQL là gì?
 
 **HQL** (Hibernate Query Language — ngôn ngữ truy vấn của Hibernate) là ngôn ngữ truy vấn hướng đối tượng của Hibernate. HQL tương tự SQL nhưng thao tác với **tên class và tên field Java** thay vì tên bảng và tên cột database.

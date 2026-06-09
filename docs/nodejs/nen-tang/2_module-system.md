@@ -5,6 +5,7 @@ title: "2. Module System"
 
 # Module System trong Node.js
 
+Module system là cách Node.js chia code thành nhiều file nhỏ rồi import/export dùng lại với nhau. Bài này giới thiệu hai kiểu module là CommonJS (`require`) và ES Modules (`import`), cùng vài built-in module quan trọng như `path`, `fs`, `os` và `events`. Hiểu phần này giúp bạn tổ chức dự án gọn gàng và dễ bảo trì.
 
 ---
 

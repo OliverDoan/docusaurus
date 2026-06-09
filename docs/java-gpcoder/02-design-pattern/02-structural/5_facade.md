@@ -5,6 +5,8 @@ title: "Facade Pattern"
 
 # Java Design Pattern - Facade
 
+Facade là mẫu thiết kế cấu trúc giúp tạo ra một "cổng vào" đơn giản cho một hệ thống con phức tạp gồm nhiều class. Thay vì phải tự khởi tạo và phối hợp nhiều đối tượng, client chỉ cần gọi vài phương thức gọn gàng của Facade. Nhờ đó code dễ dùng, dễ bảo trì và bớt phụ thuộc vào chi tiết bên trong. Bài này giới thiệu tổng quan; phần chi tiết và ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 Facade (mặt tiền) là một **Structural Design Pattern** cung cấp một interface đơn giản, gọn gàng cho một hệ thống con (subsystem) phức tạp. Pattern này không ẩn giấu subsystem mà chỉ tạo ra một "cổng vào" thuận tiện, giúp client không cần biết chi tiết bên trong.

@@ -5,6 +5,8 @@ title: "4. JavaScript SEO"
 
 # JavaScript SEO
 
+JavaScript SEO xử lý vấn đề các framework hiện đại (React, Vue, Angular) render nội dung phía client, khiến Googlebot ban đầu chỉ thấy một trang HTML gần như trống rỗng và khó index. Đây là thách thức lớn với các SPA muốn lên top tìm kiếm. Bài này so sánh các cách render (CSR, SSR, SSG, ISR), giải thích cách Google render JavaScript, và đưa ra giải pháp như dynamic rendering hay prerendering; phần chi tiết nằm bên dưới.
+
 ## Mục lục
 
 - [Vấn đề cốt lõi](#vấn-đề-cốt-lõi)

@@ -5,6 +5,8 @@ title: "Đơn giản hóa Unit Test với JUnit Rule"
 
 # Đơn giản hóa Unit Test với JUnit Rule
 
+JUnit Rule là cơ chế cho phép tái sử dụng logic thiết lập và dọn dẹp test mà không cần kế thừa lớp, giúp test gọn gàng và dễ bảo trì hơn. Bài này giới thiệu các Rule có sẵn hữu ích như `TemporaryFolder`, `ExpectedException`, `Timeout`, `ErrorCollector`, cùng cách tự tạo Rule tùy chỉnh và dùng `@ClassRule` cho cả lớp test.
+
 ## JUnit Rule là gì?
 
 **JUnit Rule** (quy tắc JUnit) là cơ chế cho phép bạn tái sử dụng logic thiết lập và dọn dẹp test mà không cần kế thừa lớp. Rule hoạt động giống như một **interceptor** (bộ chặn) — nó bao quanh quá trình thực thi test để thêm hành vi bổ sung.

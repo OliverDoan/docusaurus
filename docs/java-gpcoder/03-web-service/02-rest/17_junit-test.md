@@ -5,6 +5,8 @@ title: "Test Jersey REST API với JUnit"
 
 # Test Jersey REST API với JUnit
 
+Viết test cho REST API giúp đảm bảo các endpoint hoạt động đúng trước khi đưa lên server thật. Bài này hướng dẫn dùng Jersey Test Framework để chạy server giả lập ngay trong JVM, kết hợp Mockito để mock service và AssertJ để viết assertion rõ ràng. Phần chi tiết kèm ví dụ test CRUD nằm bên dưới.
+
 ## Tổng quan
 
 **JUnit** là framework kiểm thử phổ biến nhất trong Java. Để test REST API Jersey, ta có thể dùng:

@@ -5,6 +5,8 @@ title: "1. Meta Tags nâng cao"
 
 # Meta Tags nâng cao
 
+Meta tags là những thẻ HTML nằm trong phần `<head>` của trang, cung cấp thông tin cho công cụ tìm kiếm và mạng xã hội về nội dung trang web. Ngoài `<title>` và `description` cơ bản, còn rất nhiều loại meta tag khác giúp trang rank tốt và hiển thị đẹp khi được chia sẻ. Bài này đi sâu vào Open Graph, Twitter Card, canonical, hreflang cho trang đa ngôn ngữ, cùng cách triển khai trong Next.js và React; phần chi tiết nằm bên dưới.
+
 ## Mục lục
 
 - [Meta tags là gì và tại sao quan trọng?](#meta-tags-là-gì-và-tại-sao-quan-trọng)

@@ -5,6 +5,8 @@ title: "Lập trình mạng với Java - Java Networking"
 
 # Lập trình mạng với Java - Java Networking
 
+Lập trình mạng là cách giúp ứng dụng Java giao tiếp với nhau qua mạng máy tính, từ mạng nội bộ cho tới Internet. Java cung cấp sẵn gói `java.net` với các lớp để xử lý địa chỉ IP, URL và truyền dữ liệu qua TCP hoặc UDP. Bài này giới thiệu các khái niệm nền tảng cùng ví dụ minh họa cho từng giao thức.
+
 ## 1. Giới thiệu
 
 **Java Networking** (lập trình mạng trong Java) là tập hợp các API giúp ứng dụng Java giao tiếp qua mạng máy tính — bao gồm mạng nội bộ (LAN) và Internet. Java cung cấp gói `java.net` với nhiều lớp tiện ích để xử lý địa chỉ IP, URL, kết nối TCP và UDP.

@@ -5,6 +5,8 @@ title: "Lắng nghe các sự kiện khi test được thực thi trong JUnit (R
 
 # Lắng nghe các sự kiện khi test được thực thi trong JUnit (RunListener)
 
+RunListener cho phép bạn "lắng nghe" quá trình chạy test và phản ứng với các sự kiện như test bắt đầu, kết thúc, pass hay fail. Nhờ đó bạn có thể ghi log chi tiết, đo thời gian, tạo báo cáo tùy chỉnh hoặc gửi thông báo khi có test hỏng. Bài này hướng dẫn dùng RunListener trong JUnit 4, cách đăng ký nó, và đối tượng tương đương TestExecutionListener trong JUnit 5.
+
 ## RunListener là gì?
 
 **RunListener** (bộ lắng nghe sự kiện test) là cơ chế cho phép bạn theo dõi quá trình thực thi test và phản ứng với các sự kiện như: test bắt đầu, test kết thúc, test pass, test fail, ...

@@ -5,6 +5,8 @@ title: "Tạo instance của một class mà không gọi từ khoá new"
 
 # Tạo instance của một class mà không gọi từ khoá new
 
+Thông thường ta tạo đối tượng bằng từ khoá `new`, nhưng trong nhiều tình huống như framework, deserialization hay cloning thì không thể hoặc không nên gọi `new` trực tiếp. Bài này giới thiệu các cách tạo instance thay thế: `Constructor.newInstance()`, `clone()`, deserialization và cả `Unsafe`. Hiểu các cách này giúp bạn nắm được cách framework tạo object động và vì sao một số design pattern có thể bị phá vỡ.
+
 ## Tại sao cần tạo instance mà không dùng `new`?
 
 Trong Java, cách thông thường để tạo đối tượng là dùng từ khoá `new`. Nhưng có nhiều tình huống **bạn không thể hoặc không muốn** gọi `new` trực tiếp:

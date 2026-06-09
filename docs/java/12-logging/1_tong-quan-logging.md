@@ -5,6 +5,8 @@ title: "1. Tổng quan về Logging"
 
 # 1. Tổng quan về Logging
 
+Logging là việc chương trình ghi lại nhật ký hoạt động trong khi chạy, giúp bạn gỡ lỗi, theo dõi và truy vết sự cố ngay cả khi không ngồi trước màn hình. Bài này giải thích logging là gì, vì sao không nên dùng System.out.println trong dự án thật, các mức log từ TRACE tới ERROR, sự khác nhau giữa facade và implementation, cùng tổng quan các thư viện phổ biến. Đây là bài mở đầu; các thư viện cụ thể được nói kỹ ở các bài sau.
+
 ---
 
 ## Mục lục

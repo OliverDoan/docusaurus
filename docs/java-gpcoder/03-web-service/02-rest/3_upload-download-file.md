@@ -5,6 +5,8 @@ title: "REST Web service - Upload và Download file với Jersey 2.x"
 
 # REST Web service - Upload và Download file với Jersey 2.x
 
+Upload và download file là nhu cầu rất hay gặp trong REST API, ví dụ tải ảnh đại diện lên hay tải báo cáo PDF về. Bài này hướng dẫn cách xử lý upload file bằng Multipart và download file bằng `StreamingOutput` trong Jersey, kèm ví dụ cả phía server lẫn phía client.
+
 ## Tổng quan
 
 Xử lý file là một yêu cầu phổ biến trong REST API: upload ảnh đại diện, download báo cáo PDF, chia sẻ tài liệu... Jersey 2.x hỗ trợ upload file thông qua **Multipart** (gửi nhiều phần dữ liệu trong một request) và download file thông qua `StreamingOutput` (truyền dữ liệu dạng luồng).

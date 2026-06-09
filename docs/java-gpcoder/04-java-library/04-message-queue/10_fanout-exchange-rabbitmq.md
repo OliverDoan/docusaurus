@@ -5,6 +5,8 @@ title: "Sử dụng Fanout Exchange trong RabbitMQ"
 
 # Sử dụng Fanout Exchange trong RabbitMQ
 
+Fanout Exchange là loại exchange trong RabbitMQ phát một bản sao tin nhắn tới tất cả các queue đã gắn vào nó, bỏ qua hoàn toàn routing key. Nó rất hữu ích khi một sự kiện cần được nhiều dịch vụ xử lý cùng lúc, ví dụ gửi email, SMS và cập nhật kho khi có đơn hàng mới. Bài này hướng dẫn cách thiết lập và dùng Fanout Exchange qua ví dụ thực tế.
+
 ## Fanout Exchange là gì?
 
 **Fanout Exchange** (bộ định tuyến phát quảng bá — loại exchange gửi bản sao tin nhắn tới TẤT CẢ Queue đã bind vào nó, bỏ qua hoàn toàn routing key) hoạt động giống như một đài phát thanh: một lần phát, tất cả người nghe đều nhận được.

@@ -5,6 +5,8 @@ title: "Hướng dẫn tạo và sử dụng ThreadPool trong Java - ExecutorSer
 
 # Hướng dẫn tạo và sử dụng ThreadPool trong Java - ExecutorService
 
+Tạo và hủy luồng thủ công liên tục rất tốn tài nguyên và làm chậm hệ thống khi xử lý nhiều tác vụ. ThreadPool giải quyết vấn đề này bằng cách tạo sẵn một nhóm luồng để tái sử dụng, quản lý qua interface `ExecutorService`. Bài này giới thiệu các loại ThreadPool phổ biến, cách dùng chúng qua nhiều ví dụ thực tế và cách tự tùy chỉnh `ThreadPoolExecutor`.
+
 ## Vấn đề với việc tạo Thread thủ công
 
 Mỗi lần tạo `new Thread(...)` đều tốn chi phí:

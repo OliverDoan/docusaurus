@@ -5,6 +5,8 @@ title: "8. JOIN — Kết hợp bảng"
 
 # JOIN — Kết hợp bảng
 
+JOIN là cách kết hợp các hàng từ nhiều bảng dựa trên điều kiện liên kết, thường là khóa ngoại trỏ tới khóa chính của bảng kia. Bài này đi qua đầy đủ các loại JOIN — INNER, LEFT, RIGHT, FULL OUTER, SELF, CROSS — kèm sơ đồ minh họa, cách dùng ON/USING/NATURAL và bẫy ON vs WHERE với LEFT JOIN. Đây là kỹ năng cốt lõi để truy vấn dữ liệu trải trên nhiều bảng có quan hệ.
+
 ---
 
 ## Mục lục

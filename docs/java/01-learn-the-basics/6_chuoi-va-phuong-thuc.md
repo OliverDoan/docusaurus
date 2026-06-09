@@ -5,6 +5,8 @@ title: "6. Chuỗi (String) và các phương thức"
 
 # Chuỗi (String) và các phương thức
 
+String là kiểu dùng để lưu văn bản, tức một dãy các ký tự như một từ hay một câu. Đây là kiểu được dùng cực kỳ thường xuyên nên Java cung cấp rất nhiều phương thức tiện ích để xử lý nó. Bài này giới thiệu cách tạo chuỗi, tính bất biến, các phương thức phổ biến, cách so sánh đúng và StringBuilder; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

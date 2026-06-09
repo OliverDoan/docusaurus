@@ -5,6 +5,8 @@ title: "2. Artifacts"
 
 # Artifacts
 
+Artifacts là một cửa sổ riêng bên phải màn hình, hiển thị nội dung Claude tạo ra (code, tài liệu, trang web, sơ đồ) tách biệt khỏi khung chat. Nhờ đó bạn xem rõ ràng, chỉnh sửa trực tiếp và cập nhật qua nhiều lượt mà không phải làm lại từ đầu. Bài này giải thích Artifacts là gì, dùng cho việc gì và cách tạo, chỉnh sửa hiệu quả.
+
 ---
 
 ## Mục lục

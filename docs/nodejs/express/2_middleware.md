@@ -5,6 +5,7 @@ title: "2. Middleware"
 
 # Middleware trong Express
 
+Middleware là những hàm trung gian xử lý request theo chuỗi trước khi tới route handler, ví dụ như ghi log, kiểm tra đăng nhập hay parse dữ liệu. Hiểu middleware giúp bạn tổ chức ứng dụng Express gọn gàng và tái sử dụng được nhiều phần xử lý chung. Bài này giải thích cấu trúc middleware, các loại built-in và third-party, cách viết middleware riêng, và lưu ý quan trọng về thứ tự.
 
 ---
 

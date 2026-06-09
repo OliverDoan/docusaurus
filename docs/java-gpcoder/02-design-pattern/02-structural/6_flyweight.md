@@ -5,6 +5,8 @@ title: "Flyweight Pattern"
 
 # Java Design Pattern - Flyweight
 
+Flyweight là mẫu thiết kế cấu trúc giúp tiết kiệm bộ nhớ khi chương trình cần tạo rất nhiều đối tượng giống nhau. Ý tưởng là tách phần dữ liệu chung (dùng đi dùng lại) ra để chia sẻ, còn phần dữ liệu riêng thì truyền vào từ bên ngoài. Cách này rất hữu ích trong game, bản đồ, hay xử lý font chữ. Bài này giới thiệu tổng quan; phần chi tiết và ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 Flyweight (trọng lượng nhẹ) là một **Structural Design Pattern** giúp tiết kiệm bộ nhớ bằng cách chia sẻ các phần trạng thái chung giữa nhiều đối tượng thay vì lưu trữ tất cả dữ liệu trong từng đối tượng riêng lẻ. Pattern này đặc biệt hữu ích khi cần tạo số lượng lớn đối tượng tương tự nhau.

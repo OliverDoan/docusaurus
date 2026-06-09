@@ -5,6 +5,8 @@ title: "Null Object Pattern"
 
 # Java Design Pattern - Null Object
 
+Null Object là mẫu thiết kế hành vi dùng một đối tượng "rỗng" với hành vi mặc định không làm gì để thay cho giá trị `null`. Nhờ vậy code không phải kiểm tra `null` lặp đi lặp lại và tránh được lỗi `NullPointerException`. Pattern này hay dùng cho logger, cache hay event handler khi muốn "tắt" chức năng một cách an toàn. Bài này giới thiệu tổng quan; phần chi tiết và ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 **Null Object** (Đối tượng Null) là một mẫu thiết kế hành vi cung cấp một đối tượng với hành vi mặc định "không làm gì" thay thế cho giá trị `null`. Điều này giúp loại bỏ các kiểm tra `null` lặp đi lặp lại trong code, tránh `NullPointerException`.

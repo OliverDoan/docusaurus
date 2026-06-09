@@ -5,6 +5,8 @@ title: "4. Lập trình mạng (Networking)"
 
 # 4. Lập trình mạng (Networking)
 
+Lập trình mạng là viết chương trình để các máy tính trao đổi dữ liệu với nhau qua Internet hoặc mạng nội bộ. Bài này giới thiệu hai vai trò client và server, khái niệm socket, cách dùng `ServerSocket`/`Socket` với TCP và cách gọi API web bằng `HttpClient`. Đây là kiến thức cần thiết khi bạn muốn xây ứng dụng chat, server hay gọi dịch vụ trên mạng.
+
 ---
 
 ## Mục lục

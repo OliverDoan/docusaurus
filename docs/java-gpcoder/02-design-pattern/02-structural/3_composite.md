@@ -5,6 +5,8 @@ title: "Composite Pattern"
 
 # Java Design Pattern - Composite
 
+Composite là một mẫu thiết kế cấu trúc (structural) cho phép tổ chức các đối tượng thành cấu trúc dạng cây và làm việc với cả nhóm đối tượng lẫn từng đối tượng đơn lẻ theo cùng một cách. Mẫu này rất phù hợp với các cấu trúc phân cấp như hệ thống thư mục hay sơ đồ tổ chức. Bài này giới thiệu khái niệm tổng quan; phần chi tiết với ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 Composite là một **Structural Design Pattern** cho phép bạn tổ hợp các đối tượng thành cấu trúc dạng **cây (tree structure)** và làm việc với chúng như thể chúng là những đối tượng riêng lẻ. Pattern này xóa bỏ sự khác biệt giữa "đối tượng đơn lẻ" và "nhóm đối tượng" từ góc nhìn của client.

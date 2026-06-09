@@ -5,6 +5,8 @@ title: "Integer Constant Pool trong Java"
 
 # Integer Constant Pool trong Java
 
+Integer Constant Pool (hay Integer Cache) là cơ chế Java lưu sẵn các đối tượng `Integer` nhỏ để tái sử dụng, giúp tiết kiệm bộ nhớ. Đây chính là lý do khiến nhiều người mới bối rối khi so sánh `Integer` bằng `==` cho kết quả lúc đúng lúc sai. Bài này giải thích cơ chế hoạt động và vì sao luôn nên dùng `.equals()` để so sánh giá trị.
+
 ## Integer Constant Pool là gì?
 
 **Integer Constant Pool** (hay **Integer Cache**) là cơ chế của Java để **tái sử dụng** các đối tượng `Integer` trong khoảng từ **-128 đến 127**. Thay vì tạo đối tượng mới mỗi lần, JVM lưu sẵn 256 đối tượng Integer vào một bộ nhớ cache khi khởi động.

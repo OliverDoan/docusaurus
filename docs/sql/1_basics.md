@@ -5,6 +5,8 @@ title: "1. Kiến thức nền tảng"
 
 # Kiến thức nền tảng
 
+Trước khi viết câu lệnh SQL, bạn cần hiểu nền móng của nó: cơ sở dữ liệu quan hệ (Relational Database) tổ chức dữ liệu thành các bảng liên kết với nhau. Bài này giải thích Relational Database là gì, lợi ích và giới hạn của RDBMS, cùng sự khác biệt giữa SQL và NoSQL. Nắm chắc phần này giúp bạn chọn đúng công nghệ và hiểu vì sao SQL vẫn là lựa chọn mặc định cho phần lớn ứng dụng.
+
 ---
 
 ## Mục lục

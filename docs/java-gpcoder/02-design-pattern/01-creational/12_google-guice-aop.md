@@ -5,6 +5,8 @@ title: "Google Guice - AOP"
 
 # Giới thiệu Google Guice - Aspect Oriented Programming (AOP)
 
+AOP là mô hình lập trình giúp tách các logic lặp lại ở nhiều nơi (như logging, bảo mật, transaction, retry) ra khỏi logic nghiệp vụ chính, nhờ đó code gọn gàng và dễ bảo trì hơn. Guice hỗ trợ AOP thông qua MethodInterceptor để chèn xử lý trước/sau khi gọi method. Bài này hướng dẫn cách xây dựng các interceptor logging, retry, authorization và cách đăng ký chúng.
+
 ## AOP là gì?
 
 **AOP — Aspect Oriented Programming** (lập trình hướng khía cạnh) là một mô hình lập trình cho phép tách biệt các **cross-cutting concerns** (mối quan tâm xuyên suốt — những logic lặp lại ở nhiều nơi như logging, bảo mật, transaction, cache) ra khỏi logic nghiệp vụ chính.

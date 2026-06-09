@@ -5,6 +5,8 @@ title: "1. Cú pháp cơ bản"
 
 # Cú pháp cơ bản
 
+Cú pháp là bộ quy tắc viết code mà Java bắt buộc bạn tuân theo, giống như ngữ pháp của một ngôn ngữ. Nắm vững cú pháp cơ bản giúp bạn viết được chương trình Java đầu tiên mà không bị máy báo lỗi. Bài này giới thiệu bộ khung tối thiểu của một file Java và các quy tắc nền tảng nhất; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

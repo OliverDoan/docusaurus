@@ -5,6 +5,8 @@ title: "Giới thiệu Mockito"
 
 # Giới thiệu Mockito
 
+Mockito là thư viện phổ biến nhất để tạo mock object (đối tượng giả) trong unit test Java. Mock giúp thay thế các phụ thuộc thật như database hay service bên ngoài, nhờ đó bạn kiểm thử logic nghiệp vụ một cách cô lập, nhanh và ổn định. Bài này giới thiệu các khái niệm cốt lõi của Mockito — mock, stub, verify, spy và argument matcher — kèm ví dụ đầy đủ dễ theo dõi.
+
 ## Mockito là gì?
 
 **Mockito** là thư viện Java phổ biến nhất để tạo **mock object** (đối tượng giả lập) trong unit test. Mock object thay thế các dependency (phụ thuộc) thật sự như database, HTTP client, hay service bên ngoài, giúp bạn kiểm thử logic nghiệp vụ một cách cô lập và nhanh chóng.

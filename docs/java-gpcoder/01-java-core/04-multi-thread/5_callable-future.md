@@ -5,6 +5,8 @@ title: "Lập trình đa luồng với Callable và Future trong Java"
 
 # Lập trình đa luồng với Callable và Future trong Java
 
+Khi chạy đa luồng, đôi khi ta cần luồng tính toán xong rồi trả về một kết quả — điều mà `Runnable` không làm được. `Callable` và `Future` chính là bộ đôi giúp giải quyết việc này: `Callable` là tác vụ có trả về giá trị, còn `Future` đại diện cho kết quả sẽ có trong tương lai. Bài này giới thiệu cách dùng chúng để lấy kết quả từ các tác vụ bất đồng bộ một cách an toàn.
+
 ## Hạn chế của Runnable
 
 Interface `Runnable` chỉ có phương thức `run()` — không trả về kết quả và không ném checked exception. Nếu muốn luồng tính toán và trả về giá trị, cần dùng **Callable** và **Future**.

@@ -5,6 +5,8 @@ title: "10. Khối khởi tạo (Initializer Block)"
 
 # Khối khởi tạo (Initializer Block)
 
+Khối khởi tạo là một khối lệnh `{ }` chạy tự động để chuẩn bị dữ liệu cho đối tượng hoặc cho lớp, mà không cần đặt trong constructor. Nó hữu ích khi nhiều constructor cần dùng chung một đoạn khởi tạo, hoặc khi cần khởi tạo dữ liệu static phức tạp một lần duy nhất. Bài này giới thiệu instance block, static block và thứ tự thực thi khi tạo đối tượng.
+
 ---
 
 ## Mục lục

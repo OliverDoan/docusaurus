@@ -5,6 +5,8 @@ title: "3. Quarkus"
 
 # 3. Quarkus
 
+Quarkus là framework Java hiện đại do Red Hat tạo ra, thiết kế cho cloud và container với điểm mạnh là khởi động cực nhanh và dùng rất ít RAM. Bài này giới thiệu khái niệm cloud-native, native image với GraalVM, cách viết endpoint bằng JAX-RS và so sánh với Spring Boot. Đây là lựa chọn tốt khi bạn xây microservice hoặc ứng dụng serverless chạy trên cloud.
+
 ---
 
 ## Mục lục

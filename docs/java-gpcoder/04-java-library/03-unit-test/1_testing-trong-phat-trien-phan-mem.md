@@ -5,6 +5,8 @@ title: "Tìm hiểu về kiểm thử (Testing) trong phát triển phần mềm
 
 # Tìm hiểu về kiểm thử (Testing) trong phát triển phần mềm
 
+Kiểm thử (testing) là quá trình kiểm tra xem phần mềm có chạy đúng như mong đợi hay không, giúp phát hiện lỗi sớm và yên tâm hơn mỗi khi sửa code. Bài này giới thiệu tổng quan về testing: tại sao cần kiểm thử, các cấp độ (unit, integration, system, acceptance), quy trình TDD và các công cụ phổ biến trong Java như JUnit và Mockito. Đây là phần nền tảng trước khi đi sâu vào từng công cụ ở các bài sau.
+
 ## Kiểm thử phần mềm là gì?
 
 **Testing** (kiểm thử phần mềm) là quá trình đánh giá và xác minh rằng một ứng dụng hoặc hệ thống phần mềm hoạt động đúng như mong đợi. Mục tiêu chính là phát hiện lỗi (bug), đảm bảo chất lượng và xác nhận phần mềm đáp ứng các yêu cầu đã đề ra.

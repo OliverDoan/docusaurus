@@ -5,6 +5,8 @@ title: "Sử dụng Topic Exchange (Publish/Subscribe) trong RabbitMQ"
 
 # Sử dụng Topic Exchange (Publish/Subscribe) trong RabbitMQ
 
+Topic Exchange là loại exchange linh hoạt nhất trong RabbitMQ, định tuyến tin nhắn dựa trên mẫu (pattern) của routing key bằng các ký tự đại diện `*` và `#`. Nhờ đó bạn có thể lọc tin nhắn theo cấu trúc phân cấp như vùng địa lý hay loại sự kiện mà không cần sửa code khi thêm route mới. Bài này giải thích cú pháp routing key, các wildcard và ví dụ định tuyến thực tế.
+
 ## Topic Exchange là gì?
 
 **Topic Exchange** (bộ định tuyến theo chủ đề — loại exchange định tuyến tin nhắn dựa trên mẫu (pattern) của routing key thay vì so khớp chính xác) là loại Exchange linh hoạt nhất trong RabbitMQ. Nó cho phép định tuyến tin nhắn theo cấu trúc phân cấp bằng cách sử dụng **wildcard** (ký tự đại diện).

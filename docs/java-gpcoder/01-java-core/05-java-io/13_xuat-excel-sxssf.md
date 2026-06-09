@@ -5,6 +5,8 @@ title: "Hướng dẫn xuất dữ liệu lớn ra file Excel với Apache POI -
 
 # Hướng dẫn xuất dữ liệu lớn ra file Excel với Apache POI - SXSSF
 
+Khi xuất file Excel với hàng trăm ngàn hoặc hàng triệu dòng, cách thông thường (XSSF) dễ gây hết bộ nhớ vì giữ toàn bộ dữ liệu trong RAM. SXSSF là phiên bản "streaming" của Apache POI, chỉ giữ một số ít hàng trong RAM rồi ghi phần còn lại ra ổ đĩa nên xử lý dữ liệu lớn ổn định hơn nhiều. Bài này giới thiệu khái niệm tổng quan và cách dùng SXSSF; chi tiết nằm bên dưới.
+
 ## Vấn đề với XSSF khi dữ liệu lớn
 
 **XSSF** (XSSFWorkbook) giữ toàn bộ dữ liệu trong bộ nhớ RAM. Khi xuất hàng trăm ngàn hoặc triệu dòng, ứng dụng sẽ:

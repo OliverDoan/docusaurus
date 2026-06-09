@@ -5,6 +5,8 @@ title: "5. Crawl và Index"
 
 # Crawl và Index
 
+Crawl và Index là hai bước riêng biệt trong cách Google xử lý website: crawl là việc bot tải nội dung trang, còn index là việc Google lưu trang vào cơ sở dữ liệu để có thể xuất hiện trong kết quả tìm kiếm. Hiểu rõ sự khác biệt này giúp bạn kiểm soát đúng cách trang nào được Google đọc và hiển thị. Bài này hướng dẫn các công cụ như robots.txt, XML sitemap, canonical URL, meta robots và crawl budget; phần chi tiết nằm bên dưới.
+
 ## Mục lục
 
 - [Crawl và Index khác nhau thế nào?](#crawl-và-index-khác-nhau-thế-nào)

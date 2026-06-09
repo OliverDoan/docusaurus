@@ -5,6 +5,7 @@ title: "1. JWT Authentication"
 
 # JWT Authentication
 
+JWT (JSON Web Token) là cách phổ biến để xác thực người dùng trong ứng dụng Node.js mà không cần lưu session trên server. Bài này hướng dẫn bạn dùng JWT cùng bcrypt để làm chức năng đăng ký, đăng nhập và bảo vệ route bằng middleware. Đây là nền tảng quan trọng cho bất kỳ API nào cần biết "người dùng này là ai".
 
 ---
 

@@ -5,6 +5,8 @@ title: "4. Bazel"
 
 # 4. Bazel
 
+Bazel là công cụ build do Google tạo ra, dành cho các dự án rất lớn và đa ngôn ngữ với điểm mạnh là tốc độ và độ tin cậy. Bài này giới thiệu khái niệm workspace, file `BUILD`, build tăng tiến, build tái lập và khi nào nên dùng Bazel. Với người mới, bạn chỉ cần biết Bazel tồn tại và dùng cho dự án cực lớn; hãy học Maven và Gradle trước.
+
 ---
 
 ## Mục lục

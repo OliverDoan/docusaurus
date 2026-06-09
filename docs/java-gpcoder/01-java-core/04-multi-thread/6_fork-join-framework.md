@@ -5,6 +5,8 @@ title: "Sử dụng Fork/Join Framework với ForkJoinPool trong Java"
 
 # Sử dụng Fork/Join Framework với ForkJoinPool trong Java
 
+Fork/Join là cách Java giúp ta xử lý các bài toán lớn bằng kiểu "chia để trị": tách bài toán thành nhiều phần nhỏ chạy song song trên nhiều nhân CPU rồi gộp kết quả lại. Đây là công cụ rất hữu ích khi cần tăng tốc các tác vụ tính toán nặng trên dữ liệu lớn. Bài này giới thiệu khái niệm tổng quan cùng các ví dụ thực tế; chi tiết nằm bên dưới.
+
 ## Fork/Join Framework là gì?
 
 **Fork/Join Framework** (khung chia-gộp) là cơ chế xử lý song song được thiết kế cho bài toán có thể áp dụng chiến lược **Divide and Conquer** (chia để trị — chia bài toán lớn thành các bài toán nhỏ hơn, giải song song rồi gộp kết quả).

@@ -5,6 +5,8 @@ title: "14. Stored Procedures & Functions"
 
 # Stored Procedures & Functions
 
+Stored procedure và function là những khối mã SQL được lưu sẵn trong cơ sở dữ liệu để gọi lại nhiều lần, giúp tái sử dụng logic và giảm số lần ứng dụng phải gọi qua lại database. Function bắt buộc trả về giá trị và dùng được trong câu SELECT, còn procedure không trả về giá trị nhưng có thể quản lý transaction bên trong. Bài này trình bày cách viết function/procedure bằng PL/pgSQL, tham số, điều khiển luồng IF/LOOP, RAISE và trigger.
+
 ---
 
 ## Mục lục

@@ -5,6 +5,8 @@ title: "3. TestNG"
 
 # 3. TestNG
 
+TestNG là một framework test cho Java, ra đời như lựa chọn thay thế JUnit và mạnh hơn ở việc quản lý nhóm test, chạy test song song và cung cấp dữ liệu linh hoạt. Nó rất được ưa chuộng trong kiểm thử tự động (ví dụ dùng cùng Selenium). Bài này giới thiệu cách dùng TestNG và so sánh với JUnit; chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

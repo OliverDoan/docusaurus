@@ -5,6 +5,8 @@ title: "12. Pass by Value / Pass by Reference"
 
 # Pass by Value / Pass by Reference
 
+Cách Java truyền tham số vào hàm là một trong những chủ đề gây nhầm lẫn nhất với người mới học, vì câu trả lời dứt khoát là Java luôn truyền theo giá trị (pass by value), không bao giờ truyền theo tham chiếu. Hiểu đúng điều này giúp bạn tránh các lỗi khó chịu khi tưởng hàm sẽ thay đổi được biến gốc. Bài này giới thiệu cách hoạt động với kiểu nguyên thủy, với đối tượng và trường hợp đặc biệt của `String`.
+
 ---
 
 ## Mục lục

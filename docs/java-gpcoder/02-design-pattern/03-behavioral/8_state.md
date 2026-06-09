@@ -5,6 +5,8 @@ title: "State Pattern"
 
 # Java Design Pattern - State
 
+State là một mẫu thiết kế hành vi cho phép một đối tượng thay đổi cách hành xử khi trạng thái bên trong của nó thay đổi, nhìn từ ngoài cứ như nó đổi hẳn sang một lớp khác. Mẫu này giúp dọn sạch những khối if-else hay switch-case rối rắm liên quan đến trạng thái. Bài này giải thích cách dùng kèm ví dụ máy bán hàng tự động; chi tiết nằm bên dưới.
+
 ## Mục đích
 
 **State** (Trạng thái) là một mẫu thiết kế hành vi cho phép một đối tượng thay đổi hành vi khi trạng thái nội tại của nó thay đổi. Từ bên ngoài trông như đối tượng đã đổi lớp. Pattern này loại bỏ các khối `if-else` hoặc `switch-case` phức tạp liên quan đến trạng thái.

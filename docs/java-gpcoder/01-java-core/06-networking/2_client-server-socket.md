@@ -5,6 +5,8 @@ title: "Xây dựng ứng dụng Client-Server với Socket trong Java"
 
 # Xây dựng ứng dụng Client-Server với Socket trong Java
 
+Mô hình Client-Server là kiến trúc mạng phổ biến nhất, nơi máy chủ lắng nghe và xử lý yêu cầu còn máy khách chủ động kết nối tới. Trong Java, ta hiện thực mô hình này bằng hai lớp Socket và ServerSocket để truyền dữ liệu qua TCP. Bài này hướng dẫn xây dựng từ Echo Server cơ bản đến ứng dụng chat nhiều client qua các ví dụ đầy đủ.
+
 ## 1. Tổng quan mô hình Client-Server
 
 **Client-Server** (máy khách – máy chủ) là mô hình kiến trúc mạng phổ biến nhất:

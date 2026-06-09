@@ -5,6 +5,8 @@ title: "6. Ràng buộc dữ liệu (Constraints)"
 
 # Ràng buộc dữ liệu (Constraints)
 
+Constraint là các quy tắc đặt ngay ở tầng cơ sở dữ liệu để đảm bảo dữ liệu luôn hợp lệ, không bị bẩn dù đến từ đâu. Bài này trình bày các ràng buộc thường dùng: PRIMARY KEY, FOREIGN KEY, UNIQUE, NOT NULL, CHECK, cách thêm chúng bằng ALTER TABLE và những bẫy hay gặp. Hiểu constraint giúp bạn thiết kế bảng an toàn và tránh lỗi toàn vẹn dữ liệu.
+
 ---
 
 ## Mục lục

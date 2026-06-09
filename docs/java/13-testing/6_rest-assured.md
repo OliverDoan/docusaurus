@@ -5,6 +5,8 @@ title: "6. REST Assured"
 
 # 6. REST Assured
 
+REST Assured là thư viện Java giúp test các REST API với cú pháp dễ đọc gần như tiếng Anh tự nhiên (given - when - then). Thay vì tự viết code gửi HTTP, đọc JSON rồi so sánh, bạn viết test ngắn gọn để kiểm tra status code và nội dung phản hồi. Bài này hướng dẫn cách dùng REST Assured qua nhiều ví dụ; chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

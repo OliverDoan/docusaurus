@@ -5,6 +5,8 @@ title: "Chương trình Java đầu tiên"
 
 # Chương trình Java đầu tiên
 
+Bài này hướng dẫn bạn viết, biên dịch và chạy chương trình Java đầu tiên — kinh điển "Hello, World!". Bạn sẽ hiểu ý nghĩa từng dòng code, cách dùng lệnh `javac` và `java`, cùng các lỗi thường gặp khi mới bắt đầu. Đây là bước thực hành quan trọng để làm quen với cách một chương trình Java vận hành.
+
 ## Yêu cầu
 
 Trước khi bắt đầu, hãy đảm bảo đã cài **JDK** (phiên bản 11 trở lên). Kiểm tra bằng lệnh:

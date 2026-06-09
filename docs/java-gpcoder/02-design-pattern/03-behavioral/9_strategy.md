@@ -5,6 +5,8 @@ title: "Strategy Pattern"
 
 # Java Design Pattern - Strategy
 
+Strategy là một mẫu thiết kế hành vi cho phép gom một nhóm thuật toán lại, đóng gói mỗi thuật toán vào một lớp riêng và cho phép hoán đổi chúng cho nhau ngay lúc chạy chương trình. Nhờ vậy ta thay đổi cách làm mà không phải sửa code phía dùng nó, ví dụ chọn nhiều phương thức thanh toán hay nhiều cách sắp xếp. Bài này giới thiệu ý tưởng kèm ví dụ Java; chi tiết nằm bên dưới.
+
 ## Mục đích
 
 **Strategy** (Chiến lược) là một mẫu thiết kế hành vi định nghĩa một nhóm thuật toán, đóng gói từng thuật toán vào một lớp riêng biệt, và làm cho chúng có thể hoán đổi cho nhau tại runtime. Pattern này cho phép thuật toán thay đổi độc lập với client sử dụng nó.

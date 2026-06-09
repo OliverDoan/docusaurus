@@ -5,6 +5,8 @@ title: "Cài đặt RabbitMQ"
 
 # Cài đặt RabbitMQ
 
+Trước khi lập trình với RabbitMQ, bạn cần cài đặt và chạy được nó trên máy. Bài này hướng dẫn nhiều cách cài đặt khác nhau (Docker, Ubuntu, macOS, Windows) cùng cách kiểm tra trạng thái và quản lý cơ bản. Cách nhanh và gọn nhất cho người mới là dùng Docker; phần chi tiết từng cách nằm bên dưới.
+
 ## Yêu cầu hệ thống
 
 RabbitMQ được viết bằng **Erlang**, vì vậy cần cài Erlang/OTP trước. Phiên bản Erlang phải tương thích với phiên bản RabbitMQ.

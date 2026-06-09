@@ -5,6 +5,8 @@ title: "Cài đặt ActiveMQ"
 
 # Cài đặt ActiveMQ
 
+Apache ActiveMQ là một Message Broker mã nguồn mở phổ biến của Java, đóng vai trò máy chủ trung gian quản lý hàng đợi tin nhắn và hỗ trợ nhiều giao thức như JMS, AMQP, STOMP, MQTT. Trước khi viết code gửi/nhận tin nhắn, bạn cần cài đặt và khởi động được ActiveMQ. Bài này hướng dẫn nhiều cách cài đặt (tải thủ công, Docker, Homebrew) cùng cấu hình cơ bản và kiểm tra kết nối.
+
 ## ActiveMQ là gì?
 
 **Apache ActiveMQ** (máy chủ tin nhắn mã nguồn mở phổ biến nhất của Java — hỗ trợ giao thức JMS và nhiều giao thức khác) là một **Message Broker** (máy chủ trung gian quản lý hàng đợi tin nhắn) được phát triển bởi Apache Software Foundation. ActiveMQ hỗ trợ nhiều giao thức như **JMS**, **AMQP** (Advanced Message Queuing Protocol — giao thức hàng đợi tin nhắn nâng cao), **STOMP** (Simple Text Oriented Messaging Protocol — giao thức nhắn tin dựa trên văn bản đơn giản), **MQTT** và **WebSocket**.

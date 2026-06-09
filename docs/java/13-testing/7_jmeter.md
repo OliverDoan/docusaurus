@@ -5,6 +5,8 @@ title: "7. JMeter"
 
 # 7. JMeter
 
+Apache JMeter là công cụ mã nguồn mở dùng để test hiệu năng và test tải cho web/API, có giao diện đồ họa dễ dùng. Khác với việc kiểm tra code đúng/sai, JMeter trả lời câu hỏi hệ thống chịu được bao nhiêu người dùng cùng lúc mà vẫn chạy mượt. Bài này giới thiệu các khái niệm hiệu năng và các thành phần chính của JMeter; chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

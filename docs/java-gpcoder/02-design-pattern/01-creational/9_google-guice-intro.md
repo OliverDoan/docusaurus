@@ -5,6 +5,8 @@ title: "Google Guice - Giới thiệu"
 
 # Giới thiệu Google Guice - Dependency Injection Framework
 
+Google Guice là một framework tiêm phụ thuộc (Dependency Injection) nhẹ, mã nguồn mở do Google phát triển. Nó tự động hóa việc tạo và lắp ráp các đối tượng phụ thuộc thông qua annotation và module, giúp bạn không phải viết tay phần wiring lặp đi lặp lại. Bài này giới thiệu khái niệm tổng quan và cách dùng cơ bản của Guice; phần chi tiết với ví dụ Java nằm bên dưới.
+
 ## Google Guice là gì?
 
 **Google Guice** (đọc là "juice") là một **lightweight DI framework** (framework tiêm phụ thuộc nhẹ) mã nguồn mở do Google phát triển. Guice tự động hóa việc quản lý và tiêm phụ thuộc (**Dependency Injection**) trong Java, thay thế cho việc wiring thủ công bằng cách sử dụng **annotation** (chú thích) và **module** (mô-đun).

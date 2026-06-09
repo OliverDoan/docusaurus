@@ -5,6 +5,7 @@ title: "4. Database Migrations"
 
 # Database Migrations
 
+Migration là cách quản lý thay đổi cấu trúc database theo từng phiên bản, giống như dùng git cho database vậy. Nhờ migration, cả team có thể đồng bộ schema và dễ dàng quay lui khi cần. Bài này giới thiệu cách dùng migration với Prisma và Knex.js, kèm các best practice quan trọng khi áp dụng lên production.
 
 ---
 

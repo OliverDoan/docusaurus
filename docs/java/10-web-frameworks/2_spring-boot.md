@@ -5,6 +5,8 @@ title: "2. Spring & Spring Boot (⭐ phổ biến nhất)"
 
 # 2. Spring & Spring Boot (⭐ phổ biến nhất)
 
+Spring là framework Java phổ biến nhất thế giới để xây ứng dụng phía server, còn Spring Boot giúp khởi động ứng dụng Spring cực nhanh với rất ít cấu hình. Bài này giới thiệu auto-configuration, cách viết REST API với `@RestController`, khái niệm Dependency Injection và cấu trúc một ứng dụng Spring Boot. Đây là framework quan trọng nhất khi đi làm Java backend nên rất đáng đầu tư học kỹ.
+
 ---
 
 ## Mục lục

@@ -5,6 +5,8 @@ title: "Singleton Pattern"
 
 # Java Design Pattern - Singleton
 
+Singleton là mẫu thiết kế khởi tạo đảm bảo một lớp chỉ có duy nhất một thể hiện trong toàn bộ ứng dụng và cung cấp một điểm truy cập chung tới thể hiện đó. Mẫu này rất hữu ích cho những đối tượng dùng chung như kết nối cơ sở dữ liệu, cấu hình hay logger. Bài này trình bày các cách triển khai Singleton trong Java cùng ưu, nhược điểm của chúng.
+
 ## Mục đích
 
 **Singleton Pattern** (mẫu đơn thể) là một **Creational Design Pattern** (mẫu thiết kế khởi tạo) đảm bảo rằng một lớp chỉ có **duy nhất một thể hiện** (instance) trong suốt vòng đời ứng dụng và cung cấp một điểm truy cập toàn cục tới thể hiện đó.

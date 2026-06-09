@@ -5,6 +5,8 @@ title: "Hibernate Logging"
 
 # Hibernate Logging
 
+Khi làm việc với Hibernate, các câu SQL được sinh ra tự động nên rất khó biết chuyện gì đang chạy bên dưới. Logging giúp bạn nhìn thấy câu SQL thật, giá trị tham số và phát hiện các vấn đề hiệu năng như N+1 query. Bài này hướng dẫn cách bật log SQL và cấu hình chi tiết bằng Logback hoặc Log4j2.
+
 ## Tại sao cần cấu hình Logging?
 
 **Logging** (ghi log) trong Hibernate rất quan trọng vì:

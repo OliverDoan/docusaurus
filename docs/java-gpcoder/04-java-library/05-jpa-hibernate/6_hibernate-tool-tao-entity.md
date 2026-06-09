@@ -5,6 +5,8 @@ title: "Sử dụng Hibernate Tool tạo Entity tự động từ table"
 
 # Sử dụng Hibernate Tool tạo Entity tự động từ table
 
+Khi đã có sẵn một database với nhiều bảng, việc gõ tay từng Entity class rất mất thời gian và dễ sai. Hibernate Tool cho phép tự động sinh Entity từ cấu trúc bảng có sẵn theo hướng database-first. Bài này giới thiệu các cách tạo Entity tự động bằng IntelliJ, Maven plugin và những điểm cần kiểm tra lại sau khi sinh code.
+
 ## Giới thiệu
 
 **Reverse Engineering** (kỹ thuật đảo ngược) trong Hibernate cho phép tự động tạo các **Entity class** từ cấu trúc bảng database sẵn có. Đây là cách tiếp cận **database-first** (ưu tiên database), ngược lại với **code-first** (ưu tiên code).

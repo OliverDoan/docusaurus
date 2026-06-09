@@ -5,6 +5,8 @@ title: "1. Lớp và Đối tượng (Class & Object)"
 
 # Lớp và Đối tượng (Class & Object)
 
+Lớp (class) và đối tượng (object) là hai khái niệm nền tảng nhất của lập trình hướng đối tượng trong Java. Lớp giống như bản thiết kế mô tả một sự vật có dữ liệu gì và làm được gì, còn đối tượng là thực thể cụ thể được tạo ra từ bản thiết kế đó. Hiểu rõ hai khái niệm này là bước đầu tiên bắt buộc trước khi học sâu hơn về OOP. Bài này giới thiệu class, object, từ khóa `new`, constructor và `this`.
+
 ---
 
 ## Mục lục

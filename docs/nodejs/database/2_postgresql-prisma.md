@@ -5,6 +5,7 @@ title: "2. PostgreSQL & Prisma"
 
 # PostgreSQL & Prisma
 
+PostgreSQL là cơ sở dữ liệu quan hệ mạnh mẽ và phổ biến, còn Prisma là một ORM hiện đại giúp bạn làm việc với database bằng code an toàn kiểu (type-safe). Dùng Prisma, bạn định nghĩa schema một lần rồi tự sinh ra code truy vấn và migration, đỡ phải viết SQL thủ công. Bài này giới thiệu cách cài đặt, viết schema, chạy migration và thực hiện CRUD với Prisma.
 
 ---
 

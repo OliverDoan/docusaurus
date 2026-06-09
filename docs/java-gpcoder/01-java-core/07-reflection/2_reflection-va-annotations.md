@@ -5,6 +5,8 @@ title: "Kết hợp Java Reflection và Java Annotations"
 
 # Kết hợp Java Reflection và Java Annotations
 
+Annotation là cách gắn thêm thông tin (metadata) vào class, method hay field mà không làm thay đổi logic chương trình. Khi kết hợp với Reflection, chương trình có thể đọc các annotation này lúc chạy và hành xử khác nhau tuỳ theo nhãn. Bài này hướng dẫn cách tự tạo annotation, đọc nó bằng Reflection và xây dựng một framework validation nhỏ, qua đó hiểu nguyên lý đằng sau Spring MVC, JUnit hay Hibernate.
+
 ## Annotation là gì?
 
 **Annotation** (chú thích — nhãn metadata gắn vào class, method, field hoặc tham số) là cách Java cho phép lập trình viên gắn thêm **siêu thông tin (metadata)** vào code mà không ảnh hưởng đến logic chương trình. Trình biên dịch, công cụ build hoặc framework có thể đọc annotation này để thực hiện hành động phù hợp.

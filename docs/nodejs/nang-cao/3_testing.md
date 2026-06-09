@@ -5,6 +5,7 @@ title: "3. Testing"
 
 # Testing Node.js Applications
 
+Testing giúp bạn kiểm tra code chạy đúng và phát hiện lỗi sớm trước khi đưa lên production. Bài này giới thiệu Jest để viết unit test, Supertest để test API, và cách dùng mock cho các dịch vụ bên ngoài. Code có test đầy đủ sẽ dễ bảo trì và an tâm hơn khi sửa đổi.
 
 ---
 

@@ -5,6 +5,8 @@ title: "5. MCP, Hooks & Permissions"
 
 # MCP, Hooks & Permissions
 
+Bài này giới thiệu ba tính năng nâng cao của Claude Code: **MCP** giúp kết nối Claude với công cụ và dữ liệu bên ngoài (database, API), **Hooks** là script tự chạy để tự động hoá các việc như format code, còn **Permissions** là cơ chế xin phép trước khi Claude làm thay đổi. Hiểu chúng giúp bạn mở rộng và kiểm soát Claude Code an toàn; chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

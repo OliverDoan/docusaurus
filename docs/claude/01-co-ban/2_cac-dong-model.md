@@ -5,6 +5,8 @@ title: "2. Các dòng model Claude"
 
 # Các dòng model Claude
 
+Claude có nhiều dòng model với cân bằng khác nhau giữa sức mạnh, tốc độ và chi phí, gồm ba nhánh chính: Opus, Sonnet và Haiku. Hiểu rõ từng dòng giúp bạn chọn đúng model cho từng công việc, vừa tiết kiệm vừa đạt chất lượng mong muốn. Bài này so sánh ba dòng model và gợi ý khi nào nên dùng cái nào.
+
 ---
 
 ## Mục lục

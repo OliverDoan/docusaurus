@@ -5,6 +5,8 @@ title: "2. Thuộc tính và Phương thức"
 
 # Thuộc tính và Phương thức
 
+Mỗi lớp trong Java được tạo nên từ hai thành phần chính: thuộc tính (dữ liệu mà đối tượng lưu giữ) và phương thức (hành vi mà đối tượng thực hiện). Nắm vững cách khai báo thuộc tính, viết phương thức, truyền tham số và trả về kết quả sẽ giúp bạn xây dựng được các lớp hữu ích, an toàn. Bài này giới thiệu thuộc tính, phương thức, tham số, giá trị trả về và cặp getter/setter.
+
 ---
 
 ## Mục lục

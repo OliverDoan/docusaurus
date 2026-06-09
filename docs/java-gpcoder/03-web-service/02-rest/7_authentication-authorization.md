@@ -5,6 +5,8 @@ title: "Tìm hiểu về xác thực và phân quyền trong ứng dụng (Authe
 
 # Tìm hiểu về xác thực và phân quyền trong ứng dụng
 
+Authentication (xác thực) và Authorization (phân quyền) là hai khái niệm nền tảng của bảo mật ứng dụng, rất dễ bị nhầm lẫn. Nói ngắn gọn: xác thực trả lời "bạn là ai?", còn phân quyền trả lời "bạn được phép làm gì?". Bài này giải thích sự khác nhau giữa hai khái niệm, điểm qua các phương thức phổ biến (Basic Auth, JWT, OAuth, RBAC, ABAC) và cách dùng SecurityContext trong JAX-RS.
+
 ## Authentication và Authorization là gì?
 
 Đây là hai khái niệm cốt lõi trong bảo mật ứng dụng, thường bị nhầm lẫn nhưng có vai trò hoàn toàn khác nhau:

@@ -5,6 +5,8 @@ title: "6. Lớp lồng nhau (Nested Classes)"
 
 # Lớp lồng nhau (Nested Classes)
 
+Lớp lồng nhau là một lớp được định nghĩa bên trong một lớp khác, giúp gom các lớp liên quan chặt chẽ lại gần nhau và tăng tính đóng gói. Java có bốn loại lớp lồng nhau, mỗi loại phù hợp với một tình huống khác nhau. Bài này giới thiệu static nested class, inner class, local class và anonymous class cùng cách chọn loại phù hợp.
+
 ---
 
 ## Mục lục

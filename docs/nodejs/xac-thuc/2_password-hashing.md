@@ -5,6 +5,7 @@ title: "2. Password Hashing"
 
 # Password Hashing
 
+Password hashing là việc biến mật khẩu thành một chuỗi mã hoá một chiều trước khi lưu vào database, để không ai đọc được mật khẩu gốc kể cả khi dữ liệu bị lộ. Bài này hướng dẫn dùng bcrypt để hash và so sánh mật khẩu, chọn salt rounds phù hợp, tích hợp với Mongoose và kiểm tra độ mạnh mật khẩu. Đây là bước bắt buộc để bảo vệ tài khoản người dùng.
 
 ---
 

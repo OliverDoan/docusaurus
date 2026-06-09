@@ -5,6 +5,8 @@ title: "Hướng dẫn sử dụng lớp Console trong Java"
 
 # Hướng dẫn sử dụng lớp Console trong Java
 
+Lớp Console trong Java giúp đọc và ghi dữ liệu trực tiếp với terminal, nổi bật nhất là khả năng nhập mật khẩu mà không hiển thị ký tự trên màn hình. Đây là công cụ hữu ích khi viết các ứng dụng dòng lệnh (CLI) cần tính bảo mật. Bài này hướng dẫn cách dùng lớp Console qua các ví dụ như đọc chuỗi, đọc mật khẩu và xây dựng màn hình đăng nhập.
+
 ## Lớp Console là gì?
 
 **Lớp `Console`** (bảng điều khiển — lớp đại diện cho terminal/console kết nối với JVM) trong gói `java.io` cung cấp phương thức đọc/ghi dữ liệu trực tiếp với terminal. Điểm nổi bật là hỗ trợ **đọc mật khẩu mà không hiển thị ký tự** (echo off).

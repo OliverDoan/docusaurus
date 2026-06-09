@@ -5,6 +5,8 @@ title: "4. Từ khóa static"
 
 # Từ khóa static
 
+Từ khóa `static` đánh dấu một thành viên thuộc về chính lớp chứ không thuộc về từng đối tượng riêng lẻ, nghĩa là nó được chia sẻ chung cho mọi đối tượng. Đây là khái niệm quan trọng nhưng hay gây nhầm lẫn cho người mới, ví dụ điển hình là dùng biến static làm bộ đếm số đối tượng đã tạo. Bài này giới thiệu biến static, phương thức static và khối static.
+
 ---
 
 ## Mục lục

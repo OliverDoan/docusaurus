@@ -5,6 +5,8 @@ title: "Marker Interface trong Java"
 
 # Marker Interface trong Java
 
+Marker Interface là loại interface rỗng, không có phương thức nào, chỉ dùng để "đánh dấu" cho JVM hoặc framework biết một class có đặc tính đặc biệt. Bài này giới thiệu các marker interface có sẵn quen thuộc như `Serializable`, `Cloneable`, `RandomAccess`, cách tự tạo marker riêng và so sánh với Annotation hiện đại. Hiểu khái niệm này giúp bạn đọc hiểu code Java tốt hơn và biết khi nào nên dùng.
+
 ## Marker Interface là gì?
 
 **Marker Interface** (giao diện đánh dấu) là một **interface không có bất kỳ phương thức hay hằng số nào** bên trong — thân interface hoàn toàn rỗng. Mục đích duy nhất của nó là **đánh dấu** (mark) một class, thông báo cho JVM hoặc các framework biết class đó có một đặc tính đặc biệt nào đó.

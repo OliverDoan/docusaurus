@@ -5,6 +5,8 @@ title: "1. Javadoc"
 
 # 1. Javadoc
 
+Javadoc là công cụ đi kèm bộ JDK, đọc các comment đặc biệt trong mã nguồn rồi tự động sinh ra tài liệu HTML mô tả các lớp, phương thức và tham số. Nó giúp người khác (và cả bạn sau này) hiểu code nhanh hơn mà không cần đọc từng dòng lệnh. Bài này hướng dẫn cú pháp comment Javadoc, các tag thường dùng và cách sinh tài liệu; chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

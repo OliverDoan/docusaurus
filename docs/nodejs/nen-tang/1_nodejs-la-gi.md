@@ -5,6 +5,7 @@ title: "1. Node.js là gì?"
 
 # Node.js là gì?
 
+Node.js là môi trường runtime cho phép chạy JavaScript bên ngoài trình duyệt, xây trên V8 engine của Chrome. Nhờ đó bạn có thể dùng cùng một ngôn ngữ cho cả frontend lẫn backend, và viết server xử lý được hàng ngàn kết nối cùng lúc. Bài này giới thiệu tổng quan kiến trúc, cách cài đặt và điểm khác biệt so với JavaScript trên trình duyệt.
 
 ---
 

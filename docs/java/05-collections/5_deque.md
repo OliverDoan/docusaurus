@@ -5,6 +5,8 @@ title: "5. Deque (Hàng đợi hai đầu)"
 
 # Deque (Hàng đợi hai đầu)
 
+Deque (hàng đợi hai đầu) cho phép bạn thêm và lấy phần tử ở cả hai đầu, nên có thể dùng vừa như Queue (FIFO) vừa như Stack (LIFO). Lớp ArrayDeque là lựa chọn được khuyến nghị vì nhanh và linh hoạt. Bài này giới thiệu Deque cùng các phương thức thao tác hai đầu; chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

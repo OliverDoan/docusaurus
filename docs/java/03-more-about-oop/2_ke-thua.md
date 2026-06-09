@@ -5,6 +5,8 @@ title: "2. Kế thừa (Inheritance)"
 
 # Kế thừa (Inheritance)
 
+Kế thừa là một trụ cột của lập trình hướng đối tượng, cho phép một lớp con nhận lại thuộc tính và phương thức của lớp cha. Nhờ vậy bạn viết code chung một lần ở lớp cha rồi tái sử dụng ở nhiều lớp con, tránh lặp lại và dễ bảo trì. Bài này giới thiệu từ khóa `extends`, `super`, kế thừa đơn và lớp gốc `Object`; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

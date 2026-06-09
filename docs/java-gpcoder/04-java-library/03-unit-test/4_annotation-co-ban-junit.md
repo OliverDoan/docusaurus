@@ -5,6 +5,8 @@ title: "Một số Annotation cơ bản của JUnit"
 
 # Một số Annotation cơ bản của JUnit
 
+JUnit dùng các annotation (chú thích bắt đầu bằng `@`) để đánh dấu phương thức nào là test, phương thức nào chạy trước hay sau test. Hiểu các annotation cơ bản này là điều bắt buộc để viết được một lớp test hoàn chỉnh. Bài này giới thiệu `@Test`, `@Before`/`@After`, `@BeforeClass`/`@AfterClass`, `@Ignore` cùng thứ tự thực thi và các annotation tương ứng trong JUnit 5.
+
 ## Annotation là gì?
 
 **Annotation** (chú thích / siêu dữ liệu) là cú pháp đặc biệt trong Java bắt đầu bằng `@`, dùng để cung cấp thêm thông tin cho trình biên dịch hoặc framework. JUnit sử dụng annotation để xác định phương thức nào là test, phương thức nào chạy trước/sau test, ...

@@ -5,6 +5,8 @@ title: "REST Web service - JWT Token-based Authentication trong Jersey 2.x"
 
 # REST Web service - JWT Token-based Authentication trong Jersey 2.x
 
+JWT là cách xác thực bằng token: sau khi đăng nhập, client nhận một chuỗi token và đính kèm nó vào mỗi request để chứng minh danh tính, server không cần lưu session. Cách này gọn nhẹ và dễ mở rộng, rất hợp với REST API. Bài này hướng dẫn dựng luồng đăng nhập, filter xác thực và bảo vệ endpoint bằng JWT trong Jersey kèm ví dụ; chi tiết nằm bên dưới.
+
 ## Tổng quan luồng xác thực JWT
 
 ```

@@ -5,6 +5,8 @@ title: "Date Time API trong Java 8"
 
 # Date Time API trong Java 8
 
+Date/Time API là bộ thư viện xử lý ngày giờ mới (package `java.time`) được Java 8 giới thiệu để thay thế cho `Date` và `Calendar` cũ kỹ, khó dùng. Bài viết giúp bạn làm việc với ngày, giờ, múi giờ, khoảng thời gian và định dạng ngày giờ một cách an toàn và rõ ràng. Đây là kiến thức cần thiết cho hầu hết mọi ứng dụng Java thực tế.
+
 ## Tại sao cần Date/Time API mới?
 
 Trước Java 8, `java.util.Date` và `java.util.Calendar` có nhiều vấn đề nghiêm trọng:

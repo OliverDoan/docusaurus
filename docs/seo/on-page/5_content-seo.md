@@ -5,6 +5,8 @@ title: "5. Content SEO"
 
 # Content SEO
 
+Content SEO là việc tạo và tổ chức nội dung sao cho vừa hữu ích với người đọc vừa được Google đánh giá cao, vì không phải nội dung nào cũng giúp tăng thứ hạng. Hiểu Google muốn thấy gì trong nội dung giúp bạn viết bài rank tốt hơn. Bài này giải thích tiêu chuẩn E-E-A-T, cách tối ưu featured snippets, mô hình topic cluster, độ tươi mới của nội dung, cấu trúc heading và phần FAQ; phần chi tiết nằm bên dưới.
+
 ## Mục lục
 
 - [Content là vua, nhưng content nào mới là vua?](#content-là-vua-nhưng-content-nào-mới-là-vua)

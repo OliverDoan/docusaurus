@@ -5,6 +5,8 @@ title: "4. Tự động hóa SEO"
 
 # Tự động hóa SEO — Monitoring, Scripting và CI/CD
 
+SEO không phải "làm xong rồi quên" — mỗi lần deploy code, thêm trang hay đổi URL đều có thể phá hỏng SEO mà bạn không hay biết cho đến khi traffic tụt. Bài này hướng dẫn developer tự động hóa các kiểm tra SEO bằng script, tích hợp vào CI/CD và thiết lập monitoring, biến SEO thành một phần của quy trình phát triển.
+
 ## Mục lục
 
 - [Giới thiệu](#giới-thiệu)

@@ -5,6 +5,7 @@ title: "5. Security Best Practices"
 
 # Security Best Practices
 
+Bài này tổng hợp những thực hành bảo mật quan trọng nhất khi xây dựng API với Node.js để bảo vệ ứng dụng khỏi các lỗ hổng phổ biến. Bạn sẽ học cách thêm security headers với Helmet, cấu hình CORS, làm sạch input để chống injection, dùng parameterized query và chạy npm audit. Kèm theo là một checklist cần rà soát trước khi deploy lên production.
 
 ---
 

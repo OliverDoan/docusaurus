@@ -5,6 +5,8 @@ title: "1. Xử lý ngoại lệ (Exception Handling)"
 
 # 1. Xử lý ngoại lệ (Exception Handling)
 
+Ngoại lệ (exception) là những sự kiện bất thường xảy ra khi chương trình đang chạy, như chia cho 0 hay mở file không tồn tại. Nếu không xử lý, chương trình sẽ dừng đột ngột; vì vậy Java cung cấp cơ chế `try-catch-finally` để bắt và xử lý lỗi một cách an toàn. Bài này giới thiệu `try/catch/finally`, `throw`/`throws`, checked vs unchecked, tự tạo ngoại lệ và `try-with-resources`; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

@@ -5,6 +5,8 @@ title: "6. Mẹo dùng Claude Code hiệu quả"
 
 # Mẹo dùng Claude Code hiệu quả
 
+Bài này tổng hợp các mẹo thực hành giúp bạn dùng Claude Code hiệu quả hơn: dùng plan mode cho việc lớn, `/clear` khi đổi chủ đề, viết CLAUDE.md tốt, chia nhỏ task, luôn kiểm tra diff trước khi commit, và quản lý ngữ cảnh. Áp dụng những mẹo này giúp Claude làm đúng từ đầu và tiết kiệm thời gian; chi tiết kèm checklist nhanh nằm bên dưới.
+
 ---
 
 ## Mục lục

@@ -5,6 +5,8 @@ title: "Giới thiệu RabbitMQ Management Interface"
 
 # Giới thiệu RabbitMQ Management Interface
 
+Management Interface là giao diện web tích hợp sẵn của RabbitMQ, giúp bạn theo dõi và quản lý toàn bộ hệ thống ngay trên trình duyệt mà không cần gõ lệnh. Qua đây bạn có thể xem trạng thái queue, gửi nhận tin nhắn thử, quản lý user và theo dõi hiệu suất theo thời gian thực. Bài này giới thiệu cách bật và sử dụng từng tab của giao diện; phần chi tiết nằm bên dưới.
+
 ## Management Interface là gì?
 
 **RabbitMQ Management Interface** (giao diện quản lý RabbitMQ — ứng dụng web tích hợp sẵn cho phép theo dõi và quản lý toàn bộ RabbitMQ thông qua trình duyệt) là một **plugin** (tiện ích mở rộng) cung cấp giao diện đồ họa để:

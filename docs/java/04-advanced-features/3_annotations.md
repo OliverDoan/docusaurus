@@ -5,6 +5,8 @@ title: "3. Chú thích (Annotations)"
 
 # 3. Chú thích (Annotations)
 
+Annotation (chú thích) là một dạng "nhãn dán" metadata mà bạn gắn vào lớp, phương thức hay biến. Bản thân nó không thay đổi cách code chạy, nhưng cung cấp thông tin cho trình biên dịch, công cụ hoặc framework xử lý. Bài này giới thiệu các annotation có sẵn như `@Override`, cách tự tạo annotation, `Retention`, `@Target` và cách các framework như Spring, JUnit dùng annotation; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

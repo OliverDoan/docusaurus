@@ -5,6 +5,8 @@ title: "11. Indexes — Chỉ mục"
 
 # Indexes — Chỉ mục
 
+Index (chỉ mục) giống như mục lục của một cuốn sách, giúp cơ sở dữ liệu tìm đúng hàng cần lấy mà không phải quét hết cả bảng. Đây là công cụ quan trọng nhất để tăng tốc truy vấn trên bảng lớn. Bài này giải thích index là gì, các loại index trong PostgreSQL (B-tree, Hash, GIN, GiST, BRIN), cách dùng EXPLAIN để kiểm tra, và cả cái giá phải trả khi tạo index sai chỗ.
+
 ---
 
 ## Mục lục

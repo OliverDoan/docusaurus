@@ -5,6 +5,8 @@ title: "Bridge Pattern"
 
 # Java Design Pattern - Bridge
 
+Bridge (Cầu nối) là một mẫu thiết kế cấu trúc (structural) cho phép tách phần trừu tượng và phần triển khai của một hệ thống thành hai nhánh độc lập, để chúng có thể phát triển riêng rẽ. Nhờ đó bạn tránh được tình trạng số lượng lớp bùng nổ khi phải kết hợp nhiều chiều biến thể (ví dụ hình dạng và màu sắc). Bài này giới thiệu khái niệm tổng quan; phần chi tiết với ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 Bridge (Cầu nối) là một **Structural Design Pattern** cho phép tách một class lớn hoặc một nhóm class liên quan thành hai hệ thống phân cấp (hierarchy) độc lập: **Abstraction** (phần trừu tượng) và **Implementation** (phần triển khai). Hai hệ thống này có thể phát triển độc lập với nhau.

@@ -5,6 +5,8 @@ title: "2. Set"
 
 # Set
 
+Set (tập hợp) là cấu trúc dữ liệu mà mỗi giá trị chỉ xuất hiện một lần, không cho phép trùng lặp. Nó rất hữu ích khi bạn muốn loại bỏ giá trị trùng hoặc kiểm tra nhanh một phần tử có tồn tại hay không. Bài này giới thiệu Set cùng ba loại HashSet, LinkedHashSet, TreeSet; chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

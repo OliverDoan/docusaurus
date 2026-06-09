@@ -5,6 +5,8 @@ title: "Builder Pattern"
 
 # Java Design Pattern - Builder
 
+Builder là một mẫu thiết kế khởi tạo (creational) giúp xây dựng các đối tượng phức tạp có nhiều thuộc tính theo từng bước, thay vì nhồi tất cả vào một constructor dài và khó đọc. Nhờ đó code khởi tạo trở nên rõ ràng, dễ đọc và đối tượng tạo ra có thể là bất biến (immutable). Bài này giới thiệu khái niệm tổng quan; phần chi tiết với ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 **Builder Pattern** (mẫu xây dựng) là một **Creational Design Pattern** tách rời quá trình **xây dựng** (construction) một đối tượng phức tạp khỏi **biểu diễn** (representation) của nó. Kết quả là cùng một quy trình xây dựng có thể tạo ra các biểu diễn khác nhau.

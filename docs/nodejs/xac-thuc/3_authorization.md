@@ -5,6 +5,7 @@ title: "3. Authorization & Roles"
 
 # Authorization & Roles
 
+Authorization là việc kiểm tra xem một người dùng đã đăng nhập được phép làm gì, khác với authentication (xác minh họ là ai). Bài này hướng dẫn kiểm soát quyền truy cập bằng vai trò (RBAC), kiểm tra quyền sở hữu tài nguyên và phân biệt khi nào trả về mã lỗi 401 hay 403. Đây là phần giúp đảm bảo người dùng chỉ truy cập đúng những gì họ được phép.
 
 ---
 

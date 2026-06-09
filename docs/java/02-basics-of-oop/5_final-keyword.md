@@ -5,6 +5,8 @@ title: "5. Từ khóa final"
 
 # Từ khóa final
 
+Từ khóa `final` dùng để "khóa" một thứ lại, ngăn không cho thay đổi sau khi đã thiết lập. Nó giúp code an toàn hơn bằng cách tạo ra hằng số bất biến, ngăn phương thức bị ghi đè hay ngăn một lớp bị kế thừa. Bài này giới thiệu cách dùng `final` với biến, phương thức, lớp và tham số.
+
 ---
 
 ## Mục lục

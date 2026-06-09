@@ -5,6 +5,8 @@ title: "Giới thiệu JUnit"
 
 # Giới thiệu JUnit
 
+JUnit là framework kiểm thử đơn vị phổ biến nhất trong thế giới Java, dùng để viết và chạy các bài test tự động. Hầu như mọi dự án Java đều dựa vào JUnit để đảm bảo code hoạt động đúng. Bài này giới thiệu tổng quan về JUnit, cách cài đặt, viết bài test đầu tiên và so sánh hai phiên bản JUnit 4 với JUnit 5.
+
 ## JUnit là gì?
 
 **JUnit** là framework kiểm thử đơn vị (unit testing framework) phổ biến nhất cho ngôn ngữ Java. JUnit cung cấp các annotation, assertion và công cụ để viết và chạy các bài kiểm thử tự động. Hiện tại có hai phiên bản chính được dùng rộng rãi:

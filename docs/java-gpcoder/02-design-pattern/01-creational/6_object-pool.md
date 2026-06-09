@@ -5,6 +5,8 @@ title: "Object Pool Pattern"
 
 # Java Design Pattern - Object Pool
 
+Object Pool là một mẫu thiết kế khởi tạo (creational) quản lý một bể chứa các đối tượng đã tạo sẵn để tái sử dụng, thay vì liên tục tạo mới rồi hủy. Mẫu này đặc biệt quan trọng với những đối tượng tốn kém để khởi tạo như kết nối cơ sở dữ liệu hay luồng xử lý, giúp cải thiện hiệu năng và giảm áp lực cho bộ thu gom rác. Bài này giới thiệu khái niệm tổng quan; phần chi tiết với ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 **Object Pool Pattern** (mẫu hồ đối tượng) là một **Creational Design Pattern** quản lý một tập hợp các đối tượng đã được khởi tạo sẵn (**pool** — bể chứa), cho phép tái sử dụng thay vì tạo mới và hủy liên tục. Khi cần một đối tượng, client lấy từ pool; khi xong, trả lại pool thay vì hủy.

@@ -5,6 +5,7 @@ title: "1. File Upload"
 
 # File Upload
 
+File upload là chức năng cho phép người dùng tải file (ảnh, tài liệu...) lên server. Bài này hướng dẫn dùng thư viện Multer để nhận file qua form, kiểm tra loại và kích thước file, rồi cho phép truy cập lại các file đã lưu. Đây là tính năng gần như app web nào cũng cần đến.
 
 ---
 

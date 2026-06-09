@@ -5,6 +5,8 @@ title: "Sử dụng Publisher Confirm trong RabbitMQ"
 
 # Sử dụng Publisher Confirm trong RabbitMQ
 
+Publisher Confirm là cơ chế giúp Producer biết chắc tin nhắn đã được broker tiếp nhận an toàn hay chưa, thay vì gửi xong rồi "quên luôn". Đây là điều cần thiết trong các tình huống quan trọng như thanh toán hay đặt hàng, nơi mất tin nhắn gây hậu quả nghiêm trọng. Bài này giới thiệu ba cách dùng Publisher Confirm (đồng bộ, theo lô, bất đồng bộ) và cách bắt tin nhắn không giao được.
+
 ## Publisher Confirm là gì?
 
 **Publisher Confirm** (xác nhận từ nhà xuất bản — cơ chế RabbitMQ gửi lại xác nhận cho Producer sau khi tin nhắn đã được broker tiếp nhận và xử lý an toàn) là giải pháp đảm bảo độ tin cậy phía Producer. Mặc định, khi Producer gọi `basicPublish()`, nó không biết liệu tin nhắn có thực sự đến được broker hay không.

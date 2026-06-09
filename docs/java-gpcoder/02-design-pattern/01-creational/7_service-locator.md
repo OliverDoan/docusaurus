@@ -5,6 +5,8 @@ title: "Service Locator Pattern"
 
 # Java Design Pattern - Service Locator
 
+Service Locator là một mẫu thiết kế khởi tạo (creational) cung cấp một nơi trung tâm để tra cứu và lấy ra các dịch vụ dùng chung theo tên hoặc kiểu, thay vì tự khởi tạo trực tiếp ở khắp nơi. Cách làm này giúp tập trung logic tạo dịch vụ vào một chỗ và dễ thay thế hơn. Bài này giới thiệu khái niệm tổng quan kèm so sánh với Dependency Injection; phần chi tiết với ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 **Service Locator Pattern** (mẫu định vị dịch vụ) là một **Creational Design Pattern** cung cấp một nơi trung tâm (**registry** — kho đăng ký) để tra cứu và lấy các dịch vụ (service) theo tên hoặc kiểu dữ liệu, thay vì hardcode việc khởi tạo trực tiếp.

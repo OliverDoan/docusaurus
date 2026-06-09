@@ -5,6 +5,8 @@ title: "Các Annotation của Hibernate"
 
 # Các Annotation của Hibernate
 
+Annotation là các nhãn bắt đầu bằng `@` gắn lên class và field để báo cho Hibernate biết cách ánh xạ chúng sang database, thay cho file XML cấu hình rườm rà ngày xưa. Nắm được các annotation này là điều bắt buộc khi làm việc với Hibernate hiện đại. Bài này tổng hợp các nhóm annotation quan trọng: định nghĩa entity, khóa chính, ánh xạ cột, quan hệ và lifecycle.
+
 ## Tổng quan
 
 **Annotation** trong Hibernate là các nhãn đặc biệt (bắt đầu bằng `@`) gắn vào class hoặc field Java để mô tả cách ánh xạ sang cơ sở dữ liệu. Chúng thay thế hoàn toàn cho file XML cấu hình truyền thống (`.hbm.xml`).

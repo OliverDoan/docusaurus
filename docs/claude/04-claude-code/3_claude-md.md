@@ -5,6 +5,8 @@ title: "3. File CLAUDE.md"
 
 # File CLAUDE.md
 
+CLAUDE.md là file Markdown đặt ở gốc dự án, chứa hướng dẫn và ngữ cảnh mà Claude Code tự động đọc và tuân theo mỗi phiên làm việc. Bài này giải thích nên ghi gì trong file này và vì sao nó giúp Claude làm đúng quy ước dự án mà không cần bạn nhắc lại; ví dụ và mẹo viết nằm bên dưới.
+
 ---
 
 ## Mục lục

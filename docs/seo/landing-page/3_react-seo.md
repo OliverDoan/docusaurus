@@ -5,6 +5,8 @@ title: "3. SEO cho React SPA"
 
 # SEO cho React SPA
 
+React SPA (Single Page Application) render nội dung bằng JavaScript ngay trên trình duyệt, nên khi Google ghé thăm thì ban đầu chỉ thấy một trang HTML gần như trống rỗng — đây là điểm yếu lớn về SEO. Bài này giải thích vì sao SPA khó lên top, rồi giới thiệu các giải pháp như react-helmet-async để quản lý meta tag, prerendering, và cách chọn giữa SPA, SSR, SSG. Đọc xong bạn sẽ biết khi nào nên dùng SPA và khi nào nên chuyển sang Next.js.
+
 ## Mục lục
 
 - [Vấn đề SEO của Single Page Application](#vấn-đề-seo-của-single-page-application)

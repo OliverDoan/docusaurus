@@ -5,6 +5,8 @@ title: "7. Toán tử và phép toán"
 
 # Toán tử và phép toán
 
+Toán tử là các ký hiệu thực hiện phép tính hoặc thao tác trên dữ liệu, ví dụ như cộng, trừ, so sánh hay kết hợp điều kiện. Đây là công cụ cơ bản để máy tính toán và ra quyết định trong chương trình. Bài này giới thiệu các nhóm toán tử số học, gán, so sánh, logic, tăng/giảm cùng thứ tự ưu tiên và lớp Math; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

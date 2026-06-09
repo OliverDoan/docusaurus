@@ -5,6 +5,8 @@ title: "Đọc ghi file CSV trong Java"
 
 # Đọc ghi file CSV trong Java
 
+CSV là định dạng file văn bản đơn giản dùng để lưu dữ liệu dạng bảng, rất phổ biến khi nhập/xuất dữ liệu với Excel hay trao đổi giữa các hệ thống. Bài này giới thiệu cách đọc và ghi file CSV trong Java, từ cách làm thủ công đến dùng thư viện OpenCSV cho dự án thực tế; chi tiết nằm bên dưới.
+
 ## CSV là gì?
 
 **CSV** (Comma-Separated Values — giá trị phân cách bởi dấu phẩy) là định dạng file văn bản đơn giản, trong đó mỗi hàng là một bản ghi và các trường được phân cách bởi dấu phẩy (hoặc ký tự phân cách khác như dấu chấm phẩy, tab).

@@ -5,6 +5,7 @@ title: "5. Query Optimization"
 
 # Query Optimization
 
+Tối ưu truy vấn là kỹ năng quan trọng giúp ứng dụng chạy nhanh và chịu tải tốt khi dữ liệu lớn dần. Một câu query viết cẩu thả có thể khiến database phải làm việc gấp nhiều lần cần thiết. Bài này chỉ ra các vấn đề thường gặp như N+1, cách thêm index, chỉ lấy fields cần thiết, phân trang và dùng connection pooling.
 
 ---
 

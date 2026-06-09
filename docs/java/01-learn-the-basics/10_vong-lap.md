@@ -5,6 +5,8 @@ title: "10. Vòng lặp (Loops)"
 
 # Vòng lặp (Loops)
 
+Vòng lặp là cấu trúc cho phép lặp lại một khối lệnh nhiều lần, giúp bạn không phải viết đi viết lại cùng một đoạn code. Đây là công cụ quan trọng để xử lý dữ liệu lặp đi lặp lại như duyệt mảng hay đếm số. Bài này giới thiệu bốn loại vòng lặp chính (for, while, do-while, for-each) cùng break và continue; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

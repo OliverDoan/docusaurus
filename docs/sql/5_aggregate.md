@@ -5,6 +5,8 @@ title: "5. Truy vấn tổng hợp (Aggregate)"
 
 # Truy vấn tổng hợp (Aggregate)
 
+Truy vấn tổng hợp dùng các hàm như SUM, COUNT, AVG, MIN, MAX để gộp nhiều dòng dữ liệu thành một giá trị thống kê. Bài này giải thích aggregate function là gì, cách gom nhóm với GROUP BY, lọc nhóm bằng HAVING và những bẫy hay gặp (đặc biệt là cách xử lý NULL). Đây là nền tảng để làm báo cáo như tổng doanh thu, số đơn hàng hay điểm trung bình.
+
 ---
 
 ## Mục lục

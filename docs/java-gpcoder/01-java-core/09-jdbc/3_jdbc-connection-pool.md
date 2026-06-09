@@ -5,6 +5,8 @@ title: "Giới thiệu JDBC Connection Pool"
 
 # Giới thiệu JDBC Connection Pool
 
+Mỗi lần mở kết nối mới tới cơ sở dữ liệu đều tốn thời gian và tài nguyên, gây nghẽn khi ứng dụng có nhiều request. Connection Pool giải quyết vấn đề này bằng cách duy trì sẵn một tập kết nối để cho mượn và thu hồi, giúp ứng dụng nhanh hơn nhiều. Bài này giới thiệu khái niệm Connection Pool và cách dùng các thư viện phổ biến như HikariCP, c3p0.
+
 ## Vấn đề với kết nối trực tiếp
 
 Khi dùng `DriverManager.getConnection()` để tạo kết nối mỗi lần truy vấn, ứng dụng phải thực hiện nhiều bước tốn thời gian:

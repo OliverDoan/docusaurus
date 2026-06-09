@@ -5,6 +5,8 @@ title: "Thực thi một nhóm các class test trong JUnit (Test Suite)"
 
 # Thực thi một nhóm các class test trong JUnit (Test Suite)
 
+Khi dự án có nhiều lớp test, việc chạy từng lớp riêng lẻ rất mất công — Test Suite cho phép gom chúng lại và chạy cùng một lần. Đây là cách hữu ích để tổ chức test theo module và tích hợp vào hệ thống CI/CD. Bài này hướng dẫn tạo Test Suite trong cả JUnit 4 và JUnit 5, cùng cách lọc test theo package và tag.
+
 ## Test Suite là gì?
 
 **Test Suite** (bộ kiểm thử) là cơ chế cho phép gom nhiều lớp test lại và chạy chúng cùng một lần. Thay vì chạy từng lớp test riêng lẻ, bạn tạo một lớp suite đóng vai trò điều phối toàn bộ.

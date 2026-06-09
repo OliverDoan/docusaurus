@@ -5,6 +5,8 @@ title: "Giới thiệu luồng vào ra (I/O) trong Java"
 
 # Giới thiệu luồng vào ra (I/O) trong Java
 
+I/O (vào/ra) là cách chương trình Java trao đổi dữ liệu với bên ngoài như bàn phím, màn hình, file hay mạng. Mọi thao tác này đều dựa trên khái niệm luồng dữ liệu (stream). Bài này giới thiệu tổng quan về I/O, phân biệt luồng byte và luồng ký tự, làm nền tảng cho các bài chi tiết phía sau.
+
 ## I/O là gì?
 
 **I/O** (Input/Output — Vào/Ra) là cơ chế cho phép chương trình Java trao đổi dữ liệu với thế giới bên ngoài: đọc từ bàn phím, ghi ra màn hình, đọc/ghi file, truyền dữ liệu qua mạng, v.v.

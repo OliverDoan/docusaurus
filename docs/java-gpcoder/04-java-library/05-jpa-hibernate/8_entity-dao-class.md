@@ -5,6 +5,8 @@ title: "Xây dựng Entity và DAO class trong Hibernate"
 
 # Xây dựng Entity và DAO class trong Hibernate
 
+Để code Hibernate gọn gàng và dễ bảo trì, người ta thường tách phần truy cập database ra một lớp riêng gọi là DAO, tách biệt khỏi logic nghiệp vụ. Bài này giới thiệu DAO pattern, cách xây một GenericDAO dùng chung cho mọi Entity rồi mở rộng thành DAO chuyên biệt, và cách kết hợp với tầng Service. Đây là cấu trúc nền tảng cho hầu hết ứng dụng dùng Hibernate.
+
 ## DAO Pattern là gì?
 
 **DAO** (Data Access Object — đối tượng truy cập dữ liệu) là một design pattern tách biệt hoàn toàn logic truy cập database ra khỏi logic nghiệp vụ (business logic). Mỗi Entity thường có một DAO class riêng.

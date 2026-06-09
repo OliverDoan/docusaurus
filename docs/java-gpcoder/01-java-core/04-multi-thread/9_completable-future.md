@@ -5,6 +5,8 @@ title: "Lập trình đa luồng với CompletableFuture trong Java 8"
 
 # Lập trình đa luồng với CompletableFuture trong Java 8
 
+`CompletableFuture` là công cụ mạnh mẽ của Java 8 để lập trình bất đồng bộ mà không phải chặn luồng chờ kết quả. Nó cho phép ghép nối nhiều tác vụ thành chuỗi (pipeline), kết hợp kết quả từ nhiều tác vụ và xử lý lỗi gọn gàng — giống như Promise trong JavaScript. Bài này giới thiệu khái niệm tổng quan cùng các phương thức thường dùng; chi tiết nằm bên dưới.
+
 ## Hạn chế của Future
 
 `Future` có những giới hạn:

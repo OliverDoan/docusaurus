@@ -5,6 +5,8 @@ title: "Kết nối JMS Client với ActiveMQ"
 
 # Kết nối JMS Client với ActiveMQ
 
+JMS là bộ API chuẩn của Java để gửi và nhận tin nhắn giữa các ứng dụng, còn ActiveMQ là một broker phổ biến triển khai chuẩn này. Bài này hướng dẫn bạn viết ứng dụng Java kết nối tới ActiveMQ và trao đổi tin nhắn theo cả hai mô hình Queue (một người nhận) và Topic (nhiều người nhận). Nắm được phần này, bạn sẽ có nền tảng để xây dựng các hệ thống gửi nhận tin nhắn bất đồng bộ.
+
 ## Tổng quan
 
 Bài này hướng dẫn cách kết nối một ứng dụng Java với **ActiveMQ** thông qua **JMS API** (Java Message Service API — giao diện lập trình chuẩn cho nhắn tin Java). Chúng ta sẽ xây dựng ứng dụng hoàn chỉnh gửi và nhận tin nhắn cả theo mô hình **Queue** (hàng đợi) và **Topic** (chủ đề).

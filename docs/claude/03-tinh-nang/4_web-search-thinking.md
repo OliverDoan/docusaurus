@@ -5,6 +5,8 @@ title: "4. Web Search & Extended Thinking"
 
 # Web Search & Extended Thinking
 
+Bài này giới thiệu hai tính năng giúp Claude trả lời tốt hơn trong những tình huống khó: **Web Search** giúp Claude lấy thông tin mới trên Internet (vượt qua mốc dữ liệu huấn luyện), còn **Extended Thinking** giúp Claude suy nghĩ kỹ theo nhiều bước trước khi trả lời. Hiểu khi nào nên bật từng tính năng sẽ giúp bạn nhận câu trả lời cập nhật và chính xác hơn; chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

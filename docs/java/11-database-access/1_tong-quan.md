@@ -5,6 +5,8 @@ title: "1. Tổng quan truy cập CSDL"
 
 # 1. Tổng quan truy cập Cơ sở dữ liệu
 
+Truy cập cơ sở dữ liệu là cách để chương trình Java lưu dữ liệu lâu dài, không bị mất khi tắt máy. Bài này giải thích vì sao cần cơ sở dữ liệu, SQL và ORM là gì, đồng thời giới thiệu tổng quan bốn công cụ phổ biến trong Java (JDBC, Hibernate, Spring Data JPA, EBean) để bạn biết nên học cái nào trước. Đây là bài mở đầu; chi tiết từng công cụ nằm ở các bài sau.
+
 ---
 
 ## Mục lục

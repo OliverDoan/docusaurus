@@ -5,6 +5,8 @@ title: "8. Mảng (Arrays)"
 
 # Mảng (Arrays)
 
+Mảng là một dãy các phần tử cùng kiểu được đánh số thứ tự, giúp bạn lưu nhiều giá trị mà không phải khai báo hàng loạt biến riêng lẻ. Đây là cấu trúc dữ liệu nền tảng để gom và xử lý dữ liệu theo nhóm. Bài này giới thiệu cách khai báo, truy cập phần tử, độ dài, duyệt mảng, mảng nhiều chiều và một vài tiện ích của lớp Arrays; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

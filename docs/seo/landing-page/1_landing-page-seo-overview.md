@@ -5,6 +5,8 @@ title: "1. Landing Page chuẩn SEO"
 
 # Landing Page chuẩn SEO
 
+Landing page là trang đích mà người dùng đặt chân tới đầu tiên, và một landing page chuẩn SEO vừa phải thuyết phục khách hàng hành động, vừa phải dễ dàng cho Google đọc hiểu và xếp hạng. Bài này giúp bạn phân biệt landing page chạy ads với landing page SEO, cách tối ưu vùng above-the-fold, viết H1 đúng chuẩn, đặt CTA hợp lý và dùng semantic HTML. Nắm vững nền tảng này, trang của bạn vừa lên top tìm kiếm vừa chuyển đổi tốt.
+
 ## Mục lục
 
 - [Landing page SEO-friendly vs Landing page chạy ads](#landing-page-seo-friendly-vs-landing-page-chạy-ads)

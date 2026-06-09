@@ -5,6 +5,8 @@ title: "Giới thiệu HATEOAS"
 
 # Giới thiệu HATEOAS
 
+HATEOAS là một nguyên tắc trong REST cho phép server trả về kèm các liên kết (link) chỉ dẫn client biết tiếp theo có thể làm gì, thay vì để client tự đoán URL. Nhờ vậy API tự mô tả được và client bớt phụ thuộc vào URL cứng. Bài này giải thích HATEOAS là gì và hướng dẫn tự triển khai nó với Jersey.
+
 ## HATEOAS là gì?
 
 **HATEOAS** (Hypermedia As The Engine Of Application State — Siêu phương tiện là động lực của trạng thái ứng dụng) là một ràng buộc trong kiến trúc REST cho phép client **tự khám phá** các hành động có thể thực hiện thông qua các liên kết (link) được trả về trong response.

@@ -5,6 +5,8 @@ title: "4. Slash Commands & Subagents"
 
 # Slash Commands & Subagents
 
+Bài này giới thiệu hai khái niệm giúp bạn dùng Claude Code hiệu quả hơn: **slash command** là các lệnh gõ nhanh bắt đầu bằng dấu `/` (như `/help`, `/clear`), còn **subagent** là trợ lý con chuyên biệt chạy với ngữ cảnh riêng để xử lý các việc lớn. Hiểu hai công cụ này giúp bạn thao tác nhanh và giữ phiên làm việc gọn gàng; chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

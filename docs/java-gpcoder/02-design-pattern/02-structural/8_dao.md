@@ -5,6 +5,8 @@ title: "DAO Pattern"
 
 # Java Design Pattern - DAO (Data Access Object)
 
+DAO là mẫu thiết kế giúp tách riêng phần code truy cập dữ liệu (truy vấn database, đọc file, gọi API) ra khỏi phần logic nghiệp vụ. Nhờ vậy khi đổi nguồn dữ liệu hay viết unit test, bạn không phải sửa khắp nơi. Đây là pattern nền tảng trong hầu hết ứng dụng Java enterprise, và chính `JpaRepository` của Spring cũng là một dạng DAO. Bài này giới thiệu tổng quan; phần chi tiết và ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 DAO — viết tắt của **Data Access Object** (Đối tượng truy cập dữ liệu) — là một **Structural Design Pattern** tách biệt hoàn toàn logic truy cập dữ liệu (database queries, file I/O, API calls) ra khỏi business logic (logic nghiệp vụ). Mọi thao tác với nguồn dữ liệu đều thực hiện qua lớp DAO.

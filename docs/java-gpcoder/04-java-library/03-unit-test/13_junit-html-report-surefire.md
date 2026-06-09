@@ -5,6 +5,8 @@ title: "JUnit - HTML Report với Surefire Maven plugin"
 
 # JUnit — HTML Report với Surefire Maven plugin
 
+Maven Surefire là plugin chịu trách nhiệm chạy unit test trong quá trình build và xuất ra báo cáo kết quả ở cả định dạng XML (cho CI/CD) lẫn HTML (xem trực quan trong trình duyệt). Bài này hướng dẫn cấu hình Surefire trong `pom.xml`, tạo và xem báo cáo HTML, các tùy chỉnh thường gặp (chọn test, chạy song song, retry, cấu hình JVM) và phân biệt với Failsafe dành cho integration test.
+
 ## Maven Surefire Plugin là gì?
 
 **Maven Surefire Plugin** là plugin tích hợp sẵn trong Maven, chịu trách nhiệm chạy các bài unit test trong giai đoạn `test` của vòng đời build. Plugin này hỗ trợ JUnit 4, JUnit 5 và TestNG.

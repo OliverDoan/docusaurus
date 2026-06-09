@@ -5,6 +5,8 @@ title: "6. Interfaces"
 
 # Interfaces
 
+Interface là một "hợp đồng" liệt kê các phương thức mà một lớp cam kết sẽ có, mô tả "lớp làm được những gì" mà không nói "làm thế nào". Một lớp dùng `implements` để triển khai interface và có thể triển khai nhiều interface cùng lúc, đạt được đa kế thừa hành vi. Bài này giới thiệu `implements`, default method, static method và sự khác nhau giữa interface với abstract class; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

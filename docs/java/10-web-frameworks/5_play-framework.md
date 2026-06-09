@@ -5,6 +5,8 @@ title: "5. Play Framework"
 
 # 5. Play Framework
 
+Play Framework là một framework web full-stack và reactive cho Java và Scala, được thiết kế theo phong cách giống Ruby on Rails hay Django nhằm phát triển nhanh và xử lý lượng truy cập lớn hiệu quả. Bài này giúp bạn hiểu Play là gì, các khái niệm reactive, full-stack, kiến trúc MVC, cách khai báo route và viết Controller, cùng so sánh với Spring Boot để biết khi nào nên dùng.
+
 ---
 
 ## Mục lục

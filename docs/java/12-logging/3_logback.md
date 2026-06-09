@@ -5,6 +5,8 @@ title: "3. Logback"
 
 # 3. Logback
 
+Logback là một implementation ghi log thật và là lựa chọn mặc định trong Spring Boot, đóng vai trò "nhà máy điện" thực sự ghi log ra màn hình hoặc file. Bài này hướng dẫn cấu hình Logback qua file `logback.xml`: khai báo appender để chọn nơi ghi log, định dạng dòng log bằng pattern, xoay file theo ngày và kích thước với RollingFile, cùng cách đặt level riêng cho từng package.
+
 ---
 
 ## Mục lục

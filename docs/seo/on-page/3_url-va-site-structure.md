@@ -5,6 +5,8 @@ title: "3. URL và cấu trúc trang"
 
 # URL và cấu trúc trang
 
+URL và cấu trúc trang là cách bạn đặt đường dẫn và tổ chức các trang trên website, một trong những tín hiệu SEO đầu tiên Google nhìn thấy. URL gọn gàng, có nghĩa và cấu trúc phân cấp hợp lý giúp cả người dùng lẫn search engine hiểu nội dung và dễ điều hướng. Bài này hướng dẫn cách đặt URL thân thiện, internal linking, breadcrumbs, XML sitemap, redirect 301/302 và mô hình topic cluster; phần chi tiết nằm bên dưới.
+
 ## Mục lục
 
 - [URL thân thiện với SEO](#url-thân-thiện-với-seo)

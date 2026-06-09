@@ -5,6 +5,8 @@ title: "Sử dụng CyclicBarrier trong Java"
 
 # Sử dụng CyclicBarrier trong Java
 
+`CyclicBarrier` là cơ chế giúp một nhóm luồng chờ nhau tại một điểm gặp chung, rồi cùng nhau đi tiếp. Khác với `CountDownLatch`, nó có thể tái sử dụng nhiều lần nên rất hợp với các bài toán xử lý theo nhiều vòng hoặc nhiều giai đoạn. Bài này giới thiệu khái niệm tổng quan và so sánh với `CountDownLatch`; chi tiết nằm bên dưới.
+
 ## CyclicBarrier là gì?
 
 **CyclicBarrier** (rào chắn chu kỳ — cơ chế đồng bộ cho phép một nhóm luồng chờ nhau tại một điểm gặp chung, rồi cùng tiến về phía trước) là class trong `java.util.concurrent`.

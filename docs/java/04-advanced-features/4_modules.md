@@ -5,6 +5,8 @@ title: "4. Hệ thống Module (Java Module System)"
 
 # 4. Hệ thống Module (Java Module System)
 
+Hệ thống Module (có từ Java 9) là cách chia một chương trình lớn thành các khối độc lập, mỗi khối tự khai báo nó cần gì và cho phép ai dùng phần nào của mình. Nó giúp tổ chức code rõ ràng, che giấu chi tiết nội bộ và phát hiện thiếu thư viện ngay từ lúc khởi động. Bài này giới thiệu khái niệm chung; chi tiết về `module-info.java`, `requires`, `exports` nằm bên dưới.
+
 ---
 
 ## Mục lục

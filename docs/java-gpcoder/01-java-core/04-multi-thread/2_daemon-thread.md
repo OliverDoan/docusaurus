@@ -5,6 +5,8 @@ title: "Luồng Daemon (Daemon Thread) trong Java"
 
 # Luồng Daemon (Daemon Thread) trong Java
 
+Daemon Thread là loại luồng chạy ngầm để phục vụ các tác vụ phụ trợ, và JVM sẽ tự dừng chúng khi mọi luồng người dùng đã kết thúc. Bài này giải thích sự khác nhau giữa user thread và daemon thread, cách tạo daemon thread đúng cách bằng `setDaemon(true)`, cùng các ví dụ và lỗi thường gặp. Hiểu khái niệm này giúp bạn biết khi nào nên dùng luồng nền và khi nào tuyệt đối không nên.
+
 ## Daemon Thread là gì?
 
 Trong Java, có hai loại luồng:

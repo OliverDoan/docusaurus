@@ -5,6 +5,8 @@ title: "Sử dụng CountDownLatch trong Java"
 
 # Sử dụng CountDownLatch trong Java
 
+`CountDownLatch` là một công cụ đồng bộ hóa giúp một luồng chờ cho đến khi nhiều luồng khác hoàn thành công việc. Nó hoạt động như một chiếc chốt có bộ đếm: mỗi tác vụ xong thì giảm đếm đi một, khi đếm về 0 thì luồng đang chờ được tiếp tục. Bài này giới thiệu khái niệm và cách dùng phổ biến; chi tiết nằm bên dưới.
+
 ## CountDownLatch là gì?
 
 **CountDownLatch** (chốt đếm ngược — cơ chế đồng bộ hóa cho phép một hoặc nhiều luồng chờ đến khi một tập hợp thao tác hoàn thành) nằm trong gói `java.util.concurrent`.

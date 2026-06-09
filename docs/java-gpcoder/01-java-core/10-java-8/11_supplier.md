@@ -5,6 +5,8 @@ title: "Supplier trong Java 8"
 
 # Supplier trong Java 8
 
+`Supplier<T>` là một functional interface trong Java 8 ngược lại với `Consumer`: nó không nhận tham số nào nhưng trả về một giá trị. Supplier rất hữu ích cho việc khởi tạo lười biếng (lazy initialization), tạo factory và cung cấp giá trị mặc định khi kết hợp với `Optional`. Bài này giới thiệu cách dùng Supplier qua nhiều ví dụ thực tế.
+
 ## Supplier là gì?
 
 `Supplier<T>` là một **Functional Interface** (giao diện hàm) trong package `java.util.function`. Ngược hoàn toàn với `Consumer`, `Supplier` (người cung cấp) **không nhận tham số** nhưng **trả về một giá trị** kiểu `T`.

@@ -5,6 +5,8 @@ title: "Abstract Factory Pattern"
 
 # Java Design Pattern - Abstract Factory
 
+Abstract Factory là một mẫu thiết kế khởi tạo (creational) dùng để tạo ra cả một "họ" đối tượng liên quan với nhau mà không cần biết lớp cụ thể của chúng. Nó thường được ví như "nhà máy của các nhà máy". Mẫu này hữu ích khi bạn cần đảm bảo các đối tượng được tạo ra luôn ăn khớp, đồng bộ với nhau (ví dụ các thành phần giao diện cùng một theme). Bài này giới thiệu khái niệm tổng quan; phần chi tiết với ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 **Abstract Factory Pattern** (mẫu nhà máy trừu tượng) là một **Creational Design Pattern** cung cấp một interface để tạo ra **họ các đối tượng liên quan** (families of related objects) mà không cần chỉ định lớp cụ thể của chúng. Đây là "nhà máy của các nhà máy".

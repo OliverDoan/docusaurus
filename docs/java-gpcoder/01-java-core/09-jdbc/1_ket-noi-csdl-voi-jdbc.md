@@ -5,6 +5,8 @@ title: "Hướng dẫn kết nối cơ sở dữ liệu với Java JDBC"
 
 # Hướng dẫn kết nối cơ sở dữ liệu với Java JDBC
 
+JDBC là API chuẩn của Java giúp ứng dụng kết nối và làm việc với cơ sở dữ liệu như MySQL, PostgreSQL, Oracle... Đây là kiến thức nền tảng vì hầu hết ứng dụng thực tế đều cần lưu trữ và truy xuất dữ liệu. Bài này hướng dẫn các thành phần chính của JDBC và cách viết code kết nối tới cơ sở dữ liệu một cách an toàn.
+
 ## JDBC là gì?
 
 **JDBC** (Java Database Connectivity — API chuẩn của Java để kết nối và thao tác với cơ sở dữ liệu quan hệ) là một tập hợp các interface và class nằm trong gói `java.sql`, cho phép ứng dụng Java giao tiếp với bất kỳ hệ quản trị cơ sở dữ liệu nào như MySQL, PostgreSQL, Oracle, SQLite...

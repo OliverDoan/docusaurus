@@ -5,6 +5,7 @@ title: "1. Express.js cơ bản"
 
 # Express.js cơ bản
 
+Express.js là web framework phổ biến nhất cho Node.js, nổi bật vì tối giản, linh hoạt và dễ học. Nó giúp bạn xây dựng API và web server nhanh chóng bằng cách xử lý các request HTTP một cách rõ ràng. Bài này giới thiệu những kiến thức nền tảng: cài đặt, viết server đầu tiên, các HTTP method, đối tượng request/response và cách đọc dữ liệu JSON.
 
 ---
 

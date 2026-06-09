@@ -5,6 +5,8 @@ title: "4. Method Chaining (gọi chuỗi phương thức)"
 
 # Method Chaining (gọi chuỗi phương thức)
 
+Method chaining là kỹ thuật gọi nhiều phương thức nối tiếp nhau trên cùng một dòng, ví dụ `doiTuong.a().b().c()`. Bí quyết là mỗi phương thức trả về `this` (chính đối tượng hiện tại) để có thể gọi tiếp, giúp code ngắn gọn và dễ đọc. Bài này giới thiệu cách trả về `this`, ví dụ với `StringBuilder` và Builder Pattern; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

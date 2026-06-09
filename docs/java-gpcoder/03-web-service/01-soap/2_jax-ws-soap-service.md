@@ -5,6 +5,8 @@ title: "Java Web Services - JAX-WS - SOAP"
 
 # Java Web Services - JAX-WS - SOAP
 
+JAX-WS là bộ API chuẩn của Java giúp ta xây dựng và gọi các SOAP Web Service chỉ bằng vài annotation, không phải tự viết XML hay WSDL bằng tay. Đây là cách phổ biến để tạo dịch vụ SOAP trong thế giới Java. Bài này hướng dẫn từng bước tạo cả phía server lẫn client kèm ví dụ chạy thật; chi tiết nằm bên dưới.
+
 ## JAX-WS là gì?
 
 **JAX-WS** (Java API for XML-Based Web Services — API Java cho Web Service dựa trên XML) là bộ API chuẩn của Java để xây dựng và tiêu thụ SOAP Web Service. JAX-WS thuộc bộ **Java EE** (nay là Jakarta EE) và được tích hợp sẵn trong **JDK** từ phiên bản 6.

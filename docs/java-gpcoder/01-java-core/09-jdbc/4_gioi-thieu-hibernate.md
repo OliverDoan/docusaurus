@@ -5,6 +5,8 @@ title: "Giới thiệu về Hibernate"
 
 # Giới thiệu về Hibernate
 
+Hibernate là framework ORM phổ biến nhất cho Java, giúp lập trình viên làm việc với cơ sở dữ liệu thông qua các đối tượng Java thay vì viết SQL thủ công. Nó tự động hoá những công việc lặp đi lặp lại của JDBC như viết câu SQL, đọc từng cột, quản lý kết nối. Bài này giới thiệu khái niệm ORM, vai trò của Hibernate, mối quan hệ với JPA và khi nào nên dùng Hibernate thay vì JDBC thuần.
+
 ## ORM là gì?
 
 **ORM** (Object-Relational Mapping — ánh xạ đối tượng-quan hệ) là kỹ thuật cho phép lập trình viên làm việc với cơ sở dữ liệu quan hệ thông qua các đối tượng Java thay vì viết SQL thủ công.

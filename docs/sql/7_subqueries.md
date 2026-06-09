@@ -5,6 +5,8 @@ title: "7. Subqueries — Truy vấn con"
 
 # Subqueries — Truy vấn con
 
+Subquery là một câu lệnh SELECT được lồng bên trong một câu lệnh SQL khác, cho phép bạn lọc hoặc tính toán dựa trên kết quả của một truy vấn phụ. Bài này phân loại subquery theo kết quả trả về, phân biệt truy vấn con độc lập với tương quan (EXISTS), các toán tử IN/ANY/ALL và so sánh subquery với JOIN, CTE. Nắm được kỹ thuật này giúp bạn viết những truy vấn phức tạp gọn gàng và đúng đắn hơn.
+
 ---
 
 ## Mục lục

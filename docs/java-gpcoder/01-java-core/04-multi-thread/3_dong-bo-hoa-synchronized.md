@@ -5,6 +5,8 @@ title: "Đồng bộ hóa các luồng trong Java - synchronized"
 
 # Đồng bộ hóa các luồng trong Java - synchronized
 
+Khi nhiều luồng cùng đọc/ghi một dữ liệu dùng chung, chương trình dễ cho kết quả sai do tranh chấp (race condition). Từ khóa `synchronized` là cơ chế cơ bản trong Java để đảm bảo tại một thời điểm chỉ một luồng được vào vùng code quan trọng. Bài này giải thích vấn đề race condition, các cách dùng `synchronized`, phối hợp luồng bằng `wait()`/`notify()` và cách tránh deadlock.
+
 ## Vấn đề khi nhiều luồng dùng chung dữ liệu
 
 Khi nhiều luồng cùng đọc/ghi một biến dùng chung mà không có kiểm soát, chương trình sẽ cho kết quả sai. Đây gọi là **Race Condition** (điều kiện tranh chấp — nhiều luồng đua nhau truy cập dữ liệu chung gây ra kết quả không nhất quán).

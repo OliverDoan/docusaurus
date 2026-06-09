@@ -5,6 +5,8 @@ title: "Adapter Pattern"
 
 # Java Design Pattern - Adapter
 
+Adapter là một mẫu thiết kế cấu trúc (structural) giúp hai đối tượng có giao diện không tương thích vẫn làm việc được với nhau. Nó hoạt động như một bộ chuyển đổi đứng ở giữa để "dịch" lời gọi, giống như cục chuyển đổi phích cắm điện khi đi nước ngoài. Mẫu này rất hữu ích khi cần tích hợp thư viện bên thứ ba hoặc tái sử dụng code cũ. Bài này giới thiệu khái niệm tổng quan; phần chi tiết với ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 Adapter (hay còn gọi là Wrapper) là một **Structural Design Pattern** (mẫu thiết kế cấu trúc) cho phép các đối tượng có interface (giao diện) không tương thích có thể làm việc cùng nhau. Pattern này hoạt động như một "bộ chuyển đổi" — giống như bộ chuyển đổi phích cắm điện khi bạn đi du lịch nước ngoài.

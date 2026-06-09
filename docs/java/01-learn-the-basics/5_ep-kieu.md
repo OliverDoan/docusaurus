@@ -5,6 +5,8 @@ title: "5. Ép kiểu (Type Casting)"
 
 # Ép kiểu (Type Casting)
 
+Ép kiểu là việc chuyển một giá trị từ kiểu dữ liệu này sang kiểu khác, cần thiết khi bạn muốn dùng một giá trị ở dạng khác (ví dụ lấy phần nguyên của một số thực). Nắm vững ép kiểu giúp bạn tránh mất mát dữ liệu và lỗi tràn số ngoài ý muốn. Bài này giới thiệu ép kiểu mở rộng (tự động) và thu hẹp (thủ công), cũng như cách chuyển đổi giữa số và chuỗi; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

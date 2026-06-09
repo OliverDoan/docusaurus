@@ -5,6 +5,8 @@ title: "2. SLF4J"
 
 # 2. SLF4J
 
+SLF4J (Simple Logging Facade for Java) là facade ghi log phổ biến nhất trong Java, đóng vai trò "ổ cắm chuẩn" để code của bạn gọi log mà không phụ thuộc vào thư viện ghi log cụ thể. Bài này hướng dẫn cách cài đặt SLF4J, tạo logger, ghi log bằng placeholder `{}`, ghi log kèm exception, và giải thích vì sao luôn nên viết code theo SLF4J để dễ thay đổi implementation sau này.
+
 ---
 
 ## Mục lục

@@ -5,6 +5,8 @@ title: "Decorator Pattern"
 
 # Java Design Pattern - Decorator
 
+Decorator là một mẫu thiết kế cấu trúc (structural) cho phép gắn thêm hành vi mới cho một đối tượng bằng cách "bọc" nó trong các lớp wrapper, thay vì dùng kế thừa. Cách này giúp bạn kết hợp nhiều tính năng một cách linh hoạt ngay tại lúc chạy mà không làm bùng nổ số lượng lớp con. Bài này giới thiệu khái niệm tổng quan; phần chi tiết với ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 Decorator (hay còn gọi là Wrapper) là một **Structural Design Pattern** cho phép gắn thêm hành vi mới vào một đối tượng bằng cách đặt đối tượng đó vào trong các "wrapper" (lớp bao bọc) đặc biệt. Đây là một giải pháp thay thế linh hoạt cho kế thừa (inheritance) khi cần mở rộng tính năng.

@@ -5,6 +5,7 @@ title: "5. Performance Optimization"
 
 # Performance Optimization
 
+Tối ưu hiệu năng giúp ứng dụng Node.js phản hồi nhanh hơn và phục vụ được nhiều người dùng hơn. Bài này giới thiệu các kỹ thuật như nén response, chạy đa tiến trình (clustering), caching, streaming dữ liệu lớn và giám sát hệ thống. Hiểu các cách này giúp bạn tránh nghẽn và tận dụng tối đa tài nguyên server.
 
 ---
 

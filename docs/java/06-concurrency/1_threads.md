@@ -5,6 +5,8 @@ title: "1. Luồng (Threads)"
 
 # 1. Luồng (Threads)
 
+Luồng (thread) là một mạch thực thi chạy bên trong chương trình, cho phép máy làm nhiều việc cùng lúc thay vì tuần tự từng việc. Nắm vững luồng là bước đầu tiên để viết được phần mềm tận dụng được CPU nhiều nhân và không bị "đơ" khi chờ việc chậm. Bài này giới thiệu cách tạo và điều khiển luồng trong Java; chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

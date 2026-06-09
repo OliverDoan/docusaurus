@@ -5,6 +5,8 @@ title: "SOAP Web service - Authentication trong JAX-WS"
 
 # SOAP Web service - Authentication trong JAX-WS
 
+Authentication (xác thực) là bước kiểm tra xem client có đúng là người được phép gọi dịch vụ hay không trước khi cho truy cập dữ liệu. Với SOAP trong JAX-WS, ta thường làm việc này bằng cách gắn thông tin đăng nhập vào SOAP Header hoặc dùng một Handler chặn và kiểm tra ở giữa. Bài này trình bày cả hai cách kèm ví dụ Java; chi tiết nằm bên dưới.
+
 ## Tổng quan về Authentication trong SOAP
 
 **Authentication** (xác thực) trong SOAP Web Service là quá trình xác minh danh tính của client trước khi cho phép truy cập tài nguyên. Trong JAX-WS, có hai cách phổ biến:

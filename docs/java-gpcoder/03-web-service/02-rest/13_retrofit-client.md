@@ -5,6 +5,8 @@ title: "Tạo ứng dụng Java RESTful Client với thư viện Retrofit"
 
 # Tạo ứng dụng Java RESTful Client với thư viện Retrofit
 
+Retrofit giúp gọi REST API theo cách khai báo: bạn chỉ cần định nghĩa interface với annotation, Retrofit tự sinh code gọi HTTP. Cách làm này giúp code gọn gàng, dễ đọc và dễ bảo trì hơn so với viết tay. Bài này hướng dẫn khai báo API bằng interface, cấu hình Retrofit, và gọi API cả đồng bộ lẫn bất đồng bộ.
+
 ## Retrofit là gì?
 
 **Retrofit** (trang bị lại) là thư viện HTTP client do Square phát triển, hoạt động trên nền OkHttp. Điểm đặc biệt của Retrofit: thay vì viết code gọi HTTP thủ công, bạn chỉ cần định nghĩa **interface** Java với các annotation mô tả API, Retrofit tự sinh ra implementation.

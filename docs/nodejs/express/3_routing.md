@@ -5,6 +5,7 @@ title: "3. Routing"
 
 # Routing trong Express
 
+Routing là cách Express quyết định request nào sẽ chạy đoạn code xử lý nào, dựa trên đường dẫn URL và HTTP method. Tổ chức route tốt giúp dự án dễ đọc, dễ mở rộng khi số lượng API tăng lên. Bài này hướng dẫn dùng Express Router để tách route thành module, áp dụng controller pattern, và làm việc với route params, query params cùng cách gộp nhóm route.
 
 ---
 

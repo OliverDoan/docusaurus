@@ -5,6 +5,8 @@ title: "2. E-commerce SEO"
 
 # E-commerce SEO — Tối ưu SEO cho website thương mại điện tử
 
+E-commerce SEO xử lý những thách thức riêng của website bán hàng: hàng nghìn trang sản phẩm, faceted navigation sinh ra vô số URL, pagination phức tạp và sản phẩm hết hàng liên tục. Bài này tập trung vào các kỹ thuật developer cần nắm để xây dựng site thương mại điện tử thân thiện với SEO và không lãng phí crawl budget.
+
 ## Mục lục
 
 - [Giới thiệu](#giới-thiệu)

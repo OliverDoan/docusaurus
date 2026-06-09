@@ -5,6 +5,8 @@ title: "2. Landing Page với Next.js"
 
 # Landing Page với Next.js
 
+Next.js là framework React được nhiều người chọn để làm landing page chuẩn SEO, vì nó render HTML sẵn trên server nên Google đọc nội dung được ngay mà không cần chạy JavaScript. Bài này hướng dẫn bạn dùng App Router, Metadata API để khai báo SEO, Static Generation để tải trang siêu nhanh, cùng cách tối ưu hình ảnh và font có sẵn của Next.js. Đây là cách thực tế nhất để vừa code nhanh vừa đạt điểm SEO cao.
+
 ## Mục lục
 
 - [Tại sao Next.js là lựa chọn hàng đầu cho landing page SEO?](#tại-sao-nextjs-là-lựa-chọn-hàng-đầu-cho-landing-page-seo)

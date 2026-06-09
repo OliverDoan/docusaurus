@@ -5,6 +5,8 @@ title: "6. Dependency Injection (Tiêm phụ thuộc)"
 
 # 6. Dependency Injection (Tiêm phụ thuộc)
 
+Dependency Injection (DI) là kỹ thuật cho một đối tượng nhận các thứ nó cần từ bên ngoài, thay vì tự tạo chúng bên trong. Nhờ vậy code dễ thay đổi, dễ kiểm thử và bớt gắn kết chặt với nhau. Bài này giới thiệu khái niệm tổng quan, Constructor Injection và IoC; chi tiết và ví dụ nằm bên dưới.
+
 ---
 
 ## Mục lục

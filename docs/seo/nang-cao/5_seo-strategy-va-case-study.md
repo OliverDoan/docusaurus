@@ -5,6 +5,8 @@ title: "5. Chiến lược SEO tổng thể"
 
 # Chiến lược SEO tổng thể — Audit, Roadmap và Case Studies
 
+Biết từng kỹ thuật SEO riêng lẻ là chưa đủ; bạn cần kết hợp chúng thành một chiến lược tổng thể: audit hiện trạng, lập roadmap, đo lường và điều chỉnh liên tục. Bài này tổng hợp kiến thức từ các bài trước thành một framework hành động, kèm case study thực tế từ lý thuyết đến kết quả.
+
 ## Mục lục
 
 - [Giới thiệu](#giới-thiệu)

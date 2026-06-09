@@ -5,6 +5,8 @@ title: "4. Hiệu suất Landing Page"
 
 # Hiệu suất Landing Page
 
+Tốc độ tải trang giờ đây là yếu tố xếp hạng chính thức của Google (Core Web Vitals), đồng thời ảnh hưởng trực tiếp tới tỷ lệ chuyển đổi — trang càng chậm thì khách càng bỏ đi. Bài này chỉ bạn cách tối ưu hero image, chiến lược tải font, giảm dung lượng JavaScript và CSS, lazy load nội dung dưới màn hình, cùng các resource hint hữu ích. Đây là phần kỹ thuật giúp landing page vừa nhanh vừa giữ chân người dùng.
+
 ## Mục lục
 
 - [Performance metrics ảnh hưởng SEO ranking](#performance-metrics-ảnh-hưởng-seo-ranking)

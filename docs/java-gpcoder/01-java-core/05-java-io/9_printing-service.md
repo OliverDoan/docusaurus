@@ -5,6 +5,8 @@ title: "Hướng dẫn sử dụng Printing Service trong Java"
 
 # Hướng dẫn sử dụng Printing Service trong Java
 
+Java Print Service là bộ API cho phép chương trình Java tìm máy in trên hệ thống và gửi lệnh in tài liệu như văn bản, PDF hay ảnh. Nó hữu ích khi bạn cần in ấn trực tiếp từ ứng dụng mà không qua phần mềm trung gian. Bài này hướng dẫn cách liệt kê máy in, in file và theo dõi trạng thái lệnh in qua các ví dụ cụ thể.
+
 ## Printing Service là gì?
 
 **Java Print Service** (dịch vụ in ấn Java — API cho phép chương trình Java tìm kiếm, lựa chọn và gửi lệnh in đến máy in) thuộc gói `javax.print`. API này cung cấp khả năng:

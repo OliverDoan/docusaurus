@@ -5,6 +5,8 @@ title: "Factory Method Pattern"
 
 # Java Design Pattern - Factory Method
 
+Factory Method là một mẫu thiết kế khởi tạo (creational) giúp bạn tạo đối tượng mà không cần gọi `new` trực tiếp trong code nghiệp vụ. Thay vào đó, việc quyết định tạo lớp cụ thể nào được giao cho các lớp con. Cách làm này giúp code bớt phụ thuộc cứng, dễ thêm loại đối tượng mới và dễ kiểm thử hơn. Bài này giới thiệu khái niệm tổng quan; phần chi tiết với ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 **Factory Method Pattern** (mẫu phương thức nhà máy) là một **Creational Design Pattern** định nghĩa một **interface** (giao diện) hoặc lớp trừu tượng để tạo đối tượng, nhưng cho phép các lớp con quyết định lớp cụ thể nào sẽ được khởi tạo. Factory Method cho phép trì hoãn việc khởi tạo đối tượng cho các lớp con.

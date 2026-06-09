@@ -5,6 +5,7 @@ title: "2. WebSocket & Real-time"
 
 # WebSocket & Real-time
 
+WebSocket cho phép server và client trao đổi dữ liệu hai chiều theo thời gian thực, thay vì client cứ phải hỏi server liên tục. Bài này dùng thư viện Socket.IO để gửi/nhận event và nhóm các kết nối lại bằng rooms. Đây là nền tảng cho chat, thông báo và các app cập nhật trực tiếp.
 
 ---
 

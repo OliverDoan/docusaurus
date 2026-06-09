@@ -5,6 +5,8 @@ title: "Giới thiệu Feign - Tạo Java RESTful Client đơn giản"
 
 # Giới thiệu Feign - Tạo Java RESTful Client đơn giản
 
+Feign là thư viện giúp tạo HTTP client bằng cách khai báo interface kèm annotation, rất phổ biến khi các microservice gọi nhau trong hệ sinh thái Spring Cloud. Bài này giới thiệu cách khai báo API với annotation Feign hoặc JAX-RS, tạo client instance, xử lý lỗi bằng ErrorDecoder, và tự động thêm header xác thực.
+
 ## Feign là gì?
 
 **Feign** (giả vờ) là thư viện HTTP client do Netflix phát triển, sau đó được chuyển sang OpenFeign. Giống Retrofit, Feign dùng interface + annotation để khai báo API, nhưng theo phong cách **JAX-RS hoặc Spring MVC** thay vì annotation riêng.

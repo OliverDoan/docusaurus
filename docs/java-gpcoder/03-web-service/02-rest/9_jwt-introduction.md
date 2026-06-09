@@ -5,6 +5,8 @@ title: "Giới thiệu JSON Web Token (JWT)"
 
 # Giới thiệu JSON Web Token (JWT)
 
+JWT là một chuẩn phổ biến để xác thực mà không cần lưu session trên server — toàn bộ thông tin người dùng nằm gọn trong token đã được ký số. Bài này giải thích tại sao JWT lại tiện hơn session truyền thống, mổ xẻ cấu trúc ba phần Header–Payload–Signature, và hướng dẫn tạo cũng như kiểm tra token trong Java bằng thư viện JJWT. Nắm được JWT là bước quan trọng để xây dựng API stateless dễ mở rộng.
+
 ## JWT là gì?
 
 **JWT** (JSON Web Token — mã thông báo web dạng JSON) là một tiêu chuẩn mở (RFC 7519) để truyền thông tin an toàn giữa các bên dưới dạng đối tượng JSON. Thông tin trong JWT được **ký số** (digitally signed), đảm bảo tính toàn vẹn mà không cần kiểm tra database.

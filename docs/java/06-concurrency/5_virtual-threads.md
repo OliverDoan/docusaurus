@@ -5,6 +5,8 @@ title: "5. Virtual Threads (Luồng ảo)"
 
 # 5. Virtual Threads (Luồng ảo)
 
+Virtual thread (luồng ảo) là loại luồng siêu nhẹ ra mắt chính thức từ Java 21, cho phép tạo tới hàng triệu luồng mà không làm quá tải máy. Chúng đặc biệt hữu ích cho các ứng dụng nhiều I/O (web server, gọi API, truy vấn cơ sở dữ liệu) vì biết nhả tài nguyên trong lúc chờ. Bài này giới thiệu luồng ảo là gì, vì sao nhẹ và khi nào nên dùng; chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

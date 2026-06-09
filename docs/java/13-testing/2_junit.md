@@ -5,6 +5,8 @@ title: "2. JUnit"
 
 # 2. JUnit
 
+JUnit là framework test phổ biến nhất trong thế giới Java, gần như dự án nào cũng dùng để viết unit test. Nó cung cấp các annotation như `@Test` và các phương thức assert giúp viết test gọn gàng, tự động chạy và báo pass/fail. Bài này hướng dẫn cách cài đặt và dùng JUnit 5 qua các ví dụ; chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

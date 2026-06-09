@@ -5,6 +5,8 @@ title: "Chuyển đổi Java Object sang XML và XML sang Java Object với JAXB
 
 # Chuyển đổi Java Object sang XML và XML sang Java Object với JAXB
 
+JAXB là API giúp chuyển đổi qua lại giữa object Java và dữ liệu XML một cách tự động, chỉ bằng cách đánh dấu các annotation lên class. Nó thường được dùng khi làm việc với Web Service SOAP hoặc các file cấu hình dạng XML. Bài này giới thiệu khái niệm tổng quan cùng ví dụ marshalling và unmarshalling; chi tiết nằm bên dưới.
+
 ## JAXB là gì?
 
 **JAXB** (Java Architecture for XML Binding — kiến trúc Java để ràng buộc với XML) là API cho phép:

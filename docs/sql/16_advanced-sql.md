@@ -5,6 +5,8 @@ title: "16. SQL nâng cao (Window Functions)"
 
 # SQL nâng cao (Window Functions)
 
+Window function (hàm cửa sổ) cho phép tính toán trên một nhóm dòng liên quan đến dòng hiện tại mà vẫn giữ nguyên từng dòng chi tiết, khác với GROUP BY vốn gộp các dòng lại. Đây là công cụ mạnh để xếp hạng, tính tổng tích lũy, so sánh giữa các dòng kề nhau. Bài này giới thiệu ROW_NUMBER, RANK, DENSE_RANK, LEAD/LAG, PARTITION BY, running total, NTILE và cả CTE với WITH RECURSIVE.
+
 ---
 
 ## Mục lục

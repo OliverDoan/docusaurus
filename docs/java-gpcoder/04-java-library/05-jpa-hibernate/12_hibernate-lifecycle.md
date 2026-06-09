@@ -5,6 +5,8 @@ title: "Hibernate Lifecycle"
 
 # Hibernate Lifecycle
 
+Mỗi đối tượng Entity trong Hibernate trải qua nhiều trạng thái khác nhau, từ lúc mới tạo cho đến khi được lưu, tách rời hay xóa khỏi database. Hiểu rõ vòng đời này giúp bạn kiểm soát chính xác khi nào dữ liệu được đồng bộ với database và tránh các lỗi mất dữ liệu khó hiểu. Bài này giải thích bốn trạng thái của Entity cùng các cơ chế quan trọng như dirty checking và flush.
+
 ## Entity Lifecycle là gì?
 
 **Entity Lifecycle** (vòng đời của Entity) mô tả các trạng thái mà một đối tượng Entity có thể trải qua trong Hibernate. Hiểu rõ vòng đời giúp bạn kiểm soát chính xác khi nào dữ liệu được đồng bộ với database.

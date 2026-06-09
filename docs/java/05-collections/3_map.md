@@ -5,6 +5,8 @@ title: "3. Map"
 
 # Map
 
+Map (ánh xạ) lưu dữ liệu dưới dạng các cặp khóa - giá trị (key-value), giống như một quyển từ điển hay danh bạ. Bạn tra cứu giá trị bằng khóa do mình tự chọn, mỗi khóa là duy nhất. Bài này giới thiệu Map cùng HashMap, LinkedHashMap, TreeMap và cách dùng phổ biến; chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

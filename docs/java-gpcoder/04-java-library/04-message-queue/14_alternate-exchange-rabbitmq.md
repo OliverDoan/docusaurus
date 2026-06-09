@@ -5,6 +5,8 @@ title: "Sử dụng Alternate Exchange trong RabbitMQ"
 
 # Sử dụng Alternate Exchange trong RabbitMQ
 
+Alternate Exchange là cơ chế dự phòng trong RabbitMQ, dùng để hứng những tin nhắn không khớp với bất kỳ binding nào của exchange chính. Thay vì để tin nhắn bị mất âm thầm khi gõ sai routing key hay thiếu binding, chúng được chuyển sang exchange thay thế để ghi log và xử lý. Bài này hướng dẫn cách thiết lập Alternate Exchange qua ví dụ hệ thống đơn hàng có fallback.
+
 ## Alternate Exchange là gì?
 
 **Alternate Exchange** (Exchange thay thế — Exchange dự phòng nhận các tin nhắn không được định tuyến thành công bởi Exchange chính) là một cơ chế an toàn trong RabbitMQ. Khi một tin nhắn gửi tới Exchange chính nhưng **không khớp với bất kỳ binding nào**, thay vì bị mất âm thầm, tin nhắn sẽ được chuyển tiếp tới Alternate Exchange.

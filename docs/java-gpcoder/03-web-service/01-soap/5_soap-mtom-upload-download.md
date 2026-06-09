@@ -5,6 +5,8 @@ title: "SOAP Web service - Upload và Download file với MTOM"
 
 # SOAP Web service - Upload và Download file với MTOM
 
+MTOM là một chuẩn giúp truyền các file nhị phân như ảnh, PDF hay zip qua SOAP một cách gọn nhẹ, thay vì phải mã hóa Base64 làm phình to dữ liệu lên khoảng 33%. Nhờ MTOM, việc upload và download file lớn qua Web Service nhanh và tiết kiệm hơn nhiều. Bài này hướng dẫn cấu hình và viết cả service lẫn client để truyền file; chi tiết nằm bên dưới.
+
 ## MTOM là gì?
 
 **MTOM** (Message Transmission Optimization Mechanism — cơ chế tối ưu hóa truyền thông điệp) là một chuẩn W3C cho phép truyền dữ liệu nhị phân (binary data) như hình ảnh, PDF, file zip... qua SOAP một cách hiệu quả.

@@ -5,6 +5,7 @@ title: "3. NPM & Package Management"
 
 # NPM & Package Management
 
+NPM là trình quản lý package mặc định của Node.js, giúp bạn cài đặt và quản lý các thư viện cho dự án. Bài này hướng dẫn khởi tạo project, cài package, phân biệt `dependencies` với `devDependencies`, hiểu cách đánh version (SemVer) và dùng NPM scripts. Đây là kiến thức nền tảng cho mọi dự án Node.js.
 
 ---
 

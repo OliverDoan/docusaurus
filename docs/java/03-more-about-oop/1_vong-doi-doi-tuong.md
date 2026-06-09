@@ -5,6 +5,8 @@ title: "1. Vòng đời đối tượng (Object Lifecycle)"
 
 # Vòng đời đối tượng (Object Lifecycle)
 
+Vòng đời đối tượng mô tả toàn bộ quá trình một đối tượng tồn tại trong Java, từ lúc được tạo ra cho đến khi bị xóa khỏi bộ nhớ. Hiểu vòng đời này giúp bạn nắm được cách Java quản lý bộ nhớ tự động và tránh các lỗi phổ biến như `NullPointerException` hay nhầm lẫn giữa tham chiếu và đối tượng. Bài này giới thiệu bốn giai đoạn: tạo, sử dụng, mất tham chiếu và thu gom rác (Garbage Collection).
+
 ---
 
 ## Mục lục

@@ -5,6 +5,8 @@ title: "Sử dụng Headers Exchange trong RabbitMQ"
 
 # Sử dụng Headers Exchange trong RabbitMQ
 
+Headers Exchange là loại exchange định tuyến tin nhắn dựa trên các cặp key-value trong header của tin nhắn thay vì dùng routing key. Nó cho phép lọc theo nhiều thuộc tính kết hợp với logic AND hoặc OR, phù hợp khi điều kiện định tuyến quá phức tạp để biểu diễn bằng một chuỗi routing key. Bài này hướng dẫn cách thiết lập và dùng Headers Exchange qua ví dụ xử lý tài liệu đa định dạng.
+
 ## Headers Exchange là gì?
 
 **Headers Exchange** (bộ định tuyến theo tiêu đề — loại exchange định tuyến tin nhắn dựa trên các thuộc tính trong AMQP header của tin nhắn thay vì dựa vào routing key) là loại Exchange đặc biệt trong RabbitMQ. Thay vì so sánh routing key, nó so sánh **các cặp key-value** trong header của tin nhắn với các điều kiện binding.

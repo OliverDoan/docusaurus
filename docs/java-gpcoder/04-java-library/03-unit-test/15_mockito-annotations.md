@@ -5,6 +5,8 @@ title: "Mockito - Annotations"
 
 # Mockito — Annotations
 
+Khi một test có nhiều mock, việc gọi `Mockito.mock(...)` cho từng dependency trở nên dài dòng. Mockito cung cấp các annotation giúp khai báo mock ngắn gọn và rõ ràng hơn nhiều. Bài này giới thiệu các annotation thường dùng — `@Mock`, `@Spy`, `@InjectMocks`, `@Captor` và `@MockBean` (Spring Boot) — cùng cách kích hoạt chúng trong JUnit 4 và JUnit 5.
+
 ## Tại sao dùng Annotation của Mockito?
 
 Khi viết test có nhiều mock, việc gọi `Mockito.mock(SomeClass.class)` cho từng dependency trở nên dài dòng. Mockito cung cấp các **annotation** (chú thích) để khai báo mock ngắn gọn và rõ ràng hơn.

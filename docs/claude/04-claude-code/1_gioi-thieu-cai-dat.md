@@ -5,6 +5,8 @@ title: "1. Claude Code là gì & Cài đặt"
 
 # Claude Code là gì & Cài đặt
 
+Claude Code là công cụ dòng lệnh chính thức của Anthropic, cho phép Claude làm việc trực tiếp trong thư mục dự án của bạn: đọc code, sửa file, chạy lệnh và thao tác Git. Bài này giải thích Claude Code là gì, khác gì so với chat thường, và hướng dẫn cài đặt cùng xác thực lần đầu; các bước chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

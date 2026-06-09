@@ -5,6 +5,8 @@ title: "1. International SEO"
 
 # International SEO — Tối ưu SEO cho website đa ngôn ngữ
 
+International SEO là việc tối ưu để search engine hiểu được trang nào dành cho người dùng ở ngôn ngữ và khu vực nào, tránh index nhầm hay trùng lặp nội dung giữa các phiên bản. Bài này hướng dẫn các kỹ thuật cốt lõi như kiến trúc URL, hreflang và geo-targeting để mở rộng website ra thị trường quốc tế.
+
 ## Mục lục
 
 - [Giới thiệu](#giới-thiệu)

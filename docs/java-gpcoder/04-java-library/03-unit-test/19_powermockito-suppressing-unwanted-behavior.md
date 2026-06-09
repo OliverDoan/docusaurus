@@ -5,6 +5,8 @@ title: "PowerMockito - Suppressing Unwanted Behavior"
 
 # PowerMockito — Suppressing Unwanted Behavior (Triệt tiêu hành vi không mong muốn)
 
+Đôi khi một lớp có constructor, static initializer hay phương thức private làm những việc "phiền phức" như kết nối database hay đọc file, khiến việc test trở nên khó khăn. PowerMockito cho phép triệt tiêu (suppress) những hành vi đó để bạn chỉ tập trung test phần logic cần thiết. Bài này hướng dẫn cách suppress constructor, static block, method và dùng `Whitebox` để truy cập thành phần private.
+
 ## Suppression là gì?
 
 **Suppressing** (triệt tiêu) trong PowerMockito là kỹ thuật vô hiệu hóa hoặc thay thế các hành vi cụ thể mà bạn không muốn xảy ra khi chạy test:

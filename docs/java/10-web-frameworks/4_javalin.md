@@ -5,6 +5,8 @@ title: "4. Javalin"
 
 # 4. Javalin
 
+Javalin là framework web Java cực kỳ nhẹ và đơn giản, theo triết lý "đơn giản nhất có thể, ít phép thuật nhất có thể". Bài này giới thiệu cách tạo server chỉ với vài dòng code, định nghĩa route, đọc dữ liệu từ request, trả về JSON và so sánh với Spring Boot. Đây là lựa chọn lý tưởng cho người mới học, app nhỏ hoặc làm prototype nhanh.
+
 ---
 
 ## Mục lục

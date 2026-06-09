@@ -5,6 +5,8 @@ title: "7. Enums"
 
 # Enums
 
+Enum (kiểu liệt kê) dùng khi một biến chỉ được nhận một trong vài giá trị cố định, như các ngày trong tuần hay trạng thái đơn hàng. So với dùng chuỗi hay số, enum an toàn hơn vì Java kiểm tra ngay lúc biên dịch, tránh gõ nhầm và làm code rõ nghĩa. Bài này giới thiệu cách khai báo enum, dùng trong `switch`, thêm thuộc tính/phương thức và các phương thức tiện ích sẵn có; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

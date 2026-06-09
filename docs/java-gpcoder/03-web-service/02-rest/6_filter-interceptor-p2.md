@@ -5,6 +5,8 @@ title: "REST Web service - Filter và Interceptor với Jersey 2.x (Phần 2)"
 
 # REST Web service - Filter và Interceptor với Jersey 2.x (Phần 2)
 
+Nếu Filter làm việc với headers và metadata, thì Interceptor đi sâu hơn — nó can thiệp vào lúc đọc và ghi nội dung (body) của request/response. Phần 2 này hướng dẫn dùng ReaderInterceptor và WriterInterceptor để ghi log body, nén dữ liệu bằng GZIP, cũng như filter/interceptor phía client để tự động thêm token. Hiểu được điều này giúp bạn xử lý payload một cách gọn gàng và tái sử dụng.
+
 ## Interceptor là gì?
 
 **Interceptor** (bộ chặn) trong JAX-RS hoạt động ở tầng sâu hơn Filter — nó can thiệp vào quá trình **đọc và ghi message body** (nội dung request/response). Trong khi Filter xử lý headers và metadata, Interceptor xử lý payload.

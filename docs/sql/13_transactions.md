@@ -5,6 +5,8 @@ title: "13. Transactions — Giao dịch"
 
 # Transactions — Giao dịch
 
+Transaction (giao dịch) là một nhóm câu lệnh SQL được thực thi theo nguyên tắc "tất cả hoặc không gì cả": hoặc mọi thao tác đều thành công, hoặc tất cả bị hủy về trạng thái ban đầu. Nhờ vậy dữ liệu không bao giờ rơi vào trạng thái nửa vời, ví dụ chuyển tiền mà trừ một bên nhưng chưa cộng bên kia. Bài này giải thích bốn thuộc tính ACID, các mức cô lập, SAVEPOINT, và cả hiện tượng deadlock.
+
 ---
 
 ## Mục lục

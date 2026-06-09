@@ -5,6 +5,8 @@ title: "Cài đặt và sử dụng Hibernate"
 
 # Cài đặt và sử dụng Hibernate
 
+Trước khi viết code với Hibernate, bạn cần thêm thư viện và cấu hình kết nối database cho dự án. Bài này hướng dẫn từng bước: thêm dependency cho Maven/Gradle, cấu hình bằng file XML hoặc Java code, tạo Entity và thực hiện các thao tác CRUD cơ bản. Đây là nền tảng để bạn chạy được ứng dụng Hibernate đầu tiên.
+
 ## Thêm dependency vào dự án
 
 ### Dùng Maven

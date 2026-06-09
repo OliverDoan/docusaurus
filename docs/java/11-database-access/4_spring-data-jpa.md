@@ -5,6 +5,8 @@ title: "4. Spring Data JPA"
 
 # 4. Spring Data JPA — Cách phổ biến nhất
 
+Spring Data JPA là cách truy cập cơ sở dữ liệu phổ biến nhất khi làm việc với Spring Boot, giúp bạn viết ít code nhất nhờ tự sinh repository. Bài này phân biệt rõ JPA, Hibernate và Spring Data JPA, hướng dẫn khai báo Entity, dùng JpaRepository có sẵn CRUD, tạo truy vấn chỉ bằng cách đặt tên hàm hoặc dùng @Query, cùng cách tổ chức code trong Service và cấu hình kết nối. Đây là kỹ năng bạn sẽ dùng nhiều nhất trong công việc thực tế.
+
 ---
 
 ## Mục lục

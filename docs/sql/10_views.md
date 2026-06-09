@@ -5,6 +5,8 @@ title: "10. Views — Khung nhìn"
 
 # Views — Khung nhìn
 
+View (khung nhìn) là một câu truy vấn được lưu sẵn dưới dạng đối tượng có tên, để bạn dùng lại như một bảng ảo mà không phải viết lại đoạn SQL phức tạp mỗi lần. View giúp đơn giản hóa truy vấn, ẩn các cột nhạy cảm để bảo mật, và tách logic nghiệp vụ khỏi cấu trúc bảng thật. Bài này trình bày cách tạo, sửa, xóa view, view có thể cập nhật, và materialized view dùng cho báo cáo nặng.
+
 ---
 
 ## Mục lục

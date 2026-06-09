@@ -5,6 +5,8 @@ title: "Visitor Pattern"
 
 # Java Design Pattern - Visitor
 
+Visitor là mẫu thiết kế hành vi giúp tách phần logic xử lý ra khỏi cấu trúc đối tượng. Nhờ vậy bạn có thể thêm thao tác mới (như tính thuế, xuất báo cáo) cho các lớp có sẵn mà không phải sửa chính các lớp đó. Pattern này phù hợp khi cấu trúc dữ liệu ít thay đổi nhưng hay phải thêm chức năng mới. Bài này giới thiệu tổng quan; phần chi tiết và ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 **Visitor** (Khách thăm) là một mẫu thiết kế hành vi cho phép bạn tách biệt thuật toán ra khỏi cấu trúc đối tượng mà nó hoạt động trên đó. Bằng cách di chuyển logic xử lý vào một lớp Visitor riêng biệt, bạn có thể thêm hành vi mới cho các lớp hiện có mà không sửa đổi chúng.

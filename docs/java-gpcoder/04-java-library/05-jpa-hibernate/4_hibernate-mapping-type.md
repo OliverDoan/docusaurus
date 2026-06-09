@@ -5,6 +5,8 @@ title: "Hibernate Mapping Type"
 
 # Hibernate Mapping Type
 
+Mapping type là cách Hibernate quyết định một kiểu dữ liệu Java sẽ được lưu thành kiểu nào trong database và ngược lại. Hiểu rõ phần này giúp bạn ánh xạ đúng các field cơ bản, nhúng nhóm field dùng chung, hay lưu cả collection như List, Set, Map. Bài này giới thiệu ba loại mapping type chính cùng các annotation thường dùng.
+
 ## Khái niệm Mapping Type
 
 **Mapping Type** (kiểu ánh xạ) trong Hibernate xác định cách dữ liệu Java được chuyển đổi sang kiểu dữ liệu tương ứng trong database và ngược lại. Hibernate sử dụng **Type System** (hệ thống kiểu) để tự động thực hiện việc chuyển đổi này.

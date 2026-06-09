@@ -5,6 +5,8 @@ title: "Giới thiệu PowerMock"
 
 # Giới thiệu PowerMock
 
+Mockito thông thường không thể mock được static method, constructor hay lớp final — đây chính là lúc PowerMock phát huy tác dụng. PowerMock là thư viện mở rộng giúp bạn test được những đoạn code "khó test", thường gặp trong các dự án legacy. Bài này giới thiệu PowerMock là gì, khi nào nên dùng và cách mock các thành phần đặc biệt đó.
+
 ## PowerMock là gì?
 
 **PowerMock** là thư viện mở rộng Mockito (và EasyMock), cho phép mock các thành phần mà Mockito thông thường không thể mock:

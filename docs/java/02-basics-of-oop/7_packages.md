@@ -5,6 +5,8 @@ title: "7. Gói (Packages)"
 
 # Gói (Packages)
 
+Package (gói) là cách tổ chức các lớp liên quan vào chung một "ngăn", giống như dùng thư mục để sắp xếp tài liệu trên máy tính. Nó giúp code gọn gàng dễ tìm, tránh trùng tên lớp và hỗ trợ kiểm soát truy cập khi dự án lớn dần với hàng trăm lớp. Bài này giới thiệu cách khai báo `package`, dùng `import`, quy ước đặt tên và các package có sẵn của Java.
+
 ---
 
 ## Mục lục

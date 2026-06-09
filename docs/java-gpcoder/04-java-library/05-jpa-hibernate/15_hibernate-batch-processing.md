@@ -5,6 +5,8 @@ title: "Hibernate Batch Processing"
 
 # Hibernate Batch Processing
 
+Khi cần thêm, sửa hoặc xóa hàng nghìn bản ghi, gửi từng câu SQL một sẽ rất chậm và tốn bộ nhớ. Batch processing là cách gom nhiều thao tác lại gửi một lần để tăng tốc đáng kể. Bài này giới thiệu cách cấu hình batch, dùng StatelessSession, ScrollableResults và bulk operation để xử lý dữ liệu lớn hiệu quả.
+
 ## Batch Processing là gì?
 
 **Batch Processing** (xử lý theo lô) là kỹ thuật thực thi nhiều thao tác database trong một lần, thay vì gửi từng câu SQL một. Điều này giúp giảm đáng kể số lần round-trip (khứ hồi) giữa ứng dụng và database, tăng hiệu năng rõ rệt khi cần xử lý hàng nghìn hoặc hàng triệu bản ghi.

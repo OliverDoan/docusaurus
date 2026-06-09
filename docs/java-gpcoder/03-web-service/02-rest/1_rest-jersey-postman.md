@@ -5,6 +5,8 @@ title: "Java Web Services - Jersey JAX-RS - REST và test với Postman"
 
 # Java Web Services - Jersey JAX-RS - REST và test với Postman
 
+REST là kiểu kiến trúc phổ biến nhất hiện nay để xây dựng API, dựa trên các phương thức HTTP quen thuộc như GET, POST, PUT, DELETE. Trong Java, ta dùng đặc tả JAX-RS với thư viện Jersey để tạo REST API nhanh gọn bằng annotation, rồi dùng Postman để kiểm thử. Bài này hướng dẫn từ cấu hình đến viết resource đầu tiên kèm ví dụ; chi tiết nằm bên dưới.
+
 ## REST là gì?
 
 **REST** (Representational State Transfer — kiểu kiến trúc thiết kế API dựa trên HTTP) là một phong cách kiến trúc phần mềm dùng để xây dựng các dịch vụ web. REST không phải là một giao thức hay chuẩn, mà là một tập hợp các ràng buộc kiến trúc.

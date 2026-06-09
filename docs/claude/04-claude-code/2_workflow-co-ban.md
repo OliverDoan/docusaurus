@@ -5,6 +5,8 @@ title: "2. Workflow cơ bản"
 
 # Workflow cơ bản
 
+Bài này hướng dẫn luồng làm việc cơ bản với Claude Code theo bốn bước lặp lại: hiểu codebase, sửa/thêm tính năng, chạy test, rồi commit bằng Git. Nắm được vòng lặp này giúp bạn giao việc cho Claude một cách hiệu quả và kiểm soát kết quả; chi tiết từng bước nằm bên dưới.
+
 ---
 
 ## Mục lục

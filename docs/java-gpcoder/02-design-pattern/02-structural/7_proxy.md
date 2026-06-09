@@ -5,6 +5,8 @@ title: "Proxy Pattern"
 
 # Java Design Pattern - Proxy
 
+Proxy là mẫu thiết kế cấu trúc dùng một đối tượng trung gian đứng thay cho đối tượng thật để kiểm soát việc truy cập tới nó. Proxy có thể làm thêm nhiều việc trước hoặc sau khi gọi đối tượng thật, ví dụ như tải dữ liệu chậm (lazy loading), kiểm tra quyền, cache hay ghi log. Đây là pattern xuất hiện rất nhiều trong Spring AOP và Hibernate. Bài này giới thiệu tổng quan; phần chi tiết và ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 Proxy (đại diện/ủy quyền) là một **Structural Design Pattern** cung cấp một đối tượng trung gian thay thế cho đối tượng thực. Proxy kiểm soát việc truy cập đến đối tượng gốc, cho phép thực hiện các tác vụ bổ sung trước hoặc sau khi request (yêu cầu) được chuyển tiếp đến đối tượng thực.

@@ -5,6 +5,8 @@ title: "11. Giới thiệu về OOP"
 
 # Giới thiệu về OOP
 
+OOP (Lập trình hướng đối tượng) là cách tổ chức chương trình xoay quanh các đối tượng mô phỏng sự vật trong đời thực. Hầu hết mọi chương trình Java thực tế đều xây dựng theo hướng này, nên hiểu OOP là bước nền tảng để viết ứng dụng thực thụ. Bài này giới thiệu khái niệm tổng quan về lớp, đối tượng và bốn trụ cột của OOP; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

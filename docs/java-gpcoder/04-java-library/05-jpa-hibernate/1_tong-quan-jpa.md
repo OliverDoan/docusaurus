@@ -5,6 +5,8 @@ title: "Tổng quan về JPA - Java Persistence API"
 
 # Tổng quan về JPA - Java Persistence API
 
+JPA là chuẩn của Java giúp lưu và đọc dữ liệu từ cơ sở dữ liệu theo kiểu hướng đối tượng, thay vì phải viết tay nhiều câu SQL như khi dùng JDBC. Nó ánh xạ các lớp Java thành bảng trong database, giúp code ngắn gọn và dễ bảo trì hơn nhiều. Bài này giới thiệu khái niệm tổng quan cùng các thành phần cốt lõi như Entity và EntityManager; phần chi tiết nằm bên dưới.
+
 ## JPA là gì?
 
 **JPA** (Java Persistence API — giao diện lập trình ứng dụng để lưu trữ dữ liệu trong Java) là một đặc tả kỹ thuật (specification) của Java EE / Jakarta EE, định nghĩa cách ánh xạ các đối tượng Java sang cơ sở dữ liệu quan hệ thông qua kỹ thuật **ORM** (Object-Relational Mapping — kỹ thuật ánh xạ đối tượng Java với bảng trong cơ sở dữ liệu quan hệ).

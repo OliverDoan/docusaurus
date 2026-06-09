@@ -5,6 +5,7 @@ title: "3. Redis & Caching"
 
 # Redis & Caching
 
+Redis là kho dữ liệu lưu trong bộ nhớ (in-memory) nên tốc độ truy xuất cực nhanh, thường được dùng để caching, lưu session hay giới hạn tốc độ truy cập. Khi cache lại kết quả tốn công tính toán, ứng dụng phản hồi nhanh hơn và giảm tải cho database. Bài này hướng dẫn cách kết nối Redis, dùng các lệnh cơ bản, viết cache middleware và xử lý việc xoá cache khi dữ liệu thay đổi.
 
 ---
 

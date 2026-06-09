@@ -5,6 +5,8 @@ title: "Work Queues trong RabbitMQ"
 
 # Work Queues trong RabbitMQ
 
+Work Queue là mô hình chia một đống công việc tốn thời gian cho nhiều worker xử lý song song, mỗi tin nhắn chỉ do một worker đảm nhận. Đây là cách phổ biến để tăng tốc các tác vụ nặng như gửi email hàng loạt hay xử lý ảnh. Bài này trình bày cơ chế phân phối, xác nhận tin nhắn và cách đảm bảo không mất việc khi worker gặp sự cố.
+
 ## Work Queue là gì?
 
 **Work Queue** (hàng đợi công việc — còn gọi là Task Queue, mô hình phân phối công việc nặng cho nhiều worker xử lý song song) là mô hình trong đó nhiều **Worker** (người lao động — consumer xử lý công việc) cùng lắng nghe một Queue và mỗi tin nhắn chỉ được một Worker xử lý. Mục tiêu là phân tải công việc tốn thời gian cho nhiều worker chạy song song.

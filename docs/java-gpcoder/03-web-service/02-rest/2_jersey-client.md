@@ -5,6 +5,8 @@ title: "Tạo ứng dụng Java RESTful Client với Jersey Client 2.x"
 
 # Tạo ứng dụng Java RESTful Client với Jersey Client 2.x
 
+Jersey Client cho phép ứng dụng Java đóng vai trò là bên gọi REST API, ví dụ gọi API bên thứ ba hay để các microservice giao tiếp với nhau. Bài này hướng dẫn dùng Jersey Client để thực hiện đầy đủ các thao tác CRUD, truyền query param và header, cùng cách xử lý lỗi khi gọi API.
+
 ## Jersey Client là gì?
 
 **Jersey Client** là một module trong thư viện Jersey cho phép ứng dụng Java đóng vai trò là **HTTP client** (máy khách HTTP) — tức là gửi request đến REST API và nhận response, thay vì chỉ cung cấp API cho người khác gọi.

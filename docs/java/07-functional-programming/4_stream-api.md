@@ -5,6 +5,8 @@ title: "4. Stream API"
 
 # 4. Stream API
 
+Stream API là công cụ xử lý một chuỗi phần tử theo kiểu dây chuyền: lọc, biến đổi, sắp xếp rồi gom kết quả. Đây là vũ khí chủ lực của lập trình hàm trong Java, giúp viết code xử lý dữ liệu ngắn gọn và rõ ràng mà không làm thay đổi dữ liệu gốc. Bài này giới thiệu các thao tác trung gian, thao tác kết thúc và những điểm cần lưu ý khi dùng Stream; chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

@@ -5,6 +5,8 @@ title: "Giới thiệu SOAP UI và thực hiện test Web Service"
 
 # Giới thiệu SOAP UI và thực hiện test Web Service
 
+SoapUI là một công cụ miễn phí chuyên dùng để kiểm thử Web Service, giúp ta gửi request, xem response và viết các kịch bản test mà không cần code. Khi làm việc với SOAP, đây là công cụ quen thuộc để kiểm tra service hoạt động đúng hay chưa. Bài này hướng dẫn cài đặt, tạo project và chạy test từng bước; chi tiết nằm bên dưới.
+
 ## SOAP UI là gì?
 
 **SOAP UI** (hay SoapUI) là một công cụ kiểm thử mã nguồn mở (open-source testing tool) chuyên dùng để test các Web Service, đặc biệt là SOAP và REST. Được phát triển bởi SmartBear Software, SoapUI cho phép:

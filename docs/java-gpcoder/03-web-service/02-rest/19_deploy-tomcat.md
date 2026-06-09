@@ -5,6 +5,8 @@ title: "Triển khai ứng dụng Jersey REST Web service lên Tomcat Server"
 
 # Triển khai ứng dụng Jersey REST Web service lên Tomcat Server
 
+Sau khi viết xong REST API, bạn cần đưa nó lên một server để người khác gọi được, và Tomcat là Servlet Container phổ biến nhất cho việc này. Bài này hướng dẫn đóng gói ứng dụng Jersey thành file WAR, cấu hình bằng `@ApplicationPath` hoặc `web.xml`, rồi deploy lên Tomcat cùng các lưu ý xử lý lỗi thường gặp.
+
 ## Tổng quan
 
 **Apache Tomcat** (máy chủ ứng dụng Tomcat) là Servlet Container phổ biến nhất để triển khai ứng dụng Java web. Jersey REST API đóng gói thành file `.war` (Web Application Archive — gói ứng dụng web) và deploy lên Tomcat.

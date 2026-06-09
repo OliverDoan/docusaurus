@@ -5,6 +5,7 @@ title: "4. Deployment"
 
 # Deployment
 
+Deployment là quá trình đưa ứng dụng Node.js lên chạy thật trên server cho người dùng truy cập. Bài này hướng dẫn chuẩn bị app cho production, đóng gói bằng Docker, quản lý tiến trình với PM2 và cấu hình biến môi trường an toàn. Nắm được những bước này giúp app chạy ổn định và dễ mở rộng.
 
 ---
 

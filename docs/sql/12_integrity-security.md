@@ -5,6 +5,8 @@ title: "12. Toàn vẹn & Bảo mật dữ liệu"
 
 # Toàn vẹn & Bảo mật dữ liệu
 
+Toàn vẹn dữ liệu là tập các quy tắc giữ cho dữ liệu luôn chính xác và nhất quán, còn bảo mật là việc kiểm soát ai được làm gì với dữ liệu đó. Đây là hai phần không thể thiếu khi đưa hệ thống lên môi trường thật. Bài này trình bày các loại constraint (PRIMARY KEY, FOREIGN KEY, CHECK...), nguyên tắc quyền tối thiểu, quản lý role và phân quyền GRANT/REVOKE, chống SQL Injection, audit log và Row Level Security.
+
 ---
 
 ## Mục lục

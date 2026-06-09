@@ -5,6 +5,8 @@ title: "1. Projects"
 
 # Projects
 
+Projects là không gian làm việc trên claude.ai giúp bạn gom nhiều cuộc hội thoại quanh cùng một chủ đề, kèm tài liệu nền và chỉ dẫn riêng để Claude luôn nhớ ngữ cảnh xuyên suốt. Tính năng này rất hữu ích khi bạn làm việc dài hạn và muốn câu trả lời nhất quán. Bài này giải thích Projects là gì, hai thành phần cốt lõi và cách dùng hiệu quả.
+
 ---
 
 ## Mục lục

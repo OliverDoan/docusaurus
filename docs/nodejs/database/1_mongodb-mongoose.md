@@ -5,6 +5,7 @@ title: "1. MongoDB & Mongoose"
 
 # MongoDB & Mongoose
 
+MongoDB là cơ sở dữ liệu NoSQL lưu dữ liệu dưới dạng document giống JSON, rất linh hoạt và dễ thay đổi cấu trúc. Mongoose là thư viện ODM giúp bạn định nghĩa schema, kiểm tra dữ liệu và thao tác CRUD với MongoDB trong Node.js một cách gọn gàng. Bài này hướng dẫn cách cài đặt, kết nối, định nghĩa Schema/Model và thực hiện các thao tác cơ bản.
 
 ---
 

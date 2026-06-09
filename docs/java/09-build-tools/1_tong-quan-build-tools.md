@@ -5,6 +5,8 @@ title: "1. Tổng quan công cụ Build"
 
 # 1. Tổng quan công cụ Build (Build Tools)
 
+Công cụ build là phần mềm tự động hóa quá trình biến mã nguồn thành sản phẩm chạy được: biên dịch, tải thư viện, chạy test rồi đóng gói. Bài này giới thiệu vì sao cần công cụ build, khái niệm dependency, vòng đời build và so sánh ba công cụ phổ biến Maven, Gradle, Bazel. Đây là kiến thức nền giúp bạn quản lý dự án Java thực tế thay vì biên dịch tay từng file.
+
 ---
 
 ## Mục lục

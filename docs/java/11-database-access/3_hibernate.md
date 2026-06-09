@@ -5,6 +5,8 @@ title: "3. Hibernate"
 
 # 3. Hibernate — ORM nổi tiếng nhất
 
+Hibernate là thư viện ORM nổi tiếng nhất trong Java, giúp bạn làm việc với cơ sở dữ liệu bằng đối tượng Java mà không phải tự viết SQL cho các thao tác thông thường. Bài này hướng dẫn cách khai báo Entity bằng annotation, dùng SessionFactory và Session để thực hiện CRUD, truy vấn với HQL, hiểu lazy loading và vì sao Hibernate an toàn trước SQL injection. Đây là nền tảng quan trọng trước khi học Spring Data JPA.
+
 ---
 
 ## Mục lục

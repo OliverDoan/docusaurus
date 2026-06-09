@@ -5,6 +5,8 @@ title: "3. Cách truy cập Claude"
 
 # Cách truy cập Claude
 
+Bạn có thể dùng Claude qua nhiều "cánh cửa" khác nhau: trang web claude.ai, ứng dụng desktop/mobile, công cụ dòng lệnh Claude Code, hay API cho lập trình viên. Mỗi cách phù hợp với một nhu cầu riêng. Bài này điểm qua từng cách truy cập cùng sự khác biệt giữa gói miễn phí và gói trả phí để bạn chọn lối vào hợp lý.
+
 ---
 
 ## Mục lục

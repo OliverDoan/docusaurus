@@ -5,6 +5,8 @@ title: "5. TinyLog"
 
 # 5. TinyLog
 
+TinyLog là một thư viện logging siêu nhẹ cho Java với triết lý đơn giản tối đa: gọi thẳng `Logger.info(...)` mà không cần tạo logger riêng cho từng lớp, cấu hình chỉ bằng một file `.properties` ngắn gọn. Bài này hướng dẫn cách cài đặt, ghi log, cấu hình ghi ra màn hình và file, đồng thời so sánh với Logback/Log4j2 để bạn biết khi nào nên chọn TinyLog cho ứng dụng nhỏ, CLI hay demo.
+
 ---
 
 ## Mục lục

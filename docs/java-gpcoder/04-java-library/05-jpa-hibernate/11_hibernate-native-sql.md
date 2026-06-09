@@ -5,6 +5,8 @@ title: "Hibernate Native SQL Queries"
 
 # Hibernate Native SQL Queries
 
+Native SQL cho phép bạn viết thẳng câu SQL thô trong Hibernate, dùng khi cần các tính năng đặc thù của database hoặc tối ưu hiệu năng mà HQL không làm được. Đây là lựa chọn cho những truy vấn phức tạp như stored procedure, window function hay tìm kiếm toàn văn. Bài này hướng dẫn cách viết native query, ánh xạ kết quả vào DTO và lưu ý tránh SQL injection.
+
 ## Native SQL là gì?
 
 **Native SQL** (SQL thuần — câu truy vấn SQL viết trực tiếp theo cú pháp của database cụ thể) trong Hibernate cho phép bạn thực thi câu lệnh SQL thô (raw SQL) thay vì dùng HQL hay Criteria API.

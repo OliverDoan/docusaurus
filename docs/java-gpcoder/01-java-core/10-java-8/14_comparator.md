@@ -5,6 +5,8 @@ title: "Sắp xếp trong Java 8 - Comparator"
 
 # Sắp xếp trong Java 8 - Comparator
 
+`Comparator<T>` là functional interface dùng để định nghĩa cách so sánh hai đối tượng phục vụ việc sắp xếp. Java 8 bổ sung nhiều phương thức mặc định như `comparing()`, `reversed()`, `thenComparing()` giúp viết logic sắp xếp ngắn gọn và dễ đọc hơn nhiều so với trước. Bài này giới thiệu cách dùng Comparator qua các ví dụ sắp xếp theo một hoặc nhiều tiêu chí.
+
 ## Comparator trong Java 8
 
 `Comparator<T>` là một **Functional Interface** (giao diện hàm) trong package `java.util`, dùng để định nghĩa cách so sánh hai đối tượng nhằm phục vụ sắp xếp. Java 8 bổ sung nhiều phương thức mặc định mạnh mẽ vào `Comparator`, giúp việc sắp xếp trở nên linh hoạt và dễ đọc hơn nhiều.

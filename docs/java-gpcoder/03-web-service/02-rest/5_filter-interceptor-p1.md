@@ -5,6 +5,8 @@ title: "REST Web service - Filter và Interceptor với Jersey 2.x (Phần 1)"
 
 # REST Web service - Filter và Interceptor với Jersey 2.x (Phần 1)
 
+Filter và Interceptor là hai cơ chế giúp bạn xử lý các tác vụ chung như ghi log, xác thực hay thêm header CORS mà không phải nhét code lặp lại vào từng endpoint. Phần 1 này tập trung vào Filter — thứ làm việc với metadata của request/response (headers, URI, status code). Bạn sẽ học cách viết request/response filter, thêm CORS, dùng `@NameBinding` để áp dụng filter có chọn lọc và sắp xếp thứ tự bằng `@Priority`.
+
 ## Filter và Interceptor là gì?
 
 Trong Jersey 2.x, **Filter** (bộ lọc) và **Interceptor** (bộ chặn) là hai cơ chế mạnh mẽ để xử lý cross-cutting concerns (các mối quan tâm xuyên suốt nhiều phần ứng dụng) như logging, xác thực, nén dữ liệu, mà không cần nhúng code vào từng resource.

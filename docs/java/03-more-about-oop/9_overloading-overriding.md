@@ -5,6 +5,8 @@ title: "9. Nạp chồng và Ghi đè (Overloading / Overriding)"
 
 # Nạp chồng và Ghi đè (Overloading / Overriding)
 
+Overloading (nạp chồng) và overriding (ghi đè) là hai khái niệm nghe rất giống nhau nhưng hoàn toàn khác biệt. Nạp chồng là nhiều phương thức cùng tên nhưng khác tham số trong cùng một lớp; còn ghi đè là lớp con viết lại phương thức của lớp cha để thay đổi hành vi. Bài này giúp bạn phân biệt rõ hai khái niệm, hiểu quy tắc của từng loại và vai trò của `@Override`; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

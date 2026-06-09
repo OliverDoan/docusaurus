@@ -5,6 +5,8 @@ title: "4. Giao diện & quản lý hội thoại"
 
 # Giao diện & quản lý hội thoại
 
+Giao diện chat của Claude khá đơn giản, nhưng biết cách tổ chức hội thoại sẽ giúp bạn làm việc gọn gàng và hiệu quả hơn nhiều. Bài này giới thiệu các khu vực chính trên màn hình, giải thích hội thoại là gì, và vì sao nên tách mỗi chủ đề thành một cuộc trò chuyện riêng để tránh nhiễu ngữ cảnh.
+
 ---
 
 ## Mục lục

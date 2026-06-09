@@ -5,6 +5,8 @@ title: "2. Thao tác I/O (Input/Output)"
 
 # 2. Thao tác I/O (Input/Output)
 
+I/O (Input/Output) là cách chương trình đọc dữ liệu vào và ghi dữ liệu ra, ví dụ đọc file, ghi file hay nhận dữ liệu gõ từ bàn phím. Trong Java, dữ liệu di chuyển qua các luồng (stream), chia thành luồng byte cho file nhị phân và luồng ký tự cho văn bản. Bài này giới thiệu các lớp I/O cốt lõi như `InputStream`, `Reader`, `BufferedReader` và `Scanner`; chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

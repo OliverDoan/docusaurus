@@ -5,6 +5,8 @@ title: "Giới thiệu RabbitMQ"
 
 # Giới thiệu RabbitMQ
 
+RabbitMQ là một message broker mã nguồn mở rất phổ biến, đóng vai trò trung gian nhận, lưu và chuyển tin nhắn giữa các ứng dụng trong hệ thống phân tán. Điểm mạnh của nó là cơ chế Exchange giúp định tuyến tin nhắn linh hoạt theo nhiều cách khác nhau. Bài này giới thiệu khái niệm tổng quan, kiến trúc và các loại Exchange của RabbitMQ; phần chi tiết nằm bên dưới.
+
 ## RabbitMQ là gì?
 
 **RabbitMQ** (máy chủ hàng đợi tin nhắn mã nguồn mở phổ biến nhất thế giới) là một **Message Broker** (máy chủ trung gian nhận, lưu trữ và định tuyến tin nhắn) được viết bằng ngôn ngữ **Erlang**. RabbitMQ triển khai giao thức **AMQP 0-9-1** (Advanced Message Queuing Protocol — Giao thức hàng đợi tin nhắn nâng cao) và là lựa chọn hàng đầu trong các hệ thống phân tán hiện đại.

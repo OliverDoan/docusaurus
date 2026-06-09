@@ -5,6 +5,8 @@ title: "JUnit - Hamcrest Matchers"
 
 # JUnit — Hamcrest Matchers
 
+Hamcrest là thư viện giúp bạn viết các câu kiểm tra (assertion) trong JUnit theo kiểu đọc tự nhiên gần như tiếng Anh, ví dụ `assertThat(name, startsWith("Alice"))`. Khi test fail, Hamcrest còn cho thông báo lỗi rõ ràng hơn nên dễ tìm ra nguyên nhân. Bài này giới thiệu cách dùng và các matcher phổ biến cho số, chuỗi, collection và map.
+
 ## Hamcrest là gì?
 
 **Hamcrest** là thư viện cung cấp các **matcher** (bộ so khớp) — các đối tượng dùng để mô tả điều kiện kiểm tra theo cú pháp tự nhiên, dễ đọc như tiếng Anh. Hamcrest được tích hợp sẵn trong JUnit 4 và có thể dùng với JUnit 5.

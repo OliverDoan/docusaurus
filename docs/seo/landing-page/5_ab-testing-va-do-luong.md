@@ -5,6 +5,8 @@ title: "5. A/B Testing và đo lường SEO"
 
 # A/B Testing và đo lường SEO
 
+Làm landing page xong chưa phải là hết — bạn cần đo lường xem nó hoạt động ra sao và thử nghiệm để cải thiện liên tục. Bài này hướng dẫn cách A/B testing mà không làm hỏng thứ hạng SEO, thiết lập Google Analytics 4 để theo dõi, track conversion, đọc dữ liệu từ Google Search Console, và chọn công cụ đo lường phù hợp. Nhờ đó bạn ra quyết định dựa trên số liệu thật thay vì cảm tính.
+
 ## Mục lục
 
 - [A/B testing landing pages mà không ảnh hưởng SEO](#ab-testing-landing-pages-mà-không-ảnh-hưởng-seo)

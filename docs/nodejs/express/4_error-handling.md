@@ -5,6 +5,7 @@ title: "4. Error Handling"
 
 # Error Handling trong Express
 
+Xử lý lỗi đúng cách giúp server không bị crash và luôn trả về thông báo lỗi rõ ràng cho client. Nếu bỏ qua việc này, một lỗi nhỏ trong code async cũng có thể làm sập cả ứng dụng. Bài này hướng dẫn tạo custom error class, viết global error handler, dùng wrapper để bắt lỗi async, cùng cách xử lý 404 và các lỗi chưa được catch.
 
 ---
 

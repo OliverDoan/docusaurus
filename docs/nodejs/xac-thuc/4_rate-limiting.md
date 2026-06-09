@@ -5,6 +5,7 @@ title: "4. Rate Limiting"
 
 # Rate Limiting
 
+Rate limiting là kỹ thuật giới hạn số lần một client được gọi API trong một khoảng thời gian, giúp chống brute-force, DDoS và kiểm soát chi phí. Bài này hướng dẫn dùng express-rate-limit để đặt giới hạn cho toàn app, siết chặt hơn cho các endpoint nhạy cảm như login/register, và dùng Redis store khi chạy nhiều server. Đây là lớp phòng thủ cần thiết cho API trong môi trường thực tế.
 
 ---
 

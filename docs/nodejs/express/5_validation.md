@@ -5,6 +5,7 @@ title: "5. Input Validation"
 
 # Input Validation
 
+Kiểm tra dữ liệu đầu vào (validation) là bước bắt buộc để ngăn dữ liệu sai vào database và bảo vệ ứng dụng khỏi các kiểu tấn công injection. Khi dữ liệu không hợp lệ, ta nên trả lỗi rõ ràng cho client thay vì để hệ thống xử lý sai. Bài này hướng dẫn dùng thư viện Joi để định nghĩa schema, viết validation middleware tái sử dụng, và kiểm tra cả body, params lẫn query.
 
 ---
 

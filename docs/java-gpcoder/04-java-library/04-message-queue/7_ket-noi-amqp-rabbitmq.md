@@ -5,6 +5,8 @@ title: "Kết nối AMQP Client với RabbitMQ Server"
 
 # Kết nối AMQP Client với RabbitMQ Server
 
+AMQP là giao thức chuẩn để các ứng dụng trao đổi tin nhắn qua RabbitMQ, và Java có thư viện chính thức amqp-client để làm việc này. Bài này hướng dẫn cách cấu hình kết nối, quản lý Connection và Channel, gửi tin nhắn cũng như nhận tin theo cả cách đồng bộ lẫn bất đồng bộ. Hiểu rõ vòng đời Connection/Channel là nền tảng để viết ứng dụng RabbitMQ chạy ổn định.
+
 ## AMQP là gì?
 
 **AMQP - Advanced Message Queuing Protocol** (Giao thức hàng đợi tin nhắn nâng cao — giao thức mạng tầng ứng dụng chuẩn cho nhắn tin, cho phép các hệ thống khác nhau giao tiếp bất kể ngôn ngữ lập trình) là giao thức tầng ứng dụng để trao đổi tin nhắn. RabbitMQ triển khai **AMQP 0-9-1** và thư viện Java chính thức là **amqp-client**.

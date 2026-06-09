@@ -5,6 +5,8 @@ title: "3. DDL — Định nghĩa dữ liệu"
 
 # DDL — Định nghĩa dữ liệu
 
+DDL (Data Definition Language) là nhóm câu lệnh dùng để định nghĩa và quản lý cấu trúc của cơ sở dữ liệu — tạo bảng, sửa bảng, xóa bảng. Bài này đi qua các lệnh chính: CREATE TABLE, ALTER TABLE, DROP TABLE và TRUNCATE TABLE, kèm cảnh báo an toàn khi chạy trên production. Hiểu DDL là bước đầu để thiết kế và bảo trì schema đúng cách.
+
 ---
 
 ## Mục lục

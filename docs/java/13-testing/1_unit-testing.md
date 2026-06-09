@@ -5,6 +5,8 @@ title: "1. Unit Testing (Kiểm thử đơn vị)"
 
 # 1. Unit Testing (Kiểm thử đơn vị)
 
+Unit testing là việc viết code để tự động kiểm tra xem từng phần nhỏ trong chương trình (như một phương thức hay một lớp) có chạy đúng không. Nó giúp bạn phát hiện lỗi sớm, tự tin sửa code mà không sợ làm hỏng chỗ khác. Bài này giới thiệu khái niệm test, mô hình AAA, tiêu chí test tốt và TDD; chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

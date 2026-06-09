@@ -5,6 +5,8 @@ title: "Một số API của JUnit - Assert, Assume, Test Runner"
 
 # Một số API của JUnit — Assert, Assume, Test Runner
 
+Để viết test hiệu quả, bạn cần nắm ba nhóm API quan trọng của JUnit: Assert dùng để kiểm tra kết quả, Assume dùng để bỏ qua test khi điều kiện môi trường không phù hợp, và Test Runner quyết định cách các lớp test được chạy. Bài này trình bày chi tiết từng nhóm cùng ví dụ cho cả JUnit 4 và JUnit 5.
+
 ## 1. Assert — Xác nhận kết quả
 
 **Assert** (xác nhận) là lớp cung cấp các phương thức kiểm tra điều kiện trong test. Nếu điều kiện sai, test sẽ **fail** ngay lập tức và ném ra `AssertionError`.

@@ -5,6 +5,8 @@ title: "4. Biến và phạm vi"
 
 # Biến và phạm vi
 
+Biến là một cái tên đại diện cho ô nhớ chứa dữ liệu, giống chiếc hộp có dán nhãn để bạn cất và lấy giá trị ra dùng. Hiểu cách khai báo biến và phạm vi sống của nó giúp bạn quản lý dữ liệu gọn gàng và tránh lỗi truy cập sai chỗ. Bài này giới thiệu cách khai báo, quy tắc đặt tên, ba loại biến, phạm vi (scope), từ khóa var và hằng số final; phần chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

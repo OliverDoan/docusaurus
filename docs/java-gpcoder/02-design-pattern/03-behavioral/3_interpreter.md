@@ -5,6 +5,8 @@ title: "Interpreter Pattern"
 
 # Java Design Pattern - Interpreter
 
+Interpreter là mẫu thiết kế hành vi giúp định nghĩa một ngôn ngữ nhỏ và cách phiên giải nó, bằng cách biểu diễn mỗi quy tắc ngữ pháp thành một lớp riêng. Nhờ vậy việc thêm hoặc thay đổi quy tắc trở nên dễ dàng. Pattern này phù hợp với các ngôn ngữ đơn giản như biểu thức toán học hay rule engine. Bài này giới thiệu tổng quan; phần chi tiết và ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 **Interpreter** (Trình thông dịch) là một mẫu thiết kế hành vi định nghĩa một ngôn ngữ (hoặc ký hiệu) cùng với bộ phiên giải cho ngôn ngữ đó. Mỗi quy tắc ngữ pháp được biểu diễn thành một lớp, giúp dễ dàng mở rộng và thay đổi ngôn ngữ.

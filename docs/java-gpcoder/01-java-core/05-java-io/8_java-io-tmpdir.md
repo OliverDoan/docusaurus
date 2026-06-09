@@ -5,6 +5,8 @@ title: "Giới thiệu java.io.tmpdir"
 
 # Giới thiệu java.io.tmpdir
 
+Khi cần lưu dữ liệu tạm thời, ứng dụng Java thường ghi vào thư mục tạm của hệ điều hành, và `java.io.tmpdir` chính là thuộc tính cho biết đường dẫn thư mục đó. Hiểu cách dùng nó giúp bạn tạo và dọn dẹp file tạm an toàn, ví dụ khi xử lý file upload. Bài này hướng dẫn cách lấy thư mục tạm, tạo file/thư mục tạm và các thực hành tốt cần lưu ý.
+
 ## java.io.tmpdir là gì?
 
 **`java.io.tmpdir`** là một **system property** (thuộc tính hệ thống — giá trị cấu hình được JVM cung cấp sẵn) chứa đường dẫn tới **thư mục tạm** (temporary directory — nơi lưu file/thư mục tạm thời của hệ điều hành).

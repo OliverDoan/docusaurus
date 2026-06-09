@@ -5,6 +5,8 @@ title: "Phương thức tham chiếu trong Java 8 - Method References"
 
 # Phương thức tham chiếu trong Java 8 - Method References
 
+Method Reference là cú pháp viết tắt của Lambda Expression khi Lambda chỉ gọi đúng một phương thức đã có sẵn, dùng ký hiệu hai dấu chấm `::`. Nó giúp code ngắn gọn và dễ đọc hơn so với Lambda thông thường. Bài này trình bày bốn loại Method Reference và khi nào nên dùng chúng.
+
 ## Method Reference là gì?
 
 **Method Reference** (tham chiếu phương thức) là cú pháp viết tắt của Lambda Expression khi Lambda chỉ gọi đúng một phương thức đã tồn tại. Thay vì viết `x -> obj.tenPhuongThuc(x)`, ta viết gọn thành `obj::tenPhuongThuc`.

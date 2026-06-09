@@ -5,6 +5,8 @@ title: "Hướng dẫn sử dụng Java Reflection"
 
 # Hướng dẫn sử dụng Java Reflection
 
+Reflection là khả năng cho phép chương trình tự "soi" và thao tác cấu trúc class của chính nó ngay lúc đang chạy, mà không cần biết trước tên class hay method khi viết code. Bài này hướng dẫn cách lấy đối tượng `Class`, đọc field, method, constructor và gọi method động qua `invoke()`. Đây là nền tảng để hiểu cách các framework như Spring hay Hibernate hoạt động bên dưới.
+
 ## Reflection là gì?
 
 **Reflection** (phản chiếu — khả năng kiểm tra và thao tác cấu trúc của class lúc chạy chương trình) là một tính năng mạnh mẽ trong Java, cho phép chương trình **tự kiểm tra chính mình** trong lúc đang chạy (runtime). Thay vì phải biết tên class, method hay field ngay khi viết code, Reflection cho phép bạn khám phá và gọi chúng một cách **động (dynamically)** — tức là chỉ cần biết tên dưới dạng chuỗi ký tự.

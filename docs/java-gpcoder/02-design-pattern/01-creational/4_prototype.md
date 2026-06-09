@@ -5,6 +5,8 @@ title: "Prototype Pattern"
 
 # Java Design Pattern - Prototype
 
+Prototype là một mẫu thiết kế khởi tạo (creational) cho phép tạo đối tượng mới bằng cách sao chép (clone) một đối tượng có sẵn, thay vì khởi tạo lại từ đầu. Cách này rất hữu ích khi việc tạo mới một đối tượng tốn kém tài nguyên hoặc thời gian. Bài này giới thiệu khái niệm tổng quan cùng sự khác nhau giữa sao chép nông và sao chép sâu; phần chi tiết với ví dụ Java nằm bên dưới.
+
 ## Mục đích
 
 **Prototype Pattern** (mẫu nguyên mẫu) là một **Creational Design Pattern** cho phép tạo ra đối tượng mới bằng cách **sao chép** (clone) một đối tượng đã tồn tại, thay vì tạo mới từ đầu. Đối tượng gốc được gọi là **prototype** (nguyên mẫu).

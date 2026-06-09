@@ -5,6 +5,8 @@ title: "Sử dụng binding Exchange to Exchange trong RabbitMQ"
 
 # Sử dụng binding Exchange to Exchange trong RabbitMQ
 
+Exchange-to-Exchange Binding là tính năng nâng cao của RabbitMQ cho phép một exchange chuyển tiếp tin nhắn tới exchange khác thay vì gửi thẳng tới queue. Nhờ đó bạn xây dựng được chuỗi định tuyến phân cấp, mỗi exchange chỉ lo một tiêu chí lọc, giúp hệ thống dễ mở rộng và bảo trì hơn. Bài này hướng dẫn cách dùng qua ví dụ hệ thống tin tức đa cấp.
+
 ## Exchange-to-Exchange Binding là gì?
 
 **Exchange-to-Exchange Binding** (liên kết Exchange-đến-Exchange — cơ chế cho phép một Exchange định tuyến tin nhắn tới Exchange khác thay vì trực tiếp tới Queue) là tính năng nâng cao của RabbitMQ cho phép tạo chuỗi xử lý tin nhắn phức tạp theo dạng phân cấp.

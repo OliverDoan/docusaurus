@@ -5,6 +5,8 @@ title: "3. Mobile SEO"
 
 # Mobile SEO
 
+Mobile SEO là việc tối ưu website cho thiết bị di động, vốn cực kỳ quan trọng vì Google nay dùng phiên bản mobile của trang để crawl, index và xếp hạng (mobile-first indexing). Nói cách khác, bản mobile mới là bản chính. Bài này hướng dẫn các kỹ thuật như viewport meta tag, responsive design, thiết kế thân thiện với cảm ứng, cùng cách kiểm tra mức độ mobile-friendly; phần chi tiết nằm bên dưới.
+
 ## Mục lục
 
 - [Mobile-First Indexing là gì?](#mobile-first-indexing-là-gì)

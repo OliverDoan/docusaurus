@@ -5,6 +5,8 @@ title: "Tìm hiểu về Web Service"
 
 # Tìm hiểu về Web Service
 
+Web Service là cách để hai ứng dụng khác nhau, dù viết bằng ngôn ngữ hay chạy trên nền tảng nào, vẫn trao đổi dữ liệu được với nhau qua mạng. Đây là kiến thức nền tảng trước khi đi sâu vào xây dựng API, vì hầu hết hệ thống ngày nay đều giao tiếp theo kiểu này. Bài này giới thiệu khái niệm tổng quan cùng hai kiểu phổ biến là SOAP và REST; phần chi tiết nằm bên dưới.
+
 ## Web Service là gì?
 
 **Web Service** (dịch vụ web) là một hệ thống phần mềm được thiết kế để hỗ trợ giao tiếp giữa các máy tính qua mạng internet hoặc mạng nội bộ. Hai ứng dụng khác nhau, viết bằng các ngôn ngữ lập trình khác nhau, chạy trên các nền tảng khác nhau, vẫn có thể trao đổi dữ liệu với nhau thông qua Web Service.

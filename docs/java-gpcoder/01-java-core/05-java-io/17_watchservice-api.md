@@ -5,6 +5,8 @@ title: "Giới thiệu WatchService API trong Java"
 
 # Giới thiệu WatchService API trong Java
 
+Nhiều khi ứng dụng cần biết ngay khi một file hoặc thư mục bị thay đổi, ví dụ để tự động nạp lại file cấu hình. WatchService API trong Java cho phép theo dõi các sự kiện tạo, xóa, sửa file mà không cần kiểm tra liên tục, nên rất tiết kiệm tài nguyên. Bài này giới thiệu cách dùng WatchService qua các ví dụ từ đơn giản đến theo dõi đệ quy thư mục con.
+
 ## WatchService API là gì?
 
 **WatchService API** (dịch vụ theo dõi — API theo dõi sự kiện thay đổi trên hệ thống file) là một phần của Java NIO.2 (gói `java.nio.file`), được giới thiệu từ Java 7. API này cho phép ứng dụng **lắng nghe các sự kiện** xảy ra trên thư mục mà không cần polling (kiểm tra liên tục).

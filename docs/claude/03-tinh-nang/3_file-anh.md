@@ -5,6 +5,8 @@ title: "3. Làm việc với File & Hình ảnh"
 
 # Làm việc với File & Hình ảnh
 
+Ngoài việc đọc chữ bạn gõ, Claude còn có thể đọc file (PDF, tài liệu) và hiểu hình ảnh (ảnh chụp, sơ đồ, screenshot) nhờ khả năng vision. Điều này biến Claude thành trợ lý làm việc trực tiếp với tài liệu thật của bạn. Bài này hướng dẫn cách tải lên file và ảnh, các tình huống dùng thực tế và mẹo để kết quả chính xác hơn.
+
 ---
 
 ## Mục lục

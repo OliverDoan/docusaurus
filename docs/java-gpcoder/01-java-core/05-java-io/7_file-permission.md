@@ -5,6 +5,8 @@ title: "Hướng dẫn sử dụng lớp FilePermission trong Java"
 
 # Hướng dẫn sử dụng lớp FilePermission trong Java
 
+FilePermission là lớp đại diện cho quyền truy cập file và thư mục trong hệ thống bảo mật của Java. Hiểu về nó giúp bạn kiểm soát ứng dụng được phép đọc, ghi hay thực thi những file nào. Bài này giới thiệu cấu trúc FilePermission, cách kiểm tra quyền, và cả cách kiểm tra quyền file hiện đại hơn bằng NIO.2.
+
 ## FilePermission là gì?
 
 **`FilePermission`** (quyền tập tin — lớp đại diện cho quyền truy cập file hoặc thư mục trong hệ thống bảo mật Java) là một phần của **Java Security Architecture** (kiến trúc bảo mật Java). Lớp này thuộc gói `java.io` và được dùng trong **Security Manager** (bộ quản lý bảo mật — cơ chế kiểm soát quyền truy cập tài nguyên của ứng dụng Java).

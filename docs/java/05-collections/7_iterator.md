@@ -5,6 +5,8 @@ title: "7. Iterator"
 
 # Iterator
 
+Iterator (bộ lặp) là công cụ giúp bạn duyệt qua từng phần tử của một collection (List, Set, Map...) như một con trỏ di chuyển lần lượt. Nó cũng là cách an toàn duy nhất để xóa phần tử trong khi đang duyệt. Bài này giới thiệu Iterator, hasNext/next và ListIterator; chi tiết nằm bên dưới.
+
 ---
 
 ## Mục lục

@@ -5,6 +5,8 @@ title: "Google Guice - Binding"
 
 # Giới thiệu Google Guice - Binding
 
+Binding là cách bạn khai báo cho Google Guice biết "khi cần kiểu X thì hãy cung cấp Y", và đây là phần cốt lõi của cơ chế tiêm phụ thuộc (DI) trong Guice. Nắm được các loại binding giúp bạn cấu hình ứng dụng linh hoạt, dễ thay thế và dễ kiểm thử. Bài này giới thiệu các kiểu binding như Linked, Instance, Provider, `@Provides`, Constant và Annotated.
+
 ## Binding là gì?
 
 **Binding** (ràng buộc / ánh xạ) trong Guice là việc khai báo quy tắc: "Khi cần kiểu X, hãy cung cấp Y". Binding được định nghĩa trong lớp **Module** (kế thừa `AbstractModule`) và là trái tim của hệ thống DI trong Guice.

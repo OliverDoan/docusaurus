@@ -5,6 +5,8 @@ title: "2. Structured Data và Schema.org"
 
 # Structured Data và Schema.org
 
+Structured data là cách bạn "giải thích" cho Google hiểu ý nghĩa của dữ liệu trên trang, ví dụ nói rõ đâu là giá sản phẩm, đâu là đánh giá, đâu là câu hỏi. Nhờ đó Google có thể hiển thị rich snippets (sao đánh giá, giá, FAQ) ngay trên kết quả tìm kiếm, giúp tăng tỉ lệ click. Bài này dùng Schema.org và định dạng JSON-LD để đánh dấu các loại nội dung phổ biến như Article, Product, FAQ, HowTo; phần chi tiết nằm bên dưới.
+
 ## Mục lục
 
 - [Structured Data là gì?](#structured-data-là-gì)

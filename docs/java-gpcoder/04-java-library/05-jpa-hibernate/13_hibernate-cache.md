@@ -5,6 +5,8 @@ title: "Hibernate Cache"
 
 # Hibernate Cache
 
+Cache là cơ chế lưu tạm dữ liệu vào bộ nhớ để Hibernate không phải truy vấn database nhiều lần cho cùng một dữ liệu, nhờ đó tăng hiệu năng đáng kể. Hibernate có hai cấp cache: L1 gắn với Session (tự động), và L2 chia sẻ giữa các session (cần cấu hình). Bài này hướng dẫn cách hoạt động, cách cấu hình L2 với Ehcache và cách đo hiệu quả của cache.
+
 ## Cache trong Hibernate là gì?
 
 **Cache** (bộ nhớ đệm) trong Hibernate là cơ chế lưu tạm kết quả truy vấn hoặc entity vào bộ nhớ (RAM) để tránh truy vấn database nhiều lần cho cùng một dữ liệu. Điều này giúp tăng hiệu năng đáng kể.

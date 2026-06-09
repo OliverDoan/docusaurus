@@ -5,6 +5,8 @@ title: "1. Claude là gì?"
 
 # Claude là gì?
 
+Claude là một trợ lý AI do công ty Anthropic phát triển, thuộc loại mô hình ngôn ngữ lớn (LLM). Bạn trò chuyện với Claude bằng ngôn ngữ tự nhiên để nhờ viết lách, lập trình, học tập hay phân tích — không cần biết kỹ thuật. Bài này giới thiệu Claude là gì, làm được gì và vài khái niệm nền tảng cần nắm trước khi dùng.
+
 ---
 
 ## Mục lục

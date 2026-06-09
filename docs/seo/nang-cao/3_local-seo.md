@@ -5,6 +5,8 @@ title: "3. Local SEO"
 
 # Local SEO — Tối ưu SEO cho doanh nghiệp địa phương
 
+Local SEO giúp doanh nghiệp xuất hiện khi người dùng tìm kiếm theo vị trí (ví dụ "quán phở gần đây"), nơi Google hiển thị Local Pack từ Google Maps thay vì kết quả thông thường. Bài này tập trung vào phần technical mà developer làm chủ được — structured data, NAP consistency, embed maps — để doanh nghiệp không bị "vô hình" với khách hàng local.
+
 ## Mục lục
 
 - [Giới thiệu](#giới-thiệu)

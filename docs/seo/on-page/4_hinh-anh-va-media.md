@@ -5,6 +5,8 @@ title: "4. Hình ảnh và media SEO"
 
 # Hình ảnh và media SEO
 
+Hình ảnh chiếm khoảng một nửa dung lượng của trang web trung bình, nên tối ưu hình ảnh vừa giúp trang tải nhanh hơn vừa mang lại traffic từ Google Images. Bỏ qua phần này là bỏ lỡ một nguồn truy cập lớn. Bài này hướng dẫn cách viết alt text, đặt tên file, chọn định dạng hiện đại (WebP, AVIF), responsive images, lazy loading, dùng next/image và tối ưu video; phần chi tiết nằm bên dưới.
+
 ## Mục lục
 
 - [Tại sao hình ảnh SEO quan trọng?](#tại-sao-hình-ảnh-seo-quan-trọng)
