@@ -12,6 +12,7 @@ Authentication (xác thực) trả lời câu hỏi "bạn là ai?", còn Author
 ## Mục lục
 
 - [Authentication vs Authorization](#authentication-vs-authorization)
+- [Lịch sử tiến hóa của Authentication](#lịch-sử-tiến-hóa-của-authentication)
 - [Session-based Auth (Cookie)](#session-based-auth-cookie)
 - [JWT (JSON Web Tokens)](#jwt-json-web-tokens)
 - [OAuth 2.0 / OAuth 2.1](#oauth-20--oauth-21)
@@ -35,6 +36,95 @@ Flow web app:
 4. Server verify session/token → biết user.
 5. Server check permission → cho/từ chối action.
 ```
+
+---
+
+## Lịch sử tiến hóa của Authentication
+
+Mỗi phương pháp auth sinh ra để giải quyết hạn chế của phương pháp trước đó. Nắm được dòng lịch sử này giúp hiểu **tại sao** mỗi pattern tồn tại và khi nào nên dùng.
+
+```
+1996 ──► HTTP Basic Auth        (gửi user:pass mỗi request)
+1997 ──► Digest Auth            (hash thay vì plain text)
+~1995-2000 ──► Cookie + Session ID  (server-side session)
+~2005 ──► API Key               (Flickr, Google Maps mở public API)
+2005 ──► SAML 2.0               (enterprise SSO, XML)
+2007-2010 ──► OAuth 1.0/1.0a    (chữ ký HMAC phức tạp)
+2012 ──► OAuth 2.0              (access token + refresh token, bearer)
+2014 ──► OpenID Connect         (OAuth 2.0 + id_token)
+2015 ──► JWT chuẩn hóa (RFC 7519) + PKCE (RFC 7636)
+2019+ ──► WebAuthn / Passkeys   (passwordless, sinh trắc học)
+2024+ ──► OAuth 2.1             (gom best practices, bắt buộc PKCE)
+```
+
+### Giai đoạn 1 — HTTP Basic Auth (1996)
+
+Mỗi request gửi kèm `Authorization: Basic base64(username:password)`. **Không có token, không có session** — password đi qua mạng mọi request. Ngày nay chỉ còn dùng cho tool nội bộ, registry, CI (luôn kèm HTTPS).
+
+### Giai đoạn 2 — Session ID + Cookie (cuối thập niên 90)
+
+HTTP vốn stateless — khái niệm **session ID** ra đời để server "nhớ" user giữa các request:
+
+```
+1. Login thành công → server tạo chuỗi random (session ID).
+2. Server lưu: session_id → { user_id, expires } (memory/Redis/DB).
+3. Trả về browser qua Set-Cookie: session_id=abc123; HttpOnly.
+4. Browser tự đính kèm cookie mọi request.
+5. Server lookup session ID trong store → biết user là ai.
+```
+
+Điểm cốt lõi: **session ID là chuỗi vô nghĩa (opaque)** — chỉ là "chìa khóa" trỏ tới dữ liệu trên server. Muốn revoke? Xóa record trong store là user bị logout ngay. Đổi lại server phải **giữ state**, scale nhiều instance phải share session store.
+
+### Giai đoạn 3 — API Key (~2005)
+
+Các công ty mở public API (Flickr, Google Maps) cần cách đơn giản nhận diện developer: một chuỗi secret tĩnh gắn vào header. Không phải danh tính user — là danh tính **ứng dụng**, dùng cho rate limit và billing. Vẫn sống khỏe đến giờ (Stripe `sk_live_...`).
+
+### Giai đoạn 4 — SAML (2005)
+
+Doanh nghiệp cần đăng nhập một lần cho nhiều hệ thống nội bộ (SSO). SAML dùng XML assertion ký số, trao đổi giữa Identity Provider (Okta, AD FS) và Service Provider. Nặng nề nhưng vẫn là chuẩn de facto cho B2B enterprise.
+
+### Giai đoạn 5 — OAuth 1.0 (2007): khai sinh access token
+
+Trước OAuth, muốn app A đọc Gmail của bạn thì... đưa luôn password Gmail cho app A. OAuth sinh ra **access token**: app nhận token có scope giới hạn thay vì password. Nhược điểm: mỗi request phải ký HMAC-SHA1 — implement rất dễ sai.
+
+### Giai đoạn 6 — OAuth 2.0 (2012): bearer token + refresh token
+
+Đơn giản hóa triệt để: bỏ chữ ký, dựa vào TLS, token trở thành **bearer token** ("ai cầm là dùng được"). Mô hình 2 token ra đời:
+
+- **Access token** — sống ngắn (15 phút – 1 giờ), gửi kèm mọi request đến API.
+- **Refresh token** — sống dài (ngày/tuần), chỉ dùng để xin access token mới.
+
+Lý do tách đôi: access token bị lộ thì thiệt hại giới hạn trong vài phút; refresh token ít di chuyển trên mạng nên ít rủi ro lộ hơn.
+
+### Giai đoạn 7 — JWT (2015): token tự chứa thông tin
+
+Access token ban đầu là opaque (server phải lookup). JWT chứa luôn payload (`sub`, `role`, `exp`) và chữ ký — server chỉ verify chữ ký, **không cần lookup DB**. Hoàn hảo cho microservices/stateless, đổi lại không revoke được ngay (chi tiết pitfall ở [phần JWT](#jwt-json-web-tokens)).
+
+### Giai đoạn 8 — OpenID Connect (2014)
+
+OAuth 2.0 chỉ là **authorization** (cấp quyền truy cập data), không phải authentication. OIDC bổ sung `id_token` (một JWT) chứa danh tính user — chính là thứ chạy phía sau mọi nút "Login with Google/Apple/GitHub".
+
+### Giai đoạn 9 — PKCE, OAuth 2.1 và Passkeys (hiện tại)
+
+- **PKCE** (2015): vá lỗ hổng đánh cắp authorization code trên mobile/SPA — client tạo `code_verifier` random, không cần `client_secret`. OAuth 2.1 bắt buộc PKCE cho mọi public client, khai tử Implicit và Password grant.
+- **WebAuthn / Passkeys** (2019+): bỏ luôn password — cặp khóa public/private gắn với thiết bị + sinh trắc học. Chống phishing tuyệt đối vì không có secret nào để gõ nhầm vào trang giả.
+
+:::info[Phân tích]
+
+**Session ID vs Access Token (JWT) — so sánh trực diện**:
+
+| | **Session ID** | **Access Token (JWT)** |
+|---|---|---|
+| Bản chất | Chuỗi random vô nghĩa, trỏ tới state trên server | Tự chứa data + chữ ký, server không giữ state |
+| Verify | Lookup store (Redis/DB) mỗi request | Verify chữ ký, không cần DB |
+| Revoke | Tức thì (xóa khỏi store) | Khó — chờ hết hạn hoặc blacklist |
+| Scale | Cần share session store | Stateless, scale ngang dễ |
+| Nơi lưu (browser) | Cookie `HttpOnly` | Tốt nhất cũng là cookie `HttpOnly` (tránh localStorage) |
+| Hợp với | Web truyền thống, single domain, banking | API, mobile, microservices, third-party |
+
+Xu hướng thực tế 2026 là **lai cả hai**: JWT access token sống ngắn + refresh token lưu server-side (revoke được như session) — lấy ưu điểm stateless mà vẫn kiểm soát được phiên đăng nhập.
+
+:::
 
 ---
 
