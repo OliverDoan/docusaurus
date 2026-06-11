@@ -33,6 +33,7 @@ Mỗi câu hỏi gồm 4 phần:
 6. **System Design** → vòng quyết định Senior vs Mid
 7. **Behavioral** → vòng cuối, không thể "cày" trước được nhưng có thể chuẩn bị
 8. **SQL & Databases** → hay xuất hiện ở vị trí fullstack; JOIN, index, transaction là phần dễ lộ điểm yếu
+9. **Performance** → Core Web Vitals, lazy loading, caching, rendering pipeline — chủ đề phân biệt dev "làm cho chạy" với dev "làm cho nhanh"
 
 ## Lời khuyên trước phỏng vấn
 
