@@ -34,6 +34,7 @@ Mỗi câu hỏi gồm 4 phần:
 7. **Behavioral** → vòng cuối, không thể "cày" trước được nhưng có thể chuẩn bị
 8. **SQL & Databases** → hay xuất hiện ở vị trí fullstack; JOIN, index, transaction là phần dễ lộ điểm yếu
 9. **Performance** → Core Web Vitals, lazy loading, caching, rendering pipeline — chủ đề phân biệt dev "làm cho chạy" với dev "làm cho nhanh"
+10. **Database & ORM** → NoSQL/MongoDB, Redis, Prisma/Drizzle/Mongoose, database design, replication/sharding — bắt buộc cho fullstack và backend-leaning FE
 
 ## Lời khuyên trước phỏng vấn
 

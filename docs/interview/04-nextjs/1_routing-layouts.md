@@ -87,154 +87,87 @@ export default async function ProductsPage() {
 
 ---
 
-## Câu 10: Dynamic routes trong Next.js được khai báo như thế nào? `[Basic]`
+## Câu 11: App Router khác Pages Router trong Next.js như thế nào? `[Basic]`
 
 ### Câu hỏi
 
-> Dynamic routes trong Next.js được khai báo như thế nào? Cách đọc params trong Next.js 15 có gì khác trước?
+> App Router khác Pages Router trong Next.js như thế nào? Nêu các khác biệt chính về kiến trúc, data fetching và file convention.
 
 ### Giải thích lý thuyết
 
-Dynamic route khai báo bằng **folder tên trong ngoặc vuông**: `app/blog/[slug]/page.tsx` match `/blog/hello`, `/blog/abc`... Giá trị segment được truyền vào page qua prop `params`.
+Đây là 2 hệ thống routing **tồn tại song song** trong Next.js (có thể dùng cùng lúc khi migrate dần). Khác biệt cốt lõi:
 
-**Thay đổi quan trọng trong Next.js 15**: `params` và `searchParams` là **Promise** — phải `await` (hoặc dùng `React.use()` trong Client Component). Ở Next 14 trở về trước chúng là object đồng bộ. Lý do: Next.js chuyển các "dynamic API" sang async để hỗ trợ tốt hơn streaming/PPR — server có thể render phần không phụ thuộc params trước khi resolve request. Next 15 vẫn cho truy cập đồng bộ kèm warning (backward compat), nhưng code mới **bắt buộc viết async**.
+| Khía cạnh         | Pages Router (`pages/`)                                  | App Router (`app/`)                                              |
+| ----------------- | -------------------------------------------------------- | ---------------------------------------------------------------- |
+| Component model   | Mọi component đều là **Client Component**                | Mặc định **React Server Component (RSC)**, opt-in `'use client'` |
+| Route = ?         | Mỗi **file** trong `pages/` là một route                 | Mỗi **folder** là segment, cần `page.tsx` mới thành route        |
+| Layout            | `_app.tsx` + `_document.tsx` toàn cục, hoặc `getLayout` pattern thủ công | `layout.tsx` **nested theo segment**, persist khi navigate |
+| Data fetching     | `getServerSideProps` / `getStaticProps` / `getStaticPaths` — chỉ ở cấp page | `async`/`await` + `fetch` **ngay trong component**, ở mọi cấp; `generateStaticParams` thay `getStaticPaths` |
+| Loading / Error   | Tự xử lý (state, ErrorBoundary tự viết)                  | File convention: `loading.tsx`, `error.tsx`, `not-found.tsx`     |
+| Metadata / SEO    | `<Head>` từ `next/head`, lặp lại từng page               | **Metadata API**: `export const metadata` / `generateMetadata`, merge theo cây segment |
+| Streaming         | Không hỗ trợ tốt (render cả page xong mới gửi)           | **Streaming + Suspense** là first-class                          |
+| Tính năng nâng cao| Không có                                                  | Route groups, Parallel Routes `@slot`, Intercepting Routes `(.)`, Server Actions |
 
-**`generateStaticParams`**: export function này để khai báo trước danh sách params cần **prerender lúc build** (thay thế `getStaticPaths` của Pages Router). Route trở thành SSG cho các params đã liệt kê; params lạ mặc định render on-demand rồi cache (điều khiển bằng `dynamicParams = false` nếu muốn 404 với params không khai báo).
+Vì sao App Router ra đời: Pages Router gửi **toàn bộ JS của page xuống client**; RSC cho phép phần lớn UI render ở server, **không ship JS** xuống client — bundle nhỏ hơn, fetch data gần DB hơn, không waterfall client-side.
 
-Pitfalls hay gặp:
-- Quên `await params` khi upgrade lên Next 15 — codemod `next-async-request-api` fix tự động.
-- Đọc `searchParams` trong page sẽ **opt route vào dynamic rendering** (vì phụ thuộc request) — khác với params.
-- Có thể có nhiều dynamic segment lồng nhau: `[category]/[id]`.
+**Timeline đáng nhớ**: Next 13 (10/2022) giới thiệu App Router beta → Next 13.4 (5/2023) App Router **stable** → Next 14 (10/2023) Server Actions stable → Next 15 (10/2024) React 19, `params`/`searchParams` thành **Promise**, `fetch` **không còn cache mặc định** (đổi từ cache-by-default sang uncached-by-default).
 
-**Insight phỏng vấn**: nói được "params là Promise trong Next 15 và tại sao" là điểm cộng lớn — chứng tỏ bạn theo sát version thật chứ không học tài liệu cũ.
+**Insight phỏng vấn**: điểm ăn tiền là nói được khác biệt **mental model** — Pages Router là "page + hàm fetch đặc biệt", App Router là "cây component server-first, fetch ở bất kỳ đâu" — chứ không chỉ liệt kê tên folder.
 
 ### Code minh hoạ
 
 ```tsx
-// app/blog/[slug]/page.tsx — Next.js 15
-type Props = {
-  params: Promise<{ slug: string }>; // Next 15: Promise, PHẢI await
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
-
-// Prerender các slug này lúc build (SSG)
-export async function generateStaticParams() {
-  const posts = await fetchAllPosts();
-  return posts.map((post) => ({ slug: post.slug }));
+// ===== Pages Router (cũ) =====
+// pages/products/[id].tsx — data fetching qua hàm đặc biệt cấp page
+export async function getServerSideProps({ params }) {
+  const product = await fetchProduct(params.id);
+  if (!product) return { notFound: true };
+  return { props: { product } };
 }
 
-// Nếu true (mặc định): slug lạ render on-demand rồi cache
-// Nếu false: slug không có trong generateStaticParams → 404
-export const dynamicParams = true;
-
-export default async function PostPage({ params }: Props) {
-  const { slug } = await params; // ✅ Next 15: bắt buộc await
-  const post = await fetchPost(slug);
-  return <article>{post.content}</article>;
+export default function ProductPage({ product }) {
+  // Toàn bộ component này + dependencies đều ship JS xuống client
+  return <ProductDetail product={product} />;
 }
 
-// So sánh Next 14 (cũ — KHÔNG còn đúng chuẩn Next 15):
-// export default function PostPage({ params }: { params: { slug: string } }) {
-//   const slug = params.slug; // đồng bộ — Next 15 sẽ warning
-// }
+// ===== App Router (mới) =====
+// app/products/[id]/page.tsx — fetch ngay trong Server Component
+import { notFound } from "next/navigation";
 
-// Client Component muốn đọc params Promise → dùng React.use()
-// app/blog/[slug]/LikeButton.tsx
-("use client");
-import { use } from "react";
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ id: string }>; // Next 15: Promise
+}) {
+  const { id } = await params;
+  const product = await fetchProduct(id); // chạy ở server, 0 JS xuống client
+  if (!product) notFound();
+  return <ProductDetail product={product} />;
+}
 
-export function LikeButton({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params); // unwrap Promise trong Client Component
-  return <button onClick={() => like(slug)}>Thích</button>;
+// Metadata API thay cho next/head
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const product = await fetchProduct(id); // fetch trùng URL được dedupe
+  return { title: product.name, description: product.summary };
 }
 ```
 
 ### Đáp án mẫu
 
-> "Dynamic route khai báo bằng folder trong ngoặc vuông — `app/blog/[slug]/page.tsx` match `/blog/bat-ky-gi`, giá trị nằm trong prop `params`. Điểm quan trọng ở Next.js 15: `params` và `searchParams` giờ là **Promise**, phải `await` trong Server Component hoặc `React.use()` trong Client Component — Next 14 trở về trước là object đồng bộ. Lý do Next chuyển sang async là để server stream được phần UI không phụ thuộc request trước, phục vụ PPR. Muốn prerender lúc build, em export `generateStaticParams` trả về mảng params — tương đương `getStaticPaths` cũ; kết hợp `dynamicParams = false` nếu muốn 404 với params lạ. Một lưu ý em hay nhắc team: đọc `searchParams` sẽ khiến route thành dynamic rendering vì nó phụ thuộc request, còn `params` với `generateStaticParams` thì vẫn static được."
+> "Khác biệt lớn nhất là mental model. Pages Router: mỗi file trong `pages/` là một route, mọi component là Client Component, data fetch qua các hàm đặc biệt cấp page như `getServerSideProps`, `getStaticProps`. App Router: mỗi folder là segment, mặc định là React Server Component, em `await fetch` ngay trong component ở bất kỳ tầng nào — không ship JS không cần thiết xuống client. Layout cũng khác hẳn: thay vì `_app.tsx` toàn cục, App Router có `layout.tsx` nested theo segment và persist khi navigate. Thêm các file convention `loading.tsx`, `error.tsx`, Metadata API thay `next/head`, và các tính năng chỉ App Router có như route groups, parallel routes, Server Actions. Về timeline: App Router ra beta ở Next 13, stable từ 13.4, đến Next 15 thì `params` thành Promise và `fetch` không còn cache mặc định. Dự án mới em luôn chọn App Router; Pages Router giờ chỉ ở chế độ maintain."
 
 ---
 
-## Câu 11: Catch-all routes và optional catch-all routes khác nhau thế nào? `[Intermediate]`
+## Câu 12: Layouts trong Next.js App Router là gì? `[Basic]`
 
 ### Câu hỏi
 
-> Phân biệt catch-all route `[...slug]` và optional catch-all route `[[...slug]]`. Khi nào dùng từng loại?
+> Layouts trong Next.js App Router là gì? Root layout có gì đặc biệt, nested layouts mang lại lợi ích gì và layout có những giới hạn nào?
 
 ### Giải thích lý thuyết
 
-Cả hai đều match **nhiều segment** một lúc, params trả về **mảng string**. Khác biệt duy nhất nhưng quyết định: **có match route gốc (segment rỗng) hay không**.
-
-| Pattern                    | `/docs` | `/docs/a` | `/docs/a/b/c` | `slug` nhận được          |
-| -------------------------- | ------- | --------- | ------------- | ------------------------- |
-| `docs/[...slug]/page.tsx`  | ❌ 404  | ✅        | ✅            | `["a"]`, `["a","b","c"]`  |
-| `docs/[[...slug]]/page.tsx`| ✅      | ✅        | ✅            | `undefined`, `["a"]`, ... |
-
-- **Catch-all `[...slug]`**: yêu cầu **ít nhất 1 segment**. `/docs` không match — nếu muốn `/docs` có trang riêng phải tạo thêm `docs/page.tsx`.
-- **Optional catch-all `[[...slug]]`**: match cả root. Khi vào `/docs`, `slug` là `undefined` (không phải mảng rỗng) — phải handle case này. Lưu ý: **không được** tồn tại đồng thời `docs/page.tsx` và `docs/[[...slug]]/page.tsx` — conflict vì cả hai cùng match `/docs`.
-
-Use case kinh điển: **docs site** — nội dung lấy từ CMS/filesystem với đường dẫn sâu tuỳ ý (`/docs/getting-started/installation/macos`). Một file `[[...slug]]/page.tsx` xử lý cả trang chủ docs lẫn mọi trang con, thay vì tạo hàng trăm folder.
-
-**Insight phỏng vấn**: interviewer muốn nghe đúng 1 ý — `[[...slug]]` match cả root còn `[...slug]` thì không — kèm 1 ví dụ thực tế (docs/CMS). Bonus: nhắc được `slug` là `undefined` ở root (pitfall hay quên) và độ ưu tiên matching (route tĩnh > dynamic > catch-all).
-
-### Code minh hoạ
-
-```tsx
-// app/docs/[[...slug]]/page.tsx — docs site lấy content từ CMS
-type Props = {
-  params: Promise<{ slug?: string[] }>; // optional → có thể undefined
-};
-
-export async function generateStaticParams() {
-  const pages = await fetchDocPages();
-  // CMS trả về: ["getting-started"], ["getting-started", "installation"]...
-  return [
-    { slug: undefined }, // prerender cả trang gốc /docs
-    ...pages.map((p) => ({ slug: p.path })),
-  ];
-}
-
-export default async function DocsPage({ params }: Props) {
-  const { slug } = await params; // Next 15: await
-
-  // /docs → slug = undefined → trang index của docs
-  if (!slug) {
-    return <DocsHome />;
-  }
-
-  // /docs/getting-started/installation → slug = ["getting-started", "installation"]
-  const doc = await fetchDoc(slug.join("/"));
-  if (!doc) notFound();
-
-  return (
-    <article>
-      <Breadcrumbs segments={slug} />
-      <DocContent doc={doc} />
-    </article>
-  );
-}
-
-// So sánh: nếu dùng [...slug] (KHÔNG optional)
-// app/docs/[...slug]/page.tsx → /docs sẽ 404
-// → phải tạo thêm app/docs/page.tsx cho trang index
-// (đôi khi đây lại là điều bạn MUỐN: index và detail logic khác hẳn nhau)
-```
-
-### Đáp án mẫu
-
-> "Cả hai đều match nhiều segment và trả `slug` là mảng string. Khác biệt duy nhất: `[...slug]` yêu cầu ít nhất 1 segment — `/docs` sẽ 404; còn `[[...slug]]` match luôn cả root, lúc đó `slug` là `undefined` chứ không phải mảng rỗng — pitfall hay quên handle. Use case em hay dùng là docs site: content nằm trong CMS với đường dẫn sâu tuỳ ý, một file `app/docs/[[...slug]]/page.tsx` xử lý cả `/docs` lẫn `/docs/a/b/c`, kết hợp `generateStaticParams` để prerender hết lúc build. Em chọn `[...slug]` khi trang index khác hẳn trang detail về logic — tách riêng `docs/page.tsx` cho rõ ràng; chọn `[[...slug]]` khi index chỉ là một node trong cùng cây content. Lưu ý nhỏ: không được có cả `docs/page.tsx` và `[[...slug]]` cùng lúc vì conflict ở `/docs`, và route tĩnh luôn ưu tiên hơn catch-all khi matching."
-
----
-
-## Câu 12: Layouts trong App Router hoạt động như thế nào? `[Basic]`
-
-### Câu hỏi
-
-> Layout trong App Router hoạt động như thế nào? Root layout có gì đặc biệt, và layout có những giới hạn gì?
-
-### Giải thích lý thuyết
-
-`layout.tsx` là UI **bọc ngoài các page con trong cùng segment**, nhận prop `children`. Layout ở segment cha tự động bọc layout/page ở segment con — tạo thành cây lồng nhau.
+`layout.tsx` là UI **bọc ngoài các page con trong cùng segment**, nhận prop `children`. Layout ở segment cha tự động bọc layout/page ở segment con — tạo thành cây lồng nhau (**nested layouts**) khớp với cây URL.
 
 **Root layout** (`app/layout.tsx`):
 - **Bắt buộc** phải có trong mọi app.
@@ -242,10 +175,17 @@ export default async function DocsPage({ params }: Props) {
 
 Đặc tính quan trọng nhất (interviewer rất hay đào): **layout KHÔNG re-render khi navigate giữa các page con của nó**. Khi đi từ `/dashboard/users` sang `/dashboard/settings`, `dashboard/layout.tsx` được **giữ nguyên** — không re-mount, state trong layout không mất, chỉ phần `children` thay đổi. Đây là "partial rendering" của App Router. Nếu cần reset/re-mount mỗi navigation (animation, form state) → dùng `template.tsx`.
 
+Lợi ích của **nested layouts**:
+
+1. **UI persist + navigation nhanh**: layout phía trên không re-mount — sidebar giữ trạng thái mở/đóng, audio player tiếp tục phát; Next chỉ fetch và render **phần cây thay đổi** nên payload nhỏ, navigation nhanh.
+2. **Code-sharing đúng phạm vi**: navbar ở root, sidebar ở `(dashboard)`, tabs ở `settings/` — UI chung sống đúng tầng, không cần `getLayout` pattern thủ công như Pages Router.
+3. **Fetch data per layout**: layout là Server Component nên tự fetch data nó cần (layout dashboard fetch session, layout shop fetch categories); fetch chạy song song với page, trùng URL được dedupe.
+
 Giới hạn của layout:
 - **Không nhận `searchParams`** — vì layout không re-render khi navigate, searchParams cũ sẽ stale. Chỉ page nhận `searchParams`; layout vẫn nhận `params` của các segment phía trên.
 - **Không biết pathname hiện tại** (Server Component) — muốn active link phải dùng Client Component với `usePathname()`.
 - Không truyền data từ layout xuống page qua props — mỗi bên tự fetch (fetch được dedupe/cache nên không lo gọi trùng).
+- Vì layout persist, **side effect trong layout không chạy lại khi navigate** — logic "mỗi lần đổi trang làm X" thuộc về `template.tsx` hoặc page.
 
 ### Code minh hoạ
 
@@ -268,13 +208,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   );
 }
 
-// app/dashboard/layout.tsx — nested layout
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+// app/dashboard/layout.tsx — nested layout, tự fetch data nó cần
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const session = await getSession(); // chạy song song với fetch của page
+
   return (
     <div className="flex">
       {/* Sidebar KHÔNG re-render khi đi giữa /dashboard/users ↔ /dashboard/settings
           → state mở/đóng menu, scroll position được giữ nguyên */}
-      <Sidebar />
+      <Sidebar user={session.user} />
       <main>{children}</main> {/* chỉ phần này swap khi navigate */}
     </div>
   );
@@ -301,94 +243,15 @@ export function NavLink({ href, label }: { href: string; label: string }) {
 
 ### Đáp án mẫu
 
-> "Layout là UI bọc ngoài các page con trong cùng segment, nhận prop `children`, và lồng nhau theo cây thư mục. Root layout `app/layout.tsx` bắt buộc phải có và phải tự render `<html>`, `<body>` — nơi em đặt font, providers, analytics. Điểm quan trọng nhất: layout **không re-render khi navigate** giữa các page con — đi từ `/dashboard/users` sang `/dashboard/settings` thì sidebar trong layout giữ nguyên state, chỉ `children` swap. Nếu cần re-mount mỗi navigation thì dùng `template.tsx`. Layout có vài giới hạn em luôn nhớ: không nhận `searchParams` — chính vì nó không re-render nên searchParams sẽ stale; không biết pathname ở server — active link phải tách Client Component dùng `usePathname()`; và không truyền data xuống page qua props — mỗi bên tự fetch, Next dedupe request nên không bị gọi API trùng."
+> "Layout là UI bọc ngoài các page con trong cùng segment, nhận prop `children`, và lồng nhau theo cây thư mục. Root layout `app/layout.tsx` bắt buộc phải có và phải tự render `<html>`, `<body>` — nơi em đặt font, providers, analytics. Điểm quan trọng nhất: layout **không re-render khi navigate** giữa các page con — đi từ `/dashboard/users` sang `/dashboard/settings` thì sidebar trong layout giữ nguyên state, chỉ `children` swap, Next chỉ render lại phần cây thay đổi nên navigation rất nhanh. Nested layouts còn cho em code-sharing đúng phạm vi — navbar ở root, sidebar ở nhóm dashboard — và mỗi layout là Server Component nên tự fetch data nó cần, chạy song song với page. Giới hạn em luôn nhớ: layout không nhận `searchParams` vì nó không re-render nên sẽ stale; không biết pathname ở server — active link phải tách Client Component dùng `usePathname()`; cần re-mount mỗi navigation thì dùng `template.tsx`."
 
 ---
 
-## Câu 13: Nested layouts có lợi ích gì? `[Intermediate]`
+## Câu 13: loading.tsx và Suspense trong Next.js App Router? `[Intermediate]`
 
 ### Câu hỏi
 
-> Nested layouts trong App Router mang lại lợi ích gì so với cách làm layout truyền thống (1 layout chung hoặc bọc thủ công từng page)?
-
-### Giải thích lý thuyết
-
-Nested layout = mỗi route segment có thể có `layout.tsx` riêng, layout cha bọc layout con, tạo cây UI khớp với cây URL. Bốn lợi ích chính:
-
-1. **UI persist + state giữ nguyên khi navigate**: đây là lợi ích lớn nhất. Khi chuyển page trong cùng segment, các layout phía trên **không re-mount** — sidebar giữ trạng thái mở/đóng, audio player tiếp tục phát, scroll position của panel không reset. Next.js chỉ fetch và render **phần cây thay đổi** (partial rendering) → navigation nhanh hơn vì payload nhỏ hơn.
-
-2. **Code-sharing đúng phạm vi (per segment)**: UI chung cho nhóm route đặt đúng tầng — navbar ở root, sidebar ở `(dashboard)`, tabs ở `settings/`. Không phải copy navbar vào từng page (Pages Router xưa phải làm `getLayout` pattern thủ công), cũng không phải nhét điều kiện `if (isDashboard)` vào 1 layout to.
-
-3. **Fetch data per layout**: layout là Server Component nên **tự fetch data nó cần** — layout dashboard fetch user session, layout shop fetch categories. Data fetch song song với page (không waterfall theo tree như client-side), và fetch trùng URL được dedupe tự động.
-
-4. **Kết hợp route groups**: `(marketing)` và `(app)` cho phép 2 nhánh có root-level layout khác hẳn nhau mà URL vẫn phẳng.
-
-Pitfall: vì layout persist, **side effect trong layout không chạy lại khi navigate** — đừng đặt logic "mỗi lần đổi trang làm X" trong layout (dùng `template.tsx` hoặc hook trong page).
-
-### Code minh hoạ
-
-```text
-app/
-├── layout.tsx                  # Root: html/body, font, providers
-├── (marketing)/
-│   ├── layout.tsx              # Navbar public + footer
-│   └── pricing/page.tsx
-└── (app)/
-    ├── layout.tsx              # Fetch session, render AppShell + Sidebar
-    └── dashboard/
-        ├── layout.tsx          # Tabs của dashboard
-        ├── analytics/page.tsx  # /dashboard/analytics
-        └── reports/page.tsx    # /dashboard/reports
-```
-
-```tsx
-// app/(app)/layout.tsx — fetch data per layout
-export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  // Layout tự fetch data nó cần — chạy song song với fetch của page
-  const session = await getSession();
-
-  return (
-    <AppShell user={session.user}>
-      <Sidebar /> {/* state mở/đóng GIỮ NGUYÊN khi đổi page */}
-      {children}
-    </AppShell>
-  );
-}
-
-// app/(app)/dashboard/layout.tsx — tabs chỉ cho nhóm dashboard
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <section>
-      <DashboardTabs /> {/* /dashboard/analytics ↔ /reports: tabs không re-mount */}
-      {children}        {/* chỉ phần này thay đổi → navigation rất nhanh */}
-    </section>
-  );
-}
-
-// Demo state persist: component client trong layout
-// app/(app)/Sidebar.tsx
-("use client");
-import { useState } from "react";
-
-export function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
-  // Navigate giữa các page con → collapsed KHÔNG reset
-  // (nếu Sidebar nằm trong từng page thì mỗi navigation sẽ mất state)
-  return <aside data-collapsed={collapsed}>...</aside>;
-}
-```
-
-### Đáp án mẫu
-
-> "Lợi ích lớn nhất là **UI persist**: khi navigate giữa các page con, layout phía trên không re-mount — sidebar giữ state mở/đóng, player tiếp tục phát nhạc, và Next chỉ render lại phần cây thay đổi nên navigation nhanh hơn hẳn. Thứ hai là code-sharing đúng phạm vi: navbar ở root, sidebar ở nhóm dashboard, tabs ở segment settings — mỗi UI chung sống đúng tầng của nó, thay vì pattern `getLayout` thủ công như Pages Router. Thứ ba, layout là Server Component nên tự fetch data nó cần — layout app fetch session, layout shop fetch categories — và fetch chạy song song với page, trùng URL thì được dedupe. Kết hợp route groups, em tách `(marketing)` và `(app)` có layout gốc khác hẳn nhau mà URL vẫn sạch. Một pitfall em hay nhắc: vì layout persist, đừng đặt side effect kiểu 'mỗi lần đổi trang' trong layout — cái đó thuộc về `template.tsx` hoặc page."
-
----
-
-## Câu 14: Loading UI với loading.tsx hoạt động như thế nào? `[Intermediate]`
-
-### Câu hỏi
-
-> File `loading.tsx` hoạt động như thế nào bên dưới? Nó liên quan gì đến Suspense và streaming?
+> loading.tsx và Suspense trong Next.js App Router? `loading.tsx` hoạt động như thế nào bên dưới, và khi nào nên tự đặt `<Suspense>` thủ công?
 
 ### Giải thích lý thuyết
 
@@ -406,12 +269,18 @@ Cơ chế tạo ra **instant loading state**:
 - Khi navigate đến route có page đang `await` data, Next.js hiển thị `loading.tsx` **ngay lập tức** — navigation cảm giác tức thì, không bị "đơ" chờ server. Layout phía trên vẫn interactive (sidebar bấm được).
 - Với SSR lần đầu, đây chính là **streaming**: server gửi HTML chứa layout + fallback trước, khi page render xong thì stream phần HTML đó vào thay fallback (out-of-order streaming qua cùng 1 response) — cải thiện TTFB và perceived performance.
 
+**Quan hệ với Suspense thủ công**: `loading.tsx` chỉ là **sugar cho 1 boundary ở mức page** — granularity thô, cả page chờ chung một fallback. Khi page có nhiều khối data với tốc độ khác nhau, tự đặt `<Suspense>` quanh **từng async Server Component** để có **granular boundaries**:
+
+- Phần tĩnh (header, filter) render ngay, không chờ data.
+- Chart và table stream vào **độc lập** — cái nào xong trước hiện trước, không block lẫn nhau.
+- Có thể dùng **cả hai cùng lúc**: `loading.tsx` cho first-paint của route, Suspense thủ công cho từng panel bên trong.
+
 Best practice: fallback nên là **skeleton** mô phỏng đúng kích thước/bố cục content thật — tránh spinner chung chung và tránh CLS khi content thay vào.
 
 Giới hạn & lưu ý:
-- `loading.tsx` áp dụng cho **cả segment** — granularity thô. Muốn loading riêng từng phần (chart load trước, table load sau) → tự đặt `<Suspense>` quanh từng async component trong page.
 - `loading.tsx` bọc **page, không bọc layout cùng cấp** — layout render trước rồi mới đến boundary.
 - Hoạt động tốt nhất khi page là async Server Component; page static thì fallback gần như không xuất hiện.
+- Suspense boundary còn là điểm neo của **Partial Prerendering (PPR)**: phần ngoài boundary prerender static, phần trong stream động.
 
 **Insight phỏng vấn**: interviewer muốn nghe từ khoá "Suspense boundary tự động" và "streaming" — nếu chỉ nói "nó hiện spinner khi loading" là chưa đạt mức hiểu cơ chế.
 
@@ -436,7 +305,7 @@ export default async function DashboardPage() {
   return <StatsGrid stats={stats} />;
 }
 
-// Granular hơn: tự đặt Suspense trong page thay vì 1 loading.tsx cho cả segment
+// Granular boundaries: tự đặt Suspense trong page thay vì 1 loading.tsx cho cả segment
 import { Suspense } from "react";
 
 export default function AnalyticsPage() {
@@ -461,29 +330,36 @@ async function RevenueChart() {
 
 ### Đáp án mẫu
 
-> "Bản chất `loading.tsx` là Next.js tự động wrap page trong một React Suspense boundary, lấy nội dung file đó làm fallback. Hai hệ quả: thứ nhất, **instant loading state** — navigate đến route có page đang await data thì skeleton hiện ngay, layout phía trên vẫn interactive, app không bị cảm giác đơ. Thứ hai, với SSR lần đầu nó chính là **streaming**: server gửi layout + fallback trước, page render xong thì stream HTML vào thay thế trong cùng response — cải thiện TTFB và perceived performance. Em luôn làm fallback dạng skeleton khớp kích thước content thật để tránh CLS, thay vì spinner chung chung. Giới hạn của nó là granularity theo cả segment — khi cần chart load trước, table load sau, em tự đặt `<Suspense>` quanh từng async component trong page; `loading.tsx` chỉ là sugar cho boundary ở mức page thôi."
+> "Bản chất `loading.tsx` là Next.js tự động wrap page trong một React Suspense boundary, lấy nội dung file đó làm fallback. Hai hệ quả: thứ nhất, **instant loading state** — navigate đến route có page đang await data thì skeleton hiện ngay, layout phía trên vẫn interactive. Thứ hai, với SSR lần đầu nó chính là **streaming**: server gửi layout + fallback trước, page render xong thì stream HTML vào thay thế trong cùng response — cải thiện TTFB và perceived performance. Nhưng `loading.tsx` chỉ là sugar cho một boundary ở mức page — granularity thô. Khi cần chart load trước, table load sau, em tự đặt `<Suspense>` quanh từng async component để có granular boundaries, từng phần stream độc lập; hai cách dùng được cùng lúc. Em luôn làm fallback dạng skeleton khớp kích thước content thật để tránh CLS, thay vì spinner chung chung."
 
 ---
 
-## Câu 15: Error handling với error.tsx hoạt động ra sao? `[Intermediate]`
+## Câu 14: error.tsx và not-found.tsx trong Next.js hoạt động như thế nào? `[Intermediate]`
 
 ### Câu hỏi
 
-> File `error.tsx` hoạt động như thế nào? Tại sao phải là Client Component, và `global-error.tsx` dùng khi nào?
+> error.tsx và not-found.tsx trong Next.js hoạt động như thế nào? Tại sao `error.tsx` phải là Client Component, `reset` và `global-error.tsx` dùng làm gì, và `notFound()` liên quan gì đến SEO?
 
 ### Giải thích lý thuyết
 
-`error.tsx` khiến Next.js **tự động wrap segment trong một React Error Boundary**. Khi page hoặc component con throw lỗi lúc render (kể cả lỗi trong async Server Component), UI fallback của `error.tsx` hiện ra thay vì crash cả app — các phần ngoài boundary (layout cha, navbar) **vẫn hoạt động bình thường**.
+**`error.tsx`** khiến Next.js **tự động wrap segment trong một React Error Boundary**. Khi page hoặc component con throw lỗi lúc render (kể cả lỗi trong async Server Component), UI fallback của `error.tsx` hiện ra thay vì crash cả app — các phần ngoài boundary (layout cha, navbar) **vẫn hoạt động bình thường**.
 
 Đặc điểm bắt buộc nhớ:
 
-- **Phải có `'use client'`**: Error Boundary trong React là cơ chế class component với lifecycle (`componentDidCatch`) — chỉ tồn tại ở client. Server Component không có khái niệm boundary bắt lỗi runtime kiểu này.
-- Nhận 2 props: **`error`** (object Error; ở production message của lỗi server bị strip, chỉ còn `error.digest` để trace log — tránh lộ thông tin nhạy cảm) và **`reset`** (function re-render lại segment — cho user "Thử lại" mà không reload trang).
+- **Phải có `'use client'`**: Error Boundary trong React là cơ chế class component với lifecycle (`componentDidCatch`) — chỉ tồn tại ở client.
+- Nhận 2 props: **`error`** (ở production message của lỗi server bị strip, chỉ còn `error.digest` để trace log — tránh lộ thông tin nhạy cảm) và **`reset`** (function re-render lại segment — cho user "Thử lại" mà không reload trang, hữu ích với lỗi tạm thời).
 - **Không bắt lỗi của layout cùng segment**: boundary nằm **bên trong** layout (`<Layout><ErrorBoundary><Page/></ErrorBoundary></Layout>`), nên lỗi throw trong `layout.tsx` cùng cấp phải được `error.tsx` của **segment cha** bắt.
-- **`global-error.tsx`**: bắt lỗi của chính root layout — vì khi root layout crash thì cả `<html><body>` mất, nên `global-error.tsx` phải tự render `<html>` và `<body>`. Chỉ active ở production.
+- **`global-error.tsx`**: bắt lỗi của chính root layout — vì khi root layout crash thì cả `<html><body>` mất, nên file này phải tự render `<html>` và `<body>`. Chỉ active ở production.
 - Lỗi **không phải lỗi render** (event handler, async callback) Error Boundary **không bắt** — phải try/catch thủ công.
 
-**Insight phỏng vấn**: hai ý ăn điểm nhất là (1) giải thích được *tại sao* phải `'use client'`, (2) biết error.tsx không bắt lỗi layout cùng cấp — đa số candidate trượt ý thứ hai.
+**`not-found.tsx`** xử lý 2 tình huống 404:
+
+1. **URL không match route nào**: Next.js tự render `app/not-found.tsx` (root) — không cần code gì thêm.
+2. **Route match nhưng data không tồn tại**: trong page gọi **`notFound()`** từ `next/navigation` — function này **throw một error đặc biệt**, dừng render ngay và Next render `not-found.tsx` **gần nhất** trong cây segment (có thể đặt 404 riêng per segment, ví dụ `app/blog/not-found.tsx` gợi ý bài viết khác).
+
+**Liên quan SEO — điểm ăn tiền**: khi `notFound()` được gọi, Next trả về **HTTP status 404 thật** (với streaming, Next chèn `<meta name="robots" content="noindex">` vì status đã gửi đi trước). Nếu chỉ render component "Không tìm thấy" với status **200** (soft 404), Google vẫn index trang rỗng đó → loãng index, hại SEO — lỗi rất phổ biến ở SPA thuần.
+
+**Insight phỏng vấn**: ba ý ăn điểm là (1) giải thích được *tại sao* `error.tsx` phải `'use client'`, (2) biết nó không bắt lỗi layout cùng cấp, (3) phân biệt 404 thật vs soft 404.
 
 ### Code minh hoạ
 
@@ -501,21 +377,19 @@ export default function DashboardError({
   reset: () => void; // re-render lại segment
 }) {
   useEffect(() => {
-    // Gửi lỗi lên monitoring (Sentry...) — message thật nằm ở server log theo digest
-    reportError(error);
+    reportError(error); // gửi lên monitoring (Sentry...), đối chiếu theo digest
   }, [error]);
 
   return (
     <div role="alert">
       <h2>Đã có lỗi xảy ra ở dashboard</h2>
       <p>Mã lỗi: {error.digest}</p>
-      {/* Thử render lại segment — hữu ích với lỗi tạm thời (network chập chờn) */}
       <button onClick={() => reset()}>Thử lại</button>
     </div>
   );
 }
 
-// Cây render thực tế — giải thích vì sao error.tsx không bắt lỗi layout cùng cấp:
+// Cây render thực tế — vì sao error.tsx không bắt lỗi layout cùng cấp:
 // <DashboardLayout>            ← lỗi ở đây: error.tsx của segment CHA mới bắt
 //   <ErrorBoundary fallback={<DashboardError />}>
 //     <DashboardPage />        ← lỗi ở đây: DashboardError bắt ✅
@@ -525,13 +399,7 @@ export default function DashboardError({
 // app/global-error.tsx — lưới an toàn cuối cùng khi ROOT layout crash
 ("use client");
 
-export default function GlobalError({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
+export default function GlobalError({ error, reset }) {
   return (
     // Root layout đã chết → phải tự render html/body
     <html lang="vi">
@@ -542,37 +410,8 @@ export default function GlobalError({
     </html>
   );
 }
-```
 
-### Đáp án mẫu
-
-> "`error.tsx` khiến Next tự wrap segment trong React Error Boundary — page hay component con throw lỗi lúc render thì fallback hiện ra, phần còn lại của app vẫn sống. Nó bắt buộc `'use client'` vì Error Boundary là cơ chế class component với `componentDidCatch`, chỉ tồn tại ở client. Nó nhận 2 props: `error` — ở production lỗi server bị strip message, chỉ còn `digest` để đối chiếu server log, tránh lộ thông tin; và `reset` để re-render segment, cho user thử lại với lỗi tạm thời. Hai điểm em luôn lưu ý: boundary nằm **bên trong** layout nên `error.tsx` không bắt được lỗi của layout cùng segment — phải để segment cha bắt; và lỗi root layout thì cần `global-error.tsx`, file này phải tự render `<html><body>` vì root layout đã chết. Cuối cùng, Error Boundary chỉ bắt lỗi render — lỗi trong event handler vẫn phải try/catch thủ công."
-
----
-
-## Câu 16: not-found.tsx dùng khi nào? `[Basic]`
-
-### Câu hỏi
-
-> File `not-found.tsx` và function `notFound()` dùng khi nào? Nó liên quan gì đến SEO?
-
-### Giải thích lý thuyết
-
-Có **2 tình huống** kích hoạt UI 404:
-
-1. **URL không match route nào**: Next.js tự động render `app/not-found.tsx` (root). Đây là 404 "tự nhiên" — không cần code gì thêm.
-2. **Route match nhưng data không tồn tại**: ví dụ `/blog/[slug]` với slug không có trong DB. Trong page, gọi **`notFound()`** từ `next/navigation` — function này **throw một error đặc biệt**, dừng render ngay tại đó và Next render `not-found.tsx` **gần nhất** trong cây segment. Vì nó throw nên code sau lời gọi không chạy — TypeScript hiểu kiểu trả về là `never`, không cần `return`.
-
-`not-found.tsx` có thể đặt theo segment — `app/blog/not-found.tsx` cho UI 404 riêng của blog (gợi ý bài viết khác), root `app/not-found.tsx` cho phần còn lại. Lưu ý: bản thân file `not-found.tsx` của segment chỉ được kích hoạt bởi `notFound()` trong segment đó; URL hoàn toàn không match thì dùng root not-found.
-
-**Liên quan SEO — điểm ăn tiền của câu này**: khi `notFound()` được gọi, Next trả về **HTTP status 404 thật** (với streaming, Next chèn `<meta name="robots" content="noindex">` vì status đã gửi đi trước). Điều này quan trọng vì nếu bạn chỉ render component "Không tìm thấy" với status **200** (soft 404), Google vẫn index trang rỗng đó → loãng index, hại SEO. Đây là lỗi rất phổ biến ở SPA thuần.
-
-Pitfall: quên gọi `notFound()` khi fetch trả null → page crash hoặc render trang trống status 200.
-
-### Code minh hoạ
-
-```tsx
-// app/blog/[slug]/page.tsx
+// app/blog/[slug]/page.tsx — notFound() khi data không tồn tại
 import { notFound } from "next/navigation";
 
 export default async function PostPage({
@@ -589,7 +428,6 @@ export default async function PostPage({
     notFound();
   }
 
-  // TypeScript hiểu sau notFound() thì post chắc chắn tồn tại (never)
   return <article>{post.content}</article>;
 }
 
@@ -600,18 +438,7 @@ export default function BlogNotFound() {
   return (
     <div>
       <h2>Không tìm thấy bài viết</h2>
-      <p>Bài viết có thể đã bị xoá hoặc đổi đường dẫn.</p>
       <Link href="/blog">Xem các bài viết khác</Link>
-    </div>
-  );
-}
-
-// app/not-found.tsx — 404 toàn cục (URL không match route nào)
-export default function NotFound() {
-  return (
-    <div>
-      <h2>404 — Trang không tồn tại</h2>
-      <Link href="/">Về trang chủ</Link>
     </div>
   );
 }
@@ -622,7 +449,270 @@ export default function NotFound() {
 
 ### Đáp án mẫu
 
-> "Có 2 tình huống: URL không match route nào thì Next tự render `app/not-found.tsx`; còn route match nhưng data không tồn tại — ví dụ slug không có trong DB — thì em gọi `notFound()` từ `next/navigation`. Function này throw một error đặc biệt, dừng render ngay và hiển thị `not-found.tsx` gần nhất trong cây segment, nên em có thể làm 404 riêng cho blog với gợi ý bài khác. Điểm quan trọng nhất về SEO: `notFound()` trả **HTTP status 404 thật** (hoặc meta noindex khi đang streaming) — khác hẳn việc tự render component 'Không tìm thấy' với status 200, tức soft 404, khiến Google index trang rỗng và loãng index. Đây là lỗi SPA thuần rất hay mắc mà Next giải quyết gọn. Thói quen của em: mọi dynamic route fetch data đều có nhánh `if (!data) notFound()` ngay sau fetch."
+> "`error.tsx` khiến Next tự wrap segment trong React Error Boundary — page throw lỗi lúc render thì fallback hiện ra, phần còn lại của app vẫn sống. Nó bắt buộc `'use client'` vì Error Boundary là cơ chế class component với `componentDidCatch`, chỉ tồn tại ở client. Props gồm `error` — production strip message lỗi server, chỉ còn `digest` để đối chiếu log — và `reset` để re-render segment cho user thử lại. Lưu ý: boundary nằm bên trong layout nên không bắt lỗi layout cùng cấp; lỗi root layout cần `global-error.tsx` tự render `<html><body>`. Còn `not-found.tsx`: URL không match thì Next tự render bản root, route match nhưng data không có thì em gọi `notFound()` — nó throw error đặc biệt, render `not-found.tsx` gần nhất và trả **HTTP 404 thật** hoặc meta noindex. Khác hẳn soft 404 trả 200 khiến Google index trang rỗng. Thói quen của em: mọi dynamic route đều có `if (!data) notFound()` ngay sau fetch."
+
+---
+
+## Câu 15: Route Groups trong Next.js là gì? `[Basic]`
+
+### Câu hỏi
+
+> Route Groups trong Next.js là gì? Cú pháp `(folder)` dùng để làm gì và các use case thực tế?
+
+### Giải thích lý thuyết
+
+Route group là folder đặt tên **trong ngoặc đơn `(folder)`** — Next.js coi nó là công cụ **tổ chức code thuần tuý**, **không xuất hiện trong URL**. `app/(marketing)/about/page.tsx` map ra `/about`, không phải `/marketing/about`.
+
+Ba use case chính:
+
+1. **Tách layout theo nhóm route**: app thường có 2 "thế giới" — trang public `(marketing)` với navbar + footer, và trang app `(shop)` hay `(dashboard)` với sidebar + auth. Route groups cho mỗi nhóm một `layout.tsx` riêng dù URL của chúng cùng nằm ở root level (`/about`, `/products` đều phẳng).
+
+2. **Nhiều root layout**: nếu **bỏ `layout.tsx` ở cấp `app/`** và đặt root layout riêng trong từng group (mỗi cái tự render `<html><body>`), bạn có nhiều root layout thật sự — ví dụ landing page dùng bộ font/theme khác hẳn app chính. Lưu ý: navigate **giữa 2 root layout khác nhau** gây **full page load** (không còn client-side navigation), vì cả cây `<html>` phải thay.
+
+3. **Tổ chức code theo team/feature**: nhóm route theo concern (`(auth)`, `(admin)`) để codebase dễ đọc, kể cả khi không cần layout riêng.
+
+Pitfalls cần nhớ:
+- Tên group **thuần tổ chức**, đổi tên không ảnh hưởng URL — nhưng **2 route trong 2 group khác nhau không được resolve ra cùng URL**: `(marketing)/about/page.tsx` và `(shop)/about/page.tsx` cùng ra `/about` → build error.
+- Group **không phải route segment**: không tính một cấp khi đếm `(..)` trong intercepting routes, không nhận `params`.
+- Page nằm cạnh group cùng cấp (ví dụ `app/page.tsx` và `app/(marketing)/page.tsx`) cũng conflict vì cùng match `/`.
+
+**Insight phỏng vấn**: câu này check bạn có tổ chức project thật chưa. Điểm cộng là nhắc được "nhiều root layout" và hệ quả full page load khi điều hướng giữa các root layout.
+
+### Code minh hoạ
+
+```text
+app/
+├── (marketing)/                # KHÔNG vào URL
+│   ├── layout.tsx              # Root layout 1: navbar public + footer, font serif
+│   │                           #   (tự render <html><body>)
+│   ├── page.tsx                # → /
+│   ├── about/page.tsx          # → /about
+│   └── pricing/page.tsx        # → /pricing
+├── (shop)/
+│   ├── layout.tsx              # Root layout 2: AppShell + sidebar + auth check
+│   ├── products/page.tsx       # → /products
+│   └── cart/page.tsx           # → /cart
+└── (auth)/
+    ├── layout.tsx              # Layout tối giản giữa màn hình
+    ├── login/page.tsx          # → /login
+    └── register/page.tsx       # → /register
+
+# Không có app/layout.tsx → mỗi group là một ROOT layout riêng
+# Navigate /pricing → /products: đổi root layout → FULL PAGE LOAD
+```
+
+```tsx
+// app/(marketing)/layout.tsx — root layout cho nhóm marketing
+export default function MarketingLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="vi" className="font-serif">
+      <body>
+        <PublicNavbar />
+        {children}
+        <Footer />
+      </body>
+    </html>
+  );
+}
+
+// app/(shop)/layout.tsx — root layout cho nhóm shop, có auth guard
+import { redirect } from "next/navigation";
+
+export default async function ShopLayout({ children }: { children: React.ReactNode }) {
+  const session = await getSession();
+  if (!session) redirect("/login"); // guard chung cho cả nhóm (shop)
+
+  return (
+    <html lang="vi">
+      <body>
+        <AppShell user={session.user}>{children}</AppShell>
+      </body>
+    </html>
+  );
+}
+
+// ❌ Conflict: cả hai cùng resolve ra /about → build error
+// app/(marketing)/about/page.tsx
+// app/(shop)/about/page.tsx
+```
+
+### Đáp án mẫu
+
+> "Route group là folder trong ngoặc đơn `(folder)` — chỉ để tổ chức code, hoàn toàn không vào URL: `(marketing)/about` vẫn là `/about`. Use case chính của em là tách layout theo nhóm: `(marketing)` có navbar public và footer, `(shop)` có AppShell với sidebar và auth guard — URL hai nhóm vẫn phẳng cùng cấp. Nâng cao hơn, nếu bỏ `layout.tsx` ở cấp `app/` và cho mỗi group tự render `<html><body>`, em có nhiều root layout thật sự — landing page theme khác hẳn app chính. Nhưng phải nhớ navigate giữa hai root layout là full page load chứ không còn client-side navigation. Vài pitfall: hai group không được chứa route resolve ra cùng URL — `(a)/about` và `(b)/about` là build error; và group không phải route segment nên không tính cấp khi đếm `(..)` trong intercepting routes."
+
+---
+
+## Câu 16: Dynamic routes và catch-all routes trong Next.js App Router? `[Intermediate]`
+
+### Câu hỏi
+
+> Dynamic routes và catch-all routes trong Next.js App Router? Phân biệt `[slug]`, `[...slug]`, `[[...slug]]` và cách đọc params trong Next.js 15.
+
+### Giải thích lý thuyết
+
+Có 3 mức dynamic segment, đều khai báo bằng **tên folder trong ngoặc vuông**:
+
+| Pattern                     | `/docs` | `/docs/a` | `/docs/a/b/c` | `slug` nhận được          |
+| --------------------------- | ------- | --------- | ------------- | ------------------------- |
+| `docs/[slug]/page.tsx`      | ❌ 404  | ✅        | ❌            | `"a"` (string)            |
+| `docs/[...slug]/page.tsx`   | ❌ 404  | ✅        | ✅            | `["a"]`, `["a","b","c"]`  |
+| `docs/[[...slug]]/page.tsx` | ✅      | ✅        | ✅            | `undefined`, `["a"]`, ... |
+
+- **Dynamic `[slug]`**: match **đúng 1 segment**, giá trị là string. Có thể lồng nhiều cấp: `[category]/[id]`.
+- **Catch-all `[...slug]`**: match **nhiều segment**, giá trị là mảng string, yêu cầu **ít nhất 1 segment** — `/docs` sẽ 404 (muốn `/docs` có trang riêng phải tạo thêm `docs/page.tsx`).
+- **Optional catch-all `[[...slug]]`**: match cả root. Khi vào `/docs`, `slug` là `undefined` (không phải mảng rỗng) — phải handle case này. **Không được** tồn tại đồng thời `docs/page.tsx` và `docs/[[...slug]]/page.tsx` — conflict vì cùng match `/docs`.
+
+Độ ưu tiên matching: **route tĩnh > dynamic `[slug]` > catch-all `[...slug]`**.
+
+**Thay đổi quan trọng trong Next.js 15**: `params` và `searchParams` là **Promise** — phải `await` trong Server Component (hoặc `React.use()` trong Client Component). Next 14 trở về trước là object đồng bộ. Lý do: Next chuyển các "dynamic API" sang async để hỗ trợ streaming/PPR — server render được phần không phụ thuộc params trước khi resolve request. Next 15 vẫn cho truy cập đồng bộ kèm warning (backward compat), nhưng code mới **bắt buộc viết async**; codemod `next-async-request-api` migrate tự động.
+
+Use case kinh điển của catch-all: **docs site** — nội dung từ CMS với đường dẫn sâu tuỳ ý (`/docs/getting-started/installation/macos`), một file `[[...slug]]/page.tsx` xử lý cả trang index lẫn mọi trang con. Lưu ý thêm: đọc `searchParams` trong page sẽ **opt route vào dynamic rendering** (phụ thuộc request) — khác với `params`.
+
+**Insight phỏng vấn**: hai điểm ăn tiền — `[[...slug]]` match cả root còn `[...slug]` thì không (và `slug` là `undefined` ở root), cùng với "params là Promise trong Next 15 và tại sao".
+
+### Code minh hoạ
+
+```tsx
+// app/blog/[slug]/page.tsx — dynamic route 1 segment, Next.js 15
+type Props = {
+  params: Promise<{ slug: string }>; // Next 15: Promise, PHẢI await
+};
+
+export default async function PostPage({ params }: Props) {
+  const { slug } = await params; // ✅ Next 15: bắt buộc await
+  const post = await fetchPost(slug);
+  return <article>{post.content}</article>;
+}
+
+// So sánh Next 14 (cũ — KHÔNG còn đúng chuẩn Next 15):
+// export default function PostPage({ params }: { params: { slug: string } }) {
+//   const slug = params.slug; // đồng bộ — Next 15 sẽ warning
+// }
+
+// Client Component muốn đọc params Promise → dùng React.use()
+("use client");
+import { use } from "react";
+
+export function LikeButton({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(params); // unwrap Promise trong Client Component
+  return <button onClick={() => like(slug)}>Thích</button>;
+}
+
+// app/docs/[[...slug]]/page.tsx — optional catch-all cho docs site
+export default async function DocsPage({
+  params,
+}: {
+  params: Promise<{ slug?: string[] }>; // optional → có thể undefined
+}) {
+  const { slug } = await params;
+
+  // /docs → slug = undefined → trang index của docs
+  if (!slug) {
+    return <DocsHome />;
+  }
+
+  // /docs/getting-started/installation → slug = ["getting-started", "installation"]
+  const doc = await fetchDoc(slug.join("/"));
+  if (!doc) notFound();
+
+  return (
+    <article>
+      <Breadcrumbs segments={slug} />
+      <DocContent doc={doc} />
+    </article>
+  );
+}
+
+// So sánh: nếu dùng [...slug] (KHÔNG optional)
+// app/docs/[...slug]/page.tsx → /docs sẽ 404
+// → phải tạo thêm app/docs/page.tsx cho trang index
+// (đôi khi đây lại là điều bạn MUỐN: index và detail logic khác hẳn nhau)
+```
+
+### Đáp án mẫu
+
+> "Dynamic route khai báo bằng folder ngoặc vuông: `[slug]` match đúng 1 segment và trả string; `[...slug]` catch-all match nhiều segment trả mảng nhưng yêu cầu ít nhất 1 segment — `/docs` sẽ 404; `[[...slug]]` optional match luôn cả root, lúc đó `slug` là `undefined` chứ không phải mảng rỗng — pitfall hay quên handle. Route tĩnh luôn ưu tiên hơn dynamic, dynamic hơn catch-all. Điểm quan trọng ở Next.js 15: `params` và `searchParams` giờ là **Promise**, phải `await` trong Server Component hoặc `React.use()` trong Client Component — lý do là Next chuyển dynamic API sang async để stream được phần UI không phụ thuộc request, phục vụ PPR. Use case em hay dùng catch-all là docs site: một file `[[...slug]]/page.tsx` xử lý cả `/docs` lẫn `/docs/a/b/c`; còn khi trang index khác hẳn detail về logic thì em chọn `[...slug]` và tách riêng `docs/page.tsx`."
+
+---
+
+## Câu 17: generateStaticParams trong Next.js App Router dùng để làm gì? `[Intermediate]`
+
+### Câu hỏi
+
+> generateStaticParams trong Next.js App Router dùng để làm gì? Nó liên quan thế nào đến `dynamicParams` và ISR?
+
+### Giải thích lý thuyết
+
+`generateStaticParams` là function export từ file dynamic route, **trả về mảng các object params** mà Next.js sẽ **prerender thành HTML tĩnh lúc build** (SSG). Đây là phiên bản App Router của **`getStaticPaths`** bên Pages Router — nhưng gọn hơn: chỉ trả mảng params, không cần `paths`/`fallback`.
+
+Cách hoạt động:
+- Chạy **lúc build** (và khi revalidate trong ISR). Bên trong có thể fetch API/DB thoải mái; fetch trùng URL với page được **dedupe** nên không lo gọi double.
+- Mỗi object trong mảng tương ứng một trang static: `[{ slug: "a" }, { slug: "b" }]` → prerender `/blog/a`, `/blog/b`.
+- Với **nested dynamic segments** (`[category]/[product]`), có thể generate từ segment cha xuống con — child nhận params của cha.
+
+**`dynamicParams`** — điều khiển hành vi với **path KHÔNG nằm trong danh sách** đã generate:
+- `true` (mặc định): path lạ được **render on-demand** lần đầu rồi cache lại — về sau serve như static. Đây chính là tinh thần `fallback: 'blocking'` của Pages Router.
+- `false`: path lạ trả **404** thẳng — dùng khi tập route là hữu hạn và đã biết trước (tránh cache bẩn, tránh bị spam path).
+
+**Kết hợp ISR**: thêm `export const revalidate = 3600` (hoặc revalidate per-fetch) — trang static được build sẵn nhưng tự làm mới mỗi giờ; path mới (khi `dynamicParams: true`) cũng theo cùng cơ chế. Combo `generateStaticParams` + `revalidate` + on-demand `revalidatePath()` là pattern chuẩn cho blog/e-commerce: build sẵn top N trang hot, phần còn lại on-demand, content cập nhật mà không cần rebuild.
+
+Chiến thuật thực tế: **không cần generate hết** — site có 1 triệu sản phẩm thì chỉ generate vài nghìn trang truy cập nhiều nhất để build nhanh, phần còn lại render lần đầu khi có người vào.
+
+**Insight phỏng vấn**: interviewer muốn nghe đủ bộ ba — generate gì lúc build, `dynamicParams` xử lý path lạ thế nào, và kết hợp ISR ra sao. Map được sang `getStaticPaths`/`fallback` của Pages Router là điểm cộng cho thấy hiểu cả 2 thế hệ.
+
+### Code minh hoạ
+
+```tsx
+// app/blog/[slug]/page.tsx
+import { notFound } from "next/navigation";
+
+// Chạy LÚC BUILD: prerender các slug này thành HTML tĩnh (SSG)
+export async function generateStaticParams() {
+  const posts = await fetchAllPosts();
+  // Chiến thuật: chỉ build sẵn top bài hot, phần còn lại on-demand
+  return posts.slice(0, 100).map((post) => ({ slug: post.slug }));
+}
+
+// true (mặc định): slug ngoài danh sách → render on-demand lần đầu rồi cache
+// false: slug ngoài danh sách → 404 thẳng
+export const dynamicParams = true;
+
+// ISR: trang static tự làm mới mỗi giờ, không cần rebuild
+export const revalidate = 3600;
+
+export default async function PostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>; // Next 15: await params
+}) {
+  const { slug } = await params;
+  const post = await fetchPost(slug); // fetch trùng với generateStaticParams → dedupe
+  if (!post) notFound(); // quan trọng khi dynamicParams = true
+  return <article>{post.content}</article>;
+}
+
+// Nested dynamic segments: generate từ cha xuống con
+// app/products/[category]/[product]/page.tsx
+export async function generateStaticParams() {
+  const products = await fetchProducts();
+  return products.map((p) => ({
+    category: p.categorySlug, // params cho cả 2 segment
+    product: p.slug,
+  }));
+}
+
+// So sánh Pages Router (cũ):
+// export async function getStaticPaths() {
+//   return {
+//     paths: posts.map((p) => ({ params: { slug: p.slug } })),
+//     fallback: "blocking", // ≈ dynamicParams: true
+//   };
+// }
+```
+
+### Đáp án mẫu
+
+> "`generateStaticParams` export từ file dynamic route, trả về mảng params để Next **prerender thành HTML tĩnh lúc build** — nó thay thế `getStaticPaths` của Pages Router nhưng gọn hơn, chỉ cần trả mảng `[{ slug: 'a' }]`. Với path không nằm trong danh sách, hành vi do `dynamicParams` quyết định: mặc định `true` thì render on-demand lần đầu rồi cache — tương đương `fallback: 'blocking'` cũ; `false` thì 404 thẳng, dùng khi tập route hữu hạn. Em hay kết hợp ISR: thêm `revalidate = 3600` để trang static tự làm mới mỗi giờ, cộng `revalidatePath()` khi editor bấm publish. Chiến thuật thực tế của em với e-commerce: chỉ generate vài nghìn trang hot nhất để build nhanh, phần đuôi dài render on-demand — và luôn có `if (!data) notFound()` vì path lạ có thể là rác. Fetch trong `generateStaticParams` trùng với page được dedupe nên không lo gọi double."
 
 ---
 
@@ -742,10 +832,14 @@ export function Modal({ children }: { children: React.ReactNode }) {
 | Sai lầm                                                      | Đúng là                                                                          |
 | ------------------------------------------------------------ | --------------------------------------------------------------------------------- |
 | "Mọi folder trong app/ đều là route"                         | Folder chỉ thành route public khi có `page.tsx`/`route.ts`; `(group)` và `_folder` không vào URL |
-| "params là object, đọc trực tiếp `params.slug`"              | Next 15: `params`/`searchParams` là Promise — phải `await` hoặc `React.use()`     |
+| "App Router chỉ là đổi tên folder pages thành app"           | Đổi cả mental model: RSC mặc định, nested layout, fetch trong component, streaming — không chỉ là cấu trúc thư mục |
 | "Layout re-render mỗi lần đổi trang"                         | Layout persist khi navigate giữa page con — vì vậy nó không nhận `searchParams`   |
-| "`loading.tsx` chỉ là spinner tiện lợi"                      | Là Suspense boundary tự động — nền tảng của streaming và instant loading state    |
+| "`loading.tsx` chỉ là spinner tiện lợi"                      | Là Suspense boundary tự động — nền tảng của streaming; cần granular thì tự đặt `<Suspense>` trong page |
 | "`error.tsx` bắt mọi lỗi của segment"                        | Không bắt lỗi layout cùng cấp (boundary nằm trong layout) và lỗi event handler    |
 | "Render UI 'không tìm thấy' là đủ cho 404"                   | Phải gọi `notFound()` để trả HTTP 404/noindex thật — tránh soft 404 hại SEO       |
+| "Route group chỉ là folder đặt tên đẹp, vô hại"              | 2 group chứa route resolve cùng URL → build error; đổi root layout giữa các group → full page load |
+| "params là object, đọc trực tiếp `params.slug`"              | Next 15: `params`/`searchParams` là Promise — phải `await` hoặc `React.use()`     |
+| "`[[...slug]]` ở root trả mảng rỗng"                         | Trả `undefined` — phải handle; và không được tồn tại cùng `page.tsx` cùng cấp     |
+| "Path không có trong generateStaticParams sẽ 404"            | Mặc định `dynamicParams: true` → render on-demand rồi cache; chỉ 404 khi set `false` |
 | "Parallel routes không cần default.tsx"                      | Thiếu `default.tsx` → 404 khi slot không match (nhất là sau hard reload)          |
 | "`(..)` trong intercepting tính theo cấp thư mục"            | Tính theo **route segment** — route groups, `@slot` không tính là một cấp         |

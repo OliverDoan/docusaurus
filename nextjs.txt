@@ -1,0 +1,131 @@
+#1. File-based routing trong Next.js App Router hoạt động như thế nào?
+
+#2. Metadata trong Next.js App Router được định nghĩa như thế nào?
+
+#3. 'use client' directive trong Next.js dùng khi nào?
+
+#4. Server-only và client-only packages trong Next.js là gì?
+
+#5. SSR (Server-Side Rendering) trong Next.js là gì?
+
+#6. SSG (Static Site Generation) trong Next.js là gì?
+
+#7. getStaticProps và getServerSideProps khác nhau như thế nào?
+
+#8. Route Handlers (API Routes) trong Next.js App Router là gì?
+
+#9. Deploy Next.js lên Vercel hoạt động ra sao, và những tính năng nào Vercel xử lý tự động mà nếu self-host bạn phải tự lo?
+
+#10. Trong App Router, tại sao CSS-in-JS runtime (styled-components, Emotion) gặp khó với Server Components, còn CSS Modules và Tailwind thì không?
+
+#11. App Router khác Pages Router trong Next.js như thế nào?
+
+#12. Layouts trong Next.js App Router là gì?
+
+#13. loading.tsx và Suspense trong Next.js App Router?
+
+#14. error.tsx và not-found.tsx trong Next.js hoạt động như thế nào?
+
+#15. Route Groups trong Next.js là gì?
+
+#16. Dynamic routes và catch-all routes trong Next.js App Router?
+
+#17. generateStaticParams trong Next.js App Router dùng để làm gì?
+
+#18. React Server Components là gì?
+
+#19. Server Component có thể import Client Component không và ngược lại?
+
+#20. Khi nào nên dùng Server Component, khi nào dùng Client Component?
+
+#21. Context API có hoạt động với Server Components không?
+
+#22. Third-party libraries và Server Components có vấn đề gì?
+
+#23. ISR (Incremental Static Regeneration) là gì?
+
+#24. On-demand revalidation trong Next.js là gì?
+
+#25. fetch cache trong Next.js App Router hoạt động như thế nào?
+
+#26. Sự khác biệt giữa dynamic và static rendering trong App Router?
+
+#27. Streaming SSR trong Next.js hoạt động như thế nào?
+
+#28. Server Actions trong Next.js là gì?
+
+#29. Cách sử dụng Server Actions với HTML forms?
+
+#30. Revalidation sau mutation trong Server Actions?
+
+#31. Error handling trong Server Actions như thế nào?
+
+#32. Middleware trong Next.js App Router là gì?
+
+#33. Cookies và Headers trong Next.js Server Components và Actions?
+
+#34. Optimistic updates với Server Actions và useOptimistic?
+
+#35. next/image component mang lại lợi ích gì?
+
+#36. next/font trong Next.js hoạt động như thế nào?
+
+#37. Link prefetching trong Next.js là gì và cách control?
+
+#38. next/script component và loading strategies là gì?
+
+#39. Middleware proxy pattern trong Next.js như thế nào?
+
+#40. Core Web Vitals và Next.js tối ưu chúng như thế nào?
+
+#41. Environment variables trong Next.js được xử lý như thế nào?
+
+#42. Self-host Next.js bằng Node server như thế nào, và output: 'standalone' giải quyết vấn đề gì khi đóng gói deploy?
+
+#43. Viết Dockerfile cho Next.js production tối ưu ra sao? Tại sao nên dùng multi-stage build với output: 'standalone'?
+
+#44. output: 'export' trong Next.js làm gì, và những tính năng nào KHÔNG dùng được khi static export?
+
+#45. Set up Jest + React Testing Library cho Next.js như thế nào, và tại sao Jest không test trực tiếp được async Server Components?
+
+#46. Vì sao Playwright là lựa chọn E2E phù hợp cho Next.js App Router, và setup cơ bản trông như thế nào?
+
+#47. _app.tsx và _document.tsx trong Pages Router làm gì, và App Router thay thế chúng bằng gì?
+
+#48. revalidatePath và revalidateTag khác nhau như thế nào, và khi nào chọn cái nào sau một mutation?
+
+#49. i18n routing trong App Router hoạt động ra sao, và next-intl thêm giá trị gì so với tự dựng?
+
+#50. useFormStatus và useActionState dùng để làm gì với Server Actions, và tại sao useFormStatus phải nằm trong component con của form?
+
+#51. Draft Mode trong Next.js dùng để làm gì, và nó bật/tắt static rendering ra sao cho preview nội dung CMS?
+
+#52. Parallel Routes và Intercepting Routes trong Next.js là gì?
+
+#53. Server Component props phải tuân theo quy tắc gì?
+
+#54. React Server Components streaming và progressive rendering là gì?
+
+#55. Next.js có những loại cache nào?
+
+#56. Partial Prerendering (PPR) trong Next.js là gì?
+
+#57. Security considerations khi dùng Server Actions?
+
+#58. Edge Runtime vs Node.js Runtime trong Next.js là gì?
+
+#59. Bundle analyzer trong Next.js được dùng như thế nào?
+
+#60. Turbopack là gì và lợi ích của nó trong Next.js?
+
+#61. Internationalization (i18n) trong Next.js được implement như thế nào?
+
+#62. Cách implement Content-Security-Policy với nonce trong Next.js là gì, và tại sao phải tạo nonce mới mỗi request thay vì hardcode?
+
+#63. Server Actions có bảo vệ CSRF tích hợp không, và bạn vẫn phải tự lo những lớp bảo mật nào?
+
+#64. Tại sao kết nối database từ Next.js serverless cần xử lý connection pooling đặc biệt, và Prisma/Drizzle giải quyết ra sao?
+
+#65. Chiến lược migrate từ Pages Router sang App Router là gì? Hai router có chạy song song được không?
+
+#66. Parallel và sequential data fetching khác nhau ra sao trong App Router, và preload pattern giải quyết vấn đề gì?

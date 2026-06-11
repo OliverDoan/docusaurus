@@ -1,15 +1,15 @@
 ---
 sidebar_position: 6
-title: "6. Route Handlers, Middleware & Navigation"
+title: "6. Middleware, Route Handlers & Scripts"
 ---
 
-# Route Handlers, Middleware & Navigation
+# Middleware, Route Handlers & Scripts
 
-> *Metadata, Route Handlers, Middleware và bộ navigation hooks là những thứ bạn đụng hàng ngày khi làm App Router — phỏng vấn hỏi để kiểm tra bạn đã thực sự build app với Next.js 15 hay chỉ đọc docs.*
+> *Metadata, Route Handlers, Middleware, prefetching và third-party scripts là những thứ bạn đụng hàng ngày khi làm App Router — phỏng vấn hỏi để kiểm tra bạn đã thực sự build app với Next.js 15 hay chỉ đọc docs.*
 
 ---
 
-## Câu 2: Metadata trong App Router được định nghĩa như thế nào? `[Basic]`
+## Câu 2: Metadata trong Next.js App Router được định nghĩa như thế nào? `[Basic]`
 
 ### Câu hỏi
 
@@ -104,7 +104,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 ---
 
-## Câu 8: Route Handlers (API Routes) trong App Router là gì? `[Basic]`
+## Câu 8: Route Handlers (API Routes) trong Next.js App Router là gì? `[Basic]`
 
 ### Câu hỏi
 
@@ -195,7 +195,7 @@ export async function GET(req: Request, { params }: Ctx) {
 
 ---
 
-## Câu 9: Middleware trong Next.js dùng để làm gì? `[Intermediate]`
+## Câu 32: Middleware trong Next.js App Router là gì? `[Intermediate]`
 
 ### Câu hỏi
 
@@ -287,264 +287,46 @@ export const config = {
 
 ---
 
-## Câu 38: useRouter() trong next/navigation khác gì so với next/router? `[Intermediate]`
+## Câu 37: Link prefetching trong Next.js là gì và cách control? `[Intermediate]`
 
 ### Câu hỏi
 
-> `useRouter()` import từ `next/navigation` khác gì so với `next/router` cũ? `router.refresh()` làm gì?
+> `next/link` khác gì thẻ `<a>` thường, và prefetching hoạt động thế nào? Static route và dynamic route được prefetch khác nhau ra sao, khi nào em tắt prefetch?
 
 ### Giải thích lý thuyết
 
-App Router dùng `useRouter` từ **`next/navigation`** — API hoàn toàn khác `next/router` (Pages Router):
-
-| Khía cạnh           | `next/router` (Pages)             | `next/navigation` (App)                    |
-| ------------------- | --------------------------------- | ------------------------------------------ |
-| `router.push/replace/back` | Có                          | Có (`push`, `replace`, `back`, `forward`)  |
-| `router.query`      | Có (params + search params)       | **Bỏ** → dùng `useParams()` + `useSearchParams()` |
-| `router.pathname`   | Có                                 | **Bỏ** → dùng `usePathname()`              |
-| `router.events`     | Có (`routeChangeStart`...)        | **Bỏ** — theo dõi đổi route bằng `useEffect` trên `usePathname` |
-| `router.refresh()`  | Không có                          | **Mới** — refetch RSC payload              |
-| `router.prefetch()` | Có                                 | Có                                         |
-| Dùng ở đâu          | Mọi component                     | **Chỉ Client Component** (`'use client'`)  |
-
-Triết lý thay đổi: thay vì 1 object router "biết tất cả", App Router **tách thành các hook nhỏ** (`usePathname`, `useSearchParams`, `useParams`) — component chỉ subscribe đúng thứ nó cần → ít re-render thừa hơn.
-
-**`router.refresh()`** — đáng nhớ nhất: gửi request lên server **refetch RSC payload** của route hiện tại, server re-render Server Components với data mới, nhưng **giữ nguyên client state** (`useState`, scroll, focus không mất). Đây là cách "làm tươi" data sau mutation mà không full reload. Không cần gọi nếu mutation dùng Server Action + `revalidatePath` (đã tự refresh).
-
-Pitfall: gọi `useRouter` từ `next/navigation` trong Server Component → error; import nhầm từ `next/router` trong App Router → error "NextRouter was not mounted".
-
-### Code minh hoạ
-
-```tsx
-"use client"; // useRouter (next/navigation) CHỈ dùng trong Client Component
-
-import { useRouter } from "next/navigation"; // ⚠️ KHÔNG phải next/router
-
-export function ProductActions({ productId }: { productId: string }) {
-  const router = useRouter();
-
-  async function handleDelete() {
-    const res = await fetch(`/api/products/${productId}`, { method: "DELETE" });
-    if (!res.ok) {
-      // Hiển thị lỗi thân thiện cho người dùng
-      alert("Xoá sản phẩm thất bại, vui lòng thử lại");
-      return;
-    }
-
-    // refresh(): refetch RSC payload — Server Component re-render với data mới,
-    // nhưng client state (useState, scroll) GIỮ NGUYÊN — không full reload
-    router.refresh();
-  }
-
-  return (
-    <div>
-      <button onClick={() => router.push(`/products/${productId}/edit`)}>
-        Sửa
-      </button>
-      <button onClick={() => router.replace("/products")}>
-        Về danh sách (không thêm history entry)
-      </button>
-      <button onClick={() => router.back()}>Quay lại</button>
-      <button onClick={handleDelete}>Xoá</button>
-    </div>
-  );
-}
-
-// ❌ Pages Router cũ — KHÔNG còn trong next/navigation:
-// const router = useRouter();          // từ next/router
-// router.query.id                      // → thay bằng useParams()
-// router.pathname                      // → thay bằng usePathname()
-// router.events.on("routeChangeStart") // → bỏ, không có thay thế trực tiếp
-
-// ✅ App Router — theo dõi route change bằng usePathname + useEffect
-"use client";
-import { usePathname } from "next/navigation";
-import { useEffect } from "react";
-
-export function AnalyticsTracker() {
-  const pathname = usePathname();
-
-  useEffect(() => {
-    // Chạy mỗi khi pathname đổi — thay cho router.events
-    trackPageView(pathname);
-  }, [pathname]);
-
-  return null;
-}
-```
-
-### Đáp án mẫu
-
-> "Trong App Router em import `useRouter` từ `next/navigation`, không phải `next/router` — import nhầm là lỗi runtime ngay. Router mới chỉ còn các method điều hướng: `push`, `replace`, `back`, `forward`, `prefetch`, và thêm `refresh()`. Những thứ cũ như `router.query`, `router.pathname`, `router.events` bị **tách ra thành hook riêng**: `useParams`, `useSearchParams`, `usePathname` — component chỉ subscribe đúng cái cần nên ít re-render hơn. `router.events` bị bỏ hẳn, em thay bằng `useEffect` theo dõi `usePathname`. Method em dùng nhiều nhất là `router.refresh()`: nó refetch RSC payload để Server Component render lại với data mới sau mutation, nhưng **giữ nguyên client state** — không phải full reload. Lưu ý cuối: `useRouter` là hook nên chỉ dùng được trong Client Component có `'use client'`."
-
----
-
-## Câu 39: usePathname() và useSearchParams() dùng để làm gì? `[Intermediate]`
-
-### Câu hỏi
-
-> `usePathname()` và `useSearchParams()` dùng khi nào? Vì sao `useSearchParams()` hay gây lỗi lúc build, và em update query string trên URL như thế nào?
-
-### Giải thích lý thuyết
-
-Cả hai đều là hook trong `next/navigation`, **chỉ dùng trong Client Component**:
-
-- **`usePathname()`**: trả về pathname hiện tại (ví dụ `/blog/nextjs`) — dùng cho active nav link, analytics, breadcrumb.
-- **`useSearchParams()`**: trả về object `URLSearchParams` **read-only** của query string — dùng cho filter, search, pagination state trên URL.
-
-**Pitfall nổi tiếng nhất khi build**: với route được **static render**, query string không tồn tại lúc prerender — component dùng `useSearchParams` phải được bọc trong **`<Suspense>` boundary**. Nếu không, Next báo lỗi build: *"useSearchParams() should be wrapped in a suspense boundary"* và toàn bộ route bị đẩy sang client-side render. Đây là câu hỏi "đã build production thật chưa" kinh điển.
-
-**Pattern update query string**: `useSearchParams` là read-only → muốn đổi query, tạo `URLSearchParams` mới từ giá trị hiện tại, set/delete key, rồi `router.replace(pathname + "?" + params)`. Dùng `replace` thay vì `push` cho filter/search để không spam history. Lưu ý immutability: `new URLSearchParams(searchParams)` tạo bản copy, không mutate object gốc.
-
-Trong Server Component không dùng được 2 hook này — page nhận prop `searchParams` (Next 15: là Promise, phải `await`).
-
-### Code minh hoạ
-
-```tsx
-// 1. usePathname — active nav link
-"use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-
-export function NavLink({ href, label }: { href: string; label: string }) {
-  const pathname = usePathname(); // ví dụ: "/blog/nextjs"
-  const isActive = pathname === href || pathname.startsWith(`${href}/`);
-
-  return (
-    <Link href={href} className={isActive ? "text-blue-600 font-bold" : ""}>
-      {label}
-    </Link>
-  );
-}
-
-// 2. useSearchParams + pattern update query string
-"use client";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
-export function SearchFilter() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams(); // read-only URLSearchParams
-
-  function handleSearch(term: string) {
-    // Tạo bản copy — KHÔNG mutate searchParams gốc
-    const params = new URLSearchParams(searchParams);
-    if (term) {
-      params.set("q", term);
-    } else {
-      params.delete("q");
-    }
-    params.delete("page"); // đổi filter thì reset pagination
-
-    // replace: không thêm history entry — gõ từng ký tự không spam nút Back
-    router.replace(`${pathname}?${params.toString()}`);
-  }
-
-  return (
-    <input
-      defaultValue={searchParams.get("q") ?? ""}
-      onChange={(e) => handleSearch(e.target.value)}
-      placeholder="Tìm sản phẩm..."
-    />
-  );
-}
-
-// 3. Pitfall build: useSearchParams cần Suspense khi static render
-// app/products/page.tsx (Server Component)
-import { Suspense } from "react";
-import { SearchFilter } from "./SearchFilter";
-
-export default function ProductsPage() {
-  return (
-    <div>
-      <h1>Sản phẩm</h1>
-      {/* ✅ Bọc Suspense — không thì build báo:
-          "useSearchParams() should be wrapped in a suspense boundary" */}
-      <Suspense fallback={<div>Đang tải bộ lọc...</div>}>
-        <SearchFilter />
-      </Suspense>
-    </div>
-  );
-}
-
-// 4. Server Component đọc query string qua prop searchParams (Next 15: Promise)
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ q?: string }>;
-}) {
-  const { q } = await searchParams;
-  const products = await searchProducts(q ?? "");
-  return <ProductList products={products} />;
-}
-```
-
-### Đáp án mẫu
-
-> "`usePathname` trả về pathname hiện tại — em dùng chủ yếu cho active nav link và tracking. `useSearchParams` trả về `URLSearchParams` read-only của query string — em dùng để giữ state filter, search, pagination trên URL, share link được và F5 không mất. Pitfall kinh điển: khi route static render, component dùng `useSearchParams` **phải bọc trong Suspense boundary**, không thì build fail với lỗi 'should be wrapped in a suspense boundary' — em từng dính khi thêm search box vào page static. Pattern update query của em: vì hook là read-only nên tạo `new URLSearchParams(searchParams)` để copy, `set`/`delete` key, rồi `router.replace(pathname + '?' + params)` — dùng `replace` để gõ search không spam history. Còn trong Server Component thì không dùng hook, page nhận prop `searchParams` — Next 15 phải `await` vì nó là Promise."
-
----
-
-## Câu 40: next/link hoạt động như thế nào? `[Basic]`
-
-### Câu hỏi
-
-> `next/link` khác gì thẻ `<a>` thường? Khi click một Link, Next.js thực sự làm gì?
-
-### Giải thích lý thuyết
-
-`<Link>` render ra thẻ `<a>` thật (SEO, accessibility, mở tab mới vẫn hoạt động), nhưng **chặn hành vi mặc định** và thực hiện **client-side navigation (soft navigation)**:
+`<Link>` render ra thẻ `<a>` thật (SEO, accessibility, mở tab mới vẫn hoạt động), nhưng **chặn hành vi mặc định** và thực hiện **soft navigation**: thay vì full reload, Next chỉ fetch **RSC payload** của các segment thay đổi — các **layout chung không bị render lại**, state trong layout (sidebar mở/đóng, input đang gõ) giữ nguyên.
 
 | Khía cạnh            | `<a href>` thường                | `<Link href>`                              |
 | -------------------- | -------------------------------- | ------------------------------------------ |
 | Navigation           | Full page reload                 | Soft navigation — không reload             |
 | Tải gì               | Toàn bộ HTML + JS + CSS lại      | Chỉ **RSC payload** của phần tree thay đổi |
-| State                | Mất hết (React remount)          | **Layout giữ nguyên state**, không re-render |
+| State                | Mất hết (React remount)          | **Layout giữ nguyên state**                |
 | Prefetch             | Không                            | Tự động khi link vào viewport (production) |
-| Scroll               | Về top                           | Về top (tắt được bằng `scroll={false}`)    |
 
-Cơ chế khi click: Next chỉ fetch **RSC payload** của các segment thay đổi (page mới), các **layout chung không bị render lại** — state trong layout (sidebar mở/đóng, audio đang phát, input đang gõ) giữ nguyên. Kết hợp Router Cache + prefetch → cảm giác navigate gần như instant.
+**Prefetching** = Next tải trước RSC payload của route đích **trước khi user click** (Intersection Observer khi link vào viewport), lưu vào Router Cache → click là render ngay. **Chỉ chạy ở production** — dev mode không prefetch (câu hỏi bẫy phổ biến).
 
-Props hay dùng:
-- `replace` — thay history entry thay vì push.
-- `scroll={false}` — không scroll lên top sau navigate.
-- `prefetch={false}` — tắt prefetch (xem Câu 41).
+Prefetch **bao nhiêu** phụ thuộc loại route:
 
-Khi nào dùng `<a>` thường: link ra **external site**, hoặc link tới route nằm ngoài app Next (cần full reload thật).
+| Loại route          | Prefetch mặc định                                                |
+| ------------------- | ---------------------------------------------------------------- |
+| Static route        | **Full** — toàn bộ RSC payload, click là hiện ngay               |
+| Dynamic route       | **Partial** — chỉ tới boundary `loading.tsx` gần nhất: layout + skeleton được prefetch, data thật fetch khi click |
+| `prefetch={false}`  | Không prefetch gì; chỉ fetch khi click                            |
+
+Insight: đây là lý do **`loading.tsx` quan trọng với dynamic route** — có loading boundary thì navigation vẫn instant (hiện skeleton ngay).
+
+Cách control:
+- `prefetch={false}` — tắt cho danh sách hàng trăm link (bảng dữ liệu) để không tạo hàng trăm request vô ích, tốn băng thông server + user mobile.
+- `router.prefetch("/path")` — prefetch thủ công khi đoán trước hành vi user (wizard nhiều bước).
+- Dùng `<a>` thường cho external link hoặc khi cần full reload thật.
 
 ### Code minh hoạ
 
 ```tsx
 import Link from "next/link";
 
-export function Navigation() {
-  return (
-    <nav>
-      {/* Soft navigation: không full reload, chỉ fetch RSC payload page mới */}
-      <Link href="/dashboard">Dashboard</Link>
-
-      {/* Dynamic href */}
-      <Link href={`/blog/${post.slug}`}>{post.title}</Link>
-
-      {/* replace: không thêm entry vào history — Back bỏ qua bước này */}
-      <Link href="/login" replace>
-        Đăng nhập
-      </Link>
-
-      {/* scroll={false}: giữ vị trí scroll sau khi navigate */}
-      <Link href="/products?page=2" scroll={false}>
-        Trang 2
-      </Link>
-
-      {/* External link → dùng <a> thường, Link không có ý nghĩa */}
-      <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-        GitHub
-      </a>
-    </nav>
-  );
-}
-
-// Minh hoạ "layout giữ state" khi soft navigation:
+// 1. Soft navigation + layout giữ state
 // app/dashboard/layout.tsx
 "use client";
 import { useState } from "react";
@@ -555,7 +337,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   // State này GIỮ NGUYÊN khi navigate giữa các page con của /dashboard
-  // vì layout không bị re-render — chỉ {children} (RSC payload mới) được swap
+  // vì layout không re-render — chỉ {children} (RSC payload mới) được swap
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
@@ -567,47 +349,8 @@ export default function DashboardLayout({
   );
 }
 // Nếu dùng <a href> thường: full reload → sidebarOpen reset về true
-```
 
-### Đáp án mẫu
-
-> "`<Link>` render ra thẻ `<a>` thật nên SEO và mở tab mới vẫn bình thường, nhưng khi click nó chặn default behavior và làm **soft navigation**: thay vì full reload, Next chỉ fetch **RSC payload của phần tree thay đổi** — tức là page mới — còn các layout chung **không render lại, giữ nguyên state**. Ví dụ sidebar đang mở, audio đang phát thì navigate giữa các page con vẫn giữ nguyên; dùng `<a>` thường là mất hết vì browser reload toàn trang. Link còn tự **prefetch** khi vào viewport ở production nên click gần như instant. Props em hay dùng: `replace` để không thêm history entry — hợp cho redirect sau login, và `scroll={false}` khi không muốn nhảy lên top, ví dụ pagination. Em chỉ dùng `<a>` thường cho external link hoặc khi cần full reload thật sự."
-
----
-
-## Câu 41: Prefetching trong Next.js là gì? `[Intermediate]`
-
-### Câu hỏi
-
-> Prefetching trong Next.js hoạt động thế nào? Static route và dynamic route được prefetch khác nhau ra sao, và khi nào em tắt prefetch?
-
-### Giải thích lý thuyết
-
-Prefetching = Next **tải trước RSC payload** của route đích **trước khi user click**, lưu vào Router Cache → click là render ngay, cảm giác instant.
-
-Cơ chế của `<Link>`:
-- Tự prefetch khi link **xuất hiện trong viewport** (dùng Intersection Observer) hoặc khi hover.
-- **Chỉ chạy ở production** — `npm run dev` không prefetch, nên đừng đánh giá tốc độ navigation ở dev mode (câu hỏi bẫy phổ biến).
-
-Prefetch **bao nhiêu** phụ thuộc loại route:
-
-| Loại route   | Prefetch mặc định                                                |
-| ------------ | ---------------------------------------------------------------- |
-| Static route | **Full** — toàn bộ RSC payload, click là hiện ngay               |
-| Dynamic route | **Partial** — chỉ tới boundary `loading.tsx` gần nhất: layout + loading skeleton được prefetch, data thật fetch khi click |
-| `prefetch={false}` | Không prefetch gì; chỉ fetch khi click                     |
-
-Insight: đây là lý do **`loading.tsx` quan trọng với dynamic route** — có loading boundary thì navigation vẫn instant (hiện skeleton ngay), không có thì user nhìn màn hình "đứng im" chờ server render.
-
-Prefetch thủ công: `router.prefetch("/path")` — dùng khi đoán trước hành vi user (ví dụ prefetch bước 2 của wizard khi user đang điền bước 1).
-
-**Trade-off băng thông**: trang có hàng trăm link (bảng dữ liệu, danh sách dài) → viewport prefetch tạo hàng trăm request, tốn băng thông server + client (thiệt cho user mobile). Khi đó set `prefetch={false}` cho các link trong danh sách, chỉ giữ prefetch cho nav chính.
-
-### Code minh hoạ
-
-```tsx
-import Link from "next/link";
-
+// 2. Tắt prefetch cho danh sách dài
 export function ProductTable({ products }: { products: Product[] }) {
   return (
     <table>
@@ -615,7 +358,7 @@ export function ProductTable({ products }: { products: Product[] }) {
         {products.map((p) => (
           <tr key={p.id}>
             <td>
-              {/* Danh sách 200 dòng → 200 prefetch request nếu để mặc định.
+              {/* 200 dòng → 200 prefetch request nếu để mặc định.
                   Tắt prefetch, chỉ fetch khi user thực sự click */}
               <Link href={`/products/${p.id}`} prefetch={false}>
                 {p.name}
@@ -638,7 +381,7 @@ export function MainNav() {
   );
 }
 
-// Prefetch thủ công — đoán trước hành vi user
+// 3. Prefetch thủ công — đoán trước hành vi user
 "use client";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -654,7 +397,7 @@ export function CheckoutStep1() {
   return <form>{/* ... */}</form>;
 }
 
-// Dynamic route + loading.tsx — quyết định prefetch được tới đâu
+// 4. Dynamic route + loading.tsx — quyết định prefetch được tới đâu
 // app/products/[id]/loading.tsx
 export default function Loading() {
   return <ProductSkeleton />;
@@ -670,7 +413,228 @@ export default function Loading() {
 
 ### Đáp án mẫu
 
-> "Prefetching là Next tải trước RSC payload của route đích trước khi user click — `<Link>` tự prefetch khi link vào viewport, lưu vào Router Cache nên click là gần như instant. Lưu ý nó **chỉ chạy ở production**, dev mode không prefetch — nhiều người tưởng app chậm vì test ở dev. Mức prefetch tuỳ loại route: **static route prefetch full** payload; **dynamic route chỉ prefetch tới boundary `loading.tsx`** — tức layout và skeleton, còn data thật fetch lúc click. Vì vậy em luôn thêm `loading.tsx` cho dynamic route để navigation vẫn hiện skeleton ngay. Trade-off là băng thông: trang có danh sách vài trăm link mà để mặc định thì tạo vài trăm request prefetch vô ích — em set `prefetch={false}` cho link trong danh sách dài, giữ prefetch cho nav chính. Khi đoán trước được hành vi user, ví dụ wizard nhiều bước, em gọi `router.prefetch()` thủ công cho bước kế tiếp."
+> "`<Link>` render ra thẻ `<a>` thật nhưng khi click làm **soft navigation**: chỉ fetch RSC payload của phần tree thay đổi, layout chung giữ nguyên state — không full reload như `<a>` thường. Link còn tự **prefetch** khi vào viewport: tải trước RSC payload vào Router Cache nên click gần như instant. Lưu ý nó **chỉ chạy ở production**, dev mode không prefetch — nhiều người tưởng app chậm vì test ở dev. Mức prefetch tuỳ loại route: **static prefetch full** payload; **dynamic chỉ prefetch tới boundary `loading.tsx`** — layout và skeleton, data thật fetch lúc click — nên em luôn thêm `loading.tsx` cho dynamic route. Để control: danh sách vài trăm link em set `prefetch={false}` tránh vài trăm request vô ích, giữ prefetch cho nav chính; còn khi đoán trước hành vi user như wizard nhiều bước thì gọi `router.prefetch()` thủ công cho bước kế tiếp."
+
+---
+
+## Câu 38: next/script component và loading strategies là gì? `[Intermediate]`
+
+### Câu hỏi
+
+> `next/script` giải quyết vấn đề gì so với thẻ `<script>` thường? Các loading strategy khác nhau thế nào và em chọn strategy nào cho từng loại script?
+
+### Giải thích lý thuyết
+
+Thẻ `<script>` thường (không `async`/`defer`) **block HTML parsing** — third-party script chậm (analytics, chat widget, ads) sẽ kéo tụt LCP/TBT. `async`/`defer` đỡ hơn nhưng vẫn thiếu control: không quản lý được thứ tự theo lifecycle của app, không dedupe khi component mount nhiều lần.
+
+`next/script` cho phép **khai báo mức độ ưu tiên theo vòng đời trang** qua prop `strategy`:
+
+| Strategy            | Khi nào load                                       | Dùng cho                              |
+| ------------------- | -------------------------------------------------- | ------------------------------------- |
+| `beforeInteractive` | Trước khi hydrate — inject vào HTML từ server      | **Hiếm**: polyfill, bot detection, cookie consent bắt buộc. Phải đặt ở **root layout** |
+| `afterInteractive`  | **Mặc định** — sau khi trang hydrate xong          | Analytics, tag manager (GA, GTM)      |
+| `lazyOnload`        | Lúc browser idle, sau khi mọi resource load xong   | Chat widget, social embed — thứ "có cũng được, muộn cũng được" |
+| `worker`            | **Experimental** — chạy trong Web Worker (Partytown), không chiếm main thread | Script nặng không cần DOM trực tiếp; cần bật `nextScriptWorkers` |
+
+Event callbacks (chỉ trong **Client Component**):
+- `onLoad` — chạy 1 lần khi script load xong (khởi tạo lib).
+- `onReady` — chạy khi load xong **và mỗi lần component re-mount** (re-init map, widget khi navigate quay lại).
+- `onError` — script load fail (CDN chết, ad blocker).
+
+Pitfall:
+- **Inline script bắt buộc có `id`** — Next dùng id để track và dedupe, thiếu là warning/không tối ưu được.
+- `beforeInteractive` đặt trong page con sẽ không đúng nghĩa — chỉ root layout.
+- `onLoad` không dùng được trong Server Component — cần `"use client"`.
+
+### Code minh hoạ
+
+```tsx
+// 1. afterInteractive (mặc định) — analytics, không block hydration
+// app/layout.tsx
+import Script from "next/script";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="vi">
+      <body>
+        {children}
+        {/* Load sau khi trang interactive — không ảnh hưởng LCP */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-XXXX"
+          strategy="afterInteractive"
+        />
+        {/* Inline script — BẮT BUỘC có id để Next track/dedupe */}
+        <Script id="ga-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-XXXX');`}
+        </Script>
+
+        {/* beforeInteractive — HIẾM khi cần: polyfill/bot detect,
+            inject vào HTML server, chạy TRƯỚC hydrate. Chỉ ở root layout */}
+        <Script
+          src="https://cdn.example.com/polyfill.min.js"
+          strategy="beforeInteractive"
+        />
+      </body>
+    </html>
+  );
+}
+
+// 2. lazyOnload — chat widget, load lúc browser idle
+// app/(marketing)/layout.tsx
+import Script from "next/script";
+
+export default function MarketingLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      {children}
+      {/* User không cần chat ngay — đợi mọi thứ xong mới load */}
+      <Script src="https://widget.intercom.io/widget/abc" strategy="lazyOnload" />
+    </>
+  );
+}
+
+// 3. Callbacks — chỉ trong Client Component
+"use client";
+import Script from "next/script";
+
+export function MapEmbed() {
+  return (
+    <Script
+      src="https://maps.googleapis.com/maps/api/js"
+      strategy="afterInteractive"
+      onLoad={() => {
+        console.info("Maps SDK load xong — chạy 1 lần");
+      }}
+      onReady={() => {
+        // Chạy cả khi component re-mount (navigate đi rồi quay lại)
+        initMap(document.getElementById("map"));
+      }}
+      onError={() => {
+        // CDN fail / ad blocker — hiển thị fallback thân thiện
+        showMapFallback();
+      }}
+    />
+  );
+}
+
+// 4. worker (experimental) — chạy script trong Web Worker qua Partytown
+// next.config.ts: experimental: { nextScriptWorkers: true }
+// <Script src="https://analytics.example.com/heavy.js" strategy="worker" />
+// → không chiếm main thread, nhưng script cần DOM trực tiếp sẽ không chạy được
+```
+
+### Đáp án mẫu
+
+> "`next/script` giải quyết vấn đề third-party script block render: thay vì `<script>` thường chặn HTML parsing, em khai báo **strategy theo vòng đời trang**. Mặc định là `afterInteractive` — load sau khi hydrate, em dùng cho analytics, GTM. `lazyOnload` load lúc browser idle, hợp cho chat widget, social embed. `beforeInteractive` chạy trước hydrate, rất hiếm khi cần — polyfill hay bot detection — và phải đặt ở root layout. Còn `worker` là experimental, chạy script trong Web Worker qua Partytown để không chiếm main thread. So với `async`/`defer` thuần thì `next/script` còn dedupe khi component mount nhiều lần và có callbacks: `onLoad` chạy một lần khi load xong, `onReady` chạy cả khi re-mount — em dùng để re-init map khi navigate quay lại, `onError` để fallback khi CDN fail. Pitfall em hay nhắc: inline script bắt buộc có `id` để Next track, và callbacks chỉ dùng được trong Client Component."
+
+---
+
+## Câu 39: Middleware proxy pattern trong Next.js như thế nào? `[Advanced]`
+
+### Câu hỏi
+
+> Em dùng middleware làm proxy trong Next.js như thế nào? Rewrite khác redirect ra sao, khi nào dùng middleware rewrite thay vì `rewrites` trong `next.config`, và có giới hạn gì?
+
+### Giải thích lý thuyết
+
+Core của pattern: **`NextResponse.rewrite(new URL(...))`** — đổi đích xử lý **server-side** mà **URL trên browser không đổi**. Khác với redirect (browser nhận 307/308, URL đổi, thêm round-trip), rewrite trong suốt với user.
+
+| | `NextResponse.redirect` | `NextResponse.rewrite` |
+| --- | --- | --- |
+| URL browser | **Đổi** | **Giữ nguyên** |
+| Round-trip | Có (browser request lại) | Không — xử lý nội bộ |
+| Use case | Auth, trang đã chuyển nhà | Proxy, A/B test, multi-tenant |
+
+Use case proxy thực tế:
+- **API proxy**: `/api/external/*` rewrite sang backend thật — **ẩn URL backend**, đính kèm auth header/API key ở middleware (secret không bao giờ lộ ra client).
+- **A/B testing**: đọc cookie bucket → rewrite `/pricing` sang `/pricing/a` hoặc `/pricing/b`, URL user thấy vẫn là `/pricing`.
+- **Multi-tenant theo subdomain**: `acme.myapp.com/dashboard` → rewrite sang `/tenants/acme/dashboard` — một codebase serve N tenant.
+- **Maintenance mode**: check flag → rewrite mọi route sang `/maintenance`, URL giữ nguyên nên user F5 là quay lại trang cũ khi hết bảo trì.
+
+**Middleware rewrite vs `rewrites` trong `next.config`**:
+- `next.config` rewrites: **tĩnh**, khai báo lúc build — đủ cho mapping cố định (`/api/:path*` → `https://backend.com/:path*`), không cần logic.
+- Middleware rewrite: khi đích **phụ thuộc runtime** — cookie, header, subdomain, geo, feature flag. Cần logic → middleware; mapping tĩnh → config (rẻ hơn, không tốn invocation).
+
+**Giới hạn**: rewrite chỉ trỏ được tới route **trong cùng deployment**, hoặc **external URL** (absolute URL — cần được hỗ trợ bởi platform/cấu hình, trên self-host phải khai báo qua config). Ngoài ra rewrite không đọc được response để chỉnh sửa — middleware chỉ quyết định "đi đâu", không phải full reverse proxy như nginx.
+
+### Code minh hoạ
+
+```typescript
+// middleware.ts
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+
+export function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+  const hostname = req.headers.get("host") ?? "";
+
+  // 1. API proxy — ẩn backend, đính secret ở server-side
+  if (pathname.startsWith("/api/external/")) {
+    const target = new URL(
+      pathname.replace("/api/external", ""),
+      process.env.BACKEND_URL, // backend thật — client không bao giờ thấy
+    );
+    const headers = new Headers(req.headers);
+    headers.set("x-api-key", process.env.BACKEND_API_KEY!); // secret server-side
+
+    // URL browser vẫn là /api/external/..., request thật đi tới backend
+    return NextResponse.rewrite(target, { request: { headers } });
+  }
+
+  // 2. Multi-tenant theo subdomain
+  // acme.myapp.com/dashboard → render app/tenants/[slug]/dashboard
+  const subdomain = hostname.split(".")[0];
+  if (subdomain && subdomain !== "www" && subdomain !== "myapp") {
+    return NextResponse.rewrite(
+      new URL(`/tenants/${subdomain}${pathname}`, req.url),
+    );
+  }
+
+  // 3. Maintenance mode — URL giữ nguyên, F5 là về trang cũ khi mở lại
+  if (process.env.MAINTENANCE_MODE === "1" && pathname !== "/maintenance") {
+    return NextResponse.rewrite(new URL("/maintenance", req.url));
+  }
+
+  // 4. A/B test — đích phụ thuộc cookie → BẮT BUỘC middleware, config không làm được
+  if (pathname === "/pricing") {
+    const bucket = req.cookies.get("bucket")?.value ?? "a";
+    return NextResponse.rewrite(new URL(`/pricing/${bucket}`, req.url));
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+};
+```
+
+```typescript
+// next.config.ts — mapping TĨNH thì dùng rewrites config, không cần middleware
+const nextConfig = {
+  async rewrites() {
+    return [
+      {
+        // Cố định, biết trước lúc build — rẻ hơn middleware
+        source: "/api/legacy/:path*",
+        destination: "https://legacy-backend.example.com/:path*",
+      },
+    ];
+  },
+};
+export default nextConfig;
+
+// Quy tắc chọn:
+// - Đích cố định, không logic        → next.config rewrites
+// - Đích theo cookie/header/subdomain → middleware NextResponse.rewrite
+```
+
+### Đáp án mẫu
+
+> "Proxy pattern là dùng `NextResponse.rewrite(new URL(...))` trong middleware: đổi đích xử lý server-side mà **URL browser không đổi** — khác redirect là URL đổi và tốn thêm round-trip. Use case em hay dùng: **API proxy** — rewrite `/api/external/*` sang backend thật và đính API key vào header ngay trong middleware, secret không bao giờ lộ ra client; **multi-tenant** — đọc subdomain rồi rewrite sang `/tenants/[slug]/...`, một codebase serve nhiều tenant; **A/B testing** rewrite theo cookie bucket; và **maintenance mode** rewrite mọi route sang trang bảo trì. So với `rewrites` trong `next.config`: config là mapping tĩnh lúc build — đủ cho proxy cố định và rẻ hơn; còn đích phụ thuộc runtime như cookie, header, geo thì bắt buộc middleware. Giới hạn em lưu ý: rewrite chỉ trỏ trong cùng deployment, external URL phải là absolute và được platform/config hỗ trợ; và middleware chỉ quyết định request đi đâu, không chỉnh sửa được response như reverse proxy thật."
 
 ---
 
@@ -681,7 +645,11 @@ export default function Loading() {
 | "GET trong route handler được cache mặc định"            | Next 14 thì đúng; **Next 15 GET mặc định KHÔNG cache** — phải opt-in    |
 | "Đặt `route.ts` cạnh `page.tsx` cho tiện"                | Conflict cùng URL — build fail; tách `app/api/` riêng                   |
 | "Auth làm hết trong middleware là đủ"                    | Middleware chỉ optimistic check; verify + authorization ở server/DAL    |
-| "`router.query` để đọc params trong App Router"          | Đã bỏ — dùng `useParams()` / `useSearchParams()` từ `next/navigation`   |
-| "`useSearchParams` dùng thoải mái mọi nơi"               | Static render phải bọc `<Suspense>`, không thì build fail               |
+| "Middleware query DB để check quyền chi tiết"            | Chạy trên MỌI request + Edge runtime — không làm việc nặng/Node API     |
+| "Rewrite và redirect như nhau"                           | Rewrite: URL giữ nguyên, xử lý nội bộ; redirect: URL đổi, thêm round-trip |
+| "Mọi proxy đều phải viết middleware"                     | Mapping tĩnh dùng `rewrites` trong `next.config` — rẻ hơn; middleware chỉ khi đích phụ thuộc runtime |
 | "Link prefetch ở cả dev mode"                            | Chỉ production — test tốc độ navigation phải dùng production build      |
+| "Dynamic route được prefetch full như static"            | Dynamic chỉ prefetch tới boundary `loading.tsx`; static mới full        |
+| "Script nào cũng để `beforeInteractive` cho nhanh"       | `beforeInteractive` block hydrate, chỉ cho polyfill/bot detect; analytics dùng `afterInteractive`, widget dùng `lazyOnload` |
+| "Inline `<Script>` không cần gì thêm"                    | Bắt buộc có `id` để Next track và dedupe                                |
 | "params/searchParams là object đồng bộ"                  | Next 15: cả hai là **Promise** — phải `await`                           |

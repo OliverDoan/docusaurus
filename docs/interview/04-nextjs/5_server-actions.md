@@ -9,11 +9,11 @@ title: "5. Server Actions & Mutations"
 
 ---
 
-## Câu 32: Server Actions là gì? `[Intermediate]`
+## Câu 28: Server Actions là gì? `[Intermediate]`
 
 ### Câu hỏi
 
-> Server Actions trong Next.js là gì? Cơ chế hoạt động bên dưới như thế nào, và tại sao nói nó hỗ trợ progressive enhancement?
+> Server Actions trong Next.js là gì?
 
 ### Giải thích lý thuyết
 
@@ -103,110 +103,11 @@ function QuickAdd() {
 
 ---
 
-## Câu 33: Khi nào nên dùng Server Actions thay vì API Routes? `[Intermediate]`
+## Câu 29: Cách sử dụng Server Actions với HTML forms? `[Intermediate]`
 
 ### Câu hỏi
 
-> Dự án của em cần xử lý mutation (tạo/sửa/xóa data). Em nên dùng Server Actions hay viết Route Handler (`app/api/.../route.ts`)? Tiêu chí lựa chọn là gì?
-
-### Giải thích lý thuyết
-
-Quy tắc ngắn gọn: **mutation nội bộ app → Server Actions; expose ra ngoài → API Routes**.
-
-| Tiêu chí                | Server Actions                              | API Routes (Route Handler)              |
-| ----------------------- | ------------------------------------------- | --------------------------------------- |
-| Type-safety             | End-to-end — TypeScript infer trực tiếp     | Tự định nghĩa type 2 đầu, dễ lệch       |
-| Fetch layer             | Không cần — import và gọi như function      | Phải viết fetch + serialize + parse     |
-| Revalidate / redirect   | `revalidateTag/Path`, `redirect` tích hợp   | Tự xử lý, client phải refetch           |
-| HTTP method             | Chỉ POST (Next tự quản lý)                  | GET/POST/PUT/PATCH/DELETE tùy ý         |
-| Consumer                | Chỉ app Next.js của mình                    | Mobile app, third-party, service khác   |
-| Response format         | Next quản lý (RSC payload)                  | Tùy ý: JSON, stream, file, SSE          |
-| Progressive enhancement | Có (qua form action)                        | Không                                   |
-
-Dùng **Server Actions** khi:
-- Mutation từ chính app Next.js (form submit, button click).
-- Muốn type-safe end-to-end, không muốn maintain fetch layer.
-- Cần `revalidatePath/Tag` + `redirect` ngay sau mutation trong 1 flow.
-
-Dùng **API Routes** khi:
-- **Public API** cho third-party hoặc mobile app consume.
-- **Webhook receiver** (Stripe, GitHub... — bên ngoài không thể gọi Server Action).
-- Cần **HTTP method khác POST** (GET cho client-side fetching, DELETE theo chuẩn REST).
-- Cần **response format đặc thù**: file download, SSE streaming, custom headers/status code.
-
-Pitfall phỏng vấn: nhiều người nghĩ Server Actions "thay thế hoàn toàn" API Routes — sai. Chúng giải quyết 2 bài toán khác nhau: Server Actions là RPC nội bộ cho mutation; API Routes là HTTP interface công khai.
-
-### Code minh hoạ
-
-```typescript
-// ✅ Server Action — mutation nội bộ, type-safe end-to-end
-// app/actions/products.ts
-"use server";
-
-import { revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
-
-export async function createProduct(input: { name: string; price: number }) {
-  const product = await db.product.create({ data: input });
-
-  revalidateTag("products"); // invalidate cache ngay trong flow
-  redirect(`/products/${product.id}`); // điều hướng luôn
-}
-
-// Client gọi — không cần fetch layer, type được infer
-"use client";
-import { createProduct } from "@/app/actions/products";
-
-function CreateButton() {
-  return (
-    <button onClick={() => createProduct({ name: "Laptop", price: 1500 })}>
-      Tạo
-    </button>
-  );
-}
-
-// ✅ API Route — khi cần expose ra ngoài
-// app/api/v1/products/route.ts — mobile app / third-party gọi
-export async function GET(req: Request) {
-  const products = await db.product.findMany();
-  return Response.json({ success: true, data: products });
-}
-
-// app/api/webhooks/stripe/route.ts — webhook bắt buộc là HTTP endpoint
-export async function POST(req: Request) {
-  const sig = req.headers.get("stripe-signature")!;
-  const event = stripe.webhooks.constructEvent(
-    await req.text(),
-    sig,
-    process.env.STRIPE_WEBHOOK_SECRET!
-  );
-  // ... xử lý event
-  return Response.json({ received: true });
-}
-
-// app/api/export/route.ts — response format đặc thù (file download)
-export async function GET() {
-  const csv = await generateCsv();
-  return new Response(csv, {
-    headers: {
-      "Content-Type": "text/csv",
-      "Content-Disposition": 'attachment; filename="products.csv"',
-    },
-  });
-}
-```
-
-### Đáp án mẫu
-
-> "Quy tắc của em: mutation từ chính app Next.js thì dùng Server Actions, còn expose ra ngoài thì dùng API Routes. Server Actions cho em type-safe end-to-end — import function và gọi trực tiếp, không phải viết fetch layer, không phải maintain type 2 đầu. Nó còn tích hợp sẵn `revalidateTag` và `redirect` nên flow mutation → invalidate cache → điều hướng nằm gọn trong 1 function. Em chuyển sang API Routes khi: cần public API cho mobile hoặc third-party, nhận webhook từ Stripe/GitHub — bên ngoài không thể gọi Server Action; cần method khác POST như GET cho client fetching; hoặc cần response đặc thù như file download, SSE streaming. Tóm lại hai cái không thay thế nhau: Server Actions là RPC nội bộ, API Routes là HTTP interface công khai."
-
----
-
-## Câu 34: Form actions trong Next.js hoạt động như thế nào? `[Intermediate]`
-
-### Câu hỏi
-
-> Em gắn Server Action vào `<form action={...}>`. Luồng xử lý diễn ra như thế nào? Làm sao nhận state trả về từ action và validate dữ liệu?
+> Cách sử dụng Server Actions với HTML forms?
 
 ### Giải thích lý thuyết
 
@@ -313,17 +214,246 @@ export function RegisterForm() {
 
 ---
 
-## Câu 35: Cookies trong Server Components truy cập bằng cách nào? `[Basic]`
+## Câu 30: Revalidation sau mutation trong Server Actions? `[Intermediate]`
 
 ### Câu hỏi
 
-> Em cần đọc cookie session trong Server Component và set cookie sau khi login. Làm thế nào, và có giới hạn gì cần biết?
+> Revalidation sau mutation trong Server Actions?
 
 ### Giải thích lý thuyết
 
-Dùng `cookies()` từ `next/headers`. **Next.js 15: đây là async API — phải `await`** (Next 14 trở về trước là sync, đây là breaking change hay bị hỏi).
+Mutation xong mà **không revalidate thì UI vẫn hiển thị data cũ** — vì Next.js cache nhiều tầng (Data Cache, Full Route Cache, Router Cache phía client). Server Action mutate DB thành công không có nghĩa là cache biết data đã đổi.
 
-Quy tắc quan trọng nhất:
+Các công cụ revalidate trong action:
+
+| API                     | Phạm vi invalidate                                      | Khi nào dùng                                  |
+| ----------------------- | ------------------------------------------------------- | --------------------------------------------- |
+| `revalidatePath(path)`  | Toàn bộ cache của 1 route (Data + Full Route + Router)  | Mutation ảnh hưởng 1 trang cụ thể             |
+| `revalidateTag(tag)`    | Mọi fetch gắn `next: { tags: [...] }` có tag đó         | Data dùng ở nhiều trang — invalidate chính xác |
+| `redirect(url)`         | Điều hướng + render trang đích với data mới             | Sau create → đưa user đến trang detail        |
+| `router.refresh()`      | (Client) refetch RSC payload route hiện tại, giữ state  | Mutation qua fetch/API route từ client        |
+
+Điểm quan trọng:
+
+1. **Gọi revalidate ngay trong action** — đây là ưu thế lớn so với API Route: flow "mutate → invalidate → UI mới" nằm gọn trong 1 round-trip. Khi action chạy xong, Next trả về RSC payload **đã render lại** với data mới, client update tức thì.
+2. `revalidateTag` chính xác hơn `revalidatePath` khi cùng một data hiển thị ở nhiều nơi (list, detail, sidebar) — gắn tag lúc fetch, invalidate 1 phát trúng tất cả.
+3. **`router.refresh()`** dành cho trường hợp mutation không đi qua Server Action (ví dụ gọi API route bằng fetch từ Client Component) — nó refetch Server Component của route hiện tại nhưng **giữ nguyên client state** (useState, scroll).
+4. `redirect()` sau mutation: trang đích được render mới, nhưng nếu data đích nằm trong cache cũ thì vẫn nên `revalidatePath` trước khi redirect.
+
+**Pitfall kinh điển**: quên revalidate → user submit form thành công nhưng list không thấy item mới, back lại trang cũ vẫn thấy data stale do **Router Cache** phía client giữ RSC payload cũ. Nhiều người tưởng là bug — thực ra là thiếu `revalidatePath/Tag` trong action.
+
+### Code minh hoạ
+
+```typescript
+// app/actions/posts.ts
+"use server";
+
+import { revalidatePath, revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
+
+// ❌ SAI: mutate xong không revalidate
+export async function badCreatePost(formData: FormData) {
+  await db.post.create({ data: { title: formData.get("title") as string } });
+  // User quay lại /posts → vẫn thấy list CŨ (Router Cache + Full Route Cache)
+}
+
+// ✅ revalidatePath — invalidate theo route
+export async function createPost(formData: FormData) {
+  await db.post.create({ data: { title: formData.get("title") as string } });
+  revalidatePath("/posts"); // list render lại với data mới ngay trong response
+}
+
+// ✅ revalidateTag — invalidate chính xác theo data, trúng mọi trang dùng tag
+export async function updateProduct(id: string, data: ProductInput) {
+  await db.product.update({ where: { id }, data });
+  revalidateTag("products"); // list + detail + sidebar đều dùng tag này
+}
+
+// Fetch gắn tag để revalidateTag hoạt động
+async function getProducts() {
+  const res = await fetch("https://api.example.com/products", {
+    next: { tags: ["products"] },
+  });
+  return res.json();
+}
+
+// ✅ redirect sau mutation — revalidate trước rồi mới redirect
+export async function createOrder(formData: FormData) {
+  const order = await db.order.create({ data: parse(formData) });
+  revalidatePath("/orders"); // list orders sẽ mới khi user quay lại
+  redirect(`/orders/${order.id}`); // điều hướng đến trang detail
+}
+```
+
+```tsx
+// Trường hợp mutation KHÔNG qua Server Action → router.refresh() phía client
+"use client";
+
+import { useRouter } from "next/navigation";
+
+export function LikeButton({ postId }: { postId: string }) {
+  const router = useRouter();
+
+  async function handleLike() {
+    await fetch(`/api/posts/${postId}/like`, { method: "POST" });
+    // Refetch RSC payload của route hiện tại — giữ nguyên client state
+    router.refresh();
+  }
+
+  return <button onClick={handleLike}>Like</button>;
+}
+```
+
+### Đáp án mẫu
+
+> "Sau khi mutate DB trong Server Action, em phải chủ động revalidate vì Next cache nhiều tầng — Data Cache, Full Route Cache và Router Cache phía client. Em gọi `revalidatePath` khi mutation ảnh hưởng một route cụ thể, hoặc `revalidateTag` khi data hiển thị ở nhiều nơi — gắn tag lúc fetch rồi invalidate một phát trúng tất cả. Điểm hay là gọi ngay trong action: Next render lại và trả RSC payload mới trong cùng round-trip, UI update tức thì. Sau create em thường `revalidatePath` rồi `redirect` sang trang detail. Với mutation không qua action — ví dụ fetch API route từ client — em dùng `router.refresh()` để refetch Server Component mà vẫn giữ client state. Bẫy kinh điển là quên revalidate: mutation thành công nhưng user vẫn thấy data cũ do Router Cache — không phải bug, là thiếu revalidate."
+
+---
+
+## Câu 31: Error handling trong Server Actions như thế nào? `[Advanced]`
+
+### Câu hỏi
+
+> Error handling trong Server Actions như thế nào?
+
+### Giải thích lý thuyết
+
+Nguyên tắc cốt lõi: phân biệt **expected errors** (validation fail, không đủ quyền, record không tồn tại) và **unexpected errors** (DB sập, bug). Hai loại xử lý khác nhau:
+
+**1. Expected errors → return, đừng throw.**
+Pattern chuẩn là trả về object `{ success, error/errors }` và hiển thị qua `useActionState`. Lý do **không throw error thô**: trong production, Next.js **mask message của error** throw từ server (tránh leak thông tin nhạy cảm như connection string, stack trace) — client chỉ nhận message chung chung kèm digest. User sẽ không bao giờ thấy "Email đã tồn tại" nếu bạn throw nó.
+
+**2. Unexpected errors → log đầy đủ phía server, trả message thân thiện.**
+`console.error`/logger với context, rồi return `{ success: false, error: "Có lỗi xảy ra" }` — không bao giờ trả raw error message ra client.
+
+**3. `error.tsx` không phải lưới an toàn cho mọi action.**
+Error boundary chỉ bắt lỗi xảy ra **trong render flow** — action gọi qua `<form action>` hoặc trong `startTransition` thì lỗi throw không bắt được sẽ nổi lên error boundary gần nhất. Nhưng action gọi **trực tiếp trong event handler** (`onClick={() => await action()}`) chạy ngoài render flow — error boundary **không bắt** được, phải tự `try/catch` tại chỗ. Đây là điểm bẫy nhiều người dính.
+
+**4. `redirect()` hoạt động bằng cách throw** error đặc biệt `NEXT_REDIRECT` để Next bắt ở framework level. Hệ quả: **không đặt `redirect()` trong `try/catch`** — catch sẽ "nuốt" mất error và redirect không xảy ra, lại còn log nhầm là lỗi. Luôn gọi `redirect()` **sau** khối try/catch, hoặc re-throw khi `isRedirectError(error)`.
+
+### Code minh hoạ
+
+```typescript
+// app/actions/users.ts
+"use server";
+
+import { z } from "zod";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+
+// ❌ SAI: throw error thô
+export async function badCreateUser(formData: FormData) {
+  const email = formData.get("email") as string;
+  const existing = await db.user.findUnique({ where: { email } });
+  if (existing) {
+    // Production: message bị Next MASK — client chỉ thấy
+    // "An error occurred in the Server Components render" + digest
+    throw new Error("Email đã tồn tại");
+  }
+}
+
+const schema = z.object({ email: z.string().email(), name: z.string().min(2) });
+
+export type ActionState = {
+  success: boolean;
+  errors?: Record<string, string[]>;
+  error?: string;
+};
+
+// ✅ ĐÚNG: expected error → RETURN object; unexpected → log + message chung
+export async function createUser(
+  prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  // Expected: validation fail → trả field errors
+  const parsed = schema.safeParse({
+    email: formData.get("email"),
+    name: formData.get("name"),
+  });
+  if (!parsed.success) {
+    return { success: false, errors: parsed.error.flatten().fieldErrors };
+  }
+
+  // Expected: business rule → trả message cụ thể, user hiểu được
+  const existing = await db.user.findUnique({
+    where: { email: parsed.data.email },
+  });
+  if (existing) {
+    return { success: false, error: "Email đã được đăng ký" };
+  }
+
+  let userId: string;
+  try {
+    const user = await db.user.create({ data: parsed.data });
+    userId = user.id;
+  } catch (error) {
+    // Unexpected: log đầy đủ phía server, KHÔNG leak ra client
+    console.error("createUser thất bại:", error);
+    return { success: false, error: "Có lỗi xảy ra, vui lòng thử lại" };
+  }
+
+  revalidatePath("/users");
+  redirect(`/users/${userId}`); // ✅ NGOÀI try/catch — throw NEXT_REDIRECT
+}
+```
+
+```tsx
+// Hiển thị lỗi qua useActionState
+"use client";
+import { useActionState } from "react";
+import { createUser, type ActionState } from "@/app/actions/users";
+
+export function UserForm() {
+  const [state, formAction, isPending] = useActionState(createUser, {
+    success: false,
+  });
+
+  return (
+    <form action={formAction}>
+      <input name="email" />
+      {state.errors?.email && <p className="error">{state.errors.email[0]}</p>}
+      <input name="name" />
+      {state.error && <p className="error">{state.error}</p>}
+      <button disabled={isPending}>Tạo</button>
+    </form>
+  );
+}
+
+// ⚠️ Action gọi từ event handler — error boundary KHÔNG bắt → tự try/catch
+function DeleteButton({ id }: { id: string }) {
+  return (
+    <button
+      onClick={async () => {
+        try {
+          await deleteUser(id); // ngoài render flow / transition
+        } catch {
+          toast.error("Xóa thất bại"); // error.tsx không cứu được ở đây
+        }
+      }}
+    >
+      Xóa
+    </button>
+  );
+}
+```
+
+### Đáp án mẫu
+
+> "Em chia 2 loại lỗi. Expected errors — validation fail, email trùng, không đủ quyền — em **return** object `{success, error}` chứ không throw, rồi hiển thị qua `useActionState`. Lý do không throw thô: production Next mask message của error từ server để tránh leak thông tin, client chỉ thấy message chung kèm digest — user sẽ không bao giờ đọc được 'Email đã tồn tại'. Unexpected errors em log đầy đủ phía server và trả message thân thiện. Về `error.tsx`: nó chỉ bắt lỗi trong render flow — action gọi qua form action thì được, còn gọi trực tiếp trong event handler thì error boundary không bắt, phải try/catch tại chỗ. Cuối cùng, `redirect()` hoạt động bằng cách throw `NEXT_REDIRECT` nên tuyệt đối không đặt trong try/catch — catch sẽ nuốt mất và redirect không chạy; em luôn gọi nó sau khối try/catch."
+
+---
+
+## Câu 33: Cookies và Headers trong Next.js Server Components và Actions? `[Basic]`
+
+### Câu hỏi
+
+> Cookies và Headers trong Next.js Server Components và Actions?
+
+### Giải thích lý thuyết
+
+Cả hai đều import từ `next/headers`. **Next.js 15: đây là async API — phải `await`** (Next 14 trở về trước là sync, đây là breaking change hay bị hỏi).
+
+**`cookies()`** — quy tắc quan trọng nhất:
 
 | Thao tác         | Server Component | Server Action | Route Handler |
 | ---------------- | ---------------- | ------------- | ------------- |
@@ -333,25 +463,37 @@ Quy tắc quan trọng nhất:
 
 **Tại sao không set được cookie trong Server Component?** Vì cookie được gửi qua **response header** (`Set-Cookie`). Server Component render theo kiểu **streaming** — khi component đang render thì header có thể đã được gửi xuống browser rồi, không thể quay lại sửa. Server Action và Route Handler xử lý request riêng, kiểm soát được response trước khi gửi nên set được.
 
-Side effect cần nhớ: gọi `cookies()` trong page làm route trở thành **dynamic** — render mỗi request, mất static cache. Hợp lý vì cookie là per-user, không thể prerender 1 HTML chung.
+**`headers()`** — read-only hoàn toàn:
+
+1. Chỉ **đọc request headers** (`get`, `has`), không set được. Muốn set **response** header thì dùng Route Handler hoặc `middleware.ts` (qua `NextResponse`).
+2. Use case: `user-agent` (detect bot/mobile), `authorization` (Bearer token), geo/IP headers từ proxy (`x-forwarded-for`, `x-vercel-ip-country`), `accept-language` (i18n).
+3. Header như `x-forwarded-for` chỉ tin khi đứng sau proxy mình kiểm soát — client có thể spoof.
+
+**Side effect chung**: gọi `cookies()` hay `headers()` trong page làm route trở thành **dynamic** — render mỗi request, mất static cache. Hợp lý vì cookie/header là per-request, không thể prerender 1 HTML chung. Đừng vô tình thêm vào page muốn giữ static.
+
+Khi set cookie session: luôn dùng `httpOnly` (chống XSS đọc cookie), `secure` (chỉ HTTPS), `sameSite: 'lax'` (giảm rủi ro CSRF).
 
 ### Code minh hoạ
 
 ```typescript
-// Đọc cookie trong Server Component
+// Đọc cookie + header trong Server Component
 // app/dashboard/page.tsx
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 export default async function Dashboard() {
   const cookieStore = await cookies(); // Next 15: PHẢI await
+  const headerList = await headers();
 
   const session = cookieStore.get("session")?.value;
   const theme = cookieStore.get("theme")?.value ?? "light";
-  const hasConsent = cookieStore.has("cookie-consent");
 
-  // Lưu ý: dùng cookies() → page này trở thành dynamic
+  const userAgent = headerList.get("user-agent") ?? "";
+  const country = headerList.get("x-vercel-ip-country") ?? "VN";
+  const isMobile = /Mobile|Android|iPhone/i.test(userAgent);
+
+  // Lưu ý: dùng cookies()/headers() → page này trở thành DYNAMIC
   const user = session ? await getUserFromSession(session) : null;
-  return <DashboardView user={user} theme={theme} />;
+  return <DashboardView user={user} theme={theme} mobile={isMobile} country={country} />;
 }
 
 // ❌ SAI: set cookie trong Server Component — runtime error
@@ -376,9 +518,9 @@ export async function login(formData: FormData) {
 
   const cookieStore = await cookies();
   cookieStore.set("session", token, {
-    httpOnly: true,          // JS client không đọc được — chống XSS
-    secure: true,            // chỉ gửi qua HTTPS
-    sameSite: "lax",         // giảm rủi ro CSRF
+    httpOnly: true,           // JS client không đọc được — chống XSS
+    secure: true,             // chỉ gửi qua HTTPS
+    sameSite: "lax",          // giảm rủi ro CSRF
     maxAge: 60 * 60 * 24 * 7, // 7 ngày
     path: "/",
   });
@@ -392,7 +534,7 @@ export async function logout() {
   redirect("/signin");
 }
 
-// ✅ Route Handler cũng set được
+// ✅ Route Handler cũng set được cookie + response header
 // app/api/auth/callback/route.ts
 import { cookies } from "next/headers";
 
@@ -402,72 +544,8 @@ export async function GET(req: Request) {
   cookieStore.set("session", token, { httpOnly: true, secure: true });
   return Response.redirect(new URL("/dashboard", req.url));
 }
-```
 
-### Đáp án mẫu
-
-> "Em dùng `cookies()` từ `next/headers` — lưu ý Next 15 đây là async API nên phải `await cookies()`, khác Next 14 là sync. Trong Server Component em chỉ **đọc** được cookie: `get`, `has`. Còn **set và delete chỉ được phép trong Server Action hoặc Route Handler** — lý do là cookie đi qua response header `Set-Cookie`, mà Server Component render theo kiểu streaming nên header có thể đã gửi xuống browser rồi, không sửa lại được. Một side effect quan trọng: gọi `cookies()` làm route thành dynamic, render mỗi request và mất static cache — hợp lý vì cookie là per-user. Khi set cookie session, em luôn dùng `httpOnly`, `secure`, `sameSite: 'lax'` để chống XSS đọc cookie và giảm rủi ro CSRF."
-
----
-
-## Câu 36: Headers trong Server Components truy cập bằng cách nào? `[Basic]`
-
-### Câu hỏi
-
-> Em cần đọc `user-agent` và `authorization` header của request trong Server Component. Dùng API gì, và nó ảnh hưởng gì đến rendering?
-
-### Giải thích lý thuyết
-
-Dùng `headers()` từ `next/headers` — giống `cookies()`, **Next 15 là async, phải `await`**.
-
-Đặc điểm:
-
-1. **Read-only** — chỉ đọc request headers, không set được. Muốn set **response** header thì dùng Route Handler hoặc `middleware.ts` (qua `NextResponse`).
-2. Trả về object dạng Web `Headers` — dùng `get()`, `has()`, `forEach()`.
-3. Gọi `headers()` làm route thành **dynamic** — headers là per-request, không thể prerender static.
-
-Use case phổ biến:
-- `user-agent` — detect bot/mobile để render khác.
-- `authorization` — đọc Bearer token (thường gặp khi BFF nhận token từ gateway).
-- Geo/IP headers từ proxy: `x-forwarded-for`, `x-vercel-ip-country` (Vercel), `cf-ipcountry` (Cloudflare).
-- `referer`, `accept-language` — i18n, analytics.
-
-Pitfall:
-- Headers như `x-forwarded-for` do proxy thêm vào — client có thể spoof nếu hạ tầng không strip; chỉ tin khi đứng sau proxy mình kiểm soát.
-- Đừng vô tình thêm `headers()` vào page muốn giữ static — sẽ âm thầm mất prerender. Có thể khai báo `export const dynamic = "force-static"` để bị báo lỗi sớm khi ai đó lỡ thêm dynamic API.
-
-### Code minh hoạ
-
-```typescript
-// app/page.tsx — Server Component
-import { headers } from "next/headers";
-
-export default async function Page() {
-  const headerList = await headers(); // Next 15: PHẢI await
-
-  // Đọc các header phổ biến
-  const userAgent = headerList.get("user-agent") ?? "";
-  const authorization = headerList.get("authorization"); // "Bearer xxx"
-  const acceptLanguage = headerList.get("accept-language");
-
-  // Geo headers từ hosting/proxy (Vercel, Cloudflare)
-  const country = headerList.get("x-vercel-ip-country") ?? "VN";
-  const ip = headerList.get("x-forwarded-for")?.split(",")[0]?.trim();
-
-  // Lưu ý: dùng headers() → page này thành dynamic, render mỗi request
-  const isMobile = /Mobile|Android|iPhone/i.test(userAgent);
-
-  return isMobile ? <MobileLayout country={country} /> : <DesktopLayout country={country} />;
-}
-
-// ❌ headers() là read-only — không set được
-export default async function BadPage() {
-  const headerList = await headers();
-  // headerList.set("x-custom", "value"); // Không tồn tại method set!
-  return <div>...</div>;
-}
-
-// ✅ Set response header → dùng middleware hoặc Route Handler
+// ✅ Set RESPONSE header → middleware (headers() chỉ đọc request header)
 // middleware.ts
 import { NextResponse } from "next/server";
 
@@ -476,143 +554,133 @@ export function middleware() {
   response.headers.set("x-request-id", crypto.randomUUID());
   return response;
 }
-
-// Pattern: verify Bearer token trong Server Component
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-
-async function getAuthenticatedUser() {
-  const headerList = await headers();
-  const auth = headerList.get("authorization");
-
-  if (!auth?.startsWith("Bearer ")) {
-    redirect("/signin");
-  }
-  return verifyToken(auth.slice("Bearer ".length));
-}
-
-export default async function ProtectedPage() {
-  const user = await getAuthenticatedUser();
-  return <Profile user={user} />;
-}
 ```
 
 ### Đáp án mẫu
 
-> "Em dùng `headers()` từ `next/headers` — Next 15 là async API nên phải `await headers()`. Nó trả về object Web Headers read-only, em dùng `get()` để đọc `user-agent`, `authorization`, `accept-language`, hay geo header như `x-vercel-ip-country`. Read-only nghĩa là chỉ đọc request header — muốn set response header thì phải dùng middleware hoặc Route Handler. Điều quan trọng cần nhớ: gọi `headers()` làm route thành dynamic, render mỗi request và mất static cache, vì header là per-request không thể prerender. Nên em chỉ dùng khi thật sự cần — ví dụ detect bot, đọc Bearer token, hay lấy country để hiển thị nội dung theo vùng. Với header như `x-forwarded-for`, em chỉ tin khi app đứng sau proxy mình kiểm soát vì client có thể spoof."
+> "Em dùng `cookies()` và `headers()` từ `next/headers` — Next 15 cả hai là async API nên phải `await`, khác Next 14 là sync. Trong Server Component em chỉ **đọc** được: cookie qua `get/has`, header qua `get` — như `user-agent`, `authorization` hay geo header. Còn **set và delete cookie chỉ được phép trong Server Action hoặc Route Handler** — lý do là cookie đi qua response header `Set-Cookie`, mà Server Component render kiểu streaming nên header có thể đã gửi xuống browser, không sửa lại được. `headers()` thì read-only hoàn toàn — muốn set response header phải dùng middleware hoặc Route Handler. Side effect quan trọng: gọi hai API này làm route thành dynamic, mất static cache — hợp lý vì chúng per-request. Khi set cookie session, em luôn dùng `httpOnly`, `secure`, `sameSite: 'lax'`."
 
 ---
 
-## Câu 37: redirect() và permanentRedirect() khác nhau thế nào? `[Intermediate]`
+## Câu 34: Optimistic updates với Server Actions và useOptimistic? `[Advanced]`
 
 ### Câu hỏi
 
-> `redirect()` và `permanentRedirect()` trong `next/navigation` khác nhau ở điểm gì? Tại sao không được đặt `redirect()` trong `try/catch`?
+> Optimistic updates với Server Actions và useOptimistic?
 
 ### Giải thích lý thuyết
 
-Khác biệt cốt lõi là **HTTP status code** và **ý nghĩa với SEO/caching**:
+**Vấn đề**: Server Action mất 1 round-trip (vài trăm ms) — nếu chờ action xong mới update UI thì cảm giác chậm. Optimistic update = **hiển thị kết quả ngay lập tức** như thể đã thành công, server xử lý sau.
 
-| Tiêu chí           | `redirect()`                          | `permanentRedirect()`                    |
-| ------------------ | ------------------------------------- | ---------------------------------------- |
-| Status code        | **307** Temporary Redirect            | **308** Permanent Redirect               |
-| Ý nghĩa            | Chuyển hướng tạm thời                 | URL đã đổi vĩnh viễn                     |
-| SEO                | Search engine giữ index URL cũ        | Search engine chuyển index + ranking sang URL mới |
-| Browser/CDN cache  | Không cache redirect                  | Có thể cache lâu dài                     |
-| Use case           | Auth redirect, sau mutation, A/B      | Đổi slug, đổi domain, restructure URL    |
+**`useOptimistic(state, updateFn)`** (React 19) là hook chuyên cho việc này:
 
-(307/308 thay vì 302/301 vì chúng **giữ nguyên HTTP method** — POST vẫn là POST sau redirect, quan trọng với form submission.)
+- Nhận `state` thật (từ props/server) và `updateFn(currentState, optimisticValue)` — function **pure** tính ra state "lạc quan".
+- Trả về `[optimisticState, addOptimistic]` — gọi `addOptimistic(value)` thì UI render `optimisticState` **ngay lập tức**, trong khi action vẫn đang chạy.
+- **React tự quản lý vòng đời**: khi action hoàn tất và state thật mới (sau revalidate) chảy xuống, optimistic state được thay bằng state thật. Nếu action **lỗi**, React tự **rollback** về state cũ — không phải viết code revert thủ công.
 
-**Cơ chế hoạt động — điểm bẫy kinh điển**: `redirect()` hoạt động bằng cách **throw một error đặc biệt** (`NEXT_REDIRECT`). Next.js bắt error này ở framework level và thực hiện chuyển hướng. Hệ quả:
+Điều kiện: `addOptimistic` phải được gọi **trong transition** — tức là bên trong form action, hoặc wrap trong `startTransition` (từ `useTransition`) khi gọi từ event handler. Gọi ngoài transition sẽ bị warning và không hoạt động đúng.
 
-1. Code sau `redirect()` **không bao giờ chạy** — không cần `return redirect(...)` (dù return cũng không sao, giúp TypeScript hiểu flow).
-2. **KHÔNG đặt `redirect()` trong `try/catch` bao quát** — `catch (error)` sẽ "nuốt" mất error `NEXT_REDIRECT` và redirect không xảy ra. Nếu buộc phải dùng try/catch, gọi `redirect()` **sau** khối try/catch, hoặc re-throw khi `isRedirectError(error)`.
+**So với manual optimistic state** (tự `setState` trước rồi revert trong catch): `useOptimistic` gọn hơn hẳn — không cần lưu snapshot state cũ, không cần viết logic rollback, không lo race condition khi nhiều update chồng nhau (React queue các optimistic update theo transition).
 
-Nơi gọi được: **Server Component, Server Action, Route Handler**. Trong Client Component chỉ gọi được trong quá trình render (ít dùng) — event handler nên dùng `useRouter().push()`.
+Use case kinh điển: like button, todo list, comment, vote — các mutation nhỏ, tỷ lệ thành công cao, user cần phản hồi tức thì.
 
-Lưu ý: vì permanent redirect bị browser cache rất lâu, cấu hình sai 308 khó "rút lại" — chỉ dùng khi chắc chắn URL đổi vĩnh viễn.
+Pitfall: vẫn phải `revalidatePath/Tag` trong action — optimistic state chỉ là "tạm ứng" UI, state thật phải được server xác nhận và chảy xuống lại.
 
 ### Code minh hoạ
 
-```typescript
-// app/profile/page.tsx — redirect trong Server Component
-import { redirect } from "next/navigation";
-import { getSession } from "@/lib/auth";
-
-export default async function ProfilePage() {
-  const session = await getSession();
-
-  if (!session) {
-    redirect("/signin"); // 307 — tạm thời, không cần return
-  }
-
-  // TypeScript hiểu session non-null ở đây (redirect return type là never)
-  return <Profile user={session.user} />;
-}
-
-// permanentRedirect — khi URL đổi vĩnh viễn
-// app/blog/[oldSlug]/page.tsx
-import { permanentRedirect } from "next/navigation";
-
-export default async function OldPost({
-  params,
-}: {
-  params: Promise<{ oldSlug: string }>;
-}) {
-  const { oldSlug } = await params;
-  const post = await db.post.findUnique({ where: { oldSlug } });
-
-  if (post?.newSlug) {
-    permanentRedirect(`/articles/${post.newSlug}`); // 308 — SEO chuyển sang URL mới
-  }
-  // ...
-}
-
-// ❌ BẪY KINH ĐIỂN: redirect trong try/catch
+```tsx
+// app/actions/likes.ts
 "use server";
-import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
-export async function badAction(formData: FormData) {
-  try {
-    await db.order.create({ data: parse(formData) });
-    redirect("/orders"); // throw NEXT_REDIRECT...
-  } catch (error) {
-    // ...bị catch nuốt mất ở đây → KHÔNG redirect, lại còn log nhầm là lỗi!
-    console.error("Tạo order thất bại:", error);
-    return { success: false };
-  }
+export async function likePost(postId: string) {
+  await db.like.create({ data: { postId, userId: await getUserId() } });
+  revalidatePath(`/posts/${postId}`); // state thật chảy xuống sau khi xong
 }
 
-// ✅ ĐÚNG: redirect nằm NGOÀI try/catch
-export async function goodAction(formData: FormData) {
-  let orderId: string;
-  try {
-    const order = await db.order.create({ data: parse(formData) });
-    orderId = order.id;
-  } catch (error) {
-    console.error("Tạo order thất bại:", error);
-    return { success: false, message: "Không tạo được order" };
+// LikeButton — optimistic ngay trong form action
+"use client";
+import { useOptimistic } from "react";
+import { likePost } from "@/app/actions/likes";
+
+export function LikeButton({ postId, likes }: { postId: string; likes: number }) {
+  // updateFn PURE: (state hiện tại, giá trị optimistic) => state lạc quan
+  const [optimisticLikes, addOptimisticLike] = useOptimistic(
+    likes,
+    (current, increment: number) => current + increment
+  );
+
+  return (
+    // form action chạy trong transition → gọi addOptimistic hợp lệ
+    <form
+      action={async () => {
+        addOptimisticLike(1);    // UI hiện likes + 1 NGAY LẬP TỨC
+        await likePost(postId);  // server chạy; lỗi → React TỰ rollback
+      }}
+    >
+      <button type="submit">❤️ {optimisticLikes}</button>
+    </form>
+  );
+}
+```
+
+```tsx
+// Todo list — optimistic item + kết hợp useTransition cho event handler
+"use client";
+import { useOptimistic, useTransition } from "react";
+import { addTodo } from "@/app/actions/todos";
+
+type Todo = { id: string; title: string; pending?: boolean };
+
+export function TodoList({ todos }: { todos: Todo[] }) {
+  const [isPending, startTransition] = useTransition();
+
+  const [optimisticTodos, addOptimisticTodo] = useOptimistic(
+    todos,
+    (current, title: string) => [
+      ...current,
+      { id: `tmp-${Date.now()}`, title, pending: true }, // đánh dấu item tạm
+    ]
+  );
+
+  function handleAdd(title: string) {
+    // Gọi từ event handler → PHẢI wrap trong startTransition
+    startTransition(async () => {
+      addOptimisticTodo(title); // item hiện ngay với style mờ
+      await addTodo(title);     // xong → revalidate → state thật thay thế
+    });
   }
 
-  redirect(`/orders/${orderId}`); // ngoài try/catch — chạy đúng
+  return (
+    <ul>
+      {optimisticTodos.map((t) => (
+        <li key={t.id} style={{ opacity: t.pending ? 0.5 : 1 }}>
+          {t.title}
+        </li>
+      ))}
+    </ul>
+  );
 }
 
-// ✅ Hoặc re-throw redirect error nếu buộc phải try/catch rộng
-import { isRedirectError } from "next/dist/client/components/redirect-error";
-
-export async function alternativeAction(formData: FormData) {
-  try {
-    await processAndRedirect(formData);
-  } catch (error) {
-    if (isRedirectError(error)) throw error; // trả error redirect về cho Next xử lý
-    return { success: false };
+// ❌ Manual optimistic — dài dòng, phải tự rollback, dễ race condition
+function ManualLike({ likes }: { likes: number }) {
+  const [count, setCount] = useState(likes);
+  async function handle() {
+    const prev = count;
+    setCount(count + 1); // tự tạm ứng
+    try {
+      await likePost("id");
+    } catch {
+      setCount(prev); // tự rollback — useOptimistic làm giùm việc này
+    }
   }
+  return <button onClick={handle}>❤️ {count}</button>;
 }
 ```
 
 ### Đáp án mẫu
 
-> "Khác nhau chính là status code và ý nghĩa SEO: `redirect()` trả 307 — chuyển hướng tạm thời, search engine giữ index URL cũ; `permanentRedirect()` trả 308 — vĩnh viễn, search engine chuyển index và ranking sang URL mới, browser cache redirect lâu dài. Next dùng 307/308 thay vì 302/301 vì chúng giữ nguyên HTTP method sau redirect. Em dùng `redirect` cho auth flow và sau mutation, `permanentRedirect` khi đổi slug hay restructure URL — và phải chắc chắn vì 308 bị cache, khó rút lại. Điểm bẫy quan trọng: `redirect()` hoạt động bằng cách throw error `NEXT_REDIRECT` để Next bắt ở framework level — nên tuyệt đối không đặt trong try/catch, vì catch sẽ nuốt mất error và redirect không xảy ra. Em luôn gọi redirect sau khối try/catch. Nó gọi được trong Server Component, Server Action và Route Handler."
+> "Optimistic update là hiển thị kết quả ngay khi user thao tác, không chờ server — em dùng `useOptimistic(state, updateFn)`. Hook nhận state thật và một pure function tính state 'lạc quan', trả về `[optimisticState, addOptimistic]`. Khi gọi `addOptimistic`, UI render kết quả tức thì trong lúc Server Action vẫn chạy; action xong và revalidate thì state thật thay thế, còn nếu action lỗi thì **React tự rollback** về state cũ — em không phải viết code revert thủ công như manual optimistic state. Điều kiện là gọi trong transition: trong form action thì tự nhiên có, còn từ event handler phải wrap `startTransition`. Em hay dùng cho like button, todo, comment — mutation nhỏ, cần phản hồi tức thì. Lưu ý vẫn phải `revalidatePath` trong action vì optimistic chỉ là tạm ứng UI, state thật phải do server xác nhận."
 
 ---
 
@@ -620,7 +688,7 @@ export async function alternativeAction(formData: FormData) {
 
 ### Câu hỏi
 
-> `useFormStatus` và `useActionState` dùng để làm gì? Em đặt `useFormStatus` ngay trong component chứa `<form>` thì `pending` luôn là `false` — vì sao, và fix thế nào?
+> useFormStatus và useActionState dùng để làm gì với Server Actions, và tại sao useFormStatus phải nằm trong component con của form?
 
 ### Giải thích lý thuyết
 
@@ -733,7 +801,7 @@ export async function createPost(
 
 ### Câu hỏi
 
-> Server Actions trông như function nội bộ — chỉ cần import và gọi. Vậy về security có gì phải lo? Hãy liệt kê các lớp bảo vệ em sẽ áp dụng.
+> Security considerations khi dùng Server Actions?
 
 ### Giải thích lý thuyết
 
@@ -859,7 +927,7 @@ export default async function ProductPage({ params }) {
 
 ### Câu hỏi
 
-> Next.js có chống CSRF sẵn cho Server Actions không? Cơ chế cụ thể là gì? Và những gì framework KHÔNG lo giùm mà em phải tự làm?
+> Server Actions có bảo vệ CSRF tích hợp không, và bạn vẫn phải tự lo những lớp bảo mật nào?
 
 ### Giải thích lý thuyết
 
@@ -976,10 +1044,13 @@ export async function transferMoney(input: unknown) {
 
 | Sai lầm                                                       | Đúng là                                                                  |
 | ------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| "Server Actions thay thế hoàn toàn API Routes"                | RPC nội bộ cho mutation; public API/webhook/SSE vẫn cần Route Handler    |
+| "Mutate DB xong là UI tự cập nhật"                            | Phải `revalidatePath/Tag` trong action — quên là user thấy data cũ do Router Cache |
+| "Throw error thô trong action để báo lỗi cho user"            | Production mask message — trả về `{success, error}` + hiển thị qua `useActionState` |
+| "error.tsx bắt mọi lỗi từ Server Action"                      | Chỉ bắt trong render flow / form action — gọi từ event handler phải try/catch tại chỗ |
+| "Đặt redirect() trong try/catch cho an toàn"                  | redirect() throw NEXT_REDIRECT — catch sẽ nuốt mất, không redirect       |
 | "cookies()/headers() gọi sync như Next 14"                    | Next 15 là async — phải `await`                                          |
 | "Set cookie ở đâu cũng được"                                  | Chỉ trong Server Action hoặc Route Handler — response đã stream          |
-| "Đặt redirect() trong try/catch cho an toàn"                  | redirect() throw NEXT_REDIRECT — catch sẽ nuốt mất, không redirect       |
+| "useOptimistic phải tự viết code rollback khi lỗi"            | React tự rollback về state cũ khi action lỗi — chỉ cần updateFn pure     |
 | "useFormStatus gọi cùng component chứa form"                  | Phải nằm trong component CON bên trong form — đọc qua context của form cha |
 | "Server Action là function nội bộ nên an toàn"                | Là PUBLIC endpoint — phải auth/authz/validate trong từng action          |
 | "Next chống CSRF rồi nên khỏi lo bảo mật"                     | CSRF chỉ là 1 threat model — vẫn phải tự lo authz, validation, rate limit |

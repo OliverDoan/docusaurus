@@ -1,11 +1,11 @@
 ---
 sidebar_position: 2
-title: "2. Rendering, Streaming & Hydration"
+title: "2. Rendering Modes & Streaming"
 ---
 
-# Rendering, Streaming & Hydration
+# Rendering Modes & Streaming
 
-> *SSR, SSG, Streaming, Hydration — đây là "xương sống" của mọi buổi phỏng vấn Next.js. Trả lời tốt phần này chứng tỏ bạn hiểu Next.js render trang web như thế nào từ server đến browser, chứ không chỉ biết gõ `npx create-next-app`.*
+> *SSR, SSG, static vs dynamic, Streaming, PPR — đây là "xương sống" của mọi buổi phỏng vấn Next.js. Trả lời tốt phần này chứng tỏ bạn hiểu Next.js render trang web như thế nào từ server đến browser, chứ không chỉ biết gõ `npx create-next-app`.*
 
 ---
 
@@ -292,17 +292,110 @@ export default async function Dashboard() {
 
 ---
 
-## Câu 22: Streaming trong React Server Components là gì? `[Advanced]`
+## Câu 26: Sự khác biệt giữa dynamic và static rendering trong App Router? `[Intermediate]`
 
 ### Câu hỏi
 
-> Streaming trong React Server Components hoạt động như thế nào? Tại sao nó cải thiện performance, và cơ chế "out-of-order streaming" là gì?
+> Trong App Router, static rendering và dynamic rendering khác nhau thế nào? Những gì khiến một route chuyển từ static sang dynamic, làm sao kiểm tra một route đang ở mode nào, và tại sao việc phân biệt này quan trọng?
+
+### Giải thích lý thuyết
+
+App Router phân mọi route vào một trong hai mode:
+
+| Tiêu chí | Static rendering | Dynamic rendering |
+| -------- | ---------------- | ----------------- |
+| Render lúc nào | **Build time** (hoặc lúc revalidate với ISR) | **Mỗi request** |
+| Kết quả | HTML + RSC payload tĩnh, cache ở CDN | HTML render mới cho từng user |
+| TTFB | Cực nhanh (CDN hit) | Phụ thuộc tốc độ render + fetch |
+| Personalization | Không (mọi user thấy giống nhau) | Có (đọc được cookie, header) |
+| Chi phí server | Gần như zero | Tỉ lệ thuận với traffic |
+
+**Mặc định là static.** Next.js luôn *cố gắng* prerender route lúc build — đây là "static by default, dynamic by opt-in". Route chỉ **tự động chuyển sang dynamic** khi Next.js phát hiện nó dùng thông tin chỉ tồn tại lúc request (**Dynamic API**):
+
+- **`cookies()`**, **`headers()`** từ `next/headers` — giá trị khác nhau theo từng request.
+- **`searchParams`** trong page — query string chỉ biết lúc request.
+- **`connection()`** — chờ tường minh đến lúc có request thật.
+- Fetch với **`cache: "no-store"`** — yêu cầu data fresh mỗi request.
+
+Ngoài cơ chế tự động, có thể **ép tường minh** bằng route segment config:
+
+- `export const dynamic = "force-dynamic"` — luôn render mỗi request (kể cả không dùng Dynamic API).
+- `export const dynamic = "force-static"` — ép static: `cookies()`/`headers()` trả giá trị rỗng, `searchParams` rỗng. Cẩn thận vì dễ tạo bug ngầm.
+
+**Kiểm tra mode bằng output của `next build`:**
+
+```
+○  (Static)   — prerender thành HTML tĩnh
+●  (SSG)      — prerender từ generateStaticParams
+ƒ  (Dynamic)  — render trên server mỗi request
+```
+
+**Tại sao quan trọng?** Vì nó quyết định **chi phí và tốc độ**: route static serve từ CDN gần như miễn phí và TTFB tối thiểu; route dynamic chiếm compute server mỗi request. Bug kinh điển là **dynamic lan truyền ngoài ý muốn**: một `cookies()` trong layout dùng chung, hay một util đọc `headers()` bị import sâu trong tree, kéo cả nhóm route lẽ ra static thành dynamic — site chậm đi và tốn tiền hơn mà không ai để ý. Thói quen tốt: sau mỗi thay đổi lớn, đọc lại bảng `○`/`ƒ` trong build output để phát hiện route "rớt" khỏi static.
+
+### Code minh hoạ
+
+```tsx
+// app/pricing/page.tsx — STATIC: không đụng Dynamic API
+export default async function PricingPage() {
+  // force-cache → data đóng băng lúc build, route vẫn static
+  const plans = await fetch("https://api.example.com/plans", {
+    cache: "force-cache",
+  }).then((r) => r.json());
+  return <PlanTable plans={plans} />;
+}
+
+// app/account/page.tsx — DYNAMIC: tự động vì gọi cookies()
+import { cookies } from "next/headers";
+
+export default async function AccountPage() {
+  const session = (await cookies()).get("session")?.value; // → route thành ƒ
+  const user = await fetchUser(session);
+  return <Profile user={user} />;
+}
+
+// app/news/page.tsx — ÉP dynamic tường minh dù không dùng Dynamic API
+export const dynamic = "force-dynamic";
+
+export default async function NewsPage() {
+  const news = await fetch("https://api.example.com/news").then((r) =>
+    r.json()
+  );
+  return <NewsList items={news} />;
+}
+
+// ❌ Pitfall: Dynamic API trong layout dùng chung
+// app/(shop)/layout.tsx
+import { headers } from "next/headers";
+
+export default async function ShopLayout({ children }) {
+  const ua = (await headers()).get("user-agent"); // ⚠️ TOÀN BỘ route con
+  return <div data-ua={ua}>{children}</div>;      // trong (shop) thành dynamic!
+}
+
+// Output next build — cách kiểm tra mode:
+// ○ /pricing      → Static  (prerender lúc build, serve từ CDN)
+// ƒ /account      → Dynamic (render mỗi request)
+// ƒ /news         → Dynamic (force-dynamic)
+// ƒ /shop/*       → Dynamic NGOÀI Ý MUỐN do headers() trong layout
+```
+
+### Đáp án mẫu
+
+> "Static rendering là render **lúc build** — HTML và RSC payload được cache, serve từ CDN cho mọi user, TTFB tối thiểu và server gần như không tải gì. Dynamic rendering là render **mỗi request** — cần thiết khi nội dung phụ thuộc từng user. App Router mặc định static; route chỉ chuyển sang dynamic khi đụng Dynamic API: `cookies()`, `headers()`, `searchParams`, `connection()`, hoặc fetch `no-store` — hoặc khi em ép bằng `dynamic = 'force-dynamic'`. Em kiểm tra bằng output của `next build`: ký hiệu `○` là static, `ƒ` là dynamic. Việc phân biệt này quan trọng vì nó quyết định trực tiếp chi phí và tốc độ — bug em hay gặp nhất là dynamic 'lan truyền' ngoài ý muốn: một `cookies()` trong layout dùng chung kéo cả nhóm route thành dynamic. Nên sau thay đổi lớn em luôn đọc lại build output để chắc route nào đáng static vẫn còn static."
+
+---
+
+## Câu 27: Streaming SSR trong Next.js hoạt động như thế nào? `[Advanced]`
+
+### Câu hỏi
+
+> Streaming SSR trong Next.js hoạt động như thế nào? Tại sao nó cải thiện performance, và cơ chế "out-of-order streaming" là gì?
 
 ### Giải thích lý thuyết
 
 **Vấn đề của SSR truyền thống:** server phải chờ **toàn bộ data fetch xong** mới render và gửi HTML. Một fetch chậm (ví dụ recommendation mất 2s) kéo cả trang chậm theo — TTFB bị quyết định bởi **fetch chậm nhất**.
 
-**Streaming** giải quyết bằng cách gửi HTML **từng chunk** qua một HTTP response duy nhất (chunked transfer encoding):
+**Streaming SSR** giải quyết bằng cách gửi HTML **từng chunk** qua một HTTP response duy nhất (chunked transfer encoding):
 
 1. Server render ngay những phần đã sẵn sàng (layout, header, static content) và **flush chunk đầu tiên** — TTFB cực thấp.
 2. Phần đang chờ data (wrap trong `<Suspense>`) được gửi dưới dạng **fallback** (skeleton).
@@ -322,7 +415,7 @@ export default async function Dashboard() {
 | FCP | Chậm | Nhanh (shell + skeleton hiện ngay) |
 | Tổng thời gian full load | Tương đương | Tương đương (data vẫn mất ngần ấy thời gian) |
 
-**Insight phỏng vấn:** streaming **không làm data nhanh hơn** — tổng thời gian load đầy đủ không đổi. Nó cải thiện **perceived performance**: user thấy nội dung sớm hơn và trang "lấp đầy" dần thay vì màn hình trắng. Streaming hoạt động với cả RSC payload khi client-side navigation, không chỉ HTML lần đầu.
+**Insight phỏng vấn:** streaming **không làm data nhanh hơn** — tổng thời gian load đầy đủ không đổi. Nó cải thiện **perceived performance**: user thấy nội dung sớm hơn và trang "lấp đầy" dần thay vì màn hình trắng. Streaming hoạt động với cả RSC payload khi client-side navigation, không chỉ HTML lần đầu (chi tiết góc nhìn React ở Câu 54).
 
 ### Code minh hoạ
 
@@ -383,311 +476,91 @@ async function Reviews() {
 
 ### Đáp án mẫu
 
-> "Streaming cho phép server gửi HTML **từng chunk** thay vì chờ toàn bộ data xong mới gửi. Với SSR truyền thống, TTFB bị quyết định bởi fetch chậm nhất; với streaming, server flush ngay phần shell — layout, header, skeleton — nên TTFB gần như tức thì, còn các phần chậm wrap trong Suspense sẽ stream vào sau. Cơ chế hay nhất là **out-of-order streaming**: vì HTML đã gửi không sửa lại được, React gửi fallback kèm marker, rồi khi data xong thì gửi content thật trong thẻ ẩn ở cuối stream kèm một inline script nhỏ — script này swap skeleton bằng content thật trong DOM, không cần chờ React bundle. Nhờ vậy phần nào xong trước stream trước, bất kể vị trí trong trang. Điểm em luôn nhấn mạnh: streaming không làm data nhanh hơn — tổng full load không đổi — nó cải thiện **perceived performance**: user thấy trang sớm và lấp đầy dần thay vì màn hình trắng."
+> "Streaming SSR cho phép server gửi HTML **từng chunk** thay vì chờ toàn bộ data xong mới gửi. Với SSR truyền thống, TTFB bị quyết định bởi fetch chậm nhất; với streaming, server flush ngay phần shell — layout, header, skeleton — nên TTFB gần như tức thì, còn các phần chậm wrap trong Suspense sẽ stream vào sau. Cơ chế hay nhất là **out-of-order streaming**: vì HTML đã gửi không sửa lại được, React gửi fallback kèm marker, rồi khi data xong thì gửi content thật trong thẻ ẩn ở cuối stream kèm một inline script nhỏ — script này swap skeleton bằng content thật trong DOM, không cần chờ React bundle. Nhờ vậy phần nào xong trước stream trước, bất kể vị trí trong trang. Điểm em luôn nhấn mạnh: streaming không làm data nhanh hơn — tổng full load không đổi — nó cải thiện **perceived performance**: user thấy trang sớm và lấp đầy dần thay vì màn hình trắng."
 
 ---
 
-## Câu 23: Suspense trong Next.js hoạt động như thế nào? `[Intermediate]`
+## Câu 54: React Server Components streaming và progressive rendering là gì? `[Advanced]`
 
 ### Câu hỏi
 
-> `<Suspense>` trong Next.js dùng để làm gì? `loading.tsx` liên quan gì đến Suspense, và vì sao nên đặt boundary granular?
+> Dưới góc nhìn React, RSC streaming và progressive rendering hoạt động thế nào? Suspense boundary đóng vai trò gì, selective hydration là gì, và nó khác gì streaming HTML thuần?
 
 ### Giải thích lý thuyết
 
-**`<Suspense>`** là một React boundary khai báo: *"phần bên trong có thể chưa sẵn sàng — trong lúc chờ, hiển thị `fallback`"*. Trong Next.js App Router, Suspense là **đơn vị chia cắt cho streaming SSR**:
+Câu 27 nhìn streaming ở tầng **HTTP/HTML**; câu này nhìn ở tầng **React**. Khi render Server Components, React không chỉ tạo HTML — nó tạo **RSC payload**: một định dạng serialize đặc biệt mô tả cây UI (kết quả render của Server Component, "lỗ trống" tham chiếu đến Client Component kèm props, và vị trí các Suspense boundary). Payload này cũng được **stream từng phần**:
 
-- Component async (Server Component đang `await` data) bên trong boundary sẽ "treo" (suspend).
-- Server render và flush **fallback** trước, rồi stream content thật vào khi data xong (xem Câu 22).
-- Phần **ngoài** boundary không bị chặn — đây là cách bạn kiểm soát phần nào của trang được phép chậm.
+- **Suspense boundary là đơn vị stream.** Mỗi boundary là một "đường cắt" trong cây: phần đã sẵn sàng được serialize và đẩy đi ngay; component đang `await` data bên trong boundary được đánh dấu *pending*, khi resolve xong thì chunk payload tương ứng được stream nối tiếp. Không có Suspense → cả cây là một khối, phải chờ toàn bộ.
+- **Progressive rendering** là trải nghiệm phía user của cơ chế đó: **shell hiện trước** (layout + fallback), rồi từng phần data đến sau **điền dần** vào trang theo thứ tự hoàn thành — trang "tiến hoá" từ skeleton sang hoàn chỉnh, không có khoảnh khắc màn hình trắng.
+- **Selective hydration** — mảnh ghép thứ ba: React không hydrate cả trang như một khối mà hydrate **theo từng Suspense boundary**, và quan trọng nhất là **ưu tiên theo tương tác của user**. Nếu user click vào một vùng chưa hydrate, React ưu tiên hydrate boundary đó trước, đồng thời **replay event** sau khi hydrate xong — vùng được bấm "sống dậy" trước các vùng khác.
 
-**`loading.tsx` = Suspense ngầm:** khi tạo file `loading.tsx` trong một route segment, Next.js tự động wrap `page.tsx` như sau:
+**Khác streaming HTML thuần ở đâu?** Streaming HTML chỉ tồn tại ở lần tải đầu. RSC streaming hoạt động ở cả **soft navigation**: khi user điều hướng client-side (`next/link`), Next.js không tải HTML mới mà fetch **RSC payload** của route đích — và payload này cũng stream: phần sẵn sàng hiện ngay, phần chậm trong Suspense hiện fallback rồi điền dần. Tức là cùng một mô hình progressive rendering áp dụng nhất quán cho mọi lần điều hướng, kèm bonus: client state (form đang gõ, scroll position) được giữ nguyên vì React chỉ **merge** cây mới vào cây hiện tại.
 
-```tsx
-<Layout>
-  <Suspense fallback={<Loading />}>
-    <Page />
-  </Suspense>
-</Layout>
-```
-
-Nghĩa là cả page là **một boundary lớn**: navigation hiện loading UI ngay lập tức, layout vẫn giữ nguyên (không bị unmount).
-
-**Granular boundaries — tại sao nên chia nhỏ:**
-
-| Cách đặt boundary | Hệ quả |
-| ----------------- | ------ |
-| 1 boundary bao cả page (`loading.tsx`) | Cả trang chờ fetch chậm nhất trong page mới hiện content |
-| Nhiều boundary nhỏ quanh từng khối data | Mỗi khối hiện độc lập — phần nhanh hiện trước, phần chậm skeleton riêng |
-
-Nguyên tắc thiết kế: đặt boundary quanh **đơn vị UI có ý nghĩa** (card, chart, list), fallback nên là **skeleton cùng kích thước** với content thật để tránh layout shift (CLS).
-
-**Pitfalls:**
-
-- Suspense **không catch error** — fetch fail cần `error.tsx` hoặc Error Boundary riêng.
-- Fetch tuần tự trong cùng một component (`await a; await b;`) tạo **waterfall** — Suspense không tự fix; cần tách thành 2 component song song hoặc `Promise.all`.
-- Boundary quá nhỏ và quá nhiều → trang "nhấp nháy" từng mảnh, UX tệ hơn.
+**Pitfall:** nghĩ rằng RSC payload là HTML — không phải; nó là mô tả cây UI để React reconcile. Và nhớ rằng streaming chỉ có tác dụng khi có Suspense boundary đặt đúng chỗ — không boundary thì mọi thứ vẫn chờ nhau.
 
 ### Code minh hoạ
 
 ```tsx
-// app/dashboard/loading.tsx — Suspense NGẦM cho cả page
-export default function Loading() {
-  // Hiện NGAY khi navigate vào /dashboard, layout giữ nguyên
-  return <DashboardSkeleton />;
-}
-
-// app/dashboard/page.tsx — granular boundaries bên trong page
+// app/products/[id]/page.tsx — Next.js 15
 import { Suspense } from "react";
 
-export default function DashboardPage() {
-  return (
-    <div className="grid">
-      {/* Static — hiện ngay trong chunk đầu */}
-      <PageTitle />
-
-      {/* Mỗi khối data có boundary RIÊNG → stream độc lập */}
-      <Suspense fallback={<CardSkeleton />}>
-        <RevenueCard /> {/* fetch 300ms → hiện sớm */}
-      </Suspense>
-
-      <Suspense fallback={<CardSkeleton />}>
-        <OrdersCard /> {/* fetch 800ms */}
-      </Suspense>
-
-      <Suspense fallback={<ChartSkeleton />}>
-        <AnalyticsChart /> {/* fetch 2s → chỉ MÌNH NÓ chờ lâu */}
-      </Suspense>
-    </div>
-  );
-}
-
-// Hai component async chạy SONG SONG vì là 2 subtree riêng
-async function RevenueCard() {
-  const revenue = await fetchRevenue(); // 300ms
-  return <Card title="Doanh thu" value={revenue.total} />;
-}
-
-async function AnalyticsChart() {
-  const data = await fetchAnalytics(); // 2s — không chặn 2 card kia
-  return <Chart data={data} />;
-}
-
-// ❌ Anti-pattern: waterfall trong 1 component — Suspense không cứu được
-async function BadCard() {
-  const user = await fetchUser();        // 500ms
-  const orders = await fetchOrders(user.id); // +800ms → tổng 1.3s tuần tự
-  return <Card user={user} orders={orders} />;
-}
-
-// ✅ Nếu 2 fetch độc lập: chạy song song
-async function GoodCard() {
-  const [user, stats] = await Promise.all([fetchUser(), fetchStats()]);
-  return <Card user={user} stats={stats} />;
-}
-```
-
-### Đáp án mẫu
-
-> "Suspense là boundary khai báo cho phần UI có thể chưa sẵn sàng: trong lúc component async bên trong còn đang await data, React hiện `fallback`; khi data xong, content thật được stream vào thay thế. Trong App Router, Suspense chính là split point của streaming SSR — phần ngoài boundary flush ngay, phần trong stream sau. `loading.tsx` thực chất là Suspense ngầm: Next tự wrap cả page trong một boundary với loading UI, nên navigation hiện feedback tức thì mà layout không bị unmount. Em ưu tiên **granular boundaries**: thay vì một boundary bao cả trang khiến mọi thứ chờ fetch chậm nhất, em đặt boundary quanh từng khối — card, chart, list — để phần nhanh hiện trước. Hai lưu ý em hay nhắc: fallback nên là skeleton đúng kích thước để tránh CLS, và Suspense không fix được waterfall — fetch tuần tự trong cùng component thì phải tách component hoặc `Promise.all`."
-
----
-
-## Câu 24: Hydration là gì? `[Basic]`
-
-### Câu hỏi
-
-> Hydration là gì? Tại sao cần hydration sau khi server đã render HTML, và vì sao JS bundle phải render ra kết quả khớp với HTML đó?
-
-### Giải thích lý thuyết
-
-HTML mà SSR/SSG gửi về chỉ là **markup tĩnh** — user nhìn thấy nội dung nhưng **chưa tương tác được**: button không có onClick, form không có handler, state chưa tồn tại.
-
-**Hydration** là quá trình React trên client "thổi sự sống" vào HTML tĩnh đó:
-
-1. Browser hiển thị HTML server gửi về (user thấy content — FCP).
-2. JS bundle tải về và thực thi.
-3. React chạy lại render trên client để **dựng lại component tree** (Fiber tree) trong memory.
-4. React **đối chiếu** tree này với DOM có sẵn — thay vì tạo DOM mới, nó **adopt (nhận nuôi)** các DOM node hiện có.
-5. React **gắn event listener** (onClick, onChange...) và khởi tạo state, effect.
-6. Từ thời điểm này, page trở thành React app đầy đủ — **TTI (Time to Interactive)** đạt được.
-
-Trong Next.js, lệnh thực hiện việc này là `hydrateRoot(domNode, <App/>)` (framework gọi hộ bạn).
-
-**Tại sao client render phải khớp HTML server?** Vì hydration được thiết kế để **không render lại DOM** — React *giả định* HTML có sẵn chính là kết quả render của component tree, nên nó chỉ "ướm" tree lên DOM và gắn listener. Nếu hai bên lệch nhau, React không biết gắn listener vào đâu cho đúng → **hydration mismatch** (chi tiết ở Câu 25), và React phải vứt DOM server đi, render lại từ đầu trên client — mất toàn bộ lợi ích SSR.
-
-**Khoảng trống cần biết — "uncanny valley":** giữa lúc user *thấy* trang (FCP) và lúc trang *tương tác được* (TTI), click vào button sẽ không có phản hồi. Bundle JS càng lớn, khoảng này càng dài. Đây là lý do Next.js đẩy mạnh Server Components: code của Server Component **không gửi xuống client và không cần hydrate** — chỉ Client Component (`"use client"`) mới phải hydrate, giúp thu nhỏ chi phí này.
-
-### Code minh hoạ
-
-```tsx
-// app/products/[id]/page.tsx — Server Component: KHÔNG cần hydrate
 export default async function ProductPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const product = await fetchProduct(id);
-
   return (
     <main>
-      {/* Phần này là HTML thuần sau khi render — không gửi JS xuống client */}
-      <h1>{product.name}</h1>
-      <p>{product.description}</p>
+      {/* SHELL — serialize và stream NGAY trong chunk RSC payload đầu tiên */}
+      <ProductInfo id={id} />
 
-      {/* Chỉ island này cần hydrate */}
-      <AddToCartButton productId={product.id} />
+      {/* Mỗi Suspense = 1 ĐƠN VỊ STREAM, hoàn thành độc lập */}
+      <Suspense fallback={<ReviewsSkeleton />}>
+        <Reviews id={id} /> {/* Server Component, fetch ~1.5s */}
+      </Suspense>
+
+      <Suspense fallback={<RelatedSkeleton />}>
+        <RelatedProducts id={id} /> {/* fetch ~400ms — điền vào TRƯỚC */}
+      </Suspense>
+
+      {/* Client Component: xuất hiện trong payload dưới dạng THAM CHIẾU
+          (đường dẫn chunk JS + props serialize), hydrate theo selective hydration */}
+      <AddToCartButton productId={id} />
     </main>
   );
 }
 
-// app/products/[id]/AddToCartButton.tsx — Client Component: CẦN hydrate
-"use client";
-import { useState } from "react";
-
-export default function AddToCartButton({ productId }: { productId: string }) {
-  const [adding, setAdding] = useState(false);
-
-  // Trước hydration: button HIỂN THỊ nhưng click KHÔNG có tác dụng
-  // Sau hydration: React gắn onClick + khởi tạo state → tương tác được
-  async function handleClick() {
-    setAdding(true);
-    await fetch("/api/cart", {
-      method: "POST",
-      body: JSON.stringify({ productId }),
-    });
-    setAdding(false);
-  }
-
-  return (
-    <button onClick={handleClick} disabled={adding}>
-      {adding ? "Đang thêm..." : "Thêm vào giỏ"}
-    </button>
-  );
-}
-
-// Bản chất hydration (React làm ngầm trong Next.js):
+// RSC payload stream (minh hoạ, rút gọn — KHÔNG phải HTML):
 //
-// import { hydrateRoot } from "react-dom/client";
-// hydrateRoot(document, <App />);
-// // ≠ createRoot().render(): KHÔNG tạo DOM mới,
-// // mà ADOPT DOM có sẵn + gắn event listener lên đó.
+// Chunk 1 (t≈0):    1:["$","main",null,{children:[
+//                     ["$","ProductInfo..."],          ← shell sẵn sàng
+//                     ["$","$Sreact.suspense",null,{fallback:..., children:"$L2"}],
+//                     ["$","$Sreact.suspense",null,{fallback:..., children:"$L3"}],
+//                     ["$","$L4", ...props]            ← tham chiếu Client Component
+//                   ]}]
+// Chunk 2 (t≈400ms): 3:["$","RelatedProducts..."]      ← xong trước, điền trước
+// Chunk 3 (t≈1.5s):  2:["$","Reviews..."]              ← xong sau, điền sau
 //
-// Timeline:
-// t=0ms   : HTML hiển thị (FCP) — thấy button nhưng click vô dụng
-// t=400ms : JS bundle tải xong, React hydrate
-// t=450ms : Event listener gắn xong (TTI) — page tương tác được
+// Progressive rendering phía user:
+// t=0     : thấy ProductInfo + 2 skeleton + nút Add to Cart (chưa bấm được)
+// t=400ms : RelatedProducts điền vào
+// user click nút Add to Cart → selective hydration ƯU TIÊN hydrate
+//           boundary chứa nút, replay event click sau khi hydrate xong
+// t=1.5s  : Reviews điền vào — trang hoàn chỉnh
+
+// Soft navigation cũng stream RSC payload (khác HTML streaming thuần):
+// <Link href="/products/42" /> → fetch RSC payload của route đích,
+// React MERGE cây mới vào cây hiện tại → giữ nguyên client state, không full reload
 ```
 
 ### Đáp án mẫu
 
-> "Hydration là quá trình biến HTML tĩnh mà server gửi về thành React app tương tác được. SSR cho user *thấy* nội dung sớm, nhưng HTML đó chưa có event listener hay state. Khi JS bundle tải xong, React render lại component tree trên client, đối chiếu với DOM có sẵn, rồi **adopt** các DOM node đó thay vì tạo mới — sau đó gắn onClick, onChange và khởi tạo state. Xong bước này page mới đạt TTI. Client render phải khớp HTML server vì React giả định DOM có sẵn chính là output của tree — nó chỉ 'ướm' lên và gắn listener; lệch nhau là hydration mismatch, React phải vứt DOM đi render lại từ đầu, mất sạch lợi ích SSR. Một insight em hay nói thêm: giữa FCP và TTI có khoảng 'thấy mà chưa bấm được' — bundle càng to khoảng này càng dài. Server Components giải quyết đúng chỗ đó: chỉ Client Component mới cần ship JS và hydrate, phần còn lại là HTML thuần."
+> "Dưới góc nhìn React, khi render Server Components, server tạo ra **RSC payload** — bản serialize của cây UI — và payload này được **stream từng phần**, với **Suspense boundary là đơn vị stream**: phần sẵn sàng đẩy đi ngay, phần đang await data được đánh dấu pending và stream nối tiếp khi xong. Progressive rendering là trải nghiệm tương ứng: shell hiện trước, các phần data đến sau điền dần vào trang. Mảnh thứ ba là **selective hydration**: React hydrate theo từng boundary và ưu tiên vùng user đang tương tác — click vào vùng chưa hydrate thì React hydrate vùng đó trước rồi replay event. Điểm khác streaming HTML thuần mà em hay nhấn mạnh: HTML streaming chỉ có ở lần tải đầu, còn RSC payload stream cả khi **soft navigation** — `next/link` fetch payload của route mới và React merge vào cây hiện tại, vừa progressive vừa giữ nguyên client state."
 
 ---
 
-## Câu 25: Hydration mismatch là gì? Nguyên nhân thường gặp? `[Intermediate]`
-
-### Câu hỏi
-
-> Hydration mismatch là gì? Kể các nguyên nhân thường gặp và cách fix cho từng trường hợp.
-
-### Giải thích lý thuyết
-
-**Hydration mismatch** xảy ra khi **HTML server render ≠ kết quả render lần đầu trên client**. React khi hydrate kỳ vọng hai bên giống hệt nhau; lệch nhau thì React log error (`Hydration failed...`) và phải **vứt bỏ DOM server, render lại toàn bộ từ client** — chậm hơn, có thể gây nháy UI, và làm SSR trở nên vô nghĩa cho phần đó.
-
-**Nguyên nhân thường gặp:**
-
-| Nguyên nhân | Vì sao mismatch |
-| ----------- | --------------- |
-| `Date.now()`, `new Date().toLocaleString()` | Thời điểm render server ≠ client; timezone/locale khác nhau |
-| `Math.random()`, `crypto.randomUUID()` | Mỗi lần chạy ra giá trị khác — server một giá trị, client một giá trị |
-| Đọc `window`, `localStorage` trong render | Server không có browser API → render nhánh khác client |
-| HTML không hợp lệ (`<p>` lồng `<div>`, `<p>` lồng `<p>`) | Browser tự "sửa" HTML sai khi parse → DOM thực tế khác HTML server gửi |
-| Browser extension (Grammarly, ad blocker...) | Chèn element vào DOM **trước khi** React hydrate — không phải bug code |
-
-**Cách fix theo từng trường hợp:**
-
-1. **`useEffect` + state** — pattern phổ biến nhất: render lần đầu giống server (giá trị placeholder), rồi cập nhật giá trị client-only **sau khi hydrate** trong `useEffect`. Hai bên khớp nhau ở lần render đầu → không mismatch.
-2. **`suppressHydrationWarning`** — đặt trên element mà nội dung *chắc chắn và chấp nhận được* là khác nhau (đồng hồ, timestamp). Chỉ áp dụng cho element đó, **không lan xuống children** — và không nên lạm dụng vì nó che luôn bug thật.
-3. **`dynamic(..., { ssr: false })`** — với component phụ thuộc nặng vào browser API (chart, map, editor): bỏ hẳn SSR cho component đó, chỉ render ở client.
-4. **Sửa HTML cho hợp lệ** — không lồng block element trong `<p>`, kiểm tra component UI library render ra thẻ gì.
-5. **Extension** — test ở chế độ incognito để xác nhận; nếu đúng do extension thì không phải lỗi code.
-
-**Insight:** đừng fix bằng `typeof window !== "undefined" ? A : B` ngay trong render — đó chính là *nguyên nhân* mismatch chứ không phải cách fix, vì server đi nhánh B còn client lần đầu đi nhánh A.
-
-### Code minh hoạ
-
-```tsx
-"use client";
-import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-
-// ❌ Mismatch: server render giờ UTC, client render giờ local
-function BadClock() {
-  return <span>{new Date().toLocaleTimeString()}</span>;
-}
-
-// ❌ Mismatch: server không có window → đi nhánh else, client đi nhánh if
-function BadTheme() {
-  const theme =
-    typeof window !== "undefined" ? localStorage.getItem("theme") : "light";
-  return <div data-theme={theme}>...</div>;
-}
-
-// ✅ Fix 1: useEffect — lần render đầu khớp server, cập nhật sau khi hydrate
-function GoodClock() {
-  const [time, setTime] = useState<string | null>(null); // server + client lần 1: null
-
-  useEffect(() => {
-    // Chỉ chạy trên client, SAU khi hydrate xong → an toàn
-    setTime(new Date().toLocaleTimeString());
-  }, []);
-
-  return <span>{time ?? "--:--:--"}</span>;
-}
-
-// ✅ Fix 2: suppressHydrationWarning — chấp nhận khác biệt ở ĐÚNG element này
-function StampedTime({ iso }: { iso: string }) {
-  return (
-    <time dateTime={iso} suppressHydrationWarning>
-      {new Date(iso).toLocaleString()} {/* locale user có thể khác server */}
-    </time>
-  );
-}
-
-// ✅ Fix 3: dynamic ssr:false — component phụ thuộc browser API, bỏ SSR luôn
-const MapWidget = dynamic(() => import("./MapWidget"), {
-  ssr: false,
-  loading: () => <MapSkeleton />,
-});
-
-// ❌ Mismatch do HTML không hợp lệ: browser tự tách <div> ra khỏi <p>
-function BadMarkup() {
-  return (
-    <p>
-      Mô tả: <div>chi tiết</div> {/* <div> trong <p> — DOM bị browser sửa lại */}
-    </p>
-  );
-}
-
-// ✅ Fix 4: dùng markup hợp lệ
-function GoodMarkup() {
-  return (
-    <div>
-      Mô tả: <div>chi tiết</div>
-    </div>
-  );
-}
-```
-
-### Đáp án mẫu
-
-> "Hydration mismatch là khi HTML server render khác với kết quả render lần đầu trên client — React phát hiện lệch, log error và phải vứt DOM server đi để render lại từ client, vừa chậm vừa mất lợi ích SSR. Nguyên nhân top đầu em gặp: `Date`/`Math.random` ra giá trị khác nhau giữa hai lần chạy; đọc `window` hay `localStorage` ngay trong render khiến server đi nhánh khác; HTML không hợp lệ như `<div>` trong `<p>` bị browser tự sửa; và browser extension chèn DOM trước khi hydrate. Cách fix tuỳ case: với giá trị client-only thì render placeholder trước rồi set giá trị trong `useEffect` để lần render đầu khớp server; với element chấp nhận khác biệt như đồng hồ thì `suppressHydrationWarning` — dùng tiết kiệm; với component nặng browser API như map, chart thì `dynamic` với `ssr: false`. Còn nghi ngờ extension thì em test incognito để loại trừ. Điều em tránh nhất là `typeof window` ternary trong render — nó chính là nguồn mismatch chứ không phải cách fix."
-
----
-
-## Câu 56: Partial Prerendering (PPR) là gì? `[Advanced]`
+## Câu 56: Partial Prerendering (PPR) trong Next.js là gì? `[Advanced]`
 
 ### Câu hỏi
 
@@ -799,8 +672,10 @@ async function PersonalizedPrice({ productId }: { productId: string }) {
 | Sai lầm | Đúng là |
 | ------- | ------- |
 | "Next 15 fetch mặc định cache như Next 14" | Next 15 fetch mặc định **không cache** — muốn static phải khai báo `force-cache`/`revalidate` |
+| "App Router mặc định là dynamic" | Mặc định là **static** — chỉ thành dynamic khi đụng Dynamic API (`cookies()`, `headers()`, `searchParams`, `no-store`) hoặc `force-dynamic` |
+| "Muốn biết route static hay dynamic phải đoán" | Đọc output `next build`: `○` = static, `●` = SSG, `ƒ` = dynamic |
 | "Streaming làm data load nhanh hơn" | Tổng thời gian không đổi — streaming cải thiện TTFB và **perceived performance** |
-| "Hydration là render lại trang" | Hydration **adopt** DOM có sẵn + gắn listener; chỉ khi mismatch React mới render lại từ đầu |
-| "Fix mismatch bằng `typeof window` ternary trong render" | Đó là *nguyên nhân* mismatch; fix đúng là `useEffect`, `suppressHydrationWarning`, hoặc `ssr: false` |
+| "RSC payload là HTML" | Là bản **serialize của cây UI** để React reconcile — stream cả ở soft navigation, giữ nguyên client state |
+| "Hydration chạy một lượt cả trang" | **Selective hydration**: hydrate theo từng Suspense boundary, ưu tiên vùng user tương tác và replay event |
 | "PPR chỉ là streaming SSR đổi tên" | PPR prerender shell **lúc build** (CDN), streaming SSR render shell **mỗi request** |
 | "PPR đã stable, cứ bật production" | PPR vẫn **experimental**, cần canary + `experimental.ppr` |
