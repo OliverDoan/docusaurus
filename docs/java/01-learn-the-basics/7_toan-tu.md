@@ -11,6 +11,7 @@ Toán tử là các ký hiệu thực hiện phép tính hoặc thao tác trên 
 
 ## Mục lục
 
+- [Vì sao cần toán tử?](#vì-sao-cần-toán-tử)
 - [Toán tử là gì?](#toán-tử-là-gì)
 - [Toán tử số học](#toán-tử-số-học)
 - [Toán tử gán](#toán-tử-gán)
@@ -21,6 +22,40 @@ Toán tử là các ký hiệu thực hiện phép tính hoặc thao tác trên 
 - [Lớp Math](#lớp-math)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao cần toán tử?
+
+**Vấn đề:** Nếu không có toán tử, mọi phép tính đều phải gọi hàm dài dòng — code trở nên khó đọc và khó bảo trì.
+
+```java
+// Không có toán tử: phải gọi hàm cho từng phép tính
+int tong = Integer.sum(a, b);
+boolean lonHon = Integer.compare(a, b) > 0;
+boolean hopLe = BooleanUtils.and(tuoiHopLe, coBangLai); // không tự nhiên chút nào
+```
+
+**Giải pháp:** Toán tử (`+`, `-`, `*`, `/`, `%`, `==`, `!=`, `&&`, `||`, ...) cho phép viết biểu thức tính toán, so sánh và logic ngắn gọn, tự nhiên — đúng như cách diễn đạt toán học thông thường. Chúng là nền tảng để xây dựng mọi biểu thức và điều kiện trong chương trình.
+
+```java
+// Có toán tử: ngắn gọn, dễ đọc
+int tong = a + b;
+boolean lonHon = a > b;
+boolean hopLe = tuoiHopLe && coBangLai;
+
+// Kết hợp nhiều toán tử trong một biểu thức điều kiện
+if (tuoi >= 18 && diemThi >= 5.0) {
+    System.out.println("Đủ điều kiện tham gia");
+}
+```
+
+:::tip[Dùng thực tế]
+- Tính tiền hóa đơn, phí giảm giá, thuế — dùng toán tử số học `+`, `-`, `*`, `/`, `%`.
+- Kiểm tra điều kiện hợp lệ của form nhập liệu — dùng toán tử so sánh `==`, `!=`, `>=`, `<=`.
+- Kết hợp nhiều điều kiện truy cập (ví dụ: đã đăng nhập VÀ có quyền admin) — dùng toán tử logic `&&`, `||`, `!`.
+- Đếm vòng lặp, cập nhật điểm số trong game — dùng toán tử tăng/giảm `++`, `--` và gán rút gọn `+=`, `-=`.
+:::
 
 ---
 

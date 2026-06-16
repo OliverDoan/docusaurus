@@ -11,6 +11,7 @@ Bài này tổng hợp các lệnh Docker CLI bạn sẽ dùng hàng ngày. Hãy
 
 ## Mục lục
 
+- [Vì sao cần Docker CLI?](#vì-sao-cần-docker-cli)
 - [1. Nhóm lệnh quản lý Image](#1-nhóm-lệnh-quản-lý-image)
 - [2. Nhóm lệnh quản lý Container](#2-nhóm-lệnh-quản-lý-container)
 - [3. Nhóm lệnh thông tin và debug](#3-nhóm-lệnh-thông-tin-và-debug)
@@ -18,6 +19,34 @@ Bài này tổng hợp các lệnh Docker CLI bạn sẽ dùng hàng ngày. Hãy
 - [5. Bảng tóm tắt lệnh hay dùng](#5-bảng-tóm-tắt-lệnh-hay-dùng)
 - [6. Bài tập thực hành](#6-bài-tập-thực-hành)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao cần Docker CLI?
+
+**Vấn đề:** Docker chạy theo mô hình client–server. Bên trong, Docker daemon (`dockerd`) quản lý toàn bộ image, container, network và volume qua một REST API. Nếu phải gọi API thô, mỗi thao tác đơn giản cũng trở nên rườm rà:
+
+```bash
+# Gọi REST API thô — dài dòng, khó nhớ, khó viết vào script
+curl --unix-socket /var/run/docker.sock \
+  -X POST "http://localhost/v1.43/containers/create" \
+  -H "Content-Type: application/json" \
+  -d '{"Image":"nginx","HostConfig":{"PortBindings":{"80/tcp":[{"HostPort":"8080"}]}}}'
+```
+
+**Giải pháp:** Docker CLI (`docker ...`) là client dòng lệnh chính thức, đóng gói các lệnh REST phức tạp thành cú pháp ngắn gọn, nhất quán, dễ ghi nhớ và tích hợp trực tiếp vào shell script hay pipeline CI/CD:
+
+```bash
+# Lệnh tương đương — 1 dòng, dễ đọc, dễ tái sử dụng
+docker run -d -p 8080:80 nginx
+```
+
+:::tip[Dùng thực tế]
+- Khởi động nhanh môi trường dev (database, cache, proxy) bằng vài lệnh `docker run` mà không cần cài đặt thủ công.
+- Viết script CI/CD để build image, push lên registry và deploy container tự động.
+- Debug ứng dụng đang chạy trong container bằng `docker logs`, `docker exec`, `docker stats`.
+- Dọn dẹp tài nguyên tồn đọng (image cũ, container dừng) trên máy dev hoặc server với `docker system prune`.
+:::
 
 ---
 

@@ -11,6 +11,7 @@ Biến là một cái tên đại diện cho ô nhớ chứa dữ liệu, giốn
 
 ## Mục lục
 
+- [Vì sao cần biến và phạm vi?](#vì-sao-cần-biến-và-phạm-vi)
 - [Biến là gì?](#biến-là-gì)
 - [Khai báo và gán giá trị](#khai-báo-và-gán-giá-trị)
 - [Quy tắc đặt tên biến](#quy-tắc-đặt-tên-biến)
@@ -20,6 +21,45 @@ Biến là một cái tên đại diện cho ô nhớ chứa dữ liệu, giốn
 - [Hằng số với final](#hằng-số-với-final)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao cần biến và phạm vi?
+
+**Vấn đề:** Nếu không có biến, mọi giá trị phải ghi cứng (hardcode) vào từng dòng code. Tệ hơn, nếu tất cả biến đều toàn cục (accessible everywhere), chương trình lớn lên sẽ xảy ra xung đột tên, vô tình ghi đè dữ liệu của nhau và rất khó debug.
+
+```java
+// Không dùng biến → lặp lại giá trị, khó thay đổi
+System.out.println("Xin chào " + "An" + ", tuổi: " + 25);
+System.out.println("Điểm của " + "An" + " là: " + 90);
+// Muốn đổi tên phải sửa ở nhiều chỗ!
+
+// Nếu mọi biến đều toàn cục:
+// method1 khai báo int x = 10;
+// method2 vô tình đặt trùng int x = 99; → ghi đè, bug khó tìm
+```
+
+**Giải pháp:** Biến cho phép đặt tên cho giá trị, dùng lại nhiều lần và dễ thay đổi. Phạm vi (scope) giới hạn biến trong khối `{ }` khai báo — biến tự được giải phóng khi ra khỏi scope, tránh xung đột tên và tiết kiệm bộ nhớ.
+
+```java
+// Dùng biến → chỉ cần đổi một chỗ
+String ten = "An";
+int tuoi = 25;
+int diem = 90;
+System.out.println("Xin chào " + ten + ", tuổi: " + tuoi);
+System.out.println("Điểm của " + ten + " là: " + diem);
+
+// Phạm vi giúp tách biệt → không xung đột
+void method1() { int x = 10; } // x này không ảnh hưởng đến method2
+void method2() { int x = 99; } // x riêng, an toàn
+```
+
+:::tip[Dùng thực tế]
+- Lưu tên người dùng vào biến `tenNguoiDung` rồi dùng xuyên suốt màn hình thay vì gõ cứng nhiều chỗ.
+- Biến đếm vòng lặp (`i`, `count`) chỉ cần sống trong khối vòng lặp, tự giải phóng sau đó.
+- Biến tạm trong khối `if` (ví dụ `double discount`) chỉ hữu dụng trong điều kiện đó, không làm "rác" ở chỗ khác.
+- Dùng `final` cho các hằng số như thuế suất, giới hạn kí tự — đặt tên rõ ràng thay vì để số "ma thuật" 0.1 lẫn vào code.
+:::
 
 ---
 

@@ -11,6 +11,7 @@ Mảng là một dãy các phần tử cùng kiểu được đánh số thứ t
 
 ## Mục lục
 
+- [Vì sao cần mảng?](#vì-sao-cần-mảng)
 - [Mảng là gì?](#mảng-là-gì)
 - [Khai báo và khởi tạo mảng](#khai-báo-và-khởi-tạo-mảng)
 - [Truy cập phần tử](#truy-cập-phần-tử)
@@ -20,6 +21,43 @@ Mảng là một dãy các phần tử cùng kiểu được đánh số thứ t
 - [Một vài tiện ích với Arrays](#một-vài-tiện-ích-với-arrays)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao cần mảng?
+
+**Vấn đề:** Giả sử cần lưu điểm thi của 100 học sinh. Nếu dùng biến rời, bạn phải khai báo 100 biến và không thể duyệt chúng bằng vòng lặp — cực kỳ khó quản lý:
+
+```java
+// Không thể duyệt bằng vòng lặp, không thể mở rộng dễ dàng
+int diem1 = 8;
+int diem2 = 7;
+int diem3 = 9;
+// ... thêm 97 biến nữa
+```
+
+**Giải pháp:** Mảng lưu nhiều giá trị cùng kiểu dưới một tên, truy cập qua chỉ số và duyệt gọn bằng vòng lặp:
+
+```java
+// 100 điểm gom vào một mảng, duyệt bằng 3 dòng code
+int[] diem = new int[100];
+diem[0] = 8;
+diem[1] = 7;
+// ... hoặc nhập từ bàn phím qua vòng lặp
+
+int tong = 0;
+for (int d : diem) {
+    tong += d;
+}
+System.out.println("Điểm trung bình: " + (tong / diem.length));
+```
+
+:::tip[Dùng thực tế]
+- Lưu danh sách điểm thi của cả lớp rồi tính điểm trung bình, tìm điểm cao nhất.
+- Lưu tọa độ các điểm trên màn hình (x, y) để xử lý đồ họa hoặc game.
+- Lưu kết quả đo nhiệt độ theo từng giờ trong ngày để phân tích xu hướng.
+- Lưu danh sách mã sản phẩm để tìm kiếm hoặc lọc nhanh bằng vòng lặp.
+:::
 
 ---
 

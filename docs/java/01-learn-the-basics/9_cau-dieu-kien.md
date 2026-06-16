@@ -11,6 +11,7 @@ Câu điều kiện cho phép chương trình chọn hành động khác nhau t�
 
 ## Mục lục
 
+- [Vì sao cần câu điều kiện?](#vì-sao-cần-câu-điều-kiện)
 - [Câu điều kiện là gì?](#câu-điều-kiện-là-gì)
 - [Câu lệnh if](#câu-lệnh-if)
 - [if - else](#if---else)
@@ -20,6 +21,47 @@ Câu điều kiện cho phép chương trình chọn hành động khác nhau t�
 - [switch expression (kiểu mới)](#switch-expression-kiểu-mới)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao cần câu điều kiện?
+
+**Vấn đề:** Chương trình đơn giản chỉ chạy tuần tự từ trên xuống — không thể tự "chọn" hành động phù hợp với từng tình huống. Ví dụ, nếu không có câu điều kiện, ta buộc phải viết code riêng cho từng trường hợp:
+
+```java
+// Không có câu điều kiện — code cứng, không linh hoạt
+public class KhongCoIf {
+    public static void main(String[] args) {
+        int tuoi = 20;
+        // Muốn in "Được vào" khi tuổi >= 18, nhưng không biết rẽ nhánh
+        System.out.println("Được vào");   // in bất kể tuổi bao nhiêu!
+        System.out.println("Không được vào"); // in cả hai — vô nghĩa
+    }
+}
+```
+
+**Giải pháp:** Câu điều kiện cho phép chương trình **rẽ nhánh** dựa trên dữ liệu thực tế — chỉ chạy đúng khối lệnh phù hợp với tình huống tại thời điểm đó:
+
+```java
+public class CoIf {
+    public static void main(String[] args) {
+        int tuoi = 20;
+
+        if (tuoi >= 18) {
+            System.out.println("Được vào"); // chỉ chạy khi tuoi >= 18
+        } else {
+            System.out.println("Không được vào"); // chỉ chạy khi tuoi < 18
+        }
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+- Kiểm tra đăng nhập: đúng mật khẩu thì vào trang chủ, sai thì báo lỗi.
+- Xếp loại học sinh: điểm >= 90 là Giỏi, >= 70 là Khá, còn lại là Trung bình.
+- Kiểm tra quyền truy cập: người dùng có vai trò admin mới thấy trang quản trị.
+- Xử lý đơn hàng: nếu còn hàng thì xác nhận, nếu hết hàng thì thông báo chờ.
+:::
 
 ---
 

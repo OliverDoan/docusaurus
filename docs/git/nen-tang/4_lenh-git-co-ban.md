@@ -23,7 +23,47 @@ Bài này hướng dẫn chi tiết các lệnh Git bạn sẽ dùng **hàng ng�
 - [10. Workflow thực tế: Từ 0 đến commit đầu tiên](#10-workflow-thực-tế-từ-0-đến-commit-đầu-tiên)
 - [11. Lỗi thường gặp](#11-lỗi-thường-gặp)
 - [12. Câu hỏi phỏng vấn](#12-câu-hỏi-phỏng-vấn)
+- [Vì sao cần nắm các lệnh Git cơ bản?](#vì-sao-cần-nắm-các-lệnh-git-cơ-bản)
 - [Tổng kết luồng làm việc hàng ngày](#tổng-kết-luồng-làm-việc-hàng-ngày)
+
+---
+
+## Vì sao cần nắm các lệnh Git cơ bản?
+
+**Vấn đề:** Trước khi có Git, cách phổ biến để "lưu phiên bản" là copy thủ công toàn bộ thư mục:
+
+```bash
+# Thực tế rất nhiều dự án từng trông như thế này
+duan/
+├── duan_v1/
+├── duan_v2_chinh/
+├── duan_final/
+├── duan_final_thatsu/
+├── duan_final_v2_thatsu/
+└── duan_final_v2_thatsu_thuan_sua/
+```
+
+Kết quả: không biết file nào mới nhất, không biết ai sửa gì, không thể quay lại đúng thời điểm mong muốn — phải so sánh file bằng mắt hoặc chấp nhận mất công sức.
+
+**Giải pháp:** Các lệnh Git cơ bản (`add`, `commit`, `status`, `log`, `diff`) tạo thành một quy trình ghi lại từng mốc thay đổi kèm thông điệp và tác giả:
+
+```bash
+# Quy trình thay thế cho "copy thư mục"
+git status                          # Xem có gì thay đổi
+git diff                            # Xem chi tiết thay đổi gì
+git add index.html style.css        # Chọn file muốn lưu mốc
+git commit -m "feat: them trang chu"  # Ghi lại mốc với thông điệp rõ ràng
+git log --oneline                   # Xem lại toàn bộ lịch sử
+```
+
+Mỗi commit là một mốc có thể quay lại bất kỳ lúc nào, biết chính xác ai làm gì và lúc nào.
+
+:::tip[Dùng thực tế]
+- Làm việc nhóm: mỗi người commit phần mình làm, không ghi đè lên nhau
+- Phát hiện lỗi: dùng `git log` và `git diff` xác định commit nào gây ra bug
+- Thử nghiệm: tạo nhánh mới, làm hỏng thoải mái rồi quay lại nhánh chính
+- Bàn giao dự án: lịch sử commit thay thế cho file "changelog" viết tay
+:::
 
 ---
 

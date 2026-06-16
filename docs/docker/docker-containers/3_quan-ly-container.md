@@ -11,6 +11,7 @@ Bài này hướng dẫn cách quản lý container hiệu quả: liệt kê, l�
 
 ## Mục lục
 
+- [Vì sao cần quản lý container?](#vì-sao-cần-quản-lý-container)
 - [1. Liệt kê và lọc Container](#1-liệt-kê-và-lọc-container)
 - [2. Dừng và khởi động lại](#2-dừng-và-khởi-động-lại)
 - [3. Đổi tên Container](#3-đổi-tên-container)
@@ -20,6 +21,48 @@ Bài này hướng dẫn cách quản lý container hiệu quả: liệt kê, l�
 - [7. Labels — Gắn nhãn Container](#7-labels-gắn-nhãn-container)
 - [8. Lệnh quản lý hàng ngày](#8-lệnh-quản-lý-hàng-ngày)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao cần quản lý container?
+
+**Vấn đề:** Mỗi lần chạy `docker run`, Docker tạo ra một container mới và để nó tồn tại mãi — dù đã dừng hay thoát. Sau vài tuần làm việc, máy tích lũy hàng chục container "zombie" chiếm ổ đĩa, giữ cổng mạng, và tiêu tốn RAM.
+
+```bash
+# Tình huống thực tế: khởi động web app nhưng cổng 3000 đã bị giữ
+docker run -p 3000:3000 my-app
+# Error: Bind for 0.0.0.0:3000 failed: port is already allocated
+
+# Nhìn lại — có đến 15 container đang chiếm tài nguyên
+docker ps -a
+# CONTAINER ID   IMAGE     STATUS                     NAMES
+# a1b2c3d4e5f6   my-app    Exited (1) 2 days ago      my-app_1
+# b2c3d4e5f6a1   my-app    Exited (0) 5 days ago      my-app_2
+# c3d4e5f6a1b2   nginx     Up 3 hours                 web-prod
+# ...
+```
+
+**Giải pháp:** Các lệnh quản lý container cho phép theo dõi vòng đời (đang chạy, đã dừng, đã thoát), dừng/khởi động lại khi cần, và dọn dẹp định kỳ để hệ thống luôn gọn gàng.
+
+```bash
+# Dừng container đúng cách (graceful shutdown)
+docker stop my-app
+
+# Xoá container không còn dùng
+docker rm my-app
+
+# Dọn sạch tất cả container đã dừng chỉ với một lệnh
+docker container prune
+# Deleted Containers: a1b2c3d4e5f6, b2c3d4e5f6a1
+# Total reclaimed space: 1.2GB
+```
+
+:::tip[Dùng thực tế]
+- **Dev hàng ngày:** Chạy `docker ps -a` mỗi sáng để kiểm tra container nào bị treo hoặc thoát bất thường.
+- **Giải phóng cổng bị giữ:** Tìm và dừng container đang chiếm cổng trước khi chạy lại ứng dụng.
+- **Tiết kiệm ổ đĩa:** Chạy `docker container prune` cuối ngày để xoá các container Exited không còn cần.
+- **CI/CD pipeline:** Xoá container cũ sau mỗi lần build để tránh xung đột tên và cổng giữa các lần chạy.
+:::
 
 ---
 

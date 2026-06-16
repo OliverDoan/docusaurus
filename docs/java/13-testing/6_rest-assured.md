@@ -11,6 +11,7 @@ REST Assured là thư viện Java giúp test các REST API với cú pháp dễ 
 
 ## Mục lục
 
+- [Vì sao REST Assured ra đời?](#vì-sao-rest-assured-ra-đời)
 - [REST Assured là gì?](#rest-assured-là-gì)
 - [Ôn lại nhanh: REST API là gì?](#ôn-lại-nhanh-rest-api-là-gì)
 - [Cài đặt REST Assured](#cài-đặt-rest-assured)
@@ -23,6 +24,50 @@ REST Assured là thư viện Java giúp test các REST API với cú pháp dễ 
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao REST Assured ra đời?
+
+**Vấn đề:** Trước đây, để test một REST API trong Java, lập trình viên phải dùng `HttpURLConnection` hoặc `HttpClient` thuần — tự build request, set header, gửi, đọc `InputStream`, rồi parse JSON bằng tay trước khi assert từng trường. Kết quả là đoạn code dài dòng, khó đọc, và dễ bỏ sót:
+
+```java
+// Cách cũ — dài dòng, khó bảo trì
+URL url = new URL("http://localhost:8080/users/1");
+HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+conn.setRequestMethod("GET");
+
+int status = conn.getResponseCode();
+assert status == 200;
+
+BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+StringBuilder sb = new StringBuilder();
+String line;
+while ((line = reader.readLine()) != null) sb.append(line);
+reader.close();
+
+// Parse JSON thủ công rồi mới assert được
+String body = sb.toString();
+assert body.contains("\"name\":\"An\"");
+```
+
+**Giải pháp:** REST Assured cung cấp DSL kiểu `given / when / then` — đọc gần như tiếng Anh, tích hợp sẵn JsonPath để truy cập từng trường JSON, validate status/header/body chỉ trong vài dòng:
+
+```java
+// Với REST Assured — ngắn gọn, dễ đọc
+given()
+    .baseUri("http://localhost:8080")
+.when()
+    .get("/users/1")
+.then()
+    .statusCode(200)
+    .body("name", equalTo("An"));
+```
+
+:::tip[Dùng thực tế]
+- Viết integration test cho Spring Boot controller mà không cần mock toàn bộ HTTP layer.
+- Kiểm tra response schema của một microservice sau mỗi lần deploy.
+- Tự động hoá smoke test để xác nhận API endpoint trả đúng dữ liệu sau release.
+- Test các trường hợp lỗi (404, 400, 401) để đảm bảo server xử lý ngoại lệ đúng.
+:::
 
 ## REST Assured là gì?
 

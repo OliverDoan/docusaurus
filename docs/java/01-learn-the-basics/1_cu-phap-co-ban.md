@@ -11,6 +11,7 @@ Cú pháp là bộ quy tắc viết code mà Java bắt buộc bạn tuân theo,
 
 ## Mục lục
 
+- [Vì sao Java có cú pháp chặt chẽ?](#vì-sao-java-có-cú-pháp-chặt-chẽ)
 - [Cú pháp là gì?](#cú-pháp-là-gì)
 - [Cấu trúc một file Java](#cấu-trúc-một-file-java)
 - [Class — khối chứa code](#class--khối-chứa-code)
@@ -21,6 +22,42 @@ Cú pháp là bộ quy tắc viết code mà Java bắt buộc bạn tuân theo,
 - [Comment — ghi chú trong code](#comment--ghi-chú-trong-code)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao Java có cú pháp chặt chẽ?
+
+**Vấn đề:** Các ngôn ngữ linh hoạt như Python hay JavaScript cho phép bạn viết code tự do — không cần khai báo kiểu, không cần class, thậm chí không cần dấu chấm phẩy. Điều này tiện khi viết script nhỏ, nhưng trong dự án lớn với hàng chục lập trình viên, code trở nên khó đọc và lỗi chỉ xuất hiện lúc chạy thật sự:
+
+```java
+// Ví dụ lỗi chỉ phát hiện lúc chạy (ngôn ngữ động)
+// ten_nguoi_dung = "Alice"        ← chuỗi
+// ten_nguoi_dung = 12345          ← bỗng dưng thành số → lỗi âm thầm
+```
+
+**Giải pháp:** Java áp đặt cú pháp chặt chẽ ngay từ đầu để **compiler** (chương trình dịch code) bắt lỗi trước khi chạy:
+
+- **Mọi code nằm trong class** → xác định rõ phạm vi, tránh biến hay hàm "trôi nổi" không ai quản lý.
+- **Bắt buộc có hàm `main`** → điểm vào duy nhất, ai đọc code cũng biết bắt đầu từ đâu.
+- **Kết thúc câu lệnh bằng `;`** → compiler biết chính xác ranh giới từng lệnh, không đoán mò.
+- **Kiểu tĩnh (static typing)** → phải khai báo kiểu dữ liệu, compiler phát hiện lỗi gán sai kiểu ngay lúc biên dịch.
+
+```java
+public class ViDuKieuTinh {
+    public static void main(String[] args) {
+        int tuoi = 25;
+        // tuoi = "hai muoi lam"; // ← Lỗi biên dịch ngay lập tức, không chờ chạy
+        System.out.println("Tuoi: " + tuoi);
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+- **Dự án nhóm lớn:** Quy tắc thống nhất giúp mọi người đọc code của nhau mà không cần hỏi.
+- **Bảo trì code cũ:** Kiểu tĩnh giúp IDE gợi ý và tái cấu trúc an toàn sau nhiều tháng không đụng tới.
+- **Ứng dụng doanh nghiệp:** Lỗi bị bắt lúc biên dịch thay vì lúc triển khai trên môi trường thật.
+- **Onboarding nhân viên mới:** Cú pháp nhất quán giúp người mới hiểu codebase nhanh hơn.
+:::
 
 ---
 

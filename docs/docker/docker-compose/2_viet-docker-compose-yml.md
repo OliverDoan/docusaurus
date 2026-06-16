@@ -11,6 +11,7 @@ Bài này đi chi tiết từng phần của file docker-compose.yml. Sau bài n
 
 ## Mục lục
 
+- [Vì sao cần file docker-compose.yml?](#vì-sao-cần-file-docker-composeyml)
 - [1. Service Configuration](#1-service-configuration)
 - [2. Ports](#2-ports)
 - [3. Environment Variables](#3-environment-variables)
@@ -23,6 +24,77 @@ Bài này đi chi tiết từng phần của file docker-compose.yml. Sau bài n
 - [10. Profiles](#10-profiles)
 - [11. Ví dụ tổng hợp](#11-ví-dụ-tổng-hợp)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao cần file docker-compose.yml?
+
+**Vấn đề:** Một ứng dụng thực tế thường gồm nhiều service chạy cùng nhau — web server, database, cache, v.v. Nếu khởi động thủ công từng container bằng `docker run`, mỗi lệnh kéo theo hàng loạt flag dài, dễ sai và không lặp lại được:
+
+```bash
+# Khởi động thủ công — dễ quên flag, dễ sai thứ tự
+docker run -d --name db \
+  -e POSTGRES_DB=myapp \
+  -e POSTGRES_PASSWORD=secret \
+  -v pgdata:/var/lib/postgresql/data \
+  --network app-net \
+  postgres:16-alpine
+
+docker run -d --name cache \
+  --network app-net \
+  redis:7-alpine
+
+docker run -d --name web \
+  -p 3000:3000 \
+  -e DATABASE_URL=postgresql://postgres:secret@db:5432/myapp \
+  -e REDIS_URL=redis://cache:6379 \
+  --network app-net \
+  --depends ... \   # không có flag này trong docker run!
+  my-app:latest
+```
+
+**Giải pháp:** File `docker-compose.yml` khai báo toàn bộ services, mạng, volume và biến môi trường ở một nơi duy nhất dưới dạng YAML. Chỉ cần một lệnh là dựng toàn bộ hạ tầng, đồng thời version hoá được trong Git:
+
+```yaml
+# docker-compose.yml — thay thế toàn bộ các lệnh docker run ở trên
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: myapp
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  cache:
+    image: redis:7-alpine
+
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://postgres:secret@db:5432/myapp
+      REDIS_URL: redis://cache:6379
+    depends_on:
+      - db
+      - cache
+
+volumes:
+  pgdata:
+```
+
+```bash
+# Dựng toàn bộ — chỉ một lệnh
+docker compose up -d
+```
+
+:::tip[Dùng thực tế]
+- **Local development**: dựng nhanh môi trường dev với DB + cache mà không cần cài đặt thủ công.
+- **Onboarding thành viên mới**: clone repo, chạy `docker compose up` là có ngay môi trường giống nhau trên mọi máy.
+- **CI/CD pipeline**: spin up service dependencies (DB, Redis) cho integration test rồi tear down sau khi chạy xong.
+- **Demo & staging**: deploy toàn bộ stack lên VPS chỉ với một lệnh, dễ rollback bằng Git.
+:::
 
 ---
 

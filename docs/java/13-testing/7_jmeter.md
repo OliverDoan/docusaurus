@@ -21,9 +21,37 @@ Apache JMeter là công cụ mã nguồn mở dùng để test hiệu năng và 
 - [Các bước tạo một test cơ bản](#các-bước-tạo-một-test-cơ-bản)
 - [Khi nào dùng JMeter?](#khi-nào-dùng-jmeter)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
+- [Vì sao JMeter ra đời?](#vì-sao-jmeter-ra-đời)
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao JMeter ra đời?
+
+**Vấn đề:** Khi phát triển ứng dụng, bạn chỉ có thể tự tay gửi vài request để kiểm tra API trả đúng kết quả. Nhưng cách đó không trả lời được câu hỏi thực tế: hệ thống có chịu nổi 1000 người dùng cùng đăng nhập lúc 8 giờ sáng không? Nếu kiểm tra thủ công từng request, bạn không thể mô phỏng hàng trăm người dùng đồng thời, cũng không đo được thời gian phản hồi thực tế dưới tải cao.
+
+```bash
+# Cách cũ: test thủ công từng request một — không phản ánh thực tế
+curl -X GET http://localhost:8080/api/users/1
+# → Trả về 200 OK trong 50ms
+# → Nhưng khi 500 người gọi cùng lúc thì sao? Không biết!
+```
+
+**Giải pháp:** JMeter mô phỏng hàng nghìn người dùng ảo (Thread Group) gửi request đồng thời, đo chính xác thời gian phản hồi, throughput, và tỷ lệ lỗi. Kết quả được tổng hợp thành báo cáo chi tiết. Công cụ chạy được cả GUI lẫn dòng lệnh, dễ tích hợp vào pipeline CI/CD.
+
+```bash
+# JMeter chạy 500 người dùng ảo cùng lúc, đo hiệu năng thực tế
+jmeter -n -t test.jmx -l result.jtl -e -o report
+# → Báo cáo HTML: avg response time, throughput, error rate
+# → Biết chính xác hệ thống "gãy" ở ngưỡng nào
+```
+
+:::tip[Dùng thực tế]
+- Kiểm tra trang bán vé concert trước ngày mở bán (flash sale với hàng chục nghìn người cùng lúc).
+- Đo hiệu năng API sau khi tối ưu database query để xác nhận thực sự nhanh hơn.
+- Phát hiện rò rỉ bộ nhớ bằng cách giữ tải vừa phải liên tục trong vài giờ (endurance test).
+- Tích hợp vào CI/CD để tự động cảnh báo khi hiệu năng tụt sau mỗi lần deploy.
+:::
 
 ## JMeter là gì?
 

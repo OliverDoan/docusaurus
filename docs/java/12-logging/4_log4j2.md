@@ -11,6 +11,7 @@ Log4j2 là một implementation ghi log của Apache, nổi bật ở hiệu nă
 
 ## Mục lục
 
+- [Vì sao Log4j 2 ra đời?](#vì-sao-log4j-2-ra-đời)
 - [Log4j2 là gì?](#log4j2-là-gì)
 - [Cài đặt Log4j2](#cài-đặt-log4j2)
 - [File cấu hình log4j2.xml](#file-cấu-hình-log4j2xml)
@@ -19,6 +20,39 @@ Log4j2 là một implementation ghi log của Apache, nổi bật ở hiệu nă
 - [Lỗ hổng Log4Shell và việc cập nhật phiên bản](#lỗ-hổng-log4shell-và-việc-cập-nhật-phiên-bản)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao Log4j 2 ra đời?
+
+**Vấn đề:** Log4j 1.x — thư viện logging lâu đời của Apache — đã ngừng phát triển từ năm 2015 và có nhiều hạn chế nghiêm trọng. Lớn nhất là logging **đồng bộ**: mỗi lần ghi log, luồng ứng dụng phải đứng chờ cho đến khi dữ liệu được ghi xong mới tiếp tục xử lý nghiệp vụ. Khi hệ thống ghi hàng triệu dòng log mỗi giây, điều này trở thành nút cổ chai rõ rệt:
+
+```java
+// Log4j 1.x — ghi log đồng bộ, luồng chính bị chặn cho đến khi ghi xong
+logger.info("Xử lý đơn hàng #" + orderId + " cho khách " + customerName);
+// ↑ Nối chuỗi tốn kém được thực hiện NGAY CẢ KHI level INFO bị tắt!
+// ↑ Luồng phải CHỜ I/O ghi file xong mới chạy tiếp
+```
+
+**Giải pháp:** Log4j 2 thiết kế lại hoàn toàn với hai cải tiến cốt lõi:
+
+1. **Async Loggers dùng LMAX Disruptor** — ứng dụng chỉ đẩy sự kiện log vào một hàng đợi tốc độ cao, luồng riêng biệt lo việc ghi file; luồng chính không bị chặn.
+2. **Lazy evaluation qua lambda** — chuỗi log chỉ được tạo khi level thật sự được bật, tránh lãng phí CPU:
+
+```java
+// Log4j 2 — lazy evaluation: chuỗi chỉ được tạo khi DEBUG đang bật
+logger.debug(() -> "Chi tiết đơn hàng: " + buildExpensiveDetail(order));
+
+// Async logger: ứng dụng trả về ngay, Disruptor ghi file ở nền
+logger.info("Đã xử lý đơn hàng #{}", orderId); // không chờ I/O
+```
+
+:::tip[Dùng thực tế]
+- **Hệ thống tải cao** (e-commerce, fintech) cần ghi hàng triệu log/giây mà không làm chậm API.
+- **Microservices** với nhiều luồng xử lý song song, cần logging không gây tranh chấp tài nguyên.
+- **Batch processing** ghi log dày đặc theo từng bản ghi — async giúp throughput không sụt giảm.
+- **Ứng dụng real-time** (trading, game server) nơi mỗi mili-giây độ trễ đều quan trọng.
+:::
 
 ---
 

@@ -11,6 +11,7 @@ Logback là một implementation ghi log thật và là lựa chọn mặc đị
 
 ## Mục lục
 
+- [Vì sao Logback ra đời?](#vì-sao-logback-ra-đời)
 - [Logback là gì?](#logback-là-gì)
 - [Logback là mặc định của Spring Boot](#logback-là-mặc-định-của-spring-boot)
 - [File cấu hình logback.xml](#file-cấu-hình-logbackxml)
@@ -21,6 +22,47 @@ Logback là một implementation ghi log thật và là lựa chọn mặc đị
 - [Một file logback.xml hoàn chỉnh](#một-file-logbackxml-hoàn-chỉnh)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao Logback ra đời?
+
+**Vấn đề:** Log4j 1.x (ra đời năm 1999) đã phục vụ tốt trong nhiều năm, nhưng dần bộc lộ những điểm yếu khó vá: kiến trúc cũ khiến hiệu năng hạn chế, không hỗ trợ tự reload cấu hình khi file thay đổi, và không có tích hợp native với SLF4J — nghĩa là mọi dự án cần thêm một adapter ở giữa để dùng API chuẩn:
+
+```java
+// Log4j 1.x: không triển khai SLF4J natively
+// Cần thêm bridge jar "slf4j-log4j12" mới dùng được Logger của SLF4J
+import org.apache.log4j.Logger; // API riêng của Log4j, không chuẩn SLF4J
+Logger logger = Logger.getLogger(MyApp.class);
+logger.info("Log4j 1.x — cần adapter thêm để dùng cùng SLF4J");
+```
+
+**Giải pháp:** Chính tác giả của Log4j — Ceki Gülcü — viết lại từ đầu và tạo ra **Logback** (2006) để khắc phục toàn bộ những hạn chế trên: nhanh hơn đáng kể, footprint nhỏ, tự reload cấu hình khi file `logback.xml` thay đổi mà không cần khởi động lại, và quan trọng nhất — **native triển khai SLF4J** nên không cần adapter:
+
+```xml
+<!-- pom.xml: Spring Boot kéo logback-classic tự động, không cần thêm gì -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter</artifactId>
+    <!-- logback-classic đã được kéo vào, SLF4J hoạt động ngay -->
+</dependency>
+```
+
+```java
+// Logback native SLF4J: dùng thẳng Logger của SLF4J, không cần adapter
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+Logger logger = LoggerFactory.getLogger(MyApp.class); // SLF4J API thuần
+logger.info("Logback xử lý log này trực tiếp — không cần bridge jar");
+```
+
+:::tip[Dùng thực tế]
+- **Spring Boot** chọn Logback làm engine logging mặc định vì tích hợp sẵn, không cần cấu hình thêm.
+- **Tự reload cấu hình** cho phép thay đổi log level trên production mà không cần restart ứng dụng.
+- **Dự án cần ghi log vào nhiều đích** (console + file + database) cùng lúc nhờ hệ thống Appender linh hoạt.
+- **Giảm dung lượng ổ đĩa** với RollingFileAppender tự xoay và xóa file log cũ theo chính sách định sẵn.
+:::
 
 ---
 

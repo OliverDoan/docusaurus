@@ -11,6 +11,7 @@ JUnit là framework test phổ biến nhất trong thế giới Java, gần như
 
 ## Mục lục
 
+- [Vì sao JUnit ra đời?](#vì-sao-junit-ra-đời)
 - [JUnit là gì?](#junit-là-gì)
 - [Cài đặt JUnit 5](#cài-đặt-junit-5)
 - [Viết test đầu tiên với @Test](#viết-test-đầu-tiên-với-test)
@@ -23,6 +24,47 @@ JUnit là framework test phổ biến nhất trong thế giới Java, gần như
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao JUnit ra đời?
+
+**Vấn đề:** Trước khi có JUnit, lập trình viên Java phải test thủ công bằng cách viết hàm `main()`, in kết quả ra console rồi tự mắt so sánh. Cách này không lặp lại được tự động, không phân biệt pass/fail rõ ràng, và không tích hợp được vào CI/CD.
+
+```java
+// Cách cũ: test thủ công, dễ bỏ sót lỗi
+public class Main {
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        int ketQua = calc.add(2, 3);
+        // Phải tự nhìn console và so sánh bằng mắt!
+        System.out.println("Kết quả: " + ketQua);  // in ra 5 -> tự kiểm tra
+        // Nếu có 100 hàm cần test -> mệt mỏi, dễ nhầm, không tự động hóa được
+    }
+}
+```
+
+**Giải pháp:** JUnit chuẩn hóa việc viết test bằng annotation `@Test`, dùng assertion để máy tự kiểm tra pass/fail, chạy hàng loạt test cùng lúc và báo cáo tổng kết, tích hợp trực tiếp vào Maven/Gradle/CI.
+
+```java
+// Cách mới với JUnit: máy tự kiểm tra, không cần nhìn console
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class CalculatorTest {
+    @Test
+    void testAdd() {
+        Calculator calc = new Calculator();
+        assertEquals(5, calc.add(2, 3));  // máy tự so sánh, tự báo pass/fail
+    }
+}
+// Chạy `mvn test` -> JUnit tự tìm và chạy tất cả @Test, in báo cáo xanh/đỏ
+```
+
+:::tip[Dùng thực tế]
+- Chạy toàn bộ test suite bằng một lệnh (`mvn test` hoặc `gradle test`) trước khi commit code.
+- Tích hợp vào pipeline CI/CD (GitHub Actions, Jenkins) để test tự động mỗi khi push code.
+- Phát hiện regression (hỏng tính năng cũ) ngay khi thêm tính năng mới.
+- Viết test trước khi code (TDD) để thiết kế API rõ ràng hơn ngay từ đầu.
+:::
 
 ## JUnit là gì?
 

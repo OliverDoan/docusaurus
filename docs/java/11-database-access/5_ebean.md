@@ -23,6 +23,44 @@ EBean là một thư viện ORM cho Java theo phong cách Active Record, nổi b
 
 ---
 
+## Vì sao có EBean?
+
+**Vấn đề:** JPA/Hibernate rất mạnh nhưng đi kèm khái niệm nặng: `EntityManager`, `PersistenceContext`, trạng thái `detached`/`attached`, `flush`, `merge`... Một đoạn code đơn giản cũng cần nhiều bước:
+
+```java
+// Hibernate / Spring Data JPA
+EntityManager em = emf.createEntityManager();
+em.getTransaction().begin();
+
+User user = new User("Nguyen An", "an@example.com");
+em.persist(user);            // phải gọi qua EntityManager
+
+em.getTransaction().commit();
+em.close();                  // phải nhớ đóng session
+```
+
+Khi entity bị "detached" khỏi `EntityManager`, cập nhật không được lưu và lỗi `LazyInitializationException` hay `detached entity passed to persist` xuất hiện mà khó đoán nguyên nhân.
+
+**Giải pháp:** EBean bỏ hoàn toàn khái niệm persistence context. Entity tự biết cách lưu chính nó — không cần `EntityManager`, không cần quản lý trạng thái attached/detached:
+
+```java
+// EBean — không cần EntityManager, không cần transaction thủ công
+User user = new User("Nguyen An", "an@example.com");
+user.save();   // xong, EBean lo phần còn lại
+
+user.setEmail("new@example.com");
+user.save();   // cập nhật — vẫn cùng một lời gọi đơn giản
+```
+
+:::tip[Dùng thực tế]
+- Dự án vừa và nhỏ cần CRUD nhanh, không muốn cấu hình nặng như Hibernate.
+- Prototype hoặc tool nội bộ cần code gọn, ít boilerplate.
+- Backend game hoặc ứng dụng Play Framework (EBean là ORM mặc định của Play).
+- Nhóm nhỏ quen phong cách Active Record (Ruby on Rails) chuyển sang Java.
+:::
+
+---
+
 ## EBean là gì?
 
 **EBean** là một thư viện **ORM** cho Java, nổi bật vì cú pháp **gọn gàng, dễ

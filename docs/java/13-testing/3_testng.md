@@ -11,6 +11,7 @@ TestNG là một framework test cho Java, ra đời như lựa chọn thay thế
 
 ## Mục lục
 
+- [Vì sao TestNG ra đời?](#vì-sao-testng-ra-đời)
 - [TestNG là gì?](#testng-là-gì)
 - [Cài đặt TestNG](#cài-đặt-testng)
 - [Viết test với @Test](#viết-test-với-test)
@@ -23,6 +24,61 @@ TestNG là một framework test cho Java, ra đời như lựa chọn thay thế
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao TestNG ra đời?
+
+**Vấn đề:** JUnit (phiên bản 3 và 4) đủ dùng cho unit test đơn giản, nhưng khi dự án lớn hơn, nhóm test phức tạp hơn, JUnit bộc lộ nhiều hạn chế:
+
+```java
+// JUnit 4: không có cách nhóm test — muốn chạy riêng "smoke test"
+// thì phải tạo class riêng hoặc dùng runner phức tạp
+@Test
+public void testDangNhap() { ... }
+
+@Test
+public void testMuaHang() { ... }  // không có nhãn, không thể lọc nhóm
+
+// JUnit 4: @Parameterized cồng kềnh, phải dùng constructor riêng
+@RunWith(Parameterized.class)
+public class AddTest {
+    private int a, b, expected;
+    public AddTest(int a, int b, int expected) { ... }  // boilerplate nhiều
+
+    @Parameters
+    public static Collection<Object[]> data() { ... }
+}
+```
+
+Thêm vào đó: chạy test song song (parallel) với JUnit 4 rất khó cấu hình, và không có cơ chế khai báo phụ thuộc giữa các test (`testB` chỉ chạy nếu `testA` đã pass).
+
+**Giải pháp:** TestNG (Next Generation) ra đời năm 2004 để bổ sung đúng những điểm thiếu đó:
+
+```java
+// TestNG: nhóm test bằng groups — chạy chọn lọc dễ dàng
+@Test(groups = "smoke")
+public void testDangNhap() { ... }
+
+@Test(groups = "regression", dependsOnMethods = "testDangNhap")
+public void testMuaHang() { ... }  // chỉ chạy nếu testDangNhap pass
+
+// TestNG: @DataProvider gọn hơn nhiều
+@DataProvider(name = "boSoHanh")
+public Object[][] data() {
+    return new Object[][] { {1, 2, 3}, {10, 20, 30} };
+}
+
+@Test(dataProvider = "boSoHanh")
+public void testCong(int a, int b, int expected) {
+    Assert.assertEquals(a + b, expected);  // chạy 2 lần tự động
+}
+```
+
+:::tip[Dùng thực tế]
+- **Automation testing với Selenium/Appium**: TestNG là lựa chọn mặc định vì quản lý nhóm test (smoke, regression) và chạy song song rất mạnh.
+- **Integration test / E2E test quy mô lớn**: Dùng `testng.xml` để cấu hình suite, chạy từng nhóm test theo môi trường (dev, staging, prod).
+- **Data-driven testing**: `@DataProvider` đọc dữ liệu từ file Excel, database, hoặc API để chạy cùng 1 test với hàng trăm bộ dữ liệu.
+- **CI/CD pipeline**: Cấu hình chạy song song nhiều test class giúp rút ngắn thời gian build đáng kể.
+:::
 
 ## TestNG là gì?
 

@@ -11,6 +11,7 @@ Vòng lặp là cấu trúc cho phép lặp lại một khối lệnh nhiều l�
 
 ## Mục lục
 
+- [Vì sao cần vòng lặp?](#vì-sao-cần-vòng-lặp)
 - [Vòng lặp là gì?](#vòng-lặp-là-gì)
 - [Vòng for](#vòng-for)
 - [Vòng while](#vòng-while)
@@ -20,6 +21,36 @@ Vòng lặp là cấu trúc cho phép lặp lại một khối lệnh nhiều l�
 - [Vòng lặp lồng nhau](#vòng-lặp-lồng-nhau)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao cần vòng lặp?
+
+**Vấn đề:** Nếu bạn muốn in 1000 dòng "Xin chào" hoặc xử lý từng phần tử trong một mảng 500 học sinh, cách viết thủ công là bất khả thi — và code không thể tự thích ứng khi kích thước dữ liệu thay đổi.
+
+```java
+// Cách cũ: viết tay từng dòng — không thể co giãn
+System.out.println("Xin chao 1");
+System.out.println("Xin chao 2");
+System.out.println("Xin chao 3");
+// ... viết đến 1000? Không tưởng!
+```
+
+**Giải pháp:** Vòng lặp cho phép lặp lại một khối lệnh nhiều lần với một điều kiện dừng rõ ràng — code ngắn gọn, tự thích ứng với mọi kích thước dữ liệu.
+
+```java
+// Với vòng lặp: chỉ 3 dòng, chạy bao nhiêu lần cũng được
+for (int i = 1; i <= 1000; i++) {
+    System.out.println("Xin chao " + i);
+}
+```
+
+:::tip[Dùng thực tế]
+- In danh sách điểm của tất cả học sinh trong lớp.
+- Tính tổng các số trong một mảng dữ liệu lớn.
+- Đọc từng dòng file log và kiểm tra lỗi.
+- Thử lại kết nối mạng tối đa N lần khi gặp sự cố.
+:::
 
 ---
 

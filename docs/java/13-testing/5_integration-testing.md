@@ -11,6 +11,7 @@ Integration testing kiểm tra xem nhiều thành phần khi ghép lại có ho�
 
 ## Mục lục
 
+- [Vì sao cần Integration Testing?](#vì-sao-cần-integration-testing)
 - [Integration Test là gì?](#integration-test-là-gì)
 - [Khác biệt với Unit Test](#khác-biệt-với-unit-test)
 - [Kim tự tháp kiểm thử (Test Pyramid)](#kim-tự-tháp-kiểm-thử-test-pyramid)
@@ -22,6 +23,56 @@ Integration testing kiểm tra xem nhiều thành phần khi ghép lại có ho�
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao cần Integration Testing?
+
+**Vấn đề:** Unit test mock toàn bộ các phụ thuộc (database, service khác, API ngoài), nên mỗi thành phần chạy đúng riêng lẻ mà vẫn có thể lỗi khi ghép thật. Các lỗi điển hình unit test **không bắt được**:
+
+```java
+// Unit test: mock repository → luôn pass vì không chạm DB thật
+when(userRepository.save(any())).thenReturn(mockUser);
+
+// Nhưng ở production, câu SQL sai kiểu dữ liệu → lỗi ngay khi ghi thật
+// Ví dụ: cột `age` trong DB là INTEGER, nhưng entity ánh xạ sang String
+@Column(name = "age")
+private String age;  // sai kiểu → unit test không phát hiện, DB thật báo lỗi
+```
+
+Các tình huống thường gặp:
+- Câu SQL sai cú pháp hoặc sai tên cột
+- Ánh xạ entity (mapping) không khớp với schema database
+- Cấu hình transaction (rollback/commit) sai
+- Hai service hiểu sai định dạng dữ liệu truyền qua nhau
+
+**Giải pháp:** Integration Testing chạy nhiều thành phần cùng nhau với **phụ thuộc thật** (database thật, Spring context thật), thường dùng Testcontainers hoặc H2 in-memory để bắt đúng các lỗi ghép nối này:
+
+```java
+// Integration test: dùng PostgreSQL thật trong Docker (Testcontainers)
+@Testcontainers
+@SpringBootTest
+class UserRepositoryIntegrationTest {
+
+    @Container
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16");
+
+    @Autowired
+    private UserRepository userRepository;  // repository + DB thật
+
+    @Test
+    void luuVaDocLai_phatHienLoi_anhXaSai() {
+        User saved = userRepository.save(new User("An", "an@example.com"));
+        // Nếu mapping sai kiểu → test fail ngay ở đây, trước khi lên production
+        assertNotNull(userRepository.findById(saved.getId()).orElse(null));
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+- Kiểm tra repository đọc/ghi database đúng schema và kiểu dữ liệu
+- Xác nhận transaction rollback/commit hoạt động đúng khi có lỗi
+- Kiểm thử luồng từ Controller → Service → Repository trong Spring Boot
+- Phát hiện lỗi cấu hình kết nối (datasource, connection pool) trước khi deploy
+:::
 
 ## Integration Test là gì?
 

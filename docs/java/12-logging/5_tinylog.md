@@ -11,6 +11,7 @@ TinyLog là một thư viện logging siêu nhẹ cho Java với triết lý đ�
 
 ## Mục lục
 
+- [Vì sao TinyLog ra đời?](#vì-sao-tinylog-ra-đời)
 - [TinyLog là gì?](#tinylog-là-gì)
 - [Cài đặt TinyLog](#cài-đặt-tinylog)
 - [Ghi log với Logger.info](#ghi-log-với-loggerinfo)
@@ -20,6 +21,49 @@ TinyLog là một thư viện logging siêu nhẹ cho Java với triết lý đ�
 - [So sánh nhanh TinyLog với Logback/Log4j2](#so-sánh-nhanh-tinylog-với-logbacklog4j2)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao TinyLog ra đời?
+
+**Vấn đề:** Các framework logging phổ biến như Log4j2 hay Logback rất mạnh, nhưng đòi hỏi nhiều dependency và cấu hình XML dài dòng. Với mỗi lớp, lập trình viên phải khai báo một logger riêng — lặp đi lặp lại và dễ quên. Ứng dụng nhỏ, công cụ CLI hay bài demo không cần đến sức mạnh đó nhưng vẫn phải gánh toàn bộ sự phức tạp:
+
+```java
+// Logback / Log4j2: mỗi lớp phải khai báo logger riêng
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class OrderService {
+    // Phải lặp lại dòng này ở TỪNG lớp
+    private static final Logger log = LoggerFactory.getLogger(OrderService.class);
+
+    public void taoDonHang(String maDon) {
+        log.info("Đang tạo đơn hàng: {}", maDon);
+    }
+}
+```
+
+Chưa kể file cấu hình XML có thể dài hàng chục dòng ngay cả khi chỉ cần ghi log ra console.
+
+**Giải pháp:** TinyLog loại bỏ hoàn toàn boilerplate trên. Một JAR nhỏ, API tĩnh đơn giản, cấu hình chỉ vài dòng `.properties` — gọi thẳng `Logger.info(...)` từ bất kỳ lớp nào mà không cần khai báo gì thêm:
+
+```java
+// TinyLog: gọi thẳng, không cần khai báo logger cho từng lớp
+import org.tinylog.Logger;
+
+public class OrderService {
+    public void taoDonHang(String maDon) {
+        Logger.info("Đang tạo đơn hàng: {}", maDon); // sạch, gọn
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+- Viết công cụ dòng lệnh (CLI) hoặc script Java cần log nhanh mà không muốn cấu hình XML.
+- Tạo bài demo, bài tập học tập, prototype khi tốc độ khởi động và sự đơn giản là ưu tiên hàng đầu.
+- Phát triển ứng dụng Android hoặc môi trường nhúng nơi dung lượng thư viện cần giữ nhỏ nhất.
+- Dự án cá nhân nhỏ không cần hệ sinh thái logging đầy đủ của Logback hay Log4j2.
+:::
 
 ---
 

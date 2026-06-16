@@ -11,6 +11,7 @@ Bài trước đã giới thiệu các lệnh cơ bản. Bài này đi sâu vào
 
 ## Mục lục
 
+- [Vì sao Dockerfile có nhiều chỉ thị riêng?](#vì-sao-dockerfile-có-nhiều-chỉ-thị-riêng)
 - [1. ENTRYPOINT vs CMD](#1-entrypoint-vs-cmd)
 - [2. ARG — Build-time variables](#2-arg-build-time-variables)
 - [3. LABEL — Metadata](#3-label-metadata)
@@ -21,6 +22,48 @@ Bài trước đã giới thiệu các lệnh cơ bản. Bài này đi sâu vào
 - [8. STOPSIGNAL — Signal khi dừng container](#8-stopsignal-signal-khi-dừng-container)
 - [9. Ví dụ Dockerfile hoàn chỉnh](#9-ví-dụ-dockerfile-hoàn-chỉnh)
 - [10. Tổng kết tất cả lệnh Dockerfile](#10-tổng-kết-tất-cả-lệnh-dockerfile)
+
+---
+
+## Vì sao Dockerfile có nhiều chỉ thị riêng?
+
+**Vấn đề:** Trước khi có Docker, để triển khai một ứng dụng, bạn phải viết một script shell dài dòng, không có cấu trúc rõ ràng, và mỗi lần build lại phải chạy từ đầu:
+
+```bash
+# Script cũ — mọi thứ trộn lẫn vào nhau, chạy lại từ đầu mỗi lần
+apt-get install -y nodejs
+mkdir /app && cd /app
+cp -r /source/code /app/
+npm install
+export NODE_ENV=production
+node server.js
+```
+
+Không có cách phân biệt: đây là bước cài phụ thuộc (ít thay đổi), đây là bước copy code (thường xuyên thay đổi). Mỗi lần sửa code là phải chạy lại toàn bộ từ đầu, tốn thời gian và dễ lỗi.
+
+**Giải pháp:** Dockerfile tách từng việc thành một chỉ thị riêng — mỗi chỉ thị tạo ra một **layer được cache độc lập**. Docker chỉ rebuild layer nào có thay đổi, các layer trước đó được tái sử dụng:
+
+```dockerfile
+# Mỗi chỉ thị = một layer cache riêng
+FROM node:20-alpine          # Layer 1: image gốc (cache rất lâu)
+WORKDIR /app                 # Layer 2: tạo thư mục (hiếm thay đổi)
+COPY package*.json ./        # Layer 3: danh sách phụ thuộc
+RUN npm ci                   # Layer 4: install phụ thuộc (cache đến khi package.json đổi)
+COPY . .                     # Layer 5: code ứng dụng (thay đổi thường xuyên)
+ENV NODE_ENV=production      # Layer 6: biến môi trường runtime
+CMD ["node", "server.js"]    # Layer 7: lệnh khởi động
+```
+
+Khi bạn chỉ sửa code (`COPY . .`), Docker bỏ qua layer 1–4 (đã cache) và chỉ chạy lại từ layer 5. Build nhanh hơn nhiều lần.
+
+:::tip[Dùng thực tế]
+
+- **Tối ưu tốc độ build CI/CD**: Đặt `COPY package*.json` và `RUN npm install` trước `COPY . .` để cache phụ thuộc, chỉ rebuild khi `package.json` thay đổi.
+- **Bảo mật với USER**: Dùng chỉ thị `USER` để container không chạy với quyền root, tránh rủi ro khi container bị tấn công.
+- **Phân biệt CMD vs ENTRYPOINT**: Dùng `CMD` cho ứng dụng thông thường (dễ ghi đè khi debug), dùng `ENTRYPOINT` cho CLI tool cần giữ nguyên binary.
+- **Biến môi trường đúng chỗ**: `ARG` cho giá trị chỉ cần khi build (ví dụ: phiên bản Node), `ENV` cho giá trị cần tồn tại lúc container chạy (ví dụ: `NODE_ENV`, `PORT`).
+
+:::
 
 ---
 

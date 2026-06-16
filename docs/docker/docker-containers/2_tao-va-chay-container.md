@@ -11,6 +11,7 @@ Bài này đi sâu vào các kịch bản thực tế khi tạo và chạy conta
 
 ## Mục lục
 
+- [Vì sao tách Image và Container?](#vì-sao-tách-image-và-container)
 - [1. Chạy Web Server](#1-chạy-web-server)
 - [2. Chạy Database](#2-chạy-database)
 - [3. Chạy Ứng dụng Development](#3-chạy-ứng-dụng-development)
@@ -19,6 +20,35 @@ Bài này đi sâu vào các kịch bản thực tế khi tạo và chạy conta
 - [6. Resource Limits](#6-resource-limits)
 - [7. Bài tập thực hành](#7-bài-tập-thực-hành)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao tách Image và Container?
+
+**Vấn đề:** Trước Docker, cài app lên server nào thì phải cấu hình lại từ đầu trên server đó — hệ điều hành khác, thư viện khác, phiên bản khác. Kết quả: "máy tôi chạy được mà máy bạn thì không". Nếu đóng gói cả môi trường vào một thứ duy nhất và chạy trực tiếp, chỉ chạy được một bản tại một thời điểm, không thể dùng lại hay nhân bản.
+
+```bash
+# Cách cũ: cài thủ công trên từng máy → không đồng nhất
+apt install nodejs=18        # máy A: Node 18
+apt install nodejs=20        # máy B: Node 20 → app hoạt động khác nhau
+```
+
+**Giải pháp:** Docker tách thành hai lớp — **image** (khuôn bất biến, đóng gói sẵn app + dependency) và **container** (một bản chạy của image). Từ một image, `docker run` tạo ra nhiều container giống hệt nhau, mỗi cái có port/env/volume riêng qua flag, dễ tạo và xoá nhanh mà không ảnh hưởng image gốc.
+
+```bash
+# Một image → nhiều container, mỗi cái cấu hình riêng
+docker run -d --name web-1 -p 8080:80 nginx:alpine   # container 1
+docker run -d --name web-2 -p 8081:80 nginx:alpine   # container 2
+docker run -d --name web-3 -p 8082:80 nginx:alpine   # container 3
+# Image nginx:alpine không thay đổi; 3 container chạy độc lập
+```
+
+:::tip[Dùng thực tế]
+- Chạy nhiều phiên bản database song song (dev/staging) từ cùng một image postgres.
+- Deploy app lên nhiều server chỉ bằng cách `docker run` image đã build — đảm bảo môi trường giống hệt nhau.
+- Xoá container sau khi test xong (`docker rm`) mà không mất image, tạo lại ngay khi cần.
+- Truyền cấu hình khác nhau (port, env, volume) qua flag `docker run` thay vì sửa image.
+:::
 
 ---
 
