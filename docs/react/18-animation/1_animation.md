@@ -11,11 +11,68 @@ title: "1. Animation trong React"
 
 ## Mục lục
 
+- [Vì sao dùng thư viện animation?](#vì-sao-dùng-thư-viện-animation)
 - [CSS Animation thuần](#css-animation-thuần)
 - [Framer Motion (khuyến nghị)](#framer-motion-khuyến-nghị)
 - [React Spring](#react-spring)
 - [GSAP](#gsap)
 - [View Transitions API](#view-transitions-api)
+
+---
+
+## Vì sao dùng thư viện animation?
+
+**Vấn đề:** Làm animation bằng CSS thuần khó phối hợp theo state của React. Khổ nhất là animate lúc component **mount/unmount** — React gỡ DOM ngay lập tức nên không có "exit animation". Chuỗi animation phức tạp, kéo-thả (drag), layout animation... nếu tự code bằng `requestAnimationFrame` thì rất cực và dễ giật.
+
+```jsx
+function Modal({ isOpen }) {
+  // React unmount ngay → exit animation KHÔNG chạy
+  if (!isOpen) return null;
+  return <div className="modal fade-in">Nội dung</div>;
+}
+
+// Tự code spring/gesture bằng rAF: phải quản lý frame, velocity, cleanup...
+useEffect(() => {
+  let raf;
+  const tick = () => {
+    // tính toán từng frame thủ công, dễ sai và khó maintain
+    raf = requestAnimationFrame(tick);
+  };
+  raf = requestAnimationFrame(tick);
+  return () => cancelAnimationFrame(raf);
+}, []);
+```
+
+**Giải pháp:** Thư viện animation (Framer Motion/Motion, React Spring, GSAP) cho API **khai báo** gắn thẳng với state/props, tự lo enter/exit (`AnimatePresence`), spring vật lý tự nhiên, gesture và layout animation — không cần đụng tới `requestAnimationFrame`.
+
+```jsx
+import { motion, AnimatePresence } from "motion/react";
+
+function Modal({ isOpen }) {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }} // tự chạy khi mount
+          exit={{ opacity: 0, y: 20 }}   // tự chạy trước khi unmount
+        >
+          Nội dung
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Modal / danh sách item vào ra**: fade + slide khi thêm/xóa phần tử, có cả exit animation thay vì biến mất đột ngột.
+- **Chuyển trang (page transition)**: hiệu ứng mượt giữa các route, shared element với `layoutId`.
+- **Micro-interaction nút bấm**: scale nhẹ khi hover/tap để phản hồi cho người dùng.
+- **Kéo-thả / gesture**: drag card, swipe to dismiss, kéo trong vùng giới hạn — xử lý sẵn velocity và ràng buộc.
+
+:::
 
 ---
 

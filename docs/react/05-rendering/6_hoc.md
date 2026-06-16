@@ -11,11 +11,66 @@ title: "6. Higher Order Components (HOC)"
 
 ## Mục lục
 
+- [Vì sao có HOC (Higher-Order Component)?](#vì-sao-có-hoc-higher-order-component)
 - [HOC là gì?](#hoc-là-gì)
 - [Ví dụ cơ bản](#ví-dụ-cơ-bản)
 - [HOC nâng cao](#hoc-nâng-cao)
 - [HOC vs Custom Hook](#hoc-vs-custom-hook)
 - [Khi nào còn dùng HOC?](#khi-nào-còn-dùng-hoc)
+
+---
+
+## Vì sao có HOC (Higher-Order Component)?
+
+**Vấn đề:** Nhiều component cần **cùng một logic bọc ngoài** — kiểm tra
+đăng nhập, inject dữ liệu, ghi log. Lặp lại ở từng component thì trùng
+code. Trước khi có Hooks, không có cách gọn để chia sẻ logic này.
+
+```jsx
+// Logic kiểm tra đăng nhập lặp lại ở mọi page
+function Dashboard() {
+  const user = useUser();
+  if (!user) return <Login />;
+  return <div>Dashboard...</div>;
+}
+
+function Settings() {
+  const user = useUser();
+  if (!user) return <Login />; // ← trùng code
+  return <div>Settings...</div>;
+}
+```
+
+**Giải pháp:** Dùng **HOC** — một **hàm** nhận vào component và trả về
+một component **mới** đã được "bọc" thêm hành vi. Logic cross-cutting viết
+một lần, dùng lại cho nhiều component.
+
+```jsx
+// Viết logic một lần trong HOC
+function withAuth(Component) {
+  return function Guarded(props) {
+    const user = useUser();
+    if (!user) return <Login />;
+    return <Component {...props} user={user} />;
+  };
+}
+
+// Bọc nhiều page, không lặp logic
+const Dashboard = withAuth(Page);
+const Settings = withAuth(SettingsPage);
+```
+
+(Nay phần lớn được thay bằng custom hook, nhưng HOC vẫn gặp: `connect`
+của Redux, `withRouter` cũ.)
+
+:::tip[Dùng thực tế]
+
+- **`withAuth`** — bảo vệ route, chặn user chưa đăng nhập.
+- **`connect(mapState, mapDispatch)`** — Redux inject state/dispatch vào props.
+- **`withTheme`** — inject theme hiện tại cho component.
+- **Logging / analytics wrapper** — tự động ghi log mỗi lần render hoặc tracking sự kiện.
+
+:::
 
 ---
 

@@ -11,11 +11,63 @@ Tối ưu **asset** (tài nguyên tĩnh: ảnh, font chữ, script) là việc g
 
 ## Mục lục
 
+- [Vì sao cần tối ưu asset?](#vì-sao-cần-tối-ưu-asset)
 - [next/image](#nextimage)
 - [next/font](#nextfont)
 - [next/script](#nextscript)
 - [Static Assets (public/)](#static-assets-public)
 - [Video](#video)
+
+---
+
+## Vì sao cần tối ưu asset?
+
+**Vấn đề:**
+
+```tsx
+// Ảnh tải nguyên kích thước gốc (4000x3000, 5MB), sai định dạng, không lazy
+<img src="/photo.jpg" alt="..." />
+
+// Font Google nạp qua <link> bên thứ ba, render-blocking, nhấp nháy chữ (FOUT/FOIT)
+<link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
+
+// Script analytics chặn render, chạy ngay khi parse HTML
+<script src="https://analytics.example.com/tracker.js"></script>
+```
+
+Hậu quả: trang nặng và chậm, layout nhảy (CLS) khi ảnh/font tải xong, chữ
+nhấp nháy, render bị chặn. Đây là nguyên nhân hàng đầu kéo điểm hiệu năng và
+SEO (Core Web Vitals) xuống thấp.
+
+**Giải pháp:**
+
+```tsx
+import Image from "next/image";
+import { Inter } from "next/font/google";
+import Script from "next/script";
+
+// next/image: tự resize, WebP/AVIF, lazy mặc định, chống CLS nhờ width/height
+<Image src="/photo.jpg" alt="..." width={800} height={600} />;
+
+// next/font: self-host, không nhấp nháy, không layout shift
+const inter = Inter({ subsets: ["latin"], display: "swap" });
+
+// next/script: kiểm soát thời điểm tải, không chặn render
+<Script src="https://analytics.example.com/tracker.js" strategy="afterInteractive" />;
+```
+
+:::tip[Dùng thực tế]
+
+- **Thay `<img>` bằng `<Image>`**: ảnh banner/sản phẩm tự nén WebP/AVIF, lazy
+  load ảnh ngoài viewport, hết giật layout khi cuộn.
+- **Dùng `next/font` cho Google Font**: self-host Inter/Roboto, chữ hiện mượt
+  từ đầu, không còn nhấp nháy hay nhảy chữ.
+- **Kiểm soát script analytics bằng `next/script`**: GA/pixel chạy
+  `afterInteractive` hoặc `lazyOnload`, không chặn lần hiển thị đầu tiên.
+- **Cải thiện Core Web Vitals**: LCP, CLS, INP tốt lên rõ → điểm Lighthouse và
+  thứ hạng SEO tăng theo.
+
+:::
 
 ---
 

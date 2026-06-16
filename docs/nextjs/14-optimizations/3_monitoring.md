@@ -11,11 +11,75 @@ title: "3. Monitoring và Observability"
 
 ## Mục lục
 
+- [Vì sao cần monitoring?](#vì-sao-cần-monitoring)
 - [Web Vitals](#web-vitals)
 - [Next.js Analytics](#nextjs-analytics)
 - [Instrumentation](#instrumentation)
 - [OpenTelemetry](#opentelemetry)
 - [Error tracking](#error-tracking)
+
+---
+
+## Vì sao cần monitoring?
+
+**Vấn đề:**
+
+```tsx
+// "Trên máy mình chạy nhanh mà!" — máy dev: Mac M-series, mạng cáp quang.
+// Người dùng thật: iPhone 8, 3G, ở vùng xa server → trải nghiệm khác hẳn.
+//
+// Lỗi production xảy ra âm thầm:
+try {
+  await checkout();
+} catch (err) {
+  // Không log, không báo → tới khi khách phàn nàn mới biết, đã mất đơn.
+}
+//
+// Tối ưu mò: sửa lung tung mà không có số liệu → không biết có cải thiện thật không.
+```
+
+Đo trên máy dev (lab data) không đại diện cho người dùng thật. Lỗi production không tự lộ ra, và nếu không đo thì không biết phải tối ưu cái gì.
+
+**Giải pháp:**
+
+```tsx
+// Đo Core Web Vitals từ NGƯỜI DÙNG THẬT (field data)
+"use client";
+import { useReportWebVitals } from "next/web-vitals";
+
+export function WebVitals() {
+  useReportWebVitals((metric) => {
+    // Gửi LCP / CLS / INP thực địa về analytics
+    fetch("/api/metrics", { method: "POST", body: JSON.stringify(metric) });
+  });
+  return null;
+}
+
+// Theo dõi lỗi production tự động (Sentry)
+import * as Sentry from "@sentry/nextjs";
+
+try {
+  await checkout();
+} catch (err) {
+  Sentry.captureException(err, { tags: { feature: "checkout" } });
+  throw err;
+}
+
+// Tracing để tìm bước chậm trong toàn hệ thống (OpenTelemetry)
+import { registerOTel } from "@vercel/otel";
+registerOTel({ serviceName: "my-app" });
+```
+
+Monitoring và observability biến phỏng đoán thành **số liệu thật**: đo Web Vitals từ người dùng (`useReportWebVitals`, Vercel Analytics), theo dõi lỗi (Sentry), tracing (OpenTelemetry) và log có cấu trúc. Mọi quyết định tối ưu đều dựa trên dữ liệu đo được, không đoán mò.
+
+:::tip[Dùng thực tế]
+
+- **Thu thập Web Vitals thực địa**: dùng `useReportWebVitals` hoặc Vercel Analytics để xem LCP/CLS/INP p75 của người dùng thật, không chỉ điểm Lighthouse trên CI.
+- **Cảnh báo khi lỗi tăng**: Sentry gửi alert khi 5xx error rate vượt ngưỡng, biết ngay thay vì chờ khách phàn nàn.
+- **Theo dõi API chậm**: trace span của OpenTelemetry chỉ ra route handler hay DB query nào đang là điểm nghẽn.
+- **Đo tác động sau mỗi lần tối ưu**: so p75 Web Vitals trước/sau khi sửa để xác nhận thay đổi thực sự giúp người dùng nhanh hơn.
+
+:::
 
 ---
 

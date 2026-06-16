@@ -12,6 +12,7 @@ Node.js là non-blocking, nên xử lý bất đồng bộ là kỹ năng cốt 
 
 ## Mục lục
 
+- [Vì sao có các async pattern?](#vì-sao-có-các-async-pattern)
 - [1. Callbacks](#1-callbacks)
 - [2. Promises](#2-promises)
 - [3. Async/Await](#3-asyncawait)
@@ -20,6 +21,47 @@ Node.js là non-blocking, nên xử lý bất đồng bộ là kỹ năng cốt 
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao có các async pattern?
+
+**Vấn đề:** Node làm I/O (đọc file, query DB, gọi API) theo kiểu non-blocking bằng callback. Khi nhiều bước phụ thuộc nhau, callback lồng vào nhau ("callback hell") — khó đọc, khó xử lý lỗi ở từng tầng.
+
+```js
+// Mỗi bước phụ thuộc bước trước → lồng sâu, lỗi phải bắt lặp lại
+getUser(id, (err, user) => {
+  if (err) return done(err);
+  getOrders(user.id, (err, orders) => {
+    if (err) return done(err);
+    getOrderDetails(orders[0].id, (err, details) => {
+      if (err) return done(err);
+      done(null, details);
+    });
+  });
+});
+```
+
+**Giải pháp:** Tiến hoá dần — Promise nối `.then` phẳng và gom lỗi bằng `.catch`; rồi async/await cho viết code bất đồng bộ như đồng bộ với `try/catch` quen thuộc; `Promise.all` chạy nhiều việc song song.
+
+```js
+// async/await: phẳng, dễ đọc, một chỗ bắt lỗi
+async function getDetails(id) {
+  try {
+    const user = await getUser(id);
+    const orders = await getOrders(user.id);
+    return await getOrderDetails(orders[0].id);
+  } catch (err) {
+    console.error('Lỗi:', err.message);
+    throw err;
+  }
+}
+```
+
+:::tip[Dùng thực tế]
+- **Đọc file + query DB tuần tự:** dùng `await` từng bước khi bước sau cần kết quả bước trước.
+- **Gọi nhiều API độc lập:** dùng `Promise.all` để chạy song song, tổng thời gian bằng request chậm nhất.
+- **Xử lý lỗi I/O:** bọc `try/catch` quanh `await` để bắt lỗi mạng, file không tồn tại, DB timeout.
+- **Stream dữ liệu lớn:** xử lý theo từng phần thay vì nạp hết vào bộ nhớ, tránh nghẽn event loop.
+:::
 
 ## 1. Callbacks
 

@@ -11,12 +11,60 @@ title: "1. Headless Component Libraries"
 
 ## Mục lục
 
+- [Vì sao có headless UI?](#vì-sao-có-headless-ui)
 - [Headless là gì?](#headless-là-gì)
 - [Radix UI](#radix-ui)
 - [React Aria](#react-aria)
 - [Ark UI](#ark-ui)
 - [Headless UI](#headless-ui)
 - [Khi nào chọn headless?](#khi-nào-chọn-headless)
+
+---
+
+## Vì sao có headless UI?
+
+**Vấn đề:** Thư viện component "full UI" (Material UI, Ant Design...) đẹp sẵn nhưng **khó ép theo design system riêng**. Muốn đổi look thì phải ghi đè style chồng chéo, vật lộn với specificity, và vẫn dính dáng dấp giao diện của thư viện.
+
+```jsx
+// MUI: ghi đè style vất vả, vẫn lộ "chất" Material
+<Button
+  sx={{
+    backgroundColor: "#000 !important",
+    borderRadius: 0,
+    boxShadow: "none",
+    "&:hover": { backgroundColor: "#333 !important" },
+    // ...vẫn còn ripple, padding, font của MUI
+  }}
+>
+  Save
+</Button>
+```
+
+Còn tự code from scratch thì lại phải tự lo **logic phức tạp + accessibility** (keyboard nav, ARIA, focus trap) — phần khó và dễ sai nhất.
+
+**Giải pháp:** **Headless UI** (Radix, Headless UI, React Aria, TanStack Table) cung cấp **logic + accessibility + tương tác bàn phím** nhưng **không áp style** → bạn tự tô 100% theo design. Tách hẳn logic khỏi giao diện.
+
+```jsx
+// Radix: lo logic + a11y, bạn tự style 100%
+import * as Dialog from "@radix-ui/react-dialog";
+
+<Dialog.Root>
+  <Dialog.Trigger className="btn-cua-toi">Save</Dialog.Trigger>
+  <Dialog.Portal>
+    {/* class do bạn tự đặt — không dính style thư viện */}
+    <Dialog.Content className="theme-rieng-cua-team">...</Dialog.Content>
+  </Dialog.Portal>
+</Dialog.Root>
+```
+
+:::tip[Dùng thực tế]
+
+- **Design system riêng** cho công ty: cần UI nhất quán theo brand, không muốn dính look của Material/AntD.
+- **Dropdown/combobox/dialog** cần a11y chuẩn (keyboard, ARIA) nhưng style hoàn toàn tuỳ ý.
+- **Table phức tạp** (sort, filter, pagination, virtual) dùng TanStack Table — logic mạnh, render tuỳ bạn.
+- **Thương hiệu cần UI độc nhất** (landing, sản phẩm flagship) — không thể trông "giống mọi app khác".
+
+:::
 
 ---
 

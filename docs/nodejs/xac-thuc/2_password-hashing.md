@@ -11,6 +11,7 @@ Password hashing là việc biến mật khẩu thành một chuỗi mã hoá m�
 
 ## Mục lục
 
+- [Vì sao phải hash mật khẩu?](#vì-sao-phải-hash-mật-khẩu)
 - [Tại sao cần hash password?](#tại-sao-cần-hash-password)
 - [bcrypt](#bcrypt)
 - [Salt Rounds](#salt-rounds)
@@ -19,6 +20,47 @@ Password hashing là việc biến mật khẩu thành một chuỗi mã hoá m�
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao phải hash mật khẩu?
+
+**Vấn đề:**
+
+```js
+// Lưu mật khẩu dạng thô (plaintext) — KHÔNG BAO GIỜ làm thế này
+await db.users.insert({
+  email: 'user@example.com',
+  password: 'myPassword123', // Lưu nguyên văn vào database
+});
+
+// Nếu database bị lộ → lộ TOÀN BỘ mật khẩu của mọi tài khoản.
+// Người dùng thường dùng lại mật khẩu này ở nơi khác → lộ luôn cả các tài khoản khác.
+// MD5/SHA-256 cũng không cứu được: hash nhanh nên bị bẻ bằng
+// brute-force hoặc rainbow table với tốc độ rất cao.
+```
+
+**Giải pháp:**
+
+```js
+const bcrypt = require('bcryptjs');
+
+// Hash chuyên dụng cho mật khẩu (bcrypt / argon2):
+// - Có SALT ngẫu nhiên → chống rainbow table
+// - CỐ Ý CHẬM theo cost factor → chống brute-force
+const hashed = await bcrypt.hash('myPassword123', 12);
+await db.users.insert({ email: 'user@example.com', password: hashed });
+
+// Chỉ lưu hash. Khi đăng nhập, so sánh bằng compare:
+const isMatch = await bcrypt.compare('myPassword123', hashed); // true
+```
+
+:::tip[Dùng thực tế]
+
+- **Đăng ký**: hash mật khẩu với `bcrypt.hash` trước khi lưu, không bao giờ lưu dạng thô.
+- **Đăng nhập**: dùng `bcrypt.compare` để xác thực, không tự giải mã hash.
+- **Tăng cost theo thời gian**: máy tính ngày càng mạnh, nâng dần salt rounds (12 → 14).
+- **Không lộ mật khẩu**: không bao giờ log hay trả mật khẩu / hash trong response API.
+
+:::
 
 ## Tại sao cần hash password?
 

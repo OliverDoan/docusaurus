@@ -11,6 +11,7 @@ Module system là cách Node.js chia code thành nhiều file nhỏ rồi import
 
 ## Mục lục
 
+- [Vì sao Node có module system?](#vì-sao-node-có-module-system)
 - [CommonJS (CJS)](#commonjs-cjs)
 - [ES Modules (ESM)](#es-modules-esm)
 - [Built-in Modules quan trọng](#built-in-modules-quan-trọng)
@@ -18,6 +19,53 @@ Module system là cách Node.js chia code thành nhiều file nhỏ rồi import
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao Node có module system?
+
+**Vấn đề:**
+
+```js
+// Thời JS trình duyệt đầu tiên: KHÔNG có module chuẩn.
+// Mọi file dùng chung một global, dễ đụng tên và đè biến của nhau.
+
+// utils.js
+var total = 0; // biến global
+
+// cart.js
+var total = []; // CŨNG là global → ghi đè total ở trên!
+
+// Phải tự load đúng thứ tự thẻ <script>, sai thứ tự là vỡ:
+// <script src="utils.js"></script>
+// <script src="cart.js"></script>
+// Không cách nào biết file nào phụ thuộc file nào.
+```
+
+**Giải pháp:**
+
+```js
+// Node ra đời với CommonJS: mỗi file là MỘT module có scope riêng,
+// khai báo phụ thuộc rõ ràng bằng require/module.exports.
+
+// utils.js
+let total = 0; // chỉ tồn tại trong module này, không rò ra global
+module.exports = { total };
+
+// cart.js
+const { total } = require('./utils'); // nêu rõ "tôi cần utils"
+// Node tự lo thứ tự nạp dựa trên các require — không phải xếp tay.
+
+// Sau này Node hỗ trợ thêm ESM theo chuẩn ngôn ngữ:
+// import { total } from './utils.js';
+```
+
+:::tip[Dùng thực tế]
+
+- Tách logic thành nhiều file nhỏ (`routes`, `services`, `models`) thay vì gom hết vào một file khổng lồ.
+- Import thư viện npm gọn gàng: `const express = require('express')` hoặc `import express from 'express'`.
+- Chia module theo chức năng để tái sử dụng và test từng phần độc lập.
+- Chọn CJS hay ESM tùy dự án: thêm `"type": "module"` trong `package.json` để bật ESM.
+
+:::
 
 ## CommonJS (CJS)
 

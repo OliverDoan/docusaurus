@@ -11,12 +11,106 @@ title: "1. Forms trong React"
 
 ## Mục lục
 
+- [Vì sao cần thư viện form?](#vì-sao-cần-thư-viện-form)
 - [Controlled vs Uncontrolled](#controlled-vs-uncontrolled)
 - [React Hook Form (khuyến nghị)](#react-hook-form-khuyến-nghị)
 - [Formik](#formik)
 - [TanStack Form](#tanstack-form)
 - [React 19 Actions](#react-19-actions)
 - [Validation với Zod](#validation-với-zod)
+
+---
+
+## Vì sao cần thư viện form?
+
+Với form phức tạp, tự quản mọi thứ bằng `useState` cho từng field rất nhanh rối.
+
+**Vấn đề:**
+
+```jsx
+function SignupForm() {
+  // Mỗi field một state riêng
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  // Lỗi cũng phải tự giữ state
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Validate thủ công từng field
+    if (!email.includes("@")) setEmailError("Email không hợp lệ");
+    if (password.length < 8) setPasswordError("Mật khẩu quá ngắn");
+    if (password !== confirm) {
+      /* ... thêm logic so khớp ... */
+    }
+    // ... còn submit, reset, hiện lỗi từng field
+  };
+
+  // Mỗi lần gõ → toàn bộ form re-render → form lớn chậm
+  return (
+    <form onSubmit={handleSubmit}>
+      <input value={email} onChange={(e) => setEmail(e.target.value)} />
+      {emailError && <p>{emailError}</p>}
+      <input value={password} onChange={(e) => setPassword(e.target.value)} />
+      {passwordError && <p>{passwordError}</p>}
+      <input value={confirm} onChange={(e) => setConfirm(e.target.value)} />
+    </form>
+  );
+}
+```
+
+**Giải pháp:**
+
+```tsx
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+const schema = z
+  .object({
+    email: z.string().email("Email không hợp lệ"),
+    password: z.string().min(8, "Mật khẩu tối thiểu 8 ký tự"),
+    confirm: z.string(),
+  })
+  .refine((d) => d.password === d.confirm, {
+    message: "Mật khẩu không khớp",
+    path: ["confirm"],
+  });
+
+type FormData = z.infer<typeof schema>;
+
+function SignupForm() {
+  // Giá trị + validation + lỗi quản lý tập trung
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({ resolver: zodResolver(schema) });
+
+  // RHF dùng uncontrolled + ref → ÍT re-render → form lớn vẫn nhanh
+  return (
+    <form onSubmit={handleSubmit(save)}>
+      <input {...register("email")} />
+      {errors.email && <p>{errors.email.message}</p>}
+      <input type="password" {...register("password")} />
+      {errors.password && <p>{errors.password.message}</p>}
+      <input type="password" {...register("confirm")} />
+      {errors.confirm && <p>{errors.confirm.message}</p>}
+    </form>
+  );
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Form đăng ký nhiều field + validate** — email, mật khẩu, xác nhận mật khẩu; thư viện gom giá trị, validation và lỗi vào một chỗ thay vì hàng chục `useState`.
+- **Hiển thị lỗi theo từng field** — báo lỗi đúng ô đang sai (`errors.email`, `errors.password`) mà không tự viết logic state lỗi cho mỗi field.
+- **Form động (thêm/bớt field)** — danh sách kỹ năng, danh sách sản phẩm; RHF có field array sẵn để thêm/xóa dòng dễ dàng.
+- **Tích hợp validation schema** — dùng chung schema Zod/Yup cho cả client và server (defense in depth), một nguồn sự thật cho kiểu dữ liệu và luật kiểm tra.
+
+:::
 
 ---
 

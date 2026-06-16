@@ -11,12 +11,69 @@ title: "1. Writing CSS trong Next.js"
 
 ## Mục lục
 
+- [Vì sao Next hỗ trợ nhiều cách viết CSS?](#vì-sao-next-hỗ-trợ-nhiều-cách-viết-css)
 - [CSS Solutions hỗ trợ](#css-solutions-hỗ-trợ)
 - [Global CSS](#global-css)
 - [CSS Modules](#css-modules)
 - [Tailwind CSS (khuyến nghị)](#tailwind-css-khuyến-nghị)
 - [Sass/SCSS](#sassscss)
 - [CSS-in-JS lưu ý](#css-in-js-lưu-ý)
+
+---
+
+## Vì sao Next hỗ trợ nhiều cách viết CSS?
+
+**Vấn đề:**
+
+CSS toàn cục dễ **đụng tên class** giữa các component và tải style không dùng:
+
+```css
+/* a.css */
+.button { background: blue; }
+
+/* b.css — cùng tên .button, ghi đè ngoài ý muốn */
+.button { background: red; }
+```
+
+Nhiều thư viện CSS-in-JS runtime lại **không hợp Server Components** vì cần JS chạy ở client:
+
+```tsx
+// styled-components — runtime ở client, không render trong RSC
+const Button = styled.button`
+  background: blue;
+`;
+```
+
+**Giải pháp:**
+
+Next hỗ trợ nhiều cách viết CSS phù hợp kiến trúc của nó, chọn theo dự án:
+
+```tsx
+// CSS Modules — scope cục bộ, hợp RSC
+import styles from "./Button.module.css";
+<button className={styles.button}>Click</button>
+
+// Tailwind — utility, không lo đặt tên class, tự purge tối ưu
+<button className="px-4 py-2 bg-blue-500 rounded">Click</button>
+```
+
+```css
+/* Global CSS — reset, biến dùng chung */
+:root { --primary: #0070f3; }
+
+/* Sass — mixin, function cho codebase cần */
+```
+
+CSS-in-JS cần cấu hình riêng cho App Router (wrapper, hoặc loại compile-time như vanilla-extract).
+
+:::tip[Dùng thực tế]
+
+- **CSS Modules** cho component có style riêng, tránh đụng tên class.
+- **Tailwind** để dựng UI nhanh, không phải nghĩ tên class.
+- **Global CSS** cho theme, biến `:root`, reset, import font.
+- **CSS-in-JS**: cân nhắc kỹ với RSC — ưu tiên loại compile-time (vanilla-extract, Panda, StyleX).
+
+:::
 
 ---
 

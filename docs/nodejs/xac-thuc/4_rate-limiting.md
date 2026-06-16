@@ -11,6 +11,7 @@ Rate limiting là kỹ thuật giới hạn số lần một client được g�
 
 ## Mục lục
 
+- [Vì sao cần rate limiting?](#vì-sao-cần-rate-limiting)
 - [Tại sao cần Rate Limiting?](#tại-sao-cần-rate-limiting)
 - [express-rate-limit](#express-rate-limit)
 - [Rate limit cho endpoints nhạy cảm](#rate-limit-cho-endpoints-nhạy-cảm)
@@ -18,6 +19,46 @@ Rate limiting là kỹ thuật giới hạn số lần một client được g�
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao cần rate limiting?
+
+**Vấn đề:**
+
+```js
+// API không giới hạn số request → bị lạm dụng
+app.post('/login', authController.login);
+
+// Kẻ tấn công có thể spam vô hạn:
+// - Brute-force mật khẩu / OTP (thử hàng nghìn lần/giây)
+// - Spam đăng ký tài khoản ảo
+// - Scrape toàn bộ dữ liệu
+// - Tấn công DoS → cạn tài nguyên server, tăng chi phí
+```
+
+**Giải pháp:**
+
+```js
+// Rate limiting: giới hạn số request trong một khoảng thời gian
+// theo IP / user / API key (token bucket, sliding window)
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // cửa sổ 15 phút
+  max: 100,                 // tối đa 100 request mỗi IP
+  // vượt giới hạn → trả về 429 Too Many Requests
+});
+
+// Lưu bộ đếm ở Redis để dùng chung cho nhiều server
+// → bảo vệ hệ thống và chia sẻ tài nguyên công bằng
+app.use(limiter);
+```
+
+:::tip[Dùng thực tế]
+
+- **Login**: giới hạn số lần đăng nhập để chống brute-force mật khẩu.
+- **API công khai**: đặt quota theo API key để tránh bị quá tải.
+- **Gửi OTP/email**: throttle endpoint để tránh spam và lạm dụng.
+- **Chống scrape**: chặn bot quét dữ liệu hàng loạt.
+
+:::
 
 ## Tại sao cần Rate Limiting?
 

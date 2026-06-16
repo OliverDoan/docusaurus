@@ -11,11 +11,51 @@ title: "4. Refs"
 
 ## Mục lục
 
+- [Vì sao có refs?](#vì-sao-có-refs)
 - [Refs là gì?](#refs-là-gì)
 - [useRef](#useref)
 - [Truy cập DOM element](#truy-cập-dom-element)
 - [Ref cho component](#ref-cho-component)
 - [Callback ref](#callback-ref)
+
+---
+
+## Vì sao có refs?
+
+**Vấn đề:** React quản lý DOM theo mô hình khai báo (UI = f(state)) — bạn mô tả UI muốn có, React tự cập nhật DOM. Nhưng đôi khi cần "với tay" trực tiếp vào DOM thật: focus ô input, đo kích thước, play video, tích hợp thư viện non-React. Ngoài ra cần lưu một giá trị qua các lần render mà **không** gây re-render.
+
+```jsx
+// Muốn focus input khi mở form — nhưng React không cho "chạm" DOM khai báo
+function LoginForm() {
+  // làm sao focus <input> ngay khi mount?
+  return <input placeholder="Email" />;
+}
+```
+
+**Giải pháp:** `useRef` (hoặc `createRef` cho class) — giữ tham chiếu tới DOM node (gắn qua prop `ref`) hoặc lưu một giá trị mutable bền vững (`ref.current`) mà không trigger render.
+
+```jsx
+import { useRef, useEffect } from "react";
+
+function LoginForm() {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus(); // với tay vào DOM thật
+  }, []);
+
+  return <input ref={inputRef} placeholder="Email" />;
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Focus ô input** khi mở form/modal (cải thiện UX nhập liệu).
+- **Đo / scroll** một element (kích thước, `scrollIntoView`).
+- **Lưu id timer** (`setInterval`/`setTimeout`) để clear sau này mà không re-render.
+- **Tích hợp thư viện non-React**: chart, map, video player cần truy cập DOM node trực tiếp.
+
+:::
 
 ---
 

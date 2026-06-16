@@ -11,12 +11,92 @@ React 19 là phiên bản mới mang đến nhiều tính năng giúp viết ứ
 
 ## Mục lục
 
+- [Vì sao React 19 thêm các tính năng này?](#vì-sao-react-19-thêm-các-tính-năng-này)
 - [Server Components](#server-components)
 - [use hook](#use-hook)
 - [Actions và useActionState](#actions-và-useactionstate)
 - [useOptimistic](#useoptimistic)
 - [Document Metadata](#document-metadata)
 - [React Compiler](#react-compiler)
+
+---
+
+## Vì sao React 19 thêm các tính năng này?
+
+**Vấn đề:**
+
+```jsx
+// React 18: xử lý form/mutation phải tự quản nhiều state thủ công
+function LoginForm() {
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState(null);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setIsPending(true);
+    setError(null);
+    try {
+      await login(e.target.email.value);
+    } catch (err) {
+      setError(err.message); // tự set lỗi
+    } finally {
+      setIsPending(false); // tự reset pending — lặp ở mọi form
+    }
+  }
+  // ...
+}
+
+// Truyền ref qua component con phải bọc forwardRef rườm rà
+const Input = forwardRef((props, ref) => <input ref={ref} {...props} />);
+
+// Đọc Promise/Context bị giới hạn — không gọi được trong if
+function Comp({ shouldLoad }) {
+  if (shouldLoad) {
+    const ctx = useContext(MyContext); // ❌ vi phạm rules of hooks
+  }
+}
+```
+
+**Giải pháp:**
+
+```jsx
+// React 19: Actions + useActionState gói sẵn pending/error/submit
+function LoginForm() {
+  const [state, formAction, isPending] = useActionState(loginAction, {});
+  return (
+    <form action={formAction}>
+      <input name="email" />
+      {state.error && <p>{state.error}</p>}
+      <button disabled={isPending}>{isPending ? "..." : "Login"}</button>
+    </form>
+  );
+}
+
+// useOptimistic: cập nhật lạc quan dễ dàng, tự rollback nếu fail
+const [optimistic, addOptimistic] = useOptimistic(todos, (s, t) => [...s, t]);
+
+// use(): đọc Promise/Context linh hoạt, được phép trong if
+function Comp({ shouldLoad }) {
+  if (shouldLoad) {
+    const data = use(dataPromise); // ✅ OK
+    return <div>{data}</div>;
+  }
+}
+
+// ref là prop thường — bỏ forwardRef
+function Input({ ref, ...props }) {
+  return <input ref={ref} {...props} />;
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Form submit (login, đăng ký)**: `useActionState` tự lo trạng thái `pending` và thông báo lỗi — không còn `useState` rải rác, code gọn và đồng nhất.
+- **Optimistic UI khi like/comment/thêm todo**: `useOptimistic` hiển thị thay đổi ngay khi bấm, mượt UX; nếu server lỗi React tự rollback về state thật.
+- **Đọc dữ liệu bất đồng bộ**: `use()` đọc Promise kết hợp `<Suspense>` để hiện spinner, gọi được cả trong nhánh điều kiện.
+- **Truyền ref gọn gàng**: nhận `ref` như prop bình thường để focus input hay đo kích thước, không phải bọc `forwardRef`.
+
+:::
 
 ---
 

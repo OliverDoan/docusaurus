@@ -11,11 +11,58 @@ title: "1. Error Boundaries và Suspense"
 
 ## Mục lục
 
+- [Vì sao có Error Boundary & Suspense?](#vì-sao-có-error-boundary--suspense)
 - [Error Boundary](#error-boundary)
 - [react-error-boundary library](#react-error-boundary-library)
 - [Suspense cho code splitting](#suspense-cho-code-splitting)
 - [Suspense cho data fetching](#suspense-cho-data-fetching)
 - [Portals](#portals)
+
+---
+
+## Vì sao có Error Boundary & Suspense?
+
+**Vấn đề:**
+
+```jsx
+// 1. Một lỗi JS khi render ở MỘT component làm sập trắng cả app
+function Profile({ user }) {
+  return <h1>{user.name}</h1>; // user = null → crash → màn hình trắng
+}
+// Không có chỗ "bắt" lỗi UI gọn gàng → người dùng thấy trang trắng
+
+// 2. Mỗi nơi tự quản loading state rải rác khi chờ tải data/code
+function Page() {
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
+  // ... lặp đi lặp lại loading/error ở mọi component → rối
+}
+```
+
+**Giải pháp:**
+
+```jsx
+// Error Boundary: component (class) BẮT lỗi render của cây con,
+// hiện UI dự phòng (fallback) thay vì sập toàn bộ app
+<ErrorBoundary fallback={<p>Đã có lỗi, vui lòng thử lại</p>}>
+  <Profile user={user} />
+</ErrorBoundary>
+
+// Suspense: khai báo fallback cho phần đang tải (React.lazy, data fetching)
+// → React tự hiện loading trong khi chờ
+<Suspense fallback={<Spinner />}>
+  <UserCard id={1} />
+</Suspense>
+```
+
+:::tip[Dùng thực tế]
+
+- **Bọc khu vực rủi ro** bằng Error Boundary + nút "Thử lại" để người dùng phục hồi mà không reload trang.
+- **Lazy load route/component** với `React.lazy` và `<Suspense fallback={...}>` → bundle nhỏ, load nhanh.
+- **Skeleton khi chờ data** — dùng `<Suspense>` cho fetch dữ liệu, hiện khung tạm thay vì màn hình trống.
+- **Cô lập lỗi widget** — mỗi widget (chart, feed) một Error Boundary riêng, lỗi một chỗ không kéo sập cả trang.
+
+:::
 
 ---
 

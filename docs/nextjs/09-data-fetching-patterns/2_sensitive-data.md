@@ -11,10 +11,67 @@ Dữ liệu nhạy cảm (**sensitive data**) là những thông tin bí mật n
 
 ## Mục lục
 
+- [Vì sao phải cẩn thận với dữ liệu nhạy cảm?](#vì-sao-phải-cẩn-thận-với-dữ-liệu-nhạy-cảm)
 - [Server-only data](#server-only-data)
 - [Environment Variables](#environment-variables)
 - [Server Actions](#server-actions)
 - [Data leak prevention](#data-leak-prevention)
+
+---
+
+## Vì sao phải cẩn thận với dữ liệu nhạy cảm?
+
+Trong App Router, ranh giới server/client khá **mờ** — code Server Component và Client Component nằm cạnh nhau, dễ vô tình kéo secret xuống trình duyệt.
+
+**Vấn đề:**
+
+```tsx
+// Server Component
+async function Page() {
+  const apiKey = process.env.SECRET_API_KEY;
+  const user = await db.user.findUnique({ where: { id } });
+  // user có: passwordHash, token, role, balance...
+
+  // SAI — truyền secret + full object xuống Client Component qua props
+  return <Profile apiKey={apiKey} user={user} />;
+}
+
+("use client"); // file Profile.tsx
+// apiKey và passwordHash bị NHÚNG vào client bundle → lộ trong DevTools
+```
+
+Nếu truyền secret (API key, token, field nhạy cảm của user) từ Server Component xuống Client Component qua props, hoặc dùng biến môi trường sai tiền tố (`NEXT_PUBLIC_*` cho secret), thì secret bị **nhúng vào bundle** gửi xuống trình duyệt → bất kỳ ai cũng đọc được.
+
+**Giải pháp:**
+
+```tsx
+// 1. Secret giữ ở server, KHÔNG truyền xuống client
+//    Env server không thêm tiền tố NEXT_PUBLIC_
+const apiKey = process.env.SECRET_API_KEY; // server only
+
+// 2. Chỉ truyền field cần thiết (DTO) xuống client
+const user = await db.user.findUnique({
+  where: { id },
+  select: { id: true, name: true, email: true }, // bỏ passwordHash, token
+});
+return <Profile user={user} />;
+```
+
+```ts
+// lib/db.ts — chặn import nhầm vào client bằng package server-only
+import "server-only"; // throw nếu Client Component import file này
+```
+
+Giữ dữ liệu nhạy cảm ở **server**: dùng `server-only` chặn import nhầm, chỉ trả field cần thiết (DTO), env secret không có tiền tố `NEXT_PUBLIC_`, và dùng tainting API để cảnh báo khi lỡ truyền object nhạy cảm qua ranh giới.
+
+:::tip[Dùng thực tế]
+
+- **Gọi API key bên thứ ba**: đọc `process.env.SECRET_API_KEY` ngay trong Server Component / Server Action, không bao giờ truyền key xuống client.
+- **Trả hồ sơ user**: lọc field bằng Prisma `select` trước khi gửi xuống Client Component, loại `passwordHash`, `token`, `internalNotes`.
+- **Module DB**: thêm `import "server-only"` đầu file kết nối database để build error nếu client lỡ import.
+- **Biến môi trường**: secret như `STRIPE_SECRET_KEY`, `JWT_SECRET` để trần (server only); chỉ dùng `NEXT_PUBLIC_*` cho config công khai như URL API.
+
+:::
 
 ---
 

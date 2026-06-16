@@ -11,12 +11,53 @@ title: "1. Routing Patterns"
 
 ## Mục lục
 
+- [Vì sao cần các routing pattern?](#vì-sao-cần-các-routing-pattern)
 - [Dynamic Routes](#dynamic-routes)
 - [Catch-all Routes](#catch-all-routes)
 - [Optional Catch-all](#optional-catch-all)
 - [Route Groups](#route-groups)
 - [Parallel Routes](#parallel-routes)
 - [Intercepting Routes](#intercepting-routes)
+
+---
+
+## Vì sao cần các routing pattern?
+
+**Vấn đề:** Bố cục thực tế phức tạp hơn nhiều so với "1 URL = 1 trang". Routing cơ bản không diễn tả được các nhu cầu sau:
+
+```
+1. Muốn nhóm route theo layout (public vs sau login)
+   nhưng KHÔNG muốn URL có thêm /marketing, /app
+2. Trang dashboard cần hiển thị NHIỀU vùng độc lập
+   (analytics + team + notifications), mỗi vùng load/lỗi riêng
+3. Click ảnh trong feed → mở modal nhưng URL vẫn đổi để
+   share được; refresh thì ra trang ảnh đầy đủ
+4. URL có tham số động (/users/5) hoặc không xác định độ sâu
+   (/docs/a/b/c) — không thể tạo từng file thủ công
+```
+
+**Giải pháp:** App Router cung cấp các pattern đặt tên thư mục đặc biệt, mỗi pattern giải một bài toán trên:
+
+```tsx
+app/
+├── (marketing)/          // route group: gom route, KHÔNG đổi URL
+│   └── about/page.tsx    // → /about (không có /marketing)
+├── @analytics/page.tsx   // parallel route: render song song nhiều vùng
+├── @team/page.tsx        // mỗi slot có loading/error riêng
+├── feed/
+│   └── @modal/(..)photos/[id]/page.tsx  // intercepting: mở modal giữ context
+├── users/[id]/page.tsx   // dynamic: /users/1, /users/2
+└── docs/[...slug]/page.tsx  // catch-all: /docs/a/b/c (sâu tùy ý)
+```
+
+:::tip[Dùng thực tế]
+
+- **Nhóm route theo layout:** gom trang public và trang sau login bằng `(marketing)` / `(app)`, mỗi nhóm dùng layout riêng mà URL vẫn sạch.
+- **Dashboard nhiều panel độc lập:** dùng parallel routes `@analytics`, `@team` để analytics và team load song song, panel này lỗi không kéo sập panel kia.
+- **Modal ảnh giữ URL:** intercepting route mở ảnh dạng modal trên feed, URL đổi để share được, refresh thì ra trang ảnh đầy đủ (Instagram, Pinterest).
+- **Route động sản phẩm/danh mục nhiều cấp:** `[category]/[product]` cho trang sản phẩm, `[...slug]` cho cây tài liệu/CMS sâu tùy ý.
+
+:::
 
 ---
 

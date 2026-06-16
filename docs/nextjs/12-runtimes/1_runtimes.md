@@ -11,11 +11,56 @@ title: "1. Node.js vs Edge Runtime"
 
 ## Mục lục
 
+- [Vì sao có Node.js runtime & Edge runtime?](#vì-sao-có-nodejs-runtime--edge-runtime)
 - [Hai runtime trong Next.js](#hai-runtime-trong-nextjs)
 - [Node.js Runtime](#nodejs-runtime)
 - [Edge Runtime](#edge-runtime)
 - [Khi nào dùng cái nào?](#khi-nào-dùng-cái-nào)
 - [Trade-offs](#trade-offs)
+
+---
+
+## Vì sao có Node.js runtime & Edge runtime?
+
+**Vấn đề:** Chạy code server ở **một khu vực** (Node server truyền thống) gây nhiều bất lợi:
+
+```ts
+// Server đặt tại 1 region (vd: us-east-1)
+// User ở Việt Nam gọi API → request phải vòng nửa vòng Trái Đất
+export async function GET() {
+  // Cold start chậm: load Node + import deps + connect DB (~1-3s)
+  const users = await db.query("SELECT * FROM users");
+  return Response.json(users); // User ở xa: độ trễ cao
+}
+```
+
+- User ở xa server → độ trễ (latency) cao.
+- Cold start chậm vì phải khởi động cả tiến trình Node.
+- Nhưng nhiều tác vụ lại **cần API đầy đủ của Node** (`fs`, thư viện native, kết nối DB lâu) mà môi trường nhẹ không có.
+
+→ Một runtime duy nhất không hợp mọi nhu cầu: nhanh thì thiếu API, đủ API thì chậm.
+
+**Giải pháp:** Next.js cho **chọn runtime theo từng route**, cân bằng giữa khả năng và độ trễ:
+
+```ts
+// Route nặng/DB/thư viện native → Node.js runtime (đầy đủ API Node)
+export const runtime = "nodejs";
+
+// Route nhẹ, cần chạy gần user, khởi động tức thì → Edge runtime
+export const runtime = "edge";
+```
+
+- **Node.js runtime**: đầy đủ API Node, hợp tác vụ nặng, ORM/DB, thư viện native.
+- **Edge runtime**: nhẹ, chạy gần user trên toàn cầu, khởi động gần như tức thì, hợp middleware và cá nhân hoá nhanh — nhưng API hạn chế.
+
+:::tip[Dùng thực tế]
+
+- **API nặng / ORM**: route dùng Prisma, xử lý file, tính toán CPU cao → `export const runtime = "nodejs"`.
+- **Middleware / redirect địa lý**: kiểm tra vùng, chuyển hướng theo quốc gia → đặt ở Edge cho gần user.
+- **A/B testing**: chia nhánh người dùng cần phản hồi nhanh → chạy ở Edge để giảm độ trễ.
+- **Chọn runtime rõ ràng**: khai báo `export const runtime = "edge"` hoặc `"nodejs"` ngay đầu file của route.
+
+:::
 
 ---
 

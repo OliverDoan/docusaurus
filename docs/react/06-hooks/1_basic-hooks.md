@@ -11,12 +11,77 @@ title: "1. useState và useEffect"
 
 ## Mục lục
 
+- [Vì sao Hooks ra đời?](#vì-sao-hooks-ra-đời)
 - [Hook là gì?](#hook-là-gì)
 - [useState](#usestate)
 - [Update state đúng cách](#update-state-đúng-cách)
 - [useEffect](#useeffect)
 - [Dependency array](#dependency-array)
 - [Cleanup function](#cleanup-function)
+
+---
+
+## Vì sao Hooks ra đời?
+
+**Vấn đề:**
+
+```jsx
+// Trước Hooks: muốn có state/lifecycle PHẢI dùng class — dài dòng, this khó
+class Counter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+    this.handleClick = this.handleClick.bind(this); // phải bind this
+  }
+  componentDidMount() { /* fetch data */ }
+  componentDidUpdate() { /* logic liên quan bị xé lẻ qua nhiều method */ }
+  componentWillUnmount() { /* cleanup ở chỗ khác */ }
+  handleClick() { this.setState({ count: this.state.count + 1 }); }
+  render() { return <button onClick={this.handleClick}>{this.state.count}</button>; }
+}
+
+// Tái sử dụng logic stateful phải HOC/render props → "wrapper hell"
+<withUser>
+  <withTheme>
+    <withRouter>
+      <Component /> {/* cây component lồng sâu, khó debug */}
+    </withRouter>
+  </withTheme>
+</withUser>
+```
+
+**Giải pháp:**
+
+```jsx
+// Hooks (React 16.8): functional component có state & side effect
+function Counter() {
+  const [count, setCount] = useState(0); // state, không cần class/this
+
+  useEffect(() => {
+    // gom logic liên quan (mount + update + cleanup) vào MỘT chỗ
+    const id = setInterval(() => tick(), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  return <button onClick={() => setCount(c => c + 1)}>{count}</button>;
+}
+
+// Tái sử dụng bằng custom hook — KHÔNG thêm tầng component
+function useUser(id) {
+  const [user, setUser] = useState(null);
+  useEffect(() => { fetchUser(id).then(setUser); }, [id]);
+  return user;
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **State cục bộ**: `useState` cho input form, toggle, counter — không cần class.
+- **Fetch/subscribe**: `useEffect` gọi API, đăng ký WebSocket, kèm cleanup.
+- **Tách logic dùng lại**: gom thành custom hook (`useUser`, `useFetch`) thay vì HOC.
+- **Bỏ class**: viết toàn bộ component dạng hàm, ngắn gọn, không lo `this` binding.
+
+:::
 
 ---
 

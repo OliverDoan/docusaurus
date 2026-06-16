@@ -11,11 +11,64 @@ title: "2. Props vs State"
 
 ## Mục lục
 
+- [Vì sao có props & state?](#vì-sao-có-props--state)
 - [Tổng quan](#tổng-quan)
 - [Props](#props)
 - [State](#state)
 - [Khi nào dùng state vs props?](#khi-nào-dùng-state-vs-props)
 - [Lifting state up](#lifting-state-up)
+
+---
+
+## Vì sao có props & state?
+
+**Vấn đề:**
+
+```jsx
+// UI cần (1) tái dùng component với nội dung khác nhau, và
+// (2) "nhớ" dữ liệu đổi theo thời gian rồi tự cập nhật màn hình.
+
+// Viết cứng nội dung → không tái dùng được
+function Greeting() {
+  return <p>Xin chào An</p>; // chỉ hợp với "An"
+}
+
+// Tự quản dữ liệu đổi + sửa DOM thủ công → rối, dễ lệch UI-dữ liệu
+let count = 0;
+function increment() {
+  count = count + 1;
+  document.querySelector("#count").textContent = count; // dễ quên, dễ sai
+}
+```
+
+**Giải pháp:**
+
+```jsx
+// props — dữ liệu cha truyền xuống, chỉ đọc → tái dùng component
+function Greeting({ name }) {
+  return <p>Xin chào {name}</p>;
+}
+<Greeting name="An" />
+<Greeting name="Bình" />
+
+// state — dữ liệu nội bộ, đổi qua setState/useState → React tự re-render
+function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+
+// Mô hình cốt lõi: UI = f(state). Bạn mô tả UI theo dữ liệu,
+// React lo việc cập nhật DOM cho khớp.
+```
+
+:::tip[Dùng thực tế]
+
+- **Truyền dữ liệu xuống con**: cha đưa `user`, `items` qua props cho con hiển thị.
+- **Ô input / counter**: giá trị gõ vào, số đếm — giữ trong state.
+- **Toggle modal**: `isOpen` là state, đổi `true/false` để mở/đóng.
+- **Danh sách lọc**: state giữ `filter`, danh sách hiển thị tính lại theo state.
+
+:::
 
 ---
 

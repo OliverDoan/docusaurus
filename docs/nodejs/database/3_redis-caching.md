@@ -11,6 +11,7 @@ Redis là kho dữ liệu lưu trong bộ nhớ (in-memory) nên tốc độ tru
 
 ## Mục lục
 
+- [Vì sao cần Redis caching?](#vì-sao-cần-redis-caching)
 - [Redis là gì?](#redis-là-gì)
 - [Cài đặt](#cài-đặt)
 - [Kết nối](#kết-nối)
@@ -20,6 +21,47 @@ Redis là kho dữ liệu lưu trong bộ nhớ (in-memory) nên tốc độ tru
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao cần Redis caching?
+
+**Vấn đề:**
+
+```js
+// Cùng một dữ liệu (trang chủ, danh mục) bị query lại nhiều lần
+app.get('/products', async (req, res) => {
+  // Mỗi request đều đánh thẳng vào DB
+  const products = await Product.find().limit(100);
+  res.json(products);
+});
+// Khi lượng truy cập lớn → DB phải lặp lại cùng query tốn thời gian
+// → phản hồi chậm, DB tải nặng và dễ nghẽn
+```
+
+**Giải pháp:**
+
+```js
+// Redis: kho dữ liệu in-memory cực nhanh, dùng làm CACHE
+app.get('/products', async (req, res) => {
+  const key = 'cache:/products';
+
+  // Cache-aside: đọc cache trước
+  const cached = await redis.get(key);
+  if (cached) return res.json(JSON.parse(cached));
+
+  // Miss → query DB rồi lưu lại với TTL
+  const products = await Product.find().limit(100);
+  await redis.set(key, JSON.stringify(products), { EX: 300 });
+  res.json(products);
+});
+// → giảm tải DB, tăng tốc phản hồi
+```
+
+:::tip[Dùng thực tế]
+- **Cache query nóng:** lưu kết quả query tốn kém với TTL để đọc lại tức thì.
+- **Session store:** lưu session đăng nhập, chia sẻ giữa nhiều instance.
+- **Rate limiting:** đếm số request theo IP/user để chặn lạm dụng.
+- **Queue & pub/sub:** hàng đợi job và truyền tin giữa các service.
+:::
 
 ## Redis là gì?
 

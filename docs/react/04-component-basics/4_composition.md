@@ -11,11 +11,77 @@ title: "4. Composition"
 
 ## Mục lục
 
+- [Vì sao ưu tiên composition?](#vì-sao-ưu-tiên-composition)
 - [Composition là gì?](#composition-là-gì)
 - [children prop](#children-prop)
 - [Slot pattern](#slot-pattern)
 - [Compound Components](#compound-components)
 - [Composition vs Inheritance](#composition-vs-inheritance)
+
+---
+
+## Vì sao ưu tiên composition?
+
+**Vấn đề:** Tái sử dụng UI bằng **kế thừa (inheritance)** class rất cứng
+nhắc, dễ phình to và khó tùy biến. Một component cha "biết hết" về con
+thì khó mở rộng:
+
+```jsx
+// Inheritance — cha "biết hết" về con, khó mở rộng
+class Dialog extends Component {
+  renderTitle() { return <h1>Title mặc định</h1>; }
+  renderBody() { return <p>Body mặc định</p>; }
+  render() {
+    return (
+      <div className="dialog">
+        {this.renderTitle()}
+        {this.renderBody()}
+      </div>
+    );
+  }
+}
+
+// Muốn đổi title? Phải tạo subclass và override
+class WarningDialog extends Dialog {
+  renderTitle() { return <h1 className="warn">Cảnh báo</h1>; }
+}
+// Mỗi biến thể = một subclass mới → phình to, cứng nhắc
+```
+
+**Giải pháp:** Dùng **composition** — ghép các component nhỏ lại, dùng
+`props.children` và truyền component qua props (slot pattern) để cha
+không cần biết chi tiết con:
+
+```jsx
+// Composition — cha không cần biết chi tiết con
+function Dialog({ title, children }) {
+  return (
+    <div className="dialog">
+      {title}
+      {children}
+    </div>
+  );
+}
+
+// Mọi biến thể đều dùng lại cùng một Dialog
+<Dialog title={<h1 className="warn">Cảnh báo</h1>}>
+  <p>Nội dung tùy ý ở đây.</p>
+</Dialog>
+```
+
+React khuyến nghị composition thay vì inheritance.
+
+:::tip[Dùng thực tế]
+
+- **Card / Modal / Layout** bọc nội dung con qua `children` — không cần
+  biết trước render gì bên trong.
+- **Slot** (header / footer) truyền qua props để cha chừa sẵn nhiều "vùng"
+  tùy biến.
+- **Wrapper component** bọc thêm style/hành vi quanh một component có sẵn.
+- **Specialized component** tạo từ generic — ví dụ `WarningDialog` chỉ là
+  `Dialog` với props khác, không cần subclass.
+
+:::
 
 ---
 

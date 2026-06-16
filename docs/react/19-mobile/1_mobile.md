@@ -11,12 +11,60 @@ title: "1. Mobile Applications (React Native)"
 
 ## Mục lục
 
+- [Vì sao có React Native?](#vì-sao-có-react-native)
 - [React Native là gì?](#react-native-là-gì)
 - [Expo (khuyến nghị)](#expo-khuyến-nghị)
 - [Bare React Native](#bare-react-native)
 - [Navigation](#navigation)
 - [Animation: Reanimated](#animation-reanimated)
 - [Styling](#styling)
+
+---
+
+## Vì sao có React Native?
+
+**Vấn đề:** Làm app mobile native phải viết **riêng** cho từng nền tảng — iOS
+bằng Swift, Android bằng Kotlin. Hai codebase, hai đội, tốn gấp đôi công sức và
+chi phí maintain. Nhúng web view vào app thì trải nghiệm kém, cuộn giật, không
+có "native feel".
+
+```jsx
+// iOS — Swift (codebase 1)
+struct ContentView: View {
+  var body: some View { Text("Hello") }
+}
+
+// Android — Kotlin (codebase 2)
+@Composable
+fun Content() { Text("Hello") }
+```
+
+**Giải pháp:** **React Native** — viết **một lần** bằng React/JS, render ra
+**component native thật** (không phải webview) cho cả iOS lẫn Android. Chia sẻ
+phần lớn code, dùng lại kiến thức React sẵn có. **Expo** giúp khởi tạo và build
+dễ dàng. Đánh đổi: vài tính năng sâu (hardware-heavy) vẫn cần native module.
+
+```jsx
+// Một codebase — chạy cả iOS lẫn Android
+import { View, Text } from "react-native";
+
+function Content() {
+  return (
+    <View>
+      <Text>Hello</Text>
+    </View>
+  );
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **App cross-platform** — một đội build cho cả iOS + Android, tiết kiệm chi phí.
+- **Đội web React chuyển sang mobile** — tái dùng kiến thức, không học lại từ đầu.
+- **MVP mobile cần ra nhanh** — Expo dựng app và build trong ngày.
+- **Chia sẻ logic giữa web và app** — hook, util, schema dùng chung một package.
+
+:::
 
 ---
 

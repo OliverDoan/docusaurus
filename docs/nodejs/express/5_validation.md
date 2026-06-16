@@ -11,6 +11,7 @@ Kiểm tra dữ liệu đầu vào (validation) là bước bắt buộc để n
 
 ## Mục lục
 
+- [Vì sao cần validation?](#vì-sao-cần-validation)
 - [Tại sao cần validate?](#tại-sao-cần-validate)
 - [Joi — Schema Validation](#joi-schema-validation)
 - [Validation Middleware](#validation-middleware)
@@ -18,6 +19,53 @@ Kiểm tra dữ liệu đầu vào (validation) là bước bắt buộc để n
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao cần validation?
+
+**Vấn đề:** Không bao giờ được tin dữ liệu từ client. Tự `if`-check thủ công thì lặp code và dễ sót — thiếu field, sai kiểu, giá trị độc hại đều lọt qua, gây crash, dữ liệu bẩn trong DB hoặc lỗ hổng injection.
+
+```js
+// Tin dữ liệu client mà không kiểm tra
+router.post('/users', (req, res) => {
+  const { name, email, age } = req.body;
+  // email là undefined? age là chuỗi "abc"? field lạ chứa payload độc?
+  db.users.insert({ name, email, age }); // dữ liệu bẩn / crash / injection
+  res.status(201).json({ ok: true });
+});
+```
+
+**Giải pháp:** Validate ngay tại **biên** (boundary) bằng schema. Định nghĩa quy tắc một lần với Joi, tự kiểm tra `body`/`query`/`params`, trả lỗi rõ ràng và "fail fast" trước khi vào business logic.
+
+```js
+const Joi = require('joi');
+
+const userSchema = Joi.object({
+  name: Joi.string().min(2).max(50).required(),
+  email: Joi.string().email().required(),
+  age: Joi.number().integer().min(0).max(150),
+});
+
+router.post('/users', (req, res, next) => {
+  const { error, value } = userSchema.validate(req.body, {
+    abortEarly: false,
+    stripUnknown: true, // loại bỏ field lạ
+  });
+  if (error) {
+    return res.status(400).json({ error: error.details.map(d => d.message) });
+  }
+  // value đã sạch, đúng kiểu — an toàn để xử lý tiếp
+  next();
+});
+```
+
+:::tip[Dùng thực tế]
+
+- Validate body đăng ký: email đúng định dạng, password đủ mạnh (độ dài, ký tự).
+- Ép kiểu query phân trang: `page`/`limit` thành số nguyên, có giá trị mặc định và giới hạn max.
+- Từ chối field lạ với `stripUnknown` để client không nhét dữ liệu ngoài ý muốn.
+- Gom toàn bộ lỗi (`abortEarly: false`) trả về một lần cho client dễ hiển thị form.
+
+:::
 
 ## Tại sao cần validate?
 

@@ -11,12 +11,74 @@ title: "3. Performance Optimization"
 
 ## Mục lục
 
+- [Vì sao cần tối ưu hiệu năng?](#vì-sao-cần-tối-ưu-hiệu-năng)
 - [Đo trước, tối ưu sau](#đo-trước-tối-ưu-sau)
 - [Code Splitting](#code-splitting)
 - [React.memo, useMemo, useCallback](#reactmemo-usememo-usecallback)
 - [Virtualization](#virtualization)
 - [Concurrent Features](#concurrent-features)
 - [Web Vitals](#web-vitals)
+
+---
+
+## Vì sao cần tối ưu hiệu năng?
+
+**Vấn đề:** App lớn dần thì bắt đầu thấy lag — component con render lại dù props không đổi, tính toán nặng chạy lại mỗi lần render, danh sách hàng nghìn dòng render hết gây giật, bundle to làm tải trang chậm.
+
+```jsx
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  // Hàm tạo mới mỗi render → con luôn render lại
+  const handleClick = () => doSomething();
+
+  // Tính toán nặng chạy lại mỗi render, dù data không đổi
+  const sorted = bigList.sort((a, b) => a.value - b.value);
+
+  return (
+    <>
+      <button onClick={() => setCount(c => c + 1)}>{count}</button>
+      <Child onClick={handleClick} /> {/* render thừa mỗi lần bấm nút */}
+
+      {/* 10000 dòng render hết → cuộn giật */}
+      {sorted.map(item => <Row key={item.id} item={item} />)}
+    </>
+  );
+}
+```
+
+**Giải pháp:** Dùng đúng kỹ thuật cho đúng điểm nghẽn — `React.memo` bỏ re-render khi props không đổi, `useMemo`/`useCallback` nhớ lại giá trị và hàm, code splitting + `lazy` giảm bundle, virtualization chỉ render phần thấy được. React 19 còn có Compiler tự memo giúp bớt phải viết tay.
+
+```jsx
+const Row = React.memo(function Row({ item }) {
+  return <div>{item.name}</div>;
+});
+
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  // Nhớ hàm → con không render thừa
+  const handleClick = useCallback(() => doSomething(), []);
+
+  // Nhớ kết quả → chỉ tính lại khi bigList đổi
+  const sorted = useMemo(
+    () => [...bigList].sort((a, b) => a.value - b.value),
+    [bigList]
+  );
+
+  // Chỉ render ~20 dòng visible thay vì 10000 (xem mục Virtualization)
+  return <VirtualList items={sorted} renderRow={Row} />;
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Component danh sách render thừa**: bọc `React.memo` quanh item của list/bảng để con không render lại khi cha cập nhật state không liên quan.
+- **Bảng/danh sách lớn**: virtualize bảng hàng nghìn dòng (TanStack Virtual, react-window) để chỉ vẽ phần đang thấy.
+- **Route nặng**: `lazy` + `Suspense` để tách màn hình ít dùng (dashboard, settings) ra khỏi bundle ban đầu.
+- **Tìm điểm nghẽn**: bật React DevTools Profiler đo component nào render lâu rồi mới tối ưu — chỉ tối ưu khi **đo được** vấn đề, tránh tối ưu sớm.
+
+:::
 
 ---
 

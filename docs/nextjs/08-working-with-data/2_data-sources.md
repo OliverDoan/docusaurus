@@ -11,11 +11,62 @@ title: "2. Data Sources: REST, GraphQL, Database, ORM"
 
 ## Mục lục
 
+- [Vì sao Next hỗ trợ nhiều nguồn dữ liệu?](#vì-sao-next-hỗ-trợ-nhiều-nguồn-dữ-liệu)
 - [REST API](#rest-api)
 - [GraphQL](#graphql)
 - [Database trực tiếp](#database-trực-tiếp)
 - [ORM: Prisma, Drizzle](#orm-prisma-drizzle)
 - [Lựa chọn theo project](#lựa-chọn-theo-project)
+
+---
+
+## Vì sao Next hỗ trợ nhiều nguồn dữ liệu?
+
+App thực tế hiếm khi chỉ lấy dữ liệu từ một chỗ: vừa gọi **REST/GraphQL API**, vừa đọc **database** trực tiếp, lấy nội dung từ **headless CMS**, đôi khi đọc cả **file**.
+
+**Vấn đề:**
+
+```tsx
+"use client";
+
+// React thuần (client) — KHÔNG thể nối thẳng DB: lộ credential xuống browser
+import { db } from "@/lib/db"; // SAI: DATABASE_URL không available client
+
+// Nên buộc phải dựng thêm tầng API trung gian cho mọi nguồn → thêm việc
+async function getUsers() {
+  const res = await fetch("/api/users"); // phải tự viết /api/users
+  return res.json();
+}
+```
+
+**Giải pháp:**
+
+```tsx
+// Server Component chạy ở SERVER → truy cập trực tiếp nhiều nguồn an toàn,
+// secret server-only không lộ xuống client, chọn nguồn theo nhu cầu.
+import { prisma } from "@/lib/prisma";
+
+export default async function Page() {
+  // Gọi DB trực tiếp qua ORM (Prisma) — không cần API trung gian
+  const users = await prisma.user.findMany();
+
+  // Fetch REST/GraphQL với secret server-only
+  const posts = await fetch("https://cms.example.com/posts", {
+    headers: { Authorization: `Bearer ${process.env.CMS_TOKEN}` },
+  }).then((r) => r.json());
+
+  return <Dashboard users={users} posts={posts} />;
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Query DB trực tiếp**: trang dashboard đọc bảng `users` qua Prisma/Drizzle ngay trong Server Component, bỏ tầng API.
+- **Fetch CMS cho nội dung**: trang blog lấy bài viết từ headless CMS bằng token server-only.
+- **Gọi GraphQL**: trang sản phẩm query đúng field cần qua Apollo/graphql-request.
+- **Kết hợp nhiều nguồn trong một trang**: DB cho dữ liệu user + REST cho tỷ giá + CMS cho banner, gộp lại render một lần.
+
+:::
 
 ---
 

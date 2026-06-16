@@ -11,6 +11,7 @@ PostgreSQL là cơ sở dữ liệu quan hệ mạnh mẽ và phổ biến, còn
 
 ## Mục lục
 
+- [Vì sao dùng Prisma?](#vì-sao-dùng-prisma)
 - [Prisma là gì?](#prisma-là-gì)
 - [Cài đặt](#cài-đặt)
 - [Schema](#schema)
@@ -20,6 +21,34 @@ PostgreSQL là cơ sở dữ liệu quan hệ mạnh mẽ và phổ biến, còn
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao dùng Prisma?
+
+**Vấn đề:** Viết SQL dạng chuỗi thủ công rồi tự map kết quả sang object rất dễ sai cú pháp và **không type-safe** — gõ nhầm tên cột chỉ phát hiện lúc chạy. Nối chuỗi còn mở ra nguy cơ SQL injection, và mỗi lần đổi schema phải sửa SQL ở khắp nơi.
+
+```js
+// Tự viết SQL + tự map kết quả: dễ lỗi, không type-safe
+const sql = `SELECT id, name, emial FROM users WHERE name = '${name}'`; // sai cột "emial" + nguy cơ SQL injection
+const { rows } = await pool.query(sql);
+const users = rows.map((r) => ({ id: r.id, name: r.name, email: r.emial })); // lỗi lúc chạy, không lúc compile
+```
+
+**Giải pháp:** Khai báo model trong `schema.prisma`, Prisma sinh ra client **type-safe**: có autocomplete, bắt lỗi ngay lúc compile, query bằng method đã tham số hoá (an toàn khỏi SQL injection), migration tự động theo schema và quan hệ khai báo rõ ràng.
+
+```ts
+// Query type-safe: tên cột sai sẽ báo lỗi lúc compile
+const users = await prisma.user.findMany({
+  where: { name: 'Alice' },
+  select: { id: true, name: true, email: true },
+});
+```
+
+:::tip[Dùng thực tế]
+- **Query type-safe:** `prisma.user.findMany()` có autocomplete và bắt lỗi tên cột lúc compile.
+- **Đổi schema an toàn:** sửa model rồi chạy `npx prisma migrate dev` để tạo migration tự động.
+- **Quan hệ rõ ràng:** lấy kèm dữ liệu liên quan bằng `include: { posts: true }`.
+- **Chống SQL injection:** mọi tham số được Prisma tự tham số hoá, không nối chuỗi.
+:::
 
 ## Prisma là gì?
 

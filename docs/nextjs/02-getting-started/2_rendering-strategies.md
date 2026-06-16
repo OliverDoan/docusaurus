@@ -11,12 +11,72 @@ title: "2. Rendering Strategies"
 
 ## Mục lục
 
+- [Vì sao có nhiều chiến lược rendering?](#vì-sao-có-nhiều-chiến-lược-rendering)
 - [4 chiến lược rendering](#4-chiến-lược-rendering)
 - [SSR (Server-Side Rendering)](#ssr-server-side-rendering)
 - [SSG (Static Site Generation)](#ssg-static-site-generation)
 - [ISR (Incremental Static Regeneration)](#isr-incremental-static-regeneration)
 - [CSR (Client-Side Rendering)](#csr-client-side-rendering)
 - [Server Components](#server-components)
+
+---
+
+## Vì sao có nhiều chiến lược rendering?
+
+**Vấn đề:** React SPA thuần render hoàn toàn ở client (CSR). Trình duyệt nhận về một trang gần như trống rồi mới chạy JS để dựng nội dung:
+
+```jsx
+// CSR thuần: HTML ban đầu rỗng, mọi thứ render ở client
+function ProductPage() {
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+    fetch("/api/products/1")
+      .then((r) => r.json())
+      .then(setProduct);
+  }, []);
+
+  if (!product) return <p>Loading...</p>; // trang trắng lúc đầu
+  return <h1>{product.name}</h1>;
+}
+```
+
+Hệ quả: **trang trắng lúc đầu**, **SEO kém** (bot thấy HTML rỗng), **tải chậm trên máy yếu** (phải chờ JS chạy xong). Nhưng cũng không phải trang nào cũng nên render sẵn — trang cá nhân hoá cần dữ liệu mới mỗi lần. **Một cách render không hợp mọi loại trang.**
+
+**Giải pháp:** Next.js hỗ trợ **nhiều chiến lược** để chọn theo từng trang, cân bằng giữa tốc độ, SEO và độ tươi của dữ liệu:
+
+```tsx
+// SSG: build sẵn HTML lúc build — blog, landing (nhanh + SEO tốt)
+export default async function BlogPost() {
+  const post = await fetch("https://api.example.com/post").then((r) => r.json());
+  return <article>{post.title}</article>; // tĩnh, phục vụ ngay
+}
+
+// SSR: render mỗi request — trang cá nhân hoá
+export default async function Dashboard() {
+  const data = await fetch("https://api.example.com/me", {
+    cache: "no-store", // luôn render mới mỗi request
+  }).then((r) => r.json());
+  return <h1>Xin chào {data.name}</h1>;
+}
+
+// ISR: build sẵn + tự làm mới định kỳ — trang sản phẩm
+export default async function Product() {
+  const product = await fetch("https://api.example.com/product", {
+    next: { revalidate: 60 }, // làm mới mỗi 60 giây
+  }).then((r) => r.json());
+  return <h1>{product.name}</h1>;
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Blog / trang marketing** → SSG: build sẵn một lần, phục vụ siêu nhanh và SEO tốt.
+- **Dashboard cá nhân hoá** → SSR: render mỗi request để luôn hiển thị dữ liệu của đúng người dùng.
+- **Trang sản phẩm e-commerce** → ISR: build sẵn cho nhanh nhưng tự làm mới định kỳ khi giá/tồn kho đổi.
+- **Phần tương tác (nút, form, filter)** → CSR: chạy ở client để phản hồi tức thì với thao tác người dùng.
+
+:::
 
 ---
 

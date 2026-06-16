@@ -11,6 +11,7 @@ Routing là cách Express quyết định request nào sẽ chạy đoạn code 
 
 ## Mục lục
 
+- [Vì sao cần routing có tổ chức?](#vì-sao-cần-routing-có-tổ-chức)
 - [Router cơ bản](#router-cơ-bản)
 - [Cấu trúc thư mục](#cấu-trúc-thư-mục)
 - [Controller Pattern](#controller-pattern)
@@ -20,6 +21,44 @@ Routing là cách Express quyết định request nào sẽ chạy đoạn code 
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao cần routing có tổ chức?
+
+**Vấn đề:** Nhét tất cả endpoint vào một file `server.js` khiến file phình to, lặp lại tiền tố, khó tìm và khó phân quyền theo nhóm.
+
+```js
+// server.js — mọi thứ dồn vào một chỗ
+app.get('/api/users', (req, res) => { /* ... */ });
+app.get('/api/users/:id', (req, res) => { /* ... */ });
+app.post('/api/users', (req, res) => { /* ... */ });
+app.get('/api/products', (req, res) => { /* ... */ });
+app.post('/api/products', (req, res) => { /* ... */ });
+app.get('/api/orders', (req, res) => { /* ... */ });
+// ...vài trăm dòng nữa: tiền tố /api lặp khắp nơi,
+// auth phải gắn lại từng route, tìm một endpoint rất mệt
+```
+
+**Giải pháp:** Dùng `express.Router()` tách route theo tài nguyên/feature thành module riêng, gắn tiền tố chung một lần, dùng route param động và gom middleware cho cả nhóm route.
+
+```js
+// routes/users.js — gom theo tài nguyên
+const router = require('express').Router();
+router.get('/', getAll);          // GET  /api/v1/users
+router.get('/:id', getById);      // GET  /api/v1/users/:id (param động)
+router.post('/', create);         // POST /api/v1/users
+module.exports = router;
+
+// app.js — tiền tố chung + auth cho cả nhóm, khai báo một lần
+app.use('/api/v1/users', authMiddleware, require('./routes/users'));
+app.use('/api/v1/products', require('./routes/products'));
+```
+
+:::tip[Dùng thực tế]
+- Tách `userRoutes`, `productRoutes`, `orderRoutes` thành từng file riêng để dễ tìm và bảo trì.
+- Version API bằng tiền tố chung `/api/v1`, sau này lên `/api/v2` không đụng code cũ.
+- Route param động (`/users/:id`, `/users/:userId/posts/:postId`) cho thao tác theo từng resource.
+- Gắn middleware auth cho cả nhóm route một lần, thay vì lặp lại trên từng endpoint.
+:::
 
 ## Router cơ bản
 

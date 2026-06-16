@@ -11,10 +11,48 @@ Testing giúp bạn kiểm tra code chạy đúng và phát hiện lỗi sớm t
 
 ## Mục lục
 
+- [Vì sao cần test backend?](#vì-sao-cần-test-backend)
 - [Jest](#jest)
 - [Supertest — API Testing](#supertest-api-testing)
 - [Mocking](#mocking)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao cần test backend?
+
+**Vấn đề:** Mỗi lần đổi code lại mở Postman bấm tay từng endpoint vừa chậm vừa dễ sót. Backend xử lý dữ liệu quan trọng (tiền, auth), một regression nhỏ có thể gây hậu quả nặng. Refactor mà không có test thì luôn sợ vỡ chỗ khác mà không hay.
+
+```js
+// Kiểm tra thủ công: chạy server, mở Postman, bấm từng route...
+// Đổi 1 dòng code -> phải bấm lại tất cả -> mệt và hay quên
+POST /api/users   { name: 'Alice' }   // ổn?
+POST /api/login   { ... }             // còn ổn không sau khi sửa?
+```
+
+**Giải pháp:** Viết test tự động chạy trong vài giây. Unit test cho logic/service (Jest), integration test gọi route thật qua Supertest, mock các dịch vụ ngoài. Bắt lỗi sớm, test trở thành tài liệu sống, tự tin refactor.
+
+```js
+// Test tự động: chạy `npm test` là kiểm tra lại toàn bộ
+const request = require('supertest');
+const app = require('../app');
+
+test('POST /api/users tạo user mới', async () => {
+  const res = await request(app)
+    .post('/api/users')
+    .send({ name: 'Alice', email: 'alice@example.com' })
+    .expect(201);
+
+  expect(res.body.name).toBe('Alice');
+});
+```
+
+:::tip[Dùng thực tế]
+- Test service tính toán (giá tiền, thuế) bằng unit test Jest để không sai lệch.
+- Test endpoint trả đúng status code và JSON với Supertest gọi route thật.
+- Test luồng auth (login, token) để chặn lỗ hổng đăng nhập.
+- Chống regression: chạy lại toàn bộ test sau mỗi lần refactor để chắc không vỡ.
+:::
 
 ---
 

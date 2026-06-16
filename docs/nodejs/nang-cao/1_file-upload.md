@@ -11,12 +11,58 @@ File upload là chức năng cho phép người dùng tải file (ảnh, tài li
 
 ## Mục lục
 
+- [Vì sao cần xử lý riêng file upload?](#vì-sao-cần-xử-lý-riêng-file-upload)
 - [Multer](#multer)
 - [Sử dụng](#sử-dụng)
 - [Serve static files](#serve-static-files)
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao cần xử lý riêng file upload?
+
+**Vấn đề:**
+
+```js
+// File upload gửi dạng multipart/form-data, KHÁC với JSON
+// => express.json() KHÔNG parse được body chứa file
+app.use(express.json());
+
+app.post('/avatar', (req, res) => {
+  console.log(req.body); // {} hoặc undefined - không có file!
+});
+
+// Nếu tự đọc cả file lớn vào RAM => dễ tràn bộ nhớ
+// Không kiểm soát loại/kích thước file => rủi ro bảo mật:
+// upload mã độc, file khổng lồ làm sập server
+```
+
+**Giải pháp:**
+
+```js
+// Dùng middleware chuyên cho upload: multer
+// - Parse multipart/form-data theo STREAM (không nuốt cả file vào RAM)
+// - Lưu ra disk hoặc bộ nhớ tạm, rồi đẩy lên cloud (S3) nếu cần
+// - Giới hạn size và MIME type, đổi tên file an toàn
+const upload = multer({
+  storage: multer.diskStorage({ /* lưu ra disk theo stream */ }),
+  fileFilter,                          // chặn MIME type lạ
+  limits: { fileSize: 5 * 1024 * 1024 }, // chặn file quá lớn
+});
+
+app.post('/avatar', upload.single('avatar'), (req, res) => {
+  console.log(req.file); // đã có thông tin file an toàn
+});
+```
+
+:::tip[Dùng thực tế]
+
+- Upload avatar người dùng hoặc ảnh sản phẩm qua form.
+- Giới hạn dung lượng và định dạng (chỉ JPEG/PNG/WebP) để tránh file rác, mã độc.
+- Lưu file lên S3 / Cloudinary thay vì giữ trên server.
+- Nhận nhiều file một lúc (gallery, album ảnh) với `upload.array`.
+
+:::
 
 ## Multer
 

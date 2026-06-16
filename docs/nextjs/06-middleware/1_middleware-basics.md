@@ -11,10 +11,69 @@ title: "1. Middleware Basics"
 
 ## Mục lục
 
+- [Vì sao có middleware trong Next.js?](#vì-sao-có-middleware-trong-nextjs)
 - [Middleware là gì?](#middleware-là-gì)
 - [Tạo middleware](#tạo-middleware)
 - [Use cases phổ biến](#use-cases-phổ-biến)
 - [Hạn chế của middleware](#hạn-chế-của-middleware)
+
+---
+
+## Vì sao có middleware trong Next.js?
+
+**Vấn đề:**
+
+```ts
+// Một số việc cần làm TRƯỚC KHI request đến trang/route handler,
+// và cho NHIỀU route cùng lúc: check đăng nhập để chặn/redirect,
+// đổi locale, A/B test, chặn bot.
+
+// app/dashboard/page.tsx
+export default async function DashboardPage() {
+  const token = await getToken();
+  if (!token) redirect("/login"); // logic này lặp ở MỌI trang
+  // ...render
+}
+
+// app/settings/page.tsx
+export default async function SettingsPage() {
+  const token = await getToken();
+  if (!token) redirect("/login"); // lặp lại y hệt
+  // ...render
+}
+// → Lặp code + xử lý TRỄ (sau khi đã bắt đầu render trang).
+```
+
+**Giải pháp:**
+
+```ts
+// middleware.ts — chạy ở EDGE, TRƯỚC mọi request khớp matcher.
+// Đọc request → redirect / rewrite / next, set cookie/header.
+// Xử lý TẬP TRUNG, SỚM và NHANH cho nhiều route cùng lúc.
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+
+export function middleware(request: NextRequest) {
+  const token = request.cookies.get("token");
+  if (!token) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/dashboard/:path*", "/settings/:path*"],
+};
+```
+
+:::tip[Dùng thực tế]
+
+- **Bảo vệ route cần auth** — không có token thì redirect `/login` ngay, không render trang.
+- **Chuyển hướng theo ngôn ngữ/khu vực** — đổi locale theo `geo`/header trước khi vào trang.
+- **A/B testing** — chia nhánh người dùng và rewrite sang biến thể phù hợp.
+- **Thêm header bảo mật** — gắn header chuẩn cho mọi response một chỗ duy nhất.
+
+:::
 
 ---
 

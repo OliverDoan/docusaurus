@@ -11,11 +11,69 @@ title: "1. Context API"
 
 ## Mục lục
 
+- [Vì sao có Context API?](#vì-sao-có-context-api)
 - [Context là gì?](#context-là-gì)
 - [createContext và Provider](#createcontext-và-provider)
 - [useContext](#usecontext)
 - [Pattern Context + custom hook](#pattern-context--custom-hook)
 - [Hạn chế của Context](#hạn-chế-của-context)
+
+---
+
+## Vì sao có Context API?
+
+**Vấn đề:** dữ liệu cần dùng ở nhiều component nằm sâu trong cây (theme, user đăng nhập, ngôn ngữ). Nếu truyền bằng props qua từng tầng → **prop drilling**: component trung gian phải nhận và chuyển tiếp props nó không hề dùng tới, code rối và khó bảo trì.
+
+```jsx
+// App đọc user, nhưng phải truyền tay qua từng tầng tới UserMenu
+function App() {
+  const [user, setUser] = useState();
+  return <Layout user={user} />;        // Layout không dùng user
+}
+
+function Layout({ user }) {
+  return <Header user={user} />;        // Header không dùng user
+}
+
+function Header({ user }) {
+  return <Nav user={user} />;           // Nav không dùng user
+}
+
+function Nav({ user }) {
+  return <UserMenu user={user} />;      // mãi tới đây mới dùng
+}
+```
+
+**Giải pháp:** **Context API** — đặt một **Provider** ở trên cây để cung cấp giá trị, mọi component con đọc trực tiếp bằng `useContext` mà **không** cần truyền props qua từng tầng. Tầng trung gian không phải biết gì về `user`.
+
+```jsx
+const UserContext = createContext(null);
+
+function App() {
+  const [user, setUser] = useState();
+  return (
+    <UserContext.Provider value={user}>
+      <Layout />                         {/* không cần prop user */}
+    </UserContext.Provider>
+  );
+}
+
+function UserMenu() {
+  const user = useContext(UserContext); // đọc thẳng, bỏ qua các tầng trên
+  return <span>{user?.name}</span>;
+}
+```
+
+Lưu ý: Context hợp cho dữ liệu **ít thay đổi** (global). Nếu giá trị đổi liên tục dễ gây re-render trên diện rộng.
+
+:::tip[Dùng thực tế]
+
+- **Theme sáng/tối** — chia sẻ chế độ giao diện cho mọi component.
+- **User / auth** — thông tin người đăng nhập, hàm `login` / `logout`.
+- **Ngôn ngữ (i18n)** — locale hiện tại và hàm dịch.
+- **Cấu hình toàn cục** — feature flag, thông tin app dùng ở khắp nơi.
+
+:::
 
 ---
 

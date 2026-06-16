@@ -11,6 +11,7 @@ MongoDB là cơ sở dữ liệu NoSQL lưu dữ liệu dưới dạng document 
 
 ## Mục lục
 
+- [Vì sao dùng Mongoose?](#vì-sao-dùng-mongoose)
 - [MongoDB là gì?](#mongodb-là-gì)
 - [Cài đặt](#cài-đặt)
 - [Kết nối](#kết-nối)
@@ -20,6 +21,59 @@ MongoDB là cơ sở dữ liệu NoSQL lưu dữ liệu dưới dạng document 
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao dùng Mongoose?
+
+**Vấn đề:** MongoDB là NoSQL schemaless — driver thuần cho phép ghi **bất kỳ hình dạng** document nào. Hậu quả là dữ liệu dễ lộn xộn (thiếu field, sai kiểu), không có validation, và bạn phải tự viết nhiều code cho truy vấn lẫn quan hệ.
+
+```js
+const { MongoClient } = require('mongodb');
+const db = (await MongoClient.connect(process.env.MONGODB_URI)).db('app');
+
+// Không ai chặn dữ liệu sai: thiếu email, age là chuỗi, field thừa
+await db.collection('users').insertOne({ name: 'Alice', age: 'hai mươi' });
+await db.collection('users').insertOne({ email: 'bob@example.com', extra: true });
+
+// Muốn lấy bài viết kèm tác giả? Phải tự query 2 lần rồi tự ghép tay
+const post = await db.collection('posts').findOne({ _id: postId });
+const author = await db.collection('users').findOne({ _id: post.authorId });
+post.author = author;
+```
+
+**Giải pháp:** Mongoose là ODM — bạn định nghĩa Schema/Model áp **kỷ luật** lên collection (kiểu, required, default), validation tích hợp, middleware (hook pre/post save), populate (join tham chiếu) và query helper.
+
+```js
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true, trim: true },
+  email: { type: String, required: true, unique: true, lowercase: true },
+  age: { type: Number, min: 0, max: 150 },
+  password: { type: String, required: true },
+});
+
+// Hash password tự động trước khi lưu
+userSchema.pre('save', async function () {
+  if (this.isModified('password')) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+});
+
+const User = mongoose.model('User', userSchema);
+
+// Sai kiểu / thiếu field bị chặn ngay, không lọt vào DB
+await User.create({ name: 'Alice', age: 'hai mươi' }); // ValidationError
+
+// Populate quan hệ: lấy post kèm author chỉ với một dòng
+const post = await Post.findById(postId).populate('author');
+```
+
+:::tip[Dùng thực tế]
+
+- **Đăng ký user:** schema validate `email`/`password`, hook pre-save tự hash mật khẩu trước khi lưu.
+- **Blog/diễn đàn:** `populate('author')` để lấy bài viết kèm thông tin tác giả mà không query thủ công.
+- **Form nhập liệu:** `enum`, `min`, `max`, `required` đảm bảo dữ liệu nhất quán ngay tại tầng model.
+- **API có default:** field `role` mặc định `'user'`, `createdAt` tự gán `Date.now`, giảm code lặp ở controller.
+
+:::
 
 ## MongoDB là gì?
 

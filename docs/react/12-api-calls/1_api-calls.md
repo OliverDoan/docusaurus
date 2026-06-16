@@ -11,12 +11,81 @@ title: "1. API Calls trong React"
 
 ## Mục lục
 
+- [Vì sao cần thư viện data fetching?](#vì-sao-cần-thư-viện-data-fetching)
 - [Fetch thủ công (đơn giản)](#fetch-thủ-công-đơn-giản)
 - [Axios](#axios)
 - [TanStack Query (khuyến nghị)](#tanstack-query-khuyến-nghị)
 - [SWR (Vercel)](#swr-vercel)
 - [RTK Query](#rtk-query)
 - [tRPC](#trpc)
+
+---
+
+## Vì sao cần thư viện data fetching?
+
+**Vấn đề:** Tự gọi API bằng `useEffect` + `fetch` buộc bạn tự xử lý mọi thứ — và lặp lại ở từng component:
+
+```jsx
+function ProductList() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const ctrl = new AbortController();
+    setLoading(true);
+
+    fetch("/api/products", { signal: ctrl.signal })
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then(setProducts)
+      .catch(err => {
+        if (err.name !== "AbortError") setError(err); // tự xử lý error
+      })
+      .finally(() => setLoading(false));        // tự xử lý loading
+
+    return () => ctrl.abort();                   // tự chống race condition
+  }, []);
+
+  // Không cache → component khác fetch lại từ đầu.
+  // Không refetch khi focus/reconnect. Không retry. Không dedupe.
+  // Dữ liệu cũ (stale) không tự làm mới. Phân trang phải tự code.
+}
+```
+
+**Giải pháp:** Thư viện **server-state** (TanStack Query / SWR) lo hết phần lặp đi lặp lại đó — bạn chỉ khai báo "lấy data nào", còn lại tự động:
+
+```jsx
+import { useQuery } from "@tanstack/react-query";
+
+function ProductList() {
+  const { data: products, isLoading, error } = useQuery({
+    queryKey: ["products"],
+    queryFn: () => fetch("/api/products").then(r => r.json()),
+  });
+  // Tự cache + dedupe, tự loading/error, tự refetch khi focus,
+  // tự retry, invalidation, optimistic update → code gọn, data luôn tươi.
+
+  if (isLoading) return <Spinner />;
+  if (error) return <Error error={error} />;
+  return <ul>{products.map(p => <li key={p.id}>{p.name}</li>)}</ul>;
+}
+```
+
+> Lưu ý: **Axios** giải quyết vấn đề nhỏ hơn — interceptor, tự parse JSON, tự throw khi HTTP error (xem mục [Axios](#axios)). Nó thay `fetch`, nhưng **không** lo cache/refetch/retry như server-state library.
+
+:::tip[Dùng thực tế]
+
+Khi nào lợi ích thấy rõ ngay:
+
+- **Cache danh sách** — list sản phẩm fetch một lần, mọi component dùng chung, không gọi trùng.
+- **Refetch sau mutation** — tạo/sửa/xóa xong, `invalidateQueries` tự làm mới danh sách liên quan.
+- **Optimistic update** — bấm "Like" là UI đổi ngay, lỗi thì tự rollback, không chờ server.
+- **Phân trang / infinite scroll** — `useInfiniteQuery` lo trang kế, gộp data và cache từng trang.
+
+:::
 
 ---
 

@@ -11,12 +11,49 @@ title: "1. Testing Next.js App"
 
 ## Mục lục
 
+- [Vì sao cần test ứng dụng Next?](#vì-sao-cần-test-ứng-dụng-next)
 - [Setup Vitest](#setup-vitest)
 - [Test Server Component](#test-server-component)
 - [Test Client Component](#test-client-component)
 - [Test Server Action](#test-server-action)
 - [E2E với Playwright](#e2e-với-playwright)
 - [Storybook](#storybook)
+
+---
+
+## Vì sao cần test ứng dụng Next?
+
+**Vấn đề:** Một app Next có nhiều tầng đan xen — Server Component, Client Component, Route Handler, Middleware, Server Action. Mỗi tầng chạy ở môi trường khác nhau (server vs browser), nên khi refactor rất dễ vỡ ngầm mà không ai biết.
+
+```tsx
+// Đổi getPosts() từ fetch sang đọc DB trực tiếp...
+export default async function Page() {
+  const posts = await getPosts(); // còn chạy đúng trên server không?
+  return <PostList posts={posts} />; // PostList có vỡ khi posts rỗng?
+}
+// Test tay từng trang vừa chậm vừa sót — lỗi chỉ lộ ra ở production, rất tốn kém.
+```
+
+**Giải pháp:** Test tự động đa tầng — unit/integration cho logic và component bằng Vitest + RTL (riêng Server Component async cần workaround như mục dưới), còn E2E bằng Playwright cho luồng thật end-to-end (vì nhiều thứ chỉ đúng khi server chạy thật). Bắt lỗi sớm, tự tin refactor.
+
+```ts
+// Logic & component: Vitest + RTL (nhanh, chạy hàng loạt)
+const posts = await getPosts();
+expect(posts).toHaveLength(1);
+
+// Luồng thật: Playwright (chạy server thật, đúng như người dùng)
+await page.goto("/login");
+await expect(page).toHaveURL("/dashboard");
+```
+
+:::tip[Dùng thực tế]
+
+- Test Client Component bằng RTL: render `<Counter />`, click button, kiểm tra state cập nhật đúng.
+- E2E luồng đăng nhập / checkout bằng Playwright: chạy qua server thật từ đầu tới cuối như người dùng.
+- Test Route Handler / Server Action: gọi thẳng hàm với input mock, kiểm tra validation và kết quả trả về.
+- Chống regression khi nâng cấp Next: chạy lại toàn bộ test sau khi bump version để bắt lỗi vỡ ngầm ngay.
+
+:::
 
 ---
 

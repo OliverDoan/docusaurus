@@ -11,11 +11,62 @@ title: "1. JSX"
 
 ## Mục lục
 
+- [Vì sao có JSX?](#vì-sao-có-jsx)
 - [JSX là gì?](#jsx-là-gì)
 - [Quy tắc cú pháp](#quy-tắc-cú-pháp)
 - [Embed JavaScript trong JSX](#embed-javascript-trong-jsx)
 - [Fragment](#fragment)
 - [JSX biên dịch thành gì?](#jsx-biên-dịch-thành-gì)
+
+---
+
+## Vì sao có JSX?
+
+**Vấn đề:** tạo UI bằng `React.createElement(...)` lồng nhau rất khó đọc,
+khó hình dung cây UI. Còn tách hẳn HTML và JS (template string) thì mất
+type-check và dễ lỗi:
+
+```jsx
+// Lồng createElement — khó đọc, khó thấy cấu trúc cây
+React.createElement("div", { className: "card" },
+  React.createElement("h1", null, "Hello"),
+  React.createElement("ul", null,
+    React.createElement("li", null, "A"),
+    React.createElement("li", null, "B")
+  )
+);
+
+// Template string — không có type-check, dễ sai chính tả, dễ XSS
+const html = `<div class="card"><h1>${name}</h1></div>`;
+```
+
+**Giải pháp:** JSX là cú pháp giống HTML viết **ngay trong JS**, được
+Babel biên dịch thành `React.createElement`. Markup gắn liền với logic
+của component, hỗ trợ biểu thức `{}`, dễ đọc và dễ bảo trì:
+
+```jsx
+function Card({ name, items }) {
+  return (
+    <div className="card">
+      <h1>Hello {name}</h1>
+      <ul>
+        {items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Viết UI component trực quan**: cấu trúc JSX phản ánh đúng cây DOM, nhìn là hình dung được.
+- **Nhúng biến/biểu thức**: dùng `{}` để chèn dữ liệu động vào giữa markup.
+- **Render có điều kiện/danh sách**: kết hợp ternary, `&&`, `.map` ngay trong JSX.
+- **IDE check JSX**: editor và TypeScript bắt lỗi attribute, kiểu dữ liệu, thẻ chưa đóng.
+
+:::
 
 ---
 

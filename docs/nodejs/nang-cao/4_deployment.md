@@ -11,6 +11,7 @@ Deployment là quá trình đưa ứng dụng Node.js lên chạy thật trên s
 
 ## Mục lục
 
+- [Vì sao cần quy trình deployment?](#vì-sao-cần-quy-trình-deployment)
 - [Chuẩn bị Production](#chuẩn-bị-production)
 - [Docker](#docker)
 - [PM2 — Process Manager](#pm2-process-manager)
@@ -18,6 +19,46 @@ Deployment là quá trình đưa ứng dụng Node.js lên chạy thật trên s
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao cần quy trình deployment?
+
+**Vấn đề:** Deploy thủ công — SSH vào server, kéo code, rồi chạy thẳng `node app.js`.
+
+```bash
+# Cách làm thủ công, dễ vỡ
+ssh user@server
+git pull
+node app.js
+# - App crash là chết hẳn, không có gì tự restart
+# - "Works on my machine" — server khác môi trường với máy dev
+# - Cập nhật phải tắt app → downtime, người dùng đứt kết nối
+# - Chỉ chạy 1 process → lãng phí các nhân CPU còn lại
+```
+
+**Giải pháp:** Một quy trình deploy chuẩn — process manager tự restart và chạy cluster đa core, Docker đóng gói môi trường nhất quán, CI/CD tự động build-test-deploy, nginx làm reverse proxy và biến môi trường tách khỏi code.
+
+```yaml
+# CI/CD: tự động build - test - deploy khi merge
+deploy:
+  steps:
+    - run: docker build -t my-app .       # đóng gói môi trường nhất quán
+    - run: docker run my-app npm test     # chạy test trước khi deploy
+    - run: pm2 reload my-app               # zero-downtime reload
+```
+
+```bash
+# PM2 cluster: tận dụng đa core + tự hồi phục khi crash
+pm2 start index.js -i max
+```
+
+:::tip[Dùng thực tế]
+
+- **PM2 cluster tự hồi phục:** một worker crash, PM2 tự dựng lại process khác, người dùng không bị gián đoạn.
+- **Docker hoá để chạy giống nhau mọi nơi:** đóng gói Node + dependencies vào image, máy dev, staging và production chạy y hệt nhau.
+- **Pipeline tự deploy khi merge:** merge vào nhánh chính là CI/CD tự build, test rồi đẩy lên server, không ai phải SSH thủ công.
+- **Zero-downtime reload:** `pm2 reload` thay process lần lượt nên cập nhật phiên bản mới mà không có downtime.
+
+:::
 
 ## Chuẩn bị Production
 

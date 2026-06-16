@@ -11,6 +11,7 @@ Environment variables (biến môi trường) là cách lưu cấu hình và th�
 
 ## Mục lục
 
+- [Vì sao dùng environment variables?](#vì-sao-dùng-environment-variables)
 - [Tại sao cần Environment Variables?](#tại-sao-cần-environment-variables)
 - [process.env](#processenv)
 - [Sử dụng dotenv](#sử-dụng-dotenv)
@@ -19,6 +20,43 @@ Environment variables (biến môi trường) là cách lưu cấu hình và th�
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao dùng environment variables?
+
+**Vấn đề:** Hardcode cấu hình (DB url, API key, port) ngay trong code khiến secret bị lộ khi push lên git, và phải sửa code mỗi khi đổi môi trường (dev/staging/prod).
+
+```js
+// Hardcode — secret lộ trên git, đổi môi trường phải sửa code
+const dbUrl = 'mongodb://admin:p@ssw0rd@db-prod:27017/myapp';
+const jwtSecret = 'my-super-secret-key';
+const port = 3000;
+```
+
+**Giải pháp:** Dùng environment variables để tách cấu hình khỏi code. App đọc giá trị qua `process.env`, local dùng file `.env` (qua dotenv) — KHÔNG commit `.env`, chỉ commit `.env.example`. Cùng một code chạy được nhiều môi trường, secret an toàn.
+
+```bash
+# .env (local, KHÔNG commit) — .env.example thì commit
+DATABASE_URL=mongodb://admin:p@ssw0rd@db-prod:27017/myapp
+JWT_SECRET=my-super-secret-key
+PORT=3000
+```
+
+```js
+require('dotenv').config();
+
+const dbUrl = process.env.DATABASE_URL;
+const jwtSecret = process.env.JWT_SECRET;
+const port = process.env.PORT || 3000;
+```
+
+:::tip[Dùng thực tế]
+
+- **Tách secret khỏi repo** — `JWT_SECRET`, API key nằm trong `.env`, không bao giờ lên git
+- **Nhiều môi trường** — `DATABASE_URL` trỏ DB khác nhau cho dev/staging/prod, code giữ nguyên
+- **Port linh hoạt** — `process.env.PORT` để host (Heroku, Docker...) tự gán port khi deploy
+- **Feature flag** — bật/tắt tính năng qua biến (ví dụ `ENABLE_NEW_UI=true`) mà không cần sửa code
+
+:::
 
 ## Tại sao cần Environment Variables?
 

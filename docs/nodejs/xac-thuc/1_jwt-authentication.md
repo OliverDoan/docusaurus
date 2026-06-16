@@ -12,6 +12,7 @@ JWT (JSON Web Token) là cách phổ biến để xác thực người dùng tro
 ## Mục lục
 
 - [JWT là gì?](#jwt-là-gì)
+- [Vì sao dùng JWT?](#vì-sao-dùng-jwt)
 - [Cài đặt](#cài-đặt)
 - [Đăng ký (Register)](#đăng-ký-register)
 - [Đăng nhập (Login)](#đăng-nhập-login)
@@ -25,6 +26,34 @@ JWT (JSON Web Token) là cách phổ biến để xác thực người dùng tro
 **JSON Web Token** (JWT) là chuẩn mở để truyền thông tin an toàn giữa các bên dưới dạng JSON object, được ký số (signed).
 
 Cấu trúc: `header.payload.signature`
+
+## Vì sao dùng JWT?
+
+**Vấn đề:** Xác thực bằng **session lưu ở server**: mỗi request phải tra cứu session trong bộ nhớ/DB của server. Khi scale ra nhiều server, các server phải **chia sẻ session store** (sticky session hoặc Redis) → phức tạp, khó scale ngang, và khó dùng cho API/mobile có nhiều loại client.
+
+```js
+// Session: server phải lưu và tra cứu state cho mỗi request
+const session = await sessionStore.get(req.cookies.sid);
+if (!session) return res.status(401).json({ error: 'Not logged in' });
+req.user = session.user; // Cần store dùng chung khi có nhiều server
+```
+
+**Giải pháp:** JWT là token được **ký số**, **tự chứa** thông tin user (claims). Server chỉ cần **xác minh chữ ký** (stateless), không cần lưu session → scale ngang dễ, hợp với API/mobile/microservice. Đánh đổi: khó thu hồi trước hạn → dùng **access token ngắn hạn + refresh token**.
+
+```js
+// JWT: token tự chứa thông tin, server chỉ verify chữ ký (stateless)
+const decoded = jwt.verify(token, process.env.JWT_SECRET);
+req.user = decoded; // Không cần truy vấn store nào cả
+```
+
+:::tip[Dùng thực tế]
+
+- **API stateless nhiều server:** không cần session store dùng chung, scale ngang thoải mái.
+- **Đăng nhập mobile/SPA:** client giữ token và gửi kèm mỗi request, không phụ thuộc cookie.
+- **Chia sẻ auth giữa microservice:** mỗi service tự verify token bằng secret/public key.
+- **Access + refresh token:** access token sống ngắn cho an toàn, refresh token cấp lại token mới.
+
+:::
 
 ## Cài đặt
 

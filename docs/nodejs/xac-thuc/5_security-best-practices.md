@@ -11,6 +11,7 @@ Bài này tổng hợp những thực hành bảo mật quan trọng nhất khi 
 
 ## Mục lục
 
+- [Vì sao cần security best practices?](#vì-sao-cần-security-best-practices)
 - [Helmet — Security Headers](#helmet-security-headers)
 - [CORS](#cors)
 - [Input Sanitization](#input-sanitization)
@@ -20,6 +21,59 @@ Bài này tổng hợp những thực hành bảo mật quan trọng nhất khi 
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao cần security best practices?
+
+**Vấn đề:** Một app web mặc định KHÔNG an toàn — rất dễ dính các lỗ hổng trong OWASP Top 10.
+
+```js
+// App "trần" — không phòng thủ gì cả
+const app = express();
+
+app.get('/users', async (req, res) => {
+  // SQL/NoSQL injection: nhét input thẳng vào query
+  const query = `SELECT * FROM users WHERE name = '${req.query.name}'`;
+  const rows = await db.query(query);
+  res.send(rows); // XSS: trả thẳng dữ liệu chưa escape
+});
+
+app.use((err, req, res, next) => {
+  res.status(500).send(err.stack); // Lộ stack trace ra client
+});
+// Thiếu security header, dependency có lỗ hổng, cấu hình hớ hênh...
+```
+
+Chỉ một lỗ hổng (injection, XSS, CSRF, lộ thông tin qua header/error, dependency lỗi thời) cũng đủ để lộ TOÀN BỘ dữ liệu.
+
+**Giải pháp:** Áp dụng best practices như một LỚP PHÒNG THỦ nhiều tầng.
+
+```js
+const helmet = require('helmet');
+
+app.use(helmet());            // Set security headers
+app.use(rateLimit());         // Giới hạn request (chống brute-force)
+
+app.get('/users', async (req, res) => {
+  // Parameterized query → chống injection
+  const rows = await prisma.user.findMany({ where: { name: req.query.name } });
+  res.json(rows);             // Validate + sanitize trước khi xử lý
+});
+
+// Prod: ẩn stack trace, chỉ trả message chung
+app.use((err, req, res, next) => {
+  res.status(500).json({ error: 'Internal Server Error' });
+});
+// + HTTPS, least privilege, npm audit định kỳ
+```
+
+:::tip[Dùng thực tế]
+
+- **Bật Helmet ngay từ đầu** — thêm `app.use(helmet())` để tự động gắn các header bảo mật, chặn clickjacking và MIME sniffing.
+- **Chống injection bằng query tham số hoá** — luôn dùng ORM (Prisma) hoặc parameterized query, không nối chuỗi input vào câu lệnh.
+- **Không trả lỗi chi tiết ra client** — ở production chỉ trả message chung, ghi stack trace vào log nội bộ.
+- **Quét `npm audit` định kỳ** — chạy trong CI để phát hiện dependency có lỗ hổng trước khi deploy.
+
+:::
 
 ## Helmet — Security Headers
 

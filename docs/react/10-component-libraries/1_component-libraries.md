@@ -11,6 +11,7 @@ title: "1. Component Libraries"
 
 ## Mục lục
 
+- [Vì sao dùng component library?](#vì-sao-dùng-component-library)
 - [Tổng quan](#tổng-quan)
 - [shadcn/ui (khuyến nghị)](#shadcnui-khuyến-nghị)
 - [Material UI (MUI)](#material-ui-mui)
@@ -18,6 +19,54 @@ title: "1. Component Libraries"
 - [Ant Design](#ant-design)
 - [Mantine](#mantine)
 - [Cách chọn](#cách-chọn)
+
+---
+
+## Vì sao dùng component library?
+
+**Vấn đề:** Tự xây mọi UI từ đầu — button, modal, dropdown, date picker,
+table — rất tốn thời gian và khó làm đúng accessibility (a11y), keyboard,
+responsive, các trạng thái (hover, disabled, loading, error). Dễ thiếu sót
+và giao diện không nhất quán giữa các phần.
+
+```jsx
+// Dropdown tự viết — phải lo đủ thứ: click ngoài để đóng, phím Esc/mũi tên,
+// focus trap, aria-expanded, aria-activedescendant... rất dễ sót.
+function Dropdown({ options }) {
+  const [open, setOpen] = useState(false);
+  // ...quản lý keyboard, ARIA, click-outside, responsive bằng tay
+  return (
+    <div onClick={() => setOpen(!open)}>
+      {/* a11y? keyboard? mobile? — tự lo hết */}
+    </div>
+  );
+}
+```
+
+**Giải pháp:** Dùng component library (MUI, Ant Design, Chakra UI,
+shadcn/ui...) — bộ component dựng sẵn đã lo a11y, responsive, theme và đồng
+nhất giao diện, để bạn tập trung vào nghiệp vụ.
+
+```jsx
+import { Select } from "@mantine/core";
+
+// Đã lo keyboard, ARIA, click-outside, mobile, theme sẵn.
+<Select
+  label="Quốc gia"
+  data={["Việt Nam", "Nhật Bản", "Hàn Quốc"]}
+/>
+```
+
+Đánh đổi: bundle size lớn hơn và đôi khi khó tuỳ biến sâu.
+
+:::tip[Dùng thực tế]
+
+- **Dựng dashboard/admin nhanh** — có sẵn Table, Form, Date Picker phức tạp.
+- **Form phức tạp** nhiều trường, validate, trạng thái — dùng Form API có sẵn.
+- **MVP/startup cần ra mắt nhanh** — ghép component thay vì xây từ số 0.
+- **Cần đảm bảo a11y sẵn** — keyboard, screen reader đã được lo từ đầu.
+
+:::
 
 ---
 

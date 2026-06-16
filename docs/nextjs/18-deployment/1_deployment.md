@@ -11,6 +11,7 @@ title: "1. Deployment Options"
 
 ## Mục lục
 
+- [Vì sao deploy Next.js cần lưu ý riêng?](#vì-sao-deploy-nextjs-cần-lưu-ý-riêng)
 - [Vercel (khuyến nghị)](#vercel-khuyến-nghị)
 - [Netlify](#netlify)
 - [Cloudflare Pages](#cloudflare-pages)
@@ -18,6 +19,63 @@ title: "1. Deployment Options"
 - [Self-hosted Node.js](#self-hosted-nodejs)
 - [Docker](#docker)
 - [Static Export](#static-export)
+
+---
+
+## Vì sao deploy Next.js cần lưu ý riêng?
+
+**Vấn đề:**
+
+Next.js **không chỉ là static site**. Một phần ứng dụng chạy ở **server**:
+
+```
+- SSR / ISR        → render trang lúc request, revalidate theo thời gian
+- Route Handler    → /api/* xử lý logic backend
+- Middleware       → chạy trước mỗi request (auth, redirect)
+- Server Actions   → mutation chạy trên server
+```
+
+Nếu deploy như **web tĩnh thuần**, các tính năng động trên sẽ **mất**. Còn tự
+host thì phải tự lo: chạy **Node server**, build output đúng cách, **biến môi
+trường** production, **cache/ISR**, và **scale** khi traffic tăng.
+
+**Giải pháp:**
+
+Chọn cách deploy **khớp với khả năng app đang dùng**:
+
+```ts
+// next.config.ts
+
+// 1. Self-host (Docker/VPS): gói gọn để chạy Node server
+export default { output: "standalone" };
+
+// 2. Site thuần tĩnh (KHÔNG dùng tính năng server)
+export default { output: "export" };
+
+// 3. Vercel: không cần config — tối ưu sẵn cho Next.js
+export default {};
+```
+
+```bash
+# Self-host standalone — chỉ cần Node, không cần cả node_modules
+node .next/standalone/server.js
+
+# Vercel — zero-config, auto detect Next.js
+vercel
+```
+
+:::tip[Dùng thực tế]
+
+- **Deploy nhanh lên Vercel**: app có SSR/Server Actions → `vercel` hoặc
+  connect GitHub, không cần cấu hình gì thêm.
+- **Docker standalone tự host**: cần kiểm soát hạ tầng → `output: 'standalone'`
+  gói gọn server vào image nhỏ, chạy `node server.js`.
+- **Static export cho site thuần tĩnh**: blog/docs/portfolio không có
+  auth/mutation → `output: 'export'` rồi đẩy `./out` lên CDN.
+- **Cấu hình biến môi trường production**: tách env theo môi trường, set region
+  gần user, và lưu ý ISR cache khác nhau giữa Vercel và self-host.
+
+:::
 
 ---
 

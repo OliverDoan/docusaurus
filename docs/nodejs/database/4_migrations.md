@@ -12,6 +12,7 @@ Migration là cách quản lý thay đổi cấu trúc database theo từng phi�
 ## Mục lục
 
 - [Migration là gì?](#migration-là-gì)
+- [Vì sao cần migration?](#vì-sao-cần-migration)
 - [Prisma Migrations](#prisma-migrations)
 - [Knex.js Migrations](#knexjs-migrations)
 - [Best Practices](#best-practices)
@@ -22,6 +23,36 @@ Migration là cách quản lý thay đổi cấu trúc database theo từng phi�
 ## Migration là gì?
 
 Migration là cách quản lý thay đổi schema database theo phiên bản — giống git cho database.
+
+## Vì sao cần migration?
+
+**Vấn đề:** Sửa schema thủ công bằng tay (chạy `ALTER TABLE` trực tiếp) trên từng môi trường (dev, staging, prod) và từng máy đồng nghiệp. Schema dễ lệch nhau, không ai chắc môi trường nào đang đúng, không rollback được, deploy hay gãy.
+
+```sql
+-- Mỗi người tự gõ tay trên DB của mình, không lưu ở đâu cả
+ALTER TABLE users ADD COLUMN avatar VARCHAR(255);
+-- Máy bạn chạy rồi, máy đồng nghiệp quên → schema lệch
+-- Lên prod gõ sai/quên cột → app gãy, không lùi lại được
+```
+
+**Giải pháp:** Mỗi thay đổi schema là một file có version, lưu trong git. Áp dụng tuần tự (`up`) và lùi lại (`down`) một cách nhất quán trên mọi môi trường. DB tự ghi nhớ migration nào đã chạy nên không chạy trùng.
+
+```bash
+# File migration có version, commit vào git
+# 20240101_add_user_avatar.js  (up: thêm cột, down: xoá cột)
+
+npx knex migrate:latest    # áp dụng tuần tự các migration chưa chạy
+npx knex migrate:rollback  # lùi lại khi lỗi
+```
+
+:::tip[Dùng thực tế]
+
+- Thêm cột/bảng mới mà vẫn có version, ai cũng biết schema đang ở đâu.
+- Đồng bộ schema giữa cả team: pull code về, chạy migrate là khớp ngay.
+- Chạy migrate tự động trong pipeline CI/CD mỗi lần deploy.
+- Rollback nhanh về trạng thái trước khi migration mới gây lỗi.
+
+:::
 
 ## Prisma Migrations
 

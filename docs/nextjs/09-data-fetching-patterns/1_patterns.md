@@ -11,10 +11,60 @@ title: "1. Data Fetching Patterns"
 
 ## Mục lục
 
+- [Vì sao cần các data fetching pattern?](#vì-sao-cần-các-data-fetching-pattern)
 - [Parallel vs Sequential](#parallel-vs-sequential)
 - [Preloading Data](#preloading-data)
 - [Waterfall Prevention](#waterfall-prevention)
 - [Streaming + Suspense](#streaming--suspense)
+
+---
+
+## Vì sao cần các data fetching pattern?
+
+**Vấn đề:** fetch dữ liệu một cách ngây thơ — `await` tuần tự từng cái dù
+chúng độc lập — tạo ra **request waterfall**: thời gian cộng dồn, trang chậm.
+Tệ hơn, một phần data chậm có thể chặn hiển thị toàn bộ trang.
+
+```tsx
+// Waterfall — 3 request độc lập nhưng chạy nối tiếp
+async function Page() {
+  const header = await fetchHeader();     // 1s
+  const list = await fetchList();         // 1s — chỉ start khi header xong
+  const sidebar = await fetchSidebar();   // 1s — chỉ start khi list xong
+  // Total: 3s, và không gì hiện ra cho tới khi cả 3 xong
+}
+```
+
+**Giải pháp:** chọn đúng pattern theo quan hệ dữ liệu — **parallel**
+(`Promise.all` hoặc khởi tạo promise trước rồi await) cho data độc lập,
+**sequential** chỉ khi phụ thuộc nhau, **preload** để fetch sớm,
+**request memoization** (Next dedupe fetch trùng), và **streaming + Suspense**
+để hiện phần nhanh trước.
+
+```tsx
+// Parallel — 3 request độc lập chạy cùng lúc
+async function Page() {
+  const [header, list, sidebar] = await Promise.all([
+    fetchHeader(),
+    fetchList(),
+    fetchSidebar(),
+  ]);
+  // Total: max(1s) = 1s
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Tải song song** header + list + sidebar của một trang vì chúng không
+  phụ thuộc nhau → tổng thời gian bằng request chậm nhất, không cộng dồn.
+- **Tuần tự khi bắt buộc**: lấy `user` trước rồi mới `fetchOrders(user.id)`
+  vì cần `id` từ bước trước.
+- **Stream phần chậm** bằng Suspense: hiện ngay layout + skeleton, phần
+  data nặng (chart, thống kê) tự swap vào khi resolve.
+- **Tránh fetch trùng**: gọi `preload` ở layout, child `await` lại cùng
+  request — Next dedupe nên chỉ gọi mạng một lần.
+
+:::
 
 ---
 

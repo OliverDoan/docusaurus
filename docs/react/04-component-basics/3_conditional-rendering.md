@@ -11,11 +11,53 @@ title: "3. Conditional Rendering"
 
 ## Mục lục
 
+- [Vì sao cần conditional rendering?](#vì-sao-cần-conditional-rendering)
 - [Tổng quan](#tổng-quan)
 - [Ternary operator](#ternary-operator)
 - [Logical && operator](#logical--operator)
 - [Early return](#early-return)
 - [Switch / lookup object](#switch--lookup-object)
+
+---
+
+## Vì sao cần conditional rendering?
+
+**Vấn đề:** UI thực tế phải **hiển thị khác nhau** theo trạng thái — đang loading, có lỗi, có dữ liệu, hay chưa đăng nhập. Nếu cứ ẩn/hiện DOM thủ công, code sẽ rối và dễ lệch với state.
+
+```jsx
+// Ẩn/hiện DOM thủ công — rối, dễ quên đồng bộ với state
+function ProfileWrong({ user, isLoading, error }) {
+  const spinner = document.getElementById("spinner");
+  const content = document.getElementById("content");
+
+  if (isLoading) spinner.style.display = "block";
+  else spinner.style.display = "none"; // quên dòng này → spinner kẹt mãi
+
+  if (error) content.style.display = "none";
+  // ...càng nhiều state càng nhiều lệnh ẩn/hiện chồng chéo
+}
+```
+
+**Giải pháp:** Render có điều kiện ngay trong JSX bằng `? :`, `&&`, biến trả về JSX khác nhau, hoặc early return. UI tự khớp với state — không cần tay đụng vào DOM.
+
+```jsx
+function Profile({ user, isLoading, error }) {
+  if (isLoading) return <Spinner />;
+  if (error) return <ErrorMessage error={error} />;
+  if (!user) return <p>Vui lòng đăng nhập</p>;
+
+  return <UserCard user={user} />; // UI luôn đúng theo state
+}
+```
+
+:::tip[Dùng thực tế]
+
+- Hiện **spinner** khi đang tải dữ liệu, ẩn đi khi xong.
+- Hiện **thông báo lỗi** khi gọi API thất bại.
+- **Ẩn nút** (Sửa/Xóa) khi người dùng không đủ quyền.
+- Hiện **empty state** ("Chưa có mục nào") khi danh sách rỗng.
+
+:::
 
 ---
 

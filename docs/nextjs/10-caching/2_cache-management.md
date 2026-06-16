@@ -11,11 +11,62 @@ Quản lý cache (**cache management**) là việc kiểm soát khi nào dữ li
 
 ## Mục lục
 
+- [Vì sao cần quản lý & làm mới cache?](#vì-sao-cần-quản-lý--làm-mới-cache)
 - [Time-based revalidation](#time-based-revalidation)
 - [On-demand revalidation](#on-demand-revalidation)
 - [revalidatePath](#revalidatepath)
 - [revalidateTag](#revalidatetag)
 - [Cache Invalidation Strategy](#cache-invalidation-strategy)
+
+---
+
+## Vì sao cần quản lý & làm mới cache?
+
+**Vấn đề:**
+
+```tsx
+// Trang sản phẩm cache để render nhanh
+export const revalidate = false; // cache mãi mãi
+
+async function getProduct(id: string) {
+  return fetch(`/api/products/${id}`).then((r) => r.json());
+}
+
+// Admin cập nhật giá 100k → 80k trong DB...
+// ...nhưng trang vẫn hiện 100k vì còn bản cache CŨ (stale).
+// Tắt cache hết thì trang lại chậm — mất hết lợi ích.
+```
+
+Cache giúp trang nhanh, nhưng dễ phục vụ dữ liệu **CŨ (stale)**: user cập nhật bài viết hoặc giá nhưng trang vẫn hiện bản cache lỗi thời. Cần cách làm mới **đúng phần, đúng lúc** mà không vứt bỏ lợi ích tốc độ.
+
+**Giải pháp:**
+
+```tsx
+// 1. Time-based: tự làm mới định kỳ (ISR)
+export const revalidate = 60; // trang sản phẩm refresh mỗi 60s
+
+// 2. On-demand: làm mới NGAY sau khi sửa dữ liệu
+"use server";
+export async function updateProduct(id: string, data: ProductData) {
+  await db.product.update({ where: { id }, data });
+  revalidateTag(`product-${id}`); // theo tag
+  revalidatePath("/products"); // theo đường dẫn
+}
+
+// 3. No-store / dynamic: dữ liệu phải LUÔN tươi
+fetch(url, { cache: "no-store" }); // dashboard, số liệu realtime
+```
+
+Quản lý cache là cân bằng giữa **tốc độ** và **độ mới**: `revalidate` làm mới theo thời gian, `revalidatePath`/`revalidateTag` làm mới ngay sau mutation, `no-store` cho dữ liệu cần tươi tuyệt đối.
+
+:::tip[Dùng thực tế]
+
+- **Sửa dữ liệu trong Server Action**: gọi `revalidateTag` ngay sau khi update DB để mọi trang dùng tag đó được làm mới tức thì.
+- **Trang sản phẩm / bài viết**: đặt `revalidate: 60` (ISR) — giá và nội dung tự cập nhật mỗi phút mà trang vẫn nhanh.
+- **Dashboard / số liệu realtime**: dùng `no-store` hoặc route dynamic để luôn lấy dữ liệu mới nhất, không cache.
+- **Sau khi submit form bằng Server Action**: `revalidatePath` đúng đường dẫn để user thấy ngay kết quả vừa thay đổi.
+
+:::
 
 ---
 

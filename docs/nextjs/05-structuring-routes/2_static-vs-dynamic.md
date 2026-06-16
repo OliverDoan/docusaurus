@@ -11,11 +11,55 @@ Trong Next.js, mỗi route có thể được render **tĩnh** (static — dựn
 
 ## Mục lục
 
+- [Vì sao phân biệt route tĩnh và động?](#vì-sao-phân-biệt-route-tĩnh-và-động)
 - [Static vs Dynamic](#static-vs-dynamic)
 - [Force static / dynamic](#force-static--dynamic)
 - [Streaming với Suspense](#streaming-với-suspense)
 - [Redirects](#redirects)
 - [Rewrites](#rewrites)
+
+---
+
+## Vì sao phân biệt route tĩnh và động?
+
+**Vấn đề:** Không phải trang nào cũng giống nhau. Trang nội dung cố định (about, blog) có thể dựng **sẵn một lần** để phục vụ siêu nhanh và cache trên CDN. Nhưng trang phụ thuộc vào request (cookie, search params, dữ liệu thay đổi liên tục) thì **phải render lúc chạy**. Nếu xử lý đồng nhất cho cả hai sẽ vừa chậm vừa sai dữ liệu.
+
+```tsx
+// Cùng một cách render cho mọi trang → sai
+// Trang giỏ hàng cache sẵn → user A thấy giỏ hàng của user B (sai)
+// Trang about render lại mỗi request → chậm vô ích
+export default async function Page() {
+  const data = await fetch("..."); // không rõ static hay dynamic?
+  return <div>{/* ... */}</div>;
+}
+```
+
+**Giải pháp:** Next.js **tự quyết định** static (render lúc build, cache CDN) hay dynamic (render mỗi request) dựa vào cách bạn dùng API động (`cookies()`, `headers()`, `searchParams`, `fetch` với `no-store`) hoặc cấu hình (`dynamic`, `revalidate`). Hiểu cơ chế này để chủ động tối ưu.
+
+```tsx
+// Static — không dùng API động → cache CDN, siêu nhanh
+export default async function AboutPage() {
+  const data = await fetch("https://api.example.com/about");
+  return <div>{/* ... */}</div>;
+}
+
+// Dynamic — dùng cookies() → render mỗi request
+import { cookies } from "next/headers";
+
+export default async function CartPage() {
+  const cart = (await cookies()).get("cart");
+  return <div>{/* ... */}</div>;
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Blog, landing page**: để static — dựng sẵn, cache CDN, tải tức thì.
+- **Giỏ hàng, trang cá nhân hoá**: dynamic — render theo từng người dùng.
+- **Cần dữ liệu luôn mới**: ép động bằng `fetch(url, { cache: "no-store" })`.
+- **Trang sản phẩm**: dùng ISR (`revalidate = 60`) — static nhưng tự làm mới định kỳ.
+
+:::
 
 ---
 

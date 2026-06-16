@@ -11,11 +11,65 @@ title: "2. Class Components (Legacy)"
 
 ## Mục lục
 
+- [Vì sao (từng) có class component?](#vì-sao-từng-có-class-component)
 - [Tại sao vẫn cần biết?](#tại-sao-vẫn-cần-biết)
 - [Khai báo class component](#khai-báo-class-component)
 - [State và setState](#state-và-setstate)
 - [Lifecycle methods](#lifecycle-methods)
 - [Khi nào còn gặp class component?](#khi-nào-còn-gặp-class-component)
+
+---
+
+## Vì sao (từng) có class component?
+
+**Vấn đề:** Trước khi có Hooks (React < 16.8), functional component
+**không giữ được state** và **không có lifecycle** — chỉ là "dumb
+component" nhận props rồi render ra UI. Không có cách nào để component
+có dữ liệu nội bộ thay đổi theo thời gian hay phản ứng theo vòng đời
+(mount/update/unmount).
+
+```jsx
+// Trước Hooks: functional component chỉ render, không state
+function Counter() {
+  let count = 0; // reset mỗi lần render, không giữ được
+  return <button onClick={() => count++}>Count: {count}</button>;
+  // Bấm nút → count++ nhưng UI không cập nhật, không có gì re-render
+}
+```
+
+**Giải pháp:** Class component (`extends React.Component`) cho component
+một nơi giữ **state** riêng (`this.state` / `this.setState`) và bộ
+**lifecycle method** (`componentDidMount`, `componentDidUpdate`,
+`componentWillUnmount`...) để chạy logic ở từng giai đoạn vòng đời.
+
+```jsx
+import { Component } from "react";
+
+class Counter extends Component {
+  state = { count: 0 }; // state riêng, giữ qua các lần render
+
+  render() {
+    return (
+      <button onClick={() => this.setState(p => ({ count: p.count + 1 }))}>
+        Count: {this.state.count}
+      </button>
+    );
+  }
+}
+```
+
+Ngày nay phần lớn việc này đã được thay bằng Hooks, nhưng vẫn cần hiểu
+class component vì còn trong codebase cũ và Error Boundary đến nay vẫn
+phải dùng class.
+
+:::tip[Dùng thực tế]
+
+- **Đọc & bảo trì code cũ** — codebase trước 2019 đầy class component.
+- **Error Boundary** — React vẫn chưa có hook tương đương, buộc dùng class.
+- **Hiểu lịch sử lifecycle** — biết vì sao `useEffect` ra đời để thay thế.
+- **Migrate dần sang hooks** — nắm class để convert an toàn từng phần.
+
+:::
 
 ---
 

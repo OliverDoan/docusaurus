@@ -11,6 +11,7 @@ Authorization là việc kiểm tra xem một người dùng đã đăng nhập 
 
 ## Mục lục
 
+- [Vì sao cần authorization (phân quyền)?](#vì-sao-cần-authorization-phân-quyền)
 - [Authentication vs Authorization](#authentication-vs-authorization)
 - [Role-Based Access Control (RBAC)](#role-based-access-control-rbac)
 - [Resource Ownership](#resource-ownership)
@@ -18,6 +19,45 @@ Authorization là việc kiểm tra xem một người dùng đã đăng nhập 
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao cần authorization (phân quyền)?
+
+**Vấn đề:**
+
+```js
+// Đã xác thực (authentication) — biết bạn là AI rồi.
+// Nhưng nếu mọi user đăng nhập đều làm được MỌI thứ thì...
+router.delete('/users/:id', requireAuth, userController.delete);
+// User thường cũng xoá được tài khoản người khác!
+router.get('/admin/dashboard', requireAuth, adminController.index);
+// User thường cũng vào được trang admin!
+```
+
+Authentication chỉ trả lời "bạn là ai?", nó KHÔNG kiểm soát "bạn được làm gì?". Thiếu phân quyền, user thường có thể xoá dữ liệu người khác hay truy cập khu vực admin.
+
+**Giải pháp:**
+
+```js
+// Authorization: kiểm tra QUYỀN trước khi cho thực hiện hành động
+// thường gắn vào route dưới dạng middleware
+
+// RBAC — phân quyền theo vai trò (admin / user)
+router.delete('/users/:id', requireAuth, requireRole('admin'), userController.delete);
+
+// Ownership — chỉ chủ sở hữu mới sửa tài nguyên của mình
+router.put('/posts/:id', requireAuth, requireOwnerOrAdmin('authorId'), postController.update);
+
+// ABAC — theo thuộc tính (gói dịch vụ, phòng ban, giờ truy cập...)
+```
+
+Phân biệt rõ: **authentication** (authn) = xác thực danh tính, **authorization** (authz) = phân quyền hành động.
+
+:::tip[Dùng thực tế]
+- Middleware `checkRole('admin')` chặn user thường vào API quản trị.
+- Chỉ tác giả bài viết mới được sửa/xoá bài của chính mình (ownership).
+- Ẩn hoặc khoá API theo quyền — endpoint nhạy cảm chỉ admin gọi được.
+- Phân quyền theo gói dịch vụ — tính năng "Pro" chỉ mở cho user trả phí (ABAC).
+:::
 
 ## Authentication vs Authorization
 

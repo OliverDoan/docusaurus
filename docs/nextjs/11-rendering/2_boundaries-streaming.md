@@ -11,11 +11,65 @@ title: "2. Boundaries và Streaming"
 
 ## Mục lục
 
+- [Vì sao có streaming & Suspense boundary?](#vì-sao-có-streaming--suspense-boundary)
 - [Component Boundaries](#component-boundaries)
 - [Pass props giữa boundary](#pass-props-giữa-boundary)
 - [Server-only / Client-only utility](#server-only--client-only-utility)
 - [Streaming với Suspense](#streaming-với-suspense)
 - [Loading.tsx](#loadingtsx)
+
+---
+
+## Vì sao có streaming & Suspense boundary?
+
+**Vấn đề:** Nếu một trang chờ **TẤT CẢ** dữ liệu mới gửi HTML, thì chỉ một phần chậm cũng làm **cả trang** trắng/treo lâu.
+
+```tsx
+// Cả trang phải đợi phần gợi ý cá nhân hoá (chậm) xong mới hiển thị
+async function Page() {
+  const main = await fetchMain();           // 0.2s
+  const recos = await fetchRecommendations(); // 2s — chậm nhất
+  return (
+    <>
+      <MainContent data={main} />
+      <Recommendations data={recos} />
+    </>
+  );
+}
+// → User thấy màn hình trắng ~2s, dù nội dung chính đã sẵn từ 0.2s
+```
+
+**Giải pháp:** **STREAMING + Suspense boundary** — chia trang thành vùng, phần nào sẵn gửi trước, phần chậm bọc `<Suspense fallback>` (hoặc file `loading.tsx`) hiện skeleton rồi **stream** nội dung thật khi xong.
+
+```tsx
+import { Suspense } from "react";
+
+function Page() {
+  return (
+    <>
+      <MainContent />                              {/* gửi ngay */}
+      <Suspense fallback={<RecoSkeleton />}>       {/* cô lập phần chậm */}
+        <Recommendations />                        {/* stream sau khi xong */}
+      </Suspense>
+    </>
+  );
+}
+
+async function Recommendations() {
+  const recos = await fetchRecommendations(); // 2s — không chặn phần còn lại
+  return <RecoView data={recos} />;
+}
+// → User thấy nội dung chính ngay (TTFB nhanh), phần gợi ý hiện sau
+```
+
+:::tip[Dùng thực tế]
+
+- **Hiện shell + nội dung chính ngay**: header, nav, bài viết gửi trước; người dùng đọc được liền.
+- **Stream phần chậm sau**: khối "gợi ý cho bạn", "đánh giá sản phẩm", "sản phẩm liên quan" bọc `<Suspense>` để không chặn trang.
+- **`loading.tsx` skeleton tự động**: đặt ở thư mục route, Next.js tự bọc Suspense cho cả page khi điều hướng.
+- **Cô lập phần chậm**: một API chậm/lỗi chỉ ảnh hưởng vùng của nó, phần còn lại vẫn hiển thị bình thường.
+
+:::
 
 ---
 

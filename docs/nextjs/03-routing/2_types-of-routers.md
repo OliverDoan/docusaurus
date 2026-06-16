@@ -11,11 +11,55 @@ Next.js có hai hệ thống định tuyến song song: **Pages Router** (router
 
 ## Mục lục
 
+- [Vì sao có App Router & Pages Router?](#vì-sao-có-app-router--pages-router)
 - [Hai router song song](#hai-router-song-song)
 - [Pages Router (legacy)](#pages-router-legacy)
 - [App Router (khuyến nghị)](#app-router-khuyến-nghị)
 - [So sánh chi tiết](#so-sánh-chi-tiết)
 - [Migration strategy](#migration-strategy)
+
+---
+
+## Vì sao có App Router & Pages Router?
+
+**Vấn đề:** Pages Router (cũ) tải nhiều JS xuống client, data fetching tách rời khỏi component:
+
+```tsx
+// pages/blog/[slug].tsx — fetch nằm NGOÀI component
+export const getServerSideProps = async ({ params }) => {
+  const post = await fetchPost(params.slug); // tách rời UI
+  return { props: { post } };
+};
+
+export default function BlogPost({ post }) {
+  // toàn bộ component này ship JS xuống client
+  return <article>{post.content}</article>;
+}
+```
+
+Hệ quả: khó chia nhỏ để tải dần (streaming), layout lồng nhau bất tiện, bundle JS phình to.
+
+**Giải pháp:** App Router (Next 13+, dựa trên React Server Components) — mặc định render ở server (ít JS xuống client), fetch data NGAY trong async component, nested layout, streaming/Suspense, `loading`/`error` theo quy ước file:
+
+```tsx
+// app/blog/[slug]/page.tsx — Server Component, fetch NGAY trong component
+export default async function BlogPost({ params }) {
+  const { slug } = await params;
+  const post = await fetchPost(slug); // chạy server, không ship JS
+  return <article>{post.content}</article>;
+}
+```
+
+Pages Router vẫn tồn tại để hỗ trợ codebase cũ. Quan trọng là hiểu **vì sao có 2** và **khi nào dùng cái nào**.
+
+:::tip[Dùng thực tế]
+
+- **Dự án mới** → dùng App Router để tận dụng Server Components, streaming, nested layout.
+- **Bảo trì dự án cũ** đang chạy ổn trên Pages Router → cứ giữ nguyên, không cần đập đi xây lại.
+- **Cần giảm bundle JS** → tận dụng Server Components của App Router để bớt JS xuống client.
+- **Codebase lớn** → migrate dần từng route từ `pages/` sang `app/`, hai router chạy song song trong lúc chuyển.
+
+:::
 
 ---
 

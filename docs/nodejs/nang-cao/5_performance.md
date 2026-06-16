@@ -11,6 +11,7 @@ Tối ưu hiệu năng giúp ứng dụng Node.js phản hồi nhanh hơn và ph
 
 ## Mục lục
 
+- [Vì sao cần tối ưu hiệu năng Node?](#vì-sao-cần-tối-ưu-hiệu-năng-node)
 - [Compression](#compression)
 - [Clustering](#clustering)
 - [Caching Strategies](#caching-strategies)
@@ -20,6 +21,51 @@ Tối ưu hiệu năng giúp ứng dụng Node.js phản hồi nhanh hơn và ph
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao cần tối ưu hiệu năng Node?
+
+Node chạy JavaScript trên **một luồng duy nhất** với một event loop. Nếu xử lý việc nặng CPU đồng bộ ngay trong luồng này, mọi request khác sẽ bị treo cho đến khi việc đó xong.
+
+**Vấn đề:**
+
+```js
+// Việc nặng CPU chạy đồng bộ -> BLOCK event loop
+app.get('/report', (req, res) => {
+  let total = 0;
+  for (let i = 0; i < 5_000_000_000; i++) {
+    total += i; // Vòng lặp lớn chiếm trọn luồng
+  }
+  res.json({ total });
+});
+// Trong lúc /report chạy: mọi request khác (kể cả /health) đều bị treo.
+// Server cũng chỉ dùng 1 core, còn rò rỉ bộ nhớ thì làm chậm dần theo thời gian.
+```
+
+**Giải pháp:**
+
+```js
+// 1. Đẩy việc nặng sang worker_threads (không chặn event loop chính)
+const { Worker } = require('worker_threads');
+
+app.get('/report', (req, res) => {
+  const worker = new Worker('./report-worker.js');
+  worker.on('message', (total) => res.json({ total }));
+  worker.on('error', (err) => res.status(500).json({ error: err.message }));
+});
+
+// 2. Cluster/PM2 để dùng hết nhiều core (xem mục Clustering)
+// 3. Cache kết quả nóng để khỏi tính lại (xem mục Caching Strategies)
+// 4. Stream dữ liệu lớn thay vì nạp hết vào RAM (xem mục Streaming)
+```
+
+:::tip[Dùng thực tế]
+
+- Xử lý ảnh/nén/mã hoá nặng: đẩy sang `worker_threads` hoặc hàng đợi (queue) để luồng chính vẫn phục vụ request.
+- API nhiều người dùng: bật cluster hoặc chạy PM2 cluster để tận dụng tất cả CPU core.
+- Endpoint trả dữ liệu tốn công tính: cache kết quả (vd Redis) để các lần sau lấy ngay, giảm tải database.
+- Tải/xuất file lớn (CSV, log, video): dùng stream thay vì `readFileSync` để không nổ RAM.
+
+:::
 
 ## Compression
 

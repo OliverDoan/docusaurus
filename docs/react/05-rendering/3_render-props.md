@@ -11,11 +11,62 @@ title: "3. Render Props"
 
 ## Mục lục
 
+- [Vì sao có render props?](#vì-sao-có-render-props)
 - [Render Props là gì?](#render-props-là-gì)
 - [Ví dụ cơ bản](#ví-dụ-cơ-bản)
 - [Component có nhiều slot](#component-có-nhiều-slot)
 - [Render Props vs Custom Hook](#render-props-vs-custom-hook)
 - [Khi nào còn dùng?](#khi-nào-còn-dùng)
+
+---
+
+## Vì sao có render props?
+
+**Vấn đề:** Bạn muốn **tái sử dụng logic** (ví dụ theo dõi vị trí chuột, fetch dữ liệu) giữa nhiều component, nhưng phần **hiển thị** lại khác nhau ở mỗi nơi. Trước khi có Hooks, React không có cách gọn gàng để chia sẻ logic stateful — bạn buộc phải lặp lại logic hoặc dùng HOC lồng nhau khó đọc.
+
+```jsx
+// Logic track chuột bị lặp lại ở mọi component cần dùng
+function ComponentA() {
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+    const h = (e) => setPos({ x: e.clientX, y: e.clientY });
+    window.addEventListener("mousemove", h);
+    return () => window.removeEventListener("mousemove", h);
+  }, []);
+  return <p>A: {pos.x}, {pos.y}</p>;
+}
+
+function ComponentB() {
+  // ...lặp lại y hệt logic trên, chỉ khác phần render
+}
+```
+
+**Giải pháp:** Dùng **render props** — truyền một **hàm** qua prop (thường là `children`) để component chứa logic **gọi** hàm đó và đưa dữ liệu ra ngoài. Phần render do nơi sử dụng quyết định, nên một component logic phục vụ được nhiều giao diện khác nhau. (Lưu ý: ngày nay phần lớn trường hợp đã được thay bằng custom hook, nhưng pattern này vẫn còn gặp trong nhiều thư viện.)
+
+```jsx
+// Logic gom vào một chỗ, render tùy nơi dùng
+function MouseTracker({ children }) {
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+    const h = (e) => setPos({ x: e.clientX, y: e.clientY });
+    window.addEventListener("mousemove", h);
+    return () => window.removeEventListener("mousemove", h);
+  }, []);
+  return children(pos); // đưa data ra, nơi dùng tự render
+}
+
+<MouseTracker>{({ x, y }) => <p>A: {x}, {y}</p>}</MouseTracker>
+<MouseTracker>{({ x, y }) => <Dot left={x} top={y} />}</MouseTracker>
+```
+
+:::tip[Dùng thực tế]
+
+- Component cấp dữ liệu: `<DataProvider>{data => /* render */}</DataProvider>`.
+- Theo dõi trạng thái: mouse tracker, scroll tracker, kích thước cửa sổ.
+- Thư viện cũ: **Formik**, **Downshift** dùng children-as-function.
+- Tách logic khỏi UI để một logic phục vụ nhiều giao diện.
+
+:::
 
 ---
 

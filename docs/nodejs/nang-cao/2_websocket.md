@@ -11,11 +11,47 @@ WebSocket cho phép server và client trao đổi dữ liệu hai chiều theo t
 
 ## Mục lục
 
+- [Vì sao cần WebSocket?](#vì-sao-cần-websocket)
 - [Socket.IO](#socketio)
 - [Rooms](#rooms)
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao cần WebSocket?
+
+**Vấn đề:**
+
+HTTP là request-response một chiều: client hỏi thì server mới trả, server không tự đẩy dữ liệu mới cho client. Muốn realtime phải polling (hỏi liên tục) → trễ, tốn băng thông, tải nặng server.
+
+```js
+// Polling: client phải hỏi server liên tục
+setInterval(async () => {
+  const res = await fetch('/api/messages');
+  const messages = await res.json();
+  render(messages); // Tin mới luôn bị trễ, mỗi request tốn tài nguyên
+}, 2000);
+```
+
+**Giải pháp:**
+
+WebSocket mở một kết nối TCP bền vững, hai chiều full-duplex: server chủ động push, client gửi tức thì, độ trễ thấp. Socket.IO bọc thêm fallback, room và reconnect.
+
+```js
+// WebSocket: server chủ động push, không cần hỏi lại
+socket.on('chat:message', (data) => {
+  render(data); // Nhận ngay khi server gửi, độ trễ thấp
+});
+```
+
+:::tip[Dùng thực tế]
+
+- Chat realtime: tin nhắn hiện ngay khi gửi.
+- Thông báo/notification đẩy từ server xuống client.
+- Dashboard/giá live: cập nhật số liệu, giá liên tục.
+- Chơi game/cộng tác thời gian thực: đồng bộ trạng thái nhiều người.
+
+:::
 
 ## Socket.IO
 

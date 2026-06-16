@@ -11,11 +11,86 @@ title: "3. Custom Hooks"
 
 ## Mục lục
 
+- [Vì sao có custom hooks?](#vì-sao-có-custom-hooks)
 - [Custom Hook là gì?](#custom-hook-là-gì)
 - [Naming convention](#naming-convention)
 - [Ví dụ thường gặp](#ví-dụ-thường-gặp)
 - [Share state giữa các hook](#share-state-giữa-các-hook)
 - [Best practices](#best-practices)
+
+---
+
+## Vì sao có custom hooks?
+
+**Vấn đề:** Nhiều component lặp lại **cùng một logic stateful** — gọi API kèm `loading`/`error`, đọc/ghi localStorage, debounce, theo dõi kích thước cửa sổ. Copy-paste `useState` + `useEffect` khắp nơi → trùng lặp, sửa một chỗ phải sửa nhiều chỗ, khó bảo trì. Dùng HOC hay render props để chia sẻ thì lại thêm tầng component lồng nhau.
+
+```jsx
+// Component A — gọi API
+function UserList() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch("/api/users")
+      .then(r => r.json()).then(setData)
+      .catch(setError)
+      .finally(() => setLoading(false));
+  }, []);
+  // ...
+}
+
+// Component B — gọi API khác, LẶP LẠI y hệt logic trên
+function ProductList() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then(r => r.json()).then(setData)
+      .catch(setError)
+      .finally(() => setLoading(false));
+  }, []);
+  // ...
+}
+```
+
+**Giải pháp:** Tách logic dùng nhiều hook ra một **hàm bắt đầu bằng `use...`** — đó là custom hook. Nó **tái sử dụng logic mà KHÔNG thêm component bọc**, và mỗi component gọi hook đều có state riêng độc lập.
+
+```jsx
+function useFetch(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch(url)
+      .then(r => r.json()).then(setData)
+      .catch(setError)
+      .finally(() => setLoading(false));
+  }, [url]);
+
+  return { data, loading, error };
+}
+
+// Hai component dùng lại — gọn, mỗi cái có state riêng
+function UserList() {
+  const { data, loading, error } = useFetch("/api/users");
+}
+function ProductList() {
+  const { data, loading, error } = useFetch("/api/products");
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **`useFetch`** — gom `data` + `loading` + `error` cho mọi lời gọi API.
+- **`useLocalStorage`** — đồng bộ state với localStorage, dùng lại ở nhiều màn hình.
+- **`useDebounce`** — trì hoãn giá trị cho ô tìm kiếm, lọc danh sách.
+- **`useWindowSize` / `useMediaQuery`** — theo dõi kích thước cửa sổ để render responsive.
+
+:::
 
 ---
 

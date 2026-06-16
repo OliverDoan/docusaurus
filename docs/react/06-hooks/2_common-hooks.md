@@ -11,11 +11,74 @@ title: "2. useRef, useCallback, useMemo, useReducer, useContext"
 
 ## Mục lục
 
+- [Vì sao cần các hook này?](#vì-sao-cần-các-hook-này)
 - [useRef](#useref)
 - [useCallback](#usecallback)
 - [useMemo](#usememo)
 - [useReducer](#usereducer)
 - [useContext](#usecontext)
+
+---
+
+## Vì sao cần các hook này?
+
+Mỗi hook trong nhóm này giải **một vấn đề cụ thể** mà `useState` và `useEffect` chưa lo trọn.
+
+**Vấn đề:**
+
+```jsx
+function ProductList({ products, filter, theme, user }) {
+  // 1. Mỗi render — lọc lại cả mảng (nặng) dù products/filter không đổi
+  const filtered = products.filter(p => p.name.includes(filter));
+
+  // 2. Mỗi render — function mới → Child (React.memo) vẫn re-render thừa
+  const onSelect = (p) => console.log(p);
+
+  // 3. State phức tạp nhiều nhánh — nhiều useState rời rạc, khó đồng bộ
+  const [count, setCount] = useState(0);
+  const [history, setHistory] = useState([]);
+  const [error, setError] = useState(null);
+
+  return <Child items={filtered} onSelect={onSelect} />;
+}
+
+// 4. theme, user phải truyền props qua nhiều cấp trung gian (prop drilling)
+```
+
+**Giải pháp:**
+
+```jsx
+function ProductList({ products, filter }) {
+  // 1. useMemo — nhớ kết quả tính toán nặng, chỉ chạy lại khi deps đổi
+  const filtered = useMemo(
+    () => products.filter(p => p.name.includes(filter)),
+    [products, filter]
+  );
+
+  // 2. useCallback — giữ ổn định tham chiếu hàm → Child memo không re-render thừa
+  const onSelect = useCallback((p) => console.log(p), []);
+
+  // 3. useReducer — gom logic state phức tạp về một nơi, dễ test
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  // 4. useContext — đọc dữ liệu chia sẻ, không prop drilling
+  const theme = useContext(ThemeContext);
+
+  // (useRef — giữ giá trị bền giữa các render, không gây re-render)
+  const renderCount = useRef(0);
+
+  return <Child items={filtered} onSelect={onSelect} />;
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **`useMemo`**: memo hoá danh sách đã lọc/sắp xếp trong bảng dữ liệu lớn, không tính lại mỗi lần gõ phím.
+- **`useCallback`**: truyền callback ổn định xuống component đã `React.memo` để tránh render lại không cần thiết.
+- **`useReducer`**: quản lý form nhiều bước hoặc máy trạng thái (loading → success → error) gọn gàng hơn nhiều `useState`.
+- **`useContext`**: đọc theme, user đăng nhập, hoặc locale từ Provider mà không phải truyền props qua từng cấp.
+
+:::
 
 ---
 

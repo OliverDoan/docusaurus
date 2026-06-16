@@ -11,12 +11,62 @@ Bài này hướng dẫn cách tổ chức thư mục route sao cho gọn gàng 
 
 ## Mục lục
 
+- [Vì sao có quy ước file cho route?](#vì-sao-có-quy-ước-file-cho-route)
 - [Folder structure tốt](#folder-structure-tốt)
 - [Co-location](#co-location)
 - [Private folder _name](#private-folder-_name)
 - [Route Handlers (API)](#route-handlers-api)
 - [Method handlers](#method-handlers)
 - [Request và Response](#request-và-response)
+
+---
+
+## Vì sao có quy ước file cho route?
+
+**Vấn đề:** Mỗi route thường cần nhiều thứ đi kèm: UI chính, layout dùng chung, trạng thái loading, xử lý lỗi, trang 404. Nếu tự dựng và nối thủ công thì code lặp và rất dễ quên một mảnh:
+
+```tsx
+// app/dashboard/page.tsx — phải tự nối mọi thứ bằng tay
+export default function DashboardPage() {
+  return (
+    <ErrorBoundary fallback={<ErrorView />}>      {/* tự bọc lỗi */}
+      <Suspense fallback={<Skeleton />}>          {/* tự bọc loading */}
+        <SharedLayout>                            {/* tự lồng layout */}
+          <DashboardContent />
+        </SharedLayout>
+      </Suspense>
+    </ErrorBoundary>
+  );
+}
+// → route nào cũng lặp lại boilerplate này, thiếu một lớp là vỡ
+```
+
+**Giải pháp:** Next.js dùng **quy ước tên file** đặc biệt trong thư mục route. Đặt đúng tên file là Next tự nối lại với nhau → ít boilerplate, nhất quán:
+
+```tsx
+// app/dashboard/
+// ├── layout.tsx     → khung bao quanh, GIỮ state khi điều hướng giữa các trang con
+// ├── page.tsx       → UI chính của route (cái duy nhất tạo URL)
+// ├── loading.tsx    → Suspense fallback TỰ ĐỘNG khi page đang tải
+// ├── error.tsx      → Error Boundary TỰ ĐỘNG bắt lỗi của route
+// ├── not-found.tsx  → UI cho 404 (gọi notFound() hoặc route không khớp)
+// └── template.tsx   → giống layout nhưng tạo MỚI mỗi lần điều hướng (reset state)
+
+// page.tsx giờ chỉ cần lo UI — Next tự bọc layout/loading/error quanh nó
+export default async function DashboardPage() {
+  const data = await getDashboardData();
+  return <DashboardContent data={data} />;
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **`layout.tsx` dùng chung cho nhóm trang:** sidebar + navbar bọc mọi trang trong `dashboard/`, không re-render và giữ nguyên state khi chuyển qua lại giữa các trang con.
+- **`loading.tsx` hiện skeleton tự động:** chỉ cần tạo file, Next bọc `<Suspense>` quanh `page.tsx` — người dùng thấy skeleton ngay trong lúc data fetch.
+- **`error.tsx` bắt lỗi từng phần:** lỗi trong một route chỉ làm hỏng đúng vùng đó kèm nút "Thử lại", các phần còn lại của trang vẫn chạy bình thường.
+- **`not-found.tsx` tuỳ biến 404:** trang "Không tìm thấy" riêng cho từng nhóm route (ví dụ 404 của khu blog khác 404 của khu shop).
+
+:::
 
 ---
 

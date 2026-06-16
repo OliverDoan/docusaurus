@@ -11,11 +11,46 @@ title: "5. Events"
 
 ## Mục lục
 
+- [Vì sao React dùng Synthetic Event?](#vì-sao-react-dùng-synthetic-event)
 - [Event handler cơ bản](#event-handler-cơ-bản)
 - [Synthetic Events](#synthetic-events)
 - [Common events](#common-events)
 - [preventDefault và stopPropagation](#preventdefault-và-stoppropagation)
 - [Form events](#form-events)
+
+---
+
+## Vì sao React dùng Synthetic Event?
+
+**Vấn đề:** Gắn `addEventListener` thủ công cho từng DOM node thì khó quản lý, dễ quên gỡ (gây memory leak), và mỗi trình duyệt lại có khác biệt nhỏ về event.
+
+```jsx
+// Tự gắn listener cho từng node — rườm rà, dễ leak
+const btn = document.getElementById("save");
+btn.addEventListener("click", handleClick);
+
+// Quên gỡ → leak khi node bị xoá
+// btn.removeEventListener("click", handleClick);
+
+// Trình duyệt khác nhau, behavior event lệch nhau
+```
+
+**Giải pháp:** React dùng **Synthetic Event** — lớp bọc chuẩn hoá event của trình duyệt (API đồng nhất cross-browser). Bạn gắn handler khai báo ngay trong JSX (`onClick`...), React tự quản lý đăng ký/gỡ qua **event delegation** → gọn và nhất quán.
+
+```jsx
+// Khai báo handler ngay trong JSX
+// React tự đăng ký/gỡ, tự chuẩn hoá event mọi trình duyệt
+<button onClick={handleClick}>Save</button>
+```
+
+:::tip[Dùng thực tế]
+
+- `onClick` / `onChange` / `onSubmit` — gắn handler khai báo, không cần `addEventListener`.
+- `e.preventDefault()` trong `onSubmit` để chặn form reload page.
+- `e.stopPropagation()` để chặn event bubble lên parent.
+- Handler nhất quán mọi trình duyệt — không cần xử lý riêng cho Chrome/Firefox/Safari.
+
+:::
 
 ---
 

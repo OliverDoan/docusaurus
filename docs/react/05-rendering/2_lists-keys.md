@@ -11,11 +11,72 @@ Trong React, để hiển thị một **list** (danh sách nhiều phần tử),
 
 ## Mục lục
 
+- [Vì sao cần key khi render danh sách?](#vì-sao-cần-key-khi-render-danh-sách)
 - [Render danh sách](#render-danh-sách)
 - [Tại sao cần key?](#tại-sao-cần-key)
 - [Chọn key đúng](#chọn-key-đúng)
 - [Key trong Fragment](#key-trong-fragment)
 - [Anti-pattern](#anti-pattern)
+
+---
+
+## Vì sao cần key khi render danh sách?
+
+**Vấn đề:**
+
+```jsx
+// Render mảng thành nhiều element, không có key ổn định
+function TodoList({ todos }) {
+  return (
+    <ul>
+      {todos.map((todo, i) => (
+        <li key={i}>
+          <input defaultValue={todo.text} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+Khi list thay đổi (thêm/xoá/sắp xếp), React không biết phần tử nào là phần
+tử nào → re-render sai, mất state của input, hiệu năng kém. Dùng `index`
+làm key gây bug ngay khi thứ tự đổi: item ở vị trí cũ bị gán nhầm dữ liệu
+của item khác.
+
+**Giải pháp:**
+
+```jsx
+// key ổn định & duy nhất (thường là id) → React nhận diện đúng từng phần tử
+function TodoList({ todos }) {
+  return (
+    <ul>
+      {todos.map(todo => (
+        <li key={todo.id}>
+          <input defaultValue={todo.text} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+`key` duy nhất giúp React **nhận diện** từng phần tử qua các lần render để
+reconcile chính xác, giữ đúng state của từng instance dù list thêm, xoá hay
+đảo thứ tự.
+
+:::tip[Dùng thực tế]
+
+- **Render danh sách từ API**: dùng `key={item.id}` (id từ database) để
+  React khớp đúng phần tử khi data cập nhật.
+- **Todo list thêm/xoá**: key ổn định giúp giữ nguyên state các todo còn
+  lại khi xoá một item ở giữa.
+- **Bảng có sắp xếp/lọc**: khi sort hay filter, key theo id giữ đúng state
+  từng dòng (checkbox, input) thay vì gán nhầm.
+- **Tránh dùng index** làm key khi list động (reorder/insert/delete giữa) —
+  chỉ dùng index cho list tĩnh, không đổi thứ tự.
+
+:::
 
 ---
 

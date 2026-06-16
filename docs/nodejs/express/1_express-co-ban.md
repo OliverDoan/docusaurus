@@ -12,6 +12,7 @@ Express.js là web framework phổ biến nhất cho Node.js, nổi bật vì t�
 ## Mục lục
 
 - [Express là gì?](#express-là-gì)
+- [Vì sao dùng Express?](#vì-sao-dùng-express)
 - [Cài đặt](#cài-đặt)
 - [Hello World](#hello-world)
 - [HTTP Methods](#http-methods)
@@ -25,6 +26,64 @@ Express.js là web framework phổ biến nhất cho Node.js, nổi bật vì t�
 ## Express là gì?
 
 Express.js là **web framework** phổ biến nhất cho Node.js — tối giản, linh hoạt, mạnh mẽ.
+
+## Vì sao dùng Express?
+
+**Vấn đề:** Dùng module `http` thuần của Node, bạn phải tự phân tích URL/method, tự định tuyến bằng `if/else`, tự parse body, tự set header... rất dài dòng và lặp lại cho mọi app.
+
+```js
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  // Tự định tuyến theo method + path
+  if (req.method === 'GET' && req.url === '/users') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify([{ id: 1, name: 'Alice' }]));
+  } else if (req.method === 'POST' && req.url === '/users') {
+    // Tự parse body từng chunk
+    let body = '';
+    req.on('data', (chunk) => { body += chunk; });
+    req.on('end', () => {
+      const data = JSON.parse(body);
+      res.writeHead(201, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(data));
+    });
+  } else {
+    res.writeHead(404);
+    res.end('Not Found');
+  }
+});
+
+server.listen(3000);
+```
+
+**Giải pháp:** Express là framework tối giản dựng trên `http`, cung cấp routing (`app.get`/`app.post`), middleware, parse body (`express.json`) và quản lý `req`/`res` gọn gàng → dựng API/web server nhanh, lại có hệ sinh thái middleware lớn.
+
+```js
+const express = require('express');
+const app = express();
+
+app.use(express.json()); // Parse JSON body tự động
+
+app.get('/users', (req, res) => {
+  res.json([{ id: 1, name: 'Alice' }]);
+});
+
+app.post('/users', (req, res) => {
+  res.status(201).json(req.body);
+});
+
+app.listen(3000);
+```
+
+:::tip[Dùng thực tế]
+
+- **Xây REST API:** định nghĩa endpoint theo tài nguyên một cách rõ ràng.
+- **Định tuyến gọn:** khớp theo method/path (`app.get('/users/:id')`) thay vì `if/else`.
+- **Gắn middleware:** thêm auth, logging, validate vào pipeline xử lý request.
+- **Phục vụ static/file:** trả file tĩnh hoặc tải file với `express.static` / `res.sendFile`.
+
+:::
 
 ## Cài đặt
 

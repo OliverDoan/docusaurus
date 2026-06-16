@@ -11,6 +11,7 @@ Middleware là những hàm trung gian xử lý request theo chuỗi trước kh
 
 ## Mục lục
 
+- [Vì sao có middleware?](#vì-sao-có-middleware)
 - [Middleware là gì?](#middleware-là-gì)
 - [Cấu trúc Middleware](#cấu-trúc-middleware)
 - [Application-level Middleware](#application-level-middleware)
@@ -22,6 +23,59 @@ Middleware là những hàm trung gian xử lý request theo chuỗi trước kh
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao có middleware?
+
+**Vấn đề:** Nhiều route cần CÙNG xử lý trước/sau như nhau: ghi log, kiểm tra đăng nhập, parse body, bật CORS, đo thời gian. Nếu nhét các đoạn này vào TỪNG handler thì code bị lặp khắp nơi và rất khó bảo trì.
+
+```js
+// Mỗi route lặp lại cùng một logic
+app.get('/users', (req, res) => {
+  console.log(`${req.method} ${req.url}`); // log
+  if (!req.headers.authorization) return res.status(401).end(); // auth
+  // ...xử lý chính
+});
+
+app.get('/products', (req, res) => {
+  console.log(`${req.method} ${req.url}`); // log (lặp)
+  if (!req.headers.authorization) return res.status(401).end(); // auth (lặp)
+  // ...xử lý chính
+});
+```
+
+**Giải pháp:** Middleware là các hàm `(req, res, next)` xếp thành CHUỖI xử lý request. Mỗi middleware làm một việc rồi gọi `next()` để chuyển tiếp. Viết một lần, tái sử dụng, gắn toàn cục hoặc theo từng route.
+
+```js
+// Viết một lần, dùng lại khắp nơi
+const logger = (req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+};
+
+const requireAuth = (req, res, next) => {
+  if (!req.headers.authorization) return res.status(401).end();
+  next();
+};
+
+app.use(logger); // gắn toàn cục cho mọi route
+
+app.get('/users', requireAuth, (req, res) => {
+  // chỉ còn xử lý chính
+});
+
+app.get('/products', requireAuth, (req, res) => {
+  // chỉ còn xử lý chính
+});
+```
+
+:::tip[Dùng thực tế]
+
+- **Logger toàn cục:** `app.use(logger)` ghi log mọi request ở một chỗ.
+- **Auth bảo vệ route:** `app.get('/profile', requireAuth, ...)` chặn request chưa đăng nhập.
+- **Parse body:** `app.use(express.json())` tự đọc JSON vào `req.body`.
+- **Bảo mật & CORS:** `app.use(helmet())`, `app.use(cors())` và error-handling middleware đặt cuối để bắt lỗi tập trung.
+
+:::
 
 ## Middleware là gì?
 

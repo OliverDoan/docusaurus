@@ -11,10 +11,74 @@ title: "1. Fetching Data"
 
 ## Mục lục
 
+- [Vì sao fetch dữ liệu trong Next khác React thuần?](#vì-sao-fetch-dữ-liệu-trong-next-khác-react-thuần)
 - [Server vs Client fetching](#server-vs-client-fetching)
 - [Fetch trong Server Components](#fetch-trong-server-components)
 - [Fetch trong Client Components](#fetch-trong-client-components)
 - [Khi nào fetch ở đâu?](#khi-nào-fetch-ở-đâu)
+
+---
+
+## Vì sao fetch dữ liệu trong Next khác React thuần?
+
+**Vấn đề:**
+
+```tsx
+// React thuần — fetch trong useEffect ở phía client
+"use client";
+
+import { useState, useEffect } from "react";
+
+export default function UsersPage() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    // Chỉ chạy SAU khi browser tải xong JS
+    fetch("https://api.example.com/users", {
+      headers: { Authorization: "Bearer SECRET_KEY" }, // lộ xuống client!
+    })
+      .then(r => r.json())
+      .then(setUsers);
+  }, []);
+
+  return <ul>{users.map(u => <li key={u.id}>{u.name}</li>)}</ul>;
+}
+```
+
+- Fetch chạy **sau** khi tải JS xuống browser → người dùng thấy màn **loading** trống.
+- Dễ sinh **waterfall** (request nối tiếp nhau, chậm dần).
+- Logic và **API key bị lộ** xuống client.
+- HTML ban đầu rỗng → **SEO kém**.
+
+**Giải pháp:**
+
+```tsx
+// Next.js App Router — Server Component async, await fetch NGAY trên server
+// app/users/page.tsx
+export default async function UsersPage() {
+  // Chạy trên server TRƯỚC khi gửi HTML về browser
+  const users = await fetch("https://api.example.com/users", {
+    headers: { Authorization: `Bearer ${process.env.API_KEY}` }, // an toàn
+    next: { revalidate: 60 }, // cache + dedupe tự động
+  }).then(r => r.json());
+
+  return <ul>{users.map(u => <li key={u.id}>{u.name}</li>)}</ul>;
+}
+```
+
+- Server Component có thể là `async` và `await fetch` ngay trên server.
+- Dữ liệu **sẵn lúc render** → HTML đã có nội dung (tốt SEO, không lộ secret).
+- `fetch` được **cache/dedupe** tự động.
+- Mutation dùng **Server Action**, ít JS gửi xuống client.
+
+:::tip[Dùng thực tế]
+
+- **Trang chi tiết sản phẩm**: lấy dữ liệu ngay trong Server Component để HTML có sẵn nội dung cho SEO.
+- **Gọi DB trực tiếp**: truy vấn database an toàn ngay trên server, không cần dựng API route trung gian.
+- **Dữ liệu ít đổi (tin tức, blog)**: dùng `next: { revalidate }` để cache và làm mới định kỳ.
+- **Tạo/sửa/xoá dữ liệu (form)**: dùng Server Action thay cho việc gọi API thủ công từ client.
+
+:::
 
 ---
 

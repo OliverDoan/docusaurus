@@ -11,12 +11,66 @@ Trong React có rất nhiều cách để viết CSS (định kiểu, tô màu s
 
 ## Mục lục
 
+- [Vì sao có nhiều cách viết CSS trong React?](#vì-sao-có-nhiều-cách-viết-css-trong-react)
 - [Tổng quan các cách](#tổng-quan-các-cách)
 - [Tailwind CSS (khuyến nghị)](#tailwind-css-khuyến-nghị)
 - [CSS Modules](#css-modules)
 - [Styled Components / Emotion](#styled-components--emotion)
 - [Panda CSS, vanilla-extract](#panda-css-vanilla-extract)
 - [SASS/SCSS](#sassscss)
+
+---
+
+## Vì sao có nhiều cách viết CSS trong React?
+
+**Vấn đề:**
+
+CSS thường là toàn cục — class đặt ở đâu cũng áp cho cả trang. Khi nhiều component cùng đặt tên class giống nhau, chúng đụng độ và ghi đè lẫn nhau. Càng nhiều file CSS, càng khó biết class nào còn dùng (dead CSS) và khó style động theo props/state.
+
+```css
+/* Button.css */
+.button { background: blue; }
+
+/* Card.css — cùng tên .button, ghi đè ngầm! */
+.button { background: gray; }
+```
+
+```jsx
+// Muốn đổi màu theo props nhưng CSS tĩnh không làm được
+function Button({ primary }) {
+  // Phải tự nối class thủ công, dễ sai
+  return <button className="button">Save</button>;
+}
+```
+
+**Giải pháp:**
+
+Các cách viết CSS theo component giải bài toán **scope** (giới hạn phạm vi) và **đồng bộ style với component**:
+
+- **CSS Modules** — tự đặt hash cho class nên không bao giờ trùng tên.
+- **styled-components / CSS-in-JS** — style gắn liền component, đổi động theo props.
+- **Tailwind** — dùng utility class dựng sẵn, không phải tự đặt tên.
+
+```css
+/* Button.module.css — class tự sinh hash, không đụng .button của Card */
+.button { background: blue; }
+```
+
+```jsx
+// styled-components: style đổi theo props ngay trong component
+const Button = styled.button`
+  background: ${props => props.primary ? "blue" : "gray"};
+`;
+```
+
+:::tip[Dùng thực tế]
+
+- **Tránh đụng tên class** — hai component đều có `.title` mà không ghi đè nhau (CSS Modules).
+- **Style theo props / biến theme** — nút đổi màu theo `primary`, theme sáng/tối (styled-components, CSS variables).
+- **Xoá component là xoá luôn style** — không còn dead CSS lang thang vì style nằm cùng component.
+- **Prototyping nhanh** — ghép utility class ngay trên JSX, không cần tạo file CSS riêng (Tailwind).
+
+:::
 
 ---
 

@@ -11,11 +11,76 @@ Trong React, **Types** (kiểu dữ liệu) giúp bạn khai báo rõ ràng prop
 
 ## Mục lục
 
+- [Vì sao cần types & validation?](#vì-sao-cần-types--validation)
 - [TypeScript với React](#typescript-với-react)
 - [PropTypes (legacy)](#proptypes-legacy)
 - [Type cho component](#type-cho-component)
 - [Validation runtime](#validation-runtime)
 - [Zod vs Yup vs Valibot](#zod-vs-yup-vs-valibot)
+
+---
+
+## Vì sao cần types & validation?
+
+**Vấn đề:**
+
+```tsx
+// 1. Truyền sai props mà không ai báo lúc viết code
+function Greeting({ name, age }) {
+  return <p>Hi {name}, {age + 1}</p>;
+}
+
+<Greeting name="An" />;        // quên age → age là undefined
+<Greeting name="An" age="20" />; // sai kiểu → "201" thay vì 21
+// Không lỗi compile, chỉ crash/sai khi chạy → rất khó truy vết
+
+// 2. Dữ liệu từ API/form là "không tin được"
+const user = await fetch("/api/user").then(r => r.json());
+user.profile.avatar; // thiếu field → crash; sai kiểu → bug ngầm
+```
+
+**Giải pháp:**
+
+```tsx
+// (1) Compile-time: TypeScript định kiểu props (thay PropTypes runtime cũ)
+interface GreetingProps {
+  name: string;
+  age: number;
+}
+
+function Greeting({ name, age }: GreetingProps) {
+  return <p>Hi {name}, {age + 1}</p>;
+}
+
+<Greeting name="An" />;          // ❌ IDE báo ngay: thiếu 'age'
+<Greeting name="An" age="20" />; // ❌ IDE báo ngay: 'age' phải là number
+// → bắt lỗi khi viết + autocomplete
+
+// (2) Runtime: Zod parse dữ liệu ngoài tại boundary, đồng thời suy ra type
+import { z } from "zod";
+
+const UserSchema = z.object({
+  name: z.string(),
+  age: z.number(),
+});
+type User = z.infer<typeof UserSchema>; // type suy ra từ schema
+
+async function fetchUser(): Promise<User> {
+  const raw = await fetch("/api/user").then(r => r.json());
+  return UserSchema.parse(raw); // báo lỗi rõ nếu thiếu field/sai kiểu
+}
+```
+
+**Hai lớp bảo vệ:** TypeScript bắt lỗi lúc compile (props, code nội bộ), Zod/Yup kiểm tra lúc runtime cho mọi dữ liệu đến từ bên ngoài.
+
+:::tip[Dùng thực tế]
+
+- **Định kiểu props component**: TypeScript báo ngay khi quên prop hoặc truyền sai kiểu, kèm autocomplete.
+- **Validate form**: Zod parse dữ liệu nhập trước khi submit, hiển thị lỗi rõ ràng cho người dùng.
+- **Parse response API**: gọi `UserSchema.parse(...)` ngay sau `fetch`, chặn dữ liệu rác trước khi nó lan vào app.
+- **Suy type từ schema**: `z.infer<typeof Schema>` cho ra type duy nhất — không phải khai báo type và validation hai lần.
+
+:::
 
 ---
 

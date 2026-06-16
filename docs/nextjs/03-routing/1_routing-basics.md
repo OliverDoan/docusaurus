@@ -11,6 +11,7 @@ title: "1. Routing Basics"
 
 ## Mục lục
 
+- [Vì sao Next.js dùng file-based routing?](#vì-sao-nextjs-dùng-file-based-routing)
 - [Routing Terminology](#routing-terminology)
 - [Pages](#pages)
 - [Layouts](#layouts)
@@ -18,6 +19,52 @@ title: "1. Routing Basics"
 - [Loading UI và Streaming](#loading-ui-và-streaming)
 - [Error States](#error-states)
 - [Not Found](#not-found)
+
+---
+
+## Vì sao Next.js dùng file-based routing?
+
+**Vấn đề:**
+
+Với React Router thuần, bạn phải **khai báo route thủ công** trong code: dựng mảng route, import từng component, ghép path. Cấu trúc URL dễ **lệch** với cấu trúc file, và khi app lớn lên thì rất khó nắm tổng thể.
+
+```tsx
+// React Router — phải tự khai báo từng route
+import { createBrowserRouter } from "react-router-dom";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import BlogPost from "./pages/BlogPost";
+
+const router = createBrowserRouter([
+  { path: "/", element: <Home /> },
+  { path: "/about", element: <About /> },
+  { path: "/blog/:slug", element: <BlogPost /> }, // dễ quên, dễ lệch file
+]);
+```
+
+**Giải pháp:**
+
+Next.js dùng **file-based routing**: cấu trúc **thư mục = cấu trúc URL**. Tạo file là tự có route, không cần cấu hình. Các quy ước file đặc biệt (`page`, `layout`, `loading`, `error`) làm route trực quan và ít boilerplate.
+
+```tsx
+// Next.js — chỉ cần tạo file, route tự sinh
+// app/page.tsx              → /
+// app/about/page.tsx        → /about
+// app/blog/[slug]/page.tsx  → /blog/:slug
+
+export default function AboutPage() {
+  return <h1>About</h1>;
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Thêm trang mới**: tạo `app/about/page.tsx` → tự có route `/about`, khỏi sửa file config nào khác.
+- **Route động**: đặt tên folder `[id]` (ví dụ `app/products/[id]/page.tsx`) → match `/products/123` tự động.
+- **Layout dùng chung**: thêm `layout.tsx` trong folder → mọi route con tự kế thừa navbar, sidebar.
+- **Trạng thái loading/error**: thêm `loading.tsx` hoặc `error.tsx` theo quy ước → Next.js tự gắn Suspense / Error Boundary, không phải viết tay.
+
+:::
 
 ---
 

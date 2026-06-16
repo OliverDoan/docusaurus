@@ -11,12 +11,59 @@ Tối ưu truy vấn là kỹ năng quan trọng giúp ứng dụng chạy nhanh
 
 ## Mục lục
 
+- [Vì sao cần tối ưu query?](#vì-sao-cần-tối-ưu-query)
 - [N+1 Problem](#n1-problem)
 - [Indexing](#indexing)
 - [Select chỉ fields cần thiết](#select-chỉ-fields-cần-thiết)
 - [Pagination](#pagination)
 - [Connection Pooling](#connection-pooling)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao cần tối ưu query?
+
+**Vấn đề:** Lúc ít dữ liệu, query nào cũng nhanh nên dễ bỏ qua. Nhưng khi bảng lớn lên (hàng triệu dòng) thì query bắt đầu chậm: thiếu index → database quét toàn bảng (full scan); lặp query trong vòng lặp (N+1); `SELECT *` tải về thừa dữ liệu; thiếu phân trang nên lấy hết bảng một lúc. App chậm dần, DB nghẽn.
+
+```js
+// Bảng nhỏ: nhanh — bảng lớn: chậm dần
+const users = await User.find(); // SELECT * — tải hết mọi cột
+for (const user of users) {
+  const posts = await Post.find({ authorId: user.id }); // N+1: 1 query / user
+}
+// Cột authorId không có index -> mỗi lần lọc quét toàn bảng Post (full scan)
+```
+
+**Giải pháp:** Thêm `INDEX` đúng cột dùng để lọc/join/sắp xếp; tránh N+1 bằng eager loading (join/populate); dùng `EXPLAIN`/`ANALYZE` để đọc kế hoạch thực thi và phát hiện full scan; chỉ chọn cột cần dùng; phân trang bằng limit/offset hoặc cursor.
+
+```sql
+-- Thêm index cho cột hay lọc / sắp xếp
+CREATE INDEX idx_post_author ON post (author_id);
+
+-- Đọc kế hoạch thực thi để tìm full scan
+EXPLAIN ANALYZE SELECT id, title FROM post WHERE author_id = 42 LIMIT 20;
+```
+
+```js
+// Gộp N+1 thành 1 query bằng eager loading
+const users = await User.find().populate('posts');
+
+// Chỉ chọn cột cần + phân trang
+const posts = await prisma.post.findMany({
+  select: { id: true, title: true },
+  take: 20,
+  skip: 0,
+});
+```
+
+:::tip[Dùng thực tế]
+
+- Trang danh sách load chậm: thêm index cho cột ở `WHERE`/`ORDER BY` để bỏ full scan.
+- Vòng lặp gọi DB cho từng phần tử: gộp N+1 thành 1 query bằng join/eager loading.
+- Query nghi ngờ chậm: chạy `EXPLAIN ANALYZE` để xem có full scan hay không.
+- Danh sách lớn (log, đơn hàng): luôn phân trang (limit/offset hoặc cursor), không lấy hết một lần.
+
+:::
 
 ---
 

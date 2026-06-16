@@ -11,11 +11,74 @@ title: "1. Component Lifecycle"
 
 ## Mục lục
 
+- [Vì sao cần vòng đời (lifecycle)?](#vì-sao-cần-vòng-đời-lifecycle)
 - [Render flow](#render-flow)
 - [3 giai đoạn lifecycle](#3-giai-đoạn-lifecycle)
 - [Lifecycle với hooks](#lifecycle-với-hooks)
 - [Re-render khi nào?](#re-render-khi-nào)
 - [Strict Mode](#strict-mode)
+
+---
+
+## Vì sao cần vòng đời (lifecycle)?
+
+**Vấn đề:** Component cần làm việc **ở đúng thời điểm**: gọi API ngay khi
+vừa hiện, dọn dẹp (huỷ timer, gỡ listener) khi biến mất, chạy lại khi dữ
+liệu đổi. Làm sai thời điểm → rò rỉ bộ nhớ (leak), gọi API thừa, lỗi.
+
+```jsx
+// Gọi API ngay trong thân component → chạy lại MỖI lần render → API thừa
+function Profile({ userId }) {
+  const data = fetch(`/api/users/${userId}`); // sai thời điểm!
+
+  // Tạo timer nhưng không có chỗ dọn dẹp → leak khi component biến mất
+  setInterval(() => console.log("tick"), 1000);
+
+  return <p>{data}</p>;
+}
+```
+
+**Giải pháp:** Vòng đời chia thành 3 thời điểm — **mount** (vừa hiện),
+**update** (dữ liệu đổi), **unmount** (biến mất). Class dùng
+`componentDidMount` / `componentDidUpdate` / `componentWillUnmount`;
+component dạng hàm dùng `useEffect` (cùng cơ chế: chạy **sau render**, và
+**cleanup** khi unmount hoặc khi deps đổi).
+
+```jsx
+function Profile({ userId }) {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    let active = true;
+    fetch(`/api/users/${userId}`) // chạy khi mount + khi userId đổi
+      .then(r => r.json())
+      .then(d => { if (active) setData(d); });
+
+    const id = setInterval(() => console.log("tick"), 1000);
+
+    // Cleanup: huỷ timer + bỏ qua kết quả cũ khi unmount/đổi deps
+    return () => {
+      active = false;
+      clearInterval(id);
+    };
+  }, [userId]);
+
+  return <p>{data?.name}</p>;
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Fetch khi mount**: lấy dữ liệu lần đầu component hiện ra
+  (`useEffect(..., [])`).
+- **Subscribe / unsubscribe**: mở kết nối websocket khi mount, đóng lại
+  ở cleanup để tránh nhiều kết nối song song.
+- **Set / clear interval**: tạo `setInterval` (đồng hồ, polling) và
+  `clearInterval` ở cleanup để không rò rỉ.
+- **Đồng bộ theo prop đổi**: khi `userId` (hoặc filter, query) đổi thì
+  fetch lại đúng dữ liệu mới (`useEffect(..., [userId])`).
+
+:::
 
 ---
 

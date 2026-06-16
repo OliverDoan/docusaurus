@@ -11,6 +11,7 @@ title: "1. Routing trong React"
 
 ## Mục lục
 
+- [Vì sao cần router?](#vì-sao-cần-router)
 - [Tổng quan](#tổng-quan)
 - [React Router (phổ biến nhất)](#react-router-phổ-biến-nhất)
 - [TanStack Router](#tanstack-router)
@@ -18,6 +19,66 @@ title: "1. Routing trong React"
 - [Nested Routes](#nested-routes)
 - [Protected Routes](#protected-routes)
 - [Navigation và Redirect](#navigation-và-redirect)
+
+---
+
+## Vì sao cần router?
+
+**Vấn đề:**
+
+```jsx
+// React mặc định là SPA — chỉ render MỘT trang duy nhất.
+// Muốn nhiều "trang" (/, /about, /users/:id) ta phải tự lắng nghe URL,
+// tự gọi History API để đổi địa chỉ, tự xử lý nút back/forward...
+function App() {
+  const [path, setPath] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const onPop = () => setPath(window.location.pathname); // back/forward
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  // Tự ánh xạ path → component, rất rối và dễ sai
+  if (path === "/") return <Home />;
+  if (path === "/about") return <About />;
+  // còn /users/:id động? nested layout? route bảo vệ? → bế tắc
+  return <NotFound />;
+}
+
+// Nếu dùng <a href> hoặc reload cả trang → mất luôn trải nghiệm SPA.
+```
+
+**Giải pháp:**
+
+```jsx
+// Router (React Router...) ánh xạ URL → component giúp ta.
+// Điều hướng KHÔNG reload, hỗ trợ route động, nested layout, route bảo vệ.
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/users/:id" element={<UserDetail />} /> {/* route động */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+// back/forward, link chia sẻ được URL, bookmark... router lo hết.
+```
+
+:::tip[Dùng thực tế]
+
+- **Nhiều "trang" trong SPA**: tách `/`, `/about`, `/dashboard`... mà không reload toàn trang.
+- **URL chia sẻ / bookmark được**: gửi link `/users/42` cho người khác, mở ra đúng trang đó.
+- **Route động**: `/product/:id`, `/post/:slug` — một component phục vụ vô số URL.
+- **Bảo vệ trang cần đăng nhập**: chặn `/dashboard`, tự chuyển về `/login` nếu chưa auth.
+
+:::
 
 ---
 

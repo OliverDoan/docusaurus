@@ -11,11 +11,77 @@ title: "1. Functional Components"
 
 ## Mục lục
 
+- [Vì sao dùng functional component?](#vì-sao-dùng-functional-component)
 - [Component là gì?](#component-là-gì)
 - [Functional Component cơ bản](#functional-component-cơ-bản)
 - [Component nhận props](#component-nhận-props)
 - [Composition và children](#composition-và-children)
 - [Naming convention](#naming-convention)
+
+---
+
+## Vì sao dùng functional component?
+
+**Vấn đề:** Class component dài dòng — phải có `constructor`, bind `this`, và
+logic bị rải rác qua nhiều lifecycle method. Tái sử dụng logic stateful rất
+khó, phải dùng HOC hoặc render props gây lồng nhau rối rắm:
+
+```jsx
+// Cách cũ — class component
+class Counter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+    this.handleClick = this.handleClick.bind(this); // phải bind this
+  }
+
+  componentDidMount() {
+    document.title = `Đã bấm ${this.state.count} lần`;
+  }
+
+  componentDidUpdate() {
+    document.title = `Đã bấm ${this.state.count} lần`; // lặp lại logic
+  }
+
+  handleClick() {
+    this.setState({ count: this.state.count + 1 });
+  }
+
+  render() {
+    return <button onClick={this.handleClick}>{this.state.count}</button>;
+  }
+}
+```
+
+**Giải pháp:** Functional component chỉ là một hàm trả về JSX nên gọn hơn
+hẳn. Kết hợp **Hooks** (`useState`, `useEffect`) để quản lý state và side
+effect ngay trong hàm, và tái sử dụng logic qua **custom hook**. Đây là cách
+viết chuẩn từ React 16.8+:
+
+```jsx
+import { useState, useEffect } from "react";
+
+// Cách mới — functional component + Hooks
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    document.title = `Đã bấm ${count} lần`; // gom logic về một chỗ
+  }, [count]);
+
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Mọi component UI mới** — luôn bắt đầu bằng functional component.
+- **Chia nhỏ UI** — tách màn hình thành nhiều hàm component gọn, dễ đọc.
+- **Tái dùng logic** — bóc logic stateful ra **custom hook** (`useAuth`,
+  `useFetch`) để xài lại nhiều nơi.
+- **Code dễ test** — hàm thuần với props rõ ràng, dễ viết unit test hơn class.
+
+:::
 
 ---
 

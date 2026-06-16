@@ -11,12 +11,56 @@ title: "1. Caching Layers"
 
 ## Mục lục
 
+- [Vì sao Next.js có nhiều lớp cache?](#vì-sao-nextjs-có-nhiều-lớp-cache)
 - [4 layer cache](#4-layer-cache)
 - [Fetch Cache](#fetch-cache)
 - [Request Memoization](#request-memoization)
 - [Data Cache](#data-cache)
 - [Full Route Cache](#full-route-cache)
 - [Router Cache (Client)](#router-cache-client)
+
+---
+
+## Vì sao Next.js có nhiều lớp cache?
+
+**Vấn đề:** Nếu mỗi request đều fetch lại API/DB và render lại HTML từ đầu thì trang chậm, tốn tài nguyên server và đội chi phí. Nhưng nếu chỉ có một kiểu cache "tất cả hoặc không gì" thì dễ phục vụ dữ liệu cũ sai chỗ. Một request có thể gọi trùng cùng một API ở nhiều component, dữ liệu ít đổi lại bị query liên tục, trang tĩnh vẫn render lại mỗi lần, và điều hướng client thì giật vì phải tải lại từ server.
+
+```tsx
+// Mỗi request: gọi trùng + query lại + render lại từ đầu → chậm, tốn kém
+async function Header()  { const u = await fetch("/api/user").then(r => r.json()); /* call 1 */ }
+async function Sidebar() { const u = await fetch("/api/user").then(r => r.json()); /* call 2 trùng */ }
+
+async function Page() {
+  const cfg = await fetch("/api/config").then(r => r.json()); // ít đổi nhưng query mỗi request
+  return <>{/* render lại toàn bộ HTML mỗi lần */}</>;
+}
+```
+
+**Giải pháp:** Next.js tách thành **nhiều lớp cache**, mỗi lớp một mục đích, để cache đúng mức và làm mới đúng lúc:
+
+```tsx
+// 1. Request Memoization — dedupe fetch trùng trong CÙNG một request
+async function Header()  { const u = await fetch("/api/user").then(r => r.json()); } // 1 HTTP call
+async function Sidebar() { const u = await fetch("/api/user").then(r => r.json()); } // dùng lại, không gọi lại
+
+// 2. Data Cache — lưu kết quả fetch GIỮA các request, có thể revalidate
+const cfg = await fetch("/api/config", { next: { revalidate: 3600 } }).then(r => r.json());
+
+// 3. Full Route Cache — HTML/RSC tĩnh build sẵn, phục vụ ngay
+export const dynamic = "force-static";
+
+// 4. Router Cache — điều hướng client mượt nhờ prefetch
+// <Link href="/dashboard" prefetch>Dashboard</Link>
+```
+
+:::tip[Dùng thực tế]
+
+- **Dedupe gọi cùng API:** Header và Sidebar cùng gọi `/api/user` trong một render → **Request Memoization** gộp thành 1 HTTP call.
+- **Cache dữ liệu ít đổi:** config, tỷ giá, thời tiết → **Data Cache** với `revalidate` để vài giờ mới làm mới một lần.
+- **Phục vụ trang tĩnh:** landing page, bài blog → **Full Route Cache** trả HTML build sẵn, không render lại.
+- **Điều hướng nhanh:** hover link là **Router Cache** prefetch trước, click chuyển trang gần như tức thì.
+
+:::
 
 ---
 

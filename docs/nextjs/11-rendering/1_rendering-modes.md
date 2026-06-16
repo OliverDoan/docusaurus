@@ -11,11 +11,50 @@ Trong Next.js, **rendering** (kết xuất, tức quá trình biến code thành
 
 ## Mục lục
 
+- [Vì sao có nhiều rendering mode?](#vì-sao-có-nhiều-rendering-mode)
 - [Server Components (default)](#server-components-default)
 - [Client Components ("use client")](#client-components-use-client)
 - [Composition](#composition)
 - [Khi nào dùng cái nào?](#khi-nào-dùng-cái-nào)
 - ["use server" directive](#use-server-directive)
+
+---
+
+## Vì sao có nhiều rendering mode?
+
+**Vấn đề:** Mỗi trang có yêu cầu khác nhau về **tốc độ**, **SEO** và **độ tươi dữ liệu**. Một chế độ render duy nhất không tối ưu cho tất cả:
+
+```tsx
+// Render tất cả mọi trang theo cùng MỘT cách
+// → trang marketing cần nhanh + SEO nhưng lại render lại mỗi request (chậm)
+// → dashboard cần dữ liệu mới theo user nhưng lại bị cache tĩnh (sai)
+// → trang sản phẩm vừa cần nhanh, vừa cần cập nhật giá → không cách nào vừa lòng cả hai
+```
+
+**Giải pháp:** Next cho chọn chế độ render **theo từng trang**, cân bằng đánh đổi:
+
+```tsx
+// SSG — build sẵn lúc deploy, nhanh nhất + phục vụ qua CDN (trang tĩnh)
+export const dynamic = "force-static";
+
+// SSR — render mỗi request, cá nhân hoá theo user (dữ liệu luôn mới)
+export const dynamic = "force-dynamic";
+
+// ISR — tĩnh nhưng tự làm mới định kỳ (vừa nhanh vừa cập nhật)
+export const revalidate = 60; // giây
+
+// CSR — component "use client" cho phần tương tác trong trình duyệt
+// RSC + PPR — kết hợp tĩnh + động trên cùng một trang (shell tĩnh, nội dung động stream sau)
+```
+
+:::tip[Dùng thực tế]
+
+- **Landing / marketing** → **SSG**: nội dung ít đổi, ưu tiên tốc độ và SEO.
+- **Trang cá nhân / dashboard** → **SSR**: dữ liệu phải mới và riêng cho từng user.
+- **E-commerce (trang sản phẩm)** → **ISR**: tĩnh để nhanh, làm mới định kỳ để cập nhật giá/tồn kho.
+- **Phần tương tác (form, counter, filter)** → **CSR** (`"use client"`); **PPR** cho shell tĩnh + nội dung động stream sau.
+
+:::
 
 ---
 

@@ -11,11 +11,56 @@ title: "4. Rules of Hooks"
 
 ## Mục lục
 
+- [Vì sao có Rules of Hooks?](#vì-sao-có-rules-of-hooks)
 - [Tổng quan 2 quy tắc](#tổng-quan-2-quy-tắc)
 - [Rule 1: Chỉ gọi ở top level](#rule-1-chỉ-gọi-ở-top-level)
 - [Rule 2: Chỉ gọi từ component/hook](#rule-2-chỉ-gọi-từ-componenthook)
 - [Tại sao có quy tắc này?](#tại-sao-có-quy-tắc-này)
 - [ESLint plugin](#eslint-plugin)
+
+---
+
+## Vì sao có Rules of Hooks?
+
+**Vấn đề:**
+
+```jsx
+// React KHÔNG lưu state theo tên — chỉ theo THỨ TỰ GỌI hook mỗi render
+function Component({ cond }) {
+  if (cond) {
+    const [a, setA] = useState(1); // hook 1 — đôi khi có, đôi khi không
+  }
+  const [b, setB] = useState(2);   // hook 2 — luôn có
+}
+// cond đổi giữa các render → thứ tự hook đổi
+// → React gán nhầm state của hook này cho hook khác → bug rất khó tìm
+```
+
+**Giải pháp:**
+
+```jsx
+// Rules of Hooks giữ thứ tự hook ỔN ĐỊNH qua mọi render:
+// (1) Chỉ gọi hook ở TOP LEVEL — không trong if / vòng lặp / hàm lồng nhau
+// (2) Chỉ gọi trong React function component hoặc custom hook
+function Component({ cond }) {
+  const [a, setA] = useState(1); // luôn gọi
+  const [b, setB] = useState(2); // luôn gọi
+
+  if (cond) {
+    // xử lý điều kiện BÊN TRONG, không bọc hook
+  }
+}
+// eslint-plugin-react-hooks tự kiểm tra giúp bạn
+```
+
+:::tip[Dùng thực tế]
+
+- Đặt mọi `useState` / `useEffect` ở **đầu hàm**, trước mọi `if` hay early return.
+- Cần điều kiện thì xử lý **bên trong** hook (vd: `if` trong `useEffect`), đừng bọc quanh hook.
+- Bật `eslint-plugin-react-hooks` (`rules-of-hooks` + `exhaustive-deps`) để bắt lỗi ngay khi viết.
+- Viết **custom hook** đúng chuẩn (tên bắt đầu bằng `use`) để ESLint nhận diện và kiểm tra thứ tự hook.
+
+:::
 
 ---
 

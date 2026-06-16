@@ -11,6 +11,7 @@ NPM là trình quản lý package mặc định của Node.js, giúp bạn cài 
 
 ## Mục lục
 
+- [Vì sao có npm?](#vì-sao-có-npm)
 - [NPM là gì?](#npm-là-gì)
 - [Khởi tạo project](#khởi-tạo-project)
 - [Cài đặt packages](#cài-đặt-packages)
@@ -21,6 +22,52 @@ NPM là trình quản lý package mặc định của Node.js, giúp bạn cài 
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao có npm?
+
+**Vấn đề:** Trước npm, mỗi dự án phải tự viết lại mọi tiện ích (parse JSON, validate input, HTTP client...) rất tốn công. Việc chia sẻ và quản lý **phiên bản** thư viện làm thủ công bằng cách copy file vào dự án dễ bị lệch phiên bản, dẫn đến lỗi "works on my machine", và rất khó cập nhật khi thư viện ra bản mới.
+
+```bash
+# Cách cũ: tải file thủ công rồi copy vào dự án
+# Mỗi máy một phiên bản → khó biết ai đang dùng bản nào
+cp ~/Downloads/some-lib-v1.2.js ./libs/some-lib.js
+```
+
+**Giải pháp:** npm cung cấp một hệ sinh thái hoàn chỉnh để tái sử dụng code đã được kiểm chứng:
+
+```json
+{
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
+```
+
+```bash
+# registry: kho package khổng lồ, cài bằng một lệnh
+npm install express
+
+# semver (^, ~) cho phép cập nhật an toàn
+# lockfile khoá phiên bản chính xác → cài lại giống hệt nhau
+npm ci
+
+# scripts: chuẩn hoá lệnh build/test/dev cho cả team
+npm run build
+```
+
+- **Registry** — kho package khổng lồ, không cần tự viết lại.
+- **`package.json`** — khai báo dependency rõ ràng.
+- **SemVer (`^`, `~`)** — kiểm soát mức cập nhật cho phép.
+- **Lockfile** — khoá phiên bản chính xác, cài lại giống hệt nhau.
+
+:::tip[Dùng thực tế]
+
+- **Cài thư viện:** `npm i express` để dùng ngay, không phải tự viết HTTP server.
+- **Khoá version:** commit `package-lock.json` để mọi máy và CI cài đúng cùng một phiên bản.
+- **npm scripts:** gom lệnh `build`/`test`/`dev` vào `package.json` cho cả team chạy giống nhau.
+- **Publish nội bộ:** đóng gói module dùng chung của công ty thành package và `npm publish` lên registry nội bộ để tái sử dụng giữa các dự án.
+
+:::
 
 ## NPM là gì?
 

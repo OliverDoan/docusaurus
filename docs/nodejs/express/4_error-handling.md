@@ -11,6 +11,7 @@ Xử lý lỗi đúng cách giúp server không bị crash và luôn trả về 
 
 ## Mục lục
 
+- [Vì sao cần xử lý lỗi tập trung?](#vì-sao-cần-xử-lý-lỗi-tập-trung)
 - [Vấn đề](#vấn-đề)
 - [Custom Error Class](#custom-error-class)
 - [Sử dụng trong Routes](#sử-dụng-trong-routes)
@@ -21,6 +22,70 @@ Xử lý lỗi đúng cách giúp server không bị crash và luôn trả về 
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao cần xử lý lỗi tập trung?
+
+**Vấn đề:** Khi mỗi route tự đặt `try/catch` và `res.status(500)`, code bị lặp khắp nơi, lỗi async không bắt được sẽ gây `unhandledRejection` làm **crash server**, và định dạng lỗi trả về cho client không nhất quán.
+
+```js
+// Lặp try/catch ở MỌI route, định dạng lỗi khác nhau
+router.get('/users', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: err.message }); // format kiểu A
+  }
+});
+
+router.get('/products', async (req, res) => {
+  // Quên try/catch → lỗi async không được bắt → CRASH server
+  const products = await Product.find();
+  res.json({ error: 'lỗi' }); // format kiểu B, không nhất quán
+});
+```
+
+**Giải pháp:** Dùng **error handling middleware** tập trung (4 tham số `(err, req, res, next)`). Mọi route chỉ cần gọi `next(err)` (hoặc bọc bằng async wrapper); một chỗ duy nhất sẽ format lỗi nhất quán, log chi tiết và phân loại lỗi qua custom `AppError`.
+
+```js
+// utils/AppError.js — phân loại lỗi
+class AppError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.statusCode = statusCode;
+    this.isOperational = true;
+  }
+}
+
+// utils/catchAsync.js — bọc route async, tự forward lỗi vào next()
+const catchAsync = (fn) => (req, res, next) => fn(req, res, next).catch(next);
+
+// route gọn, không lặp try/catch
+router.get('/users', catchAsync(async (req, res) => {
+  const users = await User.find();
+  res.json(users);
+}));
+
+// middleware lỗi cuối cùng — một chỗ format & trả lỗi nhất quán
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  console.error('Error:', err); // log chi tiết phía server
+  res.status(statusCode).json({
+    success: false,
+    error: { message: err.isOperational ? err.message : 'Internal Server Error' },
+    // KHÔNG lộ err.stack ra client ở production
+  });
+});
+```
+
+:::tip[Dùng thực tế]
+
+- **Middleware lỗi cuối cùng:** đặt `app.use(errorHandler)` sau tất cả routes để gom mọi lỗi về một nơi format và trả về.
+- **`asyncHandler` bọc route:** dùng `catchAsync(...)` cho mọi handler async, khỏi viết `try/catch` lặp lại và không lo quên bắt lỗi.
+- **Custom `AppError` với `statusCode`:** `next(new AppError('User not found', 404))` để phân loại lỗi nghiệp vụ và trả đúng mã trạng thái.
+- **Không lộ stack ở production:** chỉ trả `err.stack` khi `NODE_ENV === 'development'`, tránh rò rỉ thông tin nhạy cảm cho client.
+
+:::
 
 ## Vấn đề
 

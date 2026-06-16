@@ -11,12 +11,58 @@ title: "1. Testing React App"
 
 ## Mục lục
 
+- [Vì sao cần test React component?](#vì-sao-cần-test-react-component)
 - [Test Runners](#test-runners)
 - [Vitest (khuyến nghị)](#vitest-khuyến-nghị)
 - [React Testing Library](#react-testing-library)
 - [Playwright (E2E)](#playwright-e2e)
 - [Storybook](#storybook)
 - [Testing strategy](#testing-strategy)
+
+---
+
+## Vì sao cần test React component?
+
+**Vấn đề:** Test thủ công bằng tay sau mỗi thay đổi vừa chậm vừa dễ sót. Khi refactor hay nâng cấp, một tính năng cũ có thể hỏng âm thầm (regression) mà không ai biết — cho tới khi user gặp lỗi trong production.
+
+```tsx
+// Mỗi lần sửa Counter, phải tự mở app, click thử, nhìn bằng mắt...
+// Quên test luồng cũ → bug lọt ra production
+function Counter() {
+  const [count, setCount] = useState(0);
+  // refactor logic này → ai đảm bảo nút increment vẫn chạy?
+  return <button onClick={() => setCount(count + 1)}>Count: {count}</button>;
+}
+```
+
+**Giải pháp:** Viết test tự động chạy lại trong vài giây sau mỗi thay đổi. React Testing Library kiểm thử theo **góc nhìn người dùng** (render, click, kỳ vọng UI) thay vì chi tiết nội bộ → test bền khi refactor. Vitest/Jest chạy nhanh ở mức unit/component; Playwright (E2E) chạy luồng thật trên trình duyệt.
+
+```tsx
+import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { Counter } from "./Counter";
+
+describe("Counter", () => {
+  it("tăng số đếm khi click", async () => {
+    const user = userEvent.setup();
+    render(<Counter />);
+
+    expect(screen.getByText("Count: 0")).toBeInTheDocument();
+    await user.click(screen.getByRole("button"));
+    expect(screen.getByText("Count: 1")).toBeInTheDocument();
+  });
+});
+```
+
+:::tip[Dùng thực tế]
+
+- **Form submit / validation** — kiểm tra nhập sai báo lỗi, nhập đúng gọi API.
+- **Render theo props** — component hiển thị đúng với từng `variant`, `disabled`, `loading`.
+- **Chống regression khi refactor** — đổi code nội bộ, test cũ vẫn xanh là yên tâm.
+- **Luồng critical (E2E)** — đăng nhập, thanh toán, đăng ký chạy đúng đầu-cuối với Playwright.
+
+:::
 
 ---
 

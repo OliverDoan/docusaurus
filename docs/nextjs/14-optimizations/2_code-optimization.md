@@ -11,11 +11,65 @@ Tối ưu code là cách giảm lượng JavaScript phải tải và chạy trê
 
 ## Mục lục
 
+- [Vì sao cần tối ưu code (bundle)?](#vì-sao-cần-tối-ưu-code-bundle)
 - [Metadata API (SEO)](#metadata-api-seo)
 - [Dynamic Metadata](#dynamic-metadata)
 - [Lazy Loading với dynamic()](#lazy-loading-với-dynamic)
 - [Code Splitting](#code-splitting)
 - [Package Bundling](#package-bundling)
+
+---
+
+## Vì sao cần tối ưu code (bundle)?
+
+**Vấn đề:**
+
+```tsx
+// Gói TẤT CẢ JS vào một bundle to → tải lâu, hydration chậm, máy yếu giật
+"use client";
+import _ from "lodash";          // nhập cả thư viện dù chỉ dùng 1 hàm
+import HeavyChart from "./HeavyChart";   // chart nặng tải ngay cả khi chưa xem
+import RichEditor from "./RichEditor";   // editor nặng nằm trong initial bundle
+
+export default function Dashboard() {
+  // Toàn bộ chart + editor + lodash vào client bundle → First Load JS phình to
+  return <div>{/* ... */}</div>;
+}
+```
+
+**Giải pháp:**
+
+```tsx
+// Tối ưu code: chỉ nạp JS khi cần, đẩy bớt JS ra khỏi client
+import dynamic from "next/dynamic";
+import debounce from "lodash/debounce"; // tree-shaking: chỉ lấy 1 hàm
+
+// dynamic(): lazy load component nặng, không vào initial bundle
+const HeavyChart = dynamic(() => import("./HeavyChart"), {
+  loading: () => <Skeleton />,
+});
+
+// Next.js tự code splitting theo route → mỗi page là 1 bundle riêng
+// Ưu tiên Server Component để GIẢM JS gửi xuống client
+export default function Dashboard() {
+  return (
+    <div>
+      <Header />          {/* Server Component — không tốn JS client */}
+      <HeavyChart />      {/* chỉ tải JS chart khi render */}
+    </div>
+  );
+}
+// Dùng bundle analyzer (ANALYZE=true npm run build) để tìm chunk to cần cắt
+```
+
+:::tip[Dùng thực tế]
+
+- **Lazy load chart/editor**: bọc component nặng (biểu đồ, rich text editor, bản đồ) bằng `dynamic()` để chúng chỉ tải khi người dùng thật sự mở.
+- **Tách thư viện nặng**: import named/đường dẫn con (`lodash/debounce`) thay vì `import _ from "lodash"` để tree-shaking cắt phần thừa.
+- **Đẩy logic sang Server Component**: giữ phần tĩnh ở server, chỉ phần tương tác mới `"use client"` → giảm First Load JS xuống trình duyệt.
+- **Phân tích bundle**: chạy `ANALYZE=true npm run build`, tìm chunk lớn nhất rồi quyết định thay lib, lazy load hay tách client/server.
+
+:::
 
 ---
 

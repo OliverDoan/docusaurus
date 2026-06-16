@@ -11,12 +11,69 @@ title: "2. State Management Libraries"
 
 ## Mục lục
 
+- [Vì sao cần thư viện state management?](#vì-sao-cần-thư-viện-state-management)
 - [Tổng quan](#tổng-quan)
 - [Zustand (khuyến nghị)](#zustand-khuyến-nghị)
 - [Jotai](#jotai)
 - [Redux Toolkit](#redux-toolkit)
 - [MobX](#mobx)
 - [Khi nào cần state management?](#khi-nào-cần-state-management)
+
+---
+
+## Vì sao cần thư viện state management?
+
+**Vấn đề:** App lớn có nhiều state chia sẻ giữa các phần ở xa nhau. Chỉ dùng `useState` + Context khiến mọi consumer re-render khi 1 field đổi, luồng cập nhật khó debug, khó cắm middleware/devtools/persist.
+
+```jsx
+// Context "mập" — mọi consumer re-render khi BẤT KỲ field nào đổi
+const AppContext = createContext(null);
+
+function AppProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [cart, setCart] = useState([]);
+  const [theme, setTheme] = useState("light");
+
+  // Object value tạo mới mỗi render → re-render lan rộng
+  const value = { user, setUser, cart, setCart, theme, setTheme };
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+}
+
+// Component chỉ cần theme vẫn re-render khi cart đổi
+function ThemeToggle() {
+  const { theme, setTheme } = useContext(AppContext);
+  return <button onClick={() => setTheme(t => t === "light" ? "dark" : "light")}>{theme}</button>;
+}
+```
+
+**Giải pháp:** Thư viện state (Redux Toolkit, Zustand, Jotai...) cho store tập trung hoặc atom, cập nhật có kỷ luật, tối ưu re-render theo **selector/atom**, kèm DevTools/middleware/persist. Mỗi thư viện đánh đổi khác nhau — Zustand/Jotai ít boilerplate, Redux Toolkit nhiều cấu trúc + devtools mạnh.
+
+```jsx
+import { create } from "zustand";
+
+const useAppStore = create((set) => ({
+  user: null,
+  cart: [],
+  theme: "light",
+  toggleTheme: () => set(s => ({ theme: s.theme === "light" ? "dark" : "light" })),
+}));
+
+// Chỉ subscribe theme → KHÔNG re-render khi cart hay user đổi
+function ThemeToggle() {
+  const theme = useAppStore(s => s.theme);
+  const toggleTheme = useAppStore(s => s.toggleTheme);
+  return <button onClick={toggleTheme}>{theme}</button>;
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **State toàn cục lớn** — giỏ hàng, auth/session, cache UI dùng chung khắp app.
+- **Debug bằng DevTools** — xem từng action, time-travel để tìm bug luồng cập nhật.
+- **Chia selector/atom** — mỗi component chỉ subscribe đúng phần cần, tránh re-render lan rộng.
+- **App nhiều người phát triển** — store có kỷ luật, quy ước rõ giúp team phối hợp dễ hơn.
+
+:::
 
 ---
 

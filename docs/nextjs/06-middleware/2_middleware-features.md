@@ -11,11 +11,65 @@ Bài này đi sâu vào các tính năng thường dùng bên trong **middleware
 
 ## Mục lục
 
+- [Vì sao middleware có các tính năng này?](#vì-sao-middleware-có-các-tính-năng-này)
 - [Cookies API](#cookies-api)
 - [Headers API](#headers-api)
 - [Authentication pattern](#authentication-pattern)
 - [Rate Limiting với Upstash](#rate-limiting-với-upstash)
 - [CORS](#cors)
+
+---
+
+## Vì sao middleware có các tính năng này?
+
+**Vấn đề:**
+
+```ts
+// Middleware chạy cho MỌI request trước khi tới route.
+// Nếu áp dụng tràn lan → mỗi ảnh, file tĩnh, API đều bị chặn lại xử lý → tốn kém.
+export function middleware(request: NextRequest) {
+  // Làm sao đọc token đăng nhập? Làm sao chặn user chưa auth?
+  // Làm sao truyền dữ liệu xuống Server Component?
+  // Làm sao cho phép cross-origin? Một hàm thô không đủ.
+}
+```
+
+Middleware nằm ở lớp trung gian (chạy ở Edge, gần user) nên cần đủ khả năng xử lý request đa dạng: nhận diện người dùng, chặn/cho qua, cá nhân hoá — nhưng nếu chạy cho cả tài nguyên không cần thiết thì lãng phí.
+
+**Giải pháp:**
+
+```ts
+// matcher → chỉ chạy cho route cần, bỏ qua file tĩnh để tránh phí.
+export const config = {
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+};
+
+export async function middleware(request: NextRequest) {
+  // cookies → đọc/ghi trạng thái người dùng (token đăng nhập)
+  const token = request.cookies.get("token")?.value;
+
+  // headers → đọc thông tin request, truyền data xuống downstream
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("X-User-Id", "u123");
+
+  // redirect → chặn user chưa auth khỏi route bảo vệ
+  if (!token) return NextResponse.redirect(new URL("/login", request.url));
+
+  // next + headers → forward dữ liệu xuống Server Component
+  return NextResponse.next({ request: { headers: requestHeaders } });
+}
+```
+
+Mỗi tính năng phục vụ một nhu cầu cụ thể: `matcher` giới hạn phạm vi chạy; `cookies`/`headers` đọc-ghi trạng thái và truyền dữ liệu; `redirect` điều hướng theo điều kiện; `NextResponse.next()` cho request đi tiếp.
+
+:::tip[Dùng thực tế]
+
+- **`matcher` giới hạn phạm vi**: chỉ chạy middleware cho `/api/:path*` hoặc loại trừ file tĩnh — tránh xử lý thừa cho ảnh, font, favicon.
+- **`headers` truyền data xuống component**: middleware verify token rồi set `X-User-Id` để Server Component đọc lại mà không phải verify lần nữa.
+- **`redirect` theo auth**: user chưa đăng nhập vào `/dashboard` thì đẩy về `/login`, kèm `?from=` để quay lại sau khi đăng nhập.
+- **`cookies` cho phiên đăng nhập**: đọc cookie `token` ở mọi request để xác thực, set cookie `httpOnly + secure` khi login, xoá khi logout.
+
+:::
 
 ---
 
