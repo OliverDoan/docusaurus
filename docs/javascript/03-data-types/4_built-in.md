@@ -11,11 +11,50 @@ title: "4. Built-in Objects"
 
 ## Mục lục
 
+- [Vì sao có các built-in object?](#vì-sao-có-các-built-in-object)
 - [JSON](#json)
 - [Math](#math)
 - [Date](#date)
 - [RegExp](#regexp)
 - [Intl](#intl)
+
+---
+
+## Vì sao có các built-in object?
+
+**Vấn đề:** Các tác vụ phổ biến (tính toán, xử lý ngày giờ, chuyển dữ liệu sang chuỗi để truyền/lưu, tìm kiếm theo mẫu) nếu dev tự viết sẽ lặp lại khắp nơi, dễ sai và khó bảo trì.
+
+```js
+// Tự viết hàm làm tròn, đổi object thành chuỗi, validate email...
+function round(n) {
+  return n >= 0 ? (n - Math.floor(n) >= 0.5 ? Math.floor(n) + 1 : Math.floor(n)) : 0;
+}
+
+function toJson(obj) {
+  let s = "{";
+  for (const k in obj) s += `"${k}":"${obj[k]}",`; // dễ sai với số, mảng, ký tự đặc biệt
+  return s.slice(0, -1) + "}";
+}
+// Mỗi project viết lại một kiểu → bug khắp nơi
+```
+
+**Giải pháp:** JavaScript cung cấp sẵn các built-in object đã được chuẩn hoá và tối ưu — dùng ngay, không cần tự viết:
+
+```js
+Math.round(3.5);              // 4 — toán học
+new Date().toISOString();     // ngày giờ
+JSON.stringify({ name: "An" }); // '{"name":"An"}' — đổi sang chuỗi
+/^[^@]+@[^@]+\.[^@]+$/.test("a@b.com"); // true — tìm theo mẫu
+```
+
+:::tip[Dùng thực tế]
+
+- **`Math.random()` + `Math.round()`**: random xí ngầu, làm tròn giá tiền, chia phần trăm.
+- **`Date` / `Intl.DateTimeFormat`**: hiển thị "ngày đăng bài", đếm ngược, định dạng theo `vi-VN`.
+- **`JSON.stringify` / `JSON.parse`**: gửi body khi gọi API, lưu/đọc `localStorage`.
+- **`RegExp`**: validate email/số điện thoại, tách chuỗi, tìm-thay theo mẫu.
+
+:::
 
 ---
 

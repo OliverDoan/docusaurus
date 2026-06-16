@@ -11,12 +11,62 @@ Khi muốn lấy dữ liệu từ máy chủ (server) mà không tải lại tra
 
 ## Mục lục
 
+- [Vì sao có Web API?](#vì-sao-có-web-api)
 - [XMLHttpRequest (cũ)](#xmlhttprequest-cũ)
 - [Fetch API](#fetch-api)
 - [Request và Response](#request-và-response)
 - [Error handling](#error-handling)
 - [Abort request](#abort-request)
 - [Thư viện hiện đại](#thư-viện-hiện-đại)
+
+---
+
+## Vì sao có Web API?
+
+**Vấn đề:**
+
+```js
+// Bản thân ngôn ngữ JS (ECMAScript) chỉ biết tính toán, xử lý chuỗi,
+// mảng, object... Nó KHÔNG biết cách gọi mạng hay lưu dữ liệu lên máy:
+
+const data = downloadFromServer("/api/users"); // ❌ không tồn tại trong JS core
+saveToDisk("token", "abc123");                  // ❌ JS thuần không làm được
+
+// Trước đây để gọi mạng phải dùng XMLHttpRequest — dài dòng, dựa trên callback:
+const xhr = new XMLHttpRequest();
+xhr.open("GET", "/api/users");
+xhr.onload = () => console.log(xhr.responseText);
+xhr.onerror = () => console.error("lỗi mạng");
+xhr.send();
+```
+
+**Giải pháp:**
+
+```js
+// Web API do TRÌNH DUYỆT cung cấp (không phải core JS) làm cầu nối tới
+// khả năng của nền tảng. JS gọi các API này để tương tác thế giới ngoài:
+
+// fetch — gọi HTTP, trả về Promise (thay cho XMLHttpRequest)
+const res = await fetch("/api/users");
+const users = await res.json();
+
+// localStorage — lưu dữ liệu ngay trên máy người dùng
+localStorage.setItem("token", "abc123");
+
+// Geolocation — lấy vị trí người dùng
+navigator.geolocation.getCurrentPosition((pos) => {
+  console.log(pos.coords.latitude, pos.coords.longitude);
+});
+```
+
+:::tip[Dùng thực tế]
+
+- **Gọi REST API**: dùng `fetch` để lấy danh sách user, gửi form (POST) lên server.
+- **Lưu trạng thái**: lưu token đăng nhập hoặc theme sáng/tối vào `localStorage`.
+- **Lấy vị trí**: dùng Geolocation cho tính năng "tìm cửa hàng gần tôi".
+- **Thông báo**: gửi push notification nhắc người dùng quay lại ứng dụng.
+
+:::
 
 ---
 

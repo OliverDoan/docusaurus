@@ -11,10 +11,66 @@ title: "2. Arrays và Typed Arrays"
 
 ## Mục lục
 
+- [Vì sao có array methods (và Typed Array)?](#vì-sao-có-array-methods-và-typed-array)
 - [Array cơ bản](#array-cơ-bản)
 - [Array methods quan trọng](#array-methods-quan-trọng)
 - [Immutable methods (ES2023)](#immutable-methods-es2023)
 - [Typed Arrays](#typed-arrays)
+
+---
+
+## Vì sao có array methods (và Typed Array)?
+
+**Vấn đề:**
+
+```js
+// Xử lý danh sách bằng vòng for thủ công — dài dòng, dễ sai chỉ số
+const nums = [1, -2, 3, -4, 5];
+
+// Lọc số dương rồi nhân đôi
+const result = [];
+for (let i = 0; i <= nums.length; i++) {  // bug: <= làm tràn index
+  if (nums[i] > 0) {
+    result.push(nums[i] * 2);
+  }
+}
+
+// Tính tổng cũng phải tự quản biến tích lũy
+let total = 0;
+for (let i = 0; i < nums.length; i++) {
+  total += nums[i];
+}
+
+// Còn dữ liệu nhị phân (ảnh, audio) thì mảng thường lưu rất tốn bộ nhớ
+// và không khớp định dạng byte mà Web API yêu cầu.
+```
+
+**Giải pháp:**
+
+```js
+const nums = [1, -2, 3, -4, 5];
+
+// Array methods bậc cao biểu đạt Ý ĐỊNH ngắn gọn, không lo sai chỉ số
+const result = nums.filter(x => x > 0).map(x => x * 2); // [2, 6, 10]
+const total = nums.reduce((acc, x) => acc + x, 0);       // 3
+
+// map/filter/reduce/find KHÔNG mutate mảng gốc → immutable-friendly
+console.log(nums); // [1, -2, 3, -4, 5] vẫn nguyên
+
+// Typed Array ra đời để xử lý DỮ LIỆU NHỊ PHÂN hiệu năng cao,
+// khớp đúng định dạng byte (ảnh, audio, WebGL, fetch ArrayBuffer)
+const buffer = await fetch("/img.png").then(r => r.arrayBuffer());
+const bytes = new Uint8Array(buffer); // mỗi phần tử đúng 1 byte
+```
+
+:::tip[Dùng thực tế]
+
+- **Biến đổi dữ liệu API**: `users.map(u => u.name)` để lấy danh sách tên.
+- **Lọc theo điều kiện**: `products.filter(p => p.inStock)` lấy hàng còn bán.
+- **Tính tổng/gộp**: `cart.reduce((sum, item) => sum + item.price, 0)` tính tiền giỏ hàng.
+- **Xử lý ảnh/âm thanh/binary**: dùng `Uint8Array`, `Float32Array`... cho pixel canvas, WebAudio, hay đọc file nhị phân.
+
+:::
 
 ---
 

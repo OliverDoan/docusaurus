@@ -12,6 +12,7 @@ title: "1. this trong các ngữ cảnh"
 ## Mục lục
 
 - [this là gì?](#this-là-gì)
+- [Tại sao cần this?](#tại-sao-cần-this)
 - [this trong method](#this-trong-method)
 - [this trong function thường](#this-trong-function-thường)
 - [this trong arrow function](#this-trong-arrow-function)
@@ -25,17 +26,121 @@ title: "1. this trong các ngữ cảnh"
 `this` là **giá trị động** trỏ đến **context gọi function**. Giá trị
 `this` phụ thuộc **cách gọi**, không phải **nơi khai báo** (trừ arrow).
 
+:::danger[Strict mode quyết định giá trị `this`]
+
+Khi gọi hàm **standalone** (không có object đứng trước), kết quả `this`
+**khác nhau hoàn toàn** giữa hai chế độ:
+
+- **Strict mode** (`"use strict"`, ES Module, body của `class`): `this === undefined`
+- **Sloppy mode** (script cũ, không khai báo strict): `this` bị **ép** về
+  `window` / `globalThis`
+
+ES Module (file dùng `import`/`export`, `<script type="module">`) và **mọi
+code bên trong `class` luôn chạy strict mode mặc định**. Vì vậy code hiện đại
+2026 gần như luôn rơi vào nhánh `undefined`. Các ví dụ dưới đây đều ghi rõ
+kết quả cho **cả hai chế độ**.
+
+:::
+
 Quy tắc tổng quát:
 
-| Cách gọi | `this` |
-|----------|--------|
-| `obj.method()` | `obj` |
-| `fn()` (standalone) | `undefined` (strict) hoặc `window` (sloppy) |
-| `new Fn()` | object mới tạo |
-| `fn.call(x)` / `fn.apply(x)` | `x` |
-| Arrow function | `this` của scope outer (lexical) |
-| Event handler (function) | element gắn listener |
-| Method trong class | instance |
+| Cách gọi | `this` (strict) | `this` (sloppy) |
+|----------|------|------|
+| `obj.method()` | `obj` | `obj` |
+| `fn()` (standalone) | `undefined` | `window` / `globalThis` |
+| `new Fn()` | object mới tạo | object mới tạo |
+| `fn.call(x)` / `fn.apply(x)` | `x` | `x` (primitive bị bọc thành object) |
+| Arrow function | `this` của scope outer (lexical) | như scope outer |
+| Event handler (function) | element gắn listener | element gắn listener |
+| Method trong class | instance (class luôn strict) | — (class luôn strict) |
+
+Chỉ cột **standalone** và **call/apply với primitive** là khác nhau giữa hai
+chế độ. Chi tiết về strict mode xem bài [Strict mode](../12-strict-mode/1_strict-mode.md).
+
+---
+
+## Tại sao cần this?
+
+Bản chất `this` sinh ra để giải quyết **một vấn đề duy nhất**: làm sao để
+**cùng một đoạn code** chạy được trên **nhiều dữ liệu khác nhau**.
+
+### Vấn đề: nếu KHÔNG có this
+
+Mỗi object cần hàm `greet()` → phải viết riêng, gọi đích danh tên biến:
+
+```js
+const an = {
+  name: "An",
+  greet() {
+    console.log("Xin chào " + an.name); // dính chặt vào biến "an"
+  },
+};
+
+const binh = {
+  name: "Bình",
+  greet() {
+    console.log("Xin chào " + binh.name); // dính chặt vào biến "binh"
+  },
+};
+```
+
+→ Hàm `greet` **lặp lại**, đổi tên biến là hỏng, không tái sử dụng được.
+
+### Giải pháp: this = "object đang gọi tôi"
+
+`this` cho phép viết hàm **một lần**, dùng cho **mọi object**:
+
+```js
+function greet() {
+  console.log("Xin chào " + this.name); // this = ai gọi thì là người đó
+}
+
+const an = { name: "An", greet };
+const binh = { name: "Bình", greet };
+
+an.greet(); // Xin chào An    → this = an
+binh.greet(); // Xin chào Bình → this = binh
+```
+
+Cùng **một hàm `greet`**, nhưng `this` thay đổi theo object đứng trước dấu
+chấm lúc gọi. Đây chính là lý do `this` tồn tại.
+
+### Nơi dùng this nhiều nhất: class
+
+Tình huống thực tế nhất. Một `class` là khuôn tạo ra **nhiều instance**, mỗi
+instance có dữ liệu riêng:
+
+```js
+class TaiKhoan {
+  constructor(soDu) {
+    this.soDu = soDu; // this = tài khoản đang được tạo
+  }
+
+  napTien(tien) {
+    this.soDu += tien; // cộng vào ĐÚNG tài khoản đang gọi
+  }
+}
+
+const tk1 = new TaiKhoan(100);
+const tk2 = new TaiKhoan(500);
+
+tk1.napTien(50); // chỉ tk1 đổi → 150
+tk2.napTien(20); // chỉ tk2 đổi → 520
+```
+
+`napTien` viết **một lần**, nhưng nhờ `this` nó biết sửa số dư của `tk1` hay
+`tk2` tuỳ ai gọi. Không có `this` thì không thể có `class` hoạt động.
+
+:::tip[Khi nào KHÔNG cần this?]
+
+Nếu bạn **không viết `class`** và **không cần một hàm dùng chung cho nhiều
+object**, thì thực tế **không cần `this`** — dùng biến/closure bình thường còn
+dễ hiểu hơn. `this` chỉ "đáng tiền" khi **nhiều object chia sẻ chung hành vi**.
+
+Tóm gọn: `this` = **"đối tượng đang gọi hàm này là ai"**, xác định **lúc
+gọi**, không phải lúc viết.
+
+:::
 
 ---
 
@@ -58,11 +163,15 @@ user.greet();
 
 ```js
 const greet = user.greet;
-greet(); // undefined (strict) — this không còn là user
+greet();
+// strict mode: this = undefined → TypeError khi đọc this.name
+// sloppy mode: this = window → in ra undefined (window.name là "")
 ```
 
 Lý do: cách gọi là `greet()`, không phải `user.greet()`. `this` được
-quyết định **tại lúc gọi**.
+quyết định **tại lúc gọi**. Vì method được khai báo qua shorthand `greet()`
+nên thân hàm **không tự động strict** — chế độ phụ thuộc file chứa nó (Module
+→ strict; script thường → sloppy).
 
 ---
 
@@ -80,14 +189,28 @@ test();
 // sloppy mode: window (browser) / globalThis
 ```
 
-Trong callback truyền vào method:
+Có thể bật strict cho **riêng một function** bằng `"use strict"` ở đầu thân:
+
+```js
+function test() {
+  "use strict";
+  console.log(this); // luôn undefined, kể cả file đang ở sloppy mode
+}
+
+test();
+```
+
+Trong callback truyền vào method — `setTimeout` gọi callback như hàm
+standalone nên `this` **không** phải `user`:
 
 ```js
 const user = {
   name: "An",
   run() {
     setTimeout(function () {
-      console.log(this.name); // undefined — this không phải user
+      console.log(this.name);
+      // strict mode: TypeError (this = undefined)
+      // sloppy mode: undefined (this = window, window.name = "")
     }, 100);
   },
 };
@@ -138,11 +261,14 @@ const user = {
   greet: () => console.log(this.name), // SAI — this là outer scope
 };
 
-user.greet(); // undefined
+user.greet();
+// Module (strict): this = undefined ở top-level → TypeError
+// Script (sloppy): this = window → in ra undefined
 ```
 
 Arrow lấy `this` từ **scope chứa object literal**, không phải từ object.
-Method object → dùng shorthand `greet() {}`.
+Ở top-level: Module có `this === undefined` (strict), còn script thường có
+`this === window` (sloppy). Method object → dùng shorthand `greet() {}`.
 
 :::
 
@@ -207,6 +333,16 @@ const u = new User("An");
 const greet = u.greet;
 greet(); // TypeError: Cannot read 'name' of undefined
 ```
+
+:::note[Vì sao class luôn báo lỗi, kể cả ở sloppy file?]
+
+Thân của `class` **luôn chạy strict mode**, không cần khai báo `"use strict"`.
+Do đó method tách rời gọi standalone có `this === undefined` → đọc
+`this.name` ném `TypeError` ngay. Đây là điểm khác với object literal sloppy
+(rơi về `window`, chỉ in `undefined`). Class “fail nhanh, fail rõ” nên dễ
+phát hiện bug `this` hơn.
+
+:::
 
 Cách fix:
 

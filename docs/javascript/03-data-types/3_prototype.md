@@ -11,11 +11,75 @@ Trong JavaScript, mỗi object đều có một **prototype** (nguyên mẫu) �
 
 ## Mục lục
 
+- [Vì sao prototype ra đời?](#vì-sao-prototype-ra-đời)
 - [Prototype là gì?](#prototype-là-gì)
 - [Prototype chain](#prototype-chain)
 - [Tạo object với prototype tùy chỉnh](#tạo-object-với-prototype-tùy-chỉnh)
 - [Class chỉ là sugar của prototype](#class-chỉ-là-sugar-của-prototype)
 - [Quan hệ với constructor function](#quan-hệ-với-constructor-function)
+
+---
+
+## Vì sao prototype ra đời?
+
+**Vấn đề:**
+
+Nếu mỗi object tự chứa **bản sao** của mọi method thì cùng một hàm bị lặp
+lại trên từng instance — tốn bộ nhớ và khó cập nhật chung:
+
+```js
+function createUser(name) {
+  return {
+    name,
+    greet() { return `Hi ${this.name}`; }, // mỗi object một bản sao greet
+  };
+}
+
+const u1 = createUser("An");
+const u2 = createUser("Bình");
+
+u1.greet === u2.greet; // false — hai function khác nhau, tốn RAM
+// Có 1000 user → 1000 bản sao greet, sửa logic phải sửa mọi nơi
+```
+
+**Giải pháp:**
+
+Prototype cho phép các instance **chia sẻ** method qua prototype chain thay
+vì copy. Khi tra cứu thuộc tính, JS đi ngược chuỗi prototype để tìm — nhờ
+vậy chỉ cần lưu một bản method, sửa một chỗ là mọi instance áp dụng:
+
+```js
+function User(name) {
+  this.name = name;
+}
+User.prototype.greet = function () {
+  return `Hi ${this.name}`;
+}; // chỉ một bản greet duy nhất, dùng chung
+
+const u1 = new User("An");
+const u2 = new User("Bình");
+
+u1.greet === u2.greet; // true — chung một function, tiết kiệm bộ nhớ
+// Sửa User.prototype.greet một lần → mọi instance đổi theo
+```
+
+JS chọn mô hình **prototype-based** (lấy cảm hứng từ ngôn ngữ Self) thay vì
+**class-based** như Java/C++. `class` của ES6 chỉ là lớp đường (syntactic
+sugar) phủ lên prototype, không phải cơ chế mới.
+
+:::tip[Dùng thực tế]
+
+- **Thêm method dùng chung** cho mọi instance: gắn vào `Constructor.prototype`
+  để mọi object chia sẻ một bản, không lặp lại trên từng instance.
+- **Hiểu vì sao mọi mảng có `.map`**: `[].map` không nằm trên mảng mà nằm
+  trên `Array.prototype` — mọi mảng đều mượn được qua chuỗi prototype.
+- **Đọc/mở rộng built-in prototype**: biết các method như `.toUpperCase`,
+  `.filter` sống ở đâu (`String.prototype`, `Array.prototype`) để tra cứu
+  và debug nhanh.
+- **Hiểu `instanceof`**: toán tử này kiểm tra `Constructor.prototype` có nằm
+  trong chuỗi prototype của object hay không — gốc rễ chính là cơ chế này.
+
+:::
 
 ---
 

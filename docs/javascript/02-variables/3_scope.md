@@ -11,12 +11,69 @@ title: "3. Scope (Phạm vi biến)"
 
 ## Mục lục
 
+- [Vì sao closure & scope ra đời?](#vì-sao-closure--scope-ra-đời)
 - [Scope là gì?](#scope-là-gì)
 - [Global Scope](#global-scope)
 - [Function Scope](#function-scope)
 - [Block Scope](#block-scope)
 - [Lexical Scope](#lexical-scope)
 - [Scope Chain](#scope-chain)
+
+---
+
+## Vì sao closure & scope ra đời?
+
+**Vấn đề:**
+
+Khi viết code, mọi biến nằm chung một "rổ" toàn cục thì rất dễ **đụng độ
+tên** và **làm bẩn global**. Hai đoạn code không liên quan vô tình dùng
+cùng tên biến sẽ ghi đè lẫn nhau. Tệ hơn, không có cách nào "giấu" dữ
+liệu nội bộ — ai cũng đọc/sửa được:
+
+```js
+// Cách làm cũ: tất cả nằm chung global
+var count = 0; // ai cũng sửa được
+
+function increment() {
+  count++; // dễ bị code khác vô tình ghi đè
+}
+
+count = 999; // "tai nạn" — không có gì bảo vệ
+```
+
+**Giải pháp:**
+
+**Scope** ra đời để kiểm soát "biến nào nhìn thấy ở đâu", giữ biến nằm
+gọn trong phạm vi cần thiết. **Lexical scope** xác định phạm vi theo
+*nơi viết code*. Từ đó sinh ra **closure**: một hàm "nhớ" được biến của
+scope bên ngoài **kể cả sau khi scope đó đã kết thúc** — nhờ vậy ta tạo
+được biến **private** (đóng gói dữ liệu):
+
+```js
+function createCounter() {
+  let count = 0; // private — bên ngoài không chạm tới được
+
+  return function () {
+    count++;
+    return count;
+  };
+}
+
+const next = createCounter();
+next(); // 1
+next(); // 2 — count vẫn "sống" nhờ closure
+```
+
+:::tip[Dùng thực tế]
+
+Closure & scope xuất hiện ở khắp nơi trong code thực tế:
+
+- **Counter / state riêng**: giữ giá trị nội bộ mà bên ngoài không sửa được.
+- **Factory function**: hàm tạo ra hàm có cấu hình/state riêng từng cái.
+- **Debounce / throttle**: nhớ timer hoặc thời điểm gọi gần nhất giữa các lần chạy.
+- **Callback & event handler**: giữ được context (biến cha) khi chạy sau, ví dụ trong `setTimeout` hay listener.
+
+:::
 
 ---
 

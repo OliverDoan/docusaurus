@@ -11,10 +11,56 @@ Bài này khám phá cách hàm hoạt động bên trong. **arguments object** 
 
 ## Mục lục
 
+- [Vì sao cần hiểu cơ chế bên trong?](#vì-sao-cần-hiểu-cơ-chế-bên-trong)
 - [arguments object](#arguments-object)
 - [Call Stack](#call-stack)
 - [Stack Overflow](#stack-overflow)
 - [Built-in Functions thường dùng](#built-in-functions-thường-dùng)
+
+---
+
+## Vì sao cần hiểu cơ chế bên trong?
+
+**Vấn đề:** Không nắm `arguments` và call stack thì gặp bug rất khó hiểu — code "trông đúng" nhưng nổ lỗi lạ:
+
+```js
+// "Vì sao reduce không chạy?"
+function sum() {
+  return arguments.reduce((a, b) => a + b, 0); // TypeError: arguments.reduce is not a function
+}
+
+// "Vì sao gọi 1 phát mà nổ RangeError?"
+function flatten(node) {
+  return flatten(node.child); // quên base case → đệ quy vô tận
+}
+flatten(tree); // RangeError: Maximum call stack size exceeded
+```
+
+Không hiểu cơ chế, bạn chỉ thấy thông báo lỗi mà không biết gốc rễ ở đâu.
+
+**Giải pháp:** Hiểu bên trong giúp giải thích và tránh lỗi:
+
+```js
+// Biết arguments là array-like (không phải Array) → convert trước khi dùng
+function sum() {
+  return [...arguments].reduce((a, b) => a + b, 0);
+}
+
+// Biết mỗi lời gọi đẩy 1 frame lên stack → thêm base case để stack có điểm pop
+function flatten(node) {
+  if (!node) return [];                       // base case dừng đệ quy
+  return [node.value, ...flatten(node.child)];
+}
+```
+
+:::tip[Dùng thực tế]
+
+- Đọc **stack trace** khi crash: nhìn thứ tự frame để biết hàm nào gọi hàm nào, lần ngược về nguồn lỗi.
+- Debug `Maximum call stack size exceeded`: phần lớn do đệ quy thiếu base case hoặc dữ liệu lồng quá sâu.
+- Hiểu vì sao `arguments` không có `map`/`filter`, từ đó chuyển sang **rest parameter** cho code rõ ràng.
+- Biết JS single-threaded (1 call stack) để tránh code đồng bộ nặng làm "freeze" UI, chuyển sang async/Worker.
+
+:::
 
 ---
 

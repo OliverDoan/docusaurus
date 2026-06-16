@@ -11,10 +11,81 @@ title: "2. Arrow Functions và IIFE"
 
 ## Mục lục
 
+- [Vì sao arrow function ra đời?](#vì-sao-arrow-function-ra-đời)
 - [Arrow Functions](#arrow-functions)
 - [Khác biệt với function thường](#khác-biệt-với-function-thường)
 - [Khi nào không nên dùng arrow](#khi-nào-không-nên-dùng-arrow)
 - [IIFE](#iife)
+
+---
+
+## Vì sao arrow function ra đời?
+
+**Vấn đề:** Trước ES6, callback rất hay cần giữ `this` của scope ngoài.
+Vì `function(){}` tạo `this` riêng (thay đổi theo cách gọi), ta phải lưu
+`this` vào một biến trung gian (`var self = this;`) rồi dùng lại bên trong,
+hoặc `.bind(this)`. Cách này rườm rà và rất dễ quên. Cú pháp `function(){}`
+cũng dài dòng cho những callback ngắn như `map`/`filter`.
+
+```js
+// Cách CŨ — phải "cứu" this bằng biến trung gian
+function Timer() {
+  this.count = 0;
+  var self = this; // lưu lại this
+  setInterval(function () {
+    self.count++; // dùng self vì this ở đây không còn là Timer
+  }, 1000);
+}
+
+// Hoặc dùng .bind(this) — vẫn rườm rà
+function Timer2() {
+  this.count = 0;
+  setInterval(
+    function () {
+      this.count++;
+    }.bind(this),
+    1000
+  );
+}
+
+// Callback ngắn cũng phải viết dài
+[1, 2, 3].map(function (x) {
+  return x * 2;
+});
+```
+
+**Giải pháp:** ES6 thêm **arrow function** — **không có `this` riêng**
+(lexical this, tự lấy từ scope ngoài) và cú pháp ngắn gọn hơn hẳn.
+
+```js
+// this tự lấy từ scope ngoài — không cần self / bind
+function Timer() {
+  this.count = 0;
+  setInterval(() => {
+    this.count++; // this = Timer instance
+  }, 1000);
+}
+
+// Callback ngắn — gọn hơn nhiều
+[1, 2, 3].map((x) => x * 2);
+```
+
+Lưu ý: chính vì **không có `this` riêng**, arrow function **không nên**
+dùng làm method của object hay làm constructor (xem
+[Khi nào không nên dùng arrow](#khi-nào-không-nên-dùng-arrow)).
+
+:::tip[Dùng thực tế]
+
+- **Callback trong array methods** (`map`/`filter`/`reduce`): viết gọn
+  `arr.filter((x) => x > 0)`.
+- **`setTimeout`/`setInterval` trong class**: giữ `this` của instance mà
+  không cần `bind`.
+- **Event listener trong component**: dùng `this` (hoặc state) của
+  component thay vì của DOM element.
+- **Promise `.then()`**: `fetchUser().then((user) => this.render(user))`
+  giữ đúng `this`.
+
+:::
 
 ---
 

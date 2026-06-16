@@ -11,12 +11,74 @@ title: "1. Classes"
 
 ## Mục lục
 
+- [Vì sao class ra đời?](#vì-sao-class-ra-đời)
 - [Khai báo class](#khai-báo-class)
 - [Constructor và method](#constructor-và-method)
 - [Static](#static)
 - [Inheritance: extends và super](#inheritance-extends-và-super)
 - [Private fields (#)](#private-fields-)
 - [Getter và Setter](#getter-và-setter)
+
+---
+
+## Vì sao class ra đời?
+
+**Vấn đề:** Trước ES6, muốn làm OOP trong JavaScript bạn phải dùng **constructor function** rồi gán method vào `.prototype` thủ công. Kế thừa còn rườm rà hơn: phải nối prototype chain bằng tay với `Object.create` và gọi `Parent.call(this)` trong constructor con. Dễ sai, khó đọc, nhất là với người quen Java/C#.
+
+```js
+function Animal(name) {
+  this.name = name;
+}
+Animal.prototype.speak = function () {
+  return `${this.name} makes a sound`;
+};
+
+function Dog(name) {
+  Animal.call(this, name); // gọi constructor cha thủ công
+}
+// nối prototype chain bằng tay
+Dog.prototype = Object.create(Animal.prototype);
+Dog.prototype.constructor = Dog;
+Dog.prototype.speak = function () {
+  return `${this.name} barks`;
+};
+
+const d = new Dog("Rex");
+d.speak(); // "Rex barks"
+```
+
+**Giải pháp:** `class` (ES6) là **"lớp đường"** (syntactic sugar) phủ lên prototype — cú pháp rõ ràng hơn hẳn với `constructor`, method, `extends`, `super`, `static`, getter/setter và private field (`#`). Cùng một logic nhưng gọn và dễ đọc:
+
+```js
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+  speak() {
+    return `${this.name} makes a sound`;
+  }
+}
+
+class Dog extends Animal {
+  speak() {
+    return `${this.name} barks`;
+  }
+}
+
+const d = new Dog("Rex");
+d.speak(); // "Rex barks"
+```
+
+Lưu ý quan trọng: `class` **không phải** một cơ chế kế thừa mới — bản chất bên dưới vẫn là **prototype** có sẵn từ trước. Nó chỉ cho bạn một cú pháp dễ đọc, dễ bảo trì hơn.
+
+:::tip[Dùng thực tế]
+
+- **Model dữ liệu:** `User`, `Product`... gom thuộc tính và hành vi của một thực thể vào một chỗ.
+- **Custom Error:** `class ValidationError extends Error` để phân loại lỗi rõ ràng.
+- **Service / Repository:** đóng gói logic truy cập dữ liệu (ví dụ `UserRepository`).
+- **Cấu trúc dữ liệu:** `Stack`, `Queue`, `LinkedList`... mỗi instance giữ state riêng.
+
+:::
 
 ---
 

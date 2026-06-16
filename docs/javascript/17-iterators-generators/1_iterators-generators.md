@@ -11,11 +11,57 @@ title: "1. Iterators và Generators"
 
 ## Mục lục
 
+- [Vì sao iterator & generator ra đời?](#vì-sao-iterator--generator-ra-đời)
 - [Iterable Protocol](#iterable-protocol)
 - [Iterator Protocol](#iterator-protocol)
 - [Generators](#generators)
 - [yield và yield*](#yield-và-yield)
 - [Async Generators](#async-generators)
+
+---
+
+## Vì sao iterator & generator ra đời?
+
+**Vấn đề:** Trước đây mỗi loại collection lại duyệt một kiểu khác nhau — dễ sai và khó nhớ.
+
+```js
+// Mảng: duyệt theo index
+const arr = [10, 20, 30];
+for (let i = 0; i < arr.length; i++) console.log(arr[i]);
+
+// Object: for...in — duyệt cả key kế thừa từ prototype, dễ dính lỗi
+const obj = { a: 1, b: 2 };
+for (const k in obj) console.log(k);
+
+// Map / Set lại có cách duyệt riêng (forEach, entries...)
+// → không có MỘT cách duyệt chung cho mọi cấu trúc
+```
+
+**Giải pháp:** Iterator protocol định nghĩa `next()` trả về `{ value, done }`, tạo ra MỘT cách duyệt thống nhất. Generator (`function*` + `yield`) là cách viết iterator gọn, không cần `next()` thủ công, lại hỗ trợ tạm dừng/tiếp tục và lazy evaluation.
+
+```js
+// Một cách duyệt thống nhất cho Array, String, Map, Set...
+for (const ch of "hi") console.log(ch);
+for (const x of new Set([1, 2])) console.log(x);
+
+// Generator: tạo dãy lazy, chỉ tính khi cần — chạy được cả dãy vô hạn
+function* ids() {
+  let n = 1;
+  while (true) yield n++;
+}
+const gen = ids();
+gen.next().value; // 1
+gen.next().value; // 2 — không treo vì chỉ tính từng giá trị
+```
+
+:::tip[Dùng thực tế]
+
+- **Duyệt dữ liệu lớn / stream:** đọc file hoặc API theo từng chunk, không nạp hết vào RAM.
+- **Sinh dãy vô hạn:** tạo id tăng dần, dãy số, token... mà không cần biết trước độ dài.
+- **Phân trang lazy:** tự fetch trang tiếp theo chỉ khi người dùng cần, dừng sớm được.
+- **Iterable tuỳ biến:** cho object hoặc class của bạn dùng được `for...of`, spread `...`, destructuring.
+
+:::
 
 ---
 

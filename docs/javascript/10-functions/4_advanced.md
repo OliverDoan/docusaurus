@@ -11,11 +11,74 @@ Bài này giới thiệu ba khái niệm quan trọng về hàm. **Recursion** (
 
 ## Mục lục
 
+- [Vì sao closure ra đời?](#vì-sao-closure-ra-đời)
 - [Recursion (Đệ quy)](#recursion-đệ-quy)
 - [Lexical Scope](#lexical-scope)
 - [Closures](#closures)
 - [Use cases của Closure](#use-cases-của-closure)
 - [Closure pitfalls](#closure-pitfalls)
+
+---
+
+## Vì sao closure ra đời?
+
+JS không có từ khóa `private` cho biến trong hàm như nhiều ngôn ngữ khác.
+Trước khi tận dụng closure, để giữ trạng thái qua nhiều lần gọi người ta
+phải đặt biến ở phạm vi global — dễ bị code khác sửa nhầm và làm bẩn
+global.
+
+**Vấn đề:**
+
+```js
+// Đếm số lần gọi — phải dùng biến global
+let count = 0;
+
+function increment() {
+  count++;
+  return count;
+}
+
+increment(); // 1
+increment(); // 2
+
+// Bất kỳ ai cũng sửa được, vô tình ghi đè
+count = 999;
+increment(); // 1000 — sai, state bị phá
+```
+
+**Giải pháp:**
+
+```js
+// Closure giữ state riêng tư, ngoài không chạm tới được
+function makeCounter() {
+  let count = 0; // sống nhờ closure, không nằm ở global
+  return function () {
+    count++;
+    return count;
+  };
+}
+
+const next = makeCounter();
+next(); // 1
+next(); // 2
+// Không cách nào truy cập hay ghi đè count từ bên ngoài
+```
+
+Closure cho phép hàm trả về **vẫn nhớ** được biến của hàm cha sau khi hàm
+cha đã chạy xong, nhờ đó tạo ra biến "riêng tư" và đóng gói trạng thái.
+
+:::tip[Dùng thực tế]
+
+- **State riêng tư**: counter, bộ tạo ID, biến cấu hình mà code ngoài
+  không được sửa trực tiếp.
+- **Factory hàm**: tạo hàm chuyên biệt từ hàm tổng quát (currying,
+  `greet("Hi")` ở mục dưới), hoặc hàm log có sẵn prefix.
+- **Event handler giữ context**: callback nhớ `label`/`id` của lúc đăng
+  ký mà không cần biến global.
+- **React hooks**: `useState`, `useEffect` dựa hoàn toàn vào closure để
+  giữ state giữa các lần render.
+
+:::
 
 ---
 

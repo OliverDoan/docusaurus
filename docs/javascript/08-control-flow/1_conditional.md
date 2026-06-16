@@ -11,10 +11,68 @@ title: "1. Conditional Statements"
 
 ## Mục lục
 
+- [Vì sao có nhiều cách rẽ nhánh?](#vì-sao-có-nhiều-cách-rẽ-nhánh)
 - [if / else if / else](#if--else-if--else)
 - [Ternary operator](#ternary-operator)
 - [switch statement](#switch-statement)
 - [Short-circuit với &&, ||, ??](#short-circuit-với---)
+
+---
+
+## Vì sao có nhiều cách rẽ nhánh?
+
+**Vấn đề:**
+
+```js
+// Chuỗi if/else if dài cho nhiều trường hợp rời rạc — khó đọc
+let label;
+if (status === "pending") label = "Đang chờ";
+else if (status === "paid") label = "Đã thanh toán";
+else if (status === "shipped") label = "Đang giao";
+else label = "Không rõ";
+
+// Gán biến theo điều kiện bằng if nhiều dòng — rườm rà
+let badge;
+if (isActive) {
+  badge = "active";
+} else {
+  badge = "inactive";
+}
+
+// Truy cập thuộc tính lồng sâu — dễ lỗi "Cannot read property of undefined"
+const city = user.address.city; // nổ nếu user.address là undefined
+```
+
+**Giải pháp:**
+
+```js
+// switch — nhiều nhánh dựa trên MỘT giá trị
+let label;
+switch (status) {
+  case "pending": label = "Đang chờ"; break;
+  case "paid":    label = "Đã thanh toán"; break;
+  case "shipped": label = "Đang giao"; break;
+  default:        label = "Không rõ";
+}
+
+// Ternary ? : — gán nhanh theo điều kiện, gọn trong một dòng
+const badge = isActive ? "active" : "inactive";
+
+// Optional chaining ?. — truy cập an toàn, ?? — giá trị mặc định
+const city = user?.address?.city ?? "Chưa cập nhật";
+```
+
+Mỗi công cụ hợp với một tình huống: `switch` cho nhiều nhánh theo một giá trị,
+ternary cho gán nhanh, `?.` và `??` cho dữ liệu có thể thiếu.
+
+:::tip[Dùng thực tế]
+
+- **`switch`**: hiển thị nhãn theo trạng thái đơn hàng hoặc loại sự kiện (`status`, `type`).
+- **Ternary**: đặt `className` hoặc nhãn theo điều kiện, ví dụ `isError ? "text-red" : "text-gray"`.
+- **`?.`**: đọc dữ liệu từ API có thể thiếu field, như `response?.data?.items`.
+- **`??`**: đặt giá trị mặc định khi thiếu, như `pageSize ?? 20` (giữ nguyên `0`).
+
+:::
 
 ---
 

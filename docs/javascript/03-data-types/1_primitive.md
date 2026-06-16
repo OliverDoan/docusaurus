@@ -11,6 +11,7 @@ Trong JavaScript, **primitive** (kiểu nguyên thuỷ) là những kiểu dữ 
 
 ## Mục lục
 
+- [Vì sao cần hiểu kiểu primitive?](#vì-sao-cần-hiểu-kiểu-primitive)
 - [Tổng quan](#tổng-quan)
 - [String](#string)
 - [Number](#number)
@@ -18,6 +19,54 @@ Trong JavaScript, **primitive** (kiểu nguyên thuỷ) là những kiểu dữ 
 - [null và undefined](#null-và-undefined)
 - [Symbol](#symbol)
 - [BigInt](#bigint)
+
+---
+
+## Vì sao cần hiểu kiểu primitive?
+
+Mỗi kiểu primitive sinh ra để giải một bài toán riêng. Nắm rõ chúng giúp bạn tránh những lỗi khó chịu khi đặt key cho object, tính toán số lớn, hay phân biệt "chưa có" với "cố ý rỗng".
+
+**Vấn đề:**
+
+```js
+// 1. Key string dễ ĐỤNG ĐỘ — library và bạn cùng dùng "id"
+const user = { id: 1 };
+user.id = "private-token"; // ghi đè mất id gốc của library!
+
+// 2. Số nguyên lớn VƯỢT giới hạn an toàn của Number → sai số
+const bigId = 9007199254740993;     // id từ DB
+bigId === 9007199254740992;         // true (!) — mất 1 đơn vị
+Number.MAX_SAFE_INTEGER;            // 9007199254740991
+
+// 3. Không phân biệt được "chưa load" và "không có"
+let user2;          // undefined hay null? code khác đọc sẽ đoán mò
+```
+
+**Giải pháp:**
+
+```js
+// 1. Symbol (ES6) — key DUY NHẤT, không bao giờ đụng key khác
+const ID = Symbol("id");
+const user = { [ID]: 1 };
+user[ID]; // 1 — an toàn, không ai vô tình ghi đè
+
+// 2. BigInt (ES2020) — số nguyên lớn KHÔNG sai số
+const bigId = 9007199254740993n;    // suffix n
+bigId === 9007199254740992n;        // false — chính xác
+
+// 3. null vs undefined — quy ước rõ ràng
+let user2 = null;   // CỐ Ý rỗng: "đã check, không có user"
+let user3;          // undefined: "chưa gán / chưa load"
+```
+
+:::tip[Dùng thực tế]
+
+- **Symbol làm key riêng tư**: thêm metadata vào object của người khác mà không sợ trùng tên hay bị `for...in`/`Object.keys` lộ ra.
+- **Symbol.iterator**: cho object của bạn chạy được với `for...of`, spread `[...obj]`, destructuring.
+- **BigInt cho id/tài chính**: id Twitter/Discord (snowflake 64-bit), timestamp nanosecond, hoặc tính tiền tệ ở đơn vị nhỏ nhất cần độ chính xác tuyệt đối.
+- **Check null/undefined trước khi dùng**: dùng `value == null` (bắt cả hai) hoặc `value ?? default` để xử lý an toàn dữ liệu từ API.
+
+:::
 
 ---
 

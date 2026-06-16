@@ -11,12 +11,56 @@ title: "1. DOM Manipulation và Events"
 
 ## Mục lục
 
+- [Vì sao có DOM API?](#vì-sao-có-dom-api)
 - [DOM là gì?](#dom-là-gì)
 - [Selectors](#selectors)
 - [DOM Manipulation](#dom-manipulation)
 - [Event Listeners](#event-listeners)
 - [Event Bubbling và Capturing](#event-bubbling-và-capturing)
 - [Event Delegation](#event-delegation)
+
+---
+
+## Vì sao có DOM API?
+
+**Vấn đề:** HTML viết ra là **tĩnh** — render xong là cố định. Nhưng ta
+muốn nội dung trang **thay đổi** theo tương tác: bấm nút, gõ vào ô input,
+dữ liệu mới fetch về... mà **không tải lại cả trang**. Bản thân HTML không
+cho JavaScript "với tới" để sửa.
+
+```html
+<!-- HTML chỉ là văn bản tĩnh, không tự đổi được -->
+<button>Tăng</button>
+<span>Số lượng: 0</span>
+<!-- Bấm nút thì làm sao đổi "0" thành "1"? -->
+```
+
+**Giải pháp:** Trình duyệt biểu diễn trang HTML thành **DOM** (Document
+Object Model) — một **cây object** mà JavaScript đọc và sửa được. Nhờ đó
+có trang web động và SPA.
+
+```js
+const span = document.querySelector("span"); // chọn phần tử
+let count = 0;
+
+document.querySelector("button").addEventListener("click", () => {
+  count += 1;
+  span.textContent = `Số lượng: ${count}`; // sửa nội dung, không reload
+});
+```
+
+Qua DOM, JS có thể: **chọn** phần tử (`querySelector`), **đổi** nội
+dung/thuộc tính, **thêm/xoá** node, và **lắng nghe** sự kiện
+(`addEventListener`).
+
+:::tip[Dùng thực tế]
+
+- **Cập nhật UI khi bấm nút**: đổi text, ẩn/hiện, bật/tắt class.
+- **Hiển thị dữ liệu fetch về**: render danh sách sau khi gọi API.
+- **Validate & hiện lỗi form**: kiểm tra input rồi chèn thông báo lỗi.
+- **Tạo/xoá phần tử động**: thêm hoặc bỏ item trong todo list.
+
+:::
 
 ---
 

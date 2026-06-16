@@ -20,11 +20,49 @@ Trong JavaScript, việc ép kiểu xảy ra theo **hai cách**: do bạn chủ 
 
 ## Mục lục
 
+- [Vì sao cần hiểu ép kiểu (type coercion)?](#vì-sao-cần-hiểu-ép-kiểu-type-coercion)
 - [Conversion vs Coercion](#conversion-vs-coercion)
 - [Explicit casting](#explicit-casting)
 - [Implicit coercion](#implicit-coercion)
 - [Quy tắc của ==](#quy-tắc-của-)
 - [Mẹo tránh bug](#mẹo-tránh-bug)
+
+---
+
+## Vì sao cần hiểu ép kiểu (type coercion)?
+
+**Vấn đề:**
+
+JavaScript **tự động ép kiểu** (implicit coercion) trong rất nhiều phép toán. Nếu không nắm quy tắc, bạn nhận về kết quả bất ngờ và những bug rất khó truy vết — nhất là khi dữ liệu từ input/form/API hầu hết đều là **string**.
+
+```js
+"5" + 3;   // "53" — nối chuỗi, KHÔNG phải 8
+"5" - 3;   // 2    — cùng dữ liệu nhưng lại ra số
+[] + {};   // "[object Object]" — khó đoán
+1 == "1";  // true — khác kiểu vẫn bằng nhau
+```
+
+**Giải pháp:**
+
+Hiểu quy tắc coercion và chủ động **ép kiểu tường minh** (explicit), dùng `===` thay cho `==` để JavaScript không phải "đoán" giúp bạn.
+
+```js
+Number("5") + 3;          // 8    — ép sang số trước khi cộng
+String(42) + " điểm";     // "42 điểm"
+Boolean(0);               // false — kiểm soát truthy/falsy
+parseInt("42px", 10);     // 42   — đọc số từ chuỗi có hậu tố
+
+1 === "1";                // false — so sánh đúng kiểu, an toàn
+```
+
+:::tip[Dùng thực tế]
+
+- **Tính toán từ form**: ô input trả về string, ép `Number()` trước khi cộng/nhân để tránh nối chuỗi nhầm.
+- **Kiểm tra giá trị falsy**: phân biệt `0`, `""`, `null`, `undefined` khi validate dữ liệu rỗng.
+- **Hiển thị ra UI**: ép số sang chuỗi bằng `String()` hoặc `.toString()` khi ghép nội dung hiển thị.
+- **So sánh dữ liệu API**: dùng `===` và ép kiểu rõ ràng để tránh bug khi backend trả `"1"` thay vì `1`.
+
+:::
 
 ---
 

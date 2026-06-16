@@ -11,12 +11,48 @@ title: "1. Equality Comparisons"
 
 ## Mục lục
 
+- [Vì sao có === (và Object.is)?](#vì-sao-có--và-objectis)
 - [Tổng quan 4 thuật toán](#tổng-quan-4-thuật-toán)
 - [== Loose Equality](#-loose-equality)
 - [=== Strict Equality](#-strict-equality)
 - [SameValueZero](#samevaluezero)
 - [SameValue (Object.is)](#samevalue-objectis)
 - [Khi nào dùng cái nào?](#khi-nào-dùng-cái-nào)
+
+---
+
+## Vì sao có === (và Object.is)?
+
+**Vấn đề:** `==` (loose equality) **tự ép kiểu** trước khi so sánh, nên kết quả rất khó đoán và dễ sinh bug. Hai giá trị "không liên quan" lại bằng nhau:
+
+```js
+0 == "";            // true — số 0 bằng chuỗi rỗng?!
+null == undefined;  // true
+"1" == 1;           // true — chuỗi "1" bằng số 1
+[] == false;        // true — mảng rỗng bằng false
+
+// Khó suy luận, phải nhớ bảng quy tắc ép kiểu trong đầu
+```
+
+**Giải pháp:** `===` (strict equality) ra đời để **so sánh KHÔNG ép kiểu** — khác kiểu là `false` ngay, kết quả dễ đoán nên trở thành chuẩn nên dùng. `Object.is` (ES6) bổ sung cho vài ca biên mà `===` còn lệch:
+
+```js
+0 === "";                 // false — khác kiểu, dừng luôn
+"1" === 1;                // false — không ép kiểu
+null === undefined;       // false — phân biệt rõ ràng
+
+Object.is(NaN, NaN);      // true  — === trả false
+Object.is(0, -0);         // false — === trả true
+```
+
+:::tip[Dùng thực tế]
+
+- Luôn dùng `===`/`!==` trong mọi điều kiện `if`, `while`, ternary để tránh ép kiểu ngầm.
+- Kiểm tra `NaN` bằng `Object.is(x, NaN)` hoặc `Number.isNaN(x)` — đừng dùng `x === NaN` (luôn `false`).
+- Hiểu vì sao linter (rule `eqeqeq`) cấm `==`: loại bỏ cả lớp bug ép kiểu khó debug.
+- Kiểm tra `null`/`undefined` đúng cách: dùng `x == null` (idiom bắt cả hai) hoặc `x === null` / `x === undefined` khi cần phân biệt.
+
+:::
 
 ---
 

@@ -11,12 +11,64 @@ title: "1. Modules: CommonJS vs ES Modules"
 
 ## Mục lục
 
+- [Vì sao module ra đời?](#vì-sao-module-ra-đời)
 - [Lịch sử module trong JS](#lịch-sử-module-trong-js)
 - [CommonJS (CJS)](#commonjs-cjs)
 - [ES Modules (ESM)](#es-modules-esm)
 - [Default vs Named export](#default-vs-named-export)
 - [Dynamic import](#dynamic-import)
 - [Interop CJS và ESM](#interop-cjs-và-esm)
+
+---
+
+## Vì sao module ra đời?
+
+**Vấn đề:** Trước đây nhiều file `<script>` cùng nhét biến/hàm vào **global scope**, dễ đụng độ tên giữa các file:
+
+```js
+// utils.js — load qua <script>
+var total = 0;
+function init() { /* ... */ }
+
+// cart.js — load qua <script> sau utils.js
+var total = 100;            // ghi đè total của utils.js!
+function init() { /* ... */ } // ghi đè luôn init() ở trên
+
+// app.js
+init();   // gọi nhầm init() nào? tuỳ thứ tự load <script>
+```
+
+Phải tự xếp thứ tự `<script>` cho đúng, khó biết file nào phụ thuộc file nào. Người ta workaround bằng **IIFE + namespace object** (gói code trong một biến global duy nhất), rồi **CommonJS** (`require`) cho Node.
+
+**Giải pháp:** **ES Modules** (ES6) — mỗi file là một module có **scope riêng**, không làm bẩn global. Dùng `export` để chia sẻ, `import` để khai báo phụ thuộc rõ ràng:
+
+```js
+// utils.js
+export let total = 0;            // named export
+export function init() { /* ... */ }
+
+// cart.js
+export let total = 100;          // không đụng total của utils.js
+export default function init() { /* ... */ } // default export
+
+// app.js
+import { init as initUtils, total } from "./utils.js";
+import initCart from "./cart.js";
+
+initUtils(); // rõ ràng gọi cái nào
+initCart();
+```
+
+Mỗi module có scope riêng nên không còn đụng tên; phụ thuộc khai báo tường minh; ESM luôn chạy ở **strict mode**; và bundler có thể **tree-shaking** (loại bỏ code không dùng khi build).
+
+:::tip[Dùng thực tế]
+
+- **Tách code theo chức năng** — mỗi tính năng một file (`auth.js`, `cart.js`...), dễ đọc, dễ test.
+- **Tái sử dụng util giữa các project** — viết `formatDate` một lần rồi `import` ở nhiều nơi.
+- **Import thư viện npm** — `import axios from "axios"` thay vì gắn thẻ `<script>` toàn cục.
+- **Lazy load (dynamic import)** — `await import("./Heavy.js")` để chia nhỏ bundle, chỉ tải khi cần.
+
+:::
 
 ---
 

@@ -11,11 +11,74 @@ title: "1. Function Parameters"
 
 ## Mục lục
 
+- [Vì sao các kiểu tham số mới ra đời?](#vì-sao-các-kiểu-tham-số-mới-ra-đời)
 - [Khai báo hàm](#khai-báo-hàm)
 - [Default parameters](#default-parameters)
 - [Rest parameters](#rest-parameters)
 - [Destructuring parameters](#destructuring-parameters)
 - [Named arguments pattern](#named-arguments-pattern)
+
+---
+
+## Vì sao các kiểu tham số mới ra đời?
+
+Trước ES6, việc xử lý tham số khá thủ công và dễ sinh lỗi. Các tính năng như default, rest và destructuring ra đời để giải quyết đúng những điểm khó chịu đó.
+
+**Vấn đề:**
+
+```js
+// Đặt mặc định kiểu cũ — dễ dính bug với giá trị falsy
+function greet(name, greeting) {
+  name = name || "Anonymous";     // truyền "" cũng bị thay thành "Anonymous"!
+  greeting = greeting || "Hi";    // tương tự với 0, false
+  return `${greeting} ${name}`;
+}
+
+// Gom nhiều đối số kiểu cũ — phải dùng arguments
+function sum() {
+  // arguments KHÔNG phải mảng thật, không có reduce/map/filter
+  var total = 0;
+  for (var i = 0; i < arguments.length; i++) {
+    total += arguments[i];
+  }
+  return total;
+}
+
+// Nhận options kiểu cũ — phải gỡ từng property
+function createUser(options) {
+  var name = options.name;
+  var age = options.age;
+  // ...
+}
+```
+
+**Giải pháp:**
+
+```js
+// Default parameters — chỉ apply khi giá trị là undefined, an toàn với 0/""/false
+function greet(name = "Anonymous", greeting = "Hi") {
+  return `${greeting} ${name}`;
+}
+
+// Rest parameters — gom đối số thành MẢNG THẬT, dùng được reduce/map/filter
+function sum(...nums) {
+  return nums.reduce((a, b) => a + b, 0);
+}
+
+// Destructuring — lấy thẳng property ngay tại tham số
+function createUser({ name, age }) {
+  // dùng name, age trực tiếp
+}
+```
+
+:::tip[Dùng thực tế]
+
+- Hàm cấu hình có nhiều tùy chọn mặc định: `function setup({ timeout = 3000, retries = 3 } = {})`.
+- Hàm tính toán với số lượng đối số không cố định: `sum(...nums)`, `Math.max(...values)`.
+- Nhận config object cho component/API: `function Button({ text, color, onClick })`.
+- Truyền "named arguments" để code dễ đọc, tránh nhầm thứ tự đối số.
+
+:::
 
 ---
 

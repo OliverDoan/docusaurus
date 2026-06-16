@@ -11,11 +11,51 @@ title: "2. Object và typeof"
 
 ## Mục lục
 
+- [Vì sao cần typeof & cách kiểm tra kiểu?](#vì-sao-cần-typeof--cách-kiểm-tra-kiểu)
 - [Object cơ bản](#object-cơ-bản)
 - [Truy cập property](#truy-cập-property)
 - [Computed property](#computed-property)
 - [Toán tử typeof](#toán-tử-typeof)
 - [Toán tử in và Object.hasOwn](#toán-tử-in-và-objecthasown)
+
+---
+
+## Vì sao cần typeof & cách kiểm tra kiểu?
+
+**Vấn đề:** JS là ngôn ngữ **động kiểu** (dynamically typed) — một biến có thể chứa bất kỳ kiểu nào lúc runtime. Bạn không biết chắc nó đang giữ gì cho tới khi chạy, nên dễ gọi nhầm method không tồn tại.
+
+```js
+function shout(value) {
+  return value.toUpperCase(); // chỉ hợp lệ với string
+}
+
+shout("hi");  // "HI"
+shout(42);    // TypeError: value.toUpperCase is not a function
+shout(null);  // TypeError: Cannot read properties of null
+```
+
+**Giải pháp:** Toán tử `typeof` ra đời để **kiểm tra kiểu lúc chạy** trước khi xử lý. Nhưng nó có vài quirk lịch sử cần nhớ: `typeof null === "object"` (bug giữ lại để tương thích) và `typeof [] === "object"` (mảng cũng là object) — nên muốn nhận diện mảng phải dùng `Array.isArray()`.
+
+```js
+function shout(value) {
+  if (typeof value !== "string") return String(value).toUpperCase();
+  return value.toUpperCase();
+}
+
+typeof null;            // "object" — quirk, KHÔNG phải "null"
+typeof [];              // "object" — mảng vẫn là object
+Array.isArray([1, 2]);  // true  — cách đúng để nhận diện mảng
+Array.isArray({});      // false
+```
+
+:::tip[Dùng thực tế]
+
+- **Validate input** trước khi xử lý: `if (typeof age !== "number") throw new Error(...)`.
+- **Hàm nhận nhiều kiểu**: rẽ nhánh theo `typeof` để xử lý string, number, object khác nhau.
+- **Guard trước khi gọi method**: `if (typeof obj.greet === "function") obj.greet()`.
+- **Kiểm tra mảng**: luôn dùng `Array.isArray(x)` thay vì `typeof x === "object"`.
+
+:::
 
 ---
 

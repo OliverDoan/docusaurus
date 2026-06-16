@@ -11,6 +11,7 @@ title: "1. Operators"
 
 ## Mục lục
 
+- [Vì sao có các toán tử hiện đại?](#vì-sao-có-các-toán-tử-hiện-đại)
 - [Arithmetic](#arithmetic)
 - [Assignment](#assignment)
 - [Comparison](#comparison)
@@ -19,6 +20,52 @@ title: "1. Operators"
 - [String](#string)
 - [Conditional & Comma](#conditional--comma)
 - [Spread, Rest, Destructuring](#spread-rest-destructuring)
+
+---
+
+## Vì sao có các toán tử hiện đại?
+
+Trước khi có các toán tử ES2015+, nhiều thao tác hằng ngày phải viết rất dài dòng và dễ sai.
+
+**Vấn đề:**
+
+```js
+// Sao chép / gộp object phải dùng Object.assign
+const p = Object.assign({}, o, { z: 3 });
+
+// Truy cập thuộc tính lồng sâu phải check từng tầng
+const city = user && user.address && user.address.city;
+
+// Đặt mặc định bằng || — SAI khi giá trị hợp lệ là 0 hoặc ""
+const count = input.count || 10; // count = 0 sẽ bị thay bằng 10!
+const name = input.name || "N/A"; // name = "" sẽ bị thay bằng "N/A"!
+```
+
+**Giải pháp:**
+
+```js
+// Spread ... — sao chép / gộp gọn gàng
+const p = { ...o, z: 3 };
+
+// Optional chaining ?. — truy cập an toàn, trả undefined thay vì lỗi
+const city = user?.address?.city;
+
+// Nullish coalescing ?? — chỉ thay khi null/undefined, giữ nguyên 0 và ""
+const count = input.count ?? 10; // count = 0 vẫn là 0
+const name = input.name ?? "N/A"; // name = "" vẫn là ""
+
+// Logical assignment — gán có điều kiện ngắn gọn
+config.timeout ??= 5000;
+```
+
+:::tip[Dùng thực tế]
+
+- **Cập nhật state bất biến** (React/Redux): `setState({ ...obj, x: newValue })` thay vì sửa trực tiếp object cũ.
+- **Đọc dữ liệu API có thể thiếu**: `data?.user?.name` không vỡ khi `data` hoặc `user` chưa có.
+- **Đặt mặc định an toàn**: `const count = res.count ?? 0` giữ đúng giá trị `0` từ server.
+- **Gộp mảng / object**: `[...listA, ...listB]` hay `{ ...defaults, ...overrides }` thay cho `concat`/`Object.assign`.
+
+:::
 
 ---
 

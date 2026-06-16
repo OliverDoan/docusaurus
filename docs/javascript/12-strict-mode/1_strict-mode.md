@@ -11,10 +11,61 @@ title: "1. Strict Mode"
 
 ## Mục lục
 
+- [Vì sao strict mode ra đời?](#vì-sao-strict-mode-ra-đời)
 - [Bật strict mode](#bật-strict-mode)
 - [Các thay đổi chính](#các-thay-đổi-chính)
 - [Khi nào đã tự động strict?](#khi-nào-đã-tự-động-strict)
 - [Tại sao quan trọng?](#tại-sao-quan-trọng)
+
+---
+
+## Vì sao strict mode ra đời?
+
+**Vấn đề:** JavaScript thời đầu quá "dễ dãi" (sloppy mode). Gõ sai tên biến hoặc quên `var` sẽ vô tình tạo ra **biến global**; gán cho thuộc tính read-only thì **nuốt lỗi âm thầm**; `this` trong function thường rơi về `window` — toàn những bug rất khó tìm. Vì phải **tương thích ngược**, JS không thể sửa lại các hành vi cũ này.
+
+```js
+// Sloppy mode — mọi thứ "vẫn chạy" nhưng sai
+function test() {
+  cont = 0; // gõ sai "count" → tạo biến global, không báo lỗi
+}
+
+const obj = Object.freeze({ x: 1 });
+obj.x = 2; // gán thất bại nhưng im lặng, không báo gì
+
+function show() {
+  console.log(this); // window (dễ gây bug ngoài ý muốn)
+}
+show();
+```
+
+**Giải pháp:** ES5 giới thiệu **`"use strict"`** — một chế độ **opt-in** (tự chọn bật) áp dụng ngữ nghĩa nghiêm ngặt hơn mà không phá vỡ code cũ. Triết lý là **"fail nhanh, fail rõ"**: lỗi xuất hiện ngay tại nơi sai thay vì âm thầm tích lũy.
+
+```js
+"use strict";
+
+function test() {
+  cont = 0; // ReferenceError ngay lập tức
+}
+
+const obj = Object.freeze({ x: 1 });
+obj.x = 2; // TypeError — gán thất bại được báo rõ
+
+function show() {
+  console.log(this); // undefined (không rơi về window)
+}
+show();
+```
+
+Ngoài ra strict mode còn **cấm vài cú pháp dễ sai**, và **ES Module cùng class tự động strict** nên code hiện đại đã an toàn sẵn.
+
+:::tip[Dùng thực tế]
+
+- **Bắt lỗi sớm:** thêm `"use strict"` ở đầu file/function để lộ biến gõ sai và gán hỏng ngay khi chạy.
+- **Code module/class luôn an toàn:** không cần khai báo gì thêm, ngữ nghĩa nghiêm ngặt đã bật mặc định.
+- **Tránh global vô tình:** không còn cảnh quên `var` rồi "ô nhiễm" biến toàn cục một cách lặng lẽ.
+- **Tối ưu cho engine:** code strict dễ phân tích tĩnh hơn, giúp V8/SpiderMonkey chạy đường tối ưu nhanh hơn.
+
+:::
 
 ---
 

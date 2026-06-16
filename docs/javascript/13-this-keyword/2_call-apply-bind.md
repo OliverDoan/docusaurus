@@ -11,12 +11,67 @@ title: "2. call, apply, bind và Function Borrowing"
 
 ## Mục lục
 
+- [Vì sao call/apply/bind ra đời?](#vì-sao-callapplybind-ra-đời)
 - [Tại sao cần?](#tại-sao-cần)
 - [call()](#call)
 - [apply()](#apply)
 - [bind()](#bind)
 - [Function Borrowing](#function-borrowing)
 - [So sánh tổng kết](#so-sánh-tổng-kết)
+
+---
+
+## Vì sao call/apply/bind ra đời?
+
+**Vấn đề:**
+
+Trong JavaScript, `this` được quyết định **lúc gọi hàm**, không phải
+lúc định nghĩa. Khi tách method khỏi object, hoặc truyền method làm
+callback (`setTimeout`, event listener), `this` bị mất:
+
+```js
+const user = {
+  name: "An",
+  greet() {
+    console.log(`Hello, ${this.name}`);
+  },
+};
+
+const fn = user.greet; // tách method khỏi object
+fn(); // "Hello, undefined" — this không còn là user
+
+setTimeout(user.greet, 100); // "Hello, undefined" — this = window/undefined
+```
+
+Ta cần một **cách ép `this`** về đúng object mong muốn.
+
+**Giải pháp:**
+
+```js
+fn.call(user);  // gọi ngay, this = user → "Hello, An"
+fn.apply(user); // giống call, nhưng đối số truyền dưới dạng mảng
+
+const bound = user.greet.bind(user); // tạo HÀM MỚI gắn cứng this
+setTimeout(bound, 100); // "Hello, An" — this giữ nguyên là user
+```
+
+- `call(thisArg, ...args)` — gọi ngay với `this` được chỉ định, đối
+  số truyền **rời**.
+- `apply(thisArg, argsArray)` — giống `call`, nhưng đối số là **mảng**.
+- `bind(thisArg)` — tạo **hàm mới** gắn cứng `this`, **không gọi ngay**.
+
+:::tip[Dùng thực tế]
+
+- **Method borrowing**: mượn `Array.prototype.slice.call(arguments)`
+  để biến `arguments` thành mảng thật (trước khi có rest params).
+- **Giữ `this` cho callback**: `this.handler.bind(this)` trong class
+  (trước khi có class fields) để event handler không mất context.
+- **Partial application**: dùng `bind` preset sẵn vài đối số, tạo hàm
+  chuyên biệt (vd `add.bind(null, 5)`).
+- **Variadic trước spread**: `Math.max.apply(null, arr)` để tìm max
+  của một mảng (trước khi có `Math.max(...arr)`).
+
+:::
 
 ---
 

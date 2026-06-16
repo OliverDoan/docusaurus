@@ -11,11 +11,71 @@ title: "2. Exception Handling"
 
 ## Mục lục
 
+- [Vì sao có try/catch (xử lý ngoại lệ)?](#vì-sao-có-trycatch-xử-lý-ngoại-lệ)
 - [throw](#throw)
 - [try / catch / finally](#try--catch--finally)
 - [Error Objects](#error-objects)
 - [Custom Error](#custom-error)
 - [Async error handling](#async-error-handling)
+
+---
+
+## Vì sao có try/catch (xử lý ngoại lệ)?
+
+**Vấn đề:** Nếu không có ngoại lệ, mỗi hàm phải **trả về mã lỗi** rồi tầng gọi phải tự kiểm tra từng bước. Code logic bị **trộn lẫn** với code kiểm lỗi, rườm rà và rất dễ quên check — một lỗi bỏ sót sẽ lan âm thầm và làm sập app.
+
+```js
+// Mỗi hàm trả về mã lỗi, phải check thủ công từng bước
+function loadUser(id) {
+  const res = readFile(id);
+  if (res.error) return { error: res.error };   // quên check là hỏng
+
+  const parsed = parseJson(res.data);
+  if (parsed.error) return { error: parsed.error };
+
+  const user = validate(parsed.data);
+  if (user.error) return { error: user.error };
+
+  return { data: user.data };
+}
+
+// Tầng gọi lại phải check tiếp...
+const result = loadUser(1);
+if (result.error) {
+  // xử lý lỗi — logic chính chìm trong đống if
+}
+```
+
+**Giải pháp:** Cơ chế ngoại lệ `throw` + `try/catch/finally` ra đời để **tách riêng luồng lỗi khỏi luồng chính**. Lỗi tự "nổi" lên cho tầng nào biết xử lý thì bắt; `finally` luôn dọn dẹp tài nguyên dù có lỗi hay không. Bạn cũng có thể tạo custom Error class để phân loại lỗi nghiệp vụ.
+
+```js
+function loadUser(id) {
+  const data = readFile(id);        // lỗi tự throw, không cần check
+  const parsed = JSON.parse(data);  // lỗi tự throw
+  return validate(parsed);          // throw ValidationError nếu sai
+}
+
+// Gom xử lý lỗi MỘT chỗ, luồng chính sạch sẽ
+let conn;
+try {
+  conn = openConnection();
+  const user = loadUser(1);
+  console.log(user);
+} catch (err) {
+  console.error("Tải user thất bại:", err.message); // mọi lỗi về đây
+} finally {
+  conn?.close(); // luôn giải phóng tài nguyên
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Bọc lời gọi API / parse JSON**: gói `fetch` + `JSON.parse` trong `try/catch` để mạng chập chờn hay dữ liệu hỏng không làm sập app.
+- **Validate và throw lỗi nghiệp vụ**: khi input sai, `throw new ValidationError(...)` để tầng trên bắt và trả lỗi rõ ràng cho người dùng.
+- **Đóng kết nối / giải phóng trong `finally`**: đóng DB, file, hủy timer... đảm bảo dọn dẹp dù thành công hay thất bại.
+- **Gom xử lý lỗi một chỗ**: dùng error handler ở tầng cao (middleware, top-level) thay vì rải `if (error)` khắp nơi.
+
+:::
 
 ---
 

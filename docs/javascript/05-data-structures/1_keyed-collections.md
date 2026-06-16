@@ -11,11 +11,61 @@ title: "1. Map, Set, WeakMap, WeakSet"
 
 ## Mục lục
 
+- [Vì sao Map & Set ra đời?](#vì-sao-map--set-ra-đời)
 - [Map](#map)
 - [Set](#set)
 - [WeakMap](#weakmap)
 - [WeakSet](#weakset)
 - [Khi nào dùng cái nào?](#khi-nào-dùng-cái-nào)
+
+---
+
+## Vì sao Map & Set ra đời?
+
+**Vấn đề:** trước ES6, ta thường lấy plain object làm "map". Nhưng object có nhiều hạn chế:
+
+```js
+const map = {};
+
+map[1] = "số một";
+map["1"] = "chuỗi một";
+console.log(map[1]); // "chuỗi một" — key số bị ép thành string, đè lên nhau!
+
+const user = { id: 1 };
+map[user] = "data"; // key thành "[object Object]" — không dùng object làm key được
+
+map["toString"] = "x"; // đè method có sẵn → "ô nhiễm" prototype
+
+Object.keys(map).length; // không có .size, phải đếm thủ công
+// thứ tự key không đảm bảo, key số bị engine tự sort → khó duyệt
+```
+
+Còn muốn lưu danh sách phần tử **duy nhất** thì phải tự viết vòng lặp lọc trùng.
+
+**Giải pháp:** ES6 thêm `Map` và `Set` để giải quyết trọn vẹn:
+
+```js
+const map = new Map();
+
+map.set(1, "số một");
+map.set("1", "chuỗi một");
+map.set({ id: 1 }, "data"); // object làm key thoải mái
+
+map.get(1);   // "số một" — key giữ nguyên kiểu, không ép chuỗi
+map.size;     // 3 — có size trực tiếp
+// giữ đúng thứ tự chèn, không dính prototype, duyệt thẳng bằng for...of
+
+const unique = [...new Set([1, 2, 2, 3])]; // [1, 2, 3] — tự loại trùng
+```
+
+:::tip[Dùng thực tế]
+
+- **Cache theo key là object**: `WeakMap` lưu kết quả tính toán nặng gắn với từng object, tự dọn khi object bị xoá.
+- **Đếm tần suất**: `Map` đếm số lần xuất hiện của từ/phần tử (`counts.set(x, (counts.get(x) ?? 0) + 1)`).
+- **Loại phần tử trùng khỏi mảng**: idiom một dòng `[...new Set(arr)]`.
+- **Lưu metadata gắn với DOM node**: `WeakMap` gắn dữ liệu phụ vào node mà không sửa node và không gây rò bộ nhớ.
+
+:::
 
 ---
 

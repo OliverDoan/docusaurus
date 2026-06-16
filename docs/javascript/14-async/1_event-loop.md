@@ -11,11 +11,57 @@ JavaScript chỉ chạy một việc tại một thời điểm, nhưng vẫn x�
 
 ## Mục lục
 
+- [Vì sao event loop ra đời?](#vì-sao-event-loop-ra-đời)
 - [Single-threaded model](#single-threaded-model)
 - [Event Loop](#event-loop)
 - [Macrotask vs Microtask](#macrotask-vs-microtask)
 - [setTimeout và setInterval](#settimeout-và-setinterval)
 - [queueMicrotask, requestAnimationFrame](#queuemicrotask-requestanimationframe)
+
+---
+
+## Vì sao event loop ra đời?
+
+**Vấn đề:** JavaScript chạy **đơn luồng** (single-threaded) — chỉ làm một việc tại một thời điểm. Nếu một tác vụ chạy lâu (vòng lặp nặng, chờ mạng kiểu đồng bộ), **toàn bộ trang bị "đơ"**: không click, không cuộn, không gõ được gì cho đến khi tác vụ đó xong.
+
+```js
+// Vòng lặp nặng chạy đồng bộ → block luồng chính
+function nangNe() {
+  const start = Date.now();
+  while (Date.now() - start < 5000) {
+    // bận rộn 5 giây
+  }
+  console.log("Xong");
+}
+
+nangNe();
+// Trong 5 giây này: trang treo cứng, nút bấm không phản hồi
+```
+
+**Giải pháp:** Event loop cho phép các việc tốn thời gian (network, timer, I/O) được **đẩy ra ngoài** luồng chính. JS chỉ **đăng ký callback** rồi **tiếp tục chạy** code phía sau. Khi việc kia xong, callback được đưa vào hàng đợi, và event loop sẽ chạy nó **lúc rảnh** (khi call stack rỗng). Nhờ vậy UI không bị treo dù JS chỉ có một luồng.
+
+```js
+// Bất đồng bộ → KHÔNG block luồng chính
+console.log("Bắt đầu");
+
+setTimeout(() => {
+  console.log("Xong sau 5 giây");
+}, 5000);
+
+console.log("Vẫn chạy tiếp ngay lập tức");
+// Trong 5 giây chờ: trang vẫn click, cuộn, gõ bình thường
+```
+
+Việc xếp lịch callback chia làm hai loại: **macrotask** (`setTimeout`, `setInterval`, I/O) và **microtask** (`Promise.then`, `queueMicrotask`) — trong đó **microtask được ưu tiên chạy trước**.
+
+:::tip[Dùng thực tế]
+
+- **Gọi API mà không treo UI:** `fetch()` chạy nền, UI vẫn mượt trong lúc chờ phản hồi.
+- **Xử lý click khi đang đợi dữ liệu:** người dùng vẫn bấm nút, cuộn trang dù request chưa về.
+- **Hẹn giờ:** `setTimeout`/`setInterval` cho thông báo, polling, debounce/throttle.
+- **Đọc file & animation:** đọc file bất đồng bộ trong Node (I/O), hay `requestAnimationFrame` cho hiệu ứng mượt trên browser.
+
+:::
 
 ---
 

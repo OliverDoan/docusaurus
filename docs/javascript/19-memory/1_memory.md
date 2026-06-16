@@ -11,11 +11,58 @@ title: "1. Memory Management"
 
 ## Mục lục
 
+- [Vì sao cần hiểu quản lý bộ nhớ?](#vì-sao-cần-hiểu-quản-lý-bộ-nhớ)
 - [Memory Lifecycle](#memory-lifecycle)
 - [Stack vs Heap](#stack-vs-heap)
 - [Garbage Collection](#garbage-collection)
 - [Reference Counting vs Mark-and-Sweep](#reference-counting-vs-mark-and-sweep)
 - [Memory Leaks](#memory-leaks)
+
+---
+
+## Vì sao cần hiểu quản lý bộ nhớ?
+
+**Vấn đề:**
+
+```js
+// Trong ngôn ngữ cấp thấp (C), bạn TỰ cấp phát và giải phóng:
+//   int* p = malloc(sizeof(int) * 1000);  // cấp phát
+//   free(p);                              // QUÊN free → memory leak
+//   *p = 1;                               // dùng sau free → crash
+
+// Ngay cả khi JS tự lo, bạn vẫn vô tình GIỮ tham chiếu khiến
+// bộ nhớ KHÔNG bao giờ được thu hồi:
+const data = loadHugeData();
+setInterval(() => process(data), 1000); // timer + closure giữ data mãi
+document.body.addEventListener("scroll", onScroll); // listener không gỡ
+// → web chạy lâu dần phình RAM, chậm dần, có thể crash tab
+```
+
+**Giải pháp:**
+
+```js
+// JS có GARBAGE COLLECTOR tự thu hồi object KHÔNG còn ai tham chiếu
+// (thuật toán mark-and-sweep). Hiểu cơ chế giúp chủ động tránh leak:
+
+const id = setInterval(tick, 1000);
+clearInterval(id); // gỡ timer khi không cần
+
+function onScroll() {}
+el.addEventListener("scroll", onScroll);
+el.removeEventListener("scroll", onScroll); // gỡ listener
+
+// tránh biến global "sống mãi"; dùng tham chiếu yếu cho metadata
+const cache = new WeakMap(); // entry tự dọn khi object hết reference
+```
+
+:::tip[Dùng thực tế]
+
+- **Component unmount**: gỡ `removeEventListener` (hoặc `AbortController`) khi component bị tháo, tránh listener trỏ vào DOM/node đã chết.
+- **Timer/animation**: `clearInterval` / `clearTimeout` / `cancelAnimationFrame` khi rời màn hình, tránh closure giữ dữ liệu to.
+- **Cache phình to**: giới hạn kích thước cache (LRU) hoặc dùng `WeakMap` để không cản GC.
+- **Metadata theo object**: lưu bằng `WeakMap` (key là object) — khi object bị thu hồi, metadata tự biến mất.
+
+:::
 
 ---
 

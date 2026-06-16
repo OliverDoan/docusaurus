@@ -11,12 +11,77 @@ title: "2. Callbacks, Promises, async/await"
 
 ## Mục lục
 
+- [Vì sao Promise & async/await ra đời?](#vì-sao-promise--asyncawait-ra-đời)
 - [Callbacks](#callbacks)
 - [Callback Hell](#callback-hell)
 - [Promises](#promises)
 - [Promise composition](#promise-composition)
 - [async / await](#async--await)
 - [Best practices](#best-practices)
+
+---
+
+## Vì sao Promise & async/await ra đời?
+
+**Vấn đề:** Trước đây, mọi việc bất đồng bộ đều dùng **callback**. Khi nhiều
+bước phụ thuộc nhau, callback lồng callback tạo thành "callback hell" (kim tự
+tháp lệch — "pyramid of doom"): khó đọc, và **mỗi tầng phải tự kiểm tra lỗi**:
+
+```js
+loadUser(1, (err, user) => {
+  if (err) return handle(err);
+  loadOrders(user.id, (err, orders) => {
+    if (err) return handle(err);
+    loadPayments(orders[0].id, (err, payments) => {
+      if (err) return handle(err);
+      loadInvoice(payments[0].id, (err, invoice) => {
+        if (err) return handle(err);
+        console.log(invoice); // logic chính bị đẩy sâu vào trong
+      });
+    });
+  });
+});
+```
+
+**Giải pháp:**
+
+**1. Promise (ES6)** — đối tượng đại diện cho giá trị "sẽ có trong tương lai".
+Cho phép nối chuỗi `.then()` **phẳng**, gom xử lý lỗi vào một `.catch()` duy nhất:
+
+```js
+loadUser(1)
+  .then((user) => loadOrders(user.id))
+  .then((orders) => loadPayments(orders[0].id))
+  .then((payments) => loadInvoice(payments[0].id))
+  .then((invoice) => console.log(invoice))
+  .catch(handle); // một chỗ xử lý lỗi cho cả chuỗi
+```
+
+**2. async/await (ES2017)** — viết code bất đồng bộ **trông như đồng bộ**, dùng
+`try/catch` quen thuộc. Dễ đọc nhất:
+
+```js
+async function showInvoice() {
+  try {
+    const user = await loadUser(1);
+    const orders = await loadOrders(user.id);
+    const payments = await loadPayments(orders[0].id);
+    const invoice = await loadInvoice(payments[0].id);
+    console.log(invoice);
+  } catch (err) {
+    handle(err);
+  }
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Gọi nhiều API tuần tự**: chờ kết quả bước trước rồi mới làm bước sau (`await` lần lượt).
+- **Gọi song song**: chạy nhiều request cùng lúc với `Promise.all([...])` rồi gộp kết quả.
+- **Retry khi lỗi**: bọc trong `try/catch`, thử lại vài lần trước khi báo lỗi.
+- **Đọc file tuần tự (Node)**: `await` từng thao tác I/O thay vì lồng callback.
+
+:::
 
 ---
 

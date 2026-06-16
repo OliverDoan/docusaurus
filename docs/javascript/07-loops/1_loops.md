@@ -11,12 +11,69 @@ title: "1. Loops and Iterations"
 
 ## Mục lục
 
+- [Vì sao có for...of và các kiểu lặp mới?](#vì-sao-có-forof-và-các-kiểu-lặp-mới)
 - [for loop](#for-loop)
 - [while và do...while](#while-và-dowhile)
 - [for...of](#forof)
 - [for...in](#forin)
 - [break và continue](#break-và-continue)
 - [Khi nào dùng cái nào?](#khi-nào-dùng-cái-nào)
+
+---
+
+## Vì sao có for...of và các kiểu lặp mới?
+
+**Vấn đề:**
+
+```js
+// for cổ điển dài dòng, dễ sai chỉ số (off-by-one)
+const arr = [10, 20, 30];
+for (let i = 0; i <= arr.length; i++) {
+  console.log(arr[i]); // 10, 20, 30, undefined — quên đổi <= thành <
+}
+
+// for...in dùng cho array là SAI
+arr.extra = "x";
+for (const i in arr) {
+  console.log(i); // "0", "1", "2", "extra" — key là string, kèm cả prop kế thừa, thứ tự không đảm bảo
+}
+```
+
+**Giải pháp:**
+
+```js
+// for...of (ES6): duyệt thẳng GIÁ TRỊ của mọi iterable — gọn, không lo chỉ số
+for (const v of arr) {
+  console.log(v); // 10, 20, 30
+}
+
+// for...in: dành riêng cho duyệt KEY của object
+const user = { name: "An", age: 20 };
+for (const key in user) {
+  console.log(key, user[key]);
+}
+
+// forEach / map / filter: phong cách hàm cho transformation
+arr.forEach((v) => console.log(v));
+```
+
+:::tip[Dùng thực tế]
+
+- **Duyệt mảng dữ liệu** — dùng `for...of` để lấy thẳng giá trị, khỏi quản lý chỉ số.
+- **Duyệt thuộc tính object** — dùng `for...in` kèm `hasOwnProperty` để bỏ prop kế thừa:
+
+  ```js
+  for (const key in user) {
+    if (Object.prototype.hasOwnProperty.call(user, key)) {
+      console.log(key, user[key]);
+    }
+  }
+  ```
+
+- **Duyệt `Map` / `Set`** — `for...of` chạy trực tiếp, không cần chuyển sang array.
+- **Cần `break` / `continue`** — dùng `for...of` (cho phép dừng giữa chừng), còn `forEach` thì không thoát sớm được.
+
+:::
 
 ---
 
