@@ -11,11 +11,61 @@ title: "2. Interfaces"
 
 ## Mục lục
 
+- [Vì sao có interface?](#vì-sao-có-interface)
 - [Khai báo interface](#khai-báo-interface)
 - [Extending interface](#extending-interface)
 - [Declaration Merging](#declaration-merging)
 - [Hybrid Types](#hybrid-types)
 - [Type vs Interface](#type-vs-interface)
+
+---
+
+## Vì sao có interface?
+
+**Vấn đề:** Khi định nghĩa hình dạng object **lặp lại bằng inline type** ở nhiều nơi, code bị trùng lặp; sửa một chỗ rất dễ quên chỗ khác.
+
+```ts
+// Lặp cùng một hình dạng ở nhiều nơi
+function createUser(u: { id: number; name: string; email: string }) {}
+function updateUser(u: { id: number; name: string; email: string }) {}
+function renderUser(u: { id: number; name: string }) {} // quên email → sai lệch
+
+// Thêm field "role"? Phải sửa thủ công từng nơi, sót là toang.
+```
+
+**Giải pháp:** `interface` đặt **TÊN** cho một hình dạng để **TÁI SỬ DỤNG**, mô tả một "hợp đồng" (contract) chung. Nó hỗ trợ `extends` (kế thừa), `implements` (class cam kết theo interface) và declaration merging. Sửa một nơi, áp dụng mọi nơi.
+
+```ts
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+function createUser(u: User) {}
+function updateUser(u: User) {}
+function renderUser(u: User) {}
+
+// Class cam kết tuân theo contract qua implements
+interface Repository {
+  findById(id: number): User | null;
+}
+
+class UserRepo implements Repository {
+  findById(id: number): User | null {
+    return null;
+  }
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Kiểu dùng lại nhiều nơi**: định nghĩa `User`, `Props`... một lần rồi import khắp dự án.
+- **Contract giữa các module**: bên A mô tả interface, bên B tuân theo, không phụ thuộc cài đặt cụ thể.
+- **Class implements interface**: nền tảng cho DI và repository pattern (đổi cài đặt mà không sửa nơi gọi).
+- **Mở rộng kiểu thư viện**: augment `Window`, `express.Request`... qua declaration merging (xem mục dưới).
+
+:::
 
 ---
 

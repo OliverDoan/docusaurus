@@ -11,12 +11,55 @@ title: "1. Primitive Types"
 
 ## Mục lục
 
+- [Vì sao cần kiểu tĩnh cho primitive?](#vì-sao-cần-kiểu-tĩnh-cho-primitive)
 - [Tổng quan](#tổng-quan)
 - [boolean](#boolean)
 - [number](#number)
 - [string](#string)
 - [void](#void)
 - [null và undefined](#null-và-undefined)
+
+---
+
+## Vì sao cần kiểu tĩnh cho primitive?
+
+**Vấn đề:** JavaScript là ngôn ngữ **động kiểu** — một biến có thể giữ bất kỳ loại giá trị nào và bạn có thể gán/truyền sai kiểu mà không bị báo lỗi. Sai sót chỉ lộ ra **lúc chạy** (runtime), sinh ra bug khó tìm:
+
+```ts
+// JavaScript thuần — không ai cản
+let age = 25;
+age = "hai mươi lăm"; // không báo lỗi
+
+function tongDiem(a, b) {
+  return a + b;
+}
+
+tongDiem(10, "5"); // "105" — cộng number với string, kết quả sai
+// Lỗi chỉ phát hiện khi chương trình đã chạy
+```
+
+**Giải pháp:** TypeScript cho phép thêm **chú thích kiểu** (`: string`, `: number`, `: boolean`...) cho primitive. Compiler kiểm tra **ngay lúc viết / lúc build**, bắt lỗi trước khi chạy và bật autocomplete trong IDE:
+
+```ts
+let age: number = 25;
+age = "hai mươi lăm"; // Error ngay khi viết: không gán string cho number
+
+function tongDiem(a: number, b: number): number {
+  return a + b;
+}
+
+tongDiem(10, "5"); // Error: tham số thứ 2 phải là number
+tongDiem(10, 5);   // OK → 15
+```
+
+:::tip[Dùng thực tế]
+
+- **Tham số hàm đúng kiểu**: ép người gọi truyền đúng `number`/`string`, không lo cộng nhầm số với chuỗi.
+- **Tránh `undefined is not a function`**: compiler cảnh báo khi biến có thể chưa được gán hoặc sai kiểu.
+- **Refactor an toàn**: đổi tên/đổi kiểu một biến, compiler chỉ ra mọi chỗ bị ảnh hưởng.
+- **IDE gợi ý (autocomplete)**: biết rõ kiểu nên gợi ý đúng phương thức (`.toFixed()` cho number, `.toUpperCase()` cho string).
+
+:::
 
 ---
 

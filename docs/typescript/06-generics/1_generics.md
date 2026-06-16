@@ -11,12 +11,67 @@ title: "1. Generics"
 
 ## Mục lục
 
+- [Vì sao generics ra đời?](#vì-sao-generics-ra-đời)
 - [Generic là gì?](#generic-là-gì)
 - [Generic function](#generic-function)
 - [Generic interface và type](#generic-interface-và-type)
 - [Generic class](#generic-class)
 - [Generic Constraints](#generic-constraints)
 - [Default type parameter](#default-type-parameter)
+
+---
+
+## Vì sao generics ra đời?
+
+Khi muốn viết một hàm hay cấu trúc dữ liệu **tái sử dụng cho nhiều kiểu**,
+ta chỉ có hai cách dở nếu không có generics.
+
+**Vấn đề:**
+
+```ts
+// Cách 1 — dùng any: mất kiểm tra kiểu, mất autocomplete,
+// mất luôn quan hệ giữa input và output
+function identity(x: any): any {
+  return x;
+}
+
+const n = identity(42);  // n: any — TS không còn biết đây là number
+n.toUpperCase();         // không báo lỗi, sẽ crash lúc chạy
+
+// Cách 2 — viết trùng mỗi kiểu một bản
+class NumberBox { constructor(public value: number) {} }
+class StringBox { constructor(public value: string) {} }
+// ... lặp lại mãi cho mỗi kiểu mới
+```
+
+**Giải pháp:**
+
+```ts
+// Generics <T>: tham số hoá KIỂU, giữ nguyên quan hệ input → output,
+// vẫn type-safe + autocomplete
+function identity<T>(x: T): T {
+  return x;
+}
+
+const n = identity(42);   // n: number — TS giữ đúng kiểu
+n.toUpperCase();          // Error — bắt lỗi ngay lúc biên dịch
+
+// Một class dùng cho mọi kiểu
+class Box<T> { constructor(public value: T) {} }
+const box = new Box("hi"); // Box<string>
+```
+
+Generics còn hỗ trợ **ràng buộc** với `extends` và **kiểu mặc định** (default
+type) để vừa linh hoạt vừa chặt chẽ.
+
+:::tip[Dùng thực tế]
+
+- **Hàm tiện ích**: `first<T>(arr: T[]): T | undefined` — lấy phần tử đầu cho mảng bất kỳ.
+- **Cấu trúc dữ liệu**: `Stack<T>`, `Queue<T>` — một bản dùng cho mọi kiểu phần tử.
+- **Kiểu API response**: `ApiResponse<T>` — bọc dữ liệu trả về theo từng loại resource.
+- **Promise / hook / repository**: `Promise<User>`, `Repository<T>` — giữ đúng kiểu khi bất đồng bộ hoặc truy xuất dữ liệu.
+
+:::
 
 ---
 

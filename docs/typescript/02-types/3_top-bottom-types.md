@@ -11,11 +11,52 @@ title: "3. Top types và Bottom types"
 
 ## Mục lục
 
+- [Vì sao có any, unknown, never?](#vì-sao-có-any-unknown-never)
 - [Khái niệm](#khái-niệm)
 - [any](#any)
 - [unknown](#unknown)
 - [Object và object](#object-và-object)
 - [never](#never)
+
+---
+
+## Vì sao có any, unknown, never?
+
+**Vấn đề:** Đôi khi ta **không biết trước kiểu** dữ liệu — JSON trả từ API, hay code JS cũ chưa gắn type. Dùng `any` cho nhanh thì **tắt hết kiểm tra kiểu**, mất an toàn, dễ lỗi runtime:
+
+```ts
+const data: any = JSON.parse(input);
+data.user.name.toUpperCase(); // OK lúc compile, crash nếu data không có user
+```
+
+**Giải pháp:** TS cung cấp các kiểu chuyên biệt để vẫn an toàn:
+
+```ts
+// unknown — top type AN TOÀN: nhận mọi giá trị, BẮT BUỘC narrow trước khi dùng
+const data: unknown = JSON.parse(input);
+if (typeof data === "object" && data !== null && "name" in data) {
+  // đã thu hẹp kiểu, giờ mới dùng được
+}
+
+// never — bottom type: "không bao giờ có giá trị", cho hàm luôn throw/loop vô hạn
+function fail(msg: string): never {
+  throw new Error(msg);
+}
+
+// void — hàm không trả gì
+function log(msg: string): void {
+  console.log(msg);
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Parse JSON / dữ liệu API**: cho trả về `unknown` rồi validate (Zod, type guard) trước khi truy cập field.
+- **Exhaustiveness check**: gán biến `never` ở nhánh `default` của `switch` trên union → quên xử lý case mới sẽ báo lỗi compile.
+- **Gõ hàm luôn throw**: hàm báo lỗi / kết thúc tiến trình trả `never` để TS hiểu sau đó code không chạy tiếp.
+- **Di chuyển dần từ JS**: dùng `any` tạm cho phần chưa kịp gắn type, rồi siết dần sang `unknown` / kiểu cụ thể.
+
+:::
 
 ---
 

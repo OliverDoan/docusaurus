@@ -11,10 +11,69 @@ title: "2. Abstract Classes và Inheritance"
 
 ## Mục lục
 
+- [Vì sao có abstract class?](#vì-sao-có-abstract-class)
 - [Inheritance (kế thừa)](#inheritance-kế-thừa)
 - [Abstract Class](#abstract-class)
 - [Polymorphism (đa hình)](#polymorphism-đa-hình)
 - [Interface vs Abstract Class](#interface-vs-abstract-class)
+
+---
+
+## Vì sao có abstract class?
+
+**Vấn đề:** Bạn muốn định nghĩa một **lớp khuôn** (base) chứa logic dùng
+chung, nhưng **bắt buộc** mọi lớp con phải tự cài đặt vài method riêng,
+đồng thời **không cho phép** new trực tiếp lớp khuôn đó. JS thuần không có
+cơ chế ép buộc này.
+
+```ts
+// JS thuần — không ngăn được gì
+class Shape {
+  area() {
+    throw new Error("Phải override area()"); // Chỉ lỗi lúc chạy
+  }
+}
+
+const s = new Shape(); // Vẫn new được, không ai cấm
+s.area();              // Nổ lúc runtime, không nổ lúc compile
+
+class Circle extends Shape {} // Quên implement area() — không ai báo
+```
+
+**Giải pháp:** `abstract class` + `abstract method` — không thể `new` lớp
+abstract; lớp con **bắt buộc** implement abstract method (compiler báo lỗi
+ngay nếu thiếu); vẫn chia sẻ được code chung qua kế thừa.
+
+```ts
+abstract class Shape {
+  abstract area(): number; // Lớp con bắt buộc cài đặt
+
+  describe() {             // Code chung, dùng lại cho mọi lớp con
+    return `Diện tích: ${this.area()}`;
+  }
+}
+
+new Shape();               // Error: Cannot create an instance of an abstract class
+
+class Circle extends Shape {} // Error: thiếu 'area' — báo ngay lúc compile
+
+class Square extends Shape {
+  constructor(private s: number) { super(); }
+  area(): number { return this.s ** 2; } // Bắt buộc có
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Base `Shape`** với `area()` trừu tượng — mỗi hình tự tính diện tích.
+- **Base `Repository`/`Service`** định khung CRUD chung, lớp con cài đặt
+  chi tiết truy vấn.
+- **Template Method pattern** — lớp cha định nghĩa flow, để lại các "lỗ
+  hổng" abstract cho lớp con điền vào.
+- **Framework/library** yêu cầu bạn override một số method bắt buộc khi
+  kế thừa class base của chúng.
+
+:::
 
 ---
 

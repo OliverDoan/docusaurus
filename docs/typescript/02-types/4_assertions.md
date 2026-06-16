@@ -11,12 +11,56 @@ title: "4. Type Assertions"
 
 ## Mục lục
 
+- [Vì sao có type assertion?](#vì-sao-có-type-assertion)
 - [Assertion là gì?](#assertion-là-gì)
 - [as Type](#as-type)
 - [as const](#as-const)
 - [as any](#as-any)
 - [Non-null assertion (!)](#non-null-assertion-)
 - [Từ khóa satisfies](#từ-khóa-satisfies)
+
+---
+
+## Vì sao có type assertion?
+
+Đôi khi **lập trình viên biết kiểu chính xác hơn compiler**. TS phải suy luận an toàn nên trả về kiểu rộng hoặc cảnh báo quá thận trọng, dù bạn biết rõ giá trị thật là gì.
+
+**Vấn đề:**
+
+```ts
+// getElementById trả HTMLElement | null, nhưng ta biết đó là input
+const el = document.getElementById("name");
+el.value = "abc"; // Error: el có thể null, và HTMLElement không có .value
+
+// JSON.parse trả về any → mất hết kiểu
+const data = JSON.parse('{"id":1}');
+data.id; // any, không gợi ý gì
+```
+
+**Giải pháp:**
+
+```ts
+// `as` — nói cho compiler kiểu thật
+const el = document.getElementById("name") as HTMLInputElement;
+el.value = "abc"; // OK
+
+// `as const` — cố định literal, biến thành readonly
+const cfg = { method: "GET" } as const; // method: "GET" (không phải string)
+
+// non-null `!` — khẳng định không null/undefined
+const node = document.querySelector("#app")!;
+```
+
+:::tip[Dùng thực tế]
+
+- **Ép kiểu DOM element**: `getElementById(...) as HTMLInputElement` để truy cập `.value`, `.checked`...
+- **Kết quả `JSON.parse`**: gán kiểu cho dữ liệu `any` trả về (nhưng nên kèm validation cho dữ liệu ngoài).
+- **Thu hẹp literal với `as const`**: tạo union/readonly từ mảng hoặc object hằng số.
+- **Khẳng định non-null sau khi đã check**: khi logic đảm bảo giá trị tồn tại nhưng TS chưa suy luận được.
+
+**Lưu ý:** assertion **không kiểm tra lúc chạy** — nó chỉ ghi đè kiểu cho compiler. Nếu giá trị thực sai, code vẫn lỗi runtime → ưu tiên **type guard** khi có thể.
+
+:::
 
 ---
 

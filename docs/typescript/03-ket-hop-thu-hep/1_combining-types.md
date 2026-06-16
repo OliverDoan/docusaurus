@@ -11,10 +11,58 @@ title: "1. Combining Types"
 
 ## Mục lục
 
+- [Vì sao có union, intersection & literal types?](#vì-sao-có-union-intersection--literal-types)
 - [Union Types](#union-types)
 - [Intersection Types](#intersection-types)
 - [Type Aliases](#type-aliases)
 - [keyof Operator](#keyof-operator)
+
+---
+
+## Vì sao có union, intersection & literal types?
+
+**Vấn đề:** dữ liệu thực tế thường "đa dạng": một `id` có thể là `string` HOẶC `number`, một biến trạng thái chỉ nhận vài giá trị cố định. Nếu ép một kiểu cứng thì không mô tả nổi, mà dùng `any` thì mất hết an toàn kiểu.
+
+```ts
+function fetchUser(id: any) {       // any — TS không kiểm tra gì
+  // ...
+}
+fetchUser(1);
+fetchUser("abc");
+fetchUser(true);                    // lọt — không ai chặn
+
+let status = "loading";             // chỉ là string chung chung
+status = "succes";                  // sai chính tả nhưng vẫn hợp lệ
+```
+
+**Giải pháp:** dùng **union** `A | B` (một trong nhiều kiểu), **literal types** (chỉ nhận đúng vài giá trị cụ thể) và **intersection** `A & B` (gộp nhiều kiểu thành một) để mô hình hoá dữ liệu chính xác.
+
+```ts
+function fetchUser(id: string | number) {   // union: chỉ string hoặc number
+  // ...
+}
+fetchUser(1);
+fetchUser("abc");
+// fetchUser(true);                          // Error — bị chặn ngay
+
+type Status = "loading" | "success" | "error"; // literal union
+let status: Status = "loading";
+// status = "succes";                        // Error — sai chính tả bị bắt
+
+type WithId = { id: string | number };
+type WithTimestamps = { createdAt: Date };
+type Entity = WithId & WithTimestamps;       // intersection: gộp cả hai
+const e: Entity = { id: 1, createdAt: new Date() };
+```
+
+:::tip[Dùng thực tế]
+
+- **ID linh hoạt:** `id: string | number` cho key vừa là UUID chuỗi vừa là số tự tăng.
+- **Trạng thái request:** `"idle" | "loading" | "success" | "error"` — chặn mọi giá trị sai chính tả ngay khi gõ.
+- **Gộp props:** `BaseProps & { onClose: () => void }` để mở rộng component mà không lặp lại field.
+- **Hàm nhận nhiều dạng input:** tham số `string | string[]` để vừa nhận một giá trị vừa nhận danh sách.
+
+:::
 
 ---
 

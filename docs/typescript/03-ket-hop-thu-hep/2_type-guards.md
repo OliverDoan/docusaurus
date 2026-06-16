@@ -11,6 +11,7 @@ title: "2. Type Guards và Narrowing"
 
 ## Mục lục
 
+- [Vì sao có type guard (thu hẹp kiểu)?](#vì-sao-có-type-guard-thu-hẹp-kiểu)
 - [Narrowing là gì?](#narrowing-là-gì)
 - [typeof guard](#typeof-guard)
 - [instanceof guard](#instanceof-guard)
@@ -19,6 +20,50 @@ title: "2. Type Guards và Narrowing"
 - [Truthiness check](#truthiness-check)
 - [User-defined type predicates](#user-defined-type-predicates)
 - [Assertion functions](#assertion-functions)
+
+---
+
+## Vì sao có type guard (thu hẹp kiểu)?
+
+**Vấn đề:** Khi một biến có kiểu union (`string | number`), bạn **không**
+gọi được method riêng của từng kiểu, vì compiler chưa biết hiện tại là
+kiểu nào.
+
+```ts
+function shout(x: string | number) {
+  return x.toUpperCase();
+  // Lỗi: Property 'toUpperCase' does not exist on type 'string | number'.
+  // (number không có toUpperCase)
+}
+```
+
+**Giải pháp:** Dùng **type guard** để **thu hẹp** (narrow) union về một
+kiểu cụ thể trong từng nhánh — qua `typeof`, `instanceof`, toán tử `in`,
+kiểm tra truthy/null, hoặc **custom type guard** (`function isX(v): v is X`).
+Trong nhánh đã thu hẹp, TS hiểu đúng kiểu nên vừa an toàn vừa có
+autocomplete.
+
+```ts
+function shout(x: string | number) {
+  if (typeof x === "string") {
+    return x.toUpperCase(); // x: string → OK
+  }
+  return x.toFixed(2);      // x: number → OK
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Xử lý `id: string | number`:** mỗi kiểu xử lý một cách (string thì
+  trim, number thì so sánh) — narrow trước khi dùng.
+- **Phân biệt loại đối tượng:** discriminated union theo field `"type"`/
+  `"kind"`, dùng `switch` để rẽ nhánh từng loại.
+- **Kiểm tra null trước khi dùng:** loại bỏ `null`/`undefined` để truy
+  cập thuộc tính an toàn.
+- **Custom guard cho dữ liệu API:** viết `isUser(data): data is User` để
+  xác thực shape của response trước khi xử lý tiếp.
+
+:::
 
 ---
 

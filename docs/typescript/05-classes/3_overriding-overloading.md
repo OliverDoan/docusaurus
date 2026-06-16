@@ -11,10 +11,68 @@ title: "3. Method Overriding và Constructor Overloading"
 
 ## Mục lục
 
+- [Vì sao có overriding & overloading?](#vì-sao-có-overriding--overloading)
 - [Method Overriding](#method-overriding)
 - [Từ khóa override](#từ-khóa-override)
 - [Constructor Overloading](#constructor-overloading)
 - [Method Overloading](#method-overloading)
+
+---
+
+## Vì sao có overriding & overloading?
+
+**Vấn đề:**
+
+```ts
+// (1) Ghi đè method cha bằng cách gõ tay — gõ sai tên là JS lặng lẽ
+// tạo method MỚI chứ không báo lỗi → bug khó tìm.
+class Animal {
+  speak(): string { return "..."; }
+}
+
+class Dog extends Animal {
+  speack(): string { return "Woof!"; } // typo "speack"!
+  // JS coi đây là method mới, Animal.speak() vẫn được gọi → sai hành vi.
+}
+
+// (2) Một hàm cần nhận NHIỀU DẠNG tham số với kiểu trả về tương ứng,
+// nhưng một chữ ký đơn không diễn tả chính xác được.
+function parse(input: string | number): string | number {
+  return input; // gọi parse("x") cũng cho kiểu string | number → mơ hồ
+}
+```
+
+**Giải pháp:**
+
+```ts
+// (1) Từ khóa override — TS báo lỗi nếu method cha KHÔNG tồn tại.
+// Bật noImplicitOverride để ghi đè luôn an toàn.
+class Dog extends Animal {
+  override speack(): string { return "Woof!"; }
+  //       ^ Error: This member cannot have an 'override' modifier
+  //         because it is not declared in the base class 'Animal'.
+}
+
+// (2) Overload — khai báo nhiều chữ ký, một phần cài đặt.
+// Compiler chọn đúng kiểu trả về theo đối số.
+function parse(input: string): string;
+function parse(input: number): number;
+function parse(input: string | number): string | number {
+  return input;
+}
+
+parse("x"); // type: string
+parse(10);  // type: number
+```
+
+:::tip[Dùng thực tế]
+
+- Ghi đè method an toàn khi kế thừa: `override` + `noImplicitOverride` chặn typo và bắt lỗi khi method cha bị rename.
+- Hàm tạo nhận `(string)` hoặc `(number)` và trả về kiểu khác nhau tùy đối số.
+- API linh hoạt nhưng vẫn type-safe: một tên hàm phục vụ nhiều dạng input, IntelliSense gợi ý đúng từng overload.
+- Refactor lớp cha yên tâm: đổi chữ ký method cha là TS lập tức báo mọi nơi ghi đè bị lệch.
+
+:::
 
 ---
 

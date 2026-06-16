@@ -11,11 +11,59 @@ title: "1. Class cơ bản và Access Modifiers"
 
 ## Mục lục
 
+- [Vì sao TypeScript bổ sung gì cho class?](#vì-sao-typescript-bổ-sung-gì-cho-class)
 - [Khai báo class](#khai-báo-class)
 - [Constructor và parameter properties](#constructor-và-parameter-properties)
 - [Access modifiers](#access-modifiers)
 - [readonly property](#readonly-property)
 - [static member](#static-member)
+
+---
+
+## Vì sao TypeScript bổ sung gì cho class?
+
+**Vấn đề:**
+
+Class trong JS thuần không có cách **khai báo mức truy cập** rõ ràng — trước khi có `#private`, mọi thứ đều public và dễ bị sửa bậy từ bên ngoài. Cũng không kiểm tra kiểu thuộc tính, và phải viết constructor gán field thủ công khá dài dòng.
+
+```ts
+class User {
+  constructor(id, name, password) {
+    this.id = id;             // không khóa kiểu
+    this.name = name;
+    this.password = password; // ai cũng đọc/sửa được: u.password = "..."
+  }
+}
+```
+
+**Giải pháp:**
+
+TypeScript thêm vào class: access modifier `public` / `private` / `protected`, `readonly`, parameter properties (gán field ngay trên tham số constructor), kiểu cho field/method, và `implements` interface. Kết quả là đóng gói (encapsulation) tốt hơn và an toàn kiểu.
+
+```ts
+interface HasId {
+  id: number;
+}
+
+class User implements HasId {
+  constructor(
+    public readonly id: number,   // khóa kiểu + chỉ gán 1 lần
+    public name: string,
+    private password: string,     // không truy cập từ ngoài
+  ) {}
+}
+```
+
+Lưu ý: `private` của TS là **compile-time** (chỉ trình biên dịch chặn), khác `#field` chặn ở **runtime**.
+
+:::tip[Dùng thực tế]
+
+- **Service / model có field private**: ẩn `password`, `apiKey`, state nội bộ khỏi bên ngoài.
+- **`readonly` cho id**: khóa `id`, `createdAt` để không bị sửa nhầm sau khi khởi tạo.
+- **Parameter properties**: rút gọn constructor của DTO/entity nhiều field, bớt code lặp.
+- **`implements` interface**: ép class tuân theo hợp đồng (vd `Repository`, `HasId`), dễ thay thế và mock khi test.
+
+:::
 
 ---
 

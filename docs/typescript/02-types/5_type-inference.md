@@ -11,11 +11,59 @@ title: "5. Type Inference và Compatibility"
 
 ## Mục lục
 
+- [Vì sao cần type inference?](#vì-sao-cần-type-inference)
 - [Type Inference](#type-inference)
 - [Contextual Typing](#contextual-typing)
 - [Best Common Type](#best-common-type)
 - [Widening và Narrowing](#widening-và-narrowing)
 - [Type Compatibility](#type-compatibility)
+
+---
+
+## Vì sao cần type inference?
+
+**Vấn đề:** Nếu phải ghi chú thích kiểu cho **mọi** biến và **mọi** return,
+code trở nên rườm rà, trùng lặp — kiểu hiển nhiên vẫn phải viết lại, vừa
+dài vừa nản:
+
+```ts
+const n: number = 5;
+const name: string = "An";
+const tags: string[] = ["a", "b"];
+
+function add(a: number, b: number): number {
+  return a + b; // return number rõ ràng mà vẫn phải khai báo
+}
+```
+
+**Giải pháp:** TypeScript **tự suy luận kiểu** từ giá trị và ngữ cảnh
+(initializer, return, đối số mặc định, contextual typing) → code gọn
+**nhưng vẫn type-safe**. Nguyên tắc: để TS suy luận khi đã rõ ràng, chỉ
+annotate khi thật sự cần (tham số hàm, public API, hoặc khi inference sai
+hay quá rộng):
+
+```ts
+const n = 5;             // number
+const name = "An";       // string
+const tags = ["a", "b"]; // string[]
+
+function add(a: number, b: number) {
+  return a + b; // return type tự suy ra: number
+}
+```
+
+:::tip[Dùng thực tế]
+
+- Bỏ chú thích thừa cho biến khởi tạo: `const count = 0;` thay vì
+  `const count: number = 0;`.
+- Để return type tự suy ra cho hàm nội bộ, chỉ annotate return ở public
+  API để khoá hợp đồng (contract) rõ ràng.
+- Callback của array method tự biết kiểu phần tử:
+  `[1, 2, 3].map((x) => x * 2)` — TS biết `x: number`.
+- Cân bằng: để TS suy luận khi hiển nhiên, annotate tham số hàm và những
+  chỗ inference cho ra kiểu sai hoặc quá rộng.
+
+:::
 
 ---
 

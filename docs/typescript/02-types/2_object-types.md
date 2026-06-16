@@ -11,11 +11,61 @@ title: "2. Object Types"
 
 ## Mục lục
 
+- [Vì sao cần định kiểu cho object?](#vì-sao-cần-định-kiểu-cho-object)
 - [Interface](#interface)
 - [Class](#class)
 - [Enum](#enum)
 - [Array](#array)
 - [Tuple](#tuple)
+
+---
+
+## Vì sao cần định kiểu cho object?
+
+Object trong JavaScript không có **hình dạng (shape)** cố định: có thể thêm, bớt, sửa thuộc tính bất cứ lúc nào. Truy cập sai tên thuộc tính (gõ nhầm), thiếu field, hay gán sai kiểu cho field đều **không báo lỗi lúc viết code** — chỉ vỡ ra lúc chạy.
+
+**Vấn đề:**
+
+```ts
+// JavaScript — không có ràng buộc shape
+const user = { id: 1, name: "An", isActive: true };
+
+console.log(user.nmae);     // undefined — gõ nhầm "name" → "nmae", không ai báo
+console.log(user.email);    // undefined — field không tồn tại, vẫn chạy
+user.isActive = "yes";      // gán sai kiểu (string thay vì boolean), vẫn chạy
+
+// Lỗi chỉ lộ ra lúc runtime, có khi tận production
+```
+
+**Giải pháp:**
+
+```ts
+// TypeScript — mô tả HÌNH DẠNG object
+interface User {
+  readonly id: number;        // không cho sửa sau khi tạo
+  name: string;               // bắt buộc
+  isActive: boolean;          // đúng kiểu
+  email?: string;             // optional (?)
+  [key: string]: unknown;     // index signature — key động
+}
+
+const user: User = { id: 1, name: "An", isActive: true };
+
+console.log(user.nmae);   // Error: thuộc tính 'nmae' không tồn tại
+user.isActive = "yes";    // Error: 'string' không gán được cho 'boolean'
+user.id = 2;              // Error: 'id' là readonly
+```
+
+Compiler bắt lỗi ngay khi **thiếu field bắt buộc, thừa field lạ, hoặc sai kiểu**, đồng thời editor **autocomplete** đúng tên thuộc tính nên gần như không gõ nhầm.
+
+:::tip[Dùng thực tế]
+
+- **Định kiểu response API**: mô tả shape JSON trả về để dùng `data.user.name` an toàn, không lo field đổi tên.
+- **Props của component**: khai báo props bắt buộc/optional cho React, gọi thiếu prop là báo lỗi ngay.
+- **Config object**: ràng buộc các tùy chọn cấu hình hợp lệ, tránh gõ nhầm key như `tiemout` thay vì `timeout`.
+- **Dữ liệu lồng nhau (nested)**: mô tả object trong object (ví dụ `user.address.city`) để truy cập sâu vẫn được kiểm tra kiểu.
+
+:::
 
 ---
 

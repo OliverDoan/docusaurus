@@ -11,12 +11,78 @@ title: "2. Decorators"
 
 ## Mục lục
 
+- [Vì sao có decorators?](#vì-sao-có-decorators)
 - [Decorator là gì?](#decorator-là-gì)
 - [Class Decorator](#class-decorator)
 - [Method Decorator](#method-decorator)
 - [Property Decorator](#property-decorator)
 - [Parameter Decorator](#parameter-decorator)
 - [Decorator hiện đại (Stage 3)](#decorator-hiện-đại-stage-3)
+
+---
+
+## Vì sao có decorators?
+
+Nhiều mối quan tâm **cắt ngang (cross-cutting)** — ghi log, đo thời gian
+chạy, kiểm tra quyền, validate input, đăng ký metadata — không thuộc về
+logic chính của method. Nếu nhét thủ công vào từng method thì **lặp code**
+và **lẫn lộn** với nghiệp vụ:
+
+**Vấn đề:**
+
+```ts
+class Calc {
+  add(a: number, b: number) {
+    console.log("Call add với", [a, b]);   // logging lặp
+    const start = performance.now();         // đo thời gian lặp
+    const result = a + b;                    // logic chính bị chìm
+    console.log("Mất", performance.now() - start, "ms");
+    return result;
+  }
+
+  sub(a: number, b: number) {
+    console.log("Call sub với", [a, b]);   // lại lặp y hệt
+    const start = performance.now();
+    const result = a - b;
+    console.log("Mất", performance.now() - start, "ms");
+    return result;
+  }
+}
+```
+
+**Giải pháp:**
+
+```ts
+// Gắn @log / @timed một cách KHAI BÁO, tách hẳn khỏi logic chính
+class Calc {
+  @log
+  @timed
+  add(a: number, b: number) { return a + b; }
+
+  @log
+  @timed
+  sub(a: number, b: number) { return a - b; }
+}
+```
+
+Decorator `@something` gắn lên **class / method / property / parameter** để
+**thêm hành vi hoặc metadata** một cách khai báo, tách khỏi logic nghiệp vụ.
+Đây là nền tảng của Angular, NestJS và TypeORM. (Lưu ý: cần bật
+`experimentalDecorators` cho decorator legacy, hoặc dùng decorator chuẩn ES
+trên TS 5.0+ — xem mục [Bật decorator](#bật-decorator).)
+
+:::tip[Dùng thực tế]
+
+- **Angular / NestJS**: `@Component`, `@Injectable` đánh dấu class cho DI
+  container.
+- **TypeORM**: `@Entity`, `@Column` map class/property sang bảng và cột
+  trong database.
+- **Logging / đo hiệu năng**: `@log`, `@timed` wrap method để ghi log hoặc
+  đo thời gian mà không đụng vào nội dung method.
+- **Binding dữ liệu**: `@Input` (Angular) khai báo property nhận dữ liệu
+  từ component cha.
+
+:::
 
 ---
 

@@ -11,11 +11,65 @@ title: "1. Advanced Types"
 
 ## Mục lục
 
+- [Vì sao có các kiểu nâng cao?](#vì-sao-có-các-kiểu-nâng-cao)
 - [Literal Types](#literal-types)
 - [Template Literal Types](#template-literal-types)
 - [Mapped Types](#mapped-types)
 - [Conditional Types](#conditional-types)
 - [Recursive Types](#recursive-types)
+
+---
+
+## Vì sao có các kiểu nâng cao?
+
+Trong dự án thực, nhiều kiểu **phụ thuộc lẫn nhau** và phải đồng bộ với một kiểu gốc. Nếu viết tay từng kiểu, ta bị trùng lặp và dễ lệch khi kiểu gốc thay đổi.
+
+**Vấn đề:**
+
+```ts
+interface User {
+  id: number;
+  name: string;
+}
+
+// Viết tay các kiểu "ăn theo" User — trùng lặp
+interface UserPatch {
+  id?: number;
+  name?: string;
+}
+
+interface UserGetters {
+  getId: () => number;
+  getName: () => string;
+}
+
+// Thêm field `email` vào User → phải sửa tay cả 2 kiểu trên, dễ quên
+```
+
+**Giải pháp:**
+
+```ts
+// Tạo kiểu TỪ kiểu khác một cách tự động
+type Patch<T> = { [K in keyof T]?: T[K] };          // mapped type
+type Getters<T> = {
+  [K in keyof T as `get${Capitalize<string & K>}`]: () => T[K];
+};                                                   // mapped + template literal
+type Return<F> = F extends (...a: any[]) => infer R ? R : never; // conditional + infer
+
+type UserPatch = Patch<User>;     // tự động bám theo User
+type UserGetters = Getters<User>; // sửa User → các kiểu này cập nhật theo
+```
+
+Các kiểu nâng cao — `keyof`, `typeof` (lấy kiểu từ giá trị), mapped types (`{ [K in keyof T]: ... }`), conditional types (`T extends U ? X : Y`), template literal types, indexed access `T[K]` và `infer` — cho phép biến đổi và suy diễn kiểu một cách mạnh mẽ, mô hình hoá API phức tạp mà vẫn type-safe. Đây cũng là nền tảng của các utility type built-in (`Partial`, `Readonly`, `ReturnType`...).
+
+:::tip[Dùng thực tế]
+
+- **Tự sinh kiểu form từ model:** `Patch<User>` cho dữ liệu chỉnh sửa một phần, không cần khai báo lại.
+- **Suy kiểu trả về API:** `Return<typeof fetchUser>` lấy đúng kiểu kết quả của hàm, tránh lệch.
+- **Ràng buộc key hợp lệ bằng `keyof`:** chỉ cho truyền field có thật của object, sai key là báo lỗi ngay khi compile.
+- **Build kiểu sự kiện bằng template literal:** `on${Capitalize<T>}` sinh `onClick`, `onChange`... type-safe.
+
+:::
 
 ---
 

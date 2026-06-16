@@ -11,11 +11,65 @@ title: "1. Typing Functions"
 
 ## Mục lục
 
+- [Vì sao cần định kiểu cho hàm?](#vì-sao-cần-định-kiểu-cho-hàm)
 - [Tham số và return type](#tham-số-và-return-type)
 - [Optional và default parameter](#optional-và-default-parameter)
 - [Rest parameter](#rest-parameter)
 - [Function type expression](#function-type-expression)
 - [Function Overloading](#function-overloading)
+
+---
+
+## Vì sao cần định kiểu cho hàm?
+
+**Vấn đề:**
+
+Trong JavaScript, gọi hàm thiếu, thừa hoặc sai kiểu đối số không hề báo gì
+lúc viết code. Quên `return` hoặc dùng sai kiểu giá trị trả về cũng chỉ lộ
+ra khi chạy.
+
+```ts
+function add(a, b) {
+  return a + b;
+}
+
+add(1);            // không báo lỗi — kết quả là NaN
+add(1, 2, 3);      // không báo lỗi — đối số thừa bị bỏ qua
+add("1", 2);       // không báo lỗi — kết quả là "12" (nối chuỗi)
+```
+
+**Giải pháp:**
+
+TypeScript định kiểu cho cả **tham số** và **giá trị trả về**. Compiler bắt
+lỗi gọi sai ngay khi viết, editor autocomplete đối số, và bạn biết chắc kiểu
+trả về.
+
+```ts
+function add(a: number, b: number): number {
+  return a + b;
+}
+
+add(1);            // Error — thiếu đối số
+add(1, 2, 3);      // Error — thừa đối số
+add("1", 2);       // Error — sai kiểu đối số
+add(1, 2);         // OK — trả về number
+```
+
+Hỗ trợ đầy đủ: tham số optional `?`, default value, rest `...args: number[]`,
+và **function type** để mô tả chữ ký callback.
+
+:::tip[Dùng thực tế]
+
+- **Callback đúng chữ ký:** truyền hàm vào `.map`, `.filter`, hay event
+  handler mà không lo sai số lượng/kiểu tham số.
+- **Hàm tiện ích an toàn:** mọi nơi gọi hàm helper đều được kiểm tra kiểu,
+  giảm bug truyền nhầm dữ liệu.
+- **API rõ ràng cho người khác:** đồng đội dùng hàm export của bạn được
+  autocomplete và biết chính xác kiểu đầu vào/trả về.
+- **Tránh nhầm thứ tự đối số:** truyền sai thứ tự hay sai kiểu đối số bị
+  báo lỗi ngay, thay vì âm thầm chạy sai.
+
+:::
 
 ---
 

@@ -11,12 +11,65 @@ title: "1. TypeScript Modules"
 
 ## Mục lục
 
+- [Vì sao có module (và namespace)?](#vì-sao-có-module-và-namespace)
 - [ES Modules](#es-modules)
 - [Type-only import / export](#type-only-import--export)
 - [Re-export](#re-export)
 - [Namespaces](#namespaces)
 - [Ambient Modules và .d.ts](#ambient-modules-và-dts)
 - [Module Augmentation](#module-augmentation)
+
+---
+
+## Vì sao có module (và namespace)?
+
+**Vấn đề:** Khi chia code ra nhiều file, ta cần cách **chia sẻ cả giá trị
+lẫn kiểu** giữa các file mà không làm bẩn global, đồng thời khai báo phụ
+thuộc thật rõ ràng. Riêng với TS còn rủi ro: import lẫn lộn giữa **import
+kiểu** và **import giá trị** có thể ảnh hưởng bundle / việc loại bỏ code
+lúc compile.
+
+```ts
+// file: format.ts — không có import/export → là "script"
+type Money = number;             // type lẫn vào global
+function format(m: Money) { return `$${m}`; }
+// → format và Money trở thành global, dễ trùng tên với file khác
+
+// file: report.ts
+function format() { /* ... */ }  // TRÙNG TÊN ngầm → xung đột global
+```
+
+**Giải pháp:** Dùng **ES Modules** với `import` / `export` để chia sẻ cả
+kiểu lẫn giá trị, mỗi file có scope riêng. Khi chỉ cần kiểu, dùng
+`import type` / `export type` để TS **xoá hẳn lúc compile** (tránh side
+effect, giúp bundler strip type chính xác). `namespace` là giải pháp gom
+nhóm **cũ** trước khi có ES Module — nay hầu như không dùng cho code app,
+chỉ còn gặp trong file `.d.ts`.
+
+```ts
+// file: types.ts
+export type Money = number;
+
+// file: format.ts — có export → là module, scope riêng
+import type { Money } from "./types"; // chỉ import KIỂU, bị xoá khi compile
+export function format(m: Money) { return `$${m}`; }
+
+// file: report.ts — format ở đây không đụng format bên kia
+import { format } from "./format";
+format(100);
+```
+
+:::tip[Dùng thực tế]
+
+- **Tách kiểu dùng chung** ra một file `types.ts`, các module khác
+  `import type { ... }` về dùng.
+- **Tối ưu bundle**: dùng `import type` cho thứ chỉ cần kiểu → output JS
+  không kéo theo module thừa.
+- **Code mới luôn dùng module**, không dùng `namespace` để gom nhóm.
+- **Khai báo kiểu cho thư viện** thiếu type bằng file `.d.ts` (nơi
+  `namespace` vẫn còn hữu dụng).
+
+:::
 
 ---
 

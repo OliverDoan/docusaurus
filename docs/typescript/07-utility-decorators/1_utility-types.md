@@ -11,6 +11,7 @@ title: "1. Utility Types"
 
 ## Mục lục
 
+- [Vì sao có utility types?](#vì-sao-có-utility-types)
 - [Partial và Required](#partial-và-required)
 - [Readonly](#readonly)
 - [Pick và Omit](#pick-và-omit)
@@ -18,6 +19,48 @@ title: "1. Utility Types"
 - [Exclude, Extract, NonNullable](#exclude-extract-nonnullable)
 - [Parameters, ReturnType, InstanceType](#parameters-returntype-instancetype)
 - [Awaited](#awaited)
+
+---
+
+## Vì sao có utility types?
+
+Từ một kiểu gốc như `User`, ta thường cần nhiều **biến thể**: bản tất cả optional (cho update), bản chỉ vài field (cho form), bản readonly... Nếu định nghĩa lại thủ công thì trùng lặp, và khi `User` đổi field phải sửa khắp nơi — rất dễ sót.
+
+**Vấn đề:**
+
+```ts
+interface User { id: number; name: string; email: string; }
+
+// Định nghĩa lại thủ công cho mỗi biến thể — trùng lặp
+interface UserUpdate { id?: number; name?: string; email?: string }
+interface UserForm   { name: string; email: string }
+interface UserRO     { readonly id: number; readonly name: string; readonly email: string }
+
+// Thêm field "phone" vào User → phải nhớ sửa cả 3 chỗ trên, dễ sót
+```
+
+**Giải pháp:**
+
+```ts
+interface User { id: number; name: string; email: string; }
+
+type UserUpdate = Partial<User>;          // tất cả optional
+type UserForm   = Pick<User, "name" | "email">; // chỉ vài field
+type UserRO     = Readonly<User>;         // khóa không cho sửa
+
+// Thêm field "phone" vào User → cả 3 biến thể tự cập nhật theo
+```
+
+Utility types là các phép **biến đổi kiểu** dựng sẵn (`Partial<T>`, `Required<T>`, `Pick<T,K>`, `Omit<T,K>`, `Record<K,V>`, `Readonly<T>`, `ReturnType<T>`...), suy ra **tự động** từ kiểu gốc → DRY, gốc đổi thì biến thể cập nhật theo.
+
+:::tip[Dùng thực tế]
+
+- **Payload update**: dùng `Partial<User>` để client chỉ gửi field cần đổi.
+- **Chọn field cho form/response**: dùng `Pick<User, ...>` hoặc `Omit<User, "password">`.
+- **Map id → entity**: dùng `Record<string, User>` cho cache hoặc lookup table.
+- **Props bất biến**: dùng `Readonly<Props>` để khóa, tránh mutate nhầm.
+
+:::
 
 ---
 
