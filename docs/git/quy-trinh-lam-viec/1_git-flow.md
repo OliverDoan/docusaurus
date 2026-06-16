@@ -11,6 +11,7 @@ Khi làm việc trong một team lớn, bạn sẽ gặp câu hỏi: "Ai làm nh
 
 ## Mục lục
 
+- [Vì sao cần quy trình branch (Git Flow)?](#vì-sao-cần-quy-trình-branch-git-flow)
 - [1. Git Flow là gì?](#1-git-flow-là-gì)
 - [2. Các nhánh chính (Main Branches)](#2-các-nhánh-chính-main-branches)
 - [3. Các nhánh hỗ trợ (Supporting Branches)](#3-các-nhánh-hỗ-trợ-supporting-branches)
@@ -21,6 +22,47 @@ Khi làm việc trong một team lớn, bạn sẽ gặp câu hỏi: "Ai làm nh
 - [8. Lỗi thường gặp](#8-lỗi-thường-gặp)
 - [9. Câu hỏi phỏng vấn](#9-câu-hỏi-phỏng-vấn)
 - [10. Tóm tắt](#10-tóm-tắt)
+
+---
+
+## Vì sao cần quy trình branch (Git Flow)?
+
+**Vấn đề:** Nếu cả nhóm tạo nhánh tuỳ tiện, không có quy ước nhánh nào dành cho dev / release / hotfix, mọi thứ sẽ hỗn loạn:
+
+```bash
+# Mỗi người đặt tên một kiểu, không biết nhánh nào ổn định để phát hành
+git branch
+#   thuan-fix
+#   new-stuff
+#   test2
+#   urgent!!!
+#   release-final-final-v2
+
+# Hotfix lẫn lộn với feature trên cùng một nhánh
+# -> không biết bản nào đang chạy production
+# -> khó quản lý nhiều phiên bản song song
+```
+
+**Giải pháp:** Git Flow là một **quy trình branch có quy ước rõ ràng** — mỗi loại nhánh một vai trò cố định:
+
+```bash
+main        # bản phát hành ổn định (production)
+develop     # nhánh tích hợp tất cả tính năng
+feature/*   # mỗi tính năng một nhánh, từ develop vào develop
+release/*   # chuẩn bị phát hành một phiên bản
+hotfix/*    # sửa lỗi khẩn cấp trên production
+```
+
+Phù hợp với sản phẩm phát hành theo phiên bản. **Đánh đổi:** quy trình khá nặng nề — nếu nhóm triển khai liên tục (CD) thì **GitHub Flow** gọn nhẹ hơn.
+
+:::tip[Dùng thực tế]
+
+- **Sản phẩm release theo version** (v1.0, v2.0): cần `main` luôn khớp đúng bản đang chạy production.
+- **Quản lý hotfix song song:** vá lỗi khẩn cấp trên `main` mà không đụng tới các tính năng đang dở trên `develop`.
+- **Nhiều môi trường** (staging / production): mỗi nhánh ánh xạ tới một môi trường, dễ kiểm soát luồng phát hành.
+- **Team lớn cần quy tắc:** nhiều người làm song song mà vẫn biết rõ nhánh nào merge vào đâu, ai được commit vào đâu.
+
+:::
 
 ---
 

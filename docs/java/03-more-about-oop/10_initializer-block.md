@@ -11,6 +11,7 @@ Khối khởi tạo là một khối lệnh `{ }` chạy tự động để chu�
 
 ## Mục lục
 
+- [Vì sao có initializer block?](#vì-sao-có-initializer-block)
 - [Khối khởi tạo là gì?](#khối-khởi-tạo-là-gì)
 - [Instance initializer block](#instance-initializer-block)
 - [Static initializer block](#static-initializer-block)
@@ -19,6 +20,76 @@ Khối khởi tạo là một khối lệnh `{ }` chạy tự động để chu�
 - [Khi nào nên dùng?](#khi-nào-nên-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có initializer block?
+
+**Vấn đề:** Khi một lớp có **nhiều constructor**, đoạn code khởi tạo **chung** dễ bị lặp lại ở mỗi constructor — sửa một chỗ mà quên chỗ khác là lệch ngay. Ngoài ra, dữ liệu `static` phức tạp (đọc cấu hình, dựng bảng tra cứu) chỉ cần chạy **một lần** khi lớp được nạp, chứ không phải mỗi lần tạo đối tượng.
+
+```java
+public class KetNoi {
+    String host;
+    int timeout;
+    boolean dangBat;
+
+    KetNoi(String host) {
+        // Code khởi tạo chung bị lặp...
+        this.timeout = 30;
+        this.dangBat = true;
+        this.host = host;
+    }
+
+    KetNoi(String host, int timeout) {
+        // ...lặp lại y hệt ở constructor thứ hai (dễ quên/lệch)
+        this.timeout = 30;
+        this.dangBat = true;
+        this.host = host;
+        this.timeout = timeout;
+    }
+}
+```
+
+**Giải pháp:** Dùng **initializer block**. Instance initializer block `{ }` chạy **trước** thân mỗi constructor → gom code khởi tạo chung về một chỗ. Static initializer block `static { }` chạy **một lần** khi lớp được nạp → khởi tạo dữ liệu static phức tạp.
+
+```java
+public class KetNoi {
+    String host;
+    int timeout;
+    boolean dangBat;
+
+    static String phienBan;
+
+    // Static block: chạy MỘT LẦN khi lớp được nạp
+    static {
+        phienBan = "1.0.0"; // ví dụ: đọc cấu hình, dựng bảng tra cứu một lần
+    }
+
+    // Instance block: code khởi tạo chung, chạy trước mọi constructor
+    {
+        this.timeout = 30;
+        this.dangBat = true;
+    }
+
+    KetNoi(String host) {
+        this.host = host;
+    }
+
+    KetNoi(String host, int timeout) {
+        this.host = host;
+        this.timeout = timeout;
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Code khởi tạo chung cho nhiều constructor**: gán giá trị mặc định một lần trong instance block thay vì lặp ở từng constructor.
+- **Dựng cache / bảng tra cứu static một lần**: tạo `Map` tra cứu hằng số khi lớp được nạp, dùng lại cho mọi đối tượng.
+- **Đọc cấu hình lúc nạp lớp**: nạp tham số dùng chung (phiên bản, đường dẫn) trong static block.
+- **Khởi tạo static field cần logic**: giá trị static phải tính qua vòng lặp/điều kiện, không thể gán trực tiếp một dòng.
+
+:::
 
 ---
 

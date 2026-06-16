@@ -11,6 +11,7 @@ Git Flow mạnh mẽ nhưng phức tạp. Nhiều team — đặc biệt những
 
 ## Mục lục
 
+- [Vì sao có GitHub Flow & Trunk-based?](#vì-sao-có-github-flow--trunk-based)
 - [1. GitHub Flow](#1-github-flow)
 - [2. Trunk-Based Development (TBD)](#2-trunk-based-development-tbd)
 - [3. So sánh chi tiết: Git Flow vs GitHub Flow vs TBD](#3-so-sánh-chi-tiết-git-flow-vs-github-flow-vs-tbd)
@@ -18,6 +19,32 @@ Git Flow mạnh mẽ nhưng phức tạp. Nhiều team — đặc biệt những
 - [5. Chuyển đổi giữa các mô hình](#5-chuyển-đổi-giữa-các-mô-hình)
 - [6. Câu hỏi phỏng vấn](#6-câu-hỏi-phỏng-vấn)
 - [7. Tóm tắt](#7-tóm-tắt)
+
+---
+
+## Vì sao có GitHub Flow & Trunk-based?
+
+**Vấn đề:**
+
+Git Flow với nhiều nhánh dài hạn (`develop`, `release`) trở nên nặng nề khi team triển khai liên tục (CD) nhiều lần mỗi ngày. Nhánh sống lâu khiến code drift xa nhau, merge khó, tích hợp muộn — dẫn tới "merge hell". Quy trình lắm bước cũng làm chậm tốc độ ship.
+
+**Giải pháp:**
+
+Hai quy trình gọn nhẹ hợp với CI/CD ra đời:
+
+- **GitHub Flow** — chỉ giữ `main` cộng các feature branch ngắn: tạo branch → PR → merge → deploy ngay.
+- **Trunk-based** — commit thẳng vào trunk (hoặc branch siêu ngắn < 1 ngày), tích hợp liên tục, dùng feature flag để giấu phần việc chưa xong.
+
+Cả hai đề cao tích hợp sớm và deploy nhanh, tránh tích lũy thay đổi quá lớn.
+
+:::tip[Dùng thực tế]
+
+- SaaS deploy nhiều lần/ngày: nhánh ngắn merge nhanh, không chờ chu kỳ release.
+- Tính năng còn dở: bọc trong feature flag, merge vào main mà user không thấy.
+- Team nhỏ muốn quy trình đơn giản: GitHub Flow chỉ có main + feature branch.
+- Đội theo CD nghiêm túc: Trunk-based giúp main luôn ở trạng thái deployable.
+
+:::
 
 ---
 

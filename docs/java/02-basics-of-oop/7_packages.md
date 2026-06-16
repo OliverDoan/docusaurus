@@ -11,6 +11,7 @@ Package (gói) là cách tổ chức các lớp liên quan vào chung một "ng�
 
 ## Mục lục
 
+- [Vì sao cần package?](#vì-sao-cần-package)
 - [Package là gì?](#package-là-gì)
 - [Tại sao cần package?](#tại-sao-cần-package)
 - [Khai báo package](#khai-báo-package)
@@ -20,6 +21,41 @@ Package (gói) là cách tổ chức các lớp liên quan vào chung một "ng�
 - [Package có sẵn của Java](#package-có-sẵn-của-java)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao cần package?
+
+**Vấn đề:** Dự án lớn có hàng trăm class. Để chung một chỗ thì rối, và hai thư viện/đội có
+thể đặt **trùng tên** class gây xung đột; cũng khó kiểm soát class nào được lộ ra ngoài.
+
+```java
+// Cả hai đội đều có class tên Order, để chung một chỗ → đụng nhau!
+public class Order { /* đơn hàng của đội bán hàng */ }
+public class Order { /* đơn đặt món của đội nhà hàng */ } // LỖI: trùng tên
+```
+
+**Giải pháp:** **Package** nhóm class theo chức năng/miền thành **namespace phân cấp**. Tên
+đầy đủ là package + class nên không còn đụng tên; code tổ chức rõ ràng; kết hợp access
+modifier (package-private) để kiểm soát truy cập, và `import` để dùng class ở package khác.
+
+```java
+// Hai class Order khác nhau nhờ ở hai package khác nhau
+package com.company.sales.order;
+public class Order { /* đơn hàng */ }
+
+package com.company.restaurant.order;
+public class Order { /* đơn đặt món */ } // OK: tên đầy đủ khác nhau
+```
+
+:::tip[Dùng thực tế]
+
+- **Chia code theo lớp**: tách `controller`, `service`, `repository` thành các package riêng.
+- **Đặt tên theo domain ngược**: `com.company.app.order` để không trùng với tổ chức khác.
+- **Tránh trùng tên thư viện**: class `Order` của bạn không đụng `Order` của thư viện ngoài.
+- **Package-private**: để thành phần nội bộ (helper) chỉ dùng được trong cùng package.
+
+:::
 
 ---
 

@@ -11,6 +11,7 @@ Docker Hub là nơi bạn tìm, tải và chia sẻ Docker Image. Bài này hư�
 
 ## Mục lục
 
+- [Vì sao cần registry (Docker Hub)?](#vì-sao-cần-registry-docker-hub)
 - [1. Docker Hub là gì?](#1-docker-hub-là-gì)
 - [2. Tìm và chọn Image](#2-tìm-và-chọn-image)
 - [3. Official Images thường dùng](#3-official-images-thường-dùng)
@@ -19,6 +20,49 @@ Docker Hub là nơi bạn tìm, tải và chia sẻ Docker Image. Bài này hư�
 - [6. Image Naming Convention](#6-image-naming-convention)
 - [7. Best Practices](#7-best-practices)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao cần registry (Docker Hub)?
+
+**Vấn đề:**
+
+Bạn vừa build image trên máy mình. Giờ làm sao chia sẻ đúng image đó cho server, đồng nghiệp, hay pipeline CI để mọi nơi chạy giống hệt nhau?
+
+```bash
+# Build xong image trên máy local
+docker build -t my-app .
+
+# Nhưng image chỉ nằm trên máy bạn
+# Copy file image thủ công thì bất tiện, nặng, và không có version
+docker save my-app > my-app.tar   # rồi gửi file qua... USB? email? 😵
+```
+
+Chưa kể, muốn dùng phần mềm phổ biến như Postgres, Redis, Nginx — chẳng lẽ tự build từ đầu?
+
+**Giải pháp:**
+
+```bash
+# REGISTRY (Docker Hub, GHCR, ECR...) = kho lưu image trên mạng
+# Push image lên một lần, pull về ở bất cứ đâu, gắn TAG version rõ ràng
+
+docker push yourusername/my-app:v1.0   # đẩy lên kho
+docker pull yourusername/my-app:v1.0   # server/CI kéo về, chạy đúng image
+
+# Và có sẵn image chính thức của hầu hết phần mềm phổ biến
+docker pull postgres:16-alpine         # khỏi tự build
+```
+
+Registry chính là **"npm/GitHub cho Docker image"**: nơi push/pull, quản lý version, và tải image dùng chung.
+
+:::tip[Dùng thực tế]
+
+- **Chạy ngay phần mềm có sẵn**: `docker pull postgres:16` hay `redis:7-alpine` rồi chạy luôn, không cần cài đặt phức tạp.
+- **Deploy app**: build image, push lên registry, server chỉ cần `docker pull` đúng tag là chạy giống y máy dev.
+- **CI/CD**: pipeline build image, push lên registry với tag theo commit/version để deploy tự động.
+- **Registry riêng tư**: công ty dùng GHCR/ECR/Harbor để lưu image nội bộ, kiểm soát truy cập, pull nhanh trong mạng nội bộ.
+
+:::
 
 ---
 

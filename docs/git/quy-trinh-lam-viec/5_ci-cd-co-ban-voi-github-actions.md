@@ -11,6 +11,7 @@ Bạn đã biết cách viết code, tạo branch, merge PR. Nhưng ai sẽ **ki
 
 ## Mục lục
 
+- [Vì sao cần CI/CD?](#vì-sao-cần-cicd)
 - [1. CI/CD là gì?](#1-cicd-là-gì)
 - [2. GitHub Actions Overview](#2-github-actions-overview)
 - [3. Triggers (Events)](#3-triggers-events)
@@ -27,6 +28,55 @@ Bạn đã biết cách viết code, tạo branch, merge PR. Nhưng ai sẽ **ki
 - [14. Lỗi thường gặp](#14-lỗi-thường-gặp)
 - [15. Câu hỏi phỏng vấn](#15-câu-hỏi-phỏng-vấn)
 - [16. Tóm tắt](#16-tóm-tắt)
+
+---
+
+## Vì sao cần CI/CD?
+
+**Vấn đề:** Sau mỗi thay đổi, mỗi người tự chạy test/build/deploy **thủ công** — hay quên, mỗi người làm một kiểu, lỗi lọt vào main vì không ai chạy test:
+
+```yaml
+# "Quy trình" thủ công, dựa vào trí nhớ từng người
+# 1. Sửa code xong... có nhớ chạy test không?
+# - npm run lint    ← Người A quên chạy
+# - npm test        ← Người B chạy thiếu
+# - npm run build   ← Người C build máy mình OK, máy khác fail
+# 2. Deploy bằng tay: SSH lên server, copy file, restart...
+#    → dễ sai từng bước, tốn 2-3 giờ mỗi lần
+# Hậu quả: lỗi phát hiện muộn (tới khi lên prod) → rất tốn kém để sửa
+```
+
+**Giải pháp:** Dùng **CI/CD** để máy tự động làm thay con người, nhất quán mỗi lần:
+
+```yaml
+# .github/workflows/ci.yml — chạy TỰ ĐỘNG theo sự kiện git
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npm run lint   # CI tự lint mỗi lần, không ai quên
+      - run: npm test       # CI tự test → bắt lỗi sớm, main luôn xanh
+      - run: npm run build   # Build môi trường chuẩn, hết "máy tôi chạy được"
+# CI (Continuous Integration): tự build + test mỗi khi push/PR
+# CD (Continuous Delivery/Deployment): tự đóng gói và deploy
+```
+
+:::tip[Dùng thực tế]
+
+- Tự chạy **test + lint trên mỗi PR** → biết ngay code có lỗi không trong vài phút.
+- **Chặn merge** vào main khi CI đỏ → giữ nhánh chính luôn sạch, chạy được.
+- Tự **build và deploy** mỗi khi merge vào main → ship nhanh, hết deploy tay.
+- Tự **publish package / Docker image** khi gắn tag release → nhất quán, không sai thủ công.
+
+:::
 
 ---
 

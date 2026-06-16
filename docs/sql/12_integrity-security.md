@@ -11,6 +11,7 @@ Toàn vẹn dữ liệu là tập các quy tắc giữ cho dữ liệu luôn ch�
 
 ## Mục lục
 
+- [Vì sao cần toàn vẹn & bảo mật dữ liệu?](#vì-sao-cần-toàn-vẹn--bảo-mật-dữ-liệu)
 - [Data Integrity là gì](#data-integrity-là-gì)
 - [Các loại Constraint đảm bảo toàn vẹn](#các-loại-constraint-đảm-bảo-toàn-vẹn)
 - [Security: Nguyên tắc Least Privilege](#security-nguyên-tắc-least-privilege)
@@ -20,6 +21,62 @@ Toàn vẹn dữ liệu là tập các quy tắc giữ cho dữ liệu luôn ch�
 - [DB Security Best Practices](#db-security-best-practices)
 - [Row Level Security trong PostgreSQL](#row-level-security-trong-postgresql)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao cần toàn vẹn & bảo mật dữ liệu?
+
+Dữ liệu là tài sản quan trọng nhất của hệ thống. Nếu không kiểm soát chặt chẽ, sẽ phát sinh ba rủi ro lớn cùng lúc.
+
+**Vấn đề:**
+
+```sql
+-- 1) Ai cũng đọc/sửa được mọi bảng => lộ thông tin và phá hoại
+-- Một user ứng dụng bị cấp toàn quyền:
+DELETE FROM customers;        -- Xóa sạch khách hàng
+SELECT * FROM salaries;       -- Đọc trộm dữ liệu nhạy cảm
+
+-- 2) Dữ liệu không toàn vẹn => sai nghiệp vụ
+-- Đơn hàng trỏ tới khách hàng không tồn tại (mồ côi khoá ngoại):
+INSERT INTO orders (customer_id, total_amount) VALUES (9999, -50);
+-- customer_id 9999 không có thật, total_amount âm => báo cáo sai bét
+
+-- 3) Ghép chuỗi từ input => SQL Injection
+-- query = "SELECT * FROM users WHERE name = '" + input + "'"
+-- Kẻ tấn công nhập: '; DROP TABLE users; --  => mất sạch bảng
+```
+
+**Giải pháp:**
+
+```sql
+-- Toàn vẹn: ràng buộc bằng constraints (PK / FK / CHECK)
+CREATE TABLE orders (
+    order_id     SERIAL PRIMARY KEY,                        -- duy nhất
+    customer_id  INT NOT NULL REFERENCES customers(id),     -- không mồ côi
+    total_amount NUMERIC(12, 2) NOT NULL CHECK (total_amount >= 0)  -- giá trị hợp lệ
+);
+
+-- Bảo mật: phân quyền tối thiểu (least privilege)
+CREATE ROLE report_user WITH LOGIN PASSWORD 'strong_pwd';
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO report_user;  -- chỉ đọc, không sửa/xóa
+
+-- Chống injection: tham số hoá thay vì ghép chuỗi
+PREPARE find_user (TEXT) AS
+    SELECT id, name FROM users WHERE name = $1;
+EXECUTE find_user('alice');   -- input không thể can thiệp cấu trúc SQL
+
+-- Mã hoá dữ liệu nhạy cảm thay vì lưu plain text
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+INSERT INTO users (name, password_hash)
+VALUES ('alice', crypt('user_password', gen_salt('bf', 12)));
+```
+
+:::tip[Dùng thực tế]
+- **Báo cáo, BI**: cấp role read-only chỉ có `SELECT`, tránh sửa/xóa nhầm dữ liệu thật.
+- **Đơn hàng, hóa đơn**: `FOREIGN KEY` đảm bảo không có bản ghi mồ côi, `CHECK` chặn số tiền âm.
+- **Form đăng nhập, tìm kiếm**: luôn dùng prepared statement/tham số hoá để chặn SQL Injection.
+- **Mật khẩu, thẻ, CCCD**: mã hoá hoặc hash bằng `pgcrypto`, không bao giờ lưu dạng plain text.
+:::
 
 ---
 

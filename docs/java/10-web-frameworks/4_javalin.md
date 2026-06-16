@@ -11,6 +11,7 @@ Javalin là framework web Java cực kỳ nhẹ và đơn giản, theo triết l
 
 ## Mục lục
 
+- [Vì sao có Javalin?](#vì-sao-có-javalin)
 - [Javalin là gì?](#javalin-là-gì)
 - [Vì sao Javalin "siêu nhẹ"?](#vì-sao-javalin-siêu-nhẹ)
 - [Tạo ứng dụng Javalin đầu tiên](#tạo-ứng-dụng-javalin-đầu-tiên)
@@ -24,6 +25,40 @@ Javalin là framework web Java cực kỳ nhẹ và đơn giản, theo triết l
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao có Javalin?
+
+**Vấn đề:** Với một API hay dịch vụ **nhỏ**, dùng framework lớn như Spring là **quá
+mức cần thiết**. Bạn phải học nhiều khái niệm, viết nhiều cấu hình, và đối mặt với
+"ma thuật" auto-config khó hiểu (mọi thứ tự chạy ngầm, lỗi thì khó dò). Khởi động
+cũng nặng và chậm. Tốn công học và vận hành cho thứ lẽ ra chỉ cần vài dòng code.
+
+**Giải pháp:** **Javalin** — web framework **siêu nhẹ** với API tường minh, đơn giản:
+
+```java
+import io.javalin.Javalin;
+
+public class App {
+    public static void main(String[] args) {
+        // Vài dòng là có server: API rõ ràng, không "ma thuật", khởi động nhanh
+        Javalin app = Javalin.create().start(7070);
+        app.get("/path", ctx -> ctx.result("Xin chào!"));
+    }
+}
+```
+
+Mọi thứ đều rõ ràng (`app.get("/path", ctx -> ...)`), rất ít "ma thuật", khởi động
+nhanh, không ép bạn theo cấu trúc cố định, và chạy được cả Java lẫn Kotlin. Phù hợp
+khi bạn muốn đơn giản và **tự kiểm soát** mọi thứ.
+
+:::tip[Dùng thực tế]
+
+- **Microservice / API nhỏ**: một dịch vụ chỉ làm vài việc, không cần cả bộ Spring.
+- **Prototype nhanh**: dựng bản mẫu thử ý tưởng trong vài phút.
+- **Học viết web server cơ bản**: hiểu rõ request/response mà không bị che bởi annotation.
+- **Dịch vụ cần nhẹ và rõ ràng**: ít phụ thuộc, khởi động nhanh, dễ bảo trì.
+
+:::
 
 ## Javalin là gì?
 

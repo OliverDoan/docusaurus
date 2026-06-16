@@ -11,6 +11,7 @@ Quản lý biến môi trường đúng cách là kỹ năng quan trọng khi l�
 
 ## Mục lục
 
+- [Vì sao tách biến môi trường trong Compose?](#vì-sao-tách-biến-môi-trường-trong-compose)
 - [1. Tại sao cần biến môi trường?](#1-tại-sao-cần-biến-môi-trường)
 - [2. Các cách truyền biến môi trường](#2-các-cách-truyền-biến-môi-trường)
 - [3. Thứ tự ưu tiên](#3-thứ-tự-ưu-tiên)
@@ -20,6 +21,66 @@ Quản lý biến môi trường đúng cách là kỹ năng quan trọng khi l�
 - [7. Best Practices](#7-best-practices)
 - [8. Bài tập thực hành](#8-bài-tập-thực-hành)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao tách biến môi trường trong Compose?
+
+**Vấn đề:**
+
+```yaml
+# Ghi cứng cấu hình thẳng vào docker-compose.yml
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: MySuperSecretP@ss123   # Lộ secret khi commit lên git
+  web:
+    image: my-app
+    environment:
+      API_URL: https://api.prod.example.com     # Phải sửa file cho từng môi trường
+    ports:
+      - "80:3000"                               # Dev/staging/prod khác nhau → dễ sai
+```
+
+Hệ quả: mật khẩu DB, API key bị lộ trong lịch sử git; mỗi môi trường (dev/staging/prod) phải sửa lại file → dễ sai, không tái dùng được.
+
+**Giải pháp:**
+
+```yaml
+# docker-compose.yml — chỉ tham chiếu biến, không chứa giá trị thật
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}   # Nội suy ${VAR} từ .env / shell
+  web:
+    image: my-app
+    env_file:
+      - .env                              # Truyền biến vào container
+    environment:
+      API_URL: ${API_URL}
+    ports:
+      - "${APP_PORT:-3000}:3000"
+```
+
+```env
+# .env — giá trị theo môi trường, KHÔNG commit (có .env.example để document)
+DB_PASSWORD=dev123
+API_URL=http://localhost:8000
+APP_PORT=3000
+```
+
+Một file `docker-compose.yml` chạy được nhiều môi trường, secret nằm ngoài git và an toàn.
+
+:::tip[Dùng thực tế]
+
+- **DB_PASSWORD theo môi trường**: dev dùng `dev123`, prod dùng password mạnh — chỉ đổi file `.env`, không đụng compose.
+- **API_URL khác nhau**: local trỏ `http://localhost:8000`, prod trỏ domain thật, cùng một định nghĩa service.
+- **`.env` cho local**: lập trình viên giữ file riêng, không cần sửa code chung của team.
+- **Tránh commit secret**: chỉ commit `.env.example` (giá trị mẫu, rỗng), file `.env` thật để trong `.gitignore`.
+
+:::
 
 ---
 

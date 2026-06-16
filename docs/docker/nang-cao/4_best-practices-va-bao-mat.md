@@ -11,12 +11,68 @@ Bài này tổng hợp các best practices quan trọng nhất khi làm việc v
 
 ## Mục lục
 
+- [Vì sao cần best practices & bảo mật?](#vì-sao-cần-best-practices--bảo-mật)
 - [1. Dockerfile Best Practices](#1-dockerfile-best-practices)
 - [2. Security Best Practices](#2-security-best-practices)
 - [3. Performance Best Practices](#3-performance-best-practices)
 - [4. Development Best Practices](#4-development-best-practices)
 - [5. Networking Best Practices](#5-networking-best-practices)
 - [6. Tổng kết Checklist](#6-tổng-kết-checklist)
+
+---
+
+## Vì sao cần best practices & bảo mật?
+
+**Vấn đề:** Image/container làm "cho chạy được" thường KHÔNG an toàn và cồng kềnh.
+
+```dockerfile
+# ❌ Image kiểu "miễn là chạy"
+FROM node:latest                 # tag latest, đổi bất cứ lúc nào
+COPY . .                         # copy luôn cả .env, .git
+ENV DB_PASSWORD=super-secret-123 # secret nhúng cứng vào layer → lộ vĩnh viễn
+RUN npm install
+CMD ["node", "server.js"]        # chạy bằng root → chiếm container = nguy hiểm cho host
+```
+
+Hậu quả: chạy bằng **root** (kẻ tấn công thoát container có thể tác động tới host), image nền to chứa nhiều CVE, **secret** lộ vĩnh viễn trong lịch sử layer (dù sau đó có xoá), tag `latest` không kiểm soát, và không hề quét lỗ hổng.
+
+**Giải pháp:** Áp dụng best practices bảo mật theo nguyên tắc least privilege.
+
+```dockerfile
+# ✅ An toàn + gọn nhẹ
+# Stage build
+FROM node:20.11-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+
+# Stage runtime — distroless, không shell, bề mặt tấn công nhỏ
+FROM gcr.io/distroless/nodejs20-debian12
+WORKDIR /app
+COPY --from=build /app /app
+USER nonroot                     # không chạy bằng root
+# KHÔNG nhúng secret — truyền qua env/secret lúc runtime
+CMD ["server.js"]
+```
+
+```bash
+# Ghim version + quét lỗ hổng trong CI trước khi deploy
+docker build -t my-app:1.4.2 .
+trivy image --exit-code 1 --severity HIGH,CRITICAL my-app:1.4.2
+
+# Secret truyền lúc runtime, không nằm trong image
+docker run -e DB_PASSWORD="$DB_PASSWORD" my-app:1.4.2
+```
+
+:::tip[Dùng thực tế]
+
+- **Thêm USER non-root:** service Node/Python production luôn `USER appuser` thay vì root, để nếu bị chiếm container thì thiệt hại bị giới hạn.
+- **Dùng distroless/alpine:** đổi image runtime sang distroless giảm bề mặt tấn công (không shell, không package thừa) và giảm số CVE phải vá.
+- **Không COPY .env vào image:** thêm `.env`, `.git` vào `.dockerignore`; cấu hình nhạy cảm truyền qua env/secret lúc `docker run` hoặc orchestrator.
+- **Quét image bằng Trivy/Scout trong CI:** chặn pipeline khi có lỗ hổng HIGH/CRITICAL, tránh đẩy image dính CVE lên production.
+
+:::
 
 ---
 

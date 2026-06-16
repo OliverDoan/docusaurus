@@ -11,9 +11,48 @@ Trước khi viết câu lệnh SQL, bạn cần hiểu nền móng của nó: c
 
 ## Mục lục
 
+- [Vì sao có SQL?](#vì-sao-có-sql)
 - [Relational Database là gì?](#relational-database-là-gì)
 - [Lợi ích và giới hạn của RDBMS](#lợi-ích-và-giới-hạn-của-rdbms)
 - [SQL vs NoSQL](#sql-vs-nosql)
+
+---
+
+## Vì sao có SQL?
+
+**Vấn đề:** Khi lưu dữ liệu trong các file rời rạc (CSV, txt), mọi thứ nhanh chóng trở nên khó kiểm soát.
+
+```text
+users.csv          orders.csv
+id,name,email      id,user_id,total
+1,An,an@...        10,1,250000
+2,Bình,binh@...    11,2,130000
+```
+
+- Khó truy vấn theo điều kiện (lọc, sắp xếp phải tự viết code đọc từng dòng).
+- Khó liên kết nhiều thực thể (ghép `orders` với `users` thủ công, dễ sai).
+- Không đảm bảo nhất quán khi nhiều người ghi cùng lúc (ghi đè, mất dữ liệu).
+- Dễ trùng lặp dữ liệu, không có ràng buộc kiểm soát.
+
+**Giải pháp:** Dùng **cơ sở dữ liệu quan hệ** (bảng — hàng — cột) cùng **SQL** — ngôn ngữ **chuẩn** để truy vấn và thao tác dữ liệu theo cách **khai báo** (mô tả *muốn gì*, không cần viết *làm thế nào*). RDBMS lo quan hệ, ràng buộc và giao dịch.
+
+```sql
+-- Khai báo: chỉ cần mô tả kết quả mong muốn
+SELECT u.name, o.total
+FROM users u
+JOIN orders o ON o.user_id = u.id
+WHERE o.total > 100000
+ORDER BY o.total DESC;
+```
+
+:::tip[Dùng thực tế]
+
+- **Lưu user và đơn hàng có quan hệ:** một user có nhiều order, liên kết qua foreign key thay vì copy dữ liệu.
+- **Truy vấn lọc và sắp xếp:** lấy đơn hàng trên 100k, sắp xếp giảm dần chỉ bằng một câu lệnh.
+- **Báo cáo thống kê:** tổng doanh thu theo ngày, top khách hàng — dùng `GROUP BY`, hàm tổng hợp.
+- **Nhiều ứng dụng dùng chung một DB:** web, mobile, batch job cùng đọc/ghi nhất quán, an toàn khi đồng thời.
+
+:::
 
 ---
 

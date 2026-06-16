@@ -11,6 +11,7 @@ Conflict (xung đột) là điều **không thể tránh khỏi** khi làm việ
 
 ## Mục lục
 
+- [Vì sao có conflict & phải giải quyết?](#vì-sao-có-conflict--phải-giải-quyết)
 - [1. Conflict xảy ra khi nào và tại sao?](#1-conflict-xảy-ra-khi-nào-và-tại-sao)
 - [2. Conflict markers -- Đọc và hiểu](#2-conflict-markers-đọc-và-hiểu)
 - [3. Quy trình giải quyết conflict từng bước](#3-quy-trình-giải-quyết-conflict-từng-bước)
@@ -24,6 +25,47 @@ Conflict (xung đột) là điều **không thể tránh khỏi** khi làm việ
 - [11. Lỗi thường gặp](#11-lỗi-thường-gặp)
 - [12. Câu hỏi phỏng vấn](#12-câu-hỏi-phỏng-vấn)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có conflict & phải giải quyết?
+
+**Vấn đề:** Khi `git merge` hoặc `git rebase`, nếu **hai branch cùng sửa CÙNG một đoạn** của một file theo cách khác nhau, Git **không thể tự quyết** nên giữ bản nào.
+
+```bash
+# Branch A sửa dòng 5:  body { color: blue; }
+# Branch B sửa dòng 5:  body { color: green; }
+git merge branch-b
+# CONFLICT (content): Merge conflict in style.css
+# => Git KHÔNG biết chọn blue hay green
+```
+
+Nếu nhắm mắt chọn bừa một bản, bạn sẽ **xóa mất công việc của người kia** mà không hề hay biết.
+
+**Giải pháp:** Git **đánh dấu vùng xung đột** bằng markers và **yêu cầu con người quyết định** — vì chỉ con người mới hiểu ý nghĩa của code và biết cách gộp đúng. Sau khi gộp xong thì `git add` rồi `commit` (merge) hoặc `rebase --continue`.
+
+```bash
+<<<<<<< HEAD
+body { color: blue; }     # bản của bạn
+=======
+body { color: green; }    # bản của branch kia
+>>>>>>> branch-b
+
+# Bạn sửa lại thành bản đúng, rồi:
+git add style.css
+git commit          # hoặc: git rebase --continue
+```
+
+Đây là **cơ chế an toàn** để tránh mất dữ liệu: Git thà dừng lại và hỏi, còn hơn tự ý ghi đè.
+
+:::tip[Dùng thực tế]
+
+- **Hai người sửa cùng một hàm:** A và B cùng chỉnh `getGreeting()` → merge báo conflict, hai người cùng quyết bản gộp.
+- **Merge nhánh lệch lâu ngày:** feature branch tách ra cả tuần, main đã đi xa → gộp lại dễ đụng nhiều vùng conflict.
+- **Rebase qua thay đổi của người khác:** `git rebase main` áp lại commit của bạn lên các thay đổi mới của đồng đội → conflict từng commit.
+- **Dùng merge tool của IDE:** VS Code hiển thị 3-way editor để chọn _Current / Incoming / Both_ thay vì sửa markers thủ công.
+
+:::
 
 ---
 

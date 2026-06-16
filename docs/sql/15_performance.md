@@ -11,6 +11,7 @@ Tối ưu hiệu năng là việc làm cho câu truy vấn chạy nhanh hơn và
 
 ## Mục lục
 
+- [Vì sao cần tối ưu hiệu năng SQL?](#vì-sao-cần-tối-ưu-hiệu-năng-sql)
 - [Phân tích câu lệnh với EXPLAIN](#phân-tích-câu-lệnh-với-explain)
 - [Tìm query chậm với pg_stat_statements](#tìm-query-chậm-với-pg_stat_statements)
 - [Kỹ thuật tối ưu tổng quan](#kỹ-thuật-tối-ưu-tổng-quan)
@@ -20,6 +21,65 @@ Tối ưu hiệu năng là việc làm cho câu truy vấn chạy nhanh hơn và
 - [Chọn lọc cột cần thiết](#chọn-lọc-cột-cần-thiết)
 - [Pagination và Batch Update](#pagination-và-batch-update)
 - [Checklist tối ưu](#checklist-tối-ưu)
+
+---
+
+## Vì sao cần tối ưu hiệu năng SQL?
+
+Query thường chạy nhanh lúc bảng còn ít dữ liệu, nhưng khi dữ liệu lớn dần lên thì chậm đi rõ rệt: thiếu index nên phải quét toàn bảng (Seq Scan), `SELECT *` tải về cột thừa, JOIN và subquery viết kém tối ưu, ORM sinh ra N+1 query, danh sách không phân trang. Hậu quả là app phản hồi chậm, DB quá tải, có thể treo lúc cao điểm.
+
+**Vấn đề:**
+
+```sql
+-- Query "ngon" lúc bảng nhỏ, nhưng chậm dần khi orders tăng lên triệu hàng
+
+-- 1) Thiếu index trên cột lọc → Seq Scan toàn bảng
+SELECT * FROM orders WHERE status = 'pending';
+
+-- 2) SELECT * tải về cả cột TEXT/JSONB không cần
+SELECT * FROM products WHERE category_id = 5;
+
+-- 3) N+1: app lấy danh sách rồi bắn thêm N query con
+-- SELECT id, customer_id FROM orders;
+-- SELECT * FROM customers WHERE id = 1;
+-- SELECT * FROM customers WHERE id = 2; ...
+
+-- 4) Không phân trang, OFFSET lớn phải quét bỏ hàng chục nghìn hàng
+SELECT * FROM products ORDER BY created_at DESC OFFSET 50000 LIMIT 20;
+```
+
+**Giải pháp:**
+
+```sql
+-- Tối ưu dựa trên ĐO LƯỜNG: đọc kế hoạch thực thi trước khi sửa
+EXPLAIN ANALYZE
+SELECT * FROM orders WHERE status = 'pending';   -- thấy Seq Scan → cần index
+
+-- 1) Thêm index đúng cột lọc/join
+CREATE INDEX idx_orders_status ON orders (status);
+
+-- 2) Chỉ chọn cột thực sự cần thay vì SELECT *
+SELECT id, name, price FROM products WHERE category_id = 5;
+
+-- 3) Gộp N+1 thành 1 query bằng JOIN
+SELECT o.id, c.name
+FROM orders o
+JOIN customers c ON c.id = o.customer_id;
+
+-- 4) Phân trang bằng keyset thay OFFSET lớn
+SELECT id, name, created_at
+FROM products
+WHERE (created_at, id) < ('2025-06-01 10:00:00', 9820)
+ORDER BY created_at DESC, id DESC
+LIMIT 20;
+```
+
+:::tip[Dùng thực tế]
+- **API danh sách đơn hàng chậm dần:** chạy `EXPLAIN ANALYZE`, thấy `Seq Scan` trên `orders`, thêm index cho cột lọc/join là phản hồi giảm từ vài giây xuống mili-giây.
+- **Màn hình sản phẩm tải nặng:** bỏ `SELECT *`, chỉ lấy cột hiển thị để giảm I/O và băng thông mạng, đồng thời tận dụng được Index Only Scan.
+- **Trang report bị N+1 từ ORM:** thay vòng lặp query con bằng một JOIN duy nhất, cắt hàng trăm round-trip xuống còn một.
+- **Danh sách hàng chục nghìn bản ghi:** chuyển sang keyset pagination để mỗi trang chạy trong thời gian hằng số, không chậm theo số trang.
+:::
 
 ---
 

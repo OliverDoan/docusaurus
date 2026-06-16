@@ -11,6 +11,7 @@ Bạn phát hiện bug nhưng không biết nó xuất hiện từ commit nào? 
 
 ## Mục lục
 
+- [Vì sao có git bisect?](#vì-sao-có-git-bisect)
 - [1. Git Bisect — Binary Search tìm commit gây bug](#1-git-bisect-binary-search-tìm-commit-gây-bug)
 - [2. Git Blame — Ai sửa dòng nào?](#2-git-blame-ai-sửa-dòng-nào)
 - [3. Git Log Debugging](#3-git-log-debugging)
@@ -19,6 +20,51 @@ Bạn phát hiện bug nhưng không biết nó xuất hiện từ commit nào? 
 - [6. Lỗi thường gặp](#6-lỗi-thường-gặp)
 - [7. Câu hỏi phỏng vấn](#7-câu-hỏi-phỏng-vấn)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có git bisect?
+
+**Vấn đề:**
+
+```bash
+# Một bug vừa xuất hiện, nhưng không biết commit nào gây ra
+# Giữa bản "còn chạy" và bản "đã hỏng" có HÀNG TRĂM commit
+git log --oneline v1.2.0..HEAD | wc -l
+# => 327 commits
+
+# Kiểm tra từng commit một (tuyến tính) → cực kỳ tốn thời gian
+git checkout HEAD~1 && npm test   # commit 1...
+git checkout HEAD~2 && npm test   # commit 2...
+# ... lặp lại tới 327 lần? Mất cả ngày!
+```
+
+**Giải pháp:**
+
+```bash
+# git bisect: TÌM KIẾM NHỊ PHÂN qua lịch sử
+# Đánh dấu một commit "good" và một commit "bad"
+git bisect start
+git bisect bad HEAD       # bản đã hỏng
+git bisect good v1.2.0    # bản còn chạy
+
+# Git tự checkout commit ở GIỮA để bạn kiểm tra
+# Mỗi lần loại bỏ MỘT NỬA số commit còn lại
+# → tìm ra commit gây lỗi chỉ trong log2(n) bước
+# 327 commit → chỉ ~9 bước thay vì 327!
+
+# Có thể tự động hoá hoàn toàn bằng script:
+git bisect run npm test
+```
+
+:::tip[Dùng thực tế]
+
+- **Tìm commit làm vỡ test:** test đang fail, chạy `git bisect run npm test` để Git tự tìm commit gây ra.
+- **Truy nguồn regression hiệu năng:** API bỗng chậm đi, viết script đo thời gian rồi bisect để khoanh vùng commit làm chậm.
+- **Xác định commit gây bug giữa hàng trăm commit:** không nhớ bug xuất hiện từ đâu, chỉ cần biết một mốc "còn chạy" và một mốc "đã hỏng".
+- **Tự động hoá bằng script test:** đưa script kiểm tra bug vào `git bisect run`, ngồi chờ Git chỉ ra commit thủ phạm.
+
+:::
 
 ---
 

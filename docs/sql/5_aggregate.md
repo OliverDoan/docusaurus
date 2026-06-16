@@ -11,11 +11,48 @@ Truy vấn tổng hợp dùng các hàm như SUM, COUNT, AVG, MIN, MAX để g�
 
 ## Mục lục
 
+- [Vì sao cần hàm tổng hợp (aggregate)?](#vì-sao-cần-hàm-tổng-hợp-aggregate)
 - [Aggregate function là gì](#aggregate-function-là-gì)
 - [SUM, COUNT, AVG, MIN, MAX](#sum-count-avg-min-max)
 - [GROUP BY — gom nhóm dữ liệu](#group-by--gom-nhóm-dữ-liệu)
 - [HAVING — lọc nhóm sau aggregate](#having--lọc-nhóm-sau-aggregate)
 - [Bẫy hay gặp](#bẫy-hay-gặp)
+
+---
+
+## Vì sao cần hàm tổng hợp (aggregate)?
+
+**Vấn đề:**
+
+```sql
+-- Muốn biết TỔNG doanh thu, nhưng nếu kéo hết bản ghi về ứng dụng để tự cộng:
+SELECT thanh_tien FROM don_hang;  -- trả về hàng triệu dòng
+-- Ứng dụng phải tải toàn bộ → truyền tải khổng lồ, chậm, tốn bộ nhớ
+```
+
+Tự đếm số đơn, cộng doanh thu hay tính điểm trung bình ở phía ứng dụng buộc database phải gửi mọi dòng dữ liệu qua mạng. Dữ liệu càng lớn, càng chậm và càng tốn RAM.
+
+**Giải pháp:**
+
+```sql
+-- Tính NGAY tại database, chỉ trả về kết quả gọn (1 con số)
+SELECT SUM(thanh_tien) AS tong_doanh_thu FROM don_hang;
+
+-- Nhóm theo cột với GROUP BY rồi lọc nhóm bằng HAVING
+SELECT trang_thai, COUNT(*) AS so_don
+FROM don_hang
+GROUP BY trang_thai
+HAVING COUNT(*) > 100;
+```
+
+Hàm tổng hợp `COUNT` / `SUM` / `AVG` / `MIN` / `MAX` kết hợp `GROUP BY` (gom nhóm theo cột) và `HAVING` (lọc nhóm) giúp database tính toán tại chỗ và chỉ trả về kết quả đã thu gọn — cực kỳ hiệu quả cho báo cáo và thống kê.
+
+:::tip[Dùng thực tế]
+- **Đếm đơn theo trạng thái**: `COUNT(*)` + `GROUP BY trang_thai` để biết bao nhiêu đơn đang chờ, đang giao, đã hủy.
+- **Doanh thu theo tháng**: `SUM(thanh_tien)` + `GROUP BY` theo tháng để dựng biểu đồ báo cáo.
+- **Trung bình đánh giá sản phẩm**: `AVG(diem_danh_gia)` + `GROUP BY san_pham_id` để xếp hạng sản phẩm.
+- **Lọc nhóm bằng HAVING**: chỉ giữ khách hàng có tổng chi tiêu `> X` để chạy chương trình khách VIP.
+:::
 
 ---
 

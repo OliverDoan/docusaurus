@@ -11,6 +11,7 @@ Bạn có bao giờ quên chạy lint trước khi commit? Hoặc đồng nghi�
 
 ## Mục lục
 
+- [Vì sao có Git hooks?](#vì-sao-có-git-hooks)
 - [1. Git Hooks là gì?](#1-git-hooks-là-gì)
 - [2. Các loại hooks](#2-các-loại-hooks)
 - [3. Tạo hook thủ công](#3-tạo-hook-thủ-công)
@@ -25,6 +26,48 @@ Bạn có bao giờ quên chạy lint trước khi commit? Hoặc đồng nghi�
 - [12. Lỗi thường gặp](#12-lỗi-thường-gặp)
 - [13. Câu hỏi phỏng vấn](#13-câu-hỏi-phỏng-vấn)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có Git hooks?
+
+**Vấn đề:** Mỗi dự án có nhiều quy tắc chất lượng — chạy linter, format code, chạy test, kiểm tra commit message đúng chuẩn, không để lọt secret vào repo. Nếu tất cả phụ thuộc vào việc mỗi người **tự nhớ làm thủ công**, thì sớm muộn cũng có người quên.
+
+```bash
+# Developer vội vàng commit, quên chạy lint/format/test
+git add .
+git commit -m "fix bug"   # message không theo chuẩn
+git push                  # đẩy luôn lên remote
+
+# Hậu quả:
+#  - Code bẩn, sai format lọt vào repo
+#  - Commit message lung tung, khó đọc lịch sử
+#  - Có khi đẩy nhầm cả API key vào source
+#  - CI fail TẬN trên server → biết lỗi muộn, mất thời gian sửa lại
+```
+
+**Giải pháp:** Dùng **Git hooks** — script Git **tự chạy** tại các thời điểm nhất định trong workflow (pre-commit, commit-msg, pre-push...) để tự động kiểm tra và **chặn** trước khi commit/push. Đây là tư duy **"dịch chuyển trái" (shift left)**: bắt lỗi sớm ngay trên máy dev thay vì đợi CI báo lỗi. Dùng **Husky** + **lint-staged** để chia sẻ hook cho cả team qua repo.
+
+```bash
+git add .
+git commit -m "fix bug"
+#  → [pre-commit]  chạy lint + format trên file đã stage
+#  → [commit-msg]  message không đúng chuẩn → CHẶN commit
+#
+git commit -m "fix: sửa lỗi tính tổng giỏ hàng"
+#  → các hook PASS → commit thành công
+git push
+#  → [pre-push]   chạy test, fail thì CHẶN push
+```
+
+:::tip[Dùng thực tế]
+
+- **pre-commit chạy lint + format:** tự ESLint/Prettier trên file đã stage, code bẩn không lọt vào repo.
+- **commit-msg ép chuẩn:** dùng commitlint để bắt buộc `feat:`, `fix:`... giúp lịch sử rõ ràng, tự sinh changelog.
+- **pre-push chạy test:** chạy unit test trước khi push, fail thì chặn — không làm vỡ branch chung.
+- **Chặn commit chứa secret:** quét API key/token/password trong diff, phát hiện thì dừng commit ngay.
+
+:::
 
 ---
 

@@ -11,6 +11,7 @@ title: "5. Ép kiểu (Type Casting)"
 
 ## Mục lục
 
+- [Vì sao Java phân biệt các kiểu ép kiểu?](#vì-sao-java-phân-biệt-các-kiểu-ép-kiểu)
 - [Ép kiểu là gì?](#ép-kiểu-là-gì)
 - [Ép kiểu ngầm định (widening)](#ép-kiểu-ngầm-định-widening)
 - [Ép kiểu tường minh (narrowing)](#ép-kiểu-tường-minh-narrowing)
@@ -19,6 +20,56 @@ title: "5. Ép kiểu (Type Casting)"
 - [Ép kiểu trong phép tính](#ép-kiểu-trong-phép-tính)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao Java phân biệt các kiểu ép kiểu?
+
+**Vấn đề:** Chuyển giá trị giữa các kiểu có thể **mất dữ liệu** hoặc cho kết quả sai mà bạn không hề hay biết.
+
+```java
+double gia = 199.99;
+int giaInt = (int) gia;   // mất phần thập phân -> 199
+
+long soRatLon = 3_000_000_000L;
+int soInt = (int) soRatLon; // tràn số -> giá trị âm bất ngờ
+
+Object obj = "xin chao";
+Integer so = (Integer) obj; // sai kiểu -> ClassCastException lúc chạy
+```
+
+Nếu mọi chuyển đổi đều diễn ra ngầm, bạn sẽ rất khó phát hiện chỗ dữ liệu bị hỏng.
+
+**Giải pháp:** Java tách rõ từng loại để kiểm soát rủi ro thay vì để ngầm.
+
+```java
+// 1) WIDENING (nhỏ -> lớn): TỰ ĐỘNG vì luôn an toàn
+int a = 100;
+long b = a;        // int -> long, không mất dữ liệu
+
+// 2) NARROWING (lớn -> nhỏ): BẮT BUỘC cast tường minh để xác nhận chấp nhận rủi ro
+double d = 9.7;
+int c = (int) d;   // bạn tự ghi (int) -> ý thức được dữ liệu có thể mất
+
+// 3) Ép kiểu object: kiểm tra instanceof trước để tránh ClassCastException
+Object obj = "xin chao";
+if (obj instanceof String) {
+    String s = (String) obj; // an toàn
+}
+
+// 4) Autoboxing: primitive <-> wrapper tự động
+Integer boxed = 5;   // int -> Integer
+int unboxed = boxed; // Integer -> int
+```
+
+:::tip[Dùng thực tế]
+
+- **Lấy phần nguyên:** ép `double → int` khi cần số nguyên (vd tính số sản phẩm từ kết quả phép chia).
+- **Đọc dữ liệu nhập:** `Integer.parseInt(input)` để parse `String → int` từ form hay file cấu hình.
+- **Xử lý kiểu chung:** kiểm tra `instanceof` trước khi cast object lấy từ danh sách `Object` hay JSON.
+- **Hiểu lỗi tràn số:** biết vì sao narrowing cần cast giúp bạn lường trước mất mát dữ liệu khi gán số lớn vào `byte`/`short`/`int`.
+
+:::
 
 ---
 

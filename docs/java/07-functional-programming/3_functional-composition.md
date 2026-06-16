@@ -11,6 +11,7 @@ Kết hợp hàm (functional composition) là việc ghép nhiều hàm nhỏ l�
 
 ## Mục lục
 
+- [Vì sao có function composition?](#vì-sao-có-function-composition)
 - [Kết hợp hàm là gì?](#kết-hợp-hàm-là-gì)
 - [Ví dụ đời thường: dây chuyền sản xuất](#ví-dụ-đời-thường-dây-chuyền-sản-xuất)
 - [andThen — chạy hàm này rồi tới hàm kia](#andthen--chạy-hàm-này-rồi-tới-hàm-kia)
@@ -20,6 +21,60 @@ Kết hợp hàm (functional composition) là việc ghép nhiều hàm nhỏ l�
 - [Kết hợp Consumer với andThen](#kết-hợp-consumer-với-andthen)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có function composition?
+
+**Vấn đề:** Một phép biến đổi phức tạp thường gồm nhiều bước nối tiếp. Nếu nhét tất cả vào một hàm to thì khó đọc, khó test từng phần và khó tái sử dụng từng bước. Còn nếu lồng lời gọi `f(g(h(x)))` thì phải đọc ngược từ trong ra ngoài, rất khó theo dõi.
+
+```java
+import java.util.function.Function;
+
+public class WithoutComposition {
+    public static void main(String[] args) {
+        Function<String, String> trim = s -> s.trim();
+        Function<String, String> lower = s -> s.toLowerCase();
+        Function<String, String> noSpace = s -> s.replace(" ", "-");
+
+        // Lồng nhiều lời gọi: đọc NGƯỢC từ trong ra ngoài, khó theo dõi
+        String result = noSpace.apply(lower.apply(trim.apply("  Hello World  ")));
+        System.out.println(result); // hello-world
+
+        // Muốn dùng lại đúng chuỗi 3 bước này ở chỗ khác? Phải chép lại y nguyên.
+    }
+}
+```
+
+**Giải pháp:** **Function composition** — ghép nhiều hàm **nhỏ** (mỗi hàm làm một việc, dễ test riêng) thành một hàm lớn bằng `andThen` (chạy lần lượt) hoặc `compose` (thứ tự ngược lại), và kết hợp `Predicate` bằng `and`/`or`/`negate`. Ta tạo được một pipeline biến đổi rõ ràng, đọc xuôi từ trái sang phải, và tái sử dụng được từng khối nhỏ.
+
+```java
+import java.util.function.Function;
+
+public class WithComposition {
+    public static void main(String[] args) {
+        Function<String, String> trim = s -> s.trim();
+        Function<String, String> lower = s -> s.toLowerCase();
+        Function<String, String> noSpace = s -> s.replace(" ", "-");
+
+        // Ghép thành một pipeline, đọc xuôi đúng thứ tự thực thi
+        Function<String, String> slugify = trim.andThen(lower).andThen(noSpace);
+
+        System.out.println(slugify.apply("  Hello World  ")); // hello-world
+
+        // slugify dùng lại được ở bất cứ đâu, từng bước test riêng được
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Pipeline xử lý dữ liệu:** chuẩn hoá → validate → biến đổi, ghép thành một chuỗi rõ ràng.
+- **Ghép Predicate điều kiện lọc:** kết hợp nhiều điều kiện nhỏ bằng `and`/`or`/`negate` để lọc dữ liệu.
+- **Tái sử dụng hàm con:** mỗi bước là một hàm nhỏ độc lập, dùng lại được ở nhiều pipeline khác nhau.
+- **Dựng phép biến đổi linh hoạt lúc chạy:** chọn và nối các hàm con tuỳ tình huống ngay trong runtime.
+
+:::
 
 ---
 

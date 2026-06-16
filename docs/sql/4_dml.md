@@ -11,6 +11,7 @@ DML (Data Manipulation Language) là nhóm câu lệnh dùng để truy vấn v�
 
 ## Mục lục
 
+- [Vì sao có DML?](#vì-sao-có-dml)
 - [SELECT Query — Cấu trúc tổng quát](#select-query--cấu-trúc-tổng-quát)
 - [Thứ tự thực thi logic](#thứ-tự-thực-thi-logic)
 - [FROM — Chọn bảng nguồn](#from--chọn-bảng-nguồn)
@@ -22,6 +23,38 @@ DML (Data Manipulation Language) là nhóm câu lệnh dùng để truy vấn v�
 - [INSERT — Thêm dữ liệu](#insert--thêm-dữ-liệu)
 - [UPDATE — Cập nhật dữ liệu](#update--cập-nhật-dữ-liệu)
 - [DELETE — Xóa dữ liệu](#delete--xóa-dữ-liệu)
+
+---
+
+## Vì sao có DML?
+
+**Vấn đề:** Sau khi đã tạo xong bảng bằng DDL, ta cần một cách để **thao tác dữ liệu** bên trong bảng một cách an toàn và chính xác theo điều kiện: thêm, đọc, sửa, xóa đúng những bản ghi mong muốn — chứ không phải tác động nhầm vào cả bảng.
+
+```sql
+-- Bảng đã có sẵn (DDL), nhưng làm sao chỉ sửa ĐÚNG đơn hàng id = 500?
+-- Làm sao chỉ xóa những session đã hết hạn, không xóa nhầm cái khác?
+-- DDL không trả lời được — nó chỉ định nghĩa cấu trúc bảng.
+```
+
+**Giải pháp:** DML (Data Manipulation Language) cung cấp các câu lệnh thao tác dữ liệu theo điều kiện rõ ràng: `INSERT` (thêm), `SELECT` (đọc/truy vấn), `UPDATE` (sửa, kèm `WHERE`), `DELETE` (xóa, kèm `WHERE`).
+
+```sql
+INSERT INTO orders (customer_id, total_amount, status)  -- thêm bản ghi
+VALUES (42, 1500000, 'pending');
+
+SELECT * FROM orders WHERE status = 'pending';           -- đọc theo điều kiện
+
+UPDATE orders SET status = 'confirmed' WHERE id = 500;   -- sửa đúng 1 bản ghi
+
+DELETE FROM sessions WHERE expires_at < NOW();           -- xóa theo điều kiện
+```
+
+:::tip[Dùng thực tế]
+- **Thêm bản ghi mới:** tạo đơn hàng, thêm sản phẩm, đăng ký người dùng (`INSERT`).
+- **Truy vấn theo điều kiện:** lấy danh sách đơn "đang chờ", tìm khách theo email (`SELECT ... WHERE`).
+- **Cập nhật trạng thái đơn hàng:** chuyển đơn từ `pending` sang `confirmed` (`UPDATE ... WHERE`).
+- **Xóa dữ liệu cũ:** dọn session hết hạn, xóa đơn đã hủy — **luôn nhớ kèm `WHERE`** để không xóa nhầm cả bảng (`DELETE ... WHERE`).
+:::
 
 ---
 

@@ -11,6 +11,7 @@ Set (tập hợp) là cấu trúc dữ liệu mà mỗi giá trị chỉ xuất 
 
 ## Mục lục
 
+- [Vì sao có Set?](#vì-sao-có-set)
 - [Set là gì?](#set-là-gì)
 - [Tạo và dùng Set](#tạo-và-dùng-set)
 - [Set không cho phép trùng lặp](#set-không-cho-phép-trùng-lặp)
@@ -21,6 +22,48 @@ Set (tập hợp) là cấu trúc dữ liệu mà mỗi giá trị chỉ xuất 
 - [Các thao tác trên tập hợp](#các-thao-tác-trên-tập-hợp)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có Set?
+
+**Vấn đề:** Bạn cần một tập hợp các phần tử **duy nhất** (không trùng) và phải kiểm tra "đã có chưa" thật nhanh. Nếu dùng `List`, bạn phải tự lọc trùng, và `contains` phải quét lần lượt — O(n), càng nhiều dữ liệu càng chậm.
+
+```java
+List<String> emails = new ArrayList<>();
+
+// Phải tự kiểm tra trùng trước khi thêm
+if (!emails.contains("an@gmail.com")) {   // quét O(n) toàn bộ list
+    emails.add("an@gmail.com");
+}
+
+// Với hàng triệu phần tử, mỗi lần contains lại quét lại từ đầu → rất chậm
+```
+
+**Giải pháp:** Dùng `Set` — tự động **loại trùng**, không cần kiểm tra thủ công. Tùy nhu cầu mà chọn:
+
+```java
+// HashSet: add/contains O(1) — nhanh nhất, không quan tâm thứ tự
+Set<String> emails = new HashSet<>();
+emails.add("an@gmail.com");
+emails.add("an@gmail.com");          // tự bỏ qua, không trùng
+System.out.println(emails.contains("an@gmail.com")); // true, O(1)
+
+// LinkedHashSet: giữ đúng thứ tự thêm vào
+Set<String> theoThuTu = new LinkedHashSet<>();
+
+// TreeSet: tự sắp xếp + hỗ trợ truy vấn dải (first, last, range...)
+Set<Integer> daSapXep = new TreeSet<>();
+```
+
+:::tip[Dùng thực tế]
+
+- **Loại phần tử trùng** khỏi một danh sách: đổ `List` vào `new HashSet<>(list)`.
+- **Lưu tập tag/quyền duy nhất** của một user (mỗi quyền chỉ có một lần).
+- **Kiểm tra tồn tại nhanh** với dữ liệu lớn: `set.contains(x)` O(1) thay vì quét list.
+- **Cần dữ liệu đã sắp xếp**: dùng `TreeSet` để luôn duyệt theo thứ tự tăng dần.
+
+:::
 
 ---
 

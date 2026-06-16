@@ -11,6 +11,7 @@ title: "5. Đóng gói (Encapsulation)"
 
 ## Mục lục
 
+- [Vì sao có đóng gói (encapsulation)?](#vì-sao-có-đóng-gói-encapsulation)
 - [Đóng gói là gì?](#đóng-gói-là-gì)
 - [private — che giấu dữ liệu](#private--che-giấu-dữ-liệu)
 - [Getter và Setter](#getter-và-setter)
@@ -19,6 +20,71 @@ title: "5. Đóng gói (Encapsulation)"
 - [Quy ước đặt tên getter/setter](#quy-ước-đặt-tên-gettersetter)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có đóng gói (encapsulation)?
+
+**Vấn đề:** nếu để thuộc tính `public` cho sửa trực tiếp, bất kỳ ai cũng có thể đặt giá trị phi logic, phá vỡ tính nhất quán (bất biến) của đối tượng. Hơn nữa, code bên ngoài phụ thuộc thẳng vào cấu trúc field — đổi field là vỡ.
+
+```java
+public class TaiKhoan {
+    public double soDu;      // ai cũng sửa được
+    public int tuoiChuTK;
+    public String email;
+}
+
+public class Main {
+    public static void main(String[] args) {
+        TaiKhoan tk = new TaiKhoan();
+        tk.soDu = -500000;   // số dư ÂM — phi logic!
+        tk.tuoiChuTK = -3;   // tuổi ÂM — phi logic!
+        tk.email = "";       // email RỖNG — phi logic!
+        // Đối tượng rơi vào trạng thái sai mà không gì ngăn được
+    }
+}
+```
+
+**Giải pháp:** đóng gói — để field `private`, chỉ cho truy cập qua getter/setter (hoặc phương thức nghiệp vụ) để **kiểm soát** và **validate** mọi thay đổi. Ẩn chi tiết cài đặt giúp bạn tự do refactor bên trong mà không vỡ API bên ngoài, đồng thời bảo vệ trạng thái luôn nhất quán.
+
+```java
+public class TaiKhoan {
+    private double soDu;
+    private int tuoiChuTK;
+    private String email;
+
+    public double getSoDu() { return soDu; }
+
+    // Setter validate: chặn giá trị phi logic ngay tại cửa ngõ
+    public void setSoDu(double soDu) {
+        if (soDu < 0) {
+            throw new IllegalArgumentException("So du khong duoc am");
+        }
+        this.soDu = soDu;
+    }
+
+    public void setTuoiChuTK(int tuoi) {
+        if (tuoi < 0) {
+            throw new IllegalArgumentException("Tuoi khong duoc am");
+        }
+        this.tuoiChuTK = tuoi;
+    }
+
+    public void setEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("Email khong duoc rong");
+        }
+        this.email = email;
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+- **Setter validate**: chặn giá trị sai như giá < 0, tuổi âm, email rỗng — dữ liệu luôn hợp lệ.
+- **Tính toán qua getter**: suy ra giá trị (như độ F từ độ C) thay vì lưu dư thừa và dễ lệch.
+- **Ẩn cấu trúc nội bộ**: bên ngoài không biết bạn lưu dữ liệu thế nào, chỉ gọi getter/setter.
+- **Đổi cài đặt mà giữ API**: refactor cách lưu trữ bên trong nhưng getter/setter không đổi → không ai bị vỡ.
+:::
 
 ---
 

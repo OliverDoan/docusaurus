@@ -11,6 +11,7 @@ Bài này hướng dẫn các thao tác quản lý hàng ngày khi làm việc v
 
 ## Mục lục
 
+- [Vì sao cần quản lý nhiều container cùng nhau?](#vì-sao-cần-quản-lý-nhiều-container-cùng-nhau)
 - [1. Lifecycle Commands](#1-lifecycle-commands)
 - [2. Monitoring](#2-monitoring)
 - [3. Exec và Run](#3-exec-và-run)
@@ -20,6 +21,81 @@ Bài này hướng dẫn các thao tác quản lý hàng ngày khi làm việc v
 - [7. Useful Patterns](#7-useful-patterns)
 - [8. Bài tập thực hành](#8-bài-tập-thực-hành)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao cần quản lý nhiều container cùng nhau?
+
+Một app thật không chỉ có 1 container. Các container PHỤ THUỘC nhau và phải được điều phối như một nhóm.
+
+**Vấn đề:**
+
+```yaml
+# Một app gồm 3 container phụ thuộc lẫn nhau
+services:
+  web: # cần DB sẵn sàng TRƯỚC khi start, và phải gọi được cache
+    image: my-app
+  db: # web kết nối tới đây
+    image: postgres:16
+  cache: # web đọc/ghi tại đây
+    image: redis:7-alpine
+# Quản lý thủ công: tự chạy từng `docker run`, tự nối mạng,
+# tự nhớ thứ tự khởi động, tự scale → rất rối và dễ sai.
+```
+
+Các vấn đề khi quản lý từng container một cách thủ công:
+
+- Container `web` cần `db` SẴN SÀNG (healthy) trước khi khởi động.
+- Các service phải GỌI được nhau qua mạng nội bộ.
+- Phải khởi động và dừng đúng THỨ TỰ.
+- Khi tải tăng, cần SCALE một service mà không đụng các service khác.
+
+**Giải pháp:**
+
+```yaml
+# Compose quản lý cả NHÓM service như một đơn vị
+services:
+  web:
+    image: my-app
+    environment:
+      DATABASE_URL: postgresql://admin:secret@db:5432/app # gọi DB bằng TÊN service
+      REDIS_URL: redis://cache:6379 # gọi cache bằng TÊN service
+    depends_on:
+      db:
+        condition: service_healthy # đợi DB healthy mới start
+      cache:
+        condition: service_started
+
+  db:
+    image: postgres:16
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  cache:
+    image: redis:7-alpine
+```
+
+```bash
+# Điều khiển cả stack bằng một lệnh
+docker compose up -d              # start cả nhóm, đúng thứ tự
+docker compose up -d --scale web=3 # nhân bản service web khi tải tăng
+docker compose logs -f             # xem log gộp của tất cả service
+docker compose down                # dừng và dọn cả nhóm
+```
+
+Compose tự tạo mạng nội bộ nên các service gọi nhau bằng TÊN service (DNS), dùng `depends_on` + healthcheck cho thứ tự khởi động, `--scale` để nhân bản, và `up`/`down`/`logs` để điều khiển cả stack.
+
+:::tip[Dùng thực tế]
+
+- **Gọi qua tên service**: `web` kết nối DB bằng `db:5432` thay vì IP — Compose tự phân giải DNS trong mạng nội bộ.
+- **Đợi DB healthy**: dùng `depends_on` + `condition: service_healthy` để app không start khi DB chưa sẵn sàng.
+- **Scale khi tải tăng**: `docker compose up -d --scale worker=4` để nhân bản worker xử lý hàng đợi.
+- **Log gộp nhiều service**: `docker compose logs -f web db` để theo dõi nhiều service cùng lúc khi debug.
+
+:::
 
 ---
 

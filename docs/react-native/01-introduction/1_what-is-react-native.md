@@ -13,6 +13,7 @@ title: "1. Giới thiệu React Native"
 
 ## Mục lục
 
+- [Vì sao React Native ra đời?](#vì-sao-react-native-ra-đời)
 - [1. React Native là gì?](#1-react-native-là-gì)
 - [2. Tại sao dùng React Native?](#2-tại-sao-dùng-react-native)
 - [3. Kiến trúc cơ bản](#3-kiến-trúc-cơ-bản)
@@ -21,6 +22,38 @@ title: "1. Giới thiệu React Native"
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao React Native ra đời?
+
+**Vấn đề:** Làm app native "chuẩn" buộc phải viết **2 codebase riêng** -- Swift/Objective-C cho iOS, Kotlin/Java cho Android. Cùng một màn hình phải code 2 lần, cần 2 đội, tốn gấp đôi thời gian và chi phí, dễ lệch tính năng giữa 2 nền tảng. Hướng "web nhúng" như Cordova/Ionic gói app trong **WebView** thì rẻ hơn nhưng trải nghiệm **không thật sự native** -- cuộn giật, animation kém mượt, cảm giác như mở website trong app.
+
+**Giải pháp:** React Native cho phép viết **một lần** bằng React/JavaScript, nhưng render ra **component native THẬT** (không phải WebView) cho cả iOS lẫn Android. Nhờ vậy chia sẻ được phần lớn code, tái dùng kiến thức React, và iterate nhanh nhờ hot reload.
+
+```tsx
+import { View, Text } from 'react-native';
+
+// Viet MOT lan -> chay tren ca iOS va Android voi UI native that
+export default function Welcome() {
+  return (
+    <View>
+      <Text>Mot codebase, render native ca 2 nen tang</Text>
+    </View>
+  );
+}
+```
+
+Khác với Flutter (Dart + tự vẽ UI bằng canvas), React Native dùng **JS + UI native** và đứng trên hệ sinh thái JS/npm khổng lồ.
+
+:::tip[Dùng thực tế]
+
+- **App cross-platform tiết kiệm chi phí:** cần cả iOS + Android nhưng ngân sách giới hạn, một đội ship cả hai.
+- **Đội web React chuyển sang mobile:** tái dùng kiến thức React, lên tay nhanh mà không phải học Swift/Kotlin từ đầu.
+- **MVP mobile nhanh:** dựng sản phẩm thử nghiệm gọn nhẹ, iterate liên tục nhờ hot reload.
+- **Chia sẻ logic web ↔ app:** dùng lại business logic, validation, state giữa web React và app mobile.
+
+:::
 
 ---
 

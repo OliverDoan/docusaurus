@@ -11,6 +11,7 @@ Container là khái niệm trung tâm của Docker. Bài này giải thích chi 
 
 ## Mục lục
 
+- [Vì sao có container?](#vì-sao-có-container)
 - [1. Container — Instance đang chạy của Image](#1-container-instance-đang-chạy-của-image)
 - [2. Cấu trúc bên trong Container](#2-cấu-trúc-bên-trong-container)
 - [3. Vòng đời Container](#3-vòng-đời-container)
@@ -21,6 +22,42 @@ Container là khái niệm trung tâm của Docker. Bài này giải thích chi 
 - [8. Port Mapping](#8-port-mapping)
 - [9. Bài tập thực hành](#9-bài-tập-thực-hành)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao có container?
+
+**Vấn đề:** Chạy nhiều ứng dụng trên cùng một máy chủ rất dễ xung đột nhau:
+
+```bash
+# App A cần Node 18, App B cần Node 20 → đụng phiên bản runtime
+# Hai app cùng nghe cổng 3000 → tranh cổng, không khởi động được
+# App A leak bộ nhớ / crash → kéo theo App B trên cùng host
+# Cài đặt lung tung làm "ô nhiễm" môi trường máy host
+```
+
+VM cô lập được nhưng mỗi VM cõng cả một hệ điều hành riêng → nặng, khởi động chậm, tốn tài nguyên.
+
+**Giải pháp:** Container — một tiến trình **cô lập** chạy từ image:
+
+```bash
+# Mỗi app chạy trong container riêng, cô lập nhưng nhẹ
+# - Filesystem, network, process riêng nhờ namespaces (MNT/NET/PID)
+# - Nhẹ và khởi động nhanh (chia sẻ kernel host, không cõng OS riêng)
+# - Ephemeral: tạo/xoá thoải mái; trạng thái KHÔNG lưu trừ khi dùng volume
+
+docker run -d --name app-a my-app:node18   # App A, runtime riêng
+docker run -d --name app-b my-app:node20   # App B, runtime riêng, không đụng nhau
+```
+
+:::tip[Dùng thực tế]
+
+- Chạy app + database + cache cô lập trên cùng một host, mỗi dịch vụ một container.
+- Mỗi phiên bản chạy một container riêng → so sánh, rollback dễ dàng.
+- Dựng môi trường test sạch rồi xoá ngay sau khi chạy xong (`--rm`).
+- Cô lập lỗi giữa các dịch vụ: một container crash không kéo các container khác.
+
+:::
 
 ---
 

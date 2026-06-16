@@ -11,6 +11,7 @@ Khi container gặp vấn đề, bạn cần biết cách xem logs và debug. B�
 
 ## Mục lục
 
+- [Vì sao logs & debug container khác thường?](#vì-sao-logs--debug-container-khác-thường)
 - [1. Docker Logs](#1-docker-logs)
 - [2. Debug Container không chạy được](#2-debug-container-không-chạy-được)
 - [3. Exec — Debug container đang chạy](#3-exec-debug-container-đang-chạy)
@@ -19,6 +20,42 @@ Khi container gặp vấn đề, bạn cần biết cách xem logs và debug. B�
 - [6. Healthcheck Debugging](#6-healthcheck-debugging)
 - [7. Troubleshooting Checklist](#7-troubleshooting-checklist)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao logs & debug container khác thường?
+
+**Vấn đề:** Container là môi trường **cô lập** và **ephemeral** (sớm nở tối tàn), nên không debug được theo cách truyền thống:
+
+- Bạn không "vào thẳng" container như SSH vào một máy chủ bình thường.
+- Container có thể đã **DỪNG/biến mất** ngay khi bạn muốn xem chuyện gì vừa xảy ra.
+- Ghi log ra **file bên trong** container thì log **mất sạch** khi container bị xoá.
+
+```bash
+# Container chết ngay, giờ muốn xem log thì nó đã biến mất
+docker run my-app
+docker ps          # Không thấy container đâu nữa
+ls /app/logs/      # File log trong container? Đã mất theo container
+```
+
+**Giải pháp:** Docker quy ước app ghi log ra **STDOUT/STDERR** và thu thập tập trung, kèm bộ công cụ debug từ bên ngoài:
+
+```bash
+docker logs -f my-container          # Xem log app (stdout/stderr) realtime
+docker exec -it my-container sh      # Chui vào container ĐANG CHẠY để kiểm tra
+docker inspect my-container          # Xem cấu hình / trạng thái / exit code
+docker stats my-container            # Theo dõi CPU/RAM realtime
+docker events                        # Theo dõi sự kiện (start, die, ...)
+```
+
+:::tip[Dùng thực tế]
+
+- **Xem app làm gì:** `docker logs -f web` để theo dõi request/lỗi của ứng dụng theo thời gian thực.
+- **Kiểm tra từ bên trong:** `docker exec -it web sh` rồi xem `env`, file config, kết nối DB của container đang chạy.
+- **Container không start:** `docker inspect -f '{{.State.Error}}' web` cùng `docker logs` để tìm lỗi khởi động.
+- **Container hay chết:** theo dõi `docker events --filter event=die` và đọc **exit code** để biết bị OOM (137) hay lỗi app (1).
+
+:::
 
 ---
 

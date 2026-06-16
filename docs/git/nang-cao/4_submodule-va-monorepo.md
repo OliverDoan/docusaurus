@@ -11,6 +11,7 @@ Khi dự án lớn lên, bạn sẽ gặp câu hỏi: "Nên tổ chức code th�
 
 ## Mục lục
 
+- [Vì sao có submodule & monorepo?](#vì-sao-có-submodule--monorepo)
 - [1. Git Submodules](#1-git-submodules)
 - [2. Monorepo](#2-monorepo)
 - [3. Git Subtree — Alternative cho Submodule](#3-git-subtree-alternative-cho-submodule)
@@ -18,6 +19,53 @@ Khi dự án lớn lên, bạn sẽ gặp câu hỏi: "Nên tổ chức code th�
 - [5. Lỗi thường gặp](#5-lỗi-thường-gặp)
 - [6. Câu hỏi phỏng vấn](#6-câu-hỏi-phỏng-vấn)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có submodule & monorepo?
+
+**Vấn đề:**
+
+```bash
+# Dự án lớn cần dùng chung code giữa nhiều repo
+
+# Hướng 1: copy-paste thư viện chung vào từng repo
+repo-web/     → có bản sao auth-lib (đã vá bug X)
+repo-mobile/  → có bản sao auth-lib (CHƯA vá bug X)
+repo-admin/   → có bản sao auth-lib (bản cũ hơn nữa)
+# → vá 1 chỗ, phải sửa thủ công ở mọi nơi → dễ lệch, dễ sót
+
+# Hướng 2: tách ra quá nhiều repo nhỏ
+repo-api/  repo-web/  repo-shared/  repo-utils/ ...
+# Sửa 1 tính năng đụng 3 repo → 3 PR, 3 review, version lệch nhau
+# → khó phối hợp thay đổi xuyên repo
+```
+
+**Giải pháp:**
+
+```bash
+# Hai hướng quản lý code dùng chung, mỗi cách một đánh đổi
+
+# SUBMODULE: nhúng một repo Git khác vào trong repo, ghim đúng commit
+main-project/
+└── libs/shared/   → con trỏ tới commit cụ thể của repo shared
+# Chia sẻ code chung, mỗi phần vẫn version độc lập
+
+# MONOREPO: gom nhiều project vào MỘT repo
+company-monorepo/
+├── apps/web   apps/mobile
+└── packages/shared
+# Thay đổi xuyên project trong 1 commit, dùng chung tooling, dễ refactor toàn cục
+```
+
+:::tip[Dùng thực tế]
+
+- **Thư viện/SDK dùng chung**: dùng submodule để ghim đúng version cho từng repo tiêu thụ.
+- **Frontend + backend + shared**: gom vào monorepo, import trực tiếp, không cần publish package.
+- **Thay đổi xuyên package**: monorepo cho phép sửa shared + app trong 1 PR, không bao giờ version mismatch.
+- **Dùng chung CI/cấu hình**: monorepo dùng chung pipeline, lint, format cho toàn bộ project.
+
+:::
 
 ---
 

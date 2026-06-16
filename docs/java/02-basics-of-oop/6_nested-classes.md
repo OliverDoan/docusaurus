@@ -12,6 +12,7 @@ Lớp lồng nhau là một lớp được định nghĩa bên trong một lớp
 ## Mục lục
 
 - [Nested Class là gì?](#nested-class-là-gì)
+- [Vì sao có nested class?](#vì-sao-có-nested-class)
 - [Phân loại lớp lồng nhau](#phân-loại-lớp-lồng-nhau)
 - [Static nested class](#static-nested-class)
 - [Inner class (non-static)](#inner-class-non-static)
@@ -34,6 +35,51 @@ phục vụ cho class bao ngoài (gọi là **outer class** — lớp bao ngoài
 
 Lợi ích: gom code liên quan lại gần nhau, tăng tính đóng gói, và giấu được class phụ trợ
 khỏi phần còn lại của chương trình.
+
+---
+
+## Vì sao có nested class?
+
+**Vấn đề:** Một số class sinh ra chỉ để phục vụ NỘI BỘ cho đúng một class khác — ví dụ
+`Node` của một danh sách liên kết, hay một listener dùng đúng một lần. Tách chúng thành
+file/class top-level riêng làm rối namespace và phá vỡ tính đóng gói (lộ ra class lẽ ra
+chỉ-dùng-nội-bộ).
+
+```java
+// Class chỉ-dùng-nội-bộ bị tách ra top-level: rối namespace, lộ chi tiết
+class Node {                 // ai cũng thấy, dù chỉ MyList mới cần
+    int value;
+    Node next;
+}
+
+public class MyList {
+    private Node head;       // Node là chi tiết cài đặt, lẽ ra nên giấu
+}
+```
+
+**Giải pháp:** Đặt class ngay BÊN TRONG class cần dùng nó. Tùy nhu cầu mà chọn: static
+nested (gắn với lớp ngoài), inner class (truy cập được state của object ngoài), local &
+anonymous class (tạo nhanh tại chỗ cho callback/listener trước thời lambda). Cách này gom
+logic liên quan và tăng tính đóng gói.
+
+```java
+public class MyList {
+    // Node giấu kín bên trong MyList: không làm rối namespace
+    private static class Node {
+        int value;
+        Node next;
+    }
+
+    private Node head;
+}
+```
+
+:::tip[Dùng thực tế]
+- `Node` nội bộ của cấu trúc dữ liệu (LinkedList, Tree) — giấu kín, chỉ lớp ngoài dùng.
+- `Builder` thường là **static nested class** đi kèm class nó dựng nên.
+- **Anonymous class** cho event listener hoặc `Comparator` cài đặt ngay tại chỗ.
+- Gói một class helper chỉ dùng trong duy nhất một class, không lộ ra ngoài.
+:::
 
 ---
 

@@ -11,6 +11,7 @@ Overloading (nạp chồng) và overriding (ghi đè) là hai khái niệm nghe 
 
 ## Mục lục
 
+- [Vì sao có overloading & overriding?](#vì-sao-có-overloading--overriding)
 - [Hai khái niệm dễ nhầm](#hai-khái-niệm-dễ-nhầm)
 - [Overloading — nạp chồng](#overloading--nạp-chồng)
 - [Quy tắc của overloading](#quy-tắc-của-overloading)
@@ -20,6 +21,54 @@ Overloading (nạp chồng) và overriding (ghi đè) là hai khái niệm nghe 
 - [Bảng so sánh nhanh](#bảng-so-sánh-nhanh)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có overloading & overriding?
+
+**Vấn đề:**
+
+```java
+// (1) Cùng một thao tác "in ra màn hình" nhưng phải đặt tên khác nhau cho từng kiểu
+void inInt(int a) { System.out.println(a); }
+void inDouble(double a) { System.out.println(a); }
+void inString(String a) { System.out.println(a); }
+// Người dùng phải nhớ tên nào cho kiểu nào -> rườm rà, dễ nhầm
+
+// (2) Lớp con cần hành vi khác lớp cha nhưng method kế thừa lại cứng nhắc
+class DongVat {
+    void keu() { System.out.println("Dong vat keu..."); }
+}
+class Cho extends DongVat { }
+// Cho chỉ biết "Dong vat keu...", không thể sủa "Gau gau!" theo cách riêng
+```
+
+**Giải pháp:**
+
+```java
+// OVERLOADING: cùng tên, khác danh sách tham số -> compiler chọn lúc biên dịch (static binding)
+class MayIn {
+    void in(int a) { System.out.println(a); }
+    void in(double a) { System.out.println(a); }
+    void in(String a) { System.out.println(a); }
+}
+// API nhất quán: chỉ cần nhớ một tên "in", truyền gì cũng được
+
+// OVERRIDING: lớp con định nghĩa lại method cùng chữ ký -> chọn lúc chạy (dynamic binding)
+class Cho extends DongVat {
+    @Override
+    void keu() { System.out.println("Gau gau!"); } // nền tảng của ĐA HÌNH
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Nhiều constructor / `println` overload**: một tên gọi quen thuộc nhận đủ kiểu tham số.
+- **`toString()`, `equals()` override**: lớp của bạn định nghĩa lại cách hiển thị, cách so sánh.
+- **Đa hình xử lý danh sách đối tượng**: lặp qua `List<DongVat>` và gọi `keu()`, mỗi con vật tự kêu theo kiểu của nó.
+- **`@Override` bắt lỗi sai chữ ký**: gõ nhầm tên hay sai tham số là compiler báo ngay.
+
+:::
 
 ---
 

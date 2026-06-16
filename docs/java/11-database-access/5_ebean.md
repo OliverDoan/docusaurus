@@ -11,6 +11,7 @@ EBean là một thư viện ORM cho Java theo phong cách Active Record, nổi b
 
 ## Mục lục
 
+- [Vì sao có EBean?](#vì-sao-có-ebean)
 - [EBean là gì?](#ebean-là-gì)
 - [Active Record là gì?](#active-record-là-gì)
 - [Khai báo Model](#khai-báo-model)

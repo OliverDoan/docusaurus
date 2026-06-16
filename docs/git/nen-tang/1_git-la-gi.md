@@ -21,6 +21,7 @@ Nếu có, chúc mừng bạn — bạn đang "quản lý phiên bản" bằng t
 
 ## Mục lục
 
+- [Vì sao Git ra đời?](#vì-sao-git-ra-đời)
 - [1. Version Control System (VCS) là gì?](#1-version-control-system-vcs-là-gì)
 - [2. Lịch sử phát triển: Từ copy thủ công đến Git](#2-lịch-sử-phát-triển-từ-copy-thủ-công-đến-git)
 - [3. Centralized vs Distributed VCS](#3-centralized-vs-distributed-vcs)
@@ -32,6 +33,47 @@ Nếu có, chúc mừng bạn — bạn đang "quản lý phiên bản" bằng t
 - [9. Lỗi thường gặp khi mới bắt đầu](#9-lỗi-thường-gặp-khi-mới-bắt-đầu)
 - [10. Câu hỏi phỏng vấn](#10-câu-hỏi-phỏng-vấn)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao Git ra đời?
+
+**Vấn đề:** Quản lý code bằng cách copy thư mục hoặc nén zip rồi đặt tên kiểu `final_v2_final`:
+
+```bash
+project/
+project_final/
+project_final_v2/
+project_final_v2_final/
+```
+
+Cách này gây ra: mất lịch sử thay đổi, không biết ai sửa gì khi nào, nhiều người sửa rồi đè lên nhau. VCS tập trung (SVN) khá hơn nhưng vẫn phụ thuộc một server: mất mạng là không commit được, tạo nhánh thì nặng nề và chậm.
+
+**Giải pháp:** Git — hệ quản lý phiên bản **phân tán** (distributed):
+
+```bash
+# Mỗi máy có TOÀN BỘ lịch sử dự án
+git clone <repo>      # tải về cả history, không chỉ bản mới nhất
+
+# Commit và tạo nhánh offline, không cần server
+git commit -m "..."   # commit local, tức thì
+git branch feature-x  # nhánh siêu nhẹ (chỉ là 1 con trỏ)
+
+# Truy vết ai-gì-khi nào
+git log               # xem mọi phiên bản, ai sửa, lúc nào
+git checkout <commit> # khôi phục lại phiên bản cũ bất kỳ
+```
+
+Git lưu mọi phiên bản, merge mạnh, branch siêu nhẹ, và cho phép truy vết chính xác "ai sửa gì, khi nào".
+
+:::tip[Dùng thực tế]
+
+- **Lưu lịch sử dự án:** mọi thay đổi được ghi lại, không bao giờ mất.
+- **Làm việc nhóm không đè code:** nhiều người sửa song song rồi merge gọn gàng.
+- **Thử nghiệm an toàn:** tạo nhánh để thử tính năng mới, không ổn thì quay lại nhánh chính.
+- **Khôi phục phiên bản cũ:** lỡ sửa hỏng vẫn quay về bất kỳ thời điểm nào trong quá khứ.
+
+:::
 
 ---
 

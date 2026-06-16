@@ -11,6 +11,7 @@ Deque (hàng đợi hai đầu) cho phép bạn thêm và lấy phần tử ở 
 
 ## Mục lục
 
+- [Vì sao có Deque?](#vì-sao-có-deque)
 - [Deque là gì?](#deque-là-gì)
 - [Tạo Deque với ArrayDeque](#tạo-deque-với-arraydeque)
 - [Thêm và lấy ở cả hai đầu](#thêm-và-lấy-ở-cả-hai-đầu)
@@ -21,6 +22,45 @@ Deque (hàng đợi hai đầu) cho phép bạn thêm và lấy phần tử ở 
 - [Ví dụ thực tế](#ví-dụ-thực-tế)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có Deque?
+
+**Vấn đề:** Có lúc ta cần thêm/lấy phần tử ở **cả hai đầu** (đầu và cuối) một cách hiệu quả — ví dụ cửa sổ trượt, lịch sử undo/redo, hoặc muốn dùng vừa như Stack vừa như Queue. Nhưng `Queue` thường chỉ thao tác ở một đầu, còn lớp `Stack` cũ lại bị đồng bộ hóa thừa (chậm) và thiết kế đã lỗi thời.
+
+```java
+import java.util.Stack;
+
+// Lớp Stack cũ: chậm vì đồng bộ hóa thừa, thiết kế lỗi thời
+Stack<Integer> stack = new Stack<>();
+stack.push(1);
+stack.push(2);
+
+// Queue thường chỉ thêm một đầu, lấy một đầu -> không lấy/thêm linh hoạt hai đầu
+```
+
+**Giải pháp:** Dùng **`Deque`** (double-ended queue — hàng đợi hai đầu): thêm/lấy ở **cả hai đầu** với độ phức tạp O(1) (`addFirst/addLast/pollFirst/pollLast`). Lớp **`ArrayDeque`** là lựa chọn được **khuyến nghị** để dùng làm **Stack** (thay cho `Stack` cũ) lẫn **Queue** — linh hoạt và hiệu quả.
+
+```java
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+// ArrayDeque: thao tác hai đầu O(1), nhanh hơn Stack cũ
+Deque<Integer> dq = new ArrayDeque<>();
+
+dq.addFirst(1); // thêm ở đầu
+dq.addLast(2);  // thêm ở cuối
+dq.pollFirst(); // lấy ở đầu
+dq.pollLast();  // lấy ở cuối
+```
+
+:::tip[Dùng thực tế]
+- **Thay `Stack` cũ**: cần ngăn xếp (LIFO) hiệu năng cao thì dùng `ArrayDeque` với `push`/`pop`.
+- **Làm Queue (FIFO)**: thêm ở cuối, lấy ở đầu — xử lý hàng chờ tác vụ.
+- **Cửa sổ trượt (sliding window)**: thêm/bỏ phần tử ở cả hai đầu khi cửa sổ dịch chuyển.
+- **Undo/Redo hai chiều**: lưu lịch sử thao tác và duyệt qua lại ở cả hai đầu.
+:::
 
 ---
 

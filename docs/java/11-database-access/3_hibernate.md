@@ -11,6 +11,7 @@ Hibernate là thư viện ORM nổi tiếng nhất trong Java, giúp bạn làm 
 
 ## Mục lục
 
+- [Vì sao có Hibernate (ORM)?](#vì-sao-có-hibernate-orm)
 - [Vì sao cần Hibernate?](#vì-sao-cần-hibernate)
 - [ORM là gì? (nhắc lại nhanh)](#orm-là-gì-nhắc-lại-nhanh)
 - [Khai báo Entity: @Entity, @Id, @Column](#khai-báo-entity-entity-id-column)
@@ -21,6 +22,56 @@ Hibernate là thư viện ORM nổi tiếng nhất trong Java, giúp bạn làm 
 - [Vì sao không cần viết SQL tay?](#vì-sao-không-cần-viết-sql-tay)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có Hibernate (ORM)?
+
+**Vấn đề:** Dùng JDBC thuần, bạn phải tự viết SQL bằng tay và **ánh xạ thủ công
+từng cột** của `ResultSet` sang field của object — lặp đi lặp lại, dễ sai. Khi
+có quan hệ và khóa ngoại thì còn cực hơn nhiều. Gốc rễ là sự **lệch pha giữa
+thế giới object (Java) và thế giới table (SQL)** — gọi là *object-relational
+impedance mismatch*.
+
+```java
+// JDBC thuần: viết SQL tay + đọc từng cột ResultSet thủ công
+String sql = "SELECT id, name, email FROM users WHERE id = ?";
+try (PreparedStatement ps = conn.prepareStatement(sql)) {
+    ps.setLong(1, 1L);
+    try (ResultSet rs = ps.executeQuery()) {
+        if (rs.next()) {
+            User user = new User();
+            user.setId(rs.getLong("id"));       // gán thủ công cột -> field
+            user.setName(rs.getString("name"));  // lặp lại với mọi cột
+            user.setEmail(rs.getString("email"));// quên/sai 1 cột là lỗi
+            // ... còn quan hệ, khóa ngoại thì phải tự JOIN và ráp object
+        }
+    }
+}
+```
+
+**Giải pháp:** **Hibernate** (ORM, là một triển khai của JPA) **ánh xạ class ↔
+table tự động** qua annotation `@Entity`, cho bạn thao tác DB **bằng object**
+(save/find) thay vì SQL tay. Hibernate tự sinh SQL, quản lý quan hệ, lazy
+loading, cache, và cung cấp HQL/Criteria. Lượng code lặp (boilerplate) giảm rất
+nhiều.
+
+```java
+// Hibernate: thao tác bằng object, không viết SQL, không ráp cột thủ công
+User user = session.get(User.class, 1L);  // tự sinh SELECT + ráp object
+System.out.println(user.getName());
+
+session.persist(new User("Nguyen An", "an@example.com")); // tự sinh INSERT
+```
+
+:::tip[Dùng thực tế]
+
+- **Lưu/đọc entity không viết SQL**: `persist()`, `get()` đủ cho CRUD thường ngày.
+- **Ánh xạ quan hệ**: dùng `@OneToMany` để 1 `User` gắn nhiều `Order` mà không tự JOIN.
+- **Đổi loại CSDL dễ dàng**: chỉ đổi cấu hình "dialect" (phương ngữ), không sửa code.
+- **Giảm code DAO lặp**: bớt hẳn lớp DAO đọc `ResultSet` thủ công cho từng bảng.
+
+:::
 
 ---
 

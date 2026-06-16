@@ -11,6 +11,7 @@ title: "2. Dockerfile cơ bản"
 
 ## Mục lục
 
+- [Vì sao cần Dockerfile?](#vì-sao-cần-dockerfile)
 - [1. Dockerfile là gì?](#1-dockerfile-là-gì)
 - [2. Các lệnh Dockerfile cơ bản](#2-các-lệnh-dockerfile-cơ-bản)
 - [3. Ví dụ thực tế](#3-ví-dụ-thực-tế)
@@ -18,6 +19,39 @@ title: "2. Dockerfile cơ bản"
 - [5. Build Context](#5-build-context)
 - [6. Bài tập thực hành](#6-bài-tập-thực-hành)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao cần Dockerfile?
+
+**Vấn đề:** Cách "thủ công" để tạo Image là: chạy một container trống, gõ từng lệnh cài đặt bên trong (cài package, copy code, sửa config), rồi dùng `docker commit` để đóng gói thành Image. Cách này có nhiều điểm yếu:
+
+- **Không lặp lại được**: mỗi lần làm lại phải gõ tay từ đầu, dễ sai sót, mỗi người làm một kiểu.
+- **Không ai biết Image gồm gì**: các bước cài đặt nằm trong đầu người làm, không được ghi lại.
+- **Không có version trong git**: không thể review, không thể quay lại bản cũ.
+- **Khó tái tạo**: máy khác, đồng nghiệp khác hay CI không dựng lại được Image y hệt.
+
+**Giải pháp:** Dùng **Dockerfile** — một file **văn bản** khai báo rõ ràng từng bước dựng Image:
+
+```dockerfile
+FROM node:20-alpine        # Bắt đầu từ image cơ sở
+WORKDIR /app               # Thư mục làm việc
+COPY package*.json ./      # Copy file config
+RUN npm ci                 # Cài dependencies
+COPY . .                   # Copy code
+CMD ["npm", "start"]       # Lệnh chạy khi container khởi động
+```
+
+Image build từ Dockerfile **có thể tái tạo y hệt**, lưu được trong git (Infrastructure as Code), và mỗi lệnh tạo ra một **layer** được cache để build lại nhanh hơn.
+
+:::tip[Dùng thực tế]
+
+- Định nghĩa Image cho ứng dụng bằng Dockerfile thay vì gõ lệnh thủ công trong container.
+- Commit Dockerfile cùng source code để cả team review và quay lại bản cũ khi cần.
+- Tận dụng layer cache: chỉ thay đổi nhỏ thì các layer cũ được dùng lại, build nhanh hơn nhiều.
+- Chuẩn hoá môi trường giống nhau cho mọi máy dev, staging và CI/CD.
+
+:::
 
 ---
 

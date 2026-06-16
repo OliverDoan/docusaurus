@@ -11,12 +11,43 @@ Subquery là một câu lệnh SELECT được lồng bên trong một câu lệ
 
 ## Mục lục
 
+- [Vì sao cần subquery?](#vì-sao-cần-subquery)
 - [Subquery là gì](#subquery-là-gì)
 - [Phân loại theo kết quả trả về](#phân-loại-theo-kết-quả-trả-về)
 - [Nested Subqueries — Truy vấn con độc lập](#nested-subqueries--truy-vấn-con-độc-lập)
 - [Correlated Subqueries — Truy vấn con tương quan](#correlated-subqueries--truy-vấn-con-tương-quan)
 - [Toán tử với Subquery](#toán-tử-với-subquery)
 - [Subquery vs JOIN vs CTE](#subquery-vs-join-vs-cte)
+
+---
+
+## Vì sao cần subquery?
+
+**Vấn đề:** Đôi khi điều kiện lọc lại **phụ thuộc vào kết quả của một truy vấn khác** — ví dụ "tìm nhân viên có lương cao hơn mức TRUNG BÌNH" hay "tìm sản phẩm CHƯA TỪNG được đặt". Làm thủ công hai bước (chạy query 1 để lấy con số, rồi gắn tay vào query 2) vừa bất tiện vừa không tự động: dữ liệu thay đổi là phải làm lại từ đầu.
+
+```sql
+-- Bước 1: chạy thủ công để lấy lương trung bình
+SELECT AVG(salary) FROM employees;  -- giả sử ra 5200
+
+-- Bước 2: gắn tay con số 5200 vào — sai ngay khi dữ liệu đổi
+SELECT name, salary FROM employees WHERE salary > 5200;
+```
+
+**Giải pháp:** **Subquery** (truy vấn lồng) đặt một `SELECT` bên trong `WHERE`/`FROM`/`SELECT` để dùng kết quả của nó làm đầu vào — gồm scalar, `IN`, `EXISTS` và correlated subquery. Toàn bộ logic phức tạp gói gọn trong một câu lệnh duy nhất, luôn tính theo dữ liệu hiện tại.
+
+```sql
+-- Một câu duy nhất, luôn đúng theo dữ liệu hiện tại
+SELECT name, salary
+FROM employees
+WHERE salary > (SELECT AVG(salary) FROM employees);
+```
+
+:::tip[Dùng thực tế]
+- **Lọc theo giá trị tính từ query khác:** nhân viên có lương trên mức trung bình (`AVG`).
+- **Lọc theo tồn tại:** phòng ban có ít nhất một nhân viên (`EXISTS`).
+- **Lọc theo không tồn tại:** sản phẩm chưa từng được đặt (`NOT EXISTS` / `NOT IN`).
+- **Bảng tạm trong `FROM`:** dùng kết quả tổng hợp như một bảng để join hoặc lọc tiếp.
+:::
 
 ---
 

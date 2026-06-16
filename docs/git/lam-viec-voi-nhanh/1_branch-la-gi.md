@@ -11,6 +11,7 @@ Khi làm việc với Git, bạn sẽ nhanh chóng nhận ra rằng làm tất c
 
 ## Mục lục
 
+- [Vì sao cần branch?](#vì-sao-cần-branch)
 - [1. Branch là gì?](#1-branch-là-gì)
 - [2. Tại sao cần branch?](#2-tại-sao-cần-branch)
 - [3. Các lệnh cơ bản về branch](#3-các-lệnh-cơ-bản-về-branch)
@@ -23,6 +24,46 @@ Khi làm việc với Git, bạn sẽ nhanh chóng nhận ra rằng làm tất c
 - [10. Lỗi thường gặp](#10-lỗi-thường-gặp)
 - [11. Câu hỏi phỏng vấn](#11-câu-hỏi-phỏng-vấn)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao cần branch?
+
+**Vấn đề:** Nếu cả nhóm cùng làm việc trực tiếp trên một dòng code chính (`main`), mọi thứ sẽ rất hỗn loạn:
+
+```bash
+# Mọi người commit thẳng lên main
+git switch main
+# Dev A: code tính năng còn dở dang
+git commit -m "WIP: thanh toán (chưa xong)"
+# Dev B: vừa pull về -> dính code lỗi của A -> bản đang chạy VỠ
+# Nhiều tính năng trộn lẫn trong cùng history -> review cực khó
+# Muốn phát hành bản ổn định? Không thể, vì main đang dở dang
+```
+
+**Giải pháp:** Dùng **branch** để tách một dòng phát triển **độc lập** từ `main`. Mỗi tính năng hay bản sửa lỗi làm riêng một nhánh, không ảnh hưởng nhau; xong và ổn định thì mới merge lại.
+
+```bash
+# Mỗi đầu việc một nhánh riêng, tách từ main
+git switch -c feature/payment   # Dev A làm thanh toán
+git switch -c feature/dashboard # Dev B làm dashboard
+
+# Code dở dang nằm gọn trong nhánh -> main luôn sạch và chạy được
+# Xong, ổn định -> mới merge về main
+git switch main
+git merge feature/payment
+```
+
+Branch trong Git **siêu nhẹ** -- chỉ là một con trỏ trỏ tới commit, nên tạo và chuyển nhánh gần như tức thì, không tốn dung lượng.
+
+:::tip[Dùng thực tế]
+
+- **Mỗi tính năng một feature branch:** `feature/login`, `feature/cart`... làm xong mới merge.
+- **Hotfix tách riêng:** lỗi production khẩn cấp -> tạo `hotfix/...` từ main, sửa nhanh rồi deploy, không dính code đang dev.
+- **Nhiều người làm song song:** mỗi dev một nhánh, không giẫm chân, không conflict liên tục.
+- **Giữ main luôn ổn định:** main lúc nào cũng deploy được, vì code chưa hoàn thiện nằm ở nhánh khác.
+
+:::
 
 ---
 

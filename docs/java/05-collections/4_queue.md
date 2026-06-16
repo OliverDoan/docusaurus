@@ -11,6 +11,7 @@ Queue (hàng đợi) là cấu trúc xử lý phần tử theo nguyên tắc và
 
 ## Mục lục
 
+- [Vì sao có Queue?](#vì-sao-có-queue)
 - [Queue là gì?](#queue-là-gì)
 - [Nguyên tắc FIFO](#nguyên-tắc-fifo)
 - [Tạo Queue và các phương thức cơ bản](#tạo-queue-và-các-phương-thức-cơ-bản)
@@ -21,6 +22,50 @@ Queue (hàng đợi) là cấu trúc xử lý phần tử theo nguyên tắc và
 - [Ví dụ thực tế](#ví-dụ-thực-tế)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có Queue?
+
+**Vấn đề:** Nhiều bài toán cần xử lý phần tử theo **đúng thứ tự đến** (ai đến trước phục vụ trước — FIFO): hàng đợi tác vụ, hàng in ấn, duyệt đồ thị BFS. Nếu dùng `ArrayList` rồi `remove(0)` để lấy phần tử đầu thì vừa chậm vừa khó hiểu ý đồ.
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+List<String> tacVu = new ArrayList<>();
+tacVu.add("Việc 1");
+tacVu.add("Việc 2");
+tacVu.add("Việc 3");
+
+// Lấy việc đầu tiên ra xử lý
+String dau = tacVu.remove(0); // O(n): phải dịch toàn bộ phần tử còn lại lên trước
+// Lặp lại remove(0) nhiều lần → rất chậm, và nhìn vào không rõ đây là "hàng đợi FIFO"
+```
+
+**Giải pháp:** Dùng `Queue` (FIFO) với bộ `offer`/`poll`/`peek` — thêm vào cuối, lấy từ đầu, đều hiệu quả. `LinkedList`/`ArrayDeque` là lớp triển khai; `PriorityQueue` lấy theo độ ưu tiên thay vì thứ tự đến.
+
+```java
+import java.util.LinkedList;
+import java.util.Queue;
+
+Queue<String> hangDoi = new LinkedList<>();
+hangDoi.offer("Việc 1"); // thêm vào cuối
+hangDoi.offer("Việc 2");
+hangDoi.offer("Việc 3");
+
+// Lấy việc đầu hàng ra xử lý — hiệu quả, ý đồ FIFO rõ ràng
+while (!hangDoi.isEmpty()) {
+    System.out.println("Xử lý: " + hangDoi.poll());
+}
+```
+
+:::tip[Dùng thực tế]
+- **Hàng đợi công việc/job:** các tác vụ xếp hàng xử lý lần lượt theo thứ tự gửi.
+- **Duyệt đồ thị BFS:** dùng Queue để duyệt theo từng lớp (level) từ gốc ra.
+- **Producer-consumer giữa các thread:** dùng `BlockingQueue` để luồng tạo dữ liệu và luồng xử lý phối hợp an toàn.
+- **Xử lý theo độ ưu tiên:** dùng `PriorityQueue` khi việc khẩn cần làm trước (ví dụ bệnh nhân nặng khám trước).
+:::
 
 ---
 

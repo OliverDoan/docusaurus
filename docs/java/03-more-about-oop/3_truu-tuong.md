@@ -11,6 +11,7 @@ Trừu tượng là cách bạn tập trung mô tả "làm gì" mà giấu đi c
 
 ## Mục lục
 
+- [Vì sao có tính trừu tượng (abstraction)?](#vì-sao-có-tính-trừu-tượng-abstraction)
 - [Trừu tượng là gì?](#trừu-tượng-là-gì)
 - [Abstract class — lớp trừu tượng](#abstract-class--lớp-trừu-tượng)
 - [Abstract method — phương thức trừu tượng](#abstract-method--phương-thức-trừu-tượng)
@@ -19,6 +20,72 @@ Trừu tượng là cách bạn tập trung mô tả "làm gì" mà giấu đi c
 - [Kết hợp method thường và abstract](#kết-hợp-method-thường-và-abstract)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có tính trừu tượng (abstraction)?
+
+**Vấn đề:** Người DÙNG một thành phần không cần (và không nên) biết chi tiết CÀI ĐẶT bên trong. Khi code phụ thuộc thẳng vào lớp cụ thể, chỉ cần đổi cài đặt là vỡ hàng loạt. Ngoài ra ta còn muốn ép các lớp con tuân theo một KHUÔN chung.
+
+```java
+// Code dính chặt vào từng lớp cụ thể — thêm hình mới là phải sửa chỗ này
+class HinhTron {
+    double r;
+    double dienTichTron() { return 3.14 * r * r; }
+}
+
+class HinhChuNhat {
+    double rong, cao;
+    double dienTichChuNhat() { return rong * cao; }
+}
+
+class Main {
+    public static void main(String[] args) {
+        HinhTron tron = new HinhTron();
+        tron.r = 2;
+        // Mỗi loại một tên hàm khác nhau → khó gom chung, dễ vỡ khi đổi
+        System.out.println(tron.dienTichTron());
+    }
+}
+```
+
+**Giải pháp:** TRỪU TƯỢNG — chỉ phơi bày "LÀM GÌ" (what) và giấu "LÀM THẾ NÀO" (how). Dùng `abstract class` làm khuôn: chứa code dùng chung và `abstract method` bắt buộc lớp con cài đặt, đồng thời không cho `new` trực tiếp. Người dùng chỉ lập trình theo abstraction, không phụ thuộc cài đặt cụ thể nên dễ thay đổi/mở rộng.
+
+```java
+// Khuôn chung: mọi hình đều có dienTich(), nhưng "làm thế nào" thì giấu đi
+abstract class Hinh {
+    abstract double dienTich(); // what: bắt buộc lớp con cài đặt
+}
+
+class HinhTron extends Hinh {
+    double r;
+    @Override
+    double dienTich() { return 3.14 * r * r; } // how: giấu trong lớp con
+}
+
+class HinhChuNhat extends Hinh {
+    double rong, cao;
+    @Override
+    double dienTich() { return rong * cao; }
+}
+
+class Main {
+    public static void main(String[] args) {
+        // Lập trình theo abstraction Hinh, không quan tâm hình cụ thể nào
+        Hinh[] danhSach = { new HinhTron(), new HinhChuNhat() };
+        for (Hinh h : danhSach) {
+            System.out.println(h.dienTich());
+        }
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+- **Hình học**: `abstract class Shape` với `area()` trừu tượng — mỗi hình tự tính diện tích theo cách riêng.
+- **Khuôn xử lý chung (template method)**: lớp cha giữ luồng chung, để lớp con điền vào các bước trừu tượng.
+- **Ẩn chi tiết sau API**: lộ ra giao diện trừu tượng, giấu cài đặt thật nên đổi bên trong không ảnh hưởng người dùng.
+- **Lập trình theo abstraction**: khai báo biến/tham số bằng kiểu trừu tượng thay vì lớp cụ thể để dễ thay thế và mở rộng.
+:::
 
 ---
 

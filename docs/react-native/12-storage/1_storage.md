@@ -18,6 +18,7 @@ RN có nhiều cách lưu data offline: **AsyncStorage** (key-value), **SecureSt
 
 ## Mục lục
 
+- [Vì sao cần giải pháp lưu trữ riêng?](#vì-sao-cần-giải-pháp-lưu-trữ-riêng)
 - [1. AsyncStorage](#1-asyncstorage)
 - [2. SecureStore](#2-securestore)
 - [3. MMKV (alternative nhanh)](#3-mmkv-alternative-nhanh)
@@ -27,6 +28,51 @@ RN có nhiều cách lưu data offline: **AsyncStorage** (key-value), **SecureSt
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao cần giải pháp lưu trữ riêng?
+
+Trên web bạn có `localStorage` của trình duyệt. Nhưng mobile **không có** `localStorage` -- mọi dữ liệu cần lưu **ngay trên máy** để app vẫn dùng được khi tắt mở lại hoặc mất mạng.
+
+**Vấn đề:**
+
+```tsx
+// App đăng nhập xong, mở lại là mất hết -> bắt user login lại mỗi lần
+function App() {
+  const [token, setToken] = useState(null); // chỉ nằm trong RAM
+  const [theme, setTheme] = useState('light'); // reset mỗi lần mở app
+  // localStorage.setItem('token', token); // ❌ localStorage không tồn tại trên RN
+  return <Main />;
+}
+```
+
+State trong RAM **mất sạch** khi app bị kill. App cần: nhớ đăng nhập, cache để dùng **offline**, và lưu cài đặt người dùng. Mỗi nhu cầu lại có yêu cầu khác nhau (nhanh, có cấu trúc, hay an toàn) nên không có một công cụ nào hợp cho mọi việc.
+
+**Giải pháp:** RN có các giải pháp lưu trữ riêng, chọn theo nhu cầu:
+
+```tsx
+// Key-value đơn giản, bất đồng bộ -- settings, preferences
+await AsyncStorage.setItem('theme', 'dark');
+
+// Key-value siêu nhanh, đồng bộ -- thay AsyncStorage khi cần perf
+storage.set('theme', 'dark');
+
+// Dữ liệu quan hệ lớn / offline-first -- table, query phức tạp
+await db.getAllAsync('SELECT * FROM users WHERE name LIKE ?', '%Alice%');
+
+// Dữ liệu nhạy cảm -- mã hóa trong Keychain/Keystore
+await SecureStore.setItemAsync('token', jwt);
+```
+
+:::tip[Dùng thực tế]
+
+- **Lưu token / cài đặt người dùng:** dùng MMKV hoặc AsyncStorage cho preferences (theme, ngôn ngữ); token nhạy cảm để vào SecureStore.
+- **Cache dữ liệu để dùng offline:** danh sách sản phẩm, bài viết đã tải -> SQLite để query nhanh khi mất mạng.
+- **App offline-first (Notion, Todoist):** dữ liệu có cấu trúc, đồng bộ sau -> SQLite hoặc WatermelonDB.
+- **Dữ liệu nhạy cảm (token, mật khẩu):** luôn dùng SecureStore (mã hóa), không bao giờ để plain text trong AsyncStorage.
+
+:::
 
 ---
 

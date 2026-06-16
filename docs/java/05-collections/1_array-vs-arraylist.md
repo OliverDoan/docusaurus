@@ -11,6 +11,7 @@ Array (mảng) và ArrayList (danh sách động) là hai cách cơ bản nhất
 
 ## Mục lục
 
+- [Vì sao có ArrayList (so với mảng)?](#vì-sao-có-arraylist-so-với-mảng)
 - [Vì sao cần lưu nhiều giá trị?](#vì-sao-cần-lưu-nhiều-giá-trị)
 - [Array — mảng cố định kích thước](#array--mảng-cố-định-kích-thước)
 - [Vấn đề của Array](#vấn-đề-của-array)
@@ -21,6 +22,48 @@ Array (mảng) và ArrayList (danh sách động) là hai cách cơ bản nhất
 - [Giới thiệu Collections Framework](#giới-thiệu-collections-framework)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có ArrayList (so với mảng)?
+
+**Vấn đề:** Mảng (`int[]`) có **kích thước cố định** — phải biết trước số phần tử ngay khi khởi tạo. Muốn thêm phần tử thứ n+1, bạn phải tự tạo mảng mới lớn hơn rồi sao chép toàn bộ sang; chèn/xóa phần tử ở giữa cũng phải dời tay từng ô; và mảng không có sẵn API tiện ích.
+
+```java
+int[] diem = new int[3]; // chỉ chứa được 3 phần tử
+diem[0] = 8;
+diem[1] = 9;
+diem[2] = 7;
+
+// Muốn thêm phần tử thứ 4 -> phải tạo mảng mới lớn hơn rồi copy thủ công
+int[] moi = new int[4];
+for (int i = 0; i < diem.length; i++) {
+    moi[i] = diem[i];
+}
+moi[3] = 10; // rất phiền phức, không có hàm add()
+```
+
+**Giải pháp:** `ArrayList` (một loại `List`) là **mảng động tự co giãn** khi thêm/bớt phần tử, kèm API phong phú (`add`, `remove`, `contains`, `indexOf`...) và tích hợp generics cùng Collections Framework. Mảng vẫn nhanh hơn một chút và phù hợp cho kiểu nguyên thủy hoặc kích thước cố định.
+
+```java
+import java.util.ArrayList;
+
+ArrayList<Integer> diem = new ArrayList<>();
+diem.add(8);
+diem.add(9);
+diem.add(7);
+diem.add(10); // tự lớn lên, không cần tạo mảng mới hay copy
+
+System.out.println(diem.contains(9)); // true — API tiện lợi có sẵn
+System.out.println(diem.indexOf(7));  // 2
+```
+
+:::tip[Dùng thực tế]
+- Lưu danh sách **không biết trước số lượng**, ví dụ kết quả truy vấn từ cơ sở dữ liệu.
+- Cần **thêm/xóa phần tử động** trong lúc chạy, ví dụ giỏ hàng hay danh sách bình luận.
+- Cần **duyệt, tìm kiếm, lọc** tiện lợi nhờ API và for-each.
+- Dùng **mảng** khi cần kiểu nguyên thủy (`int[]`, `double[]`) hoặc kích thước cố định, không đổi.
+:::
 
 ---
 

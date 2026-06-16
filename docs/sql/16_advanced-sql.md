@@ -11,6 +11,7 @@ Window function (hàm cửa sổ) cho phép tính toán trên một nhóm dòng 
 
 ## Mục lục
 
+- [Vì sao cần SQL nâng cao?](#vì-sao-cần-sql-nâng-cao)
 - [Window Function là gì](#window-function-là-gì)
 - [So sánh Window Function vs GROUP BY](#so-sánh-window-function-vs-group-by)
 - [ROW_NUMBER](#row_number)
@@ -21,6 +22,60 @@ Window function (hàm cửa sổ) cho phép tính toán trên một nhóm dòng 
 - [NTILE — Phân nhóm đều](#ntile--phân-nhóm-đều)
 - [CTE và WITH RECURSIVE](#cte-và-with-recursive)
 - [Ví dụ thực tế: Top 3 sản phẩm mỗi category](#ví-dụ-thực-tế-top-3-sản-phẩm-mỗi-category)
+
+---
+
+## Vì sao cần SQL nâng cao?
+
+Khi yêu cầu phân tích trở nên phức tạp — xếp hạng trong từng nhóm, tính lũy kế, so với hàng trước, duyệt dữ liệu phân cấp dạng cây — SQL cơ bản nhanh chóng đuối sức.
+
+**Vấn đề:**
+
+```sql
+-- Muốn lấy top sản phẩm mỗi danh mục bằng SQL cơ bản:
+-- phải lồng subquery rối rắm, mỗi danh mục một lần đếm
+SELECT sp.ten, sp.danh_muc_id, sp.doanh_so
+FROM san_pham sp
+WHERE (
+    SELECT COUNT(*)
+    FROM san_pham sp2
+    WHERE sp2.danh_muc_id = sp.danh_muc_id
+      AND sp2.doanh_so > sp.doanh_so
+) < 3;
+-- Khó đọc, khó bảo trì, chạy chậm khi dữ liệu lớn.
+-- Running total, so sánh hàng trước, hay cây phân cấp
+-- thường phải kéo hết dữ liệu về app để xử lý vòng lặp.
+```
+
+**Giải pháp:**
+
+```sql
+-- CTE (WITH) tách truy vấn phức tạp thành từng bước dễ đọc;
+-- WINDOW FUNCTION tính toán trên "cửa sổ" hàng mà không gộp nhóm.
+WITH xep_hang AS (
+    SELECT
+        ten,
+        danh_muc_id,
+        doanh_so,
+        ROW_NUMBER() OVER (
+            PARTITION BY danh_muc_id
+            ORDER BY doanh_so DESC
+        ) AS hang
+    FROM san_pham
+)
+SELECT * FROM xep_hang WHERE hang <= 3;
+
+-- Recursive CTE duyệt cấu trúc cây ngay trong SQL,
+-- CASE / điều kiện rẽ nhánh, gộp lại thành phân tích mạnh
+-- mà không cần kéo dữ liệu ra ngoài.
+```
+
+:::tip[Dùng thực tế]
+- **Xếp hạng top sản phẩm mỗi danh mục**: `RANK()` / `ROW_NUMBER()` với `PARTITION BY` cho Top-N theo nhóm.
+- **Running total doanh thu**: `SUM(...) OVER (ORDER BY ngay)` tính tổng lũy kế giữ nguyên từng dòng.
+- **Truy vấn cây danh mục / sơ đồ tổ chức**: `WITH RECURSIVE` duyệt dữ liệu phân cấp nhiều cấp.
+- **Tách query dài**: dùng nhiều CTE (`WITH`) nối tiếp để chia logic thành bước rõ ràng, dễ debug.
+:::
 
 ---
 

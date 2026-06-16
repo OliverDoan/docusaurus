@@ -11,12 +11,66 @@ View (khung nhìn) là một câu truy vấn được lưu sẵn dưới dạng 
 
 ## Mục lục
 
+- [Vì sao cần view?](#vì-sao-cần-view)
 - [View là gì](#view-là-gì)
 - [Tạo View](#tạo-view)
 - [Chỉnh sửa View](#chỉnh-sửa-view)
 - [Xóa View](#xóa-view)
 - [Updatable Views — View có thể cập nhật](#updatable-views--view-có-thể-cập-nhật)
 - [Materialized View — View vật lý](#materialized-view--view-vật-lý)
+
+---
+
+## Vì sao cần view?
+
+**Vấn đề:**
+
+```sql
+-- Cùng một truy vấn báo cáo phức tạp (nhiều JOIN, nhiều điều kiện)
+-- bị LẶP LẠI ở khắp nơi: dashboard, export, API, job định kỳ...
+SELECT
+    c.full_name,
+    SUM(o.total_amount) AS revenue,
+    COUNT(o.id)         AS order_count
+FROM customers c
+JOIN orders o      ON o.customer_id = c.id
+JOIN order_items i ON i.order_id = o.id
+WHERE o.status = 'completed'
+  AND o.order_date >= '2026-01-01'
+GROUP BY c.full_name;
+-- Sửa logic một chỗ → dễ sót các chỗ còn lại → khó bảo trì.
+-- Ngoài ra: muốn cho người dùng xem dữ liệu nhưng KHÔNG lộ
+-- toàn bộ cấu trúc và các cột nhạy cảm (lương, CMND) của bảng gốc.
+```
+
+**Giải pháp:**
+
+```sql
+-- VIEW: một "bảng ảo" lưu sẵn câu SELECT, dùng như bảng thường
+-- nhưng KHÔNG chứa dữ liệu riêng — đọc trực tiếp từ bảng gốc.
+CREATE VIEW vw_customer_revenue AS
+SELECT
+    c.full_name,
+    SUM(o.total_amount) AS revenue,
+    COUNT(o.id)         AS order_count
+FROM customers c
+JOIN orders o      ON o.customer_id = c.id
+JOIN order_items i ON i.order_id = o.id
+WHERE o.status = 'completed'
+GROUP BY c.full_name;
+
+-- Mọi nơi chỉ cần dùng lại view → sửa logic một chỗ duy nhất.
+SELECT * FROM vw_customer_revenue WHERE revenue > 10000000;
+```
+
+View giúp **tái sử dụng** truy vấn, **đơn giản hoá** câu lệnh phức tạp, và **kiểm soát truy cập** (chỉ lộ cột cho phép). Khi cần đọc nhanh hơn cho báo cáo nặng, dùng *materialized view* để lưu sẵn kết quả.
+
+:::tip[Dùng thực tế]
+- **View báo cáo doanh thu** dùng lại ở nhiều nơi (dashboard, export, API) thay vì copy-paste cùng một query.
+- **Ẩn cột nhạy cảm**: tạo view chỉ chứa cột công khai, không lộ lương hay số điện thoại của bảng gốc.
+- **Đơn giản hoá query nhiều JOIN**: gói 4-5 bảng JOIN vào một tên view dễ nhớ.
+- **Phân quyền theo view**: cấp `GRANT SELECT` trên view cho từng nhóm, không cấp quyền trên bảng gốc.
+:::
 
 ---
 

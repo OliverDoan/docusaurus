@@ -11,6 +11,7 @@ Functional interface (giao diện hàm) là interface có đúng một phương 
 
 ## Mục lục
 
+- [Vì sao có functional interface?](#vì-sao-có-functional-interface)
 - [Functional Interface là gì?](#functional-interface-là-gì)
 - [Ví dụ đời thường](#ví-dụ-đời-thường)
 - [Annotation @FunctionalInterface](#annotation-functionalinterface)
@@ -23,6 +24,40 @@ Functional interface (giao diện hàm) là interface có đúng một phương 
   - [BiFunction — nhận 2, trả về 1](#bifunction--nhận-2-trả-về-1)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có functional interface?
+
+**Vấn đề:** Java là ngôn ngữ kiểu tĩnh — mọi thứ phải có **kiểu** để trình biên dịch kiểm tra và để truyền đi được. Nhưng lambda "chỉ là một hàm", vậy kiểu của nó là gì? Nếu mỗi nơi tự định nghĩa một interface callback riêng thì code trùng lặp khắp nơi.
+
+```java
+// Mỗi nơi tự định nghĩa một interface callback riêng -> trùng lặp
+interface MyTransformer { String run(String s); }
+interface MyChecker    { boolean check(Integer n); }
+interface MyMaker      { String make(); }
+
+// Lambda gán cho cái gì? Trình biên dịch cần một "kiểu" để kiểm tra:
+MyTransformer t = s -> s.toUpperCase(); // kiểu phải khớp đúng 1 phương thức
+```
+
+**Giải pháp:** **Functional interface** — interface có **đúng một phương thức trừu tượng** (đánh dấu `@FunctionalInterface`) làm "kiểu" cho lambda. Lambda chính là cách cài đặt gọn của interface đó. Java cung cấp sẵn bộ chuẩn trong `java.util.function` (`Function`, `Predicate`, `Consumer`, `Supplier`...) để dùng lại khắp nơi, khỏi tự viết.
+
+```java
+import java.util.function.*;
+
+// Dùng bộ chuẩn có sẵn, không cần tự định nghĩa interface
+Function<String, String>  toUpper = s -> s.toUpperCase(); // biến đổi
+Predicate<Integer>        isEven  = n -> n % 2 == 0;       // kiểm tra điều kiện
+Supplier<String>          maker   = () -> "giá trị mới";   // cung cấp giá trị
+```
+
+:::tip[Dùng thực tế]
+- **`Predicate`** cho điều kiện lọc: `list.stream().filter(n -> n > 0)`.
+- **`Function`** cho biến đổi dữ liệu: `list.stream().map(s -> s.length())`.
+- **`Consumer`** cho `forEach`: `list.forEach(x -> System.out.println(x))`.
+- **`Supplier`** cho khởi tạo lười (chỉ tạo giá trị khi thật sự cần): `Optional.orElseGet(() -> taoMacDinh())`.
+:::
 
 ---
 

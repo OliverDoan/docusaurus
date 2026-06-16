@@ -11,6 +11,7 @@ Từ khóa `final` dùng để "khóa" một thứ lại, ngăn không cho thay 
 
 ## Mục lục
 
+- [Vì sao có từ khóa final?](#vì-sao-có-từ-khóa-final)
 - [final là gì?](#final-là-gì)
 - [Biến final (hằng số)](#biến-final-hằng-số)
 - [Quy ước đặt tên hằng](#quy-ước-đặt-tên-hằng)
@@ -20,6 +21,55 @@ Từ khóa `final` dùng để "khóa" một thứ lại, ngăn không cho thay 
 - [final với tham số](#final-với-tham-số)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có từ khóa final?
+
+**Vấn đề:** Có những thứ trong code **không nên thay đổi**, nhưng Java mặc định cho phép
+gán lại biến, override phương thức và kế thừa class. Không có cách "khóa", ta dễ vô tình
+làm sai hành vi quan trọng.
+
+```java
+class Account {
+    double interestRate = 0.05; // lẽ ra là hằng số cố định
+    void transfer() { /* logic chuyển tiền nhạy cảm */ }
+}
+
+class HackedAccount extends Account {
+    // Lớp con override làm vỡ logic bảo mật
+    void transfer() { /* bỏ qua kiểm tra, rút sạch tiền */ }
+}
+
+// Ở đâu đó trong code: hằng số bị gán lại nhầm
+Account acc = new Account();
+acc.interestRate = 99.0; // tai họa: không ai chặn được
+```
+
+**Giải pháp:** `final` đánh dấu một thứ là **BẤT BIẾN / KHÔNG ĐƯỢC THAY**: biến `final`
+chỉ gán một lần (hằng số), phương thức `final` không cho override, class `final` không cho
+kế thừa (ví dụ `String`). Nhờ đó code an toàn hơn, ý đồ rõ ràng hơn, hỗ trợ thiết kế
+immutable và cho phép JVM tối ưu.
+
+```java
+class Account {
+    final double INTEREST_RATE = 0.05;      // hằng số: gán một lần
+    public final void transfer() { /* ... */ } // không lớp con nào override được
+}
+
+final class Money { /* ... */ } // không class nào kế thừa được
+
+// acc.INTEREST_RATE = 99.0; // LỖI biên dịch: chặn ngay từ đầu
+```
+
+:::tip[Dùng thực tế]
+
+- **Hằng số cấu hình**: `public static final int MAX_USERS = 1000;` dùng chung, không đổi.
+- **Class immutable**: đánh dấu các field `final` để object không thay đổi sau khi tạo (an toàn khi chia sẻ giữa nhiều luồng).
+- **Khóa method nhạy cảm**: để `final` cho phương thức xác thực/giao dịch, tránh lớp con override làm sai hành vi.
+- **Biến cho lambda / inner class**: biến địa phương dùng trong lambda phải là `final` (hoặc "effectively final").
+
+:::
 
 ---
 

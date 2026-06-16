@@ -11,6 +11,7 @@ Biểu thức chính quy (regex) là một chuỗi ký tự đặc biệt dùng 
 
 ## Mục lục
 
+- [Vì sao có regex?](#vì-sao-có-regex)
 - [Regex là gì?](#regex-là-gì)
 - [Hai lớp quan trọng: Pattern và Matcher](#hai-lớp-quan-trọng-pattern-và-matcher)
 - [Các ký tự đặc biệt cơ bản](#các-ký-tự-đặc-biệt-cơ-bản)
@@ -19,6 +20,43 @@ Biểu thức chính quy (regex) là một chuỗi ký tự đặc biệt dùng 
 - [Ví dụ thực tế: kiểm tra số điện thoại](#ví-dụ-thực-tế-kiểm-tra-số-điện-thoại)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có regex?
+
+**Vấn đề:** Khi cần kiểm tra, tìm hoặc thay chuỗi theo một **mẫu** (email hợp lệ, số điện thoại, tách dòng log), nếu viết bằng vòng lặp và so từng ký tự thủ công thì code rất dài, khó đọc và dễ sai.
+
+```java
+// Kiểm tra "đúng 10 chữ số" bằng vòng lặp thủ công
+public static boolean laSoDienThoai(String s) {
+    if (s.length() != 10) return false;
+    for (int i = 0; i < s.length(); i++) {
+        char c = s.charAt(i);
+        if (c < '0' || c > '9') return false; // không phải chữ số
+    }
+    return true;
+}
+// Mỗi quy tắc mới (bắt đầu bằng 0, có dấu +, dấu cách...) lại thêm một đống if
+```
+
+**Giải pháp:** Dùng **Regular Expression** (`Pattern`/`Matcher` trong `java.util.regex`) — một **ngôn ngữ mô tả mẫu** ngắn gọn để match/find/replace. Một biểu thức thay cho hàng chục dòng so khớp tay.
+
+```java
+// Cùng yêu cầu trên, viết bằng regex
+public static boolean laSoDienThoai(String s) {
+    return s.matches("\\d{10}"); // đúng 10 chữ số
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Validate dữ liệu nhập**: kiểm tra email, số điện thoại đúng định dạng trước khi lưu.
+- **Trích xuất thông tin**: lấy mã lỗi, IP, thời gian từ một dòng log.
+- **Tách chuỗi theo mẫu**: dùng `split` để cắt chuỗi theo dấu phẩy, khoảng trắng, hay nhiều dấu phân cách.
+- **Tìm – thay thế nâng cao**: dùng `replaceAll` để chuẩn hóa văn bản (gộp nhiều khoảng trắng, xóa ký tự thừa).
+
+:::
 
 ---
 

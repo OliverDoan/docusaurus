@@ -11,6 +11,7 @@ Generic (kiểu tổng quát) là phần `<...>` mà bạn thấy ở `ArrayList
 
 ## Mục lục
 
+- [Vì sao collection cần generics?](#vì-sao-collection-cần-generics)
 - [Generic là gì?](#generic-là-gì)
 - [Vấn đề khi không có generic](#vấn-đề-khi-không-có-generic)
 - [Type safety — an toàn kiểu dữ liệu](#type-safety--an-toàn-kiểu-dữ-liệu)
@@ -21,6 +22,44 @@ Generic (kiểu tổng quát) là phần `<...>` mà bạn thấy ở `ArrayList
 - [Tự viết phương thức generic](#tự-viết-phương-thức-generic)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao collection cần generics?
+
+**Vấn đề:** Trước Java 5, collection chỉ chứa `Object` nên kiểu phần tử bị lẫn lộn. Lấy phần tử ra phải ép kiểu (cast) thủ công, lỡ bỏ nhầm kiểu khác vào thì lỗi chỉ lộ lúc **chạy** (`ClassCastException`), và IDE không gợi ý (autocomplete) được.
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+List ds = new ArrayList();   // raw type — chứa Object
+ds.add("An");
+ds.add(123);                 // Java KHÔNG ngăn — kiểu bị lẫn lộn
+
+// Phải ép kiểu thủ công, không autocomplete
+String ten = (String) ds.get(1); // ClassCastException lúc CHẠY (vốn là 123)
+```
+
+**Giải pháp:** Generics `List<String>` tham số hoá kiểu phần tử. Compiler **đảm bảo** chỉ bỏ đúng kiểu vào (bắt lỗi ngay lúc biên dịch), lấy ra **không cần** ép kiểu, IDE autocomplete đầy đủ. Bounded type và wildcard giúp API linh hoạt hơn. Kết quả: type-safe và gọn gàng.
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+List<String> ds = new ArrayList<>(); // tham số hoá kiểu
+ds.add("An");
+// ds.add(123);                       // LỖI ngay lúc biên dịch — sửa sớm
+
+String ten = ds.get(0); // lấy ra không cần cast, có autocomplete
+```
+
+:::tip[Dùng thực tế]
+- `List<User>` lấy ra dùng ngay, không phải `(User) list.get(i)`.
+- Compiler chặn lỡ tay bỏ nhầm kiểu khác vào danh sách.
+- Viết một method generic `<T>` tái sử dụng cho mọi kiểu mà vẫn an toàn.
+- Wildcard `<? extends T>` cho API nhận nhiều loại List linh hoạt (vd cộng tổng mọi `Number`).
+:::
 
 ---
 

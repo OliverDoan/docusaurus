@@ -11,6 +11,7 @@ Cách Java truyền tham số vào hàm là một trong những chủ đề gây
 
 ## Mục lục
 
+- [Vì sao cần hiểu pass-by-value?](#vì-sao-cần-hiểu-pass-by-value)
 - [Vấn đề gây nhầm lẫn nhất](#vấn-đề-gây-nhầm-lẫn-nhất)
 - [Pass by value là gì?](#pass-by-value-là-gì)
 - [Với kiểu nguyên thủy](#với-kiểu-nguyên-thủy)
@@ -20,6 +21,62 @@ Cách Java truyền tham số vào hàm là một trong những chủ đề gây
 - [Trường hợp String](#trường-hợp-string)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao cần hiểu pass-by-value?
+
+**Vấn đề:** Đây là nguồn gây hiểu nhầm kinh điển. Lập trình viên thường tưởng gán lại tham số trong hàm sẽ đổi biến bên ngoài (nhưng KHÔNG), hoặc tưởng đối tượng được "copy" khi truyền vào nên sửa thoải mái (nhưng sửa thuộc tính lại ảnh hưởng cả bên ngoài). Cả hai dẫn tới bug khó hiểu.
+
+```java
+public class Main {
+    static void swap(int a, int b) {
+        int tmp = a; a = b; b = tmp; // tưởng đổi được x, y bên ngoài
+    }
+
+    static void doiTen(NguoiDung u) {
+        u = new NguoiDung("Mới"); // tưởng đổi được biến gốc -> KHÔNG
+    }
+
+    public static void main(String[] args) {
+        int x = 1, y = 2;
+        swap(x, y);
+        System.out.println(x + " " + y); // Vẫn "1 2" — swap vô hiệu!
+    }
+}
+```
+
+**Giải pháp:** Nắm rõ một quy tắc duy nhất — Java **luôn** pass-by-value:
+
+```java
+public class Main {
+    // Primitive: truyền BẢN SAO giá trị -> đổi trong hàm không ảnh hưởng ngoài
+    static void tang(int n) { n++; }
+
+    // Object: truyền BẢN SAO của THAM CHIẾU (địa chỉ)
+    static void ganLai(NguoiDung u) { u = new NguoiDung("Mới"); } // không đổi biến ngoài
+    static void suaField(NguoiDung u) { u.ten = "Mới"; }          // ĐỔI chính object đó
+
+    public static void main(String[] args) {
+        int x = 5;
+        tang(x);
+        System.out.println(x); // 5 — bản sao đổi, gốc giữ nguyên
+
+        NguoiDung u = new NguoiDung("Cũ");
+        ganLai(u);
+        System.out.println(u.ten); // "Cũ" — gán lại tham số vô hại với biến gốc
+        suaField(u);
+        System.out.println(u.ten); // "Mới" — sửa field thì đổi thật
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+- **Swap primitive không hiệu lực:** hoán đổi hai `int` trong hàm chỉ tác động bản sao — phải `return` giá trị mới hoặc dùng mảng/đối tượng bọc.
+- **Sửa field lại đổi bên ngoài:** truyền một `User` vào hàm rồi đặt `user.active = false` sẽ thay đổi chính đối tượng gốc, không cần `return`.
+- **Gán lại tham số vô hại:** đặt `param = new ...()` bên trong hàm chỉ đổi bản sao tham chiếu, biến gốc vẫn trỏ đối tượng cũ.
+- **Tránh side-effect ngoài ý muốn:** biết rõ "sửa field = ảnh hưởng gốc" giúp bạn cân nhắc sao chép phòng thủ (defensive copy) trước khi sửa đối tượng dùng chung.
+:::
 
 ---
 

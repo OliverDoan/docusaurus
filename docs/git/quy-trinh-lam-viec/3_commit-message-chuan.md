@@ -11,6 +11,7 @@ Commit message là "nhật ký" của dự án. Một commit message tốt giúp
 
 ## Mục lục
 
+- [Vì sao cần commit message chuẩn?](#vì-sao-cần-commit-message-chuẩn)
 - [1. Tại sao commit message quan trọng?](#1-tại-sao-commit-message-quan-trọng)
 - [2. 7 Quy tắc viết commit message tốt (Chris Beams)](#2-7-quy-tắc-viết-commit-message-tốt-chris-beams)
 - [3. Conventional Commits — Chuẩn công nghiệp](#3-conventional-commits-chuẩn-công-nghiệp)
@@ -24,6 +25,55 @@ Commit message là "nhật ký" của dự án. Một commit message tốt giúp
 - [9. Lỗi thường gặp](#9-lỗi-thường-gặp)
 - [10. Câu hỏi phỏng vấn](#10-câu-hỏi-phỏng-vấn)
 - [11. Tóm tắt](#11-tóm-tắt)
+
+---
+
+## Vì sao cần commit message chuẩn?
+
+**Vấn đề:**
+
+```bash
+# Lịch sử commit kiểu này — 6 tháng sau không ai hiểu gì
+git log --oneline
+# a1b2c3d fix
+# d4e5f6g update
+# g7h8i9j asdf
+# j0k1l2m WIP
+# m3n4o5p done
+
+# Hậu quả:
+# - Không biết commit "fix" sửa cái gì, vì sao sửa
+# - Khó tìm commit gây ra bug (git bisect vô nghĩa)
+# - Không tự sinh được CHANGELOG
+# - Review code mệt mỏi vì message không nói lên ý đồ
+```
+
+**Giải pháp:**
+
+```bash
+# Quy ước commit message chuẩn (Conventional Commits)
+# Format: type(scope): description
+git log --oneline
+# a1b2c3d feat(auth): add OAuth2 login with Google
+# d4e5f6g fix(cart): prevent duplicate items on fast click
+# g7h8i9j refactor(db): extract connection pooling logic
+# j0k1l2m docs: add commit message guide
+
+# Lợi ích:
+# - Message nói rõ "làm gì + vì sao", đọc là hiểu ngay
+# - Máy đọc được → tự sinh CHANGELOG + bump version (semantic-release)
+# - Lọc lịch sử theo loại/scope dễ dàng
+# - Review nhanh vì ý đồ rõ ràng
+```
+
+:::tip[Dùng thực tế]
+
+- **Phân loại rõ ràng:** `feat`/`fix`/`refactor` cho biết ngay commit thuộc loại thay đổi nào mà không cần mở diff.
+- **Tự sinh CHANGELOG:** chạy `standard-version` hoặc `semantic-release` để gom commit thành changelog và tự tăng version theo SemVer.
+- **Lọc lịch sử:** `git log --oneline --grep="^feat"` để xem nhanh các tính năng mới, hoặc lọc theo scope như `auth`, `payment`.
+- **Ép chuẩn tự động:** kết hợp `commit-msg` hook (Husky + commitlint) để reject commit sai format ngay khi commit.
+
+:::
 
 ---
 

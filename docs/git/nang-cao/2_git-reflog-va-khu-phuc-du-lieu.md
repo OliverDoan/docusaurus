@@ -11,6 +11,7 @@ Bạn đã bao giờ `reset --hard` nhầm và nghĩ rằng code đã mất vĩn
 
 ## Mục lục
 
+- [Vì sao có git reflog?](#vì-sao-có-git-reflog)
 - [1. Reflog là gì?](#1-reflog-là-gì)
 - [2. Đọc output của git reflog](#2-đọc-output-của-git-reflog)
 - [3. Reflog vs Log — Khác nhau cơ bản](#3-reflog-vs-log-khác-nhau-cơ-bản)
@@ -25,6 +26,50 @@ Bạn đã bao giờ `reset --hard` nhầm và nghĩ rằng code đã mất vĩn
 - [12. Lỗi thường gặp](#12-lỗi-thường-gặp)
 - [13. Câu hỏi phỏng vấn](#13-câu-hỏi-phỏng-vấn)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có git reflog?
+
+**Vấn đề:**
+
+```bash
+# Bạn lỡ tay reset --hard, xóa nhánh, hoặc rebase hỏng
+git reset --hard HEAD~5      # Ối! Xóa nhầm 5 commits
+git branch -D feature        # Ối! Nhánh đó chưa merge
+
+# git log không còn thấy các commits đó nữa
+git log --oneline
+# → Các commit "biến mất" khỏi lịch sử
+
+# Hoảng loạn: nghĩ rằng mất công sức nhiều ngày làm việc!
+```
+
+**Giải pháp:**
+
+```bash
+# git reflog: Git ÂM THẦM ghi lại MỌI lần HEAD di chuyển
+# (commit, checkout, reset, rebase, merge...) trong nhật ký LOCAL
+git reflog
+# d4e5f6a HEAD@{0}: reset: moving to HEAD~5
+# a1b2c3d HEAD@{1}: commit: feat: tính năng quan trọng  ← commit "mất"
+
+# Tìm lại hash của commit "mất" rồi khôi phục:
+git reset --hard a1b2c3d        # đưa HEAD về lại
+# hoặc an toàn hơn:
+git switch -c recovered a1b2c3d # tạo nhánh mới từ hash đó
+```
+
+Reflog là **lưới an toàn** của Git: dù bạn thao tác nhầm thế nào, các commit thường vẫn còn đó và tìm lại được qua nhật ký HEAD.
+
+:::tip[Dùng thực tế]
+
+- **Khôi phục sau `reset --hard` nhầm**: tìm hash commit cuối trong reflog rồi `git reset --hard <hash>`.
+- **Lấy lại nhánh đã xóa**: tìm hash commit cuối của nhánh rồi `git switch -c <ten-nhanh> <hash>`.
+- **Cứu commit sau rebase hỏng**: reset về trạng thái `rebase (start)` ghi trong reflog.
+- **Tìm lại trạng thái cũ**: dùng `HEAD@{n}` để quay về đúng thời điểm trước thao tác nhầm.
+
+:::
 
 ---
 

@@ -11,6 +11,7 @@ GitHub là nền tảng phổ biến nhất thế giới để lưu trữ code v
 
 ## Mục lục
 
+- [Vì sao cần GitHub?](#vì-sao-cần-github)
 - [1. GitHub là gì?](#1-github-là-gì)
 - [2. GitHub vs GitLab vs Bitbucket](#2-github-vs-gitlab-vs-bitbucket)
 - [3. Tạo Repository trên GitHub](#3-tạo-repository-trên-github)
@@ -41,6 +42,32 @@ GitHub là nền tảng phổ biến nhất thế giới để lưu trữ code v
 - [Screenshots (if applicable)](#screenshots-if-applicable)
 - [11. Lỗi thường gặp](#11-lỗi-thường-gặp)
 - [12. Câu hỏi phỏng vấn](#12-câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao cần GitHub?
+
+**Vấn đề:** Bản thân Git chỉ là **công cụ dòng lệnh** quản lý phiên bản trên máy local. Nó **không** cung cấp nơi lưu trữ chung trên mạng, không có giao diện review code, không có hệ thống quản lý issue, cũng không tự động hoá được việc gì. Muốn cả nhóm cùng dùng một repo thì phải tự dựng server Git thủ công — cực kỳ tốn công và khó bảo trì.
+
+**Giải pháp:** **GitHub** (cùng với GitLab, Bitbucket) là nền tảng **hosting repo Git trên cloud**, kèm một lớp cộng tác phía trên:
+
+- **Pull Request + code review** — đề xuất và duyệt thay đổi
+- **Issues** — theo dõi bug, feature request, task
+- **Actions (CI/CD)** — tự động chạy test, build, deploy
+- **Wiki** — tài liệu dự án
+- **Quản lý quyền** — phân quyền thành viên, bảo vệ nhánh
+- **Releases** — phát hành phiên bản
+
+Nhờ đó, Git từ một công cụ cá nhân biến thành **nền tảng làm việc nhóm** hoàn chỉnh.
+
+:::tip[Dùng thực tế]
+
+- **Lưu và chia sẻ repo** công khai hoặc riêng tư cho cả nhóm cùng truy cập.
+- **Review code qua Pull Request** trước khi merge vào nhánh chính.
+- **Theo dõi bug và công việc** bằng Issues thay vì ghi chú rời rạc.
+- **Chạy CI tự động** bằng Actions: test, lint, build mỗi khi push code.
+
+:::
 
 ---
 

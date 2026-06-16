@@ -11,6 +11,7 @@ Docker và CI/CD là cặp đôi hoàn hảo. Bài này hướng dẫn cách s�
 
 ## Mục lục
 
+- [Vì sao Docker hợp với CI/CD?](#vì-sao-docker-hợp-với-cicd)
 - [1. Tại sao Docker + CI/CD?](#1-tại-sao-docker-cicd)
 - [2. GitHub Actions + Docker](#2-github-actions-docker)
 - [3. Multi-platform Builds](#3-multi-platform-builds)
@@ -19,6 +20,48 @@ Docker và CI/CD là cặp đôi hoàn hảo. Bài này hướng dẫn cách s�
 - [6. Caching trong CI](#6-caching-trong-ci)
 - [7. Bài tập thực hành](#7-bài-tập-thực-hành)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao Docker hợp với CI/CD?
+
+**Vấn đề:** Pipeline CI/CD không có Docker thì máy chạy CI phải tự cài đúng runtime và dependency. Môi trường "trôi" theo thời gian và khác với máy dev, nên test pass ở CI vẫn có thể fail ở production. Khi deploy ra server lại phải cài lại từ đầu, rất khó tái lập chính xác cùng một môi trường.
+
+**Giải pháp:** Docker biến "artifact" thành một **image bất biến**. CI build image trong môi trường sạch và giống nhau mọi lần, chạy test ngay trong container, push image lên registry, rồi deploy **chính image đó** ra mọi môi trường — đúng thứ đã được test. Đây là tinh thần "build once, deploy anywhere", tái lập 100%.
+
+```yaml
+# Build once → test → push → deploy chính image đã test
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 1. Build image trong môi trường sạch, gắn tag theo commit
+      - name: Build image
+        run: docker build -t my-app:${{ github.sha }} .
+
+      # 2. Chạy test trong chính container vừa build
+      - name: Test in container
+        run: docker run --rm my-app:${{ github.sha }} npm test
+
+      # 3. Push image (đã test) lên registry
+      - name: Push image
+        run: docker push my-app:${{ github.sha }}
+
+      # 4. Deploy đúng image đã test ra server
+      - name: Deploy
+        run: ssh deploy@server "docker compose pull && docker compose up -d"
+```
+
+:::tip[Dùng thực tế]
+
+- **Build & test trong container ở CI:** môi trường giống hệt nhau mọi lần chạy, hết cảnh "máy tôi chạy được".
+- **Tag image theo commit (`github.sha`):** mỗi bản build truy vết được về đúng commit sinh ra nó.
+- **Deploy đúng image đã test ra staging/prod:** thứ chạy production chính là thứ đã pass test, không build lại.
+- **Rollback nhanh:** chỉ cần deploy lại tag image cũ — không cần cài lại hay build lại gì.
+
+:::
 
 ---
 

@@ -18,6 +18,7 @@ Nếu bạn từng gặp bất kỳ tình huống nào ở trên, **Docker** ch�
 
 ## Mục lục
 
+- [Vì sao Docker ra đời?](#vì-sao-docker-ra-đời)
 - [1. Docker là gì?](#1-docker-là-gì)
 - [2. Tại sao cần Docker?](#2-tại-sao-cần-docker)
 - [3. Docker vs Virtual Machine (VM)](#3-docker-vs-virtual-machine-vm)
@@ -25,6 +26,43 @@ Nếu bạn từng gặp bất kỳ tình huống nào ở trên, **Docker** ch�
 - [5. Docker giải quyết vấn đề gì trong thực tế?](#5-docker-giải-quyết-vấn-đề-gì-trong-thực-tế)
 - [6. Luồng làm việc với Docker](#6-luồng-làm-việc-với-docker)
 - [7. Tổng kết](#7-tổng-kết)
+
+---
+
+## Vì sao Docker ra đời?
+
+**Vấn đề:**
+
+Code "chạy được trên máy tôi" nhưng lên server lại lỗi: khác phiên bản runtime/thư viện/OS, thiếu dependency, cấu hình lệch. Cài đặt thủ công cho mỗi môi trường tốn công và dễ sai. Máy ảo (VM) đóng gói được nhưng **rất nặng** — mỗi VM mang theo một OS đầy đủ, tốn hàng GB và khởi động chậm.
+
+```bash
+# Trên máy dev: chạy ngon
+node app.js   # Node 18, Ubuntu 22.04 → OK
+
+# Trên server: nổ lỗi
+node app.js   # Node 20, thiếu thư viện → Error: module not found
+```
+
+**Giải pháp:**
+
+Docker đóng gói ứng dụng + **tất cả phụ thuộc** vào một **container** chạy giống hệt ở mọi nơi. Container chia sẻ kernel của host nên **nhẹ** và khởi động trong vài giây (khác hẳn VM). Triết lý: **"Build once, run anywhere"**.
+
+```dockerfile
+FROM node:18           # Cố định runtime + OS
+WORKDIR /app
+COPY . .
+RUN npm install        # Đóng gói luôn dependency
+CMD ["node", "app.js"] # Chạy giống nhau ở mọi môi trường
+```
+
+:::tip[Dùng thực tế]
+
+- Môi trường dev giống hệt production → hết cảnh "trên máy tôi chạy được".
+- Ship app kèm toàn bộ dependency → deploy là chạy, không cài thủ công.
+- Chạy nhiều dịch vụ cô lập trên cùng một máy mà không xung đột.
+- Onboard dev mới chỉ với một lệnh `docker compose up`.
+
+:::
 
 ---
 

@@ -11,6 +11,7 @@ Iterator (bộ lặp) là công cụ giúp bạn duyệt qua từng phần tử 
 
 ## Mục lục
 
+- [Vì sao có Iterator?](#vì-sao-có-iterator)
 - [Iterator là gì?](#iterator-là-gì)
 - [hasNext và next](#hasnext-và-next)
 - [Lấy Iterator từ một collection](#lấy-iterator-từ-một-collection)
@@ -20,6 +21,45 @@ Iterator (bộ lặp) là công cụ giúp bạn duyệt qua từng phần tử 
 - [ListIterator — duyệt hai chiều](#listiterator--duyệt-hai-chiều)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có Iterator?
+
+**Vấn đề:** Mỗi cấu trúc dữ liệu lưu trữ một kiểu khác nhau: mảng theo chỉ số, linked list theo node, cây, bảng băm... Nếu mỗi loại duyệt một cách riêng thì code của bạn bị phụ thuộc vào chi tiết bên trong từng loại. Ngoài ra, xóa phần tử trong khi đang duyệt bằng vòng `for` theo chỉ số rất dễ gây lỗi hoặc bỏ sót phần tử.
+
+```java
+// Mỗi loại duyệt một kiểu, code phụ thuộc cấu trúc bên trong
+for (int i = 0; i < mang.length; i++) { ... }          // mảng theo chỉ số
+for (Node n = head; n != null; n = n.next) { ... }     // linked list theo node
+
+// Xóa khi duyệt bằng for index dễ bỏ sót: xóa phần tử thì index trượt!
+for (int i = 0; i < list.size(); i++) {
+    if (list.get(i) % 2 == 0) {
+        list.remove(i); // phần tử kế tiếp dồn lên, bị bỏ qua
+    }
+}
+```
+
+**Giải pháp:** **Iterator** cung cấp một giao diện **duyệt thống nhất** (`hasNext`/`next`/`remove`) cho mọi Collection mà **không lộ** cấu trúc bên trong. Đây là nền tảng của vòng lặp `for-each`. Iterator còn có cơ chế **fail-fast** phát hiện sửa đổi đồng thời, và `iterator.remove()` cho phép xóa **an toàn** ngay khi đang duyệt.
+
+```java
+// Cùng một cách duyệt cho MỌI collection, không cần biết cấu trúc bên trong
+Iterator<Integer> it = list.iterator();
+while (it.hasNext()) {
+    int n = it.next();
+    if (n % 2 == 0) {
+        it.remove(); // xóa an toàn, không bỏ sót phần tử
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+- Duyệt mọi loại collection bằng `for-each` (List, Set, Map qua entrySet...).
+- Xóa phần tử an toàn khi đang duyệt bằng `iterator.remove()`.
+- Viết code duyệt độc lập với loại collection, dễ thay đổi sau này.
+- Hiểu nguồn gốc `ConcurrentModificationException` để tránh và xử lý đúng.
+:::
 
 ---
 

@@ -11,6 +11,7 @@ Hàm bậc cao (high order function) là hàm nhận một hàm khác làm tham 
 
 ## Mục lục
 
+- [Vì sao có higher-order function?](#vì-sao-có-higher-order-function)
 - [Hàm bậc cao là gì?](#hàm-bậc-cao-là-gì)
 - [Ví dụ đời thường dễ hiểu](#ví-dụ-đời-thường-dễ-hiểu)
 - [Truyền hành vi vào một phương thức](#truyền-hành-vi-vào-một-phương-thức)
@@ -18,6 +19,83 @@ Hàm bậc cao (high order function) là hàm nhận một hàm khác làm tham 
 - [Method Reference (toán tử ::)](#method-reference-toán-tử-)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có higher-order function?
+
+**Vấn đề:** Ta có nhiều đoạn code gần như giống hệt nhau, chỉ **khác đúng một hành vi ở giữa**. Ví dụ lọc danh sách: cùng một vòng lặp, chỉ khác điều kiện lọc. Mỗi lần cần lọc theo tiêu chí mới, ta lại copy-paste vòng lặp rồi sửa điều kiện, gây trùng lặp khó bảo trì.
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class WithoutHof {
+
+    // Lọc số chẵn
+    static List<Integer> filterEven(List<Integer> numbers) {
+        List<Integer> result = new ArrayList<>();
+        for (int n : numbers) {
+            if (n % 2 == 0) { // chỉ phần điều kiện này thay đổi
+                result.add(n);
+            }
+        }
+        return result;
+    }
+
+    // Lọc số dương - GẦN NHƯ GIỐNG HỆT, chỉ khác điều kiện
+    static List<Integer> filterPositive(List<Integer> numbers) {
+        List<Integer> result = new ArrayList<>();
+        for (int n : numbers) {
+            if (n > 0) { // chỉ phần điều kiện này thay đổi
+                result.add(n);
+            }
+        }
+        return result;
+    }
+    // Cần lọc kiểu mới? Lại copy-paste vòng lặp rồi sửa điều kiện...
+}
+```
+
+**Giải pháp:** Dùng **higher-order function** — hàm **nhận hàm khác làm tham số** (hoặc **trả về một hàm**), nhờ lambda và functional interface. Ta tách phần "khung" cố định (vòng lặp) khỏi phần "hành vi" thay đổi (điều kiện lọc), rồi **truyền hành vi vào** để tái sử dụng tối đa. Đây cũng là nền tảng của Stream (`filter`/`map` đều nhận hàm).
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+public class WithHof {
+
+    // MỘT hàm bậc cao duy nhất: "condition" là hành vi lọc được truyền vào
+    // Predicate<Integer>: nhận 1 số, trả về true/false
+    static List<Integer> filter(List<Integer> numbers, Predicate<Integer> condition) {
+        List<Integer> result = new ArrayList<>();
+        for (int n : numbers) {
+            if (condition.test(n)) { // hành vi do người gọi quyết định
+                result.add(n);
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        List<Integer> nums = List.of(-2, -1, 0, 1, 2, 3);
+
+        System.out.println(filter(nums, n -> n % 2 == 0)); // [-2, 0, 2]
+        System.out.println(filter(nums, n -> n > 0));      // [1, 2, 3]
+        // Tiêu chí mới chỉ là một lambda, không cần copy-paste vòng lặp nữa
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **`filter`/`map`/`reduce` của Stream** nhận lambda để quyết định cách lọc, biến đổi, gộp dữ liệu.
+- **Truyền callback/strategy:** đưa "việc cần làm sau khi xong" hoặc thuật toán cụ thể vào một phương thức chung.
+- **Tạo hàm cấu hình sẵn:** hàm trả về một hàm khác đã "nhớ" tham số (vd hàm nhân với hệ số cho trước).
+- **Tách logic chung khỏi hành vi riêng:** giữ phần khung cố định một chỗ, chỉ truyền phần thay đổi vào.
+
+:::
 
 ---
 

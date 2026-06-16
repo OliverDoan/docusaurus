@@ -11,6 +11,7 @@ Phạm vi truy cập quyết định "ai" được phép nhìn thấy và dùng 
 
 ## Mục lục
 
+- [Vì sao có access modifier (public/private...)?](#vì-sao-có-access-modifier-publicprivate)
 - [Access Specifier là gì?](#access-specifier-là-gì)
 - [public — Công khai](#public--công-khai)
 - [private — Riêng tư](#private--riêng-tư)
@@ -20,6 +21,50 @@ Phạm vi truy cập quyết định "ai" được phép nhìn thấy và dùng 
 - [Khi nào dùng cái nào?](#khi-nào-dùng-cái-nào)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có access modifier (public/private...)?
+
+**Vấn đề:** Nếu mọi thành phần (thuộc tính/phương thức) đều truy cập được từ bên ngoài,
+người dùng class có thể sửa trực tiếp trạng thái sai quy tắc, và code khác phụ thuộc vào
+chi tiết nội bộ khiến sau này khó thay đổi cài đặt mà không làm vỡ chỗ khác.
+
+```java
+public class BankAccount {
+    public double balance; // ai cũng sửa được
+}
+
+BankAccount acc = new BankAccount();
+acc.balance = -1000; // số dư âm vô lý nhưng vẫn được phép -> dữ liệu sai
+```
+
+**Giải pháp:** Access modifier kiểm soát phạm vi truy cập: `private` (chỉ trong class — ẩn
+chi tiết), `protected` (class + lớp con + package), default (chỉ package), `public` (mọi nơi
+— API công khai). Ẩn cái cần ẩn, lộ cái cần lộ — vừa đóng gói dữ liệu, vừa được tự do thay
+đổi nội bộ về sau.
+
+```java
+public class BankAccount {
+    private double balance; // ẩn, không sửa trực tiếp được
+
+    public void deposit(double amount) { // API public có kiểm soát
+        if (amount <= 0) throw new IllegalArgumentException("Số tiền phải > 0");
+        balance += amount;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+- Thuộc tính để `private`, mở qua getter/setter để **kiểm soát** giá trị đầu vào (chặn số dư âm).
+- Ẩn các phương thức "phụ trợ" nội bộ bằng `private`, không cho bên ngoài gọi nhầm.
+- Chỉ lộ ra `public` những phương thức là **API ổn định** (`deposit`, `getBalance`).
+- Giữ **bất biến** của object (vd số dư luôn ≥ 0) bằng cách không cho sửa trực tiếp trạng thái.
+:::
 
 ---
 

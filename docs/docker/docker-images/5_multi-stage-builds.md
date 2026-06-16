@@ -11,6 +11,7 @@ Multi-stage build là kỹ thuật nâng cao giúp tạo ra image production nh�
 
 ## Mục lục
 
+- [Vì sao có multi-stage build?](#vì-sao-có-multi-stage-build)
 - [1. Vấn đề: Image quá lớn](#1-vấn-đề-image-quá-lớn)
 - [2. Multi-stage Build là gì?](#2-multi-stage-build-là-gì)
 - [3. Cú pháp](#3-cú-pháp)
@@ -20,6 +21,55 @@ Multi-stage build là kỹ thuật nâng cao giúp tạo ra image production nh�
 - [7. Tips nâng cao](#7-tips-nâng-cao)
 - [8. Bài tập thực hành](#8-bài-tập-thực-hành)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao có multi-stage build?
+
+**Vấn đề:**
+
+Để **build** app, bạn cần nhiều công cụ nặng: compiler, JDK/Node + devDependencies, và toàn bộ mã nguồn. Nhưng để **chạy** thì chỉ cần file kết quả (binary, jar, file tĩnh). Nếu nhét tất cả vào một image, image sẽ **phình to** (hàng trăm MB tới vài GB), chậm tải, và **tăng bề mặt tấn công** vì chứa build tool và secret thừa.
+
+```dockerfile
+# ❌ Một image chứa cả build tool lẫn runtime
+FROM node:20
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm install          # devDependencies (webpack, babel...) nằm lại trong image
+COPY . .
+RUN npm run build        # build ra dist/
+
+CMD ["npx", "serve", "-s", "dist"]
+# → node_modules + source + build tool đều bị giữ lại → image ~800MB
+```
+
+**Giải pháp:**
+
+Dùng **multi-stage build**: nhiều `FROM` trong một Dockerfile. Stage `builder` chứa công cụ build, stage cuối chỉ `COPY --from=builder` đúng artifact cần thiết vào image nền tối giản (`alpine`, `distroless`, `scratch`). Image cuối nhỏ, sạch, an toàn.
+
+```dockerfile
+# ✅ Stage build tách khỏi stage chạy
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+# → Chỉ file tĩnh được mang sang → image ~50MB
+```
+
+:::tip[Dùng thực tế]
+
+- **Frontend (React/Vue/Angular):** build ra file tĩnh rồi chỉ copy `dist/` vào `nginx`.
+- **Go/Java:** biên dịch ở stage builder rồi copy `binary` / `jar` vào image nền tối giản.
+- **Loại bỏ devDependencies:** giữ lại đúng dependencies production, vứt webpack/babel/compiler khỏi image cuối.
+- **Bảo mật hơn:** image nhỏ, không chứa build tool hay secret thừa nên ít lỗ hổng và bề mặt tấn công hơn.
+
+:::
 
 ---
 

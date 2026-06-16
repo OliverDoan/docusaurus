@@ -11,6 +11,7 @@ Chạy Docker trong production khác rất nhiều so với development. Bài n�
 
 ## Mục lục
 
+- [Vì sao chạy Docker ở production cần lưu ý riêng?](#vì-sao-chạy-docker-ở-production-cần-lưu-ý-riêng)
 - [1. Development vs Production](#1-development-vs-production)
 - [2. Dockerfile cho Production](#2-dockerfile-cho-production)
 - [3. Docker Compose cho Production](#3-docker-compose-cho-production)
@@ -21,6 +22,73 @@ Chạy Docker trong production khác rất nhiều so với development. Bài n�
 - [8. Backup Strategy](#8-backup-strategy)
 - [9. Checklist Production](#9-checklist-production)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao chạy Docker ở production cần lưu ý riêng?
+
+**Vấn đề:**
+
+Một lệnh `docker run` trên một máy là quá đủ cho development: bạn chạy, test, rồi tắt. Nhưng production đòi hỏi nhiều hơn thế, và Docker đơn lẻ không lo hết được:
+
+- Container **chết giữa đêm** → ai khởi động lại? Không có ai trực 24/7.
+- Container vẫn "sống" nhưng app bên trong **đã treo** → làm sao biết nó có thực sự khoẻ?
+- Một máy **không gánh nổi tải** → cần chạy nhiều bản và cân bằng tải giữa chúng.
+- Một máy **hỏng phần cứng** → toàn bộ service sập, không có dự phòng.
+- Log nằm rải rác trên từng container → khó **gom lại để xem và cảnh báo**.
+- Deploy phiên bản mới mà phải **tắt service** → người dùng thấy downtime.
+
+**Giải pháp:**
+
+Bổ sung từng lớp bảo vệ cho production. Ở mức một máy, dùng `restart policy` + `HEALTHCHECK` + giới hạn tài nguyên + log có rotation:
+
+```yaml
+services:
+  app:
+    image: myregistry/my-app:v2.0
+    restart: unless-stopped # Tự khởi động lại khi crash
+    healthcheck: # Tự biết container có "khoẻ" không
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits: # Giới hạn để 1 container không "ăn" hết máy
+          cpus: "2"
+          memory: 1G
+    logging: # Log tập trung + rotation, tránh đầy ổ đĩa
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+```
+
+Khi cần scale nhiều máy, self-heal và rolling update không downtime, dùng **orchestrator** (Kubernetes hoặc Docker Swarm) để lo scale, service discovery, secrets và rolling update:
+
+```bash
+# Docker Swarm: scale + rolling update không downtime
+docker service create --name app --replicas 4 \
+  --update-parallelism 1 --update-delay 10s \
+  --health-cmd "wget --spider -q http://localhost:3000/health" \
+  myregistry/my-app:v2.0
+
+# Cập nhật phiên bản mới, Swarm thay từng replica một
+docker service update --image myregistry/my-app:v2.1 app
+
+# Kubernetes: scale và rolling update tương tự
+kubectl scale deployment my-app --replicas=4
+kubectl set image deployment/my-app app=myregistry/my-app:v2.1
+```
+
+:::tip[Dùng thực tế]
+
+- **Tự restart khi crash:** đặt `restart: unless-stopped`. Container chết lúc 3h sáng sẽ tự bật lại, không cần ai trực.
+- **Healthcheck cho load balancer:** `/health` kiểm tra cả DB và Redis. LB chỉ gửi traffic vào container trả về `healthy`, tránh dội request vào bản đang treo.
+- **Scale nhiều replica chịu tải:** chạy nhiều bản (`replicas: 4`) sau load balancer. Tải tăng thì thêm replica, một máy hỏng vẫn còn bản khác phục vụ.
+- **Rolling update không downtime:** dùng K8s/Swarm thay từng replica một (`update-parallelism 1`). Người dùng không thấy gián đoạn khi lên phiên bản mới.
+
+:::
 
 ---
 

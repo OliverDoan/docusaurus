@@ -11,11 +11,51 @@ Index (chỉ mục) giống như mục lục của một cuốn sách, giúp cơ
 
 ## Mục lục
 
+- [Vì sao cần index?](#vì-sao-cần-index)
 - [Index là gì](#index-là-gì)
 - [Managing Indexes](#managing-indexes)
 - [Các loại Index trong PostgreSQL](#các-loại-index-trong-postgresql)
 - [Query Optimization với Index](#query-optimization-với-index)
 - [Cái giá của Index](#cái-giá-của-index)
+
+---
+
+## Vì sao cần index?
+
+**Vấn đề:**
+
+```sql
+-- Bảng users có hàng triệu dòng, KHÔNG có index trên email.
+-- Để tìm 1 hàng, DB phải QUÉT TOÀN BẢNG (full table scan) — đọc lần lượt
+-- từng dòng cho tới khi khớp => cực chậm khi bảng lớn.
+SELECT * FROM users WHERE email = 'thuan@example.com';
+
+-- JOIN và ORDER BY trên cột không có index cũng phải quét/sắp xếp toàn bộ => chậm.
+SELECT * FROM orders o
+JOIN users u ON o.user_id = u.id   -- user_id không index => quét cả bảng
+ORDER BY o.created_at;             -- created_at không index => sắp xếp toàn bộ
+```
+
+**Giải pháp:**
+
+```sql
+-- INDEX (thường là B-tree) là cấu trúc tra cứu giống "mục lục sách":
+-- giúp DB nhảy thẳng tới hàng cần thay vì quét hết => tăng tốc đọc rất nhiều.
+CREATE INDEX idx_users_email ON users(email);
+
+-- Cùng câu truy vấn, giờ DB dùng index để tìm trực tiếp => nhanh hơn nhiều.
+SELECT * FROM users WHERE email = 'thuan@example.com';
+
+-- ĐÁNH ĐỔI: index tốn dung lượng và làm CHẬM ghi (mỗi INSERT/UPDATE phải
+-- cập nhật cả index) => chỉ index cột hay dùng để tìm/lọc/join.
+```
+
+:::tip[Dùng thực tế]
+- Index cột `email`/`username` để tra cứu đăng nhập, tìm người dùng nhanh.
+- Index khoá ngoại (`user_id`, `order_id`...) để tăng tốc JOIN giữa các bảng.
+- Composite index cho query lọc nhiều điều kiện cùng lúc (ví dụ `WHERE status = ... AND created_at > ...`).
+- Cân nhắc KHÔNG index cột hiếm khi tìm/lọc — vì chỉ tốn dung lượng và làm chậm ghi.
+:::
 
 ---
 

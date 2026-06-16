@@ -11,6 +11,7 @@ JDBC là API cấp thấp nền tảng để Java nói chuyện trực tiếp v�
 
 ## Mục lục
 
+- [Vì sao có JDBC?](#vì-sao-có-jdbc)
 - [JDBC là gì?](#jdbc-là-gì)
 - [Các bước cơ bản khi dùng JDBC](#các-bước-cơ-bản-khi-dùng-jdbc)
 - [Kết nối: DriverManager và Connection](#kết-nối-drivermanager-và-connection)
@@ -21,6 +22,51 @@ JDBC là API cấp thấp nền tảng để Java nói chuyện trực tiếp v�
 - [Connection Pool và HikariCP](#connection-pool-và-hikaricp)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có JDBC?
+
+**Vấn đề:** Mỗi hệ quản trị CSDL (MySQL, PostgreSQL, Oracle...) có **giao thức và
+thư viện kết nối RIÊNG**. Nếu code Java gọi thẳng API riêng của từng DB, ứng dụng
+bị **khóa chặt vào một DB**: muốn đổi sang DB khác phải viết lại gần như toàn bộ
+phần truy cập dữ liệu.
+
+**Giải pháp:** JDBC là **API CHUẨN** của Java để làm việc với mọi CSDL quan hệ.
+Mỗi DB cung cấp một **driver** cài thêm vào sau, còn code nghiệp vụ chỉ dùng các
+interface chuẩn (`Connection`, `Statement`, `ResultSet`). Đổi DB chỉ cần đổi
+**driver + URL**, không phải sửa logic.
+
+```java
+// Code chỉ phụ thuộc interface chuẩn của JDBC, không phụ thuộc DB cụ thể
+// Đổi DB? Chỉ đổi URL và driver — phần dưới giữ nguyên.
+String url = "jdbc:mysql://localhost:3306/mydb";   // MySQL
+// String url = "jdbc:postgresql://localhost:5432/mydb"; // đổi sang PostgreSQL
+
+String sql = "SELECT id, name FROM users WHERE email = ?";
+try (Connection conn = DriverManager.getConnection(url, USER, PASSWORD);
+     PreparedStatement ps = conn.prepareStatement(sql)) { // luôn dùng PreparedStatement
+    ps.setString(1, "an@example.com"); // tham số hóa → chống SQL injection
+    try (ResultSet rs = ps.executeQuery()) {
+        while (rs.next()) {
+            System.out.println(rs.getString("name"));
+        }
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Kết nối và truy vấn DB chuẩn:** mở `Connection`, chạy SELECT/INSERT qua cùng
+  một bộ interface dù backend là MySQL hay PostgreSQL.
+- **Chống SQL injection:** luôn dùng `PreparedStatement` với dấu `?` để tham số
+  hóa dữ liệu người dùng, không nối chuỗi.
+- **Đổi DB không đổi code nghiệp vụ:** chuyển môi trường (dev dùng MySQL, prod
+  dùng PostgreSQL) chỉ cần đổi driver + URL.
+- **Nền tảng cho ORM:** các framework như Hibernate đều dựng trên JDBC — hiểu
+  JDBC giúp bạn debug ORM dễ hơn.
+
+:::
 
 ---
 

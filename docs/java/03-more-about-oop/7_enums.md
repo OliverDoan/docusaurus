@@ -12,6 +12,7 @@ Enum (kiểu liệt kê) dùng khi một biến chỉ được nhận một tron
 ## Mục lục
 
 - [Enum là gì?](#enum-là-gì)
+- [Vì sao có enum?](#vì-sao-có-enum)
 - [Định nghĩa enum cơ bản](#định-nghĩa-enum-cơ-bản)
 - [Vì sao dùng enum thay vì chuỗi/số?](#vì-sao-dùng-enum-thay-vì-chuỗisố)
 - [Dùng enum trong switch](#dùng-enum-trong-switch)
@@ -27,6 +28,41 @@ Enum (kiểu liệt kê) dùng khi một biến chỉ được nhận một tron
 **Enum** (viết tắt của enumeration — kiểu liệt kê: một tập hợp cố định các giá trị có tên) dùng khi một biến chỉ được nhận một trong vài giá trị xác định trước.
 
 Ví dụ đời thường: các ngày trong tuần (Thứ Hai đến Chủ Nhật), các hướng (Đông, Tây, Nam, Bắc), trạng thái đơn hàng (Đang xử lý, Đã giao, Đã hủy). Những thứ này có một danh sách giá trị cố định, không thể là giá trị bất kỳ.
+
+---
+
+## Vì sao có enum?
+
+**Vấn đề:** Khi cần biểu diễn một tập giá trị cố định (ví dụ trạng thái đơn hàng: NEW/PAID/SHIPPED), nhiều người dùng hằng số `int` hoặc `String` ("magic value"). Cách này không kiểu-an-toàn: truyền nhầm số hoặc chuỗi sai vẫn biên dịch được, không có gợi ý trong IDE, dễ gõ sai, và `switch` có thể sót giá trị mà không báo lỗi.
+
+```java
+// Dùng int/String rời rạc: trình biên dịch không bảo vệ được
+int NEW = 0, PAID = 1, SHIPPED = 2;
+
+void capNhat(int trangThai) { /* ... */ }
+
+capNhat(99);            // Vô nghĩa nhưng vẫn biên dịch được
+String tt = "SHIPED";  // Gõ sai "SHIPED", không ai phát hiện
+```
+
+**Giải pháp:** Dùng **enum** — một kiểu riêng với tập hằng giá trị cố định, **type-safe** (trình biên dịch chỉ cho nhận đúng enum). Enum còn có thể thêm thuộc tính/phương thức/constructor, dùng trong `switch` an toàn, và hỗ trợ `EnumMap`/`EnumSet` rất hiệu quả.
+
+```java
+public enum TrangThai { NEW, PAID, SHIPPED }
+
+void capNhat(TrangThai trangThai) { /* ... */ }
+
+capNhat(TrangThai.PAID);   // OK, chỉ nhận giá trị hợp lệ
+// capNhat(99);            // LỖI biên dịch ngay
+// TrangThai.SHIPED;       // LỖI biên dịch ngay, không gõ sai được
+```
+
+:::tip[Dùng thực tế]
+- Trạng thái đơn hàng: `NEW`, `PAID`, `SHIPPED`, `CANCELLED`.
+- Ngày trong tuần / tháng: `MONDAY`...`SUNDAY` (`java.time.DayOfWeek`).
+- Cấu hình loại có hành vi riêng: mỗi hằng số mang thuộc tính/phương thức khác nhau (ví dụ mức ưu tiên kèm hệ số xử lý).
+- Thay cho hằng số `int`/`String` rời rạc để có kiểu-an-toàn và code rõ nghĩa.
+:::
 
 ---
 

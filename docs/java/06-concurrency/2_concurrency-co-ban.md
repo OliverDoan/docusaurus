@@ -12,6 +12,7 @@ title: "2. Đa luồng cơ bản (Concurrency)"
 ## Mục lục
 
 - [Vì sao cần xử lý song song?](#vì-sao-cần-xử-lý-song-song)
+- [Vì sao concurrency cần đồng bộ hóa?](#vì-sao-concurrency-cần-đồng-bộ-hóa)
 - [Tranh chấp tài nguyên (Race Condition)](#tranh-chấp-tài-nguyên-race-condition)
 - [synchronized — khóa đồng bộ](#synchronized--khóa-đồng-bộ)
 - [Lock — khóa linh hoạt hơn](#lock--khóa-linh-hoạt-hơn)
@@ -33,6 +34,65 @@ Trong phần mềm, xử lý song song (concurrency) giúp:
 - Không chờ đợi vô ích khi một việc bị chậm.
 
 Nhưng song song cũng sinh ra rắc rối: khi nhiều luồng **cùng dùng chung một thứ**, chúng có thể giẫm chân nhau. Đó là lý do ta cần các công cụ bên dưới.
+
+---
+
+## Vì sao concurrency cần đồng bộ hóa?
+
+Khi nhiều luồng **cùng đọc/ghi một dữ liệu chung**, các thao tác đan xen nhau gây ra **race condition**: kết quả sai không lường trước được và bug rất khó tái hiện.
+
+**Vấn đề:**
+
+```java
+class Dem {
+    int count = 0;
+
+    void tang() {
+        // count++ thực ra là 3 bước: ĐỌC → CỘNG 1 → GHI lại
+        // Hai luồng có thể cùng đọc giá trị cũ rồi ghi đè nhau → mất cập nhật
+        count++;
+    }
+}
+// 2 luồng cùng tăng 100000 lần: mong đợi 200000,
+// nhưng thực tế thường NHỎ HƠN vì các bước chồng lên nhau.
+```
+
+**Giải pháp:**
+
+```java
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.ConcurrentHashMap;
+
+class DemAnToan {
+    // 1) synchronized/Lock: chỉ MỘT luồng vào vùng tới hạn tại một thời điểm
+    private int count = 0;
+    synchronized void tang() {
+        count++;
+    }
+
+    // 2) Biến Atomic: thao tác nguyên tử (atomic) không cần khóa
+    private final AtomicInteger demNguyenTu = new AtomicInteger(0);
+    void tangNguyenTu() {
+        demNguyenTu.incrementAndGet();
+    }
+
+    // 3) Concurrent collections: an toàn đa luồng sẵn có
+    private final ConcurrentHashMap<String, Integer> cache = new ConcurrentHashMap<>();
+    void luuCache(String khoa, int giaTri) {
+        cache.put(khoa, giaTri);
+    }
+    // Lưu ý: khi khóa nhiều tài nguyên, luôn khóa theo CÙNG THỨ TỰ để tránh deadlock.
+}
+```
+
+:::tip[Dùng thực tế]
+
+- Bảo vệ **biến đếm hoặc số dư dùng chung** bằng `synchronized`/`Lock` để không bị mất cập nhật.
+- Dùng `ConcurrentHashMap` cho **cache đa luồng** thay vì `HashMap` thường.
+- Dùng `AtomicInteger`/`AtomicLong` cho **counter** cần tăng/giảm nhanh, không cần khóa.
+- Tránh **race trên trạng thái chia sẻ** (cờ, danh sách dùng chung) bằng cách đồng bộ hóa truy cập.
+
+:::
 
 ---
 

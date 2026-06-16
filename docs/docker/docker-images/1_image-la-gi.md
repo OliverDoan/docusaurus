@@ -11,6 +11,7 @@ Docker Image là nền tảng của mọi thứ trong Docker. Hiểu rõ Image s
 
 ## Mục lục
 
+- [Vì sao có Docker image?](#vì-sao-có-docker-image)
 - [1. Image — Bản thiết kế của Container](#1-image-bản-thiết-kế-của-container)
 - [2. Cấu trúc Layers](#2-cấu-trúc-layers)
 - [3. Xem thông tin Image](#3-xem-thông-tin-image)
@@ -19,6 +20,37 @@ Docker Image là nền tảng của mọi thứ trong Docker. Hiểu rõ Image s
 - [6. Dangling Images](#6-dangling-images)
 - [7. Bài tập thực hành](#7-bài-tập-thực-hành)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao có Docker image?
+
+**Vấn đề:** Ta cần một cách **đóng gói bất biến** toàn bộ "công thức" của ứng dụng (code + runtime + thư viện + cấu hình) để bất kỳ máy nào cũng tạo ra container **giống hệt**. Nếu mỗi lần dựng lại từ đầu thì vừa chậm vừa dễ lệch môi trường:
+
+```bash
+# Mỗi máy tự cài tay → mỗi nơi một phiên bản khác nhau
+apt install nodejs   # máy A: Node 18
+apt install nodejs   # máy B: Node 20  → chạy lệch nhau!
+npm install          # lặp lại từ đầu, chậm, dễ thiếu thư viện
+```
+
+**Giải pháp:** **Image** là bản đóng gói **read-only, bất biến** gồm nhiều **layer** xếp chồng. Container chỉ là một image **đang chạy** (thêm một lớp ghi). Image tái sử dụng layer (cache) nên build/tải nhanh, và version bằng **tag**. Có thể coi image là "class", còn container là "instance":
+
+```bash
+# Đóng gói 1 lần → chạy giống hệt mọi nơi
+docker build -t my-app:1.0 .   # image bất biến, version bằng tag
+docker run my-app:1.0          # container = image đang chạy
+docker run my-app:1.0          # chạy bao nhiêu lần cũng giống hệt
+```
+
+:::tip[Dùng thực tế]
+
+- **Deploy:** đóng gói ứng dụng thành image rồi đẩy lên server/registry, môi trường chạy luôn nhất quán.
+- **Image nền:** dùng image có sẵn như `node`, `python`, `nginx` làm điểm khởi đầu thay vì tự dựng.
+- **Version:** gắn `tag` (`my-app:1.0`, `my-app:1.1`) để theo dõi và rollback dễ dàng.
+- **Chia sẻ:** push/pull image qua registry (Docker Hub) để cả team dùng chung một bản đóng gói.
+
+:::
 
 ---
 

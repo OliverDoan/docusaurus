@@ -11,6 +11,7 @@ Trước khi gõ bất kỳ lệnh Git nào, bạn cần hiểu **cách Git suy 
 
 ## Mục lục
 
+- [Vì sao Git có vùng staging & snapshot?](#vì-sao-git-có-vùng-staging--snapshot)
 - [1. Ba vùng làm việc của Git](#1-ba-vùng-làm-việc-của-git)
 - [2. Commit là gì?](#2-commit-là-gì)
 - [3. SHA-1 Hash — Định danh duy nhất](#3-sha-1-hash-định-danh-duy-nhất)
@@ -23,6 +24,52 @@ Trước khi gõ bất kỳ lệnh Git nào, bạn cần hiểu **cách Git suy 
 - [10. Lỗi thường gặp](#10-lỗi-thường-gặp)
 - [11. Câu hỏi phỏng vấn](#11-câu-hỏi-phỏng-vấn)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao Git có vùng staging & snapshot?
+
+**Vấn đề:**
+
+Khi bạn sửa nhiều file cho nhiều mục đích khác nhau, nếu commit "tất cả một lần" thì lịch sử lộn xộn, khó review và khó revert từng phần. Bạn cũng cần biết rõ file nào đang ở trạng thái nào.
+
+```bash
+# Bạn sửa 3 file cho 3 việc khác nhau:
+# - login.js     (tính năng đăng nhập)
+# - register.js  (tính năng đăng ký)
+# - style.css    (sửa giao diện)
+
+git commit -am "sua nhieu thu"
+# -> Gộp hết vào 1 commit: lịch sử rối, không tách/revert được từng việc
+```
+
+**Giải pháp:**
+
+Git tách quy trình thành 3 vùng và mỗi commit là một snapshot toàn bộ dự án.
+
+```bash
+# 3 vùng: Working Directory (đang sửa)
+#         -> STAGING AREA (chọn lọc thay đổi sẽ vào commit)
+#         -> Repository (commit đã lưu)
+
+git add login.js
+git commit -m "feat: them tinh nang dang nhap"   # 1 snapshot, có hash định danh
+
+git add register.js
+git commit -m "feat: them tinh nang dang ky"      # snapshot riêng, gọn gàng
+
+# Mỗi commit lưu ảnh chụp TOÀN BỘ dự án (không chỉ diff),
+# cho phép commit có chủ đích, dễ review và revert từng phần.
+```
+
+:::tip[Dùng thực tế]
+
+- **Chọn lọc file vào commit:** `git add` chỉ những file liên quan, để commit gọn và đúng chủ đề.
+- **Tách thành nhiều commit ý nghĩa:** mỗi việc một commit, dễ review và revert riêng lẻ.
+- **Kiểm tra trạng thái:** dùng `git status` để biết file nào đang Modified, Staged hay Untracked.
+- **Hiểu commit là snapshot:** mỗi commit là ảnh chụp toàn bộ dự án, có hash để truy xuất bất cứ lúc nào.
+
+:::
 
 ---
 

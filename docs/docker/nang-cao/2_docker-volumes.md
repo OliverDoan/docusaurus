@@ -11,6 +11,7 @@ Khi container bị xoá, dữ liệu bên trong cũng mất theo. **Volumes** gi
 
 ## Mục lục
 
+- [Vì sao cần volumes?](#vì-sao-cần-volumes)
 - [1. Vấn đề: Dữ liệu mất khi xoá container](#1-vấn-đề-dữ-liệu-mất-khi-xoá-container)
 - [2. Các loại lưu trữ trong Docker](#2-các-loại-lưu-trữ-trong-docker)
 - [3. Named Volumes](#3-named-volumes)
@@ -20,6 +21,54 @@ Khi container bị xoá, dữ liệu bên trong cũng mất theo. **Volumes** gi
 - [7. Backup và Restore Volumes](#7-backup-và-restore-volumes)
 - [8. Best Practices](#8-best-practices)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao cần volumes?
+
+Container là **ephemeral** (tạm thời): mọi dữ liệu ghi bên trong lớp ghi của container sẽ **biến mất** khi container bị xoá hoặc tạo lại.
+
+**Vấn đề:**
+
+```bash
+# Chạy database, ghi dữ liệu vào trong container
+docker run -d --name db -e POSTGRES_PASSWORD=secret postgres:16
+docker exec -it db psql -U postgres -c "CREATE TABLE users (id int);"
+
+# Container bị xoá (restart, update image, crash...)
+docker rm -f db
+
+# Tạo lại container → dữ liệu MẤT SẠCH, database trống trơn
+docker run -d --name db -e POSTGRES_PASSWORD=secret postgres:16
+# → Không chấp nhận được với dữ liệu cần bền (DB, uploads...)
+```
+
+**Giải pháp:**
+
+```bash
+# Volumes tách dữ liệu khỏi vòng đời container
+# Named volume — Docker quản lý, dùng cho dữ liệu bền (DB, uploads)
+docker run -d -v pgdata:/var/lib/postgresql/data postgres:16
+
+# Bind mount — gắn thư mục host vào container (dev: sửa code thấy ngay)
+docker run -d -v $(pwd)/src:/app/src my-app:dev
+
+# tmpfs — lưu trên RAM, dùng cho dữ liệu tạm/nhạy cảm
+docker run -d --tmpfs /app/temp my-app
+
+# Xoá rồi tạo lại container, dữ liệu trong volume VẪN CÒN
+docker rm -f db
+docker run -d -v pgdata:/var/lib/postgresql/data postgres:16  # → data còn nguyên
+```
+
+:::tip[Dùng thực tế]
+
+- **Lưu dữ liệu Postgres bền**: dùng named volume `-v pgdata:/var/lib/postgresql/data` để DB sống sót qua mọi lần restart/update image.
+- **Dev với hot reload**: bind mount `-v $(pwd)/src:/app/src` để sửa code trên host là container thấy ngay, không cần build lại.
+- **Chia sẻ dữ liệu giữa các container**: nhiều container cùng mount một volume để dùng chung file (assets, cache...).
+- **Backup / restore**: dữ liệu nằm trong volume độc lập nên backup (tar, `pg_dump`) và khôi phục dễ dàng.
+
+:::
 
 ---
 

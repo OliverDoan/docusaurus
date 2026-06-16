@@ -11,6 +11,7 @@ Stored procedure và function là những khối mã SQL được lưu sẵn tro
 
 ## Mục lục
 
+- [Vì sao có stored procedure?](#vì-sao-có-stored-procedure)
 - [Khái niệm](#khái-niệm)
 - [Function](#function)
 - [Procedure](#procedure)
@@ -20,6 +21,38 @@ Stored procedure và function là những khối mã SQL được lưu sẵn tro
 - [RAISE NOTICE và RAISE EXCEPTION](#raise-notice-và-raise-exception)
 - [Trigger](#trigger)
 - [DROP FUNCTION và DROP PROCEDURE](#drop-function-và-drop-procedure)
+
+---
+
+## Vì sao có stored procedure?
+
+**Vấn đề:** Một nghiệp vụ xử lý dữ liệu phức tạp (kiểm tra số dư, trừ tiền, cộng tiền, ghi log) bị lặp lại ở nhiều ứng dụng. Mỗi bước là một câu SQL riêng, ứng dụng phải gửi lần lượt từng câu xuống DB.
+
+```sql
+-- Ứng dụng gọi từng câu một → nhiều round-trip mạng app <-> DB
+SELECT balance FROM accounts WHERE id = 101;       -- round-trip 1
+UPDATE accounts SET balance = balance - 500000 WHERE id = 101;  -- round-trip 2
+UPDATE accounts SET balance = balance + 500000 WHERE id = 202;  -- round-trip 3
+-- Logic này phải viết lại ở mọi app → khó nhất quán, dễ sai lệch
+```
+
+**Giải pháp:** Gói nhiều câu lệnh cùng logic (biến, vòng lặp, điều kiện) thành một thủ tục **lưu sẵn trong DB**. Ứng dụng gọi một lần, DB thực thi tất cả tại chỗ.
+
+```sql
+-- Gói toàn bộ nghiệp vụ vào 1 thủ tục, gọi 1 lần duy nhất
+CALL chuyen_tien(101, 202, 500000);  -- 1 round-trip cho cả nghiệp vụ
+```
+
+Cách này giảm round-trip mạng, tái sử dụng được ở mọi ứng dụng, tập trung logic một chỗ và dễ phân quyền. **Đánh đổi:** logic nằm trong DB nên khó version control và test hơn so với code ứng dụng.
+
+:::tip[Dùng thực tế]
+
+- **Tính lương / khoá sổ cuối kỳ:** thủ tục chạy nhiều bước tính toán nặng ngay trong DB.
+- **Trigger tự cập nhật:** tự điền `updated_at`, ghi audit log khi có INSERT/UPDATE.
+- **Đóng gói nghiệp vụ nhiều bước:** chuyển tiền, đặt hàng — đảm bảo nhất quán giữa các app.
+- **Xử lý batch:** gộp hàng loạt thao tác để giảm round-trip mạng giữa app và DB.
+
+:::
 
 ---
 

@@ -11,6 +11,7 @@ Hệ thống Module (có từ Java 9) là cách chia một chương trình lớn
 
 ## Mục lục
 
+- [Vì sao có module system (JPMS)?](#vì-sao-có-module-system-jpms)
 - [Module là gì?](#module-là-gì)
 - [Vấn đề của classpath cũ](#vấn-đề-của-classpath-cũ)
 - [File module-info.java](#file-module-infojava)
@@ -20,6 +21,43 @@ Hệ thống Module (có từ Java 9) là cách chia một chương trình lớn
 - [So sánh module với classpath cũ](#so-sánh-module-với-classpath-cũ)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có module system (JPMS)?
+
+**Vấn đề:** Classpath truyền thống là một không gian **phẳng**: mọi class `public` đều lộ ra ngoài, không thể giấu phần nội bộ của một thư viện. Trùng hoặc thiếu JAR chỉ bị phát hiện muộn lúc chạy ("JAR hell" / `ClassNotFoundException`), và JDK là một khối khổng lồ khó cắt nhỏ.
+
+```java
+// Thư viện muốn giấu lớp nội bộ này, nhưng classpath phẳng làm KHÔNG được:
+package com.lib.internal;
+
+public class XuLyNoiBo {          // public -> ai cũng gọi được
+    public void hamNguyHiem() { } // lẽ ra chỉ dùng nội bộ
+}
+
+// Code bên ngoài vẫn import thoải mái, phá vỡ ranh giới nội bộ:
+import com.lib.internal.XuLyNoiBo; // không có gì ngăn cản
+```
+
+**Giải pháp:** JPMS (Java 9, qua `module-info.java`) cho phép khai báo `requires` (phụ thuộc) và `exports` (package được lộ ra). Nhờ đó có **đóng gói mạnh** (ẩn được package nội bộ), phụ thuộc rõ ràng được kiểm tra sớm lúc khởi động, và có thể tạo runtime tối giản bằng `jlink`.
+
+```java
+module com.lib {
+    // CHỈ công khai package api; com.lib.internal bị giấu kín
+    exports com.lib.api;
+    // KHÔNG exports com.lib.internal -> bên ngoài không import được
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Ẩn package nội bộ**: không `exports` `com.lib.internal` để chỉ lộ API công khai, người dùng thư viện không thể phụ thuộc vào chi tiết nội bộ.
+- **Khai báo phụ thuộc tường minh**: dùng `requires java.sql;` để thiếu thư viện bị báo ngay lúc khởi động thay vì sập giữa chừng lúc chạy.
+- **Đóng gói runtime nhỏ với jlink**: gói chỉ những module cần thiết thành bản runtime gọn, phù hợp container/microservice.
+- **Tránh JAR hell**: ranh giới module rõ ràng giúp hạn chế xung đột phiên bản và class trùng tên trên classpath.
+
+:::
 
 ---
 

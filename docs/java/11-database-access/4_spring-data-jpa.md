@@ -11,6 +11,7 @@ Spring Data JPA là cách truy cập cơ sở dữ liệu phổ biến nhất kh
 
 ## Mục lục
 
+- [Vì sao có Spring Data JPA?](#vì-sao-có-spring-data-jpa)
 - [Bối cảnh: JPA, Hibernate, Spring Data JPA](#bối-cảnh-jpa-hibernate-spring-data-jpa)
 - [JPA là gì? (chuẩn chung)](#jpa-là-gì-chuẩn-chung)
 - [Spring Data JPA tự sinh repository như thế nào?](#spring-data-jpa-tự-sinh-repository-như-thế-nào)
@@ -22,6 +23,66 @@ Spring Data JPA là cách truy cập cơ sở dữ liệu phổ biến nhất kh
 - [Cấu hình kết nối trong Spring Boot](#cấu-hình-kết-nối-trong-spring-boot)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có Spring Data JPA?
+
+**Vấn đề:** Dù đã có JPA/Hibernate, bạn vẫn phải tự viết lớp DAO/Repository
+**lặp đi lặp lại** cho từng entity: mở `EntityManager`, viết CRUD, viết các truy
+vấn cơ bản gần như giống nhau. Vừa nhàm chán, vừa dễ sai.
+
+```java
+// Tự viết DAO cho mỗi entity — mã lặp lại, nhàm chán, dễ sai
+public class UserDao {
+
+    @PersistenceContext
+    private EntityManager em;
+
+    public void save(User user) { em.persist(user); }
+
+    public User findById(Long id) { return em.find(User.class, id); }
+
+    public List<User> findAll() {
+        return em.createQuery("SELECT u FROM User u", User.class).getResultList();
+    }
+
+    public void deleteById(Long id) { em.remove(em.find(User.class, id)); }
+
+    // ...rồi lại viết y hệt cho ProductDao, OrderDao, CategoryDao...
+}
+```
+
+**Giải pháp:** Spring Data JPA chỉ cần bạn **khai báo một interface** kế thừa
+`JpaRepository<Entity, Id>`. Spring **tự sinh** cài đặt CRUD, phân trang, sắp
+xếp; tạo truy vấn **chỉ bằng tên method** (`findByEmailAndStatus`), hoặc dùng
+`@Query` cho ca phức tạp; tích hợp transaction sẵn. Gần như **không phải viết
+code truy cập DB**.
+
+```java
+// Chỉ một interface — Spring tự sinh toàn bộ cài đặt lúc chạy
+public interface UserRepository extends JpaRepository<User, Long> {
+
+    // Query chỉ bằng tên method — không cần viết SQL/JPQL
+    List<User> findByEmailAndStatus(String email, String status);
+
+    // Phân trang + sắp xếp có sẵn nhờ Pageable
+    Page<User> findByStatus(String status, Pageable pageable);
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **CRUD chỉ với interface**: một dòng `extends JpaRepository<User, Long>` là có
+  ngay `save`, `findById`, `findAll`, `deleteById`... cho cả entity mới.
+- **Query bằng tên method**: cần lọc theo email và trạng thái? Chỉ cần đặt tên
+  `findByEmailAndStatus` — Spring tự sinh truy vấn.
+- **Phân trang sẵn**: trả `Page<User>` với `Pageable` để làm danh sách có phân
+  trang/sắp xếp mà không viết thêm code đếm tổng hay tính offset.
+- **Giảm tối đa boilerplate**: bỏ hẳn lớp DAO viết tay cho từng entity, code gọn
+  và ít lỗi hơn hẳn.
+
+:::
 
 ---
 

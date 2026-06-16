@@ -11,6 +11,7 @@ Nếu merge là cách "an toàn và trung thực" để gộp nhánh, thì rebas
 
 ## Mục lục
 
+- [Vì sao có rebase?](#vì-sao-có-rebase)
 - [1. Rebase là gì?](#1-rebase-là-gì)
 - [2. Rebase cơ bản](#2-rebase-cơ-bản)
 - [3. Rebase vs Merge -- So sánh chi tiết](#3-rebase-vs-merge-so-sánh-chi-tiết)
@@ -23,6 +24,60 @@ Nếu merge là cách "an toàn và trung thực" để gộp nhánh, thì rebas
 - [10. Lỗi thường gặp](#10-lỗi-thường-gặp)
 - [11. Câu hỏi phỏng vấn](#11-câu-hỏi-phỏng-vấn)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có rebase?
+
+**Vấn đề:**
+
+```bash
+# Nhánh feature sống lâu, main liên tục có commit mới
+# Mỗi lần cập nhật bạn lại merge main vào feature -> sinh merge commit
+git switch feature/login
+git merge main   # merge commit #1
+# ...vài ngày sau, main lại đổi
+git merge main   # merge commit #2
+git merge main   # merge commit #3
+
+# Lịch sử rối như "mạng nhện": nhiều merge commit đan xen
+git log --oneline --graph
+# *   M3 Merge branch 'main' into feature/login
+# |\
+# | * ...
+# *   M2 Merge branch 'main' into feature/login
+# |\
+# | * ...
+# *   M1 Merge branch 'main' into feature/login
+# => Khó đọc, khó review, lịch sử commit lộn xộn lúc gửi PR
+```
+
+**Giải pháp:**
+
+```bash
+# git rebase: ĐẶT LẠI các commit của nhánh lên trên đỉnh nhánh khác
+git switch feature/login
+git rebase main
+# Lịch sử THẲNG, gọn, không còn merge commit đan xen
+git log --oneline --graph
+# * H' Kết nối API
+# * G' Thêm validation
+# * F' Tạo form login
+# * E  (main) commit mới nhất của main
+# => Một đường thẳng dễ đọc
+
+# rebase -i: sửa/gộp/sắp xếp commit trước khi gửi PR
+git rebase -i HEAD~3
+```
+
+:::tip[Dùng thực tế]
+
+- Cập nhật feature theo main mà vẫn giữ lịch sử phẳng (thay merge lặp đi lặp lại bằng `git rebase main`).
+- Dọn commit trước PR: gộp các commit "wip", "fix typo" bằng `git rebase -i` (squash/fixup) cho lịch sử sạch, dễ review.
+- Lịch sử tuyến tính giúp `git bisect` dò lỗi nhanh và chính xác hơn.
+- LƯU Ý QUAN TRỌNG: KHÔNG rebase nhánh đã chia sẻ/đã push chung (rebase viết lại lịch sử) -- chỉ rebase nhánh của riêng bạn.
+
+:::
 
 ---
 

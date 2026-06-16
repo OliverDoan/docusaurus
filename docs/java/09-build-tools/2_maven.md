@@ -11,6 +11,7 @@ Maven là công cụ build phổ biến nhất cho Java, hoạt động theo ngu
 
 ## Mục lục
 
+- [Vì sao dùng Maven?](#vì-sao-dùng-maven)
 - [Maven là gì?](#maven-là-gì)
 - [File pom.xml](#file-pomxml)
 - [groupId, artifactId, version](#groupid-artifactid-version)
@@ -21,6 +22,42 @@ Maven là công cụ build phổ biến nhất cho Java, hoạt động theo ngu
 - [Plugin](#plugin)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao dùng Maven?
+
+**Vấn đề:** Một dự án Java thực tế cần rất nhiều thư viện. Nếu làm thủ công, bạn phải tự lên mạng tải từng file `.jar`, đặt vào classpath, rồi tự tay giải quyết **phụ thuộc chuyền tiếp (transitive dependencies)** — lib A cần lib B, B lại cần C — và xử lý xung đột phiên bản giữa chúng. Đó là một cơn ác mộng: mỗi người trong nhóm build một kiểu, rất khó tái lập kết quả giống nhau.
+
+```bash
+# Tải tay từng JAR rồi nhồi hết vào classpath
+javac -cp "libs/gson-2.10.1.jar:libs/junit-5.10.0.jar:libs/..." src/...
+
+# Còn các lib mà những lib trên cần? Phải tự đi tìm và tải tiếp.
+# Lib nào cần bản nào? Bản nào xung đột? Tự dò bằng tay.
+```
+
+**Giải pháp:** **Maven** giải quyết trọn gói. Bạn chỉ cần **khai báo dependency trong `pom.xml`**, Maven sẽ **tự tải** từ repository (kể cả các phụ thuộc chuyền tiếp) và tự quản lý phiên bản. Maven cũng **chuẩn hoá vòng đời build** (compile → test → package → install) theo nguyên tắc "convention over configuration" và áp một cấu trúc thư mục chuẩn.
+
+```xml
+<dependencies>
+    <!-- Khai báo 1 dependency, Maven tự lo phần còn lại -->
+    <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.10.1</version>
+    </dependency>
+</dependencies>
+```
+
+:::tip[Dùng thực tế]
+
+- **Thêm thư viện trong vài giây:** chỉ cần copy vài dòng `<dependency>` vào `pom.xml`, không phải tải JAR thủ công.
+- **Build chuẩn cho mọi người:** cả nhóm dùng chung lệnh `mvn clean package`, ai chạy cũng ra kết quả giống nhau.
+- **Quản lý phiên bản tập trung:** đổi version thư viện tại một chỗ trong `pom.xml`, áp dụng cho toàn dự án.
+- **Tái lập build trên CI:** máy chủ tích hợp liên tục (CI) chạy cùng `pom.xml` nên build giống hệt máy của bạn.
+
+:::
 
 ---
 

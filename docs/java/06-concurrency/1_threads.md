@@ -13,6 +13,7 @@ Luồng (thread) là một mạch thực thi chạy bên trong chương trình, 
 
 - [Tiến trình (Process) và Luồng (Thread) là gì?](#tiến-trình-process-và-luồng-thread-là-gì)
 - [Vì sao cần luồng?](#vì-sao-cần-luồng)
+- [Vì sao cần thread?](#vì-sao-cần-thread)
 - [Cách 1: Kế thừa lớp Thread](#cách-1-kế-thừa-lớp-thread)
 - [Cách 2: Cài đặt interface Runnable](#cách-2-cài-đặt-interface-runnable)
 - [start() khác run() như thế nào?](#start-khác-run-như-thế-nào)
@@ -49,6 +50,57 @@ Trong lập trình, luồng giúp:
 - Làm nhiều việc cùng lúc (tải file, xử lý dữ liệu, vẽ giao diện...).
 - Tận dụng CPU nhiều nhân (multi-core — bộ xử lý có nhiều lõi).
 - Không bị "đơ" khi chờ một việc chậm (ví dụ chờ mạng).
+
+---
+
+## Vì sao cần thread?
+
+**Vấn đề:** Chương trình một luồng làm việc **tuần tự** — phải xong việc này mới sang việc kia. Khi chờ I/O (đọc file, gọi mạng, query DB) thì CPU ngồi không, lãng phí; tác vụ nặng làm "đơ" giao diện; máy nhiều nhân (core) không được tận dụng.
+
+```java
+public class MotLuong {
+    public static void main(String[] args) {
+        // Mỗi việc phải chờ việc trước xong → tổng thời gian cộng dồn
+        taiAnh();   // chờ mạng 2s, CPU ngồi không
+        taiVideo(); // lại chờ tiếp 2s
+        tinhToan(); // chỉ chạy 1 nhân, các nhân khác rảnh rỗi
+    }
+
+    static void taiAnh()   { /* chờ I/O... */ }
+    static void taiVideo() { /* chờ I/O... */ }
+    static void tinhToan() { /* tính nặng... */ }
+}
+```
+
+**Giải pháp:** Dùng **thread (luồng)** — nhiều mạch thực thi chạy **song song/đồng thời** trong cùng một tiến trình. Trong khi luồng này chờ I/O, luồng khác vẫn làm việc; đồng thời tận dụng được nhiều nhân CPU và giữ giao diện mượt. Tạo luồng qua `Thread`/`Runnable`, quản lý bằng `ExecutorService` (thread pool — bể luồng dùng lại).
+
+```java
+public class NhieuLuong {
+    public static void main(String[] args) {
+        // Ba việc chạy đồng thời, không phải chờ nhau
+        Thread t1 = new Thread(NhieuLuong::taiAnh);
+        Thread t2 = new Thread(NhieuLuong::taiVideo);
+        Thread t3 = new Thread(NhieuLuong::tinhToan);
+
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+
+    static void taiAnh()   { /* chờ I/O ở luồng riêng */ }
+    static void taiVideo() { /* chờ I/O ở luồng riêng */ }
+    static void tinhToan() { /* chạy trên nhân CPU khác */ }
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Server xử lý nhiều request đồng thời**: mỗi yêu cầu của người dùng được phục vụ bởi một luồng riêng.
+- **Tải/ghi I/O song song**: tải nhiều file hoặc gọi nhiều API cùng lúc thay vì lần lượt.
+- **Giữ UI không treo**: chạy việc nặng dưới luồng nền để màn hình vẫn phản hồi mượt.
+- **Chia việc tính toán ra nhiều core**: tách bài toán lớn thành nhiều phần chạy song song trên các nhân CPU.
+
+:::
 
 ---
 

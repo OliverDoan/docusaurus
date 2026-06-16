@@ -11,6 +11,7 @@ Record (có từ Java 16) là cách viết ngắn gọn cho những lớp chỉ 
 
 ## Mục lục
 
+- [Vì sao có record?](#vì-sao-có-record)
 - [Record là gì?](#record-là-gì)
 - [Cú pháp khai báo record](#cú-pháp-khai-báo-record)
 - [Record tự sinh những gì?](#record-tự-sinh-những-gì)
@@ -20,6 +21,60 @@ Record (có từ Java 16) là cách viết ngắn gọn cho những lớp chỉ 
 - [Khi nào nên dùng record?](#khi-nào-nên-dùng-record)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có record?
+
+**Vấn đề:** Một lớp chỉ để **chứa dữ liệu** (DTO, value object) trong Java cũ phải viết RẤT NHIỀU code lặp đi lặp lại: field `private`, constructor, getter cho mọi field, rồi `equals()`, `hashCode()`, `toString()`. Mỗi lần thêm một field là phải nhớ cập nhật tất cả những chỗ đó — dễ sai, dễ quên.
+
+```java
+// Chỉ để chứa 2 giá trị mà phải viết cả đống code
+public class Diem {
+    private final int x;
+    private final int y;
+
+    public Diem(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int x() { return x; }
+    public int y() { return y; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Diem)) return false;
+        Diem d = (Diem) o;
+        return x == d.x && y == d.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(x, y);
+    }
+
+    @Override
+    public String toString() {
+        return "Diem[x=" + x + ", y=" + y + "]";
+    }
+}
+```
+
+**Giải pháp:** **Record** (Java 16) gói tất cả vào một dòng. Java tự sinh constructor, accessor, `equals`, `hashCode`, `toString`; dữ liệu **bất biến** theo mặc định. Gọn, an toàn, đúng ý nghĩa "dữ liệu thuần".
+
+```java
+// Một dòng — đủ mọi thứ ở trên, lại còn bất biến
+public record Diem(int x, int y) {}
+```
+
+:::tip[Dùng thực tế]
+- **DTO request/response API**: gói dữ liệu gửi/nhận giữa client và server.
+- **Value object**: tọa độ, tiền tệ, khoảng thời gian — so sánh theo giá trị.
+- **Key cho `Map` / phần tử `Set`**: đã có sẵn `equals`/`hashCode` đúng đắn.
+- **Dữ liệu bất biến truyền giữa các tầng**: không lo bị sửa lén ở nơi khác.
+:::
 
 ---
 

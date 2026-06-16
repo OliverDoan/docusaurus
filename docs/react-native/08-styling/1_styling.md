@@ -13,6 +13,7 @@ RN dùng **StyleSheet** (JS object) thay CSS. **Flexbox** là hệ layout chính
 
 ## Mục lục
 
+- [Vì sao RN dùng StyleSheet & Flexbox thay CSS?](#vì-sao-rn-dùng-stylesheet--flexbox-thay-css)
 - [1. StyleSheet](#1-stylesheet)
 - [2. Inline style và array](#2-inline-style-và-array)
 - [3. Flexbox Layout](#3-flexbox-layout)
@@ -22,6 +23,51 @@ RN dùng **StyleSheet** (JS object) thay CSS. **Flexbox** là hệ layout chính
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao RN dùng StyleSheet & Flexbox thay CSS?
+
+**Vấn đề:**
+
+```jsx
+// RN khong chay tren trinh duyet -> KHONG co file CSS
+// KHONG co cascade/selector, KHONG co don vi px/%/media query nhu web
+.title { color: red; }          // SAI -- khong co stylesheet CSS
+<div class="title">Hello</div>  // SAI -- khong co class selector
+
+// Nhung van can dinh kieu giao dien (mau, layout, spacing)
+```
+
+**Giải pháp:**
+
+```jsx
+import { StyleSheet, View, Text, Dimensions } from 'react-native';
+
+// 1. Dinh kieu bang JAVASCRIPT object -- StyleSheet.create toi uu, freeze object
+const styles = StyleSheet.create({
+  // 2. So KHONG don vi (density-independent), khong dung 'px'
+  container: { flex: 1, padding: 16, backgroundColor: '#fff' },
+  title: { fontSize: 24, color: '#333' },
+});
+
+// 3. Layout bang FLEXBOX -- flexDirection mac dinh la 'column' (khac web la 'row')
+<View style={[styles.container, { flexDirection: 'row' }]}>
+  <Text style={styles.title}>Hello</Text>
+</View>
+
+// 4. KHONG cascade -- style gan thang vao component, khong ke thua lung tung
+const { width } = Dimensions.get('window'); // kich thuoc man hinh khi can
+```
+
+:::tip[Dùng thực tế]
+
+- **Tạo style:** `StyleSheet.create({...})` cho mọi màn hình -- validate key lúc dev, object được tối ưu, tách style khỏi JSX.
+- **Layout responsive:** dùng flexbox (`flex`, `justifyContent`, `alignItems`) để chia khung -- co giãn theo mọi kích thước màn hình.
+- **Gộp nhiều style:** truyền mảng `style={[styles.base, isActive && styles.active]}` để combine và đặt điều kiện.
+- **Kích thước màn hình:** `Dimensions.get('window')` hoặc `useWindowDimensions()` khi cần width/height thật để tính layout.
+
+:::
 
 ---
 

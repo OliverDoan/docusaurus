@@ -11,6 +11,7 @@ Transaction (giao dịch) là một nhóm câu lệnh SQL được thực thi th
 
 ## Mục lục
 
+- [Vì sao cần transaction?](#vì-sao-cần-transaction)
 - [Transaction là gì](#transaction-là-gì)
 - [ACID — Bốn thuộc tính cốt lõi](#acid--bốn-thuộc-tính-cốt-lõi)
 - [Transaction Isolation Levels](#transaction-isolation-levels)
@@ -20,6 +21,41 @@ Transaction (giao dịch) là một nhóm câu lệnh SQL được thực thi th
 - [SAVEPOINT — Điểm lưu giữa chừng](#savepoint--điểm-lưu-giữa-chừng)
 - [Ví dụ thực tế đầy đủ](#ví-dụ-thực-tế-đầy-đủ)
 - [Deadlock — Khoá chết](#deadlock--khoá-chết)
+
+---
+
+## Vì sao cần transaction?
+
+**Vấn đề:**
+Một nghiệp vụ thường gồm **nhiều bước phụ thuộc nhau**. Ví dụ chuyển tiền = trừ tài khoản A **và** cộng tài khoản B. Nếu chạy rời rạc, chỉ cần lỗi hoặc mất điện giữa chừng (đã trừ A nhưng chưa cộng B) là dữ liệu **SAI nghiêm trọng** — tiền biến mất. Ngoài ra, nhiều người thao tác đồng thời lên cùng dữ liệu gây tranh chấp, đọc nhầm số liệu nửa vời.
+
+```sql
+-- Chạy rời rạc, không bảo vệ
+UPDATE accounts SET balance = balance - 500000 WHERE account_id = 'A';
+-- ❌ Mất điện ngay tại đây → A đã bị trừ, B chưa được cộng → mất tiền
+UPDATE accounts SET balance = balance + 500000 WHERE account_id = 'B';
+```
+
+**Giải pháp:**
+**Transaction** gom nhiều lệnh thành **một đơn vị** "tất cả hoặc không gì cả", tuân theo tính chất **ACID**. Dùng `BEGIN` để mở, `COMMIT` để xác nhận, hoặc `ROLLBACK` để huỷ toàn bộ khi có lỗi. Mức cô lập (isolation level) kiểm soát việc đọc đồng thời để tránh tranh chấp.
+
+```sql
+-- Gom thành một transaction an toàn
+BEGIN;
+
+UPDATE accounts SET balance = balance - 500000 WHERE account_id = 'A';
+UPDATE accounts SET balance = balance + 500000 WHERE account_id = 'B';
+
+COMMIT;   -- Nếu mọi bước thành công
+-- ROLLBACK;  -- Nếu bất kỳ bước nào lỗi → huỷ sạch, dữ liệu nguyên vẹn
+```
+
+:::tip[Dùng thực tế]
+- **Chuyển tiền:** trừ tài khoản nguồn + cộng tài khoản đích phải đi cùng nhau.
+- **Đặt hàng:** trừ tồn kho + tạo đơn — nếu hết hàng thì huỷ cả hai.
+- **Ghi nhiều bảng liên quan:** tạo đơn + chi tiết đơn + lịch sử cùng lúc.
+- **Rollback khi một bước lỗi:** một câu lệnh thất bại thì huỷ toàn bộ, không để dữ liệu nửa vời.
+:::
 
 ---
 

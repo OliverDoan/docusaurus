@@ -11,6 +11,7 @@ Sau khi bạn làm việc trên một branch riêng và hoàn thành công việ
 
 ## Mục lục
 
+- [Vì sao cần merge?](#vì-sao-cần-merge)
 - [1. Merge là gì?](#1-merge-là-gì)
 - [2. Fast-forward merge](#2-fast-forward-merge)
 - [3. Three-way merge (3-way merge)](#3-three-way-merge-3-way-merge)
@@ -23,6 +24,50 @@ Sau khi bạn làm việc trên một branch riêng và hoàn thành công việ
 - [10. Lỗi thường gặp](#10-lỗi-thường-gặp)
 - [11. Câu hỏi phỏng vấn](#11-câu-hỏi-phỏng-vấn)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao cần merge?
+
+**Vấn đề:**
+
+```bash
+# Bạn làm xong tính năng login trên một branch riêng
+git switch feature/login
+git log --oneline
+# def5678 Hoàn thành validation
+# abc1234 Thêm form đăng nhập
+
+# Nhưng main vẫn chưa có gì cả!
+git switch main
+git log --oneline
+# 0000aaa Initial commit
+# => Công việc vẫn "mắc kẹt" trên feature/login, đồng đội không dùng được
+
+# Copy file thủ công sang main? => mất toàn bộ lịch sử commit, dễ sót file
+```
+
+**Giải pháp:**
+
+```bash
+# git merge GỘP lịch sử và thay đổi của feature vào main
+git switch main
+git merge feature/login
+# => Toàn bộ commit của feature được đưa về main, giữ nguyên dấu vết
+
+# Tùy tình huống, Git chọn:
+# - Fast-forward: khi hai nhánh không phân kỳ, chỉ dời pointer
+# - Merge commit: khi cả hai cùng tiến, tạo 1 commit hợp nhất 2 dòng lịch sử
+```
+
+:::tip[Dùng thực tế]
+
+- **Đưa feature về main:** làm xong tính năng trên nhánh riêng, merge vào main để cả team dùng chung.
+- **Cập nhật nhánh đang làm:** gộp main mới nhất vào feature để tránh lệch xa, giải quyết conflict sớm.
+- **Hợp nhất công việc nhiều người:** gộp nhánh của các thành viên lại với nhau.
+- **Giữ lịch sử nhánh:** dùng merge commit để biết rõ nhóm commit nào thuộc feature nào, dễ rollback cả feature.
+
+:::
 
 ---
 

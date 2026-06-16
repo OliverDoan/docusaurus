@@ -11,6 +11,7 @@ Mặc định container có thể dùng toàn bộ tài nguyên của host. Bài
 
 ## Mục lục
 
+- [Vì sao cần giới hạn tài nguyên?](#vì-sao-cần-giới-hạn-tài-nguyên)
 - [1. Tại sao cần giới hạn tài nguyên?](#1-tại-sao-cần-giới-hạn-tài-nguyên)
 - [2. Giới hạn Memory (RAM)](#2-giới-hạn-memory-ram)
 - [3. Giới hạn CPU](#3-giới-hạn-cpu)
@@ -21,6 +22,39 @@ Mặc định container có thể dùng toàn bộ tài nguyên của host. Bài
 - [8. Khuyến nghị cho từng loại service](#8-khuyến-nghị-cho-từng-loại-service)
 - [9. Bài tập thực hành](#9-bài-tập-thực-hành)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao cần giới hạn tài nguyên?
+
+**Vấn đề:**
+
+Mặc định, container dùng tài nguyên **không giới hạn** của host. Nếu một container bị rò rỉ bộ nhớ (memory leak) hoặc tăng đột biến CPU, nó có thể "ăn" hết RAM/CPU làm **các container khác và cả host bị treo** — hiện tượng "noisy neighbor".
+
+```bash
+# Container không giới hạn — chiếm hết tài nguyên host
+docker run -d nginx
+# 1 container leak RAM → host hết RAM → các service khác chết theo
+```
+
+**Giải pháp:**
+
+Docker dùng **cgroups** để giới hạn tài nguyên cho từng container. Container vượt giới hạn bộ nhớ sẽ bị **kill (OOM)** thay vì kéo sập cả máy, đảm bảo **cô lập** và **công bằng** tài nguyên.
+
+```bash
+# Giới hạn RAM, CPU và số process cho mỗi container
+docker run -d --memory=512m --cpus=1 --pids-limit=200 nginx
+# Vượt 512MB → chỉ container này bị OOM kill, host vẫn an toàn
+```
+
+:::tip[Dùng thực tế]
+
+- **Giới hạn RAM/CPU mỗi service** để không service nào lấn át service khác.
+- **Chống một container làm sập host** khi gặp memory leak hay vòng lặp ngốn CPU.
+- **Chạy nhiều service ổn định trên một máy** (web, db, cache cùng một host).
+- **Đặt request/limit** khi triển khai lên production hoặc Kubernetes (K8s).
+
+:::
 
 ---
 

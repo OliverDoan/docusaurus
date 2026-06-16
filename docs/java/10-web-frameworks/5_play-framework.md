@@ -11,6 +11,7 @@ Play Framework là một framework web full-stack và reactive cho Java và Scal
 
 ## Mục lục
 
+- [Vì sao có Play Framework?](#vì-sao-có-play-framework)
 - [Play Framework là gì?](#play-framework-là-gì)
 - [Reactive nghĩa là gì?](#reactive-nghĩa-là-gì)
 - [Full-stack nghĩa là gì?](#full-stack-nghĩa-là-gì)
@@ -25,6 +26,54 @@ Play Framework là một framework web full-stack và reactive cho Java và Scal
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao có Play Framework?
+
+**Vấn đề:** Các web framework Java/Servlet truyền thống thường chạy theo mô hình
+**mỗi request một thread** (chặn — blocking): một thread bị giữ chặt từ lúc nhận
+request đến khi trả response, kể cả trong lúc nó chỉ ngồi chờ database hay API ngoài
+trả kết quả. Khi có nhiều kết nối I/O đồng thời, số thread phình lên nhanh, tốn rất
+nhiều tài nguyên (bộ nhớ, CPU chuyển ngữ cảnh). Ngoài ra vòng lặp phát triển chậm:
+sửa một dòng code thường phải build lại, restart và deploy mới thấy thay đổi.
+
+**Giải pháp:** Play Framework dùng kiến trúc **reactive, không chặn** (non-blocking,
+dựa trên Akka), **stateless** thân thiện scale ngang, và **hot reload** sửa code thấy
+ngay không cần restart — hỗ trợ cả Java lẫn Scala:
+
+```java
+package controllers;
+
+import play.mvc.Controller;
+import play.mvc.Result;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.CompletableFuture;
+
+// Controller reactive: trả về CompletionStage<Result> thay vì Result
+// -> thread KHÔNG bị giữ chặt trong lúc chờ việc chậm (gọi DB, API ngoài)
+public class HomeController extends Controller {
+
+    public CompletionStage<Result> index() {
+        // Việc chậm (vd: gọi API ngoài) chạy bất đồng bộ;
+        // thread được trả về để phục vụ request khác trong lúc chờ
+        return CompletableFuture
+                .supplyAsync(() -> "Xin chào từ Play Framework!")
+                .thenApply(noiDung -> ok(noiDung));
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Ứng dụng web tải cao, nhiều kết nối đồng thời**: chịu tải tốt với ít thread nhờ
+  mô hình non-blocking.
+- **API realtime/streaming** (chat, thông báo trực tiếp, luồng dữ liệu): hợp với
+  nhiều kết nối mở lâu cùng lúc.
+- **Phát triển nhanh**: hot reload giúp sửa code thấy ngay, tăng năng suất, không
+  chờ build/restart.
+- **Hệ thống cần scale ngang**: thiết kế stateless dễ nhân bản nhiều instance phía
+  sau load balancer.
+
+:::
 
 ## Play Framework là gì?
 

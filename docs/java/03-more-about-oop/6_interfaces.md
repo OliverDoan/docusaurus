@@ -11,6 +11,7 @@ Interface là một "hợp đồng" liệt kê các phương thức mà một l�
 
 ## Mục lục
 
+- [Vì sao có interface?](#vì-sao-có-interface)
 - [Interface là gì?](#interface-là-gì)
 - [implements — triển khai interface](#implements--triển-khai-interface)
 - [Interface như một hợp đồng](#interface-như-một-hợp-đồng)
@@ -20,6 +21,63 @@ Interface là một "hợp đồng" liệt kê các phương thức mà một l�
 - [Interface khác abstract class thế nào?](#interface-khác-abstract-class-thế-nào)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có interface?
+
+**Vấn đề:** Java **không** cho một lớp kế thừa nhiều lớp (đa kế thừa class) để tránh nhập nhằng khi hai lớp cha có cùng phương thức. Nhưng nhiều lớp **không liên quan** lại cần **cùng một khả năng** (so sánh được, vẽ được, chạy được). Nếu code nghiệp vụ phụ thuộc trực tiếp vào lớp cụ thể, việc đổi cài đặt hay viết test sẽ rất khó (coupling chặt).
+
+```java
+// MySqlRepository và MongoRepository không họ hàng, nhưng đều cần "lưu được"
+public class MySqlRepository {
+    public void luu(String data) { System.out.println("Luu vao MySQL"); }
+}
+
+public class DichVuDonHang {
+    // Phụ thuộc CỨNG vào lớp cụ thể → muốn đổi sang Mongo phải sửa code
+    private MySqlRepository repo = new MySqlRepository();
+
+    public void xuLy(String data) { repo.luu(data); }
+}
+```
+
+**Giải pháp:** **Interface** định nghĩa một **hợp đồng** (contract) — "làm được gì" mà không nói "làm thế nào". Một lớp có thể `implements` nhiều interface (đa kế thừa **hành vi**), và code nghiệp vụ lập trình theo abstraction nên dễ thay cài đặt, dễ mock khi test (nền tảng của Dependency Injection).
+
+```java
+// Hợp đồng "lưu được", không quan tâm lưu ở đâu
+public interface Repository {
+    void luu(String data);
+}
+
+public class MySqlRepository implements Repository {
+    @Override
+    public void luu(String data) { System.out.println("Luu vao MySQL"); }
+}
+
+public class MongoRepository implements Repository {
+    @Override
+    public void luu(String data) { System.out.println("Luu vao Mongo"); }
+}
+
+public class DichVuDonHang {
+    // Phụ thuộc vào abstraction → truyền cài đặt nào cũng được
+    private final Repository repo;
+
+    public DichVuDonHang(Repository repo) { this.repo = repo; }
+
+    public void xuLy(String data) { repo.luu(data); }
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **`Comparable` / `Runnable`**: lớp bất kỳ `implements Comparable` là sắp xếp được; `implements Runnable` là chạy được trên thread — dùng chung cơ chế sẵn có của Java.
+- **Đổi cài đặt repository**: chuyển từ MySQL sang Mongo chỉ cần truyền cài đặt khác, không sửa code nghiệp vụ.
+- **Mock service khi test**: tạo cài đặt giả của interface để test nhanh, không cần database hay mạng thật.
+- **Plugin / Strategy**: định nghĩa hành vi qua interface rồi cắm thuật toán/plugin khác nhau vào lúc chạy.
+
+:::
 
 ---
 

@@ -11,6 +11,7 @@ Pull Request (PR) và Code Review là **hai trụ cột** của quy trình phát
 
 ## Mục lục
 
+- [Vì sao có Pull Request & code review?](#vì-sao-có-pull-request--code-review)
 - [1. Pull Request (PR) là gì?](#1-pull-request-pr-là-gì)
 - [2. Tạo Pull Request trên GitHub](#2-tạo-pull-request-trên-github)
 - [3. PR Template — Mẫu mô tả PR](#3-pr-template-mẫu-mô-tả-pr)
@@ -30,6 +31,23 @@ Pull Request (PR) và Code Review là **hai trụ cột** của quy trình phát
 - [11. Best Practices](#11-best-practices)
 - [12. Lỗi thường gặp](#12-lỗi-thường-gặp)
 - [13. Câu hỏi phỏng vấn](#13-câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao có Pull Request & code review?
+
+**Vấn đề:** Nếu ai cũng push thẳng vào `main`, code chưa được kiểm chứng — lỗi, thiếu test, style không nhất quán — sẽ lọt thẳng vào sản phẩm. Không ai nhìn lại code của nhau, nên chất lượng giảm dần và kiến thức không lan toả trong team (chỉ người viết hiểu phần mình làm).
+
+**Giải pháp:** **Pull Request** là lời đề nghị gộp nhánh của bạn vào nhánh chính. Nó mở ra một không gian để đồng đội **code review** — xem diff, bình luận, yêu cầu sửa — đồng thời để **CI tự động** chạy build và test, rồi mới merge. PR vừa là cổng kiểm soát chất lượng, vừa là kênh chia sẻ kiến thức cho cả team.
+
+:::tip[Dùng thực tế]
+
+- Mở một PR cho mỗi feature/fix, thay vì commit thẳng lên `main`.
+- Review giúp phát hiện bug và đề xuất cải thiện trước khi code lên production.
+- Gắn CI bắt buộc pass (build, lint, test) làm điều kiện để merge.
+- Ghi lại lý do thay đổi qua phần mô tả và thảo luận trong PR — sau này tra cứu dễ dàng.
+
+:::
 
 ---
 

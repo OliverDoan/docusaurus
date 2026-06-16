@@ -11,6 +11,7 @@ Binding là việc Java quyết định một lời gọi phương thức sẽ c
 
 ## Mục lục
 
+- [Vì sao phân biệt static & dynamic binding?](#vì-sao-phân-biệt-static--dynamic-binding)
 - [Binding là gì?](#binding-là-gì)
 - [Static binding — liên kết tĩnh](#static-binding--liên-kết-tĩnh)
 - [Dynamic binding — liên kết động](#dynamic-binding--liên-kết-động)
@@ -19,6 +20,64 @@ Binding là việc Java quyết định một lời gọi phương thức sẽ c
 - [Trường hợp đặc biệt: static, final, private](#trường-hợp-đặc-biệt-static-final-private)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao phân biệt static & dynamic binding?
+
+**Vấn đề:** khi bạn gọi một phương thức, Java phải **quyết định** chạy phiên bản nào. Nếu không hiểu cơ chế này, bạn sẽ ngạc nhiên vì kết quả: một biến kiểu cha trỏ tới đối tượng con thì gọi method của ai? Đây là nguồn gốc của các bug đa hình rất khó hiểu.
+
+```java
+public class DongVat {
+    void keu() { System.out.println("Dong vat keu"); }
+    static void loai() { System.out.println("Loai: DongVat"); }
+}
+
+public class Cho extends DongVat {
+    @Override
+    void keu() { System.out.println("Gau gau"); }
+    static void loai() { System.out.println("Loai: Cho"); }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        DongVat dv = new Cho();
+
+        dv.keu();  // ??? Chạy của DongVat hay Cho?
+        DongVat.loai(); // ??? Vì sao static lại khác?
+    }
+}
+```
+
+**Giải pháp:** Java dùng **hai cơ chế** để quyết định. Hiểu rõ là dự đoán đúng hành vi.
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        DongVat dv = new Cho();
+
+        // DYNAMIC BINDING (lúc chạy): method override chọn theo
+        // kiểu THỰC của đối tượng -> Cho -> "Gau gau"
+        // => đây chính là cơ chế làm ĐA HÌNH hoạt động
+        dv.keu(); // Gau gau
+
+        // STATIC BINDING (lúc biên dịch): method static chọn theo
+        // kiểu KHAI BÁO (DongVat), KHÔNG đa hình
+        dv.loai(); // Loai: DongVat
+    }
+}
+```
+
+Tóm gọn: **static binding** (lúc biên dịch) dùng cho method `static`/`final`/`private` và overloading — chọn theo kiểu **khai báo**. **Dynamic binding** (lúc chạy) dùng cho method override — chọn theo kiểu **thực** của đối tượng.
+
+:::tip[Dùng thực tế]
+
+- **Đa hình gọi đúng override của lớp con**: biến kiểu cha trỏ object con, `keu()` tự chạy phiên bản của con nhờ dynamic binding.
+- **Hiểu overload resolve theo kiểu khai báo**: `cong(int, int)` và `cong(double, double)` được Java chọn ngay lúc biên dịch dựa trên kiểu tham số.
+- **Vì sao static method không đa hình**: gọi qua biến kiểu cha luôn chạy method static của lớp khai báo, không phải của object thực.
+- **Dự đoán hành vi qua biến kiểu cha**: nhìn vào việc method có bị override hay không để biết kết quả là của cha hay của con.
+
+:::
 
 ---
 

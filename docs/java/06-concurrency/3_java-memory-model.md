@@ -11,6 +11,7 @@ Mô hình bộ nhớ Java (JMM) là bộ quy tắc cho biết khi nào một lu�
 
 ## Mục lục
 
+- [Vì sao cần Java Memory Model?](#vì-sao-cần-java-memory-model)
 - [Mô hình bộ nhớ Java là gì?](#mô-hình-bộ-nhớ-java-là-gì)
 - [Bộ nhớ chính và bộ nhớ đệm của CPU](#bộ-nhớ-chính-và-bộ-nhớ-đệm-của-cpu)
 - [Vấn đề hiển thị (Visibility)](#vấn-đề-hiển-thị-visibility)
@@ -19,6 +20,62 @@ Mô hình bộ nhớ Java (JMM) là bộ quy tắc cho biết khi nào một lu�
 - [Cách bảo đảm an toàn](#cách-bảo-đảm-an-toàn)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao cần Java Memory Model?
+
+**Vấn đề:** Để chạy nhanh, CPU **cache** biến trong thanh ghi/cache của nhân, và trình biên dịch/CPU có thể **sắp xếp lại** thứ tự lệnh. Hậu quả: một luồng ghi biến nhưng luồng khác **không thấy** giá trị mới (visibility), hoặc thấy thứ tự bất ngờ → lỗi đa luồng cực khó tái hiện và khác nhau giữa các máy.
+
+```java
+class CauHinh {
+    private boolean sanSang = false; // không đồng bộ
+    private int giaTri = 0;
+
+    void chuanBi() {
+        giaTri = 42;        // (1)
+        sanSang = true;     // (2) có thể bị reorder lên trước (1)
+    }
+
+    int doc() {
+        if (sanSang) {
+            // có thể thấy sanSang = true nhưng giaTri vẫn = 0!
+            return giaTri;
+        }
+        return -1;
+    }
+}
+```
+
+**Giải pháp:** **Java Memory Model (JMM)** định nghĩa **quy tắc** khi nào một luồng chắc chắn thấy ghi của luồng khác qua quan hệ **happens-before**. Các từ khóa `volatile`, `synchronized`, `final` và các lớp `Atomic` thiết lập happens-before để bảo đảm visibility và cấm những lần reorder nguy hiểm.
+
+```java
+class CauHinh {
+    private volatile boolean sanSang = false; // volatile thiết lập happens-before
+    private int giaTri = 0;
+
+    void chuanBi() {
+        giaTri = 42;        // (1)
+        sanSang = true;     // (2) ghi volatile: (1) chắc chắn xảy ra trước
+    }
+
+    int doc() {
+        if (sanSang) {      // đọc volatile: thấy true thì giaTri chắc chắn = 42
+            return giaTri;
+        }
+        return -1;
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Cờ dừng luồng:** dùng `volatile boolean dungLai` để luồng worker thấy ngay tín hiệu dừng, không bị treo vô hạn.
+- **Hiểu lỗi giá trị cũ:** khi thiếu đồng bộ, biết ngay vì sao một luồng đọc phải giá trị cũ từ cache.
+- **An toàn xuất bản object (safe publication):** bảo đảm luồng khác thấy object đã khởi tạo đầy đủ, không thấy trạng thái "nửa vời".
+- **Suy luận đúng về visibility:** biết khi nào cần `volatile`/`synchronized`/`Atomic` thay vì đoán mò khi gỡ lỗi đa luồng.
+
+:::
 
 ---
 

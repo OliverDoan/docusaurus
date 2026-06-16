@@ -11,6 +11,7 @@ Constraint là các quy tắc đặt ngay ở tầng cơ sở dữ liệu để 
 
 ## Mục lục
 
+- [Vì sao cần ràng buộc (constraints)?](#vì-sao-cần-ràng-buộc-constraints)
 - [Constraint là gì](#constraint-là-gì)
 - [PRIMARY KEY](#primary-key)
 - [FOREIGN KEY](#foreign-key)
@@ -19,6 +20,49 @@ Constraint là các quy tắc đặt ngay ở tầng cơ sở dữ liệu để 
 - [CHECK](#check)
 - [Thêm Constraint bằng ALTER TABLE](#thêm-constraint-bằng-alter-table)
 - [Bẫy thường gặp](#bẫy-thường-gặp)
+
+---
+
+## Vì sao cần ràng buộc (constraints)?
+
+**Vấn đề:** Nếu chỉ dựa vào ứng dụng để kiểm tra dữ liệu, rất dễ lọt dữ liệu **rác** vào DB: email trùng nhau, thiếu trường bắt buộc, khóa ngoại trỏ tới bản ghi không tồn tại, hoặc giá trị vô lý (tuổi âm). Khi nhiều ứng dụng/service cùng ghi vào một DB, mỗi nơi có thể quên validate — càng dễ sai.
+
+```sql
+-- Không có ràng buộc: DB chấp nhận tất cả, kể cả dữ liệu rác
+INSERT INTO users (email, age) VALUES ('a@x.com', -5);   -- tuổi âm vẫn lọt
+INSERT INTO users (email, age) VALUES ('a@x.com', 30);   -- email trùng vẫn lọt
+INSERT INTO orders (user_id) VALUES (9999);              -- user không tồn tại
+```
+
+**Giải pháp:** Đặt **CONSTRAINTS** ngay tại DB để cơ sở dữ liệu tự từ chối dữ liệu sai — đây là lớp bảo vệ cuối cùng, không thể bị bypass.
+
+```sql
+CREATE TABLE users (
+    id     SERIAL PRIMARY KEY,                 -- định danh duy nhất
+    email  VARCHAR(255) UNIQUE NOT NULL,        -- không trùng, bắt buộc
+    age    INTEGER CHECK (age >= 0)             -- giá trị hợp lệ
+);
+
+CREATE TABLE orders (
+    id       SERIAL PRIMARY KEY,
+    user_id  INTEGER NOT NULL REFERENCES users(id),  -- toàn vẹn tham chiếu
+    price    NUMERIC(10, 2) CHECK (price > 0)        -- giá phải dương
+);
+```
+
+- **PRIMARY KEY** — định danh duy nhất từng hàng.
+- **FOREIGN KEY** — toàn vẹn tham chiếu giữa các bảng.
+- **UNIQUE** — không trùng lặp.
+- **NOT NULL** — trường bắt buộc.
+- **CHECK** — chỉ chấp nhận giá trị hợp lệ.
+- **DEFAULT** — giá trị mặc định khi không truyền.
+
+:::tip[Dùng thực tế]
+- **Email UNIQUE:** đảm bảo mỗi tài khoản gắn với một email duy nhất, tránh đăng ký trùng.
+- **FK đơn hàng → user:** không thể tạo đơn cho user không tồn tại, tránh dữ liệu mồ côi.
+- **NOT NULL cho trường bắt buộc:** ví dụ `email`, `created_at` luôn phải có giá trị.
+- **CHECK giá > 0:** chặn nhập giá âm hoặc bằng 0 cho sản phẩm.
+:::
 
 ---
 

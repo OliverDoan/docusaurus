@@ -11,6 +11,7 @@ Vòng đời đối tượng mô tả toàn bộ quá trình một đối tượ
 
 ## Mục lục
 
+- [Vì sao cần hiểu vòng đời object & GC?](#vì-sao-cần-hiểu-vòng-đời-object--gc)
 - [Vòng đời đối tượng là gì?](#vòng-đời-đối-tượng-là-gì)
 - [Bước 1: Tạo đối tượng với new](#bước-1-tạo-đối-tượng-với-new)
 - [Bước 2: Sử dụng đối tượng](#bước-2-sử-dụng-đối-tượng)
@@ -19,6 +20,46 @@ Vòng đời đối tượng mô tả toàn bộ quá trình một đối tượ
 - [finalize — phương thức lỗi thời](#finalize--phương-thức-lỗi-thời)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao cần hiểu vòng đời object & GC?
+
+**Vấn đề:** Trong ngôn ngữ cấp thấp (C/C++), bạn phải tự cấp phát **và tự giải phóng** bộ nhớ bằng tay. Quên giải phóng → **rò rỉ bộ nhớ** (memory leak); giải phóng hai lần hoặc dùng sau khi đã giải phóng → crash. Rất dễ sai.
+
+```c
+// C: phải tự free, cực kỳ dễ sai
+char* buffer = malloc(1024);
+// ... dùng buffer ...
+// Quên free(buffer);  -> rò rỉ bộ nhớ (memory leak)
+
+free(buffer);
+free(buffer);          // free hai lần -> crash
+buffer[0] = 'x';       // dùng sau khi free -> crash
+```
+
+**Giải pháp:** Java quản lý vòng đời đối tượng **tự động**. `new` cấp phát đối tượng trên **heap** (vùng nhớ chứa đối tượng), còn **Garbage Collector** (bộ thu gom rác) tự thu hồi những đối tượng **không còn tham chiếu** nào trỏ tới — bạn không cần `free` thủ công. Hiểu vòng đời (tạo → dùng → mất tham chiếu → bị GC) giúp bạn tránh leak (giữ tham chiếu thừa, listener không gỡ) và viết code thân thiện với bộ nhớ.
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // new: cấp phát trên heap, KHÔNG cần free thủ công
+        XeOto xe = new XeOto("do");
+
+        // Khi không còn tham chiếu, đối tượng đủ điều kiện bị GC thu hồi
+        xe = null;   // không còn ai trỏ tới chiếc xe cũ -> GC sẽ tự dọn
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Không phải free thủ công:** tạo đối tượng bằng `new` rồi dùng, không cần giải phóng bằng tay như C/C++.
+- **Tránh leak do giữ reference thừa:** đối tượng nhét vào `static` hoặc collection (List, Map) sẽ không bao giờ bị GC — nhớ xóa khi không dùng nữa.
+- **Hiểu khi nào object đủ điều kiện bị GC:** khi không còn tham chiếu nào trỏ tới (ví dụ gán `null` hoặc biến ra khỏi scope).
+- **Dùng try-with-resources cho tài nguyên ngoài heap:** file, kết nối mạng, DB... GC không lo phần này, phải đóng chủ động.
+
+:::
 
 ---
 

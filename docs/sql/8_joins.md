@@ -12,6 +12,7 @@ JOIN là cách kết hợp các hàng từ nhiều bảng dựa trên điều ki
 ## Mục lục
 
 - [JOIN là gì](#join-là-gì)
+- [Vì sao cần JOIN?](#vì-sao-cần-join)
 - [Dữ liệu mẫu](#dữ-liệu-mẫu)
 - [INNER JOIN](#inner-join)
 - [LEFT JOIN](#left-join)
@@ -39,6 +40,42 @@ Bảng tổng quan các loại JOIN phổ biến trong PostgreSQL:
 | `FULL OUTER JOIN` | Tất cả | Tất cả | Giữ tất cả hàng cả hai phía, NULL ở phía không có cặp |
 | `CROSS JOIN` | Tất cả | Tất cả | Tích Descartes — ghép mọi hàng bên trái với mọi hàng bên phải |
 | `SELF JOIN` | — | — | Bảng join với chính nó (dùng alias) |
+
+---
+
+## Vì sao cần JOIN?
+
+**Vấn đề:** Để tránh trùng lặp và giữ dữ liệu nhất quán, ta chuẩn hoá (normalize) — tách thành nhiều bảng riêng: `users`, `orders`, `products`. Nhưng khi hiển thị lại cần ghép chúng (đơn hàng kèm tên khách, kèm tên sản phẩm). Nếu lưu gộp tất cả vào một bảng thì dữ liệu dư thừa và khó cập nhật:
+
+```sql
+-- Lưu gộp tất cả vào một bảng → dư thừa, khó cập nhật
+CREATE TABLE orders_gop (
+    order_id    INT,
+    user_name   TEXT,   -- lặp lại tên khách ở mọi đơn
+    user_email  TEXT,   -- đổi email phải sửa tất cả các dòng
+    product     TEXT,
+    amount      NUMERIC
+);
+-- An đặt 2 đơn → tên + email của An bị lặp 2 lần
+```
+
+**Giải pháp:** JOIN kết hợp các bảng theo khoá liên kết — lấy dữ liệu liên quan từ nhiều bảng trong một truy vấn, không cần lưu trùng:
+
+```sql
+-- Mỗi thông tin chỉ lưu một nơi, ghép lại khi cần
+SELECT o.order_id, u.name, u.email, o.product, o.amount
+FROM orders AS o
+INNER JOIN users AS u ON o.user_id = u.user_id;
+-- INNER JOIN: chỉ bản ghi khớp · LEFT/RIGHT JOIN: giữ một bên
+-- FULL OUTER JOIN: giữ cả hai bên · CROSS JOIN: ghép mọi cặp
+```
+
+:::tip[Dùng thực tế]
+- **Đơn hàng kèm tên khách:** `orders INNER JOIN users` để hiển thị ai đã đặt đơn.
+- **Danh sách user kèm số đơn:** `users LEFT JOIN orders` để giữ cả khách chưa mua.
+- **Báo cáo nối nhiều bảng:** `orders JOIN users JOIN products` để gộp đơn + khách + sản phẩm.
+- **Cấu trúc cây (self join):** bảng `employees` join chính nó để lấy nhân viên kèm quản lý.
+:::
 
 ---
 

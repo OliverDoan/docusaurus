@@ -12,6 +12,7 @@ Mỗi lớp trong Java được tạo nên từ hai thành phần chính: thuộ
 ## Mục lục
 
 - [Tổng quan: dữ liệu và hành vi](#tổng-quan-dữ-liệu-và-hành-vi)
+- [Vì sao gom thuộc tính & phương thức vào class?](#vì-sao-gom-thuộc-tính--phương-thức-vào-class)
 - [Thuộc tính (Fields)](#thuộc-tính-fields)
 - [Phương thức (Methods)](#phương-thức-methods)
 - [Tham số (Parameters)](#tham-số-parameters)
@@ -33,6 +34,50 @@ Ví dụ đời thường với một **tài khoản ngân hàng**:
 
 - Thuộc tính: số dư, tên chủ tài khoản.
 - Phương thức: gửi tiền, rút tiền, xem số dư.
+
+---
+
+## Vì sao gom thuộc tính & phương thức vào class?
+
+**Vấn đề:** Nếu trạng thái (dữ liệu) để một nơi, còn các hàm xử lý trạng thái đó để nơi
+khác, hai bên dễ lệch nhau, ai cũng sửa được dữ liệu, và khó biết hành vi nào thực sự
+thuộc về thực thể nào.
+
+```java
+// Dữ liệu trôi nổi, ai cũng đụng vào được
+double balance = 1000000;
+
+// Logic nằm rời rạc, dễ quên kiểm tra, dễ làm số dư sai
+void deposit(double amount) {
+    balance = balance + amount; // không gắn với "tài khoản" nào cả
+}
+```
+
+**Giải pháp:** Class gom **thuộc tính** (field — trạng thái) và **phương thức**
+(method — hành vi tác động lên chính trạng thái đó) vào một chỗ. Dữ liệu và logic liên quan
+đi cùng nhau; method dùng `this` thao tác trực tiếp trên state của object, làm tăng tính
+**gắn kết** (cohesion).
+
+```java
+public class BankAccount {
+    private double balance; // trạng thái thuộc về chính object này
+
+    // Hành vi đi liền dữ liệu, validate ngay trên field
+    public void deposit(double amount) {
+        if (amount <= 0) return;     // logic gần dữ liệu, khó làm sai
+        this.balance += amount;       // this = chính object đang gọi
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **`BankAccount`** có `balance` + `deposit()/withdraw()`: tiền và cách thay đổi tiền nằm cùng chỗ.
+- **Validate trên chính field**: setter kiểm tra số âm ngay tại nơi giữ dữ liệu.
+- **Giữ logic gần dữ liệu**: sửa cách tính số dư chỉ cần sửa trong một class.
+- **Mô hình hoá hành vi thực thể**: object "tự biết" làm gì với trạng thái của mình.
+
+:::
 
 ---
 

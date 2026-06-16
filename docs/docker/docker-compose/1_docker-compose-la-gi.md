@@ -11,6 +11,7 @@ Trong thực tế, ứng dụng không chỉ có 1 container. Một ứng dụng
 
 ## Mục lục
 
+- [Vì sao có Docker Compose?](#vì-sao-có-docker-compose)
 - [1. Vấn đề: Quản lý nhiều containers](#1-vấn-đề-quản-lý-nhiều-containers)
 - [2. Docker Compose là gì?](#2-docker-compose-là-gì)
 - [3. File docker-compose.yml cơ bản](#3-file-docker-composeyml-cơ-bản)
@@ -18,6 +19,67 @@ Trong thực tế, ứng dụng không chỉ có 1 container. Một ứng dụng
 - [5. Networking trong Compose](#5-networking-trong-compose)
 - [6. Bài tập thực hành](#6-bài-tập-thực-hành)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao có Docker Compose?
+
+**Vấn đề:** App thực tế hiếm khi chỉ có 1 container. Một hệ thống thường gồm nhiều thành phần cùng chạy: web + database + redis + worker. Khởi động từng cái bằng `docker run` với cả tá cờ (`-p`, `-v`, `-e`, `--network`) thì dài dằng dặc, khó nhớ, dễ gõ sai. Chưa kể phải tự tạo network, tự nhớ thứ tự start, và rất khó chia sẻ nguyên si setup này cho đồng nghiệp.
+
+```bash
+# Mỗi service một lệnh dài, dễ sai, khó chia sẻ
+docker network create app-net
+docker run -d --name db --network app-net -e POSTGRES_PASSWORD=secret -v pgdata:/var/lib/postgresql/data postgres:16
+docker run -d --name cache --network app-net redis:7-alpine
+docker run -d --name worker --network app-net -e REDIS_URL=redis://cache:6379 my-worker:latest
+docker run -d --name web --network app-net -p 3000:3000 \
+  -e DATABASE_URL=postgresql://postgres:secret@db:5432/postgres \
+  -e REDIS_URL=redis://cache:6379 my-app:latest
+# Phải nhớ đúng thứ tự, đúng tên network, đúng từng cờ...
+```
+
+**Giải pháp:** **Docker Compose** cho phép khai báo TOÀN BỘ ứng dụng đa container trong MỘT file `docker-compose.yml` (services, network, volume, env), rồi chỉ cần `docker compose up` để bật tất cả. Cấu hình nằm trong git nên ai cũng tái lập được y hệt.
+
+```yaml
+# docker-compose.yml — cả hệ thống gói gọn trong 1 file
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://postgres:secret@db:5432/postgres
+      REDIS_URL: redis://cache:6379
+    depends_on: [db, cache]
+
+  worker:
+    build: ./worker
+    environment:
+      REDIS_URL: redis://cache:6379
+    depends_on: [cache]
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  cache:
+    image: redis:7-alpine
+
+volumes:
+  pgdata:
+```
+
+:::tip[Dùng thực tế]
+
+- **Dựng full-stack bằng 1 lệnh:** web + db + cache lên hết chỉ với `docker compose up -d`.
+- **Môi trường dev đồng nhất:** cả team clone repo và chạy cùng một config, hết cảnh "máy tôi chạy được".
+- **Chạy stack test trong CI:** bật nguyên hệ thống để test rồi `down` sạch sẽ sau khi xong.
+- **Bật/tắt toàn bộ nhanh gọn:** `up` để khởi động, `down` để dọn dẹp tất cả container và network.
+
+:::
 
 ---
 

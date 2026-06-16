@@ -11,6 +11,7 @@ Bài này hướng dẫn chi tiết quá trình build image, tối ưu hoá cach
 
 ## Mục lục
 
+- [Vì sao cần hiểu build & layer cache?](#vì-sao-cần-hiểu-build--layer-cache)
 - [1. Docker Build chi tiết](#1-docker-build-chi-tiết)
 - [2. Tối ưu Layer Caching](#2-tối-ưu-layer-caching)
 - [3. Giảm dung lượng Image](#3-giảm-dung-lượng-image)
@@ -20,6 +21,43 @@ Bài này hướng dẫn chi tiết quá trình build image, tối ưu hoá cach
 - [7. Quản lý Images hàng ngày](#7-quản-lý-images-hàng-ngày)
 - [8. Bài tập thực hành](#8-bài-tập-thực-hành)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao cần hiểu build & layer cache?
+
+**Vấn đề:** Nếu không hiểu cơ chế build, mỗi lần build image lại rất chậm vì phải cài lại toàn bộ dependency từ đầu, và image phình to không cần thiết. Image cũ/không dùng tích tụ chiếm đầy ổ đĩa. Sắp xếp lệnh trong Dockerfile sai thứ tự còn làm hỏng cache.
+
+```dockerfile
+# Sai thứ tự: đổi 1 dòng code → npm install chạy lại từ đầu (chậm!)
+FROM node:20
+WORKDIR /app
+COPY . .            # Code đổi → layer này rebuild
+RUN npm install     # → kéo theo cài lại toàn bộ dependency
+CMD ["npm", "start"]
+```
+
+**Giải pháp:** Docker build theo **layer** và **cache**: mỗi lệnh là một layer, layer không đổi thì tái dùng cache. Hãy đặt lệnh ít thay đổi (cài dependency) **trước** lệnh hay đổi (COPY code) để tận dụng cache. Dùng tag để quản lý version, `docker images`/`prune` để dọn rác, và `.dockerignore` để giảm build context.
+
+```bash
+# Đặt cài dependency trước COPY code → cache hiệu quả
+# (xem Dockerfile đúng ở mục "2. Tối ưu Layer Caching")
+
+# Quản lý và dọn dẹp image
+docker images                  # Xem danh sách image và dung lượng
+docker image prune -a          # Xoá image không dùng, giải phóng ổ đĩa
+
+# Giảm build context bằng .dockerignore (loại node_modules, .git, ...)
+```
+
+:::tip[Dùng thực tế]
+
+- **Sắp xếp Dockerfile để cache dependency:** copy `package*.json` rồi `npm install` trước, copy code sau → đổi code không phải cài lại dependency.
+- **Dùng `.dockerignore`:** loại `node_modules`, `.git`, file thừa khỏi build context → build nhanh và image gọn hơn.
+- **Tag và dọn image cũ:** đánh tag rõ ràng (version, commit hash) rồi `docker image prune` định kỳ để ổ đĩa không bị đầy.
+- **Build nhanh trong CI:** nhờ layer cache, pipeline chỉ build lại phần thay đổi thay vì dựng image từ đầu mỗi lần.
+
+:::
 
 ---
 

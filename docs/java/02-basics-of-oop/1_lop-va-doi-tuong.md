@@ -11,6 +11,7 @@ Lớp (class) và đối tượng (object) là hai khái niệm nền tảng nh�
 
 ## Mục lục
 
+- [Vì sao cần class & object?](#vì-sao-cần-class--object)
 - [OOP là gì?](#oop-là-gì)
 - [Lớp (Class) — Khuôn mẫu](#lớp-class--khuôn-mẫu)
 - [Đối tượng (Object) — Thực thể cụ thể](#đối-tượng-object--thực-thể-cụ-thể)
@@ -19,6 +20,51 @@ Lớp (class) và đối tượng (object) là hai khái niệm nền tảng nh�
 - [Từ khóa this](#từ-khóa-this)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao cần class & object?
+
+**Vấn đề:** Giả sử cần lưu thông tin 100 user, mỗi user có tên, email, tuổi. Nếu
+dùng các biến rời rạc thì code nhanh chóng hỗn loạn, dữ liệu không gắn được với
+hành vi liên quan, và không có "khuôn" để tái lập.
+
+```java
+// Mỗi user lại đẻ ra thêm 3 biến rời rạc...
+String ten1 = "An";   String email1 = "an@mail.com";   int tuoi1 = 20;
+String ten2 = "Bình"; String email2 = "binh@mail.com"; int tuoi2 = 22;
+String ten3 = "Cường";String email3 = "cuong@mail.com";int tuoi3 = 19;
+// ... lặp tới user thứ 100 thì không thể quản nổi
+```
+
+**Giải pháp:** Định nghĩa MỘT **class** làm khuôn mẫu (gồm thuộc tính + phương
+thức), rồi tạo bao nhiêu **object** cũng được từ khuôn đó bằng `new`. Mỗi object
+giữ dữ liệu riêng và gắn sẵn hành vi liên quan.
+
+```java
+// Class User: khuôn mẫu định nghĩa thuộc tính + hành vi
+public class User {
+    String ten;
+    String email;
+    int tuoi;
+
+    void chao() {
+        System.out.println("Xin chào, tôi là " + ten);
+    }
+}
+
+// Tạo bao nhiêu object cũng được, mỗi object có dữ liệu riêng
+User u1 = new User(); u1.ten = "An";    u1.email = "an@mail.com";   u1.tuoi = 20;
+User u2 = new User(); u2.ten = "Bình";  u2.email = "binh@mail.com"; u2.tuoi = 22;
+u1.chao(); // Xin chào, tôi là An
+```
+
+:::tip[Dùng thực tế]
+- **Tạo nhiều thực thể từ một khuôn:** một class `User` sinh ra hàng trăm user mà không cần viết lại cấu trúc.
+- **Mỗi object giữ state riêng:** sửa `u1` không ảnh hưởng `u2`.
+- **Gắn method với dữ liệu:** hành vi (`chao()`) đi kèm ngay dữ liệu nó cần.
+- **Mô hình hoá thực thể nghiệp vụ:** sản phẩm, đơn hàng, tài khoản... mỗi loại là một class.
+:::
 
 ---
 

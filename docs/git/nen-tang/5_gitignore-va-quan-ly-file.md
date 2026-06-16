@@ -11,6 +11,7 @@ Không phải mọi file trong dự án đều nên được Git theo dõi. File
 
 ## Mục lục
 
+- [Vì sao cần .gitignore?](#vì-sao-cần-gitignore)
 - [1. .gitignore là gì?](#1-gitignore-là-gì)
 - [2. Cú pháp .gitignore](#2-cú-pháp-gitignore)
 - [3. Template .gitignore cho các loại project](#3-template-gitignore-cho-các-loại-project)
@@ -25,6 +26,53 @@ Không phải mọi file trong dự án đều nên được Git theo dõi. File
 - [12. Lỗi thường gặp](#12-lỗi-thường-gặp)
 - [13. Câu hỏi phỏng vấn](#13-câu-hỏi-phỏng-vấn)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao cần .gitignore?
+
+Nếu cứ commit MỌI file trong dự án, repo sẽ nhanh chóng trở nên lộn xộn, nặng nề và mất an toàn.
+
+**Vấn đề:**
+
+```bash
+# Commit tất cả mà không lọc gì:
+git add .
+git commit -m "init"
+
+# Repo dính phải:
+# 1. node_modules/ — hàng chục nghìn file thư viện tải về
+#    -> repo phình to, clone chậm, xung đột liên miên khi merge
+# 2. dist/, build/, *.log, *.tmp — file build/tạm sinh ra tự động
+#    -> vô nghĩa, chỉ làm rối lịch sử commit
+# 3. .env, credentials.json, *.key — file bí mật
+#    -> LỘ secret (mật khẩu, API key) lên remote!
+#    Đã push secret thì rất khó xoá sạch khỏi lịch sử Git
+```
+
+**Giải pháp:**
+
+```bash
+# Khai báo các mẫu file/thư mục cần BỎ QUA trong .gitignore
+echo "node_modules/" >> .gitignore
+echo "dist/" >> .gitignore
+echo ".env" >> .gitignore
+
+# Git sẽ KHÔNG theo dõi những file khớp mẫu này nữa
+git status
+# -> Chỉ còn hiển thị mã nguồn CỦA BẠN: gọn, an toàn, ít xung đột
+```
+
+`.gitignore` liệt kê các mẫu (pattern) file/thư mục mà Git **bỏ qua, không theo dõi** — giúp repo gọn nhẹ, an toàn và tránh xung đột không đáng có.
+
+:::tip[Dùng thực tế]
+
+- **Bỏ qua dependency & build:** thêm `node_modules/`, `dist/`, `build/` để không commit thứ có thể tạo lại được.
+- **KHÔNG commit secret:** thêm `.env`, `*.key`, `credentials.json` — secret chỉ nằm trên máy, không bao giờ lên remote.
+- **Bỏ file IDE/OS:** thêm `.DS_Store`, `.idea/`, `.vscode/` — file riêng từng máy, không liên quan dự án.
+- **Dùng template sẵn:** lấy `.gitignore` theo ngôn ngữ tại `github.com/github/gitignore` thay vì tự gõ từ đầu.
+
+:::
 
 ---
 

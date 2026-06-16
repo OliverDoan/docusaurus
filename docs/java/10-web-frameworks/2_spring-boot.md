@@ -11,6 +11,7 @@ Spring là framework Java phổ biến nhất thế giới để xây ứng dụ
 
 ## Mục lục
 
+- [Vì sao có Spring Boot?](#vì-sao-có-spring-boot)
 - [Spring là gì?](#spring-là-gì)
 - [Vấn đề của Spring thuần và sự ra đời của Spring Boot](#vấn-đề-của-spring-thuần-và-sự-ra-đời-của-spring-boot)
 - [Auto-configuration là gì?](#auto-configuration-là-gì)
@@ -26,6 +27,72 @@ Spring là framework Java phổ biến nhất thế giới để xây ứng dụ
 - [Tóm tắt](#tóm-tắt)
 
 ---
+
+## Vì sao có Spring Boot?
+
+**Vấn đề:** Spring Framework rất mạnh nhưng cấu hình thủ công cực kỳ nặng nề. Bạn
+phải viết hàng đống XML/bean, tự tay chọn version từng thư viện sao cho tương thích
+với nhau, rồi tự cấu hình và deploy ứng dụng lên một server riêng (ví dụ Tomcat).
+Chỉ riêng việc khởi tạo một dự án chạy được đã mất nhiều ngày và rất dễ sai.
+
+```xml
+<!-- Spring thuần: tự khai báo từng bean, tự dò version thư viện -->
+<beans>
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/mydb"/>
+        <property name="username" value="root"/>
+        <property name="password" value="123456"/>
+    </bean>
+
+    <bean id="dispatcherServlet"
+          class="org.springframework.web.servlet.DispatcherServlet">
+        <!-- ...thêm hàng chục dòng cấu hình servlet, view resolver... -->
+    </bean>
+    <!-- ...và còn phải tải Tomcat, cấu hình deploy file .war riêng... -->
+</beans>
+```
+
+**Giải pháp:** **Spring Boot** áp dụng triết lý "convention over configuration"
+(quy ước hơn cấu hình) với ba điểm cốt lõi:
+
+- **Auto-configuration**: tự cấu hình hợp lý dựa trên những thư viện đang có mặt.
+- **Starter dependency**: mỗi `starter` gói sẵn một bộ thư viện đã chọn version
+  tương thích, bạn không phải tự dò.
+- **Server nhúng** (embedded server): server web nằm luôn trong ứng dụng, chỉ cần
+  `java -jar` là chạy, không cần cài Tomcat riêng.
+
+```java
+// Cả ứng dụng web chạy được chỉ với 1 starter + 1 class này
+// pom.xml chỉ cần: spring-boot-starter-web (đã gói sẵn Tomcat nhúng + Spring MVC)
+@SpringBootApplication
+public class MyApp {
+    public static void main(String[] args) {
+        // Tự cấu hình + tự khởi động server nhúng ở cổng 8080
+        SpringApplication.run(MyApp.class, args);
+    }
+}
+
+@RestController
+class HelloController {
+    @GetMapping("/hello")
+    public String hello() {
+        return "Xin chào từ Spring Boot!";
+    }
+}
+// Chạy: java -jar app.jar → lên API trong vài phút, không cần Tomcat ngoài.
+```
+
+:::tip[Dùng thực tế]
+- **Dựng REST API nhanh**: thêm `spring-boot-starter-web` và một `@RestController`
+  là có ngay API, không phải cấu hình servlet hay view resolver thủ công.
+- **Chạy jar độc lập**: đóng gói thành một file `.jar` có server nhúng, deploy bằng
+  `java -jar app.jar` trên bất kỳ máy nào có Java — không cần cài Tomcat riêng.
+- **Thêm tính năng bằng starter**: cần database thì thêm `starter-data-jpa`, cần
+  bảo mật thì thêm `starter-security` — mỗi starter tự kéo bộ thư viện tương thích.
+- **Cấu hình tập trung**: chỉnh cổng, kết nối database, log... qua một file
+  `application.yml` (hoặc `application.properties`) duy nhất.
+:::
 
 ## Spring là gì?
 

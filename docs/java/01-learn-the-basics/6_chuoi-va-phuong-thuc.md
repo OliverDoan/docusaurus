@@ -11,6 +11,7 @@ String là kiểu dùng để lưu văn bản, tức một dãy các ký tự nh
 
 ## Mục lục
 
+- [Vì sao String immutable (và có StringBuilder)?](#vì-sao-string-immutable-và-có-stringbuilder)
 - [String là gì?](#string-là-gì)
 - [Tạo chuỗi](#tạo-chuỗi)
 - [Tính bất biến (immutable)](#tính-bất-biến-immutable)
@@ -20,6 +21,55 @@ String là kiểu dùng để lưu văn bản, tức một dãy các ký tự nh
 - [StringBuilder — chỉnh sửa chuỗi hiệu quả](#stringbuilder--chỉnh-sửa-chuỗi-hiệu-quả)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao String immutable (và có StringBuilder)?
+
+**Vấn đề:** Chuỗi được dùng KHẮP NƠI — làm key của Map, làm tham số, lưu cấu hình. Nếu chuỗi **thay đổi được** (mutable), khi nhiều chỗ cùng chia sẻ một tham chiếu, một chỗ sửa sẽ làm hỏng tất cả các chỗ khác. Đa luồng cũng không an toàn, và không thể cache để tái dùng.
+
+```java
+// Giả sử String thay đổi được (KHÔNG đúng với Java thật)
+String key = "user";
+mapCauHinh.put(key, "...");
+
+key.setValue("admin"); // nếu sửa được tại chỗ...
+// ...thì key đã nằm trong Map cũng đổi theo -> tra cứu sai, hỏng dữ liệu
+
+// Nối chuỗi trong vòng lặp mà mỗi lần tạo chuỗi mới -> rất tốn
+String s = "";
+for (int i = 0; i < 100000; i++) {
+    s = s + i; // tạo một chuỗi mới mỗi vòng -> chậm, nhiều rác
+}
+```
+
+**Giải pháp:** Java làm String **bất biến** (immutable): an toàn khi chia sẻ và đa luồng, dùng làm key Map yên tâm, và được **cache trong String Pool** để tiết kiệm bộ nhớ. Khi cần nối/sửa nhiều lần thì dùng **StringBuilder** (thay đổi được, hiệu quả).
+
+```java
+// String bất biến: chia sẻ thoải mái, không sợ bị sửa
+String key = "user";
+mapCauHinh.put(key, "...");
+key.toUpperCase(); // tạo chuỗi MỚI, "user" trong Map không đổi
+
+// Hai literal giống nhau dùng chung một ô trong String Pool
+String a = "Java";
+String b = "Java";
+System.out.println(a == b); // true (cùng đối tượng được cache)
+
+// Nối nhiều lần -> dùng StringBuilder (sửa tại chỗ, nhanh)
+StringBuilder sb = new StringBuilder();
+for (int i = 0; i < 100000; i++) {
+    sb.append(i);
+}
+String s = sb.toString();
+```
+
+:::tip[Dùng thực tế]
+- Dùng `String` làm **key của Map** mà không lo bị một chỗ khác sửa làm hỏng tra cứu.
+- **Chia sẻ chuỗi giữa nhiều luồng** an toàn, không cần khóa (lock).
+- Cần **nối/sửa chuỗi trong vòng lặp** thì dùng `StringBuilder` cho nhanh.
+- Khai báo bằng **literal** `"..."` để tận dụng String Pool, tiết kiệm bộ nhớ.
+:::
 
 ---
 

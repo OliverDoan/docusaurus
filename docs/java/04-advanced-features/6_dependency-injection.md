@@ -11,6 +11,7 @@ Dependency Injection (DI) là kỹ thuật cho một đối tượng nhận các
 
 ## Mục lục
 
+- [Vì sao có Dependency Injection?](#vì-sao-có-dependency-injection)
 - [Dependency Injection là gì?](#dependency-injection-là-gì)
 - [Vấn đề khi tự tạo phụ thuộc bên trong](#vấn-đề-khi-tự-tạo-phụ-thuộc-bên-trong)
 - [Constructor Injection (tiêm qua hàm dựng)](#constructor-injection-tiêm-qua-hàm-dựng)
@@ -19,6 +20,60 @@ Dependency Injection (DI) là kỹ thuật cho một đối tượng nhận các
 - [Spring làm việc này tự động](#spring-làm-việc-này-tự-động)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có Dependency Injection?
+
+**Vấn đề:** nếu một lớp **tự tạo** các phụ thuộc của nó bằng `new` ngay bên trong, nó bị gắn **chặt** vào cài đặt cụ thể.
+
+```java
+// Lớp TỰ tạo phụ thuộc -> gắn chặt, khó thay, khó test
+class OrderService {
+    // Trói cứng vào EmailService cụ thể
+    private EmailService emailService = new EmailService();
+
+    void datHang() {
+        // ...
+        emailService.guiMail("Đã đặt hàng"); // Luôn gọi service THẬT
+    }
+}
+```
+
+- **Khó thay thế**: muốn đổi sang `SmsService` phải sửa lại code của `OrderService`.
+- **Khó test**: không thể mock `EmailService`, mỗi lần test đều gọi service thật.
+- **Khó tái sử dụng**: lớp bị dính cứng vào một cài đặt, không dùng lại linh hoạt được.
+
+**Giải pháp:** **Dependency Injection** — phụ thuộc được **tiêm từ ngoài** vào (qua constructor/setter) thay vì tự tạo. Đây là **đảo ngược điều khiển (IoC)**: lớp phụ thuộc vào **abstraction** (interface) nên dễ đổi cài đặt và dễ mock khi test.
+
+```java
+interface Notifier {            // Phụ thuộc vào ABSTRACTION
+    void gui(String noiDung);
+}
+
+class OrderService {
+    private final Notifier notifier;
+
+    // Tiêm từ ngoài vào -> không tự "new"
+    public OrderService(Notifier notifier) {
+        this.notifier = notifier;
+    }
+
+    void datHang() {
+        // ...
+        notifier.gui("Đã đặt hàng"); // Cài đặt nào cũng được, miễn hợp interface
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Tiêm repository vào service** qua constructor để service không tự tạo tầng truy cập dữ liệu.
+- **Mock phụ thuộc khi unit test**, kiểm thử logic mà không gọi DB hay dịch vụ ngoài thật.
+- **Đổi cài đặt qua cấu hình** (ví dụ `EmailService` ↔ `SmsService`) mà không sửa code lớp dùng nó.
+- **Để Spring quản lý bean** với `@Autowired`/constructor injection, tự dựng và "wiring" các phụ thuộc.
+
+:::
 
 ---
 

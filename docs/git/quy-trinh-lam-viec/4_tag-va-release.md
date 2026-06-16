@@ -11,6 +11,7 @@ Khi dự án của bạn đạt đến một mốc quan trọng — phiên bản
 
 ## Mục lục
 
+- [Vì sao cần tag & release?](#vì-sao-cần-tag--release)
 - [1. Tag là gì?](#1-tag-là-gì)
 - [2. Hai loại Tag](#2-hai-loại-tag)
 - [3. Các thao tác với Tag](#3-các-thao-tác-với-tag)
@@ -22,6 +23,47 @@ Khi dự án của bạn đạt đến một mốc quan trọng — phiên bản
 - [8. Lỗi thường gặp](#8-lỗi-thường-gặp)
 - [9. Câu hỏi phỏng vấn](#9-câu-hỏi-phỏng-vấn)
 - [10. Tóm tắt](#10-tóm-tắt)
+
+---
+
+## Vì sao cần tag & release?
+
+**Vấn đề:**
+
+```bash
+# Commit hash khó nhớ và không nói lên "đây là phiên bản nào"
+git log --oneline
+# 7f3a9b2 fix: sửa lỗi thanh toán
+# c4e1d80 feat: thêm dark mode
+# a91f5c3 refactor: dọn dẹp code
+
+# Khách báo: "App bị lỗi ở bản nào?"  → "Ờ... chắc khoảng commit c4e1d80?"
+# Cần biết bản đang chạy trên production?  → không có cách nào chắc chắn
+# Muốn quay lại đúng bản đã phát hành?     → đào trong cả đống hash
+```
+
+**Giải pháp:**
+
+```bash
+# TAG: gắn NHÃN cố định lên một commit để đánh dấu mốc phát hành
+git tag -a v1.2.0 -m "Release v1.2.0"
+git log --oneline --decorate
+# 7f3a9b2 (tag: v1.2.0) fix: sửa lỗi thanh toán  ← rõ ràng đây là version nào
+
+# RELEASE (trên GitHub): đóng gói tag kèm changelog + binary để phân phối
+gh release create v1.2.0 --generate-notes
+
+# Quản lý phiên bản rõ ràng theo Semantic Versioning, dễ rollback
+```
+
+:::tip[Dùng thực tế]
+
+- **Phát hành lần đầu:** gắn `v1.0.0` để đánh dấu bản ổn định đầu tiên thay vì nhớ chuỗi commit.
+- **Biết bản trên production:** nhìn tag là biết ngay production đang chạy `v1.2.0` hay `v2.0.0`.
+- **Rollback nhanh:** khi bản mới lỗi, `git checkout v1.1.0` để quay lại đúng bản đã phát hành trước đó.
+- **Báo lỗi theo version:** khách báo "lỗi ở `v2.0.0`" → bạn xác định chính xác code cần kiểm tra.
+
+:::
 
 ---
 

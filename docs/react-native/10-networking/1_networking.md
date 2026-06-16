@@ -13,6 +13,7 @@ Hầu hết app mobile gọi API server. RN có **Fetch API** (giống browser),
 
 ## Mục lục
 
+- [Vì sao networking trong RN cần lưu ý riêng?](#vì-sao-networking-trong-rn-cần-lưu-ý-riêng)
 - [1. Fetch API](#1-fetch-api)
 - [2. Axios](#2-axios)
 - [3. WebSocket](#3-websocket)
@@ -21,6 +22,53 @@ Hầu hết app mobile gọi API server. RN có **Fetch API** (giống browser),
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao networking trong RN cần lưu ý riêng?
+
+App mobile phụ thuộc **mạng di động chập chờn**: rớt sóng, đổi qua lại 4G ↔ wifi, offline, độ trễ cao. Khác web ở chỗ không có CORS/cookie tự động như trình duyệt, và mặc định iOS/Android **chặn HTTP cleartext** (bắt buộc HTTPS). Bỏ qua các điều này dễ làm app treo, lỗi, hoặc lộ dữ liệu.
+
+**Vấn đề:**
+
+```tsx
+// Gọi API kiểu "web": coi như luôn có mạng, dùng HTTP, không retry
+const res = await fetch('http://api.example.com/users'); // HTTP -> bị chặn cleartext
+const data = await res.json();
+setUsers(data); // mạng rớt giữa chừng -> app treo / crash, không có cache xem offline
+```
+
+**Giải pháp:**
+
+```tsx
+// HTTPS + axios/fetch + React Query lo loading/error/retry/cache + NetInfo check mạng
+import NetInfo from '@react-native-community/netinfo';
+import { useQuery } from '@tanstack/react-query';
+
+function useUsers() {
+  return useQuery({
+    queryKey: ['users'],
+    queryFn: async () => {
+      const net = await NetInfo.fetch();
+      if (!net.isConnected) throw new Error('Offline'); // chủ động xử lý mất mạng
+      const res = await fetch('https://api.example.com/users'); // HTTPS bắt buộc
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    },
+    retry: 3,            // tự retry khi mạng yếu
+    staleTime: 60_000,   // cache để xem khi mất mạng
+  });
+}
+```
+
+:::tip[Dùng thực tế]
+
+- Gọi REST API có **retry** khi mạng yếu để không fail ngay lần đầu rớt sóng.
+- Hiện **banner offline** (NetInfo) khi user mất mạng thay vì để màn hình trắng.
+- **Cache** dữ liệu (React Query) để vẫn xem được nội dung cũ khi mất mạng.
+- **Realtime chat** qua WebSocket, tự reconnect khi đổi 4G ↔ wifi.
+
+:::
 
 ---
 

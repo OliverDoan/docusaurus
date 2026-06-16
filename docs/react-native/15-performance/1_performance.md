@@ -13,6 +13,7 @@ App mobile bị đánh giá nghiêm khắc về **mượt mà**. 60fps = tốt, 
 
 ## Mục lục
 
+- [Vì sao cần tối ưu hiệu năng RN?](#vì-sao-cần-tối-ưu-hiệu-năng-rn)
 - [1. Hiểu Frame Rate](#1-hiểu-frame-rate)
 - [2. Common bottleneck](#2-common-bottleneck)
 - [3. Speeding up Builds](#3-speeding-up-builds)
@@ -23,6 +24,50 @@ App mobile bị đánh giá nghiêm khắc về **mượt mà**. 60fps = tốt, 
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao cần tối ưu hiệu năng RN?
+
+**Vấn đề:** Điện thoại yếu hơn máy tính rất nhiều (CPU/RAM hạn chế, pin nóng). RN có **JS thread riêng** tách khỏi UI thread -- nếu JS bận (tính toán nặng, re-render thừa) thì UI bị giật, animation rớt frame. Danh sách lớn render hết một lúc sẽ ngốn RAM. Giao tiếp JS ↔ native qua **bridge** (kiến trúc cũ) tốn kém nếu lạm dụng truyền dữ liệu lớn. Người dùng mobile rất nhạy với lag -- chỉ vài frame rớt là cảm thấy "app dỏm".
+
+```jsx
+// Feed nghìn item -- render het mot luc -> ton RAM, giat
+{users.map(u => <UserCard key={u.id} user={u} />)}
+
+// Animation chay JS thread -- JS busy thi rot frame
+Animated.timing(value, { toValue: 1, duration: 300 }).start();
+
+// Object/function inline -- moi render tao moi -> re-render thua
+<UserCard user={u} style={{ padding: 10 }} onPress={() => go(u.id)} />
+```
+
+**Giải pháp:** Dùng **FlatList/FlashList** virtualize + `getItemLayout` để chỉ render item trong viewport. Giảm re-render bằng `React.memo`/`useMemo`/`useCallback`. Chạy animation trên **UI thread** (`useNativeDriver`, Reanimated/Gesture Handler). Bật **Hermes** (engine JS nhẹ, khởi động nhanh). Tránh truyền dữ liệu lớn qua bridge (ưu tiên New Architecture/JSI). Luôn **đo bằng profiler** trước khi tối ưu.
+
+```jsx
+// Danh sach: virtualize + height co dinh
+<FlashList
+  data={users}
+  renderItem={({ item }) => <UserRow user={item} />}
+  estimatedItemSize={80}
+/>
+
+// Giam re-render
+const UserCard = React.memo(({ user, onPress }) => <Pressable onPress={onPress}>...</Pressable>);
+const onPress = useCallback(() => go(user.id), [user.id]);
+
+// Animation tren UI thread
+Animated.timing(value, { toValue: 1, duration: 300, useNativeDriver: true }).start();
+```
+
+:::tip[Dùng thực tế]
+
+- **Feed mạng xã hội nghìn item:** dùng `FlashList` + `getItemLayout`, scroll mượt, RAM không phình.
+- **Animation 60fps:** chuyển sang Reanimated / `useNativeDriver` để chạy trên UI thread, không rớt frame khi JS bận.
+- **Màn hình re-render liên tục:** bọc `React.memo` + `useCallback` cho component nặng, props ổn định -- cắt render thừa.
+- **Khởi động app chậm:** bật Hermes để giảm thời gian start và dùng ít RAM trên máy yếu.
+
+:::
 
 ---
 

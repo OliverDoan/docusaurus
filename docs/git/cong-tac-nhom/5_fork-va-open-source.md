@@ -11,6 +11,7 @@ title: "5. Fork và đóng góp Open Source"
 
 ## Mục lục
 
+- [Vì sao có fork?](#vì-sao-có-fork)
 - [1. Fork là gì?](#1-fork-là-gì)
 - [2. Fork vs Clone — Khác nhau cơ bản](#2-fork-vs-clone-khác-nhau-cơ-bản)
 - [3. Workflow đóng góp Open Source — Từng bước chi tiết](#3-workflow-đóng-góp-open-source-từng-bước-chi-tiết)
@@ -29,6 +30,27 @@ title: "5. Fork và đóng góp Open Source"
 - [10. Lỗi thường gặp](#10-lỗi-thường-gặp)
 - [11. Ví dụ thực hành đầy đủ](#11-ví-dụ-thực-hành-đầy-đủ)
 - [12. Câu hỏi phỏng vấn](#12-câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao có fork?
+
+**Vấn đề:**
+
+Bạn muốn đóng góp cho một dự án mã nguồn mở, nhưng bạn **không có quyền ghi (push)** vào repo gốc của họ. Ngược lại, chủ dự án cũng không thể tin tưởng cho hàng nghìn người lạ push trực tiếp vào codebase của mình — chỉ một người vô tình (hoặc cố ý) push code hỏng là cả dự án gặp rắc rối.
+
+**Giải pháp:**
+
+**Fork** — tạo một **bản sao** repo gốc về tài khoản của bạn, nơi bạn có **toàn quyền**. Bạn sửa code thoải mái trên fork, rồi mở một **Pull Request** từ fork về repo gốc để chủ dự án xem xét và quyết định có merge hay không. Mô hình **"fork & pull request"** này cho phép cả thế giới đóng góp một cách **an toàn**: ai cũng đề xuất được thay đổi, nhưng quyền merge vào repo gốc vẫn nằm trong tay maintainers.
+
+:::tip[Dùng thực tế]
+
+- **Đóng góp cho dự án open-source:** fork repo của người khác, sửa rồi gửi PR mà không cần quyền push.
+- **Sửa lỗi / thêm tính năng:** phát hiện bug hoặc thiếu tính năng trong thư viện bạn dùng, fork và gửi PR đề xuất sửa.
+- **Dùng dự án người khác làm nền tảng riêng:** fork về để tùy biến thành phiên bản riêng cho nhu cầu của bạn.
+- **Đồng bộ fork với upstream:** giữ fork luôn cập nhật code mới nhất từ repo gốc để không bị lỗi thời.
+
+:::
 
 ---
 

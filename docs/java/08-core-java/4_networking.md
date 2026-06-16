@@ -11,6 +11,7 @@ Lập trình mạng là viết chương trình để các máy tính trao đổi
 
 ## Mục lục
 
+- [Vì sao cần API mạng?](#vì-sao-cần-api-mạng)
 - [Lập trình mạng là gì?](#lập-trình-mạng-là-gì)
 - [Socket là gì?](#socket-là-gì)
 - [TCP Server với ServerSocket](#tcp-server-với-serversocket)
@@ -19,6 +20,47 @@ Lập trình mạng là viết chương trình để các máy tính trao đổi
 - [Làm việc với URL](#làm-việc-với-url)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao cần API mạng?
+
+**Vấn đề:** Một ứng dụng hiếm khi đứng một mình — nó cần **giao tiếp với máy khác** qua mạng: gọi API lấy dữ liệu, tải nội dung từ một địa chỉ web, hay dựng server nhận kết nối từ nhiều client. Nếu tự làm việc trực tiếp với giao thức TCP/IP ở mức thấp, bạn phải tự lo bắt tay kết nối, đóng gói/giải gói byte, quản lý cổng... cực kỳ phức tạp và dễ sai.
+
+```java
+// Không có API mạng: phải tự thao tác TCP/IP cấp thấp
+// - Tự mở kết nối, bắt tay 3 bước (SYN/SYN-ACK/ACK)
+// - Tự chia nhỏ dữ liệu thành gói, đánh số, chờ xác nhận
+// - Tự xử lý mất gói, sai thứ tự, đóng kết nối
+// => Hàng trăm dòng code rối rắm chỉ để gửi một tin nhắn
+```
+
+**Giải pháp:** Java cung cấp API mạng ở **nhiều mức trừu tượng** trong gói `java.net` và `java.net.http`, giấu đi sự phức tạp của TCP/IP:
+
+```java
+// Mức thấp (TCP): Socket / ServerSocket cho client-server
+ServerSocket serverSocket = new ServerSocket(5000); // server lắng nghe
+Socket socket = new Socket("localhost", 5000);      // client kết nối
+
+// Mức cao (HTTP): HttpClient (Java 11+) gọi API web gọn gàng
+HttpClient client = HttpClient.newHttpClient();
+HttpRequest request = HttpRequest.newBuilder()
+        .uri(URI.create("https://api.github.com"))
+        .GET()
+        .build();
+HttpResponse<String> response =
+        client.send(request, HttpResponse.BodyHandlers.ofString());
+
+// Phân tích địa chỉ: URL
+URL url = new URL("https://example.com/page.html?id=10");
+```
+
+:::tip[Dùng thực tế]
+- **Gọi REST API**: dùng `HttpClient` gửi GET/POST tới dịch vụ web, nhận JSON về xử lý (Java 11+ còn hỗ trợ bất đồng bộ và HTTP/2).
+- **Dựng server TCP**: dùng `ServerSocket` mở cổng, `accept()` chờ và phục vụ các kết nối client tới.
+- **Chat client-server**: hai bên dùng `Socket` để gửi/nhận tin nhắn qua TCP theo thời gian thực.
+- **Tải dữ liệu từ URL**: dùng `URL` để phân tích địa chỉ tài nguyên trên mạng trước khi truy cập.
+:::
 
 ---
 

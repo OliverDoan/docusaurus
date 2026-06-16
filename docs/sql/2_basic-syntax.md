@@ -11,11 +11,50 @@ SQL (Structured Query Language) là ngôn ngữ để giao tiếp với cơ sở
 
 ## Mục lục
 
+- [Vì sao SQL là ngôn ngữ khai báo?](#vì-sao-sql-là-ngôn-ngữ-khai-báo)
 - [Nền tảng SQL](#nền-tảng-sql)
 - [Các từ khóa SQL hay dùng](#các-từ-khóa-sql-hay-dùng)
 - [Kiểu dữ liệu trong PostgreSQL](#kiểu-dữ-liệu-trong-postgresql)
 - [Toán tử](#toán-tử)
 - [Bốn lệnh cơ bản](#bốn-lệnh-cơ-bản)
+
+---
+
+## Vì sao SQL là ngôn ngữ khai báo?
+
+**Vấn đề:**
+
+Nếu phải tự viết code lặp duyệt từng bản ghi, tự lọc, tự sắp xếp (kiểu mệnh lệnh — imperative), bạn sẽ phải mô tả từng bước "làm thế nào". Code dài dòng, dễ sai và khó tối ưu.
+
+```sql
+-- Hình dung kiểu imperative (KHÔNG phải SQL thật):
+-- for mỗi user trong bảng users:
+--   if user.age >= 18 and user.active == true:
+--     thêm user vào danh sách kết quả
+-- sắp xếp danh sách kết quả theo created_at giảm dần
+-- lấy 10 phần tử đầu
+-- => phải tự lo vòng lặp, điều kiện, sắp xếp, cắt danh sách
+```
+
+**Giải pháp:**
+
+SQL là ngôn ngữ **khai báo** (declarative): bạn chỉ nói **MUỐN GÌ**, còn DB engine tự quyết **LÀM THẾ NÀO** (chọn index, chọn thuật toán) và tự tối ưu kế hoạch thực thi. Cú pháp gần ngôn ngữ tự nhiên, ngắn gọn.
+
+```sql
+-- Chỉ mô tả kết quả mong muốn, engine lo phần còn lại
+SELECT *
+FROM users
+WHERE age >= 18 AND active = true
+ORDER BY created_at DESC
+LIMIT 10;
+```
+
+:::tip[Dùng thực tế]
+- **Lọc dữ liệu**: dùng `WHERE` để nêu điều kiện, engine tự duyệt và lọc.
+- **Sắp xếp**: dùng `ORDER BY`, không cần tự viết thuật toán sort.
+- **Giới hạn kết quả**: dùng `LIMIT` để lấy đúng số dòng cần, tránh tải thừa.
+- **Tối ưu tự động**: engine tự chọn index và kế hoạch thực thi nhanh nhất cho cùng một câu lệnh.
+:::
 
 ---
 

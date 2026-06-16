@@ -13,6 +13,7 @@ React Native cung cấp **bộ component built-in** -- mỗi component map sang 
 
 ## Mục lục
 
+- [Vì sao RN có component riêng (View, Text...)?](#vì-sao-rn-có-component-riêng-view-text)
 - [1. View-related](#1-view-related)
 - [2. Text](#2-text)
 - [3. TextInput](#3-textinput)
@@ -23,6 +24,43 @@ React Native cung cấp **bộ component built-in** -- mỗi component map sang 
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao RN có component riêng (View, Text...)?
+
+**Vấn đề:** Trên web ta dựng giao diện bằng thẻ HTML chạy trong trình duyệt.
+
+```jsx
+<div>
+  <span>Xin chao</span>
+  <img src="logo.png" />
+  <button>Bam</button>
+</div>
+```
+
+Nhưng app **native** không chạy trong trình duyệt -- **không có HTML/DOM**. Trình duyệt chính là thứ biến `<div>`, `<span>` thành pixel; bỏ trình duyệt thì các thẻ này vô nghĩa. Ta cần thứ ánh xạ tới **giao diện native thật** của iOS/Android.
+
+**Giải pháp:** RN cung cấp **bộ Core Components riêng**, map trực tiếp tới view native. Viết bằng JSX nhưng kết xuất ra **widget native thật** (không phải DOM).
+
+```jsx
+<View>                          {/* ≈ div  → UIView (iOS) / android.view.View */}
+  <Text>Xin chao</Text>         {/* hiển thị chữ → UILabel / TextView      */}
+  <Image source={...} />        {/* ảnh                                     */}
+  <Pressable><Text>Bam</Text></Pressable>  {/* nút bấm                     */}
+</View>
+```
+
+Các component cốt lõi: `View`, `Text`, `Image`, `ScrollView`, `TextInput`, `Pressable`...
+
+:::tip[Dùng thực tế]
+
+- **Dựng layout** bằng `View` thay cho `<div>` (container, hàng/cột, card).
+- **Hiển thị chữ** bằng `Text` -- mọi text BẮT BUỘC nằm trong `<Text>`, không như web viết chữ trực tiếp trong `<div>`.
+- **Hiển thị ảnh** bằng `Image` (từ URL hoặc file local) thay cho `<img>`.
+- **Form nhập liệu** bằng `TextInput` thay cho `<input>` (ô email, mật khẩu, tìm kiếm).
+
+:::
 
 ---
 

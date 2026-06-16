@@ -11,6 +11,7 @@ Trong công việc hàng ngày với Git, bạn sẽ gặp hai tình huống r�
 
 ## Mục lục
 
+- [Vì sao có cherry-pick & stash?](#vì-sao-có-cherry-pick--stash)
 - [Phần 1: Git Stash -- Tạm cất thay đổi](#phần-1-git-stash-tạm-cất-thay-đổi)
 - [1. Stash là gì và tại sao cần?](#1-stash-là-gì-và-tại-sao-cần)
 - [2. Các lệnh stash cơ bản](#2-các-lệnh-stash-cơ-bản)
@@ -27,6 +28,49 @@ Trong công việc hàng ngày với Git, bạn sẽ gặp hai tình huống r�
 - [12. Lỗi thường gặp](#12-lỗi-thường-gặp)
 - [13. Câu hỏi phỏng vấn](#13-câu-hỏi-phỏng-vấn)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có cherry-pick & stash?
+
+**Vấn đề:**
+
+```bash
+# (1) Chỉ cần LẤY MỘT commit cụ thể từ nhánh khác (ví dụ một bản vá lỗi)
+#     chứ không muốn merge cả nhánh
+git merge develop
+# Kéo theo HÀNG LOẠT commit chưa sẵn sàng, không chỉ bản vá cần thiết
+
+# (2) Đang sửa dở thì cần CHUYỂN NHÁNH gấp (hotfix)
+#     nhưng chưa muốn commit nửa vời
+git switch hotfix/urgent
+# error: Your local changes ... would be overwritten by checkout
+# Git không cho đổi nhánh khi còn thay đổi chưa lưu
+```
+
+**Giải pháp:**
+
+```bash
+# (1) cherry-pick: áp đúng MỘT commit lên nhánh hiện tại
+git switch main
+git cherry-pick <commit>   # chỉ lấy bản vá, không đụng phần còn lại
+
+# (2) stash: CẤT TẠM các thay đổi chưa commit vào ngăn riêng
+git stash                  # working dir sạch lại
+git switch hotfix/urgent   # đổi nhánh làm việc khác thoải mái
+# ... xử lý xong ...
+git switch -               # quay về nhánh cũ
+git stash pop              # lấy lại đúng phần đang làm dở
+```
+
+:::tip[Dùng thực tế]
+
+- **Lấy hotfix sang nhánh release:** bug đã sửa ở `develop`, `cherry-pick` đúng commit đó qua `release` để vá nhanh.
+- **Cất việc dở để xử lý gấp:** `git stash` cất code đang viết, nhảy qua sửa lỗi production rồi `stash pop` làm tiếp.
+- **Thử nhanh trên nhánh khác:** `stash` việc hiện tại, chuyển nhánh kiểm tra một ý tưởng, xong quay lại lấy nguyên trạng.
+- **Mang một commit lẻ qua nhánh:** chỉ cần một tính năng/bản vá riêng lẻ, `cherry-pick` thay vì merge toàn bộ nhánh.
+
+:::
 
 ---
 

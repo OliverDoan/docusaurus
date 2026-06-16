@@ -11,6 +11,7 @@ Kế thừa là một trụ cột của lập trình hướng đối tượng, c
 
 ## Mục lục
 
+- [Vì sao có kế thừa?](#vì-sao-có-kế-thừa)
 - [Kế thừa là gì?](#kế-thừa-là-gì)
 - [Từ khóa extends](#từ-khóa-extends)
 - [Lớp cha và lớp con](#lớp-cha-và-lớp-con)
@@ -20,6 +21,54 @@ Kế thừa là một trụ cột của lập trình hướng đối tượng, c
 - [Object là lớp gốc của mọi lớp](#object-là-lớp-gốc-của-mọi-lớp)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có kế thừa?
+
+**Vấn đề:** Nhiều lớp thường có phần CHUNG giống nhau. `Cho`, `Meo`, `Chim` đều có `ten`, `an()`, `ngu()`. Nếu copy-paste code chung vào từng lớp thì trùng lặp, và khi cần sửa một chỗ phải sửa ở nhiều nơi (dễ sót, dễ sai).
+
+```java
+// Trùng lặp: viết lại an() và ngu() ở MỌI lớp
+public class Cho {
+    String ten;
+    void an() { System.out.println(ten + " dang an"); }
+    void ngu() { System.out.println(ten + " dang ngu"); }
+}
+
+public class Meo {
+    String ten;
+    void an() { System.out.println(ten + " dang an"); }  // lặp lại
+    void ngu() { System.out.println(ten + " dang ngu"); } // lặp lại
+}
+```
+
+**Giải pháp:** **Kế thừa** (`extends`) — lớp con thừa hưởng field và method của lớp cha (quan hệ "is-a"). Viết phần chung MỘT LẦN ở lớp cha; lớp con chỉ thêm hoặc ghi đè phần riêng. Đây cũng là nền tảng cho đa hình.
+
+```java
+// Phần chung viết MỘT LẦN ở lớp cha
+public class DongVat {
+    String ten;
+    void an() { System.out.println(ten + " dang an"); }
+    void ngu() { System.out.println(ten + " dang ngu"); }
+}
+
+// Lớp con tự có an(), ngu(); chỉ thêm phần riêng
+public class Cho extends DongVat {
+    void sua() { System.out.println(ten + " sua: Gau gau!"); }
+}
+```
+
+:::tip[Dùng thực tế]
+
+- Lớp `Animal` làm cha cho `Dog`, `Cat`: dùng lại logic chung `eat()`, `sleep()`, không lặp code.
+- Sửa logic ở lớp cha một lần, mọi lớp con tự cập nhật theo.
+- Đa hình: xử lý cả danh sách `List<Animal>` mà mỗi phần tử tự kêu theo kiểu riêng.
+- Dùng `super(...)` để tái dùng cài đặt của lớp cha rồi bổ sung phần riêng cho lớp con.
+
+Lưu ý: chỉ dùng kế thừa khi thực sự là quan hệ "is-a". Nếu không, ưu tiên **composition** (chứa đối tượng khác) để tránh lạm dụng kế thừa quá sâu.
+
+:::
 
 ---
 

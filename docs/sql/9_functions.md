@@ -11,10 +11,47 @@ Hàm (function) trong SQL là những công cụ có sẵn giúp bạn biến đ
 
 ## Mục lục
 
+- [Vì sao có hàm dựng sẵn trong SQL?](#vì-sao-có-hàm-dựng-sẵn-trong-sql)
 - [Hàm xử lý chuỗi (String Functions)](#hàm-xử-lý-chuỗi-string-functions)
 - [Hàm ngày tháng (Date and Time Functions)](#hàm-ngày-tháng-date-and-time-functions)
 - [Hàm số học (Numeric Functions)](#hàm-số-học-numeric-functions)
 - [Hàm điều kiện (Conditional Functions)](#hàm-điều-kiện-conditional-functions)
+
+---
+
+## Vì sao có hàm dựng sẵn trong SQL?
+
+**Vấn đề:**
+
+```sql
+-- Kéo dữ liệu THÔ về ứng dụng rồi mới định dạng/biến đổi
+SELECT first_name, last_name, birth_date, price
+FROM customers;
+-- Ứng dụng (Java/Python/JS) tự ghép tên, tự cắt ngày tính tuổi,
+-- tự làm tròn tiền, tự thay NULL...
+-- => Tốn truyền tải dữ liệu thừa và LẶP LẠI cùng một logic
+--    ở mọi nơi gọi tới (web, mobile, report, batch...).
+```
+
+**Giải pháp:**
+
+```sql
+-- SQL có HÀM DỰNG SẴN xử lý ngay tại DB, trả về dữ liệu đã sẵn dùng:
+SELECT
+    UPPER(CONCAT(first_name, ' ', last_name))             AS full_name,   -- hàm chuỗi
+    EXTRACT(YEAR FROM AGE(CURRENT_DATE, birth_date))      AS tuoi,        -- hàm ngày giờ
+    ROUND(ABS(price), 2)                                  AS gia,         -- hàm số
+    COALESCE(description, 'N/A')                           AS mo_ta        -- hàm điều kiện
+FROM customers;
+-- Logic nằm MỘT chỗ, mọi ứng dụng dùng chung kết quả đã chuẩn hoá.
+```
+
+:::tip[Dùng thực tế]
+- **Chuẩn hoá chữ hoa/thường**: `UPPER`, `LOWER` để so khớp và hiển thị nhất quán, không phụ thuộc dữ liệu nhập tay.
+- **Tính tuổi từ ngày sinh**: `AGE` + `EXTRACT` cho ra số tuổi ngay tại truy vấn, khỏi tính ở ứng dụng.
+- **Làm tròn tiền**: `ROUND` để hiển thị giá đúng 2 chữ số thập phân trước khi trả về.
+- **Xử lý NULL**: `COALESCE` đặt giá trị mặc định, tránh ứng dụng phải kiểm tra `null` lặp đi lặp lại.
+:::
 
 ---
 

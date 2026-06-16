@@ -11,6 +11,7 @@ Method chaining là kỹ thuật gọi nhiều phương thức nối tiếp nhau
 
 ## Mục lục
 
+- [Vì sao có method chaining?](#vì-sao-có-method-chaining)
 - [Method Chaining là gì?](#method-chaining-là-gì)
 - [Trả về this để gọi liên tiếp](#trả-về-this-để-gọi-liên-tiếp)
 - [So sánh cách viết thông thường và chaining](#so-sánh-cách-viết-thông-thường-và-chaining)
@@ -18,6 +19,42 @@ Method chaining là kỹ thuật gọi nhiều phương thức nối tiếp nhau
 - [Builder Pattern cơ bản](#builder-pattern-cơ-bản)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có method chaining?
+
+**Vấn đề:** Cấu hình một đối tượng qua nhiều bước bằng các câu lệnh set rời rạc rất dài dòng, lặp đi lặp lại tên biến và khó đọc. Còn dồn hết vào constructor nhiều tham số thì khó nhớ thứ tự, dễ truyền nhầm.
+
+```java
+// Lặp tên biến "ly" ở mọi dòng, dài dòng
+LyCaPhe ly = new LyCaPhe();
+ly.themDuong();
+ly.themSua();
+ly.khuay();
+
+// Constructor nhiều tham số: khó nhớ thứ tự, dễ nhầm
+LyCaPhe ly2 = new LyCaPhe(true, true, true); // tham số nào là gì?
+```
+
+**Giải pháp:** Dùng **method chaining** (fluent interface — giao diện trôi chảy): mỗi phương thức trả về `this` (hoặc một Builder) để gọi nối tiếp ngay trên dòng. Đây là nền tảng của Builder Pattern và các fluent API. Code gọn, đọc như một câu văn và an toàn hơn constructor nhiều tham số.
+
+```java
+// Gọn gàng, đọc như một câu: thêm đường rồi thêm sữa rồi khuấy
+LyCaPhe ly = new LyCaPhe()
+    .themDuong()
+    .themSua()
+    .khuay();
+```
+
+:::tip[Dùng thực tế]
+
+- **Builder Pattern**: dựng đối tượng phức tạp từng bước rõ ràng, kết thúc bằng `build()`.
+- **Fluent API thư viện chuẩn**: `StringBuilder.append()`, `Stream` (`filter().map().collect()`), query builder.
+- **Cấu hình nhiều bước**: thiết lập một đối tượng qua nhiều thuộc tính trên cùng một chuỗi gọi.
+- **Code dễ đọc**: thể hiện rõ một chuỗi thao tác liên tục thay vì nhiều câu lệnh rời rạc.
+
+:::
 
 ---
 

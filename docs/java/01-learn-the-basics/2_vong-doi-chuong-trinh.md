@@ -12,6 +12,7 @@ Vòng đời của chương trình mô tả những gì xảy ra từ lúc bạn
 ## Mục lục
 
 - [Vì sao cần biết vòng đời?](#vì-sao-cần-biết-vòng-đời)
+- [Vì sao Java cần biên dịch + JVM?](#vì-sao-java-cần-biên-dịch--jvm)
 - [Tổng quan: từ code đến chạy](#tổng-quan-từ-code-đến-chạy)
 - [Bước 1: Viết mã nguồn .java](#bước-1-viết-mã-nguồn-java)
 - [Bước 2: Biên dịch với javac](#bước-2-biên-dịch-với-javac)
@@ -27,6 +28,34 @@ Vòng đời của chương trình mô tả những gì xảy ra từ lúc bạn
 ## Vì sao cần biết vòng đời?
 
 Khi mới học, bạn chỉ cần biết "viết code rồi nhấn Run là chạy". Nhưng hiểu được điều gì xảy ra phía sau giúp bạn **gỡ lỗi** (debug — tìm và sửa lỗi) tốt hơn và hiểu vì sao Java có những đặc điểm riêng.
+
+---
+
+## Vì sao Java cần biên dịch + JVM?
+
+**Vấn đề:** Ngôn ngữ biên dịch thẳng ra **mã máy** như C/C++ bị phụ thuộc hệ điều hành và CPU. Mỗi nền tảng cần một bản biên dịch riêng, rất khó phân phối. Ngôn ngữ thông dịch thuần thì dễ mang đi nhưng chạy **chậm**.
+
+```bash
+# C/C++: phải biên dịch lại cho TỪNG nền tảng
+gcc app.c -o app-windows.exe   # chỉ chạy trên Windows
+gcc app.c -o app-mac           # chỉ chạy trên macOS
+gcc app.c -o app-linux         # chỉ chạy trên Linux
+```
+
+**Giải pháp:** Java biên dịch mã nguồn (`.java`) ra **bytecode** (`.class`) trung gian, chạy trên JVM của từng nền tảng → "Write Once, Run Anywhere". Khi chạy, JVM dùng **JIT** (Just-In-Time — biên dịch nóng) chuyển bytecode thành mã máy để nhanh, và **tự quản bộ nhớ** bằng GC (Garbage Collector — bộ dọn rác).
+
+```bash
+# Java: biên dịch MỘT lần, chạy mọi OS có JVM
+javac App.java        # sinh ra App.class (bytecode)
+java App              # JVM ở Windows / macOS / Linux đều chạy được
+```
+
+:::tip[Dùng thực tế]
+- **Build một lần, chạy mọi nơi**: cùng file `.class` chạy trên server Linux, máy macOS của bạn và máy Windows của đồng nghiệp.
+- **Đóng gói `.jar` để phân phối**: gom nhiều `.class` thành một file `.jar`, gửi đi mà không cần biên dịch lại.
+- **JIT tối ưu lúc chạy**: đoạn code chạy nhiều lần sẽ được JIT biên dịch thành mã máy, nhanh gần bằng C.
+- **Không quản bộ nhớ thủ công**: GC tự thu hồi bộ nhớ, bạn không phải tự cấp phát/giải phóng như C/C++.
+:::
 
 ---
 

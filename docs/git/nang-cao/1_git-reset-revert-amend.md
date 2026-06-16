@@ -11,6 +11,7 @@ Ai cũng mắc sai lầm khi commit — viết sai message, quên thêm file, ho
 
 ## Mục lục
 
+- [Vì sao có reset, revert, amend?](#vì-sao-có-reset-revert-amend)
 - [1. git commit --amend](#1-git-commit-amend)
 - [2. git reset](#2-git-reset)
 - [3. git revert](#3-git-revert)
@@ -20,6 +21,45 @@ Ai cũng mắc sai lầm khi commit — viết sai message, quên thêm file, ho
 - [7. Lỗi thường gặp](#7-lỗi-thường-gặp)
 - [8. Câu hỏi phỏng vấn](#8-câu-hỏi-phỏng-vấn)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có reset, revert, amend?
+
+**Vấn đề:** Ai cũng có lúc commit nhầm — sai nội dung, quên thêm file, sai message, hoặc commit luôn thứ lẽ ra không nên đưa lên. Ta cần cách SỬA hoặc HOÀN TÁC an toàn, đặc biệt phải phân biệt commit đã push (chung với team) hay chưa.
+
+```bash
+git commit -m "fxi: sai chinh ta luon"   # message viết sai
+git add main.js                          # nhưng quên mất utils.js
+git commit -m "feat: them tinh nang"     # commit thiếu file
+
+git push                                 # và đã đẩy lên branch chung...
+# Giờ sửa kiểu gì cho không phá lịch sử của người khác?
+```
+
+**Giải pháp:** Git cho ba công cụ, mỗi cái cho một tình huống:
+
+```bash
+# amend: sửa commit GẦN NHẤT (đổi message hoặc thêm file đã quên)
+git commit --amend -m "fix: sua chinh ta"
+git add utils.js && git commit --amend --no-edit
+
+# reset: lùi HEAD về commit cũ (soft/mixed/hard) — cho commit CHƯA push
+git reset --soft HEAD~1     # bỏ commit, giữ thay đổi ở staging
+git reset --hard HEAD~1     # xóa sạch commit lẫn thay đổi
+
+# revert: tạo commit MỚI đảo ngược một commit cũ — AN TOÀN cho commit đã push
+git revert <commit-hash>    # không viết lại lịch sử, push bình thường
+```
+
+:::tip[Dùng thực tế]
+
+- **Vừa commit, message sai hoặc quên file (chưa push):** `git commit --amend` để sửa luôn, không tạo commit thừa.
+- **Commit local rác, chưa push:** `git reset` lùi lại để gộp/sửa hoặc bỏ hẳn.
+- **Commit đã lên `main`/`develop` mà bị lỗi:** `git revert` để hoàn tác an toàn, không phá lịch sử của team.
+- **Dọn lịch sử trước khi push:** dùng `reset --soft` gộp nhiều commit nhỏ thành một commit gọn gàng.
+
+:::
 
 ---
 

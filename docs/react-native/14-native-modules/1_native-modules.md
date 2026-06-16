@@ -13,6 +13,7 @@ Khi RN không có sẵn API bạn cần (Bluetooth đặc biệt, SDK third-part
 
 ## Mục lục
 
+- [Vì sao cần native modules?](#vì-sao-cần-native-modules)
 - [1. Khi nào cần Native Module?](#1-khi-nào-cần-native-module)
 - [2. Expo Config Plugin](#2-expo-config-plugin)
 - [3. Expo Modules API (khuyến nghị)](#3-expo-modules-api-khuyến-nghị)
@@ -22,6 +23,23 @@ Khi RN không có sẵn API bạn cần (Bluetooth đặc biệt, SDK third-part
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao cần native modules?
+
+**Vấn đề:** JavaScript của RN không truy cập được mọi khả năng của thiết bị. Một số API/SDK nền tảng (Bluetooth chuyên sâu, cảm biến đặc thù, thanh toán, SDK bên thứ ba viết bằng native) chỉ tồn tại ở phía native. Ngoài ra, xử lý nặng cần chạy bằng native code (Swift/Kotlin/C++) để đủ nhanh -- JS thuần không kham nổi.
+
+**Giải pháp:** **Native Modules** là cầu nối cho JS gọi sang code native. Cơ chế cũ dùng **bridge** (giao tiếp async qua JSON), còn cơ chế mới **TurboModules + JSI** cho phép JS gọi thẳng native nhanh hơn nhiều. Cũng có thể tạo **native UI component** để render view native trong cây React. Nhờ vậy RN mở rộng tới mọi khả năng của thiết bị.
+
+:::tip[Dùng thực tế]
+
+- Tích hợp SDK native sẵn có: cổng thanh toán (Stripe, ZaloPay), bản đồ, analytics.
+- Truy cập Bluetooth/cảm biến đặc thù chưa có lib JS.
+- Đưa xử lý nặng (mã hóa, xử lý ảnh/dữ liệu lớn) xuống native cho nhanh.
+- Bọc (wrap) thư viện native có sẵn để dùng được từ JS.
+
+:::
 
 ---
 

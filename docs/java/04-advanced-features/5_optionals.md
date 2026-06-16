@@ -11,6 +11,7 @@ Optional là một "hộp đựng" có từ Java 8, dùng để biểu diễn m�
 
 ## Mục lục
 
+- [Vì sao có Optional?](#vì-sao-có-optional)
 - [Optional là gì?](#optional-là-gì)
 - [Vấn đề NullPointerException](#vấn-đề-nullpointerexception)
 - [Tạo Optional: of, ofNullable, empty](#tạo-optional-of-ofnullable-empty)
@@ -19,6 +20,70 @@ Optional là một "hộp đựng" có từ Java 8, dùng để biểu diễn m�
 - [Cách dùng đúng và sai](#cách-dùng-đúng-và-sai)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có Optional?
+
+**Vấn đề:** `null` được mệnh danh là "lỗi tỷ đô". Một phương thức trả về `null` mà nơi gọi quên kiểm tra sẽ gây **NullPointerException** lúc chạy. Tệ hơn, khi chỉ nhìn vào chữ ký phương thức, ta **không biết** nó có thể trả về "không có giá trị" hay không, dẫn tới việc kiểm tra `null` lung tung khắp nơi hoặc bỏ sót.
+
+```java
+class KhoNguoiDung {
+    // Chữ ký này KHÔNG cho biết có thể trả về null
+    NguoiDung timTheoId(int id) {
+        if (id == 1) {
+            return new NguoiDung("An");
+        }
+        return null; // Trả về null âm thầm -> nguy hiểm
+    }
+}
+
+class App {
+    public static void main(String[] args) {
+        KhoNguoiDung kho = new KhoNguoiDung();
+        NguoiDung nd = kho.timTheoId(99); // nd = null
+        // NPE tại đây vì người gọi quên kiểm tra null
+        System.out.println(nd.getTen().toUpperCase());
+    }
+}
+```
+
+**Giải pháp:** `Optional<T>` (Java 8) là một kiểu **bọc** biểu thị **tường minh** "có thể có hoặc không có giá trị" ngay trong chữ ký. Người dùng **buộc** phải xử lý trường hợp rỗng một cách rõ ràng qua `isPresent`/`map`/`orElse`/`ifPresent`, nhờ đó giảm hẳn NPE.
+
+```java
+import java.util.Optional;
+
+class KhoNguoiDung {
+    // Chữ ký nói rõ: kết quả CÓ THỂ vắng
+    Optional<NguoiDung> timTheoId(int id) {
+        if (id == 1) {
+            return Optional.of(new NguoiDung("An"));
+        }
+        return Optional.empty();
+    }
+}
+
+class App {
+    public static void main(String[] args) {
+        KhoNguoiDung kho = new KhoNguoiDung();
+
+        // Chuỗi map an toàn, không cần null-check lồng nhau
+        String ten = kho.timTheoId(99)
+            .map(NguoiDung::getTen)
+            .map(String::toUpperCase)
+            .orElse("KHÔNG TÌM THẤY"); // Giá trị mặc định khi rỗng
+
+        System.out.println(ten);
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+- **Repository `findById`**: trả `Optional<NguoiDung>` để báo rõ "có thể không tìm thấy".
+- **Chuỗi `map` an toàn**: lấy dữ liệu lồng nhau mà không cần kiểm tra `null` ở từng bước.
+- **Giá trị mặc định**: dùng `orElse` cấp ngay phương án dự phòng khi kết quả rỗng.
+- **API rõ nghĩa**: kiểu trả về `Optional` tự nói lên "giá trị có thể vắng", đỡ phải đọc tài liệu.
+:::
 
 ---
 

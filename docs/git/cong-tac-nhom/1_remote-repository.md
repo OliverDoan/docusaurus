@@ -11,6 +11,7 @@ Khi bạn làm việc một mình trên máy tính, Git hoạt động hoàn to�
 
 ## Mục lục
 
+- [Vì sao cần remote repository?](#vì-sao-cần-remote-repository)
 - [1. Remote là gì?](#1-remote-là-gì)
 - [2. `origin` — Remote mặc định](#2-origin-remote-mặc-định)
 - [3. Quản lý Remote](#3-quản-lý-remote)
@@ -21,6 +22,43 @@ Khi bạn làm việc một mình trên máy tính, Git hoạt động hoàn to�
 - [8. Sơ đồ tổng quan: Local vs Remote](#8-sơ-đồ-tổng-quan-local-vs-remote)
 - [9. Lỗi thường gặp](#9-lỗi-thường-gặp)
 - [10. Câu hỏi phỏng vấn](#10-câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao cần remote repository?
+
+**Vấn đề:**
+
+```bash
+# Git ở local rất mạnh, nhưng nếu code chỉ nằm trên MỘT máy:
+# - Mất máy / hỏng ổ cứng => mất sạch toàn bộ lịch sử và code
+# - Đồng nghiệp không có cách nào lấy được code của bạn
+# - Không có "nguồn sự thật" (source of truth) chung cho cả nhóm đồng bộ
+
+git log --oneline   # Toàn bộ lịch sử chỉ tồn tại trong .git/ trên máy bạn
+# => Một sự cố ổ cứng là đủ để xoá sạch mọi thứ
+```
+
+**Giải pháp:**
+
+```bash
+# Tạo một REMOTE repository (trên GitHub / GitLab / Bitbucket...):
+# - Là bản sao repo đặt trên server, làm điểm TRUNG TÂM
+# - Cả nhóm push/pull qua đó => vừa là BACKUP, vừa là nơi cộng tác
+# - Mỗi người vẫn giữ FULL repo ở local (Git là hệ phân tán)
+
+git remote add origin https://github.com/username/project.git
+git push -u origin main   # Đẩy code lên server làm backup + chia sẻ
+```
+
+:::tip[Dùng thực tế]
+
+- **Sao lưu (backup):** push code lên remote để không mất khi máy hỏng.
+- **Cộng tác:** đồng nghiệp `git clone` về để cùng làm trên một dự án.
+- **Đồng bộ nhiều máy:** làm ở máy công ty rồi pull về laptop ở nhà, không lệch code.
+- **Nguồn sự thật cho CI/CD:** remote là nơi pipeline tự động build, test và deploy.
+
+:::
 
 ---
 

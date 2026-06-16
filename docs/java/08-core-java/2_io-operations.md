@@ -11,6 +11,7 @@ I/O (Input/Output) là cách chương trình đọc dữ liệu vào và ghi d�
 
 ## Mục lục
 
+- [Vì sao Java dùng mô hình Stream cho I/O?](#vì-sao-java-dùng-mô-hình-stream-cho-io)
 - [I/O là gì?](#io-là-gì)
 - [Luồng byte và luồng ký tự](#luồng-byte-và-luồng-ký-tự)
 - [InputStream và OutputStream (luồng byte)](#inputstream-và-outputstream-luồng-byte)
@@ -19,6 +20,46 @@ I/O (Input/Output) là cách chương trình đọc dữ liệu vào và ghi d�
 - [Đọc dữ liệu từ bàn phím với Scanner](#đọc-dữ-liệu-từ-bàn-phím-với-scanner)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao Java dùng mô hình Stream cho I/O?
+
+**Vấn đề:** Dữ liệu vào/ra đến từ **nhiều nguồn khác nhau** (file, mạng, console, bộ nhớ) và có thể **rất lớn**. Nếu mỗi nguồn xử lý theo một kiểu riêng, hoặc nạp toàn bộ vào RAM, thì vừa trùng lặp code vừa dễ tràn bộ nhớ.
+
+```java
+// File 1GB: nạp hết vào RAM -> OutOfMemoryError
+byte[] tatCa = Files.readAllBytes(Path.of("video-1gb.mp4"));
+
+// Mỗi nguồn một kiểu API riêng -> trùng lặp, khó tái sử dụng
+String tuFile = docTuFile("data.txt");
+String tuMang = docTuSocket(socket);
+String tuConsole = docTuBanPhim();
+```
+
+**Giải pháp:** Java trừu tượng hóa I/O thành **Stream** (luồng dữ liệu tuần tự): đọc/ghi theo "dòng chảy" nên xử lý được dữ liệu lớn mà **không cần nạp hết**. Java tách **luồng byte** (`InputStream` / `OutputStream` — dữ liệu nhị phân) khỏi **luồng ký tự** (`Reader` / `Writer` — văn bản, hiểu encoding); thêm lớp **Buffered** để tăng tốc; và dùng **chung một API** cho mọi nguồn.
+
+```java
+// Đọc theo buffer: chỉ giữ một phần nhỏ trong RAM tại mỗi thời điểm
+try (FileInputStream in = new FileInputStream("video-1gb.mp4")) {
+    byte[] buffer = new byte[8192]; // 8KB mỗi lần
+    int n;
+    while ((n = in.read(buffer)) != -1) {
+        xuLy(buffer, 0, n); // xử lý dần, không nạp hết
+    }
+}
+
+// Cùng một API Reader cho mọi nguồn văn bản
+BufferedReader fromFile = new BufferedReader(new FileReader("data.txt"));
+BufferedReader fromNet  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+```
+
+:::tip[Dùng thực tế]
+- **Đọc file lớn theo buffer**: xử lý log/video hàng GB mà RAM vẫn ổn định.
+- **Copy dữ liệu giữa các nguồn**: đọc từ `InputStream` rồi ghi sang `OutputStream` (file → file, mạng → file).
+- **Đọc văn bản đúng encoding**: dùng `Reader` (vd `InputStreamReader` với UTF-8) để tránh lỗi font tiếng Việt.
+- **Đóng luồng an toàn**: dùng `try-with-resources` để stream luôn được đóng kể cả khi có lỗi.
+:::
 
 ---
 

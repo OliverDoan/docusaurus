@@ -11,6 +11,7 @@ Stream API là công cụ xử lý một chuỗi phần tử theo kiểu dây ch
 
 ## Mục lục
 
+- [Vì sao có Stream API?](#vì-sao-có-stream-api)
 - [Stream là gì?](#stream-là-gì)
 - [Ví dụ đời thường: dây chuyền xử lý](#ví-dụ-đời-thường-dây-chuyền-xử-lý)
 - [Ba phần của một pipeline Stream](#ba-phần-của-một-pipeline-stream)
@@ -32,6 +33,66 @@ Stream API là công cụ xử lý một chuỗi phần tử theo kiểu dây ch
 - [Ví dụ tổng hợp thực tế](#ví-dụ-tổng-hợp-thực-tế)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có Stream API?
+
+**Vấn đề:** Xử lý collection bằng vòng `for` thủ công rất dài dòng. Để lọc → biến đổi → gom kết quả, ta phải viết nhiều dòng và tạo các list trung gian. Code lộ rõ "LÀM THẾ NÀO" (cách lặp, cách thêm vào list) làm che mất "LÀM GÌ" (ý định thật sự). Muốn chạy song song lại càng khó vì phải tự quản lý thread.
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class WithoutStream {
+    public static void main(String[] args) {
+        List<String> names = List.of("an", "bình", "cường", "an");
+
+        // Lọc tên dài hơn 2 ký tự, viết hoa, bỏ trùng — phải làm thủ công
+        List<String> temp = new ArrayList<>();      // list trung gian
+        for (String n : names) {
+            if (n.length() > 2) {                   // lọc
+                String upper = n.toUpperCase();      // biến đổi
+                if (!temp.contains(upper)) {         // bỏ trùng
+                    temp.add(upper);                 // gom kết quả
+                }
+            }
+        }
+        System.out.println(temp); // [BÌNH, CƯỜNG]
+    }
+}
+```
+
+**Giải pháp:** **Stream API** (Java 8) xử lý theo phong cách **khai báo** bằng một chuỗi thao tác (`filter` / `map` / `reduce` / `collect`). Code gọn, đọc đúng như mô tả ý định. Stream **lazy** (chỉ tính khi cần, dừng sớm được) và chỉ cần đổi sang `parallelStream()` là chạy song song dễ dàng.
+
+```java
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class WithStream {
+    public static void main(String[] args) {
+        List<String> names = List.of("an", "bình", "cường", "an");
+
+        // Cùng logic trên — viết như mô tả ý định
+        List<String> result = names.stream()
+            .filter(n -> n.length() > 2)     // lọc
+            .map(String::toUpperCase)        // biến đổi
+            .distinct()                      // bỏ trùng
+            .collect(Collectors.toList());   // gom kết quả
+
+        System.out.println(result); // [BÌNH, CƯỜNG]
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Lọc + biến đổi + thu thập**: lấy danh sách đã lọc và biến đổi chỉ trong vài dòng (`filter` → `map` → `collect`).
+- **Nhóm và thống kê**: gom phần tử theo nhóm với `groupingBy` (ví dụ nhóm đơn hàng theo trạng thái).
+- **Tính tổng/trung bình**: cộng dồn nhanh với `mapToInt(...).sum()` hoặc `average()`.
+- **Xử lý song song dữ liệu lớn**: đổi sang `parallelStream()` để tận dụng nhiều nhân CPU.
+
+:::
 
 ---
 

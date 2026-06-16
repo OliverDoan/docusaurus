@@ -12,6 +12,7 @@ Map (ánh xạ) lưu dữ liệu dưới dạng các cặp khóa - giá trị (k
 ## Mục lục
 
 - [Map là gì?](#map-là-gì)
+- [Vì sao có Map?](#vì-sao-có-map)
 - [Tạo Map và thêm cặp key-value](#tạo-map-và-thêm-cặp-key-value)
 - [Lấy giá trị với get](#lấy-giá-trị-với-get)
 - [Kiểm tra với containsKey và containsValue](#kiểm-tra-với-containskey-và-containsvalue)
@@ -31,6 +32,50 @@ Map (ánh xạ) lưu dữ liệu dưới dạng các cặp khóa - giá trị (k
 Hãy tưởng tượng một quyển từ điển: bạn tra "apple" (key) để biết nghĩa "quả táo" (value). Hoặc một danh bạ điện thoại: tra tên người (key) để lấy số điện thoại (value).
 
 Khác với List (truy cập bằng chỉ số 0, 1, 2...) và Set (chỉ có giá trị), Map cho phép bạn tra cứu bằng **bất kỳ khóa nào bạn chọn**.
+
+---
+
+## Vì sao có Map?
+
+**Vấn đề:** Ta thường cần tra ra giá trị theo **một khóa** (userId → User, từ → định nghĩa). Nếu lưu trong `List` rồi duyệt tìm thì mỗi lần tra là O(n) — chậm dần khi dữ liệu lớn — và phải tự quản lý cặp khóa-giá trị.
+
+```java
+// Tìm User theo id bằng List: phải duyệt toàn bộ, O(n)
+List<User> users = layDanhSachUser();
+User found = null;
+for (User u : users) {
+    if (u.getId() == 1001) { // duyệt từng phần tử
+        found = u;
+        break;
+    }
+}
+// 1 triệu user => 1 triệu lần so sánh trong trường hợp xấu nhất
+```
+
+**Giải pháp:** `Map` lưu trực tiếp cặp **KEY → VALUE**, tra cứu theo khóa cực nhanh:
+
+```java
+// Tra User theo id bằng Map: O(1)
+Map<Integer, User> usersById = new HashMap<>();
+usersById.put(1001, new User(1001, "An"));
+
+User found = usersById.get(1001); // tra thẳng theo khóa, không cần duyệt
+
+// HashMap: tra cứu/thêm O(1) (cần hashCode/equals đúng)
+// LinkedHashMap: giữ thứ tự chèn
+// TreeMap: tự sắp xếp theo khóa
+```
+
+`Map` cho tra cứu nhanh và biểu diễn quan hệ ánh xạ một cách tự nhiên.
+
+:::tip[Dùng thực tế]
+
+- **Cache id → object**: lưu `Map<Integer, User>` để lấy lại đối tượng theo id mà không cần truy vấn lại.
+- **Đếm tần suất (word → count)**: đếm số lần mỗi từ xuất hiện trong văn bản.
+- **Cấu hình key → value**: lưu các tùy chọn dạng `Map<String, String>` (tên thuộc tính → giá trị).
+- **TreeMap**: khi cần dữ liệu luôn được **sắp xếp theo khóa** (ví dụ bảng điểm theo tên, lịch theo ngày).
+
+:::
 
 ---
 

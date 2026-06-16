@@ -13,6 +13,7 @@ Mobile app hầu hết là danh sách: feed, chat, products. React Native cung c
 
 ## Mục lục
 
+- [Vì sao cần FlatList (không map như web)?](#vì-sao-cần-flatlist-không-map-như-web)
 - [1. ScrollView](#1-scrollview)
 - [2. FlatList](#2-flatlist)
 - [3. SectionList](#3-sectionlist)
@@ -21,6 +22,47 @@ Mobile app hầu hết là danh sách: feed, chat, products. React Native cung c
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao cần FlatList (không map như web)?
+
+**Vấn đề:** Quen tay từ web, bạn render danh sách dài bằng `.map()` trong `ScrollView`. RN sẽ **dựng TẤT CẢ item cùng lúc** -- hàng nghìn dòng đều bị mount, tốn RAM khủng khiếp, app giật/lag/crash trên điện thoại.
+
+```jsx
+// SAI -- 10000 item mount cung luc -> OOM, giat lag
+<ScrollView>
+  {users.map(u => (
+    <View key={u.id} style={{ padding: 16 }}>
+      <Text>{u.name}</Text>
+    </View>
+  ))}
+</ScrollView>
+```
+
+**Giải pháp:** Dùng `FlatList` / `SectionList` (hoặc `FlashList`) -- **virtualization**: chỉ render những item đang **hiển thị** trên màn hình, **tái sử dụng view** khi cuộn. Hỗ trợ sẵn lazy load, pull-to-refresh, phân trang -- mượt với danh sách lớn.
+
+```jsx
+// DUNG -- chi render item trong viewport, cuon muot voi nghin item
+<FlatList
+  data={users}
+  keyExtractor={u => u.id}
+  renderItem={({ item }) => (
+    <View style={{ padding: 16 }}>
+      <Text>{item.name}</Text>
+    </View>
+  )}
+/>
+```
+
+:::tip[Dùng thực tế]
+
+- **Feed mạng xã hội**: hàng nghìn post -- `FlatList` chỉ render màn hình hiện tại.
+- **Danh sách sản phẩm dài**: e-commerce với hàng trăm item ảnh -- không OOM.
+- **Infinite scroll**: kết hợp `onEndReached` để load thêm khi cuộn gần cuối.
+- **Danh sách có section**: danh bạ A-B-C, lịch theo ngày -- dùng `SectionList`.
+
+:::
 
 ---
 

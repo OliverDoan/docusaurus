@@ -12,6 +12,7 @@ Quarkus là framework Java hiện đại do Red Hat tạo ra, thiết kế cho c
 ## Mục lục
 
 - [Quarkus là gì?](#quarkus-là-gì)
+- [Vì sao có Quarkus?](#vì-sao-có-quarkus)
 - [Cloud-native và Microservice là gì?](#cloud-native-và-microservice-là-gì)
 - [Vì sao Quarkus khởi động siêu nhanh?](#vì-sao-quarkus-khởi-động-siêu-nhanh)
 - [Native Image với GraalVM](#native-image-với-graalvm)
@@ -39,6 +40,45 @@ nhấn mạnh hai điểm mạnh:
 
 Quarkus dùng các chuẩn quen thuộc của Java như JAX-RS, CDI nên nếu bạn từng học
 Spring thì sẽ thấy nhiều thứ tương tự.
+
+## Vì sao có Quarkus?
+
+**Vấn đề:** Ứng dụng Java truyền thống (ví dụ Spring chạy trên JVM) **khởi động
+chậm** (mất vài giây) và **tốn nhiều RAM** vì làm rất nhiều việc lúc chạy: quét
+class, đọc cấu hình, dùng reflection (đọc/tạo đối tượng lúc chạy). Điều này không
+hợp với thời cloud-native: microservice và **serverless** cần khởi động tức thì
+(tránh **cold start** — độ trễ khi bản chạy mới được bật lên), cần **scale-to-zero**
+(tắt hẳn khi không dùng rồi bật lại khi có request) và cần tiết kiệm RAM vì chạy
+nhiều container thì RAM tốn tiền.
+
+**Giải pháp:** Quarkus tối ưu theo hướng **"container-first"** — dời phần lớn công
+việc sang **lúc biên dịch** (build-time) thay vì lúc chạy, giảm tối đa reflection,
+nhờ vậy khởi động cực nhanh và ăn rất ít RAM. Quarkus còn hỗ trợ biên dịch **native
+image** (qua GraalVM) cho thời gian khởi động tính bằng mili-giây, trong khi vẫn
+giữ các chuẩn quen thuộc (CDI, JAX-RS) và có live reload khi phát triển.
+
+```java
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+
+// Endpoint đơn giản — Quarkus đã xử lý phần lớn cấu hình lúc build,
+// nên lúc chạy chỉ "bật lên" là phục vụ request ngay (khởi động mili-giây).
+@Path("/ping")
+public class PingResource {
+
+    @GET
+    public String ping() {
+        return "pong";
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+- **Microservice cần cold start nhanh**: nhiều dịch vụ nhỏ thường xuyên nhân bản/khởi động lại trên Kubernetes.
+- **Hàm serverless** (ví dụ AWS Lambda): mỗi lần gọi có thể khởi động một bản mới, cần bật lên tức thì.
+- **Tiết kiệm RAM khi chạy nhiều container**: giảm chi phí hạ tầng khi nhân bản hàng chục, hàng trăm bản chạy.
+- **Native image cho startup mili-giây**: ứng dụng yêu cầu khởi động cực nhanh, build sẵn thành file chạy gốc.
+:::
 
 ## Cloud-native và Microservice là gì?
 

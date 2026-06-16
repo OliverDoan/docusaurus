@@ -11,6 +11,7 @@ Ngoại lệ (exception) là những sự kiện bất thường xảy ra khi ch
 
 ## Mục lục
 
+- [Vì sao có xử lý ngoại lệ?](#vì-sao-có-xử-lý-ngoại-lệ)
 - [Ngoại lệ (Exception) là gì?](#ngoại-lệ-exception-là-gì)
 - [Khối try / catch / finally](#khối-try--catch--finally)
 - [Ném ngoại lệ với throw](#ném-ngoại-lệ-với-throw)
@@ -20,6 +21,62 @@ Ngoại lệ (exception) là những sự kiện bất thường xảy ra khi ch
 - [try-with-resources](#try-with-resources)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có xử lý ngoại lệ?
+
+**Vấn đề:** Nếu báo lỗi bằng **mã trả về**, code logic bị trộn lẫn với code kiểm lỗi ở mọi tầng. Lập trình viên rất dễ **quên kiểm tra** mã lỗi, khiến lỗi lan âm thầm làm sai dữ liệu hoặc sập app. Ngoài ra tài nguyên (file, connection) thường không được đóng khi có lỗi.
+
+```java
+// Báo lỗi bằng mã trả về: -1 nghĩa là lỗi
+int docFile(String duongDan) {
+    if (!fileTonTai(duongDan)) {
+        return -1; // Lỗi: file không tồn tại
+    }
+    // ...đọc file...
+    return 0; // Thành công
+}
+
+void xuLy() {
+    int ma = docFile("data.txt");
+    // QUÊN kiểm tra ma == -1 → lỗi lan âm thầm, dữ liệu sai
+    int kt = ghiLog();   // tiếp tục dù bước trên đã lỗi
+    int kt2 = guiEmail(); // mỗi lời gọi lại phải tự kiểm mã → code rối
+}
+```
+
+**Giải pháp:** Java dùng cơ chế **exception**. `throw` ném lỗi ra, `try/catch/finally` tách luồng lỗi khỏi luồng chính; lỗi tự "nổi" lên đúng tầng biết cách xử lý. Java phân biệt **checked exception** (ép xử lý ngay lúc biên dịch) với **unchecked**, cho phép tạo **custom exception** để phân loại lỗi, và `try-with-resources` tự đóng tài nguyên.
+
+```java
+// Luồng chính sạch sẽ, luồng lỗi gom về một chỗ
+void xuLy() {
+    try {
+        docFile("data.txt"); // nếu lỗi sẽ ném exception
+        ghiLog();
+        guiEmail();
+    } catch (IOException e) {
+        // Lỗi tự nổi lên đây, không thể bị quên
+        System.out.println("Có lỗi: " + e.getMessage());
+    }
+}
+
+// try-with-resources: tài nguyên tự đóng dù có lỗi hay không
+void doc(String duongDan) throws IOException {
+    try (BufferedReader br = new BufferedReader(new FileReader(duongDan))) {
+        System.out.println(br.readLine());
+    } // br được đóng tự động
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Bọc đọc file / gọi DB:** đặt thao tác dễ lỗi trong `try`, bắt `IOException` hay `SQLException` để báo lại rõ ràng thay vì để app sập.
+- **Ném lỗi nghiệp vụ riêng:** tạo `TaiKhoanKhongDuTienException` rồi `throw` khi số dư không đủ, giúp tầng trên phân biệt loại lỗi.
+- **Đóng connection an toàn:** dùng `try-with-resources` cho `Connection`, `Statement` để chắc chắn tài nguyên được giải phóng kể cả khi có lỗi.
+- **Gom xử lý lỗi tập trung:** để lỗi "nổi" lên một lớp xử lý chung (ví dụ middleware/controller) thay vì kiểm mã lỗi rải rác khắp nơi.
+
+:::
 
 ---
 

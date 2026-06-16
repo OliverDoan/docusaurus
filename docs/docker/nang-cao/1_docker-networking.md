@@ -11,6 +11,7 @@ Networking là cách các containers giao tiếp với nhau và với thế gi�
 
 ## Mục lục
 
+- [Vì sao cần Docker networking?](#vì-sao-cần-docker-networking)
 - [1. Tổng quan Network trong Docker](#1-tổng-quan-network-trong-docker)
 - [2. Bridge Network (Mặc định)](#2-bridge-network-mặc-định)
 - [3. Host Network](#3-host-network)
@@ -20,6 +21,52 @@ Networking là cách các containers giao tiếp với nhau và với thế gi�
 - [7. DNS trong Docker](#7-dns-trong-docker)
 - [8. Bài tập thực hành](#8-bài-tập-thực-hành)
 - [Tổng kết](#tổng-kết)
+
+---
+
+## Vì sao cần Docker networking?
+
+**Vấn đề:**
+
+```bash
+# Mỗi container bị CÔ LẬP mạng — nhưng app thực tế cần giao tiếp:
+docker run -d --name web my-app        # web cần GỌI tới db
+docker run -d --name db postgres:16    # db nằm riêng, không thấy nhau
+
+# IP container THAY ĐỔI mỗi lần tạo lại → không thể hardcode
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' db
+# 172.17.0.3   ← chạy lại có thể thành 172.17.0.5
+
+# Người dùng ngoài cũng không truy cập được vào container
+curl http://localhost:80   # → connection refused
+```
+
+**Giải pháp:**
+
+```bash
+# Tạo network ảo (bridge) → container cùng network gọi nhau bằng TÊN (DNS nội bộ)
+docker network create app-net
+docker run -d --name web --network app-net my-app
+docker run -d --name db  --network app-net postgres:16
+# web kết nối: postgresql://user:pass@db:5432/mydb   ← dùng tên, không cần IP
+
+# Mở cổng ra host bằng port mapping (-p) cho người dùng truy cập
+docker run -d --name web --network app-net -p 80:80 my-app
+curl http://localhost:80   # → OK
+
+# Cô lập nhóm service bằng network riêng (frontend / backend)
+docker network create backend-net
+docker network connect backend-net db   # chỉ service cần thiết mới thấy db
+```
+
+:::tip[Dùng thực tế]
+
+- **Web gọi database**: đặt `web` và `db` cùng network, kết nối qua tên `db` thay vì IP.
+- **Mở dịch vụ ra ngoài**: `-p 80:80` để người dùng truy cập web qua cổng host.
+- **Tách frontend/backend**: dùng network riêng để `nginx` không chạm thẳng tới `db`.
+- **Nhiều service trong Compose**: Compose tự tạo network, các service gọi nhau bằng tên service.
+
+:::
 
 ---
 

@@ -11,6 +11,7 @@ Virtual thread (luồng ảo) là loại luồng siêu nhẹ ra mắt chính th�
 
 ## Mục lục
 
+- [Vì sao có virtual threads?](#vì-sao-có-virtual-threads)
 - [Virtual Thread là gì?](#virtual-thread-là-gì)
 - [Platform Thread và Virtual Thread](#platform-thread-và-virtual-thread)
 - [Vì sao virtual thread nhẹ?](#vì-sao-virtual-thread-nhẹ)
@@ -19,6 +20,48 @@ Virtual thread (luồng ảo) là loại luồng siêu nhẹ ra mắt chính th�
 - [Khi nào nên và không nên dùng?](#khi-nào-nên-và-không-nên-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có virtual threads?
+
+**Vấn đề:** Luồng truyền thống của Java (platform thread) **ánh xạ 1-1** tới luồng của **hệ điều hành (OS thread)**. Mỗi luồng tốn nhiều bộ nhớ (~1MB stack) và việc chuyển ngữ cảnh khá đắt, nên máy chỉ tạo được vài nghìn luồng. Với server xử lý nhiều kết nối phải **chờ I/O**, ta hoặc phải giới hạn thread pool (gây nghẽn khi quá tải), hoặc viết code bất đồng bộ phức tạp (callback/reactive) để scale.
+
+```java
+// Mỗi yêu cầu một platform thread → cạn luồng rất nhanh
+ExecutorService pool = Executors.newFixedThreadPool(200);
+for (int i = 0; i < 100_000; i++) {
+    pool.submit(() -> {
+        goiApiCham();   // chờ I/O, nhưng vẫn GIỮ CHẶT 1 OS thread
+        return null;
+    });
+}
+// 100.000 yêu cầu nhưng chỉ 200 luồng → phần lớn phải xếp hàng chờ (nghẽn)
+```
+
+**Giải pháp:** **Virtual threads (Java 21)** là luồng **siêu nhẹ** do JVM quản lý (không phải OS thread 1-1), có thể tạo tới **hàng triệu**. Khi luồng ảo chờ I/O, nó tự **nhường** carrier thread cho luồng khác dùng. Nhờ vậy bạn viết code **blocking tuần tự** đơn giản mà vẫn scale rất cao.
+
+```java
+// Mỗi yêu cầu một virtual thread → tạo hàng triệu vẫn ổn
+try (ExecutorService pool = Executors.newVirtualThreadPerTaskExecutor()) {
+    for (int i = 0; i < 100_000; i++) {
+        pool.submit(() -> {
+            goiApiCham();   // chờ I/O → tự NHẢ carrier thread cho việc khác
+            return null;
+        });
+    }
+}
+// Code đọc tuần tự, dễ hiểu, mà vẫn xử lý đồng thời cả trăm nghìn yêu cầu
+```
+
+:::tip[Dùng thực tế]
+
+- **Server I/O-bound số lượng lớn**: xử lý hàng triệu kết nối chủ yếu ngồi chờ mạng/DB mà không cạn luồng.
+- **Thay reactive phức tạp**: bỏ chuỗi callback/reactive khó đọc, quay về code blocking tuần tự nhưng vẫn scale.
+- **Một virtual thread mỗi request**: mỗi yêu cầu web có luồng riêng, code rõ ràng, không lo giới hạn pool.
+- **Gọi nhiều API/DB song song**: phát nhiều lời gọi cùng lúc rồi chờ kết quả mà không phải lo về số luồng.
+
+:::
 
 ---
 

@@ -11,6 +11,7 @@ Gradle là công cụ build hiện đại, linh hoạt và nhanh, dùng ngôn ng
 
 ## Mục lục
 
+- [Vì sao có Gradle?](#vì-sao-có-gradle)
 - [Gradle là gì?](#gradle-là-gì)
 - [File build.gradle (Groovy và Kotlin DSL)](#file-buildgradle-groovy-và-kotlin-dsl)
 - [Khai báo dependencies](#khai-báo-dependencies)
@@ -20,6 +21,41 @@ Gradle là công cụ build hiện đại, linh hoạt và nhanh, dùng ngôn ng
 - [So sánh cú pháp Gradle với Maven](#so-sánh-cú-pháp-gradle-với-maven)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có Gradle?
+
+**Vấn đề:** Maven khai báo build bằng XML — dài dòng và **kém linh hoạt** khi cần logic build tuỳ biến (muốn thêm logic riêng thường phải viết hẳn một plugin). Với dự án lớn/đa module, build cũng **chậm** vì XML cố định, khó tận dụng tốt incremental build và cache.
+
+```xml
+<!-- Maven: chỉ để khai báo một thư viện đã mất nhiều dòng XML, không thể chèn logic -->
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.10.1</version>
+</dependency>
+```
+
+**Giải pháp:** **Gradle** dùng **DSL (Groovy/Kotlin)** thay cho XML nên build script gọn, linh hoạt và **lập trình được** (thêm điều kiện, vòng lặp, task tuỳ biến ngay trong file). Gradle còn có **incremental build + build cache + daemon** → chỉ làm lại phần thay đổi, nhanh hơn nhiều cho dự án lớn. Đây cũng là công cụ build chuẩn của Android.
+
+```kotlin
+// Gradle (Kotlin DSL): khai báo gọn 1 dòng, lại có thể chèn logic ngay trong build
+implementation("com.google.code.gson:gson:2.10.1")
+
+if (project.hasProperty("debug")) {
+    implementation("org.slf4j:slf4j-simple:2.0.9")  // Thêm thư viện tuỳ điều kiện
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Build Android / dự án đa module lớn** — Gradle là chuẩn của Android và xử lý nhiều module mượt mà.
+- **Tuỳ biến quy trình build bằng code** — viết task riêng (sinh mã, copy file, đóng gói) ngay trong build script.
+- **Build nhanh nhờ cache/incremental** — sửa một file chỉ build lại phần liên quan, không build lại toàn bộ.
+- **Quản lý dependency như Maven nhưng linh hoạt hơn** — vẫn dùng Maven Central, thêm được logic chọn thư viện theo môi trường.
+
+:::
 
 ---
 

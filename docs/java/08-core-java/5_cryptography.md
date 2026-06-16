@@ -12,6 +12,7 @@ Mã hóa là cách bảo vệ thông tin, làm cho dữ liệu khó đọc với
 ## Mục lục
 
 - [Mã hóa là gì?](#mã-hóa-là-gì)
+- [Vì sao cần cryptography?](#vì-sao-cần-cryptography)
 - [Băm (hashing) với MessageDigest](#băm-hashing-với-messagedigest)
 - [Mã hóa đối xứng AES với Cipher](#mã-hóa-đối-xứng-aes-với-cipher)
 - [Vì sao KHÔNG nên tự chế thuật toán](#vì-sao-không-nên-tự-chế-thuật-toán)
@@ -35,6 +36,57 @@ Ví dụ đời thường:
 - Mã hóa giống như **két sắt có khóa**: cất đồ vào, có chìa thì lấy ra được.
 
 Các lớp này nằm trong gói `java.security` và `javax.crypto`.
+
+---
+
+## Vì sao cần cryptography?
+
+**Vấn đề:** Dữ liệu lưu trong database hay truyền qua mạng có thể bị **đọc trộm** hoặc **sửa đổi** mà ta không hề hay biết. Tệ nhất là lưu mật khẩu dạng thô — chỉ cần lộ database là kẻ xấu có ngay toàn bộ tài khoản. Và khi nhận dữ liệu từ bên ngoài, ta không có cách nào biết nó có bị giả mạo hay không.
+
+```java
+public class KhongAnToan {
+    public static void main(String[] args) {
+        // Lưu mật khẩu dạng thô vào database
+        String matKhau = "matkhau123";
+        luuVaoDB("user1", matKhau); // Lộ DB là lộ hết mật khẩu!
+
+        // "Tự chế" cách giấu dữ liệu bằng đảo ngược chuỗi
+        String biMat = "So the the la 1234";
+        String giauDi = new StringBuilder(biMat).reverse().toString();
+        // Trông lộn xộn nhưng KHÔNG hề an toàn, ai cũng đảo lại được
+        System.out.println(giauDi);
+    }
+
+    static void luuVaoDB(String user, String matKhau) { /* ... */ }
+}
+```
+
+**Giải pháp:** Dùng cryptography **chuẩn** qua JCA (Java Cryptography Architecture) thay vì tự nghĩ thuật toán — tự chế mã hóa gần như chắc chắn có lỗ hổng.
+
+```java
+import java.security.MessageDigest;
+import java.nio.charset.StandardCharsets;
+
+public class AnToan {
+    public static void main(String[] args) throws Exception {
+        // Băm (hashing) một chiều với MessageDigest -> kiểm tra toàn vẹn,
+        // lưu mật khẩu (thực tế dùng bcrypt/PBKDF2 kèm salt)
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hash = digest.digest("matkhau123".getBytes(StandardCharsets.UTF_8));
+        // Mã hóa đối xứng AES (Cipher): nhanh, dùng một khóa chung
+        // Mã hóa bất đối xứng RSA: cặp khóa công khai/riêng tư
+        // Chữ ký số: vừa xác thực nguồn gốc vừa bảo đảm toàn vẹn
+        System.out.println("Đã băm an toàn, không lưu mật khẩu thô");
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+- **Lưu mật khẩu**: băm kèm **salt** ngẫu nhiên (tốt nhất bcrypt/PBKDF2/Argon2), không bao giờ lưu dạng thô.
+- **Dữ liệu nhạy cảm** (số thẻ, thông tin cá nhân): mã hóa **đối xứng AES** trước khi lưu/truyền.
+- **Trao đổi khóa và chữ ký**: dùng **bất đối xứng RSA** để bên kia xác thực được nguồn gốc.
+- **Kiểm tra toàn vẹn**: so sánh **hash** của file/dữ liệu tải về để biết có bị sửa đổi không.
+:::
 
 ---
 

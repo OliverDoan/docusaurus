@@ -13,6 +13,7 @@ Mobile app **phụ thuộc nặng** vào tương tác: tap, swipe, pinch, drag, 
 
 ## Mục lục
 
+- [Vì sao có hệ thống cảm ứng & cử chỉ riêng?](#vì-sao-có-hệ-thống-cảm-ứng--cử-chỉ-riêng)
 - [1. Touchables](#1-touchables)
 - [2. Gesture Handler](#2-gesture-handler)
 - [3. ScrollView / FlatList gestures](#3-scrollview-flatlist-gestures)
@@ -23,6 +24,51 @@ Mobile app **phụ thuộc nặng** vào tương tác: tap, swipe, pinch, drag, 
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao có hệ thống cảm ứng & cử chỉ riêng?
+
+**Vấn đề:** Trên mobile người dùng tương tác bằng **chạm và cử chỉ** (tap, long-press, vuốt, kéo, pinch) chứ không phải click chuột như web. Mỗi chạm cần **phản hồi cảm ứng tự nhiên** (ripple trên Android, mờ opacity trên iOS), và cử chỉ phức tạp phải chạy **mượt 60fps**. Nếu xử lý trên JS thread, mỗi frame phải qua bridge -- JS thread bận một chút là giật ngay.
+
+```jsx
+// Dung onClick + xu ly tay tren JS thread - giat lag
+<View onClick={handleClick}>          // khong co onClick tren mobile!
+  <Text>Bam</Text>
+</View>
+
+// PanResponder chay JS thread - keo bi giat khi JS busy
+const responder = PanResponder.create({
+  onPanResponderMove: (e, gesture) => {
+    setX(gesture.dx);                  // setState moi frame -> re-render -> lag
+  },
+});
+```
+
+**Giải pháp:** RN có **API cảm ứng riêng** chia theo cấp độ. `Pressable` / `TouchableOpacity` cho chạm cơ bản kèm phản hồi (opacity, ripple). Cử chỉ phức tạp dùng **react-native-gesture-handler** + **Reanimated** chạy thẳng trên **UI thread** -- không qua JS bridge mỗi frame, nên mượt ngay cả khi JS bận.
+
+```jsx
+// Cham co ban + phan hoi tu nhien
+<Pressable style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}>
+  <Text>Bam</Text>
+</Pressable>
+
+// Cu chi phuc tap chay tren UI thread - keo muot 60fps
+const offset = useSharedValue(0);
+const pan = Gesture.Pan().onUpdate((e) => {
+  'worklet';                           // chay UI thread, khong qua bridge
+  offset.value = e.translationX;
+});
+```
+
+:::tip[Dùng thực tế]
+
+- **Nút bấm có hiệu ứng nhấn**: `Pressable` đổi opacity khi `pressed`, hoặc `TouchableHighlight` đổi màu nền.
+- **Swipe-to-delete**: `Swipeable` của gesture-handler -- vuốt hàng để lộ nút Xoá.
+- **Kéo-thả & pinch-to-zoom**: `Gesture.Pan()` / `Gesture.Pinch()` + Reanimated cho ảnh, thẻ.
+- **Bottom sheet vuốt**: kết hợp `Gesture.Pan()` + `useSharedValue` để kéo sheet lên/xuống mượt 60fps.
+
+:::
 
 ---
 

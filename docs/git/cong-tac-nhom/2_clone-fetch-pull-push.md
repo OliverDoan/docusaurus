@@ -11,6 +11,7 @@ Trong Git, có 4 lệnh chính để tương tác với remote repository: **clo
 
 ## Mục lục
 
+- [Vì sao có clone/fetch/pull/push?](#vì-sao-có-clonefetchpullpush)
 - [1. `git clone` — Tải repo từ remote về local](#1-git-clone-tải-repo-từ-remote-về-local)
 - [2. `git fetch` — Tải thay đổi, KHÔNG merge](#2-git-fetch-tải-thay-đổi-không-merge)
 - [3. `git pull` — Fetch + Merge (tất cả trong 1 lệnh)](#3-git-pull-fetch-merge-tất-cả-trong-1-lệnh)
@@ -22,6 +23,39 @@ Trong Git, có 4 lệnh chính để tương tác với remote repository: **clo
 - [9. Mẹo hữu ích](#9-mẹo-hữu-ích)
 - [10. Lỗi thường gặp](#10-lỗi-thường-gặp)
 - [11. Câu hỏi phỏng vấn](#11-câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao có clone/fetch/pull/push?
+
+**Vấn đề:** Khi có một repo trung tâm (remote) và nhiều người cùng làm, ai cũng giữ một bản code trên máy mình (local). Cần một cách **đồng bộ hai chiều** rõ ràng giữa local và remote: lấy code mới của người khác về, đưa code của mình lên — mà không ghi đè nhầm lên công sức của ai.
+
+```bash
+# Không có lệnh đồng bộ thì sao?
+# - Làm sao lấy code của đồng đội về máy mình?
+# - Làm sao đưa code mình lên cho cả nhóm thấy?
+# - Làm sao biết người khác đã thay đổi gì TRƯỚC khi gộp vào?
+```
+
+**Giải pháp:** Git có một bộ 4 lệnh đồng bộ, mỗi lệnh một vai trò rõ ràng:
+
+```bash
+git clone <url>   # Sao toàn bộ repo về máy LẦN ĐẦU
+git fetch         # TẢI cập nhật về nhưng CHƯA gộp — xem trước an toàn
+git pull          # = fetch + merge: cập nhật nhánh hiện tại NGAY
+git push          # ĐẨY commit local lên remote cho cả nhóm
+```
+
+Điểm mấu chốt là tách **`fetch`** (chỉ tải về, không đụng code) khỏi **`pull`** (tải về và gộp luôn). Phân biệt được hai lệnh này giúp bạn **kiểm soát** thời điểm gộp code, tránh conflict bất ngờ.
+
+:::tip[Dùng thực tế]
+
+- **Clone dự án về máy mới:** `git clone <url>` để có toàn bộ code và lịch sử.
+- **Pull đầu ngày:** `git pull --rebase` để lấy code mới nhất của cả nhóm trước khi bắt đầu làm.
+- **Push sau khi commit:** `git push` để đẩy thành quả của mình lên cho đồng đội thấy.
+- **Fetch để xem trước:** `git fetch` rồi xem diff trước khi quyết định merge — an toàn khi đang code dở.
+
+:::
 
 ---
 

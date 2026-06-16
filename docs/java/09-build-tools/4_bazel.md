@@ -11,6 +11,7 @@ Bazel là công cụ build do Google tạo ra, dành cho các dự án rất l�
 
 ## Mục lục
 
+- [Vì sao có Bazel?](#vì-sao-có-bazel)
 - [Bazel là gì?](#bazel-là-gì)
 - [Khái niệm WORKSPACE](#khái-niệm-workspace)
 - [File BUILD](#file-build)
@@ -21,6 +22,23 @@ Bazel là công cụ build do Google tạo ra, dành cho các dự án rất l�
 - [So sánh nhanh với Maven và Gradle](#so-sánh-nhanh-với-maven-và-gradle)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có Bazel?
+
+**Vấn đề:** Ở quy mô **rất lớn** (monorepo khổng lồ, nhiều ngôn ngữ, hàng nghìn module như tại Google), Maven/Gradle build lại quá nhiều, **chậm**, và kết quả build có thể **không tái lập được** (phụ thuộc môi trường máy). Hậu quả: CI tốn kém, khó tin cậy.
+
+**Giải pháp:** **Bazel** (mở từ công cụ build nội bộ của Google) build **hermetic** (cô lập, đầu vào xác định → đầu ra tái lập 100%), có **cache + thực thi phân tán** dùng lại kết quả giữa các máy và CI, chỉ build lại đúng phần thay đổi, và hỗ trợ **đa ngôn ngữ** trong cùng một repo. Nhờ vậy nó scale được cho dự án cực lớn.
+
+:::tip[Dùng thực tế]
+
+- Monorepo lớn, đa ngôn ngữ trong một kho mã nguồn.
+- Build tái lập cho CI — máy nào cũng ra kết quả giống hệt.
+- Chia sẻ cache build cho toàn team, không build lại thứ đã có.
+- Tăng tốc build nhờ chỉ làm lại đúng phần thay đổi.
+
+:::
 
 ---
 

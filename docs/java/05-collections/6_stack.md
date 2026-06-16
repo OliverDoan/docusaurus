@@ -11,6 +11,7 @@ Stack (ngăn xếp) là cấu trúc xử lý phần tử theo nguyên tắc vào
 
 ## Mục lục
 
+- [Vì sao có cấu trúc Stack (LIFO)?](#vì-sao-có-cấu-trúc-stack-lifo)
 - [Stack là gì?](#stack-là-gì)
 - [Nguyên tắc LIFO](#nguyên-tắc-lifo)
 - [Lớp Stack cũ của Java](#lớp-stack-cũ-của-java)
@@ -20,6 +21,51 @@ Stack (ngăn xếp) là cấu trúc xử lý phần tử theo nguyên tắc vào
 - [Ví dụ thực tế: kiểm tra ngoặc cân bằng](#ví-dụ-thực-tế-kiểm-tra-ngoặc-cân-bằng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có cấu trúc Stack (LIFO)?
+
+**Vấn đề:** Nhiều bài toán cần xử lý theo kiểu **vào sau ra trước** (LIFO): hoàn tác (undo) phải lấy thao tác **gần nhất**, kiểm tra ngoặc cân bằng phải so với ngoặc mở **mới nhất**, hay lưu ngữ cảnh khi gọi hàm/đệ quy. Nếu dùng `List` thường, bạn phải tự nhớ chỉ số phần tử cuối và xử lý thủ công, dễ sai.
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+// Tự quản lý "đỉnh" bằng List — rườm rà và dễ lỗi
+List<String> history = new ArrayList<>();
+history.add("gõ chữ A");
+history.add("gõ chữ B");
+
+// Muốn undo thao tác gần nhất phải tự tính chỉ số cuối
+int last = history.size() - 1;
+String undo = history.remove(last); // "gõ chữ B" — phải nhớ công thức này mỗi lần
+```
+
+**Giải pháp:** Dùng **Stack (LIFO)** với ba thao tác gọn gàng: `push` (thêm vào đỉnh), `pop` (lấy đỉnh ra), `peek` (xem đỉnh). Bản thân cấu trúc đã đảm bảo lấy đúng phần tử mới nhất.
+
+```java
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+// ArrayDeque làm stack: rõ ràng, đúng ngữ nghĩa LIFO
+Deque<String> history = new ArrayDeque<>();
+history.push("gõ chữ A");
+history.push("gõ chữ B");
+
+String undo = history.pop(); // "gõ chữ B" — luôn lấy thao tác gần nhất
+```
+
+Lưu ý quan trọng: lớp `java.util.Stack` cũ kế thừa `Vector` và có **đồng bộ hoá** nên **chậm** và thiết kế đã lỗi thời. Java **khuyến nghị dùng `ArrayDeque`** làm stack thay thế.
+
+:::tip[Dùng thực tế]
+
+- **Undo/Redo:** mỗi thao tác `push` vào stack, khi hoàn tác thì `pop` ra thao tác gần nhất.
+- **Kiểm tra ngoặc/biểu thức:** `push` ngoặc mở, gặp ngoặc đóng thì `pop` để so khớp cặp.
+- **Duyệt đồ thị DFS:** dùng stack lưu các đỉnh chờ thăm, luôn đi sâu vào nhánh mới nhất trước.
+- **Mô phỏng call stack:** chuyển đệ quy thành vòng lặp bằng cách tự lưu ngữ cảnh trên stack.
+
+:::
 
 ---
 

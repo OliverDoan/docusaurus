@@ -17,6 +17,7 @@ Test mobile khó hơn web -- cần test trên thiết bị/simulator, có nhiề
 
 ## Mục lục
 
+- [Vì sao cần test app React Native?](#vì-sao-cần-test-app-react-native)
 - [1. Jest -- unit test](#1-jest-unit-test)
 - [2. React Native Testing Library](#2-react-native-testing-library)
 - [3. Detox -- E2E test](#3-detox-e2e-test)
@@ -25,6 +26,23 @@ Test mobile khó hơn web -- cần test trên thiết bị/simulator, có nhiề
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao cần test app React Native?
+
+**Vấn đề:** Test app mobile bằng tay cực tốn công. Phải thử trên **nhiều thiết bị**, nhiều **OS version** (iOS/Android cũ và mới), nhiều **kích thước màn hình**. Mỗi lần phát hành lại phải qua **store review** mất nhiều ngày, nên một bug lọt ra ngoài rất khó vá nhanh. Và mỗi lần refactor là một lần dễ làm vỡ luồng đang chạy ổn mà không ai hay.
+
+**Giải pháp:** Test tự động nhiều tầng. Tầng dưới chạy nhanh và nhiều: **unit/component** với **Jest** + **React Native Testing Library** (kiểm thử theo góc nhìn người dùng -- "user thấy gì, làm gì"). Tầng trên ít hơn nhưng sát thật: **E2E** trên simulator/emulator/thiết bị thật với **Detox** (hoặc **Appium** cho QA automation đa platform) cho các luồng quan trọng. Mục tiêu là bắt lỗi **trước khi lên store**, không phải sau khi user phàn nàn.
+
+:::tip[Dùng thực tế]
+
+- **Test component render + đổi state:** dùng RNTL kiểm tra form hiển thị đúng và đổi đúng khi user gõ/bấm.
+- **Test luồng đăng nhập E2E:** Detox chạy app thật, nhập email/mật khẩu, bấm nút, kiểm tra đã vào màn hình chính.
+- **Chống regression trước release:** chạy bộ test mỗi PR để refactor không làm vỡ luồng cũ.
+- **Test trên nhiều cấu hình:** chạy E2E trên nhiều simulator/OS version để bắt lỗi đặc thù thiết bị.
+
+:::
 
 ---
 

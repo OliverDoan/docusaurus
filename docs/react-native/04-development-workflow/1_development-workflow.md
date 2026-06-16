@@ -13,6 +13,7 @@ Workflow tốt giúp **iterate cực nhanh** -- sửa code, thấy ngay. Bài n�
 
 ## Mục lục
 
+- [Vì sao có quy trình phát triển riêng (Metro, Fast Refresh)?](#vì-sao-có-quy-trình-phát-triển-riêng-metro-fast-refresh)
 - [1. Chạy trên Simulator/Emulator/Device](#1-chạy-trên-simulatoremulatordevice)
 - [2. In-App Developer Menu](#2-in-app-developer-menu)
 - [3. Fast Refresh](#3-fast-refresh)
@@ -23,6 +24,42 @@ Workflow tốt giúp **iterate cực nhanh** -- sửa code, thấy ngay. Bài n�
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao có quy trình phát triển riêng (Metro, Fast Refresh)?
+
+**Vấn đề:** Phát triển app native truyền thống (Swift/Kotlin) có vòng lặp phản hồi chậm. Mỗi lần sửa một dòng code, bạn phải **build lại toàn bộ app** -- quá trình này tốn vài phút. Tệ hơn, sau khi build xong, app khởi động lại từ đầu nên **mất hết trạng thái màn hình**: bạn phải bấm lại qua nhiều bước để về đúng chỗ đang test. Vòng lặp `sửa -> build -> mất state -> bấm lại` lặp đi lặp lại khiến năng suất giảm mạnh.
+
+**Giải pháp:** React Native được tối ưu để vòng lặp dev nhanh như web:
+
+- **Metro bundler** đóng gói JavaScript rất nhanh và push thay đổi qua HMR (Hot Module Replacement), không cần build lại native.
+- **Fast Refresh** cập nhật giao diện **tức thì** khi bạn save file mà vẫn **giữ nguyên state** của màn hình.
+- Code chạy trực tiếp trên **simulator/emulator hoặc thiết bị thật**, không cần qua chu trình build dài.
+- **Expo** giúp khởi tạo và chạy app **không cần cấu hình native** -- quét QR bằng Expo Go là chạy ngay.
+
+```bash
+# Khoi dong Metro + Expo, scan QR la chay ngay tren may that
+npx expo start
+```
+
+```jsx
+// Save file -> Fast Refresh cap nhat ngay, count van duoc giu nguyen
+function Counter() {
+  const [count, setCount] = useState(0);
+  // Sua mau, sua chu o day -> thay ngay ma khong reset count
+  return <Text>{count}</Text>;
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Sửa UI thấy ngay:** chỉnh màu, padding, text rồi save -- Fast Refresh hiện thay đổi tức thì, không phải build lại hay bấm lại màn hình.
+- **Chạy nhanh không cấu hình:** mở `npx expo start`, quét QR bằng **Expo Go** trên điện thoại là app chạy trong vài giây.
+- **Debug bằng DevTools:** dùng Hermes Inspector / React DevTools để đặt breakpoint, xem component tree, network ngay trong lúc dev.
+- **Test trên thiết bị thật:** cùng một workflow, chỉ cần cắm USB hoặc cùng mạng Wi-Fi để chạy trên máy thật trước khi release.
+
+:::
 
 ---
 

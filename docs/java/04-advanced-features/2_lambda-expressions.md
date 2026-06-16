@@ -11,6 +11,7 @@ Biểu thức Lambda (có từ Java 8) là cách viết ngắn gọn cho một h
 
 ## Mục lục
 
+- [Vì sao có lambda expression?](#vì-sao-có-lambda-expression)
 - [Biểu thức Lambda là gì?](#biểu-thức-lambda-là-gì)
 - [Cú pháp Lambda](#cú-pháp-lambda)
 - [Functional Interface (giao diện hàm)](#functional-interface-giao-diện-hàm)
@@ -20,6 +21,38 @@ Biểu thức Lambda (có từ Java 8) là cách viết ngắn gọn cho một h
 - [Capture biến (bắt biến từ bên ngoài)](#capture-biến-bắt-biến-từ-bên-ngoài)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có lambda expression?
+
+**Vấn đề:** Trước Java 8, để **truyền hành vi** (ví dụ cách so sánh, việc cần chạy) vào một phương thức, bạn phải tạo **anonymous class** dài dòng — cả chục dòng chỉ cho một hành vi đơn giản, làm che lấp ý chính.
+
+```java
+// Chỉ muốn so sánh theo độ dài, nhưng phải viết cả khối anonymous class
+Collections.sort(ten, new Comparator<String>() {
+    @Override
+    public int compare(String s1, String s2) {
+        return s1.length() - s2.length();
+    }
+});
+```
+
+**Giải pháp:** **Lambda** (Java 8) là biểu thức ngắn gọn triển khai một functional interface (interface chỉ có một phương thức trừu tượng). Nó coi **hàm như dữ liệu** truyền đi được, kết hợp tốt với method reference và là nền tảng cho Stream / lập trình hàm.
+
+```java
+// Cùng hành vi, gọn trong một dòng
+Collections.sort(ten, (s1, s2) -> s1.length() - s2.length());
+```
+
+:::tip[Dùng thực tế]
+
+- **Comparator** gọn để sắp xếp danh sách: `list.sort((a, b) -> a - b)`.
+- **Runnable** cho tác vụ chạy trong thread: `new Thread(() -> doWork()).start()`.
+- **Callback / xử lý sự kiện**: truyền hành vi chạy khi có sự kiện (vd nút bấm).
+- **map / filter trong Stream**: `list.stream().filter(x -> x > 0).map(x -> x * 2)`.
+
+:::
 
 ---
 

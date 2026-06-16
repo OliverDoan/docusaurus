@@ -11,6 +11,7 @@ Annotation (chú thích) là một dạng "nhãn dán" metadata mà bạn gắn 
 
 ## Mục lục
 
+- [Vì sao có annotation?](#vì-sao-có-annotation)
 - [Annotation là gì?](#annotation-là-gì)
 - [Các annotation có sẵn thường gặp](#các-annotation-có-sẵn-thường-gặp)
 - [Tự tạo annotation tùy chỉnh](#tự-tạo-annotation-tùy-chỉnh)
@@ -19,6 +20,53 @@ Annotation (chú thích) là một dạng "nhãn dán" metadata mà bạn gắn 
 - [Annotation trong các framework](#annotation-trong-các-framework)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có annotation?
+
+**Vấn đề:** Code thường cần gắn kèm **thông tin bổ sung (metadata)** — chẳng hạn ánh xạ một lớp tới bảng trong cơ sở dữ liệu (ORM), đánh dấu một phương thức là test, hay khai báo một bean để framework quản lý. Trước đây thông tin này nằm trong **file XML rời rạc**, tách xa code nên dễ lệch khi sửa, hoặc dựa vào **quy ước đặt tên mong manh** (đặt sai tên là hỏng).
+
+```java
+// Trước đây: cấu hình ánh xạ ORM nằm trong file XML rời rạc (User.hbm.xml)
+// <class name="User" table="users">
+//     <id name="id" column="user_id"/>
+//     <property name="ten" column="name"/>
+// </class>
+
+// Code Java (User.java) lại nằm chỗ khác, không thấy được mapping
+public class User {
+    private Long id;
+    private String ten;
+}
+// => Sửa tên cột phải sửa cả hai nơi, dễ quên, dễ lệch
+```
+
+**Giải pháp:** **Annotation `@Something`** cho phép gắn metadata **trực tiếp** lên lớp, phương thức hoặc biến. Compiler, công cụ hoặc framework đọc annotation (qua Reflection lúc chạy, hoặc lúc biên dịch) để kiểm tra hoặc sinh hành vi tương ứng. Nhờ vậy bớt được file XML, code khai báo gọn và metadata luôn nằm cạnh code.
+
+```java
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+// Bây giờ: metadata mapping gắn thẳng lên code, không cần file XML
+@Entity
+class User {
+    @Id
+    private Long id;
+
+    @Column(name = "name") // Ánh xạ trường ten tới cột name
+    private String ten;
+}
+// => Tất cả ở một chỗ, sửa là thấy ngay
+```
+
+:::tip[Dùng thực tế]
+- **`@Override`**: compiler kiểm tra phương thức có thực sự ghi đè lớp cha không.
+- **`@Entity` / `@Column` (JPA)**: thay file XML mapping, ánh xạ lớp và trường tới bảng/cột.
+- **`@Test` (JUnit)**: đánh dấu phương thức là test case để framework tự chạy.
+- **`@Autowired` / `@RestController` (Spring)**: khai báo tiêm phụ thuộc và lớp xử lý request web.
+:::
 
 ---
 

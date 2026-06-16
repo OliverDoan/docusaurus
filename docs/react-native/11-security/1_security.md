@@ -13,6 +13,7 @@ Bảo mật mobile **khác web** -- attacker có thể decompile APK/IPA, revers
 
 ## Mục lục
 
+- [Vì sao bảo mật mobile khác web?](#vì-sao-bảo-mật-mobile-khác-web)
 - [1. Authentication](#1-authentication)
 - [2. Secure Storage](#2-secure-storage)
 - [3. Network Security](#3-network-security)
@@ -21,6 +22,23 @@ Bảo mật mobile **khác web** -- attacker có thể decompile APK/IPA, revers
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao bảo mật mobile khác web?
+
+**Vấn đề:** App mobile được **cài trực tiếp trên thiết bị người dùng** -- attacker có thể nắm máy trong tay, decompile APK/IPA, đọc mã, dò ra chuỗi bí mật bị hardcode. Token lưu trong `AsyncStorage` (không mã hoá, plain text) dễ bị đọc trên máy đã root/jailbreak. Thiết bị còn có thể bị mất hoặc trộm. Khác hẳn web -- nơi mã nhạy cảm chạy trên server tương đối an toàn, người dùng chỉ thấy phần client.
+
+**Giải pháp:** Lưu dữ liệu nhạy cảm vào **secure storage của OS** -- Keychain (iOS) / Keystore (Android) qua `expo-secure-store` hoặc `react-native-keychain`, KHÔNG dùng `AsyncStorage`. Tuyệt đối **không hardcode secret/API key** trong app -- giữ secret ở server, app chỉ cầm user token. Dùng **HTTPS** và cân nhắc **SSL/certificate pinning** chống MITM. Thêm **xác thực sinh trắc** (Face ID / vân tay) và **hạn chế quyền** xin đúng cái cần.
+
+:::tip[Dùng thực tế]
+
+- **Lưu token bằng SecureStore** thay vì AsyncStorage -- token vào Keychain/Keystore, encrypted, an toàn cả trên máy root.
+- **Không nhúng API key bí mật vào app** -- ví dụ Stripe secret để ở server, app chỉ dùng publishable key.
+- **Certificate pinning** cho app banking/finance -- chặn MITM ngay cả khi attacker có CA giả.
+- **Khoá app bằng vân tay/Face ID** -- yêu cầu xác thực sinh trắc trước khi xem thông tin nhạy cảm hoặc xác nhận thanh toán.
+
+:::
 
 ---
 

@@ -13,6 +13,7 @@ iOS và Android có behavior khác nhau (haptic, navigation, header...). RN cung
 
 ## Mục lục
 
+- [Vì sao cần code theo platform?](#vì-sao-cần-code-theo-platform)
 - [1. Platform Module](#1-platform-module)
 - [2. File extensions](#2-file-extensions)
 - [3. react-native-web](#3-react-native-web)
@@ -20,6 +21,54 @@ iOS và Android có behavior khác nhau (haptic, navigation, header...). RN cung
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao cần code theo platform?
+
+**Vấn đề:** Dù RN cho "viết một lần, chạy nhiều nơi", iOS và Android vẫn **khác nhau** về giao diện lẫn hành vi -- shadow vs elevation, nút back vật lý của Android, thanh status, quy ước thiết kế (Human Interface vs Material), và một số API chỉ có ở một bên. Ép giao diện giống hệt nhau khiến app "lạc lõng" với người dùng từng nền tảng.
+
+```jsx
+// Ep dung chung -> ca 2 deu khong tu nhien
+const styles = StyleSheet.create({
+  card: {
+    shadowColor: '#000',   // iOS hieu, Android lo
+    shadowOpacity: 0.1,    // Android khong render
+    elevation: 4,          // iOS lo
+  },
+});
+
+// Android: nhan nut back vat ly -> thoat app dot ngot (khong xu ly)
+```
+
+**Giải pháp:** RN cho phép tách code theo nền tảng đúng chỗ cần: `Platform.OS`/`Platform.select`, file riêng `.ios.tsx`/`.android.tsx` (Metro tự chọn), và kiểm tra version. Phần lớn dùng chung, chỉ tách phần khác biệt.
+
+```jsx
+import { Platform, StyleSheet } from 'react-native';
+
+const styles = StyleSheet.create({
+  card: {
+    ...Platform.select({
+      ios: { shadowColor: '#000', shadowOpacity: 0.1 },
+      android: { elevation: 4 },
+    }),
+  },
+});
+
+// Version check khi API chi co tu phien ban nhat dinh
+if (Platform.OS === 'android' && Platform.Version >= 31) {
+  // dung API moi cua Android 12+
+}
+```
+
+:::tip[Dùng thực tế]
+
+- **Shadow iOS vs elevation Android**: dùng `Platform.select` để bóng đổ hiển thị đúng trên cả hai.
+- **Nút back vật lý Android**: lắng nghe `BackHandler` để xử lý quay lại thay vì thoát app đột ngột.
+- **Padding theo status bar**: chừa khoảng trên đầu khác nhau (notch iOS vs status bar Android) tránh che nội dung.
+- **API chỉ có một nền tảng**: ví dụ haptic, dynamic island... bọc trong `Platform.OS` check để tránh crash bên kia.
+
+:::
 
 ---
 

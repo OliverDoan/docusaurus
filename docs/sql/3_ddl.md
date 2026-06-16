@@ -11,11 +11,43 @@ DDL (Data Definition Language) là nhóm câu lệnh dùng để định nghĩa 
 
 ## Mục lục
 
+- [Vì sao cần DDL?](#vì-sao-cần-ddl)
 - [DDL là gì?](#ddl-là-gì)
 - [CREATE TABLE](#create-table)
 - [ALTER TABLE](#alter-table)
 - [DROP TABLE](#drop-table)
 - [TRUNCATE TABLE](#truncate-table)
+
+---
+
+## Vì sao cần DDL?
+
+**Vấn đề:** Dữ liệu quan hệ cần một **cấu trúc rõ ràng** trước khi lưu — bảng nào, cột gì, kiểu dữ liệu ra sao, ràng buộc thế nào. Nếu cứ ném dữ liệu vào mà không định nghĩa trước, ta không kiểm soát được gì cả.
+
+```sql
+-- Không có cấu trúc: dữ liệu lộn xộn, sai kiểu, không kiểm soát
+-- "users" lưu tuổi âm? email trùng? user_id trỏ tới ai?
+('Nam', 'abc', -5)        -- tuổi âm vẫn lọt
+('Lan', 'abc', 'hai mươi') -- kiểu lung tung, không ai chặn
+```
+
+**Giải pháp:** Dùng **DDL (Data Definition Language)** — nhóm lệnh `CREATE` / `ALTER` / `DROP` / `TRUNCATE` để **định nghĩa và thay đổi cấu trúc (schema)** của database, bảng, cột và ràng buộc. DDL đặt nền móng cho dữ liệu nhất quán: kiểu dữ liệu được ép đúng, ràng buộc tự động chặn dữ liệu sai.
+
+```sql
+-- Có cấu trúc: kiểu dữ liệu, ràng buộc rõ ràng ngay từ đầu
+CREATE TABLE users (
+    id    SERIAL       PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,   -- không trùng, không trống
+    age   INT          CHECK (age >= 0)   -- chặn tuổi âm
+);
+```
+
+:::tip[Dùng thực tế]
+- **Tạo bảng `users`**: định nghĩa cột và kiểu dữ liệu bằng `CREATE TABLE`.
+- **Thêm cột mới**: bổ sung `phone`, `address` vào bảng đang chạy bằng `ALTER TABLE`.
+- **Đặt khóa chính / khóa ngoại**: ràng buộc `PRIMARY KEY`, `FOREIGN KEY` để liên kết và toàn vẹn dữ liệu.
+- **Xóa bảng cũ**: dọn bảng không còn dùng bằng `DROP TABLE` (an toàn với `IF EXISTS`).
+:::
 
 ---
 

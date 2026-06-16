@@ -11,6 +11,7 @@ Hiểu cách Docker hoạt động bên trong sẽ giúp bạn debug nhanh hơn 
 
 ## Mục lục
 
+- [Vì sao container nhẹ hơn máy ảo?](#vì-sao-container-nhẹ-hơn-máy-ảo)
 - [1. Kiến trúc Client-Server](#1-kiến-trúc-client-server)
 - [2. Docker Daemon (dockerd)](#2-docker-daemon-dockerd)
 - [3. Docker Image chi tiết](#3-docker-image-chi-tiết)
@@ -18,6 +19,34 @@ Hiểu cách Docker hoạt động bên trong sẽ giúp bạn debug nhanh hơn 
 - [5. Docker Registry](#5-docker-registry)
 - [6. Cách Docker cô lập Container](#6-cách-docker-cô-lập-container)
 - [7. Tổng kết kiến trúc](#7-tổng-kết-kiến-trúc)
+
+---
+
+## Vì sao container nhẹ hơn máy ảo?
+
+**Vấn đề:** Máy ảo (VM) cô lập rất tốt, nhưng **mỗi VM chạy một hệ điều hành đầy đủ riêng**. Hậu quả là tốn nhiều GB RAM và ổ đĩa cho mỗi VM, khởi động chậm (tính bằng phút), và một máy chỉ chạy được ít VM.
+
+**Giải pháp:** Kiến trúc Docker giúp container **không mang OS riêng** mà **chia sẻ kernel** của host. Linux dùng **namespaces** để cô lập tiến trình và **cgroups** để giới hạn tài nguyên. Docker Engine theo mô hình client–daemon, còn image gồm các **lớp (layer)** chia sẻ được. Nhờ đó container nhẹ (chỉ MB), khởi động trong vài giây và chạy được hàng chục container trên một máy.
+
+```bash
+# Container chia sẻ kernel host → khởi động trong vài giây, chỉ tốn vài MB
+docker run -d --name web nginx
+
+# Giới hạn tài nguyên bằng cgroups (không cần cấp phát cả một OS)
+docker run -d --memory=256m --cpus=0.5 nginx
+
+# Chạy hàng chục container trên cùng một host
+docker ps
+```
+
+:::tip[Dùng thực tế]
+
+- Chạy nhiều microservice trên cùng một host mà không tốn một OS cho mỗi service.
+- Scale nhanh: nhân bản thêm container chỉ trong vài giây khi tải tăng.
+- CI/CD: tạo môi trường sạch tức thì cho mỗi lần build/test rồi xoá đi.
+- Tận dụng tài nguyên tốt hơn VM: cùng một máy chạy được nhiều workload hơn.
+
+:::
 
 ---
 

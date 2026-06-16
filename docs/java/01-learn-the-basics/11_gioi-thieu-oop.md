@@ -12,6 +12,7 @@ OOP (Lập trình hướng đối tượng) là cách tổ chức chương trìn
 ## Mục lục
 
 - [OOP là gì?](#oop-là-gì)
+- [Vì sao có OOP?](#vì-sao-có-oop)
 - [Lớp và đối tượng](#lớp-và-đối-tượng)
 - [Vì sao Java hướng đối tượng?](#vì-sao-java-hướng-đối-tượng)
 - [Bốn trụ cột của OOP](#bốn-trụ-cột-của-oop)
@@ -29,6 +30,50 @@ OOP (Lập trình hướng đối tượng) là cách tổ chức chương trìn
 **OOP** (Object-Oriented Programming — Lập trình hướng đối tượng) là cách tổ chức chương trình xoay quanh các **đối tượng** (object — thực thể mô phỏng một sự vật trong đời thực, có dữ liệu và hành vi).
 
 Thay vì chỉ viết một dãy lệnh tuần tự, OOP khuyến khích bạn mô hình hóa thế giới: một chiếc xe, một sinh viên, một tài khoản ngân hàng... mỗi thứ là một đối tượng có **thuộc tính** (dữ liệu) và **hành vi** (việc nó làm được).
+
+---
+
+## Vì sao có OOP?
+
+**Vấn đề:** Lập trình thủ tục (procedural) khi chương trình lớn dần thì dữ liệu và hàm xử lý nằm rời rạc, biến toàn cục bị sửa khắp nơi rất khó kiểm soát, code khó tái sử dụng và mở rộng, mô hình hóa thực thể đời thực (người dùng, đơn hàng) trở nên lủng củng.
+
+```java
+// Procedural: dữ liệu "rời" khỏi hàm xử lý
+String tenNguoiDung = "An";
+double soDuTaiKhoan = 0;   // biến toàn cục, ai cũng sửa được
+
+void napTien(double tien) {
+    soDuTaiKhoan += tien;   // không kiểm soát: có thể nạp số âm
+}
+
+soDuTaiKhoan = -1000;       // sửa bừa ở bất kỳ đâu -> sai dữ liệu
+```
+
+**Giải pháp:** OOP gom **dữ liệu** và **hành vi** vào cùng một **đối tượng** (mô hình hóa thực thể), dựa trên 4 trụ cột: **đóng gói** (ẩn trạng thái, kiểm soát truy cập), **kế thừa** (tái sử dụng), **đa hình** (một interface nhiều hành vi), **trừu tượng** (ẩn chi tiết). Nhờ vậy code dễ bảo trì và mở rộng.
+
+```java
+// OOP: dữ liệu + hành vi gói chung, được kiểm soát
+class TaiKhoan {
+    private double soDu;            // đóng gói: bên ngoài không sửa trực tiếp
+
+    public void napTien(double tien) {
+        if (tien > 0) soDu += tien; // chỉ thay đổi qua hành vi có kiểm soát
+    }
+
+    public double xemSoDu() {
+        return soDu;
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+
+- Mô hình hóa `User`, `Order` thành class — dữ liệu và hành vi đi cùng nhau, code phản ánh đúng nghiệp vụ.
+- Đóng gói số dư, mật khẩu... ở `private` để dữ liệu không bị sửa bừa từ bên ngoài.
+- Tái sử dụng qua kế thừa: `KhachVip extends KhachHang` nhận lại sẵn thuộc tính và hành vi của lớp cha.
+- Đa hình xử lý nhiều loại đối tượng theo cùng một cách: duyệt danh sách `DongVat` rồi gọi `keu()` cho cả chó lẫn mèo.
+
+:::
 
 ---
 

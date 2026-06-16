@@ -11,6 +11,7 @@ title: "4. Từ khóa volatile"
 
 ## Mục lục
 
+- [Vì sao có từ khóa volatile?](#vì-sao-có-từ-khóa-volatile)
 - [volatile là gì?](#volatile-là-gì)
 - [volatile bảo đảm hiển thị (Visibility)](#volatile-bảo-đảm-hiển-thị-visibility)
 - [Ví dụ: cờ dừng luồng](#ví-dụ-cờ-dừng-luồng)
@@ -19,6 +20,63 @@ title: "4. Từ khóa volatile"
 - [Khi nào nên dùng volatile?](#khi-nào-nên-dùng-volatile)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có từ khóa volatile?
+
+**Vấn đề:** Một luồng hạ cờ `running = false` để báo luồng khác dừng, nhưng luồng kia đã **cache** biến trong cache CPU và không bao giờ thấy giá trị mới → vòng lặp chạy mãi (vấn đề **visibility/hiển thị**). Dùng `synchronized` cho việc nhỏ này thì **nặng** vì phải khóa.
+
+```java
+public class ViDuKhongVolatile {
+    // Không volatile: luồng worker đọc bản sao "true" trong cache → treo mãi
+    private static boolean running = true;
+
+    public static void main(String[] args) throws InterruptedException {
+        new Thread(() -> {
+            while (running) {
+                // Bận xử lý... worker không bao giờ thấy running = false
+            }
+            System.out.println("Worker dừng");
+        }).start();
+
+        Thread.sleep(1000);
+        running = false; // Hạ cờ, nhưng worker không thấy → KẸT
+    }
+}
+```
+
+**Giải pháp:** Đặt `volatile` lên biến cờ. Mọi lần đọc/ghi đi **thẳng tới bộ nhớ chính** (mọi luồng thấy giá trị mới nhất) và cấm reorder quanh nó → bảo đảm **visibility** một cách **nhẹ nhàng, không cần khóa**.
+
+```java
+public class ViDuCoVolatile {
+    // Có volatile: ghi đẩy thẳng RAM, đọc lấy thẳng RAM → worker thấy NGAY
+    private static volatile boolean running = true;
+
+    public static void main(String[] args) throws InterruptedException {
+        new Thread(() -> {
+            while (running) {
+                // Bận xử lý...
+            }
+            System.out.println("Worker dừng");
+        }).start();
+
+        Thread.sleep(1000);
+        running = false; // Worker thấy ngay → dừng đúng
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+- **Cờ dừng/trạng thái `boolean`** chia sẻ giữa các luồng (như `running`, `shutdown`).
+- **Cờ cấu hình** kiểu đọc nhiều, ghi ít (một luồng cập nhật, nhiều luồng đọc).
+- **Double-checked locking** cho singleton (kết hợp với `final` hoặc lớp `Atomic`).
+- **KHÔNG dùng** `volatile` cho biến đếm như `count++` — đó là thao tác phức hợp, vẫn cần `Atomic`/`synchronized`.
+:::
+
+:::caution
+`volatile` **không** bảo đảm tính nguyên tử của thao tác phức hợp như `count++`. Phần dưới giải thích kỹ giới hạn này.
+:::
 
 ---
 

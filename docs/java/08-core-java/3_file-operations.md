@@ -12,6 +12,7 @@ Thao tác với file là việc đọc và ghi dữ liệu xuống ổ cứng đ
 ## Mục lục
 
 - [Vì sao cần thao tác với file?](#vì-sao-cần-thao-tác-với-file)
+- [Vì sao có NIO Path/Files (thay File cũ)?](#vì-sao-có-nio-pathfiles-thay-file-cũ)
 - [Lớp File (cách cũ)](#lớp-file-cách-cũ)
 - [java.nio.file: Path và Files (cách mới)](#javaniofile-path-và-files-cách-mới)
 - [Kiểm tra tồn tại, tạo, xóa file](#kiểm-tra-tồn-tại-tạo-xóa-file)
@@ -32,6 +33,66 @@ Ví dụ đời thường: ghi danh sách công việc vào file `todo.txt`, l�
 Java có hai cách làm việc với file:
 - **Cách cũ**: lớp `File` (gói `java.io`) — có từ rất sớm, hơi cồng kềnh.
 - **Cách mới (khuyên dùng)**: `java.nio.file` với `Path` và `Files` — gọn gàng, mạnh mẽ hơn, có từ Java 7.
+
+---
+
+## Vì sao có NIO Path/Files (thay File cũ)?
+
+**Vấn đề:** Lớp `java.io.File` cũ gặp ba điểm yếu khi xử lý file thực tế: đường dẫn không cross-platform (Windows dùng `\`, Linux dùng `/`), nhiều method báo lỗi yếu (trả về `false` thay vì ném lỗi rõ ràng nên ta không biết vì sao thất bại), và thiếu tính năng (duyệt cây thư mục, đọc metadata, symbolic link, copy/move tiện lợi).
+
+```java
+import java.io.File;
+
+public class FileCuYeu {
+    public static void main(String[] args) {
+        // Đường dẫn cứng theo OS — chạy trên Linux/macOS sẽ sai
+        File file = new File("C:\\data\\users.txt");
+
+        // delete() trả về false khi thất bại — KHÔNG biết vì sao
+        boolean ok = file.delete();
+        System.out.println("Xóa được? " + ok); // false, nhưng do quyền? hay không tồn tại?
+
+        // Muốn đọc nội dung phải tự mở stream, vòng vo nhiều dòng
+        // Muốn copy/move/duyệt cây thư mục: File không hỗ trợ sẵn
+    }
+}
+```
+
+**Giải pháp:** `java.nio.file` (Java 7) tách rõ hai vai trò: `Path` biểu diễn đường dẫn **không phụ thuộc OS** (tự dùng đúng dấu phân cách), còn `Files` cung cấp thao tác mạnh và **ném exception rõ ràng** (đọc/ghi/copy/move/delete, duyệt cây với `walk`, đọc toàn bộ dòng), kèm hỗ trợ metadata và quyền. An toàn và đầy đủ hơn `File`.
+
+```java
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Stream;
+
+public class NioManh {
+    public static void main(String[] args) throws IOException {
+        // Path tự xử lý dấu phân cách — chạy được trên mọi OS
+        Path goc = Path.of("data");
+
+        // Đọc/ghi gọn trong một dòng
+        List<String> dong = Files.readAllLines(goc.resolve("users.txt"));
+        Files.write(goc.resolve("backup.txt"), dong);
+
+        // Copy/move an toàn, ném IOException nếu lỗi (biết rõ vì sao)
+        Files.copy(goc.resolve("users.txt"), goc.resolve("users-copy.txt"));
+
+        // Duyệt cây thư mục dễ dàng
+        try (Stream<Path> cay = Files.walk(goc)) {
+            cay.filter(Files::isRegularFile).forEach(System.out::println);
+        }
+    }
+}
+```
+
+:::tip[Dùng thực tế]
+- **Đọc/ghi cấu hình gọn**: dùng `Files.readAllLines` / `Files.write` thay vì tự mở stream nhiều dòng.
+- **Duyệt thư mục dự án**: `Files.walk(...)` để liệt kê hoặc tìm file theo đuôi (`.log`, `.txt`...).
+- **Sao lưu, di chuyển file**: `Files.copy` / `Files.move` an toàn, lỗi sẽ ném `IOException` rõ ràng.
+- **Chạy đa nền tảng**: dùng `Path.of(...)` và `resolve()` để code chạy đúng trên Windows lẫn Linux/macOS.
+:::
 
 ---
 

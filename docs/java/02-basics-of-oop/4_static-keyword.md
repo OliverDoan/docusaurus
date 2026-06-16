@@ -11,6 +11,7 @@ Từ khóa `static` đánh dấu một thành viên thuộc về chính lớp ch
 
 ## Mục lục
 
+- [Vì sao có từ khóa static?](#vì-sao-có-từ-khóa-static)
 - [static là gì?](#static-là-gì)
 - [Thành viên instance vs static](#thành-viên-instance-vs-static)
 - [Biến static](#biến-static)
@@ -19,6 +20,54 @@ Từ khóa `static` đánh dấu một thành viên thuộc về chính lớp ch
 - [Ví dụ thực tế: bộ đếm object](#ví-dụ-thực-tế-bộ-đếm-object)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+
+---
+
+## Vì sao có từ khóa static?
+
+**Vấn đề:** Một số dữ liệu và hành vi thuộc về **khái niệm chung** chứ không thuộc riêng
+từng object: hằng số như số PI, một bộ đếm dùng chung, hay các hàm tiện ích như tìm số lớn
+nhất. Nếu gắn chúng vào instance thì phải tạo object một cách vô nghĩa chỉ để gọi, và mỗi
+object lại giữ một bản sao thừa thãi của cùng một giá trị.
+
+```java
+public class MathHelper {
+    double pi = 3.14159; // mỗi object một bản sao PI giống hệt nhau (thừa)
+
+    int max(int a, int b) { // muốn gọi phải tạo object dù hàm không cần dữ liệu object
+        return a > b ? a : b;
+    }
+}
+
+// Phải tạo object vô nghĩa chỉ để dùng hàm tiện ích
+MathHelper helper = new MathHelper();
+int m = helper.max(3, 7);
+```
+
+**Giải pháp:** Dùng `static` để gắn thành viên với **chính class** — chỉ có một bản dùng
+chung, gọi qua tên class mà không cần `new`. Áp dụng cho biến static (chia sẻ giữa mọi
+instance), method static (hàm tiện ích/factory), hằng `static final` và khối static.
+
+```java
+public class MathHelper {
+    static final double PI = 3.14159; // hằng dùng chung, một bản duy nhất
+
+    static int max(int a, int b) { // hàm tiện ích, không cần object
+        return a > b ? a : b;
+    }
+}
+
+// Gọi thẳng qua tên class, không tạo object thừa
+int m = MathHelper.max(3, 7);
+double area = MathHelper.PI * 2 * 2;
+```
+
+:::tip[Dùng thực tế]
+- **Hằng số dùng chung**: khai báo `static final` như `Math.PI`, `Integer.MAX_VALUE`.
+- **Hàm tiện ích**: gọi thẳng `Math.max(a, b)`, `Integer.parseInt("42")` mà không cần new.
+- **Đếm số instance**: dùng một static counter tăng dần mỗi khi tạo object mới.
+- **Factory method**: method static trả về object, ví dụ `LocalDate.now()`, `List.of(...)`.
+:::
 
 ---
 

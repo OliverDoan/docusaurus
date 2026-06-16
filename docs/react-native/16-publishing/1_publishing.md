@@ -13,6 +13,7 @@ Sau khi dev xong, **đưa app lên store** là bước cuối. Quy trình **iOS 
 
 ## Mục lục
 
+- [Vì sao phát hành app phức tạp?](#vì-sao-phát-hành-app-phức-tạp)
 - [1. Chuẩn bị chung](#1-chuẩn-bị-chung)
 - [2. EAS Build (Expo) -- khuyến nghị](#2-eas-build-expo-khuyến-nghị)
 - [3. Apple App Store](#3-apple-app-store)
@@ -22,6 +23,40 @@ Sau khi dev xong, **đưa app lên store** là bước cuối. Quy trình **iOS 
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
+
+---
+
+## Vì sao phát hành app phức tạp?
+
+**Vấn đề:** Web deploy xong là người dùng truy cập được ngay. App mobile thì không -- mỗi lần ra mắt phải vượt qua 4 rào cản:
+
+- **Build nhị phân native** cho cả iOS lẫn Android. Build iOS bắt buộc cần **macOS + Xcode** -- dev dùng Windows/Linux gần như bó tay.
+- **Ký số (code signing)** rắc rối: iOS cần Distribution Certificate + Provisioning Profile; Android cần Keystore. Sai cert/profile là build hỏng, mất keystore là không update được app.
+- **Kiểm duyệt store**: Apple review 1-3 ngày (rất nghiêm), Google vài giờ - vài ngày. Có thể bị **từ chối** vì privacy, UI web-like, IAP...
+- **Mỗi bản vá nhỏ** cũng phải build lại + nộp store + chờ duyệt lại từ đầu.
+
+**Giải pháp:** Công cụ hoá toàn bộ quy trình -- build trên cloud, để dịch vụ quản lý signing, và đẩy bản vá JS thẳng tới máy người dùng (OTA) không qua store.
+
+```bash
+# Build iOS + Android trên cloud, KHÔNG cần Mac (EAS Build)
+eas build --platform all --profile production
+
+# Nộp store tự động (App Store Connect / Play Console)
+eas submit --platform ios --latest
+eas submit --platform android --latest
+
+# Vá lỗi JS nóng, KHÔNG qua review (EAS Update / CodePush)
+eas update --branch production --message "Fix login bug"
+```
+
+:::tip[Dùng thực tế]
+
+- **Dev xài Windows** vẫn build được app iOS: dùng EAS Build chạy trên máy Mac ảo của Expo, nhận về file `.ipa`.
+- **CI/CD tự động**: mỗi lần tag release, pipeline chạy `eas build` rồi `eas submit` -- không thao tác tay.
+- **Vá lỗi nóng**: phát hiện bug login lúc 11h đêm, đẩy `eas update` là user nhận bản vá ở lần mở app kế tiếp, khỏi chờ Apple/Google duyệt vài ngày.
+- **Quản lý credential**: để EAS tự tạo + giữ certificate/keystore, tránh rủi ro mất keystore khiến app không update được nữa.
+
+:::
 
 ---
 
