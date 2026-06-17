@@ -44,6 +44,7 @@ title: "Giới thiệu"
 | 3 | **Tính năng trên claude.ai** | Projects, Artifacts, upload file/ảnh, web search |
 | 4 | **Claude Code (CLI)** | Dùng Claude để lập trình: cài đặt, workflow, CLAUDE.md, MCP |
 | 5 | **Mẹo & Lưu ý** | Tình huống dùng, best practices, hạn chế cần biết |
+| 6 | **AI Agent & Skill** | Agent là gì, Skill (Agent Skills), tự tạo Skill, phân biệt các khái niệm |
 
 ---
 
