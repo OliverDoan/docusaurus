@@ -176,6 +176,12 @@ const config: Config = {
         },
         {
           type: 'docSidebar',
+          sidebarId: 'webSecuritySidebar',
+          position: 'left',
+          label: 'Bảo mật web',
+        },
+        {
+          type: 'docSidebar',
           sidebarId: 'gitSidebar',
           position: 'left',
           label: 'Git',
