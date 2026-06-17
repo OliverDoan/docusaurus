@@ -170,6 +170,12 @@ const config: Config = {
         { type: 'docSidebar', sidebarId: 'reactNativeSidebar', label: 'React Native' },
         {
           type: 'docSidebar',
+          sidebarId: 'microFrontendSidebar',
+          position: 'left',
+          label: 'Micro-frontend',
+        },
+        {
+          type: 'docSidebar',
           sidebarId: 'gitSidebar',
           position: 'left',
           label: 'Git',
