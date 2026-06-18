@@ -1,4 +1,9 @@
-# Đối chiếu câu hỏi phỏng vấn ↔ tài liệu
+---
+sidebar_position: 0
+title: "📋 Danh sách câu hỏi (tra cứu)"
+---
+
+# Danh sách câu hỏi phỏng vấn — tra cứu
 
 > File này đối chiếu từng câu trong `question-interview.txt` (giữ nguyên thứ tự) với tài liệu trong `docs/interview/`, để dễ tra **câu nào đã có, nằm ở đâu, câu nào còn sót**.
 
@@ -26,7 +31,7 @@
 > - **TypeScript** (+18): `02-typescript/5_co-ban-bo-sung`, `6_nang-cao-bo-sung`
 > - **State Management** (mục mới `14-state-management/`, 62 câu): Redux, Redux Toolkit, React Query, Zustand, Jotai
 >
-> 👉 Xem **chính xác câu nào đọc ở file nào** tại mục [📌 Đã bổ sung — đọc ở đâu](#-đã-bổ-sung--đọc-ở-đâu) cuối trang. Các ô `❌` trong bảng chi tiết bên dưới nay đều đã được giải quyết tại mục đó.
+> 👉 Xem **chính xác câu nào đọc ở file nào** tại mục **📌 Đã bổ sung — đọc ở đâu** (mục cuối trang) cuối trang. Các ô `❌` trong bảng chi tiết bên dưới nay đều đã được giải quyết tại mục đó.
 
 ---
 
