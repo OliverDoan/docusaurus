@@ -35,6 +35,7 @@ Mỗi câu hỏi gồm 4 phần:
 8. **SQL & Databases** → hay xuất hiện ở vị trí fullstack; JOIN, index, transaction là phần dễ lộ điểm yếu
 9. **Performance** → Core Web Vitals, lazy loading, caching, rendering pipeline — chủ đề phân biệt dev "làm cho chạy" với dev "làm cho nhanh"
 10. **Database & ORM** → NoSQL/MongoDB, Redis, Prisma/Drizzle/Mongoose, database design, replication/sharding — bắt buộc cho fullstack và backend-leaning FE
+11. **Git & Version Control** → branching strategy, rebase vs merge, resolve conflict, recovery khi mất commit, xử lý sự cố production, hooks & automation — kỹ năng nền mọi level đều bị hỏi và dễ lộ điểm yếu khi gặp tình huống thực tế
 
 ## Lời khuyên trước phỏng vấn
 
