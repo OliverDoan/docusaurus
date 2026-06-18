@@ -96,83 +96,46 @@ const config: Config = {
       },
       items: [
         {
-          type: 'docSidebar',
-          sidebarId: 'javascriptSidebar',
+          type: 'dropdown',
+          label: 'Frontend',
           position: 'left',
-          label: 'JavaScript',
+          items: [
+            {type: 'docSidebar', sidebarId: 'javascriptSidebar', label: 'JavaScript'},
+            {type: 'docSidebar', sidebarId: 'typescriptSidebar', label: 'TypeScript'},
+            {type: 'docSidebar', sidebarId: 'reactSidebar', label: 'React'},
+            {type: 'docSidebar', sidebarId: 'nextjsSidebar', label: 'Next.js'},
+            {type: 'docSidebar', sidebarId: 'reactNativeSidebar', label: 'React Native'},
+            {type: 'docSidebar', sidebarId: 'microFrontendSidebar', label: 'Micro-frontend'},
+          ],
         },
         {
-          type: 'docSidebar',
-          sidebarId: 'typescriptSidebar',
-          position: 'left',
-          label: 'TypeScript',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'reactSidebar',
-          position: 'left',
-          label: 'React',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'nextjsSidebar',
-          position: 'left',
-          label: 'Next.js',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'backendSidebar',
-          position: 'left',
+          type: 'dropdown',
           label: 'Backend',
+          position: 'left',
+          items: [
+            {type: 'docSidebar', sidebarId: 'backendSidebar', label: 'Backend'},
+            {type: 'docSidebar', sidebarId: 'sqlSidebar', label: 'SQL'},
+            // {type: 'docSidebar', sidebarId: 'nodejsSidebar', label: 'Node.js'},
+            // {type: 'docSidebar', sidebarId: 'dockerSidebar', label: 'Docker'},
+          ],
         },
         {
-          type: 'docSidebar',
-          sidebarId: 'sqlSidebar',
-          position: 'left',
-          label: 'SQL',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'interviewSidebar',
-          position: 'left',
-          label: 'FE Interview',
-        },
-        // {
-        //   type: 'docSidebar',
-        //   sidebarId: 'seoSidebar',
-        //   position: 'left',
-        //   label: 'SEO',
-        // },
-        {
-          type: 'docSidebar',
-          sidebarId: 'javaSidebar',
-          position: 'left',
+          type: 'dropdown',
           label: 'Java',
+          position: 'left',
+          items: [
+            {type: 'docSidebar', sidebarId: 'javaSidebar', label: 'Java'},
+            {type: 'docSidebar', sidebarId: 'javaGpcoderSidebar', label: 'Java (gpcoder)'},
+          ],
         },
         {
-          type: 'docSidebar',
-          sidebarId: 'javaGpcoderSidebar',
+          type: 'dropdown',
+          label: 'Phỏng vấn',
           position: 'left',
-          label: 'Java (gpcoder)',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'javaInterviewSidebar',
-          position: 'left',
-          label: 'Java Interview',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'claudeSidebar',
-          position: 'left',
-          label: 'Claude',
-        },
-        { type: 'docSidebar', sidebarId: 'reactNativeSidebar', label: 'React Native' },
-        {
-          type: 'docSidebar',
-          sidebarId: 'microFrontendSidebar',
-          position: 'left',
-          label: 'Micro-frontend',
+          items: [
+            {type: 'docSidebar', sidebarId: 'interviewSidebar', label: 'FE Interview'},
+            {type: 'docSidebar', sidebarId: 'javaInterviewSidebar', label: 'Java Interview'},
+          ],
         },
         {
           type: 'docSidebar',
@@ -181,26 +144,15 @@ const config: Config = {
           label: 'Bảo mật web',
         },
         {
-          type: 'docSidebar',
-          sidebarId: 'gitSidebar',
+          type: 'dropdown',
+          label: 'Công cụ',
           position: 'left',
-          label: 'Git',
+          items: [
+            {type: 'docSidebar', sidebarId: 'claudeSidebar', label: 'Claude'},
+            {type: 'docSidebar', sidebarId: 'gitSidebar', label: 'Git'},
+            // {type: 'docSidebar', sidebarId: 'seoSidebar', label: 'SEO'},
+          ],
         },
-       
-        
-        
-        // {
-        //   type: 'docSidebar',
-        //   sidebarId: 'nodejsSidebar',
-        //   position: 'left',
-        //   label: 'Node.js',
-        // },
-        // {
-        //   type: 'docSidebar',
-        //   sidebarId: 'dockerSidebar',
-        //   position: 'left',
-        //   label: 'Docker',
-        // },
         {
           type: 'custom-logoutButton',
           position: 'right',
