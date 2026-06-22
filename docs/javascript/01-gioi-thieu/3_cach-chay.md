@@ -1,6 +1,6 @@
 ---
-sidebar_position: 4
-title: "4. Cách chạy JavaScript"
+sidebar_position: 3
+title: "3. Cách chạy JavaScript"
 ---
 
 # Cách chạy JavaScript
