@@ -48,7 +48,7 @@ bằng cách tự thêm tính năng riêng — thay vì cùng theo một chuẩn
 Diễn biến chính:
 
 - **1995**: Netscape Navigator thống trị, đi kèm **JavaScript**.
-- **1996**: Microsoft tung **Internet Explorer** kèm **JScript** — một
+- **1996**: Microsoft tung **Internet Explorer (IE)** kèm **JScript** — một
   bản "clone" JavaScript (vì JS là của Netscape, Microsoft không được
   dùng đúng tên).
 - Hai hãng liên tục thêm tính năng độc quyền chỉ chạy trên trình duyệt

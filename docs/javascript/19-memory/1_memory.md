@@ -82,28 +82,99 @@ hiểu cơ chế.
 
 ## Stack vs Heap
 
+JS Engine chia bộ nhớ làm hai vùng với cách hoạt động khác nhau:
+
+- **Stack** (ngăn xếp — vùng nhớ kiểu "vào sau ra trước", LIFO): lưu các giá
+  trị có **kích thước cố định, biết trước** — các **primitive** (`number`,
+  `string`, `boolean`, `null`, `undefined`, `symbol`, `bigint`) và **function
+  frame** (khung hàm — vùng chứa biến cục bộ của mỗi lần gọi hàm). Cấp phát/thu
+  hồi chỉ là **push/pop** nên cực nhanh.
+- **Heap** (vùng nhớ động — kho lớn, không theo thứ tự): lưu các giá trị **kích
+  thước thay đổi, lớn** — `object`, `array`, và phần thân của function. Cấp phát
+  ở đâu tuỳ engine, và phải nhờ **GC** dọn dẹp về sau.
+
 | | Stack | Heap |
 |--|-------|------|
 | Lưu | Primitive, function frame | Object, Array, Function body |
 | Kích thước | Cố định, nhỏ | Linh hoạt, lớn |
+| Truy cập | Bằng giá trị (by value) | Bằng tham chiếu (by reference) |
 | Tốc độ | Nhanh | Chậm hơn |
 | Quản lý | Tự động (push/pop) | GC |
 
+### Primitive nằm trên stack
+
+Primitive được lưu **trực tiếp** trên stack. Khi gán cho biến khác, giá trị được
+**copy hẳn** — hai biến độc lập, sửa cái này không ảnh hưởng cái kia:
+
 ```js
-let x = 10;           // x trên stack — số được lưu trực tiếp
-let user = { name };  // user trên stack — chứa pointer tới heap
-                       // { name } trên heap
+let x = 10;
+let y = x; // copy GIÁ TRỊ 10 sang ô nhớ mới của y
+
+y = 20;
+x; // 10 — x không đổi vì y là bản sao độc lập
 ```
 
-Khi gán biến:
+### Object nằm trên heap, biến giữ pointer
+
+Với object, biến trên stack chỉ chứa **pointer** (con trỏ — địa chỉ tới object
+nằm trên heap), không chứa bản thân object:
+
+```js
+const name = "An";
+let user = { name };  // biến `user` ở stack — chỉ giữ pointer
+                      // { name: "An" } nằm ở heap
+```
+
+```text
+   STACK                 HEAP
+ ┌─────────┐          ┌──────────────┐
+ │ user ───┼────────► │ { name:"An" }│
+ └─────────┘          └──────────────┘
+```
+
+Vì biến chỉ giữ pointer nên khi gán biến này cho biến khác, ta **copy pointer,
+KHÔNG copy object** — cả hai cùng trỏ tới **một** object trên heap:
 
 ```js
 const a = { x: 1 };
-const b = a; // b copy pointer, KHÔNG copy object
+const b = a; // b copy POINTER, không copy object
 
 b.x = 2;
-a.x; // 2 — a và b cùng trỏ tới object trên heap
+a.x; // 2 — a và b cùng trỏ tới một object trên heap
 ```
+
+Đây cũng là lý do so sánh hai object luôn cho `false` nếu chúng là hai object
+khác nhau trên heap — vì `===` so sánh **pointer**, không so sánh nội dung:
+
+```js
+{ x: 1 } === { x: 1 }; // false — hai object khác nhau trên heap
+const c = a;
+c === a;               // true — cùng một pointer
+```
+
+:::info[Phân tích]
+
+**Vì sao primitive ở stack, object ở heap?**
+
+Stack hoạt động theo nguyên tắc LIFO và cần **biết trước kích thước** của mỗi ô
+để push/pop chính xác. Primitive có kích thước cố định (một số `number` luôn 8
+byte) nên hợp với stack. Object/array có thể phình to tuỳ ý lúc chạy (thêm
+property, push phần tử) → không thể đặt cố định trên stack → phải nằm ở heap, nơi
+cấp phát linh hoạt.
+
+**Hệ quả thực tế cần nhớ:**
+
+- **Copy nông (shallow copy)**: `{ ...obj }` hay `[...arr]` chỉ copy pointer ở
+  tầng đầu. Object lồng bên trong vẫn dùng chung pointer → sửa object con sẽ ảnh
+  hưởng cả bản gốc. Cần **deep copy** (`structuredClone(obj)`) khi muốn tách hẳn.
+- **Truyền tham số**: truyền object vào hàm là truyền pointer → hàm sửa property
+  của object sẽ ảnh hưởng bên ngoài (theo nguyên tắc immutability nên trả về
+  object mới thay vì mutate).
+- **String "to" vẫn là primitive**: dù chuỗi dài, JS vẫn coi là giá trị bất biến
+  (immutable); engine có tối ưu lưu trữ riêng nhưng về mặt ngữ nghĩa nó so sánh
+  by value.
+
+:::
 
 ---
 
