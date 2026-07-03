@@ -33,6 +33,17 @@ biến *dữ liệu* của họ thành *lệnh*.
 > Giải pháp tổng quát: **tách bạch lệnh và dữ liệu**. Đưa dữ liệu cho hệ thống
 > *dưới dạng tham số*, không bao giờ *ghép chuỗi* nó vào lệnh.
 
+Cùng một input độc hại, hai con đường xử lý cho hai kết cục khác hẳn nhau:
+
+```mermaid
+flowchart TD
+    A["Input người dùng<br/>' OR '1'='1' --"] --> B{"Cách dựng câu SQL?"}
+    B -->|"Ghép chuỗi vào SQL"| C["DB hiểu input là LỆNH<br/>(điều kiện luôn đúng)"]
+    C --> D["Vượt xác thực,<br/>đọc/sửa/xoá dữ liệu"]
+    B -->|"Tham số hoá ($1, ?)"| E["Lệnh và dữ liệu<br/>đi TÁCH RIÊNG"]
+    E --> F["DB luôn coi input là DỮ LIỆU<br/>→ chỉ là chuỗi vô hại"]
+```
+
 ## SQL Injection
 
 **SQL injection (SQLi)** xảy ra khi input người dùng được ghép vào câu truy vấn

@@ -205,6 +205,20 @@ ROLLBACK;
 Trong PostgreSQL, mỗi câu lệnh SQL đơn lẻ (không có `BEGIN` tường minh) tự động chạy trong một transaction ẩn và tự COMMIT ngay. Đây gọi là **autocommit mode**.
 :::
 
+Vòng đời một transaction đi qua các trạng thái sau — chú ý nhánh **Aborted** khi gặp lỗi, lúc này mọi lệnh tiếp theo bị từ chối cho tới khi `ROLLBACK`:
+
+```mermaid
+stateDiagram-v2
+    [*] --> Active: BEGIN
+    Active --> Active: câu lệnh SQL chạy OK
+    Active --> Committed: COMMIT (lưu vĩnh viễn)
+    Active --> Aborted: câu lệnh lỗi<br/>(vi phạm constraint...)
+    Active --> RolledBack: ROLLBACK
+    Aborted --> RolledBack: ROLLBACK (bắt buộc)
+    Committed --> [*]
+    RolledBack --> [*]
+```
+
 ---
 
 ## SAVEPOINT — Điểm lưu giữa chừng
@@ -326,6 +340,14 @@ Khi PostgreSQL gặp lỗi vi phạm constraint bên trong một transaction, tr
 ## Deadlock — Khoá chết
 
 **Deadlock** xảy ra khi hai transaction chờ nhau giải phóng khoá, tạo thành vòng tròn chờ không bao giờ kết thúc.
+
+```mermaid
+flowchart LR
+    S1["Session 1<br/>giữ khoá ACC001"] -->|"chờ khoá ACC002"| S2["Session 2<br/>giữ khoá ACC002"]
+    S2 -->|"chờ khoá ACC001"| S1
+```
+
+Hai bên chờ nhau tạo thành vòng tròn — không ai nhả khoá. PostgreSQL phát hiện vòng lặp này và tự `ROLLBACK` một session để phá vỡ.
 
 ```sql
 -- Session 1

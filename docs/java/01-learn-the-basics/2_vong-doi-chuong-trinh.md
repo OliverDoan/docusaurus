@@ -70,6 +70,15 @@ File .java   →   javac (biên dịch)   →   File .class (bytecode)   →   J
 
 Ví dụ đời thường: bạn viết công thức nấu ăn bằng tiếng Việt (`.java`), một người dịch nó sang ngôn ngữ ký hiệu chung (`.class`), rồi đầu bếp ở bất kỳ nước nào cũng đọc được ký hiệu đó để nấu (JVM).
 
+Sơ đồ hoá toàn bộ hành trình từ code đến khi CPU thực thi:
+
+```mermaid
+flowchart LR
+    A["File .java<br/>(mã nguồn bạn viết)"] -->|"javac biên dịch"| B["File .class<br/>(bytecode)"]
+    B -->|"nạp vào"| C["JVM<br/>(Windows / macOS / Linux)"]
+    C -->|"JIT dịch nóng"| D["Mã máy<br/>(CPU thực thi)"]
+```
+
 ---
 
 ## Bước 1: Viết mã nguồn .java
@@ -145,6 +154,19 @@ Ba khái niệm này hay gây nhầm lẫn. Hãy hình dung chúng lồng nhau n
 - **JVM** (Java Virtual Machine): chạy bytecode. Đây là lõi trong cùng.
 - **JRE** (Java Runtime Environment — Môi trường chạy Java): gồm JVM + các **thư viện** (library — code viết sẵn để tái sử dụng) cần thiết để chạy chương trình. Chỉ cần JRE là chạy được app Java.
 - **JDK** (Java Development Kit — Bộ công cụ phát triển Java): gồm JRE + các công cụ để **viết và biên dịch** như `javac`. Người lập trình cần cài JDK.
+
+Sơ đồ ba lớp lồng nhau — JDK bao ngoài cùng, JVM là lõi trong cùng:
+
+```mermaid
+flowchart TD
+    subgraph JDK["JDK — bộ công cụ phát triển"]
+        T["javac + các công cụ dev khác"]
+        subgraph JRE["JRE — môi trường chạy"]
+            L["Thư viện chuẩn"]
+            V["JVM — máy ảo chạy bytecode"]
+        end
+    end
+```
 
 Tóm gọn: muốn **chạy** app → cần JRE; muốn **lập trình** → cần JDK.
 

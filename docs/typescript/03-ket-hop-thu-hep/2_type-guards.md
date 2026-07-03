@@ -86,6 +86,23 @@ function format(x: string | number) {
 TS tự động theo dõi dòng chảy code (**control flow analysis**) để biết
 type tại mỗi điểm.
 
+Sơ đồ dưới đây giúp chọn nhanh loại guard phù hợp cho từng tình huống — tất cả đều dẫn về cùng một đích: trong nhánh đã kiểm tra, TS biết kiểu cụ thể:
+
+```mermaid
+flowchart TD
+    A["Biến kiểu union<br/>cần thu hẹp"] --> B{"Giá trị thuộc loại nào?"}
+    B -->|"primitive"| C["typeof x === 'string'"]
+    B -->|"class instance"| D["x instanceof Dog"]
+    B -->|"object có field riêng"| E["'permissions' in x"]
+    B -->|"union có tag chung"| F["switch (x.kind)<br/>discriminated union"]
+    B -->|"logic phức tạp"| G["custom guard<br/>isFish(x): x is Fish"]
+    C --> H["Trong nhánh đã check:<br/>TS narrow về kiểu cụ thể"]
+    D --> H
+    E --> H
+    F --> H
+    G --> H
+```
+
 ---
 
 ## typeof guard

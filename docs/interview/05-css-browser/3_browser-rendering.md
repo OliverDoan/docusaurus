@@ -26,6 +26,19 @@ title: "3. Browser Rendering Pipeline"
 5. **Paint** — fill pixel vào layer.
 6. **Composite** — combine các layer thành frame cuối.
 
+```mermaid
+flowchart LR
+    HTML["HTML"] --> DOM["DOM tree"]
+    CSS["CSS"] --> CSSOM["CSSOM tree"]
+    DOM --> RT["Render tree<br/>(Style)"]
+    CSSOM --> RT
+    RT --> Layout["Layout<br/>(position, size)"]
+    Layout --> Paint["Paint<br/>(fill pixel)"]
+    Paint --> Composite["Composite<br/>(ghép layer → frame)"]
+```
+
+Biết mỗi thay đổi style "nhảy vào" pipeline từ bước nào giải thích vì sao `transform`/`opacity` (chỉ Composite) rẻ hơn nhiều so với đổi `width`/`top` (phải chạy lại từ Layout):
+
 Thay đổi style có thể trigger lại bước nào:
 
 | Property change | Step trigger              |

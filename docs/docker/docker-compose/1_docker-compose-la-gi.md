@@ -342,6 +342,19 @@ web ──── "db:5432" ────→ db (PostgreSQL)
 web ──── "cache:6379" ──→ cache (Redis)
 ```
 
+Ghép lại với ví dụ web + worker + db + cache ở đầu bài, toàn bộ hệ thống Compose dựng lên trông như sau — chỉ `web` mở port ra ngoài, các service còn lại nói chuyện với nhau qua network nội bộ:
+
+```mermaid
+flowchart TD
+    U["Trình duyệt<br/>localhost:3000"] -->|"ports 3000:3000"| W
+    subgraph NET["Network tự tạo (myproject_default)"]
+        W["web"] -->|"db:5432"| DB["db<br/>(PostgreSQL)"]
+        W -->|"cache:6379"| C["cache<br/>(Redis)"]
+        WK["worker"] -->|"cache:6379"| C
+    end
+    DB --> V[("volume<br/>pgdata")]
+```
+
 ### Tên mạng
 
 ```bash

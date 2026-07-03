@@ -61,6 +61,22 @@ res.send(`<div>Bình luận: ${comment}</div>`)
 // → script chạy trên trình duyệt mọi người xem trang, gửi cookie đi
 ```
 
+Sơ đồ dưới đây tóm tắt luồng tấn công **Stored XSS** — từ lúc kẻ tấn công gửi
+bình luận độc tới lúc cookie của nạn nhân bị đánh cắp:
+
+```mermaid
+sequenceDiagram
+    participant A as Kẻ tấn công
+    participant S as Server
+    participant V as Trình duyệt nạn nhân
+    A->>S: 1. Gửi bình luận chứa script độc
+    Note over S: Lưu thẳng vào DB<br/>(không escape/sanitize)
+    V->>S: 2. Xem trang có bình luận
+    S-->>V: 3. HTML chứa script độc
+    Note over V: Script chạy với quyền<br/>và origin của nạn nhân
+    V->>A: 4. Gửi cookie/token về server kẻ tấn công
+```
+
 ## Phòng thủ: escape theo ngữ cảnh
 
 Nguyên tắc cốt lõi: **escape (thoát ký tự) dữ liệu theo đúng ngữ cảnh nơi nó được

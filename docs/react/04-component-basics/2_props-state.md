@@ -152,6 +152,14 @@ function Counter() {
 Khi setter được gọi → React **schedule re-render** → component chạy lại
 → JSX mới render.
 
+```mermaid
+flowchart TD
+    A["User tương tác<br/>(click, gõ phím...)"] --> B["Gọi setCount(giá trị mới)"]
+    B --> C["React schedule re-render<br/>(batch nhiều setState liên tiếp)"]
+    C --> D["Component function chạy lại<br/>useState trả giá trị MỚI"]
+    D --> E["JSX mới → diff → update DOM"]
+```
+
 :::warning[Cần lưu ý]
 
 **Setter là async + batched**. Đừng dựa vào state cũ sau khi gọi:
@@ -321,6 +329,17 @@ Pattern:
 
 - **State down** — prop.
 - **Event up** — callback.
+
+Đây chính là luồng dữ liệu **một chiều** của React — dữ liệu đi xuống qua
+props, sự kiện báo ngược lên qua callback:
+
+```mermaid
+flowchart TD
+    App["App<br/>(giữ state: filter, setFilter)"]
+    App -->|"props: value={filter}"| SearchBar["SearchBar"]
+    App -->|"props: filter={filter}"| ItemList["ItemList"]
+    SearchBar -.->|"event: onChange(text)<br/>gọi callback lên cha"| App
+```
 
 :::info[Phân tích]
 

@@ -65,6 +65,24 @@ Producer → [Event] → Topic → Subscriber1 (nhận tất cả)
 
 Mỗi event broadcast đến **tất cả subscriber**.
 
+Điểm khác biệt cốt lõi giữa hai pattern: Queue chia việc (mỗi job **một** consumer), còn Pub/Sub phát tán (mỗi event tới **mọi** subscriber):
+
+```mermaid
+flowchart LR
+    subgraph Q["Queue — mỗi job 1 consumer"]
+        P1["Producer"] --> QU["Queue"]
+        QU -->|"Job 1"| C1["Consumer 1"]
+        QU -->|"Job 2"| C2["Consumer 2"]
+        QU -->|"Job 3"| C3["Consumer 3"]
+    end
+    subgraph PS["Pub/Sub — mỗi event tới mọi subscriber"]
+        P2["Producer"] --> T["Topic"]
+        T -->|"Event"| S1["Subscriber 1"]
+        T -->|"Event"| S2["Subscriber 2"]
+        T -->|"Event"| S3["Subscriber 3"]
+    end
+```
+
 **3. Stream** (Event log):
 
 ```

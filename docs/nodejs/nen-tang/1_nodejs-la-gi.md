@@ -116,6 +116,18 @@ Tiếp tục xử lý
 Đọc file xong: [nội dung file]
 ```
 
+Sơ đồ dưới đây mô tả luồng xử lý của ví dụ trên — vì sao `Tiếp tục xử lý` in ra trước khi file đọc xong:
+
+```mermaid
+flowchart TD
+    A["Code JS gọi fs.readFile()"] --> B["Node.js API"]
+    B --> C["libuv giao việc I/O cho<br/>Thread Pool / OS"]
+    B --> D["Luồng chính chạy tiếp ngay<br/>console.log('Tiếp tục xử lý')"]
+    C -->|"I/O hoàn thành"| E["Callback được đưa vào<br/>Callback Queue"]
+    E --> F["Event Loop"]
+    F -->|"Call Stack rảnh"| G["Chạy callback:<br/>'Đọc file xong'"]
+```
+
 ## Cài đặt Node.js
 
 ### Cách 1: Tải từ trang chủ

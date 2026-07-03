@@ -126,6 +126,26 @@ users                         orders
                               └──────────┴─────────┴────────────────┴──────────┘
 ```
 
+Quan hệ giữa hai bảng: một `users` có nhiều `orders` (quan hệ 1–n), liên kết qua khoá ngoại `orders.user_id` trỏ về `users.user_id`:
+
+```mermaid
+erDiagram
+    users ||--o{ orders : "đặt (user_id)"
+    users {
+        int user_id PK
+        text name
+        text email
+    }
+    orders {
+        int order_id PK
+        int user_id FK
+        text product
+        numeric amount
+    }
+```
+
+Ký hiệu `||--o{` nghĩa là: một user (`||` — đúng một) có thể có **không hoặc nhiều** đơn (`o{`) — chính là quan hệ một-nhiều mà JOIN dùng để ghép lại.
+
 ---
 
 ## INNER JOIN

@@ -111,6 +111,20 @@ Facebook, Instagram, Messenger, Discord, Shopify, Microsoft Teams, Walmart, Tesl
               (giao tiep 2 chieu)
 ```
 
+```mermaid
+flowchart LR
+    subgraph JS["JavaScript Thread"]
+        RC["React Components<br/>+ business logic"]
+        Hermes["Hermes<br/>(JS engine)"]
+    end
+    subgraph Native["Native Thread"]
+        UI["Native UI<br/>(UIView / Android View)"]
+        Mod["Native Modules<br/>(Camera, GPS...)"]
+    end
+    RC <-->|"Bridge (cũ): JSON, async<br/>JSI (mới): gọi C++, sync"| UI
+    RC <-->|"gọi tính năng thiết bị"| Mod
+```
+
 **Giải thích thuật ngữ:**
 
 - **Bridge** (kiến trúc cũ): cầu nối JS ↔ Native qua message JSON, async
@@ -118,6 +132,21 @@ Facebook, Instagram, Messenger, Discord, Shopify, Microsoft Teams, Walmart, Tesl
 - **Fabric**: renderer mới của RN
 - **TurboModules**: native module thế hệ mới qua JSI
 - **Hermes**: JS engine của RN (thay JSC, V8) -- nhẹ, start nhanh
+
+So sánh cách giao tiếp giữa hai kiến trúc — điểm nghẽn của Bridge cũ là phải tuần tự hoá JSON và chạy bất đồng bộ:
+
+```mermaid
+flowchart TB
+    subgraph Old["Kiến trúc cũ (Bridge)"]
+        direction LR
+        JS1["JS"] -->|"tuần tự hoá JSON<br/>(async, có độ trễ)"| B(["Bridge"])
+        B --> N1["Native"]
+    end
+    subgraph New["New Architecture (JSI)"]
+        direction LR
+        JS2["JS"] <-->|"gọi C++ trực tiếp<br/>(sync, gần như zero overhead)"| N2["Native<br/>Fabric + TurboModules"]
+    end
+    Old --> New
 
 ---
 

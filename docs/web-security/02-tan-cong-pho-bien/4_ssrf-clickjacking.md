@@ -40,6 +40,17 @@ app.get('/fetch', async (req, res) => {
 // → truy cập "metadata endpoint" nội bộ của cloud, lấy credential
 ```
 
+Kẻ tấn công không với tới được mạng nội bộ, nhưng **mượn tay server** thì được:
+
+```mermaid
+flowchart LR
+    A["Kẻ tấn công"] -->|"1. ?url=http://169.254.169.254"| S["Server ứng dụng<br/>(được tin trong mạng nội bộ)"]
+    S -->|"2. Server tự fetch(url)"| M["Metadata endpoint /<br/>dịch vụ nội bộ"]
+    M -->|"3. Credential nhạy cảm"| S
+    S -->|"4. Trả kết quả về"| A
+    A -.->|"Gọi trực tiếp: BỊ firewall chặn"| M
+```
+
 Các tình huống dễ dính SSRF: tính năng tải ảnh từ URL, webhook, "xem trước link",
 import từ URL, chuyển đổi tài liệu...
 

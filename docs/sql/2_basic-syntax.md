@@ -145,6 +145,23 @@ Tên cột và tên bảng trong PostgreSQL mặc định được convert sang 
 Học SQL theo nhóm DQL → DML → DDL sẽ nhanh hơn học từng keyword rời. DQL (Data Query Language) là nhóm dùng hằng ngày nhất — nắm chắc `SELECT` trước, mọi thứ còn lại sẽ logic hơn.
 :::
 
+:::info[Thứ tự thực thi khác thứ tự viết]
+
+Ta **viết** `SELECT` đầu tiên, nhưng DB engine lại **thực thi** `FROM` trước rồi mới tới `SELECT` gần cuối. Hiểu thứ tự logic này giải thích vì sao không dùng được alias đặt ở `SELECT` trong `WHERE` (vì `WHERE` chạy trước `SELECT`):
+
+```mermaid
+flowchart TD
+    F["1. FROM / JOIN<br/>lấy & ghép bảng nguồn"] --> W["2. WHERE<br/>lọc từng hàng"]
+    W --> G["3. GROUP BY<br/>gom nhóm"]
+    G --> H["4. HAVING<br/>lọc sau khi gom nhóm"]
+    H --> S["5. SELECT<br/>chọn cột, tính alias"]
+    S --> D["6. DISTINCT<br/>loại trùng"]
+    D --> O["7. ORDER BY<br/>sắp xếp"]
+    O --> L["8. LIMIT / OFFSET<br/>cắt trang"]
+```
+
+:::
+
 ---
 
 ## Kiểu dữ liệu trong PostgreSQL

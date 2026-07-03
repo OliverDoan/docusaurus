@@ -172,6 +172,20 @@ Khi container chạy, Docker thêm một **writable layer** lên trên các imag
 | **Stopped** | Đã dừng           | `docker stop`      | `docker start/rm`  |
 | **Removed** | Đã xoá            | `docker rm`        | —                  |
 
+Sơ đồ trạng thái dưới đây gom toàn bộ vòng đời và lệnh chuyển trạng thái tương ứng:
+
+```mermaid
+stateDiagram-v2
+    [*] --> Created: docker create
+    Created --> Running: docker start
+    Running --> Paused: docker pause
+    Paused --> Running: docker unpause
+    Running --> Running: docker restart
+    Running --> Stopped: docker stop / kill
+    Stopped --> Running: docker start
+    Stopped --> [*]: docker rm
+```
+
 ---
 
 ## 4. docker run chi tiết

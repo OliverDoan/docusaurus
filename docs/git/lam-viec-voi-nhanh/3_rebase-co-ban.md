@@ -239,6 +239,24 @@ main: A---B---C---D---E---F'---G'---H'
 # Một đường thẳng hoàn hảo!
 ```
 
+Sơ đồ so sánh trước và sau khi rebase — chú ý các commit F, G trở thành F', G' với hash mới:
+
+```mermaid
+flowchart TB
+    subgraph truoc["Trước rebase (feature tách từ C)"]
+        direction LR
+        A1["A"] --> B1["B"] --> C1["C"]
+        C1 --> D1["D"] --> E1["E (main)"]
+        C1 --> F1["F"] --> G1["G (feature)"]
+    end
+    subgraph sau["Sau rebase (lịch sử thẳng)"]
+        direction LR
+        A2["A"] --> B2["B"] --> C2["C"] --> D2["D"] --> E2["E (main)"]
+        E2 --> F2["F' (hash mới)"] --> G2["G' (feature)"]
+    end
+    truoc -.->|"git rebase main"| sau
+```
+
 ### 3.3. Khi nào dùng merge, khi nào dùng rebase?
 
 **Dùng MERGE khi:**

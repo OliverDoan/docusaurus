@@ -231,6 +231,23 @@ Các nhánh chính bạn sẽ học trong chương này:
 - **Map** (ánh xạ — cặp khóa-giá trị): ví dụ `HashMap`, `TreeMap`.
 - **Queue** (hàng đợi) và **Deque** (hàng đợi hai đầu): xử lý dữ liệu theo thứ tự vào/ra.
 
+Sơ đồ phân cấp giúp bạn định vị ArrayList trong bức tranh chung — lưu ý `Map` là nhánh riêng, không kế thừa `Collection`:
+
+```mermaid
+flowchart TD
+    I["Iterable"] --> C["Collection"]
+    C --> L["List<br/>(có thứ tự, cho trùng lặp)"]
+    C --> S["Set<br/>(không trùng lặp)"]
+    C --> Q["Queue / Deque<br/>(hàng đợi)"]
+    L --> AL["ArrayList"]
+    L --> LL["LinkedList"]
+    S --> HS["HashSet"]
+    S --> TS["TreeSet"]
+    Q --> AD["ArrayDeque"]
+    M["Map<br/>(cặp khóa - giá trị)"] --> HM["HashMap"]
+    M --> TM["TreeMap"]
+```
+
 Tất cả đều giúp bạn không phải tự viết lại các cấu trúc dữ liệu phức tạp.
 
 ---

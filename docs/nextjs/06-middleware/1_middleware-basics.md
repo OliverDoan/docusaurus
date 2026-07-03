@@ -90,6 +90,19 @@ Request → Middleware → Match route → Render → Response
        Có thể: redirect, rewrite, set header, response sớm
 ```
 
+Sơ đồ vòng đời request khi đi qua middleware — 4 hướng xử lý có thể xảy ra:
+
+```mermaid
+flowchart LR
+    R["Request"] --> M["middleware.ts<br/>(Edge Runtime)"]
+    M -->|"NextResponse.next()"| RT["Match route<br/>→ Render"]
+    RT --> RES["Response"]
+    M -->|"redirect()"| RD["Chuyển hướng<br/>(vd: /login)"]
+    M -->|"rewrite()"| RW["Đổi path nội bộ,<br/>URL giữ nguyên"]
+    RW --> RT
+    M -->|"Response sớm"| ER["Trả về ngay<br/>(vd: 403, 429)"]
+```
+
 Middleware chạy trên **Edge Runtime** (mặc định) → cực nhanh, gần user.
 
 ---

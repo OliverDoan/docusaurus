@@ -85,6 +85,21 @@ Middleware là hàm có quyền truy cập `req`, `res`, và hàm `next()`. Chú
 Request → Middleware 1 → Middleware 2 → Route Handler → Response
 ```
 
+Sơ đồ chuỗi middleware — mỗi hàm gọi `next()` để chuyển tiếp, hoặc trả response sớm, hoặc đẩy lỗi xuống error handler:
+
+```mermaid
+flowchart TD
+    REQ["Request"] --> MW1["Middleware 1<br/>(express.json)"]
+    MW1 -->|"next()"| MW2["Middleware 2<br/>(logger, requireAuth...)"]
+    MW2 -->|"next()"| RH["Route Handler"]
+    RH --> RES["Response"]
+    MW2 -->|"trả response sớm<br/>(vd: 401 thiếu token)"| RES
+    MW1 -.->|"next(err)"| EH["Error Handler<br/>(err, req, res, next)"]
+    MW2 -.->|"next(err)"| EH
+    RH -.->|"next(err)"| EH
+    EH --> RES
+```
+
 ## Cấu trúc Middleware
 
 ```js

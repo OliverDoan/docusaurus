@@ -315,6 +315,13 @@ Thứ tự tìm kiếm: **inner → outer → ... → global**.
 
 Nếu không tìm thấy, JS ném `ReferenceError`.
 
+```mermaid
+flowchart BT
+    I["inner() scope<br/>const b = 'B'"] -->|"không thấy → tìm lên scope cha"| O["outer() scope<br/>const a = 'A'"]
+    O -->|"không thấy → tìm lên tiếp"| G["Global scope<br/>const global = 'G'"]
+    G -->|"vẫn không thấy"| R["ReferenceError"]
+```
+
 :::info[Phân tích]
 
 Tại runtime, mỗi function call tạo một **Lexical Environment** chứa:

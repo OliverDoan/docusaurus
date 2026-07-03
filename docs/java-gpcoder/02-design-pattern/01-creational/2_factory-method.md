@@ -24,6 +24,39 @@ Ví dụ: Một hệ thống thanh toán cần hỗ trợ nhiều phương thứ
 - **Creator**: Lớp trừu tượng khai báo `factoryMethod()` trả về Product.
 - **ConcreteCreator**: Lớp con override `factoryMethod()` để trả về ConcreteProduct cụ thể.
 
+```mermaid
+classDiagram
+    class PaymentMethod {
+        <<interface>>
+        +pay(double amount)
+    }
+    class VNPayPayment {
+        +pay(double amount)
+    }
+    class MoMoPayment {
+        +pay(double amount)
+    }
+    class PaymentProcessor {
+        <<abstract>>
+        +createPayment() PaymentMethod
+        +processPayment(double)
+    }
+    class VNPayProcessor {
+        +createPayment() PaymentMethod
+    }
+    class MoMoProcessor {
+        +createPayment() PaymentMethod
+    }
+    PaymentMethod <|.. VNPayPayment
+    PaymentMethod <|.. MoMoPayment
+    PaymentProcessor <|-- VNPayProcessor
+    PaymentProcessor <|-- MoMoProcessor
+    VNPayProcessor ..> VNPayPayment : tạo
+    MoMoProcessor ..> MoMoPayment : tạo
+```
+
+Mỗi `ConcreteCreator` quyết định tạo ra `ConcreteProduct` nào — phần code dùng chung ở `PaymentProcessor` chỉ làm việc với interface `PaymentMethod`.
+
 ## Ví dụ Java
 
 ```java

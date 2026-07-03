@@ -85,6 +85,18 @@ release **mà không cần** nhóm A/B/C build lại gì cả.
 > khung: tải các mảnh, sắp xếp layout, lo điều hướng chung. Ta sẽ gặp lại khái
 > niệm shell ở phần Module Federation.
 
+Sơ đồ dưới đây cho thấy shell là "nhạc trưởng" tải và sắp xếp các mảnh, mỗi mảnh do một nhóm sở hữu và deploy riêng:
+
+```mermaid
+flowchart TD
+    Shell["Shell / Container app<br/>(layout + điều hướng chung)"]
+    Shell --> MF1["Header / Navbar<br/>Nhóm A"]
+    Shell --> MF2["Danh sách sản phẩm<br/>Nhóm B"]
+    Shell --> MF3["Gợi ý sản phẩm<br/>Nhóm C"]
+    Shell --> MF4["Giỏ hàng mini<br/>Nhóm D"]
+    MF4 -.->|"deploy riêng,<br/>không đụng A/B/C"| Deploy(("Release<br/>độc lập"))
+```
+
 ## Liên hệ với microservices
 
 | | Microservices (backend) | Micro-frontend (frontend) |

@@ -219,6 +219,17 @@ khuyến nghị từ team Redux. Đã bao gồm Immer + Thunk + DevTools.
 npm install @reduxjs/toolkit react-redux
 ```
 
+Redux theo **Flux pattern** — luồng dữ liệu một chiều khép kín, mọi thay
+đổi state đều đi qua action → reducer nên dễ trace và debug:
+
+```mermaid
+flowchart LR
+    V["View<br/>(component)"] -->|"dispatch(action)"| A["Action<br/>(mô tả chuyện gì xảy ra)"]
+    A --> R["Reducer<br/>(state cũ + action → state mới)"]
+    R --> S["Store<br/>(giữ state mới)"]
+    S -->|"useSelector → re-render"| V
+```
+
 ```jsx
 import { createSlice, configureStore } from "@reduxjs/toolkit";
 import { Provider, useSelector, useDispatch } from "react-redux";

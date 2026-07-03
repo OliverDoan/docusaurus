@@ -107,7 +107,17 @@ Web app có nhiều layer cache:
 [Database storage]
 ```
 
-Mỗi layer giảm load cho layer dưới. Cache đúng = **10-100x faster**.
+```mermaid
+flowchart TD
+    B["Browser cache"] -->|"miss"| CDN["CDN cache<br/>(CloudFlare, CloudFront)"]
+    CDN -->|"miss"| RP["Reverse Proxy cache<br/>(Nginx, Varnish)"]
+    RP -->|"miss"| App["Application cache<br/>(in-memory, LRU)"]
+    App -->|"miss"| Dist["Distributed cache<br/>(Redis, Memcached)"]
+    Dist -->|"miss"| QC["Database query cache"]
+    QC -->|"miss"| DB[("Database storage")]
+```
+
+Mỗi layer giảm load cho layer dưới — request chỉ đi sâu xuống khi tầng trên "miss". Cache đúng = **10-100x faster**.
 
 ---
 

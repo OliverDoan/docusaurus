@@ -85,6 +85,16 @@ làm được).
                          xong ► trả kết quả
 ```
 
+```mermaid
+flowchart LR
+    Goal(["Mục tiêu"]) --> R["Suy nghĩ<br/>(Reason)"]
+    R --> A["Hành động<br/>(gọi tool)"]
+    A --> O["Quan sát<br/>(kết quả tool)"]
+    O --> C{"Đã xong?"}
+    C -->|"Chưa → lặp lại"| R
+    C -->|"Rồi"| Done(["Trả kết quả"])
+```
+
 Ví dụ cụ thể với yêu cầu *"Sửa lỗi khiến test thất bại"*:
 
 1. **Suy nghĩ**: cần xem test nào đang fail → **Hành động**: chạy lệnh test →

@@ -48,6 +48,20 @@ git push          # ĐẨY commit local lên remote cho cả nhóm
 
 Điểm mấu chốt là tách **`fetch`** (chỉ tải về, không đụng code) khỏi **`pull`** (tải về và gộp luôn). Phân biệt được hai lệnh này giúp bạn **kiểm soát** thời điểm gộp code, tránh conflict bất ngờ.
 
+Sơ đồ tổng quan: 3 vùng local kết nối với remote qua 4 lệnh đồng bộ:
+
+```mermaid
+flowchart LR
+    subgraph local["Máy của bạn (Local)"]
+        WD["Working<br/>Directory"] -->|"git add"| SA["Staging<br/>Area"]
+        SA -->|"git commit"| LREPO["Local<br/>Repository"]
+    end
+    RM["Remote Repository<br/>(GitHub / GitLab)"]
+    LREPO -->|"git push"| RM
+    RM -->|"git fetch<br/>(chỉ tải về)"| LREPO
+    RM -->|"git clone / git pull<br/>(cập nhật cả code)"| WD
+```
+
 :::tip[Dùng thực tế]
 
 - **Clone dự án về máy mới:** `git clone <url>` để có toàn bộ code và lịch sử.

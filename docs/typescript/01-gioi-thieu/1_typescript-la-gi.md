@@ -66,6 +66,16 @@ trình chạy gồm 3 bước:
 [file .ts]  →  tsc (compiler)  →  [file .js]  →  Node / Browser chạy
 ```
 
+Sơ đồ dưới đây tóm tắt luồng biên dịch: `tsc` vừa **check type** (báo lỗi ngay lúc compile), vừa **sinh ra file .js** đã bị xoá sạch type để runtime chạy:
+
+```mermaid
+flowchart LR
+    A["File .ts<br/>(có type annotation)"] --> B["tsc (compiler)"]
+    B --> C["Type check<br/>báo lỗi ngay lúc compile"]
+    B --> D["File .js<br/>(type bị xoá sạch — type erasure)"]
+    D --> E["Node / Browser<br/>chạy tại runtime"]
+```
+
 :::info[Phân tích]
 
 **Type erasure**: tất cả type annotation (`: string`, `: number`,

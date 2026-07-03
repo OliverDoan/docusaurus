@@ -46,6 +46,28 @@ const decoded = jwt.verify(token, process.env.JWT_SECRET);
 req.user = decoded; // Không cần truy vấn store nào cả
 ```
 
+Luồng xác thực JWT đầy đủ, từ đăng nhập đến truy cập route được bảo vệ:
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as Server
+    participant DB as Database
+
+    C->>S: POST /login (email, password)
+    S->>DB: Tìm user theo email
+    DB-->>S: user (password đã hash)
+    S->>S: bcrypt.compare(password, hash)
+    S->>S: jwt.sign(payload, JWT_SECRET)
+    S-->>C: Trả token (JWT)
+
+    Note over C,S: Các request sau (stateless)
+
+    C->>S: GET /profile<br/>Authorization: Bearer token
+    S->>S: jwt.verify(token, JWT_SECRET)<br/>không cần tra session store
+    S-->>C: 200 dữ liệu user (hoặc 401 nếu token sai/hết hạn)
+```
+
 :::tip[Dùng thực tế]
 
 - **API stateless nhiều server:** không cần session store dùng chung, scale ngang thoải mái.

@@ -92,6 +92,37 @@ Git Flow là mô hình phân nhánh được **Vincent Driessen** giới thiệu
 +------------------------------------------------------------------+
 ```
 
+Sơ đồ Git minh họa một vòng đời Git Flow đầy đủ — từ feature đến release, rồi hotfix:
+
+```mermaid
+gitGraph
+    commit id: "init"
+    branch develop
+    checkout develop
+    commit id: "dev-1"
+    branch feature/login
+    checkout feature/login
+    commit id: "login-1"
+    commit id: "login-2"
+    checkout develop
+    merge feature/login id: "merge feature"
+    branch release/1.0
+    checkout release/1.0
+    commit id: "fix-bug"
+    checkout main
+    merge release/1.0 id: "release" tag: "v1.0.0"
+    checkout develop
+    merge release/1.0 id: "sync develop"
+    checkout main
+    branch hotfix/crash
+    checkout hotfix/crash
+    commit id: "fix-crash"
+    checkout main
+    merge hotfix/crash id: "hotfix" tag: "v1.0.1"
+    checkout develop
+    merge hotfix/crash id: "sync hotfix"
+```
+
 **Ý tưởng cốt lõi:** Tách biệt hoàn toàn giữa code đang phát triển (develop), code đã sẵn sàng (release), và code đang chạy trên production (main).
 
 ---

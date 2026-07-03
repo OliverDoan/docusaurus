@@ -141,6 +141,19 @@ Stage 1 (builder):                    Stage 2 (production):
 
 **Chỉ stage cuối cùng** trở thành image. Các stages trước chỉ là bước trung gian.
 
+```mermaid
+flowchart LR
+    subgraph S1["Stage 1 — builder (node:20-alpine)"]
+        A["source code<br/>+ node_modules<br/>+ build tools"] -->|"npm run build"| D["dist/"]
+    end
+    subgraph S2["Stage 2 — production (nginx:alpine)"]
+        E["chỉ chứa dist/"]
+    end
+    D -->|"COPY --from=builder"| E
+    S2 --> F["Image cuối ~50MB"]
+    S1 -.->|"bị loại bỏ, không vào image cuối"| G(("X"))
+```
+
 ---
 
 ## 3. Cú pháp

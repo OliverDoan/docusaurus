@@ -94,6 +94,18 @@ Quá trình React render component:
 5. Run effects (useEffect, useLayoutEffect)
 ```
 
+Hình dung luồng render — chú ý vòng lặp: nếu effect lại gọi `setState`,
+chu trình bắt đầu lại từ đầu:
+
+```mermaid
+flowchart LR
+    A["1. Trigger<br/>(mount / state / props đổi)"] --> B["2. Render<br/>(gọi component, trả JSX)"]
+    B --> C["3. Reconciliation<br/>(diff Virtual DOM cũ vs mới)"]
+    C --> D["4. Commit<br/>(apply thay đổi lên DOM thật)"]
+    D --> E["5. Run effects<br/>(useEffect, useLayoutEffect)"]
+    E -.->|"setState trong effect"| A
+```
+
 ---
 
 ## 3 giai đoạn lifecycle
@@ -103,6 +115,22 @@ Quá trình React render component:
 | **Mount** | Lần đầu render | `useEffect(() => {}, [])` |
 | **Update** | Props/state đổi | `useEffect(() => {}, [deps])` |
 | **Unmount** | Component bị remove | `useEffect` return cleanup |
+
+Ba giai đoạn này nối tiếp nhau như một máy trạng thái — component có thể
+update nhiều lần trước khi unmount:
+
+```mermaid
+stateDiagram-v2
+    [*] --> Mount : lần đầu render
+    Mount --> Update : props/state đổi
+    Update --> Update : props/state đổi tiếp
+    Mount --> Unmount : bị gỡ khỏi UI
+    Update --> Unmount : bị gỡ khỏi UI
+    Unmount --> [*]
+    note right of Mount : useEffect(..., []) chạy sau render đầu
+    note right of Update : useEffect(..., [deps]) chạy lại khi deps đổi
+    note right of Unmount : cleanup function chạy
+```
 
 ---
 

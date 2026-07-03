@@ -126,6 +126,20 @@ nghị** cho token phiên.
 
 ## So sánh & khi nào dùng gì
 
+Khác biệt cốt lõi nằm ở cách server **xác minh danh tính** mỗi request:
+
+```mermaid
+flowchart TD
+    subgraph SS["Session phía server (stateful)"]
+        A1["Client gửi cookie<br/>session=abc"] --> A2["Server tra session store<br/>(Redis/DB)"]
+        A2 --> A3["Tìm thấy phiên<br/>→ biết userId"]
+    end
+    subgraph JW["JWT (stateless)"]
+        B1["Client gửi token<br/>header.payload.signature"] --> B2["Server xác minh chữ ký<br/>bằng secret"]
+        B2 --> B3["Chữ ký hợp lệ → tin payload<br/>(không cần tra DB)"]
+    end
+```
+
 | | Session phía server | JWT |
 | --- | --- | --- |
 | Trạng thái | Lưu ở server | Không cần (tự chứa) |

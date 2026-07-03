@@ -125,6 +125,19 @@ arr  → Array.prototype  → Object.prototype → null
 fn   → Function.prototype → Object.prototype → null
 ```
 
+```mermaid
+flowchart LR
+    user["user<br/>{ name: 'An' }"] --> objProto
+    arr["arr<br/>[1, 2, 3]"] --> arrProto["Array.prototype<br/>map, filter, push..."]
+    fn["fn<br/>function"] --> fnProto["Function.prototype<br/>call, apply, bind..."]
+    arrProto --> objProto["Object.prototype<br/>toString, hasOwnProperty..."]
+    fnProto --> objProto
+    objProto --> null1(("null"))
+```
+
+Mọi mũi tên trên đều là `[[Prototype]]` — khi không tìm thấy property,
+JS đi theo mũi tên cho đến khi gặp `null`.
+
 ---
 
 ## Tạo object với prototype tùy chỉnh
@@ -250,6 +263,15 @@ User.prototype.__proto__ === Object.prototype; // true
 ```
 
 → Chain của `u`: `u → User.prototype → Object.prototype → null`.
+
+```mermaid
+flowchart LR
+    User["function User() {}"] -->|".prototype"| Up["User.prototype"]
+    Up -->|".constructor"| User
+    u["u = new User()"] -->|"__proto__"| Up
+    Up -->|"__proto__"| Op["Object.prototype"]
+    Op -->|"__proto__"| N(("null"))
+```
 
 Hiểu được hai khái niệm này tách bạch là dấu hiệu nắm chắc JS — phân
 biệt junior và mid/senior.

@@ -91,6 +91,16 @@ git commit -m "feat: them tinh nang dang ky"      # snapshot riêng, gọn gàng
                                                             --staged
 ```
 
+Sơ đồ tổng quan dòng chảy giữa 3 vùng:
+
+```mermaid
+flowchart LR
+    WD["Working Directory<br/>(nơi bạn viết & sửa code)"] -->|"git add"| SA["Staging Area<br/>(Index — chuẩn bị commit)"]
+    SA -->|"git commit"| REPO["Repository<br/>(.git — lưu vĩnh viễn)"]
+    SA -.->|"git restore --staged"| WD
+    REPO -.->|"git restore"| WD
+```
+
 ### 1.1 Working Directory (Thư mục làm việc)
 
 Đây là **thư mục thực** trên máy tính của bạn — nơi bạn mở file, viết code, sửa lỗi.
@@ -649,6 +659,18 @@ Tổng hợp trạng thái của file trong Git:
                         |   git rm       |                |               |
                         |<---------------|                |               |
                         |                |                |               |
+```
+
+Vòng đời của một file trong Git dưới dạng sơ đồ trạng thái:
+
+```mermaid
+stateDiagram-v2
+    [*] --> Untracked: tạo file mới
+    Untracked --> Staged: git add
+    Staged --> Unmodified: git commit
+    Unmodified --> Modified: sửa file
+    Modified --> Staged: git add
+    Unmodified --> Untracked: git rm --cached
 ```
 
 | Trạng thái     | Mô tả                             | Hiển thị trong `git status`       |

@@ -147,6 +147,18 @@ Promise + async/await ra đời để giải quyết.
 - **Fulfilled** — thành công (có giá trị).
 - **Rejected** — thất bại (có lý do).
 
+```mermaid
+stateDiagram-v2
+    [*] --> Pending: new Promise(executor)
+    Pending --> Fulfilled: resolve(value)
+    Pending --> Rejected: reject(error)
+    Fulfilled --> [*]: .then(value => ...)
+    Rejected --> [*]: .catch(error => ...)
+```
+
+Promise chỉ chuyển trạng thái **một lần duy nhất** (settle) — đã
+fulfilled/rejected thì không đổi được nữa; `.finally()` chạy ở cả hai nhánh.
+
 ```js
 const p = new Promise((resolve, reject) => {
   setTimeout(() => {

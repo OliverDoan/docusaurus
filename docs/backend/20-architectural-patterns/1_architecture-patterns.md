@@ -31,6 +31,19 @@ title: "1. Monolith, Microservices, Serverless"
                        (cùng process)
 ```
 
+```mermaid
+flowchart TD
+    LB["Load Balancer"] --> App
+    subgraph App["Monolith App (1 process)"]
+        Auth["auth"]
+        Users["users"]
+        Products["products"]
+        Orders["orders"]
+        Payments["payments"]
+    end
+    App --> DB[("Database")]
+```
+
 **Ưu**:
 
 - **Simple** dev + deploy.
@@ -104,6 +117,20 @@ cho startup.
          ↕ (sync HTTP/gRPC)
          ↕ (async via Kafka/RabbitMQ)
 ```
+
+```mermaid
+flowchart TD
+    GW["API Gateway"] --> US["User Service"]
+    GW --> OS["Order Service"]
+    GW --> PS["Payment Service"]
+    US --> UDB[("User DB")]
+    OS --> ODB[("Order DB")]
+    PS --> PDB[("Payment DB")]
+    OS -.->|"async qua Kafka/RabbitMQ"| NS["Notification Service"]
+    NS --> Email["Email API"]
+```
+
+Mỗi service có **database riêng** và deploy độc lập; giao tiếp đồng bộ (HTTP/gRPC) hoặc bất đồng bộ (message broker).
 
 **Ưu**:
 

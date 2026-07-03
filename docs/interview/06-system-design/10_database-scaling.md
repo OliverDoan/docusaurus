@@ -61,6 +61,19 @@ Cái giá phải trả khi shard (interviewer rất hay đào sâu phần này):
   Query KHÔNG có key  → fan-out cả 3 shard rồi merge → chậm ✗
 ```
 
+```mermaid
+flowchart TD
+    Req["Request (user_id=42)"] --> Router["App / Router<br/>hash(user_id)"]
+    Router -->|"user_id lẻ 0,3,6..."| S0[("Shard 0<br/>primary + replicas")]
+    Router -->|"1,4,7..."| S1[("Shard 1<br/>primary + replicas")]
+    Router -->|"2,5,8..."| S2[("Shard 2<br/>primary + replicas")]
+    Router -.->|"query KHÔNG có shard key<br/>→ fan-out cả 3 → chậm"| S0
+    Router -.-> S1
+    Router -.-> S2
+```
+
+Đường liền là query có `shard_key` (route thẳng 1 shard — nhanh); đường đứt là query thiếu key (phải hỏi mọi shard rồi merge — chậm).
+
 ```sql
 -- Citus (Postgres): biến bảng thường thành bảng phân tán
 SELECT create_distributed_table('orders', 'user_id');  -- user_id là shard key

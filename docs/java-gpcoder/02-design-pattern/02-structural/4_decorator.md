@@ -24,6 +24,36 @@ Decorator giải quyết bằng cách "bọc" các tính năng lại, cho phép 
 - **BaseDecorator**: Class trừu tượng implement Component, giữ tham chiếu đến Component được bọc.
 - **ConcreteDecorator**: Thêm hành vi mới trước/sau khi gọi phương thức của Component bên trong.
 
+```mermaid
+classDiagram
+    class DataSource {
+        <<interface>>
+        +writeData(String)
+        +readData() String
+    }
+    class FileDataSource {
+        +writeData(String)
+        +readData() String
+    }
+    class DataSourceDecorator {
+        <<abstract>>
+        -DataSource wrappee
+    }
+    class EncryptionDecorator {
+        +writeData(String)
+    }
+    class CompressionDecorator {
+        +writeData(String)
+    }
+    DataSource <|.. FileDataSource
+    DataSource <|.. DataSourceDecorator
+    DataSourceDecorator <|-- EncryptionDecorator
+    DataSourceDecorator <|-- CompressionDecorator
+    DataSourceDecorator o-- DataSource : bọc wrappee
+```
+
+Vì decorator vừa **implement** `DataSource` vừa **giữ** một `DataSource` bên trong, ta có thể lồng nhiều lớp (mã hoá rồi nén...) mà không cần tạo class tổ hợp.
+
 ## Ví dụ Java
 
 Xây dựng hệ thống đọc dữ liệu với nhiều lớp xử lý (nén, mã hóa):

@@ -79,6 +79,24 @@ Khi trang ở origin A gọi API ở origin B, trình duyệt kiểm tra header
 **`Access-Control-Allow-Origin`** từ B. Nếu B không cho phép A, trình duyệt
 **chặn trang A đọc** phản hồi.
 
+Lưu ý trong sơ đồ dưới: **trình duyệt** mới là bên đứng ra kiểm tra và chặn —
+server vẫn nhận request bình thường:
+
+```mermaid
+sequenceDiagram
+    participant JS as JS trên app.com
+    participant B as Trình duyệt
+    participant API as api.other.com
+    JS->>B: fetch tới api.other.com
+    B->>API: Request kèm header Origin: https://app.com
+    API-->>B: Phản hồi + Access-Control-Allow-Origin
+    alt Header cho phép app.com
+        B-->>JS: JS đọc được phản hồi
+    else Không cho phép
+        B-->>JS: Chặn đọc — báo "CORS error" ở console
+    end
+```
+
 ## Cấu hình CORS đúng cách
 
 ```js

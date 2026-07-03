@@ -57,6 +57,23 @@ Quy tắc tổng quát:
 Chỉ cột **standalone** và **call/apply với primitive** là khác nhau giữa hai
 chế độ. Chi tiết về strict mode xem bài [Strict mode](../12-strict-mode/1_strict-mode.md).
 
+Có thể tóm gọn cách xác định `this` bằng sơ đồ — đi từ trên xuống, gặp
+nhánh "Có" đầu tiên là dừng:
+
+```mermaid
+flowchart TD
+    Q["Hàm được gọi như thế nào?"] --> A{"Arrow function?"}
+    A -->|"Có"| L["this = this của scope bên ngoài<br/>(lexical, chốt lúc viết)"]
+    A -->|"Không"| N{"Gọi với new Fn()?"}
+    N -->|"Có"| NO["this = object mới được tạo"]
+    N -->|"Không"| CB{"Dùng call / apply / bind?"}
+    CB -->|"Có"| CX["this = đối số truyền vào"]
+    CB -->|"Không"| M{"Gọi dạng obj.method()?"}
+    M -->|"Có"| MO["this = obj (trước dấu chấm)"]
+    M -->|"Không"| S["Gọi standalone: fn()"]
+    S --> ST["strict mode: undefined<br/>sloppy mode: window / globalThis"]
+```
+
 ---
 
 ## Tại sao cần this?

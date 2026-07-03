@@ -189,6 +189,22 @@ public class StartVsRun {
 
 Quy tắc nhớ: **Muốn có luồng mới, luôn gọi `start()`.**
 
+Sau khi `start()`, một luồng đi qua các trạng thái sau trong vòng đời của nó — `sleep()` và `join()` ở hai mục kế tiếp cũng nằm trong sơ đồ này:
+
+```mermaid
+stateDiagram-v2
+    [*] --> NEW: new Thread()
+    NEW --> RUNNABLE: start()
+    RUNNABLE --> TIMED_WAITING: sleep(ms)
+    TIMED_WAITING --> RUNNABLE: hết giờ ngủ
+    RUNNABLE --> WAITING: join() / wait()
+    WAITING --> RUNNABLE: luồng kia xong / notify()
+    RUNNABLE --> BLOCKED: chờ lock synchronized
+    BLOCKED --> RUNNABLE: lấy được lock
+    RUNNABLE --> TERMINATED: run() kết thúc
+    TERMINATED --> [*]
+```
+
 ---
 
 ## sleep() — cho luồng ngủ

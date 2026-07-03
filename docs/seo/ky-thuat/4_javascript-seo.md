@@ -224,7 +224,15 @@ Wave 2 (Chậm — vài giờ đến vài ngày):
   → Discover links trong JS-rendered content
 ```
 
-**Vấn đề**: Giữa Wave 1 và Wave 2 có thể mất từ vài giây đến vài ngày. Nếu nội dung quan trọng chỉ xuất hiện sau khi JS render (Wave 2), nó sẽ bị delay trong index.
+```mermaid
+flowchart TD
+    Bot["Googlebot tải HTML"] --> W1["Wave 1 (vài giây)<br/>index nội dung có sẵn trong HTML<br/>+ khám phá link"]
+    W1 --> Q["Render Queue<br/>(hàng đợi chờ tài nguyên)"]
+    Q -.->|"chờ vài giờ → vài ngày"| W2["Wave 2<br/>chạy JS, render trang<br/>index nội dung JS tạo ra"]
+    W2 --> More["Khám phá thêm link<br/>trong nội dung JS"]
+```
+
+**Vấn đề**: Giữa Wave 1 và Wave 2 có thể mất từ vài giây đến vài ngày. Nếu nội dung quan trọng chỉ xuất hiện sau khi JS render (Wave 2), nó sẽ bị delay trong index. Đây là lý do SSR/SSG (đưa nội dung vào ngay Wave 1) tốt cho SEO hơn CSR thuần.
 
 ### Những gì Googlebot render được và không được
 

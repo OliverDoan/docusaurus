@@ -106,6 +106,18 @@ if (cluster.isPrimary) {
 }
 ```
 
+Mô hình cluster: primary fork ra N worker (mỗi worker là một process Node riêng với event loop riêng), cùng chia sẻ port 3000:
+
+```mermaid
+flowchart TD
+    REQ["Requests đến port 3000"] --> P["Primary process<br/>phân phối round-robin"]
+    P --> W1["Worker 1<br/>(1 event loop, 1 core)"]
+    P --> W2["Worker 2"]
+    P --> WN["Worker N<br/>(N = số CPU core)"]
+    W2 -.->|"worker chết (exit)"| P
+    P -.->|"cluster.fork() khởi động lại"| W2
+```
+
 ## Caching Strategies
 
 ```js

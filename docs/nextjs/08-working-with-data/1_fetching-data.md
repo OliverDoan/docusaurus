@@ -280,6 +280,22 @@ export default function UserListClient({ initialUsers }) {
 }
 ```
 
+Luồng dữ liệu của pattern này:
+
+```mermaid
+sequenceDiagram
+    participant SC as Server Component
+    participant DB as DB / API
+    participant CC as Client Component
+    participant API as /api/users
+    SC->>DB: findMany() lúc render server
+    DB-->>SC: initialUsers
+    SC->>CC: HTML + props initialUsers
+    Note over CC: Hiển thị ngay, không màn loading
+    CC->>API: refetch khi cần (TanStack Query)
+    API-->>CC: Dữ liệu mới → cập nhật UI
+```
+
 Lợi ích:
 
 - Page load nhanh (Server initial).

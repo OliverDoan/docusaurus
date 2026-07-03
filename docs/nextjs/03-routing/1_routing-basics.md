@@ -94,6 +94,22 @@ app/
     └── [slug]/page.tsx     → /blog/:slug
 ```
 
+Nhìn dạng sơ đồ, mỗi `page.tsx` trong cây thư mục ánh xạ thẳng sang một URL:
+
+```mermaid
+flowchart LR
+    subgraph app["Thư mục app/"]
+        A["page.tsx"]
+        B["about/page.tsx"]
+        C["blog/page.tsx"]
+        D["blog/[slug]/page.tsx"]
+    end
+    A -->|"route"| U1["/"]
+    B -->|"route"| U2["/about"]
+    C -->|"route"| U3["/blog"]
+    D -->|"route động"| U4["/blog/:slug"]
+```
+
 ---
 
 ## Pages

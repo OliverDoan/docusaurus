@@ -79,6 +79,23 @@ Có PR (an toàn):
                                                      (code đã kiểm tra)
 ```
 
+Sơ đồ luồng Pull Request hoàn chỉnh — review và CI chạy song song, chỉ merge khi cả hai đều xanh:
+
+```mermaid
+flowchart TD
+    A["Code trên feature branch"] --> B["git push origin feature/..."]
+    B --> C["Mở Pull Request"]
+    C --> D["Code Review<br/>(đồng đội xem diff, comment)"]
+    C --> E["CI tự động<br/>(build, lint, test)"]
+    D -->|"Request changes"| F["Sửa code, push thêm commit"]
+    F --> C
+    D -->|"Approve"| G{"Tất cả checks pass?"}
+    E --> G
+    G -->|"Chưa"| F
+    G -->|"Rồi"| H["Merge vào main"]
+    H --> I["Xóa branch + Deploy"]
+```
+
 ### PR = Cơ hội để:
 
 | Mục đích               | Giải thích                                  |

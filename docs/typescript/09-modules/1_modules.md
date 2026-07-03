@@ -59,6 +59,19 @@ import { format } from "./format";
 format(100);
 ```
 
+Sơ đồ dưới đây tóm tắt cách TS phân loại một file và số phận của từng loại import khi compile:
+
+```mermaid
+flowchart TD
+    A["File .ts"] --> B{"Có import / export?"}
+    B -->|"Không"| C["Script<br/>mọi khai báo thành global"]
+    C --> D["Dễ trùng tên<br/>giữa các file"]
+    B -->|"Có"| E["Module<br/>mỗi file một scope riêng"]
+    E --> F{"Import loại gì?"}
+    F -->|"import { format }"| G["Giữ lại trong JS output<br/>(import giá trị)"]
+    F -->|"import type { Money }"| H["Bị xoá hẳn khi compile<br/>(chỉ dùng cho type)"]
+```
+
 :::tip[Dùng thực tế]
 
 - **Tách kiểu dùng chung** ra một file `types.ts`, các module khác

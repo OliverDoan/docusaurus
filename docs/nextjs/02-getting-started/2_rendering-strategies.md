@@ -91,6 +91,19 @@ Next.js hỗ trợ tất cả các mode rendering:
 | **ISR** | Build + revalidate định kỳ | Content updatable (e-commerce) |
 | **CSR** | Browser | Dashboard sau login, không SEO |
 
+Sơ đồ dưới đây tóm tắt cách chọn chiến lược theo đặc điểm dữ liệu của trang:
+
+```mermaid
+flowchart TD
+    A["Chọn chiến lược cho trang"] --> B{"Cần SEO /<br/>HTML có sẵn nội dung?"}
+    B -->|"Không (sau login)"| CSR["CSR<br/>render ở browser"]
+    B -->|"Có"| C{"Dữ liệu đổi<br/>mỗi request?"}
+    C -->|"Có (user-specific)"| SSR["SSR — render mỗi request<br/>cache: no-store"]
+    C -->|"Không"| D{"Dữ liệu thỉnh thoảng<br/>cập nhật?"}
+    D -->|"Có (giá, tồn kho)"| ISR["ISR — build sẵn +<br/>revalidate N giây"]
+    D -->|"Không"| SSG["SSG — build một lần,<br/>serve từ CDN"]
+```
+
 App Router thay đổi cách định nghĩa — không còn `getStaticProps`/
 `getServerSideProps`. Thay vào đó dùng **fetch options + revalidate**.
 
@@ -199,6 +212,23 @@ Flow:
 2. User 1 request lúc t=0 → serve HTML cũ ngay (fast).
 3. Sau 60s, user 2 request → serve HTML cũ + trigger revalidate background.
 4. Lần sau request → serve HTML mới.
+
+```mermaid
+sequenceDiagram
+    participant U1 as User 1
+    participant S as Server / CDN
+    participant BG as Render nền
+    participant U2 as User 2
+    Note over S: Build - render HTML, lưu cache
+    U1->>S: Request (t = 0)
+    S-->>U1: HTML cache (nhanh)
+    U2->>S: Request (t > 60s)
+    S-->>U2: Vẫn HTML cũ (stale)
+    S->>BG: Trigger revalidate nền
+    BG-->>S: HTML mới thay vào cache
+    U2->>S: Request lần sau
+    S-->>U2: HTML mới
+```
 
 **On-demand revalidation** — trigger từ API hoặc Server Action:
 

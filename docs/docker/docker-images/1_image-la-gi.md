@@ -80,6 +80,16 @@ Docker Image = OS cơ bản + Runtime + Libraries + Code + Config
 3. **Portable**: Chạy được trên bất kỳ máy nào có Docker
 4. **Shareable**: Chia sẻ qua Registry (Docker Hub)
 
+Mối quan hệ Dockerfile → Image → Container có thể tóm gọn trong một sơ đồ: build một lần, chạy ra bao nhiêu container cũng được.
+
+```mermaid
+flowchart LR
+    A["Dockerfile<br/>(công thức)"] -->|"docker build"| B["Image<br/>(read-only, nhiều layers)"]
+    B -->|"docker run"| C1["Container 1"]
+    B -->|"docker run"| C2["Container 2"]
+    B <-->|"docker push / pull"| D["Registry<br/>(Docker Hub)"]
+```
+
 ---
 
 ## 2. Cấu trúc Layers

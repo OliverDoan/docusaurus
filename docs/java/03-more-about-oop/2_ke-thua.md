@@ -139,6 +139,27 @@ public class Meo extends DongVat {
 }
 ```
 
+Sơ đồ quan hệ kế thừa (mũi tên trỏ về lớp cha; `Object` là gốc ngầm định của mọi lớp):
+
+```mermaid
+classDiagram
+    Object <|-- DongVat
+    DongVat <|-- Cho
+    DongVat <|-- Meo
+    DongVat <|-- Chim
+    class DongVat {
+        +String ten
+        +an()
+        +ngu()
+    }
+    class Cho {
+        +sua()
+    }
+    class Meo {
+        +keu()
+    }
+```
+
 ---
 
 ## Từ khóa super

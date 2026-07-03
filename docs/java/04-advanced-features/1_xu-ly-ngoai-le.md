@@ -212,7 +212,20 @@ Phân biệt nhanh: `throw` thực sự **ném** một ngoại lệ ngay lập t
 
 ## Checked vs Unchecked Exception
 
-Java chia ngoại lệ thành hai nhóm chính:
+Java chia ngoại lệ thành hai nhóm chính. Tất cả đều bắt nguồn từ lớp gốc `Throwable` — nhìn cây phân cấp dưới đây là thấy ngay nhóm nào checked, nhóm nào unchecked:
+
+```mermaid
+flowchart TD
+    T["Throwable"] --> E["Error<br/>(lỗi nghiêm trọng của JVM,<br/>không nên bắt)"]
+    T --> EX["Exception"]
+    E --> OOM["OutOfMemoryError"]
+    EX --> IO["IOException<br/>(checked)"]
+    EX --> SQL["SQLException<br/>(checked)"]
+    EX --> RT["RuntimeException<br/>(unchecked)"]
+    RT --> NPE["NullPointerException"]
+    RT --> AE["ArithmeticException"]
+    RT --> AIOB["ArrayIndexOutOfBoundsException"]
+```
 
 ### Checked Exception (ngoại lệ được kiểm tra lúc biên dịch)
 

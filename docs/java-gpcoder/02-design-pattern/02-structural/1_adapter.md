@@ -30,6 +30,31 @@ Adapter Pattern gồm các thành phần chính:
 - **Adapter**: Class trung gian, implement Target và bên trong gọi đến Adaptee.
 - **Client**: Sử dụng Target interface, không biết gì về Adapter hay Adaptee.
 
+Áp vào ví dụ Java bên dưới (`RoundPeg` là Target, `SquarePeg` là Adaptee):
+
+```mermaid
+classDiagram
+    class RoundPeg {
+        <<interface>>
+        +getRadius() double
+    }
+    class SquarePeg {
+        +getWidth() double
+    }
+    class SquarePegAdapter {
+        -SquarePeg squarePeg
+        +getRadius() double
+    }
+    class RoundHole {
+        +fits(RoundPeg) boolean
+    }
+    RoundPeg <|.. SquarePegAdapter
+    SquarePegAdapter o-- SquarePeg : bọc
+    RoundHole ..> RoundPeg : dùng
+```
+
+`RoundHole` chỉ làm việc với `RoundPeg`; nhờ `SquarePegAdapter` mà một `SquarePeg` (interface khác) vẫn "lọt" vào được.
+
 ## Ví dụ Java
 
 Giả sử hệ thống cũ dùng `RoundHole` (lỗ tròn) và `RoundPeg` (chốt tròn), nhưng ta cần dùng `SquarePeg` (chốt vuông).

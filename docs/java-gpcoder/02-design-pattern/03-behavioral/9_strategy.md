@@ -21,6 +21,33 @@ Khi có nhiều biến thể của một thuật toán và bạn muốn chuyển
 - **ConcreteStrategy**: triển khai thuật toán cụ thể.
 - **Context**: lưu tham chiếu tới Strategy, ủy quyền việc thực thi cho Strategy, cho phép thay đổi Strategy tại runtime.
 
+```mermaid
+classDiagram
+    class SortStrategy {
+        <<interface>>
+        +sort(int[] data)
+    }
+    class BubbleSort {
+        +sort(int[] data)
+    }
+    class SelectionSort {
+        +sort(int[] data)
+    }
+    class BuiltInSort {
+        +sort(int[] data)
+    }
+    class Sorter {
+        -SortStrategy strategy
+        +setStrategy(SortStrategy)
+    }
+    SortStrategy <|.. BubbleSort
+    SortStrategy <|.. SelectionSort
+    SortStrategy <|.. BuiltInSort
+    Sorter o-- SortStrategy : ủy quyền
+```
+
+`Sorter` (Context) chỉ giữ tham chiếu tới interface `SortStrategy`, nên có thể đổi thuật toán lúc chạy mà không sửa code của nó.
+
 ## Ví dụ Java: Hệ thống sắp xếp linh hoạt
 
 ```java

@@ -76,6 +76,13 @@ Vòng đời gồm 4 giai đoạn chính:
 3. **Không còn tham chiếu** trỏ tới đối tượng.
 4. **Garbage Collection** (bộ thu gom rác) tự động giải phóng bộ nhớ.
 
+```mermaid
+flowchart LR
+    A["new XeOto()<br/>cấp phát trên heap"] --> B["Sử dụng<br/>(gọi method, đọc/ghi field)"]
+    B --> C["Mất tham chiếu<br/>(gán null / ra khỏi scope)"]
+    C --> D["Garbage Collector<br/>tự thu hồi bộ nhớ"]
+```
+
 ---
 
 ## Bước 1: Tạo đối tượng với new

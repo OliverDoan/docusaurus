@@ -103,6 +103,20 @@ ui@http://localhost:3001/remoteEntry.js
 > độc lập**: chỉ cần URL giữ nguyên, host tự động nhận bản mới ở lần tải sau — đây
 > chính là **độc lập deploy** mà micro-frontend hướng tới.
 
+Toàn bộ quá trình host lấy component `Cart` từ remote diễn ra lúc chạy như sau:
+
+```mermaid
+sequenceDiagram
+    participant Host as Host (shell)
+    participant Remote as Remote (cart server)
+    Host->>Remote: Tải remoteEntry.js
+    Remote-->>Host: Manifest (danh sách module expose)
+    Host->>Remote: Yêu cầu module ./Cart
+    Remote-->>Host: Code của Cart
+    Note over Host: Dùng chung React đã tải (shared singleton)
+    Host->>Host: Render <Cart/> vào trang
+```
+
 ## Chia sẻ dependency & singleton
 
 Nếu host và 4 remote đều dùng React, mà mỗi bên tải React riêng thì trang sẽ tải

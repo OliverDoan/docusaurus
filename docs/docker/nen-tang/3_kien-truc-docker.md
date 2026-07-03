@@ -84,6 +84,18 @@ Docker sử dụng mô hình **Client-Server**:
 | **Docker Daemon**   | Xử lý mọi thao tác         | Tạo container, build image            |
 | **Docker Registry** | Kho lưu trữ image          | Docker Hub, GitHub Container Registry |
 
+Sơ đồ dưới đây tóm tắt đường đi của một lệnh `docker` từ lúc bạn gõ đến khi được thực thi:
+
+```mermaid
+flowchart LR
+    A["Bạn gõ lệnh<br/>docker build / run / pull"] -->|"REST API"| B["Docker Daemon<br/>(dockerd)"]
+    subgraph HOST["Docker Host"]
+        B --> C["Containers"]
+        B --> D["Images (local)"]
+    end
+    B <-->|"pull / push"| E["Registry<br/>(Docker Hub)"]
+```
+
 ---
 
 ## 2. Docker Daemon (dockerd)
@@ -250,6 +262,20 @@ Developer                 Registry               Server
     │                        │                      │
     │                        │ ←── docker pull ─────│
     │                        │                      │── docker run
+```
+
+Nhìn theo trình tự thời gian, luồng build → push → pull → run diễn ra như sau:
+
+```mermaid
+sequenceDiagram
+    participant Dev as Developer
+    participant Reg as Registry (Docker Hub)
+    participant Srv as Server
+    Dev->>Dev: docker build -t my-app
+    Dev->>Reg: docker push my-app
+    Srv->>Reg: docker pull my-app
+    Reg-->>Srv: tải image về
+    Srv->>Srv: docker run my-app
 ```
 
 ```bash

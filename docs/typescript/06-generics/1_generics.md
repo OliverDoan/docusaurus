@@ -100,6 +100,16 @@ identity<number>(42);   // T = number
 identity("hello");      // T = "hello" (TS infer)
 ```
 
+Luồng làm việc của generic khi bạn gọi hàm: TS suy ra `T` từ đối số, thay vào chữ ký hàm, rồi giữ đúng kiểu ở kết quả:
+
+```mermaid
+flowchart LR
+    A["Gọi identity(42)"] --> B["TS infer:<br/>T = number"]
+    B --> C["Thay T vào chữ ký:<br/>(x: number) => number"]
+    C --> D["Kết quả giữ đúng kiểu:<br/>n: number"]
+    D --> E["n.toUpperCase()<br/>=> báo lỗi ngay lúc compile"]
+```
+
 ---
 
 ## Generic function

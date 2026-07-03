@@ -82,6 +82,18 @@ Request Memoization (per request, React cache)
 [Database / API]
 ```
 
+Request chỉ đi xuống tầng dưới khi tầng trên **miss**; mũi tên nét đứt là đường làm mới cache chủ động:
+
+```mermaid
+flowchart TD
+    B["Browser"] -->|"navigate"| RC["Router Cache<br/>(client — prefetch, navigation)"]
+    RC -->|"miss"| FRC["Full Route Cache<br/>(server — HTML/RSC đã render)"]
+    FRC -->|"miss / dynamic"| DC["Data Cache<br/>(server — kết quả fetch, persist)"]
+    DC -->|"miss / no-store"| RM["Request Memoization<br/>(dedupe trong 1 render)"]
+    RM --> DB["Database / API"]
+    DB -.->|"revalidatePath / revalidateTag"| DC
+```
+
 | Layer | Vị trí | Lifetime | Mục đích |
 |-------|--------|----------|----------|
 | Request Memoization | Server, per request | 1 render | Dedupe fetch trùng |

@@ -46,6 +46,22 @@ của nạn nhân và thực hiện chuyển tiền.
 > Điểm cốt lõi: kẻ tấn công **không cần đọc** cookie — chúng chỉ cần trình duyệt
 > *tự gửi kèm* cookie như thường lệ.
 
+Toàn bộ luồng tấn công nhìn như sau:
+
+```mermaid
+sequenceDiagram
+    participant V as Trình duyệt nạn nhân
+    participant B as bank.com
+    participant E as evil.com
+    V->>B: 1. Đăng nhập
+    B-->>V: 2. Set-Cookie session=abc
+    V->>E: 3. Bị dụ truy cập trang độc
+    E-->>V: 4. HTML chứa form ẩn tự submit
+    V->>B: 5. POST /transfer (trình duyệt TỰ đính kèm cookie)
+    Note over B: Chỉ thấy cookie hợp lệ<br/>→ tưởng là nạn nhân yêu cầu
+    B-->>V: 6. Thực hiện chuyển tiền
+```
+
 ## Vì sao tấn công thành công?
 
 Vì hai điều cộng lại:

@@ -40,6 +40,16 @@ Mô hình hoạt động:
 Nhờ là chuẩn chung, một MCP server viết một lần có thể dùng với nhiều ứng dụng AI
 khác nhau, không riêng Claude Code.
 
+```mermaid
+flowchart LR
+    CC["Claude Code<br/>(MCP client)"] -->|"gọi tool"| S1["MCP server<br/>Postgres"]
+    CC -->|"gọi tool"| S2["MCP server<br/>Google Drive"]
+    CC -->|"gọi tool"| S3["MCP server<br/>quản lý dự án"]
+    S1 --> DB[("Database")]
+    S2 --> Drive[("Tài liệu")]
+    S3 --> API["API bên ngoài"]
+```
+
 ## Ví dụ dùng MCP
 
 Bạn khai báo MCP server cho Claude Code (thường qua lệnh hoặc file cấu hình). Cấu
@@ -88,6 +98,18 @@ Các thời điểm phổ biến để gắn hook:
 Vì hook do hệ thống thực thi (không phải Claude tự quyết), nó đảm bảo hành động
 luôn xảy ra — phù hợp cho format, lint (kiểm lỗi tĩnh), kiểm tra kiểu, hoặc quét
 bảo mật.
+
+Ba thời điểm này gắn vào vòng đời một lượt dùng công cụ như sau:
+
+```mermaid
+flowchart LR
+    Claude["Claude quyết định<br/>dùng 1 tool"] --> Pre["PreToolUse<br/>(kiểm tra/chặn)"]
+    Pre --> Tool["Chạy tool<br/>(Edit, Bash...)"]
+    Tool --> Post["PostToolUse<br/>(format, lint)"]
+    Post --> More{"Còn việc?"}
+    More -->|"Có"| Claude
+    More -->|"Không"| Stop["Stop<br/>(kiểm tra lần cuối)"]
+```
 
 ## Ví dụ một hook tự động format
 

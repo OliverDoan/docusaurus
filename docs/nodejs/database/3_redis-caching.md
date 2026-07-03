@@ -56,6 +56,18 @@ app.get('/products', async (req, res) => {
 // → giảm tải DB, tăng tốc phản hồi
 ```
 
+Luồng cache-aside: đọc cache trước, miss thì mới đánh xuống database; khi dữ liệu thay đổi phải xoá cache:
+
+```mermaid
+flowchart TD
+    A["Request GET /products"] --> B{"Redis có cache?"}
+    B -->|"Hit"| C["Trả dữ liệu từ cache<br/>(cực nhanh, không chạm DB)"]
+    B -->|"Miss"| D["Query Database"]
+    D --> E["Lưu kết quả vào Redis<br/>kèm TTL (EX: 300s)"]
+    E --> F["Trả dữ liệu cho client"]
+    W["POST/PUT/DELETE<br/>(dữ liệu thay đổi)"] -->|"redis.del(key)"| X["Xoá cache<br/>(invalidation)"]
+```
+
 :::tip[Dùng thực tế]
 - **Cache query nóng:** lưu kết quả query tốn kém với TTL để đọc lại tức thì.
 - **Session store:** lưu session đăng nhập, chia sẻ giữa nhiều instance.

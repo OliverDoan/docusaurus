@@ -151,6 +151,22 @@ Giải pháp: **luôn gọi cùng số lượng hook, theo cùng thứ tự, m�
 
 :::
 
+Sơ đồ dưới cho thấy điều gì xảy ra khi thứ tự hook thay đổi giữa 2 lần
+render — React khớp theo **index**, không theo tên biến:
+
+```mermaid
+flowchart TD
+    subgraph R1["Render 1 — cond = true"]
+        S1["Slot 1: useState(1) → a"]
+        S2["Slot 2: useState(2) → b"]
+    end
+    subgraph R2["Render 2 — cond = false"]
+        H1["Hook duy nhất được gọi:<br/>useState(2) cho b"]
+    end
+    H1 -->|"React khớp theo THỨ TỰ<br/>→ nhận slot 1"| S1
+    S1 --> BUG["b nhận nhầm state của a<br/>→ bug khó tìm"]
+```
+
 ---
 
 ## Rule 2: Chỉ gọi từ component/hook

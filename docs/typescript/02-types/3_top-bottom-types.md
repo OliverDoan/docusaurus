@@ -75,6 +75,23 @@ Trong type theory:
 | `object` | Object thường | Bất kỳ non-primitive |
 | `never` | Bottom | Không bao giờ có giá trị |
 
+Có thể hình dung hệ thống type của TS như một tháp: `unknown`/`any` ở đỉnh chứa tất cả, `never` ở đáy không chứa gì — mũi tên đi xuống nghĩa là "kiểu hẹp hơn nằm trong kiểu rộng hơn":
+
+```mermaid
+flowchart TD
+    TOP["Top: unknown / any<br/>(chứa mọi giá trị)"] --> S["string"]
+    TOP --> N["number"]
+    TOP --> B["boolean"]
+    TOP --> O["object"]
+    S --> SL["literal: 'hello'"]
+    N --> NL["literal: 42"]
+    O --> OI["interface / class cụ thể"]
+    SL --> BOT["Bottom: never<br/>(không có giá trị nào)"]
+    NL --> BOT
+    B --> BOT
+    OI --> BOT
+```
+
 ---
 
 ## any

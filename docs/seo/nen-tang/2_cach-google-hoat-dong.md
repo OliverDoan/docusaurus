@@ -53,7 +53,15 @@ Bài này sẽ đi sâu vào cách Google hoạt động từ góc nhìn technic
             └─────────────────────┘
 ```
 
-Mỗi bước đều có những yếu tố mà developer có thể tác động. Hãy đi chi tiết từng bước.
+```mermaid
+flowchart TD
+    Net["Internet"] -->|"Googlebot đi thu thập"| Crawl["1. CRAWL<br/>tải HTML, tìm link"]
+    Crawl -->|"HTML đã thu thập"| Index["2. INDEX<br/>phân tích, render JS,<br/>lưu vào database"]
+    Index -->|"khi user tìm kiếm"| Rank["3. RANK<br/>xếp hạng theo 200+ yếu tố"]
+    Rank --> SERP["SERP<br/>kết quả hiển thị cho user"]
+```
+
+Pipeline này **tuần tự**: không crawl được thì không index, không index thì không rank. Mỗi bước đều có những yếu tố mà developer có thể tác động. Hãy đi chi tiết từng bước.
 
 ---
 

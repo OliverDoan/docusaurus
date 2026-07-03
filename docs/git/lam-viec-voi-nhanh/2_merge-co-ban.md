@@ -216,6 +216,24 @@ feature/login:           F---G---H
 # Nó là "nơi kết nối" hai dòng lịch sử
 ```
 
+Sơ đồ Git minh họa 3-way merge — hai nhánh cùng tiến rồi hợp nhất tại merge commit:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C (merge base)"
+    branch feature/login
+    checkout feature/login
+    commit id: "F"
+    commit id: "G"
+    commit id: "H"
+    checkout main
+    commit id: "D"
+    commit id: "E"
+    merge feature/login id: "M (merge commit)"
+```
+
 ### 3.3. Ví dụ thực tế
 
 ```bash

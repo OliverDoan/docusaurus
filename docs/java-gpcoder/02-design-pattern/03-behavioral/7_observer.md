@@ -22,6 +22,35 @@ Khi một sự kiện hoặc thay đổi trạng thái cần được phản án
 - **ConcreteSubject**: trạng thái cần theo dõi, gọi `notifyObservers()` khi thay đổi.
 - **ConcreteObserver**: phản ứng với sự thay đổi theo cách riêng.
 
+```mermaid
+classDiagram
+    class StockSubject {
+        <<interface>>
+        +subscribe(StockObserver)
+        +unsubscribe(StockObserver)
+        +notifyObservers()
+    }
+    class StockObserver {
+        <<interface>>
+        +update(String, double)
+    }
+    class Stock {
+        +setPrice(double)
+    }
+    class Dashboard {
+        +update(String, double)
+    }
+    class PriceAlert {
+        +update(String, double)
+    }
+    StockSubject <|.. Stock
+    StockObserver <|.. Dashboard
+    StockObserver <|.. PriceAlert
+    Stock o-- StockObserver : thông báo
+```
+
+Khi `Stock` đổi giá, nó gọi `notifyObservers()` để đẩy `update()` tới mọi observer đã đăng ký (`Dashboard`, `PriceAlert`) mà không cần biết cụ thể chúng là gì.
+
 ## Ví dụ Java: Hệ thống theo dõi giá cổ phiếu
 
 ```java

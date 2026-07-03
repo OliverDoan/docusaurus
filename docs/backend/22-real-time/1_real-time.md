@@ -30,6 +30,24 @@ title: "1. WebSocket, SSE, Long Polling"
 | **WebSocket** | Bi-directional | Chat, gaming, collab |
 | **WebRTC** | Peer-to-peer | Video call, file transfer |
 
+So sánh cách trao đổi dữ liệu — Polling hỏi lặp lại tốn request, còn WebSocket giữ một kết nối hai chiều mở liên tục:
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as Server
+    Note over C,S: Polling — hỏi lặp lại (nhiều request rỗng)
+    C->>S: Có gì mới không?
+    S-->>C: Chưa
+    C->>S: Có gì mới không?
+    S-->>C: Có! dữ liệu
+    Note over C,S: WebSocket — 1 kết nối 2 chiều
+    C->>S: Handshake (nâng cấp lên WebSocket)
+    S-->>C: Đã mở kết nối
+    S-->>C: Đẩy dữ liệu ngay khi có
+    C->>S: Gửi tin nhắn bất cứ lúc nào
+```
+
 ---
 
 ## Server-Sent Events (SSE)

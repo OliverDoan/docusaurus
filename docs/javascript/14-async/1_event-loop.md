@@ -93,6 +93,25 @@ Mô hình runtime của JS gồm:
 - **Microtask Queue** — Promise callback, `queueMicrotask`, `MutationObserver`.
 - **Heap** — bộ nhớ chứa object.
 
+```mermaid
+flowchart LR
+    subgraph Runtime["JS Runtime (đơn luồng)"]
+        Stack["Call Stack"]
+        Heap["Heap"]
+    end
+    WebAPI["Web APIs<br/>setTimeout, fetch, DOM event"]
+    Micro["Microtask Queue<br/>Promise.then, queueMicrotask"]
+    Macro["Macrotask Queue<br/>setTimeout callback, I/O, UI event"]
+    Loop(("Event<br/>Loop"))
+
+    Stack -->|"gọi async API"| WebAPI
+    WebAPI -->|"xong việc → đẩy callback"| Macro
+    WebAPI -->|"Promise settle"| Micro
+    Micro -->|"ưu tiên 1"| Loop
+    Macro -->|"ưu tiên 2"| Loop
+    Loop -->|"stack rỗng → push callback"| Stack
+```
+
 Event loop:
 
 ```
@@ -101,6 +120,18 @@ Event loop:
 3. (Browser) render UI nếu cần.
 4. Lấy 1 task từ macrotask queue → push vào stack.
 5. Lặp lại từ bước 1.
+```
+
+Một vòng lặp (tick) diễn ra như sau:
+
+```mermaid
+flowchart TD
+    A["Chạy sync code<br/>đến khi Call Stack rỗng"] --> B["Chạy HẾT Microtask Queue<br/>(Promise.then, queueMicrotask)"]
+    B --> C{"Cần render?"}
+    C -->|"Có"| D["requestAnimationFrame → Render UI"]
+    C -->|"Không"| E
+    D --> E["Lấy 1 task từ Macrotask Queue<br/>(setTimeout, I/O, UI event)"]
+    E --> A
 ```
 
 :::info[Phân tích]
