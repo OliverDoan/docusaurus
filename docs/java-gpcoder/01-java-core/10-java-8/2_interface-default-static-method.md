@@ -7,6 +7,26 @@ title: "Interface trong Java 8 - Default method và Static method"
 
 Trước Java 8, Interface (giao diện) chỉ được phép khai báo các phương thức trừu tượng (abstract method) — tức là phương thức không có phần thân (body). Java 8 phá vỡ giới hạn này bằng cách giới thiệu **Default Method** và **Static Method** trong Interface.
 
+Sơ đồ sau minh họa một interface có phương thức trừu tượng và default method: lớp `XeDap` dùng lại default method có sẵn, còn `OTo` override để đổi hành vi.
+
+```mermaid
+classDiagram
+    class PhuongTien {
+        <<interface>>
+        +diChuyen() void
+        +moTa() void
+    }
+    class XeDap {
+        +diChuyen() void
+    }
+    class OTo {
+        +diChuyen() void
+        +moTa() void
+    }
+    PhuongTien <|.. XeDap : implements
+    PhuongTien <|.. OTo : implements
+```
+
 ## Default Method
 
 **Default Method** là phương thức có phần thân được khai báo trong Interface với từ khóa `default`. Các lớp (class) implement interface có thể dùng trực tiếp mà không cần override, hoặc override lại nếu muốn thay đổi hành vi.

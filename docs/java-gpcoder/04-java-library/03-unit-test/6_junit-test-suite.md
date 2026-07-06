@@ -17,6 +17,18 @@ Khi dự án có nhiều lớp test, việc chạy từng lớp riêng lẻ rấ
 - Kiểm soát thứ tự chạy các lớp test.
 - Tích hợp với hệ thống CI/CD để chạy một tập test được chọn lọc.
 
+Sơ đồ dưới đây minh họa cấu trúc một Test Suite gom nhiều lớp test và chạy chúng lần lượt:
+
+```mermaid
+flowchart TD
+    S["Test Suite<br/>lớp điều phối"] --> T1["CalculatorTest<br/>chạy trước"]
+    T1 --> T2["StringUtilsTest<br/>chạy tiếp theo"]
+    T2 --> T3["BankAccountTest<br/>chạy cuối"]
+    T3 --> R["Tổng hợp kết quả<br/>PASS hoặc FAIL"]
+```
+
+Cách đọc: Lớp suite không chứa test riêng mà đóng vai trò điều phối, gọi lần lượt từng lớp test con. Sau khi tất cả lớp chạy xong, JUnit tổng hợp kết quả chung của cả suite.
+
 ## Test Suite với JUnit 4
 
 ### Cách 1: Dùng `@Suite.SuiteClasses`

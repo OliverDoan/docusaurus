@@ -15,6 +15,20 @@ title: "Các nguyên lý thiết kế hướng đối tượng - SOLID"
 | **I** | Interface Segregation Principle | Không ép lớp phụ thuộc vào interface mà nó không dùng |
 | **D** | Dependency Inversion Principle | Phụ thuộc vào trừu tượng, không phụ thuộc vào cài đặt cụ thể |
 
+Sơ đồ dưới đây gom 5 nguyên lý SOLID cùng ý nghĩa cốt lõi của từng chữ cái để bạn có cái nhìn tổng quan trước khi đi vào chi tiết:
+
+```mermaid
+flowchart TD
+    SOLID["SOLID<br/>(5 nguyên lý OOD)"]
+    SOLID --> S["S — Single Responsibility<br/>Một lớp, một trách nhiệm"]
+    SOLID --> O["O — Open/Closed<br/>Mở để mở rộng, đóng để sửa đổi"]
+    SOLID --> L["L — Liskov Substitution<br/>Lớp con thay được lớp cha"]
+    SOLID --> I["I — Interface Segregation<br/>Nhiều interface nhỏ hơn một interface lớn"]
+    SOLID --> D["D — Dependency Inversion<br/>Phụ thuộc vào trừu tượng"]
+```
+
+Năm nguyên lý bổ trợ lẫn nhau: tuân thủ tốt nguyên lý này thường giúp dễ đạt được các nguyên lý còn lại.
+
 ---
 
 ## 1. S — Single Responsibility Principle (Nguyên lý trách nhiệm đơn)
@@ -304,6 +318,23 @@ public class Duck implements Eatable, Sleepable, Flyable, Swimmable {
 > "Các module cấp cao không nên phụ thuộc vào module cấp thấp. Cả hai nên phụ thuộc vào **abstraction** (trừu tượng). Abstraction không nên phụ thuộc vào chi tiết cài đặt — chi tiết cài đặt mới phụ thuộc vào abstraction."
 
 Đây là nền tảng của **Dependency Injection** (DI — tiêm phụ thuộc), kỹ thuật phổ biến trong Spring Boot.
+
+Sơ đồ lớp dưới đây minh họa cách tuân thủ DIP: `OrderService` (module cấp cao) chỉ phụ thuộc vào interface `OrderRepository`, còn các cài đặt cụ thể mới là bên phụ thuộc ngược lại vào interface đó:
+
+```mermaid
+classDiagram
+    class OrderService
+    class OrderRepository {
+        <<interface>>
+    }
+    class MySQLOrderRepository
+    class MongoOrderRepository
+    OrderService ..> OrderRepository : phụ thuộc vào trừu tượng
+    MySQLOrderRepository ..|> OrderRepository : cài đặt
+    MongoOrderRepository ..|> OrderRepository : cài đặt
+```
+
+Nhờ mũi tên phụ thuộc đều hướng về `OrderRepository`, ta có thể thay MySQL bằng MongoDB (hoặc mock khi test) mà không phải sửa `OrderService`.
 
 ```java
 // XẤU - OrderService phụ thuộc trực tiếp vào lớp cụ thể MySQLOrderRepository

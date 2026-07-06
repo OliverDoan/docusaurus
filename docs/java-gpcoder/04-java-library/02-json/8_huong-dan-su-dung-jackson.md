@@ -7,6 +7,18 @@ title: "Hướng dẫn sử dụng thư viện Jackson"
 
 **Jackson** là thư viện xử lý JSON phổ biến nhất trong hệ sinh thái Java, được phát triển bởi FasterXML. Jackson nổi bật với hiệu năng cao, tính linh hoạt vượt trội và được tích hợp mặc định trong Spring Boot. **`ObjectMapper`** (bộ ánh xạ đối tượng) là lớp trung tâm của Jackson, chịu trách nhiệm chuyển đổi giữa Java và JSON.
 
+Sơ đồ sau cho thấy `ObjectMapper` đứng ở trung tâm, điều phối cả hai chiều chuyển đổi giữa đối tượng Java và JSON (dạng chuỗi hoặc file):
+
+```mermaid
+flowchart LR
+    OBJ["Đối tượng Java<br/>(POJO / List / Map)"] -->|"writeValueAsString / writeValue(File)"| OM["ObjectMapper"]
+    OM --> JSON["JSON<br/>(chuỗi hoặc file)"]
+    JSON -->|"readValue(...)"| OM2["ObjectMapper"]
+    OM2 --> OBJ
+```
+
+Đọc sơ đồ: nhóm phương thức `writeValue*` phụ trách chiều ghi ra JSON, còn `readValue` phụ trách chiều đọc JSON dựng lại đối tượng Java.
+
 ---
 
 ## 1. Maven Dependency

@@ -19,6 +19,24 @@ Trong Java, giao tiếp TCP giữa client và server được thực hiện qua 
 - **ServerSocket** (socket máy chủ): mở một cổng và chờ kết nối đến.
 - **Socket** (socket — đầu nối mạng hai chiều): đại diện cho một kết nối TCP đã được thiết lập giữa hai điểm cuối.
 
+Sơ đồ tuần tự sau minh hoạ trình tự thiết lập kết nối và trao đổi dữ liệu giữa client và server:
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as Server (ServerSocket)
+    S->>S: new ServerSocket(port)
+    S->>S: accept() - chờ kết nối
+    C->>S: new Socket(host, port) - TCP handshake
+    S-->>C: kết nối Socket được thiết lập
+    C->>S: gửi dữ liệu qua OutputStream
+    S-->>C: phản hồi dữ liệu qua OutputStream
+    C->>S: close()
+    S->>S: close()
+```
+
+Server phải `accept()` trước và bị chặn cho đến khi client gọi `new Socket(...)`; sau bắt tay TCP, hai bên trao đổi dữ liệu hai chiều rồi lần lượt đóng kết nối.
+
 ---
 
 ## 2. Luồng hoạt động cơ bản

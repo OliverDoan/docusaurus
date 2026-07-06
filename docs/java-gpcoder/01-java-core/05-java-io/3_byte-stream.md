@@ -15,6 +15,24 @@ Hai lớp gốc trừu tượng:
 - `InputStream` — đọc byte
 - `OutputStream` — ghi byte
 
+Sơ đồ lớp dưới đây tóm tắt phân cấp các lớp Byte Stream thường dùng, chia thành nhánh đọc (`InputStream`) và nhánh ghi (`OutputStream`).
+
+```mermaid
+classDiagram
+    class InputStream
+    class OutputStream
+
+    InputStream <|-- FileInputStream
+    InputStream <|-- BufferedInputStream
+    InputStream <|-- DataInputStream
+    InputStream <|-- ByteArrayInputStream
+
+    OutputStream <|-- FileOutputStream
+    OutputStream <|-- BufferedOutputStream
+    OutputStream <|-- DataOutputStream
+    OutputStream <|-- ByteArrayOutputStream
+```
+
 ---
 
 ## Các lớp Byte Stream thường dùng

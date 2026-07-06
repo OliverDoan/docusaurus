@@ -19,6 +19,18 @@ Headers Exchange là loại exchange định tuyến tin nhắn dựa trên các
   - `x-match = all` (tất cả): Tất cả các điều kiện header phải khớp (**AND logic**).
   - `x-match = any` (bất kỳ): Chỉ cần một điều kiện header khớp (**OR logic**).
 
+Sơ đồ sau minh họa cách Headers Exchange so khớp các cặp key-value trong header (theo logic AND hoặc OR) để chọn Queue, hoàn toàn bỏ qua routing key:
+
+```mermaid
+flowchart LR
+    P["Producer<br/>(kèm headers)"] --> X["Headers Exchange<br/>document-headers"]
+    X -->|"x-match=all<br/>format=pdf AND language=vi"| Q1["pdf-vietnamese-queue"]
+    X -->|"x-match=any<br/>priority=high OR urgent=true"| Q2["high-priority-queue"]
+    X -->|"x-match=any<br/>format=excel OR format=csv"| Q3["spreadsheet-queue"]
+```
+
+Với `x-match=all` mọi điều kiện phải đúng (AND); với `x-match=any` chỉ cần một điều kiện đúng (OR) là tin nhắn vào Queue.
+
 ## Khi nào dùng Headers Exchange?
 
 - Khi điều kiện định tuyến phức tạp và không thể biểu diễn bằng chuỗi routing key đơn giản.

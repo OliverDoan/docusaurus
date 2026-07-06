@@ -7,6 +7,15 @@ title: "Function trong Java 8"
 
 `Function<T, R>` là functional interface quan trọng nhất trong lập trình hàm với Java 8: nó nhận vào một giá trị kiểu `T` và trả về kết quả kiểu `R`, dùng để biến đổi dữ liệu. Bài này giới thiệu cách dùng Function, cách nối nhiều hàm bằng `andThen()` và `compose()`, cùng các biến thể như `BiFunction`, `UnaryOperator` và `BinaryOperator`.
 
+Sơ đồ sau minh họa việc nối nhiều Function bằng `andThen()`: đầu ra của hàm trước trở thành đầu vào của hàm kế tiếp cho tới khi ra kết quả cuối.
+
+```mermaid
+flowchart LR
+    X["Đầu vào"] --> F1["f: nhan2"]
+    F1 --> F2["g: cong10 (andThen)"]
+    F2 --> Y["Kết quả"]
+```
+
 ## Function là gì?
 
 `Function<T, R>` là một **Functional Interface** (giao diện hàm) trong package `java.util.function`. Nó đại diện cho một hàm nhận vào **một đối số** kiểu `T` và **trả về kết quả** kiểu `R`. Đây là interface quan trọng nhất trong lập trình hàm với Java 8.

@@ -26,6 +26,37 @@ public class OrderService {
 }
 ```
 
+Sơ đồ lớp dưới đây minh họa cấu trúc Dependency Injection — `OrderService` chỉ phụ thuộc vào các interface, còn `ApplicationConfig` (nơi lắp ráp) tạo implementation cụ thể và tiêm vào:
+
+```mermaid
+classDiagram
+    class OrderService {
+        -OrderRepository orderRepository
+        -NotificationService notificationService
+        +placeOrder(String, String)
+    }
+    class OrderRepository {
+        <<interface>>
+        +save(String)
+    }
+    class NotificationService {
+        <<interface>>
+        +send(String, String)
+    }
+    class DatabaseOrderRepository
+    class EmailNotificationService
+    class ApplicationConfig {
+        +buildOrderService() OrderService
+    }
+    OrderRepository <|.. DatabaseOrderRepository : hien thuc
+    NotificationService <|.. EmailNotificationService : hien thuc
+    OrderService --> OrderRepository : phu thuoc
+    OrderService --> NotificationService : phu thuoc
+    ApplicationConfig ..> OrderService : lap rap va tiem
+```
+
+Nhờ chỉ phụ thuộc vào interface, ta có thể thay implementation thật bằng mock khi kiểm thử mà không sửa `OrderService`.
+
 ## Các hình thức DI
 
 ### 1. Constructor Injection (Khuyến nghị)

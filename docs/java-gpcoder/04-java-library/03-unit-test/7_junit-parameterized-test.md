@@ -16,6 +16,20 @@ Parameterized Test giúp bạn chạy cùng một bài test với nhiều bộ d
 - Dễ dàng thêm trường hợp kiểm thử mới.
 - Báo cáo rõ ràng: JUnit hiển thị kết quả từng bộ tham số riêng biệt.
 
+Sơ đồ dưới đây minh họa cách một phương thức test được chạy lặp lại qua từng bộ tham số:
+
+```mermaid
+flowchart TD
+    A["Nguồn dữ liệu<br/>danh sach cac bo tham so"] --> B{"Con bo tham so<br/>chua chay khong"}
+    B -->|"Con"| C["Lay bo tham so tiep theo"]
+    C --> D["Chay phuong thuc test<br/>voi bo tham so nay"]
+    D --> E["Ghi nhan ket qua<br/>pass hoac fail rieng biet"]
+    E --> B
+    B -->|"Het"| F["Tong hop bao cao<br/>ket qua tung bo tham so"]
+```
+
+Đọc sơ đồ: mỗi bộ tham số chạy lại đúng một lần phương thức test, kết quả từng bộ được ghi nhận riêng. Chỉ khi hết dữ liệu, JUnit mới tổng hợp báo cáo cuối cùng.
+
 ## Parameterized Test trong JUnit 4
 
 ### Thiết lập cơ bản

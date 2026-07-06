@@ -17,6 +17,23 @@ Các use case phổ biến:
 - **Encryption** (mã hóa): tự động mã hóa/giải mã dữ liệu nhạy cảm.
 - **Tenant filtering** (lọc theo tenant): tự động thêm điều kiện lọc theo tenant trong multi-tenant system.
 
+Sơ đồ dưới đây cho thấy hai điểm can thiệp: Interceptor xen vào lifecycle của entity, còn StatementInspector xen vào từng câu SQL trước khi xuống database:
+
+```mermaid
+flowchart TD
+    Op["Thao tác entity<br/>(save / update / delete)"] --> IC["Interceptor"]
+    IC --> S["onSave()<br/>trước INSERT"]
+    IC --> U["onFlushDirty()<br/>trước UPDATE"]
+    IC --> D["onDelete()<br/>sau DELETE"]
+    S --> SQL["Sinh câu SQL"]
+    U --> SQL
+    D --> SQL
+    SQL --> SI["StatementInspector<br/>inspect(sql)"]
+    SI --> DB[("Database")]
+```
+
+Interceptor làm việc ở mức đối tượng (thay đổi field trước khi lưu), còn StatementInspector làm việc ở mức câu lệnh SQL (thêm filter, comment) ngay trước khi gửi xuống database.
+
 ## EmptyInterceptor - Lớp cơ sở
 
 Hibernate cung cấp `EmptyInterceptor` (interceptor rỗng) với tất cả method đã được triển khai rỗng, bạn chỉ cần override method cần thiết:

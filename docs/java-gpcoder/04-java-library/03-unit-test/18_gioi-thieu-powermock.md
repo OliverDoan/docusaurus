@@ -62,6 +62,26 @@ public class MyServiceTest {
 
 `@PrepareForTest` yêu cầu PowerMock load lại class bằng classloader tùy chỉnh để có thể mock static method.
 
+Sơ đồ dưới đây minh họa cách Test, PowerMock và SUT (lớp đang được test) tương tác khi ta mock một static method:
+
+```mermaid
+sequenceDiagram
+    participant Test as Test
+    participant PM as PowerMock
+    participant CL as Classloader
+    participant SUT as SUT
+    Test->>PM: yeu cau mockStatic cho lop tinh
+    PM->>CL: nap lai class bang classloader tuy chinh
+    CL-->>PM: class da duoc chuan bi de intercept
+    Test->>PM: khai bao when static method tra ve gia tri co dinh
+    Test->>SUT: goi phuong thuc nghiep vu can test
+    SUT->>PM: SUT goi static method
+    PM-->>SUT: tra ve gia tri da stub thay vi chay that
+    SUT-->>Test: ket qua on dinh de assert
+```
+
+Đọc sơ đồ theo chiều thời gian từ trên xuống: PowerMock chen giữa SUT và static method thật, nên khi SUT gọi static method nó nhận về giá trị đã stub. Nhờ vậy kết quả trở nên tất định (deterministic) và có thể kiểm tra bằng `assertEquals`.
+
 ## Mock Static Method
 
 ```java

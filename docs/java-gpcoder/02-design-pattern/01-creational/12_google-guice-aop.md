@@ -50,6 +50,25 @@ Guice AOP sử dụng **MethodInterceptor** (bộ chặn phương thức) — m�
 
 **Yêu cầu:** Chỉ hoạt động với các class được tạo bởi Guice (không phải `new`), và method phải là `public` hoặc `protected`, không phải `static` hay `final`.
 
+Sơ đồ tuần tự dưới đây minh họa luồng AOP — Guice bọc đối tượng thật bằng một proxy, proxy gọi interceptor để xử lý trước/sau, rồi `proceed()` gọi method gốc:
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Proxy as Guice Proxy
+    participant Interceptor as MethodInterceptor
+    participant Target as Doi tuong that
+    Client->>Proxy: goi method @Loggable
+    Proxy->>Interceptor: invoke(invocation)
+    Interceptor->>Interceptor: xu ly truoc (log, do thoi gian)
+    Interceptor->>Target: invocation.proceed()
+    Target-->>Interceptor: ket qua
+    Interceptor->>Interceptor: xu ly sau (log ket qua)
+    Interceptor-->>Client: tra ve ket qua
+```
+
+Nhờ cơ chế proxy này, logic xuyên suốt (logging, retry, phân quyền) được tách khỏi method nghiệp vụ mà vẫn chạy tự động khi method được gọi.
+
 ## Ví dụ 1: Logging Interceptor
 
 ```java

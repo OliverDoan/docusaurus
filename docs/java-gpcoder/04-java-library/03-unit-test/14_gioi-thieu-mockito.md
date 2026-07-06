@@ -21,6 +21,24 @@ Giả sử bạn có lớp `OrderService` phụ thuộc vào `PaymentGateway` (c
 
 Mockito giải quyết tất cả vấn đề này.
 
+Sơ đồ dưới đây minh họa luồng tương tác điển hình khi dùng mock để cô lập dependency:
+
+```mermaid
+sequenceDiagram
+    participant Test as Test
+    participant Mock as Mock
+    participant SUT as SUT
+    Test->>Mock: tao mock cua UserRepository
+    Test->>Mock: cau hinh khi findById tra ve User gia
+    Test->>SUT: goi createUser
+    SUT->>Mock: goi findById
+    Mock-->>SUT: tra ve User gia da cau hinh
+    SUT-->>Test: tra ve ket qua
+    Test->>Mock: verify save da duoc goi
+```
+
+Đọc từ trên xuống theo dòng thời gian: Test tự tạo và cấu hình mock trước, sau đó SUT (đối tượng cần test) gọi mock trong lúc chạy, mock trả về dữ liệu giả thay cho dependency thật. Cuối cùng Test dùng `verify` để xác nhận các tương tác đã xảy ra.
+
 ## Cài đặt
 
 ```xml

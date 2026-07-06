@@ -14,6 +14,25 @@ Authentication (xác thực) là bước kiểm tra xem client có đúng là ng
 1. **SOAP Header Authentication** — Đặt thông tin xác thực (username/password) trong phần `<Header>` của SOAP message.
 2. **JAX-WS Handler** — Dùng **Handler** (bộ xử lý trung gian) để chặn và kiểm tra thông tin xác thực trước khi request đến service.
 
+Sơ đồ dưới đây minh họa cách một Handler đứng giữa để kiểm tra thông tin xác thực trước khi cho request vào service:
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant H as AuthenticationHandler
+    participant S as SecureService
+    C->>H: SOAP request kem AuthHeader
+    H->>H: Kiem tra username va password
+    alt Thong tin hop le
+        H->>S: Cho request di tiep
+        S-->>C: Tra du lieu
+    else Sai thong tin
+        H-->>C: SOAP Fault xac thuc that bai
+    end
+```
+
+Handler chặn mọi request ở giữa nên logic xác thực được tập trung một chỗ, service không cần tự kiểm tra.
+
 ---
 
 ## Cách 1 — Xác thực qua SOAP Header

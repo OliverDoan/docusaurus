@@ -7,6 +7,18 @@ title: "Hướng dẫn sử dụng Gson ExclusionStrategy"
 
 **`ExclusionStrategy`** (chiến lược loại trừ) là interface trong Gson cho phép định nghĩa quy tắc linh hoạt để loại trừ các field hoặc class khỏi quá trình serialize/deserialize. Đây là giải pháp mạnh hơn `@Expose` khi cần logic loại trừ phức tạp hoặc không muốn sửa code lớp gốc.
 
+Sơ đồ dưới đây cho thấy Gson hỏi `ExclusionStrategy` với từng field trước khi ghi ra JSON: field nào bị đánh dấu loại trừ sẽ không xuất hiện trong kết quả:
+
+```mermaid
+flowchart TD
+    START["Duyệt từng field của đối tượng"] --> ASK{"shouldSkipField(f)<br/>trả về true?"}
+    ASK -->|"true"| SKIP["Bỏ qua field<br/>(không đưa vào JSON)"]
+    ASK -->|"false"| KEEP["Giữ field<br/>(đưa vào JSON)"]
+    KEEP --> JSON["Chuỗi JSON kết quả"]
+```
+
+Đọc sơ đồ: quyết định giữ hay bỏ mỗi field do phương thức `shouldSkipField` (hoặc `shouldSkipClass` cho cả lớp) chi phối, cho phép áp dụng logic tùy ý theo tên, kiểu, hay annotation.
+
 ---
 
 ## 1. Maven Dependency

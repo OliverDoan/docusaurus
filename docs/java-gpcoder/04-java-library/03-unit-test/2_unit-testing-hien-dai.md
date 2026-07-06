@@ -29,6 +29,16 @@ Nguyên tắc **FIRST** mô tả đặc điểm của một unit test chất lư
 - **Act** (thực thi): Gọi phương thức cần kiểm thử.
 - **Assert** (xác nhận): Kiểm tra kết quả thực tế so với mong đợi.
 
+Ba bước này luôn diễn ra tuần tự trong mỗi bài test, minh họa như sau:
+
+```mermaid
+flowchart LR
+    A["Arrange<br/>(chuẩn bị đối tượng, dữ liệu)"] --> B["Act<br/>(gọi phương thức cần test)"]
+    B --> C["Assert<br/>(so sánh kết quả thực tế với mong đợi)"]
+```
+
+Đọc sơ đồ: đầu vào được chuẩn bị ở Arrange, phương thức được gọi ở Act, và kết quả được kiểm chứng ở Assert.
+
 ```java
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -121,7 +131,22 @@ public void test1()
 
 ## Mock và Stub trong Unit Test
 
-Khi lớp cần test phụ thuộc vào các thành phần bên ngoài (database, API, ...), ta dùng **Mock** (đối tượng giả lập) hoặc **Stub** (đối tượng trả về dữ liệu cố định) để cô lập:
+Khi lớp cần test phụ thuộc vào các thành phần bên ngoài (database, API, ...), ta dùng **Mock** (đối tượng giả lập) hoặc **Stub** (đối tượng trả về dữ liệu cố định) để cô lập. Sơ đồ dưới đây cho thấy test điều khiển mock thay vì gọi dependency thật:
+
+```mermaid
+sequenceDiagram
+    participant Test as Test
+    participant SUT as SUT (OrderService)
+    participant Mock as Mock (ProductRepository)
+    Test->>Mock: when(findById).thenReturn(Product)
+    Test->>SUT: placeOrder(1, 2)
+    SUT->>Mock: findById(1)
+    Mock-->>SUT: Product giả lập
+    SUT-->>Test: true
+    Test->>SUT: assertTrue(result)
+```
+
+Đọc sơ đồ: test cấu hình sẵn hành vi của mock, sau đó SUT gọi mock (không phải database thật) và trả kết quả để test xác nhận.
 
 ```java
 // Ví dụ dùng Mockito để mock dependency

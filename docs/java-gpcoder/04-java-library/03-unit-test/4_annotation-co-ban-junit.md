@@ -166,6 +166,21 @@ Khi chạy một lớp test, thứ tự thực thi như sau:
 @AfterClass (một lần)
 ```
 
+Sơ đồ dưới đây minh họa vòng đời thực thi các annotation khi một lớp test có 2 phương thức `@Test`:
+
+```mermaid
+flowchart TD
+    A["@BeforeClass<br/>chạy một lần"] --> B["@Before<br/>trước test 1"]
+    B --> C["@Test<br/>test 1"]
+    C --> D["@After<br/>sau test 1"]
+    D --> E["@Before<br/>trước test 2"]
+    E --> F["@Test<br/>test 2"]
+    F --> G["@After<br/>sau test 2"]
+    G --> H["@AfterClass<br/>chạy một lần"]
+```
+
+Cách đọc: `@BeforeClass` và `@AfterClass` chỉ chạy đúng một lần cho cả lớp, bao ngoài cùng. Cặp `@Before` và `@After` lặp lại quanh mỗi phương thức `@Test`, nên với 2 test thì chúng chạy 2 lần.
+
 ## Annotation trong JUnit 5
 
 JUnit 5 đổi tên một số annotation cho nhất quán hơn:

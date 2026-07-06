@@ -17,6 +17,19 @@ Serialization là cách chuyển một object Java thành chuỗi byte để lư
 - Bộ nhớ đệm phân tán (Distributed Cache như Redis)
 - Sao chép đối tượng (deep copy)
 
+Sơ đồ dưới đây minh họa hai chiều của quá trình: **Serialization** (chiều đi — object thành byte) và **Deserialization** (chiều về — byte thành object).
+
+```mermaid
+flowchart LR
+    A["Object Java<br/>(SinhVien)"] -->|"writeObject()"| B["ObjectOutputStream"]
+    B --> C["Chuỗi byte"]
+    C --> D["File / Mạng / Cache"]
+    D --> E["ObjectInputStream"]
+    E -->|"readObject()"| F["Object Java<br/>(tái tạo)"]
+```
+
+Trường `transient` sẽ bị bỏ qua ở chiều đi nên khi tái tạo lại sẽ nhận giá trị mặc định (ví dụ `null`).
+
 ---
 
 ## Interface Serializable

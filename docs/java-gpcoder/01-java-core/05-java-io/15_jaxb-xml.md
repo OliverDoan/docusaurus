@@ -17,6 +17,18 @@ JAXB sử dụng **annotation** (chú thích — metadata đánh dấu trên cla
 
 > Từ Java 11, JAXB bị loại khỏi JDK. Cần thêm dependency để sử dụng.
 
+Sơ đồ dưới đây minh họa hai chiều chuyển đổi của JAXB: **Marshalling** (Java Object thành XML) và **Unmarshalling** (XML thành Java Object), đều đi qua `JAXBContext`.
+
+```mermaid
+flowchart LR
+    A["Java Object<br/>(có annotation @Xml...)"] -->|"Marshaller<br/>marshal()"| B["Tài liệu XML"]
+    B -->|"Unmarshaller<br/>unmarshal()"| A
+    C["JAXBContext"] -.-> A
+    C -.-> B
+    B --> D{"setSchema(XSD)?"}
+    D -->|"Có"| E["Validate theo schema"]
+```
+
 ---
 
 ## Dependency Maven

@@ -18,6 +18,29 @@ JWT là cách xác thực bằng token: sau khi đăng nhập, client nhận m�
 6. Nếu hợp lệ, cho phép truy cập
 ```
 
+Sơ đồ tuần tự dưới đây minh họa toàn bộ luồng đăng nhập và gọi API được bảo vệ bằng JWT:
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant A as AuthResource
+    participant F as JwtAuthFilter
+    participant P as ProtectedResource
+    C->>A: POST /auth/login kem username va password
+    A-->>C: Tra ve JWT accessToken
+    Note over C: Luu token phia client
+    C->>F: GET /api/v1/me kem Bearer token
+    F->>F: Xac thuc chu ky va han token
+    alt Token hop le
+        F->>P: Gan SecurityContext va cho di tiep
+        P-->>C: 200 OK kem thong tin user
+    else Token sai hoac het han
+        F-->>C: 401 Unauthorized
+    end
+```
+
+Sau khi đăng nhập lấy token, mỗi request chỉ cần đính kèm token; filter xác thực chữ ký mà không cần tra cứu database.
+
 ## AuthRequest và AuthResponse
 
 ```java

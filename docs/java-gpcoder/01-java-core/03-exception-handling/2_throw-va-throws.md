@@ -7,6 +7,20 @@ title: "Từ khóa throw và throws trong Java"
 
 Trong Java, `throw` và `throws` là hai từ khóa liên quan đến **Exception** (ngoại lệ — sự kiện bất thường xảy ra trong quá trình thực thi chương trình), nhưng chúng có vai trò khác nhau.
 
+Sơ đồ dưới đây tóm tắt luồng phối hợp giữa `throws` (khai báo phương thức có thể ném lỗi) và `throw` (hành động ném lỗi thực sự), cùng trách nhiệm của người gọi:
+
+```mermaid
+flowchart TD
+    A["Phương thức có thể phát sinh lỗi"] --> B{"Loại ngoại lệ?"}
+    B -->|"Checked Exception"| C["Khai báo throws trên chữ ký phương thức"]
+    B -->|"Unchecked Exception"| D["Không bắt buộc khai báo throws"]
+    C --> E["Bên trong thân dùng throw để ném ngoại lệ"]
+    D --> E
+    E --> F["Người gọi bắt bằng try-catch<br/>hoặc khai báo throws tiếp"]
+```
+
+Đọc sơ đồ: nhánh trái cho thấy với Checked Exception thì bắt buộc khai báo `throws`; còn `throw` luôn là điểm ném lỗi thực tế trong thân phương thức.
+
 ---
 
 ## 1. Từ khóa `throw`

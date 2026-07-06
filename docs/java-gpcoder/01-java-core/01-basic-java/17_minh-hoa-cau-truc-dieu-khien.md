@@ -7,6 +7,25 @@ title: "Minh họa sử dụng cấu trúc điều khiển trong Java"
 
 Bài này tổng hợp các **cấu trúc điều khiển** (control structures) qua các bài toán thực tế, giúp bạn thấy cách kết hợp `if-else`, `switch`, vòng lặp, `break`, và `continue` trong cùng một chương trình.
 
+Sơ đồ dưới đây minh họa luồng rẽ nhánh của bài toán kinh điển FizzBuzz (kết hợp vòng lặp với chuỗi `if - else if`):
+
+```mermaid
+flowchart TD
+    A["Với mỗi i từ 1 đến n"] --> B{"i chia hết cho 15?"}
+    B -->|"Đúng"| C["In FizzBuzz"]
+    B -->|"Sai"| D{"i chia hết cho 3?"}
+    D -->|"Đúng"| E["In Fizz"]
+    D -->|"Sai"| F{"i chia hết cho 5?"}
+    F -->|"Đúng"| G["In Buzz"]
+    F -->|"Sai"| H["In i"]
+    C --> I["Chuyển sang i tiếp theo"]
+    E --> I
+    G --> I
+    H --> I
+```
+
+Đọc sơ đồ: thứ tự kiểm tra rất quan trọng — phải xét điều kiện chia hết cho 15 (cả 3 và 5) trước, nếu không số như 15 sẽ dừng ở nhánh "Fizz" và không bao giờ tới "FizzBuzz".
+
 ---
 
 ## Bài toán 1: Kiểm tra số nguyên tố

@@ -21,6 +21,23 @@ Có hai phiên bản:
 - **SoapUI Open Source**: Miễn phí, đủ dùng cho hầu hết công việc.
 - **ReadyAPI** (trước gọi là SoapUI Pro): Trả phí, thêm tính năng nâng cao.
 
+Sơ đồ sau mô tả luồng kiểm thử một SOAP service bằng SoapUI:
+
+```mermaid
+sequenceDiagram
+    participant U as Nguoi test
+    participant SU as SoapUI
+    participant WS as SOAP Service
+    U->>SU: Tao project tu WSDL
+    SU->>WS: Doc WSDL va sinh request mau
+    U->>SU: Nhap gia tri roi nhan Run
+    SU->>WS: Gui SOAP request
+    WS-->>SU: SOAP response
+    SU-->>U: Hien thi response va chay assertion
+```
+
+SoapUI đóng vai trò client tự động sinh request từ WSDL, giúp bạn test mà không cần viết code.
+
 ---
 
 ## Cài đặt SoapUI

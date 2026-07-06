@@ -7,6 +7,25 @@ title: "Vector trong Java"
 
 `Vector` là một lớp collection có trong Java từ phiên bản 1.0, đại diện cho một mảng động (dynamic array) tương tự `ArrayList`. Điểm khác biệt chính là `Vector` được đồng bộ hóa (synchronized) — tức là thread-safe theo mặc định.
 
+Sơ đồ phân cấp dưới đây cho thấy vị trí của `Vector` trong cây kế thừa `List` và mối quan hệ với `Stack`:
+
+```mermaid
+classDiagram
+    class List {
+        <<interface>>
+    }
+    class AbstractList {
+        <<abstract>>
+    }
+    class Vector
+    class Stack
+    List <|.. AbstractList : hiện thực
+    AbstractList <|-- Vector : kế thừa
+    Vector <|-- Stack : kế thừa
+```
+
+Lưu ý: `Stack` cũng kế thừa từ `Vector`, nên thừa hưởng cả tính thread-safe lẫn nhược điểm hiệu năng của lớp cha.
+
 ## Đặc điểm của Vector
 
 - **Thread-safe**: tất cả phương thức đều `synchronized`.

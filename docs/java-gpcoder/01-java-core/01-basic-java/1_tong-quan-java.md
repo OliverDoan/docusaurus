@@ -38,6 +38,18 @@ Chạy trên máy tính
 2. **Trình biên dịch** (compiler) `javac` chuyển thành **bytecode** — file `.class`
 3. **JVM** (Java Virtual Machine — Máy ảo Java) đọc bytecode và thực thi trên hệ điều hành cụ thể
 
+Sơ đồ dưới đây minh họa vì sao Java "Viết một lần, chạy mọi nơi": cùng một file bytecode có thể chạy trên nhiều hệ điều hành khác nhau nhờ JVM.
+
+```mermaid
+flowchart LR
+    A["Mã nguồn<br/>(.java)"] -->|"javac biên dịch"| B["Bytecode<br/>(.class)"]
+    B -->|"JVM thực thi"| C["Windows"]
+    B -->|"JVM thực thi"| D["macOS"]
+    B -->|"JVM thực thi"| E["Linux"]
+```
+
+Đọc sơ đồ: bytecode chỉ được tạo một lần, sau đó mỗi hệ điều hành dùng JVM riêng của mình để thực thi cùng file `.class` đó.
+
 ## Các lĩnh vực ứng dụng Java
 
 - **Ứng dụng doanh nghiệp** (Enterprise Applications): Hệ thống ngân hàng, ERP, CRM

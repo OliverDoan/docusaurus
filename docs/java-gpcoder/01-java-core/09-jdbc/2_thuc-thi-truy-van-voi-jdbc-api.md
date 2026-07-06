@@ -19,6 +19,30 @@ Sau khi có `Connection`, JDBC cung cấp ba lớp để thực thi câu lệnh 
 
 **SQL Injection** (tấn công chèn SQL — kẻ xấu chèn đoạn SQL độc hại vào câu truy vấn) là lỗ hổng bảo mật nghiêm trọng. Luôn dùng `PreparedStatement` thay vì `Statement` khi câu SQL có dữ liệu người dùng nhập vào.
 
+Sơ đồ tuần tự sau minh hoạ luồng thực thi một câu truy vấn SELECT qua các đối tượng JDBC:
+
+```mermaid
+sequenceDiagram
+    participant App as Ứng dụng
+    participant DM as DriverManager
+    participant Conn as Connection
+    participant PS as PreparedStatement
+    participant RS as ResultSet
+    App->>DM: getConnection(url, user, pass)
+    DM-->>App: Connection
+    App->>Conn: prepareStatement(sql)
+    Conn-->>PS: PreparedStatement
+    App->>PS: setXxx(1, value)
+    App->>PS: executeQuery()
+    PS-->>RS: ResultSet
+    loop Mỗi hàng
+        App->>RS: next() / getXxx()
+    end
+    App->>Conn: close()
+```
+
+Chuỗi phụ thuộc luôn theo thứ tự `DriverManager` → `Connection` → `PreparedStatement` → `ResultSet`; kết quả được duyệt tuần tự bằng vòng lặp `next()`.
+
 ---
 
 ## 1. Truy vấn dữ liệu — SELECT

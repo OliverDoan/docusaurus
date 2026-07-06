@@ -15,6 +15,24 @@ Ngoài việc stub giá trị trả về, Mockito còn cho phép kiểm tra xem 
 
 Stubbing kiểm tra "kết quả trả về", còn verification kiểm tra "hành vi đã xảy ra". Ví dụ: kiểm tra rằng `emailService.sendWelcome()` đã được gọi sau khi đăng ký người dùng thành công.
 
+Sơ đồ dưới đây cho thấy verification diễn ra sau khi SUT đã tương tác với mock:
+
+```mermaid
+sequenceDiagram
+    participant Test as Test
+    participant SUT as SUT
+    participant Mock as Mock
+    Test->>SUT: goi createUser
+    SUT->>Mock: goi save
+    SUT->>Mock: goi sendWelcome
+    Note over Mock: Mockito ghi lai moi lan goi
+    Test->>Mock: verify save duoc goi 1 lan
+    Test->>Mock: verify sendWelcome duoc goi voi email dung
+    Mock-->>Test: xac nhan tuong tac dung nhu mong doi
+```
+
+Đọc từ trên xuống: trước tiên SUT gọi các phương thức của mock trong lúc chạy, Mockito âm thầm ghi lại từng lần gọi. Sau đó Test dùng `verify` để kiểm tra số lần gọi và tham số có đúng như mong đợi hay không.
+
 ## 1. `verify()` cơ bản
 
 ```java

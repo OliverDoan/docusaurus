@@ -24,6 +24,38 @@ Khi thêm một hình mới hoặc màu mới, số lượng class tăng theo c�
 - **Implementor**: Interface định nghĩa các phép toán cơ bản cho Implementation.
 - **ConcreteImplementor**: Các triển khai cụ thể của Implementor.
 
+Sơ đồ dưới đây minh họa hai nhánh phân cấp độc lập của ví dụ Java bên dưới (`Shape` là Abstraction, `DrawingAPI` là Implementor):
+
+```mermaid
+classDiagram
+    class Shape {
+        <<abstract>>
+        #DrawingAPI drawingAPI
+        +draw()
+        +resize(double)
+    }
+    class Circle {
+        +draw()
+    }
+    class Rectangle {
+        +draw()
+    }
+    class DrawingAPI {
+        <<interface>>
+        +drawCircle()
+        +drawRectangle()
+    }
+    class DrawingAPI1
+    class DrawingAPI2
+    Shape <|-- Circle : kế thừa
+    Shape <|-- Rectangle : kế thừa
+    DrawingAPI <|.. DrawingAPI1 : hiện thực
+    DrawingAPI <|.. DrawingAPI2 : hiện thực
+    Shape o-- DrawingAPI : cầu nối
+```
+
+Nhánh `Shape` (hình học) và nhánh `DrawingAPI` (cách vẽ) tách rời nhau; "cầu nối" là tham chiếu `drawingAPI` bên trong `Shape`, cho phép thêm hình mới hay API mới độc lập.
+
 ## Ví dụ Java
 
 ```java

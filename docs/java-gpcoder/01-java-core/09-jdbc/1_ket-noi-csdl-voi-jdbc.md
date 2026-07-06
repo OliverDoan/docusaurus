@@ -36,6 +36,18 @@ Quy trình kết nối cơ sở dữ liệu với JDBC gồm 4 bước cơ bản
 3. **Tạo kết nối** qua `DriverManager.getConnection()`.
 4. **Đóng kết nối** sau khi dùng xong để giải phóng tài nguyên.
 
+Sơ đồ dưới đây minh hoạ trình tự bốn bước từ nạp driver tới đóng kết nối:
+
+```mermaid
+flowchart LR
+    A["1. Thêm JDBC Driver<br/>(dependency)"] --> B["2. Đăng ký driver<br/>(tự động từ JDBC 4.0)"]
+    B --> C["3. Tạo kết nối<br/>DriverManager.getConnection()"]
+    C --> D["Nhận đối tượng Connection"]
+    D --> E["4. Đóng kết nối<br/>(try-with-resources)"]
+```
+
+Từ JDBC 4.0 bước đăng ký driver diễn ra tự động, nên trong thực tế bạn chỉ cần quan tâm bước tạo và đóng `Connection`.
+
 ---
 
 ## Ví dụ: Kết nối MySQL bằng JDBC

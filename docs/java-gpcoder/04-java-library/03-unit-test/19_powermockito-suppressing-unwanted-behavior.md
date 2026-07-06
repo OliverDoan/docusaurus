@@ -21,6 +21,27 @@ title: "PowerMockito - Suppressing Unwanted Behavior"
 - **Constructor** cha gọi logic phức tạp khi kế thừa.
 - Phương thức helper private cần triệt tiêu để cô lập logic cần test.
 
+Sơ đồ sau mô tả luồng PowerMock lần lượt chặn và triệt tiêu các hành vi không mong muốn trước khi test thật sự chạy:
+
+```mermaid
+flowchart TD
+    A["Test khoi chay voi PowerMockRunner"] --> B{"Class co static initializer nang?"}
+    B -->|"co"| C["SuppressStaticInitializationFor<br/>ngan khoi static chay khi nap class"]
+    B -->|"khong"| D["Bo qua buoc nay"]
+    C --> E{"Constructor lam viec phien phuc?"}
+    D --> E
+    E -->|"co"| F["suppress constructor<br/>tao doi tuong ma khong chay logic"]
+    E -->|"khong"| G["Tao doi tuong binh thuong"]
+    F --> H{"Con phuong thuc phu thuoc ben ngoai?"}
+    G --> H
+    H -->|"co"| I["suppress method<br/>vo hieu hoa goi LDAP SMTP..."]
+    H -->|"khong"| J["Giu nguyen phuong thuc"]
+    I --> K["Chay test chi tren logic can kiem thu"]
+    J --> K
+```
+
+Đọc sơ đồ từ trên xuống: mỗi nhánh quyết định tương ứng một loại hành vi phiền phức; PowerMock loại bỏ nó trước khi tới bước cuối cùng. Kết quả là test chỉ còn tập trung vào phần logic nghiệp vụ cần kiểm thử.
+
 ## Thiết lập
 
 ```java

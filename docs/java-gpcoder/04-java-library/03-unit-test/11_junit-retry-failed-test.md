@@ -17,6 +17,21 @@ Trong thực tế, một số test có thể thất bại không phải do lỗi
 
 Tuy nhiên, cơ chế retry (chạy lại) chỉ nên là giải pháp tạm thời. Mục tiêu lâu dài là tìm và sửa nguyên nhân gốc rễ khiến test không ổn định.
 
+Sơ đồ dưới mô tả vòng lặp retry chung mà các cách bên dưới đều dựa theo:
+
+```mermaid
+flowchart TD
+    A["Bắt đầu chạy test"] --> B["Thực thi test"]
+    B --> C{"Kết quả ra sao?"}
+    C -->|"pass"| D["Dừng lại<br/>test thành công"]
+    C -->|"fail"| E{"Còn lượt retry?"}
+    E -->|"còn"| F["Tăng số lần đã thử"]
+    F --> B
+    E -->|"hết"| G["Báo test fail<br/>ném exception cuối cùng"]
+```
+
+Đọc sơ đồ: test được chạy lặp lại chừng nào còn lượt retry và vẫn fail; chỉ khi pass hoặc hết lượt thì vòng lặp mới kết thúc.
+
 ## Cách 1: Custom Rule — `RetryRule` (JUnit 4)
 
 Tạo một `TestRule` tùy chỉnh để tự động chạy lại test khi thất bại:

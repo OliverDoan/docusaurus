@@ -9,6 +9,25 @@ title: "Clean Code - Viết mã sạch trong Java"
 
 > "Clean code reads like well-written prose." — Robert C. Martin
 
+Sơ đồ dưới đây tóm tắt 5 trụ cột của Clean Code trong bài này và mục tiêu chung mà chúng cùng hướng tới:
+
+```mermaid
+flowchart TD
+    CC["Clean Code<br/>(mã sạch)"]
+    CC --> N["Đặt tên có ý nghĩa"]
+    CC --> F["Hàm nhỏ, làm một việc"]
+    CC --> C["Comment đúng chỗ"]
+    CC --> Fmt["Định dạng nhất quán"]
+    CC --> E["Xử lý lỗi sạch"]
+    N --> Goal["Code dễ đọc<br/>dễ bảo trì, ít lỗi"]
+    F --> Goal
+    C --> Goal
+    Fmt --> Goal
+    E --> Goal
+```
+
+Mỗi nhánh là một thói quen độc lập, nhưng khi kết hợp lại, tất cả cùng phục vụ một đích duy nhất: code dễ đọc, dễ bảo trì và ít lỗi.
+
 ---
 
 ## 1. Đặt tên có ý nghĩa (Meaningful Names)

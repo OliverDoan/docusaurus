@@ -7,6 +7,19 @@ title: "Chuyển đổi từ HashMap sang ArrayList"
 
 Trong thực tế, bạn thường cần chuyển dữ liệu từ `HashMap` sang `ArrayList` để duyệt có thứ tự, sắp xếp, hoặc truyền cho hàm cần `List`. Java cung cấp nhiều cách để làm điều này.
 
+Sơ đồ dưới đây tóm tắt ba nguồn dữ liệu có thể rút ra từ `HashMap`, tất cả đều đưa được vào constructor của `ArrayList`:
+
+```mermaid
+flowchart LR
+    M["HashMap (cặp key-value)"] --> K["keySet() → Set các key"]
+    M --> V["values() → Collection các value"]
+    M --> E["entrySet() → Set các Entry"]
+    K --> L["new ArrayList(...)"]
+    V --> L
+    E --> L
+    L --> R["ArrayList"]
+```
+
 ## Chuyển đổi danh sách key
 
 Dùng `keySet()` để lấy tập hợp (Set) các key, sau đó tạo `ArrayList` từ đó:

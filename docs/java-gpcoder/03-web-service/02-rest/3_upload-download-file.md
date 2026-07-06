@@ -11,6 +11,23 @@ Upload và download file là nhu cầu rất hay gặp trong REST API, ví dụ 
 
 Xử lý file là một yêu cầu phổ biến trong REST API: upload ảnh đại diện, download báo cáo PDF, chia sẻ tài liệu... Jersey 2.x hỗ trợ upload file thông qua **Multipart** (gửi nhiều phần dữ liệu trong một request) và download file thông qua `StreamingOutput` (truyền dữ liệu dạng luồng).
 
+Sơ đồ dưới đây mô tả luồng upload và download file giữa client và server:
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as FileResource
+    participant Disk as O dia server
+    C->>S: POST /api/files/upload dang multipart
+    S->>Disk: Ghi InputStream ra file
+    S-->>C: 201 Created kem JSON
+    C->>S: GET /api/files/download/ten-file
+    S->>Disk: Doc file qua StreamingOutput
+    S-->>C: File nhi phan dang attachment
+```
+
+Upload nhận dữ liệu qua multipart form, còn download dùng luồng để tránh nạp toàn bộ file lớn vào bộ nhớ.
+
 ## Cấu hình Maven
 
 ```xml

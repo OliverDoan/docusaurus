@@ -16,6 +16,21 @@ Hai giao thức truyền tải phổ biến nhất:
 - **TCP** (Transmission Control Protocol — Giao thức điều khiển truyền tải): kết nối đáng tin cậy, đảm bảo dữ liệu đến đúng thứ tự.
 - **UDP** (User Datagram Protocol — Giao thức gói tin người dùng): không kết nối, nhanh hơn nhưng không đảm bảo thứ tự hoặc toàn vẹn dữ liệu.
 
+Sơ đồ dưới đây tóm tắt các thành phần chính của lập trình mạng trong Java và giao thức tương ứng:
+
+```mermaid
+flowchart TD
+    App["Ứng dụng Java"] --> Net["Gói java.net"]
+    Net --> IP["InetAddress<br/>(địa chỉ IP)"]
+    Net --> Web["URL / URLConnection<br/>(HTTP/HTTPS)"]
+    Net --> TCP["TCP - có kết nối"]
+    Net --> UDP["UDP - không kết nối"]
+    TCP --> TCPClass["Socket / ServerSocket"]
+    UDP --> UDPClass["DatagramSocket / DatagramPacket"]
+```
+
+Nhìn từ trên xuống: mọi tác vụ mạng đều đi qua gói `java.net`, sau đó rẽ nhánh theo nhu cầu — tra cứu IP, đọc tài nguyên web, hoặc truyền dữ liệu qua TCP/UDP.
+
 ---
 
 ## 2. Lớp InetAddress — Địa chỉ IP

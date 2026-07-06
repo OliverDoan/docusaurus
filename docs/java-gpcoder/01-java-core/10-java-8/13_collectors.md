@@ -7,6 +7,17 @@ title: "Lớp Collectors trong Java 8"
 
 `Collectors` là lớp tiện ích trong Java 8 cung cấp các bộ thu thập (Collector) sẵn dùng cho phương thức `collect()` của Stream, giúp tổng hợp kết quả thành List, Set, Map hay nhóm và thống kê dữ liệu. Đây là công cụ cực kỳ mạnh khi xử lý dữ liệu theo phong cách hàm. Bài này giới thiệu các Collector thông dụng như `toList()`, `joining()`, `groupingBy()` và `partitioningBy()`.
 
+Sơ đồ sau tóm tắt các nhóm Collector thường dùng khi truyền vào phương thức `collect()` của Stream.
+
+```mermaid
+flowchart LR
+    ST["Stream"] --> COL["collect(Collector)"]
+    COL --> L["toList / toSet / toMap"]
+    COL --> J["joining"]
+    COL --> G["groupingBy"]
+    COL --> P["partitioningBy"]
+```
+
 ## Collectors là gì?
 
 `Collectors` là một lớp tiện ích (utility class) trong package `java.util.stream`, cung cấp các **Collector** sẵn dùng. **Collector** (bộ thu thập) là đối số truyền vào phương thức `collect()` của Stream, chỉ định cách tổng hợp và thu thập kết quả từ Stream.

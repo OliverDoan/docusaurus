@@ -18,6 +18,20 @@ Trong Java, cách thông thường để tạo đối tượng là dùng từ kh
 
 Java cung cấp nhiều cơ chế để làm điều này.
 
+Sơ đồ dưới đây giúp chọn cơ chế phù hợp tuỳ theo có cần chạy constructor hay không:
+
+```mermaid
+flowchart TD
+    Need["Cần tạo instance<br/>không dùng new"] --> Q{"Có cần chạy<br/>constructor?"}
+    Q -->|Có| Ctor["Constructor.newInstance()<br/>- framework, DI"]
+    Q -->|Không| NoCtor["Bỏ qua constructor"]
+    NoCtor --> Clone["clone()<br/>- sao chép object"]
+    NoCtor --> Deser["Deserialization<br/>- khôi phục từ byte"]
+    NoCtor --> Unsafe["Unsafe.allocateInstance()<br/>- chỉ để nghiên cứu"]
+```
+
+Nhánh trái vẫn chạy constructor (an toàn, dùng cho DI); nhánh phải bỏ qua hoàn toàn constructor — tiện cho clone/deserialization nhưng có thể phá vỡ ràng buộc dữ liệu.
+
 ---
 
 ## 1. `Class.newInstance()` — Cách cũ (Deprecated từ Java 9)

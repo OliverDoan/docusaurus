@@ -7,6 +7,16 @@ title: "Phương thức forEach() trong Java 8"
 
 `forEach()` là phương thức được thêm vào Java 8 giúp duyệt qua từng phần tử của tập hợp và thực hiện một hành động, viết gọn hơn nhiều so với vòng lặp truyền thống. Nó nhận vào một Lambda hoặc Method Reference và áp dụng lên mỗi phần tử. Bài này hướng dẫn dùng `forEach()` với List, Map, Set, Stream cùng những lưu ý quan trọng về biến trong Lambda.
 
+Sơ đồ sau mô tả cách `forEach()` nhận một `Consumer` rồi lần lượt áp dụng hành động đó lên từng phần tử của tập hợp.
+
+```mermaid
+flowchart LR
+    C["Collection / Stream"] --> FE["forEach(Consumer)"]
+    FE --> E1["phần tử 1: accept"]
+    FE --> E2["phần tử 2: accept"]
+    FE --> E3["phần tử n: accept"]
+```
+
 ## forEach() là gì?
 
 `forEach()` là phương thức **default method** được thêm vào interface `Iterable` trong Java 8. Phương thức này nhận vào một `Consumer<T>` — một Functional Interface đại diện cho một hành động được thực hiện trên mỗi phần tử — và áp dụng hành động đó lên từng phần tử trong tập hợp.

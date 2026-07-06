@@ -26,6 +26,29 @@ Có hai loại stream chính:
 | **Byte Stream** (luồng byte) | 1 byte (8 bit) | `InputStream`, `OutputStream` |
 | **Character Stream** (luồng ký tự) | 1 ký tự (16 bit Unicode) | `Reader`, `Writer` |
 
+Sơ đồ lớp dưới đây cho thấy bốn lớp gốc trừu tượng của Java I/O và một số lớp con tiêu biểu. Cột trái là các lớp làm việc với byte, cột phải là các lớp làm việc với ký tự.
+
+```mermaid
+classDiagram
+    class InputStream
+    class OutputStream
+    class Reader
+    class Writer
+
+    InputStream <|-- FileInputStream
+    InputStream <|-- BufferedInputStream
+    OutputStream <|-- FileOutputStream
+    OutputStream <|-- BufferedOutputStream
+
+    Reader <|-- FileReader
+    Reader <|-- BufferedReader
+    Writer <|-- FileWriter
+    Writer <|-- BufferedWriter
+
+    InputStream <.. InputStreamReader : bọc byte thành ký tự
+    Reader <|-- InputStreamReader
+```
+
 ---
 
 ## Phân loại I/O trong Java

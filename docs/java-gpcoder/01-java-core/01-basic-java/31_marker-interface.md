@@ -18,6 +18,30 @@ public interface Serializable {
 }
 ```
 
+Sơ đồ lớp sau minh họa các marker interface rỗng có sẵn và những lớp triển khai chúng:
+
+```mermaid
+classDiagram
+    class Serializable {
+        <<interface>>
+    }
+    class Cloneable {
+        <<interface>>
+    }
+    class RandomAccess {
+        <<interface>>
+    }
+    class ArrayList
+    class LinkedList
+    Serializable <|.. ArrayList : triển khai
+    Cloneable <|.. ArrayList : triển khai
+    RandomAccess <|.. ArrayList : triển khai
+    Serializable <|.. LinkedList : triển khai
+    Cloneable <|.. LinkedList : triển khai
+```
+
+Đọc sơ đồ: cả ba interface đều rỗng (không có phương thức). `ArrayList` triển khai `RandomAccess` nên truy cập theo chỉ số nhanh, còn `LinkedList` thì không — đó chính là "dấu hiệu" mà marker interface đánh dấu.
+
 ---
 
 ## Marker Interface có sẵn trong Java

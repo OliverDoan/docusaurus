@@ -123,6 +123,21 @@ new NhanVien()
                                    (xóa khỏi DB)        [PERSISTENT]
 ```
 
+Cùng nội dung trên, biểu diễn lại bằng sơ đồ trạng thái cho dễ theo dõi:
+
+```mermaid
+stateDiagram-v2
+    [*] --> Transient: new NhanVien()
+    Transient --> Persistent: persist()
+    Persistent --> Detached: close() / evict()
+    Detached --> Persistent: merge()
+    Persistent --> Removed: remove()
+    Removed --> [*]: commit (xóa khỏi DB)
+    Persistent --> Persistent: dirty checking
+```
+
+Một entity đi từ Transient vào vòng quản lý khi gọi `persist()`; rời khỏi ngữ cảnh thành Detached khi đóng session và quay lại Persistent qua `merge()`.
+
 ## Dirty Checking - Tự động phát hiện thay đổi
 
 **Dirty Checking** (kiểm tra thay đổi tự động) là cơ chế Hibernate theo dõi snapshot (bản chụp trạng thái ban đầu) của mỗi entity PERSISTENT và tự động sinh SQL UPDATE khi có thay đổi:

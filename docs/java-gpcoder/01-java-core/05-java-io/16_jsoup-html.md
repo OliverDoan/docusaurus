@@ -15,6 +15,17 @@ Khi cần lấy dữ liệu từ trang web hoặc xử lý nội dung HTML trong
 - Tìm kiếm phần tử bằng **CSS selector** (bộ chọn CSS)
 - **Sanitize** (làm sạch HTML — loại bỏ thẻ/thuộc tính nguy hiểm) để chống XSS
 
+Sơ đồ dưới đây minh họa luồng xử lý HTML với Jsoup: nạp HTML từ nhiều nguồn thành `Document`, dùng CSS selector để tìm phần tử rồi trích xuất dữ liệu, hoặc làm sạch HTML để chống XSS.
+
+```mermaid
+flowchart LR
+    A["Nguồn HTML<br/>(String / URL / File)"] --> B["Jsoup.parse / connect().get()"]
+    B --> C["Document"]
+    C --> D["select / selectFirst<br/>(CSS selector)"]
+    D --> E["Trích xuất<br/>text() / attr()"]
+    C --> F["Jsoup.clean(html, Safelist)<br/>chống XSS"]
+```
+
 ---
 
 ## Dependency Maven

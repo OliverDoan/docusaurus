@@ -13,6 +13,20 @@ Annotation là cách gắn thêm thông tin (metadata) vào class, method hay fi
 
 Khi kết hợp với **Reflection** (phản chiếu), annotation trở nên cực kỳ mạnh: chương trình có thể **đọc annotation lúc runtime** và hành xử khác nhau tuỳ theo nhãn đó.
 
+Sơ đồ dưới đây mô tả luồng đọc annotation lúc runtime và ra quyết định dựa trên nhãn:
+
+```mermaid
+flowchart TD
+    Def["Định nghĩa annotation<br/>@Retention(RUNTIME)"] --> Use["Gắn annotation lên<br/>class / method / field"]
+    Use --> Scan["Reflection quét các phần tử"]
+    Scan --> Check{"isAnnotationPresent()?"}
+    Check -->|Có| Get["getAnnotation()<br/>đọc giá trị phần tử"]
+    Check -->|Không| Skip["Bỏ qua"]
+    Get --> Act["Hành xử theo nhãn<br/>(validate / route / chạy test)"]
+```
+
+Chỉ những phần tử có annotation với `@Retention(RUNTIME)` mới được xử lý; đây chính là nguyên lý nền tảng của Spring MVC, JUnit hay Hibernate Validator.
+
 ---
 
 ## 1. Tạo Annotation tùy chỉnh

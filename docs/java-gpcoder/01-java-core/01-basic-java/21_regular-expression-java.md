@@ -57,6 +57,24 @@ title: "Regular Expression trong Java"
 
 ## Các lớp chính trong Java Regex
 
+Sơ đồ dưới đây minh họa luồng xử lý Regex trong Java, từ mẫu được biên dịch đến khi lấy kết quả:
+
+```mermaid
+flowchart LR
+    A["Chuỗi Regex<br/>ví dụ \\d{4}"] --> B["Pattern.compile()"]
+    B --> C["Đối tượng Pattern<br/>(mẫu đã biên dịch)"]
+    E["Chuỗi đầu vào"] --> D["pattern.matcher(input)"]
+    C --> D
+    D --> F["Đối tượng Matcher"]
+    F --> G{"Chọn cách<br/>đối sánh"}
+    G -->|"find()"| H["Tìm từng lần khớp"]
+    G -->|"matches()"| I["Khớp toàn bộ chuỗi?"]
+    H --> J["group() lấy chuỗi khớp"]
+    I --> J
+```
+
+Đọc sơ đồ: `Pattern.compile()` biên dịch mẫu một lần rồi tái sử dụng qua nhiều `Matcher`; `find()` dò từng lần xuất hiện, còn `matches()` kiểm tra toàn bộ chuỗi.
+
 ### Pattern — Mẫu biên dịch
 
 ```java

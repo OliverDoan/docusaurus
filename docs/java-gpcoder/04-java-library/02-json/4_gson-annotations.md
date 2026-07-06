@@ -7,6 +7,21 @@ title: "Hướng dẫn sử dụng Gson Annotations"
 
 **Gson Annotations** (chú thích Gson) là các annotation (chú thích — siêu dữ liệu gắn lên class/field trong Java) do Gson cung cấp, giúp kiểm soát quá trình serialization và deserialization mà không cần viết code tùy chỉnh phức tạp.
 
+Sơ đồ sau tóm tắt vai trò của bốn annotation chính, tất cả cùng tác động lên bước ánh xạ giữa field Java và key JSON:
+
+```mermaid
+flowchart TD
+    F["Field trong lớp Java"] --> D{"Annotation nào?"}
+    D -->|"@SerializedName"| N["Đổi tên key JSON<br/>(và nhận nhiều tên qua alternate)"]
+    D -->|"@Expose"| E["Chọn field được serialize / deserialize<br/>(cần excludeFieldsWithoutExposeAnnotation)"]
+    D -->|"@Since / @Until"| V["Bao gồm hoặc loại trừ theo phiên bản<br/>(cần setVersion)"]
+    N --> J["Chuỗi JSON kết quả"]
+    E --> J
+    V --> J
+```
+
+Đọc sơ đồ: mỗi field đi qua các annotation để quyết định tên, có xuất hiện hay không, và thuộc phiên bản nào trước khi tạo ra chuỗi JSON cuối cùng.
+
 ---
 
 ## 1. Maven Dependency

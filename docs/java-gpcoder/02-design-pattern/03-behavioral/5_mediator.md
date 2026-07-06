@@ -21,6 +21,47 @@ Khi các đối tượng trong hệ thống phụ thuộc lẫn nhau quá nhiề
 - **ConcreteMediator**: triển khai logic điều phối, biết và quản lý các đối tượng tham gia.
 - **Colleague**: mỗi đối tượng tham gia chỉ biết đến Mediator, không biết đồng nghiệp khác.
 
+Sơ đồ lớp dưới đây cho thấy các Colleague (`User`) chỉ biết đến Mediator (`ChatRoom`) chứ không tham chiếu trực tiếp lẫn nhau:
+
+```mermaid
+classDiagram
+    class ChatRoom {
+        <<interface>>
+        +sendMessage(String, User)
+        +addUser(User)
+    }
+    class ConcreteChat {
+        +sendMessage(String, User)
+        +addUser(User)
+    }
+    class User {
+        -String name
+        +joinRoom(ChatRoom)
+        +send(String)
+        +receive(String, String)
+    }
+    ChatRoom <|.. ConcreteChat : hiện thực
+    ConcreteChat o-- User : quản lý danh sách
+    User o-- ChatRoom : giao tiếp qua
+```
+
+Nhờ đi qua Mediator, việc thêm hay bớt một `User` không làm thay đổi các `User` khác.
+
+Sơ đồ tuần tự sau minh họa một tin nhắn được trung gian phát tới các thành viên còn lại:
+
+```mermaid
+sequenceDiagram
+    participant An
+    participant Chat as ConcreteChat
+    participant Binh
+    participant Cuong
+    An->>Chat: sendMessage("Chào mọi người!")
+    Chat->>Binh: receive(message, "An")
+    Chat->>Cuong: receive(message, "An")
+```
+
+Người gửi chỉ đẩy tin cho Mediator; Mediator lo việc phân phối tới đúng những người nhận.
+
 ## Ví dụ Java: Phòng chat
 
 ```java

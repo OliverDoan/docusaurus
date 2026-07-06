@@ -13,6 +13,23 @@ HATEOAS là một nguyên tắc trong REST cho phép server trả về kèm các
 
 Nói đơn giản: thay vì client phải biết trước tất cả URL của API, server trả về response kèm các **link** chỉ dẫn client biết tiếp theo có thể làm gì.
 
+Sơ đồ sau minh họa cách client "đi theo" các link do server trả về thay vì tự đoán URL:
+
+```mermaid
+sequenceDiagram
+    participant Client as Client
+    participant Server as REST API Server
+
+    Client->>Server: GET /orders/123
+    Server-->>Client: Order + _links (self, confirm, cancel)
+    Note over Client: Client đọc link "confirm" thay vì hardcode URL
+    Client->>Server: POST /orders/123/confirm (theo href trong _links)
+    Server-->>Client: Order (status CONFIRMED) + _links mới (ship, cancel)
+    Note over Client: Danh sách hành động thay đổi theo trạng thái
+```
+
+Client chỉ cần biết entry point; mỗi response tự mang theo "menu" hành động hợp lệ cho trạng thái hiện tại.
+
 ## REST thông thường vs HATEOAS
 
 ### REST thông thường

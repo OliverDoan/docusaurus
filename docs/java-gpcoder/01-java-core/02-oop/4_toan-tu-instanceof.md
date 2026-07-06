@@ -7,6 +7,19 @@ title: "Toán tử instanceof trong Java"
 
 Toán tử `instanceof` (kiểm tra kiểu — type check operator) dùng để kiểm tra xem một đối tượng có phải là thực thể (instance) của một lớp, lớp cha, hoặc interface cụ thể hay không. Kết quả trả về là giá trị kiểu `boolean` (`true` hoặc `false`).
 
+Sơ đồ cây kế thừa dưới đây giúp hình dung vì sao một đối tượng `ChoNha` vừa là `ChoNha` vừa là `DongVat`, nhưng không phải `MeoNha`:
+
+```mermaid
+classDiagram
+    class DongVat
+    class ChoNha
+    class MeoNha
+    DongVat <|-- ChoNha : kế thừa
+    DongVat <|-- MeoNha : kế thừa
+```
+
+Đọc sơ đồ: `cho instanceof ChoNha` và `cho instanceof DongVat` đều trả `true` (theo đường kế thừa hướng lên), còn `cho instanceof MeoNha` trả `false` vì hai nhánh không liên quan.
+
 ---
 
 ## 1. Cú pháp

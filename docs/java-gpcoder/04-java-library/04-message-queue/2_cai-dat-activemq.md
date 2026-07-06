@@ -11,6 +11,19 @@ Apache ActiveMQ là một Message Broker mã nguồn mở phổ biến của Jav
 
 **Apache ActiveMQ** (máy chủ tin nhắn mã nguồn mở phổ biến nhất của Java — hỗ trợ giao thức JMS và nhiều giao thức khác) là một **Message Broker** (máy chủ trung gian quản lý hàng đợi tin nhắn) được phát triển bởi Apache Software Foundation. ActiveMQ hỗ trợ nhiều giao thức như **JMS**, **AMQP** (Advanced Message Queuing Protocol — giao thức hàng đợi tin nhắn nâng cao), **STOMP** (Simple Text Oriented Messaging Protocol — giao thức nhắn tin dựa trên văn bản đơn giản), **MQTT** và **WebSocket**.
 
+Sơ đồ dưới đây cho thấy ActiveMQ đứng ở giữa, mở nhiều cổng theo từng giao thức để các loại client khác nhau cùng kết nối:
+
+```mermaid
+flowchart LR
+    C1["JMS Client"] -->|"tcp:61616"| B["ActiveMQ Broker"]
+    C2["AMQP Client"] -->|"amqp:5672"| B
+    C3["STOMP Client"] -->|"stomp:61613"| B
+    C4["MQTT / IoT"] -->|"mqtt:1883"| B
+    B --> W["Web Console<br/>(http:8161)"]
+```
+
+Nhờ hỗ trợ đa giao thức, cùng một broker có thể phục vụ ứng dụng Java, IoT hay web mà không cần dựng nhiều hệ thống riêng.
+
 ## Yêu cầu hệ thống
 
 - **Java Development Kit (JDK)** phiên bản 11 trở lên.

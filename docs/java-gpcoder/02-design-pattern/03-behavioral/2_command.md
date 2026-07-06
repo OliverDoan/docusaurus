@@ -23,6 +23,59 @@ Khi cần tách biệt đối tượng phát ra yêu cầu (invoker) khỏi đ�
 - **Invoker**: kích hoạt lệnh, không cần biết lệnh làm gì.
 - **Client**: tạo ConcreteCommand và gán Receiver cho nó.
 
+Sơ đồ lớp dưới đây thể hiện cách Command tách người ra lệnh (Invoker) khỏi người thực hiện (Receiver):
+
+```mermaid
+classDiagram
+    class Command {
+        <<interface>>
+        +execute()
+        +undo()
+    }
+    class TurnOnCommand {
+        +execute()
+        +undo()
+    }
+    class TurnOffCommand {
+        +execute()
+        +undo()
+    }
+    class Light {
+        +turnOn()
+        +turnOff()
+    }
+    class RemoteControl {
+        -Command lastCommand
+        +submit(Command)
+        +undoLast()
+    }
+    Command <|.. TurnOnCommand : hiện thực
+    Command <|.. TurnOffCommand : hiện thực
+    TurnOnCommand o-- Light : gọi Receiver
+    TurnOffCommand o-- Light : gọi Receiver
+    RemoteControl o-- Command : giữ lệnh
+```
+
+`RemoteControl` chỉ làm việc với interface `Command`, không cần biết lệnh cụ thể hay Receiver bên trong là gì.
+
+Sơ đồ tuần tự sau minh họa luồng thực thi và hoàn tác một lệnh bật đèn:
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant RemoteControl
+    participant TurnOnCommand
+    participant Light
+    Client->>RemoteControl: submit(turnOn)
+    RemoteControl->>TurnOnCommand: execute()
+    TurnOnCommand->>Light: turnOn()
+    Client->>RemoteControl: undoLast()
+    RemoteControl->>TurnOnCommand: undo()
+    TurnOnCommand->>Light: turnOff()
+```
+
+Khi undo, Invoker gọi lại `undo()` trên lệnh vừa chạy, và chính lệnh biết cách đảo ngược thao tác trên Receiver.
+
 ## Ví dụ Java: Hệ thống đèn có Undo
 
 ```java

@@ -13,6 +13,25 @@ Swagger (nay là OpenAPI) là bộ công cụ giúp tự động tạo tài li�
 
 **OpenAPI Specification (OAS)** là đặc tả chuẩn mô tả REST API bằng định dạng JSON hoặc YAML.
 
+Sơ đồ dưới đây cho thấy luồng từ code có annotation đến tài liệu và giao diện test trên trình duyệt:
+
+```mermaid
+flowchart LR
+    Code["Resource class<br/>@Operation, @ApiResponse, @Schema"]
+    Scan["Swagger quét annotation<br/>lúc runtime"]
+    Spec["OpenAPI spec<br/>(openapi.json / .yaml)"]
+    UI["Swagger UI<br/>(trình duyệt)"]
+    Gen["Code generation<br/>(client Java, JS, Python)"]
+
+    Code --> Scan
+    Scan --> Spec
+    Spec --> UI
+    Spec --> Gen
+    UI -->|"Test request trực tiếp"| Code
+```
+
+Vì spec sinh ra từ chính code, tài liệu luôn đồng bộ; Swagger UI vừa hiển thị vừa cho phép gọi thử endpoint.
+
 ## Tại sao cần Swagger?
 
 - **Tự động hóa tài liệu**: Viết code → Swagger tự tạo tài liệu, không cần viết thủ công.

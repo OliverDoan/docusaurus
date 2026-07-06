@@ -7,6 +7,29 @@ title: "HashMap trong Java hoạt động như thế nào"
 
 Hiểu cơ chế bên trong của `HashMap` giúp bạn sử dụng nó hiệu quả hơn và tránh các lỗi hiệu năng phổ biến.
 
+Sơ đồ dưới đây tóm tắt toàn bộ luồng xử lý khi gọi `put(key, value)` — từ tính hash, chọn bucket, xử lý va chạm cho đến treeify và resize:
+
+```mermaid
+flowchart TD
+    A["put(key, value)"] --> B["Tính hash(key)"]
+    B --> C["index = hash AND (capacity - 1)"]
+    C --> D{"bucket[index] rỗng?"}
+    D -->|"Có"| E["Tạo Entry mới"]
+    D -->|"Không"| F{"key đã tồn tại<br/>(so sánh equals)?"}
+    F -->|"Có"| G["Cập nhật value"]
+    F -->|"Không"| H["Thêm vào bucket<br/>(nối vào linked list)"]
+    H --> I{"Số node trong bucket >= 8?"}
+    I -->|"Có"| J["Treeify: chuyển bucket<br/>sang Red-Black Tree"]
+    I -->|"Không"| K{"size > capacity * 0.75?"}
+    E --> K
+    J --> K
+    K -->|"Có"| L["Resize: tăng capacity gấp đôi<br/>và phân phối lại phần tử"]
+    K -->|"Không"| M["Hoàn tất"]
+    L --> M
+```
+
+Các bước chi tiết sẽ được trình bày ngay bên dưới.
+
 ## Cấu trúc nội tại: Array of Buckets
 
 `HashMap` lưu trữ dữ liệu trong một **mảng các bucket** (thùng chứa). Mỗi bucket là một vị trí trong mảng, và mỗi vị trí có thể chứa một hoặc nhiều cặp key-value.

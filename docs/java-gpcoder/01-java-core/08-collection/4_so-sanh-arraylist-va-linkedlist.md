@@ -7,6 +7,22 @@ title: "So sánh ArrayList và LinkedList trong Java"
 
 `ArrayList` và `LinkedList` đều là hai cài đặt (implementation) phổ biến của `List` interface trong Java. Dù cùng lưu trữ danh sách phần tử có thứ tự, chúng có cấu trúc nội tại và hiệu năng rất khác nhau.
 
+Sơ đồ dưới đây minh họa sự khác biệt về cấu trúc lưu trữ nội tại của hai lớp:
+
+```mermaid
+flowchart TB
+    subgraph AL["ArrayList - mảng động liền kề"]
+        direction LR
+        a0["[0] Java"] --- a1["[1] Python"] --- a2["[2] C++"]
+    end
+    subgraph LL["LinkedList - danh sách liên kết đôi"]
+        direction LR
+        n0["Java"] <--> n1["Python"] <--> n2["C++"]
+    end
+```
+
+`ArrayList` đặt các phần tử liền kề nhau trong bộ nhớ nên truy cập theo chỉ số rất nhanh; `LinkedList` nối các nút bằng con trỏ hai chiều nên thêm/xóa ở đầu và giữa hiệu quả hơn.
+
 ## Cấu trúc bộ nhớ
 
 - **ArrayList**: Sử dụng mảng động (dynamic array) bên trong. Các phần tử nằm liên tiếp nhau trong bộ nhớ.

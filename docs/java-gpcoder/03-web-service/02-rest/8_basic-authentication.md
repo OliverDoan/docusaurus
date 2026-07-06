@@ -19,6 +19,28 @@ Ví dụ: username=`admin`, password=`secret123`
 
 **Lưu ý quan trọng**: Base64 là mã hóa, không phải mã hóa bảo mật (encryption). Bất kỳ ai có header đó đều có thể giải mã. Vì vậy, **phải dùng HTTPS** khi dùng Basic Authentication.
 
+Sơ đồ sau mô tả luồng xử lý một request có Basic Authentication qua filter:
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant F as BasicAuthFilter
+    participant U as UserService
+    participant R as SecureResource
+    C->>F: Request kem Authorization Basic base64
+    F->>F: Giai ma Base64 thanh username va password
+    F->>U: authenticate(username, password)
+    alt Dung thong tin
+        U-->>F: Tra ve User
+        F->>R: Gan SecurityContext va cho di tiep
+        R-->>C: 200 OK kem du lieu
+    else Sai thong tin
+        F-->>C: 401 Unauthorized
+    end
+```
+
+Filter giải mã và kiểm tra thông tin trước; chỉ khi hợp lệ mới gắn `SecurityContext` và cho request vào resource.
+
 ## Model User
 
 ```java

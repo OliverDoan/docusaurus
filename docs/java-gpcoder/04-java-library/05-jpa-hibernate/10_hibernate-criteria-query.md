@@ -32,6 +32,19 @@ Ba thành phần chính:
 - **`CriteriaQuery`**: đại diện cho toàn bộ câu truy vấn.
 - **`Root`**: điểm xuất phát của query, tương đương từ khóa `FROM` trong HQL.
 
+Sơ đồ dưới đây cho thấy các thành phần này ghép lại thành một câu truy vấn hoàn chỉnh như thế nào:
+
+```mermaid
+flowchart TD
+    CB["CriteriaBuilder<br/>(tạo điều kiện, hàm)"] --> CQ["CriteriaQuery<br/>(toàn bộ truy vấn)"]
+    Root["Root<br/>(nguồn dữ liệu = FROM)"] --> CQ
+    P["Predicate<br/>(điều kiện WHERE)"] --> CQ
+    CQ --> Exec["session.createQuery(cq)<br/>.list()"]
+    Exec --> DB[("Database")]
+```
+
+`CriteriaBuilder` sinh ra các mảnh nhỏ (Root, Predicate, order...), tất cả được lắp vào `CriteriaQuery` rồi mới thực thi để truy vấn database.
+
 ```java
 import jakarta.persistence.criteria.*;
 import org.hibernate.Session;

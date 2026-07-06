@@ -20,6 +20,37 @@ Khi nhiều lớp có thuật toán giống nhau về cấu trúc nhưng khác n
 - **AbstractClass**: định nghĩa `templateMethod()` chứa bộ khung thuật toán (final), khai báo các bước trừu tượng.
 - **ConcreteClass**: triển khai các bước cụ thể theo từng biến thể.
 
+Sơ đồ lớp dưới đây cho thấy lớp cha giữ bộ khung `prepare()` (final), còn các lớp con chỉ ghi đè những bước khác biệt:
+
+```mermaid
+classDiagram
+    class BeverageTemplate {
+        <<abstract>>
+        +prepare() final
+        #brew()
+        #addCondiments()
+        #customerWantsCondiments() boolean
+    }
+    class Tea {
+        #brew()
+        #addCondiments()
+    }
+    class Coffee {
+        #brew()
+        #addCondiments()
+        #customerWantsCondiments() boolean
+    }
+    class HotChocolate {
+        #brew()
+        #addCondiments()
+    }
+    BeverageTemplate <|-- Tea : kế thừa
+    BeverageTemplate <|-- Coffee : kế thừa
+    BeverageTemplate <|-- HotChocolate : kế thừa
+```
+
+Trình tự các bước được cố định trong `prepare()`; lớp con như `Coffee` còn ghi đè hook `customerWantsCondiments()` để bỏ qua bước thêm gia vị.
+
 ## Ví dụ Java: Quy trình pha đồ uống
 
 ```java

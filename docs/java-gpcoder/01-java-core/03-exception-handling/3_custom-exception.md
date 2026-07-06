@@ -7,6 +7,23 @@ title: "Custom Exception trong Java"
 
 **Custom Exception** (ngoại lệ tùy chỉnh — ngoại lệ do lập trình viên tự định nghĩa) cho phép bạn tạo ra các loại lỗi phù hợp với nghiệp vụ của ứng dụng, thay vì phụ thuộc hoàn toàn vào các lớp ngoại lệ có sẵn của Java.
 
+Sơ đồ dưới đây cho thấy vị trí của ngoại lệ tùy chỉnh trong cây phân cấp ngoại lệ của Java: kế thừa từ `Exception` (Checked) hoặc từ `RuntimeException` (Unchecked).
+
+```mermaid
+classDiagram
+    class Throwable
+    class Exception
+    class RuntimeException
+    class SoDuKhongDuException
+    class MaSanPhamKhongHopLeException
+    Throwable <|-- Exception : là con của
+    Exception <|-- RuntimeException : là con của
+    Exception <|-- SoDuKhongDuException : Checked tùy chỉnh
+    RuntimeException <|-- MaSanPhamKhongHopLeException : Unchecked tùy chỉnh
+```
+
+Đọc sơ đồ: `SoDuKhongDuException` kế thừa trực tiếp `Exception` nên là Checked (bắt buộc xử lý); `MaSanPhamKhongHopLeException` kế thừa `RuntimeException` nên là Unchecked (không bắt buộc xử lý).
+
 ---
 
 ## 1. Tại sao cần Custom Exception?

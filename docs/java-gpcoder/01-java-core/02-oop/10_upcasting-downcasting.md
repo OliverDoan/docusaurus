@@ -10,6 +10,18 @@ Trong Java, **casting** (ép kiểu) là cơ chế chuyển đổi một đối 
 - **Upcasting** — ép kiểu hướng lên (lớp con → lớp cha)
 - **Downcasting** — ép kiểu hướng xuống (lớp cha → lớp con)
 
+Sơ đồ dưới đây minh họa hai chiều ép kiểu trên cùng một cây kế thừa `DongVat` → `ChoNha`:
+
+```mermaid
+flowchart TB
+    Cha["DongVat (lớp cha)"]
+    Con["ChoNha (lớp con)"]
+    Con -->|"Upcasting<br/>tự động, luôn an toàn"| Cha
+    Cha -->|"Downcasting<br/>tường minh, cần instanceof"| Con
+```
+
+Đọc sơ đồ: đi lên (upcasting) luôn an toàn và tự động; đi xuống (downcasting) phải khai báo tường minh và nên kiểm tra bằng `instanceof` để tránh `ClassCastException`.
+
 ---
 
 ## 1. Upcasting — Ép kiểu hướng lên
@@ -22,6 +34,23 @@ Trong Java, **casting** (ép kiểu) là cơ chế chuyển đổi một đối 
 - Java thực hiện **tự động** (implicit casting), không cần khai báo tường minh.
 - Sau upcasting, chỉ có thể truy cập các thành viên được định nghĩa trong **kiểu lớp cha**.
 - Phương thức đã được ghi đè (override) vẫn gọi **cài đặt của lớp con** (runtime polymorphism).
+
+Sơ đồ lớp dưới đây cho thấy `layDo()` chỉ tồn tại ở `ChoNha`, nên sau khi upcasting về `DongVat` ta không còn "nhìn thấy" nó:
+
+```mermaid
+classDiagram
+    class DongVat {
+        +ten
+        +keu()
+    }
+    class ChoNha {
+        +keu()
+        +layDo()
+    }
+    DongVat <|-- ChoNha : kế thừa
+```
+
+Đọc sơ đồ: qua biến kiểu `DongVat` chỉ truy cập được `ten` và `keu()`; muốn gọi `layDo()` phải downcasting trở lại `ChoNha`.
 
 ```java
 public class DongVat {

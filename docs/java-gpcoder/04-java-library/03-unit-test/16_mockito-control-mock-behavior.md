@@ -11,6 +11,23 @@ Khi viết unit test với Mockito, sau khi tạo mock bạn cần "dạy" cho n
 
 Sau khi tạo mock, bước tiếp theo là **stubbing** (định nghĩa hành vi) — chỉ định mock sẽ làm gì khi một phương thức được gọi với các tham số nhất định. Mockito cung cấp nhiều cách để kiểm soát hành vi: trả về giá trị, ném exception, gọi phương thức thật, hoặc thực hiện logic tùy chỉnh.
 
+Sơ đồ dưới đây minh họa cách hành vi đã stub được "phát lại" khi SUT gọi mock:
+
+```mermaid
+sequenceDiagram
+    participant Test as Test
+    participant Mock as Mock
+    participant SUT as SUT
+    Test->>Mock: when findById thenReturn Optional cua User
+    Test->>Mock: when save thenThrow exception
+    Test->>SUT: goi phuong thuc nghiep vu
+    SUT->>Mock: goi findById
+    Mock-->>SUT: tra ve gia tri da cau hinh
+    SUT-->>Test: tra ve ket qua theo hanh vi stub
+```
+
+Đọc từ trên xuống: Test cấu hình trước các hành vi bằng `when`, sau đó khi SUT gọi mock lúc chạy, mock trả về đúng giá trị đã được stub thay vì giá trị mặc định. Nhờ vậy bạn kiểm soát được mọi tình huống mà SUT phải xử lý.
+
 ## 1. `when(...).thenReturn(...)` — Trả về giá trị
 
 Phương thức phổ biến nhất để stub hành vi của mock:

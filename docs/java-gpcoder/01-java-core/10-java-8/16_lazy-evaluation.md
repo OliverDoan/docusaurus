@@ -7,6 +7,16 @@ title: "Tìm hiểu cơ chế Lazy Evaluation của Stream trong Java 8"
 
 Lazy Evaluation là cách Stream trong Java 8 trì hoãn việc tính toán cho đến khi thật sự cần kết quả. Hiểu được cơ chế này giúp bạn viết code Stream chạy nhanh hơn, làm việc được với dữ liệu vô hạn và sắp xếp các bước xử lý sao cho tối ưu nhất. Bài này giải thích lazy evaluation, short-circuit và thứ tự xử lý phần tử trong pipeline.
 
+Sơ đồ sau minh họa cơ chế lazy: các thao tác trung gian như `filter()`, `map()` chỉ được thực thi khi thao tác kết cuối kích hoạt toàn bộ pipeline.
+
+```mermaid
+flowchart LR
+    E["Mỗi phần tử"] --> F["filter (lazy)"]
+    F --> M["map (lazy)"]
+    M --> TR["terminal kích hoạt"]
+    TR --> R["Kết quả"]
+```
+
 ## Lazy Evaluation là gì?
 
 **Lazy Evaluation** (đánh giá lười biếng) là cơ chế trong đó các phép tính **không được thực hiện ngay** mà chỉ được thực thi khi kết quả thực sự cần thiết. Ngược lại với **Eager Evaluation** (đánh giá tức thì) — thực thi ngay lập tức khi gặp lệnh.

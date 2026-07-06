@@ -27,6 +27,22 @@ public class ViDuThamChieu {
 
 Cloning giải quyết vấn đề này bằng cách tạo đối tượng độc lập.
 
+Sơ đồ dưới đây so sánh trực quan hai kiểu clone: shallow clone vẫn dùng chung đối tượng lồng nhau, còn deep clone tạo bản sao độc lập hoàn toàn.
+
+```mermaid
+flowchart LR
+    subgraph Shallow["Shallow Clone"]
+        NV1["nv1"] --> DC1["DiaChi<br/>(dùng chung)"]
+        NV2["nv2 (bản sao)"] --> DC1
+    end
+    subgraph Deep["Deep Clone"]
+        NV3["nv1"] --> DC2["DiaChi A"]
+        NV4["nv2 (bản sao)"] --> DC3["DiaChi B"]
+    end
+```
+
+Đọc sơ đồ: ở shallow clone, sửa `DiaChi` qua `nv2` sẽ ảnh hưởng `nv1` vì cả hai cùng trỏ một đối tượng; ở deep clone, mỗi đối tượng có bản `DiaChi` riêng nên hoàn toàn độc lập.
+
 ---
 
 ## 2. Shallow Clone — Sao chép nông

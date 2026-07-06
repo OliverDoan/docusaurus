@@ -9,13 +9,28 @@ Khi bắt đầu học Java, bạn sẽ thường xuyên gặp ba khái niệm: 
 
 ## Tổng quan
 
+Mối quan hệ giữa ba khái niệm là **quan hệ lồng nhau** (cái lớn chứa cái nhỏ): JDK chứa JRE, JRE chứa JVM.
+
+```mermaid
+graph TB
+    subgraph JDK["JDK — Java Development Kit (Bộ phát triển Java)"]
+        direction TB
+        subgraph JRE["JRE — Java Runtime Environment (Môi trường chạy Java)"]
+            direction TB
+            subgraph JVM["JVM — Java Virtual Machine (Máy ảo Java)"]
+                CORE["Thực thi bytecode + Garbage Collector"]
+            end
+            LIB["Thư viện chuẩn: java.lang, java.util, java.io..."]
+        end
+        TOOLS["Công cụ phát triển: javac, javadoc, jdb, jar, jshell"]
+    end
 ```
-JDK (Java Development Kit — Bộ phát triển Java)
-  ├── JRE (Java Runtime Environment — Môi trường chạy Java)
-  │     ├── JVM (Java Virtual Machine — Máy ảo Java)
-  │     └── Java Standard Libraries (Thư viện chuẩn)
-  └── Development Tools (javac, javadoc, jdb, ...)
-```
+
+Đọc sơ đồ từ trong ra ngoài:
+
+- **JVM** (lõi trong cùng) — thực thi bytecode.
+- **JRE** = JVM + thư viện chuẩn → đủ để **chạy** app Java.
+- **JDK** = JRE + công cụ phát triển → đủ để **viết, biên dịch và chạy** app Java.
 
 ---
 
@@ -80,17 +95,16 @@ Khi bạn **viết và biên dịch** code Java — lập trình viên luôn c�
 
 ## Ví dụ minh họa luồng hoạt động
 
+```mermaid
+flowchart TD
+    A["HelloWorld.java (mã nguồn)"] -->|"javac — thuộc JDK biên dịch"| B["HelloWorld.class (bytecode)"]
+    B -->|"java — JRE/JVM thực thi"| C["Kết quả: Hello, World!"]
+
+    A -.thuộc bước.-> DEV["Cần JDK"]
+    B -.thuộc bước.-> RUN["Chỉ cần JRE/JVM"]
 ```
-Lập trình viên viết: HelloWorld.java
-         ↓
-javac HelloWorld.java        ← JDK (javac biên dịch)
-         ↓
-Tạo ra: HelloWorld.class    ← Bytecode
-         ↓
-java HelloWorld              ← JRE/JVM thực thi
-         ↓
-Kết quả: "Hello, World!"
-```
+
+Nhìn vào luồng trên: bước **biên dịch** (`javac`) cần **JDK**, còn bước **chạy** (`java`) chỉ cần **JRE/JVM**. Đó là lý do người dùng cuối chỉ cần JRE, còn lập trình viên phải có JDK.
 
 ---
 

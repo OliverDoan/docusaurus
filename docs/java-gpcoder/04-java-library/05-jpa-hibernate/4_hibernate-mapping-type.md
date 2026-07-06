@@ -17,6 +17,17 @@ Có ba loại mapping type chính:
 2. **Embeddable Types** (kiểu nhúng): ánh xạ một nhóm fields của một class phụ vào cùng bảng với entity chứa nó.
 3. **Collection Types** (kiểu tập hợp): ánh xạ các collection (`List`, `Set`, `Map`).
 
+Sơ đồ dưới đây phân loại ba nhóm mapping type theo cách chúng được lưu xuống database:
+
+```mermaid
+flowchart TD
+    MT["Mapping Type<br/>(kiểu ánh xạ)"] --> B["Basic Types<br/>1 field → 1 cột"]
+    MT --> E["Embeddable Types<br/>nhóm field → cùng bảng entity"]
+    MT --> C["Collection Types<br/>List / Set / Map → bảng phụ"]
+```
+
+Basic type nằm ngay trong bảng của entity; embeddable cũng nằm chung bảng nhưng gom nhiều field; còn collection thường tách ra một bảng phụ riêng.
+
 ## Basic Types - Kiểu cơ bản
 
 Hibernate tự động ánh xạ hầu hết các kiểu Java phổ biến:

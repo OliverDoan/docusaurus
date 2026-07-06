@@ -7,6 +7,24 @@ title: "Từ khóa this và super trong Java"
 
 Trong lập trình hướng đối tượng (OOP — Object-Oriented Programming) Java, `this` và `super` là hai từ khóa tham chiếu (reference keyword) quan trọng dùng để phân biệt và truy cập các thành phần trong cùng lớp hoặc từ lớp cha.
 
+Sơ đồ dưới đây minh họa hai từ khóa trỏ về đâu trong quan hệ kế thừa: `this` trỏ vào chính đối tượng lớp con, còn `super` trỏ lên phần lớp cha.
+
+```mermaid
+classDiagram
+    class XeCoGioi {
+        -hangSanXuat
+        -namSanXuat
+        +thongTin()
+    }
+    class OTo {
+        -soChoNgoi
+        +thongTin()
+    }
+    XeCoGioi <|-- OTo : super trỏ lên lớp cha
+```
+
+Đọc sơ đồ: bên trong đối tượng `OTo`, `this` tham chiếu thành viên của chính `OTo`, còn `super` cho phép gọi constructor và phương thức của lớp cha `XeCoGioi`.
+
 ---
 
 ## 1. Từ khóa `this`

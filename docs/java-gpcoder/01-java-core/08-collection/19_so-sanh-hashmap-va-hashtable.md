@@ -7,6 +7,27 @@ title: "So sánh HashMap và Hashtable trong Java"
 
 `HashMap` và `Hashtable` đều là cài đặt của `Map` interface lưu trữ dữ liệu theo cặp key-value. Tuy nhiên, có nhiều sự khác biệt quan trọng giữa hai lớp này.
 
+Sơ đồ dưới đây cho thấy hai lớp tuy cùng hiện thực `Map` nhưng thừa kế từ hai nhánh khác nhau — `HashMap` từ `AbstractMap` (hiện đại), `Hashtable` từ `Dictionary` (lỗi thời):
+
+```mermaid
+classDiagram
+    class Map {
+        <<interface>>
+    }
+    class AbstractMap {
+        <<abstract>>
+    }
+    class Dictionary {
+        <<abstract>>
+    }
+    class HashMap
+    class Hashtable
+    Map <|.. AbstractMap : hiện thực
+    AbstractMap <|-- HashMap : kế thừa
+    Map <|.. Hashtable : hiện thực
+    Dictionary <|-- Hashtable : kế thừa
+```
+
 ## Bảng so sánh
 
 | Tiêu chí | HashMap | Hashtable |

@@ -7,6 +7,25 @@ title: "Sao chép các phần tử của mảng sang mảng khác"
 
 Java cung cấp nhiều cách để **sao chép mảng** (array copy). Bài này giới thiệu tất cả các phương pháp từ thủ công đến các hàm tiện ích tích hợp sẵn.
 
+Sơ đồ sau giúp bạn chọn phương pháp sao chép mảng phù hợp với nhu cầu:
+
+```mermaid
+flowchart TD
+    A["Cần sao chép mảng"] --> B{"Mục tiêu chính?"}
+    B -->|"Hiệu suất tối đa"| C["System.arraycopy()"]
+    B -->|"Ngắn gọn, đổi độ dài"| D["Arrays.copyOf()"]
+    B -->|"Lấy một đoạn cụ thể"| E["Arrays.copyOfRange()"]
+    B -->|"Sao chép toàn bộ nhanh"| F["clone()"]
+    C --> G{"Mảng chứa đối tượng?"}
+    D --> G
+    E --> G
+    F --> G
+    G -->|"Không (kiểu nguyên thủy)"| H["Shallow copy là đủ"]
+    G -->|"Có"| I["Cần Deep copy<br/>để độc lập hoàn toàn"]
+```
+
+Đọc sơ đồ: chọn hàm sao chép theo mục tiêu, nhưng luôn lưu ý mọi hàm tích hợp đều là **shallow copy** — với mảng đối tượng cần tự làm **deep copy** nếu muốn độc lập.
+
 ---
 
 ## 1. Sao chép thủ công bằng vòng lặp

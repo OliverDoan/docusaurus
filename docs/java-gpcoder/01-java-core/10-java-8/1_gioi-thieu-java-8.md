@@ -7,6 +7,25 @@ title: "Giới thiệu Java 8"
 
 Java 8 (phát hành tháng 3 năm 2014) là một trong những phiên bản quan trọng nhất trong lịch sử ngôn ngữ Java. Phiên bản này mang đến hàng loạt tính năng mới, đặc biệt là hỗ trợ lập trình hàm (functional programming) — một mô hình lập trình tập trung vào việc xử lý dữ liệu thông qua các hàm thuần túy (pure functions).
 
+Sơ đồ dưới đây nhóm các tính năng chính của Java 8 theo ba mảng lớn: lập trình hàm, các API mới và cải tiến cho Interface.
+
+```mermaid
+flowchart LR
+    J8["Java 8 (2014)"] --> FP["Lập trình hàm"]
+    J8 --> API["API mới"]
+    J8 --> ITF["Cải tiến Interface"]
+    FP --> L["Lambda Expression"]
+    FP --> FI["Functional Interface"]
+    FP --> MR["Method Reference"]
+    API --> ST["Stream API"]
+    API --> OP["Optional"]
+    API --> DT["Date/Time API"]
+    API --> B64["Base64"]
+    ITF --> DM["Default Method"]
+    ITF --> SM["Static Method"]
+    ITF --> FE["forEach()"]
+```
+
 ## Các tính năng nổi bật trong Java 8
 
 ### 1. Lambda Expression (Biểu thức Lambda)

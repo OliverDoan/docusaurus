@@ -17,6 +17,23 @@ Hai khái niệm cốt lõi:
 
 **ForkJoinPool** (bể luồng chia-gộp) là `ExecutorService` đặc biệt dùng kỹ thuật **Work Stealing** (đánh cắp công việc — luồng nhàn rỗi lấy việc từ hàng đợi của luồng bận) để tối ưu hiệu năng. Mặc định số luồng bằng số nhân CPU.
 
+Sơ đồ dưới minh họa chiến lược chia để trị: bài toán lớn được **fork** (chia) xuống các phần nhỏ đến khi đạt ngưỡng, tính tuần tự, rồi **join** (gộp) ngược lên thành kết quả cuối:
+
+```mermaid
+flowchart TD
+    A["Bài toán lớn<br/>(mảng 0..N)"] --> B["Nửa trái<br/>(0..N/2)"]
+    A --> C["Nửa phải<br/>(N/2..N)"]
+    B --> D["Phần nhỏ<br/>≤ ngưỡng"]
+    B --> E["Phần nhỏ<br/>≤ ngưỡng"]
+    C --> F["Phần nhỏ<br/>≤ ngưỡng"]
+    C --> G["Phần nhỏ<br/>≤ ngưỡng"]
+    D --> H["Tính tuần tự<br/>rồi join()"]
+    E --> H
+    F --> H
+    G --> H
+    H --> I["Gộp kết quả<br/>(tổng cuối cùng)"]
+```
+
 ## Khi nào nên dùng?
 
 - Bài toán tính toán nặng có thể chia nhỏ đệ quy: sắp xếp, tìm kiếm, xử lý mảng lớn.

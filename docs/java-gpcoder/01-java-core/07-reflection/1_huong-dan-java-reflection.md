@@ -13,6 +13,21 @@ Reflection là khả năng cho phép chương trình tự "soi" và thao tác c�
 
 Tính năng này nằm trong gói `java.lang.reflect` và xoay quanh đối tượng trung tâm là **`Class<T>`** — đối tượng đại diện cho siêu thông tin (metadata) của một class Java.
 
+Sơ đồ dưới đây mô tả luồng đọc metadata của một class lúc chạy chương trình:
+
+```mermaid
+flowchart TD
+    Start["Tên class dạng chuỗi<br/>hoặc đối tượng có sẵn"] --> GetClass["Lấy Class object<br/>(.class / getClass / forName)"]
+    GetClass --> Read["Đọc metadata lúc runtime"]
+    Read --> F["getDeclaredFields()<br/>- danh sách field"]
+    Read --> M["getDeclaredMethods()<br/>- danh sách method"]
+    Read --> Ctor["getDeclaredConstructors()<br/>- danh sách constructor"]
+    M --> Invoke["method.invoke(obj, args)<br/>- gọi động"]
+    F --> Access["field.get / field.set<br/>- đọc/ghi giá trị"]
+```
+
+Điểm bắt đầu luôn là một `Class` object; từ đó Reflection cho phép liệt kê field, method, constructor và thao tác động với chúng ngay lúc chạy.
+
 ---
 
 ## 1. Lấy đối tượng Class

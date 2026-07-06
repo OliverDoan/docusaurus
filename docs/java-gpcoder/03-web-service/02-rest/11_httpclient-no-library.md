@@ -11,6 +11,23 @@ title: "Tạo ứng dụng Java RESTful Client không dùng thư viện bên th�
 
 Java cung cấp sẵn `HttpURLConnection` (kết nối HTTP URL) từ phiên bản 1.1, và `HttpClient` mới hơn từ Java 11. Hai class này không cần dependency bên thứ ba, phù hợp khi muốn giữ ứng dụng nhẹ hoặc làm việc trong môi trường hạn chế.
 
+Sơ đồ dưới đây minh họa luồng request-response khi client Java gọi REST API bằng các class có sẵn (không dùng thư viện ngoài):
+
+```mermaid
+sequenceDiagram
+    participant App as Ứng dụng Java
+    participant Client as HttpURLConnection / HttpClient
+    participant Server as REST API Server
+
+    App->>Client: Tạo request (method, header, body)
+    Client->>Server: Gửi HTTP request qua socket
+    Server-->>Client: HTTP response (status + body JSON)
+    Client-->>App: statusCode + InputStream / body String
+    App->>App: Parse JSON thủ công (hoặc Jackson)
+```
+
+Client tự dựng request và đọc response thô; việc parse JSON phải làm bằng tay vì các class này không tích hợp sẵn converter.
+
 ## HttpURLConnection (Java 1.1+)
 
 **HttpURLConnection** là class cũ nhưng vẫn dùng được, hỗ trợ đầy đủ HTTP/1.1.

@@ -28,6 +28,22 @@ Singleton bao gồm:
 - **Static field**: lưu trữ instance duy nhất.
 - **Static method `getInstance()`**: trả về instance duy nhất, tạo mới nếu chưa tồn tại.
 
+Sơ đồ lớp dưới đây minh họa cấu trúc Singleton — constructor private, field tĩnh giữ instance duy nhất và phương thức tĩnh `getInstance()` đóng vai trò điểm truy cập chung:
+
+```mermaid
+classDiagram
+    class Singleton {
+        -Singleton instance
+        -Singleton()
+        +getInstance() Singleton
+    }
+    class Client
+    Client --> Singleton : goi getInstance()
+    Singleton --> Singleton : giu tham chieu instance tinh
+```
+
+Client bên ngoài không thể gọi `new` mà chỉ lấy đối tượng qua `getInstance()`, nhờ đó toàn hệ thống luôn dùng chung đúng một thể hiện.
+
 ## Ví dụ Java
 
 ### Cách 1: Eager Initialization (Khởi tạo sớm)

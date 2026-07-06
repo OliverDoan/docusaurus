@@ -146,6 +146,26 @@ Main.main()
         └─ Guice tạo new WelcomeController(greetingServiceInstance)
 ```
 
+Sơ đồ tuần tự dưới đây minh họa cùng luồng đó theo góc nhìn tương tác giữa các thành phần — từ lúc tạo Injector đến khi Guice tự tiêm dependency vào constructor:
+
+```mermaid
+sequenceDiagram
+    participant Main
+    participant Guice
+    participant Injector
+    participant Module as AppModule
+    Main->>Guice: createInjector(new AppModule())
+    Guice->>Module: configure()
+    Module-->>Guice: bind(GreetingService).to(VietnameseGreetingService)
+    Guice-->>Main: Injector
+    Main->>Injector: getInstance(WelcomeController)
+    Injector->>Injector: doc @Inject tren constructor
+    Injector->>Injector: tao VietnameseGreetingService
+    Injector-->>Main: WelcomeController da duoc tiem
+```
+
+Guice tự phân tích đồ thị phụ thuộc và tạo sẵn các object cần thiết, nên phần code nghiệp vụ không phải viết tay việc lắp ráp.
+
 ## Ưu điểm so với wiring thủ công
 
 - Tự động phát hiện và giải quyết dependency graph (đồ thị phụ thuộc).

@@ -14,6 +14,18 @@ xDocReport là thư viện giúp tạo file Word và PDF từ một template (m�
 - Xuất file PDF từ file Word
 - Hỗ trợ engine mẫu **Freemarker** và **Velocity**
 
+Sơ đồ dưới đây minh họa luồng tạo tài liệu với xDocReport: nạp template Word, đưa dữ liệu vào context, rồi xuất ra Word (`process`) hoặc PDF (`convert`).
+
+```mermaid
+flowchart LR
+    A["Template Word .docx<br/>(placeholder Freemarker)"] --> B["loadReport()<br/>IXDocReport"]
+    C["Dữ liệu Java<br/>(Object, List)"] --> D["IContext<br/>context.put(...)"]
+    B --> E{"Xuất định dạng nào?"}
+    D --> E
+    E -->|"process()"| F["File Word .docx"]
+    E -->|"convert() qua iText"| G["File PDF"]
+```
+
 ---
 
 ## Dependency Maven

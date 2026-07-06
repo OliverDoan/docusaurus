@@ -16,6 +16,20 @@ Hai loại Interceptor:
 - **ReaderInterceptor** (bộ chặn đọc): Chặn khi JAX-RS đọc request body (deserialize JSON → Java object)
 - **WriterInterceptor** (bộ chặn ghi): Chặn khi JAX-RS ghi response body (serialize Java object → JSON)
 
+Sơ đồ sau cho thấy vị trí của Interceptor xen giữa Filter và resource trong toàn bộ luồng xử lý:
+
+```mermaid
+flowchart TD
+    A["Request den"] --> B["ContainerRequestFilter"]
+    B --> C["ReaderInterceptor<br/>doc va deserialize body"]
+    C --> D["Resource Method"]
+    D --> E["WriterInterceptor<br/>serialize va ghi body"]
+    E --> F["ContainerResponseFilter"]
+    F --> G["Response ve client"]
+```
+
+Interceptor làm việc với body ở ngay lớp đọc/ghi, sâu hơn Filter vốn chỉ chạm tới headers và metadata.
+
 ## ReaderInterceptor — Ghi log request body
 
 ```java

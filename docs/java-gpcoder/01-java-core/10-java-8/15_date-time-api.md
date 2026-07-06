@@ -17,6 +17,19 @@ Trước Java 8, `java.util.Date` và `java.util.Calendar` có nhiều vấn đ�
 
 Java 8 giới thiệu package `java.time` (dựa trên thư viện Joda-Time phổ biến), giải quyết toàn bộ các vấn đề trên.
 
+Sơ đồ sau tóm tắt các lớp chính trong package `java.time` cùng vai trò của từng lớp.
+
+```mermaid
+flowchart TD
+    JT["java.time"] --> D["LocalDate: ngày"]
+    JT --> T["LocalTime: giờ"]
+    JT --> DT["LocalDateTime: ngày và giờ"]
+    JT --> Z["ZonedDateTime: thêm múi giờ"]
+    JT --> I["Instant: mốc UTC tuyệt đối"]
+    JT --> P["Period: năm/tháng/ngày"]
+    JT --> DU["Duration: giờ/giây"]
+```
+
 ## Các lớp chính trong java.time
 
 ### LocalDate — Chỉ ngày, không có giờ và múi giờ

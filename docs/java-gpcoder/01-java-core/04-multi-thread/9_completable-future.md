@@ -17,6 +17,17 @@ title: "Lập trình đa luồng với CompletableFuture trong Java 8"
 
 **CompletableFuture** (tương lai có thể hoàn thành — lớp triển khai cả `Future` và `CompletionStage`) giải quyết tất cả các hạn chế trên bằng cách cho phép **lập trình bất đồng bộ theo chuỗi** (asynchronous pipeline) giống như Promise trong JavaScript.
 
+Sơ đồ dưới minh họa một pipeline: kết quả của bước trước được đưa vào bước sau theo chuỗi, và nếu có lỗi ở giữa thì rẽ nhánh sang `exceptionally`/`handle` để phục hồi:
+
+```mermaid
+flowchart LR
+    A["supplyAsync<br/>(tác vụ gốc)"] --> B["thenApply<br/>(biến đổi kết quả)"]
+    B --> C["thenCompose<br/>(ghép tác vụ async)"]
+    C --> D["thenAccept<br/>(tiêu thụ kết quả)"]
+    C -.->|"nếu lỗi"| E["exceptionally / handle<br/>(phục hồi lỗi)"]
+    E --> D
+```
+
 ## Tạo CompletableFuture
 
 ```java

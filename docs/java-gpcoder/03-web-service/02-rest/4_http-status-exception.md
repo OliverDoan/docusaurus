@@ -119,6 +119,22 @@ public class ErrorResponse {
 
 **ExceptionMapper** (bộ ánh xạ ngoại lệ) là interface của JAX-RS cho phép bắt exception cụ thể và chuyển thành Response tương ứng. Đây là cơ chế xử lý lỗi tập trung (centralized error handling).
 
+Sơ đồ sau cho thấy cách exception được ánh xạ sang HTTP response nhất quán:
+
+```mermaid
+flowchart TD
+    A["Resource nem exception"] --> B{"Loai exception?"}
+    B -->|ResourceNotFound| C["ResourceNotFoundExceptionMapper<br/>404 Not Found"]
+    B -->|BadRequest| D["BadRequestExceptionMapper<br/>400 Bad Request"]
+    B -->|Khac| E["GenericExceptionMapper<br/>500 Internal Server Error"]
+    C --> F["ErrorResponse JSON nhat quan"]
+    D --> F
+    E --> F
+    F --> G["Tra ve client"]
+```
+
+Mỗi loại exception có một mapper riêng, tất cả cùng đổ về một cấu trúc `ErrorResponse` thống nhất cho client.
+
 ```java
 package com.example.rest.exception;
 

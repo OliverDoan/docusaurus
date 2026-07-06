@@ -7,6 +7,19 @@ title: "Tránh lỗi ConcurrentModificationException trong Java"
 
 **ConcurrentModificationException** (ngoại lệ sửa đổi đồng thời — xảy ra khi một collection bị thay đổi trong khi đang được duyệt qua) là lỗi thường gặp khi làm việc với danh sách và vòng lặp trong Java.
 
+Sơ đồ dưới đây tóm tắt khi nào việc duyệt và sửa đổi collection là an toàn, và khi nào sẽ ném ra ngoại lệ này.
+
+```mermaid
+flowchart TD
+    A["Duyệt collection bằng for-each"] --> B{"Có sửa đổi collection<br/>trong khi duyệt?"}
+    B -->|"Không"| C["An toàn"]
+    B -->|"Có, sửa trực tiếp trên list"| D["ConcurrentModificationException"]
+    B -->|"Dùng Iterator.remove() hoặc removeIf()"| C
+    B -->|"Dùng CopyOnWriteArrayList"| C
+```
+
+Đọc sơ đồ: nguyên nhân gây lỗi là sửa trực tiếp collection trong lúc `for-each` đang duyệt; các cách an toàn đều tránh đụng chạm trực tiếp tới cấu trúc mà Iterator đang theo dõi.
+
 ---
 
 ## 1. Nguyên nhân

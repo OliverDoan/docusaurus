@@ -11,6 +11,18 @@ Hamcrest là thư viện giúp bạn viết các câu kiểm tra (assertion) tro
 
 **Hamcrest** là thư viện cung cấp các **matcher** (bộ so khớp) — các đối tượng dùng để mô tả điều kiện kiểm tra theo cú pháp tự nhiên, dễ đọc như tiếng Anh. Hamcrest được tích hợp sẵn trong JUnit 4 và có thể dùng với JUnit 5.
 
+Sơ đồ dưới đây minh họa luồng đánh giá một câu `assertThat`:
+
+```mermaid
+flowchart TD
+    A["assertThat<br/>gia tri thuc te va matcher"] --> B["Matcher so khop<br/>gia tri thuc te voi dieu kien"]
+    B --> C{"Thoa dieu kien khong"}
+    C -->|"Co"| D["Test pass<br/>tiep tuc chay"]
+    C -->|"Khong"| E["Test fail<br/>in thong bao Expected va but"]
+```
+
+Đọc sơ đồ: `assertThat` đưa giá trị thực tế cho matcher kiểm tra. Nếu khớp thì test qua; nếu không, Hamcrest sinh thông báo lỗi dạng "Expected ... but ..." giúp dễ tìm nguyên nhân.
+
 **Tại sao dùng Hamcrest?**
 
 So sánh cách viết truyền thống với Hamcrest:

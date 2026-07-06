@@ -22,6 +22,21 @@ Producer --> [Direct Exchange "logs"] --"error"--> Queue "error-logs"
                                       --"warn" --> Queue "warn-logs"
 ```
 
+Sơ đồ sau minh họa cách Direct Exchange so khớp routing key với binding key để chọn đúng Queue:
+
+```mermaid
+flowchart LR
+    P["Producer"] --> X["Direct Exchange<br/>logs"]
+    X -->|"error"| QE["Queue error-logs"]
+    X -->|"info"| QI["Queue info-logs"]
+    X -->|"warn"| QW["Queue warn-logs"]
+    QE --> CE["ErrorHandler"]
+    QI --> CI["InfoHandler"]
+    QW --> CW["WarnHandler"]
+```
+
+Điểm cần nhớ: tin nhắn chỉ vào Queue có binding key trùng **khớp chính xác** với routing key — không có so khớp mẫu như Topic.
+
 ## Default Exchange — Exchange mặc định
 
 **Default Exchange** (exchange mặc định — exchange ẩn danh có sẵn, định tuyến dựa trên tên queue) là một Direct Exchange đặc biệt không có tên. Khi dùng `channel.basicPublish("", queueName, ...)`, `""` là tên của Default Exchange và routing key chính là tên queue.

@@ -7,6 +7,20 @@ title: "Tạo số và chuỗi ngẫu nhiên trong Java"
 
 Java cung cấp nhiều cách để sinh số và chuỗi ngẫu nhiên. Bài này trình bày đầy đủ các phương pháp từ cơ bản đến nâng cao.
 
+Sơ đồ sau giúp chọn công cụ sinh ngẫu nhiên phù hợp với nhu cầu:
+
+```mermaid
+flowchart TD
+    A["Cần sinh ngẫu nhiên"] --> B{"Mục đích?"}
+    B -->|"Bảo mật: OTP, token, mật khẩu"| C["SecureRandom"]
+    B -->|"Đa luồng thông thường"| D["ThreadLocalRandom"]
+    B -->|"Đơn luồng, nhiều phương thức"| E["Random"]
+    B -->|"Đơn giản, một dòng"| F["Math.random()"]
+    B -->|"Cần ID duy nhất"| G["UUID.randomUUID()"]
+```
+
+Đọc sơ đồ: ưu tiên `SecureRandom` khi liên quan bảo mật, `ThreadLocalRandom` khi chạy đa luồng, còn `Math.random()` chỉ dùng cho nhu cầu đơn giản.
+
 ---
 
 ## 1. Math.random()

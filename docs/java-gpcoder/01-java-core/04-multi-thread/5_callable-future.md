@@ -39,6 +39,24 @@ public interface Callable<V> {
 | `isCancelled()` | Kiểm tra tác vụ đã bị hủy chưa |
 | `cancel(mayInterrupt)` | Hủy tác vụ; nếu `true` sẽ interrupt luồng đang chạy |
 
+Sơ đồ tuần tự sau cho thấy cách hoạt động: `submit()` trả về `Future` ngay lập tức (không block), luồng chính làm việc khác; chỉ khi gọi `get()` mà kết quả chưa sẵn sàng thì luồng chính mới bị block chờ:
+
+```mermaid
+sequenceDiagram
+    participant Main as Luồng chính
+    participant Exec as ExecutorService
+    participant Worker as Luồng worker
+    Main->>Exec: submit(Callable)
+    Exec-->>Main: trả về Future ngay (không block)
+    Exec->>Worker: giao tác vụ call()
+    Main->>Main: làm việc khác...
+    Worker->>Worker: tính toán (mất thời gian)
+    Main->>Exec: future.get()
+    Note over Main: block đến khi có kết quả
+    Worker-->>Exec: trả kết quả
+    Exec-->>Main: kết quả từ get()
+```
+
 ## Ví dụ cơ bản: Callable và Future
 
 ```java

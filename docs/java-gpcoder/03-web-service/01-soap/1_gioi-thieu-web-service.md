@@ -19,11 +19,40 @@ Ví dụ thực tế: Ứng dụng di động Android (Java/Kotlin) gọi dịch
 - **Loosely coupled** (kết nối lỏng lẻo): Client và server không phụ thuộc chặt vào cài đặt bên trong của nhau.
 - **Interoperable** (khả năng tương tác): Tuân theo chuẩn mở, bất kỳ hệ thống nào cũng có thể gọi được.
 
+Sơ đồ dưới đây minh họa cách hai hệ thống khác nền tảng trao đổi dữ liệu qua Web Service:
+
+```mermaid
+sequenceDiagram
+    participant App as Ung dung Android (Java)
+    participant WS as Web Service
+    participant Bank as He thong ngan hang (.NET)
+    App->>WS: Gui yeu cau qua mang
+    WS->>Bank: Chuyen tiep yeu cau
+    Bank-->>WS: Tra ket qua
+    WS-->>App: Tra du lieu ve
+```
+
+Client và server viết bằng ngôn ngữ khác nhau vẫn hiểu nhau nhờ tuân theo chuẩn chung của Web Service ở giữa.
+
 ---
 
 ## SOAP vs REST
 
 Có hai kiến trúc Web Service phổ biến nhất: **SOAP** và **REST**.
+
+Sơ đồ sau tóm tắt hai nhánh cùng đặc trưng của mỗi loại:
+
+```mermaid
+flowchart TD
+    A["Web Service"] --> B["SOAP<br/>Giao thuc, du lieu XML"]
+    A --> C["REST<br/>Kien truc, du lieu JSON"]
+    B --> B1["WSDL mo ta dich vu"]
+    B --> B2["WS-Security, phu hop doanh nghiep"]
+    C --> C1["Dung HTTP GET POST PUT DELETE"]
+    C --> C2["Nhe, don gian, pho bien web va mobile"]
+```
+
+SOAP thiên về chuẩn chặt chẽ và bảo mật, còn REST thiên về sự đơn giản và nhẹ nhàng.
 
 ### SOAP (Simple Object Access Protocol — giao thức trao đổi dữ liệu dạng XML)
 

@@ -25,6 +25,31 @@ Ngoài ra, đôi khi bạn không biết lớp cụ thể của đối tượng 
 
 Java hỗ trợ sẵn thông qua interface `Cloneable` và phương thức `Object.clone()`.
 
+Sơ đồ lớp dưới đây minh họa cấu trúc Prototype — mỗi lớp cụ thể tự hiện thực `clone()` để sao chép chính nó, còn Client chỉ cần gọi `clone()` mà không phụ thuộc vào lớp cụ thể:
+
+```mermaid
+classDiagram
+    class Prototype {
+        <<interface>>
+        +clone() Prototype
+    }
+    class UserProfile {
+        -String username
+        -String email
+        +clone() UserProfile
+    }
+    class ShoppingCart {
+        -List items
+        +clone() ShoppingCart
+    }
+    class Client
+    Prototype <|.. UserProfile : hien thuc
+    Prototype <|.. ShoppingCart : hien thuc
+    Client --> Prototype : goi clone()
+```
+
+Client tạo đối tượng mới bằng cách sao chép một prototype có sẵn thay vì gọi `new`, nhờ đó tránh được chi phí khởi tạo lại từ đầu.
+
 ## Ví dụ Java
 
 ### Shallow Copy (Sao chép nông)

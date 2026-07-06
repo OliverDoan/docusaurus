@@ -7,6 +7,16 @@ title: "Hướng dẫn sử dụng thư viện Gson"
 
 **Gson** là thư viện Java mã nguồn mở do Google phát triển, giúp chuyển đổi đối tượng Java sang chuỗi JSON (**serialization** — tuần tự hóa) và ngược lại (**deserialization** — giải tuần tự hóa) một cách đơn giản và nhanh chóng.
 
+Sơ đồ sau tóm tắt hai chiều chuyển đổi chính mà Gson thực hiện, xoay quanh đối tượng `Gson`:
+
+```mermaid
+flowchart LR
+    POJO["Đối tượng Java<br/>(POJO)"] -->|"gson.toJson(obj)"| JSON["Chuỗi JSON"]
+    JSON -->|"gson.fromJson(json, Lop.class)"| POJO
+```
+
+Chiều `toJson` biến đối tượng thành chuỗi JSON để lưu hoặc gửi đi; chiều `fromJson` dựng lại đối tượng Java từ chuỗi JSON nhận được.
+
 ---
 
 ## 1. Thêm Gson vào dự án

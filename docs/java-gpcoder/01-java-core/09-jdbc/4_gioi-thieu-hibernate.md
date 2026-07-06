@@ -40,6 +40,19 @@ JPA (đặc tả/interface)
 
 Trong thực tế, khi nói "dùng JPA", thường có nghĩa là dùng Hibernate làm nền tảng bên dưới.
 
+Sơ đồ dưới đây cho thấy vị trí của Hibernate trong các tầng từ ứng dụng xuống cơ sở dữ liệu:
+
+```mermaid
+flowchart TD
+    App["Ứng dụng Java<br/>(Entity + annotation)"] --> JPA["JPA<br/>(đặc tả / interface)"]
+    JPA --> Impl["Hibernate<br/>(cài đặt JPA)"]
+    JPA -.-> Other["EclipseLink / OpenJPA<br/>(cài đặt khác)"]
+    Impl --> JDBC["JDBC + Dialect<br/>(tự sinh SQL)"]
+    JDBC --> DB["Cơ sở dữ liệu<br/>(MySQL, PostgreSQL...)"]
+```
+
+Ứng dụng chỉ làm việc với API của JPA; Hibernate đứng bên dưới sinh SQL qua JDBC, nhờ đó đổi loại cơ sở dữ liệu chỉ cần đổi `dialect`.
+
 ---
 
 ## Hibernate giải quyết được gì?

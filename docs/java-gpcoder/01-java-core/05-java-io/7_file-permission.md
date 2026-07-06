@@ -13,6 +13,19 @@ FilePermission là lớp đại diện cho quyền truy cập file và thư mụ
 
 > **Lưu ý:** Security Manager đã bị **deprecated** (đánh dấu lỗi thời) từ Java 17 và sẽ bị loại bỏ. Tuy nhiên, hiểu về `FilePermission` vẫn hữu ích trong các môi trường Java cũ và khi làm việc với security policy.
 
+Sơ đồ dưới đây minh họa cách một `FilePermission` được cấu thành từ đường dẫn và hành động, cùng cách phương thức `implies()` kiểm tra một quyền có bao hàm quyền khác hay không.
+
+```mermaid
+flowchart TD
+    A["FilePermission(path, actions)"] --> B["path<br/>(có thể chứa wildcard * hoặc -)"]
+    A --> C["actions<br/>(read, write, execute, delete...)"]
+    D["implies(quyền cần kiểm tra)"] --> E{"path bao hàm?"}
+    E -->|"Không"| F["false"]
+    E -->|"Có"| G{"actions bao hàm?"}
+    G -->|"Không"| F
+    G -->|"Có"| H["true"]
+```
+
 ---
 
 ## Cấu trúc FilePermission

@@ -7,6 +7,24 @@ title: "Hướng dẫn sử dụng Gson TypeAdapter"
 
 **`TypeAdapter<T>`** là lớp trừu tượng trong Gson cung cấp cơ chế tùy chỉnh serialize/deserialize dựa trên **Streaming API** (đọc/ghi từng token). So với `JsonSerializer`/`JsonDeserializer` hoạt động trên **DOM** (cây đối tượng JSON), `TypeAdapter` hiệu quả hơn vì không cần tạo đối tượng trung gian `JsonElement`.
 
+Sơ đồ tuần tự sau cho thấy hai phương thức `write` và `read` của `TypeAdapter` làm việc trực tiếp với `JsonWriter`/`JsonReader` theo từng token, bỏ qua bước dựng cây `JsonElement`:
+
+```mermaid
+sequenceDiagram
+    participant App as Ứng dụng
+    participant TA as TypeAdapter
+    participant S as JsonWriter / JsonReader
+    App->>TA: write(out, doiTuong)
+    TA->>S: beginObject / name / value ... endObject
+    Note over TA,S: Ghi thẳng ra token, không tạo JsonElement
+    App->>TA: read(in)
+    TA->>S: beginObject / nextName / nextString ... endObject
+    S-->>TA: các token JSON
+    TA-->>App: đối tượng Java
+```
+
+Đọc sơ đồ: `write` phát token ra luồng, `read` tiêu thụ token từ luồng để dựng đối tượng; nhờ thao tác trực tiếp trên token nên tiết kiệm bộ nhớ và nhanh hơn cách dùng DOM.
+
 ---
 
 ## 1. Maven Dependency

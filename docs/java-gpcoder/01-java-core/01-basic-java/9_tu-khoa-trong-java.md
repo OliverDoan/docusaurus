@@ -13,6 +13,20 @@ title: "Một số từ khóa trong Java"
 
 Java có 67 từ khóa (tính đến Java 21). Dưới đây là các nhóm quan trọng nhất:
 
+Sơ đồ dưới đây giúp hình dung các từ khóa được chia thành những nhóm chức năng nào:
+
+```mermaid
+flowchart TD
+    K["Từ khóa Java<br/>(67 từ, tính đến Java 21)"] --> A["Kiểu dữ liệu nguyên thủy<br/>int, double, char, boolean..."]
+    K --> B["Điều khiển luồng<br/>if, else, for, while, switch..."]
+    K --> C["Hướng đối tượng<br/>class, extends, implements, this, super..."]
+    K --> D["Phạm vi truy cập<br/>public, protected, private"]
+    K --> E["Xử lý ngoại lệ<br/>try, catch, finally, throw, throws"]
+    K --> F["Từ khóa mới<br/>var, record, sealed"]
+```
+
+Đọc sơ đồ: thay vì học thuộc rời rạc, hãy ghi nhớ từ khóa theo nhóm chức năng — mỗi nhóm phục vụ một mục đích riêng trong ngôn ngữ.
+
 ### Nhóm kiểu dữ liệu nguyên thủy
 
 | Từ khóa | Mô tả |

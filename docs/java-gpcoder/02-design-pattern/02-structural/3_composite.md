@@ -27,6 +27,32 @@ Nếu không dùng Composite, client phải xử lý riêng lẻ với từng lo
 - **Composite**: Đối tượng chứa các Component con, ủy thác công việc cho con và tổng hợp kết quả.
 - **Client**: Tương tác với tất cả thông qua Component interface.
 
+Sơ đồ dưới đây thể hiện cấu trúc cây của ví dụ Java bên dưới (`FileSystemComponent` là Component, `File` là Leaf, `Directory` là Composite):
+
+```mermaid
+classDiagram
+    class FileSystemComponent {
+        <<interface>>
+        +getName() String
+        +getSize() long
+        +print(String)
+    }
+    class File {
+        +getSize() long
+    }
+    class Directory {
+        -List children
+        +add(FileSystemComponent)
+        +remove(FileSystemComponent)
+        +getSize() long
+    }
+    FileSystemComponent <|.. File : hiện thực
+    FileSystemComponent <|.. Directory : hiện thực
+    Directory o-- FileSystemComponent : chứa các con
+```
+
+Điểm mấu chốt: `Directory` vừa **hiện thực** `FileSystemComponent` vừa **chứa** nhiều `FileSystemComponent`, nên cây có thể lồng nhau nhiều tầng và client gọi `getSize()` giống nhau cho cả file lẫn thư mục.
+
 ## Ví dụ Java
 
 Mô phỏng hệ thống tập tin với file và thư mục:

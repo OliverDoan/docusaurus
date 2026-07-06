@@ -7,6 +7,14 @@ title: "Chuyển đổi Array sang ArrayList và ngược lại"
 
 Việc chuyển đổi qua lại giữa mảng (array) và `ArrayList` là thao tác rất thường gặp trong Java. Dưới đây là tất cả các cách phổ biến.
 
+Sơ đồ dưới đây tóm tắt các phương thức chuyển đổi theo cả hai chiều giữa `Array` và `ArrayList`:
+
+```mermaid
+flowchart LR
+    ARR["Array (T[])"] -->|"Arrays.asList()<br/>Collections.addAll()<br/>Arrays.stream()"| LIST["ArrayList"]
+    LIST -->|"toArray(new T[0])<br/>stream().toArray()"| ARR
+```
+
 ## Chuyển Array sang ArrayList
 
 ### Cách 1: Arrays.asList() — nhanh nhưng có hạn chế

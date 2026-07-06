@@ -21,6 +21,49 @@ Khi có nhiều đối tượng có thể xử lý một yêu cầu, nhưng bạ
 - **ConcreteHandler**: xử lý yêu cầu nếu đủ thẩm quyền, ngược lại chuyển tiếp.
 - **Client**: tạo chuỗi và gửi yêu cầu tới handler đầu tiên.
 
+Sơ đồ lớp dưới đây mô tả quan hệ kế thừa giữa handler trừu tượng và các handler cụ thể, cùng liên kết `next` để tạo thành chuỗi:
+
+```mermaid
+classDiagram
+    class LeaveHandler {
+        <<abstract>>
+        #LeaveHandler next
+        +setNext(LeaveHandler) LeaveHandler
+        +handleRequest(int days)
+    }
+    class TeamLeader {
+        +handleRequest(int days)
+    }
+    class Manager {
+        +handleRequest(int days)
+    }
+    class Director {
+        +handleRequest(int days)
+    }
+    LeaveHandler <|-- TeamLeader : kế thừa
+    LeaveHandler <|-- Manager : kế thừa
+    LeaveHandler <|-- Director : kế thừa
+    LeaveHandler o-- LeaveHandler : liên kết next
+```
+
+Mỗi ConcreteHandler đều kế thừa `LeaveHandler` và giữ tham chiếu tới handler kế tiếp qua thuộc tính `next`, nên yêu cầu có thể trượt dọc theo chuỗi.
+
+Sơ đồ tuần tự sau minh họa một yêu cầu nghỉ 10 ngày được chuyển tiếp qua chuỗi cho tới khi gặp handler đủ thẩm quyền:
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant TeamLeader
+    participant Manager
+    participant Director
+    Client->>TeamLeader: handleRequest(10)
+    TeamLeader->>Manager: chuyển tiếp (quá 2 ngày)
+    Manager->>Director: chuyển tiếp (quá 5 ngày)
+    Director-->>Client: Giám đốc duyệt
+```
+
+Mỗi handler tự kiểm tra thẩm quyền; nếu không đủ thì đẩy yêu cầu sang người sau thay vì trả lỗi cho client.
+
 ## Ví dụ Java: Hệ thống duyệt đơn nghỉ phép
 
 ```java

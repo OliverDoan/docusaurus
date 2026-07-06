@@ -10,6 +10,18 @@ slug: /java-gpcoder-intro
 
 Lộ trình này **độc lập** với lộ trình Java còn lại trên trang. Mỗi **thuật ngữ chuyên ngành** (technical term — từ ngữ kỹ thuật riêng của ngành) sẽ được giải thích ngay khi xuất hiện lần đầu.
 
+Trình tự học được sắp xếp theo sơ đồ dưới đây, đi từ nền tảng đến các chủ đề nâng cao:
+
+```mermaid
+flowchart LR
+    Core["1. Java Core"] --> DP["2. Design Pattern"]
+    DP --> WS["3. Web Service"]
+    WS --> Lib["4. Java Library"]
+    Lib --> Other["5. Chủ đề khác<br/>(Clean Code, nguyên tắc lập trình)"]
+```
+
+Bạn nên nắm vững Java Core trước, vì các nhóm sau đều dựa trên nền tảng này.
+
 ---
 
 ## Nội dung gồm những gì?

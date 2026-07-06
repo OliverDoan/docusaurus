@@ -27,6 +27,30 @@ Facade tạo một class "mặt tiền" bọc toàn bộ sự phức tạp, ch�
 - **Subsystem Classes**: Các class thực hiện công việc thực sự. Chúng không biết về Facade.
 - **Client**: Chỉ giao tiếp với Facade, không biết chi tiết subsystem.
 
+Sơ đồ dưới đây cho thấy Facade đứng giữa client và nhiều class subsystem trong ví dụ Java bên dưới (`HomeTheaterFacade` bọc toàn bộ hệ thống rạp phim tại nhà):
+
+```mermaid
+classDiagram
+    class Client
+    class HomeTheaterFacade {
+        +watchMovie(String)
+        +endMovie()
+    }
+    class Projector
+    class SoundSystem
+    class StreamingPlayer
+    class Lights
+    class PopcornMaker
+    Client ..> HomeTheaterFacade : chỉ gọi Facade
+    HomeTheaterFacade o-- Projector : điều phối
+    HomeTheaterFacade o-- SoundSystem : điều phối
+    HomeTheaterFacade o-- StreamingPlayer : điều phối
+    HomeTheaterFacade o-- Lights : điều phối
+    HomeTheaterFacade o-- PopcornMaker : điều phối
+```
+
+Client chỉ phụ thuộc vào một `HomeTheaterFacade`; toàn bộ việc bật/tắt và phối hợp năm thiết bị subsystem được giấu sau hai phương thức `watchMovie()` và `endMovie()`.
+
 ## Ví dụ Java
 
 Mô phỏng hệ thống xem phim tại nhà (home theater):

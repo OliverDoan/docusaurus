@@ -17,6 +17,23 @@ Nguyên lý hoạt động giống chiếc chốt cửa có bộ đếm:
 - Khi đếm về 0, tất cả luồng đang `await()` được giải phóng đồng thời.
 - **Một chiều**: sau khi đếm về 0 thì không reset lại được — nếu cần reset hãy dùng `CyclicBarrier`.
 
+Sơ đồ tuần tự sau minh họa luồng chính gọi `await()` và bị block; mỗi dịch vụ hoàn thành gọi `countDown()` giảm bộ đếm, khi về 0 thì luồng chính được giải phóng:
+
+```mermaid
+sequenceDiagram
+    participant Main as Luồng chính
+    participant L as CountDownLatch (đếm=3)
+    participant W1 as Dịch vụ 1
+    participant W2 as Dịch vụ 2
+    participant W3 as Dịch vụ 3
+    Main->>L: await() → bị block
+    W1->>L: countDown() → còn 2
+    W2->>L: countDown() → còn 1
+    W3->>L: countDown() → còn 0
+    L-->>Main: đếm = 0, giải phóng Main
+    Main->>Main: tiếp tục chạy
+```
+
 ## Khi nào nên dùng?
 
 - Chờ tất cả dịch vụ (database, cache, message queue) khởi động xong trước khi bắt đầu xử lý.

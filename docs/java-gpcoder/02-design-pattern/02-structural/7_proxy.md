@@ -27,6 +27,45 @@ Proxy (đại diện/ủy quyền) là một **Structural Design Pattern** cung 
 - **Proxy**: Class cùng interface với RealService, giữ tham chiếu đến RealService, bổ sung logic trước/sau.
 - **Client**: Làm việc với ServiceInterface, không biết đang dùng Proxy hay RealService.
 
+Sơ đồ dưới đây thể hiện cấu trúc của Virtual Proxy trong ví dụ Java bên dưới (`Image` là ServiceInterface, `RealImage` là RealService, `ImageProxy` là Proxy):
+
+```mermaid
+classDiagram
+    class Image {
+        <<interface>>
+        +display()
+        +getFilename() String
+    }
+    class RealImage {
+        +display()
+    }
+    class ImageProxy {
+        -RealImage realImage
+        +display()
+    }
+    Image <|.. RealImage : hiện thực
+    Image <|.. ImageProxy : hiện thực
+    ImageProxy o-- RealImage : ủy quyền tới
+```
+
+Client cầm một `Image`, không phân biệt được là `ImageProxy` hay `RealImage`; proxy chỉ khởi tạo `RealImage` khi thật sự cần.
+
+Luồng lazy loading khi `display()` được gọi hai lần diễn ra như sau:
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant ImageProxy
+    participant RealImage
+    Client->>ImageProxy: display() lần đầu
+    ImageProxy->>RealImage: new RealImage() và tải từ đĩa
+    ImageProxy->>RealImage: display()
+    Client->>ImageProxy: display() lần hai
+    ImageProxy->>RealImage: display() (không tải lại)
+```
+
+Lần gọi đầu tiên mới tốn chi phí tải ảnh từ đĩa; các lần sau proxy dùng lại `RealImage` đã có nên rất nhanh.
+
 ## Ví dụ Java
 
 ### Virtual Proxy — Lazy Loading ảnh

@@ -13,6 +13,24 @@ Abstract class không thể khởi tạo trực tiếp bằng `new`, nên việc
 
 Có **4 cách** phổ biến để giải quyết vấn đề này.
 
+Sơ đồ dưới đây giúp bạn chọn cách test phù hợp tùy theo độ phức tạp của constructor và nhu cầu tái sử dụng:
+
+```mermaid
+flowchart TD
+    A["Can test concrete method<br/>trong abstract class"] --> B{"Constructor co phuc tap?"}
+    B -->|"phuc tap, dung JNDI DB..."| D["PowerMock<br/>suppress constructor + Whitebox inject"]
+    B -->|"don gian"| C{"Chon cach tao instance"}
+    C -->|"inline nhanh gon"| E["Anonymous subclass<br/>ngay trong phuong thuc test"]
+    C -->|"dung lai cho nhieu test"| F["Concrete subclass rieng<br/>vi du TestableShape"]
+    C -->|"muon that ngan"| G["Mockito mock voi CALLS_REAL_METHODS"]
+    D --> H["Goi concrete method va assert ket qua"]
+    E --> H
+    F --> H
+    G --> H
+```
+
+Đọc sơ đồ từ trên xuống: nếu constructor phức tạp thì đi thẳng nhánh PowerMock; ngược lại chọn một trong ba cách nhẹ nhàng hơn. Dù đi nhánh nào, đích cuối cùng vẫn là tạo được một thể hiện cụ thể để gọi và kiểm tra phương thức concrete.
+
 ## Cách 1: Tạo subclass ẩn danh trong test
 
 Tạo **anonymous subclass** (lớp con ẩn danh) ngay trong phương thức test, cung cấp implementation tối thiểu cho các abstract method:

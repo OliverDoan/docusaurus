@@ -11,6 +11,22 @@ Khi cần thêm, sửa hoặc xóa hàng nghìn bản ghi, gửi từng câu SQL
 
 **Batch Processing** (xử lý theo lô) là kỹ thuật thực thi nhiều thao tác database trong một lần, thay vì gửi từng câu SQL một. Điều này giúp giảm đáng kể số lần round-trip (khứ hồi) giữa ứng dụng và database, tăng hiệu năng rõ rệt khi cần xử lý hàng nghìn hoặc hàng triệu bản ghi.
 
+Sơ đồ dưới đây mô tả vòng lặp batch điển hình: cứ đủ một lô thì `flush()` và `clear()` để gửi SQL và giải phóng bộ nhớ:
+
+```mermaid
+flowchart TD
+    Start["Vòng lặp<br/>N bản ghi"] --> P["session.persist(entity)"]
+    P --> Check{"Đã đủ<br/>batch_size?"}
+    Check -->|"Chưa"| P
+    Check -->|"Rồi"| Flush["flush() → gửi batch SQL"]
+    Flush --> Clear["clear() → xóa L1 Cache"]
+    Clear --> P
+    Check -->|"Hết dữ liệu"| Commit["commit()"]
+    Commit --> DB[("Database")]
+```
+
+Nhờ gom nhiều câu SQL vào một lần gửi và định kỳ xóa L1 Cache, batch tránh được cả tình trạng chậm do quá nhiều round-trip lẫn tràn bộ nhớ.
+
 ### Vấn đề khi không dùng Batch
 
 ```java

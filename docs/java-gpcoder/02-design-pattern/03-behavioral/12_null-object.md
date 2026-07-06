@@ -22,6 +22,37 @@ Khi client thường xuyên phải kiểm tra `if (object != null)` trước khi
 - **NullObject**: triển khai cùng interface nhưng không làm gì (no-op) hoặc trả về giá trị mặc định.
 - **Client**: sử dụng AbstractObject mà không cần kiểm tra null.
 
+Sơ đồ lớp dưới đây cho thấy RealObject và NullObject cùng hiện thực một interface, nên client dùng được cả hai mà không cần kiểm tra `null`:
+
+```mermaid
+classDiagram
+    class Logger {
+        <<interface>>
+        +log(String)
+        +warn(String)
+        +error(String)
+        +isEnabled() boolean
+    }
+    class ConsoleLogger {
+        +log(String)
+        +isEnabled() boolean
+    }
+    class NullLogger {
+        +log(String)
+        +isEnabled() boolean
+    }
+    class UserService {
+        -Logger logger
+        +createUser(String)
+        +deleteUser(int)
+    }
+    Logger <|.. ConsoleLogger : hiện thực thật
+    Logger <|.. NullLogger : hiện thực rỗng (no-op)
+    UserService o-- Logger : phụ thuộc
+```
+
+`UserService` chỉ gọi `logger.log(...)` mà không quan tâm đó là logger thật hay `NullLogger`, nhờ vậy loại bỏ hoàn toàn các câu lệnh kiểm tra `null`.
+
 ## Ví dụ Java: Hệ thống logging
 
 ```java

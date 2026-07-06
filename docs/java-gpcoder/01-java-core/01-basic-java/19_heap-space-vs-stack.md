@@ -7,6 +7,22 @@ title: "Quản lý bộ nhớ Heap Space vs Stack"
 
 Hiểu về cách Java quản lý bộ nhớ giúp bạn viết code hiệu quả hơn và tránh các lỗi như `OutOfMemoryError` hay `StackOverflowError`.
 
+Sơ đồ dưới đây minh họa cách bộ nhớ JVM được chia thành hai vùng chính và các thành phần bên trong:
+
+```mermaid
+flowchart TD
+    JVM["Bộ nhớ JVM"] --> S["Stack<br/>(mỗi thread một cái)"]
+    JVM --> H["Heap<br/>(dùng chung)"]
+    S --> S1["Biến cục bộ và tham chiếu"]
+    S --> S2["Stack Frame theo mỗi lần gọi method"]
+    H --> Y["Young Generation<br/>(đối tượng mới)"]
+    H --> O["Old Generation<br/>(đối tượng lâu dài)"]
+    Y --> E["Eden Space"]
+    Y --> SV["Survivor Spaces"]
+```
+
+Đọc sơ đồ: mỗi luồng có Stack riêng để lưu biến cục bộ và các frame gọi method; còn Heap dùng chung cho mọi luồng, chứa các đối tượng và được chia thành Young/Old Generation phục vụ cho Garbage Collector.
+
 ---
 
 ## Bộ nhớ JVM được chia thành hai vùng chính

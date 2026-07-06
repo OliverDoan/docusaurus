@@ -9,6 +9,17 @@ title: "Lớp Collections trong Java - Collections Utility Class"
 
 > **Utility class** (lớp tiện ích): lớp chỉ chứa các phương thức static, không thể khởi tạo đối tượng.
 
+Sơ đồ dưới đây nhóm các phương thức static tiêu biểu của `Collections` theo chức năng:
+
+```mermaid
+flowchart TD
+    C["Collections (utility class)"] --> S["Sắp xếp & sắp lại thứ tự<br/>sort, reverse, shuffle"]
+    C --> B["Tìm kiếm<br/>binarySearch"]
+    C --> M["Thống kê<br/>max, min, frequency"]
+    C --> F["Khởi tạo & điền<br/>fill, nCopies, emptyList, singletonList"]
+    C --> W["Bao bọc (wrapper)<br/>unmodifiableList, synchronizedList"]
+```
+
 ## Sắp xếp - sort()
 
 ```java

@@ -17,6 +17,18 @@ Nguyễn Văn An,25,an@example.com
 Trần Thị Bình,30,"bình,trần@example.com"
 ```
 
+Sơ đồ dưới đây tóm tắt hai chiều xử lý CSV: chiều ghi (object thành dòng CSV) và chiều đọc (dòng CSV thành object), với hai lựa chọn là làm thủ công hoặc dùng thư viện OpenCSV.
+
+```mermaid
+flowchart LR
+    A["List Object<br/>(SinhVien, SanPham)"] -->|"Ghi"| B["Thoát ký tự đặc biệt<br/>bọc dấu ngoặc kép"]
+    B --> C["File CSV<br/>(có BOM UTF-8)"]
+    C -->|"Đọc"| D["Phân tách theo dấu phẩy<br/>xử lý ngoặc kép"]
+    D --> E["List Object / String[]"]
+    F["OpenCSV<br/>(CSVWriter / CSVReader / CsvToBean)"] -.-> B
+    F -.-> D
+```
+
 ---
 
 ## Ghi file CSV thủ công (không dùng thư viện)

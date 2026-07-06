@@ -13,6 +13,18 @@ JUnit Rule là cơ chế cho phép tái sử dụng logic thiết lập và dọ
 
 Rule được khai báo bằng annotation `@Rule` (áp dụng cho từng test) hoặc `@ClassRule` (áp dụng một lần cho cả lớp test).
 
+Sơ đồ dưới đây minh họa cách Rule bao quanh quá trình thực thi test để chèn hành vi trước và sau:
+
+```mermaid
+flowchart TD
+    A["JUnit chuan bi chay test"] --> B["Rule can thiep<br/>buoc before - thiet lap"]
+    B --> C["base.evaluate<br/>chay than test that su"]
+    C --> D["Rule can thiep<br/>buoc after - don dep"]
+    D --> E["Bao cao ket qua test"]
+```
+
+Đọc sơ đồ: Rule hoạt động như một lớp bao (interceptor) — nó chạy phần thiết lập trước, gọi thân test ở giữa, rồi luôn chạy phần dọn dẹp sau, kể cả khi test ném lỗi.
+
 **Lợi ích so với `@Before`/`@After`:**
 - Tái sử dụng ở nhiều lớp test khác nhau mà không cần kế thừa.
 - Đóng gói logic phức tạp vào một lớp Rule riêng biệt.

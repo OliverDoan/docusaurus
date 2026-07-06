@@ -7,6 +7,20 @@ title: "So sánh ArrayList và Vector trong Java"
 
 `ArrayList` và `Vector` đều là mảng động (dynamic array) cài đặt `List` interface, nhưng có những sự khác biệt quan trọng khiến `ArrayList` được ưa chuộng hơn trong phần lớn các trường hợp.
 
+Một khác biệt dễ thấy là cách tăng dung lượng (capacity) khi mảng đầy — sơ đồ dưới đây minh họa: `Vector` tăng gấp đôi, còn `ArrayList` chỉ tăng khoảng 50%, ít lãng phí bộ nhớ hơn:
+
+```mermaid
+flowchart LR
+    subgraph V["Vector - tăng gấp đôi (100%)"]
+        direction LR
+        v1["4"] --> v2["8"] --> v3["16"]
+    end
+    subgraph A["ArrayList - tăng khoảng 50%"]
+        direction LR
+        a1["10"] --> a2["15"] --> a3["22"]
+    end
+```
+
 ## Bảng so sánh chi tiết
 
 | Tiêu chí | ArrayList | Vector |

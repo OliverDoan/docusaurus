@@ -11,6 +11,25 @@ Binding là cách bạn khai báo cho Google Guice biết "khi cần kiểu X th
 
 **Binding** (ràng buộc / ánh xạ) trong Guice là việc khai báo quy tắc: "Khi cần kiểu X, hãy cung cấp Y". Binding được định nghĩa trong lớp **Module** (kế thừa `AbstractModule`) và là trái tim của hệ thống DI trong Guice.
 
+Sơ đồ dưới đây minh họa cách Guice quyết định cung cấp instance cho kiểu X tùy theo loại binding đã khai báo trong Module:
+
+```mermaid
+flowchart TD
+    Req["Guice can kieu X"] --> Check{"Loai binding nao?"}
+    Check -->|"bind(X).to(Y)"| Linked["Linked<br/>tra ve Y"]
+    Check -->|"bind(X).toInstance(obj)"| Instance["Instance<br/>tra ve object co san"]
+    Check -->|"bind(X).toProvider(P)"| Provider["Provider<br/>goi P.get()"]
+    Check -->|"@Provides method"| Provides["Goi method @Provides"]
+    Check -->|"annotatedWith(Ann)"| Annotated["Chon impl theo annotation"]
+    Linked --> Result["Instance cua X"]
+    Instance --> Result
+    Provider --> Result
+    Provides --> Result
+    Annotated --> Result
+```
+
+Mỗi nhánh tương ứng với một loại binding được trình bày chi tiết bên dưới; điểm chung là tất cả đều trả về một instance của kiểu X cho nơi cần inject.
+
 ## Các loại Binding
 
 ### 1. Linked Binding — ánh xạ interface sang lớp cụ thể

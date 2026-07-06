@@ -21,6 +21,49 @@ Khi bạn cần lưu "ảnh chụp" trạng thái của đối tượng để sa
 - **Memento**: lưu trữ trạng thái của Originator. Chỉ Originator được phép đọc dữ liệu bên trong.
 - **Caretaker** (Người quản lý): lưu trữ Memento nhưng không đọc nội dung bên trong nó.
 
+Sơ đồ lớp dưới đây mô tả ba vai trò: Originator tạo/khôi phục Memento, còn Caretaker chỉ lưu trữ mà không đọc nội dung:
+
+```mermaid
+classDiagram
+    class TextEditor {
+        -String content
+        -int cursorPosition
+        +type(String)
+        +save() EditorMemento
+        +restore(EditorMemento)
+    }
+    class EditorMemento {
+        -String content
+        -int cursorPosition
+    }
+    class UndoManager {
+        -Deque history
+        +save(EditorMemento)
+        +undo() EditorMemento
+    }
+    TextEditor ..> EditorMemento : tạo và khôi phục
+    UndoManager o-- EditorMemento : lưu trữ lịch sử
+```
+
+`UndoManager` chỉ giữ các `EditorMemento` như hộp kín, không truy cập được trạng thái bên trong nên không phá vỡ tính đóng gói.
+
+Sơ đồ tuần tự sau minh họa luồng lưu ảnh chụp rồi hoàn tác:
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant TextEditor
+    participant UndoManager
+    Client->>TextEditor: save()
+    TextEditor-->>Client: EditorMemento
+    Client->>UndoManager: save(memento)
+    Client->>UndoManager: undo()
+    UndoManager-->>Client: EditorMemento
+    Client->>TextEditor: restore(memento)
+```
+
+Khi cần undo, client lấy Memento cũ từ Caretaker rồi đưa lại cho Originator khôi phục.
+
 ## Ví dụ Java: Trình soạn thảo văn bản với Undo
 
 ```java

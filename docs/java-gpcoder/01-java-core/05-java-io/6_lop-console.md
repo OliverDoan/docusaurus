@@ -13,6 +13,25 @@ Lớp Console trong Java giúp đọc và ghi dữ liệu trực tiếp với te
 
 > **Lưu ý quan trọng:** `System.console()` trả về `null` khi chương trình chạy trong môi trường không có terminal thật sự (ví dụ: trong IDE như IntelliJ IDEA, Eclipse). Lúc đó cần dùng `Scanner` thay thế.
 
+Sơ đồ tuần tự dưới đây minh họa luồng đăng nhập điển hình qua `Console`: người dùng nhập tên và mật khẩu (ẩn ký tự), chương trình xác thực rồi trả kết quả.
+
+```mermaid
+sequenceDiagram
+    actor NguoiDung as Người dùng
+    participant Console
+    participant App as Ứng dụng
+
+    App->>Console: readLine("Tên đăng nhập: ")
+    NguoiDung->>Console: gõ tên đăng nhập
+    Console-->>App: String tên
+    App->>Console: readPassword("Mật khẩu: ")
+    NguoiDung->>Console: gõ mật khẩu (ẩn)
+    Console-->>App: char[] mật khẩu
+    App->>App: xác thực và xóa mật khẩu khỏi RAM
+    App->>Console: printf(kết quả đăng nhập)
+    Console-->>NguoiDung: hiển thị kết quả
+```
+
 ---
 
 ## Lấy đối tượng Console

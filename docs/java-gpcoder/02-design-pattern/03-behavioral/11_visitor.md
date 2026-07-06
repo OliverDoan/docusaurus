@@ -23,6 +23,49 @@ Khi bạn có một cấu trúc đối tượng ổn định (ít thay đổi) n
 - **ConcreteElement**: gọi `visitor.visit(this)` trong `accept()`.
 - **ObjectStructure**: tập hợp các Element, cho phép Visitor duyệt qua.
 
+Sơ đồ lớp dưới đây tách hai hệ phân cấp: các Element (`Asset`) và các Visitor (`AssetVisitor`), nối với nhau qua phương thức `accept()`:
+
+```mermaid
+classDiagram
+    class Asset {
+        <<interface>>
+        +accept(AssetVisitor)
+        +getName() String
+        +getValue() double
+    }
+    class RealEstate {
+        +accept(AssetVisitor)
+    }
+    class StockAsset {
+        +accept(AssetVisitor)
+    }
+    class AssetVisitor {
+        <<interface>>
+        +visitRealEstate(RealEstate)
+        +visitStock(StockAsset)
+    }
+    class TaxCalculator {
+        +visitRealEstate(RealEstate)
+        +visitStock(StockAsset)
+    }
+    class ReportGenerator {
+        +visitRealEstate(RealEstate)
+        +visitStock(StockAsset)
+    }
+    class Portfolio {
+        +add(Asset)
+        +accept(AssetVisitor)
+    }
+    Asset <|.. RealEstate : hiện thực
+    Asset <|.. StockAsset : hiện thực
+    AssetVisitor <|.. TaxCalculator : hiện thực
+    AssetVisitor <|.. ReportGenerator : hiện thực
+    Portfolio o-- Asset : chứa danh mục
+    RealEstate ..> AssetVisitor : accept gọi visit
+```
+
+Muốn thêm thao tác mới (ví dụ định giá lại), chỉ cần viết thêm một ConcreteVisitor mà không phải sửa các lớp `Asset` sẵn có.
+
 ## Ví dụ Java: Tính thuế và xuất báo cáo cho các loại tài sản
 
 ```java

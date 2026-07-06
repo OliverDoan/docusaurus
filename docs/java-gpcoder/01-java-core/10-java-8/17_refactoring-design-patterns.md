@@ -7,6 +7,17 @@ title: "Refactoring Design Pattern với tính năng mới trong Java 8"
 
 Java 8 cung cấp Lambda Expression, Method Reference và Functional Interface giúp triển khai nhiều **Design Pattern** (mẫu thiết kế) ngắn gọn và linh hoạt hơn. Bài này trình bày cách refactor (tái cấu trúc) một số pattern phổ biến.
 
+Sơ đồ sau ánh xạ mỗi Design Pattern trong bài với thành phần tương ứng của Java 8 dùng để triển khai nó gọn hơn.
+
+```mermaid
+flowchart LR
+    P1["Strategy"] --> F["Function / Predicate"]
+    P2["Template Method"] --> L["Lambda tham số"]
+    P3["Observer"] --> C["Consumer"]
+    P4["Chain of Responsibility"] --> A["Function.andThen"]
+    P5["Factory"] --> S["Supplier trong Map"]
+```
+
 ## 1. Strategy Pattern (Mẫu chiến lược)
 
 **Strategy Pattern** cho phép thay đổi thuật toán (chiến lược) tại runtime mà không sửa client code.

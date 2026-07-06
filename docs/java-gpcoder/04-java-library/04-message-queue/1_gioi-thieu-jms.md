@@ -13,6 +13,22 @@ JMS là bộ API chuẩn của Java cho phép các ứng dụng trao đổi tin 
 
 JMS giúp các ứng dụng giao tiếp theo kiểu **loosely coupled** (liên kết lỏng lẻo — nghĩa là các thành phần không phụ thuộc trực tiếp vào nhau), **asynchronous** (bất đồng bộ — bên gửi không cần chờ bên nhận xử lý xong) và **reliable** (đáng tin cậy — đảm bảo tin nhắn được giao tới đích).
 
+Sơ đồ dưới đây minh họa cách Producer và Consumer trao đổi tin nhắn qua Message Broker theo cơ chế bất đồng bộ:
+
+```mermaid
+sequenceDiagram
+    participant P as Producer
+    participant B as Message Broker
+    participant C as Consumer
+    P->>B: Gửi tin nhắn rồi tiếp tục việc khác
+    Note over P: Không phải chờ Consumer xử lý xong
+    C->>B: Lấy tin nhắn khi sẵn sàng
+    B-->>C: Giao tin nhắn
+    C->>B: Xác nhận đã xử lý (ack)
+```
+
+Điểm mấu chốt: Producer chỉ gửi vào Broker rồi làm việc khác ngay, còn Consumer lấy tin nhắn ra xử lý khi nó rảnh — hai bên không chờ nhau.
+
 ## Tại sao cần JMS?
 
 Trong các hệ thống phân tán, nếu hai ứng dụng gọi trực tiếp nhau qua HTTP/REST thì:
@@ -36,6 +52,20 @@ JMS giải quyết những vấn đề này bằng cách đưa tin nhắn vào *
 | **Session** | Phiên làm việc để gửi/nhận tin nhắn |
 
 ## Hai mô hình nhắn tin trong JMS
+
+Hai mô hình khác nhau ở chỗ một tin nhắn đến tay bao nhiêu Consumer, như sơ đồ so sánh sau:
+
+```mermaid
+flowchart LR
+    P1["Producer"] --> Q["Queue"]
+    Q --> C1["Consumer A<br/>(chỉ một người nhận)"]
+    P2["Producer"] --> T["Topic"]
+    T --> S1["Consumer A"]
+    T --> S2["Consumer B"]
+    T --> S3["Consumer C"]
+```
+
+Với **Queue** (P2P), mỗi tin nhắn chỉ có đúng một Consumer nhận; còn với **Topic** (Pub/Sub), mọi Consumer đang đăng ký đều nhận được bản sao.
 
 ### Point-to-Point (P2P) — Điểm-đến-điểm
 

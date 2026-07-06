@@ -52,6 +52,24 @@ public class TaiKhoanNganHang {
 
 **Synchronized** (đồng bộ hóa) đảm bảo tại một thời điểm chỉ có **một luồng** được thực thi khối code được bảo vệ. Nó sử dụng cơ chế **Monitor Lock** (khóa màn hình — mỗi đối tượng Java có một khóa nội tại) để kiểm soát truy cập.
 
+Sơ đồ tuần tự sau minh họa hai luồng cùng gọi `rutTien`: khi Luồng-1 giữ khóa, Luồng-2 phải chờ (BLOCKED) đến khi khóa được nhả ra, nhờ đó không xảy ra tranh chấp:
+
+```mermaid
+sequenceDiagram
+    participant L1 as Luồng-1
+    participant M as Monitor Lock (tài khoản)
+    participant L2 as Luồng-2
+    L1->>M: acquire lock (rutTien)
+    M-->>L1: được cấp khóa
+    L2->>M: acquire lock (rutTien)
+    Note over L2: L2 bị BLOCKED, chờ khóa
+    L1->>L1: kiểm tra số dư, trừ tiền
+    L1->>M: release lock
+    M-->>L2: được cấp khóa
+    L2->>L2: kiểm tra số dư (đã cập nhật)
+    L2->>M: release lock
+```
+
 ### Cách 1: Synchronized Method (phương thức đồng bộ)
 
 ```java

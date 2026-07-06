@@ -17,6 +17,18 @@ Khi làm việc với Hibernate, các câu SQL được sinh ra tự động nê
 
 Hibernate sử dụng **SLF4J** (Simple Logging Facade for Java — giao diện logging đơn giản cho Java) là abstraction layer, và **Logback** hoặc **Log4j2** là implementation cụ thể.
 
+Sơ đồ dưới đây minh họa đường đi của một dòng log từ Hibernate đến nơi hiển thị cuối cùng:
+
+```mermaid
+flowchart LR
+    HB["Hibernate<br/>(org.hibernate.SQL...)"] --> SLF4J["SLF4J<br/>(abstraction layer)"]
+    SLF4J --> Impl["Logback / Log4j2<br/>(implementation)"]
+    Impl --> Console["Console"]
+    Impl --> File["File log<br/>(rolling theo ngày)"]
+```
+
+Hibernate chỉ gọi qua SLF4J, còn việc định dạng và đẩy log ra console hay file là do implementation (Logback/Log4j2) quyết định qua cấu hình.
+
 ## Cấu hình cơ bản trong hibernate.cfg.xml
 
 ```xml

@@ -96,6 +96,23 @@ public class StringUtils {
 }
 ```
 
+Các annotation `@Before` và `@After` tạo nên vòng đời của một lớp test JUnit. Sơ đồ dưới đây minh họa thứ tự thực thi khi lớp có nhiều `@Test`:
+
+```mermaid
+flowchart TB
+    Start(["Bắt đầu chạy lớp test"]) --> BC["@BeforeClass<br/>(chạy 1 lần, static)"]
+    BC --> B1["@Before<br/>(trước mỗi test)"]
+    B1 --> T1["@Test #1"]
+    T1 --> A1["@After<br/>(sau mỗi test)"]
+    A1 --> B2["@Before"]
+    B2 --> T2["@Test #2"]
+    T2 --> A2["@After"]
+    A2 --> AC["@AfterClass<br/>(chạy 1 lần, static)"]
+    AC --> End(["Kết thúc"])
+```
+
+Đọc sơ đồ: `@BeforeClass` và `@AfterClass` chỉ chạy một lần bao ngoài, còn `@Before`/`@After` lặp lại quanh từng `@Test`.
+
 ## Bài test đầu tiên với JUnit 5
 
 ```java

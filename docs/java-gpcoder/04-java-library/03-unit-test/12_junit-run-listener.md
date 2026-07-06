@@ -18,6 +18,24 @@ RunListener cho phép bạn "lắng nghe" quá trình chạy test và phản ứ
 - Thu thập metrics (chỉ số) hiệu năng test.
 - Tích hợp với hệ thống monitoring.
 
+Sơ đồ dưới mô tả luồng các sự kiện mà listener nhận được trong suốt một lần chạy test:
+
+```mermaid
+flowchart TD
+    A["testRunStarted<br/>bắt đầu toàn bộ test run"] --> B["testStarted<br/>bắt đầu một test"]
+    B --> C{"Test chạy ra sao?"}
+    C -->|"fail"| D["testFailure<br/>ghi nhận lỗi"]
+    C -->|"bỏ qua"| E["testIgnored"]
+    C -->|"pass"| F["testFinished<br/>kết thúc một test"]
+    D --> F
+    E --> F
+    F --> G{"Còn test khác?"}
+    G -->|"còn"| B
+    G -->|"hết"| H["testRunFinished<br/>tổng kết kết quả"]
+```
+
+Đọc sơ đồ: mỗi test lần lượt phát sự kiện bắt đầu rồi kết thúc; nếu fail sẽ có thêm `testFailure`. Khi mọi test xong, `testRunFinished` được gọi để tổng kết.
+
 ## Các phương thức của RunListener
 
 ```java

@@ -11,6 +11,19 @@ Topic Exchange là loại exchange linh hoạt nhất trong RabbitMQ, định tu
 
 **Topic Exchange** (bộ định tuyến theo chủ đề — loại exchange định tuyến tin nhắn dựa trên mẫu (pattern) của routing key thay vì so khớp chính xác) là loại Exchange linh hoạt nhất trong RabbitMQ. Nó cho phép định tuyến tin nhắn theo cấu trúc phân cấp bằng cách sử dụng **wildcard** (ký tự đại diện).
 
+Sơ đồ sau minh họa cách Topic Exchange dùng mẫu binding key (`*` và `#`) để chọn Queue theo cấu trúc phân cấp của routing key:
+
+```mermaid
+flowchart LR
+    P["Producer"] --> X["Topic Exchange<br/>event-topic"]
+    X -->|"order.#"| Q1["all-orders"]
+    X -->|"#.vietnam.#"| Q2["vietnam-events"]
+    X -->|"*.error"| Q3["all-errors"]
+    X -->|"order.vietnam.hanoi"| Q4["hanoi-orders"]
+```
+
+Nhờ dùng mẫu, một routing key như `order.vietnam.hanoi` có thể khớp nhiều binding cùng lúc và được gửi tới nhiều Queue.
+
 ## Cú pháp Routing Key trong Topic Exchange
 
 Routing Key trong Topic Exchange là chuỗi các **từ** (words) ngăn cách bởi dấu chấm `.`:

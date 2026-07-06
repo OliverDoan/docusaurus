@@ -15,6 +15,19 @@ Maven Surefire là plugin chịu trách nhiệm chạy unit test trong quá trì
 - **XML**: Để tích hợp với CI/CD (Jenkins, GitHub Actions, ...).
 - **HTML**: Để xem kết quả trực quan trong trình duyệt.
 
+Sơ đồ dưới mô tả luồng từ khi chạy test tới lúc có báo cáo HTML để xem:
+
+```mermaid
+flowchart TD
+    A["Chạy lệnh mvn test"] --> B["Surefire thực thi unit test"]
+    B --> C["Sinh báo cáo XML<br/>target/surefire-reports"]
+    C --> D["Chạy surefire-report:report"]
+    D --> E["Plugin đọc XML<br/>tạo báo cáo HTML"]
+    E --> F["Mở surefire-report.html<br/>xem trực quan"]
+```
+
+Đọc sơ đồ: Surefire chạy test và sinh XML trước, sau đó plugin report đọc XML đó để dựng file HTML tổng hợp cho người dùng xem.
+
 ## Cấu hình cơ bản trong `pom.xml`
 
 ```xml

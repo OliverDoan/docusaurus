@@ -144,6 +144,29 @@ public class HibernateDemo {
 }
 ```
 
+Sơ đồ tuần tự dưới đây tóm tắt luồng thao tác điển hình, từ khi tạo `SessionFactory` cho đến khi đóng `Session`:
+
+```mermaid
+sequenceDiagram
+    participant App as Ứng dụng
+    participant SF as SessionFactory
+    participant S as Session
+    participant TX as Transaction
+    participant DB as Database
+    App->>SF: buildSessionFactory()
+    App->>SF: openSession()
+    SF-->>App: Session
+    App->>S: beginTransaction()
+    S->>TX: mở giao dịch
+    App->>S: persist(sanPham)
+    App->>TX: commit()
+    TX->>DB: INSERT INTO san_pham
+    DB-->>TX: OK
+    App->>S: close()
+```
+
+`SessionFactory` được tạo một lần, mỗi tác vụ mở một `Session` mới; dữ liệu chỉ thực sự ghi xuống database khi transaction commit.
+
 ## So sánh Hibernate API và JPA API
 
 | Tính năng | JPA (chuẩn) | Hibernate (riêng) |

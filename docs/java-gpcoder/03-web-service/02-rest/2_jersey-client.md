@@ -16,6 +16,18 @@ Khi nào cần dùng Jersey Client:
 - Microservice giao tiếp với nhau qua REST
 - Viết integration test (kiểm thử tích hợp) cho REST API
 
+Sơ đồ sau cho thấy chuỗi thành phần khi Jersey Client gửi một request:
+
+```mermaid
+flowchart LR
+    A["Client<br/>(tao 1 lan, tai su dung)"] --> B["WebTarget<br/>(dai dien URL)"]
+    B --> C["Invocation.Builder<br/>(cau hinh header)"]
+    C --> D["Gui request<br/>GET POST PUT DELETE"]
+    D --> E["Response<br/>(doc entity roi dong lai)"]
+```
+
+`Client` khởi tạo một lần rồi tái sử dụng; luôn đóng `Response` cuối chuỗi để tránh rò rỉ tài nguyên.
+
 ## Cấu hình Maven
 
 ```xml

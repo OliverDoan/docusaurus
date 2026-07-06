@@ -28,6 +28,55 @@ Service Locator giải quyết bằng cách tập trung việc tra cứu và kh�
 - **ConcreteService**: Lớp cụ thể triển khai Service.
 - **Cache**: Lưu trữ service đã tra cứu để tránh tìm lại.
 
+Sơ đồ lớp dưới đây minh họa cấu trúc Service Locator — điểm trung tâm `ServiceLocator` phối hợp giữa `ServiceCache` và `InitialContext` (registry) để cung cấp Service cho client:
+
+```mermaid
+classDiagram
+    class ServiceLocator {
+        +getService(String) Service
+    }
+    class ServiceCache {
+        +getFromCache(String) Service
+        +addToCache(String, Service)
+    }
+    class InitialContext {
+        +lookup(String) Service
+    }
+    class Service {
+        <<interface>>
+        +execute(String)
+    }
+    class EmailService
+    class SmsService
+    class Client
+    Service <|.. EmailService : hien thuc
+    Service <|.. SmsService : hien thuc
+    ServiceLocator --> ServiceCache : kiem tra cache
+    ServiceLocator --> InitialContext : tra cuu registry
+    InitialContext ..> Service : tao
+    Client --> ServiceLocator : getService()
+```
+
+Sơ đồ tuần tự dưới đây minh họa luồng tra cứu — lần đầu tìm trong registry rồi lưu cache, các lần sau lấy thẳng từ cache:
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Locator as ServiceLocator
+    participant Cache as ServiceCache
+    participant Ctx as InitialContext
+    Client->>Locator: getService("EmailService")
+    Locator->>Cache: getFromCache(name)
+    alt Cache co san
+        Cache-->>Locator: tra ve service
+    else Cache rong
+        Locator->>Ctx: lookup(name)
+        Ctx-->>Locator: service moi
+        Locator->>Cache: addToCache(name, service)
+    end
+    Locator-->>Client: tra ve Service
+```
+
 ## Ví dụ Java
 
 ```java

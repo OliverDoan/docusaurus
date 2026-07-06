@@ -32,6 +32,18 @@ Producer --> [Direct Exchange "main-exchange"]
                                                     --> Consumer (cảnh báo, ghi log)
 ```
 
+Sơ đồ sau minh họa cơ chế dự phòng: tin nhắn khớp binding thì vào Queue bình thường, còn tin nhắn không khớp sẽ được chuyển sang Alternate Exchange thay vì bị mất:
+
+```mermaid
+flowchart LR
+    P["Producer"] --> X["Direct Exchange<br/>order-exchange"]
+    X -->|"order.created (khớp)"| Q1["order-created-queue"] --> C1["OrderConsumer"]
+    X -->|"typo.key (không khớp)"| AE["Alternate Exchange<br/>unrouted-orders"]
+    AE --> QU["unrouted-queue"] --> M["Monitor<br/>(ghi log, cảnh báo)"]
+```
+
+Nhờ khai báo argument `alternate-exchange`, mọi tin nhắn không định tuyến được đều được gom về một chỗ để theo dõi, tránh mất tin nhắn âm thầm.
+
 ## Ví dụ thực tế: Hệ thống xử lý đơn hàng với fallback
 
 ### Thiết lập Alternate Exchange

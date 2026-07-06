@@ -11,6 +11,19 @@ Filter và Interceptor là hai cơ chế giúp bạn xử lý các tác vụ chu
 
 Trong Jersey 2.x, **Filter** (bộ lọc) và **Interceptor** (bộ chặn) là hai cơ chế mạnh mẽ để xử lý cross-cutting concerns (các mối quan tâm xuyên suốt nhiều phần ứng dụng) như logging, xác thực, nén dữ liệu, mà không cần nhúng code vào từng resource.
 
+Sơ đồ dưới đây minh họa vị trí của Filter trong luồng xử lý một request:
+
+```mermaid
+flowchart LR
+    A["Request den"] --> B["ContainerRequestFilter<br/>(kiem tra header, xac thuc)"]
+    B -->|Hop le| C["Resource Method"]
+    B -->|abortWith| E["Tra loi ngay<br/>(vi du 401)"]
+    C --> D["ContainerResponseFilter<br/>(them header, CORS)"]
+    D --> F["Response ve client"]
+```
+
+Request filter chạy trước resource và có thể ngắt luồng bằng `abortWith()`, còn response filter chỉnh sửa response trước khi gửi đi.
+
 ### Sự khác biệt giữa Filter và Interceptor
 
 | Tiêu chí | Filter | Interceptor |

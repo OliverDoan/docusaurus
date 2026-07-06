@@ -16,6 +16,20 @@ Management Interface là giao diện web tích hợp sẵn của RabbitMQ, giúp
 - Quản lý user, vhost, permissions.
 - Xem thống kê hiệu suất theo thời gian thực.
 
+Sơ đồ sau minh họa các đối tượng mà Management Interface theo dõi, đúng theo thứ bậc từ kết nối tới tin nhắn:
+
+```mermaid
+flowchart TD
+    UI["Management UI<br/>(cổng 15672)"] --> Conn["Connections<br/>(kết nối TCP)"]
+    Conn --> Ch["Channels<br/>(kênh ảo)"]
+    Ch --> Cons["Consumers"]
+    UI --> Ex["Exchanges"]
+    Ex -->|"binding"| Q["Queues<br/>(Ready / Unacked)"]
+    Cons --> Q
+```
+
+Mỗi tab trong giao diện tương ứng với một lớp trong sơ đồ: một Connection chứa nhiều Channel, mỗi Channel gắn với Consumer, còn Exchange định tuyến tin nhắn vào các Queue.
+
 ## Kích hoạt Management Plugin
 
 ```bash

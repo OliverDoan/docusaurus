@@ -11,6 +11,20 @@ Hai lớp chính của Streaming API:
 - **`JsonReader`** — đọc JSON theo từng token
 - **`JsonWriter`** — ghi JSON theo từng token
 
+Sơ đồ dưới đây cho thấy hai luồng xử lý theo token: một chiều ghi đối tượng ra luồng JSON và một chiều đọc luồng JSON dựng lại đối tượng, tất cả đều không nạp toàn bộ tài liệu vào bộ nhớ:
+
+```mermaid
+flowchart LR
+    subgraph Ghi["Ghi bằng JsonWriter"]
+        O["Đối tượng Java"] --> WT["Phát ra từng token<br/>beginObject / name / value"] --> OUT["Luồng JSON<br/>ra file hoặc mạng"]
+    end
+    subgraph Doc["Đọc bằng JsonReader"]
+        IN["Luồng JSON<br/>từ file hoặc mạng"] --> RT["Đọc từng token<br/>nextName / nextInt / nextString"] --> OBJ["Đối tượng Java"]
+    end
+```
+
+Điểm mấu chốt: dữ liệu chảy qua từng token nhỏ nên bộ nhớ tiêu thụ gần như không đổi dù file JSON lớn tới đâu.
+
 ---
 
 ## 1. Maven Dependency
@@ -93,6 +107,24 @@ File `nguoi-dung.json` sinh ra:
 ## 3. Đọc JSON với JsonReader
 
 **`JsonReader`** đọc JSON theo từng **token** (đơn vị nhỏ nhất). Các token có thể là: `BEGIN_ARRAY`, `END_ARRAY`, `BEGIN_OBJECT`, `END_OBJECT`, `NAME` (tên key), `STRING`, `NUMBER`, `BOOLEAN`, `NULL`.
+
+Sơ đồ tuần tự sau minh họa vòng lặp đọc một mảng đối tượng: ứng dụng liên tục hỏi `JsonReader` token kế tiếp cho tới khi hết mảng:
+
+```mermaid
+sequenceDiagram
+    participant App as Ứng dụng
+    participant R as JsonReader
+    App->>R: beginArray()
+    loop Còn phần tử (hasNext)
+        App->>R: beginObject()
+        App->>R: nextName() + nextInt/nextString
+        App->>R: endObject()
+        R-->>App: một đối tượng NguoiDung
+    end
+    App->>R: endArray()
+```
+
+Đọc sơ đồ: mỗi vòng lặp dựng lại một đối tượng từ các token bên trong `{ }`, và vòng lặp dừng khi `hasNext()` báo hết phần tử.
 
 ```java
 import com.google.gson.stream.JsonReader;

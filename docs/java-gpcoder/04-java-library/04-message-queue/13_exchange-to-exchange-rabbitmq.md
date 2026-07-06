@@ -22,6 +22,21 @@ Producer --> Exchange A --> Exchange B --> Queue --> Consumer
                        `--> Exchange C --> Queue --> Consumer
 ```
 
+Sơ đồ dưới đây minh họa chuỗi định tuyến phân cấp: một Fanout Exchange gốc chuyển tiếp tin nhắn sang các Topic Exchange theo vùng, rồi mới tới Queue:
+
+```mermaid
+flowchart TD
+    P["NewsProducer"] --> R["Fanout Exchange<br/>news-feed"]
+    R --> VN["Topic Exchange<br/>vn-news"]
+    R --> WD["Topic Exchange<br/>world-news"]
+    VN -->|"thethao.#"| Q1["vn-thethao"]
+    VN -->|"kinhte.#"| Q2["vn-kinhte"]
+    WD -->|"sports.#"| Q3["world-sports"]
+    WD -->|"finance.#"| Q4["world-finance"]
+```
+
+Nhờ tách thành nhiều tầng, mỗi Exchange chỉ lo một tiêu chí lọc (vùng, rồi chuyên mục), giúp hệ thống dễ mở rộng mà không phải sửa Producer.
+
 ## Tại sao cần Exchange-to-Exchange?
 
 Trong hệ thống lớn, một tin nhắn có thể cần qua nhiều giai đoạn lọc/phân phối:

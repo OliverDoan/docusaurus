@@ -7,6 +7,17 @@ title: "Giới thiệu JSON"
 
 **JSON** (JavaScript Object Notation — định dạng dữ liệu dạng văn bản nhẹ, dễ đọc) là một tiêu chuẩn trao đổi dữ liệu phổ biến nhất hiện nay. Mặc dù tên gọi xuất phát từ JavaScript, JSON hoàn toàn độc lập với ngôn ngữ lập trình và được hỗ trợ rộng rãi bởi Java, Python, Go, C#, và hầu hết mọi nền tảng.
 
+Sơ đồ dưới đây minh họa vai trò của JSON như một định dạng trung gian giúp các hệ thống viết bằng ngôn ngữ khác nhau trao đổi dữ liệu với nhau:
+
+```mermaid
+flowchart LR
+    A["Đối tượng Java"] -->|"serialize (tuần tự hóa)"| J["Văn bản JSON"]
+    J -->|"gửi qua mạng / lưu file"| K["Hệ thống khác<br/>(Python, Go, JavaScript...)"]
+    J -->|"deserialize (giải tuần tự hóa)"| B["Đối tượng Java"]
+```
+
+Nhìn sơ đồ: dữ liệu trong bộ nhớ được chuyển thành văn bản JSON để truyền đi, và bất kỳ nền tảng nào cũng có thể đọc ngược văn bản đó về cấu trúc dữ liệu của mình.
+
 ---
 
 ## 1. Tại sao dùng JSON?

@@ -15,6 +15,26 @@ Java Print Service là bộ API cho phép chương trình Java tìm máy in trê
 - In file PDF, HTML, text, ảnh
 - Kiểm soát cài đặt in (số bản sao, khổ giấy, in hai mặt...)
 
+Sơ đồ tuần tự dưới đây minh họa luồng gửi một lệnh in: ứng dụng tìm máy in qua `PrintServiceLookup`, tạo `DocPrintJob`, đóng gói dữ liệu vào `Doc` rồi gửi tới máy in.
+
+```mermaid
+sequenceDiagram
+    participant App as Ứng dụng
+    participant Lookup as PrintServiceLookup
+    participant Service as PrintService
+    participant Job as DocPrintJob
+    participant Printer as Máy in
+
+    App->>Lookup: lookupPrintServices(flavor)
+    Lookup-->>App: danh sách PrintService
+    App->>Service: createPrintJob()
+    Service-->>App: DocPrintJob
+    App->>Job: print(Doc, thuộc tính)
+    Job->>Printer: gửi dữ liệu in
+    Printer-->>Job: sự kiện hoàn thành / lỗi
+    Job-->>App: thông báo qua PrintJobListener
+```
+
 ---
 
 ## Các gói liên quan

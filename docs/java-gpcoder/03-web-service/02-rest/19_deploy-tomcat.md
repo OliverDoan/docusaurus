@@ -15,6 +15,31 @@ Có hai cách cấu hình Jersey với Tomcat:
 1. Dùng `web.xml` (cách truyền thống)
 2. Dùng `@ApplicationPath` (không cần `web.xml`)
 
+Sơ đồ dưới đây mô tả luồng build và deploy từ source code đến khi API phục vụ request:
+
+```mermaid
+flowchart TD
+    Src["Source code Jersey<br/>(resource, service, config)"]
+    Build["mvn clean package"]
+    War["File WAR<br/>target/rest-api.war"]
+    Deploy{"Cách deploy"}
+    Copy["Copy vào<br/>tomcat/webapps/"]
+    Manager["Tomcat Manager<br/>hoặc mvn tomcat7:deploy"]
+    Tomcat["Tomcat giải nén<br/>và khởi động app"]
+    Live["API sẵn sàng<br/>/rest-api/api/products"]
+
+    Src --> Build
+    Build --> War
+    War --> Deploy
+    Deploy --> Copy
+    Deploy --> Manager
+    Copy --> Tomcat
+    Manager --> Tomcat
+    Tomcat --> Live
+```
+
+Maven đóng gói code thành WAR; Tomcat nhận WAR (copy tay hoặc qua Manager), giải nén và chạy, context path mặc định lấy theo tên file WAR.
+
 ## Cấu hình Maven cho WAR packaging
 
 ```xml

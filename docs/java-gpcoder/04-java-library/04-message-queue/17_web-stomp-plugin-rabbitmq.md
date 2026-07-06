@@ -13,6 +13,17 @@ Web STOMP Plugin là tiện ích cho phép ứng dụng web chạy trên trình 
 
 **STOMP - Simple Text Oriented Messaging Protocol** (giao thức nhắn tin hướng văn bản đơn giản — giao thức nhắn tin nhẹ dựa trên text, dễ triển khai trên nhiều ngôn ngữ và môi trường) là giao thức tầng ứng dụng hoạt động trên nền **WebSocket** (giao thức truyền thông hai chiều thời gian thực giữa trình duyệt và server).
 
+Sơ đồ dưới đây minh họa cách trình duyệt kết nối thẳng tới RabbitMQ qua WebSocket STOMP, trong khi backend Java vẫn gửi/nhận qua AMQP trên cùng một Queue:
+
+```mermaid
+flowchart LR
+    Browser["Trình duyệt<br/>(STOMP.js)"] <-->|"ws:15674 (STOMP)"| R["RabbitMQ<br/>+ Web STOMP Plugin"]
+    R --- Q["Queue / Exchange"]
+    Java["Backend Java"] <-->|"amqp:5672"| R
+```
+
+Nhờ plugin, frontend nhận tin nhắn theo thời gian thực mà không cần backend làm trung gian; hai phía chỉ cần trỏ vào cùng Queue/Exchange trên broker.
+
 ## Kích hoạt Web STOMP Plugin
 
 ```bash

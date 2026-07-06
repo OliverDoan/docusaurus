@@ -11,6 +11,18 @@ Hầu hết ứng dụng đều cần làm việc với file và thư mục: t�
 
 **Lớp `File`** (đại diện tập tin/thư mục — lớp dùng để thao tác với đường dẫn, tập tin và thư mục trên hệ thống file) trong gói `java.io` là công cụ truyền thống để làm việc với hệ thống file. Từ Java 7 trở đi, gói `java.nio.file` (NIO.2) được khuyến nghị dùng thay thế.
 
+Sơ đồ dưới đây tóm tắt các nhóm thao tác chính khi làm việc với tập tin và thư mục, cùng phương thức tương ứng ở lớp cũ `java.io.File` và API mới `java.nio.file.Files`.
+
+```mermaid
+flowchart TD
+    A["Đối tượng đường dẫn<br/>File / Path"] --> B["Kiểm tra<br/>exists / isFile / isDirectory"]
+    A --> C["Tạo<br/>createNewFile / mkdirs"]
+    A --> D["Liệt kê / Duyệt<br/>listFiles / Files.walk"]
+    A --> E["Đổi tên - Di chuyển<br/>renameTo / Files.move"]
+    A --> F["Sao chép<br/>Files.copy"]
+    A --> G["Xóa<br/>delete / Files.deleteIfExists"]
+```
+
 ---
 
 ## Tạo đối tượng File

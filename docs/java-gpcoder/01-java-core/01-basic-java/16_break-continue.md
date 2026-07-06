@@ -7,6 +7,23 @@ title: "Câu lệnh điều khiển vòng lặp - break, continue"
 
 Trong khi sử dụng vòng lặp, đôi khi bạn cần **dừng vòng lặp sớm** hoặc **bỏ qua một vòng lặp cụ thể**. Java cung cấp hai câu lệnh: `break` và `continue`.
 
+Sơ đồ dưới đây minh họa sự khác nhau giữa `break` và `continue` trong một vòng lặp:
+
+```mermaid
+flowchart TD
+    A["Bắt đầu vòng lặp"] --> B{"Điều kiện lặp còn đúng?"}
+    B -->|"Sai"| Z["Thoát vòng lặp"]
+    B -->|"Đúng"| C["Thực thi các lệnh trong thân"]
+    C --> D{"Gặp break?"}
+    D -->|"Có"| Z
+    D -->|"Không"| E{"Gặp continue?"}
+    E -->|"Có"| B
+    E -->|"Không"| F["Chạy nốt phần còn lại của thân"]
+    F --> B
+```
+
+Đọc sơ đồ: `break` nhảy thẳng ra ngoài, kết thúc vòng lặp; còn `continue` bỏ qua phần còn lại của lần lặp hiện tại rồi quay lại kiểm tra điều kiện để tiếp tục vòng sau.
+
 ---
 
 ## Câu lệnh `break`

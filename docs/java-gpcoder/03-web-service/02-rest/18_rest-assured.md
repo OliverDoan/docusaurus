@@ -27,6 +27,23 @@ given()
     .then().statusCode(200);
 ```
 
+Sơ đồ sau mô tả luồng Given-When-Then của một test REST Assured gọi tới server đang chạy:
+
+```mermaid
+sequenceDiagram
+    participant Test as Test (REST Assured)
+    participant Spec as RequestSpecification
+    participant Server as REST API Server (đang chạy)
+
+    Test->>Spec: given() — set header, body, param
+    Spec->>Server: when() — gửi GET / POST / PUT / DELETE
+    Server-->>Spec: HTTP response (status + JSON)
+    Spec-->>Test: then() — kiểm tra bằng Hamcrest matchers
+    Test->>Test: extract() — lấy giá trị dùng cho bước sau
+```
+
+Given chuẩn bị request, When phát request, Then dùng matcher để kiểm tra response; `extract()` giúp nối các bước thành một luồng test.
+
 ## Cấu hình Maven
 
 ```xml

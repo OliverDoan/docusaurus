@@ -7,6 +7,20 @@ title: "Một số API của JUnit - Assert, Assume, Test Runner"
 
 Để viết test hiệu quả, bạn cần nắm ba nhóm API quan trọng của JUnit: Assert dùng để kiểm tra kết quả, Assume dùng để bỏ qua test khi điều kiện môi trường không phù hợp, và Test Runner quyết định cách các lớp test được chạy. Bài này trình bày chi tiết từng nhóm cùng ví dụ cho cả JUnit 4 và JUnit 5.
 
+Sơ đồ dưới đây tóm tắt cách ba nhóm API phối hợp trong một lần chạy test:
+
+```mermaid
+flowchart TD
+    R["Test Runner<br/>điều phối và chạy test"] --> AS["Assume<br/>kiểm tra điều kiện môi trường"]
+    AS -->|"Điều kiện không thỏa"| SKIP["Test bị bỏ qua<br/>không tính là lỗi"]
+    AS -->|"Điều kiện thỏa"| BODY["Thực thi thân test"]
+    BODY --> AST["Assert<br/>xác nhận kết quả"]
+    AST -->|"Điều kiện đúng"| PASS["Test PASS"]
+    AST -->|"Điều kiện sai"| FAIL["Test FAIL<br/>ném AssertionError"]
+```
+
+Cách đọc: Runner khởi động test trước, `Assume` là cửa chặn đầu tiên (nếu môi trường không phù hợp thì bỏ qua ngay), còn `Assert` chạy ở cuối để phán quyết PASS hay FAIL. Lưu ý điểm khác biệt: `Assume` không thỏa chỉ **skip**, còn `Assert` sai thì **fail**.
+
 ## 1. Assert — Xác nhận kết quả
 
 **Assert** (xác nhận) là lớp cung cấp các phương thức kiểm tra điều kiện trong test. Nếu điều kiện sai, test sẽ **fail** ngay lập tức và ném ra `AssertionError`.

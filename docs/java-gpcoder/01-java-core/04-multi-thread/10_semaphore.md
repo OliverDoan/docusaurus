@@ -17,6 +17,19 @@ Semaphore duy trì một bộ **Permit** (giấy phép). Luồng muốn truy c�
 
 Hình dung: Semaphore như bãi đỗ xe có N chỗ. Xe vào thì lấy 1 vé (acquire), xe ra thì trả vé (release). Khi đầy, xe mới phải chờ ngoài.
 
+Sơ đồ dưới mô tả vòng đời một lần truy cập: luồng gọi `acquire()`, nếu còn permit thì vào dùng tài nguyên, nếu hết thì chờ; khi xong gọi `release()` để trả permit và đánh thức luồng đang chờ:
+
+```mermaid
+flowchart TD
+    T["Luồng muốn dùng tài nguyên"] --> A["acquire()"]
+    A --> C{"Còn permit?"}
+    C -->|"Còn"| U["Giảm permit → truy cập tài nguyên"]
+    C -->|"Hết"| W["Chờ (block)"]
+    W --> C
+    U --> R["release() → tăng permit"]
+    R --> N["Đánh thức luồng đang chờ"]
+```
+
 ## Phân loại
 
 - **Counting Semaphore** (đèn hiệu đếm): N permit, cho phép N luồng đồng thời.

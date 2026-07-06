@@ -7,6 +7,19 @@ title: "Cài đặt và sử dụng Hibernate"
 
 Trước khi viết code với Hibernate, bạn cần thêm thư viện và cấu hình kết nối database cho dự án. Bài này hướng dẫn từng bước: thêm dependency cho Maven/Gradle, cấu hình bằng file XML hoặc Java code, tạo Entity và thực hiện các thao tác CRUD cơ bản. Đây là nền tảng để bạn chạy được ứng dụng Hibernate đầu tiên.
 
+Các bước dưới đây có thể hình dung như một lộ trình tuần tự từ cài đặt tới thao tác dữ liệu:
+
+```mermaid
+flowchart LR
+    A["Thêm dependency<br/>hibernate-core + driver"] --> B["Cấu hình<br/>hibernate.cfg.xml / Java"]
+    B --> C["Tạo Entity class<br/>@Entity, @Id..."]
+    C --> D["Tạo SessionFactory"]
+    D --> E["Mở Session +<br/>Transaction"]
+    E --> F["CRUD<br/>persist / find / merge / remove"]
+```
+
+Mỗi bước sau phụ thuộc vào bước trước; khi đã có `SessionFactory`, bạn chỉ mở `Session` mới cho từng tác vụ CRUD.
+
 ## Thêm dependency vào dự án
 
 ### Dùng Maven

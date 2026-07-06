@@ -13,6 +13,20 @@ Integer Constant Pool (hay Integer Cache) là cơ chế Java lưu sẵn các đ�
 
 Đây là lý do dẫn đến hành vi bất ngờ khi so sánh `Integer` bằng `==`.
 
+Sơ đồ dưới đây mô tả cách JVM quyết định lấy đối tượng từ Cache hay tạo mới khi Autoboxing:
+
+```mermaid
+flowchart TD
+    A["Autoboxing: Integer x = giá trị"] --> B["Integer.valueOf(giá trị)"]
+    B --> C{"giá trị trong<br/>-128 đến 127?"}
+    C -->|"Có"| D["Trả về đối tượng<br/>có sẵn trong Cache"]
+    C -->|"Không"| E["Tạo đối tượng<br/>Integer mới"]
+    D --> F["Hai biến cùng giá trị<br/>== trả về true"]
+    E --> G["Hai biến cùng giá trị<br/>== trả về false"]
+```
+
+Đọc sơ đồ: chỉ các giá trị trong khoảng cache mới dùng chung đối tượng, nên `==` mới cho kết quả `true` — đây là lý do luôn nên dùng `.equals()`.
+
 ---
 
 ## Minh họa vấn đề

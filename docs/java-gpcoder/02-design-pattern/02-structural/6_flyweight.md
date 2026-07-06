@@ -26,6 +26,38 @@ Flyweight tách trạng thái thành:
 - **FlyweightFactory**: Quản lý pool (kho) các flyweight, trả về đối tượng đã có hoặc tạo mới nếu chưa tồn tại.
 - **Client**: Tính toán và lưu extrinsic state, gọi flyweight với context cụ thể.
 
+Sơ đồ dưới đây minh họa cách chia sẻ flyweight trong ví dụ Java bên dưới (`TreeType` là Flyweight chứa intrinsic state, `Tree` giữ extrinsic state):
+
+```mermaid
+classDiagram
+    class TreeType {
+        -String name
+        -String color
+        -String texture
+        +draw(int x, int y)
+    }
+    class TreeFactory {
+        -Map treeTypes
+        +getTreeType(...) TreeType
+    }
+    class Tree {
+        -int x
+        -int y
+        -TreeType type
+        +draw()
+    }
+    class Forest {
+        -List trees
+        +plantTree(...)
+    }
+    TreeFactory o-- TreeType : quản lý pool
+    Tree o-- TreeType : chia sẻ intrinsic
+    Forest o-- Tree : chứa nhiều
+    Tree ..> TreeFactory : xin flyweight
+```
+
+Nhiều `Tree` khác vị trí (extrinsic) cùng trỏ đến một `TreeType` (intrinsic) do `TreeFactory` cấp phát, nhờ đó hàng nghìn cây chỉ tốn vài object `TreeType` nặng.
+
 ## Ví dụ Java
 
 Hệ thống hiển thị cây trong game/ứng dụng bản đồ:

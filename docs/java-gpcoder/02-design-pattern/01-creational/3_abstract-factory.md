@@ -25,6 +25,43 @@ Ví dụ: Một ứng dụng UI hỗ trợ nhiều giao diện (theme sáng / th
 - **ConcreteProduct**: Lớp cụ thể của product.
 - **Client**: Chỉ làm việc với AbstractFactory và AbstractProduct, không biết lớp cụ thể.
 
+Sơ đồ lớp dưới đây minh họa cấu trúc Abstract Factory qua ví dụ giao diện đa theme — mỗi ConcreteFactory tạo ra một họ product (Button + Checkbox) đồng bộ với nhau:
+
+```mermaid
+classDiagram
+    class UIFactory {
+        <<interface>>
+        +createButton() Button
+        +createCheckbox() Checkbox
+    }
+    class LightThemeFactory
+    class DarkThemeFactory
+    class Button {
+        <<interface>>
+    }
+    class Checkbox {
+        <<interface>>
+    }
+    class LightButton
+    class DarkButton
+    class LightCheckbox
+    class DarkCheckbox
+    class Application
+    UIFactory <|.. LightThemeFactory : hien thuc
+    UIFactory <|.. DarkThemeFactory : hien thuc
+    Button <|.. LightButton : hien thuc
+    Button <|.. DarkButton : hien thuc
+    Checkbox <|.. LightCheckbox : hien thuc
+    Checkbox <|.. DarkCheckbox : hien thuc
+    Application --> UIFactory : su dung
+    LightThemeFactory ..> LightButton : tao
+    LightThemeFactory ..> LightCheckbox : tao
+    DarkThemeFactory ..> DarkButton : tao
+    DarkThemeFactory ..> DarkCheckbox : tao
+```
+
+Client (`Application`) chỉ phụ thuộc vào interface `UIFactory`, `Button`, `Checkbox`; việc chọn `LightThemeFactory` hay `DarkThemeFactory` quyết định cả họ product được dùng, đảm bảo tính nhất quán.
+
 ## Ví dụ Java
 
 ```java

@@ -15,6 +15,25 @@ Hai lớp gốc trừu tượng:
 - `Reader` — đọc ký tự
 - `Writer` — ghi ký tự
 
+Sơ đồ lớp dưới đây tóm tắt phân cấp các lớp Character Stream thường dùng, chia thành nhánh đọc (`Reader`) và nhánh ghi (`Writer`). Lưu ý `InputStreamReader`/`OutputStreamWriter` là cầu nối giữa thế giới byte và thế giới ký tự.
+
+```mermaid
+classDiagram
+    class Reader
+    class Writer
+
+    Reader <|-- FileReader
+    Reader <|-- BufferedReader
+    Reader <|-- InputStreamReader
+    Reader <|-- StringReader
+
+    Writer <|-- FileWriter
+    Writer <|-- BufferedWriter
+    Writer <|-- OutputStreamWriter
+    Writer <|-- StringWriter
+    Writer <|-- PrintWriter
+```
+
 ---
 
 ## Các lớp Character Stream thường dùng

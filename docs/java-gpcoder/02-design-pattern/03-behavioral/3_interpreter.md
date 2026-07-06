@@ -22,6 +22,37 @@ Khi bạn cần xử lý các biểu thức thuộc một ngôn ngữ đơn gi�
 - **NonTerminalExpression**: biểu thức kết hợp nhiều biểu thức con.
 - **Context**: chứa thông tin toàn cục cần cho quá trình phiên giải.
 
+Sơ đồ lớp dưới đây cho thấy cách các biểu thức tổ hợp (Non-Terminal) chứa các biểu thức con cùng kiểu `Expression`, tạo thành cây cú pháp:
+
+```mermaid
+classDiagram
+    class Expression {
+        <<interface>>
+        +interpret() int
+    }
+    class NumberExpression {
+        +interpret() int
+    }
+    class AddExpression {
+        +interpret() int
+    }
+    class SubtractExpression {
+        +interpret() int
+    }
+    class MultiplyExpression {
+        +interpret() int
+    }
+    Expression <|.. NumberExpression : hiện thực (Terminal)
+    Expression <|.. AddExpression : hiện thực (Non-Terminal)
+    Expression <|.. SubtractExpression : hiện thực (Non-Terminal)
+    Expression <|.. MultiplyExpression : hiện thực (Non-Terminal)
+    AddExpression o-- Expression : toán hạng trái phải
+    SubtractExpression o-- Expression : toán hạng trái phải
+    MultiplyExpression o-- Expression : toán hạng trái phải
+```
+
+`NumberExpression` là lá không tách nhỏ được, còn các phép toán là nút cha gọi đệ quy `interpret()` trên các biểu thức con để tính kết quả.
+
 ## Ví dụ Java: Bộ đánh giá biểu thức toán học đơn giản
 
 ```java

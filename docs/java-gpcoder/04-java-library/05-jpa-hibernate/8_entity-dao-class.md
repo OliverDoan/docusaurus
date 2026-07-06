@@ -16,6 +16,18 @@ Lợi ích:
 - Dễ test: có thể mock DAO khi test service.
 - Tái sử dụng: nhiều service có thể dùng cùng một DAO.
 
+Sơ đồ dưới đây thể hiện cách các tầng gọi lẫn nhau, từ business logic xuống tới database:
+
+```mermaid
+flowchart TD
+    Service["Service<br/>(business logic)"] --> DAO["DAO chuyên biệt<br/>SanPhamDAO"]
+    DAO --> Generic["GenericDAO (T, ID)<br/>(CRUD chung)"]
+    Generic --> Session["Session<br/>(từ SessionFactory)"]
+    Session --> DB[("Database")]
+```
+
+Service không đụng trực tiếp tới `Session`; nó chỉ gọi DAO, còn phần mở/đóng session và sinh SQL được đóng gói bên trong tầng DAO.
+
 ## Cấu trúc dự án đề xuất
 
 ```

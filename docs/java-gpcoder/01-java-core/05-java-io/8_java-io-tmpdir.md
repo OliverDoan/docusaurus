@@ -15,6 +15,18 @@ Giá trị của `java.io.tmpdir` thay đổi theo hệ điều hành:
 - **Linux/macOS:** `/tmp` hoặc `/var/folders/...`
 - **Windows:** `C:\Users\<user>\AppData\Local\Temp`
 
+Sơ đồ dưới đây minh họa vòng đời an toàn của một file tạm: lấy thư mục tạm, tạo file, xử lý, rồi luôn dọn dẹp dù thành công hay có lỗi.
+
+```mermaid
+flowchart TD
+    A["java.io.tmpdir<br/>(thư mục tạm của OS)"] --> B["createTempFile()<br/>tạo file tạm"]
+    B --> C["Xử lý dữ liệu<br/>(ghi / đọc / validate)"]
+    C --> D{"Có lỗi?"}
+    D -->|"Có"| E["deleteIfExists()<br/>trong khối finally"]
+    D -->|"Không"| F["move() sang thư mục lưu trữ<br/>hoặc deleteOnExit()"]
+    F --> E
+```
+
 ---
 
 ## Lấy đường dẫn thư mục tạm

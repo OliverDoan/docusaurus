@@ -40,6 +40,20 @@ Mỗi ứng dụng JMS đều thực hiện các bước sau theo thứ tự:
 7. Đóng tài nguyên
 ```
 
+Có thể hình dung 7 bước này như một chuỗi tuần tự, mỗi đối tượng được tạo ra từ đối tượng ở bước trước:
+
+```mermaid
+flowchart TD
+    A["ConnectionFactory<br/>(URL broker)"] --> B["Connection<br/>(connection.start)"]
+    B --> C["Session<br/>(ack mode)"]
+    C --> D["Destination<br/>(Queue / Topic)"]
+    D --> E["Producer / Consumer"]
+    E --> F["Gửi / Nhận tin nhắn"]
+    F --> G["Đóng tài nguyên<br/>(ngược thứ tự)"]
+```
+
+Lưu ý mọi ứng dụng JMS đều đi theo đúng trình tự này; chỉ khác nhau ở bước 4 (chọn Queue hay Topic) và bước 5 (tạo Producer hay Consumer).
+
 ## Gửi tin nhắn tới Queue (Point-to-Point)
 
 ```java

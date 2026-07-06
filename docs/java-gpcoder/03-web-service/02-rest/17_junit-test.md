@@ -15,6 +15,27 @@ Viết test cho REST API giúp đảm bảo các endpoint hoạt động đúng 
 2. **Unit test thuần**: Test business logic tách biệt khỏi HTTP layer.
 3. **Mock test**: Dùng Mockito để giả lập dependency.
 
+Sơ đồ sau minh họa cách một test case chạy qua embedded Grizzly server và mock service, không cần deploy thật:
+
+```mermaid
+sequenceDiagram
+    participant Test as Test case (JUnit 5)
+    participant Grizzly as Embedded Grizzly (JerseyTest)
+    participant Res as ProductResource
+    participant Mock as ProductService (Mockito mock)
+
+    Test->>Mock: when(findAll()).thenReturn(...)
+    Test->>Grizzly: target("/products").get()
+    Grizzly->>Res: Dispatch HTTP request
+    Res->>Mock: productService.findAll()
+    Mock-->>Res: Dữ liệu giả đã cấu hình
+    Res-->>Grizzly: Response 200 + JSON
+    Grizzly-->>Test: Response
+    Test->>Test: assertThat(...) + verify(mock)
+```
+
+Test kiểm tra hành vi HTTP của resource, còn service được mock nên logic nghiệp vụ không ảnh hưởng đến kết quả.
+
 ## Cấu hình Maven
 
 ```xml

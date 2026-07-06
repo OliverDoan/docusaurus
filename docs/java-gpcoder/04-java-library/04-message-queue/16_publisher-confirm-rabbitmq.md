@@ -15,6 +15,22 @@ Không có Publisher Confirm: **Fire and Forget** (bắn và quên — gửi xon
 
 Với Publisher Confirm: **At-Least-Once Delivery** (đảm bảo giao ít nhất một lần — tin nhắn chắc chắn được broker nhận).
 
+Sơ đồ tương tác sau minh họa cách broker gửi lại xác nhận (ack) hoặc từ chối (nack) cho Producer sau khi tiếp nhận tin nhắn:
+
+```mermaid
+sequenceDiagram
+    participant P as Producer
+    participant B as RabbitMQ Broker
+    P->>B: confirmSelect (bật chế độ confirm)
+    P->>B: basicPublish tin nhắn (seqNo)
+    Note over B: Lưu tin nhắn an toàn
+    B-->>P: ack (đã nhận, seqNo)
+    P->>B: basicPublish tin nhắn khác
+    B-->>P: nack (lỗi nội bộ - cần retry)
+```
+
+Nhờ nhận được ack/nack, Producer biết chắc tin nhắn nào đã an toàn và tin nhắn nào cần gửi lại, thay vì "bắn và quên".
+
 ## Khi nào cần Publisher Confirm?
 
 - Giao dịch tài chính, thanh toán.

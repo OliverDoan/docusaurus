@@ -15,6 +15,25 @@ title: "Sử dụng CyclicBarrier trong Java"
 
 Từ **Cyclic** (chu kỳ) nghĩa là có thể **tái sử dụng** — sau khi barrier được kích hoạt, nó tự động reset và sẵn sàng cho chu kỳ tiếp theo.
 
+Sơ đồ tuần tự sau minh họa 3 luồng chờ nhau tại barrier: luồng nào đến trước gọi `await()` và chờ, khi đủ 3 luồng thì rào mở, tất cả cùng đi tiếp; sau đó barrier tự reset cho giai đoạn kế:
+
+```mermaid
+sequenceDiagram
+    participant W1 as Worker-1
+    participant W2 as Worker-2
+    participant W3 as Worker-3
+    participant B as CyclicBarrier (3)
+    Note over W1,W3: Giai đoạn 1
+    W1->>B: await() (chờ)
+    W2->>B: await() (chờ)
+    W3->>B: await() (đủ 3 → mở rào)
+    B-->>W1: giải phóng
+    B-->>W2: giải phóng
+    B-->>W3: giải phóng
+    Note over B: barrier tự reset (Cyclic)
+    Note over W1,W3: Giai đoạn 2 (lặp lại)
+```
+
 ## So sánh CyclicBarrier và CountDownLatch
 
 | Tiêu chí | CountDownLatch | CyclicBarrier |

@@ -65,6 +65,14 @@ public class HelloWorld {
 
 ## Biên dịch và chạy
 
+Java trải qua **hai bước**: biên dịch mã nguồn thành bytecode, rồi để JVM thực thi bytecode đó.
+
+```mermaid
+flowchart LR
+    A["HelloWorld.java (mã nguồn bạn viết)"] -->|"javac (biên dịch)"| B["HelloWorld.class (bytecode)"]
+    B -->|"java (JVM thực thi)"| C["Hello, World! (kết quả trên console)"]
+```
+
 ### Bước 1: Biên dịch (Compile)
 
 ```bash

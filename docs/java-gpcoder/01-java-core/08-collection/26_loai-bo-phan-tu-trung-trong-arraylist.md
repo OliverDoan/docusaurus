@@ -7,6 +7,20 @@ title: "Loại bỏ các phần tử trùng trong một ArrayList"
 
 Đây là một tác vụ thường gặp trong lập trình Java. Có nhiều cách tiếp cận khác nhau tùy thuộc vào yêu cầu về thứ tự và hiệu năng.
 
+Sơ đồ quyết định dưới đây giúp bạn chọn cách phù hợp dựa trên hai câu hỏi: có cần giữ thứ tự không, và có cần thay đổi trực tiếp list gốc không:
+
+```mermaid
+flowchart TD
+    A["ArrayList có phần tử trùng"] --> B{"Cần giữ thứ tự chèn?"}
+    B -->|"Không"| C["new HashSet(list)"]
+    B -->|"Có"| D{"Sửa trực tiếp list gốc?"}
+    D -->|"Không"| E["new LinkedHashSet(list)<br/>hoặc stream().distinct()"]
+    D -->|"Có"| F["Iterator + HashSet<br/>gọi it.remove()"]
+    C --> G["Danh sách không còn phần tử trùng"]
+    E --> G
+    F --> G
+```
+
 ## Cách 1: Dùng HashSet (không giữ thứ tự)
 
 **HashSet** tự động loại bỏ phần tử trùng lặp. Chuyển `ArrayList` sang `HashSet` rồi chuyển ngược lại là cách nhanh nhất.

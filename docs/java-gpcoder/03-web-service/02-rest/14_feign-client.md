@@ -13,6 +13,30 @@ Feign là thư viện giúp tạo HTTP client bằng cách khai báo interface k
 
 Feign đặc biệt phổ biến trong **Spring Cloud** để gọi API giữa các microservice, tích hợp sẵn với load balancing (cân bằng tải) và circuit breaker (ngắt mạch khi service lỗi).
 
+Sơ đồ sau minh họa một microservice dùng Feign client để gọi microservice khác, kèm RequestInterceptor và ErrorDecoder:
+
+```mermaid
+sequenceDiagram
+    participant SvcA as Service A (caller)
+    participant Feign as Feign proxy
+    participant Inter as RequestInterceptor
+    participant SvcB as Service B (REST API)
+    participant Err as ErrorDecoder
+
+    SvcA->>Feign: client.getById(id)
+    Feign->>Inter: Thêm header (Authorization, X-Request-ID)
+    Inter->>SvcB: Gửi HTTP request
+    alt Response thành công (2xx)
+        SvcB-->>Feign: Decode JSON thành object
+        Feign-->>SvcA: Trả về Product
+    else Response lỗi (4xx / 5xx)
+        SvcB-->>Err: Chuyển cho ErrorDecoder
+        Err-->>SvcA: Ném exception có ý nghĩa
+    end
+```
+
+Feign biến interface thành client thật; interceptor gắn header tự động, còn ErrorDecoder tập trung xử lý các mã lỗi.
+
 ## So sánh Feign với Retrofit
 
 | Tiêu chí | Feign | Retrofit |

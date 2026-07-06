@@ -7,6 +7,21 @@ title: "Xử lý ngoại lệ khi ghi đè phương thức trong Java"
 
 Khi sử dụng **Method Overriding** (ghi đè phương thức — định nghĩa lại phương thức của lớp cha trong lớp con), Java có những quy tắc nghiêm ngặt về **Checked Exception** (ngoại lệ kiểm tra) mà lập trình viên cần nắm rõ.
 
+Sơ đồ dưới đây minh họa quy tắc quyết định: khi ghi đè, lớp con chỉ được thu hẹp (không được mở rộng) danh sách Checked Exception so với lớp cha.
+
+```mermaid
+flowchart TD
+    A["Lớp con ghi đè phương thức của lớp cha"] --> B{"Lớp cha khai báo throws gì?"}
+    B -->|"Có Checked Exception (VD IOException)"| C{"Lớp con ném ngoại lệ nào?"}
+    B -->|"Không khai báo throws"| D["Chỉ được ném Unchecked (RuntimeException)"]
+    C -->|"Cùng loại hoặc lớp con (VD FileNotFoundException)"| E["Hợp lệ"]
+    C -->|"Không ném gì"| E
+    C -->|"Rộng hơn lớp cha (VD Exception)"| F["Lỗi biên dịch"]
+    D -->|"Cố ném Checked Exception"| F
+```
+
+Đọc sơ đồ: chỉ khi ngoại lệ của lớp con bằng hoặc hẹp hơn lớp cha thì mới hợp lệ; ném rộng hơn hoặc ném Checked khi lớp cha không khai báo `throws` đều gây lỗi biên dịch. Riêng Unchecked Exception luôn được phép.
+
 ---
 
 ## 1. Quy tắc tổng quát

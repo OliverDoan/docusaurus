@@ -16,6 +16,17 @@ Trong Java, có hai loại luồng:
 
 Hình dung: daemon thread giống nhân viên phục vụ trong nhà hàng. Khi tất cả khách (user thread) rời đi, nhà hàng đóng cửa — nhân viên cũng phải dừng việc ngay lập tức.
 
+Sơ đồ dưới mô tả cách JVM quyết định thoát: JVM chỉ quan tâm tới user thread, khi không còn user thread nào sống thì dừng ngay mọi daemon thread rồi thoát.
+
+```mermaid
+flowchart TD
+    A["JVM đang chạy"] --> B{"Còn User Thread<br/>nào sống không?"}
+    B -->|"Còn"| C["Tiếp tục chạy<br/>(cả user + daemon)"]
+    C --> B
+    B -->|"Hết"| D["JVM dừng mọi Daemon Thread<br/>ngay lập tức"]
+    D --> E["JVM thoát"]
+```
+
 ## Khi nào nên dùng Daemon Thread?
 
 - Các tác vụ **phụ trợ** không quan trọng về kết quả: thu gom rác (**Garbage Collector** — bộ thu gom rác tự động của JVM), giám sát hệ thống, ghi log nền, cache tự động làm mới.

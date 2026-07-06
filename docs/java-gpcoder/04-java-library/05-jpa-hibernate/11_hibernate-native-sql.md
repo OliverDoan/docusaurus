@@ -18,6 +18,19 @@ Native SQL cho phép bạn viết thẳng câu SQL thô trong Hibernate, dùng k
 - Khi làm việc với **stored procedure** (thủ tục lưu trữ — chương trình SQL được lưu trong database).
 - Khi cần dùng các hàm window function, CTE (Common Table Expression — biểu thức bảng chung).
 
+Sơ đồ dưới đây so sánh đường đi của native SQL với HQL/Criteria: native SQL bỏ qua bước dịch của Hibernate:
+
+```mermaid
+flowchart LR
+    App["Ứng dụng"] --> Choice{"Chọn cách<br/>truy vấn"}
+    Choice -->|"HQL / Criteria"| HB["Hibernate dịch<br/>sang SQL"]
+    Choice -->|"Native SQL"| Raw["SQL thô<br/>viết trực tiếp"]
+    HB --> DB[("Database")]
+    Raw --> DB
+```
+
+Vì gửi thẳng SQL xuống database, native SQL tận dụng được tính năng đặc thù của database nhưng cũng khiến code phụ thuộc vào loại database đó.
+
 ## Native SQL cơ bản
 
 ### Trả về Entity

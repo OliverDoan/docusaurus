@@ -7,6 +7,15 @@ title: "Predicate trong Java 8"
 
 `Predicate<T>` là một Functional Interface trong Java 8 đại diện cho một điều kiện kiểm tra, nhận vào một giá trị và trả về `true` hoặc `false`. Nó được dùng rất nhiều khi lọc dữ liệu với Stream và giúp tách các điều kiện ra để tái sử dụng, kết hợp linh hoạt. Bài này hướng dẫn cách tạo, kết hợp (and/or/negate) và truyền Predicate như tham số phương thức.
 
+Sơ đồ sau mô tả luồng của một Predicate: nhận vào một giá trị, chạy `test()` và rẽ nhánh theo kết quả `true` hoặc `false`.
+
+```mermaid
+flowchart LR
+    IN["Giá trị T"] --> TEST["test(T)"]
+    TEST -->|true| Y["Thỏa điều kiện"]
+    TEST -->|false| N["Không thỏa"]
+```
+
 ## Predicate là gì?
 
 `Predicate<T>` là một **Functional Interface** (giao diện hàm) trong package `java.util.function`, đại diện cho một điều kiện (condition) hoặc hàm kiểm tra logic (logic test function). Nó nhận vào một đối số kiểu `T` và trả về `boolean`.

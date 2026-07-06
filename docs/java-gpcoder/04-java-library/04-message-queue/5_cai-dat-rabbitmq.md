@@ -16,6 +16,18 @@ RabbitMQ được viết bằng **Erlang**, vì vậy cần cài Erlang/OTP trư
 | 3.12.x | 25.x, 26.x |
 | 3.13.x | 26.x, 27.x |
 
+Sơ đồ dưới đây tóm tắt các thành phần sau khi cài đặt: RabbitMQ chạy trên nền Erlang và mở hai cổng chính cho client và cho giao diện quản lý:
+
+```mermaid
+flowchart LR
+    E["Erlang / OTP<br/>(runtime bắt buộc)"] --> R["RabbitMQ Broker"]
+    App["Ứng dụng client"] -->|"AMQP:5672"| R
+    Web["Trình duyệt Admin"] -->|"HTTP:15672"| R
+    R --> MP["Management Plugin"]
+```
+
+Vì RabbitMQ viết bằng Erlang nên luôn cần cài Erlang trước (trừ khi dùng Docker đã đóng gói sẵn); cổng 5672 dành cho ứng dụng, còn 15672 dành cho giao diện quản lý web.
+
 ## Cách 1: Cài đặt bằng Docker (Khuyến nghị)
 
 **Docker** là cách nhanh nhất và sạch nhất để chạy RabbitMQ mà không cần lo phụ thuộc Erlang:

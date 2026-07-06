@@ -88,6 +88,16 @@ ConnectionFactory (cấu hình)
             └── Channel 3 (kênh ảo nhẹ, dùng cho consumer 2)
 ```
 
+Quan hệ phân cấp giữa ConnectionFactory, Connection và Channel được thể hiện trong sơ đồ sau:
+
+```mermaid
+flowchart TD
+    F["ConnectionFactory<br/>(cấu hình)"] --> C["Connection<br/>(TCP vật lý, chi phí cao)"]
+    C --> Ch1["Channel 1<br/>(producer)"]
+    C --> Ch2["Channel 2<br/>(consumer 1)"]
+    C --> Ch3["Channel 3<br/>(consumer 2)"]
+```
+
 **Nguyên tắc**: Tạo ít Connection, nhưng có thể tạo nhiều Channel. Mỗi **thread** (luồng) nên có Channel riêng.
 
 ```java

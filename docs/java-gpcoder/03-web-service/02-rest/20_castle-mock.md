@@ -13,6 +13,24 @@ Castle Mock là công cụ tạo server giả lập (mock) cho REST API và SOAP
 
 **Mock** (giả lập) trong ngữ cảnh này là thay thế một service thật bằng một phiên bản giả có hành vi có thể dự đoán.
 
+Sơ đồ sau cho thấy client chỉ cần đổi base URL để trỏ sang Castle Mock thay vì service thật:
+
+```mermaid
+flowchart LR
+    Client["Ứng dụng client"]
+    Env{"Môi trường?"}
+    Mock["Castle Mock<br/>(response định sẵn)"]
+    Real["Service thật<br/>(api.example.com)"]
+
+    Client --> Env
+    Env -->|"dev / test"| Mock
+    Env -->|"production"| Real
+    Mock -.->|"Trả 200 / 404 / 503 tùy cấu hình"| Client
+    Real -.->|"Response thật"| Client
+```
+
+Nhờ chỉ khác base URL, ứng dụng phát triển và test độc lập với service thật, đồng thời dễ dàng giả lập các tình huống lỗi.
+
 ## Tại sao cần Mock Server?
 
 1. **Phát triển song song**: Frontend và backend develop đồng thời, frontend dùng mock API.

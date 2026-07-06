@@ -21,6 +21,55 @@ Khi hành vi của đối tượng phụ thuộc vào trạng thái và phải t
 - **State** (interface): khai báo các phương thức ứng với hành vi của Context.
 - **ConcreteState**: triển khai hành vi cụ thể cho từng trạng thái, có thể chuyển Context sang trạng thái khác.
 
+Sơ đồ lớp dưới đây cho thấy Context (`VendingMachine`) ủy quyền hành vi cho interface `VendingMachineState`, mỗi trạng thái là một lớp riêng:
+
+```mermaid
+classDiagram
+    class VendingMachine {
+        -VendingMachineState state
+        +setState(VendingMachineState)
+        +insertCoin()
+        +pressButton()
+        +dispense()
+    }
+    class VendingMachineState {
+        <<interface>>
+        +insertCoin(VendingMachine)
+        +pressButton(VendingMachine)
+        +dispense(VendingMachine)
+    }
+    class IdleState {
+        +insertCoin(VendingMachine)
+        +pressButton(VendingMachine)
+    }
+    class HasCoinState {
+        +insertCoin(VendingMachine)
+        +pressButton(VendingMachine)
+    }
+    class DispensingState {
+        +dispense(VendingMachine)
+    }
+    VendingMachineState <|.. IdleState : hiện thực
+    VendingMachineState <|.. HasCoinState : hiện thực
+    VendingMachineState <|.. DispensingState : hiện thực
+    VendingMachine o-- VendingMachineState : ủy quyền hành vi
+```
+
+Máy không tự chứa các khối `if-else`, mà chuyển việc xử lý cho đối tượng trạng thái hiện tại.
+
+Sơ đồ trạng thái dưới đây minh họa cách máy chuyển giữa các trạng thái khi nhận thao tác:
+
+```mermaid
+stateDiagram-v2
+    [*] --> IdleState
+    IdleState --> HasCoinState : insertCoin
+    HasCoinState --> DispensingState : pressButton - còn hàng
+    HasCoinState --> IdleState : pressButton - hết hàng
+    DispensingState --> IdleState : dispense xong
+```
+
+Chính các ConcreteState tự quyết định chuyển Context sang trạng thái kế tiếp, nên logic chuyển trạng thái nằm gọn trong từng lớp.
+
 ## Ví dụ Java: Máy bán hàng tự động
 
 ```java

@@ -21,6 +21,17 @@ Một Stream thường gồm ba phần:
 2. **Intermediate Operations** (Thao tác trung gian): `filter()`, `map()`, `sorted()`,... Trả về Stream mới, **lazy** (lười biếng — không thực thi ngay).
 3. **Terminal Operation** (Thao tác kết cuối): `collect()`, `forEach()`, `count()`... Kích hoạt toàn bộ pipeline, trả về kết quả.
 
+Sơ đồ dưới minh họa một pipeline Stream: dữ liệu đi từ nguồn qua các thao tác trung gian (lazy) rồi được kích hoạt bởi thao tác kết cuối để tạo ra kết quả.
+
+```mermaid
+flowchart LR
+    S["Source<br/>Collection, mảng, file"] --> F["filter()<br/>trung gian"]
+    F --> M["map()<br/>trung gian"]
+    M --> SO["sorted()<br/>trung gian"]
+    SO --> T["collect()<br/>kết cuối"]
+    T --> R["Kết quả"]
+```
+
 ```java
 List<String> ketQua = danhSach.stream()       // Source
     .filter(s -> s.startsWith("A"))            // Intermediate

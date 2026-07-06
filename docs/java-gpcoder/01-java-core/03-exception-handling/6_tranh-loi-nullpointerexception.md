@@ -7,6 +7,21 @@ title: "Tránh lỗi NullPointerException trong Java"
 
 **NullPointerException** (lỗi con trỏ null — xảy ra khi cố truy cập vào một đối tượng đang có giá trị `null`) là một trong những lỗi phổ biến nhất trong Java. Hiểu rõ nguyên nhân và cách phòng tránh sẽ giúp code bền vững hơn.
 
+Sơ đồ dưới đây mô tả luồng quyết định an toàn khi làm việc với một giá trị có thể `null` trước khi truy cập phương thức hoặc thuộc tính của nó.
+
+```mermaid
+flowchart TD
+    A["Nhận một giá trị có thể null"] --> B{"Giá trị có thể null không?"}
+    B -->|"Có thể null"| C["Kiểm tra != null<br/>hoặc dùng Optional"]
+    B -->|"Đảm bảo khác null"| D["Dùng trực tiếp"]
+    C --> E{"Khác null?"}
+    E -->|"Đúng"| D
+    E -->|"null"| F["Dùng giá trị mặc định<br/>hoặc báo lỗi rõ ràng"]
+    D --> G["Truy cập phương thức/thuộc tính an toàn"]
+```
+
+Đọc sơ đồ: chỉ khi đã chắc chắn giá trị khác `null` mới truy cập trực tiếp; nếu có thể `null` thì phải kiểm tra hoặc bọc bằng `Optional` để tránh phát sinh NPE.
+
 ---
 
 ## 1. Nguyên nhân phổ biến

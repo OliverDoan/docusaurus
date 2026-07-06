@@ -7,6 +7,19 @@ title: "Một số ký tự đặc biệt trong Java"
 
 Trong Java, một số ký tự không thể gõ trực tiếp vào chuỗi (String) vì chúng có ý nghĩa đặc biệt với trình biên dịch. Ta dùng **ký tự thoát** (escape character) — bắt đầu bằng dấu `\` — để biểu diễn chúng.
 
+Sơ đồ dưới đây mô tả cách trình biên dịch xử lý ký tự thoát khi đọc một chuỗi:
+
+```mermaid
+flowchart TD
+    A["Chuỗi trong code<br/>có ký tự thoát (bắt đầu bằng backslash)"] --> B{"Trình biên dịch<br/>gặp ký tự thoát?"}
+    B -->|"Có"| C["Dịch thành ký tự thật<br/>xuống dòng, tab, ngoặc kép..."]
+    B -->|"Không"| D["Giữ nguyên ký tự thường"]
+    C --> E["Kết quả hiển thị<br/>đúng định dạng mong muốn"]
+    D --> E
+```
+
+Đọc sơ đồ: mỗi khi gặp dấu `\`, trình biên dịch đọc thêm ký tự phía sau để tạo ra ký tự thoát tương ứng, thay vì hiểu theo nghĩa gốc.
+
 ---
 
 ## Bảng ký tự thoát (Escape Characters)

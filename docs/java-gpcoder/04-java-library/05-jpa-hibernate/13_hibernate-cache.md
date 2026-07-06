@@ -15,6 +15,21 @@ Hibernate có hai cấp độ cache:
 - **First-level Cache** (L1 Cache — cache cấp một): gắn với `Session`, tự động có, không thể tắt.
 - **Second-level Cache** (L2 Cache — cache cấp hai): gắn với `SessionFactory`, chia sẻ giữa nhiều session, cần cấu hình.
 
+Sơ đồ dưới đây mô tả thứ tự Hibernate tra cứu dữ liệu qua từng cấp cache trước khi phải chạm tới database:
+
+```mermaid
+flowchart TD
+    App["Ứng dụng gọi<br/>session.find(id)"] --> L1{"Có trong<br/>L1 Cache?<br/>(Session)"}
+    L1 -->|"Có"| Ret["Trả về entity<br/>(không query DB)"]
+    L1 -->|"Không"| L2{"Có trong<br/>L2 Cache?<br/>(SessionFactory)"}
+    L2 -->|"Có"| Ret
+    L2 -->|"Không"| DB[("Query Database")]
+    DB --> Store["Lưu vào<br/>L1 + L2"]
+    Store --> Ret
+```
+
+Hibernate luôn tìm ở L1 trước, rồi mới tới L2; chỉ khi cả hai đều không có, nó mới thực sự truy vấn database rồi lưu lại kết quả cho lần sau.
+
 ## First-level Cache (L1 Cache)
 
 L1 Cache là **persistence context** — vùng nhớ của mỗi `Session`. Mọi entity được load trong session đều được cache ở đây. Cùng một session, load cùng một ID hai lần → chỉ query database một lần:

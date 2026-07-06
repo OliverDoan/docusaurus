@@ -7,6 +7,21 @@ title: "Tính năng mới về ngoại lệ trong Java 7: try-with-resources và
 
 Java 7 giới thiệu hai cải tiến quan trọng giúp code xử lý **Exception** (ngoại lệ) trở nên gọn gàng, an toàn và dễ đọc hơn đáng kể.
 
+Sơ đồ dưới đây minh họa luồng hoạt động của **try-with-resources**: tài nguyên luôn được tự động đóng dù khối `try` có ném ngoại lệ hay không.
+
+```mermaid
+flowchart TD
+    A["Mở tài nguyên trong try(...)"] --> B["Thực thi khối try"]
+    B --> C{"Có ngoại lệ xảy ra?"}
+    C -->|"Có"| D["Tự động gọi close()<br/>rồi chuyển sang catch"]
+    C -->|"Không"| E["Tự động gọi close()"]
+    D --> F["Khối catch xử lý lỗi"]
+    E --> G["Kết thúc bình thường"]
+    F --> G
+```
+
+Đọc sơ đồ: dù đi theo nhánh có lỗi hay không lỗi, `close()` đều được gọi tự động, nhờ đó tránh được **resource leak** (rò rỉ tài nguyên) mà không cần khối `finally` thủ công.
+
 ---
 
 ## 1. Multi-catch — Bắt nhiều ngoại lệ trong một khối catch

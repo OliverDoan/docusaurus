@@ -31,6 +31,33 @@ new Order("user1", "Laptop", 2, 15000000, "Hà Nội", null, true, false, null);
 - **ConcreteBuilder**: Lớp cụ thể thực hiện các bước xây dựng, lưu trạng thái trung gian.
 - **Director** (tùy chọn): Định nghĩa thứ tự gọi các bước xây dựng.
 
+Sơ đồ lớp dưới đây minh họa cấu trúc Builder qua ví dụ tạo `Order` — Builder giữ trạng thái trung gian và trả về `this` để nối chuỗi method, cuối cùng `build()` tạo ra Product:
+
+```mermaid
+classDiagram
+    class Order {
+        -String customerId
+        -String productName
+        -int quantity
+    }
+    class Builder {
+        +shippingAddress(String) Builder
+        +expressDelivery(boolean) Builder
+        +coupon(String, double) Builder
+        +build() Order
+    }
+    class OrderDirector {
+        +buildExpressOrder(String) Order
+        +buildStandardOrder(String) Order
+    }
+    class Client
+    Builder ..> Order : tao qua build()
+    OrderDirector --> Builder : dieu phoi cac buoc
+    Client --> Builder : goi chuoi method
+```
+
+Client gọi lần lượt các bước trên Builder rồi `build()` để nhận Product bất biến; `OrderDirector` (tùy chọn) đóng gói sẵn các quy trình xây dựng thường dùng.
+
 ## Ví dụ Java
 
 ### Builder cơ bản (Fluent Builder)

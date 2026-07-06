@@ -37,6 +37,21 @@ assertThat(order, isValidOrder());
 - `matches(Object item)`: trả về `true` nếu đối tượng thỏa điều kiện.
 - `describeTo(Description description)`: mô tả điều kiện mong đợi khi test fail.
 
+Sơ đồ dưới mô tả luồng hoạt động của một custom matcher: vừa đánh giá giá trị, vừa dựng thông báo mô tả khi không khớp.
+
+```mermaid
+flowchart TD
+    A["assertThat gọi matcher"] --> B["matches nhận giá trị cần kiểm tra"]
+    B --> C{"Giá trị thỏa điều kiện?"}
+    C -->|"đúng"| D["Trả về true<br/>test pass"]
+    C -->|"sai"| E["Trả về false"]
+    E --> F["describeTo mô tả điều mong đợi"]
+    F --> G["describeMismatch mô tả giá trị thực tế"]
+    G --> H["Ghép thành thông báo lỗi<br/>test fail"]
+```
+
+Đọc từ trên xuống: khi giá trị khớp, matcher dừng ngay ở nhánh `true`. Khi không khớp, hai phương thức `describeTo` và `describeMismatch` phối hợp để tạo ra thông báo lỗi dễ hiểu.
+
 ```java
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;

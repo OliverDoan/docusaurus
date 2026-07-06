@@ -27,6 +27,19 @@ Trong REST API:
 - **Authentication**: Gửi token `Bearer eyJhbGci...` để xác nhận bạn đã đăng nhập.
 - **Authorization**: Token đó có role `EDITOR`, được phép `POST /articles`, nhưng không được `DELETE /users`.
 
+Sơ đồ dưới đây cho thấy thứ tự hai bước xác thực rồi phân quyền cùng mã lỗi tương ứng:
+
+```mermaid
+flowchart TD
+    A["Request den"] --> B{"Authentication<br/>Ban la ai?"}
+    B -->|That bai| C["401 Unauthorized"]
+    B -->|Thanh cong| D{"Authorization<br/>Ban duoc lam gi?"}
+    D -->|Khong du quyen| E["403 Forbidden"]
+    D -->|Du quyen| F["Cho phep truy cap"]
+```
+
+Xác thực luôn diễn ra trước (sai trả 401), phân quyền diễn ra sau (không đủ quyền trả 403).
+
 ## Các phương thức Authentication phổ biến
 
 ### 1. Basic Authentication

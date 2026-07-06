@@ -13,6 +13,17 @@ Ngược với cách tạo Entity từ bảng có sẵn, hướng code-first cho
 
 **DDL** (Data Definition Language — ngôn ngữ định nghĩa dữ liệu) là tập lệnh SQL dùng để tạo, sửa, xóa cấu trúc bảng như `CREATE TABLE`, `ALTER TABLE`, `DROP TABLE`.
 
+Sơ đồ dưới đây mô tả luồng code-first: đi từ Entity class ra tới bảng trong database:
+
+```mermaid
+flowchart LR
+    Entity["Entity class<br/>@Entity, @Table..."] --> HB["Hibernate<br/>(hbm2ddl.auto)"]
+    HB --> DDL["Sinh câu lệnh DDL<br/>CREATE TABLE..."]
+    DDL --> DB[("Bảng trong<br/>database")]
+```
+
+Đây là chiều ngược với database-first: code là nguồn chuẩn, Hibernate tự sinh DDL và tạo/cập nhật cấu trúc bảng cho khớp với Entity.
+
 ## Cấu hình hibernate.hbm2ddl.auto
 
 Thuộc tính `hibernate.hbm2ddl.auto` kiểm soát hành vi tự động quản lý schema:

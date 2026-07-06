@@ -15,6 +15,23 @@ title: "Truyền giá trị - pass by value trong Java"
 
 **Pass by reference** (truyền theo tham chiếu): Không có trong Java. Trong pass by reference thực sự, phương thức nhận địa chỉ của biến gốc và có thể thay đổi biến đó.
 
+Sơ đồ sau tóm tắt điểm khác biệt giữa truyền kiểu nguyên thủy và truyền đối tượng:
+
+```mermaid
+flowchart TB
+    subgraph G1["Kiểu nguyên thủy"]
+        A1["Biến gốc x = 10"] -->|"sao chép giá trị"| A2["Tham số num = 10<br/>(bản sao độc lập)"]
+        A2 -.->|"đổi num không ảnh hưởng x"| A1
+    end
+    subgraph G2["Đối tượng"]
+        B1["Biến gốc person<br/>trỏ tới đối tượng trên Heap"] -->|"sao chép tham chiếu"| B2["Tham số p<br/>trỏ cùng đối tượng"]
+        B2 -->|"p.name = ... đổi được"| B3["Đối tượng gốc thay đổi"]
+        B2 -.->|"p = new ... không ảnh hưởng"| B1
+    end
+```
+
+Đọc sơ đồ: với kiểu nguyên thủy, bản sao hoàn toàn độc lập. Với đối tượng, bản sao là **tham chiếu** cùng trỏ tới một đối tượng, nên sửa nội dung thì ảnh hưởng, nhưng gán lại tham chiếu thì không.
+
 ---
 
 ## Trường hợp 1: Kiểu nguyên thủy

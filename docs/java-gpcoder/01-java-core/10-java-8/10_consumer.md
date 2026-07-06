@@ -7,6 +7,15 @@ title: "Consumer trong Java 8"
 
 `Consumer<T>` là một functional interface trong Java 8 đại diện cho hành động nhận vào một giá trị để xử lý nhưng không trả về kết quả nào. Nó hay được dùng nhất với `forEach()` của Collection và Stream để thực hiện thao tác trên từng phần tử. Bài này giới thiệu cách dùng Consumer, nối chuỗi bằng `andThen()` và biến thể `BiConsumer` cho hai tham số.
 
+Sơ đồ sau minh họa cách nối hai Consumer bằng `andThen()`: cùng một giá trị được đưa lần lượt qua từng Consumer, và không có giá trị nào được trả về.
+
+```mermaid
+flowchart LR
+    IN["Giá trị T"] --> C1["Consumer 1: accept"]
+    C1 --> C2["Consumer 2: accept (andThen)"]
+    C2 --> OUT["void - không trả về"]
+```
+
 ## Consumer là gì?
 
 `Consumer<T>` là một **Functional Interface** (giao diện hàm) trong package `java.util.function`. Nó đại diện cho một **hành động** nhận vào một đối số kiểu `T` và **không trả về kết quả** (void). Cái tên "Consumer" (người tiêu thụ) phản ánh đúng bản chất: nhận dữ liệu vào để xử lý, không cho ra giá trị mới.

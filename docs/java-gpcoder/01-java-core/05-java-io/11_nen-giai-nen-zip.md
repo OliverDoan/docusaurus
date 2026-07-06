@@ -20,6 +20,18 @@ Java cung cấp gói `java.util.zip` với các lớp hỗ trợ nén và giải
 | `GZIPInputStream` | Giải nén file GZIP |
 | `ZipEntry` | Đại diện cho một file/thư mục trong archive ZIP |
 
+Sơ đồ dưới đây minh họa hai chiều xử lý ZIP: chiều nén (nhiều file thành một archive qua `ZipOutputStream`) và chiều giải nén (đọc từng `ZipEntry` qua `ZipInputStream`, có kiểm tra Zip Slip).
+
+```mermaid
+flowchart LR
+    A["Nhiều file / thư mục"] -->|"Nén"| B["ZipOutputStream<br/>putNextEntry + write"]
+    B --> C["File .zip"]
+    C -->|"Giải nén"| D["ZipInputStream<br/>getNextEntry + read"]
+    D --> E{"Kiểm tra Zip Slip"}
+    E -->|"An toàn"| F["Ghi file ra thư mục đích"]
+    E -->|"Nguy hiểm"| G["Ném IOException"]
+```
+
 ---
 
 ## Nén file vào ZIP

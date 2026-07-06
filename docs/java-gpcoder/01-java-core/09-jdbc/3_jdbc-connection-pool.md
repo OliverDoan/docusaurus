@@ -28,6 +28,21 @@ Mỗi kết nối mất vài chục đến vài trăm millisecond. Với hàng t
 - Khi cần, lấy kết nối có sẵn từ pool thay vì tạo mới.
 - Khi xong việc, trả kết nối về pool để tái sử dụng (thay vì đóng thật sự).
 
+Sơ đồ dưới đây minh hoạ vòng đời một kết nối được cho mượn rồi thu hồi trong pool:
+
+```mermaid
+flowchart TD
+    Req["Request cần Connection"] --> Pool{"Pool còn<br/>kết nối rảnh?"}
+    Pool -->|Có| Borrow["Cho mượn kết nối có sẵn"]
+    Pool -->|Không| Wait["Chờ hoặc tạo mới<br/>(tới maximumPoolSize)"]
+    Borrow --> Use["Thực thi truy vấn"]
+    Wait --> Use
+    Use --> Return["Trả kết nối về pool<br/>(không đóng thật)"]
+    Return --> Pool
+```
+
+Kết nối được quay vòng liên tục trong pool; chỉ khi pool cạn và đã đạt `maximumPoolSize` thì request mới phải chờ.
+
 ```
 Không có pool:   [Request] → Tạo kết nối → Truy vấn → Đóng kết nối  (chậm)
 Có pool:         [Request] → Lấy từ pool → Truy vấn → Trả về pool   (nhanh)

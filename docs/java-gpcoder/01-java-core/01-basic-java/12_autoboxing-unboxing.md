@@ -7,6 +7,16 @@ title: "Autoboxing và Unboxing trong Java"
 
 Autoboxing và Unboxing là cơ chế Java tự động chuyển qua lại giữa kiểu nguyên thủy (như `int`) và lớp bọc tương ứng (như `Integer`). Hiểu rõ cơ chế này giúp bạn dùng Collections dễ dàng hơn và tránh được những cạm bẫy hay gặp như so sánh sai bằng `==` hay lỗi `NullPointerException`. Bài này giải thích khái niệm, ví dụ minh họa và các lưu ý quan trọng khi dùng.
 
+Sơ đồ dưới đây minh họa hai chiều chuyển đổi tự động giữa kiểu nguyên thủy và Wrapper Class:
+
+```mermaid
+flowchart LR
+    P["Kiểu nguyên thủy<br/>int, double, boolean..."] -->|"Autoboxing<br/>(tự động đóng hộp)"| W["Wrapper Class<br/>Integer, Double, Boolean..."]
+    W -->|"Unboxing<br/>(tự động tháo hộp)"| P
+```
+
+Đọc sơ đồ: chiều đi từ kiểu nguyên thủy sang Wrapper là **Autoboxing**; chiều ngược lại, đưa Wrapper về kiểu nguyên thủy, là **Unboxing**. Cả hai đều do trình biên dịch tự thực hiện từ Java 5.
+
 ## Kiểu nguyên thủy và Wrapper Class
 
 Java có 8 **kiểu dữ liệu nguyên thủy** (primitive types): `byte`, `short`, `int`, `long`, `float`, `double`, `char`, `boolean`.

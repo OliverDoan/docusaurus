@@ -13,6 +13,18 @@ Lập trình đa luồng là kỹ thuật cho phép một chương trình chạy
 
 Hiểu đơn giản: khi bạn vừa nghe nhạc, vừa tải file, vừa lướt web — máy tính đang dùng đa luồng để xử lý song song các tác vụ đó.
 
+Sơ đồ dưới đây minh họa một tiến trình (Process) chứa nhiều luồng (Thread) cùng chia sẻ vùng nhớ và được CPU đa nhân xử lý song song:
+
+```mermaid
+flowchart TD
+    P["Process<br/>(tiến trình - chia sẻ heap)"] --> T1["Thread 1<br/>Tải file"]
+    P --> T2["Thread 2<br/>Phát nhạc"]
+    P --> T3["Thread 3<br/>Lướt web"]
+    T1 --> CPU["CPU đa nhân<br/>xử lý song song"]
+    T2 --> CPU
+    T3 --> CPU
+```
+
 ## Tại sao cần lập trình đa luồng?
 
 - **Tận dụng CPU đa nhân**: các nhân CPU có thể xử lý các luồng song song thực sự.
@@ -148,6 +160,24 @@ public class LambdaThread {
 ```
 
 ## Vòng đời của một Thread
+
+Một luồng đi qua nhiều trạng thái từ khi được tạo đến khi kết thúc. Sơ đồ trạng thái sau mô tả các bước chuyển tiếp và phương thức gây ra chúng — đọc theo mũi tên: nhãn trên mũi tên là sự kiện/phương thức làm luồng đổi trạng thái.
+
+```mermaid
+stateDiagram-v2
+    [*] --> NEW: tạo Thread
+    NEW --> RUNNABLE: start()
+    RUNNABLE --> RUNNING: JVM cấp CPU
+    RUNNING --> RUNNABLE: yield / hết lượt CPU
+    RUNNING --> BLOCKED: chờ khóa (lock)
+    BLOCKED --> RUNNABLE: lấy được khóa
+    RUNNING --> WAITING: wait() / join()
+    WAITING --> RUNNABLE: notify() / notifyAll()
+    RUNNING --> TIMED_WAITING: sleep(ms)
+    TIMED_WAITING --> RUNNABLE: hết thời gian
+    RUNNING --> TERMINATED: run() kết thúc
+    TERMINATED --> [*]
+```
 
 | Trạng thái | Mô tả |
 |---|---|

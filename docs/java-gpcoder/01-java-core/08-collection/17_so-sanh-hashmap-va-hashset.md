@@ -7,6 +7,29 @@ title: "So sánh HashMap và HashSet trong Java"
 
 `HashMap` và `HashSet` đều sử dụng cơ chế băm (hashing) bên trong, nhưng phục vụ hai mục đích khác nhau hoàn toàn.
 
+Sơ đồ dưới đây cho thấy mối quan hệ cốt lõi: `HashSet` thực chất bọc một `HashMap` bên trong để lưu phần tử.
+
+```mermaid
+classDiagram
+    class Map {
+        <<interface>>
+    }
+    class Set {
+        <<interface>>
+    }
+    class HashMap
+    class HashSet {
+        -HashMap map
+        +add(e)
+        +contains(o)
+    }
+    Map <|.. HashMap : hiện thực
+    Set <|.. HashSet : hiện thực
+    HashSet o-- HashMap : dùng nội bộ
+```
+
+Vì `HashSet` ủy quyền việc lưu trữ cho `HashMap`, cả hai chia sẻ đặc tính hiệu năng O(1) trung bình của cơ chế băm.
+
 ## Điểm khác biệt cốt lõi
 
 | Tiêu chí | HashMap | HashSet |

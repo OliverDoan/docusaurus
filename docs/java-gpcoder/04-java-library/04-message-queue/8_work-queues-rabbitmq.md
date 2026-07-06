@@ -31,6 +31,18 @@ Tin nhắn 4 --> Worker B
 ...
 ```
 
+Sơ đồ dưới đây minh họa một Queue chia việc cho nhiều Worker chạy song song, mỗi tin nhắn chỉ do một Worker xử lý:
+
+```mermaid
+flowchart LR
+    P["Producer<br/>(đẩy công việc)"] --> Q["Work Queue"]
+    Q -->|"tin 1, 3, 5..."| W1["Worker A"]
+    Q -->|"tin 2, 4, 6..."| W2["Worker B"]
+    Q -->|"..."| W3["Worker C"]
+```
+
+Nhờ chia đều, càng nhiều Worker thì hàng đợi công việc càng được xử lý nhanh; nếu một Worker bận, các tin nhắn còn lại vẫn được các Worker khác nhận.
+
 ## Ví dụ thực tế: Hệ thống xử lý ảnh
 
 ### Producer: Thêm công việc vào Queue

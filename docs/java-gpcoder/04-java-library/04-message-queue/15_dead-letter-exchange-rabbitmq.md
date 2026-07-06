@@ -28,6 +28,19 @@ Producer --> [Main Queue] --> Consumer (xử lý lỗi, basicNack/requeue=false)
          [Dead Letter Queue] --> Error Handler (ghi log, retry, thông báo)
 ```
 
+Sơ đồ sau minh họa hành trình của một tin nhắn "chết": khi bị từ chối, hết TTL hoặc queue đầy, nó được chuyển sang DLX rồi vào Dead Letter Queue để xử lý riêng:
+
+```mermaid
+flowchart LR
+    P["Producer"] --> MQ["Main Queue"]
+    MQ --> C["Consumer"]
+    C -->|"nack requeue=false / TTL / queue đầy"| DLX["Dead Letter Exchange"]
+    DLX --> DLQ["Dead Letter Queue"]
+    DLQ --> EH["Error Handler<br/>(ghi log, retry, thông báo)"]
+```
+
+Nhờ DLX, tin nhắn lỗi không biến mất mà được gom về một Queue riêng; kết hợp với TTL còn có thể tự động thử lại (retry) sau một khoảng thời gian.
+
 ## Ví dụ thực tế: Hệ thống xử lý thanh toán với retry
 
 ### Thiết lập DLX

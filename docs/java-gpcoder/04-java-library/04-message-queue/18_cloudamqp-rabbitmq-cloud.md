@@ -11,6 +11,17 @@ CloudAMQP là dịch vụ cung cấp RabbitMQ chạy sẵn trên đám mây (Rab
 
 **CloudAMQP** (dịch vụ RabbitMQ quản lý trên đám mây — cung cấp RabbitMQ dưới dạng SaaS, người dùng không cần tự cài đặt, cấu hình hay bảo trì server) là dịch vụ **RabbitMQ-as-a-Service** (RabbitMQ như một dịch vụ — mô hình thuê dịch vụ, nhà cung cấp lo toàn bộ hạ tầng) phổ biến nhất hiện nay, được vận hành bởi **84codes**. CloudAMQP hỗ trợ triển khai trên các cloud lớn: AWS, Google Cloud, Azure.
 
+Sơ đồ sau minh họa mô hình kết nối: ứng dụng của bạn chỉ cần một AMQPS URL để kết nối tới RabbitMQ do CloudAMQP quản lý và chạy trên hạ tầng cloud:
+
+```mermaid
+flowchart LR
+    App["Ứng dụng Java / Spring Boot"] -->|"amqps URL (TLS)"| CA["CloudAMQP<br/>(RabbitMQ được quản lý)"]
+    CA --> Infra["Hạ tầng cloud<br/>(AWS / GCP / Azure)"]
+    CA --> Dash["Dashboard<br/>(metrics, backup, alarm)"]
+```
+
+Toàn bộ việc cài đặt, bảo mật, backup và monitoring do CloudAMQP lo; phía ứng dụng chỉ thay đổi connection URL là chuyển được giữa môi trường cục bộ và cloud.
+
 ## Tại sao dùng CloudAMQP?
 
 | Tự cài RabbitMQ | Dùng CloudAMQP |

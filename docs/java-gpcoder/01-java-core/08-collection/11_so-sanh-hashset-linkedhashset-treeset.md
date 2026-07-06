@@ -7,6 +7,28 @@ title: "So sánh HashSet, LinkedHashSet và TreeSet trong Java"
 
 Ba lớp `HashSet`, `LinkedHashSet` và `TreeSet` đều cài đặt `Set` interface — tức là không cho phép phần tử trùng lặp (duplicate). Điểm khác biệt chính nằm ở **thứ tự lưu trữ** và **hiệu năng**.
 
+Sơ đồ phân cấp dưới đây cho thấy quan hệ giữa ba lớp và các interface của chúng:
+
+```mermaid
+classDiagram
+    class Set {
+        <<interface>>
+    }
+    class SortedSet {
+        <<interface>>
+    }
+    class NavigableSet {
+        <<interface>>
+    }
+    Set <|-- SortedSet : mở rộng
+    SortedSet <|-- NavigableSet : mở rộng
+    Set <|.. HashSet : hiện thực
+    HashSet <|-- LinkedHashSet : kế thừa
+    NavigableSet <|.. TreeSet : hiện thực
+```
+
+Đáng chú ý: `LinkedHashSet` kế thừa trực tiếp `HashSet`, còn `TreeSet` đi theo nhánh `SortedSet`/`NavigableSet` nên có thêm khả năng sắp xếp và điều hướng.
+
 ## Tổng quan nhanh
 
 | Tiêu chí | HashSet | LinkedHashSet | TreeSet |

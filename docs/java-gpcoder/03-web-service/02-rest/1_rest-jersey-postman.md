@@ -20,6 +20,22 @@ Một **RESTful Web Service** (dịch vụ web theo kiến trúc REST) cần đ�
 5. **Layered System** (Hệ thống phân lớp): Client không cần biết nó đang giao tiếp trực tiếp với server hay qua proxy.
 6. **Code on Demand** (Tùy chọn): Server có thể gửi mã thực thi về client (ví dụ JavaScript).
 
+Sơ đồ dưới đây minh họa cách client trao đổi với REST API qua các HTTP method chuẩn:
+
+```mermaid
+sequenceDiagram
+    participant C as Client (Postman)
+    participant S as Jersey REST API
+    C->>S: GET /api/products
+    S-->>C: 200 OK kem JSON danh sach
+    C->>S: POST /api/products kem body
+    S-->>C: 201 Created
+    C->>S: DELETE /api/products/3
+    S-->>C: 204 No Content
+```
+
+Mỗi HTTP method thể hiện một hành động; server trả về status code cho biết kết quả.
+
 ## JAX-RS và Jersey là gì?
 
 **JAX-RS** (Java API for RESTful Web Services — API Java để xây dựng dịch vụ web RESTful) là một đặc tả (specification) trong Java EE/Jakarta EE dùng để tạo REST API bằng annotation.

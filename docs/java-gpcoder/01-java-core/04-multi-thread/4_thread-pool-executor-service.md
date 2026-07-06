@@ -22,6 +22,26 @@ Với hàng nghìn tác vụ, việc tạo và hủy luồng liên tục sẽ l�
 
 **ExecutorService** (dịch vụ thực thi) là interface trung tâm trong gói `java.util.concurrent` để quản lý ThreadPool.
 
+Sơ đồ dưới minh họa luồng xử lý của ThreadPool: các tác vụ được xếp vào hàng đợi, pool giao cho luồng rảnh; luồng làm xong quay lại nhận tác vụ tiếp theo thay vì bị hủy:
+
+```mermaid
+flowchart LR
+    subgraph Q["Hàng đợi tác vụ (Task Queue)"]
+        T1["Tác vụ 1"]
+        T2["Tác vụ 2"]
+        T3["Tác vụ 3"]
+        Tn["Tác vụ n..."]
+    end
+    Q --> P{"ThreadPool<br/>(có luồng rảnh?)"}
+    P --> W1["Luồng 1"]
+    P --> W2["Luồng 2"]
+    P --> W3["Luồng 3"]
+    W1 --> R["Xong việc → quay lại nhận tác vụ mới"]
+    W2 --> R
+    W3 --> R
+    R --> P
+```
+
 ## Các loại ThreadPool trong Java
 
 Lớp tiện ích **Executors** cung cấp các factory method tạo ThreadPool phổ biến:

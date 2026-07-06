@@ -7,6 +7,25 @@ title: "Các nguyên tắc và định luật trong lập trình"
 
 Trong lập trình phần mềm, có nhiều nguyên tắc và định luật được đúc kết từ kinh nghiệm thực tế của các kỹ sư qua nhiều thập kỷ. Nắm vững những nguyên tắc này giúp bạn viết code dễ bảo trì, ít lỗi và linh hoạt hơn trước những thay đổi.
 
+Có thể chia 7 nguyên tắc trong bài thành 3 nhóm theo mục đích, như sơ đồ dưới đây:
+
+```mermaid
+flowchart TD
+    P["Nguyên tắc lập trình"]
+    P --> Simple["Nhóm giữ code đơn giản"]
+    P --> Struct["Nhóm cấu trúc &amp; thiết kế"]
+    P --> Habit["Nhóm thói quen"]
+    Simple --> DRY["DRY<br/>không lặp lại"]
+    Simple --> KISS["KISS<br/>giữ đơn giản"]
+    Simple --> YAGNI["YAGNI<br/>chưa cần thì chưa làm"]
+    Struct --> LoD["Law of Demeter<br/>ít hiểu biết nhất"]
+    Struct --> Comp["Composition over Inheritance"]
+    Struct --> SoC["Separation of Concerns"]
+    Habit --> BSR["Boy Scout Rule"]
+```
+
+Nhóm bên trái giúp code gọn và dễ hiểu, nhóm giữa lo về cách các thành phần liên kết với nhau, còn Boy Scout Rule là thói quen cải thiện dần theo thời gian.
+
 ---
 
 ## 1. DRY — Don't Repeat Yourself (Đừng lặp lại bản thân)

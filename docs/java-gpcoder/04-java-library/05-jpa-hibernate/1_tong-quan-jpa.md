@@ -13,6 +13,18 @@ JPA là chuẩn của Java giúp lưu và đọc dữ liệu từ cơ sở dữ 
 
 JPA **không phải** là một thư viện cụ thể mà chỉ là một tập hợp các interface và annotation. Để sử dụng JPA, bạn cần một **provider** (nhà cung cấp triển khai), phổ biến nhất là Hibernate.
 
+Sơ đồ dưới đây minh họa vị trí của JPA trong toàn bộ luồng truy cập dữ liệu, từ ứng dụng xuống tới database:
+
+```mermaid
+flowchart TD
+    App["Ứng dụng Java<br/>(code nghiệp vụ)"] --> JPA["JPA API<br/>(EntityManager, annotation)"]
+    JPA --> Provider["JPA Provider<br/>(Hibernate, EclipseLink...)"]
+    Provider --> JDBC["JDBC<br/>(driver kết nối)"]
+    JDBC --> DB[("Cơ sở dữ liệu<br/>MySQL, PostgreSQL...")]
+```
+
+Ứng dụng chỉ làm việc với tầng JPA API chuẩn; provider bên dưới lo việc sinh SQL và giao tiếp database qua JDBC, nhờ đó có thể đổi provider mà ít ảnh hưởng tới code.
+
 ## Vì sao cần JPA?
 
 Trước khi có JPA, lập trình viên Java phải dùng **JDBC** (Java Database Connectivity — giao diện kết nối cơ sở dữ liệu Java) với nhiều đoạn code lặp đi lặp lại để thực hiện các thao tác **CRUD** (Create, Read, Update, Delete — tạo, đọc, cập nhật, xóa):

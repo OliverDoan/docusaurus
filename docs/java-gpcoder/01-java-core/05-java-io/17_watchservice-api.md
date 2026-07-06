@@ -20,6 +20,18 @@ Nhiều khi ứng dụng cần biết ngay khi một file hoặc thư mục bị
 | `ENTRY_MODIFY` | File/thư mục bị thay đổi nội dung |
 | `OVERFLOW` | Sự kiện bị bỏ lỡ do quá nhiều (bộ đệm đầy) |
 
+Sơ đồ dưới đây minh họa vòng lặp theo dõi của WatchService: đăng ký thư mục, chờ sự kiện bằng `take()`, xử lý từng sự kiện, rồi bắt buộc gọi `reset()` để tiếp tục nhận sự kiện mới.
+
+```mermaid
+flowchart TD
+    A["register()<br/>đăng ký thư mục với WatchService"] --> B["take() / poll()<br/>chờ sự kiện"]
+    B --> C["pollEvents()<br/>lấy danh sách sự kiện"]
+    C --> D["Xử lý sự kiện<br/>(CREATE / DELETE / MODIFY)"]
+    D --> E{"key.reset() còn hợp lệ?"}
+    E -->|"Có"| B
+    E -->|"Không"| F["Dừng theo dõi"]
+```
+
 ---
 
 ## Ứng dụng thực tế

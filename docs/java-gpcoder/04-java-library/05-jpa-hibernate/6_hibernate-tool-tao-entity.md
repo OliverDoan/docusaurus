@@ -16,6 +16,18 @@ Cách này rất hữu ích khi:
 - Muốn tiết kiệm thời gian tạo entity thủ công cho database có nhiều bảng.
 - Cần đảm bảo entity khớp chính xác với cấu trúc bảng hiện có.
 
+Sơ đồ dưới đây mô tả luồng database-first: đi từ bảng có sẵn ra tới Entity class:
+
+```mermaid
+flowchart LR
+    DB[("Database có sẵn<br/>nhiều bảng")] --> Tool["Hibernate Tool<br/>(reverse engineering)"]
+    Tool --> Reveng["hibernate.reveng.xml<br/>(chọn bảng, tùy chỉnh)"]
+    Reveng --> Entity["Entity class<br/>@Entity tự sinh"]
+    Entity --> Check["Kiểm tra lại<br/>FetchType, tên field..."]
+```
+
+Hướng đi ngược với code-first: cấu trúc bảng là nguồn chuẩn, còn Entity được sinh ra tự động rồi tinh chỉnh lại cho đúng chuẩn Java.
+
 ## Phương pháp 1: Dùng IntelliJ IDEA (JPA Tools)
 
 IntelliJ IDEA Ultimate tích hợp sẵn tính năng tạo Entity từ database.

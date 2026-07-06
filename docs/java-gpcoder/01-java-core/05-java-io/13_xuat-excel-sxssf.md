@@ -16,6 +16,18 @@ Khi xuất file Excel với hàng trăm ngàn hoặc hàng triệu dòng, cách 
 
 **SXSSF** (Streaming XSSF) giải quyết vấn đề này bằng cách chỉ giữ một số lượng hàng nhất định trong RAM, phần còn lại ghi tạm vào ổ đĩa.
 
+Sơ đồ dưới đây minh họa cơ chế "cửa sổ trượt" của SXSSF: chỉ N hàng gần nhất nằm trong RAM, các hàng cũ hơn bị đẩy (flush) ra file tạm trên ổ đĩa, cuối cùng gộp lại thành file `.xlsx`.
+
+```mermaid
+flowchart TD
+    A["Tạo hàng mới<br/>sheet.createRow(i)"] --> B{"RAM đã đủ N hàng?"}
+    B -->|"Chưa"| C["Giữ hàng trong RAM"]
+    B -->|"Rồi"| D["Flush hàng cũ ra file tạm ổ đĩa"]
+    C --> E["workbook.write() gộp thành file .xlsx"]
+    D --> E
+    E --> F["dispose() xóa file tạm"]
+```
+
 ---
 
 ## Dependency Maven

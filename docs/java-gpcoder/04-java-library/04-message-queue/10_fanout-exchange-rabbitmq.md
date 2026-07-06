@@ -19,6 +19,18 @@ Producer --> [Fanout Exchange]
     (Tất cả queue đều nhận bản sao tin nhắn)
 ```
 
+Sơ đồ dưới đây minh họa một sự kiện đơn hàng được Fanout Exchange phát tới mọi Queue đã bind, mỗi dịch vụ xử lý một việc riêng:
+
+```mermaid
+flowchart LR
+    P["Producer<br/>(đơn hàng mới)"] --> X["Fanout Exchange<br/>order-events"]
+    X --> QE["email-queue"] --> SE["EmailService"]
+    X --> QS["sms-queue"] --> SS["SmsService"]
+    X --> QW["warehouse-queue"] --> SW["WarehouseService"]
+```
+
+Khác Direct/Topic, Fanout **bỏ qua routing key** — chỉ cần Queue đã bind vào Exchange là nhận được bản sao tin nhắn.
+
 ## Khi nào dùng Fanout Exchange?
 
 - **Thông báo hệ thống**: Gửi cảnh báo cho tất cả dịch vụ cùng lúc.

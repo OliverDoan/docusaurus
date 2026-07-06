@@ -7,6 +7,23 @@ title: "Hashtable trong Java"
 
 `Hashtable` là một trong những lớp collection lâu đời nhất trong Java, có mặt từ phiên bản 1.0. Nó lưu trữ dữ liệu theo cặp key-value tương tự `HashMap`, nhưng có những điểm khác biệt quan trọng.
 
+Sơ đồ phân cấp dưới đây cho thấy `Hashtable` kế thừa từ lớp cũ `Dictionary` (khác với `HashMap`) và là lớp cha của `Properties`:
+
+```mermaid
+classDiagram
+    class Map {
+        <<interface>>
+    }
+    class Dictionary {
+        <<abstract>>
+    }
+    class Hashtable
+    class Properties
+    Dictionary <|-- Hashtable : kế thừa
+    Map <|.. Hashtable : hiện thực
+    Hashtable <|-- Properties : kế thừa
+```
+
 ## Đặc điểm của Hashtable
 
 - **Thread-safe** (an toàn với đa luồng): tất cả các phương thức đều được đồng bộ hóa bằng `synchronized`.

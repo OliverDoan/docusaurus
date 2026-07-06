@@ -33,6 +33,19 @@ RabbitMQ được phát triển bởi **Pivotal** (nay là VMware) và hiện đ
 Producer --> Exchange --> [Binding] --> Queue --> Consumer
 ```
 
+Trực quan hơn, luồng tin nhắn đi qua các thành phần của RabbitMQ như sau:
+
+```mermaid
+flowchart LR
+    P["Producer"] -->|"routing key"| X["Exchange<br/>(bộ định tuyến)"]
+    X -->|"binding"| Q1["Queue 1"]
+    X -->|"binding"| Q2["Queue 2"]
+    Q1 --> C1["Consumer 1"]
+    Q2 --> C2["Consumer 2"]
+```
+
+Khác với JMS gửi thẳng vào Queue, ở RabbitMQ tin nhắn luôn qua **Exchange** trước; chính Exchange (dựa vào routing key và binding) mới quyết định tin nhắn được đưa vào Queue nào.
+
 ### Các thành phần chính
 
 | Thành phần | Vai trò |
@@ -48,7 +61,21 @@ Producer --> Exchange --> [Binding] --> Queue --> Consumer
 
 ## Các loại Exchange trong RabbitMQ
 
-**Exchange** là trái tim của RabbitMQ. Có 4 loại chính:
+**Exchange** là trái tim của RabbitMQ. Có 4 loại chính, mỗi loại định tuyến tin nhắn theo một cách riêng như sơ đồ tổng quan sau:
+
+```mermaid
+flowchart TD
+    M["Tin nhắn từ Producer"] --> D["Direct<br/>(routing key khớp chính xác)"]
+    M --> F["Fanout<br/>(gửi tới mọi Queue)"]
+    M --> T["Topic<br/>(khớp mẫu * và #)"]
+    M --> H["Headers<br/>(khớp theo header)"]
+    D --> QD["Queue theo nhãn cụ thể"]
+    F --> QF["Tất cả Queue đã bind"]
+    T --> QT["Queue khớp pattern"]
+    H --> QH["Queue khớp điều kiện header"]
+```
+
+Bốn loại này sẽ được trình bày chi tiết trong các bài sau; ở đây chỉ cần nắm ý tưởng mỗi loại chọn Queue đích theo tiêu chí khác nhau.
 
 ### 1. Direct Exchange — Định tuyến trực tiếp
 

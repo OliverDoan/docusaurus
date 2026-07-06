@@ -71,6 +71,28 @@ public class MayTinh {
 
 Phương thức nào được gọi được quyết định tại **thời điểm chạy** dựa trên kiểu thực của đối tượng — đây là **Dynamic Method Dispatch** (điều phối phương thức động).
 
+Sơ đồ dưới đây minh họa cây kế thừa nơi mỗi lớp con ghi đè phương thức `tinhDienTich()` và `moTa()` của lớp cha:
+
+```mermaid
+classDiagram
+    class HinhHoc {
+        +tinhDienTich() double
+        +moTa()
+    }
+    class HinhTron {
+        +tinhDienTich() double
+        +moTa()
+    }
+    class HinhChuNhat {
+        +tinhDienTich() double
+        +moTa()
+    }
+    HinhHoc <|-- HinhTron : ghi đè
+    HinhHoc <|-- HinhChuNhat : ghi đè
+```
+
+Đọc sơ đồ: khi gọi `hinh.moTa()` trên biến kiểu `HinhHoc`, Java chọn đúng cài đặt của lớp con thực tế (`HinhTron` hoặc `HinhChuNhat`) tại runtime.
+
 ```java
 public class HinhHoc {
     public double tinhDienTich() {
@@ -147,6 +169,27 @@ public class DemoRuntimePolymorphism {
 ## 4. Đa hình qua Interface (Giao diện)
 
 Interface (giao diện) là cách đa hình mạnh mẽ nhất trong Java vì một lớp có thể triển khai (implement) nhiều interface:
+
+Sơ đồ sau cho thấy nhiều lớp cùng hiện thực một interface `CoThePhat`, nhờ đó có thể xử lý chúng qua cùng một kiểu:
+
+```mermaid
+classDiagram
+    class CoThePhat {
+        <<interface>>
+        +phat()
+    }
+    class LopHocOnline {
+        +phat()
+        +phatNhanh()
+    }
+    class PodcastBai {
+        +phat()
+    }
+    CoThePhat <|.. LopHocOnline : hiện thực
+    CoThePhat <|.. PodcastBai : hiện thực
+```
+
+Đọc sơ đồ: một mảng kiểu `CoThePhat[]` có thể chứa cả `LopHocOnline` lẫn `PodcastBai`, và lời gọi `item.phat()` sẽ chạy đúng cài đặt của từng lớp.
 
 ```java
 interface CoThePhat {

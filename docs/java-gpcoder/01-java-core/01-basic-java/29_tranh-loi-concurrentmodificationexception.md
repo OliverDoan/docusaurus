@@ -44,6 +44,26 @@ Exception in thread "main" java.util.ConcurrentModificationException
 
 Khi dùng for-each, Java sử dụng **Iterator** bên trong. Iterator duy trì một biến đếm **modCount** (modification count — số lần sửa đổi). Mỗi lần bạn thêm/xóa phần tử, `modCount` tăng lên. Iterator kiểm tra `modCount` ở mỗi vòng lặp — nếu thấy khác với giá trị ban đầu, nó ném `ConcurrentModificationException`.
 
+Sơ đồ tuần tự sau cho thấy vì sao Iterator phát hiện thay đổi và ném lỗi:
+
+```mermaid
+sequenceDiagram
+    participant L as Vòng lặp for-each
+    participant I as Iterator
+    participant C as ArrayList
+    L->>I: next()
+    I->>C: đọc modCount
+    Note over I: khớp với expectedModCount
+    L->>C: names.remove(name)
+    Note over C: modCount tăng lên
+    L->>I: next() ở vòng kế tiếp
+    I->>C: đọc modCount
+    I-->>L: modCount khác expectedModCount
+    Note over L: ném ConcurrentModificationException
+```
+
+Đọc sơ đồ: gọi `names.remove()` trực tiếp làm `modCount` lệch khỏi `expectedModCount` mà Iterator ghi nhớ, nên lần `next()` sau sẽ ném lỗi.
+
 ---
 
 ## Cách 1: Dùng Iterator.remove()

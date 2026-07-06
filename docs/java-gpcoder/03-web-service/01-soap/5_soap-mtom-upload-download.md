@@ -17,6 +17,23 @@ Khi không dùng MTOM, dữ liệu nhị phân phải được mã hóa sang **B
 - Tăng hiệu năng truyền file lớn.
 - Tận dụng cơ chế **XOP** (XML-binary Optimized Packaging — đóng gói tối ưu XML-nhị phân).
 
+Sơ đồ sau mô tả luồng upload và download file qua MTOM giữa client và server:
+
+```mermaid
+sequenceDiagram
+    participant C as Client (MTOMFeature)
+    participant S as FileTransferService
+    participant FS as O dia server
+    C->>S: uploadFile dang XOP attachment nhi phan
+    S->>FS: Ghi file xuong dia
+    S-->>C: Thong bao ket qua
+    C->>S: downloadFile theo ten
+    S->>FS: Doc file
+    S-->>C: Tra file qua DataHandler MTOM
+```
+
+Dữ liệu nhị phân được đính kèm trực tiếp thay vì nhúng Base64 vào XML, nên message gọn và nhanh hơn.
+
 ---
 
 ## Cấu hình Maven/Gradle

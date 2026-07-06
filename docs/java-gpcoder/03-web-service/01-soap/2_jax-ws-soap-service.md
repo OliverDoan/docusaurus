@@ -13,6 +13,21 @@ JAX-WS là bộ API chuẩn của Java giúp ta xây dựng và gọi các SOAP 
 
 Với JAX-WS, bạn chỉ cần viết Java thuần túy, dùng annotation — framework sẽ tự động sinh WSDL và xử lý XML.
 
+Sơ đồ dưới đây cho thấy một lời gọi SOAP đi từ client qua endpoint đến lớp triển khai nghiệp vụ:
+
+```mermaid
+sequenceDiagram
+    participant C as Client (Port proxy)
+    participant S as SOAP Endpoint
+    participant Impl as UserServiceImpl (SIB)
+    C->>S: Goi getUserById dang SOAP request XML
+    S->>Impl: Uy quyen xu ly nghiep vu
+    Impl-->>S: Ket qua
+    S-->>C: SOAP response XML
+```
+
+Client gọi phương thức từ xa như gọi method Java bình thường; JAX-WS lo phần đóng gói và giải mã XML.
+
 ---
 
 ## Tạo SOAP Service phía Server

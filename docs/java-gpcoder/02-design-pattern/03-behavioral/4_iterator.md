@@ -22,6 +22,41 @@ Khi bạn có một cấu trúc dữ liệu phức tạp (danh sách, cây, đ�
 - **Iterable** (interface): khai báo `createIterator()`.
 - **ConcreteCollection**: tập hợp thực tế, trả về iterator phù hợp.
 
+Sơ đồ lớp dưới đây mô tả cách tập hợp tạo ra iterator, tách logic duyệt khỏi bản thân tập hợp:
+
+```mermaid
+classDiagram
+    class StudentIterator {
+        <<interface>>
+        +hasNext() boolean
+        +next() String
+    }
+    class ForwardIterator {
+        +hasNext() boolean
+        +next() String
+    }
+    class ReverseIterator {
+        +hasNext() boolean
+        +next() String
+    }
+    class StudentCollection {
+        <<interface>>
+        +createIterator() StudentIterator
+    }
+    class Classroom {
+        +addStudent(String)
+        +createIterator() StudentIterator
+        +createReverseIterator() StudentIterator
+    }
+    StudentIterator <|.. ForwardIterator : hiện thực
+    StudentIterator <|.. ReverseIterator : hiện thực
+    StudentCollection <|.. Classroom : hiện thực
+    Classroom ..> ForwardIterator : tạo ra
+    Classroom ..> ReverseIterator : tạo ra
+```
+
+Client chỉ làm việc với interface `StudentIterator`, nên cùng một `Classroom` có thể trả về nhiều kiểu duyệt (xuôi, ngược) mà không lộ cấu trúc bên trong.
+
 ## Ví dụ Java: Duyệt danh sách sinh viên
 
 ```java

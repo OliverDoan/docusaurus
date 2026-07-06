@@ -7,6 +7,27 @@ title: "Lớp Properties trong Java"
 
 `Properties` là một lớp con của `Hashtable` được thiết kế đặc biệt để lưu trữ và đọc các cấu hình (configuration) dạng cặp key-value kiểu `String`. Đây là cách truyền thống để quản lý file `.properties` trong Java.
 
+Sơ đồ dưới đây cho thấy vị trí của `Properties` trong cây kế thừa và các phương thức đặc trưng của nó:
+
+```mermaid
+classDiagram
+    class Dictionary {
+        <<abstract>>
+    }
+    class Hashtable
+    class Properties {
+        +setProperty(k, v)
+        +getProperty(k)
+        +load(in)
+        +store(out, comment)
+    }
+    Dictionary <|-- Hashtable : kế thừa
+    Hashtable <|-- Properties : kế thừa
+    Properties o-- Properties : defaults
+```
+
+Quan hệ `defaults` (Properties trỏ tới chính nó) minh họa cơ chế giá trị mặc định: một `Properties` có thể tham chiếu tới một `Properties` khác để lấy giá trị khi key không tồn tại.
+
 ## Đặc điểm của Properties
 
 - Kế thừa từ `Hashtable<Object, Object>`, nhưng trên thực tế chỉ nên dùng với key và value kiểu `String`.

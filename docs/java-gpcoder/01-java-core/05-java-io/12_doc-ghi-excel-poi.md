@@ -16,6 +16,17 @@ Hai API chính cho Excel:
 - **XSSF** (XML Spreadsheet Format): hỗ trợ định dạng `.xlsx` (Excel 2007+)
 - **SS** (SpreadSheet): API chung, dùng được cho cả hai định dạng
 
+Sơ đồ lớp dưới đây cho thấy cấu trúc phân cấp của một file Excel trong Apache POI: một `Workbook` chứa nhiều `Sheet`, mỗi `Sheet` chứa nhiều `Row`, mỗi `Row` chứa nhiều `Cell`.
+
+```mermaid
+classDiagram
+    Workbook "1" o-- "*" Sheet : chứa
+    Sheet "1" o-- "*" Row : chứa
+    Row "1" o-- "*" Cell : chứa
+    Cell ..> CellStyle : áp dụng định dạng
+    CellStyle ..> DataFormat : dùng để hiển thị số / ngày
+```
+
 ---
 
 ## Dependency Maven

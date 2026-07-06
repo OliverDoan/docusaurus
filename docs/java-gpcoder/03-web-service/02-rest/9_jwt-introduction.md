@@ -48,7 +48,16 @@ Client                    Server
 
 ## Cấu trúc của JWT
 
-JWT gồm 3 phần, cách nhau bởi dấu chấm (`.`):
+JWT gồm 3 phần, cách nhau bởi dấu chấm (`.`). Sơ đồ dưới đây tóm tắt ba phần đó:
+
+```mermaid
+flowchart LR
+    JWT["JWT Token"] --> H["Header<br/>alg, typ"]
+    JWT --> P["Payload<br/>claims: sub, role, exp"]
+    JWT --> S["Signature<br/>ky bang secret key"]
+```
+
+Header và Payload chỉ được mã hóa Base64 URL (ai cũng đọc được), còn Signature mới là phần đảm bảo token không bị giả mạo.
 
 ```
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9

@@ -118,6 +118,19 @@ public class NotificationSender {
 
 **Scope** (phạm vi) kiểm soát **bao nhiêu instance** của một binding được tạo ra và **tồn tại trong bao lâu**.
 
+Sơ đồ dưới đây minh họa cách Guice quyết định tạo instance khác nhau tùy theo scope của binding:
+
+```mermaid
+flowchart TD
+    Req["Injector can mot instance"] --> Scope{"Binding co scope gi?"}
+    Scope -->|"Khong scope"| New["Tao instance moi<br/>moi lan inject"]
+    Scope -->|"@Singleton"| Single["Dung lai 1 instance<br/>cho toan Injector"]
+    Scope -->|"asEagerSingleton()"| Eager["Tao ngay khi<br/>Injector khoi tao"]
+    Scope -->|"@RequestScoped"| Request["1 instance moi<br/>HTTP request"]
+```
+
+Chọn đúng scope giúp cân bằng giữa tiết kiệm tài nguyên (dùng chung instance) và tránh chia sẻ trạng thái ngoài ý muốn (tạo mới mỗi lần).
+
 ### Không có Scope (mặc định) — tạo mới mỗi lần
 
 Mặc định, mỗi lần Guice cần một đối tượng, nó tạo một instance mới:

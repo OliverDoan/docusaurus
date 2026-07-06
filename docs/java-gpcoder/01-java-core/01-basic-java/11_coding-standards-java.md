@@ -7,6 +7,19 @@ title: "Tiêu chuẩn coding trong Java - Coding Standards"
 
 **Coding Standards** (tiêu chuẩn lập trình) là tập hợp các quy tắc và quy ước khi viết code. Tuân thủ tiêu chuẩn giúp code dễ đọc, dễ bảo trì và nhất quán giữa các thành viên trong nhóm.
 
+Sơ đồ dưới đây tóm tắt quy tắc đặt tên cho từng thành phần trong code Java:
+
+```mermaid
+flowchart LR
+    A["Thành phần trong code"] --> B["Package<br/>chữ thường: com.example.app"]
+    A --> C["Class / Interface<br/>PascalCase: StudentManager"]
+    A --> D["Method<br/>camelCase: getUserName()"]
+    A --> E["Variable<br/>camelCase: firstName"]
+    A --> F["Constant<br/>UPPER_SNAKE_CASE: MAX_SIZE"]
+```
+
+Đọc sơ đồ: mỗi loại thành phần có một kiểu viết tên riêng — nắm quy tắc này giúp code của bạn trông "đúng chuẩn Java" ngay từ cái nhìn đầu tiên.
+
 ---
 
 ## Quy tắc đặt tên (Naming Conventions)

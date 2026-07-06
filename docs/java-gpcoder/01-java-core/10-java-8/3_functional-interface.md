@@ -7,6 +7,17 @@ title: "Functional Interface trong Java 8"
 
 Functional Interface là interface chỉ có đúng một phương thức trừu tượng, và chính là nền tảng để dùng Lambda Expression cũng như Method Reference trong Java 8. Hiểu rõ khái niệm này giúp bạn viết code ngắn gọn theo phong cách hàm và tận dụng được bộ interface có sẵn trong `java.util.function`. Bài này giới thiệu cách dùng, các loại phổ biến và cách tự tạo Functional Interface.
 
+Sơ đồ dưới đây phân loại các Functional Interface thông dụng nhất theo kiểu tham số vào và giá trị trả về.
+
+```mermaid
+flowchart TD
+    FI["Functional Interface<br/>một abstract method"]
+    FI --> P["Predicate: T sang boolean"]
+    FI --> F["Function: T sang R"]
+    FI --> C["Consumer: T sang void"]
+    FI --> S["Supplier: void sang T"]
+```
+
 ## Functional Interface là gì?
 
 **Functional Interface** (giao diện hàm) là interface có **đúng một phương thức trừu tượng** (Single Abstract Method - SAM). Đây là nền tảng cho Lambda Expression và Method Reference trong Java 8.

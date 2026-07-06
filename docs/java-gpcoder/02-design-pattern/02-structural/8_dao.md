@@ -30,6 +30,33 @@ DAO tạo ra một lớp trừu tượng giữa business logic và nguồn dữ 
 - **Service/Business Layer**: Sử dụng DAO Interface, không biết về implementation cụ thể.
 - **DAOFactory** (tùy chọn): Tạo và trả về DAO implementation phù hợp.
 
+Sơ đồ dưới đây minh họa cách Service Layer phụ thuộc vào DAO interface thay vì implementation cụ thể trong ví dụ Java bên dưới:
+
+```mermaid
+classDiagram
+    class UserDAO {
+        <<interface>>
+        +findById(int) Optional
+        +findAll() List
+        +save(User) User
+        +delete(int)
+    }
+    class InMemoryUserDAO
+    class JdbcUserDAO
+    class UserService {
+        -UserDAO userDAO
+        +registerUser(...)
+        +removeUser(int)
+    }
+    class User
+    UserDAO <|.. InMemoryUserDAO : hiện thực
+    UserDAO <|.. JdbcUserDAO : hiện thực
+    UserService o-- UserDAO : phụ thuộc
+    UserDAO ..> User : thao tác
+```
+
+Vì `UserService` chỉ biết `UserDAO` interface, ta có thể tráo `InMemoryUserDAO` (cho test) sang `JdbcUserDAO` (cho production) mà không sửa business logic.
+
 ## Ví dụ Java
 
 ```java

@@ -20,6 +20,19 @@ Kiểm thử (testing) là quá trình kiểm tra xem phần mềm có chạy đ
 
 ## Các cấp độ kiểm thử
 
+Bốn cấp độ kiểm thử thường được sắp xếp theo mô hình kim tự tháp: càng xuống thấp thì số lượng test càng nhiều, chạy càng nhanh và rẻ; càng lên cao thì test càng ít, chậm và tốn kém hơn.
+
+```mermaid
+flowchart TB
+    A["Acceptance Test<br/>(chấp nhận - ít nhất, chậm nhất)"]
+    S["System Test<br/>(toàn hệ thống)"]
+    I["Integration Test<br/>(tích hợp nhiều thành phần)"]
+    U["Unit Test<br/>(đơn vị - nhiều nhất, nhanh nhất)"]
+    A --> S --> I --> U
+```
+
+Đọc sơ đồ từ dưới lên: nền tảng là rất nhiều Unit Test nhanh và rẻ, phía trên là các lớp kiểm thử rộng hơn nhưng số lượng giảm dần.
+
 ### 1. Unit Test (Kiểm thử đơn vị)
 
 **Unit Test** (kiểm thử đơn vị) kiểm tra từng đơn vị nhỏ nhất của code — thường là một phương thức (method) hoặc một lớp (class) — một cách độc lập.
@@ -61,6 +74,17 @@ public class Calculator {
 1. **Red**: Viết test — test thất bại vì chưa có code triển khai.
 2. **Green**: Viết code tối thiểu để test pass.
 3. **Refactor**: Cải thiện code mà không làm test thất bại.
+
+Vòng lặp TDD được lặp đi lặp lại cho từng chức năng nhỏ, minh họa như sau:
+
+```mermaid
+flowchart LR
+    R["Red<br/>(viết test - test fail)"] --> G["Green<br/>(code tối thiểu - test pass)"]
+    G --> RF["Refactor<br/>(cải thiện code)"]
+    RF --> R
+```
+
+Đọc sơ đồ: mỗi lần thêm hành vi mới, ta quay lại bước Red để viết test tiếp theo, tạo thành một chu trình khép kín.
 
 ```java
 // Bước 1 (Red): Viết test trước

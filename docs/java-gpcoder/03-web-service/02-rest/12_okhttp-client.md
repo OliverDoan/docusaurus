@@ -11,6 +11,28 @@ OkHttp là một thư viện HTTP client gọn nhẹ và hiệu năng cao, giúp
 
 **OkHttp** (Open HTTP client) là thư viện HTTP client mã nguồn mở do Square phát triển, được sử dụng rộng rãi trong Android và Java. OkHttp nổi bật với hiệu năng cao, hỗ trợ HTTP/2, connection pooling (nhóm kết nối — tái sử dụng kết nối thay vì tạo mới), và API dễ dùng.
 
+Sơ đồ sau mô tả luồng một lời gọi API qua OkHttp, bao gồm interceptor và connection pool:
+
+```mermaid
+sequenceDiagram
+    participant App as Ứng dụng
+    participant Client as OkHttpClient (singleton)
+    participant Inter as Interceptor
+    participant Pool as ConnectionPool
+    participant Server as REST API Server
+
+    App->>Client: newCall(request).execute()
+    Client->>Inter: Chặn request (thêm header, log)
+    Inter->>Pool: Lấy / tái sử dụng kết nối
+    Pool->>Server: Gửi HTTP request
+    Server-->>Pool: HTTP response
+    Pool-->>Inter: Response
+    Inter-->>Client: Response (có thể chặn để log)
+    Client-->>App: Response body (parse bằng Jackson)
+```
+
+Điểm mấu chốt: `OkHttpClient` là singleton nắm connection pool, còn interceptor xử lý request/response tập trung trước khi trả về cho ứng dụng.
+
 ## Cấu hình Maven
 
 ```xml

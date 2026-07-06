@@ -7,6 +7,17 @@ title: "Gson Custom Serialization và Deserialization"
 
 Đôi khi cơ chế mặc định của Gson không đáp ứng được yêu cầu: định dạng ngày tháng đặc biệt, kiểu dữ liệu phức tạp, hoặc cần xử lý JSON không chuẩn từ API bên ngoài. Lúc đó ta dùng **Custom Serializer** (bộ tuần tự hóa tùy chỉnh) và **Custom Deserializer** (bộ giải tuần tự hóa tùy chỉnh).
 
+Sơ đồ sau minh họa cách hai bộ tùy chỉnh này được đăng ký qua `registerTypeAdapter` rồi xen vào đúng chiều chuyển đổi tương ứng:
+
+```mermaid
+flowchart LR
+    OBJ["Đối tượng Java<br/>(vd: LocalDate)"] -->|"JsonSerializer.serialize()"| JSON["Chuỗi JSON<br/>(vd: 15/06/2020)"]
+    JSON -->|"JsonDeserializer.deserialize()"| OBJ
+    REG["GsonBuilder<br/>.registerTypeAdapter(...)"] -.->|"gắn bộ tùy chỉnh"| OBJ
+```
+
+Đọc sơ đồ: `JsonSerializer` kiểm soát chiều ghi ra JSON, `JsonDeserializer` kiểm soát chiều đọc vào Java, và cả hai chỉ có hiệu lực sau khi được đăng ký với `GsonBuilder`.
+
 ---
 
 ## 1. Maven Dependency

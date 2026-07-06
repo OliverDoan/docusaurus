@@ -153,6 +153,34 @@ public class BaiViet {
 
 ## Nhóm Annotation quan hệ (Relationship)
 
+Sơ đồ lớp dưới đây minh họa hai kiểu quan hệ thường gặp: một-nhiều giữa `PhongBan` và `NhanVien`, và nhiều-nhiều giữa `SinhVien` và `MonHoc`:
+
+```mermaid
+classDiagram
+    class PhongBan {
+        Long id
+        String ten
+        List danhSachNhanVien
+    }
+    class NhanVien {
+        Long id
+        String ten
+        PhongBan phongBan
+    }
+    class SinhVien {
+        Long id
+        Set danhSachMonHoc
+    }
+    class MonHoc {
+        Long id
+        Set danhSachSinhVien
+    }
+    PhongBan "1" --> "*" NhanVien : OneToMany
+    SinhVien "*" --> "*" MonHoc : ManyToMany
+```
+
+Phía `NhanVien` giữ khóa ngoại `phongBan` (`@ManyToOne`), còn `PhongBan` ánh xạ ngược lại bằng `@OneToMany(mappedBy=...)`; quan hệ nhiều-nhiều cần thêm một bảng trung gian.
+
 ### @ManyToOne và @OneToMany
 
 ```java

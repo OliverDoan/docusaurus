@@ -160,6 +160,24 @@ class NotificationServiceTest {
 }
 ```
 
+Sơ đồ dưới đây tóm tắt luồng khởi tạo mock và thứ tự Mockito thử inject vào SUT khi gặp `@InjectMocks`:
+
+```mermaid
+flowchart TD
+    A["MockitoExtension hoac openMocks khoi chay"] --> B["Tao cac doi tuong @Mock va @Spy"]
+    B --> C["Tao SUT cho @InjectMocks"]
+    C --> D{"Co constructor phu hop?"}
+    D -->|"Co"| E["Constructor injection"]
+    D -->|"Khong"| F{"Co setter phu hop?"}
+    F -->|"Co"| G["Setter injection"]
+    F -->|"Khong"| H["Field injection"]
+    E --> I["SUT san sang voi day du mock"]
+    G --> I
+    H --> I
+```
+
+Đọc sơ đồ theo hướng từ trên xuống: sau khi tạo tất cả mock, Mockito ưu tiên constructor injection, rồi mới đến setter và cuối cùng là field injection. Bất kể đi theo nhánh nào, kết quả là SUT được cung cấp đầy đủ mock trước khi test chạy.
+
 ## Annotation `@Spy`
 
 `@Spy` tạo spy của một đối tượng thật — phương thức không stub sẽ gọi implementation thật:

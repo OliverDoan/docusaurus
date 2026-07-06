@@ -7,6 +7,21 @@ title: "Tránh lỗi NullPointerException trong Java"
 
 **NullPointerException** (NPE) là một trong những lỗi phổ biến nhất trong Java. Lỗi này xảy ra khi bạn cố gắng **sử dụng một tham chiếu đang có giá trị `null`** — tức là không trỏ đến đối tượng nào.
 
+Sơ đồ sau minh họa các tình huống làm phát sinh NullPointerException:
+
+```mermaid
+flowchart TD
+    A["Dùng một tham chiếu"] --> B{"Tham chiếu có null?"}
+    B -->|"Không"| C["Truy cập bình thường"]
+    B -->|"Có"| D{"Thao tác gì?"}
+    D -->|"Gọi phương thức obj.method()"| E["NullPointerException"]
+    D -->|"Truy cập trường obj.field"| E
+    D -->|"Truy cập phần tử arr[i]"| E
+    D -->|"Unboxing Integer sang int"| E
+```
+
+Đọc sơ đồ: mọi thao tác dereference trên một tham chiếu `null` đều ném NPE, nên chốt chặn là kiểm tra null trước khi dùng.
+
 ---
 
 ## Nguyên nhân gây NullPointerException

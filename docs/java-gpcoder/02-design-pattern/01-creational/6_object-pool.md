@@ -27,6 +27,42 @@ Nếu tạo mới mỗi lần dùng và hủy sau khi xong, hiệu suất ứng 
 - **PooledObject**: Đối tượng được quản lý bởi pool.
 - **Client**: Mượn đối tượng từ pool và trả lại sau khi dùng xong.
 
+Sơ đồ lớp dưới đây minh họa cấu trúc Object Pool — Pool quản lý một tập PooledObject và cho Client mượn/trả:
+
+```mermaid
+classDiagram
+    class ConnectionPool {
+        -BlockingQueue availableConnections
+        -int maxSize
+        +acquire() DatabaseConnection
+        +release(DatabaseConnection)
+    }
+    class DatabaseConnection {
+        -int id
+        -boolean inUse
+        +executeQuery(String)
+        +reset()
+    }
+    class Client
+    ConnectionPool o-- DatabaseConnection : quan ly pool
+    Client --> ConnectionPool : acquire / release
+```
+
+Sơ đồ tuần tự dưới đây minh họa luồng mượn và trả một kết nối — sau khi dùng xong, đối tượng được `reset()` và đưa lại vào pool thay vì bị hủy:
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Pool as ConnectionPool
+    participant Conn as DatabaseConnection
+    Client->>Pool: acquire()
+    Pool-->>Client: tra ve Connection ranh
+    Client->>Conn: executeQuery(sql)
+    Client->>Pool: release(conn)
+    Pool->>Conn: reset()
+    Pool-->>Pool: dua Connection lai vao pool
+```
+
 ## Ví dụ Java
 
 ### Database Connection Pool

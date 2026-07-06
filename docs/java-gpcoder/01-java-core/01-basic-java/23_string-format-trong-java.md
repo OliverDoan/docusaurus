@@ -7,6 +7,17 @@ title: "Hướng dẫn sử dụng String Format trong Java"
 
 Java cung cấp nhiều cách để định dạng chuỗi. Bài này hướng dẫn chi tiết cách dùng `String.format()`, `printf()`, và các cách định dạng hiện đại.
 
+Sơ đồ dưới đây minh họa cách `String.format()` ghép chuỗi định dạng với các tham số để tạo chuỗi kết quả:
+
+```mermaid
+flowchart LR
+    A["Chuỗi định dạng<br/>%s (%d tuổi) %.1f điểm"] --> C["String.format()"]
+    B["Các tham số<br/>name, age, score"] --> C
+    C --> D["Chuỗi kết quả<br/>An (25 tuổi) 9.5 điểm"]
+```
+
+Đọc sơ đồ: mỗi ký hiệu định dạng (`%s`, `%d`, `%.1f`) được thay thế lần lượt bởi từng tham số theo đúng thứ tự.
+
 ---
 
 ## Tại sao cần String Format?

@@ -13,6 +13,18 @@ HQL là ngôn ngữ truy vấn của Hibernate, nhìn rất giống SQL nhưng l
 
 **JPQL** (Java Persistence Query Language — ngôn ngữ truy vấn chuẩn JPA) là phiên bản chuẩn hóa của HQL, được hỗ trợ bởi mọi JPA provider. HQL là superset (tập cha) của JPQL — mọi JPQL đều là HQL hợp lệ, nhưng không ngược lại.
 
+Sơ đồ dưới đây minh họa hành trình một câu HQL từ tên class Java cho đến khi trả về đối tượng:
+
+```mermaid
+flowchart LR
+    HQL["Câu HQL<br/>FROM NhanVien WHERE..."] --> HB["Hibernate<br/>(dịch HQL)"]
+    HB --> SQL["SQL cụ thể<br/>theo dialect DB"]
+    SQL --> DB[("Database")]
+    DB --> Obj["Đối tượng Java<br/>(List NhanVien)"]
+```
+
+Bạn viết truy vấn theo tên class và field; Hibernate lo việc dịch sang SQL phù hợp với từng loại database rồi ánh xạ kết quả ngược về đối tượng Java.
+
 ## Cú pháp cơ bản
 
 ### SELECT tất cả entity

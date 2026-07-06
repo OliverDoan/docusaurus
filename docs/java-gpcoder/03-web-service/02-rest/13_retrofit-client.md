@@ -13,6 +13,29 @@ Retrofit giúp gọi REST API theo cách khai báo: bạn chỉ cần định ng
 
 Retrofit được dùng rất phổ biến trong Android và các ứng dụng Java cần gọi REST API.
 
+Sơ đồ dưới đây cho thấy cách một lời gọi phương thức trên interface được Retrofit biến thành request HTTP thật (chạy trên nền OkHttp):
+
+```mermaid
+sequenceDiagram
+    participant App as Ứng dụng
+    participant Api as ProductApi (interface)
+    participant Retrofit as Retrofit proxy
+    participant Conv as Converter (Jackson)
+    participant OkHttp as OkHttp
+    participant Server as REST API Server
+
+    App->>Api: api.create(product)
+    Api->>Retrofit: Đọc annotation (@POST, @Body)
+    Retrofit->>Conv: Serialize object thành JSON
+    Conv->>OkHttp: Dựng request có body JSON
+    OkHttp->>Server: Gửi HTTP request
+    Server-->>OkHttp: HTTP response
+    OkHttp->>Conv: Deserialize JSON thành object
+    Conv-->>App: Response&lt;Product&gt;
+```
+
+Ứng dụng chỉ gọi phương thức Java; Retrofit tự sinh implementation, dùng converter serialize/deserialize và OkHttp để truyền tải.
+
 ## Cấu hình Maven
 
 ```xml
