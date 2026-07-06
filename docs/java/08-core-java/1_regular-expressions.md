@@ -104,6 +104,19 @@ public class RegexBasic {
 
 > **Lưu ý dấu `\\`**: Trong Java, ký tự `\` phải viết thành `\\` trong chuỗi. Vì vậy regex `\d` (chữ số) phải viết là `"\\d"` trong code Java.
 
+Sơ đồ dưới đây tóm tắt luồng xử lý regex từ khuôn mẫu tới kết quả:
+
+```mermaid
+flowchart TD
+    A["Chuỗi regex<br/>(vd \\d+)"] --> B["Pattern.compile<br/>tạo khuôn mẫu"]
+    B --> C["pattern.matcher<br/>gắn chuỗi cần kiểm tra"]
+    C --> D{"Chọn cách<br/>so khớp"}
+    D -->|"matches()"| E["Khớp toàn bộ<br/>chuỗi hay không"]
+    D -->|"find()"| F["Tìm thấy<br/>một phần khớp"]
+    F -->|"true"| G["group()<br/>lấy đoạn vừa khớp"]
+    E --> H["Kết quả boolean"]
+```
+
 ---
 
 ## Các ký tự đặc biệt cơ bản

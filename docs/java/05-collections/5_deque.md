@@ -72,6 +72,14 @@ Hãy tưởng tượng một chồng đĩa mà bạn có thể đặt thêm ho�
 
 Deque rất linh hoạt: nó có thể đóng vai trò vừa là **Queue** (hàng đợi — FIFO), vừa là **Stack** (ngăn xếp — LIFO). Vì vậy nó là cấu trúc được khuyên dùng cho cả hai mục đích.
 
+Sơ đồ dưới cho thấy Deque thao tác được ở **cả hai đầu** (mỗi đầu đều thêm và lấy được):
+
+```mermaid
+flowchart LR
+    HF["offerFirst / pollFirst<br/>(dau)"] <--> D["Deque hai dau<br/>[ A | B | C ]"]
+    D <--> HL["offerLast / pollLast<br/>(cuoi)"]
+```
+
 ---
 
 ## Tạo Deque với ArrayDeque

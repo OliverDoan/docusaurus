@@ -91,6 +91,14 @@ Lấy ra:    A trước, rồi B, rồi C
 
 Hãy nhớ hình ảnh hàng người: người đầu tiên (A) rời đi trước.
 
+Cùng nhìn sơ đồ luồng FIFO: thêm ở cuối bằng `offer`, lấy ở đầu bằng `poll`:
+
+```mermaid
+flowchart LR
+    IN["offer(x)<br/>them vao CUOI"] --> Q["Hang doi FIFO<br/>[ A | B | C ]"]
+    Q --> OUT["poll()<br/>lay A ra TRUOC"]
+```
+
 ---
 
 ## Tạo Queue và các phương thức cơ bản
@@ -118,6 +126,23 @@ System.out.println(hangDoi.peek()); // An
 String nguoiDau = hangDoi.poll();
 System.out.println(nguoiDau);  // An
 System.out.println(hangDoi);   // [Bình, Cường]
+```
+
+Cây phân cấp: `Queue` là interface con của `Collection`; `Deque`, `PriorityQueue` là các nhánh, còn `LinkedList` triển khai `Deque`:
+
+```mermaid
+classDiagram
+    Collection <|-- Queue
+    Queue <|-- Deque
+    Queue <|-- PriorityQueue
+    Deque <|-- ArrayDeque
+    LinkedList ..|> Deque
+    class Queue {
+        <<interface>>
+        +offer(x)
+        +poll()
+        +peek()
+    }
 ```
 
 ---

@@ -165,6 +165,15 @@ public class ViDuScope {
 
 Nguyên tắc: biến chỉ "sống" trong khối `{ }` chứa nó. Đây giúp tránh nhầm lẫn giữa các biến cùng tên ở những nơi khác nhau.
 
+Sơ đồ phạm vi sống của biến theo khối lệnh:
+
+```mermaid
+flowchart TD
+    M["Phạm vi hàm main<br/>biến x sống ở đây"] --> I["Phạm vi khối if<br/>biến y chỉ sống ở đây"]
+    I --> U["Bên trong if: dùng được cả x và y"]
+    M --> O["Ngoài khối if: chỉ dùng được x, không thấy y"]
+```
+
 ---
 
 ## Từ khóa var — suy luận kiểu

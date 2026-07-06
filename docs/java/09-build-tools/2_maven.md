@@ -217,6 +217,18 @@ validate → compile → test → package → verify → install → deploy
 
 Ví dụ: khi bạn gõ `mvn package`, Maven sẽ tự chạy lần lượt `validate`, `compile`, `test` rồi mới `package`.
 
+Sơ đồ dưới minh hoạ chuỗi phase chạy tuần tự trong vòng đời của Maven:
+
+```mermaid
+flowchart LR
+    A["validate<br/>(kiểm tra)"] --> B["compile<br/>(biên dịch)"]
+    B --> C["test<br/>(kiểm thử)"]
+    C --> D["package<br/>(đóng gói)"]
+    D --> E["verify<br/>(xác minh)"]
+    E --> F["install<br/>(cài kho cục bộ)"]
+    F --> G["deploy<br/>(triển khai)"]
+```
+
 > **Ví dụ đời thường:** Giống thang cuốn đi lên: bạn muốn lên tầng 4 (package) thì bắt buộc phải đi qua tầng 1, 2, 3. Không thể nhảy thẳng lên tầng 4 mà bỏ qua các tầng dưới.
 
 ---

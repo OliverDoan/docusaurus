@@ -84,6 +84,17 @@ Cách hoạt động từng bước:
 2. Kiểm tra điều kiện `i <= 5`: nếu đúng thì chạy thân vòng, nếu sai thì dừng.
 3. Sau mỗi vòng, chạy bước nhảy `i++`, rồi quay lại bước 2.
 
+Sơ đồ luồng hoạt động của vòng for:
+
+```mermaid
+flowchart TD
+    A["Khởi tạo: int i = 1"] --> B{"Điều kiện: i <= 5 ?"}
+    B -->|"Đúng"| C["Chạy thân vòng lặp"]
+    C --> D["Bước nhảy: i++"]
+    D --> B
+    B -->|"Sai"| E["Kết thúc vòng lặp"]
+```
+
 ---
 
 ## Vòng while

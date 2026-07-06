@@ -94,6 +94,17 @@ Java có 4 loại lớp lồng nhau:
 | Local class | Bên trong một phương thức | Không |
 | Anonymous class | Tạo trực tiếp không đặt tên | Không |
 
+Sơ đồ minh hoạ bốn loại lớp lồng nhau bên trong một lớp bao ngoài (outer class):
+
+```mermaid
+flowchart TD
+    O["Outer Class"]
+    O --> S["Static nested class<br/>không cần object outer"]
+    O --> I["Inner class<br/>gắn với object outer"]
+    O --> L["Local class<br/>trong một phương thức"]
+    O --> A["Anonymous class<br/>không tên, dùng tại chỗ"]
+```
+
 ---
 
 ## Static nested class

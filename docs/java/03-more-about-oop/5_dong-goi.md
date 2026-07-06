@@ -175,6 +175,16 @@ public class Main {
 }
 ```
 
+Sơ đồ minh hoạ truy cập có kiểm soát: code bên ngoài không đụng thẳng field `private`, mọi thao tác đọc/ghi phải đi qua getter/setter:
+
+```mermaid
+flowchart LR
+    A["Code ben ngoai<br/>(Main)"] -->|"setSoDu(gia tri)"| B["Setter<br/>validate du lieu"]
+    A -->|"getSoDu()"| C["Getter<br/>doc du lieu"]
+    B --> D["private soDu<br/>(bi che giau)"]
+    C --> D
+```
+
 ---
 
 ## Lợi ích bảo vệ dữ liệu

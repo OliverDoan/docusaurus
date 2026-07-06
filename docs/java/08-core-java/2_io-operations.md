@@ -88,6 +88,31 @@ Quy tắc đơn giản cho người mới:
 - Làm việc với **văn bản** → dùng `Reader` / `Writer`.
 - Làm việc với **file nhị phân** (ảnh, nhạc...) → dùng `InputStream` / `OutputStream`.
 
+Sơ đồ dưới đây minh họa phân cấp các lớp I/O cốt lõi trong `java.io`:
+
+```mermaid
+classDiagram
+    class InputStream {
+        +read() int
+    }
+    class OutputStream {
+        +write() void
+    }
+    class Reader {
+        +read() int
+    }
+    class Writer {
+        +write() void
+    }
+
+    InputStream <|-- FileInputStream
+    OutputStream <|-- FileOutputStream
+    Reader <|-- FileReader
+    Writer <|-- FileWriter
+    Reader <|-- BufferedReader
+    BufferedReader o-- Reader : "bọc để tăng tốc<br/>và đọc readLine"
+```
+
 ---
 
 ## InputStream và OutputStream (luồng byte)

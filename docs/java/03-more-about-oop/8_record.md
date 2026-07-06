@@ -130,6 +130,23 @@ Khi khai báo một record, Java **tự động sinh** ra:
 4. **hashCode()** — mã băm phù hợp với equals.
 5. **toString()** — chuỗi mô tả dễ đọc.
 
+Sơ đồ minh hoạ những thành phần Java tự sinh cho một record chỉ từ một dòng khai báo:
+
+```mermaid
+classDiagram
+    class DiemSo {
+        <<record>>
+        -String monHoc
+        -double diem
+        +DiemSo(monHoc, diem)
+        +monHoc()
+        +diem()
+        +equals(Object)
+        +hashCode()
+        +toString()
+    }
+```
+
 ```java
 public record DiemSo(String monHoc, double diem) {}
 

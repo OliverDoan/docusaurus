@@ -146,6 +146,17 @@ Ví dụ ghi vào file:
 </appender>
 ```
 
+Sơ đồ dưới minh hoạ luồng một dòng log đi qua Logback trước khi tới đích cuối cùng:
+
+```mermaid
+flowchart LR
+    A["Logger<br/>(SLF4J)"] --> B["Logback"]
+    B --> C["Appender<br/>(chọn nơi ghi)"]
+    C --> D["Encoder + Pattern<br/>(định dạng dòng log)"]
+    D --> E["ConsoleAppender<br/>→ Màn hình"]
+    D --> F["RollingFileAppender<br/>→ File"]
+```
+
 ---
 
 ## Pattern: định dạng dòng log

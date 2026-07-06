@@ -137,6 +137,21 @@ class UserApiTest {
 }
 ```
 
+Sơ đồ tuần tự dưới đây minh hoạ luồng một test REST Assured gọi API thật rồi kiểm tra phản hồi:
+
+```mermaid
+sequenceDiagram
+    participant T as Test
+    participant R as REST Assured
+    participant S as Server API
+    T->>R: given - thiết lập header, body
+    T->>R: when - gọi GET /users/1
+    R->>S: gửi HTTP request
+    S-->>R: trả về status code và JSON
+    R->>R: then - kiểm tra statusCode và body
+    R-->>T: báo pass hoặc fail
+```
+
 ## Kiểm tra status code
 
 Phương thức **`statusCode(...)`** kiểm tra mã trạng thái HTTP của phản hồi:

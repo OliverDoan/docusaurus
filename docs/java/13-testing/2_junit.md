@@ -174,6 +174,18 @@ Thường nhiều test cần chuẩn bị giống nhau (ví dụ: tạo đối t
 
 Ngoài ra còn có `@BeforeAll`/`@AfterAll` (chạy **một lần** trước/sau tất cả test, phải là `static`).
 
+Sơ đồ vòng đời một lớp test JUnit 5:
+
+```mermaid
+flowchart TD
+    A["@BeforeAll<br/>(chạy 1 lần, static)"] --> B["@BeforeEach<br/>(trước mỗi test)"]
+    B --> C["@Test<br/>(chạy test)"]
+    C --> D["@AfterEach<br/>(sau mỗi test)"]
+    D --> E{"Còn test khác?"}
+    E -->|"Có"| B
+    E -->|"Hết"| F["@AfterAll<br/>(chạy 1 lần, static)"]
+```
+
 ```java
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;

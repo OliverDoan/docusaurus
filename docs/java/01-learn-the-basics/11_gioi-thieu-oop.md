@@ -110,6 +110,17 @@ public class ViDuOOP {
 
 `new SinhVien()` tạo ra một đối tượng thực sự trong bộ nhớ từ "bản vẽ" `SinhVien`.
 
+Sơ đồ lớp `SinhVien` (bản thiết kế) với thuộc tính và hành vi:
+
+```mermaid
+classDiagram
+    class SinhVien {
+        +String ten
+        +int tuoi
+        +gioiThieu()
+    }
+```
+
 ---
 
 ## Vì sao Java hướng đối tượng?
@@ -135,6 +146,16 @@ OOP dựa trên bốn nguyên lý cốt lõi, thường gọi là **4 trụ cộ
 4. **Trừu tượng** (Abstraction)
 
 Dưới đây là giới thiệu ngắn gọn; bạn sẽ học chi tiết từng trụ cột ở chủ đề OOP tiếp theo.
+
+Sơ đồ bốn trụ cột của OOP:
+
+```mermaid
+flowchart TD
+    O["OOP"] --> E["Đóng gói<br/>(Encapsulation)"]
+    O --> I["Kế thừa<br/>(Inheritance)"]
+    O --> P["Đa hình<br/>(Polymorphism)"]
+    O --> A["Trừu tượng<br/>(Abstraction)"]
+```
 
 ---
 

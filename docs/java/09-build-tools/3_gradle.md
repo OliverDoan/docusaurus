@@ -179,6 +179,15 @@ gradle tasks
 
 > **Ví dụ đời thường:** Task giống từng "việc nhà" cụ thể: rửa bát, quét nhà, đổ rác. Gradle quản lý danh sách việc và biết việc nào phải làm trước việc nào (ví dụ phải nấu xong mới rửa bát được).
 
+Sơ đồ dưới minh hoạ quan hệ phụ thuộc giữa các task khi chạy `gradle build`:
+
+```mermaid
+flowchart LR
+    A["compileJava<br/>(biên dịch)"] --> B["test<br/>(chạy test)"]
+    B --> C["jar<br/>(đóng gói)"]
+    C --> D["build<br/>(gộp tất cả)"]
+```
+
 ---
 
 ## Gradle Wrapper

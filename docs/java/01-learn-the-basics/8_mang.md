@@ -67,6 +67,13 @@ System.out.println("Điểm trung bình: " + (tong / diem.length));
 
 Đặc điểm quan trọng: mảng có **kích thước cố định** (fixed size — số lượng phần tử không đổi sau khi tạo).
 
+Sơ đồ một mảng 4 phần tử — chỉ số đếm từ 0 đến length - 1:
+
+```mermaid
+flowchart LR
+    I0["Chỉ số 0<br/>giá trị 10"] --- I1["Chỉ số 1<br/>giá trị 20"] --- I2["Chỉ số 2<br/>giá trị 30"] --- I3["Chỉ số 3<br/>giá trị 40"]
+```
+
 ---
 
 ## Khai báo và khởi tạo mảng

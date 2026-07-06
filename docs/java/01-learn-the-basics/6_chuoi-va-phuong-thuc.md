@@ -123,6 +123,14 @@ public class ViDuBatBien {
 
 Đây là điểm rất hay khiến người mới bối rối: gọi phương thức trên chuỗi KHÔNG làm thay đổi chuỗi gốc, mà trả về chuỗi mới. Bạn phải **gán lại** nếu muốn dùng kết quả.
 
+Sơ đồ minh hoạ tính bất biến — thao tác trên chuỗi tạo ra chuỗi mới, chuỗi gốc giữ nguyên:
+
+```mermaid
+flowchart LR
+    S["Chuỗi gốc: Hello"] -->|"gọi toUpperCase()"| N["Tạo chuỗi MỚI: HELLO"]
+    S -->|"không bị thay đổi"| K["Chuỗi gốc vẫn là Hello"]
+```
+
 ---
 
 ## Các phương thức phổ biến

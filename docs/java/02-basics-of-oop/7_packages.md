@@ -118,6 +118,16 @@ src/
 Quy tắc: `com.myapp.util` → thư mục `com/myapp/util/`. Nếu đặt sai chỗ, trình biên dịch sẽ
 báo lỗi.
 
+Sơ đồ minh hoạ cách tên package ánh xạ sang cấu trúc thư mục (mỗi dấu chấm là một cấp thư mục):
+
+```mermaid
+flowchart TD
+    SRC["src/"] --> COM["com/"]
+    COM --> APP["myapp/"]
+    APP --> UTIL["util/"]
+    UTIL --> CALC["Calculator.java<br/>package com.myapp.util"]
+```
+
 ---
 
 ## import — Sử dụng class ở package khác

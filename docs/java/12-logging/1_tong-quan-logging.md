@@ -112,6 +112,15 @@ logger.warn("Bộ nhớ đệm gần đầy: {}%", phanTram);   // cảnh báo
 logger.error("Thanh toán thất bại cho đơn {}", id); // lỗi
 ```
 
+Sơ đồ dưới minh hoạ cách một log bị lọc theo ngưỡng level (ví dụ ngưỡng đặt là `INFO`):
+
+```mermaid
+flowchart TD
+    A["Log phát ra<br/>(TRACE tới ERROR)"] --> B{"Level >= ngưỡng<br/>(vd: INFO)?"}
+    B -->|"Có: INFO, WARN, ERROR"| C["Được ghi ra đích"]
+    B -->|"Không: TRACE, DEBUG"| D["Bị bỏ qua"]
+```
+
 ---
 
 ## Facade và Implementation
@@ -138,6 +147,17 @@ mai muốn đổi sang Log4j2 thì chỉ cần đổi thư viện, KHÔNG phải
 ```text
 [Code của bạn]  -->  [SLF4J: facade]  -->  [Logback hoặc Log4j2: implementation]
                        (ổ cắm chuẩn)         (nhà máy điện thật)
+```
+
+Sơ đồ dưới cho thấy code chỉ nói chuyện với facade SLF4J, còn implementation nào đứng sau có thể thay đổi tự do:
+
+```mermaid
+flowchart LR
+    A["Code của bạn<br/>logger.info(...)"] --> B["SLF4J<br/>(facade / ổ cắm chuẩn)"]
+    B --> C["Logback<br/>(implementation)"]
+    B --> D["Log4j2<br/>(implementation)"]
+    C --> E["Đích: Console / File"]
+    D --> E
 ```
 
 ---

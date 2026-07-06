@@ -164,6 +164,27 @@ lopHoc.get("Lớp A").add("An");
 lopHoc.get("Lớp A").add("Bình");
 ```
 
+Nhìn tổng thể cây phân cấp Collection Framework (mọi interface đều nhận generic `<E>` hoặc `<K, V>`; lưu ý `Map` là nhánh **riêng**, không thuộc `Collection`):
+
+```mermaid
+classDiagram
+    Iterable <|-- Collection
+    Collection <|-- List
+    Collection <|-- Set
+    Collection <|-- Queue
+    List <|-- ArrayList
+    Set <|-- HashSet
+    Queue <|-- Deque
+    class Collection {
+        <<interface>>
+    }
+    class Map {
+        <<interface>>
+        +put(k, v)
+        +get(k)
+    }
+```
+
 ---
 
 ## Wildcard — dấu hỏi ?

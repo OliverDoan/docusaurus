@@ -79,6 +79,15 @@ Vấn đề lớn nhất khi dùng thư viện là **phụ thuộc lồng nhau (
 
 Công cụ build sẽ **tự động tải cả "cây" phụ thuộc** đó cho bạn. Bạn chỉ cần khai báo thư viện A, nó sẽ tự kéo về B và C.
 
+Sơ đồ dưới minh hoạ cách một khai báo duy nhất kéo theo cả cây phụ thuộc lồng nhau:
+
+```mermaid
+flowchart TD
+    P["Dự án của bạn<br/>(your project)"] --> A["Thư viện A<br/>(khai báo trực tiếp)"]
+    A --> B["Thư viện B<br/>(transitive)"]
+    B --> C["Thư viện C<br/>(transitive)"]
+```
+
 Nó cũng giải quyết **xung đột phiên bản (version conflict)**: nếu thư viện X cần `gson 2.8` còn thư viện Y cần `gson 2.10`, công cụ build sẽ chọn một phiên bản phù hợp thay vì để chương trình lỗi.
 
 ---
@@ -98,6 +107,16 @@ Nó cũng giải quyết **xung đột phiên bản (version conflict)**: nếu 
 > **Ví dụ đời thường:** Giống quy trình làm bánh: nhào bột (compile) → nướng thử một cái để nếm (test) → đóng hộp (package) → cất vào tủ nhà mình (install) → giao ra cửa hàng (deploy). Các bước này có thứ tự: không thể đóng hộp khi chưa nướng xong.
 
 Một đặc điểm quan trọng: các bước này **chạy tuần tự**. Khi bạn gọi bước `package`, công cụ build sẽ tự động chạy luôn các bước trước đó (`compile`, `test`).
+
+Sơ đồ dưới minh hoạ thứ tự các bước trong vòng đời build:
+
+```mermaid
+flowchart LR
+    A["compile<br/>(biên dịch)"] --> B["test<br/>(kiểm thử)"]
+    B --> C["package<br/>(đóng gói)"]
+    C --> D["install<br/>(cài kho cục bộ)"]
+    D --> E["deploy<br/>(triển khai)"]
+```
 
 ---
 

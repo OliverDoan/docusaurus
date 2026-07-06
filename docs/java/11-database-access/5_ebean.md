@@ -89,6 +89,20 @@ So sánh nhanh:
 > Ví dụ đời thường: Active Record giống như nhân viên **tự nộp báo cáo** lên hệ
 > thống (`báo_cáo.nộp()`), thay vì đưa cho thư ký nộp hộ (`thư_ký.nộp(báo_cáo)`).
 
+Sơ đồ dưới so sánh trực quan hai phong cách: bên trái đối tượng thụ động cần
+"kho" trung gian, bên phải đối tượng tự lưu chính nó:
+
+```mermaid
+flowchart LR
+    subgraph Repo["Kiểu Repository (Hibernate)"]
+        U1["user (thụ động)"] --> RP["repository.save(user)"]
+        RP --> DB1["CSDL"]
+    end
+    subgraph AR["Kiểu Active Record (EBean)"]
+        U2["user.save() (chủ động)"] --> DB2["CSDL"]
+    end
+```
+
 ---
 
 ## Khai báo Model

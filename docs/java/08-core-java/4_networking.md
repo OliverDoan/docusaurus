@@ -175,6 +175,20 @@ public class SimpleClient {
 
 > **Cách chạy thử**: Chạy `SimpleServer` trước (nó sẽ đứng chờ), sau đó chạy `SimpleClient` ở một cửa sổ khác.
 
+Sơ đồ tuần tự dưới đây mô tả một lượt trao đổi giữa client và server qua TCP:
+
+```mermaid
+sequenceDiagram
+    participant C as "Client (Socket)"
+    participant S as "Server (ServerSocket)"
+    S->>S: "new ServerSocket(5000)<br/>lắng nghe cổng"
+    C->>S: "new Socket(host, 5000)<br/>yêu cầu kết nối"
+    S->>S: "accept()<br/>chấp nhận kết nối"
+    C->>S: "out.println(tin nhắn)<br/>gửi dữ liệu"
+    S->>C: "out.println(phản hồi)<br/>trả kết quả"
+    C->>S: "đóng Socket<br/>kết thúc"
+```
+
 ---
 
 ## Gọi HTTP với HttpClient (Java 11+)

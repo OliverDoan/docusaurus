@@ -145,6 +145,18 @@ public class ViDuElseIf {
 
 Java xét từ trên xuống, gặp điều kiện đúng **đầu tiên** thì chạy nhánh đó rồi bỏ qua phần còn lại.
 
+Sơ đồ luồng rẽ nhánh của ví dụ xếp loại điểm:
+
+```mermaid
+flowchart TD
+    A{"diem >= 90 ?"} -->|"Đúng"| G["Xep loai: Gioi"]
+    A -->|"Sai"| B{"diem >= 70 ?"}
+    B -->|"Đúng"| K["Xep loai: Kha"]
+    B -->|"Sai"| C{"diem >= 50 ?"}
+    C -->|"Đúng"| TB["Xep loai: Trung binh"]
+    C -->|"Sai"| Y["Xep loai: Yeu"]
+```
+
 ---
 
 ## Toán tử ba ngôi

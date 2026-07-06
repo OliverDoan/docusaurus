@@ -230,6 +230,24 @@ Lưu ý: bạn **không hề viết một dòng SQL nào**. Hibernate tự sinh 
 tham số hóa** (giống `PreparedStatement`), nên **an toàn trước SQL injection**
 một cách mặc định.
 
+Sơ đồ tuần tự dưới cho thấy Hibernate đứng giữa ứng dụng và CSDL, tự sinh SQL
+khi bạn thao tác bằng đối tượng:
+
+```mermaid
+sequenceDiagram
+    participant App as "Ứng dụng"
+    participant S as "Session"
+    participant H as "Hibernate"
+    participant DB as "Cơ sở dữ liệu"
+    App->>S: persist đối tượng user
+    S->>H: theo dõi đối tượng trong phiên
+    App->>S: commit transaction
+    H->>H: tự sinh câu SQL INSERT
+    H->>DB: gửi SQL đã tham số hóa
+    DB-->>H: trả kết quả
+    H-->>App: hoàn tất, không cần viết SQL tay
+```
+
 ---
 
 ## HQL — truy vấn theo đối tượng
@@ -282,6 +300,24 @@ try (Session session = sessionFactory.openSession()) {
 
 Ngược lại với lazy là **eager loading** (tải háo hức — tải luôn mọi thứ ngay).
 Lazy thường tiết kiệm hơn, nhưng cẩn thận lỗi ở phần dưới.
+
+Sơ đồ quan hệ dưới minh hoạ cách một `User` ánh xạ tới bảng `users` và gắn với
+nhiều `Order` (quan hệ một - nhiều) qua khóa ngoại:
+
+```mermaid
+erDiagram
+    USERS ||--o{ ORDERS : "có nhiều đơn hàng"
+    USERS {
+        bigint id PK
+        varchar name
+        varchar email
+    }
+    ORDERS {
+        bigint id PK
+        bigint user_id FK
+        decimal total
+    }
+```
 
 ---
 

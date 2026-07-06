@@ -154,6 +154,16 @@ public class GioHangSteps {
 
 Mỗi câu trong feature file được Cucumber khớp với một phương thức `@Given/@When/@Then` tương ứng. Đây là "cầu nối" giữa tiếng tự nhiên và code thật.
 
+Sơ đồ dưới đây minh hoạ cách Cucumber nối kịch bản Gherkin với code nghiệp vụ thật:
+
+```mermaid
+flowchart LR
+    A["Feature file<br/>(.feature, Gherkin)"] --> B["Cucumber-JVM<br/>(đọc kịch bản)"]
+    B --> C["Step Definition<br/>(@Given/@When/@Then)"]
+    C --> D["Code nghiệp vụ thật<br/>(CheckoutService...)"]
+    D --> E["Báo cáo pass/fail<br/>bằng tiếng tự nhiên"]
+```
+
 ## Chạy test với Cucumber
 
 Để JUnit 5 nhận và chạy các feature file, ta tạo một lớp khởi chạy (runner) với cấu hình trỏ tới thư mục feature:

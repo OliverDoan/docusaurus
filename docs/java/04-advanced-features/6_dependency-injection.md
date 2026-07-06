@@ -187,6 +187,28 @@ public class Main {
 }
 ```
 
+Sơ đồ dưới đây minh hoạ `OrderService` chỉ phụ thuộc vào interface `PaymentService`, còn các triển khai cụ thể được tiêm từ ngoài vào:
+
+```mermaid
+classDiagram
+    class PaymentService {
+        <<interface>>
+        +thanhToan(soTien)
+    }
+    class CardPayment {
+        +thanhToan(soTien)
+    }
+    class PayPalPayment {
+        +thanhToan(soTien)
+    }
+    class OrderService {
+        +datHang(soTien)
+    }
+    CardPayment ..|> PaymentService
+    PayPalPayment ..|> PaymentService
+    OrderService --> PaymentService : "tiêm qua<br/>constructor"
+```
+
 Lưu ý: ngoài Constructor Injection, còn có Setter Injection (tiêm qua phương thức set) và Field Injection (tiêm trực tiếp vào field), nhưng Constructor Injection được ưa chuộng nhất vì giúp phụ thuộc bắt buộc và bất biến (`final`).
 
 ---

@@ -112,6 +112,16 @@ public class Main {
 
 Điểm mấu chốt: kiểu trả về của phương thức phải là chính lớp đó (`LyCaPhe`), và câu lệnh cuối là `return this;`.
 
+Sơ đồ luồng gọi chuỗi: mỗi phương thức trả về `this` nên có thể gọi tiếp phương thức kế tiếp trên cùng đối tượng:
+
+```mermaid
+flowchart LR
+    A["new LyCaPhe()"] --> B["themDuong()<br/>return this"]
+    B --> C["themSua()<br/>return this"]
+    C --> D["khuay()<br/>return this"]
+    D --> E["in()<br/>in ket qua"]
+```
+
 ---
 
 ## So sánh cách viết thông thường và chaining

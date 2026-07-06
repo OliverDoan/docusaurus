@@ -110,6 +110,16 @@ Trong Java, vì "hàm" không phải là một thứ độc lập như trong Jav
 
 Hãy nhớ ý chính: thay vì truyền **dữ liệu** (số, chuỗi), hàm bậc cao cho phép ta truyền **hành vi** (việc cần làm).
 
+Sơ đồ dưới đây minh hoạ luồng dữ liệu và hành vi đi qua một hàm bậc cao:
+
+```mermaid
+flowchart LR
+    A["Dữ liệu<br/>(list, số, chuỗi...)"] --> C
+    B["Hành vi<br/>(lambda / method reference)"] --> C
+    C["Higher-order function<br/>(nhận hàm làm tham số)"] --> D["Kết quả<br/>(đã xử lý theo hành vi)"]
+    C -. hoặc .-> E["Trả về<br/>một hàm mới"]
+```
+
 ---
 
 ## Ví dụ đời thường dễ hiểu

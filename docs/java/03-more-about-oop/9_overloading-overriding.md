@@ -187,6 +187,23 @@ public class Main {
 }
 ```
 
+Sơ đồ minh hoạ overriding: mỗi lớp con viết lại `keu()` của lớp cha để có hành vi riêng (mũi tên trỏ về lớp cha):
+
+```mermaid
+classDiagram
+    DongVat <|-- Cho
+    DongVat <|-- Meo
+    class DongVat {
+        +keu()
+    }
+    class Cho {
+        +keu()
+    }
+    class Meo {
+        +keu()
+    }
+```
+
 ---
 
 ## Annotation @Override

@@ -87,6 +87,21 @@ Truyền thống:  1 platform thread  ── gắn ──  1 OS thread (nặng)
 Luồng ảo:      nhiều virtual thread ── chia sẻ ── ít platform thread → ít OS thread
 ```
 
+Sơ đồ dưới so sánh trực quan hai mô hình ánh xạ luồng:
+
+```mermaid
+flowchart TB
+    subgraph PT["Platform thread (nặng)"]
+        P1["Platform thread"] -->|"gắn 1-1"| OS1["OS thread"]
+    end
+    subgraph VT["Virtual thread (nhẹ)"]
+        V1["Virtual thread 1"] --> Carrier["Vài carrier thread"]
+        V2["Virtual thread 2"] --> Carrier
+        V3["Hàng triệu virtual thread"] --> Carrier
+        Carrier -->|"chia sẻ"| OS2["Ít OS thread"]
+    end
+```
+
 ---
 
 ## Vì sao virtual thread nhẹ?

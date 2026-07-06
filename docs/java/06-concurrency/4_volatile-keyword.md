@@ -104,6 +104,19 @@ Khi một biến là `volatile`:
 
 Nhờ vậy, thay đổi của một luồng **luôn hiển thị** với các luồng khác ngay lập tức. Đây gọi là bảo đảm **visibility (hiển thị)**.
 
+Sơ đồ dưới minh hoạ luồng đọc/ghi biến `volatile` đi thẳng tới bộ nhớ chính, không qua cache riêng:
+
+```mermaid
+sequenceDiagram
+    participant Main as "Luồng Main"
+    participant M as "Bộ nhớ chính (RAM)"
+    participant W as "Luồng Worker"
+    Main->>M: "ghi volatile running = false (đẩy thẳng RAM)"
+    W->>M: "đọc volatile running (lấy thẳng RAM)"
+    M-->>W: "trả về false"
+    Note over Main,W: "Nhờ volatile, Worker thấy NGAY giá trị mới nên dừng đúng"
+```
+
 ---
 
 ## Ví dụ: cờ dừng luồng

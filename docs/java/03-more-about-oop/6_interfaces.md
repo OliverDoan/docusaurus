@@ -140,6 +140,24 @@ public class Main {
 }
 ```
 
+Sơ đồ minh hoạ interface `CoTheBay` được nhiều lớp không họ hàng cùng triển khai (mũi tên nét đứt thể hiện quan hệ `implements`):
+
+```mermaid
+classDiagram
+    CoTheBay <|.. Chim
+    CoTheBay <|.. MayBay
+    class CoTheBay {
+        <<interface>>
+        +bay()
+    }
+    class Chim {
+        +bay()
+    }
+    class MayBay {
+        +bay()
+    }
+```
+
 ---
 
 ## Interface như một hợp đồng
@@ -243,7 +261,25 @@ public class Vit implements CoTheBay, CoTheBoi {
 }
 ```
 
-Nhờ vậy, một đối tượng có thể đóng nhiều "vai trò" khác nhau.
+Nhờ vậy, một đối tượng có thể đóng nhiều "vai trò" khác nhau. Sơ đồ dưới minh hoạ `Vit` triển khai cùng lúc hai interface — điều mà kế thừa lớp không làm được:
+
+```mermaid
+classDiagram
+    CoTheBay <|.. Vit
+    CoTheBoi <|.. Vit
+    class CoTheBay {
+        <<interface>>
+        +bay()
+    }
+    class CoTheBoi {
+        <<interface>>
+        +boi()
+    }
+    class Vit {
+        +bay()
+        +boi()
+    }
+```
 
 ---
 

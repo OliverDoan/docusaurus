@@ -140,6 +140,16 @@ class OrderServiceIntegrationTest {
 
 Khác với unit test (tạo đối tượng bằng `new` và mock thủ công), `@SpringBootTest` dùng **đối tượng thật do Spring tạo**, kết nối thật với nhau.
 
+Sơ đồ dưới đây minh hoạ integration test kiểm tra cả luồng qua nhiều tầng **thật** (không mock):
+
+```mermaid
+flowchart LR
+    T["Integration Test"] --> C["Controller"]
+    C --> S["Service"]
+    S --> R["Repository"]
+    R --> DB["Database thật<br/>(Testcontainers / H2)"]
+```
+
 ## Vấn đề: test với database
 
 Integration test thường cần một **database thật** để kiểm tra câu truy vấn. Nhưng dùng database production (thật của hệ thống) thì rất nguy hiểm: test có thể làm hỏng dữ liệu thật.

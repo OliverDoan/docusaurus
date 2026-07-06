@@ -169,6 +169,16 @@ writer.format = {date: yyyy-MM-dd HH:mm:ss} {level}: {class}.{method}() - {messa
 Trong TinyLog, **writer** chính là khái niệm tương đương với "appender" của Logback —
 nó quyết định log được ghi ra đâu (console, file...).
 
+Sơ đồ dưới minh hoạ luồng ghi log tối giản của TinyLog: gọi thẳng `Logger.info` rồi writer đưa log tới đích:
+
+```mermaid
+flowchart LR
+    A["Logger.info(...)<br/>(gọi thẳng, static)"] --> B["TinyLog<br/>(tinylog-impl)"]
+    B --> C["Writer<br/>(tương đương appender)"]
+    C --> D["console<br/>→ Màn hình"]
+    C --> E["file / rolling file<br/>→ File"]
+```
+
 Các trường định dạng hay dùng:
 
 | Trường | Ý nghĩa |

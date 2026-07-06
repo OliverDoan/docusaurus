@@ -110,6 +110,23 @@ Hãy ví von: nấu cơm.
 - **Spring Boot kiểu cũ**: mỗi lần ăn mới đi chợ, sơ chế, rồi nấu (chậm).
 - **Quarkus**: chuẩn bị sẵn nguyên liệu từ trước, lúc ăn chỉ việc hâm nóng (nhanh).
 
+Sơ đồ dưới đây minh hoạ cách Quarkus dời phần lớn công việc sang lúc build:
+
+```mermaid
+flowchart LR
+    subgraph BT["Lúc build (build-time)"]
+        A["Quét class"]
+        B["Đọc cấu hình"]
+        C["Chuẩn bị sẵn đối tượng"]
+    end
+    subgraph RT["Lúc chạy (runtime)"]
+        D["Chỉ bật lên<br/>phục vụ request ngay"]
+    end
+    A --> RT
+    B --> RT
+    C --> RT
+```
+
 ## Native Image với GraalVM
 
 **GraalVM** là một công nghệ (do Oracle phát triển) cho phép biên dịch chương trình

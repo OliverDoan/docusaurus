@@ -173,6 +173,26 @@ public class MayBay extends PhuongTien {
 
 Mỗi lớp con triển khai `diChuyen()` theo cách riêng. Đây chính là sức mạnh của trừu tượng.
 
+Sơ đồ dưới minh hoạ lớp trừu tượng `PhuongTien` làm khuôn (dấu `*` đánh dấu phương thức trừu tượng), các lớp con cài đặt riêng (mũi tên trỏ về lớp cha):
+
+```mermaid
+classDiagram
+    PhuongTien <|-- XeMay
+    PhuongTien <|-- MayBay
+    class PhuongTien {
+        <<abstract>>
+        +String ten
+        +diChuyen()*
+        +khoiDong()
+    }
+    class XeMay {
+        +diChuyen()
+    }
+    class MayBay {
+        +diChuyen()
+    }
+```
+
 ---
 
 ## Vì sao cần trừu tượng?

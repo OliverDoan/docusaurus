@@ -90,6 +90,16 @@ Một kịch bản test JMeter (gọi là **Test Plan** — kế hoạch test) �
 - **Listener (bộ lắng nghe)**: thu thập và hiển thị kết quả.
 - **Config Element / Timer / Assertion**: cấu hình bổ trợ, độ trễ, và kiểm tra phản hồi.
 
+Sơ đồ cây các thành phần chính của một Test Plan trong JMeter:
+
+```mermaid
+flowchart TD
+    TP["Test Plan<br/>(gốc cấu hình)"] --> TG["Thread Group<br/>(người dùng ảo)"]
+    TG --> SP["Sampler<br/>(gửi HTTP Request)"]
+    SP --> AS["Assertion<br/>(kiểm tra phản hồi)"]
+    TG --> LS["Listener<br/>(thu thập kết quả)"]
+```
+
 ## Thread Group: mô phỏng người dùng
 
 **Thread Group (nhóm luồng)** là thành phần quan trọng nhất — nó định nghĩa **bao nhiêu người dùng ảo** và **cách họ gửi yêu cầu**. Mỗi "thread" (luồng) đại diện cho một người dùng ảo.

@@ -99,6 +99,15 @@ java_binary(
 
 > **Ví dụ đời thường:** Mỗi file `BUILD` giống bản kê khai nguyên liệu cho từng món ăn: món này cần đúng những nguyên liệu nào. Nhờ kê khai chính xác, đầu bếp biết khi nguyên liệu A đổi thì chỉ phải nấu lại đúng những món dùng A.
 
+Sơ đồ dưới minh hoạ quan hệ giữa các target khai báo trong file `BUILD` ở trên:
+
+```mermaid
+flowchart TD
+    APP["java_binary<br/>target: app"] --> MAIN["Main.java<br/>(hàm main)"]
+    APP --> GRT["java_library<br/>target: greeter"]
+    GRT --> SRC["Greeter.java<br/>(mã nguồn)"]
+```
+
 ---
 
 ## Build tăng tiến (Incremental)

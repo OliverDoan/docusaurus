@@ -147,6 +147,16 @@ public class PipelineStructure {
 2. **Thao tác trung gian (Intermediate)**: biến đổi stream, trả về stream khác → có thể nối nhiều cái.
 3. **Thao tác kết thúc (Terminal)**: tạo ra kết quả cuối (list, số, in ra...) → kết thúc pipeline.
 
+Sơ đồ dưới đây minh hoạ dữ liệu chảy qua một pipeline Stream điển hình từ nguồn tới kết quả:
+
+```mermaid
+flowchart LR
+    A["Nguồn<br/>list.stream()"] --> B["filter<br/>(lọc phần tử)"]
+    B --> C["map<br/>(biến đổi)"]
+    C --> D["distinct<br/>(bỏ trùng)"]
+    D --> E["collect<br/>(gom kết quả)"]
+```
+
 ---
 
 ## Cách tạo Stream

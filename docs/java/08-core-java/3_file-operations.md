@@ -148,6 +148,19 @@ public class PathDemo {
 
 > **Mẹo**: `Paths.get(...)` tạo `Path`. Từ Java 11 có thể viết gọn `Path.of(...)`.
 
+Sơ đồ dưới đây tóm tắt luồng thao tác file thường gặp với `Path` và `Files`:
+
+```mermaid
+flowchart TD
+    A["Path.of(...)<br/>đường dẫn"] --> B{"Files.exists?"}
+    B -->|"chưa có"| C["Files.createFile<br/>tạo file rỗng"]
+    B -->|"đã có"| D{"Cần làm gì"}
+    D -->|"đọc"| E["Files.readAllLines<br/>(file nhỏ)"]
+    D -->|"ghi"| F["Files.write /<br/>writeString"]
+    D -->|"xóa"| G["Files.deleteIfExists"]
+    E --> H["Xử lý dữ liệu"]
+```
+
 ---
 
 ## Kiểm tra tồn tại, tạo, xóa file

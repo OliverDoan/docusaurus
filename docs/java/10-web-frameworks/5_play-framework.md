@@ -139,6 +139,18 @@ Ví von như làm một bộ phim:
 - **Controller**: đạo diễn điều phối mọi thứ (nhận yêu cầu, ghép dữ liệu với giao
   diện).
 
+Sơ đồ dưới đây minh hoạ cách Controller điều phối giữa Model và View:
+
+```mermaid
+flowchart LR
+    Client["Client"] -->|"Request"| Controller["Controller<br/>(điều phối)"]
+    Controller -->|"Lấy dữ liệu"| Model["Model<br/>(dữ liệu)"]
+    Model --> Controller
+    Controller -->|"Chọn giao diện"| View["View<br/>(template HTML)"]
+    View --> Controller
+    Controller -->|"Response"| Client
+```
+
 ## Play hỗ trợ cả Java và Scala
 
 Play là framework đặc biệt vì hỗ trợ tốt cả hai ngôn ngữ:

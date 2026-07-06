@@ -195,6 +195,22 @@ public class DatHang {
 }
 ```
 
+Sơ đồ dưới đây minh hoạ quan hệ `requires` và `exports` giữa hai module (package `internal` bị giấu kín):
+
+```mermaid
+flowchart LR
+    subgraph Order["module com.shop.order"]
+        O["DatHang"]
+    end
+    subgraph Payment["module com.shop.payment"]
+        API["package api<br/>(exports)"]
+        INT["package internal<br/>(bị giấu kín)"]
+    end
+    O -->|"requires"| Payment
+    O -->|"dùng được"| API
+    O -.->|"KHÔNG truy cập được"| INT
+```
+
 ---
 
 ## Vì sao cần module?

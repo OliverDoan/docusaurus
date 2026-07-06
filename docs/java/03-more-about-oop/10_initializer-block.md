@@ -196,6 +196,16 @@ Static block dùng để khởi tạo các thuộc tính `static` (dữ liệu d
 
 Nếu có kế thừa, thứ tự đầy đủ phức tạp hơn: phần static của lớp cha trước lớp con, rồi đến instance của cha trước con.
 
+Sơ đồ minh hoạ thứ tự thực thi (phần static chỉ chạy lần đầu khi lớp được nạp):
+
+```mermaid
+flowchart TD
+    A["Nap lop (chi lan dau)"] --> B["Static field<br/>+ static block"]
+    B --> C["new doi tuong"]
+    C --> D["Instance field<br/>+ instance block"]
+    D --> E["Constructor"]
+```
+
 ---
 
 ## Ví dụ minh họa thứ tự đầy đủ

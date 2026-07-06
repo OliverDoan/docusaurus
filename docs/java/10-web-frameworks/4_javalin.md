@@ -109,6 +109,19 @@ Giải thích thêm: `ctx ->  ...` là một **lambda** (hàm ẩn danh — vi�
 không cần đặt tên). Phần `ctx` là tham số tên là **context** (ngữ cảnh — đối tượng
 chứa thông tin về request hiện tại và công cụ để tạo response).
 
+Sơ đồ dưới đây minh hoạ luồng một request trong Javalin:
+
+```mermaid
+sequenceDiagram
+    participant C as "Client"
+    participant App as "Javalin app"
+    participant H as "Handler (ctx -> ...)"
+    C->>App: "GET /"
+    App->>H: "Gọi handler khớp route"
+    H-->>App: "ctx.result(...) / ctx.json(...)"
+    App-->>C: "HTTP Response"
+```
+
 ## Định nghĩa các route
 
 **Route** (tuyến đường — sự kết hợp giữa một method và một đường dẫn cùng cách xử

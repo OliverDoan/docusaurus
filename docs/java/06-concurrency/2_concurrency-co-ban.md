@@ -237,6 +237,16 @@ public class ViDuDeadlock {
 }
 ```
 
+Sơ đồ dưới minh hoạ **vòng chờ (circular wait)** khiến hai luồng kẹt nhau mãi:
+
+```mermaid
+flowchart LR
+    An["Luồng An<br/>đang giữ thìa"] -->|"chờ dĩa"| Dia["Tài nguyên dĩa"]
+    Binh["Luồng Bình<br/>đang giữ dĩa"] -->|"chờ thìa"| Thia["Tài nguyên thìa"]
+    Dia -.->|"đang bị Bình giữ"| Binh
+    Thia -.->|"đang bị An giữ"| An
+```
+
 **Cách tránh deadlock**: luôn khóa các tài nguyên theo **cùng một thứ tự**. Nếu cả hai luồng đều khóa `thia` trước rồi mới `dia`, sẽ không bao giờ kẹt.
 
 ---

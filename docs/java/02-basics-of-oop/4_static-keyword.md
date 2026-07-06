@@ -100,6 +100,18 @@ object nào.
 | Truy cập qua | `object.thanhVien` | `Class.thanhVien` |
 | Cần tạo object trước? | Có | Không |
 
+Sơ đồ minh hoạ: biến `static` chỉ có MỘT bản dùng chung, còn mỗi object giữ dữ liệu instance riêng:
+
+```mermaid
+flowchart TD
+    C["Class Student"]
+    C --> S["static totalStudents<br/>(1 bản dùng chung)"]
+    C --> O1["object An<br/>name riêng"]
+    C --> O2["object Bình<br/>name riêng"]
+    O1 -.->|"cùng tăng"| S
+    O2 -.->|"cùng tăng"| S
+```
+
 ---
 
 ## Biến static

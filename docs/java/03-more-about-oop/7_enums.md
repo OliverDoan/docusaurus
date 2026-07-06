@@ -97,6 +97,18 @@ public class Main {
 }
 ```
 
+Sơ đồ minh hoạ enum `Mau` là một kiểu riêng với tập hằng giá trị cố định:
+
+```mermaid
+classDiagram
+    class Mau {
+        <<enumeration>>
+        DO
+        XANH
+        VANG
+    }
+```
+
 ---
 
 ## Vì sao dùng enum thay vì chuỗi/số?

@@ -273,6 +273,20 @@ public class LifecycleTest {
 }
 ```
 
+Sơ đồ thứ tự chạy các annotation vòng đời trong TestNG:
+
+```mermaid
+flowchart TD
+    A["@BeforeSuite"] --> B["@BeforeClass"]
+    B --> C["@BeforeMethod<br/>(trước mỗi test)"]
+    C --> D["@Test"]
+    D --> E["@AfterMethod<br/>(sau mỗi test)"]
+    E --> F{"Còn test?"}
+    F -->|"Có"| C
+    F -->|"Hết"| G["@AfterClass"]
+    G --> H["@AfterSuite"]
+```
+
 ## So sánh TestNG với JUnit
 
 | Tiêu chí | JUnit 5 | TestNG |

@@ -134,6 +134,27 @@ Java cung cấp sẵn nhiều functional interface trong gói `java.util.functio
 | `Predicate<T>` | 1 giá trị kiểu T | `boolean` | `test` |
 | `BiFunction<T, U, R>` | 2 giá trị kiểu T và U | 1 giá trị kiểu R | `apply` |
 
+Sơ đồ dưới đây tóm tắt năm functional interface và phương thức trừu tượng duy nhất của mỗi loại:
+
+```mermaid
+classDiagram
+    class Function~T, R~ {
+        +apply(T) R
+    }
+    class Consumer~T~ {
+        +accept(T) void
+    }
+    class Supplier~T~ {
+        +get() T
+    }
+    class Predicate~T~ {
+        +test(T) boolean
+    }
+    class BiFunction~T, U, R~ {
+        +apply(T, U) R
+    }
+```
+
 ### Function — nhận 1, trả về 1
 
 Dùng khi bạn cần **biến đổi** một giá trị thành giá trị khác.

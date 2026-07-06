@@ -105,6 +105,17 @@ Ba cái tên này hay gây rối cho người mới. Hãy phân biệt rõ:
 Đây là **cách phổ biến nhất** để truy cập CSDL khi dùng **Spring Boot** (khung
 làm việc back-end Java thông dụng nhất hiện nay).
 
+Sơ đồ dưới minh hoạ quan hệ xếp tầng giữa ba khái niệm: Spring Data JPA nằm
+trên cùng, tựa vào chuẩn JPA, và thường dùng Hibernate làm bản hiện thực bên dưới:
+
+```mermaid
+flowchart TD
+    SDJ["Spring Data JPA<br/>(lớp tiện ích - viết ít code)"] --> JPA["JPA<br/>(chuẩn - specification)"]
+    HB["Hibernate<br/>(bản hiện thực JPA)"] --> JPA
+    SDJ -.->|"thường dùng bên dưới"| HB
+    HB --> DB["Cơ sở dữ liệu"]
+```
+
 ---
 
 ## JPA là gì? (chuẩn chung)
@@ -320,6 +331,17 @@ public class UserService {
 
 Cách này tách bạch: **Repository** lo truy cập dữ liệu, **Service** lo logic
 nghiệp vụ. Code dễ test và dễ bảo trì.
+
+Sơ đồ dưới minh hoạ luồng dữ liệu qua các tầng trong một ứng dụng Spring Boot,
+từ Controller xuống tận CSDL:
+
+```mermaid
+flowchart LR
+    C["Controller<br/>(nhận yêu cầu)"] --> S["Service<br/>(logic nghiệp vụ)"]
+    S --> R["Repository<br/>(JpaRepository)"]
+    R --> J["JPA + Hibernate<br/>(sinh SQL)"]
+    J --> DB["Cơ sở dữ liệu"]
+```
 
 ---
 

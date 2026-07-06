@@ -88,6 +88,16 @@ public class HelloWorld {
 
 Quy tắc quan trọng: tên **file** (tệp tin) phải trùng với tên **class** (lớp — khối code chính) được khai báo `public`. Ví dụ class tên `HelloWorld` thì file phải là `HelloWorld.java`. Java phân biệt chữ HOA và chữ thường, nên `helloworld` khác `HelloWorld`.
 
+Sơ đồ cấu trúc lồng nhau của một file Java:
+
+```mermaid
+flowchart TD
+    F["File HelloWorld.java"] --> C["class HelloWorld { }"]
+    C --> M["Hàm main(String[] args) { }"]
+    M --> S1["Câu lệnh 1 (kết thúc bằng ;)"]
+    M --> S2["Câu lệnh 2 (kết thúc bằng ;)"]
+```
+
 ---
 
 ## Class — khối chứa code

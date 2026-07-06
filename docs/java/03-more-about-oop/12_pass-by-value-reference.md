@@ -141,6 +141,14 @@ Với đối tượng, biến không chứa chính đối tượng mà chứa **
 
 Kết quả: tham số trong hàm và biến gốc là **hai tham chiếu khác nhau**, nhưng cùng trỏ tới **một đối tượng**. Giống như hai tờ giấy ghi cùng một địa chỉ nhà — bạn vào nhà sửa đồ thì cả hai tờ giấy vẫn trỏ tới căn nhà đã bị sửa.
 
+Sơ đồ minh hoạ: biến gốc và tham số là hai tham chiếu (bản sao địa chỉ) khác nhau nhưng cùng trỏ về một đối tượng trong bộ nhớ:
+
+```mermaid
+flowchart LR
+    A["Bien goc<br/>(main)"] --> C["Doi tuong<br/>trong bo nho"]
+    B["Tham so trong ham<br/>(ban sao tham chieu)"] --> C
+```
+
 ---
 
 ## Ví dụ rõ ràng: thay đổi thuộc tính

@@ -149,6 +149,22 @@ public class ViDuVisibility {
 
 Đây là lỗi **rất nguy hiểm** vì máy này chạy đúng, máy khác lại treo, rất khó tìm ra.
 
+Sơ đồ dưới cho thấy vì sao `worker` không bao giờ thấy thay đổi từ `main`:
+
+```mermaid
+sequenceDiagram
+    participant W as "Luồng Worker"
+    participant C as "Cache CPU của Worker"
+    participant M as "Bộ nhớ chính (RAM)"
+    participant Main as "Luồng Main"
+    W->>C: "đọc dungLai lần đầu (nạp false vào cache)"
+    Main->>M: "ghi dungLai = true"
+    loop "Vòng lặp while(!dungLai)"
+        W->>C: "đọc lại từ cache: vẫn thấy false"
+    end
+    Note over W,M: "Worker không đọc lại RAM nên treo mãi mãi"
+```
+
 ---
 
 ## Quan hệ "xảy ra trước" (Happens-before)

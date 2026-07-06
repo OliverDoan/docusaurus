@@ -101,7 +101,15 @@ while (it.hasNext()) {
 // In ra: An, Bình, Cường
 ```
 
-Quy trình luôn là: kiểm tra `hasNext()` trước, nếu còn thì gọi `next()`.
+Quy trình luôn là: kiểm tra `hasNext()` trước, nếu còn thì gọi `next()`. Sơ đồ vòng lặp duyệt:
+
+```mermaid
+flowchart TD
+    S["Lay iterator:<br/>it = list.iterator()"] --> H{"it.hasNext()?<br/>con phan tu khong?"}
+    H -->|"true"| N["x = it.next()<br/>xu ly x"]
+    N --> H
+    H -->|"false"| E["Ket thuc duyet"]
+```
 
 ---
 

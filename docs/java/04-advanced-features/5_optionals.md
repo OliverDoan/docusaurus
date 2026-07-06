@@ -187,6 +187,15 @@ So sánh nhanh:
 - **`ifPresent(...)`** chạy hành động nếu có giá trị — gọn hơn dùng `if`.
 - **`orElse(...)`** cung cấp giá trị dự phòng khi rỗng.
 
+Sơ đồ dưới đây minh hoạ luồng xử lý một `Optional` theo hai nhánh có giá trị và rỗng:
+
+```mermaid
+flowchart TD
+    A["Optional&lt;T&gt;"] --> B{"Có giá trị?<br/>isPresent()"}
+    B -->|"Có (present)"| C["Lấy giá trị<br/>get() / ifPresent() / map()"]
+    B -->|"Rỗng (empty)"| D["Giá trị mặc định<br/>orElse() / orElseGet()"]
+```
+
 ---
 
 ## Biến đổi giá trị với map

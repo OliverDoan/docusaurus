@@ -127,6 +127,14 @@ của bạn, chiếc xe trắng của hàng xóm... Mỗi object có dữ liệu
 
 Một object còn được gọi là một **instance** (thể hiện — một bản cụ thể của class).
 
+Sơ đồ minh hoạ: từ MỘT class (khuôn mẫu), dùng `new` để tạo ra NHIỀU object độc lập:
+
+```mermaid
+flowchart LR
+    C["Class Car<br/>(khuôn mẫu)"] -->|"new Car()"| A["Object myCar<br/>color = Đỏ"]
+    C -->|"new Car()"| B["Object yourCar<br/>color = Trắng"]
+```
+
 ---
 
 ## Tạo đối tượng bằng từ khóa new

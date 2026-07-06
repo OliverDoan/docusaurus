@@ -222,6 +222,15 @@ public class Main {
 
 Câu thần chú: **"Kiểu khai báo quyết định gọi được method nào; kiểu thực quyết định chạy phần thân nào."**
 
+Sơ đồ minh hoạ cách Java quyết định dùng loại binding nào cho một lời gọi:
+
+```mermaid
+flowchart TD
+    A["Goi method"] --> B{"Method co bi override khong?<br/>(khong phai static, final, private)"}
+    B -->|"Co"| C["Dynamic binding<br/>chon theo kieu THUC cua object"]
+    B -->|"Khong"| D["Static binding<br/>chon theo kieu KHAI BAO"]
+```
+
 ---
 
 ## Trường hợp đặc biệt: static, final, private

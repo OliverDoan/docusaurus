@@ -237,6 +237,16 @@ Một số giá trị `ElementType` thường gặp: `TYPE` (lớp/interface), `
 
 Nhờ annotation, bạn chỉ cần "dán nhãn" mong muốn của mình, còn framework lo phần xử lý phức tạp phía sau.
 
+Sơ đồ dưới đây minh hoạ luồng framework xử lý annotation lúc chạy:
+
+```mermaid
+flowchart TD
+    A["Code có gắn<br/>annotation @Something"] --> B["Framework quét code<br/>(qua Reflection)"]
+    B --> C{"Tìm thấy<br/>annotation?"}
+    C -->|"Có"| D["Thực hiện hành động<br/>(tạo bean, ánh xạ URL,<br/>chạy test...)"]
+    C -->|"Không"| E["Bỏ qua"]
+```
+
 ---
 
 ## Lỗi thường gặp

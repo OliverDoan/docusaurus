@@ -81,6 +81,17 @@ mà trình duyệt và server dùng để nói chuyện với nhau. Nó hoạt �
 1. Trình duyệt gửi một **request** (yêu cầu): "Cho tôi xem trang sản phẩm".
 2. Server xử lý rồi gửi lại một **response** (phản hồi): "Đây là danh sách sản phẩm".
 
+Sơ đồ dưới đây minh hoạ luồng hỏi - đáp giữa trình duyệt và server:
+
+```mermaid
+sequenceDiagram
+    participant B as "Trình duyệt (Browser)"
+    participant S as "Server"
+    B->>S: "Request: GET /products"
+    Note over S: "Xử lý yêu cầu"
+    S-->>B: "Response: 200 OK + dữ liệu"
+```
+
 Mỗi request có một **method** (phương thức — loại hành động muốn làm). Các method
 phổ biến:
 

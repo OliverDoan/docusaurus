@@ -84,6 +84,16 @@ thứ vốn phải cố định.
 
 `final` áp dụng được cho ba thứ: **biến**, **phương thức**, và **class**.
 
+Sơ đồ minh hoạ ba đối tượng mà `final` có thể "khóa" lại:
+
+```mermaid
+flowchart TD
+    F["final<br/>(khóa lại, bất biến)"]
+    F --> V["Biến<br/>gán một lần (hằng số)"]
+    F --> M["Phương thức<br/>không cho override"]
+    F --> C["Class<br/>không cho kế thừa"]
+```
+
 ---
 
 ## Biến final (hằng số)

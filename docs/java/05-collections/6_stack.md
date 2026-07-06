@@ -93,6 +93,14 @@ pop     ->  trả về A
 
 Ngược lại với Queue (FIFO — vào trước ra trước), Stack lấy phần tử mới nhất ra trước.
 
+Sơ đồ luồng LIFO: cả `push` và `pop` đều diễn ra ở **đỉnh** (top):
+
+```mermaid
+flowchart TD
+    P["push(x)<br/>them vao DINH"] --> T["Ngan xep (dinh o tren)<br/>C (dinh)<br/>B<br/>A (day)"]
+    T --> O["pop()<br/>lay C ra TRUOC (LIFO)"]
+```
+
 ---
 
 ## Lớp Stack cũ của Java

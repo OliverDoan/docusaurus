@@ -63,6 +63,17 @@ if (tuoi >= 18 && diemThi >= 5.0) {
 
 **Toán tử** (operator — ký hiệu thực hiện một phép tính hoặc thao tác trên dữ liệu) ví dụ như `+`, `-`, `>`, `&&`. **Toán hạng** (operand — giá trị mà toán tử tác động lên) là các số/biến hai bên toán tử. Ví dụ trong `3 + 5`, dấu `+` là toán tử, `3` và `5` là toán hạng.
 
+Sơ đồ các nhóm toán tử chính trong Java:
+
+```mermaid
+flowchart TD
+    O["Toán tử trong Java"] --> A["Số học<br/>+ - * / %"]
+    O --> G["Gán<br/>= += -= *= /="]
+    O --> S["So sánh<br/>== != > < >= <="]
+    O --> L["Logic<br/>&& || !"]
+    O --> T["Tăng/giảm<br/>++ --"]
+```
+
 ---
 
 ## Toán tử số học

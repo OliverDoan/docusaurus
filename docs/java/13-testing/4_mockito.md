@@ -125,6 +125,21 @@ class UserServiceTest {
 
 Lưu ý: mock **không chạy** code thật của `UserRepository`. Nó chỉ làm đúng những gì ta "dạy" qua `when().thenReturn()`. Nhờ vậy test rất nhanh và ổn định.
 
+Sơ đồ tuần tự dưới đây minh hoạ luồng test khi dùng mock thay cho database thật:
+
+```mermaid
+sequenceDiagram
+    participant T as Test
+    participant S as UserService
+    participant M as repoMock
+    T->>M: dạy mock trả về User khi findById
+    T->>S: gọi getUserName
+    S->>M: findById
+    M-->>S: trả về User đã dạy sẵn
+    S-->>T: trả về tên An
+    T->>T: assertEquals kiểm tra kết quả
+```
+
 Ta cũng có thể dạy mock **ném ngoại lệ**:
 
 ```java

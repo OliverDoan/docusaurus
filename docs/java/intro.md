@@ -58,4 +58,21 @@ Nếu bạn mới bắt đầu, hãy học **lần lượt từ chủ đề 1 đ
 - Muốn hiểu sâu **hiệu năng** → học 6 (Concurrency)
 - Khi đi làm thực tế → 9 (build tools), 12 (logging), 14 (tài liệu)
 
+Sơ đồ dưới đây phác họa tổng quan lộ trình học, đi từ nền tảng bắt buộc tới các nhánh chuyên sâu theo mục tiêu.
+
+```mermaid
+flowchart TD
+    A["1. Học cơ bản<br/>(basics: cú pháp, biến, vòng lặp)"] --> B["2-3. OOP<br/>(hướng đối tượng)"]
+    B --> C["4. Tính năng nâng cao<br/>(Exception, Lambda, Module)"]
+    C --> D["5. Collections<br/>(List, Set, Map)"]
+    C --> E["6. Đa luồng<br/>(Concurrency, Thread)"]
+    C --> F["7. Lập trình hàm<br/>(Stream API)"]
+    D --> G["8. Core Java<br/>(I/O, Regex, Networking)"]
+    F --> H["10. Web Frameworks<br/>(Spring Boot)"]
+    H --> I["11. Truy cập CSDL<br/>(JDBC, JPA)"]
+    G --> J["Kỹ năng đi làm<br/>(9 Build, 12 Logging, 13 Testing, 14 Javadoc)"]
+    I --> J
+    E --> J
+```
+
 Chúc bạn học tốt! Hãy bắt đầu từ chủ đề **[1. Học cơ bản](./01-learn-the-basics/1_cu-phap-co-ban.md)**.

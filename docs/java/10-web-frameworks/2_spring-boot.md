@@ -187,6 +187,25 @@ Hãy tưởng tượng như một nhà hàng:
 - **Service** giống đầu bếp: nấu món ăn (xử lý logic).
 - **Repository** giống nhà kho: lấy nguyên liệu ra (lấy dữ liệu từ database).
 
+Sơ đồ dưới đây minh hoạ luồng một HTTP request đi qua các tầng rồi quay về:
+
+```mermaid
+sequenceDiagram
+    participant C as "Client"
+    participant Ctrl as "Controller<br/>(tiếp nhận)"
+    participant Svc as "Service<br/>(nghiệp vụ)"
+    participant Repo as "Repository<br/>(dữ liệu)"
+    participant DB as "Database"
+    C->>Ctrl: "HTTP Request"
+    Ctrl->>Svc: "Gọi xử lý logic"
+    Svc->>Repo: "Yêu cầu dữ liệu"
+    Repo->>DB: "Truy vấn SQL"
+    DB-->>Repo: "Kết quả"
+    Repo-->>Svc: "Dữ liệu"
+    Svc-->>Ctrl: "Kết quả xử lý"
+    Ctrl-->>C: "HTTP Response (JSON)"
+```
+
 ## Viết REST API đầu tiên với @RestController
 
 **@RestController** (bộ điều khiển kiểu REST) là một **annotation** (chú thích — một

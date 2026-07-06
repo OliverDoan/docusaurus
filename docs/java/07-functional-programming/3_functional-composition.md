@@ -123,6 +123,15 @@ public class AndThenDemo {
 }
 ```
 
+Sơ đồ dưới đây minh hoạ pipeline `andThen`: đầu ra hàm này là đầu vào hàm kia, chạy lần lượt từ trái sang phải:
+
+```mermaid
+flowchart LR
+    A["Đầu vào<br/>x = 5"] --> B["doubleIt<br/>(x * 2 = 10)"]
+    B --> C["addThree<br/>(10 + 3 = 13)"]
+    C --> D["Kết quả<br/>13"]
+```
+
 ---
 
 ## compose — thứ tự ngược lại với andThen

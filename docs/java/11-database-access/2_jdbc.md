@@ -97,6 +97,27 @@ giao diện đó. Bạn chỉ cần thêm driver tương ứng vào dự án.
 4. **Đọc kết quả** (ResultSet) nếu là truy vấn lấy dữ liệu.
 5. **Đóng** mọi tài nguyên đã mở (kết nối, câu lệnh, kết quả).
 
+Sơ đồ tuần tự dưới minh hoạ luồng đi qua các thành phần chính của JDBC khi
+thực hiện một truy vấn SELECT:
+
+```mermaid
+sequenceDiagram
+    participant App as "Ứng dụng Java"
+    participant DM as "DriverManager"
+    participant Conn as "Connection"
+    participant PS as "PreparedStatement"
+    participant RS as "ResultSet"
+    App->>DM: xin kết nối getConnection
+    DM-->>App: trả về Connection
+    App->>Conn: prepareStatement với câu SQL
+    Conn-->>App: trả về PreparedStatement
+    App->>PS: gán tham số rồi executeQuery
+    PS-->>RS: sinh ra ResultSet
+    App->>RS: lặp next để đọc từng hàng
+    RS-->>App: trả dữ liệu từng dòng
+    App->>Conn: đóng tài nguyên tự động
+```
+
 ---
 
 ## Kết nối: DriverManager và Connection
@@ -315,6 +336,17 @@ try (Connection conn = dataSource.getConnection()) {
 
 Khi dùng Spring Boot, HikariCP là pool **mặc định** — bạn không cần cấu hình thủ
 công, chỉ cần khai báo thông tin CSDL trong file cấu hình.
+
+Sơ đồ dưới minh hoạ cách ứng dụng mượn và trả kết nối qua connection pool thay
+vì mở kết nối mới mỗi lần:
+
+```mermaid
+flowchart LR
+    App["Ứng dụng"] -->|"xin kết nối"| Pool["Connection Pool<br/>(HikariCP)"]
+    Pool -->|"cho mượn kết nối"| App
+    App -->|"trả lại sau khi dùng"| Pool
+    Pool -->|"giữ sẵn nhiều kết nối"| DB["Cơ sở dữ liệu"]
+```
 
 ---
 

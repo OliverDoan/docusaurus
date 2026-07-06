@@ -122,6 +122,17 @@ cụ giúp **tự động** chuyển đổi:
 Lợi ích của ORM: viết ít SQL tay hơn, code gọn gàng, ít lỗi vặt. Nhược điểm:
 khó kiểm soát truy vấn phức tạp, đôi khi chậm hơn nếu dùng sai cách.
 
+Sơ đồ dưới minh hoạ vai trò "phiên dịch" của ORM giữa thế giới đối tượng Java
+và thế giới bảng của CSDL:
+
+```mermaid
+flowchart LR
+    A["Đối tượng Java<br/>(object: User)"] -->|"ORM ánh xạ"| B["ORM<br/>(phiên dịch viên)"]
+    B -->|"sinh câu SQL"| C["Bảng CSDL<br/>(table: users)"]
+    C -->|"trả về hàng dữ liệu"| B
+    B -->|"dựng lại đối tượng"| A
+```
+
 ---
 
 ## So sánh các công cụ truy cập CSDL trong Java
@@ -150,6 +161,16 @@ Diễn giải dễ hiểu:
 
 > Lời khuyên cho người mới: học **JDBC trước** để hiểu nền tảng, rồi chuyển sang
 > **Spring Data JPA** vì đây là thứ bạn sẽ dùng nhiều nhất trong thực tế.
+
+Sơ đồ dưới xếp các công cụ theo mức độ trừu tượng, từ cấp thấp (tự làm nhiều)
+đến cấp cao (framework làm hộ nhiều):
+
+```mermaid
+flowchart LR
+    A["Cấp thấp<br/>JDBC (tự viết SQL)"] --> B["ORM<br/>Hibernate (sinh SQL)"]
+    B --> C["Tiện ích cao<br/>Spring Data JPA"]
+    B --> D["Active Record<br/>EBean"]
+```
 
 Dù dùng công cụ nào, có một quy tắc **bất di bất dịch**:
 

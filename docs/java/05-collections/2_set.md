@@ -167,6 +167,16 @@ System.out.println(mau);
 
 Dùng HashSet khi bạn chỉ quan tâm "phần tử có hay không" và **không quan tâm thứ tự**.
 
+Cơ chế chống trùng dựa trên **hash**: khi `add(x)`, HashSet tính vị trí bằng `hashCode` rồi kiểm tra tồn tại bằng `equals`. Sơ đồ luồng:
+
+```mermaid
+flowchart TD
+    A["add(x) vao HashSet"] --> B["Tinh hashCode(x)<br/>tim vi tri (bucket)"]
+    B --> C{"Da ton tai x chua?<br/>(so sanh bang equals)"}
+    C -->|"Chua co"| D["Them x vao Set<br/>tra ve true"]
+    C -->|"Da co"| E["Bo qua, khong them<br/>tra ve false"]
+```
+
 ---
 
 ## LinkedHashSet — giữ thứ tự thêm vào
@@ -222,6 +232,27 @@ Dùng TreeSet khi bạn cần các phần tử **luôn ở trạng thái đã s�
 | Thứ tự phần tử | Không xác định | Theo thứ tự thêm | Tăng dần (đã sắp xếp) |
 | Tốc độ | Nhanh nhất | Hơi chậm hơn | Chậm nhất |
 | Khi nào dùng | Chỉ cần kiểm tra tồn tại | Cần giữ thứ tự thêm | Cần dữ liệu sắp xếp |
+
+Sơ đồ dưới đây tóm tắt cây phân cấp: `Set` là interface con của `Collection`, và ba lớp triển khai nằm bên dưới (mũi tên trỏ về interface cha):
+
+```mermaid
+classDiagram
+    Collection <|-- Set
+    Set <|-- HashSet
+    Set <|-- LinkedHashSet
+    Set <|-- SortedSet
+    SortedSet <|-- TreeSet
+    class Set {
+        <<interface>>
+        +add(e) boolean
+        +contains(e) boolean
+        +remove(e) boolean
+    }
+    class TreeSet {
+        +first()
+        +last()
+    }
+```
 
 ---
 

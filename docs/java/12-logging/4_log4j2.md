@@ -184,6 +184,16 @@ một thuộc tính hệ thống:
 Lưu ý: code ghi log vẫn y nguyên (`logger.info(...)`) — bạn chỉ đổi cấu hình, không sửa
 code nghiệp vụ.
 
+Sơ đồ dưới minh hoạ vì sao async logger không làm chậm luồng chính: ứng dụng chỉ đẩy log vào hàng đợi rồi chạy tiếp ngay:
+
+```mermaid
+flowchart LR
+    A["Ứng dụng<br/>logger.info(...)"] --> B["Hàng đợi<br/>(LMAX Disruptor)"]
+    B --> C["Luồng ghi log riêng"]
+    C --> D["Ghi ra File / Console"]
+    A -. "không chờ I/O" .-> E["Chạy tiếp nghiệp vụ ngay"]
+```
+
 ---
 
 ## So sánh Log4j2 với Logback

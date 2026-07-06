@@ -33,6 +33,15 @@ Hãy tưởng tượng một quyển từ điển: bạn tra "apple" (key) để
 
 Khác với List (truy cập bằng chỉ số 0, 1, 2...) và Set (chỉ có giá trị), Map cho phép bạn tra cứu bằng **bất kỳ khóa nào bạn chọn**.
 
+Sơ đồ dưới minh hoạ cách `get(key)` tra ra value nhờ **hash** (với HashMap) — cực nhanh, không phải duyệt tuần tự:
+
+```mermaid
+flowchart LR
+    K["key<br/>(vd: 'An')"] --> H["Tinh hashCode(key)"]
+    H --> B["Xac dinh bucket<br/>trong bang bam"]
+    B --> V["Lay value tuong ung<br/>(vd: 12345)"]
+```
+
 ---
 
 ## Vì sao có Map?
@@ -221,6 +230,22 @@ System.out.println(c);
 | HashMap | Không xác định | Nhanh nhất | Tra cứu thông thường |
 | LinkedHashMap | Theo thứ tự thêm | Hơi chậm hơn | Cần giữ thứ tự thêm |
 | TreeMap | Tăng dần | Chậm nhất | Cần khóa được sắp xếp |
+
+Cây phân cấp của `Map` (lưu ý: `Map` là nhánh **riêng**, KHÔNG thuộc `Collection`):
+
+```mermaid
+classDiagram
+    Map <|-- HashMap
+    Map <|-- LinkedHashMap
+    Map <|-- SortedMap
+    SortedMap <|-- TreeMap
+    class Map {
+        <<interface>>
+        +put(k, v)
+        +get(k)
+        +containsKey(k)
+    }
+```
 
 ---
 

@@ -79,6 +79,19 @@ Java chia kiểu dữ liệu thành hai nhóm:
 1. **Kiểu nguyên thủy** (primitive type — kiểu cơ bản dựng sẵn, lưu trực tiếp giá trị): có 8 kiểu, ví dụ `int`, `double`, `boolean`.
 2. **Kiểu tham chiếu** (reference type — kiểu lưu địa chỉ trỏ tới đối tượng trong bộ nhớ): ví dụ `String`, mảng, và các class do bạn tạo.
 
+Sơ đồ phân loại các kiểu dữ liệu trong Java:
+
+```mermaid
+flowchart TD
+    K["Kiểu dữ liệu trong Java"] --> P["Kiểu nguyên thủy<br/>(primitive)"]
+    K --> R["Kiểu tham chiếu<br/>(reference)"]
+    P --> N["Số nguyên<br/>byte, short, int, long"]
+    P --> T["Số thực<br/>float, double"]
+    P --> C["Ký tự<br/>char"]
+    P --> B["Luận lý<br/>boolean"]
+    R --> S["String, mảng, class tự tạo"]
+```
+
 ---
 
 ## 8 kiểu nguyên thủy
@@ -176,7 +189,7 @@ Khi một biến **instance** (biến thuộc đối tượng — sẽ học sau
 |------|----------|
 | Các kiểu số nguyên | `0` |
 | `float`, `double` | `0.0` |
-| `char` | ký tự rỗng `' '` |
+| `char` | ký tự rỗng `' '` |
 | `boolean` | `false` |
 | Kiểu tham chiếu | `null` (chưa trỏ tới đâu) |
 

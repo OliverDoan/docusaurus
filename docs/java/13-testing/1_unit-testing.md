@@ -144,6 +144,16 @@ Quy trình TDD gồm 3 bước, gọi là vòng lặp **Red - Green - Refactor**
 
 Sau đó lặp lại cho tính năng tiếp theo.
 
+Sơ đồ dưới đây minh hoạ vòng lặp **Red - Green - Refactor** của TDD:
+
+```mermaid
+flowchart LR
+    A["Viết test cho<br/>tính năng chưa có"] --> B["RED (đỏ):<br/>chạy test, fail"]
+    B --> C["GREEN (xanh):<br/>viết code tối thiểu<br/>để test pass"]
+    C --> D["REFACTOR:<br/>dọn dẹp code,<br/>test vẫn pass"]
+    D --> A
+```
+
 ```java
 // Bước 1 - RED: viết test trước (Calculator chưa có hàm multiply)
 public void testMultiply() {

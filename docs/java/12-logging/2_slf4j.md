@@ -54,6 +54,16 @@ Dịch ra: "Không tìm thấy bộ ghi log nào, nên mọi lệnh log sẽ KH�
 May mắn là nếu bạn dùng **Spring Boot**, cặp **SLF4J + Logback** đã được thêm sẵn, bạn
 không phải làm gì thêm.
 
+Sơ đồ dưới minh hoạ chuỗi mắt xích cần đủ để một dòng log thật sự được ghi ra:
+
+```mermaid
+flowchart LR
+    A["Ứng dụng<br/>gọi logger.info()"] --> B["SLF4J API<br/>(facade)"]
+    B --> C["Binding<br/>(cầu nối)"]
+    C --> D["Logback / Log4j2<br/>(implementation)"]
+    D --> E["Ghi ra Console / File"]
+```
+
 ---
 
 ## Cài đặt SLF4J

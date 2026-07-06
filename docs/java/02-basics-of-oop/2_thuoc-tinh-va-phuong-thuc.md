@@ -35,6 +35,19 @@ Ví dụ đời thường với một **tài khoản ngân hàng**:
 - Thuộc tính: số dư, tên chủ tài khoản.
 - Phương thức: gửi tiền, rút tiền, xem số dư.
 
+Sơ đồ cấu trúc lớp `BankAccount`: phần trên là thuộc tính (dữ liệu), phần dưới là phương thức (hành vi):
+
+```mermaid
+classDiagram
+    class BankAccount {
+        -String owner
+        -double balance
+        +deposit(double amount)
+        +getBalance() double
+        +setBalance(double balance)
+    }
+```
+
 ---
 
 ## Vì sao gom thuộc tính & phương thức vào class?

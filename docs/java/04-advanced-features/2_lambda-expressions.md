@@ -130,6 +130,15 @@ public class ViDuFunctionalInterface {
 
 Java cung cấp sẵn nhiều functional interface trong package `java.util.function` như `Function`, `Predicate`, `Consumer`, `Supplier`.
 
+Sơ đồ dưới đây minh hoạ lambda chính là phần triển khai cho phương thức trừu tượng duy nhất của một functional interface:
+
+```mermaid
+flowchart LR
+    A["Functional Interface<br/>(1 abstract method)"] --> B["Lambda<br/>(a, b) -> a + b"]
+    B --> C["Triển khai cho<br/>method duy nhất"]
+    C --> D["Gọi qua biến<br/>interface"]
+```
+
 ---
 
 ## Lambda thay thế Anonymous Class

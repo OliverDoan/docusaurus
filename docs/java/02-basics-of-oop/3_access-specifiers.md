@@ -183,6 +183,15 @@ Dấu ✅ = truy cập được, ❌ = không truy cập được.
 
 Thứ tự từ kín nhất tới mở nhất: `private` → `default` → `protected` → `public`.
 
+Sơ đồ minh hoạ mức độ mở rộng dần của phạm vi truy cập (trái là kín nhất, phải là mở nhất):
+
+```mermaid
+flowchart LR
+    P["private<br/>chỉ trong class"] --> D["default<br/>cùng package"]
+    D --> PR["protected<br/>package + lớp con"]
+    PR --> PU["public<br/>mọi nơi"]
+```
+
 ---
 
 ## Khi nào dùng cái nào?

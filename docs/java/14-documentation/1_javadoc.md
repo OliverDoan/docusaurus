@@ -207,6 +207,16 @@ Giải thích các tùy chọn (option) hay dùng:
 Sau khi chạy xong, mở file `index.html` trong thư mục `docs` bằng trình duyệt là thấy trang
 tài liệu giống hệt tài liệu API chính thức của Java.
 
+Sơ đồ dưới đây tóm tắt luồng sinh tài liệu: từ mã nguồn có comment Javadoc, qua công cụ `javadoc`, cho ra trang HTML.
+
+```mermaid
+flowchart LR
+    A["Mã nguồn .java<br/>(source code)"] --> B["Comment Javadoc<br/>/** ... */"]
+    B --> C["Công cụ javadoc<br/>(javadoc tool trong JDK)"]
+    C --> D["Trang tài liệu HTML<br/>(API docs)"]
+    D --> E["Mở index.html<br/>trên trình duyệt (browser)"]
+```
+
 ## Quy ước viết tài liệu tốt
 
 - **Câu đầu tiên là tóm tắt**: viết ngắn, đủ nghĩa, kết thúc bằng dấu chấm. Ví dụ

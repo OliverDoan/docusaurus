@@ -82,6 +82,17 @@ Có hai hướng ép kiểu giữa các số:
 - **Mở rộng** (widening — từ kiểu nhỏ sang kiểu lớn hơn): an toàn, tự động.
 - **Thu hẹp** (narrowing — từ kiểu lớn sang kiểu nhỏ hơn): có thể mất dữ liệu, phải làm thủ công.
 
+Sơ đồ thứ tự mở rộng kiểu (widening) — đi theo chiều mũi tên là tự động, đi ngược lại là thu hẹp phải ép tường minh:
+
+```mermaid
+flowchart LR
+    A["byte"] -->|"widening<br/>tự động"| B["short"]
+    B --> C["int"]
+    C --> D["long"]
+    D --> E["float"]
+    E --> F["double"]
+```
+
 ---
 
 ## Ép kiểu ngầm định (widening)

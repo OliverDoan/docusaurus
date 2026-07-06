@@ -176,6 +176,16 @@ public class AesDemo {
 
 > **Lưu ý**: Ví dụ dùng `"AES"` cho đơn giản. Trong thực tế nên dùng chế độ an toàn hơn như `AES/GCM/NoPadding` kèm IV (vector khởi tạo). Người mới nên dùng thư viện có sẵn cấu hình an toàn thay vì tự chọn.
 
+Sơ đồ dưới đây minh họa luồng mã hóa và giải mã đối xứng với cùng một khóa:
+
+```mermaid
+flowchart LR
+    A["Văn bản gốc<br/>(plaintext)"] --> B["Cipher ENCRYPT_MODE<br/>+ SecretKey"]
+    B --> C["Dữ liệu mã hóa<br/>(ciphertext / Base64)"]
+    C --> D["Cipher DECRYPT_MODE<br/>+ cùng SecretKey"]
+    D --> E["Văn bản gốc<br/>(plaintext)"]
+```
+
 ---
 
 ## Vì sao KHÔNG nên tự chế thuật toán
