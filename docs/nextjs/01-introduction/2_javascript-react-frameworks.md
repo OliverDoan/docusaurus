@@ -210,6 +210,19 @@ API trong project mới.
 | Type-safe, modern, project mới | **TanStack Start** (theo dõi) |
 | SPA không SEO | **Vite + React** (không cần framework) |
 
+Cây quyết định chọn framework theo nhu cầu dự án:
+
+```mermaid
+flowchart TD
+    Start["Chọn framework nào?"] --> SEO{"Cần SEO hoặc có public page?"}
+    SEO -->|"Không"| Vite["Vite + React (SPA)"]
+    SEO -->|"Có"| Content{"Chủ yếu là content?<br/>(blog, docs, marketing)"}
+    Content -->|"Có"| Astro["Astro"]
+    Content -->|"Không"| Interactive{"App tương tác nhiều?<br/>(dashboard, SaaS)"}
+    Interactive -->|"Có"| Next["Next.js (App Router)"]
+    Interactive -->|"Progressive enhancement"| Remix["Remix / RR v7"]
+```
+
 :::tip[Mẹo]
 
 **Quy tắc lựa chọn framework:**

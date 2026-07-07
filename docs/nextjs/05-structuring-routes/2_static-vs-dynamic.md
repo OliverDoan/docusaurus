@@ -76,6 +76,18 @@ page dùng:
 | `searchParams` prop | **Dynamic** |
 | `params` đơn thuần | **Static** (với `generateStaticParams`) |
 
+Cây quyết định Next.js dùng để chọn kiểu render cho một route:
+
+```mermaid
+flowchart TD
+  A["Route render"] --> B{"Dùng API động?<br/>cookies() headers() searchParams<br/>hoặc fetch no-store"}
+  B -->|"Không"| C["Static<br/>render lúc build, cache CDN"]
+  B -->|"Có"| D["Dynamic<br/>render mỗi request (SSR)"]
+  C --> E{"Có revalidate?"}
+  E -->|"revalidate = n"| F["ISR<br/>static + làm mới định kỳ"]
+  E -->|"Không"| G["Static thuần (SSG)"]
+```
+
 Build report:
 
 ```
@@ -184,6 +196,19 @@ Flow:
 4. Stats và Chart load **song song** — total = max(2s, 3s) = 3s.
 
 So với không Suspense — phải đợi cả 2s + 3s = 5s.
+
+Luồng stream từng phần giao diện về trình duyệt:
+
+```mermaid
+sequenceDiagram
+  participant B as Browser
+  participant S as Server
+  B->>S: Request /dashboard
+  S-->>B: HTML shell (Header, Skeleton, Footer)
+  Note over S: fetchStats 2s và fetchChart 3s chạy song song
+  S-->>B: Stream Stats (sau 2s)
+  S-->>B: Stream Chart (sau 3s)
+```
 
 :::tip[Mẹo]
 

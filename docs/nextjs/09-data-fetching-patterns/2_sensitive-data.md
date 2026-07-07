@@ -64,6 +64,27 @@ import "server-only"; // throw nếu Client Component import file này
 
 Giữ dữ liệu nhạy cảm ở **server**: dùng `server-only` chặn import nhầm, chỉ trả field cần thiết (DTO), env secret không có tiền tố `NEXT_PUBLIC_`, và dùng tainting API để cảnh báo khi lỡ truyền object nhạy cảm qua ranh giới.
 
+Sơ đồ dưới minh họa ranh giới server/client: secret và full object phải ở lại server, chỉ DTO đã lọc field mới được vượt ranh giới xuống Client Component:
+
+```mermaid
+flowchart TD
+  subgraph Server["Phía Server (an toàn)"]
+    ENV["process.env.SECRET_API_KEY"]
+    DB[("Database")]
+    FULL["Full user object<br/>(passwordHash, token, role)"]
+    DTO["DTO chỉ field công khai<br/>(id, name, email)"]
+  end
+  subgraph Client["Phía Client (Browser - ai cũng xem được)"]
+    UI["Client Component"]
+  end
+
+  DB --> FULL
+  FULL -->|"select / lọc field"| DTO
+  DTO -->|"truyền props an toàn"| UI
+  ENV -.->|"KHÔNG truyền xuống client"| UI
+  FULL -.->|"KHÔNG truyền full object"| UI
+```
+
 :::tip[Dùng thực tế]
 
 - **Gọi API key bên thứ ba**: đọc `process.env.SECRET_API_KEY` ngay trong Server Component / Server Action, không bao giờ truyền key xuống client.

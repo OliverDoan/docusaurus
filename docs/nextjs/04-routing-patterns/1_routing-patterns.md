@@ -265,6 +265,18 @@ app/
 
 Mỗi slot có error/loading riêng — granular UX.
 
+Cách layout kết hợp `children` với các slot song song, mỗi slot có `loading`/`error` độc lập:
+
+```mermaid
+flowchart TD
+    L["app/layout.tsx"] --> C["children<br/>(page.tsx chính)"]
+    L --> A["slot @analytics"]
+    L --> T["slot @team"]
+    A --> AL["loading.tsx / error.tsx riêng"]
+    T --> TL["loading.tsx / error.tsx riêng"]
+    AL -.->|"lỗi vùng này không kéo sập vùng kia"| TL
+```
+
 ---
 
 ## Intercepting Routes
@@ -298,6 +310,18 @@ Use case **kinh điển — Instagram modal photo**:
 2. Click vào photo → URL = /photos/123
 3. Instead of full navigate, render modal trên /feed
 4. Refresh page → vào /photos/123 trang thật
+```
+
+Luồng intercepting route quyết định render modal hay trang đầy đủ:
+
+```mermaid
+flowchart TD
+    A["User ở /feed"] --> B["Click vào photo"]
+    B --> C["URL đổi thành /photos/123"]
+    C --> D{"Điều hướng kiểu gì?"}
+    D -->|"Intercept (đang ở feed)"| E["Render modal trên /feed<br/>giữ nguyên context"]
+    D -->|"Refresh hoặc mở link trực tiếp"| F["Trang ảnh đầy đủ<br/>app/photos/[id]/page.tsx"]
+    E -->|"Nhấn Back"| A
 ```
 
 ```tsx

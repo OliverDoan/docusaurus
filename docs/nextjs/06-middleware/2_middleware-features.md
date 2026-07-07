@@ -62,6 +62,23 @@ export async function middleware(request: NextRequest) {
 
 Mỗi tính năng phục vụ một nhu cầu cụ thể: `matcher` giới hạn phạm vi chạy; `cookies`/`headers` đọc-ghi trạng thái và truyền dữ liệu; `redirect` điều hướng theo điều kiện; `NextResponse.next()` cho request đi tiếp.
 
+Luồng middleware xử lý một request trước khi tới route:
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant M as Middleware (Edge)
+  participant R as Route / Server Component
+  U->>M: Request /dashboard
+  M->>M: Đọc cookie token và verify JWT
+  alt Chưa auth và route được bảo vệ
+    M-->>U: Redirect /login kèm from=/dashboard
+  else Đã auth hợp lệ
+    M->>R: next() kèm header X-User-Id
+    R-->>U: Trả HTML trang
+  end
+```
+
 :::tip[Dùng thực tế]
 
 - **`matcher` giới hạn phạm vi**: chỉ chạy middleware cho `/api/:path*` hoặc loại trừ file tĩnh — tránh xử lý thừa cho ảnh, font, favicon.

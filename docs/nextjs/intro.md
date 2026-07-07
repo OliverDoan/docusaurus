@@ -22,6 +22,21 @@ Khi làm việc với React thuần (chỉ dùng thư viện React một mình),
 
 React thuần chỉ là một thư viện (library) lo phần dựng giao diện. Mọi thứ còn lại bạn phải tự quyết định và tự ghép vào. Next.js là một framework bao trọn React và bổ sung thêm routing, kết xuất phía máy chủ, tối ưu hóa, và khả năng viết backend. Tóm lại: React cho bạn các mảnh ghép, còn Next.js cho bạn cả bức tranh hoàn chỉnh.
 
+```mermaid
+flowchart LR
+    subgraph React["React thuần (library)"]
+        R1["UI components"]
+    end
+    subgraph Next["Next.js (framework)"]
+        N1["UI components (React)"]
+        N2["Routing file-based"]
+        N3["SSR / SSG / ISR"]
+        N4["Tối ưu ảnh, font, code splitting"]
+        N5["API / backend"]
+    end
+    React -->|"bao trọn và bổ sung"| Next
+```
+
 ## Cần biết gì trước khi học?
 
 Bạn nên nắm vững **React** trước khi học Next.js, bao gồm: component (thành phần giao diện), props (thuộc tính truyền vào), state (trạng thái), và hooks (các hàm móc như useState, useEffect). Next.js xây dựng dựa trên những khái niệm này, nên hiểu React vững sẽ giúp bạn học Next.js dễ dàng hơn rất nhiều.
@@ -57,5 +72,11 @@ Lộ trình trên được sắp xếp từ cơ bản đến nâng cao, nên cá
 - **Nhóm 1–7 (nền tảng và định tuyến):** đây là phần lõi, hãy chắc chắn nắm vững trước khi đi tiếp.
 - **Nhóm 8–11 (dữ liệu và kết xuất):** phần quan trọng nhất quyết định hiệu năng và trải nghiệm người dùng, nên dành nhiều thời gian thực hành.
 - **Nhóm 12–18 (tối ưu, cấu hình, kiểm thử và triển khai):** có thể học song song với việc xây dựng một dự án thực tế nhỏ để ghi nhớ tốt hơn.
+
+```mermaid
+flowchart TD
+    A["Nhóm 1-7<br/>Nền tảng và định tuyến<br/>(phần lõi, nắm vững trước)"] --> B["Nhóm 8-11<br/>Dữ liệu và kết xuất<br/>(quyết định hiệu năng, UX)"]
+    B --> C["Nhóm 12-18<br/>Tối ưu, cấu hình, kiểm thử, triển khai<br/>(học song song dự án thực tế)"]
+```
 
 Lời khuyên chung: **vừa học vừa làm**. Sau mỗi chủ đề, hãy tự tay viết một ví dụ nhỏ. Kiến thức chỉ thật sự thuộc về bạn khi bạn áp dụng được nó vào code thực tế.

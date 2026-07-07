@@ -59,6 +59,25 @@ export default async function Page() {
 }
 ```
 
+Sơ đồ dưới đây cho thấy Server Component đóng vai trò "cửa ngõ" chạy trên server, truy cập trực tiếp mọi nguồn dữ liệu với secret server-only, rồi chỉ gửi UI đã render xuống trình duyệt:
+
+```mermaid
+flowchart LR
+  Client["Browser (Client Component)"]
+  SC["Server Component (chạy trên server)"]
+  REST["REST API"]
+  GQL["GraphQL"]
+  DB[("Database qua ORM")]
+  CMS["Headless CMS"]
+
+  Client -->|"chỉ nhận HTML/UI đã render"| SC
+  SC -->|"fetch + secret server-only"| REST
+  SC -->|"query đúng field cần"| GQL
+  SC -->|"truy cập trực tiếp, bỏ tầng API"| DB
+  SC -->|"token server-only"| CMS
+  SC -.->|"gộp dữ liệu, render 1 lần"| Client
+```
+
 :::tip[Dùng thực tế]
 
 - **Query DB trực tiếp**: trang dashboard đọc bảng `users` qua Prisma/Drizzle ngay trong Server Component, bỏ tầng API.

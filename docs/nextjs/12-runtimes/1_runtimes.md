@@ -53,6 +53,17 @@ export const runtime = "edge";
 - **Node.js runtime**: đầy đủ API Node, hợp tác vụ nặng, ORM/DB, thư viện native.
 - **Edge runtime**: nhẹ, chạy gần user trên toàn cầu, khởi động gần như tức thì, hợp middleware và cá nhân hoá nhanh — nhưng API hạn chế.
 
+Sơ đồ chọn runtime theo nhu cầu của route:
+
+```mermaid
+flowchart TD
+    Start["Chọn runtime cho route"] --> Q1{"Cần fs, native module,<br/>ORM TCP hay CPU nặng?"}
+    Q1 -->|"Có"| Node["Node.js Runtime<br/>đầy đủ API, cold start 1-3s"]
+    Q1 -->|"Không"| Q2{"Cần chạy gần user,<br/>khởi động tức thì?"}
+    Q2 -->|"Có"| Edge["Edge Runtime<br/>V8 isolate, cold start vài ms"]
+    Q2 -->|"Không"| Node
+```
+
 :::tip[Dùng thực tế]
 
 - **API nặng / ORM**: route dùng Prisma, xử lý file, tính toán CPU cao → `export const runtime = "nodejs"`.

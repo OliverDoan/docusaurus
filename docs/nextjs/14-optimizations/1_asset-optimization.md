@@ -80,6 +80,19 @@ Component `<Image>` tự optimize hình:
 - Lazy load mặc định.
 - Tránh CLS (layout shift) — cần width/height.
 
+Luồng xử lý một ảnh qua `next/image`:
+
+```mermaid
+flowchart LR
+    Src["Ảnh gốc<br/>(4000x3000, 5MB)"] --> Img["next/image"]
+    Img --> R["Resize theo viewport"]
+    Img --> F["Convert WebP/AVIF<br/>theo Accept header"]
+    Img --> L["Lazy load + chống CLS"]
+    R --> Out["Ảnh tối ưu tới trình duyệt"]
+    F --> Out
+    L --> Out
+```
+
 ```tsx
 import Image from "next/image";
 
@@ -267,6 +280,18 @@ import Script from "next/script";
 | `afterInteractive` | Sau hydration | Default (analytics) |
 | `lazyOnload` | Browser idle | Marketing pixel, chat widget |
 | `worker` | Web Worker thread | Heavy script, Partytown |
+
+Sơ đồ thời điểm tải theo từng `strategy`:
+
+```mermaid
+flowchart LR
+    Parse["Parse HTML"] --> BI["beforeInteractive<br/>(trước hydration)"]
+    BI --> Hydr["Hydration"]
+    Hydr --> AI["afterInteractive<br/>(mặc định, analytics)"]
+    AI --> Idle["Browser idle"]
+    Idle --> LO["lazyOnload<br/>(pixel, chat widget)"]
+    Hydr --> W["worker<br/>(Partytown, thread riêng)"]
+```
 
 **Event handler**:
 

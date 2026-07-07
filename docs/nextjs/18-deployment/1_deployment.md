@@ -64,6 +64,21 @@ node .next/standalone/server.js
 vercel
 ```
 
+Tùy `output` mode chọn lúc build, cùng một source Next.js sẽ đi theo các đường triển khai khác nhau nhưng đều được phục vụ qua CDN tới người dùng:
+
+```mermaid
+flowchart TD
+    SRC["Source Next.js"] --> BUILD["npm run build"]
+    BUILD --> MODE{"output mode"}
+    MODE -->|"mặc định"| SF["Vercel / Serverless<br/>SSR, ISR, API, Middleware"]
+    MODE -->|"standalone"| NODE["Node server tự host<br/>Docker / VPS + Nginx"]
+    MODE -->|"export"| STATIC["HTML tĩnh (./out)<br/>đẩy lên CDN"]
+    SF --> CDN["Edge Network / CDN"]
+    NODE --> CDN
+    STATIC --> CDN
+    CDN --> USER["Người dùng"]
+```
+
 :::tip[Dùng thực tế]
 
 - **Deploy nhanh lên Vercel**: app có SSR/Server Actions → `vercel` hoặc

@@ -280,6 +280,18 @@ Next.js **tự code split**:
 - **Per component lazy** — `dynamic()`/`lazy()`.
 - **Per Client Component boundary** — Server Components không vào bundle.
 
+Sơ đồ các cách Next.js tách nhỏ code:
+
+```mermaid
+flowchart TD
+    App["Ứng dụng Next.js"] --> Split["Code splitting tự động"]
+    Split --> R1["Bundle theo route<br/>(mỗi page 1 bundle)"]
+    Split --> R2["Server Components<br/>không vào client bundle"]
+    Split --> R3["dynamic() / lazy()<br/>tách chunk riêng"]
+    R3 --> Load["Chỉ tải khi render / cần"]
+    R2 --> Less["Giảm First Load JS"]
+```
+
 Xem bundle:
 
 ```bash

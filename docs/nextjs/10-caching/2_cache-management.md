@@ -92,6 +92,18 @@ Behavior:
 
 = **Stale-While-Revalidate (SWR)**. User không bao giờ phải đợi.
 
+Vòng đời của một bản cache theo cơ chế SWR — luôn phục vụ ngay, rebuild ngầm ở nền:
+
+```mermaid
+stateDiagram-v2
+  [*] --> Fresh: Request đầu render và cache
+  Fresh --> Fresh: Trong X giây phục vụ cache
+  Fresh --> Stale: Đã quá X giây
+  Stale --> ServeStale: Phục vụ bản cũ ngay lập tức
+  ServeStale --> Revalidating: Nền rebuild bản mới
+  Revalidating --> Fresh: Cache được cập nhật
+```
+
 ---
 
 ## On-demand revalidation
@@ -119,6 +131,27 @@ export async function POST(request: Request) {
   revalidateTag(`post-${body.id}`);
   return Response.json({ revalidated: true });
 }
+```
+
+Điểm mấu chốt: `revalidateTag`/`revalidatePath` chỉ **đánh dấu stale**, không rebuild ngay — request kế tiếp mới render lại và cache bản mới:
+
+```mermaid
+flowchart TD
+  M["Mutation trong Server Action<br/>(db.product.update)"]
+  RT["revalidateTag('product-123')"]
+  RP["revalidatePath('/products')"]
+  MARK["Cache bị đánh dấu stale<br/>(chưa rebuild ngay)"]
+  REQ["Request tiếp theo của user"]
+  REBUILD["Next render lại + cache bản mới"]
+  FRESH["User thấy dữ liệu mới"]
+
+  M --> RT
+  M --> RP
+  RT --> MARK
+  RP --> MARK
+  MARK --> REQ
+  REQ --> REBUILD
+  REBUILD --> FRESH
 ```
 
 ---

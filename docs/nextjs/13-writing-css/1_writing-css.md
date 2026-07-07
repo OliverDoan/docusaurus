@@ -66,6 +66,19 @@ import styles from "./Button.module.css";
 
 CSS-in-JS cần cấu hình riêng cho App Router (wrapper, hoặc loại compile-time như vanilla-extract).
 
+Sơ đồ chọn cách viết CSS theo nhu cầu:
+
+```mermaid
+flowchart TD
+    Start["Cần viết CSS"] --> Q1{"Theme, reset,<br/>biến dùng chung?"}
+    Q1 -->|"Có"| G["Global CSS<br/>(root layout)"]
+    Q1 -->|"Không"| Q2{"Dựng UI nhanh,<br/>không muốn nghĩ tên class?"}
+    Q2 -->|"Có"| T["Tailwind CSS<br/>(khuyến nghị)"]
+    Q2 -->|"Không"| Q3{"Style phức tạp riêng<br/>cho component?"}
+    Q3 -->|"Có"| M["CSS Modules<br/>(scope cục bộ)"]
+    Q3 -->|"Cần zero-runtime trong RSC"| V["vanilla-extract / Panda / StyleX"]
+```
+
 :::tip[Dùng thực tế]
 
 - **CSS Modules** cho component có style riêng, tránh đụng tên class.

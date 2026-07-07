@@ -47,6 +47,20 @@ export const revalidate = 60; // giây
 // RSC + PPR — kết hợp tĩnh + động trên cùng một trang (shell tĩnh, nội dung động stream sau)
 ```
 
+Cây quyết định dưới đây giúp chọn chế độ render phù hợp theo yêu cầu của từng trang:
+
+```mermaid
+flowchart TD
+  Start["Trang này cần gì?"]
+  Start --> Q1{"Nội dung ít đổi,<br/>ưu tiên tốc độ + SEO?"}
+  Q1 -->|"Có"| SSG["SSG (force-static)<br/>build sẵn, phục vụ qua CDN"]
+  Q1 -->|"Không"| Q2{"Dữ liệu riêng theo user,<br/>luôn phải mới?"}
+  Q2 -->|"Có"| SSR["SSR (force-dynamic)<br/>render mỗi request"]
+  Q2 -->|"Không"| Q3{"Tĩnh nhưng cần<br/>cập nhật định kỳ?"}
+  Q3 -->|"Có"| ISR["ISR (revalidate = 60)<br/>vừa nhanh vừa tươi"]
+  Q3 -->|"Không"| CSR["CSR / use client<br/>cho phần tương tác"]
+```
+
 :::tip[Dùng thực tế]
 
 - **Landing / marketing** → **SSG**: nội dung ít đổi, ưu tiên tốc độ và SEO.

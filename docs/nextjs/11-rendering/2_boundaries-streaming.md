@@ -118,6 +118,16 @@ import ServerData from "./ServerData"; // build error nếu ServerData dùng DB
 </ClientWrap>
 ```
 
+Sơ đồ chiều import qua boundary:
+
+```mermaid
+flowchart TD
+    A["Server Component"] -->|"import trực tiếp OK"| B["Client Component<br/>(use client)"]
+    B -.->|"KHÔNG import trực tiếp"| A
+    A -->|"truyền qua prop children"| C["Client wrapper"]
+    C --> D["Server Component<br/>lồng bên trong (OK)"]
+```
+
 ---
 
 ## Pass props giữa boundary
@@ -252,6 +262,20 @@ t=2:     Chart stream xuống, swap skeleton.
 ```
 
 User thấy progress, không "blank screen 2s".
+
+Luồng streaming theo thời gian:
+
+```mermaid
+sequenceDiagram
+    participant B as Trình duyệt
+    participant S as Server
+    B->>S: Yêu cầu trang Dashboard
+    S-->>B: HTML shell + 2 skeleton (t=0)
+    Note over B: Người dùng thấy nội dung chính ngay
+    S-->>B: Stream Stats (t=1s) thay skeleton
+    S-->>B: Stream Chart (t=2s) thay skeleton
+    Note over B: Không còn màn hình trắng
+```
 
 :::info[Phân tích]
 

@@ -157,6 +157,31 @@ export default async function BlogPost({ params }) {
 Không có `getServerSideProps` / `getStaticProps` — fetch trực tiếp trong
 async component, control behavior qua `fetch` options.
 
+Cách Next.js ánh xạ cấu trúc thư mục `app/` thành URL:
+
+```mermaid
+flowchart LR
+    subgraph FS["Cấu trúc thư mục app/"]
+        F1["app/page.tsx"]
+        F2["app/about/page.tsx"]
+        F3["app/blog/page.tsx"]
+        F4["app/blog/[slug]/page.tsx"]
+        F5["app/api/users/route.ts"]
+    end
+    subgraph URL["URL tương ứng"]
+        U1["/"]
+        U2["/about"]
+        U3["/blog"]
+        U4["/blog/:slug"]
+        U5["/api/users"]
+    end
+    F1 --> U1
+    F2 --> U2
+    F3 --> U3
+    F4 --> U4
+    F5 --> U5
+```
+
 ---
 
 ## So sánh chi tiết

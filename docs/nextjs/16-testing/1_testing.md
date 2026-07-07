@@ -333,6 +333,19 @@ Lợi ích:
 
 **Testing strategy cho Next.js project:**
 
+Các tầng test xếp thành kim tự tháp: nhiều unit test ở đáy (nhanh, rẻ), thu hẹp dần lên tới vài luồng E2E ở đỉnh (chậm, đắt):
+
+```mermaid
+flowchart TB
+    E2E["E2E (Playwright)<br/>3-5 luồng quan trọng, chậm và đắt"]
+    INT["Integration (Vitest + MSW)<br/>API kết hợp component"]
+    COMP["Component (Vitest + RTL)<br/>Client Component"]
+    UNIT["Unit (Vitest)<br/>pure function, hook, util - nhiều nhất"]
+    E2E --> INT
+    INT --> COMP
+    COMP --> UNIT
+```
+
 | Layer | Tool | Mục tiêu |
 |-------|------|----------|
 | **Unit** | Vitest | Pure function, hook, util |

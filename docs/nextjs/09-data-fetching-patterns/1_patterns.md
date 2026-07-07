@@ -96,6 +96,28 @@ async function Page() {
 
 Quy tắc: **luôn parallel khi không có dependency**.
 
+So sánh dòng thời gian tương tác giữa Page và nguồn dữ liệu — tuần tự cộng dồn, song song gộp lại:
+
+```mermaid
+sequenceDiagram
+  participant P as Page (Server Component)
+  participant A as API hoặc Database
+
+  Note over P,A: Sequential - thời gian cộng dồn
+  P->>A: fetchUser
+  A-->>P: user (khoảng 1s)
+  P->>A: fetchOrders
+  A-->>P: orders (khoảng 1s)
+  P->>A: fetchProducts
+  A-->>P: products (khoảng 1s)
+  Note over P,A: Tổng khoảng 3s
+
+  Note over P,A: Parallel - Promise.all chạy cùng lúc
+  P->>A: fetchUser + fetchOrders + fetchProducts
+  A-->>P: cả ba trả về (khoảng 1s)
+  Note over P,A: Tổng khoảng 1s
+```
+
 ---
 
 ## Sequential cần thiết khi có dependency

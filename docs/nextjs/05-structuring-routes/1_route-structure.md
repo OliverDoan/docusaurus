@@ -59,6 +59,17 @@ export default async function DashboardPage() {
 }
 ```
 
+Thứ tự Next.js lồng các special file bao quanh `page.tsx` (ngoài cùng vào trong):
+
+```mermaid
+flowchart TD
+  L["layout.tsx<br/>khung dùng chung, GIỮ state"] --> T["template.tsx<br/>tạo MỚI mỗi lần điều hướng"]
+  T --> E["error.tsx<br/>Error Boundary tự động"]
+  E --> LO["loading.tsx<br/>Suspense fallback tự động"]
+  LO --> NF["not-found.tsx<br/>UI 404"]
+  NF --> P["page.tsx<br/>UI chính (tạo URL)"]
+```
+
 :::tip[Dùng thực tế]
 
 - **`layout.tsx` dùng chung cho nhóm trang:** sidebar + navbar bọc mọi trang trong `dashboard/`, không re-render và giữ nguyên state khi chuyển qua lại giữa các trang con.

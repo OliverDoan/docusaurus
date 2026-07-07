@@ -123,6 +123,17 @@ app/
         └── route.ts      → /api/users
 ```
 
+Sơ đồ ánh xạ đường dẫn file trong `app/` sang URL thực tế:
+
+```mermaid
+flowchart LR
+  A["app/page.tsx"] --> U1["/"]
+  B["app/about/page.tsx"] --> U2["/about"]
+  C["app/blog/page.tsx"] --> U3["/blog"]
+  D["app/blog/[slug]/page.tsx"] --> U4["/blog/:slug"]
+  E["app/api/users/route.ts"] --> U5["/api/users"]
+```
+
 Component cơ bản:
 
 ```tsx

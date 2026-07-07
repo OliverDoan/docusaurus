@@ -70,6 +70,21 @@ SSR flow:
 [Browser] → request page → [Server] render HTML → return → hydrate JS
 ```
 
+Luồng SSR kèm bước hydration mô tả bằng sequence diagram:
+
+```mermaid
+sequenceDiagram
+    participant B as Browser
+    participant S as Server
+    B->>S: Request trang
+    S->>S: Render HTML tĩnh
+    S-->>B: Trả HTML (FCP nhanh)
+    Note over B: Hiển thị HTML ngay cho người dùng
+    S-->>B: Gửi JavaScript bundle
+    B->>B: React hydrate (gắn event listener)
+    Note over B: App trở nên interactive (TTI)
+```
+
 :::info[Phân tích]
 
 **Hydration** — bước quan trọng trong SSR:

@@ -176,6 +176,20 @@ npm install -D prettier eslint-config-prettier
 `prettier-plugin-tailwindcss` — sort Tailwind class theo recommendation
 order tự động.
 
+Ba công cụ Prettier, ESLint và TypeScript ghép thành một pipeline kiểm tra chất lượng: mỗi lần lưu file, code lần lượt được format, lint và kiểm tra kiểu trước khi build:
+
+```mermaid
+flowchart LR
+    DEV["Viết code<br/>.ts / .tsx"] --> SAVE["Lưu file"]
+    SAVE --> FMT["Prettier<br/>format + sort class"]
+    FMT --> LINT["ESLint<br/>next/core-web-vitals"]
+    LINT --> TYPE["tsc --noEmit<br/>kiểm tra kiểu"]
+    TYPE --> OK{"Tất cả pass?"}
+    OK -->|"Có"| BUILD["npm run build"]
+    OK -->|"Không"| FIX["Sửa lỗi/cảnh báo"]
+    FIX --> FMT
+```
+
 VS Code setting:
 
 ```json

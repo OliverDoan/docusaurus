@@ -72,6 +72,19 @@ registerOTel({ serviceName: "my-app" });
 
 Monitoring và observability biến phỏng đoán thành **số liệu thật**: đo Web Vitals từ người dùng (`useReportWebVitals`, Vercel Analytics), theo dõi lỗi (Sentry), tracing (OpenTelemetry) và log có cấu trúc. Mọi quyết định tối ưu đều dựa trên dữ liệu đo được, không đoán mò.
 
+Sơ đồ dưới đây mô tả luồng thu thập số liệu thực địa (field data) từ người dùng thật về dashboard và cảnh báo:
+
+```mermaid
+flowchart LR
+    U["Người dùng thật<br/>(mọi device/network)"] --> B["Trình duyệt đo<br/>Web Vitals (LCP/INP/CLS)"]
+    B --> H["useReportWebVitals<br/>hoặc Vercel Analytics"]
+    H --> API["POST /api/metrics"]
+    API --> AGG["Analytics aggregate<br/>p50 / p75 / p95"]
+    AGG --> DASH["Dashboard &amp; Alerts"]
+    E["Lỗi runtime"] --> SENTRY["Sentry captureException"]
+    SENTRY --> DASH
+```
+
 :::tip[Dùng thực tế]
 
 - **Thu thập Web Vitals thực địa**: dùng `useReportWebVitals` hoặc Vercel Analytics để xem LCP/CLS/INP p75 của người dùng thật, không chỉ điểm Lighthouse trên CI.
@@ -280,6 +293,21 @@ async function processOrder(orderId: string) {
 
 Trace cho phép debug **distributed system** — request đi qua client →
 edge → API → DB, mỗi step có timing và metadata.
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant E as Edge / Middleware
+    participant A as Route Handler
+    participant D as Database
+    C->>E: Request (span cha)
+    E->>A: Chuyển tiếp request
+    A->>D: Query dữ liệu (span con)
+    D-->>A: Kết quả
+    A-->>E: Response
+    E-->>C: Trả trang
+    Note over C,D: Mỗi bước có timing metadata để tìm điểm nghẽn
+```
 
 :::
 
