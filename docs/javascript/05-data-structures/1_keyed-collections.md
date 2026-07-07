@@ -281,6 +281,21 @@ wm.set(key, value);
 | Cache theo object lifecycle | `WeakMap` |
 | Đánh dấu object đã xử lý | `WeakSet` |
 
+Sơ đồ quyết định giúp chọn nhanh cấu trúc phù hợp:
+
+```mermaid
+flowchart TD
+    A["Cần lưu trữ dữ liệu gì ?"] --> B{"Cặp key - value hay tập giá trị ?"}
+    B -->|"key - value"| C{"Key là object và cần tự dọn theo lifecycle ?"}
+    B -->|"tập giá trị"| D{"Phần tử là object và cần tự dọn ?"}
+    C -->|"có"| E["WeakMap<br/>cache theo object"]
+    C -->|"không"| F{"Key cố định, cần JSON ?"}
+    F -->|"có"| G["Object"]
+    F -->|"không"| H["Map<br/>key động / non-string"]
+    D -->|"có"| I["WeakSet<br/>đánh dấu object đã xử lý"]
+    D -->|"không"| J["Set<br/>tập giá trị duy nhất"]
+```
+
 :::tip[Mẹo]
 
 Có **iterator helper** mới (ES2024+) áp dụng được trên Map/Set:

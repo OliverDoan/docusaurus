@@ -169,6 +169,20 @@ class User {
 }
 ```
 
+Sơ đồ dưới tóm tắt cách trình duyệt/engine quyết định một đoạn code chạy ở
+strict mode hay sloppy mode:
+
+```mermaid
+flowchart TD
+  A["Một đoạn code JS"] --> B{"ES Module hay class body?"}
+  B -->|"Có"| C["Strict mode tự động BẬT"]
+  B -->|"Không"| D{"Có 'use strict' ở đầu file/function?"}
+  D -->|"Có"| C
+  D -->|"Không"| E["Sloppy mode (dễ dãi)"]
+  C --> F["Lỗi hiện rõ, fail nhanh fail rõ"]
+  E --> G["Lỗi bị âm thầm bỏ qua"]
+```
+
 :::info[Phân tích]
 
 Trong code hiện đại (ES Module, React, Vue, Node ESM, TypeScript),

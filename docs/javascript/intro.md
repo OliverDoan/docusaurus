@@ -65,6 +65,19 @@ Nếu bạn là **người mới hoàn toàn**, hãy học lần lượt từ ch
 - **Bước 3 — Nâng cao (chủ đề 14–18):** Làm quen với code bất đồng bộ, gọi API, lập trình hướng đối tượng và chia nhỏ dự án thành nhiều mô-đun.
 - **Bước 4 — Hoàn thiện (chủ đề 19–20):** Hiểu cách JavaScript quản lý bộ nhớ và sử dụng thành thạo công cụ gỡ lỗi trên trình duyệt.
 
+Sơ đồ dưới đây tóm tắt 4 bước học, mỗi bước xây trên nền tảng của bước trước:
+
+```mermaid
+flowchart TD
+    A["Bước 1 — Nền tảng<br/>(chủ đề 1–9)"] --> B["Bước 2 — Cốt lõi<br/>(chủ đề 10–13)"]
+    B --> C["Bước 3 — Nâng cao<br/>(chủ đề 14–18)"]
+    C --> D["Bước 4 — Hoàn thiện<br/>(chủ đề 19–20)"]
+    A --- A1["Biến, kiểu dữ liệu,<br/>vòng lặp, luồng điều khiển"]
+    B --- B1["Hàm, DOM, từ khóa this"]
+    C --- C1["Async, gọi API, class, module"]
+    D --- D1["Quản lý bộ nhớ, DevTools"]
+```
+
 **Lời khuyên:** Hãy thực hành ngay sau mỗi chủ đề. Viết lại code bằng tay, thử thay đổi giá trị và quan sát kết quả. Việc tự gõ và mắc lỗi sẽ giúp bạn hiểu sâu hơn rất nhiều so với chỉ đọc lý thuyết.
 
 Chúc bạn học tốt và sớm trở thành một lập trình viên JavaScript tự tin!

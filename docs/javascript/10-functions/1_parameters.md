@@ -168,6 +168,17 @@ function test(x) {
 
 :::
 
+Sơ đồ dưới tóm tắt quy tắc quyết định: default parameter chỉ "nhảy vào"
+khi đối số là `undefined`, còn mọi giá trị falsy khác (`null`, `0`, `""`,
+`false`) vẫn được giữ nguyên.
+
+```mermaid
+flowchart TD
+    A["Gọi hàm test(x = 10)"] --> B{"Đối số cho x<br/>có phải undefined?<br/>(không truyền hoặc truyền undefined)"}
+    B -->|"Đúng"| C["x = 10<br/>(dùng giá trị default)"]
+    B -->|"Sai (null, 0, '', false...)"| D["x = giá trị được truyền vào<br/>(default bị bỏ qua)"]
+```
+
 ---
 
 ## Rest parameters
@@ -190,6 +201,17 @@ function log(level, ...messages) {
 }
 
 log("info", "Hello", "World", 42);
+```
+
+Với lời gọi trên, đối số đầu tiên được gán cho parameter thường `level`,
+còn tất cả đối số còn lại được **gom vào một mảng** `messages`:
+
+```mermaid
+flowchart LR
+    A0["'info'"] --> P["level<br/>(parameter thường)"]
+    A1["'Hello'"] --> R["messages<br/>(rest parameter)<br/>= ['Hello', 'World', 42]"]
+    A2["'World'"] --> R
+    A3["42"] --> R
 ```
 
 Rest **khác** `arguments` object:

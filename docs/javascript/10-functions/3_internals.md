@@ -159,6 +159,25 @@ Stack tại thời điểm `console.log` chạy:
 | <main> |  ← bottom
 ```
 
+Nhìn theo trục thời gian, mỗi lời gọi **push** một frame lên đỉnh stack,
+và mỗi `return` **pop** frame đó ra — frame nào push sau cùng thì pop
+trước (LIFO):
+
+```mermaid
+sequenceDiagram
+    participant M as main
+    participant F as first
+    participant S as second
+    participant T as third
+    M->>F: gọi first() và push frame
+    F->>S: gọi second() và push frame
+    S->>T: gọi third() và push frame
+    Note over T: in ra "third" rồi return
+    T-->>S: return và pop third
+    S-->>F: return và pop second
+    F-->>M: return và pop first
+```
+
 Khi crash, **stack trace** liệt kê chuỗi gọi này — đọc từ trên xuống là
 biết hàm nào gọi hàm nào:
 
@@ -214,6 +233,18 @@ function recurse() {
 }
 
 recurse(); // RangeError
+```
+
+Cơ chế: mỗi lời gọi push thêm một frame nhưng không bao giờ pop (vì thiếu
+base case), stack cứ cao dần đến khi vượt giới hạn engine và ném lỗi:
+
+```mermaid
+flowchart TD
+    A["recurse() được gọi"] --> B["push 1 frame lên call stack"]
+    B --> C{"Có base case để dừng?"}
+    C -->|"Có"| D["return -> pop frame khỏi stack"]
+    C -->|"Không"| A
+    B -.->|"stack vượt giới hạn (~10k-50k frame)"| E["RangeError:<br/>Maximum call stack size exceeded"]
 ```
 
 Thường gặp khi:

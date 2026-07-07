@@ -130,6 +130,19 @@ function load() {
 }
 ```
 
+Sơ đồ luồng dưới đây cho thấy `finally` **luôn** chạy dù `try` thành công, `catch` xử lý được, hay lỗi tiếp tục bubble lên:
+
+```mermaid
+flowchart TD
+    Try["Chạy khối try"] --> Err{"Có throw lỗi?"}
+    Err -->|"Không"| Fin["Chạy khối finally"]
+    Err -->|"Có"| Catch["Chạy khối catch: xử lý err"]
+    Catch --> Rethrow{"catch rethrow hoặc phát sinh lỗi mới?"}
+    Rethrow -->|"Không"| Fin
+    Rethrow -->|"Có"| FinThrow["Chạy finally rồi lỗi bubble lên tầng trên"]
+    Fin --> Done["Tiếp tục code sau try/catch"]
+```
+
 Optional catch binding (ES2019) — bỏ tham số nếu không dùng:
 
 ```js

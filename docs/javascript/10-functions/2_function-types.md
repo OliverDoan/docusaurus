@@ -166,6 +166,21 @@ class Counter {
 }
 ```
 
+Sơ đồ dưới so sánh cách hai loại hàm xác định `this`: arrow function bỏ
+qua `this` của chính nó và lấy theo nơi **định nghĩa** (lexical), còn
+function thường quyết định `this` theo **cách gọi** tại thời điểm chạy.
+
+```mermaid
+flowchart TD
+    Start["Truy cập this bên trong hàm"] --> Q{"Loại hàm?"}
+    Q -->|"Arrow function"| L["Không có this riêng<br/>Lấy this của scope nơi ĐỊNH NGHĨA"]
+    Q -->|"Function thường"| C["Xác định this theo CÁCH GỌI"]
+    C --> C1["obj.fn() -> this = obj"]
+    C --> C2["fn() -> this = undefined / window"]
+    C --> C3["new Fn() -> this = instance mới"]
+    C --> C4["fn.call(ctx) -> this = ctx"]
+```
+
 ---
 
 ## Khi nào không nên dùng arrow

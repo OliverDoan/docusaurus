@@ -142,6 +142,20 @@ hoặc arrow function gán vào biến.
 
 :::
 
+Sơ đồ dưới đây tóm tắt: mọi khai báo đều được hoist, nhưng cách truy cập
+trước dòng khai báo khác nhau tùy loại:
+
+```mermaid
+flowchart TD
+    CODE["Engine scan toàn bộ scope<br/>trước khi chạy code"] --> HOIST["Tất cả khai báo được hoist"]
+    HOIST --> VAR["var<br/>khởi tạo undefined"]
+    HOIST --> LC["let / const<br/>vào TDZ (uninitialized)"]
+    HOIST --> FN["function declaration<br/>hoist cả body"]
+    VAR --> VU["Truy cập trước khai báo:<br/>trả về undefined"]
+    LC --> LCU["Truy cập trong TDZ:<br/>ReferenceError"]
+    FN --> FNU["Gọi trước khai báo:<br/>chạy được"]
+```
+
 ---
 
 ## Quy tắc đặt tên

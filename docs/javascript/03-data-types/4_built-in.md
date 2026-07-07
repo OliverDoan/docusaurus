@@ -47,6 +47,17 @@ JSON.stringify({ name: "An" }); // '{"name":"An"}' — đổi sang chuỗi
 /^[^@]+@[^@]+\.[^@]+$/.test("a@b.com"); // true — tìm theo mẫu
 ```
 
+Các built-in object hay dùng nhất, phân theo mục đích:
+
+```mermaid
+flowchart TD
+    BI["Built-in Objects<br/>(có sẵn, không cần cài)"] --> M["Math<br/>toán học, làm tròn, random"]
+    BI --> J["JSON<br/>serialize / parse dữ liệu"]
+    BI --> D["Date<br/>ngày giờ, timestamp"]
+    BI --> R["RegExp<br/>tìm - thay theo mẫu"]
+    BI --> I["Intl<br/>định dạng theo locale"]
+```
+
 :::tip[Dùng thực tế]
 
 - **`Math.random()` + `Math.round()`**: random xí ngầu, làm tròn giá tiền, chia phần trăm.

@@ -68,6 +68,24 @@ console.log("Hello");
 → Quy tắc: dùng **`defer`** cho hầu hết trường hợp; **`async`** cho
 analytics/ads độc lập; **`type="module"`** cho code dùng `import`/`export`.
 
+Sơ đồ dưới đây so sánh thời điểm tải và chạy script của ba chế độ:
+
+```mermaid
+flowchart TD
+    subgraph DEFAULT["Mặc định (không thuộc tính)"]
+      D1["Parse HTML"] --> D2["Gặp script thì DỪNG parse"]
+      D2 --> D3["Tải script"] --> D4["Chạy script"] --> D5["Parse tiếp HTML"]
+    end
+    subgraph ASYNC["async"]
+      A1["Tải script song song với parse"] --> A2["Tải xong thì DỪNG parse, chạy ngay"]
+      A2 --> A3["Parse tiếp<br/>(thứ tự KHÔNG đảm bảo)"]
+    end
+    subgraph DEFER["defer"]
+      F1["Tải script song song với parse"] --> F2["Parse xong toàn bộ HTML"]
+      F2 --> F3["Chạy script theo đúng thứ tự"]
+    end
+```
+
 **Ví dụ trực quan** — giả sử trang có 1 đoạn HTML và 1 script muốn đọc nó:
 
 ```html

@@ -86,6 +86,20 @@ JavaScript có **7 kiểu primitive**:
 
 Primitive là **immutable** — không sửa được, chỉ thay bằng giá trị mới.
 
+Sơ đồ dưới đây tóm tắt 7 kiểu primitive và vai trò của từng kiểu:
+
+```mermaid
+flowchart TD
+    P["Giá trị JavaScript"] --> PRIM["7 kiểu Primitive<br/>(immutable, so sánh theo value)"]
+    PRIM --> S["string<br/>chuỗi ký tự UTF-16"]
+    PRIM --> N["number<br/>IEEE-754 double"]
+    PRIM --> B["boolean<br/>true / false"]
+    PRIM --> NL["null<br/>rỗng có chủ ý"]
+    PRIM --> U["undefined<br/>chưa được gán"]
+    PRIM --> SY["symbol<br/>ID duy nhất (ES6)"]
+    PRIM --> BI["bigint<br/>số nguyên cực lớn (ES2020)"]
+```
+
 ---
 
 ## String

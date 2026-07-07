@@ -136,6 +136,21 @@ fn(); // "inner outer" — không phải "outer"
 Khi `inner` được viết bên trong `outer`, nó **vĩnh viễn** truy cập được
 biến của `outer`, dù `outer` đã return.
 
+Khi dùng một biến, engine dò theo **scope chain** — từ trong ra ngoài, hàm
+trong cùng trước, rồi ngược lên các scope cha, cuối cùng đến global; hễ
+gặp biến ở đâu thì dừng:
+
+```mermaid
+flowchart TD
+    A["inner(): dùng biến x"] --> B{"x có trong<br/>scope của inner?"}
+    B -->|"Có"| U1["Dùng x ở scope inner"]
+    B -->|"Không"| C{"x có trong<br/>scope của outer?"}
+    C -->|"Có"| U2["Dùng x = 'inner outer'"]
+    C -->|"Không"| D{"x có ở<br/>global scope?"}
+    D -->|"Có"| U3["Dùng x = 'outer'"]
+    D -->|"Không"| E["ReferenceError: x is not defined"]
+```
+
 ---
 
 ## Closures
@@ -162,6 +177,17 @@ counter(); // 3
 Khi `makeCounter` chạy xong, biến `count` **đáng lẽ bị GC**. Nhưng vì
 function trả về vẫn tham chiếu `count`, nó được **giữ sống** trong
 closure.
+
+Sơ đồ dưới cho thấy vì sao: function được trả về giữ tham chiếu tới
+Lexical Environment của `makeCounter`, nên Garbage Collector không thu hồi
+môi trường đó — `count` sống theo closure thay vì bị dọn dẹp:
+
+```mermaid
+flowchart LR
+    Ext["counter (biến bên ngoài)"] --> Ret["function được trả về"]
+    Ret -->|"giữ tham chiếu tới"| Env["Lexical Environment của makeCounter<br/>chứa biến count"]
+    GC["Garbage Collector"] -.->|"KHÔNG thu hồi vì Env vẫn bị tham chiếu"| Env
+```
 
 Mỗi lần gọi `makeCounter` tạo một closure mới:
 

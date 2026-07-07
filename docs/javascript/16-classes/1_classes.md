@@ -234,6 +234,23 @@ d.speak();
 // "Woof!"
 ```
 
+Quan hệ kế thừa giữa lớp cha `Animal` và lớp con `Dog` — `Dog` thừa hưởng thuộc tính/method của `Animal` và có thể ghi đè (override) hoặc bổ sung:
+
+```mermaid
+classDiagram
+    class Animal {
+        +name
+        +constructor(name)
+        +speak()
+    }
+    class Dog {
+        +breed
+        +constructor(name, breed)
+        +speak()
+    }
+    Animal <|-- Dog : "extends (kế thừa) + super()"
+```
+
 :::warning[Cần lưu ý]
 
 **Truy cập `this` trước `super()` → ReferenceError:**

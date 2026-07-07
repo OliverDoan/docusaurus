@@ -60,6 +60,21 @@ setTimeout(bound, 100); // "Hello, An" — this giữ nguyên là user
 - `apply(thisArg, argsArray)` — giống `call`, nhưng đối số là **mảng**.
 - `bind(thisArg)` — tạo **hàm mới** gắn cứng `this`, **không gọi ngay**.
 
+Sơ đồ dưới tóm tắt khác biệt cốt lõi: `call`/`apply` thực thi hàm **ngay
+lập tức** (chỉ khác cách truyền đối số), còn `bind` **trả về một hàm mới**
+đã gắn cứng `this` để gọi sau này:
+
+```mermaid
+flowchart TD
+    F["Hàm fn cần chỉ định this = ctx"] --> C["fn.call(ctx, a, b)"]
+    F --> A["fn.apply(ctx, [a, b])"]
+    F --> B["fn.bind(ctx, a, b)"]
+    C -->|"gọi NGAY, đối số rời"| R1["Chạy fn với this = ctx<br/>-> trả về kết quả"]
+    A -->|"gọi NGAY, đối số là mảng"| R1
+    B -->|"KHÔNG gọi ngay"| R2["Trả về HÀM MỚI<br/>đã gắn cứng this = ctx"]
+    R2 -->|"gọi sau: bound(...)"| R3["Chạy fn với this = ctx"]
+```
+
 :::tip[Dùng thực tế]
 
 - **Method borrowing**: mượn `Array.prototype.slice.call(arguments)`

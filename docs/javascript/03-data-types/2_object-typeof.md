@@ -193,7 +193,17 @@ typeof {};         // "object"
 - Khi đề xuất sửa trong ES5, đã có quá nhiều code dựa vào behavior này
   → quyết định **giữ lại vĩnh viễn**.
 
-Cách check chính xác:
+Cách check chính xác — luồng quyết định khi cần biết kiểu thật của một giá trị:
+
+```mermaid
+flowchart TD
+    A["Cần biết kiểu của value"] --> B{"value === null ?"}
+    B -->|"đúng"| C["Kiểu là null<br/>(typeof cho 'object' - quirk)"]
+    B -->|"sai"| D{"Array.isArray(value) ?"}
+    D -->|"đúng"| E["Kiểu là array<br/>(typeof cũng cho 'object')"]
+    D -->|"sai"| F["Dùng typeof value"]
+    F --> G["'string' / 'number' / 'boolean'<br/>'undefined' / 'symbol' / 'bigint'<br/>'function' / 'object'"]
+```
 
 ```js
 function getType(v) {

@@ -76,6 +76,22 @@ từ HTML — mỗi thẻ là một **node**.
 </div>
 ```
 
+Trình duyệt biến HTML trên thành **cây node**: `document` là gốc, mỗi thẻ
+là một element node, còn chữ bên trong là text node — JavaScript đi lại và
+sửa từng node trên cây này:
+
+```mermaid
+flowchart TD
+  doc["document"] --> html["&lt;html&gt;"]
+  html --> head["&lt;head&gt;"]
+  html --> body["&lt;body&gt;"]
+  body --> div["&lt;div id=app&gt;"]
+  div --> h1["&lt;h1&gt; Title"]
+  div --> p["&lt;p&gt; Para"]
+  h1 --> t1["text: Title"]
+  p --> t2["text: Para"]
+```
+
 JavaScript truy cập DOM qua `document`:
 
 ```js
@@ -261,6 +277,22 @@ Khi event xảy ra, nó **đi qua 3 pha**:
 1. **Capture** — từ `document` xuống target.
 2. **Target** — tại element phát sinh event.
 3. **Bubble** — từ target trở lại `document`.
+
+```mermaid
+flowchart TB
+  subgraph P1["Pha 1 — Capture (đi xuống)"]
+    direction TB
+    c1["document"] --> c2["&lt;div id=outer&gt;"]
+    c2 --> c3["&lt;button id=inner&gt;"]
+  end
+  c3 --> T["Pha 2 — Target (tại button)"]
+  T --> b1
+  subgraph P3["Pha 3 — Bubble (đi lên)"]
+    direction TB
+    b1["&lt;button id=inner&gt;"] --> b2["&lt;div id=outer&gt;"]
+    b2 --> b3["document"]
+  end
+```
 
 ```html
 <div id="outer">

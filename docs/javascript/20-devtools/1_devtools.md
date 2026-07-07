@@ -252,6 +252,16 @@ Pattern thường tìm:
 5. **Fix** — viết code, đo lại confirm.
 6. **Regression test** — thêm performance test nếu được.
 
+```mermaid
+flowchart TD
+    identify["1. Identify<br/>user report lag hay crash?"] --> reproduce["2. Reproduce<br/>tạo step tái hiện bug"]
+    reproduce --> measure["3. Measure<br/>Performance / Memory profile"]
+    measure --> analyze["4. Analyze<br/>đọc flame chart, heap snapshot"]
+    analyze --> fix["5. Fix<br/>sửa code"]
+    fix --> regression["6. Regression test<br/>đo lại xác nhận"]
+    regression --> measure
+```
+
 **Đừng optimize mò** — luôn có data trước khi sửa. "Premature
 optimization is the root of all evil" — code đơn giản, đúng trước,
 nhanh sau.

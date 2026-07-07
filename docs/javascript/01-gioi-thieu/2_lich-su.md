@@ -37,6 +37,18 @@ Tên ngôn ngữ qua các giai đoạn:
 - **LiveScript** (tháng 5/1995).
 - **JavaScript** (tháng 12/1995, marketing ăn theo Java).
 
+Toàn bộ hành trình của JavaScript có thể tóm tắt theo dòng thời gian:
+
+```mermaid
+flowchart LR
+    A["1995<br/>Brendan Eich dựng prototype<br/>trong 10 ngày"] --> B["1995<br/>Mocha then LiveScript then JavaScript"]
+    B --> C["1996<br/>Cuộc chiến trình duyệt<br/>Microsoft tung JScript"]
+    C --> D["1997<br/>Chuẩn hoá thành ECMAScript"]
+    D --> E["2009<br/>ES5 và Node.js ra đời"]
+    E --> F["2015<br/>ES6 — cuộc cách mạng"]
+    F --> G["2015 trở đi<br/>Phát hành theo năm (ES2016...)"]
+```
+
 ---
 
 ## Cuộc chiến trình duyệt
@@ -99,6 +111,14 @@ Mỗi feature phải qua **5 stage** của TC39 (committee chuẩn):
 - **Stage 2**: Draft (cú pháp ổn định).
 - **Stage 3**: Candidate (chuẩn bị merge).
 - **Stage 4**: Finished (vào spec năm sau).
+
+```mermaid
+flowchart LR
+    S0["Stage 0<br/>Strawperson (ý tưởng)"] --> S1["Stage 1<br/>Proposal (đã có champion)"]
+    S1 --> S2["Stage 2<br/>Draft (cú pháp ổn định)"]
+    S2 --> S3["Stage 3<br/>Candidate<br/>trình duyệt và Babel bắt đầu implement"]
+    S3 --> S4["Stage 4<br/>Finished (vào spec năm sau)"]
+```
 
 Stage 3 là điểm các trình duyệt và Babel/SWC bắt đầu implement. Khi
 đọc proposal trên https://github.com/tc39/proposals biết stage là biết

@@ -120,6 +120,21 @@ const res = await fetch("/api/users", {
 const data = await res.json();
 ```
 
+Về bản chất, `fetch` nhờ **trình duyệt** (nơi cung cấp Web API) gửi yêu cầu
+HTTP tới server rồi trả kết quả về cho JavaScript dưới dạng Promise:
+
+```mermaid
+sequenceDiagram
+  participant JS as JavaScript (fetch)
+  participant B as Trình duyệt (Web API)
+  participant S as Server
+  JS->>B: gọi fetch("/api/users")
+  B->>S: HTTP GET /api/users
+  S-->>B: HTTP 200 kèm JSON body
+  B-->>JS: Promise resolve với Response
+  Note over JS: await res.json() để parse body
+```
+
 **Options thường dùng:**
 
 ```js
@@ -186,6 +201,19 @@ if (!res.ok) {
   throw new Error(`HTTP ${res.status}`);
 }
 const data = await res.json();
+```
+
+Sơ đồ dưới cho thấy vì sao phải tự kiểm tra `res.ok`: chỉ **lỗi mạng** mới
+làm Promise reject, còn 4xx/5xx vẫn resolve bình thường:
+
+```mermaid
+flowchart TD
+  A["await fetch(url)"] --> B{"Có lỗi mạng?"}
+  B -->|"Có"| C["Promise REJECT tới khối catch"]
+  B -->|"Không"| D["Promise RESOLVE, kể cả 4xx/5xx"]
+  D --> E{"res.ok? (status 200-299)"}
+  E -->|"true"| F["await res.json() và dùng data"]
+  E -->|"false"| G["Tự throw Error, vd HTTP 404"]
 ```
 
 Đây là behavior **theo design** — nhưng dễ gây bug. Wrapper hàm chung

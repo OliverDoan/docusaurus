@@ -55,6 +55,19 @@ JavaScript cần một **engine** để chạy. Mỗi môi trường có engine 
 | Safari | **JavaScriptCore** |
 | Deno | **V8** |
 
+Code bạn viết luôn đi qua một engine trước khi CPU thực thi:
+
+```mermaid
+flowchart LR
+    JS["Code JavaScript bạn viết"] --> ENG["Engine (động cơ JS)<br/>parse rồi dịch sang lệnh máy"]
+    ENG --> V8["V8<br/>(Chrome, Edge, Node.js, Bun, Deno)"]
+    ENG --> SM["SpiderMonkey<br/>(Firefox)"]
+    ENG --> JSC["JavaScriptCore<br/>(Safari)"]
+    V8 --> CPU["CPU thực thi"]
+    SM --> CPU
+    JSC --> CPU
+```
+
 ```js
 // Trong browser
 document.title = "Mới";
@@ -86,6 +99,20 @@ JavaScript là ngôn ngữ **thông dịch** nhưng các engine hiện đại d�
 3. **Optimizer** (TurboFan trong V8) phát hiện code "nóng" (chạy nhiều
    lần) và biên dịch sang **machine code** tối ưu.
 4. **Deoptimizer** quay về bytecode khi assumption sai (vd biến đổi kiểu).
+
+```mermaid
+flowchart TD
+    SRC["Code JavaScript"] --> P["Parser"]
+    P --> AST["AST (Abstract Syntax Tree)"]
+    AST --> I["Interpreter — Ignition<br/>sinh và chạy bytecode"]
+    I --> HOT{"Code nóng?<br/>(chạy nhiều lần)"}
+    HOT -->|"Có"| O["Optimizer — TurboFan<br/>biên dịch sang machine code"]
+    HOT -->|"Chưa"| I
+    O --> D{"Assumption sai?<br/>(vd biến đổi kiểu)"}
+    D -->|"Có"| DEOPT["Deoptimizer<br/>quay về bytecode"]
+    DEOPT --> I
+    D -->|"Không"| FAST["Chạy nhanh bằng machine code tối ưu"]
+```
 
 Vì vậy nói JS "chậm" là lỗi thời — code JS chạy lâu trong hot path có
 thể đạt 80-90% tốc độ C++. Hiểu cơ chế JIT là nền tảng để viết code

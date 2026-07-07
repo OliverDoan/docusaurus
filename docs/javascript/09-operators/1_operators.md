@@ -183,6 +183,20 @@ const port = config.port ?? 3000;        // null/undefined fallback
 user && user.greet();                     // chỉ gọi nếu truthy
 ```
 
+Điểm khác nhau cốt lõi giữa `||` và `??` nằm ở **điều kiện rẽ về giá trị fallback**: `||` xét truthy/falsy (nên nuốt cả `0` và `""`), còn `??` chỉ xét `null`/`undefined`:
+
+```mermaid
+flowchart TD
+    subgraph OR["a || b (truthy fallback)"]
+        O1{"a có truthy?"} -->|"Có"| OA["trả về a"]
+        O1 -->|"Không (0, '', false, null...)"| OB["trả về b"]
+    end
+    subgraph NULLISH["a ?? b (nullish fallback)"]
+        N1{"a là null hoặc undefined?"} -->|"Có"| NB["trả về b"]
+        N1 -->|"Không (giữ cả 0 và '')"| NA["trả về a"]
+    end
+```
+
 Optional chaining + nullish coalescing — combo hiện đại:
 
 ```js

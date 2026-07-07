@@ -129,6 +129,14 @@ deep freeze tự viết hoặc dùng thư viện (Immer, Immutable.js).
    trong loop...).
 3. **Không bao giờ dùng `var`** trong code mới.
 
+```mermaid
+flowchart TD
+    START["Cần khai báo một biến"] --> Q1{"Giá trị có cần<br/>gán lại không?"}
+    Q1 -->|"Không"| CONST["Dùng const<br/>(mặc định)"]
+    Q1 -->|"Có"| LET["Dùng let<br/>(counter, accumulator, biến loop...)"]
+    START -.->|"Code mới: không bao giờ"| VAR["var (cách cũ, dễ gây lỗi)"]
+```
+
 ```js
 const users = await fetchUsers(); // không gán lại → const
 let total = 0;                     // sẽ thay đổi → let

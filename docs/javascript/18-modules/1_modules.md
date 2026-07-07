@@ -59,6 +59,15 @@ initUtils(); // rõ ràng gọi cái nào
 initCart();
 ```
 
+Nhờ `import`/`export`, quan hệ phụ thuộc giữa các file trở nên **tường minh** — nhìn vào là biết file nào cần file nào (đồ thị phụ thuộc):
+
+```mermaid
+flowchart LR
+    app["app.js<br/>(entry)"] -->|"import init, total"| utils["utils.js<br/>export init(), total"]
+    app -->|"import initCart"| cart["cart.js<br/>export default init()"]
+    utils -->|"import formatDate"| helper["helpers.js<br/>export formatDate()"]
+```
+
 Mỗi module có scope riêng nên không còn đụng tên; phụ thuộc khai báo tường minh; ESM luôn chạy ở **strict mode**; và bundler có thể **tree-shaking** (loại bỏ code không dùng khi build).
 
 :::tip[Dùng thực tế]

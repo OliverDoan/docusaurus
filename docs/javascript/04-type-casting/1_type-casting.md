@@ -196,6 +196,17 @@ false + 1;    // 1
 "1" + 2 + 3; // "123" — đã thành string từ đầu
 ```
 
+Luồng quyết định của toán tử `+`:
+
+```mermaid
+flowchart TD
+    A["Biểu thức a + b"] --> B{"Một trong hai bên là string ?"}
+    B -->|"có"| C["Nối chuỗi - concat<br/>bên còn lại ép sang string"]
+    B -->|"không"| D["Cộng số học<br/>cả hai ép sang number"]
+    C --> E["'5' + 3 → '53'"]
+    D --> F["5 + 3 → 8"]
+```
+
 Các toán tử khác (`-`, `*`, `/`, `%`, `**`) **luôn cố convert sang number**.
 
 :::

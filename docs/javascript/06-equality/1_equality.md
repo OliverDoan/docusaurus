@@ -91,6 +91,23 @@ Quy tắc đơn giản hoá:
 5. Object vs primitive → gọi `valueOf()`, `toString()`.
 6. NaN khác mọi thứ (kể cả chính nó).
 
+Sơ đồ dưới đây tóm tắt luồng quyết định của `==` — thấy rõ vì sao kết quả khó đoán: nó thử ép kiểu qua nhiều tầng trước khi kết luận:
+
+```mermaid
+flowchart TD
+    Start["a == b"] --> SameType{"Cùng kiểu?"}
+    SameType -->|"Có"| Strict["So sánh như === (không ép kiểu)"]
+    SameType -->|"Không"| NullUndef{"null và undefined?"}
+    NullUndef -->|"Có"| True["true"]
+    NullUndef -->|"Không"| NumStr{"Number và String?"}
+    NumStr -->|"Có"| ToNum1["String thành Number rồi so sánh"]
+    NumStr -->|"Không"| HasBool{"Có Boolean?"}
+    HasBool -->|"Có"| ToNum2["Boolean thành Number rồi so lại"]
+    HasBool -->|"Không"| ObjPrim{"Object và primitive?"}
+    ObjPrim -->|"Có"| ToPrim["Object thành primitive qua valueOf/toString rồi so lại"]
+    ObjPrim -->|"Không"| False["false"]
+```
+
 :::warning[Cần lưu ý]
 
 `==` có **các trường hợp counterintuitive**:

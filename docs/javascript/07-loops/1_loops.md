@@ -87,6 +87,17 @@ for (let i = 0; i < 5; i++) {
 }
 ```
 
+Thứ tự thực thi 3 phần lặp lại theo vòng: kiểm tra điều kiện **trước** mỗi lần chạy thân, cập nhật biến chạy **sau** thân, rồi quay lại kiểm tra điều kiện:
+
+```mermaid
+flowchart TD
+    Init["Khởi tạo: let i = 0"] --> Cond{"Điều kiện: i < n?"}
+    Cond -->|"true"| Body["Chạy thân vòng lặp"]
+    Body --> Inc["Cập nhật: i++"]
+    Inc --> Cond
+    Cond -->|"false"| End["Thoát vòng lặp"]
+```
+
 Lặp ngược:
 
 ```js
@@ -280,6 +291,19 @@ for (const item of arr) {
 ---
 
 ## Khi nào dùng cái nào?
+
+Cây quyết định nhanh để chọn đúng loại vòng lặp theo nhu cầu:
+
+```mermaid
+flowchart TD
+    Q1{"Cần duyệt gì?"} -->|"Array / iterable"| Q2{"Cần index hay break/continue?"}
+    Q1 -->|"Key của object"| ObjKeys["Object.keys/entries + for...of"]
+    Q1 -->|"Lặp theo điều kiện"| Q3{"Chạy ít nhất 1 lần?"}
+    Q2 -->|"Chỉ cần giá trị"| ForOf["for...of (hoặc .forEach nếu không cần break)"]
+    Q2 -->|"Cần index"| ForI["for cổ điển (hoặc .entries)"]
+    Q3 -->|"Có"| DoWhile["do...while"]
+    Q3 -->|"Không"| While["while"]
+```
 
 | Tình huống | Dùng |
 |-----------|------|

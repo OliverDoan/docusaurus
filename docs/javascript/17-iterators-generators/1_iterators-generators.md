@@ -146,6 +146,34 @@ gen.next(); // { value: 3, done: false }
 gen.next(); // { value: undefined, done: true }
 ```
 
+Mỗi lần gọi `next()`, generator **chạy tiếp tới `yield` kế tiếp rồi tạm dừng** — trả về `{ value, done }` cho code gọi, sau đó "đóng băng" lại chờ lần `next()` sau:
+
+```mermaid
+sequenceDiagram
+    participant Caller as "Code gọi"
+    participant Gen as "Generator counter()"
+    Caller->>Gen: gọi next() lần 1
+    Note over Gen: chạy tới yield 1 rồi tạm dừng
+    Gen-->>Caller: value 1, done false
+    Caller->>Gen: gọi next() lần 2
+    Note over Gen: resume, chạy tới yield 2
+    Gen-->>Caller: value 2, done false
+    Caller->>Gen: gọi next() lần cuối
+    Note over Gen: hết hàm
+    Gen-->>Caller: value undefined, done true
+```
+
+Nhìn theo trạng thái, generator luân phiên giữa **Suspended** (đang tạm dừng ở một `yield`) và **Running** (đang chạy), cuối cùng chuyển sang **Done** khi hết hàm:
+
+```mermaid
+stateDiagram-v2
+    [*] --> Suspended : "tạo generator"
+    Suspended --> Running : "gọi next()"
+    Running --> Suspended : "gặp yield (tạm dừng)"
+    Running --> Done : "return hoặc hết hàm"
+    Done --> [*] : "exhausted"
+```
+
 Generator **là iterable** — dùng trong `for...of`:
 
 ```js

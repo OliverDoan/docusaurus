@@ -176,6 +176,17 @@ arr.includes(2);
 arr.join(",");
 ```
 
+Điểm mấu chốt khi chọn method là **có mutate mảng gốc hay không**:
+
+```mermaid
+flowchart TD
+    A["Array methods"] --> B["Mutating<br/>(sửa mảng gốc)"]
+    A --> C["Non-mutating<br/>(trả về mảng mới)"]
+    B --> B1["sort, reverse, splice<br/>push, pop, shift, unshift"]
+    C --> C1["map, filter, reduce<br/>slice, concat, flat"]
+    C --> C2["ES2023: toSorted, toReversed<br/>toSpliced, with"]
+```
+
 ---
 
 ## Immutable methods (ES2023)
@@ -229,6 +240,18 @@ const u8  = new Uint8Array(buf);  // 16 phần tử 8-bit (cùng bộ nhớ)
 
 i32[0] = 0x12345678;
 console.log(u8[0]); // 0x78 (little-endian)
+```
+
+Quan hệ giữa `ArrayBuffer` (vùng nhớ thô) và các view TypedArray:
+
+```mermaid
+flowchart TD
+    AB["ArrayBuffer<br/>vùng nhớ nhị phân thô (byte)"] --> V["Các view đọc / ghi cùng vùng nhớ"]
+    V --> I8["Int8Array / Uint8Array / Uint8ClampedArray<br/>8-bit"]
+    V --> I16["Int16Array / Uint16Array<br/>16-bit"]
+    V --> I32["Int32Array / Uint32Array<br/>32-bit"]
+    V --> FL["Float32Array / Float64Array<br/>số thực"]
+    V --> BIG["BigInt64Array<br/>64-bit"]
 ```
 
 Các kiểu:

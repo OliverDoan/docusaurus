@@ -78,6 +78,15 @@ JavaScript là **garbage-collected language** — bước 1 và 3 **tự động
 Dev không có `malloc`/`free` như C, nhưng vẫn có thể tạo leak nếu không
 hiểu cơ chế.
 
+```mermaid
+stateDiagram-v2
+    [*] --> Allocate : "tạo giá trị"
+    Allocate --> Use : "đọc/ghi bộ nhớ"
+    Use --> Use : "còn tham chiếu"
+    Use --> Release : "không còn reference"
+    Release --> [*] : "GC thu hồi"
+```
+
 ---
 
 ## Stack vs Heap
@@ -253,6 +262,17 @@ b.ref = a;
 a = null;
 b = null;
 // Không reachable từ root → GC dọn cả hai
+```
+
+Có thể hình dung một chu kỳ Mark-and-Sweep gồm hai pha: **Mark** (đánh dấu mọi object còn reachable xuất phát từ root) rồi **Sweep** (quét heap, giải phóng object không được đánh dấu):
+
+```mermaid
+flowchart TD
+    root["Root<br/>(global object, stack frame)"] --> mark["Mark<br/>đánh dấu mọi object reachable từ root"]
+    mark --> sweep["Sweep<br/>quét toàn bộ heap"]
+    sweep --> check{"Object có được đánh dấu?"}
+    check -->|"Có (reachable)"| keep["Giữ lại"]
+    check -->|"Không (unreachable)"| free["Giải phóng bộ nhớ"]
 ```
 
 V8 (Chrome, Node, Edge) và SpiderMonkey (Firefox) đều dùng Mark-and-Sweep.

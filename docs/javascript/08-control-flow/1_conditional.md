@@ -90,6 +90,16 @@ if (score >= 90) {
 }
 ```
 
+Các điều kiện được kiểm tra **lần lượt từ trên xuống**; nhánh đầu tiên đúng sẽ chạy rồi bỏ qua toàn bộ phần còn lại:
+
+```mermaid
+flowchart TD
+    C1{"score >= 90?"} -->|"true"| A["console.log('A')"]
+    C1 -->|"false"| C2{"score >= 70?"}
+    C2 -->|"true"| B["console.log('B')"]
+    C2 -->|"false"| C["console.log('C')"]
+```
+
 Một dòng — bỏ `{}` (không khuyến khích vì dễ bug):
 
 ```js
@@ -155,6 +165,19 @@ switch (day) {
   default:
     console.log("Khác");
 }
+```
+
+`switch` so khớp giá trị với từng `case` bằng `===`; gặp `break` thì thoát, còn `default` chạy khi không case nào khớp:
+
+```mermaid
+flowchart TD
+    Sw["switch (day)"] --> Match{"So khớp === lần lượt từng case"}
+    Match -->|"case 1"| M1["In 'Thứ Hai'"] --> Br1["break: thoát switch"]
+    Match -->|"case 2 hoặc 3"| M2["In 'Thứ Ba/Tư'"] --> Br2["break: thoát switch"]
+    Match -->|"không case nào khớp"| Def["default: In 'Khác'"]
+    Br1 --> Done["Tiếp tục code sau switch"]
+    Br2 --> Done
+    Def --> Done
 ```
 
 :::warning[Cần lưu ý]
