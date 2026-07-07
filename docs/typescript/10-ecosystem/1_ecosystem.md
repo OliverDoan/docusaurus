@@ -7,6 +7,24 @@ title: "1. Ecosystem"
 
 **Ecosystem** (hệ sinh thái, tập hợp công cụ xoay quanh ngôn ngữ) là các công cụ thường đi kèm khi làm việc với TypeScript trong thực tế, chứ không phải bản thân ngôn ngữ. Nó gồm những thứ như trình định dạng code (formatter), trình kiểm tra lỗi phong cách (linter), công cụ build và công cụ chạy test. Bài này giúp người mới học hình dung bức tranh tổng thể về các công cụ hỗ trợ để viết và bảo trì dự án TypeScript chuyên nghiệp.
 
+Sơ đồ dưới phác hoạ cây công cụ chính của hệ sinh thái TypeScript theo từng nhóm nhiệm vụ:
+
+```mermaid
+flowchart TD
+    TS["Hệ sinh thái TypeScript"]
+    TS --> F["Formatter<br/>Prettier, Biome"]
+    TS --> L["Linter<br/>ESLint + typescript-eslint"]
+    TS --> B["Build / Compiler"]
+    TS --> T["Test runner<br/>Vitest, Jest, Bun test"]
+    TS --> P["Package hữu ích"]
+    B --> B1["tsc (type-check chuẩn)"]
+    B --> B2["esbuild / swc / Bun<br/>(nhanh, chỉ strip type)"]
+    B --> B3["Vite / Webpack / Turbopack<br/>(bundler)"]
+    P --> P1["Type utils: type-fest, ts-toolbelt"]
+    P --> P2["Validation: Zod, Valibot"]
+    P --> P3["API/ORM: tRPC, Drizzle, Prisma"]
+```
+
 ---
 
 ## Mục lục
@@ -131,6 +149,18 @@ build. Lỗi type **không bị bắt** trong quá trình bundle.
 3. **Sinh `.d.ts` cho thư viện**: dùng `tsup` hoặc `tsc --declaration`.
 
 Đừng dựa vào esbuild/swc để phát hiện lỗi type — chúng không làm.
+
+Sơ đồ dưới tóm tắt workflow tách bạch giữa build runtime nhanh và bước type-check riêng:
+
+```mermaid
+flowchart LR
+    Src["Source .ts"] --> Fast["esbuild / swc / Bun<br/>strip type, build nhanh"]
+    Fast --> Out["Bundle chạy được"]
+    Src --> Check["tsc --noEmit<br/>(CI và pre-commit)"]
+    Check --> Safe["Bắt lỗi type"]
+    Src --> Dts["tsup hoặc tsc --declaration"]
+    Dts --> DtsOut["Sinh .d.ts cho thư viện"]
+```
 
 :::
 

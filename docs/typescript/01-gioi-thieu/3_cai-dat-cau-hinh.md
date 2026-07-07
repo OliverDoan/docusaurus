@@ -84,6 +84,22 @@ npx tsc --init
 
 Sau đó chỉ cần gõ `npx tsc` để compile **toàn bộ project** theo cấu hình.
 
+Sơ đồ dưới đây mô tả luồng biên dịch của `tsc`: từ file nguồn `.ts`, đọc cấu hình trong `tsconfig.json`, rồi sinh ra `.js` để Node/trình duyệt chạy:
+
+```mermaid
+flowchart LR
+    TS["File nguồn (.ts)"]
+    Config["tsconfig.json<br/>(target, module, strict...)"]
+    TSC["tsc (TypeScript Compiler)"]
+    JS["File output (.js)"]
+    Run["Node.js / Trình duyệt chạy"]
+
+    TS --> TSC
+    Config -->|"quy tắc biên dịch"| TSC
+    TSC -->|"type-check rồi strip type"| JS
+    JS --> Run
+```
+
 **Chế độ watch** — tự compile lại khi file thay đổi:
 
 ```bash
@@ -170,5 +186,16 @@ Các runtime "chạy TS trực tiếp" thực ra chỉ **strip type annotation**
 
 → Workflow chuẩn: dùng `tsc --noEmit` trong CI/pre-commit để type-check,
 dùng runtime nhanh (tsx/Bun) để chạy thực thi.
+
+Sơ đồ workflow chuẩn tách riêng hai việc: kiểm tra kiểu và chạy code:
+
+```mermaid
+flowchart TD
+    Src["Code TypeScript (.ts)"]
+    Src --> A["Kiểm tra kiểu<br/>tsc --noEmit (CI / pre-commit)"]
+    Src --> B["Chạy thực thi<br/>tsx / Bun / Node --strip-types"]
+    A -->|"bắt lỗi kiểu"| Safe["Đảm bảo type-safe"]
+    B -->|"chỉ xóa type annotation, không type-check"| Fast["Chạy nhanh khi dev"]
+```
 
 :::

@@ -101,6 +101,24 @@ d.move(); // Kế thừa từ Animal
 d.bark();
 ```
 
+Sơ đồ dưới minh hoạ cây kế thừa: `Puppy` kế thừa `Dog`, `Dog` kế thừa `Animal`, method được truyền xuống các lớp con.
+
+```mermaid
+classDiagram
+    class Animal {
+        +name string
+        +move() void
+    }
+    class Dog {
+        +bark() void
+    }
+    class Puppy {
+        +bark() void
+    }
+    Animal <|-- Dog
+    Dog <|-- Puppy
+```
+
 Class con có thể gọi `super` để truy cập class cha:
 
 ```ts
@@ -144,6 +162,27 @@ class Circle extends Shape {
 
 new Shape();         // Error
 new Circle(5);       // OK
+```
+
+Sơ đồ dưới cho thấy quan hệ abstract → concrete: lớp abstract `Shape` giữ code chung (`describe`) và để `area` cho các lớp con `Circle`, `Square` hoàn thiện.
+
+```mermaid
+classDiagram
+    class Shape {
+        +area() number
+        +describe() string
+    }
+    class Circle {
+        -radius number
+        +area() number
+    }
+    class Square {
+        -side number
+        +area() number
+    }
+    Shape <|-- Circle
+    Shape <|-- Square
+    note for Shape "abstract: area() do lop con cai dat, describe() dung chung"
 ```
 
 :::info[Phân tích]

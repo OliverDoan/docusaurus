@@ -87,6 +87,17 @@ function add(a: number, b: number) {
 }
 ```
 
+Sơ đồ dưới đây tổng hợp các nguồn mà TypeScript dựa vào để suy luận kiểu.
+
+```mermaid
+flowchart TD
+    A["TypeScript suy luận kiểu"] --> B["Từ initializer (giá trị khởi tạo)"]
+    A --> C["Từ return của hàm"]
+    A --> D["Từ ngữ cảnh (contextual typing)"]
+    A --> E["Best common type (mảng nhiều kiểu)"]
+    B --> F["Biến được gán kiểu tự động, không cần annotate"]
+```
+
 :::tip[Mẹo]
 
 **Quy tắc vàng**: chỉ khai báo type **khi inference không đủ rõ** hoặc
@@ -153,6 +164,16 @@ const y = "hello"; // type: "hello" (literal, không widen)
 
 Lý do: `let` cho phép gán lại nên không thể giữ literal; `const` thì cố
 định.
+
+Sơ đồ sau đối chiếu hai chiều: widening mở rộng literal, còn narrowing thu hẹp union theo điều kiện kiểm tra.
+
+```mermaid
+flowchart LR
+    L["let x = 'hello'"] -->|"widening"| S["kiểu string"]
+    C["const y = 'hello'"] -->|"giữ literal"| Lit["kiểu 'hello'"]
+    U["tham số x: string | number"] -->|"typeof x === 'string'"| N1["x thu hẹp thành string"]
+    U -->|"nhánh còn lại"| N2["x thu hẹp thành number"]
+```
 
 **Narrowing**: TS thu hẹp type khi gặp điều kiện kiểm tra.
 

@@ -57,4 +57,19 @@ Hãy học **lần lượt từ nhóm 1 đến nhóm 10**, không nên nhảy c�
 3. **Nhóm 7-8** là phần nâng cao. Người mới có thể đọc lướt qua trước, rồi quay lại học sâu khi đã vững nền tảng.
 4. **Nhóm 9-10** giúp bạn áp dụng TypeScript vào dự án thật, biết cách cấu hình và làm việc trong nhóm.
 
+Sơ đồ dưới đây tóm tắt lộ trình học theo 4 chặng, mỗi chặng là nền tảng cho chặng sau:
+
+```mermaid
+flowchart TD
+    A["Nền tảng bắt buộc<br/>Nhóm 1-3: Giới thiệu, Types, Union/Narrowing"]
+    B["Cốt lõi<br/>Nhóm 4-6: Functions, Interfaces, Classes, Generics"]
+    C["Nâng cao<br/>Nhóm 7-8: Utility Types, Decorators, Advanced Types"]
+    D["Áp dụng thực tế<br/>Nhóm 9-10: Modules, Ecosystem, tsconfig"]
+
+    A -->|"dùng hằng ngày, thực hành kỹ"| B
+    B -->|"viết code có cấu trúc, tái sử dụng"| C
+    C -->|"đọc lướt trước, học sâu sau"| D
+    D -->|"làm dự án thật, làm việc nhóm"| E["Sẵn sàng dùng TS trong production"]
+```
+
 Lời khuyên: với mỗi chủ đề, hãy **tự gõ lại ví dụ và thử sửa cho lỗi cố tình** để xem TypeScript báo lỗi như thế nào. Học bằng cách thực hành sẽ nhớ lâu hơn nhiều so với chỉ đọc.

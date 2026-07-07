@@ -71,6 +71,17 @@ Decorator `@something` gắn lên **class / method / property / parameter** đ�
 `experimentalDecorators` cho decorator legacy, hoặc dùng decorator chuẩn ES
 trên TS 5.0+ — xem mục [Bật decorator](#bật-decorator).)
 
+Khi nhiều decorator xếp chồng trên cùng một method, thứ tự đánh giá và thứ tự áp dụng ngược nhau — sơ đồ dưới minh hoạ với `@log` và `@timed`:
+
+```mermaid
+flowchart TD
+    A["method add gắn @log rồi @timed"] --> B["Đánh giá biểu thức decorator từ trên xuống"]
+    B --> C["Áp dụng (gọi wrap) từ dưới lên"]
+    C --> D["@timed wrap add trước"]
+    D --> E["@log wrap tiếp kết quả của @timed"]
+    E --> F["Method cuối cùng = log bọc timed bọc add"]
+```
+
 :::tip[Dùng thực tế]
 
 - **Angular / NestJS**: `@Component`, `@Injectable` đánh dấu class cho DI
@@ -171,6 +182,20 @@ class Calc {
 }
 
 new Calc().add(1, 2); // log: Call add với [1, 2]
+```
+
+Sơ đồ dưới cho thấy lúc runtime, method đã bị decorator wrap sẽ chèn logic ghi log trước khi gọi method gốc:
+
+```mermaid
+sequenceDiagram
+    participant Caller as Người gọi
+    participant Wrapper as Method đã wrap
+    participant Original as Method gốc
+    Caller->>Wrapper: gọi add(1, 2)
+    Wrapper->>Wrapper: console.log ghi lại args
+    Wrapper->>Original: apply(this, args)
+    Original-->>Wrapper: trả về 3
+    Wrapper-->>Caller: trả về 3
 ```
 
 ---

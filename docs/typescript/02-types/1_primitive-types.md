@@ -77,6 +77,25 @@ chặt chẽ tại compile-time.
 | `null` | rỗng có chủ ý |
 | `undefined` | chưa được gán |
 
+Sơ đồ dưới đây phân loại 6 kiểu nguyên thủy theo nhóm ý nghĩa:
+
+```mermaid
+flowchart TD
+    P["Primitive Types (kiểu nguyên thủy)"]
+    P --> Data["Nhóm mang giá trị"]
+    P --> Empty["Nhóm biểu thị rỗng / vắng"]
+    P --> Special["Nhóm đặc biệt"]
+
+    Data --> B["boolean<br/>true / false"]
+    Data --> N["number<br/>số nguyên & số thực"]
+    Data --> S["string<br/>chuỗi ký tự"]
+
+    Empty --> Nu["null<br/>rỗng có chủ ý"]
+    Empty --> Un["undefined<br/>chưa được gán"]
+
+    Special --> V["void<br/>hàm không trả giá trị"]
+```
+
 Cú pháp khai báo:
 
 ```ts

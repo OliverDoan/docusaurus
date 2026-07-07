@@ -33,6 +33,23 @@ title: "4. tsconfig.json và Compiler Options"
 
 Có file này → chỉ cần gõ `tsc` không tham số là compile cả project.
 
+Sơ đồ dưới đây cho thấy mỗi nhóm option ảnh hưởng đến khía cạnh nào của quá trình biên dịch:
+
+```mermaid
+flowchart TD
+    Config["tsconfig.json"]
+    Config --> Scope["Chọn file<br/>include / exclude / files"]
+    Config --> Strict["Độ nghiêm ngặt kiểm tra kiểu<br/>strict + các flag con"]
+    Config --> Output["Định dạng output<br/>target / module / moduleResolution"]
+    Config --> Path["Vị trí file<br/>outDir / rootDir"]
+
+    Scope --> TSC["tsc biên dịch"]
+    Strict --> TSC
+    Output --> TSC
+    Path --> TSC
+    TSC --> Result["File .js (và .d.ts nếu bật declaration)"]
+```
+
 ---
 
 ## Cấu trúc cơ bản
@@ -89,6 +106,26 @@ Có file này → chỉ cần gõ `tsc` không tham số là compile cả projec
 | `strictPropertyInitialization` | Property class phải được khởi tạo |
 | `alwaysStrict` | Tự thêm `"use strict"` vào file output |
 | `useUnknownInCatchVariables` | Biến `catch (e)` là `unknown` thay vì `any` |
+
+Sơ đồ dưới đây phân biệt các flag được bật sẵn bởi `strict` với các flag "siêu strict" phải bật thủ công:
+
+```mermaid
+flowchart TD
+    S["strict: true"]
+    S --> A["strictNullChecks"]
+    S --> B["noImplicitAny"]
+    S --> C["strictFunctionTypes"]
+    S --> D["strictBindCallApply"]
+    S --> E["strictPropertyInitialization"]
+    S --> F["alwaysStrict"]
+    S --> G["useUnknownInCatchVariables"]
+
+    Extra["Bật thủ công (không nằm trong strict)"]
+    Extra --> H["noUncheckedIndexedAccess"]
+    Extra --> I["exactOptionalPropertyTypes"]
+    Extra --> J["noImplicitOverride"]
+    Extra --> K["noFallthroughCasesInSwitch"]
+```
 
 :::info[Phân tích]
 

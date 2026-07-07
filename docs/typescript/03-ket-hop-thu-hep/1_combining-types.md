@@ -55,6 +55,18 @@ type Entity = WithId & WithTimestamps;       // intersection: gộp cả hai
 const e: Entity = { id: 1, createdAt: new Date() };
 ```
 
+Sơ đồ dưới đây so sánh hai cách kết hợp kiểu chính: union (OR) và intersection (AND).
+
+```mermaid
+flowchart TD
+    A["Kết hợp kiểu"] --> B["Union A | B"]
+    A --> C["Intersection A &amp; B"]
+    B --> B1["Ý nghĩa: OR - là một trong các kiểu"]
+    B --> B2["Chỉ truy cập thuộc tính chung mọi nhánh"]
+    C --> C1["Ý nghĩa: AND - thỏa mãn đồng thời"]
+    C --> C2["Có đủ tất cả thuộc tính của các kiểu"]
+```
+
 :::tip[Dùng thực tế]
 
 - **ID linh hoạt:** `id: string | number` cho key vừa là UUID chuỗi vừa là số tự tăng.

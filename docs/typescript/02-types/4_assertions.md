@@ -77,6 +77,18 @@ const len = (data as string).length;
 
 Có 5 dạng assertion chính, mỗi dạng có mục đích riêng.
 
+Sơ đồ dưới đây tóm tắt: tùy mục đích mà chọn dạng assertion phù hợp.
+
+```mermaid
+flowchart TD
+    A["Giá trị cần khẳng định kiểu"] --> B{"Mục đích là gì?"}
+    B -->|"Ép sang kiểu cụ thể"| C["as Type"]
+    B -->|"Cố định literal thành readonly"| D["as const"]
+    B -->|"Tắt mọi kiểm tra (tạm thời)"| E["as any"]
+    B -->|"Khẳng định không null/undefined"| F["non-null (!)"]
+    B -->|"Ràng buộc shape mà giữ literal"| G["satisfies"]
+```
+
 ---
 
 ## as Type
@@ -108,6 +120,16 @@ const result = x.toFixed(2); // Crash runtime: x.toFixed is not a function
 (API, user), dùng validation runtime (Zod) thay vì `as`.
 
 :::
+
+Sơ đồ sau minh họa rủi ro: assertion chỉ tác động lúc biên dịch, nếu giá trị thực sai thì vẫn crash lúc chạy.
+
+```mermaid
+flowchart LR
+    A["Viết assertion (as / !)"] --> B["Compile-time: TS tin và bỏ qua kiểm tra"]
+    B --> C{"Giá trị thực có đúng kiểu?"}
+    C -->|"Đúng"| D["Chạy bình thường"]
+    C -->|"Sai"| E["Runtime crash (TS không cứu được)"]
+```
 
 ---
 

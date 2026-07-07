@@ -53,6 +53,19 @@ type UserRO     = Readonly<User>;         // khóa không cho sửa
 
 Utility types là các phép **biến đổi kiểu** dựng sẵn (`Partial<T>`, `Required<T>`, `Pick<T,K>`, `Omit<T,K>`, `Record<K,V>`, `Readonly<T>`, `ReturnType<T>`...), suy ra **tự động** từ kiểu gốc → DRY, gốc đổi thì biến thể cập nhật theo.
 
+Sơ đồ dưới minh hoạ cách từ một kiểu gốc `User` sinh ra nhiều biến thể qua các utility type khác nhau:
+
+```mermaid
+flowchart LR
+    User["User<br/>(kiểu gốc)"]
+    User -->|"Partial"| P["Mọi field optional<br/>(payload update)"]
+    User -->|"Required"| R["Mọi field bắt buộc"]
+    User -->|"Pick name email"| PK["Chỉ vài field<br/>(form)"]
+    User -->|"Omit password"| OM["Bỏ field nhạy cảm<br/>(response DTO)"]
+    User -->|"Readonly"| RO["Khoá không cho sửa"]
+    User -->|"Record"| RC["Map id đến entity<br/>(lookup table)"]
+```
+
 :::tip[Dùng thực tế]
 
 - **Payload update**: dùng `Partial<User>` để client chỉ gửi field cần đổi.

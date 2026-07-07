@@ -90,6 +90,16 @@ Arrow function:
 const multiply = (a: number, b: number): number => a * b;
 ```
 
+Sơ đồ dưới đây liệt kê các dạng tham số mà TypeScript hỗ trợ khi khai báo hàm.
+
+```mermaid
+flowchart TD
+    A["Tham số của hàm"] --> B["Bắt buộc: a: number"]
+    A --> C["Optional: b?: string"]
+    A --> D["Default: c = 'Mr.'"]
+    A --> E["Rest: ...args: number[]"]
+```
+
 ---
 
 ## Optional và default parameter
@@ -192,6 +202,17 @@ function parse(input: string | number): string[] | number[] {
 
 const a = parse("a,b,c"); // type: string[]
 const b = parse(42);      // type: number[]
+```
+
+Sơ đồ sau minh họa cách compiler chọn signature theo kiểu đối số, còn thân implementation thì ẩn với caller.
+
+```mermaid
+flowchart TD
+    Call["Gọi parse(input)"] --> Q{"Kiểu của input?"}
+    Q -->|"string"| S["Signature 1 trả về string[]"]
+    Q -->|"number"| N["Signature 2 trả về number[]"]
+    S --> Impl["Thân implementation (ẩn với caller)"]
+    N --> Impl
 ```
 
 :::info[Phân tích]

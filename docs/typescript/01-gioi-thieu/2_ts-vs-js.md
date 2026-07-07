@@ -88,6 +88,22 @@ console.log(user.age.toFixed(2));
 // Error: Property 'age' does not exist on type '{ name: string; }'
 ```
 
+Sơ đồ dưới đây cho thấy thời điểm phát hiện lỗi khác nhau giữa hai ngôn ngữ:
+
+```mermaid
+flowchart LR
+    Code["Viết code"]
+    Code --> JS["JavaScript<br/>chạy trực tiếp"]
+    Code --> TS["TypeScript<br/>qua bước biên dịch (tsc)"]
+
+    JS -->|"không kiểm tra kiểu"| Run1["Runtime"]
+    Run1 --> Bug["Lỗi lộ ra khi chạy<br/>TypeError, crash production"]
+
+    TS -->|"kiểm tra kiểu compile-time"| Check{"Có lỗi kiểu?"}
+    Check -->|"Có"| Fix["Báo đỏ ngay trong IDE<br/>sửa trước khi chạy"]
+    Check -->|"Không"| Run2["Runtime an toàn hơn"]
+```
+
 :::warning[Cần lưu ý]
 
 Type của TypeScript **không tồn tại tại runtime**. Code dưới đây pass

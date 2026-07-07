@@ -58,6 +58,24 @@ user.id = 2;              // Error: 'id' là readonly
 
 Compiler bắt lỗi ngay khi **thiếu field bắt buộc, thừa field lạ, hoặc sai kiểu**, đồng thời editor **autocomplete** đúng tên thuộc tính nên gần như không gõ nhầm.
 
+Sơ đồ dưới đây phân loại các kiểu đối tượng thường gặp trong bài này:
+
+```mermaid
+flowchart TD
+    O["Object Types (kiểu đối tượng)"]
+    O --> Shape["Mô tả hình dạng"]
+    O --> Coll["Tập hợp nhiều phần tử"]
+    O --> Const["Tập hằng số"]
+
+    Shape --> I["interface<br/>mô tả shape object"]
+    Shape --> C["class<br/>vừa là kiểu, vừa là giá trị"]
+
+    Coll --> A["array<br/>nhiều phần tử cùng kiểu, độ dài linh hoạt"]
+    Coll --> T["tuple<br/>độ dài cố định, kiểu theo từng vị trí"]
+
+    Const --> E["enum<br/>tập hằng số được đặt tên"]
+```
+
 :::tip[Dùng thực tế]
 
 - **Định kiểu response API**: mô tả shape JSON trả về để dùng `data.user.name` an toàn, không lo field đổi tên.

@@ -62,6 +62,18 @@ type UserGetters = Getters<User>; // sửa User → các kiểu này cập nhậ
 
 Các kiểu nâng cao — `keyof`, `typeof` (lấy kiểu từ giá trị), mapped types (`{ [K in keyof T]: ... }`), conditional types (`T extends U ? X : Y`), template literal types, indexed access `T[K]` và `infer` — cho phép biến đổi và suy diễn kiểu một cách mạnh mẽ, mô hình hoá API phức tạp mà vẫn type-safe. Đây cũng là nền tảng của các utility type built-in (`Partial`, `Readonly`, `ReturnType`...).
 
+Sơ đồ dưới tổng hợp các công cụ "lập trình trên kiểu" khi xuất phát từ một kiểu gốc `T`:
+
+```mermaid
+flowchart TD
+    Base["Kiểu gốc T"]
+    Base -->|"[K in keyof T]"| M["Mapped type<br/>(duyệt và biến đổi từng key)"]
+    Base -->|"T extends U ? X : Y"| C["Conditional type<br/>(chọn kiểu theo điều kiện)"]
+    Base -->|"template ghép chuỗi"| TL["Template literal type<br/>(ghép chuỗi ở cấp type)"]
+    Base -->|"T[K]"| I["Indexed access<br/>(lấy kiểu của field)"]
+    C -->|"infer R"| Inf["Trích xuất kiểu con bên trong"]
+```
+
 :::tip[Dùng thực tế]
 
 - **Tự sinh kiểu form từ model:** `Patch<User>` cho dữ liệu chỉnh sửa một phần, không cần khai báo lại.
@@ -211,6 +223,19 @@ type Args<F>   = F extends (...args: infer A) => any ? A : never;
 type ToArray<T> = T extends any ? T[] : never;
 type A = ToArray<string | number>;
 // string[] | number[]  (KHÔNG phải (string | number)[])
+```
+
+Sơ đồ dưới minh hoạ cơ chế phân tán (distribute) khi `T` là union:
+
+```mermaid
+flowchart TD
+    Start["ToArray T = T extends any ? T[] : never"] --> Q{"T có phải union?"}
+    Q -->|"Không"| Single["Áp trực tiếp thành T[]"]
+    Q -->|"Có (vd string hoặc number)"| Dist["Phân tán lên từng nhánh"]
+    Dist --> R1["string thành string[]"]
+    Dist --> R2["number thành number[]"]
+    R1 --> Merge["Kết quả string[] hoặc number[]"]
+    R2 --> Merge
 ```
 
 Cơ chế này giúp viết hàm áp dụng cho từng nhánh union. Để tắt

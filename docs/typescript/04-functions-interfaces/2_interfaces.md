@@ -135,6 +135,37 @@ interface Duck extends Swimmer, Flyer {
 }
 ```
 
+Sơ đồ lớp dưới đây tóm tắt quan hệ: interface `extends` interface khác, và class `implements` interface (cam kết theo contract).
+
+```mermaid
+classDiagram
+    class Animal {
+      +string name
+    }
+    class Dog {
+      +string breed
+    }
+    class Swimmer {
+      +swim() void
+    }
+    class Flyer {
+      +fly() void
+    }
+    class Duck {
+      +string name
+    }
+    class Repository {
+      +findById(id) User
+    }
+    class UserRepo {
+      +findById(id) User
+    }
+    Animal <|-- Dog : extends (kế thừa)
+    Swimmer <|-- Duck : extends
+    Flyer <|-- Duck : extends
+    Repository <|.. UserRepo : implements (cam kết)
+```
+
 ---
 
 ## Declaration Merging
@@ -229,6 +260,17 @@ Pattern này hay gặp khi typing thư viện kiểu **jQuery**, **lodash chain*
 | Mapped type | Không | OK |
 | Declaration merging | **Có** | Không |
 | Module augmentation | **Có** | Không |
+
+Sơ đồ sau gợi ý cách chọn nhanh giữa `interface` và `type`.
+
+```mermaid
+flowchart TD
+    A["Cần đặt tên cho một kiểu"] --> B{"Là object shape / public API cần mở rộng?"}
+    B -->|"Có"| C["Dùng interface (extends, merging, augment)"]
+    B -->|"Không"| D{"Là union, tuple, mapped, conditional?"}
+    D -->|"Có"| E["Dùng type"]
+    D -->|"Không"| F["Chọn một quy ước và giữ nhất quán"]
+```
 
 :::tip[Mẹo]
 

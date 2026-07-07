@@ -65,6 +65,19 @@ parse("x"); // type: string
 parse(10);  // type: number
 ```
 
+Sơ đồ dưới phân biệt hai khái niệm dễ nhầm: **override** xảy ra giữa lớp cha và lớp con, còn **overload** là nhiều chữ ký cho cùng một tên trong một phạm vi.
+
+```mermaid
+flowchart TD
+    Q{"Muốn làm gì?"}
+    Q -->|"Viết lại method cha ở lớp con"| OV["Override<br/>(cùng tên, cùng signature)"]
+    Q -->|"Một tên nhận nhiều dạng tham số"| OL["Overload<br/>(nhiều signature, 1 cài đặt)"]
+    OV --> OVK["Dùng 'override' + noImplicitOverride<br/>để chặn typo và rename lệch"]
+    OV --> OVR["Runtime dynamic dispatch<br/>chọn version theo class thực"]
+    OL --> OLK["Khai báo các signature trước<br/>rồi 1 hàm cài đặt chung"]
+    OL --> OLR["Compile-time: TS chọn kiểu trả về<br/>theo đối số truyền vào"]
+```
+
 :::tip[Dùng thực tế]
 
 - Ghi đè method an toàn khi kế thừa: `override` + `noImplicitOverride` chặn typo và bắt lỗi khi method cha bị rename.
@@ -227,6 +240,18 @@ class Calculator {
 const c = new Calculator();
 c.add(1, 2);       // type: number
 c.add("a", "b");   // type: string
+```
+
+Sơ đồ dưới mô tả cách compiler khớp lời gọi với đúng overload signature để suy ra kiểu trả về.
+
+```mermaid
+flowchart TD
+    Call["c.add(x, y)"] --> Match{"Khớp signature nào?"}
+    Match -->|"(number, number)"| S1["Trả về number"]
+    Match -->|"(string, string)"| S2["Trả về string"]
+    Match -->|"Không khớp signature nào"| Err["Compile error"]
+    S1 --> Impl["Chạy phần cài đặt add(a, b)"]
+    S2 --> Impl
 ```
 
 :::tip[Mẹo]

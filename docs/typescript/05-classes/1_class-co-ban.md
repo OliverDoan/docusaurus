@@ -152,6 +152,31 @@ class Saver extends Account {
 }
 ```
 
+Sơ đồ lớp dưới đây thể hiện các thành phần của class cùng mức truy cập: `+` public, `#` protected, `-` private.
+
+```mermaid
+classDiagram
+    class Account {
+      +string username
+      #number balance
+      -string password
+      +constructor(u, b, p)
+    }
+    class Saver {
+      +showBalance() void
+    }
+    Account <|-- Saver : extends (kế thừa)
+```
+
+Sơ đồ sau tóm tắt phạm vi truy cập của từng access modifier.
+
+```mermaid
+flowchart TD
+    M["Thành viên của class"] --> P["public: truy cập từ bất kỳ đâu"]
+    M --> Pr["protected: class này và class con"]
+    M --> Pv["private: chỉ trong class này"]
+```
+
 :::info[Phân tích]
 
 TS có **hai cách** đánh dấu private:
