@@ -32,6 +32,16 @@ học React, bạn cần nắm chắc các kiến thức nền:
 | **Promise / async** | Mọi data fetching đều async |
 | **npm** | Cài thư viện, chạy script |
 
+Các mảnh kiến thức nền đều là điều kiện đầu vào trước khi thực sự dựng app React:
+
+```mermaid
+flowchart LR
+    JS["JavaScript<br/>ES6+, async"] --> R["React"]
+    HTML["HTML / CSS"] --> R
+    NPM["npm<br/>package + script"] --> R
+    R --> Build["Xây app thực tế"]
+```
+
 ---
 
 ## JavaScript checklist
@@ -132,6 +142,18 @@ IntelliSense, Prettier) sẽ tự động nhắc.
   - GitLens
 - [ ] **Browser DevTools** — Elements, Console, Network, React DevTools extension.
 - [ ] **Terminal** — chạy command, navigation cơ bản.
+
+Lộ trình học từng bước để tránh quá tải:
+
+```mermaid
+flowchart TD
+    S1["1. JS thuần<br/>vững nền"] --> S2["2. React cơ bản<br/>Vite + JSX + props/state + hooks"]
+    S2 --> S3["3. TypeScript đan vào React"]
+    S3 --> S4["4. Routing + data fetching"]
+    S4 --> S5["5. Styling (Tailwind)"]
+    S5 --> S6["6. State management<br/>khi thực sự cần"]
+    S6 --> S7["7. Framework (Next.js)"]
+```
 
 :::warning[Cần lưu ý]
 

@@ -74,6 +74,26 @@ function ProductList() {
 }
 ```
 
+Luồng lấy data qua một server-state library (như TanStack Query) diễn ra như sau:
+
+```mermaid
+sequenceDiagram
+    participant C as Component
+    participant Q as useQuery
+    participant Cache as Cache
+    participant API as Backend API
+    C->>Q: Yêu cầu data (queryKey)
+    Q->>Cache: Kiem tra cache
+    alt Có cache còn tươi
+        Cache-->>C: Trả data ngay
+    else Chưa có hoặc stale
+        Q->>API: Gửi request
+        API-->>Q: Trả JSON
+        Q->>Cache: Lưu vào cache
+        Q-->>C: Cập nhật data
+    end
+```
+
 > Lưu ý: **Axios** giải quyết vấn đề nhỏ hơn — interceptor, tự parse JSON, tự throw khi HTTP error (xem mục [Axios](#axios)). Nó thay `fetch`, nhưng **không** lo cache/refetch/retry như server-state library.
 
 :::tip[Dùng thực tế]
@@ -119,6 +139,18 @@ function UserProfile({ id }) {
   if (error) return <Error error={error} />;
   return <div>{user.name}</div>;
 }
+```
+
+Dù tự fetch hay dùng thư viện, một request luôn đi qua các trạng thái sau:
+
+```mermaid
+stateDiagram-v2
+    [*] --> Loading
+    Loading --> Success: fetch ok
+    Loading --> Error: fetch fail
+    Success --> Loading: refetch
+    Error --> Loading: retry
+    Success --> [*]
 ```
 
 :::warning[Cần lưu ý]

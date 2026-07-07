@@ -73,6 +73,20 @@ async function fetchUser(): Promise<User> {
 
 **Hai lớp bảo vệ:** TypeScript bắt lỗi lúc compile (props, code nội bộ), Zod/Yup kiểm tra lúc runtime cho mọi dữ liệu đến từ bên ngoài.
 
+Có thể hình dung hai lớp bảo vệ này hoạt động ở hai thời điểm khác nhau:
+
+```mermaid
+flowchart LR
+    subgraph Compile["Lúc compile - TypeScript"]
+      P["Props / state / code nội bộ"] --> TS["TS kiểm tra kiểu"]
+    end
+    subgraph Runtime["Lúc chạy - Zod / Yup"]
+      EXT["Data ngoài<br/>(API, form, localStorage)"] --> ZOD["schema.parse()"]
+    end
+    TS --> APP["App an toàn"]
+    ZOD --> APP
+```
+
 :::tip[Dùng thực tế]
 
 - **Định kiểu props component**: TypeScript báo ngay khi quên prop hoặc truyền sai kiểu, kèm autocomplete.
@@ -279,6 +293,16 @@ async function fetchUser() {
   return UserSchema.parse(raw); // throw nếu sai schema
   // Trả về User (typed)
 }
+```
+
+Luồng dữ liệu ngoài đi qua cửa kiểm tra schema trước khi vào app:
+
+```mermaid
+flowchart LR
+    API["fetch /api/user"] --> RAW["raw: any<br/>chưa tin được"]
+    RAW --> PARSE{"UserSchema.parse()"}
+    PARSE -->|"Hợp lệ"| TYPED["User đã có type<br/>dùng an toàn"]
+    PARSE -->|"Sai schema"| THROW["Throw ZodError"]
 ```
 
 ---

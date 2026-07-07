@@ -71,6 +71,22 @@ function App() {
 // back/forward, link chia sẻ được URL, bookmark... router lo hết.
 ```
 
+Sơ đồ dưới đây minh hoạ luồng router ánh xạ URL thành component tương ứng:
+
+```mermaid
+flowchart LR
+    User["User click Link<br/>hoặc nhập URL"] --> Router["Router lắng nghe URL"]
+    Router --> Match{"Khớp path nào?"}
+    Match -->|"/"| Home["Home"]
+    Match -->|"/about"| About["About"]
+    Match -->|"/users/:id"| Detail["UserDetail<br/>(param id)"]
+    Match -->|"không khớp"| NF["NotFound"]
+    Home --> Render["Render không reload trang"]
+    About --> Render
+    Detail --> Render
+    NF --> Render
+```
+
 :::tip[Dùng thực tế]
 
 - **Nhiều "trang" trong SPA**: tách `/`, `/about`, `/dashboard`... mà không reload toàn trang.
@@ -270,9 +286,33 @@ function Layout() {
 `<Outlet />` là placeholder render route con — pattern thay cho `children`
 trong layout.
 
+Sơ đồ cây route lồng nhau với layout dùng chung:
+
+```mermaid
+flowchart TD
+    Root["Route / -> Layout<br/>(NavBar + Outlet + Footer)"]
+    Root --> Index["index -> Home"]
+    Root --> Users["users -> Users"]
+    Root --> Settings["settings -> Settings"]
+    Index -.->|"render vào"| Outlet["Outlet của Layout"]
+    Users -.->|"render vào"| Outlet
+    Settings -.->|"render vào"| Outlet
+```
+
 ---
 
 ## Protected Routes
+
+Luồng kiểm tra quyền truy cập trước khi vào trang được bảo vệ:
+
+```mermaid
+flowchart TD
+    Access["Truy cập /dashboard"] --> Loading{"Đang loading auth?"}
+    Loading -->|"Có"| Spinner["Hiện Spinner"]
+    Loading -->|"Không"| Auth{"Đã đăng nhập?"}
+    Auth -->|"Chưa"| Redirect["Navigate to /login<br/>(lưu vị trí cũ)"]
+    Auth -->|"Rồi"| Content["Render Dashboard"]
+```
 
 Pattern wrap route cần auth:
 

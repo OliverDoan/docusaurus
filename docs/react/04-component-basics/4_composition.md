@@ -114,6 +114,14 @@ function UserCard({ user }) {
 }
 ```
 
+Cây component sau khi ghép — `UserCard` gồm các component con:
+
+```mermaid
+flowchart TD
+    UserCard["UserCard"] --> Avatar["Avatar<br/>(img)"]
+    UserCard --> UserName["UserName<br/>(h2)"]
+```
+
 ---
 
 ## children prop
@@ -184,6 +192,16 @@ Pattern **phối hợp nhiều component liên quan**, chia sẻ state ngầm:
     <Button>Save</Button>
   </Card.Footer>
 </Card>
+```
+
+Cấu trúc phân cấp của một compound component:
+
+```mermaid
+flowchart TD
+    Card["Card"] --> Header["Card.Header"]
+    Card --> Body["Card.Body"]
+    Card --> Footer["Card.Footer"]
+    Footer --> Btn["Button"]
 ```
 
 Implementation:

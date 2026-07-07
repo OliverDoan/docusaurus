@@ -86,6 +86,22 @@ const Button = styled.button`
 | **Emotion** | **Có** | Cân nhắc | Tương tự Styled Components |
 | **SASS/SCSS** | Không | Tùy | Vẫn dùng được với React |
 
+Sơ đồ dưới đây phân loại các cách viết CSS theo nhóm:
+
+```mermaid
+flowchart TD
+    Root["Cách viết CSS trong React"]
+    Root --> Zero["Zero-runtime<br/>(build-time)"]
+    Root --> Runtime["Có runtime<br/>(CSS-in-JS)"]
+    Zero --> TW["Tailwind CSS<br/>(utility-first)"]
+    Zero --> CM["CSS Modules<br/>(scope tự động)"]
+    Zero --> Panda["Panda CSS"]
+    Zero --> VE["vanilla-extract"]
+    Zero --> Sass["SASS/SCSS"]
+    Runtime --> SC["Styled Components"]
+    Runtime --> Emotion["Emotion"]
+```
+
 ---
 
 ## Tailwind CSS (khuyến nghị)
@@ -341,6 +357,23 @@ Component library / design system?
 
 Mobile (React Native)?
 └─ NativeWind (Tailwind cho RN) / StyleSheet API
+```
+
+Sơ đồ hoá quy tắc chọn ở trên:
+
+```mermaid
+flowchart TD
+    Start["Chọn giải pháp CSS"]
+    Start --> Type{"Loại dự án?"}
+    Type -->|"SPA / SSR thường"| Q1{"Ưu tiên gì?"}
+    Q1 -->|"Atomic + nhanh"| TW["Tailwind CSS"]
+    Q1 -->|"Type-safe CSS-in-JS"| Panda["Panda CSS<br/>vanilla-extract"]
+    Q1 -->|"Quen CSS truyền thống"| CM["CSS Modules"]
+    Q1 -->|"Legacy SCSS"| Sass["SCSS (migrate dần)"]
+    Type -->|"Design system"| DS{"Nhu cầu?"}
+    DS -->|"Token system"| VE["vanilla-extract / Panda"]
+    DS -->|"Theme đổi runtime"| CSSVar["CSS variables + Tailwind"]
+    Type -->|"React Native"| RN["NativeWind / StyleSheet"]
 ```
 
 Đa số dự án **Tailwind là default** — học cú pháp đáng giá.

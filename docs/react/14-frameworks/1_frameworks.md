@@ -33,6 +33,21 @@ React core **không phải framework** — chỉ là UI library. Framework thêm
 - **Build optimization**.
 - **Deployment** integration.
 
+Điểm khác nhau cốt lõi giữa các framework nằm ở chiến lược render — so sánh CSR, SSR và SSG:
+
+```mermaid
+flowchart TD
+    subgraph CSR["CSR - Client-Side Rendering"]
+      C1["Server gửi HTML rỗng + JS"] --> C2["Browser chạy JS rồi render"]
+    end
+    subgraph SSR["SSR - Server-Side Rendering"]
+      S1["Server render HTML mỗi request"] --> S2["Browser hiện ngay rồi hydrate"]
+    end
+    subgraph SSG["SSG - Static Site Generation"]
+      G1["Render HTML lúc build"] --> G2["CDN trả file tĩnh"]
+    end
+```
+
 | Framework | Strength | Khuyến nghị | Use case |
 |-----------|---------|-------------|----------|
 | **Next.js** | All-in-one, ecosystem lớn | **Có** | SaaS, dashboard, blog, e-commerce |
@@ -92,6 +107,20 @@ async function UsersPage() {
     </ul>
   );
 }
+```
+
+Với Server Component, dữ liệu được lấy ngay trên server trước khi trả HTML về cho browser:
+
+```mermaid
+sequenceDiagram
+    participant B as Browser
+    participant S as Next.js Server
+    participant DB as Database
+    B->>S: Yêu cầu trang
+    S->>DB: Query dữ liệu (Server Component)
+    DB-->>S: Trả dữ liệu
+    S-->>B: HTML đã render sẵn
+    B->>B: Hydrate phần Client Component
 ```
 
 :::info[Phân tích]

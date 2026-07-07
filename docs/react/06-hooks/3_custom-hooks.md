@@ -83,6 +83,24 @@ function ProductList() {
 }
 ```
 
+Sơ đồ dưới đây mô tả việc trích logic lặp lại thành custom hook để dùng chung:
+
+```mermaid
+flowchart TD
+    subgraph Truoc["Trước - lặp logic"]
+        A["UserList<br/>useState + useEffect"]
+        B["ProductList<br/>useState + useEffect"]
+    end
+    subgraph Sau["Sau - tách custom hook"]
+        H["useFetch(url)<br/>(logic dùng chung)"]
+        A2["UserList"] -->|"gọi"| H
+        B2["ProductList"] -->|"gọi"| H
+        H -->|"state riêng<br/>từng component"| A2
+        H -->|"state riêng<br/>từng component"| B2
+    end
+    Truoc -->|"trích logic"| Sau
+```
+
 :::tip[Dùng thực tế]
 
 - **`useFetch`** — gom `data` + `loading` + `error` cho mọi lời gọi API.
@@ -435,6 +453,20 @@ const { data } = useFetch<User>("/api/user"); // data: User | null
 - **Component** = render logic + state.
 - **Custom hook** = stateful logic không phải UI.
 - **Util function** = pure logic không có state.
+
+Sơ đồ quyết định nên đặt logic vào đâu:
+
+```mermaid
+flowchart TD
+    Start["Đoạn logic cần viết"]
+    Start --> Q1{"Có render UI không?"}
+    Q1 -->|"Không"| Q2{"Có state hay<br/>side effect không?"}
+    Q2 -->|"Không"| Util["Util function<br/>(pure logic)"]
+    Q2 -->|"Có"| Hook["Custom hook<br/>(stateful logic)"]
+    Q1 -->|"Có"| Q3{"State lấy từ đâu?"}
+    Q3 -->|"Local"| Comp["Component<br/>(UI + state local)"]
+    Q3 -->|"Từ ngoài truyền vào"| Ctrl["Controlled component"]
+```
 
 Khi viết code:
 

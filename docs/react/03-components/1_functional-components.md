@@ -73,6 +73,24 @@ function Counter() {
 }
 ```
 
+So sánh hai cách viết component và bước chuyển đổi từ React 16.8:
+
+```mermaid
+flowchart TD
+    subgraph Class["Class Component (cũ)"]
+        C1["constructor + bind this"]
+        C2["state qua this.state"]
+        C3["logic rải rác lifecycle<br/>(DidMount, DidUpdate...)"]
+    end
+    subgraph Func["Functional Component (nay)"]
+        F1["chỉ là hàm trả JSX"]
+        F2["state qua useState"]
+        F3["side effect gom trong useEffect"]
+        F4["tái dùng logic qua custom hook"]
+    end
+    Class -->|"React 16.8+ Hooks"| Func
+```
+
 :::tip[Dùng thực tế]
 
 - **Mọi component UI mới** — luôn bắt đầu bằng functional component.
@@ -96,6 +114,17 @@ Mỗi component có thể là:
 - **Layout** — bố cục chung.
 - **Section** — phần con của page.
 - **UI element** — Button, Card, Input...
+
+Các dạng component đều chung một khuôn: nhận props và trả về JSX:
+
+```mermaid
+flowchart TD
+    Comp["Component<br/>nhận props → trả JSX"]
+    Comp --> Page["Page (trang)"]
+    Comp --> Layout["Layout (bố cục)"]
+    Comp --> Section["Section (phần con)"]
+    Comp --> UI["UI element<br/>Button, Card, Input"]
+```
 
 ```jsx
 // Component đơn giản

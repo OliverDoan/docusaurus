@@ -47,6 +47,17 @@ npm install
 npm run dev
 ```
 
+Các bước tạo và chạy một dự án Vite theo trình tự:
+
+```mermaid
+flowchart LR
+    A["npm create vite@latest"] --> B["Chọn template<br/>react-ts"]
+    B --> C["cd my-app"]
+    C --> D["npm install"]
+    D --> E["npm run dev"]
+    E --> F["Dev server<br/>hot reload tức thì"]
+```
+
 Template phổ biến:
 
 - `react` — JavaScript
@@ -198,6 +209,18 @@ Vấn đề của CRA:
    ├─ Cần TanStack Start (file-based router)? → TanStack Start
    ├─ Codebase nhỏ, ưu tiên tốc độ dev? → Vite
    └─ Cần routing + server actions? → Next.js
+```
+
+Cùng cây quyết định trên dưới dạng sơ đồ:
+
+```mermaid
+flowchart TD
+    Start{"Nhu cầu dự án?"} -->|"SEO / SSR / static gen"| Next["Next.js / Remix / Astro"]
+    Start -->|"Mobile app"| RN["React Native + Expo"]
+    Start -->|"SPA / Dashboard / Admin"| SPA{"Ưu tiên gì?"}
+    SPA -->|"Codebase nhỏ, tốc độ dev"| Vite["Vite"]
+    SPA -->|"Routing + server actions"| Next2["Next.js"]
+    SPA -->|"File-based router type-safe"| TSS["TanStack Start"]
 ```
 
 :::info[Phân tích]

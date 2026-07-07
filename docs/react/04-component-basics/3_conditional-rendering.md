@@ -50,6 +50,19 @@ function Profile({ user, isLoading, error }) {
 }
 ```
 
+Luồng rẽ nhánh khi render theo từng trạng thái dữ liệu:
+
+```mermaid
+flowchart TD
+    Start["Render component"] --> L{"isLoading?"}
+    L -->|"đúng"| Spin["Spinner"]
+    L -->|"sai"| E{"error?"}
+    E -->|"đúng"| Err["ErrorMessage"]
+    E -->|"sai"| U{"có user?"}
+    U -->|"không"| Login["Yêu cầu đăng nhập"]
+    U -->|"có"| Card["UserCard"]
+```
+
 :::tip[Dùng thực tế]
 
 - Hiện **spinner** khi đang tải dữ liệu, ẩn đi khi xong.

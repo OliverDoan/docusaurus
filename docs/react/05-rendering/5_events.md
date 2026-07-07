@@ -102,6 +102,16 @@ function handleClick(e) {
 }
 ```
 
+Sơ đồ luồng một click đi từ DOM thật qua delegation tới handler:
+
+```mermaid
+flowchart TD
+    A["User click button"] --> B["DOM event thật (nativeEvent)"]
+    B --> C["Root container bắt event (delegation)"]
+    C --> D["React tạo SyntheticEvent<br/>chuẩn hoá cross-browser"]
+    D --> E["Gọi handler onClick"]
+```
+
 Lợi ích:
 
 - **Cross-browser normalize** — behavior giống nhau giữa Chrome, Firefox, Safari.
@@ -233,6 +243,17 @@ Modern app (Figma, Notion) đều dùng pointer events.
 ```
 
 **`stopPropagation()`** — chặn event bubble lên parent:
+
+Sơ đồ cho thấy `stopPropagation()` quyết định event có bubble lên parent hay không:
+
+```mermaid
+flowchart TD
+    A["Click button (inner)"] --> B["Handler inner chạy"]
+    B --> C{"Có gọi stopPropagation()?"}
+    C -->|"Có"| D["Dừng — không bubble lên"]
+    C -->|"Không"| E["Bubble lên parent"]
+    E --> F["Handler outer chạy"]
+```
 
 ```jsx
 <div onClick={() => console.log("outer")}>

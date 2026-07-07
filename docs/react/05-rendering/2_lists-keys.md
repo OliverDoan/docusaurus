@@ -65,6 +65,17 @@ function TodoList({ todos }) {
 reconcile chính xác, giữ đúng state của từng instance dù list thêm, xoá hay
 đảo thứ tự.
 
+Sơ đồ dưới đây so sánh reconciliation khi prepend một item với `key=index` và `key=id`:
+
+```mermaid
+flowchart TD
+    A["List thay đổi (prepend NEW)"] --> B{"Loại key?"}
+    B -->|"key=index"| C["React so khớp theo vị trí"]
+    C --> D["Item cũ bị gán nhầm data<br/>state input bị mất"]
+    B -->|"key=id (ổn định)"| E["React so khớp theo id"]
+    E --> F["Giữ nguyên instance cũ<br/>chỉ mount item mới"]
+```
+
 :::tip[Dùng thực tế]
 
 - **Render danh sách từ API**: dùng `key={item.id}` (id từ database) để

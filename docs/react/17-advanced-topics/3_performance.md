@@ -93,6 +93,18 @@ Quy trình đúng:
 3. **Fix** — áp dụng technique phù hợp.
 4. **Đo lại** — confirm improvement.
 
+Vòng lặp tối ưu nên đi theo chu trình khép kín, luôn quay lại bước đo:
+
+```mermaid
+flowchart LR
+  A["Đo (Profiler)"] --> B["Xác định điểm nghẽn"]
+  B --> C["Áp dụng kỹ thuật tối ưu"]
+  C --> D["Đo lại"]
+  D --> E{"Đã cải thiện?"}
+  E -->|"Rồi"| F["Dừng"]
+  E -->|"Chưa"| A
+```
+
 Đừng:
 
 - Memoize blanket mọi component.
@@ -215,6 +227,19 @@ const handleClick = useCallback(() => {
 
 **React Compiler** sẽ tự xử lý — khi production-ready, không cần viết
 tay nữa.
+
+Sơ đồ quyết định khi nào nên memoize (tránh memo mặc định):
+
+```mermaid
+flowchart TD
+  A["Component render chậm?"] --> B{"Đo Profiler > 16ms?"}
+  B -->|"Không"| C["Không cần memo"]
+  B -->|"Có"| D{"Child đã React.memo<br/>và nhận prop object/function?"}
+  D -->|"Có"| E["Dùng useCallback / useMemo<br/>giữ reference ổn định"]
+  D -->|"Không"| F{"Giá trị là dep của useEffect?"}
+  F -->|"Có"| E
+  F -->|"Không"| G["Cân nhắc React.memo cho child"]
+```
 
 :::
 

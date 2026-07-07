@@ -71,6 +71,18 @@ function Page() {
 **Error Boundary** = component bắt lỗi của subtree, hiển thị fallback UI
 thay vì crash app.
 
+Sơ đồ dưới đây mô tả luồng render và cách Error Boundary chen vào khi có lỗi:
+
+```mermaid
+flowchart TD
+  A["Component con render"] --> B{"Có lỗi render?"}
+  B -->|"Không"| C["Hiển thị UI bình thường"]
+  B -->|"Có"| D["Error Boundary bắt lỗi"]
+  D --> E["getDerivedStateFromError<br/>đặt hasError = true"]
+  E --> F["componentDidCatch<br/>log lỗi"]
+  F --> G["Hiển thị fallback UI"]
+```
+
 React **chưa có hook** equivalent — phải dùng class component:
 
 ```tsx
@@ -252,6 +264,20 @@ function Page() {
 ```
 
 `<Suspense>` show fallback khi data đang load, swap nội dung khi resolve.
+
+Vòng đời trạng thái của một vùng bọc `<Suspense>` có thể tóm tắt như sau:
+
+```mermaid
+stateDiagram-v2
+  [*] --> Pending
+  Pending --> Resolved: tai xong du lieu
+  Pending --> Rejected: gap loi
+  Resolved --> [*]
+  Rejected --> [*]
+```
+
+Khi `Pending`, React hiện `fallback` (Spinner/Skeleton); khi `Resolved` thì
+swap nội dung thật; nếu `Rejected` (lỗi) thì Error Boundary gần nhất tiếp quản.
 
 **Streaming** — nhiều `<Suspense>` để render dần:
 

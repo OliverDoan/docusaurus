@@ -71,6 +71,23 @@ function ProductList({ products, filter }) {
 }
 ```
 
+Sơ đồ dưới đây tóm tắt gặp vấn đề nào thì chọn hook nào:
+
+```mermaid
+flowchart TD
+    Start["Cần giải quyết vấn đề gì?"]
+    Start --> Q1{"Tính toán nặng<br/>lặp lại mỗi render?"}
+    Q1 -->|"Có"| M["useMemo<br/>(nhớ giá trị)"]
+    Start --> Q2{"Function bị tạo mới<br/>gây re-render child?"}
+    Q2 -->|"Có"| C["useCallback<br/>(nhớ function)"]
+    Start --> Q3{"State phức tạp<br/>nhiều nhánh action?"}
+    Q3 -->|"Có"| R["useReducer<br/>(gom logic)"]
+    Start --> Q4{"Dữ liệu chia sẻ<br/>bị prop drilling?"}
+    Q4 -->|"Có"| Ctx["useContext<br/>(đọc trực tiếp)"]
+    Start --> Q5{"Giữ giá trị bền<br/>không cần render lại?"}
+    Q5 -->|"Có"| Ref["useRef<br/>(giá trị mutable)"]
+```
+
 :::tip[Dùng thực tế]
 
 - **`useMemo`**: memo hoá danh sách đã lọc/sắp xếp trong bảng dữ liệu lớn, không tính lại mỗi lần gõ phím.
@@ -255,6 +272,16 @@ function Counter() {
     </div>
   );
 }
+```
+
+Luồng cập nhật state qua `dispatch` diễn ra như sau:
+
+```mermaid
+flowchart LR
+    UI["Component<br/>(onClick...)"] -->|"dispatch(action)"| Reducer["reducer(state, action)"]
+    Reducer -->|"trả về state mới"| Store["State mới"]
+    Store -->|"trigger"| Render["Re-render UI"]
+    Render --> UI
 ```
 
 Khi nào dùng useReducer:

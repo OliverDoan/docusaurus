@@ -57,6 +57,21 @@ import * as Dialog from "@radix-ui/react-dialog";
 </Dialog.Root>
 ```
 
+Có thể hình dung ba hướng giải quyết khi cần một component như sau:
+
+```mermaid
+flowchart TD
+    Need["Cần 1 component<br/>(dialog, dropdown...)"]
+    Need --> A["Full UI lib<br/>(MUI, AntD)"]
+    Need --> B["Tự code from scratch"]
+    Need --> C["Headless lib<br/>(Radix, React Aria)"]
+    A --> A1["Đẹp sẵn nhưng khó ép brand"]
+    B --> B1["Tự lo logic + a11y<br/>khó và dễ sai"]
+    C --> C1["Có sẵn logic + a11y"]
+    C1 --> C2["Bạn tự style 100%"]
+    C2 --> C3["UI đúng brand + a11y chuẩn"]
+```
+
 :::tip[Dùng thực tế]
 
 - **Design system riêng** cho công ty: cần UI nhất quán theo brand, không muốn dính look của Material/AntD.
@@ -81,6 +96,17 @@ Lý do dùng:
 
 Ví dụ: dropdown với keyboard navigation (↑↓ chọn, Enter confirm, Esc close,
 ARIA labels) **là phần khó nhất** — headless lib làm hộ.
+
+Sơ đồ dưới đây cho thấy headless tách phần logic + a11y ra khỏi phần style do bạn tự lo:
+
+```mermaid
+flowchart LR
+    HL["Headless component"] --> LOGIC["Logic + Behavior"]
+    HL --> A11Y["Accessibility<br/>(keyboard, ARIA, focus)"]
+    STYLE["Style của bạn<br/>(Tailwind, CSS riêng)"] --> FINAL["Component hoàn chỉnh"]
+    LOGIC --> FINAL
+    A11Y --> FINAL
+```
 
 ---
 

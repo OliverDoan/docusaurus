@@ -81,6 +81,22 @@ import { Select } from "@mantine/core";
 | **Mantine** | Custom design | Dễ | Có | Modern, đầy đủ hook |
 | **Radix UI** | Headless | Cần style tay | Có | Build design system riêng |
 
+Sơ đồ phân loại các thư viện theo cách tiếp cận:
+
+```mermaid
+flowchart TD
+    Root["Component Library"]
+    Root --> Styled["Có sẵn style<br/>(styled)"]
+    Root --> Copy["Copy code vào repo"]
+    Root --> Headless["Headless<br/>(không style)"]
+    Styled --> MUI["Material UI<br/>(Material Design)"]
+    Styled --> Chakra["Chakra UI"]
+    Styled --> Antd["Ant Design"]
+    Styled --> Mantine["Mantine"]
+    Copy --> Shadcn["shadcn/ui<br/>(Radix + Tailwind)"]
+    Headless --> Radix["Radix UI / React Aria"]
+```
+
 ---
 
 ## shadcn/ui (khuyến nghị)
@@ -265,6 +281,19 @@ Bạn cần gì?
 ├─ All-in-one modern, ít compromise? → Mantine
 │
 └─ Build design system riêng từ đầu? → Radix UI / React Aria (headless)
+```
+
+Sơ đồ hoá cây quyết định trên:
+
+```mermaid
+flowchart TD
+    Start["Bạn cần gì?"]
+    Start -->|"Full control, Tailwind sẵn"| Shadcn["shadcn/ui"]
+    Start -->|"Enterprise + DataGrid"| MUI["Material UI"]
+    Start -->|"Brand riêng, a11y ưu tiên"| Chakra["Chakra UI"]
+    Start -->|"Form/Table phức tạp"| Antd["Ant Design"]
+    Start -->|"All-in-one modern"| Mantine["Mantine"]
+    Start -->|"Design system riêng"| Radix["Radix UI / React Aria"]
 ```
 
 :::tip[Mẹo]

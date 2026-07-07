@@ -263,6 +263,16 @@ items.map(item => (
 JSX **không chạy trực tiếp** trong trình duyệt — phải qua bundler (Vite,
 Webpack) với plugin Babel/SWC.
 
+Hành trình từ JSX đến DOM thật trên trình duyệt:
+
+```mermaid
+flowchart LR
+    JSX["JSX<br/>&lt;h1&gt;Hi&lt;/h1&gt;"] --> Compiler["Babel / SWC"]
+    Compiler --> CE["React.createElement<br/>(hoặc jsx runtime)"]
+    CE --> VDOM["React Element<br/>(Virtual DOM)"]
+    VDOM --> DOM["DOM thật<br/>trên trình duyệt"]
+```
+
 **Trước React 17:**
 
 ```jsx

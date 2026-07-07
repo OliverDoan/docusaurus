@@ -168,6 +168,19 @@ async function Page() {
 
 Pattern: **Server Component cho dữ liệu, Client Component cho interaction**.
 
+Luồng request khi kết hợp Server Component và Client Component:
+
+```mermaid
+flowchart TD
+  A["Request từ Browser"] --> B["Server chạy Server Component"]
+  B --> C["Truy cập DB / API / env"]
+  C --> D["Render ra HTML và payload"]
+  D --> E["Gửi về Client"]
+  E --> F{"Cần tương tác?"}
+  F -->|"Có"| G["Client Component<br/>use client - useState, onClick"]
+  F -->|"Không"| H["Hiển thị tĩnh (bundle 0 KB)"]
+```
+
 Trade-off:
 
 - Học curve cao — phải nghĩ "boundary".
@@ -267,6 +280,25 @@ function LoginForm() {
     </form>
   );
 }
+```
+
+Trình tự khi submit một form dùng `useActionState` (trạng thái pending/error
+được gói sẵn):
+
+```mermaid
+sequenceDiagram
+  participant U as Nguoi dung
+  participant F as Form
+  participant A as useActionState
+  participant S as Server
+  U->>F: bam Submit
+  F->>A: goi formAction
+  A->>A: isPending = true
+  A->>S: gui du lieu
+  S-->>A: tra ket qua hoac loi
+  A->>A: isPending = false
+  A-->>F: cap nhat state va error
+  F-->>U: hien ket qua
 ```
 
 **`useFormStatus`** — child component biết form đang pending:

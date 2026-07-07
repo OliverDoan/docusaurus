@@ -55,6 +55,15 @@ describe("Counter", () => {
 });
 ```
 
+Một bài test theo React Testing Library thường đi theo luồng bốn bước:
+
+```mermaid
+flowchart LR
+    R["render(component)"] --> Q["query<br/>getByRole / getByText"]
+    Q --> A["user event<br/>click, type"]
+    A --> E["assert<br/>expect(...).toBeInTheDocument()"]
+```
+
 :::tip[Dùng thực tế]
 
 - **Form submit / validation** — kiểm tra nhập sai báo lỗi, nhập đúng gọi API.
@@ -306,6 +315,14 @@ Phù hợp:
    /----------\
   /    Unit    \     (nhiều, nhanh, rẻ) — function, hook
  /--------------\
+```
+
+Cùng ý tưởng kim tự tháp test, biểu diễn dưới dạng sơ đồ từ dưới lên:
+
+```mermaid
+flowchart TD
+    UNIT["Unit<br/>nhiều, nhanh, rẻ<br/>function, hook"] --> INT["Integration<br/>vừa phải<br/>feature flow"]
+    INT --> E2E["E2E<br/>ít, chậm, đắt<br/>critical flow"]
 ```
 
 | Loại | Mục tiêu | Tool |

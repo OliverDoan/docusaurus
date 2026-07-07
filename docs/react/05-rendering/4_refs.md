@@ -92,6 +92,18 @@ function Counter() {
 - `ref.current` sửa được, **không** trigger re-render.
 - Giá trị persist qua mọi lần render.
 
+Sơ đồ vòng đời của một DOM ref từ lúc tạo tới khi truy cập được node thật:
+
+```mermaid
+flowchart TD
+    A["useRef(null)"] --> B["ref.current = null"]
+    B --> C["JSX gắn ref vào element"]
+    C --> D["React commit DOM"]
+    D --> E["ref.current trỏ tới DOM node thật"]
+    E --> F["Truy cập trong useEffect<br/>focus / measure / scroll"]
+    G["Đổi ref.current"] -.->|"KHÔNG re-render"| B
+```
+
 ---
 
 ## Truy cập DOM element
@@ -256,6 +268,14 @@ Callback ref được gọi:
 
 - **Mount**: với DOM node.
 - **Unmount**: với `null`.
+
+Sơ đồ hai thời điểm React gọi callback ref:
+
+```mermaid
+flowchart LR
+    A["Mount element"] -->|"gọi callback(node)"| B["Đo / lưu node"]
+    C["Unmount element"] -->|"gọi callback(null)"| D["Dọn dẹp"]
+```
 
 Hữu dụng khi:
 

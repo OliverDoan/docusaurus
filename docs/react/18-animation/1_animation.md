@@ -65,6 +65,18 @@ function Modal({ isOpen }) {
 }
 ```
 
+Sơ đồ chọn công cụ animation phù hợp theo nhu cầu:
+
+```mermaid
+flowchart TD
+  A["Cần animation?"] --> B{"Đơn giản: fade/slide/scale?"}
+  B -->|"Có"| C["CSS / Tailwind"]
+  B -->|"Không"| D{"Mount/unmount, gesture, layout?"}
+  D -->|"Có"| E["Framer Motion"]
+  D -->|"Page transition"| F["View Transitions API"]
+  D -->|"Marketing phức tạp"| G["GSAP + ScrollTrigger"]
+```
+
 :::tip[Dùng thực tế]
 
 - **Modal / danh sách item vào ra**: fade + slide khi thêm/xóa phần tử, có cả exit animation thay vì biến mất đột ngột.
@@ -188,6 +200,17 @@ import { motion, AnimatePresence } from "motion/react";
     </motion.div>
   )}
 </AnimatePresence>
+```
+
+`AnimatePresence` cho phép chạy đủ vòng đời enter → active → exit trước khi
+React gỡ DOM:
+
+```mermaid
+stateDiagram-v2
+  [*] --> Enter: mount voi initial
+  Enter --> Active: chay animate
+  Active --> Exit: bat dau unmount
+  Exit --> [*]: go DOM sau khi xong
 ```
 
 **Gesture** — drag, hover, tap:

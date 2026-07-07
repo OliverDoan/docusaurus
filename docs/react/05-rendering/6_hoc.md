@@ -85,6 +85,15 @@ const EnhancedComponent = withFeature(BaseComponent);
 
 Pattern: `Component → HOC → Enhanced Component`.
 
+Sơ đồ luồng biến đổi của một HOC:
+
+```mermaid
+flowchart LR
+    A["BaseComponent"] --> B["withFeature(...)"]
+    B --> C["EnhancedComponent<br/>(bọc thêm logic)"]
+    C --> D["Render BaseComponent<br/>với props bổ sung"]
+```
+
 ---
 
 ## Ví dụ cơ bản
@@ -170,6 +179,16 @@ const Enhanced = withAuth(withRouter(withLogger(BaseComponent)));
 ```
 
 **3. Wrapper hell trong DevTools**:
+
+Compose nhiều HOC tạo ra nhiều tầng bọc lồng nhau, khó lần trong DevTools:
+
+```mermaid
+flowchart TD
+    A["BaseComponent"] --> B["withLogger"]
+    B --> C["withRouter"]
+    C --> D["withAuth"]
+    D --> E["Enhanced (nhiều tầng bọc)"]
+```
 
 ```
 <WithAuth>

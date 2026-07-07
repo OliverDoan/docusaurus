@@ -57,6 +57,17 @@ function Content() {
 }
 ```
 
+Cùng một codebase React/JS được render ra nhiều nền tảng khác nhau:
+
+```mermaid
+flowchart TD
+  A["Code React / JS (một codebase)"] --> B["React DOM"]
+  A --> C["React Native"]
+  B --> D["Trình duyệt<br/>div, span, CSS"]
+  C --> E["iOS native<br/>View, Text"]
+  C --> F["Android native<br/>View, Text"]
+```
+
 :::tip[Dùng thực tế]
 
 - **App cross-platform** — một đội build cho cả iOS + Android, tiết kiệm chi phí.
@@ -404,5 +415,13 @@ Button.native.tsx   # mobile override
 ```
 
 Bundler tự pick file đúng platform.
+
+```mermaid
+flowchart TD
+  A["import Button"] --> B{"Bundler chọn theo platform"}
+  B -->|"web"| C["Button.web.tsx"]
+  B -->|"iOS / Android"| D["Button.native.tsx"]
+  B -->|"không có override"| E["Button.tsx (dùng chung)"]
+```
 
 :::

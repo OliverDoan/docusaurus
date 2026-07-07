@@ -30,6 +30,16 @@ React được xây dựng trên nền tảng web, nên bạn cần nắm vững
 
 Nếu bạn chưa chắc về JavaScript, hãy dành thời gian học vững nó trước. Điều này sẽ giúp việc học React dễ dàng hơn rất nhiều.
 
+Ba nền tảng web dưới đây đều hội tụ vào React:
+
+```mermaid
+flowchart LR
+    HTML["HTML<br/>cấu trúc nội dung"] --> React["React"]
+    CSS["CSS<br/>trình bày, tạo kiểu"] --> React
+    JS["JavaScript<br/>ES6+, async/await"] --> React
+    React --> UI["Giao diện người dùng"]
+```
+
 ## Lộ trình học
 
 Dưới đây là 19 nhóm chủ đề theo thứ tự gợi ý để học React từ cơ bản đến nâng cao:
@@ -64,5 +74,14 @@ Bạn nên học theo đúng thứ tự từ trên xuống dưới, vì các ch�
 2. **Học phần cốt lõi (2 đến 7)**: Cài đặt công cụ, hiểu component, JSX, rendering, hooks và routing. Đây là những kiến thức bắt buộc để xây dựng ứng dụng React thực sự.
 3. **Mở rộng kỹ năng (8 đến 13)**: Khi đã viết được ứng dụng cơ bản, học cách quản lý state, viết CSS gọn gàng, dùng thư viện component, gọi API và kiểm thử.
 4. **Đi vào chuyên sâu (14 đến 19)**: Sau khi vững nền tảng, khám phá framework, xử lý form, TypeScript, chủ đề nâng cao, hoạt ảnh và phát triển ứng dụng di động.
+
+Sơ đồ dưới đây tóm tắt 19 chủ đề gom thành 4 nhóm học tuần tự:
+
+```mermaid
+flowchart TD
+    A["Nền tảng<br/>(1) Chuẩn bị: HTML, CSS, JS"] --> B["Cốt lõi<br/>(2-7) CLI, Components, JSX,<br/>Rendering, Hooks, Routers"]
+    B --> C["Mở rộng<br/>(8-13) State, Writing CSS, Thư viện UI,<br/>Headless, API, Testing"]
+    C --> D["Chuyên sâu<br/>(14-19) Frameworks, Forms, Types,<br/>Nâng cao, Animation, Mobile"]
+```
 
 > **Lời khuyên**: Đừng vội học hết mọi thứ cùng lúc. Hãy học đến đâu thực hành đến đó bằng cách tự xây các dự án nhỏ. Việc làm thực tế sẽ giúp bạn nhớ lâu và hiểu sâu hơn nhiều so với chỉ đọc lý thuyết.

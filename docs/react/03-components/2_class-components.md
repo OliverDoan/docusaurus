@@ -200,6 +200,28 @@ Cùng issue áp dụng cho hooks `useState` — nguyên tắc giống nhau.
 | **Updating** | `shouldComponentUpdate` → `render` → `componentDidUpdate` |
 | **Unmounting** | `componentWillUnmount` |
 
+Vòng đời của một class component đi qua các trạng thái sau:
+
+```mermaid
+stateDiagram-v2
+    [*] --> ctor
+    ctor --> render1
+    render1 --> didMount
+    didMount --> Idle
+    Idle --> render2: props hoặc state đổi
+    render2 --> didUpdate
+    didUpdate --> Idle
+    Idle --> willUnmount: bị gỡ khỏi UI
+    willUnmount --> [*]
+    state "constructor" as ctor
+    state "render (Mounting)" as render1
+    state "componentDidMount" as didMount
+    state "Đang hiển thị" as Idle
+    state "render (Updating)" as render2
+    state "componentDidUpdate" as didUpdate
+    state "componentWillUnmount" as willUnmount
+```
+
 ```jsx
 class DataLoader extends Component {
   state = { data: null, loading: true };

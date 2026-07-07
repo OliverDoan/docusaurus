@@ -64,6 +64,27 @@ function UserMenu() {
 }
 ```
 
+Sơ đồ so sánh prop drilling và Context Provider/Consumer:
+
+```mermaid
+flowchart TB
+    subgraph Drilling["Prop drilling - truyền qua từng tầng"]
+        A1["App (có user)"] -->|"user"| L1["Layout"]
+        L1 -->|"user"| H1["Header"]
+        H1 -->|"user"| N1["Nav"]
+        N1 -->|"user"| U1["UserMenu (dùng user)"]
+    end
+    subgraph WithCtx["Context - đọc trực tiếp"]
+        P["UserContext.Provider (value=user)"]
+        P --> A2["App"]
+        A2 --> L2["Layout"]
+        L2 --> H2["Header"]
+        H2 --> N2["Nav"]
+        N2 --> U2["UserMenu"]
+        P -.->|"useContext đọc thẳng"| U2
+    end
+```
+
 Lưu ý: Context hợp cho dữ liệu **ít thay đổi** (global). Nếu giá trị đổi liên tục dễ gây re-render trên diện rộng.
 
 :::tip[Dùng thực tế]
@@ -235,6 +256,18 @@ function Profile() {
 ## Hạn chế của Context
 
 **1. Mọi consumer re-render khi value đổi**:
+
+Sơ đồ minh hoạ: chỉ cần một field trong value đổi, toàn bộ consumer đều re-render:
+
+```mermaid
+flowchart TD
+    Change["setState 1 field<br/>(vd đổi theme)"] --> Value["value của Provider đổi"]
+    Value --> H["Header re-render"]
+    Value --> S["Sidebar re-render"]
+    Value --> M["Main re-render"]
+    H -.->|"dù chỉ dùng user"| Waste["Re-render thừa"]
+    S -.-> Waste
+```
 
 ```jsx
 const AppContext = createContext();

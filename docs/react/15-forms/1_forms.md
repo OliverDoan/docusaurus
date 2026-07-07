@@ -103,6 +103,17 @@ function SignupForm() {
 }
 ```
 
+Dù làm form kiểu nào, luồng xử lý khi gửi đều theo trình tự submit → validate → gửi:
+
+```mermaid
+flowchart TD
+    Submit["Người dùng bấm Submit"] --> Validate{"Validate<br/>(Zod schema)"}
+    Validate -->|"Hợp lệ"| Send["Gửi dữ liệu lên server"]
+    Validate -->|"Lỗi"| Show["Hiện lỗi theo từng field"]
+    Show --> Submit
+    Send --> Done["Thành công"]
+```
+
 :::tip[Dùng thực tế]
 
 - **Form đăng ký nhiều field + validate** — email, mật khẩu, xác nhận mật khẩu; thư viện gom giá trị, validation và lỗi vào một chỗ thay vì hàng chục `useState`.
@@ -143,6 +154,21 @@ function UncontrolledForm() {
 
   return <input ref={emailRef} defaultValue="" />;
 }
+```
+
+Hai cách quản lý giá trị input khác nhau ở chỗ ai giữ state:
+
+```mermaid
+flowchart LR
+    subgraph Controlled
+      K1["Gõ phím"] --> K2["onChange → setState"]
+      K2 --> K3["State đổi → re-render"]
+      K3 --> K4["value = state"]
+    end
+    subgraph Uncontrolled
+      U1["Gõ phím"] --> U2["DOM tự giữ value"]
+      U2 --> U3["Đọc qua ref khi submit"]
+    end
 ```
 
 | | Controlled | Uncontrolled |

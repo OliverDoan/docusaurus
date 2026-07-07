@@ -106,6 +106,18 @@ Có 3 loại hook:
 - **Custom**: hook bạn tự viết, vd `useUser()`, `useFetch()`.
 - **Library**: từ thư viện, vd `useQuery` (TanStack), `useForm` (RHF).
 
+Sơ đồ vị trí của `useState` và `useEffect` trong một chu kỳ render:
+
+```mermaid
+flowchart TD
+    A["Component render"] --> B["useState trả về [state, setState]"]
+    B --> C["Trả về JSX"]
+    C --> D["React commit DOM"]
+    D --> E["Chạy useEffect (theo deps)"]
+    F["Gọi setState"] -->|"trigger re-render"| A
+    E -.->|"trước lần chạy sau / khi unmount"| G["Cleanup function"]
+```
+
 ---
 
 ## useState

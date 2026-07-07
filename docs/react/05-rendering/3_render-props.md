@@ -88,6 +88,20 @@ Hoặc dùng `children` làm function:
 </DataLoader>
 ```
 
+Sơ đồ tương tác cho thấy component logic gọi ngược render function để đưa data ra ngoài:
+
+```mermaid
+sequenceDiagram
+    participant U as Nơi dùng (truyền function)
+    participant C as Component logic (MouseTracker)
+    participant F as Render function
+    U->>C: Truyền children là một function
+    C->>C: Quản lý state (vị trí chuột)
+    C->>F: Gọi function kèm data (pos)
+    F-->>C: Trả về JSX
+    C-->>U: Render JSX ra màn hình
+```
+
 ---
 
 ## Ví dụ cơ bản
