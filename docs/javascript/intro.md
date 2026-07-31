@@ -9,7 +9,7 @@ Chào mừng bạn đến với lộ trình học JavaScript dành cho người 
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **JavaScript là ngôn ngữ của web** — ban đầu chạy trong trình duyệt, nay chạy cả phía máy chủ nhờ `Node.js`.
 - **Một ngôn ngữ, nhiều lĩnh vực** — dùng được cho cả frontend lẫn backend, nên rất đáng học đầu tiên.

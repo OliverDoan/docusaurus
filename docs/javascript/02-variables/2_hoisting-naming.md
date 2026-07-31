@@ -11,7 +11,7 @@ title: "2. Hoisting và Quy tắc đặt tên"
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **Tất cả khai báo đều được hoist**, nhưng khác nhau: `var` khởi tạo `undefined`, `let`/`const` vào TDZ (truy cập trước khai báo ném `ReferenceError`) — đây là câu trả lời chuẩn khi phỏng vấn.
 - ⭐ **`function` declaration được hoist cả body** (gọi trước khi khai báo vẫn chạy), nhưng function expression / arrow function gán vào biến thì không.

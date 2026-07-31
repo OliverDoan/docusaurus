@@ -11,7 +11,7 @@ title: "1. Function Parameters"
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **Default parameter chỉ apply khi đối số là `undefined`** — mọi falsy khác (`null`, `0`, `""`, `false`) vẫn giữ nguyên; muốn cả `null` cũng thay thì dùng `??`.
 - ⭐ **Rest parameter (`...nums`) gom đối số thành mảng THẬT** — dùng được `map`/`filter`/`reduce`, khác hẳn `arguments`; phải đặt cuối.

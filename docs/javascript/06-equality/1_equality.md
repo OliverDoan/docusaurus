@@ -11,7 +11,7 @@ title: "1. Equality Comparisons"
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **Luôn dùng `===`/`!==`** — so sánh không ép kiểu, khác kiểu là `false` ngay nên kết quả dễ đoán.
 - **Tránh `==`** — nó tự ép kiểu sinh ra loạt kết quả khó hiểu (`0 == ""`, `[] == false`); chỉ nên dùng idiom `x == null` để bắt cả `null` lẫn `undefined`.

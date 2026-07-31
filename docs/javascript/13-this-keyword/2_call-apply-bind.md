@@ -11,7 +11,7 @@ title: "2. call, apply, bind và Function Borrowing"
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **Cả ba đều để tự ép `this`** — thay vì để JavaScript tự chọn, bạn chỉ định `this` khi gọi hàm, giải bài toán mất `this` khi tách method hoặc truyền callback.
 - **`call` vs `apply`** — cả hai gọi hàm **ngay**, chỉ khác cách truyền đối số: `call(ctx, a, b)` rời, `apply(ctx, [a, b])` là mảng.

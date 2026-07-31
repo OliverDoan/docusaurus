@@ -11,7 +11,7 @@ title: "2. Callbacks, Promises, async/await"
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **Ba cách viết async: callback → Promise → async/await** — callback lồng nhau tạo "callback hell"; `Promise` cho chuỗi `.then()` phẳng với một `.catch()`; `async/await` viết async trông như sync, dễ đọc nhất.
 - ⭐ **`Promise` có 3 trạng thái và chỉ settle một lần** — pending → fulfilled hoặc rejected, sau đó không đổi được nữa; `.finally()` chạy ở cả hai nhánh.

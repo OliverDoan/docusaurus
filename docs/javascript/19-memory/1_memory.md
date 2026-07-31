@@ -11,7 +11,7 @@ title: "1. Memory Management"
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **Garbage Collector (mark-and-sweep)** — JS tự thu hồi object không còn **reachable** từ root; dev không có `malloc`/`free` như C nhưng vẫn có thể tạo leak.
 - **Stack vs Heap** — primitive lưu trực tiếp trên stack (copy by value); object nằm trên heap còn biến chỉ giữ **pointer** (copy by reference), nên `===` so sánh pointer.

@@ -11,7 +11,7 @@ title: "1. DOM Manipulation và Events"
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **DOM là cây object** — trình duyệt biến HTML tĩnh thành cây `node` mà JavaScript đọc/sửa được, nhờ đó có trang động và SPA không cần reload.
 - **Selectors** — `querySelector`/`querySelectorAll` (hỗ trợ CSS selector) là lựa chọn ưu tiên; `getElementsBy*` trả về collection **live** tự cập nhật nhưng chậm hơn.

@@ -11,7 +11,7 @@ title: "2. Arrow Functions và IIFE"
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **Arrow function có lexical `this`** — không có `this` riêng mà lấy từ scope nơi định nghĩa, nên giữ đúng `this` trong callback (`setTimeout`, `.then()`, array methods) mà không cần `self`/`bind`.
 - ⭐ **KHÔNG dùng arrow cho method, constructor, prototype method hay event handler cần `this` là element** — vì chính vì thiếu `this` riêng; cũng không có `arguments` và không dùng được `new`.

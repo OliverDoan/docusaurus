@@ -11,7 +11,7 @@ title: "1. Iterators và Generators"
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **Iterator protocol** — object có `next()` trả về `{ value, done }`, tạo ra MỘT cách duyệt thống nhất cho mọi cấu trúc.
 - **Iterable protocol** — object có `[Symbol.iterator]()` dùng được với `for...of`, spread `[...obj]`, destructuring và `Array.from`.

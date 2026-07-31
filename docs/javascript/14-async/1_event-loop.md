@@ -11,7 +11,7 @@ JavaScript chỉ chạy một việc tại một thời điểm, nhưng vẫn x�
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **JS đơn luồng nhưng không bị treo nhờ event loop** — tác vụ chờ (timer, network, I/O) được đẩy ra ngoài, chỉ đăng ký callback rồi chạy tiếp; callback được chạy khi call stack rỗng.
 - ⭐ **Microtask luôn ưu tiên hơn macrotask** — `Promise.then`/`queueMicrotask` (microtask) chạy hết trước khi tới một macrotask như `setTimeout`; vì vậy `Promise.then` chạy sớm hơn `setTimeout(0)`.

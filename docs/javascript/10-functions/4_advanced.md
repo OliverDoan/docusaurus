@@ -11,7 +11,7 @@ Bài này giới thiệu ba khái niệm quan trọng về hàm. **Recursion** (
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **Closure** — hàm trả về vẫn nhớ và truy cập được biến của hàm cha sau khi hàm cha đã chạy xong, nhờ đó tạo state "riêng tư" mà bên ngoài không chạm tới được.
 - ⭐ **Lexical scope** — biến được xác định theo NƠI VIẾT code (scope chain từ trong ra ngoài đến global), không phải nơi gọi.

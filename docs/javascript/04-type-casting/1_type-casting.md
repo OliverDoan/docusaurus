@@ -20,7 +20,7 @@ Trong JavaScript, việc ép kiểu xảy ra theo **hai cách**: do bạn chủ 
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **Ưu tiên ép kiểu tường minh và dùng `===`** — chủ động `Number()`, `String()`, `Boolean()` rồi so sánh bằng `===` để JavaScript không phải "đoán" giúp bạn.
 - **Phân biệt conversion và coercion** — conversion là chủ ý của lập trình viên (`Number("42")`), coercion là JS tự làm ngầm (`"42" * 1`).

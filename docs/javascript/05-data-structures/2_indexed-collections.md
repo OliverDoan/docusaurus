@@ -11,7 +11,7 @@ title: "2. Arrays và Typed Arrays"
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **Ưu tiên array methods bậc cao** — `map`, `filter`, `reduce`, `find` biểu đạt ý định ngắn gọn, tránh sai chỉ số và không mutate mảng gốc.
 - ⭐ **Phân biệt method mutating và non-mutating** — `sort`, `reverse`, `splice`, `push`... sửa mảng gốc; `map`, `filter`, `slice`, `concat`, `flat` trả về mảng mới.

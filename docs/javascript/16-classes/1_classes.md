@@ -11,7 +11,7 @@ title: "1. Classes"
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **`class` là "lớp đường" (syntactic sugar) phủ lên prototype** — cú pháp rõ ràng cho OOP, nhưng bản chất bên dưới vẫn là prototype có sẵn từ trước.
 - **`constructor`, method và class field** — `constructor` chạy khi `new`; method gắn vào `prototype` (chung mọi instance); `class field` (ES2022) khai báo property trực tiếp.

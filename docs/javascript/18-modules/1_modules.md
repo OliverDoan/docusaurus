@@ -11,7 +11,7 @@ title: "1. Modules: CommonJS vs ES Modules"
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **ES Modules (`import`/`export`)** — mỗi file có scope riêng (không làm bẩn global), phụ thuộc khai báo tường minh; là chuẩn hiện đại năm 2026.
 - **CommonJS (`require`/`module.exports`)** — chuẩn cũ của Node.js: đồng bộ, dynamic (chạy runtime), có cache.

@@ -11,7 +11,7 @@ title: "1. Map, Set, WeakMap, WeakSet"
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **`Map` là dictionary key–value với key bất kỳ kiểu** — giữ nguyên kiểu key (không ép chuỗi như object), giữ đúng thứ tự chèn, có `.size` và duyệt thẳng bằng `for...of`.
 - ⭐ **`Set` lưu tập giá trị duy nhất** — idiom loại trùng một dòng `[...new Set(arr)]`; nhưng Set so sánh object theo reference, không theo value.

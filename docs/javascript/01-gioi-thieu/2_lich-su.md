@@ -11,7 +11,7 @@ Bài này kể lại hành trình của JavaScript: từ lúc ra đời chỉ tr
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **Brendan Eich tạo JavaScript năm 1995 trong 10 ngày** tại Netscape, tên đổi qua Mocha → LiveScript → JavaScript.
 - **ECMAScript là chuẩn, JavaScript là bản triển khai** — "ES6" và "ES2015" chỉ cùng một phiên bản.

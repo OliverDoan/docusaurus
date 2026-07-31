@@ -11,7 +11,7 @@ JavaScript là ngôn ngữ lập trình phổ biến nhất cho web, giúp trang
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **JavaScript là ngôn ngữ thông dịch** — máy đọc và chạy từng dòng ngay, chạy được ở trình duyệt, server (`Node.js`), mobile, desktop.
 - **Ba trụ cột của web** — `HTML` (cấu trúc), `CSS` (giao diện), `JavaScript` (hành vi, tương tác).

@@ -11,7 +11,7 @@ title: "3. Cách chạy JavaScript"
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **Chạy JS trong trình duyệt** — 3 cách: Console (F12), inline `<script>`, hoặc file JS riêng (khuyên dùng).
 - ⭐ **`defer` vs `async`** — dùng `defer` cho hầu hết trường hợp; `async` cho script độc lập như analytics/ads.

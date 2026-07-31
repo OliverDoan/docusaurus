@@ -11,7 +11,7 @@ Biến (variable) là "cái hộp" có tên dùng để lưu trữ dữ liệu �
 
 ## 🎯 Cần nắm gì sau bài này?
 
-:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+:::note[Ghi nhớ nhanh]
 
 - ⭐ **Mặc định dùng `const`, chỉ dùng `let` khi cần gán lại, không dùng `var`** — quy tắc vàng cho code hiện đại.
 - ⭐ **`const` không phải immutable** — nó chỉ chặn gán lại biến; object/array bên trong vẫn sửa được (muốn khoá dùng `Object.freeze()`).
