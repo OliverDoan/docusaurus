@@ -7,6 +7,16 @@ title: "5. A/B Testing và đo lường SEO"
 
 Làm landing page xong chưa phải là hết — bạn cần đo lường xem nó hoạt động ra sao và thử nghiệm để cải thiện liên tục. Bài này hướng dẫn cách A/B testing mà không làm hỏng thứ hạng SEO, thiết lập Google Analytics 4 để theo dõi, track conversion, đọc dữ liệu từ Google Search Console, và chọn công cụ đo lường phù hợp. Nhờ đó bạn ra quyết định dựa trên số liệu thật thay vì cảm tính.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **A/B test an toàn cho SEO** — ưu tiên server-side (middleware); variant page đặt `rel="canonical"` về trang gốc và `noindex`; không đổi `<h1>`/title/meta bằng client-side JS.
+- ⭐ **`GA4` + `Google Search Console` bổ sung cho nhau** — GA4 đo traffic/conversion, GSC cho query, impressions, CTR, average position mà GA4 không có.
+- **Load analytics không chặn render** — dùng `strategy="afterInteractive"` hoặc `requestIdleCallback`, không đặt script GA trong `<head>` chặn rendering.
+- **KPI landing page** — organic traffic, CTR (>3%), average position, engagement rate, conversion rate và Core Web Vitals.
+- **Tools thay Google Optimize (đã sunset)** — Vercel Edge Config, PostHog, Statsig; chỉ test visual ở client-side, content phải server-side.
+
+:::
+
 ## Mục lục
 
 - [A/B testing landing pages mà không ảnh hưởng SEO](#ab-testing-landing-pages-mà-không-ảnh-hưởng-seo)

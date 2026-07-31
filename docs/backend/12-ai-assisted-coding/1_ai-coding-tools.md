@@ -9,6 +9,19 @@ Bài này giới thiệu các công cụ lập trình hỗ trợ bởi AI phổ 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Công cụ AI coding 2026** — `Claude Code` (CLI agent, mạnh autonomous coding), `Cursor` (IDE AI-first), `GitHub Copilot` (mature, đa model), `Antigravity` (multi-agent của Google).
+- **Ứng dụng chính** — sinh code, refactor, code review, generate test, viết doc, phát hiện bug.
+- **Prompt tốt cần context rõ** — tham chiếu file/dòng cụ thể, show output mong muốn, chia nhỏ và iterate từng bước thay vì 1 prompt khổng lồ.
+- ⭐ **Đừng tin AI mù quáng** — AI có thể hallucinate library, dùng API cũ, để lọt bug tinh vi hay lỗ hổng bảo mật; luôn review + test trước khi commit.
+- **Không paste secret/data nhạy cảm** vào prompt; AI giỏi implementation nhưng không nên để nó quyết định architecture.
+- **Mindset** — AI accelerate (2-4x) chứ không replace dev; vẫn phải hiểu code AI sinh ra.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Tools chính 2026](#tools-chính-2026)

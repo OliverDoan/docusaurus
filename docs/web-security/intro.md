@@ -11,6 +11,16 @@ quản lý secret và chuỗi cung ứng. Tài liệu cân bằng giữa **nguy�
 ví dụ** (JS/TS/Node), hợp với các topic React, Next.js, Backend đã có. Mỗi **thuật
 ngữ chuyên ngành** (technical term) đều được giải thích ngay khi xuất hiện.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Bảo mật là tư duy từ đầu, không phải bước cuối** — phải nghĩ tới ngay khi thiết kế và viết code, không dán vào trước khi lên production.
+- ⭐ **Nguyên tắc xuyên suốt: không tin input** — mọi dữ liệu vượt **ranh giới hệ thống** (input người dùng, API, file) đều phải kiểm tra.
+- **Cấu trúc 5 mục** — nền tảng, tấn công phổ biến, xác thực & phiên, transport & headers, secrets & chuỗi cung ứng.
+- **Nguyên tắc vàng** — phòng thủ nhiều lớp, đặc quyền tối thiểu, an toàn mặc định, không tự chế crypto, lỗi không lộ thông tin nhạy cảm.
+- **Mục đích phòng thủ** — mọi mô tả tấn công nhằm giúp hiểu để phòng chống trên hệ thống của chính bạn.
+
+:::
+
 ---
 
 ## Vì sao phải quan tâm bảo mật?

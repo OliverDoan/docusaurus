@@ -12,6 +12,19 @@ từ đơn giản tới linh hoạt — cùng ưu/nhược của mỗi cách, đ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Câu hỏi cốt lõi: ghép mảnh lúc `build-time` hay `runtime`** — chỉ tích hợp runtime mới cho `độc lập deploy` thật sự.
+- ⭐ **`Runtime JS` (Module Federation, single-spa) linh hoạt và phổ biến nhất** — trọng tâm của cả tài liệu.
+- **`Build-time` (npm package)** đơn giản, type-safe nhưng mất độc lập deploy — hợp cho chia sẻ component chung.
+- **`Iframe`** cô lập tuyệt đối nhưng khó chia sẻ state/routing, trải nghiệm rời rạc, SEO kém.
+- **`Server-side composition`** tốt cho SEO và tốc độ tải đầu, đổi lại hạ tầng phức tạp.
+- **`Web Components`** theo chuẩn web, cô lập bằng `Shadow DOM`, hay dùng kèm cách runtime.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Hai thời điểm tích hợp: build-time vs runtime](#hai-thời-điểm-tích-hợp-build-time-vs-runtime)

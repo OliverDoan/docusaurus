@@ -13,6 +13,17 @@ thủ bằng tham số hoá.
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Gốc của mọi injection: trộn lẫn "lệnh" với "dữ liệu"** — giải pháp tổng quát là **tách bạch** hai thứ, đưa dữ liệu dạng tham số.
+- ⭐ **`SQL injection`: dùng truy vấn tham số hoá** (prepared statement) hoặc ORM; **không bao giờ ghép chuỗi** input vào SQL.
+- **Tên cột/bảng động** — không tham số hoá được, phải dùng **danh sách trắng (whitelist)**.
+- **`Command injection`** — tránh gọi shell; dùng `execFile`/`spawn` với **mảng tham số**, validate chặt, đặc quyền tối thiểu.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Bản chất của injection](#bản-chất-của-injection)

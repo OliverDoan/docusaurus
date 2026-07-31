@@ -11,6 +11,19 @@ sau khi đã nắm khái niệm (mục 1) và kỹ thuật (mục 2–3).
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Design system` dùng chung là bắt buộc** — không có nó, micro-frontend gần như chắc chắn dẫn tới UI chắp vá.
+- ⭐ **Tránh các lỗi kinh điển** — dùng khi nhóm nhỏ, quên `singleton` cho React, shared store khổng lồ, thiếu design system, bỏ qua xử lý lỗi tải remote.
+- **Chia sẻ dependency nền dạng `singleton`, thống nhất version** — và chỉ chia sẻ thứ thực sự dùng chung.
+- **Cô lập style** bằng `CSS Modules` / prefix / `Shadow DOM` để tránh rò rỉ CSS giữa các mảnh.
+- **Định nghĩa hợp đồng (`contract`) rõ ràng cho mỗi remote** — props nhận vào, sự kiện phát ra; tận dụng manifest/type hinting của MF 2.0.
+- **Lo hiệu năng và vận hành** — chống tải trùng, lazy-load, CDN; `Error Boundary`, observability theo mảnh và fallback khi remote lỗi.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Design system: nền tảng của sự nhất quán](#design-system-nền-tảng-của-sự-nhất-quán)

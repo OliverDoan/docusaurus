@@ -9,6 +9,18 @@ Claude Code là công cụ dòng lệnh chính thức của Anthropic, cho phép
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Claude Code hành động trực tiếp trên dự án** — đọc/sửa file, chạy lệnh, thao tác Git, khác chat web phải copy/dán thủ công.
+- **Yêu cầu** `Node.js >= 18` và `npm` trước khi cài.
+- **Cài toàn cục**: `npm install -g @anthropic-ai/claude-code`.
+- **Lần đầu cần xác thực** (đăng nhập tài khoản hoặc API key); thông tin được lưu cho các lần sau.
+- **`/help`** xem danh sách lệnh, **`/exit`** thoát; khi nghi ngờ tra cứu `docs.claude.com`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Claude Code là gì?](#claude-code-là-gì)

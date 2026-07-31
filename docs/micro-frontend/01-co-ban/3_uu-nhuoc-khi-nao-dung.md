@@ -11,6 +11,18 @@ không* — phần quan trọng nhất để tránh "đu trend" rồi trả giá
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Ưu điểm lớn nhất: nhóm tự chủ + `deploy` độc lập** — kèm nâng cấp dần, cô lập lỗi, scale theo tổ chức.
+- ⭐ **Micro-frontend trị vấn đề *tổ chức*, không phải kỹ thuật** — code rối thì nên `refactor`, đừng chẻ nhỏ thành nhiều app.
+- **Cái giá phải trả** — phức tạp vận hành, trùng `dependency`, khó nhất quán UI, chia sẻ state/routing và debug đều khó hơn.
+- **Nên dùng khi** nhiều nhóm (≥ 3–4), app thực sự lớn, cần deploy độc lập và chấp nhận đầu tư hạ tầng.
+- **Không nên khi** nhóm nhỏ, app vừa/nhỏ, hoặc chỉ muốn "chia code cho gọn" — hãy cân nhắc `modular monolith` trước.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Ưu điểm](#ưu-điểm)

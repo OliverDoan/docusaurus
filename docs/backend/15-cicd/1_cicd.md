@@ -9,6 +9,19 @@ CI/CD là việc tự động hoá các bước build, test và deploy mỗi khi
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Phân biệt 3 khái niệm** — `CI` (auto build + test mỗi PR), `CD` Continuous Delivery (auto deploy staging, manual approve prod), Continuous Deployment (auto deploy prod sau khi pass test).
+- ⭐ **`GitHub Actions`** dominate 2026 — config bằng `.github/workflows/*.yml`, trigger push/PR/schedule/manual, `matrix` để test nhiều version song song, `services` để spin up DB test.
+- **Pipeline typical** — checkout → setup → cache → install → lint → typecheck → test → build → build/push Docker image → deploy; tối ưu bằng cache + parallel jobs + conditional.
+- **Deploy strategies** — Rolling (no downtime), Blue-Green (switch atomic, tốn 2x infra), Canary (release dần cho subset user), Feature flags (tách deploy khỏi release, instant rollback).
+- **Best practices** — pipeline < 10 phút, reproducible/idempotent, branch protection, required check, secrets management, rollback ready.
+- **Pitfalls** — flaky test, CI chậm, secret leak trong log, deploy nhầm environment.
+
+:::
+
+---
+
 ## Mục lục
 
 - [CI vs CD vs Continuous Deployment](#ci-vs-cd-vs-continuous-deployment)

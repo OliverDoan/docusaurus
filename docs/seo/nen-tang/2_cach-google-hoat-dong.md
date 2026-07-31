@@ -11,6 +11,18 @@ Bài này sẽ đi sâu vào cách Google hoạt động từ góc nhìn technic
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Google hoạt động theo pipeline tuần tự `Crawl → Index → Rank`** — không crawl được thì không index, không index thì không rank.
+- **`Crawl budget`** — Googlebot có giới hạn số trang crawl; quan trọng với site lớn (>10,000 trang); tối ưu qua `robots.txt` và `sitemap.xml`.
+- **Mobile-first indexing** — từ 2019 Google ưu tiên crawl phiên bản mobile của website.
+- **`robots.txt` chặn crawl, `noindex` chặn index** — nếu đã chặn crawl bằng robots.txt, Google không đọc được thẻ `noindex`.
+- **`PageRank` và `E-E-A-T`** — link như "phiếu bầu" uy tín; Google đánh giá chất lượng qua Experience, Expertise, Authoritativeness, Trustworthiness.
+
+:::
+
+---
+
 ## Mục lục
 
 - [1. Pipeline tổng quan: Crawl → Index → Rank](#1-pipeline-tổng-quan-crawl-index-rank)

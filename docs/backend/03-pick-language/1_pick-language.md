@@ -9,6 +9,18 @@ Một trong những quyết định đầu tiên khi học backend là chọn ng
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Top khuyến nghị: `Node.js`, `Python`, `Go`** — mỗi ngôn ngữ mạnh một mảng riêng.
+- **`Node.js` job market rộng nhất** (cùng ngôn ngữ FE/BE); **`Python` dễ học, thống trị AI/ML/Data**.
+- ⭐ **`Go` là default cho microservice/high-performance API 2026** — compile ra binary, concurrency native (goroutine).
+- **Phổ biến khác**: `Java`/Spring (enterprise), `C#`/.NET, `PHP`/Laravel, `Ruby`/Rails, `Rust` (cực nhanh nhưng khó).
+- **Chọn theo mục tiêu nghề nghiệp + loại dự án**, không chỉ dựa vào performance.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Top khuyến nghị](#top-khuyến-nghị)

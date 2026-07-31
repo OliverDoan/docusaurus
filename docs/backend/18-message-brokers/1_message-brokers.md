@@ -9,6 +9,18 @@ Message broker là "người trung gian" giúp các phần trong hệ thống g�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Message broker decouple producer + consumer** — đẩy việc nặng (email, PDF, xử lý ảnh) chạy async phía sau để user nhận phản hồi nhanh; còn giúp buffer spike, retry, event-driven.
+- **2 pattern cốt lõi** — `Queue` (point-to-point, mỗi job **1** consumer, load balance) vs `Pub/Sub` (mỗi event tới **mọi** subscriber); ngoài ra có `Stream` (event log, replay theo offset).
+- ⭐ **Chọn công cụ theo nhu cầu** — `Kafka` (throughput rất cao + replay + event sourcing), `RabbitMQ` (task queue + routing linh hoạt), `BullMQ`/Redis Streams (app Node đã có Redis), `SQS` (AWS đơn giản).
+- **Redis Pub/Sub** fire-and-forget không persistent (subscriber offline mất message) — dùng Redis Streams / BullMQ khi cần durable queue.
+- **Correctness** — đảm bảo `idempotency` (message có thể delivered nhiều lần), Dead Letter Queue cho job fail, ordering theo partition (same key → cùng partition); đa số hệ thống là "at-least-once" + idempotency chứ không exactly-once.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Tại sao cần Message Broker?](#tại-sao-cần-message-broker)

@@ -7,6 +7,16 @@ title: "4. Hiệu suất Landing Page"
 
 Tốc độ tải trang giờ đây là yếu tố xếp hạng chính thức của Google (Core Web Vitals), đồng thời ảnh hưởng trực tiếp tới tỷ lệ chuyển đổi — trang càng chậm thì khách càng bỏ đi. Bài này chỉ bạn cách tối ưu hero image, chiến lược tải font, giảm dung lượng JavaScript và CSS, lazy load nội dung dưới màn hình, cùng các resource hint hữu ích. Đây là phần kỹ thuật giúp landing page vừa nhanh vừa giữ chân người dùng.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hero image thường là `LCP` element** — dùng `WebP`/`AVIF`, `srcset`, preload + `fetchpriority="high"`, `loading="eager"`; giữ dưới ~150KB, luôn có `width`/`height`.
+- ⭐ **JavaScript là kẻ thù số 1 của tốc độ** — analyze bundle, import cụ thể (không `import _ from 'lodash'`), dynamic import phần below-the-fold, defer third-party; budget dưới ~130KB gzipped.
+- **Font loading** — self-host thay vì Google Fonts, `font-display: swap`, preload 1–2 font, dùng `size-adjust` để fallback font khớp metrics (giảm `CLS`).
+- **Critical CSS inline** — nhúng CSS above-the-fold vào `<head>`, load phần còn lại async; purge CSS thừa.
+- **Resource hints** — `preload` (critical), `preconnect` (domain fetch sớm), `prefetch` (trang kế), đừng preload quá nhiều kẻo mất tác dụng.
+
+:::
+
 ## Mục lục
 
 - [Performance metrics ảnh hưởng SEO ranking](#performance-metrics-ảnh-hưởng-seo-ranking)

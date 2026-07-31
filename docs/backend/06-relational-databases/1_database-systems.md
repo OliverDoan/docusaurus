@@ -9,6 +9,18 @@ Relational Database (cơ sở dữ liệu quan hệ) là cách lưu trữ data p
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`RDBMS`** (Postgres, MySQL, SQLite, MS SQL, Oracle) lưu data thành **bảng có schema**, liên kết qua `foreign key`.
+- ⭐ **Học `SQL` quan trọng hơn học một RDBMS cụ thể** — nắm SQL rồi chuyển engine chỉ là khác biệt nhỏ (DDL/DML/DQL/DCL/TCL).
+- **`PostgreSQL` là default 2026** — JSONB, full-text search, geospatial, extension (pgvector, TimescaleDB).
+- **Chọn engine theo case**: MySQL (host rẻ, WordPress), SQLite (mobile/edge), MS SQL (.NET), Oracle (enterprise banking).
+- **Đừng over-engineer** — hiểu SQL + design schema đúng quan trọng hơn engine; ORM hiện đại giúp migrate dễ.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Relational Database là gì?](#relational-database-là-gì)

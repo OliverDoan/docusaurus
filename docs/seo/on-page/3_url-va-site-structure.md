@@ -7,6 +7,16 @@ title: "3. URL và cấu trúc trang"
 
 URL và cấu trúc trang là cách bạn đặt đường dẫn và tổ chức các trang trên website, một trong những tín hiệu SEO đầu tiên Google nhìn thấy. URL gọn gàng, có nghĩa và cấu trúc phân cấp hợp lý giúp cả người dùng lẫn search engine hiểu nội dung và dễ điều hướng. Bài này hướng dẫn cách đặt URL thân thiện, internal linking, breadcrumbs, XML sitemap, redirect 301/302 và mô hình topic cluster; phần chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **URL tốt: ngắn, có nghĩa, dùng gạch nối, viết thường, phân cấp** — ví dụ `/seo/on-page/meta-tags`, không dấu tiếng Việt.
+- **`Internal linking`** — giúp Google khám phá trang, phân phối link equity, thiết lập topic; dùng anchor text mô tả cụ thể.
+- **Redirect `301` vs `302`** — 301 (vĩnh viễn) chuyển ~90-99% link equity; 302 (tạm thời) không chuyển; dùng sai loại là lỗi phổ biến.
+- **`XML Sitemap`** — chỉ chứa URL hợp lệ (200, được index); submit qua GSC; dùng sitemap index khi >50,000 URL.
+- **Flat architecture + quy tắc 3 click** — mỗi trang quan trọng cách trang chủ tối đa 3 click; tổ chức theo `topic cluster`.
+
+:::
+
 ## Mục lục
 
 - [URL thân thiện với SEO](#url-thân-thiện-với-seo)

@@ -7,6 +7,16 @@ title: "2. E-commerce SEO"
 
 E-commerce SEO xử lý những thách thức riêng của website bán hàng: hàng nghìn trang sản phẩm, faceted navigation sinh ra vô số URL, pagination phức tạp và sản phẩm hết hàng liên tục. Bài này tập trung vào các kỹ thuật developer cần nắm để xây dựng site thương mại điện tử thân thiện với SEO và không lãng phí crawl budget.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Faceted navigation là kẻ thù của crawl budget** — filter (color/size/brand) tạo hàng triệu URL; `canonical` về category chính, `noindex` filter vô giá trị, chặn params trong `robots.txt`.
+- ⭐ **`Product` schema (JSON-LD)** — mang lại rich snippet (giá, `availability`, rating) trên SERP, tăng CTR đáng kể; thêm `AggregateRating` và `BreadcrumbList`.
+- **Product hết hàng** — tạm thời giữ trang (200); vĩnh viễn thì `301` sang sản phẩm thay thế hoặc category; `410` khi xóa hẳn; tránh `404` làm mất link equity.
+- **URL sản phẩm sạch** — slug chứa keyword, không query param trong canonical; category page rank tốt cho broad keyword.
+- **Infinite scroll cần fallback** — Googlebot không scroll; phải có pagination URL-based (`?page=2`) render server-side.
+
+:::
+
 ## Mục lục
 
 - [Giới thiệu](#giới-thiệu)

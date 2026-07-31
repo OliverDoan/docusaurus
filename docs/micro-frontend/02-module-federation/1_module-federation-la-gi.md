@@ -14,6 +14,19 @@ bài sau.
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Module Federation` cho phép tải code app khác lúc `runtime` + chia sẻ thư viện chung** — ngay tại tầng bundler (Webpack 5, Rspack, Vite...).
+- ⭐ **`shared` + `singleton` (nhất là React)** tránh tải trùng và lỗi đa-bản (*"Invalid hook call"*).
+- **`Remote` *expose* module, `Host` *remotes* (tiêu thụ) chúng** — một app có thể đóng cả hai vai.
+- **Ba trường cấu hình cốt lõi**: `exposes` (remote mở gì), `remotes` (host dùng ai), `shared` (chia sẻ thư viện).
+- **Mỗi remote sinh `remoteEntry.js` làm cửa ngõ** — host chỉ cần URL của nó nên remote `deploy` độc lập được.
+- **`Module Federation 2.0`** (`@module-federation/enhanced`) thêm manifest, type hinting và hỗ trợ nhiều bundler.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vấn đề Module Federation giải quyết](#vấn-đề-module-federation-giải-quyết)

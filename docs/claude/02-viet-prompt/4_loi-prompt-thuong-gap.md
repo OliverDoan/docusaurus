@@ -9,6 +9,17 @@ Hầu hết những lần "Claude trả lời không đúng ý" đều bắt ngu
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Đa số lỗi "Claude trả lời sai ý" đến từ prompt** — không phải do Claude "dở".
+- **5 lỗi phổ biến** — mơ hồ, thiếu ngữ cảnh, hỏi quá nhiều thứ, không nêu định dạng, không tinh chỉnh.
+- **Cách sửa chung** — cụ thể hóa, dán đủ dữ liệu, tách nhỏ việc, ghi rõ định dạng, và lặp lại để tinh chỉnh.
+- **Coi câu trả lời đầu là bản nháp** — phản hồi cụ thể điều cần sửa thay vì làm lại từ đầu.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Lỗi 1: Prompt mơ hồ](#lỗi-1-prompt-mơ-hồ)

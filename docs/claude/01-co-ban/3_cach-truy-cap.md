@@ -9,6 +9,17 @@ Bạn có thể dùng Claude qua nhiều "cánh cửa" khác nhau: trang web cla
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **4 cách dùng Claude** — `claude.ai` (web), app desktop/mobile, `Claude Code` (CLI), và `API`.
+- **Người mới nên bắt đầu với web hoặc app** — đơn giản, không cần cài đặt hay kỹ thuật.
+- **`Claude Code` và `API` dành cho lập trình** — làm việc trực tiếp trên code hoặc tích hợp vào sản phẩm.
+- **Có gói `Free` và trả phí (`Pro`, `Max`)** — giá và giới hạn xem trang chính thức của Anthropic.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Có những cách nào để dùng Claude?](#có-những-cách-nào-để-dùng-claude)

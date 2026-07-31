@@ -9,6 +9,19 @@ Testing là viết code để tự động kiểm tra xem code chính của bạ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Testing Pyramid** — nhiều `Unit test` (nhanh, rẻ, test pure function), vừa `Integration test` (API + DB thật), ít `E2E test` (< 10 flow critical).
+- **Unit test** không touch DB/network — mock external dependency (vd `vi.mock`); Integration test dùng DB thật qua Docker Compose / `Testcontainers` / Supertest.
+- **`E2E`** test full stack — `Playwright` cho web, hoặc API-only test chạy trọn flow (signup → cart → checkout → verify DB).
+- **Load testing** với `k6` (hoặc Artillery/Locust/Gatling) — đo throughput, latency p50/p95/p99, error rate; các pattern smoke/load/stress/spike/soak.
+- ⭐ **`TDD`** = Red-Green-Refactor (viết test fail trước, code cho pass, rồi refactor) — không dogmatic, mục tiêu là **code có test**.
+- **Coverage target 70-80% overall** — tập trung critical path + business logic + edge case; 100% coverage không đáng chase.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Testing Pyramid](#testing-pyramid)

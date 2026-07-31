@@ -9,6 +9,18 @@ Ngoài việc đọc chữ bạn gõ, Claude còn có thể đọc file (PDF, t�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Claude đọc được file và hiểu hình ảnh** — tải lên PDF, tài liệu và ảnh (ảnh chụp, sơ đồ, screenshot).
+- **`Vision` là khả năng hiểu hình ảnh** — mô tả ảnh, đọc chữ trong ảnh, hiểu bảng biểu và sơ đồ.
+- **Tình huống thường gặp** — tóm tắt PDF, phân tích bảng biểu, đọc screenshot lỗi, trích xuất dữ liệu.
+- **Mẹo** — dùng ảnh rõ nét, hỏi cụ thể, chia nhỏ câu hỏi, kiểm tra lại số liệu quan trọng.
+- **Lưu ý** — không tải lên thông tin nhạy cảm; Claude có thể đọc nhầm ảnh chất lượng kém.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Tổng quan](#tổng-quan)

@@ -13,6 +13,18 @@ tuyệt đối tránh.
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Mật khẩu phải `hash` một chiều** bằng thuật toán **cố tình chậm**: `argon2` (khuyến nghị) hoặc `bcrypt`.
+- **Ba điều cấm kỵ** — lưu plaintext, mã hoá (encrypt), hay hash bằng `MD5`/`SHA` trần (quá nhanh, dễ bẻ).
+- **`Salt` ngẫu nhiên mỗi mật khẩu** chống rainbow table — `bcrypt`/`argon2` **tự lo salt** cho bạn.
+- **Đăng nhập: hash lại rồi so sánh** bằng `compare`/`verify` của thư viện.
+- **Chính sách (NIST)** — ưu tiên độ dài, chặn mật khẩu đã lộ, không ép đổi vô cớ, khuyến khích `MFA`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Tuyệt đối không làm](#tuyệt-đối-không-làm)

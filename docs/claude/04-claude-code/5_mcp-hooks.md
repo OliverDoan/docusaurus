@@ -9,6 +9,18 @@ Bài này giới thiệu ba tính năng nâng cao của Claude Code: **MCP** gi�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **MCP (Model Context Protocol)** là chuẩn kết nối Claude với công cụ/dữ liệu ngoài (database, API, Drive) qua các **MCP server**.
+- **Hooks** là script tự chạy ở các thời điểm `PreToolUse`, `PostToolUse`, `Stop` để tự động format/lint/kiểm tra — đảm bảo hành động luôn xảy ra.
+- **Permissions**: Claude Code luôn xin phép trước khi sửa file/chạy lệnh; có chế độ hỏi từng lần và tự duyệt (dùng cẩn trọng).
+- **Plan mode**: Claude chỉ lập kế hoạch, bạn duyệt rồi mới thực thi — lý tưởng cho việc lớn nhiều file.
+- **Không ghi mật khẩu/khoá thật** vào cấu hình; cú pháp thay đổi theo phiên bản, xem `docs.claude.com`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [MCP là gì?](#mcp-là-gì)

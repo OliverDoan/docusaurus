@@ -9,6 +9,18 @@ Bài này giới thiệu hai khái niệm giúp bạn dùng Claude Code hiệu q
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Slash command** là lệnh gõ nhanh bắt đầu bằng `/` (`/help`, `/init`, `/clear`, `/exit`) để điều khiển Claude Code, không phải gửi cho mô hình suy nghĩ.
+- **`/clear`** xoá ngữ cảnh cũ khi chuyển sang nhiệm vụ hoàn toàn khác.
+- **Tự tạo slash command** bằng file Markdown trong `.claude/commands/` để đóng gói prompt lặp lại.
+- ⭐ **Subagent** là trợ lý con chạy với **ngữ cảnh riêng**, trả về tóm tắt, giúp giữ phiên chính gọn gàng.
+- **Dùng subagent** khi việc con tốn ngữ cảnh, cần chuyên môn tách biệt, hoặc chạy song song.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Slash command là gì?](#slash-command-là-gì)

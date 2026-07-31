@@ -11,6 +11,18 @@ Bài này sẽ giúp bạn hiểu SEO từ góc nhìn **developer** -- không ph
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Phần lớn SEO là technical, developer bắt buộc nắm** — tốc độ tải, HTML semantic, `SSR`, `structured data`, `robots.txt` chỉ dev mới làm được.
+- ⭐ **Ba trụ cột SEO** — `On-page` (title, meta, heading), `Off-page` (backlinks) và `Technical SEO` (crawl, index, speed).
+- **Phân biệt SEO / SEM / PPC** — SEO là kết quả tự nhiên (miễn phí, 3-6 tháng), `PPC` là quảng cáo trả tiền theo click, `SEM` bao gồm cả hai.
+- **SPA (React/Vue) dễ vô hình với Google** — client-side rendering trả về `<div id="root">` rỗng; cần `SSR`/`SSG` để Google index.
+- **`Canonical` URL xử lý trùng nội dung** — chỉ rõ phiên bản chính khi có nhiều URL cùng nội dung.
+
+:::
+
+---
+
 ## Mục lục
 
 - [1. SEO là gì?](#1-seo-là-gì)

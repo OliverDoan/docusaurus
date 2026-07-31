@@ -7,6 +7,16 @@ title: "4. Tự động hóa SEO"
 
 SEO không phải "làm xong rồi quên" — mỗi lần deploy code, thêm trang hay đổi URL đều có thể phá hỏng SEO mà bạn không hay biết cho đến khi traffic tụt. Bài này hướng dẫn developer tự động hóa các kiểm tra SEO bằng script, tích hợp vào CI/CD và thiết lập monitoring, biến SEO thành một phần của quy trình phát triển.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Biến SEO check thành một phần CI/CD** — chạy tự động mỗi PR (Lighthouse CI + script) để bắt lỗi ngay thay vì audit thủ công hàng tháng.
+- ⭐ **`Lighthouse CI` với assertions** — đặt `error` (chặn PR) cho `meta-description`, `document-title`, `canonical`, `image-alt`, `categories:seo >= 0.9`; `warn` cho phần còn lại.
+- **Tự động hóa script Node.js** — kiểm tra meta tag (title/description/H1/OG/alt), tìm broken link, validate `sitemap.xml` và `robots.txt`.
+- **Generate `sitemap` tự động trong build** — sitemap viết tay nhanh outdated, khiến Google bỏ sót trang mới và `lastmod` sai.
+- **Monitor `Google Search Console API`** — lấy clicks/impressions/CTR/position định kỳ, cảnh báo khi trang tụt traffic để xử lý sớm.
+
+:::
+
 ## Mục lục
 
 - [Giới thiệu](#giới-thiệu)

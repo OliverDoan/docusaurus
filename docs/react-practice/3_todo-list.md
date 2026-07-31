@@ -9,6 +9,19 @@ To-Do List là project "kinh điển" để học React vì nó gói gọn gần
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Cập nhật bất biến** — dùng `[...spread]`, `.map()`, `.filter()` để tạo mảng/object mới; tránh `.push()` hay gán trực tiếp vì React so sánh tham chiếu để biết state đổi.
+- ⭐ **Render mảng bằng `.map()`** — mỗi phần tử cần `key` duy nhất, ổn định (dùng `id`, đừng dùng index).
+- **Form controlled** — `value` lấy từ state + `onChange` cập nhật state, để state là nguồn sự thật duy nhất.
+- **`e.preventDefault()`** — bắt buộc trong hàm xử lý submit để chặn form tải lại trang.
+- **Đừng lưu state tính ra được** — danh sách đã lọc nên tính lại từ `todos` + `filter` mỗi lần render.
+- **`useEffect(fn, [deps])`** — chạy tác dụng phụ khi `deps` đổi; dùng lưu localStorage với `JSON.stringify`/`parse`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Phân tích bài toán](#phân-tích-bài-toán)

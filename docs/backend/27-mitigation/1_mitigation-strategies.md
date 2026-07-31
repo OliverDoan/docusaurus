@@ -9,6 +9,18 @@ Trong thực tế, các service và dependency luôn có lúc bị chậm hoặc
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Mọi external call production nên có tối thiểu `timeout` + `retry` + `circuit breaker`** (+ fallback, idempotency key).
+- **Graceful Degradation** — giảm tính năng non-critical thay vì sập toàn bộ; **Circuit Breaker** ngắt mạch khi downstream fail liên tục (CLOSED → OPEN → HALF-OPEN).
+- **Retry + Exponential Backoff (kèm jitter)** — chỉ retry lỗi transient (timeout, 429, 5xx), KHÔNG retry 4xx; POST cần `Idempotency-Key`.
+- **Bulkhead** cô lập resource, **Timeout** phải cascading (child < parent), **Backpressure** & **Load Shedding** khi overload (ưu tiên P1 checkout, shed P3 trước).
+- ⭐ **Tránh retry storm & cascade failure** — start simple, thêm advanced khi đo cần; chaos engineering cho enterprise/mission-critical.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Graceful Degradation](#graceful-degradation)

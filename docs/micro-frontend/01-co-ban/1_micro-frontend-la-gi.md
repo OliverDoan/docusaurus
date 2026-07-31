@@ -12,6 +12,18 @@ sinh ra để giải quyết, trước khi đi vào *cách làm* ở các bài s
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Micro-frontend chia frontend thành nhiều mảnh độc lập** — mỗi mảnh do một nhóm tự chủ phát triển và `deploy` riêng, rồi ghép thành một trang liền mạch.
+- ⭐ **`Độc lập deploy` là đặc tính quan trọng nhất** — nếu các mảnh vẫn phải build/deploy cùng nhau thì chưa phải micro-frontend thật.
+- **Là tư tưởng `microservices` cho frontend** — giải quyết vấn đề quy mô *tổ chức*, không phải vấn đề kỹ thuật.
+- **Thường có một app "vỏ" (`shell`/container)** — lo việc tải, ghép các mảnh và điều hướng chung.
+- **`Monolith` frontend** tốt cho app nhỏ nhưng gây giẫm chân, deploy rủi ro, build chậm khi nhiều nhóm cùng làm.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vấn đề: frontend monolith phình to](#vấn-đề-frontend-monolith-phình-to)

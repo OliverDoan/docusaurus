@@ -7,6 +7,16 @@ title: "2. Landing Page với Next.js"
 
 Next.js là framework React được nhiều người chọn để làm landing page chuẩn SEO, vì nó render HTML sẵn trên server nên Google đọc nội dung được ngay mà không cần chạy JavaScript. Bài này hướng dẫn bạn dùng App Router, Metadata API để khai báo SEO, Static Generation để tải trang siêu nhanh, cùng cách tối ưu hình ảnh và font có sẵn của Next.js. Đây là cách thực tế nhất để vừa code nhanh vừa đạt điểm SEO cao.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Server Components (App Router) tốt cho SEO** — render HTML sẵn trên server; giữ trang là Server Component, chỉ phần cần tương tác mới `'use client'`.
+- ⭐ **`Metadata API`** — khai báo `metadata` tĩnh hoặc `generateMetadata` động (kèm `canonical`), không cần thư viện ngoài như react-helmet.
+- **Ưu tiên `SSG`/`ISR`** — dùng `generateStaticParams` để pre-render tại build time; đặt `revalidate` khi nội dung lấy từ CMS.
+- **`next/image`** — hero image cần prop `priority` (preload, giảm `LCP`); luôn có `alt`, `width`/`height` tránh `CLS`.
+- **`next/font`** — self-host font, `display: swap` và tự động `size-adjust` để font loading không gây layout shift.
+
+:::
+
 ## Mục lục
 
 - [Tại sao Next.js là lựa chọn hàng đầu cho landing page SEO?](#tại-sao-nextjs-là-lựa-chọn-hàng-đầu-cho-landing-page-seo)

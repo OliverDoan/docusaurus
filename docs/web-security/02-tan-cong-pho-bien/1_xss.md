@@ -13,6 +13,18 @@ tế (đặc biệt với React).
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`XSS` = chèn JavaScript độc** — chạy trong trình duyệt nạn nhân với quyền và origin của họ → đánh cắp session, hành động thay người dùng.
+- **Ba loại** — `Stored` (nguy hiểm nhất), `Reflected`, `DOM-based`.
+- ⭐ **Phòng thủ cốt lõi: escape output theo ngữ cảnh đích** — đừng tự viết, để framework/thư viện lo.
+- **`React` tự escape với `{}`** — nguy hiểm khi dùng `dangerouslySetInnerHTML`; phải sanitize bằng `DOMPurify` trước.
+- **`CSP` là lớp phòng thủ bổ sung** — chặn script thực thi, không thay thế escape/sanitize.
+
+:::
+
+---
+
 ## Mục lục
 
 - [XSS là gì và nguy hiểm ra sao?](#xss-là-gì-và-nguy-hiểm-ra-sao)

@@ -9,6 +9,18 @@ Backend luôn phục vụ cho một client nào đó (web, mobile, app khác), n
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Backend luôn phục vụ một client** — biết frontend cơ bản giúp thiết kế API đúng và debug khi UI hiển thị sai.
+- **`HTML` semantic tags + `<form>`** là nơi backend nhận dữ liệu qua request (POST body).
+- **`CSS` chỉ cần đọc hiểu** — backend dev không cần viết style phức tạp.
+- **`JavaScript` cần nắm `fetch` và `async/await`** để hiểu cách client gọi API và nhận response.
+- **Không cần học React/Vue** trừ khi muốn full-stack; dùng DevTools Network tab để debug request.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Tại sao cần biết frontend?](#tại-sao-cần-biết-frontend)

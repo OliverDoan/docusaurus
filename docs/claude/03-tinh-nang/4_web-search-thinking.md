@@ -9,6 +9,17 @@ Bài này giới thiệu hai tính năng giúp Claude trả lời tốt hơn tro
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Web Search` lấy thông tin mới trên web** — vượt qua mốc dữ liệu huấn luyện; dùng cho tin tức, dữ liệu cập nhật, thông tin dễ thay đổi.
+- ⭐ **`Extended Thinking` giúp suy luận sâu nhiều bước** — dùng cho bài toán khó, phân tích phức tạp, lập kế hoạch, gỡ lỗi.
+- **Hai tính năng giải quyết hai vấn đề khác nhau** — thiếu thông tin mới vs. bài toán khó; có thể dùng cùng nhau khi cần.
+- **Lưu ý** — luôn kiểm chứng thông tin quan trọng, không lạm dụng Extended Thinking cho việc đơn giản.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Tổng quan](#tổng-quan)

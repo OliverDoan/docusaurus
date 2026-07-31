@@ -5,6 +5,16 @@ title: "Giới thiệu"
 
 # Lộ trình Backend Developer
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Backend là phần xử lý chạy trên server** mà người dùng không thấy trực tiếp (như "nhà bếp"), còn Frontend là "phòng ăn" và **API** là người phục vụ nối hai bên.
+- Học Backend để xây **API**, thiết kế và quản lý **database**, vận hành **server**, lo **bảo mật** + tốc độ (`caching`) + chịu tải.
+- ⭐ **Lộ trình gồm 27 nhóm kiến thức** sắp xếp từ cơ bản đến nâng cao.
+- **Thứ tự học gợi ý** — khởi đầu (1–5) → cốt lõi (6–10) → làm quen AI (11–13) → chuyên nghiệp hóa (14–19) → quy mô lớn (20–27).
+- Người mới nên nắm thật chắc bước 1–10 và làm vài dự án nhỏ trước khi lên chủ đề nâng cao — kiên trì quan trọng hơn tốc độ.
+
+:::
+
 ## Backend là gì?
 
 **Backend** (phần phía sau, hay còn gọi là phía máy chủ) là toàn bộ phần xử lý chạy trên **server** (máy chủ) mà người dùng cuối **không nhìn thấy trực tiếp**. Khi bạn bấm nút "Đăng nhập" trên một trang web, phần kiểm tra mật khẩu, tra cứu thông tin tài khoản trong cơ sở dữ liệu và quyết định cho bạn vào hay không — tất cả đều diễn ra ở Backend.

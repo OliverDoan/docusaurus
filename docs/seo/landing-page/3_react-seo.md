@@ -7,6 +7,16 @@ title: "3. SEO cho React SPA"
 
 React SPA (Single Page Application) render nội dung bằng JavaScript ngay trên trình duyệt, nên khi Google ghé thăm thì ban đầu chỉ thấy một trang HTML gần như trống rỗng — đây là điểm yếu lớn về SEO. Bài này giải thích vì sao SPA khó lên top, rồi giới thiệu các giải pháp như react-helmet-async để quản lý meta tag, prerendering, và cách chọn giữa SPA, SSR, SSG. Đọc xong bạn sẽ biết khi nào nên dùng SPA và khi nào nên chuyển sang Next.js.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **SPA trả HTML gần trống** — nội dung render bằng JS nên bị two-wave indexing (delay), và bot mạng xã hội (Facebook/Twitter) không chạy JS nên không thấy OG tags.
+- ⭐ **`react-helmet-async` chỉ giải quyết một phần** — quản lý meta/OG tags client-side nhưng không sửa được HTML trống ban đầu; cần kết hợp prerendering hoặc SSR.
+- **Prerendering** — `react-snap` (build time, site nhỏ, miễn phí) hoặc `prerender.io` (SaaS, site lớn, serve HTML cho bot).
+- **Chọn kiến trúc theo nhu cầu** — không cần SEO thì SPA; cần SEO thì `SSG` (tĩnh), `SSR` (cá nhân hóa), `ISR` (cập nhật từ CMS).
+- **Việc cần làm cho SPA** — tạo `sitemap.xml` thủ công tại build time, dùng `BrowserRouter`, trả HTTP 404 thật (không phải status 200).
+
+:::
+
 ## Mục lục
 
 - [Vấn đề SEO của Single Page Application](#vấn-đề-seo-của-single-page-application)

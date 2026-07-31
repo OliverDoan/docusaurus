@@ -9,6 +9,18 @@ Authentication (xác thực) trả lời câu hỏi "bạn là ai?", còn Author
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Authentication` = "bạn là ai?", `Authorization` = "bạn được làm gì?"** — hai khái niệm tách biệt.
+- **Auth tiến hóa qua thời gian**: Basic → Session+Cookie → API Key → SAML → OAuth → JWT → OIDC → PKCE/Passkeys.
+- **`Session ID`** (stateful, revoke tức thì) vs **`JWT`** (stateless, khó revoke); xu hướng 2026 là lai cả hai.
+- ⭐ **JWT pitfalls**: khó revoke, nên lưu ở cookie `httpOnly` (không localStorage), không để sensitive data, chỉ định explicit algorithm.
+- **Đừng tự viết auth** — dùng provider mature (Clerk, Auth0, Better Auth); hash password bằng `bcrypt`/`argon2id`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Authentication vs Authorization](#authentication-vs-authorization)

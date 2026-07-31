@@ -9,6 +9,18 @@ Caching là kỹ thuật lưu tạm kết quả của những thao tác tốn k�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Cache = lưu tạm kết quả đắt tiền ở nơi truy cập nhanh** — đánh đổi latency thấp lấy consistency (data có thể stale) + complexity.
+- **Cache có nhiều layer**: browser → CDN → reverse proxy → app → distributed (`Redis`) → DB.
+- ⭐ **`Redis` là default 2026** (in-memory, nhiều data structure) — dùng cho cache, session, rate limit, queue, leaderboard, pub/sub.
+- **HTTP caching** qua `Cache-Control`, `ETag`, `Last-Modified`; static asset có hash filename → cache forever.
+- **Cache invalidation khó** — coi chừng stale data, cache stampede, penetration, avalanche (thêm TTL jitter), hot key.
+
+:::
+
+---
+
 ## Caching là gì?
 
 **Caching** = **lưu tạm kết quả** của một phép tính/truy vấn **đắt tiền** ở

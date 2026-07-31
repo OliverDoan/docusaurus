@@ -15,6 +15,18 @@ Bốn project trước chạy trong terminal — chỉ bạn dùng được. Gi�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **REST API phơi bộ CRUD ra mạng qua HTTP** — `GET`/`POST`/`PUT`/`DELETE` trên các URL tài nguyên như `/api/students`.
+- ⭐ **Spring Boot lo phần web server + cấu hình** — bạn chỉ viết logic với annotation như `@RestController`, `@GetMapping`.
+- **Dữ liệu trao đổi thường ở dạng JSON** — trả về một object/`record` Java, Spring tự chuyển thành JSON nhờ Jackson.
+- **Dựng project bằng Spring Initializr** ([start.spring.io](https://start.spring.io)) với 3 dependency: Spring Web, Spring Data JPA, H2.
+- **Ứng dụng web chạy liên tục** (khác project console) — lắng nghe request ở `http://localhost:8080`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [REST API là gì?](#rest-api-là-gì)

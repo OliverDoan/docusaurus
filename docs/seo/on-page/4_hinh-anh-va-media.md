@@ -7,6 +7,16 @@ title: "4. Hình ảnh và media SEO"
 
 Hình ảnh chiếm khoảng một nửa dung lượng của trang web trung bình, nên tối ưu hình ảnh vừa giúp trang tải nhanh hơn vừa mang lại traffic từ Google Images. Bỏ qua phần này là bỏ lỡ một nguồn truy cập lớn. Bài này hướng dẫn cách viết alt text, đặt tên file, chọn định dạng hiện đại (WebP, AVIF), responsive images, lazy loading, dùng next/image và tối ưu video; phần chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Tối ưu hình vừa tăng tốc trang vừa mang traffic từ Google Images** — ảnh chiếm ~50% dung lượng trang trung bình.
+- **`alt text`** — mô tả chính xác, ngắn (~125 ký tự), tự nhiên; ảnh trang trí dùng `alt=""`.
+- **Định dạng hiện đại** — dùng `WebP` mặc định (nén 60-70%), `AVIF` khi cần nén tối đa, luôn có JPEG/PNG fallback qua `<picture>`.
+- **`srcset`/`sizes` + `loading="lazy"`** — serve kích thước phù hợp; KHÔNG lazy load ảnh above-the-fold/LCP.
+- **Khai báo `width`/`height` để tránh `CLS`** — hoặc dùng CSS `aspect-ratio`; `next/image` tự xử lý phần lớn.
+
+:::
+
 ## Mục lục
 
 - [Tại sao hình ảnh SEO quan trọng?](#tại-sao-hình-ảnh-seo-quan-trọng)

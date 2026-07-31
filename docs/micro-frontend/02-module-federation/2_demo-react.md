@@ -15,6 +15,18 @@ cấu hình plugin, **async boundary** (ranh giới bất đồng bộ), chạy,
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Remote dùng `exposes` mở component + sinh `remoteEntry.js`; host dùng `remotes` trỏ tới URL đó** — rồi `React.lazy(() => import('remote_app/Button'))` để tải lúc runtime.
+- ⭐ **Mẫu `index.js → import('./bootstrap')` tạo `async boundary` bắt buộc** — quên nó sẽ gặp lỗi *"Shared module is not available for eager consumption"*.
+- **`shared` + `singleton`** cho `react`/`react-dom` ở cả hai app để không tải trùng React.
+- **Chạy remote trước, host sau** — host tải remote qua mạng lúc runtime.
+- **Luôn bọc remote bằng `Suspense` (chờ tải) + `Error Boundary` (cô lập lỗi)** — để một mảnh hỏng không kéo sập cả trang.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Kết quả demo](#kết-quả-demo)

@@ -9,6 +9,18 @@ Observability là khả năng "nhìn thấy" được điều gì đang xảy ra
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **3 trụ cột observability** — Metrics (số liệu cho trend/alert), Logs (event để debug), Traces (theo dấu request qua nhiều service tìm root cause).
+- **`Prometheus`** (pull metric) + **`Grafana`** (visualize) + Alertmanager; theo dõi service bằng `RED` (Rate/Errors/Duration) và resource bằng `USE` (Utilization/Saturation/Errors).
+- **Structured logging JSON ra stdout** — kèm `requestId`/`traceId`, tuyệt đối **không log PII** (password, thẻ, SSN); Pino có `redact`.
+- **Distributed Tracing** (Jaeger, Tempo, Honeycomb) dùng `trace_id`/`span` để chỉ ra bottleneck.
+- ⭐ **`OpenTelemetry`** — chuẩn vendor-neutral, auto-instrument, mặc định cho project mới 2026 (xuất được sang bất kỳ backend OTLP nào).
+
+:::
+
+---
+
 ## Mục lục
 
 - [3 pillars of Observability](#3-pillars-of-observability)

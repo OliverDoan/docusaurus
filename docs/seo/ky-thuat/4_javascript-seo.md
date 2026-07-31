@@ -7,6 +7,16 @@ title: "4. JavaScript SEO"
 
 JavaScript SEO xử lý vấn đề các framework hiện đại (React, Vue, Angular) render nội dung phía client, khiến Googlebot ban đầu chỉ thấy một trang HTML gần như trống rỗng và khó index. Đây là thách thức lớn với các SPA muốn lên top tìm kiếm. Bài này so sánh các cách render (CSR, SSR, SSG, ISR), giải thích cách Google render JavaScript, và đưa ra giải pháp như dynamic rendering hay prerendering; phần chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`CSR` thuần hại SEO** — Googlebot nhận HTML trống, phải chạy JS mới thấy nội dung; dùng `SSR`/`SSG`/`ISR` để đưa nội dung vào HTML ngay từ đầu.
+- ⭐ **Two-Wave Indexing** — Wave 1 index HTML thô, Wave 2 (vài giờ→vài ngày sau) mới render JS, nên nội dung chỉ có ở JS bị delay index.
+- **Chọn cách render theo mục đích** — `SSR` cho trang động (e-commerce), `SSG` cho blog/docs/landing, `ISR` cho catalog lớn cần cập nhật.
+- **Cạm bẫy SPA** — dùng `BrowserRouter` (không hash routing), cập nhật meta tag mỗi route, tránh infinite scroll cho nội dung chính.
+- **`Dynamic Rendering`** — trả pre-rendered HTML cho bot là hợp lệ (không phải cloaking) nhưng chỉ nên dùng tạm, hướng tới SSR/SSG.
+
+:::
+
 ## Mục lục
 
 - [Vấn đề cốt lõi](#vấn-đề-cốt-lõi)

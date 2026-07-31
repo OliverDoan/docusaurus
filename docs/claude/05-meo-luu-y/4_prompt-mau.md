@@ -9,6 +9,17 @@ title: "4. Bộ prompt mẫu"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Bộ 12 prompt mẫu sẵn dùng** — chỉ cần sao chép và thay nội dung trong dấu `[...]`.
+- **Bao phủ tình huống thường gặp**: tóm tắt, viết email, giải thích, review code, dịch, lập kế hoạch học, brainstorm...
+- **Tùy biến thêm** cho hợp tình huống của bạn và đừng quên kiểm chứng thông tin quan trọng.
+- **Kết hợp với nguyên tắc ở bài "Best Practices"** để có kết quả tốt nhất.
+
+:::
+
+---
+
 ## Mục lục
 
 - [1. Tóm tắt văn bản](#1-tóm-tắt-văn-bản)

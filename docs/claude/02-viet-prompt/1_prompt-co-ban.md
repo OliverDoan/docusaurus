@@ -9,6 +9,17 @@ title: "1. Prompt là gì & nguyên tắc cơ bản"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Prompt` là đoạn văn bản giao việc cho Claude** — prompt tốt → kết quả tốt, prompt mơ hồ → kết quả mơ hồ.
+- **Coi Claude như cộng sự giỏi nhưng mới** — nó không tự đoán được ý bạn nếu bạn nói mơ hồ.
+- **4 nguyên tắc cốt lõi** — Rõ ràng, Cụ thể, Đủ ngữ cảnh, Nêu định dạng.
+- **Prompt tốt trả lời sẵn mọi câu Claude có thể hỏi lại** — ai, cái gì, dài bao nhiêu, định dạng nào.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Prompt là gì?](#prompt-là-gì)

@@ -13,6 +13,17 @@ mật".
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`HTTPS`/`TLS` mã hoá đường truyền** — chống man-in-the-middle (bảo mật + toàn vẹn + xác thực server); nay là **bắt buộc**, củng cố bằng `HSTS`.
+- **`Same-Origin Policy`** — mặc định cách ly các **origin** (scheme + host + port); nền tảng an toàn của trình duyệt.
+- ⭐ **`CORS` bảo vệ người dùng trình duyệt, KHÔNG bảo vệ API** — client ngoài trình duyệt (`curl`/script) bỏ qua CORS hoàn toàn.
+- **Cấu hình CORS bằng danh sách trắng origin cụ thể** — không dùng `*` cho API có dữ liệu/đăng nhập, cẩn thận với `credentials`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [HTTPS & TLS](#https--tls)

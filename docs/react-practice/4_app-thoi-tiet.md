@@ -9,6 +9,19 @@ title: "4. App Thời tiết"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Gọi API luôn quản lý 3 state** — `data`, `loading`, `error`; render `loading`/`error` trước khi chạm vào `data` để tránh crash "Cannot read properties of null".
+- ⭐ **Đặt fetch đúng chỗ** — gọi lúc mở trang/khi giá trị đổi thì dùng `useEffect`; do người dùng kích hoạt (click, submit) thì gọi trong hàm xử lý sự kiện.
+- **Không gắn `async` thẳng lên hàm `useEffect`** — định nghĩa hàm `async` bên trong rồi gọi nó.
+- **`fetch` không tự ném lỗi 4xx/5xx** — phải tự kiểm tra `res.ok` và `throw`; dùng `try/catch/finally`.
+- **Custom hook (`useXxx`)** — gói logic tái sử dụng, tách khỏi giao diện; tên bắt buộc bắt đầu bằng `use`.
+- **Cleanup function** — hàm `return` trong `useEffect` chống race condition và dọn tài nguyên (timer, subscription).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Phân tích bài toán](#phân-tích-bài-toán)

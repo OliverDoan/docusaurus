@@ -12,6 +12,18 @@ các bài sau tồn tại, chứ không chỉ học thuộc.
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Không tin dữ liệu vượt ranh giới tin cậy** — mọi input phải được kiểm tra, và validate phía `server` là bắt buộc (client chỉ phụ trợ).
+- ⭐ **Bộ ba `CIA`** — Confidentiality (bảo mật), Integrity (toàn vẹn), Availability (sẵn sàng) là ba mục tiêu của mọi biện pháp bảo mật.
+- **Mô hình đe doạ (`threat modeling`)** — liệt kê tài sản, điểm vào, kẻ tấn công, đe doạ, biện pháp; nghĩ như kẻ tấn công trước khi họ ra tay.
+- **Nguyên tắc phòng thủ** — `defense in depth`, `least privilege`, `secure by default`, `fail securely`, không tự chế crypto.
+- **Phân biệt validate / sanitize / escape** — luôn `escape` theo đúng ngữ cảnh đích (HTML, SQL, URL...).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Bộ ba CIA](#bộ-ba-cia)

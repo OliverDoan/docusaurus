@@ -9,6 +9,18 @@ Sau khi biết Git, bạn cần một nơi trên mạng để lưu trữ và chi
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`GitHub` là lựa chọn mặc định 2026** — cộng đồng lớn nhất, GitHub Actions CI/CD, Copilot, Pages, GHCR.
+- **`GitLab`** mạnh về self-host + CI mature, DevOps platform all-in-one.
+- **`Bitbucket`** phù hợp team dùng sâu Jira/Confluence (hệ sinh thái Atlassian).
+- **`Gitea`/`Forgejo`** để self-host lightweight khi cần privacy/compliance, đổi lại phải tự maintain.
+- **`gh` CLI** xử lý PR, issue, release ngay từ terminal.
+
+:::
+
+---
+
 ## Mục lục
 
 - [So sánh](#so-sánh)

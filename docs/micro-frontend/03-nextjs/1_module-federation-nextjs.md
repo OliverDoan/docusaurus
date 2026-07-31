@@ -13,6 +13,18 @@ này.
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Next.js tự quản entry nên thiếu `async boundary`** → bắt buộc dùng `@module-federation/nextjs-mf` (`NextFederationPlugin`), không dùng `ModuleFederationPlugin` trần.
+- ⭐ **Hạn chế lớn cần biết trước** — `App Router` hỗ trợ chưa hoàn thiện, `SSR` phức tạp, API đổi nhiều theo phiên bản, CSS-in-JS dễ lỗi.
+- **Remote khai `exposes`; host khai `remotes`** trỏ tới `.../_next/static/chunks/remoteEntry.js`.
+- **Dùng remote qua `next/dynamic`** — thường để `ssr: false` cho an toàn lúc đầu.
+- **Luôn đối chiếu tài liệu đúng phiên bản** (module-federation.io + README của plugin) trước khi triển khai thật.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Next.js cần plugin riêng?](#vì-sao-nextjs-cần-plugin-riêng)

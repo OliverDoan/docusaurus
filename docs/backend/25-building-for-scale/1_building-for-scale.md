@@ -9,6 +9,18 @@ Khi ứng dụng có nhiều người dùng, không chỉ database mà cả tầ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **3 quy tắc scaling** — measure first (đo trước), cheap solution first (optimize trước, scale sau), plan cho 10x chứ không phải 100x.
+- **Load Balancing** phân phối traffic (round-robin, least-conn, IP hash...) + health check; **CDN** serve content gần user, giảm tải origin 90%+.
+- **Caching đa tầng** — browser → CDN → app memory → Redis → DB, mỗi tầng lọc bớt request lên trên.
+- **Multi-region** chỉ cần khi user global (>30% non-home) hoặc compliance; đa số startup 1 region (Singapore cho VN) + CDN là đủ.
+- ⭐ **Code đúng pattern từ ngày 1** (stateless, `12-factor`, idempotent API) → scale thành chuyện config + infra, tránh premature optimization và cargo-cult.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Scaling principle](#scaling-principle)

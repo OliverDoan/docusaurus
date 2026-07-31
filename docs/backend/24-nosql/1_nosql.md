@@ -9,6 +9,18 @@ NoSQL là nhóm các database không theo kiểu bảng quan hệ (relational) n
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **NoSQL = "Not Only SQL"** — schema linh hoạt, scale horizontal dễ hơn, hạn chế JOIN, đa số trade consistency lấy availability/performance.
+- **5 loại chính** — Document (`MongoDB`), Key-Value (`Redis`/`DynamoDB`), Wide-Column (`Cassandra`), Graph (`Neo4j`), Time-Series (`TimescaleDB`/`InfluxDB`).
+- ⭐ **`PostgreSQL JSONB` thay được MongoDB cho ~90% case** — Postgres + extension (`pgvector`, `TimescaleDB`, `pg_trgm`) cover phần lớn nhu cầu.
+- **`Polyglot persistence`** — mỗi DB tối ưu cho 1 task, đổi lại tốn công sync + vận hành nhiều hệ thống.
+- **Đừng chọn NoSQL vì hype** — default Postgres, chỉ thêm NoSQL khi data nature thực sự fit (event log, vector, cache).
+
+:::
+
+---
+
 ## Mục lục
 
 - [NoSQL là gì?](#nosql-là-gì)

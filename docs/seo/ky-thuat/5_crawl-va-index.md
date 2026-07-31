@@ -7,6 +7,16 @@ title: "5. Crawl và Index"
 
 Crawl và Index là hai bước riêng biệt trong cách Google xử lý website: crawl là việc bot tải nội dung trang, còn index là việc Google lưu trang vào cơ sở dữ liệu để có thể xuất hiện trong kết quả tìm kiếm. Hiểu rõ sự khác biệt này giúp bạn kiểm soát đúng cách trang nào được Google đọc và hiển thị. Bài này hướng dẫn các công cụ như robots.txt, XML sitemap, canonical URL, meta robots và crawl budget; phần chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Disallow` (robots.txt) ≠ `noindex`** — Disallow chỉ chặn crawl, URL vẫn có thể được index; muốn chặn index phải dùng `noindex` meta tag (và không được Disallow trang đó).
+- ⭐ **Quy trình Crawl → Render → Index → Rank** — mỗi bước kiểm soát bằng công cụ khác nhau (`robots.txt`, `meta robots`, canonical...).
+- **`XML Sitemap`** — chỉ liệt kê URL muốn index, `lastmod` phải chính xác (đừng luôn để ngày hôm nay), submit qua Search Console.
+- **`Canonical URL`** — luôn đặt self-referencing canonical để tránh duplicate content từ query params, www/non-www, trailing slash.
+- **Crawl budget** — quan trọng với site trên 10,000 trang; fix redirect chain, soft 404, chặn URL vô giá trị và tăng internal linking.
+
+:::
+
 ## Mục lục
 
 - [Crawl và Index khác nhau thế nào?](#crawl-và-index-khác-nhau-thế-nào)

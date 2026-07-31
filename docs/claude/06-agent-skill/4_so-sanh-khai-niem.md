@@ -12,6 +12,18 @@ cái nào**. Đây là bài tổng kết giúp bạn không còn nhầm lẫn gi
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Một câu để nhớ**: Agent là *cách vận hành*; Skill/MCP/Subagent mở rộng *năng lực*; Slash command là *cách gọi nhanh*; Hook là *tự động hoá quanh thao tác*.
+- **Skill dạy Claude BIẾT CÁCH làm; MCP cho Claude KẾT NỐI dữ liệu ngoài** — chúng bổ trợ nhau, không loại trừ.
+- **Slash command đã hợp nhất vào Skill** ở Claude Code (Skill là phiên bản mạnh hơn, hỗ trợ file phụ + tự nạp).
+- **CLAUDE.md**: sự thật ngắn luôn nạp mỗi phiên; **Skill**: quy trình dài, chỉ nạp khi cần.
+- **Subagent**: trợ lý con ngữ cảnh riêng cho việc lớn/tốn ngữ cảnh; có **cây quyết định** giúp chọn đúng công cụ.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Nhìn nhanh: bảng tổng hợp](#nhìn-nhanh-bảng-tổng-hợp)

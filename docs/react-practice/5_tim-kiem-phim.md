@@ -9,6 +9,19 @@ Project cuối là một ứng dụng **nhiều trang** hoàn chỉnh, kết h�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Context giải quyết prop drilling** — `createContext` → `<Provider value>` bọc ngoài → `useContext` lấy ra; gói thành custom hook cho gọn, hợp cho dữ liệu toàn cục ít đổi.
+- ⭐ **React Router quản lý nhiều trang** — `<BrowserRouter>` bọc app, `<Routes>`/`<Route>` khai báo tuyến; `path="/movie/:id"` là tham số động.
+- **Chuyển trang không reload** — dùng `<Link to>` hoặc `useNavigate()` (bằng code), đừng dùng `<a href>` kẻo mất state.
+- **`useParams()`** — đọc tham số động từ URL; nhớ giá trị luôn là **chuỗi** (cần `Number(id)` khi so sánh số).
+- **`useMemo(fn, [deps])`** — ghi nhớ kết quả tính toán nặng, chỉ tính lại khi `deps` đổi.
+- **Debounce** — timeout + cleanup (`clearTimeout`) hoãn xử lý tốn kém đến khi người dùng ngừng gõ.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Phân tích bài toán](#phân-tích-bài-toán)

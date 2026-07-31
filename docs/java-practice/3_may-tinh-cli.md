@@ -9,6 +9,18 @@ Project này xây một máy tính chạy trong terminal: người dùng nhập 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Tách code thành hàm (method)** — mỗi hàm làm đúng một việc, ví dụ `static double cong(double a, double b) { return a + b; }`.
+- ⭐ **`try/catch` bắt lỗi để chương trình không sập** — bắt nhiều loại lỗi cùng lúc bằng cú pháp `catch (A | B e)`.
+- **`switch` chọn nhánh theo giá trị** — gọn hơn nhiều `if/else`; nhớ `break` hoặc `return` mỗi `case`.
+- **Dùng `double` cho phép chia** — `int` làm mất phần thập phân (`5 / 2` ra `2`).
+- **So sánh chuỗi luôn dùng `.equals()` / `.equalsIgnoreCase()`**, KHÔNG dùng `==` (so sánh địa chỉ bộ nhớ).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Phân tích bài toán](#phân-tích-bài-toán)

@@ -9,6 +9,18 @@ Project này xây một ứng dụng quản lý công việc chạy trong termin
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`class` định nghĩa kiểu dữ liệu mới, `object` (`new ...`) là thực thể cụ thể** — `constructor` khởi tạo, `this` trỏ tới chính object đó.
+- ⭐ **`ArrayList<T>` là danh sách co giãn** — dùng `add`, `get`, `remove`, `size`, `isEmpty` để làm đủ bộ CRUD trong bộ nhớ.
+- **`enum` khai báo tập giá trị cố định** — an toàn hơn `String` cho trạng thái vì compiler bắt lỗi khi gõ sai.
+- **Index bắt đầu từ 0** — luôn kiểm tra `index >= 0 && index < size()` trước khi `get`/`remove` để tránh `IndexOutOfBoundsException`.
+- **Bẫy kinh điển `nextInt()` rồi `nextLine()`** — gọi thêm một `scanner.nextLine()` để dọn ký tự Enter còn sót.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Phân tích bài toán](#phân-tích-bài-toán)

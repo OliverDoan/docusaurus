@@ -12,6 +12,18 @@ pháp đơn giản nhưng cứu bạn khỏi nhiều sự cố lớn.
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Không bao giờ hardcode secret** — nguồn rò rỉ số một là hardcode rồi đẩy lên Git (bot quét thấy trong vài phút).
+- **Quy tắc** — dùng biến môi trường / secret manager, `.env` không commit, validate khi khởi động, xoay khoá định kỳ, đặc quyền tối thiểu.
+- **Biến môi trường frontend KHÔNG bí mật** — `NEXT_PUBLIC_*`, `VITE_*` đều gửi tới trình duyệt; secret thật chỉ ở **server**.
+- ⭐ **Lỡ commit secret → xoay khoá NGAY** — xoá file là chưa đủ vì lịch sử Git tồn tại mãi.
+- **`Rate limiting`** chống brute-force/lạm dụng/DoS — siết endpoint nhạy cảm, dùng Redis khi scale, trả `429`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Secret là gì và rủi ro khi lộ](#secret-là-gì-và-rủi-ro-khi-lộ)

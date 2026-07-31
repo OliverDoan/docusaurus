@@ -14,6 +14,18 @@ thay vì hỏi từng bước.
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **AI agent = LLM (bộ não) + công cụ (tay chân) + vòng lặp** để tự hành động đạt mục tiêu, không chỉ trả lời một câu.
+- **Vòng lặp agent**: Suy nghĩ (Reason) → Hành động (Act) → Quan sát (Observe), lặp lại cho tới khi xong.
+- **Tool use** (function calling): agent yêu cầu hệ thống chạy công cụ với tham số, rồi nhận kết quả về.
+- **Tính tự chủ** là thang đo agent tự quyết tới đâu; hành động khó đảo ngược nên luôn được xác nhận qua **permission**.
+- ⭐ **Claude Code chính là Claude vận hành ở chế độ agent** — vì thế nó tự lập trình giúp bạn, không chỉ gợi ý code.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Từ chatbot đến agent](#từ-chatbot-đến-agent)

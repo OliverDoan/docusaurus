@@ -7,6 +7,16 @@ title: "3. Mobile SEO"
 
 Mobile SEO là việc tối ưu website cho thiết bị di động, vốn cực kỳ quan trọng vì Google nay dùng phiên bản mobile của trang để crawl, index và xếp hạng (mobile-first indexing). Nói cách khác, bản mobile mới là bản chính. Bài này hướng dẫn các kỹ thuật như viewport meta tag, responsive design, thiết kế thân thiện với cảm ứng, cùng cách kiểm tra mức độ mobile-friendly; phần chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Mobile-First Indexing** — Google dùng bản mobile để crawl/index/xếp hạng, nên nội dung chỉ có trên desktop sẽ không được index.
+- ⭐ **`Responsive Design` là cách Google khuyên dùng** — cùng URL, cùng HTML, dùng media queries; tránh separate URL `m.example.com`.
+- **`viewport` meta tag bắt buộc** — `width=device-width, initial-scale=1`; không chặn zoom (`user-scalable=no` vi phạm WCAG).
+- **Touch-friendly** — tap target tối thiểu `48x48px`, khoảng cách `8px`; input `font-size: 16px` để tránh iOS auto-zoom.
+- **`AMP` không còn cần thiết** — không có ranking boost; hãy tập trung tối ưu Core Web Vitals thay vì AMP.
+
+:::
+
 ## Mục lục
 
 - [Mobile-First Indexing là gì?](#mobile-first-indexing-là-gì)

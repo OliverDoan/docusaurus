@@ -9,6 +9,18 @@ Khi đã quen với cấu trúc cơ bản, 5 kỹ thuật trong bài này sẽ g
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Role prompting`** — gán cho Claude vai chuyên gia để trả lời đúng tông và sâu hơn.
+- ⭐ **`Few-shot`** — đưa 1-3 ví dụ mẫu để Claude bắt chước đúng phong cách, định dạng.
+- **`Chain-of-thought`** — thêm "hãy suy nghĩ từng bước" để giảm sai sót cho bài toán, logic.
+- **`Prompt chaining`** — chia việc lớn thành các bước nhỏ, kiểm soát từng bước.
+- **Cho phép hỏi lại** — bảo Claude hỏi khi thiếu thông tin thay vì đoán sai.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Gán vai trò (Role Prompting)](#gán-vai-trò-role-prompting)

@@ -13,6 +13,17 @@ nguồn gốc request.
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`CSRF` lừa trình duyệt tự gửi request** — kèm cookie tới site nạn nhân đang đăng nhập; kẻ tấn công **không cần đọc** cookie.
+- **Phòng thủ nền tảng: cookie `SameSite`** — `Lax` (mặc định) đã chặn phần lớn CSRF kiểu POST.
+- **Phòng thủ bổ sung** — `CSRF token` (synchronizer / double-submit) và kiểm tra header `Origin`/`Referer`.
+- ⭐ **CSRF ≠ XSS** — và XSS có thể phá vỡ mọi phòng thủ CSRF → ưu tiên chống XSS trước.
+
+:::
+
+---
+
 ## Mục lục
 
 - [CSRF hoạt động thế nào?](#csrf-hoạt-động-thế-nào)

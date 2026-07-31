@@ -12,6 +12,16 @@ Federation** (kỹ thuật phổ biến nhất hiện nay) và cách tích hợp
 Mỗi **thuật ngữ chuyên ngành** (technical term) đều được giải thích ngay khi xuất
 hiện lần đầu.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Micro-frontend = tư tưởng `microservices` cho frontend** — chia một app web lớn thành nhiều mảnh nhỏ độc lập, mỗi mảnh do một nhóm tự phát triển và `deploy` riêng.
+- ⭐ **Nó giải quyết vấn đề *tổ chức*, không phải kỹ thuật** — chỉ đáng dùng cho nhiều nhóm/app lớn; nhóm nhỏ thì chi phí phức tạp lớn hơn lợi ích.
+- **Tài liệu đi từ cơ bản → `Module Federation` → tích hợp `Next.js` → thực tiễn** (best practices, lỗi thường gặp).
+- **Luôn cần một `design system` chung** để giữ giao diện nhất quán giữa các mảnh.
+- **Yêu cầu nền tảng**: đã biết `React` và khái niệm `bundler` (Webpack/Vite).
+
+:::
+
 ---
 
 ## Micro-frontend là gì? (một câu)

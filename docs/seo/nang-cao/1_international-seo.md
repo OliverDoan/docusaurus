@@ -7,6 +7,16 @@ title: "1. International SEO"
 
 International SEO là việc tối ưu để search engine hiểu được trang nào dành cho người dùng ở ngôn ngữ và khu vực nào, tránh index nhầm hay trùng lặp nội dung giữa các phiên bản. Bài này hướng dẫn các kỹ thuật cốt lõi như kiến trúc URL, hreflang và geo-targeting để mở rộng website ra thị trường quốc tế.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`hreflang` phải hai chiều + self-reference** — trang A trỏ B thì B phải trỏ lại A, mỗi trang trỏ cả chính nó; thiếu return link thì Google bỏ qua toàn bộ.
+- ⭐ **`x-default` bắt buộc** — chỉ định phiên bản fallback cho user không khớp ngôn ngữ nào; dùng mã ISO 639-1 (`vi`, `en`, `ja`).
+- **Kiến trúc URL** — `subdirectory` (`example.com/vi/`) tốt nhất cho phần lớn trường hợp vì gom domain authority; `ccTLD` chỉ khi có team riêng cho mỗi nước.
+- **Localization > Translation** — research keyword local, đổi tiền tệ/định dạng ngày, tránh auto-translate không review (dễ bị coi là spam).
+- **Không redirect cứng theo IP** — Googlebot crawl từ US sẽ chỉ thấy bản tiếng Anh; dùng banner gợi ý + `canonical` self-referencing cho mỗi bản ngôn ngữ.
+
+:::
+
 ## Mục lục
 
 - [Giới thiệu](#giới-thiệu)

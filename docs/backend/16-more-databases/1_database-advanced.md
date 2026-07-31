@@ -9,6 +9,19 @@ title: "1. ACID, Normalization, ORMs, Query Optimization"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`ACID`** = Atomicity (all-or-nothing), Consistency, Isolation, Durability — nền tảng transaction đáng tin cậy; Postgres mặc định isolation level `Read Committed`.
+- **Normalization** (1NF/2NF/3NF) tránh duplicate data — nên **start normalized, denormalize khi đo performance thực sự cần** (JOIN nhiều gây chậm).
+- **`ORM`** map row ↔ object, type-safe + chống SQL injection nhưng dễ dính N+1; `Drizzle` (nhẹ, edge, SQL-like) vs `Prisma` (DX, tooling) là 2 hot nhất Node/TS; vẫn cần raw SQL cho query phức tạp.
+- ⭐ **Query optimization** — dùng `EXPLAIN ANALYZE` (Seq Scan → cần index), thêm index cho WHERE/JOIN/ORDER BY, tránh `SELECT *`, dùng cursor pagination, partial index.
+- **Connection pooling** — reuse connection thay vì open/close; serverless cần external pooler (`PgBouncer`, Prisma Accelerate) vì mỗi function tạo connection mới; chú ý Postgres default max 100 connection.
+- **Database tuning** — chỉnh `shared_buffers`/`work_mem`, VACUUM + ANALYZE, theo dõi slow query qua `pg_stat_statements`; giải quyết bottleneck theo thứ tự index → rewrite → cache → replica → sharding (last resort).
+
+:::
+
+---
+
 ## Mục lục
 
 - [ACID Properties](#acid-properties)

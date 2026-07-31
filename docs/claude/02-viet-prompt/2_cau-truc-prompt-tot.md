@@ -9,6 +9,17 @@ title: "2. Cấu trúc một prompt tốt"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Công thức 5 phần** — `Vai trò + Bối cảnh + Nhiệm vụ + Định dạng + Ràng buộc`.
+- **Không phải lúc nào cũng cần đủ 5 phần** — câu hỏi đơn giản chỉ cần Nhiệm vụ; việc quan trọng nên dùng đủ.
+- **Chia vùng khi prompt dài** — dùng thẻ `<XML>` hoặc tiêu đề `##` Markdown để tách chỉ dẫn khỏi dữ liệu.
+- **Giữ sẵn một mẫu prompt** — điền vào chỗ trống mỗi khi cần cho nhanh.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Công thức 5 phần](#công-thức-5-phần)

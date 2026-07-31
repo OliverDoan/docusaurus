@@ -7,6 +7,16 @@ title: "3. Local SEO"
 
 Local SEO giúp doanh nghiệp xuất hiện khi người dùng tìm kiếm theo vị trí (ví dụ "quán phở gần đây"), nơi Google hiển thị Local Pack từ Google Maps thay vì kết quả thông thường. Bài này tập trung vào phần technical mà developer làm chủ được — structured data, NAP consistency, embed maps — để doanh nghiệp không bị "vô hình" với khách hàng local.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`NAP` phải nhất quán tuyệt đối** — Name, Address, Phone giống hệt nhau (cùng format) trên website, GBP, social, directory; sai lệch làm Google mất trust và tụt Local Pack.
+- ⭐ **`LocalBusiness` schema (JSON-LD)** — cung cấp `address`, `geo`, `openingHoursSpecification`, `aggregateRating`; dùng subtype cụ thể (`Restaurant`, `HairSalon`) thay vì type chung.
+- **`Google Business Profile` là yếu tố số 1** — quyết định hiển thị trong Local Pack, Maps và Knowledge Panel.
+- **Local Pack xếp hạng theo Relevance + Distance + Prominence** — reviews (số lượng, rating, độ mới, response rate) là yếu tố ranking quan trọng.
+- **Tránh doorway pages & embed map nặng** — location page phải có unique content thật; embed Maps dùng `loading="lazy"` hoặc Intersection Observer để không hại Core Web Vitals.
+
+:::
+
 ## Mục lục
 
 - [Giới thiệu](#giới-thiệu)

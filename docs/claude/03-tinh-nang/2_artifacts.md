@@ -9,6 +9,17 @@ Artifacts là một cửa sổ riêng bên phải màn hình, hiển thị nội
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Artifacts` là cửa sổ riêng bên phải** — hiển thị nội dung Claude tạo, tách biệt khỏi khung chat.
+- **Dùng tốt cho nội dung "có hình hài"** — code, tài liệu, trang web, biểu đồ/sơ đồ.
+- **Sức mạnh lớn nhất là chỉnh sửa lặp lại** — cập nhật dần trên cùng một Artifact qua nhiều lượt, không làm lại từ đầu.
+- **Mẹo** — chỉnh từng phần nhỏ, nói rõ định dạng, tận dụng xem trước, lưu lại bản cuối.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Artifacts là gì?](#artifacts-là-gì)

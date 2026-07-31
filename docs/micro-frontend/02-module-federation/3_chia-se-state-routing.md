@@ -12,6 +12,17 @@ nguyên tắc giữ ràng buộc (coupling) ở mức thấp nhất.
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Mục tiêu là `coupling` lỏng** — các mảnh giao tiếp qua hợp đồng rõ ràng, không thò tay vào ruột nhau.
+- **Ưu tiên `props` & `callback`** (lỏng & rõ nhất); dùng `CustomEvent` cho giao tiếp ngang hàng, framework-agnostic.
+- **`Shared store` chỉ cho dữ liệu toàn cục tối thiểu** (user, theme), để `singleton`, kẻo biến thành "monolith trá hình".
+- ⭐ **Routing: host sở hữu router chính, gắn mỗi nhánh URL cho một remote** — chia sẻ `react-router-dom` dạng `singleton`, quy ước tiền tố URL cho từng mảnh.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Nguyên tắc vàng: ràng buộc lỏng](#nguyên-tắc-vàng-ràng-buộc-lỏng)

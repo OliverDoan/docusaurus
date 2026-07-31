@@ -9,6 +9,18 @@ Mỗi dòng HTML bạn viết đều ảnh hưởng đến cách Google "hiểu"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`<title>` là tag on-page quan trọng nhất** — 50-60 ký tự, keyword ở đầu, mỗi trang unique.
+- **`meta description` ảnh hưởng CTR, không phải ranking trực tiếp** — 150-160 ký tự, có CTA, viết cho con người.
+- **Heading hierarchy** — chỉ 1 `<h1>`/trang, không skip level, dùng cho cấu trúc chứ không phải style.
+- **Semantic HTML5** — `<main>`, `<article>`, `<nav>`, `<aside>` giúp Google hiểu vai trò từng phần; nội dung trong `<main>` được ưu tiên.
+- **Image SEO** — `alt` mô tả chính xác, khai báo `width`/`height` để tránh `CLS`, dùng `loading="lazy"` cho ảnh dưới màn hình.
+
+:::
+
+---
+
 ## Mục lục
 
 - [1. Title Tag -- Tag quan trọng nhất cho SEO](#1-title-tag-tag-quan-trọng-nhất-cho-seo)

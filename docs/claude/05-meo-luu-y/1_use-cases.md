@@ -9,6 +9,17 @@ Claude là một trợ lý vạn năng, nhưng người mới thường không b
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Claude mạnh nhất ở việc ngôn ngữ & tư duy**: viết, lập trình, học, phân tích, brainstorm.
+- **8 tình huống phổ biến** cho người mới, mỗi tình huống kèm một prompt mẫu dùng được ngay.
+- **Mô tả rõ mục tiêu, đối tượng, độ dài và định dạng** để có kết quả tốt nhất.
+- **Không chắc Claude có làm được không — cứ thử hỏi**, bạn không mất gì.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Claude mạnh ở đâu?](#claude-mạnh-ở-đâu)

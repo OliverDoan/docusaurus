@@ -9,6 +9,18 @@ Biết Claude làm được gì là một chuyện; dùng nó **hiệu quả** l
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Rõ ràng & cụ thể là nguyên tắc số một**: nói thẳng việc muốn, kèm con số và phạm vi.
+- **Cung cấp đủ ngữ cảnh** — dán sẵn dữ liệu liên quan, nói rõ bạn là ai và mục đích.
+- **Lặp lại tinh chỉnh**: coi câu trả lời đầu là bản nháp rồi sửa dần; **chia nhỏ việc lớn**.
+- **Yêu cầu định dạng cụ thể** (bảng, danh sách, code) và **nhờ Claude tự phản biện** để lộ điểm yếu.
+- **Tách hội thoại theo chủ đề** để câu trả lời tập trung và dễ tìm lại.
+
+:::
+
+---
+
 ## Mục lục
 
 - [1. Rõ ràng và cụ thể](#1-rõ-ràng-và-cụ-thể)

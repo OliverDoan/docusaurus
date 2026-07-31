@@ -9,6 +9,18 @@ Projects là không gian làm việc trên claude.ai giúp bạn gom nhiều cu�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Projects` gom nhiều hội thoại quanh một chủ đề** — Claude nhớ ngữ cảnh nền xuyên suốt mọi cuộc trò chuyện.
+- **Hai thành phần cốt lõi** — `Knowledge` (tài liệu nền) và `Custom Instructions` (chỉ dẫn cách hành xử).
+- **Dùng khi làm việc dài hạn** — có tài liệu nền cố định, muốn phong cách trả lời nhất quán.
+- **Mẹo** — tài liệu gọn đúng trọng tâm, chỉ dẫn cụ thể, mỗi dự án một chủ đề.
+- **Lưu ý** — có thể chỉ có ở gói trả phí; giao diện thay đổi theo cập nhật.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Projects là gì?](#projects-là-gì)

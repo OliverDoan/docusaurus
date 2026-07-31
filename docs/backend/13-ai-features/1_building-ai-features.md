@@ -9,6 +9,20 @@ Xây tính năng AI nghĩa là cho ứng dụng của bạn gọi tới các mô
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Tích hợp LLM cơ bản** — gọi `messages.create` với system prompt + messages (multi-turn để giữ context); dùng SDK của Anthropic/OpenAI/Google hoặc `Vercel AI SDK` để đổi provider dễ dàng.
+- **`Streaming`** trả token-by-token qua Server-Sent Events giúp giảm perceived latency; `useChat` của Vercel AI SDK wrap sẵn.
+- ⭐ **`Structured Output`** ép LLM trả JSON đúng `zod` schema — thay thế regex/parser cho data extraction (receipt, email, PDF, resume).
+- **`Function Calling / Tool Use`** — LLM tự quyết gọi function nào với arg nào; server execute rồi trả kết quả về để LLM tổng hợp.
+- **`Prompt Engineering`** — clear instruction, few-shot examples, chain-of-thought, role assignment, ràng buộc output format.
+- **`AI Agent`** = LLM + tool + loop tự thực hiện task; **`MCP`** là chuẩn expose tool/data cho AI client (viết 1 lần, mọi client dùng được).
+- **Production checklist** — cost tracking, rate limit, content filter, fallback model, retry/timeout, streaming UI, log (lọc PII), quality eval.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Integration patterns](#integration-patterns)

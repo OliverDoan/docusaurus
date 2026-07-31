@@ -16,6 +16,18 @@ một Skill dùng được trên mọi dự án.
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Tạo Skill = tạo một thư mục chứa file `SKILL.md`**; tên thư mục trở thành tên lệnh `/`.
+- **`SKILL.md` cần ít nhất `description` rõ ràng** (làm gì + khi nào dùng); phần thân là hướng dẫn, nên giữ ngắn gọn.
+- **Kỹ thuật ``!`lệnh` `` chèn ngữ cảnh động** — Claude Code chạy lệnh trước rồi nhúng kết quả vào Skill.
+- **Vị trí**: `~/.claude/skills/` (cá nhân, mọi dự án) hoặc `.claude/skills/` (dự án, chia sẻ nhóm qua git).
+- **Nâng cấp bằng file phụ + script** (chỉ nạp/chạy khi cần); các trường như `disable-model-invocation`, `allowed-tools`, `context: fork` kiểm soát hành vi.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Khi nào nên tạo Skill?](#khi-nào-nên-tạo-skill)

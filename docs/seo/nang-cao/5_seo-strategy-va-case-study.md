@@ -7,6 +7,16 @@ title: "5. Chiến lược SEO tổng thể"
 
 Biết từng kỹ thuật SEO riêng lẻ là chưa đủ; bạn cần kết hợp chúng thành một chiến lược tổng thể: audit hiện trạng, lập roadmap, đo lường và điều chỉnh liên tục. Bài này tổng hợp kiến thức từ các bài trước thành một framework hành động, kèm case study thực tế từ lý thuyết đến kết quả.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **SEO audit gồm 3 nhóm** — Technical (crawl, index, `sitemap`, Core Web Vitals), On-Page (title/meta/H1/schema), Off-Page (backlink, NAP); audit định kỳ chứ không làm một lần.
+- ⭐ **Chuyển `CSR` sang `SSR`/`SSG` mang lại kết quả lớn** — case study: index 20→148/150 trang, organic traffic 500→8.500 sessions/tháng sau 6 tháng.
+- **Roadmap ưu tiên đúng thứ tự** — tháng 1-2 technical foundation, tháng 3-4 content on-page, sau đó mới off-page/link building.
+- **Migration bắt buộc `301` redirect** — map mọi URL cũ sang mới, nếu không sẽ mất link equity và ranking vĩnh viễn.
+- **Tối ưu trang hiện có > viết mới** — đẩy trang từ position 11 lên 5 hiệu quả hơn; SEO là long game (3-6 tháng mới thấy kết quả).
+
+:::
+
 ## Mục lục
 
 - [Giới thiệu](#giới-thiệu)

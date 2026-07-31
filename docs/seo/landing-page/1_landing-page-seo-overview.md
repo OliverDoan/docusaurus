@@ -7,6 +7,16 @@ title: "1. Landing Page chuẩn SEO"
 
 Landing page là trang đích mà người dùng đặt chân tới đầu tiên, và một landing page chuẩn SEO vừa phải thuyết phục khách hàng hành động, vừa phải dễ dàng cho Google đọc hiểu và xếp hạng. Bài này giúp bạn phân biệt landing page chạy ads với landing page SEO, cách tối ưu vùng above-the-fold, viết H1 đúng chuẩn, đặt CTA hợp lý và dùng semantic HTML. Nắm vững nền tảng này, trang của bạn vừa lên top tìm kiếm vừa chuyển đổi tốt.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Landing page SEO khác landing page ads** — bản SEO bắt buộc `index, follow`, semantic HTML, nội dung có giá trị và tốc độ tải; bản ads thường `noindex`, chỉ tối ưu conversion.
+- ⭐ **Chỉ 1 `<h1>` duy nhất chứa primary keyword** — đặt keyword gần đầu, dài 20–70 ký tự, mô tả đúng nội dung trang.
+- **Tối ưu above-the-fold** — hero image chính là `LCP`, cần preload `WebP` + `fetchpriority="high"`; nội dung phải hấp dẫn để giảm bounce rate.
+- **CTA phải crawlable** — dùng `<a href>` thật thay vì `<button onclick>`, anchor text mô tả hành động cụ thể.
+- **Semantic HTML** — dùng `<header>`/`<main>`/`<section>`/`<article>`; `<details>`/`<summary>` cho FAQ giúp có FAQ rich snippet.
+
+:::
+
 ## Mục lục
 
 - [Landing page SEO-friendly vs Landing page chạy ads](#landing-page-seo-friendly-vs-landing-page-chạy-ads)

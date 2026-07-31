@@ -9,6 +9,18 @@ Khi số lượng người dùng tăng lên, một database duy nhất sẽ khô
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Scale up (vertical, máy mạnh hơn) trước** — Postgres hiện đại gánh vài TB + hàng triệu user trên 1 instance; chỉ scale out khi đã max hoặc cần HA.
+- **Read Replication** (master-replica) cho read-heavy, nhưng có `replication lag` → eventual consistency (fix bằng "read your own write").
+- **Sharding** chia data theo shard key; phức tạp (cross-shard query/transaction rất khó), đa số app KHÔNG cần — phân biệt với `partitioning` của Postgres.
+- **`CAP Theorem`** — hệ phân tán chỉ chọn 2/3; thực tế luôn phải chọn P nên trade-off C vs A khi có partition (`PACELC` chi tiết hơn).
+- ⭐ **Đừng pre-optimize** — scale theo stage growth; `Materialized View` pre-compute query nặng cho dashboard.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vertical vs Horizontal scaling](#vertical-vs-horizontal-scaling)

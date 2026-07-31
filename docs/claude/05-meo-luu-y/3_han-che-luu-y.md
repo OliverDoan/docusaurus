@@ -9,6 +9,18 @@ Claude rất mạnh, nhưng **không phải lúc nào cũng đúng**. Hiểu rõ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hallucination**: Claude có thể bịa thông tin nghe hợp lý nhưng sai — yêu cầu nó nói "không chắc", cảnh giác với tên/số/ngày/link.
+- **Knowledge cutoff**: kiến thức có mốc thời gian, có thể không biết sự kiện mới trừ khi bật web search.
+- **Sai số liệu/toán**: Claude không phải máy tính — tự kiểm tra phép tính quan trọng.
+- ⭐ **Bảo mật**: không bao giờ đưa mật khẩu, dữ liệu cá nhân hay bí mật vào prompt; ẩn danh khi cần.
+- **Luôn kiểm chứng** thông tin quan trọng (pháp lý, y tế, tài chính, số liệu) từ nguồn đáng tin cậy.
+
+:::
+
+---
+
 ## Mục lục
 
 - [1. Hallucination — Claude có thể "bịa"](#1-hallucination--claude-có-thể-bịa)

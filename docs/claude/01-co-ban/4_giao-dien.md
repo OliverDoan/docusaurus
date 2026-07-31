@@ -9,6 +9,17 @@ Giao diện chat của Claude khá đơn giản, nhưng biết cách tổ chức
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Mỗi hội thoại độc lập** — Claude không tự nhớ nội dung từ một hội thoại khác.
+- **Giao diện gồm 4 khu vực** — ô nhập tin nhắn, khu vực hội thoại, thanh bên (lịch sử), nút hội thoại mới.
+- **Nên tách mỗi chủ đề một hội thoại riêng** — tránh nhiễu ngữ cảnh và giữ cửa sổ ngữ cảnh gọn.
+- **Tổ chức lịch sử chat** — đổi tên rõ ràng, dọn dẹp định kỳ để dễ tìm lại.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Tổng quan cửa sổ chat](#tổng-quan-cửa-sổ-chat)

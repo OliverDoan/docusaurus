@@ -9,6 +9,19 @@ Docker giúp đóng gói ứng dụng cùng mọi thứ nó cần vào một "co
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Container nhẹ hơn VM** — share kernel host (OS-level virtualization) nên chỉ ~MB, boot theo giây; giải quyết "máy tôi chạy được mà máy bạn thì lỗi".
+- **Dockerfile** là recipe build image — dùng `multi-stage build` để loại dev dependency, base `alpine`, non-root user, `.dockerignore`, tag version cụ thể (không `:latest`); target < 100MB cho Node app.
+- **`Docker Compose`** define multi-container stack (app + db + redis) trong 1 file — phù hợp local dev, CI test, deploy đơn giản single-host.
+- ⭐ **`Kubernetes`** orchestrate container ở scale (Pod/Deployment/Service/Ingress...) với auto-scaling + self-healing — chỉ đáng dùng khi thực sự cần (nhiều microservice, HA strict); app nhỏ nên dùng Compose/Fly.io/Railway.
+- **Layer caching** — sắp xếp instruction từ ít đổi (`COPY package*.json` + install) đến nhiều đổi (`COPY . .`) để tối đa cache.
+- **Production checklist** — non-root, no secret trong image, healthcheck, graceful shutdown (SIGTERM), log stdout, resource limit, scan image trong CI.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Container vs VM](#container-vs-vm)

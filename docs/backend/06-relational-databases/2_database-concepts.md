@@ -9,6 +9,18 @@ Khi đã chọn được database, bạn cần nắm vài khái niệm cốt lõ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Index` (thường B-tree) tăng tốc tìm row** nhưng tốn disk + làm chậm write — chỉ index cột dùng cho `WHERE`/`JOIN`/`ORDER BY`.
+- ⭐ **`N+1 problem` là nguyên nhân slow #1** — fix bằng eager load, JOIN thủ công, hoặc batch query.
+- **`Migration` nên forward-only, atomic**, test trước và cẩn thận `ALTER` table lớn (có thể lock).
+- **Joins** (INNER/LEFT/RIGHT/FULL) và **`foreign key`** (`ON DELETE CASCADE/SET NULL/RESTRICT`) đảm bảo quan hệ + integrity.
+- **`Transaction` đảm bảo `ACID`** (all-or-nothing) — dùng khi mutation liên quan nhiều bảng (vd transfer money).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Schema và Migrations](#schema-và-migrations)

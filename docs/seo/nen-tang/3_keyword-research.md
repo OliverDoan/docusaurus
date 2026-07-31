@@ -11,6 +11,18 @@ Bài này hướng dẫn keyword research từ góc nhìn developer -- không ph
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Search Intent` là yếu tố quan trọng nhất** — Google chỉ rank trang match đúng mục đích: Informational, Navigational, Transactional, Commercial Investigation.
+- **Long-tail vs short-tail** — blog mới nên nhắm `long-tail` (3+ từ, dễ rank, conversion cao) trước, mở rộng short-tail khi domain authority tăng.
+- **Công cụ** — Google Keyword Planner, Trends, Ubersuggest (miễn phí); Ahrefs/SEMrush (trả phí); `Google Search Console` cho data thực.
+- **Keyword placement** — đặt keyword ở `<title>`, `<h1>`, URL, meta description, đoạn đầu, alt text; viết tự nhiên, không nhồi keyword.
+- **`Keyword cannibalization`** — mỗi keyword chỉ nên có 1 trang target để tránh các trang cạnh tranh lẫn nhau.
+
+:::
+
+---
+
 ## Mục lục
 
 - [1. Keyword là gì?](#1-keyword-là-gì)

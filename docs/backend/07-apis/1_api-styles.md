@@ -9,6 +9,18 @@ API Style là phong cách thiết kế API, tức là cách client và server "n
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`REST` + JSON là default cho ~80% web app** — resource-based URL, HTTP method, status code chuẩn, stateless.
+- **Mỗi style trả lời 4 câu hỏi**: transport, format, contract, paradigm (trục resource-vs-RPC và text-vs-binary).
+- **`GraphQL`** cho client tự chọn field (tiết kiệm bandwidth mobile) nhưng caching khó + dễ dính N+1.
+- **`gRPC`** (Protobuf binary, HTTP/2) cho microservice internal low-latency; **`tRPC`** type-safe cho full-stack TypeScript.
+- ⭐ **Đừng over-engineer** — chỉ thêm complexity khi có lý do rõ; dùng `OpenAPI/Swagger` để document REST.
+
+:::
+
+---
+
 ## API Styles là gì?
 
 **API Style** = **phong cách/kiến trúc thiết kế API** — quy ước về cách

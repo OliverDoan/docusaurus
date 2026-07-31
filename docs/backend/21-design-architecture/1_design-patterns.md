@@ -9,6 +9,18 @@ title: "1. Design Patterns, DDD, CQRS, Event Sourcing"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Design Patterns** — nhóm Creational/Structural/Behavioral (`Factory`, `Strategy`, `Observer`...) + đặc thù backend (`Repository`, `Unit of Work`, DI, Service layer).
+- **`DDD` (Domain-Driven Design)** — Bounded Context, Entity, Value Object, Aggregate; hợp business phức tạp, overkill cho CRUD app đơn giản.
+- **`CQRS`** — tách model write (command) và read (query); hợp read >> write, không bắt buộc dùng Event Sourcing.
+- **`Event Sourcing`** — lưu chuỗi event thay vì current state, có audit trail + time-travel nhưng phức tạp; 90% app không cần.
+- ⭐ **Đừng over-architect** — start với monolith CRUD đơn giản, chỉ áp dụng CQRS/ES khi thật sự cần (read >> write rõ, audit legal, team có kinh nghiệm).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Common Design Patterns](#common-design-patterns)

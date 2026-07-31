@@ -7,6 +7,16 @@ title: "1. Meta Tags nâng cao"
 
 Meta tags là những thẻ HTML nằm trong phần `<head>` của trang, cung cấp thông tin cho công cụ tìm kiếm và mạng xã hội về nội dung trang web. Ngoài `<title>` và `description` cơ bản, còn rất nhiều loại meta tag khác giúp trang rank tốt và hiển thị đẹp khi được chia sẻ. Bài này đi sâu vào Open Graph, Twitter Card, canonical, hreflang cho trang đa ngôn ngữ, cùng cách triển khai trong Next.js và React; phần chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Open Graph` và `Twitter Card` kiểm soát preview khi chia sẻ social** — thiếu OG tags thì Facebook/LinkedIn lấy sai thông tin; `og:image` tối ưu 1200x630 px.
+- **`Canonical` tag** — mỗi trang nên có self-referencing canonical để xử lý duplicate content (query params, www/non-www).
+- **`Hreflang` phải hai chiều** — trang A trỏ B thì B phải trỏ ngược A, kèm `x-default`, dùng mã ISO 639-1.
+- **Triển khai** — Next.js Metadata API (App Router) hoặc React Helmet.
+- **`robots` meta** — `noindex` chặn index từng trang (cart, thank you, admin); khác `Disallow` trong robots.txt vốn chỉ chặn crawl.
+
+:::
+
 ## Mục lục
 
 - [Meta tags là gì và tại sao quan trọng?](#meta-tags-là-gì-và-tại-sao-quan-trọng)

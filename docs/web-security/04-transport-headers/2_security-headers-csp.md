@@ -12,6 +12,18 @@ mật theo tinh thần phòng thủ nhiều lớp. Bài này điểm qua các he
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Security headers chỉ thị trình duyệt bật cơ chế bảo vệ** — cách rẻ & hiệu quả theo phòng thủ nhiều lớp; thiếu chúng là `Security Misconfiguration`.
+- ⭐ **`CSP` kiểm soát nguồn tài nguyên được tải/chạy** — lớp chống XSS thứ hai; tránh `'unsafe-inline'`/`'unsafe-eval'`, ưu tiên **nonce/hash**.
+- **`HSTS`** buộc trình duyệt luôn dùng HTTPS (bật khi mọi thứ đã ổn định trên HTTPS).
+- **Header khác** — `X-Frame-Options`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy`.
+- **Dùng `Helmet` (Express) hoặc `headers()` (Next.js)** để đặt header nhanh và đúng.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Các security header quan trọng](#các-security-header-quan-trọng)

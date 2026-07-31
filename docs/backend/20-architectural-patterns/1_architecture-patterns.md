@@ -9,6 +9,18 @@ title: "1. Monolith, Microservices, Serverless"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **3 kiểu kiến trúc chính** — Monolith (1 codebase, đơn giản), Microservices (nhiều service deploy độc lập), Serverless (FaaS chạy on-demand, tự scale).
+- ⭐ **80% startup không cần microservices** — monolith đủ đến hàng triệu user; `modular monolith` là compromise hiện đại, migrate sang microservice dễ hơn ngược lại.
+- **Serverless** hợp traffic spike/cron/webhook, nhưng có cold start, giới hạn thời gian và khó DB pooling.
+- **`12-Factor App`** — bộ nguyên tắc cloud-native (config qua env, stateless, log ra stdout...).
+- **Chọn theo team size + traffic thực tế**, không chạy theo hype (nhiều công ty lớn đã quay về monolith để tiết kiệm chi phí).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Monolith](#monolith)

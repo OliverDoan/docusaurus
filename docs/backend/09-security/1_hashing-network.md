@@ -9,6 +9,18 @@ Bài này nói về hai mảng nền tảng giúp giữ an toàn cho hệ thốn
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **KHÔNG lưu password plaintext** — hash bằng slow function `Argon2id` hoặc `bcrypt` (cost 12+), tránh MD5/SHA (quá nhanh, dễ brute force).
+- **`bcrypt`/`Argon2` tự sinh salt** lưu trong hash; có thể thêm `pepper` (secret ngoài DB); verify phải constant-time.
+- **General hash** (`SHA-256`, Blake2/3) chỉ dùng cho checksum/HMAC/fingerprint, **KHÔNG** cho password.
+- ⭐ **`HTTPS/TLS` bắt buộc ở production** — Let's Encrypt miễn phí, thêm `HSTS`, tối thiểu TLS 1.2 (prefer 1.3).
+- **`CORS` chỉ browser enforce** (whitelist origin, không `*` khi có credentials); **`CSP`** chặn XSS (dùng nonce cho inline script).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Hashing là gì?](#hashing-là-gì)

@@ -9,6 +9,18 @@ Project cuối cùng và "đời thực" nhất: quản lý danh sách sinh viê
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Đóng gói (encapsulation)** — thuộc tính `private` + getter/setter có kiểm tra giúp object tự bảo vệ tính đúng đắn của dữ liệu.
+- ⭐ **Đọc/ghi file với `Files.write` và `Files.readAllLines`** — thao tác file BẮT BUỘC bọc `try/catch (IOException)` (checked exception).
+- **`Comparator` định nghĩa tiêu chí sắp xếp** — `danhSach.sort(Comparator.comparingDouble(Student::getDiem).reversed())` cho điểm giảm dần.
+- **Stream API xử lý danh sách theo dây chuyền** — `stream().mapToDouble(...).average()`, `filter(...).count()`.
+- **Dữ liệu đọc từ file luôn là chuỗi** — nhớ chuyển kiểu (`Double.parseDouble`) và xác thực trước khi dùng.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Phân tích bài toán](#phân-tích-bài-toán)

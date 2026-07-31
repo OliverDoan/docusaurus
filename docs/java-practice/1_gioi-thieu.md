@@ -9,6 +9,18 @@ title: "1. Giới thiệu & Chuẩn bị"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Học lập trình giỏi phải tự tay làm project** — chỉ đọc lý thuyết sẽ mãi kẹt ở khoảng cách giữa "hiểu" và "tự viết được".
+- ⭐ **Cài `JDK` + một IDE (IntelliJ hoặc VS Code) là đủ** — kiểm tra bằng `java -version` và `javac -version`.
+- **Khung chương trình tối thiểu** — mọi code nằm trong `class` (tên class trùng tên file) với hàm `main` làm điểm bắt đầu.
+- **Chạy bằng `javac` → `java`** (không kèm đuôi `.java`/`.class`), hoặc bấm nút ▶ trong IDE.
+- **Làm tuần tự 4 project từ dễ đến khó, gõ tay thay vì copy** — và luôn làm phần thử thách mở rộng.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao học qua project?](#vì-sao-học-qua-project)

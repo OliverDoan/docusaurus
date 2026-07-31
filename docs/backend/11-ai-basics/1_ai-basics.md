@@ -9,6 +9,19 @@ Bài này giới thiệu những khái niệm cơ bản nhất về AI mà một
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`LLM` dự đoán token tiếp theo** dựa trên xác suất — output mang tính probabilistic (khác nhau mỗi lần), không deterministic như code thường.
+- **Token ≠ từ** — tính phí theo input + output token (output đắt hơn 3-5 lần); `prompt caching` giảm cost 50-90% cho context lặp lại.
+- ⭐ **`Embedding` biến text thành vector** — vector gần nhau về mặt semantic thì gần nhau, đo bằng `cosine similarity`; nền tảng cho semantic search.
+- **Vector database** lưu + search vector (dùng `HNSW`) — `pgvector` đủ cho 90% case (< 10M vector), dùng Pinecone/Qdrant khi scale lớn.
+- **`RAG`** = retrieval + LLM — embed câu hỏi, tìm chunk gần nhất, nhét vào prompt để LLM trả lời trên data riêng; chất lượng phụ thuộc chunking, embedding, reranking, hybrid search.
+- **Dùng LLM cho** NLP/unstructured/creative; **dùng code thường cho** tính toán chính xác, real-time, high-volume đơn giản.
+
+:::
+
+---
+
 ## Mục lục
 
 - [LLM (Large Language Models)](#llm-large-language-models)

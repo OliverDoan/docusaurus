@@ -7,6 +7,15 @@ title: "Giới thiệu"
 
 Chào mừng bạn đến với lộ trình học SEO dành cho người mới bắt đầu. Tài liệu này sẽ dẫn bạn đi từ những khái niệm cơ bản nhất đến các kỹ thuật nâng cao, theo một thứ tự dễ học và dễ áp dụng.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`SEO` giúp website lên top kết quả tìm kiếm tự nhiên** — tối ưu để Google/Bing xếp bạn ở vị trí đầu, thu hút truy cập mà không tốn tiền quảng cáo.
+- **Lưu lượng tự nhiên (`organic traffic`) bền vững** — một bài tối ưu tốt mang người đọc đều đặn nhiều tháng, khác quảng cáo phải trả tiền liên tục.
+- **5 nhóm chủ đề** — Nền tảng, On-Page, Kỹ thuật, Landing Page, Nâng cao; sắp xếp từ cơ bản đến nâng cao.
+- **Người mới nên học đúng thứ tự từ 1 đến 5** — nắm "luật chơi" trước, thực hành On-Page sớm, kiên nhẫn vì kết quả cần vài tuần đến vài tháng.
+
+:::
+
 ## SEO là gì?
 
 **SEO** (Search Engine Optimization - tối ưu hoá công cụ tìm kiếm) là tập hợp các phương pháp giúp website của bạn xuất hiện cao hơn trên các trang kết quả tìm kiếm như Google, Bing.

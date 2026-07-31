@@ -9,6 +9,18 @@ Bạn không thể cải thiện thứ hạng SEO nếu không **đo lường** 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Bộ ba miễn phí `Google Search Console` + `Lighthouse` + Chrome DevTools cover 80% nhu cầu audit** — ưu tiên cho developer.
+- **`Google Search Console`** — nguồn data chính xác nhất (trực tiếp từ Google): keyword đang rank, indexing, Core Web Vitals.
+- **`Lighthouse`** — audit tự động 5 danh mục; nên chạy nhiều lần lấy median và tích hợp `CI/CD` qua Lighthouse CI.
+- **`PageSpeed Insights`** — kết hợp lab data (Lighthouse) và field data (`CrUX`); field data là data Google dùng để ranking.
+- **Tool khác** — Screaming Frog (crawl), Rich Results Test/Schema Validator (structured data), Ahrefs/SEMrush (trả phí).
+
+:::
+
+---
+
 ## Mục lục
 
 - [1. Google Search Console -- Bảng điều khiển SEO #1](#1-google-search-console-bảng-điều-khiển-seo-1)

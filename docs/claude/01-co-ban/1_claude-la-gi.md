@@ -9,6 +9,18 @@ Claude là một trợ lý AI do công ty Anthropic phát triển, thuộc loạ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Claude là trợ lý AI của `Anthropic`, thuộc loại `LLM`** — mô hình ngôn ngữ lớn học từ khối lượng văn bản khổng lồ.
+- **Dùng bằng ngôn ngữ tự nhiên** — chỉ cần gõ câu hỏi/yêu cầu, không cần biết kỹ thuật.
+- **Làm được nhiều việc** — viết lách, lập trình, học tập, phân tích dữ liệu/tài liệu.
+- **Điểm mạnh** — hiểu ngữ cảnh dài, ưu tiên an toàn/trung thực, diễn đạt rõ ràng.
+- **Ba khái niệm nền** — `token` (đơn vị văn bản) và `context window` (lượng nội dung Claude thấy cùng lúc).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Giới thiệu nhanh](#giới-thiệu-nhanh)

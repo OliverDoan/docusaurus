@@ -9,6 +9,18 @@ Bài này giới thiệu các lỗ hổng bảo mật hay gặp nhất ở tần
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`SQL Injection`**: luôn dùng parameterized query / ORM; whitelist cho column/table name động; validate type để chống NoSQL injection.
+- ⭐ **`XSS`**: escape output — framework modern auto-escape (cẩn thận `dangerouslySetInnerHTML`), sanitize HTML bằng DOMPurify, bật CSP.
+- **`CSRF`**: dùng CSRF token, cookie `SameSite=Lax`, custom header, kiểm `Origin`/`Referer`.
+- **`Rate limiting`** (fixed/sliding window, token bucket) chặn abuse — áp theo endpoint (login 5/15 phút).
+- **Security là defense in depth**: auth + authorize + validate + sanitize + audit; cẩn thận `SSRF` (block private IP + metadata endpoint).
+
+:::
+
+---
+
 ## Mục lục
 
 - [OWASP Top 10](#owasp-top-10)

@@ -9,6 +9,18 @@ title: "1. WebSocket, SSE, Long Polling"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`SSE` (one-way server→client, chạy trên HTTP, auto-reconnect sẵn) vs `WebSocket` (hai chiều, full-duplex TCP)** — mỗi cái hợp một tình huống.
+- ⭐ **Nhiều case "chat" thực ra dùng `SSE` + fetch POST** đơn giản hơn setup WebSocket; SSE cũng chuẩn cho AI streaming.
+- **`WebSocket` là stateful** — scale cần sticky session + Redis pub/sub để broadcast giữa các server.
+- **`Long Polling` đã legacy** (2026); **`WebRTC`** cho video/audio P2P nên dùng managed (LiveKit, Daily...).
+- **Managed service** (Pusher, Ably, Supabase Realtime, Liveblocks) giảm ~90% effort so với tự build.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Real-time options](#real-time-options)

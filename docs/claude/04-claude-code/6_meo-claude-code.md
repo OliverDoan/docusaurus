@@ -9,6 +9,18 @@ Bài này tổng hợp các mẹo thực hành giúp bạn dùng Claude Code hi�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Plan mode cho việc lớn**: duyệt kế hoạch trước khi Claude sửa code, tránh đi sai hướng.
+- **`/clear` khi đổi chủ đề** để xoá ngữ cảnh cũ gây nhiễu.
+- **CLAUDE.md tốt** (lệnh, quy ước, ràng buộc) giúp Claude làm đúng ngay từ đầu.
+- **Chia nhỏ task** và chạy test sau mỗi bước để phát hiện lỗi sớm.
+- **Luôn xem diff trước khi commit**; quản lý ngữ cảnh chủ động (subagent cho việc nặng, tham chiếu file cụ thể).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Dùng plan mode cho việc lớn](#dùng-plan-mode-cho-việc-lớn)

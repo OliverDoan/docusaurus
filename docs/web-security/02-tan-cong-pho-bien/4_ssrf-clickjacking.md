@@ -12,6 +12,17 @@ gì đó — và đều có cách phòng thủ rõ ràng.
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`SSRF`: server bị lừa gọi URL kẻ tấn công chỉ định** — nguy hiểm nhất là lấy **credential cloud** từ metadata endpoint (`169.254.169.254`).
+- **Phòng thủ SSRF** — danh sách trắng đích đến, **chặn IP nội bộ**, kiểm soát redirect, tách mạng.
+- **`Clickjacking`: nhúng trang thật vào `<iframe>` trong suốt** để lừa người dùng bấm nút họ không thấy.
+- **Phòng thủ clickjacking** — `CSP frame-ancestors` hoặc `X-Frame-Options` (dễ nhất là dùng `helmet`).
+
+:::
+
+---
+
 ## Mục lục
 
 - [SSRF là gì?](#ssrf-là-gì)

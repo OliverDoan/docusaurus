@@ -9,6 +9,18 @@ API đã chạy và test được bằng curl. Bước cuối cùng — và là 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Frontend và Backend là hai chương trình riêng** — chạy ở hai cổng khác nhau, nói chuyện qua HTTP + JSON.
+- ⭐ **CORS phải bật cho phép ở phía backend (Spring Boot)**, không phải ở Frontend — khai báo `allowedOrigins` đúng cổng của FE.
+- **`fetch` gửi request** — khi POST/PUT nhớ `headers: {'Content-Type': 'application/json'}` và `JSON.stringify(body)`; đọc kết quả bằng `await res.json()`.
+- **Trong React: gọi API trong `useEffect`, lưu vào `useState`** — xử lý đủ bộ ba `loading` / `error` / `data`.
+- **Sau mỗi thao tác thay đổi (POST/PUT/DELETE), tải lại dữ liệu** để giao diện đồng bộ với server.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Bức tranh tổng thể FE ↔ BE](#bức-tranh-tổng-thể-fe--be)

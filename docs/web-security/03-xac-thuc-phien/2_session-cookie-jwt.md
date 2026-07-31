@@ -12,6 +12,18 @@ các lỗi lưu token nguy hiểm.
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **HTTP không trạng thái** — giữ phiên bằng `session` phía server (stateful) hoặc `JWT` (token tự chứa, stateless).
+- **`Session` vs `JWT`** — session thu hồi dễ nhưng phải lưu trạng thái (Redis khi scale); JWT không cần lưu nhưng **khó thu hồi**.
+- ⭐ **Payload `JWT` chỉ base64, KHÔNG bí mật** — đừng đặt dữ liệu nhạy cảm; dùng hạn ngắn + refresh token.
+- **Cookie an toàn** — `httpOnly` + `secure` + `sameSite`.
+- **Ưu tiên cookie `httpOnly` hơn `localStorage`** cho token — chống XSS đánh cắp.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vấn đề: HTTP không có trạng thái](#vấn-đề-http-không-có-trạng-thái)

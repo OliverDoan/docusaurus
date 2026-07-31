@@ -9,6 +9,19 @@ Project đầu tiên cố tình nhỏ để bạn nắm vững **3 trụ cột c
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **3 trụ cột React** — `component` (hàm trả về JSX), `props` (dữ liệu cha truyền xuống, chỉ đọc), `state` (dữ liệu riêng, đổi được).
+- ⭐ **`useState` tạo state** — `const [count, setCount] = useState(0)`; luôn cập nhật qua hàm set để React vẽ lại, không gán trực tiếp.
+- **Component viết hoa chữ đầu** — React phân biệt component (`ProfileCard`) với thẻ HTML thường (`div`).
+- **`props` chỉ đọc, một chiều** — dữ liệu chảy từ cha xuống con, con không được sửa props.
+- **Sự kiện phải truyền một hàm** — `onClick={() => setCount(count + 1)}`, đừng gọi hàm ngay kẻo lỗi "Too many re-renders".
+- **Render có điều kiện** — dùng `&&` (có/không) và `? :` (chọn 1 trong 2) ngay trong JSX.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Phân tích bài toán](#phân-tích-bài-toán)

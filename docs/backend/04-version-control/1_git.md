@@ -9,6 +9,18 @@ Git là công cụ quản lý phiên bản (version control) gần như bắt bu
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Nắm lệnh Git cơ bản** (`add`/`commit`/`push`/`pull`) và undo (`reset`, `restore`, `revert`).
+- **Branch để làm việc song song** — `merge` giữ history, `rebase` cho history thẳng.
+- ⭐ **Golden rule: KHÔNG `rebase` commit đã push public** — rewrite history đã share sẽ gây conflict cho người khác.
+- **3 workflow chính**: Git Flow (release theo version), GitHub Flow (đơn giản, phổ biến), Trunk-based (team lớn).
+- **Dùng Conventional Commits** (`feat`, `fix`, `docs`...) để auto changelog + semver; enforce bằng `husky` + `commitlint`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Git command cơ bản](#git-command-cơ-bản)

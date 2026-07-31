@@ -7,6 +7,16 @@ title: "1. Core Web Vitals"
 
 Core Web Vitals là bộ ba chỉ số (LCP, INP, CLS) do Google đặt ra để đo trải nghiệm thực tế của người dùng khi vào website: trang tải nhanh không, bấm vào có phản hồi mượt không, và bố cục có nhảy lung tung không. Từ năm 2021, các chỉ số này được Google dùng làm tín hiệu xếp hạng, nên hiểu và tối ưu chúng giúp web vừa thân thiện với người dùng vừa lên top tốt hơn. Bài này giải thích từng chỉ số, cách đo và cách tối ưu cho developer; phần chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **3 chỉ số Core Web Vitals** — `LCP` dưới 2.5s (tốc độ tải), `INP` dưới 200ms (phản hồi tương tác), `CLS` dưới 0.1 (ổn định bố cục).
+- ⭐ **Field data mới là thứ Google dùng để xếp hạng** — dữ liệu thực từ `CrUX`/`web-vitals`, không phải điểm Lighthouse (lab data).
+- **Tối ưu `LCP`** — `preload` ảnh hero, thêm `fetchpriority="high"`, tuyệt đối không `loading="lazy"` cho ảnh LCP.
+- **Tối ưu `INP`** — chia nhỏ long task, dùng `scheduler.yield()` để nhường main thread (INP thay `FID` từ 3/2024).
+- **Tối ưu `CLS`** — luôn khai báo `width`/`height` cho ảnh, giữ chỗ `min-height` cho quảng cáo, dùng `font-display: optional`.
+
+:::
+
 ## Mục lục
 
 - [Core Web Vitals là gì?](#core-web-vitals-là-gì)

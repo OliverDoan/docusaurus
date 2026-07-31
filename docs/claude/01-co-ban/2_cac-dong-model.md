@@ -9,6 +9,17 @@ Claude có nhiều dòng model với cân bằng khác nhau giữa sức mạnh,
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Ba dòng model chính** — `Opus` (mạnh nhất, việc khó), `Sonnet` (cân bằng, code tốt), `Haiku` (nhanh & rẻ nhất).
+- **Chọn theo độ khó công việc** — để cân bằng chất lượng, tốc độ và chi phí.
+- **Phân vân thì chọn `Sonnet`** — điểm khởi đầu an toàn cho phần lớn công việc.
+- **Bản mới nhất khi viết** — Opus 4.8, Sonnet 4.6, Haiku 4.5; nên kiểm tra trang chính thức vì thay đổi theo thời gian.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có nhiều dòng model?](#vì-sao-có-nhiều-dòng-model)

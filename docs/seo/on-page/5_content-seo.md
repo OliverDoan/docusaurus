@@ -7,6 +7,16 @@ title: "5. Content SEO"
 
 Content SEO là việc tạo và tổ chức nội dung sao cho vừa hữu ích với người đọc vừa được Google đánh giá cao, vì không phải nội dung nào cũng giúp tăng thứ hạng. Hiểu Google muốn thấy gì trong nội dung giúp bạn viết bài rank tốt hơn. Bài này giải thích tiêu chuẩn E-E-A-T, cách tối ưu featured snippets, mô hình topic cluster, độ tươi mới của nội dung, cấu trúc heading và phần FAQ; phần chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`E-E-A-T` (Experience, Expertise, Authoritativeness, Trustworthiness)** — bộ tiêu chí Google đánh giá chất lượng nội dung, đặc biệt nghiêm với trang YMYL.
+- **`Featured Snippets`** — heading là câu hỏi + trả lời trực tiếp 40-60 từ, dùng `ol`/`ul`/`table`; trang cần nằm top 10.
+- **`Topic Cluster`** — 1 Pillar Page (tổng quan, short-tail) + nhiều Cluster Page (chi tiết, long-tail) liên kết bằng internal links.
+- **`Content freshness`** — `dateModified` quan trọng hơn ngày đăng; phải cập nhật nội dung thật, không chỉ đổi ngày.
+- **Google không phạt content AI, chỉ phạt content chất lượng thấp** — dùng AI hỗ trợ nhưng phải thêm kinh nghiệm thực tế.
+
+:::
+
 ## Mục lục
 
 - [Content là vua, nhưng content nào mới là vua?](#content-là-vua-nhưng-content-nào-mới-là-vua)

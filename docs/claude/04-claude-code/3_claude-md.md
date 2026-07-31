@@ -9,6 +9,18 @@ CLAUDE.md là file Markdown đặt ở gốc dự án, chứa hướng dẫn và
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`CLAUDE.md` ở gốc dự án được Claude tự đọc mỗi phiên** — viết hướng dẫn một lần, Claude luôn nhớ.
+- **Nên ghi**: lệnh thường dùng, kiến trúc, quy ước code, ràng buộc, công nghệ.
+- **Giữ ngắn gọn, hành động được**; đặt ràng buộc quan trọng lên đầu.
+- **Dùng `/init`** để sinh bản nháp rồi tự chỉnh cho khớp thực tế.
+- **Commit vào Git** để cả nhóm cùng hưởng ngữ cảnh nhất quán.
+
+:::
+
+---
+
 ## Mục lục
 
 - [CLAUDE.md là gì?](#claudemd-là-gì)

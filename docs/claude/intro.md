@@ -7,6 +7,15 @@ title: "Giới thiệu"
 
 Đây là hướng dẫn **cách dùng Claude hiệu quả** — từ trò chuyện cơ bản trên web, viết prompt (câu lệnh yêu cầu) cho tới dùng **Claude Code** để lập trình. Tài liệu dành cho người mới, mỗi **thuật ngữ chuyên ngành** (technical term — từ ngữ kỹ thuật riêng của ngành) đều được giải thích ngay khi xuất hiện lần đầu.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hướng dẫn dùng Claude hiệu quả cho người mới** — đi từ chat cơ bản → viết prompt → dùng `Claude Code` để lập trình.
+- **4 cách dùng Claude** — `claude.ai` (web/app), `Claude Code` (CLI), và `API`.
+- **Nguyên tắc vàng** — càng rõ ràng càng tốt, cung cấp đủ bối cảnh, lặp lại tinh chỉnh, và luôn kiểm chứng (Claude có thể bịa — *hallucination*).
+- **Mỗi thuật ngữ được giải thích ngay lần đầu xuất hiện** — không cần kiến thức kỹ thuật trước.
+
+:::
+
 ---
 
 ## Claude là gì?

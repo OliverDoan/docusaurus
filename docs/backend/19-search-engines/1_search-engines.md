@@ -9,6 +9,18 @@ Search engine là công cụ chuyên đi tìm kiếm văn bản, giúp người 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Search engine dùng `inverted index`** — tìm kiếm text trong mili-giây, chấp nhận typo (fuzzy), có relevance ranking (`BM25`, `TF-IDF`) — vượt xa SQL `LIKE '%query%'`.
+- **`Elasticsearch`** — mature nhất, mạnh analytics + vector search, nhưng nặng RAM (JVM) và phức tạp vận hành.
+- **`Meilisearch` / `Typesense`** — nhẹ, dễ deploy, typo-tolerant sẵn, hợp search UI consumer-facing.
+- **Postgres full-text search** (thêm `pg_trgm` cho fuzzy) đủ cho nhiều case nếu đã có Postgres.
+- ⭐ **Nguồn sự thật là DB** — sync sang search engine qua CDC/batch; search chỉ để tìm, còn detail vẫn lấy từ Postgres.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Tại sao cần search engine riêng?](#tại-sao-cần-search-engine-riêng)

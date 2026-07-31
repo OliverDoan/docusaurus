@@ -9,6 +9,18 @@ title: "2. Trò chơi đoán số"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Ba viên gạch nền tảng: nhập liệu, vòng lặp, câu điều kiện** — kết hợp lại thành một chương trình tương tác hoàn chỉnh.
+- ⭐ **`Random` sinh số ngẫu nhiên** — `random.nextInt(n) + 1` cho khoảng `[1, n]` (vì `nextInt(n)` ra `[0, n-1]`).
+- **`Scanner` đọc bàn phím** — `new Scanner(System.in)` rồi `scanner.nextInt()` đọc một số nguyên.
+- **`while` lặp đến khi điều kiện sai** — dùng biến cờ `boolean daDung` để điều khiển dừng; quên gán cờ sẽ gây vòng lặp vô tận.
+- **`if / else if / else`** rẽ nhánh theo kết quả so sánh; nên **phân tích bằng pseudocode trước khi code**.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Phân tích bài toán](#phân-tích-bài-toán)

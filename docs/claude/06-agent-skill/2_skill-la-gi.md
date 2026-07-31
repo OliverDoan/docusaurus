@@ -14,6 +14,18 @@ bạn biến Claude từ trợ lý chung chung thành chuyên gia cho đúng cô
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Skill là một thư mục đóng gói hướng dẫn + script + tài nguyên** để dạy Claude làm tốt một loại việc; viết một lần, dùng lại nhiều lần.
+- **Bắt buộc có file `SKILL.md`** gồm frontmatter (`name`, `description`) và phần nội dung hướng dẫn.
+- ⭐ **`description` quyết định khi nào Claude tự kích hoạt Skill** — viết rõ "làm gì + khi nào dùng".
+- **Progressive disclosure** nạp nội dung theo 3 cấp (metadata → hướng dẫn → tài nguyên), chỉ khi cần, nên cài nhiều Skill không tốn ngữ cảnh.
+- **Chạy trên claude.ai/Claude Code/API nhưng không tự đồng bộ**; chỉ dùng Skill từ nguồn tin cậy và đọc kỹ trước.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vấn đề: lặp đi lặp lại cùng một hướng dẫn](#vấn-đề-lặp-đi-lặp-lại-cùng-một-hướng-dẫn)

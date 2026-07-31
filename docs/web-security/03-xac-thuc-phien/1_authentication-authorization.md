@@ -12,6 +12,18 @@ phân biệt rõ và nêu các lỗi phân quyền thường gặp cùng cách p
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Authentication` (bạn là ai) vs `Authorization` (bạn được làm gì)** — xác thực trước, phân quyền sau.
+- ⭐ **`Broken Access Control` là rủi ro số 1** — mọi kiểm tra quyền phải ở **server**; bảo mật ở client chỉ là trải nghiệm.
+- **`IDOR`** — luôn kiểm tra **quyền sở hữu** tài nguyên, không chỉ dựa vào ID; trả `404` để không lộ sự tồn tại.
+- **Mô hình phân quyền** — bắt đầu với `RBAC` (đơn giản) → ABAC/ReBAC khi phức tạp; mặc định từ chối.
+- **Chống brute-force** — rate limiting, khoá tạm, `MFA`, thông báo lỗi mơ hồ.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Phân biệt Authentication vs Authorization](#phân-biệt-authentication-vs-authorization)

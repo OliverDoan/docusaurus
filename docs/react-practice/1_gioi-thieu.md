@@ -9,6 +9,19 @@ title: "1. Giới thiệu & Chuẩn bị"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Học React phải tự tay làm project** — đọc lý thuyết suông không đủ, phải gõ code và tự sửa lỗi mới giỏi.
+- ⭐ **Tạo project bằng Vite** — `npm create vite@latest` → `npm install` → `npm run dev`, thay cho `create-react-app` đã lỗi thời.
+- **Cài đủ 2 thứ** — Node.js (>= 20) và VS Code là đủ để bắt đầu.
+- **File khởi động** — `src/main.jsx` gắn React vào `<div id="root">`, `src/App.jsx` là component gốc.
+- **JSX là JavaScript** — chỉ `return` một thẻ gốc, dùng `className` thay `class`, và `{ }` để chèn biểu thức JS.
+- **Học tuần tự 4 project** — gõ tay thay vì copy, luôn mở Console và làm phần thử thách mở rộng.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao học qua project?](#vì-sao-học-qua-project)

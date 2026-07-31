@@ -13,6 +13,17 @@ từng nhóm.
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`OWASP Top 10`** — danh sách chuẩn 10 nhóm rủi ro web nghiêm trọng & phổ biến nhất, do OWASP duy trì.
+- ⭐ **`Broken Access Control` đứng đầu** — kiểm soát truy cập hỏng là rủi ro số 1 hiện nay.
+- **Hiểu bản chất > nhớ thứ tự** — tên gọi và thứ tự đổi theo từng phiên bản, bản chất rủi ro khá ổn định.
+- **Tài liệu phủ phần lớn Top 10** — trải qua các mục 2–5; tra `owasp.org` cho phiên bản mới nhất.
+
+:::
+
+---
+
 ## Mục lục
 
 - [OWASP là gì?](#owasp-là-gì)

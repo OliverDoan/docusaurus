@@ -9,6 +9,18 @@ Bài này hướng dẫn luồng làm việc cơ bản với Claude Code theo b�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Workflow 4 bước lặp**: hiểu codebase → sửa/thêm → chạy test → commit.
+- **Việc lớn nên yêu cầu lập kế hoạch trước** rồi mới thực hiện, để bạn kiểm soát phạm vi.
+- **Vòng lặp sửa → chạy test** giúp Claude tự kiểm chứng, giảm rủi ro code hỏng.
+- **Luôn xem diff trước khi commit**; ưu tiên làm trên nhánh riêng.
+- **Mô tả nhiệm vụ càng rõ** (file, tiêu chí "xong", ràng buộc) thì kết quả càng đúng ý.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Tổng quan luồng làm việc](#tổng-quan-luồng-làm-việc)

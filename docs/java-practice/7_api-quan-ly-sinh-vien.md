@@ -9,6 +9,18 @@ title: "7. API CRUD sinh viên (JPA + H2)"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Kiến trúc 3 tầng: Controller → Repository → Database** — với `Entity` ánh xạ class ↔ bảng (separation of concerns).
+- ⭐ **`JpaRepository` tặng sẵn CRUD** — `save`, `findAll`, `findById`, `deleteById`; **derived query** sinh SQL từ tên hàm (`findByTenContainingIgnoreCase`).
+- **`@Entity` + `@Id` + `@GeneratedValue`** biến class thành bảng — nhớ có **constructor rỗng** (JPA bắt buộc).
+- **Controller dùng `@GetMapping`/`@PostMapping`/`@PutMapping`/`@DeleteMapping`** cùng `@PathVariable`, `@RequestBody`, `ResponseEntity` để điều khiển mã HTTP.
+- **Dependency Injection ráp thành phần tự động** (tiêm repo qua constructor); luôn **validate dữ liệu client với `@Valid`**.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Kiến trúc 3 tầng](#kiến-trúc-3-tầng)

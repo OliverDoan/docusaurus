@@ -9,6 +9,18 @@ Web server là phần mềm đứng giữa internet và code ứng dụng của 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Web server đứng giữa internet và app code** — lo serve static file, reverse proxy, SSL termination, load balancing, caching, compression và rate limiting.
+- ⭐ **`Nginx` là lựa chọn mặc định 2026** — event-driven nên chịu tải cao, nhẹ (~2MB/worker); `Caddy` mạnh ở auto HTTPS, `Apache` lâu đời với `.htaccess`.
+- **Reverse proxy** — ẩn app nội bộ, để Nginx handle TLS còn app chỉ chạy HTTP; app nên bind `127.0.0.1:3000`, đừng expose port trực tiếp.
+- **Load balancing** — thuật toán round-robin, `least_conn`, `ip_hash`; Layer 4 (TCP, nhanh) vs Layer 7 (HTTP, linh hoạt).
+- **Sticky session** gây bug khi scale stateful app — ưu tiên stateless `JWT` hoặc shared session store (`Redis`).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Web server làm gì?](#web-server-làm-gì)

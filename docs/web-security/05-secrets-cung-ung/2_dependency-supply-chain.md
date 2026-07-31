@@ -12,6 +12,18 @@ tế trong hệ sinh thái npm — kèm checklist tổng kết toàn bộ tài l
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Supply chain attack`: nhắm vào thứ bạn phụ thuộc** — thư viện, tooling, CI/CD, gồm cả dependency *transitive*.
+- ⭐ **`npm audit` (trong CI) + Dependabot/Renovate/Snyk** — vá lỗ hổng đã biết là biện pháp hiệu quả/chi phí cao nhất.
+- **`Lockfile` committed + `npm ci`** — đảm bảo build tái lập giống nhau và chống đổi ngầm dependency.
+- **Cảnh giác các kiểu tấn công** — typosquatting, dependency confusion, account takeover, malicious update, install script.
+- **Giảm tối thiểu dependency** — ưu tiên gói uy tín, nâng cấp đều, cân nhắc `SBOM`; kèm checklist tổng kết toàn tài liệu.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Rủi ro chuỗi cung ứng là gì?](#rủi-ro-chuỗi-cung-ứng-là-gì)
