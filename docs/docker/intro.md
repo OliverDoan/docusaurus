@@ -7,6 +7,15 @@ title: "Giới thiệu"
 
 Chào mừng bạn đến với lộ trình học Docker dành cho người mới bắt đầu. Tài liệu này sẽ giúp bạn hiểu Docker từ con số 0, không cần kiến thức nền tảng phức tạp.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Docker đóng gói ứng dụng + mọi thứ nó cần vào một "hộp" tiêu chuẩn gọi là container** — nhờ đó app chạy giống hệt nhau ở mọi máy.
+- ⭐ **Container khác máy ảo (VM)** — container chia sẻ lõi hệ điều hành của host nên rất nhẹ (MB) và khởi động trong vài giây, còn VM mang cả một OS riêng (GB, chậm).
+- **Lợi ích chính** — nhất quán, nhẹ/nhanh, dễ chia sẻ, cô lập không xung đột, dễ mở rộng.
+- **Lộ trình 5 nhóm học tuần tự** — Nền tảng → Docker Images → Docker Containers → Docker Compose → Nâng cao.
+
+:::
+
 ## Docker là gì?
 
 Docker là một công cụ giúp đóng gói ứng dụng cùng tất cả những thứ nó cần để chạy (mã nguồn, thư viện, cấu hình) vào trong một "hộp" tiêu chuẩn gọi là **container** (vùng chứa). Nhờ đó, ứng dụng của bạn sẽ chạy giống hệt nhau ở mọi nơi: trên máy tính của bạn, trên máy đồng nghiệp, hay trên máy chủ (server).

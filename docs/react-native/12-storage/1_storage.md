@@ -16,6 +16,18 @@ RN có nhiều cách lưu data offline: **AsyncStorage** (key-value), **SecureSt
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Chọn storage theo nhu cầu** — `AsyncStorage` (preferences), MMKV (nhanh, sync), SecureStore (nhạy cảm), SQLite (có cấu trúc), FileSystem (file lớn).
+- ⭐ **Token nhạy cảm luôn dùng SecureStore** — không để `AsyncStorage` vì lưu plain text.
+- **MMKV** — nhanh hơn `AsyncStorage` ~30x, API đồng bộ (không cần `await`), encryption optional; ưu tiên cho project mới.
+- **SQLite** — data có cấu trúc, query phức tạp (JOIN, GROUP BY), offline-first, data lớn (>1000 record).
+- **Persist state** — Zustand persist / Redux Persist tự save/load state; nhớ `JSON.stringify` khi lưu object vào `AsyncStorage`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần giải pháp lưu trữ riêng?](#vì-sao-cần-giải-pháp-lưu-trữ-riêng)

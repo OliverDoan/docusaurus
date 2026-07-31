@@ -9,6 +9,18 @@ Networking là cách các containers giao tiếp với nhau và với thế gi�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Custom bridge hỗ trợ DNS tự động** — container gọi nhau bằng tên; default bridge chỉ dùng được IP (đổi mỗi lần tạo lại).
+- **4 driver chính**: `bridge` (mặc định), `host` (chỉ Linux, bỏ NAT), `none` (cô lập hoàn toàn), `overlay` (Swarm nhiều host).
+- **Port mapping `-p 80:80`** để mở dịch vụ ra host cho người dùng bên ngoài truy cập.
+- **Compose tự tạo network `<project>_default`**; tách `frontend`/`backend` để `nginx` không chạm thẳng tới `db`.
+- **Quản lý**: `docker network create/connect/disconnect/inspect`, `docker network prune` xoá network không dùng.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần Docker networking?](#vì-sao-cần-docker-networking)

@@ -9,6 +9,18 @@ Toàn vẹn dữ liệu là tập các quy tắc giữ cho dữ liệu luôn ch�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Toàn vẹn dữ liệu bằng constraint** — `PRIMARY KEY`, `FOREIGN KEY`, `CHECK`, `NOT NULL`, `UNIQUE` giữ dữ liệu luôn hợp lệ, không mồ côi khoá ngoại hay giá trị vô lý.
+- ⭐ **Nguyên tắc quyền tối thiểu (Least Privilege)** — mỗi user chỉ được cấp đúng quyền cần thiết, tránh cấp toàn quyền.
+- **Phân quyền** — quản lý bằng `ROLE`, cấp/thu hồi quyền bằng `GRANT` và `REVOKE`, gom theo mô hình RBAC.
+- **Chống SQL Injection** — không ghép chuỗi input vào câu lệnh, dùng tham số hoá (prepared statement).
+- **Row Level Security (RLS)** — giới hạn user chỉ thấy được các hàng thuộc về mình, kết hợp audit log để theo dõi truy cập.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần toàn vẹn & bảo mật dữ liệu?](#vì-sao-cần-toàn-vẹn--bảo-mật-dữ-liệu)

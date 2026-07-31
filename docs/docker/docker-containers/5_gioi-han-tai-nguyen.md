@@ -9,6 +9,18 @@ Mặc định container có thể dùng toàn bộ tài nguyên của host. Bài
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Mặc định container dùng tài nguyên host không giới hạn** — một container leak RAM/ngốn CPU có thể kéo sập cả host ("noisy neighbor"); Docker giới hạn qua **cgroups**.
+- ⭐ **Memory**: `--memory` (hard limit, `-m` viết tắt), `--memory-swap`, `--memory-reservation` (soft); vượt limit container bị **OOM kill (exit 137)**, kiểm tra bằng `{{.State.OOMKilled}}`.
+- **CPU**: `--cpus` là hard limit (luôn áp dụng), `--cpu-shares` là soft limit theo tỷ lệ (chỉ khi cạnh tranh), `--cpuset-cpus` ghim core cụ thể.
+- **Giới hạn khác**: `--pids-limit` chống fork bomb, `--device-read-bps`/`--device-write-bps` giới hạn Disk I/O.
+- **`docker update`** đổi limit không cần restart; `docker stats` để giám sát realtime.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần giới hạn tài nguyên?](#vì-sao-cần-giới-hạn-tài-nguyên)

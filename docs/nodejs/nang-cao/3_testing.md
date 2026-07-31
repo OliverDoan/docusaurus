@@ -9,6 +9,18 @@ Testing giúp bạn kiểm tra code chạy đúng và phát hiện lỗi sớm t
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Jest` cho unit test, `Supertest` cho API test** — Jest kiểm tra logic/service, Supertest gọi route thật để kiểm status code và JSON.
+- ⭐ **Test tự động thay kiểm tra thủ công** — chạy `npm test` trong vài giây thay vì bấm tay từng endpoint trên Postman.
+- **Mock dịch vụ ngoài** — dùng `jest.mock` để giả lập email, thanh toán... tránh gọi thật khi test.
+- **Chống regression** — chạy lại toàn bộ test sau mỗi lần refactor để chắc không vỡ chỗ khác; test là tài liệu sống.
+- **Mục tiêu coverage ≥ 80%** — viết test trước, implement sau (TDD).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần test backend?](#vì-sao-cần-test-backend)

@@ -9,6 +9,18 @@ JOIN là cách kết hợp các hàng từ nhiều bảng dựa trên điều ki
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **JOIN** — kết hợp hàng từ nhiều bảng theo điều kiện liên kết (thường khóa ngoại trỏ tới khóa chính), tránh lưu trùng dữ liệu.
+- **Các loại JOIN** — `INNER` chỉ lấy hàng khớp cả hai bên; `LEFT`/`RIGHT` giữ một bên; `FULL OUTER` giữ cả hai; `CROSS` tạo tích Descartes.
+- **Tìm bản ghi mồ côi** — `LEFT JOIN ... WHERE right_col IS NULL` (nhanh hơn `NOT IN`/`NOT EXISTS` trên tập lớn).
+- **Cú pháp điều kiện** — dùng `ON` trong production cho tường minh, tránh `NATURAL JOIN` (dễ lỗi ngầm khi schema đổi).
+- ⭐ **Bẫy `ON` vs `WHERE` với LEFT JOIN** — điều kiện trong `ON` giữ hàng bảng trái; trong `WHERE` biến LEFT JOIN thành INNER JOIN.
+
+:::
+
+---
+
 ## Mục lục
 
 - [JOIN là gì](#join-là-gì)

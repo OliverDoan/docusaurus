@@ -9,6 +9,18 @@ Trong công việc hàng ngày với Git, bạn sẽ gặp hai tình huống r�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`git stash` tạm cất thay đổi chưa commit** — cất cả staged/unstaged vào ngăn xếp (LIFO), làm sạch working directory để chuyển việc.
+- ⭐ **`git cherry-pick <hash>` áp MỘT commit cụ thể** — lấy đúng commit cần từ nhánh khác lên nhánh hiện tại (tạo commit mới, hash mới), không phải merge cả nhánh.
+- **`stash pop` lấy lại và xóa khỏi stack; `stash apply` lấy lại nhưng giữ** — mặc định KHÔNG cất file untracked, phải thêm `-u`.
+- **Cherry-pick dùng cho hotfix, backport, lấy tính năng lẻ** — nhưng có rủi ro duplicate commit và thiếu dependency, nên cân nhắc kỹ.
+- **Stash cho tạm dừng ngắn (trong ngày); tạo branch cho tạm dừng dài** — branch có tên rõ, push chia sẻ được và hiện trong lịch sử.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có cherry-pick & stash?](#vì-sao-có-cherry-pick--stash)

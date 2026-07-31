@@ -9,6 +9,18 @@ Quản lý biến môi trường đúng cách là kỹ năng quan trọng khi l�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Tách config khỏi code (12-Factor)** — tham chiếu `${VAR}` thay vì hardcode secret thẳng trong `docker-compose.yml`.
+- **6 cách truyền biến**: inline, dạng list, `env_file`, variable substitution `${}`, giá trị mặc định `${VAR:-default}`, và export từ shell.
+- **Thứ tự ưu tiên** (cao → thấp): shell env → `environment:` → `env_file` → Dockerfile `ENV` → file `.env`.
+- **`--env-file`** chọn file theo môi trường (dev/staging/prod); **`secrets:`** dùng cho password/API key ở production.
+- **`docker compose config`** xem cấu hình đã resolve; chỉ commit `.env.example`, KHÔNG commit `.env` thật.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao tách biến môi trường trong Compose?](#vì-sao-tách-biến-môi-trường-trong-compose)

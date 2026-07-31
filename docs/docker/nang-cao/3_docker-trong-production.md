@@ -9,6 +9,18 @@ Chạy Docker trong production khác rất nhiều so với development. Bài n�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Production cần 4 lớp bảo vệ ở mức 1 máy** — `restart` policy + `healthcheck` + resource limits + log rotation.
+- **Dockerfile prod**: multi-stage, `USER` non-root, tag cụ thể (không `latest`), có `HEALTHCHECK`.
+- **`/health` endpoint** kiểm tra cả DB và Redis để load balancer và `depends_on` biết service thật sự sẵn sàng.
+- **Scale nhiều replica + rolling update không downtime** dùng orchestrator (Kubernetes / Docker Swarm).
+- **Log `json-file` + `max-size`/`max-file`**, backup DB tự động qua cron, deploy kiểu Pull + Up hoặc Blue-Green.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao chạy Docker ở production cần lưu ý riêng?](#vì-sao-chạy-docker-ở-production-cần-lưu-ý-riêng)

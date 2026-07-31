@@ -11,6 +11,18 @@ iOS và Android có behavior khác nhau (haptic, navigation, header...). RN cung
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Platform.OS` / `Platform.select` để tách code nhỏ theo nền tảng** — ví dụ shadow iOS (`shadowColor`...) vs elevation Android.
+- **File extension `.ios.tsx` / `.android.tsx` / `.web.tsx`** — Metro tự chọn khi component khác HOÀN TOÀN (DatePicker, Slider...).
+- **`Platform.Version`** — check version OS khi API chỉ có ở bản mới (so sánh `Platform.OS === 'ios'`, đừng quên dấu nháy).
+- **`react-native-web`** map component RN → HTML/CSS (`View`→`div`, `Text`→`span`) — chia sẻ 70-90% code với web.
+- ⭐ **Mặc định cross-platform, chỉ tách khi thực sự cần** — luôn test cả iOS + Android, bọc API riêng nền tảng trong check để tránh crash.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần code theo platform?](#vì-sao-cần-code-theo-platform)

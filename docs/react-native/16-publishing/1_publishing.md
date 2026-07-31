@@ -11,6 +11,18 @@ Sau khi dev xong, **đưa app lên store** là bước cuối. Quy trình **iOS 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **EAS Build** — build iOS + Android trên cloud KHÔNG cần Mac, tự quản lý cert/keystore; `eas submit` nộp store tự động.
+- **Code signing** — iOS cần Distribution Certificate + Provisioning Profile; Android cần Keystore — mất keystore là không update được app, phải backup kỹ.
+- **Review store** — Apple 1-3 ngày rất nghiêm (UI native, IAP, privacy); Google nhanh hơn; Play Store bắt buộc `.aab`.
+- ⭐ **OTA Updates (EAS Update / CodePush)** — vá lỗi JS nóng không qua review, nhưng chỉ đổi JS (no native) và không được "bait and switch".
+- **Phased release** — release tăng dần 1% → 100% để bắt bug sớm (crash rate) và rollback được khi có sự cố.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao phát hành app phức tạp?](#vì-sao-phát-hành-app-phức-tạp)

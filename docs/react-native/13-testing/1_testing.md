@@ -15,6 +15,18 @@ Test mobile khó hơn web -- cần test trên thiết bị/simulator, có nhiề
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Test pyramid** — nhiều unit (Jest), vừa component (RNTL), ít E2E (Detox); luôn test behavior chứ không test implementation.
+- **Jest** — test runner mặc định của RN cho utility, business logic, hooks; hỗ trợ `jest.mock` mock module.
+- **React Native Testing Library** — test component như user dùng (`getByText`, `getByPlaceholderText`, `fireEvent`).
+- **Detox vs Appium** — Detox E2E cho dev team (RN-specific, nhanh, ổn định); Appium cho QA automation đa platform.
+- ⭐ **`testID`** — selector ổn định cho test, không vỡ khi text đổi (i18n).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần test app React Native?](#vì-sao-cần-test-app-react-native)

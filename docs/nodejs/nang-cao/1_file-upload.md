@@ -9,6 +9,18 @@ File upload là chức năng cho phép người dùng tải file (ảnh, tài li
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Dùng `multer` cho upload** — `express.json()` không parse được `multipart/form-data`, phải có middleware chuyên xử lý file.
+- ⭐ **Luôn validate `fileFilter` và `limits`** — chặn MIME type lạ và giới hạn `fileSize` để tránh mã độc, file khổng lồ làm sập server.
+- **Đặt tên file duy nhất** — kết hợp `Date.now()` với số ngẫu nhiên và `path.extname` để tránh trùng, ghi đè.
+- **`upload.single` vs `upload.array`** — một file dùng `single('avatar')`, nhiều file dùng `array('photos', 10)`.
+- **Serve file tĩnh** — dùng `express.static('uploads')` để cho phép truy cập lại file đã lưu.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần xử lý riêng file upload?](#vì-sao-cần-xử-lý-riêng-file-upload)

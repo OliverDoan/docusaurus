@@ -9,6 +9,17 @@ Hiểu cách Docker hoạt động bên trong sẽ giúp bạn debug nhanh hơn 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Docker theo mô hình Client–Server** — Docker Client (CLI) gửi lệnh qua REST API tới Docker Daemon (`dockerd`), nơi quản lý image, container, network và volume.
+- ⭐ **Container nhẹ nhờ chia sẻ kernel host** — dùng namespaces để cô lập (PID, NET, MNT...) và cgroups để giới hạn tài nguyên (`--memory`, `--cpus`), không cần cấp cả một OS.
+- **Image là hệ thống file read-only gồm nhiều layer** — mỗi lệnh Dockerfile tạo 1 layer, hỗ trợ cache và chia sẻ; Container = image + một writable layer đang chạy.
+- **Registry là kho lưu và phân phối image** — Docker Hub, GHCR, ECR... trao đổi qua `docker push` và `docker pull`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao container nhẹ hơn máy ảo?](#vì-sao-container-nhẹ-hơn-máy-ảo)

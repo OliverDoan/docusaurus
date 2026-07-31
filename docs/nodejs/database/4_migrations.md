@@ -9,6 +9,18 @@ Migration là cách quản lý thay đổi cấu trúc database theo từng phi�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Migration = version control cho schema** — mỗi thay đổi là một file có version lưu trong git, áp dụng nhất quán trên mọi môi trường.
+- **`up`/`down`** — `up` áp dụng thay đổi, `down` để rollback khi lỗi; DB tự ghi nhớ migration nào đã chạy.
+- **Prisma** — `migrate dev` (tạo + áp dụng khi dev), `migrate deploy` (production), `migrate status` xem trạng thái.
+- **Knex.js** — lựa chọn phổ biến khi không dùng Prisma, viết `exports.up`/`exports.down` thủ công.
+- **Best practices** — mỗi migration làm một việc, đặt tên rõ ràng, commit vào git, test trên staging và backup trước khi chạy production.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Migration là gì?](#migration-là-gì)

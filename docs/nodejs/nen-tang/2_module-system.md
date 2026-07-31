@@ -9,6 +9,18 @@ Module system là cách Node.js chia code thành nhiều file nhỏ rồi import
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Mỗi file là một module có scope riêng** — khai báo phụ thuộc rõ ràng, tránh đụng và đè biến global.
+- **CommonJS** — dùng `require` / `module.exports`, là hệ thống module mặc định của Node.
+- **ES Modules** — dùng `import` / `export`, bật bằng `"type": "module"` trong `package.json`.
+- **Built-in module quan trọng** — `path`, `fs` (dùng `fs/promises` cho async), `os`, `events`.
+- **Khác biệt tải module** — CJS load đồng bộ, ESM load bất đồng bộ và hỗ trợ top-level await.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Node có module system?](#vì-sao-node-có-module-system)

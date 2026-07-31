@@ -9,6 +9,18 @@ Truy vấn tổng hợp dùng các hàm như SUM, COUNT, AVG, MIN, MAX để g�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hàm tổng hợp** — `SUM` / `COUNT` / `AVG` / `MIN` / `MAX` gộp nhiều dòng thành một giá trị, tính ngay tại DB thay vì kéo hết về ứng dụng.
+- **`GROUP BY` gom nhóm** — mọi cột trong `SELECT` phải nằm trong `GROUP BY` hoặc được bao trong aggregate.
+- **`WHERE` vs `HAVING`** — `WHERE` lọc dòng trước gom nhóm, `HAVING` lọc nhóm sau aggregate; ưu tiên `WHERE` để lọc sớm.
+- ⭐ **NULL bị bỏ qua** trong mọi aggregate trừ `COUNT(*)` — dùng `COALESCE` nếu muốn coi `NULL` là 0.
+- **Ba biến thể `COUNT`** — `COUNT(*)` đếm cả NULL, `COUNT(col)` bỏ NULL, `COUNT(DISTINCT col)` bỏ NULL và trùng.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần hàm tổng hợp (aggregate)?](#vì-sao-cần-hàm-tổng-hợp-aggregate)

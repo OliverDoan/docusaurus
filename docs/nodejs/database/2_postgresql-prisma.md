@@ -9,6 +9,18 @@ PostgreSQL là cơ sở dữ liệu quan hệ mạnh mẽ và phổ biến, còn
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Prisma là ORM type-safe** — query có autocomplete và bắt lỗi tên cột ngay lúc compile, tự tham số hoá nên chống SQL injection.
+- **Schema-first** — khai báo model và quan hệ trong `schema.prisma`, Prisma sinh ra client và migration.
+- **`prisma migrate dev`** — đổi model rồi chạy lệnh này để tạo migration tự động.
+- **CRUD** — `create`, `findMany`, `findUnique`, `update`, `delete`; dùng `include` cho quan hệ và `select` cho field cụ thể.
+- **`prisma studio`** — công cụ xem và sửa dữ liệu trực quan trong browser.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao dùng Prisma?](#vì-sao-dùng-prisma)

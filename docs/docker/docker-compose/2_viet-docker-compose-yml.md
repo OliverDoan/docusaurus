@@ -9,6 +9,18 @@ Bài này đi chi tiết từng phần của file docker-compose.yml. Sau bài n
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Mỗi service khai báo `image`/`build`, `ports`, `environment`, `volumes`** — thay thế toàn bộ cờ dài của `docker run`.
+- **`depends_on` + `condition: service_healthy`** để chờ service thật sự sẵn sàng, chứ không chỉ đã start.
+- **`restart` policy** (`unless-stopped`, `always`...), **`deploy.resources`** giới hạn CPU/RAM, **`healthcheck`** kiểm tra sức khoẻ.
+- **`networks`** tách frontend/backend để cô lập, **`profiles`** bật service tuỳ chọn (debug, monitoring).
+- **Nội suy biến** `${VAR}` và giá trị mặc định `${VAR:-default}` lấy từ file `.env` cùng thư mục.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần file docker-compose.yml?](#vì-sao-cần-file-docker-composeyml)

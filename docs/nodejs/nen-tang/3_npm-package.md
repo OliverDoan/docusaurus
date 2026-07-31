@@ -9,6 +9,18 @@ NPM là trình quản lý package mặc định của Node.js, giúp bạn cài 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`npm` quản lý thư viện qua `package.json`** — cài bằng một lệnh, không phải tự viết lại tiện ích.
+- **`dependencies` vs `devDependencies`** — cái cần khi chạy app, cái chỉ dùng khi phát triển (cài với `-D`).
+- **SemVer `MAJOR.MINOR.PATCH`** — `^` cho phép minor + patch, `~` chỉ patch, số trần là exact version.
+- **NPM scripts** — gom lệnh `build` / `test` / `dev`; script custom phải chạy bằng `npm run`.
+- **Luôn commit `package-lock.json`** — dùng `npm ci` để cài lại chính xác cho CI/CD.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có npm?](#vì-sao-có-npm)

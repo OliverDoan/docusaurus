@@ -9,6 +9,18 @@ Redis là kho dữ liệu lưu trong bộ nhớ (in-memory) nên tốc độ tru
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Redis là in-memory store cực nhanh** — dùng làm cache để giảm tải database và tăng tốc phản hồi.
+- **Cache-aside** — đọc cache trước; nếu miss thì query DB rồi lưu lại kèm TTL (`{ EX: giây }`).
+- **Lệnh cơ bản** — `set`, `get`, `del`, `exists`; lưu object bằng `JSON.stringify`/`JSON.parse`.
+- **Cache middleware** — override `res.json` để tự động cache response của endpoint.
+- **Cache invalidation** — luôn `redis.del(key)` khi dữ liệu thay đổi để tránh trả dữ liệu cũ.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần Redis caching?](#vì-sao-cần-redis-caching)

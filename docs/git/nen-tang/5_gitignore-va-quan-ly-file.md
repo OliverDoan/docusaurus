@@ -9,6 +9,18 @@ Không phải mọi file trong dự án đều nên được Git theo dõi. File
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`.gitignore` liệt kê file cần bỏ qua** — như `node_modules/`, file build, secret; giúp repo gọn nhẹ và an toàn.
+- ⭐ **`.gitignore` chỉ có tác dụng với file CHƯA được track** — file đã lỡ commit phải gỡ bằng `git rm --cached` rồi mới bị ignore.
+- **`.gitkeep` để giữ thư mục rỗng** — vì Git không track thư mục trống, thêm file quy ước này để giữ chúng lại.
+- **Quản lý file bằng lệnh Git** — `git rm` xoá file khỏi Git, `git mv` đổi tên/di chuyển, `git clean` dọn các untracked file.
+- **Có thể đặt global `.gitignore`** — áp dụng cho mọi repo trên máy, hữu ích cho file của hệ điều hành/IDE.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần .gitignore?](#vì-sao-cần-gitignore)

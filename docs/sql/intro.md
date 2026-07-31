@@ -5,6 +5,16 @@ title: "Giới thiệu"
 
 # Lộ trình học SQL
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **SQL là ngôn ngữ chuẩn** để thêm, sửa, xóa và truy vấn dữ liệu trong **database**, với cú pháp gần tiếng Anh tự nhiên.
+- **Database và bảng** — database gồm nhiều `table` liên quan; mỗi bảng có `row` (bản ghi) và `column` (loại thông tin), giống bảng tính Excel.
+- **Mạnh hơn Excel** — database xử lý hàng triệu, hàng tỷ dòng nhanh chóng, là kỹ năng nền tảng cho lập trình viên, data analyst, tester.
+- **Lộ trình 16 bài** — sắp xếp từ nền tảng đến nâng cao; nên học tuần tự từ Bài 1 đến Bài 16.
+- **Thực hành ngay** sau mỗi bài — tự gõ lại câu lệnh và thử đổi điều kiện giúp nhớ lâu hơn nhiều so với chỉ đọc.
+
+:::
+
 ## SQL là gì?
 
 **SQL** (Structured Query Language - ngôn ngữ truy vấn có cấu trúc) là ngôn ngữ chuẩn dùng để

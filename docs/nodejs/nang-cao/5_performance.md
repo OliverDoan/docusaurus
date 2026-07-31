@@ -9,6 +9,19 @@ Tối ưu hiệu năng giúp ứng dụng Node.js phản hồi nhanh hơn và ph
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Node chạy một luồng, đừng block event loop** — việc nặng CPU đồng bộ sẽ treo mọi request; đẩy sang `worker_threads` hoặc queue.
+- ⭐ **`Clustering`/PM2 tận dụng đa core** — `cluster.fork()` theo số CPU, mỗi worker là một process riêng chia sẻ cùng port.
+- **`compression()` giảm bandwidth** — nén Gzip response để truyền nhẹ hơn.
+- **Cache kết quả nặng** — dùng in-memory `Map` (hoặc Redis) để khỏi tính lại, giảm tải database.
+- **Stream cho file lớn** — dùng `createReadStream().pipe(res)` thay `readFileSync` để không nổ RAM.
+- **Monitor** — theo dõi event loop lag và `process.memoryUsage()` để phát hiện nghẽn, rò rỉ bộ nhớ.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần tối ưu hiệu năng Node?](#vì-sao-cần-tối-ưu-hiệu-năng-node)

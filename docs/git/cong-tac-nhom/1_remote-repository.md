@@ -9,6 +9,18 @@ Khi bạn làm việc một mình trên máy tính, Git hoạt động hoàn to�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Remote repository là bản sao repo trên server** — GitHub/GitLab/Bitbucket, vừa làm backup vừa là nơi cộng tác chung của cả nhóm.
+- ⭐ **`origin` chỉ là tên quy ước cho remote khi clone** — không phải từ khóa đặc biệt; xem URL fetch/push bằng `git remote -v`.
+- **Quản lý remote** — `git remote add/remove/rename/set-url`; một repo có thể kết nối nhiều remote (`origin`, `upstream`, `backup`).
+- **Remote-tracking branch (`origin/main`) là bản sao read-only** — cập nhật khi `git fetch`, không commit trực tiếp lên được.
+- **HTTPS (PAT, dễ setup, port 443) vs SSH (key, bảo mật, tiện sau setup)** — từ 2021 GitHub bỏ password, HTTPS phải dùng Personal Access Token.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần remote repository?](#vì-sao-cần-remote-repository)

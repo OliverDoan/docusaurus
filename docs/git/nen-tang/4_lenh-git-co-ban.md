@@ -9,6 +9,18 @@ Bài này hướng dẫn chi tiết các lệnh Git bạn sẽ dùng **hàng ng�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Vòng lặp cơ bản hằng ngày** — `git status` (xem trạng thái) → `git add` (đưa vào staging) → `git commit` (lưu thay đổi).
+- ⭐ **Khởi tạo repo** — `git init` tạo repo mới tại chỗ, còn `git clone` sao chép một repo đã có (kèm toàn bộ lịch sử).
+- **Xem thay đổi và lịch sử** — `git diff` so sánh khác biệt, `git log` xem lịch sử commit, `git show` xem chi tiết một commit.
+- **Luôn `git status` trước khi commit** — để biết chính xác file nào đang được staged và tránh commit nhầm.
+- **Mỗi commit nên gọn và có mục đích rõ** — giúp lịch sử dễ đọc, dễ review và dễ revert từng phần.
+
+:::
+
+---
+
 ## Mục lục
 
 - [1. git init — Tạo repository mới](#1-git-init-tạo-repository-mới)

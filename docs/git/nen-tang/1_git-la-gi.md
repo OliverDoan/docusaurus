@@ -19,6 +19,18 @@ Nếu có, chúc mừng bạn — bạn đang "quản lý phiên bản" bằng t
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Git là VCS phân tán (distributed)** — mỗi máy giữ TOÀN BỘ lịch sử dự án, `git clone` tải cả history nên commit và tạo nhánh được ngay cả khi offline.
+- ⭐ **Git KHÔNG PHẢI là GitHub** — Git là công cụ chạy trên máy; GitHub/GitLab/Bitbucket chỉ là dịch vụ lưu trữ và cộng tác trên nền Git.
+- **Khác biệt với VCS tập trung (SVN)** — SVN phụ thuộc một server, mất mạng là không commit được và tạo nhánh nặng nề; Git thao tác local, tức thì.
+- **Git lưu theo snapshot** — mỗi commit là một ảnh chụp trạng thái dự án, được định danh bằng mã hash duy nhất.
+- **Nhánh trong Git siêu nhẹ** — `git branch` chỉ tạo một con trỏ, nên rẽ nhánh để thử ý tưởng rất rẻ.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Git ra đời?](#vì-sao-git-ra-đời)

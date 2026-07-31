@@ -9,6 +9,18 @@ Bài trước đã giới thiệu các lệnh cơ bản. Bài này đi sâu vào
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`CMD` vs `ENTRYPOINT`**: `CMD` là lệnh mặc định (dễ ghi đè khi debug), `ENTRYPOINT` là lệnh cố định; kết hợp `ENTRYPOINT` + `CMD` để cố định binary còn argument ghi đè được.
+- ⭐ **`ARG` vs `ENV`**: `ARG` chỉ tồn tại lúc build (override bằng `--build-arg`), `ENV` tồn tại cả khi container chạy (override bằng `-e`).
+- **`USER` để chạy non-root** — tăng bảo mật; dùng dạng exec (`["node","server.js"]`) để nhận signal đúng.
+- **`HEALTHCHECK`** báo container khoẻ/không (`healthy`/`unhealthy`) với các tham số `--interval`, `--timeout`, `--retries`.
+- **Các lệnh bổ trợ**: `LABEL` (metadata), `VOLUME` (persist data), `SHELL`, `STOPSIGNAL` (mặc định SIGTERM).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Dockerfile có nhiều chỉ thị riêng?](#vì-sao-dockerfile-có-nhiều-chỉ-thị-riêng)

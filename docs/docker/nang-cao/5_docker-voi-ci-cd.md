@@ -9,6 +9,18 @@ Docker và CI/CD là cặp đôi hoàn hảo. Bài này hướng dẫn cách s�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **"Build once, deploy anywhere"** — CI build image bất biến, test ngay trong container, push registry, rồi deploy đúng image đã test.
+- **GitHub Actions**: `docker/build-push-action` build & push lên Docker Hub hoặc GHCR; tag image theo `github.sha` để truy vết commit.
+- **Multi-platform build** (linux/amd64 + linux/arm64) bằng QEMU + Buildx.
+- **Deploy qua SSH**: `docker compose pull && docker compose up -d` trên server; rollback nhanh bằng cách deploy lại tag cũ.
+- **Tăng tốc build** bằng cache `type=gha` hoặc registry buildcache (`cache-from`/`cache-to`).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Docker hợp với CI/CD?](#vì-sao-docker-hợp-với-cicd)

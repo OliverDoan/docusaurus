@@ -11,6 +11,18 @@ Khi RN không có sẵn API bạn cần (Bluetooth đặc biệt, SDK third-part
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Check lib trước khi tự viết** — 99% nhu cầu đã có lib npm (`react-native-xxx`) hoặc Expo SDK; chỉ viết native module khi thật cần.
+- **Expo Modules API** — cách hiện đại được khuyến nghị để viết native module (Swift/Kotlin), ít boilerplate hơn Bridge classic.
+- ⭐ **Bridge vs TurboModule** — Bridge cũ (async, JSON, có overhead); TurboModule (JSI, sync, type-safe, lazy load, ~5x nhanh hơn).
+- **Config Plugin** — chỉ modify config native (Info.plist / AndroidManifest) không cần code native, đủ cho ~80% nhu cầu "tích hợp SDK".
+- **Native View Component** — render view native (MapView, VideoPlayer custom) trong cây React.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần native modules?](#vì-sao-cần-native-modules)

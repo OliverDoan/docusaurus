@@ -9,6 +9,18 @@ Khi container bị xoá, dữ liệu bên trong cũng mất theo. **Volumes** gi
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Container là ephemeral** — data ghi bên trong mất khi xoá container; volume tách data ra khỏi vòng đời container.
+- **3 loại lưu trữ**: Named volume (Docker quản lý, cho DB/uploads), Bind mount (thư mục host, cho dev/config), tmpfs (RAM, data tạm/nhạy cảm).
+- **Bind mount `-v $(pwd)/src:/app/src`** cho hot reload; thêm `:ro` để mount config read-only.
+- **Pattern tách `node_modules`** thành volume riêng để tránh xung đột host (macOS/Windows) vs container (Linux).
+- **Backup/restore**: dùng container `alpine` + `tar`, hoặc `pg_dump`/`psql` cho PostgreSQL.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần volumes?](#vì-sao-cần-volumes)

@@ -9,6 +9,18 @@ title: "2. Dockerfile cơ bản"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Dockerfile là file text khai báo từng bước dựng image** — tái tạo được, lưu trong git (Infrastructure as Code), thay cho `docker commit` thủ công.
+- ⭐ **Nhớ 4 lệnh cốt lõi**: `FROM` (image cơ sở), `COPY` (đưa file vào), `RUN` (cài đặt khi build), `CMD` (lệnh chạy khi container khởi động).
+- **Mỗi lệnh tạo 1 layer được cache** — copy `package*.json` và cài dependency trước, `COPY . .` sau để đổi code không phải cài lại.
+- **`COPY` ưu tiên hơn `ADD`** — chỉ dùng `ADD` khi cần tự giải nén tar; `EXPOSE` chỉ là documentation, vẫn cần `-p` khi run.
+- **Dùng `.dockerignore`** — loại `node_modules`, `.git`, `.env`... để giảm build context, build nhanh và tránh lộ secret.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần Dockerfile?](#vì-sao-cần-dockerfile)

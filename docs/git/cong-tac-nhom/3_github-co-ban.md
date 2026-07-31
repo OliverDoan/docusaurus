@@ -9,6 +9,18 @@ GitHub là nền tảng phổ biến nhất thế giới để lưu trữ code v
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Git vs GitHub** — Git là công cụ quản lý phiên bản chạy ở local; GitHub là nền tảng hosting repo trên cloud kèm lớp cộng tác (Pull Request, Issues, Actions).
+- ⭐ **Branch protection rules bảo vệ nhánh main/develop** — bắt buộc tạo PR, yêu cầu approval và CI pass trước khi được merge.
+- **Issues + Labels + Milestones + Projects (Kanban)** — hệ thống quản lý bug và công việc trực quan ngay trong repo.
+- **GitHub Actions tự động hóa CI/CD** — chạy test/lint/build qua file YAML trong `.github/workflows/`.
+- **Thư mục `.github/` chứa cấu hình dự án** — CODEOWNERS, issue/PR template; còn `README.md` là bộ mặt của dự án.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần GitHub?](#vì-sao-cần-github)

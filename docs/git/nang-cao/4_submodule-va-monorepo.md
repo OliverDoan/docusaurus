@@ -9,6 +9,18 @@ Khi dự án lớn lên, bạn sẽ gặp câu hỏi: "Nên tổ chức code th�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Submodule vs Monorepo** — submodule nhúng repo khác qua con trỏ SHA (pin version, mỗi repo độc lập); monorepo gom mọi project vào 1 repo, cho phép atomic changes trong 1 PR.
+- **Subtree** — copy toàn bộ code repo con vào repo chính, đơn giản cho team hơn submodule nhưng repo lớn hơn.
+- **Clone repo có submodule** — nhớ `--recurse-submodules`, hoặc `git submodule update --init --recursive` nếu đã clone.
+- **Monorepo cần tooling** — Turborepo/Nx để chỉ build/test package bị ảnh hưởng, tránh chạy toàn bộ mỗi PR.
+- **Monorepo quá lớn?** — `git sparse-checkout set <dirs>` + `--filter=blob:none` (partial clone) để chỉ tải phần cần thiết.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có submodule & monorepo?](#vì-sao-có-submodule--monorepo)

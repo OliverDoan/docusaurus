@@ -11,6 +11,18 @@ Có 2 cách chính để bắt đầu RN: **Expo** (dễ, nhanh) và **React Nat
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hai cách bắt đầu: Expo (dễ, khuyến nghị ~95% project mới) vs RN CLI (toàn quyền, cần Xcode/Android Studio)** — có thể prebuild để kết hợp cả hai.
+- **Expo** — `npx create-expo-app`, chạy `npx expo start`, quét QR bằng **Expo Go** là app chạy ngay, không cần build.
+- **Metro Bundler** — bundler của RN (như Webpack/Vite): transpile JSX/TS, bundle, hot reload; mặc định cổng `8081`.
+- **Với Expo dùng `npx expo install <pkg>` thay `npm install`** — để lấy đúng version tương thích SDK.
+- **Expo Snack** — playground online chạy thử RN ngay trên trình duyệt, không cần cài gì.
+
+:::
+
+---
+
 ## Mục lục
 
 - [1. Expo vs React Native CLI](#1-expo-vs-react-native-cli)

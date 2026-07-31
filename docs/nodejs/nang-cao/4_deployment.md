@@ -9,6 +9,18 @@ Deployment là quá trình đưa ứng dụng Node.js lên chạy thật trên s
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`PM2` cluster tự hồi phục + đa core** — `pm2 start index.js -i max` tận dụng mọi CPU core, worker crash thì tự restart.
+- ⭐ **`Docker` đóng gói môi trường nhất quán** — dev, staging, production chạy y hệt nhau, hết cảnh "works on my machine".
+- **Zero-downtime reload** — `pm2 reload` thay process lần lượt nên cập nhật phiên bản mới mà không gián đoạn.
+- **Env vars qua platform, không dùng `.env`** — set biến qua hosting/CI-CD (`heroku config:set`, `docker run -e`), tách secret khỏi code.
+- **Graceful shutdown** — bắt `SIGTERM` để `server.close()` trước khi thoát, tránh đứt request đang xử lý.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần quy trình deployment?](#vì-sao-cần-quy-trình-deployment)

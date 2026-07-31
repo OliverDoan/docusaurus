@@ -9,6 +9,18 @@ Bạn có bao giờ quên chạy lint trước khi commit? Hoặc đồng nghi�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Git hooks tự động kiểm tra** — `pre-commit` (lint/format), `commit-msg` (validate message), `pre-push` (test) giúp bắt lỗi sớm ngay trên máy dev ("shift left").
+- ⭐ **Hooks trong `.git/hooks/` KHÔNG được share** — dùng Husky (lưu trong `.husky/`) để chia sẻ hook cho cả team, tự cài khi `npm install` nhờ script `prepare`.
+- **lint-staged** — chỉ chạy linter/formatter trên file đã stage, nhanh hơn nhiều so với lint toàn project.
+- **commitlint** — ép commit message theo Conventional Commits để lịch sử rõ ràng, tự sinh changelog.
+- **`--no-verify`** — bỏ qua hooks, chỉ dùng khi khẩn cấp; branch protection (server-side) thì không bypass được.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Git hooks?](#vì-sao-có-git-hooks)

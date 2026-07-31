@@ -9,6 +9,18 @@ Rate limiting là kỹ thuật giới hạn số lần một client được g�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Rate limiting giới hạn số request** — theo IP/user trong một cửa sổ thời gian, chống brute-force, DDoS và kiểm soát chi phí; vượt giới hạn trả `429`.
+- **`express-rate-limit`** — cấu hình `windowMs` (cửa sổ) và `max` (số request tối đa), dùng `app.use()` cho toàn app.
+- **Siết chặt endpoint nhạy cảm** — login/register đặt `max` thấp hơn nhiều (ví dụ 5 lần/15 phút).
+- **Redis store cho multi-server** — dùng `rate-limit-redis` để chia sẻ bộ đếm giữa nhiều instance.
+- **`standardHeaders`** — trả `RateLimit-*` headers để client biết quota còn lại.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần rate limiting?](#vì-sao-cần-rate-limiting)

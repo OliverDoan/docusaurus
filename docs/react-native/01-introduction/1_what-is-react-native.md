@@ -11,6 +11,18 @@ title: "1. Giới thiệu React Native"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **RN = một codebase JS/TS + React, render ra UI native THẬT** — Meta phát triển, chạy iOS/Android (và web, desktop).
+- ⭐ **New Architecture (JSI + Fabric + TurboModules)** — thay Bridge cũ (JSON, async) bằng gọi C++ trực tiếp, đồng bộ, nhanh hơn.
+- **Không phải WebView (khác Ionic), cũng không tự vẽ canvas (khác Flutter)** — dùng native component thật + hệ sinh thái npm.
+- **Mọi text phải nằm trong `<Text>`, style là object** — không có `<div>`/CSS như web.
+- **Nên bắt đầu với Expo + TypeScript + Hermes** — Hermes là JS engine tối ưu mobile (start nhanh, app nhẹ), mặc định từ RN 0.70+.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao React Native ra đời?](#vì-sao-react-native-ra-đời)

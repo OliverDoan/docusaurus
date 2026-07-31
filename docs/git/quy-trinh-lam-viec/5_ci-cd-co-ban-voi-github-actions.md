@@ -9,6 +9,18 @@ Bạn đã biết cách viết code, tạo branch, merge PR. Nhưng ai sẽ **ki
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **CI/CD** — CI tự lint/test/build mỗi khi push-PR; CD tự build và deploy, giúp bắt lỗi sớm thay vì đợi tới production.
+- ⭐ **Cấu trúc workflow** — file `.github/workflows/*.yml`: workflow → jobs (mỗi job 1 runner) → steps (`uses` action hoặc `run` lệnh); `needs:` định nghĩa thứ tự job.
+- **Delivery vs Deployment** — Continuous Delivery cần người bấm nút deploy prod, Continuous Deployment thì hoàn toàn tự động.
+- **Matrix strategy** — chạy cùng 1 job trên nhiều OS/version song song.
+- **Tăng tốc & bảo mật** — cache dependencies (nhanh ~60%), dùng `secrets.*` cho giá trị nhạy cảm, kết hợp branch protection + required checks để bảo vệ `main`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần CI/CD?](#vì-sao-cần-cicd)

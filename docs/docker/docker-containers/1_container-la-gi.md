@@ -9,6 +9,18 @@ Container là khái niệm trung tâm của Docker. Bài này giải thích chi 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Container là instance đang chạy của image** — một tiến trình cô lập (namespaces PID/NET/MNT/USER), nhẹ vì chia sẻ kernel host, khởi động nhanh hơn VM.
+- ⭐ **Container ephemeral, dữ liệu ở writable layer sẽ mất khi xoá** — muốn giữ dữ liệu phải dùng volume.
+- **`docker run` = `docker create` + `docker start`** — các cờ hay dùng: `-d` (chạy nền), `-it` (terminal tương tác), `-p host:container` (map port), `-e` (biến môi trường), `--rm` (tự xoá khi dừng).
+- **`docker exec` vs `docker attach`** — `exec` tạo process mới để debug/chạy lệnh; `attach` nối vào process chính (PID 1).
+- **Restart policy**: `no`, `always`, `on-failure`, `unless-stopped` (khuyến nghị) để tự khởi động lại khi crash.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có container?](#vì-sao-có-container)

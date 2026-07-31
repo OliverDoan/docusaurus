@@ -9,6 +9,18 @@ Stored procedure và function là những khối mã SQL được lưu sẵn tro
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Stored procedure/function là khối mã SQL lưu sẵn trong DB** — gọi lại nhiều lần, tập trung logic một chỗ và giảm round-trip mạng giữa app và DB.
+- ⭐ **Function vs Procedure** — `FUNCTION` bắt buộc trả về giá trị và dùng được trong `SELECT`; `PROCEDURE` không trả về giá trị nhưng quản lý được transaction, gọi bằng `CALL`.
+- **PL/pgSQL** — ngôn ngữ viết logic với biến `DECLARE`, tham số `IN`/`OUT`/`INOUT`.
+- **Control flow & báo lỗi** — `IF`, `LOOP`, `FOR` để điều khiển luồng; `RAISE NOTICE`/`RAISE EXCEPTION` để thông báo và ném lỗi.
+- **Trigger** — tự động chạy function khi có `INSERT`/`UPDATE`/`DELETE`, ví dụ tự điền `updated_at` hoặc ghi audit log.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có stored procedure?](#vì-sao-có-stored-procedure)

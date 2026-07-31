@@ -9,6 +9,18 @@ Trước khi viết câu lệnh SQL, bạn cần hiểu nền móng của nó: c
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Relational Database** — tổ chức dữ liệu thành `table` / `row` / `column` liên kết qua khóa ngoại; `SQL` là ngôn ngữ khai báo chuẩn để truy vấn.
+- ⭐ **ACID** — RDBMS đảm bảo Atomicity, Consistency, Isolation, Durability, tối quan trọng cho giao dịch tài chính, đặt hàng.
+- **RDB vs RDBMS** — RDB là mô hình, RDBMS là phần mềm hiện thực (PostgreSQL, MySQL, SQLite, Oracle...).
+- **SQL vs NoSQL** — SQL schema cứng + strong consistency; NoSQL schema linh hoạt + scale ngang dễ hơn.
+- **Chọn SQL** khi dữ liệu có cấu trúc rõ ràng và cần ACID; thực tế nhiều hệ thống dùng cả hai (Postgres + Redis).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có SQL?](#vì-sao-có-sql)

@@ -9,6 +9,18 @@ Docker Hub là nơi bạn tìm, tải và chia sẻ Docker Image. Bài này hư�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Registry là "npm/GitHub cho Docker image"** — Docker Hub, GHCR, ECR... cho phép `docker push` một lần rồi `docker pull` ở mọi nơi, quản lý version bằng tag.
+- **Docker Hub có 3 loại image** — Official (`nginx`, `node`, `postgres`), Verified Publisher, và Community (`username/my-app`).
+- ⭐ **Ưu tiên official image và tag cụ thể, tránh `latest`** — nên dùng bản `-alpine` cho production vì nhẹ và ít CVE.
+- **Đẩy image lên registry** — `docker login` → `docker tag` → `docker push`; tên đầy đủ theo cấu trúc `[registry]/[namespace]/[repository]:[tag]`.
+- **Bảo mật** — không push image chứa secrets, scan trước khi deploy bằng `docker scout quickview`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần registry (Docker Hub)?](#vì-sao-cần-registry-docker-hub)

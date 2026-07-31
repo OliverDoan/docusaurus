@@ -9,6 +9,18 @@ title: "5. Fork và đóng góp Open Source"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Fork tạo bản sao repo trên GitHub dưới account bạn (toàn quyền)** — để đóng góp khi không có quyền push vào repo gốc.
+- ⭐ **Mô hình fork & pull request** — sửa trên fork rồi gửi PR về repo gốc; cấu hình hai remote `origin` (fork của bạn) và `upstream` (repo gốc).
+- **Sync fork thường xuyên** — `git fetch upstream` rồi merge `upstream/main` rồi push lên `origin` (hoặc dùng nút "Sync fork").
+- **Luôn tạo feature branch, KHÔNG code trực tiếp trên main của fork** — và push lên `origin`, không phải `upstream`.
+- **ĐỌC `CONTRIBUTING.md` và `CODE_OF_CONDUCT.md` trước khi đóng góp** — người mới nên bắt đầu từ các issue gắn nhãn "good first issue".
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có fork?](#vì-sao-có-fork)

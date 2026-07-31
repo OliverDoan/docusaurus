@@ -11,6 +11,19 @@ Workflow tốt giúp **iterate cực nhanh** -- sửa code, thấy ngay. Bài n�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Fast Refresh: sửa component thấy ngay mà GIỮ nguyên state** — vòng lặp dev nhanh như web, không phải build lại native.
+- **Dev Menu** (`Cmd+D` iOS / `Cmd+M` Android, hoặc lắc máy) — Reload, Debug, Inspector, Perf Monitor (FPS/RAM).
+- ⭐ **Nên debug bằng Hermes Inspector** — đúng môi trường production; Chrome Debugger cũ chạy trên V8 nên behavior có thể khác.
+- **LogBox** — hiển thị warning (yellow) / error (red) in-app, chỉ bật ở dev; dùng `__DEV__` để lọc `console.log`.
+- **Sourcemaps** — map bundle đã minify về source gốc, upload lên Sentry/Bugsnag để crash report đúng file/line.
+- **Phải test trên real device trước release** — simulator mạnh hơn, giấu bug perf/network/sensor.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có quy trình phát triển riêng (Metro, Fast Refresh)?](#vì-sao-có-quy-trình-phát-triển-riêng-metro-fast-refresh)

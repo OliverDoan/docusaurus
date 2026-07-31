@@ -11,6 +11,19 @@ Mobile app hầu hết là danh sách: feed, chat, products. React Native cung c
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Danh sách dài dùng `FlatList` (virtualized), KHÔNG `.map()` trong `ScrollView`** — ScrollView render hết item → OOM, giật lag.
+- **`ScrollView`** — chỉ cho content ít, biết trước (< 20 item), render toàn bộ ngay.
+- **`FlatList`** — `data` + `renderItem` + `keyExtractor`; `onEndReached` + `onEndReachedThreshold` cho infinite scroll.
+- **`SectionList`** — danh sách có header section (danh bạ A-B-C, lịch theo ngày).
+- **`getItemLayout` khi item cao cố định** → scroll mượt hơn; memoize `renderItem` với `useCallback`.
+- ⭐ **`FlashList` (`@shopify/flash-list`)** — recycle view, ~5x nhanh, khuyến nghị cho danh sách lớn (cần `estimatedItemSize`).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần FlatList (không map như web)?](#vì-sao-cần-flatlist-không-map-như-web)

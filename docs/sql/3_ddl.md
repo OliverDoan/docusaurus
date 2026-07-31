@@ -9,6 +9,18 @@ DDL (Data Definition Language) là nhóm câu lệnh dùng để định nghĩa 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **DDL định nghĩa cấu trúc** — nhóm lệnh `CREATE` / `ALTER` / `DROP` / `TRUNCATE` cho bảng, cột và ràng buộc.
+- **`CREATE TABLE`** — khai báo cột, kiểu dữ liệu và constraint; dùng `IF NOT EXISTS` để script chạy lại an toàn.
+- **`ALTER TABLE`** — thêm/xóa/đổi cột và ràng buộc; `ALTER COLUMN TYPE` có thể khóa bảng lớn (full rewrite).
+- ⭐ **Phân biệt `TRUNCATE` / `DELETE` / `DROP`** — `TRUNCATE` xóa data giữ cấu trúc (rất nhanh, không WHERE), `DELETE` xóa có điều kiện, `DROP` xóa cả bảng.
+- **An toàn production** — bọc thao tác nguy hiểm trong transaction (`BEGIN ... COMMIT/ROLLBACK`) và backup trước.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần DDL?](#vì-sao-cần-ddl)

@@ -9,6 +9,18 @@ Git Flow mạnh mẽ nhưng phức tạp. Nhiều team — đặc biệt những
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **GitHub Flow** — chỉ `main` + feature branch ngắn: branch → PR → review → merge → deploy; đơn giản, hợp CI/CD.
+- ⭐ **Trunk-Based Development** — commit thẳng vào main (hoặc branch < 1 ngày), dùng Feature Flag để giấu phần việc chưa xong.
+- **Feature Flag** — bật/tắt tính năng không cần deploy lại; nhớ dọn dẹp sau khi ổn định để tránh "flag debt".
+- **TBD yêu cầu nền tảng vững** — CI/CD mạnh (< 10 phút), test coverage cao, review nhanh, kỷ luật commit nhỏ.
+- **Chọn theo tần suất deploy** — vài lần/tháng → Git Flow, vài lần/tuần → GitHub Flow, nhiều lần/ngày → TBD.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có GitHub Flow & Trunk-based?](#vì-sao-có-github-flow--trunk-based)

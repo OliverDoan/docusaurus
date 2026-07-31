@@ -9,6 +9,18 @@ Index (chỉ mục) giống như mục lục của một cuốn sách, giúp cơ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Index như "mục lục sách"** — giúp DB nhảy thẳng tới hàng cần thay vì quét toàn bảng (full table scan), tăng tốc đọc rất nhiều.
+- **B-tree là loại mặc định** — hợp cho `=`, so sánh khoảng và `ORDER BY`; ngoài ra còn `Hash`, `GIN`, `GiST`, `BRIN` cho nhu cầu đặc thù.
+- **Nên index** — cột hay tìm/lọc, cột khoá ngoại để tăng tốc `JOIN`, và composite index cho query lọc nhiều điều kiện.
+- **Kiểm tra bằng `EXPLAIN`** — xem DB có thực sự dùng index hay vẫn Seq Scan.
+- ⭐ **Cái giá của index** — tốn dung lượng và làm CHẬM ghi (mỗi `INSERT`/`UPDATE` phải cập nhật index), nên chỉ index cột thực sự cần.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần index?](#vì-sao-cần-index)

@@ -9,6 +9,18 @@ Middleware là những hàm trung gian xử lý request theo chuỗi trước kh
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Middleware là hàm `(req, res, next)` xếp thành chuỗi xử lý request** — viết một lần, tái sử dụng khắp nơi.
+- **Gọi `next()` để chuyển tiếp** — hoặc trả response sớm, hoặc `next(err)` để đẩy xuống error handler.
+- ⭐ **Thứ tự `app.use()` rất quan trọng** — built-in/third-party → custom → routes → 404 → error handler.
+- **Các loại thường dùng** — built-in `express.json()`, `express.static()`; third-party `cors`, `helmet`, `morgan`.
+- **Error middleware có 4 tham số** — `(err, req, res, next)` và luôn đặt ở cuối.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có middleware?](#vì-sao-có-middleware)

@@ -9,6 +9,18 @@ Subquery là một câu lệnh SELECT được lồng bên trong một câu lệ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Subquery** — một `SELECT` lồng trong `WHERE` / `FROM` / `SELECT`, dùng kết quả của truy vấn phụ làm đầu vào, gói logic phức tạp trong một câu lệnh.
+- **Phân loại theo kết quả** — scalar (1 giá trị), column (1 cột), row (1 dòng nhiều cột), table (derived table dùng ở `FROM`).
+- **Độc lập vs tương quan** — nested chạy 1 lần; correlated tham chiếu outer query nên chạy lại mỗi dòng, có thể chậm (kiểm tra `EXPLAIN ANALYZE`).
+- ⭐ **`EXISTS` / `NOT EXISTS` an toàn hơn `NOT IN`** — `NOT IN` gặp bất kỳ `NULL` nào sẽ trả về rỗng cho mọi dòng.
+- **Chọn kỹ thuật** — `JOIN` khi kết hợp nhiều bảng, subquery khi lọc theo giá trị, `CTE` (`WITH`) khi logic nhiều bước.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần subquery?](#vì-sao-cần-subquery)

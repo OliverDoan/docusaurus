@@ -9,6 +9,18 @@ Bài này hướng dẫn chi tiết quá trình build image, tối ưu hoá cach
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Layer caching quyết định tốc độ build** — mỗi lệnh là 1 layer; một layer đổi thì mọi layer sau phải build lại. Đặt lệnh ít thay đổi (cài dependency) trước lệnh hay đổi (`COPY . .`).
+- ⭐ **`docker build -t tên:tag .`** — `-t` đặt tên:tag, `.` là build context; thêm `-f` để chỉ Dockerfile khác, `--no-cache` để build lại từ đầu, `--platform` để build đa nền tảng.
+- **Giảm dung lượng image** — dùng base image `alpine`/`slim`, gộp `RUN` bằng `&&`, xoá cache trong cùng layer, dùng `npm ci` thay `npm install`.
+- **Chiến lược tag** — semantic version, git commit hash (`$(git rev-parse --short HEAD)`) hoặc timestamp; gắn nhiều tag cho cùng một build.
+- **Quản lý & dọn dẹp** — `docker save`/`load` để chuyển image qua file, `docker image prune -a` để giải phóng ổ đĩa, `dive` để phân tích layer.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần hiểu build & layer cache?](#vì-sao-cần-hiểu-build--layer-cache)

@@ -9,6 +9,18 @@ Password hashing là việc biến mật khẩu thành một chuỗi mã hoá m�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Không bao giờ lưu mật khẩu dạng thô** — luôn hash một chiều bằng `bcrypt` trước khi lưu để bảo vệ khi database bị lộ.
+- **bcrypt có salt + cố ý chậm** — salt ngẫu nhiên chống rainbow table, cost factor chống brute-force (MD5/SHA nhanh nên không an toàn).
+- **Salt rounds >= 12** — cân bằng bảo mật và tốc độ (~300ms), nâng dần theo thời gian khi phần cứng mạnh hơn.
+- **`bcrypt.compare` khi đăng nhập** — so sánh mật khẩu với hash, không tự giải mã.
+- **Tích hợp Mongoose** — dùng hook `pre('save')` để tự hash và `toJSON` để không trả `password` trong response.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao phải hash mật khẩu?](#vì-sao-phải-hash-mật-khẩu)

@@ -9,6 +9,18 @@ Constraint là các quy tắc đặt ngay ở tầng cơ sở dữ liệu để 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Constraint ở tầng DB** — quy tắc đảm bảo toàn vẹn dữ liệu, là lớp bảo vệ cuối cùng không thể bị bypass dù dữ liệu đến từ đâu.
+- **Các loại chính** — `PRIMARY KEY` (tự động NOT NULL + UNIQUE), `FOREIGN KEY`, `UNIQUE`, `NOT NULL`, `CHECK`, `DEFAULT`.
+- **`FOREIGN KEY`** — có `ON DELETE` / `ON UPDATE` với các hành vi `RESTRICT`, `CASCADE`, `SET NULL`, `NO ACTION`.
+- ⭐ **PostgreSQL KHÔNG tự tạo index cho FK** — phải thêm thủ công để tránh sequential scan khi xóa/sửa hàng cha.
+- **Bẫy hay gặp** — `UNIQUE` cho phép nhiều `NULL`; dùng `NOT VALID` để thêm `CHECK` mà bỏ qua kiểm tra dữ liệu cũ.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần ràng buộc (constraints)?](#vì-sao-cần-ràng-buộc-constraints)

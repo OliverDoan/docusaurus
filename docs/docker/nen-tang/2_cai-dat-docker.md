@@ -9,6 +9,17 @@ Bài này hướng dẫn cài đặt Docker trên cả 3 hệ điều hành: **m
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Chọn bản cài theo OS** — macOS/Windows dùng Docker Desktop (có GUI), Linux dùng Docker Engine (chỉ CLI).
+- **Windows cần bật WSL 2 trước** (`wsl --install`); Linux nên thêm user vào group docker để chạy không cần sudo (`sudo usermod -aG docker $USER`).
+- ⭐ **Chạy container đầu tiên** — `docker run hello-world`; thử web server bằng `docker run -d -p 8080:80 --name my-nginx nginx` rồi mở `http://localhost:8080`.
+- **Xác minh cài đặt** — `docker --version`, `docker compose version`, `docker info`, `docker ps`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [1. Docker Desktop vs Docker Engine](#1-docker-desktop-vs-docker-engine)

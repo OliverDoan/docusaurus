@@ -11,6 +11,19 @@ RN dùng **StyleSheet** (JS object) thay CSS. **Flexbox** là hệ layout chính
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **RN dùng `StyleSheet.create` (JS object camelCase) thay CSS; Flexbox là hệ layout chính** — validate key lúc dev, object được freeze/tối ưu.
+- **Số không có đơn vị (density-independent), không `'px'`** — không có cascade, không pseudo-class (`:hover`/`:focus`).
+- **`flexDirection` mặc định `'column'`** (web là `row`); `justifyContent` căn main axis, `alignItems` căn cross axis.
+- **Style dạng mảng để combine + điều kiện** — `style={[styles.base, isActive && styles.active]}`; tránh inline (tạo object mới mỗi render).
+- **Shadow: iOS (`shadowColor`...) vs Android (`elevation`)** — dùng `Platform.select`; responsive qua `Dimensions`/`useWindowDimensions`.
+- ⭐ **Accessibility (`accessibilityLabel`, `accessibilityRole`...) là bắt buộc cho production** — App Store/Play Store kiểm tra.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao RN dùng StyleSheet & Flexbox thay CSS?](#vì-sao-rn-dùng-stylesheet--flexbox-thay-css)

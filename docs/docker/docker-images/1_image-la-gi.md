@@ -9,6 +9,18 @@ Docker Image là nền tảng của mọi thứ trong Docker. Hiểu rõ Image s
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Image là gói read-only, bất biến** — đóng gói OS + runtime + libraries + code + config, chạy giống hệt mọi nơi.
+- ⭐ **Image là "class", container là "instance"** — một image `docker run` ra bao nhiêu container cũng được.
+- **Image gồm nhiều layer xếp chồng** — mỗi lệnh Dockerfile tạo 1 layer, được cache và chia sẻ nên build/pull nhanh hơn.
+- **Tag để version, digest để toàn vẹn** — `node:20-alpine` là tag; digest (`sha256:...`) đảm bảo pull đúng image.
+- **Dangling image** (`<none>`) dọn bằng `docker image prune`; xem thông tin bằng `docker images`, `docker history`, `docker inspect`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Docker image?](#vì-sao-có-docker-image)

@@ -9,6 +9,18 @@ Bài này tổng hợp kiến thức Docker Compose qua các ví dụ full-stack
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Tổng hợp các stack thực tế** — Node.js + PostgreSQL + Redis, Next.js + Prisma, và Nginx reverse proxy + microservices.
+- **Reverse proxy**: `nginx` phía trước dùng `expose` cho service nội bộ, route `/` về frontend và `/api/` về backend.
+- **Multi-stage `target: development`** kết hợp `profiles: dev` để bật thêm adminer/pgAdmin/MailHog khi cần.
+- **Chạy migration** qua `docker compose run --rm migrate`; dùng volume riêng cho `node_modules` tránh xung đột host.
+- **Workflow hàng ngày**: `up -d` để bật, `logs -f app` khi debug, backup/restore bằng `pg_dump`/`psql`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [1. Node.js + PostgreSQL + Redis](#1-nodejs-postgresql-redis)

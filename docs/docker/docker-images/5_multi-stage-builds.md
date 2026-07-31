@@ -9,6 +9,18 @@ Multi-stage build là kỹ thuật nâng cao giúp tạo ra image production nh�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Multi-stage = nhiều `FROM` trong 1 Dockerfile** — stage `builder` chứa công cụ build, stage cuối chỉ mang artifact cần thiết vào image nền tối giản.
+- ⭐ **`COPY --from=builder`** — chỉ copy đúng file kết quả (dist, binary, jar) sang stage cuối; chỉ stage cuối trở thành image, các stage trước bị loại bỏ.
+- **Đặt tên stage bằng `AS`** — `FROM node:20-alpine AS builder`; có thể copy theo số thứ tự (`--from=0`) hoặc từ image ngoài.
+- **Kết quả**: image nhỏ hơn 50-97% (React ~800MB → ~50MB, Go ~400MB → ~10MB với `scratch`), sạch build tool nên bảo mật hơn.
+- **Nâng cao**: `--target` build 1 stage cụ thể (dev/prod); BuildKit hỗ trợ cache mount và secret mount (không lưu secret vào image).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có multi-stage build?](#vì-sao-có-multi-stage-build)

@@ -9,6 +9,18 @@ DML (Data Manipulation Language) là nhóm câu lệnh dùng để truy vấn v�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **DML thao tác dữ liệu** — `SELECT` (đọc), `INSERT` (thêm), `UPDATE` (sửa), `DELETE` (xóa) theo điều kiện.
+- ⭐ **Thứ tự thực thi logic** — `FROM` → `WHERE` → `GROUP BY` → `HAVING` → `SELECT` → `ORDER BY` → `LIMIT`; không dùng alias `SELECT` trong `WHERE`.
+- **Kiểm tra NULL** — luôn dùng `IS NULL` / `IS NOT NULL`, không dùng `= NULL` (không bao giờ đúng).
+- **Tính năng PostgreSQL** — `RETURNING` lấy lại dữ liệu vừa thao tác, `ON CONFLICT` để upsert.
+- ⭐ **Luôn kèm `WHERE`** khi `UPDATE`/`DELETE` — thiếu `WHERE` sẽ tác động toàn bộ bảng.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có DML?](#vì-sao-có-dml)

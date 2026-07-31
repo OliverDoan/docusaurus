@@ -5,6 +5,16 @@ title: "Giới thiệu"
 
 # Lộ trình học Node.js
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Node.js là môi trường chạy JavaScript phía máy chủ** — dựng trên V8 engine, cho phép viết cả frontend lẫn backend bằng cùng một ngôn ngữ.
+- **Nên nắm vững JavaScript cơ bản trước** — biến, hàm, mảng, đối tượng và bất đồng bộ (`Promise`, `async/await`).
+- ⭐ **Lộ trình 5 nhóm** — Nền tảng → Express.js → Database → Xác thực & Bảo mật → Nâng cao.
+- **Học lần lượt từ nhóm 1 đến 5** — mỗi nhóm là nền tảng cho nhóm tiếp theo.
+- **Thực hành ở mỗi bước** — làm ví dụ nhỏ trước khi chuyển chủ đề mới, học chậm mà chắc.
+
+:::
+
 ## Node.js là gì?
 
 **Node.js** là một môi trường chạy JavaScript (JavaScript runtime — nơi để chạy mã JavaScript) phía máy chủ, tức là chạy JavaScript bên ngoài trình duyệt web.

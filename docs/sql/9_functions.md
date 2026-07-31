@@ -9,6 +9,18 @@ Hàm (function) trong SQL là những công cụ có sẵn giúp bạn biến đ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hàm dựng sẵn xử lý dữ liệu ngay tại DB** — logic nằm một chỗ, mọi ứng dụng dùng chung kết quả đã chuẩn hoá thay vì tự xử lý lặp lại.
+- **Hàm chuỗi** — `UPPER`/`LOWER`, `CONCAT`, `SUBSTRING`, `TRIM`... để cắt ghép và chuẩn hoá văn bản.
+- **Hàm ngày tháng** — `AGE` + `EXTRACT`, `CURRENT_DATE` để tính tuổi, khoảng thời gian ngay trong truy vấn.
+- **Hàm số học** — `ROUND`, `ABS`, `CEIL`/`FLOOR` để làm tròn và tính toán số.
+- ⭐ **Hàm điều kiện** — `CASE WHEN` rẽ nhánh, `COALESCE` thay giá trị `NULL` bằng mặc định, `NULLIF` tránh chia cho 0.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có hàm dựng sẵn trong SQL?](#vì-sao-có-hàm-dựng-sẵn-trong-sql)

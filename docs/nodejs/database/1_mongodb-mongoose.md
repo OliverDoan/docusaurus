@@ -9,6 +9,18 @@ MongoDB là cơ sở dữ liệu NoSQL lưu dữ liệu dưới dạng document 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Mongoose là ODM cho MongoDB** — áp schema/validation lên NoSQL schemaless, chặn dữ liệu sai kiểu/thiếu field ngay tại tầng model.
+- **Schema định nghĩa cấu trúc** — dùng `type`, `required`, `unique`, `min`/`max`, `enum`, `default` để ràng buộc dữ liệu.
+- **CRUD qua Model** — `create`, `find`, `findById`, `findByIdAndUpdate` (nhớ `runValidators: true` khi update), `findByIdAndDelete`.
+- **`populate()`** — join theo tham chiếu để lấy dữ liệu quan hệ (ví dụ bài viết kèm tác giả) chỉ với một dòng.
+- **Hook `pre('save')`** — tự động xử lý trước khi lưu, ví dụ hash mật khẩu; dùng `.select()` để chỉ lấy field cần thiết.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao dùng Mongoose?](#vì-sao-dùng-mongoose)

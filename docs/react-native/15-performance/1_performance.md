@@ -11,6 +11,18 @@ App mobile bị đánh giá nghiêm khắc về **mượt mà**. 60fps = tốt, 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Đo trước, tối ưu sau** — dùng Perf Monitor / React DevTools Profiler / Hermes Sampling Profiler; tránh premature optimization và tối ưu sai chỗ.
+- ⭐ **`useNativeDriver` / Reanimated** — chạy animation trên UI thread giữ 60fps kể cả khi JS bận (chỉ `opacity` + `transform`).
+- **FlatList → FlashList** — virtualize + `getItemLayout` (height cố định); FlashList recycle view nhanh ~5x cho list lớn.
+- **Giảm re-render** — `React.memo` + `useMemo`/`useCallback`, tránh inline object/function trong JSX.
+- **Hermes + New Architecture** — Hermes khởi động nhanh, ít RAM; JSI/Fabric/TurboModule loại bỏ bottleneck bridge.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần tối ưu hiệu năng RN?](#vì-sao-cần-tối-ưu-hiệu-năng-rn)

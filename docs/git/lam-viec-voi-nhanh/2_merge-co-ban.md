@@ -9,6 +9,18 @@ Sau khi bạn làm việc trên một branch riêng và hoàn thành công việ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Luôn đứng trên nhánh NHẬN rồi mới merge** — muốn gộp feature vào main thì phải ở `main` rồi chạy `git merge feature/...`.
+- ⭐ **Ba kiểu merge** — fast-forward (chỉ dời con trỏ), 3-way (tạo merge commit có 2 parent), squash (gộp mọi commit thành 1, phải tự commit).
+- **`--no-ff` ép tạo merge commit** — giữ dấu vết nhánh, dễ rollback cả feature bằng `git revert -m 1`.
+- **`git merge --abort` hủy merge đang conflict** — đưa mọi thứ về trạng thái sạch trước khi merge.
+- **`-s ours` bỏ toàn bộ code nhánh kia; `-X ours`/`-X theirs` chỉ quyết định khi có conflict** — phần không conflict vẫn merge bình thường.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần merge?](#vì-sao-cần-merge)

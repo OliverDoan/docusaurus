@@ -10,6 +10,18 @@ Node.js là non-blocking, nên xử lý bất đồng bộ là kỹ năng cốt 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Ưu tiên `async/await` cho code mới** — viết bất đồng bộ như đồng bộ, bắt lỗi bằng `try/catch`.
+- **Tiến hoá** — Callbacks → Promises → Async/Await, giải quyết vấn đề "callback hell".
+- **Chạy song song** — `Promise.all` chờ tất cả thành công; `Promise.allSettled` cho phép một số thất bại.
+- **Luôn bọc `try/catch` quanh `await`** — để bắt lỗi I/O như mạng, file không tồn tại, DB timeout.
+- **Lưới an toàn** — đặt handler `process.on('unhandledRejection', ...)` cho promise chưa được catch.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có các async pattern?](#vì-sao-có-các-async-pattern)

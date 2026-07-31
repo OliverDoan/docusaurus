@@ -9,6 +9,18 @@ Khi làm việc trong một team lớn, bạn sẽ gặp câu hỏi: "Ai làm nh
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **5 loại nhánh** — `main` (production), `develop` (tích hợp), `feature/*`, `release/*`, `hotfix/*`; mỗi loại có quy tắc rõ tạo từ đâu và merge vào đâu.
+- ⭐ **Luôn merge với `--no-ff`** — giữ lại merge commit để thấy rõ ranh giới từng feature trong lịch sử.
+- **Hotfix tạo từ `main`** — merge vào cả `main` VÀ `develop` (đừng quên develop kẻo bug tái xuất).
+- **Release branch chỉ fix bug + bump version** — không thêm feature mới; feature mới phải đi qua `feature/*`.
+- **Phù hợp** — team lớn, release theo version; quá nặng nề cho CI/CD deploy liên tục (nên cân nhắc GitHub Flow).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần quy trình branch (Git Flow)?](#vì-sao-cần-quy-trình-branch-git-flow)

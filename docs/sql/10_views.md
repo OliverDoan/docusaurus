@@ -9,6 +9,18 @@ View (khung nhìn) là một câu truy vấn được lưu sẵn dưới dạng 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **View là câu `SELECT` lưu sẵn dưới dạng "bảng ảo"** — dùng lại như bảng thường nhưng KHÔNG chứa dữ liệu riêng, đọc trực tiếp từ bảng gốc.
+- **Lợi ích** — đơn giản hoá truy vấn phức tạp, ẩn cột nhạy cảm để bảo mật, tách logic khỏi cấu trúc bảng thật.
+- **Quản lý** — `CREATE VIEW` / `CREATE OR REPLACE VIEW` để tạo/sửa, `DROP VIEW` để xoá.
+- **Updatable View** — view đơn giản (một bảng, không GROUP BY/JOIN) có thể `INSERT`/`UPDATE` ngược lại bảng gốc.
+- ⭐ **Materialized View** — lưu sẵn kết quả ra đĩa, đọc rất nhanh cho báo cáo nặng, phải `REFRESH` để cập nhật dữ liệu.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần view?](#vì-sao-cần-view)

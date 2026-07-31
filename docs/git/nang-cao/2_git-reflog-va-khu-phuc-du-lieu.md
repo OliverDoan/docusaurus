@@ -9,6 +9,18 @@ Bạn đã bao giờ `reset --hard` nhầm và nghĩ rằng code đã mất vĩn
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Reflog là lưới an toàn của Git** — ghi lại mọi lần HEAD di chuyển, giúp khôi phục commit sau `reset --hard`, rebase hỏng, hay xóa nhánh nhầm.
+- ⭐ **Quy trình khôi phục** — `git reflog` tìm SHA rồi `git reset --hard <sha>`, hoặc an toàn hơn là `git switch -c <nhánh> <sha>`.
+- **Reflog chỉ ở local** — không được push lên remote; repo vừa clone reflog gần như trống.
+- **Thời gian lưu** — reachable 90 ngày, unreachable 30 ngày; sau đó `git gc` mới xóa object thật.
+- **Đừng chạy `git gc --prune=now`** khi đang cần recovery — nó xóa sạch dangling objects lẫn reflog.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có git reflog?](#vì-sao-có-git-reflog)

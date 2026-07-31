@@ -9,6 +9,18 @@ Window function (hàm cửa sổ) cho phép tính toán trên một nhóm dòng 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Window function tính trên nhóm dòng mà vẫn giữ nguyên từng dòng chi tiết** — khác `GROUP BY` vốn gộp các dòng lại thành một.
+- **Xếp hạng** — `ROW_NUMBER` đánh số duy nhất, `RANK` để trống hạng khi bằng nhau, `DENSE_RANK` không để trống hạng.
+- **So sánh giữa các dòng** — `LEAD`/`LAG` lấy giá trị dòng sau/trước để so sánh kề nhau.
+- ⭐ **`PARTITION BY` và running total** — chia cửa sổ theo nhóm; `SUM() OVER (...)` tính tổng tích luỹ; `NTILE` chia đều thành các nhóm.
+- **CTE với `WITH`** — tách truy vấn phức tạp thành từng bước dễ đọc; `WITH RECURSIVE` duyệt dữ liệu phân cấp dạng cây.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần SQL nâng cao?](#vì-sao-cần-sql-nâng-cao)

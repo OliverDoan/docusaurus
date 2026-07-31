@@ -9,6 +9,19 @@ Khi làm việc với Git, bạn sẽ nhanh chóng nhận ra rằng làm tất c
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Branch chỉ là một con trỏ nhẹ (41 bytes)** — trỏ tới một commit, nên tạo và chuyển nhánh gần như tức thì, không tốn dung lượng.
+- ⭐ **Mỗi đơn vị công việc = 1 branch** — dùng `git switch -c <tên>` để tạo và chuyển sang nhánh mới trong một bước.
+- **HEAD trỏ tới nhánh hiện tại** — khi commit, nhánh đó di chuyển lên commit mới, các nhánh khác giữ nguyên.
+- **Ưu tiên `git switch`/`git restore`** — thay cho `git checkout` đa năng dễ gây nhầm giữa chuyển nhánh và khôi phục file.
+- **Xóa nhánh: `git branch -d` (an toàn, đã merge), `-D` (ép xóa)** — và `git push -u origin <tên>` để thiết lập tracking với remote.
+- **Đặt tên có prefix rõ ràng** — như `feature/`, `bugfix/`, `hotfix/`, chữ thường và dùng dấu gạch nối.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần branch?](#vì-sao-cần-branch)

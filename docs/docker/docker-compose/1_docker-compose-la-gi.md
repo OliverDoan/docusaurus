@@ -9,6 +9,18 @@ Trong thực tế, ứng dụng không chỉ có 1 container. Một ứng dụng
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Gói cả app đa container vào 1 file** — khai báo services, network, volume, biến môi trường trong `docker-compose.yml`, chỉ `docker compose up` là bật tất cả.
+- **Services gọi nhau bằng tên** — Compose tự tạo network + DNS nội bộ nên `web` kết nối `db:5432` mà không cần IP.
+- **`depends_on` quản lý thứ tự start** còn `volumes` giữ dữ liệu bền qua các lần tạo lại container.
+- **Lệnh cốt lõi**: `docker compose up -d` để bật, `docker compose down` (thêm `-v` để xoá cả volume) để dừng và dọn.
+- **Không scale được service có host port cố định** — phải bỏ host port hoặc đặt load balancer phía trước.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Docker Compose?](#vì-sao-có-docker-compose)

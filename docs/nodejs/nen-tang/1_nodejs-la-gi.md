@@ -9,6 +9,18 @@ Node.js là môi trường runtime cho phép chạy JavaScript bên ngoài trìn
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Chạy JavaScript ngoài trình duyệt trên V8 engine** — dùng chung một ngôn ngữ cho cả frontend lẫn backend.
+- ⭐ **Event loop non-blocking đơn luồng** — xử lý hàng nghìn kết nối I/O đồng thời mà không tốn nhiều thread.
+- **Kiến trúc gồm V8 + libuv** — `libuv` lo event loop, thread pool và async I/O.
+- **Cài đặt nên dùng nvm và bản LTS** — kiểm tra bằng `node --version`.
+- **Khác browser JavaScript** — có `fs`, `http`, `process` nhưng không có DOM, `window`, `document`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Node.js ra đời?](#vì-sao-nodejs-ra-đời)

@@ -11,6 +11,18 @@ Bảo mật mobile **khác web** -- attacker có thể decompile APK/IPA, revers
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Token/secret nhạy cảm dùng SecureStore** — lưu vào Keychain (iOS) / Keystore (Android) qua `expo-secure-store`, KHÔNG dùng `AsyncStorage` (plain text, máy root đọc được).
+- ⭐ **Không hardcode secret/API key** — attacker decompile APK/IPA được; giữ secret ở server, app chỉ cầm user token.
+- **Biometric** — `expo-local-authentication` để khoá app / xác nhận thanh toán bằng Face ID / vân tay.
+- **HTTPS + Certificate Pinning** — ép HTTPS, pinning chống MITM (quan trọng cho app banking/finance).
+- **Permissions** — xin đúng lúc kèm `UsageDescription` (iOS reject nếu thiếu); luôn xử lý case user từ chối.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao bảo mật mobile khác web?](#vì-sao-bảo-mật-mobile-khác-web)

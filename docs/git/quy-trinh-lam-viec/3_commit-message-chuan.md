@@ -9,6 +9,18 @@ Commit message là "nhật ký" của dự án. Một commit message tốt giúp
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Conventional Commits** — format `type(scope): description`; type gồm feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert.
+- ⭐ **Liên kết SemVer** — `fix`→PATCH, `feat`→MINOR, `BREAKING CHANGE`/`!`→MAJOR; máy đọc được nên tự sinh CHANGELOG và bump version.
+- **7 quy tắc Chris Beams** — subject ~50 ký tự, thể mệnh lệnh, không dấu chấm cuối, body giải thích WHY chứ không phải HOW.
+- **Mỗi commit là 1 thay đổi logic** — đừng gộp nhiều việc vào một commit.
+- **Ép chuẩn tự động** — commitlint + Husky (`commit-msg` hook), hoặc Commitizen (`npx cz`) để commit tương tác.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần commit message chuẩn?](#vì-sao-cần-commit-message-chuẩn)

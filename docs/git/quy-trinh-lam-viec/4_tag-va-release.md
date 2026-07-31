@@ -9,6 +9,18 @@ Khi dự án của bạn đạt đến một mốc quan trọng — phiên bản
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Annotated vs Lightweight tag** — release chính thức LUÔN dùng annotated (`git tag -a`) vì lưu tagger, ngày, message và ký GPG được; lightweight chỉ là con trỏ cho tag tạm.
+- ⭐ **SemVer** — `MAJOR.MINOR.PATCH`: `fix`→PATCH, `feat`→MINOR, breaking→MAJOR; tăng MINOR reset PATCH về 0, tăng MAJOR reset cả hai.
+- **`git push` KHÔNG tự đẩy tag** — dùng `git push origin <tag>` / `--tags`, hoặc set `push.followTags true` để tự động.
+- **GitHub Release = tag + release notes + assets** — `gh release create v1.0.0 --generate-notes`.
+- **Pre-release** — thứ tự alpha → beta → rc → stable; tạo với cờ `--prerelease`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần tag & release?](#vì-sao-cần-tag--release)

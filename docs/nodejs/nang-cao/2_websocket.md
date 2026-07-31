@@ -9,6 +9,18 @@ WebSocket cho phép server và client trao đổi dữ liệu hai chiều theo t
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **WebSocket là kết nối hai chiều bền vững** — server chủ động push dữ liệu, độ trễ thấp, thay cho polling tốn tài nguyên.
+- ⭐ **`Socket.IO` gửi/nhận bằng event** — `emit` để gửi, `on` để nhận; còn bọc thêm fallback và tự reconnect.
+- **`broadcast` để gửi cho người khác** — `socket.broadcast.emit` gửi cho tất cả client trừ chính người gửi.
+- **Rooms để nhóm kết nối** — `socket.join(room)` rồi `io.to(room).emit` để gửi cho một nhóm cụ thể.
+- **Ứng dụng** — chat, notification, dashboard/giá live, game/cộng tác thời gian thực.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần WebSocket?](#vì-sao-cần-websocket)

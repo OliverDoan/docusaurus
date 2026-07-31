@@ -9,6 +9,18 @@ Transaction (giao dịch) là một nhóm câu lệnh SQL được thực thi th
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Transaction = "tất cả hoặc không gì cả"** — gom nhiều lệnh thành một đơn vị, tránh dữ liệu nửa vời như trừ tiền A mà chưa cộng B.
+- **Điều khiển bằng `BEGIN` / `COMMIT` / `ROLLBACK`** — mở giao dịch, xác nhận khi thành công, huỷ sạch khi có lỗi.
+- ⭐ **ACID** — bốn thuộc tính cốt lõi: Atomicity (nguyên tử), Consistency (nhất quán), Isolation (cô lập), Durability (bền vững).
+- **Isolation Levels** — kiểm soát đọc đồng thời, đánh đổi giữa mức cô lập và hiệu năng; tránh các hiện tượng dirty/non-repeatable/phantom read.
+- **`SAVEPOINT` và Deadlock** — `SAVEPOINT` cho phép rollback một phần; deadlock xảy ra khi hai giao dịch chờ khoá của nhau.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần transaction?](#vì-sao-cần-transaction)

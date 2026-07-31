@@ -9,6 +9,18 @@ Environment variables (biến môi trường) là cách lưu cấu hình và th�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Tách cấu hình và secret khỏi code, đọc qua `process.env`** — không hardcode DB url, API key, port.
+- **Dùng `dotenv` cho local** — `require('dotenv').config()` nạp giá trị từ file `.env`.
+- **KHÔNG BAO GIỜ commit `.env`** — chỉ commit `.env.example` để team biết cần set biến nào.
+- **Validate biến bắt buộc khi khởi động** — thiếu biến thì "fail fast" ngay thay vì lỗi mơ hồ lúc chạy.
+- **Phân biệt môi trường bằng `NODE_ENV`** — cùng một code chạy được cho dev, staging, production.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao dùng environment variables?](#vì-sao-dùng-environment-variables)

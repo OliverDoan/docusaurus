@@ -9,6 +9,18 @@ Bài này đi sâu vào các kịch bản thực tế khi tạo và chạy conta
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Một image → nhiều container** — từ cùng image, `docker run` tạo nhiều container độc lập, mỗi cái cấu hình riêng qua flag (port, env, volume) mà không đổi image gốc.
+- ⭐ **Database dùng `-e` cấu hình + `-v` volume để giữ dữ liệu** — ví dụ `postgres` với `-e POSTGRES_PASSWORD` và `-v pgdata:/var/lib/postgresql/data`.
+- **Dev hot reload**: mount code bằng `-v $(pwd):/app -w /app` để container thấy code đổi ngay.
+- **Chạy công cụ 1 lần** bằng `docker run --rm` (script, curl, jq, test, lint) — container tự xoá sau khi xong.
+- **Đặt tên rõ ràng** theo quy ước `<project>-<service>[-<env>]`; giới hạn tài nguyên bằng `--memory`, `--cpus`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao tách Image và Container?](#vì-sao-tách-image-và-container)

@@ -9,6 +9,18 @@ Trong Git, có 4 lệnh chính để tương tác với remote repository: **clo
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Bốn lệnh remote cốt lõi** — `git clone` (sao repo lần đầu), `git fetch` (tải về, không gộp), `git pull` (= fetch + merge), `git push` (đẩy commit lên).
+- ⭐ **`fetch` an toàn, `pull` gộp ngay** — `fetch` chỉ cập nhật remote-tracking branch (code local không đổi) để xem trước; `pull` merge luôn vào nhánh hiện tại.
+- **`git pull --rebase` cho lịch sử thẳng, sạch hơn** — nên đặt mặc định bằng `git config --global pull.rebase true`.
+- **Push rejected khi remote có commit local chưa có** — xử lý bằng `git pull --rebase` rồi push lại, TUYỆT ĐỐI không `--force`.
+- **Force push dùng `--force-with-lease`** — an toàn hơn `--force` vì kiểm tra trước; `git push -u` thiết lập upstream ở lần push đầu.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có clone/fetch/pull/push?](#vì-sao-có-clonefetchpullpush)

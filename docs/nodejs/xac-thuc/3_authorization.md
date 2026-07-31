@@ -9,6 +9,17 @@ Authorization là việc kiểm tra xem một người dùng đã đăng nhập 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Authentication vs Authorization** — authn trả lời "bạn là ai?", authz kiểm soát "bạn được làm gì?"; thiếu authz thì user thường có thể xoá dữ liệu người khác hay vào khu vực admin.
+- **RBAC** — middleware `requireRole('admin')` chặn user không đủ quyền truy cập endpoint nhạy cảm.
+- **Resource ownership** — kiểm tra chủ sở hữu (`requireOwnerOrAdmin`) để chỉ owner hoặc admin mới sửa được tài nguyên.
+- **Phân biệt mã lỗi** — `401` khi chưa đăng nhập/token hết hạn, `403` khi đã đăng nhập nhưng không có quyền.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần authorization (phân quyền)?](#vì-sao-cần-authorization-phân-quyền)

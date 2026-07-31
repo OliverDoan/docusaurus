@@ -9,6 +9,18 @@ Khi container gặp vấn đề, bạn cần biết cách xem logs và debug. B�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **App nên ghi log ra STDOUT/STDERR** — Docker thu thập tập trung, xem bằng `docker logs` (`-f` follow, `--tail`, `-t` timestamp, `--since`/`--until`); ghi log ra file trong container sẽ mất khi container bị xoá.
+- ⭐ **Exit code cho biết nguyên nhân chết**: `0` xong task, `1` lỗi app, `126` permission, `127` command not found, `137` OOM kill, `143` bị `docker stop`.
+- **Debug container đang chạy** bằng `docker exec -it ... sh` rồi kiểm tra `env`, network (`ping`, `curl`, `netstat`), filesystem (`df`, `ls`).
+- **Container không start** — xem `docker logs`, `docker inspect -f '{{.State.ExitCode}}'` / `.State.Error`, hoặc override CMD chạy shell để tìm lỗi.
+- **Giám sát & sự kiện**: `docker stats` (CPU/RAM/IO), `docker events` (start/die...), `docker inspect -f '{{.State.OOMKilled}}'` để phát hiện OOM.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao logs & debug container khác thường?](#vì-sao-logs--debug-container-khác-thường)

@@ -5,6 +5,16 @@ title: "Giới thiệu"
 
 # Lộ trình học React Native
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Một codebase cho iOS + Android** — viết bằng React/JavaScript, RN dịch component thành native UI thật (không phải WebView).
+- ⭐ **Cần biết React trước** — component, props, state, hooks (`useState`, `useEffect`) là nền tảng bắt buộc.
+- **Khác React web** — dùng `<View>`/`<Text>`/`<Image>` thay HTML, `StyleSheet` thay CSS, navigation bằng thư viện riêng thay URL.
+- **Lộ trình 16 chủ đề** — học tuần tự: 1-4 (nền tảng + setup), 5-9 (giao diện), 10-12 (data), 13-16 (test/native/perf/publish).
+- **Học đến đâu thực hành đến đó** — tự dựng app nhỏ áp dụng từng chủ đề để ghi nhớ tốt hơn.
+
+:::
+
 ## React Native là gì?
 
 React Native là một framework (bộ khung phát triển phần mềm) cho phép bạn dùng

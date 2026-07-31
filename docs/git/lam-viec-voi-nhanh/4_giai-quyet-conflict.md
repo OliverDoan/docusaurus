@@ -9,6 +9,18 @@ Conflict (xung đột) là điều **không thể tránh khỏi** khi làm việ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Conflict xảy ra khi hai nhánh sửa CÙNG một dòng của cùng file** — Git không tự quyết được nên dừng lại và nhờ con người chọn.
+- ⭐ **Đọc conflict markers** — `<<<<<<< HEAD` (bản của bạn), `=======` (ranh giới), `>>>>>>>` (bản nhánh kia); phải xóa HẾT marker trước khi commit.
+- **Quy trình** — `git status` xem file conflict, sửa, `git add`, rồi `git commit` (merge) hoặc `git rebase --continue` (rebase).
+- **CẢNH BÁO: `--ours`/`--theirs` bị ĐẢO khi rebase** — lúc rebase `--ours` = base (main), `--theirs` = nhánh của bạn, ngược với merge.
+- **Phòng tránh** — pull thường xuyên, chia nhỏ PR, phân chia công việc rõ ràng và luôn chạy test sau khi merge.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có conflict & phải giải quyết?](#vì-sao-có-conflict--phải-giải-quyết)

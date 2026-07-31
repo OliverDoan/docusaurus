@@ -9,6 +9,18 @@ Bài này tổng hợp các lệnh Docker CLI bạn sẽ dùng hàng ngày. Hãy
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Docker CLI (`docker ...`) đóng gói REST API phức tạp của daemon thành lệnh ngắn gọn** — dễ nhớ, dễ đưa vào shell script và pipeline CI/CD.
+- **Nhóm lệnh container** — `docker run`, `docker ps` / `docker ps -a`, `docker stop`, `docker rm`, `docker exec -it`, `docker logs`.
+- **Nhóm lệnh image** — `docker pull`, `docker images`, `docker rmi`, `docker build`.
+- ⭐ **Flags hay dùng của `docker run`** — `-d` (chạy nền), `-p` (map port host:container), `--name`, `-e` (biến môi trường), `-v` (mount volume), `--rm` (tự xoá khi dừng).
+- **Dọn dẹp ổ cứng** — `docker system df` xem dung lượng, `docker system prune` dọn tài nguyên không dùng.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần Docker CLI?](#vì-sao-cần-docker-cli)

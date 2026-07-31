@@ -9,6 +9,18 @@ Pull Request (PR) và Code Review là **hai trụ cột** của quy trình phát
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Pull Request là đề xuất merge nhánh feature vào nhánh chính** — mở không gian code review và chạy CI tự động trước khi được merge.
+- ⭐ **Ba merge option** — Merge Commit (giữ đủ lịch sử), Squash (gộp thành 1 commit, main sạch nhất), Rebase (lịch sử thẳng); Squash phổ biến nhất cho team hiện đại.
+- **PR tốt: nhỏ (< 400 dòng), 1 mục đích, mô tả rõ, kèm tests** — và tự self-review trước khi assign reviewer.
+- **Code review kiểm tra correctness, security, performance, readability, testing** — phân loại feedback thành MUST FIX, SHOULD FIX và NIT.
+- **Draft PR để nhận feedback sớm khi code chưa xong** — giải quyết conflict bằng cách merge/rebase main vào feature rồi push lại.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Pull Request & code review?](#vì-sao-có-pull-request--code-review)

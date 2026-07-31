@@ -9,6 +9,18 @@ Bài này tổng hợp các best practices quan trọng nhất khi làm việc v
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Nguyên tắc least privilege** — chạy `USER` non-root, dùng image distroless/alpine, KHÔNG nhúng secret vào image.
+- **Tối ưu Dockerfile**: tag cụ thể, `COPY` dependency trước code (tận dụng cache), gộp `RUN`, dùng `COPY` thay `ADD`, `.dockerignore` đầy đủ.
+- **Quét lỗ hổng** bằng `docker scout` hoặc Trivy trong CI; không mount Docker socket; dùng `--read-only` + `--cap-drop=ALL`.
+- **Image nhỏ deploy nhanh** — alpine (~130MB) so với full (~350MB); multi-stage giảm mạnh kích thước; luôn đặt resource limits.
+- **Networking**: tách `frontend`/`backend`, dùng `expose` thay vì mở `ports` của `db` ra ngoài.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần best practices & bảo mật?](#vì-sao-cần-best-practices--bảo-mật)

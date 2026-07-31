@@ -9,6 +9,18 @@ Bài này hướng dẫn các thao tác quản lý hàng ngày khi làm việc v
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Điều khiển cả stack bằng lệnh nhóm** — `up`/`down`/`stop`/`start`/`restart`; `docker compose down -v` xoá luôn volume (mất data).
+- **Giám sát**: `docker compose ps` xem trạng thái, `logs -f` theo dõi log gộp, `docker stats $(docker compose ps -q)` xem tài nguyên.
+- **`exec` vs `run`** — `exec` chạy lệnh trong container đang chạy, `run --rm` tạo container mới 1 lần (migration, seed).
+- **`--scale web=3`** nhân bản service khi tải tăng (phải bỏ host port cố định, dùng nginx làm load balancer).
+- **Nhiều compose file** — `docker-compose.override.yml` tự load cho dev, `-f base -f prod` gộp cấu hình production.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần quản lý nhiều container cùng nhau?](#vì-sao-cần-quản-lý-nhiều-container-cùng-nhau)

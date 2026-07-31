@@ -9,6 +9,18 @@ JWT (JSON Web Token) là cách phổ biến để xác thực người dùng tro
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **JWT cho xác thực stateless** — token được ký số tự chứa thông tin user, server chỉ cần verify chữ ký, không cần lưu session → scale ngang dễ.
+- **`jwt.sign` / `jwt.verify`** — tạo token với `JWT_SECRET` và `expiresIn`; xác minh khi có request.
+- **Hash password bằng bcrypt** — salt rounds >= 12, đăng nhập dùng `bcrypt.compare` để so khớp.
+- **Gửi token qua header** — `Authorization: Bearer <token>`; middleware `requireAuth` tách và verify token để bảo vệ route.
+- **Access + refresh token** — access token sống ngắn cho an toàn; không lưu dữ liệu nhạy cảm trong payload.
+
+:::
+
+---
+
 ## Mục lục
 
 - [JWT là gì?](#jwt-là-gì)

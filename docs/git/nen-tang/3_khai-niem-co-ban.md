@@ -9,6 +9,18 @@ Trước khi gõ bất kỳ lệnh Git nào, bạn cần hiểu **cách Git suy 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Ba vùng làm việc** — Working Directory (thư mục làm việc) → Staging Area (vùng chờ, đưa vào bằng `git add`) → Repository (kho, lưu lại bằng `git commit`).
+- ⭐ **Commit là một snapshot** — mỗi commit chụp lại trạng thái dự án và được định danh bằng **SHA-1 hash** duy nhất.
+- **HEAD là con trỏ hiện tại** — trỏ tới commit/nhánh bạn đang đứng; `HEAD` tách rời (detached) là khi trỏ thẳng vào một commit thay vì một nhánh.
+- **Branch chỉ là con trỏ tới commit** — nên tạo nhánh rất nhẹ và nhanh.
+- **Mọi thứ nằm trong thư mục `.git`** — đây là nơi Git lưu toàn bộ lịch sử và metadata của repo.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Git có vùng staging & snapshot?](#vì-sao-git-có-vùng-staging--snapshot)

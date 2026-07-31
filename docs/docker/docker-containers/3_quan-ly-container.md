@@ -9,6 +9,18 @@ Bài này hướng dẫn cách quản lý container hiệu quả: liệt kê, l�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`docker ps` / `docker ps -a`** — xem container đang chạy / tất cả; lọc bằng `--filter` (status, name, ancestor, label) và tuỳ biến hiển thị bằng `--format`.
+- ⭐ **`docker stop` (graceful, SIGTERM→SIGKILL) vs `docker kill` (SIGKILL ngay)** — `stop` cho app cleanup, `kill` khi container bị treo.
+- **`docker update`** đổi được `--memory`, `--cpus`, `--restart` mà không tạo lại container; nhưng **không** đổi được port mapping/volume.
+- **Xem chi tiết**: `docker inspect` (JSON, dùng `-f` để lọc), `docker top` (processes), `docker diff` (file đã thay đổi).
+- **Dọn dẹp**: `docker container prune` xoá container đã dừng; ưu tiên Dockerfile hơn `docker commit` vì reproducible và version control.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần quản lý container?](#vì-sao-cần-quản-lý-container)

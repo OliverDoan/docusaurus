@@ -11,6 +11,19 @@ React Native cung cấp **bộ component built-in** -- mỗi component map sang 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Core Components map sang native UI thật** — `View` (≈div), `Text`, `TextInput`, `Image`, `Pressable`... không phải DOM.
+- ⭐ **Mọi text BẮT BUỘC nằm trong `<Text>`** — render text raw trong `View` sẽ crash.
+- **`Pressable` ưu tiên hơn `TouchableOpacity`/`Button`** cho nút custom; `Button` chỉ nên dùng prototype.
+- **`Image` phải có `width` + `height`** (hoặc `flex`); dùng `expo-image` cho cache/transition ở production.
+- **`SafeAreaView` (từ `react-native-safe-area-context`)** tránh notch/status bar — cross-platform, thay bản built-in chỉ chạy iOS.
+- **`TextInput` phải controlled** — dùng cặp `value` + `onChangeText`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao RN có component riêng (View, Text...)?](#vì-sao-rn-có-component-riêng-view-text)

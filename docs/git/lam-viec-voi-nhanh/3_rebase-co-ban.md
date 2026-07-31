@@ -9,6 +9,18 @@ Nếu merge là cách "an toàn và trung thực" để gộp nhánh, thì rebas
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Rebase đặt lại các commit của bạn lên đỉnh nhánh khác** — tạo commit MỚI (hash mới), cho lịch sử thẳng tắp thay vì có merge commit.
+- ⭐ **Golden Rule: KHÔNG rebase nhánh public/shared** — chỉ rebase nhánh của riêng bạn; nếu đã push thì `git push --force-with-lease` an toàn hơn `--force`.
+- **`git rebase -i HEAD~n` để dọn commit trước PR** — `squash`/`fixup` gộp commit, `reword` sửa message, `drop` xóa commit.
+- **Conflict khi rebase giải quyết TỪNG commit** — sửa xong thì `git add` rồi `git rebase --continue` (KHÔNG dùng `git commit`).
+- **`git rebase --abort` hủy toàn bộ** — quay lại trạng thái ban đầu an toàn 100% nếu rebase gặp rắc rối.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có rebase?](#vì-sao-có-rebase)

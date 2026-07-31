@@ -9,6 +9,17 @@ Routing là cách Express quyết định request nào sẽ chạy đoạn code 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Dùng `express.Router()` tách route theo tài nguyên thành module** — tránh dồn hết endpoint vào một file.
+- **Controller pattern** — tách logic xử lý ra khỏi phần định nghĩa route cho dễ bảo trì.
+- **Route params `:id` vs query params `?key=value`** — cái để định danh resource, cái để filter/sort/phân trang.
+- **Gắn tiền tố và middleware cho cả nhóm** — vd `/api/v1` và auth khai báo một lần thay vì lặp từng route.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần routing có tổ chức?](#vì-sao-cần-routing-có-tổ-chức)

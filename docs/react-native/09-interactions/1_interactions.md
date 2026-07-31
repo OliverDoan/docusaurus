@@ -11,6 +11,18 @@ Mobile app **phụ thuộc nặng** vào tương tác: tap, swipe, pinch, drag, 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **gesture-handler + Reanimated chạy trên UI thread** — cử chỉ và animation mượt 60fps ngay cả khi JS bận, không qua bridge mỗi frame.
+- ⭐ **`useNativeDriver: true`** — bắt buộc để animation mượt; chỉ hỗ trợ `opacity` và `transform`, KHÔNG dùng cho layout (`width`, `height`, `padding`).
+- **`Pressable`** — API cảm ứng cơ bản được khuyến nghị, có state `pressed` để đổi opacity/ripple khi nhấn.
+- **`worklet`** — hàm chạy trên UI thread trong Reanimated, khai báo bằng directive `'worklet';`, sync access shared value.
+- **Deep linking & Push notifications** — `myapp://` mở đúng màn hình; xin quyền notification đúng lúc, iOS Simulator không nhận push (test trên máy thật).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có hệ thống cảm ứng & cử chỉ riêng?](#vì-sao-có-hệ-thống-cảm-ứng--cử-chỉ-riêng)

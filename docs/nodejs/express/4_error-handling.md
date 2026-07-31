@@ -9,6 +9,18 @@ Xử lý lỗi đúng cách giúp server không bị crash và luôn trả về 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Dùng error handling middleware tập trung 4 tham số `(err, req, res, next)`** — đặt sau tất cả routes, format lỗi một chỗ.
+- **Custom `AppError` với `statusCode`** — phân loại lỗi operational (nghiệp vụ) và programming.
+- **`catchAsync` wrapper** — bọc route async để tự `.catch(next)`, khỏi lặp `try/catch`.
+- **Không lộ `err.stack` ra client ở production** — chỉ trả stack khi `NODE_ENV === 'development'`.
+- **Lưới an toàn** — luôn có 404 handler và handler `unhandledRejection` / `uncaughtException`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần xử lý lỗi tập trung?](#vì-sao-cần-xử-lý-lỗi-tập-trung)

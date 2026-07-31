@@ -9,6 +9,17 @@ Kiểm tra dữ liệu đầu vào (validation) là bước bắt buộc để n
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Luôn validate input từ client tại biên bằng schema** — "fail fast" trước khi vào business logic.
+- **`Joi` định nghĩa schema mạnh mẽ** — `schema.validate()` trả về `{ error, value }`.
+- **Viết validation middleware để tái sử dụng** — validate cả `body`, `params` lẫn `query`.
+- **Hai tùy chọn quan trọng** — `abortEarly: false` gom tất cả lỗi; `stripUnknown: true` loại bỏ field lạ.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần validation?](#vì-sao-cần-validation)

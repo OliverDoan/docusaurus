@@ -9,6 +9,18 @@ Tối ưu hiệu năng là việc làm cho câu truy vấn chạy nhanh hơn và
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Đo trước, tối ưu sau** — dùng `EXPLAIN ANALYZE` đọc kế hoạch thực thi để tìm đúng điểm nghẽn (ví dụ Seq Scan) rồi mới sửa.
+- **Tìm query chậm** — dùng `pg_stat_statements` để phát hiện những câu tốn nhiều thời gian nhất.
+- ⭐ **Index đúng cột lọc/join** — thêm index cho cột trong `WHERE`/`JOIN`, và chỉ `SELECT` cột thực sự cần thay vì `SELECT *`.
+- **Tối ưu JOIN và subquery** — gộp N+1 query thành một `JOIN`, giảm subquery lồng rối rắm.
+- **Pagination & Batch** — phân trang thay vì `OFFSET` lớn, cập nhật theo lô để tránh khoá bảng lâu.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần tối ưu hiệu năng SQL?](#vì-sao-cần-tối-ưu-hiệu-năng-sql)

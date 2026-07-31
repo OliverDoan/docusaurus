@@ -5,6 +5,16 @@ title: "Giới thiệu"
 
 # Lộ trình học Git
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Git là hệ thống quản lý phiên bản** — lưu lại từng "trạng thái" của dự án để xem lại, so sánh hoặc quay về bất kỳ thời điểm nào.
+- ⭐ **Git khác GitHub** — Git là công cụ chạy trên máy (như Word), GitHub là dịch vụ lưu trữ và cộng tác online (như Google Drive).
+- **Lợi ích chính** — lưu lịch sử thay đổi, làm việc nhóm trật tự, và quay lui code khi lỡ làm hỏng.
+- **Lộ trình 5 bước** — Nền tảng → Làm việc với nhánh → Cộng tác & Remote → Quy trình & Best Practices → Nâng cao; học lần lượt vì bước trước là nền cho bước sau.
+- **Phải thực hành** — gõ lại từng lệnh trên máy, sai cũng không sao vì Git luôn cho phép quay lui.
+
+:::
+
 ## Git là gì?
 
 **Git** là một hệ thống quản lý phiên bản (version control - hệ thống theo dõi và lưu lại các thay đổi của tập tin theo thời gian). Nói đơn giản, Git giúp bạn lưu lại từng "trạng thái" của dự án, để sau này có thể xem lại, so sánh, hoặc quay về bất kỳ thời điểm nào trong quá khứ.

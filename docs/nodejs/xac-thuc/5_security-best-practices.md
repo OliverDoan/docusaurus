@@ -9,6 +9,18 @@ Bài này tổng hợp những thực hành bảo mật quan trọng nhất khi 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Phòng thủ nhiều tầng** — một app mặc định không an toàn; áp dụng nhiều lớp bảo vệ để tránh các lỗ hổng OWASP Top 10.
+- **Helmet** — `app.use(helmet())` tự động gắn security headers (chống clickjacking, MIME sniffing, bật HSTS/CSP).
+- **CORS** — chỉ cho phép origins cụ thể, không dùng `*` trong production.
+- **Chống injection** — dùng ORM/parameterized query (không nối chuỗi), sanitize input (`express-mongo-sanitize`) để chặn NoSQL injection.
+- **Ẩn lỗi và quét dependency** — không trả stack trace ra client ở production, chạy `npm audit` định kỳ; rà checklist trước khi deploy.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần security best practices?](#vì-sao-cần-security-best-practices)

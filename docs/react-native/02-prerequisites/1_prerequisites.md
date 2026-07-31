@@ -11,6 +11,18 @@ React Native không yêu cầu kinh nghiệm native (Swift/Kotlin), nhưng cần
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Cần nền JavaScript ES6+ và React vững, KHÔNG cần biết Swift/Kotlin** — RN là bước nâng cấp của kỹ năng web sang mobile.
+- **ES6 phải nắm** — arrow function, destructuring, spread/rest, async/await, array methods (`map`/`filter`/`reduce`).
+- **Flexbox là hệ layout chính** — RN mặc định `flexDirection: 'column'` (web là `row`), không có `rem`/`em`.
+- **React: function component + hooks** — `useState`, `useEffect`, JSX (không phải HTML), Fragment `<>...</>`.
+- ⭐ **Props (truyền từ ngoài, immutable) vs State (nội bộ, đổi qua setter)** — không mutate trực tiếp, luôn tạo object/array mới.
+
+:::
+
+---
+
 ## Mục lục
 
 - [1. JavaScript Basics](#1-javascript-basics)

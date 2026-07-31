@@ -11,6 +11,18 @@ Hầu hết app mobile gọi API server. RN có **Fetch API** (giống browser),
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **React Query / TanStack Query** — quản lý server state đúng cách (caching, retry, loading/error state); dùng cho ~90% app production thay vì `useEffect` + `useState` thủ công.
+- **`fetch` vs `axios`** — `fetch` built-in đủ cho case cơ bản; `axios` có interceptor (tự thêm token, refresh token khi 401).
+- ⭐ **HTTPS bắt buộc** — iOS/Android chặn HTTP cleartext mặc định; luôn kiểm tra `res.ok` trước khi `res.json()`.
+- **WebSocket** — realtime 2 chiều (chat, notification, dashboard live) kèm logic tự reconnect khi đổi 4G ↔ wifi.
+- **NetInfo** — detect offline để hiện banner; nhớ timeout request bằng `AbortController` và abort khi unmount tránh memory leak.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao networking trong RN cần lưu ý riêng?](#vì-sao-networking-trong-rn-cần-lưu-ý-riêng)

@@ -9,6 +9,18 @@ SQL (Structured Query Language) là ngôn ngữ để giao tiếp với cơ sở
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **SQL là ngôn ngữ khai báo** — bạn mô tả *muốn gì*, engine tự quyết *làm thế nào* và tối ưu kế hoạch thực thi.
+- **Hoa/thường & dấu `;`** — keyword không phân biệt hoa thường (convention: viết HOA) nhưng dữ liệu chuỗi thì có; mỗi câu kết thúc bằng `;`.
+- **Chọn đúng kiểu dữ liệu** — dùng `NUMERIC` cho tiền tệ (tránh sai số float), `TIMESTAMPTZ` cho thời điểm sự kiện.
+- ⭐ **Thứ tự thực thi ≠ thứ tự viết** — `FROM` chạy trước `SELECT`, nên không dùng được alias của `SELECT` trong `WHERE`.
+- **Bốn lệnh cơ bản** — `SELECT` / `INSERT` / `UPDATE` / `DELETE`; luôn kèm `WHERE` khi `UPDATE`/`DELETE`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao SQL là ngôn ngữ khai báo?](#vì-sao-sql-là-ngôn-ngữ-khai-báo)

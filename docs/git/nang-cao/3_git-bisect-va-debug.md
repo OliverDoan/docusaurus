@@ -9,6 +9,18 @@ Bạn phát hiện bug nhưng không biết nó xuất hiện từ commit nào? 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`git bisect`** — binary search tìm commit gây bug trong O(log n): đánh dấu `bad`/`good`, tự động hóa bằng `git bisect run <script>`.
+- **`git blame`** — xem ai sửa dòng nào; dùng `.git-blame-ignore-revs` để bỏ qua commit format toàn bộ codebase.
+- **`git log -S` vs `-G`** — `-S` tìm khi số lần xuất hiện chuỗi thay đổi (thêm/xóa), `-G` tìm khi dòng match regex bị sửa.
+- **Luôn `git bisect reset`** khi xong để thoát detached HEAD, tránh commit bị "mồ côi".
+- **Tìm lịch sử file đã xóa** — `git log --all --full-history -- <file>`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có git bisect?](#vì-sao-có-git-bisect)

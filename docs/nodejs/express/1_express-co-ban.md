@@ -9,6 +9,17 @@ Express.js là web framework phổ biến nhất cho Node.js, nổi bật vì t�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Express là web framework tối giản dựng trên `http`** — tạo API và web server nhanh, gọn hơn `http` thuần.
+- **Định tuyến theo HTTP method** — `app.get` / `post` / `put` / `patch` / `delete`.
+- **`req` và `res`** — `req` chứa `query`, `params`, `headers`, `body`; `res` để trả `json` / `status` / `redirect`.
+- **Parse JSON body** — dùng middleware `express.json()` để đọc dữ liệu vào `req.body`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Express là gì?](#express-là-gì)

@@ -16,6 +16,18 @@ Nếu bạn từng gặp bất kỳ tình huống nào ở trên, **Docker** ch�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Docker đóng gói app + toàn bộ dependency vào container chạy giống hệt mọi nơi** — chấm dứt cảnh "trên máy tao chạy được" theo triết lý "Build once, run anywhere".
+- ⭐ **Container chia sẻ kernel host nên nhẹ (MB) và khởi động vài giây** — khác VM (mỗi VM một OS đầy đủ, nặng GB, chậm).
+- **4 khái niệm cốt lõi** — Image (bản thiết kế), Container (instance đang chạy của image), Dockerfile (file hướng dẫn build image), Docker Hub (kho image).
+- **Docker giải quyết 3 vấn đề thực tế** — môi trường không đồng nhất, cài đặt phức tạp, và xung đột phiên bản giữa các project.
+- **Đa nền tảng** — chạy được trên Linux, Windows và macOS; `docker pull` tải image có sẵn từ Docker Hub.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Docker ra đời?](#vì-sao-docker-ra-đời)

@@ -9,6 +9,18 @@ Tối ưu truy vấn là kỹ năng quan trọng giúp ứng dụng chạy nhanh
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Tránh N+1 bằng eager loading** — thay vì query DB trong vòng lặp, gộp thành 1 query với `populate` (Mongoose) hoặc `include` (Prisma).
+- **Indexing** — thêm index cho cột hay dùng để lọc/join/sắp xếp để tránh full scan; dùng `EXPLAIN ANALYZE` để phát hiện.
+- **Select chỉ field cần thiết** — tránh `SELECT *`, dùng `select` để giảm dữ liệu tải về.
+- **Pagination** — luôn phân trang danh sách lớn bằng limit/offset (`skip`/`take`) hoặc cursor.
+- **Connection pooling** — tái sử dụng kết nối (Prisma tự quản lý, cấu hình qua `connection_limit`) để chịu tải tốt hơn.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần tối ưu query?](#vì-sao-cần-tối-ưu-query)

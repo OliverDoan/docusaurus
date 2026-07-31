@@ -9,6 +9,18 @@ Ai cũng mắc sai lầm khi commit — viết sai message, quên thêm file, ho
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Ba công cụ, ba tình huống** — `git commit --amend` sửa commit cuối, `git reset` lùi HEAD (khi CHƯA push), `git revert` tạo commit đảo ngược (AN TOÀN cho branch đã push).
+- ⭐ **`reset` vs `revert`** — `reset` viết lại lịch sử nên nguy hiểm trên shared branch; `revert` chỉ thêm commit mới nên an toàn khi đã push.
+- **3 mode của `git reset`** — `--soft` giữ staging, `--mixed` (mặc định) unstage, `--hard` xóa sạch cả working directory.
+- **`--amend` đổi SHA commit** — chỉ dùng khi chưa push; nếu đã push phải `--force-with-lease` (an toàn hơn `--force`).
+- **Lỡ tay `reset --hard`?** — dùng `git reflog` tìm lại commit rồi khôi phục.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có reset, revert, amend?](#vì-sao-có-reset-revert-amend)

@@ -9,6 +9,18 @@ Trước khi dùng Git, bạn cần cài đặt nó trên máy và thiết lập
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Bắt buộc khai báo danh tính** — chạy `git config --global user.name` và `git config --global user.email` trước khi commit, nếu không mọi commit sẽ thiếu thông tin tác giả.
+- ⭐ **Ba cấp cấu hình** — `system` (toàn máy) < `global` (mỗi user) < `local` (từng repo); cấp hẹp hơn ghi đè cấp rộng hơn.
+- **Cài đặt tùy hệ điều hành** — Windows dùng Git for Windows / `winget` / `choco`, macOS dùng `brew`, Linux dùng trình quản lý gói của distro.
+- **SSH Key để xác thực** — tạo và gắn SSH key giúp `push`/`pull` với GitHub mà không phải nhập mật khẩu mỗi lần.
+- **Xem/sửa cấu hình** — dùng `git config --list` để kiểm tra, hoặc sửa trực tiếp file `.gitconfig`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [1. Cài đặt Git](#1-cài-đặt-git)
