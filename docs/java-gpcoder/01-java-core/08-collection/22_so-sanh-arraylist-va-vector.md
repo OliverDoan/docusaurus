@@ -21,6 +21,15 @@ flowchart LR
     end
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`ArrayList` được ưa chuộng hơn `Vector`** trong hầu hết trường hợp, đặc biệt là ứng dụng đơn luồng.
+- **Thread-safe** — `Vector` `synchronized` (thread-safe), còn `ArrayList` thì không.
+- **Tăng capacity** — `Vector` tăng gấp đôi (100%), `ArrayList` chỉ tăng ~50% nên ít lãng phí bộ nhớ hơn.
+- **Chọn theo tình huống** — đơn luồng dùng `ArrayList`; đa luồng dùng `Collections.synchronizedList()` hoặc `CopyOnWriteArrayList`.
+
+:::
+
 ## Bảng so sánh chi tiết
 
 | Tiêu chí | ArrayList | Vector |

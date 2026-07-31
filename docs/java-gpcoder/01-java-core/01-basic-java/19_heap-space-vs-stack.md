@@ -23,6 +23,16 @@ flowchart TD
 
 Đọc sơ đồ: mỗi luồng có Stack riêng để lưu biến cục bộ và các frame gọi method; còn Heap dùng chung cho mọi luồng, chứa các đối tượng và được chia thành Young/Old Generation phục vụ cho Garbage Collector.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Stack — riêng mỗi luồng** — lưu biến cục bộ, tham chiếu và stack frame theo mỗi lần gọi method; nhanh, nhỏ, tự động dọn khi method kết thúc (LIFO).
+- ⭐ **Heap — dùng chung mọi luồng** — lưu tất cả đối tượng và mảng tạo bằng `new`, được `Garbage Collector` quản lý, chia thành Young/Old Generation.
+- **`String Pool`** — vùng đặc biệt trong Heap tái sử dụng chuỗi literal; `String` literal có thể `==` (cùng địa chỉ), còn `new String()` luôn tạo đối tượng mới.
+- **Kiểu nguyên thủy vs đối tượng** — giá trị nguyên thủy (`int`, `double`) nằm trực tiếp trên Stack; đối tượng nằm trên Heap, Stack chỉ giữ tham chiếu.
+- **Lỗi thường gặp** — `StackOverflowError` khi Stack đầy (đệ quy vô hạn); `OutOfMemoryError` khi Heap hết chỗ.
+
+:::
+
 ---
 
 ## Bộ nhớ JVM được chia thành hai vùng chính

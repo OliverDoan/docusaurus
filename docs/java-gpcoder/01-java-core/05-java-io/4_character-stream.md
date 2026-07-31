@@ -7,6 +7,16 @@ title: "Hướng dẫn sử dụng luồng vào ra ký tự trong Java - Charact
 
 Character Stream là loại luồng chuyên xử lý văn bản, đọc và ghi theo từng ký tự và tự động lo phần mã hóa (encoding). Nhờ vậy nó rất tiện khi làm việc với file văn bản như .txt, .csv hay .json, đặc biệt giúp tránh lỗi hiển thị tiếng Việt. Bài này hướng dẫn các lớp Character Stream thường dùng qua ví dụ cụ thể.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Character Stream tự động xử lý encoding/decoding** — chuyên cho văn bản; lớp gốc là `Reader`/`Writer`.
+- ⭐ **`BufferedReader.readLine()` đọc từng dòng**, `BufferedWriter.newLine()` xuống dòng theo OS — tiện và nhanh nhờ bộ đệm.
+- **`InputStreamReader`/`OutputStreamWriter` là cầu nối byte ↔ ký tự** — nên chỉ định rõ encoding (`UTF-8`) để tránh lỗi hiển thị tiếng Việt.
+- **`PrintWriter` ghi văn bản định dạng** — hỗ trợ `println`, `printf`.
+- **`StringReader`/`StringWriter` xử lý văn bản trong bộ nhớ** — không cần file.
+
+:::
+
 ## Character Stream là gì?
 
 **Character Stream** (luồng ký tự — luồng xử lý dữ liệu theo đơn vị 1 ký tự Unicode 16-bit) được thiết kế đặc biệt để xử lý văn bản. Khác với Byte Stream xử lý dữ liệu thô, Character Stream tự động xử lý **encoding** (mã hóa ký tự — cách chuyển đổi ký tự thành byte) và **decoding** (giải mã ký tự — cách chuyển đổi byte thành ký tự).

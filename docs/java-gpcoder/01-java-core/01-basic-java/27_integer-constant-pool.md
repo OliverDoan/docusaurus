@@ -27,6 +27,15 @@ flowchart TD
 
 Đọc sơ đồ: chỉ các giá trị trong khoảng cache mới dùng chung đối tượng, nên `==` mới cho kết quả `true` — đây là lý do luôn nên dùng `.equals()`.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Luôn dùng `.equals()` để so sánh giá trị `Integer`** — `==` so sánh tham chiếu nên cho kết quả lúc đúng lúc sai.
+- ⭐ **Integer Cache chỉ lưu sẵn giá trị từ `-128` đến `127`** — trong khoảng này các `Integer` cùng giá trị dùng chung một đối tượng.
+- **Autoboxing gọi `Integer.valueOf()`** — chính hàm này quyết định lấy đối tượng từ cache hay tạo mới.
+- **Ngoài khoảng cache, mỗi lần là một đối tượng mới** — nên `200 == 200` (kiểu `Integer`) trả về `false`.
+
+:::
+
 ---
 
 ## Minh họa vấn đề

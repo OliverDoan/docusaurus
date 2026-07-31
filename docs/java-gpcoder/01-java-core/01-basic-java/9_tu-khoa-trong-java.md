@@ -7,6 +7,15 @@ title: "Một số từ khóa trong Java"
 
 **Từ khóa** (keyword) là những từ được Java dành riêng, có ý nghĩa đặc biệt với trình biên dịch. Bạn **không được** dùng chúng làm tên biến, tên lớp hay tên phương thức.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Từ khóa là từ Java dành riêng** — không thể dùng làm tên biến, tên lớp hay tên phương thức.
+- **Có 67 từ khóa (tính đến Java 21)** — chia theo nhóm: kiểu dữ liệu, điều khiển luồng, hướng đối tượng, phạm vi truy cập, xử lý ngoại lệ.
+- ⭐ **Từ khóa mới gần đây** — `var` (Java 10), `record` (Java 16), `sealed` (Java 17).
+- **`goto` và `const`** — được dành riêng nhưng Java không dùng (dùng `final` thay cho hằng số).
+
+:::
+
 ---
 
 ## Danh sách từ khóa trong Java

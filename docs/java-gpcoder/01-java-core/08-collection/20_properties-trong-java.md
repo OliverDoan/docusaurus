@@ -28,6 +28,15 @@ classDiagram
 
 Quan hệ `defaults` (Properties trỏ tới chính nó) minh họa cơ chế giá trị mặc định: một `Properties` có thể tham chiếu tới một `Properties` khác để lấy giá trị khi key không tồn tại.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Properties` là lớp con của `Hashtable`** — chuyên lưu cấu hình dạng cặp key-value kiểu `String`.
+- **Đọc/ghi file `.properties`** — dùng `load(in)` để đọc và `store(out, comment)` để ghi.
+- **Giá trị mặc định (default properties)** — tạo `new Properties(defaults)` để lấy giá trị dự phòng khi key không tồn tại.
+- **Thread-safe** — vì kế thừa từ `Hashtable`; nên dùng `setProperty`/`getProperty` với `String` thay vì `put`.
+
+:::
+
 ## Đặc điểm của Properties
 
 - Kế thừa từ `Hashtable<Object, Object>`, nhưng trên thực tế chỉ nên dùng với key và value kiểu `String`.

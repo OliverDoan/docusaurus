@@ -7,6 +7,16 @@ title: "Hướng dẫn tạo và sử dụng ThreadPool trong Java - ExecutorSer
 
 Tạo và hủy luồng thủ công liên tục rất tốn tài nguyên và làm chậm hệ thống khi xử lý nhiều tác vụ. ThreadPool giải quyết vấn đề này bằng cách tạo sẵn một nhóm luồng để tái sử dụng, quản lý qua interface `ExecutorService`. Bài này giới thiệu các loại ThreadPool phổ biến, cách dùng chúng qua nhiều ví dụ thực tế và cách tự tùy chỉnh `ThreadPoolExecutor`.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`ThreadPool` tái sử dụng luồng có sẵn** thay vì tạo/hủy liên tục — tiết kiệm tài nguyên; quản lý qua `ExecutorService`.
+- **Các loại pool từ `Executors`**: `newFixedThreadPool`, `newCachedThreadPool`, `newSingleThreadExecutor`, `newScheduledThreadPool`.
+- **`submit()`** gửi tác vụ vào pool; `submit(Callable)` trả về `Future` để lấy kết quả.
+- **`ThreadPoolExecutor`** cho phép tùy chỉnh corePoolSize, maximumPoolSize, workQueue, ThreadFactory, RejectedExecutionHandler.
+- ⭐ **Luôn gọi `shutdown()` + `awaitTermination()`** sau khi dùng xong để giải phóng tài nguyên.
+
+:::
+
 ## Vấn đề với việc tạo Thread thủ công
 
 Mỗi lần tạo `new Thread(...)` đều tốn chi phí:

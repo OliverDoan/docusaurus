@@ -7,6 +7,16 @@ title: "Phân biệt JVM, JRE, JDK"
 
 Khi bắt đầu học Java, bạn sẽ thường xuyên gặp ba khái niệm: **JVM**, **JRE**, và **JDK**. Bài này giải thích rõ sự khác biệt và mối quan hệ giữa chúng.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Quan hệ lồng nhau: JDK ⊃ JRE ⊃ JVM** — JDK chứa JRE, JRE chứa JVM.
+- ⭐ **JVM** — thực thi bytecode (`.class`) và quản lý bộ nhớ qua Garbage Collector; đảm bảo "Write Once, Run Anywhere". JVM KHÔNG biên dịch `.java`.
+- **JRE = JVM + thư viện chuẩn** — đủ để **chạy** app Java (dành cho người dùng cuối).
+- **JDK = JRE + công cụ phát triển** (`javac`, `javadoc`, `jdb`, `jar`, `jshell`) — đủ để **viết, biên dịch và chạy** (dành cho lập trình viên).
+- **`javac` biên dịch, `java` chạy** — biên dịch cần JDK, chạy chỉ cần JRE/JVM. Từ Java 9, nên cài JDK vì JRE không còn phân phối riêng.
+
+:::
+
 ## Tổng quan
 
 Mối quan hệ giữa ba khái niệm là **quan hệ lồng nhau** (cái lớn chứa cái nhỏ): JDK chứa JRE, JRE chứa JVM.

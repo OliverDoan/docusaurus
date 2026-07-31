@@ -7,6 +7,16 @@ title: "Chuyển đổi Java Object sang XML và XML sang Java Object với JAXB
 
 JAXB là API giúp chuyển đổi qua lại giữa object Java và dữ liệu XML một cách tự động, chỉ bằng cách đánh dấu các annotation lên class. Nó thường được dùng khi làm việc với Web Service SOAP hoặc các file cấu hình dạng XML. Bài này giới thiệu khái niệm tổng quan cùng ví dụ marshalling và unmarshalling; chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **JAXB chuyển đổi qua lại giữa Java Object và XML bằng annotation** — Marshalling (Java → XML) và Unmarshalling (XML → Java).
+- ⭐ **Annotation chính: `@XmlRootElement`, `@XmlElement`, `@XmlAttribute`, `@XmlTransient`, `@XmlElementWrapper`** — ánh xạ class/field sang cấu trúc XML.
+- **Luồng: `JAXBContext.newInstance(Class)` → `createMarshaller()`/`createUnmarshaller()` → `marshal()`/`unmarshal()`**.
+- **Class cần constructor không tham số cùng getter/setter** — yêu cầu bắt buộc của JAXB.
+- **Từ Java 11 JAXB bị loại khỏi JDK** — phải thêm dependency (`jakarta.xml.bind`); với JSON thì dùng Jackson/Gson.
+
+:::
+
 ## JAXB là gì?
 
 **JAXB** (Java Architecture for XML Binding — kiến trúc Java để ràng buộc với XML) là API cho phép:

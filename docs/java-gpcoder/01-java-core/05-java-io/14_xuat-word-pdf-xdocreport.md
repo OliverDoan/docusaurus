@@ -7,6 +7,16 @@ title: "Hướng dẫn xuất dữ liệu ra file Word, PDF với xDocReport"
 
 xDocReport là thư viện giúp tạo file Word và PDF từ một template (mẫu) Word có sẵn các chỗ trống để điền dữ liệu. Cách làm này rất tiện khi cần xuất hợp đồng, hóa đơn hay báo cáo có bố cục phức tạp mà khó dựng bằng code thuần. Bài này giới thiệu khái niệm tổng quan cùng các bước tạo template và xuất file; chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **xDocReport tạo Word/PDF từ một template Word có sẵn placeholder** — hợp khi bố cục phức tạp (hợp đồng, hóa đơn) khó dựng bằng code.
+- ⭐ **Luồng: `loadReport(template)` → `IContext` `context.put(...)` → `process()` (Word) hoặc `convert()` (PDF)**.
+- **Template dùng cú pháp Freemarker** — `${biến}` để chèn giá trị, `<#list>` để lặp danh sách.
+- **Danh sách cần khai báo `FieldsMetadata.load(name, Class, true)`** — để xử lý lặp `<#list>` hoặc bảng lặp trong Word.
+- **Xuất PDF cần chú ý font tiếng Việt** — nhúng font Unicode vào template hoặc cấu hình iText.
+
+:::
+
 ## xDocReport là gì?
 
 **xDocReport** (Extended Document Report — thư viện Java tạo tài liệu Word/PDF từ template) là thư viện mã nguồn mở cho phép:

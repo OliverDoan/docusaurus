@@ -29,6 +29,16 @@ classDiagram
 
 Đáng chú ý: `LinkedHashSet` kế thừa trực tiếp `HashSet`, còn `TreeSet` đi theo nhánh `SortedSet`/`NavigableSet` nên có thêm khả năng sắp xếp và điều hướng.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Cả ba đều cài `Set`, không cho phép trùng lặp** — khác biệt chính nằm ở thứ tự lưu trữ và hiệu năng.
+- **`HashSet`** — dựa trên hash table, không đảm bảo thứ tự, `add/remove/contains` O(1), nhanh và tốn ít bộ nhớ nhất.
+- **`LinkedHashSet`** — kế thừa `HashSet` cộng thêm linked list để giữ đúng thứ tự chèn (insertion order).
+- ⭐ **`TreeSet`** — dựa trên Red-Black Tree, luôn sắp xếp tự nhiên hoặc theo `Comparator`, thao tác O(log n), không chấp nhận `null`.
+- **Cách chọn** — dùng `HashSet` mặc định, `LinkedHashSet` khi cần giữ thứ tự chèn, `TreeSet` khi cần sắp xếp hoặc duyệt theo khoảng.
+
+:::
+
 ## Tổng quan nhanh
 
 | Tiêu chí | HashSet | LinkedHashSet | TreeSet |

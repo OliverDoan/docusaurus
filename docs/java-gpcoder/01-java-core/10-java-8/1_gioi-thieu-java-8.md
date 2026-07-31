@@ -26,6 +26,16 @@ flowchart LR
     ITF --> FE["forEach()"]
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Java 8 (2014) mở ra lập trình hàm** — qua `Lambda`, `Functional Interface` và `Method Reference`.
+- ⭐ **`Stream API`** — xử lý Collection theo phong cách khai báo, hỗ trợ tuần tự lẫn song song.
+- **Interface có `default`/`static` method** — mở rộng interface mà không phá vỡ code cũ.
+- **`Optional`** — tránh `NullPointerException` bằng cách biểu diễn giá trị có thể vắng mặt.
+- **Date/Time API `java.time`** — thay `Date`/`Calendar`; kèm `Base64` và `forEach()` cho `Iterable`.
+
+:::
+
 ## Các tính năng nổi bật trong Java 8
 
 ### 1. Lambda Expression (Biểu thức Lambda)

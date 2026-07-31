@@ -20,6 +20,16 @@ flowchart TD
 
 Đọc sơ đồ: nguyên nhân gây lỗi là sửa trực tiếp collection trong lúc `for-each` đang duyệt; các cách an toàn đều tránh đụng chạm trực tiếp tới cấu trúc mà Iterator đang theo dõi.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **ConcurrentModificationException do sửa collection khi đang duyệt** — `for-each` dùng Iterator nội bộ và phát hiện thay đổi ngoài Iterator sẽ ném lỗi.
+- **Dùng `Iterator.remove()`** — cách an toàn tương thích mọi phiên bản Java để xóa phần tử khi duyệt.
+- **Dùng `removeIf()` (Java 8+)** — ngắn gọn, dễ đọc khi điều kiện xóa rõ ràng.
+- **`CopyOnWriteArrayList` cho môi trường đa luồng** — duyệt trên bản snapshot nên không bị lỗi khi sửa.
+- **Vòng lặp `for` duyệt ngược theo chỉ số** — tránh lệch chỉ số sau khi xóa mà không cần import thêm.
+
+:::
+
 ---
 
 ## 1. Nguyên nhân

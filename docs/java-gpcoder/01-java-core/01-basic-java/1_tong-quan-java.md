@@ -7,6 +7,16 @@ title: "Tổng quan về ngôn ngữ lập trình Java"
 
 Java là một trong những ngôn ngữ lập trình phổ biến và được dùng nhiều nhất trên thế giới, từ ứng dụng ngân hàng, web cho đến Android. Bài này giúp bạn nắm bức tranh tổng quan: Java là gì, vì sao nó chạy được trên mọi nền tảng, và những lĩnh vực mà Java đang thống trị. Đây là điểm khởi đầu trước khi đi sâu vào từng chủ đề cụ thể bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Java hướng đối tượng, "Write Once, Run Anywhere"** — cùng một chương trình chạy trên mọi hệ điều hành có `JVM`.
+- ⭐ **Quy trình thực thi** — mã nguồn `.java` được `javac` biên dịch thành bytecode `.class`, rồi `JVM` đọc và chạy trên từng hệ điều hành.
+- **Đặc điểm nổi bật** — quản lý bộ nhớ tự động qua `Garbage Collector`, an toàn kiểu lúc biên dịch, hỗ trợ đa luồng.
+- **Nên dùng bản LTS** — Java 8, 11, 17, 21 là các bản hỗ trợ dài hạn, phù hợp cho dự án thực tế.
+- **Ứng dụng rộng** — doanh nghiệp, web (Spring Boot), Android, hệ phân tán (Hadoop, Kafka) và hệ nhúng.
+
+:::
+
 ## Java là gì?
 
 **Java** là một ngôn ngữ lập trình **hướng đối tượng** (Object-Oriented Programming — OOP), được **James Gosling** và nhóm kỹ sư tại Sun Microsystems phát triển năm 1991, ra mắt chính thức năm 1995. Hiện tại Java được Oracle duy trì và phát triển.

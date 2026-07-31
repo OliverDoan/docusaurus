@@ -18,6 +18,16 @@ flowchart LR
 
 Đọc sơ đồ: mỗi ký hiệu định dạng (`%s`, `%d`, `%.1f`) được thay thế lần lượt bởi từng tham số theo đúng thứ tự.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`String.format(fmt, args...)` thay các ký hiệu định dạng bằng tham số theo đúng thứ tự** — dễ đọc hơn nối chuỗi bằng `+`.
+- **Ký hiệu hay dùng:** `%s` chuỗi, `%d` số nguyên, `%f`/`%.2f` số thực, `%b` boolean, `%n` xuống dòng, `%%` dấu `%`.
+- **Căn lề và độ rộng:** `%-10s` canh trái, `%10s` canh phải, `%05d` đệm số 0, `%,.2f` phân nhóm bằng dấu phẩy.
+- **`System.out.printf()` in thẳng ra console**, còn `"...".formatted(...)` là cách viết fluent (Java 15+).
+- **Định dạng ngày tháng dùng `DateTimeFormatter.ofPattern(...)`** rồi gọi `date.format(...)`.
+
+:::
+
 ---
 
 ## Tại sao cần String Format?

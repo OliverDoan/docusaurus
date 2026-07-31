@@ -20,6 +20,16 @@ classDiagram
 
 Đọc sơ đồ: `cho instanceof ChoNha` và `cho instanceof DongVat` đều trả `true` (theo đường kế thừa hướng lên), còn `cho instanceof MeoNha` trả `false` vì hai nhánh không liên quan.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`instanceof` kiểm tra kiểu lúc runtime** — trả về `boolean`, `true` nếu đối tượng là thực thể của lớp/lớp cha/interface đó.
+- **`null instanceof BatKyLop` luôn là `false`** — an toàn, không ném lỗi.
+- **Kết hợp với ép kiểu** — kiểm tra bằng `instanceof` trước khi downcast để tránh `ClassCastException`.
+- **Pattern Matching (Java 16+)** — `if (obj instanceof HinhTron tron)` gộp kiểm tra và khai báo biến trong một bước.
+- **Lạm dụng là "mùi" thiết kế** — nếu rẽ nhánh nhiều theo kiểu, nên tái cấu trúc bằng đa hình (polymorphism).
+
+:::
+
 ---
 
 ## 1. Cú pháp

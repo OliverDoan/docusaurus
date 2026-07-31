@@ -20,6 +20,16 @@ flowchart LR
 
 Đọc sơ đồ: mỗi loại thành phần có một kiểu viết tên riêng — nắm quy tắc này giúp code của bạn trông "đúng chuẩn Java" ngay từ cái nhìn đầu tiên.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Quy tắc đặt tên cốt lõi** — Package chữ thường, Class/Interface `PascalCase`, Method/Variable `camelCase`, Constant `UPPER_SNAKE_CASE`.
+- **Định dạng code** — thụt 4 dấu cách, dấu `{` đặt cùng dòng (kiểu K&R), mỗi dòng không quá 80–120 ký tự.
+- **Viết comment** — dùng Javadoc cho API công khai, comment giải thích "tại sao" chứ không phải "cái gì", tránh comment thừa.
+- **Quy tắc an toàn** — luôn dùng ngoặc nhọn cho `if/for/while`, khai báo một biến mỗi dòng, bắt ngoại lệ cụ thể thay vì `Exception` chung.
+- **Công cụ hỗ trợ** — `Checkstyle`, `SonarQube`, Google Java Format và formatter tích hợp trong IntelliJ/Eclipse.
+
+:::
+
 ---
 
 ## Quy tắc đặt tên (Naming Conventions)

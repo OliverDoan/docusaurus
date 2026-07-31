@@ -28,6 +28,16 @@ classDiagram
     Dictionary <|-- Hashtable : kế thừa
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Thread-safety** — `Hashtable` an toàn đa luồng (`synchronized`) nhưng chậm; `HashMap` nhanh hơn, không đồng bộ.
+- **Cho phép `null`** — `HashMap` nhận null key/value; `Hashtable` thì không.
+- **Kế thừa** — `HashMap` từ `AbstractMap` (hiện đại), `Hashtable` từ `Dictionary` (lỗi thời).
+- **Iterator** — `HashMap` dùng fail-fast `Iterator`; `Hashtable` dùng fail-safe `Enumeration`.
+- ⭐ **Chọn trong code mới** — đơn luồng dùng `HashMap`, đa luồng dùng `ConcurrentHashMap`; tránh `Hashtable`.
+
+:::
+
 ## Bảng so sánh
 
 | Tiêu chí | HashMap | Hashtable |

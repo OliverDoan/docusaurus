@@ -7,6 +7,15 @@ title: "Tạo chương trình Java đầu tiên với Eclipse IDE"
 
 Eclipse là một trong những IDE miễn phí phổ biến nhất để lập trình Java, giúp việc viết code dễ dàng hơn nhiều so với dùng trình soạn thảo thường. Bài này hướng dẫn từng bước cài đặt Eclipse, tạo project, package, class và chạy chương trình đầu tiên. Bạn cũng sẽ biết các tính năng tiện lợi như gợi ý code, format và đổi tên tự động.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Eclipse là IDE miễn phí, mã nguồn mở cho Java** — viết code dễ hơn nhiều so với trình soạn thảo thường.
+- **Cần cài sẵn JDK trước khi dùng Eclipse** — Eclipse chỉ là môi trường viết code, không thay thế JDK.
+- **Quy trình tạo chương trình: Project → Package → Class** — tích ô tạo sẵn phương thức `main` khi tạo class.
+- **Nhiều tính năng tiện lợi** — gợi ý code (auto-complete), tô màu cú pháp, format và đổi tên tự động, debug tích hợp.
+
+:::
+
 ## Eclipse IDE là gì?
 
 **Eclipse IDE** (Integrated Development Environment — Môi trường phát triển tích hợp) là một phần mềm miễn phí, mã nguồn mở, hỗ trợ viết code Java với nhiều tính năng tiện lợi:

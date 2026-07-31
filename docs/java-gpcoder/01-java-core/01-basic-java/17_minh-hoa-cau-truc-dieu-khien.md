@@ -26,6 +26,16 @@ flowchart TD
 
 Đọc sơ đồ: thứ tự kiểm tra rất quan trọng — phải xét điều kiện chia hết cho 15 (cả 3 và 5) trước, nếu không số như 15 sẽ dừng ở nhánh "Fizz" và không bao giờ tới "FizzBuzz".
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Chọn đúng cấu trúc điều khiển** — `if-else` cho điều kiện phức tạp, `switch` cho giá trị cụ thể, `for` khi biết trước số vòng lặp, `while` khi không biết trước.
+- ⭐ **FizzBuzz — thứ tự điều kiện quyết định kết quả** — phải kiểm tra chia hết cho `15` trước `3` và `5`, nếu không số 15 sẽ dừng ở nhánh "Fizz".
+- **Kiểm tra số nguyên tố tối ưu** — chỉ cần lặp `for (int i = 3; i * i <= n; i += 2)`, tức tới căn bậc hai của `n`.
+- **`break` và `continue`** — `break` thoát sớm khi tìm được kết quả, `continue` bỏ qua trường hợp không phù hợp (ví dụ chia cho 0 trong máy tính đơn giản).
+- **`switch` biểu thức mũi tên** — cú pháp `case "+" -> ...` gọn hơn, không cần `break`.
+
+:::
+
 ---
 
 ## Bài toán 1: Kiểm tra số nguyên tố

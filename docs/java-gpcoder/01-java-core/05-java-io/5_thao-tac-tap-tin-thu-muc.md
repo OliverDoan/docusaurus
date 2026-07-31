@@ -7,6 +7,16 @@ title: "Thao tác với tập tin và thư mục trong Java"
 
 Hầu hết ứng dụng đều cần làm việc với file và thư mục: tạo, xóa, đổi tên, kiểm tra thuộc tính hay liệt kê nội dung. Java cung cấp lớp File truyền thống và bộ API NIO.2 hiện đại hơn để làm những việc này. Bài này hướng dẫn cả hai cách qua các ví dụ thực tế.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hai bộ công cụ: `java.io.File` (cũ) và `java.nio.file` NIO.2 (Java 7+)** — dự án mới nên ưu tiên NIO.2 vì API rõ ràng và ném exception thay vì trả về `false`.
+- **`mkdir()` tạo 1 thư mục, `mkdirs()` tạo cả cây thư mục cha** — dùng khi đường dẫn có nhiều cấp chưa tồn tại.
+- **`listFiles()` + đệ quy để duyệt cây thư mục** — `File.listFiles()` chỉ trả về nội dung một cấp.
+- **`renameTo()` vừa đổi tên vừa di chuyển file** — bên NIO.2 tương đương là `Files.move()`.
+- ⭐ **NIO.2 gọn hơn cho đọc/ghi/copy** — `Files.readString()`, `Files.writeString()`, `Files.copy()`, `Files.deleteIfExists()`.
+
+:::
+
 ## Lớp File trong Java
 
 **Lớp `File`** (đại diện tập tin/thư mục — lớp dùng để thao tác với đường dẫn, tập tin và thư mục trên hệ thống file) trong gói `java.io` là công cụ truyền thống để làm việc với hệ thống file. Từ Java 7 trở đi, gói `java.nio.file` (NIO.2) được khuyến nghị dùng thay thế.

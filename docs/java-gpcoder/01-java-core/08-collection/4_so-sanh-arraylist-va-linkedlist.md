@@ -23,6 +23,15 @@ flowchart TB
 
 `ArrayList` đặt các phần tử liền kề nhau trong bộ nhớ nên truy cập theo chỉ số rất nhanh; `LinkedList` nối các nút bằng con trỏ hai chiều nên thêm/xóa ở đầu và giữa hiệu quả hơn.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Truy cập theo chỉ số** — `ArrayList.get(i)` là O(1), còn `LinkedList` là O(n) vì phải duyệt.
+- **Thêm/xóa ở đầu/giữa** — `LinkedList` O(1) (sau khi tìm vị trí), `ArrayList` O(n) do phải dịch chuyển phần tử.
+- **Bộ nhớ** — `ArrayList` (mảng động liền kề) tốn ít hơn `LinkedList` (mỗi nút lưu thêm 2 con trỏ).
+- **Chọn dùng** — `ArrayList` là mặc định (đọc nhiều); `LinkedList` hợp khi cần Queue/Deque qua `addFirst()`, `removeFirst()`,...
+
+:::
+
 ## Cấu trúc bộ nhớ
 
 - **ArrayList**: Sử dụng mảng động (dynamic array) bên trong. Các phần tử nằm liên tiếp nhau trong bộ nhớ.

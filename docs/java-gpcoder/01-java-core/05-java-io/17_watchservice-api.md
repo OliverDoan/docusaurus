@@ -7,6 +7,16 @@ title: "Giới thiệu WatchService API trong Java"
 
 Nhiều khi ứng dụng cần biết ngay khi một file hoặc thư mục bị thay đổi, ví dụ để tự động nạp lại file cấu hình. WatchService API trong Java cho phép theo dõi các sự kiện tạo, xóa, sửa file mà không cần kiểm tra liên tục, nên rất tiết kiệm tài nguyên. Bài này giới thiệu cách dùng WatchService qua các ví dụ từ đơn giản đến theo dõi đệ quy thư mục con.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **WatchService (NIO.2, Java 7+) lắng nghe sự kiện thay đổi trên thư mục** — không cần polling nên tiết kiệm tài nguyên.
+- **Theo dõi 4 loại sự kiện: `ENTRY_CREATE`, `ENTRY_DELETE`, `ENTRY_MODIFY`, `OVERFLOW`** — đăng ký qua `path.register(watchService, kinds...)`.
+- ⭐ **Vòng lặp: `take()`/`poll()` chờ → `pollEvents()` xử lý → bắt buộc `key.reset()`** — quên `reset()` sẽ không nhận được sự kiện tiếp theo.
+- **`take()` chặn vô hạn, `poll(timeout, unit)` chờ có giới hạn** — chọn theo nhu cầu.
+- **Mặc định không theo dõi thư mục con** — phải đăng ký đệ quy từng thư mục con (và đăng ký thêm khi có thư mục mới tạo).
+
+:::
+
 ## WatchService API là gì?
 
 **WatchService API** (dịch vụ theo dõi — API theo dõi sự kiện thay đổi trên hệ thống file) là một phần của Java NIO.2 (gói `java.nio.file`), được giới thiệu từ Java 7. API này cho phép ứng dụng **lắng nghe các sự kiện** xảy ra trên thư mục mà không cần polling (kiểm tra liên tục).

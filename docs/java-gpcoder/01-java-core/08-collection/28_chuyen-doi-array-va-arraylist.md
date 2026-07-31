@@ -15,6 +15,15 @@ flowchart LR
     LIST -->|"toArray(new T[0])<br/>stream().toArray()"| ARR
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Array → ArrayList đầy đủ chức năng** — dùng `new ArrayList<>(Arrays.asList(arr))`.
+- **`Arrays.asList()` trả về list kích thước cố định** — `set()` được nhưng KHÔNG `add()`/`remove()` được.
+- **ArrayList → Array khuyến nghị** — dùng `list.toArray(new T[0])`.
+- **Mảng nguyên thủy (`int[]`)** — không dùng `Arrays.asList` trực tiếp; cần `stream().boxed()` hoặc `mapToInt().toArray()`.
+
+:::
+
 ## Chuyển Array sang ArrayList
 
 ### Cách 1: Arrays.asList() — nhanh nhưng có hạn chế

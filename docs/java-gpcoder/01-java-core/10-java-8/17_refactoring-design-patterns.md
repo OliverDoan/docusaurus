@@ -18,6 +18,14 @@ flowchart LR
     P5["Factory"] --> S["Supplier trong Map"]
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Lambda + Functional Interface triển khai Design Pattern gọn hơn** — loại bỏ boilerplate, giảm số class.
+- **Strategy → `Function`/`Predicate`; Template Method → lambda truyền tham số; Observer → `Consumer`.**
+- **Chain of Responsibility → `Function.andThen()`; Factory → `Supplier` lưu trong `Map`.**
+
+:::
+
 ## 1. Strategy Pattern (Mẫu chiến lược)
 
 **Strategy Pattern** cho phép thay đổi thuật toán (chiến lược) tại runtime mà không sửa client code.

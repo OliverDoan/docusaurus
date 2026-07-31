@@ -7,6 +7,16 @@ title: "Hướng dẫn xuất dữ liệu lớn ra file Excel với Apache POI -
 
 Khi xuất file Excel với hàng trăm ngàn hoặc hàng triệu dòng, cách thông thường (XSSF) dễ gây hết bộ nhớ vì giữ toàn bộ dữ liệu trong RAM. SXSSF là phiên bản "streaming" của Apache POI, chỉ giữ một số ít hàng trong RAM rồi ghi phần còn lại ra ổ đĩa nên xử lý dữ liệu lớn ổn định hơn nhiều. Bài này giới thiệu khái niệm tổng quan và cách dùng SXSSF; chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **SXSSF là phiên bản streaming của XSSF cho dữ liệu lớn** — chỉ giữ N hàng gần nhất trong RAM, phần còn lại flush ra file tạm ổ đĩa.
+- ⭐ **`new SXSSFWorkbook(rowAccessWindowSize)` cấu hình số hàng giữ trong RAM** — vượt qua giới hạn `OutOfMemoryError` của XSSF (~100K dòng).
+- **Luôn gọi `dispose()` sau khi ghi xong** — để xóa file tạm trên ổ đĩa; nên bật `setCompressTempFiles(true)`.
+- **Không đọc lại được hàng đã flush** — `sheet.getRow(0)` trả về `null` nếu hàng đó đã bị đẩy ra đĩa; SXSSF chỉ hỗ trợ ghi.
+- **Với hơn ~50.000 dòng, luôn dùng SXSSF thay vì XSSF** — nhanh và ổn định hơn trong production.
+
+:::
+
 ## Vấn đề với XSSF khi dữ liệu lớn
 
 **XSSF** (XSSFWorkbook) giữ toàn bộ dữ liệu trong bộ nhớ RAM. Khi xuất hàng trăm ngàn hoặc triệu dòng, ứng dụng sẽ:

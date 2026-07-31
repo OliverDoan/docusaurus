@@ -9,6 +9,16 @@ title: "Tính đa hình (Polymorphism) trong Java"
 
 Tên "polymorphism" xuất phát từ tiếng Hy Lạp: "poly" (nhiều) + "morph" (dạng) — nghĩa là "nhiều dạng".
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Đa hình = "nhiều dạng"** — cùng một phương thức chạy khác nhau tùy kiểu đối tượng thực tế.
+- **Overloading (compile-time)** — nhiều phương thức cùng tên nhưng khác danh sách tham số; chỉ khác kiểu trả về thì KHÔNG hợp lệ.
+- **Overriding (runtime)** — lớp con cài đặt lại phương thức lớp cha, Java chọn đúng bản qua Dynamic Method Dispatch.
+- **Interface là đa hình mạnh nhất** — một lớp có thể triển khai (implement) nhiều interface.
+- **`static`, `final`, `private` không override được** — và nên dùng `@Override` để compiler kiểm tra.
+
+:::
+
 ---
 
 ## 1. Hai loại đa hình trong Java

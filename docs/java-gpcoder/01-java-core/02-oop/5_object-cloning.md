@@ -7,6 +7,16 @@ title: "Object cloning trong Java"
 
 **Object cloning** (nhân bản đối tượng) là cơ chế tạo ra một bản sao (copy) của một đối tượng hiện có. Java cung cấp cơ chế này thông qua phương thức `clone()` trong lớp `Object` và interface `Cloneable`.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Gán đối tượng chỉ sao chép tham chiếu** — cloning mới tạo được bản sao độc lập để tránh thay đổi lẫn nhau.
+- **Shallow clone** — `super.clone()` kèm `implements Cloneable`; các trường tham chiếu (reference field) vẫn dùng chung đối tượng.
+- **Deep clone** — clone thủ công từng trường tham chiếu để bản sao độc lập hoàn toàn.
+- **Copy constructor** — cách rõ ràng, linh hoạt hơn và không cần `Cloneable`.
+- **Bẫy thường gặp** — gọi `clone()` khi chưa `implements Cloneable` sẽ ném `CloneNotSupportedException`; `clone()` mặc định có phạm vi `protected`.
+
+:::
+
 ---
 
 ## 1. Tại sao cần object cloning?

@@ -7,6 +7,16 @@ title: "Đọc ghi file CSV trong Java"
 
 CSV là định dạng file văn bản đơn giản dùng để lưu dữ liệu dạng bảng, rất phổ biến khi nhập/xuất dữ liệu với Excel hay trao đổi giữa các hệ thống. Bài này giới thiệu cách đọc và ghi file CSV trong Java, từ cách làm thủ công đến dùng thư viện OpenCSV cho dự án thực tế; chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **CSV là file văn bản, mỗi dòng một bản ghi, các trường phân cách bởi dấu phẩy** — đơn giản nhưng cần xử lý đúng edge case.
+- ⭐ **Giá trị chứa dấu phẩy/ngoặc kép/xuống dòng phải bọc trong `"..."`** và nhân đôi dấu ngoặc kép bên trong — cả khi ghi lẫn khi đọc.
+- **Nên ghi BOM UTF-8 (`﻿`) ở đầu file** — để Excel mở đúng tiếng Việt.
+- **Dùng thư viện OpenCSV cho dự án thực tế** — `CSVWriter`/`CSVReader` xử lý sẵn các trường hợp phức tạp; làm thủ công chỉ khi muốn hiểu bản chất.
+- **`CsvToBean` + annotation `@CsvBindByName` ánh xạ CSV sang Java Bean** — tiện khi cần đối tượng thay vì mảng String.
+
+:::
+
 ## CSV là gì?
 
 **CSV** (Comma-Separated Values — giá trị phân cách bởi dấu phẩy) là định dạng file văn bản đơn giản, trong đó mỗi hàng là một bản ghi và các trường được phân cách bởi dấu phẩy (hoặc ký tự phân cách khác như dấu chấm phẩy, tab).

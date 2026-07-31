@@ -21,6 +21,15 @@ flowchart TD
     F --> G
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Nhanh nhất: `new HashSet<>(list)`** — rồi đưa lại về `ArrayList`, nhưng KHÔNG giữ thứ tự chèn.
+- **Cần giữ thứ tự chèn** — dùng `LinkedHashSet` hoặc `stream().distinct()` (Java 8+).
+- **Muốn xóa tại chỗ trên list gốc** — dùng `Iterator` + `HashSet`, gọi `it.remove()` khi `seen.add()` trả về `false`.
+- **Với custom object** — bắt buộc override `equals()` và `hashCode()` thì mới loại trùng đúng.
+
+:::
+
 ## Cách 1: Dùng HashSet (không giữ thứ tự)
 
 **HashSet** tự động loại bỏ phần tử trùng lặp. Chuyển `ArrayList` sang `HashSet` rồi chuyển ngược lại là cách nhanh nhất.

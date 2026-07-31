@@ -16,6 +16,15 @@ flowchart TD
     B -->|Chưa| D["Tạo mới rồi trả về"]
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Supplier<T>`** — không nhận tham số, trả về giá trị qua `get()` (ngược với `Consumer`).
+- ⭐ **Ứng dụng chính là lazy initialization** — chỉ tạo đối tượng tốn kém khi thực sự cần.
+- **Kết hợp `Optional`** — `orElseGet()`/`orElseThrow()` chỉ gọi Supplier khi rỗng (hiệu quả hơn `orElse()`).
+- **Biến thể nguyên thủy** — `IntSupplier`, `LongSupplier`, `DoubleSupplier`... tránh boxing.
+
+:::
+
 ## Supplier là gì?
 
 `Supplier<T>` là một **Functional Interface** (giao diện hàm) trong package `java.util.function`. Ngược hoàn toàn với `Consumer`, `Supplier` (người cung cấp) **không nhận tham số** nhưng **trả về một giá trị** kiểu `T`.

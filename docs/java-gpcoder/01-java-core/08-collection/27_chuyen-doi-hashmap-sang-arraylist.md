@@ -20,6 +20,15 @@ flowchart LR
     L --> R["ArrayList"]
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Ba nguồn dữ liệu từ `HashMap`** — `keySet()`, `values()`, `entrySet()` đều truyền được vào `new ArrayList<>(...)`.
+- **`entrySet()` giữ cả key lẫn value** — trả về `Set<Map.Entry<K,V>>`, thuận tiện khi cần sắp xếp theo value.
+- **Thứ tự của `HashMap` không xác định** — muốn có thứ tự phải `sort` sau khi chuyển sang list.
+- **Stream API (Java 8+)** — cho phép lọc/biến đổi (`filter`, `map`, `sorted`) trước khi thu về `List`.
+
+:::
+
 ## Chuyển đổi danh sách key
 
 Dùng `keySet()` để lấy tập hợp (Set) các key, sau đó tạo `ArrayList` từ đó:

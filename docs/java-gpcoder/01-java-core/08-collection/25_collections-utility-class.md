@@ -20,6 +20,15 @@ flowchart TD
     C --> W["Bao bọc (wrapper)<br/>unmodifiableList, synchronizedList"]
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Collections` (số nhiều) là utility class** — chỉ chứa method static, khác hẳn interface `Collection`.
+- **Nhóm chức năng chính** — sắp xếp (`sort`, `reverse`, `shuffle`), tìm kiếm (`binarySearch`), thống kê (`max`, `min`, `frequency`).
+- **`binarySearch` yêu cầu list đã sắp xếp** — nếu chưa sắp xếp thì kết quả không đáng tin.
+- **Tạo view đặc biệt** — `unmodifiableList` (chỉ đọc, ném `UnsupportedOperationException` khi sửa) và `synchronizedList`/`synchronizedMap` (thread-safe).
+
+:::
+
 ## Sắp xếp - sort()
 
 ```java

@@ -7,6 +7,16 @@ title: "Tránh lỗi ConcurrentModificationException trong Java"
 
 ConcurrentModificationException là lỗi rất hay gặp khi bạn vừa duyệt vừa xóa phần tử khỏi một Collection như ArrayList hay HashMap. Bài này giải thích nguyên nhân gây lỗi và hướng dẫn nhiều cách xử lý an toàn như `Iterator.remove()`, `removeIf()` hay `CopyOnWriteArrayList`. Nắm vững các cách này giúp bạn viết code xử lý danh sách chắc chắn, không bị crash.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`ConcurrentModificationException` xảy ra khi vừa duyệt vừa sửa Collection** — thêm/xóa phần tử khỏi `ArrayList`, `HashMap`... trong lúc đang duyệt bằng `Iterator` hoặc for-each.
+- **Nguyên nhân là cơ chế `modCount`** — `Iterator` so sánh số lần sửa đổi ở mỗi vòng, thấy khác giá trị ban đầu thì ném lỗi.
+- **Xóa an toàn bằng `Iterator.remove()`** — thay vì gọi `list.remove()` trực tiếp trong for-each.
+- **`removeIf()` gọn hơn** — xóa theo điều kiện chỉ với một dòng, không cần Iterator thủ công.
+- **`CopyOnWriteArrayList` cho môi trường đa luồng** — cho phép sửa trong khi duyệt mà không ném lỗi.
+
+:::
+
 ## ConcurrentModificationException là gì?
 
 **ConcurrentModificationException** là lỗi xảy ra khi bạn **thêm hoặc xóa phần tử** khỏi một Collection (ArrayList, HashMap, ...) trong khi đang **duyệt qua** nó bằng Iterator hoặc for-each.

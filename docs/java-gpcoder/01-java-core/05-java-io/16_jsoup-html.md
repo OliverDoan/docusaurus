@@ -7,6 +7,16 @@ title: "Phân tích nội dung HTML với thư viện Jsoup"
 
 Khi cần lấy dữ liệu từ trang web hoặc xử lý nội dung HTML trong Java, Jsoup là thư viện được dùng nhiều nhất. Nó giúp bạn phân tích HTML, tìm phần tử bằng CSS selector, thu thập dữ liệu (scraping) và làm sạch HTML để chống tấn công XSS. Bài này hướng dẫn cách dùng Jsoup từ cơ bản đến thực tế qua các ví dụ minh họa.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Jsoup phân tích, trích xuất và thao tác HTML trong Java** — parse từ String, URL hoặc file thành `Document`.
+- ⭐ **Tìm phần tử bằng CSS selector** — `select()` trả về nhiều `Element`, `selectFirst()` trả về một; lấy dữ liệu qua `text()` và `attr()`.
+- **`Jsoup.connect(url).get()` tải trang web** — kèm `userAgent()`, `timeout()`; dùng `attr("abs:href")` để lấy đường dẫn tuyệt đối.
+- ⭐ **`Jsoup.clean(html, Safelist)` làm sạch HTML chống XSS** — `Safelist.none/basic/relaxed` hoặc tùy chỉnh để loại thẻ/thuộc tính nguy hiểm.
+- **Khi scraping cần tuân thủ `robots.txt` và điều khoản sử dụng** — của trang web đích.
+
+:::
+
 ## Jsoup là gì?
 
 **Jsoup** (Java HTML parser — thư viện Java để phân tích cú pháp, trích xuất và thao tác với HTML) là thư viện mã nguồn mở phổ biến nhất trong Java để:

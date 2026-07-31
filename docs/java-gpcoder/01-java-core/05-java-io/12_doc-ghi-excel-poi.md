@@ -7,6 +7,16 @@ title: "Hướng dẫn đọc và ghi file Excel trong Java với Apache POI"
 
 Apache POI là thư viện phổ biến nhất để đọc và ghi file Excel (cùng Word, PowerPoint) trong Java. Nó rất hữu ích khi cần xuất báo cáo, nhập dữ liệu từ file Excel hoặc tạo bảng tính có định dạng đẹp ngay trong ứng dụng. Bài này giới thiệu khái niệm tổng quan cùng ví dụ đọc/ghi file `.xlsx`; chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Apache POI đọc/ghi file Excel (Word, PowerPoint) trong Java** — thư viện phổ biến nhất cho Microsoft Office.
+- ⭐ **Phân cấp: `Workbook` → `Sheet` → `Row` → `Cell`** — chỉ số hàng và ô bắt đầu từ 0.
+- **`XSSFWorkbook` cho `.xlsx`, `HSSFWorkbook` cho `.xls`** — `WorkbookFactory.create()` tự phát hiện định dạng khi đọc.
+- **`CellStyle` + `DataFormat` để định dạng ô** — font, màu, border, hiển thị tiền tệ/ngày; `setCellFormula()` để đặt công thức Excel.
+- **File hàng triệu dòng nên dùng SXSSF (Streaming XSSF)** — tránh hết bộ nhớ với XSSF thường.
+
+:::
+
 ## Apache POI là gì?
 
 **Apache POI** (Poor Obfuscation Implementation — thư viện Java để đọc/ghi file Microsoft Office) là thư viện mã nguồn mở nổi tiếng nhất để làm việc với file Excel, Word, PowerPoint trong Java.

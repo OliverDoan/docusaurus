@@ -17,6 +17,15 @@ flowchart TD
     R -->|"dương"| C["o1 đứng sau o2"]
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Comparator<T>`** — định nghĩa `int compare(o1, o2)`: âm → o1 trước, 0 → bằng, dương → o1 sau.
+- ⭐ **`Comparator.comparing()`** — tạo comparator từ key extractor; `comparingInt/Long/Double` cho kiểu số.
+- **Kết hợp** — `reversed()` đảo chiều, `thenComparing()` thêm tiêu chí phụ khi bằng nhau.
+- **Tiện ích khác** — `naturalOrder()`, `reverseOrder()`, `nullsFirst()`, `nullsLast()`; dùng được với `min()`/`max()`.
+
+:::
+
 ## Comparator trong Java 8
 
 `Comparator<T>` là một **Functional Interface** (giao diện hàm) trong package `java.util`, dùng để định nghĩa cách so sánh hai đối tượng nhằm phục vụ sắp xếp. Java 8 bổ sung nhiều phương thức mặc định mạnh mẽ vào `Comparator`, giúp việc sắp xếp trở nên linh hoạt và dễ đọc hơn nhiều.

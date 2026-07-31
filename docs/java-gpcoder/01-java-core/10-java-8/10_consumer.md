@@ -16,6 +16,14 @@ flowchart LR
     C2 --> OUT["void - không trả về"]
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Consumer<T>`** — nhận một giá trị để xử lý, KHÔNG trả về (`void accept(T t)`).
+- **`andThen()`** — nối chuỗi Consumer, chạy lần lượt trên cùng đối số ban đầu.
+- **Hay dùng với `forEach()`** — `BiConsumer<T,U>` dành cho `Map.forEach()`.
+
+:::
+
 ## Consumer là gì?
 
 `Consumer<T>` là một **Functional Interface** (giao diện hàm) trong package `java.util.function`. Nó đại diện cho một **hành động** nhận vào một đối số kiểu `T` và **không trả về kết quả** (void). Cái tên "Consumer" (người tiêu thụ) phản ánh đúng bản chất: nhận dữ liệu vào để xử lý, không cho ra giá trị mới.

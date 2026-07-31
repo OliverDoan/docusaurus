@@ -24,6 +24,15 @@ flowchart TD
 
 Đọc sơ đồ: `break` nhảy thẳng ra ngoài, kết thúc vòng lặp; còn `continue` bỏ qua phần còn lại của lần lặp hiện tại rồi quay lại kiểm tra điều kiện để tiếp tục vòng sau.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`break` thoát hẳn khỏi vòng lặp** — dừng ngay vòng lặp gần nhất (hoặc `switch`), luồng chạy tiếp sau vòng lặp.
+- ⭐ **`continue` chỉ bỏ qua phần còn lại của lần lặp hiện tại** — rồi quay lại kiểm tra điều kiện để chạy vòng tiếp theo.
+- **Chỉ tác động vòng lặp chứa trực tiếp** — trong vòng lặp lồng nhau, `break`/`continue` mặc định chỉ ảnh hưởng vòng trong.
+- **Nhãn (label)** như `outerLoop:` cho phép `break`/`continue` điều khiển vòng lặp bên ngoài.
+
+:::
+
 ---
 
 ## Câu lệnh `break`

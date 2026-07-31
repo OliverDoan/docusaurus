@@ -7,6 +7,16 @@ title: "Regular Expression trong Java"
 
 **Regular Expression** (biểu thức chính quy, viết tắt **Regex**) là một chuỗi ký tự đặc biệt dùng để **tìm kiếm, kiểm tra và thay thế** các mẫu văn bản. Java hỗ trợ Regex thông qua gói `java.util.regex`.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Regex là mẫu ký tự để tìm/kiểm tra/thay thế văn bản** — trong Java xử lý qua gói `java.util.regex`.
+- **`Pattern.compile()` biên dịch mẫu một lần rồi tái sử dụng**, `pattern.matcher(input)` tạo `Matcher` để đối sánh.
+- **`find()` dò từng lần khớp, `matches()` kiểm tra toàn bộ chuỗi** — lấy phần khớp bằng `group()`.
+- **Trong Java String phải escape `\` thành `\\`** — ví dụ `\d` viết là `"\\d"`.
+- **`replaceAll()`, `split()` và capture group `(...)`** dùng để thay thế, tách chuỗi và trích xuất nhóm qua `group(n)`.
+
+:::
+
 ---
 
 ## Các ký tự đặc biệt trong Regex

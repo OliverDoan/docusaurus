@@ -18,6 +18,15 @@ flowchart LR
     COL --> P["partitioningBy"]
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Collectors`** — lớp tiện ích cung cấp các `Collector` sẵn dùng cho `collect()` của Stream.
+- **Thu thập vào collection** — `toList()`, `toSet()`, `toMap()`, `toCollection()`, `joining()`.
+- **Thống kê** — `counting()`, `summingInt()`, `averagingInt()`, `summarizingInt()`.
+- ⭐ **Nhóm mạnh mẽ** — `groupingBy()` (như `GROUP BY` trong SQL) và `partitioningBy()` (chia true/false).
+
+:::
+
 ## Collectors là gì?
 
 `Collectors` là một lớp tiện ích (utility class) trong package `java.util.stream`, cung cấp các **Collector** sẵn dùng. **Collector** (bộ thu thập) là đối số truyền vào phương thức `collect()` của Stream, chỉ định cách tổng hợp và thu thập kết quả từ Stream.

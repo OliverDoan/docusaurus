@@ -21,6 +21,15 @@ flowchart TD
 
 Đọc sơ đồ: nhánh trái cho thấy với Checked Exception thì bắt buộc khai báo `throws`; còn `throw` luôn là điểm ném lỗi thực tế trong thân phương thức.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`throw` là hành động, `throws` là khai báo** — `throw` ném ngoại lệ ngay tại một dòng trong thân phương thức; `throws` chỉ báo trước ở chữ ký rằng phương thức có thể ném lỗi.
+- **`throw` chỉ ném một ngoại lệ mỗi lần** — đối tượng ném phải là instance của `Throwable` hoặc lớp con; code sau `throw` không được chạy.
+- **`throws` chủ yếu dùng cho Checked Exception** — người gọi buộc phải `try-catch` hoặc khai báo `throws` tiếp; với `RuntimeException` thì không bắt buộc.
+- **`throws` khai báo được nhiều ngoại lệ** — liệt kê cách nhau bằng dấu phẩy ngay trên chữ ký phương thức.
+
+:::
+
 ---
 
 ## 1. Từ khóa `throw`

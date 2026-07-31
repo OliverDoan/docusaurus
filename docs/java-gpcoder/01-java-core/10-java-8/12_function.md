@@ -16,6 +16,14 @@ flowchart LR
     F2 --> Y["Kết quả"]
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Function<T,R>`** — biến đổi `T` thành `R` qua `apply(T t)`, interface quan trọng nhất của lập trình hàm.
+- **Nối hàm** — `andThen()` (f trước rồi g), `compose()` (g trước rồi f); `Function.identity()` giữ nguyên đầu vào.
+- **Biến thể** — `BiFunction<T,U,R>`, `UnaryOperator<T>` (`T→T`), `BinaryOperator<T>` (`T,T→T`).
+
+:::
+
 ## Function là gì?
 
 `Function<T, R>` là một **Functional Interface** (giao diện hàm) trong package `java.util.function`. Nó đại diện cho một hàm nhận vào **một đối số** kiểu `T` và **trả về kết quả** kiểu `R`. Đây là interface quan trọng nhất trong lập trình hàm với Java 8.

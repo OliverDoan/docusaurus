@@ -7,6 +7,16 @@ title: "Hướng dẫn sử dụng luồng vào ra nhị phân trong Java - Byte
 
 Byte Stream là loại luồng dùng để đọc và ghi dữ liệu theo từng byte, phù hợp cho các file nhị phân như ảnh, âm thanh, video hay file nén. Đây là nền tảng quan trọng khi bạn cần sao chép file hoặc lưu dữ liệu thô. Bài này hướng dẫn các lớp Byte Stream thường dùng kèm ví dụ thực tế.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Byte Stream đọc/ghi theo từng byte** — phù hợp dữ liệu nhị phân (ảnh, video, file nén); lớp gốc là `InputStream`/`OutputStream`.
+- **`FileInputStream`/`FileOutputStream` làm việc với file** — nên bọc trong `BufferedInputStream`/`BufferedOutputStream` để tăng tốc.
+- ⭐ **`DataInputStream`/`DataOutputStream` đọc/ghi kiểu nguyên thủy** — phải đọc **đúng thứ tự** đã ghi vì file nhị phân không có dấu phân cách.
+- **`ByteArrayInputStream`/`ByteArrayOutputStream` xử lý dữ liệu trong RAM** — không cần file.
+- **`read()` trả về `-1` khi hết dữ liệu** — điều kiện dừng vòng lặp đọc.
+
+:::
+
 ## Byte Stream là gì?
 
 **Byte Stream** (luồng byte — luồng xử lý dữ liệu theo đơn vị 1 byte = 8 bit) là loại luồng dùng để đọc và ghi dữ liệu nhị phân như hình ảnh, âm thanh, video, file nén, hoặc bất kỳ file nào không phải văn bản thuần.

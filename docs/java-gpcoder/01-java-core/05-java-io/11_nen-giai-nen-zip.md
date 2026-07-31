@@ -7,6 +7,16 @@ title: "Hướng dẫn nén và giải nén trong Java - Zip"
 
 Nén file giúp tiết kiệm dung lượng lưu trữ và tăng tốc khi truyền dữ liệu qua mạng. Java cung cấp sẵn gói `java.util.zip` để nén/giải nén theo định dạng ZIP (gộp nhiều file) và GZIP (nén một file đơn). Bài này giới thiệu khái niệm tổng quan cùng các ví dụ nén file, nén thư mục và lưu ý bảo mật; chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Gói `java.util.zip` hỗ trợ sẵn: ZIP (gộp nhiều file) và GZIP (nén một file đơn)** — không cần thư viện ngoài.
+- **Nén ZIP: `ZipOutputStream` + `putNextEntry(ZipEntry)` + `write` + `closeEntry()`** cho từng file; giải nén: `ZipInputStream` + `getNextEntry()`.
+- **`ZipFile` đọc ngẫu nhiên entry mà không cần giải nén tuần tự** — tiện để xem thông tin file trong archive.
+- ⭐ **Luôn kiểm tra Zip Slip khi giải nén nguồn không tin cậy** — so sánh canonical path để chặn đường dẫn `../` ghi file ra ngoài thư mục đích.
+- **`GZIPOutputStream`/`GZIPInputStream` cho một file đơn** — GZIP không phải archive nhiều file như ZIP.
+
+:::
+
 ## Tổng quan
 
 Java cung cấp gói `java.util.zip` với các lớp hỗ trợ nén và giải nén file theo định dạng **ZIP** (định dạng nén phổ biến) và **GZIP** (nén một file đơn):

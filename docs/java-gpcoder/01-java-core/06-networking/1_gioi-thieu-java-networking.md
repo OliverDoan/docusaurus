@@ -7,6 +7,16 @@ title: "Lập trình mạng với Java - Java Networking"
 
 Lập trình mạng là cách giúp ứng dụng Java giao tiếp với nhau qua mạng máy tính, từ mạng nội bộ cho tới Internet. Java cung cấp sẵn gói `java.net` với các lớp để xử lý địa chỉ IP, URL và truyền dữ liệu qua TCP hoặc UDP. Bài này giới thiệu các khái niệm nền tảng cùng ví dụ minh họa cho từng giao thức.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Mọi tác vụ mạng đều đi qua gói `java.net`** — cung cấp các lớp xử lý địa chỉ IP, URL và truyền dữ liệu TCP/UDP.
+- ⭐ **TCP có kết nối và tin cậy, UDP không kết nối và nhanh hơn** — TCP đảm bảo thứ tự (HTTP, FTP), UDP best-effort (streaming, DNS, game online).
+- **`InetAddress` biểu diễn và tra cứu địa chỉ IP** — lấy qua `getByName()` / `getLocalHost()`, không có constructor công khai.
+- **`URL` / `URLConnection` đọc tài nguyên web** — mở kết nối HTTP/HTTPS qua `openConnection()` rồi đọc `getInputStream()`.
+- **UDP dùng `DatagramSocket` + `DatagramPacket`** — đóng gói dữ liệu vào packet rồi gửi/nhận qua socket.
+
+:::
+
 ## 1. Giới thiệu
 
 **Java Networking** (lập trình mạng trong Java) là tập hợp các API giúp ứng dụng Java giao tiếp qua mạng máy tính — bao gồm mạng nội bộ (LAN) và Internet. Java cung cấp gói `java.net` với nhiều lớp tiện ích để xử lý địa chỉ IP, URL, kết nối TCP và UDP.

@@ -22,6 +22,16 @@ flowchart TD
 
 Đọc sơ đồ: dù đi theo nhánh có lỗi hay không lỗi, `close()` đều được gọi tự động, nhờ đó tránh được **resource leak** (rò rỉ tài nguyên) mà không cần khối `finally` thủ công.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **try-with-resources tự động đóng tài nguyên** — tài nguyên khai báo trong `try(...)` luôn được `close()` dù có ngoại lệ hay không, tránh resource leak mà không cần `finally` thủ công.
+- ⭐ **Multi-catch gộp nhiều ngoại lệ bằng dấu `|`** — `catch (IOException | SQLException e)` giúp giảm code trùng lặp khi xử lý giống nhau.
+- **Multi-catch không được chứa ngoại lệ cha-con** — ví dụ `IOException | FileNotFoundException` gây lỗi biên dịch, chỉ cần dùng lớp cha là đủ.
+- **Tài nguyên phải implement `AutoCloseable` (hoặc `Closeable`)** — mới dùng được với try-with-resources.
+- **Nhiều tài nguyên ngăn cách bằng `;`** — và được đóng theo thứ tự ngược với khi khai báo.
+
+:::
+
 ---
 
 ## 1. Multi-catch — Bắt nhiều ngoại lệ trong một khối catch

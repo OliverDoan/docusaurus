@@ -7,6 +7,16 @@ title: "Lập trình đa luồng với CompletableFuture trong Java 8"
 
 `CompletableFuture` là công cụ mạnh mẽ của Java 8 để lập trình bất đồng bộ mà không phải chặn luồng chờ kết quả. Nó cho phép ghép nối nhiều tác vụ thành chuỗi (pipeline), kết hợp kết quả từ nhiều tác vụ và xử lý lỗi gọn gàng — giống như Promise trong JavaScript. Bài này giới thiệu khái niệm tổng quan cùng các phương thức thường dùng; chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`CompletableFuture` cho phép lập trình bất đồng bộ theo pipeline mà không block luồng** — giống Promise trong JavaScript.
+- **Tạo bằng `supplyAsync`** (có kết quả) / **`runAsync`** (không kết quả); mặc định dùng `ForkJoinPool.commonPool()`.
+- **Ghép nối**: `thenApply` (biến đổi), `thenAccept` (tiêu thụ), `thenCompose` (ghép tác vụ async, tránh lồng CF trong CF).
+- **Kết hợp nhiều CF**: `allOf` (chờ tất cả), `anyOf` (lấy nhanh nhất), `thenCombine` (kết hợp 2 CF).
+- ⭐ **Xử lý lỗi theo chuỗi**: `exceptionally`, `handle`, `whenComplete`.
+
+:::
+
 ## Hạn chế của Future
 
 `Future` có những giới hạn:

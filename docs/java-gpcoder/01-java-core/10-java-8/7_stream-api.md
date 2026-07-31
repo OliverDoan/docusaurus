@@ -7,6 +7,15 @@ title: "Giới thiệu về Stream API trong Java 8"
 
 Stream API là tính năng nổi bật của Java 8 cho phép xử lý tập hợp dữ liệu theo phong cách khai báo và hàm, tập trung vào việc mô tả điều muốn làm thay vì viết từng bước thủ công. Với Stream, bạn có thể lọc, biến đổi, sắp xếp và tổng hợp dữ liệu chỉ bằng vài dòng code dễ đọc. Bài này giới thiệu pipeline xử lý cùng các thao tác trung gian và kết cuối thường dùng.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Stream` xử lý dữ liệu theo phong cách khai báo** — KHÔNG lưu trữ dữ liệu, chỉ xử lý từ nguồn.
+- ⭐ **Pipeline 3 phần** — Source → Intermediate (`filter`, `map`, `sorted` — lazy) → Terminal (`collect`, `count`...) mới kích hoạt.
+- **Nhiều terminal op** — `collect`, `count`, `findFirst`, `anyMatch`/`allMatch`, `reduce`...
+- **Không tái sử dụng** — gọi terminal xong phải tạo `Stream` mới, nếu không sẽ `IllegalStateException`.
+
+:::
+
 ## Stream API là gì?
 
 **Stream API** (Luồng xử lý dữ liệu) trong Java 8 cung cấp một cách xử lý tập hợp dữ liệu theo phong cách **khai báo** (declarative) và **hàm** (functional) — tập trung vào **mô tả điều muốn làm** thay vì **cách thực hiện từng bước**.

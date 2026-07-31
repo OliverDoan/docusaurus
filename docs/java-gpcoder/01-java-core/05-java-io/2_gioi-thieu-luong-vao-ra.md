@@ -7,6 +7,16 @@ title: "Giới thiệu luồng vào ra (I/O) trong Java"
 
 I/O (vào/ra) là cách chương trình Java trao đổi dữ liệu với bên ngoài như bàn phím, màn hình, file hay mạng. Mọi thao tác này đều dựa trên khái niệm luồng dữ liệu (stream). Bài này giới thiệu tổng quan về I/O, phân biệt luồng byte và luồng ký tự, làm nền tảng cho các bài chi tiết phía sau.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Java I/O dựa trên khái niệm Stream (luồng)** — dữ liệu chảy tuần tự từ nguồn tới đích.
+- ⭐ **Hai loại: Byte Stream vs Character Stream** — Byte Stream (`InputStream`/`OutputStream`) cho dữ liệu nhị phân; Character Stream (`Reader`/`Writer`) cho văn bản Unicode.
+- **Luôn dùng try-with-resources** — tự động đóng stream, tránh rò rỉ tài nguyên.
+- **Bọc bằng `BufferedInputStream`/`BufferedReader`** — tăng hiệu năng nhờ bộ đệm.
+- **3 luồng chuẩn** — `System.in`, `System.out`, `System.err`.
+
+:::
+
 ## I/O là gì?
 
 **I/O** (Input/Output — Vào/Ra) là cơ chế cho phép chương trình Java trao đổi dữ liệu với thế giới bên ngoài: đọc từ bàn phím, ghi ra màn hình, đọc/ghi file, truyền dữ liệu qua mạng, v.v.

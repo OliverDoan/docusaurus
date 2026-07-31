@@ -22,6 +22,16 @@ flowchart TD
 
 Đọc sơ đồ: mọi thao tác dereference trên một tham chiếu `null` đều ném NPE, nên chốt chặn là kiểm tra null trước khi dùng.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **NPE xảy ra khi dereference một tham chiếu `null`** — gọi method, truy cập field, truy cập phần tử mảng hay unboxing `Integer` sang `int`.
+- ⭐ **Kiểm tra null trước khi dùng là chốt chặn cơ bản nhất** — dùng `if (x == null)` hoặc `Objects.requireNonNull()`.
+- **`Optional<T>` (Java 8+)** — biểu diễn rõ ràng "có thể không có giá trị" với `orElse`, `orElseGet`, `orElseThrow`, `ifPresent`, `map`.
+- **Lớp tiện ích `Objects`** — `isNull`, `nonNull`, `requireNonNullElse`, `toString` an toàn với null.
+- **Null Object Pattern** — trả về đối tượng "rỗng" có hành vi mặc định thay vì trả `null`.
+
+:::
+
 ---
 
 ## Nguyên nhân gây NullPointerException

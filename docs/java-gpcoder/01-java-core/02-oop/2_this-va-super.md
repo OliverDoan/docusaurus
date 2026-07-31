@@ -25,6 +25,16 @@ classDiagram
 
 Đọc sơ đồ: bên trong đối tượng `OTo`, `this` tham chiếu thành viên của chính `OTo`, còn `super` cho phép gọi constructor và phương thức của lớp cha `XeCoGioi`.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`this` trỏ đối tượng hiện tại, `super` trỏ lớp cha** — dùng để phân biệt biến trùng tên và truy cập thành viên bị che khuất.
+- **`this()` và `super()`** — gọi constructor cùng lớp / constructor lớp cha, và bắt buộc là câu lệnh ĐẦU TIÊN trong constructor.
+- **Không dùng đồng thời** — `this()` và `super()` không thể cùng xuất hiện trong một constructor.
+- **`super.method()`** — cho lớp con gọi lại logic phương thức lớp cha khi ghi đè (override).
+- **Cấm trong `static`** — cả `this` và `super` đều không dùng được trong ngữ cảnh static.
+
+:::
+
 ---
 
 ## 1. Từ khóa `this`

@@ -24,6 +24,16 @@ classDiagram
     Hashtable <|-- Properties : kế thừa
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Hashtable` thread-safe** — mọi phương thức đều được đồng bộ hóa bằng `synchronized`.
+- **Không cho phép `null`** — cả key lẫn value đều ném `NullPointerException` nếu là `null`.
+- **Kế thừa từ `Dictionary`** (lớp cũ, lỗi thời), không phải `AbstractMap`; là lớp cha của `Properties`.
+- **Duyệt bằng `Enumeration`** — qua `keys()` và `elements()` (cách cũ).
+- ⭐ **Nên thay bằng `ConcurrentHashMap`** — hiệu năng cao hơn nhờ chỉ khóa một phần bảng; dùng `HashMap` nếu không cần đa luồng.
+
+:::
+
 ## Đặc điểm của Hashtable
 
 - **Thread-safe** (an toàn với đa luồng): tất cả các phương thức đều được đồng bộ hóa bằng `synchronized`.

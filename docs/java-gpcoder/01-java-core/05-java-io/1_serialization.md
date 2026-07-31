@@ -7,6 +7,16 @@ title: "Serialization và Deserialization trong Java"
 
 Serialization là cách chuyển một object Java thành chuỗi byte để lưu xuống file, cho vào cache hoặc gửi qua mạng; còn Deserialization là quá trình ngược lại để dựng lại object từ chuỗi byte đó. Đây là kiến thức nền tảng khi cần lưu trạng thái đối tượng hoặc truyền đối tượng giữa các hệ thống. Bài này giới thiệu khái niệm tổng quan cùng ví dụ thực tế; chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Class phải `implements Serializable`** — đây là marker interface (không có method) cho phép object được chuyển thành chuỗi byte.
+- **`ObjectOutputStream.writeObject()` ghi, `ObjectInputStream.readObject()` đọc** — hai chiều Serialization và Deserialization.
+- ⭐ **`transient` loại trường khỏi serialize** — trường này nhận giá trị mặc định (như `null`) khi tái tạo, dùng cho dữ liệu nhạy cảm.
+- **Luôn khai báo `serialVersionUID`** — nếu class đổi mà UID không khớp, deserialize từ file cũ ném `InvalidClassException`.
+- **Cẩn thận Deserialization Attack** — không deserialize dữ liệu từ nguồn không tin cậy.
+
+:::
+
 ## Giới thiệu
 
 **Serialization** (tuần tự hóa — quá trình chuyển đổi một object Java thành chuỗi byte để lưu trữ hoặc truyền qua mạng) và **Deserialization** (giải tuần tự hóa — quá trình tái tạo lại object Java từ chuỗi byte) là hai cơ chế quan trọng trong Java I/O.

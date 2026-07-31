@@ -17,6 +17,16 @@ flowchart LR
 
 Đọc sơ đồ: chiều đi từ kiểu nguyên thủy sang Wrapper là **Autoboxing**; chiều ngược lại, đưa Wrapper về kiểu nguyên thủy, là **Unboxing**. Cả hai đều do trình biên dịch tự thực hiện từ Java 5.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hai chiều tự động** — `Autoboxing` chuyển kiểu nguyên thủy → Wrapper Class, `Unboxing` chuyển ngược lại, đều tự động từ Java 5.
+- **8 kiểu nguyên thủy có Wrapper tương ứng** — ví dụ `int`→`Integer`, `double`→`Double`; cần vì Collections chỉ nhận Object.
+- ⭐ **Cạm bẫy `==` với `Integer`** — chỉ đúng trong vùng cache −128..127, ngoài vùng đó cho kết quả sai; luôn dùng `.equals()`.
+- **Tránh `NullPointerException`** — kiểm tra `null` trước khi unboxing một Wrapper Class.
+- **Chú ý hiệu suất** — tránh boxing/unboxing lặp lại trong vòng lặp lớn, nên dùng kiểu nguyên thủy.
+
+:::
+
 ## Kiểu nguyên thủy và Wrapper Class
 
 Java có 8 **kiểu dữ liệu nguyên thủy** (primitive types): `byte`, `short`, `int`, `long`, `float`, `double`, `char`, `boolean`.

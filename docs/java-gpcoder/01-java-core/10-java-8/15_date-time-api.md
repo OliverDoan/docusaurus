@@ -7,6 +7,15 @@ title: "Date Time API trong Java 8"
 
 Date/Time API là bộ thư viện xử lý ngày giờ mới (package `java.time`) được Java 8 giới thiệu để thay thế cho `Date` và `Calendar` cũ kỹ, khó dùng. Bài viết giúp bạn làm việc với ngày, giờ, múi giờ, khoảng thời gian và định dạng ngày giờ một cách an toàn và rõ ràng. Đây là kiến thức cần thiết cho hầu hết mọi ứng dụng Java thực tế.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`java.time` thay `Date`/`Calendar`** — bất biến (immutable) và thread-safe, thiết kế rõ ràng hơn.
+- **Các lớp ngày giờ** — `LocalDate`, `LocalTime`, `LocalDateTime`, `ZonedDateTime` (có múi giờ), `Instant` (UTC tuyệt đối).
+- **Khoảng thời gian** — `Period` (năm/tháng/ngày) vs `Duration` (giờ/giây); `ChronoUnit` để tính khoảng cách.
+- **`DateTimeFormatter`** — định dạng (format) và phân tích (parse) ngày giờ.
+
+:::
+
 ## Tại sao cần Date/Time API mới?
 
 Trước Java 8, `java.util.Date` và `java.util.Calendar` có nhiều vấn đề nghiêm trọng:

@@ -30,6 +30,16 @@ classDiagram
 
 Vì `HashSet` ủy quyền việc lưu trữ cho `HashMap`, cả hai chia sẻ đặc tính hiệu năng O(1) trung bình của cơ chế băm.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`HashSet` thực chất là một `HashMap` bên trong** — khi `add(e)` nó gọi `map.put(e, PRESENT)` với object giả `PRESENT` làm value.
+- **Mục đích khác nhau** — `HashMap` lưu cặp key-value (`put`/`get`), `HashSet` chỉ lưu các phần tử duy nhất (`add`/`contains`).
+- **Cho phép `null`** — `HashMap` nhận 1 null key và nhiều null value; `HashSet` nhận 1 null value.
+- **Hiệu năng** — cả hai đạt O(1) trung bình nhờ cơ chế băm.
+- **Khi nào dùng** — `HashMap` khi cần ánh xạ (cache, đếm tần suất); `HashSet` khi chỉ cần tập hợp không trùng.
+
+:::
+
 ## Điểm khác biệt cốt lõi
 
 | Tiêu chí | HashMap | HashSet |

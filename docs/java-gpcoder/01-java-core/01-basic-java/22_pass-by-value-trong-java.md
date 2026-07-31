@@ -32,6 +32,16 @@ flowchart TB
 
 Đọc sơ đồ: với kiểu nguyên thủy, bản sao hoàn toàn độc lập. Với đối tượng, bản sao là **tham chiếu** cùng trỏ tới một đối tượng, nên sửa nội dung thì ảnh hưởng, nhưng gán lại tham chiếu thì không.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Java LUÔN truyền theo giá trị (pass by value)** — luôn tạo bản sao, không có pass by reference.
+- **Kiểu nguyên thủy: truyền bản sao giá trị** — đổi tham số trong method không ảnh hưởng biến gốc.
+- **Đối tượng: truyền bản sao tham chiếu** — sửa nội dung qua `p.name` ảnh hưởng đối tượng gốc, nhưng gán lại `p = new ...` thì không.
+- **`String` là bất biến (immutable)** — nối/gán lại chuỗi tạo đối tượng mới, biến gốc không đổi.
+- **Muốn "thay đổi" giá trị thì dùng `return`** để nhận lại kết quả mới.
+
+:::
+
 ---
 
 ## Trường hợp 1: Kiểu nguyên thủy

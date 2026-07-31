@@ -7,6 +7,16 @@ title: "Sử dụng JDBC API thực thi câu lệnh truy vấn dữ liệu"
 
 Sau khi đã kết nối được cơ sở dữ liệu, bước tiếp theo là thực thi các câu lệnh SQL để đọc và ghi dữ liệu. Bài này hướng dẫn cách dùng `Statement`, `PreparedStatement` và `ResultSet` để chạy SELECT, INSERT, UPDATE, DELETE, cũng như quản lý transaction và batch update. Đây là kỹ năng cốt lõi để thao tác dữ liệu an toàn và tránh lỗi SQL Injection.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Luôn dùng `PreparedStatement` với tham số `?`** thay vì ghép chuỗi để ngăn `SQL Injection`.
+- **`executeQuery()`** cho SELECT (trả `ResultSet`); **`executeUpdate()`** cho INSERT/UPDATE/DELETE (trả số hàng ảnh hưởng).
+- **`ResultSet`** duyệt tuần tự bằng vòng lặp `next()`, lấy giá trị qua `getInt`/`getString`...
+- ⭐ **Transaction**: `setAutoCommit(false)` + `commit()`/`rollback()` để đảm bảo toàn vẹn dữ liệu.
+- **Batch**: `addBatch()` + `executeBatch()` tăng hiệu năng khi thao tác nhiều hàng.
+
+:::
+
 ## Các lớp thực thi SQL trong JDBC
 
 Sau khi có `Connection`, JDBC cung cấp ba lớp để thực thi câu lệnh SQL:

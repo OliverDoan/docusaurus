@@ -7,6 +7,16 @@ title: "Xây dựng ứng dụng Client-Server với Socket trong Java"
 
 Mô hình Client-Server là kiến trúc mạng phổ biến nhất, nơi máy chủ lắng nghe và xử lý yêu cầu còn máy khách chủ động kết nối tới. Trong Java, ta hiện thực mô hình này bằng hai lớp Socket và ServerSocket để truyền dữ liệu qua TCP. Bài này hướng dẫn xây dựng từ Echo Server cơ bản đến ứng dụng chat nhiều client qua các ví dụ đầy đủ.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`ServerSocket` lắng nghe, `Socket` là kênh hai chiều** — server gọi `accept()` (chặn tới khi có client), client tạo `new Socket(host, port)` để bắt tay TCP.
+- ⭐ **Nhiều client dùng mô hình Thread-per-Connection** — tạo một `Thread` mới cho mỗi `Socket` để các client không chặn nhau.
+- **Trao đổi văn bản qua `BufferedReader` / `PrintWriter`** — lấy từ `getInputStream()` / `getOutputStream()`; `readLine()` trả `null` khi kết nối đóng.
+- **Thread-per-Connection tốn bộ nhớ khi client tăng cao** — nâng cao bằng `ExecutorService` (thread pool) hoặc NIO với `Selector`.
+- **Luôn `close()` socket để giải phóng tài nguyên** — thường đặt trong `finally` hoặc dùng try-with-resources.
+
+:::
+
 ## 1. Tổng quan mô hình Client-Server
 
 **Client-Server** (máy khách – máy chủ) là mô hình kiến trúc mạng phổ biến nhất:

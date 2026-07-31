@@ -20,6 +20,15 @@ flowchart TD
 
 Đọc sơ đồ: mỗi khi gặp dấu `\`, trình biên dịch đọc thêm ký tự phía sau để tạo ra ký tự thoát tương ứng, thay vì hiểu theo nghĩa gốc.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Ký tự thoát bắt đầu bằng `\`** — dùng để biểu diễn các ký tự không gõ trực tiếp được trong chuỗi.
+- **Hay dùng nhất** — `\n` (xuống dòng), `\t` (tab), `\\` (backslash), `\"` (ngoặc kép).
+- **Unicode `\uXXXX`** — biểu diễn mọi ký tự quốc tế bằng 4 chữ số hex.
+- ⭐ **Text Block `"""..."""` (Java 15+)** — viết chuỗi nhiều dòng gọn gàng mà không cần `\n`.
+
+:::
+
 ---
 
 ## Bảng ký tự thoát (Escape Characters)

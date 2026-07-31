@@ -24,3 +24,11 @@ flowchart TD
 ```
 
 Đọc sơ đồ: `for` và `while` có thể chạy 0 lần nếu điều kiện sai ngay từ đầu; còn `do-while` luôn chạy thân vòng lặp **ít nhất một lần** vì kiểm tra điều kiện đặt ở cuối.
+
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Khác biệt cốt lõi: kiểm tra điều kiện trước hay sau** — `for` và `while` kiểm tra **trước** khi chạy thân, còn `do-while` kiểm tra **sau**.
+- **`do-while` luôn chạy ít nhất một lần** vì điều kiện được xét ở cuối vòng lặp.
+- **`for` / `while` có thể chạy 0 lần** nếu điều kiện sai ngay từ đầu.
+
+:::

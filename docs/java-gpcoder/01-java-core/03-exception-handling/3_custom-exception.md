@@ -24,6 +24,16 @@ classDiagram
 
 Đọc sơ đồ: `SoDuKhongDuException` kế thừa trực tiếp `Exception` nên là Checked (bắt buộc xử lý); `MaSanPhamKhongHopLeException` kế thừa `RuntimeException` nên là Unchecked (không bắt buộc xử lý).
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Kế thừa `Exception` hay `RuntimeException` quyết định Checked/Unchecked** — con của `Exception` là Checked (bắt buộc xử lý), con của `RuntimeException` là Unchecked (không bắt buộc).
+- **Custom Exception mang ý nghĩa nghiệp vụ** — như `InsufficientBalanceException`, `UserNotFoundException`, giúp code dễ đọc và dễ debug hơn ngoại lệ kỹ thuật chung.
+- **Nên có constructor nhận `Throwable cause`** — gọi `super(message, cause)` để bảo toàn stack trace gốc.
+- **Chọn loại theo tình huống** — Unchecked cho lỗi lập trình/tham số sai; Checked cho lỗi nghiệp vụ mà người gọi có thể phục hồi.
+- **Quy ước đặt tên kết thúc bằng `Exception`.**
+
+:::
+
 ---
 
 ## 1. Tại sao cần Custom Exception?

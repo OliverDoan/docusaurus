@@ -30,6 +30,16 @@ flowchart TD
 
 Các bước chi tiết sẽ được trình bày ngay bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Luồng `put(key, value)`** — tính `hash(key)`, suy ra `index = hash & (capacity - 1)` rồi lưu Entry vào bucket tương ứng.
+- ⭐ **Xử lý collision** — nhiều key cùng bucket được nối thành linked list; nếu key trùng (so bằng `equals()`) thì ghi đè value.
+- **Treeify từ Java 8** — bucket đạt `TREEIFY_THRESHOLD = 8` node sẽ chuyển thành Red-Black Tree (tìm kiếm O(log n)), thu về linked list khi còn `UNTREEIFY_THRESHOLD = 6`.
+- **Resize** — khi `size > capacity * loadFactor` (mặc định 0.75) thì tăng gấp đôi capacity và phân phối lại phần tử, thao tác tốn kém O(n).
+- **Custom object làm key** — bắt buộc override cả `hashCode()` và `equals()` để tra cứu và so sánh đúng.
+
+:::
+
 ## Cấu trúc nội tại: Array of Buckets
 
 `HashMap` lưu trữ dữ liệu trong một **mảng các bucket** (thùng chứa). Mỗi bucket là một vị trí trong mảng, và mỗi vị trí có thể chứa một hoặc nhiều cặp key-value.

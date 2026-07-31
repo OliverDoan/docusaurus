@@ -7,6 +7,16 @@ title: "Sử dụng CyclicBarrier trong Java"
 
 `CyclicBarrier` là cơ chế giúp một nhóm luồng chờ nhau tại một điểm gặp chung, rồi cùng nhau đi tiếp. Khác với `CountDownLatch`, nó có thể tái sử dụng nhiều lần nên rất hợp với các bài toán xử lý theo nhiều vòng hoặc nhiều giai đoạn. Bài này giới thiệu khái niệm tổng quan và so sánh với `CountDownLatch`; chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`CyclicBarrier` cho N luồng chờ nhau tại điểm gặp chung rồi cùng đi tiếp** — tự reset nên tái sử dụng được.
+- ⭐ **Khác `CountDownLatch`**: các luồng chờ LẪN NHAU (không phải chờ sự kiện ngoài) và có thể tái sử dụng nhiều vòng.
+- **Có thể chạy `barrierAction`** (một Runnable) khi đủ số luồng tập hợp.
+- **`await()` bị interrupt hoặc timeout gây `BrokenBarrierException`** — barrier chuyển trạng thái broken, dùng `reset()` để khôi phục.
+- **Phù hợp** xử lý theo giai đoạn/nhiều vòng, game nhiều người chơi, benchmark.
+
+:::
+
 ## CyclicBarrier là gì?
 
 **CyclicBarrier** (rào chắn chu kỳ — cơ chế đồng bộ cho phép một nhóm luồng chờ nhau tại một điểm gặp chung, rồi cùng tiến về phía trước) là class trong `java.util.concurrent`.

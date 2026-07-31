@@ -21,6 +21,16 @@ flowchart TD
 
 Đọc sơ đồ: ưu tiên `SecureRandom` khi liên quan bảo mật, `ThreadLocalRandom` khi chạy đa luồng, còn `Math.random()` chỉ dùng cho nhu cầu đơn giản.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Chọn công cụ sinh ngẫu nhiên theo nhu cầu** — không có một cách "tốt nhất" cho mọi trường hợp.
+- **`Math.random()` cho nhu cầu đơn giản** — trả về số thực trong khoảng `[0.0, 1.0)`, viết gọn một dòng.
+- **`Random` linh hoạt hơn** — nhiều phương thức như `nextInt()`, `nextDouble()`, `nextBoolean()`.
+- **`ThreadLocalRandom` cho đa luồng** — hiệu năng tốt hơn khi nhiều luồng cùng sinh số.
+- **`SecureRandom` cho bảo mật** — dùng khi tạo OTP, token, mật khẩu; còn `UUID.randomUUID()` khi cần ID duy nhất.
+
+:::
+
 ---
 
 ## 1. Math.random()

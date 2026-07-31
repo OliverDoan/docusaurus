@@ -26,6 +26,15 @@ classDiagram
 
 Lưu ý: `Stack` cũng kế thừa từ `Vector`, nên thừa hưởng cả tính thread-safe lẫn nhược điểm hiệu năng của lớp cha.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Vector` thread-safe theo mặc định** — mọi phương thức đều `synchronized`, khác với `ArrayList`.
+- **Là mảng động** — có từ Java 1.0, tương tự `ArrayList` nhưng tăng capacity gấp đôi khi đầy (`ArrayList` tăng ~50%).
+- **Hỗ trợ cả `Iterator` lẫn `Enumeration`** — `Enumeration` là kiểu duyệt cũ, nên tránh trong code mới.
+- **Ít dùng trong code hiện đại** — nên thay bằng `ArrayList`, `Collections.synchronizedList()` hoặc `CopyOnWriteArrayList`.
+
+:::
+
 ## Đặc điểm của Vector
 
 - **Thread-safe**: tất cả phương thức đều `synchronized`.

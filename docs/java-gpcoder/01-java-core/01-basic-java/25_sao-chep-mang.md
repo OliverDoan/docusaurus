@@ -26,6 +26,16 @@ flowchart TD
 
 Đọc sơ đồ: chọn hàm sao chép theo mục tiêu, nhưng luôn lưu ý mọi hàm tích hợp đều là **shallow copy** — với mảng đối tượng cần tự làm **deep copy** nếu muốn độc lập.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Mọi hàm sao chép tích hợp đều là shallow copy** — với mảng đối tượng phải tự làm deep copy nếu muốn hai mảng độc lập hoàn toàn.
+- ⭐ **`System.arraycopy()` nhanh nhất** — phương thức native, còn dùng được để dịch chuyển phần tử trong cùng một mảng.
+- **`Arrays.copyOf()`** — sao chép và đổi độ dài (cắt bớt hoặc thêm `0`/`null`).
+- **`Arrays.copyOfRange()`** — lấy một đoạn `[from, to)` của mảng.
+- **Vòng lặp thủ công và `clone()`** — hai cách còn lại để sao chép toàn bộ mảng.
+
+:::
+
 ---
 
 ## 1. Sao chép thủ công bằng vòng lặp

@@ -22,6 +22,16 @@ flowchart TB
 
 Đọc sơ đồ: đi lên (upcasting) luôn an toàn và tự động; đi xuống (downcasting) phải khai báo tường minh và nên kiểm tra bằng `instanceof` để tránh `ClassCastException`.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Upcasting (con → cha) luôn an toàn và tự động** — là nền tảng cho đa hình.
+- **Downcasting (cha → con) phải tường minh** — cú pháp `(KieuCon) obj`, có thể ném `ClassCastException` nếu ép sai.
+- **Luôn kiểm tra `instanceof` trước khi downcast** — để tránh lỗi lúc runtime.
+- **Sau upcasting chỉ thấy thành viên lớp cha** — nhưng phương thức đã override vẫn chạy cài đặt của lớp con.
+- **Pattern Matching (Java 16+)** — `if (obj instanceof ChoNha cho)` giúp downcast ngắn gọn và an toàn hơn.
+
+:::
+
 ---
 
 ## 1. Upcasting — Ép kiểu hướng lên

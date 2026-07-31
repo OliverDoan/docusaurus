@@ -22,6 +22,16 @@ flowchart TD
 
 Đọc sơ đồ: chỉ khi đã chắc chắn giá trị khác `null` mới truy cập trực tiếp; nếu có thể `null` thì phải kiểm tra hoặc bọc bằng `Optional` để tránh phát sinh NPE.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **NPE xảy ra khi thao tác trên tham chiếu `null`** — gọi method hay truy cập thuộc tính của đối tượng đang là `null`.
+- **So sánh chuỗi đặt hằng số trước** — dùng `"ACTIVE".equals(bien)` thay vì `bien.equals("ACTIVE")` để tránh NPE.
+- **Dùng `Optional<T>` cho giá trị có thể vắng mặt** — trả về `Optional.empty()` thay vì `null`, rồi dùng `orElse()` / `ifPresent()`.
+- **Trả về collection rỗng thay vì `null`** — dùng `Collections.emptyList()` để người gọi dùng ngay không cần kiểm tra.
+- **Kiểm tra `null` ở đầu phương thức** — có thể kết hợp annotation `@NonNull` / `@Nullable` để cảnh báo sớm.
+
+:::
+
 ---
 
 ## 1. Nguyên nhân phổ biến

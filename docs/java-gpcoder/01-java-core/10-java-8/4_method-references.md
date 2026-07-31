@@ -17,6 +17,14 @@ flowchart LR
     MR --> T4["Constructor: Class::new"]
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Method Reference (`::`)** — cách viết tắt của lambda khi lambda chỉ gọi đúng một method đã có sẵn.
+- **4 loại** — static (`Class::method`), instance đối tượng cụ thể (`obj::method`), instance tùy ý (`Class::method`), constructor (`Class::new`).
+- **Chỉ dùng khi lambda không có logic thêm** — nếu có xử lý bổ sung thì giữ nguyên lambda cho rõ ràng.
+
+:::
+
 ## Method Reference là gì?
 
 **Method Reference** (tham chiếu phương thức) là cú pháp viết tắt của Lambda Expression khi Lambda chỉ gọi đúng một phương thức đã tồn tại. Thay vì viết `x -> obj.tenPhuongThuc(x)`, ta viết gọn thành `obj::tenPhuongThuc`.

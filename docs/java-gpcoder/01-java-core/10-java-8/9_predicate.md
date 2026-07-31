@@ -16,6 +16,14 @@ flowchart LR
     TEST -->|false| N["Không thỏa"]
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Predicate<T>`** — hàm kiểm tra điều kiện với method `boolean test(T t)`, hay dùng cho `filter()`.
+- **Kết hợp điều kiện** — `and()`, `or()`, `negate()`; Java 11 thêm `Predicate.not()`.
+- **`BiPredicate<T,U>`** — biến thể kiểm tra với hai tham số.
+
+:::
+
 ## Predicate là gì?
 
 `Predicate<T>` là một **Functional Interface** (giao diện hàm) trong package `java.util.function`, đại diện cho một điều kiện (condition) hoặc hàm kiểm tra logic (logic test function). Nó nhận vào một đối số kiểu `T` và trả về `boolean`.

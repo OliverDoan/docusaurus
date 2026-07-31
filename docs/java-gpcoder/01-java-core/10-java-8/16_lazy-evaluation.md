@@ -17,6 +17,15 @@ flowchart LR
     TR --> R["Kết quả"]
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Intermediate op là lazy** — `filter`, `map`, `sorted` chỉ chạy khi có một terminal operation kích hoạt.
+- **Short-circuit** — `findFirst`, `findAny`, `anyMatch`, `limit` dừng sớm ngay khi đủ kết quả.
+- **Xử lý vertical (depth-first)** — mỗi phần tử đi qua toàn bộ pipeline trước khi sang phần tử kế.
+- ⭐ **Tối ưu** — lazy cho phép làm việc với Stream vô hạn; đặt `filter()` sớm; `sorted()` là stateful, không lazy hoàn toàn.
+
+:::
+
 ## Lazy Evaluation là gì?
 
 **Lazy Evaluation** (đánh giá lười biếng) là cơ chế trong đó các phép tính **không được thực hiện ngay** mà chỉ được thực thi khi kết quả thực sự cần thiết. Ngược lại với **Eager Evaluation** (đánh giá tức thì) — thực thi ngay lập tức khi gặp lệnh.

@@ -18,6 +18,15 @@ flowchart TD
     FI --> S["Supplier: void sang T"]
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Chỉ có ĐÚNG một abstract method (SAM)** — là nền tảng cho `lambda` và `Method Reference`.
+- **`@FunctionalInterface`** — tùy chọn nhưng nên dùng để compiler kiểm tra số abstract method.
+- **`default`/`static` method không tính** — không ảnh hưởng tính "functional" của interface.
+- **Ưu tiên dùng `java.util.function`** — đã có sẵn `Predicate`, `Function`, `Consumer`, `Supplier`... thay vì tự tạo.
+
+:::
+
 ## Functional Interface là gì?
 
 **Functional Interface** (giao diện hàm) là interface có **đúng một phương thức trừu tượng** (Single Abstract Method - SAM). Đây là nền tảng cho Lambda Expression và Method Reference trong Java 8.

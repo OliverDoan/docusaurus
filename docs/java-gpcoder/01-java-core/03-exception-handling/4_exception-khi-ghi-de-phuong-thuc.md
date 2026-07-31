@@ -22,6 +22,16 @@ flowchart TD
 
 Đọc sơ đồ: chỉ khi ngoại lệ của lớp con bằng hoặc hẹp hơn lớp cha thì mới hợp lệ; ném rộng hơn hoặc ném Checked khi lớp cha không khai báo `throws` đều gây lỗi biên dịch. Riêng Unchecked Exception luôn được phép.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Ghi đè chỉ được thu hẹp, không được mở rộng Checked Exception** — phương thức con chỉ ném được ngoại lệ bằng hoặc là lớp con của ngoại lệ lớp cha.
+- **Ném rộng hơn gây lỗi biên dịch** — ví dụ lớp cha ném `IOException`, lớp con ném `Exception` sẽ không biên dịch được.
+- **Nếu lớp cha (hoặc interface) không khai báo `throws`** — lớp con chỉ được ném `RuntimeException` (Unchecked) khi ghi đè.
+- **Unchecked Exception luôn được phép** — `RuntimeException` và lớp con không bị quy tắc này hạn chế.
+- **Lý do: đảm bảo Liskov Substitution Principle** — lớp con thay thế được lớp cha mà không làm hỏng khối `catch` của người gọi.
+
+:::
+
 ---
 
 ## 1. Quy tắc tổng quát

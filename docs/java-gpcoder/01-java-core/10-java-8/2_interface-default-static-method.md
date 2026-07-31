@@ -27,6 +27,15 @@ classDiagram
     PhuongTien <|.. OTo : implements
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`default` method** — phương thức có phần thân trong interface; class implement dùng trực tiếp hoặc override.
+- ⭐ **Mục đích chính là backward compatibility** — thêm method mới vào interface cũ (ví dụ `forEach()` vào `Iterable`) mà không vỡ code.
+- **`static` method trong interface** — gọi qua tên interface, class implement không kế thừa.
+- **Diamond problem** — implement 2 interface có default method cùng tên thì bắt buộc override (gọi tường minh `A.super.method()`).
+
+:::
+
 ## Default Method
 
 **Default Method** là phương thức có phần thân được khai báo trong Interface với từ khóa `default`. Các lớp (class) implement interface có thể dùng trực tiếp mà không cần override, hoặc override lại nếu muốn thay đổi hành vi.

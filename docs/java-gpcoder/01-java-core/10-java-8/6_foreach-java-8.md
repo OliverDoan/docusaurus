@@ -17,6 +17,15 @@ flowchart LR
     FE --> E3["phần tử n: accept"]
 ```
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`forEach()` là default method của `Iterable`** — nhận `Consumer` để duyệt và xử lý từng phần tử.
+- **`Map.forEach()` nhận `BiConsumer`** (key, value); trong Stream `forEach()` là terminal operation.
+- **Lambda chỉ truy cập biến effectively final** — muốn tích lũy dùng mảng, `AtomicInteger` hoặc `reduce`/`sum`.
+- **Không hỗ trợ `break`/`continue`** — cần thì dùng vòng `for` truyền thống.
+
+:::
+
 ## forEach() là gì?
 
 `forEach()` là phương thức **default method** được thêm vào interface `Iterable` trong Java 8. Phương thức này nhận vào một `Consumer<T>` — một Functional Interface đại diện cho một hành động được thực hiện trên mỗi phần tử — và áp dụng hành động đó lên từng phần tử trong tập hợp.

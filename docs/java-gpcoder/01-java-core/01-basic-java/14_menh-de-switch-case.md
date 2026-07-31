@@ -23,3 +23,11 @@ flowchart TD
 ```
 
 Đọc sơ đồ: giá trị biểu thức được so khớp với từng `case`; nhánh trùng khớp sẽ chạy. Nếu không `case` nào khớp thì khối `default` chạy (nếu có).
+
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`switch` chọn nhánh theo giá trị biểu thức** — giá trị được so khớp với từng `case`, nhánh trùng khớp sẽ được thực thi.
+- **`default` xử lý trường hợp không khớp** — chạy khi không `case` nào trùng khớp (và chỉ khi có khai báo `default`).
+- **Là cách viết gọn thay cho nhiều `if - else if`** khi cần rẽ nhánh dựa trên một giá trị cụ thể.
+
+:::
