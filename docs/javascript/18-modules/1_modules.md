@@ -9,6 +9,20 @@ title: "1. Modules: CommonJS vs ES Modules"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **ES Modules (`import`/`export`)** — mỗi file có scope riêng (không làm bẩn global), phụ thuộc khai báo tường minh; là chuẩn hiện đại năm 2026.
+- **CommonJS (`require`/`module.exports`)** — chuẩn cũ của Node.js: đồng bộ, dynamic (chạy runtime), có cache.
+- **Đặc điểm ESM** — `static` (top-level), async, `strict mode` mặc định và **live binding** (export là tham chiếu live, không phải copy như CJS).
+- **Default vs Named export** — named dễ grep/refactor/tree-shaking (khuyên dùng cho lib/util); default hợp component chính của file.
+- ⭐ **Dynamic `import()`** — trả Promise, load module runtime để lazy load / code splitting; cũng là cách import ESM từ CJS (tránh `ERR_REQUIRE_ESM`).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao module ra đời?](#vì-sao-module-ra-đời)

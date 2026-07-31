@@ -9,6 +9,20 @@ title: "2. Callbacks, Promises, async/await"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **Ba cách viết async: callback → Promise → async/await** — callback lồng nhau tạo "callback hell"; `Promise` cho chuỗi `.then()` phẳng với một `.catch()`; `async/await` viết async trông như sync, dễ đọc nhất.
+- ⭐ **`Promise` có 3 trạng thái và chỉ settle một lần** — pending → fulfilled hoặc rejected, sau đó không đổi được nữa; `.finally()` chạy ở cả hai nhánh.
+- **`async function` luôn trả về Promise** — cần `await` (hoặc `.then`) để lấy giá trị, không phải giá trị trực tiếp.
+- **4 method composition** — `Promise.all` (cần tất cả, fail-fast), `allSettled` (không bao giờ reject), `race` (cái đầu tiên settle, dùng cho timeout), `any` (fulfilled đầu tiên, fastest wins).
+- **`await` trong loop chạy tuần tự (chậm)** — dùng `Promise.all(ids.map(...))` để chạy song song, trừ khi cần thứ tự hoặc phụ thuộc bước trước; luôn handle error, đừng nuốt reject bằng `catch {}` rỗng.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Promise & async/await ra đời?](#vì-sao-promise--asyncawait-ra-đời)

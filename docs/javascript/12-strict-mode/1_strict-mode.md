@@ -9,6 +9,20 @@ title: "1. Strict Mode"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **Strict mode = "fail nhanh, fail rõ"** — biến những lỗi vốn bị âm thầm bỏ qua (biến global vô tình, gán vào readonly) thành lỗi rõ ràng ngay khi chạy.
+- **Bật bằng `"use strict"`** — đặt ở đầu file hoặc đầu thân function; là chế độ **opt-in** để không phá vỡ code cũ.
+- ⭐ **Code hiện đại đã tự động strict** — ES Module, `class` body và `<script type="module">` luôn strict, không cần khai báo thủ công.
+- **Các thay đổi chính** — cấm biến không khai báo, `this` = `undefined` thay vì `window`, lỗi khi gán readonly, cấm tham số trùng tên, `with` và octal cũ.
+- **Lợi ích kép** — bắt bug sớm và giúp engine (V8/SpiderMonkey) tối ưu tốt hơn nhờ static analysis chính xác.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao strict mode ra đời?](#vì-sao-strict-mode-ra-đời)

@@ -9,6 +9,20 @@ title: "1. Iterators và Generators"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **Iterator protocol** — object có `next()` trả về `{ value, done }`, tạo ra MỘT cách duyệt thống nhất cho mọi cấu trúc.
+- **Iterable protocol** — object có `[Symbol.iterator]()` dùng được với `for...of`, spread `[...obj]`, destructuring và `Array.from`.
+- ⭐ **Generator (`function*` + `yield`)** — hàm có thể pause/resume, viết iterator gọn hơn nhiều và hỗ trợ lazy evaluation (chạy được cả dãy vô hạn).
+- **`yield*`** — delegate sang iterable khác; generator chỉ duyệt được 1 lần (đã exhausted thì phải gọi lại hàm).
+- **Async generator + `for await...of`** — `yield` trả Promise, rất hợp xử lý stream và pagination, dừng sớm được, ít tốn memory.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao iterator & generator ra đời?](#vì-sao-iterator--generator-ra-đời)

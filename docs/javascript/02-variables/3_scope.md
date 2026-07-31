@@ -9,6 +9,20 @@ title: "3. Scope (Phạm vi biến)"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **JS có 3 loại scope**: global (ngoài mọi hàm/block), function (`var`), và block (`let`/`const` trong `{}`) — `var` lọt ra ngoài block, `let`/`const` thì không.
+- ⭐ **Lexical scope**: biến một hàm nhìn thấy được quyết định bởi *nơi hàm được viết*, KHÔNG phải nơi được gọi — nền tảng của closure.
+- **Mỗi vòng `for (let i...)` tạo binding `i` mới** — giải quyết bug kinh điển của `var` trong closure (`var` in ra `3,3,3`, `let` in ra `0,1,2`).
+- **Scope chain** — JS tìm biến từ trong ra ngoài (inner → outer → global), không thấy thì ném `ReferenceError`.
+- **Đặt biến càng gần nơi dùng càng tốt**, tránh biến global (trừ hằng số); với `let`/`const` + module thì IIFE gần như không còn cần.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao closure & scope ra đời?](#vì-sao-closure--scope-ra-đời)

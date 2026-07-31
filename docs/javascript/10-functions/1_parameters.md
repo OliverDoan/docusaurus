@@ -9,6 +9,20 @@ title: "1. Function Parameters"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **Default parameter chỉ apply khi đối số là `undefined`** — mọi falsy khác (`null`, `0`, `""`, `false`) vẫn giữ nguyên; muốn cả `null` cũng thay thì dùng `??`.
+- ⭐ **Rest parameter (`...nums`) gom đối số thành mảng THẬT** — dùng được `map`/`filter`/`reduce`, khác hẳn `arguments`; phải đặt cuối.
+- **Destructuring parameter** — tách property/phần tử ngay tại tham số (`function createUser({ name, age })`); nhớ `= {}` để tránh `TypeError` khi không truyền gì.
+- **Named arguments pattern** — JS không có named arguments như Python, dùng object destructuring cho hàm ≥ 3 param hoặc có boolean.
+- **`function.length`** — đếm số param không có default (rest và param có default không tính); Express dùng nó để phân biệt error middleware.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao các kiểu tham số mới ra đời?](#vì-sao-các-kiểu-tham-số-mới-ra-đời)

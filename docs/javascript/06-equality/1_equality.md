@@ -9,6 +9,21 @@ title: "1. Equality Comparisons"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **Luôn dùng `===`/`!==`** — so sánh không ép kiểu, khác kiểu là `false` ngay nên kết quả dễ đoán.
+- **Tránh `==`** — nó tự ép kiểu sinh ra loạt kết quả khó hiểu (`0 == ""`, `[] == false`); chỉ nên dùng idiom `x == null` để bắt cả `null` lẫn `undefined`.
+- ⭐ **`Object.is` cho ca biên** — phân biệt được `NaN` (coi bằng `NaN`) và `+0` với `-0`, hai chỗ mà `===` bị lệch.
+- **`SameValueZero`** — thuật toán internal dùng bởi `Array.includes`, `Map`, `Set`; giống `===` nhưng coi `NaN` bằng `NaN`.
+- **Deep equality không có built-in** — so sánh nội dung object phải dùng thư viện (`fast-deep-equal`) hoặc `node:util` `isDeepStrictEqual`.
+- **Bật ESLint rule `eqeqeq`** ngay từ đầu project để ép dùng `===`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có === (và Object.is)?](#vì-sao-có--và-objectis)

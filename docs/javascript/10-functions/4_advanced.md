@@ -9,6 +9,20 @@ Bài này giới thiệu ba khái niệm quan trọng về hàm. **Recursion** (
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **Closure** — hàm trả về vẫn nhớ và truy cập được biến của hàm cha sau khi hàm cha đã chạy xong, nhờ đó tạo state "riêng tư" mà bên ngoài không chạm tới được.
+- ⭐ **Lexical scope** — biến được xác định theo NƠI VIẾT code (scope chain từ trong ra ngoài đến global), không phải nơi gọi.
+- **Recursion** cần đủ **base case** (điều kiện dừng) và **recursive case** (gọi lại với input nhỏ hơn).
+- **Use cases closure**: private state, memoization (cache), currying, event handler giữ context, và React hooks (`useState`/`useEffect`).
+- **Pitfalls**: memory leak (closure giữ biến to → gán `null` để giải phóng), stale closure trong React (`useEffect` deps rỗng capture state cũ → dùng updater `setCount(c => c + 1)`), và khác biệt `var` vs `let` trong vòng lặp.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao closure ra đời?](#vì-sao-closure-ra-đời)

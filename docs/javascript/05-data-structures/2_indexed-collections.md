@@ -9,6 +9,20 @@ title: "2. Arrays và Typed Arrays"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **Ưu tiên array methods bậc cao** — `map`, `filter`, `reduce`, `find` biểu đạt ý định ngắn gọn, tránh sai chỉ số và không mutate mảng gốc.
+- ⭐ **Phân biệt method mutating và non-mutating** — `sort`, `reverse`, `splice`, `push`... sửa mảng gốc; `map`, `filter`, `slice`, `concat`, `flat` trả về mảng mới.
+- **`to*` methods của ES2023** — `toSorted`, `toReversed`, `toSpliced`, `with` trả về mảng mới, hợp với functional style và React state.
+- **Array trong JS là object** — có thể sparse hoặc gán property; dùng `Array.isArray()` để kiểm tra, tránh sparse array vì V8 chuyển sang dictionary mode chậm.
+- **`TypedArray` cho dữ liệu nhị phân hiệu năng cao** — là view trên `ArrayBuffer` với kiểu số cố định (`Uint8Array`, `Float32Array`...), size cố định nên không có method mutating như `push`/`splice`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có array methods (và Typed Array)?](#vì-sao-có-array-methods-và-typed-array)

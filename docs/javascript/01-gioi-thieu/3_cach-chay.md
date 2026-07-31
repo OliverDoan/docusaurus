@@ -9,6 +9,21 @@ title: "3. Cách chạy JavaScript"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **Chạy JS trong trình duyệt** — 3 cách: Console (F12), inline `<script>`, hoặc file JS riêng (khuyên dùng).
+- ⭐ **`defer` vs `async`** — dùng `defer` cho hầu hết trường hợp; `async` cho script độc lập như analytics/ads.
+- **Chạy JS ngoài trình duyệt bằng Node.js** — lệnh `node app.js`, có thể thêm `--watch` để tự chạy lại.
+- **Các runtime hiện đại** — `Bun` (nhanh), `Deno` (hỗ trợ TS native), Cloudflare Workers / Vercel Edge.
+- **Phân biệt Web API và Node API** — `document`, `fetch` chỉ ở trình duyệt; `fs`, `process` chỉ ở Node.js.
+- **REPL** (`node`, `bun repl`, console trình duyệt) — gõ lệnh thử nhanh từng dòng, xem kết quả tức thì.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Trong trình duyệt](#trong-trình-duyệt)

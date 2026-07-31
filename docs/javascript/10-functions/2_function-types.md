@@ -9,6 +9,20 @@ title: "2. Arrow Functions và IIFE"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **Arrow function có lexical `this`** — không có `this` riêng mà lấy từ scope nơi định nghĩa, nên giữ đúng `this` trong callback (`setTimeout`, `.then()`, array methods) mà không cần `self`/`bind`.
+- ⭐ **KHÔNG dùng arrow cho method, constructor, prototype method hay event handler cần `this` là element** — vì chính vì thiếu `this` riêng; cũng không có `arguments` và không dùng được `new`.
+- **Cú pháp gọn**: 1 tham số bỏ `()`, return object phải bọc `()` như `name => ({ name })`.
+- **IIFE** (hàm tự gọi ngay) trước đây tạo private scope/module pattern — nay gần như không cần vì đã có `let`/`const` block scope, ES Module và top-level await.
+- **IIFE còn hữu dụng** để khởi tạo hằng số phức tạp trong một biểu thức duy nhất.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao arrow function ra đời?](#vì-sao-arrow-function-ra-đời)

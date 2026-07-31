@@ -9,6 +9,21 @@ title: "1. this trong các ngữ cảnh"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **`this` xác định lúc GỌI, không phải lúc VIẾT** — cùng một hàm nhưng `this` đổi theo cách gọi (`obj.method()`, `fn()`, `new Fn()`).
+- **`this` bị mất khi tách method** — gán `const g = obj.method` rồi gọi `g()` khiến `this` không còn là `obj` (standalone).
+- ⭐ **Arrow function không có `this` riêng** — nó kế thừa `this` lexical từ scope ngoài, nên hợp cho callback giữ context nhưng KHÔNG dùng làm method của object literal.
+- **Strict vs sloppy** — gọi standalone thì strict cho `this = undefined`, sloppy ép về `window`/`globalThis`; class body luôn strict nên "fail nhanh, fail rõ".
+- **Event handler** — function thường có `this` = element gắn listener; arrow lấy `this` outer, nên dùng `e.currentTarget` để chắc chắn lấy đúng element.
+- **`this` sinh ra để tái sử dụng hành vi** — cho nhiều object/instance dùng chung một hàm; nếu không có class hay hàm dùng chung thì thường không cần `this`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [this là gì?](#this-là-gì)

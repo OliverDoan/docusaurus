@@ -9,6 +9,20 @@ title: "1. Browser DevTools"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **Console API** — không chỉ `console.log`: còn `table`, `group`, `time`, `count`, `assert`, `trace`, `dir` và shortcut trong browser (`$0`, `$$()`, `copy()`).
+- ⭐ **Sources Panel (Debugger)** — đặt breakpoint (kể cả conditional/logpoint), `debugger`, step over/into/out, xem Call Stack & Scope; source map giúp debug về code gốc.
+- **Network Panel** — inspect request (Headers/Payload/Preview/Timing), throttling giả lập mạng chậm, "Copy as fetch" để replay request.
+- **Performance Panel** — record và đọc flame chart để tìm long task (>50ms), layout thrashing, re-render thừa.
+- **Memory Panel** — heap snapshot / allocation timeline / sampling để debug memory leak.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Mở DevTools](#mở-devtools)

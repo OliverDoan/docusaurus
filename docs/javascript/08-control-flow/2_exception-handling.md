@@ -9,6 +9,21 @@ title: "2. Exception Handling"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **`try/catch/finally` tách luồng lỗi khỏi luồng chính** — `finally` luôn chạy để dọn dẹp tài nguyên dù thành công, lỗi hay có `return`.
+- **Luôn `throw new Error(...)`** (không throw chuỗi/số/object) để giữ được `message` và `stack`.
+- ⭐ **Chỉ catch khi biết xử lý** — đừng nuốt lỗi im lặng; không biết thì `throw err` (rethrow) để bubble lên nơi xử lý được.
+- **Các class Error sẵn có** (`TypeError`, `ReferenceError`, `SyntaxError`...) và **custom Error** kế thừa `Error` giúp phân loại qua `instanceof`; `Error.cause` gắn lỗi gốc.
+- **Async**: Promise chain dùng `.catch()`, async/await dùng `try/catch`; **unhandled rejection** có thể crash app (Node ≥ 15).
+- **`Promise.allSettled`** khi cần chờ hết nhiều promise mà không fail-fast như `Promise.all`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có try/catch (xử lý ngoại lệ)?](#vì-sao-có-trycatch-xử-lý-ngoại-lệ)

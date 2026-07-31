@@ -9,6 +9,20 @@ JavaScript chỉ chạy một việc tại một thời điểm, nhưng vẫn x�
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **JS đơn luồng nhưng không bị treo nhờ event loop** — tác vụ chờ (timer, network, I/O) được đẩy ra ngoài, chỉ đăng ký callback rồi chạy tiếp; callback được chạy khi call stack rỗng.
+- ⭐ **Microtask luôn ưu tiên hơn macrotask** — `Promise.then`/`queueMicrotask` (microtask) chạy hết trước khi tới một macrotask như `setTimeout`; vì vậy `Promise.then` chạy sớm hơn `setTimeout(0)`.
+- **`setTimeout(fn, 0)` không chạy ngay** — có delay tối thiểu ~4ms và phải đợi call stack rỗng + flush microtask; muốn sớm nhất hãy dùng `queueMicrotask`.
+- **`setInterval` bị drift** — nên so sánh `Date.now()` thay vì giả định mỗi tick đúng `1000ms`.
+- **`requestAnimationFrame` đồng bộ với frame rate** — chạy trước render nên mượt hơn `setTimeout` cho animation; `AbortController` là cách hiện đại để hủy tác vụ async.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao event loop ra đời?](#vì-sao-event-loop-ra-đời)

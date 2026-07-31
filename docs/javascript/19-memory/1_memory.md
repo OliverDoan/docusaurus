@@ -9,6 +9,20 @@ title: "1. Memory Management"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **Garbage Collector (mark-and-sweep)** — JS tự thu hồi object không còn **reachable** từ root; dev không có `malloc`/`free` như C nhưng vẫn có thể tạo leak.
+- **Stack vs Heap** — primitive lưu trực tiếp trên stack (copy by value); object nằm trên heap còn biến chỉ giữ **pointer** (copy by reference), nên `===` so sánh pointer.
+- ⭐ **Memory leak** — object không cần nữa nhưng vẫn reachable: global vô tình, timer/listener quên gỡ, closure giữ biến to, detached DOM node.
+- **Cách tránh leak** — `clearInterval`, `removeEventListener` (hoặc `AbortController`), giới hạn cache và dùng `WeakMap`/`WeakSet` (không cản GC).
+- **Reference counting vs mark-and-sweep** — reference counting kẹt ở **circular reference**; mark-and-sweep xử lý được vì xét reachability từ root.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần hiểu quản lý bộ nhớ?](#vì-sao-cần-hiểu-quản-lý-bộ-nhớ)

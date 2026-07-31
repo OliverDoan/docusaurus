@@ -9,6 +9,21 @@ title: "1. DOM Manipulation và Events"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **DOM là cây object** — trình duyệt biến HTML tĩnh thành cây `node` mà JavaScript đọc/sửa được, nhờ đó có trang động và SPA không cần reload.
+- **Selectors** — `querySelector`/`querySelectorAll` (hỗ trợ CSS selector) là lựa chọn ưu tiên; `getElementsBy*` trả về collection **live** tự cập nhật nhưng chậm hơn.
+- ⭐ **`textContent` an toàn, `innerHTML` gây XSS** — với input người dùng luôn dùng `textContent` hoặc sanitize (`DOMPurify`) trước khi gán `innerHTML`.
+- **Event listener** — `addEventListener` với các options `once`/`capture`/`passive`/`signal`; dùng `AbortController` để hủy nhiều listener cùng lúc.
+- **3 pha của event** — capture → target → bubble; `stopPropagation()` chặn lan toả, `preventDefault()` chặn hành vi mặc định.
+- **Event delegation** — gắn 1 listener ở parent xử lý cho nhiều children, ít memory hơn và tự chạy với element thêm động (chính là cơ chế React dùng dưới hood).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có DOM API?](#vì-sao-có-dom-api)

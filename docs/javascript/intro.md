@@ -7,6 +7,18 @@ title: "Giới thiệu"
 
 Chào mừng bạn đến với lộ trình học JavaScript dành cho người mới bắt đầu. Tài liệu này sẽ dẫn dắt bạn từ những khái niệm cơ bản nhất cho tới các chủ đề nâng cao, theo một trình tự dễ hiểu và dễ thực hành.
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **JavaScript là ngôn ngữ của web** — ban đầu chạy trong trình duyệt, nay chạy cả phía máy chủ nhờ `Node.js`.
+- **Một ngôn ngữ, nhiều lĩnh vực** — dùng được cho cả frontend lẫn backend, nên rất đáng học đầu tiên.
+- ⭐ **Học tuần tự theo 4 bước** — Nền tảng (chủ đề 1–9) → Cốt lõi (10–13) → Nâng cao (14–18) → Hoàn thiện (19–20).
+- **Lộ trình gồm 20 nhóm chủ đề** — sắp xếp từ cơ bản đến nâng cao, mỗi chủ đề dựa trên chủ đề trước.
+- **Thực hành ngay sau mỗi bài** — tự gõ code và mắc lỗi giúp hiểu sâu hơn nhiều so với chỉ đọc.
+
+:::
+
 ## JavaScript là gì?
 
 JavaScript (thường viết tắt là JS) là một **ngôn ngữ lập trình** (programming language) của web. Ban đầu, nó được tạo ra để chạy bên trong **trình duyệt** (browser) như Chrome, Firefox hay Safari, giúp các trang web trở nên sống động và có khả năng tương tác.

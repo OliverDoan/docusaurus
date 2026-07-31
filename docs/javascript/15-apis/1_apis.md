@@ -9,6 +9,20 @@ Khi muốn lấy dữ liệu từ máy chủ (server) mà không tải lại tra
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **`fetch` KHÔNG reject với HTTP error (4xx/5xx)** — chỉ reject khi lỗi mạng; phải tự kiểm tra `res.ok` rồi throw, nếu không sẽ dễ gây bug.
+- ⭐ **`fetch` là cách hiện đại thay cho `XMLHttpRequest`** — dựa trên Promise, gọn gàng; XHR chỉ còn cần khi theo dõi progress upload hoặc hỗ trợ trình duyệt rất cũ.
+- **Web API do trình duyệt cung cấp, không phải core JS** — `fetch`, `localStorage`, Geolocation... là cầu nối tới khả năng của nền tảng.
+- **`Response` tiêu thụ body một lần** — dùng `res.json()`, `res.text()`, `res.blob()`...; inspect qua `res.ok`, `res.status`, `res.headers`.
+- **`AbortController` để hủy request** — kèm shortcut `AbortSignal.timeout(ms)` và `AbortSignal.any([...])`; project lớn nên gom vào một hàm `api` wrapper để xử lý auth, lỗi, retry.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Web API?](#vì-sao-có-web-api)

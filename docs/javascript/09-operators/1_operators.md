@@ -9,6 +9,21 @@ title: "1. Operators"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **Toán tử hiện đại (ES2015+)** thay code dài dòng: spread `...` để sao chép/gộp, optional chaining `?.` truy cập an toàn, nullish coalescing `??` đặt mặc định.
+- ⭐ **`??` giữ đúng `0` và `""`** — khác `||` (nuốt mọi giá trị falsy); logical assignment `??=`, `||=`, `&&=` gán có điều kiện ngắn gọn.
+- **Nhóm toán tử cơ bản** — arithmetic (`+ - * / % **`), assignment (`+=`...), comparison (`===` so với `==`), logical (return giá trị chứ không chỉ boolean).
+- **Bitwise** thao tác trên 32-bit int (flag/bitmask); cẩn thận overflow với số lớn hơn `2^31 - 1`.
+- **Template literal** `` `${}` `` và tagged template — nền tảng của styled-components, GraphQL, SQL tag.
+- **Spread/Rest/Destructuring** — chú ý default chỉ apply với `undefined` (không phải `null`); destructure từ `null`/`undefined` gây `TypeError`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có các toán tử hiện đại?](#vì-sao-có-các-toán-tử-hiện-đại)

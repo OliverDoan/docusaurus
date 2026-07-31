@@ -9,6 +9,20 @@ Biến (variable) là "cái hộp" có tên dùng để lưu trữ dữ liệu �
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **Mặc định dùng `const`, chỉ dùng `let` khi cần gán lại, không dùng `var`** — quy tắc vàng cho code hiện đại.
+- ⭐ **`const` không phải immutable** — nó chỉ chặn gán lại biến; object/array bên trong vẫn sửa được (muốn khoá dùng `Object.freeze()`).
+- **`var` scope theo function, `let`/`const` scope theo block** — `var` lọt ra ngoài `{}`, còn `let`/`const` chỉ sống trong khối.
+- **`let`/`const` có TDZ** — truy cập biến trước dòng khai báo ném `ReferenceError`, giúp phát hiện sớm bug.
+- **ESLint `no-var` và `prefer-const`** — tự ép quy tắc trên trong codebase.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Tổng quan](#tổng-quan)

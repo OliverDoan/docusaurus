@@ -9,6 +9,20 @@ Bài này khám phá cách hàm hoạt động bên trong. **arguments object** 
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **`arguments` là array-like, KHÔNG phải Array** — không có `map`/`filter`/`reduce`; phải `[...arguments]` hoặc `Array.from()`, và nó không tồn tại trong arrow function. Nên thay bằng **rest parameter**.
+- ⭐ **Call Stack đẩy 1 frame mỗi lời gọi và pop khi return (LIFO)** — đọc stack trace từ trên xuống để lần ra hàm nào gọi hàm nào.
+- **Stack Overflow** (`RangeError: Maximum call stack size exceeded`) — do đệ quy thiếu base case hoặc dữ liệu lồng quá sâu; JS không có tail-call optimization ở đa số engine nên viết iterative khi cần.
+- **JS single-threaded (1 call stack)** — code đồng bộ nặng làm "freeze" UI; dùng async/`setTimeout`/Web Worker để tránh block.
+- **Luôn dùng `Number.isNaN`/`Number.isFinite`** thay cho `isNaN`/`isFinite` vì bản `Number.*` không coerce, chính xác hơn.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần hiểu cơ chế bên trong?](#vì-sao-cần-hiểu-cơ-chế-bên-trong)

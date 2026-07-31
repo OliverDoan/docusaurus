@@ -18,6 +18,20 @@ Trong JavaScript, việc ép kiểu xảy ra theo **hai cách**: do bạn chủ 
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **Ưu tiên ép kiểu tường minh và dùng `===`** — chủ động `Number()`, `String()`, `Boolean()` rồi so sánh bằng `===` để JavaScript không phải "đoán" giúp bạn.
+- **Phân biệt conversion và coercion** — conversion là chủ ý của lập trình viên (`Number("42")`), coercion là JS tự làm ngầm (`"42" * 1`).
+- ⭐ **Toán tử `+` là ngoại lệ** — chỉ cần một bên là string thì `+` sẽ nối chuỗi; các toán tử `-`, `*`, `/`, `%`, `**` luôn ép về số.
+- **Thuộc 8 giá trị falsy** — `false`, `0`, `-0`, `0n`, `""`, `null`, `undefined`, `NaN`; mọi thứ khác (kể cả `"0"`, `[]`, `{}`) đều truthy.
+- **Quy tắc `==`** — coerce khi khác kiểu; `null == undefined` là true (hard-code), nhưng `null == 0` là false.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần hiểu ép kiểu (type coercion)?](#vì-sao-cần-hiểu-ép-kiểu-type-coercion)

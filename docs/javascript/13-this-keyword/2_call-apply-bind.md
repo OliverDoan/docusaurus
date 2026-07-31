@@ -9,6 +9,21 @@ title: "2. call, apply, bind và Function Borrowing"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **Cả ba đều để tự ép `this`** — thay vì để JavaScript tự chọn, bạn chỉ định `this` khi gọi hàm, giải bài toán mất `this` khi tách method hoặc truyền callback.
+- **`call` vs `apply`** — cả hai gọi hàm **ngay**, chỉ khác cách truyền đối số: `call(ctx, a, b)` rời, `apply(ctx, [a, b])` là mảng.
+- ⭐ **`bind` trả về HÀM MỚI** — không gọi ngay mà gắn cứng `this` để dùng sau, còn preset được đối số (partial application, vd `add.bind(null, 5)`).
+- **Function borrowing** — mượn method của object/class khác qua `.call`, ví dụ `Array.prototype.slice.call(obj)` hay `Object.prototype.toString.call(x)` để check type.
+- **Không tác dụng với arrow** — arrow đã chốt `this` lexical nên `call`/`apply`/`bind` bị bỏ qua đối số `this`.
+- **Năm 2026 ít dùng hơn** — arrow, class field, rest/spread và React hooks đã thay thế, nhưng vẫn cần hiểu để đọc code legacy và viết utility.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao call/apply/bind ra đời?](#vì-sao-callapplybind-ra-đời)

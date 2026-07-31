@@ -9,6 +9,20 @@ JavaScript là ngôn ngữ lập trình phổ biến nhất cho web, giúp trang
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **JavaScript là ngôn ngữ thông dịch** — máy đọc và chạy từng dòng ngay, chạy được ở trình duyệt, server (`Node.js`), mobile, desktop.
+- **Ba trụ cột của web** — `HTML` (cấu trúc), `CSS` (giao diện), `JavaScript` (hành vi, tương tác).
+- **JS cần một engine để chạy** — `V8` (Chrome, Node.js), `SpiderMonkey` (Firefox), `JavaScriptCore` (Safari).
+- **4 đặc điểm cốt lõi** — dynamic typing, single-threaded (dùng event loop), first-class functions, prototype-based.
+- ⭐ **JavaScript ≠ Java** — hai ngôn ngữ không liên quan, chỉ trùng tên do marketing năm 1995.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Định nghĩa](#định-nghĩa)

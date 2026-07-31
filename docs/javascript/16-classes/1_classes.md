@@ -9,6 +9,21 @@ title: "1. Classes"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **`class` là "lớp đường" (syntactic sugar) phủ lên prototype** — cú pháp rõ ràng cho OOP, nhưng bản chất bên dưới vẫn là prototype có sẵn từ trước.
+- **`constructor`, method và class field** — `constructor` chạy khi `new`; method gắn vào `prototype` (chung mọi instance); `class field` (ES2022) khai báo property trực tiếp.
+- ⭐ **`extends` và `super`** — kế thừa lớp cha; trong subclass phải gọi `super()` đầu tiên trước khi dùng `this` (nếu không sẽ `ReferenceError`).
+- **`static`** — thuộc về class chứ không phải instance (`MathUtils.square()`).
+- **Private field `#field`** — true private của ES2022, không truy cập được từ ngoài (khác `_field` chỉ là quy ước).
+- **Getter/Setter** — định nghĩa computed property; cẩn thận getter có side-effect hoặc tính toán nặng.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao class ra đời?](#vì-sao-class-ra-đời)

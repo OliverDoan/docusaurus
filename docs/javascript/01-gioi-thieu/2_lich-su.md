@@ -9,6 +9,20 @@ Bài này kể lại hành trình của JavaScript: từ lúc ra đời chỉ tr
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **Brendan Eich tạo JavaScript năm 1995 trong 10 ngày** tại Netscape, tên đổi qua Mocha → LiveScript → JavaScript.
+- **ECMAScript là chuẩn, JavaScript là bản triển khai** — "ES6" và "ES2015" chỉ cùng một phiên bản.
+- ⭐ **ES6 (2015) là bước ngoặt lớn nhất** — thêm `let`/`const`, arrow function, `class`, `Promise`, module.
+- **Từ ES2015, phiên bản phát hành theo năm** (ES2016, ES2017...) thay vì đánh số lớn.
+- **Node.js (2009, Ryan Dahl)** đưa JS chạy ngoài trình duyệt, biến JS thành ngôn ngữ fullstack.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Khởi nguồn](#khởi-nguồn)

@@ -9,6 +9,20 @@ title: "1. Conditional Statements"
 
 ---
 
+## 🎯 Cần nắm gì sau bài này?
+
+:::note[Ghi nhớ nhanh — ⭐ là phần quan trọng nhất]
+
+- ⭐ **Chọn đúng công cụ rẽ nhánh** — `if/else if/else` cho logic tuần tự, `switch` cho nhiều nhánh theo MỘT giá trị, ternary `? :` cho gán nhanh trong một dòng.
+- **`switch` dùng `===`** (không ép kiểu), dễ dính **fall-through bug** khi quên `break`; case khai báo biến thì wrap trong `{}`.
+- ⭐ **Phân biệt `||` và `??`** — `||` fallback theo truthy (nuốt cả `0` và `""`), còn `??` chỉ fallback khi `null`/`undefined`.
+- **Short-circuit trả về giá trị** — `||` lấy truthy đầu tiên, `&&` dùng để gọi có điều kiện; `?.` truy cập an toàn thuộc tính lồng sâu.
+- **`early return` / guard clause** rõ ràng hơn lồng `if` nhiều tầng.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có nhiều cách rẽ nhánh?](#vì-sao-có-nhiều-cách-rẽ-nhánh)
