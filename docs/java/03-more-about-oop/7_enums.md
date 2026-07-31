@@ -9,6 +9,18 @@ Enum (kiểu liệt kê) dùng khi một biến chỉ được nhận một tron
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`enum` là tập hằng giá trị cố định, type-safe** — compiler kiểm tra lúc biên dịch, không gõ nhầm hay truyền giá trị vô nghĩa được.
+- **An toàn hơn dùng `int`/`String` rời rạc** — code rõ nghĩa, IDE tự gợi ý.
+- **Kết hợp tốt với `switch`** — trong `case` không cần ghi tên enum đầy đủ.
+- **Enum có thể mang thuộc tính, phương thức và constructor** — constructor luôn ngầm `private`.
+- **Có sẵn `values()`, `valueOf()`, `name()`, `ordinal()`** — nên so sánh bằng `==` và tránh lệ thuộc `ordinal()`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Enum là gì?](#enum-là-gì)

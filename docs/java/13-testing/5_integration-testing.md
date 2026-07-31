@@ -9,6 +9,18 @@ Integration testing kiểm tra xem nhiều thành phần khi ghép lại có ho�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Integration test ghép nhiều thành phần với phụ thuộc THẬT** — dùng database thật thay vì mock, bắt được lỗi unit test bỏ sót (SQL sai, mapping sai).
+- **`@SpringBootTest`** — khởi động toàn bộ application context; chậm nên đừng lạm dụng.
+- ⭐ **Testcontainers** — chạy database thật (PostgreSQL...) trong Docker container tạm thời, cho kết quả đáng tin cậy (cần Docker).
+- **Test Pyramid** — nhiều unit test, vừa phải integration test, ít E2E test.
+- **Mỗi test tự tạo và dọn dữ liệu** — để độc lập, không phụ thuộc dữ liệu sẵn có.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần Integration Testing?](#vì-sao-cần-integration-testing)

@@ -10,6 +10,17 @@ Chào mừng bạn đến với lộ trình học **Java** đầy đủ, đượ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **"Write Once, Run Anywhere"** — nhờ `JVM`, viết code Java một lần rồi chạy trên Windows, macOS, Linux mà không cần sửa.
+- **Lộ trình gồm 14 chủ đề** — đi từ cơ bản (cú pháp, biến, vòng lặp) tới nâng cao (Collections, Concurrency, Web Frameworks).
+- **Học theo thứ tự** — người mới nên học lần lượt chủ đề 1→4 (nền tảng bắt buộc), rồi rẽ nhánh theo mục tiêu.
+- **Java dùng để làm gì** — backend web, ứng dụng Android, hệ thống doanh nghiệp lớn và Big Data.
+
+:::
+
+---
+
 ## Java là gì?
 
 **Java** là một **ngôn ngữ lập trình** (programming language — bộ quy tắc để viết ra chương trình máy tính) ra đời năm 1995, nổi tiếng với khẩu hiệu *"Write Once, Run Anywhere"* (Viết một lần, chạy mọi nơi).

@@ -9,6 +9,18 @@ Iterator (bộ lặp) là công cụ giúp bạn duyệt qua từng phần tử 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Iterator = cách duyệt thống nhất** — `hasNext`/`next` cho mọi collection, không lộ cấu trúc bên trong.
+- ⭐ **`iterator.remove()`** — cách an toàn duy nhất để xóa phần tử khi đang duyệt.
+- **Fail-fast** — sửa collection trong lúc duyệt gây `ConcurrentModificationException`.
+- **Nền tảng for-each** — vòng lặp `for-each` dùng Iterator bên dưới.
+- **`ListIterator`** — duyệt hai chiều, chỉ dành cho `List`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Iterator?](#vì-sao-có-iterator)

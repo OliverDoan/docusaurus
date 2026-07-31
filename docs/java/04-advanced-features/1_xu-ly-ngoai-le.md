@@ -9,6 +9,18 @@ Ngoại lệ (exception) là những sự kiện bất thường xảy ra khi ch
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`try/catch/finally`** — tách luồng lỗi khỏi luồng chính, lỗi tự "nổi" lên đúng tầng xử lý và không thể bị "quên" như mã trả về.
+- **`throw` vs `throws`** — `throw` ném ngoại lệ, `throws` khai báo phương thức có thể ném ngoại lệ đó.
+- ⭐ **Checked vs Unchecked** — checked bị ép xử lý lúc biên dịch, unchecked (`RuntimeException`) thì không.
+- **`try-with-resources`** — tự đóng tài nguyên (file, connection) kể cả khi có lỗi, tránh rò rỉ.
+- **Custom Exception** — tạo lớp con của `Exception` để phân loại lỗi nghiệp vụ rõ ràng.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có xử lý ngoại lệ?](#vì-sao-có-xử-lý-ngoại-lệ)

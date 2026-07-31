@@ -9,6 +9,17 @@ Map (ánh xạ) lưu dữ liệu dưới dạng các cặp khóa - giá trị (k
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Map` lưu cặp key-value** — tra `value` bằng `key` duy nhất, nhanh nhờ hash (O(1) với `HashMap`).
+- **Phương thức chính** — `put`, `get`, `containsKey`, và `entrySet` để duyệt.
+- ⭐ **Ba loại thường dùng** — `HashMap` (nhanh, không thứ tự), `LinkedHashMap` (giữ thứ tự thêm), `TreeMap` (sắp xếp theo key).
+- **Ứng dụng phổ biến** — đếm số lần xuất hiện của phần tử.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Map là gì?](#map-là-gì)

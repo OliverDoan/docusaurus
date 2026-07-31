@@ -9,6 +9,18 @@ Kiểu dữ liệu cho Java biết một giá trị là số nguyên, số thự
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **8 kiểu nguyên thủy** — `byte`, `short`, `int`, `long`, `float`, `double`, `char`, `boolean`.
+- **Thông dụng nhất** — `int` cho số nguyên, `double` cho số thực.
+- **Kiểu tham chiếu** — như `String`, mảng — lưu địa chỉ trỏ tới dữ liệu.
+- **Hậu tố & nháy** — `long` thêm `L`, `float` thêm `f`; `char` nháy đơn, `String` nháy kép.
+- **Biến cục bộ** — phải gán giá trị trước khi dùng (không có giá trị mặc định).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Java có kiểu tĩnh & primitive?](#vì-sao-java-có-kiểu-tĩnh--primitive)

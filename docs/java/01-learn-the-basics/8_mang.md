@@ -9,6 +9,18 @@ Mảng là một dãy các phần tử cùng kiểu được đánh số thứ t
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Mảng** — lưu nhiều phần tử cùng kiểu, kích thước **cố định**, chỉ số đếm từ `0`.
+- **Khai báo** — `int[] a = new int[n];` hoặc liệt kê `int[] a = {1, 2, 3};`.
+- **Số phần tử** — lấy bằng `.length` (không ngoặc, khác `length()` của String).
+- **Duyệt mảng** — dùng `for` khi cần chỉ số, `for-each` khi chỉ cần đọc giá trị.
+- **Mảng nhiều chiều** — truy cập theo `a[hàng][cột]`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần mảng?](#vì-sao-cần-mảng)

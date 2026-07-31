@@ -9,6 +9,18 @@ Trừu tượng là cách bạn tập trung mô tả "làm gì" mà giấu đi c
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Trừu tượng phơi bày "làm gì", giấu "làm thế nào"** — người dùng lập trình theo abstraction, không phụ thuộc cài đặt cụ thể.
+- **`abstract class` không thể `new` trực tiếp** — chỉ làm khuôn mẫu cho lớp con kế thừa.
+- ⭐ **`abstract method` chỉ có tên, không có thân** (kết thúc bằng `;`) — lớp con *bắt buộc* cài đặt.
+- **Abstract class trộn được cả method thường lẫn abstract** — method thường có thể gọi abstract method bên trong.
+- **Khác interface** — abstract class có thuộc tính và constructor.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có tính trừu tượng (abstraction)?](#vì-sao-có-tính-trừu-tượng-abstraction)

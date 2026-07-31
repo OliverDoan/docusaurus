@@ -9,6 +9,18 @@ Logback là một implementation ghi log thật và là lựa chọn mặc đị
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Logback là implementation mặc định của Spring Boot** — cấu hình qua `logback.xml` hoặc `logback-spring.xml` trong `src/main/resources/`.
+- **`Appender` quyết định ghi log đi đâu** — `ConsoleAppender` (màn hình), `RollingFileAppender` (file).
+- **`Pattern` định dạng dòng log** — với các ký hiệu `%d`, `%level`, `%logger`, `%msg`, `%n`.
+- **`RollingFileAppender` xoay file** — theo ngày/kích thước và tự xóa file cũ nhờ `maxHistory`.
+- **Đặt level theo package** — qua `<logger>` và `<root>` để xem chi tiết code mình mà ẩn log thư viện.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Logback ra đời?](#vì-sao-logback-ra-đời)

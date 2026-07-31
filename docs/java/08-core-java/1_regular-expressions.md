@@ -9,6 +9,18 @@ Biểu thức chính quy (regex) là một chuỗi ký tự đặc biệt dùng 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Regex là khuôn mẫu mô tả văn bản** — dùng để kiểm tra/tìm/thay chuỗi, thay cho hàng chục dòng so khớp thủ công.
+- ⭐ **`Pattern` và `Matcher`** — `Pattern.compile()` biên dịch khuôn mẫu, `pattern.matcher()` tạo bộ so khớp cho chuỗi cụ thể (gói `java.util.regex`).
+- **`matches()` vs `find()` vs `group()`** — `matches()` khớp **toàn bộ** chuỗi, `find()` khớp **một phần**, `group()` lấy đoạn vừa khớp (phải gọi sau `find()`).
+- **Ký tự cơ bản** — `\d` (số), `\w` (chữ/số/`_`), `\s` (khoảng trắng), `.` (bất kỳ), `*` `+` `?` (lặp), `{n}`, `[]`, `()`, `^`/`$`.
+- **Cạm bẫy Java** — phải viết `\\d` thay vì `\d`; muốn khớp dấu chấm thật phải escape `\\.`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có regex?](#vì-sao-có-regex)

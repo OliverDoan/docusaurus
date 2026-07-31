@@ -9,6 +9,17 @@ Stack (ngăn xếp) là cấu trúc xử lý phần tử theo nguyên tắc vào
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Stack là LIFO** — vào sau ra trước, với ba thao tác `push`/`pop`/`peek`.
+- ⭐ **Không nên dùng lớp `Stack` cũ** — bị đồng bộ hóa thừa (chậm) và thiết kế lỗi thời (kế thừa `Vector`).
+- **Khuyến nghị `ArrayDeque`** — làm stack đúng ngữ nghĩa LIFO và nhanh hơn.
+- **Ứng dụng** — undo, lịch sử trình duyệt, kiểm tra ngoặc cân bằng, đệ quy.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có cấu trúc Stack (LIFO)?](#vì-sao-có-cấu-trúc-stack-lifo)

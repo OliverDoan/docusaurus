@@ -9,6 +9,18 @@ Apache JMeter là công cụ mã nguồn mở dùng để test hiệu năng và 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **JMeter test hiệu năng và tải cho web/API** — trả lời "hệ thống chịu tải đến đâu", khác với "code có đúng không".
+- **Ba chỉ số quan trọng** — response time (thời gian phản hồi), throughput (thông lượng), error rate (tỉ lệ lỗi).
+- **Thành phần chính** — Thread Group (người dùng ảo) → Sampler (gửi request) → Listener (xem kết quả).
+- **Các loại test** — load, stress, spike, endurance (soak) test.
+- ⭐ **Test tải thật chạy non-GUI** — dùng `jmeter -n -t ...` cho chính xác; thêm Assertion để không tính nhầm trang lỗi là "thành công".
+
+:::
+
+---
+
 ## Mục lục
 
 - [JMeter là gì?](#jmeter-là-gì)

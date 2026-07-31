@@ -9,6 +9,18 @@ Bazel là công cụ build do Google tạo ra, dành cho các dự án rất l�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Bazel dành cho dự án cực lớn, đa ngôn ngữ** — do Google tạo, mạnh về tốc độ và build tái lập trong monorepo.
+- ⭐ **Người mới không nên dùng Bazel** — hãy học Maven và Gradle trước, chỉ cần biết Bazel tồn tại.
+- **`WORKSPACE` + `BUILD`** — `WORKSPACE` đánh dấu gốc dự án; mỗi `BUILD` khai báo các `target` với `deps` rõ ràng.
+- **Build tăng tiến & tái lập** — chỉ build lại phần thay đổi; môi trường hermetic cho kết quả giống hệt trên mọi máy.
+- **Dùng ngôn ngữ Starlark** (giống Python), không phải XML.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Bazel?](#vì-sao-có-bazel)

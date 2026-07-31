@@ -9,6 +9,18 @@ Virtual thread (luồng ảo) là loại luồng siêu nhẹ ra mắt chính th�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Virtual thread (Java 21)** — luồng siêu nhẹ do JVM quản lý, tạo được hàng triệu cái mà không quá tải máy.
+- ⭐ **Nhẹ vì biết nhả tài nguyên** — khi chờ I/O, luồng ảo tự nhường carrier/OS thread cho luồng khác, khác `platform thread` gắn 1-1 với OS thread (nặng).
+- **Lợi ích lớn nhất cho ứng dụng nhiều I/O** — web server, gọi API/DB; code viết blocking tuần tự dễ đọc mà vẫn scale cao. Không hợp tác vụ nặng CPU.
+- **Cách tạo** — `Thread.ofVirtual()` hoặc `Executors.newVirtualThreadPerTaskExecutor()` (mỗi việc một luồng ảo).
+- **Cạm bẫy** — đừng gom vào pool cố định `newFixedThreadPool`; tránh `synchronized` quanh đoạn chờ I/O dài (bị "pin"), nên dùng `Lock`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có virtual threads?](#vì-sao-có-virtual-threads)

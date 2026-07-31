@@ -9,6 +9,18 @@ Cú pháp là bộ quy tắc viết code mà Java bắt buộc bạn tuân theo,
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Mọi code phải nằm trong `class`** — và tên file phải trùng tên class `public`.
+- ⭐ **Chương trình bắt đầu chạy từ hàm `main`** — đây là điểm vào duy nhất.
+- **Mỗi câu lệnh kết thúc bằng `;`** — cặp `{ }` gom nhiều lệnh thành một khối.
+- **In ra màn hình** — `System.out.println` in rồi xuống dòng, `print` thì không.
+- **`Comment`** — ghi chú cho người đọc, máy bỏ qua hoàn toàn.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Java có cú pháp chặt chẽ?](#vì-sao-java-có-cú-pháp-chặt-chẽ)

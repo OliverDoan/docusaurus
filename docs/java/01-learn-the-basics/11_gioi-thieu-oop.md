@@ -9,6 +9,17 @@ OOP (Lập trình hướng đối tượng) là cách tổ chức chương trìn
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **OOP** — tổ chức chương trình quanh các **đối tượng** gói chung dữ liệu và hành vi.
+- **Lớp vs đối tượng** — `class` là bản thiết kế; đối tượng là thực thể cụ thể tạo bằng `new`.
+- ⭐ **Bốn trụ cột** — đóng gói, kế thừa, đa hình, trừu tượng.
+- **Cú pháp cốt lõi** — đóng gói dùng `private`, kế thừa dùng `extends`, đa hình ghi đè bằng `@Override`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [OOP là gì?](#oop-là-gì)

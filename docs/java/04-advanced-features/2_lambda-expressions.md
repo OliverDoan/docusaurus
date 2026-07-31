@@ -9,6 +9,18 @@ Biểu thức Lambda (có từ Java 8) là cách viết ngắn gọn cho một h
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Lambda (Java 8)** — cú pháp ngắn gọn triển khai một functional interface, coi hàm như dữ liệu truyền đi được.
+- **Functional interface** — interface chỉ có đúng một phương thức trừu tượng (vd `Runnable`, `Comparator`).
+- **Thay anonymous class** — gọn hơn nhiều: `(s1, s2) -> s1.length() - s2.length()`.
+- **Capture biến** — lambda bắt được biến ngoài nhưng biến phải là `final` hoặc effectively final.
+- ⭐ **Nền tảng Stream** — kết hợp với `map`/`filter` và method reference cho lập trình hàm.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có lambda expression?](#vì-sao-có-lambda-expression)

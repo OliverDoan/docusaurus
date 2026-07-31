@@ -9,6 +9,17 @@ Vòng lặp là cấu trúc cho phép lặp lại một khối lệnh nhiều l�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Bốn loại vòng lặp** — `for` (biết trước số lần), `while` (lặp theo điều kiện), `do-while` (chạy tối thiểu 1 lần), `for-each` (duyệt phần tử).
+- **`break` và `continue`** — `break` thoát hẳn vòng lặp; `continue` bỏ qua phần còn lại của lần lặp hiện tại.
+- **Vòng lặp vô hạn** — luôn đảm bảo điều kiện sẽ có lúc sai (nhớ cập nhật biến điều kiện).
+- **Vòng lặp lồng nhau** — hữu ích cho bảng, ma trận; mỗi vòng ngoài chạy hết vòng trong một lượt.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần vòng lặp?](#vì-sao-cần-vòng-lặp)

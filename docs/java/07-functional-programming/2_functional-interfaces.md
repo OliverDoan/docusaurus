@@ -9,6 +9,18 @@ Functional interface (giao diện hàm) là interface có đúng một phương 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Functional interface** — interface có **đúng một phương thức trừu tượng**, làm "kiểu" cho lambda và method reference.
+- ⭐ **Năm loại có sẵn trong `java.util.function`** — `Function<T,R>` (biến đổi, `apply`), `Consumer<T>` (làm việc, `accept`), `Supplier<T>` (cung cấp, `get`), `Predicate<T>` (kiểm tra, `test`), `BiFunction<T,U,R>` (nhận 2).
+- **`@FunctionalInterface`** — annotation không bắt buộc nhưng nên dùng; báo lỗi nếu lỡ thêm phương thức trừu tượng thứ hai.
+- **Vẫn cho phép `default`/`static`** — chỉ tính phương thức **trừu tượng** khi xét functional interface.
+- **Ưu tiên dùng lại bộ chuẩn** thay vì tự viết; nhớ ghi rõ generic (`Function<String, Integer>`) để giữ an toàn kiểu.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có functional interface?](#vì-sao-có-functional-interface)

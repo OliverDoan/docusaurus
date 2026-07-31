@@ -9,6 +9,18 @@ Vòng đời đối tượng mô tả toàn bộ quá trình một đối tượ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Vòng đời gồm 4 giai đoạn** — tạo → sử dụng → mất tham chiếu → thu gom rác (GC).
+- **`new` cấp phát trên heap và chạy constructor** — biến chỉ chứa *tham chiếu* (địa chỉ), không phải chính đối tượng.
+- ⭐ **Garbage Collection tự thu hồi object không còn tham chiếu** — không cần `free`/`delete` thủ công như C/C++.
+- **`finalize()` đã lỗi thời (deprecated)** — dùng `try-with-resources` cho tài nguyên ngoài heap (file, kết nối).
+- **Coi chừng leak do giữ reference thừa** — object nằm trong `static` hay collection sẽ không bao giờ bị GC.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần hiểu vòng đời object & GC?](#vì-sao-cần-hiểu-vòng-đời-object--gc)

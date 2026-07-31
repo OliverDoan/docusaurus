@@ -9,6 +9,17 @@ Method chaining là kỹ thuật gọi nhiều phương thức nối tiếp nhau
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Bí quyết: mỗi phương thức `return this`** — trả về chính đối tượng hiện tại để gọi nối tiếp trên một dòng.
+- **Kiểu trả về phải là chính lớp đó (hoặc Builder)** — nếu trả về `void` thì không chaining được.
+- **`StringBuilder.append()` là ví dụ chaining trong thư viện chuẩn** — nhanh hơn nối chuỗi bằng `+` nhiều lần.
+- **Builder Pattern dùng chaining để dựng đối tượng phức tạp từng bước** — kết thúc bằng `build()`, rõ hơn constructor nhiều tham số.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có method chaining?](#vì-sao-có-method-chaining)

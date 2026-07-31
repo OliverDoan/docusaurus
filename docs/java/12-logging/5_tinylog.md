@@ -9,6 +9,18 @@ TinyLog là một thư viện logging siêu nhẹ cho Java với triết lý đ�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **TinyLog siêu nhẹ, đơn giản tối đa** — gọi thẳng `Logger.info(...)` mà không cần tạo logger riêng cho từng lớp.
+- **Cần cả hai phần** — `tinylog-api` (gọi log) lẫn `tinylog-impl` (ghi log thật).
+- **Cấu hình tối giản** — một file `tinylog.properties` vài dòng; `writer` đóng vai trò như appender.
+- ⭐ **Exception đứng ĐẦU** — `Logger.error(e, "...")`, ngược với SLF4J đặt exception ở cuối.
+- **Phù hợp ứng dụng nhỏ/CLI/demo** — dự án lớn dùng Spring Boot nên chọn Logback/Log4j2.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao TinyLog ra đời?](#vì-sao-tinylog-ra-đời)

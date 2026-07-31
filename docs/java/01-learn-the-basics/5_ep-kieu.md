@@ -9,6 +9,17 @@ title: "5. Ép kiểu (Type Casting)"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hai hướng ép kiểu** — mở rộng (nhỏ→lớn) tự động, an toàn; thu hẹp (lớn→nhỏ) phải ghi `(kiểu)` và có thể mất dữ liệu.
+- **Thu hẹp** — chỉ **cắt** phần thập phân (không làm tròn); vượt phạm vi gây **tràn số**.
+- **Số ↔ chuỗi** — số→chuỗi dùng `String.valueOf`; chuỗi→số dùng `Integer.parseInt`, `Double.parseDouble`.
+- **Chia số nguyên** — chia hai `int` ra `int`; ép `(double)` một toán hạng để có số thực.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Java phân biệt các kiểu ép kiểu?](#vì-sao-java-phân-biệt-các-kiểu-ép-kiểu)

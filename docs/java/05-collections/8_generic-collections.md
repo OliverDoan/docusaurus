@@ -9,6 +9,18 @@ Generic (kiểu tổng quát) là phần `<...>` mà bạn thấy ở `ArrayList
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Generics `List<String>`** — tham số hóa kiểu phần tử, bắt lỗi sai kiểu ngay lúc biên dịch (type safety).
+- **Không cần cast** — lấy phần tử ra không phải ép kiểu, IDE autocomplete đầy đủ.
+- ⭐ **Raw type nguy hiểm** — chứa `Object`, dễ gây `ClassCastException` lúc chạy.
+- **Wildcard `?`** — giúp API linh hoạt nhận nhiều kiểu.
+- **Bounded type** — giới hạn kiểu (vd `<T extends Number>`); tự viết được phương thức generic.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao collection cần generics?](#vì-sao-collection-cần-generics)

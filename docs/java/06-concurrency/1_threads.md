@@ -9,6 +9,18 @@ Luồng (thread) là một mạch thực thi chạy bên trong chương trình, 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Luôn gọi `start()` để tạo luồng mới** — `run()` chỉ chạy tuần tự ngay trong luồng hiện tại, không sinh luồng mới.
+- ⭐ **Tiến trình vs luồng** — tiến trình có vùng nhớ riêng; các luồng cùng một tiến trình dùng chung vùng nhớ (cùng biến, cùng đối tượng).
+- **Cách tạo luồng** — `extends Thread` hoặc (khuyến khích) `implements Runnable`, vì Java chỉ kế thừa được một lớp.
+- **`sleep()` và `join()`** — `sleep(ms)` cho luồng ngủ tạm, `join()` chờ luồng khác chạy xong; cả hai đều ném `InterruptedException`.
+- **Luồng nền (`daemon`)** — bị JVM tắt ngay khi không còn luồng người dùng; phải gọi `setDaemon(true)` trước `start()`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Tiến trình (Process) và Luồng (Thread) là gì?](#tiến-trình-process-và-luồng-thread-là-gì)

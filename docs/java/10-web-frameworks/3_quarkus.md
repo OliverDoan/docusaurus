@@ -9,6 +9,18 @@ Quarkus là framework Java hiện đại do Red Hat tạo ra, thiết kế cho c
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Quarkus tối ưu cho cloud-native/microservice** — khởi động cực nhanh (mili-giây) và dùng rất ít RAM.
+- ⭐ **Nhanh nhờ dời việc sang lúc build** — làm phần lớn công việc lúc build-time thay vì runtime, giảm tối đa reflection.
+- **Native image qua GraalVM** — biến app thành file chạy trực tiếp không cần JVM; đổi lại build lâu hơn.
+- **Dùng chuẩn Java** — `JAX-RS` (`@Path`, `@GET`) cho endpoint, `CDI` (`@Inject`, `@ApplicationScoped`) cho DI, không dùng annotation Spring.
+- **Chọn Quarkus cho serverless/cloud**; chọn Spring Boot khi cần cộng đồng lớn, dễ học.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Quarkus là gì?](#quarkus-là-gì)

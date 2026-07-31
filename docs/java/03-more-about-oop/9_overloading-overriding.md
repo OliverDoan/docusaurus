@@ -9,6 +9,18 @@ Overloading (nạp chồng) và overriding (ghi đè) là hai khái niệm nghe 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Overloading (nạp chồng): cùng tên, khác tham số, trong cùng một lớp** — Java chọn phiên bản lúc biên dịch (static binding).
+- ⭐ **Overriding (ghi đè): lớp con viết lại method lớp cha, cùng chữ ký** — chọn lúc chạy (dynamic binding), là nền tảng của đa hình.
+- **Overload phân biệt bằng danh sách tham số, KHÔNG bằng kiểu trả về** — chỉ đổi kiểu trả về sẽ gây lỗi trùng method.
+- **Luôn dùng `@Override` khi ghi đè** — compiler bắt lỗi ngay nếu gõ nhầm tên hay sai tham số.
+- **Override không được thu hẹp phạm vi truy cập** — và không áp dụng cho `final`/`static`/`private`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có overloading & overriding?](#vì-sao-có-overloading--overriding)

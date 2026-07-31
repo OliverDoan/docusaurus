@@ -9,6 +9,17 @@ Array (mảng) và ArrayList (danh sách động) là hai cách cơ bản nhất
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`ArrayList` là mảng động tự co giãn** — thêm/xóa phần tử mà không phải tự tạo mảng mới rồi copy.
+- **`Array` cố định kích thước** — phải biết trước số phần tử; nhanh hơn chút, hợp kiểu nguyên thủy.
+- **API phong phú** — `add`, `remove`, `contains`, `indexOf` sẵn có ở `ArrayList`.
+- **Một phần Collections Framework** — tích hợp generics để type-safe.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có ArrayList (so với mảng)?](#vì-sao-có-arraylist-so-với-mảng)

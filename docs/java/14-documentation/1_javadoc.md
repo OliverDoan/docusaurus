@@ -9,6 +9,18 @@ Javadoc là công cụ đi kèm bộ JDK, đọc các comment đặc biệt tron
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Javadoc là công cụ JDK sinh tài liệu HTML từ comment `/** ... */`** — chỉ đọc comment mở bằng `/**` (hai dấu sao), đặt ngay sát trên phần tử mô tả.
+- **Khối gồm phần mô tả + các block tag `@`** — câu đầu tiên (kết thúc bằng dấu chấm) được coi là tóm tắt.
+- **Block tag hay dùng** — `@param`, `@return`, `@throws`, `@author`, `@since`, `@deprecated`, `@see`, `@version`.
+- **Inline tag `{@link}` và `{@code}`** — tạo liên kết tới phần tử khác và hiển thị văn bản kiểu mã nguồn.
+- ⭐ **Sinh tài liệu bằng lệnh `javadoc -d <thư-mục> *.java`** — thêm `-author`, `-version`, `-private` khi cần.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Javadoc là gì?](#javadoc-là-gì)

@@ -9,6 +9,17 @@ Phạm vi truy cập quyết định "ai" được phép nhìn thấy và dùng 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **4 mức từ kín tới mở: `private` → `default` → `protected` → `public`** — quyết định "ai" được truy cập thuộc tính/phương thức.
+- ⭐ **Là công cụ chính để đóng gói (encapsulation)** — ẩn cái cần ẩn, lộ cái cần lộ để giữ bất biến của object.
+- **`private` chỉ trong class, `public` mọi nơi** — `protected` là cùng package + lớp con; `default` (không viết gì) chỉ trong cùng package.
+- **Nguyên tắc vàng: chọn mức kín nhất có thể** — ưu tiên `private` cho thuộc tính, chỉ mở rộng khi thật cần.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có access modifier (public/private...)?](#vì-sao-có-access-modifier-publicprivate)

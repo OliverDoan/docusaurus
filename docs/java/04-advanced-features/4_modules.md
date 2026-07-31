@@ -9,6 +9,18 @@ Hệ thống Module (có từ Java 9) là cách chia một chương trình lớn
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **JPMS (Java 9)** — chia chương trình thành module qua `module-info.java`, khai báo `requires` (phụ thuộc) và `exports` (package lộ ra).
+- ⭐ **Đóng gói mạnh** — package không `exports` sẽ bị ẩn, bên ngoài không import được.
+- **Phát hiện thiếu thư viện sớm** — phụ thuộc được kiểm tra lúc khởi động thay vì sập giữa chừng lúc chạy.
+- **`jlink`** — tạo runtime tối giản chỉ gồm các module cần thiết, hợp container/microservice.
+- **Giải quyết "JAR hell"** — ranh giới module rõ ràng, hạn chế xung đột phiên bản và class trùng.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có module system (JPMS)?](#vì-sao-có-module-system-jpms)

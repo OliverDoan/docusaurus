@@ -9,6 +9,17 @@ Câu điều kiện cho phép chương trình chọn hành động khác nhau t�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`if` / `else` / `else if`** — `if` chạy khi đúng, `else` khi sai, `else if` xử lý nhiều nhánh (chạy nhánh đúng đầu tiên).
+- **Toán tử ba ngôi** — `đk ? a : b` là cách viết gọn của if-else cho việc gán giá trị.
+- **`switch`** — tiện khi so sánh một biến với nhiều giá trị cố định.
+- **switch cũ vs mới** — switch cũ cần `break` (tránh fall-through); switch mới dùng `->`, an toàn hơn và trả về giá trị.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần câu điều kiện?](#vì-sao-cần-câu-điều-kiện)

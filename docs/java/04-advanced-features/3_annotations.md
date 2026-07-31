@@ -9,6 +9,18 @@ Annotation (chú thích) là một dạng "nhãn dán" metadata mà bạn gắn 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Annotation `@Something`** — nhãn metadata gắn thẳng lên lớp/phương thức/biến, thay cho file XML rời rạc.
+- **Annotation có sẵn** — `@Override`, `@Deprecated`, `@SuppressWarnings`.
+- **`@Retention`** — quy định vòng đời annotation: `SOURCE` / `CLASS` / `RUNTIME`.
+- **`@Target`** — quy định vị trí áp dụng (class, method, field...).
+- ⭐ **Framework dùng annotation** — Spring, JUnit, JPA đọc annotation (thường qua Reflection) để sinh hành vi.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có annotation?](#vì-sao-có-annotation)

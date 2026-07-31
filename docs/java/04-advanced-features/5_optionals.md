@@ -9,6 +9,18 @@ Optional là một "hộp đựng" có từ Java 8, dùng để biểu diễn m�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Optional<T>` (Java 8)** — kiểu bọc biểu thị tường minh "có thể có hoặc không có giá trị", giảm hẳn `NullPointerException`.
+- **Tạo Optional** — `Optional.of` (chắc chắn có), `ofNullable` (có thể null), `empty` (rỗng).
+- **Lấy giá trị an toàn** — `isPresent`, `orElse`, `ifPresent` thay cho null-check thủ công.
+- **`map`** — biến đổi giá trị bên trong mà không cần tự mở hộp, tránh null-check lồng nhau.
+- ⭐ **Tránh lạm dụng** — chủ yếu dùng cho kiểu trả về, không nên dùng làm tham số hay field.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Optional?](#vì-sao-có-optional)

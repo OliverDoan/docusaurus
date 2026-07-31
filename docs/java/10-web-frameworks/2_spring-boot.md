@@ -9,6 +9,18 @@ Spring là framework Java phổ biến nhất thế giới để xây ứng dụ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Spring Boot khởi động ứng dụng Spring cực nhanh** — nhờ auto-configuration, starter dependency và server nhúng, chỉ cần `java -jar`.
+- ⭐ **`@RestController` + `@GetMapping`/`@PostMapping`** — đánh dấu class xử lý API và ánh xạ HTTP method tới hàm.
+- **Đọc dữ liệu request** — `@PathVariable` (đường dẫn), `@RequestParam` (sau `?`), `@RequestBody` (JSON trong body).
+- **Dependency Injection** — Spring tự tạo và "tiêm" bean; ưu tiên constructor injection hơn `@Autowired`.
+- **Phân tầng** — Controller → Service (`@Service`) → Repository; cấu hình trong `application.properties`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Spring Boot?](#vì-sao-có-spring-boot)

@@ -9,6 +9,17 @@ Từ khóa `final` dùng để "khóa" một thứ lại, ngăn không cho thay 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`final` = khóa lại, không cho thay đổi** — áp dụng cho biến, phương thức và class.
+- ⭐ **Với object, `final` chỉ khóa tham chiếu** — không gán lại được object khác nhưng dữ liệu bên trong object vẫn đổi được.
+- **Biến `final` là hằng số, gán đúng một lần** — quy ước tên `UPPER_SNAKE_CASE`; kết hợp `static final` cho hằng dùng chung.
+- **Phương thức `final` không bị override, class `final` không bị kế thừa** — ví dụ `String` là class `final`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có từ khóa final?](#vì-sao-có-từ-khóa-final)

@@ -9,6 +9,18 @@ Stream API là công cụ xử lý một chuỗi phần tử theo kiểu dây ch
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Stream xử lý dữ liệu theo dây chuyền khai báo** — không lưu trữ dữ liệu, không đổi dữ liệu gốc, và **chỉ dùng được một lần**.
+- ⭐ **Pipeline gồm 3 phần** — nguồn → thao tác trung gian (`filter`, `map`, `sorted`, `distinct`, `limit`/`skip`) → thao tác kết thúc (`collect`, `reduce`, `forEach`, `count`, `anyMatch`, `findFirst`).
+- **Lazy evaluation** — thao tác trung gian chỉ chạy khi gặp thao tác kết thúc; cho phép dừng sớm (như `findFirst`). Thiếu thao tác kết thúc thì không có gì chạy.
+- **`Collectors`** — công cụ gom mạnh: `toList`, `toSet`, `joining`, `groupingBy`, `counting`, `summingInt`.
+- **`parallel()`** — xử lý song song nhiều nhân CPU; chỉ dùng cho dữ liệu lớn, thao tác độc lập và bất biến (tránh sửa biến dùng chung).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Stream API?](#vì-sao-có-stream-api)

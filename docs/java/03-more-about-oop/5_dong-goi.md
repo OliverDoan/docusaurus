@@ -9,6 +9,18 @@ title: "5. Đóng gói (Encapsulation)"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Che giấu field bằng `private`, chỉ truy cập qua getter/setter** — kiểm soát mọi thao tác đọc/ghi.
+- ⭐ **Setter validate chặn giá trị phi logic ngay tại cửa ngõ** — như số dư âm, tuổi âm, email rỗng.
+- **Getter có thể tính toán suy ra** — ví dụ `getFahrenheit()` từ độ C, không cần lưu dư thừa.
+- **Ẩn cấu trúc nội bộ giúp tự do refactor** — đổi cách lưu trữ bên trong mà getter/setter không đổi thì không ai bị vỡ.
+- **Tuân quy ước JavaBeans** — `get`/`set`, và `is` cho kiểu `boolean`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có đóng gói (encapsulation)?](#vì-sao-có-đóng-gói-encapsulation)

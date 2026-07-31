@@ -9,6 +9,18 @@ Web framework là bộ thư viện dựng sẵn giúp bạn xây ứng dụng we
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Web framework làm sẵn việc cơ bản** — lắng nghe request, phân tích URL, đọc dữ liệu, trả response; bạn chỉ lo business logic.
+- **HTTP là giao thức hỏi - đáp** — mỗi request có method: `GET` (đọc), `POST` (tạo), `PUT`/`PATCH` (sửa), `DELETE` (xóa).
+- **REST API** — mỗi resource một đường dẫn danh từ số nhiều (`/users`), hành động thể hiện qua method.
+- **Status code** — `200` OK, `201` Created, `400` Bad Request, `401` Unauthorized, `404` Not Found, `500` lỗi server.
+- ⭐ **Bốn framework** — Spring Boot (phổ biến nhất), Quarkus (siêu nhanh), Javalin (siêu nhẹ), Play (reactive); nên học Javalin rồi Spring Boot.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Web Framework là gì?](#web-framework-là-gì)

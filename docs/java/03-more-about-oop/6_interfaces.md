@@ -9,6 +9,18 @@ Interface là một "hợp đồng" liệt kê các phương thức mà một l�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Interface là "hợp đồng" liệt kê method lớp phải có** — mô tả "làm được gì", không nói "làm thế nào"; dùng `implements`.
+- ⭐ **Một lớp có thể `implements` nhiều interface** — đạt đa kế thừa *hành vi* (điều kế thừa lớp không làm được).
+- **`default method` có sẵn thân, `static method` gọi qua tên interface** (từ Java 8) — thêm tính năng mà không phá lớp cũ.
+- **Khác abstract class** — interface không có thuộc tính thường (chỉ hằng `public static final`) và không có constructor.
+- **Lập trình theo interface = dễ thay cài đặt, dễ mock khi test** — nền tảng của Dependency Injection.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có interface?](#vì-sao-có-interface)

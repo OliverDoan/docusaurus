@@ -9,6 +9,18 @@ Hibernate là thư viện ORM nổi tiếng nhất trong Java, giúp bạn làm 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hibernate là ORM ánh xạ class ↔ table tự động** — thao tác DB bằng đối tượng, tự sinh SQL, không viết SQL tay.
+- **Khai báo Entity bằng annotation** — `@Entity`, `@Table`, `@Id`, `@GeneratedValue`, `@Column`; bắt buộc có constructor rỗng.
+- **`SessionFactory` vs `Session`** — `SessionFactory` tạo một lần; `Session` tạo mới mỗi đơn vị công việc; CRUD (`persist`/`get`/`remove`) trong transaction có `commit()`.
+- **HQL** — truy vấn theo tên class/thuộc tính; luôn dùng `setParameter`, không nối chuỗi.
+- ⭐ **Lazy loading & N+1** — chỉ tải dữ liệu liên quan khi cần; cẩn thận `LazyInitializationException` và vấn đề N+1 (dùng `JOIN FETCH`). Mặc định tham số hóa nên an toàn SQL injection.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Hibernate (ORM)?](#vì-sao-có-hibernate-orm)

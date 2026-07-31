@@ -9,6 +9,17 @@ Queue (hàng đợi) là cấu trúc xử lý phần tử theo nguyên tắc và
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Queue` là FIFO** — vào trước ra trước; thêm ở cuối, lấy ở đầu, đều hiệu quả.
+- **`offer`/`poll`/`peek`** — thêm/lấy/xem phần tử đầu, trả về `null`/`false` thay vì ném lỗi.
+- **Lớp triển khai** — `LinkedList` và `ArrayDeque`.
+- ⭐ **`PriorityQueue`** — lấy phần tử theo độ ưu tiên thay vì thứ tự đến.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Queue?](#vì-sao-có-queue)

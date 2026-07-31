@@ -9,6 +9,18 @@ Maven là công cụ build phổ biến nhất cho Java, hoạt động theo ngu
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`pom.xml` là trái tim dự án** — khai báo `groupId`, `artifactId`, `version` (GAV) và dependencies, theo nguyên tắc "quy ước hơn cấu hình".
+- ⭐ **Khai báo dependency, Maven tự tải** — kéo cả phụ thuộc chuyền tiếp từ Maven Central, lưu vào kho cục bộ `~/.m2`.
+- **`<scope>`** — xác định phạm vi dùng thư viện: `compile`, `test`, `provided`, `runtime`.
+- **Lệnh chính** — `mvn clean`, `compile`, `test`, `package`, `install`; gọi một phase tự chạy các phase trước.
+- **Plugin** — thứ thực sự thực thi công việc trong từng phase.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao dùng Maven?](#vì-sao-dùng-maven)

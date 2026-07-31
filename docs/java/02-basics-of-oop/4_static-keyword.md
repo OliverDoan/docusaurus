@@ -9,6 +9,17 @@ Từ khóa `static` đánh dấu một thành viên thuộc về chính lớp ch
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`static` thuộc về class, không thuộc object** — chỉ có một bản dùng chung cho mọi object, tồn tại ngay cả khi chưa tạo object nào.
+- **Truy cập qua tên class** — `Counter.count`, `MathUtil.square(5)`; gọi được mà không cần `new`.
+- **Phương thức static không dùng trực tiếp thành viên instance** — đây cũng là lý do `main` phải là `static`.
+- **Khối `static { }` chạy một lần khi class được nạp** — dùng để khởi tạo dữ liệu static; ví dụ điển hình là bộ đếm số object đã tạo.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có từ khóa static?](#vì-sao-có-từ-khóa-static)

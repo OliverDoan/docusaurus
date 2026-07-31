@@ -9,6 +9,18 @@ Mô hình bộ nhớ Java (JMM) là bộ quy tắc cho biết khi nào một lu�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **JMM là quy tắc về visibility** — quy định khi nào một luồng chắc chắn thấy thay đổi mà luồng khác vừa ghi.
+- ⭐ **Gốc rễ lỗi** — mỗi luồng giữ bản sao biến trong **cache CPU** nên có thể đọc phải giá trị cũ (ví dụ vòng lặp `while(!dungLai)` treo mãi mãi).
+- **Happens-before** — quan hệ "xảy ra trước" bảo đảm luồng sau thấy được thay đổi; thiết lập qua `volatile`, `synchronized`, `start()`/`join()`.
+- **Cách bảo đảm an toàn** — dùng `volatile`, `synchronized`, hoặc lớp `Atomic` (như `AtomicBoolean`).
+- **Cạm bẫy** — code chạy đúng trên máy mình không có nghĩa là đúng; lỗi hiển thị phụ thuộc phần cứng, rất khó tái hiện.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần Java Memory Model?](#vì-sao-cần-java-memory-model)

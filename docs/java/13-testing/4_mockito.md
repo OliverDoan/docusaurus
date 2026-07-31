@@ -9,6 +9,18 @@ Mockito là thư viện giúp tạo các đối tượng giả lập (mock) đ�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Mock là đối tượng giả lập** — đóng thế database/API/email để test riêng logic một lớp, nhanh và ổn định.
+- **`mock(...)` và `when(...).thenReturn(...)`** — tạo mock rồi "dạy" mock trả về giá trị (stubbing).
+- **`verify(...)`** — kiểm tra một phương thức đã (hoặc chưa) được gọi, kèm `times(n)`, `never()`.
+- ⭐ **`@Mock` + `@InjectMocks` + `@ExtendWith(MockitoExtension.class)`** — cách viết test gọn khi có nhiều phụ thuộc.
+- **Chỉ stub/verify điều cần** — stub thừa gây `UnnecessaryStubbingException`, verify quá chi tiết làm test giòn.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Mock (đối tượng giả lập) là gì?](#mock-đối-tượng-giả-lập-là-gì)

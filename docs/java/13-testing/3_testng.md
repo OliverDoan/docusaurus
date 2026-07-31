@@ -9,6 +9,18 @@ TestNG là một framework test cho Java, ra đời như lựa chọn thay thế
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **TestNG mạnh về `groups`, chạy song song và `@DataProvider`** — được ưa chuộng cho automation testing (Selenium).
+- ⭐ **`assertEquals(thucTe, mongDoi)`** — thứ tự NGƯỢC với JUnit, rất dễ nhầm khi chuyển framework.
+- **`priority` và `groups`** — `priority` chỉ định thứ tự chạy; `groups` gắn nhãn để chạy chọn lọc qua `testng.xml`.
+- **Vòng đời phong phú** — `@BeforeSuite`/`@BeforeClass`/`@BeforeMethod` và các `@After...` tương ứng.
+- **Gradle cần `useTestNG()`** — nếu không, Gradle vẫn chạy bằng JUnit và không thấy test TestNG.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao TestNG ra đời?](#vì-sao-testng-ra-đời)

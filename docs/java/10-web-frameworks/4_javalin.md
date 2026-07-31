@@ -9,6 +9,18 @@ Javalin là framework web Java cực kỳ nhẹ và đơn giản, theo triết l
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Javalin siêu nhẹ, siêu đơn giản** — vài dòng trong hàm `main` là có server, "ít phép thuật", học rất nhanh.
+- **Định nghĩa route bằng hàm** — `app.get(...)`, `app.post(...)` thay vì annotation.
+- **Đối tượng `ctx` (context)** — đọc request và trả response: `ctx.pathParam`, `ctx.queryParam`, `ctx.body`, `ctx.json`, `ctx.status`.
+- **Ít tính năng sẵn hơn Spring Boot** — tự ghép thêm bảo mật, truy cập database khi cần.
+- ⭐ **Dùng cho app nhỏ, prototype và học**; dự án lớn hoặc đi làm vẫn thường cần Spring Boot.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Javalin?](#vì-sao-có-javalin)

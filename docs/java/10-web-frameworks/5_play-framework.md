@@ -9,6 +9,18 @@ Play Framework là một framework web full-stack và reactive cho Java và Scal
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Play là framework full-stack và reactive** — cho Java và Scala, phong cách giống Rails/Django, dựng trên Akka.
+- **Reactive (non-blocking)** — không giữ chặt thread khi chờ việc chậm, phục vụ nhiều request với ít tài nguyên.
+- **Full-stack** — lo được cả backend lẫn frontend qua template HTML.
+- **MVC + route tập trung** — khai báo mọi đường dẫn trong file `conf/routes`; Controller kế thừa lớp `Controller`, dùng `Result`/`ok()`.
+- ⭐ **Chọn Play cho app full-stack/reactive lớn**; người mới và đa số dự án vẫn nên dùng Spring Boot. Play dùng build tool `sbt`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Play Framework?](#vì-sao-có-play-framework)

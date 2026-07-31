@@ -9,6 +9,18 @@ Kết hợp hàm (functional composition) là việc ghép nhiều hàm nhỏ l�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Kết hợp hàm** — ghép nhiều hàm nhỏ thành một pipeline, đầu ra hàm này là đầu vào hàm kia; dễ đọc, test và tái sử dụng.
+- ⭐ **`andThen` vs `compose`** — `a.andThen(b)` chạy `a` trước rồi `b` (đọc xuôi); `a.compose(b)` chạy `b` trước rồi `a` (ngược, giống `f(g(x))`).
+- **Ghép `Predicate`** — dùng `and`, `or`, `negate` để diễn đạt điều kiện phức tạp rõ ràng.
+- **Ghép `Consumer`** — `andThen` chạy nhiều hành vi liên tiếp trên **cùng một giá trị**.
+- **Luôn tạo hàm mới** — phép kết hợp không thay đổi hàm gốc; phải gán lại kết quả hoặc gọi `.apply()` ngay.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có function composition?](#vì-sao-có-function-composition)

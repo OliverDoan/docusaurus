@@ -9,6 +9,18 @@ Set (tập hợp) là cấu trúc dữ liệu mà mỗi giá trị chỉ xuất 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Set` không cho phần tử trùng** — tự loại trùng và kiểm tra tồn tại rất nhanh.
+- ⭐ **`HashSet`** — `add`/`contains` O(1), không quan tâm thứ tự.
+- **`LinkedHashSet`** — giữ đúng thứ tự thêm vào.
+- **`TreeSet`** — tự sắp xếp phần tử, hỗ trợ truy vấn dải (`first`, `last`...).
+- **Phép toán tập hợp** — hợp, giao, hiệu giữa các Set.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Set?](#vì-sao-có-set)

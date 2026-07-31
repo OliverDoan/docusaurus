@@ -9,6 +9,18 @@ Thao tác với file là việc đọc và ghi dữ liệu xuống ổ cứng đ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Ưu tiên `java.nio.file` (Path/Files)** — gọn và mạnh hơn lớp `File` cũ; `Path` biểu diễn đường dẫn không phụ thuộc OS, `Files` cung cấp thao tác ném `IOException` rõ ràng (Java 7+).
+- ⭐ **`Path`/`File` chỉ là đường dẫn, không phải nội dung** — dùng `Files` để đọc/ghi/copy/xóa.
+- **Đọc/ghi nhanh** — `Files.readAllLines` (file nhỏ), `Files.write` / `Files.writeString`; kiểm tra/tạo/xóa với `Files.exists`, `createFile`, `deleteIfExists`.
+- **File lớn** — dùng `Files.newBufferedReader` trong `try-with-resources` để đọc từng dòng, tránh tràn RAM.
+- **Chạy đa nền tảng** — dùng `Path.of(...)` và `resolve()` thay vì hardcode `"C:\\data\\..."`; luôn xử lý `IOException`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần thao tác với file?](#vì-sao-cần-thao-tác-với-file)

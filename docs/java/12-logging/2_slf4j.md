@@ -9,6 +9,18 @@ SLF4J (Simple Logging Facade for Java) là facade ghi log phổ biến nhất tr
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **SLF4J chỉ là facade** — tự nó KHÔNG ghi log; phải ghép với một implementation (`Logback`/`Log4j2`) thì log mới xuất hiện.
+- **Tạo logger** — dùng `LoggerFactory.getLogger(TenLop.class)`, khai báo `private static final`.
+- ⭐ **Dùng placeholder `{}`** — thay vì nối chuỗi `+`, giúp nhanh hơn vì chỉ ghép chuỗi khi thật sự ghi.
+- **Ghi lỗi kèm exception** — truyền exception làm tham số cuối để in cả stack trace.
+- **Import đúng** — phải là `org.slf4j.Logger`, đừng nhầm `java.util.logging.Logger`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [SLF4J là gì?](#slf4j-là-gì)

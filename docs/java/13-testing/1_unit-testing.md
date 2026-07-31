@@ -9,6 +9,18 @@ Unit testing là việc viết code để tự động kiểm tra xem từng ph�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Unit test kiểm tra từng đơn vị nhỏ** — một method/class, chạy độc lập và rất nhanh.
+- **Mô hình AAA** — Arrange (chuẩn bị) - Act (hành động) - Assert (khẳng định) giúp test rõ ràng, dễ đọc.
+- **Test tốt theo FIRST** — Fast, Independent, Repeatable, Self-validating, Timely; mỗi test chỉ kiểm tra một thứ.
+- ⭐ **TDD: viết test trước, code sau** — theo vòng lặp Red - Green - Refactor.
+- **Đừng quên bước Assert** — và tránh flaky test (phụ thuộc thời gian/số ngẫu nhiên).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Test (kiểm thử) là gì?](#test-kiểm-thử-là-gì)

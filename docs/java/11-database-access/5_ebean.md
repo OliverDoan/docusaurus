@@ -9,6 +9,18 @@ EBean là một thư viện ORM cho Java theo phong cách Active Record, nổi b
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **EBean theo phong cách Active Record** — đối tượng tự lưu chính nó bằng `user.save()`/`user.delete()`, không cần `EntityManager`.
+- **Khai báo Model** — kế thừa `io.ebean.Model`, dùng annotation JPA quen thuộc (`@Entity`, `@Id`, `@Column`).
+- **Truy vấn bằng `Finder`** — `find.byId()`, `find.query().where().eq(...)`, `.findOne()`, `.findList()`.
+- **Luôn truyền tham số** — qua `.eq()`, `.like()`; EBean tham số hóa mặc định, chống SQL injection.
+- ⭐ **Ít phổ biến hơn Spring Data JPA** — dễ học, hợp dự án nhỏ và Play Framework; thực tế nên ưu tiên Spring Data JPA.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có EBean?](#vì-sao-có-ebean)

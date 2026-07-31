@@ -9,6 +9,18 @@ Gradle là công cụ build hiện đại, linh hoạt và nhanh, dùng ngôn ng
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Gradle dùng DSL (Groovy/Kotlin)** — cấu hình ngắn gọn, lập trình được thay cho XML; file `build.gradle` hoặc `build.gradle.kts`.
+- ⭐ **Nhanh hơn Maven** — nhờ incremental build, build cache và Gradle Daemon.
+- **Khai báo dependency 1 dòng** — `implementation 'groupId:artifactId:version'`; ưu tiên `implementation` hơn `api`.
+- **`Task`** — đơn vị công việc cơ bản của Gradle, có thể tự định nghĩa.
+- **Gradle Wrapper (`./gradlew`)** — đảm bảo cả nhóm dùng đúng một phiên bản Gradle; là chuẩn build của Android.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Gradle?](#vì-sao-có-gradle)

@@ -9,6 +9,18 @@ Lập trình mạng là viết chương trình để các máy tính trao đổi
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hai vai trò client và server** — client gửi yêu cầu, server nhận và trả lời; kết nối qua **socket** (xác định bởi IP + cổng/port).
+- ⭐ **TCP với `ServerSocket` và `Socket`** — server `accept()` chờ kết nối, client tạo `Socket(host, port)`; TCP đảm bảo dữ liệu tới đầy đủ, đúng thứ tự (gói `java.net`).
+- **Gọi API web dùng `HttpClient` (Java 11+)** — gửi GET/POST gọn gàng, không cần socket thủ công; đọc `statusCode()` và `body()`.
+- **`URL`** — phân tích địa chỉ tài nguyên (protocol, host, port, path, query).
+- **Lưu ý** — `accept()`/`readLine()` là blocking (chờ); chạy server trước client; luôn dùng `try-with-resources` để đóng socket.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần API mạng?](#vì-sao-cần-api-mạng)

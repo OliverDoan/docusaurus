@@ -9,6 +9,18 @@ Biến là một cái tên đại diện cho ô nhớ chứa dữ liệu, giốn
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Biến** — cái tên đại diện cho ô nhớ; gán bằng `=` (nghĩa "gán", không phải "bằng nhau").
+- **Ba loại biến** — cục bộ (`local`), instance, và static (`static`).
+- **Scope (phạm vi)** — biến chỉ sống trong cặp `{ }` chứa nó.
+- **`var`** — cho Java tự suy luận kiểu của biến cục bộ (phải gán giá trị ngay).
+- **`final`** — tạo hằng số không thể thay đổi.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần biến và phạm vi?](#vì-sao-cần-biến-và-phạm-vi)

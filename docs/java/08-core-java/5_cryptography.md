@@ -9,6 +9,18 @@ Mã hóa là cách bảo vệ thông tin, làm cho dữ liệu khó đọc với
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Băm vs mã hóa** — băm (`MessageDigest`, SHA-256) là **một chiều** không đảo ngược được; mã hóa (`Cipher`, AES) là **hai chiều** giải mã lại được nếu có khóa.
+- ⭐ **KHÔNG bao giờ tự chế thuật toán** — luôn dùng chuẩn đã kiểm chứng (AES, SHA-256) qua thư viện uy tín; "trông lộn xộn" không có nghĩa là an toàn.
+- **Lưu mật khẩu** — băm kèm **salt** ngẫu nhiên, không lưu dạng thô; tốt nhất dùng bcrypt/scrypt/Argon2 (SHA-256 thuần quá nhanh, dễ bị đoán hàng loạt).
+- **AES đối xứng** — cùng một khóa để mã hóa (`ENCRYPT_MODE`) và giải mã (`DECRYPT_MODE`); thực tế nên dùng `AES/GCM/NoPadding` kèm IV.
+- **Cạm bẫy** — tránh MD5/SHA-1 (đã yếu), dùng `SecureRandom` (không phải `Random`) cho salt/khóa, không hardcode khóa trong mã nguồn.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Mã hóa là gì?](#mã-hóa-là-gì)

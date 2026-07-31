@@ -9,6 +9,17 @@ Lớp (class) và đối tượng (object) là hai khái niệm nền tảng nh�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`class` là khuôn mẫu, `object` là thực thể** — từ một class dùng `new` tạo ra nhiều object độc lập, mỗi object giữ dữ liệu riêng.
+- ⭐ **`constructor` gán dữ liệu ban đầu** — hàm chạy tự động khi tạo object, tên trùng tên class và không có kiểu trả về.
+- **Tạo object bằng `new`** — `Car c = new Car();`; quên `new` hoặc dùng khi object còn `null` sẽ gây lỗi biên dịch / `NullPointerException`.
+- **`this` trỏ tới object hiện tại** — dùng để phân biệt thuộc tính với tham số khi trùng tên.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần class & object?](#vì-sao-cần-class--object)

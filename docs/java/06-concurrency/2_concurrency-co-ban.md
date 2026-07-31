@@ -9,6 +9,18 @@ title: "2. Đa luồng cơ bản (Concurrency)"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Race condition** — nhiều luồng cùng ghi một dữ liệu chung mà không khóa cho kết quả sai (ví dụ `count++` thực chất là 3 bước đọc–cộng–ghi).
+- ⭐ **`synchronized` vs `Lock`** — `synchronized` đơn giản, tự mở khóa; `Lock`/`ReentrantLock` linh hoạt hơn nhưng phải tự `unlock()` trong `finally`.
+- **Deadlock** — hai luồng chờ nhau mãi (vòng chờ); tránh bằng cách luôn khóa tài nguyên theo **cùng một thứ tự**.
+- **`ExecutorService` / thread pool** — tái sử dụng luồng, hiệu quả hơn `new Thread()`; nhớ gọi `shutdown()`.
+- **Công cụ an toàn sẵn có** — `AtomicInteger` cho counter, `ConcurrentHashMap` cho cache đa luồng.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần xử lý song song?](#vì-sao-cần-xử-lý-song-song)

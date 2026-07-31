@@ -9,6 +9,18 @@ REST Assured là thư viện Java giúp test các REST API với cú pháp dễ 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **REST Assured test REST API với cú pháp `given()` → `when()` → `then()`** — đọc gần như tiếng Anh tự nhiên.
+- **`statusCode(...)`** — kiểm tra mã trạng thái HTTP (200, 201, 404, 400...).
+- **JsonPath + matcher Hamcrest** — dùng `equalTo`, `hasItem`, `hasSize`... để kiểm tra nội dung JSON trong body.
+- **Gửi POST** — bằng `.body(...)` kèm header `Content-Type: application/json`.
+- ⭐ **Nên test cả trường hợp thành công lẫn lỗi** — và nhớ server phải đang chạy vì REST Assured gọi API thật.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao REST Assured ra đời?](#vì-sao-rest-assured-ra-đời)

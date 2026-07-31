@@ -9,6 +9,18 @@ Dependency Injection (DI) là kỹ thuật cho một đối tượng nhận các
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Dependency Injection** — tiêm phụ thuộc từ ngoài vào (qua constructor/setter) thay vì tự `new` bên trong.
+- **Phụ thuộc vào abstraction** — lớp dựa vào interface nên dễ đổi cài đặt, dễ tái sử dụng.
+- ⭐ **IoC (Inversion of Control)** — bên ngoài quyết định cài đặt cụ thể, không phải bản thân lớp.
+- **Dễ test** — có thể tiêm mock thay cho service thật khi kiểm thử.
+- **Spring làm tự động** — container quản lý và tiêm các bean giúp bạn.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Dependency Injection?](#vì-sao-có-dependency-injection)

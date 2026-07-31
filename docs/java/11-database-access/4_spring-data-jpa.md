@@ -9,6 +9,18 @@ Spring Data JPA là cách truy cập cơ sở dữ liệu phổ biến nhất kh
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Phân biệt JPA / Hibernate / Spring Data JPA** — JPA là *chuẩn*, Hibernate là *bản hiện thực*, Spring Data JPA là *lớp tiện ích* trên cùng (phổ biến nhất với Spring Boot).
+- ⭐ **`JpaRepository<Entity, Id>`** — chỉ khai báo interface là có sẵn `save`, `findById`, `findAll`, `deleteById`, phân trang, sắp xếp.
+- **Query method** — đặt tên hàm như `findByEmailAndStatus` là Spring tự sinh truy vấn.
+- **`@Query`** — viết JPQL/native tùy chỉnh; luôn dùng `:param` + `@Param`, không nối chuỗi.
+- **Tổ chức code** — tiêm repository vào `@Service` qua constructor, dùng `@Transactional`; cấu hình CSDL trong `application.properties`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Spring Data JPA?](#vì-sao-có-spring-data-jpa)

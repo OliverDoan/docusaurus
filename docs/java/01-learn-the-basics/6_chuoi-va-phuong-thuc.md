@@ -9,6 +9,18 @@ String là kiểu dùng để lưu văn bản, tức một dãy các ký tự nh
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`String` bất biến (immutable)** — mỗi lần "sửa" tạo chuỗi mới, phải **gán lại** mới giữ được kết quả.
+- ⭐ **So sánh nội dung** — dùng `.equals()`, KHÔNG dùng `==` (vì `==` so sánh địa chỉ).
+- **Nhiều phương thức hữu ích** — `length`, `charAt`, `substring`, `indexOf`, `toUpperCase`, `trim`, `split`, `replace`.
+- **Vị trí ký tự** — đếm từ `0` (ký tự đầu ở vị trí 0).
+- **`StringBuilder`** — dùng khi cần ghép/sửa chuỗi nhiều lần cho nhanh.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao String immutable (và có StringBuilder)?](#vì-sao-string-immutable-và-có-stringbuilder)

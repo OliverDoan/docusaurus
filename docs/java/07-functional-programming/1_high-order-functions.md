@@ -9,6 +9,18 @@ Hàm bậc cao (high order function) là hàm nhận một hàm khác làm tham 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hàm bậc cao** — hàm **nhận hàm khác làm tham số** hoặc **trả về một hàm**, giúp truyền "hành vi" chứ không chỉ dữ liệu.
+- ⭐ **Trong Java hàm được biểu diễn qua lambda / functional interface** — luôn gắn với một interface như `Predicate`, `Function`, `Consumer`, `Supplier`.
+- **Truyền hành vi để tách logic** — giữ phần khung cố định (vòng lặp), chỉ truyền phần thay đổi (điều kiện) vào; nền tảng của `filter`/`map`/`reduce`.
+- **Method reference (`::`)** — viết tắt của lambda chỉ gọi một phương thức; 4 loại: static, đối tượng cụ thể, đối tượng bất kỳ, và constructor (`Lớp::new`).
+- **Phân biệt** — `method()` là **gọi hàm** ngay; `Lớp::method` là **truyền hành vi** để gọi sau (không có `()`).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có higher-order function?](#vì-sao-có-higher-order-function)

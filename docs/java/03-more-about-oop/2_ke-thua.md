@@ -9,6 +9,18 @@ Kế thừa là một trụ cột của lập trình hướng đối tượng, c
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`extends` cho lớp con nhận field/method của lớp cha** — quan hệ "is-a", viết code chung một lần rồi tái sử dụng.
+- **`super(...)` gọi constructor lớp cha** — phải đặt ở dòng đầu; `super.method()` gọi phương thức lớp cha.
+- **Java chỉ hỗ trợ kế thừa đơn** — một lớp cha trực tiếp (`extends A, B` là sai), nhưng có thể kế thừa nhiều tầng.
+- **Mọi lớp đều ngầm kế thừa `Object`** — lớp gốc của tất cả, nên có sẵn `toString()`, `equals()`.
+- **Chỉ dùng kế thừa khi thật sự "is-a"** — nếu không, ưu tiên composition.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có kế thừa?](#vì-sao-có-kế-thừa)

@@ -9,6 +9,18 @@ JDBC là API cấp thấp nền tảng để Java nói chuyện trực tiếp v�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **JDBC là API chuẩn, cấp thấp** — tự mở `Connection`, viết SQL, đọc `ResultSet`; đổi DB chỉ cần đổi driver + URL.
+- ⭐ **LUÔN dùng `PreparedStatement` với dấu `?`** — tham số hóa để chống SQL injection, KHÔNG nối chuỗi.
+- **executeQuery vs executeUpdate** — `executeQuery()` cho SELECT (trả `ResultSet`), `executeUpdate()` cho INSERT/UPDATE/DELETE.
+- **try-with-resources** — tự đóng `Connection`/`PreparedStatement`/`ResultSet`, tránh rò rỉ tài nguyên.
+- **Connection pool HikariCP** — tái sử dụng kết nối để tăng tốc; là pool mặc định của Spring Boot.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có JDBC?](#vì-sao-có-jdbc)

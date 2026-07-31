@@ -9,6 +9,17 @@ Mỗi lớp trong Java được tạo nên từ hai thành phần chính: thuộ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Class gồm `fields` (dữ liệu) và `methods` (hành vi)** — thuộc tính mô tả object "có gì", phương thức mô tả object "làm được gì".
+- ⭐ **Getter/Setter + `private` = đóng gói** — che giấu thuộc tính bằng `private`, đọc/ghi qua `getX`/`setX` có kiểm tra hợp lệ.
+- **`void` vs kiểu trả về** — `void` là không trả về gì; ngược lại phải khai báo kiểu trả về và dùng `return`.
+- **Tham số vs đối số** — tham số là biến trong khai báo phương thức; đối số là giá trị thực tế khi gọi.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Tổng quan: dữ liệu và hành vi](#tổng-quan-dữ-liệu-và-hành-vi)

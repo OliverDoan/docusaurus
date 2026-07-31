@@ -9,6 +9,17 @@ Package (gói) là cách tổ chức các lớp liên quan vào chung một "ng�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Package nhóm các class liên quan như thư mục** — tạo namespace phân cấp, tránh trùng tên class.
+- **Khai báo `package ...;` ở dòng đầu tiên của file** — phải khớp với cấu trúc thư mục (`com.myapp.util` → `com/myapp/util/`).
+- **Dùng `import` cho class ở package khác** — cùng package thì không cần; `java.lang` được import tự động.
+- **Quy ước tên: chữ thường, theo tên miền ngược** — ví dụ `com.company.project`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần package?](#vì-sao-cần-package)

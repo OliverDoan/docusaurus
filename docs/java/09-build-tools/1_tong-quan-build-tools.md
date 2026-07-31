@@ -9,6 +9,18 @@ Công cụ build là phần mềm tự động hóa quá trình biến mã ngu�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Công cụ build tự động hóa** — biên dịch, tải thư viện, chạy test và đóng gói chỉ bằng một lệnh, thay cho `javac` tay.
+- ⭐ **Quản lý phụ thuộc** — tự tải cả cây `transitive dependencies` và xử lý xung đột phiên bản; mỗi lib định danh bằng `groupId:artifactId:version`.
+- **Vòng đời build tuần tự** — compile → test → package → install → deploy; gọi bước sau tự chạy các bước trước.
+- **Ba công cụ chính** — `Maven` (dễ học), `Gradle` (linh hoạt, nhanh), `Bazel` (dự án cực lớn, đa ngôn ngữ).
+- **Người mới nên bắt đầu với Maven**.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần công cụ Build?](#vì-sao-cần-công-cụ-build)

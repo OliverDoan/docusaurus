@@ -9,6 +9,17 @@ Binding là việc Java quyết định một lời gọi phương thức sẽ c
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Static binding quyết định lúc biên dịch theo kiểu KHAI BÁO** — áp dụng cho overloading, `static`, `final`, `private`.
+- ⭐ **Dynamic binding quyết định lúc chạy theo kiểu THỰC của đối tượng** — áp dụng cho overriding, là nền tảng của đa hình.
+- **Method `static` KHÔNG đa hình** — gọi qua biến kiểu cha luôn chạy phiên bản của lớp khai báo ("che khuất"/hiding, không phải override).
+- **Câu thần chú** — "Kiểu khai báo quyết định gọi được method nào; kiểu thực quyết định chạy phần thân nào."
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao phân biệt static & dynamic binding?](#vì-sao-phân-biệt-static--dynamic-binding)

@@ -9,6 +9,18 @@ Log4j2 là một implementation ghi log của Apache, nổi bật ở hiệu nă
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Log4j2 mạnh ở hiệu năng cao** — đặc biệt nhờ async logger (dùng thư viện LMAX Disruptor) ghi log bất đồng bộ.
+- **Trong Spring Boot phải gỡ Logback** — rồi thêm `spring-boot-starter-log4j2`; không để cả hai cùng tồn tại.
+- **Cấu hình bằng `log4j2.xml`** — cú pháp thẻ viết hoa chữ đầu, ý tưởng giống Logback.
+- ⭐ **Nhớ lỗ hổng Log4Shell (CVE-2021-44228)** — luôn dùng phiên bản đã vá (từ 2.17.1 trở lên).
+- **`additivity="false"`** — tránh log bị in trùng khi logger và root cùng gắn một appender.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Log4j 2 ra đời?](#vì-sao-log4j-2-ra-đời)

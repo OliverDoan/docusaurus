@@ -9,6 +9,18 @@ Toán tử là các ký hiệu thực hiện phép tính hoặc thao tác trên 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Các nhóm toán tử** — số học `+ - * / %`, gán `= += ...`, so sánh `== != > <`, logic `&& || !`, tăng/giảm `++ --`.
+- **`%` (modulo)** — lấy phần dư; chia hai `int` cho kết quả `int`.
+- **`x++` và `++x`** — `x++` dùng giá trị cũ rồi tăng; `++x` tăng trước rồi dùng.
+- **Thứ tự ưu tiên** — toán tử được tính theo thứ tự; dùng `()` để kiểm soát rõ ràng.
+- **Lớp `Math`** — cung cấp `max`, `min`, `abs`, `pow`, `sqrt`, `random`...
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần toán tử?](#vì-sao-cần-toán-tử)

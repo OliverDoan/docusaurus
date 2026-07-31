@@ -9,6 +9,18 @@ Logging là việc chương trình ghi lại nhật ký hoạt động trong khi
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Facade vs Implementation** — `SLF4J` là facade (ổ cắm chuẩn) để gọi log; `Logback`/`Log4j2` mới là implementation thật sự ghi log.
+- ⭐ **Không dùng `System.out.println` trong dự án thật** — vì thiếu level, không ghi được file và không bật/tắt được.
+- **Log level từ thấp tới cao** — `TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`; đặt một ngưỡng để lọc log tự động.
+- **Mới học + Spring Boot** — cứ dùng `SLF4J + Logback` vì đã có sẵn.
+- **Không log dữ liệu nhạy cảm** — mật khẩu, số thẻ tín dụng tuyệt đối không ghi vào log.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Logging là gì?](#logging-là-gì)

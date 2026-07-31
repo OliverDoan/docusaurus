@@ -9,6 +9,17 @@ Lớp lồng nhau là một lớp được định nghĩa bên trong một lớp
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Nested class là class đặt bên trong class khác** — gom nhóm code liên quan và tăng tính đóng gói.
+- **Java có 4 loại** — `static nested`, `inner` (non-static), `local`, `anonymous`.
+- ⭐ **`static nested` vs `inner`** — static nested không cần object outer, chỉ dùng thành viên static; inner gắn với object outer (tạo bằng `outer.new`), dùng được dữ liệu instance.
+- **Anonymous class cài đặt nhanh interface/lớp cha tại chỗ** — hay dùng cho listener; ưu tiên static nested khi không cần dữ liệu instance của outer.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Nested Class là gì?](#nested-class-là-gì)

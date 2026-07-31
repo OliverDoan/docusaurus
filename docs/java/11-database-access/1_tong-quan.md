@@ -9,6 +9,18 @@ Truy cập cơ sở dữ liệu là cách để chương trình Java lưu dữ l
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Muốn dữ liệu bền vững phải lưu vào CSDL** — dữ liệu trong biến/bộ nhớ mất khi tắt chương trình.
+- **CSDL quan hệ lưu theo bảng** — hàng = bản ghi, cột = thuộc tính, `id` là khóa chính; thao tác bằng SQL (CRUD).
+- **ORM** — tự động ánh xạ đối tượng Java ⟷ bảng CSDL, giúp viết ít SQL hơn.
+- **Bốn công cụ** — `JDBC` (cấp thấp), `Hibernate` (ORM), `Spring Data JPA` (phổ biến nhất), `EBean` (Active Record).
+- ⭐ **Quy tắc bảo mật vàng** — LUÔN tham số hóa truy vấn, KHÔNG BAO GIỜ nối chuỗi SQL (chống SQL injection).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần lưu dữ liệu?](#vì-sao-cần-lưu-dữ-liệu)

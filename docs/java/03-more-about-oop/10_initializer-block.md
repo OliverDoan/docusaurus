@@ -9,6 +9,18 @@ Khối khởi tạo là một khối lệnh `{ }` chạy tự động để chu�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Instance block `{ }` chạy trước mỗi constructor** — gom code khởi tạo chung cho nhiều constructor về một chỗ.
+- ⭐ **Static block `static { }` chạy MỘT lần khi lớp được nạp** — khởi tạo dữ liệu `static` phức tạp (đọc cấu hình, dựng bảng tra cứu).
+- **Thứ tự thực thi** — static field/block → instance field/block → constructor.
+- **Static chạy trước cả thân `main`** — và không thấy được biến instance.
+- **Ưu tiên constructor cho dễ đọc** — chỉ dùng initializer block khi thật sự cần.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có initializer block?](#vì-sao-có-initializer-block)

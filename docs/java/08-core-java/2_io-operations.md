@@ -9,6 +9,18 @@ I/O (Input/Output) là cách chương trình đọc dữ liệu vào và ghi d�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **I/O chảy qua luồng (stream)** — đọc/ghi tuần tự theo "dòng chảy" nên xử lý được dữ liệu lớn mà không cần nạp hết vào RAM (gói `java.io`).
+- ⭐ **Byte stream vs character stream** — `InputStream`/`OutputStream` cho file nhị phân (ảnh, video); `Reader`/`Writer` cho văn bản (hiểu encoding, tránh lỗi font tiếng Việt).
+- **`BufferedReader`** — bọc ngoài `FileReader` để đọc nhanh và dùng `readLine()` đọc theo từng dòng.
+- **`Scanner`** — cách dễ nhất đọc dữ liệu bàn phím (`nextLine`, `nextInt`...); lưu ý cạm bẫy trộn `nextInt()` với `nextLine()`.
+- **Luôn `try-with-resources`** — tự động đóng luồng kể cả khi lỗi, và nhớ xử lý `IOException`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Java dùng mô hình Stream cho I/O?](#vì-sao-java-dùng-mô-hình-stream-cho-io)

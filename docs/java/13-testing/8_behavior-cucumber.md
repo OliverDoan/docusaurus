@@ -9,6 +9,18 @@ BDD (phát triển hướng hành vi) mô tả hành vi mong muốn của hệ t
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **BDD mô tả hành vi bằng ngôn ngữ tự nhiên** — để cả người không biết lập trình cũng đọc hiểu; là ngôn ngữ chung giữa dev, tester và người nghiệp vụ.
+- **Cucumber-JVM là công cụ BDD cho Java** — dùng Gherkin với từ khóa `Feature`/`Scenario`/`Given`/`When`/`Then`.
+- **Feature file (`.feature`)** — chứa kịch bản viết bằng tiếng tự nhiên, KHÔNG có code Java.
+- ⭐ **Step Definition (`@Given`/`@When`/`@Then`)** — code Java nối từng câu Gherkin với hành động thật; cần cấu hình đúng `glue`.
+- **BDD hợp luồng nghiệp vụ quan trọng** — không thay thế unit test cho từng hàm nhỏ.
+
+:::
+
+---
+
 ## Mục lục
 
 - [BDD (Behavior-Driven Development) là gì?](#bdd-behavior-driven-development-là-gì)

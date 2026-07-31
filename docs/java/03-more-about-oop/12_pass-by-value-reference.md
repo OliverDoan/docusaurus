@@ -9,6 +9,18 @@ Cách Java truyền tham số vào hàm là một trong những chủ đề gây
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Java LUÔN truyền theo giá trị (pass by value)** — không bao giờ pass by reference.
+- **Kiểu nguyên thủy** — sao chép giá trị, đổi trong hàm không ảnh hưởng biến gốc.
+- ⭐ **Đối tượng: sao chép *giá trị của tham chiếu*** — sửa field (`u.ten = ...`) đổi cả object gốc, nhưng gán lại tham chiếu (`u = new ...`) thì KHÔNG đổi biến gốc.
+- **Gán lại tham chiếu vô hại với biến gốc chính là bằng chứng pass by value.**
+- **`String` bất biến** — mọi "thay đổi" đều tạo chuỗi mới; cần đổi biến gốc thì phải `return`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần hiểu pass-by-value?](#vì-sao-cần-hiểu-pass-by-value)

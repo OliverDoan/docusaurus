@@ -9,6 +9,18 @@ title: "4. Từ khóa volatile"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`volatile` bảo đảm visibility** — buộc biến luôn đọc/ghi trực tiếp ở bộ nhớ chính, mọi luồng thấy ngay giá trị mới nhất.
+- ⭐ **`volatile` KHÔNG bảo đảm atomicity** — thao tác nhiều bước như `count++` vẫn bị race; hãy dùng `synchronized` hoặc `AtomicInteger`.
+- **Ứng dụng kinh điển** — cờ `boolean` báo dừng luồng (`running`, `dangChay`); thiếu `volatile` luồng có thể treo mãi.
+- **So với `synchronized`** — `volatile` nhẹ, không khóa; `synchronized` nặng hơn nhưng lo cả visibility lẫn atomicity.
+- **Điều kiện dùng** — chỉ khi một luồng ghi (hoặc ghi không phụ thuộc giá trị cũ) và nhiều luồng đọc.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có từ khóa volatile?](#vì-sao-có-từ-khóa-volatile)

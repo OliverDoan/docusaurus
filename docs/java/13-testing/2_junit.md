@@ -9,6 +9,18 @@ JUnit là framework test phổ biến nhất trong thế giới Java, gần như
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **JUnit 5 (Jupiter) là framework test phổ biến nhất** — dùng `@Test` để đánh dấu một phương thức là test.
+- **`assertEquals(mongDoi, thucTe)`** — tham số mong đợi đứng trước, thực tế đứng sau (đừng viết ngược).
+- **`@BeforeEach`/`@AfterEach`** — chạy trước/sau MỖI test; `@BeforeAll`/`@AfterAll` chạy một lần và phải `static`.
+- **`assertThrows` và `@ParameterizedTest`** — kiểm tra ngoại lệ và chạy cùng một test với nhiều bộ dữ liệu.
+- ⭐ **Import đúng `org.junit.jupiter.api.*`** — đừng trộn lẫn với JUnit 4 (`org.junit.*`).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao JUnit ra đời?](#vì-sao-junit-ra-đời)

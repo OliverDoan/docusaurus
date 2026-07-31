@@ -9,6 +9,18 @@ Vòng đời của chương trình mô tả những gì xảy ra từ lúc bạn
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Vòng đời** — `.java` → `javac` biên dịch → `.class` (bytecode) → `JVM` chạy.
+- ⭐ **Bytecode** — dạng trung gian giúp Java "viết một lần, chạy mọi nơi".
+- **Ba lớp lồng nhau** — `JVM` chạy bytecode; `JRE` = JVM + thư viện; `JDK` = JRE + công cụ biên dịch.
+- **Cài gì?** — người lập trình cần `JDK`, người chỉ chạy app cần `JRE`.
+- **Lệnh chạy** — dùng `java ChaoBan` (không kèm đuôi `.class`).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần biết vòng đời?](#vì-sao-cần-biết-vòng-đời)

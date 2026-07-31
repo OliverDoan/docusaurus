@@ -9,6 +9,17 @@ Deque (hàng đợi hai đầu) cho phép bạn thêm và lấy phần tử ở 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Deque` thao tác cả hai đầu** — dùng được vừa như Queue (FIFO) vừa như Stack (LIFO), O(1).
+- ⭐ **`ArrayDeque` được khuyến nghị** — nhanh, thay cho lớp `Stack` cũ và làm Queue linh hoạt.
+- **Phương thức hai đầu** — `addFirst`/`addLast`, `pollFirst`/`pollLast`.
+- **Ứng dụng** — cửa sổ trượt, lịch sử undo/redo.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Deque?](#vì-sao-có-deque)

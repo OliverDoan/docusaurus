@@ -9,6 +9,18 @@ Record (có từ Java 16) là cách viết ngắn gọn cho những lớp chỉ 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`record` (Java 16+) tạo lớp chứa dữ liệu bất biến chỉ trong một dòng** — thay cho hàng chục dòng lặp lại.
+- ⭐ **Java tự sinh constructor, accessor, `equals`, `hashCode`, `toString`** — accessor dùng tên thành phần (`diem()`), không có tiền tố `get`.
+- **Bất biến (immutable)** — thành phần ngầm `final`, không có setter; muốn đổi phải tạo record mới.
+- **`compact constructor` để validate** — chỉ ghi phần kiểm tra, không cần liệt kê tham số hay gán field.
+- **Không kế thừa lớp khác** (nhưng `implements` interface được) — dùng cho DTO, value object, key của `Map`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có record?](#vì-sao-có-record)
