@@ -7,6 +7,16 @@ title: "Mediator Pattern"
 
 Mediator là mẫu thiết kế hành vi giúp các đối tượng không giao tiếp trực tiếp với nhau mà thông qua một đối tượng trung gian điều phối. Nhờ vậy giảm được sự phụ thuộc chằng chịt giữa nhiều đối tượng, code dễ bảo trì và dễ mở rộng hơn. Ví dụ quen thuộc là phòng chat hay điều phối các thành phần trong một form GUI. Bài này giới thiệu tổng quan; phần chi tiết và ví dụ Java nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Mediator` buộc các đối tượng giao tiếp qua một trung gian thay vì trực tiếp** — giảm mạnh sự ghép nối (coupling) giữa chúng.
+- ⭐ **Colleague chỉ biết đến Mediator** — trong ví dụ phòng chat, mỗi `User` chỉ gửi tin qua `ChatRoom`; Mediator lo phân phối tới đúng người nhận.
+- **Ưu điểm** — tập trung logic điều phối vào một nơi, dễ thêm/bớt thành phần mà không ảnh hưởng thành phần khác.
+- **Nhược điểm** — Mediator dễ phình thành "God Object" chứa quá nhiều logic, khó bảo trì.
+- **Khi nào dùng** — hệ thống chat, GUI dialog, air traffic control, event bus.
+
+:::
+
 ## Mục đích
 
 **Mediator** (Trung gian) là một mẫu thiết kế hành vi giảm sự phụ thuộc hỗn loạn giữa nhiều đối tượng bằng cách buộc chúng giao tiếp thông qua một đối tượng trung gian thay vì trực tiếp với nhau. Điều này giúp giảm sự ghép nối (coupling) giữa các đối tượng.

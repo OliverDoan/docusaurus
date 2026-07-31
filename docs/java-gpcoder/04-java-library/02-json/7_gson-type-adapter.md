@@ -25,6 +25,15 @@ sequenceDiagram
 
 Đọc sơ đồ: `write` phát token ra luồng, `read` tiêu thụ token từ luồng để dựng đối tượng; nhờ thao tác trực tiếp trên token nên tiết kiệm bộ nhớ và nhanh hơn cách dùng DOM.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`TypeAdapter<T>` tùy chỉnh serialize/deserialize dựa trên Streaming API** — hiệu năng cao hơn `JsonSerializer`/`JsonDeserializer` vì không tạo `JsonElement` trung gian.
+- **Tự implement `write()` và `read()`** — và phải tự xử lý giá trị null (Gson không xử lý hộ).
+- **`TypeAdapterFactory`** — tạo `TypeAdapter` theo kiểu tại runtime, hữu ích cho đa hình hoặc một nhóm kiểu.
+- ⭐ **Phù hợp** — kiểu dùng thường xuyên và dữ liệu lớn; trường hợp đơn giản nên dùng `@SerializedName` hoặc `JsonSerializer`.
+
+:::
+
 ---
 
 ## 1. Maven Dependency

@@ -7,6 +7,16 @@ title: "Hibernate Native SQL Queries"
 
 Native SQL cho phép bạn viết thẳng câu SQL thô trong Hibernate, dùng khi cần các tính năng đặc thù của database hoặc tối ưu hiệu năng mà HQL không làm được. Đây là lựa chọn cho những truy vấn phức tạp như stored procedure, window function hay tìm kiếm toàn văn. Bài này hướng dẫn cách viết native query, ánh xạ kết quả vào DTO và lưu ý tránh SQL injection.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Native SQL thực thi câu SQL thô** — dùng khi cần tính năng đặc thù database (JSON, full-text search, window function, stored procedure).
+- **`createNativeQuery(sql, Entity.class)`** — ánh xạ kết quả về entity; hoặc trả về `Object[]`/kiểu nguyên thủy.
+- **`@SqlResultSetMapping` + `@ConstructorResult`** — ánh xạ kết quả vào DTO không phải entity.
+- **Luôn dùng named parameter; `executeUpdate()` cho INSERT/UPDATE/DELETE** — tránh SQL injection.
+- **Native SQL làm code phụ thuộc vào database cụ thể** — hãy dùng có chọn lọc.
+
+:::
+
 ## Native SQL là gì?
 
 **Native SQL** (SQL thuần — câu truy vấn SQL viết trực tiếp theo cú pháp của database cụ thể) trong Hibernate cho phép bạn thực thi câu lệnh SQL thô (raw SQL) thay vì dùng HQL hay Criteria API.

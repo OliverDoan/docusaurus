@@ -7,6 +7,16 @@ title: "Tạo ứng dụng Java RESTful Client không dùng thư viện bên th�
 
 Đôi khi ta muốn gọi REST API mà không cần thêm thư viện ngoài, để giữ ứng dụng nhẹ và đơn giản. Java có sẵn hai lựa chọn cho việc này: HttpURLConnection (từ rất lâu đời) và HttpClient mới hơn từ Java 11 với API hiện đại, hỗ trợ HTTP/2 và bất đồng bộ. Bài này hướng dẫn dùng cả hai để thực hiện GET, POST, PUT, DELETE kèm ví dụ; chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Java có sẵn 2 client không cần thư viện ngoài** — `HttpURLConnection` (từ Java 1.1, verbose) và `HttpClient` (Java 11+, API fluent hiện đại).
+- ⭐ **`HttpClient` hỗ trợ HTTP/2 và async** — `send()` đồng bộ, `sendAsync()` trả `CompletableFuture`.
+- **`HttpURLConnection`** — cần `setDoOutput(true)` khi có body; đọc `getInputStream()` cho 2xx, `getErrorStream()` cho lỗi.
+- **Tự parse JSON** — các class có sẵn không tích hợp converter; nên dùng Jackson.
+- **Tái sử dụng client** — `HttpClient` thread-safe, tạo một lần dùng lại nhiều lần.
+
+:::
+
 ## Tổng quan
 
 Java cung cấp sẵn `HttpURLConnection` (kết nối HTTP URL) từ phiên bản 1.1, và `HttpClient` mới hơn từ Java 11. Hai class này không cần dependency bên thứ ba, phù hợp khi muốn giữ ứng dụng nhẹ hoặc làm việc trong môi trường hạn chế.

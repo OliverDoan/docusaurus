@@ -7,6 +7,16 @@ title: "REST Web service - JWT Token-based Authentication trong Jersey 2.x"
 
 JWT là cách xác thực bằng token: sau khi đăng nhập, client nhận một chuỗi token và đính kèm nó vào mỗi request để chứng minh danh tính, server không cần lưu session. Cách này gọn nhẹ và dễ mở rộng, rất hợp với REST API. Bài này hướng dẫn dựng luồng đăng nhập, filter xác thực và bảo vệ endpoint bằng JWT trong Jersey kèm ví dụ; chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Luồng JWT** — client `POST /auth/login` nhận token, rồi đính kèm `Authorization: Bearer <token>` cho mỗi request.
+- ⭐ **`JwtAuthFilter` xác thực token mỗi request** — kiểm tra chữ ký & hạn, sai/hết hạn thì `abortWith` trả 401.
+- **`AuthResource`** — xác thực user rồi tạo token qua `JwtUtils.generateToken(...)`, trả `AuthResponse`.
+- **Gắn `SecurityContext`** — từ `Claims` dựng `UserPrincipal` để resource lấy thông tin user và kiểm tra role.
+- **Stateless, khó revoke** — logout chỉ xóa token phía client; muốn thu hồi ngay cần blacklist `jti` (vd Redis).
+
+:::
+
 ## Tổng quan luồng xác thực JWT
 
 ```

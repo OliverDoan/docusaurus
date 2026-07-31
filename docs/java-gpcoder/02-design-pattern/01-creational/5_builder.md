@@ -7,6 +7,16 @@ title: "Builder Pattern"
 
 Builder là một mẫu thiết kế khởi tạo (creational) giúp xây dựng các đối tượng phức tạp có nhiều thuộc tính theo từng bước, thay vì nhồi tất cả vào một constructor dài và khó đọc. Nhờ đó code khởi tạo trở nên rõ ràng, dễ đọc và đối tượng tạo ra có thể là bất biến (immutable). Bài này giới thiệu khái niệm tổng quan; phần chi tiết với ví dụ Java nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Builder` xây object phức tạp theo từng bước** — tránh Telescoping Constructor (quá nhiều constructor nạp chồng).
+- ⭐ **Fluent Builder** — mỗi method trả về `this` để nối chuỗi, cuối cùng `build()` tạo Product bất biến (immutable).
+- **`Director` (tùy chọn)** — đóng gói sẵn các quy trình xây dựng thường dùng để tái sử dụng.
+- **Dễ validate** — kiểm tra tham số ngay trong constructor của Builder hoặc trong `build()`.
+- **Dùng khi** — object có hơn 4–5 tham số, đặc biệt nhiều tham số tùy chọn.
+
+:::
+
 ## Mục đích
 
 **Builder Pattern** (mẫu xây dựng) là một **Creational Design Pattern** tách rời quá trình **xây dựng** (construction) một đối tượng phức tạp khỏi **biểu diễn** (representation) của nó. Kết quả là cùng một quy trình xây dựng có thể tạo ra các biểu diễn khác nhau.

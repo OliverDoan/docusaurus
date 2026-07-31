@@ -7,6 +7,16 @@ title: "Template Method Pattern"
 
 Template Method là mẫu thiết kế hành vi cho phép lớp cha định nghĩa sẵn bộ khung (trình tự các bước) của một thuật toán, còn các lớp con chỉ cần điền vào những bước khác biệt. Nhờ đó tránh được việc copy-paste code khi nhiều lớp có quy trình giống nhau nhưng khác chi tiết. Bài này giới thiệu tổng quan; phần chi tiết và ví dụ Java nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Template Method` để lớp cha định nghĩa bộ khung (trình tự các bước) của thuật toán** — lớp con chỉ ghi đè những bước khác biệt, không đổi cấu trúc tổng thể.
+- ⭐ **`templateMethod()` nên là `final`** — trong ví dụ `prepare()` cố định trình tự (đun nước → pha → rót → thêm gia vị); `Tea`, `Coffee`, `HotChocolate` chỉ triển khai `brew()` và `addCondiments()`.
+- **Hook method** — bước tùy chọn có mặc định; `Coffee` ghi đè `customerWantsCondiments()` trả `false` để bỏ qua bước thêm gia vị.
+- **Ưu điểm** — loại bỏ code trùng lặp, đảm bảo trình tự luôn đúng.
+- **Nhược điểm** — ràng buộc bởi kế thừa, dễ vi phạm Liskov nếu lớp con đổi hành vi quá nhiều.
+
+:::
+
 ## Mục đích
 
 **Template Method** (Phương thức khuôn mẫu) là một mẫu thiết kế hành vi định nghĩa bộ khung (skeleton) của một thuật toán trong lớp cha (superclass), nhưng cho phép các lớp con (subclass) ghi đè một số bước cụ thể mà không thay đổi cấu trúc tổng thể của thuật toán.

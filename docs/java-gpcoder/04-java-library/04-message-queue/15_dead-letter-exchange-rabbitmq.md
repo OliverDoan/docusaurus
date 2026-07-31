@@ -7,6 +7,16 @@ title: "Sử dụng Dead Letter Exchange trong RabbitMQ"
 
 Dead Letter Exchange (DLX) là cơ chế xử lý lỗi trong RabbitMQ, dùng để hứng những tin nhắn bị "chết" — tức bị consumer từ chối, hết hạn TTL hoặc queue đã đầy. Thay vì để chúng biến mất, DLX chuyển tin nhắn sang một queue riêng để ghi log, phân tích hoặc thử lại (retry). Bài này hướng dẫn cách thiết lập DLX và mẫu retry qua ví dụ xử lý thanh toán.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Dead Letter Exchange` (DLX) hứng các tin nhắn bị "chết"** rồi chuyển sang Queue riêng để ghi log, phân tích hoặc retry.
+- ⭐ **Ba trường hợp tin nhắn trở thành Dead Letter** — bị `basicNack`/`basicReject` với `requeue=false`, hết hạn `x-message-ttl`, hoặc queue đầy `x-max-length`.
+- **Cấu hình qua arguments của Queue chính** — `x-dead-letter-exchange` và `x-dead-letter-routing-key`.
+- **Kết hợp DLX + TTL tạo Retry Pattern** — tin nhắn chờ trong retry queue hết TTL rồi tự "chết" quay về main exchange để thử lại.
+- **RabbitMQ tự thêm header `x-death`** ghi lịch sử mỗi lần tin nhắn bị chết, hữu ích để debug.
+
+:::
+
 ## Dead Letter Exchange là gì?
 
 **Dead Letter Exchange - DLX** (Exchange thư chết — Exchange nhận các tin nhắn bị "chết" từ queue khác, tức là tin nhắn không thể xử lý thành công) là cơ chế xử lý lỗi quan trọng trong RabbitMQ. Tin nhắn trở thành **Dead Letter** (thư chết — tin nhắn không thể được xử lý và bị loại khỏi queue bình thường) khi xảy ra một trong các trường hợp:

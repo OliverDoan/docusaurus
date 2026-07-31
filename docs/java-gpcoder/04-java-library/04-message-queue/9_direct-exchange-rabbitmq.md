@@ -7,6 +7,16 @@ title: "Sử dụng Direct Exchange trong RabbitMQ"
 
 Direct Exchange là loại exchange đơn giản và hay dùng nhất trong RabbitMQ: nó chỉ chuyển tin nhắn tới những queue có khóa định tuyến khớp chính xác. Cách này rất phù hợp khi bạn muốn phân loại tin nhắn theo một nhãn cụ thể, ví dụ như định tuyến log theo cấp độ error, warning, info. Bài này giải thích nguyên lý và minh họa bằng một hệ thống xử lý log hoàn chỉnh.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Direct Exchange` định tuyến tin nhắn tới Queue có Binding Key khớp CHÍNH XÁC với Routing Key** — không có so khớp mẫu như Topic, nên dễ dự đoán và debug.
+- **Ứng dụng điển hình** — phân loại tin nhắn theo một nhãn cụ thể, ví dụ định tuyến log theo cấp độ `error`, `warning`, `info`.
+- ⭐ **`Default Exchange` là một Direct Exchange đặc biệt không tên** — khi dùng `basicPublish("", queueName, ...)`, routing key chính là tên queue.
+- **Một Queue có thể bind nhiều Binding Key** — ví dụ queue `critical-logs` nhận cả `error` lẫn `warning`.
+- **Thiết lập bằng `exchangeDeclare` + `queueDeclare` + `queueBind`** — khai báo là idempotent, gọi được từ cả producer lẫn consumer.
+
+:::
+
 ## Direct Exchange là gì?
 
 **Direct Exchange** (bộ định tuyến trực tiếp — loại exchange định tuyến tin nhắn tới Queue có binding key khớp CHÍNH XÁC với routing key của tin nhắn) là loại Exchange đơn giản và hay dùng nhất trong RabbitMQ.

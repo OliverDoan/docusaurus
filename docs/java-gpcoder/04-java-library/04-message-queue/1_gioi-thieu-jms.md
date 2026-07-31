@@ -7,6 +7,16 @@ title: "Giới thiệu JMS - Java Message Service"
 
 JMS là bộ API chuẩn của Java cho phép các ứng dụng trao đổi tin nhắn với nhau qua một máy chủ trung gian thay vì gọi trực tiếp. Nhờ đó các thành phần trong hệ thống giao tiếp theo kiểu bất đồng bộ, ít phụ thuộc nhau và đáng tin cậy hơn. Bài này giới thiệu khái niệm tổng quan về JMS cùng ví dụ gửi/nhận tin nhắn cơ bản.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`JMS` là API chuẩn của Java để trao đổi tin nhắn bất đồng bộ** — ứng dụng gửi/nhận qua `Message Broker` thay vì gọi trực tiếp nhau.
+- **Ba đặc tính cốt lõi** — loosely coupled (ít phụ thuộc), asynchronous (không chờ nhau) và reliable (đảm bảo giao tới đích).
+- ⭐ **Hai mô hình nhắn tin** — `Queue` (P2P: mỗi tin chỉ một Consumer nhận) và `Topic` (Pub/Sub: mọi subscriber đều nhận bản sao).
+- **Khái niệm chính** — `Producer`, `Consumer`, `ConnectionFactory`, `Session`, `Destination`.
+- **Chạy thực tế với `ActiveMQ`** — thêm dependency `activemq-all`, kết nối qua `tcp://localhost:61616`.
+
+:::
+
 ## JMS là gì?
 
 **JMS - Java Message Service** (Dịch vụ tin nhắn Java — một API chuẩn của Java EE cho phép các ứng dụng trao đổi tin nhắn theo cơ chế bất đồng bộ) là một bộ API được định nghĩa bởi Oracle, cho phép các ứng dụng Java tạo, gửi, nhận và đọc tin nhắn thông qua một **Message Broker** (máy chủ trung gian quản lý và định tuyến tin nhắn).

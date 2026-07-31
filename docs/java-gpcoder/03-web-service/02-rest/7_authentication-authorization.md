@@ -7,6 +7,16 @@ title: "Tìm hiểu về xác thực và phân quyền trong ứng dụng (Authe
 
 Authentication (xác thực) và Authorization (phân quyền) là hai khái niệm nền tảng của bảo mật ứng dụng, rất dễ bị nhầm lẫn. Nói ngắn gọn: xác thực trả lời "bạn là ai?", còn phân quyền trả lời "bạn được phép làm gì?". Bài này giải thích sự khác nhau giữa hai khái niệm, điểm qua các phương thức phổ biến (Basic Auth, JWT, OAuth, RBAC, ABAC) và cách dùng SecurityContext trong JAX-RS.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Authentication = "Bạn là ai?", Authorization = "Bạn được làm gì?"** — xác thực diễn ra trước, phân quyền sau.
+- ⭐ **Mã lỗi tương ứng** — xác thực thất bại trả `401 Unauthorized`, không đủ quyền trả `403 Forbidden`.
+- **Phương thức xác thực phổ biến** — Basic Auth, Token/JWT, OAuth 2.0, API Key.
+- **Mô hình phân quyền** — `RBAC` (theo vai trò, phổ biến nhất) và `ABAC` (theo thuộc tính).
+- **`SecurityContext` trong JAX-RS** — inject bằng `@Context`, cung cấp `getUserPrincipal()` và `isUserInRole(...)`.
+
+:::
+
 ## Authentication và Authorization là gì?
 
 Đây là hai khái niệm cốt lõi trong bảo mật ứng dụng, thường bị nhầm lẫn nhưng có vai trò hoàn toàn khác nhau:

@@ -7,6 +7,16 @@ title: "Unit Testing trong phát triển phần mềm hiện đại"
 
 Unit Test là cách kiểm thử từng đơn vị code nhỏ nhất (một phương thức hoặc một lớp) một cách độc lập, giúp phát hiện lỗi sớm và yên tâm khi sửa code. Đây là nền tảng quan trọng của phát triển phần mềm hiện đại và quy trình CI/CD. Bài này giới thiệu các khái niệm cốt lõi như nguyên tắc FIRST, mô hình AAA, cách đặt tên test và vai trò của mock/stub.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Unit test kiểm thử đơn vị nhỏ nhất** — một method hoặc class trong điều kiện cô lập, loại bỏ mọi phụ thuộc bên ngoài.
+- ⭐ **Nguyên tắc FIRST** — Fast, Independent, Repeatable, Self-validating, Timely.
+- **Mô hình AAA** — Arrange (chuẩn bị) → Act (thực thi) → Assert (xác nhận).
+- **Đặt tên test** — theo mẫu `<tênPhươngThức>_<điềuKiện>_<kếtQuảMongĐợi>`.
+- **Cô lập dependency** — dùng `Mock`/`Stub`; lớp đang được test gọi là `SUT`.
+
+:::
+
 ## Unit Test là gì?
 
 **Unit Test** (kiểm thử đơn vị) là loại kiểm thử tập trung vào một đơn vị code nhỏ nhất — thường là một phương thức (method) hoặc một lớp (class) — trong điều kiện cô lập. "Cô lập" có nghĩa là loại bỏ mọi phụ thuộc bên ngoài như cơ sở dữ liệu, mạng, hay các service khác.

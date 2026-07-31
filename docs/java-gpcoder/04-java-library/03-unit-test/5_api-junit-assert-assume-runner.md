@@ -21,6 +21,15 @@ flowchart TD
 
 Cách đọc: Runner khởi động test trước, `Assume` là cửa chặn đầu tiên (nếu môi trường không phù hợp thì bỏ qua ngay), còn `Assert` chạy ở cuối để phán quyết PASS hay FAIL. Lưu ý điểm khác biệt: `Assume` không thỏa chỉ **skip**, còn `Assert` sai thì **fail**.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Assert` sai → test FAIL** — ném `AssertionError`; còn `Assume` không thỏa chỉ **skip** test, không tính là lỗi.
+- ⭐ **`@RunWith` chỉ định Test Runner** — ví dụ `Parameterized`, `Suite`, `MockitoJUnitRunner`.
+- **JUnit 5 dùng lớp `Assertions`** — bổ sung `assertAll`, `assertThrows`, `assertTimeout`.
+- **Dùng `Assume` khi test phụ thuộc môi trường** — hệ điều hành, biến môi trường, dịch vụ bên ngoài.
+
+:::
+
 ## 1. Assert — Xác nhận kết quả
 
 **Assert** (xác nhận) là lớp cung cấp các phương thức kiểm tra điều kiện trong test. Nếu điều kiện sai, test sẽ **fail** ngay lập tức và ném ra `AssertionError`.

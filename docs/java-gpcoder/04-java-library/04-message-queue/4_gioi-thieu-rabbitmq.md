@@ -7,6 +7,16 @@ title: "Giới thiệu RabbitMQ"
 
 RabbitMQ là một message broker mã nguồn mở rất phổ biến, đóng vai trò trung gian nhận, lưu và chuyển tin nhắn giữa các ứng dụng trong hệ thống phân tán. Điểm mạnh của nó là cơ chế Exchange giúp định tuyến tin nhắn linh hoạt theo nhiều cách khác nhau. Bài này giới thiệu khái niệm tổng quan, kiến trúc và các loại Exchange của RabbitMQ; phần chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`RabbitMQ` là Message Broker viết bằng `Erlang`, triển khai giao thức `AMQP 0-9-1`** — rất phổ biến trong hệ thống phân tán.
+- ⭐ **Điểm khác biệt với JMS là cơ chế `Exchange`** — tin nhắn luôn qua Exchange trước, chính Exchange (dựa vào routing key và binding) mới quyết định đưa vào Queue nào.
+- **Bốn loại Exchange** — `Direct` (khớp chính xác), `Fanout` (gửi tới mọi Queue), `Topic` (khớp mẫu `*` và `#`), `Headers` (khớp theo header).
+- **Thành phần chính** — `Producer`, `Exchange`, `Queue`, `Consumer`, `Binding`, `Routing Key`, `Virtual Host`, `Channel`.
+- **Chạy với Java** — dùng thư viện `amqp-client`, kết nối qua cổng AMQP `5672` (mặc định `guest/guest`).
+
+:::
+
 ## RabbitMQ là gì?
 
 **RabbitMQ** (máy chủ hàng đợi tin nhắn mã nguồn mở phổ biến nhất thế giới) là một **Message Broker** (máy chủ trung gian nhận, lưu trữ và định tuyến tin nhắn) được viết bằng ngôn ngữ **Erlang**. RabbitMQ triển khai giao thức **AMQP 0-9-1** (Advanced Message Queuing Protocol — Giao thức hàng đợi tin nhắn nâng cao) và là lựa chọn hàng đầu trong các hệ thống phân tán hiện đại.

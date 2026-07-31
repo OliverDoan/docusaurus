@@ -19,6 +19,15 @@ flowchart TD
 
 Đọc sơ đồ: quyết định giữ hay bỏ mỗi field do phương thức `shouldSkipField` (hoặc `shouldSkipClass` cho cả lớp) chi phối, cho phép áp dụng logic tùy ý theo tên, kiểu, hay annotation.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`ExclusionStrategy` là interface định nghĩa quy tắc loại trừ linh hoạt** — qua `shouldSkipField()` (field) và `shouldSkipClass()` (cả lớp).
+- ⭐ **Mạnh hơn `@Expose`** — xử lý logic loại trừ phức tạp mà không cần sửa class gốc.
+- **Loại trừ được theo nhiều tiêu chí** — tên field, kiểu dữ liệu, hoặc annotation tùy chỉnh do bạn tạo.
+- **Đăng ký linh hoạt** — `addSerializationExclusionStrategy()`, `addDeserializationExclusionStrategy()`, hoặc `setExclusionStrategies()` cho cả hai chiều.
+
+:::
+
 ---
 
 ## 1. Maven Dependency

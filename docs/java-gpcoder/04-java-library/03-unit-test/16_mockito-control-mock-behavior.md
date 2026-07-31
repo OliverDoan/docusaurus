@@ -7,6 +7,16 @@ title: "Mockito - Control mock's behavior"
 
 Khi viết unit test với Mockito, sau khi tạo mock bạn cần "dạy" cho nó biết phải trả về gì hay làm gì khi được gọi — đó chính là kiểm soát hành vi của mock. Bài này hướng dẫn các cách stub thường gặp như trả về giá trị, ném exception, gọi phương thức thật và dùng argument matcher để so khớp tham số linh hoạt. Nắm vững phần này giúp bạn cô lập đối tượng cần test khỏi các phụ thuộc bên ngoài.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Stubbing là "dạy" mock trả về gì khi được gọi** — phổ biến nhất là `when(...).thenReturn(...)`.
+- **`thenThrow` ném exception** — `thenReturn` chuỗi cho phép trả về nhiều giá trị lần lượt.
+- **`doReturn`/`doThrow`/`doNothing`** — dùng cho phương thức `void` và cho spy (tránh gọi thật khi setup).
+- **Logic động** — `thenAnswer` trả về dựa trên tham số; `thenCallRealMethod` gọi phương thức thật.
+- ⭐ **Quy tắc matcher** — khi một tham số dùng matcher thì TẤT CẢ tham số phải dùng matcher.
+
+:::
+
 ## Giới thiệu
 
 Sau khi tạo mock, bước tiếp theo là **stubbing** (định nghĩa hành vi) — chỉ định mock sẽ làm gì khi một phương thức được gọi với các tham số nhất định. Mockito cung cấp nhiều cách để kiểm soát hành vi: trả về giá trị, ném exception, gọi phương thức thật, hoặc thực hiện logic tùy chỉnh.

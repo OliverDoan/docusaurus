@@ -7,6 +7,16 @@ title: "Iterator Pattern"
 
 Iterator là mẫu thiết kế hành vi cung cấp một cách thống nhất để duyệt qua các phần tử của một tập hợp mà không cần biết cấu trúc bên trong của nó. Nó tách riêng logic duyệt khỏi bản thân tập hợp, cho phép duyệt theo nhiều cách khác nhau. Chính vòng lặp `for-each` trong Java là ứng dụng của pattern này. Bài này giới thiệu tổng quan; phần chi tiết và ví dụ Java nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Iterator` cung cấp cách duyệt tập hợp mà không lộ cấu trúc bên trong** — qua interface với `hasNext()` và `next()`.
+- ⭐ **Tách logic duyệt khỏi tập hợp** — cùng một `Classroom` trả về nhiều kiểu duyệt (`ForwardIterator`, `ReverseIterator`) mà client không cần biết chi tiết nội bộ.
+- **Vòng lặp `for-each` trong Java chính là ứng dụng của pattern này** — dựa trên `java.util.Iterator` và `java.lang.Iterable` có sẵn.
+- **Ưu điểm** — hỗ trợ nhiều chiến lược duyệt, tuân thủ Single Responsibility.
+- **Nhược điểm** — với tập hợp đơn giản thì tạo thêm lớp không cần thiết.
+
+:::
+
 ## Mục đích
 
 **Iterator** (Bộ duyệt) là một mẫu thiết kế hành vi cung cấp cách duyệt qua các phần tử của một tập hợp (collection) mà không cần biết cấu trúc bên trong của tập hợp đó. Nó tách biệt logic duyệt khỏi bản thân tập hợp.

@@ -7,6 +7,16 @@ title: "Hibernate Mapping Type"
 
 Mapping type là cách Hibernate quyết định một kiểu dữ liệu Java sẽ được lưu thành kiểu nào trong database và ngược lại. Hiểu rõ phần này giúp bạn ánh xạ đúng các field cơ bản, nhúng nhóm field dùng chung, hay lưu cả collection như List, Set, Map. Bài này giới thiệu ba loại mapping type chính cùng các annotation thường dùng.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Ba loại mapping type**: Basic (1 field → 1 cột), Embeddable (nhóm field → cùng bảng entity), Collection (`List`/`Set`/`Map` → bảng phụ).
+- **Hibernate tự động ánh xạ hầu hết kiểu Java phổ biến** — sang kiểu SQL tương ứng; dùng `@Column` để tùy chỉnh.
+- **`@Enumerated(EnumType.STRING)`** — lưu enum theo tên chuỗi thay vì số thứ tự (ordinal).
+- **`@Embeddable` + `@Embedded`** — tái sử dụng một nhóm field mà không tạo bảng riêng.
+- **`@ElementCollection` + `@CollectionTable`** — ánh xạ collection của kiểu cơ bản vào bảng phụ.
+
+:::
+
 ## Khái niệm Mapping Type
 
 **Mapping Type** (kiểu ánh xạ) trong Hibernate xác định cách dữ liệu Java được chuyển đổi sang kiểu dữ liệu tương ứng trong database và ngược lại. Hibernate sử dụng **Type System** (hệ thống kiểu) để tự động thực hiện việc chuyển đổi này.

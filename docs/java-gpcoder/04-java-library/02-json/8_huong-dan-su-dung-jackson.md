@@ -19,6 +19,15 @@ flowchart LR
 
 Đọc sơ đồ: nhóm phương thức `writeValue*` phụ trách chiều ghi ra JSON, còn `readValue` phụ trách chiều đọc JSON dựng lại đối tượng Java.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`ObjectMapper` là lớp trung tâm của `Jackson`** — `writeValueAsString`/`writeValue` (ghi ra JSON) và `readValue` (đọc vào Java).
+- ⭐ **Tích hợp mặc định trong Spring Boot** — và hỗ trợ Java 8+ Date/Time qua module `JavaTimeModule` (JSR310).
+- **Với generic dùng `TypeReference`** — các annotation hay dùng: `@JsonProperty`, `@JsonIgnore`, `@JsonInclude`, `@JsonFormat`.
+- **So với `Gson`** — hiệu năng cao hơn, cấu hình phong phú hơn nhưng thư viện lớn hơn; `Gson` phù hợp dự án nhỏ và Android.
+
+:::
+
 ---
 
 ## 1. Maven Dependency

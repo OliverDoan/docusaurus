@@ -7,6 +7,16 @@ title: "Command Pattern"
 
 Command là mẫu thiết kế hành vi đóng gói một yêu cầu thành một đối tượng riêng, chứa đầy đủ thông tin để thực thi. Nhờ vậy bạn có thể tách người ra lệnh khỏi người thực hiện, xếp hàng lệnh, ghi log và đặc biệt là hỗ trợ hoàn tác (undo/redo). Pattern này rất hữu ích cho nút bấm GUI hay trình soạn thảo. Bài này giới thiệu tổng quan; phần chi tiết và ví dụ Java nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Command` đóng gói một yêu cầu thành đối tượng** — với `execute()` và `undo()`, chứa đủ thông tin để thực thi và đảo ngược.
+- ⭐ **Tách Invoker khỏi Receiver** — `RemoteControl` (Invoker) chỉ làm việc với interface `Command`, không cần biết `Light` (Receiver) hay lệnh cụ thể.
+- **Hỗ trợ undo/redo** — mỗi `ConcreteCommand` (như `TurnOnCommand`) tự biết cách đảo ngược thao tác trên Receiver.
+- **Ưu điểm** — dễ thêm lệnh mới (Open/Closed), làm được macro, xếp hàng, ghi log, transaction rollback.
+- **Nhược điểm** — tăng số lượng lớp vì mỗi thao tác cần một `ConcreteCommand` riêng.
+
+:::
+
 ## Mục đích
 
 **Command** (Lệnh) là một mẫu thiết kế hành vi đóng gói một yêu cầu thành một đối tượng độc lập, chứa đầy đủ thông tin về yêu cầu đó. Điều này cho phép bạn tham số hóa các phương thức với các yêu cầu khác nhau, trì hoãn hoặc xếp hàng yêu cầu, và hỗ trợ hoàn tác (undo).

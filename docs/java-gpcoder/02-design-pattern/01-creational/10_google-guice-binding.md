@@ -7,6 +7,15 @@ title: "Google Guice - Binding"
 
 Binding là cách bạn khai báo cho Google Guice biết "khi cần kiểu X thì hãy cung cấp Y", và đây là phần cốt lõi của cơ chế tiêm phụ thuộc (DI) trong Guice. Nắm được các loại binding giúp bạn cấu hình ứng dụng linh hoạt, dễ thay thế và dễ kiểm thử. Bài này giới thiệu các kiểu binding như Linked, Instance, Provider, `@Provides`, Constant và Annotated.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Binding khai báo quy tắc "khi cần kiểu X thì cung cấp Y"** — định nghĩa trong Module, là trái tim của DI trong Guice.
+- ⭐ **6 loại binding** — Linked (`bind().to()`), Instance (`toInstance()`), Provider (`toProvider()`), `@Provides` method, Constant (`bindConstant()`), và Annotated (`annotatedWith()`).
+- **Phân biệt nhiều implementation** — dùng Annotated Binding với custom `@BindingAnnotation` để chọn đúng bản cài khi cùng một interface.
+- **Kết hợp Module** — có thể truyền nhiều Module vào `Guice.createInjector(...)`.
+
+:::
+
 ## Binding là gì?
 
 **Binding** (ràng buộc / ánh xạ) trong Guice là việc khai báo quy tắc: "Khi cần kiểu X, hãy cung cấp Y". Binding được định nghĩa trong lớp **Module** (kế thừa `AbstractModule`) và là trái tim của hệ thống DI trong Guice.

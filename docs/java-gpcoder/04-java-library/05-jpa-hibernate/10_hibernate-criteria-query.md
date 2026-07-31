@@ -7,6 +7,16 @@ title: "Hibernate Criteria Query Language (HCQL)"
 
 Criteria API là cách viết câu truy vấn trong Hibernate bằng code Java thay vì chuỗi string, giúp phát hiện lỗi ngay khi biên dịch. Nó đặc biệt hữu ích khi bạn cần xây dựng truy vấn động với nhiều điều kiện tùy chọn, ví dụ như chức năng tìm kiếm nâng cao. Bài này hướng dẫn cách dùng CriteriaBuilder, Predicate, JOIN và các hàm tổng hợp để dựng truy vấn an toàn kiểu.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Criteria API xây query động bằng Java code, type-safe** — lỗi được phát hiện tại compile-time thay vì runtime.
+- **Ba thành phần**: `CriteriaBuilder` (tạo điều kiện, hàm), `CriteriaQuery` (toàn bộ truy vấn), `Root` (nguồn dữ liệu = `FROM`).
+- **`Predicate` biểu diễn điều kiện WHERE** — gom danh sách rồi kết hợp bằng `cb.and(...)`, rất hợp cho tìm kiếm nâng cao.
+- **`Join` và `root.fetch()`** — xử lý quan hệ giữa entity và tránh N+1 query.
+- **Metamodel (`NhanVien_.hoTen`)** — đạt type-safe tuyệt đối, tránh lỗi chính tả tên field.
+
+:::
+
 ## Criteria API là gì?
 
 **Criteria API** là một cách xây dựng câu truy vấn động (dynamic query) trong Hibernate theo kiểu **type-safe** (an toàn kiểu — lỗi được phát hiện tại compile-time thay vì runtime). Khác với HQL dùng chuỗi string, Criteria API dùng Java objects và method chaining.

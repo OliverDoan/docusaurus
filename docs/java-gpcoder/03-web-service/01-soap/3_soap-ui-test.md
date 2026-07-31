@@ -38,6 +38,16 @@ sequenceDiagram
 
 SoapUI đóng vai trò client tự động sinh request từ WSDL, giúp bạn test mà không cần viết code.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **SoapUI** — công cụ mã nguồn mở (của SmartBear) để test SOAP/REST: gửi request, xem response, viết test mà không cần code; bản Open Source miễn phí đủ dùng.
+- ⭐ **New SOAP Project** — tạo project từ URL WSDL, SoapUI tự đọc WSDL, liệt kê operation và sinh request XML mẫu cho từng operation.
+- **Test Suite / Test Case / Test Step** — cấu trúc tổ chức kịch bản kiểm thử theo nhiều tầng.
+- **Assertion** — điều kiện kiểm tra response (ví dụ `Contains`); PASS/FAIL tự động.
+- **Mock Service** — giả lập SOAP service khi backend chưa sẵn sàng; ngoài ra có thể `Validate` WSDL.
+
+:::
+
 ---
 
 ## Cài đặt SoapUI

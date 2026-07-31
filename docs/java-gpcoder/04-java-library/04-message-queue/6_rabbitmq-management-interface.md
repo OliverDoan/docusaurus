@@ -7,6 +7,16 @@ title: "Giới thiệu RabbitMQ Management Interface"
 
 Management Interface là giao diện web tích hợp sẵn của RabbitMQ, giúp bạn theo dõi và quản lý toàn bộ hệ thống ngay trên trình duyệt mà không cần gõ lệnh. Qua đây bạn có thể xem trạng thái queue, gửi nhận tin nhắn thử, quản lý user và theo dõi hiệu suất theo thời gian thực. Bài này giới thiệu cách bật và sử dụng từng tab của giao diện; phần chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Management Interface là plugin web tích hợp sẵn của `RabbitMQ`** — theo dõi và quản lý toàn hệ thống qua trình duyệt mà không cần gõ lệnh.
+- **Bật bằng `rabbitmq-plugins enable rabbitmq_management`** rồi truy cập `http://localhost:15672` (mặc định `guest/guest`, chỉ đăng nhập từ localhost).
+- **Các tab chính** — Overview, Connections, Channels, Exchanges, Queues (quan trọng nhất, xem `Ready`/`Unacked`) và Admin (user, vhost, policies).
+- **Tab Queues cho phép test trực tiếp** — Publish, Get messages, Purge, Delete ngay trên UI.
+- ⭐ **Có `REST API` để tự động hóa** — gọi qua `curl` hoặc Java `HttpClient` (lưu ý `%2F` là mã hóa URL của vhost mặc định `/`).
+
+:::
+
 ## Management Interface là gì?
 
 **RabbitMQ Management Interface** (giao diện quản lý RabbitMQ — ứng dụng web tích hợp sẵn cho phép theo dõi và quản lý toàn bộ RabbitMQ thông qua trình duyệt) là một **plugin** (tiện ích mở rộng) cung cấp giao diện đồ họa để:

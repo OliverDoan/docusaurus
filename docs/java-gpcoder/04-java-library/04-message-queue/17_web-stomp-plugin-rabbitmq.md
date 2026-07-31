@@ -7,6 +7,16 @@ title: "Kết nối RabbitMQ sử dụng Web STOMP Plugin"
 
 Web STOMP Plugin là tiện ích cho phép ứng dụng web chạy trên trình duyệt kết nối trực tiếp với RabbitMQ qua WebSocket và giao thức STOMP, mà không cần backend làm trung gian. Nhờ đó frontend có thể nhận và gửi tin nhắn theo thời gian thực, rất hợp với chat, thông báo trực tiếp hay bảng giám sát. Bài này hướng dẫn cách bật plugin và kết nối từ cả Java lẫn JavaScript trên trình duyệt.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Web STOMP Plugin` cho ứng dụng web trong trình duyệt kết nối trực tiếp `RabbitMQ` qua `WebSocket` + giao thức `STOMP`** — không cần backend làm trung gian.
+- **Bật bằng `rabbitmq-plugins enable rabbitmq_web_stomp`** — lắng nghe cổng `15674` (ws://) và `15673` (wss:// qua TLS).
+- ⭐ **Kết nối được từ cả JavaScript (STOMP.js, phổ biến nhất) lẫn Java** (Spring `spring-messaging`/`spring-websocket`).
+- **Ánh xạ STOMP destination sang RabbitMQ** — `/queue/<tên>`, `/exchange/<tên>/<routingKey>`, `/topic/<tên>`...
+- **Hợp với ứng dụng real-time** — chat room, live notification, bảng giám sát; backend Java vẫn gửi/nhận qua AMQP trên cùng Queue.
+
+:::
+
 ## Web STOMP Plugin là gì?
 
 **Web STOMP Plugin** (tiện ích mở rộng WebSocket STOMP — cho phép ứng dụng web trong trình duyệt kết nối trực tiếp với RabbitMQ qua WebSocket và giao thức STOMP) là cầu nối giúp frontend JavaScript có thể nhận/gửi tin nhắn RabbitMQ theo thời gian thực mà không cần backend proxy.

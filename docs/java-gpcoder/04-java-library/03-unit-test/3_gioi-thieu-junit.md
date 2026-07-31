@@ -7,6 +7,16 @@ title: "Giới thiệu JUnit"
 
 JUnit là framework kiểm thử đơn vị phổ biến nhất trong thế giới Java, dùng để viết và chạy các bài test tự động. Hầu như mọi dự án Java đều dựa vào JUnit để đảm bảo code hoạt động đúng. Bài này giới thiệu tổng quan về JUnit, cách cài đặt, viết bài test đầu tiên và so sánh hai phiên bản JUnit 4 với JUnit 5.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`JUnit` là framework unit testing phổ biến nhất cho Java** — hai bản chính là JUnit 4 và JUnit 5 (Jupiter, hỗ trợ Java 8+).
+- ⭐ **JUnit 5 đổi tên annotation** — `@Before`→`@BeforeEach`, `@BeforeClass`→`@BeforeAll`, `@Ignore`→`@Disabled`.
+- **Vòng đời test** — `@BeforeClass`/`@AfterClass` chạy 1 lần; `@Before`/`@After` lặp quanh mỗi `@Test`.
+- **`<scope>test</scope>`** — thư viện test không được đưa vào bản build production.
+- **Quy ước** — lớp test cùng package, hậu tố `Test`; chạy bằng `mvn test`.
+
+:::
+
 ## JUnit là gì?
 
 **JUnit** là framework kiểm thử đơn vị (unit testing framework) phổ biến nhất cho ngôn ngữ Java. JUnit cung cấp các annotation, assertion và công cụ để viết và chạy các bài kiểm thử tự động. Hiện tại có hai phiên bản chính được dùng rộng rãi:

@@ -7,6 +7,16 @@ title: "Chain of Responsibility Pattern"
 
 Chain of Responsibility là mẫu thiết kế hành vi cho phép một yêu cầu đi lần lượt qua một chuỗi các đối tượng xử lý, mỗi đối tượng tự quyết định xử lý hay chuyển tiếp cho người sau. Cách này giúp tách biệt người gửi yêu cầu khỏi người xử lý, dễ thêm bớt bước xử lý. Nó rất quen thuộc qua middleware web hay bộ lọc spam. Bài này giới thiệu tổng quan; phần chi tiết và ví dụ Java nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Chain of Responsibility` truyền yêu cầu dọc theo một chuỗi handler** — mỗi handler tự quyết định xử lý hay chuyển tiếp cho handler kế tiếp.
+- ⭐ **Tách người gửi khỏi người xử lý** — client chỉ gửi tới handler đầu chuỗi, không cần biết ai sẽ xử lý.
+- **`setNext()` dựng chuỗi** — mỗi `ConcreteHandler` giữ tham chiếu `next`; ví dụ `TeamLeader` → `Manager` → `Director` duyệt đơn nghỉ theo số ngày.
+- **Ưu điểm** — dễ thêm/bớt handler, tuân thủ Single Responsibility.
+- **Nhược điểm** — yêu cầu có thể không được xử lý nếu chuỗi thiếu handler phù hợp, và khó debug khi chuỗi dài.
+
+:::
+
 ## Mục đích
 
 **Chain of Responsibility** (Chuỗi trách nhiệm) là một mẫu thiết kế hành vi (Behavioral Pattern) cho phép bạn truyền một yêu cầu dọc theo một chuỗi các đối tượng xử lý (handler). Mỗi handler quyết định xử lý yêu cầu đó hay chuyển tiếp sang handler tiếp theo trong chuỗi.

@@ -7,6 +7,16 @@ title: "JUnit - Hamcrest Matchers"
 
 Hamcrest là thư viện giúp bạn viết các câu kiểm tra (assertion) trong JUnit theo kiểu đọc tự nhiên gần như tiếng Anh, ví dụ `assertThat(name, startsWith("Alice"))`. Khi test fail, Hamcrest còn cho thông báo lỗi rõ ràng hơn nên dễ tìm ra nguyên nhân. Bài này giới thiệu cách dùng và các matcher phổ biến cho số, chuỗi, collection và map.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Hamcrest` cung cấp matcher viết assertion đọc như tiếng Anh** — cú pháp `assertThat(giá_trị_thực_tế, matcher)`.
+- ⭐ **Thông báo lỗi rõ ràng** — khi fail hiện dạng "Expected... but...", dễ tìm nguyên nhân hơn `assertEquals`.
+- **Matcher phổ biến** — `is`, `equalTo`, `not`, `containsString`, `hasSize`, `hasItem`, `hasKey`/`hasEntry`.
+- **Kết hợp điều kiện** — `allOf` (AND) và `anyOf` (OR).
+- **Cài đặt** — có sẵn trong JUnit 4; JUnit 5 cần thêm dependency `hamcrest`.
+
+:::
+
 ## Hamcrest là gì?
 
 **Hamcrest** là thư viện cung cấp các **matcher** (bộ so khớp) — các đối tượng dùng để mô tả điều kiện kiểm tra theo cú pháp tự nhiên, dễ đọc như tiếng Anh. Hamcrest được tích hợp sẵn trong JUnit 4 và có thể dùng với JUnit 5.

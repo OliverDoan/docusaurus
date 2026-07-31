@@ -7,6 +7,15 @@ title: "JUnit - Custom Hamcrest Matchers"
 
 Hamcrest cho phép viết các câu lệnh assertion dễ đọc, nhưng đôi khi bạn cần kiểm tra những điều kiện đặc thù của nghiệp vụ. Custom Matcher giúp đóng gói logic kiểm tra phức tạp thành một matcher có tên rõ ràng, tái sử dụng được ở nhiều test thay vì lặp đi lặp lại. Bài này hướng dẫn ba cách tạo matcher tùy chỉnh (BaseMatcher, TypeSafeMatcher, FeatureMatcher) và cách tổ chức chúng gọn gàng.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Custom matcher đóng gói logic kiểm tra đặc thù nghiệp vụ** — thành một matcher có tên rõ ràng, tái sử dụng được (vd `isValidOrder()`).
+- **Ba cách tạo** — kế thừa `BaseMatcher`, `TypeSafeMatcher` (khuyên dùng, tự kiểm tra kiểu), hoặc `FeatureMatcher` (so khớp thuộc tính).
+- **Phương thức cần implement** — `matches`/`matchesSafely` + `describeTo` (mô tả mong đợi) + `describeMismatch` (mô tả thực tế).
+- **Tổ chức** — gom matcher vào package riêng, tạo factory method static gợi nhớ.
+
+:::
+
 ## Tại sao cần Custom Matcher?
 
 Hamcrest cung cấp nhiều matcher có sẵn, nhưng đôi khi bạn cần kiểm tra các điều kiện đặc thù của domain nghiệp vụ. **Custom Hamcrest Matcher** (matcher Hamcrest tùy chỉnh) cho phép bạn đóng gói logic kiểm tra phức tạp thành một matcher có tên gọi rõ ràng, tái sử dụng được ở nhiều test.

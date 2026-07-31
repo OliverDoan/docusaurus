@@ -7,6 +7,16 @@ title: "Service Locator Pattern"
 
 Service Locator là một mẫu thiết kế khởi tạo (creational) cung cấp một nơi trung tâm để tra cứu và lấy ra các dịch vụ dùng chung theo tên hoặc kiểu, thay vì tự khởi tạo trực tiếp ở khắp nơi. Cách làm này giúp tập trung logic tạo dịch vụ vào một chỗ và dễ thay thế hơn. Bài này giới thiệu khái niệm tổng quan kèm so sánh với Dependency Injection; phần chi tiết với ví dụ Java nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Service Locator` là nơi trung tâm (registry) tra cứu service theo tên/kiểu** thay vì tự `new` khắp nơi.
+- **Có Cache** — service đã tra cứu được lưu lại để các lần sau lấy thẳng từ cache (cache hit), tăng hiệu năng.
+- ⭐ **So với Dependency Injection** — dùng cơ chế pull (client chủ động lấy), phụ thuộc bị **ẩn** và khó kiểm thử hơn.
+- **Bị coi là anti-pattern** — nhiều chuyên gia xem đây là anti-pattern trong thời đại DI framework.
+- **Dùng cho** — ứng dụng legacy, plugin system, hoặc môi trường không hỗ trợ DI.
+
+:::
+
 ## Mục đích
 
 **Service Locator Pattern** (mẫu định vị dịch vụ) là một **Creational Design Pattern** cung cấp một nơi trung tâm (**registry** — kho đăng ký) để tra cứu và lấy các dịch vụ (service) theo tên hoặc kiểu dữ liệu, thay vì hardcode việc khởi tạo trực tiếp.

@@ -26,6 +26,16 @@ flowchart TD
 
 Nhóm bên trái giúp code gọn và dễ hiểu, nhóm giữa lo về cách các thành phần liên kết với nhau, còn Boy Scout Rule là thói quen cải thiện dần theo thời gian.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **7 nguyên tắc, 3 nhóm** — giữ code đơn giản (`DRY`, `KISS`, `YAGNI`), cấu trúc & thiết kế (`Law of Demeter`, `Composition over Inheritance`, `Separation of Concerns`), thói quen (`Boy Scout Rule`).
+- **`DRY`** — mỗi logic chỉ tồn tại một nơi; nhưng code giống nhau mà phục vụ mục đích nghiệp vụ khác nhau thì không gộp.
+- **`Law of Demeter`** — tránh "chuỗi dấu chấm", mỗi lớp ủy quyền cho lớp của mình.
+- ⭐ **`Composition over Inheritance`** — ưu tiên has-a (linh hoạt, đổi được lúc runtime) hơn is-a (ràng buộc chặt).
+- **`Separation of Concerns`** — nền tảng cho kiến trúc theo lớp (Controller / Service / Repository).
+
+:::
+
 ---
 
 ## 1. DRY — Don't Repeat Yourself (Đừng lặp lại bản thân)

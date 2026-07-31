@@ -25,6 +25,16 @@ flowchart LR
 
 Điểm mấu chốt: dữ liệu chảy qua từng token nhỏ nên bộ nhớ tiêu thụ gần như không đổi dù file JSON lớn tới đâu.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Streaming API xử lý JSON theo từng token** — bộ nhớ tiêu thụ gần như không đổi dù file lớn tới đâu.
+- **Hai lớp chính**: `JsonWriter` ghi token (`beginObject`, `name`, `value`) và `JsonReader` đọc token (`nextName`, `nextInt`, `nextString`).
+- **Xử lý null và trường lạ** — dùng `peek()` kiểm tra token `NULL` trước khi đọc, `skipValue()` bỏ qua trường không cần.
+- ⭐ **So với DOM (`Gson.fromJson()`)** — tốn ít bộ nhớ hơn nhưng code phải xử lý thủ công nên phức tạp hơn.
+- **Phù hợp** — file JSON lớn (log, export), thiết bị IoT/embedded, network stream liên tục.
+
+:::
+
 ---
 
 ## 1. Maven Dependency

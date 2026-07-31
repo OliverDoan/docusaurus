@@ -34,6 +34,16 @@ sequenceDiagram
 
 Dữ liệu nhị phân được đính kèm trực tiếp thay vì nhúng Base64 vào XML, nên message gọn và nhanh hơn.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **MTOM** — chuẩn W3C truyền dữ liệu nhị phân (ảnh, PDF, zip) qua SOAP dưới dạng attachment `XOP`, thay vì mã hóa `Base64` (làm phình ~33%).
+- ⭐ **Bật MTOM 2 phía** — server dùng annotation `@MTOM(enabled = true)` trên class service; client truyền `new MTOMFeature(true)` vào `service.getPort()`.
+- **DataHandler** — dữ liệu file được bọc trong `DataHandler` (cầu nối Java ↔ MIME); khai báo `@XmlMimeType("application/octet-stream")` cho tham số/kết quả nhị phân.
+- **Bảo mật** — luôn kiểm tra `Path Traversal` khi client tự đặt tên file (so sánh `getCanonicalPath()` với thư mục cho phép).
+- **Phù hợp** — MTOM lợi cho file lớn (> 10KB); dependency cần thiết là `jaxws-rt`.
+
+:::
+
 ---
 
 ## Cấu hình Maven/Gradle

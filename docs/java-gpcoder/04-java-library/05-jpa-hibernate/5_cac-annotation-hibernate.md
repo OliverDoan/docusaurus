@@ -7,6 +7,16 @@ title: "Các Annotation của Hibernate"
 
 Annotation là các nhãn bắt đầu bằng `@` gắn lên class và field để báo cho Hibernate biết cách ánh xạ chúng sang database, thay cho file XML cấu hình rườm rà ngày xưa. Nắm được các annotation này là điều bắt buộc khi làm việc với Hibernate hiện đại. Bài này tổng hợp các nhóm annotation quan trọng: định nghĩa entity, khóa chính, ánh xạ cột, quan hệ và lifecycle.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Annotation thay thế hoàn toàn cho file XML `.hbm.xml`** — hai nguồn: `jakarta.persistence.*` (chuẩn JPA) và `org.hibernate.annotations.*` (riêng Hibernate).
+- **Định nghĩa entity & khóa chính**: `@Entity`, `@Table`, `@Id`, `@GeneratedValue` (IDENTITY, SEQUENCE, TABLE, AUTO, UUID).
+- **Ánh xạ cột**: `@Column` (tùy chỉnh), `@Transient` (bỏ qua field), `@Lob` (dữ liệu lớn CLOB/BLOB).
+- **Quan hệ**: `@ManyToOne`, `@OneToMany(mappedBy)`, `@ManyToMany`, kèm `@JoinColumn` và `@JoinTable`.
+- **Lifecycle hook**: `@PrePersist`, `@PreUpdate`, `@PostLoad` chạy tự động quanh INSERT/UPDATE/SELECT.
+
+:::
+
 ## Tổng quan
 
 **Annotation** trong Hibernate là các nhãn đặc biệt (bắt đầu bằng `@`) gắn vào class hoặc field Java để mô tả cách ánh xạ sang cơ sở dữ liệu. Chúng thay thế hoàn toàn cho file XML cấu hình truyền thống (`.hbm.xml`).

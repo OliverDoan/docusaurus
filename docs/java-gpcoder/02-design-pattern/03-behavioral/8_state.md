@@ -7,6 +7,16 @@ title: "State Pattern"
 
 State là một mẫu thiết kế hành vi cho phép một đối tượng thay đổi cách hành xử khi trạng thái bên trong của nó thay đổi, nhìn từ ngoài cứ như nó đổi hẳn sang một lớp khác. Mẫu này giúp dọn sạch những khối if-else hay switch-case rối rắm liên quan đến trạng thái. Bài này giải thích cách dùng kèm ví dụ máy bán hàng tự động; chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`State` cho phép đối tượng đổi hành vi khi trạng thái nội tại thay đổi** — nhìn từ ngoài như đối tượng đã đổi lớp.
+- ⭐ **Loại bỏ các khối `if-else` / `switch-case` phức tạp** — `Context` (`VendingMachine`) ủy quyền hành vi cho đối tượng `State` hiện tại (`IdleState`, `HasCoinState`, `DispensingState`).
+- **Logic chuyển trạng thái nằm trong từng `ConcreteState`** — chính state tự gọi `setState()` để chuyển Context sang trạng thái kế tiếp.
+- **Ưu điểm** — mỗi state một Single Responsibility, dễ thêm trạng thái mới.
+- **Nhược điểm** — tăng số lượng lớp, logic chuyển trạng thái phân tán khó theo dõi.
+
+:::
+
 ## Mục đích
 
 **State** (Trạng thái) là một mẫu thiết kế hành vi cho phép một đối tượng thay đổi hành vi khi trạng thái nội tại của nó thay đổi. Từ bên ngoài trông như đối tượng đã đổi lớp. Pattern này loại bỏ các khối `if-else` hoặc `switch-case` phức tạp liên quan đến trạng thái.

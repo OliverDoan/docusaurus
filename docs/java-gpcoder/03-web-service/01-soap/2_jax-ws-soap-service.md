@@ -28,6 +28,16 @@ sequenceDiagram
 
 Client gọi phương thức từ xa như gọi method Java bình thường; JAX-WS lo phần đóng gói và giải mã XML.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **JAX-WS** — bộ API chuẩn của Java (có sẵn trong JDK từ bản 6) tạo SOAP service chỉ bằng annotation `@WebService`, `@WebMethod`; framework tự sinh WSDL và xử lý XML.
+- ⭐ **SEI vs SIB** — `@WebService` interface (SEI) định nghĩa contract, còn class implementation (SIB) chứa logic nghiệp vụ.
+- **Publish nhanh** — dùng `Endpoint.publish(address, new UserServiceImpl())` để chạy service không cần server nặng; WSDL có tại `<url>?wsdl`.
+- **Client** — `wsimport` tự sinh stub từ WSDL, hoặc viết tay với `Service.create()` rồi `getPort()`.
+- **Annotation** — `@WebParam` đặt tên tham số trong WSDL, `@WebResult` đặt tên giá trị trả về, `@SOAPBinding` chọn RPC/Document.
+
+:::
+
 ---
 
 ## Tạo SOAP Service phía Server

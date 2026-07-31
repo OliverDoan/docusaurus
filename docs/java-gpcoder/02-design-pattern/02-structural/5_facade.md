@@ -7,6 +7,16 @@ title: "Facade Pattern"
 
 Facade là mẫu thiết kế cấu trúc giúp tạo ra một "cổng vào" đơn giản cho một hệ thống con phức tạp gồm nhiều class. Thay vì phải tự khởi tạo và phối hợp nhiều đối tượng, client chỉ cần gọi vài phương thức gọn gàng của Facade. Nhờ đó code dễ dùng, dễ bảo trì và bớt phụ thuộc vào chi tiết bên trong. Bài này giới thiệu tổng quan; phần chi tiết và ví dụ Java nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Facade` (mặt tiền)** — cung cấp một "cổng vào" đơn giản cho subsystem phức tạp, giấu chi tiết khởi tạo và phối hợp nhiều class.
+- **Ví dụ** — `HomeTheaterFacade` bọc 5 thiết bị (`Projector`, `SoundSystem`, `StreamingPlayer`, `Lights`, `PopcornMaker`) sau hai method `watchMovie()` và `endMovie()`.
+- **Ưu điểm** — loose coupling giữa client và subsystem, dễ onboard, đổi subsystem không ảnh hưởng client (nếu giữ nguyên interface).
+- **Rủi ro** — dễ phình thành "God Object" nếu ôm đồm quá nhiều chức năng.
+- **Thực tế** — Service layer bọc Repository + Domain logic chính là một dạng Facade.
+
+:::
+
 ## Mục đích
 
 Facade (mặt tiền) là một **Structural Design Pattern** cung cấp một interface đơn giản, gọn gàng cho một hệ thống con (subsystem) phức tạp. Pattern này không ẩn giấu subsystem mà chỉ tạo ra một "cổng vào" thuận tiện, giúp client không cần biết chi tiết bên trong.

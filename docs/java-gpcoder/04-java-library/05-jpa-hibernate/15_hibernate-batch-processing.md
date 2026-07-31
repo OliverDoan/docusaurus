@@ -7,6 +7,16 @@ title: "Hibernate Batch Processing"
 
 Khi cần thêm, sửa hoặc xóa hàng nghìn bản ghi, gửi từng câu SQL một sẽ rất chậm và tốn bộ nhớ. Batch processing là cách gom nhiều thao tác lại gửi một lần để tăng tốc đáng kể. Bài này giới thiệu cách cấu hình batch, dùng StatelessSession, ScrollableResults và bulk operation để xử lý dữ liệu lớn hiệu quả.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Batch gom nhiều thao tác database gửi một lần** — giảm round-trip, tăng tốc rõ rệt khi xử lý hàng nghìn+ bản ghi.
+- **Bật `hibernate.jdbc.batch_size` (thường 50-100)** — thêm `order_inserts`/`order_updates` để tối ưu batch.
+- **Trong vòng lặp: gọi `flush()` + `clear()` định kỳ** — để tránh tràn L1 Cache.
+- **`StatelessSession` là lựa chọn tốt nhất cho batch rất lớn** — không có persistence context, dirty checking hay cascade.
+- **`ScrollableResults` xử lý triệu bản ghi không tốn RAM; bulk operation (HQL) nhanh hơn load từng entity**.
+
+:::
+
 ## Batch Processing là gì?
 
 **Batch Processing** (xử lý theo lô) là kỹ thuật thực thi nhiều thao tác database trong một lần, thay vì gửi từng câu SQL một. Điều này giúp giảm đáng kể số lần round-trip (khứ hồi) giữa ứng dụng và database, tăng hiệu năng rõ rệt khi cần xử lý hàng nghìn hoặc hàng triệu bản ghi.

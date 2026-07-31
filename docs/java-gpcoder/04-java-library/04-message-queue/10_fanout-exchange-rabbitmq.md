@@ -7,6 +7,16 @@ title: "Sử dụng Fanout Exchange trong RabbitMQ"
 
 Fanout Exchange là loại exchange trong RabbitMQ phát một bản sao tin nhắn tới tất cả các queue đã gắn vào nó, bỏ qua hoàn toàn routing key. Nó rất hữu ích khi một sự kiện cần được nhiều dịch vụ xử lý cùng lúc, ví dụ gửi email, SMS và cập nhật kho khi có đơn hàng mới. Bài này hướng dẫn cách thiết lập và dùng Fanout Exchange qua ví dụ thực tế.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Fanout Exchange` gửi bản sao tin nhắn tới TẤT CẢ Queue đã bind, bỏ qua hoàn toàn routing key** — như đài phát thanh, một lần phát mọi người đều nghe.
+- **Dùng khi một sự kiện cần nhiều dịch vụ xử lý cùng lúc** — ví dụ đơn hàng mới kích hoạt Email, SMS, Warehouse, Analytics.
+- ⭐ **Mỗi dịch vụ tự tạo Queue riêng rồi bind vào Exchange** với routing key `""` (bị bỏ qua) — các dịch vụ độc lập, không ảnh hưởng nhau.
+- **Phù hợp Event-Driven Architecture** — cache invalidation, live scoreboard, broadcasting sự kiện.
+- **So với Direct** — Fanout không cần so khớp key nên nhanh nhất; Direct chỉ giao cho Queue có Binding Key khớp.
+
+:::
+
 ## Fanout Exchange là gì?
 
 **Fanout Exchange** (bộ định tuyến phát quảng bá — loại exchange gửi bản sao tin nhắn tới TẤT CẢ Queue đã bind vào nó, bỏ qua hoàn toàn routing key) hoạt động giống như một đài phát thanh: một lần phát, tất cả người nghe đều nhận được.

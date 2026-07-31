@@ -7,6 +7,16 @@ title: "Google Guice - AOP"
 
 AOP là mô hình lập trình giúp tách các logic lặp lại ở nhiều nơi (như logging, bảo mật, transaction, retry) ra khỏi logic nghiệp vụ chính, nhờ đó code gọn gàng và dễ bảo trì hơn. Guice hỗ trợ AOP thông qua MethodInterceptor để chèn xử lý trước/sau khi gọi method. Bài này hướng dẫn cách xây dựng các interceptor logging, retry, authorization và cách đăng ký chúng.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **AOP tách cross-cutting concerns khỏi logic nghiệp vụ** — như logging, security, transaction, retry, cache lặp lại ở nhiều nơi.
+- ⭐ **Guice dùng `MethodInterceptor` + proxy** — chèn xử lý trước/sau method; `invocation.proceed()` gọi method gốc.
+- **Yêu cầu** — chỉ hoạt động với class do Guice tạo (không phải `new`), method phải `public`/`protected`, không `static`/`final`.
+- **Đăng ký & lọc** — qua `bindInterceptor()` với các Matcher (`Matchers.annotatedWith`, `inSubpackage`, `subclassesOf`).
+- **Ứng dụng** — logging, transaction, authorization, retry, performance monitoring, caching.
+
+:::
+
 ## AOP là gì?
 
 **AOP — Aspect Oriented Programming** (lập trình hướng khía cạnh) là một mô hình lập trình cho phép tách biệt các **cross-cutting concerns** (mối quan tâm xuyên suốt — những logic lặp lại ở nhiều nơi như logging, bảo mật, transaction, cache) ra khỏi logic nghiệp vụ chính.

@@ -7,6 +7,16 @@ title: "Null Object Pattern"
 
 Null Object là mẫu thiết kế hành vi dùng một đối tượng "rỗng" với hành vi mặc định không làm gì để thay cho giá trị `null`. Nhờ vậy code không phải kiểm tra `null` lặp đi lặp lại và tránh được lỗi `NullPointerException`. Pattern này hay dùng cho logger, cache hay event handler khi muốn "tắt" chức năng một cách an toàn. Bài này giới thiệu tổng quan; phần chi tiết và ví dụ Java nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Null Object` dùng một đối tượng "rỗng" hành vi mặc định (no-op) thay cho `null`** — loại bỏ kiểm tra `null` lặp lại và tránh `NullPointerException`.
+- ⭐ **`RealObject` và `NullObject` cùng hiện thực một interface** — `UserService` gọi `logger.log(...)` mà không cần biết đó là `ConsoleLogger` hay `NullLogger`.
+- **`NullObject` thường là Singleton** — vì không có trạng thái (ví dụ `NullLogger.getInstance()`).
+- **Nhược điểm** — có thể che giấu lỗi logic (khi `null` là dấu hiệu sai), không phân biệt được "không tồn tại" với "tồn tại nhưng rỗng".
+- **So với `Optional`** — `Optional` hợp cho luồng xử lý đơn lẻ; Null Object hợp khi cần gọi phương thức liên tục, đặc biệt với dependency injection.
+
+:::
+
 ## Mục đích
 
 **Null Object** (Đối tượng Null) là một mẫu thiết kế hành vi cung cấp một đối tượng với hành vi mặc định "không làm gì" thay thế cho giá trị `null`. Điều này giúp loại bỏ các kiểm tra `null` lặp đi lặp lại trong code, tránh `NullPointerException`.

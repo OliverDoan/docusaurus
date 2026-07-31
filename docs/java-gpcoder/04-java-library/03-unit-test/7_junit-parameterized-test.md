@@ -7,6 +7,15 @@ title: "JUnit - Parameterized Test"
 
 Parameterized Test giúp bạn chạy cùng một bài test với nhiều bộ dữ liệu đầu vào khác nhau, thay vì phải viết đi viết lại nhiều phương thức gần giống nhau. Cách làm này giảm code trùng lặp và giúp dễ dàng bổ sung trường hợp kiểm thử mới. Bài này hướng dẫn viết parameterized test trong JUnit 4 và các nguồn dữ liệu phong phú của JUnit 5 như `@ValueSource`, `@CsvSource`, `@MethodSource`, `@EnumSource`.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Parameterized test chạy cùng một test với nhiều bộ dữ liệu** — giảm code trùng lặp, dễ thêm trường hợp mới.
+- **JUnit 4** — `@RunWith(Parameterized.class)` + `@Parameters` trả về `Collection<Object[]>` + constructor nhận tham số.
+- **JUnit 5** — `@ParameterizedTest` với `@ValueSource`, `@CsvSource`, `@CsvFileSource`, `@MethodSource`, `@EnumSource`.
+- **`@MethodSource`** — dùng phương thức `static` trả về `Stream<Arguments>`.
+
+:::
+
 ## Parameterized Test là gì?
 
 **Parameterized Test** (kiểm thử tham số hóa) cho phép chạy cùng một bài test với nhiều bộ dữ liệu đầu vào khác nhau. Thay vì viết nhiều phương thức test gần giống nhau, bạn chỉ viết một phương thức và cung cấp nhiều bộ tham số.

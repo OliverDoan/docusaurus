@@ -7,6 +7,16 @@ title: "Memento Pattern"
 
 Memento là một mẫu thiết kế thuộc nhóm hành vi, giúp lưu lại trạng thái của một đối tượng để sau này có thể khôi phục lại mà không làm lộ chi tiết bên trong của nó. Đây chính là nền tảng để làm tính năng Undo/Redo (Ctrl+Z) hay lưu game, rollback giao dịch. Bài này giải thích mục đích, cấu trúc và kèm ví dụ Java cho người mới; chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Memento` lưu và khôi phục trạng thái trước đó của đối tượng mà không phá vỡ tính đóng gói** — nền tảng cho tính năng Undo/Redo.
+- ⭐ **Ba vai trò** — `Originator` (`TextEditor`) tạo/khôi phục ảnh chụp, `Memento` (`EditorMemento`) giữ trạng thái, `Caretaker` (`UndoManager`) lưu lịch sử nhưng không đọc nội dung bên trong.
+- **Caretaker giữ Memento như hộp kín** — chỉ Originator mới đọc được dữ liệu bên trong.
+- **Ưu điểm** — hỗ trợ undo/redo đa cấp, đơn giản hóa Originator.
+- **Nhược điểm** — tốn bộ nhớ nếu lưu quá nhiều ảnh chụp lớn, cần biết khi nào hủy Memento cũ.
+
+:::
+
 ## Mục đích
 
 **Memento** (Kỷ niệm / Ảnh chụp trạng thái) là một mẫu thiết kế hành vi cho phép lưu và khôi phục trạng thái trước đó của một đối tượng mà không vi phạm tính đóng gói (encapsulation). Đây là nền tảng cho tính năng Undo/Redo.

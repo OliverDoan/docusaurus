@@ -7,6 +7,16 @@ title: "Tạo ứng dụng Java RESTful Client với thư viện OkHttp"
 
 OkHttp là một thư viện HTTP client gọn nhẹ và hiệu năng cao, giúp ứng dụng Java gửi request đến REST API mà không phải viết nhiều code thủ công. Bài này hướng dẫn cách dùng OkHttp để gọi API CRUD, gọi bất đồng bộ bằng callback, và thêm interceptor để tự động chèn header. Phần chi tiết kèm ví dụ nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **OkHttp (của Square) nhanh, hỗ trợ HTTP/2 và connection pooling** — `OkHttpClient` phải là singleton để tận dụng pool.
+- ⭐ **Luôn dùng try-with-resources với `Response`** — để đóng kết nối, tránh rò rỉ tài nguyên.
+- **Gọi API** — `newCall(request).execute()` đồng bộ, `enqueue(Callback)` bất đồng bộ.
+- **`Interceptor`** — chặn request/response tập trung: thêm `Authorization` header, logging, retry.
+- **`HttpUrl.Builder`** — dựng URL kèm query param an toàn (tự encode); parse JSON bằng Jackson.
+
+:::
+
 ## OkHttp là gì?
 
 **OkHttp** (Open HTTP client) là thư viện HTTP client mã nguồn mở do Square phát triển, được sử dụng rộng rãi trong Android và Java. OkHttp nổi bật với hiệu năng cao, hỗ trợ HTTP/2, connection pooling (nhóm kết nối — tái sử dụng kết nối thay vì tạo mới), và API dễ dùng.

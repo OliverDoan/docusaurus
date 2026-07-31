@@ -7,6 +7,15 @@ title: "Giới thiệu PowerMock"
 
 Mockito thông thường không thể mock được static method, constructor hay lớp final — đây chính là lúc PowerMock phát huy tác dụng. PowerMock là thư viện mở rộng giúp bạn test được những đoạn code "khó test", thường gặp trong các dự án legacy. Bài này giới thiệu PowerMock là gì, khi nào nên dùng và cách mock các thành phần đặc biệt đó.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`PowerMock` mock được những thứ Mockito thường không mock được** — static method, constructor, final class/method, private method, static initializer.
+- **Cấu hình** — `@RunWith(PowerMockRunner.class)` + `@PrepareForTest({...})` để load lại class bằng classloader tùy chỉnh.
+- **API chính** — `PowerMockito.mockStatic(...)` mock static, `whenNew(...)` mock constructor, `verifyStatic(...)` xác nhận static.
+- ⭐ **Khuyến cáo** — PowerMock chậm và phức tạp; ưu tiên refactor sang dependency injection, chưa hỗ trợ đầy đủ JUnit 5.
+
+:::
+
 ## PowerMock là gì?
 
 **PowerMock** là thư viện mở rộng Mockito (và EasyMock), cho phép mock các thành phần mà Mockito thông thường không thể mock:

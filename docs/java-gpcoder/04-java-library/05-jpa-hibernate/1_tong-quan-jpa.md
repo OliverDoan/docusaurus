@@ -7,6 +7,15 @@ title: "Tổng quan về JPA - Java Persistence API"
 
 JPA là chuẩn của Java giúp lưu và đọc dữ liệu từ cơ sở dữ liệu theo kiểu hướng đối tượng, thay vì phải viết tay nhiều câu SQL như khi dùng JDBC. Nó ánh xạ các lớp Java thành bảng trong database, giúp code ngắn gọn và dễ bảo trì hơn nhiều. Bài này giới thiệu khái niệm tổng quan cùng các thành phần cốt lõi như Entity và EntityManager; phần chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **JPA là một đặc tả (specification), không phải thư viện** — cần một provider như Hibernate mới chạy được thực tế.
+- **ORM ánh xạ class Java ↔ bảng database** — thay cho việc viết tay nhiều câu SQL lặp lại như khi dùng JDBC.
+- **`EntityManager` là đối tượng trung tâm** — cung cấp `persist()`, `find()`, `merge()`, `remove()` để thao tác dữ liệu.
+- **File `persistence.xml` đặt trong `META-INF/`** — chứa cấu hình kết nối database và các tham số JPA.
+
+:::
+
 ## JPA là gì?
 
 **JPA** (Java Persistence API — giao diện lập trình ứng dụng để lưu trữ dữ liệu trong Java) là một đặc tả kỹ thuật (specification) của Java EE / Jakarta EE, định nghĩa cách ánh xạ các đối tượng Java sang cơ sở dữ liệu quan hệ thông qua kỹ thuật **ORM** (Object-Relational Mapping — kỹ thuật ánh xạ đối tượng Java với bảng trong cơ sở dữ liệu quan hệ).

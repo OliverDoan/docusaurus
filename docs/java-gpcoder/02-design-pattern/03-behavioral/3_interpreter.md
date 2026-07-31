@@ -7,6 +7,16 @@ title: "Interpreter Pattern"
 
 Interpreter là mẫu thiết kế hành vi giúp định nghĩa một ngôn ngữ nhỏ và cách phiên giải nó, bằng cách biểu diễn mỗi quy tắc ngữ pháp thành một lớp riêng. Nhờ vậy việc thêm hoặc thay đổi quy tắc trở nên dễ dàng. Pattern này phù hợp với các ngôn ngữ đơn giản như biểu thức toán học hay rule engine. Bài này giới thiệu tổng quan; phần chi tiết và ví dụ Java nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Interpreter` định nghĩa một ngôn ngữ nhỏ và cách phiên giải nó** — mỗi quy tắc ngữ pháp là một lớp `Expression` với phương thức `interpret()`.
+- ⭐ **Hai loại biểu thức tạo thành cây cú pháp** — `TerminalExpression` (như `NumberExpression`) là lá, `NonTerminalExpression` (`AddExpression`, `MultiplyExpression`...) gọi đệ quy `interpret()` trên các biểu thức con.
+- **Dễ mở rộng** — thêm quy tắc mới chỉ cần thêm một lớp biểu thức.
+- **Nhược điểm** — ngữ pháp phức tạp sinh ra quá nhiều lớp và hiệu năng kém; ngôn ngữ lớn nên dùng parser/compiler chuyên dụng.
+- **Khi nào dùng** — DSL đơn giản, rule engine, expression evaluator có ngữ pháp ổn định.
+
+:::
+
 ## Mục đích
 
 **Interpreter** (Trình thông dịch) là một mẫu thiết kế hành vi định nghĩa một ngôn ngữ (hoặc ký hiệu) cùng với bộ phiên giải cho ngôn ngữ đó. Mỗi quy tắc ngữ pháp được biểu diễn thành một lớp, giúp dễ dàng mở rộng và thay đổi ngôn ngữ.

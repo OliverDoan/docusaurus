@@ -7,6 +7,16 @@ title: "Chạy lại một failed Test trong JUnit"
 
 Đôi khi một test thất bại không phải vì code sai mà do yếu tố bên ngoài không ổn định như mạng, timing hay race condition — gọi là flaky test. Trong những trường hợp đó, việc tự động chạy lại test có thể giúp giảm báo lỗi giả. Bài này trình bày các cách retry test trong JUnit 4 (TestRule, annotation tùy chỉnh), JUnit 5 (Extension) và qua Maven Surefire, kèm lời khuyên khi nào nên và không nên dùng retry.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Retry hữu ích cho flaky test** — test hỏng do mạng, timing, race condition; nhưng chỉ là giải pháp tạm, cần sửa gốc rễ.
+- **JUnit 4** — tự tạo `RetryRule` (implement `TestRule`), có thể kết hợp annotation `@Retry` tùy chỉnh.
+- **JUnit 5** — dùng `Extension` (vd `TestExecutionExceptionHandler`) thay cho Rule.
+- **Maven Surefire** — `rerunFailingTestsCount` retry tự động, không cần sửa code.
+- **Lưu ý** — KHÔNG retry unit test thuần; số lần retry không nên vượt quá 3.
+
+:::
+
 ## Tại sao cần chạy lại test thất bại?
 
 Trong thực tế, một số test có thể thất bại không phải do lỗi code mà do các yếu tố bên ngoài không ổn định:

@@ -7,6 +7,16 @@ title: "Giới thiệu Feign - Tạo Java RESTful Client đơn giản"
 
 Feign là thư viện giúp tạo HTTP client bằng cách khai báo interface kèm annotation, rất phổ biến khi các microservice gọi nhau trong hệ sinh thái Spring Cloud. Bài này giới thiệu cách khai báo API với annotation Feign hoặc JAX-RS, tạo client instance, xử lý lỗi bằng ErrorDecoder, và tự động thêm header xác thực.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Feign (OpenFeign) tạo client từ interface + annotation** — rất phổ biến để gọi giữa các microservice trong Spring Cloud.
+- ⭐ **Hỗ trợ nhiều kiểu annotation** — annotation riêng của Feign (`@RequestLine`, `@Param`, `@Headers`) hoặc JAX-RS (`feign-jaxrs2`).
+- **`Feign.builder()`** — cấu hình `encoder`/`decoder` (Jackson), logger, timeout rồi `.target(interface, baseUrl)`.
+- **`ErrorDecoder`** — xử lý lỗi 4xx/5xx tập trung, ném exception có nghĩa (429 dùng `RetryableException`).
+- **`RequestInterceptor`** — tự thêm header (vd `Authorization`, `X-Request-ID`) vào mọi request.
+
+:::
+
 ## Feign là gì?
 
 **Feign** (giả vờ) là thư viện HTTP client do Netflix phát triển, sau đó được chuyển sang OpenFeign. Giống Retrofit, Feign dùng interface + annotation để khai báo API, nhưng theo phong cách **JAX-RS hoặc Spring MVC** thay vì annotation riêng.

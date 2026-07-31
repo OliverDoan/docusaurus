@@ -29,6 +29,16 @@ flowchart TD
 
 Năm nguyên lý bổ trợ lẫn nhau: tuân thủ tốt nguyên lý này thường giúp dễ đạt được các nguyên lý còn lại.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`SOLID`** — 5 nguyên lý thiết kế hướng đối tượng của Robert C. Martin giúp phần mềm dễ mở rộng, dễ bảo trì, ít ảnh hưởng khi yêu cầu thay đổi.
+- **`S` Single Responsibility / `O` Open-Closed** — mỗi lớp một lý do để thay đổi; thêm tính năng bằng lớp mới, không sửa lớp cũ.
+- **`L` Liskov Substitution** — lớp con phải thay thế được lớp cha (ví dụ `Square` kế thừa `Rectangle` là vi phạm).
+- **`I` Interface Segregation** — nhiều interface nhỏ tốt hơn một interface "béo".
+- ⭐ **`D` Dependency Inversion** — phụ thuộc vào abstraction, không vào cài đặt cụ thể; nền tảng của Dependency Injection trong Spring.
+
+:::
+
 ---
 
 ## 1. S — Single Responsibility Principle (Nguyên lý trách nhiệm đơn)

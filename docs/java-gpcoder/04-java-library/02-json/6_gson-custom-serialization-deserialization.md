@@ -18,6 +18,15 @@ flowchart LR
 
 Đọc sơ đồ: `JsonSerializer` kiểm soát chiều ghi ra JSON, `JsonDeserializer` kiểm soát chiều đọc vào Java, và cả hai chỉ có hiệu lực sau khi được đăng ký với `GsonBuilder`.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`JsonSerializer<T>` (ghi ra JSON) và `JsonDeserializer<T>` (đọc vào Java)** — đăng ký qua `registerTypeAdapter()` mới có hiệu lực.
+- **Hoạt động trên DOM** — thao tác với cây `JsonElement`, và Gson tự xử lý giá trị null.
+- **Gộp gọn** — có thể implement cả hai interface trong một lớp để đăng ký một lần cho cả hai chiều.
+- ⭐ **Khi nào dùng** — kiểu Gson không hỗ trợ sẵn (`LocalDate`...), JSON từ API không chuẩn, hoặc xử lý đa hình.
+
+:::
+
 ---
 
 ## 1. Maven Dependency

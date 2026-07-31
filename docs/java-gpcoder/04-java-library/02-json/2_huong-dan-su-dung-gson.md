@@ -17,6 +17,16 @@ flowchart LR
 
 Chiều `toJson` biến đối tượng thành chuỗi JSON để lưu hoặc gửi đi; chiều `fromJson` dựng lại đối tượng Java từ chuỗi JSON nhận được.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Gson` chuyển đổi hai chiều** — `gson.toJson(obj)` (Java → JSON) và `gson.fromJson(json, Lop.class)` (JSON → Java).
+- **POJO cần constructor không tham số** để Gson có thể tạo đối tượng khi deserialize.
+- ⭐ **Với `List` generic dùng `TypeToken`** — để vượt qua type erasure và giữ thông tin kiểu phần tử tại runtime.
+- **Mặc định bỏ qua trường null** — bật `serializeNulls()` nếu muốn giữ lại.
+- **`GsonBuilder().setPrettyPrinting()`** — để in JSON có định dạng đẹp.
+
+:::
+
 ---
 
 ## 1. Thêm Gson vào dự án

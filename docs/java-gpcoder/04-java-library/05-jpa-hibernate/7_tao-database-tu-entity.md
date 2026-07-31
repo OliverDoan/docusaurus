@@ -7,6 +7,16 @@ title: "Tạo database table tự động từ Hibernate Entity"
 
 Ngược với cách tạo Entity từ bảng có sẵn, hướng code-first cho phép bạn viết Entity trước rồi để Hibernate tự sinh ra bảng trong database. Cách này giúp tập trung vào mô hình nghiệp vụ mà không phải viết SQL thủ công, rất tiện trong giai đoạn phát triển. Bài này giới thiệu cấu hình `hbm2ddl.auto`, ví dụ tạo bảng và cách dùng Flyway cho môi trường production.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Code-first: viết Entity trước, Hibernate tự sinh DDL tạo bảng** — ngược với hướng database-first.
+- **`hbm2ddl.auto`**: dùng `update` cho development, `validate` cho production.
+- **Dùng `@ForeignKey(name=...)` và `@Index`** — đặt tên rõ ràng cho ràng buộc khóa ngoại và index.
+- **Có thể xuất DDL ra file bằng `SchemaExport`** — kiểm tra SQL trước khi thực thi vào database.
+- **Production nên dùng Flyway hoặc Liquibase** thay `hbm2ddl.auto` — kiểm soát migration chặt chẽ hơn.
+
+:::
+
 ## Giới thiệu
 
 **Code-first** (ưu tiên code) là cách tiếp cận ngược lại với database-first: bạn viết Entity class trước, sau đó để Hibernate tự động tạo cấu trúc bảng (schema) trong database. Cách này giúp lập trình viên tập trung vào mô hình domain (tầng nghiệp vụ) mà không cần viết SQL DDL thủ công.

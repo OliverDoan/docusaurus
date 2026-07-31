@@ -7,6 +7,16 @@ title: "Adapter Pattern"
 
 Adapter là một mẫu thiết kế cấu trúc (structural) giúp hai đối tượng có giao diện không tương thích vẫn làm việc được với nhau. Nó hoạt động như một bộ chuyển đổi đứng ở giữa để "dịch" lời gọi, giống như cục chuyển đổi phích cắm điện khi đi nước ngoài. Mẫu này rất hữu ích khi cần tích hợp thư viện bên thứ ba hoặc tái sử dụng code cũ. Bài này giới thiệu khái niệm tổng quan; phần chi tiết với ví dụ Java nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Adapter` (Wrapper)** — bọc một class có interface không tương thích để nó làm việc được với interface mà client mong đợi.
+- **4 thành phần** — `Target` (interface client cần), `Adaptee` (class cũ), `Adapter` (implement Target, bên trong gọi Adaptee), `Client`.
+- **Ví dụ** — `SquarePegAdapter` implement `RoundPeg` và bọc `SquarePeg` để "lọt" vào `RoundHole`.
+- **Ưu điểm** — tuân thủ SRP và OCP, tái dùng class cũ mà không sửa, dễ tích hợp thư viện bên thứ ba.
+- **Trong Java** — `Arrays.asList()`, `InputStreamReader` bọc `InputStream`.
+
+:::
+
 ## Mục đích
 
 Adapter (hay còn gọi là Wrapper) là một **Structural Design Pattern** (mẫu thiết kế cấu trúc) cho phép các đối tượng có interface (giao diện) không tương thích có thể làm việc cùng nhau. Pattern này hoạt động như một "bộ chuyển đổi" — giống như bộ chuyển đổi phích cắm điện khi bạn đi du lịch nước ngoài.

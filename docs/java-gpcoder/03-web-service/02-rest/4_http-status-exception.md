@@ -7,6 +7,16 @@ title: "REST Web service - HTTP Status Code và xử lý ngoại lệ với Jers
 
 Trả về đúng HTTP status code và xử lý lỗi gọn gàng là yếu tố quan trọng để REST API trở nên chuyên nghiệp và dễ dùng. Bài này giải thích ý nghĩa các nhóm status code thường gặp, rồi hướng dẫn dùng `ExceptionMapper` của Jersey để bắt exception và trả về `ErrorResponse` nhất quán cho client.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Chọn đúng HTTP status code** — 2xx thành công, 4xx lỗi client (400/401/403/404/409), 5xx lỗi server.
+- ⭐ **`ExceptionMapper` xử lý lỗi tập trung** — bắt exception cụ thể (đánh dấu `@Provider`) và chuyển thành `Response`.
+- **Custom exception có nghĩa** — ví dụ `ResourceNotFoundException`, `BadRequestException` ném trong business logic.
+- **`ErrorResponse` nhất quán** — trả JSON gồm status, error, message, timestamp, path.
+- **`GenericExceptionMapper`** — bắt mọi lỗi còn lại, trả 500 và KHÔNG lộ chi tiết nội bộ/stack trace.
+
+:::
+
 ## HTTP Status Code là gì?
 
 **HTTP Status Code** (mã trạng thái HTTP) là số 3 chữ số trong response cho biết kết quả của request. Chọn đúng status code là yếu tố quan trọng để thiết kế REST API chuyên nghiệp.

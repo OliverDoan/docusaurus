@@ -7,6 +7,16 @@ title: "Hibernate Lifecycle"
 
 Mỗi đối tượng Entity trong Hibernate trải qua nhiều trạng thái khác nhau, từ lúc mới tạo cho đến khi được lưu, tách rời hay xóa khỏi database. Hiểu rõ vòng đời này giúp bạn kiểm soát chính xác khi nào dữ liệu được đồng bộ với database và tránh các lỗi mất dữ liệu khó hiểu. Bài này giải thích bốn trạng thái của Entity cùng các cơ chế quan trọng như dirty checking và flush.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Bốn trạng thái của Entity**: Transient, Persistent, Detached, Removed — quyết định khi nào dữ liệu đồng bộ với database.
+- **Dirty checking tự động phát hiện thay đổi trên entity Persistent** — không cần gọi `update()`.
+- **`merge()` đưa entity Detached trở về Persistent** — sau khi session đóng hoặc `evict()`.
+- **`flush()` đẩy SQL xuống database nhưng chưa kết thúc transaction** — khác với `commit()`.
+- **Dùng `evict()` và `clear()` khi xử lý batch lớn** — để tránh tràn bộ nhớ.
+
+:::
+
 ## Entity Lifecycle là gì?
 
 **Entity Lifecycle** (vòng đời của Entity) mô tả các trạng thái mà một đối tượng Entity có thể trải qua trong Hibernate. Hiểu rõ vòng đời giúp bạn kiểm soát chính xác khi nào dữ liệu được đồng bộ với database.

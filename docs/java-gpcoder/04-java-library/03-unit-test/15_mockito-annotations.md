@@ -7,6 +7,16 @@ title: "Mockito - Annotations"
 
 Khi một test có nhiều mock, việc gọi `Mockito.mock(...)` cho từng dependency trở nên dài dòng. Mockito cung cấp các annotation giúp khai báo mock ngắn gọn và rõ ràng hơn nhiều. Bài này giới thiệu các annotation thường dùng — `@Mock`, `@Spy`, `@InjectMocks`, `@Captor` và `@MockBean` (Spring Boot) — cùng cách kích hoạt chúng trong JUnit 4 và JUnit 5.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`@Mock` tạo mock, `@InjectMocks` tạo SUT và tự inject các mock/spy vào** — giúp khai báo gọn hơn nhiều so với `Mockito.mock(...)`.
+- ⭐ **Kích hoạt annotation** — JUnit 4 dùng `@RunWith(MockitoJUnitRunner.class)` hoặc `MockitoAnnotations.openMocks(this)`; JUnit 5 dùng `@ExtendWith(MockitoExtension.class)`.
+- **`@InjectMocks` inject theo thứ tự** — constructor → setter → field.
+- **`@Spy` mock một phần; `@Captor` tạo `ArgumentCaptor`** — bắt tham số truyền vào mock.
+- **Spring Boot** — dùng `@MockBean` để mock bean trong Application Context.
+
+:::
+
 ## Tại sao dùng Annotation của Mockito?
 
 Khi viết test có nhiều mock, việc gọi `Mockito.mock(SomeClass.class)` cho từng dependency trở nên dài dòng. Mockito cung cấp các **annotation** (chú thích) để khai báo mock ngắn gọn và rõ ràng hơn.

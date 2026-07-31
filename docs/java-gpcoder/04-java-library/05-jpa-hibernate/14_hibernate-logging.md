@@ -7,6 +7,15 @@ title: "Hibernate Logging"
 
 Khi làm việc với Hibernate, các câu SQL được sinh ra tự động nên rất khó biết chuyện gì đang chạy bên dưới. Logging giúp bạn nhìn thấy câu SQL thật, giá trị tham số và phát hiện các vấn đề hiệu năng như N+1 query. Bài này hướng dẫn cách bật log SQL và cấu hình chi tiết bằng Logback hoặc Log4j2.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Bật `show_sql=true` và `format_sql=true`** — để xem SQL Hibernate sinh ra khi phát triển; nhớ tắt ở production.
+- **Hibernate dùng SLF4J làm abstraction, Logback hoặc Log4j2 làm implementation** — kiểm soát log level theo từng package.
+- **Logger `org.hibernate.SQL` = `DEBUG` (xem câu SQL); `org.hibernate.orm.jdbc.bind` = `TRACE` (xem giá trị tham số)**.
+- **Nhiều câu SELECT lặp lại trong log = dấu hiệu N+1 query** — khắc phục bằng `JOIN FETCH`.
+
+:::
+
 ## Tại sao cần cấu hình Logging?
 
 **Logging** (ghi log) trong Hibernate rất quan trọng vì:

@@ -7,6 +7,16 @@ title: "Giới thiệu Swagger - Tài liệu cho RESTful API"
 
 Swagger (nay là OpenAPI) là bộ công cụ giúp tự động tạo tài liệu cho REST API và cho phép test API ngay trên trình duyệt. Nhờ vậy tài liệu luôn đồng bộ với code, không lo lỗi thời. Bài này hướng dẫn cấu hình Swagger cho ứng dụng Jersey và dùng các annotation như `@Operation`, `@ApiResponse`, `@Schema` để mô tả endpoint.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Swagger/OpenAPI tự sinh tài liệu từ annotation trong code** — tài liệu luôn đồng bộ với code, không lỗi thời.
+- ⭐ **Annotation mô tả API** — `@Operation`, `@ApiResponse`, `@Schema`, `@Parameter`, `@Tag`.
+- **Cấu hình chung bằng `@OpenAPIDefinition`** — khai báo `@Info`, `@Server`; đăng ký `OpenApiResource`.
+- **Swagger UI** — xem và test API ngay trên trình duyệt; spec truy cập tại `/openapi.json` hoặc `/openapi.yaml`.
+- **Code generation** — sinh client (Java, JS, Python...) từ spec.
+
+:::
+
 ## Swagger là gì?
 
 **Swagger** (nay gọi là OpenAPI Specification — đặc tả API mở) là bộ công cụ để thiết kế, xây dựng, và tài liệu hóa REST API. Swagger UI cung cấp giao diện web cho phép xem và test API trực tiếp trên trình duyệt mà không cần Postman.

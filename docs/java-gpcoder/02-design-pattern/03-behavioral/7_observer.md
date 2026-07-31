@@ -7,6 +7,16 @@ title: "Observer Pattern"
 
 Observer là một mẫu thiết kế hành vi theo cơ chế đăng ký - thông báo: khi một đối tượng thay đổi trạng thái thì tất cả các đối tượng đang theo dõi nó sẽ được báo và tự cập nhật. Mẫu này rất hay gặp trong xử lý sự kiện, hệ thống thông báo hay mô hình MVC. Bài này giới thiệu ý tưởng và ví dụ Java cụ thể; phần chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Observer` định nghĩa cơ chế đăng ký/thông báo (subscribe/notify)** — khi `Subject` đổi trạng thái, mọi `Observer` đã đăng ký được cập nhật tự động. Còn gọi là Publish-Subscribe.
+- ⭐ **Quan hệ một-nhiều linh hoạt** — `Stock` gọi `notifyObservers()` để đẩy `update()` tới `Dashboard`, `PriceAlert`... mà không cần biết cụ thể chúng là gì.
+- **Tuân thủ Open/Closed** — thêm Observer mới không cần sửa Subject; có `subscribe()`/`unsubscribe()`.
+- **Nhược điểm** — thứ tự thông báo không đảm bảo, Observer quên hủy đăng ký gây rò rỉ bộ nhớ, có thể tạo phản ứng dây chuyền.
+- **Trong Java** — `java.util.Observable` đã deprecated; nay dùng `PropertyChangeListener` hoặc Spring `ApplicationEvent` / `@EventListener`.
+
+:::
+
 ## Mục đích
 
 **Observer** (Quan sát viên) là một mẫu thiết kế hành vi định nghĩa cơ chế đăng ký/thông báo (subscribe/notify): khi một đối tượng (Subject) thay đổi trạng thái, tất cả các đối tượng phụ thuộc (Observer) sẽ được thông báo và cập nhật tự động. Còn gọi là **Publish-Subscribe Pattern**.

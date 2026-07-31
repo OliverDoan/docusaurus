@@ -34,6 +34,16 @@ sequenceDiagram
 
 Client và server viết bằng ngôn ngữ khác nhau vẫn hiểu nhau nhờ tuân theo chuẩn chung của Web Service ở giữa.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Web Service** — cho phép hai hệ thống khác ngôn ngữ/nền tảng trao đổi dữ liệu qua mạng nhờ tuân theo chuẩn chung (platform-independent, loosely coupled).
+- ⭐ **SOAP vs REST** — `SOAP` là giao thức, dữ liệu `XML`, chặt chẽ, có `WS-Security`; `REST` là kiểu kiến trúc, dùng HTTP + `JSON`, nhẹ và đơn giản.
+- **WSDL** — tài liệu XML mô tả giao diện của SOAP service (operation, kiểu dữ liệu, endpoint); khi dùng JAX-WS nó được sinh tự động.
+- **UDDI** — registry để đăng ký và tìm kiếm Web Service, nhưng ngày nay ít được dùng.
+- **Khi nào dùng SOAP** — hợp với doanh nghiệp/tài chính/ngân hàng cần bảo mật cao, giao dịch phân tán, hoặc tích hợp hệ thống legacy.
+
+:::
+
 ---
 
 ## SOAP vs REST

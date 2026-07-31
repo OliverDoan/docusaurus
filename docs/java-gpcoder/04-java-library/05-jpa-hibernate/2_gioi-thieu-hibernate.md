@@ -7,6 +7,16 @@ title: "Giới thiệu về Hibernate"
 
 Hibernate là framework ORM phổ biến nhất trong thế giới Java, giúp bạn làm việc với database bằng các đối tượng Java thay vì phải viết tay nhiều câu SQL. Nó giải quyết sự khác biệt giữa mô hình hướng đối tượng và mô hình bảng quan hệ, nhờ đó code gọn hơn và dễ bảo trì hơn. Bài này giới thiệu tổng quan về Hibernate, kiến trúc và một ví dụ đơn giản; phần chi tiết nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hibernate là ORM framework phổ biến nhất cho Java, triển khai đặc tả JPA** — và bổ sung thêm nhiều tính năng nâng cao riêng.
+- **Ba thành phần cốt lõi**: `Configuration` → `SessionFactory` → `Session`.
+- **`SessionFactory` nặng, tạo một lần; `Session` nhẹ, tạo mỗi tác vụ** — tương đương `EntityManagerFactory` và `EntityManager` trong JPA.
+- **Nên ưu tiên dùng JPA API thay vì Hibernate API thuần** — để code dễ chuyển sang provider khác.
+- **Dữ liệu chỉ thực sự ghi xuống database khi transaction commit** — nhớ rollback khi có lỗi.
+
+:::
+
 ## Hibernate là gì?
 
 **Hibernate** là một framework **ORM** (Object-Relational Mapping — kỹ thuật ánh xạ đối tượng Java với bảng trong cơ sở dữ liệu quan hệ) mã nguồn mở và phổ biến nhất trong hệ sinh thái Java. Hibernate triển khai đặc tả **JPA** (Java Persistence API) và bổ sung thêm nhiều tính năng nâng cao riêng.

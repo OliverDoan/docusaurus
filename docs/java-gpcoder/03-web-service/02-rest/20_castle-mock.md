@@ -7,6 +7,16 @@ title: "Giới thiệu Castle Mock - Mock REST API và SOAP web service"
 
 Castle Mock là công cụ tạo server giả lập (mock) cho REST API và SOAP, giúp bạn phát triển và test mà không cần service thật phải sẵn sàng. Điều này rất hữu ích khi frontend và backend làm song song, hoặc khi cần giả lập các tình huống lỗi. Bài này hướng dẫn cài đặt, tạo mock server với Castle Mock, và so sánh với WireMock cho test trong code.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Castle Mock tạo mock server cho REST và SOAP** — client chỉ cần đổi base URL để trỏ sang mock thay vì service thật.
+- ⭐ **Lợi ích mock** — phát triển FE/BE song song, test cô lập, giả lập lỗi (404/500/503), tiết kiệm chi phí API.
+- **Cài đặt** — chạy bằng Docker hoặc JAR standalone; có Web UI, import Swagger/OpenAPI để tự tạo endpoint.
+- **Response động** — hỗ trợ Velocity Template để sinh body theo request.
+- **`WireMock` là lựa chọn thay thế** — mock nhúng ngay trong JUnit test, không cần server riêng.
+
+:::
+
 ## Castle Mock là gì?
 
 **Castle Mock** là công cụ mã nguồn mở cho phép tạo **mock server** (máy chủ giả lập) cho REST API và SOAP web service. Thay vì gọi đến service thật (có thể chưa tồn tại, không ổn định, hoặc tốn phí), bạn tạo ra một server giả trả về dữ liệu được định sẵn.

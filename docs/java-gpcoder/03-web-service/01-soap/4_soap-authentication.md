@@ -33,6 +33,16 @@ sequenceDiagram
 
 Handler chặn mọi request ở giữa nên logic xác thực được tập trung một chỗ, service không cần tự kiểm tra.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hai cách xác thực** — đặt username/password trong `<Header>` của SOAP message, hoặc dùng `Handler` chặn kiểm tra ở giữa (khuyến nghị, tập trung logic).
+- **SOAP Header trực tiếp** — service đọc thông tin qua `WebServiceContext` (inject bằng `@Resource`) rồi kiểm tra, ví dụ giải mã Basic Auth từ header `Authorization`.
+- ⭐ **JAX-WS Handler** — implement `SOAPHandler`, xử lý trong `handleMessage()` (chỉ chặn request inbound), gắn vào service qua `@HandlerChain(file = "handler-chain.xml")`.
+- **SOAPHandler vs LogicalHandler** — `SOAPHandler` xử lý cả Header lẫn Body, `LogicalHandler` chỉ xử lý payload (Body).
+- **Thực tế** — nên kết hợp Handler + HTTPS; xác thực mạnh hơn dùng `WS-Security` (cần thư viện như Apache WSS4J).
+
+:::
+
 ---
 
 ## Cách 1 — Xác thực qua SOAP Header

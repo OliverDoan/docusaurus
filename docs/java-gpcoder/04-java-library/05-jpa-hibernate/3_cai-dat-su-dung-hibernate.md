@@ -20,6 +20,15 @@ flowchart LR
 
 Mỗi bước sau phụ thuộc vào bước trước; khi đã có `SessionFactory`, bạn chỉ mở `Session` mới cho từng tác vụ CRUD.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`SessionFactory` tạo một lần, `Session` tạo mỗi khi cần thao tác** — dùng `persist()`, `find()`, `merge()`, `remove()` cho CRUD.
+- **Thêm dependency `hibernate-core` cùng driver database** — vào Maven (`pom.xml`) hoặc Gradle.
+- **Cấu hình bằng file `hibernate.cfg.xml` hoặc Java code** — cả hai đều thiết lập kết nối và dialect.
+- **`hbm2ddl.auto`**: dùng `update` cho development, `validate` cho production — tránh `create`/`create-drop` ở production vì mất dữ liệu.
+
+:::
+
 ## Thêm dependency vào dự án
 
 ### Dùng Maven

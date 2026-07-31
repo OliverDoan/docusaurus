@@ -7,6 +7,15 @@ title: "PowerMockito - Suppressing Unwanted Behavior"
 
 Đôi khi một lớp có constructor, static initializer hay phương thức private làm những việc "phiền phức" như kết nối database hay đọc file, khiến việc test trở nên khó khăn. PowerMockito cho phép triệt tiêu (suppress) những hành vi đó để bạn chỉ tập trung test phần logic cần thiết. Bài này hướng dẫn cách suppress constructor, static block, method và dùng `Whitebox` để truy cập thành phần private.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Suppression vô hiệu hóa hành vi phiền phức khi test** — constructor, static initializer, method hoặc field làm việc nặng (DB, file, mạng).
+- **`@SuppressStaticInitializationFor("...")`** — ngăn khối `static { }` chạy khi nạp class.
+- **`suppress(constructor(...))` và `suppress(method(...))`** — triệt tiêu constructor/phương thức không mong muốn.
+- ⭐ **`Whitebox` truy cập thành phần private** — `setInternalState`, `getInternalState`, `invokeMethod`.
+
+:::
+
 ## Suppression là gì?
 
 **Suppressing** (triệt tiêu) trong PowerMockito là kỹ thuật vô hiệu hóa hoặc thay thế các hành vi cụ thể mà bạn không muốn xảy ra khi chạy test:

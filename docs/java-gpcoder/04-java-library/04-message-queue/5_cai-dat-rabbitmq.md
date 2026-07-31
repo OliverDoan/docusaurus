@@ -7,6 +7,16 @@ title: "Cài đặt RabbitMQ"
 
 Trước khi lập trình với RabbitMQ, bạn cần cài đặt và chạy được nó trên máy. Bài này hướng dẫn nhiều cách cài đặt khác nhau (Docker, Ubuntu, macOS, Windows) cùng cách kiểm tra trạng thái và quản lý cơ bản. Cách nhanh và gọn nhất cho người mới là dùng Docker; phần chi tiết từng cách nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`RabbitMQ` viết bằng `Erlang` nên cần cài Erlang/OTP trước** (trừ khi dùng `Docker` đã đóng gói sẵn), phiên bản Erlang phải tương thích với RabbitMQ.
+- ⭐ **`Docker` là cách nhanh và sạch nhất** — image `rabbitmq:3.13-management` có sẵn Management Plugin, khỏi lo phụ thuộc Erlang.
+- **Hai cổng chính** — `5672` cho client AMQP và `15672` cho Management UI (web quản lý).
+- **Quản trị bằng `rabbitmqctl`** — tạo user, cấp quyền, tạo/xóa `vhost` (không gian ảo cô lập), xem trạng thái queue/exchange.
+- **Cấu hình Java nên bật auto-recovery** — `setAutomaticRecoveryEnabled(true)` để tự phục hồi khi mất kết nối.
+
+:::
+
 ## Yêu cầu hệ thống
 
 RabbitMQ được viết bằng **Erlang**, vì vậy cần cài Erlang/OTP trước. Phiên bản Erlang phải tương thích với phiên bản RabbitMQ.

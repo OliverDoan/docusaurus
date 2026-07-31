@@ -7,6 +7,16 @@ title: "Một số Annotation cơ bản của JUnit"
 
 JUnit dùng các annotation (chú thích bắt đầu bằng `@`) để đánh dấu phương thức nào là test, phương thức nào chạy trước hay sau test. Hiểu các annotation cơ bản này là điều bắt buộc để viết được một lớp test hoàn chỉnh. Bài này giới thiệu `@Test`, `@Before`/`@After`, `@BeforeClass`/`@AfterClass`, `@Ignore` cùng thứ tự thực thi và các annotation tương ứng trong JUnit 5.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`@Test` đánh dấu phương thức test** — tham số `expected` kiểm tra exception, `timeout` giới hạn thời gian chạy.
+- ⭐ **Thứ tự thực thi** — `@BeforeClass` → (`@Before` → `@Test` → `@After`) lặp cho mỗi test → `@AfterClass`.
+- **`@BeforeClass`/`@AfterClass` phải là `static`** — vì chạy một lần cho cả lớp, không cần instance.
+- **`@Ignore` bỏ qua test tạm thời** — JUnit 5 dùng `@Disabled`.
+- **`@DisplayName` (JUnit 5)** — đặt tên hiển thị dễ đọc cho test class/method.
+
+:::
+
 ## Annotation là gì?
 
 **Annotation** (chú thích / siêu dữ liệu) là cú pháp đặc biệt trong Java bắt đầu bằng `@`, dùng để cung cấp thêm thông tin cho trình biên dịch hoặc framework. JUnit sử dụng annotation để xác định phương thức nào là test, phương thức nào chạy trước/sau test, ...

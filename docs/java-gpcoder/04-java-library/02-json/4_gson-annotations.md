@@ -22,6 +22,15 @@ flowchart TD
 
 Đọc sơ đồ: mỗi field đi qua các annotation để quyết định tên, có xuất hiện hay không, và thuộc phiên bản nào trước khi tạo ra chuỗi JSON cuối cùng.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`@SerializedName`** — đổi tên key JSON, hỗ trợ `alternate` để chấp nhận nhiều tên khi đọc vào.
+- ⭐ **`@Expose`** — kiểm soát field được serialize/deserialize, phải bật `excludeFieldsWithoutExposeAnnotation()` mới có hiệu lực.
+- **`@Since` / `@Until`** — bao gồm hoặc loại trừ field theo phiên bản, cần dùng kèm `setVersion()`.
+- **Lợi ích** — giảm code boilerplate và tách cấu hình ánh xạ JSON khỏi logic nghiệp vụ.
+
+:::
+
 ---
 
 ## 1. Maven Dependency

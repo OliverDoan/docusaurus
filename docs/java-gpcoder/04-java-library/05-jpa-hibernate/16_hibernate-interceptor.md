@@ -7,6 +7,16 @@ title: "Hibernate Interceptor và StatementInspector"
 
 Đôi khi bạn muốn xen vào quá trình Hibernate lưu, sửa, xóa dữ liệu để làm những việc chung như ghi log audit hay tự điền người tạo/ngày tạo, mà không phải sửa từng entity. Interceptor và StatementInspector chính là hai cơ chế giúp can thiệp vào lifecycle của entity và vào từng câu SQL. Bài này giới thiệu cách dùng hai công cụ này qua các ví dụ thực tế.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Interceptor can thiệp vào lifecycle của entity, `StatementInspector` can thiệp vào từng câu SQL** — hai điểm xen vào ở mức khác nhau.
+- **Interceptor**: `onSave()` trước INSERT, `onFlushDirty()` trước UPDATE, `onDelete()` sau DELETE — lý tưởng cho audit logging tự động.
+- **`StatementInspector.inspect(sql)`** — thêm filter hoặc comment vào SQL, ví dụ multi-tenant filtering.
+- **Cả hai đều dùng `ThreadLocal`** — truyền context (user hiện tại, tenant ID) an toàn giữa các thread.
+- **Đăng ký qua `SessionFactory.withOptions().interceptor()` hoặc cấu hình trong `hibernate.cfg.xml`**.
+
+:::
+
 ## Interceptor là gì?
 
 **Interceptor** (bộ đánh chặn) trong Hibernate là cơ chế cho phép bạn can thiệp vào quá trình Hibernate xử lý entity. Bạn có thể thực thi logic tùy chỉnh tại các điểm quan trọng trong lifecycle của entity mà không cần sửa đổi entity class.

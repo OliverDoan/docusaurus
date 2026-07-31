@@ -7,6 +7,16 @@ title: "Decorator Pattern"
 
 Decorator là một mẫu thiết kế cấu trúc (structural) cho phép gắn thêm hành vi mới cho một đối tượng bằng cách "bọc" nó trong các lớp wrapper, thay vì dùng kế thừa. Cách này giúp bạn kết hợp nhiều tính năng một cách linh hoạt ngay tại lúc chạy mà không làm bùng nổ số lượng lớp con. Bài này giới thiệu khái niệm tổng quan; phần chi tiết với ví dụ Java nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Decorator` (Wrapper)** — gắn thêm hành vi bằng cách bọc đối tượng trong các wrapper, thay cho kế thừa; có thể xếp chồng linh hoạt tại runtime.
+- **4 thành phần** — `Component`, `ConcreteComponent`, `BaseDecorator` (giữ tham chiếu `wrappee`), `ConcreteDecorator`.
+- **Ví dụ** — `DataSourceDecorator` bọc `DataSource`; lồng `EncryptionDecorator` + `CompressionDecorator` quanh `FileDataSource`.
+- **Lưu ý** — thứ tự bọc ảnh hưởng đến hành vi; sinh nhiều object nhỏ giống nhau nên khó debug.
+- **Trong Java** — `BufferedInputStream` bọc `FileInputStream`, `Collections.unmodifiableList()`.
+
+:::
+
 ## Mục đích
 
 Decorator (hay còn gọi là Wrapper) là một **Structural Design Pattern** cho phép gắn thêm hành vi mới vào một đối tượng bằng cách đặt đối tượng đó vào trong các "wrapper" (lớp bao bọc) đặc biệt. Đây là một giải pháp thay thế linh hoạt cho kế thừa (inheritance) khi cần mở rộng tính năng.

@@ -7,6 +7,16 @@ title: "Flyweight Pattern"
 
 Flyweight là mẫu thiết kế cấu trúc giúp tiết kiệm bộ nhớ khi chương trình cần tạo rất nhiều đối tượng giống nhau. Ý tưởng là tách phần dữ liệu chung (dùng đi dùng lại) ra để chia sẻ, còn phần dữ liệu riêng thì truyền vào từ bên ngoài. Cách này rất hữu ích trong game, bản đồ, hay xử lý font chữ. Bài này giới thiệu tổng quan; phần chi tiết và ví dụ Java nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Flyweight` (trọng lượng nhẹ)** — tiết kiệm bộ nhớ bằng cách chia sẻ phần trạng thái chung giữa số lượng lớn đối tượng giống nhau.
+- ⭐ **Tách trạng thái** — `intrinsic` (bất biến, chia sẻ được) và `extrinsic` (thay đổi theo ngữ cảnh, truyền vào từ ngoài).
+- **Ví dụ** — `TreeType` (intrinsic) do `TreeFactory` cấp phát và tái dùng; `Tree` giữ vị trí (extrinsic) nên hàng nghìn cây chỉ tốn vài object `TreeType` nặng.
+- **Lưu ý** — flyweight phải immutable; chỉ dùng khi cần tạo cực nhiều đối tượng.
+- **Trong Java** — `Integer.valueOf()` cache -128..127, `String.intern()`, ký tự font chữ.
+
+:::
+
 ## Mục đích
 
 Flyweight (trọng lượng nhẹ) là một **Structural Design Pattern** giúp tiết kiệm bộ nhớ bằng cách chia sẻ các phần trạng thái chung giữa nhiều đối tượng thay vì lưu trữ tất cả dữ liệu trong từng đối tượng riêng lẻ. Pattern này đặc biệt hữu ích khi cần tạo số lượng lớn đối tượng tương tự nhau.

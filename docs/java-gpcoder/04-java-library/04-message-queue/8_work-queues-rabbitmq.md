@@ -7,6 +7,16 @@ title: "Work Queues trong RabbitMQ"
 
 Work Queue là mô hình chia một đống công việc tốn thời gian cho nhiều worker xử lý song song, mỗi tin nhắn chỉ do một worker đảm nhận. Đây là cách phổ biến để tăng tốc các tác vụ nặng như gửi email hàng loạt hay xử lý ảnh. Bài này trình bày cơ chế phân phối, xác nhận tin nhắn và cách đảm bảo không mất việc khi worker gặp sự cố.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Work Queue chia công việc nặng cho nhiều `Worker` chạy song song** — mỗi tin nhắn chỉ do một Worker xử lý, dùng cho gửi email hàng loạt, xử lý ảnh/video...
+- **Mặc định phân phối `Round-Robin`** — RabbitMQ chia đều tin nhắn cho các worker theo vòng tròn.
+- ⭐ **`basicQos(1)` + `autoAck=false` tạo Fair Dispatch** — worker bận không nhận thêm việc, tránh tình trạng người quá tải người nhàn rỗi.
+- **Manual acknowledgment chống mất tin** — nếu worker crash trước khi `basicAck`, RabbitMQ tự requeue tin nhắn cho worker khác; `basicNack` với `requeue` để từ chối.
+- **Công thức chuẩn cho production** — `durable queue` + `persistent message` + `manual ack` + `basicQos(1)`.
+
+:::
+
 ## Work Queue là gì?
 
 **Work Queue** (hàng đợi công việc — còn gọi là Task Queue, mô hình phân phối công việc nặng cho nhiều worker xử lý song song) là mô hình trong đó nhiều **Worker** (người lao động — consumer xử lý công việc) cùng lắng nghe một Queue và mỗi tin nhắn chỉ được một Worker xử lý. Mục tiêu là phân tải công việc tốn thời gian cho nhiều worker chạy song song.

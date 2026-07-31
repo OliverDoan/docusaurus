@@ -18,6 +18,16 @@ flowchart LR
 
 Nhìn sơ đồ: dữ liệu trong bộ nhớ được chuyển thành văn bản JSON để truyền đi, và bất kỳ nền tảng nào cũng có thể đọc ngược văn bản đó về cấu trúc dữ liệu của mình.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **JSON là chuẩn trao đổi dữ liệu độc lập ngôn ngữ** — chỉ gồm 2 cấu trúc: object `{ }` và array `[ ]`.
+- **Các kiểu giá trị hợp lệ**: `string`, `number`, `boolean`, `null`, object, array.
+- ⭐ **Java không hỗ trợ JSON sẵn** — cần thư viện bên thứ ba: `Gson` (Google) hoặc `Jackson` (FasterXML).
+- **Cú pháp nghiêm ngặt** — key luôn trong nháy kép, không cho phép comment và trailing comma.
+- **Nhẹ hơn XML** — nên được ưu tiên cho REST API hiện đại.
+
+:::
+
 ---
 
 ## 1. Tại sao dùng JSON?

@@ -7,6 +7,16 @@ title: "Mockito - Verifying Behavior"
 
 Ngoài việc stub giá trị trả về, Mockito còn cho phép kiểm tra xem một phương thức của mock có thực sự được gọi hay không, gọi mấy lần và với tham số gì. Đây gọi là xác nhận hành vi (verification) — rất hữu ích khi bạn muốn chắc chắn code đã thực hiện đúng các bước tương tác mong đợi. Bài này giới thiệu `verify`, các chế độ đếm số lần gọi, `ArgumentCaptor` và kiểm tra thứ tự gọi.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`verify(mock)` kiểm tra hành vi** — phương thức có được gọi không, gọi mấy lần, với tham số gì.
+- **Verification mode** — `times(n)`, `never()`, `atLeastOnce()`, `atLeast`/`atMost`, `only()`.
+- **Đảm bảo không gọi thừa** — `verifyNoInteractions` / `verifyNoMoreInteractions`.
+- **`ArgumentCaptor` bắt tham số truyền vào** — để assert chi tiết; `InOrder` kiểm tra thứ tự gọi.
+- **`timeout(...)`** — xác nhận trong giới hạn thời gian cho tác vụ bất đồng bộ.
+
+:::
+
 ## Verification là gì?
 
 **Verification** (xác nhận hành vi) là bước kiểm tra xem các phương thức của mock có được gọi đúng cách hay không — gọi bao nhiêu lần, với tham số gì, theo thứ tự nào. Đây là một trong hai trụ cột của Mockito (bên cạnh stubbing).

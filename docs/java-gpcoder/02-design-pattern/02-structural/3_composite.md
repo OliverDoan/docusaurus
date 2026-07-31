@@ -7,6 +7,15 @@ title: "Composite Pattern"
 
 Composite là một mẫu thiết kế cấu trúc (structural) cho phép tổ chức các đối tượng thành cấu trúc dạng cây và làm việc với cả nhóm đối tượng lẫn từng đối tượng đơn lẻ theo cùng một cách. Mẫu này rất phù hợp với các cấu trúc phân cấp như hệ thống thư mục hay sơ đồ tổ chức. Bài này giới thiệu khái niệm tổng quan; phần chi tiết với ví dụ Java nằm bên dưới.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Composite`** — tổ chức đối tượng thành cấu trúc cây và cho client xử lý đối tượng đơn lẻ (`Leaf`) lẫn nhóm (`Composite`) đồng nhất qua cùng một interface.
+- **4 thành phần** — `Component` (interface chung), `Leaf` (không có con), `Composite` (chứa các Component con, ủy thác và tổng hợp kết quả), `Client`.
+- **Ví dụ** — `FileSystemComponent` với `File` (Leaf) và `Directory` (Composite); `getSize()` gọi giống nhau, `Directory` cộng dồn kích thước các con theo đệ quy.
+- **Hợp cho** — cấu trúc "whole-part": cây DOM HTML, thư mục, menu nhiều cấp, cây biểu thức.
+
+:::
+
 ## Mục đích
 
 Composite là một **Structural Design Pattern** cho phép bạn tổ hợp các đối tượng thành cấu trúc dạng **cây (tree structure)** và làm việc với chúng như thể chúng là những đối tượng riêng lẻ. Pattern này xóa bỏ sự khác biệt giữa "đối tượng đơn lẻ" và "nhóm đối tượng" từ góc nhìn của client.

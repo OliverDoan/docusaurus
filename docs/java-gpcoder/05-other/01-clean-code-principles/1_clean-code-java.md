@@ -28,6 +28,16 @@ flowchart TD
 
 Mỗi nhánh là một thói quen độc lập, nhưng khi kết hợp lại, tất cả cùng phục vụ một đích duy nhất: code dễ đọc, dễ bảo trì và ít lỗi.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Clean Code` (Robert C. Martin)** — code dễ đọc, dễ hiểu, dễ bảo trì và ít lỗi; "reads like well-written prose".
+- **5 trụ cột** — đặt tên có ý nghĩa, hàm nhỏ làm một việc, comment đúng chỗ, định dạng nhất quán, xử lý lỗi sạch.
+- **Comment** — giải thích "tại sao" (why) chứ không phải "cái gì" (what), vì code đã tự nói lên "cái gì".
+- **Xử lý lỗi** — dùng `Optional<T>` thay vì trả `null`; bắt ngoại lệ cụ thể và ghi log thay vì nuốt lỗi.
+- ⭐ **`Boy Scout Rule`** — luôn để lại code sạch hơn so với khi bạn tìm thấy nó.
+
+:::
+
 ---
 
 ## 1. Đặt tên có ý nghĩa (Meaningful Names)

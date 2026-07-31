@@ -7,6 +7,16 @@ title: "Singleton Pattern"
 
 Singleton là mẫu thiết kế khởi tạo đảm bảo một lớp chỉ có duy nhất một thể hiện trong toàn bộ ứng dụng và cung cấp một điểm truy cập chung tới thể hiện đó. Mẫu này rất hữu ích cho những đối tượng dùng chung như kết nối cơ sở dữ liệu, cấu hình hay logger. Bài này trình bày các cách triển khai Singleton trong Java cùng ưu, nhược điểm của chúng.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Singleton` đảm bảo chỉ duy nhất một instance** — dùng constructor `private` chặn `new` và điểm truy cập chung `getInstance()`.
+- ⭐ **Enum Singleton là cách khuyến nghị** — đơn giản, an toàn đa luồng, chống tạo instance qua Serialization/Reflection.
+- **Double-Checked Locking** — lazy init thread-safe cần khai báo field `volatile`.
+- **Nhược điểm** — khó unit test và vi phạm Single Responsibility Principle do tạo phụ thuộc toàn cục.
+- **Dùng cho** — DB connection pool, cấu hình, logger, cache dùng chung toàn ứng dụng.
+
+:::
+
 ## Mục đích
 
 **Singleton Pattern** (mẫu đơn thể) là một **Creational Design Pattern** (mẫu thiết kế khởi tạo) đảm bảo rằng một lớp chỉ có **duy nhất một thể hiện** (instance) trong suốt vòng đời ứng dụng và cung cấp một điểm truy cập toàn cục tới thể hiện đó.

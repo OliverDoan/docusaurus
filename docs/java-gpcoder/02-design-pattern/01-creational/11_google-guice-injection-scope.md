@@ -7,6 +7,16 @@ title: "Google Guice - Injection và Scope"
 
 Injection là quá trình Guice tự động cung cấp các phụ thuộc cho object, còn Scope kiểm soát số lượng instance được tạo và thời gian chúng tồn tại. Hiểu hai khái niệm này giúp bạn quản lý vòng đời đối tượng đúng cách, ví dụ khi nào nên dùng Singleton, khi nào tạo mới mỗi lần. Bài này trình bày các kiểu injection và các loại scope trong Guice.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Scope` kiểm soát số lượng instance và vòng đời**; **Injection** là cách Guice tự động tiêm phụ thuộc qua `@Inject`.
+- **3 kiểu injection** — Constructor (khuyến nghị nhất), Field, và Method/Setter; `@Inject(optional = true)` cho phụ thuộc không bắt buộc.
+- ⭐ **Mặc định tạo mới mỗi lần** (no scope); `@Singleton` dùng chung một instance cho toàn `Injector`.
+- **`asEagerSingleton()`** — khởi tạo ngay khi `Injector` được tạo, không chờ lần inject đầu tiên.
+- **Scope web** — `@RequestScoped` / `@SessionScoped` cần thư viện Guice Servlet.
+
+:::
+
 ## Injection trong Guice
 
 **Injection** (tiêm phụ thuộc) là quá trình Guice tự động cung cấp các phụ thuộc cho một object. Guice hỗ trợ ba kiểu injection thông qua annotation `@Inject`.

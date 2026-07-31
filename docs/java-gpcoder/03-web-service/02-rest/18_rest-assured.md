@@ -7,6 +7,16 @@ title: "Test REST Web Service đơn giản hơn với REST Assured"
 
 REST Assured là thư viện giúp viết test cho REST API với cú pháp Given-When-Then gần giống tiếng Anh, giảm rất nhiều code lặp so với cách dùng HttpClient thuần. Bài này hướng dẫn cấu hình REST Assured, viết test CRUD, kiểm tra JSON phức tạp với JsonPath, và test xác thực JWT.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **REST Assured dùng DSL Given-When-Then** — viết test API gọn, tự nhiên như tiếng Anh; giảm nhiều boilerplate.
+- ⭐ **`then().body(...)` với Hamcrest matchers** — kiểm tra JSON linh hoạt qua JsonPath (vd `equalTo`, `hasSize`, `everyItem`).
+- **`extract().path(...)`** — lấy giá trị từ response để dùng trong bước test tiếp theo (test flows).
+- **Cấu hình base URL một lần** — set `RestAssured.baseURI/port/basePath` trong `@BeforeAll`.
+- **Phù hợp integration test** — cần server đang chạy; hỗ trợ test JWT và upload file (`multiPart`).
+
+:::
+
 ## REST Assured là gì?
 
 **REST Assured** là thư viện Java giúp kiểm thử REST API với cú pháp **Given-When-Then** rất tự nhiên, gần giống tiếng Anh. So với JUnit + HttpClient thông thường, REST Assured giảm đáng kể boilerplate code và làm cho test dễ đọc hơn.
