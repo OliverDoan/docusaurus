@@ -9,8 +9,6 @@ title: "1. Conditional Statements"
 
 ---
 
-## 🎯 Cần nắm gì sau bài này?
-
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **Chọn đúng công cụ rẽ nhánh** — `if/else if/else` cho logic tuần tự, `switch` cho nhiều nhánh theo MỘT giá trị, ternary `? :` cho gán nhanh trong một dòng.

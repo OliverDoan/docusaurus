@@ -9,8 +9,6 @@ title: "2. call, apply, bind và Function Borrowing"
 
 ---
 
-## 🎯 Cần nắm gì sau bài này?
-
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **Cả ba đều để tự ép `this`** — thay vì để JavaScript tự chọn, bạn chỉ định `this` khi gọi hàm, giải bài toán mất `this` khi tách method hoặc truyền callback.

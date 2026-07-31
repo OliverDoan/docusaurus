@@ -9,8 +9,6 @@ title: "1. Browser DevTools"
 
 ---
 
-## 🎯 Cần nắm gì sau bài này?
-
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **Console API** — không chỉ `console.log`: còn `table`, `group`, `time`, `count`, `assert`, `trace`, `dir` và shortcut trong browser (`$0`, `$$()`, `copy()`).

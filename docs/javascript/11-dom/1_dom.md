@@ -9,8 +9,6 @@ title: "1. DOM Manipulation và Events"
 
 ---
 
-## 🎯 Cần nắm gì sau bài này?
-
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **DOM là cây object** — trình duyệt biến HTML tĩnh thành cây `node` mà JavaScript đọc/sửa được, nhờ đó có trang động và SPA không cần reload.

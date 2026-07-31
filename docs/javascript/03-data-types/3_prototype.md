@@ -9,8 +9,6 @@ Trong JavaScript, mỗi object đều có một **prototype** (nguyên mẫu) �
 
 ---
 
-## 🎯 Cần nắm gì sau bài này?
-
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **Mỗi object có `[[Prototype]]`** trỏ tới object cha, tạo thành **prototype chain** kết thúc ở `null`; JS tra property ngược lên chuỗi này.

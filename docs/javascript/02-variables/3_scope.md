@@ -9,8 +9,6 @@ title: "3. Scope (Phạm vi biến)"
 
 ---
 
-## 🎯 Cần nắm gì sau bài này?
-
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **JS có 3 loại scope**: global (ngoài mọi hàm/block), function (`var`), và block (`let`/`const` trong `{}`) — `var` lọt ra ngoài block, `let`/`const` thì không.

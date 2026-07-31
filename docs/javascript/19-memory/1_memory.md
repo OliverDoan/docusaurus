@@ -9,8 +9,6 @@ title: "1. Memory Management"
 
 ---
 
-## 🎯 Cần nắm gì sau bài này?
-
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **Garbage Collector (mark-and-sweep)** — JS tự thu hồi object không còn **reachable** từ root; dev không có `malloc`/`free` như C nhưng vẫn có thể tạo leak.

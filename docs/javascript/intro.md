@@ -7,8 +7,6 @@ title: "Giới thiệu"
 
 Chào mừng bạn đến với lộ trình học JavaScript dành cho người mới bắt đầu. Tài liệu này sẽ dẫn dắt bạn từ những khái niệm cơ bản nhất cho tới các chủ đề nâng cao, theo một trình tự dễ hiểu và dễ thực hành.
 
-## 🎯 Cần nắm gì sau bài này?
-
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **JavaScript là ngôn ngữ của web** — ban đầu chạy trong trình duyệt, nay chạy cả phía máy chủ nhờ `Node.js`.

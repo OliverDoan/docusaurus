@@ -9,8 +9,6 @@ Biến (variable) là "cái hộp" có tên dùng để lưu trữ dữ liệu �
 
 ---
 
-## 🎯 Cần nắm gì sau bài này?
-
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **Mặc định dùng `const`, chỉ dùng `let` khi cần gán lại, không dùng `var`** — quy tắc vàng cho code hiện đại.

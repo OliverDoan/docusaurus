@@ -9,8 +9,6 @@ Bài này khám phá cách hàm hoạt động bên trong. **arguments object** 
 
 ---
 
-## 🎯 Cần nắm gì sau bài này?
-
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **`arguments` là array-like, KHÔNG phải Array** — không có `map`/`filter`/`reduce`; phải `[...arguments]` hoặc `Array.from()`, và nó không tồn tại trong arrow function. Nên thay bằng **rest parameter**.

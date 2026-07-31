@@ -9,8 +9,6 @@ title: "2. Exception Handling"
 
 ---
 
-## 🎯 Cần nắm gì sau bài này?
-
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **`try/catch/finally` tách luồng lỗi khỏi luồng chính** — `finally` luôn chạy để dọn dẹp tài nguyên dù thành công, lỗi hay có `return`.

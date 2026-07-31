@@ -18,8 +18,6 @@ Trong JavaScript, việc ép kiểu xảy ra theo **hai cách**: do bạn chủ 
 
 ---
 
-## 🎯 Cần nắm gì sau bài này?
-
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **Ưu tiên ép kiểu tường minh và dùng `===`** — chủ động `Number()`, `String()`, `Boolean()` rồi so sánh bằng `===` để JavaScript không phải "đoán" giúp bạn.

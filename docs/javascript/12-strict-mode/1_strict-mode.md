@@ -9,8 +9,6 @@ title: "1. Strict Mode"
 
 ---
 
-## 🎯 Cần nắm gì sau bài này?
-
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **Strict mode = "fail nhanh, fail rõ"** — biến những lỗi vốn bị âm thầm bỏ qua (biến global vô tình, gán vào readonly) thành lỗi rõ ràng ngay khi chạy.

@@ -9,8 +9,6 @@ Bài này kể lại hành trình của JavaScript: từ lúc ra đời chỉ tr
 
 ---
 
-## 🎯 Cần nắm gì sau bài này?
-
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **Brendan Eich tạo JavaScript năm 1995 trong 10 ngày** tại Netscape, tên đổi qua Mocha → LiveScript → JavaScript.

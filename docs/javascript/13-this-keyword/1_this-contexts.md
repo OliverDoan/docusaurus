@@ -9,8 +9,6 @@ title: "1. this trong các ngữ cảnh"
 
 ---
 
-## 🎯 Cần nắm gì sau bài này?
-
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **`this` xác định lúc GỌI, không phải lúc VIẾT** — cùng một hàm nhưng `this` đổi theo cách gọi (`obj.method()`, `fn()`, `new Fn()`).

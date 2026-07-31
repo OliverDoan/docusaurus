@@ -9,8 +9,6 @@ Khi muốn lấy dữ liệu từ máy chủ (server) mà không tải lại tra
 
 ---
 
-## 🎯 Cần nắm gì sau bài này?
-
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **`fetch` KHÔNG reject với HTTP error (4xx/5xx)** — chỉ reject khi lỗi mạng; phải tự kiểm tra `res.ok` rồi throw, nếu không sẽ dễ gây bug.

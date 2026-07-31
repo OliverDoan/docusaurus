@@ -9,8 +9,6 @@ title: "1. Operators"
 
 ---
 
-## 🎯 Cần nắm gì sau bài này?
-
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **Toán tử hiện đại (ES2015+)** thay code dài dòng: spread `...` để sao chép/gộp, optional chaining `?.` truy cập an toàn, nullish coalescing `??` đặt mặc định.
