@@ -9,6 +9,18 @@ title: "1. Deployment Options"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Vercel là lựa chọn default** — từ team Next.js, zero-config, hỗ trợ đầy đủ nhất (SSR, ISR, Edge, Image Optimization, Preview).
+- **`output` mode quyết định đường deploy**: mặc định (Vercel/serverless), `standalone` (tự host), `export` (HTML tĩnh).
+- **Self-host** dùng `output: 'standalone'` + Node/Docker/Nginx — nhưng tự lo SSL, CDN, scaling, ISR cache.
+- **Static export bỏ nhiều feature server** (SSR data, Server Actions, API routes, Middleware, ISR) — chỉ hợp blog/docs/portfolio.
+- **Alternative**: Netlify, Cloudflare Pages (edge-first, free tier rộng), AWS Amplify (hệ sinh thái AWS).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao deploy Next.js cần lưu ý riêng?](#vì-sao-deploy-nextjs-cần-lưu-ý-riêng)

@@ -9,6 +9,19 @@ title: "1. Routing trong React"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Routing ánh xạ URL → component** để tạo nhiều "trang" trong SPA mà không reload; React core không có sẵn, phải dùng thư viện.
+- **React Router phổ biến nhất** (`BrowserRouter`, `Routes`, `Route`, `Link`); TanStack Router type-safe end-to-end, file-based.
+- **Route params** — đọc param động bằng `useParams`, query string bằng `useSearchParams`.
+- **Nested routes** chia sẻ layout qua `<Outlet />`; **Protected route** wrap kiểm tra auth rồi `<Navigate to="/login">` nếu chưa đăng nhập.
+- **Điều hướng** — `useNavigate` (imperative), `<Navigate>` (declarative), `<Link>`/`<NavLink>` thay `<a>` để không reload trang.
+- ⭐ **React Router v7 đã merge Remix** — thêm loader/action và server rendering, opt-in; API client routing gần như không đổi.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần router?](#vì-sao-cần-router)

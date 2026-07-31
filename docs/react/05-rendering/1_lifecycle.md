@@ -9,6 +9,18 @@ title: "1. Component Lifecycle"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Vòng đời gồm 3 giai đoạn** — `mount` (vừa hiện), `update` (props/state đổi), `unmount` (bị gỡ); component hàm điều khiển bằng `useEffect`.
+- ⭐ **`useEffect` là công cụ đồng bộ, không phải lifecycle hook 1-1** — hãy tư duy "sync với hệ thống ngoài", `[]` chạy 1 lần, `[deps]` chạy lại khi deps đổi.
+- **Luôn viết cleanup** trong effect (return function) để huỷ timer/subscription, tránh leak và bug khi remount.
+- **Re-render ≠ update DOM** — React dùng reconciliation nên re-render thường rất rẻ; chỉ tối ưu (`memo`, `useMemo`, `useCallback`) khi đo được vấn đề thực sự.
+- **Strict Mode (dev)** chạy component + effect 2 lần để lộ side effect thiếu cleanup; không nên tắt.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần vòng đời (lifecycle)?](#vì-sao-cần-vòng-đời-lifecycle)

@@ -9,6 +9,18 @@ title: "3. Method Overriding và Constructor Overloading"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Override giữa lớp cha–con, overload là nhiều chữ ký cho cùng một tên** — đừng nhầm hai khái niệm này.
+- ⭐ **Từ khoá `override` + `noImplicitOverride` chặn typo và rename lệch** — TS báo lỗi khi ghi đè một method mà class cha không hề có, tránh bug JS âm thầm tạo method mới.
+- **Method overriding dùng `super` để gọi method cha** — vd `super.speak() + " (yếu)"` để mở rộng thay vì thay thế hoàn toàn.
+- **Constructor/method overload: khai báo signature trước, một phần cài đặt chung** — compiler chọn kiểu trả về theo đối số; implementation ẩn với caller.
+- **Static factory method thường gọn hơn constructor overload** — mỗi factory có tên rõ ràng (`fromXY`, `fromTuple`), dễ đọc, dễ test, không cần check `typeof`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có overriding & overloading?](#vì-sao-có-overriding--overloading)

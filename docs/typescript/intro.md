@@ -5,6 +5,16 @@ title: "Giới thiệu"
 
 # Lộ trình học TypeScript
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **TypeScript = JavaScript + kiểu tĩnh** — mọi code JavaScript hợp lệ đều là code TypeScript hợp lệ.
+- ⭐ **Cần nắm vững JavaScript trước** — TS chỉ thêm phần kiểu lên trên nền JS, chưa chắc JS thì học TS rất khó.
+- **Phải biên dịch** — trình duyệt và Node.js không chạy trực tiếp `.ts`, code TS được compile ngược về `.js` rồi mới chạy.
+- **Lộ trình 10 nhóm, học lần lượt 1→10** — nhóm 1-3 là nền tảng bắt buộc, nhóm 4-6 cốt lõi, 7-8 nâng cao, 9-10 áp dụng thực tế.
+- **Phần mở rộng tệp** — dùng `.ts` (hoặc `.tsx` cho React).
+
+:::
+
 ## TypeScript là gì?
 
 **TypeScript** là một ngôn ngữ lập trình được xây dựng dựa trên **JavaScript**, bổ sung thêm hệ thống **kiểu tĩnh** (static typing - kiểm tra kiểu dữ liệu ngay khi viết code, trước khi chạy chương trình). Hiểu đơn giản, TypeScript chính là JavaScript được thêm "lớp áo giáp" về kiểu dữ liệu.

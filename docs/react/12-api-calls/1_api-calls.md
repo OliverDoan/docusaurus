@@ -9,6 +9,18 @@ title: "1. API Calls trong React"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`useEffect` + `fetch` thủ công OK cho project nhỏ nhưng đuối khi scale** — phải tự lo cache, retry, refetch, race condition ở từng component.
+- ⭐ **`TanStack Query` là default cho fetch data** — tự cache/dedupe, refetch khi focus/reconnect, retry, `useMutation` + `invalidateQueries`, optimistic update, infinite scroll.
+- **Axios** chỉ giải vấn đề nhỏ (interceptor, tự parse JSON, tự throw khi HTTP ≥ 400) — thay `fetch` nhưng KHÔNG lo cache/refetch.
+- **SWR (Vercel)** nhẹ hơn, API đơn giản, hợp project nhỏ-trung; **RTK Query** khi đã dùng Redux; **tRPC** cho full-stack TypeScript type-safe end-to-end.
+- **Server state ≠ client state** — đừng nhét data API vào Redux/Zustand; dùng thư viện server-state chuyên trị vì data có thể stale, async, shared, cần caching policy.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần thư viện data fetching?](#vì-sao-cần-thư-viện-data-fetching)

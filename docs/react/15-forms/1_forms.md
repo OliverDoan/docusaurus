@@ -9,6 +9,18 @@ title: "1. Forms trong React"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Tự quản mỗi field bằng `useState` rất nhanh rối** — mỗi lần gõ re-render toàn form (form lớn chậm), validate/lỗi phải tự viết cho từng field.
+- ⭐ **`react-hook-form` (RHF) là lựa chọn tốt nhất 2026** — dùng uncontrolled + ref nên ít re-render, form 50+ field vẫn smooth, bundle nhỏ (~9KB), TypeScript tốt.
+- **Controlled** (React giữ state qua `value`/`onChange`) dễ validate khi gõ nhưng chậm form lớn; **Uncontrolled** (DOM giữ state, đọc qua ref) nhanh hơn — RHF theo hướng uncontrolled.
+- **RHF + Zod là pattern chuẩn** — `zodResolver` + `z.infer` cho một schema vừa validate vừa suy ra type (single source of truth). **Formik** đã giảm phổ biến, không khuyến nghị cho project mới.
+- **React 19 Server Actions** (Next.js/Remix) cho form không cần API route + progressive enhancement (`useFormStatus`, `useActionState`); kết hợp validate cả client (RHF) lẫn server (Zod) theo "defense in depth".
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần thư viện form?](#vì-sao-cần-thư-viện-form)

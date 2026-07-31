@@ -9,6 +9,18 @@ title: "1. Utility Types"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Utility type biến đổi kiểu gốc thành biến thể tự động (DRY)** — sửa kiểu gốc thì mọi biến thể cập nhật theo, không phải định nghĩa lại thủ công.
+- **`Partial`/`Required` bật tắt optional, `Readonly` khóa sửa** — lưu ý `Readonly` chỉ shallow, object lồng bên trong vẫn sửa được.
+- **`Pick`/`Omit` chọn/bỏ key, `Record<K, V>` tạo map key→value** — `Omit` cực hữu dụng cho DTO (bỏ field nhạy cảm như `password`).
+- **`Exclude`/`Extract`/`NonNullable` lọc union; `Parameters`/`ReturnType`/`InstanceType`** — lấy kiểu từ function/class mà không khai báo lại.
+- ⭐ **`Awaited<T>` (TS 4.5+) lấy kiểu bên trong Promise** — kết hợp `as const` + `typeof` để tạo type từ giá trị (single source of truth).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có utility types?](#vì-sao-có-utility-types)

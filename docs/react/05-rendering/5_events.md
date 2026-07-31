@@ -9,6 +9,18 @@ title: "5. Events"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Gắn handler khai báo trong JSX** bằng prop camelCase (`onClick`, `onChange`, `onSubmit`) và truyền function — không cần `addEventListener` thủ công.
+- ⭐ **React bọc event trong Synthetic Event** — chuẩn hoá cross-browser và dùng event delegation tại root container (từ React 17, trước đó là `document`).
+- **`preventDefault()`** chặn hành vi mặc định (form reload, navigate); **`stopPropagation()`** chặn bubble lên parent — nhưng đừng lạm dụng, nên kiểm tra `e.target`/`e.currentTarget`.
+- **Pointer events** (`onPointerDown`...) hợp nhất mouse + touch, viết 1 lần chạy mọi thiết bị.
+- **React 19 Actions** (`<form action>`, `useFormStatus`, `useOptimistic`) là cách handle form mới, phổ biến trong Next.js App Router.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao React dùng Synthetic Event?](#vì-sao-react-dùng-synthetic-event)

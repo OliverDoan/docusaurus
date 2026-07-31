@@ -9,6 +9,19 @@ title: "3. Custom Hooks"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Custom hook = function tên bắt đầu bằng `use`, gọi các hook khác bên trong** — để tái sử dụng logic stateful mà KHÔNG thêm tầng component bọc.
+- ⭐ **Mỗi component gọi hook có state riêng độc lập** — muốn share state phải dùng Context hoặc state library (Zustand...).
+- **Naming convention** — bắt đầu bằng `use` để ESLint áp Rules of Hooks; trả về tuple nếu ≤ 2 phần tử, object nếu nhiều hơn.
+- **Ví dụ thường gặp** — `useDebounce`, `useLocalStorage`, `useFetch`, `usePrevious`, `useToggle`.
+- **Phân biệt nơi đặt logic** — util function (pure), custom hook (stateful logic), component (UI + state).
+- **Đừng tự viết lại hook phổ biến** — dùng thư viện sẵn có như usehooks-ts, react-use, ahooks.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có custom hooks?](#vì-sao-có-custom-hooks)

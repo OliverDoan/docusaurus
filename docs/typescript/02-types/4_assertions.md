@@ -9,6 +9,18 @@ title: "4. Type Assertions"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Assertion không kiểm tra runtime** — chỉ "lừa" type system lúc biên dịch; nếu giá trị thực sai vẫn crash lúc chạy, nên ưu tiên type guard/validation (Zod).
+- ⭐ **`satisfies` (TS 4.9+) là lựa chọn tốt nhất** — vừa kiểm tra constraint vừa giữ literal type, khác `: T` (widen) và `as T` (không check).
+- **`as Type`** — ép sang kiểu cụ thể; chỉ dùng khi chắc chắn 100% về kiểu.
+- **`as const`** — cố định literal thành readonly; mạnh khi kết hợp `typeof ARR[number]` để sinh union từ giá trị.
+- **Non-null `!`** — khẳng định không `null`/`undefined`; chỉ tắt cảnh báo, vẫn crash nếu thực sự null. Tránh `as any` vì tạo an toàn giả.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có type assertion?](#vì-sao-có-type-assertion)

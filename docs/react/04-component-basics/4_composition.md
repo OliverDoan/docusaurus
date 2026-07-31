@@ -9,6 +9,18 @@ title: "4. Composition"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Composition (ghép các component nhỏ) thay cho inheritance** — React khuyến nghị compose thay vì `class A extends B` để reuse UI.
+- **`children` prop** — chứa JSX giữa thẻ mở/đóng, cho parent tự quyết định nội dung bên trong (Card, Modal, Layout).
+- **Slot pattern** — truyền JSX qua nhiều props (`header`, `sidebar`, `footer`) khi cần nhiều vùng tùy biến.
+- **Compound components** — nhóm component liên quan (`Card.Header`, `Card.Body`) chia sẻ state ngầm qua Context API.
+- ⭐ **Custom hook là cách reuse logic ưa chuộng nhất (2026)** — gọn, type-safe; tránh `React.cloneElement` vì không type-safe, khó debug.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao ưu tiên composition?](#vì-sao-ưu-tiên-composition)

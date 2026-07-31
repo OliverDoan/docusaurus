@@ -9,6 +9,18 @@ title: "1. Routing Patterns"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Dynamic route `[id]`** cho param động; **catch-all `[...slug]`** khớp 1+ segment, **optional `[[...slug]]`** khớp 0+ segment.
+- ⭐ **Route Groups `(name)`** gom route và đổi layout mà KHÔNG làm đổi URL (ví dụ public vs sau login).
+- **Parallel Routes `@slot`** render nhiều vùng song song trong một layout, mỗi slot có `loading`/`error` độc lập.
+- **Intercepting Routes `(.)`/`(..)`** mở modal giữ context, refresh/share link thì ra trang đầy đủ (modal ảnh kiểu Instagram).
+- **Đừng overengineer:** dynamic routes + route groups đủ cho ~90% case; chỉ dùng Parallel/Intercepting khi UX thực sự cần.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần các routing pattern?](#vì-sao-cần-các-routing-pattern)

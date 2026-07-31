@@ -9,6 +9,19 @@ title: "2. Data Sources: REST, GraphQL, Database, ORM"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Server Component là "cửa ngõ" truy cập trực tiếp mọi nguồn** — REST, GraphQL, DB, CMS với secret server-only, gộp dữ liệu rồi chỉ gửi UI đã render xuống client.
+- ⭐ **Gọi DB trực tiếp không cần API trung gian** — dùng `sql` hoặc ORM ngay trong Server Component; DB credential không có prefix `NEXT_PUBLIC_*` nên không lộ xuống client.
+- **REST** — bọc `fetch` trong helper `api<T>()` để tập trung header/auth/xử lý lỗi; **GraphQL** dùng Apollo, urql hoặc graphql-request.
+- **Prisma vs Drizzle** — Prisma schema-first DX tốt nhưng bundle lớn cần Accelerate cho Edge; Drizzle SQL-like, nhỏ gọn, native Edge, type inferred — trend tăng cho 2026.
+- **Driver Edge-compat dùng HTTP/fetch** (Neon, PlanetScale, Turso) chạy được trong middleware; driver Node (`pg`) chỉ dùng ở Node runtime.
+- **Pattern repository** — tách truy vấn DB ra `lib/repositories/*` để component không biết về DB, dễ test và dễ đổi ORM.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Next hỗ trợ nhiều nguồn dữ liệu?](#vì-sao-next-hỗ-trợ-nhiều-nguồn-dữ-liệu)

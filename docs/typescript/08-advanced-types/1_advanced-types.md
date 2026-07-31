@@ -9,6 +9,18 @@ title: "1. Advanced Types"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **"Lập trình trên kiểu" tạo kiểu TỪ kiểu khác tự động** — tránh trùng lặp và lệch nhau khi kiểu gốc thay đổi; cũng là nền tảng của các utility type built-in.
+- **Literal & template literal type** — mô tả giá trị cố định (`"left" | "right"`) và ghép chuỗi ở cấp type (`on${Capitalize<T>}`).
+- **Mapped type `{ [K in keyof T]: ... }`** — duyệt từng key, dùng modifier `+`/`-` để thêm/bớt optional/readonly và `as` để rename key.
+- ⭐ **Conditional type `T extends U ? X : Y` + `infer`** — chọn kiểu theo điều kiện và trích kiểu con; distributive khi `T` là union (bọc `[T]` để tắt phân tán).
+- **Recursive type mô tả cấu trúc lồng** — như `JSONValue`, `DeepReadonly`, nhưng TS giới hạn độ sâu đệ quy (~50) để tránh treo compiler.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có các kiểu nâng cao?](#vì-sao-có-các-kiểu-nâng-cao)

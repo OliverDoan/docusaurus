@@ -9,6 +9,18 @@ title: "2. Rendering Strategies"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **4 chiến lược:** SSR (render mỗi request), SSG (render lúc build), ISR (build + revalidate định kỳ), CSR (render ở browser).
+- ⭐ **App Router bỏ `getStaticProps`/`getServerSideProps`** — chọn mode qua `fetch` options: mặc định → Static, `next: { revalidate: N }` → ISR, `cache: "no-store"`/`cookies()`/`searchParams` → Dynamic (SSR).
+- **ISR là sweet spot** cho e-commerce/content: nhanh như SSG, tươi như SSR; làm mới on-demand bằng `revalidatePath`/`revalidateTag`.
+- **Server Components** là mặc định — chạy trên server, không vào bundle, `await` data trực tiếp; chỉ `"use client"` cho phần interactive.
+- **Mental model mới:** nghĩ về *data* (static hay dynamic), Next.js tự quyết rendering mode.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có nhiều chiến lược rendering?](#vì-sao-có-nhiều-chiến-lược-rendering)

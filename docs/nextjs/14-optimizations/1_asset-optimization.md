@@ -9,6 +9,18 @@ Tối ưu **asset** (tài nguyên tĩnh: ảnh, font chữ, script) là việc g
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Thay `<img>` bằng `<Image>`** — tự nén WebP/AVIF, resize theo viewport, lazy load mặc định và chống CLS (cần `width`/`height` hoặc `fill`).
+- **`next/font`** self-host font, preload song song, không nhấp nháy hay layout shift.
+- **`next/script`** kiểm soát thời điểm tải qua `strategy` (`afterInteractive` là mặc định, `lazyOnload` cho pixel/chat).
+- **`public/`** chứa asset tĩnh nhưng không qua build optimization — hợp favicon, robots.txt, PDF.
+- **Video > 5MB** nên dùng streaming service (Mux, Cloudflare Stream) thay vì nhồi vào bundle.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần tối ưu asset?](#vì-sao-cần-tối-ưu-asset)

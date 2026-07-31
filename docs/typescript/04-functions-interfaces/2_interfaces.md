@@ -9,6 +9,18 @@ title: "2. Interfaces"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Interface đặt TÊN cho một hình dạng object để TÁI SỬ DỤNG** — như một "hợp đồng" chung, sửa một nơi áp dụng mọi nơi; class dùng `implements` để cam kết tuân theo.
+- **`extends` để kế thừa (nhiều interface cùng lúc)** — khác `&` (intersection), `extends` phát hiện xung đột type ngay tại khai báo.
+- ⭐ **Declaration merging: khai báo cùng tên nhiều lần được TS tự gộp** — `type` không có tính năng này; đây là kỹ thuật để augment `Window`, `express.Request`...
+- **Hybrid types mô tả giá trị vừa là hàm vừa là object** — callable object, hay gặp khi typing thư viện kiểu jQuery/lodash.
+- **`interface` cho object public API, `type` cho union/tuple/mapped/conditional** — interface còn compile nhanh hơn khi có nhiều intersection lồng nhau.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có interface?](#vì-sao-có-interface)

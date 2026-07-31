@@ -9,6 +9,18 @@ title: "5. Type Inference và Compatibility"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Để TS tự suy luận khi đã rõ** — bỏ annotation thừa (`const n = 5`), chỉ annotate tham số hàm, public API hoặc khi inference sai/quá rộng.
+- ⭐ **Narrowing qua control flow analysis** — TS thu hẹp union theo `typeof`, `instanceof`, `in`, truthy check, tagged union, type guard, assertion function.
+- **Contextual typing** — TS suy kiểu từ ngữ cảnh dùng (ví dụ callback `addEventListener` biết `event: MouseEvent`).
+- **Widening vs literal** — `let x = "hello"` widen thành `string`, còn `const y = "hello"` giữ literal `"hello"`.
+- **Structural typing + variance** — tương thích theo shape; tham số hàm là contravariance, return type là covariance (bật `strictFunctionTypes`).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần type inference?](#vì-sao-cần-type-inference)

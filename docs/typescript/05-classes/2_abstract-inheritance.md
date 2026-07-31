@@ -9,6 +9,17 @@ title: "2. Abstract Classes và Inheritance"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Abstract class không thể `new` trực tiếp và ép lớp con implement abstract method** — compiler báo lỗi ngay lúc compile nếu lớp con thiếu, đồng thời vẫn chia sẻ được code chung.
+- **`extends` để kế thừa, `super` để gọi lên class cha** — lớp con tái sử dụng và mở rộng field/method; bắt buộc gọi `super()` nếu cha có constructor.
+- **Polymorphism qua dynamic dispatch** — gọi cùng một method (`s.area()`) nhưng runtime tự chọn đúng version theo class thực của object.
+- ⭐ **Abstract class chứa code + tồn tại runtime, interface chỉ là shape bị xoá** — dùng abstract class khi cần chia sẻ code và bắt subclass tuân contract; interface khi chỉ cần contract (và implement được nhiều cái cùng lúc).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có abstract class?](#vì-sao-có-abstract-class)

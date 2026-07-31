@@ -9,6 +9,18 @@ title: "2. Type Guards và Narrowing"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Narrowing thu hẹp union về kiểu cụ thể trong từng nhánh** — nhờ vậy mới truy cập được method riêng (vd `x.toUpperCase()` với `string`); TS dựa vào control flow analysis để theo dõi kiểu.
+- **Mỗi tình huống có một loại guard** — `typeof` cho primitive, `instanceof` cho class instance, `in` cho object có field riêng, equality/truthiness cho literal và loại `null`.
+- ⭐ **Discriminated union là pattern mạnh nhất** — dùng field tag chung (`kind`) và `switch` để TS tự narrow từng `case`, không cần predicate.
+- **Custom guard `pet is Fish` narrow trong nhánh `if`** — còn assertion function `asserts val is string` narrow **sau khi gọi** (hoặc throw).
+- **`instanceof` không dùng được cho interface/type alias/object literal** — vì chúng bị xoá lúc compile; hãy dùng `in` hoặc type predicate.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có type guard (thu hẹp kiểu)?](#vì-sao-có-type-guard-thu-hẹp-kiểu)

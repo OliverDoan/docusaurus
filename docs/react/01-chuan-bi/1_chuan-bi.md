@@ -9,6 +9,18 @@ React là một **thư viện JavaScript** (bộ công cụ viết sẵn để d
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **React không phải điểm bắt đầu** — cần nắm chắc JavaScript, HTML/CSS và ES6+ trước, vì React xây hoàn toàn trên nền này.
+- **JavaScript nền tảng** — thành thạo `map`/`filter`/`reduce`, destructuring, arrow function, `async`/`await`, ES Modules trước khi vào React.
+- **TypeScript không bắt buộc nhưng rất khuyến nghị** — biết interface, generic, utility types (`Partial`, `Pick`, `Omit`).
+- **JSX khác HTML** — `class` → `className`, `for` → `htmlFor`, inline style là object, attribute camelCase.
+- ⭐ **Học theo lộ trình từng bước** — đừng dồn React + TypeScript + Tailwind + Redux + Next.js cùng lúc; mỗi bước build dự án thật.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Yêu cầu nền tảng](#yêu-cầu-nền-tảng)

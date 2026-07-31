@@ -9,6 +9,18 @@ title: "1. TypeScript Modules"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **File có `import`/`export` là module (scope riêng)** — file không có thì là script, mọi khai báo thành global và dễ trùng tên; thêm `export {}` để ép file rỗng thành module.
+- **ES Modules dùng `import`/`export`** — hỗ trợ named, `default` và namespace import `* as`.
+- ⭐ **`import type`/`export type` bị xoá hoàn toàn khi compile** — tránh side effect và giúp bundler strip type chính xác; nên bật `verbatimModuleSyntax` (TS 5.0+).
+- **Re-export / barrel file (`index.ts`) gom một entry điểm** — nhưng dễ gây tree-shaking kém và circular dependency trong project lớn.
+- **`namespace` là cách cũ, không dùng cho code app** — chỉ còn hữu dụng trong `.d.ts`; module augmentation (declaration merging) dùng để vá/mở rộng type của module hay global có sẵn.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có module (và namespace)?](#vì-sao-có-module-và-namespace)

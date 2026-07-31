@@ -9,6 +9,18 @@ title: "1. Tại sao chọn Next.js?"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Next.js là framework full-stack React** (do Vercel làm) — bổ sung routing file-based, SSR/SSG/ISR, Server Components lên React thuần.
+- ⭐ **SSR gửi HTML render sẵn rồi hydrate** — FCP nhanh và SEO tốt hơn SPA (SPA phải tải JS rồi mới render).
+- **Dùng Next.js khi** cần SEO, SSR/SSG cho first paint nhanh, app có cả public page + dashboard, hoặc cần Server Components/Actions.
+- **Không cần khi** làm internal tool không SEO, hoặc đã có backend riêng + frontend SPA → Vite đủ.
+- **Đánh đổi:** learning curve App Router cao, cache layer phức tạp, vendor lock-in một số feature.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Next.js là gì?](#nextjs-là-gì)

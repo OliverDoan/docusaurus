@@ -9,6 +9,18 @@ title: "1. Headless Component Libraries"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Headless = logic + behavior + accessibility nhưng KHÔNG có style sẵn** — bạn tự tô 100% theo brand, giải bài toán "full UI lib đẹp sẵn nhưng khó ép theo design riêng".
+- ⭐ **Radix UI phổ biến nhất (#1)** — chuẩn WAI-ARIA, compound component API, là nền của `shadcn/ui`.
+- **React Aria (Adobe)** — accessibility mạnh nhất, hỗ trợ i18n/RTL, hợp app cần a11y nghiêm túc (gov, banking, healthcare).
+- **Ark UI** chạy đa framework (React/Vue/Solid, dựa trên XState); **Headless UI** (của team Tailwind) ít component hơn và đang giảm.
+- **Chọn headless khi cần brand riêng / design system riêng**; KHÔNG cần khi prototype nhanh hoặc cần component phong phú đặc biệt (DataGrid → MUI X tốt hơn).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có headless UI?](#vì-sao-có-headless-ui)

@@ -9,6 +9,18 @@ title: "1. Mobile Applications (React Native)"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **React Native viết một lần bằng React/JS** — render ra UI native thật (không phải webview) cho cả iOS lẫn Android, tái dùng kiến thức React sẵn có.
+- ⭐ **Expo là default 2026 (~90% project)** — dựng app cực nhanh, EAS Build cloud (không cần Mac), OTA update; Bare RN chỉ cần khi có native module rất custom.
+- **Khác React web**: dùng `<View>`/`<Text>` thay `<div>`, `onPress` thay `onClick`, StyleSheet API hoặc NativeWind thay CSS, chỉ có Flexbox.
+- **Navigation**: React Navigation (Stack/Tab/Drawer) hoặc Expo Router (file-based).
+- **Reanimated chạy animation trên UI thread** (không block JS); lưu ý không phải mọi web library đều work trong RN, cần isolate logic dùng chung.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có React Native?](#vì-sao-có-react-native)

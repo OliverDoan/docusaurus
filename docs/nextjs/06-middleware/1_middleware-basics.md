@@ -9,6 +9,19 @@ title: "1. Middleware Basics"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Middleware chạy TRƯỚC route, cho nhiều path cùng lúc** — tập trung logic như auth/redirect thay vì lặp ở từng trang, và xử lý sớm trước khi render.
+- ⭐ **File `middleware.ts` ở root** export hàm `middleware(request)` và `config.matcher` — trả `NextResponse.next()`, `.redirect()`, `.rewrite()` hoặc response sớm.
+- **Chạy trên Edge Runtime** — cực nhanh, gần user, nhưng KHÔNG có Node API (`fs`, `path`), không DB client Node cũ, giới hạn 1MB bundle và CPU time.
+- **Use case phổ biến** — auth check, geo redirect, A/B testing, rate limiting, logging, header injection.
+- **`matcher`** giới hạn route áp dụng; pattern negative lookahead loại trừ static asset để tăng performance.
+- **Chỉ 1 file middleware toàn project** — không có nested middleware; khi phức tạp thì compose các helper function từ `lib/middleware/*.ts`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có middleware trong Next.js?](#vì-sao-có-middleware-trong-nextjs)

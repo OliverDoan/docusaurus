@@ -9,6 +9,18 @@ Trong Next.js, **rendering** (kết xuất, tức quá trình biến code thành
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Server Component là mặc định** — async, fetch được DB/secret/env, nhưng KHÔNG có hook, event handler hay browser API, và không vào client bundle.
+- ⭐ **`"use client"` đánh dấu boundary** ở đầu file — có hook/event/browser API; mọi child import từ đó tự kế thừa là Client.
+- **Composition** — Server có thể wrap Client, nhưng Client không import trực tiếp Server; truyền Server qua `children`/prop (pattern "Server in Client").
+- **Quy tắc thực dụng** — default Server, chỉ convert sang Client khi cần hook/event, push `"use client"` càng sâu (leaf) càng tốt.
+- **Phân biệt 3 directive** — `"use client"` (file Client), `"use server"` đầu file (file chứa Server Actions), `"use server"` trong function (function đó là Server Action).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có nhiều rendering mode?](#vì-sao-có-nhiều-rendering-mode)

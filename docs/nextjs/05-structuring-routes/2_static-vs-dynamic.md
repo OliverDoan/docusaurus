@@ -9,6 +9,19 @@ Trong Next.js, mỗi route có thể được render **tĩnh** (static — dựn
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Next.js tự detect static hay dynamic** — dùng API động (`cookies()`, `headers()`, `searchParams`, `fetch` với `no-store`) sẽ thành dynamic (render mỗi request); còn lại là static (build sẵn, cache CDN).
+- ⭐ **Streaming qua `<Suspense>`** — bọc phần data nặng để gửi HTML shell trước rồi stream từng phần; các phần chạy song song nên tổng thời gian bằng phần chậm nhất.
+- **Ép kiểu render** — `export const dynamic = "force-static" | "force-dynamic"`, `revalidate` cho ISR, `runtime = "edge" | "nodejs"`; đa số nên để tự detect.
+- **`loading.tsx`** tương đương bọc `<Suspense>` quanh cả page ở mức navigation.
+- **`redirect()` thực chất throw** `NEXT_REDIRECT` — không cần try/catch, đặt ngoài khối try hoặc rethrow khi bắt lỗi.
+- **Rewrite khác redirect** — rewrite giữ nguyên URL nhưng serve nội dung từ đích khác (proxy API, A/B test); redirect đổi URL hiển thị.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao phân biệt route tĩnh và động?](#vì-sao-phân-biệt-route-tĩnh-và-động)

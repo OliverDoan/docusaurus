@@ -9,6 +9,18 @@ title: "1. Functional Components"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Functional component chỉ là một hàm nhận props và trả về JSX** — cách viết chuẩn từ React 16.8+, gọn hơn class component.
+- **Kết hợp Hooks** — dùng `useState`, `useEffect` để quản state và side effect ngay trong hàm; tái dùng logic qua custom hook.
+- **Props là readonly** — không mutate trong component; muốn báo ngược lên cha thì dùng callback prop (`onClick`, `onChange`).
+- **`children` là prop đặc biệt** — chứa nội dung giữa thẻ mở/đóng; React ưu tiên "composition over configuration".
+- ⭐ **Đặt tên component PascalCase** (`UserCard`) và tránh `React.FC` — khai báo type props tường minh qua interface.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao dùng functional component?](#vì-sao-dùng-functional-component)

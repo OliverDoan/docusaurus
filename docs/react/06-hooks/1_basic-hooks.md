@@ -9,6 +9,19 @@ title: "1. useState và useEffect"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`useState` lưu state, đổi thì UI tự render lại** — `useEffect` chạy side effect (fetch, subscribe, timer) sau khi render.
+- ⭐ **Không mutate state** — luôn tạo object/array mới; update dựa giá trị cũ thì dùng updater function `setCount(c => c + 1)` để tránh stale state.
+- **Dependency array** — `[]` chỉ chạy khi mount, `[a, b]` chạy lại khi `a`/`b` đổi, không có array thì chạy sau mọi render.
+- **Khai báo MỌI biến dùng trong effect vào deps** — bật ESLint `react-hooks/exhaustive-deps` để bắt lỗi thiếu dep.
+- **Cleanup function** — effect return một hàm dọn dẹp (timer, subscription, listener, abort fetch) trước lần chạy sau hoặc khi unmount.
+- **Trước khi viết `useEffect` hãy hỏi "có cần effect không?"** — nhiều giá trị derive được trực tiếp từ state, không cần effect.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Hooks ra đời?](#vì-sao-hooks-ra-đời)

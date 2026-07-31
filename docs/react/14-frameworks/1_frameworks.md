@@ -9,6 +9,18 @@ title: "1. React Frameworks"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **React core chỉ là UI library, không phải framework** — framework thêm routing, SSR/SSG, Server Components, data fetching, build optimization, deployment.
+- ⭐ **Next.js (App Router) là default** cho app cần routing/SSR/SEO/Server Components — hệ sinh thái lớn (Vercel), nhưng learning curve cao và có phần lock-in.
+- **Remix / React Router v7** hợp form-heavy app với pattern loader/action + progressive enhancement (form chạy cả khi no-JS).
+- **Astro** cho content site (blog, docs, marketing) — zero JS by default, island architecture, SEO/performance tối đa; không hợp app interactive nặng.
+- **TanStack Start** mới, type-safe, đáng theo dõi (còn early stage); **Gatsby** đã lỗi thời, không khuyên dùng cho project mới. SPA đơn giản chỉ cần Vite + React Router, đừng over-engineer.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Tổng quan](#tổng-quan)

@@ -9,6 +9,18 @@ title: "4. Rules of Hooks"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Chỉ gọi hook ở top level** — không đặt trong `if`/`for`/`while`, nested function, hay sau early return.
+- ⭐ **Chỉ gọi hook từ function component hoặc custom hook** — không từ function thường, event handler, hay class.
+- **Vì sao?** — React track hook theo THỨ TỰ GỌI (index), không theo tên; đổi thứ tự giữa các render → gán nhầm state → bug khó tìm.
+- **Bật `eslint-plugin-react-hooks`** — hai rule `rules-of-hooks` + `exhaustive-deps`, nên chạy trong CI (`--max-warnings 0`).
+- **`use` (React 19) là ngoại lệ duy nhất** — được gọi trong condition vì không có state riêng, chỉ đọc Promise/Context.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Rules of Hooks?](#vì-sao-có-rules-of-hooks)

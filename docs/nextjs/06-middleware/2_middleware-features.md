@@ -9,6 +9,19 @@ Bài này đi sâu vào các tính năng thường dùng bên trong **middleware
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Đọc/ghi cookie qua `request.cookies` và `response.cookies`** — auth token luôn đặt `httpOnly + secure + sameSite=lax`, tránh lưu dữ liệu nhạy cảm trong cookie client đọc được.
+- ⭐ **Auth pattern chuẩn** — middleware `jwtVerify` chữ ký JWT (không query DB ở Edge), redirect user chưa auth khỏi route bảo vệ, rồi truyền `X-User-Id` xuống Server Component.
+- **Truyền data xuống downstream** — set header rồi `NextResponse.next({ request: { headers } })`, Server Component đọc lại qua `headers()` từ `next/headers`.
+- **Rate limiting** — Edge không giữ memory bền, dùng KV store ngoài như Upstash (`@upstash/ratelimit`).
+- **CORS** — xử lý preflight `OPTIONS` và set `Access-Control-*`; API có credentials nên whitelist origin thay vì `*`.
+- **Compose middleware** — helper `compose(...fns)` short-circuit khi một hàm trả `NextResponse`, cho qua khi trả `null`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao middleware có các tính năng này?](#vì-sao-middleware-có-các-tính-năng-này)

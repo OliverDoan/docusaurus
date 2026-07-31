@@ -9,6 +9,18 @@ React 19 là phiên bản mới mang đến nhiều tính năng giúp viết ứ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Server Components chạy trên server** — bundle 0 KB, truy cập DB/env trực tiếp, giữ secret an toàn; Client Component (có state/onClick) phải đánh dấu `"use client"`.
+- ⭐ **Actions + `useActionState` gói sẵn pending/error** — form submit không còn `useState` rải rác; kèm `useFormStatus` cho nút con biết form đang gửi.
+- **`use()` đọc Promise hoặc Context** — được phép gọi trong nhánh `if`, khác `useContext`.
+- **`useOptimistic` cập nhật UI ngay** khi bấm và tự rollback nếu server lỗi.
+- **Tiện ích khác**: tự hoist `<title>`/`<meta>` vào head, `ref` là prop thường (bỏ `forwardRef`), React Compiler tự memoize thay `useMemo`/`useCallback`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao React 19 thêm các tính năng này?](#vì-sao-react-19-thêm-các-tính-năng-này)

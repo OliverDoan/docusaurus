@@ -9,6 +9,19 @@ title: "1. Context API"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Context API chia sẻ data xuống subtree không cần prop drilling** — `createContext` → `Provider` bọc cây → `useContext` đọc ở bất kỳ component con nào.
+- ⭐ **Mọi consumer re-render khi value đổi và không có selector** — chỉ hợp với data ít đổi (theme, auth, locale, feature flag).
+- **Pattern chuẩn** — gói Context + Provider + custom hook trong 1 file; hook `throw` error nếu dùng ngoài Provider (type-safe, defensive).
+- **Object literal làm value tạo mới mỗi render** → nên `useMemo` để tránh re-render thừa.
+- **Không hợp với** form state (đổi mỗi keystroke), real-time data — nên dùng Zustand/Jotai/Redux Toolkit có selector.
+- **Tránh Provider hell** — gộp/compose các provider; chia nhỏ context theo tần suất cập nhật, mỗi context một concern.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Context API?](#vì-sao-có-context-api)

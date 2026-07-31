@@ -20,6 +20,18 @@ flowchart TD
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **5 nhóm cần rà soát trước khi lên production**: Performance, Security, SEO, Accessibility, Error Handling.
+- **Performance**: First Load JS < 200KB, mọi `<img>` → `<Image>`, đạt Web Vitals target (LCP < 2.5s, INP < 200ms, CLS < 0.1).
+- **Security**: secret trong env (không hardcode), security header (CSP, `X-Frame-Options`, HSTS), cookie `httpOnly + secure`.
+- **SEO**: metadata unique, JSON-LD, `sitemap.ts` + `robots.ts`; **A11y**: semantic HTML, label form, contrast ≥ 4.5:1.
+- **Error handling**: `error.tsx`, `not-found.tsx`, API error không lộ chi tiết — dùng **checklist 30 mục** trước deploy.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Performance Checklist](#performance-checklist)

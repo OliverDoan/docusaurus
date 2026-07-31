@@ -9,6 +9,18 @@ Trong React có rất nhiều cách để viết CSS (định kiểu, tô màu s
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Tailwind CSS là mặc định 2026** — utility-first, không runtime, tree-shaking nên bundle nhỏ; đáng học cú pháp.
+- **CSS Modules** — tự sinh hash cho class nên không trùng tên toàn cục, built-in sẵn trong Vite/Next/CRA.
+- ⭐ **CSS-in-JS (`styled-components`, Emotion) đang giảm phổ biến** — có runtime cost, kém tương thích Server Components; project mới không nên chọn trừ khi có lý do rõ.
+- **Panda CSS / vanilla-extract** — type-safe, compile thành CSS tĩnh (zero-runtime) → lựa chọn thay CSS-in-JS.
+- **SASS/SCSS ngày càng ít cần** — CSS thuần đã có nesting, `var()`, `calc()`; chỉ giữ khi cần mixin/function hoặc codebase legacy.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có nhiều cách viết CSS trong React?](#vì-sao-có-nhiều-cách-viết-css-trong-react)

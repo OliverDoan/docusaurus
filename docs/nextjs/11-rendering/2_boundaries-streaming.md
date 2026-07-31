@@ -9,6 +9,18 @@ title: "2. Boundaries và Streaming"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Streaming + Suspense** — gửi shell và nội dung chính ngay, bọc phần chậm trong `<Suspense fallback>` để stream sau, tránh màn hình trắng chờ toàn bộ data.
+- ⭐ **Không `await` ở parent trước Suspense** — nếu parent await sẽ vẫn bị waterfall; để mỗi component con tự `await` để chạy song song.
+- **Props Server → Client phải serializable** — function không truyền được; muốn pass action thì dùng Server Action (bản thân nó serialize được).
+- **`server-only` / `client-only`** — package chặn import sai môi trường ngay tại build time.
+- **`loading.tsx`** — tự bọc Suspense quanh cả page khi navigation; kết hợp Suspense thủ công bên trong cho từng section load riêng.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có streaming & Suspense boundary?](#vì-sao-có-streaming--suspense-boundary)

@@ -9,6 +9,18 @@ title: "1. Testing React App"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Test tự động chống regression** — chạy lại trong vài giây sau mỗi thay đổi, thay cho việc mở app click bằng tay và dễ sót.
+- ⭐ **`Vitest` là test runner mặc định cho project mới** — dùng Vite, nhanh hơn Jest 3-10 lần, API gần giống hệt (`vi` thay `jest`).
+- **React Testing Library test theo góc nhìn người dùng** — ưu tiên `getByRole` > `getByText` > `getByTestId`; test behavior chứ không test implementation → bền khi refactor.
+- **Playwright cho E2E** — chạy trên real browser đa nền (Chromium/Firefox/WebKit), auto-wait, trace viewer, dần thay Cypress; chỉ viết cho 3-5 luồng critical.
+- **Theo Testing Pyramid**: nhiều unit (Vitest) → vừa integration (+ MSW) → ít E2E (Playwright); đừng cố 100% coverage, ~80% là đủ. **Storybook** để develop/document component isolated.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần test React component?](#vì-sao-cần-test-react-component)

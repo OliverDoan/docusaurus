@@ -9,6 +9,18 @@ Bài này so sánh **TypeScript** và **JavaScript** để bạn hiểu khi nào
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Static vs dynamic typing** — JS là dynamic (kiểu xác định lúc chạy), TS là static (khai báo trước, kiểm tra lúc compile) nên bắt lỗi tại compile-time thay vì runtime.
+- ⭐ **TS dùng structural typing** — hai type khác tên nhưng cùng "shape" thì tương thích, khác nominal typing của Java/C#; linh hoạt nhưng dễ sinh bug "trùng shape".
+- **Type không tồn tại tại runtime** — code pass compile vẫn có thể crash; `as` chỉ "nói dối" TS, phải validate ở biên hệ thống (API, user input, file).
+- **Khi nào nên dùng** — project trung bình–lớn, nhiều người, dài hạn; có thể bỏ qua với script nhỏ một file hoặc prototype nhanh.
+- **Mẹo** — chọn TypeScript template ngay khi tạo project mới (Next.js, NestJS...) sẽ ít công hơn migrate sau.
+
+:::
+
+---
+
 ## Mục lục
 
 - [So sánh tổng quan](#so-sánh-tổng-quan)

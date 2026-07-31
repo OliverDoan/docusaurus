@@ -9,6 +9,18 @@ title: "3. Monitoring và Observability"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Đo Web Vitals từ người dùng thật (field data)** bằng `useReportWebVitals` — quan trọng hơn lab data (Lighthouse/CI) vì phản ánh device/network thực.
+- **Vercel Analytics + Speed Insights** track page view và Web Vitals real users, tổng hợp p50/p75/p95.
+- **`instrumentation.ts` + OpenTelemetry** (`@vercel/otel`) cho distributed tracing, tìm bước chậm trong hệ thống.
+- **Sentry** bắt lỗi production tự động (exception, promise rejection, render error) qua `captureException`.
+- **Sampling rate** để tiết kiệm cost — không log/trace 100% traffic production.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần monitoring?](#vì-sao-cần-monitoring)

@@ -9,6 +9,18 @@ title: "4. Refs"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`useRef` giữ giá trị persist qua các render mà không trigger re-render** — trả về object `{ current: ... }`, sửa `ref.current` không vẽ lại UI.
+- ⭐ **Dùng ref để "với tay" vào DOM thật** (focus, scroll, measure, play video, tích hợp thư viện non-React) qua prop `ref`.
+- **Không truy cập ref trong render** (chưa mount, `current` là null) — đo/dùng trong `useEffect` (hoặc `useLayoutEffect` để tránh flicker).
+- **React 19** cho function component nhận `ref` qua props trực tiếp, không cần `forwardRef` nữa; class vẫn dùng `createRef`.
+- **Đừng lạm dụng ref thay state** — nếu giá trị hiện trong UI thì dùng state; `useImperativeHandle` chỉ dùng khi thật cần expose method.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có refs?](#vì-sao-có-refs)

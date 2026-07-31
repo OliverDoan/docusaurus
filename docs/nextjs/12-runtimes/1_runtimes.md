@@ -9,6 +9,19 @@ title: "1. Node.js vs Edge Runtime"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Chọn runtime theo từng route** — khai báo `export const runtime = "nodejs"` hoặc `"edge"` ngay đầu file.
+- ⭐ **Node.js vs Edge** — Node.js đầy đủ API (`fs`, native module, ORM TCP, CPU nặng) nhưng cold start 1-3s; Edge chạy trên V8 isolate, chỉ Web Standards, cold start vài ms và chạy gần user toàn cầu.
+- **Edge nhiều giới hạn** — không có `fs`/native module/hầu hết ORM, giới hạn bundle (~1MB) và CPU.
+- **Mặc định** — Middleware chạy Edge; page và route handler mặc định Node.
+- **DB trên Edge cần HTTP driver** — Neon, Turso, PlanetScale, Upstash Redis (không dùng TCP).
+- **Pattern hybrid** — Edge cho auth check/gating nhanh, Node cho heavy compute.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Node.js runtime & Edge runtime?](#vì-sao-có-nodejs-runtime--edge-runtime)

@@ -9,6 +9,18 @@ title: "1. TypeScript là gì?"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **TS là superset của JavaScript** — do Microsoft phát triển từ 2012; mọi code JS hợp lệ đều là code TS hợp lệ, TS chỉ thêm vào chứ không bỏ đi.
+- ⭐ **Type erasure** — mọi type annotation (`: string`, `interface`, `type`) bị xoá sạch khi compile, nên không thể check type tại runtime; muốn validate dữ liệu runtime phải dùng **Zod**, **io-ts** hoặc viết type guard thủ công.
+- **Luồng chạy 3 bước** — `[.ts]` → `tsc` → `[.js]` → Node/Browser; TS không có runtime riêng.
+- **Interoperability với JS** — dùng thư viện JS cần file declaration `.d.ts`; phần lớn có sẵn qua `@types/*` trên DefinitelyTyped.
+- **Migration dần** — bật `allowJs`/`checkJs` để compile lẫn file `.js`; bật `noImplicitAny` để chặn implicit `any` (thứ vô hiệu hoá toàn bộ type-check).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Định nghĩa](#định-nghĩa)

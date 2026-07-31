@@ -9,6 +9,18 @@ title: "1. CLI Tools để tạo project React"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Năm 2026 chỉ còn 2 lựa chọn chính: Vite và Next.js** — chọn Vite cho SPA/dashboard, Next.js cho website cần SEO/SSR.
+- **Vite** — nhanh nhờ native ES Module + esbuild, dùng `npm create vite@latest my-app -- --template react-ts`.
+- **Next.js** — framework full-stack, hỗ trợ SSR/SSG/App Router/Server Components, hợp SaaS và website công ty.
+- **Bun create** — cực nhanh (`bun create vite my-app`), tương thích API Node.js.
+- ⭐ **CRA đã bị deprecate từ 2023** — không bao giờ tạo project mới bằng Create React App.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Tổng quan](#tổng-quan)

@@ -9,6 +9,18 @@ title: "2. State Management Libraries"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Thư viện state (Zustand, Jotai, Redux Toolkit, MobX) tối ưu re-render theo selector/atom** — kèm DevTools/middleware/persist khi Context không đủ.
+- ⭐ **Zustand khuyến nghị cho ~90% trường hợp** — nhẹ ~1KB, không cần Provider, subscribe theo selector nên chỉ re-render đúng phần cần.
+- **Jotai** atomic state (fine-grained, hợp form lớn); **Redux Toolkit** theo Flux, DevTools mạnh + RTK Query; **MobX** observable OOP-style.
+- **Phân biệt 3 loại state** — server (TanStack Query), URL (`useSearchParams`), client (`useState`/Zustand); dùng đúng tool cho đúng loại.
+- **Đừng over-engineer** — tiến trình tự nhiên: `useState` → lift state up → Context → state manager; đa số app dừng ở bước 2–3.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần thư viện state management?](#vì-sao-cần-thư-viện-state-management)

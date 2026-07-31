@@ -9,6 +9,18 @@ title: "3. Top types và Bottom types"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`unknown` thay cho `any`** — cùng nhận mọi giá trị nhưng bắt buộc narrow (type guard/Zod) trước khi dùng, giữ được type safety.
+- ⭐ **`any` lan truyền như virus** — tắt hoàn toàn type-check và làm cả chain mất an toàn; chỉ dùng khi migrate JS cũ.
+- **`never` là bottom type** — không chứa giá trị nào; dùng cho hàm luôn throw/loop vô hạn và exhaustiveness check trong `switch`.
+- **`Object` vs `object`** — `Object` (hoa) nhận cả primitive nên vô dụng; `object` (thường) là mọi giá trị non-primitive.
+- **Đặc tính `never`** — `never & T = never`, `never | T = T`, là subtype của mọi type (dùng trong conditional types).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có any, unknown, never?](#vì-sao-có-any-unknown-never)

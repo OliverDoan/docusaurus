@@ -9,6 +9,18 @@ title: "1. Animation trong React"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Framer Motion (package `motion`) là lựa chọn mặc định 2026** — API khai báo gắn với state, `AnimatePresence` lo được exit animation khi component unmount (thứ CSS thuần khó làm).
+- **CSS/Tailwind đáp ứng ~70% nhu cầu** (fade, slide, scale, hover) và chạy trên GPU — thử trước khi dùng library.
+- **`React Spring`** hợp khi cần control spring physics chi tiết; **`GSAP` + ScrollTrigger** mạnh cho marketing/landing phức tạp.
+- **View Transitions API** là web API native cho page transition (Chrome 111+, Safari 18+), integration React vẫn unstable.
+- **Tôn trọng `prefers-reduced-motion`** — tắt bớt animation cho người dùng nhạy cảm chuyển động.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao dùng thư viện animation?](#vì-sao-dùng-thư-viện-animation)

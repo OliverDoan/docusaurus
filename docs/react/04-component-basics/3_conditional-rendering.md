@@ -9,6 +9,18 @@ title: "3. Conditional Rendering"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **React không có template riêng — dùng chính JavaScript** để render có điều kiện: ternary `? :`, `&&`, early return, lookup object.
+- **Cẩn thận `&&` với số 0** — `{items.length && ...}` sẽ render ra `0`; convert boolean (`items.length > 0 &&`) để tránh.
+- **Early return / guard clauses** — loại case không hợp lệ trước, để happy path ở cuối, tránh lồng ternary sâu.
+- **Nhiều nhánh dùng `switch` hoặc lookup object** — switch + TypeScript cho exhaustive check qua discriminated union.
+- ⭐ **Không setState trong render** — gây vòng lặp vô hạn; render phải là pure function của props + state.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần conditional rendering?](#vì-sao-cần-conditional-rendering)

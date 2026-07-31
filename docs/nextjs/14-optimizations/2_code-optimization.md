@@ -9,6 +9,18 @@ Tối ưu code là cách giảm lượng JavaScript phải tải và chạy trê
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`dynamic()` lazy load component nặng** (chart, editor, map) để chúng không vào initial bundle — chỉ dùng trong Client Component.
+- **Metadata API** (`export const metadata` / `generateMetadata`) tự sinh `<head>` cho SEO; `fetch` được dedupe giữa metadata và page.
+- **Ưu tiên Server Component** để giảm First Load JS gửi xuống trình duyệt.
+- **Tree-shaking**: import đường dẫn con (`lodash/debounce`) thay vì cả thư viện; `optimizePackageImports` cho icon library.
+- **Mục tiêu First Load JS < 200KB**, nhưng đừng `dynamic()` mọi thứ — over-fragmentation gây nhiều HTTP request.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần tối ưu code (bundle)?](#vì-sao-cần-tối-ưu-code-bundle)

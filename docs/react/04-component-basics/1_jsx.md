@@ -9,6 +9,18 @@ title: "1. JSX"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **JSX là cú pháp giống HTML viết ngay trong JS** — được Babel/SWC biên dịch thành `React.createElement`, không phải string cũng không phải HTML thuần.
+- **Quy tắc cú pháp** — chỉ 1 root element (hoặc Fragment), đóng mọi thẻ (`<img />`), attribute camelCase, inline style là object `{{ }}`.
+- **Nhúng JS bằng `{}`** — chỉ nhận expression (ternary, `&&`, `.map`), không nhận statement (`if`, `for`).
+- **Fragment `<>...</>`** — bọc nhiều element mà không tạo thêm DOM node.
+- ⭐ **Từ React 17 không cần `import React`** — nhờ new JSX transform (`jsx: "react-jsx"`), bundle nhỏ hơn.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có JSX?](#vì-sao-có-jsx)

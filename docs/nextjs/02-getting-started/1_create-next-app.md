@@ -9,6 +9,18 @@ title: "1. Tạo project Next.js"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Tạo project bằng `npx create-next-app@latest`** — wizard hỏi TypeScript, Tailwind, App Router, Turbopack, import alias.
+- **File-based routing:** routes nằm trong `app/`, mỗi `page.tsx` = một route.
+- **Dev:** `npm run dev` (Fast Refresh, HMR, error overlay); **Production:** phải `npm run build` rồi mới `npm run start`.
+- **Build report ký hiệu:** `○` Static (build time), `ƒ` Dynamic (mỗi request), `●` ISR (revalidate định kỳ).
+- ⭐ **App Router là default 2026;** Pages Router vẫn được hỗ trợ vô thời hạn cho codebase cũ.
+
+:::
+
+---
+
 ## Mục lục
 
 - [create-next-app](#create-next-app)

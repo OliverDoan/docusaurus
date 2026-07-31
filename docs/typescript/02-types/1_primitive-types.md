@@ -9,6 +9,18 @@ title: "1. Primitive Types"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Sáu kiểu nguyên thủy** — `boolean`, `number`, `string`, `void`, `null`, `undefined` được kiểm tra chặt tại compile-time thay vì lộ lỗi lúc runtime.
+- ⭐ **Bật `strictNullChecks`** — flag quan trọng nhất giúp `null`/`undefined` là kiểu riêng, phải khai báo tường minh qua union (`string | null`).
+- **`number` là IEEE-754 64-bit** — không phân biệt int/float; vượt `Number.MAX_SAFE_INTEGER` phải dùng `bigint` (không tự convert).
+- **`void` khác `undefined`** — `void` là "bỏ qua giá trị trả về" của hàm, còn `undefined` là một giá trị thực.
+- **Phân biệt chữ hoa/thường** — `boolean` là primitive, `Boolean` là object wrapper (không nên dùng).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần kiểu tĩnh cho primitive?](#vì-sao-cần-kiểu-tĩnh-cho-primitive)

@@ -9,6 +9,18 @@ Trong React, để hiển thị một **list** (danh sách nhiều phần tử),
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`key` giúp React nhận diện từng phần tử qua các lần render** để reconcile đúng, giữ nguyên state/instance khi list thêm, xoá hay đảo thứ tự.
+- ⭐ **Ưu tiên id ổn định từ data** (DB id, UUID); chỉ dùng `index` cho list tĩnh không reorder/insert/delete giữa.
+- **Key sai là lỗi correctness**, không chỉ hiệu năng — dùng `index` khi list động sẽ gán nhầm data, mất state input.
+- **Không dùng `Math.random()` làm key** (đổi mỗi render → remount toàn bộ); key phải đặt trên element trả thẳng từ `.map`.
+- **Fragment cần key** thì dùng `<Fragment key={...}>`; key chỉ cần unique trong cùng một `.map`, khi merge nhiều list nên thêm prefix.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần key khi render danh sách?](#vì-sao-cần-key-khi-render-danh-sách)

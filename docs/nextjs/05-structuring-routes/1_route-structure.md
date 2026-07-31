@@ -9,6 +9,19 @@ Bài này hướng dẫn cách tổ chức thư mục route sao cho gọn gàng 
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Đặt đúng tên file đặc biệt là Next tự nối** — `layout.tsx`, `page.tsx`, `loading.tsx`, `error.tsx`, `not-found.tsx`, `template.tsx` được lồng tự động quanh `page.tsx`, giảm boilerplate.
+- ⭐ **Route Handler `route.ts`** — tạo API endpoint bằng cách export hàm theo method (`GET`, `POST`, `PUT`, `DELETE`...); method không có handler tự trả `405`.
+- **Co-location** — đặt component/util/type riêng cạnh route dùng nó để dễ tìm, dễ xoá; dùng chung nhiều nơi thì mới nâng lên `components/` gốc.
+- **Private folder `_name`** — thư mục bắt đầu bằng `_` không tạo route, dùng chứa code helper.
+- **Route handler dùng Web Standards** — `Request`/`Response` thay cho `req`/`res` cũ, chạy được cả Edge Runtime, dễ port và test.
+- **Route Handler vs Server Action** — Route Handler cho API public/webhook/OAuth/stream; đa số mutation form trong app nên dùng Server Action vì gọn và type-safe.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có quy ước file cho route?](#vì-sao-có-quy-ước-file-cho-route)

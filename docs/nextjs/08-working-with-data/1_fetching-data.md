@@ -9,6 +9,19 @@ title: "1. Fetching Data"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Server Component có thể `async` và `await fetch` ngay trên server** — dữ liệu sẵn lúc render (tốt SEO), secret/API key không lộ, bundle client bằng 0.
+- ⭐ **Chọn nơi fetch theo nhu cầu** — Server cho initial load/SEO/data từ DB; Client (`"use client"`) cho fetch theo tương tác, real-time, optimistic UI.
+- **`fetch` được cache/dedupe tự động** — cùng URL trong một request chỉ gọi API một lần (React `cache()` + Next.js dedup).
+- **Client fetching nên dùng TanStack Query** — tự lo cache, refetch, retry, dedupe thay vì `useState`/`useEffect` thủ công.
+- **Pattern hybrid** — Server fetch `initialData` truyền xuống Client Component để có ngay nội dung rồi client refresh sau (vừa SEO vừa real-time).
+- **Option `cache`/`next` chỉ chạy phía server** — trong Client Component `fetch` là native, không có `next.revalidate`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao fetch dữ liệu trong Next khác React thuần?](#vì-sao-fetch-dữ-liệu-trong-next-khác-react-thuần)

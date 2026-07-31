@@ -9,6 +9,19 @@ Quản lý cache (**cache management**) là việc kiểm soát khi nào dữ li
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Time-based (`revalidate: N`) là Stale-While-Revalidate** — phục vụ cache ngay, rebuild ngầm ở nền, user không bao giờ phải đợi.
+- ⭐ **On-demand `revalidateTag` / `revalidatePath` chỉ đánh dấu stale** — không rebuild ngay, request kế tiếp mới render lại và cache bản mới.
+- **`revalidatePath` cần absolute path** — thêm type `"page"` hoặc `"layout"` để chọn cấp invalidate; template `/products/[slug]` cho dynamic route.
+- **`revalidateTag` granular & cross-route** — nhiều fetch cùng một tag thì 1 lần revalidate ảnh hưởng tất cả (đảm bảo consistency).
+- **`unstable_cache`** — cache cả hàm (DB query, computation), không chỉ riêng `fetch`.
+- **Webhook từ CMS** — gọi Route Handler + `revalidateTag` để static site cập nhật ngay mà không cần rebuild.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần quản lý & làm mới cache?](#vì-sao-cần-quản-lý--làm-mới-cache)

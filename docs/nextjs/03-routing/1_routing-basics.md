@@ -9,6 +9,18 @@ title: "1. Routing Basics"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **File-based routing:** cấu trúc thư mục `app/` = cấu trúc URL; tạo file là có route, folder = segment.
+- **File đặc biệt:** `page.tsx` (UI route), `layout.tsx` (UI chung, KHÔNG re-render khi navigate), `template.tsx` (re-mount mỗi lần), `loading.tsx`, `error.tsx`, `not-found.tsx`.
+- ⭐ **Next.js 15+: `params` và `searchParams` là Promise** — phải `await` (trong Client Component dùng `useParams()`).
+- **Root layout là mandatory:** phải có `<html>` + `<body>` và chỉ có một.
+- **`error.tsx` phải là Client Component** và không bắt được lỗi của layout cùng cấp (cần `error.tsx` cấp trên).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Next.js dùng file-based routing?](#vì-sao-nextjs-dùng-file-based-routing)

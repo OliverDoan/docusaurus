@@ -9,6 +9,18 @@ Bài này giới thiệu các công cụ cấu hình nền tảng cho dự án N
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`NEXT_PUBLIC_*` được inline vào client bundle tại build time** — đổi giá trị phải rebuild; cần config runtime thì fetch qua API route.
+- **TypeScript first-class**: `strict: true`, kiểm tra kiểu bằng `tsc --noEmit` (build cũng chạy type check).
+- **ESLint** dùng config `next/core-web-vitals` (bắt lỗi `<img>`, custom font, `<a>` thay `<Link>`).
+- **Type-safe env** với Zod hoặc `@t3-oss/env-nextjs` — tách server/client, fail build nếu env thiếu/sai.
+- **MDX native** qua `@next/mdx`; site content-heavy dùng thêm Contentlayer/Velite.
+
+:::
+
+---
+
 ## Mục lục
 
 - [TypeScript Setup](#typescript-setup)

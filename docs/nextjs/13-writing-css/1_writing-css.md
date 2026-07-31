@@ -9,6 +9,18 @@ title: "1. Writing CSS trong Next.js"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Tailwind v4 là default cho mọi project mới** — utility class, không phải nghĩ tên class, JIT tree-shake nên bundle CSS nhỏ.
+- **Global CSS chỉ import 1 lần ở root layout** (`app/layout.tsx`), không import trong component khác.
+- **CSS Modules** (`.module.css`) cho component có style riêng — class tự sinh tên unique, scope cục bộ.
+- **Tránh CSS-in-JS runtime** (Styled Components, Emotion) với RSC — ưu tiên loại compile-time như vanilla-extract, Panda, StyleX.
+- **`clsx` + `tailwind-merge`** để gộp conditional class gọn gàng.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Next hỗ trợ nhiều cách viết CSS?](#vì-sao-next-hỗ-trợ-nhiều-cách-viết-css)

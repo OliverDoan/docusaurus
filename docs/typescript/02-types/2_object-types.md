@@ -9,6 +9,18 @@ title: "2. Object Types"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`interface` mô tả hình dạng (shape)** — bắt lỗi khi thiếu field, thừa field lạ hoặc sai kiểu; hỗ trợ `?` (optional) và `readonly`.
+- ⭐ **Structural typing** — hai object cùng shape là tương thích, không cần `implements` tường minh (khác Java/C#).
+- **`class` vừa là kiểu vừa là giá trị** — dùng làm type lẫn constructor.
+- **`enum` có runtime cost** — numeric enum sinh reverse mapping; nhiều team thay bằng union string literal (`"Active" | "Inactive"`) nhẹ hơn.
+- **`array` vs `tuple`** — array độ dài linh hoạt cùng kiểu; tuple độ dài cố định, kiểu theo từng vị trí. Bật `noUncheckedIndexedAccess` để index trả `T | undefined`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần định kiểu cho object?](#vì-sao-cần-định-kiểu-cho-object)

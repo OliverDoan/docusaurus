@@ -9,6 +9,18 @@ Dữ liệu nhạy cảm (**sensitive data**) là những thông tin bí mật n
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Không truyền secret hay full object xuống Client qua props** — chúng bị nhúng vào client bundle, lộ trong DevTools; chỉ trả DTO đã lọc field bằng Prisma `select`.
+- **`server-only` package** — thêm `import "server-only"` vào file server (DB, secret) để build error nếu Client lỡ import.
+- **Biến môi trường** — secret để trần (server only); chỉ `NEXT_PUBLIC_*` cho config công khai vì tiền tố này bị inline vào bundle.
+- ⭐ **Server Action (`"use server"`)** — thay API route cho mutation internal, type-safe, dùng `useActionState`; nhưng endpoint vẫn public nên phải validate input và access ngay đầu function.
+- **`taint` API** — đánh dấu data nhạy cảm để React throw tại build time khi lỡ truyền qua ranh giới Server → Client.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao phải cẩn thận với dữ liệu nhạy cảm?](#vì-sao-phải-cẩn-thận-với-dữ-liệu-nhạy-cảm)

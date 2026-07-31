@@ -9,6 +9,18 @@ title: "2. Class Components (Legacy)"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Class component là cách viết cũ** — Hooks (React 16.8, 2019) đã thay thế cho 99% use case mới; không viết code mới bằng class.
+- **State qua `this.state` / `this.setState`** — `setState` là async và batched, dùng dạng updater `setState(prev => ...)` khi phụ thuộc state cũ.
+- **Lifecycle 3 giai đoạn** — `componentDidMount`, `componentDidUpdate`, `componentWillUnmount`; một `useEffect` thay được cả ba.
+- ⭐ **Error Boundary vẫn buộc dùng class** — React chưa có hook tương đương (`getDerivedStateFromError`, `componentDidCatch`).
+- **Vẫn cần biết để đọc & maintain code legacy** — codebase trước 2019 đầy class component; migrate dần sang hooks.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao (từng) có class component?](#vì-sao-từng-có-class-component)

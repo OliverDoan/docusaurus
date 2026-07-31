@@ -9,6 +9,18 @@ title: "1. Testing Next.js App"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Server Component async chưa có test util chính thức** — workaround: test business logic riêng, hoặc render bằng `renderToString`.
+- **Vitest + React Testing Library** cho unit/component; **Playwright** cho E2E luồng thật (login, checkout).
+- **Test Client Component** bằng RTL: render, click, kiểm tra state cập nhật.
+- **Test Server Action** gọi thẳng hàm với `FormData` mock, kiểm tra validation và kết quả.
+- **MSW** intercept `fetch` ở network layer để mock; theo mô hình testing pyramid (nhiều unit, ít E2E).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần test ứng dụng Next?](#vì-sao-cần-test-ứng-dụng-next)

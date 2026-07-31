@@ -9,6 +9,17 @@ Trước khi học Next.js, bạn cần nắm vững **JavaScript** (ngôn ngữ
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Nền tảng cần trước Next.js:** JS hiện đại (ES6+, `async/await`, Web Standards API) và React (JSX, hooks, React 19 Server Components).
+- **Next.js vs Remix:** Next dùng Server Components + `fetch()`; Remix dùng `loader`/`action`, mạnh về progressive enhancement (form chạy cả khi tắt JS).
+- **Astro** là content-focused, HTML tĩnh JS opt-in — hợp blog/docs/marketing; **TanStack Start** mới, type-safe end-to-end, đáng theo dõi.
+- ⭐ **Đa số dự án mới 2026 chọn Next.js** vì ít rủi ro, ecosystem lớn, dễ tuyển dev.
+
+:::
+
+---
+
 ## Mục lục
 
 - [JavaScript Basics cần biết](#javascript-basics-cần-biết)

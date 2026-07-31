@@ -9,6 +9,18 @@ Trong React, **Types** (kiểu dữ liệu) giúp bạn khai báo rõ ràng prop
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hai lớp bảo vệ khác thời điểm** — TypeScript bắt lỗi lúc compile (props, state, code nội bộ); Zod/Yup kiểm tra lúc runtime cho mọi dữ liệu từ ngoài (API, form, `localStorage`).
+- ⭐ **`z.infer<typeof Schema>` cho một schema = một type + N điểm validation** — không phải khai báo type và luật kiểm tra hai lần; đây là productivity boost lớn nhất khi TS gặp Zod.
+- **TypeScript là default 2026, `PropTypes` đã bỏ khỏi React core từ v19** — đừng dùng PropTypes trong code mới (chỉ check runtime, verbose).
+- **Định kiểu component**: dùng `interface Props`, `ReactNode` cho children, extend `React.ButtonHTMLAttributes`; **tránh `React.FC`** (ngầm thêm `children`, khó generic).
+- **Zod phổ biến nhất (#1)** — TypeScript-first, hệ sinh thái rộng (RHF, tRPC, Drizzle); **Valibot** nhẹ hơn (~3KB, tree-shakeable) khi cần tối ưu bundle. Dùng `parse` ở server (để error bubble), `safeParse` ở form (hiện lỗi đẹp).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần types & validation?](#vì-sao-cần-types--validation)

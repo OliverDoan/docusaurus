@@ -5,6 +5,16 @@ title: "Giới thiệu"
 
 # Lộ trình học Next.js
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Next.js là framework xây trên React** để tạo ứng dụng web full-stack — cung cấp sẵn bộ giải pháp hoàn chỉnh thay vì tự ghép công cụ.
+- **Khác React thuần**: React là library chỉ lo giao diện, Next.js bổ sung routing file-based, SSR/SSG/ISR, tối ưu tự động và backend/API.
+- **Lợi ích chính**: SSR thân thiện SEO, routing sẵn có, tự tối ưu ảnh/font/code splitting.
+- **Cần nắm React trước** (component, props, state, hooks) vì Next.js dựa trên các khái niệm này.
+- **Lộ trình 18 chủ đề**, nên học tuần tự từ nền tảng đến triển khai, vừa học vừa làm ví dụ nhỏ.
+
+:::
+
 ## Next.js là gì?
 
 Next.js là một framework (bộ khung phát triển) xây dựng trên nền React, giúp bạn tạo ra các ứng dụng web full-stack (toàn diện cả phần giao diện lẫn phần máy chủ) một cách nhanh chóng. Nói cách khác, thay vì tự lắp ráp từng mảnh công cụ rời rạc, Next.js cung cấp sẵn một bộ giải pháp hoàn chỉnh để bạn tập trung vào việc viết tính năng.

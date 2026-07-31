@@ -9,6 +9,17 @@ title: "1. Combining Types"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Union `A | B` là OR, Intersection `A & B` là AND** — union nhận một trong các kiểu (chỉ truy cập được thuộc tính chung mọi nhánh), intersection gộp đủ mọi thuộc tính.
+- ⭐ **Literal union mô hình hoá trạng thái cố định** — `type Status = "loading" | "success" | "error"` chặn giá trị sai chính tả ngay khi gõ.
+- **`type` linh hoạt hơn `interface`** — dùng được cho union/primitive/tuple/function; chọn một quy ước và giữ nhất quán trong codebase.
+- **`keyof T` trả về union các key** — kết hợp indexed access `T[K]` là nền tảng để viết hàm truy cập property an toàn (`getProp`).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có union, intersection & literal types?](#vì-sao-có-union-intersection--literal-types)

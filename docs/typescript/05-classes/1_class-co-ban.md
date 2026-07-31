@@ -9,6 +9,18 @@ title: "1. Class cơ bản và Access Modifiers"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Ba access modifier: `public` (mặc định), `protected` (class này + class con), `private` (chỉ class này)** — dùng để đóng gói và ẩn state nội bộ như `password`, `apiKey`.
+- ⭐ **Parameter properties rút gọn constructor** — khai báo `constructor(public id: number, private password: string)` tự gán field, bớt code lặp.
+- **`private` của TS là compile-time, `#field` là runtime** — cần private thực sự an toàn thì dùng `#field` (JS thuần không lách được).
+- **`readonly` chỉ được gán trong constructor** — khoá `id`, `createdAt`, `apiUrl` để không bị sửa sau khi khởi tạo.
+- **`static` thuộc về chính class, không phải instance** — dùng cho hằng số/factory/helper; tránh gom mọi util thành "god class".
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao TypeScript bổ sung gì cho class?](#vì-sao-typescript-bổ-sung-gì-cho-class)

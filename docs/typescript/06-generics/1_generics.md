@@ -9,6 +9,18 @@ title: "1. Generics"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Generic `<T>` tham số hoá KIỂU** — viết một lần dùng cho nhiều kiểu mà vẫn type-safe, thay cho `any` (mất kiểm tra) hay viết trùng mỗi kiểu một bản.
+- **Dùng được cho function, interface/type và class** — `first<T>`, `ApiResponse<T>`, `Stack<T>`; TS thường tự infer `T` từ đối số.
+- ⭐ **Constraint bằng `extends` giới hạn đầu vào** — `T extends { length: number }` hay `K extends keyof T`, nhưng không thu hẹp kiểu `T` nhận vào.
+- **Default type parameter `<T = string>`** — cho phép bỏ qua khi dùng, hữu ích khi viết library.
+- **Quy ước tên `T`, `K`, `V`, `E`, `R`** — khi inference fail, TS widen về kiểu ít hữu dụng (vd `null`) nên truyền tường minh khi cần.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao generics ra đời?](#vì-sao-generics-ra-đời)

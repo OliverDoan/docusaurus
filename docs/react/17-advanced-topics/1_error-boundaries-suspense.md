@@ -9,6 +9,18 @@ title: "1. Error Boundaries và Suspense"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Error Boundary bắt lỗi render của cây con** — hiện fallback thay vì sập trắng cả app; hiện phải dùng class component với `getDerivedStateFromError` và `componentDidCatch`.
+- ⭐ **`Suspense` khai báo fallback khi đang chờ** — dùng cho `React.lazy` (code splitting) và data fetching, tự hiện loading rồi swap nội dung khi xong.
+- **Error Boundary KHÔNG bắt được** lỗi trong event handler, async (Promise/setTimeout), SSR và lỗi của chính nó.
+- **Thư viện `react-error-boundary`** gói class thành component dễ dùng, kèm hook `useErrorBoundary` để trigger lỗi từ event handler/async.
+- **`createPortal` render ra DOM khác** (ví dụ `document.body`) nhưng vẫn theo React tree cho context và event bubbling.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có Error Boundary & Suspense?](#vì-sao-có-error-boundary--suspense)

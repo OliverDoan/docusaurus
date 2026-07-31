@@ -9,6 +9,18 @@ title: "2. Props vs State"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Props từ cha truyền xuống và readonly; state là dữ liệu nội bộ đổi qua setter** — gọi setter làm React re-render component.
+- ⭐ **Mô hình cốt lõi: UI = f(state)** — mô tả UI theo dữ liệu, React lo cập nhật DOM cho khớp.
+- **Setter async + batched** — dùng updater `setX(prev => ...)` khi state mới phụ thuộc state cũ.
+- **Không mutate object/array trong state** — luôn tạo bản mới bằng spread (`[...items, item]`, `{...user, name}`) vì React dùng shallow comparison.
+- **Ưu tiên derive thay vì tạo state thừa** — giữ state nhỏ nhất; nhiều component share thì dùng lifting state up (state down qua props, event up qua callback).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có props & state?](#vì-sao-có-props--state)

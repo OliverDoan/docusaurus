@@ -9,6 +9,18 @@ title: "6. Higher Order Components (HOC)"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **HOC = hàm nhận một component, trả về component mới** đã bọc thêm logic (`Component → HOC → Enhanced Component`), dùng chia sẻ logic cross-cutting.
+- **Convention đặt tên `with...`** (`withAuth`, `withRouter`, `withTheme`) và set `displayName` cho DevTools.
+- **Nhược điểm** — prop collision, TS infer type khó, "wrapper hell" khi compose nhiều tầng, khó share state; nên HOC giảm phổ biến từ React 16.8.
+- ⭐ **Custom hook thay thế đa số use case** — gọi nhiều hook thay vì lồng `withA(withB(...))`, type dễ, hiện rõ trong DevTools.
+- **HOC còn dùng** cho class component (không gọi được hook) và library legacy: Redux `connect`, MobX `observer`, Sentry `withSentry`.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có HOC (Higher-Order Component)?](#vì-sao-có-hoc-higher-order-component)

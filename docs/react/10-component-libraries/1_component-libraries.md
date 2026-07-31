@@ -9,6 +9,18 @@ title: "1. Component Libraries"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Component library giúp không phải tự xây UI từ đầu** — lo sẵn accessibility, keyboard, responsive và các trạng thái (hover, disabled, loading), đổi lại bundle to hơn và đôi khi khó tuỳ biến sâu.
+- ⭐ **`shadcn/ui` là default cho React + TypeScript + Tailwind** — không phải npm package mà là code copy vào repo (dựng trên Radix + Tailwind), sửa thoải mái, không lock-in nhưng tự maintain.
+- **Material UI (MUI)** hợp enterprise/dashboard (có MUI X DataGrid) nhưng bundle nặng và mang "chất" Material.
+- **Chakra UI** mạnh về accessibility và style prop; **Ant Design** giàu Form/Table cho admin nhưng nặng nhất; **Mantine** all-in-one modern (120+ component, 50+ hook).
+- **Tránh trộn nhiều UI lib** trong cùng project và cân nhắc kỹ (bundle, a11y, maintained, RSC) vì đổi UI library giữa chừng rất tốn công.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao dùng component library?](#vì-sao-dùng-component-library)

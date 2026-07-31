@@ -9,6 +9,18 @@ title: "2. Decorators"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Decorator `@something` là hàm gắn thêm hành vi/metadata** — cho class, method, property hoặc parameter một cách khai báo, tách khỏi logic nghiệp vụ (logging, DI, ORM mapping).
+- **Nhiều decorator xếp chồng** — đánh giá biểu thức từ trên xuống, nhưng áp dụng (wrap) từ dưới lên.
+- **4 loại: class, method, property, parameter** — property/parameter decorator chủ yếu ghi metadata, không truy cập được giá trị runtime.
+- ⭐ **Legacy cần `experimentalDecorators` + `emitDecoratorMetadata`** — NestJS, TypeORM, Angular dùng bản này; decorator Stage 3 chuẩn ES (TS 5.0+) có signature khác, không trộn lẫn hai loại.
+- **App React/Next thường không cần decorator** — dùng higher-order function hoặc hook gọn hơn.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có decorators?](#vì-sao-có-decorators)

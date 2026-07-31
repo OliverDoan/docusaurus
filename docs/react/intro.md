@@ -5,6 +5,15 @@ title: "Giới thiệu"
 
 # Lộ trình học React
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **React là thư viện JavaScript của Meta để xây UI** — chia giao diện thành các component nhỏ, độc lập và tái sử dụng được.
+- **Cần vững HTML, CSS và JavaScript (ES6+, async/await) trước** — JavaScript là phần quan trọng nhất vì React phụ thuộc rất nhiều vào nó.
+- **Virtual DOM (DOM ảo)** giúp React chỉ cập nhật đúng phần giao diện thực sự thay đổi nên chạy nhanh.
+- **Lộ trình gồm 19 chủ đề chia 4 nhóm** — nền tảng, cốt lõi (2–7), mở rộng (8–13), chuyên sâu (14–19) — nên học tuần tự và thực hành theo từng phần.
+
+:::
+
 ## React là gì?
 
 **React** là một thư viện JavaScript (JavaScript library) dùng để xây dựng giao diện người dùng (User Interface - UI), được phát triển và duy trì bởi Meta (Facebook). Thay vì viết toàn bộ trang web theo kiểu thủ công, React giúp bạn chia giao diện thành những mảnh nhỏ có thể tái sử dụng.

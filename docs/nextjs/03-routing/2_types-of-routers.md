@@ -9,6 +9,18 @@ Next.js có hai hệ thống định tuyến song song: **Pages Router** (router
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hai router song song:** Pages Router (`pages/`, cũ) và App Router (`app/`, khuyến nghị) — có thể chạy chung trong một project.
+- ⭐ **App Router mặc định Server Components,** fetch data ngay trong `async` component, hỗ trợ nested layout + streaming/Suspense.
+- **Data fetching:** Pages Router dùng `getServerSideProps`/`getStaticProps`; App Router thay bằng `async` component + `fetch` options.
+- **Migrate dần** từng route (hai router chạy song song); API `pages/api/*` → `route.ts` dùng Web Standards Request/Response.
+- **Dự án mới → App Router;** dự án cũ đang ổn cứ giữ nguyên — Pages Router không bị bỏ rơi.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có App Router & Pages Router?](#vì-sao-có-app-router--pages-router)

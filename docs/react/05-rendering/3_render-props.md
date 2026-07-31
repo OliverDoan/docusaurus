@@ -9,6 +9,18 @@ title: "3. Render Props"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Render props = truyền một function làm prop** (thường là `children`) để component logic gọi ngược, tách logic khỏi UI và tái sử dụng cho nhiều giao diện.
+- **Ra đời trước Hooks** để chia sẻ logic stateful; nay đa số use case đã được thay bằng custom hook.
+- **Custom hook thường tốt hơn** — đỡ nesting ("wrapper hell"), TS infer type dễ, test bằng `renderHook`, hiện rõ trong DevTools.
+- **Render props vẫn hữu dụng** cho UI tuỳ biến cao (`renderRow`), function-as-child (`DataLoader`), headless/virtualization (React Window, React Virtuoso).
+- **Quy tắc 2026** — share logic dùng hook trước, cần wrap UI thì compound component, render props là lựa chọn cuối.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao có render props?](#vì-sao-có-render-props)

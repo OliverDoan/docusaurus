@@ -9,6 +9,19 @@ title: "1. Caching Layers"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **4 layer cache** — Request Memoization (dedupe trong 1 render) → Data Cache (persist giữa request) → Full Route Cache (HTML đã render) → Router Cache (navigation phía client).
+- ⭐ **Next.js 15 đổi default** — `fetch()` KHÔNG cache mặc định (`no-store`); phải opt-in `cache: "force-cache"` hoặc `next: { revalidate }`.
+- **Request Memoization** — tự động cho `fetch`; hàm non-fetch (vd DB query) dùng `cache()` của React để dedupe.
+- **Data Cache** — làm mới bằng `revalidatePath` / `revalidateTag`; gắn `tags` khi fetch để revalidate theo nhóm.
+- **Full Route Cache** — điều khiển bằng `dynamic = "force-static" / "force-dynamic"` và `revalidate`.
+- **Dữ liệu user-specific phải `cache: "no-store"`** — nếu quên, mọi user share chung một bản cache sai.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao Next.js có nhiều lớp cache?](#vì-sao-nextjs-có-nhiều-lớp-cache)

@@ -9,6 +9,18 @@ Vì trình duyệt và Node.js không hiểu file `.ts` trực tiếp, bạn c�
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Ưu tiên cài local** — `npm install --save-dev typescript` thay vì global, giúp mỗi project khoá đúng version → reproducible build.
+- ⭐ **`tsc` là compiler chuẩn** — biên dịch `.ts` → `.js`; `tsc --init` tạo `tsconfig.json`, `tsc --watch` tự compile lại khi file đổi.
+- **`ts-node`/`tsx` chạy `.ts` trực tiếp** — tiện cho dev/script/REPL nhưng KHÔNG thay `tsc` khi build production.
+- **Runtime hiện đại chỉ strip type** — Deno, Bun, Node ≥ 22.6 (`--experimental-strip-types`), tsx xoá type annotation mà **không type-check**; workflow chuẩn dùng `tsc --noEmit` trong CI để check kiểu.
+- **TypeScript Playground** (typescriptlang.org/play) — công cụ debug type tốt nhất, hover để xem TS infer ra type gì.
+
+:::
+
+---
+
 ## Mục lục
 
 - [Cài đặt TypeScript](#cài-đặt-typescript)

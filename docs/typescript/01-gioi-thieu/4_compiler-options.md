@@ -9,6 +9,18 @@ title: "4. tsconfig.json và Compiler Options"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`tsconfig.json` ở gốc project** — báo cho `tsc` compile file nào (`include`/`exclude`), ra JS phiên bản nào (`target`), module gì (`module`), strict đến đâu; có nó chỉ cần gõ `tsc` không tham số.
+- ⭐ **`"strict": true`** — bật một loạt flag cùng lúc (`strictNullChecks`, `noImplicitAny`, `strictFunctionTypes`...); luôn bật cho project mới, migrate thì bật từng flag một.
+- **Vài flag "siêu strict" nằm ngoài `strict`** — phải bật thủ công: `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noImplicitOverride`, `noFallthroughCasesInSwitch`.
+- **`target`/`module`/`moduleResolution`** — quyết định phiên bản JS output và cách resolve `import` (`Bundler` cho Vite/Next, `NodeNext` cho Node ESM).
+- **Kế thừa cấu hình** — dùng `extends` từ preset `@tsconfig/*`; monorepo lớn dùng `references` (project references) để build incremental.
+
+:::
+
+---
+
 ## Mục lục
 
 - [tsconfig.json là gì?](#tsconfigjson-là-gì)

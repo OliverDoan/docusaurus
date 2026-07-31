@@ -9,6 +9,19 @@ title: "2. useRef, useCallback, useMemo, useReducer, useContext"
 
 ---
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`useMemo` nhớ giá trị tính toán nặng, `useCallback` nhớ function** — chỉ tính/tạo lại khi deps đổi, giúp giữ reference ổn định.
+- ⭐ **`useReducer` gom state phức tạp nhiều nhánh action về một nơi dễ test; `useContext` đọc data chia sẻ không cần prop drilling.**
+- **`useRef`** — giữ giá trị bền qua các render mà không gây re-render (tham chiếu DOM hoặc giá trị mutable).
+- **Đừng memoize mặc định** — `useCallback`/`useMemo` đều có cost; chỉ dùng khi child đã `React.memo` hoặc function/value là dep của effect.
+- **Context không phải state manager** — mọi consumer re-render khi value đổi và không có selector built-in.
+- **React 19 thêm `use`** — đọc Context/Promise, được phép gọi trong `if`/`loop` (ngoại lệ của Rules of Hooks).
+
+:::
+
+---
+
 ## Mục lục
 
 - [Vì sao cần các hook này?](#vì-sao-cần-các-hook-này)
