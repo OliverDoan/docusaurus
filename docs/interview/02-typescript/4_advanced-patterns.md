@@ -7,6 +7,17 @@ title: "4. Advanced Patterns trong production"
 
 > *Phần này test trải nghiệm thực tế. Đáp án "đúng sách" sẽ bị trừ điểm — interviewer muốn nghe câu chuyện và quyết định trong context cụ thể.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Discriminated union cho state** — thay `{ data, loading, error }` (cho phép state vô nghĩa) bằng union có discriminator (`status`); switch để TS narrow, khỏi dùng `!`. Cùng ý là `Result<T, E>`.
+- ⭐ **Validate ở boundary với Zod** — không `as User` response; schema `parse` vừa validate runtime vừa derive type; schema là single source of truth (`z.infer`).
+- **Type-safe form** — Zod schema + `z.infer` + `useForm<T>` để field/validation/submit đồng bộ một nguồn.
+- **Module augmentation** — `declare module`/`declare global` để mở rộng third-party type (Express `Request`, `Window`, MUI theme); file phải là module (`export {}`).
+- **Inference** — để TS infer tối đa; bắt buộc annotate param, return của public API, `useState`/`useRef` khi initial mơ hồ; ưu tiên `satisfies` hơn `as`.
+- **Strict migration** — không big bang; bật từng flag (`strictNullChecks` trước), per-folder strict, ratchet count trong CI, dùng `// @ts-expect-error` (không `@ts-ignore`).
+
+:::
+
 ---
 
 ## Câu 1: Type-safe Form với react-hook-form `[Intermediate]`

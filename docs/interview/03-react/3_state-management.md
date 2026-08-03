@@ -7,6 +7,17 @@ title: "3. State Management"
 
 > *Đây là câu "không có đáp án đúng tuyệt đối" — interviewer muốn nghe bạn lý luận trade-off, không phải đọc tên thư viện.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Phân loại state trước khi chọn tool** — local UI, shared UI, server, global, URL, form, persisted; mỗi loại có công cụ phù hợp riêng.
+- **Server state vs client state** — data từ API nên dùng TanStack Query/SWR (cache, revalidate) thay vì nhét vào global store.
+- **`Context` không phải state manager** — mọi consumer re-render khi value đổi; hợp cho giá trị ít thay đổi (theme, auth), không cho state cập nhật liên tục.
+- **Redux vs Zustand vs Jotai** — chọn theo quy mô và trade-off (boilerplate, atomic, DevTools), không có tool "đúng tuyệt đối".
+- **Optimistic update** — cập nhật UI trước khi server trả lời để mượt, nhưng phải rollback khi request lỗi.
+- **Controlled vs uncontrolled** — controlled do React giữ giá trị, uncontrolled do DOM giữ (đọc qua ref).
+
+:::
+
 ---
 
 ## Câu 1: Phân loại state — em phân biệt thế nào? `[Intermediate]`

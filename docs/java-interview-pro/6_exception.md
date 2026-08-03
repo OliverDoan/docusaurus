@@ -7,6 +7,16 @@ title: "6. Xử lý ngoại lệ"
 
 > *Ngoại lệ (exception) là cơ chế quan trọng giúp chương trình Java xử lý lỗi một cách có kiểm soát — hiểu rõ exception là nền tảng để viết code bền vững và chuyên nghiệp.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`checked` vs `unchecked`** — `checked` kế thừa `Exception` (không phải `RuntimeException`), bị compiler bắt buộc `try-catch`/`throws`; `unchecked` kế thừa `RuntimeException` cho lỗi lập trình, không bắt buộc xử lý.
+- ⭐ **`try-with-resources`** (Java 7) — tự động gọi `close()` trên mọi resource implement `AutoCloseable`, tránh resource leak và không cần `finally` thủ công.
+- **`NullPointerException`** — là `RuntimeException` khi dùng tham chiếu `null`; phòng tránh bằng kiểm tra `null`, `Optional`, `Objects.requireNonNull()`, annotation `@NonNull`.
+- **Suppressed exceptions** — khi cả khối `try` lẫn `close()` cùng ném lỗi, `try-with-resources` lưu lỗi phụ vào suppressed thay vì che khuất lỗi gốc như `try-finally`.
+- **Nhiều resource** — khai báo nhiều resource sẽ được đóng theo thứ tự ngược lại với thứ tự khai báo.
+
+:::
+
 ---
 
 ## Câu 1: NullPointerException là gì và làm thế nào để phòng tránh? `[Basic]`

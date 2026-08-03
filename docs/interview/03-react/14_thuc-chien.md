@@ -7,6 +7,15 @@ title: "14. Tình huống thực chiến"
 
 > _Những tình huống thường gặp trong dự án React thực tế — từ lỗi CORS, hydration mismatch, cho đến thiết kế authentication và đa ngôn ngữ._
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **CORS là cơ chế của trình duyệt** — bị chặn khi khác origin và server thiếu header `Access-Control-Allow-Origin`; xử lý bằng cấu hình server hoặc proxy dev, không phải sửa ở React.
+- **Hydration mismatch** — HTML từ SSR/SSG khác nội dung render phía client (vd dùng `Date`, `random`, `window`); khắc phục bằng render nhất quán hoặc effect chạy sau mount.
+- **Authentication cho SPA** — thiết kế luồng token an toàn (httpOnly cookie / access + refresh token), bảo vệ route.
+- **i18n** — tách chuỗi ra file dịch, dùng thư viện (vd `react-i18next`) để chuyển đổi ngôn ngữ theo locale.
+
+:::
+
 ---
 
 ## Câu 1: CORS error khi gọi API từ React — nguyên nhân và cách xử lý? `[Intermediate]`

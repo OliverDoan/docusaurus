@@ -7,6 +7,16 @@ title: "3. Merge, Rebase & Conflict"
 
 > *Nhóm câu này kiểm tra mức độ bạn thực sự hiểu cách Git "hợp nhất" lịch sử — bạn chọn merge hay rebase theo nguyên tắc nào, có nắm được golden rule, và quan trọng nhất là khả năng giữ bình tĩnh khi conflict nổ ra trong một codebase thật với nhiều người cùng làm. Người phỏng vấn ít quan tâm bạn thuộc lệnh, mà quan tâm bạn ra quyết định an toàn dưới áp lực thế nào.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Golden rule of rebasing** — KHÔNG bao giờ rebase các commit đã push lên nhánh chung/mà người khác đã dựa vào, vì nó viết lại lịch sử (đổi hash).
+- **`merge`** — giữ nguyên lịch sử thật, tạo một merge commit hai cha; an toàn, không viết lại history.
+- **`rebase`** — dời commit của bạn lên đầu nhánh đích, cho lịch sử tuyến tính sạch nhưng đổi hash → chỉ dùng trên nhánh cá nhân.
+- **Conflict là bình thường** — Git đánh dấu `<<<<<<<` / `=======` / `>>>>>>>`; sửa xong `git add` rồi `git rebase --continue` (hoặc commit nếu đang merge).
+- **`git rerere`** — bật để Git nhớ cách bạn giải conflict lặp lại; `git merge --abort` / `rebase --abort` để rút lui an toàn.
+
+:::
+
 ---
 
 ## Câu 14: Rebase vs Merge & Golden Rule `[Intermediate]`

@@ -7,6 +7,17 @@ title: "1. Queries & JOINs"
 
 > *Interviewer dùng câu hỏi SQL JOIN và aggregation để phân biệt ứng viên junior chỉ nhớ cú pháp với ứng viên senior hiểu rõ tại sao dữ liệu bị mất hoặc bị nhân lên.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`INNER` vs `LEFT JOIN`** — INNER chỉ giữ dòng khớp cả 2 bảng; tìm bản ghi "không khớp" dùng anti-join `LEFT JOIN ... WHERE right.id IS NULL`.
+- ⭐ **`WHERE` vs `HAVING`** — WHERE lọc trước khi gom nhóm, HAVING lọc sau `GROUP BY` (lọc trên aggregate).
+- **Bẫy `NULL` và logic 3 trị** — `NOT IN` với danh sách chứa `NULL` trả về rỗng; dùng `NOT EXISTS`/anti-join an toàn hơn.
+- **`Subquery` vs `JOIN` vs `CTE`** — CTE giúp query dễ đọc, chia bước; JOIN thường tối ưu hơn subquery tương quan.
+- **Window function vs `GROUP BY`** — window (`ROW_NUMBER`, `RANK`) giải bài Top-N mỗi nhóm mà không làm mất chi tiết dòng.
+- **`DISTINCT`/`GROUP BY` và `UNION` vs `UNION ALL`** — `UNION` khử trùng lặp (tốn kém), `UNION ALL` giữ nguyên và nhanh hơn.
+
+:::
+
 ---
 
 ## Câu 1: INNER JOIN vs LEFT JOIN — tìm bản ghi "không khớp" `[Intermediate]`

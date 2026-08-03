@@ -7,6 +7,16 @@ title: "1. Redux Core"
 
 > _Redux là thư viện quản lý state phổ biến nhất trong hệ sinh thái React — hiểu vững các khái niệm cốt lõi giúp bạn tự tin giải quyết mọi bài toán state phức tạp trong dự án thực tế._
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Single source of truth** — toàn bộ state app lưu trong một `Store` duy nhất, mọi component đều truy cập được, tránh prop drilling.
+- ⭐ **Luồng dữ liệu một chiều** — UI `dispatch` một `action` → `reducer` (hàm thuần) tính state mới → Store cập nhật → UI re-render.
+- **Reducer phải thuần & immutable** — không mutate state cũ, luôn trả về object mới.
+- **Middleware xử lý side-effect** — `redux-thunk`/`redux-saga` tách logic async ra khỏi UI.
+- **Khi nào cần Redux** — state chia sẻ giữa nhiều component, cần trace/debug dễ; nếu đơn giản thì `useState`/`useContext` là đủ.
+
+:::
+
 ---
 
 ## Câu 1: Redux là gì? Tại sao chúng ta cần sử dụng Redux? `[Basic]`

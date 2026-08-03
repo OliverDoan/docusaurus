@@ -7,6 +7,19 @@ title: "5. Nền tảng (bổ sung)"
 
 > _Tổng hợp các khái niệm nền tảng TypeScript hay gặp trong phỏng vấn nhưng thường bị bỏ qua — từ lý do ra đời đến các tính năng type system ít được chú ý._
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **TS là superset có kiểu tĩnh của JS** — compile bằng `tsc` sang JS, bắt lỗi ở compile-time thay vì runtime; lợi cho IDE, refactor, dự án lớn.
+- ⭐ **Excess property checking** — báo lỗi thuộc tính dư chỉ với object literal trực tiếp; gán qua biến trung gian hoặc `as` thì bỏ qua (structural typing).
+- **Annotation vs inference** — dùng `:` khai báo tường minh; để TS tự suy luận khi có giá trị khởi tạo; bắt buộc annotate param và biến chưa gán.
+- **Tuple** — mảng số phần tử cố định, kiểu theo vị trí (`[value, setter]` như `useState`); có named tuple và optional element.
+- **`?` và `readonly`** — optional cần xử lý `undefined`; readonly ngăn gán lại sau khởi tạo; áp hàng loạt bằng `Partial<T>`/`Readonly<T>`.
+- **Non-null assertion `!`** — chỉ compile-time, không kiểm tra runtime; ưu tiên `?.` và `??` an toàn hơn.
+- **Index signature vs `Record`** — `[key: string]: V` cho key chưa biết tên; `Record<K, V>` ngắn gọn hơn và hỗ trợ union key cụ thể.
+- **`.d.ts` & `import type`** — declaration file mô tả shape module JS (cài `@types/*` hoặc tự viết); `import type`/`export type` bị xoá khi compile, tránh circular dependency và tối ưu bundle.
+
+:::
+
 ---
 
 ## Câu 1: TypeScript là gì và tại sao nên dùng TypeScript thay JavaScript? `[Basic]`

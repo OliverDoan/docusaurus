@@ -7,6 +7,18 @@ title: "3. Async, Promise & Event Loop"
 
 > *Đây là phần mà rất nhiều dev "code 3 năm" vẫn trả lời sai. Hiểu sai event loop = viết code race condition mà không biết.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Event loop drain hết microtask trước mỗi macrotask** — `Promise.then`/`queueMicrotask` (microtask) luôn chạy trước `setTimeout` (macrotask); nhớ thứ tự output `1, 4, 3, 2`.
+- ⭐ **`async/await` là sugar của Promise** — `await` liên tiếp cho call độc lập biến parallel thành sequential; dùng `Promise.all` để chạy song song.
+- **Promise 3 state** — `pending` → `fulfilled`/`rejected`, chuyển 1 lần; throw trong `.then` rơi vào `.catch`, `.finally` không đổi value.
+- **`all` / `allSettled` / `race` / `any`** — `all` fail-fast (cần tất cả), `allSettled` cho partial failure (dashboard), `race` cho timeout, `any` lấy fulfilled đầu tiên.
+- **Microtask starvation** — chuỗi microtask vô hạn freeze UI (chặn render); chia heavy task bằng `setTimeout(0)` / `scheduler.yield()`, không dùng `await Promise.resolve()`.
+- **`AbortController`** — cancel fetch cũ để tránh race condition trong search; `abort()` ở cleanup `useEffect`, nhớ filter `AbortError`.
+- **Bẫy `forEach` + async** — `forEach` không await; dùng `for...of` (sequential) hoặc `Promise.all(items.map(...))` (parallel).
+
+:::
+
 ---
 
 ## Câu 1: Output của đoạn code này theo thứ tự nào? `[Intermediate]`

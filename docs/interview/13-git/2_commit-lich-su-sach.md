@@ -7,6 +7,16 @@ title: "2. Commit & Lịch sử sạch"
 
 > *Nhóm câu này kiểm tra kỹ năng tạo ra một lịch sử Git "có thể đọc được": sửa commit lỗi, viết message theo chuẩn, tách thay đổi thành các đơn vị nhỏ, và dọn dẹp history trước khi merge. Người phỏng vấn muốn xem bạn coi commit là tài liệu cho người sau, chứ không phải nơi "đổ" code.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`git commit --amend` tạo commit MỚI với hash khác**, không sửa commit cũ tại chỗ (commit là bất biến) — dùng để sửa message hoặc thêm file lỡ quên.
+- ⭐ **Amend/rebase commit đã push chung phải `git push --force-with-lease`** — an toàn hơn `--force`, và chỉ làm trên nhánh cá nhân, KHÔNG bao giờ trên `main`/`develop`.
+- **`git rebase -i`** — squash/reword/reorder/drop để gom nhiều commit rác thành lịch sử sạch trước khi merge.
+- **Conventional Commits** — `type(scope): description` (`feat`, `fix`, `refactor`...); giúp tự động sinh changelog/semver.
+- **`--no-edit`** — giữ nguyên message cũ khi chỉ muốn thêm file vào commit vừa tạo.
+
+:::
+
 ---
 
 ## Câu 7: Sửa commit vừa tạo mà không tạo commit mới `[Basic]`

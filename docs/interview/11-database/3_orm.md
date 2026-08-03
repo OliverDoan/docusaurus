@@ -7,6 +7,15 @@ title: "3. ORM — Prisma, Sequelize, Drizzle, Mongoose"
 
 > *Câu hỏi ORM kiểm tra hai thứ: bạn có hiểu cái gì xảy ra **bên dưới** abstraction không, và bạn có biết khi nào abstraction phản chủ (N+1, query kém) không.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **ORM map bảng ↔ object** — tăng năng suất (CRUD ngắn gọn), type-safe (Prisma/Drizzle), chống SQL injection cơ bản nhờ tự parameterize.
+- ⭐ **Nhược điểm lớn nhất: che giấu SQL thật** — dễ sinh N+1, `SELECT *` thừa, JOIN kém mà dev không thấy.
+- **Leaky abstraction** — query phức tạp (window function, CTE đệ quy) ORM viết khó hơn chính SQL.
+- **Cân bằng** — ORM cho ~80% CRUD, **raw SQL cho ~20%** report/analytics (cửa thoát `$queryRaw`, `sequelize.query`).
+
+:::
+
 ---
 
 ## Câu 1: ORM là gì? Lợi ích và nhược điểm? `[Intermediate]`

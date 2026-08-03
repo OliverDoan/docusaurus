@@ -7,6 +7,19 @@ title: "5. Memory, Performance & Debugging"
 
 > *Phần này hay được hỏi ở vòng cuối — interviewer muốn biết bạn đã thực sự "trải qua" production hay chỉ làm side project.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Memory leak FE** — top nguyên nhân: event listener không cleanup, timer không clear, subscription không unsubscribe, detached DOM; luôn `return` cleanup trong `useEffect`.
+- ⭐ **Debounce vs Throttle** — debounce đợi "ngừng gọi" (search input), throttle chạy tối đa 1 lần/X ms (scroll/resize); biết cài đặt tay bằng `setTimeout`.
+- **Tối ưu performance** — đo trước (`performance.now`, DevTools flamegraph), rồi chọn memoization / Web Worker / chunking + yield; đừng tối ưu mò.
+- **Equality** — `NaN === NaN` là `false`, `0 === -0` là `true`; `Object.is` ngược lại; dùng `.includes` (không `.indexOf`) để tìm `NaN`; chỉ dùng `==` cho `x == null`.
+- **Lookup O(1)** — với data lớn dùng `Map` hoặc object index thay `Array.find` (O(n)); `Map` giữ đúng type key, object key luôn bị coerce thành string.
+- **Loop nhanh nhất** — `for` classic (cache `length`) &gt; `for...of` &gt; `forEach`/`map` &gt; `for...in` (chậm nhất, KHÔNG dùng cho mảng); ưu tiên readability vì V8 đã tối ưu mạnh.
+- **`defer` vs `async`** — cả hai tải song song; `defer` chạy sau parse HTML + giữ thứ tự (app chính), `async` chạy ngay khi tải xong + thứ tự bất kỳ (analytics độc lập).
+- **Garbage Collection** — V8 generational mark-sweep dựa trên reachability; gán `= null` thường không cần (local tự GC), quan trọng hơn là tránh nguồn leak.
+
+:::
+
 ---
 
 ## Câu 1: Memory leak phổ biến trong app FE — cách phát hiện và fix `[Intermediate]`

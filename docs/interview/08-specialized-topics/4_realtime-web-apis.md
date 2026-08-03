@@ -7,6 +7,16 @@ title: "4. Real-time & Modern Web APIs"
 
 > *Phần này test kiến thức về Web Platform — Worker, Service Worker, IndexedDB, WebSocket, WebRTC. Hỏi ở Senior vì FE thường chỉ làm component, dev senior phải biết khi nào reach for browser API native.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Web Worker** — chạy JS trên thread riêng để không block main thread; không truy cập DOM, giao tiếp qua `postMessage`.
+- ⭐ **`WebSocket` vs `SSE` vs Long Polling** — WebSocket hai chiều (chat/game), SSE một chiều server→client (feed/notification), long polling là fallback cũ.
+- **Service Worker** — proxy network cho PWA: offline, caching strategy (cache-first, network-first), background sync.
+- **IndexedDB** — lưu dữ liệu lớn có cấu trúc phía client cho offline; API bất đồng bộ, nên bọc bằng thư viện (idb).
+- **Modern Web APIs** — biết khi nào dùng native API (Intersection/Resize Observer, Web Crypto...) thay vì tự viết.
+
+:::
+
 ---
 
 ## Câu 1: Web Worker — khi nào dùng, implement thế nào? `[Senior]`

@@ -7,6 +7,17 @@ title: "1. Testing Strategy"
 
 > *Câu hỏi testing chia 2 nhóm: junior trả lời "em viết Jest test"; senior trả lời "em đo coverage không phải KPI, em viết test khi nào value cao hơn cost". Hiểu sự khác biệt = câu trả lời tốt.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Test Pyramid` vs `Test Trophy`** — pyramid nhiều unit (65-80%), ít E2E; trophy nhấn mạnh integration và static (TS/ESLint) làm nền tảng.
+- ⭐ **Coverage là sanity check, KHÔNG phải KPI** — 100% coverage vẫn có thể miss bug; viết test khi value cao hơn cost.
+- **React Testing Library** — test theo hành vi user (`getByRole`, `findBy`), tránh test implementation detail (state, method nội bộ).
+- **`MSW` vs `jest.mock`** — MSW mock ở tầng network (dùng lại cho cả test lẫn dev), `jest.mock` mock ở tầng module.
+- **E2E `Playwright` vs `Cypress`** — chỉ phủ critical path; test async cần `waitFor`/`findBy` thay vì `setTimeout` cứng.
+- **Visual regression** — bắt lỗi UI mà unit test không thấy (snapshot ảnh, Chromatic/Percy).
+
+:::
+
 ---
 
 ## Câu 1: Test Pyramid — em hiểu thế nào? `[Intermediate]`

@@ -7,6 +7,17 @@ title: "2. Lập trình hướng đối tượng (OOP)"
 
 > **OOP (Object-Oriented Programming — Lập trình hướng đối tượng)** là chủ đề **được hỏi nhiều nhất** trong mọi buổi phỏng vấn Java cấp độ intern/fresher. Gần như **chắc chắn** bạn sẽ bị hỏi về 4 trụ cột, kế thừa, đa hình và sự khác nhau giữa abstract class với interface. Hãy ôn thật kỹ phần này — trả lời tốt ở đây là bạn đã ghi điểm hơn một nửa buổi phỏng vấn.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **4 trụ cột OOP** — Đóng gói (Encapsulation), Kế thừa (Inheritance), Đa hình (Polymorphism), Trừu tượng (Abstraction).
+- ⭐ **Overloading vs Overriding** — overloading là cùng tên khác tham số (compile-time), overriding là lớp con ghi đè method lớp cha (runtime); dùng `@Override` để tránh sai sót.
+- **Class vs Object** — class là khuôn mẫu, object là thực thể được tạo từ khuôn đó; `this` trỏ tới object hiện tại.
+- **Kế thừa** — dùng `extends` và `super`; Java **không** cho đa kế thừa class (dùng interface để thay thế).
+- **Abstract class vs Interface** — abstract class chia sẻ code + trạng thái, interface định nghĩa hợp đồng; một class implement được nhiều interface.
+- **`static` vs `final`** — `static` thuộc về class (dùng chung), `final` là hằng số / không cho ghi đè / không cho kế thừa.
+
+:::
+
 ---
 
 ## Câu 1: OOP là gì? Bốn trụ cột của OOP là gì? `[Basic]`

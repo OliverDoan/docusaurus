@@ -7,6 +7,17 @@ title: "2. this, Prototype & Kế thừa"
 
 > *Phần này test xem bạn có thực sự hiểu cách JavaScript hoạt động "dưới capô" hay chỉ biết viết React component. Bug về `this` chiếm phần lớn lỗi production của dev mới.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **4 quy tắc bind `this`** — thứ tự ưu tiên: `new` → explicit (`call`/`apply`/`bind`) → implicit (`obj.fn()`) → default (`undefined` strict / global).
+- ⭐ **Arrow function không có `this` riêng** — kế thừa `this` từ lexical scope, dùng để fix mất `this` trong callback (`setInterval`, event handler).
+- **`call` vs `apply` vs `bind`** — `call`/`apply` gọi ngay (khác cách truyền args), `bind` trả về function mới đã pre-bind, không gọi.
+- **Prototype chain** — đọc thuộc tính đi ngược `[[Prototype]]` lên tới `null`; `arr` → `Array.prototype` → `Object.prototype` → `null`. Dùng `hasOwnProperty` để phân biệt own vs inherited.
+- **`class` là syntactic sugar** — vẫn prototype-based nhưng bắt buộc `new`, body strict mode, method không enumerable, có private field `#field` và `super`.
+- **Composition &gt; inheritance** — ưu tiên quan hệ "has-a" (lắp ráp behaviors) thay vì "is-a" cứng nhắc; trong React là hooks thay cho HOC nesting.
+
+:::
+
 ---
 
 ## Câu 1: 4 quy tắc bind `this` trong JavaScript `[Intermediate]`

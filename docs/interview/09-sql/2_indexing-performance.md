@@ -7,6 +7,17 @@ title: "2. Indexing & Performance"
 
 > *Đây là chủ đề phân biệt ứng viên mid-level và senior: không chỉ biết tạo index mà còn hiểu khi nào index phản tác dụng, đọc được EXPLAIN ANALYZE, và tư duy đo lường trước-sau khi tối ưu.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`B-tree` index** — tra cứu O(log n) thay vì full scan O(n), nhưng làm chậm INSERT/UPDATE/DELETE và tốn disk; đừng tạo thừa index.
+- ⭐ **Đọc `EXPLAIN ANALYZE`** — phân biệt Seq Scan vs Index Scan, xem cost/rows/thời gian thực để biết index có được dùng không.
+- **Khi nào index KHÔNG được dùng** — hàm bọc quanh cột, ép kiểu ngầm, `LIKE '%...'`, hoặc bảng nhỏ/selectivity thấp.
+- **Composite & covering index** — thứ tự cột phải khớp query (leftmost prefix); covering index cho phép Index-Only Scan.
+- **`N+1` query** — vòng lặp query con; gộp bằng JOIN hoặc batch/`IN (...)`.
+- **Pagination** — `OFFSET` lớn chậm vì phải quét bỏ nhiều dòng; dùng keyset/seek pagination (`WHERE id > ...`).
+
+:::
+
 ---
 
 ## Câu 1: Index hoạt động như thế nào? `[Intermediate]`

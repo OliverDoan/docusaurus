@@ -7,6 +7,16 @@ title: "5. CSS, Deploy, SSR, Test & Fault isolation"
 
 > *Nhóm câu hỏi "vận hành thực tế" của micro-frontend: cô lập style, deploy độc lập, render phía server, kiểm thử nhiều mảnh và đảm bảo một mảnh lỗi không kéo sập cả trang. Đây là chỗ phân biệt người đã từng chạy MFE trên production với người chỉ đọc lý thuyết Module Federation.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Cô lập CSS đi từ nhẹ tới triệt để** — prefix/BEM (theo quy ước, yếu) → CSS Modules (build-time) → CSS-in-JS scoped (runtime) → Shadow DOM (tuyệt đối).
+- **Gốc vấn đề CSS** — global namespace và cascade; một selector `.button` hay reset `* { margin: 0 }` rò rỉ ra cả document và đè MFE khác.
+- **Fault isolation** — bọc mỗi MFE trong Error Boundary + fallback UI để một mảnh lỗi không kéo sập cả trang.
+- **Deploy độc lập** — mỗi MFE có pipeline và version riêng; host trỏ tới `remoteEntry.js` mới nhất qua manifest.
+- **SSR MFE khó hơn** — cần render từng mảnh phía server rồi hydrate; cân nhắc trước khi chọn client-side runtime integration.
+
+:::
+
 ---
 
 ## Câu 18: Làm sao tách biệt CSS để các micro-frontend không ghi đè style của nhau? `[Intermediate]`

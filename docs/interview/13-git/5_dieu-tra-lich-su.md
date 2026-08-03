@@ -7,6 +7,16 @@ title: "5. Điều tra lịch sử & Debug"
 
 > *Nhóm câu này kiểm tra khả năng dùng Git như một công cụ điều tra — không chỉ để lưu code mà để truy nguồn gốc của một dòng code, một biến, hay một con bug regression. Người phỏng vấn muốn xem bạn có biết "khảo cổ" lịch sử commit để trả lời câu hỏi "ai, khi nào, và quan trọng nhất là TẠI SAO" hay không.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Pickaxe `git log -S` / `-G`** — "đào" lịch sử để tìm commit đã thêm/xóa một chuỗi (`-S` theo số lần xuất hiện) hoặc khớp regex trên nội dung diff (`-G`).
+- ⭐ **`git bisect`** — nhị phân qua lịch sử để tìm chính xác commit gây regression bằng số lần thử `log2(n)`; có thể tự động hóa với `git bisect run <script>`.
+- **`git blame`** — truy ai/khi nào chạm dòng code; kết hợp `-L` để giới hạn theo dòng.
+- **`git log -S` chỉ hiện commit đổi tổng số lần xuất hiện** — không hiện commit chỉ di chuyển dòng; thêm `--pickaxe-regex` để hiểu chuỗi như regex.
+- **Mục tiêu là trả lời "TẠI SAO"** — commit message tốt và history sạch làm việc điều tra khả thi.
+
+:::
+
 ---
 
 ## Câu 34: `git log -S` và `git log -G` (pickaxe) `[Senior]`

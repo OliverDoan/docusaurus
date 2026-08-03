@@ -7,6 +7,17 @@ title: "4. React Performance"
 
 > *Interviewer thường hỏi câu này ở vòng senior — và cách bạn trả lời cho thấy bạn đã làm production thật hay chỉ làm tutorial.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Đo trước, tối ưu sau** — dùng Network tab, Lighthouse, React DevTools Profiler, Chrome Performance; không tối ưu mò.
+- **Giảm bundle size** — code splitting, lazy load, tree-shaking, phân tích bundle để cắt phần không dùng.
+- **List rất dài** — virtualization (chỉ render item trong viewport) thay vì render toàn bộ 10.000 item.
+- **Image optimization** — chọn format phù hợp, lazy load, responsive size, đặt kích thước tránh layout shift.
+- **INP (Interaction to Next Paint)** — Core Web Vital đo độ trễ phản hồi tương tác; cải thiện bằng cắt long task, `useTransition`.
+- **Server Components + streaming** — giảm JS gửi xuống client và cải thiện thời gian hiển thị.
+
+:::
+
 ---
 
 ## Câu 1: App em chậm. Em debug từ đâu? `[Intermediate]`

@@ -7,6 +7,16 @@ title: "4. Undo, Recovery & Sự cố"
 
 > *Nhóm câu này không kiểm tra bạn thuộc cú pháp Git, mà kiểm tra bạn xử lý khủng hoảng thế nào: lúc 2 giờ sáng production sập, lúc lỡ tay `reset --hard`, lúc commit nhầm `.env`. Người phỏng vấn muốn thấy một người bình tĩnh, có quy trình từng bước, biết "cái gì recover được — cái gì không", và quan trọng nhất là biết phòng để không tái diễn.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`git reflog` là phao cứu sinh** — ghi lại mọi vị trí `HEAD` từng trỏ tới, giúp khôi phục commit sau khi lỡ `reset --hard`, xóa nhánh hay rebase hỏng.
+- ⭐ **Hotfix phải xuất phát từ trạng thái đang chạy production** (tag đã deploy hoặc `main`), KHÔNG từ `develop` đang dở — nếu không sẽ kéo code chưa test lên prod.
+- **`git revert`** — undo an toàn trên nhánh chung: tạo commit đảo ngược, không viết lại lịch sử (khác với `reset`).
+- **`reset --soft/--mixed/--hard`** — chỉ dùng trên nhánh cá nhân; `--hard` xóa cả working directory nên nguy hiểm nhất.
+- **Commit nhầm secret (`.env`)** — coi như đã lộ: phải rotate key ngay, rồi mới xóa khỏi lịch sử (`filter-repo`/BFG).
+
+:::
+
 ---
 
 ## Câu 23: Quy trình hotfix production chuẩn lúc 2 giờ sáng `[Senior]`

@@ -7,6 +7,15 @@ title: "10. Database Scaling"
 
 > *Database luôn là bottleneck cuối cùng của hệ thống — stateless service scale ngang dễ dàng, nhưng data thì không. Interviewer hỏi database scaling để xem bạn có biết "leo thang đúng thứ tự": index → cache → replica → sharding, hay nhảy thẳng vào giải pháp phức tạp nhất khi chưa cần.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Sharding = horizontal partitioning** — chia data ra nhiều instance độc lập theo `shard key`; là cách **duy nhất** để scale WRITE và dung lượng vượt một máy.
+- **4 chiến lược** — range / hash / directory / geo, mỗi loại đánh đổi giữa range query và chống hot shard.
+- **Cái giá phải trả** — cross-shard query/join, mất transaction toàn cục (phải Saga/2PC), rebalancing, và nguy cơ hot shard nếu chọn key tệ.
+- ⭐ **Sharding là phương án cuối** — leo thang đúng thứ tự: vertical scale → index/query → read replica → cache → mới tới sharding.
+
+:::
+
 ---
 
 ## Câu 10: Database Sharding là gì? Các chiến lược sharding phổ biến, khi nào nên dùng? `[Advanced]`

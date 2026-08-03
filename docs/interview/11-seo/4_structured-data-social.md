@@ -7,6 +7,16 @@ title: "4. Structured Data & Social Sharing"
 
 > *Nhóm câu hỏi về cách trang web "nói chuyện" với máy: structured data cho Google rich results, Open Graph cho social preview, và dynamic OG images trong Next.js.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Structured data giúp Google hiểu ngữ nghĩa** — dữ liệu theo `Schema.org` cho biết "đây là sản phẩm, giá X, rating Y" thay vì đoán từ text.
+- ⭐ **Lợi ích chính là Rich Results** — hiển thị giá/sao/FAQ/breadcrumb trên SERP; không phải ranking signal trực tiếp nhưng tăng CTR mạnh.
+- **Google khuyến nghị `JSON-LD`** — script tag riêng, dễ generate từ data, dễ maintain hơn Microdata/RDFa.
+- **Structured data phải khớp nội dung hiển thị** — khai rating mà trang không có review là vi phạm guideline, có thể bị manual action.
+- **Open Graph cho social preview** — quyết định title/ảnh/description khi share link; nhiều social crawler không chạy JS nên cần render server-side.
+
+:::
+
 ---
 
 ## Câu 9: Structured Data (Schema.org) là gì? Lợi ích cho SEO? `[Intermediate]`

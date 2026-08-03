@@ -7,6 +7,15 @@ title: "3. Caching & Network"
 
 > *Cách nhanh nhất để load một resource là không load nó. Caching là chủ đề mà nhiều FE dev né — và đó chính là lý do interviewer thích hỏi.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Cache-Control` directives** — `max-age` (fresh, không hỏi server), `no-cache` (được cache nhưng phải revalidate trước mỗi lần dùng), `no-store` (không lưu gì).
+- **Revalidation** — `ETag` ↔ `If-None-Match`, `Last-Modified` ↔ `If-Modified-Since`; server trả `304` nếu chưa đổi.
+- ⭐ **Chiến lược SPA** — JS/CSS có content hash trong tên → `immutable` cache 1 năm; HTML entry → `no-cache` để nhận deploy mới ngay.
+- **`stale-while-revalidate`** — dùng tạm bản cũ, đồng thời fetch bản mới ở background.
+
+:::
+
 ---
 
 ## Câu 1: HTTP caching hoạt động như thế nào? Cache-Control headers? `[Intermediate]`

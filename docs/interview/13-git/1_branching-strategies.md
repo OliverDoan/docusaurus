@@ -7,6 +7,16 @@ title: "1. Branching Strategies"
 
 > *Nhóm câu này kiểm tra xem ứng viên có hiểu bản chất của từng branching strategy, biết chọn đúng chiến lược theo quy mô team và tần suất deploy, và quan trọng nhất là biết khi nào nên thay đổi chiến lược thay vì áp dụng máy móc theo "best practice" trên mạng.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Chọn chiến lược theo tần suất deploy và quy mô team** — không có chiến lược "đúng tuyệt đối", deploy càng thường xuyên thì nhánh càng nên ngắn.
+- **Git Flow** — nhiều nhánh dài hạn (`main`, `develop`) + `feature/*`, `release/*`, `hotfix/*`; hợp release theo phiên bản, nặng nề với team CI/CD liên tục.
+- **GitHub Flow** — chỉ `main` + nhánh feature ngắn, merge qua PR rồi deploy ngay; đơn giản, hợp continuous deployment.
+- **Trunk-based development** — commit thẳng/nhánh rất ngắn vào một trunk, dựa vào feature flag; tối ưu cho deploy nhiều lần/ngày.
+- **Nhánh dài hạn = nợ merge** — nhánh sống càng lâu càng dễ conflict và trôi xa `main`.
+
+:::
+
 ---
 
 ## Câu 1: Tổng quan branching strategies phổ biến `[Basic]`

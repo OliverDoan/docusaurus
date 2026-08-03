@@ -7,6 +7,16 @@ title: "6. Hooks, Automation & Governance"
 
 > *Nhóm câu này kiểm tra khả năng tự động hoá quy trình Git và enforce chất lượng ở quy mô team: từ branch protection, CODEOWNERS, Git hooks (Husky/lint-staged/commitlint) cho tới CI/CD và semantic-release. Người phỏng vấn muốn xem bạn hiểu đâu là "nguồn enforce thật" (server/CI) và đâu chỉ là "tiện cho dev" (client hooks), cũng như cách thiết kế guardrail mà không làm developer khó chịu.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Client hooks chỉ là "tiện cho dev", enforce thật nằm ở server/CI** — client hook (Husky) bypass được bằng `--no-verify`, nên đừng coi là hàng rào bảo mật.
+- **Branch protection rules** — cơ chế server-side của GitHub: bắt buộc PR, require review, require status check pass; không bypass được bằng `--no-verify`.
+- **`CODEOWNERS`** — tự động gán reviewer bắt buộc theo đường dẫn file thay đổi.
+- **Husky + lint-staged + commitlint** — chạy lint/format trên file staged và kiểm tra format commit message lúc `pre-commit`/`commit-msg`.
+- **semantic-release** — tự động bump version, tạo tag và changelog từ Conventional Commits trong pipeline CI.
+
+:::
+
 ---
 
 ## Câu 37: Branch protection rules trên GitHub `[Intermediate]`

@@ -7,6 +7,15 @@ title: "6. Middleware, Route Handlers & Scripts"
 
 > *Metadata, Route Handlers, Middleware, prefetching và third-party scripts là những thứ bạn đụng hàng ngày khi làm App Router — phỏng vấn hỏi để kiểm tra bạn đã thực sự build app với Next.js 15 hay chỉ đọc docs.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Metadata API thay `next/head`** — dùng `export const metadata` (tĩnh) hoặc `generateMetadata()` (động, `await params`); chỉ chạy trong Server Component.
+- **Merge metadata là shallow** — page override field nào thì thay nguyên object đó của layout, không deep merge; `title.template` chỉ áp dụng cho page con.
+- **`generateMetadata` được memoize** — fetch trong đó dùng chung cache với fetch trong page, không gọi API hai lần.
+- **Route Handler & Middleware** — Middleware chạy trên edge, cần loại trừ `_next`/asset/API khỏi matcher để tránh redirect loop.
+
+:::
+
 ---
 
 ## Câu 2: Metadata trong Next.js App Router được định nghĩa như thế nào? `[Basic]`

@@ -7,6 +7,15 @@ title: "9. i18n & Security"
 
 > *Nhóm câu hỏi senior-level: đa ngôn ngữ, preview nội dung CMS và bảo mật production. Interviewer dùng những câu này để xem bạn đã từng "sống" với một app Next.js thật — có user quốc tế, có audit security, có hạ tầng serverless — hay chưa.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **App Router KHÔNG có i18n built-in** — tự dựng từ 3 mảnh: dynamic segment `[locale]`, middleware detect + redirect, và dictionary pattern (JSON per locale load trên server). Pages Router thì có sẵn config `i18n`.
+- **Thứ tự detect locale** — cookie `NEXT_LOCALE` → header `Accept-Language` → default; nhớ loại trừ `_next`/asset/API khỏi matcher để tránh redirect loop.
+- **Dictionary load trên server** — bản dịch không ship xuống client bundle, lợi thế lớn của Server Components.
+- **Security production** — Server Action/Route Handler phải tự validate & authorize; đừng lộ secret ra client, chỉ `NEXT_PUBLIC_` mới public.
+
+:::
+
 ---
 
 ## Câu 61: Internationalization (i18n) trong Next.js `[Intermediate]`

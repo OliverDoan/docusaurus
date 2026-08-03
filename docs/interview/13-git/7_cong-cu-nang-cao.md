@@ -7,6 +7,16 @@ title: "7. Công cụ nâng cao"
 
 > *Nhóm câu này kiểm tra các công cụ Git nâng cao — stash, worktree, partial/shallow clone, submodule/subtree, LFS. Đây là ranh giới phân biệt dev dùng Git "đủ xài" (add/commit/push/pull) với dev thực sự thành thạo, biết chọn đúng công cụ cho từng tình huống quản lý mã nguồn và tối ưu pipeline.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`git stash` là stack cất tạm thay đổi chưa commit** — `push`/`pop`/`apply`/`list`/`drop`; cứu cánh khi cần switch branch gấp mà không muốn tạo commit "WIP" rác.
+- **`git worktree`** — nhiều working directory từ cùng một repo, mỗi cái checkout một nhánh khác nhau; tránh phải stash/switch qua lại.
+- **Shallow clone (`--depth`) và partial clone (`--filter`)** — tải bớt lịch sử/blob để clone nhanh, tối ưu CI pipeline.
+- **Submodule vs subtree** — submodule trỏ tới một commit của repo con (tách bạch nhưng phức tạp); subtree nhúng thẳng code vào repo cha (đơn giản khi dùng nhưng history to hơn).
+- **Git LFS** — lưu file nhị phân lớn (ảnh, video, binary) ngoài repo, chỉ giữ pointer trong Git để tránh phình repo.
+
+:::
+
 ---
 
 ## Câu 44: git stash nâng cao `[Intermediate]`

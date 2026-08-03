@@ -7,6 +7,19 @@ title: "6. Nâng cao (bổ sung)"
 
 > *Tổng hợp các câu hỏi phỏng vấn TypeScript nâng cao bổ sung — bao gồm utility types chuyên sâu, tích hợp với React, decorators, function overloads và tối ưu hiệu năng type checking.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Exclude` vs `Extract`** — `Exclude<T, U>` loại bỏ member gán được cho `U`, `Extract<T, U>` giữ lại; cài đặt bằng distributive conditional type.
+- ⭐ **Function overloads** — nhiều signature + 1 implementation (ẩn với caller); dùng khi return type phụ thuộc kiểu tham số (thay cho union type).
+- **Type React events** — `React.ChangeEvent<HTMLInputElement>`, `React.FormEvent<HTMLFormElement>`, `React.MouseEvent<...>`; inline tự infer, named handler phải annotate.
+- **Generic component** — trong `.tsx` dùng `function` keyword (không arrow) để tránh nhầm `<T>` với JSX; kết hợp generic hook giữ type-safe.
+- **Decorators** — `@expression` modify class/method/property tại thời điểm khai báo (cần `experimentalDecorators`); `reflect-metadata` + `emitDecoratorMetadata` là nền tảng DI (NestJS).
+- **Discriminated union vs class hierarchy** — union dễ thêm operation + serialize + pattern matching (data-centric); class dễ thêm kiểu mới + behavior (Expression Problem).
+- **Path aliases** — `baseUrl` + `paths` trong `tsconfig`; phải cấu hình thêm phía bundler vì TS chỉ lo type checking.
+- **TS performance** — chậm do recursive/union type lớn, barrel files, thiếu annotation; fix bằng `skipLibCheck`, `incremental`, project references, `tsc --extendedDiagnostics`.
+
+:::
+
 ---
 
 ## Câu 1: `Exclude` và `Extract` là gì? `[Intermediate]`

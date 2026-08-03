@@ -7,6 +7,16 @@ title: "6. Performance SEO & Audit Checklist"
 
 > *Performance và SEO gặp nhau ở Core Web Vitals. Nhóm câu cuối này tổng hợp: CWV ảnh hưởng ranking thế nào, tối ưu LCP trong React/Next.js, và checklist audit hoàn chỉnh — câu "chốt hạ" thường gặp cuối buổi phỏng vấn.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **3 Core Web Vitals** — `LCP` (tải, tốt ≤ 2.5s), `INP` (phản hồi, thay FID, tốt ≤ 200ms), `CLS` (ổn định layout, tốt ≤ 0.1).
+- ⭐ **CWV là ranking signal nhẹ** — thuộc nhóm "page experience" nhưng relevance của content vẫn áp đảo; CWV đóng vai trò tie-breaker.
+- **Đánh giá bằng field data (CrUX)** — user Chrome thật ở percentile 75, không phải điểm Lighthouse chạy local.
+- **Ảnh hưởng gián tiếp thường lớn hơn** — trang chậm → bounce cao, engagement kém, tốn crawl budget nhiều hơn.
+- **Cách theo dõi** — Search Console CWV report, PageSpeed Insights, và tự đo RUM bằng thư viện `web-vitals`.
+
+:::
+
 ---
 
 ## Câu 8: Core Web Vitals là gì? Ảnh hưởng thế nào đến SEO ranking? `[Intermediate]`

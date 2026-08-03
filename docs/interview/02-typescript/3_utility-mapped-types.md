@@ -7,6 +7,17 @@ title: "3. Utility Types & Mapped Types"
 
 > *Câu hỏi loại này tách "biết dùng" và "viết được". Utility type built-in dễ thuộc, nhưng viết tay cái mới (cho code base lớn) là kỹ năng Senior.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Utility type built-in** — `Partial`/`Required`/`Pick`/`Omit`/`Record`/`ReturnType`/`Awaited`/`NonNullable`; combo `Awaited<ReturnType<typeof fn>>` để derive type không maintain 2 chỗ.
+- ⭐ **`satisfies` (TS 4.9+)** — validate value match type NHƯNG giữ literal type; thay cho `as` (skip check, unsafe) và annotation `:T` (mất literal).
+- **Mapped type** — `{ [K in keyof T]: ... }` với modifiers `?`/`readonly` và `-?`/`-readonly` để thêm/xoá; `as` để remap/filter key theo điều kiện.
+- **Template literal type** — compose string type (`on${Capitalize<...>}`), dùng `infer` để parse dot-path; ứng dụng i18n key type-safe, CSS property gen.
+- **`keyof` vs `typeof` vs `in`** — `keyof T` union các key; `typeof value` lấy type từ runtime value (mạnh với `as const`); `in` iterate union trong mapped type.
+- **Deep utility tự viết** — `Partial`/`Readonly` built-in chỉ shallow; viết `DeepPartial`/`DeepReadonly` đệ quy, nhớ loại trừ primitive/Function/Date/Map/Set.
+
+:::
+
 ---
 
 ## Câu 1: 5 utility type em dùng nhiều nhất là gì? `[Intermediate]`

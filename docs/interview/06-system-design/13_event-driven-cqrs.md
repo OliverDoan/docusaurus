@@ -7,6 +7,15 @@ title: "13. Event-Driven & CQRS"
 
 > *Event-driven architecture, CQRS, Event Sourcing và message queue là bộ câu hỏi phân loại Senior trong phỏng vấn system design. Interviewer không cần bạn thuộc định nghĩa — họ muốn xem bạn có biết **khi nào KHÔNG nên dùng** những pattern này, và có hiểu cái giá của eventual consistency hay không.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **CQRS** — tách model ghi (`Command`, chứa business rule) và model đọc (`Query`, trả DTO shape sẵn) thành hai đường riêng.
+- **CQRS có nhiều mức độ** — không all-or-nothing: tách interface → tách model (view/materialized view) → tách hẳn datastore (write Postgres, read Elasticsearch/Redis).
+- **Lợi ích** — tối ưu độc lập hai phía, scale lệch read/write, giữ domain model sạch không bị field hiển thị làm ô nhiễm.
+- ⭐ **Cái giá** — tách datastore đồng nghĩa **eventual consistency** + phức tạp đồng bộ; biết *khi nào KHÔNG dùng* mới là senior.
+
+:::
+
 ---
 
 ## Câu 15: CQRS Pattern là gì? Khi nào nên áp dụng, thách thức gì? `[Advanced]`

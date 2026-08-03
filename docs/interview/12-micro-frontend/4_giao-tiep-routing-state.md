@@ -7,6 +7,16 @@ title: "4. Giao tiếp, Routing & State"
 
 > *Đây là phần "lộ trình độ chín" của ứng viên micro-frontend. Ai cũng biết chia nhỏ app, nhưng làm sao các mảnh nói chuyện với nhau mà không dính chặt vào nhau mới là thứ phân biệt Intermediate với Senior.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Nguyên tắc số một là loose coupling** — ưu tiên giao tiếp bằng message/event, tránh `shared mutable state` (nhiều MFE cùng ghi vào một store) vì tạo ràng buộc ngầm khó debug.
+- **Custom events / pub-sub bus** — `window.dispatchEvent(new CustomEvent(...))` hoặc event bus nhỏ; nhớ đặt tên event theo namespace để tránh trùng.
+- **Props / callbacks** — dùng khi host trực tiếp mount remote (quan hệ cha–con); chặt hơn nhưng rõ ràng.
+- **`postMessage`** — cho MFE chạy trong iframe; bắt buộc kiểm tra `origin` và dữ liệu phải serialize được.
+- **Routing** — thường có một shell/host giữ router gốc, mỗi MFE quản route con của mình; tránh hai router tranh nhau history.
+
+:::
+
 ---
 
 ## Câu 15: Các micro-frontend giao tiếp với nhau như thế nào? `[Intermediate]`

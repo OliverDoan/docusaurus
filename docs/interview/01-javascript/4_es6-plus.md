@@ -7,6 +7,18 @@ title: "4. ES6+ và các tính năng modern"
 
 > *Phần này dùng để phân biệt dev "code theo template" và dev "đọc release note". ES6 ra mắt 2015 nhưng năm nào cũng có thêm tính năng — interviewer kỳ vọng bạn cập nhật.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`??` vs `||`** — `??` chỉ fallback khi `null`/`undefined`, `||` fallback mọi falsy; bug kinh điển dùng `||` cho số `0`. Kết hợp `?.` để safe access: `config?.server?.port ?? 3000`.
+- ⭐ **Arrow không có `this`/`arguments`/`new`** — lấy `this` lexical, không đổi được bằng `call/bind`; KHÔNG dùng làm object method, constructor, hay event handler cần `this` = element.
+- **Destructuring nâng cao** — param default `fn({ x = 1 } = {})`, rest tách field `{ id, ...rest }`, nested + rename; default chỉ áp dụng cho `undefined`, không cho `null`.
+- **Spread vs Rest** — spread "trải" ở expression, rest "gom" ở pattern; spread chỉ **shallow copy**, deep copy dùng `structuredClone`.
+- **Iterator vs Generator** — `function*` + `yield` pause/resume; hợp cho paginated API (`async function*` + `for await`) và lazy/infinite sequence.
+- **CJS vs ESM** — ESM parse tĩnh (tree-shaking, top-level `await`, live binding); dynamic `import()` trả Promise cho code splitting / lazy load / conditional polyfill.
+- **`Symbol` / `WeakMap` / `WeakRef`** — `Symbol.iterator` để make iterable; `WeakMap` gắn metadata cho object mà không cản GC (tránh leak so với `Map`).
+
+:::
+
 ---
 
 ## Câu 1: Destructuring có gì hay ngoài việc gán biến? `[Intermediate]`

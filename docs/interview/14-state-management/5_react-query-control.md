@@ -7,6 +7,16 @@ title: "5. React Query — Query control"
 
 > _Các câu hỏi phỏng vấn về kiểm soát truy vấn trong React Query v5: placeholder data, select, parallel queries, cancel, keepPreviousData, enabled và query filters._
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`initialData` vs `placeholderData`** — `initialData` là dữ liệu thật, được ghi vào cache và coi là fresh; `placeholderData` chỉ là dữ liệu tạm, không ghi cache, vẫn fetch nền (`isPlaceholderData: true`).
+- ⭐ **`enabled`** — bật/tắt query có điều kiện, nền tảng cho dependent query (chỉ chạy khi đủ tham số).
+- **`select`** — biến đổi/lọc dữ liệu trả về mà không đổi cache gốc, giúp giảm re-render.
+- **`keepPreviousData`/`placeholderData: keepPreviousData`** — giữ data cũ khi đổi `queryKey` (phân trang mượt, không nhấp nháy).
+- **Parallel & cancel** — `useQueries` chạy nhiều query song song; React Query hủy request qua `AbortSignal` truyền vào `queryFn`.
+
+:::
+
 ---
 
 ## Câu 1: Placeholder data và initial data trong React Query khác gì nhau? `[Intermediate]`

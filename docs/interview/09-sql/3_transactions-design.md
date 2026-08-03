@@ -7,6 +7,17 @@ title: "3. Transactions & Data Modeling"
 
 > *Phần này tập trung vào tính toàn vẹn dữ liệu, thiết kế schema, và các chiến lược xử lý đồng thời — những chủ đề phân biệt rõ senior engineer với junior trong vòng phỏng vấn backend.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`ACID`** — Atomicity (all-or-nothing), Consistency (không vi phạm constraint), Isolation (không thấy kết quả trung gian), Durability (commit là vĩnh viễn).
+- ⭐ **Isolation Levels** — Read Committed → Repeatable Read → Serializable, mức càng cao càng chống dirty/non-repeatable/phantom read nhưng đánh đổi hiệu năng.
+- **Normalization vs Denormalization** — chuẩn hoá giảm trùng lặp/toàn vẹn cao; phi chuẩn hoá tăng tốc đọc, chấp nhận trùng dữ liệu.
+- **Primary Key `SERIAL` vs `UUID`** — SERIAL nhỏ gọn, tuần tự; UUID phân tán/không đoán được nhưng lớn hơn và phân mảnh index.
+- **Foreign Key & `ON DELETE CASCADE`** — đảm bảo toàn vẹn tham chiếu; cascade tự xoá con nhưng cẩn thận xoá nhầm dây chuyền.
+- **Optimistic vs Pessimistic Locking** — optimistic dùng version/timestamp kiểm tra lúc commit (ít tranh chấp); pessimistic khoá dòng (`SELECT ... FOR UPDATE`) khi tranh chấp cao.
+
+:::
+
 ---
 
 ## Câu 1: ACID là gì? `[Intermediate]`

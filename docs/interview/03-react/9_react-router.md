@@ -7,6 +7,15 @@ title: "9. React Router"
 
 > _React Router là thư viện routing phổ biến nhất trong hệ sinh thái React, cho phép xây dựng Single Page Application với điều hướng phía client. Từ v6 và đặc biệt v6.4+, React Router đã bổ sung nhiều tính năng mạnh mẽ như data loading, actions và error boundaries tích hợp sẵn._
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hooks điều hướng cốt lõi** — `useParams` đọc dynamic segment từ URL, `useNavigate` chuyển trang bằng code, `useSearchParams` xử lý query string.
+- **Nested routes + `Outlet`** — route lồng nhau render layout chung và render con qua `<Outlet />`.
+- **Protected routes** — bọc route cần đăng nhập, redirect về login nếu chưa auth.
+- **`loader` (v6.4+)** — nạp data trước khi render route, tránh waterfall và loading spinner rời rạc.
+
+:::
+
 ---
 
 ## Câu 1: `useParams` hook trong React Router dùng để làm gì? `[Basic]`

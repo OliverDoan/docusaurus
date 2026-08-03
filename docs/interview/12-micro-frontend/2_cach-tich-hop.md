@@ -7,6 +7,16 @@ title: "2. Các cách tích hợp"
 
 > *Nhóm câu hỏi xoay quanh: ghép các micro-frontend lại bằng cách nào, mỗi cách đánh đổi gì. Interviewer muốn nghe bạn phân loại theo thời điểm tích hợp và nói được trade-off — không chỉ liệt kê tên công nghệ.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Phân loại theo thời điểm tích hợp (integration time)** — build-time / server-side / client-side (runtime) là khung trả lời sạch nhất.
+- **Build-time** (mỗi MFE là npm package, host `import` rồi bundle chung) — đơn giản, type-safe nhưng **mất tính độc lập deploy**, gần với monorepo hơn là MFE thật.
+- **Server-side** — ghép các mảnh ở phía server (SSI/edge include) trước khi trả HTML, tốt cho SEO và first paint.
+- **Client-side / runtime** — host load MFE lúc chạy (Module Federation, iframe, web component); giữ được **độc lập deploy** đúng tinh thần micro-frontend.
+- **Không có cách "đúng tuyệt đối"** — chọn theo nhu cầu độc lập deploy, SEO và độ phức tạp tooling.
+
+:::
+
 ---
 
 ## Câu 6: Có những cách nào để tích hợp các micro-frontend lại với nhau? `[Intermediate]`

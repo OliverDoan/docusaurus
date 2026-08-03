@@ -7,6 +7,16 @@ title: "4. React Query — Mutations"
 
 > _Mutations là cơ chế giúp React Query xử lý các thao tác ghi dữ liệu (tạo, cập nhật, xoá) một cách nhất quán, đồng thời cung cấp các hook mạnh mẽ để quản lý trạng thái, side effects và đồng bộ cache._
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`useMutation`** — dùng cho thao tác ghi (POST/PUT/PATCH/DELETE); không tự chạy, phải gọi `mutate()` hoặc `mutateAsync()` thủ công.
+- ⭐ **Optimistic update** — cập nhật UI ngay trong `onMutate` trước khi server phản hồi, và `rollback` về snapshot cũ nếu lỗi.
+- **Vòng đời callback** — `onMutate` → `onSuccess`/`onError` → `onSettled` (luôn chạy dù thành công hay thất bại).
+- **`invalidateQueries`** — đánh dấu query liên quan là stale để refetch, đồng bộ lại cache sau khi ghi.
+- **`mutate` vs `mutateAsync`** — `mutateAsync` trả về Promise nên có thể `await`/`try-catch`, còn `mutate` dùng callback.
+
+:::
+
 ---
 
 ## Câu 1: `useMutation` hook dùng để làm gì? `[Intermediate]`

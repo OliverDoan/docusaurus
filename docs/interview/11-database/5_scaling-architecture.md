@@ -9,6 +9,15 @@ title: "5. Scaling & Architecture"
 >
 > 📌 *Index cơ bản, composite index, EXPLAIN/EXPLAIN ANALYZE đã có bài chi tiết tại [SQL & Databases — Indexing & Performance](../09-sql/2_indexing-performance.md).*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Chọn index theo loại phép so sánh** — B-tree (mặc định, ~95% ca), GIN (JSONB/array/full-text), GiST (geometry/range), BRIN (bảng log khổng lồ).
+- **B-tree** hỗ trợ `=`, `<`, `>`, `BETWEEN`, `ORDER BY`, prefix `LIKE 'abc%'`; **Hash** chỉ hỗ trợ `=`.
+- ⭐ **GIN cho giá trị "chứa nhiều phần tử"** (JSONB, array) — trả lời "row nào chứa X"; đánh đổi: ghi chậm hơn, index to hơn.
+- **BRIN cực nhỏ** — hiệu quả với dữ liệu tương quan vật lý (time-series, log append-only).
+
+:::
+
 ---
 
 ## Câu 1: B-tree, Hash, GIN index khác nhau như thế nào? `[Senior]`

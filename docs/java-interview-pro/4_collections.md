@@ -7,6 +7,17 @@ title: "4. Collections"
 
 > *Java Collections Framework là bộ khung dữ liệu chuẩn — nắm vững sự khác biệt giữa các cấu trúc là chìa khoá vượt qua phỏng vấn kỹ thuật.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Chọn cấu trúc theo yêu cầu thứ tự & hiệu năng** — `HashSet`/`HashMap` cho tốc độ `O(1)` không thứ tự, `TreeSet`/`TreeMap` cho sắp xếp `O(log n)`, `LinkedHashMap` giữ thứ tự chèn.
+- ⭐ **Override `equals()` phải override `hashCode()` cùng lúc** — nếu không, đối tượng "bằng nhau" rơi vào bucket khác, khiến `HashSet` lưu trùng và `HashMap` không tìm thấy giá trị.
+- **`ArrayList` vs `LinkedList`** — mảng động truy cập `O(1)` nhưng chèn/xoá giữa `O(n)`; danh sách liên kết đôi chèn/xoá đầu/cuối `O(1)` nhưng truy cập `O(n)`.
+- **Iterator & fail-fast/fail-safe** — dùng `iterator.remove()` để xoá an toàn khi duyệt; fail-fast (`ArrayList`, `HashMap`) ném `ConcurrentModificationException`, fail-safe (`CopyOnWriteArrayList`, `ConcurrentHashMap`) duyệt trên bản sao.
+- **`Comparable` vs `Comparator`** — `compareTo()` cho một thứ tự tự nhiên trong class, `compare()` cho nhiều cách sắp xếp linh hoạt bên ngoài.
+- **Đa luồng dùng `ConcurrentHashMap`** — khóa cấp bucket nhanh hơn `Hashtable`/`synchronizedMap` khóa toàn object; tận dụng `putIfAbsent()`, `computeIfAbsent()`, `merge()` nguyên tử.
+
+:::
+
 ---
 
 ## Câu 1: HashSet và TreeSet khác nhau thế nào? `[Basic]`

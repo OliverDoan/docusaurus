@@ -7,6 +7,15 @@ title: "11. Advanced Hooks"
 
 > *Các câu hỏi phỏng vấn về hooks nâng cao trong React 18/19 — bao gồm `useImperativeHandle`, `useSyncExternalStore`, `useInsertionEffect` và kỹ thuật kiểm thử custom hooks.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`useImperativeHandle` + `forwardRef`** — cho phép cha truy cập ref của con, nhưng chỉ expose tập phương thức chọn lọc (focus, scroll) thay vì toàn bộ DOM node.
+- **`useSyncExternalStore`** — subscribe an toàn vào store bên ngoài React, tránh tearing trong concurrent rendering (dùng cho thư viện state).
+- **`useInsertionEffect`** — chạy trước mọi layout effect, dành riêng cho thư viện CSS-in-JS inject style.
+- **Test custom hooks** — dùng `renderHook` của React Testing Library, không test qua component thật.
+
+:::
+
 ---
 
 ## Câu 1: useImperativeHandle hook dùng để làm gì? `[Advanced]`

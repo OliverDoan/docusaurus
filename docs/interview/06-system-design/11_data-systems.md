@@ -7,6 +7,15 @@ title: "11. Data Systems & Storage"
 
 > *Hệ thống lớn không chỉ có một database. File ảnh nằm ở đâu? Metrics ghi vào đâu? Data cho analyst lấy từ đâu? Làm sao đồng bộ search index khi DB thay đổi? Interviewer hỏi nhóm câu này để xem bạn có biết chọn đúng loại storage cho đúng loại data — thay vì nhét tất cả vào Postgres.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Blob/object storage (S3)** — lưu file bất biến với durability cực cao; **DB chỉ giữ metadata**, KHÔNG nhét file vào BLOB column.
+- ⭐ **Presigned URL** — server chỉ ký URL có thời hạn, client upload/download **trực tiếp với S3**, không đi qua backend.
+- **CDN + lifecycle policy** — cache file ở edge giảm latency/egress; tự tiering hot → cold (Standard → IA → Glacier).
+- **Chọn đúng storage cho đúng data** — file → blob, metrics → time-series, search → index đồng bộ qua event; không dồn tất cả vào Postgres.
+
+:::
+
 ---
 
 ## Câu 29: Blob Storage là gì, khi nào dùng thay vì database? Thiết kế hệ thống lưu trữ file? `[Intermediate]`

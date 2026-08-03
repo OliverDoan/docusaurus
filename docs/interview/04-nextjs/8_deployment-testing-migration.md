@@ -7,6 +7,15 @@ title: "8. Deployment, Testing & Migration"
 
 > *Nhóm câu hỏi này kiểm tra khả năng đưa app Next.js ra production thật: deploy lên Vercel hay self-host bằng Docker, viết test cho App Router, và migrate codebase legacy. Đây là phần tách ứng viên "biết code Next" khỏi ứng viên "đã vận hành Next".*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Vercel = vận hành hộ hạ tầng quanh build output** — tự tách route thành static/CDN, serverless/edge function, lo CDN, ISR phân tán, Image Optimization, auto-scale, preview deploy, cron.
+- **Self-host phải tự lo phần Vercel làm sẵn** — đặc biệt ISR cache mặc định nằm trên filesystem từng instance, chạy nhiều instance là lệch cache → cần `cacheHandler` tuỳ chỉnh trỏ Redis.
+- **Testing App Router** — Server Component async cần cách test riêng; kết hợp unit (Jest/Vitest) và E2E (Playwright).
+- **Migration** — chuyển Pages → App Router làm dần, hai router chạy song song được.
+
+:::
+
 ---
 
 ## Câu 9: Deploy Next.js lên Vercel và những gì Vercel lo tự động `[Intermediate]`

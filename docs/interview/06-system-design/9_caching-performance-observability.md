@@ -7,6 +7,15 @@ title: "9. Caching, Performance & Observability"
 
 > *Caching và observability là hai mặt của cùng một bài toán: làm hệ thống nhanh hơn, và biết chính xác nó đang nhanh hay chậm ở đâu. Interviewer hỏi nhóm câu này để phân biệt người "biết dùng Redis" với người hiểu trade-off đằng sau từng pattern — invalidation, consistency, và chi phí vận hành.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Cache-aside (lazy loading)** — pattern phổ biến nhất: application tự quản lý cache, ghi thẳng DB rồi `invalidate` key.
+- **Write-through vs Write-back** — trade-off giữa tốc độ ghi và độ an toàn: `write-back` nhanh nhất nhưng **mất data nếu cache crash trước khi flush**.
+- **Cache stampede** — nhiều key hết TTL cùng lúc dồn tải DB; chống bằng lock/single-flight, jitter TTL, hoặc pre-warm.
+- ⭐ **Observability = 3 trụ** — `metrics`, `logs`, `traces`: mục tiêu là biết chính xác hệ thống chậm *ở đâu*, không chỉ biết nó chậm.
+
+:::
+
 ---
 
 ## Câu 12: Cache-aside, Write-through, và Write-back caching khác nhau như thế nào? `[Intermediate]`

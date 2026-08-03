@@ -7,6 +7,14 @@ title: "12. Microservices Architecture"
 
 > *Microservices không phải đích đến — nó là một trade-off. Interviewer hỏi chủ đề này không phải để xem bạn thuộc buzzword, mà để xem bạn hiểu cái giá của distributed system và biết khi nào KHÔNG nên dùng microservices. Câu trả lời senior luôn bắt đầu bằng "tuỳ ngữ cảnh" kèm tiêu chí cụ thể.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Microservices là trade-off tổ chức, không phải kỹ thuật** — theo `Conway's Law`, nó giải quyết chuyện nhiều team dẫm chân nhau; team nhỏ chưa cần thì chỉ tốn chi phí.
+- **Monolith vs Microservices** — khác nhau ở deploy (1 unit vs độc lập), scale (cả app vs từng service), và data ownership (**database-per-service**).
+- ⭐ **Chi phí phải trả** — mất ACID toàn cục (dùng Saga/eventual consistency), network latency + partial failure (timeout/retry/circuit breaker), và bắt buộc observability + DevOps trưởng thành.
+
+:::
+
 ---
 
 ## Câu 18: Microservices và Monolith khác nhau như thế nào? Khi nào nên migrate? `[Intermediate]`

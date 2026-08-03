@@ -7,6 +7,17 @@ title: "8. JVM & Bộ nhớ"
 
 > *Hiểu rõ cách JVM quản lý bộ nhớ là chìa khóa để viết ứng dụng Java ổn định, hiệu năng cao và tránh các lỗi khó debug nhất trong thực tế.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Stack` vs `Heap`** — `Stack` riêng mỗi thread, lưu biến cục bộ và tham chiếu theo LIFO; `Heap` dùng chung, lưu object tạo bằng `new` và do `Garbage Collector` quản lý.
+- **`Garbage Collection`** — object là "rác" khi không còn `GC Root` nào tham chiếu tới; cơ chế cơ bản là Mark and Sweep, có thể gây Stop-the-World pause.
+- **Generational GC** — chia `Heap` thành Young (Eden, Survivor) và Old Generation; Minor GC dọn Young rất nhanh, Full GC quét toàn bộ nên tốn kém.
+- **`OutOfMemoryError` vs `StackOverflowError`** — OOM do Heap/`Metaspace` đầy hoặc memory leak; StackOverflow do đệ quy vô hạn làm tràn `Stack`.
+- **Memory leak** — vẫn xảy ra dù có GC khi giữ tham chiếu ngoài ý muốn (static collection, `ThreadLocal` không `remove()`, cache vô hạn).
+- **`ClassLoader` & Reflection** — ClassLoader tải `.class` theo mô hình Parent Delegation; Reflection thao tác class tại runtime, mạnh cho framework nhưng chậm và mất type safety.
+
+:::
+
 ---
 
 ## Câu 1: Bộ nhớ Stack và Heap trong Java khác nhau thế nào? `[Intermediate]`

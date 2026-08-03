@@ -7,6 +7,17 @@ title: "5. Patterns & React 19"
 
 > *Pattern là "vocabulary" của senior FE. React 19 thay đổi nhiều thứ — interviewer kỳ vọng bạn cập nhật.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **React 19 features** — `use()` đọc promise/context, React Compiler tự memo hóa (bớt `useMemo`/`useCallback`), và Actions cho form/mutation.
+- **Compound Components** — parent giữ state và chia sẻ qua context, cho API JSX tự nhiên và inversion of control (Modal, Tabs, Select).
+- **Render Props vs Hooks** — hooks thay thế phần lớn render props cho việc chia sẻ logic, code gọn hơn.
+- **Error Boundary** — vẫn cần trong React 19 để bắt lỗi render (chỉ class component làm được).
+- **Server Actions** — chạy logic mutation trên server, gọi trực tiếp từ form không cần tự viết API endpoint.
+- **Migrate lên React 19** — làm từng bước, tận dụng Compiler và Actions dần.
+
+:::
+
 ---
 
 ## Câu 1: Compound Components — pattern và khi nào dùng `[Intermediate]`

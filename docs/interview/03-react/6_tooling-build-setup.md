@@ -7,6 +7,15 @@ title: "6. Tooling & Build Setup"
 
 > *Câu hỏi "dùng gì để tạo project React?" tưởng dễ nhưng lộ ngay bạn có cập nhật hệ sinh thái 2026 hay vẫn kẹt ở thời CRA.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Vite là mặc định cho SPA** — build tool nhanh nhờ native ESM (esbuild cho dev, Rollup cho production), không ép kiến trúc.
+- **Next.js cho app cần SEO/SSR** — full-stack framework với SSR/SSG/ISR, App Router, Server Components, API routes.
+- **CRA đã deprecated (2023)** — không dùng cho project mới; `Bun create` là lựa chọn mới, cực nhanh.
+- **Chọn theo nhu cầu** — Vite cho dashboard/tool nội bộ, Next.js cho website công ty/SaaS cần render phía server.
+
+:::
+
 ---
 
 ## Câu 1: Vite vs Next.js vs Bun create vs CRA — chọn cái nào? `[Junior]`

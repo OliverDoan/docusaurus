@@ -7,6 +7,16 @@ title: "3. String & Xử lý chuỗi"
 
 > *Chuỗi là kiểu dữ liệu xuất hiện ở mọi bài toán — hiểu sâu String Pool, tính bất biến và các lớp hỗ trợ giúp bạn tự tin trả lời mọi câu hỏi phỏng vấn liên quan.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`String` là immutable** — mọi thao tác (`concat`, `toUpperCase`, `replace`) đều trả về đối tượng mới; nhờ vậy có String Pool chia sẻ an toàn, thread-safe, bảo mật và cache được `hashCode`.
+- **String Pool** — các literal giống nhau trỏ cùng một đối tượng trong Heap; `new String()` tạo đối tượng mới nằm ngoài Pool nên `==` khác nhưng `equals()` bằng.
+- **`String` vs `StringBuilder` vs `StringBuffer`** — `String` bất biến (nối chuỗi chậm), `StringBuilder` mutable và nhanh nhất nhưng không thread-safe, `StringBuffer` mutable + `synchronized` nên thread-safe mà chậm hơn.
+- **Chọn lớp phù hợp** — dùng `String` cho hằng số, `StringBuilder` khi nối chuỗi trong vòng lặp đơn luồng, `StringBuffer` khi nối chuỗi đa luồng.
+- **Text Block** — cú pháp ba dấu nháy kép `"""` từ Java 15 cho chuỗi nhiều dòng, tự cắt thụt lề thừa và kết hợp `formatted()`; vẫn là `String` (syntactic sugar), tiện nhúng JSON/SQL/HTML.
+
+:::
+
 ---
 
 ## Câu 1: Tại sao String trong Java là immutable? `[Intermediate]`

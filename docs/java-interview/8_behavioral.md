@@ -7,6 +7,16 @@ title: "8. Câu hỏi hành vi (HR)"
 
 > Phần này thường bị các bạn intern xem nhẹ vì nghĩ "chỉ cần code giỏi là đủ". Thực tế, đây mới là phần quyết định ấn tượng và thái độ trong mắt nhà tuyển dụng. Một bạn kiến thức khá nhưng thái độ tốt, ham học, biết phối hợp thường được chọn hơn một bạn giỏi hơn nhưng trả lời lủng củng, thiếu tự tin. Hãy chuẩn bị kỹ phần này như chuẩn bị phần kỹ thuật.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Thái độ quan trọng ngang kỹ năng** — nhà tuyển dụng chọn người ham học, biết phối hợp, giao tiếp tự tin; đừng xem nhẹ phần HR.
+- ⭐ **Giới thiệu bản thân theo Hiện tại - Quá khứ - Tương lai** — gói gọn 60-90 giây, đừng đọc lại CV hay kể chuyện đời tư.
+- **Kể dự án / xử lý bug** — nêu rõ vai trò, cách bạn debug từng bước, và bài học rút ra (dùng khung tình huống - hành động - kết quả).
+- **Điểm mạnh / điểm yếu** — trung thực, điểm yếu kèm cách đang cải thiện; tránh câu trả lời sáo rỗng.
+- **Tìm hiểu công ty & đặt câu hỏi ngược** — thể hiện sự chủ động, quan tâm; luôn chuẩn bị vài câu hỏi cho nhà tuyển dụng.
+
+:::
+
 ---
 
 ## Câu 1: Hãy giới thiệu về bản thân

@@ -7,6 +7,17 @@ title: "10. Spring nâng cao"
 
 > *Các câu hỏi phỏng vấn chuyên sâu về hệ sinh thái Spring Boot 3, từ reactive programming, observability, đến bảo mật OAuth 2.1 và tối ưu native image với GraalVM.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Spring MVC` vs `WebFlux`** — MVC dùng blocking thread-per-request (dễ debug, hợp CRUD); WebFlux dùng non-blocking reactive (`Mono`/`Flux`, event loop) cho high-concurrency và streaming.
+- **`Backpressure`** — cơ chế subscriber báo tốc độ tiêu thụ cho publisher, tránh producer nhanh hơn consumer gây tràn bộ nhớ.
+- **`Testcontainers` vs `H2`** — Testcontainers chạy DB thực (chính xác dialect) qua `@ServiceConnection`; H2 nhanh nhưng dễ false confidence, nên kết hợp H2 cho unit test và Testcontainers cho integration test.
+- **`GraalVM Native Image` + `Spring AOT`** — biên dịch AOT cho startup dưới 100ms, memory nhỏ; đánh đổi build chậm, reflection cần khai báo hints, peak throughput thấp hơn JIT.
+- **Observability** — `Micrometer` là abstraction cho metrics, `OpenTelemetry` phủ metrics/logs/traces; dùng Observation API để instrument một lần, kèm correlation ID qua `MDC` cho structured logging.
+- **`OAuth 2.1` + Spring Authorization Server** — bắt buộc PKCE và refresh token rotation; Authorization Server cấp JWT, Resource Server validate stateless bằng public key qua JWK endpoint.
+
+:::
+
 ---
 
 ## Câu 1: Spring MVC và Spring WebFlux khác nhau thế nào? Khi nào chọn cái nào? `[Advanced]`

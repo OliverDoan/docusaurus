@@ -7,6 +7,17 @@ title: "1. Java Core & Cú pháp"
 
 > *Nền tảng vững chắc về Java Core giúp bạn tự tin trả lời mọi câu hỏi phỏng vấn từ cơ bản đến nâng cao.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`==` vs `.equals()`** — `==` so sánh địa chỉ tham chiếu, `.equals()` so sánh nội dung; luôn dùng `.equals()` cho String/đối tượng (chú ý String Pool và cache `Integer` `[-128, 127]`).
+- ⭐ **JVM ⊂ JRE ⊂ JDK** — JVM thực thi bytecode, JRE thêm thư viện chuẩn để chạy, JDK thêm `javac` và công cụ để phát triển.
+- **Java không thuần OOP** — vì có 8 kiểu nguyên thủy và `static` method; bù lại bằng Wrapper class và autoboxing.
+- **4 access modifier** — `private` → `default` (package-private) → `protected` → `public`; điểm khác biệt: `protected` cho subclass khác package truy cập.
+- **`static`** — thuộc về class (một bản duy nhất), dùng cho hằng số, utility method, bộ đếm; không dùng khi phụ thuộc trạng thái object.
+- **`final`** — biến (gán một lần), method (không override), class (không kế thừa); reference `final` giữ địa chỉ nhưng nội dung object mutable vẫn đổi được.
+
+:::
+
 ---
 
 ## Câu 1: Java là gì và vì sao đến nay vẫn được dùng rộng rãi? `[Basic]`

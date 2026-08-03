@@ -7,6 +7,17 @@ title: "8. State, Props & Data Flow"
 
 > *Hiểu rõ cách React quản lý dữ liệu qua props và state, cùng nguyên tắc luồng dữ liệu một chiều là nền tảng để xây dựng ứng dụng dễ bảo trì và dự đoán được.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Props read-only, state tự quản** — props do cha truyền xuống (không sửa), state do chính component giữ và thay đổi qua `useState`.
+- **Immutability** — luôn tạo object/array mới khi cập nhật state (spread), không mutate trực tiếp, để React phát hiện thay đổi.
+- **Lifting state up** — đẩy state lên parent chung khi nhiều component cần chia sẻ cùng dữ liệu.
+- **Unidirectional data flow** — dữ liệu chảy một chiều từ cha xuống con, dễ dự đoán và debug.
+- **Tránh derived state & khởi tạo state từ props** — nên tính toán trực tiếp khi render thay vì lưu bản sao dễ lệch.
+- **Không định nghĩa component lồng trong component** — mỗi lần render tạo type mới, làm mất state và re-mount con.
+
+:::
+
 ---
 
 ## Câu 1: Sự khác nhau cơ bản giữa props và state trong React là gì? `[Basic]`

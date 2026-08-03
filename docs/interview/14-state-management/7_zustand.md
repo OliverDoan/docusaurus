@@ -7,6 +7,16 @@ title: "7. Zustand"
 
 > *Thư viện quản lý state tối giản cho React — không boilerplate, không provider, chỉ cần một hook.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Không cần Provider** — `create()` trả về một hook dùng trực tiếp trong component, khác Redux/Context phải bọc `<Provider>`.
+- ⭐ **Selector để tối ưu re-render** — chọn đúng phần state cần (`useStore(s => s.count)`), component chỉ re-render khi phần đó đổi.
+- **`useShallow` / so sánh nông** — tránh re-render thừa khi selector trả về object/array mới mỗi lần.
+- **Middleware linh hoạt** — `persist` (lưu localStorage), `immer` (viết mutate an toàn), `devtools`.
+- **Bundle nhỏ (~1KB)** — nhẹ, ít boilerplate; phù hợp client state đơn giản đến vừa.
+
+:::
+
 ---
 
 ## Câu 1: Zustand là gì? So sánh với Redux về độ phức tạp? `[Basic]`

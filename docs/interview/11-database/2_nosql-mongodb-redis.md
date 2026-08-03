@@ -7,6 +7,15 @@ title: "2. NoSQL, MongoDB & Redis"
 
 > *Câu hỏi NoSQL không phải để kiểm tra bạn thuộc tên database — mà để xem bạn có biết **chọn công cụ theo bài toán** hay chỉ dùng theo trend.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **4 nhóm NoSQL** — Document (MongoDB), Key-Value (Redis), Wide-Column (Cassandra), Graph (Neo4j); thêm Search engine (Elasticsearch).
+- ⭐ **NoSQL đánh đổi JOIN/transaction mạnh** để lấy scale ngang + schema linh hoạt, thường là eventual consistency.
+- **Không thay thế SQL** — thực tế dùng **polyglot persistence**: PostgreSQL source of truth + Redis cache + Elasticsearch search.
+- **Ranh giới đang mờ dần** — PostgreSQL có `JSONB`, MongoDB có multi-document transaction từ 4.0.
+
+:::
+
 ---
 
 ## Câu 1: NoSQL là gì? Các loại NoSQL databases phổ biến? `[Intermediate]`

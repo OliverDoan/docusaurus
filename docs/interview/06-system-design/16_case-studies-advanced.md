@@ -7,6 +7,15 @@ title: "16. Case Studies: Advanced"
 
 > *Case study advanced là nơi interviewer phân loại Senior thật và Senior "thuộc bài". Không có đáp án đúng duy nhất — điểm số nằm ở cách bạn đi theo framework: làm rõ requirements + ước lượng capacity, vẽ high-level design, chọn đúng chỗ deep dive, và chốt bằng trade-offs có chủ đích.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Điểm nằm ở framework, không phải đáp án** — requirements + capacity → high-level design → chọn đúng chỗ deep dive → trade-offs có chủ đích.
+- **Autocomplete/Typeahead** — latency budget `<100ms` quyết định kiến trúc; dùng **trie với top-K precompute tại mỗi node** để lookup chỉ còn O(độ dài prefix).
+- **Scale trie** — shard theo prefix range + cache prefix ngắn tại CDN/edge; client `debounce` + `AbortController` chống race condition.
+- ⭐ **Precompute đổi freshness lấy latency** — suggestion mới phải chờ pipeline rebuild trie; cần real-time thì thêm stream layer cập nhật delta.
+
+:::
+
 ---
 
 ## Câu 49: Thiết kế Search Autocomplete (Typeahead) `[Advanced]`

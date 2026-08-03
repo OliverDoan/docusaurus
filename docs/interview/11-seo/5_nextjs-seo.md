@@ -7,6 +7,16 @@ title: "5. SEO trong Next.js"
 
 > *Next.js là framework "SEO-first" phổ biến nhất hệ React — Metadata API, file conventions cho sitemap/robots, next/image, ISR. Phỏng vấn vị trí Next.js gần như chắc chắn chạm nhóm câu này.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Metadata API render `<head>` server-side** — khai title/description/OG/canonical vào HTML thô nên mọi crawler đọc được (thay `next/head` của Pages Router).
+- ⭐ **Static vs dynamic metadata** — export object `metadata` khi cố định; export `generateMetadata()` (có thể `async` fetch data) khi phụ thuộc data, fetch được dedupe tự động.
+- **Merge từ root layout xuống page** — theo từng field, field nào page định nghĩa sẽ ghi đè layout (shallow merge theo key).
+- **Title template** — layout đặt `template: "%s | Brand"` + `default`, page con chỉ set phần `%s`.
+- **File-based metadata** — `sitemap.ts`, `robots.ts`, `opengraph-image.tsx`, `favicon.ico` theo convention, ưu tiên cao hơn config.
+
+:::
+
 ---
 
 ## Câu 12: Metadata API trong Next.js App Router hoạt động như thế nào? `[Intermediate]`

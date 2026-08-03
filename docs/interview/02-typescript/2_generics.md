@@ -7,6 +7,18 @@ title: "2. Generics"
 
 > *Generics là phần ranh giới giữa "dùng TS như JS có type" và "thực sự hiểu TS". Câu hỏi generics ở vòng phỏng vấn senior thường là loại "type challenge" nho nhỏ.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Generic = type parameter** — viết hàm/component reusable mà vẫn type-safe (giữ type relationship, khác `any` mất hoàn toàn); use case: fetch wrapper, custom hook, event emitter có type.
+- ⭐ **`extends` có 2 nghĩa** — constraint `<T extends U>` ("T phải là U") vs conditional `T extends U ? X : Y` ("T có phải U không", branching type-level).
+- **Constraint + `keyof`** — `getField<T, K extends keyof T>(obj, key): T[K]` cho safe property access; `T extends HasId` để giới hạn shape.
+- **`infer`** — đặt tên type chưa biết trong vế `extends` của conditional (như pattern matching); nền tảng của `Parameters`, `ReturnType`, `Awaited`, tuple `First`/`Tail`.
+- **Distribution** — conditional distribute khi T trần là union (`T extends any ? T[] : never` cho `string[] | number[]`); wrap `[T] extends [U]` để tắt.
+- **Variance** — array covariant nhưng unsound (mutate gây bug), dùng `ReadonlyArray` để an toàn; function param contravariant.
+- **`Readonly<T>` chỉ shallow** — tự viết `DeepReadonly<T>` bằng mapped type đệ quy, nhớ loại trừ primitive/Function/Map/Set.
+
+:::
+
 ---
 
 ## Câu 1: Generic là gì và khi nào nên dùng? `[Intermediate]`

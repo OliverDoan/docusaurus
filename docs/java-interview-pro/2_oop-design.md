@@ -7,6 +7,16 @@ title: "2. OOP & Design Patterns"
 
 > *Nắm vững lập trình hướng đối tượng và các design pattern phổ biến — nền tảng để viết code Java chuyên nghiệp và vượt qua mọi vòng phỏng vấn kỹ thuật.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **4 trụ cột OOP** — `Encapsulation`, `Inheritance`, `Polymorphism`, `Abstraction` là nền tảng mọi thiết kế hướng đối tượng.
+- **Kế thừa & đa hình** — Java cấm multiple inheritance qua `class` (Diamond Problem) nhưng cho `implements` nhiều `interface`; phân biệt overloading (compile-time) vs overriding (runtime) và cả method hiding với `static`.
+- **`abstract` class vs `interface`** — abstract cho quan hệ "is-a" chia sẻ state/code, interface cho "can-do" với `default`/`static` method (Java 8+); ưu tiên Composition hơn Inheritance.
+- ⭐ **SOLID** — 5 nguyên tắc `S`-`O`-`L`-`I`-`D`, bài đi sâu SRP, OCP và LSP (ví dụ `Square` extends `Rectangle` vi phạm LSP).
+- **Design pattern hay hỏi** — Singleton (Bill Pugh, Enum), Factory (Simple/Method/Abstract) và Builder cho object nhiều tham số.
+
+:::
+
 ---
 
 ## Câu 1: Bốn tính chất (trụ cột) của OOP là gì? `[Basic]`

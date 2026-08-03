@@ -7,6 +7,14 @@ title: "10. Câu hỏi bổ sung"
 
 > *Đây là các câu phỏng vấn giá trị không nằm trong bộ 66 câu chuẩn nhưng rất hay được hỏi. Nắm chắc chúng giúp bạn xử lý gọn những câu "đào sâu" mà interviewer dùng để phân loại ứng viên.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Hydration = React "thổi sự sống" vào HTML tĩnh** — client render lại component tree, adopt DOM có sẵn rồi gắn event listener & state; đạt TTI. Server Component không cần hydrate.
+- **Client render phải khớp HTML server** — React giả định HTML là kết quả render; lệch nhau gây hydration mismatch, React phải vứt DOM và render lại từ đầu, mất lợi ích SSR.
+- **"Uncanny valley" giữa FCP và TTI** — user thấy trang nhưng click chưa phản hồi; bundle JS càng lớn khoảng này càng dài → lý do đẩy mạnh Server Components.
+
+:::
+
 ---
 
 ## Câu B1: Hydration là gì? `[Basic]`

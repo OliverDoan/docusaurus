@@ -7,6 +7,17 @@ title: "5. Xử lý ngoại lệ (Exception)"
 
 > Tổng hợp các câu hỏi phỏng vấn thường gặp về xử lý ngoại lệ (exception handling) trong Java cho vị trí thực tập. Đây là chủ đề "kinh điển", gần như buổi phỏng vấn intern nào cũng hỏi, đặc biệt là `NullPointerException` và sự khác nhau giữa checked vs unchecked exception.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Error` vs `Exception`** — cả hai kế thừa `Throwable`; `Error` là lỗi JVM nghiêm trọng (không nên bắt), `Exception` là tình huống bất thường có thể xử lý được.
+- ⭐ **Checked vs Unchecked** — checked (vd `IOException`) buộc phải `try/catch` hoặc `throws` lúc biên dịch; unchecked (vd `NullPointerException`) là lỗi logic runtime, không bắt buộc.
+- **`try / catch / finally`** — `finally` gần như **luôn chạy** (dọn tài nguyên), kể cả khi có exception hay `return`.
+- **`throw` vs `throws`** — `throw` là ném một exception cụ thể; `throws` khai báo method có thể ném exception.
+- **`NullPointerException`** — do gọi method/thuộc tính trên tham chiếu null; phòng tránh bằng kiểm tra null hoặc `Optional`.
+- **`try-with-resources`** — tự động đóng tài nguyên (implement `AutoCloseable`), gọn và an toàn hơn đóng thủ công trong `finally`.
+
+:::
+
 ---
 
 ## Câu 1: Exception (ngoại lệ) là gì? Error và Exception khác nhau thế nào? `[Basic]`

@@ -7,6 +7,17 @@ title: "7. Đồng thời (Concurrency)"
 
 > *Concurrency là khả năng chạy nhiều tác vụ "cùng lúc" — đây là chủ đề phỏng vấn cốt lõi đòi hỏi hiểu sâu về bộ nhớ, đồng bộ hoá và các nguy cơ tiềm ẩn trong môi trường đa luồng.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`synchronized` vs `volatile`** — `synchronized` đảm bảo cả visibility lẫn atomicity (có block thread); `volatile` chỉ đảm bảo visibility, KHÔNG atomic nên `count++` vẫn race condition.
+- ⭐ **Race condition & deadlock** — `count++` gồm 3 bước không atomic; phòng deadlock bằng lấy lock theo thứ tự cố định (phá Circular Wait) hoặc `tryLock()` với timeout.
+- **Tạo thread & pool** — 4 cách: kế thừa `Thread`, `Runnable`, `Callable` + `Future`, và `ExecutorService` (khuyến nghị vì tái sử dụng thread, tránh OOM, nhớ `shutdown()`).
+- **`Future` vs `CompletableFuture`** — `Future.get()` blocking, không chain; `CompletableFuture` hỗ trợ callback non-blocking, `thenCompose`/`thenCombine`/`allOf` và `exceptionally`.
+- **Happens-before & atomic** — quy tắc JMM (ghi `volatile`, unlock, `start()`/`join()`) đảm bảo visibility; dùng `AtomicInteger` (CAS) hoặc `ConcurrentHashMap` cho thao tác thread-safe.
+- **Công cụ nâng cao** — `CountDownLatch` (dùng 1 lần, chờ N task xong) vs `CyclicBarrier` (tái sử dụng, thread chờ nhau tại checkpoint); Virtual Threads (Java 21) hợp I/O-intensive; `ThreadLocal` phải `remove()` trong `finally` để tránh leak ở thread pool.
+
+:::
+
 ---
 
 ## Câu 1: Thread là gì? Có mấy cách tạo thread trong Java? `[Basic]`

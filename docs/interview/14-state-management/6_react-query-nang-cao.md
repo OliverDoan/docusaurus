@@ -7,6 +7,16 @@ title: "6. React Query — Nâng cao"
 
 > _Các câu hỏi nâng cao về React Query v5: prefetching, infinite queries, dependent queries, hydration với Next.js, Suspense, persistence và so sánh với SWR._
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Prefetching** — nạp trước data vào cache (`prefetchQuery`) trước khi component cần, giúp không có loading state; cùng `queryKey`/`queryFn` với `useQuery`.
+- ⭐ **Hydration (Next.js SSR/RSC)** — prefetch phía server rồi `dehydrate` + `HydrationBoundary` để truyền cache sang client, tránh fetch lại.
+- **`useInfiniteQuery`** — xử lý load-more/infinite scroll qua `getNextPageParam` và `fetchNextPage`.
+- **Dependent query** — dùng `enabled` để query B chỉ chạy khi query A đã có dữ liệu.
+- **Suspense & persistence** — hỗ trợ `useSuspenseQuery`; có thể `persist` cache ra localStorage. So với SWR, React Query nhiều tính năng và mạnh về mutation hơn.
+
+:::
+
 ---
 
 ## Câu 1: Prefetching trong React Query hoạt động như thế nào? `[Intermediate]`

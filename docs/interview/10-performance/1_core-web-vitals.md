@@ -7,6 +7,15 @@ title: "1. Core Web Vitals"
 
 > *Performance là chủ đề mà interviewer dùng để phân biệt dev "làm cho chạy được" với dev "làm cho chạy nhanh". Core Web Vitals là ngôn ngữ chung — biết số, biết ngưỡng, biết cách đo là điểm cộng lớn.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **3 metrics `LCP` / `INP` / `CLS`** — ngưỡng "tốt" lần lượt ≤ 2.5s / ≤ 200ms / ≤ 0.1, đánh giá tại **percentile 75** của user (không phải trung bình).
+- ⭐ **`INP` đã thay `FID`** (từ 3/2024) — đo độ trễ của **toàn bộ interaction** trong session thay vì chỉ input đầu tiên.
+- **Field data vs lab data** — Google ranking dùng field data (`CrUX`, user thật); Lighthouse là lab data để debug.
+- **Đo bằng thư viện `web-vitals`** (`onLCP`, `onINP`, `onCLS`) hoặc `PerformanceObserver` thủ công.
+
+:::
+
 ---
 
 ## Câu 1: Core Web Vitals là gì? Ba metrics chính là gì? `[Intermediate]`

@@ -7,6 +7,16 @@ title: "3. React Query — Cơ bản"
 
 > _Tổng hợp các câu hỏi phỏng vấn về TanStack Query (React Query) từ cơ bản đến trung cấp, tập trung vào cách quản lý server state hiệu quả trong ứng dụng React._
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Chuyên quản lý server state** — React Query lo việc fetch, cache, đồng bộ dữ liệu API; khác với client state (Redux/Zustand).
+- ⭐ **`useQuery`** — tự động fetch khi mount, trả về `data`/`isLoading`/`isError`, cần `queryKey` làm định danh cache.
+- **`staleTime` vs `gcTime`** — `staleTime` quyết định khi nào data bị coi là "cũ" cần refetch; `gcTime` (trước là `cacheTime`) quyết định khi nào xoá cache khỏi bộ nhớ.
+- **Tự động refetch** — khi window focus lại, mạng reconnect, hoặc data đã stale.
+- **Deduplicate & cache dùng chung** — nhiều component cùng `queryKey` chỉ gọi API một lần.
+
+:::
+
 ---
 
 ## Câu 1: React Query (TanStack Query) là gì? Mục đích chính của nó là gì? `[Basic]`

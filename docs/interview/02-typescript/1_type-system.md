@@ -7,6 +7,18 @@ title: "1. Type System Fundamentals"
 
 > *TypeScript hỏi không khó nhưng cực kỳ phân biệt được "dùng được" và "dùng đúng". Câu trả lời nông sẽ lộ ngay.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`any` vs `unknown` vs `never`** — `any` tắt type-check (tránh), `unknown` buộc narrow trước khi dùng (an toàn), `never` cho exhaustive check + function luôn throw.
+- ⭐ **`interface` vs `type`** — `interface` cho object shape + declaration merging + extend; `type` cho union/tuple/mapped/conditional (những thứ `interface` không làm được).
+- **Type narrowing** — nhiều cách: `typeof`, `instanceof`, `in`, equality, discriminated union (`.kind`/`.status`), user-defined guard (`v is T`), assertion function (`asserts v is T`).
+- **Tránh `enum`** — sinh code runtime, không tree-shake, number enum cho gán số lạ; ưu tiên string literal union hoặc `as const` (`typeof ROLES[number]`) làm single source of truth.
+- **Structural typing** — TS so sánh theo shape, không theo tên; alias `string` không phân biệt `UserId`/`OrderId` → dùng branded type (`string & { __brand }`).
+- **Strict compiler options** — bắt buộc `strict: true`; nên thêm `noUncheckedIndexedAccess`, `noImplicitOverride`, `exactOptionalPropertyTypes`, `forceConsistentCasingInFileNames`.
+- **TS chỉ compile-time** — không bảo vệ runtime; data từ API vẫn phải validate (vd Zod).
+
+:::
+
 ---
 
 ## Câu 1: `interface` vs `type` — chọn cái nào? `[Intermediate]`

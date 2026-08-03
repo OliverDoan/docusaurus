@@ -7,6 +7,15 @@ title: "2. Lazy Loading & Code Splitting"
 
 > *"Bundle 2MB thì tối ưu kiểu gì?" — nhóm câu hỏi này kiểm tra bạn có hiểu JS được load, parse, execute như thế nào, và có biết dùng đúng công cụ để chỉ ship cái user cần hay không.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Lazy loading = trì hoãn load resource đến khi thực sự cần** — trong React dùng `React.lazy()` + `Suspense`, bundler tự tách chunk tại điểm `import()`.
+- **KHÔNG lazy-load LCP element** (ảnh hero) — sẽ làm `LCP` tệ hơn.
+- **`React.lazy` chỉ nhận default export** và cần bọc Error Boundary vì chunk có thể load fail (deploy mới làm chunk cũ 404).
+- **Preload khi hover/focus** để che network latency; ảnh/iframe dùng native `loading="lazy"`.
+
+:::
+
 ---
 
 ## Câu 1: Lazy loading là gì? Cách implement trong React? `[Intermediate]`

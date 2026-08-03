@@ -7,6 +7,16 @@ title: "2. Redux Toolkit"
 
 > _Redux Toolkit (RTK) là bộ công cụ chính thức giúp viết Redux hiệu quả hơn, ít boilerplate hơn và dễ bảo trì hơn trong các dự án React hiện đại._
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **RTK là cách viết Redux chuẩn hiện nay** — giảm mạnh boilerplate, cấu hình sẵn store + DevTools + thunk.
+- ⭐ **`createSlice`** — gộp action types, action creators và reducer vào một chỗ; cho phép viết code "mutate" nhờ Immer xử lý immutability bên trong.
+- **`configureStore`** — thay `createStore`, tự setup middleware và Redux DevTools.
+- **`createAsyncThunk`** — xử lý logic async, tự sinh 3 trạng thái `pending`/`fulfilled`/`rejected`.
+- **RTK Query** — công cụ data fetching & caching tích hợp sẵn trong RTK.
+
+:::
+
 ---
 
 ## Câu 1: Redux Toolkit (RTK) là gì? Tại sao nên dùng RTK thay vì Redux thuần? `[Intermediate]`

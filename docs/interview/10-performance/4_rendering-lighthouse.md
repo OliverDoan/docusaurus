@@ -7,6 +7,15 @@ title: "4. Rendering Pipeline & Lighthouse"
 
 > *Hiểu browser render thế nào là nền của mọi câu trả lời performance — vì sao `transform` mượt còn `top` giật, vì sao CSS block render còn ảnh thì không. Lighthouse là công cụ chứng minh bạn đã fix được.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Critical Rendering Path** — DOM + CSSOM → Render tree → **Layout → Paint → Composite**.
+- ⭐ **`transform` / `opacity` chỉ chạy Composite** (GPU, mượt 60fps); đổi `width` / `top` / `left` ép chạy lại Layout (đắt nhất).
+- **CSS là render-blocking** — tối ưu bằng inline critical CSS + `defer` JS + preload resource quan trọng.
+- **Tránh layout thrashing** — batch read (`offsetHeight`) trước, batch write (`style.height`) sau để chỉ 1 lần layout.
+
+:::
+
 ---
 
 ## Câu 1: Browser rendering pipeline — Critical Rendering Path? `[Intermediate]`

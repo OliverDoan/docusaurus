@@ -7,6 +7,16 @@ title: "12. React Internals"
 
 > _Hiểu cơ chế bên trong React — Fiber, synthetic events, event delegation, portal, và chiến lược migration — giúp bạn lập luận chính xác khi debug và thiết kế ứng dụng phức tạp._
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **React Fiber** — kiến trúc reconciler mới (React 16+) biểu diễn mỗi đơn vị công việc thành Fiber node, cho phép gián đoạn, ưu tiên hóa (Lanes) và concurrent rendering.
+- **Synthetic events + event delegation** — React gắn listener ở root container (từ React 17, thay vì `document`) để hỗ trợ nhiều bản React trên cùng trang.
+- **Portal** — render DOM ra ngoài parent nhưng event vẫn bubble theo React tree (không theo DOM tree).
+- **`act()` trong test** — bọc thao tác cập nhật state để đảm bảo effect/re-render chạy xong; RTL tự bọc, còn thao tác async cần `waitFor`/`findBy`.
+- **Migrate Class sang Hooks** — làm dần từng component, không đập đi viết lại toàn bộ.
+
+:::
+
 ---
 
 ## Câu 1: React Fiber là gì? `[Advanced]`

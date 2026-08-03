@@ -7,6 +7,17 @@ title: "7. JSX & Render cơ bản"
 
 > *Trước khi đi sâu vào hooks hay performance, mọi thứ đều bắt đầu từ JSX — hiểu đúng nền tảng này giúp bạn tránh hàng chục lỗi thường gặp khi viết React.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **JSX không phải HTML** — nó được Babel/TypeScript transpile thành `React.createElement(...)`; trình duyệt không hiểu JSX trực tiếp.
+- **JSX chỉ nhận expression** — dùng được biến/hàm/ternary trong `{}`, nhưng không đặt statement (if, for) trực tiếp.
+- **Conditional rendering** — dùng `&&`, ternary hoặc biến; lưu ý `0`/`NaN` với `&&` có thể render ra số.
+- **Render ra gì** — `null`, `undefined`, `false`, chuỗi rỗng không render gì; component có thể return string, number, array, `Fragment`.
+- **`Fragment`** (`<>...</>`) — nhóm nhiều element mà không thêm DOM node thừa.
+- **`props.children`** — nội dung lồng giữa thẻ mở/đóng của component, cho phép composition.
+
+:::
+
 ---
 
 ## Câu 1: JSX là gì và tại sao React sử dụng nó? `[Basic]`

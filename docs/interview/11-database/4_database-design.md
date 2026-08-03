@@ -9,6 +9,15 @@ title: "4. Database Design"
 >
 > 📌 *Các chủ đề Normalization vs Denormalization, UUID vs Auto-increment, ON DELETE CASCADE, ACID, Isolation levels, Optimistic vs Pessimistic locking đã có bài chi tiết tại [SQL & Databases — Transactions & Design](../09-sql/3_transactions-design.md).*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **ER Diagram = Entity (bảng) + Attribute (cột) + Relationship (cardinality 1-1, 1-N, N-N)**.
+- ⭐ **N-N không tồn tại trực tiếp** trong relational DB — luôn tách thành **bảng trung gian (junction table)** chứa 2 FK.
+- **Triển khai vật lý** — 1-1: FK + `UNIQUE`; 1-N: FK đặt ở phía "nhiều" (`orders.user_id`). Ký pháp crow's foot.
+- **Junction table thường tiến hoá thành entity thật** khi cần thêm attribute (grade, enrolled_at).
+
+:::
+
 ---
 
 ## Câu 1: ER Diagram là gì? Các thành phần chính? `[Intermediate]`

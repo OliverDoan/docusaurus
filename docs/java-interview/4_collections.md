@@ -7,6 +7,17 @@ title: "4. Collections"
 
 > Bộ câu hỏi phỏng vấn về **Collections Framework** (bộ khung tập hợp) trong Java cho vị trí thực tập. Đây là chủ đề được hỏi rất nhiều vì nó xuất hiện trong hầu hết mọi dự án thực tế. Hãy nắm vững `List`, `Set`, `Map` và biết khi nào dùng cấu trúc nào.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`List` / `Set` / `Map` / `Queue`** — `List` có thứ tự và cho trùng, `Set` không trùng, `Map` lưu cặp key-value, `Queue` xử lý theo FIFO. Lưu ý `Map` không kế thừa `Collection`.
+- ⭐ **`HashMap` hoạt động thế nào** — băm key ra bucket, xử lý va chạm bằng danh sách liên kết (Java 8+ chuyển sang cây khi nhiều phần tử); truy xuất trung bình O(1).
+- **`ArrayList` vs `LinkedList`** — `ArrayList` truy cập theo index nhanh (O(1)); `LinkedList` thêm/xóa ở đầu/giữa nhanh hơn nhưng truy cập chậm.
+- **`HashMap` vs `Hashtable`** — `HashMap` cho null, không đồng bộ, nhanh; `Hashtable` không cho null, đồng bộ (cũ).
+- **Array vs `ArrayList`** — mảng cố định kích thước, chứa cả primitive; `ArrayList` co giãn tự động, chỉ chứa object.
+- **Override `equals()` + `hashCode()`** — bắt buộc khi dùng object làm key trong `HashMap`, nếu không sẽ tra cứu sai.
+
+:::
+
 ---
 
 ## Câu 1: Collections Framework là gì? Phân biệt List, Set, Map, Queue `[Basic]`

@@ -9,6 +9,14 @@ title: "3. EQ & Emotional Intelligence"
 
 > *Không có "correct answer". Họ đọc cách em phản ứng, body language, sự **honest**, và self-awareness. Performance ở phần này quyết định em được offer Senior hay Mid.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **EQ đo theo 5 dimension của Goleman** — `self-awareness`, `self-regulation`, `motivation`, `empathy`, `social skills`; EQ thấp là red flag lớn hơn cả thiếu skill vì skill học được, EQ thì khó đổi.
+- **Khi bị criticism: đừng defensive** — thừa nhận cảm xúc đầu là thật, pause vài giây, rồi chuyển sang hỏi (curiosity) thay vì sợ/phản công; tách ego khỏi idea, coi criticism là data.
+- **Đừng pretend "never feel hurt"** — honest về cảm xúc nhưng show emotional regulation sau đó; bonus nếu biết give feedback up cho senior một cách khéo.
+
+:::
+
 ---
 
 ## EQ thực sự là gì trong context phỏng vấn?

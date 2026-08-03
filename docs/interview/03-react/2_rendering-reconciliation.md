@@ -7,6 +7,17 @@ title: "2. Rendering & Reconciliation"
 
 > *Câu hỏi loại này phân biệt dev "đã đọc React docs" và dev "đã debug performance trên dự án thật".*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Re-render ≠ DOM update** — component re-render để React tính virtual DOM và diff, nhưng chỉ patch phần thật sự thay đổi nên rẻ hơn nhiều người tưởng.
+- **Nguyên nhân re-render** — state thay đổi, props đổi, context subscribe đổi, hoặc parent re-render (kéo theo subtree trừ khi `React.memo`).
+- **`key` trong reconciliation** — giúp React nhận diện phần tử qua các lần render; dùng key sai (index) gây bug state khi list thay đổi thứ tự.
+- **Batching (React 18)** — nhiều `setState` được gộp thành một lần re-render, kể cả trong promise/setTimeout (automatic batching).
+- **`React.memo`/`useMemo`/`useCallback`** — chỉ tối ưu khi đo được lợi ích; lạm dụng gây phức tạp và có thể chậm hơn.
+- **`useTransition`** — đánh dấu update không khẩn cấp để giữ UI mượt trong concurrent rendering.
+
+:::
+
 ---
 
 ## Câu 1: Khi nào một component re-render? `[Intermediate]`

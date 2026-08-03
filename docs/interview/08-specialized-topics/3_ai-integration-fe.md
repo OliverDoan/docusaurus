@@ -7,6 +7,17 @@ title: "3. AI Integration trong FE (2024-2025)"
 
 > *Topic này hot nhất từ 2023. Mọi công ty đang add AI feature. Câu hỏi sẽ test xem em **thực sự hiểu** integrate LLM hay chỉ copy ChatGPT widget. Không hiểu streaming + token cost + safety là dấu hiệu rõ "chưa từng ship AI feature production".*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Streaming response** — dùng `SSE`/`ReadableStream` để render token theo chunk, tránh màn hình trống 5-30s; WebSocket là overkill cho một chiều.
+- ⭐ **Token cost optimization** — cache response, rút gọn prompt/context, chọn model rẻ cho task đơn giản, giới hạn `max_tokens`.
+- **`RAG`** — retrieve tài liệu liên quan (vector search) rồi nhồi vào context để trả lời có nguồn, giảm hallucination.
+- **AI Safety & moderation** — lọc input/output độc hại, chống prompt injection, không tin tưởng output của model.
+- **UX patterns** — hiển thị trạng thái đang nghĩ, cho phép dừng/regenerate, xử lý lỗi và fallback rõ ràng.
+- **Performance & monitoring** — đo latency, token usage, chất lượng output; log để debug.
+
+:::
+
 ---
 
 ## Câu 1: Streaming LLM response — em implement thế nào? `[Senior]`

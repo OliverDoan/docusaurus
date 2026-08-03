@@ -7,6 +7,17 @@ title: "5. Functional & Java hiện đại"
 
 > *Từ Java 8 trở đi, ngôn ngữ liên tục bổ sung các tính năng hàm (functional) và biểu đạt (expressive) — nắm vững chúng là yếu tố phân biệt senior và junior trong mắt interviewer.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Stream` API** — xử lý collection theo pipeline hàm với intermediate op lười biếng (`filter`, `map`) và terminal op (`collect`, `count`) kích hoạt thực thi, hỗ trợ `parallelStream()`.
+- **Functional interface & `Lambda`** — interface một abstract method (`Predicate`, `Function`, `Consumer`, `Supplier`); lambda và method reference (`ClassName::method`) là cách tạo instance ngắn gọn.
+- **`Optional`** — container tránh `NullPointerException`, dùng làm kiểu trả về với `orElse`, `orElseGet`, `map`, `ifPresent` thay vì trả `null`.
+- ⭐ **Generics & type erasure** — thông tin type parameter bị xóa lúc runtime; nhớ nguyên tắc PECS (Producer Extends, Consumer Super) cho wildcard.
+- **`default`/`static` method & diamond problem** — interface có implementation giúp mở rộng API; xung đột giải theo thứ tự class thắng, interface cụ thể hơn thắng, còn lại phải override với `Interface.super.method()`.
+- **`record`, sealed class & pattern matching for switch** — `record` sinh sẵn boilerplate cho data carrier bất biến; `sealed` + `switch` (Java 21) cho type pattern, guarded `when`, và kiểm tra exhaustiveness lúc compile.
+
+:::
+
 ---
 
 ## Câu 1: Stream API và lập trình hàm trong Java 8 là gì? `[Intermediate]`

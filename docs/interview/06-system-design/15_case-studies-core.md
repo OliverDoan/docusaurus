@@ -7,6 +7,15 @@ title: "15. Case Studies: Core Systems"
 
 > *Case study là phần "thi đấu thật" của vòng system design. Interviewer không chấm bạn vẽ đúng bao nhiêu ô — họ chấm cách bạn đi từ requirements → high-level design → deep dive → trade-offs một cách có kỷ luật. 6 hệ thống dưới đây là những bài kinh điển nhất: webhook, URL shortener, chat, notification, crawler, message queue.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Framework case study** — đi có kỷ luật: requirements + capacity estimate → high-level design → deep dive → trade-offs.
+- **Webhook** — `at-least-once` delivery qua queue + dispatcher fan-out + worker pool; retry exponential backoff **có jitter** + DLQ + replay thủ công.
+- ⭐ **Bảo mật + idempotency** — ký payload bằng `HMAC-SHA256`, kèm timestamp chống replay, chỉ HTTPS; mỗi event có ID duy nhất để consumer dedup.
+- **Timeout ngắn (5–10s)** — buộc consumer trả `2xx` ngay rồi xử lý async, tránh endpoint chậm chiếm hết worker (head-of-line blocking).
+
+:::
+
 ---
 
 ## Câu 34: Thiết kế hệ thống Webhook `[Advanced]`

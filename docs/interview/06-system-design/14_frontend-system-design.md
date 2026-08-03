@@ -7,6 +7,15 @@ title: "14. Frontend System Design"
 
 > *Frontend system design là vòng phỏng vấn tách senior khỏi mid-level. Interviewer không cần bạn vẽ ra hệ thống hoàn hảo — họ cần thấy framework tư duy: clarify requirements → high-level architecture → deep dive vào component khó nhất → nói rõ trade-offs. Tài liệu này đi qua các bài design kinh điển nhất từ góc nhìn frontend.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Framework tư duy** — clarify requirements → high-level architecture → deep dive component khó nhất → nói rõ trade-offs.
+- **Caching nhiều lớp** — HTTP cache → CDN → Service Worker → in-memory data library (`TanStack Query`/`SWR`), mỗi lớp một mục đích.
+- ⭐ **Cache busting bằng content hash** — static asset có hash trong tên cache 1 năm `immutable`; nhưng **đừng cache HTML dài hạn** (dùng `no-cache`) kẻo user kẹt bundle cũ.
+- **Invalidation là chìa khoá** — sau mutation gọi `invalidateQueries`; cache không có chiến lược invalidation là cache hỏng.
+
+:::
+
 ---
 
 ## Câu 9: Caching strategies cho frontend app? `[Intermediate]`

@@ -7,6 +7,17 @@ title: "3. String & Xử lý chuỗi"
 
 > Chuỗi (String) là kiểu dữ liệu được dùng nhiều nhất trong mọi chương trình Java. Đây cũng là chủ đề **gần như chắc chắn xuất hiện** trong phỏng vấn intern, đặc biệt là câu hỏi về tính bất biến (immutable) và sự khác nhau giữa `==` và `.equals()`. Hãy nắm thật chắc phần này.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **String là immutable** — nội dung không đổi sau khi tạo; mọi thao tác "sửa" đều tạo object mới. Lợi ích: an toàn, thread-safe, dùng được String pool và làm key cho `HashMap`.
+- ⭐ **`==` vs `.equals()`** — `==` so sánh địa chỉ tham chiếu, `.equals()` so sánh nội dung; so sánh chuỗi luôn dùng `.equals()`.
+- **String pool** — literal `"abc"` được cache dùng chung, còn `new String("abc")` luôn tạo object mới trên heap.
+- **String vs StringBuilder vs StringBuffer** — String bất biến; `StringBuilder` biến đổi được, nhanh, không đồng bộ; `StringBuffer` giống nhưng thread-safe (chậm hơn).
+- **Nối chuỗi trong vòng lặp bằng `+`** — tạo nhiều object rác, tốn hiệu năng; nên dùng `StringBuilder`.
+- **`equals()` và `hashCode()`** — hai object bằng nhau phải có cùng hashCode; override thì override cả hai.
+
+:::
+
 ---
 
 ## Câu 1: String là gì? Vì sao String là immutable (bất biến)? Lợi ích là gì? `[Intermediate]`

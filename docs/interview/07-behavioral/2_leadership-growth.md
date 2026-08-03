@@ -7,6 +7,15 @@ title: "2. Leadership & Growth (Senior+)"
 
 > *Phần này dành cho Senior / Tech Lead phỏng vấn. Kỹ năng kỹ thuật là điều kiện cần — leadership và growth là điều kiện đủ để được offer Senior level.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Trả lời theo khung `STAR`** (Situation → Task → Action → Result) — luôn đóng bằng kết quả đo được và bài học tự rút ra.
+- **Mentoring cần có process + outcome** — dạy người ta cách tự solve bug (chỉ đường: docs → grep code → AI → đồng nghiệp), không làm hộ; nêu rõ mentee phát triển thế nào.
+- **Lead cross-team khi không có authority** — nhấn mạnh align stakeholder, communication, biết khi nào escalate, và ownership từ idea đến delivery.
+- **Self-aware** — chủ động nói điểm bản thân cần cải thiện (vd "bite tongue", slow down), tránh kể chuyện tự tô hồng.
+
+:::
+
 ---
 
 ## Câu 1: Em đã mentor junior chưa? `[Senior]`

@@ -7,6 +7,16 @@ title: "1. SEO Fundamentals"
 
 > *SEO không phải việc riêng của marketing — phần lớn technical SEO nằm trong tay frontend developer: meta tags, rendering, performance, semantic HTML. Interviewer hỏi SEO để xem bạn có nhìn sản phẩm xa hơn cái component hay không.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **3 bước của search engine** — `crawling` (tải HTML, theo link) → `indexing` (phân tích, lưu index) → `ranking` (xếp hạng theo relevance + chất lượng).
+- ⭐ **Technical SEO gần như thuộc frontend** — rendering strategy, meta tags, sitemap, `robots.txt`, Core Web Vitals, semantic HTML là phần dev quyết định trực tiếp.
+- **On-page vs off-page** — on-page là content/keyword/heading/internal link; off-page là backlink/social (thuộc marketing).
+- **Semantic HTML** — heading hierarchy và landmark element giúp Google hiểu cấu trúc trang, tốt hơn `div` soup.
+- **Meta tags quyết định hiển thị trên SERP** — title/description ảnh hưởng cách trang xuất hiện và CTR.
+
+:::
+
 ---
 
 ## Câu 1: SEO là gì? Tại sao frontend developer cần hiểu SEO? `[Basic]`

@@ -7,6 +7,17 @@ title: "2. Forms & Validation Deep Dive"
 
 > *Form là phần FE 'tưởng đơn giản, làm rồi mới biết phức tạp'. Câu hỏi form ở Senior interview chiếm 20-30% thời gian — vì 90% app có form, và form bug là bug user complain nhiều nhất.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Controlled vs Uncontrolled** — controlled re-render mỗi keystroke (form to bị lag); `react-hook-form` dùng uncontrolled (ref) nên form nhiều field vẫn nhanh.
+- ⭐ **Validation bằng schema** — dùng `Zod`/`Yup` để định nghĩa 1 nguồn chân lý, tự suy ra type và validate cả client lẫn server.
+- **Multi-step form (Wizard)** — tách state theo step, validate từng bước, giữ dữ liệu khi back/next.
+- **File upload UX** — cần progress, retry, huỷ, validate type/size trước khi gửi.
+- **Form accessibility** — `label` gắn với input, `aria-invalid`, thông báo lỗi đọc được bằng screen reader, focus vào lỗi đầu tiên.
+- **State persistence** — lưu draft (localStorage/URL/server) để không mất dữ liệu khi reload.
+
+:::
+
 ---
 
 ## Câu 1: Controlled vs Uncontrolled — chọn cái nào? `[Intermediate]`

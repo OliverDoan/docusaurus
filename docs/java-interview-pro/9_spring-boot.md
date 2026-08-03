@@ -7,6 +7,17 @@ title: "9. Spring Boot Core"
 
 > *Tổng hợp các câu hỏi phỏng vấn về Spring Boot — từ khái niệm nền tảng đến các cơ chế nâng cao như transaction management và externalized configuration.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`IoC` + `DI`** — Spring quản lý bean qua IoC Container, ưu tiên Constructor Injection (immutable, dễ test); dùng `@Qualifier`/`@Primary` khi có nhiều bean cùng type.
+- **`@SpringBootApplication`** — gộp `@Configuration` + `@EnableAutoConfiguration` + `@ComponentScan`; Spring Boot theo "convention over configuration" với auto-configuration, embedded server và Starters.
+- **Stereotype annotations** — `@Component`, `@Service`, `@Repository` (có exception translation sang `DataAccessException`), `@Controller`/`@RestController`; `@Bean` dùng cho class third-party trong lớp `@Configuration`.
+- **Externalized config** — `application.yml`/`.properties` đọc theo thứ tự ưu tiên; ưu tiên `@ConfigurationProperties` hơn `@Value`; Actuator cung cấp endpoint giám sát như `/actuator/health`.
+- ⭐ **`@Transactional`** — hoạt động qua AOP proxy, đảm bảo ACID; mặc định chỉ rollback với `RuntimeException` (dùng `rollbackFor`), không chạy trên method `private` hay gọi nội bộ.
+- **`@Transactional(readOnly=true)`** — hint tắt dirty checking của Hibernate và cho phép route sang read replica; Spring Data JPA giảm boilerplate nhờ `JpaRepository` và query derivation.
+
+:::
+
 ---
 
 ## Câu 1: Spring Boot là gì và có những ưu điểm gì? `[Basic]`

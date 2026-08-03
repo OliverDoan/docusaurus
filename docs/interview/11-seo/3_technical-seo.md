@@ -7,6 +7,16 @@ title: "3. Technical SEO: Links, URLs, Redirects, hreflang"
 
 > *Nhóm câu hỏi về "hạ tầng" SEO: cấu trúc link nội bộ, URL, redirect và đa ngôn ngữ. Thường xuất hiện khi phỏng vấn vị trí làm e-commerce hoặc site đa quốc gia.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Internal link có 3 vai trò** — discovery (crawl trang mới), phân phối link equity (PageRank), và ngữ cảnh qua anchor text.
+- ⭐ **Orphan page khó được crawl** — trang không có internal link trỏ tới rất khó index, dù đã có trong sitemap.
+- **Anchor text nên mô tả trang đích** — "hướng dẫn cấu hình sitemap" thay vì "bấm vào đây"; cấu trúc phẳng ≤ 3 click từ trang chủ.
+- **Link nội bộ phải là `<a href>` thật** — không phải `div` + onClick; trỏ thẳng URL đích cuối, tránh chuỗi redirect.
+- **`hreflang` cho site đa ngôn ngữ** — khai báo phiên bản ngôn ngữ/vùng để Google phục vụ đúng trang cho đúng user.
+
+:::
+
 ---
 
 ## Câu 11: Internal linking ảnh hưởng SEO như thế nào? Best practices? `[Intermediate]`

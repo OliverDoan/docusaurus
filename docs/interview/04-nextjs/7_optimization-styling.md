@@ -7,6 +7,15 @@ title: "7. Optimization, Styling & Tooling"
 
 > *Nhóm câu hỏi này kiểm tra việc bạn có thực sự "ship production" hay chưa: chọn giải pháp styling đúng cho App Router, tối ưu image/font, hiểu Core Web Vitals, xử lý environment variables an toàn, và dùng tooling để chẩn đoán performance. Trả lời tốt phần này thường tách ứng viên Middle khỏi Senior.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **CSS-in-JS runtime va chạm với RSC** — `styled-components`/`Emotion` sinh CSS bằng JS lúc render, cần context nên buộc component thành Client và lan `'use client'`; SSR cần dựng style registry với `useServerInsertedHTML`.
+- **CSS Modules & Tailwind là build-time** — extract ra file CSS tĩnh, Next chỉ thêm `<link>`, Server Component dùng thoải mái và cache/tải song song.
+- **Muốn DX của CSS-in-JS mà thân thiện RSC** — dùng zero-runtime: `vanilla-extract`, `Panda CSS`, `StyleX` (viết TS, compile ra CSS tĩnh).
+- **Tối ưu image/font & env** — biết `next/image`, `next/font`, Core Web Vitals và xử lý biến môi trường an toàn (chỉ `NEXT_PUBLIC_` mới lộ ra client).
+
+:::
+
 ---
 
 ## Câu 10: Tại sao CSS-in-JS runtime gặp khó với Server Components? `[Advanced]`

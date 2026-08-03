@@ -7,6 +7,16 @@ title: "8. Jotai"
 
 > *Thư viện quản lý state nguyên tử (atomic) cho React — đơn giản, nhẹ, và tối ưu re-render theo từng atom.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Atom là đơn vị state độc lập** — component chỉ re-render khi đúng atom nó dùng thay đổi, tối ưu re-render tự nhiên.
+- ⭐ **`useAtom` giống `useState`** — trả về `[value, setValue]`; ngoài ra có `useAtomValue`/`useSetAtom` khi chỉ cần đọc hoặc chỉ cần ghi.
+- **Derived atom** — atom tính từ atom khác (read-only hoặc read-write), tự cập nhật theo dependency.
+- **Không cần key string** — Jotai định danh atom qua reference, khác Recoil bắt buộc `key` duy nhất.
+- **Provider tùy chọn & tiện ích** — có thể scope state bằng `Provider`; hỗ trợ `Suspense` cho async atom và `atomWithStorage` để lưu trữ.
+
+:::
+
 ---
 
 ## Câu 1: Jotai là gì? So sánh với Recoil? `[Intermediate]`

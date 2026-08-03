@@ -7,6 +7,16 @@ title: "13. TypeScript, A11y & Testing"
 
 > *"Viết được component là bước một. Viết component đúng kiểu, ai cũng dùng được, và test được — đó mới là senior."*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Semantic HTML trước, ARIA sau** — dùng đúng thẻ (`button`, `dialog`) để accessible; ARIA chỉ bổ sung khi HTML không đủ, ARIA sai còn tệ hơn không có.
+- **4 trụ cột a11y** — semantic HTML, ARIA attributes, focus management (trap/restore focus modal), và `useId` tạo id duy nhất liên kết label–input.
+- **Test theo hành vi người dùng** — ưu tiên query theo role/label, dùng `user-event`, tránh test implementation details.
+- **Type event & ref** — lấy đúng kiểu từ React (vd `React.ChangeEvent`, `React.RefObject`) cho từng loại element.
+- **Generics vs discriminated union** — generics cho props linh hoạt theo kiểu, discriminated union cho các biến thể props loại trừ nhau.
+
+:::
+
 ---
 
 ## Câu 1: Làm thế nào để viết component React accessible (a11y)? Vai trò của semantic HTML, ARIA, focus management và `useId` là gì? `[Intermediate]`

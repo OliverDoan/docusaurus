@@ -7,6 +7,16 @@ title: "7. Bài tập code thường gặp"
 
 > Khi phỏng vấn thực tập, interviewer (người phỏng vấn) thường không kỳ vọng bạn giải bài cực khó. Họ muốn xem **cách bạn tư duy**: bạn hỏi rõ đề chưa, xử lý trường hợp đặc biệt (edge case) thế nào, code có sạch không, và bạn có biết độ phức tạp của lời giải hay không. Hãy vừa code vừa nói to suy nghĩ của mình.
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Vừa code vừa nói to tư duy** — hỏi rõ đề, nêu edge case (chuỗi rỗng, null, số âm) và độ phức tạp (Big-O); interviewer chấm cách tư duy hơn là lời giải hoàn hảo.
+- **Đảo chuỗi & palindrome** — dùng `StringBuilder.reverse()` hoặc hai con trỏ (two pointers) đổi chỗ dần vào giữa.
+- **Đếm ký tự / anagram** — dùng `HashMap` hoặc mảng đếm tần suất; anagram là hai chuỗi cùng tập ký tự với số lượng bằng nhau.
+- **Đệ quy vs vòng lặp** — giai thừa và Fibonacci minh họa; đệ quy dễ đọc nhưng tốn stack, vòng lặp hiệu quả hơn.
+- **Kỹ thuật kinh điển** — FizzBuzz (chia hết), kiểm tra số nguyên tố, tìm max/min/tổng mảng, hoán đổi không dùng biến tạm.
+
+:::
+
 ---
 
 ## Bài 1: Đảo ngược một chuỗi (reverse string) `[Basic]`

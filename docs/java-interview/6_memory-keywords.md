@@ -7,6 +7,17 @@ title: "6. Bộ nhớ & Từ khóa quan trọng"
 
 > Hiểu cách Java quản lý bộ nhớ (memory) và phân biệt các từ khóa dễ nhầm là cách nhanh nhất để chứng minh bạn **hiểu bản chất** chứ không học vẹt. Đây là nhóm câu interviewer rất hay dùng để "đào sâu".
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Stack vs Heap** — Stack lưu biến cục bộ, tham chiếu và primitive (riêng từng thread, LIFO, nhanh); Heap lưu object và mảng tạo bằng `new` (dùng chung, do GC dọn).
+- ⭐ **Java là pass by value** — luôn truyền bản sao; với object thì sao chép **giá trị tham chiếu**, nên sửa thuộc tính object thì ảnh hưởng, nhưng gán lại tham chiếu thì không.
+- **Garbage Collection** — JVM tự thu hồi object không còn tham chiếu; lập trình viên **không** phải tự giải phóng bộ nhớ.
+- **`final` / `finally` / `finalize`** — `final` là hằng/không ghi đè; `finally` là khối luôn chạy; `finalize` là method (đã lỗi thời) GC gọi trước khi hủy object.
+- **Memory leak** — vẫn xảy ra khi giữ tham chiếu không cần thiết (collection tĩnh, listener không gỡ...) khiến GC không dọn được.
+- **Wrapper class + autoboxing** — chuyển primitive `<->` object (`int` `<->` `Integer`) tự động; cần chú ý khi so sánh bằng `==`.
+
+:::
+
 ---
 
 ## Câu 1: Heap và Stack khác nhau thế nào? Vùng nhớ nào lưu gì? `[Intermediate]`

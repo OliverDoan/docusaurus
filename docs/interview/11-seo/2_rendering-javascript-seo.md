@@ -7,6 +7,16 @@ title: "2. Rendering & JavaScript SEO"
 
 > *Đây là phần "frontend nhất" của SEO — nơi quyết định kiến trúc (CSR/SSR/SSG) ảnh hưởng trực tiếp đến việc Google có thấy content hay không. Interviewer senior rất hay đào sâu phần này.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Google index JS theo 2 đợt** — đợt 1 crawl HTML thô; đợt 2 render JS qua render queue (có thể trễ vài giây đến vài ngày).
+- ⭐ **`CSR` rủi ro SEO cao nhất** — HTML ban đầu gần rỗng, content phụ thuộc hoàn toàn render queue, dễ mất index nếu JS lỗi/timeout.
+- **`SSG` an toàn nhất, `SSR` an toàn** — cả hai trả HTML đầy đủ content, index được ngay đợt 1; `SSG` còn nhanh nhất (file tĩnh + CDN).
+- **Social crawler không chạy JS** — Facebook/Zalo/X không render JS nên CSR mất luôn link preview.
+- **Quy tắc chọn** — trang public cần SEO dùng `SSG`/`SSR`; trang sau login dùng `CSR` thoải mái.
+
+:::
+
 ---
 
 ## Câu 7: CSR, SSR, SSG ảnh hưởng SEO như thế nào? Cách Google crawl SPA? `[Intermediate]`

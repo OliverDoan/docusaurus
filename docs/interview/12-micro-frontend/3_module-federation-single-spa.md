@@ -7,6 +7,16 @@ title: "3. Module Federation & single-spa"
 
 > *Hỏi micro-frontend, junior kể tên "iframe, Module Federation"; senior phân biệt được lớp nào giải bài toán gì — Module Federation lo chia sẻ module/dependency, single-spa lo orchestrate lifecycle, Import Maps lo dedupe ở tầng trình duyệt. Ghép đúng 3 mảnh = câu trả lời ăn điểm.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Ba lớp giải ba bài toán khác nhau** — Module Federation (chia sẻ module/dependency runtime), single-spa (orchestrate lifecycle), Import Maps (dedupe ở tầng trình duyệt).
+- **Module Federation (Webpack 5)** — một build load code từ build khác lúc runtime; vai trò `host`/`remote`, khai báo qua `exposes`, `remotes`, `shared` và tải qua `remoteEntry.js`.
+- **`shared`** — cho phép nhiều MFE dùng chung một bản `react`/`react-dom` để tránh tải trùng và lỗi nhiều instance.
+- **single-spa** — framework orchestrate: đăng ký app, quản lý vòng đời `bootstrap` / `mount` / `unmount` khi route đổi.
+- **Import Maps** — cơ chế chuẩn của trình duyệt map tên module tới URL, giúp dedupe dependency ở tầng browser.
+
+:::
+
 ---
 
 ## Câu 10: Module Federation là gì? Hoạt động như thế nào? `[Intermediate]`

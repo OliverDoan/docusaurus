@@ -7,6 +7,16 @@ title: "10. Forms & Validation"
 
 > *Quản lý form và validation là một trong những tác vụ phổ biến nhất trong phát triển React — hiểu rõ các thư viện và kỹ thuật giúp bạn xây dựng form mạnh mẽ, dễ bảo trì.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`react-hook-form` vs `Formik`** — `react-hook-form` dùng uncontrolled + ref nên ít re-render, hiệu năng tốt hơn `Formik` (controlled, re-render mỗi lần gõ).
+- **`Formik`** — chuẩn hóa state form, submission và validation, thay cho `useState` thuần khi form phức tạp.
+- **Validation bằng schema** — tích hợp `Zod` (hoặc Yup) với `react-hook-form` để validate type-safe.
+- **Dynamic fields** — dùng `useFieldArray` để thêm/xóa input động.
+- **Client vs server validation** — client cho UX nhanh, server là lớp bảo vệ bắt buộc (không tin dữ liệu client).
+
+:::
+
 ---
 
 ## Câu 1: Formik là gì và tại sao sử dụng nó? `[Intermediate]`
