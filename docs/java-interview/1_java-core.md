@@ -7,6 +7,17 @@ title: "1. Java Core & Cú pháp"
 
 > *Phần Java Core là "vòng gửi xe" của mọi buổi phỏng vấn intern. Trả lời chắc chắn các câu nền tảng dưới đây giúp bạn tạo ấn tượng tốt ngay từ những phút đầu và mở đường cho các câu hỏi khó hơn.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`JDK` ⊃ `JRE` ⊃ `JVM`** — `JVM` chạy bytecode, `JRE` thêm thư viện để chạy app, `JDK` thêm công cụ (`javac`) để lập trình.
+- ⭐ **Biên dịch + thông dịch** — `javac` dịch mã nguồn ra bytecode, `JVM` dịch tiếp sang mã máy; nhờ bytecode chung nên "write once, run anywhere".
+- **8 kiểu nguyên thủy** — primitive lưu trực tiếp giá trị, không `null`; reference lưu địa chỉ trỏ tới object trên heap.
+- **Ép kiểu** — widening (nhỏ→lớn) tự động, an toàn; narrowing (lớn→nhỏ) phải ép thủ công, có thể mất dữ liệu.
+- **`==` vs `.equals()`** — `==` so địa chỉ với object, `.equals()` so nội dung; `main` phải `public static void`.
+- **`var`** — suy luận kiểu cho biến cục bộ (Java 10+), nhưng Java vẫn là ngôn ngữ tĩnh.
+
+:::
+
 ---
 
 ## Câu 1: JDK, JRE, JVM khác nhau thế nào? `[Basic]`

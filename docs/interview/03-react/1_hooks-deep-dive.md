@@ -7,6 +7,17 @@ title: "1. Hooks Deep Dive"
 
 > *"Em đã dùng React" là một câu, "em hiểu React hoạt động thế nào" là câu khác. Phần hooks này quyết định bạn ở nhóm nào.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Rules of Hooks** — React lưu state hook theo *thứ tự gọi*, không theo tên → tuyệt đối không gọi hook trong `if`/loop/try.
+- ⭐ **Stale closure** — `useEffect` deps rỗng capture giá trị cũ; fix bằng functional update `setCount(c => c + 1)` hoặc ref pattern.
+- **`useMemo`/`useCallback`** — chỉ cần khi giữ tham chiếu ổn định (cho `React.memo`/deps) hoặc computation thực sự đắt; bản thân memo có cost.
+- **Custom hook & `useReducer`** — mỗi caller custom hook có state riêng; dùng `useReducer` khi state nhiều "mode"/action, và lazy init `useState(() => compute())` khi giá trị khởi tạo đắt.
+- **`useRef`** — giữ giá trị mutable không gây re-render + truy cập DOM; đọc `.current` trong `useEffect`, không trong render.
+- **FC vs Class** — hook map được lifecycle, nhưng Error Boundary (`componentDidCatch`) vẫn bắt buộc là class.
+
+:::
+
 ---
 
 ## Câu 1: Vì sao hook không được gọi trong condition hoặc loop? `[Intermediate]`

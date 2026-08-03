@@ -9,6 +9,17 @@ title: "1. SQL Cơ Bản"
 >
 > 📌 *Các chủ đề JOIN, WHERE vs HAVING, NULL, Subquery vs CTE, UNION đã có bài chi tiết tại [SQL & Databases — Queries & Joins](../09-sql/1_queries-joins.md).*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Bốn nhóm lệnh** — `DDL` (CREATE/ALTER/DROP/`TRUNCATE`), `DML` (SELECT/INSERT/UPDATE/DELETE), `DCL` (GRANT/REVOKE), `TCL` (BEGIN/COMMIT/ROLLBACK); `TRUNCATE` là DDL, PostgreSQL có transactional DDL.
+- ⭐ **Thứ tự thực thi logic** — `FROM/JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT`; giải thích vì sao alias không dùng được ở `WHERE`, aggregate phải đặt trong `HAVING`.
+- **An toàn INSERT/UPDATE/DELETE** — dùng `RETURNING`, `ON CONFLICT DO UPDATE` (upsert atomic); UPDATE/DELETE luôn kiểm WHERE, bọc transaction, chia batch.
+- **GROUP BY** — mọi cột trong SELECT phải nằm trong `GROUP BY` hoặc là aggregate; muốn "row mới nhất mỗi nhóm" thì cần window function.
+- **Aggregate & NULL** — `COUNT(*)` đếm mọi row, `COUNT(col)` bỏ NULL; `SUM`/`AVG` bỏ qua NULL, `SUM` trên tập rỗng trả NULL nên bọc `COALESCE`; mẹo `COUNT(*) FILTER (WHERE ...)`.
+- **CTE** (`WITH`) — tách query phức tạp thành pipeline có tên, tham chiếu lại được, `RECURSIVE` cho dữ liệu phân cấp; PG 12+ tự inline (không còn là optimization fence).
+
+:::
+
 ---
 
 ## Câu 1: SQL là gì? Các loại SQL commands chính? `[Intermediate]`

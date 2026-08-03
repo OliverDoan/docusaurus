@@ -7,6 +7,17 @@ title: "7. Nền tảng hệ phân tán"
 
 > *Mọi câu hỏi system design đều quy về vài nguyên lý nền tảng: CAP, consistency, scaling, latency vs throughput. Interviewer không cần bạn thuộc định nghĩa — họ muốn thấy bạn dùng các nguyên lý này để **biện luận trade-off** cho từng bài toán cụ thể.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`CAP` + `PACELC`** — `P` là bắt buộc trong thực tế, câu hỏi thật là hy sinh `C` hay `A` khi partition; lúc bình thường vẫn đánh đổi Latency vs Consistency.
+- ⭐ **`ACID` vs `BASE`** — chọn theo từng loại data: payment/inventory đi ACID (RDBMS), view count/feed đi BASE (Cassandra/DynamoDB); ranh giới mờ dần với NewSQL.
+- **Vertical vs Horizontal scaling** — vertical trước (rẻ effort, không vấn đề phân tán), scale out web tier sớm (cần stateless), sharding DB sau cùng vì là one-way door.
+- **Latency vs Throughput** — báo cáo bằng `p95`/`p99` không phải average (phân phối lệch đuôi); trade-off từ batching + queueing; `Little's Law L = λ×W` để định cỡ.
+- **Consistency models** — phổ từ linearizable → causal → read-your-writes/monotonic reads → eventual; quorum `R+W>N` đảm bảo read chạm bản mới nhất.
+- **Consistent hashing + hot partition** — hash ring chỉ remap `K/N` key (chống cache miss storm), cần virtual nodes; hot key phải salting (write-hot) hoặc cache nhiều tầng (read-hot), thêm node không cứu được.
+
+:::
+
 ---
 
 ## Câu 1: CAP Theorem là gì và tại sao quan trọng trong thiết kế hệ phân tán? `[Intermediate]`

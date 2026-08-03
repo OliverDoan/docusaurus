@@ -7,6 +7,17 @@ title: "1. Routing & Layouts"
 
 > *App Router là trái tim của Next.js hiện đại. Interviewer hỏi routing không phải để xem bạn thuộc file convention — mà để xem bạn hiểu cách Next.js tổ chức UI thành cây segment, và tận dụng nó để build app nhanh, ít bug.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **File-based routing** — mỗi folder trong `app/` là một segment nhưng chỉ thành route public khi có `page.tsx`/`route.ts`; `(group)` và `_folder` không vào URL, cho phép colocation.
+- ⭐ **Layout persist khi navigate** — layout không re-render giữa các page con (partial rendering), nên không nhận `searchParams`; cần re-mount thì dùng `template.tsx`.
+- **File convention** — `layout.tsx`, `loading.tsx` (tự wrap Suspense → streaming), `error.tsx` (bắt buộc `'use client'`, có `reset`), `not-found.tsx` (gọi `notFound()` để trả HTTP 404 thật, tránh soft 404 hại SEO).
+- **App Router vs Pages Router** — đổi mental model: RSC mặc định, nested layout, `await fetch` trong component, streaming first-class.
+- **Dynamic routes** — `[slug]` (1 segment), `[...slug]` (nhiều, tối thiểu 1), `[[...slug]]` (cả root, trả `undefined`); Next 15: `params`/`searchParams` là `Promise` phải `await`.
+- **`generateStaticParams` + `dynamicParams` + ISR** — prerender path lúc build; Parallel Routes `@slot` (cần `default.tsx`) và Intercepting Routes `(.)` (soft vs hard navigation) cho modal kiểu Instagram.
+
+:::
+
 ---
 
 ## Câu 1: File-based routing trong Next.js App Router hoạt động như thế nào? `[Basic]`

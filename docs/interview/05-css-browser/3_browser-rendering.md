@@ -7,6 +7,17 @@ title: "3. Browser Rendering Pipeline"
 
 > *Hiểu rendering pipeline = biết tại sao animation lag, scroll giật, page chậm — và quan trọng hơn, cách fix.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Pipeline: DOM + CSSOM → Style → Layout → Paint → Composite** — `transform`/`opacity` chỉ Composite (GPU, rẻ); `width`/`top`/`padding` trigger Layout (đắt). Animate bằng `transform`, không `top`/`width`.
+- ⭐ **Layout thrashing** — read (`offsetLeft`, `getBoundingClientRect`) + write style xen kẽ trong loop gây reflow N lần; fix bằng batch read trước, batch write sau; React dùng `useLayoutEffect` để measure.
+- **Fix animation lag** — DevTools Performance + paint flashing; dùng `transform: scale`, pseudo-element cho box-shadow, `contain`, `content-visibility: auto`.
+- **Tối ưu LCP/CRP** — preload + `fetchpriority="high"` cho LCP image, inline critical CSS, defer JS, preconnect, WebP/AVIF, CDN.
+- **GPU layers** — `will-change: transform` promote layer nhưng tốn GPU memory; set ngay trước animation rồi remove, tránh "layer explosion".
+- **RUM > lab test** — Lighthouse không phản ánh user thật; đo LCP/INP/CLS/TTFB qua `web-vitals` + `sendBeacon`, aggregate theo p75.
+
+:::
+
 ---
 
 ## Câu 1: Browser render page như thế nào? `[Intermediate]`

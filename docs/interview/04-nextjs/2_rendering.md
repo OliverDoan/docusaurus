@@ -7,6 +7,17 @@ title: "2. Rendering Modes & Streaming"
 
 > *SSR, SSG, static vs dynamic, Streaming, PPR — đây là "xương sống" của mọi buổi phỏng vấn Next.js. Trả lời tốt phần này chứng tỏ bạn hiểu Next.js render trang web như thế nào từ server đến browser, chứ không chỉ biết gõ `npx create-next-app`.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **App Router "static by default"** — route chỉ chuyển sang dynamic (SSR) khi đụng Dynamic API (`cookies()`, `headers()`, `searchParams`, `cache: "no-store"`) hoặc khai báo `dynamic = "force-dynamic"`.
+- ⭐ **Next 15 đổi mặc định** — `fetch` không còn cache tự động, và `cookies()`/`headers()`/`params`/`searchParams` đã thành async (phải `await`).
+- **SSG render lúc build, serve từ CDN** — `generateStaticParams` prerender dynamic route `[slug]`; ISR (`revalidate`) là cầu nối giữa SSG và SSR.
+- **Streaming SSR không làm data nhanh hơn** — tổng full load không đổi, nó cải thiện TTFB và perceived performance; `<Suspense>` cho phép out-of-order streaming.
+- **RSC payload không phải HTML** — mà là bản serialize cây UI để React reconcile; selective hydration ưu tiên hydrate vùng user tương tác.
+- **PPR (experimental)** — gộp static shell + dynamic holes trong cùng một route, với `<Suspense>` làm ranh giới static/dynamic.
+
+:::
+
 ---
 
 ## Câu 5: SSR (Server-Side Rendering) trong Next.js là gì? `[Basic]`

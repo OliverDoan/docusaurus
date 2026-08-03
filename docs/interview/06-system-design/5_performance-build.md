@@ -7,6 +7,17 @@ title: "5. Performance & Build Optimization"
 
 > *Câu hỏi performance ở Senior không phải "memoize React". Là **đo Core Web Vitals của user thật**, **tối ưu bundle**, **chọn build tool đúng**, và **cải thiện số liệu cụ thể** từ X xuống Y với justification.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Core Web Vitals`** — 3 metric `LCP` (≤2.5s), `INP` (≤200ms), `CLS` (≤0.1); prioritize LCP → CLS → INP, mỗi cái có kỹ thuật fix riêng.
+- ⭐ **Giảm bundle theo ROI** — `bundle analyzer` trước, rồi route code-splitting, cherry-pick import, thay lib nặng, lazy load, Server Component, browserslist.
+- **Build tool** — Vite/Turbopack cho dev speed (ESM + Rust/Go), Webpack chỉ giữ cho legacy; `SWC` thay Babel nhanh 10-20x.
+- **Resource hints** — `preconnect`/`dns-prefetch`/`preload`/`prefetch`/`modulepreload`; bẫy lớn là over-preload gây bandwidth contention → LCP tệ hơn.
+- **CI build cache** — dep cache, Turbo remote cache, parallel jobs, test sharding, affected-only đưa 8 phút xuống dưới 2 phút.
+- **CDN + performance budget** — layered cache (browser/edge/origin) với `stale-while-revalidate`; enforce budget qua `size-limit`, Lighthouse CI, và `p75` từ RUM (không chỉ lab).
+
+:::
+
 ---
 
 ## Câu 1: Core Web Vitals — em optimize từng metric như thế nào? `[Senior]`

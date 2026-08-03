@@ -7,6 +7,17 @@ title: "5. Server Actions & Mutations"
 
 > *Server Actions biến mutation thành "gọi function" — nhưng đừng quên: mỗi action là một public endpoint, và mọi quy tắc bảo mật của API vẫn áp dụng.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Server Action = public HTTP endpoint (RPC)** — phải auth/authz/validate bên trong từng action, không tin `FormData` hay hidden field; ẩn nút ở UI không phải bảo mật.
+- ⭐ **Bắt buộc revalidate sau mutation** — gọi `revalidatePath`/`revalidateTag` trong action, quên là user vẫn thấy data cũ do `Router Cache` phía client.
+- **Error handling** — expected error thì `return { success, error }` (đừng throw vì production mask message); `redirect()` throw `NEXT_REDIRECT` nên không đặt trong `try/catch`.
+- **Progressive enhancement** — `<form action>` chạy cả khi JS chưa load; validate bằng `Zod` trên server vì `FormData` là untrusted input.
+- **Bộ hook React 19** — `useActionState` là state máy nhận kết quả action; `useFormStatus` phải nằm ở component con trong form; `useOptimistic` tự rollback khi action lỗi.
+- **CSRF** — Next chống sẵn (chỉ POST + so khớp `Origin`/`Host`), nhưng vẫn phải tự lo authz per-action, validation, rate limit.
+
+:::
+
 ---
 
 ## Câu 28: Server Actions là gì? `[Intermediate]`

@@ -7,6 +7,16 @@ title: "1. Khái niệm & Trade-off"
 
 > *Nhóm câu hỏi này kiểm tra xem bạn hiểu micro-frontend là một quyết định về tổ chức và kiến trúc hay chỉ là một "buzzword kỹ thuật" — và quan trọng hơn, biết khi nào KHÔNG nên dùng.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Micro-frontend = deploy độc lập + team own end-to-end theo business domain** — giải bài toán scaling tổ chức, không phải bài toán kỹ thuật.
+- **Khác component library / monorepo** — library/monorepo là chia sẻ code; MFE là chia sẻ quyền tự chủ vận hành (deploy riêng không cần rebuild cả site).
+- **Chỉ nên dùng khi nhiều team lớn, domain tách rõ, nhịp release khác nhau** — app nhỏ hay 1–2 team thì monolith + module hóa thắng.
+- **Trade-off cốt lõi** — đổi sự đơn giản kỹ thuật (bundle trùng, performance, UX, debug khó) lấy tự chủ tổ chức.
+- ⭐ **Thách thức vận hành nặng nhất: version skew của shared singleton (React) và ai own shell** — cần pin version, design system chung, contract test.
+
+:::
+
 ---
 
 ## Câu 1: Micro-frontend là gì? `[Basic]`

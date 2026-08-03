@@ -7,6 +7,17 @@ title: "3. Server & Client Components"
 
 > *Server Components là thay đổi lớn nhất của React trong 10 năm qua, và App Router xây toàn bộ trên nền tảng này. Hiểu sai ranh giới server/client là lỗi phổ biến nhất khi phỏng vấn Next.js hiện đại.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`'use client'` là marker ranh giới server/client bundle** — không phải "chỉ render ở client"; nó áp dụng cho cả import subtree nên đặt càng sâu (component lá) càng tốt.
+- ⭐ **Server Component render chỉ trên server, zero JS xuống client** — viết được async component (`await` fetch/DB); khác SSR ở chỗ SSR vẫn ship JS để hydrate.
+- **Server import Client thì OK, chiều ngược lại thì không** — muốn đặt Server Component trong Client Component phải dùng composition qua `children`/props.
+- **`createContext`/`useContext` là client API** — provider phải tách thành Client Component đặt trong root layout; chia sẻ data giữa Server Components dùng props hoặc `cache()`.
+- **Props Server → Client phải serializable** — không truyền function thường, class instance (Prisma model) hay `Symbol`; ngoại lệ duy nhất là Server Action.
+- **`server-only`/`client-only` enforce ranh giới ở build time** — lib thiếu `'use client'` thì wrap re-export; lib chỉ chạy browser thì `dynamic(..., { ssr: false })`.
+
+:::
+
 ---
 
 ## Câu 3: 'use client' directive trong Next.js dùng khi nào? `[Basic]`

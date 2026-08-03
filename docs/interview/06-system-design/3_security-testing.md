@@ -7,6 +7,17 @@ title: "3. Security & Testing Strategy"
 
 > *Phần này không có "challenging algorithm" — chỉ test bạn có nghĩ về production thật hay không. Câu trả lời "em chưa quan tâm bảo mật" gần như chắc chắn fail.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`XSS`: React escape JSX text, nguy hiểm ở `dangerouslySetInnerHTML`** — sanitize bằng `DOMPurify` (whitelist tags/attrs/URL), validate `href`, CSP + server-side sanitize (defense in depth).
+- ⭐ **Auth: `httpOnly cookie` không localStorage** — access token ngắn (15m) + refresh token dài (30d) có `rotation`; dùng NextAuth/Auth.js/Clerk thay tự code.
+- **`Testing pyramid`** — nhiều `unit` (Vitest 60-70%), vừa `integration` (RTL + MSW), ít `E2E` (Playwright, chỉ critical flow); target >80% line.
+- **`CI/CD` 4 layer** — pre-commit hook → PR pipeline (typecheck/lint/test/build/preview) → E2E trên preview → main deploy + nightly full E2E.
+- **`Feature flag` không chỉ để A/B test** — còn kill switch, gradual rollout, trunk-based dev; tránh flag rot (có deadline cleanup).
+- **`GDPR`: consent trước khi track** — right to access/deletion/portability, data minimization, redact PII trong log, không dark pattern.
+
+:::
+
 ---
 
 ## Câu 1: XSS — em prevent thế nào trong React app? `[Senior]`

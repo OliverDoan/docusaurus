@@ -7,6 +7,17 @@ title: "2. Scalability & Performance"
 
 > *Hỏi về scale là cách interviewer test bạn có suy nghĩ "nhiều user, nhiều data" hay không. Câu trả lời thực sự cần ví dụ và con số.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Virtualization` cho list lớn** — chỉ render viewport (`@tanstack/react-virtual`) + `useInfiniteQuery` + `React.memo` + lazy nested; 10k post nhưng DOM chỉ ~30 node.
+- ⭐ **`Optimistic UI` cần đường rollback** — `useMutation` với `onMutate` (snapshot + setQueryData), `onError` (rollback), `onSettled` (invalidate sync server total/discount).
+- **Real-time collab dùng `CRDT` (Yjs) hơn `OT`** — state tự converge, `WebSocket` sync, `Awareness` cho presence; managed như Liveblocks cho POC.
+- **`Offline-first`: Service Worker + IndexedDB + sync queue** — local-first save, retry với exponential backoff, Background Sync API.
+- **`A/B testing` assign ở server (middleware + cookie)** — tránh hydration mismatch; outsource phân tích cho GrowthBook/Statsig.
+- **Design system scale: `token-based theming` + `composition over configuration`** — CSS variable override per product, Slot pattern, versioning bằng changesets + codemod.
+
+:::
+
 ---
 
 ## Câu 1: Design Facebook News Feed scrolling `[Senior]`

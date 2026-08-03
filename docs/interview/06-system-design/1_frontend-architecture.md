@@ -7,6 +7,17 @@ title: "1. Frontend Architecture"
 
 > *Đây là vòng quyết định Senior vs Mid. Interviewer sẽ vẽ một sản phẩm trên giấy và bảo "thiết kế cho anh xem". Không có đáp án đúng — chỉ có lý lẽ chặt chẽ và trade-off rõ ràng.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Không có đáp án đúng, chỉ có `trade-off`** — mỗi quyết định kiến trúc phải có lý do (không cargo cult), cân bằng performance + DX + maintainability + team scale.
+- ⭐ **Migration dùng `Strangler Fig`, không `big bang rewrite`** — build phần mới bằng stack mới, thay thế legacy dần qua `anti-corruption layer`; rewrite toàn bộ hầu như luôn fail.
+- **`Monorepo` (Turborepo) vs `Polyrepo`** — monorepo cho atomic change + code sharing; polyrepo cho team độc lập + ownership tách biệt.
+- **`Micro-frontend` chỉ đáng khi scale lớn** — 50+ dev, nhiều team; team nhỏ (&lt;20) là over-engineering.
+- **Design system: ưu tiên `shadcn/ui` + `Radix` + `Tailwind`** — own code, a11y built-in, bundle nhỏ; `design tokens` define 1 chỗ qua CSS variable.
+- **Error handling 3 tầng** — `component` (try/catch) → `Error Boundary` (render error) → `global` (window.onerror + Sentry).
+
+:::
+
 ---
 
 ## Câu 1: Thiết kế kiến trúc cho ứng dụng cỡ trung `[Senior]`

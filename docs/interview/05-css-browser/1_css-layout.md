@@ -7,6 +7,17 @@ title: "1. CSS Layout & Modern Techniques"
 
 > *CSS là phần dev React/Vue hay coi nhẹ — và là chỗ mất điểm nhiều nhất ở vòng phỏng vấn. Interviewer biết rõ.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Grid` cho page-level 2D, `Flexbox` cho component 1D** — Grid dùng `grid-template-areas`, Flex cho toolbar/card; có thể lồng nhau, `subgrid` để align qua nhiều card.
+- ⭐ **`position: sticky` 3 điều kiện** — không parent `overflow: hidden/auto/scroll`, parent đủ height (flex/grid cần `align-self: start`), và phải có `top`/`bottom` offset; sticky chỉ stuck trong nearest scrolling ancestor.
+- **Container Queries** — component responsive theo container (`container-type: inline-size` + `@container`), khác Media Query theo viewport; đơn vị `cqi`.
+- **CSS Variables cho theming** — define token ở `:root`, override `[data-theme="dark"]`, đổi qua cascade không re-render; inline script tránh FOUC.
+- **Logical properties** — `margin-inline-start`, `text-align: start` tự đổi khi `dir="rtl"`, khỏi viết CSS riêng cho i18n/RTL.
+- **Styling strategy** — Tailwind (utility-first, JIT, không runtime cost) là mặc định production; tránh CSS-in-JS với Next App Router.
+
+:::
+
 ---
 
 ## Câu 1: Flexbox vs Grid — chọn cái nào? `[Intermediate]`

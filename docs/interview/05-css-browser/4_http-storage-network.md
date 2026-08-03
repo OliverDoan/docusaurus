@@ -7,6 +7,17 @@ title: "4. HTTP, Storage & Networking"
 
 > *Network là chỗ FE-only dev hay yếu nhất. Hiểu phần này giúp bạn debug "tại sao API chậm", "tại sao login bị logout", "tại sao CORS chặn".*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Auth token trong `httpOnly` cookie** (+ `secure`, `sameSite`) chống XSS đọc token; localStorage chỉ cho non-sensitive; cookie cần CSRF token cho mutation.
+- ⭐ **Status codes** — `201` created, `204` no content, `401` chưa auth vs `403` không quyền, `409` conflict, `422` validation, `429` rate limit; 4xx là client fault, 5xx server fault.
+- **CORS** — Same-Origin Policy; server phải trả `Access-Control-Allow-Origin`; preflight `OPTIONS` cho request non-simple; cookie cross-origin cần credentials + origin cụ thể (không `*`) + `sameSite: none`.
+- **Cache-Control** — `immutable` cho asset có hash, `no-cache` = vẫn cache nhưng phải revalidate (khác `no-store`), `stale-while-revalidate`, ETag cho 304.
+- **Realtime** — WebSocket bidirectional cho chat; SSE server-push only (đơn giản, cho notification/AI streaming); long polling chỉ legacy fallback.
+- **Security headers** — HSTS, `X-Frame-Options`, `X-Content-Type-Options: nosniff`, và quan trọng nhất `Content-Security-Policy` (nonce-based) chống XSS.
+
+:::
+
 ---
 
 ## Câu 1: HTTP Status Codes — em hay dùng cái nào? `[Intermediate]`

@@ -7,6 +7,17 @@ title: "1. Scope, Closure & Hoisting"
 
 > *Đây là vòng "lọc" của hầu hết các công ty. Nếu bạn lúng túng phần này, interviewer sẽ kết luận bạn "biết dùng nhưng không hiểu" — và phỏng vấn gần như kết thúc tại đây.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **`Closure`** — function + lexical environment, "nhớ" biến scope ngoài kể cả khi scope đó đã pop khỏi call stack (nền tảng của `debounce`, `memoize`).
+- ⭐ **`var` vs `let`/`const`** — `var` function-scoped + hoist init `undefined`; `let`/`const` block-scoped, nằm trong `TDZ`.
+- **Hoisting** — chỉ function declaration được hoist cả body; function expression và arrow theo luật hoist của biến.
+- **Closure trong loop** — `var` chia sẻ 1 binding (`3 3 3`), `let` tạo binding mới mỗi vòng (`0 1 2`).
+- **Lexical scope & scope chain** — JS resolve biến theo nơi định nghĩa, tra cứu một chiều từ trong ra ngoài.
+- **`const`** — chỉ chặn re-assignment, không freeze object; `IIFE` nay gần như bị thay bởi ESM + block scope.
+
+:::
+
 ---
 
 ## Câu 1: `var`, `let`, `const` khác nhau như thế nào? `[Intermediate]`

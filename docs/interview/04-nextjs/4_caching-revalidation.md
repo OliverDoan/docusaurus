@@ -7,6 +7,17 @@ title: "4. Caching & Revalidation"
 
 > *Hiểu rõ các lớp cache và cách invalidate từng lớp là thứ phân biệt người "dùng Next.js" với người "hiểu Next.js".*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **4 lớp cache** — `Request Memoization` (server, 1 render pass), `Data Cache` (server, persist qua request/deploy), `Full Route Cache` (server, route static), `Router Cache` (client memory).
+- ⭐ **Default `fetch()` đổi theo version** — Next 14 mặc định `force-cache`, Next 15 mặc định **không cache**; triết lý mới là explicit caching.
+- **`revalidatePath` vs `revalidateTag`** — path purge theo đường dẫn (tự liệt kê đủ trang), tag purge theo data đã gắn tag; chiến lược thực chiến là tag-first theo entity.
+- **On-demand revalidation** — chỉ gọi được trong `Server Action` hoặc `Route Handler`, không gọi lúc render; `revalidateTag` chỉ tác dụng với fetch có tag hoặc query wrap `unstable_cache`.
+- **ISR** — static + regenerate từng trang qua `revalidate` (time-based, stale-while-revalidate) hoặc on-demand; time-based chỉ chạy khi **có traffic**.
+- **Parallel vs sequential fetch** — `await` tuần tự tạo waterfall; fix bằng `Promise.all`, khởi tạo promise sớm, hoặc preload pattern.
+
+:::
+
 ---
 
 ## Câu 23: ISR (Incremental Static Regeneration) là gì? `[Intermediate]`

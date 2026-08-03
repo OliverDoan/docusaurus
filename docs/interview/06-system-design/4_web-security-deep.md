@@ -7,6 +7,19 @@ title: "4. Web Security & Risk Management"
 
 > *Câu hỏi security ở vòng Senior không hỏi định nghĩa CORS — hỏi em **đã từng bị bug security gì**, em **prevent** thế nào trên production, em đánh giá **risk** ra sao. Hỏi lý thuyết suông là dấu hiệu junior interviewer.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Client check chỉ là UX, server BẮT BUỘC re-check** — nền tảng của `A01 Broken Access Control`; kèm `OWASP` FE 5 mục (XSS, security header, auth cookie, supply chain).
+- ⭐ **Token storage: memory + `httpOnly` refresh cookie, không localStorage** — chống XSS; `refresh token rotation` + `reuse detection` (family ID) để phát hiện token bị steal → revoke toàn family.
+- **`CSRF`: `sameSite=lax` chưa đủ** — vẫn cần token (Double Submit) vì subdomain attack, cross-domain API, defense in depth.
+- **Auth attacks + mitigation** — brute force (rate limit), credential stuffing (MFA/HaveIBeenPwned), enumeration (generic error), phishing (`Passkey`/WebAuthn origin-bound).
+- **`Supply chain` phòng theo lớp** — lockfile + pin version + audit (Socket.dev/Snyk) + CSP + SRI; `subdomain takeover` do dangling CNAME.
+- **File upload: check `magic bytes` không tin `file.type`** — re-encode strip metadata, filename random, serve qua subdomain CDN riêng.
+- **Incident: `Triage → Communicate → Contain`, root cause là day 2** — đánh giá severity bằng `CVSS`, tránh inflated severity gây cry wolf.
+- **`Session` vs `JWT` vs `OAuth2` vs `OIDC`** — OAuth2 là authorization (không phải authentication), OIDC mới add authentication; JWT không tự an toàn.
+
+:::
+
 ---
 
 ## Câu 1: OWASP Top 10 — em quan tâm những gì cho FE? `[Senior]`

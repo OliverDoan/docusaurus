@@ -7,6 +7,17 @@ title: "2. Responsive Design & Accessibility"
 
 > *Accessibility ngày càng quan trọng — nhiều công ty lớn (Microsoft, Apple) coi đây là bắt buộc. Nếu trả lời "em chưa quan tâm a11y", interviewer thường loại.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Semantic HTML giải quyết 80% a11y miễn phí** — dùng `<button>` thay `<div onClick>` (focusable, Enter/Space, screen reader role); heading đúng cấp, landmark, `<label>` cho input.
+- ⭐ **No ARIA tốt hơn bad ARIA** — chỉ dùng ARIA cho custom widget, labelling (`aria-label`), live region (`aria-live`), state (`aria-expanded`); không `aria-hidden` element focusable.
+- **Mobile-first** — viết CSS mobile trước rồi `min-width` override; wrap hover style trong `@media (hover: hover)`.
+- **Focus management cho modal** — move focus vào, focus trap, Escape đóng, restore focus, ẩn background (`inert`); ưu tiên `<dialog>` native.
+- **Color contrast WCAG** — AA text thường `4.5:1`, text lớn `3:1`; không dùng màu đơn lẻ để truyền thông tin (thêm icon + text).
+- **i18n không chỉ dịch** — còn direction (RTL), format date/number qua `Intl`, pluralization (ICU), font glyph, text length.
+
+:::
+
 ---
 
 ## Câu 1: Mobile-first vs Desktop-first `[Intermediate]`

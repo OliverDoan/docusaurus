@@ -7,6 +7,17 @@ title: "6. Growth, SEO & Traffic Engineering"
 
 > *FE Senior ở startup/scale-up đều bị hỏi câu này. Company growth = traffic + conversion. Em không cần là marketer, nhưng em phải hiểu **technical lever** ảnh hưởng growth metric.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Technical SEO là việc của engineer** — crawlability (`robots`/`sitemap`), indexability (canonical/meta robots), render SSR/SSG, metadata + `JSON-LD` schema, `hreflang`, Core Web Vitals.
+- ⭐ **CWV là ranking factor yếu** — Google rank dùng field data (`CrUX`), lab (Lighthouse) chỉ là proxy; impact lớn hơn là gián tiếp qua bounce rate.
+- **CRO qua technical lever** — page speed, giảm friction form (`autoComplete`/`inputMode`/real-time validation), funnel analytics, A/B test, trust signals.
+- **Analytics** — event taxonomy Subject-Verb-Object, type-safe event system, UTM first/last-touch attribution, GDPR consent; track theo câu hỏi business cần trả lời.
+- **International SEO** — chọn subdirectory `/vi/`, `hreflang` reciprocal + `x-default`, localize currency/date, CDN edge theo region.
+- **Chuẩn bị 10x traffic spike** — load test (k6), cache aggressive, connection pool + read replica, rate limit, circuit breaker, graceful degradation, auto-scaling.
+
+:::
+
 ---
 
 ## Câu 1: SEO technical — em check những gì? `[Senior]`

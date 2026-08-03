@@ -7,6 +7,17 @@ title: "1. Problem Solving & Technical Judgement"
 
 > *Phỏng vấn behavioral không phải để test kiến thức — là để xem bạn ra quyết định thế nào dưới áp lực thực tế. Trả lời lý thuyết suông sẽ bị trừ điểm. Phải có câu chuyện cụ thể.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Khung `STAR`** — Situation, Task, Action (dài nhất), Result (luôn có impact + bài học). Kể chuyện đã xảy ra, không lý thuyết "em sẽ...".
+- ⭐ **Debug systematic** — measure before guess: gom data → hypothesis → eliminate → reproduce → fix → postmortem/test.
+- **Own mistake, revert sớm** — không "em chưa bao giờ sai"; nhận lỗi + benchmark/data + thay đổi hệ thống (template, process).
+- **Disagreement bằng data + alternative concrete** — không "vibes", không attack ego; disagree-and-commit, không nói xấu colleague.
+- **Học tech mới** — "breadth first, then depth on pain points"; apply sớm, resource cụ thể, có timeline.
+- **Pressure ≠ skip process** — triage + communicate proactive với stakeholder hơn "cày như trâu"; weakness phải kèm plan improve; luôn chuẩn bị câu hỏi ngược interviewer.
+
+:::
+
 ---
 
 ## Cấu trúc STAR — em phải nhớ

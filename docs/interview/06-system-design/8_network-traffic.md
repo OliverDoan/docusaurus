@@ -7,6 +7,17 @@ title: "8. Network & Traffic"
 
 > *Traffic là thứ đầu tiên "đập vào" hệ thống của bạn. Interviewer hỏi load balancer, CDN, proxy hay rate limiter không phải để kiểm tra định nghĩa — mà để xem bạn có biết điều phối hàng triệu request từ ngoài internet vào server một cách an toàn, công bằng và nhanh nhất hay không.*
 
+:::note[Ghi nhớ nhanh]
+
+- ⭐ **Load balancing** — `L4` (IP/port, nhanh) vs `L7` (hiểu HTTP, route theo path + SSL termination); thuật toán round robin/least connections/consistent hashing; ưu tiên server stateless thay vì sticky session.
+- ⭐ **Rate limiting** — `token bucket` (mặc định ngành, cho burst) vs leaky bucket vs fixed window (lỗi biên) vs sliding window; trả `429` + `Retry-After`.
+- **CDN** — giảm cả latency lẫn origin load; pull vs push; invalidation bằng versioned URL + TTL dài cho asset, `stale-while-revalidate` cho HTML, purge khi khẩn.
+- **Forward vs Reverse proxy** — forward giấu client, reverse giấu server; L7 LB / API Gateway / CDN đều là biến thể reverse proxy.
+- **WebSocket vs SSE vs Long Polling** — không phải cứ realtime là WebSocket; một chiều thì `SSE` đơn giản hơn (cách LLM API stream token), hai chiều latency thấp mới cần WebSocket.
+- **Distributed rate limiter** — local counter không đủ (limit × N), cần Redis tập trung + `Lua script` cho atomicity; fail-open + local fallback cho API thường, fail-closed cho login/payment.
+
+:::
+
 ---
 
 ## Câu 4: Load Balancing hoạt động như thế nào? Các thuật toán phổ biến? `[Basic]`
