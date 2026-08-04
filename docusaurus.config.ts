@@ -148,6 +148,12 @@ const config: Config = {
         },
         {
           type: 'docSidebar',
+          sidebarId: 'javaVsJsSidebar',
+          position: 'left',
+          label: 'Java cho dev JS',
+        },
+        {
+          type: 'docSidebar',
           sidebarId: 'webSecuritySidebar',
           position: 'left',
           label: 'Bảo mật web',
