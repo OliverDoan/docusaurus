@@ -102,6 +102,12 @@ const config: Config = {
       },
       items: [
         {
+          type: 'docSidebar',
+          sidebarId: 'loTrinhSidebar',
+          position: 'left',
+          label: 'Lộ trình',
+        },
+        {
           type: 'dropdown',
           label: 'Frontend',
           position: 'left',
