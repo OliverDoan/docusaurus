@@ -56,41 +56,43 @@ Vì bạn đã là mid, phần FE **nén tối đa nền tảng** (TS/React cơ 
 
 ---
 
+> 📖 **Link bài học:** trong các bảng ngày-theo-ngày bên dưới, biểu tượng **📖** dẫn tới bài học tương ứng ngay trên site này (Java, TypeScript, React, Next.js, Micro-frontend, Bảo mật web…). Không phải chủ đề nào cũng có bài (một số topic senior nâng cao chưa có) — khi đó bạn tự tìm ở phần **Tài nguyên gợi ý** cuối trang.
+
 ## GIAI ĐOẠN 1 — Java Core & Nền FE nén nhanh (Ngày 1–20)
 
 ### Tuần 1 (Ngày 1–7)
 
 | Ngày | Java (2h) | Frontend (1h) |
 |------|-----------|---------------|
-| 1 | Cài JDK, IntelliJ. "Hello World". JVM/JRE/JDK | TS: structural typing, `type` vs `interface`, generics + constraints |
-| 2 | Biến, kiểu dữ liệu nguyên thủy | TS: utility types + conditional types + `infer` |
-| 3 | Toán tử, ép kiểu (casting) | TS: mapped types, template literal types, discriminated unions, narrowing |
-| 4 | if/else, switch | TS nâng cao: `satisfies`, const assertion, branded types, typed API client |
-| 5 | Vòng lặp: for, while, do-while | React internals: render/reconciliation, keys, vì sao re-render |
-| 6 | break, continue, vòng lặp lồng nhau | React hooks sâu: `useState`/`useEffect`/`useRef` (batching, cleanup, ref) |
-| 7 | **Ôn tập tuần 1** + 5 bài tập nhỏ | React perf: `useMemo`/`useCallback`/`React.memo` + DevTools Profiler |
+| 1 | Cài JDK, IntelliJ. "Hello World". JVM/JRE/JDK · 📖 [Vòng đời chương trình](../java/01-learn-the-basics/2_vong-doi-chuong-trinh.md) · [Cú pháp cơ bản](../java/01-learn-the-basics/1_cu-phap-co-ban.md) | TS: structural typing, `type` vs `interface`, generics + constraints · 📖 [Generics](../typescript/06-generics/1_generics.md) |
+| 2 | Biến, kiểu dữ liệu nguyên thủy · 📖 [Kiểu dữ liệu](../java/01-learn-the-basics/3_kieu-du-lieu.md) · [Biến & phạm vi](../java/01-learn-the-basics/4_bien-va-pham-vi.md) | TS: utility types + conditional types + `infer` · 📖 [Utility types](../typescript/07-utility-decorators/1_utility-types.md) |
+| 3 | Toán tử, ép kiểu (casting) · 📖 [Toán tử](../java/01-learn-the-basics/7_toan-tu.md) · [Ép kiểu](../java/01-learn-the-basics/5_ep-kieu.md) | TS: mapped types, template literal types, discriminated unions, narrowing · 📖 [Advanced types](../typescript/08-advanced-types/1_advanced-types.md) |
+| 4 | if/else, switch · 📖 [Câu điều kiện](../java/01-learn-the-basics/9_cau-dieu-kien.md) | TS nâng cao: `satisfies`, const assertion, branded types, typed API client · 📖 [Type assertions](../typescript/02-types/4_assertions.md) |
+| 5 | Vòng lặp: for, while, do-while · 📖 [Vòng lặp](../java/01-learn-the-basics/10_vong-lap.md) | React internals: render/reconciliation, keys, vì sao re-render · 📖 [Lifecycle & render](../react/05-rendering/1_lifecycle.md) · [Lists & keys](../react/05-rendering/2_lists-keys.md) |
+| 6 | break, continue, vòng lặp lồng nhau | React hooks sâu: `useState`/`useEffect`/`useRef` (batching, cleanup, ref) · 📖 [Basic hooks](../react/06-hooks/1_basic-hooks.md) |
+| 7 | **Ôn tập tuần 1** + 5 bài tập nhỏ | React perf: `useMemo`/`useCallback`/`React.memo` + DevTools Profiler · 📖 [Performance](../react/17-advanced-topics/3_performance.md) |
 
 ### Tuần 2 (Ngày 8–14)
 
 | Ngày | Java (2h) | Frontend (1h) |
 |------|-----------|---------------|
-| 8 | Mảng 1 chiều | React: custom hooks + `useReducer` |
-| 9 | Mảng 2 chiều | React: Context đúng cách + compound components |
-| 10 | String + method | React patterns: render props/HOC, control props, state reducer |
-| 11 | StringBuilder, == vs equals | Concurrent React: `useTransition`, `useDeferredValue`, `Suspense` |
-| 12 | Method: tham số, return | State: client vs server state; **Zustand** (store, selector) |
-| 13 | Method overloading, scope | **Redux Toolkit + RTK Query** — khi nào thực sự cần |
+| 8 | Mảng 1 chiều · 📖 [Mảng](../java/01-learn-the-basics/8_mang.md) | React: custom hooks + `useReducer` · 📖 [Custom hooks](../react/06-hooks/3_custom-hooks.md) · [Common hooks](../react/06-hooks/2_common-hooks.md) |
+| 9 | Mảng 2 chiều | React: Context đúng cách + compound components · 📖 [Context API](../react/08-state-management/1_context-api.md) |
+| 10 | String + method · 📖 [Chuỗi & phương thức](../java/01-learn-the-basics/6_chuoi-va-phuong-thuc.md) | React patterns: render props/HOC, control props, state reducer · 📖 [Render props](../react/05-rendering/3_render-props.md) · [HOC](../react/05-rendering/6_hoc.md) |
+| 11 | StringBuilder, == vs equals | Concurrent React: `useTransition`, `useDeferredValue`, `Suspense` · 📖 [React 19 features](../react/17-advanced-topics/2_react-19-features.md) |
+| 12 | Method: tham số, return | State: client vs server state; **Zustand** (store, selector) · 📖 [State management](../react/08-state-management/2_libraries.md) |
+| 13 | Method overloading, scope · 📖 [Overloading & overriding](../java/03-more-about-oop/9_overloading-overriding.md) | **Redux Toolkit + RTK Query** — khi nào thực sự cần · 📖 [State management](../react/08-state-management/2_libraries.md) |
 | 14 | **Ôn tập tuần 2** + bài tập | **State machines với XState** (senior topic: modeling state) |
 
 ### Tuần 3 (Ngày 15–20)
 
 | Ngày | Java (2h) | Frontend (1h) |
 |------|-----------|---------------|
-| 15 | Đệ quy | **TanStack Query**: query, mutation, invalidation |
-| 16 | Scanner | TanStack Query: caching, `staleTime`/`gcTime`, optimistic update |
-| 17 | Thuật toán: max/min, sort đơn giản | TanStack Query: infinite/pagination, prefetch, dependent, `select` |
-| 18 | Bài tập: đảo mảng, số nguyên tố | **React Hook Form + Zod** (uncontrolled, perf, validation) |
-| 19 | Debug IntelliJ, đọc stack trace | Form nâng cao: field array, async validation, dynamic fields |
+| 15 | Đệ quy | **TanStack Query**: query, mutation, invalidation · 📖 [Gọi API / data fetching](../react/12-api-calls/1_api-calls.md) |
+| 16 | Scanner | TanStack Query: caching, `staleTime`/`gcTime`, optimistic update · 📖 [Gọi API / data fetching](../react/12-api-calls/1_api-calls.md) |
+| 17 | Thuật toán: max/min, sort đơn giản | TanStack Query: infinite/pagination, prefetch, dependent, `select` · 📖 [Gọi API / data fetching](../react/12-api-calls/1_api-calls.md) |
+| 18 | Bài tập: đảo mảng, số nguyên tố | **React Hook Form + Zod** (uncontrolled, perf, validation) · 📖 [Forms](../react/15-forms/1_forms.md) · [Types & validation](../react/16-types-validation/1_types-validation.md) |
+| 19 | Debug IntelliJ, đọc stack trace | Form nâng cao: field array, async validation, dynamic fields · 📖 [Forms](../react/15-forms/1_forms.md) |
 | 20 | **Ôn tập GĐ1** — máy tính console | **Mini app**: TanStack Query + RHF/Zod + Zustand (mock API) |
 
 **Cột mốc ngày 20:** Java — chương trình console. FE — làm chủ TS + React internals + chọn đúng state/server-state + form nâng cao.
@@ -103,36 +105,36 @@ Vì bạn đã là mid, phần FE **nén tối đa nền tảng** (TS/React cơ 
 
 | Ngày | Java (2h) | Frontend (1h) |
 |------|-----------|---------------|
-| 21 | Class và Object | GraphQL: schema, query, mutation — mô hình tư duy |
-| 22 | Constructor, this | Apollo Client / urql: normalized cache |
-| 23 | Access modifier, getter/setter | GraphQL Codegen: typed operations end-to-end |
-| 24 | static | GraphQL subscription; **REST vs GraphQL — chọn khi nào** |
-| 25 | Package, cấu trúc project | WebSocket trên FE (kết nối, lifecycle, reconnect) |
-| 26 | Kế thừa, super | SSE + real-time patterns (presence, optimistic, conflict) |
+| 21 | Class và Object · 📖 [Lớp và đối tượng](../java/02-basics-of-oop/1_lop-va-doi-tuong.md) | GraphQL: schema, query, mutation — mô hình tư duy |
+| 22 | Constructor, this · 📖 [Thuộc tính & phương thức](../java/02-basics-of-oop/2_thuoc-tinh-va-phuong-thuc.md) | Apollo Client / urql: normalized cache |
+| 23 | Access modifier, getter/setter · 📖 [Access specifiers](../java/02-basics-of-oop/3_access-specifiers.md) | GraphQL Codegen: typed operations end-to-end |
+| 24 | static · 📖 [static keyword](../java/02-basics-of-oop/4_static-keyword.md) | GraphQL subscription; **REST vs GraphQL — chọn khi nào** |
+| 25 | Package, cấu trúc project · 📖 [Packages](../java/02-basics-of-oop/7_packages.md) | WebSocket trên FE (kết nối, lifecycle, reconnect) · 📖 [Real-time](../backend/22-real-time/1_real-time.md) |
+| 26 | Kế thừa, super · 📖 [Kế thừa](../java/03-more-about-oop/2_ke-thua.md) | SSE + real-time patterns (presence, optimistic, conflict) · 📖 [Real-time](../backend/22-real-time/1_real-time.md) |
 | 27 | **Ôn tập tuần 4** + bài tập class | Real-time mini app (chat/notification) |
 
 ### Tuần 5 (Ngày 28–34)
 
 | Ngày | Java (2h) | Frontend (1h) |
 |------|-----------|---------------|
-| 28 | Đa hình, overriding | Testing philosophy (trophy) + Vitest/Jest mock/spy |
-| 29 | Abstract class | RTL: query đúng cách, `userEvent`, test tương tác |
-| 30 | Interface | MSW: mock API + test async |
-| 31 | Interface default method | Test custom hook (`renderHook`) + integration test |
-| 32 | Composition, aggregation | Playwright: locator, assertion, Page Object Model |
-| 33 | final, Enum | Playwright: network mock, fixtures, xử lý flaky |
+| 28 | Đa hình, overriding · 📖 [Overloading & overriding](../java/03-more-about-oop/9_overloading-overriding.md) | Testing philosophy (trophy) + Vitest/Jest mock/spy · 📖 [Testing](../react/13-testing/1_testing.md) |
+| 29 | Abstract class · 📖 [Trừu tượng (abstract)](../java/03-more-about-oop/3_truu-tuong.md) | RTL: query đúng cách, `userEvent`, test tương tác · 📖 [Testing](../react/13-testing/1_testing.md) |
+| 30 | Interface · 📖 [Interfaces](../java/03-more-about-oop/6_interfaces.md) | MSW: mock API + test async · 📖 [Testing](../react/13-testing/1_testing.md) |
+| 31 | Interface default method · 📖 [Interfaces](../java/03-more-about-oop/6_interfaces.md) | Test custom hook (`renderHook`) + integration test · 📖 [Testing](../react/13-testing/1_testing.md) |
+| 32 | Composition, aggregation | Playwright: locator, assertion, Page Object Model · 📖 [Testing](../react/13-testing/1_testing.md) |
+| 33 | final, Enum · 📖 [final keyword](../java/02-basics-of-oop/5_final-keyword.md) · [Enums](../java/03-more-about-oop/7_enums.md) | Playwright: network mock, fixtures, xử lý flaky · 📖 [Testing](../react/13-testing/1_testing.md) |
 | 34 | **Ôn tập tuần 5** — hệ thống lớp học OOP | Test trong CI (GitHub Actions) + coverage gate |
 
 ### Tuần 6 (Ngày 35–40)
 
 | Ngày | Java (2h) | Frontend (1h) |
 |------|-----------|---------------|
-| 35 | Object: toString/equals/hashCode | Core Web Vitals (LCP/CLS/INP): đo bằng Lighthouse + RUM |
-| 36 | Nested/inner class | Code splitting: `lazy`, `Suspense`, route-based, dynamic import |
-| 37 | Encapsulation, Inheritance | Bundle analysis + tree-shaking + tối ưu dependency nặng |
-| 38 | SOLID (ví dụ) | Virtualization (react-window/virtual) cho list lớn |
-| 39 | Bài tập OOP (ngân hàng) | Image/font optimization, preload/prefetch, tránh CLS |
-| 40 | **Ôn tập GĐ2** — quản lý thư viện (OOP) | **Audit + tối ưu 1 app**, đo Core Web Vitals trước/sau |
+| 35 | Object: toString/equals/hashCode | Core Web Vitals (LCP/CLS/INP): đo bằng Lighthouse + RUM · 📖 [Monitoring & Web Vitals](../nextjs/14-optimizations/3_monitoring.md) |
+| 36 | Nested/inner class · 📖 [Nested classes](../java/02-basics-of-oop/6_nested-classes.md) | Code splitting: `lazy`, `Suspense`, route-based, dynamic import · 📖 [Code optimization](../nextjs/14-optimizations/2_code-optimization.md) |
+| 37 | Encapsulation, Inheritance · 📖 [Đóng gói](../java/03-more-about-oop/5_dong-goi.md) · [Kế thừa](../java/03-more-about-oop/2_ke-thua.md) | Bundle analysis + tree-shaking + tối ưu dependency nặng · 📖 [Code optimization](../nextjs/14-optimizations/2_code-optimization.md) |
+| 38 | SOLID (ví dụ) | Virtualization (react-window/virtual) cho list lớn · 📖 [Performance](../react/17-advanced-topics/3_performance.md) |
+| 39 | Bài tập OOP (ngân hàng) | Image/font optimization, preload/prefetch, tránh CLS · 📖 [Asset optimization](../nextjs/14-optimizations/1_asset-optimization.md) |
+| 40 | **Ôn tập GĐ2** — quản lý thư viện (OOP) | **Audit + tối ưu 1 app**, đo Core Web Vitals trước/sau · 📖 [Performance](../react/17-advanced-topics/3_performance.md) |
 
 **Cột mốc ngày 40:** Java — áp dụng OOP. FE — làm chủ GraphQL, real-time, testing (unit + E2E + CI) và performance có đo lường.
 
@@ -146,26 +148,26 @@ Vì bạn đã là mid, phần FE **nén tối đa nền tảng** (TS/React cơ 
 
 | Ngày | Java (2h) | Frontend (1h) — Next.js |
 |------|-----------|-------------------------|
-| 41 | Collections tổng quan, List | **M1** App Router: `layout`/`page`/`loading`/`error`/`not-found`, navigation, `<Link>` prefetch |
-| 42 | ArrayList | **M1** Dynamic routes `[id]`/catch-all, Route Groups `(group)`, private `_folder`, `generateStaticParams` |
-| 43 | LinkedList vs ArrayList | **M1** Parallel Routes `@slot` + Intercepting Routes (modal giữ URL) |
-| 44 | Set (HashSet/TreeSet) | **M2** RSC vs Client Components, ranh giới `use client`, truyền Server Comp làm `children` |
-| 45 | Map (HashMap/TreeMap) | **M2** Static vs dynamic rendering, segment config, streaming + Suspense, PPR, edge/node |
-| 46 | Iterator | **M3** `fetch` caching semantics, Request Memoization, `React.cache`, dedupe |
-| 47 | **Ôn tập tuần 7** + bài tập Collections | **M3** Sequential vs parallel fetching, phá waterfall, preload pattern |
+| 41 | Collections tổng quan, List · 📖 [Array vs ArrayList](../java/05-collections/1_array-vs-arraylist.md) | **M1** App Router: `layout`/`page`/`loading`/`error`/`not-found`, navigation, `<Link>` prefetch · 📖 [Routing basics](../nextjs/03-routing/1_routing-basics.md) |
+| 42 | ArrayList | **M1** Dynamic routes `[id]`/catch-all, Route Groups `(group)`, private `_folder`, `generateStaticParams` · 📖 [Routing patterns](../nextjs/04-routing-patterns/1_routing-patterns.md) · [Cấu trúc route](../nextjs/05-structuring-routes/1_route-structure.md) |
+| 43 | LinkedList vs ArrayList | **M1** Parallel Routes `@slot` + Intercepting Routes (modal giữ URL) · 📖 [Routing patterns](../nextjs/04-routing-patterns/1_routing-patterns.md) |
+| 44 | Set (HashSet/TreeSet) · 📖 [Set](../java/05-collections/2_set.md) | **M2** RSC vs Client Components, ranh giới `use client`, truyền Server Comp làm `children` · 📖 [Rendering modes](../nextjs/11-rendering/1_rendering-modes.md) |
+| 45 | Map (HashMap/TreeMap) · 📖 [Map](../java/05-collections/3_map.md) | **M2** Static vs dynamic rendering, segment config, streaming + Suspense, PPR, edge/node · 📖 [Static vs dynamic](../nextjs/05-structuring-routes/2_static-vs-dynamic.md) · [Boundaries & streaming](../nextjs/11-rendering/2_boundaries-streaming.md) |
+| 46 | Iterator · 📖 [Iterator](../java/05-collections/7_iterator.md) | **M3** `fetch` caching semantics, Request Memoization, `React.cache`, dedupe · 📖 [Fetching data](../nextjs/08-working-with-data/1_fetching-data.md) |
+| 47 | **Ôn tập tuần 7** + bài tập Collections | **M3** Sequential vs parallel fetching, phá waterfall, preload pattern · 📖 [Data fetching patterns](../nextjs/09-data-fetching-patterns/1_patterns.md) |
 
 ### Tuần 8 (Ngày 48–55) — Caching · Mutations · BFF · Auth
 
 | Ngày | Java (2h) | Frontend (1h) — Next.js |
 |------|-----------|-------------------------|
-| 48 | Generics: class/method | **M4** Caching 4 lớp: Request Memo · Data Cache · Full Route Cache · Router Cache |
-| 49 | Bounded type, wildcard | **M4** Invalidation: `revalidateTag`/`revalidatePath`, time vs on-demand, opt-out từng lớp |
-| 50 | Comparable/Comparator | **M5** Server Actions: form action, `useActionState`, `useFormStatus`, progressive enhancement |
-| 51 | Exception, try-catch-finally | **M5** `useOptimistic`, revalidate sau mutation, bảo mật action (Zod, authz, rate limit) |
-| 52 | Checked vs unchecked | **M6** Route Handlers (`app/api`), streaming, **BFF** proxy tới Spring Boot (giấu token) |
-| 53 | throw/throws, custom exception | **M7** Middleware (matcher, redirect/rewrite), `await cookies()/headers()`, bảo vệ route nhiều tầng |
-| 54 | Bài tập exception | **M7** Auth.js v5 / JWT httpOnly cookie + refresh flow (nối Spring Security) |
-| 55 | **Ôn tập GĐ3** — quản lý danh bạ | **M8** Metadata/SEO + OG image động + `next/image`/`next/font` + bundle-analyzer → **mini Next.js app** |
+| 48 | Generics: class/method · 📖 [Generic collections](../java/05-collections/8_generic-collections.md) | **M4** Caching 4 lớp: Request Memo · Data Cache · Full Route Cache · Router Cache · 📖 [Caching](../nextjs/10-caching/1_caching.md) |
+| 49 | Bounded type, wildcard · 📖 [Generic collections](../java/05-collections/8_generic-collections.md) | **M4** Invalidation: `revalidateTag`/`revalidatePath`, time vs on-demand, opt-out từng lớp · 📖 [Cache management](../nextjs/10-caching/2_cache-management.md) |
+| 50 | Comparable/Comparator | **M5** Server Actions: form action, `useActionState`, `useFormStatus`, progressive enhancement · 📖 [Data fetching patterns](../nextjs/09-data-fetching-patterns/1_patterns.md) |
+| 51 | Exception, try-catch-finally · 📖 [Xử lý ngoại lệ](../java/04-advanced-features/1_xu-ly-ngoai-le.md) | **M5** `useOptimistic`, revalidate sau mutation, bảo mật action (Zod, authz, rate limit) · 📖 [Dữ liệu nhạy cảm / BFF](../nextjs/09-data-fetching-patterns/2_sensitive-data.md) |
+| 52 | Checked vs unchecked · 📖 [Xử lý ngoại lệ](../java/04-advanced-features/1_xu-ly-ngoai-le.md) | **M6** Route Handlers (`app/api`), streaming, **BFF** proxy tới Spring Boot (giấu token) · 📖 [Dữ liệu nhạy cảm / BFF](../nextjs/09-data-fetching-patterns/2_sensitive-data.md) |
+| 53 | throw/throws, custom exception · 📖 [Xử lý ngoại lệ](../java/04-advanced-features/1_xu-ly-ngoai-le.md) | **M7** Middleware (matcher, redirect/rewrite), `await cookies()/headers()`, bảo vệ route nhiều tầng · 📖 [Middleware cơ bản](../nextjs/06-middleware/1_middleware-basics.md) |
+| 54 | Bài tập exception | **M7** Auth.js v5 / JWT httpOnly cookie + refresh flow (nối Spring Security) · 📖 [Middleware features](../nextjs/06-middleware/2_middleware-features.md) · [Session/Cookie/JWT](../web-security/03-xac-thuc-phien/2_session-cookie-jwt.md) |
+| 55 | **Ôn tập GĐ3** — quản lý danh bạ | **M8** Metadata/SEO + OG image động + `next/image`/`next/font` + bundle-analyzer → **mini Next.js app** · 📖 [Asset optimization](../nextjs/14-optimizations/1_asset-optimization.md) |
 
 **Cột mốc ngày 55:** Java — Collections/Generics/Exception. FE — **làm chủ Next.js App Router**: giải thích được *"request này render ở đâu, cache lớp nào, invalidate thế nào"* cho mọi route; dựng được BFF + auth httpOnly cookie nối Spring Boot. (Chi tiết + đánh đổi mỗi module: [Phụ lục A](#nextjs-deep-dive).)
 
@@ -177,26 +179,26 @@ Vì bạn đã là mid, phần FE **nén tối đa nền tảng** (TS/React cơ 
 
 | Ngày | Java (2h) | Frontend (1h) |
 |------|-----------|---------------|
-| 56 | Lambda, functional interface | Kiến trúc FE: feature-based / clean, bulletproof-react |
-| 57 | Stream: filter/map/collect | Design patterns FE + dependency boundaries (tránh circular dep) |
-| 58 | Stream: sorted/distinct/limit | **Monorepo**: pnpm workspace + Turborepo (cache, task pipeline) |
-| 59 | Stream: reduce/min/max/sum | Bundler sâu: Vite/esbuild/SWC/Turbopack, tree-shaking, chunk strategy |
-| 60 | Optional | **Design system**: tokens, theming, dark mode |
-| 61 | Method reference | Storybook + headless UI (Radix / React Aria) |
-| 62 | **Ôn tập tuần 9** + bài tập Stream | Component API design (composition, polymorphism, `as` prop) + boilerplate |
+| 56 | Lambda, functional interface · 📖 [Lambda expressions](../java/04-advanced-features/2_lambda-expressions.md) · [Functional interfaces](../java/07-functional-programming/2_functional-interfaces.md) | Kiến trúc FE: feature-based / clean, bulletproof-react |
+| 57 | Stream: filter/map/collect · 📖 [Stream API](../java/07-functional-programming/4_stream-api.md) | Design patterns FE + dependency boundaries (tránh circular dep) |
+| 58 | Stream: sorted/distinct/limit · 📖 [Stream API](../java/07-functional-programming/4_stream-api.md) | **Monorepo**: pnpm workspace + Turborepo (cache, task pipeline) |
+| 59 | Stream: reduce/min/max/sum · 📖 [Stream API](../java/07-functional-programming/4_stream-api.md) | Bundler sâu: Vite/esbuild/SWC/Turbopack, tree-shaking, chunk strategy |
+| 60 | Optional · 📖 [Optionals](../java/04-advanced-features/5_optionals.md) | **Design system**: tokens, theming, dark mode · 📖 [Writing CSS](../react/09-writing-css/1_writing-css.md) |
+| 61 | Method reference · 📖 [Functional composition](../java/07-functional-programming/3_functional-composition.md) | Storybook + headless UI (Radix / React Aria) · 📖 [Headless libraries](../react/11-headless-libraries/1_headless-libraries.md) |
+| 62 | **Ôn tập tuần 9** + bài tập Stream | Component API design (composition, polymorphism, `as` prop) + boilerplate · 📖 [Component libraries](../react/10-component-libraries/1_component-libraries.md) |
 
 ### Tuần 10 (Ngày 63–70) — Micro-frontend · Security · Observability
 
 | Ngày | Java (2h) | Frontend (1h) |
 |------|-----------|---------------|
-| 63 | Thread, Runnable | Micro-frontend: khái niệm, khi nào dùng / khi nào KHÔNG |
-| 64 | synchronized, race condition | Module Federation (host & remote) + chia sẻ dependency, versioning |
-| 65 | ExecutorService, thread pool | Micro-frontend: routing & state cross-app — tách 1 app thành 2 MFE |
-| 66 | File I/O text | Bảo mật FE: XSS, CSRF, CSP, sanitization |
-| 67 | BufferedReader/Writer | Supply-chain security: dependency audit, lockfile, SRI |
-| 68 | try-with-resources | OAuth2 / OIDC flow (mở rộng auth từ GĐ3 — kết nối identity provider) |
-| 69 | Bài tập I/O + Stream | Observability: Sentry (server + client) + source maps, RUM |
-| 70 | **Ôn tập GĐ4** — phân tích file log | Performance monitoring + feature flags — sẵn sàng nối Spring Boot |
+| 63 | Thread, Runnable · 📖 [Threads](../java/06-concurrency/1_threads.md) | Micro-frontend: khái niệm, khi nào dùng / khi nào KHÔNG · 📖 [Micro-frontend là gì](../micro-frontend/01-co-ban/1_micro-frontend-la-gi.md) · [Ưu nhược & khi nào dùng](../micro-frontend/01-co-ban/3_uu-nhuoc-khi-nao-dung.md) |
+| 64 | synchronized, race condition · 📖 [Concurrency cơ bản](../java/06-concurrency/2_concurrency-co-ban.md) | Module Federation (host & remote) + chia sẻ dependency, versioning · 📖 [Module Federation](../micro-frontend/02-module-federation/1_module-federation-la-gi.md) |
+| 65 | ExecutorService, thread pool · 📖 [Concurrency cơ bản](../java/06-concurrency/2_concurrency-co-ban.md) | Micro-frontend: routing & state cross-app — tách 1 app thành 2 MFE · 📖 [Chia sẻ state & routing](../micro-frontend/02-module-federation/3_chia-se-state-routing.md) |
+| 66 | File I/O text · 📖 [I/O operations](../java/08-core-java/2_io-operations.md) · [File operations](../java/08-core-java/3_file-operations.md) | Bảo mật FE: XSS, CSRF, CSP, sanitization · 📖 [XSS](../web-security/02-tan-cong-pho-bien/1_xss.md) · [CSRF](../web-security/02-tan-cong-pho-bien/2_csrf.md) · [Security headers & CSP](../web-security/04-transport-headers/2_security-headers-csp.md) |
+| 67 | BufferedReader/Writer · 📖 [I/O operations](../java/08-core-java/2_io-operations.md) | Supply-chain security: dependency audit, lockfile, SRI · 📖 [Dependency & supply-chain](../web-security/05-secrets-cung-ung/2_dependency-supply-chain.md) |
+| 68 | try-with-resources | OAuth2 / OIDC flow (mở rộng auth từ GĐ3 — kết nối identity provider) · 📖 [Authentication & authorization](../web-security/03-xac-thuc-phien/1_authentication-authorization.md) |
+| 69 | Bài tập I/O + Stream | Observability: Sentry (server + client) + source maps, RUM · 📖 [Monitoring](../nextjs/14-optimizations/3_monitoring.md) |
+| 70 | **Ôn tập GĐ4** — phân tích file log | Performance monitoring + feature flags — sẵn sàng nối Spring Boot · 📖 [Monitoring](../nextjs/14-optimizations/3_monitoring.md) |
 
 **Cột mốc ngày 70:** Java — Stream/concurrency/I/O. FE — thiết kế được kiến trúc/monorepo/design system, làm chủ micro-frontend, security & observability.
 
@@ -208,25 +210,25 @@ Vì bạn đã là mid, phần FE **nén tối đa nền tảng** (TS/React cơ 
 
 | Ngày | Java (2h) | Frontend (1h) |
 |------|-----------|---------------|
-| 71 | Maven/Gradle, dependency | Browser internals: event loop, macro/microtask |
-| 72 | JDBC: kết nối, query | Rendering pipeline: layout/paint/composite, repaint vs reflow |
-| 73 | Spring Boot, Spring Initializr | Memory leak trong SPA: phát hiện & sửa (heap snapshot) |
-| 74 | DI, Bean, @Component | Animation: Framer Motion / CSS, performance animation (GPU) |
-| 75 | @RestController, GET đầu tiên | PWA + offline: service worker, cache strategy, background sync |
+| 71 | Maven/Gradle, dependency · 📖 [Maven](../java/09-build-tools/2_maven.md) · [Gradle](../java/09-build-tools/3_gradle.md) | Browser internals: event loop, macro/microtask · 📖 [Event loop](../javascript/14-async/1_event-loop.md) |
+| 72 | JDBC: kết nối, query · 📖 [JDBC](../java/11-database-access/2_jdbc.md) | Rendering pipeline: layout/paint/composite, repaint vs reflow · 📖 [Performance](../react/17-advanced-topics/3_performance.md) |
+| 73 | Spring Boot, Spring Initializr · 📖 [Spring Boot](../java/10-web-frameworks/2_spring-boot.md) | Memory leak trong SPA: phát hiện & sửa (heap snapshot) · 📖 [Memory](../javascript/19-memory/1_memory.md) |
+| 74 | DI, Bean, @Component · 📖 [Dependency Injection](../java/04-advanced-features/6_dependency-injection.md) | Animation: Framer Motion / CSS, performance animation (GPU) · 📖 [Animation](../react/18-animation/1_animation.md) |
+| 75 | @RestController, GET đầu tiên · 📖 [Spring Boot](../java/10-web-frameworks/2_spring-boot.md) | PWA + offline: service worker, cache strategy, background sync |
 | 76 | @GetMapping/@PostMapping | Accessibility nâng cao: WCAG, screen reader, focus management |
-| 77 | **Ôn tập tuần 11** + REST API đơn giản | i18n/l10n nâng cao, RTL layout, formatting (Intl) |
+| 77 | **Ôn tập tuần 11** + REST API đơn giản | i18n/l10n nâng cao, RTL layout, formatting (Intl) · 📖 [i18n](../nextjs/07-i18n/1_i18n.md) |
 
 ### Tuần 12 (Ngày 78–85)
 
 | Ngày | Java (2h) | Frontend (1h) |
 |------|-----------|---------------|
-| 78 | @RequestBody/@PathVariable/@RequestParam | CI/CD FE: lint/test/build/deploy, preview environment |
-| 79 | Service layer | Deploy strategies: canary / blue-green / rollback, trunk-based development |
-| 80 | HTTP status, ResponseEntity | Typed REST client + error handling nối Spring Boot |
-| 81 | @ExceptionHandler | CORS — bản chất & xử lý khi gọi Spring Boot |
+| 78 | @RequestBody/@PathVariable/@RequestParam · 📖 [Spring Boot](../java/10-web-frameworks/2_spring-boot.md) | CI/CD FE: lint/test/build/deploy, preview environment · 📖 [Deployment](../nextjs/18-deployment/1_deployment.md) |
+| 79 | Service layer | Deploy strategies: canary / blue-green / rollback, trunk-based development · 📖 [Deployment](../nextjs/18-deployment/1_deployment.md) |
+| 80 | HTTP status, ResponseEntity | Typed REST client + error handling nối Spring Boot · 📖 [Gọi API](../react/12-api-calls/1_api-calls.md) |
+| 81 | @ExceptionHandler | CORS — bản chất & xử lý khi gọi Spring Boot · 📖 [HTTPS & CORS](../web-security/04-transport-headers/1_https-cors.md) |
 | 82 | Validation @Valid | **Frontend system design**: cấu trúc app quy mô lớn |
-| 83 | application.properties | Tổng hợp: chọn kiến trúc render ở quy mô (CSR/SSR/SSG/ISR/edge/PPR) — ra quyết định |
-| 84 | Test API (Postman/curl) | Contract testing / đồng bộ type: OpenAPI → TS codegen |
+| 83 | application.properties | Tổng hợp: chọn kiến trúc render ở quy mô (CSR/SSR/SSG/ISR/edge/PPR) — ra quyết định · 📖 [Rendering strategies](../nextjs/02-getting-started/2_rendering-strategies.md) |
+| 84 | Test API (Postman/curl) | Contract testing / đồng bộ type: OpenAPI → TS codegen · 📖 [Types & validation](../react/16-types-validation/1_types-validation.md) |
 | 85 | **Ôn tập GĐ5** — REST API CRUD (chưa DB) | **Kết nối end-to-end** React ↔ Spring Boot (auth + CRUD) |
 
 **Cột mốc ngày 85:** Java — REST API Spring Boot. FE — hiểu sâu browser/rendering, làm chủ a11y/PWA/CI-CD và tư duy frontend system design.
@@ -239,25 +241,25 @@ Vì bạn đã là mid, phần FE **nén tối đa nền tảng** (TS/React cơ 
 
 | Ngày | Java (2h) | Frontend (1h) |
 |------|-----------|---------------|
-| 86 | JPA/Hibernate, @Entity/@Id | Error boundary + Suspense cho data + graceful degradation |
-| 87 | Spring Data JPA, Repository | Advanced TanStack Query: infinite + optimistic + offline persist |
-| 88 | CRUD với JpaRepository | Real-time nối backend: WebSocket/SSE từ Spring |
-| 89 | @OneToMany/@ManyToOne | Performance final pass: đưa Core Web Vitals về "xanh" |
-| 90 | Query method, @Query | a11y + i18n final pass cho project |
-| 91 | Kết nối DB thật (H2/MySQL/Postgres) | Áp design system vào project cuối |
+| 86 | JPA/Hibernate, @Entity/@Id · 📖 [Hibernate](../java/11-database-access/3_hibernate.md) | Error boundary + Suspense cho data + graceful degradation · 📖 [Error boundaries & Suspense](../react/17-advanced-topics/1_error-boundaries-suspense.md) |
+| 87 | Spring Data JPA, Repository · 📖 [Spring Data JPA](../java/11-database-access/4_spring-data-jpa.md) | Advanced TanStack Query: infinite + optimistic + offline persist · 📖 [Gọi API](../react/12-api-calls/1_api-calls.md) |
+| 88 | CRUD với JpaRepository · 📖 [Spring Data JPA](../java/11-database-access/4_spring-data-jpa.md) | Real-time nối backend: WebSocket/SSE từ Spring · 📖 [Real-time](../backend/22-real-time/1_real-time.md) |
+| 89 | @OneToMany/@ManyToOne · 📖 [Hibernate](../java/11-database-access/3_hibernate.md) | Performance final pass: đưa Core Web Vitals về "xanh" · 📖 [Performance](../react/17-advanced-topics/3_performance.md) |
+| 90 | Query method, @Query · 📖 [Spring Data JPA](../java/11-database-access/4_spring-data-jpa.md) | a11y + i18n final pass cho project · 📖 [i18n](../nextjs/07-i18n/1_i18n.md) |
+| 91 | Kết nối DB thật (H2/MySQL/Postgres) · 📖 [Tổng quan Database access](../java/11-database-access/1_tong-quan.md) | Áp design system vào project cuối · 📖 [Writing CSS](../react/09-writing-css/1_writing-css.md) |
 | 92 | **Ôn tập tuần 13** — API CRUD + DB | Chốt thiết kế frontend project cuối (production-ready) |
 
 ### Tuần 14 + 2 ngày (Ngày 93–100)
 
 | Ngày | Java (2h) | Frontend (1h) |
 |------|-----------|---------------|
-| 93 | Unit test JUnit 5 | Nối React/Next ↔ Spring Boot (typed client, env, CORS) |
-| 94 | Mockito | CRUD qua API thật bằng TanStack Query |
-| 95 | Test Service/Controller (MockMvc) | Auth end-to-end: JWT từ Spring Security → protected route |
+| 93 | Unit test JUnit 5 · 📖 [Unit testing](../java/13-testing/1_unit-testing.md) · [JUnit](../java/13-testing/2_junit.md) | Nối React/Next ↔ Spring Boot (typed client, env, CORS) · 📖 [Gọi API](../react/12-api-calls/1_api-calls.md) |
+| 94 | Mockito · 📖 [Mockito](../java/13-testing/4_mockito.md) | CRUD qua API thật bằng TanStack Query · 📖 [Gọi API](../react/12-api-calls/1_api-calls.md) |
+| 95 | Test Service/Controller (MockMvc) · 📖 [Integration testing](../java/13-testing/5_integration-testing.md) | Auth end-to-end: JWT từ Spring Security → protected route · 📖 [Session/Cookie/JWT](../web-security/03-xac-thuc-phien/2_session-cookie-jwt.md) |
 | 96 | **Project** — thiết kế API | **Project** — dựng khung production-ready (monorepo/design system) |
 | 97 | Project — CRUD + validation + auth | Project — hoàn thiện tính năng + state + optimistic update |
-| 98 | Project — xử lý lỗi, hoàn thiện API | Project — test (RTL + Playwright) + audit performance + Sentry |
-| 99 | Project — test + refactor + README | Project — responsive, a11y, deploy (Vercel) + CI/CD |
+| 98 | Project — xử lý lỗi, hoàn thiện API | Project — test (RTL + Playwright) + audit performance + Sentry · 📖 [Testing](../react/13-testing/1_testing.md) |
+| 99 | Project — test + refactor + README | Project — responsive, a11y, deploy (Vercel) + CI/CD · 📖 [Deployment](../nextjs/18-deployment/1_deployment.md) |
 | 100 | **Tổng kết** — deploy backend, cập nhật CV | **Tổng kết** — portfolio, README, review kiến trúc/tradeoff |
 
 **Cột mốc ngày 100:** Project full-stack production-ready (Spring Boot + React/Next.js): auth JWT, test, Core Web Vitals xanh, observability, CI/CD — portfolio thể hiện năng lực FE senior + backend junior.
