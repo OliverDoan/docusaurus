@@ -66,6 +66,14 @@ sequenceDiagram
 
 **One-way** server → client, qua HTTP.
 
+:::tip[Ví dụ đời thường]
+
+`SSE` giống **cái đài phát thanh**: bạn dò đúng kênh, đài cứ thế nói, bạn cứ thế nghe. Đài **không nghe được bạn** — muốn góp ý thì phải nhắn tin bằng đường khác (một request `fetch`/POST bình thường). Mất sóng thì máy tự dò lại giúp bạn (auto-reconnect có sẵn trong trình duyệt).
+
+Đúng kiểu này là: bảng giá cổ phiếu chạy, thông báo mới nhảy lên, và AI gõ từng chữ ra màn hình.
+
+:::
+
 ```ts
 // Server (Node Express)
 app.get("/events", (req, res) => {
@@ -120,6 +128,14 @@ source.onerror = () => {
 ## WebSocket
 
 **Full-duplex** TCP connection, sau khi handshake HTTP upgrade.
+
+:::tip[Ví dụ đời thường]
+
+`WebSocket` giống **cuộc gọi điện thoại**: quay số một lần (handshake), sau đó **đường dây mở suốt**, hai bên nói xen kẽ nhau lúc nào cũng được, không phải bấm số lại cho từng câu.
+
+Cái giá phải trả: tổng đài phải **giữ dây cho từng người**, kể cả lúc không ai nói. Nghìn người online là nghìn sợi dây phải nuôi. Có nhiều tổng đài thì phải đảm bảo bạn luôn quay về đúng tổng đài đang cầm dây của mình (`sticky session`), và các tổng đài phải nối với nhau để chuyển lời qua lại (Redis pub/sub).
+
+:::
 
 ```ts
 // Server (Node với ws)
@@ -233,6 +249,15 @@ Managed service đáng cân nhắc cho startup — đỡ ops phức tạp.
 
 **Client** request, server giữ connection cho đến khi có data hoặc timeout.
 
+:::tip[Ví dụ đời thường]
+
+- **Polling** — cứ 5 giây bạn lại **gọi hỏi shipper "tới chưa anh?"**. 9/10 cuộc nhận về "chưa", tốn tiền điện thoại mà tin vẫn trễ tới 5 giây.
+- **Long Polling** — bạn gọi một cuộc rồi **giữ máy chờ im lặng**; shipper tới nơi mới lên tiếng, hoặc 30 giây không có gì thì cúp và bạn gọi lại cuộc mới. Ít cuộc gọi rỗng hơn, tin cũng đến nhanh hơn.
+
+Nhưng vẫn là **gọi đi gọi lại**, mỗi cuộc lại chào hỏi từ đầu, và server phải ôm cả đống cuộc đang treo máy. Đã có "đài phát thanh" (`SSE`) và "điện thoại hai chiều" (`WebSocket`) thì không ai làm vậy nữa.
+
+:::
+
 ```ts
 // Client
 async function poll() {
@@ -274,6 +299,14 @@ Năm 2026, **legacy**. Dùng SSE hoặc WebSocket thay.
 ## WebRTC
 
 **Peer-to-peer** giữa browser/native, **không qua server** (sau setup).
+
+:::tip[Ví dụ đời thường]
+
+`WebRTC` giống **hai người nhờ tổng đài nối máy, xong rồi nói thẳng với nhau**. Tổng đài (signaling server) chỉ làm mỗi việc lúc đầu: trao "số nhà" của hai bên cho nhau (offer, answer, ICE). Nối được rồi thì **hình và tiếng đi thẳng từ máy này sang máy kia**, không vòng qua tổng đài nữa — nhờ vậy mới mượt.
+
+Cái giá phải trả: nhà ai cũng có tường rào (NAT/firewall) nên nhiều ca vẫn phải đi vòng qua **một chỗ trung chuyển** (TURN server) rất tốn băng thông. Họp 10 người mà ai cũng gửi hình cho 9 người còn lại thì máy chịu không nổi — nên video conference hãy dùng dịch vụ managed (SFU).
+
+:::
 
 Use case:
 

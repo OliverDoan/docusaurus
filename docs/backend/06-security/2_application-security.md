@@ -57,6 +57,16 @@ OWASP Top 10 2021:
 
 **Bug kinh điển** — user input ghép vào SQL chưa sanitize.
 
+:::tip[Ví dụ đời thường]
+
+Bạn đưa nhân viên ngân hàng một tờ giấy: *"Rút 500k từ tài khoản số ___"*, chỗ trống để khách tự điền. Khách ranh ma điền vào: *"12345. Và chuyển hết tiền của mọi tài khoản khác sang cho tôi"*.
+
+Nếu nhân viên **đọc cả tờ giấy như một mệnh lệnh liền mạch**, họ làm luôn cả câu ghép thêm. Đó đúng là SQL Injection.
+
+Cách chặn (`parameterized query`): tờ giấy in sẵn **có ô vuông riêng**, thứ khách viết trong ô đó **luôn chỉ được hiểu là số tài khoản**, dù có viết cả bài văn vào cũng vậy.
+
+:::
+
 **Bug**:
 
 ```js
@@ -139,6 +149,16 @@ const { email, password } = schema.parse(req.body);
 ## XSS (Cross-Site Scripting)
 
 **Inject script** vào page, chạy ở browser user khác.
+
+:::tip[Ví dụ đời thường]
+
+Chung cư có **bảng thông báo** ai dán giấy lên cũng được. Kẻ xấu dán một tờ trông y hệt thông báo của ban quản lý: *"Phí tháng này nộp vào số tài khoản sau"*.
+
+Cư dân đi qua đọc và tin, đơn giản vì nó nằm trên bảng chính thức. XSS y hệt: code của kẻ tấn công chạy **dưới danh nghĩa trang web của bạn**, nên trình duyệt tin tưởng và giao luôn cookie, session cho nó.
+
+Cách chặn: ban quản lý **đóng khung kính**, mọi tờ giấy nhét vào chỉ được hiển thị như *chữ để đọc*, không bao giờ được coi là thông báo chính thức (escape output).
+
+:::
 
 **3 loại**:
 
@@ -233,6 +253,16 @@ function safeUrl(url: string) {
 
 **Force user** thực hiện action ngoài ý muốn khi đang logged in.
 
+:::tip[Ví dụ đời thường]
+
+Bạn có **con dấu công ty** để sẵn trong túi, và ngân hàng thì cứ thấy con dấu là làm theo. Kẻ xấu chẳng cần trộm con dấu — nó chỉ cần **dúi cho bạn một tờ giấy** rồi lừa bạn đóng dấu lên.
+
+Cookie phiên đăng nhập chính là con dấu đó: trình duyệt **tự động đính kèm** mỗi khi gửi request tới `bank.com`, kể cả khi request được bấm từ trang của kẻ xấu.
+
+Cách chặn: ngân hàng bắt phải có thêm **mã số chỉ in trên tờ đơn do chính họ phát ra** (`CSRF token`) — kẻ xấu tự soạn giấy thì không tài nào biết mã đó.
+
+:::
+
 **Bug scenario**:
 
 ```html
@@ -309,12 +339,35 @@ API-only backend ít CSRF — chỉ web form session-based mới cần CSRF toke
 
 Chặn abuse — limit số request per user/IP.
 
+:::tip[Ví dụ đời thường]
+
+Quán phở đông khách nên **phát số thứ tự**, mỗi người một tô một lượt. Không có nó thì một ông bê nguyên nồi, cả quán nhịn đói.
+
+Rate limit cũng vậy: nó không phân biệt khách tốt khách xấu, chỉ nói "mỗi người bằng đó lượt trong bằng đó phút".
+
+Cái giá phải trả: siết quá tay thì **khách thật cũng bị chặn** — nên login siết mạnh (5 lần / 15 phút), còn API thường thì nới tay hơn.
+
+:::
+
 **Strategies**:
 
 - **Fixed Window** — N request / 1 phút.
 - **Sliding Window** — N request / 60s gần nhất.
 - **Token Bucket** — fill rate + bucket size.
 - **Leaky Bucket** — process rate cố định.
+
+:::tip[Ví dụ đời thường]
+
+Bốn kiểu bác bảo vệ đếm lượt vào cổng:
+
+| Cách | Bác bảo vệ làm gì | Điểm yếu |
+|---|---|---|
+| **Fixed Window** | Cứ tới đầu giờ là **xóa bảng đếm** làm lại từ 0 | Dồn 10 lượt cuối giờ này + 10 lượt đầu giờ sau = 20 lượt trong một phút |
+| **Sliding Window** | Luôn nhìn lại **60 giây vừa qua** | Phải nhớ giờ của từng lượt, tốn công hơn |
+| **Token Bucket** | Có **xô vé**, nhỏ đều 1 vé/giây, ai vào lấy một vé | Cho phép "xả một cục" khi xô đang đầy |
+| **Leaky Bucket** | Cho vào **nhỏ giọt đều tay**, ai tới sớm phải xếp hàng đợi | Không chịu nổi burst, khách phải chờ |
+
+:::
 
 **Implementation với Redis**:
 

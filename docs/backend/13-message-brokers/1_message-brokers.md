@@ -37,6 +37,20 @@ Message broker là "người trung gian" giúp các phần trong hệ thống g�
 
 **Decouple producer + consumer** — không gọi trực tiếp.
 
+:::tip[Ví dụ đời thường]
+
+Quán ăn đông khách. Nếu bồi bàn nhận order xong phải **đứng lì trong bếp chờ món chín** rồi mới ra tiếp khách kế, quán chết ngộp ngay.
+
+Thực tế bồi bàn **kẹp phiếu order lên giá** rồi quay ra phục vụ tiếp. Cái giá kẹp phiếu đó chính là message broker:
+
+- Khách đông đột biến? Phiếu dồn trên giá, bồi bàn không phải đứng chờ (buffer).
+- Đầu bếp làm hỏng món? Lấy lại phiếu làm lại (retry).
+- Thêm một đầu bếp là nhanh gấp đôi, bồi bàn chẳng cần biết (decouple).
+
+Cái giá phải trả: khách **không được báo "món xong" ngay lúc gọi** — mọi thứ chuyển từ "xong rồi" thành "sẽ xong sau".
+
+:::
+
 **Use case**:
 
 - **Async job** — gửi email, generate PDF, image processing.
@@ -95,6 +109,17 @@ flowchart LR
     end
 ```
 
+:::tip[Ví dụ đời thường]
+
+Vẫn là quán ăn đó:
+
+- **Queue** — **giá kẹp phiếu order**. Đầu bếp nào rảnh thì giật lấy một phiếu, làm xong thì phiếu **biến mất**. Ba đầu bếp là chạy nhanh gấp ba, và không ai nấu trùng món của người khác.
+- **Pub/Sub** — **loa thông báo trong quán**: "bàn 5 vừa thanh toán". Thu ngân, kho, bộ phận chăm sóc khách **đều nghe cùng một câu** và mỗi bên làm việc của mình.
+
+Nhớ mẹo này: Queue là **chia việc** (một phiếu, một người làm), Pub/Sub là **báo tin** (một tin, mọi người nghe).
+
+:::
+
 **3. Stream** (Event log):
 
 ```
@@ -102,6 +127,19 @@ Producer → [E1, E2, E3, ...] → Consumer (replay từ offset bất kỳ)
 ```
 
 Event lưu trữ lâu dài, consumer đọc theo offset.
+
+:::tip[Ví dụ đời thường]
+
+`Stream` không phải giá kẹp phiếu, mà là **cuốn sổ nhật ký ghi liên tục**: việc gì xảy ra cũng chép thêm một dòng xuống cuối, **không ai được xoá dòng cũ**.
+
+Người đọc sổ tự **kẹp một tờ giấy đánh dấu** đang đọc tới dòng bao nhiêu — đó chính là `offset`. Nhờ vậy:
+
+- Máy hỏng, khởi động lại? Mở đúng chỗ đánh dấu, đọc tiếp.
+- Có bộ phận mới vào làm? Lật về dòng 1 đọc lại toàn bộ lịch sử (replay).
+
+Cái giá phải trả: sổ ngày một dày, phải quy định **giữ bao nhiêu ngày rồi xé bớt** (retention), chứ nó không tự vơi như giá kẹp phiếu.
+
+:::
 
 ---
 
@@ -189,6 +227,21 @@ Overkill nếu:
 
 **AMQP** message broker — truyền thống, mature.
 
+:::tip[Ví dụ đời thường]
+
+Đặt RabbitMQ cạnh Kafka cho dễ hình dung:
+
+| | RabbitMQ | Kafka |
+|--|----------|-------|
+| Giống như | **Bưu điện** chia thư theo địa chỉ | **Cuốn sổ cái** ghi liên tục |
+| Đọc xong | Thư giao rồi là **hết**, xoá khỏi kho | Dòng ghi **vẫn nằm nguyên đó** |
+| Đọc lại | Không | Có, lật về `offset` cũ |
+| Mạnh ở | Chia thư khéo: đúng người, có ưu tiên, có hẹn giờ | Chép cực nhanh, cực nhiều, nhiều bên cùng đọc |
+
+Nên: cần **giao đúng việc cho đúng người, có ưu tiên và retry** thì chọn RabbitMQ. Cần **giữ lại toàn bộ lịch sử để nhiều bên cùng đọc và đọc lại** thì chọn Kafka.
+
+:::
+
 ```ts
 import amqp from "amqplib";
 
@@ -251,6 +304,16 @@ sub.on("message", (channel, msg) => {
 - **Fire-and-forget** — subscriber offline mất message.
 - **Không persistent**.
 - **Low latency**.
+
+:::tip[Ví dụ đời thường]
+
+Redis Pub/Sub đúng nghĩa là **loa phường**: phát xong là thôi, không lưu lại băng ghi âm.
+
+Ai đang ở nhà thì nghe được, ai đi vắng đúng lúc đó thì **mất tin luôn**, không có cách nào nghe lại. Đổi lại nó cực nhanh và gần như chẳng tốn gì.
+
+Vậy nên chỉ dùng cho tin **mất cũng không sao**: đếm người online, đẩy notification real-time. Còn việc "phải làm cho bằng được" như trừ tiền hay gửi email thì dùng Redis Streams / BullMQ, nơi tin nhắn được **ghi vào sổ** chứ không bay theo gió.
+
+:::
 
 **Redis Streams** (better cho durable queue):
 

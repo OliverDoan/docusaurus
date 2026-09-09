@@ -67,6 +67,15 @@ Khi số lượng người dùng tăng lên, một database duy nhất sẽ khô
 - Phức tạp (consistency, networking).
 - Some operation impossible (cross-shard transaction).
 
+:::tip[Ví dụ đời thường]
+
+Quán của bạn đông khách, hàng chờ tính tiền dài ra:
+
+- **Vertical (scale up)** — **thuê một thu ngân giỏi hơn**, tay nhanh gấp đôi. Không phải sắp xếp lại gì, mọi hoá đơn vẫn qua đúng một người nên không bao giờ lộn. Nhưng người nhanh nhất chợ cũng có giới hạn, lương thì tăng theo cấp số nhân, và hôm nào người đó ốm là quán đứng hình.
+- **Horizontal (scale out)** — **mở thêm quầy thu ngân**. Muốn tăng bao nhiêu quầy cũng được, một quầy hỏng vẫn còn quầy khác. Đổi lại bạn phải có người điều phối dòng khách, và những việc cần "gộp cả quán lại" như kiểm quỹ cuối ngày trở nên rắc rối hơn nhiều.
+
+:::
+
 :::tip[Mẹo]
 
 **Quy tắc thực tế**:
@@ -85,6 +94,14 @@ khi shard.
 ## Read Replication
 
 **Master-Replica** — 1 write, nhiều read replica.
+
+:::tip[Ví dụ đời thường]
+
+Nghĩ tới **một cuốn sổ gốc và mấy bản photo**. Mọi thay đổi chỉ được ghi vào **sổ gốc** (master), rồi đem đi photo thành nhiều bản (replica) đặt ở các quầy cho khách tra cứu. Quầy nào cũng tra được, nên cả nghìn người hỏi cùng lúc thì sổ gốc vẫn rảnh tay để ghi.
+
+Cái giá: **bản photo luôn chậm hơn bản gốc một nhịp**. Bạn vừa sửa số điện thoại trong sổ gốc, chạy ra quầy tra ngay thì vẫn thấy số cũ (`replication lag`). Vì vậy việc gì vừa ghi xong mà cần đọc lại cho chính xác thì phải quay về đọc sổ gốc.
+
+:::
 
 ```
 [App write] → [Master DB]
@@ -155,6 +172,18 @@ Hiếm dùng — đa số case master-replica đủ.
 ## Sharding
 
 **Horizontal partition** — chia data theo key, mỗi shard 1 server riêng.
+
+:::tip[Ví dụ đời thường]
+
+Một thư viện quá đông, một thủ thư không kham nổi. Bạn tách thành **4 phòng riêng**: họ A–D vào phòng 1, E–K phòng 2... Mỗi phòng có thủ thư riêng, kho riêng. Muốn tìm hồ sơ của ai, cứ nhìn họ là biết đi phòng nào (`shard key`) — không phòng nào phải gánh cả thư viện.
+
+Cái giá đắt hơn bạn tưởng:
+
+- Câu hỏi kiểu **"cả thư viện có bao nhiêu người tên An?"** phải chạy đủ 4 phòng rồi cộng tay lại (cross-shard query).
+- **Chuyển một cuốn từ phòng 1 sang phòng 3 mà tuyệt đối không được lệch** gần như không làm gọn được (cross-shard transaction).
+- Mở thêm phòng thứ 5 nghĩa là **khuân lại hồ sơ giữa các phòng**.
+
+:::
 
 ```
 [Shard 1] users with id % 4 == 0
@@ -245,6 +274,17 @@ Partition = 1 server, multiple table. Sharding = nhiều server.
 - **Availability** — mọi request có response.
 - **Partition tolerance** — system work dù network partition.
 
+:::tip[Ví dụ đời thường]
+
+Một ngân hàng có **hai chi nhánh**, sổ sách phải khớp nhau. Bão làm **đứt đường truyền** giữa hai nơi — chuyện chắc chắn có ngày xảy ra, nên không thể không chọn `P`. Khách tới rút tiền ở chi nhánh B, nhân viên chỉ còn hai đường:
+
+- **Từ chối phục vụ** tới khi nối lại được đường truyền — sổ sách không bao giờ sai, nhưng khách ra về tay không (chọn `C`, hy sinh `A`).
+- **Cứ cho rút** rồi đối chiếu sau — khách luôn được phục vụ, nhưng có nguy cơ hai chi nhánh cùng chi một khoản (chọn `A`, hy sinh `C`).
+
+Không có đường thứ ba. Ngân hàng thường chọn vế trên, mạng xã hội chọn vế dưới — thà hiện thiếu vài lượt like còn hơn báo lỗi.
+
+:::
+
 ```
        C
       / \
@@ -299,6 +339,14 @@ Chọn DB + tune theo case sử dụng, không 1 size fits all.
 ## Materialized Views
 
 **Pre-compute** query phức tạp, store như table.
+
+:::tip[Ví dụ đời thường]
+
+Sếp ngày nào cũng hỏi "tháng này mỗi khách mua bao nhiêu tiền?". Bạn có thể **lôi cả thùng hoá đơn ra cộng lại mỗi lần bị hỏi** (query nặng, chờ vài giây), hoặc **cuối mỗi ca ngồi tổng kết một lần vào bảng treo tường** — sau đó ai hỏi cũng chỉ liếc bảng là xong.
+
+`Materialized view` chính là cái bảng treo tường đó. Cái giá: **bảng luôn cũ hơn thực tế** tới lần tổng kết gần nhất, nên nó hợp với dashboard/báo cáo, không hợp với số dư tài khoản.
+
+:::
 
 ```sql
 -- Tạo materialized view

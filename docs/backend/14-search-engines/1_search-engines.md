@@ -48,6 +48,19 @@ Search engine:
 - **Synonym, stemming**.
 - **Highlight**, faceted search, autocomplete.
 
+:::tip[Ví dụ đời thường]
+
+Thư viện 100.000 cuốn, bạn cần tìm sách nào có nhắc tới "cà phê".
+
+- **SQL `LIKE '%cà phê%'`** — bê từng cuốn xuống, **đọc lướt từ trang đầu tới trang cuối**. Sách càng nhiều càng lâu, và index thường của DB cũng chịu, vì bạn tìm chữ nằm **giữa câu**.
+- **`Inverted index`** — thư viện làm sẵn **hộp phiếu tra từ khoá**: mỗi từ một tấm phiếu, trên phiếu ghi "từ này có trong cuốn 12, 87, 340". Rút đúng tấm phiếu "cà phê" là ra danh sách ngay.
+
+Gọi là "ngược" vì thay vì đi từ sách ra chữ, nó đi từ **chữ ra sách**.
+
+Cái giá phải trả: hộp phiếu phải **làm trước và tốn chỗ**, mỗi lần nhập sách mới lại phải viết thêm phiếu — nên nó luôn **trễ hơn kho sách thật một nhịp**.
+
+:::
+
 ---
 
 ## Elasticsearch
@@ -91,6 +104,18 @@ const result = await client.search({
 - Vector search (cho semantic + RAG).
 - Cluster + shard.
 
+:::tip[Ví dụ đời thường]
+
+Tìm ra 500 kết quả là chuyện dễ; xếp cái nào lên đầu mới khó. Relevance scoring (`BM25`) chấm điểm theo mấy lẽ rất đời:
+
+- **Từ hiếm đáng giá hơn từ phổ biến** — trong "áo thun cotton", chữ "cotton" phân biệt tốt hơn chữ "áo" nên được tính nặng ký hơn.
+- **Trúng ở chỗ quan trọng thì cộng thêm** — trúng ở **tên** sản phẩm giá trị hơn trúng ở đoạn mô tả dài dòng, đó chính là ý nghĩa của `name^3` (nhân ba điểm).
+- **Nhắc nhiều lần thì cộng, nhưng cộng ít dần** — lặp 20 lần không có nghĩa là đúng ý gấp 20 lần.
+
+Giống người bán hàng lâu năm: nghe khách tả vài chữ là biết **lôi món nào ra trước**.
+
+:::
+
 **Use case**:
 
 - E-commerce product search.
@@ -130,6 +155,16 @@ const result = await index.search("iphon", { limit: 20 });
 - **Fast** — sub-50ms typical.
 - **Easy** API.
 - **Rust** — low memory.
+
+:::tip[Ví dụ đời thường]
+
+Khách gõ "iphon" mà kho chỉ có "iPhone". Máy so chuỗi thì hai từ này **khác nhau**, coi như không có gì.
+
+Typo-tolerant (fuzzy) là kiểu **người bán hàng quen nghe khách nói ngọng**: nó đếm xem cần **sửa mấy ký tự** để biến từ khách gõ thành từ trong kho — thêm một chữ, bớt một chữ, hay đổi một chữ. Sai một hai ký tự thì vẫn coi là trúng.
+
+Cái giá phải trả: càng dễ dãi thì càng ra **kết quả rác** ("sách" cũng gần với "sạch") và càng chậm. Nên các engine thường chỉ tha thứ theo độ dài: từ ngắn tha ít, từ dài tha nhiều hơn.
+
+:::
 
 **Phù hợp**:
 
@@ -171,6 +206,14 @@ có sẵn (typesense.org).
 ---
 
 ## Postgres full-text search
+
+:::tip[Ví dụ đời thường]
+
+Postgres cũng biết tự làm hộp phiếu tra từ khoá cho riêng mình. Cột `tsvector` chính là **bản rút gọn của câu văn**: nó băm câu ra từng từ, bỏ mấy từ vô nghĩa ("the", "và"), rồi **quy các biến thể về một gốc** — "running", "ran", "runs" đều ghi thành "run". Nhờ vậy khách gõ thể nào cũng ra.
+
+Cái giá phải trả: bản rút gọn đó phải **dựng sẵn và cập nhật lại mỗi lần sửa dữ liệu**, và nó chỉ khớp theo **từ nguyên vẹn** — gõ sai chính tả là chịu, muốn tha lỗi thì phải gắn thêm `pg_trgm`.
+
+:::
 
 Nếu đã có Postgres, FTS built-in **đủ cho nhiều case**:
 

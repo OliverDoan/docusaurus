@@ -26,6 +26,17 @@ API Style là phong cách thiết kế API, tức là cách client và server "n
 **API Style** = **phong cách/kiến trúc thiết kế API** — quy ước về cách
 client và server giao tiếp với nhau qua mạng.
 
+:::tip[Ví dụ đời thường]
+
+Coi server là **nhà bếp**, client là **khách**. API style chính là **cách gọi món**, và 4 câu hỏi bên dưới là 4 thứ quán nào cũng phải chốt:
+
+- **Transport** — đường nào tới quán: đi bộ ra tận nơi, gọi ship, hay có ống chuyển đồ ăn riêng.
+- **Format** — gọi món bằng tiếng gì: nói tiếng Việt (JSON, ai nghe cũng hiểu) hay hô **mã số món** in sẵn (Protobuf, cực ngắn nhưng người ngoài chịu).
+- **Contract** — có **thực đơn treo tường** không, hay khách phải tự đoán quán bán gì.
+- **Paradigm** — bạn chỉ vào **món** trên thực đơn ("cho tôi tô phở kia"), hay ra lệnh cho **đầu bếp** ("chạy giúp tôi hàm nauPho(gàu, ít hành)").
+
+:::
+
 Mỗi style trả lời 4 câu hỏi cốt lõi:
 
 | Câu hỏi | REST | GraphQL | gRPC | tRPC | SOAP |
@@ -94,6 +105,16 @@ Hỏi 3 câu:
 ## REST
 
 **REST (Representational State Transfer)** — phổ biến nhất, dùng HTTP method.
+
+:::tip[Ví dụ đời thường]
+
+REST giống **thư viện có mã số sách**. Mọi thứ trong thư viện là **đồ vật có địa chỉ cố định**: `/users/1` nghĩa là "cuốn hồ sơ số 1 ở kệ users". Bạn không hô "làm ơn lấy hồ sơ giúp tôi", bạn chỉ nói **địa chỉ** kèm **một trong vài động tác chuẩn**: xem (`GET`), thêm mới (`POST`), thay nguyên cuốn (`PUT`), sửa vài dòng (`PATCH`), bỏ đi (`DELETE`).
+
+Vì địa chỉ và động tác đều là quy ước chung, ai bước vào cũng dùng được ngay mà không phải học nội quy riêng — đó là lý do REST thắng ở public API.
+
+Cái giá phải trả: có những việc **không nắn thành đồ vật được** (kiểu "gửi lại email xác thực", "khởi động lại máy chủ"), lúc đó URL kiểu REST trông rất gượng gạo.
+
+:::
 
 ```
 GET    /api/users          → list
@@ -232,6 +253,16 @@ Phù hợp khi cần **standard interoperable** giữa nhiều client. Hơi verb
 
 **Query language** cho API — client chỉ định data cần, server return đúng đó.
 
+:::tip[Ví dụ đời thường]
+
+REST là **cơm phần set sẵn**: gọi "phần số 3" thì bê ra nguyên khay — bạn chỉ cần miếng thịt nhưng vẫn phải nhận cả canh, rau, tráng miệng (over-fetch); mà muốn thêm chén nước chấm thì phải gọi thêm một phần nữa (under-fetch).
+
+GraphQL là **quầy tự chọn có phiếu ghi**: bạn viết đúng những thứ mình cần vào một tờ phiếu, đưa một lần, bếp trả về đúng chừng đó.
+
+Cái giá phải trả: quán không nấu sẵn để bán nhanh được nữa vì phiếu ai cũng khác nhau (**caching khó**), và một tờ phiếu lỡ tay ghi 500 món có thể làm sập bếp — nên phải giới hạn độ sâu và chi phí của mỗi query.
+
+:::
+
 ```graphql
 query {
   user(id: "1") {
@@ -340,6 +371,14 @@ Năm 2026, **REST + tRPC** thắng cho 80% case. GraphQL chỉ dùng khi
 
 **RPC framework** của Google, dùng **Protocol Buffers** binary format.
 
+:::tip[Ví dụ đời thường]
+
+Trong bếp, hai đầu bếp quen việc không nói cả câu "cho tôi một phần phở bò tái nạm". Họ hô **"ba bảy!"** — vì cả hai đã học thuộc cùng một **bảng mã dán trên tường**. Bảng mã đó chính là file `.proto`, và tiếng hô hai chữ chính là Protobuf: ngắn hơn, nhanh hơn JSON rất nhiều.
+
+Cái giá phải trả: khách vãng lai (browser) nghe "ba bảy" thì chịu, phải có người phiên dịch đứng giữa (`grpc-web` proxy); và khi trục trặc bạn không "đọc lại tờ đơn" bằng mắt được như JSON. Vì thế gRPC hợp nói chuyện **nội bộ giữa các service**, không hợp làm public API.
+
+:::
+
 ```protobuf
 // user.proto
 service UserService {
@@ -384,6 +423,14 @@ Không phù hợp:
 
 **Legacy enterprise** API — XML-based, mature, verbose.
 
+:::tip[Ví dụ đời thường]
+
+SOAP là kiểu **gửi công văn hành chính**. Muốn hỏi một câu ngắn gọn, bạn vẫn phải: bỏ vào **bì thư** (`Envelope`), có **phần trích yếu** và **phần nội dung** (`Header` / `Body`), viết đúng **mẫu ban hành** (`WSDL`), ký tên đóng dấu rồi mới gửi đi.
+
+Rườm rà, nhưng đổi lại mọi thứ đều chặt chẽ, có chuẩn, có chữ ký — nên ngân hàng và cơ quan nhà nước vẫn giữ. Với dự án mới thì đây là chi phí giấy tờ không đáng bỏ ra.
+
+:::
+
 ```xml
 <?xml version="1.0"?>
 <soap:Envelope>
@@ -408,6 +455,14 @@ Không khuyên cho project mới. Nếu maintain SOAP, lib hỗ trợ available.
 ## tRPC
 
 **TypeScript-first** RPC — không cần code gen, **type-safe end-to-end**.
+
+:::tip[Ví dụ đời thường]
+
+Nếu REST là gọi món ở quán lạ (phải xem thực đơn, đọc mô tả, hỏi lại cho chắc), thì tRPC là **nhờ người nhà trong bếp**: bạn ới một câu là người kia hiểu ngay, và nếu bạn gọi nhầm tên món thì **bị nhắc ngay lúc vừa nói**, chứ không phải chờ bê ra mới biết sai — đó là type-safe end-to-end.
+
+Cái giá phải trả: chỉ chạy được khi **cả hai cùng một nhà** (client và server chung codebase TypeScript). Người ngoài — app Java, đối tác third-party — thì chịu.
+
+:::
 
 ```ts
 // server

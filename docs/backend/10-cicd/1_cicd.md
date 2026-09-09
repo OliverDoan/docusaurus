@@ -34,6 +34,18 @@ CI/CD là việc tự động hoá các bước build, test và deploy mỗi khi
 
 ## CI vs CD vs Continuous Deployment
 
+:::tip[Ví dụ đời thường]
+
+Hình dung một **xưởng bánh**:
+
+- **CI** — mẻ bột nào trộn xong cũng đem **cân, nếm, kiểm tra** ngay. Sai là biết liền, không để dồn tới cuối ngày.
+- **CD (Continuous Delivery)** — bánh đạt chuẩn được **đóng gói, xếp sẵn lên xe**, chỉ chờ quản lý gật đầu là chở đi.
+- **Continuous Deployment** — không cần ai gật đầu nữa: **đạt chuẩn là xe chạy thẳng ra cửa hàng**.
+
+Khác nhau chỉ ở **cái gật đầu cuối cùng**. Bỏ được nó thì giao hàng nhanh hơn hẳn, nhưng bạn phải tin tuyệt đối vào khâu kiểm tra, vì không còn ai đứng chặn giữa lỗi và khách hàng.
+
+:::
+
 | Term | Meaning |
 |------|---------|
 | **CI** (Continuous Integration) | Auto build + test mỗi PR/commit |
@@ -124,6 +136,14 @@ Trigger:
 
 **Matrix** — test nhiều version:
 
+:::tip[Ví dụ đời thường]
+
+`matrix` giống việc **thử một công thức bánh trên nhiều loại lò**: lò gas, lò điện, nồi chiên không dầu. Cùng công thức nhưng mỗi lò ra một kết quả, nên phải nướng thử hết mới dám bán.
+
+Bạn chỉ khai báo danh sách "lò" (phiên bản runtime, hệ điều hành), GitHub tự nhân bản job ra chạy song song — khỏi phải chép tay mỗi lò một workflow giống hệt nhau.
+
+:::
+
 ```yaml
 strategy:
   matrix:
@@ -141,6 +161,17 @@ steps:
 ---
 
 ## Pipeline pattern
+
+:::tip[Ví dụ đời thường]
+
+Pipeline chính là **dây chuyền lắp ráp**: code đi qua từng trạm theo đúng thứ tự, trạm nào không đạt thì băng chuyền dừng, hàng lỗi không đi tiếp được.
+
+Và cũng như nhà máy thật, người ta tăng tốc bằng hai mẹo quen thuộc:
+
+- **Cache** — nguyên liệu hay dùng thì trữ sẵn trong kho, khỏi chạy ra chợ mua lại mỗi lần (`node_modules`).
+- **Chạy song song** — sơn, kiểm tra, dán tem là ba việc không phụ thuộc nhau nên xếp ba tổ làm cùng lúc; chỉ khâu đóng thùng mới phải đợi đủ cả ba.
+
+:::
 
 **Stage typical**:
 
@@ -193,6 +224,20 @@ jobs:
 
 ## Deployment strategies
 
+:::tip[Ví dụ đời thường]
+
+Quán của bạn muốn **đổi món mới trong thực đơn** mà khách không bực. Có mấy cách:
+
+| Cách đổi | Ngoài đời | Cái giá phải trả |
+| --- | --- | --- |
+| **Rolling** | Thay dần từng bàn, quán vẫn mở bình thường | Có lúc bàn này món cũ, bàn kia món mới |
+| **Blue-Green** | Dựng hẳn quán y hệt bên cạnh, xong thì chuyển bảng hiệu qua | Phải nuôi hai quán cùng lúc |
+| **Canary** | Mời **vài khách** ăn thử trước, ổn mới bán đại trà | Setup rườm rà, phải ngồi theo dõi sát |
+
+Chữ `canary` đến từ chuyện thợ mỏ mang **con chim hoàng yến** xuống hầm: chim lăn ra trước thì người còn kịp chạy. Deploy canary cũng vậy — chấp nhận 1% người dùng gặp lỗi để 99% còn lại không bị.
+
+:::
+
 **1. Rolling deploy** — replace từng instance:
 
 ```
@@ -236,6 +281,16 @@ Step 4: 100% user → v2.
 - ✗ Phức tạp setup.
 
 **4. Feature flags** — deploy code, toggle feature:
+
+:::tip[Ví dụ đời thường]
+
+Feature flag giống **kéo sẵn dây điện tới bóng đèn nhưng chưa bật công tắc**. Thợ đi dây ban ngày, xong xuôi từ lâu; tối chỉ cần gạt công tắc là đèn sáng, thấy chói quá thì gạt xuống, tắt trong một giây.
+
+Nhờ vậy **đưa code lên** và **cho người dùng thấy tính năng** thành hai việc tách rời: code nằm sẵn trên production cả tuần cũng không sao, muốn bật cho 5% khách trước cũng được.
+
+Cái giá: trong nhà giờ có cả đống công tắc. Không dọn dẹp thì vài tháng sau chẳng ai nhớ cái nào còn dùng, và code phải gánh cả hai nhánh cũ lẫn mới.
+
+:::
 
 ```ts
 if (featureFlag.isEnabled("new-checkout", userId)) {

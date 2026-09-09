@@ -73,6 +73,19 @@ connection), cần shared store (Redis).
 
 **Distribute traffic** giữa multiple server.
 
+:::tip[Ví dụ đời thường]
+
+Siêu thị mở nhiều quầy thu ngân, và **anh bảo vệ đứng đầu hàng chia khách về từng quầy**. Load balancer chính là anh bảo vệ đó, còn mấy thuật toán bên dưới chỉ là cách anh ấy chọn quầy:
+
+- **Round-robin** — lần lượt quầy 1, 2, 3 rồi quay lại.
+- **Least connections** — ngó quầy nào ít người chờ nhất thì chỉ vào.
+- **Weighted** — quầy có thu ngân cứng tay thì đẩy nhiều khách hơn.
+- **IP hash** — khách quen luôn được đưa về đúng quầy cũ (sticky session).
+
+Còn **health check** là việc anh bảo vệ thỉnh thoảng liếc xem quầy nào treo biển "tạm nghỉ" để thôi chỉ khách vào đó.
+
+:::
+
 **Layer 7 (HTTP)** load balancer:
 
 - **Nginx**, **HAProxy** — self-host.
@@ -115,6 +128,14 @@ upstream backend {
 ## CDN
 
 **Content Delivery Network** — serve content **gần user**.
+
+:::tip[Ví dụ đời thường]
+
+Thay vì mọi đơn hàng đều chuyển từ **tổng kho ở Mỹ**, bạn đặt sẵn **kho nhỏ gần khách** — Hà Nội, Singapore, Tokyo. Khách lấy hàng phổ thông thì nhận ngay từ kho gần, vài chục mili-giây là có; tổng kho chỉ còn lo hàng đặt riêng.
+
+Cái giá: **hàng trong kho gần có thể là hàng cũ**. Bạn đổi logo hôm nay mà các kho vẫn phát bản hôm qua cho tới khi hết hạn cache hoặc bạn ra lệnh thu hồi (`purge`). Vì vậy chỉ đẩy ra kho gần những thứ ít đổi, hoặc gắn số phiên bản vào tên file.
+
+:::
 
 **Provider**:
 
@@ -159,6 +180,14 @@ CDN + edge function:
 
 **Cache strategy** đa tầng:
 
+:::tip[Ví dụ đời thường]
+
+Cần một cái bút: bạn mở **ngăn kéo bàn mình** trước (browser), không có thì ra **tủ văn phòng phẩm của phòng** (CDN), rồi tới **kho công ty** (Redis), cùng lắm mới **đặt nhà cung cấp** (database).
+
+Mỗi tầng chặn bớt phần lớn yêu cầu cho tầng sau, nên nhà cung cấp chỉ nhận vài đơn thay vì cả nghìn. Cái giá: **càng nhiều chỗ cất bút thì càng khó thu hồi bút hỏng** — đổi sang mẫu bút mới mà ngăn kéo ai đó vẫn còn bút cũ là chuyện thường (cache invalidation).
+
+:::
+
 ```
 [Browser] cache 1 giờ (Cache-Control: max-age=3600)
    ↓
@@ -180,6 +209,18 @@ Mỗi tầng filter request lên trên — DB chỉ nhận few request.
 ## Geographic distribution
 
 **Multi-region** deploy — gần user toàn cầu.
+
+:::tip[Ví dụ đời thường]
+
+Công ty mở **chi nhánh ở nhiều thành phố** thay vì bắt cả nước kéo về trụ sở:
+
+- **Read replica đa vùng** — chi nhánh giữ bản sao sổ sách để **tra cứu tại chỗ**, nhưng mọi thay đổi vẫn phải gửi về trụ sở ký. Đọc nhanh, ghi vẫn chậm.
+- **Active-active** — chi nhánh nào cũng được tự ký. Nhanh nhất, nhưng hai nơi cùng sửa một hồ sơ thì **vênh sổ**, phải có luật xử lý xung đột.
+- **Edge-first** — đặt mấy việc lặt vặt (kiểm tra thẻ, chuyển hướng) ở quầy tiếp tân khắp nơi, việc nặng vẫn về trụ sở.
+
+Cái giá chung: mở chi nhánh là **nhân đôi chi phí và nhân đôi số thứ có thể hỏng**. Khách chủ yếu ở Việt Nam thì một "trụ sở" đặt Singapore là quá đủ.
+
+:::
 
 **Lý do**:
 

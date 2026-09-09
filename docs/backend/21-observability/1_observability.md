@@ -34,6 +34,18 @@ Observability là khả năng "nhìn thấy" được điều gì đang xảy ra
 
 ## 3 pillars of Observability
 
+:::tip[Ví dụ đời thường]
+
+Hình dung bạn quản lý một đội xe giao hàng:
+
+- **Metrics** = **mấy cái đồng hồ trên táp-lô** — tốc độ, xăng, nhiệt độ máy. Chỉ là con số, nhưng liếc một cái là biết xe đang khoẻ hay sắp sôi, và cắm được chuông báo "kim vượt vạch đỏ".
+- **Logs** = **nhật ký hành trình** tài xế ghi tay — "10:05 đổ xăng", "10:40 thủng lốp". Không nhìn ra xu hướng, nhưng khi đã biết có sự cố thì đây là chỗ đọc để hiểu chuyện gì đã xảy ra.
+- **Traces** = **bám theo đúng một kiện hàng** qua từng trạm, xem nó nằm ở đâu bao lâu. Dùng khi khách kêu "đơn của tôi 3 ngày chưa tới" mà đồng hồ lẫn nhật ký đều trông bình thường.
+
+Thiếu một trong ba là bạn biết **có chuyện**, nhưng không biết **ở đâu** hoặc **vì sao**.
+
+:::
+
 | Pillar | Format | Mục đích |
 |--------|--------|---------|
 | **Metrics** | Number aggregated | Trend, alert ("CPU 95%") |
@@ -47,6 +59,14 @@ Observability là khả năng "nhìn thấy" được điều gì đang xảy ra
 ## Metrics + Prometheus + Grafana
 
 **Prometheus** — pull-based metric store, time-series.
+
+:::tip[Ví dụ đời thường]
+
+Có hai cách lấy số điện: **mỗi hộ tự gọi lên tổng công ty báo số** (push), hoặc **nhân viên đi một vòng ghi công tơ theo lịch** (pull). Prometheus chọn cách thứ hai — cứ 15 giây nó tự tới gõ cửa `/metrics` của từng service.
+
+Được cái: hộ nào không mở cửa là biết ngay hộ đó chết, và không ai spam ngập tổng công ty được. Mất cái: **job chạy chớp nhoáng rồi tắt** thì nhân viên tới nơi đã chẳng còn ai để ghi.
+
+:::
 
 **Exporter** in app — expose `/metrics` endpoint:
 
@@ -140,6 +160,17 @@ Mỗi resource track 3 USE → biết bottleneck.
 
 **Structured logging** — JSON format, queryable:
 
+:::tip[Ví dụ đời thường]
+
+Cùng là ghi sổ trực ban, nhưng có hai kiểu:
+
+- **Viết tay tự do** — "sáng nay anh Nam gọi báo không đăng nhập được". Đọc thì hiểu, nhưng sếp hỏi "tháng này có bao nhiêu ca đăng nhập lỗi?" là ngồi lật từng trang đếm.
+- **Điền vào biểu mẫu có cột sẵn** — cột giờ, cột mã khách, cột loại sự việc. Máy lọc trong một nốt nhạc: "cho tôi mọi dòng loại = đăng nhập lỗi, mã khách = 123".
+
+Log JSON chính là cái biểu mẫu đó. Thêm `requestId`/`traceId` vào mỗi dòng thì những dòng rời rạc của cùng một lượt khách được xâu lại thành một câu chuyện liền mạch.
+
+:::
+
 ```ts
 // Pino — fast Node logger
 import pino from "pino";
@@ -209,6 +240,14 @@ req.log.info({ orderId }, "Order processed");
 
 Track **request qua nhiều service**:
 
+:::tip[Ví dụ đời thường]
+
+**Mã vận đơn** của một kiện hàng. Kiện đi qua bưu cục Hà Nội → kho trung chuyển → bưu cục quận → shipper, và **mỗi trạm đóng dấu giờ vào, giờ ra** dưới cùng một mã (`trace_id`; mỗi trạm là một `span`).
+
+Khi khách kêu "đơn giao 3 ngày mới tới", bạn không phải gọi hỏi vòng quanh từng bưu cục. Mở mã vận đơn ra là thấy ngay: 4 trạm đầu mỗi trạm vài phút, riêng kho trung chuyển ôm hàng 2 ngày rưỡi. Thủ phạm lộ mặt trong 5 giây.
+
+:::
+
 ```
 [Client]
    ↓ (trace ID: abc-123)
@@ -259,6 +298,14 @@ Trace abc-123 (total 500ms)
 ## OpenTelemetry
 
 **Standard** observability framework — vendor-neutral.
+
+:::tip[Ví dụ đời thường]
+
+Ngày xưa mỗi hãng điện thoại một kiểu chân sạc, đổi máy là thay cả mớ dây. Giờ tất cả dùng chung **USB-C** — dây nào cắm máy nào cũng được.
+
+OpenTelemetry là cái chuẩn USB-C đó cho observability: bạn gắn đo đạc vào code **một lần** theo chuẩn chung, còn muốn đẩy dữ liệu sang Jaeger, Grafana Tempo hay Honeycomb thì chỉ là **đổi đầu dây** ở cấu hình. Đổi vendor không còn là dự án cả quý.
+
+:::
 
 ```bash
 npm install @opentelemetry/sdk-node @opentelemetry/auto-instrumentations-node

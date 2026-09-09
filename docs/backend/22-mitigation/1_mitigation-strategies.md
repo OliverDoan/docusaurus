@@ -67,6 +67,18 @@ Pattern: **graceful fallback** ở mọi non-critical path.
 **Ngắt mạch** khi downstream service fail liên tục → không waste time
 retry.
 
+:::tip[Ví dụ đời thường]
+
+Đúng như tên gọi: **cầu dao điện trong nhà bạn**. Ổ cắm chập, cầu dao **tự nhảy** — không phải để trừng phạt cái ổ cắm, mà để khỏi cháy cả nhà và khỏi cắm đi cắm lại vô ích.
+
+Ba trạng thái cũng y hệt cái cầu dao đó:
+
+- `CLOSED` — điện thông bình thường.
+- `OPEN` — vừa chập mấy lần liên tiếp nên cắt luôn; ai bật công tắc cũng nhận câu "không có điện" **ngay lập tức**, thay vì đứng chờ 30 giây rồi mới báo lỗi.
+- `HALF-OPEN` — nghỉ một lát rồi **thử đẩy cầu dao lên một cái xem sao**: êm thì cho chạy lại, chập tiếp thì cắt tiếp.
+
+:::
+
 ```
 States:
 [CLOSED]   — normal, request pass.
@@ -115,6 +127,14 @@ const result = await breaker.fire("argument");
 ## Retry với Exponential Backoff
 
 **Retry** sau khi fail, **delay tăng dần** giữa attempt.
+
+:::tip[Ví dụ đời thường]
+
+Gọi điện gặp máy bận. Bạn không bấm gọi lại liên tục mỗi giây — làm vậy chỉ khiến tổng đài thêm nghẽn. Bạn chờ 1 phút, rồi 2 phút, rồi 4 phút: đó là **exponential backoff**, vừa đỡ làm phiền đầu bên kia vừa cho nó thời gian hồi sức.
+
+`jitter` là chi tiết tinh tế hơn: nếu **cả nghìn người cùng bị bận một lúc** và ai cũng chờ đúng 4 phút, thì tới phút thứ 4 tổng đài lại sập lần nữa (retry storm). Nên mỗi người cộng thêm một khoảng ngẫu nhiên vài chục giây để **dòng người quay lại bị dàn đều ra**.
+
+:::
 
 ```ts
 async function retryWithBackoff<T>(
@@ -187,6 +207,16 @@ await fetch("/api/payment", {
 
 Ship có bulkhead — 1 compartment ngập, ship vẫn nổi.
 
+:::tip[Ví dụ đời thường]
+
+Chính là **khoang kín của tàu thuỷ**: thân tàu chia thành nhiều khoang có vách ngăn, thủng một khoang thì nước chỉ ngập khoang đó, tàu vẫn nổi.
+
+Trong code, "nước" là **connection pool**. Dùng chung một pool 100 connection cho mọi thứ thì chỉ cần service báo cáo bị chậm là nó ngốn sạch 100 chỗ, và **luồng thanh toán chết theo dù chẳng liên quan gì**. Chia sẵn 30 cho user, 30 cho order, 10 cho báo cáo thì báo cáo có ngập cũng chỉ chết đúng phần báo cáo.
+
+Cái giá: chia ô sẵn nghĩa là **không dồn hết công suất cho một việc được** — lúc cả hệ thống rảnh, phần báo cáo vẫn chỉ có 10 chỗ.
+
+:::
+
 **Implementation**:
 
 **1. Connection pool riêng cho từng downstream**:
@@ -241,6 +271,14 @@ server.setTimeout(30000);  // request timeout 30s
 
 **Cascading timeout** — child timeout < parent timeout:
 
+:::tip[Ví dụ đời thường]
+
+Nhà hàng hứa với khách **30 phút có món**. Muốn giữ được lời hứa đó, bên trong bếp phải tự đặt hạn ngắn hơn: bếp trưởng chốt 25 phút, khâu nướng 20 phút, khâu đi lấy nguyên liệu 15 phút.
+
+Nhờ vậy nếu kho hết nguyên liệu, phút thứ 15 là biết, còn kịp báo khách đổi món. Làm ngược lại — **khâu con hẹn lâu hơn khâu cha** — thì đúng phút 30 khách đứng dậy về, trong khi trong bếp vẫn hì hục nấu một món chẳng còn ai cần.
+
+:::
+
 ```
 User request: 30s timeout
   ↓
@@ -259,6 +297,14 @@ Lý do: nếu DB hang, query timeout → service trả error → gateway trả e
 ## Backpressure
 
 **Giảm tốc producer** khi consumer chậm — tránh queue overflow.
+
+:::tip[Ví dụ đời thường]
+
+Dây chuyền đóng gói: người đầu dây đẩy ra 100 món/phút, người cuối dây chỉ dán nhãn kịp 60 món/phút. Không ai nói gì thì hàng **chất đống giữa băng chuyền rồi đổ xuống sàn** — đúng cảnh hàng đợi phình lên tới lúc hết RAM.
+
+Backpressure là việc người cuối dây **giơ tay ra hiệu "chậm lại"**, và người đầu dây thật sự chậm lại. Trong Node, `readable.pipe(writable)` làm sẵn chuyện đó; còn với job queue hay HTTP thì bạn phải tự đặt trần và **từ chối thẳng** (`503`) khi đã quá tải — thà nói "chờ chút" còn hơn nhận rồi làm rơi.
+
+:::
 
 **Stream với backpressure** (Node):
 
@@ -308,6 +354,14 @@ app.use((req, res, next) => {
 ## Load Shedding
 
 **Drop request** khi system overload — tránh full crash.
+
+:::tip[Ví dụ đời thường]
+
+**Cắt điện luân phiên**. Lưới quá tải, nhà đèn không để cả thành phố sập mà chủ động **cắt trước mấy khu ít thiết yếu**, giữ điện cho bệnh viện.
+
+Hệ thống của bạn cũng vậy: quá tải thì **vứt bớt việc không sống còn** — gợi ý sản phẩm, thống kê (P3) — để dành sức cho thanh toán (P1). Điểm mấu chốt là **bạn chọn cái để bỏ**, thay vì để hệ thống tự chết ngẫu nhiên và kéo luôn cả checkout theo.
+
+:::
 
 Priority tiers:
 

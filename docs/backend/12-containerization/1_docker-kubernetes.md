@@ -56,6 +56,17 @@ Isolated hoàn toàn            Share kernel
 
 Container = OS-level virtualization. Share kernel → light + fast.
 
+:::tip[Ví dụ đời thường]
+
+Cùng là chỗ ở riêng, nhưng có hai kiểu:
+
+- **VM** — mỗi hộ **xây hẳn một căn nhà**, tự đào móng, tự kéo điện nước, tự lắp máy phát (Guest OS). Kín cổng cao tường, nhưng nặng nề và xây rất lâu.
+- **Container** — mỗi hộ **một căn hộ trong chung cư**, dùng chung móng và hệ thống điện nước của toà nhà (kernel của host). Cửa vẫn khoá riêng, đồ đạc riêng, nhưng nhận nhà trong vài giây.
+
+Cái giá phải trả: hàng xóm chung một toà. Nếu **hạ tầng chung** có sự cố hay lỗ hổng thì mọi căn hộ đều dính — nên container cách ly kém hơn VM một bậc.
+
+:::
+
 ---
 
 ## Docker basics
@@ -84,6 +95,18 @@ docker system prune -a
 ---
 
 ## Dockerfile
+
+:::tip[Ví dụ đời thường]
+
+Ba thứ hay bị lẫn với nhau:
+
+- **`Dockerfile`** — **công thức nấu ăn**: ghi từng bước, lấy nồi nào, cho nguyên liệu gì, nấu ra sao.
+- **`image`** — **hộp cơm đã nấu xong và niêm phong** theo công thức đó. Nó nằm im, chỉ để nhân bản và phát đi.
+- **`container`** — hộp cơm **được mở ra và đang dùng**. Từ một hộp mẫu bạn nhân ra mười phần y hệt, ai ăn phần nấy, bẩn phần nào vứt phần đó, hộp mẫu vẫn nguyên vẹn.
+
+Vì vậy container **xoá đi là mất sạch mọi thứ ghi bên trong**, quay về đúng như lúc đóng gói. Muốn giữ lại thì phải để ra ngoài, ở `volume`.
+
+:::
 
 Recipe build image:
 
@@ -139,6 +162,16 @@ RUN npm run build
 
 Khi code đổi, chỉ rebuild từ `COPY . .` xuống. `npm ci` (chậm) dùng cache.
 
+:::tip[Ví dụ đời thường]
+
+Image được xếp thành **nhiều tầng chồng lên nhau** như bánh kem, và Docker nhớ từng tầng: build lại mà tầng đó không đổi thì nó bê nguyên tầng cũ ra dùng.
+
+Nhưng đã động vào một tầng thì **mọi tầng nằm trên nó phải làm lại từ đầu**. Nếu bạn `COPY . .` (code đổi liên tục) rồi mới `npm ci`, thì sửa một dấu chấm phẩy cũng phải ngồi cài lại toàn bộ thư viện.
+
+Nên quy tắc là: **thứ ít đổi xếp dưới, thứ đổi liên tục xếp trên**.
+
+:::
+
 :::tip[Mẹo]
 
 **Best practices Dockerfile**:
@@ -186,6 +219,14 @@ Image size target: **< 100MB** cho Node app.
 ---
 
 ## Docker Compose
+
+:::tip[Ví dụ đời thường]
+
+App thật hiếm khi chạy một mình: nó cần thêm database, thêm Redis, và cả ba phải **thấy nhau qua mạng nội bộ**. Dựng tay từng cái, nhớ từng cổng, từng mật khẩu — rất dễ sót.
+
+`Docker Compose` là **tờ sơ đồ bày gian bếp**: ghi sẵn cần những quầy nào, quầy nào cắm vào đâu, quầy nào phải mở trước. Đưa tờ giấy đó ra, gõ một lệnh là cả gian bếp dựng xong, gõ lệnh kia là dẹp sạch.
+
+:::
 
 Define multi-container stack:
 
@@ -244,6 +285,19 @@ Phù hợp:
 ## Kubernetes
 
 **K8s** — orchestrate container ở scale: multi-host, auto-scaling, self-healing.
+
+:::tip[Ví dụ đời thường]
+
+Docker cho bạn **một công nhân biết việc**. Kubernetes là **ông quản đốc của cả phân xưởng**:
+
+- Bạn không ra lệnh "gọi anh A vào làm", bạn dán bảng nội quy: "ca này **luôn phải có 3 người** đứng máy" (`replicas: 3`).
+- Một người ngã bệnh giữa ca? Quản đốc **tự gọi người thay** mà không cần hỏi bạn (self-healing).
+- Đơn dồn về? Tự **gọi thêm người** (auto-scaling).
+- Đổi quy trình mới? Thay **từng người một**, dây chuyền không phải dừng (rolling update).
+
+Cái giá phải trả: nuôi một ông quản đốc rất tốn. Xưởng chỉ có hai ba người thì tự phân công còn nhanh hơn — nên app nhỏ dùng Compose hay Fly.io/Railway là đủ.
+
+:::
 
 **Object cơ bản**:
 

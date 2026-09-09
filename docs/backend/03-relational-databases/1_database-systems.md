@@ -39,6 +39,16 @@ Relational Database (cơ sở dữ liệu quan hệ) là cách lưu trữ data p
 với **cột (column)** và **dòng (row)** có cấu trúc nghiêm ngặt
 (**schema**), liên kết qua **foreign key**.
 
+:::tip[Ví dụ đời thường]
+
+Hình dung **tủ hồ sơ** của một trường học. Mỗi **ngăn kéo** là một bảng: ngăn "Học sinh", ngăn "Lớp học". Mỗi **tờ khai** trong ngăn là một dòng, và mọi tờ khai trong cùng ngăn đều **in sẵn cùng các ô** để điền — đó chính là `schema`, không ai được tự vẽ thêm ô riêng.
+
+Cái hay nằm ở chỗ tờ khai học sinh có ô "Mã lớp" ghi `10A1`. Nó không chép lại tên lớp, tên giáo viên chủ nhiệm — chỉ ghi mã để **trỏ sang** ngăn "Lớp học". Đó là `foreign key`. Nhờ vậy khi lớp đổi giáo viên chủ nhiệm, bạn sửa **một tờ** bên ngăn Lớp học, không phải lôi 40 tờ khai học sinh ra sửa.
+
+Cái giá phải trả: ô nào cũng in sẵn nên muốn thêm một ô mới cho cả ngăn thì phải **in lại mẫu** (`ALTER TABLE`) — kém linh hoạt hơn kiểu "ghi gì cũng được" của NoSQL.
+
+:::
+
 :::info[Thuật ngữ]
 
 **RDBMS (Relational Database Management System)** = **Hệ quản trị Cơ sở
@@ -53,6 +63,18 @@ Phân biệt:
 - **RDB** = mô hình dữ liệu (table, row, column, foreign key).
 - **RDBMS** = phần mềm hiện thực mô hình đó (Postgres, MySQL…).
 - **SQL** = ngôn ngữ giao tiếp với RDBMS.
+
+:::
+
+:::tip[Ví dụ đời thường]
+
+Ba từ này hay bị lẫn, nhưng đặt vào chuyện bếp núc là rõ ngay:
+
+- **RDB** là **công thức** — quy ước "data xếp thành bảng, các bảng nối nhau bằng khoá".
+- **RDBMS** là **cái bếp thật** nấu theo công thức đó — Postgres, MySQL, SQLite… mỗi bếp một hãng.
+- **SQL** là **tiếng bạn nói với đầu bếp** để đặt món.
+
+Vì mọi bếp đều nghe cùng một thứ tiếng, học SQL xong bạn đổi bếp nào cũng gọi món được — chỉ khác chút giọng địa phương (`dialect`).
 
 :::
 
@@ -107,6 +129,20 @@ COMMIT;
 
 **Học SQL quan trọng hơn học 1 RDBMS cụ thể** — vì khi đã thạo SQL,
 chuyển giữa Postgres/MySQL/SQLite chỉ là khác biệt nhỏ.
+
+:::
+
+:::tip[Ví dụ đời thường]
+
+Vẫn cái tủ hồ sơ đó, 5 nhóm lệnh SQL chính là 5 loại việc bạn làm với nó:
+
+- **DDL** — đóng thêm ngăn kéo, in mẫu tờ khai (`CREATE`, `ALTER`).
+- **DML** — bỏ tờ khai vào, sửa, rút ra (`INSERT`, `UPDATE`, `DELETE`).
+- **DQL** — lục tủ tìm hồ sơ (`SELECT`).
+- **DCL** — phát chìa khoá: ai được mở ngăn nào (`GRANT`, `REVOKE`).
+- **TCL** — làm một việc gồm nhiều bước theo kiểu "được ăn cả, ngã về không".
+
+Nhóm TCL đáng nhớ nhất: chuyển khoản là **trừ tiền tài khoản A** rồi **cộng tiền tài khoản B**. Mất điện giữa chừng là tiền bốc hơi. `COMMIT` nghĩa là "cả hai bước đều xong, ghi sổ chính thức", còn `ROLLBACK` là "xé tờ nháp, coi như chưa làm gì".
 
 :::
 
@@ -258,6 +294,14 @@ horizontal tự động.
 ## SQLite
 
 **File-based database** — không cần server, lưu trong 1 file.
+
+:::tip[Ví dụ đời thường]
+
+Postgres hay MySQL giống **cái kho có bảo vệ trực 24/7**: muốn lấy đồ phải tới cổng, xuất trình phiếu, bảo vệ vào lấy giúp. SQLite thì như **cuốn sổ tay nằm ngay trong ngăn bàn bạn** — mở ra ghi, gấp lại là xong, không phải thuê ai gác cổng, cũng không phải đi đâu cả.
+
+Đổi lại, cuốn sổ chỉ có **một cây bút**: nhiều người cùng đọc thì thoải mái, nhưng hai người muốn ghi cùng lúc thì phải chờ nhau (1 writer at a time). Vì thế SQLite hợp app mobile, desktop, blog — đọc nhiều ghi ít; còn chỗ hàng nghìn người cùng bấm đặt hàng thì vẫn cần cái kho có bảo vệ.
+
+:::
 
 **Ưu**:
 

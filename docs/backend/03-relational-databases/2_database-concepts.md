@@ -38,6 +38,16 @@ Khi đã chọn được database, bạn cần nắm vài khái niệm cốt lõ
 
 **Migration** = file SQL/code mô tả thay đổi schema theo thời gian:
 
+:::tip[Ví dụ đời thường]
+
+**Schema** giống **bản vẽ thiết kế ngôi nhà**: có mấy phòng, mỗi phòng rộng bao nhiêu, cửa mở hướng nào.
+
+**Migration** là **nhật ký sửa nhà** ghi theo đúng thứ tự: `001` xây nhà, `002` thêm cửa sổ phòng khách, `003` xây thêm gác lửng. Ai cầm quyển nhật ký này cũng dựng lại được ngôi nhà y hệt — đó là lý do file migration phải đánh số và chạy tuần tự.
+
+Nguyên tắc **forward-only** cũng từ đây: bạn không tẩy xoá trang cũ trong nhật ký, muốn sửa gì thì ghi thêm một trang mới.
+
+:::
+
 ```
 migrations/
 ├── 001_create_users.sql
@@ -102,6 +112,17 @@ ALTER TABLE huge_table ADD COLUMN new_col VARCHAR(100);
 
 **Index** = data structure giúp DB tìm row **nhanh hơn** (giống index sách).
 
+:::tip[Ví dụ đời thường]
+
+Bạn cần tìm chữ "database" trong một cuốn sách 500 trang:
+
+- **Không index** — lật từng trang từ đầu đến cuối. Sách càng dày càng lâu (`full table scan`).
+- **Có index** — mở **bảng tra cứu ở cuối sách**, các từ xếp sẵn theo alphabet, tra ra ngay "trang 312".
+
+Và cái giá phải trả cũng y hệt ngoài đời: bảng tra cứu **tốn thêm giấy** (disk space), và mỗi lần sửa nội dung sách thì **phải cập nhật lại bảng tra** (write chậm hơn). Vì vậy không ai làm bảng tra cứu cho mọi từ — chỉ cho những từ hay tra.
+
+:::
+
 Không index:
 
 ```sql
@@ -140,6 +161,18 @@ SELECT * FROM orders WHERE created_at > '2024-01-01';  -- bỏ qua user_id
 ```
 
 → **Quy tắc leftmost prefix**: index `(a, b, c)` hỗ trợ query có `a`, hoặc `a+b`, hoặc `a+b+c`.
+
+:::tip[Ví dụ đời thường]
+
+Nghĩ tới **danh bạ điện thoại** xếp theo `(Họ, Tên)`:
+
+- Tìm mọi người **họ Nguyễn** → được, lật đúng khu vực chữ N.
+- Tìm **Nguyễn Văn** → được, vì trong khu họ Nguyễn thì tên cũng đã xếp sẵn.
+- Tìm mọi người **tên Văn** bất kể họ → chịu, phải đọc hết danh bạ.
+
+Đó chính là leftmost prefix: bỏ qua cột đầu tiên thì index vô dụng.
+
+:::
 
 **Partial index**:
 
@@ -186,6 +219,20 @@ Output cho thấy: full scan vs index scan, cost ước lượng vs thực tế.
 
 Kết hợp data từ nhiều bảng:
 
+:::tip[Ví dụ đời thường]
+
+Cô giáo có **2 tờ danh sách**: danh sách học sinh trong lớp, và danh sách bài đã nộp. Ghép hai tờ lại theo mã học sinh:
+
+| Kiểu JOIN | Kết quả |
+| --- | --- |
+| `INNER JOIN` | Chỉ những học sinh **đã nộp bài** — có mặt ở cả 2 tờ |
+| `LEFT JOIN` | **Mọi học sinh**; ai chưa nộp thì ô "bài nộp" để trống (`NULL`) — dùng để biết ai còn thiếu bài |
+| `RIGHT JOIN` | **Mọi bài nộp**; bài nào không tra ra học sinh thì ô "tên" để trống |
+| `FULL OUTER JOIN` | Gộp cả hai tờ, bên nào thiếu thì để trống |
+| `CROSS JOIN` | Ghép mỗi học sinh với **mọi** bài nộp — 30 học sinh × 30 bài = 900 dòng vô nghĩa |
+
+:::
+
 ```sql
 -- INNER JOIN — chỉ row match cả 2 bảng
 SELECT u.name, p.title
@@ -223,6 +270,18 @@ FULL OUTER:   users ∪ posts (mọi row 2 bên)
 ## Foreign Keys và Relationships
 
 **Foreign key (FK)** — column reference primary key của bảng khác:
+
+:::tip[Ví dụ đời thường]
+
+Foreign key là **nội quy**: "mã học sinh ghi trên bài nộp bắt buộc phải có trong danh sách lớp". Nhờ nội quy này mà không tồn tại bài nộp của một học sinh ma.
+
+`ON DELETE` trả lời câu hỏi: **học sinh chuyển trường thì bài nộp cũ xử lý sao?**
+
+- `CASCADE` — bỏ luôn bài nộp của bạn đó.
+- `SET NULL` — giữ bài lại nhưng ghi "khuyết danh".
+- `RESTRICT` — không cho xoá tên khỏi danh sách chừng nào bài nộp còn đó.
+
+:::
 
 ```sql
 CREATE TABLE posts (
@@ -282,6 +341,17 @@ CREATE TABLE user_roles (
 ## N+1 Problem
 
 **Anti-pattern kinh điển** — gây slow query.
+
+:::tip[Ví dụ đời thường]
+
+Bạn nấu một bữa cần **100 nguyên liệu**. Có hai cách đi chợ:
+
+- **N+1** — ra chợ hỏi "hôm nay bán gì", rồi **chạy đi chạy về 100 lượt**, mỗi lượt mua đúng 1 món.
+- **Cách đúng** — ghi sẵn danh sách 100 món, **đi một chuyến** mua hết.
+
+Số món mua y hệt nhau, nhưng cách đầu chậm gấp bội vì thứ tốn thời gian là **quãng đường đi lại**, không phải việc nhặt món hàng. Với database, "quãng đường" đó là mỗi lần gửi query qua mạng tới DB rồi chờ trả về.
+
+:::
 
 **Bug**:
 
@@ -367,6 +437,16 @@ GraphQL có **DataLoader** pattern — batch + cache trong 1 request.
 
 Group nhiều query thành **đơn vị atomic** — hoặc thành công cả, hoặc fail
 cả.
+
+:::tip[Ví dụ đời thường]
+
+**Chuyển khoản 100k từ tài khoản A sang B** gồm 2 việc: trừ tiền A, cộng tiền B.
+
+Nếu mất điện đúng lúc vừa trừ xong mà chưa cộng, 100k đó **bốc hơi**. Ngân hàng không bao giờ chấp nhận chuyện này, nên hai việc phải được gộp thành **một thao tác duy nhất**: hoặc cả hai cùng xong (`COMMIT`), hoặc coi như chưa có gì xảy ra (`ROLLBACK`).
+
+Còn **Isolation** là chuyện: trong lúc bạn đang chuyển tiền dở dang, người khác tra số dư thì **không được nhìn thấy trạng thái nửa vời** đó.
+
+:::
 
 ```sql
 BEGIN;

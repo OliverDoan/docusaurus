@@ -45,6 +45,18 @@ Testing là viết code để tự động kiểm tra xem code chính của bạ
   /--------------\
 ```
 
+:::tip[Ví dụ đời thường]
+
+Nghĩ như **kiểm tra một chiếc xe trước khi giao cho khách**:
+
+- **Unit test** — vặn thử từng con ốc, bóp thử cái còi. Nhanh, làm được hàng trăm lần trong một phút, hỏng chỗ nào biết ngay chỗ đó.
+- **Integration test** — lắp cụm phanh vào bánh rồi đạp thử. Chậm hơn, nhưng bắt được lỗi kiểu "từng món đều tốt mà ráp vào lại không ăn khớp".
+- **E2E test** — lái nguyên chiếc xe một vòng quanh phố. Giống thật nhất nhưng lâu, và khi xe chết máy giữa đường bạn vẫn phải mò xem hỏng ở đâu.
+
+Vì vậy tháp mới có hình tam giác: vặn ốc thì làm thật nhiều, còn lái thử cả vòng chỉ làm với vài kịch bản quan trọng nhất.
+
+:::
+
 | Layer | Mục tiêu | Tốc độ | Số lượng |
 |-------|---------|--------|---------|
 | **Unit** | Pure function, util | ms | Hàng trăm |
@@ -89,6 +101,16 @@ describe("calculateTotal", () => {
 
 **Mock external dependency**:
 
+:::tip[Ví dụ đời thường]
+
+Mock giống **ma-nơ-canh trong tiệm may**. Bạn muốn thử cái áo vừa may nhưng không thể lôi khách tới mỗi lần sửa một đường chỉ — nên bạn khoác lên con ma-nơ-canh có số đo y hệt.
+
+Ở đây "khách" là database, là API thanh toán, là dịch vụ gửi email — những thứ chậm, tốn tiền, hoặc lúc có lúc không. Bạn thay chúng bằng bản giả **luôn trả về đúng thứ bạn quy định**, để test chỉ còn soi đúng phần logic mình viết.
+
+Cái giá: ma-nơ-canh không phải người thật. Đối tác đổi kiểu trả về mà mock của bạn vẫn "vừa như in" thì test vẫn xanh, trong khi production đã gãy.
+
+:::
+
 ```ts
 import { vi } from "vitest";
 
@@ -110,6 +132,16 @@ it("returns user when found", async () => {
 ## Integration Testing
 
 Test **multiple component + real DB**.
+
+:::tip[Ví dụ đời thường]
+
+Đây là lúc bạn **ráp cụm phanh vào bánh rồi đạp thử**, thay vì chỉ ngắm từng con ốc: code service, câu query và cái bảng trong DB cùng làm việc thật.
+
+Còn `Testcontainers` giống **thuê một cái bếp tạm để nấu thử**: trước mỗi đợt test dựng lên một database mới toanh, test xong đập bỏ. Nhờ vậy không ai sợ làm bẩn dữ liệu của người khác, và máy bạn với máy CI đều nấu trong cùng một cái bếp.
+
+Cái giá: dựng bếp mất vài chục giây, nên loại test này không thể chạy mỗi lần bạn bấm `Ctrl+S` như unit test.
+
+:::
 
 ```ts
 import { describe, it, beforeAll, afterAll, expect } from "vitest";
@@ -229,6 +261,19 @@ it("complete order flow", async () => {
 
 Test **performance under load** — bao nhiêu user concurrent?
 
+:::tip[Ví dụ đời thường]
+
+Cầu mới xây xong không ai cho xe cộ chạy vào ngay — người ta **cho đoàn xe tải chở đá chạy lên trước** rồi đo xem cầu võng bao nhiêu. Load test là đúng việc đó với server của bạn.
+
+Và thứ cần đo không phải "trung bình có nhanh không", mà là **những người xui nhất**:
+
+- `p50` — một nửa số khách được phục vụ nhanh hơn mức này.
+- `p95`, `p99` — 5% và 1% khách chậm nhất phải chờ bao lâu.
+
+Trung bình 200ms nghe rất đẹp, nhưng nếu `p99` là 8 giây thì cứ 100 người lại có 1 người ngồi nhìn màn hình xoay rồi bỏ đi. Mục tiêu của load test là **biết trước điểm gãy**, thay vì để khách phát hiện hộ.
+
+:::
+
 **k6** (modern):
 
 ```js
@@ -293,6 +338,18 @@ Plan scale accordingly.
 ## TDD
 
 **Test-Driven Development** — viết test trước, code sau.
+
+:::tip[Ví dụ đời thường]
+
+Giống việc **chốt tiêu chí nghiệm thu trước khi thợ bắt đầu xây**. Chủ nhà nói rõ: tường phải thẳng, đổ nước không đọng, bật công tắc là đèn sáng — rồi thợ mới làm, làm xong đo lại đúng những tiêu chí đó.
+
+- **RED** — viết ra tiêu chí, đo thử: tất nhiên trượt, vì chưa xây gì.
+- **GREEN** — xây vừa đủ để đo là đạt.
+- **REFACTOR** — dọn dẹp cho gọn, đo lại vẫn đạt.
+
+Cái lợi thật nằm ở chỗ: viết tiêu chí trước buộc bạn nghĩ xong "thứ này dùng thế nào" rồi mới lao vào code. Còn khi chính bạn cũng chưa biết mình đang xây cái gì thì đừng ép TDD — đặt tiêu chí cho thứ chưa hình dung ra chỉ tổ mất công.
+
+:::
 
 Loop **Red-Green-Refactor**:
 

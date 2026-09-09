@@ -44,11 +44,27 @@ NoSQL là nhóm các database không theo kiểu bảng quan hệ (relational) n
 - Trade **consistency** cho **availability/performance** (đa số).
 - **Không JOIN** (hoặc rất hạn chế).
 
+:::tip[Ví dụ đời thường]
+
+**SQL** giống **tủ hồ sơ kẻ ô sẵn**: mọi tờ khai đều đúng một mẫu, thiếu ô là nhân viên trả lại. Nhờ vậy tra cứu chéo giữa các ngăn rất dễ, số liệu không bao giờ lệch mẫu.
+
+**NoSQL** giống **thùng đựng đồ**: nhét gì vào cũng được, thêm bớt tuỳ ý, cần chứa nhiều thì mua thêm thùng xếp cạnh nhau. Đổi lại **không còn ai gác cửa kiểm tra mẫu** — dữ liệu rác lọt vào lúc nào không hay, và việc ghép đồ ở thùng này với đồ ở thùng kia (JOIN) phải tự làm bằng tay trong code.
+
+:::
+
 ---
 
 ## Document DB (MongoDB)
 
 **Lưu document** JSON (BSON) — schemaless.
+
+:::tip[Ví dụ đời thường]
+
+Hồ sơ bệnh nhân ở phòng khám: mỗi người **một bìa còng riêng**, bên trong kẹp đủ thứ — đơn thuốc, phim chụp, giấy xét nghiệm. Người này 5 tờ, người kia 30 tờ, chẳng sao cả. Cần xem toàn bộ thông tin một người thì rút đúng một bìa là có hết, không phải chạy sang 6 ngăn tủ khác gom lại.
+
+Cái giá: hỏi **"cả phòng khám có bao nhiêu người dị ứng thuốc?"** thì phải mở từng bìa ra đọc, và không ai đảm bảo bìa nào cũng có tờ khai dị ứng.
+
+:::
 
 ```js
 // MongoDB
@@ -117,6 +133,14 @@ MongoDB còn dùng khi:
 
 **Get/Set theo key** — đơn giản, fast.
 
+:::tip[Ví dụ đời thường]
+
+**Tủ gửi đồ ở siêu thị**. Bạn đưa túi, nhận về số **17**; lúc quay lại chìa số 17 là lấy đúng túi, nhanh gần như tức thì vì nhân viên chẳng cần biết trong túi có gì.
+
+Cái giá cũng nằm ở đó: không ai trả lời được câu **"túi nào có bánh mì?"** — muốn biết phải mở hết mọi ngăn. Nên key-value chỉ hợp khi bạn **luôn biết trước cái chìa**: session id, user id, khoá cache.
+
+:::
+
 **Redis**:
 
 ```ts
@@ -159,6 +183,14 @@ await client.send(new PutItemCommand({
 ## Wide-Column (Cassandra)
 
 **Hybrid** key-value + column family.
+
+:::tip[Ví dụ đời thường]
+
+Một **chuỗi kho hàng trải khắp các tỉnh**, không có kho tổng. Hàng về tỉnh nào nhập thẳng kho tỉnh đó nên nhập bao nhiêu cũng kịp (write-heavy), thiếu chỗ thì mở thêm kho — sức chứa tăng đều theo số kho. Một kho cháy, các kho khác vẫn chạy.
+
+Cái giá: **cách xếp hàng trong kho phải chốt từ đầu theo kiểu bạn sẽ đi tìm**. Đã xếp theo mã đơn thì sau này muốn tìm theo tên khách là bó tay — không có ai đi lục tung mọi kho giúp bạn như bên SQL.
+
+:::
 
 ```sql
 -- Cassandra CQL
@@ -205,6 +237,14 @@ SELECT * FROM users WHERE id = ?;
 
 **Lưu node + edge** — chuyên cho relationship.
 
+:::tip[Ví dụ đời thường]
+
+Bảng SQL giống **danh sách lớp**: mỗi dòng một người. Muốn biết "bạn của bạn của An là ai" thì phải dò danh sách chồng lên nhau nhiều lượt — thêm một tầng quan hệ là thêm một lượt dò, càng sâu càng ì.
+
+Graph DB giống **cây phả hệ vẽ trên giấy**: mỗi người là một ô, mỗi quan hệ là một sợi dây nối sẵn. Tìm bạn-của-bạn chỉ là **lần theo dây**, đi mấy tầng cũng nhanh như nhau. Đổi lại, mấy việc tầm thường như "đếm tổng số người, cộng doanh thu tháng" thì tờ phả hệ lại dở hơn bảng thường.
+
+:::
+
 ```cypher
 // Neo4j Cypher
 CREATE (an:Person {name: 'An', age: 25})
@@ -240,6 +280,14 @@ Graph DB tối ưu hơn cho deep traversal.
 ## Time Series DB
 
 **Optimize cho time-series** — append-heavy, query theo time range.
+
+:::tip[Ví dụ đời thường]
+
+**Sổ ghi công tơ điện**: mỗi giờ ghi thêm một dòng xuống cuối, không bao giờ quay lại sửa dòng cũ. Câu hỏi cũng luôn cùng một dạng — "tuần trước trung bình mỗi ngày hết bao nhiêu số điện?".
+
+Vì biết trước thói quen đó, time-series DB **đóng sổ theo từng khoảng thời gian rồi cất riêng**: hỏi tuần trước thì chỉ lôi đúng mấy quyển của tuần đó ra, khỏi lật cả kho 5 năm. Cái giá: nó dở tệ với việc sửa/xoá dữ liệu cũ — vốn là chuyện gần như không xảy ra với loại dữ liệu này.
+
+:::
 
 **Use case**:
 

@@ -39,6 +39,17 @@ Authentication (xác thực) trả lời câu hỏi "bạn là ai?", còn Author
 - **Authentication (AuthN)** — **Bạn là ai?** Đăng nhập, verify identity.
 - **Authorization (AuthZ)** — **Bạn được làm gì?** Permission, role.
 
+:::tip[Ví dụ đời thường]
+
+Bạn tới một toà nhà văn phòng:
+
+- **Authentication** — lễ tân xem CMND, đối chiếu ảnh: **bạn đúng là bạn**. Không qua được bước này thì đứng ngoài cửa.
+- **Authorization** — cái **thẻ từ** lễ tân đưa: quẹt thang máy chỉ lên nổi tầng 5, không mở được phòng server tầng 12.
+
+Hai việc tách rời hẳn nhau: vào được toà nhà không có nghĩa mở được mọi cánh cửa. Lỗi hay gặp nhất trong code cũng y hệt — kiểm tra rất kỹ "đã đăng nhập chưa" rồi quên hỏi "user này có quyền sửa đơn hàng của **người khác** không".
+
+:::
+
 Flow web app:
 
 ```
@@ -85,6 +96,16 @@ HTTP vốn stateless — khái niệm **session ID** ra đời để server "nh�
 5. Server lookup session ID trong store → biết user là ai.
 ```
 
+:::tip[Ví dụ đời thường]
+
+Session ID là **vé gửi xe**. Bác giữ xe đưa bạn mảnh giấy ghi số `137`, còn "xe nào, của ai, gửi lúc mấy giờ" thì nằm trong **cuốn sổ của bác**. Mảnh giấy tự nó **chẳng nói lên điều gì** (`opaque`) — kẻ nhặt được cũng phải mò đúng bãi đó mới xài được.
+
+Ưu điểm: muốn huỷ phiên thì bác **gạch dòng 137 trong sổ**, tấm vé thành giấy lộn ngay lập tức.
+
+Cái giá phải trả: bác phải **ôm cuốn sổ** (server giữ state). Mở thêm bãi thứ hai, thứ ba thì các bác buộc phải **dùng chung một cuốn sổ** (session store như Redis), không thì bạn gửi ở bãi A lại không rút được xe ở bãi B.
+
+:::
+
 Điểm cốt lõi: **session ID là chuỗi vô nghĩa (opaque)** — chỉ là "chìa khóa" trỏ tới dữ liệu trên server. Muốn revoke? Xóa record trong store là user bị logout ngay. Đổi lại server phải **giữ state**, scale nhiều instance phải share session store.
 
 ### Giai đoạn 3 — API Key (~2005)
@@ -107,6 +128,14 @@ Trước OAuth, muốn app A đọc Gmail của bạn thì... đưa luôn passwo
 - **Refresh token** — sống dài (ngày/tuần), chỉ dùng để xin access token mới.
 
 Lý do tách đôi: access token bị lộ thì thiệt hại giới hạn trong vài phút; refresh token ít di chuyển trên mạng nên ít rủi ro lộ hơn.
+
+:::tip[Ví dụ đời thường]
+
+Vẫn toà nhà văn phòng đó: lễ tân không đưa bạn tấm thẻ xài được cả tháng, mà đưa **thẻ khách hết hạn sau 1 giờ** (`access token`). Hết giờ, bạn quay lại quầy, chìa **giấy hẹn dài hạn** (`refresh token`) để đổi thẻ mới.
+
+Lý do tách làm hai rất đời thường: tấm thẻ bạn **cầm đi khắp toà nhà**, quẹt hàng trăm cánh cửa nên dễ rơi — nhưng rơi thì kẻ nhặt được cũng chỉ xài tới cuối giờ. Còn tờ giấy hẹn **nằm im trong ví**, mỗi tiếng mới lôi ra một lần nên ít cơ hội rơi hơn; và nếu nghi bị mất, lễ tân chỉ cần xoá tên bạn khỏi sổ là mọi lần đổi thẻ sau đều bị từ chối.
+
+:::
 
 ### Giai đoạn 7 — JWT (2015): token tự chứa thông tin
 
@@ -200,6 +229,16 @@ res.cookie("session_id", sessionId, {
 ## JWT (JSON Web Tokens)
 
 **Token tự chứa thông tin** — không cần server store.
+
+:::tip[Ví dụ đời thường]
+
+Nếu session ID là tấm vé gửi xe phải tra sổ mới biết của ai, thì JWT là **cái bằng lái có dấu nổi và tem chống giả**. Mọi thứ cần biết — tên bạn, hạng bằng, ngày hết hạn — **in thẳng trên thẻ**; người kiểm tra chỉ cần soi con dấu là tin, **không phải gọi điện về sở** để tra.
+
+Nhanh và khỏi ôm sổ, nhưng cái giá thì nặng: **thẻ đã phát ra rồi thì không đòi lại được**. Hôm nay bạn bị tước bằng, tấm thẻ trong ví vẫn nguyên dấu nổi và vẫn qua mặt được người kiểm tra cho tới **đúng ngày ghi hết hạn**. Vì thế JWT luôn để hạn thật ngắn, hoặc phải lập thêm một "danh sách đen".
+
+Và nhớ: dấu nổi chỉ **chống sửa**, không **che nội dung** — ai cầm thẻ cũng đọc được chữ in trên đó, nên đừng in bí mật lên.
+
+:::
 
 ```
 header.payload.signature
@@ -306,6 +345,17 @@ jwt.verify(token, secret, { algorithms: ["HS256"] });
 
 **Authorization framework** — third-party access user data without password.
 
+:::tip[Ví dụ đời thường]
+
+Bạn nhờ người quen sang nhà **lấy hộ kiện hàng**. Có hai cách:
+
+- **Thời chưa có OAuth** — đưa luôn **chìa khoá nhà**. Người ta vào được mọi phòng, mở được cả két, và muốn đòi lại quyền thì phải **thay ổ khoá** (đổi mật khẩu, mà đổi rồi thì mọi app khác cũng chết theo).
+- **Có OAuth** — bạn ra **ban quản lý** (Google, Facebook…), tự tay xác nhận, rồi xin một **giấy uỷ quyền** ghi rõ: chỉ được nhận kiện hàng ở sảnh, có hiệu lực trong hôm nay. Người quen cầm tờ giấy đó và **không hề biết mật khẩu nhà bạn**.
+
+Điểm mấu chốt: nơi cấp quyền là **ban quản lý**, không phải người quen — bạn gõ mật khẩu trên trang của Google, app kia chỉ nhận được tờ giấy. Muốn cắt quyền thì báo ban quản lý huỷ giấy, nhà cửa không phải thay khoá.
+
+:::
+
 **Flow** kinh điển — "Login with Google":
 
 ```
@@ -355,6 +405,14 @@ chục pitfall security. Dùng provider mature.
 ## API Key / Token Authentication
 
 **Đơn giản nhất** — string secret static.
+
+:::tip[Ví dụ đời thường]
+
+API key là **thẻ hội viên phòng gym**. Nó không chứng minh bạn là ai về mặt nhân thân — nó chỉ nói "thẻ này thuộc gói X", để quầy **quẹt đếm lượt** và tính tiền cuối tháng. Đó là lý do API key định danh **ứng dụng**, không phải người dùng.
+
+Và vì chỉ là tấm thẻ tĩnh nên **ai nhặt được cũng vào tập được**. Nên phòng gym mới: in mã đầu thẻ để nhìn là biết thẻ loại gì (`sk_live_...`), lưu ở quầy dưới dạng **đã băm** chứ không chép nguyên số, giới hạn thẻ chỉ vào được khu nào, và **khoá thẻ ngay** khi hội viên báo mất.
+
+:::
 
 ```
 GET /api/users

@@ -36,6 +36,14 @@ title: "1. Monolith, Microservices, Serverless"
 
 **1 codebase + 1 deploy unit**. Truyền thống, đơn giản.
 
+:::tip[Ví dụ đời thường]
+
+Monolith giống **một nhà hàng duy nhất, một cái bếp**: món khai vị, món chính, tráng miệng đều nấu chung một bếp, chung một cái kho, chung một hoá đơn. Muốn sửa công thức món nào thì cứ vào bếp đó mà sửa, nhìn một cái là thấy hết.
+
+Cái giá phải trả: tối nào khách đông, bạn **không thể chỉ nhân đôi mỗi khu làm món chính** — muốn phục vụ gấp đôi thì phải mở nguyên một nhà hàng y hệt. Và bếp trưởng chỉ đổi cách xếp bếp một chút thôi là **cả nhà hàng phải đóng cửa** vài phút để sắp lại (deploy lại toàn bộ).
+
+:::
+
 ```
 [Load Balancer] → [Monolith App] → [DB]
                        ↓
@@ -118,6 +126,14 @@ cho startup.
 
 **Nhiều service nhỏ**, deploy độc lập, giao tiếp qua network.
 
+:::tip[Ví dụ đời thường]
+
+Microservices giống **khu food court nhiều ki-ốt riêng**: ki-ốt phở, ki-ốt trà sữa, ki-ốt tráng miệng — mỗi ki-ốt bếp riêng, kho riêng, tự đổi menu mà không phải xin phép ai. Ki-ốt trà sữa đông khách thì **mở thêm 3 quầy trà sữa**, mấy ki-ốt kia giữ nguyên.
+
+Cái giá phải trả: các ki-ốt không còn chung một cái kho, muốn phối hợp thì phải **chạy qua chạy lại nói chuyện với nhau** (network call — chậm hơn hét một tiếng trong bếp). Khách gọi combo phở + trà sữa mà trà sữa hết hàng thì **không có cách nào huỷ nguyên combo trong một nốt nhạc** (mất transaction, phải bù trừ thủ công). Chưa kể phải nuôi thêm đội quản lý mặt bằng, camera, bảng chỉ dẫn (k8s, monitoring, tracing).
+
+:::
+
 ```
 [API Gateway]
     ↓
@@ -198,6 +214,14 @@ Migrate khi:
 
 **FaaS (Function as a Service)** — code chạy on-demand, không quản server.
 
+:::tip[Ví dụ đời thường]
+
+Monolith hay microservices là **thuê xe cả tháng** — xe nằm bãi không chạy bạn vẫn trả tiền. Serverless là **gọi xe theo chuyến**: cần thì mở app, đi xong trả đúng cuốc đó, 1000 người gọi cùng lúc thì hãng tự điều 1000 xe.
+
+Cái giá phải trả: mỗi cuốc phải **chờ tài xế tới đón** (`cold start`), tài xế chỉ chở tối đa 15 phút rồi thả bạn xuống (time limit), và bạn **không để đồ lại trên xe được** (stateless — khó giữ kết nối DB lâu dài). Đi liên tục cả ngày thì gọi theo chuyến lại đắt hơn thuê tháng.
+
+:::
+
 ```
 [HTTP Request] → [Function (cold start ~ms)] → [DB/Service]
                   ↓
@@ -277,6 +301,12 @@ export default {
 
 Dần dần lose ground vào microservices (lightweight, JSON, HTTP).
 
+:::tip[Ví dụ đời thường]
+
+`SOA` giống công ty kiểu cũ có **một tổng đài trung tâm**: phòng nào muốn nói chuyện với phòng nào cũng phải gọi qua tổng đài, tổng đài nghe rồi chuyển tiếp (`ESB`). Được cái mọi thứ đi qua một chỗ nên dễ kiểm soát, nhưng tổng đài nghỉ một buổi là **cả công ty câm luôn**, và nó dần thành nút thắt cổ chai. Microservices bỏ tổng đài, cho các phòng gọi thẳng cho nhau.
+
+:::
+
 **Service Mesh** — infrastructure layer cho microservice:
 
 ```
@@ -291,6 +321,14 @@ Sidecar handle:
 - **Load balancing** smart.
 - **Tracing** auto-inject.
 - **Canary, traffic split** declarative.
+
+:::tip[Ví dụ đời thường]
+
+`Service Mesh` là **gắn cho mỗi phòng ban một anh thư ký riêng ngồi ngay cửa** (sidecar). Phòng ban chỉ việc nói "gửi cái này cho phòng Kế toán"; còn niêm phong phong bì (mTLS), gọi lại khi bên kia bận (retry), ngừng gọi khi bên kia sập (circuit breaker), ghi sổ ai gửi gì lúc mấy giờ (tracing) — thư ký lo hết, **code bên trong phòng không phải sửa một dòng nào**.
+
+Cái giá phải trả: nuôi thêm một anh thư ký cho **mỗi** phòng, tốn RAM/CPU và thêm một lớp phải vận hành. Công ty có 3 phòng thì thuê thư ký làm gì cho tốn.
+
+:::
 
 **Phổ biến**:
 
@@ -320,6 +358,14 @@ overkill.
 10. **Dev/prod parity** — keep similar.
 11. **Logs** — stdout, không file.
 12. **Admin processes** — one-off task qua script + same env.
+
+:::tip[Ví dụ đời thường]
+
+`12-Factor` giống bộ nội quy cho **căn hộ cho thuê ngắn hạn**: đồ đạc chuẩn hoá để ai vào ở cũng được, **chìa khoá và mã wifi đưa riêng cho khách chứ không khắc lên tường** (config qua env), khách không để đồ cá nhân lại trong phòng (stateless), dọn xong là **cho khách mới vào ở ngay** (startup nhanh, tắt gọn — disposability), và phòng mẫu trên ảnh phải giống hệt phòng thật (dev/prod parity).
+
+Nhờ vậy chủ nhà muốn mở thêm 50 phòng y hệt hay dẹp bớt 10 phòng đều làm trong vài phút — đúng thứ Docker + Kubernetes cần.
+
+:::
 
 Pattern này guideline cho **Docker + Kubernetes + 12-factor** stack hiện đại.
 

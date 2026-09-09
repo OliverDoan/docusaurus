@@ -42,6 +42,19 @@ title: "1. ACID, Normalization, ORMs, Query Optimization"
 - **Isolation** — Concurrent transaction không thấy data nhau (theo isolation level).
 - **Durability** — Commit xong = persist (cả khi power off).
 
+:::tip[Ví dụ đời thường]
+
+Hình dung bạn ra ngân hàng chuyển 100k từ tài khoản A sang B — nhân viên phải ghi **2 bút toán**: trừ A, cộng B.
+
+- **Atomicity** — mất điện lúc vừa trừ xong A? Cả hai bút toán bị bỏ, coi như chưa làm gì. Không có chuyện tiền bốc hơi giữa đường.
+- **Consistency** — sổ sách sau giao dịch vẫn phải đúng quy định (không tài khoản nào được âm quỹ).
+- **Isolation** — cùng lúc đó có người tra số dư của A, họ **không được nhìn thấy trạng thái đang làm dở**.
+- **Durability** — khi nhân viên đã đóng dấu "xong", dù cháy máy tính thì cuốn sổ vẫn còn ghi.
+
+Cái giá phải trả: đòi `Isolation` càng chặt thì ngân hàng càng phải bắt người khác **xếp hàng chờ** — nên Postgres mặc định chỉ chọn mức vừa phải (`Read Committed`).
+
+:::
+
 ```sql
 BEGIN;
   UPDATE accounts SET balance = balance - 100 WHERE id = 1;
@@ -71,6 +84,16 @@ await db.$transaction(async (tx) => {
 ## Normalization
 
 Quy tắc thiết kế schema để **tránh duplicate**, **dễ maintain**.
+
+:::tip[Ví dụ đời thường]
+
+Bạn quản lý bán hàng bằng sổ giấy. Nếu mỗi phiếu đơn hàng bạn **chép luôn tên và địa chỉ khách** vào, thì khách chuyển nhà một cái là bạn phải lục lại **hàng nghìn tờ phiếu** để sửa — sót một tờ là dữ liệu mâu thuẫn ngay.
+
+Chuẩn hoá là: thông tin khách chỉ ghi **một chỗ duy nhất** trong sổ khách hàng, phiếu đơn hàng chỉ ghi **mã khách**. Sửa địa chỉ = sửa đúng một dòng.
+
+Cái giá phải trả: mỗi lần xem phiếu bạn phải **lật thêm sổ khách** để tra tên — đó chính là `JOIN`. Lật càng nhiều sổ thì đọc càng chậm, nên khi cần đọc thật nhanh người ta lại cố tình chép dư một ít (denormalize).
+
+:::
 
 **1NF (First Normal Form)** — atomic value, không array trong cell:
 
@@ -142,6 +165,16 @@ Rule: **start normalized**, denormalize khi đo performance cần.
 ## ORMs
 
 **ORM (Object-Relational Mapper)** — map row DB ↔ object code.
+
+:::tip[Ví dụ đời thường]
+
+Bạn nói tiếng Việt, database chỉ nghe tiếng SQL. `ORM` là **người phiên dịch ngồi giữa**: bạn bảo "lấy cho tôi user số 5", nó dịch thành `SELECT ... WHERE id = 5`, rồi dịch ngược kết quả (một dòng trong bảng) thành object trong code.
+
+Phiên dịch giỏi thì rất tiện: câu thường ngày dịch nhanh, lại không sợ bạn nói sai ngữ pháp (chống SQL injection).
+
+Cái giá phải trả: gặp câu **dài dòng nhiều ẩn ý** thì bản dịch hay lủng củng và chạy chậm — lúc đó bạn phải tự nói thẳng bằng SQL. Và vì không nhìn thấy câu gốc, bạn dễ vô tình bắt nó chạy đi chạy lại cả trăm lần (`N+1`).
+
+:::
 
 **Pros**:
 
@@ -243,6 +276,16 @@ Execution Time: 0.1 ms
 
 `Index Scan` = OK. `Seq Scan` (toàn table) → cần index.
 
+:::tip[Ví dụ đời thường]
+
+Query chậm giống đơn hàng ship trễ mà bạn không biết tắc ở chặng nào. `EXPLAIN ANALYZE` chính là tờ **vận đơn ghi rõ từng chặng**: đi đường nào, mất bao lâu, mang bao nhiêu kiện.
+
+Đọc nó bạn thấy ngay shipper đang **dò từng nhà trong phố** (`Seq Scan`) hay **đi thẳng tới đúng số nhà** (`Index Scan`).
+
+Đừng đoán mò rồi thêm index bừa — xem vận đơn trước, rồi sửa đúng chặng đang tắc.
+
+:::
+
 **2. Add index** cho column WHERE, JOIN, ORDER BY:
 
 ```sql
@@ -309,6 +352,16 @@ Chỉ index row pending → nhỏ + nhanh.
 ## Connection Pooling
 
 DB connection **expensive** — open/close mỗi request = slow + tốn DB.
+
+:::tip[Ví dụ đời thường]
+
+Mở một `connection` mới tới database giống như **gọi taxi mới**: phải chờ xe tới, chào hỏi, kiểm tra giấy tờ rồi mới lăn bánh. Đi có một phút mà thủ tục mất ba mươi giây.
+
+`Connection pool` là **đội taxi đậu sẵn ở bến**: xe nổ máy chờ đó, ai cần thì lên đi ngay, xong việc thì trả xe về bến chứ không cho về gara.
+
+Cái giá phải trả: bến chỉ chứa được số xe nhất định. Nuôi nhiều xe quá thì hết chỗ (Postgres mặc định chỉ nhận khoảng 100 kết nối), nuôi ít quá thì khách phải xếp hàng chờ xe rảnh.
+
+:::
 
 **Pool** = pre-open connection, reuse:
 
@@ -391,6 +444,16 @@ max_connections = 200
 - **VACUUM** — reclaim dead tuple (Postgres MVCC).
 - **ANALYZE** — update statistics cho query planner.
 - **VACUUM FULL** — rewrite table, lock (avoid in production).
+
+:::tip[Ví dụ đời thường]
+
+Postgres không xoá dòng cũ ngay khi bạn `UPDATE`/`DELETE` — nó chỉ **dán nhãn "hết hạn"** rồi ghi bản mới ra chỗ khác, để ai đang đọc dở vẫn thấy bản cũ.
+
+Giống kệ siêu thị: hàng hết hạn vẫn nằm đó chiếm chỗ. `VACUUM` là **nhân viên đi dọn kệ**, thu hồi chỗ trống cho hàng mới xếp vào. `ANALYZE` là **kiểm kê lại số lượng**, để quản lý biết mặt hàng nào nhiều mặt hàng nào ít mà bố trí lối đi cho hợp lý (đó là việc của query planner).
+
+Không dọn thì kệ cứ phình to, tìm món gì cũng lâu — dù số hàng thật chẳng hề tăng.
+
+:::
 
 Auto-vacuum mặc định run, nhưng cần tune cho table large.
 

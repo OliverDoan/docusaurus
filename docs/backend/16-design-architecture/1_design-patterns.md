@@ -53,6 +53,22 @@ title: "1. Design Patterns, DDD, CQRS, Event Sourcing"
 - **Command** — encapsulate request.
 - **Iterator**, **State**, **Template Method**.
 
+:::tip[Ví dụ đời thường]
+
+Design pattern chỉ là **mấy chiêu quen thuộc ngoài đời được đặt cho cái tên tiếng Anh**:
+
+| Pattern | Ngoài đời |
+| --- | --- |
+| `Factory` | Bạn nói "cho một ly cà phê sữa" — quầy tự biết pha thế nào, bạn không cần biết công thức |
+| `Singleton` | Cả nhà chỉ có **một cái công tơ điện**, ai xài cũng chung cái đó |
+| `Builder` | Gọi ổ bánh mì: thêm trứng, bớt ớt, thêm pate — ráp từng bước rồi mới ra ổ bánh |
+| `Adapter` | **Cục chuyển phích cắm** khi đi nước ngoài — ổ khác chuẩn thì cắm qua nó |
+| `Decorator` | Ly trà sữa cơ bản, thêm trân châu, thêm phô mai — vẫn là ly trà sữa, chỉ "gắn" thêm |
+| `Strategy` | Ra sân bay bằng taxi, xe buýt hay tàu điện — đổi cách đi, đích đến không đổi |
+| `Observer` | Bạn **đăng ký nhận báo** — có số mới toà soạn gửi tới, khỏi ngày nào cũng ra sạp hỏi |
+
+:::
+
 ```ts
 // Strategy pattern example
 interface PaymentStrategy {
@@ -94,6 +110,16 @@ Backend đặc thù:
 - **Ubiquitous Language** — term consistent giữa code + business.
 - **Context Map** — relationship giữa bounded context.
 
+:::tip[Ví dụ đời thường]
+
+Trong một bệnh viện, chữ "bệnh nhân" **mỗi khoa hiểu một kiểu**: phòng khám quan tâm triệu chứng và lịch hẹn, thu ngân quan tâm mã bảo hiểm và số tiền, kho thuốc quan tâm liều đã phát. Ép cả bệnh viện xài chung **một cái bảng "bệnh nhân" khổng lồ** thì sửa chỗ nào cũng đụng chỗ khác.
+
+- `Bounded Context` — **vẽ ranh giới cho từng khoa**, mỗi khoa giữ định nghĩa "bệnh nhân" của riêng mình.
+- `Ubiquitous Language` — trong khoa đó bác sĩ gọi là "ca cấp cứu" thì trong code cũng phải tên đúng như vậy, **không ai được tự chế thành `urgentItem`**.
+- `Context Map` — tấm sơ đồ ghi rõ khoa nào chuyển hồ sơ cho khoa nào, và bên nào phải chiều theo bên nào.
+
+:::
+
 **Tactical patterns**:
 
 - **Entity** — object có identity (User, Order).
@@ -102,6 +128,14 @@ Backend đặc thù:
 - **Repository** — persistence interface.
 - **Domain Service** — logic không thuộc entity nào.
 - **Domain Event** — fact happened in domain.
+
+:::tip[Ví dụ đời thường]
+
+- **Entity** — **cái căn cước của bạn**: đổi tên, đổi địa chỉ thì vẫn là một người, vì số định danh không đổi.
+- **Value Object** — **tờ 50 nghìn**: hai tờ cùng mệnh giá thì như nhau, chẳng ai quan tâm tờ nào là tờ nào; muốn "sửa" thì đổi lấy tờ khác chứ không viết đè lên tờ cũ.
+- **Aggregate** — **cái đơn hàng kẹp cả xấp phiếu món**: thêm hay bớt món đều phải đi qua tờ bìa đơn hàng, **không ai được lén rút một phiếu ra sửa riêng** — nhờ vậy tổng tiền luôn khớp.
+
+:::
 
 ```ts
 // Value Object — immutable
@@ -185,6 +219,16 @@ Pattern phổ biến hơn cho startup:
 
 **Service** giao tiếp qua **event**, không direct call.
 
+:::tip[Ví dụ đời thường]
+
+Gọi trực tiếp: bếp nấu xong phải **tự đi gọi từng người** — gọi bồi bàn, gọi thu ngân, gọi kho. Ai đang bận không nghe thì bếp đứng chờ.
+
+Event-driven: bếp chỉ **gõ chuông và hô "bàn 5 xong món"** rồi quay đi nấu tiếp. Ai quan tâm thì tự nghe — bồi bàn ra bưng, thu ngân ghi sổ, kho trừ nguyên liệu. Muốn thêm anh chụp hình món ăn thì **cho anh đó đứng nghe chuông là xong**, bếp không cần biết có anh đó tồn tại.
+
+Cái giá phải trả: bếp **không biết chắc ai đã nghe và làm xong chưa** (eventual consistency), và khi món giao nhầm thì phải lần theo tiếng chuông qua từng người mới ra chỗ sai (debug khó).
+
+:::
+
 ```
 [Order Service] → publish OrderCreated → [Event Bus]
                                             ↓
@@ -242,6 +286,16 @@ class EmailService {
 
 **Command Query Responsibility Segregation** — tách **write (command)**
 và **read (query)** thành 2 model khác nhau.
+
+:::tip[Ví dụ đời thường]
+
+Ngân hàng không bắt mọi người xếp chung một hàng. Có **quầy giao dịch** (gửi tiền, mở tài khoản — chậm, kỹ, phải ký giấy đối chiếu) và **máy in sao kê / quầy tra cứu** (chỉ xem thôi nên cực nhanh). Quầy giao dịch chỉ cần 1-2 cái; máy tra cứu đặt 20 cái khắp sảnh, vì đa số khách chỉ vào xem.
+
+`CQRS` chính là vậy: **đường ghi** đi qua model chặt chẽ, **đường đọc** dùng bảng đã dọn sẵn cho nhanh, và mỗi bên phình to theo nhu cầu riêng của nó.
+
+Cái giá phải trả: sao kê ở máy tra cứu có thể **trễ vài giây so với quầy** (eventual consistency), và bạn phải nuôi hai "quầy" thay vì một.
+
+:::
 
 ```
 [Write Side]                    [Read Side]
@@ -305,6 +359,16 @@ CQRS **không cần Event Sourcing** — có thể chỉ tách model.
 ## Event Sourcing
 
 **Lưu sự kiện**, không phải current state.
+
+:::tip[Ví dụ đời thường]
+
+Cách thường: trong sổ chỉ ghi **số dư hiện tại là 3 triệu**. Ghi đè con số mới là mất luôn con số cũ — hỏi "sao hôm qua lại thành thế này" thì chịu.
+
+Event Sourcing là **cuốn sổ cái kế toán**: chỉ ghi thêm từng dòng "nạp 5 triệu", "rút 1 triệu", "chuyển 1 triệu", **không ai được tẩy xoá dòng cũ**. Muốn biết số dư thì cộng dồn cả cuốn sổ; muốn biết số dư hôm thứ Ba thì cộng tới dòng của thứ Ba là ra (time-travel).
+
+Cái giá phải trả: sổ **dày lên mãi mãi** (storage), và cộng lại từ dòng đầu mỗi lần thì rất mệt — nên phải chốt sẵn "số dư cuối tháng" để đỡ cộng lại (snapshot / read model).
+
+:::
 
 ```
 Traditional (state):

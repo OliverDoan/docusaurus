@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Internet hoạt động ra sao?"
+title: "1. Internet hoạt động ra sao?"
 ---
 
 # Internet hoạt động ra sao?
@@ -36,17 +36,59 @@ Trước khi viết backend, bạn cần hiểu Internet vận hành thế nào:
 **Internet** = mạng lưới toàn cầu của các máy tính kết nối qua **TCP/IP**.
 Mỗi máy có **IP address** duy nhất, giao tiếp với nhau qua các **protocol**.
 
-TCP/IP – Bộ giao thức chuẩn của Internet, gồm:
+Câu trên rất cô đọng, hãy tách ra từng ý:
 
-- TCP (Transmission Control Protocol): đảm bảo dữ liệu được gửi đầy đủ, đúng thứ tự, không lỗi.
-- IP (Internet Protocol): chịu trách nhiệm định tuyến và đánh địa chỉ để dữ liệu đến đúng máy đích.
+### Internet không phải một "cái máy chủ khổng lồ"
 
-Protocol (giao thức) – Bộ quy tắc chung quy định cách các máy tính "nói chuyện" với nhau. Ví dụ:
+Internet chỉ là **rất nhiều máy tính nối với nhau** (cáp quang, wifi, 4G/5G, cáp biển...) tạo thành mạng lưới phủ toàn cầu.
 
-- HTTP/HTTPS: truy cập web
-- FTP: truyền file
-- SMTP: gửi email
-- DNS: chuyển tên miền (google.com) thành IP address
+Vấn đề: máy bạn ở Việt Nam, server Google ở Mỹ, hai máy khác hãng, khác hệ điều hành — làm sao "hiểu" nhau? Phải có **ngôn ngữ chung**, và ngôn ngữ chung đó là **TCP/IP**.
+
+### IP address — "địa chỉ nhà" của mỗi máy
+
+Ví dụ đời thường: **hệ thống bưu điện**. Muốn gửi thư cho ai, bạn cần **địa chỉ nhà** của họ. Hai nhà trùng địa chỉ thì bưu tá không biết giao cho ai.
+
+Trên Internet, "địa chỉ nhà" chính là **IP address** — ví dụ `142.250.196.14` (Google) hay `93.184.216.34`. Máy nào cũng phải có IP thì dữ liệu mới biết đường tìm tới.
+
+:::tip[Thực tế]
+Laptop/điện thoại trong nhà bạn dùng IP nội bộ kiểu `192.168.1.5`, cả nhà đi ra Internet chung 1 IP công cộng do nhà mạng cấp — giống như cả chung cư dùng chung 1 địa chỉ đường phố, còn số căn hộ là IP nội bộ.
+:::
+
+### TCP và IP khác nhau chỗ nào?
+
+Vẫn ví dụ bưu điện: bạn gửi một **quyển sách 100 trang** sang Mỹ, nhưng bưu điện chỉ cho gửi mỗi phong bì 1 trang.
+
+| Thành phần | Việc nó làm | Tương ứng ở bưu điện |
+| --- | --- | --- |
+| **IP** (Internet Protocol) | Đánh địa chỉ gói tin và định tuyến qua các trạm trung chuyển để tới đúng máy đích | Ghi địa chỉ lên phong bì, bưu tá chuyển qua từng bưu cục |
+| **TCP** (Transmission Control Protocol) | Cắt dữ liệu lớn thành gói nhỏ, đánh số thứ tự, kiểm tra đủ/thiếu, gửi lại gói lỗi, ghép lại đúng thứ tự | Đánh số "trang 1/100", "trang 2/100"...; thiếu trang 37 thì báo gửi lại |
+
+Điểm mấu chốt: **IP không đảm bảo gói tin đến nơi**, nó chỉ cố gắng chuyển đi. Việc kiểm tra đủ/thiếu/đúng thứ tự là của **TCP**. Vì luôn đi cùng nhau nên người ta gọi chung là "TCP/IP".
+
+### Protocol — bộ quy tắc chung để hai bên hiểu nhau
+
+**Protocol (giao thức)** = bộ quy tắc thỏa thuận trước giữa hai bên. Giống như khi nghe điện thoại, người Việt mặc định nói "A lô?" trước rồi bên kia mới nói tiếp — ai cũng làm theo thì cuộc gọi trôi chảy.
+
+TCP/IP chỉ lo **vận chuyển dữ liệu tới đúng máy**. Còn *nội dung* bên trong là gì — trang web? email? file? — thì cần protocol ở tầng trên quy định:
+
+- **HTTP/HTTPS** — trình duyệt xin trang web từ server. Kiểu: "cho tôi xin `/products`" → server trả `200 OK` kèm HTML.
+- **SMTP** — gửi email.
+- **FTP** — truyền file.
+- **DNS** — hỏi "`google.com` có IP là gì?".
+
+Tất cả đều **chạy bên trên TCP/IP**: bưu điện (TCP/IP) lo chuyển phong bì tới đúng nhà, còn *bên trong phong bì viết theo mẫu nào* thì tùy loại giấy tờ (HTTP, SMTP, FTP...).
+
+```mermaid
+flowchart TB
+    A["Ứng dụng: HTTP / HTTPS / SMTP / FTP / DNS<br/>(nội dung nói gì)"] --> B["TCP<br/>(chia gói, đánh số, gửi lại khi thiếu)"]
+    B --> C["IP<br/>(đánh địa chỉ, định tuyến tới đúng máy)"]
+    C --> D["Hạ tầng vật lý: cáp quang, wifi, 4G/5G"]
+```
+
+### Tóm lại
+
+> Internet là mạng máy tính toàn cầu. Muốn nói chuyện được, mỗi máy cần một **địa chỉ (IP)**, cần cơ chế **vận chuyển tin cậy (TCP)**, và cần **quy tắc chung cho từng loại hội thoại (protocol: HTTP, SMTP, FTP, DNS...)**.
+
 ---
 
 ## HTTP / HTTPS

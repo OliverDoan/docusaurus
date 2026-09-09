@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Caching: Redis, Memcached, HTTP Cache"
+title: "1. Caching: Redis, Memcached, HTTP Cache"
 ---
 
 # Caching: Redis, Memcached, HTTP Cache
@@ -61,6 +61,17 @@ Vì **tốc độ truy cập** chênh lệch rất lớn giữa các tầng lưu
 
 **Hit rate** = `hit / (hit + miss)`. Cache tốt thường ≥ 80%.
 
+:::tip[Ví dụ đời thường]
+
+Bạn hỏi thủ thư mượn một cuốn sách:
+
+- **HIT** — sách đang nằm sẵn trên kệ trưng bày ngay quầy, đưa cho bạn trong 5 giây.
+- **MISS** — thủ thư phải đi xuống kho tầng hầm lục, mất 10 phút; lấy xong thì **để luôn lên kệ trưng bày** cho người sau.
+
+`Hit rate` chính là tỉ lệ "có sẵn ở quầy". Kệ trưng bày mà chỉ đáp ứng được 2/10 lượt hỏi thì bày ra cũng chẳng ích gì — chiếm chỗ mà vẫn phải chạy xuống kho.
+
+:::
+
 ### Đánh đổi cốt lõi
 
 Cache không miễn phí — bạn đánh đổi:
@@ -102,6 +113,19 @@ TTL rất ngắn + invalidate chặt.
 ## Caching layers
 
 Web app có nhiều layer cache:
+
+:::tip[Ví dụ đời thường]
+
+Bạn cần một hộp sữa:
+
+1. Mở **tủ lạnh nhà mình** (browser cache) — có thì xong ngay.
+2. Không có thì xuống **tạp hóa đầu ngõ** (CDN).
+3. Hết nữa thì ra **siêu thị trong quận** (reverse proxy, app cache).
+4. Vẫn hết thì lên **kho tổng** (Redis), cuối cùng mới về **nhà máy sữa** (database).
+
+Càng đi sâu càng lâu và càng làm nhà máy mệt. Nên mỗi tầng đều giữ sẵn một ít hàng để chặn bớt người phải đi xuống tầng dưới.
+
+:::
 
 ```
 [Browser cache]
@@ -286,6 +310,16 @@ Directives:
 
 **`ETag`** — validate cache còn fresh:
 
+:::tip[Ví dụ đời thường]
+
+`ETag` giống **số phiên bản đóng dấu trên tờ hợp đồng** bạn đang cầm.
+
+Lần sau bạn không vác cả xấp giấy lên hỏi lại, chỉ hỏi một câu: "bản tôi giữ là bản `abc123`, còn xài được không?". Văn phòng trả lời "còn nguyên vậy" (`304 Not Modified`) — bạn dùng lại bản cũ, **không ai phải photo lại cả tập**. Chỉ khi họ nói "đổi rồi" thì mới gửi bản mới.
+
+Cái giá phải trả: bạn vẫn phải **đi hỏi một lần** trước mỗi lần dùng — nhanh hơn tải lại, nhưng vẫn chậm hơn `max-age` (khỏi hỏi luôn).
+
+:::
+
 ```
 Response:
 ETag: "abc123"
@@ -334,6 +368,16 @@ Browser cache vô tận file `app.abc123.js`, deploy mới dùng filename mới.
 
 **CDN (Content Delivery Network)** — cache + serve gần user.
 
+:::tip[Ví dụ đời thường]
+
+Hãng nước ngọt không bắt cả nước về nhà máy trong Nam mua hàng. Họ đặt **kho phân phối ở từng tỉnh**, chở sẵn hàng về đó; người Hà Nội mua thì lấy ở kho Hà Nội, có ngay trong ngày thay vì chờ xe chạy từ trong Nam ra.
+
+CDN đúng như vậy: ảnh, JS, CSS được nhân bản ra hàng trăm điểm gần user.
+
+Cái giá phải trả: khi bạn **đổi công thức** (deploy bản mới), phải đi báo từng kho thu hồi hàng cũ (`purge cache`) — quên một kho là có tỉnh vẫn bán hàng cũ cả tuần.
+
+:::
+
 Provider:
 
 - **CloudFlare** — free tier rộng, anti-DDoS.
@@ -360,6 +404,18 @@ curl -X POST "https://api.cloudflare.com/.../purge_cache" \
 ---
 
 ## Cache patterns
+
+:::tip[Ví dụ đời thường]
+
+Ba kiểu quản lý **cái tủ lạnh** so với **cái chợ**:
+
+| Pattern | Ngoài đời | Điểm yếu |
+|---|---|---|
+| **Cache-Aside** | Mở tủ lạnh trước, hết thì mới ra chợ mua, mua xong cất vào tủ | Lần đầu luôn chậm (miss) |
+| **Write-Through** | Mua gì cũng **cất vào tủ ngay** cùng lúc với ghi sổ chi tiêu | Ghi chậm hơn, nhiều đồ cất vào rồi chẳng ai ăn |
+| **Write-Behind** | Ghi nhanh vào **mẩu giấy dán tủ**, tối rảnh mới chép vào sổ | Mất mẩu giấy là mất luôn dữ liệu |
+
+:::
 
 **1. Cache-Aside (Lazy loading)** — phổ biến nhất:
 
@@ -399,6 +455,16 @@ async function logEvent(event) {
 ```
 
 **4. Cache Invalidation**:
+
+:::tip[Ví dụ đời thường]
+
+Bạn đổi số điện thoại. Nếu chỉ sửa trong danh bạ gốc mà **quên xé tờ note dán trên bàn**, người nhà vẫn gọi số cũ dài dài.
+
+Nên hễ sửa dữ liệu gốc là phải **xé luôn mọi tờ note liên quan** — cả tờ ghi riêng bài viết đó lẫn tờ danh sách tổng hợp. Khó ở chỗ bạn phải nhớ mình đã dán note ở bao nhiêu chỗ.
+
+`TTL` chỉ là cái phao — note tự mục sau 1 tiếng — chứ không thay được việc xé chủ động.
+
+:::
 
 ```ts
 // Delete key sau khi update

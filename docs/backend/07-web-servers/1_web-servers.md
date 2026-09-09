@@ -45,6 +45,18 @@ Web server là phần mềm đứng giữa internet và code ứng dụng của 
 - **Rate limiting**.
 - **URL rewrite, redirect**.
 
+:::tip[Ví dụ đời thường]
+
+Web server giống **lễ tân khách sạn**. Khách bước vào không tự đi tìm phòng — họ nói với lễ tân, lễ tân mới dẫn đi:
+
+- Khách xin tờ rơi, bản đồ → lễ tân **đưa luôn** (serve static file).
+- Khách cần gặp nhà bếp → lễ tân **gọi nội bộ** xuống bếp (reverse proxy tới app).
+- Khách quậy, gọi 100 cuộc một phút → lễ tân **chặn bớt** (rate limit).
+
+Nhờ vậy các phòng ban bên trong không cần biết gì về người ngoài đường, cứ làm việc của mình.
+
+:::
+
 Architecture phổ biến:
 
 ```
@@ -58,6 +70,17 @@ Architecture phổ biến:
 ## Nginx (khuyến nghị)
 
 **Phổ biến nhất 2026** — fast, light, mature.
+
+:::tip[Ví dụ đời thường]
+
+Hai kiểu phục vụ trong quán ăn:
+
+- **Apache** — mỗi bàn phân **một nhân viên riêng** đứng cạnh chờ. 1000 bàn thì cần 1000 nhân viên, quán chật cứng người đứng không (thread/process per connection, tốn RAM).
+- **Nginx** — **một nhân viên chạy vòng** qua tất cả các bàn, bàn nào giơ tay thì ghé. Phần lớn thời gian khách chỉ ngồi đợi món, nên một người lo được cả trăm bàn (event loop).
+
+Vì thế Nginx nhẹ hơn hẳn khi có rất nhiều kết nối cùng lúc mà đa số đang... rảnh.
+
+:::
 
 Config cơ bản:
 
@@ -217,6 +240,18 @@ Trade-off:
 
 **Reverse Proxy** đứng trước app, forward request.
 
+:::tip[Ví dụ đời thường]
+
+Reverse proxy giống **hộp thư chung của một chung cư**. Người gửi chỉ biết địa chỉ toà nhà, bỏ thư vào một cửa duy nhất; bảo vệ mới chia thư về từng căn hộ.
+
+- Người lạ **không biết** bạn ở căn nào (client không biết app chạy port 3000).
+- Bảo vệ **loại thư rác** trước khi phát (rate limit, chặn bot).
+- Thư niêm phong được bảo vệ **bóc bao ngoài** rồi mới đưa vào (SSL termination — Nginx lo HTTPS, app chỉ nói HTTP cho gọn).
+
+Cái giá: mọi thư đều đi qua một cửa. Bảo vệ nghỉ thì cả toà nhà mất liên lạc, nên khâu này phải thật chắc.
+
+:::
+
 Lợi ích:
 
 - **Hide internal** — client chỉ thấy port 443, không biết Node port 3000.
@@ -257,6 +292,21 @@ server {
 
 **Phân phối** request giữa nhiều server.
 
+:::tip[Ví dụ đời thường]
+
+Bạn là **người điều phối khách vào các quầy** trong siêu thị. Cách chia khách chính là thuật toán load balancing:
+
+| Cách chia | Ngoài đời | Trong Nginx |
+| --- | --- | --- |
+| Lần lượt | Khách 1 vào quầy A, khách 2 quầy B, khách 3 lại quầy A... | Round-robin (mặc định) |
+| Theo sức | Quầy có 2 thu ngân thì nhận gấp đôi khách | `weight=3` |
+| Ai đang rảnh | Nhìn hàng nào ngắn nhất thì đẩy khách vào | `least_conn` |
+| Khách quen về đúng quầy | Người này lần nào cũng vào quầy A | `ip_hash` (sticky) |
+
+Chia lần lượt nghe công bằng, nhưng chỉ cần một ông khách mua 100 món là quầy đó tắc — lúc ấy `least_conn` sát thực tế hơn.
+
+:::
+
 **Algorithms** Nginx:
 
 ```nginx
@@ -295,6 +345,17 @@ upstream backend {
 
 - **Layer 4 (TCP)** — load balance theo IP/port, fast (HAProxy).
 - **Layer 7 (HTTP)** — load balance theo URL/header, flexible (Nginx).
+
+:::tip[Ví dụ đời thường]
+
+Vẫn là chuyện bảo vệ chia thư, nhưng hai mức khác nhau:
+
+- **Layer 4** — chỉ liếc **địa chỉ ngoài phong bì** rồi ném sang xe nào đang trống. Nhanh, nhưng không biết bên trong viết gì.
+- **Layer 7** — **mở thư đọc nội dung**: thư đặt hàng chuyển phòng kinh doanh, thư khiếu nại chuyển chăm sóc khách hàng (route theo URL, header).
+
+Cái giá: đọc thư thì chậm hơn ném phong bì. Đổi lại bạn mới làm được kiểu `/api` đi một cụm server, `/static` đi cụm khác.
+
+:::
 
 Cloud load balancer:
 

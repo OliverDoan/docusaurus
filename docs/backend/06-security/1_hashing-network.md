@@ -36,6 +36,16 @@ Bài này nói về hai mảng nền tảng giúp giữ an toàn cho hệ thốn
 
 **Hash function** — biến input → string độ dài cố định, **không thể đảo ngược**.
 
+:::tip[Ví dụ đời thường]
+
+Hash giống **cái cối xay thịt**: bỏ miếng bò vào, quay ra mớ thịt xay. Cùng miếng thịt đó, cùng cái cối đó thì lần nào cũng ra mớ thịt xay y hệt — nhưng **không ai xay ngược** được mớ thịt xay thành lại miếng bò.
+
+Và chỉ cần đổi tí xíu đầu vào — thêm một hạt tiêu — thì mớ ra **khác hoàn toàn**, chứ không phải khác một chút.
+
+Nhờ vậy server không cần biết password của bạn: nó chỉ xay lại rồi so hai mớ có giống nhau không.
+
+:::
+
 Đặc tính:
 
 1. **Deterministic** — cùng input → cùng output.
@@ -54,6 +64,16 @@ Bài này nói về hai mảng nền tảng giúp giữ an toàn cho hệ thốn
 ## Password hashing
 
 **KHÔNG bao giờ** lưu password plaintext. Luôn hash với **slow function**.
+
+:::tip[Ví dụ đời thường]
+
+Nghĩ tới cái **khóa số**: kẻ trộm dò từng tổ hợp. Nếu mỗi lần thử chỉ tốn một phần triệu giây (`MD5`, `SHA-256`), nó dò hết cả triệu tổ hợp trong nháy mắt. Loại khóa dành cho password (`bcrypt`, `Argon2id`) cố tình làm **cái núm quay nặng và chậm** — mỗi lần thử tốn cả phần giây.
+
+Bạn đăng nhập ngày vài lần nên chậm 300ms chẳng ảnh hưởng gì; kẻ dò cả tỉ lần thì hết đời cũng chưa xong. Đó là cái giá được trả **có chủ đích**.
+
+Còn `salt` là **nhúm gia vị riêng cho từng người**: hai người cùng đặt mật khẩu "123456" nhưng gia vị khác nhau nên hash ra khác nhau — kẻ trộm không thể dùng chung một cuốn sổ tra sẵn cho cả database.
+
+:::
 
 | Algorithm | Khuyến nghị? | Note |
 |-----------|--------------|------|
@@ -199,6 +219,20 @@ const sha512 = crypto.createHash("sha512").update(data).digest("hex");
 
 **TLS handshake** (simplified):
 
+:::tip[Ví dụ đời thường]
+
+Bạn muốn gửi thư mật cho một ngân hàng chưa từng gặp mặt:
+
+1. Bạn nhắn trước: "tôi biết mấy kiểu mã hóa này" (ClientHello).
+2. Ngân hàng gửi lại **giấy chứng nhận có công chứng** của một văn phòng công chứng uy tín (CA), để chứng minh đúng là họ chứ không phải kẻ giả danh.
+3. Bạn soi con dấu công chứng đó có thật không.
+4. Hai bên cùng nghĩ ra **một ổ khóa chung** mà người đứng giữa nghe lén không đoán ra được.
+5. Từ đó mọi lá thư đều bỏ vào hộp và khóa bằng ổ khóa chung ấy.
+
+Màn bắt tay này chỉ tốn công **lần đầu**; sau đó thư đi lại nhanh như thường.
+
+:::
+
 ```
 1. Client: ClientHello (cipher suites, random)
 2. Server: ServerHello + certificate + random
@@ -259,6 +293,16 @@ cross-origin request.
 
 **Cross-origin request** bị browser chặn trừ khi server cho phép via CORS.
 
+:::tip[Ví dụ đời thường]
+
+CORS giống **ông bảo vệ tòa nhà văn phòng** chặn bạn lại hỏi: "anh từ công ty nào tới?". Chỉ công ty có tên trong danh sách dán ở quầy mới được lên.
+
+Nhưng nhớ kỹ: ông bảo vệ này đứng **ở phía trình duyệt, không phải phía server**. Ai gọi bằng `curl` hay Postman là đi cửa sau, chẳng có ai hỏi han gì cả.
+
+Nên CORS chỉ bảo vệ user của bạn khỏi trang web độc hại, **không thay thế** việc server tự kiểm token và quyền.
+
+:::
+
 Server set header:
 
 ```
@@ -270,6 +314,16 @@ Access-Control-Max-Age: 86400
 ```
 
 **Preflight request** — browser tự gửi `OPTIONS` trước khi request thật:
+
+:::tip[Ví dụ đời thường]
+
+Trước khi chở nguyên xe hàng tới, tài xế **gọi điện hỏi trước**: "chiều nay tôi mang loại hàng này tới, kho có nhận không?". Kho gật đầu thì mới chất hàng lên xe chạy.
+
+`OPTIONS` chính là cuộc gọi đó — tránh chở cả xe tới nơi rồi bị đuổi về.
+
+Cái giá phải trả: mỗi request "lạ" tốn thêm một vòng đi-về, nên server hay đặt `Access-Control-Max-Age` để bảo "khỏi gọi lại trong một ngày".
+
+:::
 
 ```
 OPTIONS /api/users
@@ -331,6 +385,16 @@ phải check auth, không dựa CORS bảo vệ.
 ## CSP
 
 **Content Security Policy** — chặn XSS, restrict script/resource load.
+
+:::tip[Ví dụ đời thường]
+
+CSP là **danh sách khách mời** đưa cho bảo vệ đứng cửa tiệc: chỉ ai có tên trong danh sách (domain được allow) hoặc cầm đúng **tấm thiệp in mã riêng của tối nay** (`nonce`) mới được vào.
+
+Kẻ lạ có lén nhét được tờ giấy vào trong nhà cũng vô dụng, vì không ai chịu làm theo.
+
+Cái giá phải trả: siết quá tay thì **khách quen cũng bị chặn** — nên người ta bật chế độ "ghi sổ mà chưa đuổi" (`Report-Only`) vài tuần trước khi chặn thật.
+
+:::
 
 ```
 Content-Security-Policy:

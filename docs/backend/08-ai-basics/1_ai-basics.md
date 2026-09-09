@@ -37,6 +37,14 @@ Bài này giới thiệu những khái niệm cơ bản nhất về AI mà một
 
 **LLM** = model học trên hàng tỷ token text, predict word tiếp theo.
 
+:::tip[Ví dụ đời thường]
+
+Bạn gõ tin nhắn trên điện thoại, bàn phím gợi ý từ kế tiếp: gõ "chúc bạn buổi sáng" nó đoán ngay "tốt lành". `LLM` **cũng chỉ làm đúng việc đó**, nhưng đã đọc gần như cả internet nên đoán cực chuẩn — và nó lấy chữ vừa đoán nối vào câu rồi đoán tiếp, cứ thế ra cả đoạn văn.
+
+Hệ quả bạn phải nhớ: nó **đoán chữ hợp lý nhất**, chứ không tra cứu sự thật. Nên nó có thể nói sai mà giọng vẫn rất tự tin, và hỏi lại y hệt câu cũ thì câu trả lời có thể khác đi.
+
+:::
+
 Cách hoạt động:
 
 ```
@@ -71,6 +79,18 @@ Lặp lại → sinh đoạn văn dài.
 
 **Token** ≠ word. ~4 char tiếng Anh = 1 token. Tiếng Việt token nhiều hơn
 do unicode.
+
+:::tip[Ví dụ đời thường]
+
+Coi `token` như **cân ký khi gửi hàng bưu điện**: bưu điện không tính tiền theo "mấy món đồ" mà theo cân nặng. LLM cũng vậy — không tính theo câu hay theo request, mà theo **lượng chữ** đi vào và đi ra.
+
+- Bạn trả tiền **cả chiều gửi lẫn chiều nhận** (input + output token).
+- Chiều nhận **đắt gấp 3-5 lần** vì model phải nghĩ ra từng chữ.
+- Tiếng Việt có dấu nên "nặng ký" hơn tiếng Anh cùng nội dung — cùng một câu, hoá đơn cao hơn.
+
+Còn `prompt caching` giống gửi mãi một kiện hàng quen: bưu điện đã có sẵn thông tin nên tính rẻ hẳn đi.
+
+:::
 
 ```
 "Hello world" = 2 token
@@ -130,6 +150,14 @@ Optimization:
 **Embedding** = chuyển text/image thành **vector** (mảng số) — represent
 semantic meaning.
 
+:::tip[Ví dụ đời thường]
+
+Embedding là gán cho mỗi đoạn chữ **một toạ độ trên bản đồ**. Hà Nội với Hải Phòng nằm gần nhau, Hà Nội với Cà Mau nằm xa nhau. Chữ nghĩa cũng vậy: "con chó dễ thương" và "cún yêu" đậu sát nhau, còn "quả táo đỏ" thì tít đằng kia — **dù không có chữ nào trùng nhau**.
+
+Nhờ đó máy trả lời được câu "cái nào **ý nghĩa** giống cái nào", việc mà tìm theo từ khoá chịu thua. Chỉ khác là bản đồ này không phải 2 chiều mà 1536 chiều, nên bạn đo khoảng cách bằng công thức (`cosine similarity`) chứ không cầm thước.
+
+:::
+
 ```
 "Con chó dễ thương"  → [0.1, -0.5, 0.8, 0.2, ..., 0.4]  (1536 chiều)
 "Cún yêu"             → [0.1, -0.4, 0.7, 0.3, ..., 0.5]  (gần với trên)
@@ -184,6 +212,16 @@ Range -1 (đối lập) → 1 (giống nhau). >0.8 = tương đồng cao.
 
 Lưu + search vector hiệu quả. Đa số dùng **HNSW** (Hierarchical Navigable
 Small World) algorithm cho approximate nearest neighbor.
+
+:::tip[Ví dụ đời thường]
+
+Bạn tới một thành phố lạ, cần tìm quán phở gần nhất. Hỏi lần lượt từng người trong thành phố thì chính xác tuyệt đối nhưng cả ngày không xong (so sánh với **toàn bộ** vector).
+
+`HNSW` làm kiểu khác: hỏi bác xe ôm rành đường → bác chỉ về đúng quận → hỏi người trong quận → hỏi người trong ngõ. Vài bước là tới, nhảy dần từ tầng "nhìn xa" xuống tầng "nhìn gần".
+
+Cái giá nằm ở chữ **approximate**: thỉnh thoảng bạn ra quán ngon thứ nhì chứ không phải quán ngon nhất. Đổi lại nhanh hơn hàng nghìn lần — với tìm kiếm thì đánh đổi này gần như luôn đáng.
+
+:::
 
 | DB | Đặc điểm | Khuyến nghị |
 |----|---------|-------------|
@@ -242,6 +280,16 @@ Default 90% case: **pgvector** đủ. Đỡ thêm system component.
 
 **Combine retrieval + LLM** — giúp LLM trả lời câu hỏi về data riêng (DB
 nội bộ, doc company).
+
+:::tip[Ví dụ đời thường]
+
+Bạn hỏi anh nhân viên mới: "Công ty mình cho nghỉ phép mấy ngày?". Anh ta thông minh nhưng **mới vào làm**, không thể biết — cố trả lời thì chỉ là đoán bừa.
+
+`RAG` thêm một bước ở giữa: **thư ký chạy xuống kho hồ sơ**, rút đúng mấy trang nói về nghỉ phép, đặt lên bàn, rồi mới bảo anh ta "đọc mấy trang này và trả lời". Bản thân anh ta không học thêm gì cả, chỉ là được **thi mở sách**.
+
+Nên chất lượng câu trả lời phụ thuộc vào **thư ký có rút đúng trang không**. Rút nhầm trang thì người giỏi mấy cũng trả lời sai — đó là lý do khâu chia nhỏ tài liệu và tìm kiếm quan trọng hơn cả việc chọn model.
+
+:::
 
 **Flow**:
 

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "Chọn ngôn ngữ Backend"
+title: "1. Chọn ngôn ngữ Backend"
 ---
 
 # Chọn ngôn ngữ Backend
