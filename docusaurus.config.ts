@@ -15,7 +15,7 @@ const sitePasswordHash = sitePassword
   : '';
 
 const config: Config = {
-  title: 'My Site',
+  title: 'Dev Notes',
   tagline: 'Dinosaurs are cool',
   favicon: 'img/favicon.ico',
 
@@ -103,9 +103,8 @@ const config: Config = {
       },
     },
     navbar: {
-      title: 'My Site',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Dev Notes Logo',
         src: 'img/logo.svg',
       },
       items: [
