@@ -26,6 +26,7 @@ Một trong những quyết định đầu tiên khi học backend là chọn ng
 - [Top khuyến nghị](#top-khuyến-nghị)
 - [Phổ biến khác](#phổ-biến-khác)
 - [So sánh](#so-sánh)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 
 
@@ -142,3 +143,26 @@ Một trong những quyết định đầu tiên khi học backend là chọn ng
 | **Rust** | **Cực cao** | **Khó** | Tăng | Strict |
 
 
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Node.js` là một ngôn ngữ hay một runtime? Phân biệt `JavaScript`, `Node.js` và engine `V8`.
+2. Vì sao cùng một API CRUD, `Go` thường nhanh hơn `Node.js` hay `Python`? Ngôn ngữ compiled và interpreted khác nhau ở đâu?
+3. `Event loop` của `Node.js` hoạt động thế nào, và vì sao nó xử lý rất tốt tác vụ `I/O-bound` nhưng lại kém với tác vụ `CPU-bound`?
+4. `GIL` (Global Interpreter Lock) trong Python là gì, nó ảnh hưởng ra sao tới khả năng tận dụng nhiều CPU core? Cách nào đi vòng qua nó?
+5. `Goroutine` khác `OS thread` ở chỗ nào, và vì sao một tiến trình Go chạy được hàng chục nghìn goroutine mà không sập?
+6. So sánh `static typing` và `dynamic typing`. `TypeScript` giải quyết được gì và **không** giải quyết được gì so với `Go` hay `Java`?
+7. `Garbage collection` ảnh hưởng tới latency của service thế nào? Vì sao `Rust` đảm bảo memory safety mà không cần GC?
+8. So sánh trải nghiệm deploy: single binary của `Go`, `node_modules` của Node, `venv`/dependency của Python, `JAR` + JVM của Java. Mỗi cái phiền ở đâu?
+9. Phân biệt `concurrency` và `parallelism`. Mô hình của Node (`event loop`), Go (`goroutine`/CSP) và Java (`thread pool`, `virtual thread`) khác nhau thế nào?
+10. Khi chọn ngôn ngữ cho một dự án mới, bạn dựa trên những tiêu chí nào? Performance có phải tiêu chí quan trọng nhất không, vì sao?
+11. Tình huống: team 5 người đều thạo JavaScript, cần ship MVP e-commerce trong 3 tháng. Bạn chọn ngôn ngữ và framework nào, lập luận ra sao?
+12. Tình huống: cần một API gateway chịu 50k request/giây với `p99` dưới 20ms. Bạn chọn gì và chấp nhận đánh đổi gì?
+13. So sánh `Express`, `Fastify` và `NestJS`. Khi nào nên chọn framework có nhiều quy ước (NestJS) thay vì framework tối giản (Express)?
+14. Hệ thống `polyglot` (nhiều ngôn ngữ) có lợi gì và có chi phí ẩn nào về vận hành, tuyển dụng, chia sẻ code?
+15. Nếu phải chuyển dần một hệ thống Python sang Go, bạn tiếp cận thế nào? Nêu cách làm từng phần thay vì viết lại toàn bộ.
+16. Ecosystem thư viện có nên là yếu tố quyết định khi chọn ngôn ngữ? Kể một tình huống thiếu thư viện phù hợp khiến lựa chọn ban đầu trở thành sai lầm.

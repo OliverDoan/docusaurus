@@ -29,6 +29,7 @@ Observability là khả năng "nhìn thấy" được điều gì đang xảy ra
 - [Distributed Tracing](#distributed-tracing)
 - [OpenTelemetry](#opentelemetry)
 - [Tools](#tools)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -462,3 +463,28 @@ const logger = pino({
 Audit log policy thường xuyên — log retention rule + access control.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Phân biệt `monitoring` và `observability`. Vì sao có đầy đủ dashboard mà đội vẫn có thể "mù" trước một sự cố chưa từng gặp?
+2. Ba trụ cột `metrics`, `logs`, `traces` khác nhau ở đâu? Với sự cố "checkout chậm", bạn dùng cái nào trước, cái nào sau và để trả lời câu hỏi gì?
+3. Vì sao Prometheus chọn mô hình `pull` thay vì `push`? Mô hình pull xử lý ra sao với job chạy ngắn rồi tắt (`Pushgateway`)?
+4. Phân biệt `counter`, `gauge`, `histogram` và `summary`. Mỗi loại dùng cho chỉ số nào, và vì sao `histogram` cần định nghĩa `buckets` trước?
+5. Vì sao `p95`/`p99` phản ánh trải nghiệm user tốt hơn giá trị trung bình? Cho một ví dụ average trông đẹp nhưng user vẫn khổ.
+6. Giải thích `RED method` và `USE method`. Với một API service và một node hạ tầng, bạn sẽ track chính xác những chỉ số nào?
+7. `cardinality` của label là gì? Vì sao gắn `userId` hay `requestId` làm label Prometheus là thảm hoạ, và thông tin đó nên nằm ở đâu?
+8. Vì sao nên log dạng `JSON` có cấu trúc và ghi ra `stdout` thay vì tự ghi file? Liên hệ với nguyên tắc `12-factor` và với hạ tầng container.
+9. `correlation ID` / `requestId` giải quyết vấn đề gì? Bạn truyền nó qua nhiều service, qua job queue và qua background worker bằng cách nào?
+10. Chọn `log level` cho production thế nào? Log quá nhiều gây hậu quả gì về chi phí lưu trữ và khả năng tìm kiếm khi sự cố?
+11. Những dữ liệu nào tuyệt đối không được log (`PII`, password, số thẻ, token)? Bạn chặn bằng cơ chế gì (`redact`) và chính sách `retention` nên ra sao theo `GDPR`/`PCI-DSS`?
+12. Mô tả cấu trúc một trace: `trace_id`, `span_id`, `parent_span_id`, `attributes`. `context propagation` giữa các service diễn ra thế nào (header `traceparent`)?
+13. `sampling` trong tracing là gì? So sánh `head-based` và `tail-based sampling` — mỗi cách bỏ sót gì và tốn kém ở đâu?
+14. `OpenTelemetry` giải quyết vấn đề gì so với SDK riêng của từng vendor? `OTel Collector` đóng vai trò gì trong pipeline và vì sao nên có nó?
+15. Phân biệt `SLI`, `SLO`, `SLA` và `error budget`. Khi error budget cạn giữa quý thì team nên làm gì?
+16. Thiết kế alert thế nào để tránh `alert fatigue`? Phân biệt alert theo triệu chứng (`symptom-based`, ảnh hưởng user) và theo nguyên nhân (`cause-based`) — nên đánh thức người trực bằng loại nào?
+17. Sáng thứ Hai, `p99` của một endpoint nhảy từ 200ms lên 8s nhưng `error rate` vẫn bằng 0. Bạn điều tra theo trình tự nào, dùng metric/log/trace ra sao?
+18. Endpoint `/health` nên kiểm tra những gì? Vì sao không nên để health check gọi hết mọi dependency, và điều đó liên quan gì tới `cascade failure`?

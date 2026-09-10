@@ -29,6 +29,7 @@ title: "1. WebSocket, SSE, Long Polling"
 - [Long Polling](#long-polling)
 - [WebRTC](#webrtc)
 - [Lựa chọn](#lựa-chọn)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -408,3 +409,30 @@ Cho startup 2026, **Supabase Realtime** hoặc **Liveblocks** giảm 90% effort
 so với roll-your-own.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Liệt kê các kỹ thuật cập nhật real-time: `short polling`, `long polling`, `SSE`, `WebSocket`, `WebRTC`, `webhook`. Mỗi cái hợp với tình huống nào?
+2. `Short polling` và `long polling` khác nhau ra sao? Vì sao long polling giảm được request rỗng nhưng vẫn không scale tốt ở quy mô lớn?
+3. `SSE` hoạt động thế nào ở tầng HTTP? Mô tả định dạng message với các field `data:`, `event:`, `id:`, `retry:`.
+4. `SSE` có auto-reconnect sẵn trong trình duyệt. Client dùng cơ chế nào để nối tiếp đúng chỗ bị đứt, và server cần làm gì để hỗ trợ?
+5. Vì sao dưới HTTP/1.1 trình duyệt chỉ mở được khoảng 6 kết nối `SSE` cho mỗi domain? HTTP/2 khắc phục hạn chế đó bằng cách nào?
+6. Mô tả `WebSocket handshake`: client gửi những header gì (`Upgrade: websocket`, `Sec-WebSocket-Key`) và server đáp lại ra sao (`101 Switching Protocols`)?
+7. Sau handshake, WebSocket không còn là HTTP nữa. Điều đó ảnh hưởng thế nào tới authentication bằng cookie/header, tới proxy, load balancer và caching?
+8. So sánh `SSE` và `WebSocket` về chiều dữ liệu, độ phức tạp triển khai, hỗ trợ binary và khả năng đi qua proxy/firewall. Bạn mặc định chọn cái nào, và khi nào đổi ý?
+9. Bạn xác thực và phân quyền một kết nối WebSocket như thế nào? Vì sao nhét token vào query string là rủi ro, và có phương án nào tốt hơn?
+10. Làm sao phát hiện một client WebSocket đã "chết" mà không đóng kết nối tử tế? Giải thích `ping/pong heartbeat` và cách chọn khoảng thời gian timeout.
+11. Client mất mạng rồi kết nối lại. Bạn thiết kế `reconnect với exponential backoff + jitter` và cơ chế bù các message bị lỡ ra sao?
+12. WebSocket là stateful — vì sao scale ngang khó hơn HTTP stateless? Vai trò của `sticky session` là gì và nó gây ra hạn chế nào?
+13. Có 3 server, user A nối vào server 1 còn user B nối vào server 2. Làm sao broadcast một tin nhắn tới cả hai? Mô tả kiến trúc dùng `Redis pub/sub` adapter hoặc message bus.
+14. Thiết kế backend cho một hệ thống chat 100k người online đồng thời: bạn tổ chức `room`, trạng thái `presence` (ai đang online) và lưu lịch sử tin nhắn thế nào?
+15. Làm sao đảm bảo thứ tự và không mất tin nhắn trong hệ thống real-time? Nói về `acknowledgment`, sequence number và xử lý message trùng.
+16. `Backpressure` trong real-time là gì? Khi server đẩy nhanh hơn client tiêu thụ thì điều gì xảy ra và bạn xử lý ra sao?
+17. `WebRTC` khác WebSocket ở điểm nào? Vì sao vẫn cần server cho `signaling`, `STUN` và `TURN` dù WebRTC là peer-to-peer?
+18. Khi nào WebRTC dạng P2P mesh không còn đủ và phải chuyển sang `SFU`/`MCU`? Cho ví dụ theo số lượng người tham gia cuộc gọi.
+19. So sánh việc tự dựng WebSocket với dùng managed service (Pusher, Ably, Supabase Realtime, Liveblocks). Đánh đổi về chi phí, vendor lock-in và khả năng kiểm soát là gì?
+20. Thiết kế tính năng "soạn thảo cộng tác thời gian thực" (kiểu Google Docs). Bạn chọn giao thức nào, và xử lý xung đột chỉnh sửa bằng `OT` hay `CRDT`? Vì sao?

@@ -30,6 +30,7 @@ Message broker là "người trung gian" giúp các phần trong hệ thống g�
 - [Redis Pub/Sub](#redis-pubsub)
 - [Cloud queues](#cloud-queues)
 - [Lựa chọn](#lựa-chọn)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -488,3 +489,28 @@ Cross-partition: không order.
 **4. Exactly-once** — khó. Đa số system đảm bảo "at-least-once" + idempotency.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Message broker giải quyết được vấn đề gì mà gọi API trực tiếp không giải quyết được? Kể vài use case điển hình.
+2. Phân biệt ba pattern `queue` (point-to-point), `pub/sub` và `stream`. Với bài toán gửi email thông báo thì chọn cái nào?
+3. Kafka lưu message theo mô hình nào? Vì sao consumer đọc xong rồi mà message vẫn còn nằm trong `topic`?
+4. `topic`, `partition` và `offset` liên quan với nhau ra sao? Ai chịu trách nhiệm lưu và commit offset?
+5. `consumer group` hoạt động thế nào? Nếu số consumer nhiều hơn số partition thì chuyện gì xảy ra?
+6. Kafka đảm bảo thứ tự message trong phạm vi nào? Muốn mọi event của cùng một `user_id` giữ đúng thứ tự thì làm sao?
+7. `rebalance` trong consumer group xảy ra khi nào và gây tác hại gì cho việc xử lý đang dở?
+8. Kafka đảm bảo độ bền dữ liệu bằng những cơ chế nào (`replication factor`, `ISR`, `acks`)? Đặt `acks=all` được và mất gì?
+9. RabbitMQ định tuyến message qua `exchange` các kiểu `direct`, `fanout`, `topic` như thế nào?
+10. Trong RabbitMQ, `ack`/`nack` và `prefetch` ảnh hưởng ra sao tới độ tin cậy và throughput?
+11. So sánh Kafka và RabbitMQ về mô hình lưu trữ, khả năng replay, throughput và độ phức tạp vận hành. Bạn chọn cái nào cho hệ thống thanh toán, cái nào cho pipeline log?
+12. Redis `Pub/Sub` mất message trong tình huống nào? `Redis Streams` khắc phục được điểm gì?
+13. Phân biệt `at-most-once`, `at-least-once` và `exactly-once`. Vì sao exactly-once trong thực tế rất khó đạt?
+14. Consumer `idempotent` nghĩa là gì? Bạn hiện thực ra sao khi consumer vừa ghi database vừa gọi API bên thứ ba?
+15. `Dead Letter Queue` dùng để làm gì? Thiết kế chính sách retry (số lần, `backoff`) thế nào cho hợp lý trước khi đẩy message vào DLQ?
+16. `consumer lag` là gì, đo bằng cách nào, và bạn xử lý ra sao khi lag tăng liên tục?
+17. `Outbox pattern` giải quyết vấn đề gì giữa việc ghi DB và publish message? Vì sao không nên publish ngay bên trong transaction?
+18. Khi nào một job queue đơn giản (`BullMQ`, `SQS`) là đủ, và khi nào buộc phải nâng lên Kafka?

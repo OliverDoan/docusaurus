@@ -29,6 +29,7 @@ Search engine là công cụ chuyên đi tìm kiếm văn bản, giúp người 
 - [Typesense](#typesense)
 - [Postgres full-text search](#postgres-full-text-search)
 - [Lựa chọn](#lựa-chọn)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -355,3 +356,27 @@ Pattern: **CDC (Change Data Capture)** với Debezium → Kafka → consumer
 update search → đảm bảo eventual consistency.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Vì sao `LIKE '%query%'` không tận dụng được index và chậm dần trên dataset lớn?
+2. `inverted index` được xây dựng ra sao, và vì sao nó tra một từ nhanh hơn hẳn việc quét bảng?
+3. Pipeline `analyzer` gồm những bước nào (`character filter`, `tokenizer`, `token filter`)? `stemming` và `stop word` ảnh hưởng gì tới kết quả tìm kiếm?
+4. Vì sao analyzer lúc index và lúc query phải khớp nhau? Không khớp thì hiện tượng gì xảy ra?
+5. `mapping` trong Elasticsearch là gì? Field kiểu `text` khác `keyword` ra sao và mỗi loại dùng cho việc gì?
+6. Elasticsearch chấm điểm liên quan bằng `BM25` dựa trên những yếu tố nào? Boost kiểu `name^3` tác động thế nào tới điểm?
+7. Vì sao lặp một từ 20 lần không làm điểm tăng gấp 20? Giải thích `TF saturation` và chuẩn hoá theo độ dài tài liệu trong BM25.
+8. `shard` và `replica` khác nhau ra sao? Tăng replica giúp được gì, tăng shard giúp được gì?
+9. Một truy vấn chạy qua cluster theo trình tự nào — `coordinating node` fan-out tới các shard rồi gộp kết quả thế nào?
+10. Vì sao chia quá nhiều shard cho lượng dữ liệu nhỏ lại phản tác dụng? Nêu cả ảnh hưởng lên điểm relevance.
+11. Elasticsearch là `near real-time` — `refresh interval` nghĩa là gì và vì sao document vừa ghi chưa tìm thấy được ngay?
+12. Phân biệt `query context` và `filter context`. Vì sao filter được cache còn query thì không?
+13. So sánh `Elasticsearch`, `Meilisearch` và `Typesense` về độ nặng vận hành, tính năng và trường hợp nên dùng.
+14. Postgres full-text search (`tsvector`, `GIN index`, `pg_trgm`) làm được tới đâu? Khi nào nó đủ dùng và khi nào phải chuyển sang search engine riêng?
+15. Bạn đồng bộ dữ liệu từ database sang search engine bằng cách nào? So sánh dual write, batch job và `CDC` (Debezium).
+16. Nguồn sự thật nên nằm ở đâu và vì sao? Xử lý thế nào khi dữ liệu bên search engine lệch so với DB?
+17. Thiết kế autocomplete và chấp nhận gõ sai (`fuzziness`, `n-gram`, `edge n-gram`) cần cân nhắc gì giữa độ chính xác và kích thước index?

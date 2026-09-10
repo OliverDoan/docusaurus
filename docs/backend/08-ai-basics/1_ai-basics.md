@@ -30,6 +30,7 @@ Bài này giới thiệu những khái niệm cơ bản nhất về AI mà một
 - [Vector Databases](#vector-databases)
 - [RAG (Retrieval Augmented Generation)](#rag-retrieval-augmented-generation)
 - [AI vs Traditional Coding](#ai-vs-traditional-coding)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -443,3 +444,32 @@ Code: insert DB, send notif
 LLM làm phần khó (parse natural language), code làm phần predictable.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `LLM` hoạt động ở mức cơ bản như thế nào — vì sao nói nó chỉ đang "dự đoán token tiếp theo"?
+2. `token` là gì và khác "từ" ra sao? Vì sao tiếng Việt thường tốn nhiều token hơn tiếng Anh cho cùng một nội dung?
+3. `temperature`, `top_p` và `max_tokens` ảnh hưởng gì tới output? Khi nào bạn để `temperature = 0`?
+4. Output của LLM là probabilistic. Điều đó gây khó khăn gì khi đưa vào hệ thống production và bạn xử lý ra sao?
+5. `hallucination` là gì, sinh ra từ đâu, và có những cách nào để giảm thiểu?
+6. `context window` là gì? Khi tài liệu dài hơn context window thì bạn xử lý thế nào?
+7. Chi phí gọi API LLM được tính ra sao? Vì sao output token thường đắt hơn input token, và `prompt caching` tiết kiệm bằng cơ chế nào?
+8. `embedding` là gì? Vì sao hai câu dùng từ ngữ khác nhau nhưng cùng ý nghĩa lại có vector nằm gần nhau?
+9. Vì sao thường dùng `cosine similarity` thay vì khoảng cách Euclid khi so sánh embedding?
+10. Semantic search khác keyword search (`full-text search`) ở điểm nào? Trường hợp nào keyword search vẫn tốt hơn?
+11. Vector database khác database quan hệ thông thường ra sao? Khi nào `pgvector` là đủ và khi nào cần Pinecone/Qdrant/Milvus?
+12. Giải thích `HNSW`. Vì sao gọi là `approximate nearest neighbor` và bạn đánh đổi gì giữa recall và latency?
+13. Mô tả pipeline `RAG` đầy đủ, tách rõ giai đoạn indexing (offline) và giai đoạn query (online).
+14. Chiến lược `chunking` ảnh hưởng chất lượng RAG ra sao? Chunk quá to hoặc quá nhỏ thì hỏng ở đâu, và `overlap` để làm gì?
+15. So sánh `RAG` với `fine-tuning`: mỗi cách giải quyết vấn đề gì, và khi nào nên kết hợp cả hai?
+16. Hệ thống RAG trả lời sai. Bạn debug theo trình tự nào để biết lỗi nằm ở khâu retrieval hay khâu generation?
+17. `hybrid search` và `reranking` (cross-encoder) cải thiện RAG như thế nào? Chi phí kèm theo là gì?
+18. Khi tài liệu nguồn được cập nhật, bạn đồng bộ lại vector index ra sao? Nếu đổi embedding model thì phải làm gì?
+19. Bạn đánh giá chất lượng một hệ thống RAG bằng những chỉ số nào (`recall@k`, faithfulness, groundedness...)?
+20. Bài toán nào nên dùng LLM và bài toán nào nên dùng code thường? Cho một ví dụ kết hợp cả hai.
+21. Rủi ro bảo mật khi đưa LLM vào backend: `prompt injection`, rò rỉ dữ liệu nhạy cảm qua prompt, chi phí bị lạm dụng. Bạn phòng thế nào?
+22. Làm sao bắt LLM trả về dữ liệu có cấu trúc (JSON) đáng tin cậy? Xử lý ra sao khi model trả về JSON hỏng?

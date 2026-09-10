@@ -99,6 +99,7 @@ Hỏi 3 câu:
 - [SOAP](#soap)
 - [tRPC](#trpc)
 - [Khi nào dùng cái nào?](#khi-nào-dùng-cái-nào)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -555,3 +556,34 @@ Lợi ích:
 FastAPI, NestJS auto generate OpenAPI từ code. Document API miễn phí.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `REST` là gì? Kể các ràng buộc chính (`stateless`, client–server, cacheable, uniform interface). Một API 'RESTful' khác một 'HTTP API' thông thường ở đâu?
+2. `PUT` và `PATCH` khác nhau thế nào? Khi nào dùng `POST /users` và khi nào dùng `PUT /users/1`?
+3. `Idempotent` nghĩa là gì? Method nào idempotent, method nào `safe`? Làm sao khiến một `POST` thanh toán trở nên idempotent bằng `Idempotency-Key`?
+4. Thiết kế endpoint cho hành động không phải CRUD (gửi lại email xác thực, huỷ đơn hàng, restart job) theo phong cách REST như thế nào?
+5. Phân biệt các status code hay nhầm: `400` với `422`, `401` với `403`, `200`/`201`/`204`. Khi nào trả `409`, khi nào trả `429`?
+6. So sánh `offset pagination` và `cursor pagination`. Vì sao offset chậm dần khi đi sâu và có thể trả về row trùng hoặc bỏ sót row?
+7. Các cách versioning API (URL path, header, query) khác nhau ra sao? Thay đổi nào là `breaking change`, và quy trình `deprecate` một version nên gồm những bước gì?
+8. Caching HTTP hoạt động thế nào với `ETag`, `Cache-Control`, `If-None-Match` và `304`? Vì sao GraphQL khó tận dụng cache HTTP hơn REST?
+9. Thiết kế một format lỗi thống nhất cho API (ví dụ theo `RFC 7807`) — nên trả về những trường gì và tuyệt đối không để lộ thông tin gì?
+10. `Stateless` với REST nghĩa là gì? Session lưu server và `JWT` ảnh hưởng thế nào tới khả năng scale ngang?
+11. GraphQL giải quyết `over-fetching` và `under-fetching` bằng cách nào? Cái giá phải trả là gì?
+12. Vì sao GraphQL rất dễ dính `N+1`? `DataLoader` hoạt động ra sao để khắc phục?
+13. Bảo vệ một GraphQL endpoint công khai khỏi query độc hại bằng những biện pháp nào (`depth limit`, `query cost`, `persisted query`, rate limit theo cost)?
+14. gRPC nhanh hơn REST + JSON nhờ những yếu tố nào (`Protobuf` binary, `HTTP/2` multiplexing, nén header)? Điểm đánh đổi khi debug là gì?
+15. Trong `Protobuf`, vì sao mỗi field phải có số thứ tự? Thêm field mới và xoá field cũ như thế nào để giữ tương thích ngược và xuôi?
+16. gRPC có 4 kiểu gọi: `unary`, `server streaming`, `client streaming`, `bidirectional streaming`. Mỗi kiểu hợp với bài toán nào?
+17. Vì sao browser không gọi trực tiếp được gRPC? `grpc-web` hoặc proxy giải quyết chuyện đó ra sao?
+18. `tRPC` đạt được type-safe end-to-end mà không cần codegen bằng cơ chế nào? Giới hạn lớn nhất của nó là gì?
+19. Tình huống: app mobile chạy mạng yếu, nhiều màn hình cần các tập field khác nhau, team chỉ 3 người. Bạn chọn REST hay GraphQL và lập luận thế nào?
+20. Tình huống: hệ thống có 20 microservice nội bộ cộng một public API. Bạn phối hợp gRPC và REST ra sao, vai trò của `API gateway` hay `BFF` là gì?
+21. `OpenAPI`/`Swagger` mang lại lợi ích gì? So sánh cách làm `design-first` và `code-first`.
+22. Triển khai `rate limiting` bằng thuật toán nào (`token bucket`, `sliding window`)? Nên trả về header gì để client tự điều tiết?
+23. So sánh `WebSocket`, `SSE`, GraphQL `subscription` và gRPC streaming cho tính năng real-time. Bạn chọn cái nào trong trường hợp nào?
+24. Bạn cần đổi kiểu dữ liệu của một field trong response trong khi vẫn còn nhiều app mobile phiên bản cũ đang chạy. Bạn xử lý thế nào để không làm hỏng client?

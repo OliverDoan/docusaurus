@@ -29,6 +29,7 @@ Web server là phần mềm đứng giữa internet và code ứng dụng của 
 - [Caddy](#caddy)
 - [Reverse Proxy](#reverse-proxy)
 - [Load Balancing](#load-balancing)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -444,3 +445,28 @@ app.listen(3000, "127.0.0.1");  // not 0.0.0.0
 Defense in depth: dù Nginx mis-config, app vẫn không accessible direct.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Web server làm những việc gì? Vì sao không nên để app code (Node/Python) trực tiếp nhận request từ internet?
+2. Phân biệt `forward proxy` và `reverse proxy`. Mỗi loại đứng ở phía nào và phục vụ ai?
+3. Vì sao `Nginx` chịu tải cao hơn Apache ở cùng cấu hình? So sánh mô hình `event-driven` với `process/thread-per-request`.
+4. So sánh Nginx, Apache và Caddy. Dự án mới bạn chọn cái nào và vì sao?
+5. `.htaccess` của Apache tiện ở điểm gì và đánh đổi lại điều gì về hiệu năng?
+6. Trong Nginx, `server` block và `location` block khác nhau ra sao? Nginx chọn `location` khớp theo thứ tự ưu tiên nào?
+7. Giải thích `SSL/TLS termination` tại reverse proxy. Sau khi terminate, traffic từ Nginx tới app nên đi HTTP hay HTTPS?
+8. Đứng sau reverse proxy, app lấy IP thật của client bằng cách nào? Vai trò của `X-Forwarded-For`, `X-Real-IP`, và rủi ro nếu tin header này vô điều kiện?
+9. So sánh các thuật toán load balancing: round-robin, `weight`, `least_conn`, `ip_hash`. Tình huống nào round-robin gây tắc nghẽn?
+10. Load balancing ở `Layer 4` khác `Layer 7` thế nào? Đánh đổi giữa tốc độ và khả năng route ra sao?
+11. `sticky session` giải quyết vấn đề gì và tạo ra vấn đề gì khi scale? Bạn thay thế nó bằng cách nào?
+12. Nginx phát hiện một upstream chết bằng cơ chế nào (`max_fails`, `fail_timeout`, `backup`)? Request đang xử lý dở sẽ ra sao?
+13. Cần cấu hình thêm gì để Nginx proxy được `WebSocket`? Vì sao cấu hình proxy mặc định làm rớt kết nối?
+14. Bạn cấu hình rate limiting và giới hạn kích thước upload ở Nginx như thế nào? Vì sao nên chặn ở tầng này thay vì tầng app?
+15. Vì sao nên bind app vào `127.0.0.1` thay vì `0.0.0.0`? Giải thích theo nguyên tắc `defense in depth`.
+16. Người dùng báo lỗi `502 Bad Gateway`. Bạn debug theo thứ tự nào? Phân biệt `502`, `503` và `504`.
+17. Nginx serve static file nhanh hơn app server ở điểm nào? `gzip`/`brotli`, cache header và `sendfile` đóng vai trò gì?
+18. Làm sao reload config hoặc deploy bản mới mà không downtime? Giải thích `nginx -s reload` và graceful shutdown ở phía upstream.

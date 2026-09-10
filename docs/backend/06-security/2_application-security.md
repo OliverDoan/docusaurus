@@ -29,6 +29,7 @@ Bài này giới thiệu các lỗ hổng bảo mật hay gặp nhất ở tần
 - [CSRF (Cross-Site Request Forgery)](#csrf-cross-site-request-forgery)
 - [Rate Limiting](#rate-limiting)
 - [API Security Best Practices](#api-security-best-practices)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -479,3 +480,40 @@ Mỗi tầng có thể fail. Nhiều tầng = attacker phải bypass cả.
 Free, comprehensive — nguồn học security web cốt lõi nhất.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `OWASP Top 10` là gì và dùng để làm gì? Vì sao `Broken Access Control` đứng đầu bảng?
+2. Giải thích `SQL Injection` bằng một ví dụ cụ thể. Vì sao việc ghép chuỗi input vào câu SQL lại nguy hiểm đến vậy?
+3. `Parameterized query` chặn SQL injection bằng cơ chế nào? Nó khác việc "escape ký tự đặc biệt" ở chỗ nào?
+4. Dùng ORM thì có miễn nhiễm SQL injection không? Chỉ ra những chỗ ORM vẫn dính.
+5. Tên cột / tên bảng động (ví dụ `ORDER BY` theo query param) không parameterize được — bạn xử lý thế nào?
+6. `Blind SQL injection` là gì? Attacker moi dữ liệu ra sao khi ứng dụng không in kết quả hay lỗi ra màn hình?
+7. `NoSQL injection` xảy ra thế nào với MongoDB (ví dụ `{"$ne": ""}` ở field password)? Vì sao validate kiểu dữ liệu lại chặn được?
+8. Ngoài parameterized query, còn tầng phòng thủ nào cho database (least privilege cho DB user, tách read/write, không trả lỗi SQL ra client)?
+9. `XSS` là gì? Phân biệt `Reflected`, `Stored`, `DOM-based` — loại nào nguy hiểm nhất và vì sao?
+10. Vì sao chống XSS phải `escape` ở lúc render output chứ không chỉ lọc lúc nhận input?
+11. Escape trong HTML body, trong attribute, trong URL và trong JS context khác nhau ra sao? Giải thích context-aware escaping.
+12. React/Vue đã auto-escape thì XSS còn lọt ở đâu? Kể các trường hợp `dangerouslySetInnerHTML`, `v-html`, `innerHTML`, `href="javascript:"`.
+13. Sản phẩm cần cho user nhập rich text (bình luận có định dạng). Bạn làm gì để vừa giữ được HTML vừa an toàn?
+14. Cookie `HttpOnly` có "chống được XSS" không, hay chỉ giảm thiệt hại? Khi attacker đã chạy được JS trên trang, họ còn làm được gì?
+15. `CSRF` hoạt động thế nào? Vì sao attacker gây hại được mà **không cần đọc** được response trả về?
+16. `CSRF token` chặn tấn công bằng nguyên lý gì? So sánh `synchronizer token` với `double-submit cookie`.
+17. `SameSite=Strict|Lax|None` mỗi giá trị chặn được gì? Vì sao chỉ dựa vào `SameSite` vẫn chưa đủ?
+18. Vì sao API dùng `JWT` trong header `Authorization` thường không cần CSRF token, còn dùng cookie thì cần?
+19. Kiểm `Origin` / `Referer` có đủ chống CSRF không? Những tình huống nào hai header này vắng mặt hoặc không tin được?
+20. So sánh `XSS` và `CSRF`: mục tiêu tấn công, hướng tấn công, và cách phòng thủ khác nhau ra sao?
+21. `IDOR` / `Broken Access Control` là gì? Bạn test endpoint `GET /orders/:id` như thế nào để phát hiện lỗi này?
+22. So sánh `fixed window`, `sliding window`, `token bucket`, `leaky bucket`. Fixed window bị burst gấp đôi ở ranh giới cửa sổ như thế nào?
+23. Rate limit theo IP có vấn đề gì (NAT, mobile carrier, proxy, `X-Forwarded-For` giả mạo)? Bạn chọn khoá để đếm ra sao?
+24. Hệ thống chạy nhiều instance thì implement rate limit phân tán thế nào? Trả về status code và header gì cho client?
+25. `SSRF` là gì? Vì sao endpoint metadata `169.254.169.254` lại nguy hiểm, và chặn thế nào cho đủ (whitelist, chặn private IP, chặn redirect, DNS rebinding)?
+26. Chức năng nào trong sản phẩm dễ dính SSRF nhất (webhook do user cấu hình, URL preview, sinh PDF/ảnh từ URL) và bạn thiết kế phòng thủ ra sao?
+27. `Mass assignment` / over-posting là gì? Gán thẳng `req.body` vào model gây hậu quả gì?
+28. Thông báo lỗi và log phải viết thế nào để không rò rỉ thông tin nhạy cảm mà vẫn đủ để debug production?
+29. Bạn kiểm soát rủi ro từ dependency bên thứ ba ra sao (`Dependabot`, `Snyk`, lockfile, supply chain attack)?
+30. `Defense in depth` nghĩa là gì với một request đi qua middleware → service → database? Kể các tầng kiểm tra và lý do không được bỏ tầng nào.

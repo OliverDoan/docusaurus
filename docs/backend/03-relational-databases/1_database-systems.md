@@ -30,6 +30,7 @@ Relational Database (cơ sở dữ liệu quan hệ) là cách lưu trữ data p
 - [MS SQL Server](#ms-sql-server)
 - [Oracle DB](#oracle-db)
 - [So sánh tổng kết](#so-sánh-tổng-kết)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -431,3 +432,26 @@ Tránh: "Pick MongoDB vì nó scale" — chưa cần thì pick relational + bìn
 thường. NoSQL dùng đúng case, không phải default.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Phân biệt `RDB`, `RDBMS` và `SQL` — mỗi khái niệm chỉ cái gì?
+2. Kể 5 nhóm lệnh `DDL`/`DML`/`DQL`/`DCL`/`TCL` và cho ví dụ mỗi nhóm. Nhóm nào nằm trong phạm vi rollback được của một transaction?
+3. `DELETE`, `TRUNCATE` và `DROP` khác nhau thế nào về tốc độ, khả năng rollback và ảnh hưởng tới `AUTO_INCREMENT`/`SEQUENCE`?
+4. Vì sao nói học `SQL` quan trọng hơn học một RDBMS cụ thể? `dialect` gây khó khăn gì khi bạn phải chuyển engine?
+5. So sánh `PostgreSQL` và `MySQL` ở mức cụ thể: kiểu dữ liệu, `window function`, `JSON`/`JSONB`, `MVCC`, storage engine. Bạn chọn cái nào cho dự án mới và vì sao?
+6. MySQL có nhiều storage engine (`InnoDB`, `MyISAM`) còn PostgreSQL chỉ có một. Điều đó ảnh hưởng gì tới transaction và foreign key?
+7. Khi nào nên lưu dữ liệu vào cột `JSONB` thay vì tách ra bảng riêng? Đánh index cho `JSONB` bằng loại index nào?
+8. So sánh `SQL` và `NoSQL`. Vì sao lý do 'MongoDB scale tốt hơn' thường không đủ để chọn NoSQL cho một app mới?
+9. `SQLite` chỉ cho phép một writer tại một thời điểm — hệ quả gì với ứng dụng web? Trường hợp nào SQLite vẫn dùng production được?
+10. So sánh tự host database với dùng managed service (`RDS`, `Neon`, `Supabase`). Bạn mất và được gì ở mỗi hướng?
+11. Giải thích `replication` primary–replica. `Replication lag` gây ra vấn đề gì, và bạn xử lý tình huống `read-after-write` ra sao?
+12. Khi nào cần `sharding` thay vì chỉ nâng cấu hình máy (`vertical scaling`)? `Vitess`/`PlanetScale` giải quyết vấn đề gì?
+13. Chiến lược backup của bạn là gì: full và incremental khác nhau ra sao, `PITR` (point-in-time recovery) là gì, và làm sao biết bản backup thực sự dùng được?
+14. Vì sao PostgreSQL cần `connection pool` (`PgBouncer`)? Chuyện gì xảy ra khi môi trường serverless mở quá nhiều connection tới DB?
+15. Bạn phải migrate một hệ thống đang chạy từ MySQL sang PostgreSQL. Nêu các rủi ro chính và cách giảm downtime.
+16. `charset`/`collation` và kiểu thời gian (`timestamp` với `timestamptz`) hay gây lỗi gì trong thực tế? Bạn lưu thời gian theo chuẩn nào?

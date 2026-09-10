@@ -29,6 +29,7 @@ Khi đã chọn được database, bạn cần nắm vài khái niệm cốt lõ
 - [Foreign Keys và Relationships](#foreign-keys-và-relationships)
 - [N+1 Problem](#n1-problem)
 - [Transactions](#transactions)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -535,3 +536,35 @@ async function transferMoney(fromId, toId, amount) {
 Throw inside transaction → auto rollback.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Index` hoạt động ra sao khiến việc tìm row nhanh hơn `full table scan`? Cấu trúc `B-tree` giúp gì ở đây?
+2. Index có những chi phí nào? Vì sao không nên đánh index cho mọi cột?
+3. Phân biệt `clustered index` và `non-clustered index`. Vì sao mỗi bảng chỉ có tối đa một clustered index?
+4. Giải thích quy tắc `leftmost prefix` với composite index `(a, b, c)`. Query nào tận dụng được index này, query nào không?
+5. `Covering index` là gì và vì sao nó nhanh hơn hẳn (`index-only scan`)?
+6. Kể các trường hợp database **bỏ qua index** dù cột đã có index: bọc hàm lên cột, `LIKE '%abc'`, ép kiểu ngầm, selectivity thấp. Mỗi trường hợp khắc phục ra sao?
+7. `Partial index` và `unique index` khác index thường thế nào, khi nào bạn dùng chúng?
+8. Bạn đọc output của `EXPLAIN ANALYZE` như thế nào? Phân biệt `Seq Scan` với `Index Scan`, và ý nghĩa của cost ước lượng so với thời gian thực tế.
+9. Phân biệt `INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`, `FULL OUTER JOIN` và `CROSS JOIN`. Cho một ví dụ nghiệp vụ bắt buộc phải dùng `LEFT JOIN`.
+10. Với `LEFT JOIN`, đặt điều kiện lọc ở mệnh đề `ON` khác đặt ở `WHERE` như thế nào? Vì sao đặt sai chỗ biến LEFT JOIN thành INNER JOIN?
+11. `WHERE` và `HAVING` khác nhau ở đâu? Nêu thứ tự thực thi logic của một câu `SELECT` (`FROM` → `WHERE` → `GROUP BY` → `HAVING` → `SELECT` → `ORDER BY` → `LIMIT`).
+12. `Foreign key` mang lại lợi ích gì? Nêu các trường hợp chấp nhận bỏ FK và giải thích `ON DELETE CASCADE`/`SET NULL`/`RESTRICT` khác nhau ra sao.
+13. Thiết kế quan hệ `many-to-many` thế nào? Vì sao bảng trung gian thường dùng composite primary key thay vì cột `id` riêng?
+14. `N+1 problem` là gì, nó phát sinh thế nào trong ORM và trong GraphQL resolver? Nêu ít nhất ba cách fix.
+15. Eager load bằng một câu `JOIN` có nhược điểm gì (dữ liệu bị nhân bản) so với cách chạy hai query rồi gom nhóm ở tầng ứng dụng?
+16. Làm sao phát hiện `N+1` khi nó không lộ ra ở môi trường local? Bạn dùng công cụ hoặc chỉ số nào?
+17. Giải thích `ACID` qua ví dụ chuyển khoản. Chữ nào do database lo, chữ nào lập trình viên vẫn phải tự đảm bảo?
+18. Ba hiện tượng `dirty read`, `non-repeatable read`, `phantom read` là gì? Isolation level nào ngăn được cái nào, và default của PostgreSQL với MySQL là gì?
+19. `MVCC` hoạt động ra sao và vì sao trong PostgreSQL việc đọc không chặn việc ghi? `VACUUM` sinh ra để giải quyết vấn đề gì?
+20. `Deadlock` xảy ra khi nào? Vì sao thống nhất thứ tự lock giữa các transaction lại giảm được deadlock?
+21. So sánh `pessimistic locking` (`SELECT ... FOR UPDATE`) với `optimistic locking` (cột `version`). Trường hợp nào bạn chọn cái nào?
+22. Một transaction mở quá lâu gây ra những vấn đề gì cho hệ thống?
+23. Chạy `ALTER TABLE ADD COLUMN` trên bảng hàng chục triệu row có lock không? Nêu pattern zero-downtime để thêm một cột `NOT NULL` và để đổi tên cột.
+24. Vì sao migration nên `forward-only` và idempotent? Nếu một migration đã xoá nhầm cột trên production, bạn khôi phục thế nào?
+25. Giải thích `normalization` (`1NF`, `2NF`, `3NF`). Khi nào bạn cố ý `denormalize` và đánh đổi những gì?

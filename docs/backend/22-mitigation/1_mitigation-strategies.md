@@ -30,6 +30,7 @@ Trong thực tế, các service và dependency luôn có lúc bị chậm hoặc
 - [Timeout](#timeout)
 - [Backpressure](#backpressure)
 - [Load Shedding](#load-shedding)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -497,3 +498,29 @@ khi đo cần.
 ---
 
 Hết Backend Roadmap. Chúc bạn build hệ thống vững chắc!
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `graceful degradation` là gì? Cho ví dụ những tính năng nên fallback thay vì trả lỗi, và những tính năng không được phép degrade.
+2. Phân biệt `fail fast` và `fail silent`. Vì sao nuốt exception bằng `try/catch` rỗng lại nguy hiểm hơn là để lỗi nổ ra?
+3. Mô tả 3 trạng thái của `circuit breaker` (`CLOSED` → `OPEN` → `HALF-OPEN`) và điều kiện chuyển đổi giữa chúng. Vì sao cần trạng thái `HALF-OPEN`?
+4. Bạn chọn ngưỡng `errorThresholdPercentage` và `resetTimeout` dựa trên cơ sở nào? Đặt quá nhạy và đặt quá lỳ thì mỗi bên hỏng như thế nào?
+5. Một downstream không trả lỗi mà chỉ *chậm* — `circuit breaker` có bắt được không? Cần kết hợp thêm cơ chế gì?
+6. Vì sao mọi external call bắt buộc phải có `timeout`? Nếu không đặt timeout thì tài nguyên nào cạn trước tiên và hậu quả lan ra sao?
+7. `cascading timeout` là gì? Vì sao timeout của tầng con phải nhỏ hơn tầng cha, và điều gì xảy ra khi cấu hình ngược lại?
+8. Vì sao retry nên dùng `exponential backoff` thay vì khoảng cách cố định? `jitter` được thêm vào để giải quyết chuyện gì?
+9. Lỗi nào nên retry, lỗi nào không? Giải thích vì sao `400`/`401`/`422` không nên retry còn `429`/`503` thì nên, và bạn tôn trọng header `Retry-After` thế nào?
+10. Retry một request `POST` có thể tạo đơn trùng hoặc thanh toán hai lần. `Idempotency-Key` hoạt động ra sao ở phía server — lưu gì, khoá cách nào, giữ trong bao lâu?
+11. `retry storm` hình thành như thế nào? Nếu cả 4 tầng trong chuỗi service đều retry 3 lần, downstream cuối cùng nhận bao nhiêu request cho một lượt user?
+12. Nên đặt retry bên trong hay bên ngoài `circuit breaker`? Giải thích thứ tự lồng nhau giữa `rate limiter`, retry, `circuit breaker` và `timeout`.
+13. `bulkhead pattern` là gì? Cho ví dụ cụ thể việc dùng chung một `connection pool` khiến endpoint báo cáo chậm làm chết luôn luồng checkout, và cách chia pool để tránh.
+14. Khi nào dùng `bulkhead` thay vì `circuit breaker`, và khi nào cần cả hai? Cái giá của việc chia sẵn tài nguyên theo khoang là gì?
+15. `backpressure` là gì? Trong Node stream nó hoạt động thế nào, còn với HTTP API hoặc job queue thì bạn tự triển khai bằng cách nào?
+16. `load shedding` khác `rate limiting` ở điểm nào? Bạn phân loại request theo mức ưu tiên (P1/P2/P3) ra sao và quyết định bỏ cái gì trước?
+17. Mô tả một `cascade failure`: service A chậm → B timeout → pool của C cạn → cả hệ thống sập. Ở mỗi mắt xích cần pattern nào để chặn dây chuyền?
+18. `chaos engineering` là gì? Nêu vài thí nghiệm bạn sẽ chạy trước và giải thích vì sao startup nhỏ có thể tạm bỏ qua.
+19. Nếu chỉ được thêm ba cơ chế bảo vệ cho mọi external call trên production, bạn chọn gì, theo thứ tự nào, và giải thích lý do?

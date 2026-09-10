@@ -29,6 +29,7 @@ Khi số lượng người dùng tăng lên, một database duy nhất sẽ khô
 - [CAP Theorem](#cap-theorem)
 - [Materialized Views](#materialized-views)
 - [Pattern thực tế](#pattern-thực-tế)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -447,3 +448,32 @@ Không đáng:
 Profile + measure trước khi scale.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. So sánh `vertical scaling` và `horizontal scaling` cho database. Vì sao trong thực tế thường nên scale up trước rồi mới scale out?
+2. Trước khi đụng tới hạ tầng, bạn tối ưu những gì ở tầng ứng dụng và query? Nói về index, `EXPLAIN ANALYZE`, vấn đề N+1 và `connection pooling`.
+3. `Read replication` hoạt động ra sao? Phân biệt physical/streaming replication với logical replication và trường hợp dùng của mỗi loại.
+4. So sánh `synchronous` và `asynchronous replication` về độ trễ write, nguy cơ mất dữ liệu khi master chết, và throughput.
+5. `Replication lag` là gì, sinh ra từ đâu, và bạn đo nó bằng cách nào trong production?
+6. Người dùng vừa cập nhật hồ sơ, load lại trang thì thấy dữ liệu cũ. Nguyên nhân là gì và có những cách khắc phục nào (`read your own write`, đọc từ master, chờ `LSN`)?
+7. Khi master chết, quy trình `failover` diễn ra thế nào? `split-brain` là gì và bạn phòng tránh bằng cơ chế nào?
+8. `Master-master` (multi-master) replication gặp vấn đề gì? Nêu các chiến lược giải quyết xung đột `last-write-wins`, `vector clock`, `CRDT` và điểm yếu của từng cái.
+9. Phân biệt `replication`, `partitioning` và `sharding`. Postgres table partitioning khác sharding ở chỗ nào?
+10. `Sharding` là gì? Bạn chọn `shard key` dựa trên tiêu chí gì, và một shard key tồi gây hậu quả ra sao (`hotspot`, dữ liệu lệch)?
+11. So sánh các chiến lược chia shard theo `hash`, theo `range` và theo `geo`/tenant. Ưu nhược điểm và trường hợp dùng của từng cách?
+12. Vì sao `cross-shard query` và `cross-shard transaction` lại khó đến vậy? Bạn xử lý một truy vấn cần dữ liệu từ nhiều shard bằng cách nào?
+13. Khi thêm shard mới, dữ liệu phải phân bố lại. Giải thích `consistent hashing` giúp giảm số key phải di chuyển như thế nào.
+14. Mô tả các bước `resharding` một hệ thống đang chạy mà không downtime.
+15. Phát biểu `CAP theorem`. Vì sao trong hệ phân tán thực tế luôn buộc phải chọn `P`, khiến bài toán rút về trade-off giữa `C` và `A`?
+16. Cho một ví dụ hệ thống nên chọn `CP` và một ví dụ nên chọn `AP`. Giải thích lý do nghiệp vụ đằng sau mỗi lựa chọn.
+17. `PACELC` bổ sung gì so với `CAP`? Vì sao ngay cả khi không có partition thì vẫn phải chọn giữa latency và consistency?
+18. Phân biệt `strong consistency`, `eventual consistency` và `read-your-writes consistency`. Cho ví dụ tính năng phù hợp với từng mức.
+19. `Materialized view` khác `view` thường ra sao? Khi nào nên dùng, và bạn chọn chiến lược refresh nào (`REFRESH CONCURRENTLY`, incremental, theo lịch)?
+20. Cache (Redis) và read replica đều giúp giảm tải đọc — khác nhau ở đâu? Bạn xử lý `cache invalidation` như thế nào để tránh dữ liệu cũ?
+21. Phác lộ trình scale database theo từng giai đoạn tăng trưởng, từ một instance duy nhất đến khi buộc phải sharding. Ở mỗi bước, tín hiệu nào cho biết đã đến lúc chuyển sang bước tiếp theo?
+22. Chi phí thật của việc scale là gì (tiền hạ tầng, độ phức tạp vận hành, nhân lực)? Bạn dùng lập luận và số liệu nào để thuyết phục team KHÔNG sharding quá sớm?

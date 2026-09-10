@@ -30,6 +30,7 @@ title: "1. ACID, Normalization, ORMs, Query Optimization"
 - [Query Optimization](#query-optimization)
 - [Connection Pooling](#connection-pooling)
 - [Database Tuning](#database-tuning)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -501,3 +502,28 @@ Cost-benefit:
 Sharding rất hiếm cần với hardware modern.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `ACID` gồm những tính chất nào? Giải thích từng tính chất qua ví dụ chuyển tiền giữa hai tài khoản.
+2. Phân biệt `Consistency` trong ACID với `Consistency` trong `CAP theorem` — hai khái niệm này có phải một không?
+3. Kể 4 `isolation level`. Mỗi mức ngăn được anomaly nào (`dirty read`, `non-repeatable read`, `phantom read`)?
+4. Postgres mặc định chạy `Read Committed`. Khi nào bạn buộc phải nâng lên `Repeatable Read` hoặc `Serializable`, và cái giá phải trả là gì?
+5. `deadlock` xảy ra trong tình huống nào? Database phát hiện và xử lý ra sao, còn phía code bạn viết thế nào để giảm khả năng deadlock?
+6. Chuẩn hoá `1NF` → `2NF` → `3NF` khác nhau ở đâu? Cho một bảng đơn hàng chưa chuẩn hoá và tách nó ra từng bước.
+7. Khi nào bạn cố tình `denormalize`? Đánh đổi những gì, và làm sao giữ dữ liệu bị nhân bản không bị lệch?
+8. `index` giúp query nhanh lên bằng cơ chế nào? Vì sao thêm index lại làm chậm `INSERT`/`UPDATE`?
+9. Với `composite index (a, b, c)`, một query chỉ lọc theo `b` và `c` mà không có `a` thì có tận dụng được index không? Vì sao?
+10. Đọc output `EXPLAIN ANALYZE`: `Seq Scan`, `Index Scan` và `Bitmap Heap Scan` khác nhau thế nào? `cost` ước lượng và `actual time` nói lên điều gì?
+11. Một query đang nhanh bỗng chậm hẳn trên production. Bạn lần theo trình tự nào để tìm nguyên nhân?
+12. `N+1 query` là gì, phát hiện bằng cách nào, và ORM cung cấp cơ chế gì để tránh?
+13. Dùng ORM được lợi gì và mất gì so với viết SQL thẳng? Trường hợp nào bạn bỏ ORM để viết raw SQL?
+14. `connection pool` giải quyết vấn đề gì? Đặt `pool size` quá lớn thì hỏng chuyện gì?
+15. Vì sao môi trường `serverless` cần pooler ngoài như `PgBouncer`? Phân biệt chế độ `session` pooling và `transaction` pooling.
+16. `VACUUM` và `ANALYZE` trong Postgres làm việc gì? `table bloat` sinh ra từ đâu và hậu quả nếu không vacuum?
+17. So sánh `replication` và `sharding` — mỗi cách giải quyết loại tải nào? Vì sao sharding thường bị coi là giải pháp cuối cùng?
+18. Hệ thống đọc từ read replica sẽ gặp `replication lag`. Kể một bug thực tế do lag gây ra và cách bạn xử lý.

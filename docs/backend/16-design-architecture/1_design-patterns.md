@@ -28,6 +28,7 @@ title: "1. Design Patterns, DDD, CQRS, Event Sourcing"
 - [Event-Driven Architecture](#event-driven-architecture)
 - [CQRS](#cqrs)
 - [Event Sourcing](#event-sourcing)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -474,3 +475,35 @@ Read model: Postgres materialized view nếu cần
 Đủ scale đến vài triệu user. Add complexity khi đo cần.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Design pattern` là gì và vì sao cần biết? Phân biệt ba nhóm `Creational`, `Structural`, `Behavioral` và cho ví dụ mỗi nhóm.
+2. Giải thích `Strategy pattern`. Bạn dùng nó thay cho chuỗi `if/else` dài trong tình huống nào — cho một ví dụ thực tế như chọn cổng thanh toán hay thuật toán tính phí ship.
+3. `Factory` và `Builder` khác nhau ở đâu? Khi nào một object phức tạp tới mức nên dùng `Builder`?
+4. Vì sao `Singleton` thường bị coi là anti-pattern? Nó gây khó khăn gì cho unit test, cho môi trường đa luồng và khi app chạy nhiều instance?
+5. Cả `Decorator`, `Proxy` và `Adapter` đều "bọc" một object. Phân biệt ba pattern này theo mục đích sử dụng, kèm ví dụ.
+6. `Observer pattern` hoạt động thế nào ở mức code? Nó liên hệ ra sao với `pub/sub` ở mức hệ thống phân tán?
+7. `Repository pattern` giải quyết vấn đề gì? Có ý kiến cho rằng ORM đã đóng vai trò repository rồi nên thêm một lớp nữa là thừa — bạn phản biện thế nào?
+8. `Unit of Work` là gì, và nó phối hợp với `Repository` ra sao để quản lý ranh giới transaction?
+9. `Dependency Injection` mang lại lợi ích gì cho khả năng test? So sánh constructor injection với `Service Locator`.
+10. Trong `DDD`, phân biệt `Entity` và `Value Object`. Cho ví dụ cụ thể và giải thích vì sao `Value Object` nên `immutable`.
+11. `Aggregate` và `Aggregate Root` là gì? Vì sao mọi thay đổi buộc phải đi qua root, và bạn dựa vào đâu để vạch ranh giới một aggregate?
+12. `Bounded Context` là gì? Cùng chữ "Customer" có thể mang nghĩa khác nhau ở hai context — bạn ánh xạ giữa chúng ra sao (`Context Map`, `Anti-Corruption Layer`)?
+13. `Ubiquitous Language` giúp gì trong thực tế? Cho ví dụ một đoạn code phản ánh sai ngôn ngữ nghiệp vụ và cách sửa.
+14. Khi nào `DDD` là overkill? Với một CRUD app đơn giản, bạn dùng cấu trúc nào thay thế và vì sao?
+15. Mô tả `Event-Driven Architecture`. So sánh với kiến trúc gọi API trực tiếp về mức độ coupling, khả năng chịu lỗi và độ khó khi debug.
+16. Phân biệt `event`, `command` và `message`. Bạn đặt tên event theo quy ước nào và vì sao thì quá khứ?
+17. Broker thường chỉ đảm bảo `at-least-once delivery`, nghĩa là consumer có thể nhận trùng. Bạn thiết kế consumer `idempotent` bằng cách nào?
+18. `Schema evolution` của event: khi cần thêm hoặc đổi field mà đã có nhiều consumer đang chạy, làm sao để không phá vỡ hệ thống? Nói về backward/forward compatibility và versioning.
+19. Giải thích `CQRS`. Việc tách read model khỏi write model đem lại lợi ích gì, và bạn phải trả giá bằng gì?
+20. `CQRS` có bắt buộc đi kèm `Event Sourcing` không? Hai pattern này quan hệ với nhau ra sao và có thể dùng riêng lẻ không?
+21. Với `CQRS`, read model luôn trễ hơn write một nhịp. Người dùng vừa tạo đơn xong, load lại thì không thấy — bạn xử lý tình huống này ở tầng nào?
+22. `Event Sourcing` lưu gì thay cho current state? Nêu lợi ích (`audit trail`, `time-travel`, `replay`) và các khó khăn thực tế khi vận hành lâu dài.
+23. Trong `Event Sourcing`, `snapshot` dùng để làm gì? Khi một stream có hàng trăm nghìn event, bạn tối ưu việc dựng lại state thế nào?
+24. Một event sai đã được ghi vào event store append-only, không được phép sửa hay xoá. Bạn khắc phục bằng cách nào?
+25. Bạn được yêu cầu áp dụng `DDD` + `CQRS` + `Event Sourcing` cho một dự án mới. Bạn đặt những câu hỏi gì trước khi đồng ý, và trong trường hợp nào bạn khuyên nên từ chối?

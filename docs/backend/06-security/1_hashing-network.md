@@ -29,6 +29,7 @@ Bài này nói về hai mảng nền tảng giúp giữ an toàn cho hệ thốn
 - [HTTPS / TLS](#https--tls)
 - [CORS](#cors)
 - [CSP](#csp)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -459,3 +460,39 @@ export default async function RootLayout({ children }) {
 Middleware generate nonce per request → inject vào CSP header + script tag.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Hashing`, `encryption` và `encoding` khác nhau ở chỗ nào? Cho ví dụ dùng sai mỗi loại.
+2. Một hàm hash tốt cần những tính chất gì? Giải thích `avalanche effect` và `collision resistance`.
+3. Vì sao tuyệt đối không lưu password dạng plaintext, và cũng không lưu dạng mã hoá có thể giải ngược?
+4. `MD5` và `SHA-256` đều là one-way, vậy vì sao vẫn **không** được dùng để hash password?
+5. `salt` giải quyết vấn đề gì (`rainbow table`, hai user cùng đặt một mật khẩu)? Salt có cần giữ bí mật không, lưu ở đâu?
+6. `pepper` khác `salt` thế nào và vì sao phải để pepper ngoài database?
+7. `bcrypt` lưu salt ở đâu? Bóc tách chuỗi `$2b$12$...` xem gồm những thành phần gì.
+8. `cost factor` / `work factor` là gì? Chọn cost bao nhiêu, và vì sao phải tăng dần theo thời gian?
+9. So sánh `bcrypt`, `scrypt`, `Argon2id`, `PBKDF2`. "Memory-hard" nghĩa là gì và nó vô hiệu hoá loại phần cứng tấn công nào?
+10. Bạn muốn nâng cost cho toàn bộ user cũ nhưng không biết password của họ — làm cách nào để migrate mà user không phải đổi mật khẩu?
+11. `Timing attack` là gì? Vì sao mọi thao tác so sánh password/token/HMAC phải `constant-time`?
+12. Khi nào dùng `HMAC` thay vì hash thường? Verify chữ ký webhook của Stripe/GitHub hoạt động ra sao?
+13. `MD5` và `SHA-1` bị coi là "broken" nghĩa là gì cụ thể? Chúng còn dùng được cho việc gì?
+14. HTTPS khác HTTP ở điểm nào? Mô tả `TLS handshake`: hai bên trao đổi những gì và khoá phiên được sinh ra thế nào?
+15. Chứng chỉ do `CA` cấp giải quyết vấn đề gì? Trình duyệt verify `certificate chain` theo trình tự nào?
+16. `TLS 1.3` cải thiện gì so với `TLS 1.2` (số round-trip, những cipher suite bị loại bỏ)?
+17. `Forward secrecy` là gì? `ECDHE` mang lại điều đó bằng cách nào, và vì sao key exchange kiểu RSA cũ thì không?
+18. `HSTS` chặn được tấn công nào? `preload` list dùng làm gì và rủi ro khi lỡ bật là gì?
+19. Đội bạn dùng cert Let's Encrypt hạn 90 ngày. Bạn thiết kế quy trình renew và cảnh báo hết hạn ra sao?
+20. `Same-origin policy` định nghĩa "origin" bằng những thành phần nào? `https://app.com` và `https://api.app.com` có cùng origin không?
+21. `CORS` bảo vệ ai? Vì sao nói CORS **không** phải cơ chế bảo mật phía server — gọi bằng `curl`/Postman thì sao?
+22. Khi nào browser gửi `preflight OPTIONS`? Thế nào là một "simple request" không cần preflight? `Access-Control-Max-Age` giúp gì?
+23. Vì sao `Access-Control-Allow-Origin: *` không đi chung được với `Access-Control-Allow-Credentials: true`?
+24. Server reflect thẳng header `Origin` của request vào `Access-Control-Allow-Origin` — cách này sai ở đâu và bị khai thác thế nào?
+25. Frontend báo lỗi CORS khi gọi API. Bạn debug theo trình tự nào để biết lỗi ở preflight, ở header thiếu, hay thực ra là lỗi 500 của server?
+26. `CSP` chặn `XSS` bằng cơ chế nào? So sánh `nonce`, `hash` và `'unsafe-inline'`.
+27. Vì sao nên chạy `Content-Security-Policy-Report-Only` một thời gian trước khi enforce? Quy trình siết CSP dần gồm những bước nào?
+28. `frame-ancestors` khác `X-Frame-Options` thế nào và chặn được loại tấn công gì?
+29. Ngoài CSP và HSTS, bạn còn bật những security header nào ở production và mỗi cái chống gì?

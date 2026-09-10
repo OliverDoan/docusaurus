@@ -29,6 +29,7 @@ CI/CD là việc tự động hoá các bước build, test và deploy mỗi khi
 - [GitHub Actions](#github-actions)
 - [Pipeline pattern](#pipeline-pattern)
 - [Deployment strategies](#deployment-strategies)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -388,3 +389,32 @@ Setup 1 lần, productive forever.
 - Smoke test ngay sau deploy.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Phân biệt `Continuous Integration`, `Continuous Delivery` và `Continuous Deployment`. Ranh giới nằm ở bước nào?
+2. CI giải quyết vấn đề gì so với cách merge code thủ công theo tuần/tháng (`integration hell`)?
+3. Một pipeline điển hình gồm những stage nào, theo thứ tự nào, và vì sao lại là thứ tự đó?
+4. Vì sao build phải `reproducible` và `idempotent`? Điều gì hỏng nếu chạy lại pipeline mà ra kết quả khác?
+5. Trong `GitHub Actions`, phân biệt `workflow`, `job`, `step` và `runner`. Job chạy song song hay tuần tự mặc định, và `needs` dùng để làm gì?
+6. Những `trigger` nào thường dùng (`push`, `pull_request`, `schedule`, `workflow_dispatch`)? Vì sao pipeline cho PR khác pipeline cho nhánh main?
+7. `matrix` build dùng để làm gì? Cho một ví dụ bạn thực sự cần nó.
+8. `services` trong GitHub Actions giúp gì khi integration test cần một database thật?
+9. Caching trong CI (`actions/cache`, Docker layer cache) hoạt động ra sao? Cache key đặt sai dẫn tới hậu quả gì?
+10. Pipeline của bạn mất 40 phút. Bạn tối ưu theo những hướng nào và ưu tiên cái gì trước?
+11. Quản lý `secrets` trong CI/CD như thế nào? Vì sao secret không được xuất hiện trong log, làm sao mask nó, và PR từ fork có đọc được secret không?
+12. `artifact` khác `cache` ở điểm nào? Vì sao nên build một lần rồi promote cùng một artifact qua các environment thay vì build lại ở mỗi env?
+13. `branch protection` và `required status check` phục vụ mục đích gì trong quy trình?
+14. So sánh rolling, `blue-green` và `canary` deploy về downtime, chi phí hạ tầng, tốc độ rollback và độ phức tạp.
+15. Rolling deploy làm v1 và v2 tồn tại đồng thời. Điều đó ảnh hưởng gì tới `database migration`, và bạn thiết kế migration tương thích ngược ra sao (expand-contract)?
+16. `feature flag` tách "deploy" khỏi "release" như thế nào? Nợ kỹ thuật kèm theo là gì?
+17. Với `canary`, bạn dựa vào tín hiệu nào để quyết định tăng traffic hay rollback tự động?
+18. Chiến lược rollback của bạn là gì khi bản vừa deploy bị hỏng? Rollback code có đủ không nếu migration đã chạy?
+19. `smoke test` sau deploy kiểm tra những gì, và khác gì với test đã chạy ở bước CI?
+20. Một job trong CI đỏ nhưng chạy ở local lại xanh. Bạn điều tra theo hướng nào?
+21. Vì sao deploy nhầm environment là sự cố nghiêm trọng, và bạn dùng cơ chế nào để chặn (environment protection, approval gate, naming convention)?
+22. Bạn đo hiệu quả của quy trình CI/CD bằng chỉ số nào? Giải thích 4 chỉ số `DORA`: deployment frequency, lead time, change failure rate, MTTR.

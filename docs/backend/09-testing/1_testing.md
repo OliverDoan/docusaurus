@@ -30,6 +30,7 @@ Testing là viết code để tự động kiểm tra xem code chính của bạ
 - [E2E Testing](#e2e-testing)
 - [Load Testing](#load-testing)
 - [TDD](#tdd)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -429,3 +430,30 @@ Tool đo coverage:
 - **Coveralls**, **Codecov** — CI dashboard.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Vì sao cần test tự động thay vì test tay? Test mang lại giá trị gì khi bạn refactor?
+2. Giải thích `Testing Pyramid`. Điều gì xảy ra khi tháp bị lộn ngược (`ice cream cone`)?
+3. Phân biệt unit test, integration test và `E2E` test. Mỗi loại bắt được bug nào mà loại kia bỏ sót?
+4. Một unit test tốt cần thoả những tính chất nào (nhanh, độc lập, lặp lại được, tự kiểm chứng)?
+5. Cấu trúc `Arrange - Act - Assert` là gì? Vì sao nên tránh nhồi nhiều assert không liên quan vào một test?
+6. Phân biệt `mock`, `stub`, `spy` và `fake`. Khi nào dùng cái nào?
+7. Mock quá nhiều dẫn tới vấn đề gì? Làm sao tránh tình trạng test xanh nhưng production vẫn hỏng?
+8. Integration test nên dùng database thật, in-memory DB hay mock? Ưu nhược của `Testcontainers`, Docker Compose và SQLite?
+9. Làm sao đảm bảo test isolation khi nhiều test cùng đụng vào một database? So sánh cách transaction rollback với truncate/reseed.
+10. Test một API endpoint có auth và có gọi service bên ngoài (payment, email) thì bạn xử lý phần bên ngoài thế nào?
+11. Với code bất định (thời gian hiện tại, random, UUID, network), bạn làm cho test deterministic bằng cách nào?
+12. `flaky test` là gì, thường do nguyên nhân nào, và bạn xử lý một test flaky trong CI ra sao?
+13. E2E test đắt và dễ vỡ. Bạn chọn flow nào để làm E2E và cho chúng chạy ở thời điểm nào trong pipeline?
+14. `code coverage` nói lên điều gì và KHÔNG nói lên điều gì? Vì sao 100% coverage không đáng theo đuổi?
+15. Load testing khác stress, spike và soak test ra sao? Vì sao nhìn `p95`/`p99` thay vì giá trị trung bình?
+16. Bạn đọc kết quả một lần chạy `k6` như thế nào — chỉ số nào cho biết hệ thống đã tới hạn?
+17. Mô tả vòng `TDD` Red-Green-Refactor. Việc viết test trước làm thay đổi thiết kế code như thế nào?
+18. Khi sửa một bug production, quy trình test hợp lý là gì? Vì sao nên viết regression test trước khi fix?
+19. Test code có cần refactor không? Bạn xử lý sao khi mỗi lần đổi implementation là hàng chục test đỏ (test bám implementation thay vì hành vi)?
+20. `contract testing` giải quyết vấn đề gì giữa các service mà unit test và E2E test đều không giải quyết tốt?

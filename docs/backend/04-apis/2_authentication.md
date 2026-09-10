@@ -31,6 +31,7 @@ Authentication (xác thực) trả lời câu hỏi "bạn là ai?", còn Author
 - [API Key / Token Authentication](#api-key--token-authentication)
 - [OpenID Connect](#openid-connect)
 - [SAML](#saml)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -542,3 +543,34 @@ API for developer?
 Một lỗi auth = compromise toàn user. Test kỹ.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Phân biệt `authentication` và `authorization`. Cho một ví dụ lỗi thực tế khi code kiểm rất kỹ "đã đăng nhập chưa" nhưng quên bước còn lại.
+2. HTTP là `stateless`, vậy server "nhớ" được bạn đã đăng nhập bằng cách nào?
+3. Mô tả flow `session-based auth` từ lúc user submit form login tới lúc request tiếp theo được nhận diện. Server lưu gì, client giữ gì?
+4. Các cookie flag `HttpOnly`, `Secure`, `SameSite`, `Max-Age` mỗi cái chặn được rủi ro nào?
+5. `JWT` gồm mấy phần? `signature` được tạo ra sao, và nó bảo đảm điều gì — quan trọng hơn là **không** bảo đảm điều gì?
+6. Vì sao nói payload của `JWT` không phải chỗ để giấu bí mật? Bạn nên và không nên đặt claim gì vào đó?
+7. So sánh `session ID` với `JWT` ở bốn khía cạnh: cách verify, khả năng revoke, chi phí scale, và nơi lưu phía browser. Khi nào bạn chọn cái nào?
+8. User bấm logout nhưng `JWT` của họ còn hạn 20 phút. Làm sao chặn token đó ngay lập tức? Nêu ít nhất ba cách và đánh đổi của từng cách.
+9. Vì sao phải tách `access token` và `refresh token`? Đặt thời hạn mỗi loại bao nhiêu và lý do?
+10. Lưu token ở `localStorage`, cookie `httpOnly`, hay biến trong memory? Phân tích đánh đổi giữa `XSS` và `CSRF` cho từng lựa chọn.
+11. Giải thích `algorithm confusion attack` (`alg: none`, đổi `RS256` sang `HS256`). Verify token thế nào cho đúng?
+12. Ngoài `exp`, khi verify `JWT` bạn còn phải kiểm những claim nào (`iss`, `aud`, `sub`, `nbf`) và vì sao bỏ qua chúng lại nguy hiểm?
+13. Mô tả flow `OAuth 2.0 Authorization Code`. Vì sao phải đổi `authorization code` lấy token ở server thay vì trả token thẳng về browser?
+14. `PKCE` sinh ra để vá lỗ hổng nào trên mobile/SPA? `code_verifier` và `code_challenge` hoạt động ra sao?
+15. Tham số `state` trong OAuth dùng để làm gì? Bỏ nó đi thì bị tấn công kiểu gì?
+16. `OAuth 2.0` khác `OpenID Connect` chỗ nào? `access_token` và `id_token` mỗi cái dùng vào việc gì, và vì sao không nên dùng `access_token` để xác định danh tính?
+17. Vì sao `OAuth 2.1` khai tử `Implicit grant` và `Password grant`?
+18. Khi nào dùng `Client Credentials grant` thay vì `Authorization Code grant`?
+19. `API key` khác token của người dùng ở điểm nào? Bạn lưu, verify, phân scope và rotate API key trong DB ra sao?
+20. `SAML` và `OIDC` khác nhau thế nào? Vì sao khách hàng enterprise B2B vẫn đòi SAML?
+21. Tình huống: bạn nghi `refresh token` của một user bị đánh cắp. Thiết kế `refresh token rotation` + `reuse detection` để phát hiện và giới hạn thiệt hại.
+22. Password phải hash bằng thuật toán nào và vì sao không dùng `SHA-256`? Login endpoint cần thêm phòng thủ gì (rate limit, lockout, thông báo lỗi mơ hồ)?
+23. Thiết kế luồng `password reset` qua email và `2FA` bằng `TOTP` — những chỗ nào dễ làm sai?
+24. `Passkeys`/`WebAuthn` chống `phishing` gần như tuyệt đối nhờ cơ chế nào?

@@ -30,6 +30,7 @@ Docker giúp đóng gói ứng dụng cùng mọi thứ nó cần vào một "co
 - [Docker Compose](#docker-compose)
 - [Kubernetes](#kubernetes)
 - [Container best practices](#container-best-practices)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -475,3 +476,29 @@ K8s pod terminate → SIGTERM → app cleanup → exit. Không cleanup =
 connection drop, user thấy error.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Container khác `VM` ở chỗ nào? Vì sao container khởi động tính bằng giây còn VM tính bằng phút?
+2. Phân biệt `image`, `container` và `layer`. Vì sao image là immutable mà container vẫn ghi được dữ liệu?
+3. Docker tận dụng `layer cache` theo thứ tự nào? Vì sao `COPY package.json` phải đứng trước `COPY . .`?
+4. `multi-stage build` giải quyết vấn đề gì? Bạn kéo image một app Node từ 1GB xuống dưới 150MB bằng những cách nào?
+5. `RUN`, `CMD` và `ENTRYPOINT` chạy vào thời điểm nào và khác nhau ra sao? Khi nào dùng ENTRYPOINT thay cho CMD?
+6. Phân biệt `COPY` với `ADD`, `ARG` với `ENV`. Vì sao truyền secret qua `ARG` trong Dockerfile là sai?
+7. Vì sao nên chạy container bằng `non-root user`? Còn cách nào khác để thu nhỏ bề mặt tấn công của image?
+8. Dữ liệu trong container mất khi container bị xoá — `volume` và `bind mount` khác nhau ra sao, khi nào dùng cái nào?
+9. Các container nói chuyện với nhau qua Docker network như thế nào? `docker compose` giúp được gì so với chạy tay từng `docker run`?
+10. Khi nào một dự án thực sự cần `Kubernetes`, và khi nào Docker Compose hoặc PaaS là đủ?
+11. Giải thích quan hệ `Pod` → `ReplicaSet` → `Deployment`. Vì sao hiếm khi tạo Pod trực tiếp?
+12. `ClusterIP`, `NodePort` và `LoadBalancer` khác nhau thế nào? `Ingress` đứng ở đâu trong bức tranh đó?
+13. `liveness probe` và `readiness probe` khác nhau ở hậu quả khi fail. Cấu hình nhầm liveness cho app khởi động chậm sẽ gây hiện tượng gì, và `startup probe` cứu thế nào?
+14. `requests` và `limits` của CPU/memory ảnh hưởng ra sao tới việc scheduling? Vượt memory limit (`OOMKilled`) khác gì vượt CPU limit (throttling)?
+15. Mô tả một `rolling update`: K8s thay pod theo trình tự nào, và cần những gì để user không thấy lỗi trong lúc deploy?
+16. App nên làm gì khi nhận tín hiệu `SIGTERM`? `graceful shutdown` liên quan thế nào tới `terminationGracePeriodSeconds`?
+17. `ConfigMap` khác `Secret` ra sao? Secret trong K8s mặc định chỉ `base64` — vậy bảo mật thật sự đến từ đâu?
+18. `StatefulSet` khác `Deployment` ở điểm nào, và vì sao database cần StatefulSet?
+19. Một pod đứng ở trạng thái `CrashLoopBackOff`. Bạn debug theo các bước nào?

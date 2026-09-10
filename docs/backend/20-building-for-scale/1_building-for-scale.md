@@ -29,6 +29,7 @@ Khi ứng dụng có nhiều người dùng, không chỉ database mà cả tầ
 - [CDN](#cdn)
 - [Caching layer](#caching-layer)
 - [Geographic distribution](#geographic-distribution)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -370,3 +371,28 @@ Code đúng pattern → scale là **config + infra**, không phải rewrite.
 tuned đúng > 5 microservice mới setup.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Phân biệt `vertical scaling` và `horizontal scaling`. Vì sao đa số hệ thống hiện đại ưu tiên scale ngang, và khi nào scale dọc vẫn là lựa chọn đúng?
+2. "App `stateless`" nghĩa là gì và vì sao đó là điều kiện tiên quyết để scale ngang? Session, file upload và kết nối `WebSocket` phải xử lý ở đâu?
+3. API đang chậm. Mô tả thứ tự bạn truy bottleneck (query DB → cache → CPU app → bandwidth → region) và vì sao không nhảy thẳng lên `multi-region`.
+4. Load balancer làm gì? So sánh `round-robin`, `least connections`, `weighted` và `IP hash` — mỗi thuật toán hợp tình huống nào?
+5. Phân biệt load balancer `Layer 4` và `Layer 7`. Cái nào cho phép route theo path/header và vì sao?
+6. `health check` hoạt động thế nào? Phân biệt `liveness` và `readiness`. Điều gì xảy ra nếu endpoint health chỉ trả `200 OK` mà không kiểm tra dependency nào?
+7. `sticky session` giải quyết vấn đề gì và tạo ra vấn đề gì khi autoscale? Có cách nào bỏ hẳn sticky session không?
+8. CDN giảm tải origin bằng cách nào? Phân biệt `max-age` và `s-maxage`; `stale-while-revalidate` dùng để làm gì?
+9. Bạn vừa deploy bản mới nhưng user vẫn thấy JS/CSS cũ. Nguyên nhân là gì và có những cách xử lý nào (`cache busting` theo hash tên file, `purge`, chỉnh `TTL`)?
+10. Mô tả các tầng cache từ browser xuống database. Mỗi tầng lọc bớt được gì, và vì sao càng nhiều tầng thì `cache invalidation` càng khó?
+11. `cache stampede` (`thundering herd`) là gì? Khi một key nóng hết hạn cùng lúc thì chuyện gì xảy ra với DB, và bạn chặn bằng cách nào (`lock`, `stale-while-revalidate`, jitter cho TTL)?
+12. `edge function` khác gì server ở origin? Loại logic nào nên đặt ở edge và loại nào tuyệt đối không?
+13. Khi nào thực sự cần `multi-region`? So sánh `read replica` đa vùng, `active-active` và `edge-first` — mỗi mô hình đánh đổi gì về latency, chi phí và độ phức tạp?
+14. Trong `active-active`, hai region cùng sửa một bản ghi thì giải quyết xung đột ra sao (`last-write-wins`, `CRDT`, phân vùng quyền ghi theo user)? Rủi ro của `last-write-wins` là gì?
+15. `graceful shutdown` là gì và vì sao quan trọng khi autoscale hoặc `rolling deploy`? Bạn xử lý các request đang chạy dở và job đang tiêu thụ như thế nào?
+16. Vì sao API nên `idempotent` khi hệ thống có retry và nhiều instance? Triển khai `idempotency key` ở phía server ra sao?
+17. Production đang chậm và bạn SSH vào máy: dùng lệnh nào để xem CPU, RAM, disk, kết nối mạng và log (`top`, `free -h`, `df -h`, `ss`, `journalctl`)? Mô tả trình tự chẩn đoán của bạn.
+18. Kể ít nhất 3 anti-pattern khi scale (microservice từ ngày 1, `multi-region` cho MVP, `sharding` khi mới 10 user, cache mọi thứ) và giải thích vì sao chúng gây hại nhiều hơn lợi.

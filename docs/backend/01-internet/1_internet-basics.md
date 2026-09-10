@@ -28,6 +28,7 @@ Trước khi viết backend, bạn cần hiểu Internet vận hành thế nào:
 - [Domain Name và DNS](#domain-name-và-dns)
 - [Hosting](#hosting)
 - [Browser hoạt động ra sao?](#browser-hoạt-động-ra-sao)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -203,3 +204,25 @@ Không cần master ngay — học khi gặp. Nhưng nắm khái niệm để de
 khi network issue.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Điều gì xảy ra từ lúc bạn gõ `google.com` vào trình duyệt cho tới khi trang hiện ra?
+2. `TCP` và `IP` khác nhau ở chỗ nào — mỗi giao thức chịu trách nhiệm phần việc gì?
+3. Mô tả `three-way handshake` của TCP (`SYN` → `SYN-ACK` → `ACK`). Vì sao phải mất 3 bước?
+4. TCP khác `UDP` thế nào? Trường hợp nào nên chọn UDP dù nó không đảm bảo dữ liệu tới nơi?
+5. DNS phân giải một tên miền theo trình tự nào? Kể từ cache của máy bạn cho tới authoritative server.
+6. Các loại DNS record `A`, `AAAA`, `CNAME`, `MX`, `TXT` dùng để làm gì?
+7. `TTL` trong DNS là gì, và vì sao đổi bản ghi DNS thường không có hiệu lực ngay lập tức?
+8. HTTPS khác HTTP ở điểm nào? `TLS handshake` diễn ra ra sao và chứng chỉ do `CA` cấp giải quyết vấn đề gì?
+9. HTTP là `stateless` nghĩa là gì? Vậy website nhớ được bạn đã đăng nhập bằng cách nào?
+10. Phân biệt HTTP/1.1, HTTP/2 và HTTP/3. HTTP/2 khắc phục được hạn chế nào của HTTP/1.1?
+11. Ý nghĩa của các nhóm status code `2xx`/`3xx`/`4xx`/`5xx`? Phân biệt `401` với `403`, `301` với `302`.
+12. Domain, subdomain và TLD khác nhau ra sao? Registrar đóng vai trò gì?
+13. So sánh các hình thức hosting: shared, VPS, cloud, PaaS, serverless. Khi nào chọn cái nào?
+14. Trình duyệt dựng một trang web qua những bước nào (DOM, CSSOM, render tree, layout, paint)?
+15. `TTFB` là gì và backend có thể làm gì để cải thiện chỉ số này?

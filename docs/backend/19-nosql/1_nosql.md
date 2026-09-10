@@ -30,6 +30,7 @@ NoSQL là nhóm các database không theo kiểu bảng quan hệ (relational) n
 - [Graph DB (Neo4j)](#graph-db-neo4j)
 - [Time Series DB](#time-series-db)
 - [Khi nào dùng NoSQL?](#khi-nào-dùng-nosql)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -418,3 +419,27 @@ Hỏi:
 Không "Mongo cho mọi thứ" hoặc "DynamoDB vì AWS".
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. NoSQL là gì và khác relational database ở những điểm nào? Kể tên 5 nhóm chính (document, key-value, wide-column, graph, time-series) kèm bài toán tiêu biểu của từng nhóm.
+2. Vì sao NoSQL scale `horizontal` dễ hơn SQL? Cái giá phải trả về `JOIN`, transaction và tính nhất quán là gì?
+3. Giải thích `CAP theorem`. Vì sao MongoDB thường được xếp là `CP` còn Cassandra là `AP`? Khi mạng bị chia cắt (`network partition`), mỗi hệ hy sinh điều gì?
+4. Phân biệt `strong consistency` và `eventual consistency`. Cho một nghiệp vụ chấp nhận được eventual và một nghiệp vụ tuyệt đối không.
+5. `BASE` khác `ACID` ở đâu? MongoDB hỗ trợ transaction tới mức nào và có nên dựa vào nó cho luồng thanh toán không?
+6. Khi nào bạn chọn MongoDB thay vì `PostgreSQL JSONB`, và ngược lại? Postgres `JSONB` còn thiếu gì so với MongoDB?
+7. Trong document DB, khi nào nên `embed` dữ liệu con và khi nào nên `reference`? Giới hạn kích thước document ảnh hưởng thế nào tới quyết định này?
+8. `sharding` là gì? Chọn `shard key` sai gây `hotspot` như thế nào, và làm sao tránh (`high cardinality`, `hashed key`, `compound key`)?
+9. "Thiết kế bảng Cassandra theo `access pattern`" nghĩa là gì? Chuyện gì xảy ra khi sau 6 tháng nghiệp vụ cần query theo một cột không nằm trong `primary key`?
+10. Phân biệt `partition key` và `clustering key` trong Cassandra. `tunable consistency` (`ONE`, `QUORUM`, `ALL`) hoạt động ra sao và ảnh hưởng gì tới latency?
+11. Redis dùng làm cache, session, `rate limit` — bạn xử lý `cache invalidation` và `TTL` thế nào? Redis restart mất dữ liệu thì hệ thống ra sao? Phân biệt `RDB` và `AOF`.
+12. Redis chạy single-thread mà vẫn rất nhanh — vì sao? Một lệnh chậm như `KEYS *` gây hậu quả gì trên production, thay bằng gì?
+13. Khi nào graph DB (Neo4j) thắng hẳn SQL? Vì sao truy vấn "bạn của bạn của bạn" trên bảng quan hệ lại đắt, và `recursive CTE` trong Postgres giải quyết được tới đâu?
+14. Time-series DB tối ưu những gì mà Postgres thường không có sẵn? So sánh `TimescaleDB`, `InfluxDB`, `Prometheus` và `ClickHouse` — mỗi cái hợp việc gì?
+15. Vì sao `ClickHouse` quét hàng tỷ dòng nhanh hơn Postgres cho aggregation, nhưng lại không hợp OLTP? Giải thích theo kiến trúc `column-store`.
+16. `polyglot persistence` mang lại lợi gì và tạo ra chi phí vận hành nào? Bạn đồng bộ dữ liệu giữa các DB bằng cách nào (`dual write`, `CDC`, `outbox pattern`) và mỗi cách rủi ro gì?
+17. Một team muốn bỏ Postgres chuyển sang MongoDB vì "Mongo scale tốt hơn". Bạn sẽ hỏi lại và đo đạc những gì trước khi đồng ý?
