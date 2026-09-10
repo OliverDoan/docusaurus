@@ -94,6 +94,14 @@ const config: Config = {
     colorMode: {
       respectPrefersColorScheme: true,
     },
+    docs: {
+      sidebar: {
+        // Nút mũi tên ở đáy sidebar để ẩn hẳn sidebar, lấy thêm chỗ đọc
+        hideable: true,
+        // Mở một mục thì tự đóng mục đang mở — sidebar luôn ngắn
+        autoCollapseCategories: true,
+      },
+    },
     navbar: {
       title: 'My Site',
       logo: {
@@ -101,12 +109,6 @@ const config: Config = {
         src: 'img/logo.svg',
       },
       items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'loTrinhSidebar',
-          position: 'left',
-          label: 'Lộ trình',
-        },
         {
           type: 'dropdown',
           label: 'Frontend',
