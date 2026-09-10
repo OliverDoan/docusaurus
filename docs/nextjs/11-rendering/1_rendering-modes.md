@@ -29,6 +29,7 @@ Trong Next.js, **rendering** (kết xuất, tức quá trình biến code thành
 - [Composition](#composition)
 - [Khi nào dùng cái nào?](#khi-nào-dùng-cái-nào)
 - ["use server" directive](#use-server-directive)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -393,3 +394,30 @@ Nhỏ hơn nhiều so với ship cả component code.
 feature.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Trong App Router, một component không có directive nào thì mặc định là loại gì, và điều đó ảnh hưởng thế nào tới lượng JS gửi xuống trình duyệt?
+2. Kể ra những thứ `Server Component` KHÔNG làm được (hook, event handler, browser API) và giải thích vì sao lại có giới hạn đó.
+3. `"use client"` thực chất đánh dấu điều gì — component đó chỉ chạy trong trình duyệt, hay nó là ranh giới của một nhánh trong cây component?
+4. Một `Client Component` có được server render HTML lần đầu không? Mô tả các bước từ HTML đầu tiên tới lúc trang tương tác được (`hydration`).
+5. File A có `"use client"` và import file B (B không khai báo gì) — B là Server hay Client? Giải thích cơ chế kế thừa boundary.
+6. So sánh `SSG`, `SSR`, `ISR` và `CSR`: mỗi chế độ đánh đổi gì giữa tốc độ, `SEO` và độ tươi của dữ liệu?
+7. `export const dynamic = "force-static"`, `"force-dynamic"` và `export const revalidate` khác nhau ra sao? Cho ví dụ trang nên dùng từng loại.
+8. Với trang chi tiết sản phẩm e-commerce (giá và tồn kho đổi liên tục nhưng vẫn cần `SEO`), bạn chọn chế độ render nào và lập luận thế nào?
+9. Vì sao `Client Component` không import trực tiếp được `Server Component`? Cách đúng để đặt một `Server Component` bên trong cây Client là gì?
+10. Giải thích pattern "Server in Client" — truyền qua `children` hoặc JSX element làm prop. Lúc đó phần Server được render ở đâu và khi nào?
+11. Props truyền từ Server sang Client phải thoả điều kiện gì? Chuyện gì xảy ra nếu bạn truyền một function làm prop?
+12. Vì sao nên đẩy `"use client"` xuống càng sâu (component lá) càng tốt? Nếu đặt ngay đầu `page.tsx` thì bạn mất những lợi ích nào?
+13. Phân biệt ba directive: `"use client"` đầu file, `"use server"` đầu file, và `"use server"` bên trong function. Chúng có đối lập nhau không?
+14. `Server Action` là gì, khác `route handler` (`API route`) ở điểm nào, và khi nào bạn chọn cái nào?
+15. `RSC payload` là gì? Nó khác HTML và khác JS bundle ra sao, và được dùng ở lần tải đầu hay lúc điều hướng sau đó?
+16. Vì sao bundle của App Router thường nhỏ hơn Pages Router với cùng tính năng?
+17. Bạn cần `useState` cho phần lọc, nhưng dữ liệu lại lấy từ DB bằng secret key — thiết kế cây component thế nào cho đúng?
+18. Một thư viện UI bên thứ ba dùng hook nhưng không khai báo `"use client"`, import vào Server Component thì lỗi. Bạn xử lý ra sao?
+19. `Context Provider` (theme, auth, react-query) nên đặt ở đâu trong App Router để không biến cả cây thành Client?
+20. Làm sao đảm bảo code chứa secret không vô tình lọt vào client bundle? Nêu vai trò của `server-only` và quy ước `NEXT_PUBLIC_`.

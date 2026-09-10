@@ -29,6 +29,7 @@ title: "1. Browser DevTools"
 - [Network Panel](#network-panel)
 - [Performance Panel](#performance-panel)
 - [Memory Panel](#memory-panel)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -303,3 +304,27 @@ production** trong DevTools và reload sẽ dùng file đã sửa. Test fix
 trước khi deploy mà không cần dev environment.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Ngoài `console.log`, bạn hay dùng những API console nào và trong tình huống nào (`table`, `group`, `time`, `count`, `assert`, `dir`, `trace`)?
+2. Bạn `console.log` một object rồi sau đó sửa object đó — vì sao console lại hiển thị giá trị đã đổi? Cách tránh?
+3. `$0`, `$$()`, `copy()` và `monitorEvents()` trong console dùng để làm gì?
+4. Breakpoint theo dòng, `conditional breakpoint` và `logpoint` khác nhau ra sao? Khi nào bạn chọn logpoint thay vì thêm `console.log` vào code?
+5. DevTools còn những loại breakpoint nào khác (DOM change, XHR/fetch, event listener, pause on exception)? Kể tình huống thực tế dùng từng loại.
+6. `Step over`, `step into`, `step out` khác nhau thế nào? Khi nào cần dùng cái nào?
+7. Panel `Scope` và `Watch` khác nhau chỗ nào? Đọc `Call Stack` giúp gì khi truy ngược nguyên nhân lỗi?
+8. `Source map` là gì? Ba chế độ inline, separate và hidden đánh đổi ra sao? Vì sao không nên public map cho code nhạy cảm?
+9. Phải debug code production đã minify mà không có source map — bạn làm gì?
+10. Trong Network panel, đọc phần `Timing` (DNS, connect, `TTFB`, download) giúp chẩn đoán điều gì? `TTFB` cao thì nghi ngờ ở đâu?
+11. "Copy as fetch", "Copy as cURL" và "Block request URL" dùng vào việc gì trong thực tế?
+12. `Throttling` mạng dùng để kiểm thử những gì? Kể một loại bug chỉ lộ ra khi mạng chậm.
+13. Đọc `flame chart` trong Performance panel như thế nào? `Long task` là gì và vì sao lấy ngưỡng 50ms?
+14. `Layout thrashing` là gì? Nhận biết nó trên Performance panel ra sao và sửa thế nào?
+15. Ba kiểu profiling trong Memory panel (`heap snapshot`, `allocation timeline`, `allocation sampling`) khác nhau ra sao? Khi nào dùng so sánh snapshot?
+16. `Local Overrides` dùng làm gì? Kể tình huống bạn xác minh được một bug production mà không cần deploy.
+17. Mô tả quy trình debug performance của bạn từ lúc user báo lag cho tới khi xác nhận đã fix.

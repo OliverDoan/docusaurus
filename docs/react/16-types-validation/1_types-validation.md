@@ -29,6 +29,7 @@ Trong React, **Types** (kiểu dữ liệu) giúp bạn khai báo rõ ràng prop
 - [Type cho component](#type-cho-component)
 - [Validation runtime](#validation-runtime)
 - [Zod vs Yup vs Valibot](#zod-vs-yup-vs-valibot)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -455,3 +456,30 @@ Trong API/server: dùng `parse`, để error bubble lên error handler.
 Trong form: dùng `safeParse` để hiển thị error đẹp.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. TypeScript và Zod bảo vệ ứng dụng ở hai thời điểm khác nhau. Giải thích sự khác biệt đó.
+2. Vì sao chỉ có TypeScript là chưa đủ khi nhận dữ liệu từ API, form hay `localStorage`?
+3. `z.infer<typeof Schema>` mang lại lợi ích gì? Vì sao gọi đây là 'single source of truth'?
+4. Phân biệt `parse` và `safeParse`. Dùng cái nào ở tầng API server, cái nào ở form? Vì sao?
+5. Vì sao `PropTypes` bị loại khỏi React core từ v19? Nó có hạn chế gì so với TypeScript?
+6. Vì sao nên tránh `React.FC` khi khai báo component? Nêu ít nhất hai lý do.
+7. So sánh `type` và `interface` khi định nghĩa props. Khi nào bắt buộc phải dùng một trong hai?
+8. Phân biệt `ReactNode`, `ReactElement` và `JSX.Element`. Kiểu nào phù hợp cho `children`?
+9. Vì sao nên extend `React.ButtonHTMLAttributes` khi làm component `Button` tái sử dụng?
+10. Cách khai báo một **generic component** trong React + TypeScript? Cho ví dụ với component `List`.
+11. So sánh `unknown` và `any`. Vì sao `unknown` an toàn hơn khi nhận dữ liệu bên ngoài?
+12. **Discriminated union** giúp mô hình hoá các bộ props loại trừ lẫn nhau như thế nào?
+13. Xử lý `ZodError` ra sao để hiển thị lỗi theo từng field? `error.flatten()` hay `error.issues` phù hợp hơn?
+14. `.refine()` và `.superRefine()` khác nhau ở đâu? Khi nào bắt buộc dùng `.superRefine()`?
+15. `z.coerce` giải quyết vấn đề gì khi dữ liệu form luôn về dưới dạng chuỗi?
+16. So sánh Zod, Yup và Valibot theo tiêu chí type inference, hệ sinh thái và bundle size.
+17. Vì sao Valibot nhẹ hơn Zod đáng kể? Giải thích khái niệm tree-shakeable trong ngữ cảnh này.
+18. Validate biến môi trường bằng Zod ngay lúc khởi động ứng dụng mang lại lợi ích gì?
+19. Một API đổi schema mà không báo trước. Việc validate runtime giúp bạn phát hiện và xử lý sự cố này thế nào?
+20. Type assertion (`as`) và validate bằng Zod đều 'ép' được kiểu. Vì sao `as` là con dao hai lưỡi?

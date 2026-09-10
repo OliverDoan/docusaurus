@@ -29,6 +29,7 @@ title: "3. Top types và Bottom types"
 - [unknown](#unknown)
 - [Object và object](#object-và-object)
 - [never](#never)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -254,3 +255,25 @@ type X = NonNullable<string | null>; // string
 ```
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Top type và bottom type là gì? Trong TypeScript mỗi loại gồm những kiểu nào?
+2. `any` và `unknown` đều nhận được mọi giá trị — khác biệt cốt lõi giữa chúng nằm ở đâu?
+3. Vì sao nói `any` lan truyền như virus? Cho ví dụ một chuỗi thao tác làm mất hoàn toàn an toàn kiểu.
+4. Đoán lỗi: với `let x: unknown = fetchData();` thì `x.toUpperCase()` có biên dịch được không? Cần làm gì trước khi gọi được method đó?
+5. `unknown` có gán được cho `string` không, và ngược lại `string` có gán được cho `unknown` không? Giải thích theo quan hệ subtype.
+6. Phân biệt `never` và `void`. Hàm trả `void` khác hàm trả `never` ở chỗ nào về mặt luồng thực thi?
+7. Những trường hợp nào TypeScript tự suy luận ra `never`? Nêu ít nhất ba tình huống.
+8. Exhaustiveness check bằng `never` hoạt động thế nào? Điều gì xảy ra ở nhánh `default` khi ta thêm một member mới vào union?
+9. Vì sao `never & T = never` còn `never | T = T`? Giải thích bằng khái niệm tập hợp.
+10. Phân biệt `Object` (chữ hoa), `object` (chữ thường) và `{}`. Kiểu nào nhận được primitive, kiểu nào không?
+11. Vì sao `@typescript-eslint` mặc định cấm dùng `Object`, `Number`, `String`, `Boolean` chữ hoa làm type annotation?
+12. Flag `useUnknownInCatchVariables` làm gì? Vì sao ở cấu hình cũ biến trong `catch (e)` lại là `any`, và điều đó nguy hiểm ra sao?
+13. Trong `type NonNullable<T> = T extends null | undefined ? never : T`, vì sao trả về `never` lại có tác dụng loại bỏ nhánh khỏi union?
+14. Mảng `never[]` có ý nghĩa gì? Vì sao `const a = [];` trong một số ngữ cảnh strict lại được suy luận thành `never[]`?
+15. `unknown` được coi là top type an toàn, nhưng có trường hợp nào bắt buộc phải dùng `any` không? Nếu có thì nên khoanh vùng thế nào?

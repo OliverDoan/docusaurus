@@ -29,6 +29,7 @@ Next.js có hai hệ thống định tuyến song song: **Pages Router** (router
 - [App Router (khuyến nghị)](#app-router-khuyến-nghị)
 - [So sánh chi tiết](#so-sánh-chi-tiết)
 - [Migration strategy](#migration-strategy)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -358,3 +359,25 @@ Trong giai đoạn migration, cấu trúc lai này chấp nhận được. Mục
 cuối: chỉ còn `app/`.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Pages Router` và `App Router` khác nhau thế nào về cấu trúc thư mục và quy ước đặt tên file?
+2. Vì sao Next.js giới thiệu `App Router` trong khi `Pages Router` vẫn chạy tốt? Vấn đề gốc mà nó giải quyết là gì?
+3. Hai router có chạy song song trong cùng một project được không? Những ràng buộc nào cần biết?
+4. Cách fetch dữ liệu ở hai router khác nhau ra sao? Hãy so sánh bằng một ví dụ cụ thể.
+5. Ở `Pages Router`, `_app.tsx` và `_document.tsx` đảm nhiệm việc gì? Trong `App Router` chúng được thay bằng gì?
+6. Mặc định component ở mỗi router là Server hay Client? Điều này ảnh hưởng thế nào tới kích thước bundle JS?
+7. `useRouter` từ `next/router` và từ `next/navigation` khác nhau ra sao? `router.query` được thay bằng những hook nào?
+8. Chuyển `pages/api/users.ts` sang `app/api/users/route.ts` cần đổi những gì về `Request` và `Response`?
+9. Vì sao Route Handler dùng Web Standards lại là hướng đi tốt hơn so với `NextApiRequest`/`NextApiResponse`?
+10. Bạn lập kế hoạch migrate một app lớn từ `Pages Router` sang `App Router` như thế nào để giảm thiểu rủi ro?
+11. Những khó khăn thường gặp nhất khi migrate là gì và bạn xử lý từng cái ra sao?
+12. Trong tình huống nào bạn sẽ khuyên team KHÔNG migrate sang `App Router`?
+13. Trong giai đoạn trộn hai router, `middleware`, CSS global và layout được áp dụng như thế nào?
+14. Nếu cùng một URL tồn tại ở cả `pages/` và `app/` thì điều gì xảy ra?
+15. Những tính năng nào chỉ `App Router` có mà `Pages Router` không thể làm được?

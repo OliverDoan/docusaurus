@@ -30,6 +30,7 @@ Quản lý cache (**cache management**) là việc kiểm soát khi nào dữ li
 - [revalidatePath](#revalidatepath)
 - [revalidateTag](#revalidatetag)
 - [Cache Invalidation Strategy](#cache-invalidation-strategy)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -427,3 +428,27 @@ Trên Vercel, revalidation share infrastructure với render → không tốn
 thêm.
 
 :::
+
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Giải thích cơ chế `Stale-While-Revalidate` của `revalidate: N`. Người dùng nào là người nhận bản cũ và người nào nhận bản mới?
+2. Với `revalidate: 60`, mô tả từng bước điều gì xảy ra ở các mốc thời gian 0 giây, 30 giây, 70 giây và 80 giây.
+3. Vì sao `revalidateTag` và `revalidatePath` không làm trang cập nhật ngay lập tức? Chúng thực sự làm gì tại thời điểm được gọi?
+4. So sánh `revalidatePath` và `revalidateTag` về độ mịn, phạm vi và khả năng áp dụng chéo route. Khi nào bạn dùng cái nào?
+5. `revalidatePath` yêu cầu đường dẫn tuyệt đối và có tham số kiểu `"page"` hoặc `"layout"`. Hai kiểu đó khác nhau ra sao về phạm vi invalidate?
+6. Thiết kế chiến lược đặt tag cho một site thương mại điện tử có trang danh sách, trang chi tiết và trang danh mục. Khi admin sửa một sản phẩm thì cần revalidate những tag nào?
+7. Gọi `revalidateTag` với một tag không tồn tại thì chuyện gì xảy ra? Vì sao điều đó nguy hiểm và bạn phòng ngừa thế nào?
+8. Nhiều `fetch` khác URL nhưng cùng một tag. Một lần `revalidateTag` ảnh hưởng tới tất cả — đây là tính năng hay lỗi, và khi nào nó thành vấn đề?
+9. `unstable_cache` giải quyết được gì mà cache của `fetch` không giải quyết được? Cho một ví dụ thực tế bạn bắt buộc phải dùng nó.
+10. Trong `unstable_cache`, tham số cache key và mảng `tags` đóng vai trò khác nhau như thế nào? Quên truyền biến vào key thì hỏng ra sao?
+11. Bạn gọi `revalidateTag` trong `Server Action` nhưng người dùng vẫn thấy dữ liệu cũ sau khi submit. Nêu các nguyên nhân có thể và cách chẩn đoán.
+12. Thiết kế endpoint webhook để CMS trigger revalidation. Bạn xác thực request thế nào và ánh xạ payload sang tag ra sao?
+13. So sánh `revalidate = 0`, `cache: "no-store"` và `dynamic = "force-dynamic"`. Ba cách này có tương đương nhau không?
+14. Over-invalidation là gì? Cho một ví dụ tag quá rộng làm hỏng hiệu năng và cách bạn chia lại tag cho mịn hơn.
+15. Chi phí thực sự của on-demand revalidation là gì? Chuyện gì xảy ra khi hàng nghìn request cùng đến ngay sau khi cache bị đánh dấu stale?
+16. Một trang giá sản phẩm phải luôn đúng giá nhưng vẫn cần tải nhanh. Bạn kết hợp time-based và on-demand revalidation như thế nào, và fallback khi webhook thất bại là gì?

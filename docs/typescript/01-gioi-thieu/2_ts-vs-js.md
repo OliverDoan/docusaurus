@@ -27,6 +27,7 @@ Bài này so sánh **TypeScript** và **JavaScript** để bạn hiểu khi nào
 - [Static typing vs Dynamic typing](#static-typing-vs-dynamic-typing)
 - [Compile-time vs Runtime](#compile-time-vs-runtime)
 - [Khi nào nên dùng TypeScript?](#khi-nào-nên-dùng-typescript)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -160,3 +161,24 @@ Các framework hiện đại (Next.js, Nuxt, Remix, NestJS, Astro) đều có
 TypeScript ngay từ đầu sẽ ít công hơn là migrate sau.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. **Static typing** và **dynamic typing** khác nhau ở điểm nào? JavaScript và TypeScript thuộc nhóm nào?
+2. **Compile-time** và **runtime** khác nhau thế nào? Cho một ví dụ lỗi mà TypeScript bắt được lúc biên dịch còn JavaScript chỉ lộ ra lúc chạy.
+3. **Structural typing** là gì? Vì sao hai `interface` khác tên nhưng cùng shape lại gán được cho nhau?
+4. **Nominal typing** của Java hay C# khác structural typing ra sao? Hệ quả thực tế khi thiết kế type trong TypeScript là gì?
+5. "Duck typing" liên quan gì tới cơ chế structural typing của TypeScript?
+6. Nếu muốn hai kiểu cùng shape nhưng **không** được gán lẫn nhau (ví dụ `UserId` và `OrderId` cùng là `string`), bạn làm cách nào? Gợi ý: branded type.
+7. **Excess property check** là gì? Vì sao gán trực tiếp một object literal dư property thì lỗi, nhưng gán qua biến trung gian lại không?
+8. `as` (type assertion) làm gì tại runtime? Vì sao nói `as` chỉ "nói dối" compiler chứ không hề chuyển đổi giá trị?
+9. Đoạn `const u = JSON.parse(res) as User; u.name.toUpperCase();` pass compile — vì sao vẫn có thể crash ở production?
+10. Những vị trí nào trong hệ thống **bắt buộc** phải validate runtime dù đã dùng TypeScript?
+11. TypeScript cần build step, JavaScript thì không — điều đó ảnh hưởng thế nào tới workflow phát triển và deploy?
+12. So sánh khả năng refactor và IntelliSense giữa hai ngôn ngữ. Vì sao type giúp IDE gợi ý chính xác hơn?
+13. Trường hợp nào bạn sẽ chọn JavaScript thuần thay vì TypeScript? Nêu tiêu chí cụ thể chứ không nói chung chung.
+14. TypeScript có làm code chạy nhanh hơn JavaScript không? Giải thích vì sao.

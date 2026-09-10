@@ -29,6 +29,7 @@ title: "3. Monitoring và Observability"
 - [Instrumentation](#instrumentation)
 - [OpenTelemetry](#opentelemetry)
 - [Error tracking](#error-tracking)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -469,3 +470,26 @@ tracesSampler: (samplingContext) => {
 Cost effective nhưng vẫn detect được issue.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Monitoring và observability khác nhau ở điểm nào?
+2. Core Web Vitals gồm những metric nào, và ngưỡng "good" của `LCP`, `INP`, `CLS` là bao nhiêu?
+3. Vì sao Web Vitals được đánh giá ở phân vị 75 (`p75`) thay vì giá trị trung bình?
+4. `Field data` (RUM) khác `lab data` (Lighthouse) thế nào? Khi hai nguồn mâu thuẫn thì bạn tin nguồn nào và vì sao?
+5. `useReportWebVitals` hoạt động ra sao, và bạn gửi metric thu được về đâu để tổng hợp?
+6. `INP` thay `FID` từ 2024 — khác biệt về cách đo là gì, và nguyên nhân `INP` xấu trong app Next thường đến từ đâu?
+7. `CLS` phát sinh từ những nguyên nhân nào, và `next/image` cùng `next/font` giảm nó bằng cách gì?
+8. `TTFB` cao thì bạn nghi ngờ những nguyên nhân nào (cache miss, cold start, query chậm, render động)?
+9. File `instrumentation.ts` dùng để làm gì, chạy vào thời điểm nào, và vì sao phải kiểm tra `NEXT_RUNTIME` bên trong?
+10. `OpenTelemetry` giải quyết bài toán gì? Giải thích `trace`, `span` và quan hệ cha-con giữa các span.
+11. Ba trụ cột observability (`metrics`, `logs`, `traces`) khác nhau và bổ sung cho nhau như thế nào?
+12. Trong Next.js, `error.tsx`, `global-error.tsx` và `Sentry.captureException` phối hợp ra sao để không bỏ lọt lỗi production?
+13. Vì sao cần upload `source map` cho Sentry, và rủi ro bảo mật khi để lộ source map công khai là gì?
+14. `tracesSampleRate` và dynamic sampling khác nhau ra sao? Bạn chọn tỷ lệ thế nào để cân bằng chi phí với khả năng phát hiện sự cố?
+15. Bạn đặt những alert nào cho một app Next production, và ngưỡng cảnh báo bao nhiêu là hợp lý?
+16. Tình huống: `LCP` `p75` tăng vọt ngay sau khi deploy nhưng Lighthouse trên CI vẫn xanh — bạn điều tra theo hướng nào?

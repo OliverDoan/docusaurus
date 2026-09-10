@@ -31,6 +31,7 @@ không* — phần quan trọng nhất để tránh "đu trend" rồi trả giá
 - [Khi nào KHÔNG nên dùng](#khi-nào-không-nên-dùng)
 - [Giải pháp thay thế: modular monolith](#giải-pháp-thay-thế-modular-monolith)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -114,3 +115,25 @@ rõ ràng** bên trong.
 
 Hết mục Cơ bản. Mục tiếp theo: **Module Federation** — kỹ thuật runtime phổ biến
 nhất, kèm demo React thực hành.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Lợi ích lớn nhất của micro-frontend là gì, và vì sao nói nó giải quyết vấn đề *tổ chức* chứ không phải vấn đề kỹ thuật?
+2. "Độc lập deploy" cụ thể nghĩa là gì? Cần những điều kiện kỹ thuật nào để thực sự đạt được nó?
+3. Micro-frontend hỗ trợ nâng cấp framework dần dần ra sao? Hãy phác một lộ trình kiểu `strangler` cho một app cũ.
+4. "Cô lập lỗi" đạt được nhờ cơ chế nào? Nó có tuyệt đối không, và trường hợp nào một mảnh vẫn kéo sập cả trang?
+5. Chi phí hiệu năng lớn nhất của micro-frontend là gì? Bạn đo và giảm trùng lặp `dependency` bằng cách nào?
+6. Làm sao giữ nhất quán UI/UX khi mỗi nhóm tự làm một mảnh? Vai trò và cách quản lý phiên bản của `design system` chung?
+7. Vì sao chia sẻ state và routing xuyên mảnh lại khó? Nêu vài rủi ro cụ thể bạn từng gặp hoặc lường trước.
+8. Debug và `observability` một luồng nghiệp vụ đi qua nhiều mảnh khó ở chỗ nào? Bạn dựng gì để truy vết đầu–cuối?
+9. Bạn quản lý hợp đồng và tương thích phiên bản giữa shell và các mảnh ra sao? Có nên có contract test không?
+10. Nêu các tiêu chí bạn dùng để quyết định *có* áp dụng micro-frontend. Quy mô bao nhiêu nhóm thì bắt đầu hợp lý?
+11. Khi nào KHÔNG nên dùng micro-frontend? Dấu hiệu nào cho thấy một đội đang chọn nó vì trào lưu?
+12. `Modular monolith` khác micro-frontend ở những điểm nào? Vì sao thường nên bắt đầu từ đó?
+13. Quản lý yêu cầu chẻ app thành micro-frontend vì "code rối quá" — bạn phản biện và đề xuất phương án thay thế thế nào?
+14. Nên chia mảnh theo miền nghiệp vụ hay theo tầng kỹ thuật? Vì sao cách chia sai lại phá hỏng lợi ích của kiến trúc?
+15. Nếu một thay đổi ở model dùng chung buộc mọi mảnh phải deploy lại cùng lúc thì kiến trúc đang sai ở đâu, và sửa theo hướng nào?

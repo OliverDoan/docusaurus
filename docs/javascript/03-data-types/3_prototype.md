@@ -30,6 +30,7 @@ Trong JavaScript, mỗi object đều có một **prototype** (nguyên mẫu) �
 - [Tạo object với prototype tùy chỉnh](#tạo-object-với-prototype-tùy-chỉnh)
 - [Class chỉ là sugar của prototype](#class-chỉ-là-sugar-của-prototype)
 - [Quan hệ với constructor function](#quan-hệ-với-constructor-function)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -317,3 +318,28 @@ Object.assign(config, userInput);
 filter `__proto__` thủ công. Thư viện lodash đã từng có CVE về vấn đề này.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Prototypal inheritance` là gì? Nó khác mô hình class-based của Java/C++ ở chỗ nào?
+2. `[[Prototype]]`, `__proto__` và `Object.getPrototypeOf()` liên quan với nhau ra sao? Cái nào nên dùng trong code mới?
+3. Câu kinh điển: phân biệt `__proto__` và `prototype`. Mỗi cái thuộc về đối tượng nào và trỏ tới đâu?
+4. Mô tả từng bước engine làm gì khi bạn gọi `user.toString()` trên một object thuần. Chuỗi prototype kết thúc ở đâu?
+5. Vì sao mọi mảng đều có `.map` dù bạn không định nghĩa? `.map` thực sự nằm ở đâu?
+6. Toán tử `new` thực hiện những bước nào? Nếu constructor `return` một object thì kết quả của `new` là gì?
+7. `Object.create(proto)` khác `new Constructor()` thế nào? `Object.create(null)` tạo ra object đặc biệt ở chỗ nào và dùng khi nào?
+8. Đặt method trên `Constructor.prototype` khác gì đặt trong thân constructor? Vì sao `u1.greet === u2.greet` lại là `true` ở cách thứ nhất?
+9. `class` của ES6 có phải cơ chế kế thừa mới không? Chỉ ra vài điểm mà `class` KHÔNG chỉ là syntactic sugar (không hoist, buộc gọi bằng `new`, luôn strict mode...).
+10. `instanceof` hoạt động dựa trên cơ chế nào? Vì sao nó có thể cho kết quả sai giữa các realm khác nhau?
+11. `Constructor.prototype.constructor` là gì? Chuyện gì hỏng nếu bạn gán đè `Constructor.prototype = { ... }`?
+12. Khi gán `obj.toString = ...`, prototype có bị ảnh hưởng không? Việc **ghi** property có đi theo prototype chain giống việc **đọc** không?
+13. Vì sao `Object.setPrototypeOf` bị khuyến cáo là hại performance? Nên làm gì thay thế?
+14. Giải thích các biểu thức sau: `u.__proto__ === User.prototype`, `User.__proto__ === Function.prototype`, `User.prototype.__proto__ === Object.prototype`.
+15. `prototype pollution` là gì? Mô tả kịch bản tấn công qua `__proto__` khi merge JSON từ người dùng, và cách phòng.
+16. Trong ngữ cảnh prototype, `in` và `Object.hasOwn` cho kết quả khác nhau ra sao? Vì sao `for...in` hay gây bug?
+17. `class B extends A` và `super()` được ánh xạ sang prototype như thế nào?
+18. Vì sao không nên mở rộng prototype của built-in (`Array.prototype.myMethod = ...`)?

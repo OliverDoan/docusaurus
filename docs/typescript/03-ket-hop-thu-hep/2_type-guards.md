@@ -32,6 +32,7 @@ title: "2. Type Guards và Narrowing"
 - [Truthiness check](#truthiness-check)
 - [User-defined type predicates](#user-defined-type-predicates)
 - [Assertion functions](#assertion-functions)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -320,3 +321,28 @@ Hữu dụng cho validation: kết hợp với Zod, io-ts, hoặc custom logic �
 đảm bảo dữ liệu đúng kiểu trước khi tiếp tục.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Type guard` và `narrowing` khác nhau thế nào? Cái nào là công cụ, cái nào là kết quả?
+2. Vì sao gọi `x.toUpperCase()` trên biến kiểu `string | number` bị báo lỗi, dù lúc chạy giá trị đúng là chuỗi?
+3. `Control flow analysis` là gì và nó giúp compiler biết kiểu của biến tại từng điểm code ra sao?
+4. `typeof` trả về được bao nhiêu chuỗi kết quả? Vì sao `typeof null` lại là `"object"` và điều đó gây bẫy gì khi narrow?
+5. Khi nào dùng `instanceof` thay cho `typeof`? Cho ví dụ mà `typeof` hoàn toàn không giúp được.
+6. Vì sao `instanceof` không dùng được với `interface` hay `type alias`? Giải thích theo cơ chế `type erasure` lúc biên dịch.
+7. Toán tử `in` narrow bằng cách nào? So với `instanceof`, khi nào bạn ưu tiên `in`?
+8. Đoán lỗi: hàm nhận `n: number | undefined`, bên trong viết `if (n)` rồi xử lý. Bug nào sẽ xuất hiện và sửa thế nào?
+9. `Truthiness check` loại bỏ những giá trị nào? Kể đủ danh sách `falsy` và giải thích rủi ro với `string` rỗng.
+10. Vì sao `equality check` (`dir === "left"`) cũng narrow được? Điều gì trong hệ kiểu cho phép việc đó?
+11. `Discriminated union` là gì? Field `discriminator` phải thoả điều kiện gì để TS narrow tự động trong `switch`?
+12. Vì sao `discriminated union` được coi là mạnh hơn việc kiểm tra sự tồn tại của property? Nêu ít nhất hai lý do.
+13. Viết `type predicate` dạng `pet is Fish` nghĩa là gì với compiler? Chuyện gì xảy ra nếu thân hàm trả về sai kết quả?
+14. So sánh `type predicate` (`is`) với `assertion function` (`asserts`): khác nhau ở thời điểm narrow và cách báo lỗi.
+15. Vì sao một `assertion function` gán vào biến (dạng `const assertIsString = ...`) lại phải khai báo kiểu tường minh?
+16. `Exhaustiveness check` với `never` hoạt động ra sao? Nó giúp gì khi bạn thêm một nhánh mới vào union?
+17. Khi nào bạn chọn `type predicate` tự viết thay vì `as` (type assertion)? Rủi ro của `as` là gì?
+18. Narrowing bị "mất" trong những tình huống nào (callback, closure, gán lại biến, property của object)? Cách xử lý?

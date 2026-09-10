@@ -30,6 +30,7 @@ title: "1. React Frameworks"
 - [TanStack Start](#tanstack-start)
 - [Gatsby](#gatsby)
 - [Cách chọn](#cách-chọn)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -326,3 +327,29 @@ Project type?
 SSR/SEO/Server Components → đi thẳng Next.js, không nhảy lib khác.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. React core khác một framework ở những điểm nào? Framework bổ sung thêm những gì?
+2. So sánh `CSR`, `SSR` và `SSG` về thời điểm render, tốc độ hiển thị lần đầu và khả năng SEO.
+3. `ISR` (Incremental Static Regeneration) giải quyết bài toán nào mà `SSG` thuần không làm được?
+4. **Hydration** là gì? 'Hydration mismatch' xảy ra khi nào và cách phòng tránh?
+5. **React Server Components** khác `SSR` truyền thống ở đâu? RSC giảm JavaScript gửi xuống client bằng cách nào?
+6. Chỉ thị `"use client"` đánh dấu điều gì? Ranh giới server/client được xác định như thế nào trong cây component?
+7. So sánh Pages Router và App Router của Next.js về routing, layout và cách fetch dữ liệu.
+8. **Streaming SSR** kết hợp `Suspense` boundary mang lại lợi ích gì cho chỉ số TTFB và LCP?
+9. Pattern `loader`/`action` của Remix / React Router v7 khác `getServerSideProps` ở điểm nào?
+10. **Progressive enhancement** là gì? Vì sao form trong Remix vẫn hoạt động khi trình duyệt tắt JavaScript?
+11. **Island architecture** của Astro hoạt động ra sao? Phân biệt `client:load`, `client:idle` và `client:visible`.
+12. Khi nào Astro KHÔNG phải lựa chọn tốt? Cho ví dụ loại ứng dụng cụ thể.
+13. Vì sao một SPA thuần (chỉ CSR) thường gặp khó khăn về SEO và chia sẻ link trên mạng xã hội?
+14. Tiêu chí nào giúp bạn quyết định giữa `Vite + React Router` và `Next.js` cho một dự án mới?
+15. **Vendor lock-in** với Next.js/Vercel là rủi ro như thế nào và có thể giảm thiểu bằng cách nào?
+16. So sánh Edge runtime và Node runtime: giới hạn API, độ trễ và trường hợp sử dụng phù hợp.
+17. `TanStack Start` có gì khác biệt so với Next.js? Vì sao nó vẫn được xem là early stage?
+18. Vì sao Gatsby không còn được khuyến nghị cho dự án mới, dù trước đây rất phổ biến?
+19. Bạn đang có SPA Vite chạy tốt nhưng team muốn chuyển sang Next.js vì SEO. Bạn đánh giá và lên kế hoạch migrate ra sao?

@@ -29,6 +29,7 @@ title: "2. Object và typeof"
 - [Computed property](#computed-property)
 - [Toán tử typeof](#toán-tử-typeof)
 - [Toán tử in và Object.hasOwn](#toán-tử-in-và-objecthasown)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -274,3 +275,28 @@ Object.hasOwn(user, "name");
 ESLint rule `prefer-object-has-own` sẽ tự nhắc bạn migrate.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Object khác primitive ở điểm nào? Vì sao object được gọi là `reference type`?
+2. Đoán output: `const a = { x: 1 }; const b = a; b.x = 2; console.log(a.x)`. Giải thích vì sao.
+3. Key của một object thực chất được lưu ở kiểu gì? `obj[1]` và `obj["1"]` có trỏ tới cùng một property không? Còn key là `symbol` thì sao?
+4. Khi nào bắt buộc phải dùng bracket notation thay vì dot notation?
+5. `computed property` là gì và dùng trong tình huống nào?
+6. Phân biệt `shallow copy` và `deep copy`. Spread `...` và `Object.assign` copy tới mức nào?
+7. So sánh `structuredClone` với `JSON.parse(JSON.stringify(obj))` khi deep clone. Cách thứ hai làm mất những gì?
+8. `typeof` trả về gì với `null`, `[]`, `{}`, `function(){}`, `NaN`? Vì sao `typeof null === "object"`?
+9. Làm sao phân biệt chính xác array, object thuần, `null` và `Date`? So sánh `Array.isArray`, `instanceof` và `Object.prototype.toString.call`.
+10. Vì sao `instanceof Array` có thể cho kết quả sai khi object đến từ một `iframe` khác?
+11. `typeof` với một biến chưa hề khai báo cho kết quả gì? Vì sao nó không ném `ReferenceError`?
+12. So sánh `in`, `Object.hasOwn` và `obj.key !== undefined` khi kiểm tra sự tồn tại của property. Mỗi cách sai ở tình huống nào?
+13. Vì sao `Object.hasOwn(obj, key)` được khuyến nghị thay cho `obj.hasOwnProperty(key)`?
+14. `?.` (optional chaining) giải quyết vấn đề gì và khác gì so với chuỗi `&&`? Nó có che giấu lỗi thật không?
+15. `{ a: 1 } === { a: 1 }` cho kết quả gì? Bạn so sánh sâu hai object như thế nào?
+16. So sánh `Object.keys`, `Object.entries` và `for...in` — cái nào duyệt cả property kế thừa từ prototype?
+17. `const obj = {}` — vì sao vẫn thêm/sửa được property? `Object.freeze` chặn được tới đâu, có phải deep freeze không?
+18. Khi nào nên dùng `Map` thay vì object thuần để làm dictionary?

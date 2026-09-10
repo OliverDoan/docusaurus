@@ -34,6 +34,7 @@ To-Do List là project "kinh điển" để học React vì nó gói gọn gần
 - [Bước 7: Lưu xuống localStorage với useEffect](#bước-7-lưu-xuống-localstorage-với-useeffect)
 - [Thử thách mở rộng](#thử-thách-mở-rộng)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -343,3 +344,28 @@ Về khởi tạo state, ta dùng **hàm khởi tạo lười** `useState(() => 
 - **`useEffect(fn, [deps])`** chạy tác dụng phụ khi deps đổi; dùng để lưu localStorage (`JSON.stringify`/`parse`).
 
 Tiếp theo ta học lấy dữ liệu thật từ internet: [App Thời tiết](./4_app-thoi-tiet.md).
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Vì sao mọi cập nhật state phải bất biến? React dựa vào phép so sánh nào để biết state đã thay đổi?
+2. Viết `todos.push(item)` rồi `setTodos(todos)` — vì sao giao diện không cập nhật?
+3. So sánh `[...todos, moi]`, `todos.map(...)` và `todos.filter(...)`: mỗi cái tương ứng với thao tác nào trong to-do list?
+4. Muốn đổi một trường của object nằm trong mảng thì phải sao chép mấy tầng? Vì sao spread chỉ là `shallow copy` và điều đó gây bẫy gì?
+5. `key` dùng để làm gì? React dùng nó ở bước nào trong quá trình `reconciliation`?
+6. Vì sao không nên dùng index của mảng làm `key`? Cho một tình huống cụ thể sinh bug khi mỗi dòng có ô input.
+7. Nếu quên `key`, React cảnh báo gì và hậu quả thực tế trên giao diện là gì?
+8. Phân biệt `controlled component` và `uncontrolled component`. Form trong bài này thuộc loại nào và vì sao chọn loại đó?
+9. Vì sao phải gọi `e.preventDefault()` trong hàm xử lý submit? Nếu quên thì hiện tượng gì xảy ra?
+10. Vì sao không nên lưu danh sách đã lọc vào một state riêng? Giải thích nguyên tắc "đừng lưu state có thể tính ra được".
+11. Bạn sinh `id` cho item mới bằng cách nào? Vì sao `todos.length + 1` là lựa chọn tệ?
+12. `useEffect(fn, [deps])` chạy vào lúc nào? So sánh ba trường hợp: không truyền deps, truyền `[]`, và truyền `[todos]`.
+13. Khi lưu vào localStorage vì sao cần `JSON.stringify` và `JSON.parse`? Rủi ro gì nếu dữ liệu cũ trong storage sai định dạng, và xử lý ra sao?
+14. Đọc localStorage lúc khởi tạo nên đặt trong hàm khởi tạo lười của `useState` hay trong một `useEffect`? So sánh hai cách về số lần render và hiện tượng nhấp nháy.
+15. Khi nào cần `lifting state up`? Áp dụng vào việc tách `<li>` thành component `TodoItem` thì state và callback được bố trí ra sao?
+16. Truyền `onToggle` và `onDelete` xuống `TodoItem` — vì sao đây là cách con "báo ngược" lên cha, và nó thể hiện nguyên tắc gì của React?
+17. Nếu danh sách lên tới hàng chục nghìn item thì cách render hiện tại gặp vấn đề gì? Hướng tối ưu nào bạn nghĩ tới đầu tiên?
+18. State của một `TodoItem` (ví dụ đang ở chế độ sửa) sẽ ra sao khi bạn xoá một item đứng trước nó và `key` đang là index?

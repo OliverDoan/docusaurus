@@ -29,6 +29,7 @@ title: "1. Iterators và Generators"
 - [Generators](#generators)
 - [yield và yield*](#yield-và-yield)
 - [Async Generators](#async-generators)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -369,3 +370,26 @@ for await (const chunk of fs.createReadStream("big.txt")) {
 ```
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Iterable protocol` và `iterator protocol` khác nhau ở chỗ nào? Một object cần có gì để dùng được với `for...of`?
+2. `next()` trả về cái gì? Giải thích ý nghĩa của `value` và `done`, và điều gì xảy ra khi gọi `next()` sau khi đã `done`.
+3. Vì sao `for...in` và `for...of` cho kết quả khác nhau trên cùng một mảng? Khi nào dùng cái nào?
+4. Bạn tự cài `[Symbol.iterator]` cho một class `Range` như thế nào? Mô tả từng bước và chỗ lưu state.
+5. Generator khác function thường ở điểm nào? Gọi một `function*` có chạy ngay thân hàm không?
+6. Mô tả cơ chế pause/resume của generator: khi gặp `yield` thì chuyện gì xảy ra với call stack và state cục bộ?
+7. Vì sao generator viết iterator gọn hơn cách thủ công? So sánh hai cách cài `Range`.
+8. `yield` và `yield*` khác nhau ra sao? Cho ví dụ delegate sang một iterable khác.
+9. `gen.next(value)` truyền giá trị VÀO generator hoạt động thế nào? Vì sao giá trị truyền ở lần `next()` đầu tiên bị bỏ qua?
+10. `gen.return()` và `gen.throw()` dùng để làm gì? Kể một tình huống thực tế cần tới chúng.
+11. Vì sao generator chỉ duyệt được một lần trong khi array duyệt được nhiều lần? Khi cần re-iterate thì xử lý sao?
+12. `Lazy evaluation` là gì? Vì sao `while (true) yield n++` không làm treo trình duyệt?
+13. Spread `[...gen]` với một generator vô hạn thì điều gì xảy ra? Làm sao lấy an toàn N phần tử đầu?
+14. `Async generator` và `for await...of` giải quyết bài toán nào mà generator thường không làm được?
+15. Bạn xử lý phân trang API kiểu `cursor` bằng async generator như thế nào? So với fetch hết rồi loop thì lợi và hại gì?
+16. Kể vài tình huống thực tế bạn chọn generator (`stream`, `state machine`, sinh id, Redux-Saga). Vì sao ngày nay generator ít phổ biến hơn `async/await`?

@@ -28,6 +28,7 @@ title: "2. Hoisting và Quy tắc đặt tên"
 - [Hoisting với let / const](#hoisting-với-let--const)
 - [Hoisting với function](#hoisting-với-function)
 - [Quy tắc đặt tên](#quy-tắc-đặt-tên)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -233,3 +234,26 @@ Trong code review, đổi tên thường là feedback **dễ nhất và hiệu q
 nhất**. Đừng tiếc thời gian đặt tên cho rõ.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Hoisting` là gì? Engine làm gì trước khi thực sự chạy code trong một scope?
+2. Câu nói "`let` và `const` không được hoist" đúng hay sai? Trả lời chuẩn cho phỏng vấn là gì?
+3. So sánh trạng thái ban đầu của `var`, `let`/`const` và `function` sau khi được hoist.
+4. Đoán output và giải thích: `console.log(name); var name = "An";`
+5. Đoán output và giải thích: `greet(); function greet() { console.log("Hi"); }`
+6. Đoán output và giải thích: `greet(); var greet = function () {};` — vì sao lại là `TypeError` chứ không phải `ReferenceError`?
+7. Đoán output và giải thích: `greet(); const greet = () => {};` — vì sao lỗi ở đây khác với câu trên?
+8. Phân biệt `function declaration` và `function expression` về hoisting. Khi nào nên dùng cái nào?
+9. Khai báo `function` bên trong một block `if` thì hành vi khác nhau ra sao giữa `strict mode` và `sloppy mode`? Nên viết thế nào để an toàn?
+10. Nếu trong cùng scope có cả `var foo` và `function foo()` thì cái nào "thắng"? Giải thích thứ tự hoisting.
+11. Những ký tự nào hợp lệ trong tên biến JavaScript? Vì sao `let 1user`, `let my-name`, `let class` đều lỗi?
+12. `Reserved keyword` là gì? Kể vài từ khoá không được dùng làm tên biến.
+13. Nêu convention đặt tên cho biến/hàm, class, hằng số global, boolean. Vì sao boolean nên có prefix `is`/`has`/`can`?
+14. Phân biệt quy ước `_privateField` và private thật sự `#privateField` trong class.
+15. Vì sao "tên biến tốt đáng giá hơn comment"? Cho ví dụ đổi tên biến làm code tự giải thích được.
+16. `Shadowing` là gì? Cho ví dụ biến ở block trong che biến cùng tên ở block ngoài, và trường hợp nào gây `illegal shadowing`?

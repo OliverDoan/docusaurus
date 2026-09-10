@@ -29,6 +29,7 @@ title: "5. Events"
 - [Common events](#common-events)
 - [preventDefault và stopPropagation](#preventdefault-và-stoppropagation)
 - [Form events](#form-events)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -414,3 +415,30 @@ Hoặc dùng **inline inference**:
 VS Code autocomplete sẽ cho thấy type ngay khi hover. Không cần nhớ tên đầy đủ.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Synthetic Event` là gì và vì sao React phải bọc event gốc của trình duyệt lại?
+2. Làm sao truy cập event gốc của DOM từ một synthetic event, và khi nào bạn thực sự cần tới nó?
+3. `Event delegation` trong React hoạt động ra sao? React gắn listener thật ở đâu?
+4. React 17 chuyển nơi gắn listener từ `document` sang `root container` — thay đổi này gây ảnh hưởng thực tế gì?
+5. `Event pooling` là gì, vì sao React từng dùng nó và vì sao React 17 loại bỏ?
+6. `e.target` và `e.currentTarget` khác nhau thế nào? Cho một ví dụ mà chúng trả về hai element khác nhau.
+7. `preventDefault()` và `stopPropagation()` khác nhau ra sao? Khi nào dùng cái nào?
+8. Vì sao trong React, `return false` trong handler không chặn được hành vi mặc định như trong HTML hay jQuery?
+9. `stopPropagation()` trong React có chặn được listener gắn bằng `addEventListener` ở `document` không? Giải thích theo cơ chế delegation.
+10. `Bubbling` và `capturing` khác nhau thế nào, và React cho đăng ký phase capture bằng cú pháp nào?
+11. Vì sao viết `onClick={handleClick()}` là sai còn `onClick={handleClick}` là đúng?
+12. Cách truyền tham số cho handler mà không sinh bug? So sánh arrow function inline với `bind`.
+13. Arrow function inline trong JSX có làm component con re-render thừa không? Khi nào cần `useCallback` kết hợp `React.memo`?
+14. Nhiều lệnh cập nhật state trong cùng một handler được gộp (`batching`) như thế nào? React 18 `automatic batching` thay đổi gì so với trước?
+15. `onChange` của React khác `onchange` của DOM thuần ở chỗ nào?
+16. `Controlled` và `uncontrolled input` khác nhau ra sao trong cách xử lý `onChange`? Ưu nhược của từng loại?
+17. Khi nào buộc phải dùng `addEventListener` thủ công thay vì prop event của React (ví dụ với `window`, `document`, `passive listener`, hay node ngoài React)?
+18. `Pointer events` so với `mouse` và `touch events` có lợi ích gì? Khi nào vẫn cần tách riêng?
+19. Về accessibility, vì sao chỉ gắn `onClick` lên một `div` là chưa đủ? Cần bổ sung những gì?
+20. React 19 Actions (`form action`, `useFormStatus`, `useOptimistic`) thay đổi cách xử lý submit form như thế nào so với `onSubmit` truyền thống?

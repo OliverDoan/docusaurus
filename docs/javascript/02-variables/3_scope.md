@@ -30,6 +30,7 @@ title: "3. Scope (Phạm vi biến)"
 - [Block Scope](#block-scope)
 - [Lexical Scope](#lexical-scope)
 - [Scope Chain](#scope-chain)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -373,3 +374,26 @@ Trong code hiện đại với `let`/`const` + module, IIFE gần như không c�
 cần thiết.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Scope` là gì? JavaScript có mấy loại scope và mỗi loại được tạo ra bởi cái gì?
+2. `var`, `let` và `const` khác nhau thế nào về scope? Vì sao biến `var` khai báo bên trong `if` vẫn đọc được ở ngoài block đó?
+3. Giải thích `hoisting`. Vì sao truy cập biến `let` trước dòng khai báo lại ném `ReferenceError` thay vì cho `undefined`? `TDZ` (Temporal Dead Zone) là gì?
+4. `Lexical scope` (static scope) nghĩa là gì? Nếu một hàm được **viết** ở top-level nhưng được **gọi** bên trong một hàm khác, nó đọc biến ở đâu?
+5. So sánh `lexical scope` và `dynamic scope`. JavaScript dùng loại nào, và điều đó giúp gì cho việc suy luận code?
+6. Mô tả `scope chain`: khi truy cập một biến, engine tìm theo thứ tự nào và chuyện gì xảy ra khi tìm hết chuỗi mà vẫn không thấy?
+7. Đoán output: `for (var i = 0; i < 3; i++) setTimeout(() => console.log(i), 100)` in ra gì? Đổi `var` thành `let` thì in ra gì? Giải thích cơ chế đằng sau sự khác biệt.
+8. Nếu bắt buộc phải dùng `var` trong vòng lặp trên mà vẫn muốn in ra `0, 1, 2`, bạn sửa bằng những cách nào (`IIFE`, tham số thứ ba của `setTimeout`, hàm nhận tham số...)?
+9. `Closure` là gì? Viết hàm `createCounter` giữ biến `count` private, rồi giải thích vì sao `count` không bị thu hồi sau khi hàm cha đã return.
+10. Closure giữ **giá trị** hay giữ **tham chiếu** tới biến? Điều đó ảnh hưởng ra sao khi nhiều closure cùng đóng trên một biến?
+11. Trong trình duyệt, vì sao `var x = 1` ở top-level tạo ra `window.x` còn `let y = 1` thì không? Trong ES Module và strict mode thì behavior khác gì?
+12. Mỗi lần gọi hàm, engine tạo ra một `Lexical Environment` gồm những thành phần nào? `Environment Record` và outer reference liên quan gì tới closure?
+13. Closure có thể gây `memory leak` trong tình huống nào? Cho ví dụ với DOM node hoặc event listener và cách phòng tránh.
+14. Kể vài ứng dụng thực tế của closure: `debounce`/`throttle`, `factory function`, `module pattern`, `memoize` — mỗi cái closure giữ lại cái gì?
+15. Với `let`/`const` và ES Module ngày nay, `IIFE` còn cần thiết không? Trước đây nó được dùng để giải quyết vấn đề gì?
+16. Đặt biến ở scope càng nhỏ càng tốt mang lại lợi ích gì? Vì sao biến global bị coi là mùi code xấu (trừ hằng số)?

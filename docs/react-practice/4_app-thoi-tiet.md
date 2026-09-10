@@ -33,6 +33,7 @@ title: "4. App Thời tiết"
 - [Bước 6: Dọn dẹp với cleanup function](#bước-6-dọn-dẹp-với-cleanup-function)
 - [Thử thách mở rộng](#thử-thách-mở-rộng)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -391,3 +392,29 @@ Cách "xịn" hơn để thực sự **huỷ** yêu cầu mạng đang chạy l�
 - **Cleanup function** trong `useEffect` chống race condition và dọn tài nguyên (timer, subscription).
 
 Project cuối kết hợp tất cả với nhiều trang và state toàn cục: [Tìm kiếm phim](./5_tim-kiem-phim.md).
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Vì sao không gọi `fetch` thẳng trong thân component? Mô tả vòng lặp vô tận xảy ra như thế nào.
+2. Khi nào đặt lệnh gọi API trong `useEffect`, khi nào gọi trong hàm xử lý sự kiện? Cho ví dụ cho mỗi trường hợp.
+3. Vì sao không viết `useEffect(async () => ...)`? Hàm truyền vào `useEffect` được phép trả về cái gì?
+4. `fetch` có tự ném lỗi khi server trả 404 hay 500 không? Xử lý đúng gồm những bước nào?
+5. Vì sao cần đủ ba state `data`, `loading`, `error`? Điều gì xảy ra nếu render `data` trước khi kiểm tra `loading`?
+6. Vai trò của khối `finally` trong `try/catch/finally` khi tắt trạng thái loading là gì? Nếu đặt `setLoading(false)` trong `try` thì hỏng ở đâu?
+7. `Race condition` khi gọi API là gì? Mô tả kịch bản người dùng gõ nhanh hai từ khoá và kết quả hiển thị bị sai.
+8. Cleanup function của `useEffect` chạy vào những thời điểm nào? Nó chống race condition bằng cơ chế nào (cờ `ignore` / `isActive`)?
+9. `AbortController` khác gì với cách dùng cờ bỏ qua kết quả? Khi nào nên dùng cái nào, và cái nào thực sự huỷ được request?
+10. Mảng dependency của `useEffect` gọi API nên chứa những gì? Nếu để trống trong khi effect đọc một biến state thì bug gì xảy ra?
+11. `StrictMode` gọi effect hai lần ở môi trường dev khiến API bị gọi đôi — bạn giải thích hiện tượng này thế nào và có nên "sửa" bằng cách bỏ `StrictMode` không?
+12. `Custom hook` là gì? Quy tắc tên bắt đầu bằng `use` phục vụ điều gì về mặt lint và Rules of Hooks?
+13. Tách logic fetch vào `useWeather` mang lại lợi ích gì? Hai component cùng gọi hook đó có dùng chung state không?
+14. Rules of Hooks: vì sao không được gọi hook bên trong `if` hay vòng lặp? Điều gì hỏng bên trong React nếu vi phạm?
+15. Khi nào nên chuyển sang thư viện như TanStack Query hay SWR thay vì tự viết `useFetch`? Chúng giải quyết thêm những vấn đề gì (cache, dedupe, retry, revalidate)?
+16. Nếu API cần key bí mật thì để key ở đâu? Vì sao nhúng thẳng vào code React chạy trên trình duyệt là sai?
+17. Xử lý ra sao khi người dùng tìm một thành phố không tồn tại và API trả về kết quả rỗng chứ không phải lỗi HTTP?
+18. Bài này gọi hai API nối tiếp (geocoding rồi thời tiết) — điều đó tạo ra `request waterfall` thế nào, và có cách nào giảm độ trễ?
+19. Người dùng bấm nút tìm liên tục nhiều lần thì sao? `debounce` và huỷ request cũ giúp gì ở đây?

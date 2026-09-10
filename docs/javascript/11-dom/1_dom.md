@@ -31,6 +31,7 @@ title: "1. DOM Manipulation và Events"
 - [Event Listeners](#event-listeners)
 - [Event Bubbling và Capturing](#event-bubbling-và-capturing)
 - [Event Delegation](#event-delegation)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -407,3 +408,28 @@ Hiểu cơ chế này giúp debug khi gặp lỗi event trong React (vd
 React root).
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `DOM` là gì? Phân biệt HTML (văn bản tĩnh) với DOM (cây object) — trình duyệt tạo ra DOM ở bước nào?
+2. So sánh `getElementById`, `getElementsByClassName`, `querySelector` và `querySelectorAll` — mỗi cái trả về kiểu gì và khác nhau ra sao?
+3. `HTMLCollection` là `live collection` còn `NodeList` từ `querySelectorAll` là `static` — khác biệt này gây bug thế nào khi bạn vừa duyệt vừa xoá phần tử?
+4. `NodeList` có phải Array không? Làm sao dùng `map`/`filter` trên kết quả của `querySelectorAll`?
+5. So sánh `textContent`, `innerText` và `innerHTML`: cái nào tính tới CSS, cái nào tốn `reflow`, cái nào nguy hiểm?
+6. Vì sao gán `innerHTML` bằng dữ liệu người dùng gây `XSS`? Nêu ví dụ payload và các cách phòng tránh.
+7. Phân biệt `attribute` và `property` của một element — đoán kết quả `input.value` và `input.getAttribute("value")` sau khi người dùng gõ vào ô input.
+8. `addEventListener` khác gì gán trực tiếp `el.onclick = fn`? Vì sao `removeEventListener` với một arrow function viết inline lại không gỡ được listener?
+9. Giải thích các option `once`, `capture`, `passive`, `signal` của `addEventListener`. `passive: true` giúp gì cho hiệu năng scroll?
+10. Mô tả ba pha lan truyền của một event: `capture` → `target` → `bubble`. Listener đăng ký mặc định chạy ở pha nào?
+11. Phân biệt `preventDefault()`, `stopPropagation()` và `stopImmediatePropagation()`.
+12. Đoán output: `outer` có listener ở cả pha capture và bubble, `inner` có một listener; click vào `inner` thì thứ tự log là gì?
+13. Phân biệt `event.target` và `event.currentTarget`. Trong `event delegation` bạn dùng cái nào và vì sao?
+14. `Event delegation` là gì? Nêu các lợi ích về bộ nhớ và với những element được thêm động sau khi trang đã load.
+15. Khi `li` chứa một `span` bên trong, click vào `span` thì `e.target` là gì? Làm sao xử lý đúng bằng `closest()`?
+16. Những event nào KHÔNG bubble (`focus`, `blur`, `mouseenter`, ...)? Khi cần delegation cho chúng thì thay thế bằng gì?
+17. React 17+ gắn event listener ở đâu trong DOM? Điều đó gây bất ngờ gì khi bạn trộn `stopPropagation` giữa event native và `synthetic event`?
+18. `Reflow` và `repaint` là gì? Vì sao chèn 1000 element bằng vòng lặp `appendChild` lại chậm, và `DocumentFragment` giúp gì?

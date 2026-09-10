@@ -28,6 +28,7 @@ title: "1. Conditional Statements"
 - [Ternary operator](#ternary-operator)
 - [switch statement](#switch-statement)
 - [Short-circuit với &&, ||, ??](#short-circuit-với---)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -320,3 +321,25 @@ Nguyên tắc: **xử lý case "không hợp lệ" trước**, trả về sớm;
 ở cuối, không lồng.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Phân biệt `statement` và `expression`. Vì sao `if/else` là statement còn ternary `? :` là expression, và điều đó ảnh hưởng thế nào khi bạn cần rẽ nhánh bên trong JSX?
+2. Liệt kê đầy đủ các giá trị `falsy` trong JavaScript. `[]`, `{}`, `"0"`, `NaN` — cái nào truthy, cái nào falsy?
+3. `switch` so khớp `case` bằng `==` hay `===`? Đoán output khi `switch ("1")` có cả `case 1:` lẫn `case "1":`.
+4. `fall-through` trong `switch` là gì? Khi nào bạn cố ý dùng nó, và làm sao để ESLint cảnh báo lúc quên `break`?
+5. Vì sao `case` có khai báo `let`/`const` lại nên bọc trong `{}`? Không bọc thì gặp lỗi gì?
+6. `&&` và `||` trả về boolean hay trả về chính toán hạng? Đoán output của `0 || "a"`, `"" && "b"`, `null || 0 || "c"`.
+7. So sánh `||` với `??`. Đoán output: `0 || 100`, `0 ?? 100`, `"" || "x"`, `"" ?? "x"`, `false ?? true`.
+8. `short-circuit evaluation` nghĩa là gì? Nó ảnh hưởng ra sao khi vế phải có side effect, ví dụ `isValid() || logError()`?
+9. Vì sao `a ?? b || c` ném `SyntaxError`? Giải thích theo độ ưu tiên toán tử và cách viết đúng.
+10. Trong React, `{count && <List />}` khi `count === 0` sẽ render ra gì? Vì sao, và bạn sửa lại thế nào?
+11. `?.` xử lý ra sao khi một mắt xích giữa chuỗi là `null`? So sánh `obj?.a.b.c` với `obj?.a?.b?.c` — trường hợp nào vẫn có thể nổ `TypeError`?
+12. `obj?.method()` khác `obj.method?.()` ở điểm nào? Mỗi cách bảo vệ bạn khỏi lỗi gì?
+13. `guard clause` / `early return` giải quyết vấn đề gì so với lồng `if` nhiều tầng (pyramid of doom)?
+14. Khi nào bạn chọn `switch`, khi nào chọn object lookup map, khi nào chọn chuỗi `if / else if`? Đánh đổi của từng cách là gì?
+15. Ternary lồng nhiều tầng bị chê ở điểm nào? Bạn refactor một biểu thức 4 tầng ternary như thế nào?

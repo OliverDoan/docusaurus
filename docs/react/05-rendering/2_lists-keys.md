@@ -29,6 +29,7 @@ Trong React, để hiển thị một **list** (danh sách nhiều phần tử),
 - [Chọn key đúng](#chọn-key-đúng)
 - [Key trong Fragment](#key-trong-fragment)
 - [Anti-pattern](#anti-pattern)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -328,3 +329,30 @@ Nhưng nếu **merge thành 1 list**:
 → Prefix key khi merge: ``key={`a-${u.id}`}`` cho list A.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `key` trong React dùng để làm gì, và vì sao khi render danh sách lại bắt buộc phải có nó?
+2. `key` có phải là một prop bình thường không — component con có đọc được `props.key` không?
+3. `key` cần duy nhất trong phạm vi nào: toàn ứng dụng, toàn component, hay chỉ giữa các phần tử anh em (`sibling`)?
+4. Điều gì xảy ra nếu render một mảng mà không truyền `key`? React cảnh báo gì và fallback theo cơ chế nào?
+5. Giải thích cơ chế `reconciliation`: React so khớp element cũ và mới trong một list dựa trên cái gì?
+6. Vì sao KHÔNG nên dùng `index` của mảng làm `key`? Hãy mô tả một bug cụ thể sinh ra từ việc này.
+7. Dùng `index` làm `key` là vấn đề `correctness` hay chỉ là vấn đề `performance`? Vì sao?
+8. Trong trường hợp nào thì dùng `index` làm `key` vẫn chấp nhận được? Nêu đủ các điều kiện.
+9. Cho một todo list có checkbox và `key={index}`: khi xoá item đầu tiên, trạng thái checkbox bị sai như thế nào? Giải thích từng bước.
+10. Vì sao dùng `Math.random()` hay `Date.now()` làm `key` là anti-pattern? Hậu quả cụ thể với focus và animation là gì?
+11. `useId` có dùng làm `key` cho item của một danh sách data được không? Vì sao?
+12. Đặt `key` sai vị trí — trên element con thay vì element ngoài cùng trả về từ `.map` — thì có tác dụng không? Vì sao?
+13. Khi render danh sách bằng `Fragment`, vì sao không dùng được cú pháp rút gọn mà phải dùng dạng đầy đủ `Fragment`?
+14. Điều gì xảy ra khi hai phần tử anh em có `key` trùng nhau?
+15. Khi merge hai mảng từ hai nguồn khác nhau thành một list, làm sao tránh trùng `key`?
+16. Nếu data không có id duy nhất, có những chiến lược nào để sinh `key` ổn định? Đánh đổi của từng cách là gì?
+17. Đổi `key` của một component (dù giữ nguyên kiểu component) dẫn tới điều gì? Có thể tận dụng để reset state không, và khi nào nên hoặc không nên?
+18. So sánh chi phí thao tác DOM khi reorder một list với `key` ổn định so với `key={index}`.
+19. `key` ảnh hưởng thế nào tới việc React giữ hay huỷ DOM node, focus, vị trí scroll và giá trị của `uncontrolled input`?
+20. Với danh sách rất lớn, ngoài việc chọn `key` đúng còn kỹ thuật nào để tối ưu render (ví dụ `virtualization`)?

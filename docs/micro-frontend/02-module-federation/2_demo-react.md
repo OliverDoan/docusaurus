@@ -37,6 +37,7 @@ cấu hình plugin, **async boundary** (ranh giới bất đồng bộ), chạy,
 - [Chạy demo](#chạy-demo)
 - [Xử lý lỗi khi tải remote](#xử-lý-lỗi-khi-tải-remote)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -305,3 +306,26 @@ export default class RemoteErrorBoundary extends React.Component {
 - Luôn bọc remote bằng **Suspense** (chờ tải) và **Error Boundary** (cô lập lỗi).
 
 Bài tiếp theo: **chia sẻ state và routing** giữa host và các remote.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Mô tả các bước tối thiểu để dựng một remote expose component và một host tiêu thụ nó với Webpack 5.
+2. Trong `ModuleFederationPlugin` của remote, các trường `name`, `filename`, `exposes` lần lượt dùng để làm gì?
+3. Ở host khai `remotes` như thế nào, và chuỗi `remote_app@http://localhost:3001/remoteEntry.js` được phân giải ra sao lúc chạy?
+4. Vì sao entry `index.js` chỉ chứa `import('./bootstrap')`? Bỏ mẫu này thì điều gì hỏng?
+5. Giải thích lỗi *"Shared module is not available for eager consumption"*: nguyên nhân và ít nhất hai cách khắc phục, kèm đánh đổi của mỗi cách.
+6. `React.lazy` và `Suspense` đóng vai trò gì khi tải remote component? Có bắt buộc phải dùng không?
+7. `Error Boundary` bắt được loại lỗi nào và bỏ sót loại nào? Vì sao mỗi remote nên có boundary riêng thay vì một cái chung?
+8. Nếu remote sập hoặc URL sai thì người dùng nhìn thấy gì? Bạn thiết kế fallback và cơ chế retry ra sao?
+9. Vì sao trong demo phải chạy remote trước rồi mới chạy host? Ở môi trường production thì thứ tự deploy ảnh hưởng thế nào?
+10. `shared` cho `react`/`react-dom` phải khai ở cả hai app — nếu chỉ khai ở một bên thì hậu quả là gì?
+11. TypeScript báo không tìm thấy module `remote_app/Button` — bạn xử lý thế nào để vừa hết lỗi vừa giữ được kiểu?
+12. Chạy nhiều remote cùng lúc trên máy local rất nặng. Có cách nào trỏ về remote đã deploy sẵn cho những mảnh không sửa?
+13. `publicPath` cấu hình sai gây lỗi gì khi remote tải chunk của chính nó? Giá trị `auto` giải quyết vấn đề đó ra sao?
+14. Bạn viết những loại test nào cho tích hợp host–remote: mock remote, contract test hay E2E? Mỗi loại bắt được lỗi gì?
+15. Khi host và remote nằm ở hai domain khác nhau, cần cấu hình `CORS` và header gì cho `remoteEntry.js` cùng các chunk?
+16. Làm sao debug khi host tải được `remoteEntry.js` nhưng render remote lại lỗi? Bạn xem gì trên tab Network và Console?

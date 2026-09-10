@@ -28,6 +28,7 @@ title: "2. Arrays và Typed Arrays"
 - [Array methods quan trọng](#array-methods-quan-trọng)
 - [Immutable methods (ES2023)](#immutable-methods-es2023)
 - [Typed Arrays](#typed-arrays)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -330,3 +331,27 @@ Trong Node.js dùng được không hạn chế. Khi cần shared memory đa lu�
 dùng cùng với `Atomics` để đồng bộ.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Vì sao `typeof []` trả về `"object"`? Có những cách nào để kiểm tra một giá trị là array, và vì sao `Array.isArray()` được ưu tiên?
+2. Phân loại các array method thành nhóm `mutating` và `non-mutating`. Kể ít nhất 4 method mỗi nhóm.
+3. So sánh `slice()` và `splice()` về tham số, giá trị trả về và tác động lên mảng gốc. Đoán output của `[1,2,3,4].splice(1, 2)`.
+4. `map()`, `filter()`, `forEach()` khác nhau thế nào về giá trị trả về? Khi nào dùng `forEach` là sai lựa chọn?
+5. Giải thích `reduce()`: các tham số của callback, vai trò của `initialValue`, và điều gì xảy ra nếu gọi `reduce` trên mảng rỗng mà không có `initialValue`.
+6. Cài đặt lại `map` (hoặc `filter`) bằng `reduce`. Điều này cho thấy gì về quan hệ giữa các method?
+7. Vì sao `[10, 9, 1].sort()` cho kết quả `[1, 10, 9]`? `sort()` mặc định so sánh thế nào và làm sao sắp xếp số đúng?
+8. `sort()` có `stable` không, có mutate mảng gốc không, và trả về gì? Làm sao sắp xếp mà giữ nguyên mảng ban đầu?
+9. `find()` khác `filter()` ở điểm nào? `some()` và `every()` trả về gì với mảng rỗng, và vì sao?
+10. So sánh `indexOf()` và `includes()`. Vì sao `[NaN].indexOf(NaN)` ra `-1` nhưng `[NaN].includes(NaN)` lại là `true`?
+11. `sparse array` là gì? Điều gì xảy ra với `a[100] = 1` trên mảng rỗng, và các method như `map`/`forEach` xử lý lỗ hổng thế nào?
+12. Các method ES2023 `toSorted`, `toReversed`, `toSpliced`, `with` giải quyết vấn đề gì? Vì sao chúng hợp với React state?
+13. Phân biệt `shallow copy` và `deep copy` với mảng. `slice()`, spread `[...arr]`, `structuredClone()` khác nhau ra sao?
+14. So sánh `flat()` và `flatMap()`. Làm phẳng mảng lồng nhiều cấp bằng cách nào?
+15. `TypedArray` khác `Array` thường ở những điểm nào? Vì sao `TypedArray` không có `push`/`splice`?
+16. Giải thích quan hệ giữa `ArrayBuffer` và các view như `Uint8Array`, `Int32Array`. Hai view khác kiểu trên cùng buffer sẽ thấy dữ liệu thế nào?
+17. Khi nào bạn thực sự cần `TypedArray` trong dự án web? Nêu vài Web API bắt buộc dùng nó.

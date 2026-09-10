@@ -31,6 +31,7 @@ title: "1. this trong các ngữ cảnh"
 - [this trong arrow function](#this-trong-arrow-function)
 - [this trong event handler](#this-trong-event-handler)
 - [this trong class](#this-trong-class)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -438,3 +439,28 @@ không như mong đợi, hỏi 3 câu:
 Trả lời 3 câu này thường tìm ra ngay nguyên nhân.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `this` trong JavaScript được xác định lúc VIẾT code hay lúc GỌI hàm? Cho một ví dụ chứng minh.
+2. Liệt kê các quy tắc binding của `this` theo thứ tự ưu tiên: `new`, `call`/`apply`/`bind`, `obj.method()`, và gọi standalone.
+3. Gọi `fn()` standalone thì `this` bằng gì trong strict mode và trong sloppy mode? Vì sao có sự khác biệt này?
+4. Vì sao `const g = obj.method; g();` lại làm mất `this`? Nêu các cách giữ lại `this` trong tình huống đó.
+5. Phân biệt `call`, `apply` và `bind`: cái nào gọi hàm ngay, cái nào trả về hàm mới, truyền tham số khác nhau ra sao?
+6. Tự viết polyfill cho `Function.prototype.bind` (hoặc `call`). Bạn xử lý trường hợp hàm bind được gọi kèm `new` thế nào?
+7. Đoán kết quả khi `bind` hai lần: `fn.bind(a).bind(b)` thì `this` cuối cùng là gì? Giải thích.
+8. Arrow function lấy `this` từ đâu? Có thể đổi `this` của một arrow function bằng `call`/`apply`/`bind` không?
+9. Vì sao KHÔNG nên dùng arrow function làm method của object literal? Đoán output của ví dụ `greet: () => this.name` ở ES Module và ở script thường.
+10. Trong `setTimeout(function () { ... })` viết bên trong một method, `this` bằng gì? Nêu ít nhất ba cách fix (arrow, `bind`, `const self = this`).
+11. Trong event handler, `this` bằng gì khi dùng function thường so với arrow function? Khi nào nên dùng `e.currentTarget` thay cho `this`?
+12. Phân biệt `e.target` và `e.currentTarget` — cái nào tương đương với `this` trong một handler viết bằng function thường?
+13. `this` trong method của `class` là gì? Vì sao tách method ra rồi gọi standalone luôn ném `TypeError`, kể cả trong file sloppy mode?
+14. So sánh ba cách fix mất `this` trong class: `bind` trong constructor, class field dạng arrow, và wrapper arrow lúc gọi — ưu nhược điểm về bộ nhớ, prototype và khả năng mock trong test.
+15. Khi gọi `new Fn()`, engine thực hiện những bước nào và `this` được tạo ra ở bước nào?
+16. Đoán output với object lồng nhau: gọi `obj.inner.fn()` thì `this` là `obj` hay `obj.inner`? Giải thích quy tắc "object đứng ngay trước dấu chấm".
+17. `this` ở top-level khác nhau ra sao giữa CommonJS module, ES Module và script thường trong trình duyệt?
+18. `globalThis` là gì và nó giải quyết vấn đề gì so với việc dùng `window`, `global` hay `self`?

@@ -30,6 +30,7 @@ title: "2. Data Sources: REST, GraphQL, Database, ORM"
 - [Database trực tiếp](#database-trực-tiếp)
 - [ORM: Prisma, Drizzle](#orm-prisma-drizzle)
 - [Lựa chọn theo project](#lựa-chọn-theo-project)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -457,3 +458,25 @@ Compile time Next.js warning, runtime error. Pattern đúng:
 - **Client**: fetch qua API route hoặc Server Action.
 
 :::
+
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Trong App Router, vì sao `Server Component` truy cập thẳng database được còn `Client Component` thì không? Giải thích cơ chế đằng sau, không chỉ nêu kết luận.
+2. Biến môi trường nào lộ xuống trình duyệt và biến nào không? Điều gì thực sự xảy ra ở bước build với tiền tố `NEXT_PUBLIC_`?
+3. So sánh `REST` và `GraphQL` cho một trang chi tiết sản phẩm: over-fetching và under-fetching thể hiện ra sao, và GraphQL đánh đổi lại điều gì?
+4. Khi nào bạn vẫn dựng một tầng API riêng thay vì query database trực tiếp trong `Server Component`? Cho ít nhất ba tình huống cụ thể.
+5. Vì sao nên bọc `fetch` trong một helper chung kiểu `api<T>()` thay vì gọi `fetch` rải rác? Helper đó nên gánh những trách nhiệm gì?
+6. `fetch` không throw khi server trả về `404` hay `500`. Điều đó ảnh hưởng thế nào tới cách bạn xử lý lỗi, và bạn kiểm tra bằng gì?
+7. So sánh `Prisma` và `Drizzle` trên các trục: bundle size, cold start, migration, type safety. Bạn chọn cái nào cho một project mới deploy serverless và vì sao?
+8. Vì sao `PrismaClient` phải khởi tạo theo pattern singleton gắn vào `globalThis` ở môi trường dev? Không làm vậy thì hỏng ở đâu?
+9. Connection pooling vỡ như thế nào khi chạy Postgres với serverless functions? Nêu các cách xử lý (pooler, HTTP driver, `Prisma Accelerate`).
+10. Driver nào chạy được trên Edge Runtime và vì sao? Trade-off của driver dựa trên HTTP so với driver TCP là gì, đặc biệt với transaction?
+11. Vấn đề `N+1 query` xuất hiện thế nào khi mỗi component con tự query dữ liệu của mình? Bạn phát hiện và xử lý ra sao?
+12. Pattern repository (tách truy vấn ra `lib/repositories/*`) mang lại lợi ích gì? Đánh đổi nào khiến bạn có thể bỏ qua nó ở project nhỏ?
+13. Khi nào bạn chọn `tRPC` thay vì `REST`, `GraphQL` hay `Server Action`? Điều kiện tiên quyết để `tRPC` phát huy giá trị là gì?
+14. Một trang cần gộp dữ liệu từ database, một REST API bên thứ ba và một headless CMS. Bạn tổ chức việc lấy dữ liệu, xử lý lỗi từng phần và caching như thế nào?

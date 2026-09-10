@@ -29,6 +29,7 @@ title: "6. Higher Order Components (HOC)"
 - [HOC nâng cao](#hoc-nâng-cao)
 - [HOC vs Custom Hook](#hoc-vs-custom-hook)
 - [Khi nào còn dùng HOC?](#khi-nào-còn-dùng-hoc)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -331,3 +332,28 @@ Cẩn thận với HOC inject prop bị override — sau migrate hook cần veri
 behavior không đổi.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `HOC` là gì? Mô tả signature của nó bằng lời.
+2. `HOC` khác một component bọc thông thường và khác `custom hook` ở những điểm nào?
+3. Kể các use case kinh điển của `HOC`: xác thực, logging, theme, data fetching.
+4. Vì sao `HOC` không được phép mutate component gốc? Hậu quả nếu vi phạm là gì?
+5. Vì sao không được tạo `HOC` bên trong render (hoặc bên trong thân một component)? Điều gì xảy ra với state và DOM của cây con?
+6. `displayName` trong `HOC` dùng để làm gì, và đặt theo convention nào?
+7. Các `static method` của component gốc có tự động đi qua `HOC` không? Xử lý thế nào (ví dụ `hoist-non-react-statics`)?
+8. `ref` có xuyên qua `HOC` tới component gốc được không? Vì sao, và cách khắc phục?
+9. `Prop collision` là gì? Có những chiến lược đặt tên hay namespacing nào để tránh?
+10. Vì sao `HOC` khó type với TypeScript, đặc biệt khi compose nhiều tầng?
+11. Compose nhiều `HOC` gây "wrapper hell" — ảnh hưởng thế nào tới DevTools và tới performance?
+12. So sánh `HOC`, `render props` và `custom hook`: ưu nhược và tiêu chí chọn trong từng tình huống.
+13. Vì sao `HOC` vẫn cần thiết cho `class component` trong khi hook thì không dùng được ở đó?
+14. Kể vài thư viện thực tế còn dùng `HOC` (`connect` của Redux, `observer` của MobX, `withRouter` của React Router v5) và hướng migrate hiện nay.
+15. `HOC` có ảnh hưởng tới cách `React.memo` hay `shouldComponentUpdate` hoạt động không? Giải thích.
+16. Nêu các bước migrate an toàn một `HOC` sang `custom hook` mà không đổi behavior.
+17. `HOC` là ứng dụng của khái niệm nào trong lập trình hàm? "Pure transformation component sang component" nghĩa là gì?
+18. Khi nào một wrapper component nhận `children` sẽ rõ ràng hơn là viết một `HOC`?

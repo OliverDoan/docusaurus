@@ -29,6 +29,7 @@ title: "1. Advanced Types"
 - [Mapped Types](#mapped-types)
 - [Conditional Types](#conditional-types)
 - [Recursive Types](#recursive-types)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -337,3 +338,33 @@ Pattern này biến **dữ liệu thành nguồn của type** — single source 
 truth, không phải duy trì hai chỗ.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Literal type là gì? Vì sao gán cùng một chuỗi cho `const` và cho `let` lại cho ra hai kiểu khác nhau?
+2. `as const` làm gì với object và array? Nó liên hệ thế nào tới literal type và readonly tuple?
+3. Mapped type `[K in keyof T]` hoạt động ra sao? Viết lại `Readonly` và `Partial` bằng mapped type.
+4. Modifier `+` và `-` trong mapped type (`-readonly`, `-?`) dùng khi nào? Cho ví dụ `Mutable<T>`.
+5. Key remapping bằng `as` (TS 4.1+) — viết một type sinh ra `getName` từ field `name`.
+6. Làm sao **loại bỏ** một key trong mapped type bằng cách remap nó về `never`?
+7. **Homomorphic mapped type** là gì? Vì sao nó bảo toàn `readonly` / optional của kiểu gốc còn dạng không homomorphic thì không?
+8. Template literal type dùng để làm gì? Cho ví dụ mô tả kiểu cho route hoặc tên event.
+9. Khi ghép nhiều union trong một template literal type, kết quả là tích Descartes — rủi ro bùng nổ tổ hợp thể hiện thế nào và giới hạn của TS là bao nhiêu?
+10. `Uppercase` / `Capitalize` kết hợp template literal type để làm gì? Cho ví dụ sinh tên handler `onClick` từ `"click"`.
+11. Conditional type `T extends U ? X : Y` được đánh giá lúc nào? Chuyện gì xảy ra khi `T` còn là generic chưa gán (deferred)?
+12. **Distributive conditional type** là gì? Vì sao `NonNullable` phân tán trên union, còn bọc `[T] extends [U]` thì tắt phân tán?
+13. `infer` hoạt động thế nào? Hãy tự viết `MyReturnType` và `MyParameters`.
+14. Nhiều vị trí `infer` cùng tên trong một conditional type cho ra union hay intersection? Điều đó phụ thuộc vị trí covariant hay contravariant ra sao?
+15. `infer U extends string` (TS 4.8+) thêm được gì so với `infer U`?
+16. Làm sao kiểm tra hai type **bằng nhau chính xác** (`Equals<A, B>`) ở cấp type? Vì sao chỉ dùng `A extends B` là chưa đủ?
+17. Recursive type là gì? Giới hạn độ sâu đệ quy của TS và cách tránh lỗi "Type instantiation is excessively deep and possibly infinite".
+18. Đọc hiểu: hãy viết `DeepReadonly<T>` và giải thích cách dừng đệ quy ở primitive, function, array và `Map` / `Set`.
+19. Phân biệt `keyof`, `typeof`, indexed access `T[K]`, và `T[number]` trên tuple/array. Mỗi cái trả về gì?
+20. `never` xuất hiện ở đâu trong lập trình cấp type (lọc union, exhaustive check)? Vì sao `never` là phần tử trung hoà của union?
+21. Variadic tuple type (`[...T, U]`, TS 4.0+) giải quyết bài toán gì? Cho ví dụ với `curry` hoặc `Parameters`.
+22. Khi nào nên **dừng lại** và không viết type quá "clever"? Nêu đánh đổi giữa độ chính xác kiểu, tốc độ biên dịch và khả năng đọc của đồng đội.
+

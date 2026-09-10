@@ -29,6 +29,7 @@ title: "1. Class cơ bản và Access Modifiers"
 - [Access modifiers](#access-modifiers)
 - [readonly property](#readonly-property)
 - [static member](#static-member)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -287,3 +288,28 @@ Không nên dùng static để gom **mọi util** — sẽ thành "god class". M
 file riêng (`utils/math.ts`) thường gọn hơn.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. TypeScript bổ sung những gì cho `class` so với class của JavaScript thuần? Kể ít nhất bốn thứ.
+2. `Parameter properties` (khai báo `public`/`private` ngay trong constructor) hoạt động ra sao? Nó biên dịch ra JS thế nào?
+3. Kể ba `access modifier` và phạm vi truy cập của từng cái. Mặc định là gì khi không viết modifier?
+4. `private` của TypeScript được kiểm tra ở thời điểm nào? Từ JavaScript thuần có truy cập được không?
+5. So sánh `private` (TS) với `#field` (ECMAScript): khác nhau về thời điểm kiểm tra, khả năng lách, và khả năng debug.
+6. Khi nào bạn chọn `#field` thay vì `private`? Nêu tình huống bảo mật cụ thể.
+7. `protected` khác `private` ở đâu? Đoán lỗi: class con truy cập property `private` của cha — compiler nói gì?
+8. Constructor có thể là `private` hoặc `protected` không? Pattern nào tận dụng điều đó?
+9. `readonly` là access modifier hay modifier khác loại? Nó cho phép gán ở những chỗ nào?
+10. `readonly` có tạo ra `deep immutability` không? Nếu property là mảng thì còn push được không, vì sao?
+11. Kết hợp `private readonly _id` với `getter` mang lại lợi ích gì so với để `public readonly`?
+12. `static member` thuộc về ai? Trong method `static`, `this` trỏ tới cái gì?
+13. `static block` dùng để làm gì và chạy vào lúc nào trong vòng đời của class?
+14. Khi nào nên dùng `static` và khi nào nên tách thành module hàm thường? Rủi ro "god class" là gì?
+15. `getter` và `setter` trong class TS được định kiểu ra sao? Kiểu của getter và setter có bắt buộc giống nhau không?
+16. Class trong TypeScript vừa là giá trị vừa là kiểu — điều đó nghĩa là gì? Cho ví dụ dùng tên class ở vị trí kiểu.
+17. `strictPropertyInitialization` là gì? Ba cách hợp lệ để xử lý property chưa được gán trong constructor.
+18. Hai class có cùng shape nhưng khác tên có gán cho nhau được không? Giải thích theo `structural typing` và ngoại lệ khi có thành viên `private`.

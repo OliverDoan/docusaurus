@@ -30,6 +30,7 @@ title: "1. Mobile Applications (React Native)"
 - [Navigation](#navigation)
 - [Animation: Reanimated](#animation-reanimated)
 - [Styling](#styling)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -437,3 +438,30 @@ flowchart TD
 ```
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. React Native render giao diện bằng cách nào? Vì sao nói nó 'không phải webview'?
+2. So sánh React Native, PWA và native thuần (Swift/Kotlin) theo hiệu năng, chi phí, khả năng truy cập API thiết bị và cách phân phối.
+3. Kiến thức React web tái sử dụng được bao nhiêu khi chuyển sang React Native? Liệt kê những khác biệt lớn nhất.
+4. Vì sao React Native không có `div`, `span` hay CSS thuần? `View`, `Text` và `StyleSheet` thay thế thế nào?
+5. Layout trong React Native chỉ có Flexbox — khác gì Flexbox trên web (ví dụ giá trị mặc định của `flexDirection`)?
+6. Expo và Bare React Native khác nhau ở đâu? Khi nào bắt buộc phải rời khỏi Expo?
+7. Expo prebuild, config plugin và development build là gì? Chúng làm ranh giới 'managed vs bare' thay đổi ra sao?
+8. EAS Build giải quyết vấn đề gì? Vì sao nói 'không có máy Mac vẫn build được app iOS'?
+9. OTA update (EAS Update) cập nhật được những gì và **không** cập nhật được gì? Ràng buộc từ App Store và Google Play là gì?
+10. New Architecture (Fabric, TurboModules, JSI, Codegen) khắc phục hạn chế nào của kiến trúc Bridge cũ?
+11. Vì sao Bridge cũ gây nghẽn hiệu năng? JSI khác Bridge ở điểm cốt lõi nào?
+12. React Navigation và Expo Router khác nhau ra sao? Ưu và nhược của điều hướng kiểu file-based?
+13. Phân biệt Stack, Tab và Drawer navigator. Deep linking hoạt động thế nào trong React Native?
+14. Vì sao `Animated` API mặc định có thể giật còn Reanimated thì mượt? Giải thích khái niệm UI thread và worklet.
+15. `useNativeDriver` là gì và vì sao không áp dụng được cho mọi thuộc tính?
+16. `FlatList` khác `ScrollView` ở đâu? Những prop nào ảnh hưởng lớn tới hiệu năng danh sách dài?
+17. `StyleSheet.create` và NativeWind khác nhau thế nào? NativeWind hoạt động ra sao ở bên dưới?
+18. Chia sẻ code giữa web và mobile: cơ chế `.web.tsx` / `.native.tsx` hoạt động ra sao và nên tách logic khỏi UI theo nguyên tắc nào?
+19. Vì sao không phải package npm nào cũng chạy được trong React Native? Kiểm tra thế nào trước khi cài?
+20. Debug React Native bằng những công cụ nào? Hermes engine mang lại lợi ích gì cho thời gian khởi động và bộ nhớ?

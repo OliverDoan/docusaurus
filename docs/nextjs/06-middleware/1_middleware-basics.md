@@ -29,6 +29,7 @@ title: "1. Middleware Basics"
 - [Tạo middleware](#tạo-middleware)
 - [Use cases phổ biến](#use-cases-phổ-biến)
 - [Hạn chế của middleware](#hạn-chế-của-middleware)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -391,3 +392,26 @@ export async function middleware(request: NextRequest) {
 ```
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `middleware` trong Next.js là gì và nó chạy ở thời điểm nào trong vòng đời một request?
+2. File `middleware.ts` phải đặt ở đâu, export những gì, và Next.js gọi nó ra sao?
+3. Kể các giá trị trả về hợp lệ từ middleware (`NextResponse.next()`, `.redirect()`, `.rewrite()`, response tự tạo) và hệ quả của từng loại.
+4. `config.matcher` dùng để làm gì? So sánh `/dashboard/:path` với `/dashboard/:path*` — chúng khớp những URL nào?
+5. Vì sao pattern matcher thực tế thường loại trừ `_next/static`, `_next/image`, `favicon.ico`? Không loại trừ thì hậu quả là gì?
+6. Middleware chạy trên `edge runtime`: điều đó nghĩa là những API nào KHÔNG dùng được, và vì sao?
+7. So sánh `edge runtime` và `nodejs runtime` về cold start, độ trễ, API khả dụng, driver database và giới hạn CPU/bộ nhớ.
+8. Vì sao không nên query database trực tiếp trong middleware? Nếu bắt buộc phải lấy dữ liệu, bạn làm cách nào?
+9. Middleware có giới hạn bundle size và CPU time — điều này ảnh hưởng thế nào tới việc chọn thư viện (ví dụ thư viện JWT) đưa vào middleware?
+10. Next.js chỉ cho phép một file middleware cho cả project. Khi logic phức tạp (auth + i18n + A/B test + rate limit), bạn tổ chức code thế nào?
+11. Thứ tự các bước kiểm tra bên trong middleware quan trọng ra sao? Cho ví dụ sắp xếp sai gây lỗi logic.
+12. Middleware vs Server Component check vs route handler check: đặt logic xác thực ở đâu và vì sao chỉ dựa vào middleware là không đủ an toàn?
+13. Triển khai A/B testing bằng middleware: bạn dùng `rewrite` hay `redirect`, lưu variant ở đâu, và làm sao giữ trải nghiệm ổn định giữa các lần truy cập?
+14. Redirect theo vị trí địa lý trong middleware: lấy thông tin geo từ đâu, và làm sao tránh redirect loop?
+15. Middleware ảnh hưởng thế nào tới khả năng cache static/CDN của một route? Có làm route trở nên dynamic không?
+16. Bạn debug middleware ra sao khi nó chạy đúng ở local nhưng sai trên production edge?

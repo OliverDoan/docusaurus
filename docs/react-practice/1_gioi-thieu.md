@@ -32,6 +32,7 @@ title: "1. Giới thiệu & Chuẩn bị"
 - [JSX — thứ trông giống HTML nhưng là JavaScript](#jsx--thứ-trông-giống-html-nhưng-là-javascript)
 - [Cách học hiệu quả với topic này](#cách-học-hiệu-quả-với-topic-này)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -216,3 +217,25 @@ Ba quy tắc JSX phải thuộc lòng:
 - Làm **tuần tự 4 project** từ dễ đến khó, **gõ tay** thay vì copy, luôn mở Console và làm phần thử thách.
 
 Sẵn sàng chưa? Bắt đầu với [Counter & Profile Card](./2_counter-profile.md) ngay nào!
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. React là thư viện hay framework? Điều đó ảnh hưởng thế nào tới việc bạn phải tự chọn router, quản lý state, công cụ build?
+2. `JSX` là gì và vì sao trình duyệt không chạy trực tiếp được? Công cụ nào biên dịch JSX, và biên dịch ra cái gì?
+3. Vì sao trong JSX phải viết `className` thay cho `class`, `htmlFor` thay cho `for`?
+4. Vì sao một component chỉ được `return` một thẻ gốc duy nhất? Fragment `<>...</>` giải quyết chuyện đó ra sao và khác gì bọc bằng một `div`?
+5. Cặp ngoặc nhọn trong JSX nhận biểu thức hay câu lệnh? Vì sao không viết được `if` trực tiếp bên trong nó, và thay thế bằng gì?
+6. Vì sao cộng đồng chuyển từ `create-react-app` sang `Vite`? Vite làm khác gì ở chế độ dev so với chế độ build?
+7. `src/main.jsx` làm nhiệm vụ gì? Giải thích vai trò của `createRoot` và của thẻ có `id="root"` trong `index.html`.
+8. `StrictMode` là gì? Vì sao ở môi trường dev nó gọi component và effect hai lần, và điều đó giúp lộ ra loại bug nào?
+9. `Virtual DOM` là gì? Mô tả ngắn gọn chuỗi sự kiện từ lúc state đổi tới lúc DOM thật được cập nhật.
+10. `HMR` (hot reload) khác reload cả trang ở chỗ nào? Vì sao đôi khi HMR vẫn làm mất state đang có trên màn hình?
+11. Phân biệt `dependencies` và `devDependencies` trong `package.json`. React và Vite mỗi cái nằm ở nhóm nào, vì sao?
+12. Vì sao không commit `node_modules` nhưng lại commit `package-lock.json`? Lock file giải quyết vấn đề gì?
+13. Vì sao tên component bắt buộc viết hoa chữ đầu? Nếu viết thường thì React hiểu nhầm thành cái gì?
+14. Chạy `npm run dev` được nhưng `npm run build` lại lỗi — bạn kiểm tra những nguyên nhân phổ biến nào trước tiên?
+15. Cùng một component có thể render nhiều lần trên một trang — điều đó nói lên đặc tính gì của component, và vì sao nó khiến React dễ tái sử dụng code?

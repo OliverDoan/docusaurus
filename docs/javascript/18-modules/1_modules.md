@@ -30,6 +30,7 @@ title: "1. Modules: CommonJS vs ES Modules"
 - [Default vs Named export](#default-vs-named-export)
 - [Dynamic import](#dynamic-import)
 - [Interop CJS và ESM](#interop-cjs-và-esm)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -408,3 +409,27 @@ Bundler hiện đại (Vite, esbuild, Rollup) đều output cả ESM và CJS n�
 publish thư viện — đảm bảo tương thích cả hai phía.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Trước khi có module, code JS gặp vấn đề gì với global scope? Người ta workaround bằng `IIFE` và namespace ra sao?
+2. So sánh `CommonJS` và `ES Modules` về cú pháp, thời điểm resolve, và tính đồng bộ/bất đồng bộ.
+3. "Static" của ESM nghĩa là gì? Vì sao `import` không đặt được trong `if` hay trong hàm?
+4. `Live binding` là gì? Cho ví dụ cùng một biến `count` hành xử khác nhau giữa CJS và ESM, và giải thích vì sao.
+5. Module trong Node có được cache không? Điều gì xảy ra khi hai file cùng `require` một module có side effect?
+6. `Tree shaking` là gì? Vì sao CommonJS gần như không tree-shake được còn ESM thì được?
+7. Ngoài cú pháp static, còn yếu tố nào cản `tree shaking`? Trường `sideEffects` trong `package.json` dùng để làm gì?
+8. Default export và named export đánh đổi ra sao về refactor, grep, auto-import của IDE và tree shaking?
+9. Vì sao nhiều style guide khuyên tránh default export, nhưng React component lại thường dùng default? Bạn chọn quy ước nào cho team?
+10. `import()` động trả về gì? Bạn dùng nó cho `code splitting` và lazy load trong React như thế nào?
+11. `import.meta` chứa những gì? Trong ESM muốn lấy `__dirname` thì làm cách nào?
+12. Node quyết định một file `.js` là CJS hay ESM dựa vào đâu? `.mjs` và `.cjs` khác gì?
+13. `ERR_REQUIRE_ESM` xảy ra khi nào? Nêu ít nhất ba cách xử lý và đánh đổi của từng cách.
+14. Import named từ một package CJS trong ESM đôi khi thất bại — vì sao? Cách khắc phục?
+15. Trường `exports` trong `package.json` dùng để làm gì? Vì sao publish cả ESM lẫn CJS dễ gây `dual package hazard`?
+16. `Circular dependency` được CJS và ESM xử lý khác nhau ra sao? Hệ quả nhìn thấy trong code là gì?
+17. Mô tả các pha nạp ESM (`construction`, `instantiation`, `evaluation`). Việc `import` được hoisting ảnh hưởng thứ tự chạy code thế nào?

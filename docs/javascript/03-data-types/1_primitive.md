@@ -32,6 +32,7 @@ Trong JavaScript, **primitive** (kiểu nguyên thuỷ) là những kiểu dữ 
 - [null và undefined](#null-và-undefined)
 - [Symbol](#symbol)
 - [BigInt](#bigint)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -348,3 +349,29 @@ register trực tiếp. Chỉ dùng khi thực sự cần (crypto, ID khổng l�
 nanosecond...).
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. JavaScript có mấy kiểu `primitive`? Kể đủ và nêu điểm chung của chúng.
+2. Nói primitive là `immutable` nghĩa là gì? Vì sao `str[0] = "X"` không làm đổi chuỗi mà cũng không báo lỗi ở sloppy mode?
+3. So sánh primitive và object về cách lưu trữ và cách truyền vào hàm (`pass by value` với `pass by reference`). Cho ví dụ chứng minh.
+4. `typeof NaN` trả về gì? Vì sao? `NaN === NaN` cho kết quả gì, và cách kiểm tra `NaN` đúng chuẩn là gì?
+5. Phân biệt `isNaN()` toàn cục với `Number.isNaN()`. Vì sao `isNaN("foo")` trả về `true`?
+6. Vì sao `0.1 + 0.2 !== 0.3`? Giải thích ngắn gọn `IEEE-754` và cách bạn xử lý khi tính tiền tệ.
+7. `Number.MAX_SAFE_INTEGER` nghĩa là gì? Chuyện gì xảy ra khi backend trả về một `id` số vượt quá giới hạn đó?
+8. Phân biệt `null` và `undefined` về ý nghĩa và về `typeof`. Vì sao `typeof null === "object"`?
+9. `null == undefined` và `null === undefined` cho kết quả gì? Khi nào bạn cố tình dùng `==` để check cả hai?
+10. So sánh toán tử `??` và `||`. Với `count = 0` hoặc `name = ""` thì hai toán tử cho kết quả khác nhau ra sao?
+11. Kể đủ 8 giá trị `falsy`. `"0"`, `[]`, `{}` là truthy hay falsy? Vậy vì sao `[] == false` lại là `true`?
+12. `Symbol` sinh ra để giải quyết vấn đề gì? `Symbol("id") === Symbol("id")` cho kết quả gì, và `Symbol.for("id")` khác chỗ nào?
+13. Property có key là `symbol` có xuất hiện trong `Object.keys`, `for...in` hay `JSON.stringify` không? Cách lấy chúng ra?
+14. `Symbol.iterator` dùng để làm gì? Nó liên quan thế nào tới `for...of`, spread và destructuring?
+15. `BigInt` ra đời để giải bài toán nào? Vì sao `10n + 1` ném `TypeError`? `10n / 3n` bằng bao nhiêu?
+16. `10n == 10` và `10n === 10` cho kết quả gì? Vì sao lại khác nhau?
+17. String là primitive, vậy vì sao `"abc".toUpperCase()` vẫn chạy được? Giải thích `wrapper object` / autoboxing và vì sao `new String("a") === "a"` là `false`.
+18. `"😀".length` bằng bao nhiêu và vì sao? Làm sao đếm đúng số ký tự người dùng nhìn thấy?
+19. So sánh `==` và `===`. Kể vài trường hợp coercion gây bất ngờ mà bạn từng gặp.

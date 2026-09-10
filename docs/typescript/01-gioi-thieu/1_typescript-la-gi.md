@@ -27,6 +27,7 @@ title: "1. TypeScript là gì?"
 - [Mục tiêu của TypeScript](#mục-tiêu-của-typescript)
 - [TypeScript hoạt động ra sao?](#typescript-hoạt-động-ra-sao)
 - [Tương tác với JavaScript](#tương-tác-với-javascript)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -148,3 +149,24 @@ type-check** cho biến đó — TS sẽ im lặng cho qua mọi thứ. Đây l�
 để TS báo lỗi khi gặp implicit any.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. TypeScript là gì, và vì sao nói nó là **superset** của JavaScript? Điều đó có đồng nghĩa với việc đổi mọi file `.js` thành `.ts` là chạy được ngay không?
+2. TypeScript bổ sung thêm những gì so với JavaScript, và nó **không** bổ sung thứ gì (về mặt runtime)?
+3. **Type erasure** là gì? Sau khi `tsc` biên dịch, những thành phần nào trong code TypeScript biến mất hoàn toàn khỏi file `.js` output?
+4. Vì sao không thể viết `typeof MyInterface` hay `x instanceof MyInterface` để kiểm tra kiểu tại runtime? Giải thích theo cơ chế biên dịch.
+5. Nếu type bị xoá lúc compile, làm sao đảm bảo dữ liệu trả về từ API đúng shape? Kể vài hướng xử lý (thư viện hoặc tự viết).
+6. Hàm có return type `x is User` khác gì hàm trả về `boolean` thông thường? Compiler dùng thông tin đó để làm gì?
+7. TypeScript có runtime riêng không? Mô tả luồng từ file `.ts` cho tới lúc code thực sự chạy trên Node hoặc trình duyệt.
+8. File `.d.ts` là gì và khi nào bạn cần đến nó? Kho **DefinitelyTyped** với namespace `@types/*` giải quyết vấn đề gì?
+9. Cài `lodash` mà quên cài `@types/lodash` thì compiler báo lỗi gì, và có mấy cách xử lý tình huống này?
+10. `allowJs` và `checkJs` khác nhau ra sao? Dùng hai flag đó để migrate dần một codebase JavaScript lớn sang TypeScript như thế nào?
+11. **Implicit any** là gì và vì sao nó nguy hiểm hơn `any` được khai báo tường minh? Flag nào chặn được nó?
+12. Vì sao nói `any` "vô hiệu hoá toàn bộ type-check" cho biến đó? Cho một ví dụ lỗi lọt qua compiler chỉ vì `any`.
+13. Đoán kết quả biên dịch của `const s: string = JSON.parse(raw);` — compiler có chặn không, và vì sao đây vẫn là bug tiềm ẩn?
+14. Dùng TypeScript có làm chương trình chạy chậm hơn JavaScript thuần không? Trả lời dựa trên cơ chế type erasure.

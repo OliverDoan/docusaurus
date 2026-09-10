@@ -30,6 +30,7 @@ title: "1. Generics"
 - [Generic class](#generic-class)
 - [Generic Constraints](#generic-constraints)
 - [Default type parameter](#default-type-parameter)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -304,3 +305,30 @@ wrap<string | null>(null); // T = string | null
 ```
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Generic giải quyết được vấn đề gì mà `any` không giải quyết được? Nêu cụ thể thứ bị mất khi dùng `any`.
+2. Khi nào TypeScript tự suy luận (infer) được tham số kiểu `T`, và khi nào bắt buộc phải truyền tường minh?
+3. Ý nghĩa của constraint `T extends ...`? Vì sao constraint **không** thu hẹp kiểu thực tế mà `T` nhận vào bên trong hàm?
+4. Giải thích `K extends keyof T` và indexed access `T[K]`. Viết chữ ký cho hàm `getProperty` truy cập an toàn một field.
+5. Khác biệt về thông tin kiểu tại nơi gọi giữa `f<T>(x: T[])` và `f(x: unknown[])` là gì?
+6. Default type parameter (`T = string`) hoạt động ra sao? Nó có can thiệp vào inference không?
+7. Phân biệt generic đặt trên class, trên interface/type alias, và trên method của class — phạm vi (scope) của tham số kiểu khác nhau thế nào?
+8. Vì sao có lúc TS infer `T` thành literal (`"a"`) và có lúc widen thành `string`? `as const` thay đổi điều gì?
+9. Thế nào là một **generic thừa** (useless generic)? Dấu hiệu nào cho thấy tham số kiểu nên thay bằng kiểu cụ thể hoặc `unknown`?
+10. Với `T extends object = Record<string, unknown>`, quan hệ giữa phần constraint và phần default là gì?
+11. Giải thích variance trong hệ kiểu structural của TS: `Box<Dog>` có gán được cho `Box<Animal>` không? Annotation `in` / `out` (TS 4.7+) dùng để làm gì?
+12. Generic constraint đệ quy là gì? Cho một ví dụ và nói rõ rủi ro về hiệu năng biên dịch.
+13. Khi cần suy luận từ đối số truyền vào, nên đặt tham số kiểu ở cấp class hay cấp method? Vì sao?
+14. `NoInfer<T>` (TS 5.4+) dùng để làm gì? Nêu một tình huống nó cứu được inference sai.
+15. `const` type parameter (`<const T>`, TS 5.0+) khác gì với việc bắt caller tự viết `as const`?
+16. Đọc hiểu: `function pipe<A, B, C>(f: (a: A) => B, g: (b: B) => C): (a: A) => C` — mô tả chuỗi inference xảy ra khi gọi `pipe`.
+17. Vì sao trộn generic với overload thường làm API khó dùng? Có cách nào thay thế gọn hơn?
+18. Higher-kinded type (generic của generic) không có trong TS — người ta thường workaround bằng kỹ thuật gì?
+19. Generic ảnh hưởng thế nào tới thời gian type-check của dự án lớn? Bạn phát hiện và xử lý một generic "đắt" ra sao?
+

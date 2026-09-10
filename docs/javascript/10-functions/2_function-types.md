@@ -28,6 +28,7 @@ title: "2. Arrow Functions và IIFE"
 - [Khác biệt với function thường](#khác-biệt-với-function-thường)
 - [Khi nào không nên dùng arrow](#khi-nào-không-nên-dùng-arrow)
 - [IIFE](#iife)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -357,3 +358,28 @@ const ROUTES = (() => {
 Tương đương `as const` factory — gọn hơn khai báo nhiều biến trung gian.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Liệt kê các cách khai báo hàm trong JavaScript (`function declaration`, `function expression`, `arrow function`, method shorthand). Chúng khác nhau thế nào về hoisting?
+2. Arrow function khác function thường ở những điểm nào? Kể ít nhất bốn điểm: `this`, `arguments`, `new`, `prototype`.
+3. "Arrow function không có `this` riêng" nghĩa là gì? `this` bên trong arrow được quyết định lúc định nghĩa hay lúc gọi?
+4. `this` trong function thường được xác định theo những quy tắc nào (gọi độc lập, gọi qua object, `new`, `call`/`apply`/`bind`)? Thứ tự ưu tiên ra sao?
+5. `call`, `apply`, `bind` khác nhau chỗ nào? Gọi `.bind(obj)` lên một arrow function có đổi được `this` không, vì sao?
+6. Đoán output: object literal có `greet: () => console.log(this.name)` khi gọi `user.greet()`. Giải thích, rồi sửa lại cho đúng.
+7. Vì sao `new (() => {})` ném `TypeError`? Arrow function thiếu những gì để làm constructor?
+8. Trong class, so sánh `handleClick() {}` (prototype method) với `handleClick = () => {}` (class field arrow): khác nhau về `this`, về bộ nhớ khi tạo nhiều instance, và về khả năng override/spy khi viết test.
+9. Trước ES6, người ta giữ `this` trong callback bằng những cách nào (`var self = this`, `.bind(this)`, tham số `thisArg` của `forEach`)?
+10. Với `addEventListener`, `this` bên trong handler là gì khi dùng function thường và khi dùng arrow function? Khi nào sự khác biệt này gây bug?
+11. Arrow function có `arguments` không? Nếu viết `arguments` bên trong một arrow thì nó tham chiếu tới đâu, và thay thế bằng gì?
+12. Cú pháp arrow: khi nào bỏ được `()` quanh tham số, khi nào bỏ được `{}` và `return`? Vì sao `x => { name: x }` không trả về object như bạn tưởng?
+13. Arrow function có được hoisted không? Đoán output khi gọi hàm ở dòng phía trên khai báo `const fn = () => {}`.
+14. `IIFE` là gì và vì sao phải bọc function trong `()` thì mới gọi ngay được? Nêu vài cách viết IIFE khác nhau.
+15. IIFE ra đời để giải quyết vấn đề gì, và vì sao code hiện đại gần như không cần nó nữa?
+16. Vòng lặp `for (var i = 0; i < 3; i++)` kết hợp `setTimeout` in ra kết quả sai — IIFE khắc phục thế nào, và `let` thay thế được ra sao? Giải thích theo closure.
+17. `async IIFE` dùng khi nào? `top-level await` thay được nó trong hoàn cảnh nào và không thay được khi nào?
+18. Arrow function có dùng làm generator (`function*`) được không? Còn `yield` bên trong arrow thì sao?

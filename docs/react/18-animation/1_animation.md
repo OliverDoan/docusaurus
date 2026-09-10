@@ -29,6 +29,7 @@ title: "1. Animation trong React"
 - [React Spring](#react-spring)
 - [GSAP](#gsap)
 - [View Transitions API](#view-transitions-api)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -431,3 +432,29 @@ respect:
 Framer Motion có built-in `MotionConfig reducedMotion="user"`.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Vì sao exit animation (khi component unmount) khó làm bằng CSS thuần trong React? `AnimatePresence` giải quyết bằng cách nào?
+2. Khi nào nên dùng CSS/Tailwind transition thay vì cài hẳn một thư viện animation?
+3. Thuộc tính CSS nào animate được trên GPU và thuộc tính nào bắt trình duyệt layout/paint lại? Vì sao nên ưu tiên `transform` và `opacity`?
+4. Phân biệt CSS `transition` và `@keyframes` animation — mỗi loại hợp với tình huống nào?
+5. Trong Framer Motion (package `motion`), giải thích vai trò của `initial`, `animate`, `exit` và `transition`.
+6. `variants` mang lại lợi ích gì so với viết trực tiếp vào `animate`? `staggerChildren` hoạt động thế nào?
+7. `AnimatePresence` yêu cầu gì ở phần tử con (`key`, vị trí đặt trong cây) để chạy đúng?
+8. Các chế độ `mode` của `AnimatePresence` (`wait`, `sync`, `popLayout`) khác nhau ra sao?
+9. Prop `layout` và `layoutId` làm được gì? Giải thích kỹ thuật FLIP đứng sau chúng.
+10. So sánh animation theo `duration` + easing với animation theo spring physics. Khi nào spring cho cảm giác tự nhiên hơn?
+11. React Spring khác Framer Motion ở triết lý và API như thế nào? Khi nào bạn chọn React Spring?
+12. GSAP mạnh ở điểm nào mà Framer Motion khó thay thế? Dùng GSAP trong React cần lưu ý gì về cleanup?
+13. Vì sao không nên cập nhật giá trị animation vào `useState` mỗi frame? Cách làm đúng trong React là gì?
+14. `prefers-reduced-motion` và `useReducedMotion` là gì? Vì sao đây là yêu cầu accessibility bắt buộc quan tâm?
+15. `MotionConfig` với `reducedMotion="user"` làm gì cho toàn bộ cây component?
+16. View Transitions API là gì? Nó nằm ở tầng nào so với thư viện animation và hiện có hạn chế gì?
+17. Animation bị rớt FPS: chẩn đoán thế nào bằng Performance panel của DevTools và khắc phục theo hướng nào?
+18. Thư viện animation làm tăng bundle — `LazyMotion` và component `m` của Motion giảm kích thước bằng cách nào?
+19. Animate danh sách thêm/xoá item cần lưu ý gì về `key` và về layout shift?

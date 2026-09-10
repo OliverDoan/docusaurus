@@ -29,6 +29,7 @@ title: "5. Type Inference và Compatibility"
 - [Best Common Type](#best-common-type)
 - [Widening và Narrowing](#widening-và-narrowing)
 - [Type Compatibility](#type-compatibility)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -273,3 +274,26 @@ getAnimal = getDog; // OK — Dog vẫn là Animal
 Bật flag `strictFunctionTypes: true` để TS check contravariance đúng.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Type inference là gì? TypeScript dựa vào những nguồn nào để suy luận kiểu cho một biến hoặc một hàm?
+2. Đoán kiểu: `let count = 10;` và `const PI = 3.14;` — hai biến được suy luận thành kiểu gì, và vì sao lại khác nhau?
+3. Widening là gì? Vì sao `let x = "hello"` cho ra `string` còn `const y = "hello"` giữ nguyên literal `"hello"`?
+4. Khi nào nên khai báo kiểu tường minh thay vì để TypeScript tự suy luận? Nêu tiêu chí cho code nội bộ và cho public API.
+5. Contextual typing hoạt động thế nào? Vì sao trong `addEventListener("click", (e) => ...)` TypeScript biết `e` là `MouseEvent` mà không cần annotate?
+6. Best common type là gì? Đoán kiểu suy luận của `const arr = [1, "hello", true];` và của `const items = [{ a: 1 }, { b: 2 }];`
+7. Vì sao return type của hàm thường không cần annotate, nhưng với hàm được export ra ngoài lại nên khai báo tường minh?
+8. Narrowing là gì? Liệt kê các cơ chế mà control flow analysis dùng để thu hẹp kiểu.
+9. Phân biệt narrowing bằng `typeof`, `instanceof` và `in` — mỗi cách phù hợp với dạng dữ liệu nào?
+10. User-defined type guard (`x is User`) khác assertion function (`asserts x is string`) ở điểm nào về cách compiler xử lý luồng code sau đó?
+11. Structural typing khác nominal typing ra sao? Vì sao một instance của `class Person` gán được cho biến kiểu `interface Named`?
+12. Excess property check là gì? Vì sao gán object literal có field thừa thì báo lỗi, còn gán qua biến trung gian lại không?
+13. Variance: vì sao tham số hàm được kiểm tra theo contravariance còn return type theo covariance? Giải thích bằng ví dụ `Animal` và `Dog`.
+14. Đoán lỗi: với `let animalFn: (a: Animal) => void;` và `let dogFn: (d: Dog) => void;` thì `animalFn = dogFn` có lỗi không? Flag `strictFunctionTypes` ảnh hưởng thế nào?
+15. Vì sao method khai báo dạng shorthand trong `interface` lại được kiểm tra bivariant, trong khi property kiểu function type thì không?
+16. `as const` ảnh hưởng đến widening ra sao? Cho ví dụ một trường hợp thiếu `as const` khiến không gán được vào tham số kiểu union literal.

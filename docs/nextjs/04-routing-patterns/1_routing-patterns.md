@@ -30,6 +30,7 @@ title: "1. Routing Patterns"
 - [Route Groups](#route-groups)
 - [Parallel Routes](#parallel-routes)
 - [Intercepting Routes](#intercepting-routes)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -436,3 +437,25 @@ Trade-off:
 Bắt đầu đơn giản, scale lên khi cần.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Dynamic route `[id]` hoạt động thế nào? Bạn truy cập giá trị param trong Server Component ra sao?
+2. `[...slug]` và `[[...slug]]` khác nhau ở đâu? Hãy minh hoạ bằng các URL cụ thể.
+3. Với `app/docs/[...slug]/page.tsx`, URL `/docs` có khớp không? Vì sao và cách khắc phục là gì?
+4. Nested dynamic route `[category]/[product]` sinh ra object `params` như thế nào?
+5. `route group` `(name)` ảnh hưởng gì tới URL? Nó giải quyết bài toán tổ chức nào?
+6. Làm sao dùng route group để có hai layout khác nhau cho khu vực public và khu vực sau đăng nhập mà URL vẫn sạch?
+7. `parallel routes` với slot `@name` là gì? Layout nhận các slot bằng cách nào?
+8. Vì sao việc mỗi slot có `loading.tsx` và `error.tsx` riêng lại quan trọng với trải nghiệm dashboard?
+9. `default.tsx` trong parallel route dùng để làm gì? Thiếu nó thì gặp vấn đề gì khi refresh hoặc điều hướng?
+10. `intercepting routes` giải quyết vấn đề UX nào? Giải thích ý nghĩa của `(.)`, `(..)`, `(..)(..)` và `(...)`.
+11. Thiết kế feed ảnh kiểu Instagram: click ảnh mở modal, share link hoặc refresh thì ra trang đầy đủ — bạn tổ chức cấu trúc thư mục thế nào?
+12. Vì sao pattern modal kèm deep link rất khó làm trong SPA thông thường, còn `App Router` lại làm được tự nhiên?
+13. Khi nhiều route cùng có thể khớp một URL (route tĩnh, dynamic, catch-all), Next.js ưu tiên cái nào?
+14. Kết hợp `generateStaticParams` với dynamic route như thế nào để pre-render? Xử lý ra sao với param chưa được pre-render?
+15. Khi nào bạn KHÔNG nên dùng parallel hoặc intercepting route? Những trade-off nào cần cân nhắc với team?

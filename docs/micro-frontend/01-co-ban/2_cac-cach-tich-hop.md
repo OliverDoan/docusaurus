@@ -35,6 +35,7 @@ từ đơn giản tới linh hoạt — cùng ưu/nhược của mỗi cách, đ
 - [5. Web Components](#5-web-components)
 - [Bảng so sánh](#bảng-so-sánh)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -150,3 +151,24 @@ chuẩn web, dùng như thẻ HTML bình thường:
 - **Web Components**: theo chuẩn web, cô lập tốt, hay dùng kèm cách runtime.
 
 Bài tiếp theo: **ưu/nhược điểm và khi nào nên (không nên) dùng** micro-frontend.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Phân biệt tích hợp `build-time` và `runtime`. Vì sao chỉ tích hợp runtime mới cho phép độc lập deploy thật sự?
+2. Kể các cách tích hợp micro-frontend bạn biết và nêu tiêu chí bạn dùng để chọn giữa chúng.
+3. Tích hợp qua npm package khác gì so với chia module trong một monolith? Khi nào cách này vẫn chấp nhận được?
+4. `Iframe` cô lập CSS và JavaScript bằng cơ chế nào? Những hạn chế nào khiến nó hiếm khi được chọn cho sản phẩm chính?
+5. Với `iframe`, làm sao chia sẻ dữ liệu và đồng bộ điều hướng giữa trang cha và mảnh con? Nêu rủi ro của cơ chế đó.
+6. So sánh `server-side composition` với `client-side composition` về SEO, thời gian tải đầu và khả năng tương tác động.
+7. `SSI` và `ESI` (edge-side includes) chạy ở vị trí nào trong đường đi của request, và giải quyết được điều gì?
+8. Mô tả cơ chế của cách tích hợp `runtime JS`: shell tải và mount một mảnh ra sao? Những rủi ro chính là gì?
+9. `Web Components` kết hợp `Shadow DOM` cô lập được tới mức nào? Truyền dữ liệu phức tạp và bắn sự kiện ra ngoài xử lý thế nào?
+10. Vì sao người ta hay kết hợp `Web Components` với `Module Federation` thay vì chọn một trong hai?
+11. So sánh `single-spa` và `Module Federation` — mỗi thứ giải quyết tầng nào của bài toán tích hợp?
+12. Một trang ghép nhiều mảnh viết bằng nhiều framework khác nhau: bạn xử lý trùng `dependency` và kích thước bundle thế nào?
+13. Tình huống: app cũ chạy jQuery, cần nhúng dần các màn hình React mới mà không viết lại toàn bộ. Bạn chọn cách tích hợp nào và vì sao?
+14. Với tích hợp runtime, một mảnh tải thất bại thì trang phản ứng ra sao? Bạn thiết kế fallback và cô lập lỗi thế nào?

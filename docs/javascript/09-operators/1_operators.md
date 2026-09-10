@@ -33,6 +33,7 @@ title: "1. Operators"
 - [String](#string)
 - [Conditional & Comma](#conditional--comma)
 - [Spread, Rest, Destructuring](#spread-rest-destructuring)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -419,3 +420,30 @@ const { x = 0 } = obj ?? {}; // safe + default
 ```
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Phân biệt `++x` và `x++`. Đoán output: `let x = 1; console.log(x++ + ++x);`
+2. `%` trong JavaScript là phép chia lấy dư hay modulo? Đoán kết quả `-5 % 3` và giải thích.
+3. `**` khác `Math.pow` ở điểm nào? Vì sao `-2 ** 2` ném `SyntaxError`?
+4. Toán tử `+` làm gì khi một vế là string? Đoán output: `1 + "2"`, `1 + 2 + "3"`, `"3" + 2 + 1`, `[] + {}`.
+5. So sánh `==` và `===`. Kết quả của `null == undefined`, `null === undefined`, `NaN == NaN` là gì?
+6. `&&`, `||`, `??` trả về boolean hay trả về toán hạng? Đoán output `0 || 100` so với `0 ?? 100`.
+7. Logical assignment `||=`, `&&=`, `??=` khác gì `x = x || y`? Vì sao khác biệt này quan trọng khi target có setter hoặc là property của Proxy?
+8. `?.` trả về gì khi mắt xích giữa là `null`? Nó có bắt được lỗi khi property tồn tại nhưng không phải hàm không?
+9. Vì sao `a ?? b || c` là lỗi cú pháp? Trình bày về `precedence` và `associativity` của toán tử.
+10. Bitwise operator ép toán hạng về kiểu gì trước khi tính? Vì sao `2 ** 31 | 0` cho ra số âm?
+11. `>>` khác `>>>` ở đâu? Cho ví dụ với số âm để thấy rõ khác biệt.
+12. `~~x` làm gì và khác `Math.floor(x)` trong trường hợp nào (số âm, số rất lớn)?
+13. Template literal khác nối chuỗi bằng `+` ở những điểm nào? Một `tagged template` nhận vào tham số gì và trả về gì?
+14. Spread `...` sao chép nông hay sâu? Điều gì xảy ra khi bạn sửa một object lồng bên trong bản copy tạo bởi `{ ...obj }`?
+15. Cùng ký hiệu `...` nhưng `spread` và `rest` khác nhau ra sao? Nhận biết bằng vị trí xuất hiện thế nào?
+16. Với `{ ...o1, ...o2 }`, khi trùng key thì giá trị nào thắng? Spread có sao chép được getter/setter và prototype không?
+17. Đoán output: `const { x = 10 } = { x: null }` và `const { x = 10 } = { x: undefined }`. Vì sao hai kết quả khác nhau?
+18. Vì sao `const { x } = null` ném `TypeError`? Viết lại cho an toàn.
+19. Toán tử `,` (comma) đánh giá thế nào và thường gặp ở đâu trong code thực tế?
+20. `typeof`, `instanceof`, `in`, `delete`, `void` — mỗi toán tử làm gì? `typeof null` trả về gì và vì sao lại như vậy?

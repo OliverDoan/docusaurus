@@ -30,6 +30,7 @@ title: "1. Testing Next.js App"
 - [Test Server Action](#test-server-action)
 - [E2E với Playwright](#e2e-với-playwright)
 - [Storybook](#storybook)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -434,3 +435,27 @@ MSW intercept `fetch` ở network layer → component test mà không touch
 network thật. Compat cả unit test + E2E.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Testing pyramid trong một dự án Next gồm những tầng nào, và tỷ lệ giữa các tầng nên ra sao?
+2. Unit test, integration test và E2E test khác nhau thế nào về chi phí, tốc độ và độ tin cậy?
+3. Vì sao React Testing Library khuyến khích query theo role/label thay vì theo class hay cấu trúc DOM?
+4. Vì sao Jest/Vitest chưa test được async Server Component? Lỗi thường gặp là gì và cách xử lý tạm thời ra sao?
+5. Trong thực tế bạn test Server Component bằng cách nào — tách business logic ra hay dựa vào E2E? Vì sao?
+6. Test một Server Action cần chuẩn bị những gì (dựng `FormData`, mock tầng DB, kiểm tra validation)?
+7. Làm sao test một Route Handler (`app/api/.../route.ts`) mà không phải chạy server thật?
+8. `MSW` chặn request ở tầng nào, và ưu điểm so với việc mock trực tiếp module gọi API là gì?
+9. So sánh Playwright và Cypress về kiến trúc, hỗ trợ đa trình duyệt, chạy song song và công cụ debug.
+10. Playwright xử lý auto-waiting ra sao, và vì sao nên tránh `waitForTimeout` cố định?
+11. Bạn xử lý test flaky thế nào — nguyên nhân thường gặp và chiến lược khắc phục là gì?
+12. Chiến lược seed và dọn dữ liệu ra sao để các test E2E chạy song song vẫn độc lập với nhau?
+13. Làm sao để E2E vượt qua bước đăng nhập nhanh mà vẫn an toàn (`storageState`, tái sử dụng session)?
+14. Vì sao khi test Client Component thường phải mock `next/navigation` (`useRouter`, `useSearchParams`)?
+15. Storybook và visual regression test đóng vai trò gì trong quy trình, và khi nào đáng đầu tư?
+16. Mức coverage bao nhiêu là hợp lý, và vì sao đuổi theo 100% thường không đáng?
+17. Bạn sắp xếp các tầng test vào pipeline CI/CD thế nào để vừa bắt lỗi sớm vừa giữ thời gian build chấp nhận được?

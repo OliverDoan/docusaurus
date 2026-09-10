@@ -28,6 +28,7 @@ title: "3. Method Overriding và Constructor Overloading"
 - [Từ khóa override](#từ-khóa-override)
 - [Constructor Overloading](#constructor-overloading)
 - [Method Overloading](#method-overloading)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -283,3 +284,27 @@ Overload chỉ thực sự cần khi **return type không thể biểu diễn b�
 generic** (vd hai signature trả về type hoàn toàn khác nhau).
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Phân biệt **method overriding** và **method overloading** trong TypeScript — cái nào là chuyện của runtime, cái nào chỉ tồn tại lúc biên dịch?
+2. Vì sao JavaScript thuần không có overloading kiểu Java/C#, và TypeScript "mô phỏng" nó bằng cách nào?
+3. Từ khoá `override` giải quyết vấn đề gì? Nếu gõ sai tên method của lớp cha mà không có nó thì chuyện gì xảy ra?
+4. Cờ `noImplicitOverride` trong `tsconfig.json` bắt buộc điều gì? Nó giúp gì khi ai đó rename method ở lớp cha?
+5. Trong một nhóm overload, vì sao **implementation signature** không gọi được từ bên ngoài? Sai lầm phổ biến nào sinh ra từ hiểu nhầm này?
+6. TypeScript chọn overload theo thứ tự nào khi nhiều signature cùng khớp? Vì sao nên đặt signature hẹp trước signature rộng?
+7. Khi override, khi nào bắt buộc gọi `super.method()` và khi nào cố ý bỏ qua? Hệ quả của mỗi lựa chọn?
+8. Method ở lớp con phải tương thích kiểu với lớp cha ra sao? Giải thích covariance của kiểu trả về và vì sao TS xử lý tham số của method theo kiểu **bivariant**.
+9. Cờ `strictFunctionTypes` ảnh hưởng thế nào đến kiểm tra tham số khi override — vì sao method viết dạng shorthand và dạng property arrow function lại bị check khác nhau?
+10. Constructor overloading được viết thế nào trong TS? Vì sao nhiều người khuyên thay bằng **static factory method**?
+11. So sánh ba cách xử lý "một hàm nhận nhiều dạng tham số": overload signature, generic, và union + type guard. Khi nào chọn cái nào?
+12. Có overload được một property kiểu arrow function không? Khác gì so với overload method thường?
+13. Overload sinh ra code JavaScript gì sau khi biên dịch? Có chi phí runtime nào không?
+14. Nếu lớp con override một method nhưng khai báo **ít tham số hơn** lớp cha, TS có báo lỗi không? Vì sao?
+15. `abstract` method liên quan thế nào tới overriding? Điều gì xảy ra nếu lớp con không cài đặt method `abstract`?
+16. Với `private` và `protected`, lớp con có override được không? Quy tắc về khả năng truy cập khi override là gì?
+

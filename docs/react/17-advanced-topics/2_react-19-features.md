@@ -30,6 +30,7 @@ React 19 là phiên bản mới mang đến nhiều tính năng giúp viết ứ
 - [useOptimistic](#useoptimistic)
 - [Document Metadata](#document-metadata)
 - [React Compiler](#react-compiler)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -464,3 +465,30 @@ Project Vite không thể dùng `"use server"` actions. Vẫn dùng được hoo
 mới (`use`, `useActionState`, `useOptimistic`) trong client.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Server Component khác Client Component ở những điểm nào? Nêu ít nhất bốn khác biệt.
+2. Vì sao nói Server Component có bundle '0 KB' phía client? Cái gì thực sự được gửi xuống trình duyệt?
+3. Khi nào bắt buộc phải thêm `"use client"`? Đánh dấu ở một file có ảnh hưởng gì tới các module nó import?
+4. Server Component dùng được `useState`, `useEffect`, `onClick` không? Giải thích lý do kỹ thuật.
+5. Có thể truyền những loại props nào từ Server Component xuống Client Component? Ràng buộc serialize là gì?
+6. Phân biệt directive `"use client"` và `"use server"` — hai cái này rất hay bị nhầm, khác nhau ở đâu?
+7. Hook `use()` khác `useContext` và `useEffect` ở chỗ nào? Vì sao `use()` được phép gọi trong `if` hoặc trong vòng lặp?
+8. Dùng `use()` với một Promise tạo ngay trong thân Client Component có vấn đề gì? Promise nên được tạo ở đâu?
+9. Actions là gì? Cơ chế này thay đổi cách xử lý form so với `onSubmit` truyền thống ra sao?
+10. `useActionState` trả về những gì? Giải thích vai trò của từng phần tử trong mảng kết quả.
+11. `useFormStatus` lấy trạng thái từ đâu? Vì sao nó chỉ hoạt động ở component **con** của `form`?
+12. So sánh `useActionState` và `useFormStatus` — tình huống nào dùng cái nào?
+13. `useOptimistic` hoạt động thế nào? React rollback giá trị optimistic tại thời điểm nào?
+14. Optimistic update thất bại vì server trả lỗi — ngoài rollback, UX nên xử lý thêm gì?
+15. React 19 bỏ `forwardRef` — `ref` giờ hoạt động ra sao? Code cũ dùng `forwardRef` có vỡ không?
+16. Cơ chế tự hoist `title` và `meta` trong React 19 giải quyết vấn đề gì? Nó có thay thế hoàn toàn thư viện quản lý head/SEO không?
+17. React Compiler làm gì? Có nó rồi thì `useMemo`/`useCallback` còn cần không, và compiler dựa vào giả định nào để memo hoá an toàn?
+18. React 19 thay đổi gì với `ref` callback cleanup và với việc dùng Context trực tiếp làm provider?
+19. Vì sao Server Components chỉ chạy trong framework hỗ trợ (Next.js App Router...) còn Vite SPA thuần thì không?
+20. Migrate một dự án React 18 lên React 19 cần rà soát những breaking change nào?

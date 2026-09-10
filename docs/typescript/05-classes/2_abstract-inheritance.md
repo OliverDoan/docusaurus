@@ -27,6 +27,7 @@ title: "2. Abstract Classes và Inheritance"
 - [Abstract Class](#abstract-class)
 - [Polymorphism (đa hình)](#polymorphism-đa-hình)
 - [Interface vs Abstract Class](#interface-vs-abstract-class)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -293,3 +294,28 @@ và linh hoạt hơn abstract class. Abstract class hợp khi xây framework,
 ORM, hoặc library cần lifecycle phức tạp.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Inheritance` giải quyết vấn đề gì? Nêu một tình huống mà kế thừa gọn hơn hẳn việc lặp code.
+2. `extends` cho phép kế thừa bao nhiêu class cha? Nếu cần hành vi từ nhiều nguồn thì làm cách nào?
+3. Vì sao class con bắt buộc gọi `super()` trong constructor? Chuyện gì xảy ra nếu dùng `this` trước khi gọi `super()`?
+4. `super.method()` khác `this.method()` ra sao khi class con đã override method đó?
+5. `abstract class` là gì và vì sao không `new` trực tiếp được? Compiler chặn ở thời điểm nào?
+6. `abstract method` khác method thường ở đâu? Class con không cài đặt thì chuyện gì xảy ra?
+7. `abstract class` có được chứa constructor, field, và method đã cài đặt sẵn không? Điều đó dùng để làm gì?
+8. Có thể khai báo `abstract` cho property và cho `getter`/`setter` không? Cho ví dụ.
+9. So sánh `abstract class` với `interface` theo bốn tiêu chí: chứa code, tồn tại runtime, số lượng kế thừa, có constructor.
+10. `Polymorphism` là gì? Giải thích `dynamic dispatch` — runtime quyết định gọi method nào dựa trên cái gì?
+11. Khi override method của cha, chữ ký của method con phải thoả điều kiện gì để compiler chấp nhận?
+12. `override` keyword (TS 4.3+) và cờ `noImplicitOverride` giúp phòng bug nào? Cho ví dụ cụ thể.
+13. Method của cha là `private` thì class con có override được không? Còn `protected` thì sao?
+14. `Template method pattern` là gì và vì sao `abstract class` là công cụ tự nhiên để cài đặt nó?
+15. Khi nào chọn `abstract class`, khi nào chọn `interface`? Nêu bốn tiêu chí quyết định.
+16. Vì sao trong app React/Node hiện đại nhiều team ưu tiên `interface` + `composition` hơn cây kế thừa sâu?
+17. Kể các vấn đề của kế thừa sâu (fragile base class, coupling chặt, khó test) và cách `composition` giảm nhẹ chúng.
+18. Một class có thể vừa `extends` một abstract class vừa `implements` nhiều interface không? Compiler kiểm tra những gì trong trường hợp đó?

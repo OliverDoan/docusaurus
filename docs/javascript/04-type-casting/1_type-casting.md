@@ -38,6 +38,7 @@ Trong JavaScript, việc ép kiểu xảy ra theo **hai cách**: do bạn chủ 
 - [Implicit coercion](#implicit-coercion)
 - [Quy tắc của ==](#quy-tắc-của-)
 - [Mẹo tránh bug](#mẹo-tránh-bug)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -320,3 +321,25 @@ Nhưng vẫn cần hiểu coercion vì:
 - Phỏng vấn — chủ đề "value comparison" rất phổ biến.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Phân biệt `type conversion` (explicit) và `type coercion` (implicit)? Ai là người thực hiện trong mỗi trường hợp?
+2. Liệt kê đủ 8 giá trị `falsy` trong JavaScript. Vì sao `[]` và `"0"` lại là `truthy`?
+3. Giải thích vì sao `"5" + 3` ra `"53"` nhưng `"5" - 3` lại ra `2`. Toán tử `+` khác các toán tử số học khác ở điểm nào?
+4. Đoán output và giải thích: `1 + 2 + "3"` so với `"1" + 2 + 3`. Vì sao khác nhau?
+5. So sánh `Number("42px")`, `parseInt("42px")` và `parseFloat("3.14abc")`. Khi nào nên dùng `parseInt` thay vì `Number`?
+6. Vì sao `Number("")` ra `0` còn `Number(undefined)` ra `NaN`? `Number(null)` ra bao nhiêu và tại sao?
+7. Giải thích cơ chế biến một object thành primitive: `ToPrimitive`, `valueOf()`, `toString()` và `Symbol.toPrimitive` được gọi theo thứ tự nào?
+8. Đoán output: `Number([])`, `Number([1])`, `Number([1, 2])`, `Number({})`. Giải thích từng trường hợp qua `ToPrimitive`.
+9. Vì sao `[] + {}` ra `"[object Object]"` còn `[] + []` ra chuỗi rỗng? Điều gì xảy ra khi gõ `{} + []` trong console?
+10. Trong `if (value)`, JavaScript áp dụng phép ép kiểu nào? Khác gì với ép kiểu trong `value == true`?
+11. Vì sao `"" == 0` là `true` nhưng `"" == "0"` lại là `false`? Truy vết từng bước theo quy tắc của `==`.
+12. Vì sao `null == undefined` là `true` nhưng `null == 0` lại là `false`? Spec xử lý cặp `null`/`undefined` thế nào?
+13. `NaN` sinh ra từ đâu, `typeof NaN` trả về gì, và vì sao phải dùng `Number.isNaN()` thay cho `isNaN()`?
+14. Ba cách ép sang boolean: `Boolean(x)`, `!!x`, và `if (x)` — chúng có khác nhau về kết quả không? Vì sao `!!` được coi là idiom?
+15. Nêu một bug thực tế do coercion gây ra khi xử lý dữ liệu từ form hoặc API, và cách bạn phòng tránh nó ở boundary của hệ thống.

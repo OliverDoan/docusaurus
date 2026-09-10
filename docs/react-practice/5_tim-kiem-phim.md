@@ -33,6 +33,7 @@ Project cuối là một ứng dụng **nhiều trang** hoàn chỉnh, kết h�
 - [Bước 6: Tìm kiếm với debounce và useMemo](#bước-6-tìm-kiếm-với-debounce-và-usememo)
 - [Thử thách mở rộng](#thử-thách-mở-rộng)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -371,3 +372,30 @@ Cơ chế: mỗi lần `input` đổi, ta hẹn giờ 400ms để cập nhật `
 - **`useMemo`** ghi nhớ kết quả tính toán nặng; **debounce** (timeout + cleanup) hoãn xử lý tốn kém đến khi người dùng ngừng gõ.
 
 Bạn đã đi hết 4 project! Giờ bạn nắm được component, props, state, hiệu ứng, gọi API, định tuyến và state toàn cục — đủ nền tảng để tự xây ứng dụng React thật. Hãy chọn một ý tưởng của riêng mình và bắt tay làm. 🎉
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `SPA` (Single Page Application) là gì? Vì sao chuyển trang bằng `<Link to>` lại khác hẳn thẻ `<a href>` truyền thống?
+2. React Router làm cách nào để URL trên thanh địa chỉ đổi mà trình duyệt không tải lại trang? (`History API`)
+3. `<BrowserRouter>` khác `<HashRouter>` ở điểm nào? Khi deploy lên hosting tĩnh mà refresh trang con bị 404 thì nguyên nhân là gì và sửa ra sao?
+4. Route `path="*"` dùng để làm gì? Thứ tự khai báo các `<Route>` có ảnh hưởng tới việc khớp URL không?
+5. `useParams()` trả về cái gì và kiểu dữ liệu của tham số động là gì? Vì sao phải `Number(id)` trước khi so sánh?
+6. Khi nào dùng `<Link>`, khi nào dùng `useNavigate()`? Cho một tình huống mà `<Link>` không đáp ứng được.
+7. `prop drilling` là gì? Kể ít nhất ba cách khắc phục và đánh đổi của từng cách.
+8. Ba thành phần của một Context là gì? Giải thích luồng dữ liệu từ `createContext` tới `useContext`.
+9. Vì sao nên gói `useContext` vào một custom hook và `throw` lỗi khi giá trị là `null`? Nếu không làm vậy thì bug sẽ biểu hiện thế nào?
+10. Context có thay thế được `Redux` / `Zustand` không? Context giải quyết bài toán gì và KHÔNG giải quyết bài toán gì?
+11. Vì sao mọi component đọc context đều render lại khi `value` đổi? Truyền object literal trực tiếp vào `value` gây hậu quả gì và khắc phục ra sao (`useMemo`, tách nhỏ context)?
+12. So sánh `useMemo`, `useCallback` và `React.memo`: mỗi cái ghi nhớ thứ gì và phối hợp với nhau thế nào?
+13. Khi nào `useMemo` là vô ích hoặc thậm chí gây hại? Chi phí ẩn của việc memo hoá là gì?
+14. `debounce` khác `throttle` ra sao? Với ô tìm kiếm, nút submit chống double-click, và sự kiện `scroll` — bạn chọn cái nào cho từng trường hợp?
+15. Giải thích cơ chế debounce bằng `useEffect` + `setTimeout`: vì sao bắt buộc phải `clearTimeout` trong hàm cleanup? Bỏ cleanup đi thì hành vi sai thế nào?
+16. Vì sao lưu `timer id` bằng `useState` là sai, và vì sao React khuyên dùng `useRef` cho mục đích này?
+17. Nếu debounce dùng để gọi API thật, làm sao xử lý `race condition` khi phản hồi về không đúng thứ tự? (`AbortController`, cờ `ignore`)
+18. Vì sao cần hai state `input` và `keyword` riêng biệt? Dùng một state duy nhất thì hỏng ở chỗ nào?
+19. Đọc `localStorage` bằng lazy initializer `useState(() => ...)` khác gì đọc trực tiếp `useState(JSON.parse(...))`? Đoạn code này chạy trên môi trường `SSR` sẽ gặp vấn đề gì?
+20. `StrictMode` khiến effect chạy hai lần ở môi trường dev — điều đó ảnh hưởng thế nào tới debounce và tới việc gọi API, và vì sao React cố tình làm vậy?

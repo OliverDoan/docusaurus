@@ -30,6 +30,7 @@ title: "1. TypeScript Modules"
 - [Namespaces](#namespaces)
 - [Ambient Modules và .d.ts](#ambient-modules-và-dts)
 - [Module Augmentation](#module-augmentation)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -341,3 +342,28 @@ declare global {
 trong `tsconfig.json`.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. TypeScript phân biệt một file là **module** hay **script** dựa vào đâu? Nếu file không có `import`/`export` thì các khai báo bên trong đi về đâu, và hệ quả là gì?
+2. Vì sao đôi khi phải thêm dòng `export {}` vào một file `.ts` hoặc `.d.ts` dù file đó không xuất ra gì cả?
+3. Phân biệt named export, `default` export và namespace import `import * as X`. Khi nào bạn chọn `default` export, khi nào tránh nó?
+4. `import type { User } from "./types"` khác `import { User } from "./types"` ở điểm nào về mặt output JS sau khi compile?
+5. Cờ `verbatimModuleSyntax` (TS 5.0+) giải quyết vấn đề gì? Vì sao bundler như esbuild, swc, Bun lại cần nó?
+6. Vì sao esbuild/swc/Bun không thể tự biết một import là type hay value? Điều này liên quan gì tới `isolatedModules`?
+7. `import type` giúp tránh circular dependency như thế nào? Cho một tình huống thực tế mà `import type` phá được vòng lặp.
+8. Barrel file (`index.ts`) là gì? Nó mang lại tiện lợi gì và đánh đổi những gì về tree-shaking cũng như thời gian build?
+9. Trong một monorepo lớn, bạn đặt quy tắc dùng barrel ở đâu và cấm ở đâu? Vì sao một file bên trong thư mục không nên import ngược qua barrel của chính thư mục đó?
+10. Circular dependency giữa các module xuất hiện thế nào trong TypeScript? Runtime báo lỗi ra sao và bạn phát hiện, gỡ nó bằng cách nào?
+11. `namespace` khác module ES ở chỗ nào? Vì sao code app hiện đại không nên dùng `namespace` nữa, và nó còn hữu dụng ở đâu?
+12. File `.d.ts` (declaration file) chứa gì và không chứa gì? Nó sinh ra file `.js` sau khi compile không?
+13. Khi dùng một package npm không có type, bạn có những lựa chọn nào? So sánh cài `@types/...`, tự viết `declare module "my-lib"`, và khai báo tạm kiểu `any`.
+14. Giải thích `declare module "*.svg"` hoặc `declare module "*.module.css"` — vì sao bundler (Vite/Webpack) cần khai báo này?
+15. Module augmentation là gì và dựa trên cơ chế nào của TypeScript? Vì sao chỉ `interface` gộp được mà `type` alias thì không?
+16. Bạn thêm field `userId` do middleware gán vào `Request` của Express như thế nào cho type-safe? Nêu các bước và lý do file khai báo phải là module.
+17. `declare global` dùng khi nào? Cho ví dụ mở rộng `Window` và mở rộng `NodeJS.ProcessEnv`, kèm lưu ý về rủi ro khi ép `process.env` thành `string`.
+18. Sự khác nhau giữa CommonJS và ES Modules ảnh hưởng thế nào tới TypeScript? Nêu vai trò của `esModuleInterop`, `allowSyntheticDefaultImports` và các giá trị `moduleResolution` (`node`, `node16`, `bundler`).

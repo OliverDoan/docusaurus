@@ -31,6 +31,7 @@ title: "1. Classes"
 - [Inheritance: extends và super](#inheritance-extends-và-super)
 - [Private fields (#)](#private-fields-)
 - [Getter và Setter](#getter-và-setter)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -411,3 +412,30 @@ class Report {
 Hoặc dùng method `getTotal()` rõ ràng — báo cho user biết đây là computation.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `class` trong JavaScript có phải là một cơ chế kế thừa mới không? Bên dưới nó thực chất dựa trên cái gì?
+2. Trước ES6 người ta làm OOP bằng constructor function và `prototype` như thế nào? Viết lại một ví dụ `class` sang dạng đó.
+3. Method khai báo trong `class` nằm trên từng instance hay trên `prototype`? Điều đó ảnh hưởng gì tới bộ nhớ khi tạo hàng nghìn instance?
+4. `class` có được hoist như function declaration không? Điều gì xảy ra nếu gọi `new User()` trước dòng `class User {}`?
+5. Mô tả từng bước những gì thực sự diễn ra khi bạn gọi `new Foo()`.
+6. `class field` (ES2022) khác gì so với gán property trong `constructor`? Thứ tự khởi tạo giữa field và thân constructor ra sao?
+7. So sánh method thường và arrow function class field (`increment = () => ...`): khác nhau về `this`, về vị trí lưu trữ, và về bộ nhớ.
+8. `static` là gì? Vì sao `new MathUtils().PI` cho `undefined` trong khi `MathUtils.PI` có giá trị?
+9. `static block` (ES2022) dùng để làm gì? Nó chạy vào lúc nào?
+10. Vì sao trong constructor của subclass phải gọi `super()` **trước** khi dùng `this`? Khác biệt này so với Java nằm ở đâu?
+11. Nếu subclass không khai báo `constructor` thì chuyện gì xảy ra khi `new`?
+12. `super.speak()` tìm ra method của lớp cha bằng cơ chế nào? `super` trong một `static` method trỏ tới đâu?
+13. Private field `#x` khác quy ước `_x` ở những điểm nào? `_x` có thực sự private không?
+14. Subclass có truy cập được `#field` của lớp cha không? Vì sao, và nếu cần chia sẻ dữ liệu thì làm thế nào?
+15. `private` của TypeScript khác `#field` của JavaScript ra sao (compile-time và runtime)? Khi nào bắt buộc dùng `#`?
+16. Getter/Setter dùng để làm gì? Rủi ro khi getter tính toán nặng hoặc có side-effect là gì, và cách khắc phục?
+17. Kế thừa `Error` (`class ValidationError extends Error`) cần lưu ý gì để `instanceof`, `name` và stack trace hoạt động đúng?
+18. `instanceof` hoạt động dựa trên cái gì? Nêu tình huống nó cho kết quả sai với kỳ vọng.
+19. Khi nào nên dùng `class`, khi nào chỉ cần object thường, factory function hoặc closure? So sánh cách đóng gói dữ liệu riêng tư của mỗi hướng.
+20. So sánh kế thừa (`extends`) với composition. Vì sao nhiều codebase hiện đại ưu tiên composition?

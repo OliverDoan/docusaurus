@@ -34,6 +34,7 @@ sau khi đã nắm khái niệm (mục 1) và kỹ thuật (mục 2–3).
 - [Vận hành & quan sát](#vận-hành--quan-sát)
 - [Checklist & các lỗi thường gặp](#checklist--các-lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -140,3 +141,25 @@ CSS toàn cục dễ "rò rỉ" giữa các mảnh. Các cách cô lập:
 tích hợp* → *Module Federation thực hành* → *Next.js* → *best practices*. Khi áp
 dụng, hãy luôn nhớ: micro-frontend là công cụ cho **quy mô tổ chức**, dùng đúng
 chỗ mới phát huy giá trị.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Micro-frontend giải quyết vấn đề gì? Vì sao nói nó trị vấn đề *tổ chức* nhiều hơn vấn đề kỹ thuật?
+2. Khi nào bạn khuyên KHÔNG dùng micro-frontend? Dấu hiệu nào cho thấy team đang trả chi phí phức tạp mà không được lợi?
+3. Vì sao `design system` dùng chung gần như bắt buộc? Bạn phân phối nó bằng thư viện `npm` hay một remote chia sẻ, và đánh đổi của từng cách?
+4. So sánh các cách cô lập style: `CSS Modules`, quy ước tiền tố, `Shadow DOM`, utility CSS. Bạn chọn cách nào trong hoàn cảnh nào?
+5. Nguyên tắc chia sẻ dependency giữa các mảnh: chia sẻ gì và không chia sẻ gì? Chuyện gì xảy ra khi lệch version?
+6. Lỗi *Invalid hook call* trong micro-frontend thường bắt nguồn từ đâu, và khắc phục thế nào?
+7. Các mảnh nên giao tiếp với nhau ra sao (custom event, props/callback, shared store)? Vì sao *shared store khổng lồ* là phản mẫu?
+8. Hợp đồng (`contract`) của một remote gồm những gì? Làm sao phát hiện lệch hợp đồng lúc build thay vì lúc chạy?
+9. Bạn xử lý một breaking change của remote đang được nhiều host dùng như thế nào?
+10. Làm sao đảm bảo một mảnh sập không kéo sập cả trang? Mô tả chiến lược `Error Boundary` và fallback.
+11. Bạn đo và chống việc tải trùng dependency lớn (React, router...) bằng cách nào?
+12. Chiến lược đăng nhập dùng chung giữa các mảnh: token đặt ở đâu, `SSO` / `JWT` hoạt động thế nào, rủi ro bảo mật là gì?
+13. Observability xuyên mảnh: bạn gắn thông tin gì vào log và metric để truy vết lỗi? Vì sao debug xuyên mảnh khó?
+14. CI/CD cho micro-frontend: mỗi mảnh một pipeline thì test tích hợp và rollback làm ra sao?
+15. Làm sao giữ hiệu năng khi số lượng mảnh tăng — lazy-load, CDN, ngân sách bundle cho từng nhóm?

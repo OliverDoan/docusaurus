@@ -29,6 +29,7 @@ title: "1. Functional Components"
 - [Component nhận props](#component-nhận-props)
 - [Composition và children](#composition-và-children)
 - [Naming convention](#naming-convention)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -391,3 +392,30 @@ Lý do:
 Khai báo type prop tường minh qua interface là pattern hiện đại nhất.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Component là gì? Vì sao chia UI thành nhiều component nhỏ lại tốt hơn một component lớn?
+2. `Functional component` là gì và khác `class component` ở những điểm nào về cú pháp, state và lifecycle?
+3. Vì sao từ React 16.8 cộng đồng chuyển hẳn sang functional component + Hooks? Hooks giải quyết được vấn đề gì mà class không giải quyết nổi?
+4. `props` là gì? Vì sao props chỉ đọc, và điều gì xảy ra nếu bạn gán lại giá trị cho props bên trong component?
+5. Dữ liệu trong React chảy một chiều từ trên xuống. Vậy khi component con cần báo thay đổi ngược lên cha thì làm thế nào? Cho ví dụ với `onChange`.
+6. Giá trị mặc định qua destructuring khác `defaultProps` ra sao? Vì sao `defaultProps` không còn được khuyến nghị cho function component?
+7. `children` là gì và nó có phải một prop bình thường không? Có thể truyền nó dưới dạng thuộc tính tường minh được không?
+8. "Composition over configuration" nghĩa là gì? So sánh một `Card` nhận mười prop cấu hình với một `Card` dùng `children` — mỗi cách gãy ở đâu?
+9. Ngoài `children`, còn cách nào truyền JSX vào component (slot prop, `render prop`)? Khi nào render prop hợp hơn children?
+10. Vì sao React chọn composition thay vì kế thừa (`inheritance`) để tái sử dụng? Logic dùng chung giữa các component thì tái sử dụng bằng cách nào?
+11. Vì sao tên component bắt buộc phải `PascalCase`? JSX phân biệt `button` và `Button` dựa vào đâu, và nếu đặt tên thường thì React render ra cái gì?
+12. Component phải là hàm thuần (`pure`) nghĩa là gì? Cho một ví dụ vi phạm tính thuần và hậu quả của nó khi React render lại.
+13. Vì sao không nên định nghĩa một component bên trong thân của component khác? Bug biểu hiện ra sao khi làm vậy?
+14. Vì sao React khuyên tránh `React.FC` trong code mới? Hai nhược điểm cụ thể của nó là gì?
+15. Khai báo kiểu cho `children`: `ReactNode`, `ReactElement` và `JSX.Element` khác nhau thế nào? Khi nào bắt buộc phải dùng loại hẹp hơn?
+16. Component muốn trả về nhiều phần tử ngang cấp thì làm sao? `Fragment` giải quyết vấn đề gì và khi nào phải viết dạng đầy đủ thay vì cú pháp rút gọn?
+17. Dấu hiệu nào cho thấy một component đã quá to và cần tách? Bạn tách theo tiêu chí nào — theo UI hay theo trách nhiệm?
+18. Một component nhận quá nhiều props, có nhiều prop dạng cờ bật/tắt. Bạn tái cấu trúc thế nào cho gọn?
+19. Khi render danh sách bằng `map`, `key` dùng để làm gì? Vì sao dùng chỉ số mảng làm key là nguy hiểm, và component con có đọc được `key` như một prop không?
+20. Truyền một arrow function inline làm prop sẽ tạo tham chiếu mới mỗi lần render — điều đó ảnh hưởng thế nào tới `React.memo` và bạn xử lý ra sao?

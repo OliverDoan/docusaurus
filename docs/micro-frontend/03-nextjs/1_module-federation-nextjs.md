@@ -34,6 +34,7 @@ này.
 - [Dùng remote trong trang](#dùng-remote-trong-trang)
 - [Hạn chế quan trọng](#hạn-chế-quan-trọng)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -190,3 +191,24 @@ chiếu với **module-federation.io** và README của `@module-federation/next
 - Luôn **đối chiếu tài liệu đúng phiên bản** trước khi triển khai thật.
 
 Mục tiếp theo: **thực tiễn** — design system, best practices và lỗi thường gặp.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Module Federation là gì, và nó khác cách chia sẻ code truyền thống (thư viện `npm`) ở điểm nào?
+2. Vì sao Next.js không dùng được `ModuleFederationPlugin` trần như React thuần mà phải dùng `@module-federation/nextjs-mf`?
+3. `async boundary` là gì, vì sao Module Federation cần nó, và ở React thuần người ta tạo nó bằng cách nào?
+4. Giải thích vai trò của `name`, `filename`, `exposes`, `remotes` trong cấu hình `NextFederationPlugin`.
+5. Vì sao URL remote trong Next.js phải trỏ tới `.../_next/static/chunks/remoteEntry.js` thay vì một đường dẫn tuỳ ý?
+6. Vì sao thường đặt `ssr: false` khi nạp remote bằng `next/dynamic`? Bạn đánh đổi gì về SEO và `FCP`?
+7. Điều gì xảy ra nếu `react` và `react-dom` không được chia sẻ dạng `singleton` giữa host và remote? Mô tả triệu chứng lỗi.
+8. Hỗ trợ `App Router` (React Server Components) của plugin khác gì so với `Pages Router`, và vì sao lại khó hơn?
+9. Trang host nên xử lý thế nào khi remote không tải được lúc chạy (mạng lỗi, remote down, sai version)?
+10. Host và remote deploy độc lập thì làm sao không phá nhau? Bạn versioning `remoteEntry.js` ra sao và cache CDN ảnh hưởng thế nào?
+11. `CORS` và `publicPath` gây ra những lỗi phổ biến nào khi lên production, và bạn chẩn đoán bằng cách nào?
+12. Vì sao API của plugin đổi nhiều theo phiên bản (`withModuleFederation` / `patchSharing` rồi tới `NextFederationPlugin`)? Bạn kiểm soát rủi ro nâng cấp thế nào?
+13. Chia sẻ CSS-in-JS giữa host và remote hay trục trặc vì lý do gì?
+14. Khi nào bạn khuyên KHÔNG dùng Next.js kết hợp Module Federation, và phương án thay thế là gì?

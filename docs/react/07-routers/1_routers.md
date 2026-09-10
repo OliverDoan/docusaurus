@@ -32,6 +32,7 @@ title: "1. Routing trong React"
 - [Nested Routes](#nested-routes)
 - [Protected Routes](#protected-routes)
 - [Navigation và Redirect](#navigation-và-redirect)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -486,3 +487,27 @@ Lựa chọn 2026:
 - **Existing app**: stick with current → migrate khi cần.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Vì sao SPA cần thư viện routing? React core có sẵn cơ chế routing không?
+2. Phân biệt `BrowserRouter`, `HashRouter` và `MemoryRouter` — mỗi loại phù hợp tình huống nào?
+3. `BrowserRouter` dựa trên API nào của trình duyệt? Vì sao deploy SPA lên host tĩnh mà không cấu hình fallback thì F5 ở route con bị 404?
+4. Vì sao phải dùng `Link` thay cho thẻ `a` thường? Chuyện gì xảy ra nếu dùng thẻ `a` để chuyển trang trong SPA?
+5. `Link` và `NavLink` khác nhau ở điểm nào? `NavLink` thường dùng cho việc gì?
+6. `useNavigate` và component `Navigate` khác nhau thế nào? Khi nào dùng cái nào?
+7. `navigate(-1)` làm gì? Option `replace: true` khác gì so với điều hướng mặc định, và ảnh hưởng ra sao tới nút back?
+8. Đọc route param động bằng hook nào, đọc query string bằng hook nào? Giá trị mà `useParams` trả về luôn thuộc kiểu gì và điều đó dẫn tới bug nào?
+9. Nested routes hoạt động ra sao? `Outlet` đóng vai trò gì? Index route là gì?
+10. Ký tự `*` trong path (splat / catch-all) dùng để làm gì? Trang 404 nên khai báo thế nào?
+11. Thiết kế một protected route: kiểm tra auth ở đâu, redirect ra sao, và làm sao nhớ được trang người dùng định vào để quay lại sau khi đăng nhập?
+12. React Router v5 lên v6 thay đổi những gì? Nêu các thay đổi lớn về `Switch`, `component`, `exact` và `useHistory`.
+13. React Router v7 khác v6 ở đâu? Framework mode là gì và vì sao nói v7 đã merge Remix?
+14. `loader` và `action` của data router giải quyết vấn đề gì so với fetch trong `useEffect`? Waterfall khi fetch là gì?
+15. Lazy load một route bằng `React.lazy` và `Suspense` như thế nào? Lợi ích với bundle size và trải nghiệm lần tải đầu?
+16. Làm sao giữ scroll position hoặc reset scroll về đầu trang khi chuyển route?
+17. So sánh React Router, TanStack Router và routing của Next.js App Router — mỗi lựa chọn phù hợp với dự án nào?

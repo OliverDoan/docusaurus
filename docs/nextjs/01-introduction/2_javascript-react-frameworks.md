@@ -27,6 +27,7 @@ Trước khi học Next.js, bạn cần nắm vững **JavaScript** (ngôn ngữ
 - [Next.js vs Remix](#nextjs-vs-remix)
 - [Astro vs Next.js](#astro-vs-nextjs)
 - [TanStack Start](#tanstack-start)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -248,3 +249,24 @@ flowchart TD
 nhiều.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Phân biệt *thư viện* và *framework*. React thuộc loại nào, và vì sao điều đó dẫn tới sự ra đời của Next.js hay Remix?
+2. Những kiến thức JavaScript nào là bắt buộc trước khi học Next.js? Vì sao Web Standards API (`Request`, `Response`, `FormData`) ngày càng quan trọng?
+3. Vì sao `Promise` và `async/await` là nền tảng cho việc lấy dữ liệu trong Server Components?
+4. Kể các hook React cơ bản, và cho biết hook nào KHÔNG dùng được trong Server Component. Vì sao?
+5. React 19 mang tới những gì cho framework — Server Components, `use`, Actions, `useActionState`, `useOptimistic`?
+6. So sánh mô hình lấy dữ liệu của Next.js (Server Components + `fetch()`) với Remix (`loader` / `action`).
+7. `Progressive enhancement` là gì? Vì sao Remix mạnh ở điểm này, và Next.js đáp ứng tới đâu với `form action` của React 19?
+8. Astro khác Next.js ở triết lý nào? Giải thích `Islands architecture` và chỉ thị kiểu `client:visible`.
+9. Khi nào một sản phẩm nên dùng cả Astro lẫn Next.js? Bạn đặt ranh giới ở đâu?
+10. TanStack Start hướng tới điều gì? *Type-safe end-to-end* nghĩa là gì với route params và search params?
+11. Nếu ràng buộc hosting là Cloudflare Workers hoặc AWS Lambda, lựa chọn framework của bạn thay đổi thế nào?
+12. Cho một sản phẩm gồm trang marketing, blog và dashboard nội bộ — bạn chọn framework nào cho từng phần và vì sao?
+13. Việc Remix hợp nhất vào React Router v7 ảnh hưởng thế nào tới quyết định chọn framework hôm nay?
+14. Những yếu tố phi kỹ thuật nào (tuyển dụng, ecosystem, kinh nghiệm team) nên ảnh hưởng tới quyết định chọn framework? Chi phí chuyển đổi về sau ra sao?

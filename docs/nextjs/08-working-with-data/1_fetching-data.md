@@ -29,6 +29,7 @@ title: "1. Fetching Data"
 - [Fetch trong Server Components](#fetch-trong-server-components)
 - [Fetch trong Client Components](#fetch-trong-client-components)
 - [Khi nào fetch ở đâu?](#khi-nào-fetch-ở-đâu)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -375,3 +376,27 @@ Request → Fetch Cache → Server Cache (Memoization)
 Sẽ học chi tiết ở phần Caching.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Vì sao trong App Router một Server Component có thể là `async` và `await fetch` trực tiếp? Điều gì làm được điều đó?
+2. So sánh fetch ở Server Component và ở Client Component theo: bảo mật API key, SEO, thời điểm chạy, và kích thước bundle.
+3. Khi nào bắt buộc phải fetch ở Client Component thay vì Server Component? Cho ví dụ thực tế.
+4. Server Component có thể query database trực tiếp — lợi ích và những rủi ro cần kiểm soát là gì?
+5. Next.js dedupe/memoize `fetch` như thế nào? Hai component gọi cùng một URL trong một lần render thì có mấy request thật sự đi ra ngoài?
+6. Nếu dùng ORM hoặc client database (không phải `fetch`), làm sao tránh gọi trùng dữ liệu trong cùng một lần render?
+7. Giải thích `request waterfall`: nó phát sinh thế nào trong Server Component và làm sao nhận ra trong thực tế?
+8. Cách nào để fetch song song trong Server Component? So sánh `Promise.all` và `Promise.allSettled` — khi nào chọn cái nào?
+9. Kỹ thuật `preload` (gọi hàm fetch mà không `await` trước phần việc chặn) hoạt động ra sao và giải quyết vấn đề gì?
+10. Các option `cache` và `next.revalidate` của `fetch` chỉ có tác dụng ở đâu? Điều gì xảy ra khi bạn dùng chúng trong Client Component?
+11. Vì sao nên dùng thư viện như TanStack Query cho client fetching thay vì `useState` + `useEffect` thủ công? Nó lo giúp những gì?
+12. Mô tả pattern hybrid: Server fetch `initialData` rồi truyền xuống Client Component. Pattern này được lợi gì và có nhược điểm nào?
+13. Dữ liệu truyền từ Server Component sang Client Component qua props phải thoả điều kiện gì? Điều gì không truyền được?
+14. Xử lý trạng thái loading và lỗi ở Server Component ra sao (`<Suspense>`, `error.tsx`) so với ở Client Component?
+15. Một page cần dữ liệu nhanh (thông tin user) và dữ liệu chậm (báo cáo phân tích): bạn tổ chức fetch và render thế nào để người dùng thấy nội dung sớm nhất?
+16. Khi nào nên tạo route handler (`/api/...`) làm lớp trung gian thay vì fetch trực tiếp trong Server Component?
+17. Bạn đo và tối ưu hiệu năng data fetching trong Next.js bằng cách nào (đo ở đâu, chỉ số gì, cải thiện ra sao)?

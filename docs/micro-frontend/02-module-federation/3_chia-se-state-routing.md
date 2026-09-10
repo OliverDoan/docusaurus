@@ -32,6 +32,7 @@ nguyên tắc giữ ràng buộc (coupling) ở mức thấp nhất.
 - [Routing giữa các mảnh](#routing-giữa-các-mảnh)
 - [Bảng chọn nhanh](#bảng-chọn-nhanh)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -187,3 +188,26 @@ shared: {
 
 Hết mục Module Federation. Mục tiếp theo: **tích hợp với Next.js** và những lưu ý
 đặc thù.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Vì sao `coupling` lỏng là mục tiêu số một khi cho các mảnh giao tiếp với nhau?
+2. Xếp các cơ chế giao tiếp từ lỏng đến chặt và nêu tiêu chí bạn dùng để chọn cơ chế cho một tình huống cụ thể.
+3. Vì sao `props` và `callback` được ưu tiên nhất? "Hợp đồng" giữa host và remote ở đây gồm những gì?
+4. Khi host và remote dùng framework khác nhau, props/callback còn dùng được không? Bạn thay bằng cơ chế nào?
+5. `CustomEvent` của trình duyệt hoạt động thế nào? So sánh với một event bus tập trung kiểu `RxJS Subject`.
+6. Nên quy ước tên sự kiện và cấu trúc `detail` ra sao? Khi payload sự kiện cần đổi thì versioning thế nào để không vỡ mảnh khác?
+7. Rò rỉ bộ nhớ do `addEventListener` giữa các mảnh xảy ra thế nào và phòng tránh ra sao?
+8. Khi nào chấp nhận dùng `shared store`? Vì sao lạm dụng nó bị gọi là "monolith trá hình"?
+9. Chia sẻ Redux hay Zustand qua `shared: singleton` gặp vấn đề gì nếu hai mảnh build với hai phiên bản khác nhau?
+10. Đặt state dùng chung vào URL hoặc query param có ưu điểm gì? Khi nào cách này phù hợp hơn shared store?
+11. Thông tin xác thực và `token` nên chia sẻ giữa các mảnh theo cách nào cho an toàn? Ai chịu trách nhiệm làm mới token?
+12. Phân biệt routing cấp shell và routing nội bộ của một mảnh. Ai nên sở hữu đối tượng `history`?
+13. Vì sao `react-router-dom` phải để `singleton`? Hai bản router cùng chạy trên một thanh địa chỉ sẽ hỏng thế nào?
+14. `basename` và quy ước tiền tố URL dùng để làm gì? Xử lý deep-link thẳng vào một route sâu bên trong remote ra sao?
+15. Một remote cần điều hướng sang mảnh khác (vd giỏ hàng sang thanh toán). Thiết kế cơ chế nào để nó không phụ thuộc cứng vào mảnh kia?
+16. Làm sao giữ lại trạng thái người dùng khi họ chuyển qua lại giữa các mảnh khiến remote bị unmount rồi mount lại?

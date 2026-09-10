@@ -29,6 +29,7 @@ Tối ưu **asset** (tài nguyên tĩnh: ảnh, font chữ, script) là việc g
 - [next/script](#nextscript)
 - [Static Assets (public/)](#static-assets-public)
 - [Video](#video)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -428,3 +429,29 @@ Bundle video lớn vào page → tăng LCP. Dùng streaming service cho mọi vi
 Đo trước/sau qua Lighthouse — LCP, CLS, INP cải thiện rõ rệt.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `next/image` làm gì khác thẻ `<img>` thuần? Kể ít nhất bốn tối ưu nó thực hiện tự động.
+2. Vì sao `next/image` bắt buộc có `width`/`height` hoặc `fill`? Điều này liên quan thế nào tới `CLS`?
+3. Khi nào nên dùng prop `priority`? Nếu đặt `priority` cho mọi ảnh thì hậu quả là gì?
+4. `fill` hoạt động ra sao và yêu cầu gì ở phần tử cha? Thường kết hợp với thuộc tính CSS nào?
+5. Prop `sizes` dùng để làm gì? Thiếu nó với ảnh responsive thì trình duyệt tải ảnh kiểu nào?
+6. `placeholder="blur"` với ảnh import tĩnh khác gì với ảnh remote? Vì sao ảnh remote cần `blurDataURL`?
+7. Vì sao ảnh remote phải khai báo trong `remotePatterns`? Đây là biện pháp phòng vấn đề bảo mật nào?
+8. Image Optimization chạy ở đâu, tốn chi phí gì, và khi self-host ngoài Vercel thì cần chuẩn bị những gì?
+9. `next/font` tối ưu bằng cách nào? Vì sao self-host font vừa nhanh hơn vừa tốt hơn về quyền riêng tư so với gọi Google Fonts CDN?
+10. `FOUT` và `FOIT` là gì? `font-display: swap` cùng fallback metrics (`size-adjust`) giải quyết chúng ra sao?
+11. So sánh bốn `strategy` của `next/script` và cho ví dụ loại script phù hợp với từng cái.
+12. Vì sao script analytics không nên đặt `beforeInteractive`? Nó làm xấu chỉ số nào?
+13. `strategy="worker"` (Partytown) hoạt động thế nào, và hạn chế của nó là gì?
+14. File đặt trong `public/` khác asset import qua bundler ở điểm nào về hashing, cache header và tối ưu build?
+15. Ba chỉ số Core Web Vitals hiện nay là gì, ngưỡng "good" bao nhiêu, và mỗi công cụ trong bài cải thiện chỉ số nào?
+16. Trường hợp nào KHÔNG nên dùng `next/image` mà nên để `<img>` hoặc SVG inline?
+17. Vì sao không nên nhét video lớn vào `public/`? Streaming service giải quyết được gì mà file tĩnh không làm được?
+18. Một trang có `LCP` chậm do ảnh hero — mô tả quy trình chẩn đoán và các bước sửa của bạn theo thứ tự.
+19. Bạn preload hay preconnect những tài nguyên nào, và làm sao tránh lạm dụng khiến băng thông bị tranh chấp?

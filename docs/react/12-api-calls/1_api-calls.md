@@ -30,6 +30,7 @@ title: "1. API Calls trong React"
 - [SWR (Vercel)](#swr-vercel)
 - [RTK Query](#rtk-query)
 - [tRPC](#trpc)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -471,3 +472,28 @@ Server state có đặc điểm khác client state:
 → Dùng tool chuyên trị. Đừng dùng Redux/Zustand cho server state.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Vì sao gọi API bằng `useEffect` + `fetch` thủ công lại nhanh chóng đuối khi ứng dụng lớn dần?
+2. Phân biệt **server state** và **client state**. Vì sao không nên nhét dữ liệu API vào `Redux`/`Zustand`?
+3. `AbortController` giải quyết vấn đề gì trong `useEffect`? Race condition xảy ra như thế nào nếu thiếu nó?
+4. Khác nhau giữa `fetch` và `axios` khi server trả về mã lỗi HTTP ≥ 400? Vì sao điều này hay gây bug?
+5. `interceptor` của Axios thường dùng để làm gì? Mô tả luồng tự động refresh token bằng interceptor.
+6. Trong `TanStack Query`, `queryKey` đóng vai trò gì? Điều gì xảy ra khi một phần tử trong `queryKey` thay đổi?
+7. Phân biệt `staleTime` và `gcTime` (trước đây là `cacheTime`). Đặt sai hai giá trị này gây hậu quả gì?
+8. Giải thích cơ chế **stale-while-revalidate**: người dùng nhìn thấy gì trong lúc dữ liệu đang được làm mới nền?
+9. **Request deduplication** hoạt động ra sao khi ba component cùng gọi một `queryKey` trong cùng một lần render?
+10. Mô tả luồng ghi dữ liệu với `useMutation` + `invalidateQueries`. Vì sao cần `invalidate` thay vì tự `setState`?
+11. **Optimistic update** là gì? Trình bày các bước `onMutate` → `onError` (rollback) → `onSettled`.
+12. `refetchOnWindowFocus` và `refetchOnReconnect` mang lại lợi ích gì, và khi nào bạn nên tắt chúng?
+13. Cơ chế retry với **exponential backoff** hoạt động thế nào? Với loại lỗi nào thì KHÔNG nên retry?
+14. `useInfiniteQuery` khác `useQuery` ở điểm nào khi làm infinite scroll hoặc phân trang?
+15. So sánh `SWR` và `TanStack Query`: khác biệt về tính năng mutation, retry, devtools. Khi nào chọn `SWR`?
+16. Khi nào `RTK Query` là lựa chọn hợp lý hơn `TanStack Query`?
+17. `tRPC` đạt được type-safety end-to-end bằng cách nào? Hạn chế của nó là gì?
+18. Với React 19 / Next.js Server Components, việc fetch dữ liệu ở server có làm thư viện client-side data fetching trở nên thừa không? Giải thích.

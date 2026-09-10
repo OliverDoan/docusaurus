@@ -31,6 +31,7 @@ title: "1. Routing Basics"
 - [Loading UI và Streaming](#loading-ui-và-streaming)
 - [Error States](#error-states)
 - [Not Found](#not-found)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -439,3 +440,25 @@ Hiểu order này giúp:
 - Biết `notFound()` cần `not-found.tsx` trong route đó hoặc cấp trên.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `file-based routing` trong `App Router` hoạt động thế nào? File nào mới thực sự tạo ra một URL truy cập được?
+2. So với khai báo route thủ công kiểu React Router, file-based routing được gì và mất gì?
+3. Liệt kê các file đặc biệt trong thư mục `app/` và vai trò của từng file.
+4. `layout.tsx` và `template.tsx` khác nhau ở điểm cốt lõi nào? Cho một tình huống bắt buộc phải dùng `template.tsx`.
+5. Vì sao layout không re-render khi điều hướng giữa các route con? Điều đó mang lại lợi ích gì cho trải nghiệm người dùng?
+6. `root layout` có những ràng buộc bắt buộc nào và vì sao Next.js đặt ra các ràng buộc đó?
+7. Từ Next.js 15, `params` và `searchParams` trở thành `Promise` — lý do kỹ thuật là gì và code cũ phải sửa thế nào?
+8. Trong Client Component không `await` được `params`, vậy bạn lấy tham số route bằng cách nào?
+9. `loading.tsx` thực chất tương đương với cấu trúc React nào? Muốn nhiều vùng loading riêng biệt trong cùng một trang thì làm gì?
+10. Vì sao `error.tsx` bắt buộc phải là Client Component? Prop `reset` hoạt động ra sao?
+11. `error.tsx` không bắt được loại lỗi nào? Bạn xử lý lỗi xảy ra ở root layout bằng cách nào?
+12. Trình bày thứ tự lồng nhau của `layout`, `template`, `error`, `loading`, `page` — hiểu thứ tự này giúp bạn debug điều gì?
+13. `notFound()` hoạt động thế nào? Next.js tìm `not-found.tsx` ở đâu khi hàm này được gọi?
+14. Một segment có thể vừa có `page.tsx` vừa có `route.ts` không? Điều gì xảy ra nếu cố tình đặt cả hai?
+15. Khi nhiều layout lồng nhau cùng fetch dữ liệu, chúng chạy tuần tự hay song song? Điều đó ảnh hưởng thế nào tới thời gian tải trang?

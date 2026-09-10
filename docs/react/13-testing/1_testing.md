@@ -30,6 +30,7 @@ title: "1. Testing React App"
 - [Playwright (E2E)](#playwright-e2e)
 - [Storybook](#storybook)
 - [Testing strategy](#testing-strategy)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -376,3 +377,30 @@ Khi refactor, test fail là **normal**. Đừng:
 test). Đừng "im lặng" — cuối cùng tạo nợ kỹ thuật lớn.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. **Regression** là gì và vì sao test tự động là cách phòng chống hiệu quả hơn test tay?
+2. Trình bày **Testing Pyramid**. Tỉ lệ hợp lý giữa unit, integration và E2E trong một dự án React?
+3. So sánh `Vitest` và `Jest`. Vì sao `Vitest` chạy nhanh hơn và cần ít cấu hình hơn trong dự án Vite?
+4. Phân biệt `toBe` và `toEqual`. Trường hợp nào dùng `toBe` sẽ fail dù giá trị nhìn giống nhau?
+5. Triết lý của React Testing Library là 'test behavior chứ không test implementation'. Điều đó nghĩa là gì trong thực tế?
+6. Vì sao thứ tự ưu tiên query là `getByRole` rồi mới tới `getByText`, cuối cùng mới `getByTestId`?
+7. Phân biệt `getBy*`, `queryBy*` và `findBy*`. Dùng cái nào khi muốn khẳng định một phần tử KHÔNG tồn tại?
+8. `fireEvent` khác `userEvent` ở đâu? Vì sao `userEvent` phản ánh hành vi người dùng thật hơn?
+9. Cảnh báo `act(...)` xuất hiện khi nào và cách xử lý đúng là gì?
+10. So sánh `waitFor` và `findBy*`. Khi nào bắt buộc phải dùng `waitFor`?
+11. Phân biệt `vi.fn()` / `vi.mock()` / `vi.spyOn()` (tương ứng `jest.*`). Mỗi cái phù hợp tình huống nào?
+12. Vì sao mock ở tầng network bằng `MSW` thường tốt hơn mock trực tiếp module `fetch` hay `axios`?
+13. **Snapshot testing** có ưu điểm gì và những cạm bẫy nào khiến nó dễ trở thành test vô nghĩa?
+14. Test coverage 100% có đảm bảo code không có bug không? Vì sao ~80% thường được xem là hợp lý?
+15. Cách test một **custom hook** mà không cần dựng component giả?
+16. So sánh `Playwright` và `Cypress` về kiến trúc, đa trình duyệt và cơ chế auto-wait.
+17. **Flaky test** là gì? Kể ba nguyên nhân thường gặp và hướng khắc phục cho từng nguyên nhân.
+18. Vì sao test cần chạy độc lập (test isolation)? Điều gì xảy ra nếu state rò rỉ giữa các test?
+19. `Storybook` đóng vai trò gì trong quy trình phát triển và kiểm thử component?
+20. Sau khi refactor, một test cũ fail. Quy trình xử lý đúng là gì, và vì sao không được `.skip` cho qua?

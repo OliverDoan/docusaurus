@@ -32,6 +32,7 @@ Bài này kể lại hành trình của JavaScript: từ lúc ra đời chỉ tr
 - [Tính năng phổ biến từ ES2017+](#tính-năng-phổ-biến-từ-es2017)
 - [Bước ngoặt Node.js](#bước-ngoặt-nodejs)
 - [JavaScript ngày nay](#javascript-ngày-nay)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -346,3 +347,25 @@ Ngoài ra, đa số "best practice" thời ES5 đã lỗi thời:
 cũ là cách nhanh nhất để học JS chuẩn.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Ai tạo ra JavaScript, năm nào, và trong bao lâu? Ngôn ngữ này đã đổi tên qua những giai đoạn nào?
+2. Phân biệt `ECMAScript` và `JavaScript`. Vì sao chuẩn lại không được đặt tên thẳng là "JavaScript"?
+3. "ES6" và "ES2015" khác nhau ở điểm nào? Vì sao tồn tại hai cách gọi?
+4. "Cuộc chiến trình duyệt" (browser war) là gì? Nó gây ra vấn đề gì cho developer thời đó và dẫn tới hệ quả nào?
+5. `JScript` là gì và vì sao Microsoft phải đặt tên khác cho bản triển khai của mình?
+6. Vì sao từ ES2015 trở đi ECMAScript chuyển sang phát hành **theo năm** thay vì đánh số phiên bản lớn?
+7. `TC39` là tổ chức nào? Mô tả 5 stage của quy trình đề xuất tính năng. Ở stage nào thì một feature bắt đầu được trình duyệt implement?
+8. Kể ra ít nhất 5 tính năng lớn mà ES6 mang lại. Vì sao ES6 được coi là bước ngoặt lớn nhất của ngôn ngữ?
+9. Viết lại đoạn code ES5 dùng `var`, `function` và `prototype` sang phong cách ES6 (`const`, arrow function, `class`, template literal).
+10. Những tính năng nào xuất hiện ở ES2017, ES2020, ES2021, ES2022? Nêu ít nhất một ví dụ mỗi phiên bản.
+11. Phân biệt `??` (nullish coalescing) và `||`. Với `config.port` bằng `0` thì hai toán tử cho kết quả khác nhau ra sao?
+12. `Top-level await` là gì? Nó chỉ dùng được trong môi trường nào và vì sao có giới hạn đó?
+13. Node.js ra đời năm nào, do ai, dùng engine gì? Vì sao Node.js được coi là bước ngoặt biến JS thành ngôn ngữ fullstack?
+14. Trước khi dùng một cú pháp mới trong production, bạn kiểm tra tương thích trình duyệt bằng cách nào? `Babel`/`SWC` giải quyết vấn đề gì?
+15. `Transpile` khác `compile` và `polyfill` ở chỗ nào? Cho ví dụ thứ mà Babel transpile được nhưng cần polyfill riêng.

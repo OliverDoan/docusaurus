@@ -30,6 +30,7 @@ title: "3. Performance Optimization"
 - [Virtualization](#virtualization)
 - [Concurrent Features](#concurrent-features)
 - [Web Vitals](#web-vitals)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -413,3 +414,36 @@ test (Lighthouse), vì user thật chạy trên thiết bị, mạng đa dạng.
 Đo trước, áp dụng theo nhu cầu thực — không cần làm hết list ngay từ ngày 1.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Nguyên tắc 'đo trước, tối ưu sau' nghĩa là gì? Vì sao tối ưu sớm (premature optimization) lại có hại?
+2. React DevTools Profiler cho biết những thông tin gì? Đọc flamegraph thế nào để tìm đúng điểm nghẽn?
+3. Một component re-render vì những nguyên nhân nào? Liệt kê đầy đủ các trường hợp.
+4. Re-render có đồng nghĩa với thao tác DOM thật không? Giải thích vai trò của reconciliation và commit phase.
+5. `React.memo` so sánh props theo kiểu gì? Vì sao truyền object, array hay function inline làm `memo` mất tác dụng?
+6. Khi nào `React.memo` gây hại nhiều hơn lợi?
+7. Phân biệt `useMemo` và `useCallback`. `useCallback(fn, deps)` tương đương cách viết nào bằng `useMemo`?
+8. `useMemo` có đảm bảo React không bao giờ tính lại giá trị đó không? Vì sao?
+9. Tự viết hàm so sánh `areEqual` cho `React.memo` có những rủi ro gì thường gặp?
+10. Kỹ thuật đẩy state xuống thấp nhất có thể và truyền `children` như props giúp giảm re-render ra sao mà không cần `memo`?
+11. Vì sao thay đổi giá trị Context làm re-render toàn bộ consumer? Nêu các cách giảm tác động.
+12. Bọc `useMemo` cho value của Context Provider có ý nghĩa gì? Nếu quên thì hậu quả là gì?
+13. Code splitting theo route và theo component khác nhau thế nào? Chia quá nhỏ gây vấn đề gì?
+14. `React.lazy` kết hợp preload/prefetch ra sao để người dùng không phải nhìn spinner khi chuyển trang?
+15. Virtualization giải quyết vấn đề gì? Từ khoảng bao nhiêu item nên dùng và nó đánh đổi những gì (tìm kiếm trong trang, SEO, accessibility)?
+16. Vì sao dùng index làm `key` vừa gây sai logic vừa gây tốn hiệu năng khi danh sách đổi thứ tự?
+17. `useTransition` và `useDeferredValue` khác nhau ở đâu? Cho một tình huống chỉ dùng được `useDeferredValue`.
+18. Update 'urgent' và 'non-urgent' là gì? React quyết định thứ tự ưu tiên dựa trên điều gì?
+19. Debounce/throttle cho ô input so với `useDeferredValue` — chọn cái nào trong tình huống nào và vì sao?
+20. Web Vitals LCP, INP, CLS đo cái gì? Ngưỡng 'good' của từng chỉ số là bao nhiêu?
+21. INP thay thế FID — vì sao chỉ số mới phản ánh trải nghiệm tương tác chính xác hơn?
+22. Những kỹ thuật nào giúp giảm CLS trong ứng dụng React?
+23. React Compiler tự memo hoá — vậy còn nên viết `useMemo`/`useCallback` thủ công nữa không? Compiler không cứu được trường hợp nào?
+24. Làm sao phát hiện thư viện làm phình bundle? Nêu các chiến lược giảm kích thước bundle theo thứ tự ưu tiên.
+25. Danh sách dài kèm filter/search bị chậm: mô tả quy trình chẩn đoán và các phương án tối ưu theo thứ tự bạn sẽ thử.
+26. Ảnh và font ảnh hưởng thế nào tới LCP? Nêu các cách tối ưu cụ thể.

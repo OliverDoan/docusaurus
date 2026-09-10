@@ -28,6 +28,7 @@ title: "1. Tại sao chọn Next.js?"
 - [SPA vs SSR](#spa-vs-ssr)
 - [Tại sao chọn frontend framework?](#tại-sao-chọn-frontend-framework)
 - [Tại sao chọn Next.js trong số React framework?](#tại-sao-chọn-nextjs-trong-số-react-framework)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -220,3 +221,24 @@ Học Next.js = **học framework**, không chỉ học React. Đầu tư 2-3 tu
 nắm App Router model là đáng — sau đó productive nhanh.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Next.js là gì, và nó bổ sung những gì lên React thuần?
+2. Vì sao React core một mình không đủ cho ứng dụng production? Trước Next.js dev phải tự ghép những mảnh nào?
+3. So sánh `SPA` và `SSR` về first paint, `TTI`, kích thước bundle, SEO và yêu cầu hạ tầng.
+4. Giải thích `hydration`: các bước từ lúc server trả HTML tới lúc app trở nên interactive.
+5. `Hydration mismatch` xảy ra khi nào? Kể vài nguyên nhân thực tế và cách phòng tránh.
+6. `CSR`, `SSR`, `SSG`, `ISR` khác nhau thế nào? Cho ví dụ loại trang phù hợp với từng chiến lược.
+7. `ISR` hoạt động ra sao và nó gỡ được hạn chế nào của `SSG`?
+8. Server Components giảm chi phí `hydration` bằng cách nào? Nó khác `SSR` truyền thống ở đâu?
+9. Server Actions thay thế API route trong tình huống nào, và khi nào bạn vẫn cần API route riêng?
+10. Ngoài việc render sẵn HTML, Next.js còn hỗ trợ SEO bằng những cơ chế nào?
+11. Khi nào bạn khuyên KHÔNG dùng Next.js mà chọn `Vite` + React + React Router?
+12. Kể các tầng cache của Next.js (`Data Cache`, `Router Cache`, `Full Route Cache`) và tình huống chúng gây bug *dữ liệu cũ*.
+13. Những đánh đổi của Next.js — learning curve `App Router`, cache nhiều tầng, vendor lock-in — bạn giảm thiểu ra sao?
+14. Self-host Next.js ngoài Vercel (Node server, Docker, edge runtime) cần lưu ý những gì?

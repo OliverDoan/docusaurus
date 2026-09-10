@@ -32,6 +32,7 @@ sinh ra để giải quyết, trước khi đi vào *cách làm* ở các bài s
 - [Liên hệ với microservices](#liên-hệ-với-microservices)
 - [Những đặc tính cốt lõi](#những-đặc-tính-cốt-lõi)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -151,3 +152,28 @@ là điểm mấu chốt.
   lỗi, và hợp đồng giao tiếp rõ ràng.
 
 Bài tiếp theo: **các cách tích hợp** các mảnh lại với nhau.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Micro-frontend` là gì? Giải thích cho người chưa biết bằng ví dụ một trang thương mại điện tử.
+2. Frontend `monolith` gặp những vấn đề gì khi nhiều nhóm cùng làm? Đó là vấn đề kỹ thuật hay vấn đề tổ chức?
+3. Vì sao "độc lập deploy" được coi là đặc tính quan trọng nhất? Làm sao kiểm chứng hệ thống của bạn thật sự đạt được điều đó?
+4. Chia thư mục hoặc dựng `monorepo` nhiều package đã phải là micro-frontend chưa? Khác nhau ở đâu?
+5. So sánh micro-frontend với `microservices`: điểm giống, điểm khác, và cái giá phải trả.
+6. Vai trò của app `shell` (container) là gì? Nó lo những việc nào và rủi ro gì khi shell phình to?
+7. Kể các cách tích hợp micro-frontend (build-time, `iframe`, Web Components, `Module Federation`, server-side include) và đánh đổi của từng cách.
+8. `Module Federation` khác `single-spa` ở điểm nào? Khi nào bạn chọn cái nào?
+9. Cô lập CSS giữa các mảnh làm bằng cách nào (`Shadow DOM`, CSS Modules, quy ước prefix)? Đánh đổi của mỗi cách?
+10. Các mảnh giao tiếp với nhau ra sao mà không coupling chặt (custom event, props/callback từ shell, shared store)? Vì sao nên hạn chế shared global state?
+11. Xử lý dependency trùng lặp thế nào khi mỗi mảnh bundle React riêng? `Shared singleton` có rủi ro gì nếu version lệch nhau?
+12. Routing giữa shell và các mảnh phân chia trách nhiệm ra sao? Deep link cùng nút back/forward xử lý thế nào?
+13. Cô lập lỗi: một mảnh crash thì làm sao để không sập cả trang? Bạn cài đặt cơ chế nào?
+14. Mỗi nhóm dùng một framework khác nhau nghe rất hấp dẫn — thực tế bạn có khuyến khích không? Vì sao?
+15. Micro-frontend ảnh hưởng thế nào tới bundle size, thời gian tải lần đầu và `Core Web Vitals`? Giảm thiểu bằng cách nào?
+16. Quản lý version và hợp đồng giữa shell với các remote ra sao? Nếu một remote deploy hỏng thì chuyện gì xảy ra và bạn rollback thế nào?
+17. Testing và `CI/CD` của kiến trúc này khác monolith ra sao? `Integration test` chạy ở đâu và ai chịu trách nhiệm?
+18. Khi nào KHÔNG nên dùng micro-frontend? Ngưỡng nào về số nhóm và quy mô app thì đánh đổi mới đáng?

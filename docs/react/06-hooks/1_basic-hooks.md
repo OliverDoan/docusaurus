@@ -31,6 +31,7 @@ title: "1. useState và useEffect"
 - [useEffect](#useeffect)
 - [Dependency array](#dependency-array)
 - [Cleanup function](#cleanup-function)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -442,3 +443,31 @@ Quy tắc: **trước khi viết useEffect, hỏi "có cần effect không?"**.
 liệt kê 8 anti-pattern phổ biến.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `useState` trả về gì? Vì sao phải cập nhật qua hàm `set...` chứ không gán thẳng vào biến state?
+2. Đoán output: trong một event handler gọi `setCount(count + 1)` rồi `console.log(count)` ngay dòng dưới thì in ra số nào? Vì sao?
+3. Phân biệt `setCount(count + 1)` và `setCount(c => c + 1)`. Gọi `setCount(count + 1)` ba lần liên tiếp trong cùng một handler thì `count` tăng thêm mấy?
+4. Batching là gì? React 18 thay đổi gì về automatic batching so với React 17 (trong `setTimeout`, trong promise, trong native event listener)?
+5. Vì sao không được mutate state trực tiếp kiểu `arr.push(x)` rồi `setArr(arr)`? React so sánh state cũ và mới bằng cách nào?
+6. `useState(() => expensiveInit())` khác `useState(expensiveInit())` ở điểm nào? Kỹ thuật này tên là gì?
+7. Vì sao khởi tạo state từ props (`useState(props.value)`) thì state không tự cập nhật khi props đổi? Nêu các cách xử lý đúng.
+8. `useEffect` chạy vào thời điểm nào trong chu trình render? So sánh với `useLayoutEffect` về thời điểm chạy và trường hợp nên dùng.
+9. Ba dạng dependency array — không truyền array, truyền `[]`, truyền `[a, b]` — khác nhau ra sao?
+10. React so sánh dependency bằng thuật toán nào? Vì sao truyền một object hoặc array literal vào deps khiến effect chạy lại sau mọi render?
+11. Cleanup function là gì và chạy vào những thời điểm nào? Kể các trường hợp bắt buộc phải cleanup.
+12. Vì sao ở môi trường development bật `StrictMode` thì `useEffect` chạy 2 lần khi mount? Nó giúp phát hiện loại bug nào, và điều đó có xảy ra trên production không?
+13. Stale closure là gì? Giải thích vì sao `setInterval` đặt trong `useEffect` với deps `[]` luôn đọc `count` bằng giá trị lúc mount.
+14. Nêu ít nhất ba cách sửa bug stale closure ở câu trên (updater function, thêm dependency, dùng `useRef`) và đánh đổi của từng cách.
+15. Đoán hành vi: effect có deps `[]` mà bên trong gọi `setCount(count + 1)` thì chuyện gì xảy ra? Còn nếu deps là `[count]`?
+16. Race condition khi fetch dữ liệu trong `useEffect` xảy ra như thế nào? Trình bày cách xử lý bằng biến cờ `ignore` và bằng `AbortController`.
+17. Khi nào KHÔNG nên dùng `useEffect`? Cho ví dụ một giá trị derive được trực tiếp từ state mà nhiều người viết nhầm thành effect kèm state phụ.
+18. Rule `react-hooks/exhaustive-deps` cảnh báo điều gì? Vì sao việc thêm `eslint-disable` cho nó thường là che giấu bug thay vì sửa bug?
+19. Vì sao không nên đưa thẳng một function khai báo trong thân component vào dependency array? Có những cách nào để giữ ổn định reference của nó?
+20. Nên tách nhiều `useState` riêng lẻ hay gộp thành một object state? Đánh đổi là gì, và dấu hiệu nào cho thấy đã đến lúc chuyển sang `useReducer`?
+21. Hai component anh em cùng cần một state thì đặt state ở đâu? Giải thích lifting state up và cái giá phải trả về re-render.

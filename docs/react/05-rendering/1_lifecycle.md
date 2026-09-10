@@ -29,6 +29,7 @@ title: "1. Component Lifecycle"
 - [Lifecycle với hooks](#lifecycle-với-hooks)
 - [Re-render khi nào?](#re-render-khi-nào)
 - [Strict Mode](#strict-mode)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -343,3 +344,26 @@ Pattern phổ biến gây re-render thừa:
 Fix bằng `useMemo`, `useCallback` — nhưng **chỉ khi đo có vấn đề**.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Một component React đi qua những giai đoạn nào trong vòng đời của nó?
+2. Phân biệt `render phase` và `commit phase`. React được phép làm gì và không được làm gì ở mỗi phase?
+3. Vì sao hàm component phải là `pure` — không được gọi API hay sửa biến bên ngoài ngay trong thân hàm?
+4. Những nguyên nhân nào khiến một component `re-render`? Đổi `props` có phải nguyên nhân duy nhất không?
+5. Component cha re-render thì con có bắt buộc re-render theo không? Làm sao để chặn?
+6. `useEffect` với mảng dependency rỗng `[]`, có dependency, và không truyền dependency — khác nhau thế nào?
+7. Hàm `return` bên trong `useEffect` chạy vào lúc nào? Nêu một trường hợp quên viết nó sẽ gây rò rỉ bộ nhớ.
+8. `useEffect` và `useLayoutEffect` chạy ở thời điểm khác nhau ra sao? Khi nào buộc phải dùng `useLayoutEffect`?
+9. Ánh xạ `componentDidMount`, `componentDidUpdate`, `componentWillUnmount` sang hook tương đương. Chỗ nào không ánh xạ được 1-1?
+10. Vì sao `StrictMode` cố tình gọi hàm component và chạy effect **hai lần** ở môi trường development? Nó giúp phát hiện loại bug nào?
+11. Code chạy đúng ở production nhưng ở dev thì gọi API hai lần — bạn xử lý thế nào, và có nên tắt `StrictMode` không?
+12. `setState` bên trong `useEffect` không có dependency array dẫn tới hậu quả gì?
+13. Vì sao đổi `key` của một component lại khiến nó bị `unmount` rồi `mount` lại, và state cũ mất sạch? Khi nào nên tận dụng điều này?
+14. Fetch dữ liệu trong `useEffect` có thể gặp `race condition` ra sao? Nêu cách xử lý bằng cờ `ignore` hoặc `AbortController`.
+15. `stale closure` là gì? Cho một ví dụ với `setInterval` bên trong `useEffect` và cách khắc phục.
+16. React 18 gộp nhiều `setState` thành một lần re-render (`automatic batching`). Điều này khác gì so với React 17?

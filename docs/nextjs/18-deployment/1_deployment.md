@@ -31,6 +31,7 @@ title: "1. Deployment Options"
 - [Self-hosted Node.js](#self-hosted-nodejs)
 - [Docker](#docker)
 - [Static Export](#static-export)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -445,3 +446,28 @@ Pattern này cover **fast iteration + safety**. Mỗi PR test isolated, main
 luôn deployable.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Vì sao deploy Next.js khác với deploy một site tĩnh thuần? Những phần nào của ứng dụng bắt buộc phải chạy trên server?
+2. Ba giá trị của `output` trong `next.config.ts` (mặc định, `standalone`, `export`) khác nhau ra sao, và mỗi cái sinh ra artifact gì?
+3. `output: 'standalone'` giải quyết vấn đề gì khi đóng gói Docker? Vì sao image không cần copy cả `node_modules`?
+4. Trong Dockerfile multi-stage ở bài, vì sao vẫn phải copy riêng `.next/static` và `public` sau khi đã copy `.next/standalone`?
+5. Static export (`output: 'export'`) làm mất những tính năng nào? Kể ít nhất năm thứ và giải thích vì sao chúng không thể chạy khi không có server.
+6. Khi nào bạn chọn Vercel, khi nào tự host? Nêu tiêu chí về chi phí, compliance và năng lực DevOps của đội.
+7. `Vendor lock-in` với Vercel thể hiện ở đâu? Feature nào khó port sang nền tảng khác nhất?
+8. `ISR` hoạt động khác nhau thế nào giữa Vercel và self-host nhiều instance? Vấn đề gì xảy ra khi cache không được chia sẻ giữa các instance?
+9. Biến môi trường tiền tố `NEXT_PUBLIC_` khác biến chỉ dùng ở server ra sao? Hậu quả nếu đặt nhầm API key vào biến public là gì?
+10. Biến môi trường nào bị "đóng băng" lúc build, biến nào đọc được lúc runtime? Điều đó ảnh hưởng thế nào khi muốn dùng chung một Docker image cho nhiều môi trường?
+11. `Preview deployment` cho mỗi PR mang lại lợi ích gì trong quy trình review? Khi tự host bạn dựng lại cơ chế này bằng cách nào?
+12. Tự host thì phải tự lo những gì mà Vercel làm sẵn? Kể theo nhóm: SSL, CDN, scaling, image optimization, logging và monitoring.
+13. Vì sao cần reverse proxy (Nginx) đứng trước Node server? Các dòng `proxy_set_header` trong cấu hình mẫu phục vụ mục đích gì?
+14. `Cold start` là gì trong mô hình serverless? Nó ảnh hưởng tới trải nghiệm ra sao và có những cách nào giảm nhẹ?
+15. Chiến lược rollback khi bản deploy mới hỏng khác nhau thế nào giữa Vercel và self-host? Bạn chuẩn bị sẵn những gì trước khi deploy?
+16. Cloudflare Pages và Workers hợp với loại app nào? Giới hạn nào của môi trường edge khiến một số code chỉ chạy được trên Node?
+17. Vì sao Image Optimization là điểm đau khi tự host hoặc static export? Có những phương án thay thế nào?
+18. Thiết kế `health check` và `smoke test` sau deploy như thế nào để phát hiện sớm bản hỏng trước khi người dùng gặp?

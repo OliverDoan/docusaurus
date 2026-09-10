@@ -29,6 +29,7 @@ title: "2. Class Components (Legacy)"
 - [State và setState](#state-và-setstate)
 - [Lifecycle methods](#lifecycle-methods)
 - [Khi nào còn gặp class component?](#khi-nào-còn-gặp-class-component)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -350,3 +351,33 @@ lại toàn bộ. Tool hỗ trợ:
 để cuối hoặc giữ class.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Class component là gì? Tối thiểu cần những gì để một class trở thành component React hợp lệ?
+2. Vì sao `render()` phải thuần và không có side effect? Điều gì xảy ra nếu gọi `setState` ngay trong `render()`?
+3. Vì sao trong class phải viết `this.props.name` chứ không phải `props.name` như function component?
+4. Khởi tạo state bằng `constructor` khác bằng class field ra sao? `super(props)` dùng để làm gì và quên nó thì lỗi gì xảy ra?
+5. Vì sao method của class bị mất `this` khi truyền làm event handler? Kể ba cách khắc phục và ưu nhược của từng cách.
+6. `setState` là bất đồng bộ và được gộp lô (`batched`) nghĩa là gì? Vì sao gọi `this.setState({count: this.state.count + 1})` hai lần liên tiếp chỉ tăng một?
+7. Khi nào bắt buộc phải dùng dạng updater `setState(prev => ...)`? Nguyên tắc này có áp dụng cho `useState` không?
+8. `setState` nhận thêm một callback thứ hai — dùng để làm gì và tương đương với cái gì trong thế giới Hooks?
+9. `setState` gộp nông (`shallow merge`) state cũ với state mới, còn `useState` thì thay thế hoàn toàn. Sự khác biệt này gây bug thế nào khi migrate?
+10. Kể ba giai đoạn của vòng đời class component và các method thuộc từng giai đoạn theo đúng thứ tự chạy.
+11. `componentDidMount` dùng để làm gì? Vì sao nên gọi API ở đây thay vì trong `constructor` hay `render`?
+12. Trong `componentDidUpdate(prevProps)`, vì sao phải so sánh `prevProps` trước khi gọi `setState`? Không so sánh thì hiện tượng gì xảy ra?
+13. `componentWillUnmount` thường phải dọn những thứ gì? Không dọn thì hậu quả cụ thể là gì?
+14. `shouldComponentUpdate` và `PureComponent` hoạt động ra sao? So sánh nông có cạm bẫy gì với props dạng object hay function?
+15. Vì sao các method `componentWillMount`, `componentWillReceiveProps`, `componentWillUpdate` bị đánh dấu unsafe? Chúng xung đột với cơ chế render bất đồng bộ ở điểm nào?
+16. `getDerivedStateFromProps` vì sao là `static` và không truy cập được `this`? Khi nào thật sự cần tới nó, và vì sao đa số trường hợp là dùng sai?
+17. `getSnapshotBeforeUpdate` giải quyết bài toán gì? Cho một tình huống thực tế như giữ vị trí cuộn trong khung chat.
+18. Ánh xạ vòng đời sang Hooks: một `useEffect` thay thế được cả mount, update và unmount như thế nào? Có lifecycle nào KHÔNG có bản tương đương một-một không?
+19. `Error Boundary` là gì? `getDerivedStateFromError` khác `componentDidCatch` ở vai trò nào, và nên đặt chúng ở đâu trong cây component?
+20. Error Boundary KHÔNG bắt được những loại lỗi nào (event handler, code bất đồng bộ, lỗi trong chính boundary)? Với những loại đó bạn xử lý ra sao?
+21. Vì sao tới nay Error Boundary vẫn buộc phải viết bằng class? Thư viện `react-error-boundary` giúp gì cho bạn?
+22. Trước khi có Hooks, người ta chia sẻ logic bằng `HOC` và `render props`. Hai cách đó gặp vấn đề gì (`wrapper hell`, va chạm tên prop) mà custom hook giải quyết được?
+23. Bạn lập kế hoạch migrate một codebase đầy class component sang Hooks thế nào? Component nào làm trước, component nào để cuối, và bạn bảo đảm không hỏng bằng cách nào?

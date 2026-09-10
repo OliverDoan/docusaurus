@@ -29,6 +29,7 @@ title: "1. CLI Tools để tạo project React"
 - [Bun create](#bun-create)
 - [Create React App (CRA - Legacy)](#create-react-app-cra---legacy)
 - [Khi nào chọn cái nào?](#khi-nào-chọn-cái-nào)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -279,3 +280,30 @@ bun create vite my-app -- --template react-ts
 ```
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Vì sao tới năm 2026 chỉ còn hai lựa chọn chính là `Vite` và `Next.js`? Bạn dựa vào tiêu chí nào để chọn giữa hai cái đó?
+2. Vite nhanh hơn `Create React App` nhờ cơ chế nào? Giải thích sự khác biệt giữa dev server dựa trên `native ES Module` và bundler truyền thống.
+3. Vì sao Vite dùng `esbuild` cho môi trường dev nhưng lại dùng `Rollup` cho bản build production? Hai công cụ này mạnh ở chỗ nào khác nhau?
+4. `Dependency pre-bundling` của Vite giải quyết vấn đề gì? Nếu không có nó thì dev server gặp hiện tượng gì với thư viện nhiều module nhỏ?
+5. CRA bị deprecate vì những lý do gì? Đang giữ một dự án CRA thật, bạn lên kế hoạch migrate sang Vite ra sao và rủi ro lớn nhất nằm ở đâu?
+6. `eject` trong CRA nghĩa là gì và vì sao gần như luôn nên tránh? Vite giải quyết nhu cầu tuỳ biến đó bằng cách nào?
+7. Khi nào bạn chọn Next.js thay vì Vite? `SEO` đóng vai trò gì trong quyết định này, và vì sao SPA thuần lại yếu về SEO?
+8. Phân biệt `CSR`, `SSR`, `SSG` và `ISR`. Cho một ví dụ trang thực tế hợp với từng kiểu.
+9. `React Server Components` là gì và khác `SSR` truyền thống ra sao? Nó ảnh hưởng thế nào tới kích thước bundle gửi xuống trình duyệt?
+10. Câu lệnh `npm create vite@latest my-app` thực chất làm gì phía sau? `@latest` có ý nghĩa gì và vì sao nên có nó?
+11. Template `react-ts` khác `react-swc-ts` ở điểm nào? Khi nào việc đổi sang `SWC` thực sự đáng?
+12. `npx` khác `npm install -g` thế nào? Vì sao dùng `npx` cho công cụ scaffold lại an toàn hơn?
+13. `HMR` khác `live reload` ra sao? Vì sao HMR giữ được state của component còn reload thì không?
+14. Biến môi trường trong Vite (`import.meta.env`, tiền tố `VITE_`) khác CRA (`process.env.REACT_APP_`) thế nào? Vì sao đặt khoá bí mật vào đó là lỗi bảo mật nghiêm trọng?
+15. Gọi API bị chặn `CORS` khi chạy dev — bạn dùng tính năng nào của Vite để xử lý, và vì sao cách đó không áp dụng được cho production?
+16. `Bun` nhanh hơn ở những khâu nào? Rủi ro khi đưa Bun vào một dự án production hôm nay là gì?
+17. So sánh `Remix`, `Astro` và `TanStack Start` — mỗi cái mạnh cho loại sản phẩm nào?
+18. Ba tiêu chí `maturity`, `ecosystem`, `DX` thường xung đột nhau. Với một team mới toanh và deadline gấp, bạn ưu tiên tiêu chí nào và vì sao?
+19. `Code splitting` và `lazy loading` — Vite làm sẵn phần nào, còn phần nào lập trình viên phải chủ động làm? Bạn đo kích thước bundle bằng công cụ gì?
+20. Một dự án cần cả trang marketing chuẩn SEO lẫn một dashboard nội bộ nặng tương tác — bạn tách thành mấy ứng dụng, dùng công cụ nào cho mỗi phần, và đánh đổi là gì?

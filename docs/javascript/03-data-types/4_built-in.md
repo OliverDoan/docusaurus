@@ -30,6 +30,7 @@ title: "4. Built-in Objects"
 - [Date](#date)
 - [RegExp](#regexp)
 - [Intl](#intl)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -328,3 +329,32 @@ Sử dụng `Intl` thay vì viết tay format string khi cần đa ngôn ngữ �
 chính xác hơn nhiều, không phải maintain.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Built-in object` là gì? Kể vài cái bạn dùng thường xuyên và mục đích của từng cái.
+2. Vì sao `Math` gọi được `Math.round(...)` mà không cần `new`, còn `Date` thì phải `new Date()`?
+3. Phân biệt `JSON.stringify` và `JSON.parse`. Chúng dùng ở đâu trong một app thực tế?
+4. `JSON.stringify` xử lý ra sao với `undefined`, `function`, `Symbol`, `NaN`, `Infinity`, `Date`, `BigInt`, `Map`/`Set`?
+5. Tham số thứ hai và thứ ba của `JSON.stringify` (`replacer`, `space`) dùng để làm gì? Còn `reviver` của `JSON.parse`?
+6. Nếu một object có method `toJSON`, `JSON.stringify` sẽ hành xử thế nào? Vì sao `Date` lại ra chuỗi ISO?
+7. Vì sao `JSON.parse(JSON.stringify(obj))` là cách deep clone không an toàn? Nó ném lỗi gì với circular reference, và bạn thay bằng gì?
+8. So sánh `Math.round`, `Math.floor`, `Math.ceil`, `Math.trunc`. `Math.round(-3.5)` bằng bao nhiêu và vì sao?
+9. Viết hàm trả về số nguyên ngẫu nhiên trong khoảng `[min, max]` (bao gồm hai đầu) và giải thích công thức.
+10. Vì sao `Math.random()` không được dùng để sinh token, mã OTP hay mật khẩu? Nên dùng API nào thay thế?
+11. `getMonth()` trả về giá trị trong khoảng nào? Kể vài cái bẫy kinh điển khác của `Date`.
+12. So sánh `Date.now()`, `new Date()` và `performance.now()`. Đo thời gian chạy của một đoạn code thì nên dùng cái nào?
+13. `Date` là mutable — điều đó gây rủi ro gì? `setDate(date.getDate() + 1)` xử lý ra sao khi vượt qua cuối tháng?
+14. `new Date("2026-01-15")` và `new Date("2026/01/15")` được parse khác nhau thế nào (UTC hay local time)?
+15. Bạn lưu thời gian xuống database theo chuẩn nào và vì sao? Xử lý timezone cho người dùng nhiều quốc gia ra sao?
+16. `Temporal API` giải quyết những nhược điểm nào của `Date`? Trước khi nó phổ biến, bạn dùng thư viện gì (`date-fns`, `Day.js`, `Luxon`) và vì sao không dùng Moment.js cho code mới?
+17. So sánh `regex.test`, `str.match`, `str.matchAll` và `regex.exec` — khi nào dùng cái nào?
+18. Flag `g` của một `RegExp` dùng lại nhiều lần với `.test()` gây bug gì? Giải thích vai trò của `lastIndex`.
+19. Phân biệt capture group thường và `named group`. Greedy và lazy quantifier khác nhau thế nào?
+20. `catastrophic backtracking` / `ReDoS` là gì? Vì sao regex validate email phức tạp có thể treo server?
+21. `Intl.NumberFormat` và `Intl.DateTimeFormat` hơn gì so với tự format chuỗi bằng tay?
+22. Kể vài class hữu ích khác của `Intl` (`RelativeTimeFormat`, `PluralRules`, `Collator`, `Segmenter`) và tình huống dùng.

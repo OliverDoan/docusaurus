@@ -31,6 +31,7 @@ Bài này hướng dẫn cách tổ chức thư mục route sao cho gọn gàng 
 - [Route Handlers (API)](#route-handlers-api)
 - [Method handlers](#method-handlers)
 - [Request và Response](#request-và-response)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -395,3 +396,25 @@ Trong App Router, đa số mutation form đi qua Server Action — gọn hơn,
 type-safe.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `co-location` là gì? Đặt component và util cạnh route dùng nó mang lại lợi ích cụ thể nào?
+2. Khi nào một component nên được nâng từ thư mục feature lên `components/` ở gốc? Tiêu chí quyết định là gì?
+3. Một thư mục thường trong `app/` có tự tạo route không? `_folder` khác gì so với thư mục thường?
+4. Vì sao chỉ `page.tsx` (hoặc `route.ts`) mới làm cho một segment trở nên truy cập được qua URL?
+5. Cách tạo API endpoint bằng `route.ts` — bạn export những gì để xử lý `GET` và `POST`?
+6. Nếu client gọi một HTTP method chưa có handler tương ứng thì Next.js phản hồi thế nào?
+7. Route handler đọc body, query string và header ra sao? So sánh với `req.body` và `req.query` của `Pages Router`.
+8. Vì sao chuyển sang Web Standards `Request`/`Response` lại quan trọng cho Edge Runtime, tính portable và khả năng test?
+9. Route handler động `app/api/users/[id]/route.ts` nhận `params` như thế nào và cần lưu ý gì ở Next.js 15?
+10. `Route Handler` và `Server Action` khác nhau ở những điểm nào? Trường hợp nào bắt buộc phải dùng Route Handler?
+11. Server Action có an toàn hơn Route Handler không? Bạn validate input và kiểm soát quyền truy cập ra sao?
+12. Làm sao tập trung xử lý authentication và error cho nhiều route handler mà không lặp code ở từng file?
+13. Route handler có được cache không? Điều gì khiến một handler `GET` chuyển thành dynamic?
+14. Nhận webhook từ bên thứ ba (Stripe, GitHub) trong route handler cần lưu ý gì về body thô, chữ ký và idempotency?
+15. Với một app lớn, bạn tổ chức thư mục theo feature hay theo loại file? Hãy lập luận và mô tả cấu trúc bạn đề xuất.

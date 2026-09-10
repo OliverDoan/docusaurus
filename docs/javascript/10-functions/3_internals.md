@@ -28,6 +28,7 @@ Bài này khám phá cách hàm hoạt động bên trong. **arguments object** 
 - [Call Stack](#call-stack)
 - [Stack Overflow](#stack-overflow)
 - [Built-in Functions thường dùng](#built-in-functions-thường-dùng)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -356,3 +357,24 @@ Tương tự `isFinite` vs `Number.isFinite`. **Luôn dùng phiên bản
 `Number.*`** — chính xác hơn và không coerce.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `arguments` object là gì? Vì sao nó được gọi là `array-like` mà không phải một Array thật?
+2. Vì sao `arguments.map(...)` hay `arguments.reduce(...)` ném `TypeError`? Có những cách nào chuyển `arguments` thành Array thật?
+3. So sánh `arguments` với `rest parameter` (`...args`). Vì sao code hiện đại khuyên bỏ hẳn `arguments`?
+4. Truy cập `arguments` bên trong một arrow function thì điều gì xảy ra? Giải thích lý do.
+5. `Call Stack` là gì? Mô tả chính xác điều gì xảy ra với `stack frame` khi một hàm được gọi và khi nó `return`.
+6. Vì sao Call Stack hoạt động theo nguyên tắc LIFO? Cho một stack trace, bạn đọc theo thứ tự nào để biết hàm nào gọi hàm nào?
+7. Cho `first()` gọi `second()`, `second()` gọi `third()` — hãy vẽ trạng thái call stack tại thời điểm `third` đang chạy, rồi mô tả thứ tự pop.
+8. Lỗi `RangeError: Maximum call stack size exceeded` xuất hiện khi nào? Nêu ít nhất hai nguyên nhân phổ biến trong code thật.
+9. "JavaScript là `single-threaded`, chỉ có một call stack" nghĩa là gì? Vì sao một vòng `while` chạy 3 giây làm treo toàn bộ UI trình duyệt?
+10. Khi phải duyệt một cây lồng rất sâu, làm sao tránh tràn stack? So sánh cách viết đệ quy với cách viết `iterative` dùng stack thủ công.
+11. `Tail-call optimization` là gì? Các engine phổ biến (V8, SpiderMonkey, JavaScriptCore) hỗ trợ tới đâu, và điều đó ảnh hưởng thế nào tới cách bạn viết đệ quy?
+12. Đoán output: `isNaN("hello")` và `Number.isNaN("hello")` trả về gì? Giải thích vì sao khác nhau và nên dùng cái nào.
+13. `setTimeout(fn, 0)` có chạy hàm ngay lập tức không? Nó liên quan gì tới call stack và event loop?
+14. So sánh `parseInt("08")`, `Number("08")` và `+"08"`. Vì sao luôn nên truyền `radix` cho `parseInt`?

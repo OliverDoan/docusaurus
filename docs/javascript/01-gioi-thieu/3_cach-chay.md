@@ -28,6 +28,7 @@ title: "3. Cách chạy JavaScript"
 - [Trong Node.js](#trong-nodejs)
 - [Trong các runtime hiện đại](#trong-các-runtime-hiện-đại)
 - [REPL](#repl)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -252,3 +253,25 @@ Trong browser DevTools, REPL còn mạnh hơn — gõ tên biến, hover xem obj
 click vào DOM element được trả về để xem trên Inspector.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Có những cách nào để chạy một đoạn JavaScript? Với một dự án thật, bạn chọn cách nào và vì sao?
+2. Đặt thẻ `script` không có thuộc tính gì ở giữa `body` thì trình duyệt xử lý ra sao? Vì sao ngày xưa người ta khuyên đặt script ở cuối `body`?
+3. So sánh `script` mặc định, `async` và `defer` về: thời điểm tải, thời điểm thực thi và thứ tự thực thi.
+4. Ba file `jquery.js`, `plugin.js`, `app.js` phụ thuộc lẫn nhau theo thứ tự. Dùng `async` cho cả ba thì chuyện gì có thể xảy ra? Nên dùng gì?
+5. Trường hợp nào thì `async` là lựa chọn đúng? Cho ví dụ thực tế.
+6. Đoạn script inline chạy `document.querySelector("h1")` nhưng thẻ `h1` nằm phía dưới nó — kết quả là gì và vì sao? Có mấy cách sửa?
+7. `script type="module"` khác gì so với script thường? Nó có được `defer` mặc định không? Trong module thì `this` ở top-level là gì?
+8. `defer` chạy trước hay sau sự kiện `DOMContentLoaded`? Còn `load` thì khác gì `DOMContentLoaded`?
+9. Chạy một file JS bằng Node.js như thế nào? `node --watch` giúp gì trong quá trình phát triển?
+10. Trong Node.js, phân biệt `CommonJS` và `ES Module`. Cần cấu hình gì để dùng `import`/`export` trong Node?
+11. Những API nào chỉ có trong trình duyệt, những API nào chỉ có trong Node.js? Điều gì xảy ra nếu gọi `document` trong Node hoặc `fs` trong browser?
+12. So sánh `Node.js`, `Deno` và `Bun`. Deno khác Node ở điểm bảo mật nào?
+13. Cloudflare Workers / Vercel Edge chạy JS trong môi trường nào? Vì sao ở đó không có `fs`?
+14. Bạn viết một thư viện muốn chạy được cả trên trình duyệt lẫn Node lẫn edge runtime — chọn API theo nguyên tắc nào?
+15. `REPL` là viết tắt của gì? Kể vài trường hợp REPL hữu ích hơn việc tạo file rồi chạy.

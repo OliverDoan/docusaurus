@@ -46,6 +46,7 @@ flowchart TD
 - [Build Tools](#build-tools)
 - [Test Runners](#test-runners)
 - [Useful Packages](#useful-packages)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -256,3 +257,31 @@ Stack này tận dụng tối đa type system của TS — single source of trut
 từ DB → API → form, không phải duy trì type ở nhiều tầng.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Formatter và linter khác nhau ở vai trò gì? Vì sao một dự án nghiêm túc thường dùng cả Prettier lẫn ESLint chứ không chỉ một?
+2. `TSLint` hiện còn dùng được không? Nếu tiếp quản một codebase cũ còn `tslint.json`, bạn di trú sang `typescript-eslint` theo các bước nào?
+3. ESLint flat config (`eslint.config.js`, ESLint 9+) khác `.eslintrc` ở điểm nào? Cấu hình `typescript-eslint` trong flat config ra sao?
+4. ESLint cho TypeScript có hai chế độ syntax-only và type-aware. Bật type-aware bằng cách nào và đánh đổi về hiệu năng là gì?
+5. Nêu vài rule chỉ chạy được ở chế độ type-aware (ví dụ `no-floating-promises`, `no-misused-promises`) và giải thích chúng bắt được lớp bug nào mà syntax-only bỏ sót.
+6. ESLint có thay thế được `tsc` trong việc bắt lỗi type không? Vì sao?
+7. Trong CI và trong pre-commit hook, bạn cấu hình lint/type-check khác nhau thế nào để vừa an toàn vừa không làm chậm dev?
+8. Vì sao esbuild, swc và Bun build cực nhanh nhưng lại **không** type-check? Giải thích cơ chế transpile từng file (single-file transform) đứng sau điều đó.
+9. Mô tả workflow chuẩn khi dùng Vite hoặc Next.js: bước nào lo runtime, bước nào lo type-check, và `tsc --noEmit` đặt ở đâu?
+10. Khi publish một thư viện TypeScript lên npm, bạn sinh file `.d.ts` bằng cách nào? So sánh `tsup` với `tsc --declaration`, và nêu vai trò của trường `types`/`exports` trong `package.json`.
+11. So sánh `tsc`, `esbuild`, `swc`, `Vite`, `Webpack`, `Turbopack` và `tsup` theo mục đích sử dụng. Với một CLI Node nội bộ và với một app web lớn, bạn chọn gì?
+12. Muốn chạy trực tiếp một file `.ts` không qua bước build thì dùng gì? So sánh `ts-node`, `tsx` và `bun run` về tốc độ, khả năng type-check và hỗ trợ ESM.
+13. `DefinitelyTyped` và các package `@types/...` hoạt động thế nào? Khi nào một thư viện không cần `@types` nữa, và bạn xử lý ra sao khi `@types` lệch phiên bản với thư viện?
+14. So sánh Vitest, Jest, Bun test và Node test runner built-in. Nếu dự án đang dùng Vite thì vì sao Vitest thường là lựa chọn hợp lý?
+15. Chạy Jest với TypeScript có những cách nào? So sánh `ts-jest` và `@swc/jest` về tốc độ và khả năng bắt lỗi type trong test.
+16. Type của TypeScript biến mất lúc runtime, vậy dữ liệu từ API hay form được đảm bảo đúng kiểu bằng cách nào? Vai trò của `zod`/`valibot` và ý nghĩa của việc infer type từ schema.
+17. So sánh `zod` và `valibot`. Khi nào kích thước bundle khiến bạn chọn cái tree-shakeable hơn?
+18. "Type-safe end-to-end" nghĩa là gì trong stack `tRPC` + `drizzle`/`prisma` + `zod`? Nó khác cách sinh type từ OpenAPI/GraphQL codegen ở điểm nào?
+19. `Biome` định vị ở đâu so với ESLint + Prettier? Nêu lý do chọn và lý do chưa nên chuyển sang nó.
+20. Khi `tsc` chạy ngày càng chậm trên codebase lớn, bạn tối ưu bằng những cách nào? Nhắc tới `incremental`, `skipLibCheck`, project references và cách chia package.
+21. `type-fest` và `ts-toolbelt` giải quyết nhu cầu gì? Cho ví dụ một utility type bạn từng cần nhưng TypeScript không có sẵn.

@@ -29,6 +29,7 @@ title: "1. Map, Set, WeakMap, WeakSet"
 - [WeakMap](#weakmap)
 - [WeakSet](#weakset)
 - [Khi nào dùng cái nào?](#khi-nào-dùng-cái-nào)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -322,3 +323,25 @@ dùng iterator helper native — performant hơn với dataset lớn vì lazy
 evaluation.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Map` khác `Object` ở những điểm nào (kiểu key, thứ tự, `size`, iteration, prototype, JSON)? Khi nào bạn chọn cái nào?
+2. Vì sao dùng plain object làm dictionary lại nguy hiểm? Điều gì xảy ra với `obj[1]` và `obj["1"]`, hoặc khi key trùng `toString`?
+3. Thuật toán nào được `Map` và `Set` dùng để so sánh key? Vì sao `new Set([NaN, NaN]).size` bằng `1`?
+4. Đoán output: `new Set([{a: 1}, {a: 1}]).size`. Vì sao `Set` không loại được hai object trông giống nhau?
+5. Viết cách loại phần tử trùng trong mảng object theo một property (ví dụ `id`) — vì sao `[...new Set(arr)]` không đủ?
+6. `Set` có giữ thứ tự chèn không? Duyệt `Map` bằng `for...of` trả về gì, và `keys()`, `values()`, `entries()` khác nhau ra sao?
+7. Làm sao serialize một `Map` sang JSON và khôi phục lại? Vì sao `JSON.stringify(new Map(...))` cho ra `{}`?
+8. `WeakMap` khác `Map` ở những điểm nào? Vì sao `WeakMap` không có `size` và không iterable được?
+9. Vì sao `WeakMap` chỉ nhận object (và `Symbol` không đăng ký) làm key? Điều gì xảy ra khi bạn `set` một primitive?
+10. Giải thích cơ chế `weak reference` và vai trò của `garbage collector` với `WeakMap`. Khi nào entry thực sự bị dọn?
+11. Trong `WeakMap`, key là weak nhưng value thì sao? Mô tả kịch bản memory leak khi value trỏ ngược lại key.
+12. Nêu use case thực tế của `WeakMap` (cache theo object, private data, metadata cho DOM node) và vì sao `Map` không thay thế được.
+13. `WeakSet` dùng để làm gì? Cho một ví dụ đánh dấu object đã xử lý mà không gây rò bộ nhớ.
+14. So sánh độ phức tạp tra cứu của `Map`/`Set` với việc dùng `Array.prototype.includes` hoặc `indexOf` trên mảng lớn.
+15. Bạn cần đếm tần suất xuất hiện của phần tử trong một mảng lớn — chọn `Map` hay `Object`? Giải thích lý do theo hiệu năng và tính đúng đắn.

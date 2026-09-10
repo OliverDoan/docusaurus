@@ -29,6 +29,7 @@ Tối ưu code là cách giảm lượng JavaScript phải tải và chạy trê
 - [Lazy Loading với dynamic()](#lazy-loading-với-dynamic)
 - [Code Splitting](#code-splitting)
 - [Package Bundling](#package-bundling)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -461,3 +462,25 @@ Sweet spot:
 Đừng cố `dynamic()` mọi component — overhead networking đôi khi tệ hơn.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Code splitting` là gì, và Next.js tự động tách bundle theo những ranh giới nào?
+2. Giải thích `tree shaking`: vì sao `import _ from "lodash"` làm phình bundle còn `import debounce from "lodash/debounce"` thì không?
+3. Khác nhau giữa import tĩnh và `dynamic()` của `next/dynamic`? `dynamic()` ảnh hưởng thế nào tới initial bundle?
+4. Khi nào nên đặt `ssr: false` trong `dynamic()`, và bạn đánh đổi điều gì về SEO cũng như `LCP`?
+5. Trong App Router, vì sao `next/dynamic` chỉ dùng được trong Client Component, còn Server Component phải dùng `Suspense` kèm `lazy`?
+6. Chỉ số `First Load JS` trong output của `next build` nghĩa là gì, và bạn coi ngưỡng bao nhiêu là chấp nhận được?
+7. Bạn dùng công cụ nào để tìm chunk nặng, và quy trình tối ưu bundle của bạn gồm những bước nào?
+8. So sánh `serverExternalPackages`, `transpilePackages` và `optimizePackageImports` — mỗi option giải quyết vấn đề gì?
+9. Vì sao `optimizePackageImports` đặc biệt hiệu quả với thư viện icon dạng barrel file? Cơ chế bên dưới là gì?
+10. Metadata API hoạt động ra sao, và khác nhau giữa `metadata` tĩnh với `generateMetadata` async là gì?
+11. Nếu `generateMetadata` và page cùng `fetch` một API thì có bị gọi hai lần không? Giải thích cơ chế memoize/dedupe.
+12. `title.template` ở root layout kết hợp với metadata của từng page như thế nào?
+13. Chuyển một phần UI từ Client Component sang Server Component giúp giảm bundle ra sao, và giới hạn của cách này là gì?
+14. Vì sao chia chunk quá nhỏ (over-fragmentation) lại có hại? Bạn cân bằng số lượng chunk và kích thước chunk thế nào?
+15. Tình huống: trang dashboard có `First Load JS` khoảng `400KB` và `LCP` chậm — bạn điều tra rồi xử lý theo thứ tự nào?

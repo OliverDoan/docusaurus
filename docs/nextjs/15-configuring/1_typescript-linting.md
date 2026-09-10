@@ -29,6 +29,7 @@ Bài này giới thiệu các công cụ cấu hình nền tảng cho dự án N
 - [Prettier](#prettier)
 - [Environment Variables](#environment-variables)
 - [Markdown / MDX](#markdown--mdx)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -427,3 +428,26 @@ export async function getPosts() {
 Velite / Contentlayer auto handle phần này + type-safe schema.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `strict: true` trong `tsconfig.json` bật những kiểm tra nào, và vì sao nên bật ngay từ đầu dự án?
+2. `tsc --noEmit` khác gì với type check lúc chạy `next build`? Vì sao vẫn nên chạy riêng bước này trong CI?
+3. `moduleResolution: "bundler"` khác `"node"` ở điểm nào, và khi nào bạn cần đổi?
+4. Alias `@/*` khai báo trong `paths` hoạt động thế nào, và cần cấu hình tương ứng ở đâu để Vitest/Jest hiểu được?
+5. Trong Next 15, `params` và `searchParams` trở thành `Promise` — vì sao có thay đổi này, và nó ảnh hưởng gì tới cách viết page?
+6. `typedRoutes` giải quyết vấn đề gì, và hạn chế hiện tại của nó là gì?
+7. Flat config (`eslint.config.mjs`) khác `.eslintrc` ở điểm nào, và `FlatCompat` sinh ra để làm gì?
+8. Config `next/core-web-vitals` bổ sung gì so với `next`? Kể vài rule tiêu biểu và lý do chúng tồn tại.
+9. Vì sao cần `eslint-config-prettier` khi dùng đồng thời ESLint và Prettier?
+10. Phân chia trách nhiệm giữa TypeScript, ESLint và Prettier: mỗi công cụ bắt loại vấn đề nào, và vì sao không thay thế được nhau?
+11. Thứ tự ưu tiên nạp các file `.env.*` trong Next.js ra sao, và file nào không bao giờ được load ở production?
+12. Vì sao biến `NEXT_PUBLIC_*` bị inline vào client bundle tại build time, và hệ quả gì khi cần đổi cấu hình lúc runtime?
+13. Làm sao đảm bảo secret phía server không rò rỉ xuống client? Vai trò của package `server-only` là gì?
+14. Vì sao nên validate biến môi trường bằng Zod hoặc `@t3-oss/env-nextjs` thay vì đọc thẳng `process.env`?
+15. Khi self-host bằng Docker và muốn dùng chung một image cho nhiều môi trường, bạn xử lý biến cấu hình phía client thế nào?
+16. `ignoreBuildErrors` và `ignoreDuringBuilds` trong `next.config` — khi nào chấp nhận bật, và rủi ro đi kèm là gì?

@@ -29,6 +29,7 @@ JavaScript chỉ chạy một việc tại một thời điểm, nhưng vẫn x�
 - [Macrotask vs Microtask](#macrotask-vs-microtask)
 - [setTimeout và setInterval](#settimeout-và-setinterval)
 - [queueMicrotask, requestAnimationFrame](#queuemicrotask-requestanimationframe)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -332,3 +333,30 @@ button.onclick = () => ctrl.abort();
 Pattern modern thay cho việc track `setTimeout` id thủ công.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Vì sao nói JavaScript là ngôn ngữ **đơn luồng** (`single-threaded`) mà trang web vẫn xử lý được nhiều việc "cùng lúc"?
+2. Mô tả các thành phần của JS runtime: `call stack`, `heap`, Web APIs, macrotask queue, microtask queue. Chúng phối hợp với nhau ra sao?
+3. Event loop làm gì trong một vòng (tick)? Kể tuần tự các bước từ lúc call stack rỗng.
+4. Phân biệt `macrotask` và `microtask`. Kể ít nhất ba nguồn của mỗi loại.
+5. Đoạn sau in ra thứ tự nào và vì sao: `console.log(1); setTimeout(() => console.log(2), 0); Promise.resolve().then(() => console.log(3)); console.log(4);`
+6. Vì sao `setTimeout(fn, 0)` không chạy ngay lập tức? Delay tối thiểu thực tế là bao nhiêu và vì sao spec lại có clamping?
+7. Giữa `Promise.then(fn)` và `setTimeout(fn, 0)`, cái nào chạy trước? Giải thích bằng cơ chế hàng đợi chứ không chỉ nói kết quả.
+8. Trong một tick, event loop lấy bao nhiêu `microtask` và bao nhiêu `macrotask`? Vì sao lại bất đối xứng như vậy?
+9. Điều gì xảy ra nếu một microtask liên tục tự schedule microtask mới (`Promise.resolve().then(spam)`)? So sánh với vòng `setTimeout(spam, 0)` vô tận — vì sao một cái treo browser còn cái kia thì không?
+10. `microtask starvation` là gì và nó ảnh hưởng thế nào tới việc render UI?
+11. `await` biến phần code phía sau nó thành gì trong event loop? Đoạn `async function f() { console.log(1); await null; console.log(2); } f(); console.log(3);` in ra thứ tự nào?
+12. `requestAnimationFrame` chạy ở thời điểm nào trong một tick? Vì sao nó hợp cho animation hơn `setTimeout(fn, 16)`?
+13. `setInterval` bị `drift` nghĩa là gì? Cách xử lý khi cần đếm thời gian chính xác?
+14. So sánh `setInterval(fn, 1000)` với `setTimeout` đệ quy — cái nào an toàn hơn khi callback chạy lâu hơn khoảng interval? Vì sao?
+15. `clearTimeout`/`clearInterval` hoạt động ra sao? Quên clear khi component unmount thì hậu quả là gì?
+16. `queueMicrotask` khác `Promise.resolve().then` ở điểm nào? Khi nào bạn chọn `queueMicrotask`?
+17. Một vòng `for` chạy nặng 5 giây ảnh hưởng gì tới event loop, tới UI và tới các timer đã hẹn giờ? Có cách nào chia nhỏ công việc để không block?
+18. Event loop của Node.js khác browser thế nào? `process.nextTick` xếp ở đâu so với microtask, và các phase của `libuv` (timers, poll, check, close) làm gì?
+19. `AbortController` giải quyết vấn đề gì trong code bất đồng bộ? Nó có "dừng" được một `setTimeout` đang chờ không?
+20. Web Worker giải quyết vấn đề nào mà event loop không giải quyết được? Nêu giới hạn của nó.

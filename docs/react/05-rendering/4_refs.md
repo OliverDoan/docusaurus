@@ -29,6 +29,7 @@ title: "4. Refs"
 - [Truy cập DOM element](#truy-cập-dom-element)
 - [Ref cho component](#ref-cho-component)
 - [Callback ref](#callback-ref)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -377,3 +378,28 @@ Quy tắc: **nếu giá trị hiện trong UI → dùng state**, **nếu chỉ c
 behind-the-scenes → dùng ref**.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Ref` là gì trong React, và khác `state` ở những điểm nào?
+2. `useRef` trả về cái gì? Vì sao sửa `ref.current` lại không gây re-render?
+3. Khi nào nên dùng `useRef` thay vì `useState`, và ngược lại? Nêu quy tắc quyết định.
+4. Kể các use case hợp lệ của ref: focus, scroll, đo kích thước, lưu id timer, tích hợp thư viện non-React.
+5. Vì sao không nên đọc hoặc ghi `ref.current` ngay trong lúc render?
+6. Tại thời điểm nào `ref.current` mới thực sự trỏ tới DOM node? Giải thích theo vòng đời render và commit.
+7. `useEffect` và `useLayoutEffect` khác nhau thế nào khi cần đo kích thước element qua ref? Khi nào bị flicker?
+8. `forwardRef` giải quyết vấn đề gì? Vì sao trước React 19 function component không nhận `ref` như một prop thường?
+9. React 19 thay đổi gì về `ref` cho function component, và migrate từ `forwardRef` như thế nào?
+10. `Callback ref` là gì? React gọi nó vào những thời điểm nào và truyền vào giá trị gì?
+11. Vì sao một callback ref định nghĩa inline có thể bị gọi lại (với `null` rồi với node) sau mỗi lần re-render? Cách tránh?
+12. Khi nào chọn `callback ref` thay vì ref object tạo bởi `useRef`?
+13. `useImperativeHandle` dùng để làm gì? Vì sao React khuyên hạn chế dùng nó?
+14. Có thể truyền cùng một ref cho nhiều element không? Làm sao gộp nhiều ref vào cùng một element (`merge refs`)?
+15. Với một danh sách động, làm sao giữ ref cho từng item để có thể scroll hay focus đúng phần tử?
+16. `createRef` khác `useRef` thế nào? Điều gì xảy ra nếu gọi `createRef` bên trong function component?
+17. Ref được gọi là "escape hatch" — khi nào việc phải dùng ref là dấu hiệu của một thiết kế state chưa tốt?
+18. `Strict Mode` ở môi trường dev gọi mount hai lần, điều đó ảnh hưởng thế nào tới callback ref và phần cleanup của nó?

@@ -36,6 +36,7 @@ bài sau.
 - [Chia sẻ dependency & singleton](#chia-sẻ-dependency--singleton)
 - [Module Federation 2.0](#module-federation-20)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -179,3 +180,26 @@ Phiên bản gốc đi cùng Webpack 5. **Module Federation 2.0** (qua package
   hinting, plugin runtime, hỗ trợ nhiều bundler.
 
 Bài tiếp theo: **demo thực hành** dựng host + remote với React.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Module Federation` giải quyết hai bài toán nào của cách tích hợp runtime? Vì sao phải giải ở tầng bundler?
+2. Phân biệt `host` và `remote`. Khi nào một app vừa đóng vai host vừa đóng vai remote?
+3. Ba trường `exposes`, `remotes`, `shared` được khai ở đâu và mỗi trường làm gì?
+4. `remoteEntry.js` chứa những gì, host dùng nó ra sao, và vì sao nhờ nó mà remote deploy độc lập được?
+5. Trong chuỗi `ui@http://localhost:3001/remoteEntry.js`, phần trước dấu `@` là gì và phải khớp với khai báo nào bên remote?
+6. Cơ chế `shared` hoạt động thế nào — khi cả host và remote cùng cung cấp một thư viện thì bản nào được dùng?
+7. `singleton: true` nghĩa là gì? Vì sao `react` và `react-dom` gần như luôn cần, và chuyện gì xảy ra nếu thiếu?
+8. `requiredVersion` và `strictVersion` khác nhau ra sao? Xử lý thế nào khi hai mảnh cần hai bản major khác nhau của cùng một thư viện?
+9. `eager: true` làm gì? Vì sao thường bật ở host nhưng không bật ở remote?
+10. Vì sao cần `async boundary`? Lỗi *"Shared module is not available for eager consumption"* xảy ra trong tình huống nào?
+11. Khai remote tĩnh trong config khác gì `dynamic remote` (URL quyết định lúc chạy)? Khi nào bắt buộc phải dùng dynamic?
+12. Làm sao quản lý URL của các remote qua nhiều môi trường dev/staging/prod mà không phải build lại host?
+13. Host nạp code từ domain khác lúc runtime có rủi ro bảo mật gì? Bạn giảm thiểu bằng `CORS`, `CSP`, `SRI` hay cách nào khác?
+14. Nên đặt chính sách cache và versioning cho `remoteEntry.js` thế nào để vừa nhận bản mới nhanh, vừa không vỡ phiên người dùng đang mở?
+15. `Module Federation 2.0` (`@module-federation/enhanced`) bổ sung gì so với bản gốc của Webpack 5?
+16. Làm sao có type safety TypeScript giữa host và remote khi module chỉ tồn tại lúc runtime?

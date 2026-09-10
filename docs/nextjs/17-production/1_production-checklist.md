@@ -39,6 +39,7 @@ flowchart TD
 - [SEO Checklist](#seo-checklist)
 - [Accessibility (a11y)](#accessibility-a11y)
 - [Error Handling](#error-handling)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -382,3 +383,28 @@ export async function GET() {
 Đi qua từng item — đừng dựa vào memory.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Trước khi deploy production bạn rà soát những nhóm hạng mục nào, và vì sao cần checklist thay vì dựa vào trí nhớ?
+2. Vì sao phải chạy `next build` rồi `next start` ở local trước khi deploy, thay vì chỉ kiểm thử trên `next dev`?
+3. Những mục nào trong checklist ảnh hưởng trực tiếp tới `LCP`, và bạn kiểm chứng chúng bằng cách nào?
+4. Vì sao ảnh `LCP` cần `priority`, và điều gì xảy ra nếu gắn `priority` cho mọi ảnh trong trang?
+5. Kể các security header quan trọng và tác dụng của từng cái: `CSP`, `X-Frame-Options`, `HSTS`, `X-Content-Type-Options`, `Referrer-Policy`.
+6. `CSP` với `nonce` kèm `strict-dynamic` hoạt động ra sao? Vì sao triển khai `CSP` dễ gây trắng trang, và bạn rollout thế nào cho an toàn?
+7. Cookie phiên nên đặt những thuộc tính nào, và mỗi thuộc tính chống được loại tấn công gì?
+8. Vì sao hash mật khẩu phải dùng `bcrypt`/`argon2` chứ không dùng `SHA-256`?
+9. Server Action có tự chống `CSRF` không? Vì sao vẫn phải kiểm tra session và quyền ở đầu mỗi action?
+10. Làm sao chắc chắn không có secret nào lọt xuống client bundle, và bạn kiểm tra điều đó bằng cách nào?
+11. Rate limiting nên đặt ở tầng nào (middleware, edge, reverse proxy, WAF), và mỗi lựa chọn đánh đổi ra sao?
+12. Checklist SEO gồm metadata unique, canonical, Open Graph, `sitemap.ts`, `robots.ts` — mỗi thứ giải quyết vấn đề gì?
+13. `JSON-LD` structured data mang lại lợi ích gì, và chèn vào trang Next thế nào cho đúng?
+14. Những lỗi accessibility hay gặp nhất là gì, và bạn phòng ngừa bằng `eslint-plugin-jsx-a11y` cùng audit tự động ra sao?
+15. `error.tsx`, `global-error.tsx` và `not-found.tsx` khác nhau thế nào về phạm vi bắt lỗi?
+16. Vì sao response lỗi của API không nên trả chi tiết exception, và bạn vẫn debug được nhờ cơ chế nào?
+17. Bạn thiết kế pipeline CI/CD và kế hoạch rollback ra sao cho một app Next?
+18. Sau khi deploy xong, trong 30 phút đầu bạn xác minh những gì (smoke test, metric, log, alert)?

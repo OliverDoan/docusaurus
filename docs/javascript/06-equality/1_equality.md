@@ -31,6 +31,7 @@ title: "1. Equality Comparisons"
 - [SameValueZero](#samevaluezero)
 - [SameValue (Object.is)](#samevalue-objectis)
 - [Khi nào dùng cái nào?](#khi-nào-dùng-cái-nào)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -279,3 +280,25 @@ mọi `==` khác. Bật từ ngày đầu của project — nợ kỹ thuật sa
 rất khó migrate.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Phân biệt `==` và `===`. Vì sao hầu hết codebase đều bật rule `eqeqeq` để cấm `==`?
+2. Liệt kê 4 thuật toán so sánh của JavaScript và điểm khác nhau của chúng với `NaN` và `±0`.
+3. Truy vết từng bước thuật toán `==` cho `"" == 0`, `null == 0` và `[] == false`. Vì sao kết quả lại như vậy?
+4. Vì sao `null == undefined` là `true` nhưng `null === undefined` là `false`? Trường hợp này được spec xử lý ra sao?
+5. Use case hợp lệ duy nhất của `==` là gì? Giải thích idiom `if (value == null)` và nó tương đương với biểu thức nào.
+6. Vì sao `NaN === NaN` trả về `false`? Nêu ba cách kiểm tra một giá trị có phải `NaN` hay không và so sánh chúng.
+7. Phân biệt `isNaN()` và `Number.isNaN()`. Đoán output: `isNaN("abc")` so với `Number.isNaN("abc")`.
+8. `Object.is` khác `===` ở đúng hai chỗ nào? Cho ví dụ cụ thể cho từng chỗ.
+9. `SameValueZero` là gì và những API nào dùng nó? Vì sao `[NaN].includes(NaN)` là `true` còn `[NaN].indexOf(NaN)` là `-1`?
+10. Vì sao `+0 === -0` là `true` nhưng `Object.is(+0, -0)` là `false`? `-0` xuất hiện trong tình huống nào và làm sao phát hiện nó?
+11. So sánh object trong JavaScript là so sánh gì? Đoán output: `{a: 1} === {a: 1}` và giải thích khái niệm `reference equality`.
+12. Vì sao JavaScript không có `deep equality` built-in? Nêu các cách so sánh sâu và pitfall của `JSON.stringify(a) === JSON.stringify(b)`.
+13. React dùng thuật toán so sánh nào để quyết định re-render? Điều đó ảnh hưởng thế nào tới cách bạn cập nhật state?
+14. So sánh hai string dài bằng `===` có tốn kém không? Còn so sánh hai object lớn thì sao — vì sao độ phức tạp lại khác nhau?
+15. Khi nào bạn dùng `===`, khi nào `Object.is`, khi nào thư viện deep-equal? Đưa ra quy tắc chọn của riêng bạn.

@@ -30,6 +30,7 @@ title: "1. Forms trong React"
 - [TanStack Form](#tanstack-form)
 - [React 19 Actions](#react-19-actions)
 - [Validation với Zod](#validation-với-zod)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -506,3 +507,33 @@ function Form() {
 ```
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Phân biệt **controlled** và **uncontrolled** component. Đâu là 'single source of truth' trong mỗi trường hợp?
+2. Vì sao controlled input gây re-render sau mỗi phím gõ? Ảnh hưởng gì tới form có 50+ field?
+3. Khi nào nên chọn uncontrolled thay vì controlled? Cho ba tình huống cụ thể.
+4. Vì sao React cảnh báo khi một input chuyển từ uncontrolled sang controlled? Nguyên nhân gốc là gì?
+5. Phân biệt `value` và `defaultValue`, `checked` và `defaultChecked`.
+6. `react-hook-form` giảm re-render bằng cách nào? Giải thích vai trò của `register` và `ref`.
+7. Khi nào phải dùng `Controller` của RHF thay vì `register`? Ví dụ với component UI của thư viện ngoài.
+8. `handleSubmit` của RHF thực hiện những việc gì trước khi gọi hàm submit của bạn?
+9. So sánh các `mode` validation: `onSubmit`, `onBlur`, `onChange`, `all`. Đánh đổi giữa UX và hiệu năng ra sao?
+10. Vì sao truy cập `formState` trong RHF được cài bằng `Proxy`? Việc đọc `isDirty` hay `isValid` ảnh hưởng gì tới re-render?
+11. Phân biệt `watch`, `useWatch` và `getValues`. Cái nào gây re-render, cái nào không?
+12. `useFieldArray` giải quyết bài toán gì? Vì sao cần `key` ổn định khi render danh sách field động?
+13. `zodResolver` kết nối RHF với Zod như thế nào? Lỗi từ schema được ánh xạ về field ra sao?
+14. Vì sao vẫn phải validate lại ở server dù client đã validate? Giải thích theo nguyên tắc 'defense in depth'.
+15. Sau khi submit, server trả về lỗi nghiệp vụ cho một field cụ thể (ví dụ email đã tồn tại). Bạn hiển thị lỗi đó thế nào?
+16. So sánh `Formik` và `react-hook-form`. Vì sao Formik giảm phổ biến trong các dự án mới?
+17. `TanStack Form` định vị khác RHF ở điểm nào?
+18. React 19 Server Actions thay đổi cách làm form ra sao? Vai trò của `useActionState` và `useFormStatus`?
+19. Form nhiều bước (multi-step): bạn giữ dữ liệu giữa các bước và validate từng bước như thế nào?
+20. Validate bất đồng bộ (ví dụ kiểm tra trùng email qua API) nên debounce ở đâu để tránh spam request?
+21. Field so khớp lẫn nhau (`password` và `confirmPassword`) được validate thế nào trong Zod?
+22. Accessibility cho form: `label`, `aria-invalid`, `aria-describedby` và focus vào field lỗi đầu tiên nên xử lý ra sao?
+23. Upload file trong form React có làm controlled được không? Vì sao?

@@ -29,6 +29,7 @@ title: "3. Render Props"
 - [Component có nhiều slot](#component-có-nhiều-slot)
 - [Render Props vs Custom Hook](#render-props-vs-custom-hook)
 - [Khi nào còn dùng?](#khi-nào-còn-dùng)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -325,3 +326,26 @@ Khi thiết kế API cho component reusable:
 Đừng dùng render props nếu hook làm được — vì lý do TS support + readability.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Render props` là gì? Hãy mô tả pattern này bằng lời và bằng một ví dụ tối giản.
+2. Pattern này ra đời để giải quyết vấn đề gì trong thời kỳ trước khi có Hooks?
+3. Tên prop có bắt buộc phải là `render` không? Cách dùng `children` như một function khác gì về cú pháp và về trải nghiệm đọc code?
+4. So sánh `render props` với `HOC`: ưu và nhược của từng cách khi cần chia sẻ logic?
+5. So sánh `render props` với `custom hook` — vì sao React hiện đại ưu tiên hook cho việc chia sẻ logic stateful?
+6. "Wrapper hell" khi lồng nhiều `render props` là gì, và nó gây khó khăn gì khi đọc code cũng như khi debug?
+7. `Render props` ảnh hưởng thế nào tới khả năng suy luận kiểu (`type inference`) của TypeScript so với custom hook?
+8. Truyền một arrow function inline làm render prop có gây vấn đề performance không? Vì sao, và `React.memo` hay `useCallback` giúp được gì?
+9. Trong React DevTools, một component dùng `render props` hiện ra như thế nào so với một component dùng hook?
+10. Test một component dùng `render props` khác gì test một custom hook bằng `renderHook`?
+11. Kể vài thư viện thực tế dùng `render props` (ví dụ `react-window`, `Formik`, `Downshift`) và lý do chúng chọn pattern này.
+12. Khi nào `render props` vẫn tốt hơn custom hook? Cho ví dụ với `headless component` hoặc `virtualization`.
+13. `Render props` và `compound component` khác nhau ở điểm nào? Với tình huống nào thì chọn cái nào?
+14. `Render props` có chia sẻ được logic cho `class component` không? Custom hook thì sao?
+15. Nếu render function trả về `null`, hoặc component logic quên gọi nó, thì chuyện gì xảy ra và làm sao phòng ngừa?
+16. Khi thiết kế API cho một component tái sử dụng, thứ tự cân nhắc nên là hook, rồi `children`/compound, cuối cùng mới `render props`. Giải thích lý do của thứ tự này.

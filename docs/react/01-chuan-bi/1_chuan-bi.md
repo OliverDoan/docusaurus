@@ -28,6 +28,7 @@ React là một **thư viện JavaScript** (bộ công cụ viết sẵn để d
 - [TypeScript checklist](#typescript-checklist)
 - [HTML và CSS checklist](#html-và-css-checklist)
 - [Tooling cần biết](#tooling-cần-biết)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -184,3 +185,31 @@ Mỗi bước **build dự án thật** — không phải xem video. Học bằn
 gặp bug và sửa, không phải bằng cách đọc.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Vì sao nói React "không phải điểm bắt đầu"? Kể năm tính năng ES6+ xuất hiện dày đặc trong code React hằng ngày.
+2. `map`, `filter`, `reduce` khác `forEach` ở điểm nào? Vì sao render danh sách trong JSX luôn dùng `map` mà không bao giờ dùng `forEach`?
+3. Destructuring hoạt động ra sao với object lồng nhau và giá trị mặc định? Viết lại `function C(props)` thành dạng destructure kèm default.
+4. Toán tử spread tạo bản sao nông (`shallow copy`) — điều đó nghĩa là gì và vì sao nó là cái bẫy khi cập nhật state dạng object lồng nhau?
+5. `closure` là gì? Giải thích vì sao closure là gốc rễ của lỗi `stale state` mà bạn sẽ gặp khi học `useEffect`.
+6. Arrow function khác function thường ở cách xử lý `this` như thế nào? Điều đó liên quan gì tới việc phải bind method trong class component?
+7. `var`, `let`, `const` khác nhau ở scope và hoisting ra sao? `TDZ` là gì?
+8. `Promise` và `async`/`await` liên hệ thế nào? Vì sao `fetch` KHÔNG reject khi server trả về 404 hay 500, và bạn phải kiểm tra gì?
+9. `ES Modules` khác `CommonJS` ở đâu? Phân biệt named export và default export, cái nào thân thiện hơn với `tree-shaking` và vì sao?
+10. Giải thích `event bubbling` và `capturing`. React gắn event listener lên từng phần tử hay lên gốc ứng dụng, và `synthetic event` là gì?
+11. Kể ít nhất năm điểm JSX khác HTML. Vì sao `class` phải viết thành `className` và `for` thành `htmlFor`?
+12. JSX được biên dịch thành cái gì trước khi trình duyệt chạy? Vì sao code cũ phải `import React` ở đầu file còn code mới thì không?
+13. Style nội tuyến trong JSX là một object — viết `background-color: red` như thế nào và vì sao React chọn `camelCase` cho tên thuộc tính?
+14. TypeScript có bắt buộc với React không? Nêu ba lợi ích cụ thể mà TypeScript mang lại khi làm việc với props và event handler.
+15. `interface` khác `type` ở những điểm nào? Khi nào bạn chọn cái nào để khai báo props?
+16. Các utility type `Partial`, `Pick`, `Omit`, `Record` giải quyết bài toán gì? Cho một ví dụ dùng `Omit` khi kế thừa props của thẻ HTML gốc.
+17. `as` khác `satisfies` ra sao? Vì sao lạm dụng `as` là dấu hiệu xấu?
+18. Semantic HTML và accessibility ảnh hưởng thế nào tới cách bạn viết component? Ghép `label` với input đúng cách trong JSX ra sao?
+19. `npm`, `pnpm`, `yarn`, `bun` khác nhau ở đâu? File lock dùng để làm gì, và `dependencies` khác `devDependencies` thế nào?
+20. React DevTools cho bạn thấy điều gì mà DevTools thường của trình duyệt không thấy được? Bạn dùng nó để tìm nguyên nhân render thừa ra sao?
+21. Vì sao không nên học React + TypeScript + Tailwind + Redux + Next.js cùng lúc? Bạn sẽ sắp xếp lộ trình cho một người mới thế nào và vì sao mỗi bước phải kèm dự án thật?

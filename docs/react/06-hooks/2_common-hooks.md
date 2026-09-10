@@ -30,6 +30,7 @@ title: "2. useRef, useCallback, useMemo, useReducer, useContext"
 - [useMemo](#usememo)
 - [useReducer](#usereducer)
 - [useContext](#usecontext)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -496,3 +497,34 @@ Học theo độ phổ biến — 5 hook đầu (state, effect, ref, context, re
 đủ cho 90% công việc.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `useRef` trả về gì? Vì sao gán lại `ref.current` không làm component re-render?
+2. Khi nào dùng `useRef` thay cho `useState`? Cho ví dụ các giá trị nên nằm trong ref (id của timer, giá trị của render trước, cờ đã mount).
+3. Đoán khác biệt: một biến thường `let x = 0` khai báo trong thân component so với `useRef(0)` — sau nhiều lần render giá trị của chúng khác nhau thế nào?
+4. Vì sao đọc `ref.current` của một DOM node ngay trong thân render là sai? Thời điểm nào mới đọc được?
+5. `useCallback(fn, deps)` tương đương cách viết nào bằng `useMemo`?
+6. Phân biệt `useMemo` và `useCallback` — cái nào ghi nhớ giá trị, cái nào ghi nhớ chính function?
+7. Vì sao bọc `useCallback` quanh callback truyền xuống child KHÔNG có tác dụng nếu child chưa được bọc `React.memo`?
+8. `React.memo` so sánh props bằng cách nào? Vì sao truyền một object literal làm props khiến `React.memo` gần như vô hiệu?
+9. Memoize có chi phí gì (bộ nhớ, thời gian so sánh deps)? Vì sao memoize mọi thứ là anti-pattern?
+10. React Compiler ở React 19 thay đổi gì với `useMemo` và `useCallback`? Có nên gỡ hết memoize thủ công khi đã bật compiler không?
+11. `useMemo` có đảm bảo giữ giá trị cache mãi mãi không? React được phép vứt bỏ cache trong trường hợp nào?
+12. `useReducer` gồm những thành phần nào? Mô tả chữ ký của một reducer và giải thích vì sao reducer bắt buộc phải pure.
+13. Nêu tiêu chí cụ thể để quyết định chuyển từ `useState` sang `useReducer`.
+14. Hàm `dispatch` do `useReducer` trả về có ổn định reference qua các render không? Điều đó có ý nghĩa gì khi đưa nó vào dependency array?
+15. `useContext` giải quyết vấn đề gì? Prop drilling là gì và vì sao nó gây khó bảo trì?
+16. Vì sao mọi consumer của một Context đều re-render khi value đổi, kể cả khi component đó chỉ đọc một field nhỏ? Nêu các cách giảm thiểu (tách nhiều context, memo value, selector).
+17. Vì sao truyền `value={{ user, setUser }}` trực tiếp vào Provider là bug hiệu năng? Sửa như thế nào?
+18. Context có phải là state manager không? So sánh với Redux hoặc Zustand và cho biết khi nào nên chọn cái nào.
+19. Kết hợp `useContext` với `useReducer` tạo thành pattern gì? Ưu và nhược điểm so với dùng thư viện state chuyên dụng?
+20. Hook `use` của React 19 khác `useContext` ở điểm nào, và vì sao nó được phép gọi bên trong `if`?
+21. `useSyncExternalStore` sinh ra để giải quyết vấn đề gì? Tearing trong concurrent rendering là gì?
+22. Phân biệt `useTransition` và `useDeferredValue` — mỗi hook nhận đầu vào gì và phù hợp với tình huống nào?
+23. `useImperativeHandle` dùng để làm gì và vì sao nên hạn chế dùng?
+24. Cho một component render chậm khi gõ input: bạn sẽ chẩn đoán và tối ưu theo thứ tự nào (đo trước hay memo trước)?

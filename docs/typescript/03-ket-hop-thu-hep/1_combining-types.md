@@ -27,6 +27,7 @@ title: "1. Combining Types"
 - [Intersection Types](#intersection-types)
 - [Type Aliases](#type-aliases)
 - [keyof Operator](#keyof-operator)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -229,3 +230,26 @@ type K = keyof Dict; // string | number (không phải string!)
 `number` xuất hiện vì JS tự convert key số thành chuỗi khi truy cập object.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Union (`|`) và intersection (`&`) khác nhau ra sao? Liên hệ với phép OR/AND trên tập hợp giá trị.
+2. Vì sao truy cập `x.legs` trên kiểu `Animal | Fish` bị báo lỗi, trong khi `x.name` lại hợp lệ?
+3. Làm sao thu hẹp một union xuống đúng một nhánh trước khi dùng thuộc tính riêng? Nêu ít nhất ba cách.
+4. Discriminated union (tagged union) là gì? Trường discriminant cần thoả điều kiện nào để narrow hoạt động?
+5. Đoán kết quả: `type A = { a: string } & { a: number };` — thuộc tính `a` có kiểu gì, và có tạo được giá trị hợp lệ cho `A` không?
+6. Intersection giữa hai primitive khác nhau như `string & number` cho ra kiểu gì? Giải thích theo góc nhìn tập hợp.
+7. Khi nào dùng `type`, khi nào dùng `interface`? Liệt kê những thứ `type` biểu diễn được mà `interface` thì không.
+8. Declaration merging của `interface` là gì? Vì sao tính năng này hữu ích cho thư viện nhưng lại rủi ro trong code ứng dụng?
+9. `extends` của `interface` và `&` của intersection khác nhau thế nào khi hai type có field trùng tên nhưng khác kiểu?
+10. `keyof T` trả về gì? Đoán kết quả của `keyof User` với `type User = { id: number; name: string; email: string }`.
+11. Vì sao `keyof` áp lên type có index signature dạng `[key: string]: number` lại ra `string | number` chứ không phải `string`?
+12. Giải thích signature `function getProp<T, K extends keyof T>(obj: T, key: K): T[K]` — vai trò của ràng buộc `extends keyof T` và của indexed access `T[K]`.
+13. `T[keyof T]` cho ra kết quả gì? Ứng dụng nó để lấy union các value type như thế nào?
+14. Union distribution trong conditional type là gì? Vì sao `T extends U ? X : Y` lại phân phối khi `T` là một union, và làm sao tắt hành vi đó?
+15. Type alias có hỗ trợ đệ quy không? Hãy phác thảo định nghĩa kiểu `JsonValue` bao gồm cả object và array lồng nhau.
+16. Vì sao literal type kết hợp union (ví dụ `type Method = "GET" | "POST"`) thường được ưu tiên hơn `enum` trong codebase hiện đại?

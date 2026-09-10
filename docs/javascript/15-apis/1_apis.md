@@ -30,6 +30,7 @@ Khi muốn lấy dữ liệu từ máy chủ (server) mà không tải lại tra
 - [Error handling](#error-handling)
 - [Abort request](#abort-request)
 - [Thư viện hiện đại](#thư-viện-hiện-đại)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -393,3 +394,30 @@ Một wrapper duy nhất xử lý: auth, error format, refresh token, retry —
 không lặp ở mọi call site.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Web API (`fetch`, `localStorage`, Geolocation) do **ngôn ngữ JavaScript** hay do **môi trường chạy** cung cấp? Vì sao phân biệt này quan trọng khi code chạy cả trên browser và Node?
+2. So sánh `XMLHttpRequest` và `fetch`. Ngày nay còn trường hợp nào bắt buộc phải dùng XHR không?
+3. `fetch` trả về cái gì? Vì sao thường phải `await` hai lần (`await fetch(...)` rồi `await res.json()`)?
+4. `fetch` có reject khi server trả `404` hoặc `500` không? Nếu không thì phải kiểm tra lỗi HTTP bằng cách nào? Vì sao spec lại thiết kế như vậy?
+5. `res.ok` là gì, ứng với khoảng status nào? Redirect và lỗi mạng rơi vào nhánh nào?
+6. Vì sao body của `Response` chỉ đọc được **một lần**? Nếu cần đọc hai lần (log rồi parse) thì làm thế nào?
+7. Gửi POST JSON bằng `fetch` cần khai báo những gì? Điều gì xảy ra nếu quên header `Content-Type`?
+8. Gửi `JSON.stringify(payload)` khác gửi `FormData` ở chỗ nào? Vì sao với `FormData` bạn **không nên** tự set `Content-Type`?
+9. `credentials: "include"` dùng để làm gì? Nó ràng buộc server phải trả về header CORS nào?
+10. CORS là gì và ai là người chặn request? Vì sao gọi cùng một URL bằng `curl` thì được mà trong browser lại lỗi?
+11. `preflight request` (`OPTIONS`) được gửi khi nào? Yếu tố nào biến một request thành "non-simple"?
+12. `mode: "no-cors"` cho ra kết quả gì? Vì sao nó không phải cách "vượt" CORS?
+13. `AbortController` dùng thế nào để hủy `fetch`? Phân biệt lỗi hủy (`AbortError`) với lỗi mạng ra sao?
+14. `AbortSignal.timeout(ms)` khác gì so với tự dựng timeout bằng `Promise.race`?
+15. Vì sao `fetch` không theo dõi tốt progress **upload**? Có cách nào theo dõi progress **download**?
+16. So sánh `localStorage`, `sessionStorage` và `cookie`: vòng đời, dung lượng, phạm vi, và cái nào tự động gửi kèm mỗi HTTP request?
+17. Lưu access token vào `localStorage` có rủi ro gì? Phương án nào an toàn hơn và đánh đổi là gì?
+18. Khi nào nên dùng thư viện (`axios`, `ky`, `ofetch`) thay vì `fetch` trực tiếp? `interceptor` giải quyết vấn đề gì?
+19. Thiết kế một hàm `api()` wrapper cho project: cần gom những mối quan tâm chung nào? Việc gọi lại chính nó để retry sau `401` có rủi ro gì?
+20. Retry với `exponential backoff` là gì? Request kiểu nào **không** nên retry tự động?

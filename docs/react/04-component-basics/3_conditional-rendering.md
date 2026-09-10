@@ -29,6 +29,7 @@ title: "3. Conditional Rendering"
 - [Logical && operator](#logical--operator)
 - [Early return](#early-return)
 - [Switch / lookup object](#switch--lookup-object)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -330,3 +331,25 @@ Quy tắc vàng: **render phải là pure function của props + state**. Không
 side effect trong render.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. React có cú pháp template riêng cho điều kiện không? Kể các cách render có điều kiện thường dùng.
+2. So sánh ternary, `&&`, early return và lookup object — mỗi cách hợp với tình huống nào?
+3. Dự đoán output: `{items.length && <List />}` khi `items` là mảng rỗng — màn hình hiện gì và vì sao?
+4. Những giá trị nào React bỏ qua không render, những giá trị nào bị in ra thành text? Vì sao `0` render ra nhưng `false` thì không?
+5. Nêu ba cách sửa lỗi `&&` với số 0 và cho biết cách nào an toàn nhất trong dự án thật.
+6. Vì sao lồng ternary nhiều tầng bị coi là code smell? Refactor theo hướng nào?
+7. `early return` (guard clause) giúp gì cho component nhiều trạng thái loading / error / empty?
+8. Vì sao không được gọi hook sau một `return` có điều kiện? Rules of Hooks liên quan thế nào tới conditional rendering?
+9. Component trả về `null` thì React xử lý ra sao? Khác gì với trả về `false` hoặc không return gì?
+10. Khi nào nên dùng `switch` thay cho lookup object? TypeScript discriminated union và exhaustive check hoạt động thế nào ở đây?
+11. Với lookup object dạng `pages = { home: <HomePage /> }`, tất cả element trong object có bị tạo hết không? Nên map sang component type thay vì element trong trường hợp nào?
+12. Ẩn element bằng CSS `display: none` khác gì với không render nó? Ảnh hưởng tới state con, DOM và hiệu năng ra sao?
+13. Vì sao gọi setter của state ngay trong thân render để rẽ nhánh lại gây vòng lặp vô hạn? Quy tắc "render phải pure" nghĩa là gì?
+14. Khi điều kiện đổi làm React unmount rồi mount lại một cây con, state bên trong cây con đó ra sao? `key` ảnh hưởng thế nào tới reconciliation trong tình huống này?
+15. Bạn xử lý bốn trạng thái loading / error / empty / success của một màn hình danh sách như thế nào cho dễ đọc và dễ mở rộng?

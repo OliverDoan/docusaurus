@@ -30,6 +30,7 @@ title: "2. Decorators"
 - [Property Decorator](#property-decorator)
 - [Parameter Decorator](#parameter-decorator)
 - [Decorator hiện đại (Stage 3)](#decorator-hiện-đại-stage-3)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -321,3 +322,27 @@ const logged = <F extends (...a: any[]) => any>(fn: F): F => {
 ```
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Decorator thực chất là gì ở mức JavaScript? Nó chạy vào thời điểm nào — lúc khai báo class hay lúc tạo instance?
+2. Kể 4 loại decorator (class, method, property, parameter) và các tham số mà mỗi loại nhận được.
+3. Với nhiều decorator xếp chồng, thứ tự **đánh giá biểu thức** và thứ tự **áp dụng** khác nhau ra sao? Cho ví dụ minh hoạ.
+4. Decorator factory là gì? Vì sao `@log` và `@log()` không thay thế nhau được?
+5. Method decorator nhận `PropertyDescriptor` — bạn bọc (wrap) method bằng cách sửa `descriptor.value` thế nào, và cần cẩn thận gì với `this` và arrow function?
+6. Vì sao property decorator không đọc được giá trị runtime của property? Nó thường được dùng để làm gì thay thế?
+7. `experimentalDecorators` và `emitDecoratorMetadata` bật lên để làm gì? `emitDecoratorMetadata` phụ thuộc thư viện runtime nào?
+8. Khác biệt cốt lõi giữa legacy decorator và decorator **Stage 3** (chuẩn ECMAScript, TS 5.0+) về chữ ký và đối tượng `context`? Có trộn lẫn hai loại trong một dự án được không?
+9. Vì sao NestJS, TypeORM, Angular vẫn phải dùng legacy decorator? Điều đó ảnh hưởng thế nào tới quyết định nâng cấp TS?
+10. Decorator đóng vai trò gì trong dependency injection? `@Injectable` và `@Inject` dựa vào cơ chế nào để biết kiểu cần tiêm?
+11. Parameter decorator dùng để làm gì nếu nó không sửa được giá trị tham số?
+12. Decorator ảnh hưởng thế nào tới tree-shaking và kích thước bundle? Vì sao code có decorator khó bị loại bỏ khi không dùng?
+13. Khi nào nên dùng **higher-order function** hoặc hook thay vì decorator? Nêu tiêu chí quyết định.
+14. Decorator có thay đổi được **kiểu** của class/method mà nó gắn vào không? Giới hạn này ở bản legacy ra sao và Stage 3 cải thiện thế nào?
+15. Decorator trên accessor (`get` / `set`) khác gì decorator trên method thường?
+16. Bạn test một decorator như thế nào? Nêu khó khăn khi decorator giữ trạng thái toàn cục hoặc ghi vào metadata registry.
+

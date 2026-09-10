@@ -33,6 +33,7 @@ Project đầu tiên cố tình nhỏ để bạn nắm vững **3 trụ cột c
 - [Bước 6: Render có điều kiện](#bước-6-render-có-điều-kiện)
 - [Thử thách mở rộng](#thử-thách-mở-rộng)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -295,3 +296,27 @@ Tự làm để thực sự thành thạo:
 - **Render có điều kiện** bằng `&&` (có/không) và `? :` (chọn 1 trong 2).
 
 Tiếp theo ta làm app phức tạp hơn với danh sách và form: [To-Do List](./3_todo-list.md).
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Component trong React thực chất là gì? Vì sao nó chỉ nên là một hàm "thuần" trả về JSX từ đầu vào?
+2. Phân biệt `props` và `state`: ai sở hữu dữ liệu, ai được phép sửa, và cái nào thay đổi thì gây re-render?
+3. Vì sao `props` là chỉ đọc? Nếu component con cần thay đổi dữ liệu của cha thì làm thế nào?
+4. "Luồng dữ liệu một chiều" nghĩa là gì? Nó giúp gì khi debug một ứng dụng lớn?
+5. `useState` trả về những gì? Giải thích vì sao phải viết `const [count, setCount] = useState(0)` chứ không gán trực tiếp.
+6. Nếu gán thẳng `count = count + 1` thì chuyện gì xảy ra trên màn hình, và vì sao React không nhận ra state đã đổi?
+7. So sánh `onClick={tang()}`, `onClick={tang}` và `onClick={() => tang()}`. Cách nào gây lỗi "Too many re-renders" và vì sao?
+8. Cập nhật state có hiệu lực ngay không? Vì sao `console.log(count)` ngay sau `setCount` vẫn in ra giá trị cũ?
+9. Khi nào bắt buộc dùng dạng hàm `setCount(prev => prev + 1)` thay cho `setCount(count + 1)`? Cho một ví dụ sẽ sai nếu không dùng.
+10. `Batching` là gì? Gọi `setCount` ba lần liên tiếp trong cùng một handler thì component render mấy lần?
+11. So sánh ba cách render có điều kiện: `&&`, toán tử ba ngôi `? :`, và `return null`. Khi nào dùng cái nào?
+12. Vì sao `soLuong && <Badge />` có thể in ra số `0` trên màn hình? Cách viết an toàn hơn là gì?
+13. Giá trị khởi tạo truyền vào `useState` có được dùng lại ở các lần render sau không? `useState(tinhToan())` khác `useState(() => tinhToan())` ở điểm nào?
+14. Hai component `Counter` render cạnh nhau có dùng chung state không? Vì sao? Điều gì quyết định "danh tính" của một instance component?
+15. Khi nào nên tách một mảng JSX thành component riêng? Bạn dựa vào tiêu chí nào để quyết định?
+16. Giá trị mặc định cho prop bằng cú pháp destructuring hoạt động ra sao? Nó khác gì việc tự kiểm tra `undefined` bên trong component?
+17. Nếu `props` là một object hoặc mảng, việc component con sửa nội dung bên trong nó gây ra hậu quả gì? Vì sao đó vẫn bị coi là vi phạm tính chỉ đọc?

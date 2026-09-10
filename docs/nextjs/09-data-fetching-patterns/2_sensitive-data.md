@@ -28,6 +28,7 @@ Dữ liệu nhạy cảm (**sensitive data**) là những thông tin bí mật n
 - [Environment Variables](#environment-variables)
 - [Server Actions](#server-actions)
 - [Data leak prevention](#data-leak-prevention)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -447,3 +448,26 @@ export async function deleteUser(userId: string) {
 Nguyên tắc bảo mật: **never trust the client**.
 
 :::
+
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Trong App Router, chính xác thì những gì đi qua ranh giới Server sang Client và bị nhúng vào bundle gửi xuống trình duyệt?
+2. Cơ chế của tiền tố `NEXT_PUBLIC_` là gì? Vì sao đổi giá trị biến đó bắt buộc phải build lại chứ không chỉ restart?
+3. Bạn truyền nguyên object user lấy từ database xuống `Client Component`. Rủi ro cụ thể là gì và bạn sửa như thế nào?
+4. Package `server-only` chặn lỗi ở thời điểm nào và bằng cách nào? Nó khác gì với việc chỉ đặt file trong thư mục `lib/server`?
+5. So sánh `Server Action` và `Route Handler` trên các trục: khả năng truy cập bằng URL, HTTP method, type safety, progressive enhancement.
+6. `Server Action` không có URL hiển thị, vậy vì sao vẫn phải kiểm tra xác thực và phân quyền ngay đầu function? Kẻ tấn công gọi nó bằng cách nào?
+7. Biến closure mà `Server Action` bắt được từ scope bên ngoài sẽ đi đâu? Next.js xử lý chúng ra sao và vì sao không nên coi đó là biện pháp bảo mật đủ?
+8. Vì sao phải validate `FormData` bằng schema (ví dụ `Zod`) ngay trong `Server Action` dù form phía client đã validate rồi?
+9. Với `useActionState`, bạn trả lỗi về cho người dùng thế nào mà không rò rỉ chi tiết nội bộ như stack trace hay câu SQL?
+10. `taint` API (ví dụ `experimental_taintObjectReference`) giải quyết lớp lỗi nào? Nó bắt lỗi ở thời điểm nào và hạn chế của nó là gì?
+11. Điều gì bảo vệ `Server Action` khỏi bị gọi chéo trang từ domain khác? Kiểm tra origin và `allowedOrigins` hoạt động ra sao khi có reverse proxy?
+12. Một `Server Action` trả về object kết quả cho client. Bạn kiểm soát nội dung trả về thế nào để không vô tình đẩy secret hoặc field nội bộ ra ngoài?
+13. Rate limiting cho `Server Action` nên đặt ở đâu và dựa trên khoá nào? Có gì khác so với rate limit một API route thông thường?
+14. Liệt kê các tình huống bạn vẫn phải dùng API Route thay vì `Server Action`: webhook, OAuth callback, client mobile. Lý do kỹ thuật của từng cái là gì?
+15. Mô tả quy trình bạn dùng để audit một codebase Next.js xem có secret nào đang bị đẩy xuống client bundle hay không.

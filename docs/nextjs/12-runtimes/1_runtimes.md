@@ -30,6 +30,7 @@ title: "1. Node.js vs Edge Runtime"
 - [Edge Runtime](#edge-runtime)
 - [Khi nào dùng cái nào?](#khi-nào-dùng-cái-nào)
 - [Trade-offs](#trade-offs)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -349,3 +350,27 @@ Migrate Edge cẩn thận — không phải mọi page benefit. Đo lại latenc
 trước/sau.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Node.js runtime và `edge runtime` khác nhau ở môi trường thực thi thế nào? `V8 isolate` là gì?
+2. Vì sao cold start của Edge chỉ vài mili-giây trong khi Node có thể mất 1-3 giây?
+3. Khai báo runtime cho một route như thế nào, và mặc định của page, route handler, middleware lần lượt là gì?
+4. Kể những Node API không dùng được trên Edge và giải thích vì sao chúng không tồn tại ở đó.
+5. Vì sao ORM dùng TCP driver (Prisma, Drizzle bản thường) không chạy được trên Edge? Có những lựa chọn DB nào thay thế?
+6. Driver DB qua HTTP đánh đổi gì so với kết nối TCP truyền thống về độ trễ và connection pooling?
+7. Middleware chạy ở runtime nào, và ràng buộc đó bắt bạn viết middleware theo nguyên tắc nào?
+8. Giới hạn bundle size và CPU time của Edge ảnh hưởng thế nào tới quyết định thiết kế route?
+9. Mô tả pattern hybrid trong luồng xác thực: phần nào nên ở Edge, phần nào nên ở Node, và vì sao?
+10. Truyền dữ liệu từ middleware (Edge) xuống route handler hoặc page (Node) bằng cách nào cho an toàn?
+11. Bạn muốn chuyển một route từ Node sang Edge — checklist kiểm tra gồm những gì?
+12. Edge không giữ state trong bộ nhớ giữa các request — điều đó ảnh hưởng gì tới connection pool, cache in-memory và rate limiting? Giải pháp là gì?
+13. Trong tình huống nào Edge KHÔNG giảm được độ trễ, thậm chí còn chậm hơn Node đặt cùng region với DB?
+14. Cách tính chi phí Edge và Node (ví dụ trên Vercel) khác nhau ra sao, và nó tác động thế nào tới lựa chọn kiến trúc?
+15. Bạn đo lường và so sánh hiệu quả trước/sau khi migrate một route sang Edge bằng chỉ số nào?
+16. `sharp` và `bcrypt` không chạy được trên Edge — nêu phương án thay thế cho từng trường hợp.
+17. Streaming phản hồi AI (`ReadableStream`) thường được đặt ở Edge — vì sao Edge lại hợp với loại workload này?

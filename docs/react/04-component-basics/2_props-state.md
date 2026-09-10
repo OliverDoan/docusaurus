@@ -29,6 +29,7 @@ title: "2. Props vs State"
 - [State](#state)
 - [Khi nào dùng state vs props?](#khi-nào-dùng-state-vs-props)
 - [Lifting state up](#lifting-state-up)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -382,3 +383,28 @@ Phân biệt rõ **client state** (UI) vs **server state** (data) là kỹ năng
 quan trọng — chọn đúng tool tránh over-engineer.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Phân biệt `props` và `state` theo bốn tiêu chí: nguồn dữ liệu, quyền sửa, ai điều khiển, và ảnh hưởng tới re-render.
+2. Vì sao `props` là readonly? Điều gì xảy ra nếu gán trực tiếp `props.size = 100` bên trong component con?
+3. "Luồng dữ liệu một chiều" của React nghĩa là gì? Component con muốn báo thay đổi ngược lên cha thì làm thế nào?
+4. `useState` trả về những gì? Vì sao React bắt buộc gọi hook ở top level, không được gọi trong `if` hay vòng lặp?
+5. Vì sao setter của `useState` là bất đồng bộ? `console.log(count)` ngay sau `setCount(count + 1)` in ra giá trị nào?
+6. Dự đoán output: gọi `setCount(count + 1)` ba lần liên tiếp trong một event handler khi `count` đang là 0 — kết quả cuối cùng bằng bao nhiêu? Nếu đổi sang `setCount(c => c + 1)` thì sao?
+7. `batching` là gì? React 18 khác các bản trước thế nào khi gọi nhiều setter trong `setTimeout` hoặc trong promise?
+8. Vì sao không được `items.push(item)` rồi `setItems(items)`? React so sánh state cũ và mới bằng cơ chế nào?
+9. Cập nhật một object lồng nhiều tầng trong state thế nào cho đúng? Khi nào nên cân nhắc `Immer` hoặc flatten state?
+10. Khi nào một dữ liệu nên là state, khi nào nên derive (tính ra) ngay trong lúc render? Nêu tiêu chí quyết định.
+11. Vì sao khởi tạo state từ props kiểu `useState(props.value)` thường là anti-pattern? Trường hợp nào chấp nhận được và xử lý ra sao khi prop đổi?
+12. Phân biệt `useState(computeExpensive())` và `useState(() => computeExpensive())` — lazy initialization giải quyết vấn đề gì?
+13. Nếu gọi setter với đúng giá trị đang có, React có re-render không? Cơ chế `bail out` hoạt động thế nào?
+14. `lifting state up` là gì? Nguyên tắc chọn nơi đặt state khi hai component anh em cùng cần dữ liệu đó?
+15. `prop drilling` là gì? Liệt kê các hướng xử lý (Context, thư viện state, URL state, server state) và đánh đổi của từng hướng.
+16. Phân biệt controlled component và uncontrolled component. Vì sao React khuyến nghị controlled cho form, và khi nào uncontrolled lại hợp lý hơn?
+17. Prop `key` có phải một prop bình thường không? Đổi `key` của một component gây ra chuyện gì với state bên trong nó?
+18. Phân biệt `client state` và `server state` — vì sao nên dùng công cụ khác nhau cho hai loại này?

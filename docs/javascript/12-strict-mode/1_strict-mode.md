@@ -28,6 +28,7 @@ title: "1. Strict Mode"
 - [Các thay đổi chính](#các-thay-đổi-chính)
 - [Khi nào đã tự động strict?](#khi-nào-đã-tự-động-strict)
 - [Tại sao quan trọng?](#tại-sao-quan-trọng)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -276,3 +277,24 @@ Hữu dụng khi debug behavior bí ẩn — đôi khi function được load t�
 context khác có chế độ ngược lại bạn nghĩ.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `Strict mode` là gì? Vì sao ES5 phải đưa nó vào dạng `opt-in` thay vì bật mặc định cho mọi code?
+2. Có mấy cách bật strict mode? Đặt `"use strict"` ở đầu file và ở đầu thân hàm thì phạm vi áp dụng khác nhau ra sao?
+3. Nếu `"use strict"` không nằm ở dòng đầu tiên (ví dụ đặt sau một câu lệnh khác) thì nó có hiệu lực không? Vì sao?
+4. Kể ít nhất năm hành vi bị thay đổi khi bật strict mode so với `sloppy mode`.
+5. Trong strict mode, `this` của một hàm gọi standalone bằng gì? Sloppy mode thì sao, và vì sao lại khác?
+6. Đoán output: `var a = b = 3;` chạy trong strict mode cho kết quả gì? Giải thích chính xác biến nào bị lỗi.
+7. Gán giá trị vào một object đã `Object.freeze()`: strict mode và sloppy mode phản ứng khác nhau thế nào?
+8. Những ngữ cảnh nào TỰ ĐỘNG chạy strict mode mà không cần khai báo gì? (gợi ý: ES Module, thân `class`, `<script type="module">`)
+9. Vì sao strict mode giúp engine như V8 tối ưu code tốt hơn? Liên hệ tới `with`, `eval` và `static analysis`.
+10. Strict mode có nhược điểm gì? (gợi ý: mất `function.caller`, `arguments.callee`, rủi ro khi nối nhiều file khác chế độ vào một bundle)
+11. Trong sloppy mode, `arguments` liên kết ngược với tham số của hàm. Đoán output khi gán `arguments[0] = 99` ở hai chế độ và giải thích khác biệt.
+12. Viết một đoạn code ngắn để kiểm tra runtime hiện đang chạy strict hay sloppy mode. Nguyên lý hoạt động là gì?
+13. Bạn được giao migrate một codebase legacy sang strict mode — nêu rủi ro và thứ tự các bước bạn sẽ làm.
+14. TypeScript và các bundler có tự thêm strict mode vào output không? `"use strict"` khác gì với option `strict: true` trong `tsconfig.json`?

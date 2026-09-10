@@ -30,6 +30,7 @@ Bài này đi sâu vào các tính năng thường dùng bên trong **middleware
 - [Authentication pattern](#authentication-pattern)
 - [Rate Limiting với Upstash](#rate-limiting-với-upstash)
 - [CORS](#cors)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -439,3 +440,27 @@ export const middleware = compose(rateLimit, authMiddleware, geoMiddleware);
 Mỗi function trả `NextResponse` (stop chain) hoặc `null` (cho qua).
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Đọc và ghi cookie trong middleware khác nhau thế nào giữa `request.cookies` và `response.cookies`?
+2. Vì sao cookie chứa token xác thực phải có `httpOnly`, `secure`, `sameSite`? Mỗi thuộc tính chống được nguy cơ gì?
+3. So sánh `sameSite=lax` và `sameSite=strict`: chọn cái nào cho cookie phiên đăng nhập và vì sao?
+4. Middleware muốn truyền dữ liệu (ví dụ `X-User-Id`) xuống Server Component thì làm thế nào? Server Component đọc lại ra sao?
+5. Vì sao phải dùng `NextResponse.next({ request: { headers } })` thay vì chỉ set header lên response khi muốn downstream đọc được?
+6. Phân biệt request header và response header trong middleware: cái nào ảnh hưởng tới trình duyệt, cái nào ảnh hưởng tới code phía sau?
+7. Vì sao trong middleware nên `jwtVerify` (kiểm chữ ký JWT) thay vì gọi database để kiểm tra phiên đăng nhập?
+8. Chỉ decode JWT mà không verify chữ ký thì lỗ hổng là gì? Mô tả một kịch bản tấn công.
+9. Sau khi middleware đã chặn route bảo vệ, vì sao Server Component / route handler vẫn cần kiểm tra quyền lần nữa?
+10. Thiết kế luồng redirect người dùng chưa đăng nhập về `/login`: làm sao ghi nhớ trang họ định vào để quay lại sau khi đăng nhập?
+11. Vì sao không thể `rate limiting` bằng biến trong bộ nhớ ở `edge runtime`? Giải pháp thay thế là gì?
+12. Chọn khoá cho rate limit theo IP, theo user id, hay theo cả hai — trade-off là gì với người dùng sau NAT/proxy?
+13. Trả `429 Too Many Requests` thì nên kèm header nào để client biết khi nào thử lại?
+14. `CORS` là gì và vì sao request `OPTIONS` (preflight) cần xử lý riêng trong middleware?
+15. Vì sao API có `credentials` (cookie) không được đặt `Access-Control-Allow-Origin: *`? Cách whitelist origin đúng.
+16. Viết một hàm `compose(...fns)` cho middleware: mỗi hàm trả `NextResponse` hoặc `null` nghĩa là gì, và vì sao cần short-circuit?
+17. Middleware set `Content-Security-Policy` với `nonce` cho mỗi request: cơ chế hoạt động và điều gì có thể hỏng nếu route được cache?

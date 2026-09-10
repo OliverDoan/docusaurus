@@ -29,6 +29,7 @@ title: "1. JSX"
 - [Embed JavaScript trong JSX](#embed-javascript-trong-jsx)
 - [Fragment](#fragment)
 - [JSX biên dịch thành gì?](#jsx-biên-dịch-thành-gì)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -357,3 +358,25 @@ phải JSX. Khi đọc tài liệu UI library, kiểm tra trước:
 - Solid → JSX (giống React).
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. `JSX` là gì? Nó là HTML, là string hay là JavaScript, và vì sao trình duyệt không chạy trực tiếp được?
+2. Đoạn `const el = <h1 className="title">Hi</h1>;` sau khi biên dịch trở thành gì?
+3. `React.createElement` trả về cái gì? React element khác DOM node thật ở điểm nào?
+4. Vì sao `JSX` dùng `className` thay cho `class` và `htmlFor` thay cho `for`?
+5. Vì sao một component chỉ được trả về một root element? Có những cách nào để trả nhiều element cùng cấp?
+6. `Fragment` khác gì so với bọc bằng một thẻ `div`? Khi nào bắt buộc dùng dạng đầy đủ `<Fragment>` thay vì `<>`?
+7. Trong cặp `{}` của JSX viết được những gì? Vì sao viết được ternary và `.map` nhưng không viết được `if` hay `for`?
+8. Vì sao `style` trong JSX nhận một object (`style={{ color: "red" }}`) chứ không nhận string như HTML?
+9. Vì sao tên component phải viết hoa chữ cái đầu? Điều gì xảy ra nếu viết `<myButton />`?
+10. Dự đoán kết quả: render `{null}`, `{undefined}`, `{false}`, `{0}`, `{""}` bên trong JSX — giá trị nào hiện ra màn hình?
+11. Lỗi `Objects are not valid as a React child` xảy ra khi nào và sửa như thế nào?
+12. `new JSX transform` từ React 17 khác bản cũ ở chỗ nào? Vì sao không cần `import React` nữa và điều đó giúp gì cho bundle size?
+13. Phân biệt `jsx`, `jsxs`, `jsxDEV` trong `react/jsx-runtime` — mỗi hàm được dùng trong tình huống nào?
+14. JSX tự escape nội dung ra sao để chống `XSS`? `dangerouslySetInnerHTML` phá vỡ điều đó thế nào?
+15. `JSX` có phải đặc quyền riêng của React không? So với template syntax của Vue hay Svelte thì khác biệt cốt lõi là gì?

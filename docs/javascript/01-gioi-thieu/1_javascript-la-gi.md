@@ -27,6 +27,7 @@ JavaScript là ngôn ngữ lập trình phổ biến nhất cho web, giúp trang
 - [Ba trụ cột của web](#ba-trụ-cột-của-web)
 - [JavaScript chạy ở đâu?](#javascript-chạy-ở-đâu)
 - [Đặc điểm cốt lõi](#đặc-điểm-cốt-lõi)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -139,3 +140,23 @@ performant (tránh thay đổi shape object, tránh polymorphic call site...).
 Java compile sang JVM bytecode, có static typing; JS thì ngược lại.
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. JavaScript là gì? Nó khác gì so với Java — vì sao hai ngôn ngữ lại trùng tên?
+2. Ba trụ cột `HTML`, `CSS`, `JavaScript` đảm nhiệm vai trò gì trong một trang web? Nếu tắt JS thì trang còn hoạt động được không?
+3. Phân biệt ngôn ngữ **thông dịch** (interpret) và **biên dịch** (compile). JavaScript thuộc loại nào?
+4. `Engine` JavaScript là gì? Kể tên engine của Chrome, Firefox, Safari và Node.js.
+5. Mô tả đường đi của một đoạn code JS từ lúc bạn viết cho tới khi CPU thực thi.
+6. `JIT compilation` là gì? Mô tả vai trò của `Parser`, `AST`, `Interpreter` (Ignition) và `Optimizer` (TurboFan) trong V8.
+7. `Deoptimization` xảy ra khi nào? Cho ví dụ code khiến engine phải deopt.
+8. Vì sao nói "JavaScript chậm" là quan điểm lỗi thời? Những yếu tố nào trong cách viết code ảnh hưởng tới việc engine tối ưu được hay không?
+9. `Dynamic typing` nghĩa là gì? Ưu và nhược điểm so với `static typing`? Điều này liên quan gì đến việc TypeScript ra đời?
+10. JavaScript là `single-threaded` — vậy làm sao nó xử lý được nhiều tác vụ bất đồng bộ cùng lúc (gọi API, `setTimeout`...)?
+11. `First-class functions` nghĩa là gì? Cho ví dụ hàm được gán vào biến, truyền làm tham số và trả về từ hàm khác.
+12. JavaScript kế thừa theo `prototype` chứ không phải class truyền thống. `class` trong ES6 thực chất là gì?
+13. Phân biệt `JavaScript engine` và `JavaScript runtime`. Những thứ như `setTimeout`, `document`, `fetch` do engine hay do runtime cung cấp?

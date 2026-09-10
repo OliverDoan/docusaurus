@@ -29,6 +29,7 @@ title: "1. Memory Management"
 - [Garbage Collection](#garbage-collection)
 - [Reference Counting vs Mark-and-Sweep](#reference-counting-vs-mark-and-sweep)
 - [Memory Leaks](#memory-leaks)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -424,3 +425,27 @@ Dùng cho native resource (file handle, socket). **Không** đảm bảo chạy
 ngay — chỉ chạy "khi nào GC quyết định".
 
 :::
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+
+1. Vòng đời bộ nhớ trong JS gồm những giai đoạn nào? Lập trình viên can thiệp được ở giai đoạn nào?
+2. `Stack` và `heap` khác nhau thế nào? Cái gì lưu ở đâu và vì sao lại chia như vậy?
+3. Vì sao `{ x: 1 } === { x: 1 }` cho `false`? Giải thích theo pointer và vùng nhớ.
+4. `Shallow copy` và `deep copy` khác nhau ra sao? `{ ...obj }` an toàn tới đâu, khi nào cần `structuredClone`?
+5. Truyền một object vào hàm là truyền theo tham chiếu hay theo giá trị? Giải thích cho thật chính xác.
+6. `Reachability` là gì? Khi nào một object đủ điều kiện bị `garbage collector` thu hồi?
+7. So sánh `reference counting` và `mark-and-sweep`. Vì sao `circular reference` là vấn đề của cách thứ nhất?
+8. Mô tả hai pha `mark` và `sweep`. Ta có kiểm soát được thời điểm GC chạy không?
+9. `Generational GC` của V8 hoạt động thế nào? Vì sao chia young và old generation lại hiệu quả hơn?
+10. `GC pause` ảnh hưởng tới trải nghiệm UI ra sao? Viết code "GC-friendly" nghĩa là làm gì?
+11. Kể bốn tới năm pattern `memory leak` phổ biến và cách fix từng cái.
+12. `Detached DOM node` là gì? Vì sao nó rất hay xuất hiện trong `SPA`?
+13. Closure gây leak như thế nào dù hàm bên trong không dùng tới biến to đó? Xử lý ra sao?
+14. `WeakMap` và `WeakSet` khác `Map`/`Set` ở điểm nào? Vì sao không duyệt hay đếm được các entry của chúng?
+15. Khi nào dùng `WeakRef` và `FinalizationRegistry`? Vì sao không nên phụ thuộc vào chúng cho logic nghiệp vụ?
+16. Nghi ngờ một app React bị rò rỉ bộ nhớ, bạn dùng Chrome DevTools điều tra theo các bước nào (Performance Monitor, `heap snapshot`, so sánh snapshot)?
+17. Trong React, những chỗ nào hay bị quên cleanup và gây leak? Nêu cách phòng tránh có hệ thống.
