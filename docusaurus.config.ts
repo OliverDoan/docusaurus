@@ -92,7 +92,11 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     colorMode: {
-      respectPrefersColorScheme: true,
+      // Chỉ 2 trạng thái sáng/tối — mỗi lần nhấn nút là đổi ngay.
+      // Bật respectPrefersColorScheme sẽ thành chu kỳ 3 trạng thái
+      // (system → light → dark) khiến có lần nhấn không đổi màu.
+      defaultMode: 'light',
+      respectPrefersColorScheme: false,
     },
     docs: {
       sidebar: {
