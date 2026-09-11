@@ -7,6 +7,8 @@ title: "1. Scaling: Replication, Sharding, CAP Theorem"
 
 Khi số lượng người dùng tăng lên, một database duy nhất sẽ không "gánh" nổi nữa, và đây là lúc bạn cần tới các kỹ thuật mở rộng (scaling). Bài này giải thích những cách phổ biến để database chạy mạnh hơn: nâng cấp máy (vertical), chia tải ra nhiều máy (horizontal), nhân bản dữ liệu để đọc (replication), chia nhỏ dữ liệu (sharding) và lý thuyết CAP nói về sự đánh đổi trong hệ phân tán. Hiểu những khái niệm này giúp bạn biết khi nào nên scale và tránh làm phức tạp hệ thống quá sớm.
 
+[![Sơ đồ tóm tắt bài: Scaling: Replication, Sharding, CAP Theorem](/img/backend/scaling-databases.webp)](pathname:///img/backend/scaling-databases.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

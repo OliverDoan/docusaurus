@@ -7,6 +7,8 @@ title: "1. NoSQL: Document, Key-Value, Wide-Column, Graph, Time-Series"
 
 NoSQL là nhóm các database không theo kiểu bảng quan hệ (relational) như SQL truyền thống, với schema linh hoạt và khả năng mở rộng theo chiều ngang dễ hơn. Bài này giới thiệu các loại NoSQL phổ biến: document (MongoDB), key-value (Redis, DynamoDB), wide-column (Cassandra), graph (Neo4j) và time-series, kèm theo từng loại phù hợp với bài toán nào. Hiểu các lựa chọn này giúp bạn chọn đúng "công cụ" cho từng nhu cầu thay vì dùng một database cho mọi thứ.
 
+[![Sơ đồ tóm tắt bài: NoSQL: Document, Key-Value, Wide-Column, Graph, Time-Series](/img/backend/nosql.webp)](pathname:///img/backend/nosql.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

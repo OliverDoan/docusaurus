@@ -7,6 +7,8 @@ title: "1. CI/CD: Pipelines, GitHub Actions"
 
 CI/CD là việc tự động hoá các bước build, test và deploy mỗi khi bạn push code, để không phải làm thủ công và tránh sai sót. Bài này giải thích sự khác nhau giữa CI, CD và Continuous Deployment, cách viết pipeline bằng GitHub Actions, các bước thường gặp trong pipeline và những chiến lược deploy như rolling, blue-green, canary. Nắm CI/CD giúp bạn đưa code lên sản phẩm nhanh, an toàn và lặp lại được.
 
+[![Sơ đồ tóm tắt bài: CI/CD: Pipelines, GitHub Actions](/img/backend/cicd.webp)](pathname:///img/backend/cicd.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

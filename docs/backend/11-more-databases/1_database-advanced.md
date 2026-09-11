@@ -7,6 +7,8 @@ title: "1. ACID, Normalization, ORMs, Query Optimization"
 
 Đây là những kiến thức database nâng cao giúp bạn lưu trữ dữ liệu an toàn và truy vấn nhanh. Bài này nói về 4 tính chất ACID đảm bảo transaction đáng tin cậy, cách chuẩn hoá schema để tránh trùng lặp dữ liệu, ORM để map giữa bảng và object trong code, cùng các kỹ thuật tối ưu query, connection pooling và tinh chỉnh database. Hiểu những phần này giúp app của bạn vừa chính xác vừa chạy mượt khi dữ liệu lớn dần.
 
+[![Sơ đồ tóm tắt bài: ACID, Normalization, ORMs, Query Optimization](/img/backend/database-advanced.webp)](pathname:///img/backend/database-advanced.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

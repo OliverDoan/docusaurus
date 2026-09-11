@@ -7,6 +7,8 @@ title: "1. AI Basics: LLM, Embeddings, RAG"
 
 Bài này giới thiệu những khái niệm cơ bản nhất về AI mà một lập trình viên backend cần biết: LLM (mô hình ngôn ngữ lớn), embeddings (biến văn bản thành vector số), vector database và RAG (cách cho AI trả lời dựa trên dữ liệu riêng của bạn). Đây là nền tảng để bạn tích hợp AI vào ứng dụng như chatbot, tìm kiếm thông minh hay hỏi đáp tài liệu. Hiểu chúng cũng giúp bạn biết khi nào nên dùng AI và khi nào nên dùng code thường.
 
+[![Sơ đồ tóm tắt bài: AI Basics: LLM, Embeddings, RAG](/img/backend/ai-basics.webp)](pathname:///img/backend/ai-basics.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

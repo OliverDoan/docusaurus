@@ -7,6 +7,8 @@ title: "1. Caching: Redis, Memcached, HTTP Cache"
 
 Caching là kỹ thuật lưu tạm kết quả của những thao tác tốn kém ở nơi truy cập nhanh, để lần sau dùng lại mà không phải tính toán hay query lại từ đầu. Bài này giới thiệu các công cụ và tầng cache phổ biến như Redis, Memcached, HTTP Cache và CDN, cùng những pattern thường dùng. Cache đúng cách giúp ứng dụng nhanh hơn nhiều lần và giảm tải cho database.
 
+[![Sơ đồ tóm tắt bài: Caching: Redis, Memcached, HTTP Cache](/img/backend/caching.webp)](pathname:///img/backend/caching.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

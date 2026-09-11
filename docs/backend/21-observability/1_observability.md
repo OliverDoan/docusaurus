@@ -7,6 +7,8 @@ title: "1. Observability: Metrics, Logs, Tracing"
 
 Observability là khả năng "nhìn thấy" được điều gì đang xảy ra bên trong hệ thống của bạn khi nó chạy thật. Bài này giới thiệu ba trụ cột chính: metrics (số liệu để theo dõi xu hướng và cảnh báo), logs (ghi lại sự kiện để debug) và tracing (theo dấu một request đi qua nhiều service), cùng các công cụ phổ biến như Prometheus, Grafana và OpenTelemetry. Thiết lập observability tốt giúp bạn phát hiện và xử lý sự cố nhanh khi production gặp vấn đề.
 
+[![Sơ đồ tóm tắt bài: Observability: Metrics, Logs, Tracing](/img/backend/observability.webp)](pathname:///img/backend/observability.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

@@ -7,6 +7,8 @@ title: "1. Monolith, Microservices, Serverless"
 
 Đây là các kiểu kiến trúc để tổ chức một ứng dụng backend: gộp tất cả vào một khối (monolith), chia nhỏ thành nhiều dịch vụ riêng (microservices), hay chạy theo từng hàm khi cần (serverless). Hiểu chúng quan trọng vì mỗi cách có ưu nhược điểm riêng, chọn đúng giúp tiết kiệm công sức và dễ mở rộng về sau. Bài này so sánh các kiểu để bạn biết khi nào nên chọn cái nào; phần chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Monolith, Microservices, Serverless](/img/backend/architecture-patterns.webp)](pathname:///img/backend/architecture-patterns.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

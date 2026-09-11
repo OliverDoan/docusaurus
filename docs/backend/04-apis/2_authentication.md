@@ -7,6 +7,8 @@ title: "2. Authentication và Authorization"
 
 Authentication (xác thực) trả lời câu hỏi "bạn là ai?", còn Authorization (phân quyền) trả lời "bạn được làm gì?". Bài này giới thiệu các cách làm phổ biến như Session, JWT, OAuth 2.0, API Key, OpenID Connect và SAML. Đây là phần cực kỳ quan trọng vì một lỗi nhỏ về bảo mật có thể khiến toàn bộ tài khoản người dùng bị xâm phạm.
 
+[![Sơ đồ tóm tắt bài: Authentication và Authorization](/img/backend/authentication.webp)](pathname:///img/backend/authentication.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

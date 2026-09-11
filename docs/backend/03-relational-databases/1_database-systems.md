@@ -7,6 +7,8 @@ title: "1. Hệ quản trị Relational Database"
 
 Relational Database (cơ sở dữ liệu quan hệ) là cách lưu trữ data phổ biến nhất trong backend, sắp xếp thông tin thành các bảng có dòng và cột giống bảng tính Excel. Bài này giới thiệu các hệ quản trị thường gặp như PostgreSQL, MySQL, SQLite, MS SQL Server và Oracle, cùng gợi ý nên chọn cái nào cho dự án của bạn. Hiểu chúng giúp bạn lưu và truy vấn data của ứng dụng một cách an toàn, đáng tin cậy.
 
+[![Sơ đồ tóm tắt bài: Hệ quản trị Relational Database](/img/backend/database-systems.webp)](pathname:///img/backend/database-systems.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

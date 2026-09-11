@@ -7,6 +7,8 @@ title: "1. Building For Scale"
 
 Khi ứng dụng có nhiều người dùng, không chỉ database mà cả tầng ứng dụng và hạ tầng mạng cũng cần được mở rộng để chịu tải. Bài này nói về cách xây dựng hệ thống sẵn sàng scale: cân bằng tải (load balancing), dùng CDN để phục vụ nội dung gần người dùng, các tầng caching, và triển khai đa vùng (multi-region). Quan trọng nhất là tư duy "đo lường trước, scale sau" để không tốn công làm phức tạp hệ thống khi chưa cần.
 
+[![Sơ đồ tóm tắt bài: Building For Scale](/img/backend/building-for-scale.webp)](pathname:///img/backend/building-for-scale.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]
