@@ -7,6 +7,8 @@ title: "2. call, apply, bind và Function Borrowing"
 
 `call`, `apply` và `bind` là ba phương thức cho phép bạn **tự quyết định** giá trị của `this` khi gọi một hàm, thay vì để JavaScript tự chọn. `call` và `apply` gọi hàm ngay lập tức (khác nhau ở cách truyền tham số), còn `bind` tạo ra một hàm mới đã "gắn cứng" `this` để dùng sau. Nhờ vậy ta có thể làm **function borrowing** (mượn hàm — dùng lại một hàm của đối tượng này cho đối tượng khác), một kỹ thuật hữu ích mà người mới nên biết.
 
+[![Sơ đồ tóm tắt bài: call, apply, bind và Function Borrowing](/img/javascript/call-apply-bind.webp)](pathname:///img/javascript/call-apply-bind.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]
