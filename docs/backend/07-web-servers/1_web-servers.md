@@ -5,7 +5,7 @@ title: "1. Web Servers: Nginx, Apache, Caddy"
 
 # Web Servers: Nginx, Apache, Caddy
 
-Web server là phần mềm đứng giữa internet và code ứng dụng của bạn, lo việc phục vụ file tĩnh, chuyển tiếp request tới backend, xử lý HTTPS và phân phối tải. Bài này giới thiệu ba web server phổ biến nhất là Nginx, Apache và Caddy cùng các khái niệm reverse proxy và load balancing. Hiểu chúng giúp bạn deploy ứng dụng lên server thật một cách an toàn và chịu được nhiều người dùng cùng lúc.
+Web server là một **phần mềm** chạy trên máy chủ, nhận request HTTP từ internet và trả về response. Khi lên production, người ta thường đặt một web server chuyên dụng như Nginx đứng trước app Node/Python của bạn để làm "người gác cửa": tự trả file tĩnh, xử lý HTTPS, rồi chuyển request cần logic vào app. Bài này giải thích web server là gì, vì sao cần nó dù app đã tự nhận được HTTP, sau đó giới thiệu Nginx, Apache, Caddy cùng hai khái niệm reverse proxy và load balancing.
 
 [![Sơ đồ tóm tắt bài: Web Servers: Nginx, Apache, Caddy](/img/backend/web-servers.webp)](pathname:///img/backend/web-servers.webp)
 
@@ -13,7 +13,8 @@ Web server là phần mềm đứng giữa internet và code ứng dụng của 
 
 :::note[Ghi nhớ nhanh]
 
-- ⭐ **Web server đứng giữa internet và app code** — lo serve static file, reverse proxy, SSL termination, load balancing, caching, compression và rate limiting.
+- ⭐ **Web server là phần mềm "gác cửa" HTTP** — đứng giữa internet và app code; việc đơn giản (file tĩnh, HTTPS, nén, chặn spam) thì tự làm, việc cần logic thì chuyển tiếp vào app (reverse proxy).
+- ⭐ **App Express/FastAPI cũng là web server**, nhưng chỉ nên lo logic nghiệp vụ — để Nginx nhận request từ internet, app chỉ nghe ở cổng nội bộ.
 - ⭐ **`Nginx` là lựa chọn mặc định 2026** — event-driven nên chịu tải cao, nhẹ (~2MB/worker); `Caddy` mạnh ở auto HTTPS, `Apache` lâu đời với `.htaccess`.
 - **Reverse proxy** — ẩn app nội bộ, để Nginx handle TLS còn app chỉ chạy HTTP; app nên bind `127.0.0.1:3000`, đừng expose port trực tiếp.
 - **Load balancing** — thuật toán round-robin, `least_conn`, `ip_hash`; Layer 4 (TCP, nhanh) vs Layer 7 (HTTP, linh hoạt).
@@ -25,6 +26,7 @@ Web server là phần mềm đứng giữa internet và code ứng dụng của 
 
 ## Mục lục
 
+- [Web server là gì?](#web-server-là-gì)
 - [Web server làm gì?](#web-server-làm-gì)
 - [Nginx (khuyến nghị)](#nginx-khuyến-nghị)
 - [Apache](#apache)
@@ -35,18 +37,49 @@ Web server là phần mềm đứng giữa internet và code ứng dụng của 
 
 ---
 
-## Web server làm gì?
+## Web server là gì?
 
-**Web server** đứng giữa internet và app code, làm:
+Nói ngắn nhất: **web server là phần mềm nghe request HTTP ở cổng 80/443 và trả về response HTTP.** Có hai điểm dễ nhầm với người mới, bài giải quyết trước khi đi vào chi tiết.
 
-- **Serve static file** (HTML, CSS, JS, image).
-- **Reverse proxy** request đến app backend.
-- **SSL termination** — handle HTTPS.
-- **Load balancing** — phân phối request.
-- **Caching** — proxy cache.
-- **Compression** — gzip/brotli.
-- **Rate limiting**.
-- **URL rewrite, redirect**.
+### Nhầm lẫn 1: web server là phần mềm, không phải cái máy
+
+Từ "server" được dùng cho cả hai thứ:
+
+- **Cái máy** (máy chủ vật lý, VPS, EC2) — phần cứng để chạy chương trình.
+- **Phần mềm** nghe ở một cổng và phục vụ client — Nginx, Apache, Caddy.
+
+Trong bài này, "web server" luôn là **phần mềm**. Một cái máy có thể chạy nhiều web server, và một web server có thể phục vụ nhiều website.
+
+### Nhầm lẫn 2: app của tôi đã nhận HTTP rồi, sao còn cần Nginx?
+
+Đúng là Express, FastAPI, Spring Boot **cũng là web server** theo nghĩa hẹp: chúng nghe HTTP và trả response. Khi bạn chạy `npm start` rồi mở `localhost:3000`, bạn đang dùng web server có sẵn trong app.
+
+Khác biệt nằm ở **phân công việc** khi lên production:
+
+| Việc cần làm | App (Express, FastAPI...) | Web server chuyên dụng (Nginx) |
+|---|---|---|
+| Chạy logic nghiệp vụ | ✅ Việc chính | ❌ Không làm được |
+| Trả file tĩnh (HTML, CSS, JS, ảnh) | Được, nhưng chậm, tốn CPU | ✅ Rất nhanh, gần như miễn phí |
+| HTTPS | Được, nhưng phải cài chứng chỉ vào từng app | ✅ Xử lý một chỗ, app bên trong chỉ cần HTTP |
+| Chịu hàng chục nghìn kết nối chờ | Vài nghìn là mệt | ✅ Tốn rất ít RAM |
+| Nhiều app trên một máy | Mỗi app một cổng, user phải nhớ cổng | ✅ Một cổng 443, chia theo tên miền hoặc đường dẫn |
+| Chặn spam, giới hạn request | Phải tự code | ✅ Vài dòng config |
+
+Vì vậy mô hình chuẩn là: **Nginx đứng ngoài nhận hết request từ internet**, việc đơn giản tự làm, request cần logic thì chuyển vào app đang nghe ở cổng nội bộ như `3000`. App không bao giờ lộ trực tiếp ra internet.
+
+```mermaid
+flowchart LR
+    subgraph DEV["Chạy dev ở máy mình"]
+        B1["Browser"] -->|"localhost:3000"| A1["App Express<br/>(tự nghe HTTP)"]
+    end
+    subgraph PROD["Chạy production"]
+        B2["Browser"] -->|"https://example.com"| N["Nginx<br/>(web server, cổng 443)"]
+        N -->|"file tĩnh"| F["/var/www"]
+        N -->|"request cần logic"| A2["App Express<br/>(127.0.0.1:3000)"]
+    end
+```
+
+Đọc sơ đồ: ở dev, browser nói chuyện thẳng với app. Ở production, browser chỉ nói chuyện với Nginx; Nginx tự trả file tĩnh, còn request cần tính toán mới chuyển vào app. Việc "chuyển tiếp vào app" này gọi là **reverse proxy**, sẽ nói kỹ ở mục sau.
 
 :::tip[Ví dụ đời thường]
 
@@ -56,11 +89,26 @@ Web server giống **lễ tân khách sạn**. Khách bước vào không tự �
 - Khách cần gặp nhà bếp → lễ tân **gọi nội bộ** xuống bếp (reverse proxy tới app).
 - Khách quậy, gọi 100 cuộc một phút → lễ tân **chặn bớt** (rate limit).
 
-Nhờ vậy các phòng ban bên trong không cần biết gì về người ngoài đường, cứ làm việc của mình.
+Nhờ vậy các phòng ban bên trong (app của bạn) không cần biết gì về người ngoài đường, cứ làm việc của mình.
 
 :::
 
-Architecture phổ biến:
+---
+
+## Web server làm gì?
+
+Các việc "vặt" của HTTP mà web server gánh thay app:
+
+- **Serve static file** — trả thẳng HTML, CSS, JS, ảnh từ ổ đĩa, không cần qua app.
+- **Reverse proxy** — nhận request từ ngoài rồi chuyển tiếp vào app chạy ở cổng nội bộ, trả kết quả về cho client như thể chính nó xử lý.
+- **SSL termination** — nhận HTTPS từ client, giải mã, rồi nói HTTP thường với app. Chứng chỉ chỉ cần cài một chỗ.
+- **Load balancing** — khi có nhiều bản app chạy song song, chia request đều cho các bản đó.
+- **Caching** — nhớ tạm response của app để lần sau trả luôn, khỏi gọi app lại.
+- **Compression** — nén response bằng gzip/brotli để tải nhanh hơn.
+- **Rate limiting** — giới hạn số request mỗi IP trong một khoảng thời gian, chống spam.
+- **URL rewrite, redirect** — đổi đường dẫn, chuyển hướng HTTP sang HTTPS, `www` sang không `www`.
+
+Architecture phổ biến, một Nginx phục vụ nhiều app trên cùng một máy:
 
 ```
 [Internet] → [Nginx] → [Node.js app:3000]
