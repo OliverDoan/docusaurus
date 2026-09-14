@@ -7,6 +7,8 @@ title: "1. Error Boundaries và Suspense"
 
 **Error Boundary** (ranh giới bắt lỗi) là một component đặc biệt giúp "bắt" lỗi xảy ra trong các component con, hiển thị giao diện dự phòng thay vì làm sập toàn bộ ứng dụng. **Suspense** (cơ chế chờ tải) cho phép bạn hiển thị nội dung tạm (ví dụ vòng quay loading) trong lúc chờ tải component hoặc dữ liệu. Hai kỹ thuật này giúp ứng dụng React xử lý lỗi và trạng thái chờ một cách mượt mà hơn.
 
+[![Sơ đồ tóm tắt bài: Error Boundaries và Suspense](/img/react/error-boundaries-suspense.webp)](pathname:///img/react/error-boundaries-suspense.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

@@ -5,6 +5,8 @@ title: "Giới thiệu"
 
 # Lộ trình học React
 
+[![Sơ đồ tóm tắt: Lộ trình học React](/img/react/intro.webp)](pathname:///img/react/intro.webp)
+
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **React là thư viện JavaScript của Meta để xây UI** — chia giao diện thành các component nhỏ, độc lập và tái sử dụng được.

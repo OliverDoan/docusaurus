@@ -7,6 +7,8 @@ title: "3. Performance Optimization"
 
 **Performance Optimization** (tối ưu hiệu năng) là việc làm cho ứng dụng React chạy nhanh và mượt hơn, giảm số lần render lại không cần thiết và tải trang gọn hơn. Nguyên tắc quan trọng là "đo trước, tối ưu sau", tức là tìm đúng chỗ chậm rồi mới sửa, tránh tối ưu vội vàng. Bài này giới thiệu các kỹ thuật phổ biến như chia nhỏ mã (code splitting), ghi nhớ kết quả (memo) và hiển thị danh sách lớn hiệu quả (virtualization).
 
+[![Sơ đồ tóm tắt bài: Performance Optimization](/img/react/performance.webp)](pathname:///img/react/performance.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

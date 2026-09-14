@@ -7,6 +7,8 @@ title: "1. Writing CSS trong React"
 
 Trong React có rất nhiều cách để viết CSS (định kiểu, tô màu sắc và bố cục cho giao diện). Bạn có thể dùng file CSS thường, **CSS Modules** (CSS đóng gói riêng cho từng component để tránh trùng tên lớp), **CSS-in-JS** (viết CSS ngay trong code JavaScript) như Styled Components, hoặc các tiện ích như **Tailwind CSS** (bộ lớp dựng sẵn giúp định kiểu nhanh ngay trên thẻ HTML). Bài này giúp người mới nắm bức tranh tổng quan để chọn cách phù hợp với dự án.
 
+[![Sơ đồ tóm tắt bài: Writing CSS trong React](/img/react/writing-css.webp)](pathname:///img/react/writing-css.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

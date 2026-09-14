@@ -7,6 +7,8 @@ title: "1. Animation trong React"
 
 **Animation** (hoạt ảnh) là chuyển động mượt mà của các phần tử giao diện, ví dụ hiệu ứng xuất hiện, biến mất hay trượt qua lại, giúp trải nghiệm người dùng sinh động và dễ chịu hơn. Trong React, bạn có thể tạo hoạt ảnh bằng CSS thuần hoặc dùng các thư viện chuyên dụng. Bài này giới thiệu vài cách phổ biến như Framer Motion, React Spring và GSAP.
 
+[![Sơ đồ tóm tắt bài: Animation trong React](/img/react/animation.webp)](pathname:///img/react/animation.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

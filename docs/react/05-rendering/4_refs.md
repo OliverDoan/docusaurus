@@ -7,6 +7,8 @@ title: "4. Refs"
 
 **Ref** (tham chiếu tới phần tử DOM hoặc giá trị tồn tại qua các lần render) cho phép bạn truy cập trực tiếp một phần tử DOM hoặc lưu một giá trị mà không gây re-render khi nó thay đổi. Trong component dạng hàm, ta tạo ref bằng hook `useRef`. Ref thường dùng để focus ô input, đo kích thước phần tử, hoặc lưu các giá trị tạm như timer.
 
+[![Sơ đồ tóm tắt bài: Refs](/img/react/refs.webp)](pathname:///img/react/refs.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

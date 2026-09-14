@@ -7,6 +7,8 @@ title: "1. Component Libraries"
 
 **Component library** (thư viện thành phần giao diện dựng sẵn) cung cấp các thành phần như nút bấm, bảng, hộp thoại... đã được thiết kế và lập trình sẵn để bạn ráp vào ứng dụng. Nhờ đó người mới không phải tự xây từng thành phần từ đầu, mà có ngay giao diện đẹp, nhất quán và đã được kiểm thử kỹ. Bài này giới thiệu các thư viện phổ biến như shadcn/ui, MUI, Chakra UI để bạn biết cách lựa chọn.
 
+[![Sơ đồ tóm tắt bài: Component Libraries](/img/react/component-libraries.webp)](pathname:///img/react/component-libraries.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

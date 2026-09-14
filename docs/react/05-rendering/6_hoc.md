@@ -7,6 +7,8 @@ title: "6. Higher Order Components (HOC)"
 
 **HOC** (Higher-Order Component — component bậc cao) là một hàm nhận vào một component và trả về một component mới đã được bổ sung thêm tính năng. Đây là kỹ thuật tái sử dụng logic chung (như kiểm tra đăng nhập, theo dõi dữ liệu) cho nhiều component khác nhau mà không lặp lại code. HOC từng rất phổ biến và nay thường được thay thế bằng custom hook trong code hiện đại.
 
+[![Sơ đồ tóm tắt bài: Higher Order Components (HOC)](/img/react/hoc.webp)](pathname:///img/react/hoc.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]
