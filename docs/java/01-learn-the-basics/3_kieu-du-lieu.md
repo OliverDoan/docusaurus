@@ -7,6 +7,8 @@ title: "3. Kiểu dữ liệu"
 
 Kiểu dữ liệu cho Java biết một giá trị là số nguyên, số thực, ký tự hay đúng/sai, từ đó máy biết cách lưu trữ và xử lý. Chọn đúng kiểu giúp tiết kiệm bộ nhớ và tránh lỗi khi tính toán. Bài này giới thiệu 8 kiểu nguyên thủy của Java cùng kiểu tham chiếu và giá trị mặc định; phần chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Kiểu dữ liệu](/img/java/kieu-du-lieu.webp)](pathname:///img/java/kieu-du-lieu.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

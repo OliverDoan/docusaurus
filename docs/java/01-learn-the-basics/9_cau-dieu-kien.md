@@ -7,6 +7,8 @@ title: "9. Câu điều kiện"
 
 Câu điều kiện cho phép chương trình chọn hành động khác nhau tùy tình huống, giống như đời thực "nếu trời mưa thì mang ô". Đây là cách giúp code "ra quyết định" thay vì chỉ chạy tuần tự. Bài này giới thiệu if, if-else, else if, toán tử ba ngôi và câu lệnh switch (cả kiểu cũ lẫn kiểu mới); phần chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Câu điều kiện](/img/java/cau-dieu-kien.webp)](pathname:///img/java/cau-dieu-kien.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]
