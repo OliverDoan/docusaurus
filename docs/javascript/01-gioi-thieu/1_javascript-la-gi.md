@@ -7,6 +7,8 @@ title: "1. JavaScript là gì?"
 
 JavaScript là ngôn ngữ lập trình phổ biến nhất cho web, giúp trang web trở nên "sống động" và tương tác được với người dùng (như bấm nút, hiện thông báo, kiểm tra biểu mẫu). Bài này giới thiệu khái niệm tổng quan; phần định nghĩa chi tiết nằm ngay bên dưới.
 
+[![Sơ đồ tóm tắt bài: JavaScript là gì?](/img/javascript/javascript-la-gi.webp)](pathname:///img/javascript/javascript-la-gi.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

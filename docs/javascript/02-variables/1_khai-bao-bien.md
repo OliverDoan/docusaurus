@@ -7,6 +7,8 @@ title: "1. Khai báo biến: var, let, const"
 
 Biến (variable) là "cái hộp" có tên dùng để lưu trữ dữ liệu để tái sử dụng trong chương trình. Trong JavaScript có ba cách khai báo biến là `var`, `let` và `const`, mỗi cách có đặc điểm riêng về khả năng thay đổi giá trị và phạm vi sử dụng. Người mới nên ưu tiên dùng `let` và `const`, vì `var` là cách cũ dễ gây lỗi.
 
+[![Sơ đồ tóm tắt bài: Khai báo biến: var, let, const](/img/javascript/khai-bao-bien.webp)](pathname:///img/javascript/khai-bao-bien.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

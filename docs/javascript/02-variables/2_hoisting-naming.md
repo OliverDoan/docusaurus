@@ -7,6 +7,8 @@ title: "2. Hoisting và Quy tắc đặt tên"
 
 **Hoisting** (kéo khai báo lên đầu) là cơ chế JavaScript tự "đưa" các khai báo biến và hàm lên trên cùng phạm vi trước khi chạy code, điều này đôi khi gây ra kết quả bất ngờ cho người mới. Bài này cũng nói về **quy tắc đặt tên** (naming) biến sao cho hợp lệ và dễ đọc. Hiểu hai chủ đề này giúp bạn tránh nhiều lỗi khó hiểu khi mới học.
 
+[![Sơ đồ tóm tắt bài: Hoisting và quy tắc đặt tên](/img/javascript/hoisting-naming.webp)](pathname:///img/javascript/hoisting-naming.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

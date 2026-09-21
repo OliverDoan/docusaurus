@@ -16,6 +16,8 @@ Number("42") + 1    // 43     -> đã ép sang số nên cộng đúng
 
 Trong JavaScript, việc ép kiểu xảy ra theo **hai cách**: do bạn chủ động làm, hoặc do JavaScript **tự động** làm ngầm — đó chính là nội dung phần dưới đây.
 
+[![Sơ đồ tóm tắt bài: Type Casting: Conversion và Coercion](/img/javascript/type-casting.webp)](pathname:///img/javascript/type-casting.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

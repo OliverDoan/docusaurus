@@ -7,6 +7,8 @@ title: "3. Scope (Phạm vi biến)"
 
 **Scope** (phạm vi biến) là vùng trong code mà tại đó một biến có thể được nhìn thấy và sử dụng. Hiểu đơn giản, không phải biến nào cũng dùng được ở mọi nơi: có biến dùng được toàn chương trình (global), có biến chỉ dùng được trong một hàm hoặc một khối lệnh (block). Nắm vững scope giúp người mới biết biến "sống" ở đâu và tránh lỗi gọi nhầm biến không tồn tại.
 
+[![Sơ đồ tóm tắt bài: Scope — phạm vi biến](/img/javascript/scope.webp)](pathname:///img/javascript/scope.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

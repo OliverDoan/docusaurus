@@ -7,6 +7,8 @@ title: "2. Lịch sử & các phiên bản JavaScript"
 
 Bài này kể lại hành trình của JavaScript: từ lúc ra đời chỉ trong 10 ngày năm 1995, qua "cuộc chiến trình duyệt" (browser war), đến khi được chuẩn hoá thành **ECMAScript** (bản tiêu chuẩn chính thức của ngôn ngữ), bùng nổ nhờ **Node.js** và liên tục thêm phiên bản mới qua từng năm. Hiểu lịch sử và cách đánh số phiên bản giúp người mới biết vì sao JavaScript có nhiều cách viết khác nhau, vì sao một số cú pháp chỉ chạy được trên bản mới, và tại sao nó lại quan trọng đến vậy ngày nay.
 
+[![Sơ đồ tóm tắt bài: Lịch sử và phiên bản JavaScript](/img/javascript/lich-su.webp)](pathname:///img/javascript/lich-su.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

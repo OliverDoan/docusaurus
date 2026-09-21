@@ -7,6 +7,8 @@ title: "3. Cách chạy JavaScript"
 
 Để code JavaScript thực sự hoạt động, nó cần một môi trường để chạy (runtime). Bài này giới thiệu các nơi phổ biến nhất: ngay trong **trình duyệt** (browser) khi làm web, trong **Node.js** để chạy ngoài trình duyệt, và cả công cụ **REPL** (gõ lệnh thử trực tiếp từng dòng). Biết cách chạy là bước đầu tiên giúp bạn thử nghiệm mọi đoạn code mình viết.
 
+[![Sơ đồ tóm tắt bài: Cách chạy JavaScript](/img/javascript/cach-chay.webp)](pathname:///img/javascript/cach-chay.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]
