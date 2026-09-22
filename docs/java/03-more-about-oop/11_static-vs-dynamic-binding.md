@@ -7,6 +7,8 @@ title: "11. Static vs Dynamic Binding"
 
 Binding là việc Java quyết định một lời gọi phương thức sẽ chạy phần code nào. Việc này có thể xảy ra lúc biên dịch (static binding) hoặc lúc chạy dựa trên đối tượng thực (dynamic binding) — và chính dynamic binding là nền tảng của tính đa hình trong OOP. Bài này giới thiệu sự khác nhau giữa hai loại binding, mối liên hệ với overloading và overriding, cùng các trường hợp đặc biệt với `static`, `final`, `private`.
 
+[![Sơ đồ tóm tắt bài: Static vs Dynamic Binding](/img/java/static-vs-dynamic-binding.webp)](pathname:///img/java/static-vs-dynamic-binding.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

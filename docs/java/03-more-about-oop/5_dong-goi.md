@@ -7,6 +7,8 @@ title: "5. Đóng gói (Encapsulation)"
 
 Đóng gói là nguyên tắc che giấu dữ liệu bên trong đối tượng và chỉ cho phép truy cập qua các phương thức được kiểm soát. Nhờ giấu thuộc tính bằng `private` và cho đọc/ghi qua getter/setter, bạn bảo vệ được dữ liệu khỏi bị sửa tùy tiện và dễ thay đổi cách lưu trữ sau này. Bài này hướng dẫn dùng `private`, getter/setter và validation; phần chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Đóng gói (Encapsulation)](/img/java/dong-goi.webp)](pathname:///img/java/dong-goi.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

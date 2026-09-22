@@ -7,6 +7,8 @@ title: "3. Trừu tượng (Abstraction)"
 
 Trừu tượng là cách bạn tập trung mô tả "làm gì" mà giấu đi chi tiết "làm như thế nào". Trong Java, ta thể hiện nó bằng lớp trừu tượng (abstract class) và phương thức trừu tượng (abstract method) để đặt ra khuôn mẫu chung bắt buộc các lớp con phải tuân theo. Bài này giúp bạn hiểu vì sao cần trừu tượng và cách dùng nó để viết code linh hoạt; phần chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Trừu tượng (Abstraction)](/img/java/truu-tuong.webp)](pathname:///img/java/truu-tuong.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

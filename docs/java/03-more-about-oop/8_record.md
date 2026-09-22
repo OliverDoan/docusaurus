@@ -7,6 +7,8 @@ title: "8. Record"
 
 Record (có từ Java 16) là cách viết ngắn gọn cho những lớp chỉ dùng để chứa dữ liệu bất biến. Chỉ cần một dòng khai báo, Java tự sinh ra constructor, accessor, `equals`, `hashCode` và `toString`, giúp bạn khỏi viết hàng chục dòng lặp đi lặp lại. Bài này giới thiệu cú pháp record, tính bất biến, compact constructor và khi nào nên dùng; phần chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Record](/img/java/record.webp)](pathname:///img/java/record.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]
