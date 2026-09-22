@@ -25,6 +25,10 @@ flowchart TD
     P --> P3["API/ORM: tRPC, Drizzle, Prisma"]
 ```
 
+[![Sơ đồ tóm tắt bài: TypeScript Ecosystem (phần 1)](/img/typescript/ecosystem-1.webp)](pathname:///img/typescript/ecosystem-1.webp)
+
+[![Sơ đồ tóm tắt bài: TypeScript Ecosystem (phần 2)](/img/typescript/ecosystem-2.webp)](pathname:///img/typescript/ecosystem-2.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

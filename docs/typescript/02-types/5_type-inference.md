@@ -7,6 +7,8 @@ title: "5. Type Inference và Compatibility"
 
 **Type inference** (suy luận kiểu tự động) là khả năng TypeScript tự đoán ra kiểu dữ liệu của biến hay biểu thức mà bạn không cần viết kiểu một cách tường minh. **Type compatibility** (tính tương thích kiểu) là quy tắc giúp TypeScript quyết định khi nào một kiểu có thể được gán cho kiểu khác. Hiểu hai khái niệm này giúp bạn viết code gọn hơn mà vẫn an toàn về kiểu.
 
+[![Sơ đồ tóm tắt bài: Type Inference](/img/typescript/type-inference.webp)](pathname:///img/typescript/type-inference.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

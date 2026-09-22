@@ -7,6 +7,8 @@ title: "2. Type Guards và Narrowing"
 
 **Type guard** (kiểm tra thu hẹp kiểu) là đoạn code kiểm tra kiểu thực tế của một giá trị tại thời điểm chạy, ví dụ dùng `typeof` hay `instanceof`. **Narrowing** (thu hẹp kiểu) là quá trình TypeScript dựa vào các kiểm tra đó để rút gọn kiểu rộng (như union) thành kiểu cụ thể hơn trong từng nhánh code. Nhờ đó bạn truy cập đúng thuộc tính và phương thức mà không gặp lỗi kiểu.
 
+[![Sơ đồ tóm tắt bài: Type Guards & Narrowing](/img/typescript/type-guards.webp)](pathname:///img/typescript/type-guards.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

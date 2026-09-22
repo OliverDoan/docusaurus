@@ -7,6 +7,8 @@ title: "1. Primitive Types"
 
 **Primitive types** (kiểu nguyên thủy) là những kiểu dữ liệu cơ bản nhất trong TypeScript, dùng để lưu một giá trị đơn lẻ như số, chuỗi hay true/false. Đây là nền tảng đầu tiên cần nắm trước khi học các kiểu phức tạp hơn. Bài này giới thiệu sáu kiểu nguyên thủy kế thừa từ JavaScript: `boolean`, `number`, `string`, `void`, `null` và `undefined`.
 
+[![Sơ đồ tóm tắt bài: Primitive Types](/img/typescript/primitive-types.webp)](pathname:///img/typescript/primitive-types.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

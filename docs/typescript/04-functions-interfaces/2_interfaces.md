@@ -7,6 +7,8 @@ title: "2. Interfaces"
 
 **Interface** (bản mô tả hình dạng đối tượng) là cách bạn định nghĩa một đối tượng cần có những thuộc tính và phương thức nào, cùng kiểu của chúng. Nó hoạt động như một "hợp đồng": bất kỳ đối tượng nào tuân theo interface đều phải đáp ứng đúng cấu trúc đã khai báo. Interface giúp code rõ ràng, dễ tái sử dụng và có thể mở rộng (extends) khi cần.
 
+[![Sơ đồ tóm tắt bài: Interfaces](/img/typescript/interfaces.webp)](pathname:///img/typescript/interfaces.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

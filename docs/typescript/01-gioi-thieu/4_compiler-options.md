@@ -7,6 +7,8 @@ title: "4. tsconfig.json và Compiler Options"
 
 `tsconfig.json` là **file cấu hình** (configuration file) đặt ở gốc dự án, cho compiler biết phải biên dịch những file nào và theo quy tắc ra sao. Các **compiler options** (tùy chọn biên dịch) bên trong nó quyết định mức độ kiểm tra kiểu nghiêm ngặt, phiên bản JavaScript đầu ra và cách xử lý module. Bài này giúp người mới đọc hiểu và tự cấu hình file này.
 
+[![Sơ đồ tóm tắt bài: tsconfig và Compiler Options](/img/typescript/compiler-options.webp)](pathname:///img/typescript/compiler-options.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]
