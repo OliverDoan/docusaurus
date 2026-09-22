@@ -7,7 +7,9 @@ title: "1. Advanced Types"
 
 **Advanced types** (các kiểu nâng cao) là những kỹ thuật giúp bạn mô tả kiểu dữ liệu một cách chính xác và linh hoạt hơn so với các kiểu cơ bản. Chúng bao gồm những công cụ như literal type (kiểu giá trị cố định), mapped type (kiểu sinh ra từ kiểu khác) và conditional type (kiểu chọn theo điều kiện). Bài này giúp người mới học làm quen với cách "lập trình trên kiểu" để biểu diễn được những ràng buộc phức tạp trong TypeScript.
 
-[![Sơ đồ tóm tắt bài: Advanced Types](/img/typescript/advanced-types.webp)](pathname:///img/typescript/advanced-types.webp)
+[![Sơ đồ tóm tắt bài: Advanced Types (phần 1)](/img/typescript/advanced-types-1.webp)](pathname:///img/typescript/advanced-types-1.webp)
+
+[![Sơ đồ tóm tắt bài: Advanced Types (phần 2)](/img/typescript/advanced-types-2.webp)](pathname:///img/typescript/advanced-types-2.webp)
 
 ---
 
