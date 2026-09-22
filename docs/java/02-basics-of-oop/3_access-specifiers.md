@@ -7,6 +7,8 @@ title: "3. Phạm vi truy cập (Access Specifiers)"
 
 Phạm vi truy cập quyết định "ai" được phép nhìn thấy và dùng một thuộc tính hay phương thức trong Java. Đây là công cụ chính để thực hiện tính đóng gói, giúp bạn che giấu chi tiết bên trong và chỉ mở ra những gì cần thiết, từ đó code an toàn và dễ bảo trì hơn. Bài này giới thiệu bốn mức truy cập `public`, `private`, `protected`, `default` cùng cách chọn mức phù hợp.
 
+[![Sơ đồ tóm tắt bài: Phạm vi truy cập (Access Specifiers)](/img/java/access-specifiers.webp)](pathname:///img/java/access-specifiers.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]
