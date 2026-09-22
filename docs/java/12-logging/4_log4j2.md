@@ -7,6 +7,8 @@ title: "4. Log4j2"
 
 Log4j2 là một implementation ghi log của Apache, nổi bật ở hiệu năng cao, đặc biệt khi dùng async logger để ghi log bất đồng bộ. Bài này hướng dẫn cách cài đặt và thay thế Logback trong Spring Boot, cấu hình qua file `log4j2.xml`, bật async logger, so sánh với Logback, và nhắc lại bài học bảo mật quan trọng từ lỗ hổng Log4Shell.
 
+[![Sơ đồ tóm tắt bài: Log4j2](/img/java/log4j2.webp)](pathname:///img/java/log4j2.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

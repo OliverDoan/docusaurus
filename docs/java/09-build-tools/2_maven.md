@@ -7,6 +7,8 @@ title: "2. Maven"
 
 Maven là công cụ build phổ biến nhất cho Java, hoạt động theo nguyên tắc "quy ước hơn cấu hình" nên rất dễ học cho người mới. Bài này giới thiệu file `pom.xml`, cách khai báo thư viện, kho Maven Central, các lệnh `mvn` cơ bản và vòng đời build. Nắm vững Maven giúp bạn quản lý dự án Java truyền thống một cách gọn gàng và chuẩn mực.
 
+[![Sơ đồ tóm tắt bài: Maven](/img/java/maven.webp)](pathname:///img/java/maven.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

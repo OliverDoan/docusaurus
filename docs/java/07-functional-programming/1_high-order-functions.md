@@ -7,6 +7,8 @@ title: "1. Hàm bậc cao (High Order Functions)"
 
 Hàm bậc cao (high order function) là hàm nhận một hàm khác làm tham số hoặc trả về một hàm. Nhờ đó ta truyền được "hành vi" (việc cần làm) chứ không chỉ dữ liệu, giúp code linh hoạt và tái sử dụng tốt hơn. Bài này giới thiệu cách dùng lambda và method reference để làm việc với hàm bậc cao trong Java; chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Hàm bậc cao](/img/java/high-order-functions.webp)](pathname:///img/java/high-order-functions.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

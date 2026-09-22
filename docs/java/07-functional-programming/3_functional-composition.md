@@ -7,6 +7,8 @@ title: "3. Kết hợp hàm (Functional Composition)"
 
 Kết hợp hàm (functional composition) là việc ghép nhiều hàm nhỏ lại thành một hàm lớn hơn, trong đó đầu ra của hàm này là đầu vào của hàm kia. Cách làm này giúp ta viết nhiều hàm nhỏ gọn, dễ đọc và dễ tái sử dụng thay vì một hàm khổng lồ. Bài này giới thiệu các công cụ ghép hàm như `andThen`, `compose` và cách kết hợp `Predicate`, `Consumer`; chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Kết hợp hàm](/img/java/functional-composition.webp)](pathname:///img/java/functional-composition.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

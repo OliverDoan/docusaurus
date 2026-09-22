@@ -7,6 +7,8 @@ title: "3. Thao tác với File"
 
 Thao tác với file là việc đọc và ghi dữ liệu xuống ổ cứng để lưu trữ lâu dài, không bị mất khi tắt chương trình. Java cho phép tạo, đọc, ghi, xóa file với cả cách cũ (`File`) lẫn cách mới gọn gàng hơn (`Path` và `Files`). Đây là kỹ năng nền tảng khi bạn cần lưu cấu hình, ghi log hay xử lý dữ liệu từ file.
 
+[![Sơ đồ tóm tắt bài: Thao tác với File](/img/java/file-operations.webp)](pathname:///img/java/file-operations.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

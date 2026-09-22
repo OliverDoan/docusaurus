@@ -7,6 +7,8 @@ title: "2. Functional Interfaces"
 
 Functional interface (giao diện hàm) là interface có đúng một phương thức trừu tượng, và đây chính là nền tảng để ta dùng được lambda cùng method reference. Java cung cấp sẵn nhiều functional interface hữu ích như `Function`, `Consumer`, `Supplier`, `Predicate`. Bài này giới thiệu functional interface là gì và các loại quan trọng nhất nên biết; chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Functional Interfaces](/img/java/functional-interfaces.webp)](pathname:///img/java/functional-interfaces.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

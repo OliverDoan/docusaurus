@@ -7,6 +7,8 @@ title: "4. Từ khóa volatile"
 
 `volatile` là từ khóa đặt trước biến để buộc biến đó luôn được đọc/ghi trực tiếp tại bộ nhớ chính, không dùng bản sao trong cache CPU. Nhờ vậy thay đổi của một luồng luôn hiển thị ngay với các luồng khác, rất hợp cho các "cờ" báo dừng luồng. Bài này giải thích `volatile` làm được gì và không làm được gì so với `synchronized`; chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Từ khóa volatile](/img/java/volatile-keyword.webp)](pathname:///img/java/volatile-keyword.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

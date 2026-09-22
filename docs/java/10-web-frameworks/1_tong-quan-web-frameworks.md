@@ -7,6 +7,8 @@ title: "1. Tổng quan Web Frameworks"
 
 Web framework là bộ thư viện dựng sẵn giúp bạn xây ứng dụng web nhanh hơn, không phải làm lại những việc cơ bản như lắng nghe request hay đọc dữ liệu. Bài này giới thiệu cách HTTP hoạt động, khái niệm REST API, request/response và so sánh nhanh các framework Java phổ biến (Spring Boot, Quarkus, Javalin, Play). Đây là bài mở đầu giúp bạn hiểu nền tảng trước khi học sâu từng framework.
 
+[![Sơ đồ tóm tắt bài: Tổng quan Web Frameworks](/img/java/tong-quan-web-frameworks.webp)](pathname:///img/java/tong-quan-web-frameworks.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

@@ -7,6 +7,8 @@ title: "2. Đa luồng cơ bản (Concurrency)"
 
 Đa luồng (concurrency) là khi nhiều luồng cùng chạy và dùng chung dữ liệu, giúp chương trình nhanh hơn nhưng cũng dễ sinh ra lỗi tranh chấp. Bài này giới thiệu các công cụ cốt lõi để giữ cho dữ liệu chung an toàn như khóa đồng bộ, deadlock và thread pool. Hiểu chúng giúp bạn viết phần mềm song song chạy đúng, không bị sai kết quả hay treo; chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Concurrency cơ bản](/img/java/concurrency-co-ban.webp)](pathname:///img/java/concurrency-co-ban.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

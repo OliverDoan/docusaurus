@@ -7,6 +7,8 @@ title: "3. Mô hình bộ nhớ Java (Java Memory Model)"
 
 Mô hình bộ nhớ Java (JMM) là bộ quy tắc cho biết khi nào một luồng nhìn thấy thay đổi mà luồng khác vừa ghi. Đây là lý do nhiều lỗi đa luồng "kỳ lạ" xảy ra: mỗi luồng có thể giữ bản sao biến trong cache riêng nên đọc phải giá trị cũ. Hiểu JMM giúp bạn biết vì sao cần `volatile`, `synchronized` hay lớp atomic để code chạy đúng; chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Java Memory Model](/img/java/java-memory-model.webp)](pathname:///img/java/java-memory-model.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

@@ -7,6 +7,8 @@ title: "8. Generic Collections"
 
 Generic (kiểu tổng quát) là phần `<...>` mà bạn thấy ở `ArrayList<String>` hay `HashMap<String, Integer>`, quy định loại dữ liệu mà collection được phép chứa. Nó mang lại type safety, giúp bắt lỗi sai kiểu ngay lúc biên dịch và không phải ép kiểu khi lấy ra. Bài này giới thiệu generic, wildcard, bounded type và cách tự viết phương thức generic; chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Generic Collections](/img/java/generic-collections.webp)](pathname:///img/java/generic-collections.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

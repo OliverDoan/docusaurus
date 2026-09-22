@@ -7,6 +7,8 @@ title: "1. Biểu thức chính quy (Regular Expressions)"
 
 Biểu thức chính quy (regex) là một chuỗi ký tự đặc biệt dùng để mô tả khuôn mẫu của văn bản, từ đó kiểm tra hoặc tìm kiếm chuỗi. Đây là công cụ rất hay dùng để xác thực dữ liệu nhập như email, số điện thoại hay định dạng ngày tháng. Bài này giới thiệu các ký tự cơ bản, hai lớp `Pattern` và `Matcher`, kèm ví dụ thực tế; chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Regular Expressions](/img/java/regular-expressions.webp)](pathname:///img/java/regular-expressions.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

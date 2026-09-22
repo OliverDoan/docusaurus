@@ -7,6 +7,8 @@ title: "2. Biểu thức Lambda (Lambda Expressions)"
 
 Biểu thức Lambda (có từ Java 8) là cách viết ngắn gọn cho một hàm ẩn danh, tức một đoạn code có thể truyền đi như tham số. Nó giúp thay thế các anonymous class dài dòng, làm code gọn gàng hơn nhiều khi cần truyền hành vi vào phương thức. Bài này giới thiệu cú pháp lambda, functional interface, các ví dụ với `Runnable`, `Comparator` và cách capture biến; phần chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Lambda Expressions](/img/java/lambda-expressions.webp)](pathname:///img/java/lambda-expressions.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

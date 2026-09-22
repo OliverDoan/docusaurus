@@ -7,6 +7,8 @@ title: "4. Mockito (Mocking)"
 
 Mockito là thư viện giúp tạo các đối tượng giả lập (mock) để thay thế những phụ thuộc thật như database, API hay email khi viết test. Nhờ vậy bạn test được riêng logic của một lớp mà test vẫn nhanh, ổn định và an toàn. Bài này hướng dẫn tạo mock, dạy mock trả về giá trị và kiểm tra hành vi; chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Mockito](/img/java/mockito.webp)](pathname:///img/java/mockito.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

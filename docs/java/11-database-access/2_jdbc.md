@@ -7,6 +7,8 @@ title: "2. JDBC"
 
 JDBC là API cấp thấp nền tảng để Java nói chuyện trực tiếp với cơ sở dữ liệu, nơi bạn tự mở kết nối, viết SQL và đọc kết quả. Bài này hướng dẫn các bước cơ bản với JDBC, vì sao phải dùng PreparedStatement để chống SQL injection, cách đọc dữ liệu bằng ResultSet, tự đóng tài nguyên với try-with-resources và tăng tốc bằng connection pool HikariCP. Hiểu JDBC giúp bạn nắm vững nền tảng trước khi dùng các ORM cấp cao hơn.
 
+[![Sơ đồ tóm tắt bài: JDBC](/img/java/jdbc.webp)](pathname:///img/java/jdbc.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

@@ -7,6 +7,8 @@ title: "1. Array vs ArrayList"
 
 Array (mảng) và ArrayList (danh sách động) là hai cách cơ bản nhất để lưu nhiều giá trị trong một biến duy nhất. Array có kích thước cố định, còn ArrayList tự co giãn khi bạn thêm hoặc xóa phần tử. Bài này giải thích sự khác nhau và khi nào nên dùng cái nào; chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Array vs ArrayList](/img/java/array-vs-arraylist.webp)](pathname:///img/java/array-vs-arraylist.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

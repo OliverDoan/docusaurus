@@ -7,6 +7,8 @@ title: "4. Queue (Hàng đợi)"
 
 Queue (hàng đợi) là cấu trúc xử lý phần tử theo nguyên tắc vào trước ra trước (FIFO), giống như hàng người xếp hàng mua vé. Nó phù hợp cho các bài toán cần xử lý lần lượt theo đúng thứ tự đến. Bài này giới thiệu Queue, bộ phương thức offer/poll/peek và PriorityQueue; chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Queue (Hàng đợi)](/img/java/queue.webp)](pathname:///img/java/queue.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

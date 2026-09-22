@@ -7,6 +7,8 @@ title: "5. EBean"
 
 EBean là một thư viện ORM cho Java theo phong cách Active Record, nổi bật vì cú pháp gọn gàng khi đối tượng tự biết cách lưu chính nó bằng cách gọi `user.save()`. Bài này giải thích Active Record là gì, cách khai báo Model, thực hiện CRUD và truy vấn với Finder, đồng thời so sánh EBean với Hibernate để bạn biết khi nào nên cân nhắc dùng nó.
 
+[![Sơ đồ tóm tắt bài: Ebean](/img/java/ebean.webp)](pathname:///img/java/ebean.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

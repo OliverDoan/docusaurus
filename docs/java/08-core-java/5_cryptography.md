@@ -7,6 +7,8 @@ title: "5. Mã hóa (Cryptography)"
 
 Mã hóa là cách bảo vệ thông tin, làm cho dữ liệu khó đọc với người không có quyền và chống giả mạo. Bài này giới thiệu hai khái niệm cốt lõi cho người mới: băm (hashing) một chiều với `MessageDigest` và mã hóa đối xứng AES với `Cipher`, cùng cách lưu mật khẩu an toàn. Đây là kiến thức quan trọng để giữ an toàn cho mật khẩu và dữ liệu nhạy cảm trong ứng dụng.
 
+[![Sơ đồ tóm tắt bài: Cryptography](/img/java/cryptography.webp)](pathname:///img/java/cryptography.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

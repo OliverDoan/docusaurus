@@ -7,6 +7,8 @@ title: "5. Optional"
 
 Optional là một "hộp đựng" có từ Java 8, dùng để biểu diễn một giá trị có thể có hoặc không có. Nó giúp bạn tránh lỗi NullPointerException một cách rõ ràng và an toàn, thay vì âm thầm trả về `null`. Bài này giới thiệu khái niệm tổng quan; cách tạo và dùng Optional nằm chi tiết bên dưới.
 
+[![Sơ đồ tóm tắt bài: Optional](/img/java/optionals.webp)](pathname:///img/java/optionals.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

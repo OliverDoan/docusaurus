@@ -7,6 +7,8 @@ title: "5. Integration Testing (Kiểm thử tích hợp)"
 
 Integration testing kiểm tra xem nhiều thành phần khi ghép lại có hoạt động đúng với nhau hay không, dùng phụ thuộc thật (như database) thay vì mock. Nó bắt được những lỗi mà unit test bỏ sót, ví dụ câu SQL sai hay cấu hình kết nối không khớp. Bài này giới thiệu test pyramid, `@SpringBootTest` và Testcontainers; chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: Integration Testing](/img/java/integration-testing.webp)](pathname:///img/java/integration-testing.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

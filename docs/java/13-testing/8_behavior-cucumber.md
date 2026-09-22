@@ -7,6 +7,8 @@ title: "8. Behavior Testing & Cucumber-JVM"
 
 BDD (phát triển hướng hành vi) mô tả hành vi mong muốn của hệ thống bằng ngôn ngữ gần với tiếng tự nhiên, để cả người không biết lập trình cũng đọc hiểu được. Cucumber-JVM là công cụ BDD phổ biến cho Java, giúp nối các kịch bản viết bằng Gherkin với code thật. Bài này giới thiệu BDD, ngôn ngữ Gherkin và cách viết step definition; chi tiết nằm bên dưới.
 
+[![Sơ đồ tóm tắt bài: BDD & Cucumber-JVM](/img/java/behavior-cucumber.webp)](pathname:///img/java/behavior-cucumber.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]
