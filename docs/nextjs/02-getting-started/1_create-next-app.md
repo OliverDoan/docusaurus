@@ -7,6 +7,8 @@ title: "1. Tạo project Next.js"
 
 `create-next-app` là công cụ dòng lệnh chính thức giúp tạo nhanh một **project** (dự án) Next.js với cấu trúc thư mục và cấu hình mặc định. Sau khi tạo, bạn có thể chạy **dev server** (máy chủ phát triển có tự động tải lại) để xem ứng dụng ngay. Bài này hướng dẫn các bước khởi tạo và làm quen với cấu trúc thư mục cơ bản.
 
+[![Sơ đồ tóm tắt bài: Tạo project Next.js](/img/nextjs/create-next-app.webp)](pathname:///img/nextjs/create-next-app.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

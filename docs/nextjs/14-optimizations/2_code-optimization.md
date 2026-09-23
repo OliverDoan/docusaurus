@@ -7,6 +7,8 @@ title: "2. Code Optimization: Metadata, Lazy Loading, Bundling"
 
 Tối ưu code là cách giảm lượng JavaScript phải tải và chạy trên trình duyệt để ứng dụng nhẹ và nhanh hơn. Bài này giới thiệu **metadata** (dữ liệu mô tả trang dùng cho SEO), **lazy loading** (chỉ nạp thành phần khi thật sự cần) và **bundling** (gói các tệp mã nguồn lại với nhau). Hiểu các kỹ thuật này giúp người mới biết cách chia nhỏ và nạp code đúng lúc thay vì tải tất cả ngay từ đầu.
 
+[![Sơ đồ tóm tắt bài: Code Optimization](/img/nextjs/code-optimization.webp)](pathname:///img/nextjs/code-optimization.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

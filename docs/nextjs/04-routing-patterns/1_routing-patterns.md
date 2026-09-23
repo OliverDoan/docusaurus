@@ -7,6 +7,8 @@ title: "1. Routing Patterns"
 
 **Routing pattern** (mẫu định tuyến) là các kỹ thuật đặt tên thư mục đặc biệt để tạo URL linh hoạt hơn trong Next.js. Bài này giới thiệu **dynamic route** (route động — URL chứa tham số thay đổi như `/blog/[id]`), **catch-all route** (route bắt mọi đoạn URL còn lại) và **route group** (nhóm route để tổ chức mà không ảnh hưởng đường dẫn). Đây là những mẫu giúp bạn xử lý các trang có cấu trúc URL phức tạp.
 
+[![Sơ đồ tóm tắt bài: Routing Patterns](/img/nextjs/routing-patterns.webp)](pathname:///img/nextjs/routing-patterns.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

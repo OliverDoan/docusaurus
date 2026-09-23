@@ -18,6 +18,8 @@ flowchart TD
     ROOT --> ERR["Error Handling<br/>error boundary, 404, API error"]
 ```
 
+[![Sơ đồ tóm tắt bài: Production Checklist](/img/nextjs/production-checklist.webp)](pathname:///img/nextjs/production-checklist.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

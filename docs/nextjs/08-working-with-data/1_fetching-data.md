@@ -7,6 +7,8 @@ title: "1. Fetching Data"
 
 **Data fetching** (lấy dữ liệu) là việc ứng dụng truy xuất thông tin từ API, cơ sở dữ liệu hay nguồn bên ngoài để hiển thị lên giao diện. Trong Next.js, bạn có thể lấy dữ liệu ở phía **server** (máy chủ, an toàn và gần nguồn dữ liệu) hoặc phía **client** (trình duyệt người dùng, phù hợp dữ liệu tương tác theo thời gian thực). Bài này giúp người mới hiểu lấy dữ liệu ở đâu và khi nào cho hợp lý.
 
+[![Sơ đồ tóm tắt bài: Fetching Data](/img/nextjs/fetching-data.webp)](pathname:///img/nextjs/fetching-data.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

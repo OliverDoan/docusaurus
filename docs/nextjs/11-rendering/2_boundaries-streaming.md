@@ -7,6 +7,8 @@ title: "2. Boundaries và Streaming"
 
 **Boundary** (ranh giới) là điểm phân chia giữa phần code chạy trên server và phần chạy trên client trong cây component. **Streaming** (truyền dần) là kỹ thuật gửi giao diện cho người dùng theo từng phần ngay khi sẵn sàng, thay vì chờ toàn bộ trang dựng xong mới hiển thị. Bài này giúp bạn hiểu cách đặt ranh giới hợp lý và dùng streaming để trang tải nhanh hơn.
 
+[![Sơ đồ tóm tắt bài: Boundaries & Streaming](/img/nextjs/boundaries-streaming.webp)](pathname:///img/nextjs/boundaries-streaming.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

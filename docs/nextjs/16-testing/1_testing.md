@@ -7,6 +7,8 @@ title: "1. Testing Next.js App"
 
 **Testing** (kiểm thử) là việc viết các đoạn mã tự động để kiểm tra ứng dụng chạy đúng như mong đợi, giúp phát hiện lỗi trước khi đưa lên môi trường thật. Bài này hướng dẫn cách kiểm thử các thành phần đặc trưng của Next.js như Server Component, Client Component và Server Action. Với người mới, thói quen viết test giúp bạn tự tin sửa code mà không lo làm hỏng tính năng cũ.
 
+[![Sơ đồ tóm tắt bài: Testing Next.js App](/img/nextjs/testing.webp)](pathname:///img/nextjs/testing.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

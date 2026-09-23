@@ -7,6 +7,8 @@ title: "1. Caching Layers"
 
 **Caching** (lưu đệm) là việc lưu lại kết quả đã tính toán hoặc dữ liệu đã lấy về để lần sau dùng lại ngay mà không phải làm lại từ đầu, giúp trang web nhanh hơn. Next.js có nhiều **layer** (tầng) cache khác nhau, mỗi tầng phục vụ một mục đích riêng. Bài này giới thiệu các tầng cache đó để bạn hiểu dữ liệu được lưu ở đâu và khi nào.
 
+[![Sơ đồ tóm tắt bài: Caching Layers](/img/nextjs/caching.webp)](pathname:///img/nextjs/caching.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]
