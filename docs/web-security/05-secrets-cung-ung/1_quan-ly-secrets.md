@@ -10,6 +10,8 @@ khẩu DB, token...) — đừng để chúng lọt vào mã nguồn; và **rate
 hạn tần suất) — chống brute-force, lạm dụng và một phần DoS. Cả hai đều là biện
 pháp đơn giản nhưng cứu bạn khỏi nhiều sự cố lớn.
 
+[![Sơ đồ tóm tắt bài: Secrets & Rate Limiting](/img/web-security/quan-ly-secrets.webp)](pathname:///img/web-security/quan-ly-secrets.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

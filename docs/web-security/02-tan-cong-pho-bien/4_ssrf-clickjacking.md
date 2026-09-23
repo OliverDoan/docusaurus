@@ -10,6 +10,8 @@ Bài này khép lại mục tấn công phổ biến với hai lỗ hổng quan 
 bấm vào thứ họ không thấy). Cả hai đều khai thác việc hệ thống "tin nhầm" một thứ
 gì đó — và đều có cách phòng thủ rõ ràng.
 
+[![Sơ đồ tóm tắt bài: SSRF & Clickjacking](/img/web-security/ssrf-clickjacking.webp)](pathname:///img/web-security/ssrf-clickjacking.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

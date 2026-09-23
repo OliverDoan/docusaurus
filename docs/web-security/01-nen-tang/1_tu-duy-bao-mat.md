@@ -10,6 +10,8 @@ mục tiêu bảo mật), **mô hình đe doạ** (cách nghĩ như kẻ tấn c
 tắc phòng thủ** cốt lõi. Nắm được tư duy này, bạn sẽ hiểu *vì sao* mỗi biện pháp ở
 các bài sau tồn tại, chứ không chỉ học thuộc.
 
+[![Sơ đồ tóm tắt bài: Tư duy bảo mật](/img/web-security/tu-duy-bao-mat.webp)](pathname:///img/web-security/tu-duy-bao-mat.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

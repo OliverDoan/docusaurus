@@ -11,6 +11,8 @@ toàn bộ tài khoản có bị chiếm hay không. Bài này giải thích **h
 với thuật toán chuyên dụng (bcrypt, argon2), khái niệm **salt**, và những điều
 tuyệt đối tránh.
 
+[![Sơ đồ tóm tắt bài: Lưu mật khẩu an toàn](/img/web-security/luu-mat-khau.webp)](pathname:///img/web-security/luu-mat-khau.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

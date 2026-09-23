@@ -11,6 +11,8 @@ và cập nhật định kỳ. Đây là "bản đồ" chuẩn để biết nên
 Bài này giới thiệu tổng quan 10 nhóm và chỉ ra bài học nào trong tài liệu xử lý
 từng nhóm.
 
+[![Sơ đồ tóm tắt bài: OWASP Top 10](/img/web-security/owasp-top-10.webp)](pathname:///img/web-security/owasp-top-10.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

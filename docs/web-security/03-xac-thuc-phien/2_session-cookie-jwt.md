@@ -10,6 +10,8 @@ sánh hai cách giữ phiên phổ biến — **session phía server** và **JWT
 chứa) — cùng cách cấu hình **cookie an toàn**. Hiểu rõ giúp bạn chọn đúng và tránh
 các lỗi lưu token nguy hiểm.
 
+[![Sơ đồ tóm tắt bài: Session, Cookie & JWT](/img/web-security/session-cookie-jwt.webp)](pathname:///img/web-security/session-cookie-jwt.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

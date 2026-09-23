@@ -10,6 +10,8 @@ một cánh cửa rủi ro: lỗ hổng đã biết, gói độc hại, hoặc g
 cuối này trình bày **rủi ro chuỗi cung ứng** (supply chain) và cách phòng thủ thực
 tế trong hệ sinh thái npm — kèm checklist tổng kết toàn bộ tài liệu.
 
+[![Sơ đồ tóm tắt bài: Dependency & Supply Chain](/img/web-security/dependency-supply-chain.webp)](pathname:///img/web-security/dependency-supply-chain.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

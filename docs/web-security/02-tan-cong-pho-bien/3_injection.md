@@ -11,6 +11,8 @@ muốn. Đây là nhóm rủi ro kinh điển trong OWASP Top 10. Bài này tậ
 dạng nguy hiểm nhất: **SQL injection** và **command injection** — cùng cách phòng
 thủ bằng tham số hoá.
 
+[![Sơ đồ tóm tắt bài: Injection — SQL & Command](/img/web-security/injection.webp)](pathname:///img/web-security/injection.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

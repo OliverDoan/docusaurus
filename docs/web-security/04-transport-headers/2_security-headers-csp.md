@@ -10,6 +10,8 @@ duyệt bật các cơ chế bảo vệ**. Chúng là cách *rẻ và hiệu qu�
 mật theo tinh thần phòng thủ nhiều lớp. Bài này điểm qua các header quan trọng và
 đi sâu vào **CSP** (Content Security Policy) — lớp phòng thủ mạnh chống XSS.
 
+[![Sơ đồ tóm tắt bài: Security Headers & CSP](/img/web-security/security-headers-csp.webp)](pathname:///img/web-security/security-headers-csp.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

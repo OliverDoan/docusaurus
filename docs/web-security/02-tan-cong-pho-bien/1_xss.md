@@ -11,6 +11,8 @@ của nạn nhân. Đây là một trong những lỗ hổng web phổ biến nh
 các loại XSS, hậu quả, và — quan trọng nhất — cách phòng thủ trong ứng dụng thực
 tế (đặc biệt với React).
 
+[![Sơ đồ tóm tắt bài: XSS — Cross-Site Scripting](/img/web-security/xss.webp)](pathname:///img/web-security/xss.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

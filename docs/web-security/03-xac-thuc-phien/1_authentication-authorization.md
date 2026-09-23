@@ -10,6 +10,8 @@ là ai?*) và **authorization** (phân quyền — *bạn được làm gì?*). 
 ẩu hai phần này dẫn tới **Broken Access Control** — rủi ro đứng đầu OWASP. Bài này
 phân biệt rõ và nêu các lỗi phân quyền thường gặp cùng cách phòng.
 
+[![Sơ đồ tóm tắt bài: Authentication & Authorization](/img/web-security/authentication-authorization.webp)](pathname:///img/web-security/authentication-authorization.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

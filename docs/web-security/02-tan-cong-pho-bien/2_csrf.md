@@ -11,6 +11,8 @@ nhập, để thực hiện hành động ngoài ý muốn. Bài này giải th�
 các cách phòng thủ hiện đại: **SameSite cookie**, **CSRF token**, và kiểm tra
 nguồn gốc request.
 
+[![Sơ đồ tóm tắt bài: CSRF — Giả mạo yêu cầu](/img/web-security/csrf.webp)](pathname:///img/web-security/csrf.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

@@ -11,6 +11,8 @@ nguồn), và **CORS** (cơ chế nới lỏng luật đó một cách có kiể
 hay bị hiểu nhầm, đặc biệt CORS thường bị tưởng là "lỗi" thay vì "tính năng bảo
 mật".
 
+[![Sơ đồ tóm tắt bài: HTTPS, Same-Origin & CORS](/img/web-security/https-cors.webp)](pathname:///img/web-security/https-cors.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]
