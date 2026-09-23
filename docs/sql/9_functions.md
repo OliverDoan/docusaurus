@@ -7,6 +7,8 @@ title: "9. Hàm nâng cao (Functions)"
 
 Hàm (function) trong SQL là những công cụ có sẵn giúp bạn biến đổi và xử lý dữ liệu ngay trong câu truy vấn. Bài này giới thiệu các nhóm hàm thông dụng nhất: hàm chuỗi để cắt ghép văn bản, hàm ngày tháng để tính toán thời gian, hàm số học để làm tròn và tính toán, cùng các hàm điều kiện như CASE WHEN, COALESCE, NULLIF. Nắm vững chúng giúp bạn viết truy vấn gọn gàng mà không phải xử lý thủ công ở tầng ứng dụng.
 
+[![Sơ đồ tóm tắt bài: SQL Functions](/img/sql/functions.webp)](pathname:///img/sql/functions.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

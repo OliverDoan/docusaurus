@@ -5,6 +5,8 @@ title: "Giới thiệu"
 
 # Lộ trình học SQL
 
+[![Sơ đồ tóm tắt bài: Lộ trình học SQL](/img/sql/tong-quan.webp)](pathname:///img/sql/tong-quan.webp)
+
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **SQL là ngôn ngữ chuẩn** để thêm, sửa, xóa và truy vấn dữ liệu trong **database**, với cú pháp gần tiếng Anh tự nhiên.

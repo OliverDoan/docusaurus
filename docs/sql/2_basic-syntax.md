@@ -7,6 +7,8 @@ title: "2. Cú pháp SQL cơ bản"
 
 SQL (Structured Query Language) là ngôn ngữ để giao tiếp với cơ sở dữ liệu quan hệ. Bài này giới thiệu những quy tắc cú pháp nền tảng nhất: cách viết keyword, các từ khóa hay dùng, kiểu dữ liệu trong PostgreSQL, các toán tử và bốn lệnh cơ bản SELECT/INSERT/UPDATE/DELETE. Đây là phần bắt buộc phải nắm trước khi học các kỹ thuật nâng cao.
 
+[![Sơ đồ tóm tắt bài: Cú pháp SQL cơ bản](/img/sql/basic-syntax.webp)](pathname:///img/sql/basic-syntax.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

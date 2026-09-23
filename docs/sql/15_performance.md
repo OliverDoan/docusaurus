@@ -7,6 +7,8 @@ title: "15. Tối ưu hiệu năng"
 
 Tối ưu hiệu năng là việc làm cho câu truy vấn chạy nhanh hơn và tốn ít tài nguyên hơn, nhất là khi dữ liệu lớn dần lên. Nguyên tắc cốt lõi là "đo trước, tối ưu sau": dùng công cụ để tìm đúng điểm nghẽn rồi mới sửa. Bài này hướng dẫn đọc kế hoạch thực thi bằng EXPLAIN, tìm query chậm với pg_stat_statements, dùng index hiệu quả, tối ưu JOIN và subquery, phân trang và cập nhật theo lô.
 
+[![Sơ đồ tóm tắt bài: Tối ưu hiệu năng SQL](/img/sql/performance.webp)](pathname:///img/sql/performance.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]
