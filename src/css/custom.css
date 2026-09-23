@@ -674,3 +674,39 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ===== Collapse "Xem đáp án" trong mục Câu hỏi phỏng vấn ===== */
+
+.markdown details.qa {
+  background: transparent;
+  border: 0;
+  border-left: 2px solid var(--ifm-color-emphasis-300);
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0.35rem 0 1.4rem;
+  padding: 0 0 0 0.8rem;
+}
+
+.markdown details.qa > summary {
+  color: var(--ifm-color-emphasis-600);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.1rem 0 0.1rem 0.9rem;
+  transition: color var(--ifm-transition-fast);
+}
+
+.markdown details.qa > summary:hover {
+  color: var(--ifm-color-primary);
+}
+
+.markdown details.qa > summary::before {
+  border-left-color: currentColor;
+  top: 0.45rem;
+}
+
+/* phần nội dung mở ra: bỏ đường kẻ ngang mặc định */
+.markdown details.qa [class*='collapsibleContent'] {
+  border-top: 0;
+  margin-top: 0.6rem;
+  padding-top: 0;
+}

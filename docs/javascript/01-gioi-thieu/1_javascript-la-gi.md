@@ -151,7 +151,7 @@ Những câu thường gặp về chủ đề này. Tự trả lời trước, r
 
 **1. JavaScript là gì? Nó khác gì so với Java — vì sao hai ngôn ngữ lại trùng tên?**
 
-<details>
+<details className="qa">
 <summary>Xem đáp án</summary>
 
 **JavaScript** là ngôn ngữ lập trình thông dịch, kiểu động (dynamic typing), đa mô hình (hỗ trợ lập trình hàm, hướng đối tượng theo prototype, hướng sự kiện), ban đầu được tạo ra để chạy trong trình duyệt nhằm làm trang web có tính tương tác. Ngày nay JS chạy được cả ngoài trình duyệt (Node.js, Deno, Bun) — từ server, CLI tool đến ứng dụng desktop/mobile.
@@ -172,7 +172,7 @@ Những câu thường gặp về chủ đề này. Tự trả lời trước, r
 
 **2. Ba trụ cột `HTML`, `CSS`, `JavaScript` đảm nhiệm vai trò gì trong một trang web? Nếu tắt JS thì trang còn hoạt động được không?**
 
-<details>
+<details className="qa">
 <summary>Xem đáp án</summary>
 
 Ẩn dụ phổ biến — một trang web như một ngôi nhà (hoặc cơ thể người):
@@ -191,7 +191,7 @@ Những câu thường gặp về chủ đề này. Tự trả lời trước, r
 
 **3. Phân biệt ngôn ngữ **thông dịch** (interpret) và **biên dịch** (compile). JavaScript thuộc loại nào?**
 
-<details>
+<details className="qa">
 <summary>Xem đáp án</summary>
 
 **Biên dịch (compiled):** toàn bộ source code được dịch **một lần, trước khi chạy** thành mã máy (hoặc bytecode) bởi compiler. Lỗi cú pháp/kiểu được bắt ngay lúc compile. Chạy nhanh vì CPU thực thi trực tiếp mã đã dịch. Ví dụ: C, C++, Rust, Go.
@@ -209,7 +209,7 @@ Nói ngắn gọn: JS là ngôn ngữ thông dịch về mặt trải nghiệm l
 
 **4. `Engine` JavaScript là gì? Kể tên engine của Chrome, Firefox, Safari và Node.js.**
 
-<details>
+<details className="qa">
 <summary>Xem đáp án</summary>
 
 **JavaScript engine** là chương trình nhận vào source code JS và thực thi nó — đảm nhiệm parse, biên dịch, tối ưu, quản lý bộ nhớ (heap, garbage collection) và call stack. Engine chỉ hiểu JS thuần theo chuẩn ECMAScript, không biết gì về DOM hay HTTP.
@@ -225,7 +225,7 @@ Nói ngắn gọn: JS là ngôn ngữ thông dịch về mặt trải nghiệm l
 
 **5. Mô tả đường đi của một đoạn code JS từ lúc bạn viết cho tới khi CPU thực thi.**
 
-<details>
+<details className="qa">
 <summary>Xem đáp án</summary>
 
 Lấy V8 làm ví dụ, pipeline như sau:
@@ -265,7 +265,7 @@ Diễn giải từng bước:
 
 **6. `JIT compilation` là gì? Mô tả vai trò của `Parser`, `AST`, `Interpreter` (Ignition) và `Optimizer` (TurboFan) trong V8.**
 
-<details>
+<details className="qa">
 <summary>Xem đáp án</summary>
 
 **JIT (Just-In-Time) compilation** là kỹ thuật biên dịch code thành mã máy **ngay trong lúc chương trình đang chạy**, thay vì biên dịch trước (AOT — Ahead-Of-Time) hoặc thông dịch thuần. Nó kết hợp ưu điểm của cả hai: khởi động nhanh như interpreter, tốc độ thực thi tiệm cận compiled code cho những đoạn chạy nhiều.
@@ -283,7 +283,7 @@ Hai thành phần này tạo thành vòng lặp: Ignition chạy mọi thứ tr�
 
 **7. `Deoptimization` xảy ra khi nào? Cho ví dụ code khiến engine phải deopt.**
 
-<details>
+<details className="qa">
 <summary>Xem đáp án</summary>
 
 **Deoptimization (deopt)** xảy ra khi mã máy đã tối ưu được TurboFan sinh ra dựa trên một **giả định**, và giả định đó **bị phá vỡ** lúc runtime. Engine buộc phải vứt bỏ mã tối ưu và quay về thực thi bytecode qua interpreter — gây tụt hiệu năng đột ngột.
@@ -334,7 +334,7 @@ arr.push("x");               // trộn thêm string → rơi về dạng generic
 
 **8. Vì sao nói "JavaScript chậm" là quan điểm lỗi thời? Những yếu tố nào trong cách viết code ảnh hưởng tới việc engine tối ưu được hay không?**
 
-<details>
+<details className="qa">
 <summary>Xem đáp án</summary>
 
 **Vì sao lỗi thời:** định kiến "JS chậm" hình thành từ thời 2000s, khi JS chạy bằng interpreter thuần túy. Bước ngoặt là năm 2008 khi Google ra mắt **V8** cùng Chrome, mở màn "cuộc chạy đua vũ trang" giữa các engine. Với JIT compilation, hidden classes, inline caching..., JS ngày nay ở các benchmark tính toán thuần có thể đạt hiệu năng trong tầm vài lần so với C — đủ nhanh để chạy server quy mô lớn (Node.js tại Netflix, PayPal), game engine, thậm chí là compiler (TypeScript compiler viết bằng chính TS/JS suốt nhiều năm). Điều làm web app "cảm giác chậm" ngày nay thường là DOM, network, bundle size — chứ hiếm khi là tốc độ thực thi JS thuần.
@@ -353,7 +353,7 @@ Tóm lại: JS không chậm — **JS viết kiểu "khó đoán" mới chậm**
 
 **9. `Dynamic typing` nghĩa là gì? Ưu và nhược điểm so với `static typing`? Điều này liên quan gì đến việc TypeScript ra đời?**
 
-<details>
+<details className="qa">
 <summary>Xem đáp án</summary>
 
 **Dynamic typing**: kiểu dữ liệu gắn với **giá trị lúc runtime**, không gắn với biến lúc khai báo. Một biến có thể lần lượt chứa số, chuỗi, object mà không báo lỗi:
@@ -377,7 +377,7 @@ x = { a: 1 };     // object — vẫn ok
 
 **10. JavaScript là `single-threaded` — vậy làm sao nó xử lý được nhiều tác vụ bất đồng bộ cùng lúc (gọi API, `setTimeout`...)?**
 
-<details>
+<details className="qa">
 <summary>Xem đáp án</summary>
 
 JS chỉ có **một call stack** — tại một thời điểm chỉ thực thi một đoạn code. Bí quyết nằm ở chỗ: **những việc chờ đợi (I/O) không do thread JS làm**, mà được giao cho **runtime** (trình duyệt hoặc Node.js), phối hợp qua **event loop**.
@@ -408,7 +408,7 @@ Vậy nên chính xác hơn là: JS **thực thi** single-threaded, nhưng **mô
 
 **11. `First-class functions` nghĩa là gì? Cho ví dụ hàm được gán vào biến, truyền làm tham số và trả về từ hàm khác.**
 
-<details>
+<details className="qa">
 <summary>Xem đáp án</summary>
 
 **First-class functions** (hàm là "công dân hạng nhất") nghĩa là trong JS, **hàm được đối xử như mọi giá trị khác** — number, string, object. Cụ thể, hàm có thể:
@@ -458,7 +458,7 @@ console.log(triple(5)); // 15
 
 **12. JavaScript kế thừa theo `prototype` chứ không phải class truyền thống. `class` trong ES6 thực chất là gì?**
 
-<details>
+<details className="qa">
 <summary>Xem đáp án</summary>
 
 **Prototype-based inheritance:** trong JS, mỗi object có một liên kết ẩn (`[[Prototype]]`, truy cập qua `Object.getPrototypeOf` hoặc `__proto__`) trỏ tới một object khác. Khi truy cập property không có trên object, engine lần theo **prototype chain** để tìm:
@@ -503,7 +503,7 @@ Nói "chỉ là" sugar cũng không hoàn toàn công bằng — `class` có th�
 
 **13. Phân biệt `JavaScript engine` và `JavaScript runtime`. Những thứ như `setTimeout`, `document`, `fetch` do engine hay do runtime cung cấp?**
 
-<details>
+<details className="qa">
 <summary>Xem đáp án</summary>
 
 **Engine** = trình thực thi ngôn ngữ JS thuần theo chuẩn **ECMAScript**: parser, JIT compiler, call stack, heap, garbage collector. Engine biết `Object`, `Array`, `Promise`, `Math`, closure, prototype... nhưng **không biết gì** về trang web hay hệ thống file.
