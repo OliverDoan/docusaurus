@@ -7,6 +7,8 @@ title: "1. Branch là gì? Tạo và quản lý nhánh"
 
 Khi làm việc với Git, bạn sẽ nhanh chóng nhận ra rằng làm tất cả mọi thứ trên một dòng thời gian duy nhất là một ý tưởng tồi tệ. Tưởng tượng bạn đang viết tính năng mới, đồng nghiệp đang sửa bug, người khác đang thí nghiệm -- tất cả trên cùng một nơi. Hỗn độn là điều chắc chắn. **Branch** (nhánh) chính là giải pháp cho vấn đề này.
 
+[![Sơ đồ tóm tắt bài: Git Branch là gì?](/img/git/branch-la-gi.webp)](pathname:///img/git/branch-la-gi.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

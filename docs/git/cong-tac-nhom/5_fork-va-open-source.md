@@ -7,6 +7,8 @@ title: "5. Fork và đóng góp Open Source"
 
 Đóng góp vào dự án open source là một trong những cách **tốt nhất** để nâng cao kỹ năng lập trình, xây dựng portfolio, và kết nối với cộng đồng developer toàn cầu. Bài này sẽ giúp bạn hiểu Fork là gì, quy trình đóng góp open source từ A đến Z, cách sync fork với repo gốc, và những quy tắc ứng xử quan trọng khi tham gia cộng đồng.
 
+[![Sơ đồ tóm tắt bài: Fork & Open Source](/img/git/fork-va-open-source.webp)](pathname:///img/git/fork-va-open-source.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

@@ -7,6 +7,8 @@ title: "4. Submodule và Monorepo"
 
 Khi dự án lớn lên, bạn sẽ gặp câu hỏi: "Nên tổ chức code thành nhiều repo nhỏ hay một repo lớn?" Bài này sẽ đi sâu vào **Git Submodules** (repo lồng trong repo), **Monorepo** (một repo cho tất cả), và **Subtree** (alternative cho submodule). Mỗi cách có ưu nhược điểm riêng, và việc chọn đúng sẽ ảnh hưởng lớn đến workflow cả team.
 
+[![Sơ đồ tóm tắt bài: Submodule & Monorepo](/img/git/submodule-va-monorepo.webp)](pathname:///img/git/submodule-va-monorepo.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

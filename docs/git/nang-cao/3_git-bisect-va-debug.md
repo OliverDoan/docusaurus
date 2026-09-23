@@ -7,6 +7,8 @@ title: "3. Git Bisect và Debug — Tìm commit gây bug"
 
 Bạn phát hiện bug nhưng không biết nó xuất hiện từ commit nào? Với hàng trăm commits, việc kiểm tra từng cái sẽ mất cả ngày. Git cung cấp những công cụ debug mạnh mẽ: **bisect** dùng binary search tìm commit gây bug trong O(log n), **blame** cho biết ai sửa dòng nào, và **log -S** tìm kiếm thay đổi trong lịch sử.
 
+[![Sơ đồ tóm tắt bài: Git Bisect & Debug](/img/git/git-bisect-va-debug.webp)](pathname:///img/git/git-bisect-va-debug.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

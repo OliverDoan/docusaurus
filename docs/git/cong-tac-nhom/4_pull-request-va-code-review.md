@@ -7,6 +7,8 @@ title: "4. Pull Request và Code Review"
 
 Pull Request (PR) và Code Review là **hai trụ cột** của quy trình phát triển phần mềm hiện đại. Nếu bạn làm việc trong bất kỳ công ty phần mềm nào, bạn sẽ tạo PR và review code **hàng ngày**. Bài này sẽ giúp bạn hiểu PR là gì, cách tạo PR tốt, quy trình code review, và các best practices mà mọi team chuyên nghiệp đều áp dụng.
 
+[![Sơ đồ tóm tắt bài: Pull Request & Code Review](/img/git/pull-request-va-code-review.webp)](pathname:///img/git/pull-request-va-code-review.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

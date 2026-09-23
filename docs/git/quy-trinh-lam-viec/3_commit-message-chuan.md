@@ -7,6 +7,8 @@ title: "3. Commit Message chuẩn — Conventional Commits"
 
 Commit message là "nhật ký" của dự án. Một commit message tốt giúp bạn (và đồng nghiệp) hiểu **tại sao** thay đổi được thực hiện, không chỉ **thay đổi gì**. Bài này sẽ giúp bạn viết commit message chuyên nghiệp theo chuẩn Conventional Commits — chuẩn được sử dụng bởi hàng nghìn dự án open source và enterprise trên thế giới.
 
+[![Sơ đồ tóm tắt bài: Commit message chuẩn](/img/git/commit-message-chuan.webp)](pathname:///img/git/commit-message-chuan.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

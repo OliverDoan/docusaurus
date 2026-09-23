@@ -7,6 +7,8 @@ title: "3. Rebase — Viết lại lịch sử commit"
 
 Nếu merge là cách "an toàn và trung thực" để gộp nhánh, thì rebase là cách "sạch sẽ và tinh tế". Rebase viết lại lịch sử commit để tạo ra một **dòng thời gian thẳng tắp**, như thể bạn làm mọi thứ theo trình tự hoàn hảo. Đây là công cụ mạnh mẽ nhưng cũng là **con dao hai lưỡi** -- dùng đúng thì tuyệt vời, dùng sai thì thảm họa.
 
+[![Sơ đồ tóm tắt bài: Git Rebase cơ bản](/img/git/rebase-co-ban.webp)](pathname:///img/git/rebase-co-ban.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

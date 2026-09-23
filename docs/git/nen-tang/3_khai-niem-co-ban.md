@@ -7,6 +7,8 @@ title: "3. Các khái niệm cốt lõi trong Git"
 
 Trước khi gõ bất kỳ lệnh Git nào, bạn cần hiểu **cách Git suy nghĩ**. Bài này giải thích các khái niệm nền tảng mà mọi thứ trong Git đều xây dựng trên đó.
 
+[![Sơ đồ tóm tắt bài: Khái niệm Git cơ bản](/img/git/khai-niem-co-ban.webp)](pathname:///img/git/khai-niem-co-ban.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

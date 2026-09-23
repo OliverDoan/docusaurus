@@ -7,6 +7,8 @@ title: "5. .gitignore và quản lý file"
 
 Không phải mọi file trong dự án đều nên được Git theo dõi. File tạm, mật khẩu, thư mục build, dependency... nên được **loại trừ** khỏi version control. Bài này hướng dẫn cách làm điều đó và quản lý file hiệu quả trong Git.
 
+[![Sơ đồ tóm tắt bài: .gitignore & quản lý file](/img/git/gitignore-va-quan-ly-file.webp)](pathname:///img/git/gitignore-va-quan-ly-file.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

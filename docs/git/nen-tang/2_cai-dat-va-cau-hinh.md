@@ -7,6 +7,8 @@ title: "2. Cài đặt và cấu hình Git"
 
 Trước khi dùng Git, bạn cần cài đặt nó trên máy và thiết lập cấu hình cơ bản. Bài này hướng dẫn chi tiết từng bước cho mỗi hệ điều hành.
 
+[![Sơ đồ tóm tắt bài: Cài đặt & cấu hình Git](/img/git/cai-dat-va-cau-hinh.webp)](pathname:///img/git/cai-dat-va-cau-hinh.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

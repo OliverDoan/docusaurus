@@ -7,6 +7,8 @@ title: "1. Remote Repository — Kho lưu trữ từ xa"
 
 Khi bạn làm việc một mình trên máy tính, Git hoạt động hoàn toàn cục bộ (local). Nhưng khi bạn muốn **chia sẻ code với đồng đội**, **sao lưu code lên cloud**, hoặc **cộng tác với người khác trên toàn thế giới**, bạn cần một **remote repository**. Bài này sẽ giúp bạn hiểu remote là gì, cách quản lý remote, và sự khác nhau giữa HTTPS và SSH khi kết nối.
 
+[![Sơ đồ tóm tắt bài: Remote Repository](/img/git/remote-repository.webp)](pathname:///img/git/remote-repository.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

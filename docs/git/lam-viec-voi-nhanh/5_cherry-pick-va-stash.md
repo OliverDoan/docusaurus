@@ -7,6 +7,8 @@ title: "5. Cherry-pick và Stash"
 
 Trong công việc hàng ngày với Git, bạn sẽ gặp hai tình huống rất thường xuyên: (1) cần **tạm cất thay đổi đang làm dở** để chuyển sang việc khác, và (2) cần **lấy một commit cụ thể** từ branch khác mà không merge toàn bộ. **Stash** và **Cherry-pick** là hai công cụ giúp bạn xử lý chính xác hai tình huống này.
 
+[![Sơ đồ tóm tắt bài: Cherry-pick & Stash](/img/git/cherry-pick-va-stash.webp)](pathname:///img/git/cherry-pick-va-stash.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

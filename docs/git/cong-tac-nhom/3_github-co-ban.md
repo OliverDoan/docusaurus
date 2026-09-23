@@ -7,6 +7,8 @@ title: "3. GitHub cơ bản"
 
 GitHub là nền tảng phổ biến nhất thế giới để lưu trữ code và cộng tác phát triển phần mềm. Nếu Git là **công cụ quản lý phiên bản** trên máy tính, thì GitHub là **nơi lưu trữ và chia sẻ** code trên cloud, kèm theo hàng loạt tính năng hỗ trợ cộng tác nhóm. Bài này sẽ giúp bạn hiểu GitHub là gì, cách sử dụng các tính năng chính, và những thiết lập quan trọng cho dự án.
 
+[![Sơ đồ tóm tắt bài: GitHub cơ bản](/img/git/github-co-ban.webp)](pathname:///img/git/github-co-ban.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

@@ -7,6 +7,8 @@ title: "2. GitHub Flow và Trunk-Based Development"
 
 Git Flow mạnh mẽ nhưng phức tạp. Nhiều team — đặc biệt những team deploy liên tục — cần một quy trình nhẹ hơn. Bài này giới thiệu 2 mô hình phổ biến thay thế Git Flow: **GitHub Flow** (đơn giản, hiệu quả cho hầu hết dự án) và **Trunk-Based Development** (tiêu chuẩn vàng của các ông lớn như Google, Facebook). Bạn sẽ hiểu mỗi mô hình hoạt động ra sao, ưu nhược điểm, và khi nào nên chọn cái nào.
 
+[![Sơ đồ tóm tắt bài: GitHub Flow & Trunk-based](/img/git/github-flow-va-trunk-based.webp)](pathname:///img/git/github-flow-va-trunk-based.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

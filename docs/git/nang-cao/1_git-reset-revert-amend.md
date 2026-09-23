@@ -7,6 +7,8 @@ title: "1. Reset, Revert, Amend — Sửa lỗi trong Git"
 
 Ai cũng mắc sai lầm khi commit — viết sai message, quên thêm file, hoặc commit nhầm code. Đừng lo, Git có những công cụ mạnh mẽ giúp bạn sửa lỗi. Trong bài này, mình sẽ đi qua ba "vũ khí" chính: `amend`, `reset`, và `revert` — mỗi cái phù hợp với một tình huống khác nhau.
 
+[![Sơ đồ tóm tắt bài: Git Reset, Revert & Amend](/img/git/git-reset-revert-amend.webp)](pathname:///img/git/git-reset-revert-amend.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

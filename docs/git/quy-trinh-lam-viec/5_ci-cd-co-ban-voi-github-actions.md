@@ -7,6 +7,8 @@ title: "5. CI/CD cơ bản với GitHub Actions"
 
 Bạn đã biết cách viết code, tạo branch, merge PR. Nhưng ai sẽ **kiểm tra code có lỗi không** trước khi merge? Ai sẽ **build và deploy** sau khi merge? Nếu làm thủ công -> chậm, dễ sai, không nhất quán. Đây là lúc **CI/CD** và **GitHub Actions** vào cuộc. Bài này sẽ giúp bạn hiểu CI/CD là gì, và hướng dẫn bạn xây dựng pipeline đầu tiên với GitHub Actions từ A đến Z.
 
+[![Sơ đồ tóm tắt bài: CI/CD với GitHub Actions](/img/git/ci-cd-github-actions.webp)](pathname:///img/git/ci-cd-github-actions.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

@@ -7,6 +7,8 @@ title: "1. Git Flow — Mô hình phân nhánh kinh điển"
 
 Khi làm việc trong một team lớn, bạn sẽ gặp câu hỏi: "Ai làm nhánh nào? Merge vào đâu? Release lúc nào?" Git Flow ra đời để trả lời tất cả những câu hỏi đó. Đây là **mô hình phân nhánh (branching model)** nổi tiếng nhất trong lịch sử Git, được hàng nghìn team trên thế giới áp dụng. Bài này sẽ giúp bạn hiểu chi tiết Git Flow là gì, cách hoạt động, và khi nào nên (hoặc không nên) dùng nó.
 
+[![Sơ đồ tóm tắt bài: Git Flow](/img/git/git-flow.webp)](pathname:///img/git/git-flow.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

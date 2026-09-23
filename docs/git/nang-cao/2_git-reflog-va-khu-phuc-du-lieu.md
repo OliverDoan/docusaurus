@@ -7,6 +7,8 @@ title: "2. Git Reflog — Khôi phục dữ liệu đã mất"
 
 Bạn đã bao giờ `reset --hard` nhầm và nghĩ rằng code đã mất vĩnh viễn? Tin vui: Git gần như KHÔNG BAO GIỜ xóa dữ liệu thực sự. Bí mật nằm ở **reflog** — cuốn nhật ký ghi lại mọi thay đổi của HEAD. Đây chính là "lưới an toàn" của Git.
 
+[![Sơ đồ tóm tắt bài: Git Reflog & khôi phục](/img/git/git-reflog-va-khoi-phuc.webp)](pathname:///img/git/git-reflog-va-khoi-phuc.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

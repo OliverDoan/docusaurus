@@ -7,6 +7,8 @@ title: "5. Git Hooks và Tự động hóa"
 
 Bạn có bao giờ quên chạy lint trước khi commit? Hoặc đồng nghiệp commit message lung tung không theo quy ước? **Git Hooks** cho phép bạn tự động hóa các kiểm tra tại mỗi bước trong workflow Git — từ trước khi commit đến sau khi push. Kết hợp với **Husky**, **lint-staged**, và **commitlint**, bạn có thể xây dựng một pipeline tự động đảm bảo chất lượng code cho cả team.
 
+[![Sơ đồ tóm tắt bài: Git Hooks & tự động hóa](/img/git/git-hooks-va-tu-dong-hoa.webp)](pathname:///img/git/git-hooks-va-tu-dong-hoa.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

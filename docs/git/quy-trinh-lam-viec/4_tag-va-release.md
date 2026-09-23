@@ -7,6 +7,8 @@ title: "4. Tag và Release"
 
 Khi dự án của bạn đạt đến một mốc quan trọng — phiên bản đầu tiên, bản sửa lỗi lớn, hoặc tính năng mới — bạn cần **đánh dấu** thời điểm đó trong lịch sử Git. Đây là lúc **tag** phát huy tác dụng. Kết hợp với **GitHub Releases**, bạn có thể đóng gói phần mềm, viết release notes, và phân phối đến người dùng. Bài này sẽ hướng dẫn bạn mọi thứ từ tag cơ bản đến quy trình release chuyên nghiệp.
 
+[![Sơ đồ tóm tắt bài: Git Tag & Release](/img/git/tag-va-release.webp)](pathname:///img/git/tag-va-release.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

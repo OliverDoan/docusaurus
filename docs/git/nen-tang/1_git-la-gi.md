@@ -17,6 +17,8 @@ bao-cao-final-CUOI-CUNG-THAT-SU.docx
 
 Nếu có, chúc mừng bạn — bạn đang "quản lý phiên bản" bằng tay. Và đó chính là lý do Git ra đời.
 
+[![Sơ đồ tóm tắt bài: Git là gì?](/img/git/git-la-gi.webp)](pathname:///img/git/git-la-gi.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

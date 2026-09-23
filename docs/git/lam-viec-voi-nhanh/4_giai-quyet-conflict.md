@@ -7,6 +7,8 @@ title: "4. Giải quyết conflict trong Git"
 
 Conflict (xung đột) là điều **không thể tránh khỏi** khi làm việc nhóm với Git. Nhưng thay vì sợ hãi, bạn nên xem conflict như một **cơ hội để review và cải thiện code**. Bài này sẽ giúp bạn hiểu tại sao conflict xảy ra, cách đọc conflict markers, và quy trình giải quyết conflict từ cơ bản đến nâng cao.
 
+[![Sơ đồ tóm tắt bài: Giải quyết Git Conflict](/img/git/giai-quyet-conflict.webp)](pathname:///img/git/giai-quyet-conflict.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

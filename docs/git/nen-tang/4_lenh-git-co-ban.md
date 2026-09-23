@@ -7,6 +7,8 @@ title: "4. Các lệnh Git cơ bản"
 
 Bài này hướng dẫn chi tiết các lệnh Git bạn sẽ dùng **hàng ngày**. Mỗi lệnh đều được giải thích **tại sao dùng** và **khi nào dùng**, không chỉ là cú pháp.
 
+[![Sơ đồ tóm tắt bài: Lệnh Git cơ bản](/img/git/lenh-git-co-ban.webp)](pathname:///img/git/lenh-git-co-ban.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

@@ -7,6 +7,8 @@ title: "2. Merge — Gộp nhánh trong Git"
 
 Sau khi bạn làm việc trên một branch riêng và hoàn thành công việc, bước tiếp theo là **gộp (merge)** các thay đổi đó vào branch chính. Merge là một trong những thao tác quan trọng nhất trong Git, và hiểu rõ các kiểu merge sẽ giúp bạn làm việc hiệu quả hơn trong nhóm.
 
+[![Sơ đồ tóm tắt bài: Git Merge cơ bản](/img/git/merge-co-ban.webp)](pathname:///img/git/merge-co-ban.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]
