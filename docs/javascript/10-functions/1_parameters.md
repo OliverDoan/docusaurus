@@ -7,6 +7,8 @@ title: "1. Function Parameters"
 
 **Parameter** (tham số) là các biến mà bạn khai báo trong dấu ngoặc của một hàm để nhận dữ liệu đầu vào khi hàm được gọi. JavaScript cho phép bạn đặt giá trị mặc định (**default parameters**), gom nhiều giá trị thành một mảng (**rest parameters**), hay tách dữ liệu từ object/array ngay tại tham số (**destructuring**). Hiểu rõ tham số giúp bạn viết hàm linh hoạt và dễ tái sử dụng hơn.
 
+[![Sơ đồ tóm tắt bài: Function Parameters](/img/javascript/parameters.webp)](pathname:///img/javascript/parameters.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]
