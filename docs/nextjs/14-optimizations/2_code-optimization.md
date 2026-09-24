@@ -469,20 +469,372 @@ Sweet spot:
 
 ## Câu hỏi phỏng vấn
 
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi đối chiếu lại với nội dung phía trên.
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-1. `Code splitting` là gì, và Next.js tự động tách bundle theo những ranh giới nào?
-2. Giải thích `tree shaking`: vì sao `import _ from "lodash"` làm phình bundle còn `import debounce from "lodash/debounce"` thì không?
-3. Khác nhau giữa import tĩnh và `dynamic()` của `next/dynamic`? `dynamic()` ảnh hưởng thế nào tới initial bundle?
-4. Khi nào nên đặt `ssr: false` trong `dynamic()`, và bạn đánh đổi điều gì về SEO cũng như `LCP`?
-5. Trong App Router, vì sao `next/dynamic` chỉ dùng được trong Client Component, còn Server Component phải dùng `Suspense` kèm `lazy`?
-6. Chỉ số `First Load JS` trong output của `next build` nghĩa là gì, và bạn coi ngưỡng bao nhiêu là chấp nhận được?
-7. Bạn dùng công cụ nào để tìm chunk nặng, và quy trình tối ưu bundle của bạn gồm những bước nào?
-8. So sánh `serverExternalPackages`, `transpilePackages` và `optimizePackageImports` — mỗi option giải quyết vấn đề gì?
-9. Vì sao `optimizePackageImports` đặc biệt hiệu quả với thư viện icon dạng barrel file? Cơ chế bên dưới là gì?
-10. Metadata API hoạt động ra sao, và khác nhau giữa `metadata` tĩnh với `generateMetadata` async là gì?
-11. Nếu `generateMetadata` và page cùng `fetch` một API thì có bị gọi hai lần không? Giải thích cơ chế memoize/dedupe.
-12. `title.template` ở root layout kết hợp với metadata của từng page như thế nào?
-13. Chuyển một phần UI từ Client Component sang Server Component giúp giảm bundle ra sao, và giới hạn của cách này là gì?
-14. Vì sao chia chunk quá nhỏ (over-fragmentation) lại có hại? Bạn cân bằng số lượng chunk và kích thước chunk thế nào?
-15. Tình huống: trang dashboard có `First Load JS` khoảng `400KB` và `LCP` chậm — bạn điều tra rồi xử lý theo thứ tự nào?
+**1. `Code splitting` là gì, và Next.js tự động tách bundle theo những ranh giới nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Code splitting** là kỹ thuật chia JavaScript thành nhiều chunk nhỏ để trình duyệt **chỉ tải phần cần cho màn hình hiện tại**, thay vì một file khổng lồ chứa toàn bộ ứng dụng.
+
+Next.js tách tự động theo ba ranh giới:
+
+- **Theo route**: mỗi page có bundle riêng. Vào `/about` thì không phải tải code của `/dashboard`.
+- **Theo ranh giới Client Component**: mọi thứ là Server Component **không gửi JS xuống client** chút nào — đây là cách cắt mạnh nhất, vì code không chỉ được hoãn mà biến mất hẳn khỏi bundle.
+- **Theo lazy import**: `dynamic()` hoặc `React.lazy()` tạo chunk riêng, chỉ tải khi component thực sự được render.
+
+Ngoài ra code dùng chung giữa nhiều route được gom vào **shared chunk** để tải một lần rồi cache. Output của `next build` hiển thị `Size` (riêng route) và `First Load JS` (tổng phải tải khi vào route đó lần đầu).
+
+</details>
+
+**2. Giải thích `tree shaking`: vì sao `import _ from "lodash"` làm phình bundle còn `import debounce from "lodash/debounce"` thì không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Tree shaking** là việc bundler phân tích đồ thị import/export **tĩnh** của ES Module và loại bỏ những export không ai dùng.
+
+Vấn đề với `lodash` bản gốc: nó được publish dưới dạng **CommonJS**, nơi `module.exports` là một object được dựng lúc chạy. Bundler không thể chứng minh an toàn rằng phần nào không dùng, nên giữ lại toàn bộ (~70KB).
+
+```ts
+// Tệ — kéo cả thư viện
+import _ from "lodash";
+
+// Tốt — import trực tiếp file của một hàm
+import debounce from "lodash/debounce";
+
+// Tốt — bản ESM có thể tree-shake
+import { debounce } from "lodash-es";
+```
+
+Điều kiện để tree shaking hoạt động: thư viện phải là ESM, import phải tĩnh (không phải `require` có điều kiện), và không có **side effect** ẩn — package khai báo `sideEffects: false` trong `package.json` để bundler mạnh dạn cắt.
+
+</details>
+
+**3. Khác nhau giữa import tĩnh và `dynamic()` của `next/dynamic`? `dynamic()` ảnh hưởng thế nào tới initial bundle?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Import tĩnh** nối module vào đồ thị phụ thuộc của route, nên code đó nằm trong bundle ban đầu và được tải dù người dùng có nhìn thấy component hay không.
+
+**`dynamic()`** bọc một `import()` động, khiến bundler cắt module thành **chunk riêng**; chunk chỉ được tải khi component được render lần đầu.
+
+```tsx
+import dynamic from "next/dynamic";
+
+const HeavyChart = dynamic(() => import("./HeavyChart"), {
+  loading: () => <Skeleton />,
+});
+```
+
+Ảnh hưởng tới initial bundle: kích thước tải lần đầu giảm đúng bằng phần code đã tách ra (kèm phụ thuộc riêng của nó). Đổi lại có **một lượt request mạng phụ** lúc component xuất hiện, nên cần `loading` để tránh khoảng trống.
+
+Chỉ nên dùng cho component thật sự nặng và **không hiển thị ngay** — biểu đồ, rich text editor, bản đồ, modal. Tách một component 5KB chỉ khiến người dùng chờ thêm một round-trip.
+
+</details>
+
+**4. Khi nào nên đặt `ssr: false` trong `dynamic()`, và bạn đánh đổi điều gì về SEO cũng như `LCP`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Đặt `ssr: false` khi component **chỉ chạy được trong trình duyệt** — dùng `window`, `document`, `localStorage`, canvas/WebGL, thư viện bản đồ như Mapbox/Leaflet, hoặc thư viện đọc trực tiếp kích thước DOM. Không có nó, bước render phía server sẽ ném lỗi vì các API đó không tồn tại.
+
+```tsx
+const Map = dynamic(() => import("./Map"), {
+  ssr: false,
+  loading: () => <p>Loading map...</p>,
+});
+```
+
+Đánh đổi:
+
+- **SEO**: nội dung của component **không nằm trong HTML** trả về từ server, nên bot không thấy (hoặc chỉ thấy nếu nó chịu chạy JS). Tuyệt đối không dùng cho nội dung chính cần index.
+- **LCP**: nếu phần tử lớn nhất nằm trong component này, người dùng phải chờ tải JS, hydrate rồi mới thấy — LCP xấu đi rõ.
+- **CLS**: cần `loading` giữ đúng chỗ, nếu không bố cục sẽ nhảy khi component xuất hiện.
+
+Nguyên tắc: `ssr: false` cho tiện ích phụ nằm dưới màn hình đầu, không cho nội dung chính.
+
+</details>
+
+**5. Trong App Router, vì sao `next/dynamic` chỉ dùng được trong Client Component, còn Server Component phải dùng `Suspense` kèm `lazy`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`next/dynamic` sinh ra ranh giới lazy **ở phía client**: nó cần quản lý trạng thái tải, render `loading`, và tuỳ chọn `ssr: false` vốn chỉ có nghĩa khi có một client runtime để hoãn việc render. Server Component chạy một lần trên server, không có state, không hydrate, nên những cơ chế đó không áp dụng — đặc biệt `ssr: false` là vô nghĩa trong ngữ cảnh server.
+
+Ở Server Component, cách tương đương là để React **stream** phần chậm:
+
+```tsx
+import { Suspense } from "react";
+import Heavy from "./Heavy";
+
+export default function Page() {
+  return (
+    <Suspense fallback={<Skeleton />}>
+      <Heavy />
+    </Suspense>
+  );
+}
+```
+
+Khác biệt bản chất: ở Server Component, thứ được hoãn là **dữ liệu và HTML** — server gửi fallback trước rồi stream phần thật xuống sau. Ở Client Component, thứ được hoãn là **JavaScript**. Ngoài ra bản thân Server Component đã không đóng góp gì vào client bundle, nên "lazy load để giảm bundle" không còn là mục tiêu ở đó.
+
+</details>
+
+**6. Chỉ số `First Load JS` trong output của `next build` nghĩa là gì, và bạn coi ngưỡng bao nhiêu là chấp nhận được?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**First Load JS** là **tổng lượng JavaScript trình duyệt phải tải khi vào thẳng route đó lần đầu**: chunk riêng của route, cộng các shared chunk (framework React, runtime Next.js, code dùng chung giữa các route). Nó khác cột `Size` — cột đó chỉ là phần riêng của route.
+
+```
+Route (app)                Size      First Load JS
+┌ ○ /                    5.2 kB        85 kB
+├ ƒ /dashboard          15.3 kB        95 kB
+```
+
+Ngưỡng tham khảo trong bài:
+
+- **Dưới 200KB (gzipped)** cho page chính là mục tiêu hợp lý.
+- Mỗi route thêm nên dưới ~50KB.
+- Dưới 100KB là rất tốt.
+
+Lưu ý khi diễn giải: con số này là dung lượng đã nén, chưa tính CSS, ảnh và script bên thứ ba — nên một trang "85 kB" vẫn có thể chậm nếu nhúng nhiều tag bên ngoài. Và quan trọng hơn con số tuyệt đối là **xu hướng**: theo dõi để bundle không âm thầm phình lên qua từng PR.
+
+</details>
+
+**7. Bạn dùng công cụ nào để tìm chunk nặng, và quy trình tối ưu bundle của bạn gồm những bước nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Công cụ chính là **`@next/bundle-analyzer`**, cho ra bản đồ treemap thấy rõ package nào chiếm chỗ:
+
+```bash
+npm install -D @next/bundle-analyzer
+ANALYZE=true npm run build
+```
+
+Bổ sung: bảng tóm tắt của chính `next build`, Coverage tab của DevTools để xem bao nhiêu JS thực sự được dùng, và các dịch vụ so sánh kích thước package.
+
+Quy trình:
+
+1. **Đo baseline** và ghi lại con số.
+2. **Tìm chunk lớn nhất** rồi truy ngược xem ai import nó.
+3. **Áp dụng cách xử lý phù hợp** — thường theo thứ tự hiệu quả: chuyển component sang Server Component; thay thư viện nặng bằng bản nhẹ; bật `optimizePackageImports` cho thư viện barrel; `dynamic()` cho component nặng hiển thị muộn; `serverExternalPackages` cho native module.
+4. **Đo lại** để xác nhận cải thiện thật.
+5. **Lặp** cho chunk lớn kế tiếp, và dừng khi lợi ích không còn đáng công.
+6. **Chốt lại bằng ngân sách bundle** kiểm tra trong CI để không trôi ngược.
+
+</details>
+
+**8. So sánh `serverExternalPackages`, `transpilePackages` và `optimizePackageImports` — mỗi option giải quyết vấn đề gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Option | Vấn đề giải quyết | Ví dụ |
+|---|---|---|
+| `serverExternalPackages` | Package chạy ở **server** không nên bị bundle — thường là native module hoặc thư viện lớn; bundle chúng gây lỗi hoặc làm output nặng, cold start chậm | `sharp`, `@prisma/client` |
+| `transpilePackages` | Package trong `node_modules` được publish ở dạng chưa biên dịch (ESM hiện đại, TS, JSX) mà môi trường đích không hiểu | Thư viện nội bộ trong monorepo |
+| `optimizePackageImports` | Package dùng **barrel file** nên import vài thứ lại kéo cả thư viện | `lucide-react`, `@radix-ui/react-icons` |
+
+```ts
+// next.config.ts
+export default {
+  serverExternalPackages: ["sharp", "@prisma/client"],
+  transpilePackages: ["some-untranspiled-pkg"],
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
+};
+```
+
+Tóm gọn: một cái nói "đừng bundle", một cái nói "hãy biên dịch giúp", một cái nói "hãy cắt bớt phần thừa". Chúng tác động ở ba khâu khác nhau nên hoàn toàn dùng chung được.
+
+</details>
+
+**9. Vì sao `optimizePackageImports` đặc biệt hiệu quả với thư viện icon dạng barrel file? Cơ chế bên dưới là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Thư viện icon thường có một **barrel file** — một `index.js` re-export hàng nghìn icon. Khi bạn viết:
+
+```tsx
+import { Search, User, Settings } from "lucide-react";
+```
+
+bundler phải nạp và phân tích toàn bộ barrel đó. Về lý thuyết tree shaking sẽ cắt phần thừa, nhưng thực tế việc phân tích hàng nghìn module rất chậm và thường không cắt sạch — kết quả có thể là hàng chục KB cho ba icon, cộng thời gian build tăng vọt.
+
+`optimizePackageImports` **viết lại import lúc biên dịch**, biến câu lệnh trên thành các import trỏ thẳng tới file của từng icon:
+
+```tsx
+import Search from "lucide-react/dist/esm/icons/search";
+```
+
+Nhờ vậy bundler chỉ chạm đúng ba module. Kết quả trong bài: từ ~50KB xuống ~5KB cho ba icon, kèm build nhanh hơn rõ rệt. Lợi ích tương tự với các thư viện UI và utility dùng barrel. Một số package phổ biến đã được Next.js bật sẵn, phần còn lại bạn khai báo thêm.
+
+</details>
+
+**10. Metadata API hoạt động ra sao, và khác nhau giữa `metadata` tĩnh với `generateMetadata` async là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Bạn không tự viết thẻ trong `<head>`; thay vào đó **export metadata từ page hoặc layout**, Next.js gom lại theo cây route (page ghi đè layout) rồi sinh thẻ HTML tương ứng — `title`, `description`, Open Graph, Twitter card, `robots`, canonical, icon.
+
+**`metadata` tĩnh** — dùng khi nội dung biết trước lúc build:
+
+```tsx
+export const metadata: Metadata = {
+  title: "Home | My App",
+  description: "Welcome to my app",
+};
+```
+
+**`generateMetadata`** — hàm async, dùng khi metadata phụ thuộc dữ liệu động (params, dữ liệu từ API):
+
+```tsx
+export async function generateMetadata({ params }): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await fetchPost(slug);
+  return { title: post.title, description: post.excerpt };
+}
+```
+
+Khác biệt chính: một bên là object hằng, không tốn chi phí runtime; một bên chạy trên server, nhận `params` và `searchParams`, có thể `await` dữ liệu. Không được export cả hai trong cùng một file. Quan trọng với SEO vì các thẻ này nằm sẵn trong HTML từ server, không cần JS.
+
+</details>
+
+**11. Nếu `generateMetadata` và page cùng `fetch` một API thì có bị gọi hai lần không? Giải thích cơ chế memoize/dedupe.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không** — chỉ gọi mạng một lần, miễn là hai nơi dùng cùng URL và cùng tuỳ chọn.
+
+```tsx
+async function generateMetadata({ params }) {
+  const post = await fetchPost(slug); // gọi thật
+  return { title: post.title };
+}
+
+export default async function Page({ params }) {
+  const post = await fetchPost(slug); // dedupe — dùng lại kết quả
+  return <article>{post.content}</article>;
+}
+```
+
+Cơ chế: trong App Router, `fetch` được **memoize trong phạm vi một lần render request**. Next.js tạo khoá từ URL và options; lần gọi thứ hai trùng khoá sẽ nhận lại cùng promise thay vì đi ra mạng. Bộ nhớ tạm này sống trong vòng đời của request rồi bị bỏ, khác với Data Cache vốn tồn tại xuyên request.
+
+Với nguồn dữ liệu **không dùng `fetch`** — truy vấn database qua ORM chẳng hạn — cơ chế này không tự áp dụng. Khi đó bọc hàm bằng **`cache()` của React** để có hiệu quả tương đương:
+
+```ts
+import { cache } from "react";
+export const getPost = cache(async (slug: string) => db.post.find(slug));
+```
+
+</details>
+
+**12. `title.template` ở root layout kết hợp với metadata của từng page như thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`title` có thể là object với `default` và `template`. `template` chứa ký tự thay thế `%s`, và **mọi page con** chỉ cần khai báo phần riêng của mình:
+
+```ts
+// app/layout.tsx
+export const metadata: Metadata = {
+  title: {
+    default: "My App",
+    template: "%s | My App",
+  },
+};
+
+// app/about/page.tsx
+export const metadata: Metadata = {
+  title: "About", // render thành "About | My App"
+};
+```
+
+Các quy tắc cần nhớ:
+
+- **`default`** được dùng khi route con không khai báo `title` nào.
+- **`template` chỉ áp dụng cho route con**, không áp cho chính segment khai báo nó — tiêu đề của layout gốc là `default`.
+- Layout lồng nhau có thể khai báo template riêng, ghi đè template của cấp trên cho nhánh đó.
+- Muốn một page thoát khỏi template, dùng `title: { absolute: "..." }`.
+
+Lợi ích: giữ hậu tố thương hiệu nhất quán toàn site mà không phải lặp lại ở từng page.
+
+</details>
+
+**13. Chuyển một phần UI từ Client Component sang Server Component giúp giảm bundle ra sao, và giới hạn của cách này là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Đây là cách giảm bundle **triệt để nhất**: code của Server Component không chỉ được hoãn tải mà **không bao giờ được gửi xuống trình duyệt**. Cùng với nó, mọi thư viện mà component đó import — thư viện markdown, thư viện định dạng ngày, SDK truy vấn dữ liệu — cũng biến mất khỏi client bundle. Client chỉ nhận kết quả đã render.
+
+Kỹ thuật thường dùng là **đẩy ranh giới `"use client"` xuống càng sâu càng tốt**: thay vì đánh dấu cả trang là client, chỉ đánh dấu đúng nút bấm hay form cần tương tác.
+
+Giới hạn:
+
+- Server Component **không có state, effect, ref, event handler**, không dùng được browser API. Mọi thứ cần tương tác vẫn phải là client.
+- **Props truyền từ server sang client phải serialize được** — không truyền hàm, class instance hay `Date` phức tạp một cách tuỳ tiện.
+- Không dùng được context của React ở phía server theo cách quen thuộc.
+- Server Component **render lại ở server**, nên phần tương tác cần cập nhật tức thì vẫn phải nằm ở client.
+- Thư viện UI cũ chưa hỗ trợ RSC có thể buộc phải bọc client.
+
+</details>
+
+**14. Vì sao chia chunk quá nhỏ (over-fragmentation) lại có hại? Bạn cân bằng số lượng chunk và kích thước chunk thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Mỗi chunk là một **request riêng** với chi phí cố định: round-trip mạng, header, thời gian xử lý. Chia quá nhỏ dẫn tới:
+
+- **Waterfall**: chunk A tải xong mới biết cần chunk B, chuỗi phụ thuộc kéo dài, đặc biệt đau trên mạng di động độ trễ cao.
+- **Mất hiệu quả nén**: gzip/brotli nén kém hơn trên nhiều file nhỏ so với một file gộp.
+- **Nhiều khoảnh khắc `loading`** nhấp nháy, trải nghiệm rời rạc và dễ gây layout shift.
+- Overhead runtime của module loader tăng theo số chunk.
+
+Ngưỡng tham khảo trong bài:
+
+- Initial bundle: **100–200KB** gzipped.
+- Mỗi route thêm: dưới ~50KB.
+- Chỉ tách chunk lazy khi phần đó **lớn hơn ~50KB**.
+
+Cách cân bằng thực dụng: tách theo **hành vi người dùng** chứ không theo con số — cái gì không hiện trong màn hình đầu và không phải ai cũng mở (modal, tab phụ, biểu đồ, editor) thì tách; phần còn lại gộp chung. Sau mỗi lần tách thì đo lại, đừng `dynamic()` theo phản xạ.
+
+</details>
+
+**15. Tình huống: trang dashboard có `First Load JS` khoảng `400KB` và `LCP` chậm — bạn điều tra rồi xử lý theo thứ tự nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Điều tra:
+
+1. `ANALYZE=true npm run build` để xem treemap, tìm ra vài package chiếm phần lớn dung lượng.
+2. Kiểm tra **ranh giới `"use client"`**: rất thường gặp trường hợp cả trang bị đánh dấu client chỉ vì một nút bấm, kéo theo mọi thứ vào bundle.
+3. Xem Performance/Network để biết LCP đang chờ **JS** hay chờ **dữ liệu/ảnh** — hai nguyên nhân này cần cách chữa khác nhau.
+
+Xử lý theo thứ tự lợi ích giảm dần:
+
+1. **Thu hẹp ranh giới client**: chuyển phần tĩnh về Server Component — thường cắt được nhiều nhất mà không đổi kiến trúc.
+2. **Thay thư viện nặng**: `moment` sang `date-fns`/`dayjs`, bỏ `axios` dùng `fetch`, bỏ `lodash` toàn phần.
+3. **Bật `optimizePackageImports`** cho thư viện icon và UI dạng barrel.
+4. **`dynamic()`** cho biểu đồ, editor, bảng lớn — những thứ nằm dưới màn hình đầu, kèm skeleton giữ chỗ.
+5. **Streaming với `Suspense`** để phần khung hiện ngay, dữ liệu chậm về sau — cải thiện cảm nhận về LCP.
+6. Rà lại **script bên thứ ba** và ảnh hero (`priority`, `sizes`).
+7. Đo lại, rồi đặt **ngân sách bundle trong CI** để giữ kết quả.
+
+</details>
