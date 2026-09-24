@@ -120,7 +120,6 @@ const config: Config = {
             {type: 'docSidebar', sidebarId: 'javascriptSidebar', label: 'JavaScript'},
             {type: 'docSidebar', sidebarId: 'typescriptSidebar', label: 'TypeScript'},
             {type: 'docSidebar', sidebarId: 'reactSidebar', label: 'React'},
-            {type: 'docSidebar', sidebarId: 'reactPracticeSidebar', label: 'React Thực hành'},
             {type: 'docSidebar', sidebarId: 'nextjsSidebar', label: 'Next.js'},
             {type: 'docSidebar', sidebarId: 'reactNativeSidebar', label: 'React Native'},
             {type: 'docSidebar', sidebarId: 'microFrontendSidebar', label: 'Micro-frontend'},
@@ -133,8 +132,8 @@ const config: Config = {
           items: [
             {type: 'docSidebar', sidebarId: 'backendSidebar', label: 'Backend'},
             {type: 'docSidebar', sidebarId: 'sqlSidebar', label: 'SQL'},
-            // {type: 'docSidebar', sidebarId: 'nodejsSidebar', label: 'Node.js'},
-            // {type: 'docSidebar', sidebarId: 'dockerSidebar', label: 'Docker'},
+            {type: 'docSidebar', sidebarId: 'nodejsSidebar', label: 'Node.js'},
+            {type: 'docSidebar', sidebarId: 'dockerSidebar', label: 'Docker'},
           ],
         },
         {
@@ -144,7 +143,6 @@ const config: Config = {
           items: [
             {type: 'docSidebar', sidebarId: 'javaSidebar', label: 'Java'},
             {type: 'docSidebar', sidebarId: 'javaGpcoderSidebar', label: 'Java (gpcoder)'},
-            {type: 'docSidebar', sidebarId: 'javaPracticeSidebar', label: 'Java Thực hành'},
           ],
         },
         {
@@ -176,7 +174,7 @@ const config: Config = {
           items: [
             {type: 'docSidebar', sidebarId: 'claudeSidebar', label: 'Claude'},
             {type: 'docSidebar', sidebarId: 'gitSidebar', label: 'Git'},
-            // {type: 'docSidebar', sidebarId: 'seoSidebar', label: 'SEO'},
+            {type: 'docSidebar', sidebarId: 'seoSidebar', label: 'SEO'},
           ],
         },
         {
