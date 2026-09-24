@@ -839,22 +839,49 @@ External links cũng bị broken (website partner đóng, URL thay đổi). Scri
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: Làm sao tích hợp SEO checks vào CI/CD pipeline?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời**: Sử dụng Lighthouse CI trong GitHub Actions: (1) Build project, (2) Chạy Lighthouse CI với assertions cho SEO score tối thiểu (ví dụ >= 90), (3) Check meta tags bằng custom script, (4) Validate sitemap.xml và robots.txt tồn tại, (5) Check broken links. Nếu bất kỳ check nào fail, PR bị block. Config trong `lighthouserc.js` cho assertions cụ thể như `meta-description: 'error'`, `canonical: 'error'`.
+**1. Làm sao tích hợp SEO checks vào CI/CD pipeline?**
 
-### Câu 2: Google Search Console API có thể lấy những data gì?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời**: GSC API (Search Analytics) cung cấp: clicks, impressions, CTR, average position cho từng query và page. Có thể filter theo date range, country, device, search type. Dùng để monitor traffic trends, phát hiện pages mất ranking, tìm keyword opportunities (impressions cao nhưng CTR thấp). API cũng có URL Inspection endpoint để kiểm tra index status của URL cụ thể.
+: Sử dụng Lighthouse CI trong GitHub Actions: (1) Build project, (2) Chạy Lighthouse CI với assertions cho SEO score tối thiểu (ví dụ >= 90), (3) Check meta tags bằng custom script, (4) Validate sitemap.xml và robots.txt tồn tại, (5) Check broken links. Nếu bất kỳ check nào fail, PR bị block. Config trong `lighthouserc.js` cho assertions cụ thể như `meta-description: 'error'`, `canonical: 'error'`.
 
-### Câu 3: Tại sao sitemap cần được generate tự động?
+</details>
 
-**Trả lời**: Website thay đổi liên tục — thêm trang, xóa trang, cập nhật nội dung. Sitemap static (viết tay) nhanh chóng outdated, dẫn đến: (1) Google không biết trang mới, (2) Google cố crawl trang đã xóa (wasted crawl budget), (3) `lastmod` dates không chính xác khiến Google không re-crawl trang đã cập nhật. Giải pháp: generate sitemap trong build step, dựa trên files/pages thực tế trong build output.
+**2. Google Search Console API có thể lấy những data gì?**
 
-### Câu 4: Broken links ảnh hưởng thế nào đến SEO?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời**: Broken internal links (404) lãng phí crawl budget và cắt đứt link equity flow. User gặp 404 tăng bounce rate. Google coi broken links là tín hiệu website được maintain kém. Broken external links (outbound) ảnh hưởng ít hơn nhưng vẫn gây UX xấu. Nên chạy broken link check tự động weekly, và trong CI/CD cho internal links.
+: GSC API (Search Analytics) cung cấp: clicks, impressions, CTR, average position cho từng query và page. Có thể filter theo date range, country, device, search type. Dùng để monitor traffic trends, phát hiện pages mất ranking, tìm keyword opportunities (impressions cao nhưng CTR thấp). API cũng có URL Inspection endpoint để kiểm tra index status của URL cụ thể.
 
-### Câu 5: Lighthouse CI assertions nên set thế nào cho SEO?
+</details>
 
-**Trả lời**: Chia thành 2 levels: `error` (block PR) và `warn` (cảnh báo nhưng không block). **Error-level**: `meta-description`, `document-title`, `canonical`, `is-crawlable`, `crawlable-anchors`, `image-alt`, `categories:seo >= 0.9`. **Warn-level**: `hreflang`, `link-text`, `robots-txt`, `categories:performance >= 0.8`. Tùy project mà điều chỉnh — site mới có thể bắt đầu với threshold thấp hơn rồi nâng dần.
+**3. Tại sao sitemap cần được generate tự động?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+: Website thay đổi liên tục — thêm trang, xóa trang, cập nhật nội dung. Sitemap static (viết tay) nhanh chóng outdated, dẫn đến: (1) Google không biết trang mới, (2) Google cố crawl trang đã xóa (wasted crawl budget), (3) `lastmod` dates không chính xác khiến Google không re-crawl trang đã cập nhật. Giải pháp: generate sitemap trong build step, dựa trên files/pages thực tế trong build output.
+
+</details>
+
+**4. Broken links ảnh hưởng thế nào đến SEO?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+: Broken internal links (404) lãng phí crawl budget và cắt đứt link equity flow. User gặp 404 tăng bounce rate. Google coi broken links là tín hiệu website được maintain kém. Broken external links (outbound) ảnh hưởng ít hơn nhưng vẫn gây UX xấu. Nên chạy broken link check tự động weekly, và trong CI/CD cho internal links.
+
+</details>
+
+**5. Lighthouse CI assertions nên set thế nào cho SEO?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+: Chia thành 2 levels: `error` (block PR) và `warn` (cảnh báo nhưng không block). **Error-level**: `meta-description`, `document-title`, `canonical`, `is-crawlable`, `crawlable-anchors`, `image-alt`, `categories:seo >= 0.9`. **Warn-level**: `hreflang`, `link-text`, `robots-txt`, `categories:performance >= 0.8`. Tùy project mà điều chỉnh — site mới có thể bắt đầu với threshold thấp hơn rồi nâng dần.
+
+</details>

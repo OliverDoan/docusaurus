@@ -756,26 +756,58 @@ git push
 
 ## 13. Câu hỏi phỏng vấn
 
-### Câu 1: Pull Request là gì? Tại sao team nên dùng PR thay vì push thẳng vào main?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** Pull Request là đề xuất merge code từ nhánh feature vào nhánh chính (main/develop). Team nên dùng PR vì: (1) Code được review trước khi merge, giảm bug, (2) CI/CD tự động chạy tests, (3) Tạo tài liệu về thay đổi code, (4) Chia sẻ kiến thức trong team khi review, (5) Dễ rollback nếu có vấn đề. Push thẳng vào main nguy hiểm vì không ai kiểm tra code, có thể đưa bug lên production.
+**1. Pull Request là gì? Tại sao team nên dùng PR thay vì push thẳng vào main?**
 
-### Câu 2: So sánh 3 merge options: Merge Commit, Squash, và Rebase.
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Merge Commit giữ nguyên tất cả commit và tạo thêm merge commit, lịch sử đầy đủ nhưng phức tạp. Squash gộp tất cả commit thành 1, lịch sử main sạch nhất, phù hợp khi commit trong PR không có ý nghĩa riêng lẻ. Rebase đặt lại commit lên đầu target branch, lịch sử linear, không tạo merge commit. Squash phổ biến nhất trong team hiện đại vì giữ main branch clean (1 commit = 1 feature/fix).
+Pull Request là đề xuất merge code từ nhánh feature vào nhánh chính (main/develop). Team nên dùng PR vì: (1) Code được review trước khi merge, giảm bug, (2) CI/CD tự động chạy tests, (3) Tạo tài liệu về thay đổi code, (4) Chia sẻ kiến thức trong team khi review, (5) Dễ rollback nếu có vấn đề. Push thẳng vào main nguy hiểm vì không ai kiểm tra code, có thể đưa bug lên production.
 
-### Câu 3: Bạn review code thế nào? Checklist review gồm những gì?
+</details>
 
-**Trả lời:** Tôi review theo các khía cạnh: (1) Correctness — code có làm đúng yêu cầu, edge cases đã xử lý chưa, (2) Security — input validation, không hardcode secrets, SQL injection/XSS prevention, (3) Performance — query N+1, vòng lặp không cần thiết, cần caching không, (4) Readability — naming rõ ràng, hàm nhỏ, nesting không quá sâu, (5) Testing — tests đủ, logic test đúng, (6) Style — theo conventions dự án. Tôi phân loại feedback thành MUST FIX (bug, security), SHOULD FIX (performance), và NIT (style).
+**2. So sánh 3 merge options: Merge Commit, Squash, và Rebase.**
 
-### Câu 4: Khi nào dùng Draft PR?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Dùng Draft PR khi: (1) Code chưa hoàn thành nhưng muốn nhận feedback sớm về hướng tiếp cận, (2) Muốn chạy CI trên code WIP, (3) Muốn thảo luận design trước khi code xong, (4) Feature lớn cần nhiều ngày, muốn cho team biết đang làm gì. Draft PR không thể merge, không gửi thông báo cho reviewer (tránh spam). Khi xong, chuyển sang "Ready for review".
+Merge Commit giữ nguyên tất cả commit và tạo thêm merge commit, lịch sử đầy đủ nhưng phức tạp. Squash gộp tất cả commit thành 1, lịch sử main sạch nhất, phù hợp khi commit trong PR không có ý nghĩa riêng lẻ. Rebase đặt lại commit lên đầu target branch, lịch sử linear, không tạo merge commit. Squash phổ biến nhất trong team hiện đại vì giữ main branch clean (1 commit = 1 feature/fix).
 
-### Câu 5: PR tốt có những đặc điểm gì?
+</details>
 
-**Trả lời:** PR tốt cần: (1) Nhỏ (< 400 dòng) — dễ review, ít bug, (2) 1 mục đích duy nhất — không trộn feature + refactor, (3) Mô tả rõ ràng — what, why, how, test plan, (4) Tests đi kèm — code mới có tests, (5) Self-review trước — tác giả đọc lại trước khi assign reviewer, (6) Cập nhật với main — không có conflict, (7) CI pass — build và tests đều pass.
+**3. Bạn review code thế nào? Checklist review gồm những gì?**
 
-### Câu 6: Làm thế nào để giải quyết conflict trong Pull Request?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Có 2 cách: (1) Command line (khuyên dùng) — checkout nhánh feature, merge/rebase main vào, giải quyết conflict thủ công, commit và push. PR tự cập nhật. (2) GitHub web editor — cho conflict đơn giản, click "Resolve conflicts", sửa trực tiếp trên web. Cách 1 được khuyên dùng vì linh hoạt hơn, có thể chạy tests local trước khi push. Best practice: rebase/merge main vào feature branch thường xuyên để tránh conflict lớn.
+Tôi review theo các khía cạnh: (1) Correctness — code có làm đúng yêu cầu, edge cases đã xử lý chưa, (2) Security — input validation, không hardcode secrets, SQL injection/XSS prevention, (3) Performance — query N+1, vòng lặp không cần thiết, cần caching không, (4) Readability — naming rõ ràng, hàm nhỏ, nesting không quá sâu, (5) Testing — tests đủ, logic test đúng, (6) Style — theo conventions dự án. Tôi phân loại feedback thành MUST FIX (bug, security), SHOULD FIX (performance), và NIT (style).
+
+</details>
+
+**4. Khi nào dùng Draft PR?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Dùng Draft PR khi: (1) Code chưa hoàn thành nhưng muốn nhận feedback sớm về hướng tiếp cận, (2) Muốn chạy CI trên code WIP, (3) Muốn thảo luận design trước khi code xong, (4) Feature lớn cần nhiều ngày, muốn cho team biết đang làm gì. Draft PR không thể merge, không gửi thông báo cho reviewer (tránh spam). Khi xong, chuyển sang "Ready for review".
+
+</details>
+
+**5. PR tốt có những đặc điểm gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+PR tốt cần: (1) Nhỏ (< 400 dòng) — dễ review, ít bug, (2) 1 mục đích duy nhất — không trộn feature + refactor, (3) Mô tả rõ ràng — what, why, how, test plan, (4) Tests đi kèm — code mới có tests, (5) Self-review trước — tác giả đọc lại trước khi assign reviewer, (6) Cập nhật với main — không có conflict, (7) CI pass — build và tests đều pass.
+
+</details>
+
+**6. Làm thế nào để giải quyết conflict trong Pull Request?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Có 2 cách: (1) Command line (khuyên dùng) — checkout nhánh feature, merge/rebase main vào, giải quyết conflict thủ công, commit và push. PR tự cập nhật. (2) GitHub web editor — cho conflict đơn giản, click "Resolve conflicts", sửa trực tiếp trên web. Cách 1 được khuyên dùng vì linh hoạt hơn, có thể chạy tests local trước khi push. Best practice: rebase/merge main vào feature branch thường xuyên để tránh conflict lớn.
+
+</details>

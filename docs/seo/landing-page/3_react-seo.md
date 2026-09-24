@@ -529,22 +529,49 @@ Nếu JavaScript bundle lớn hơn 200KB (gzipped), Googlebot có thể timeout 
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: Tại sao React SPA gặp khó khăn với SEO? Có những giải pháp nào?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** React SPA render nội dung bằng JavaScript trên browser. Khi crawler truy cập, nó nhận được HTML gần trống với chỉ 1 `<div id="root">`. Googlebot có thể render JS nhưng với delay (two-wave indexing), và các bot khác (Facebook, Twitter) không chạy JS. Giải pháp: (1) SSR với Next.js/Remix - render trên server mỗi request, (2) SSG - pre-render tại build time, (3) Prerendering - dùng headless browser tạo HTML snapshots, (4) react-helmet-async - quản lý meta tags (chỉ giải quyết một phần).
+**1. Tại sao React SPA gặp khó khăn với SEO? Có những giải pháp nào?**
 
-### Câu 2: So sánh react-snap và prerender.io. Khi nào dùng cái nào?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** react-snap chạy Puppeteer tại build time, tạo HTML cho mỗi route, output là static files. Phù hợp cho site nhỏ (dưới vài trăm pages), miễn phí, nhưng tăng build time. prerender.io là SaaS middleware, detect bot user-agent và serve pre-rendered HTML on-the-fly. Phù hợp cho site lớn, dynamic content, không tăng build time nhưng tốn phí. Dùng react-snap cho side projects và sites nhỏ. Dùng prerender.io cho production sites cần scale.
+React SPA render nội dung bằng JavaScript trên browser. Khi crawler truy cập, nó nhận được HTML gần trống với chỉ 1 `<div id="root">`. Googlebot có thể render JS nhưng với delay (two-wave indexing), và các bot khác (Facebook, Twitter) không chạy JS. Giải pháp: (1) SSR với Next.js/Remix - render trên server mỗi request, (2) SSG - pre-render tại build time, (3) Prerendering - dùng headless browser tạo HTML snapshots, (4) react-helmet-async - quản lý meta tags (chỉ giải quyết một phần).
 
-### Câu 3: Google có thể render JavaScript không? Vậy tại sao SPA vẫn có vấn đề SEO?
+</details>
 
-**Trả lời:** Google sử dụng Web Rendering Service (WRS) dựa trên Chromium để render JavaScript. Tuy nhiên có vấn đề: (1) Two-wave indexing: Google crawl HTML trước, schedule render JS sau, có thể delay vài ngày đến vài tuần; (2) Render budget: Google có giới hạn tài nguyên cho mỗi site, trang nặng JS có thể bị skip; (3) Timeout: nếu JS execution quá lâu hoặc API calls chậm, nội dung bị miss; (4) Other bots: Facebook, Twitter, Slack preview không chạy JS. Vì vậy best practice vẫn là server-render HTML.
+**2. So sánh react-snap và prerender.io. Khi nào dùng cái nào?**
 
-### Câu 4: Làm sao tạo sitemap cho React SPA khi routes chỉ tồn tại trong JavaScript?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Cần tạo sitemap tại build time bằng script riêng. Định nghĩa danh sách routes trong file config hoặc tự động extract từ React Router config. Dùng script Node.js generate file `sitemap.xml` vào thư mục `public/`. Thêm script vào build pipeline (chạy trước hoặc sau build). Đối với dynamic routes (ví dụ blog posts), fetch data từ CMS/API rồi generate URL cho mỗi item. Submit sitemap lên Google Search Console.
+react-snap chạy Puppeteer tại build time, tạo HTML cho mỗi route, output là static files. Phù hợp cho site nhỏ (dưới vài trăm pages), miễn phí, nhưng tăng build time. prerender.io là SaaS middleware, detect bot user-agent và serve pre-rendered HTML on-the-fly. Phù hợp cho site lớn, dynamic content, không tăng build time nhưng tốn phí. Dùng react-snap cho side projects và sites nhỏ. Dùng prerender.io cho production sites cần scale.
 
-### Câu 5: Nếu đang có React SPA cần cải thiện SEO, nên migrate sang Next.js hay dùng prerendering?
+</details>
 
-**Trả lời:** Phụ thuộc vào nhiều yếu tố: (1) Nếu project nhỏ, ít routes -> prerendering với react-snap là đủ, chi phí migration thấp; (2) Nếu project lớn, cần dynamic SEO, có team resources -> migrate sang Next.js, được lợi lâu dài; (3) Nếu cần SEO ngay, không có thời gian migrate -> prerender.io middleware, deploy nhanh; (4) Nếu chỉ cần SEO cho một số trang (landing, blog) -> hybrid approach: Next.js cho public pages, SPA cho authenticated app. Migration sang Next.js là investment lớn nhưng giải quyết triệt để, prerendering là band-aid nhưng nhanh.
+**3. Google có thể render JavaScript không? Vậy tại sao SPA vẫn có vấn đề SEO?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Google sử dụng Web Rendering Service (WRS) dựa trên Chromium để render JavaScript. Tuy nhiên có vấn đề: (1) Two-wave indexing: Google crawl HTML trước, schedule render JS sau, có thể delay vài ngày đến vài tuần; (2) Render budget: Google có giới hạn tài nguyên cho mỗi site, trang nặng JS có thể bị skip; (3) Timeout: nếu JS execution quá lâu hoặc API calls chậm, nội dung bị miss; (4) Other bots: Facebook, Twitter, Slack preview không chạy JS. Vì vậy best practice vẫn là server-render HTML.
+
+</details>
+
+**4. Làm sao tạo sitemap cho React SPA khi routes chỉ tồn tại trong JavaScript?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Cần tạo sitemap tại build time bằng script riêng. Định nghĩa danh sách routes trong file config hoặc tự động extract từ React Router config. Dùng script Node.js generate file `sitemap.xml` vào thư mục `public/`. Thêm script vào build pipeline (chạy trước hoặc sau build). Đối với dynamic routes (ví dụ blog posts), fetch data từ CMS/API rồi generate URL cho mỗi item. Submit sitemap lên Google Search Console.
+
+</details>
+
+**5. Nếu đang có React SPA cần cải thiện SEO, nên migrate sang Next.js hay dùng prerendering?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Phụ thuộc vào nhiều yếu tố: (1) Nếu project nhỏ, ít routes -> prerendering với react-snap là đủ, chi phí migration thấp; (2) Nếu project lớn, cần dynamic SEO, có team resources -> migrate sang Next.js, được lợi lâu dài; (3) Nếu cần SEO ngay, không có thời gian migrate -> prerender.io middleware, deploy nhanh; (4) Nếu chỉ cần SEO cho một số trang (landing, blog) -> hybrid approach: Next.js cho public pages, SPA cho authenticated app. Migration sang Next.js là investment lớn nhưng giải quyết triệt để, prerendering là band-aid nhưng nhanh.
+
+</details>

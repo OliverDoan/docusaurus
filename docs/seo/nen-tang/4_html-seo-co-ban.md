@@ -702,17 +702,23 @@ CLS là một trong 3 Core Web Vitals metrics. Không khai báo width/height cho
 
 ## 10. Câu hỏi phỏng vấn
 
-### Câu 1: Tại sao semantic HTML quan trọng cho SEO?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. Tại sao semantic HTML quan trọng cho SEO?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 Semantic HTML giúp Google hiểu **vai trò và cấu trúc** của từng phần nội dung trên trang. Khi dùng `<article>`, Google biết đó là nội dung chính. Khi dùng `<nav>`, Google biết đó là navigation và không xem là content chính. Khi dùng `<aside>`, Google hiểu đó là nội dung phụ.
 
 Ngoài SEO, semantic HTML còn giúp: screen readers hoạt động tốt hơn (accessibility), code dễ maintain hơn, và browsers có thể optimize rendering. Google cũng coi nội dung trong `<main>` quan trọng hơn nội dung trong `<footer>` khi phân tích relevance.
 
-### Câu 2: Sự khác biệt giữa title tag và H1? Có nên giống nhau không?
+</details>
 
-**Trả lời:**
+**2. Sự khác biệt giữa title tag và H1? Có nên giống nhau không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 **Title tag** (`<title>`) hiển thị trên tab browser và SERP (kết quả Google). **H1** hiển thị trên chính trang web. Cả hai đều là ranking signals quan trọng.
 
@@ -723,9 +729,12 @@ Chúng **có thể** giống nhau (không bị phạt), nhưng **nên khác nhau
 
 Ví dụ: Title "Docker Tutorial cho người mới | DevBlog" + H1 "Hướng dẫn Docker từ cơ bản đến deploy production" → cover cả "docker tutorial" và "hướng dẫn docker deploy".
 
-### Câu 3: Alt text cho image nên viết như thế nào?
+</details>
 
-**Trả lời:**
+**3. Alt text cho image nên viết như thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 Alt text nên:
 - **Mô tả chính xác** nội dung ảnh (như đang giải thích cho người không nhìn thấy)
@@ -735,9 +744,12 @@ Alt text nên:
 
 Ngoại lệ: Ảnh decorative (đường kẻ, icon trang trí) dùng `alt=""` (alt rỗng) để screen reader bỏ qua.
 
-### Câu 4: Core Web Vitals nào liên quan đến HTML structure? Cách khắc phục?
+</details>
 
-**Trả lời:**
+**4. Core Web Vitals nào liên quan đến HTML structure? Cách khắc phục?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 **CLS (Cumulative Layout Shift)** liên quan trực tiếp nhất. Nguyên nhân phổ biến:
 - Image không có `width` và `height` → browser không biết reserved space → layout shift khi ảnh load
@@ -750,9 +762,12 @@ Ngoại lệ: Ảnh decorative (đường kẻ, icon trang trí) dùng `alt=""` 
 - Reserve space cho dynamic content (ads, lazy-loaded elements)
 - Dùng CSS `aspect-ratio` cho responsive containers
 
-### Câu 5: Bạn nhận được task tối ưu SEO cho một trang web hiện tại. Bạn sẽ kiểm tra những HTML elements nào đầu tiên?
+</details>
 
-**Trả lời:**
+**5. Bạn nhận được task tối ưu SEO cho một trang web hiện tại. Bạn sẽ kiểm tra những HTML elements nào đầu tiên?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 Checklist SEO audit cho HTML, theo thứ tự ưu tiên:
 
@@ -768,3 +783,5 @@ Checklist SEO audit cho HTML, theo thứ tự ưu tiên:
 10. **Open Graph/Twitter**: Có đầy đủ cho social sharing?
 
 Dùng Lighthouse audit (tab SEO) để kiểm tra tự động phần lớn checklist này.
+
+</details>

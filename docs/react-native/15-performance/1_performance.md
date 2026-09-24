@@ -423,30 +423,46 @@ Animated.timing(value, { toValue: 1, duration: 300, useNativeDriver: true }).sta
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: Tại sao animation `useNativeDriver` quan trọng?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** Mặc định Animated chạy **JS thread**. Nếu JS busy (React render, network), animation jank. **`useNativeDriver: true`** chuyển animation sang **UI thread** -- chạy độc lập JS, 60fps đảm bảo. Hạn chế: chỉ opacity + transform.
+**1. Tại sao animation `useNativeDriver` quan trọng?**
 
-### Câu 2: Re-render nhiều ảnh hưởng performance?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Mỗi re-render: React diff virtual DOM, gọi reconciler, layout. Render 100 lần thay vì 1 lần -> CPU/battery tốn. Optimize:
+Mặc định Animated chạy **JS thread**. Nếu JS busy (React render, network), animation jank. **`useNativeDriver: true`** chuyển animation sang **UI thread** -- chạy độc lập JS, 60fps đảm bảo. Hạn chế: chỉ opacity + transform.
+
+</details>
+
+**2. Re-render nhiều ảnh hưởng performance?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Mỗi re-render: React diff virtual DOM, gọi reconciler, layout. Render 100 lần thay vì 1 lần -> CPU/battery tốn. Optimize:
 
 - `React.memo` cho component
 - `useMemo`/`useCallback` cho object/function
 - Avoid inline object/function trong JSX
 
-### Câu 3: FlatList vs FlashList?
+</details>
 
-**Trả lời:**
+**3. FlatList vs FlashList?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **FlatList**: virtualize, mount/unmount item -> tốn
 - **FlashList** (Shopify): **recycle** item view -- không destroy/create -- 5x nhanh
 
 Production app có list lớn -> FlashList.
 
-### Câu 4: New Architecture lợi ích gì?
+</details>
 
-**Trả lời:**
+**4. New Architecture lợi ích gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **JSI**: JS gọi native trực tiếp, sync, không qua bridge
 - **Fabric**: renderer mới, đồng bộ UI ↔ JS
@@ -455,9 +471,12 @@ Production app có list lớn -> FlashList.
 
 Performance lớn, bridge bottleneck biến mất.
 
-### Câu 5: Cách profile RN?
+</details>
 
-**Trả lời:**
+**5. Cách profile RN?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 1. **Perf Monitor**: in-app, xem FPS/RAM realtime
 2. **React DevTools Profiler**: tìm component render chậm
@@ -465,3 +484,5 @@ Performance lớn, bridge bottleneck biến mất.
 4. **Native tools**: Instruments (iOS), Android Studio Profiler
 
 Test trên **low-end device** để thấy bottleneck thực.
+
+</details>

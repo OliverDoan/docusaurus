@@ -558,22 +558,49 @@ File `IMG_20260405_001234.jpg` không cung cấp tín hiệu SEO nào. Luôn đ�
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: Alt text ảnh hưởng đến SEO như thế nào?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** Alt text là cách chính để Google hiểu nội dung hình ảnh vì Google không "nhìn" được hình như con người. Alt text ảnh hưởng đến: (1) **Google Images ranking** — hình có alt text tốt xuất hiện trên Google Images, (2) **Ngữ cảnh trang** — alt text cung cấp thêm tín hiệu về nội dung trang, giúp ranking cho toàn trang, (3) **Accessibility** — trình đọc màn hình đọc alt text, đây cũng là yếu tố Google đánh giá, (4) **Fallback** — khi hình không load được, alt text vẫn cung cấp thông tin.
+**1. Alt text ảnh hưởng đến SEO như thế nào?**
 
-### Câu 2: WebP và AVIF khác nhau như thế nào? Khi nào dùng cái nào?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** WebP do Google phát triển, nén khoảng 25-30% so với JPEG ở cùng chất lượng, hỗ trợ 97%+ trình duyệt. AVIF do Alliance for Open Media phát triển, nén tốt hơn WebP 20-30% nhưng chậm hơn khi encode và hỗ trợ 92% trình duyệt. Khuyến nghị: dùng WebP làm mặc định vì cân bằng tốt giữa kích thước, chất lượng và hỗ trợ. Dùng AVIF khi cần nén tối đa và không quan tâm đến thời gian encode (ví dụ: ảnh static trên CDN). Luôn có JPEG/PNG làm fallback.
+Alt text là cách chính để Google hiểu nội dung hình ảnh vì Google không "nhìn" được hình như con người. Alt text ảnh hưởng đến: (1) **Google Images ranking** — hình có alt text tốt xuất hiện trên Google Images, (2) **Ngữ cảnh trang** — alt text cung cấp thêm tín hiệu về nội dung trang, giúp ranking cho toàn trang, (3) **Accessibility** — trình đọc màn hình đọc alt text, đây cũng là yếu tố Google đánh giá, (4) **Fallback** — khi hình không load được, alt text vẫn cung cấp thông tin.
 
-### Câu 3: Lazy loading ảnh hưởng đến SEO không? Googlebot có đọc được hình lazy load?
+</details>
 
-**Trả lời:** Googlebot có thể render JavaScript và đọc hình lazy load, nhưng với điều kiện: (1) Dùng native `loading="lazy"` — Googlebot hỗ trợ tốt nhất, (2) Nếu dùng custom JS lazy loading (Intersection Observer), cần đảm bảo hình có trong DOM (không dùng `noscript` fallback), (3) **Không** lazy load hình above-the-fold và LCP image — điều này làm chậm tốc độ hiển thị và ảnh hưởng Core Web Vitals. Best practice: dùng native lazy loading và đặt `loading="eager"` cho hình quan trọng.
+**2. WebP và AVIF khác nhau như thế nào? Khi nào dùng cái nào?**
 
-### Câu 4: Làm sao giảm Cumulative Layout Shift (CLS) do hình ảnh?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** CLS xảy ra khi hình ảnh load xong và đẩy nội dung. Cách khắc phục: (1) **Luôn khai báo `width` và `height`** trên thẻ `img` để trình duyệt dành chỗ sẵn vị trí, (2) Dùng CSS `aspect-ratio` cho container, (3) Dùng placeholder (blur hash, skeleton) giữ chỗ vị trí, (4) Dùng `next/image` — tự động xử lý CLS. Google đánh giá CLS là một trong 3 chỉ số Core Web Vitals, nên ảnh hưởng trực tiếp đến ranking.
+WebP do Google phát triển, nén khoảng 25-30% so với JPEG ở cùng chất lượng, hỗ trợ 97%+ trình duyệt. AVIF do Alliance for Open Media phát triển, nén tốt hơn WebP 20-30% nhưng chậm hơn khi encode và hỗ trợ 92% trình duyệt. Khuyến nghị: dùng WebP làm mặc định vì cân bằng tốt giữa kích thước, chất lượng và hỗ trợ. Dùng AVIF khi cần nén tối đa và không quan tâm đến thời gian encode (ví dụ: ảnh static trên CDN). Luôn có JPEG/PNG làm fallback.
 
-### Câu 5: Làm sao tối ưu hình cho một e-commerce site có hàng ngàn sản phẩm?
+</details>
 
-**Trả lời:** Chiến lược tối ưu quy mô lớn: (1) **CDN với image processing** — dùng Cloudinary, imgix hoặc Cloudflare Images để tự động resize, convert format, nén, (2) **Responsive images** — dùng `srcset` và `sizes` để serve kích thước phù hợp, (3) **WebP/AVIF với fallback** — dùng thẻ `picture` hoặc CDN tự động, (4) **Lazy loading** cho tất cả hình dưới fold, (5) **Đặt tên file có hệ thống** — `ten-san-pham-mau-kich-thuoc.webp`, (6) **Alt text từ product data** — generate từ tên sản phẩm + thuộc tính, không để trống, (7) **Image sitemap** — khai báo hình quan trọng trong sitemap để Google index.
+**3. Lazy loading ảnh hưởng đến SEO không? Googlebot có đọc được hình lazy load?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Googlebot có thể render JavaScript và đọc hình lazy load, nhưng với điều kiện: (1) Dùng native `loading="lazy"` — Googlebot hỗ trợ tốt nhất, (2) Nếu dùng custom JS lazy loading (Intersection Observer), cần đảm bảo hình có trong DOM (không dùng `noscript` fallback), (3) **Không** lazy load hình above-the-fold và LCP image — điều này làm chậm tốc độ hiển thị và ảnh hưởng Core Web Vitals. Best practice: dùng native lazy loading và đặt `loading="eager"` cho hình quan trọng.
+
+</details>
+
+**4. Làm sao giảm Cumulative Layout Shift (CLS) do hình ảnh?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+CLS xảy ra khi hình ảnh load xong và đẩy nội dung. Cách khắc phục: (1) **Luôn khai báo `width` và `height`** trên thẻ `img` để trình duyệt dành chỗ sẵn vị trí, (2) Dùng CSS `aspect-ratio` cho container, (3) Dùng placeholder (blur hash, skeleton) giữ chỗ vị trí, (4) Dùng `next/image` — tự động xử lý CLS. Google đánh giá CLS là một trong 3 chỉ số Core Web Vitals, nên ảnh hưởng trực tiếp đến ranking.
+
+</details>
+
+**5. Làm sao tối ưu hình cho một e-commerce site có hàng ngàn sản phẩm?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Chiến lược tối ưu quy mô lớn: (1) **CDN với image processing** — dùng Cloudinary, imgix hoặc Cloudflare Images để tự động resize, convert format, nén, (2) **Responsive images** — dùng `srcset` và `sizes` để serve kích thước phù hợp, (3) **WebP/AVIF với fallback** — dùng thẻ `picture` hoặc CDN tự động, (4) **Lazy loading** cho tất cả hình dưới fold, (5) **Đặt tên file có hệ thống** — `ten-san-pham-mau-kich-thuoc.webp`, (6) **Alt text từ product data** — generate từ tên sản phẩm + thuộc tính, không để trống, (7) **Image sitemap** — khai báo hình quan trọng trong sitemap để Google index.
+
+</details>

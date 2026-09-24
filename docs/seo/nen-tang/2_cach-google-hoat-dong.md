@@ -539,9 +539,12 @@ curl -I https://example.com/trang-khong-ton-tai
 
 ## 8. Câu hỏi phỏng vấn
 
-### Câu 1: Mô tả cách Google hoạt động từ khi user gõ từ khóa đến khi thấy kết quả?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. Mô tả cách Google hoạt động từ khi user gõ từ khóa đến khi thấy kết quả?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 Google hoạt động theo pipeline 3 bước (đã thực hiện trước khi user tìm kiếm):
 1. **Crawl**: Googlebot tự động duyệt web, thu thập HTML qua HTTP request. Tìm links trong HTML để crawl tiếp các trang liên kết.
@@ -550,9 +553,12 @@ Google hoạt động theo pipeline 3 bước (đã thực hiện trước khi u
 
 Bước Crawl và Index xảy ra **liên tục, không phụ thuộc** vào search query. Bước Rank mới xảy ra real-time khi user tìm kiếm.
 
-### Câu 2: Crawl budget là gì? Khi nào cần quan tâm?
+</details>
 
-**Trả lời:**
+**2. Crawl budget là gì? Khi nào cần quan tâm?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 Crawl budget là giới hạn số trang mà Googlebot sẽ crawl trên website trong một khoảng thời gian, được quyết định bởi crawl rate limit (server capacity) và crawl demand (độ phổ biến/freshness).
 
@@ -564,17 +570,23 @@ Crawl budget là giới hạn số trang mà Googlebot sẽ crawl trên website 
 
 **Tối ưu bằng cách**: Dùng robots.txt block trang không cần index, submit sitemap, cải thiện server response time, xử lý duplicate content.
 
-### Câu 3: Giải thích PageRank bằng ngôn ngữ đơn giản?
+</details>
 
-**Trả lời:**
+**3. Giải thích PageRank bằng ngôn ngữ đơn giản?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 PageRank xem mỗi link từ trang A đến trang B như một "lá phiếu bầu" cho trang B. Phiếu bầu từ trang có PageRank cao (ví dụ Wikipedia) giá trị hơn phiếu từ trang PageRank thấp (blog cá nhân). Trang nhận nhiều phiếu bầu chất lượng → PageRank cao → xếp hạng tốt hơn.
 
 Damping factor (~0.85) mô phỏng xác suất user tiếp tục click link thay vì bắt đầu tìm kiếm mới. PageRank vẫn là một phần trong hệ thống ranking của Google, dù không còn được công khai score.
 
-### Câu 4: Sự khác biệt giữa robots.txt và meta robots tag?
+</details>
 
-**Trả lời:**
+**4. Sự khác biệt giữa robots.txt và meta robots tag?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 | Tiêu chí | `robots.txt` | `<meta name="robots">` |
 |----------|-------------|----------------------|
@@ -585,9 +597,12 @@ Damping factor (~0.85) mô phỏng xác suất user tiếp tục click link thay
 
 **Sai lầm phổ biến**: Block trang bằng robots.txt **nhưng** vẫn có link từ trang khác trỏ đến → Google vẫn có thể index URL (dù không crawl nội dung), hiển thị snippet rỗng trên SERP.
 
-### Câu 5: Website SPA (React) không được Google index. Bạn sẽ debug như thế nào?
+</details>
 
-**Trả lời:**
+**5. Website SPA (React) không được Google index. Bạn sẽ debug như thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 **Bước 1**: Kiểm tra view source (`curl https://example.com`) -- nếu chỉ thấy `<div id="root"></div>` → vấn đề CSR, Google không render được JS.
 
@@ -598,3 +613,5 @@ Damping factor (~0.85) mô phỏng xác suất user tiếp tục click link thay
 **Bước 4**: Kiểm tra console errors khi render -- API calls có timeout, CORS issues, hoặc JS errors có thể prevent rendering.
 
 **Giải pháp lâu dài**: Migrate sang SSR (Next.js) hoặc SSG (Docusaurus, Gatsby), hoặc implement pre-rendering service (Prerender.io).
+
+</details>

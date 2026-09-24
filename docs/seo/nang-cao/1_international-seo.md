@@ -481,22 +481,49 @@ checkHreflang('https://example.com/vi/san-pham');
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: Sự khác biệt giữa subdirectory, subdomain và ccTLD cho International SEO?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời**: Subdirectory (`example.com/vi/`) giữ domain authority tập trung, dễ quản lý, phù hợp hầu hết trường hợp. Subdomain (`vi.example.com`) được Google coi là site riêng biệt, domain authority bị phân tán. ccTLD (`example.vn`) cho geo-targeting signal mạnh nhất nhưng phải xây authority từ đầu cho mỗi domain. Khuyến nghị dùng subdirectory trừ khi có lý do business cụ thể để dùng cách khác.
+**1. Sự khác biệt giữa subdirectory, subdomain và ccTLD cho International SEO?**
 
-### Câu 2: Nếu hreflang tag trên trang A trỏ đến trang B, nhưng trang B không trỏ lại A thì sao?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời**: Google sẽ **bỏ qua** hreflang đó. Hreflang yêu cầu confirmation hai chiều (bidirectional). Nếu thiếu return link, Google coi như hreflang không tồn tại. Ngoài ra, mỗi trang cũng phải có self-referencing hreflang (trỏ đến chính nó).
+: Subdirectory (`example.com/vi/`) giữ domain authority tập trung, dễ quản lý, phù hợp hầu hết trường hợp. Subdomain (`vi.example.com`) được Google coi là site riêng biệt, domain authority bị phân tán. ccTLD (`example.vn`) cho geo-targeting signal mạnh nhất nhưng phải xây authority từ đầu cho mỗi domain. Khuyến nghị dùng subdirectory trừ khi có lý do business cụ thể để dùng cách khác.
 
-### Câu 3: `x-default` trong hreflang dùng để làm gì?
+</details>
 
-**Trả lời**: `x-default` chỉ định phiên bản fallback khi user không khớp bất kỳ ngôn ngữ/region nào trong danh sách hreflang. Thường trỏ đến phiên bản tiếng Anh hoặc trang chọn ngôn ngữ. Đây là best practice bắt buộc để đảm bảo mọi user đều được phục vụ.
+**2. Nếu hreflang tag trên trang A trỏ đến trang B, nhưng trang B không trỏ lại A thì sao?**
 
-### Câu 4: Content localization khác gì translation trong SEO?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời**: Translation chỉ dịch từ ngữ, localization đi sâu hơn: research keyword riêng cho thị trường local, điều chỉnh ví dụ cho phù hợp văn hóa, đổi tiền tệ, format ngày tháng, thậm chí thay đổi hình ảnh. Từ góc độ SEO, localization hiệu quả hơn vì target đúng search intent của user local thay vì chỉ dịch keyword.
+: Google sẽ **bỏ qua** hreflang đó. Hreflang yêu cầu confirmation hai chiều (bidirectional). Nếu thiếu return link, Google coi như hreflang không tồn tại. Ngoài ra, mỗi trang cũng phải có self-referencing hreflang (trỏ đến chính nó).
 
-### Câu 5: Tại sao không nên redirect user dựa trên IP detection cho SEO?
+</details>
 
-**Trả lời**: Googlebot crawl từ IP ở US, nên nếu redirect dựa trên IP, Google chỉ thấy phiên bản tiếng Anh và không index được các phiên bản ngôn ngữ khác. Ngoài ra, user VPN hoặc expat cũng bị redirect sai. Best practice là dùng banner gợi ý chuyển ngôn ngữ thay vì redirect cứng, kết hợp hreflang để Google tự chọn phiên bản phù hợp.
+**3. `x-default` trong hreflang dùng để làm gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+: `x-default` chỉ định phiên bản fallback khi user không khớp bất kỳ ngôn ngữ/region nào trong danh sách hreflang. Thường trỏ đến phiên bản tiếng Anh hoặc trang chọn ngôn ngữ. Đây là best practice bắt buộc để đảm bảo mọi user đều được phục vụ.
+
+</details>
+
+**4. Content localization khác gì translation trong SEO?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+: Translation chỉ dịch từ ngữ, localization đi sâu hơn: research keyword riêng cho thị trường local, điều chỉnh ví dụ cho phù hợp văn hóa, đổi tiền tệ, format ngày tháng, thậm chí thay đổi hình ảnh. Từ góc độ SEO, localization hiệu quả hơn vì target đúng search intent của user local thay vì chỉ dịch keyword.
+
+</details>
+
+**5. Tại sao không nên redirect user dựa trên IP detection cho SEO?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+: Googlebot crawl từ IP ở US, nên nếu redirect dựa trên IP, Google chỉ thấy phiên bản tiếng Anh và không index được các phiên bản ngôn ngữ khác. Ngoài ra, user VPN hoặc expat cũng bị redirect sai. Best practice là dùng banner gợi ý chuyển ngôn ngữ thay vì redirect cứng, kết hợp hreflang để Google tự chọn phiên bản phù hợp.
+
+</details>

@@ -800,35 +800,52 @@ git status
 
 ## 13. Câu hỏi phỏng vấn
 
-### Câu 1: .gitignore là gì và tại sao quan trọng?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời mẫu:**
+**1. .gitignore là gì và tại sao quan trọng?**
 
-> `.gitignore` là file đặc biệt cho Git biết những file/thư mục nào không nên track. Quan trọng vì: (1) Giữ repo sạch — không commit dependencies (node_modules), build output (dist), file tạm, (2) Bảo mật — tránh commit secrets (.env, credentials), (3) Giảm kích thước repo — không lưu file có thể tải lại. Mỗi dự án nên có .gitignore từ đầu.
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-### Câu 2: Làm sao để bỏ qua file đã được Git track?
+`.gitignore` là file đặc biệt cho Git biết những file/thư mục nào không nên track. Quan trọng vì: (1) Giữ repo sạch — không commit dependencies (node_modules), build output (dist), file tạm, (2) Bảo mật — tránh commit secrets (.env, credentials), (3) Giảm kích thước repo — không lưu file có thể tải lại. Mỗi dự án nên có .gitignore từ đầu.
 
-**Trả lời mẫu:**
+</details>
 
-> `.gitignore` chỉ ảnh hưởng file chưa được track. Nếu file đã commit, phải xoá khỏi tracking trước bằng `git rm --cached <file>`, sau đó thêm vào `.gitignore` rồi commit. Lệnh `git rm --cached` chỉ xoá file khỏi Git index, không xoá file thực trên ổ cứng.
+**2. Làm sao để bỏ qua file đã được Git track?**
 
-### Câu 3: Phân biệt global gitignore và local gitignore.
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời mẫu:**
+`.gitignore` chỉ ảnh hưởng file chưa được track. Nếu file đã commit, phải xoá khỏi tracking trước bằng `git rm --cached <file>`, sau đó thêm vào `.gitignore` rồi commit. Lệnh `git rm --cached` chỉ xoá file khỏi Git index, không xoá file thực trên ổ cứng.
 
-> Local `.gitignore` nằm trong repo, được commit và chia sẻ với team — dùng cho file liên quan đến dự án (node_modules, build, .env). Global gitignore (`~/.gitignore_global`) là cấu hình cá nhân, chỉ trên máy của bạn — dùng cho file liên quan đến IDE (.idea, .vscode) và OS (.DS_Store, Thumbs.db). Global gitignore không ảnh hưởng repo của người khác.
+</details>
 
-### Câu 4: Đã commit nhầm file chứa secret và push lên remote. Phải làm gì?
+**3. Phân biệt global gitignore và local gitignore.**
 
-**Trả lời mẫu:**
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-> Bước 1 (NGAY LẬP TỨC): Rotate tất cả secrets đã lộ — đổi mật khẩu, revoke API keys, tạo tokens mới. Đây là bước quan trọng nhất vì dù bạn xoá file khỏi Git, người khác có thể đã clone repo. Bước 2: Dùng BFG Repo-Cleaner hoặc `git filter-branch` để xoá file khỏi toàn bộ lịch sử Git. Bước 3: Force push và yêu cầu team clone lại. Bước 4: Thêm file vào .gitignore để tránh lặp lại.
+Local `.gitignore` nằm trong repo, được commit và chia sẻ với team — dùng cho file liên quan đến dự án (node_modules, build, .env). Global gitignore (`~/.gitignore_global`) là cấu hình cá nhân, chỉ trên máy của bạn — dùng cho file liên quan đến IDE (.idea, .vscode) và OS (.DS_Store, Thumbs.db). Global gitignore không ảnh hưởng repo của người khác.
 
-### Câu 5: `git rm --cached` khác `git rm` như thế nào?
+</details>
 
-**Trả lời mẫu:**
+**4. Đã commit nhầm file chứa secret và push lên remote. Phải làm gì?**
 
-> `git rm <file>` xoá file khỏi cả Git tracking VÀ xoá file thực trên ổ cứng. `git rm --cached <file>` chỉ xoá file khỏi Git tracking (Staging Area), giữ file nguyên trên ổ cứng. Dùng `--cached` khi bạn muốn ngừng track file nhưng vẫn giữ nó trên máy — ví dụ: xoá .env khỏi Git nhưng vẫn cần file để chạy ứng dụng local.
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Bước 1 (NGAY LẬP TỨC): Rotate tất cả secrets đã lộ — đổi mật khẩu, revoke API keys, tạo tokens mới. Đây là bước quan trọng nhất vì dù bạn xoá file khỏi Git, người khác có thể đã clone repo. Bước 2: Dùng BFG Repo-Cleaner hoặc `git filter-branch` để xoá file khỏi toàn bộ lịch sử Git. Bước 3: Force push và yêu cầu team clone lại. Bước 4: Thêm file vào .gitignore để tránh lặp lại.
+
+</details>
+
+**5. `git rm --cached` khác `git rm` như thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`git rm <file>` xoá file khỏi cả Git tracking VÀ xoá file thực trên ổ cứng. `git rm --cached <file>` chỉ xoá file khỏi Git tracking (Staging Area), giữ file nguyên trên ổ cứng. Dùng `--cached` khi bạn muốn ngừng track file nhưng vẫn giữ nó trên máy — ví dụ: xoá .env khỏi Git nhưng vẫn cần file để chạy ứng dụng local.
+
+</details>
 
 ---
 

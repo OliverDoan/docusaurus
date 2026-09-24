@@ -443,18 +443,24 @@ Device thật không thấy `localhost` của máy dev. Dùng IP máy dev hoặc
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: fetch vs axios?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. fetch vs axios?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **fetch**: built-in, đủ cho cơ bản, không có interceptor
 - **axios**: lib bên ngoài, có interceptor, transform, timeout chuẩn, error handling tốt hơn
 
 Production thường dùng axios. fetch ok cho simple case.
 
-### Câu 2: React Query lợi ích gì?
+</details>
 
-**Trả lời:**
+**2. React Query lợi ích gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **Caching** tự động -- không call lại nếu data fresh
 - **Background refetch** -- giữ data mới
@@ -464,9 +470,14 @@ Production thường dùng axios. fetch ok cho simple case.
 
 Thay thế ~50% code useEffect + useState gọi API.
 
-### Câu 3: WebSocket khi nào dùng?
+</details>
 
-**Trả lời:** Real-time 2 chiều:
+**3. WebSocket khi nào dùng?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Real-time 2 chiều:
 
 - **Chat** (Messenger, Discord)
 - **Notification** push live
@@ -476,16 +487,28 @@ Thay thế ~50% code useEffect + useState gọi API.
 
 HTTP polling tốn pin/data -- WebSocket hiệu quả hơn.
 
-### Câu 4: NetInfo dùng để làm gì?
+</details>
 
-**Trả lời:** Detect connectivity -- show banner "Mat mang", queue request khi offline, switch giữa wifi/cellular. Quan trọng cho mobile -- user thường xuyên mất mạng.
+**4. NetInfo dùng để làm gì?**
 
-### Câu 5: Localhost không hoạt động trên device thật?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Device thật khác máy dev. Cần:
+Detect connectivity -- show banner "Mat mang", queue request khi offline, switch giữa wifi/cellular. Quan trọng cho mobile -- user thường xuyên mất mạng.
+
+</details>
+
+**5. Localhost không hoạt động trên device thật?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Device thật khác máy dev. Cần:
 
 - **Cùng wifi**, dùng IP máy dev (`192.168.x.x`)
 - **ngrok** -- expose localhost ra public URL
 - **adb reverse** (Android) -- forward port
 
 Production luôn dùng URL public, không localhost.
+
+</details>

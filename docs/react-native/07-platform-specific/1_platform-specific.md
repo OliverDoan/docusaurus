@@ -313,13 +313,21 @@ if (Platform.OS !== 'web') {
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: Platform module dùng để làm gì?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** Detect platform runtime (`Platform.OS`) và **conditional logic**. Hữu ích khi behavior nhỏ khác nhau (shadow, padding, font). Với khác biệt lớn, dùng file extension thay vì if-else.
+**1. Platform module dùng để làm gì?**
 
-### Câu 2: File extension `.ios.tsx`/`.android.tsx` lợi ích?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:**
+Detect platform runtime (`Platform.OS`) và **conditional logic**. Hữu ích khi behavior nhỏ khác nhau (shadow, padding, font). Với khác biệt lớn, dùng file extension thay vì if-else.
+
+</details>
+
+**2. File extension `.ios.tsx`/`.android.tsx` lợi ích?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - Code **clean** -- không nested if Platform.OS
 - Tree-shake -- web bundle không có code iOS/Android
@@ -327,25 +335,38 @@ if (Platform.OS !== 'web') {
 
 Phù hợp khi component khác **hoàn toàn** giữa platform.
 
-### Câu 3: react-native-web là gì?
+</details>
 
-**Trả lời:** Library map RN components -> HTML/CSS -- cho phép RN code chạy trên web browser. Chia sẻ 70-90% code mobile + web. Maintain bởi Facebook/Meta (cùng React Native). Expo built-in.
+**3. react-native-web là gì?**
 
-### Câu 4: Khi nào nên dùng react-native-web?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:**
+Library map RN components -> HTML/CSS -- cho phép RN code chạy trên web browser. Chia sẻ 70-90% code mobile + web. Maintain bởi Facebook/Meta (cùng React Native). Expo built-in.
+
+</details>
+
+**4. Khi nào nên dùng react-native-web?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - Cần app vừa mobile + web nhưng team chỉ làm RN
 - Marketing site share với app
 - Internal tool dùng cả browser + mobile
 - KHÔNG cho app web phức tạp (Next.js tốt hơn)
 
-### Câu 5: Detect tablet/phone?
+</details>
 
-**Trả lời:**
+**5. Detect tablet/phone?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - `Platform.isPad` -- iPad
 - Android: dùng dimension `Dimensions.get('window')` -- check width
 - Library: `react-native-device-info`
 
 Responsive design dùng `width` thay vì check device cụ thể.
+
+</details>

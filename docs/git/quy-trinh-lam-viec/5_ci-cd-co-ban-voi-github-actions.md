@@ -963,25 +963,52 @@ jobs:
 
 ## 15. Câu hỏi phỏng vấn
 
-### Câu 1: CI/CD là gì? Phân biệt Continuous Integration, Continuous Delivery và Continuous Deployment.
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** **CI (Continuous Integration)** là quy trình tự động kiểm tra code (lint, test, build) mỗi khi developer push code, đảm bảo code base luôn ở trạng thái hoạt động. **Continuous Delivery** là tự động hóa toàn bộ quy trình từ code đến sẵn sàng deploy, nhưng cần người bấm nút để deploy lên production. **Continuous Deployment** tiến xa hơn — tự động deploy lên production mỗi khi code pass tất cả tests, không cần sự can thiệp của con người.
+**1. CI/CD là gì? Phân biệt Continuous Integration, Continuous Delivery và Continuous Deployment.**
 
-### Câu 2: Giải thích cấu trúc của 1 GitHub Actions workflow.
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Một workflow gồm: (1) **name** — tên workflow, (2) **on** — trigger events (push, pull_request, schedule), (3) **jobs** — các công việc cần thực hiện, mỗi job chạy trên 1 runner (máy ảo) độc lập. Mỗi job gồm nhiều **steps** — các bước thực hiện tuần tự. Step có thể **uses** (dùng action có sẵn từ Marketplace) hoặc **run** (chạy lệnh shell trực tiếp). Jobs mặc định chạy song song; dùng **needs** để định nghĩa thứ tự phụ thuộc.
+**CI (Continuous Integration)** là quy trình tự động kiểm tra code (lint, test, build) mỗi khi developer push code, đảm bảo code base luôn ở trạng thái hoạt động. **Continuous Delivery** là tự động hóa toàn bộ quy trình từ code đến sẵn sàng deploy, nhưng cần người bấm nút để deploy lên production. **Continuous Deployment** tiến xa hơn — tự động deploy lên production mỗi khi code pass tất cả tests, không cần sự can thiệp của con người.
 
-### Câu 3: Matrix strategy là gì? Cho ví dụ.
+</details>
 
-**Trả lời:** Matrix strategy cho phép chạy cùng 1 job trên nhiều cấu hình đồng thời. Ví dụ: test ứng dụng trên 3 phiên bản Node.js (18, 20, 22) và 2 OS (Ubuntu, Windows) — tạo ra 6 jobs song song. Định nghĩa bằng `strategy.matrix` trong workflow. Có thể dùng `exclude` để loại bỏ cấu hình cụ thể và `include` để thêm cấu hình đặc biệt. `fail-fast: false` đảm bảo các job khác vẫn chạy khi 1 job fail.
+**2. Giải thích cấu trúc của 1 GitHub Actions workflow.**
 
-### Câu 4: Làm sao bảo vệ nhánh main bằng GitHub Actions?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Kết hợp **branch protection rules** với **required status checks**: (1) Trong repo Settings, tạo branch protection rule cho main, (2) Bật "Require status checks to pass before merging" và chọn các CI jobs cần pass (ví dụ "Lint & Test", "Build"), (3) Bật "Require pull request reviews" để bắt buộc ít nhất 1 người review, (4) Bật "Require branches to be up to date" để đảm bảo PR đã cập nhật với main mới nhất. Kết quả: không ai có thể merge PR khi CI đỏ hoặc chưa có approval.
+Một workflow gồm: (1) **name** — tên workflow, (2) **on** — trigger events (push, pull_request, schedule), (3) **jobs** — các công việc cần thực hiện, mỗi job chạy trên 1 runner (máy ảo) độc lập. Mỗi job gồm nhiều **steps** — các bước thực hiện tuần tự. Step có thể **uses** (dùng action có sẵn từ Marketplace) hoặc **run** (chạy lệnh shell trực tiếp). Jobs mặc định chạy song song; dùng **needs** để định nghĩa thứ tự phụ thuộc.
 
-### Câu 5: So sánh GitHub Actions với Jenkins. Khi nào chọn cái nào?
+</details>
 
-**Trả lời:** **GitHub Actions** là CI/CD native của GitHub, YAML config, hosted runners (không cần quản lý server), marketplace nhiều actions sẵn, miễn phí cho repo public. **Jenkins** là self-hosted, Groovy Jenkinsfile, cần quản lý server riêng, nhiều plugins, linh hoạt hơn nhưng phức tạp hơn. Chọn GitHub Actions khi: dự án trên GitHub, muốn đơn giản và nhanh, không muốn quản lý infrastructure. Chọn Jenkins khi: cần chạy on-premise (không dùng cloud), cần tùy biến cao, đã có Jenkins infrastructure, hoặc cần chạy trên nhiều Git platforms (GitLab, Bitbucket).
+**3. Matrix strategy là gì? Cho ví dụ.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Matrix strategy cho phép chạy cùng 1 job trên nhiều cấu hình đồng thời. Ví dụ: test ứng dụng trên 3 phiên bản Node.js (18, 20, 22) và 2 OS (Ubuntu, Windows) — tạo ra 6 jobs song song. Định nghĩa bằng `strategy.matrix` trong workflow. Có thể dùng `exclude` để loại bỏ cấu hình cụ thể và `include` để thêm cấu hình đặc biệt. `fail-fast: false` đảm bảo các job khác vẫn chạy khi 1 job fail.
+
+</details>
+
+**4. Làm sao bảo vệ nhánh main bằng GitHub Actions?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Kết hợp **branch protection rules** với **required status checks**: (1) Trong repo Settings, tạo branch protection rule cho main, (2) Bật "Require status checks to pass before merging" và chọn các CI jobs cần pass (ví dụ "Lint & Test", "Build"), (3) Bật "Require pull request reviews" để bắt buộc ít nhất 1 người review, (4) Bật "Require branches to be up to date" để đảm bảo PR đã cập nhật với main mới nhất. Kết quả: không ai có thể merge PR khi CI đỏ hoặc chưa có approval.
+
+</details>
+
+**5. So sánh GitHub Actions với Jenkins. Khi nào chọn cái nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**GitHub Actions** là CI/CD native của GitHub, YAML config, hosted runners (không cần quản lý server), marketplace nhiều actions sẵn, miễn phí cho repo public. **Jenkins** là self-hosted, Groovy Jenkinsfile, cần quản lý server riêng, nhiều plugins, linh hoạt hơn nhưng phức tạp hơn. Chọn GitHub Actions khi: dự án trên GitHub, muốn đơn giản và nhanh, không muốn quản lý infrastructure. Chọn Jenkins khi: cần chạy on-premise (không dùng cloud), cần tùy biến cao, đã có Jenkins infrastructure, hoặc cần chạy trên nhiều Git platforms (GitLab, Bitbucket).
+
+</details>
 
 ---
 

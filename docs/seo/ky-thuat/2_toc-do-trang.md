@@ -497,27 +497,49 @@ npx webpack-bundle-analyzer stats.json
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: Giải thích Critical Rendering Path. Tại sao CSS được gọi là render-blocking?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. Giải thích Critical Rendering Path. Tại sao CSS được gọi là render-blocking?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Critical Rendering Path là chuỗi bước browser thực hiện để chuyển HTML, CSS, JS thành pixel trên màn hình: Parse HTML thành DOM, parse CSS thành CSSOM, kết hợp thành Render Tree, rồi Layout và Paint. CSS là render-blocking vì browser phải xây dựng CSSOM hoàn chỉnh trước khi tạo Render Tree — nếu thiếu CSSOM, browser không biết element nào visible, kích thước bao nhiêu, nên nó chờ. Giải pháp: inline critical CSS, preload CSS file, dùng media query để tải CSS có điều kiện (ví dụ `media="print"` cho print stylesheet).
 
-### Câu 2: So sánh `defer` vs `async` khi load JavaScript. Khi nào dùng cái nào?
+</details>
 
-**Trả lời:**
+**2. So sánh `defer` vs `async` khi load JavaScript. Khi nào dùng cái nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Cả hai đều tải JS song song với HTML parsing (không chặn parser). Khác biệt: `defer` chạy JS sau khi HTML parse xong và giữ nguyên thứ tự các script; `async` chạy ngay khi JS tải xong (có thể giữa lúc parse HTML) và không đảm bảo thứ tự. Dùng `defer` cho application code (React bundle, utility libraries) cần thứ tự chính xác. Dùng `async` cho script độc lập (analytics, A/B testing, ads) không phụ thuộc nhau và không phụ thuộc DOM.
 
-### Câu 3: Tree Shaking là gì? Điều kiện nào để tree shaking hoạt động?
+</details>
 
-**Trả lời:**
+**3. Tree Shaking là gì? Điều kiện nào để tree shaking hoạt động?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Tree shaking là kỹ thuật loại bỏ code không được import (dead code) khỏi production bundle. Điều kiện: (1) dùng ES Module syntax (`import`/`export`) thay vì CommonJS (`require`/`module.exports`), vì ES Module cho phép static analysis; (2) package phải khai báo `"sideEffects": false` trong `package.json` hoặc liệt kê cụ thể file có side effects; (3) bundler phải ở production mode; (4) import cụ thể (`import { map } from 'lodash-es'`) thay vì import toàn bộ (`import _ from 'lodash'`).
 
-### Câu 4: Service Worker cache strategy nào phù hợp cho static assets? Cho API calls?
+</details>
 
-**Trả lời:**
+**4. Service Worker cache strategy nào phù hợp cho static assets? Cho API calls?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Static assets (JS, CSS, images, fonts): dùng **Cache First** — kiểm tra cache trước, chỉ fetch network nếu cache miss. Vì static assets có content hash trong filename, khi code thay đổi thì filename thay đổi, tự động bypass cache. API calls: dùng **Network First** — luôn fetch từ server, nếu offline thì fallback về cache. Một số API ít thay đổi (danh sách tỉnh/thành, cấu hình) có thể dùng **Stale While Revalidate** — trả về cache ngay, đồng thời fetch network để update cache cho lần sau.
 
-### Câu 5: Trang web tải 2MB JavaScript. Bạn sẽ tối ưu như thế nào?
+</details>
 
-**Trả lời:**
+**5. Trang web tải 2MB JavaScript. Bạn sẽ tối ưu như thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Quy trình: (1) Phân tích bundle bằng webpack-bundle-analyzer để tìm module nặng nhất; (2) Code split theo route — mỗi trang chỉ tải JS cần thiết; (3) Lazy load component nặng (charts, editors, maps) bằng `React.lazy` hoặc `dynamic import`; (4) Thay thế library nặng (moment.js 300KB thành date-fns 20KB, lodash thành lodash-es với tree shaking); (5) Bật compression (gzip/brotli) giảm transfer size 60-80%; (6) Kiểm tra và loại bỏ polyfill không cần thiết nếu chỉ hỗ trợ browser hiện đại.
+
+</details>

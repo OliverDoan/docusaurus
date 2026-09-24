@@ -761,26 +761,58 @@ git push origin --delete docs/fix-installation-guide
 
 ## 12. Câu hỏi phỏng vấn
 
-### Câu 1: Fork và Clone khác nhau thế nào?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** Fork tạo bản sao repository trên GitHub server (server-to-server), xuất hiện dưới account của bạn, bạn có toàn quyền push. Clone tải repository về máy local (server-to-local). Fork dùng khi muốn đóng góp vào dự án mà bạn không có quyền push (open source). Clone dùng khi bạn đã có quyền push (collaborator) hoặc sau khi fork để tải fork về local.
+**1. Fork và Clone khác nhau thế nào?**
 
-### Câu 2: Mô tả quy trình đóng góp vào một dự án open source.
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** (1) Fork repo gốc trên GitHub, (2) Clone fork về local, (3) Thêm remote `upstream` trỏ đến repo gốc, (4) Fetch và merge `upstream/main` để cập nhật, (5) Tạo feature branch từ main, (6) Code, commit với conventional commits format, (7) Push nhánh lên fork (origin), (8) Tạo Pull Request từ fork về repo gốc, (9) Đợi review, phản hồi feedback, (10) Sau khi merge, sync fork và dọn dẹp branch. Trước tất cả, phải đọc CONTRIBUTING.md và CODE_OF_CONDUCT.md.
+Fork tạo bản sao repository trên GitHub server (server-to-server), xuất hiện dưới account của bạn, bạn có toàn quyền push. Clone tải repository về máy local (server-to-local). Fork dùng khi muốn đóng góp vào dự án mà bạn không có quyền push (open source). Clone dùng khi bạn đã có quyền push (collaborator) hoặc sau khi fork để tải fork về local.
 
-### Câu 3: Làm thế nào để sync fork với repo gốc (upstream)?
+</details>
 
-**Trả lời:** Có 2 cách: (1) Command line: `git fetch upstream` rồi `git checkout main` rồi `git merge upstream/main` rồi `git push origin main`. (2) Trên GitHub: click nút "Sync fork" > "Update branch" trên trang fork. Cần sync thường xuyên để tránh fork bị lỗi thời quá nhiều, gây conflict lớn khi tạo PR.
+**2. Mô tả quy trình đóng góp vào một dự án open source.**
 
-### Câu 4: Tại sao nên tạo feature branch thay vì code trực tiếp trên main khi đóng góp?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Code trên main của fork gây nhiều vấn đề: (1) Main bị diverge khỏi upstream, khó sync, (2) Không thể làm nhiều PR cùng lúc (mỗi PR cần branch riêng), (3) PR bị lẫn lộn code từ nhiều thay đổi, (4) Khó rollback nếu PR bị reject. Feature branch giúp: mỗi PR độc lập, main luôn sạch và đồng bộ với upstream, dễ quản lý nhiều contributions cùng lúc.
+(1) Fork repo gốc trên GitHub, (2) Clone fork về local, (3) Thêm remote `upstream` trỏ đến repo gốc, (4) Fetch và merge `upstream/main` để cập nhật, (5) Tạo feature branch từ main, (6) Code, commit với conventional commits format, (7) Push nhánh lên fork (origin), (8) Tạo Pull Request từ fork về repo gốc, (9) Đợi review, phản hồi feedback, (10) Sau khi merge, sync fork và dọn dẹp branch. Trước tất cả, phải đọc CONTRIBUTING.md và CODE_OF_CONDUCT.md.
 
-### Câu 5: "Good first issue" là gì? Tại sao nên bắt đầu với nó?
+</details>
 
-**Trả lời:** "Good first issue" là label trên GitHub đánh dấu những issues phù hợp cho người mới bắt đầu đóng góp. Thường là bug nhỏ, fix typo, thêm tests, hoặc cải thiện docs. Nên bắt đầu với nó vì: (1) Độ phức tạp vừa phải, (2) Thường có hướng dẫn chi tiết từ maintainer, (3) Giúp làm quen với codebase và workflow, (4) Xây dựng confidence trước khi tackle issues lớn hơn, (5) Maintainers thường hỗ trợ nhiều hơn cho good first issues.
+**3. Làm thế nào để sync fork với repo gốc (upstream)?**
 
-### Câu 6: Đóng góp open source mang lại lợi ích gì cho sự nghiệp?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Lợi ích bao gồm: (1) Portfolio mạnh — GitHub contributions là CV sống, nhà tuyển dụng xem được, (2) Kinh nghiệm thực tế — làm việc với codebase lớn, CI/CD, code review, (3) Networking — kết nối với developer giỏi toàn cầu, (4) Cải thiện kỹ năng — đọc code người khác, viết code pass review từ experts, (5) Kỹ năng tiếng Anh — giao tiếp kỹ thuật bằng tiếng Anh, (6) Job opportunities — nhiều công ty tuyển trực tiếp từ open source contributors.
+Có 2 cách: (1) Command line: `git fetch upstream` rồi `git checkout main` rồi `git merge upstream/main` rồi `git push origin main`. (2) Trên GitHub: click nút "Sync fork" > "Update branch" trên trang fork. Cần sync thường xuyên để tránh fork bị lỗi thời quá nhiều, gây conflict lớn khi tạo PR.
+
+</details>
+
+**4. Tại sao nên tạo feature branch thay vì code trực tiếp trên main khi đóng góp?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Code trên main của fork gây nhiều vấn đề: (1) Main bị diverge khỏi upstream, khó sync, (2) Không thể làm nhiều PR cùng lúc (mỗi PR cần branch riêng), (3) PR bị lẫn lộn code từ nhiều thay đổi, (4) Khó rollback nếu PR bị reject. Feature branch giúp: mỗi PR độc lập, main luôn sạch và đồng bộ với upstream, dễ quản lý nhiều contributions cùng lúc.
+
+</details>
+
+**5. "Good first issue" là gì? Tại sao nên bắt đầu với nó?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+"Good first issue" là label trên GitHub đánh dấu những issues phù hợp cho người mới bắt đầu đóng góp. Thường là bug nhỏ, fix typo, thêm tests, hoặc cải thiện docs. Nên bắt đầu với nó vì: (1) Độ phức tạp vừa phải, (2) Thường có hướng dẫn chi tiết từ maintainer, (3) Giúp làm quen với codebase và workflow, (4) Xây dựng confidence trước khi tackle issues lớn hơn, (5) Maintainers thường hỗ trợ nhiều hơn cho good first issues.
+
+</details>
+
+**6. Đóng góp open source mang lại lợi ích gì cho sự nghiệp?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Lợi ích bao gồm: (1) Portfolio mạnh — GitHub contributions là CV sống, nhà tuyển dụng xem được, (2) Kinh nghiệm thực tế — làm việc với codebase lớn, CI/CD, code review, (3) Networking — kết nối với developer giỏi toàn cầu, (4) Cải thiện kỹ năng — đọc code người khác, viết code pass review từ experts, (5) Kỹ năng tiếng Anh — giao tiếp kỹ thuật bằng tiếng Anh, (6) Job opportunities — nhiều công ty tuyển trực tiếp từ open source contributors.
+
+</details>

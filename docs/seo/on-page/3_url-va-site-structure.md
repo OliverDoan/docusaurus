@@ -529,22 +529,49 @@ Mỗi redirect khiến trang tải chậm hơn (thêm 1 HTTP request). Kiểm tr
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: 301 và 302 redirect khác nhau như thế nào về mặt SEO?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** 301 (Permanent) báo Google rằng trang đã chuyển vĩnh viễn — Google sẽ chuyển link equity (khoảng 90-99%) từ URL cũ sang URL mới và cập nhật index. 302 (Temporary) báo Google rằng trang chỉ chuyển tạm thời — Google giữ URL cũ trong index và không chuyển link equity. Dùng sai loại redirect là lỗi phổ biến: dùng 302 cho redirect vĩnh viễn sẽ khiến mất link equity.
+**1. 301 và 302 redirect khác nhau như thế nào về mặt SEO?**
 
-### Câu 2: Internal linking ảnh hưởng đến SEO như thế nào?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Internal linking giúp SEO theo 3 cách: (1) **Khám phá** — Googlebot tìm trang mới bằng cách đi theo internal links, (2) **Link equity** — Trang có nhiều backlinks chuyển "giá trị" sang các trang được link đến, (3) **Ngữ cảnh** — Anchor text của internal link giúp Google hiểu nội dung trang đích. Chiến lược tốt là link từ trang có authority cao đến trang mới/quan trọng, dùng anchor text mô tả cụ thể.
+301 (Permanent) báo Google rằng trang đã chuyển vĩnh viễn — Google sẽ chuyển link equity (khoảng 90-99%) từ URL cũ sang URL mới và cập nhật index. 302 (Temporary) báo Google rằng trang chỉ chuyển tạm thời — Google giữ URL cũ trong index và không chuyển link equity. Dùng sai loại redirect là lỗi phổ biến: dùng 302 cho redirect vĩnh viễn sẽ khiến mất link equity.
 
-### Câu 3: Sitemap có giúp trang được index nhanh hơn không?
+</details>
 
-**Trả lời:** Sitemap không đảm bảo trang sẽ được index, nhưng giúp Googlebot khám phá trang nhanh hơn, đặc biệt với: (1) Trang mới chưa có internal link nào trỏ đến, (2) Trang web lớn (100,000+ URL), (3) Trang có cấu trúc phức tạp. Google cũng dùng `lastmod` trong sitemap để biết trang nào đã cập nhật để ưu tiên crawl lại.
+**2. Internal linking ảnh hưởng đến SEO như thế nào?**
 
-### Câu 4: Tại sao URL ngắn lại tốt hơn cho SEO?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** URL ngắn tốt hơn vì: (1) Dễ đọc và nhớ cho người dùng, (2) Hiển thị đầy đủ trên SERP (URL dài bị cắt), (3) Dễ chia sẻ trên mạng xã hội, (4) Google có thể ưu tiên URL ngắn gọn hơn khi xếp hạng. Tuy nhiên, "ngắn" không có nghĩa là bỏ hết — URL vẫn cần chứa keyword mô tả nội dung. Lý tưởng là 3-5 từ, dưới 60 ký tự.
+Internal linking giúp SEO theo 3 cách: (1) **Khám phá** — Googlebot tìm trang mới bằng cách đi theo internal links, (2) **Link equity** — Trang có nhiều backlinks chuyển "giá trị" sang các trang được link đến, (3) **Ngữ cảnh** — Anchor text của internal link giúp Google hiểu nội dung trang đích. Chiến lược tốt là link từ trang có authority cao đến trang mới/quan trọng, dùng anchor text mô tả cụ thể.
 
-### Câu 5: Flat site architecture và deep site architecture: cái nào tốt hơn cho SEO?
+</details>
 
-**Trả lời:** Flat architecture (mỗi trang cách trang chủ 2-3 click) thường tốt hơn vì: (1) Googlebot dễ khám phá tất cả các trang, (2) Link equity được phân phối đều hơn, (3) Người dùng truy cập nhanh hơn. Deep architecture (4-5+ cấp) khiến Googlebot có thể không crawl đến các trang sâu, và link equity bị loãng. Tuy nhiên, trang web lớn (e-commerce với 100,000 sản phẩm) cần sự cân bằng — dùng breadcrumbs và internal linking để rút ngắn "khoảng cách" đến trang sâu.
+**3. Sitemap có giúp trang được index nhanh hơn không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Sitemap không đảm bảo trang sẽ được index, nhưng giúp Googlebot khám phá trang nhanh hơn, đặc biệt với: (1) Trang mới chưa có internal link nào trỏ đến, (2) Trang web lớn (100,000+ URL), (3) Trang có cấu trúc phức tạp. Google cũng dùng `lastmod` trong sitemap để biết trang nào đã cập nhật để ưu tiên crawl lại.
+
+</details>
+
+**4. Tại sao URL ngắn lại tốt hơn cho SEO?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+URL ngắn tốt hơn vì: (1) Dễ đọc và nhớ cho người dùng, (2) Hiển thị đầy đủ trên SERP (URL dài bị cắt), (3) Dễ chia sẻ trên mạng xã hội, (4) Google có thể ưu tiên URL ngắn gọn hơn khi xếp hạng. Tuy nhiên, "ngắn" không có nghĩa là bỏ hết — URL vẫn cần chứa keyword mô tả nội dung. Lý tưởng là 3-5 từ, dưới 60 ký tự.
+
+</details>
+
+**5. Flat site architecture và deep site architecture: cái nào tốt hơn cho SEO?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Flat architecture (mỗi trang cách trang chủ 2-3 click) thường tốt hơn vì: (1) Googlebot dễ khám phá tất cả các trang, (2) Link equity được phân phối đều hơn, (3) Người dùng truy cập nhanh hơn. Deep architecture (4-5+ cấp) khiến Googlebot có thể không crawl đến các trang sâu, và link equity bị loãng. Tuy nhiên, trang web lớn (e-commerce với 100,000 sản phẩm) cần sự cân bằng — dùng breadcrumbs và internal linking để rút ngắn "khoảng cách" đến trang sâu.
+
+</details>

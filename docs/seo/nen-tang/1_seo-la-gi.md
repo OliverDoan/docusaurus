@@ -460,9 +460,12 @@ https://example.com/bai-viet?ref=facebook
 
 ## 9. Câu hỏi phỏng vấn
 
-### Câu 1: SEO là gì? Tại sao developer cần quan tâm đến SEO?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. SEO là gì? Tại sao developer cần quan tâm đến SEO?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 SEO (Search Engine Optimization) là quá trình tối ưu website để cải thiện thứ hạng trên kết quả tìm kiếm tự nhiên. Developer cần quan tâm vì phần lớn SEO là technical:
 
@@ -472,9 +475,12 @@ SEO (Search Engine Optimization) là quá trình tối ưu website để cải t
 - **Structured data**: Chỉ developer mới implement được JSON-LD
 - **Performance**: Core Web Vitals là ranking factor, và chỉ developer có thể tối ưu
 
-### Câu 2: Phân biệt SEO, SEM và PPC?
+</details>
 
-**Trả lời:**
+**2. Phân biệt SEO, SEM và PPC?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **SEO**: Tối ưu kết quả organic (miễn phí), mất 3-6 tháng nhưng traffic bền vững
 - **SEM**: Chiến lược marketing tổng thể trên search engine, bao gồm cả SEO và PPC
@@ -482,9 +488,12 @@ SEO (Search Engine Optimization) là quá trình tối ưu website để cải t
 
 **Key insight**: SEO là khoản đầu tư dài hạn, PPC là chi phí ngắn hạn. SEM là chiến lược kết hợp cả hai.
 
-### Câu 3: Giải thích ba trụ cột của SEO?
+</details>
 
-**Trả lời:**
+**3. Giải thích ba trụ cột của SEO?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 1. **On-page SEO**: Tối ưu nội dung và HTML trên website -- title tag, meta description, heading hierarchy, keyword usage, internal linking
 2. **Off-page SEO**: Yếu tố bên ngoài website -- backlinks, brand mentions, social signals. Tăng uy tín và độ tin cậy của website
@@ -492,9 +501,12 @@ SEO (Search Engine Optimization) là quá trình tối ưu website để cải t
 
 Developer chủ yếu chịu trách nhiệm **On-page** (HTML structure) và **Technical SEO**.
 
-### Câu 4: Tại sao SPA (React, Vue) lại có vấn đề với SEO? Giải pháp là gì?
+</details>
 
-**Trả lời:**
+**4. Tại sao SPA (React, Vue) lại có vấn đề với SEO? Giải pháp là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 SPA render nội dung bằng JavaScript phía client. Khi Googlebot crawl, nó nhận được một file HTML gần như trống (chỉ có `<div id="root"></div>`). Dù Googlebot có khả năng render JavaScript, nhưng:
 
@@ -508,9 +520,12 @@ SPA render nội dung bằng JavaScript phía client. Khi Googlebot crawl, nó n
 - **ISR** (Incremental Static Regeneration): Next.js -- kết hợp SSG + SSR
 - **Pre-rendering**: Dùng service như Prerender.io để tạo HTML snapshot cho bot
 
-### Câu 5: Canonical URL là gì? Khi nào cần dùng?
+</details>
 
-**Trả lời:**
+**5. Canonical URL là gì? Khi nào cần dùng?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 Canonical URL là tag HTML chỉ cho Google biết **phiên bản chính thức** của một trang khi có nhiều URL cùng nội dung:
 
@@ -526,3 +541,5 @@ Canonical URL là tag HTML chỉ cho Google biết **phiên bản chính thức*
 - Trang sản phẩm xuất hiện trong nhiều category
 
 Nếu không dùng canonical, Google sẽ tự chọn một phiên bản -- và có thể chọn sai.
+
+</details>

@@ -550,17 +550,23 @@ Giải pháp: Mỗi keyword chỉ có 1 trang target
 
 ## 10. Câu hỏi phỏng vấn
 
-### Câu 1: Search Intent là gì? Tại sao quan trọng cho SEO?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. Search Intent là gì? Tại sao quan trọng cho SEO?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 Search Intent là mục đích đằng sau mỗi tìm kiếm của user. Có 4 loại: Informational (tìm thông tin), Navigational (tìm website cụ thể), Transactional (muốn mua/đăng ký), Commercial Investigation (so sánh trước khi mua).
 
 Search Intent quan trọng vì Google xếp hạng cao cho trang **match đúng intent**. Nếu user tìm "react hooks tutorial" (informational) mà trang bạn là landing page bán khóa học (transactional) → Google sẽ không rank trang bạn, dù content hay đến mấy. Cách xác định intent: gõ keyword lên Google và xem loại content ở top 10.
 
-### Câu 2: Phân biệt long-tail và short-tail keywords? Khi nào dùng cái nào?
+</details>
 
-**Trả lời:**
+**2. Phân biệt long-tail và short-tail keywords? Khi nào dùng cái nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 **Short-tail**: 1-2 từ, search volume cao, cạnh tranh cao, intent mơ hồ. Ví dụ: "javascript", "docker".
 
@@ -568,9 +574,12 @@ Search Intent quan trọng vì Google xếp hạng cao cho trang **match đúng 
 
 **Chiến lược**: Website mới nên bắt đầu với long-tail keywords (dễ rank, traffic chất lượng). Khi domain authority tăng dần, mở rộng sang medium-tail và short-tail. Long-tail tuy volume nhỏ nhưng tổng cộng hàng nghìn long-tail keywords có thể mang lại traffic lớn hơn vài short-tail keywords.
 
-### Câu 3: Keyword cannibalization là gì? Cách khắc phục?
+</details>
 
-**Trả lời:**
+**3. Keyword cannibalization là gì? Cách khắc phục?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 Keyword cannibalization xảy ra khi nhiều trang trên cùng website target cùng một keyword. Google không biết rank trang nào → cả hai trang đều rank thấp, thay vì một trang rank cao.
 
@@ -581,9 +590,12 @@ Keyword cannibalization xảy ra khi nhiều trang trên cùng website target c�
 2. Phân biệt keyword target cho mỗi bài (ví dụ: "docker basics" vs "docker compose guide")
 3. Dùng canonical tag nếu cần giữ cả hai URL
 
-### Câu 4: Với vai trò developer, bạn sẽ implement keyword vào HTML ở những vị trí nào?
+</details>
 
-**Trả lời:**
+**4. Với vai trò developer, bạn sẽ implement keyword vào HTML ở những vị trí nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 Theo thứ tự quan trọng:
 1. **Title tag** (`<title>`): Keyword chính ở đầu, 50-60 ký tự
@@ -598,9 +610,12 @@ Theo thứ tự quan trọng:
 
 Lưu ý: Không nhồi keyword. Google đủ thông minh để hiểu ngữ nghĩa (semantic search). Viết tự nhiên, cho con người đọc, không phải cho bot.
 
-### Câu 5: Làm sao tìm keyword opportunities từ Google Search Console?
+</details>
 
-**Trả lời:**
+**5. Làm sao tìm keyword opportunities từ Google Search Console?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 Vào GSC, mục Performance, filter theo Queries. Tìm keywords có:
 
@@ -611,3 +626,5 @@ Vào GSC, mục Performance, filter theo Queries. Tìm keywords có:
 3. **Impressions tăng đột biến**: Keyword đang trending → Cần nhanh chóng tối ưu hoặc viết content mới để tận dụng xu hướng.
 
 Đây là nguồn data **thực tế nhất** vì đến trực tiếp từ Google, khác với data ước tính của Ahrefs hay SEMrush.
+
+</details>

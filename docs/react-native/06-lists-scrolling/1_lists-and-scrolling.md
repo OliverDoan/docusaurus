@@ -379,22 +379,35 @@ const loadMore = async () => {
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: ScrollView vs FlatList?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. ScrollView vs FlatList?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **ScrollView**: render **toàn bộ children** ngay -- ok cho ít item (< 20)
 - **FlatList**: **virtualized** -- chỉ render item trong viewport + buffer -- ok cho danh sách dài
 
 10000 item: ScrollView OOM, FlatList smooth.
 
-### Câu 2: Virtualization là gì?
+</details>
 
-**Trả lời:** Chỉ render **item đang visible** (+ buffer). Item ngoài viewport bị **unmount** để tiết kiệm memory. Khi scroll, item mới được mount, item cũ unmount. Cho phép list **nghìn-triệu item** mượt mà.
+**2. Virtualization là gì?**
 
-### Câu 3: `getItemLayout` lợi ích gì?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Nếu mỗi item **chiều cao cố định**, `getItemLayout` cho FlatList biết trước layout -- **không cần measure**. Hệ quả:
+Chỉ render **item đang visible** (+ buffer). Item ngoài viewport bị **unmount** để tiết kiệm memory. Khi scroll, item mới được mount, item cũ unmount. Cho phép list **nghìn-triệu item** mượt mà.
+
+</details>
+
+**3. `getItemLayout` lợi ích gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Nếu mỗi item **chiều cao cố định**, `getItemLayout` cho FlatList biết trước layout -- **không cần measure**. Hệ quả:
 
 - Scroll mượt hơn (đặc biệt initial scroll)
 - `scrollToIndex` chính xác
@@ -406,9 +419,14 @@ getItemLayout={(data, index) => ({
 })}
 ```
 
-### Câu 4: FlashList vs FlatList?
+</details>
 
-**Trả lời:** Cả 2 virtualized. **FlashList** (Shopify):
+**4. FlashList vs FlatList?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Cả 2 virtualized. **FlashList** (Shopify):
 
 - **Recycle** item view thay vì destroy/create -- nhanh hơn
 - Memory thấp hơn
@@ -417,9 +435,12 @@ getItemLayout={(data, index) => ({
 
 Khuyến nghị FlashList cho production app có list lớn.
 
-### Câu 5: Cách implement infinite scroll?
+</details>
 
-**Trả lời:**
+**5. Cách implement infinite scroll?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 1. `onEndReached={loadMore}`
 2. `onEndReachedThreshold={0.5}` (load khi còn 50%)
@@ -427,3 +448,5 @@ Khuyến nghị FlashList cho production app có list lớn.
 4. Append vào state
 5. Guard `if (loading) return` -- tránh gọi nhiều lần
 6. `ListFooterComponent={loading ? <ActivityIndicator /> : null}`
+
+</details>

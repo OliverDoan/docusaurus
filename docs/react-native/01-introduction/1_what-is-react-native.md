@@ -266,36 +266,50 @@ RN dùng native UI, nhưng business logic chạy trong JS engine -- vẫn có ov
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: React Native khác React thế nào?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. React Native khác React thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **React**: render DOM trong browser (`<div>`, `<span>`)
 - **React Native**: render native UI mobile (`<View>`, `<Text>`)
 
 Cả 2 cùng concept (component, state, props, hooks). Khác về platform target và component primitive.
 
-### Câu 2: RN vs Flutter -- chọn cái nào?
+</details>
 
-**Trả lời:**
+**2. RN vs Flutter -- chọn cái nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **RN**: nếu team biết React, ecosystem JS rộng, native UI thật
 - **Flutter**: nếu team thoải mái Dart, cần UI custom phức tạp, performance đỉnh
 
 Không có "tốt hơn" tuyệt đối -- phụ thuộc skill team và requirement app.
 
-### Câu 3: Bridge và JSI khác gì?
+</details>
 
-**Trả lời:**
+**3. Bridge và JSI khác gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **Bridge** (cũ): JS ↔ Native qua message JSON, **async**, có overhead
 - **JSI** (mới): JS gọi C++ trực tiếp, **sync**, gần như zero overhead
 
 New Architecture (Fabric + TurboModules + JSI) là tương lai của RN.
 
-### Câu 4: Expo là gì?
+</details>
 
-**Trả lời:** Framework + platform built trên RN. Cung cấp:
+**4. Expo là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Framework + platform built trên RN. Cung cấp:
 
 - **Pre-configured tooling** -- không cần Xcode/Android Studio cho dev
 - **Library** -- camera, location, push notification...
@@ -303,11 +317,18 @@ New Architecture (Fabric + TurboModules + JSI) là tương lai của RN.
 
 Phù hợp dev mới hoặc team không muốn quản lý native.
 
-### Câu 5: Hermes là gì?
+</details>
 
-**Trả lời:** JavaScript engine của Meta, tối ưu cho mobile. Mặc định trên RN từ 0.70+:
+**5. Hermes là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+JavaScript engine của Meta, tối ưu cho mobile. Mặc định trên RN từ 0.70+:
 
 - **Start nhanh hơn** JSC (giảm time-to-interactive)
 - **App size nhỏ hơn**
 - **Memory thấp hơn**
 - **Bytecode** pre-compile -- không parse JS lúc runtime
+
+</details>

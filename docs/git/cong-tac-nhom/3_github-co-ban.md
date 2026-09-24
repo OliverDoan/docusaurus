@@ -684,26 +684,58 @@ Kiểm tra:
 
 ## 12. Câu hỏi phỏng vấn
 
-### Câu 1: GitHub là gì? Git và GitHub khác nhau như thế nào?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** Git là hệ thống quản lý phiên bản phân tán (DVCS) — công cụ chạy trên máy local để theo dõi thay đổi code. GitHub là nền tảng hosting trên cloud, cung cấp nơi lưu trữ Git repository cùng các tính năng cộng tác như Pull Request, Issues, Actions, Projects. Git hoạt động offline được, GitHub cần internet. Git miễn phí mã nguồn mở, GitHub là dịch vụ thương mại (có gói miễn phí). Có thể dùng Git mà không cần GitHub (dùng GitLab, Bitbucket, hoặc self-hosted), nhưng không thể dùng GitHub mà không có Git.
+**1. GitHub là gì? Git và GitHub khác nhau như thế nào?**
 
-### Câu 2: Branch protection rules là gì? Tại sao quan trọng?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Branch protection rules là các quy tắc bảo vệ nhánh quan trọng (thường là main/develop) trên GitHub. Có thể cấu hình: bắt buộc tạo PR (không push trực tiếp), yêu cầu approval từ reviewer, bắt buộc CI checks pass, yêu cầu conversation resolved. Quan trọng vì: ngăn chặn code lỗi vào production, đảm bảo code được review, tạo quy trình phát triển chuyên nghiệp, giảm rủi ro.
+Git là hệ thống quản lý phiên bản phân tán (DVCS) — công cụ chạy trên máy local để theo dõi thay đổi code. GitHub là nền tảng hosting trên cloud, cung cấp nơi lưu trữ Git repository cùng các tính năng cộng tác như Pull Request, Issues, Actions, Projects. Git hoạt động offline được, GitHub cần internet. Git miễn phí mã nguồn mở, GitHub là dịch vụ thương mại (có gói miễn phí). Có thể dùng Git mà không cần GitHub (dùng GitLab, Bitbucket, hoặc self-hosted), nhưng không thể dùng GitHub mà không có Git.
 
-### Câu 3: Giải thích file CODEOWNERS trong GitHub.
+</details>
 
-**Trả lời:** CODEOWNERS là file nằm trong `.github/CODEOWNERS`, định nghĩa ai là "owner" (người chịu trách nhiệm) cho từng phần code. Khi có PR thay đổi file, GitHub tự động thêm owner tương ứng làm reviewer. Ví dụ: `*.js @frontend-team` nghĩa là mọi file JS cần frontend team review. Giúp đảm bảo đúng người review đúng code, tránh thay đổi không được review bởi chuyên gia phù hợp.
+**2. Branch protection rules là gì? Tại sao quan trọng?**
 
-### Câu 4: Public repo và private repo khác nhau thế nào? Khi nào dùng cái nào?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Public repo ai cũng xem được code, fork được, phù hợp cho open source, portfolio, học tập. Private repo chỉ owner và collaborators truy cập được, phù hợp cho code công ty, dự án thương mại, code có thông tin nhạy cảm. Cả hai đều miễn phí trên GitHub. Lưu ý: public repo không nên chứa API keys, passwords, hay thông tin bí mật. GitHub Pages miễn phí cho public repos, cần GitHub Pro cho private repos.
+Branch protection rules là các quy tắc bảo vệ nhánh quan trọng (thường là main/develop) trên GitHub. Có thể cấu hình: bắt buộc tạo PR (không push trực tiếp), yêu cầu approval từ reviewer, bắt buộc CI checks pass, yêu cầu conversation resolved. Quan trọng vì: ngăn chặn code lỗi vào production, đảm bảo code được review, tạo quy trình phát triển chuyên nghiệp, giảm rủi ro.
 
-### Câu 5: GitHub Actions là gì? Cho một ví dụ use case.
+</details>
 
-**Trả lời:** GitHub Actions là hệ thống CI/CD tích hợp trong GitHub, cho phép tự động hóa workflow khi có sự kiện xảy ra (push, PR, schedule...). Ví dụ: khi developer tạo PR, Actions tự động chạy test, lint, build. Nếu tất cả pass (xanh), reviewer mới được merge. Nếu fail (đỏ), developer phải sửa lỗi trước. Workflow được định nghĩa bằng file YAML trong `.github/workflows/`. Điều này đảm bảo code quality và giảm lỗi khi deploy.
+**3. Giải thích file CODEOWNERS trong GitHub.**
 
-### Câu 6: README.md tốt cần có những gì?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Một README.md tốt cần: (1) Tên và mô tả ngắn gọn dự án, (2) Badges hiển thị trạng thái (build, coverage, license), (3) Features chính, (4) Demo hoặc screenshots, (5) Tech stack, (6) Hướng dẫn cài đặt (Getting Started), (7) Hướng dẫn sử dụng, (8) Hướng dẫn đóng góp (Contributing), (9) License. README là "bộ mặt" của dự án, là thứ đầu tiên nhà tuyển dụng hoặc người dùng nhìn thấy.
+CODEOWNERS là file nằm trong `.github/CODEOWNERS`, định nghĩa ai là "owner" (người chịu trách nhiệm) cho từng phần code. Khi có PR thay đổi file, GitHub tự động thêm owner tương ứng làm reviewer. Ví dụ: `*.js @frontend-team` nghĩa là mọi file JS cần frontend team review. Giúp đảm bảo đúng người review đúng code, tránh thay đổi không được review bởi chuyên gia phù hợp.
+
+</details>
+
+**4. Public repo và private repo khác nhau thế nào? Khi nào dùng cái nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Public repo ai cũng xem được code, fork được, phù hợp cho open source, portfolio, học tập. Private repo chỉ owner và collaborators truy cập được, phù hợp cho code công ty, dự án thương mại, code có thông tin nhạy cảm. Cả hai đều miễn phí trên GitHub. Lưu ý: public repo không nên chứa API keys, passwords, hay thông tin bí mật. GitHub Pages miễn phí cho public repos, cần GitHub Pro cho private repos.
+
+</details>
+
+**5. GitHub Actions là gì? Cho một ví dụ use case.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+GitHub Actions là hệ thống CI/CD tích hợp trong GitHub, cho phép tự động hóa workflow khi có sự kiện xảy ra (push, PR, schedule...). Ví dụ: khi developer tạo PR, Actions tự động chạy test, lint, build. Nếu tất cả pass (xanh), reviewer mới được merge. Nếu fail (đỏ), developer phải sửa lỗi trước. Workflow được định nghĩa bằng file YAML trong `.github/workflows/`. Điều này đảm bảo code quality và giảm lỗi khi deploy.
+
+</details>
+
+**6. README.md tốt cần có những gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Một README.md tốt cần: (1) Tên và mô tả ngắn gọn dự án, (2) Badges hiển thị trạng thái (build, coverage, license), (3) Features chính, (4) Demo hoặc screenshots, (5) Tech stack, (6) Hướng dẫn cài đặt (Getting Started), (7) Hướng dẫn sử dụng, (8) Hướng dẫn đóng góp (Contributing), (9) License. README là "bộ mặt" của dự án, là thứ đầu tiên nhà tuyển dụng hoặc người dùng nhìn thấy.
+
+</details>

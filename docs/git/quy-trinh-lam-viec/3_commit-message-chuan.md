@@ -750,21 +750,39 @@ backoff reduces user-visible errors by 95% based on staging tests."
 
 ## 10. Câu hỏi phỏng vấn
 
-### Câu 1: Conventional Commits là gì? Tại sao nên dùng?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** Conventional Commits là quy ước viết commit message theo format `type(scope): description`. Nên dùng vì: (1) Git log dễ đọc và hiểu, (2) Có thể tự động tạo CHANGELOG, (3) Tự động xác định version mới (SemVer) dựa trên commit types, (4) Giúp team thống nhất cách viết, (5) Dễ tìm kiếm và lọc commits theo type/scope.
+**1. Conventional Commits là gì? Tại sao nên dùng?**
 
-### Câu 2: Commit types nào tăng version SemVer?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** `fix` tăng PATCH (1.0.0 -> 1.0.1), `feat` tăng MINOR (1.0.0 -> 1.1.0), commit có `BREAKING CHANGE` hoặc dấu `!` tăng MAJOR (1.0.0 -> 2.0.0). Các types khác như docs, style, refactor, test, chore không tăng version vì không ảnh hưởng đến end user.
+Conventional Commits là quy ước viết commit message theo format `type(scope): description`. Nên dùng vì: (1) Git log dễ đọc và hiểu, (2) Có thể tự động tạo CHANGELOG, (3) Tự động xác định version mới (SemVer) dựa trên commit types, (4) Giúp team thống nhất cách viết, (5) Dễ tìm kiếm và lọc commits theo type/scope.
 
-### Câu 3: Giải thích cách thiết lập commit message validation cho dự án?
+</details>
 
-**Trả lời:** Sử dụng 3 tools: (1) **commitlint** để validate format — cài đặt `@commitlint/cli` và `@commitlint/config-conventional`, tạo file config định nghĩa rules. (2) **Husky** để chạy commitlint tự động — tạo commit-msg hook gọi commitlint. (3) **Commitizen** (optional) để hỗ trợ viết commit tương tác — người dùng chọn type, nhập scope và description qua menu. Tất cả cài đặt như dev dependencies và commit vào repo để tất cả team members dùng chung.
+**2. Commit types nào tăng version SemVer?**
 
-### Câu 4: Viết commit message cho tình huống: bạn fix bug khiến app crash khi user upload file > 5MB trên trang profile.
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời mẫu:**
+`fix` tăng PATCH (1.0.0 -> 1.0.1), `feat` tăng MINOR (1.0.0 -> 1.1.0), commit có `BREAKING CHANGE` hoặc dấu `!` tăng MAJOR (1.0.0 -> 2.0.0). Các types khác như docs, style, refactor, test, chore không tăng version vì không ảnh hưởng đến end user.
+
+</details>
+
+**3. Giải thích cách thiết lập commit message validation cho dự án?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Sử dụng 3 tools: (1) **commitlint** để validate format — cài đặt `@commitlint/cli` và `@commitlint/config-conventional`, tạo file config định nghĩa rules. (2) **Husky** để chạy commitlint tự động — tạo commit-msg hook gọi commitlint. (3) **Commitizen** (optional) để hỗ trợ viết commit tương tác — người dùng chọn type, nhập scope và description qua menu. Tất cả cài đặt như dev dependencies và commit vào repo để tất cả team members dùng chung.
+
+</details>
+
+**4. Viết commit message cho tình huống: bạn fix bug khiến app crash khi user upload file > 5MB trên trang profile.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 ```
 fix(profile): handle file upload exceeding 5MB size limit
@@ -778,9 +796,16 @@ request from reaching it.
 Closes #1234
 ```
 
-### Câu 5: Sự khác nhau giữa `refactor` và `fix`? Giữa `style` và `refactor`?
+</details>
 
-**Trả lời:** `refactor` thay đổi cấu trúc code nhưng **không đổi behavior** — input và output vẫn giống nhau (ví dụ: đổi tên biến, tách function, thay đổi design pattern). `fix` sửa **behavior sai** — trước khi fix thì output sai, sau khi fix thì output đúng. Còn `style` chỉ thay đổi **format** code (indentation, spacing, semicolons) mà **không đổi logic** — ngay cả không thay đổi cấu trúc. `refactor` có thể đổi cấu trúc nhưng không đổi behavior; `style` không đổi cả cấu trúc lẫn behavior.
+**5. Sự khác nhau giữa `refactor` và `fix`? Giữa `style` và `refactor`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`refactor` thay đổi cấu trúc code nhưng **không đổi behavior** — input và output vẫn giống nhau (ví dụ: đổi tên biến, tách function, thay đổi design pattern). `fix` sửa **behavior sai** — trước khi fix thì output sai, sau khi fix thì output đúng. Còn `style` chỉ thay đổi **format** code (indentation, spacing, semicolons) mà **không đổi logic** — ngay cả không thay đổi cấu trúc. `refactor` có thể đổi cấu trúc nhưng không đổi behavior; `style` không đổi cả cấu trúc lẫn behavior.
+
+</details>
 
 ---
 

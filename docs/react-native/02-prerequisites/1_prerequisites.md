@@ -346,42 +346,61 @@ Mọi project mới dùng function component + hooks.
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: Props vs State khác gì?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. Props vs State khác gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **Props**: dữ liệu **truyền từ ngoài vào**, immutable trong component
 - **State**: dữ liệu **nội bộ**, có thể thay đổi bằng setter
 
 Props giống "tham số function". State giống "biến local".
 
-### Câu 2: useEffect chạy khi nào?
+</details>
 
-**Trả lời:**
+**2. useEffect chạy khi nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **`useEffect(fn)`**: chạy sau **mỗi render**
 - **`useEffect(fn, [])`**: chỉ 1 lần khi **mount**
 - **`useEffect(fn, [a, b])`**: chạy khi **a hoặc b thay đổi**
 - **Return function**: chạy lúc **cleanup** (unmount hoặc trước rerun)
 
-### Câu 3: Flexbox trong RN khác CSS web thế nào?
+</details>
 
-**Trả lời:**
+**3. Flexbox trong RN khác CSS web thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **`flexDirection` mặc định là `column`** (web là `row`)
 - **`display` không tồn tại** -- mọi view là flex
 - **Không có `block`, `inline`** -- chỉ flex
 - **Không có `%` cho margin/padding parent** -- dùng `flex`, `width`/`height` cụ thể
 
-### Câu 4: Class vs Function component?
+</details>
 
-**Trả lời:**
+**4. Class vs Function component?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **Function component + hooks**: hiện đại, ngắn, dễ test -- chuẩn từ React 16.8
 - **Class component**: cũ, dài, vẫn hoạt động nhưng không khuyến khích cho code mới
 
 Mọi project mới dùng function component.
 
-### Câu 5: JSX có bắt buộc không?
+</details>
 
-**Trả lời:** **Không** -- có thể dùng `React.createElement(...)` thủ công. Nhưng JSX **dễ đọc hơn nhiều** -- mọi project React/RN đều dùng JSX. JSX được compile thành `createElement` qua Babel.
+**5. JSX có bắt buộc không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không** -- có thể dùng `React.createElement(...)` thủ công. Nhưng JSX **dễ đọc hơn nhiều** -- mọi project React/RN đều dùng JSX. JSX được compile thành `createElement` qua Babel.
+
+</details>

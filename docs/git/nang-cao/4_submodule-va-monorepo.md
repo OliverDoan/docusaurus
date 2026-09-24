@@ -580,39 +580,57 @@ git sparse-checkout set apps/web packages/shared-ui
 
 ## 6. Câu hỏi phỏng vấn
 
-### Câu 1: Git Submodule là gì? Hoạt động thế nào?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. Git Submodule là gì? Hoạt động thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Git Submodule cho phép nhúng một Git repo bên trong repo khác. Repo chính lưu một con trỏ (SHA commit) đến version cụ thể của submodule, KHÔNG lưu code thực tế. Khi `git submodule update`, Git checkout submodule ở đúng commit được pin.
 
 Cơ chế: file `.gitmodules` chứa URL và path, repo chính track SHA commit của submodule. Mỗi khi update submodule, bạn cần commit con trỏ mới trong repo chính.
 
-### Câu 2: So sánh Monorepo và Polyrepo. Khi nào dùng cái nào?
+</details>
 
-**Trả lời:**
+**2. So sánh Monorepo và Polyrepo. Khi nào dùng cái nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **Monorepo**: 1 repo chứa tất cả projects. Ưu điểm: code sharing dễ, atomic changes, dependency luôn đồng bộ. Nhược điểm: repo lớn, CI phức tạp, khó phân quyền. Dùng khi: nhiều apps liên quan chặt, shared code nhiều, cùng team phát triển.
 - **Polyrepo**: mỗi project 1 repo. Ưu điểm: đơn giản, repo nhỏ, phân quyền rõ ràng, CI đơn giản. Nhược điểm: code sharing khó (publish package), dependency dễ lệch version, cross-repo changes phức tạp. Dùng khi: projects độc lập, team khác nhau, security cần phân quyền.
 
-### Câu 3: Subtree khác Submodule thế nào?
+</details>
 
-**Trả lời:**
+**3. Subtree khác Submodule thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **Submodule**: Repo chính chứa con trỏ (reference) đến commit cụ thể của repo con. Clone cần `--recurse-submodules`. Lịch sử tách biệt.
 - **Subtree**: Code từ repo con được copy thẳng vào repo chính, trở thành một phần của repo. Clone bình thường. Lịch sử gộp.
 
 Subtree đơn giản hơn cho team (không cần biết gì đặc biệt), nhưng repo lớn hơn. Submodule giữ repo nhỏ nhưng phức tạp hơn.
 
-### Câu 4: Sparse checkout là gì? Tại sao cần?
+</details>
 
-**Trả lời:**
+**4. Sparse checkout là gì? Tại sao cần?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Sparse checkout cho phép bạn chỉ checkout một phần thư mục trong repo, thay vì toàn bộ. Rất hữu ích cho monorepo lớn khi developer chỉ cần làm việc với 1-2 packages.
 
 Cách dùng: `git sparse-checkout set apps/web packages/utils`. Git chỉ hiển thị các thư mục được chọn trên disk, nhưng vẫn tracking toàn bộ history. Kết hợp với `--filter=blob:none` (partial clone) để clone siêu nhanh.
 
-### Câu 5: Làm sao xóa Git Submodule đúng cách?
+</details>
 
-**Trả lời:**
+**5. Làm sao xóa Git Submodule đúng cách?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Xóa submodule cần nhiều bước:
 
 1. `git rm <path>` — xóa submodule khỏi working tree và index
@@ -620,6 +638,8 @@ Xóa submodule cần nhiều bước:
 3. Commit thay đổi
 
 Trong Git cũ hơn, cần thêm: xóa entry trong `.gitmodules`, xóa entry trong `.git/config`, `git rm --cached`. Đây là một trong những điểm phức tạp nhất của submodules.
+
+</details>
 
 ---
 

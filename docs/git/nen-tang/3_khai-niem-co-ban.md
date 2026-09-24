@@ -760,35 +760,52 @@ rm -rf .git   # MẤT HẾT LỊCH SỬ!
 
 ## 11. Câu hỏi phỏng vấn
 
-### Câu 1: Giải thích 3 vùng làm việc của Git.
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời mẫu:**
+**1. Giải thích 3 vùng làm việc của Git.**
 
-> Git có 3 vùng: (1) Working Directory — nơi bạn chỉnh sửa file trực tiếp, (2) Staging Area (Index) — vùng trung gian, chọn những thay đổi cần commit, và (3) Repository (.git) — cơ sở dữ liệu lưu trữ vĩnh viễn các commit. Luồng làm việc: sửa file ở Working Directory -> `git add` để đưa vào Staging -> `git commit` để lưu vào Repository. Staging Area cho phép selective commit — chỉ commit những thay đổi liên quan với nhau.
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-### Câu 2: Commit trong Git là snapshot hay diff? Giải thích.
+Git có 3 vùng: (1) Working Directory — nơi bạn chỉnh sửa file trực tiếp, (2) Staging Area (Index) — vùng trung gian, chọn những thay đổi cần commit, và (3) Repository (.git) — cơ sở dữ liệu lưu trữ vĩnh viễn các commit. Luồng làm việc: sửa file ở Working Directory -> `git add` để đưa vào Staging -> `git commit` để lưu vào Repository. Staging Area cho phép selective commit — chỉ commit những thay đổi liên quan với nhau.
 
-**Trả lời mẫu:**
+</details>
 
-> Commit là snapshot — ảnh chụp toàn bộ trạng thái của dự án tại thời điểm commit. Git không lưu diff giữa các version. Tuy nhiên, Git tối ưu bằng cách: nếu file không thay đổi, Git chỉ lưu một link (reference) đến blob cũ thay vì copy lại. Nhờ vậy Git vừa nhanh (truy xuất trực tiếp snapshot) vừa tiết kiệm dung lượng (không lưu trùng lặp).
+**2. Commit trong Git là snapshot hay diff? Giải thích.**
 
-### Câu 3: HEAD là gì? Detached HEAD là gì?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời mẫu:**
+Commit là snapshot — ảnh chụp toàn bộ trạng thái của dự án tại thời điểm commit. Git không lưu diff giữa các version. Tuy nhiên, Git tối ưu bằng cách: nếu file không thay đổi, Git chỉ lưu một link (reference) đến blob cũ thay vì copy lại. Nhờ vậy Git vừa nhanh (truy xuất trực tiếp snapshot) vừa tiết kiệm dung lượng (không lưu trùng lặp).
 
-> HEAD là con trỏ cho biết vị trí hiện tại trong lịch sử Git. Bình thường, HEAD trỏ đến một branch (ví dụ main), và khi commit, branch đó tiến lên commit mới. Detached HEAD xảy ra khi checkout trực tiếp một commit thay vì branch — khi đó HEAD trỏ đến commit cụ thể thay vì branch. Commit trong trạng thái này sẽ không thuộc branch nào và có thể bị mất khi chuyển branch. Cách xử lý: tạo branch mới tại vị trí đó bằng `git checkout -b ten-branch`.
+</details>
 
-### Câu 4: Branch trong Git là gì về mặt kỹ thuật?
+**3. HEAD là gì? Detached HEAD là gì?**
 
-**Trả lời mẫu:**
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-> Về kỹ thuật, branch chỉ là một file nhỏ (41 bytes) chứa SHA-1 hash của commit mới nhất trên branch đó. Ví dụ, file `.git/refs/heads/main` chứa hash của commit cuối trên main. Vì tạo branch chỉ là tạo 1 file nhỏ, nên thao tác branching trong Git cực nhanh, khác với SVN phải copy toàn bộ thư mục.
+HEAD là con trỏ cho biết vị trí hiện tại trong lịch sử Git. Bình thường, HEAD trỏ đến một branch (ví dụ main), và khi commit, branch đó tiến lên commit mới. Detached HEAD xảy ra khi checkout trực tiếp một commit thay vì branch — khi đó HEAD trỏ đến commit cụ thể thay vì branch. Commit trong trạng thái này sẽ không thuộc branch nào và có thể bị mất khi chuyển branch. Cách xử lý: tạo branch mới tại vị trí đó bằng `git checkout -b ten-branch`.
 
-### Câu 5: Git lưu dữ liệu như thế nào bên trong thư mục .git?
+</details>
 
-**Trả lời mẫu:**
+**4. Branch trong Git là gì về mặt kỹ thuật?**
 
-> Git lưu 3 loại object trong `.git/objects/`: (1) Blob — nội dung file (không có tên file), (2) Tree — giống thư mục, chứa danh sách blobs và trees con, (3) Commit — metadata (author, date, message) + pointer đến tree root. Mỗi object được định danh bằng SHA-1 hash của nội dung. HEAD là file trỏ đến branch hiện tại, refs/heads/ chứa các branch pointer, và index là Staging Area.
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Về kỹ thuật, branch chỉ là một file nhỏ (41 bytes) chứa SHA-1 hash của commit mới nhất trên branch đó. Ví dụ, file `.git/refs/heads/main` chứa hash của commit cuối trên main. Vì tạo branch chỉ là tạo 1 file nhỏ, nên thao tác branching trong Git cực nhanh, khác với SVN phải copy toàn bộ thư mục.
+
+</details>
+
+**5. Git lưu dữ liệu như thế nào bên trong thư mục .git?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Git lưu 3 loại object trong `.git/objects/`: (1) Blob — nội dung file (không có tên file), (2) Tree — giống thư mục, chứa danh sách blobs và trees con, (3) Commit — metadata (author, date, message) + pointer đến tree root. Mỗi object được định danh bằng SHA-1 hash của nội dung. HEAD là file trỏ đến branch hiện tại, refs/heads/ chứa các branch pointer, và index là Staging Area.
+
+</details>
 
 ---
 

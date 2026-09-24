@@ -401,9 +401,12 @@ Codegen strict -- types không match -> build fail. Check spec đúng với nati
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: Khi nào cần Native Module?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. Khi nào cần Native Module?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - Truy cập API native không có lib
 - Tích hợp SDK third-party native
@@ -412,34 +415,50 @@ Codegen strict -- types không match -> build fail. Check spec đúng với nati
 
 99% case có lib npm sẵn -- check trước khi tự viết.
 
-### Câu 2: Bridge vs TurboModule?
+</details>
 
-**Trả lời:**
+**2. Bridge vs TurboModule?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **Bridge** (cũ): JS ↔ Native qua message JSON, **async**, có overhead
 - **TurboModule** (New Architecture): JSI, **sync**, type-safe, lazy load, ~5x nhanh hơn
 
 Project mới ưu tiên TurboModule.
 
-### Câu 3: Expo Modules API là gì?
+</details>
 
-**Trả lời:** Framework hiện đại để viết native module trong project Expo. API thống nhất iOS + Android, swift/kotlin, hỗ trợ TurboModule, ít boilerplate hơn Bridge classic. Khuyến nghị cho mọi project Expo.
+**3. Expo Modules API là gì?**
 
-### Câu 4: Config Plugin khác Native Module?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:**
+Framework hiện đại để viết native module trong project Expo. API thống nhất iOS + Android, swift/kotlin, hỗ trợ TurboModule, ít boilerplate hơn Bridge classic. Khuyến nghị cho mọi project Expo.
+
+</details>
+
+**4. Config Plugin khác Native Module?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **Config Plugin**: chỉ modify file config (Info.plist, AndroidManifest, Gradle) -- không có code native
 - **Native Module**: code Swift/Kotlin actual logic
 
 Config Plugin đủ cho 80% nhu cầu "tích hợp SDK" -- chỉ cần config setup.
 
-### Câu 5: Khi nào nên publish native module?
+</details>
 
-**Trả lời:**
+**5. Khi nào nên publish native module?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - Code dùng nhiều project trong company
 - Open-source cho cộng đồng
 - Tách concern (1 repo, 1 trách nhiệm)
 
 Trước khi publish: viết doc, test cả iOS + Android, semver, CI.
+
+</details>

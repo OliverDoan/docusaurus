@@ -476,31 +476,47 @@ Phải handle cả 2 case:
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: Animated API vs Reanimated?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. Animated API vs Reanimated?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **Animated** (built-in): cũ, animation chạy được trên native với `useNativeDriver`, hạn chế (chỉ transform/opacity)
 - **Reanimated** (v2/v3): mới, **worklet** chạy hoàn toàn trên UI thread, gesture-driven, performance đỉnh
 
 Project mới ưu tiên Reanimated cho animation phức tạp.
 
-### Câu 2: `useNativeDriver` lợi ích gì?
+</details>
 
-**Trả lời:** Animation chạy trên **UI thread** (native), không qua JS thread + bridge. **60fps đảm bảo** ngay cả khi JS busy. Chỉ hỗ trợ: opacity, transform. Layout (width, height) không hỗ trợ -- dùng transform scale thay.
+**2. `useNativeDriver` lợi ích gì?**
 
-### Câu 3: Gesture handler vs PanResponder?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:**
+Animation chạy trên **UI thread** (native), không qua JS thread + bridge. **60fps đảm bảo** ngay cả khi JS busy. Chỉ hỗ trợ: opacity, transform. Layout (width, height) không hỗ trợ -- dùng transform scale thay.
+
+</details>
+
+**3. Gesture handler vs PanResponder?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **PanResponder** (built-in cũ): chạy trên JS thread, lag với gesture phức tạp
 - **react-native-gesture-handler**: native gesture, mượt mà, kết hợp tốt với Reanimated
 
 Project mới luôn dùng gesture-handler.
 
-### Câu 4: Worklet trong Reanimated là gì?
+</details>
 
-**Trả lời:** Function chạy trên **UI thread** (không phải JS thread). Khai báo bằng directive `'worklet';`. Cho phép sync access shared value, animation 60fps không phụ thuộc JS busy.
+**4. Worklet trong Reanimated là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Function chạy trên **UI thread** (không phải JS thread). Khai báo bằng directive `'worklet';`. Cho phép sync access shared value, animation 60fps không phụ thuộc JS busy.
 
 ```js
 function update() {
@@ -509,9 +525,12 @@ function update() {
 }
 ```
 
-### Câu 5: Push notification flow?
+</details>
 
-**Trả lời:**
+**5. Push notification flow?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 1. User cấp permission (`requestPermissionsAsync`)
 2. App lấy **device token** từ Apple/Google
@@ -521,3 +540,5 @@ function update() {
 6. App nhận, hiển thị, hoặc handle khi user tap
 
 Expo Push API trừu tượng hóa APNs + FCM thành 1 endpoint.
+
+</details>

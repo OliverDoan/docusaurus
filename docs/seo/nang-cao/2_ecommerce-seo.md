@@ -478,22 +478,49 @@ Sản phẩm hết hàng đã có backlinks và ranking. Trả 404 sẽ mất h�
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: Faceted navigation gây ra vấn đề gì cho SEO và cách xử lý?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời**: Faceted navigation (filter theo color, size, brand, price) tạo ra hàng triệu URL combinations, gây ra duplicate content và lãng phí crawl budget. Xử lý bằng cách: (1) Canonical tất cả filter URLs về category page chính, (2) Noindex filter pages không có search volume, (3) Block crawl params không cần thiết trong robots.txt, (4) Chỉ cho index filter combinations có search volume thực sự (ví dụ `?color=red` nếu "áo thun đỏ" có người search).
+**1. Faceted navigation gây ra vấn đề gì cho SEO và cách xử lý?**
 
-### Câu 2: Khi sản phẩm hết hàng vĩnh viễn, nên xử lý thế nào cho SEO?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời**: Nếu có sản phẩm thay thế tương tự, 301 redirect sang sản phẩm đó để chuyển link equity. Nếu không có thay thế, 301 về category page. Không nên dùng 404 vì sẽ mất backlinks và ranking đã xây dựng. Chỉ dùng 410 (Gone) khi muốn Google remove hoàn toàn khỏi index nhanh chóng.
+: Faceted navigation (filter theo color, size, brand, price) tạo ra hàng triệu URL combinations, gây ra duplicate content và lãng phí crawl budget. Xử lý bằng cách: (1) Canonical tất cả filter URLs về category page chính, (2) Noindex filter pages không có search volume, (3) Block crawl params không cần thiết trong robots.txt, (4) Chỉ cho index filter combinations có search volume thực sự (ví dụ `?color=red` nếu "áo thun đỏ" có người search).
 
-### Câu 3: Tại sao Product schema quan trọng cho e-commerce SEO?
+</details>
 
-**Trả lời**: Product schema (JSON-LD) giúp Google hiểu đây là trang sản phẩm và hiển thị rich snippets trên SERP: giá, tình trạng kho, rating. Các rich snippets này tăng CTR đáng kể (trung bình 20-30%) so với kết quả không có rich snippets. Schema cũng giúp sản phẩm xuất hiện trong Google Shopping và các tính năng tìm kiếm đặc biệt.
+**2. Khi sản phẩm hết hàng vĩnh viễn, nên xử lý thế nào cho SEO?**
 
-### Câu 4: Infinite scroll ảnh hưởng thế nào đến SEO?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời**: Googlebot không scroll như user, nên content load qua infinite scroll bằng JavaScript có thể không được index. Giải pháp là hybrid approach: infinite scroll cho UX nhưng vẫn có URL-based pagination (`?page=2`, `?page=3`) render phía server. Thêm `rel="prev/next"` links (vẫn hữu ích cho Bing) và đảm bảo mỗi paginated URL có canonical trỏ đến chính nó.
+: Nếu có sản phẩm thay thế tương tự, 301 redirect sang sản phẩm đó để chuyển link equity. Nếu không có thay thế, 301 về category page. Không nên dùng 404 vì sẽ mất backlinks và ranking đã xây dựng. Chỉ dùng 410 (Gone) khi muốn Google remove hoàn toàn khỏi index nhanh chóng.
 
-### Câu 5: Canonical tag nên xử lý thế nào cho product variants?
+</details>
 
-**Trả lời**: Phụ thuộc vào mức độ khác biệt giữa variants. Nếu variants chỉ khác color/size mà description giống nhau, dùng canonical trỏ về trang product chính. Nếu variants có nội dung thực sự khác (ví dụ iPhone 15 Pro vs iPhone 15 Pro Max), tạo trang riêng với canonical self-referencing. Query params như `?color=red&size=L` luôn canonical về trang chính.
+**3. Tại sao Product schema quan trọng cho e-commerce SEO?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+: Product schema (JSON-LD) giúp Google hiểu đây là trang sản phẩm và hiển thị rich snippets trên SERP: giá, tình trạng kho, rating. Các rich snippets này tăng CTR đáng kể (trung bình 20-30%) so với kết quả không có rich snippets. Schema cũng giúp sản phẩm xuất hiện trong Google Shopping và các tính năng tìm kiếm đặc biệt.
+
+</details>
+
+**4. Infinite scroll ảnh hưởng thế nào đến SEO?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+: Googlebot không scroll như user, nên content load qua infinite scroll bằng JavaScript có thể không được index. Giải pháp là hybrid approach: infinite scroll cho UX nhưng vẫn có URL-based pagination (`?page=2`, `?page=3`) render phía server. Thêm `rel="prev/next"` links (vẫn hữu ích cho Bing) và đảm bảo mỗi paginated URL có canonical trỏ đến chính nó.
+
+</details>
+
+**5. Canonical tag nên xử lý thế nào cho product variants?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+: Phụ thuộc vào mức độ khác biệt giữa variants. Nếu variants chỉ khác color/size mà description giống nhau, dùng canonical trỏ về trang product chính. Nếu variants có nội dung thực sự khác (ví dụ iPhone 15 Pro vs iPhone 15 Pro Max), tạo trang riêng với canonical self-referencing. Query params như `?color=red&size=L` luôn canonical về trang chính.
+
+</details>

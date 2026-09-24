@@ -764,26 +764,58 @@ git branch -u origin/feature/login
 
 ## 11. Câu hỏi phỏng vấn
 
-### Câu 1: Phân biệt `git fetch` và `git pull`. Khi nào dùng lệnh nào?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** `git fetch` chỉ tải dữ liệu từ remote về local và cập nhật remote-tracking branches (ví dụ `origin/main`), nhưng KHÔNG thay đổi code trong working directory. `git pull` = `git fetch` + `git merge`, tức là tải dữ liệu VÀ tự động merge vào nhánh hiện tại. Dùng `fetch` khi muốn xem trước thay đổi, dùng `pull` khi tin chắc muốn cập nhật ngay. Trong thực tế, `git pull --rebase` được khuyến khích vì giữ lịch sử commit sạch sẽ.
+**1. Phân biệt `git fetch` và `git pull`. Khi nào dùng lệnh nào?**
 
-### Câu 2: `git pull --rebase` khác gì `git pull`? Tại sao nhiều team ưa thích rebase?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** `git pull` mặc định dùng merge, tạo ra merge commit mỗi khi remote có commit mới. `git pull --rebase` đặt lại các commit local lên đầu commit mới từ remote, tạo lịch sử thẳng (linear history). Nhiều team ưa thích rebase vì: (1) lịch sử commit dễ đọc, (2) không có merge commit thừa, (3) dễ debug bằng `git bisect`, (4) git log nhìn sạch sẽ hơn.
+`git fetch` chỉ tải dữ liệu từ remote về local và cập nhật remote-tracking branches (ví dụ `origin/main`), nhưng KHÔNG thay đổi code trong working directory. `git pull` = `git fetch` + `git merge`, tức là tải dữ liệu VÀ tự động merge vào nhánh hiện tại. Dùng `fetch` khi muốn xem trước thay đổi, dùng `pull` khi tin chắc muốn cập nhật ngay. Trong thực tế, `git pull --rebase` được khuyến khích vì giữ lịch sử commit sạch sẽ.
 
-### Câu 3: Khi nào bạn dùng `git push --force-with-lease` thay vì `git push --force`?
+</details>
 
-**Trả lời:** Luôn dùng `--force-with-lease` thay vì `--force` khi cần force push. `--force` ghi đè remote không kiểm tra, có thể mất code của người khác. `--force-with-lease` kiểm tra xem remote có commit mới nào mà bạn chưa fetch không — nếu có, lệnh bị từ chối, bảo vệ code của đồng đội. Tình huống cần force push: sau khi rebase hoặc amend commit trên nhánh feature cá nhân.
+**2. `git pull --rebase` khác gì `git pull`? Tại sao nhiều team ưa thích rebase?**
 
-### Câu 4: Push bị rejected — nguyên nhân và cách xử lý?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Push bị rejected khi remote có commit mà local chưa có, tức là lịch sử bị phân kỳ (diverge). Cách xử lý: (1) `git pull --rebase origin <branch>` để tải commit mới và đặt commit local lên trên, (2) giải quyết conflict nếu có, (3) push lại. Cách sai: dùng `--force` vì sẽ ghi đè commit của người khác.
+`git pull` mặc định dùng merge, tạo ra merge commit mỗi khi remote có commit mới. `git pull --rebase` đặt lại các commit local lên đầu commit mới từ remote, tạo lịch sử thẳng (linear history). Nhiều team ưa thích rebase vì: (1) lịch sử commit dễ đọc, (2) không có merge commit thừa, (3) dễ debug bằng `git bisect`, (4) git log nhìn sạch sẽ hơn.
 
-### Câu 5: Giải thích quy trình hoàn chỉnh từ clone đến push.
+</details>
 
-**Trả lời:** (1) `git clone <url>` — tải repo từ remote về local, tạo remote `origin` tự động. (2) Tạo nhánh feature: `git checkout -b feature/xyz`. (3) Code và commit: `git add` + `git commit`. (4) Push nhánh lên remote: `git push -u origin feature/xyz`. (5) Tạo Pull Request trên GitHub. (6) Sau khi merge, cập nhật local: `git checkout main && git pull --rebase origin main`. (7) Xóa nhánh feature: `git branch -d feature/xyz`.
+**3. Khi nào bạn dùng `git push --force-with-lease` thay vì `git push --force`?**
 
-### Câu 6: `--depth 1` khi clone có ý nghĩa gì? Ưu và nhược điểm?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** `--depth 1` tạo shallow clone, chỉ tải commit mới nhất thay vì toàn bộ lịch sử. Ưu điểm: tốc độ clone nhanh hơn nhiều, tiết kiệm dung lượng, phù hợp cho CI/CD pipeline. Nhược điểm: không có đầy đủ lịch sử commit, không thể dùng `git log` hoặc `git blame` đầy đủ, không thể tạo PR đúng cách trong một số trường hợp. Có thể "unshallow" sau bằng `git fetch --unshallow`.
+Luôn dùng `--force-with-lease` thay vì `--force` khi cần force push. `--force` ghi đè remote không kiểm tra, có thể mất code của người khác. `--force-with-lease` kiểm tra xem remote có commit mới nào mà bạn chưa fetch không — nếu có, lệnh bị từ chối, bảo vệ code của đồng đội. Tình huống cần force push: sau khi rebase hoặc amend commit trên nhánh feature cá nhân.
+
+</details>
+
+**4. Push bị rejected — nguyên nhân và cách xử lý?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Push bị rejected khi remote có commit mà local chưa có, tức là lịch sử bị phân kỳ (diverge). Cách xử lý: (1) `git pull --rebase origin <branch>` để tải commit mới và đặt commit local lên trên, (2) giải quyết conflict nếu có, (3) push lại. Cách sai: dùng `--force` vì sẽ ghi đè commit của người khác.
+
+</details>
+
+**5. Giải thích quy trình hoàn chỉnh từ clone đến push.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+(1) `git clone <url>` — tải repo từ remote về local, tạo remote `origin` tự động. (2) Tạo nhánh feature: `git checkout -b feature/xyz`. (3) Code và commit: `git add` + `git commit`. (4) Push nhánh lên remote: `git push -u origin feature/xyz`. (5) Tạo Pull Request trên GitHub. (6) Sau khi merge, cập nhật local: `git checkout main && git pull --rebase origin main`. (7) Xóa nhánh feature: `git branch -d feature/xyz`.
+
+</details>
+
+**6. `--depth 1` khi clone có ý nghĩa gì? Ưu và nhược điểm?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`--depth 1` tạo shallow clone, chỉ tải commit mới nhất thay vì toàn bộ lịch sử. Ưu điểm: tốc độ clone nhanh hơn nhiều, tiết kiệm dung lượng, phù hợp cho CI/CD pipeline. Nhược điểm: không có đầy đủ lịch sử commit, không thể dùng `git log` hoặc `git blame` đầy đủ, không thể tạo PR đúng cách trong một số trường hợp. Có thể "unshallow" sau bằng `git fetch --unshallow`.
+
+</details>

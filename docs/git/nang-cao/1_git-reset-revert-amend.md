@@ -541,25 +541,34 @@ git status
 
 ## 8. Câu hỏi phỏng vấn
 
-### Câu 1: Sự khác nhau giữa `git reset` và `git revert`?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. Sự khác nhau giữa `git reset` và `git revert`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - `git reset` thay đổi history bằng cách di chuyển HEAD về commit trước. Commits bị "xóa" khỏi branch. Nguy hiểm trên shared branches vì thay đổi history mà người khác đã có.
 - `git revert` tạo một commit MỚI chứa nội dung đảo ngược. History được giữ nguyên, chỉ thêm commit. An toàn cho shared branches.
 - Nguyên tắc: dùng `reset` cho local, `revert` cho shared branches.
 
-### Câu 2: Giải thích 3 mode của `git reset`.
+</details>
 
-**Trả lời:**
+**2. Giải thích 3 mode của `git reset`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - `--soft`: Chỉ di chuyển HEAD. Staging area và working directory giữ nguyên. Thay đổi nằm ở staged.
 - `--mixed` (mặc định): Di chuyển HEAD + reset staging area. Working directory giữ nguyên. Thay đổi nằm ở unstaged.
 - `--hard`: Di chuyển HEAD + reset staging area + reset working directory. Mọi thay đổi bị xóa. Nguy hiểm nhất.
 
-### Câu 3: Làm sao undo commit cuối mà không mất code?
+</details>
 
-**Trả lời:**
+**3. Làm sao undo commit cuối mà không mất code?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 ```bash
 git reset --soft HEAD~1
@@ -567,15 +576,25 @@ git reset --soft HEAD~1
 
 Commit cuối bị undo, nhưng mọi thay đổi vẫn nằm trong staging area, sẵn sàng commit lại. Đây là cách an toàn nhất để undo commit trên local.
 
-### Câu 4: `git commit --amend` có tạo commit mới không?
+</details>
 
-**Trả lời:**
+**4. `git commit --amend` có tạo commit mới không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Có. `--amend` thực chất tạo một commit hoàn toàn mới (SHA khác) thay thế commit cuối. Commit cũ vẫn tồn tại trong reflog nhưng không còn được branch nào trỏ tới. Đó là lý do amend sau khi push sẽ gây conflict.
 
-### Câu 5: Khi nào dùng `--force-with-lease` thay vì `--force`?
+</details>
 
-**Trả lời:**
+**5. Khi nào dùng `--force-with-lease` thay vì `--force`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 `--force-with-lease` an toàn hơn `--force` vì nó kiểm tra xem remote branch có commit mới (từ người khác) hay không trước khi force push. Nếu có, lệnh sẽ bị từ chối thay vì ghi đè code đồng nghiệp. Luôn ưu tiên `--force-with-lease` khi cần force push.
+
+</details>
 
 ---
 

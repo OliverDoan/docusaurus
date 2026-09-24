@@ -784,25 +784,52 @@ git commit              # SAI! (với rebase)
 
 ## 11. Câu hỏi phỏng vấn
 
-### Câu 1: Giải thích sự khác nhau giữa merge và rebase. Khi nào dùng cái nào?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** **Merge** giữ nguyên lịch sử và tạo merge commit -- an toàn, không thay đổi commit đã tồn tại. **Rebase** viết lại lịch sử bằng cách tạo commit mới trên base mới -- lịch sử sạch nhưng thay đổi commit hash. Dùng merge khi gộp branch vào main (shared branch). Dùng rebase khi cập nhật feature branch cá nhân với thay đổi mới từ main. Workflow phổ biến: rebase feature lên main (cập nhật), rồi merge vào main với `--no-ff` (ghi nhận).
+**1. Giải thích sự khác nhau giữa merge và rebase. Khi nào dùng cái nào?**
 
-### Câu 2: "Golden Rule of Rebasing" là gì? Tại sao quan trọng?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Golden Rule: **Không bao giờ rebase branch public/shared** -- tức là branch mà người khác đang làm việc trên đó. Lý do: rebase tạo commit mới với hash mới. Nếu bạn rebase và force push, đồng nghiệp đã có commit cũ trên máy họ. Khi họ pull, Git thấy 2 bộ commit khác nhau (cũ và mới) cho cùng nội dung -> duplicate commits, conflict, lịch sử hỗn độn. Chỉ rebase branch cá nhân mà chỉ mình bạn làm việc.
+**Merge** giữ nguyên lịch sử và tạo merge commit -- an toàn, không thay đổi commit đã tồn tại. **Rebase** viết lại lịch sử bằng cách tạo commit mới trên base mới -- lịch sử sạch nhưng thay đổi commit hash. Dùng merge khi gộp branch vào main (shared branch). Dùng rebase khi cập nhật feature branch cá nhân với thay đổi mới từ main. Workflow phổ biến: rebase feature lên main (cập nhật), rồi merge vào main với `--no-ff` (ghi nhận).
 
-### Câu 3: Interactive rebase dùng để làm gì? Cho ví dụ cụ thể.
+</details>
 
-**Trả lời:** Interactive rebase (`git rebase -i`) cho phép chỉnh sửa lịch sử commit: gộp commit (squash/fixup), sửa message (reword), xóa commit (drop), đổi thứ tự, tách commit (edit). Ví dụ: trước khi tạo PR, bạn có 5 commit nhỏ ("wip", "fix typo", "test", "update", "final"). Dùng `git rebase -i HEAD~5` và `fixup` 4 commit cuối vào commit đầu tiên, `reword` commit đầu để có message rõ ràng. Kết quả: 1 commit sạch, dễ review.
+**2. "Golden Rule of Rebasing" là gì? Tại sao quan trọng?**
 
-### Câu 4: Đang rebase mà gặp conflict. Bạn làm gì?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Khi rebase gặp conflict: (1) Git dừng lại ở commit gây conflict, (2) Mở file có conflict, đọc conflict markers và sửa, (3) `git add <file>` các file đã sửa, (4) `git rebase --continue` để tiếp tục. Nếu conflict quá phức tạp, dùng `git rebase --abort` để hủy toàn bộ và quay lại trạng thái ban đầu. Khác với merge (giải quyết 1 lần), rebase có thể yêu cầu giải quyết conflict nhiều lần (mỗi commit áp dụng có thể có conflict riêng).
+Golden Rule: **Không bao giờ rebase branch public/shared** -- tức là branch mà người khác đang làm việc trên đó. Lý do: rebase tạo commit mới với hash mới. Nếu bạn rebase và force push, đồng nghiệp đã có commit cũ trên máy họ. Khi họ pull, Git thấy 2 bộ commit khác nhau (cũ và mới) cho cùng nội dung -> duplicate commits, conflict, lịch sử hỗn độn. Chỉ rebase branch cá nhân mà chỉ mình bạn làm việc.
 
-### Câu 5: `git rebase --onto` dùng để làm gì? Cho ví dụ.
+</details>
 
-**Trả lời:** `git rebase --onto new-base old-base branch` di chuyển một nhóm commit từ base cũ sang base mới. Ví dụ: bạn tạo feature-B từ feature-A, nhưng feature-A đã merge vào main và bị xóa. Bây giờ feature-B vẫn dựa trên feature-A (cũ). Dùng `git rebase --onto main feature-A feature-B` để di chuyển các commit của feature-B (những commit sau feature-A) lên main. Kết quả: feature-B dựa trên main thay vì feature-A.
+**3. Interactive rebase dùng để làm gì? Cho ví dụ cụ thể.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Interactive rebase (`git rebase -i`) cho phép chỉnh sửa lịch sử commit: gộp commit (squash/fixup), sửa message (reword), xóa commit (drop), đổi thứ tự, tách commit (edit). Ví dụ: trước khi tạo PR, bạn có 5 commit nhỏ ("wip", "fix typo", "test", "update", "final"). Dùng `git rebase -i HEAD~5` và `fixup` 4 commit cuối vào commit đầu tiên, `reword` commit đầu để có message rõ ràng. Kết quả: 1 commit sạch, dễ review.
+
+</details>
+
+**4. Đang rebase mà gặp conflict. Bạn làm gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Khi rebase gặp conflict: (1) Git dừng lại ở commit gây conflict, (2) Mở file có conflict, đọc conflict markers và sửa, (3) `git add <file>` các file đã sửa, (4) `git rebase --continue` để tiếp tục. Nếu conflict quá phức tạp, dùng `git rebase --abort` để hủy toàn bộ và quay lại trạng thái ban đầu. Khác với merge (giải quyết 1 lần), rebase có thể yêu cầu giải quyết conflict nhiều lần (mỗi commit áp dụng có thể có conflict riêng).
+
+</details>
+
+**5. `git rebase --onto` dùng để làm gì? Cho ví dụ.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`git rebase --onto new-base old-base branch` di chuyển một nhóm commit từ base cũ sang base mới. Ví dụ: bạn tạo feature-B từ feature-A, nhưng feature-A đã merge vào main và bị xóa. Bây giờ feature-B vẫn dựa trên feature-A (cũ). Dùng `git rebase --onto main feature-A feature-B` để di chuyển các commit của feature-B (những commit sau feature-A) lên main. Kết quả: feature-B dựa trên main thay vì feature-A.
+
+</details>
 
 ---
 

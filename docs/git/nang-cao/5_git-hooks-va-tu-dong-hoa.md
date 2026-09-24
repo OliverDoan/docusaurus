@@ -772,9 +772,13 @@ git commit -m "feat: ..."
 
 ## 13. Câu hỏi phỏng vấn
 
-### Câu 1: Git hooks là gì? Kể tên một vài hooks phổ biến.
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. Git hooks là gì? Kể tên một vài hooks phổ biến.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Git hooks là scripts tự động chạy tại các sự kiện Git. Hooks phổ biến:
 
 - `pre-commit`: chạy trước commit, dùng để lint/format code
@@ -784,25 +788,37 @@ Git hooks là scripts tự động chạy tại các sự kiện Git. Hooks ph�
 
 Client hooks nằm trong `.git/hooks/`, server hooks trên Git server.
 
-### Câu 2: Tại sao cần Husky? Vấn đề gì hooks thủ công gặp phải?
+</details>
 
-**Trả lời:**
+**2. Tại sao cần Husky? Vấn đề gì hooks thủ công gặp phải?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Hooks thủ công nằm trong `.git/hooks/` - thư mục này KHÔNG được Git track, nên không thể share qua `git clone`. Mỗi developer phải tự cài hooks, dẫn đến không ai làm.
 
 Husky giải quyết bằng cách lưu hooks trong `.husky/` (tracked bởi Git) và tự động cài đặt khi chạy `npm install` (nhờ `prepare` script). Toàn team có cùng hooks.
 
-### Câu 3: lint-staged là gì? Tại sao không lint toàn bộ project?
+</details>
 
-**Trả lời:**
+**3. lint-staged là gì? Tại sao không lint toàn bộ project?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 lint-staged chỉ chạy linter/formatter trên files đã được `git add` (staged), không phải toàn bộ project. Lý do:
 
 - **Tốc độ**: Project lớn có hàng nghìn files, lint tất cả mỗi commit rất chậm
 - **Phạm vi**: Chỉ cần kiểm tra code bạn đang commit, không phải code cũ
 - **Tránh noise**: Không muốn fix lint errors trong files mình không sửa
 
-### Câu 4: Conventional Commits là gì? Cho ví dụ.
+</details>
 
-**Trả lời:**
+**4. Conventional Commits là gì? Cho ví dụ.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Conventional Commits là quy ước format commit message: `<type>(<scope>): <description>`. Ví dụ:
 
 - `feat: thêm chức năng tìm kiếm`
@@ -812,9 +828,13 @@ Conventional Commits là quy ước format commit message: `<type>(<scope>): <de
 
 Lợi ích: git log dễ đọc, tự động tạo changelog, dễ tìm commit theo loại. Enforce bằng commitlint + Husky commit-msg hook.
 
-### Câu 5: `--no-verify` dùng khi nào? Tại sao không nên lạm dụng?
+</details>
 
-**Trả lời:**
+**5. `--no-verify` dùng khi nào? Tại sao không nên lạm dụng?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 `--no-verify` bỏ qua tất cả hooks (pre-commit, commit-msg). Nên dùng khi:
 
 - WIP commits trên branch cá nhân (sẽ squash/amend sau)
@@ -822,6 +842,8 @@ Lợi ích: git log dễ đọc, tự động tạo changelog, dễ tìm commit 
 - Hook bị lỗi cần fix
 
 Không nên lạm dụng vì: hooks tồn tại để đảm bảo chất lượng code. Nếu ai cũng bypass hooks, mục đích cài hooks trở nên vô nghĩa. Code chất lượng kém sẽ lọt vào codebase.
+
+</details>
 
 ---
 

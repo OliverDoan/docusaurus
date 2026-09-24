@@ -699,22 +699,49 @@ Lighthouse chỉ cho lab data. Cần đo real user data bằng `web-vitals` libr
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: LCP trên landing page là 4.5 giây. Bạn sẽ debug và fix như thế nào?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** Bước 1: Xác định LCP element bằng Lighthouse hoặc DevTools Performance tab (thường là hero image hoặc large text block). Bước 2: Nếu LCP là image: (a) preload image trong `<head>`, (b) dùng `fetchpriority="high"`, (c) convert sang WebP/AVIF, (d) dùng responsive srcset, (e) set `loading="eager"`. Bước 3: Nếu LCP là text: (a) inline critical CSS, (b) preload font, (c) dùng `font-display: swap`. Bước 4: Kiểm tra TTFB - nếu server chậm, cần CDN hoặc static generation. Bước 5: Remove render-blocking resources (JS, CSS không cần thiết above-the-fold).
+**1. LCP trên landing page là 4.5 giây. Bạn sẽ debug và fix như thế nào?**
 
-### Câu 2: Giải thích sự khác biệt giữa preload, prefetch, và preconnect.
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** `preload` download resource ngay vì current page CẦN nó sớm (high priority) - dùng cho hero image, critical font. `prefetch` download resource TRƯỚC vì trang TIẾP THEO có thể cần (low priority, idle time) - dùng cho resources của trang signup khi user đang ở landing page. `preconnect` chỉ thực hiện DNS lookup + TCP connection + TLS handshake, chưa download gì - dùng cho domains sẽ fetch API sớm. Sai lầm phổ biến: dùng preload cho mọi thứ, gây bandwidth contention; hoặc nhầm prefetch với preload dẫn đến resource tải muộn.
+Bước 1: Xác định LCP element bằng Lighthouse hoặc DevTools Performance tab (thường là hero image hoặc large text block). Bước 2: Nếu LCP là image: (a) preload image trong `<head>`, (b) dùng `fetchpriority="high"`, (c) convert sang WebP/AVIF, (d) dùng responsive srcset, (e) set `loading="eager"`. Bước 3: Nếu LCP là text: (a) inline critical CSS, (b) preload font, (c) dùng `font-display: swap`. Bước 4: Kiểm tra TTFB - nếu server chậm, cần CDN hoặc static generation. Bước 5: Remove render-blocking resources (JS, CSS không cần thiết above-the-fold).
 
-### Câu 3: Critical CSS là gì? Tại sao quan trọng cho landing page?
+</details>
 
-**Trả lời:** Critical CSS là tập CSS tối thiểu cần để render above-the-fold content. Inline nó vào `<style>` tag trong `<head>` giúp browser render ngay mà không cần đợi external CSS file download. Non-critical CSS được load async bằng `<link rel="preload" as="style">`. Đặc biệt quan trọng cho landing page vì: (1) giảm FCP đáng kể (user thấy content ngay), (2) cải thiện LCP nếu LCP element là text, (3) giảm render-blocking resources. Tools: critical (by Addy Osmani), critters (webpack plugin).
+**2. Giải thích sự khác biệt giữa preload, prefetch, và preconnect.**
 
-### Câu 4: CLS score trên landing page là 0.35. Nguyên nhân và cách fix?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Nguyên nhân thường gặp: (1) Image không có width/height -> browser không reserve space; (2) Web fonts gây layout shift khi swap -> dùng `size-adjust` hoặc `font-display: optional`; (3) Dynamic content inject (ads, banners) -> reserve space trước; (4) Late-loading CSS thay đổi layout -> inline critical CSS. Fix: set width/height cho mọi image/video, match fallback font metrics, dùng `aspect-ratio` CSS, `contain-intrinsic-size` cho lazy-loaded elements, tránh insert content above existing content.
+`preload` download resource ngay vì current page CẦN nó sớm (high priority) - dùng cho hero image, critical font. `prefetch` download resource TRƯỚC vì trang TIẾP THEO có thể cần (low priority, idle time) - dùng cho resources của trang signup khi user đang ở landing page. `preconnect` chỉ thực hiện DNS lookup + TCP connection + TLS handshake, chưa download gì - dùng cho domains sẽ fetch API sớm. Sai lầm phổ biến: dùng preload cho mọi thứ, gây bandwidth contention; hoặc nhầm prefetch với preload dẫn đến resource tải muộn.
 
-### Câu 5: Landing page dùng 5 Google Fonts. Tối ưu như thế nào?
+</details>
 
-**Trả lời:** (1) Giảm xuống 2 fonts maximum (1 heading, 1 body). (2) Self-host thay vì load từ Google Fonts CDN để giảm DNS lookup và connection. (3) Chỉ load weights cần thiết (thường 400, 600, 700 là đủ). (4) Subset fonts - chỉ include characters cần dùng (latin + vietnamese). (5) Preload 1 font file quan trọng nhất. (6) Dùng `font-display: swap` để text hiển thị ngay. (7) Dùng variable fonts nếu cần nhiều weights (1 file thay vì nhiều files). (8) Nếu dùng Next.js, `next/font` xử lý tất cả tự động.
+**3. Critical CSS là gì? Tại sao quan trọng cho landing page?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Critical CSS là tập CSS tối thiểu cần để render above-the-fold content. Inline nó vào `<style>` tag trong `<head>` giúp browser render ngay mà không cần đợi external CSS file download. Non-critical CSS được load async bằng `<link rel="preload" as="style">`. Đặc biệt quan trọng cho landing page vì: (1) giảm FCP đáng kể (user thấy content ngay), (2) cải thiện LCP nếu LCP element là text, (3) giảm render-blocking resources. Tools: critical (by Addy Osmani), critters (webpack plugin).
+
+</details>
+
+**4. CLS score trên landing page là 0.35. Nguyên nhân và cách fix?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Nguyên nhân thường gặp: (1) Image không có width/height -> browser không reserve space; (2) Web fonts gây layout shift khi swap -> dùng `size-adjust` hoặc `font-display: optional`; (3) Dynamic content inject (ads, banners) -> reserve space trước; (4) Late-loading CSS thay đổi layout -> inline critical CSS. Fix: set width/height cho mọi image/video, match fallback font metrics, dùng `aspect-ratio` CSS, `contain-intrinsic-size` cho lazy-loaded elements, tránh insert content above existing content.
+
+</details>
+
+**5. Landing page dùng 5 Google Fonts. Tối ưu như thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+(1) Giảm xuống 2 fonts maximum (1 heading, 1 body). (2) Self-host thay vì load từ Google Fonts CDN để giảm DNS lookup và connection. (3) Chỉ load weights cần thiết (thường 400, 600, 700 là đủ). (4) Subset fonts - chỉ include characters cần dùng (latin + vietnamese). (5) Preload 1 font file quan trọng nhất. (6) Dùng `font-display: swap` để text hiển thị ngay. (7) Dùng variable fonts nếu cần nhiều weights (1 file thay vì nhiều files). (8) Nếu dùng Next.js, `next/font` xử lý tất cả tự động.
+
+</details>

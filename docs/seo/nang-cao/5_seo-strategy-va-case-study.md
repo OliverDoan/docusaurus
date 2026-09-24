@@ -766,22 +766,49 @@ SEO là long game. Kỳ vọng thực tế: 3-6 tháng để thấy kết quả 
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: Khi migrate website từ SPA sang SSR, những bước SEO nào là bắt buộc?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời**: (1) Map tất cả old URLs sang new URLs và setup 301 redirects, (2) Giữ nguyên URL structure nếu có thể, (3) Verify tất cả meta tags, canonical tags render đúng phía server, (4) Submit new sitemap.xml lên Google Search Console, (5) Monitor index coverage trong GSC hàng ngày trong 2-4 tuần đầu, (6) Check Core Web Vitals không bị regression, (7) Validate structured data vẫn hoạt động. Quan trọng nhất là redirect mapping — mất 1 URL có backlinks = mất link equity vĩnh viễn.
+**1. Khi migrate website từ SPA sang SSR, những bước SEO nào là bắt buộc?**
 
-### Câu 2: SEO roadmap cho website mới nên ưu tiên gì trong 3 tháng đầu?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời**: Tháng 1: Technical foundation — HTTPS, mobile-friendly, Core Web Vitals, robots.txt, sitemap.xml, GSC setup. Tháng 2: On-page basics — keyword research, title/meta optimization cho core pages, heading structure, internal linking strategy. Tháng 3: Content — publish 10-15 quality articles targeting long-tail keywords ít competition. Không nên tập trung vào link building trong 3 tháng đầu vì chưa có content đáng link đến.
+: (1) Map tất cả old URLs sang new URLs và setup 301 redirects, (2) Giữ nguyên URL structure nếu có thể, (3) Verify tất cả meta tags, canonical tags render đúng phía server, (4) Submit new sitemap.xml lên Google Search Console, (5) Monitor index coverage trong GSC hàng ngày trong 2-4 tuần đầu, (6) Check Core Web Vitals không bị regression, (7) Validate structured data vẫn hoạt động. Quan trọng nhất là redirect mapping — mất 1 URL có backlinks = mất link equity vĩnh viễn.
 
-### Câu 3: Làm sao đo lường ROI của SEO?
+</details>
 
-**Trả lời**: Track metrics theo thứ tự: (1) **Technical**: Index coverage, crawl errors (GSC), Lighthouse scores, (2) **Visibility**: Impressions, average position cho target keywords (GSC), (3) **Traffic**: Organic sessions, new users from organic (GA4), (4) **Engagement**: Bounce rate, pages/session, avg. session duration cho organic traffic, (5) **Conversion**: Goal completions, revenue from organic channel. So sánh tháng-over-tháng và year-over-year. ROI = (Revenue from organic - SEO investment) / SEO investment.
+**2. SEO roadmap cho website mới nên ưu tiên gì trong 3 tháng đầu?**
 
-### Câu 4: CSR, SSR, SSG khác nhau thế nào về SEO?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời**: **CSR** (Client-Side Rendering): HTML trống, JS render content phía client. Google có thể render nhưng không reliable, delay index, không thấy meta tags dynamic. Worst cho SEO. **SSR** (Server-Side Rendering): Server render full HTML mỗi request. Google thấy content ngay. Tốt cho SEO, nhưng TTFB cao hơn. **SSG** (Static Site Generation): HTML được generate lúc build. Tốt nhất cho SEO: fast TTFB, full content sẵn, cacheable. Best cho content không thay đổi thường xuyên. **ISR** (Incremental Static Regeneration): Hybrid SSG + SSR, revalidate theo thời gian. Best of both worlds cho dynamic content.
+: Tháng 1: Technical foundation — HTTPS, mobile-friendly, Core Web Vitals, robots.txt, sitemap.xml, GSC setup. Tháng 2: On-page basics — keyword research, title/meta optimization cho core pages, heading structure, internal linking strategy. Tháng 3: Content — publish 10-15 quality articles targeting long-tail keywords ít competition. Không nên tập trung vào link building trong 3 tháng đầu vì chưa có content đáng link đến.
 
-### Câu 5: Nếu organic traffic tụt đột ngột 50%, bạn sẽ debug thế nào?
+</details>
 
-**Trả lời**: (1) Check GSC Manual Actions — có bị Google penalty không, (2) Check GSC Index Coverage — số trang indexed có giảm không, (3) Check deployment history — có code change nào gần đây ảnh hưởng SEO không (thêm noindex, robots block, broken redirects), (4) Check Google Algorithm Update calendar — có core update gần đây không, (5) So sánh GSC data: pages và queries nào mất traffic cụ thể, (6) Check competitors — họ cũng tụt hay chỉ mình bạn, (7) Check technical: site vẫn accessible, SSL valid, server response time bình thường. Thường thì nguyên nhân nằm ở code deployment hoặc algorithm update.
+**3. Làm sao đo lường ROI của SEO?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+: Track metrics theo thứ tự: (1) **Technical**: Index coverage, crawl errors (GSC), Lighthouse scores, (2) **Visibility**: Impressions, average position cho target keywords (GSC), (3) **Traffic**: Organic sessions, new users from organic (GA4), (4) **Engagement**: Bounce rate, pages/session, avg. session duration cho organic traffic, (5) **Conversion**: Goal completions, revenue from organic channel. So sánh tháng-over-tháng và year-over-year. ROI = (Revenue from organic - SEO investment) / SEO investment.
+
+</details>
+
+**4. CSR, SSR, SSG khác nhau thế nào về SEO?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+: **CSR** (Client-Side Rendering): HTML trống, JS render content phía client. Google có thể render nhưng không reliable, delay index, không thấy meta tags dynamic. Worst cho SEO. **SSR** (Server-Side Rendering): Server render full HTML mỗi request. Google thấy content ngay. Tốt cho SEO, nhưng TTFB cao hơn. **SSG** (Static Site Generation): HTML được generate lúc build. Tốt nhất cho SEO: fast TTFB, full content sẵn, cacheable. Best cho content không thay đổi thường xuyên. **ISR** (Incremental Static Regeneration): Hybrid SSG + SSR, revalidate theo thời gian. Best of both worlds cho dynamic content.
+
+</details>
+
+**5. Nếu organic traffic tụt đột ngột 50%, bạn sẽ debug thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+: (1) Check GSC Manual Actions — có bị Google penalty không, (2) Check GSC Index Coverage — số trang indexed có giảm không, (3) Check deployment history — có code change nào gần đây ảnh hưởng SEO không (thêm noindex, robots block, broken redirects), (4) Check Google Algorithm Update calendar — có core update gần đây không, (5) So sánh GSC data: pages và queries nào mất traffic cụ thể, (6) Check competitors — họ cũng tụt hay chỉ mình bạn, (7) Check technical: site vẫn accessible, SSL valid, server response time bình thường. Thường thì nguyên nhân nằm ở code deployment hoặc algorithm update.
+
+</details>

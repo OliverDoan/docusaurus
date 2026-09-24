@@ -560,27 +560,38 @@ git reflog
 
 ## 13. Câu hỏi phỏng vấn
 
-### Câu 1: Git reflog là gì? Khác gì với git log?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. Git reflog là gì? Khác gì với git log?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 `git reflog` ghi lại mọi lần HEAD thay đổi trên local — bao gồm commit, reset, checkout, merge, rebase. Nó khác `git log` ở chỗ:
 
 - `git log` chỉ hiển thị commits reachable từ HEAD hiện tại. Nếu bạn reset xóa commits, `log` không thấy chúng nữa.
 - `git reflog` hiển thị TẤT CẢ thay đổi, kể cả commits đã bị "xóa" bởi reset. Nó hoạt động như undo history.
 - Reflog chỉ tồn tại local (không push), trong khi log là shared.
 
-### Câu 2: Làm sao khôi phục commit sau git reset --hard?
+</details>
 
-**Trả lời:**
+**2. Làm sao khôi phục commit sau git reset --hard?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 1. Chạy `git reflog` để tìm SHA của commit trước khi reset
 2. Dùng `git reset --hard <SHA>` để khôi phục
 3. Hoặc `git switch -c recovery-branch <SHA>` để tạo branch mới
 4. Điều này hoạt động vì `reset --hard` chỉ di chuyển HEAD, không xóa object. Object chỉ bị xóa khi garbage collection chạy (sau 30-90 ngày).
 
-### Câu 3: Reflog entries được lưu bao lâu?
+</details>
 
-**Trả lời:**
+**3. Reflog entries được lưu bao lâu?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Mặc định:
 
 - **Reachable entries** (commits vẫn trên branch): 90 ngày (`gc.reflogExpire`)
@@ -588,18 +599,27 @@ Mặc định:
 - Có thể cấu hình thay đổi hoặc set `never` để không bao giờ hết hạn.
 - Entries chỉ bị xóa khi `git gc` chạy, không phải tự động.
 
-### Câu 4: Dangling object là gì? Làm sao tìm?
+</details>
 
-**Trả lời:**
+**4. Dangling object là gì? Làm sao tìm?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Dangling object là Git object (commit, blob, tree) không còn reference nào trỏ tới — không thuộc branch, tag, hay reflog entry nào. Tìm bằng `git fsck --lost-found`. Dangling objects vẫn tồn tại trên disk cho đến khi garbage collection xóa chúng. Đây là lý do Git "gần như không bao giờ mất dữ liệu" — ngay cả objects bị "xóa" vẫn còn một thời gian.
 
-### Câu 5: Giải thích sự khác nhau giữa `HEAD~n` và `HEAD@{n}`.
+</details>
 
-**Trả lời:**
+**5. Giải thích sự khác nhau giữa `HEAD~n` và `HEAD@{n}`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - `HEAD~n`: Đi ngược **n commits** theo parent chain trong commit graph. `HEAD~2` = ông nội của commit hiện tại.
 - HEAD@&#123;n&#125;: Đi ngược **n entries** trong reflog — tức n hành động trước đó theo thời gian. HEAD@&#123;2&#125; = HEAD ở thời điểm 2 hành động trước.
 - Hai cái này thường cho kết quả khác nhau, đặc biệt khi bạn checkout giữa các branches hoặc dùng reset.
+
+</details>
 
 ---
 

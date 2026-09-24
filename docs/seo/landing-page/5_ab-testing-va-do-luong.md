@@ -788,22 +788,49 @@ Filter: Organic Search
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: Làm sao A/B test landing page mà không ảnh hưởng SEO ranking?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** (1) Ưu tiên server-side testing: dùng middleware/edge function để serve different variants, Google luôn thấy canonical version. (2) Set `rel="canonical"` trên tất cả variant pages trỏ về URL gốc. (3) Variant pages set `noindex` để Google không index chúng. (4) Không dùng client-side JS để thay đổi H1, title, meta tags vì Google có thể thấy các version khác nhau. (5) Giới hạn thời gian test (2-4 tuần). (6) Chỉ test visual elements (CTA color, layout, images) ở client-side, content changes phải server-side.
+**1. Làm sao A/B test landing page mà không ảnh hưởng SEO ranking?**
 
-### Câu 2: GA4 khác Universal Analytics như thế nào trong việc đo lường SEO?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** GA4 dùng event-based model thay vì session-based. Mỗi interaction là một event, không còn khái niệm "pageview" cũ. Bounce rate được thay bằng "Engagement rate" (% sessions có engaged session). GA4 có "Engagement time" thay vì "Time on page" (chính xác hơn). GA4 tích hợp GSC data trực tiếp trong reports. Attribution model linh hoạt hơn (data-driven thay vì last-click mặc định). Explorations cho phép tạo custom reports mạnh hơn. Tuy nhiên GA4 mất một số reports quen thuộc và learning curve cao hơn.
+(1) Ưu tiên server-side testing: dùng middleware/edge function để serve different variants, Google luôn thấy canonical version. (2) Set `rel="canonical"` trên tất cả variant pages trỏ về URL gốc. (3) Variant pages set `noindex` để Google không index chúng. (4) Không dùng client-side JS để thay đổi H1, title, meta tags vì Google có thể thấy các version khác nhau. (5) Giới hạn thời gian test (2-4 tuần). (6) Chỉ test visual elements (CTA color, layout, images) ở client-side, content changes phải server-side.
 
-### Câu 3: Làm sao đo lường ROI của SEO cho landing page?
+</details>
 
-**Trả lời:** Bước 1: Xác định conversion value (ví dụ: mỗi signup trị giá $10 dựa trên LTV). Bước 2: Track organic conversions trong GA4 (filter source = google, medium = organic). Bước 3: Tính organic conversion value = số conversions x conversion value. Bước 4: So sánh với chi phí SEO (content creation, tools, developer time). Bước 5: ROI = (Revenue from organic - SEO cost) / SEO cost x 100%. Ngoài ra theo dõi: organic traffic growth, keyword rankings improvement, branded vs non-branded search ratio.
+**2. GA4 khác Universal Analytics như thế nào trong việc đo lường SEO?**
 
-### Câu 4: Google Search Console API có thể giúp gì cho SEO landing page?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** GSC API cung cấp data không có trong GA4: (1) Search queries - biết user tìm keyword gì để đến trang, dùng để optimize content. (2) Impressions - biết trang hiển thị bao nhiêu lần trên SERP, kể cả khi không có clicks. (3) Average position - theo dõi ranking trend. (4) CTR per query - xác định keyword nào cần cải thiện title/description. Tự động hóa: build script lấy data định kỳ, tìm keyword opportunities (high impressions, low CTR), monitor ranking drops, generate weekly SEO reports.
+GA4 dùng event-based model thay vì session-based. Mỗi interaction là một event, không còn khái niệm "pageview" cũ. Bounce rate được thay bằng "Engagement rate" (% sessions có engaged session). GA4 có "Engagement time" thay vì "Time on page" (chính xác hơn). GA4 tích hợp GSC data trực tiếp trong reports. Attribution model linh hoạt hơn (data-driven thay vì last-click mặc định). Explorations cho phép tạo custom reports mạnh hơn. Tuy nhiên GA4 mất một số reports quen thuộc và learning curve cao hơn.
 
-### Câu 5: So sánh PostHog và Google Analytics 4 cho SEO tracking. Khi nào dùng cái nào?
+</details>
 
-**Trả lời:** GA4 là standard cho SEO tracking vì tích hợp với Google Search Console, Google Ads, có CrUX data. Miễn phí nhưng data thuộc về Google, sampling ở high volume. PostHog là open-source, có thể self-host (full data ownership, GDPR friendly), có feature flags, session recordings, và A/B testing tích hợp. Không có GSC integration. Recommendation: dùng GA4 cho SEO metrics core (organic traffic, GSC data, attribution). Dùng PostHog bổ sung cho product analytics (feature flags, A/B testing, session recordings). Nhiều teams dùng cả hai: GA4 cho marketing/SEO team, PostHog cho product/engineering team.
+**3. Làm sao đo lường ROI của SEO cho landing page?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Bước 1: Xác định conversion value (ví dụ: mỗi signup trị giá $10 dựa trên LTV). Bước 2: Track organic conversions trong GA4 (filter source = google, medium = organic). Bước 3: Tính organic conversion value = số conversions x conversion value. Bước 4: So sánh với chi phí SEO (content creation, tools, developer time). Bước 5: ROI = (Revenue from organic - SEO cost) / SEO cost x 100%. Ngoài ra theo dõi: organic traffic growth, keyword rankings improvement, branded vs non-branded search ratio.
+
+</details>
+
+**4. Google Search Console API có thể giúp gì cho SEO landing page?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+GSC API cung cấp data không có trong GA4: (1) Search queries - biết user tìm keyword gì để đến trang, dùng để optimize content. (2) Impressions - biết trang hiển thị bao nhiêu lần trên SERP, kể cả khi không có clicks. (3) Average position - theo dõi ranking trend. (4) CTR per query - xác định keyword nào cần cải thiện title/description. Tự động hóa: build script lấy data định kỳ, tìm keyword opportunities (high impressions, low CTR), monitor ranking drops, generate weekly SEO reports.
+
+</details>
+
+**5. So sánh PostHog và Google Analytics 4 cho SEO tracking. Khi nào dùng cái nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+GA4 là standard cho SEO tracking vì tích hợp với Google Search Console, Google Ads, có CrUX data. Miễn phí nhưng data thuộc về Google, sampling ở high volume. PostHog là open-source, có thể self-host (full data ownership, GDPR friendly), có feature flags, session recordings, và A/B testing tích hợp. Không có GSC integration. Recommendation: dùng GA4 cho SEO metrics core (organic traffic, GSC data, attribution). Dùng PostHog bổ sung cho product analytics (feature flags, A/B testing, session recordings). Nhiều teams dùng cả hai: GA4 cho marketing/SEO team, PostHog cho product/engineering team.
+
+</details>

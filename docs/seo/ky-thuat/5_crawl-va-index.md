@@ -620,27 +620,49 @@ checkIndexStatus(
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: robots.txt Disallow có ngăn Google index URL không?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. robots.txt Disallow có ngăn Google index URL không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Không. `Disallow` trong robots.txt chỉ ngăn Googlebot **crawl** (tải nội dung) URL đó, nhưng Google vẫn có thể **index** URL nếu có backlink từ trang khác trỏ đến. URL sẽ xuất hiện trong search results với tiêu đề và snippet rỗng (vì Google không đọc được nội dung). Muốn ngăn index hoàn toàn, phải dùng `<meta name="robots" content="noindex">` hoặc `X-Robots-Tag: noindex` HTTP header. Nhưng để meta robots hoạt động, không được chặn crawl URL đó trong robots.txt (vì Googlebot phải crawl được mới thấy meta tag).
 
-### Câu 2: Website có 500,000 trang sản phẩm nhưng chỉ 10,000 được index. Nguyên nhân và giải pháp?
+</details>
 
-**Trả lời:**
+**2. Website có 500,000 trang sản phẩm nhưng chỉ 10,000 được index. Nguyên nhân và giải pháp?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Nguyên nhân có thể: (1) Crawl budget không đủ — Googlebot không kịp crawl hết; (2) Nội dung mỏng/trùng lặp — Google chọn không index; (3) Internal linking yếu — nhiều trang không có link nào trỏ đến (orphan pages); (4) Server chậm — Googlebot giảm crawl rate. Giải pháp: (1) Tối ưu robots.txt, chặn URL không cần thiết; (2) Chia sitemap theo danh mục, submit riêng; (3) Cải thiện internal linking với breadcrumb và related products; (4) Fix redirect chains; (5) Cải thiện server response time; (6) Thêm unique content cho mỗi sản phẩm (mô tả, review).
 
-### Câu 3: Giải thích canonical tag. Khi nào cần dùng?
+</details>
 
-**Trả lời:**
+**3. Giải thích canonical tag. Khi nào cần dùng?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Canonical tag (`<link rel="canonical" href="...">`) chỉ định URL "chính" khi cùng nội dung có nhiều URL. Google sẽ tập trung link equity vào canonical URL và hiện nó trong search results. Cần dùng khi: (1) URL có query parameters (`?color=red`, `?utm_source=google`); (2) HTTP và HTTPS cùng tồn tại; (3) www và non-www; (4) URL có trailing slash và không có; (5) Content syndication (bài đăng lại trên trang khác). Best practice: luôn đặt self-referencing canonical trên mọi trang để phòng ngừa duplicate.
 
-### Câu 4: Sự khác biệt giữa `noindex` và `Disallow` trong robots.txt? Khi nào dùng cái nào?
+</details>
 
-**Trả lời:**
+**4. Sự khác biệt giữa `noindex` và `Disallow` trong robots.txt? Khi nào dùng cái nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 `Disallow` (robots.txt): ngăn bot crawl URL, nhưng URL vẫn có thể được index nếu có external links. Bot không tải được nội dung nên không thấy meta tags. Dùng cho: trang server-heavy mà bạn muốn tiết kiệm crawl budget (API endpoints, asset directories). `noindex` (meta robots): cho phép bot crawl và đọc nội dung, nhưng yêu cầu không index. Dùng cho: trang bạn muốn Google biết nhưng không hiện trong search (thank you pages, internal search, staging). Lưu ý: KHÔNG kết hợp Disallow + noindex — nếu Disallow thì bot không crawl được, không thấy noindex tag.
 
-### Câu 5: lastmod trong sitemap có ảnh hưởng đến crawl frequency không?
+</details>
 
-**Trả lời:**
+**5. lastmod trong sitemap có ảnh hưởng đến crawl frequency không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Co, nhưng chỉ khi `lastmod` chính xác. Google dùng `lastmod` để ưu tiên crawl trang thay đổi gần đây. Nếu `lastmod` luôn cập nhật (dù nội dung không thay đổi), Google sẽ mất tin tưởng và bỏ qua hoàn toàn `lastmod` cho toàn bộ sitemap. Best practice: chỉ cập nhật `lastmod` khi nội dung thực sự thay đổi đáng kể (không đếm thay đổi CSS/layout), dùng timestamp chính xác từ database (`updated_at`), không dùng ngày hiện tại cho tất cả URLs.
+
+</details>

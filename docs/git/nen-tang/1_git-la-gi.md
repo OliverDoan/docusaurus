@@ -488,39 +488,56 @@ GUI tools (VS Code Git, Sourcetree, GitKraken) rất tiện, nhưng:
 
 ## 10. Câu hỏi phỏng vấn
 
-### Câu 1: Git là gì? Giải thích ngắn gọn.
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời mẫu:**
+**1. Git là gì? Giải thích ngắn gọn.**
 
-> Git là một Distributed Version Control System (hệ thống quản lý phiên bản phân tán). Nó cho phép nhiều người làm việc trên cùng một dự án, theo dõi mọi thay đổi, và quay lại bất kỳ phiên bản nào trước đó. Git lưu trữ toàn bộ lịch sử trên máy mỗi developer, cho phép làm việc offline và không phụ thuộc vào server trung tâm.
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-### Câu 2: Phân biệt Git và GitHub.
+Git là một Distributed Version Control System (hệ thống quản lý phiên bản phân tán). Nó cho phép nhiều người làm việc trên cùng một dự án, theo dõi mọi thay đổi, và quay lại bất kỳ phiên bản nào trước đó. Git lưu trữ toàn bộ lịch sử trên máy mỗi developer, cho phép làm việc offline và không phụ thuộc vào server trung tâm.
 
-**Trả lời mẫu:**
+</details>
 
-> Git là phần mềm cài trên máy local, quản lý phiên bản code. GitHub là dịch vụ web cho phép lưu trữ Git repository trên cloud, kèm theo các tính năng cộng tác như Pull Request, Issues, Actions. Git có thể hoạt động độc lập mà không cần GitHub.
+**2. Phân biệt Git và GitHub.**
 
-### Câu 3: Tại sao Git dùng mô hình distributed thay vì centralized?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời mẫu:**
+Git là phần mềm cài trên máy local, quản lý phiên bản code. GitHub là dịch vụ web cho phép lưu trữ Git repository trên cloud, kèm theo các tính năng cộng tác như Pull Request, Issues, Actions. Git có thể hoạt động độc lập mà không cần GitHub.
 
-> Distributed model cho phép mỗi developer có bản sao đầy đủ của repository, bao gồm toàn bộ lịch sử. Điều này mang lại: (1) Làm việc offline, (2) Tốc độ nhanh vì thao tác trên local, (3) Không có single point of failure, (4) Mỗi clone là một backup tự nhiên. Đây là lý do Git được thiết kế bởi Linus Torvalds để phục vụ hàng ngàn developer của Linux kernel.
+</details>
 
-### Câu 4: Git lưu dữ liệu như thế nào — snapshot hay diff?
+**3. Tại sao Git dùng mô hình distributed thay vì centralized?**
 
-**Trả lời mẫu:**
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-> Git lưu dữ liệu dạng snapshot. Mỗi commit là một ảnh chụp toàn bộ trạng thái của project tại thời điểm đó. Nếu file không thay đổi, Git không copy lại mà tạo một link đến phiên bản trước. Điều này khác với SVN lưu theo dạng delta (chỉ lưu phần thay đổi). Cách lưu snapshot giúp Git nhanh hơn khi chuyển branch và xem lịch sử.
+Distributed model cho phép mỗi developer có bản sao đầy đủ của repository, bao gồm toàn bộ lịch sử. Điều này mang lại: (1) Làm việc offline, (2) Tốc độ nhanh vì thao tác trên local, (3) Không có single point of failure, (4) Mỗi clone là một backup tự nhiên. Đây là lý do Git được thiết kế bởi Linus Torvalds để phục vụ hàng ngàn developer của Linux kernel.
 
-### Câu 5: Kể tên các VCS khác ngoài Git và so sánh.
+</details>
 
-**Trả lời mẫu:**
+**4. Git lưu dữ liệu như thế nào — snapshot hay diff?**
 
-> - **SVN (Subversion):** Centralized, phổ biến trước Git, vẫn dùng ở một số công ty lớn.
-> - **Mercurial:** Distributed như Git, cú pháp dễ hơn nhưng ít phổ biến hơn.
-> - **Perforce:** Centralized, mạnh về file lớn (game development, media).
-> - **CVS:** Thế hệ đầu của centralized VCS, hiện đã lỗi thời.
->   Git thống trị nhờ tốc độ, branching mạnh, cộng đồng lớn, và sự tích hợp với GitHub/GitLab.
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Git lưu dữ liệu dạng snapshot. Mỗi commit là một ảnh chụp toàn bộ trạng thái của project tại thời điểm đó. Nếu file không thay đổi, Git không copy lại mà tạo một link đến phiên bản trước. Điều này khác với SVN lưu theo dạng delta (chỉ lưu phần thay đổi). Cách lưu snapshot giúp Git nhanh hơn khi chuyển branch và xem lịch sử.
+
+</details>
+
+**5. Kể tên các VCS khác ngoài Git và so sánh.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **SVN (Subversion):** Centralized, phổ biến trước Git, vẫn dùng ở một số công ty lớn.
+- **Mercurial:** Distributed như Git, cú pháp dễ hơn nhưng ít phổ biến hơn.
+- **Perforce:** Centralized, mạnh về file lớn (game development, media).
+- **CVS:** Thế hệ đầu của centralized VCS, hiện đã lỗi thời.
+  Git thống trị nhờ tốc độ, branching mạnh, cộng đồng lớn, và sự tích hợp với GitHub/GitLab.
+
+</details>
 
 ---
 

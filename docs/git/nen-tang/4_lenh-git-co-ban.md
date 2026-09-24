@@ -811,40 +811,57 @@ git commit -m "them tinh nang moi"
 
 ## 12. Câu hỏi phỏng vấn
 
-### Câu 1: Sự khác nhau giữa `git add .` và `git add -A`?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời mẫu:**
+**1. Sự khác nhau giữa `git add .` và `git add -A`?**
 
-> `git add .` thêm tất cả file mới, đã sửa, đã xoá **trong thư mục hiện tại và các thư mục con**. `git add -A` (hoặc `--all`) thêm tất cả thay đổi **trong toàn bộ repository**, bất kể bạn đang ở thư mục nào. Khi bạn đang ở root của repo, 2 lệnh cho kết quả giống nhau. Khác biệt chỉ xuất hiện khi bạn đang ở thư mục con.
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-### Câu 2: `git diff` và `git diff --staged` khác nhau thế nào?
+`git add .` thêm tất cả file mới, đã sửa, đã xoá **trong thư mục hiện tại và các thư mục con**. `git add -A` (hoặc `--all`) thêm tất cả thay đổi **trong toàn bộ repository**, bất kể bạn đang ở thư mục nào. Khi bạn đang ở root của repo, 2 lệnh cho kết quả giống nhau. Khác biệt chỉ xuất hiện khi bạn đang ở thư mục con.
 
-**Trả lời mẫu:**
+</details>
 
-> `git diff` so sánh Working Directory với Staging Area — cho thấy những thay đổi chưa được `git add`. `git diff --staged` (hoặc `--cached`) so sánh Staging Area với commit cuối cùng — cho thấy những thay đổi đã `git add` và sẽ được commit. Để xem tất cả thay đổi (cả staged và unstaged), dùng `git diff HEAD`.
+**2. `git diff` và `git diff --staged` khác nhau thế nào?**
 
-### Câu 3: Làm sao để undo commit cuối cùng?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời mẫu:**
+`git diff` so sánh Working Directory với Staging Area — cho thấy những thay đổi chưa được `git add`. `git diff --staged` (hoặc `--cached`) so sánh Staging Area với commit cuối cùng — cho thấy những thay đổi đã `git add` và sẽ được commit. Để xem tất cả thay đổi (cả staged và unstaged), dùng `git diff HEAD`.
 
-> Có 3 cách tuỳ theo mức độ:
->
-> - `git reset --soft HEAD~1`: Undo commit, giữ file trong Staging Area. Thích hợp khi muốn sửa message hoặc thêm file.
-> - `git reset --mixed HEAD~1` (mặc định): Undo commit, chuyển file về Working Directory. Thích hợp khi muốn stage lại theo cách khác.
-> - `git reset --hard HEAD~1`: Undo commit VÀ xoá mọi thay đổi. **NGUY HIỂM** — mất dữ liệu vĩnh viễn.
-> - `git commit --amend`: Không undo mà sửa commit cuối (đổi message, thêm file). Chỉ dùng khi chưa push.
+</details>
 
-### Câu 4: Giải thích `git commit -am` và hạn chế của nó.
+**3. Làm sao để undo commit cuối cùng?**
 
-**Trả lời mẫu:**
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-> `git commit -am "message"` kết hợp `git add` và `git commit` trong 1 lệnh. Flag `-a` tự động stage tất cả file **đã tracked** (đã commit trước đó) mà có thay đổi. Hạn chế: nó **không** thêm file mới (untracked files). File mới phải được `git add` riêng trước khi commit. Nên `-am` chỉ tiện khi làm việc với file đã có, không phù hợp khi tạo file mới.
+Có 3 cách tuỳ theo mức độ:
 
-### Câu 5: `git clone --depth 1` là gì và khi nào nên dùng?
+- `git reset --soft HEAD~1`: Undo commit, giữ file trong Staging Area. Thích hợp khi muốn sửa message hoặc thêm file.
+- `git reset --mixed HEAD~1` (mặc định): Undo commit, chuyển file về Working Directory. Thích hợp khi muốn stage lại theo cách khác.
+- `git reset --hard HEAD~1`: Undo commit VÀ xoá mọi thay đổi. **NGUY HIỂM** — mất dữ liệu vĩnh viễn.
+- `git commit --amend`: Không undo mà sửa commit cuối (đổi message, thêm file). Chỉ dùng khi chưa push.
 
-**Trả lời mẫu:**
+</details>
 
-> `--depth 1` tạo một "shallow clone" — chỉ tải commit mới nhất, không tải toàn bộ lịch sử. Điều này làm giảm đáng kể thời gian và dung lượng khi clone repo lớn. Sử dụng trong: CI/CD pipeline (chỉ cần build code mới nhất), thử nhanh code người khác, repo có lịch sử quá lớn. Hạn chế: không thể xem full log, không thể push thay đổi (trong một số trường hợp), và một số thao tác Git sẽ bị giới hạn.
+**4. Giải thích `git commit -am` và hạn chế của nó.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`git commit -am "message"` kết hợp `git add` và `git commit` trong 1 lệnh. Flag `-a` tự động stage tất cả file **đã tracked** (đã commit trước đó) mà có thay đổi. Hạn chế: nó **không** thêm file mới (untracked files). File mới phải được `git add` riêng trước khi commit. Nên `-am` chỉ tiện khi làm việc với file đã có, không phù hợp khi tạo file mới.
+
+</details>
+
+**5. `git clone --depth 1` là gì và khi nào nên dùng?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`--depth 1` tạo một "shallow clone" — chỉ tải commit mới nhất, không tải toàn bộ lịch sử. Điều này làm giảm đáng kể thời gian và dung lượng khi clone repo lớn. Sử dụng trong: CI/CD pipeline (chỉ cần build code mới nhất), thử nhanh code người khác, repo có lịch sử quá lớn. Hạn chế: không thể xem full log, không thể push thay đổi (trong một số trường hợp), và một số thao tác Git sẽ bị giới hạn.
+
+</details>
 
 ---
 

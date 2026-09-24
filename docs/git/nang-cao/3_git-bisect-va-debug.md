@@ -606,25 +606,36 @@ git bisect run ./test.sh
 
 ## 7. Câu hỏi phỏng vấn
 
-### Câu 1: Git bisect là gì? Tại sao nó hiệu quả?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. Git bisect là gì? Tại sao nó hiệu quả?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 `git bisect` dùng thuật toán binary search để tìm commit đầu tiên gây ra bug. Bạn đánh dấu một commit "good" (không bug) và một commit "bad" (có bug), Git sẽ tự chọn commit ở giữa để bạn test. Mỗi bước loại bỏ một nửa số commits cần kiểm tra.
 
 Hiệu quả vì độ phức tạp O(log n): với 1000 commits chỉ cần ~10 bước thay vì 1000 bước kiểm tra tuần tự. Có thể tự động hóa hoàn toàn bằng `git bisect run <script>`.
 
-### Câu 2: Sự khác nhau giữa `git log -S` và `git log -G`?
+</details>
 
-**Trả lời:**
+**2. Sự khác nhau giữa `git log -S` và `git log -G`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - `-S "string"` (pickaxe): Tìm commits mà **số lần xuất hiện** của chuỗi thay đổi. Nghĩa là chuỗi được thêm mới hoặc xóa đi. Nếu chuỗi chỉ bị di chuyển (refactor) mà số lần xuất hiện không đổi, `-S` sẽ bỏ qua.
 - `-G "regex"`: Tìm commits mà **diff** chứa dòng match regex. Bất kỳ thay đổi nào có dòng match đều được hiển thị, kể cả khi chỉ sửa nhỏ trong dòng đó.
 
 Tóm lại: `-S` tìm khi chuỗi xuất hiện/biến mất, `-G` tìm khi dòng chứa pattern bị sửa.
 
-### Câu 3: Làm sao dùng git blame hiệu quả khi team hay format code?
+</details>
 
-**Trả lời:**
+**3. Làm sao dùng git blame hiệu quả khi team hay format code?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Tạo file `.git-blame-ignore-revs` chứa SHA của các formatting commits, rồi cấu hình:
 
 ```bash
@@ -633,9 +644,12 @@ git config blame.ignoreRevsFile .git-blame-ignore-revs
 
 Git blame sẽ bỏ qua các commits đó và hiển thị commit logic thực sự. Commit file `.git-blame-ignore-revs` vào repo để cả team dùng được. GitHub cũng hỗ trợ file này trên web UI.
 
-### Câu 4: Giải thích quy trình git bisect từ đầu đến cuối.
+</details>
 
-**Trả lời:**
+**4. Giải thích quy trình git bisect từ đầu đến cuối.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 1. `git bisect start` — bắt đầu session
 2. `git bisect bad` — đánh dấu commit hiện tại (hoặc chỉ định SHA) là có bug
@@ -645,9 +659,12 @@ Git blame sẽ bỏ qua các commits đó và hiển thị commit logic thực s
 6. `git bisect reset` — kết thúc, quay về branch ban đầu
 7. Có thể tự động hóa bước 4 bằng `git bisect run <script>`
 
-### Câu 5: Làm sao tìm lịch sử của file đã bị xóa?
+</details>
 
-**Trả lời:**
+**5. Làm sao tìm lịch sử của file đã bị xóa?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 ```bash
 # Xem toàn bộ lịch sử file (kể cả sau khi bị xóa)
@@ -661,6 +678,8 @@ git checkout <sha-commit-xoa>~1 -- path/to/deleted-file
 ```
 
 Dùng `--all` để tìm trên tất cả branches, `--full-history` để không bỏ qua history simplification.
+
+</details>
 
 ---
 

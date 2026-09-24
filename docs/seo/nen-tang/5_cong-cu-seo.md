@@ -755,9 +755,12 @@ module.exports = {
 
 ## 9. Câu hỏi phỏng vấn
 
-### Câu 1: Bạn sẽ dùng tool nào để kiểm tra SEO cho website? Mô tả workflow.
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. Bạn sẽ dùng tool nào để kiểm tra SEO cho website? Mô tả workflow.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 Workflow SEO audit 5 bước:
 1. **Lighthouse CLI**: Chạy audit nhanh (`lighthouse URL --only-categories=seo,performance`). Xem score SEO, performance, accessibility. Đọc danh sách issues cần fix.
@@ -768,9 +771,12 @@ Workflow SEO audit 5 bước:
 
 Tất cả đều miễn phí. Chỉ cần Ahrefs/SEMrush khi cần backlink analysis hoặc keyword research chuyên sâu.
 
-### Câu 2: Core Web Vitals gồm những metrics nào? Cách đo lường?
+</details>
 
-**Trả lời:**
+**2. Core Web Vitals gồm những metrics nào? Cách đo lường?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 3 metrics chính:
 - **LCP** (Largest Contentful Paint): Thời gian render element lớn nhất. Target dưới 2.5s. Đo bằng Lighthouse, PSI, CrUX.
@@ -779,9 +785,12 @@ Tất cả đều miễn phí. Chỉ cần Ahrefs/SEMrush khi cần backlink ana
 
 **Cách đo**: Lab data qua Lighthouse/PSI (controlled, reproducible). Field data qua CrUX/GSC (real users, đây là data Google dùng để ranking). Nên xem cả hai: lab data để debug, field data để biết thực tế.
 
-### Câu 3: Google Search Console cho developer biết thông tin gì?
+</details>
 
-**Trả lời:**
+**3. Google Search Console cho developer biết thông tin gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 GSC cung cấp:
 - **Performance**: Keyword nào website rank, clicks, impressions, CTR, average position. Filter theo page, country, device.
@@ -793,9 +802,12 @@ GSC cung cấp:
 
 GSC là nguồn data **trực tiếp từ Google**, chính xác hơn bất kỳ tool bên thứ ba nào.
 
-### Câu 4: Làm sao tích hợp SEO checks vào CI/CD pipeline?
+</details>
 
-**Trả lời:**
+**4. Làm sao tích hợp SEO checks vào CI/CD pipeline?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 Dùng Lighthouse CI (`@lhci/cli`):
 
@@ -809,9 +821,12 @@ Dùng Lighthouse CI (`@lhci/cli`):
 
 Cách này đảm bảo mỗi PR đều pass SEO minimum requirements. Team không thể accidentally merge code phá hỏng SEO (missing title, noindex, performance regression).
 
-### Câu 5: Lab data vs Field data trong PageSpeed Insights khác nhau thế nào? Cái nào quan trọng hơn?
+</details>
 
-**Trả lời:**
+**5. Lab data vs Field data trong PageSpeed Insights khác nhau thế nào? Cái nào quan trọng hơn?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 **Lab data** (Lighthouse): Chạy trong controlled environment (cố định network, CPU). Reproducible, useful cho debugging. Nhưng không phản ánh thực tế vì user có devices và network khác nhau.
 
@@ -820,3 +835,5 @@ Cách này đảm bảo mỗi PR đều pass SEO minimum requirements. Team khô
 **Cái nào quan trọng hơn**: Field data quan trọng hơn cho ranking. Tuy nhiên, field data chỉ có khi website có đủ traffic (đủ mẫu Chrome users). Website mới chưa có field data → phải dựa vào lab data.
 
 **Best practice**: Dùng lab data để identify issues và debug. Dùng field data để xác nhận improvements đã tác động đến real users. Khi lab data tốt mà field data kém → có thể do users dùng device yếu hoặc network chậm (thường gặp ở thị trường mobile ở Việt Nam).
+
+</details>

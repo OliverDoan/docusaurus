@@ -628,22 +628,49 @@ Nhiều bài viết về cùng chủ đề với nội dung tương tự khiến
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: E-E-A-T là gì và ảnh hưởng đến ranking như thế nào?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** E-E-A-T là Experience, Expertise, Authoritativeness, Trustworthiness — không phải ranking factor trực tiếp nhưng là bộ tiêu chí Google dùng để đánh giá chất lượng nội dung thông qua Quality Raters. Các trang YMYL (Your Money Your Life — tài chính, sức khỏe) bị đánh giá E-E-A-T nghiêm ngặt hơn. Cách thể hiện: trang tác giả chi tiết, nguồn tham khảo uy tín, nội dung dựa trên kinh nghiệm thực tế, thông tin chính xác và cập nhật. Google dùng nhiều tín hiệu gián tiếp (backlinks từ trang uy tín, author entities, brand mentions) để đánh giá E-E-A-T.
+**1. E-E-A-T là gì và ảnh hưởng đến ranking như thế nào?**
 
-### Câu 2: Làm sao tối ưu content để xuất hiện trên Featured Snippets?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Để xuất hiện trên Featured Snippets: (1) Dùng heading (H2/H3) là câu hỏi chính xác mà người dùng tìm, (2) Trả lời ngay trong đoạn văn đầu tiên sau heading (40-60 từ), (3) Cho list snippets, dùng thẻ `ol` hoặc `ul` ngay sau heading, (4) Cho table snippets, dùng thẻ `table` với header rõ ràng, (5) Trang cần nằm trong top 10 của keyword đó mới có cơ hội được chọn làm featured snippet. Không có cách đảm bảo 100% — Google tự động chọn.
+E-E-A-T là Experience, Expertise, Authoritativeness, Trustworthiness — không phải ranking factor trực tiếp nhưng là bộ tiêu chí Google dùng để đánh giá chất lượng nội dung thông qua Quality Raters. Các trang YMYL (Your Money Your Life — tài chính, sức khỏe) bị đánh giá E-E-A-T nghiêm ngặt hơn. Cách thể hiện: trang tác giả chi tiết, nguồn tham khảo uy tín, nội dung dựa trên kinh nghiệm thực tế, thông tin chính xác và cập nhật. Google dùng nhiều tín hiệu gián tiếp (backlinks từ trang uy tín, author entities, brand mentions) để đánh giá E-E-A-T.
 
-### Câu 3: Topic Cluster là gì và tại sao hiệu quả cho SEO?
+</details>
 
-**Trả lời:** Topic Cluster là mô hình tổ chức nội dung gồm: 1 Pillar Page (bài tổng quan, nhắm short-tail keyword) và nhiều Cluster Pages (bài chi tiết, nhắm long-tail keywords), liên kết với nhau bằng internal links. Hiệu quả vì: (1) Google hiểu bạn là "expert" về chủ đề đó khi thấy nhiều bài chi tiết liên kết với nhau, (2) Link equity được phân phối hiệu quả trong cluster, (3) Người đọc có trải nghiệm hoàn chỉnh — đọc từ tổng quan đến chi tiết, (4) Giảm keyword cannibalization vì mỗi bài nhắm một long-tail keyword riêng.
+**2. Làm sao tối ưu content để xuất hiện trên Featured Snippets?**
 
-### Câu 4: Google có phạt content viết bằng AI không?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Google không phạt content vì "được viết bằng AI" — họ phạt content chất lượng thấp bất kể nguồn gốc. Theo Google's Helpful Content guidelines, nội dung cần: (1) Được viết cho người đọc, không phải cho search engine, (2) Thể hiện kinh nghiệm và chuyên môn, (3) Cung cấp giá trị mà người đọc không tìm được ở nơi khác. Content AI thuần túy thường thiếu kinh nghiệm thực tế (Experience trong E-E-A-T) và có thể bị đánh giá thấp. Best practice: dùng AI để hỗ trợ (draft, research, outline) nhưng thêm kinh nghiệm, ví dụ thực tế, và insight của mình.
+Để xuất hiện trên Featured Snippets: (1) Dùng heading (H2/H3) là câu hỏi chính xác mà người dùng tìm, (2) Trả lời ngay trong đoạn văn đầu tiên sau heading (40-60 từ), (3) Cho list snippets, dùng thẻ `ol` hoặc `ul` ngay sau heading, (4) Cho table snippets, dùng thẻ `table` với header rõ ràng, (5) Trang cần nằm trong top 10 của keyword đó mới có cơ hội được chọn làm featured snippet. Không có cách đảm bảo 100% — Google tự động chọn.
 
-### Câu 5: Keyword cannibalization là gì và cách xử lý?
+</details>
 
-**Trả lời:** Keyword cannibalization xảy ra khi nhiều trang trên cùng site nhắm cùng một keyword, khiến Google không biết nên rank trang nào — kết quả là cả hai trang đều rank thấp hơn. Cách phát hiện: tìm `site:example.com "keyword"` trên Google, nếu thấy nhiều trang — có thể bị cannibalization. Cách xử lý: (1) Gộp các bài tương tự thành 1 bài toàn diện, redirect bài cũ bằng 301, (2) Phân biệt search intent — mỗi bài nhắm một intent khác (informational vs commercial), (3) Dùng canonical tag nếu có phiên bản chính và phụ, (4) Cập nhật internal linking để chỉ rõ trang chính cho keyword đó.
+**3. Topic Cluster là gì và tại sao hiệu quả cho SEO?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Topic Cluster là mô hình tổ chức nội dung gồm: 1 Pillar Page (bài tổng quan, nhắm short-tail keyword) và nhiều Cluster Pages (bài chi tiết, nhắm long-tail keywords), liên kết với nhau bằng internal links. Hiệu quả vì: (1) Google hiểu bạn là "expert" về chủ đề đó khi thấy nhiều bài chi tiết liên kết với nhau, (2) Link equity được phân phối hiệu quả trong cluster, (3) Người đọc có trải nghiệm hoàn chỉnh — đọc từ tổng quan đến chi tiết, (4) Giảm keyword cannibalization vì mỗi bài nhắm một long-tail keyword riêng.
+
+</details>
+
+**4. Google có phạt content viết bằng AI không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Google không phạt content vì "được viết bằng AI" — họ phạt content chất lượng thấp bất kể nguồn gốc. Theo Google's Helpful Content guidelines, nội dung cần: (1) Được viết cho người đọc, không phải cho search engine, (2) Thể hiện kinh nghiệm và chuyên môn, (3) Cung cấp giá trị mà người đọc không tìm được ở nơi khác. Content AI thuần túy thường thiếu kinh nghiệm thực tế (Experience trong E-E-A-T) và có thể bị đánh giá thấp. Best practice: dùng AI để hỗ trợ (draft, research, outline) nhưng thêm kinh nghiệm, ví dụ thực tế, và insight của mình.
+
+</details>
+
+**5. Keyword cannibalization là gì và cách xử lý?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Keyword cannibalization xảy ra khi nhiều trang trên cùng site nhắm cùng một keyword, khiến Google không biết nên rank trang nào — kết quả là cả hai trang đều rank thấp hơn. Cách phát hiện: tìm `site:example.com "keyword"` trên Google, nếu thấy nhiều trang — có thể bị cannibalization. Cách xử lý: (1) Gộp các bài tương tự thành 1 bài toàn diện, redirect bài cũ bằng 301, (2) Phân biệt search intent — mỗi bài nhắm một intent khác (informational vs commercial), (3) Dùng canonical tag nếu có phiên bản chính và phụ, (4) Cập nhật internal linking để chỉ rõ trang chính cho keyword đó.
+
+</details>

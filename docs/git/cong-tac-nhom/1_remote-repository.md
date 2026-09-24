@@ -626,26 +626,58 @@ git remote set-url origin <url-đúng>
 
 ## 10. Câu hỏi phỏng vấn
 
-### Câu 1: Remote repository là gì? Tại sao cần remote?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** Remote repository là bản sao của repository được lưu trữ trên server (GitHub, GitLab, Bitbucket...). Cần remote để: (1) sao lưu code an toàn, (2) cộng tác với nhiều người, (3) chia sẻ code, (4) tích hợp CI/CD để kiểm tra và triển khai tự động, (5) hỗ trợ code review qua Pull Request.
+**1. Remote repository là gì? Tại sao cần remote?**
 
-### Câu 2: `origin` trong Git là gì? Nó có phải là từ khóa đặc biệt không?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** `origin` là tên mặc định mà Git đặt cho remote repository khi bạn clone. Nó KHÔNG phải từ khóa đặc biệt hay bắt buộc — chỉ là quy ước đặt tên được sử dụng rộng rãi. Bạn hoàn toàn có thể đổi tên nó bằng `git remote rename origin <tên-mới>`.
+Remote repository là bản sao của repository được lưu trữ trên server (GitHub, GitLab, Bitbucket...). Cần remote để: (1) sao lưu code an toàn, (2) cộng tác với nhiều người, (3) chia sẻ code, (4) tích hợp CI/CD để kiểm tra và triển khai tự động, (5) hỗ trợ code review qua Pull Request.
 
-### Câu 3: Phân biệt `origin` và `upstream` trong fork workflow?
+</details>
 
-**Trả lời:** Trong fork workflow: `origin` trỏ đến fork của bạn trên GitHub (nơi bạn có quyền push), còn `upstream` trỏ đến repo gốc (repo mà bạn fork). Bạn fetch từ `upstream` để cập nhật code mới nhất từ repo gốc, và push lên `origin` (fork của bạn) trước khi tạo Pull Request.
+**2. `origin` trong Git là gì? Nó có phải là từ khóa đặc biệt không?**
 
-### Câu 4: Remote-tracking branch là gì? Cho ví dụ.
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Remote-tracking branch là bản sao read-only (chỉ đọc) của nhánh trên remote, được lưu trong local repo. Ví dụ: `origin/main` là remote-tracking branch theo dõi nhánh `main` trên remote `origin`. Nó được cập nhật khi bạn chạy `git fetch` hoặc `git pull`. Bạn không thể commit trực tiếp lên remote-tracking branch — phải merge hoặc rebase vào nhánh local trước.
+`origin` là tên mặc định mà Git đặt cho remote repository khi bạn clone. Nó KHÔNG phải từ khóa đặc biệt hay bắt buộc — chỉ là quy ước đặt tên được sử dụng rộng rãi. Bạn hoàn toàn có thể đổi tên nó bằng `git remote rename origin <tên-mới>`.
 
-### Câu 5: So sánh HTTPS và SSH khi kết nối đến remote. Khi nào dùng cái nào?
+</details>
 
-**Trả lời:** HTTPS dùng token-based authentication (PAT), dễ cài đặt, ít bị firewall chặn (port 443), phù hợp người mới và môi trường corporate. SSH dùng key-based authentication (public/private key pair), bảo mật cao hơn, tiện lợi hơn sau khi setup (không cần nhập credentials), nhưng có thể bị firewall chặn port 22. Trong thực tế, SSH được ưa chuộng hơn vì tiện lợi khi đã cấu hình xong.
+**3. Phân biệt `origin` và `upstream` trong fork workflow?**
 
-### Câu 6: Một repo local có thể kết nối đến nhiều remote không? Cho ví dụ thực tế.
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Có, một repo local có thể kết nối đến nhiều remote bằng `git remote add`. Ví dụ thực tế: (1) Fork workflow — `origin` cho fork, `upstream` cho repo gốc; (2) Backup — `origin` cho GitHub, `backup` cho GitLab; (3) Deploy — `github` cho code review, `production` cho deploy. Dùng `git push <tên-remote> <branch>` để push đến remote cụ thể.
+Trong fork workflow: `origin` trỏ đến fork của bạn trên GitHub (nơi bạn có quyền push), còn `upstream` trỏ đến repo gốc (repo mà bạn fork). Bạn fetch từ `upstream` để cập nhật code mới nhất từ repo gốc, và push lên `origin` (fork của bạn) trước khi tạo Pull Request.
+
+</details>
+
+**4. Remote-tracking branch là gì? Cho ví dụ.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Remote-tracking branch là bản sao read-only (chỉ đọc) của nhánh trên remote, được lưu trong local repo. Ví dụ: `origin/main` là remote-tracking branch theo dõi nhánh `main` trên remote `origin`. Nó được cập nhật khi bạn chạy `git fetch` hoặc `git pull`. Bạn không thể commit trực tiếp lên remote-tracking branch — phải merge hoặc rebase vào nhánh local trước.
+
+</details>
+
+**5. So sánh HTTPS và SSH khi kết nối đến remote. Khi nào dùng cái nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+HTTPS dùng token-based authentication (PAT), dễ cài đặt, ít bị firewall chặn (port 443), phù hợp người mới và môi trường corporate. SSH dùng key-based authentication (public/private key pair), bảo mật cao hơn, tiện lợi hơn sau khi setup (không cần nhập credentials), nhưng có thể bị firewall chặn port 22. Trong thực tế, SSH được ưa chuộng hơn vì tiện lợi khi đã cấu hình xong.
+
+</details>
+
+**6. Một repo local có thể kết nối đến nhiều remote không? Cho ví dụ thực tế.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Có, một repo local có thể kết nối đến nhiều remote bằng `git remote add`. Ví dụ thực tế: (1) Fork workflow — `origin` cho fork, `upstream` cho repo gốc; (2) Backup — `origin` cho GitHub, `backup` cho GitLab; (3) Deploy — `github` cho code review, `production` cho deploy. Dùng `git push <tên-remote> <branch>` để push đến remote cụ thể.
+
+</details>

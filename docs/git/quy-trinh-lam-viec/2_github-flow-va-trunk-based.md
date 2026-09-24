@@ -575,25 +575,52 @@ git push origin --delete develop
 
 ## 6. Câu hỏi phỏng vấn
 
-### Câu 1: So sánh GitHub Flow và Git Flow. Khi nào chọn cái nào?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** GitHub Flow chỉ có 1 nhánh chính (main) và feature branches ngắn hạn, phù hợp cho CI/CD continuous deployment, team trung bình, web app. Git Flow có 5 loại nhánh (main, develop, feature, release, hotfix), phù hợp cho scheduled release, team lớn, sản phẩm có version. Chọn GitHub Flow khi cần ship nhanh và đơn giản. Chọn Git Flow khi cần kiểm soát release chặt và hỗ trợ nhiều version.
+**1. So sánh GitHub Flow và Git Flow. Khi nào chọn cái nào?**
 
-### Câu 2: Trunk-Based Development là gì? Tại sao Google và Facebook dùng?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** TBD là mô hình mà tất cả developer commit trực tiếp vào 1 nhánh chính (trunk/main), không có long-lived branches. Google và Facebook dùng vì: (1) Loại bỏ merge conflict từ long-lived branches, (2) CI liên tục cho mọi commit đảm bảo chất lượng, (3) Deploy nhanh — main luôn deployable, (4) Feature Flags cho phép code chưa hoàn thành vẫn merge được an toàn. TBD yêu cầu CI/CD cực mạnh, test coverage cao, và feature flag infrastructure.
+GitHub Flow chỉ có 1 nhánh chính (main) và feature branches ngắn hạn, phù hợp cho CI/CD continuous deployment, team trung bình, web app. Git Flow có 5 loại nhánh (main, develop, feature, release, hotfix), phù hợp cho scheduled release, team lớn, sản phẩm có version. Chọn GitHub Flow khi cần ship nhanh và đơn giản. Chọn Git Flow khi cần kiểm soát release chặt và hỗ trợ nhiều version.
 
-### Câu 3: Feature Flag là gì? Tại sao cần trong TBD?
+</details>
 
-**Trả lời:** Feature Flag là cờ điều khiển bật/tắt tính năng trong code mà không cần deploy lại. Trong TBD, vì không có feature branches, code chưa hoàn thành vẫn merge vào main. Feature Flag giấu tính năng chưa sẵn sàng khỏi end user. Ưu điểm khác: canary release (bật cho 10% user trước), A/B testing, kill switch (tắt tính năng lỗi ngay lập tức). Cần chú ý dọn dẹp flag sau khi feature ổn định để tránh "flag debt".
+**2. Trunk-Based Development là gì? Tại sao Google và Facebook dùng?**
 
-### Câu 4: Nếu team bạn đang dùng Git Flow và muốn chuyển sang GitHub Flow thì làm thế nào?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Chuyển đổi dần dần: (1) Đảm bảo CI/CD pipeline hoàn chỉnh cho nhánh main, (2) Thiết lập branch protection cho main (require PR, require CI pass), (3) Merge develop vào main để đồng bộ, (4) Ngừng tạo release branches — deploy trực tiếp từ main sau khi merge PR, (5) Ngừng tạo develop branch cho dự án mới, (6) Training team về quy trình mới, (7) Sau vài sprint, xóa nhánh develop cũ.
+TBD là mô hình mà tất cả developer commit trực tiếp vào 1 nhánh chính (trunk/main), không có long-lived branches. Google và Facebook dùng vì: (1) Loại bỏ merge conflict từ long-lived branches, (2) CI liên tục cho mọi commit đảm bảo chất lượng, (3) Deploy nhanh — main luôn deployable, (4) Feature Flags cho phép code chưa hoàn thành vẫn merge được an toàn. TBD yêu cầu CI/CD cực mạnh, test coverage cao, và feature flag infrastructure.
 
-### Câu 5: So sánh ưu nhược điểm của Squash Merge, Merge Commit và Rebase Merge khi merge PR?
+</details>
 
-**Trả lời:** **Merge Commit** giữ toàn bộ lịch sử của feature branch trong 1 merge commit — lịch sử đầy đủ nhưng có thể phức tạp. **Squash Merge** gộp tất cả commits thành 1 — lịch sử sạch nhưng mất chi tiết. **Rebase Merge** đặt lại từng commit lên đầu main — lịch sử tuyến tính nhưng viết lại history (nguy hiểm nếu không hiểu rõ). Phổ biến nhất là Squash Merge cho feature nhỏ và Merge Commit cho feature lớn cần giữ lịch sử chi tiết.
+**3. Feature Flag là gì? Tại sao cần trong TBD?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Feature Flag là cờ điều khiển bật/tắt tính năng trong code mà không cần deploy lại. Trong TBD, vì không có feature branches, code chưa hoàn thành vẫn merge vào main. Feature Flag giấu tính năng chưa sẵn sàng khỏi end user. Ưu điểm khác: canary release (bật cho 10% user trước), A/B testing, kill switch (tắt tính năng lỗi ngay lập tức). Cần chú ý dọn dẹp flag sau khi feature ổn định để tránh "flag debt".
+
+</details>
+
+**4. Nếu team bạn đang dùng Git Flow và muốn chuyển sang GitHub Flow thì làm thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Chuyển đổi dần dần: (1) Đảm bảo CI/CD pipeline hoàn chỉnh cho nhánh main, (2) Thiết lập branch protection cho main (require PR, require CI pass), (3) Merge develop vào main để đồng bộ, (4) Ngừng tạo release branches — deploy trực tiếp từ main sau khi merge PR, (5) Ngừng tạo develop branch cho dự án mới, (6) Training team về quy trình mới, (7) Sau vài sprint, xóa nhánh develop cũ.
+
+</details>
+
+**5. So sánh ưu nhược điểm của Squash Merge, Merge Commit và Rebase Merge khi merge PR?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Merge Commit** giữ toàn bộ lịch sử của feature branch trong 1 merge commit — lịch sử đầy đủ nhưng có thể phức tạp. **Squash Merge** gộp tất cả commits thành 1 — lịch sử sạch nhưng mất chi tiết. **Rebase Merge** đặt lại từng commit lên đầu main — lịch sử tuyến tính nhưng viết lại history (nguy hiểm nếu không hiểu rõ). Phổ biến nhất là Squash Merge cho feature nhỏ và Merge Commit cho feature lớn cần giữ lịch sử chi tiết.
+
+</details>
 
 ---
 

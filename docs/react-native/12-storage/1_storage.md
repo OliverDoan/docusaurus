@@ -427,18 +427,24 @@ const path = `${FileSystem.documentDirectory}file.txt`;
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: AsyncStorage vs MMKV?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. AsyncStorage vs MMKV?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - **AsyncStorage**: built-in, async, ~30x chậm hơn MMKV
 - **MMKV**: sync, nhanh (C++ native), encryption optional, multi-instance
 
 Project mới ưu tiên MMKV cho perf. AsyncStorage OK cho data nhỏ, ít access.
 
-### Câu 2: Khi nào dùng SQLite?
+</details>
 
-**Trả lời:**
+**2. Khi nào dùng SQLite?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - Data có **cấu trúc** (table, relation)
 - Cần **query phức tạp** (JOIN, aggregate)
@@ -447,9 +453,12 @@ Project mới ưu tiên MMKV cho perf. AsyncStorage OK cho data nhỏ, ít acces
 
 Cho key-value đơn giản, dùng MMKV/AsyncStorage thay vì SQLite.
 
-### Câu 3: Backup user data trên iOS?
+</details>
 
-**Trả lời:**
+**3. Backup user data trên iOS?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
 
 - File trong `documentDirectory` -> backup iCloud (mặc định)
 - File trong `cacheDirectory` -> không backup
@@ -457,9 +466,14 @@ Cho key-value đơn giản, dùng MMKV/AsyncStorage thay vì SQLite.
 
 User reset device -> data restore từ iCloud. Nếu muốn **không backup**, set `isExcludedFromBackup` flag.
 
-### Câu 4: Migration schema SQLite?
+</details>
 
-**Trả lời:** Khi update app, schema có thể thay đổi. Cần migration:
+**4. Migration schema SQLite?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Khi update app, schema có thể thay đổi. Cần migration:
 
 ```sql
 PRAGMA user_version; -- get current
@@ -469,6 +483,13 @@ PRAGMA user_version = 2; -- set new
 
 Hoặc dùng ORM (Drizzle, WatermelonDB) có migration system.
 
-### Câu 5: Limit AsyncStorage?
+</details>
 
-**Trả lời:** Default 6MB Android. Có thể tăng config. iOS không limit nhưng nên < vài MB. Vượt limit -> slow, crash. Data lớn -> SQLite, FileSystem.
+**5. Limit AsyncStorage?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Default 6MB Android. Có thể tăng config. iOS không limit nhưng nên < vài MB. Vượt limit -> slow, crash. Data lớn -> SQLite, FileSystem.
+
+</details>

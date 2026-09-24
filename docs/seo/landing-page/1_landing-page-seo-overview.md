@@ -485,22 +485,49 @@ FAQ section là cơ hội tuyệt vời để:
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: Sự khác biệt giữa landing page chạy ads và landing page SEO là gì?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** Landing page chạy ads tập trung 100% vào conversion, traffic đến từ quảng cáo nên không cần Google index (thường set `noindex`). Landing page SEO cần Google crawl và index được, yêu cầu semantic HTML, content có giá trị, tốc độ tải nhanh, structured data, và internal linking. Landing page SEO phải cân bằng giữa conversion optimization và search engine optimization.
+**1. Sự khác biệt giữa landing page chạy ads và landing page SEO là gì?**
 
-### Câu 2: Tại sao chỉ nên có 1 H1 trên mỗi trang?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** H1 cho search engine biết chủ đề chính của trang. Nhiều H1 gây nhầm lẫn cho Google về nội dung chính. Mặc dù HTML5 spec cho phép nhiều H1, nhưng từ góc nhìn SEO, best practice vẫn là 1 H1 duy nhất chứa primary keyword. Các section khác dùng H2, H3 theo hierarchy.
+Landing page chạy ads tập trung 100% vào conversion, traffic đến từ quảng cáo nên không cần Google index (thường set `noindex`). Landing page SEO cần Google crawl và index được, yêu cầu semantic HTML, content có giá trị, tốc độ tải nhanh, structured data, và internal linking. Landing page SEO phải cân bằng giữa conversion optimization và search engine optimization.
 
-### Câu 3: Above-the-fold content ảnh hưởng SEO như thế nào?
+</details>
 
-**Trả lời:** Above-the-fold ảnh hưởng qua nhiều tín hiệu: LCP (Largest Contentful Paint) thường đo element lớn nhất above-the-fold, FCP (First Contentful Paint) đo thời gian render nội dung đầu tiên. Nếu above-the-fold content không hấp dẫn hoặc load chậm, bounce rate tăng, dwell time giảm, gián tiếp ảnh hưởng ranking.
+**2. Tại sao chỉ nên có 1 H1 trên mỗi trang?**
 
-### Câu 4: Semantic HTML có thực sự ảnh hưởng SEO ranking không?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Không trực tiếp là ranking factor, nhưng ảnh hưởng mạnh gián tiếp. Semantic HTML giúp Google hiểu cấu trúc trang tốt hơn, tăng khả năng hiển thị rich results (FAQ, breadcrumb), cải thiện accessibility (ảnh hưởng user experience signals). Google đã confirm rằng họ sử dụng HTML5 semantic elements để hiểu content structure.
+H1 cho search engine biết chủ đề chính của trang. Nhiều H1 gây nhầm lẫn cho Google về nội dung chính. Mặc dù HTML5 spec cho phép nhiều H1, nhưng từ góc nhìn SEO, best practice vẫn là 1 H1 duy nhất chứa primary keyword. Các section khác dùng H2, H3 theo hierarchy.
 
-### Câu 5: Làm sao tối ưu CTA cho cả SEO và conversion?
+</details>
 
-**Trả lời:** Dùng `<a href>` thay vì `<button onclick>` để Google crawl được. Anchor text phải mô tả hành động cụ thể thay vì generic text. Đặt CTA ở nhiều vị trí: hero section, sau features, sau testimonials, và trước footer. Đảm bảo CTA render server-side, không phụ thuộc JavaScript. Thêm `aria-label` cho accessibility nếu text ngắn gọn.
+**3. Above-the-fold content ảnh hưởng SEO như thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Above-the-fold ảnh hưởng qua nhiều tín hiệu: LCP (Largest Contentful Paint) thường đo element lớn nhất above-the-fold, FCP (First Contentful Paint) đo thời gian render nội dung đầu tiên. Nếu above-the-fold content không hấp dẫn hoặc load chậm, bounce rate tăng, dwell time giảm, gián tiếp ảnh hưởng ranking.
+
+</details>
+
+**4. Semantic HTML có thực sự ảnh hưởng SEO ranking không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Không trực tiếp là ranking factor, nhưng ảnh hưởng mạnh gián tiếp. Semantic HTML giúp Google hiểu cấu trúc trang tốt hơn, tăng khả năng hiển thị rich results (FAQ, breadcrumb), cải thiện accessibility (ảnh hưởng user experience signals). Google đã confirm rằng họ sử dụng HTML5 semantic elements để hiểu content structure.
+
+</details>
+
+**5. Làm sao tối ưu CTA cho cả SEO và conversion?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Dùng `<a href>` thay vì `<button onclick>` để Google crawl được. Anchor text phải mô tả hành động cụ thể thay vì generic text. Đặt CTA ở nhiều vị trí: hero section, sau features, sau testimonials, và trước footer. Đảm bảo CTA render server-side, không phụ thuộc JavaScript. Thêm `aria-label` cho accessibility nếu text ngắn gọn.
+
+</details>

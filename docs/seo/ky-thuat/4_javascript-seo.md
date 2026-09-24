@@ -592,30 +592,52 @@ async function checkRenderedMeta(url) {
 
 ## Câu hỏi phỏng vấn
 
-### Câu 1: So sánh CSR, SSR, SSG, ISR về SEO. Khi nào dùng cái nào?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:**
+**1. So sánh CSR, SSR, SSG, ISR về SEO. Khi nào dùng cái nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 - **CSR**: Render phía client, SEO kém vì Googlebot phải chạy JS. Dùng cho: admin panel, dashboard, app behind auth
 - **SSR**: Server render HTML mỗi request, SEO tốt, nội dung luôn mới. Dùng cho: e-commerce (giá thay đổi), news feed, trang cần personalization
 - **SSG**: Render tại build time, SEO rất tốt, tốc độ cực nhanh (CDN). Dùng cho: blog, docs, landing page, marketing site
 - **ISR**: SSG + tự động regenerate, SEO rất tốt, nội dung cập nhật mà không cần rebuild. Dùng cho: catalog sản phẩm lớn, blog có update thường xuyên
 
-### Câu 2: Giải thích Two-Wave Indexing của Google. Tại sao nó gây vấn đề cho SPA?
+</details>
 
-**Trả lời:**
+**2. Giải thích Two-Wave Indexing của Google. Tại sao nó gây vấn đề cho SPA?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Google indexing có 2 giai đoạn: Wave 1 — parse HTML thô, index nội dung có sẵn ngay. Wave 2 — chạy JavaScript, render trang, index nội dung JS-generated. Khoảng cách giữa 2 wave có thể từ vài giây đến vài ngày tùy crawl budget. SPA trả về HTML trống, nên Wave 1 không thấy nội dung gì. Phải đợi Wave 2 mới có nội dung để index. Trong thời gian chờ, trang không xuất hiện trong kết quả tìm kiếm hoặc xuất hiện với snippet rỗng.
 
-### Câu 3: Trang React SPA hiện tại không được Google index. Bạn sẽ debug và fix như thế nào?
+</details>
 
-**Trả lời:**
+**3. Trang React SPA hiện tại không được Google index. Bạn sẽ debug và fix như thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Debug: (1) Dùng Google Search Console URL Inspection để xem Google render trang thế nào; (2) Kiểm tra View Source (Ctrl+U) — nếu HTML trống thì đúng là vấn đề CSR; (3) Kiểm tra Console errors trong Inspect tool; (4) Kiểm tra robots.txt có chặn JS/CSS files không. Fix: (1) Ngắn hạn: dùng dynamic rendering (prerender cho bot); (2) Dài hạn: chuyển sang Next.js SSR/SSG; (3) Đảm bảo meta tags được render đúng cho mỗi route; (4) Chuyển từ HashRouter sang BrowserRouter; (5) Submit URL lại qua Search Console sau khi fix.
 
-### Câu 4: Dynamic rendering có vi phạm Google guidelines không?
+</details>
 
-**Trả lời:**
+**4. Dynamic rendering có vi phạm Google guidelines không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Không, Google chính thức chấp nhận dynamic rendering như một giải pháp hợp lệ. Điều kiện: nội dung trả về cho bot phải giống nội dung user thấy (chỉ khác về cách render, không khác về nội dung). Nếu cố tình trả nội dung khác cho bot (ví dụ nhồi keyword chỉ cho Googlebot thấy) — đó là cloaking và bị phạt. Google khuyến nghị dùng dynamic rendering như workaround tạm thời, và chuyển sang SSR/SSG lâu dài.
 
-### Câu 5: Next.js App Router vs Pages Router — cái nào tốt hơn cho SEO?
+</details>
 
-**Trả lời:**
+**5. Next.js App Router vs Pages Router — cái nào tốt hơn cho SEO?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
 Cả hai đều hỗ trợ SSR/SSG tốt cho SEO. App Router (từ Next.js 13+) có lợi thế: (1) Server Components mặc định — render trên server không cần cấu hình thêm; (2) `generateMetadata` function cho dynamic SEO metadata; (3) Streaming SSR — gửi HTML từng phần, cải thiện TTFB; (4) Built-in `sitemap.js` và `robots.js`; (5) Parallel Routes và Intercepting Routes giúp UX tốt hơn mà vẫn SEO-friendly. Pages Router vẫn hoạt động tốt nhưng App Router là hướng đi tương lai và có nhiều tính năng SEO built-in hơn.
+
+</details>

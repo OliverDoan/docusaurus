@@ -847,25 +847,52 @@ git stash list
 
 ## 13. Câu hỏi phỏng vấn
 
-### Câu 1: Git stash là gì? Khi nào bạn sử dụng nó?
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**Trả lời:** `git stash` tạm cất (lưu trữ) các thay đổi chưa commit (cả staged và unstaged) vào một ngăn xếp (stack), làm sạch working directory. Dùng khi: (1) cần chuyển branch nhưng chưa muốn commit (code chưa xong), (2) cần pull từ remote nhưng có local changes, (3) muốn thử nghiệm trên clean state. `git stash pop` lấy lại thay đổi và xóa khỏi stack. `git stash apply` lấy lại nhưng giữ trong stack. Mặc định, stash không bao gồm untracked files -- dùng `-u` để bao gồm.
+**1. Git stash là gì? Khi nào bạn sử dụng nó?**
 
-### Câu 2: Phân biệt `git stash pop` và `git stash apply`.
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** Cả hai đều khôi phục thay đổi từ stash. Khác biệt: `pop` = apply + drop (lấy ra và xóa khỏi stack), `apply` = chỉ lấy ra (không xóa, stash vẫn còn trong stack). Dùng `apply` khi: muốn apply cùng stash vào nhiều branch, hoặc muốn giữ stash làm backup. Lưu ý: nếu `pop` gặp conflict, stash sẽ **không bị xóa** -- bạn phải giải quyết conflict rồi tự `git stash drop`.
+`git stash` tạm cất (lưu trữ) các thay đổi chưa commit (cả staged và unstaged) vào một ngăn xếp (stack), làm sạch working directory. Dùng khi: (1) cần chuyển branch nhưng chưa muốn commit (code chưa xong), (2) cần pull từ remote nhưng có local changes, (3) muốn thử nghiệm trên clean state. `git stash pop` lấy lại thay đổi và xóa khỏi stack. `git stash apply` lấy lại nhưng giữ trong stack. Mặc định, stash không bao gồm untracked files -- dùng `-u` để bao gồm.
 
-### Câu 3: Cherry-pick là gì? Cho ví dụ tình huống thực tế.
+</details>
 
-**Trả lời:** Cherry-pick áp dụng một commit cụ thể từ branch này sang branch khác, tạo commit mới với cùng nội dung nhưng hash khác. Tình huống thực tế: team phát hiện bug trên production, bug đã được sửa trên branch develop (commit abc123). Thay vì merge toàn bộ develop (có thể có feature chưa sẵn sàng), dùng `git cherry-pick abc123` trên main để chỉ lấy commit sửa bug. Deploy ngay mà không ảnh hưởng các feature đang phát triển.
+**2. Phân biệt `git stash pop` và `git stash apply`.**
 
-### Câu 4: Cherry-pick có những rủi ro gì?
+<details className="qa">
+<summary>Xem đáp án</summary>
 
-**Trả lời:** (1) **Duplicate commits**: commit gốc và cherry-pick có cùng nội dung nhưng hash khác, gây nhầm lẫn khi đọc lịch sử và có thể conflict khi merge sau đó. (2) **Mất context**: commit có thể phụ thuộc commit khác (ví dụ: dùng function được tạo ở commit trước) -- cherry-pick chỉ 1 commit sẽ thiếu dependency. (3) **Conflict**: commit được tạo trên context khác nên dễ gây conflict khi áp dụng. Cách giảm rủi ro: chỉ cherry-pick khi thật sự cần thiết, ưu tiên merge/rebase, và luôn test sau khi cherry-pick.
+Cả hai đều khôi phục thay đổi từ stash. Khác biệt: `pop` = apply + drop (lấy ra và xóa khỏi stack), `apply` = chỉ lấy ra (không xóa, stash vẫn còn trong stack). Dùng `apply` khi: muốn apply cùng stash vào nhiều branch, hoặc muốn giữ stash làm backup. Lưu ý: nếu `pop` gặp conflict, stash sẽ **không bị xóa** -- bạn phải giải quyết conflict rồi tự `git stash drop`.
 
-### Câu 5: So sánh stash và tạo branch mới để tạm lưu code. Khi nào dùng cái nào?
+</details>
 
-**Trả lời:** **Stash** phù hợp cho tạm dừng ngắn (vài phút đến vài giờ): nhanh (1 lệnh), chỉ ở local, không tạo commit. **Branch** phù hợp cho tạm dừng dài (vài ngày+): có tên rõ ràng, có thể push lên remote chia sẻ, có commit trong lịch sử dễ tìm lại. Quy tắc: nếu bạn quay lại trong cùng ngày -> stash. Nếu không chắc bao giờ quay lại, hoặc cần chia sẻ với người khác -> branch. Không nên để stash quá nhiều (> 5 entries) vì khó quản lý.
+**3. Cherry-pick là gì? Cho ví dụ tình huống thực tế.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Cherry-pick áp dụng một commit cụ thể từ branch này sang branch khác, tạo commit mới với cùng nội dung nhưng hash khác. Tình huống thực tế: team phát hiện bug trên production, bug đã được sửa trên branch develop (commit abc123). Thay vì merge toàn bộ develop (có thể có feature chưa sẵn sàng), dùng `git cherry-pick abc123` trên main để chỉ lấy commit sửa bug. Deploy ngay mà không ảnh hưởng các feature đang phát triển.
+
+</details>
+
+**4. Cherry-pick có những rủi ro gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+(1) **Duplicate commits**: commit gốc và cherry-pick có cùng nội dung nhưng hash khác, gây nhầm lẫn khi đọc lịch sử và có thể conflict khi merge sau đó. (2) **Mất context**: commit có thể phụ thuộc commit khác (ví dụ: dùng function được tạo ở commit trước) -- cherry-pick chỉ 1 commit sẽ thiếu dependency. (3) **Conflict**: commit được tạo trên context khác nên dễ gây conflict khi áp dụng. Cách giảm rủi ro: chỉ cherry-pick khi thật sự cần thiết, ưu tiên merge/rebase, và luôn test sau khi cherry-pick.
+
+</details>
+
+**5. So sánh stash và tạo branch mới để tạm lưu code. Khi nào dùng cái nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Stash** phù hợp cho tạm dừng ngắn (vài phút đến vài giờ): nhanh (1 lệnh), chỉ ở local, không tạo commit. **Branch** phù hợp cho tạm dừng dài (vài ngày+): có tên rõ ràng, có thể push lên remote chia sẻ, có commit trong lịch sử dễ tìm lại. Quy tắc: nếu bạn quay lại trong cùng ngày -> stash. Nếu không chắc bao giờ quay lại, hoặc cần chia sẻ với người khác -> branch. Không nên để stash quá nhiều (> 5 entries) vì khó quản lý.
+
+</details>
 
 ---
 
