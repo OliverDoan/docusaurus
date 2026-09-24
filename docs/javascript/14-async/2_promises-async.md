@@ -513,7 +513,7 @@ Tính bất biến này rất quan trọng: nó đảm bảo mọi `.then` gắn
 
 </details>
 
-**4. Executor truyền vào `new Promise(...)` chạy **đồng bộ** hay **bất đồng bộ**? Điều đó có hệ quả gì?**
+**4. Executor truyền vào `new Promise(...)` chạy đồng bộ hay bất đồng bộ? Điều đó có hệ quả gì?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>
@@ -807,7 +807,7 @@ Lưu ý phân biệt: `Promise.all` reject với **một lỗi duy nhất** — 
 
 </details>
 
-**15. Cài timeout cho request bằng `Promise.race` như thế nào? Cách này có thực sự **hủy** request không, và nên dùng gì thay thế?**
+**15. Cài timeout cho request bằng `Promise.race` như thế nào? Cách này có thực sự hủy request không, và nên dùng gì thay thế?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>

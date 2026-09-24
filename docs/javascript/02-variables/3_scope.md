@@ -467,7 +467,7 @@ function demo() {
 
 </details>
 
-**4. `Lexical scope` (static scope) nghĩa là gì? Nếu một hàm được **viết** ở top-level nhưng được **gọi** bên trong một hàm khác, nó đọc biến ở đâu?**
+**4. `Lexical scope` (static scope) nghĩa là gì? Nếu một hàm được viết ở top-level nhưng được gọi bên trong một hàm khác, nó đọc biến ở đâu?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>
@@ -651,7 +651,7 @@ Nhờ vậy ta có biến **private** thật sự: `count` chỉ thay đổi qua
 
 </details>
 
-**10. Closure giữ **giá trị** hay giữ **tham chiếu** tới biến? Điều đó ảnh hưởng ra sao khi nhiều closure cùng đóng trên một biến?**
+**10. Closure giữ giá trị hay giữ tham chiếu tới biến? Điều đó ảnh hưởng ra sao khi nhiều closure cùng đóng trên một biến?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>

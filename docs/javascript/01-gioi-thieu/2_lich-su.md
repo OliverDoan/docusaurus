@@ -437,7 +437,7 @@ Chính sự tồn tại song song của hai bản triển khai không tương th
 
 </details>
 
-**6. Vì sao từ ES2015 trở đi ECMAScript chuyển sang phát hành **theo năm** thay vì đánh số phiên bản lớn?**
+**6. Vì sao từ ES2015 trở đi ECMAScript chuyển sang phát hành theo năm thay vì đánh số phiên bản lớn?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>

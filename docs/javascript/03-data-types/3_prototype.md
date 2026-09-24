@@ -635,7 +635,7 @@ User.prototype = { constructor: User, greet() { /* ... */ } };
 
 </details>
 
-**12. Khi gán `obj.toString = ...`, prototype có bị ảnh hưởng không? Việc **ghi** property có đi theo prototype chain giống việc **đọc** không?**
+**12. Khi gán `obj.toString = ...`, prototype có bị ảnh hưởng không? Việc ghi property có đi theo prototype chain giống việc đọc không?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>

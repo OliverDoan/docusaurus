@@ -483,7 +483,7 @@ Mẹo kiểm tra chẵn/lẻ cũng cần cẩn thận: `n % 2 === 1` sai với s
 
 </details>
 
-**3. `**` khác `Math.pow` ở điểm nào? Vì sao `-2 ** 2` ném `SyntaxError`?**
+**3. `` khác `Math.pow` ở điểm nào? Vì sao `-2  2` ném `SyntaxError`?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>
@@ -654,7 +654,7 @@ Lời khuyên thực hành: khi biểu thức trộn nhiều nhóm toán tử, *
 
 </details>
 
-**10. Bitwise operator ép toán hạng về kiểu gì trước khi tính? Vì sao `2 ** 31 | 0` cho ra số âm?**
+**10. Bitwise operator ép toán hạng về kiểu gì trước khi tính? Vì sao `2  31 | 0` cho ra số âm?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>

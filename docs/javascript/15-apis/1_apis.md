@@ -403,7 +403,7 @@ không lặp ở mọi call site.
 
 Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**1. Web API (`fetch`, `localStorage`, Geolocation) do **ngôn ngữ JavaScript** hay do **môi trường chạy** cung cấp? Vì sao phân biệt này quan trọng khi code chạy cả trên browser và Node?**
+**1. Web API (`fetch`, `localStorage`, Geolocation) do ngôn ngữ JavaScript hay do môi trường chạy cung cấp? Vì sao phân biệt này quan trọng khi code chạy cả trên browser và Node?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>
@@ -502,7 +502,7 @@ try {
 
 </details>
 
-**6. Vì sao body của `Response` chỉ đọc được **một lần**? Nếu cần đọc hai lần (log rồi parse) thì làm thế nào?**
+**6. Vì sao body của `Response` chỉ đọc được một lần? Nếu cần đọc hai lần (log rồi parse) thì làm thế nào?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>
@@ -554,7 +554,7 @@ Lưu ý `body` phải là **chuỗi** — truyền thẳng object vào sẽ thà
 
 </details>
 
-**8. Gửi `JSON.stringify(payload)` khác gửi `FormData` ở chỗ nào? Vì sao với `FormData` bạn **không nên** tự set `Content-Type`?**
+**8. Gửi `JSON.stringify(payload)` khác gửi `FormData` ở chỗ nào? Vì sao với `FormData` bạn không nên tự set `Content-Type`?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>
@@ -689,7 +689,7 @@ fetch(url, { signal: AbortSignal.any([userCancel.signal, AbortSignal.timeout(500
 
 </details>
 
-**15. Vì sao `fetch` không theo dõi tốt progress **upload**? Có cách nào theo dõi progress **download**?**
+**15. Vì sao `fetch` không theo dõi tốt progress upload? Có cách nào theo dõi progress download?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>
@@ -792,7 +792,7 @@ Những mối quan tâm nên gom vào một chỗ:
 
 </details>
 
-**20. Retry với `exponential backoff` là gì? Request kiểu nào **không** nên retry tự động?**
+**20. Retry với `exponential backoff` là gì? Request kiểu nào không nên retry tự động?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>

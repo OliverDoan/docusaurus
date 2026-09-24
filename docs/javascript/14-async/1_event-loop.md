@@ -342,7 +342,7 @@ Pattern modern thay cho việc track `setTimeout` id thủ công.
 
 Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**1. Vì sao nói JavaScript là ngôn ngữ **đơn luồng** (`single-threaded`) mà trang web vẫn xử lý được nhiều việc "cùng lúc"?**
+**1. Vì sao nói JavaScript là ngôn ngữ đơn luồng (`single-threaded`) mà trang web vẫn xử lý được nhiều việc "cùng lúc"?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>

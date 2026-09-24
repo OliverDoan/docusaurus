@@ -660,7 +660,7 @@ Trước khi có tính năng này, người ta phải viết code khởi tạo n
 
 </details>
 
-**10. Vì sao trong constructor của subclass phải gọi `super()` **trước** khi dùng `this`? Khác biệt này so với Java nằm ở đâu?**
+**10. Vì sao trong constructor của subclass phải gọi `super()` trước khi dùng `this`? Khác biệt này so với Java nằm ở đâu?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>

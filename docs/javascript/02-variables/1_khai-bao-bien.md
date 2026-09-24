@@ -404,7 +404,7 @@ Hành vi `undefined` im lặng của `var` chính là thứ TDZ sinh ra để kh
 
 </details>
 
-**8. Vì sao `typeof` với một biến **chưa hề khai báo** trả về `"undefined"` nhưng `typeof` với biến `let` đang trong TDZ lại ném `ReferenceError`?**
+**8. Vì sao `typeof` với một biến chưa hề khai báo trả về `"undefined"` nhưng `typeof` với biến `let` đang trong TDZ lại ném `ReferenceError`?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>

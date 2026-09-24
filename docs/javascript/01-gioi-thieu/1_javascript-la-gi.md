@@ -189,7 +189,7 @@ Những câu thường gặp về chủ đề này. Tự trả lời trước, r
 
 </details>
 
-**3. Phân biệt ngôn ngữ **thông dịch** (interpret) và **biên dịch** (compile). JavaScript thuộc loại nào?**
+**3. Phân biệt ngôn ngữ thông dịch (interpret) và biên dịch (compile). JavaScript thuộc loại nào?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>

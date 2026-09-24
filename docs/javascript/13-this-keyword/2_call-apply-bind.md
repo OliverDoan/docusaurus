@@ -334,7 +334,7 @@ Nhưng vẫn cần hiểu vì:
 
 Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
 
-**1. `this` trong JavaScript được quyết định lúc **định nghĩa** hàm hay lúc **gọi** hàm? Điều đó dẫn tới lỗi gì khi bạn tách một method ra khỏi object?**
+**1. `this` trong JavaScript được quyết định lúc định nghĩa hàm hay lúc gọi hàm? Điều đó dẫn tới lỗi gì khi bạn tách một method ra khỏi object?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>
@@ -508,7 +508,7 @@ Hệ quả tương tự: gọi `call`/`apply` trên một bound function cũng k
 
 </details>
 
-**9. Gọi `call`/`apply`/`bind` trên một **arrow function** thì chuyện gì xảy ra? Vì sao?**
+**9. Gọi `call`/`apply`/`bind` trên một arrow function thì chuyện gì xảy ra? Vì sao?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>
