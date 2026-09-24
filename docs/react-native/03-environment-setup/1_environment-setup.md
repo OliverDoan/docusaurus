@@ -9,6 +9,8 @@ Có 2 cách chính để bắt đầu RN: **Expo** (dễ, nhanh) và **React Nat
 
 **Tương tự đơn giản:** **Expo** giống **bộ Lego có sẵn** -- mở hộp ra lắp được luôn. **RN CLI** giống **xưởng gỗ** -- linh hoạt nhưng cần đồ nghề + thời gian.
 
+[![Sơ đồ tóm tắt bài: Cài đặt môi trường](/img/react-native/environment-setup.webp)](pathname:///img/react-native/environment-setup.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

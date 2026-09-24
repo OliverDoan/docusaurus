@@ -9,6 +9,8 @@ App mobile bị đánh giá nghiêm khắc về **mượt mà**. 60fps = tốt, 
 
 **Tương tự đơn giản:** Performance giống **xe ô tô** -- engine (JS thread) + bánh xe (UI thread) phải đồng bộ. Lag = bánh xe quay nhanh nhưng engine chậm -- "kéo lê" UX.
 
+[![Sơ đồ tóm tắt bài: Performance Optimization](/img/react-native/performance.webp)](pathname:///img/react-native/performance.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

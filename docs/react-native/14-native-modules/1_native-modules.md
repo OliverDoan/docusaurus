@@ -9,6 +9,8 @@ Khi RN không có sẵn API bạn cần (Bluetooth đặc biệt, SDK third-part
 
 **Tương tự đơn giản:** Native Module giống **adapter điện** -- cắm chân cũ vào ổ chuẩn mới. JS không gọi trực tiếp Swift được -- adapter (native module) giúp bridge.
 
+[![Sơ đồ tóm tắt bài: Native Modules](/img/react-native/native-modules.webp)](pathname:///img/react-native/native-modules.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

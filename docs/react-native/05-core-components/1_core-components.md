@@ -9,6 +9,8 @@ React Native cung cấp **bộ component built-in** -- mỗi component map sang 
 
 **Tương tự đơn giản:** Web có `<div>`, `<span>`, `<input>`, `<button>`... React Native có **bộ tương đương cho mobile**: `<View>`, `<Text>`, `<TextInput>`, `<Pressable>`...
 
+[![Sơ đồ tóm tắt bài: Core Components](/img/react-native/core-components.webp)](pathname:///img/react-native/core-components.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

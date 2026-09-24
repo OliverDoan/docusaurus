@@ -9,6 +9,8 @@ Mobile app **phụ thuộc nặng** vào tương tác: tap, swipe, pinch, drag, 
 
 **Tương tự đơn giản:** Tương tác là **ngôn ngữ cơ thể** của app. Tap là gật đầu, swipe là vẫy tay, animation là biểu cảm khuôn mặt. App "biết nói chuyện" tốt = trải nghiệm tốt.
 
+[![Sơ đồ tóm tắt bài: Interactions](/img/react-native/interactions.webp)](pathname:///img/react-native/interactions.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

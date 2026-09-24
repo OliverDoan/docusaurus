@@ -9,6 +9,8 @@ title: "1. Giới thiệu React Native"
 
 **Tương tự đơn giản:** Trước React Native, muốn làm app vừa iOS vừa Android phải viết **2 lần** -- Swift cho iOS, Kotlin cho Android. React Native giống **một "phiên dịch viên"** -- bạn viết bằng JS, framework dịch ra component native của từng OS. App vẫn **chạy mượt như native** vì các UI element là native thật.
 
+[![Sơ đồ tóm tắt bài: Giới thiệu React Native](/img/react-native/what-is-react-native.webp)](pathname:///img/react-native/what-is-react-native.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

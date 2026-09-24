@@ -9,6 +9,8 @@ React Native không yêu cầu kinh nghiệm native (Swift/Kotlin), nhưng cần
 
 **Tương tự đơn giản:** Học RN giống học **lái xe ô tô** -- bạn cần biết đi xe đạp (JavaScript), biết các biển báo (React, JSX) trước. RN chỉ là "phiên bản nâng cấp" của những kỹ năng đó cho mobile.
 
+[![Sơ đồ tóm tắt bài: Kiến thức tiên quyết](/img/react-native/prerequisites.webp)](pathname:///img/react-native/prerequisites.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]
