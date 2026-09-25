@@ -7,6 +7,8 @@ title: "1. Docker Compose là gì?"
 
 Trong thực tế, ứng dụng không chỉ có 1 container. Một ứng dụng web thường cần: web server, database, cache, queue... Docker Compose giúp quản lý tất cả chúng.
 
+[![Sơ đồ tóm tắt bài: Docker Compose là gì?](/img/docker/docker-compose-la-gi.webp)](pathname:///img/docker/docker-compose-la-gi.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

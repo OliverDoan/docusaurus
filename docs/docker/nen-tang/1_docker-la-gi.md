@@ -14,6 +14,8 @@ Bạn đã bao giờ gặp tình huống này chưa:
 
 Nếu bạn từng gặp bất kỳ tình huống nào ở trên, **Docker** chính là giải pháp.
 
+[![Sơ đồ tóm tắt bài: Docker là gì? Tại sao cần Docker?](/img/docker/docker-la-gi.webp)](pathname:///img/docker/docker-la-gi.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

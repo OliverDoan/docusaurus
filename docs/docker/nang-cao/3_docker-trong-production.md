@@ -7,6 +7,8 @@ title: "3. Docker trong Production"
 
 Chạy Docker trong production khác rất nhiều so với development. Bài này hướng dẫn các nguyên tắc và best practices khi deploy Docker lên production.
 
+[![Sơ đồ tóm tắt bài: Docker trong Production](/img/docker/docker-trong-production.webp)](pathname:///img/docker/docker-trong-production.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

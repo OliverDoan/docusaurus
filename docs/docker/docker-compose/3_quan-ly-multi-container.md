@@ -7,6 +7,8 @@ title: "3. Quản lý multi-container"
 
 Bài này hướng dẫn các thao tác quản lý hàng ngày khi làm việc với Docker Compose.
 
+[![Sơ đồ tóm tắt bài: Quản lý multi-container](/img/docker/quan-ly-multi-container.webp)](pathname:///img/docker/quan-ly-multi-container.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

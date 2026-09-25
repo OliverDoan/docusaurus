@@ -7,6 +7,8 @@ title: "2. Tạo và chạy Container"
 
 Bài này đi sâu vào các kịch bản thực tế khi tạo và chạy container, từ web server đến database.
 
+[![Sơ đồ tóm tắt bài: Tạo và chạy Container](/img/docker/tao-va-chay-container.webp)](pathname:///img/docker/tao-va-chay-container.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

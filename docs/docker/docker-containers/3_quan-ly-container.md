@@ -7,6 +7,8 @@ title: "3. Quản lý Container"
 
 Bài này hướng dẫn cách quản lý container hiệu quả: liệt kê, lọc, update, và các thao tác hàng ngày.
 
+[![Sơ đồ tóm tắt bài: Quản lý Container](/img/docker/quan-ly-container.webp)](pathname:///img/docker/quan-ly-container.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

@@ -7,6 +7,8 @@ title: "1. Container là gì?"
 
 Container là khái niệm trung tâm của Docker. Bài này giải thích chi tiết container hoạt động như thế nào và cách tương tác với chúng.
 
+[![Sơ đồ tóm tắt bài: Container là gì?](/img/docker/container-la-gi.webp)](pathname:///img/docker/container-la-gi.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

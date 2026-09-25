@@ -7,6 +7,8 @@ title: "2. Viết docker-compose.yml"
 
 Bài này đi chi tiết từng phần của file docker-compose.yml. Sau bài này bạn sẽ tự viết được Compose file cho project của mình.
 
+[![Sơ đồ tóm tắt bài: Viết docker-compose.yml](/img/docker/viet-docker-compose-yml.webp)](pathname:///img/docker/viet-docker-compose-yml.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

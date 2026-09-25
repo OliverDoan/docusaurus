@@ -7,6 +7,8 @@ title: "1. Docker Image là gì?"
 
 Docker Image là nền tảng của mọi thứ trong Docker. Hiểu rõ Image sẽ giúp bạn build ứng dụng hiệu quả và tối ưu hơn.
 
+[![Sơ đồ tóm tắt bài: Docker Image là gì?](/img/docker/image-la-gi.webp)](pathname:///img/docker/image-la-gi.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

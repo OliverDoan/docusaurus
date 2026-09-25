@@ -7,6 +7,8 @@ title: "4. Best Practices và bảo mật"
 
 Bài này tổng hợp các best practices quan trọng nhất khi làm việc với Docker, từ viết Dockerfile đến bảo mật.
 
+[![Sơ đồ tóm tắt bài: Best Practices và Bảo mật](/img/docker/best-practices-va-bao-mat.webp)](pathname:///img/docker/best-practices-va-bao-mat.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

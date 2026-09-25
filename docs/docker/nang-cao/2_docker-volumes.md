@@ -7,6 +7,8 @@ title: "2. Docker Volumes"
 
 Khi container bị xoá, dữ liệu bên trong cũng mất theo. **Volumes** giải quyết vấn đề này bằng cách lưu trữ dữ liệu bên ngoài container.
 
+[![Sơ đồ tóm tắt bài: Docker Volumes](/img/docker/docker-volumes.webp)](pathname:///img/docker/docker-volumes.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

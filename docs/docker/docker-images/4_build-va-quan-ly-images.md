@@ -7,6 +7,8 @@ title: "4. Build và quản lý Images"
 
 Bài này hướng dẫn chi tiết quá trình build image, tối ưu hoá cache, và quản lý images hiệu quả.
 
+[![Sơ đồ tóm tắt bài: Build và quản lý Images](/img/docker/build-va-quan-ly-images.webp)](pathname:///img/docker/build-va-quan-ly-images.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

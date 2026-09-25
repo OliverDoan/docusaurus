@@ -7,6 +7,8 @@ title: "3. Các lệnh Dockerfile chi tiết"
 
 Bài trước đã giới thiệu các lệnh cơ bản. Bài này đi sâu vào tất cả các lệnh Dockerfile và cách sử dụng nâng cao.
 
+[![Sơ đồ tóm tắt bài: Các lệnh Dockerfile chi tiết](/img/docker/cac-lenh-dockerfile-chi-tiet.webp)](pathname:///img/docker/cac-lenh-dockerfile-chi-tiet.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

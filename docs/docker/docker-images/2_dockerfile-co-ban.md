@@ -7,6 +7,8 @@ title: "2. Dockerfile cơ bản"
 
 **Dockerfile** là file text chứa các bước hướng dẫn Docker cách build một Image. Đây là kỹ năng quan trọng nhất khi làm việc với Docker.
 
+[![Sơ đồ tóm tắt bài: Dockerfile cơ bản](/img/docker/dockerfile-co-ban.webp)](pathname:///img/docker/dockerfile-co-ban.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

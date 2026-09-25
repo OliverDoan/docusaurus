@@ -7,6 +7,8 @@ title: "1. Docker Networking"
 
 Networking là cách các containers giao tiếp với nhau và với thế giới bên ngoài. Bài này giải thích hệ thống mạng trong Docker.
 
+[![Sơ đồ tóm tắt bài: Docker Networking](/img/docker/docker-networking.webp)](pathname:///img/docker/docker-networking.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

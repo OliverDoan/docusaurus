@@ -7,6 +7,8 @@ title: "2. Cài đặt Docker"
 
 Bài này hướng dẫn cài đặt Docker trên cả 3 hệ điều hành: **macOS**, **Windows** và **Linux (Ubuntu)**. Sau khi cài xong, bạn sẽ chạy container đầu tiên.
 
+[![Sơ đồ tóm tắt bài: Cài đặt Docker](/img/docker/cai-dat-docker.webp)](pathname:///img/docker/cai-dat-docker.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

@@ -7,6 +7,8 @@ title: "5. Docker với CI/CD"
 
 Docker và CI/CD là cặp đôi hoàn hảo. Bài này hướng dẫn cách sử dụng Docker trong pipeline CI/CD với GitHub Actions.
 
+[![Sơ đồ tóm tắt bài: Docker với CI/CD](/img/docker/docker-voi-ci-cd.webp)](pathname:///img/docker/docker-voi-ci-cd.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

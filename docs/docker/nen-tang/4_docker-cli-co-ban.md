@@ -7,6 +7,8 @@ title: "4. Docker CLI cơ bản"
 
 Bài này tổng hợp các lệnh Docker CLI bạn sẽ dùng hàng ngày. Hãy thực hành từng lệnh trên máy để quen tay.
 
+[![Sơ đồ tóm tắt bài: Docker CLI cơ bản](/img/docker/docker-cli-co-ban.webp)](pathname:///img/docker/docker-cli-co-ban.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

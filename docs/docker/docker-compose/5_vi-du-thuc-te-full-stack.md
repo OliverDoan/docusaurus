@@ -7,6 +7,8 @@ title: "5. Ví dụ thực tế: Full-stack app"
 
 Bài này tổng hợp kiến thức Docker Compose qua các ví dụ full-stack thực tế mà bạn sẽ gặp trong công việc.
 
+[![Sơ đồ tóm tắt bài: Ví dụ thực tế: Full-stack app](/img/docker/vi-du-thuc-te-full-stack.webp)](pathname:///img/docker/vi-du-thuc-te-full-stack.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

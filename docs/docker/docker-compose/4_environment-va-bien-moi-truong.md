@@ -7,6 +7,8 @@ title: "4. Environment và biến môi trường"
 
 Quản lý biến môi trường đúng cách là kỹ năng quan trọng khi làm việc với Docker Compose. Bài này hướng dẫn tất cả các cách truyền và quản lý biến môi trường.
 
+[![Sơ đồ tóm tắt bài: Environment và biến môi trường](/img/docker/environment-va-bien-moi-truong.webp)](pathname:///img/docker/environment-va-bien-moi-truong.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

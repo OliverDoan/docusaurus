@@ -7,6 +7,8 @@ title: "5. Multi-stage Builds"
 
 Multi-stage build là kỹ thuật nâng cao giúp tạo ra image production nhỏ gọn. Đây là best practice quan trọng nhất khi Dockerize ứng dụng.
 
+[![Sơ đồ tóm tắt bài: Multi-stage Builds](/img/docker/multi-stage-builds.webp)](pathname:///img/docker/multi-stage-builds.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

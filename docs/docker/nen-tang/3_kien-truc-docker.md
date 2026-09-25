@@ -7,6 +7,8 @@ title: "3. Kiến trúc Docker"
 
 Hiểu cách Docker hoạt động bên trong sẽ giúp bạn debug nhanh hơn và sử dụng Docker hiệu quả hơn. Bài này giải thích kiến trúc Docker từ tổng quan đến chi tiết.
 
+[![Sơ đồ tóm tắt bài: Kiến trúc Docker](/img/docker/kien-truc-docker.webp)](pathname:///img/docker/kien-truc-docker.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

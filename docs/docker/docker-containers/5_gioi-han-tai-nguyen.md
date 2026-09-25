@@ -7,6 +7,8 @@ title: "5. Giới hạn tài nguyên Container"
 
 Mặc định container có thể dùng toàn bộ tài nguyên của host. Bài này hướng dẫn cách giới hạn CPU, RAM và disk cho mỗi container.
 
+[![Sơ đồ tóm tắt bài: Giới hạn tài nguyên Container](/img/docker/gioi-han-tai-nguyen.webp)](pathname:///img/docker/gioi-han-tai-nguyen.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

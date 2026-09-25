@@ -7,6 +7,8 @@ title: "5. Docker Hub và Registry"
 
 Docker Hub là nơi bạn tìm, tải và chia sẻ Docker Image. Bài này hướng dẫn cách sử dụng Docker Hub hiệu quả và hiểu hệ thống Registry.
 
+[![Sơ đồ tóm tắt bài: Docker Hub và Registry](/img/docker/docker-hub-va-registry.webp)](pathname:///img/docker/docker-hub-va-registry.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

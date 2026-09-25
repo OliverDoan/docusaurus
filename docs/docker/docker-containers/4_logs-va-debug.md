@@ -7,6 +7,8 @@ title: "4. Logs và Debug Container"
 
 Khi container gặp vấn đề, bạn cần biết cách xem logs và debug. Bài này dạy bạn các kỹ thuật troubleshooting container.
 
+[![Sơ đồ tóm tắt bài: Logs và Debug Container](/img/docker/logs-va-debug.webp)](pathname:///img/docker/logs-va-debug.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]
