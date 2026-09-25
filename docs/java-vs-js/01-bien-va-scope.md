@@ -5,6 +5,8 @@ title: "1. Biến & phạm vi"
 
 # 1. Biến & phạm vi (Variables & Scope)
 
+[![Sơ đồ tóm tắt bài: Biến & phạm vi (Variables & Scope)](/img/java-vs-js/bien-va-scope.webp)](pathname:///img/java-vs-js/bien-va-scope.webp)
+
 :::note[Ghi nhớ nhanh]
 
 - **JS:** `let`/`const` — không cần kiểu, engine tự suy ra lúc chạy.

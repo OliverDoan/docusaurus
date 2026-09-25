@@ -10,6 +10,8 @@ Nếu bạn đã quen với **JavaScript** và giờ bắt đầu học **Java**
 
 Mỗi **thuật ngữ chuyên ngành** (technical term — từ ngữ kỹ thuật riêng của ngành) sẽ được giải thích ngay khi xuất hiện lần đầu.
 
+[![Sơ đồ tóm tắt bài: Java cho dev JavaScript — Học nhanh qua đối chiếu](/img/java-vs-js/tong-quan.webp)](pathname:///img/java-vs-js/tong-quan.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

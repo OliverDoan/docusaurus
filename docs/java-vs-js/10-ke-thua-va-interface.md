@@ -5,6 +5,8 @@ title: "10. Kế thừa & interface"
 
 # 10. Kế thừa & interface (Inheritance & Interfaces)
 
+[![Sơ đồ tóm tắt bài: Kế thừa & interface (Inheritance & Interfaces)](/img/java-vs-js/ke-thua-va-interface.webp)](pathname:///img/java-vs-js/ke-thua-va-interface.webp)
+
 :::note[Ghi nhớ nhanh]
 
 - `extends` để kế thừa — **giống JS**. `super(...)` gọi constructor cha — cũng giống JS.

@@ -5,6 +5,8 @@ title: "8. Mảng & danh sách"
 
 # 8. Mảng & danh sách (Arrays & Lists)
 
+[![Sơ đồ tóm tắt bài: Mảng & danh sách (Arrays & Lists)](/img/java-vs-js/mang-va-danh-sach.webp)](pathname:///img/java-vs-js/mang-va-danh-sach.webp)
+
 :::note[Ghi nhớ nhanh]
 
 - **Mảng Java (`int[]`) có kích thước cố định** — không `push`/`pop` được. Đây là khác biệt lớn nhất so với array JS.

@@ -5,6 +5,8 @@ title: "6. Điều kiện & vòng lặp"
 
 # 6. Điều kiện & vòng lặp (Control Flow & Loops)
 
+[![Sơ đồ tóm tắt bài: Điều kiện & vòng lặp (Control Flow & Loops)](/img/java-vs-js/dieu-kien-va-vong-lap.webp)](pathname:///img/java-vs-js/dieu-kien-va-vong-lap.webp)
+
 :::note[Ghi nhớ nhanh]
 
 - `if / else if / else`, `for`, `while`, `do...while` **cú pháp gần như y hệt JS**.

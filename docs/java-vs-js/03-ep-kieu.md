@@ -5,6 +5,8 @@ title: "3. Ép kiểu"
 
 # 3. Ép kiểu (Type Casting & Conversion)
 
+[![Sơ đồ tóm tắt bài: Ép kiểu (Type Casting & Conversion)](/img/java-vs-js/ep-kieu.webp)](pathname:///img/java-vs-js/ep-kieu.webp)
+
 :::note[Ghi nhớ nhanh]
 
 - **JS ép kiểu ngầm rất "hào phóng"** (`"5" + 1 === "51"`, `"5" * 1 === 5`). Java **gần như không** ép ngầm giữa các kiểu khác nhóm.

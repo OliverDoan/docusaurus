@@ -5,6 +5,8 @@ title: "2. Kiểu dữ liệu"
 
 # 2. Kiểu dữ liệu (Data Types)
 
+[![Sơ đồ tóm tắt bài: Kiểu dữ liệu (Data Types)](/img/java-vs-js/kieu-du-lieu.webp)](pathname:///img/java-vs-js/kieu-du-lieu.webp)
+
 :::note[Ghi nhớ nhanh]
 
 - **JS có 1 kiểu số** (`number`), **Java tách nhiều kiểu số:** `int`, `long`, `double`, `float`, `short`, `byte`.

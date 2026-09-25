@@ -5,6 +5,8 @@ title: "7. Hàm & method"
 
 # 7. Hàm & method (Functions & Methods)
 
+[![Sơ đồ tóm tắt bài: Hàm & method (Functions & Methods)](/img/java-vs-js/ham-va-method.webp)](pathname:///img/java-vs-js/ham-va-method.webp)
+
 :::note[Ghi nhớ nhanh]
 
 - Java **không có hàm "trôi nổi"** — mọi hàm là **method** (phương thức) nằm trong một class.

@@ -5,6 +5,8 @@ title: "5. Chuỗi (String)"
 
 # 5. Chuỗi (String)
 
+[![Sơ đồ tóm tắt bài: Chuỗi (String)](/img/java-vs-js/chuoi.webp)](pathname:///img/java-vs-js/chuoi.webp)
+
 :::note[Ghi nhớ nhanh]
 
 - **String ở cả hai đều bất biến** (immutable — không sửa được, mọi thao tác tạo chuỗi mới).

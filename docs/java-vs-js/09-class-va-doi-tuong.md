@@ -5,6 +5,8 @@ title: "9. Class & đối tượng"
 
 # 9. Class & đối tượng (Classes & Objects)
 
+[![Sơ đồ tóm tắt bài: Class & đối tượng (Classes & Objects)](/img/java-vs-js/class-va-doi-tuong.webp)](pathname:///img/java-vs-js/class-va-doi-tuong.webp)
+
 :::note[Ghi nhớ nhanh]
 
 - Java **không có object literal** `{ name: "An" }` tùy ý — mọi dữ liệu có cấu trúc phải qua một **class** định nghĩa trước.

@@ -5,6 +5,8 @@ title: "11. Xử lý null"
 
 # 11. Xử lý null (Null Handling)
 
+[![Sơ đồ tóm tắt bài: Xử lý null (Null Handling)](/img/java-vs-js/xu-ly-null.webp)](pathname:///img/java-vs-js/xu-ly-null.webp)
+
 :::note[Ghi nhớ nhanh]
 
 - Java **chỉ có `null`**, không có `undefined` như JS.

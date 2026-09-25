@@ -5,6 +5,8 @@ title: "4. Toán tử & so sánh"
 
 # 4. Toán tử & so sánh (Operators & Equality)
 
+[![Sơ đồ tóm tắt bài: Toán tử & so sánh (Operators & Equality)](/img/java-vs-js/toan-tu-va-so-sanh.webp)](pathname:///img/java-vs-js/toan-tu-va-so-sanh.webp)
+
 :::note[Ghi nhớ nhanh]
 
 - **Cạm bẫy lớn nhất khi chuyển từ JS:** trong Java, `==` so sánh **địa chỉ object**, không so sánh nội dung. Muốn so nội dung phải dùng **`.equals()`**.

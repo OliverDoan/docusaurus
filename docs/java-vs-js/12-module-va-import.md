@@ -5,6 +5,8 @@ title: "12. Module & import"
 
 # 12. Module & import (Packages & Imports)
 
+[![Sơ đồ tóm tắt bài: Module & import (Packages & Imports)](/img/java-vs-js/module-va-import.webp)](pathname:///img/java-vs-js/module-va-import.webp)
+
 :::note[Ghi nhớ nhanh]
 
 - Java tổ chức code bằng **package** (gói) — tương tự thư mục; tên package phải khớp cấu trúc thư mục.
