@@ -230,6 +230,8 @@ atom đổi. Tốt cho:
 [Redux Toolkit (RTK)](https://redux-toolkit.js.org) — Redux **chính thức**
 khuyến nghị từ team Redux. Đã bao gồm Immer + Thunk + DevTools.
 
+> Học Redux chi tiết (slice, selector, async thunk, RTK Query, middleware): xem bài [Redux & Redux Toolkit](./3_redux.md).
+
 ```bash
 npm install @reduxjs/toolkit react-redux
 ```
