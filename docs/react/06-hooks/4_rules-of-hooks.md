@@ -83,10 +83,8 @@ function Component({ cond }) {
 
 React Hooks có **2 quy tắc bắt buộc**:
 
-1. **Chỉ gọi hook ở top level** — không trong `if`, `for`, `while`,
-   nested function, sau `return`.
-2. **Chỉ gọi hook từ** function component hoặc custom hook — không từ
-   function thường, event handler, class.
+1. **Chỉ gọi hook ở top level** — không trong `if`, `for`, `while`, nested function, sau `return`.
+2. **Chỉ gọi hook từ** function component hoặc custom hook — không từ function thường, event handler, class.
 
 Vi phạm → bug khó debug, code có thể không lỗi ngay nhưng sai logic.
 
@@ -132,8 +130,7 @@ function Component({ user }) {
 
 **Tại sao quy tắc này?**
 
-React **track hook bằng thứ tự gọi** trong mỗi render — không có ID hay
-key cho hook. React Fiber dùng linked list:
+React **track hook bằng thứ tự gọi** trong mỗi render — không có ID hay key cho hook. React Fiber dùng linked list:
 
 ```jsx
 function Component() {
@@ -143,8 +140,7 @@ function Component() {
 }
 ```
 
-Mỗi render, React khớp hook theo **index**: lần 1 là useState, lần 2
-là useState, lần 3 là useEffect.
+Mỗi render, React khớp hook theo **index**: lần 1 là useState, lần 2 là useState, lần 3 là useEffect.
 
 Nếu hook bị skip:
 
@@ -166,8 +162,7 @@ Giải pháp: **luôn gọi cùng số lượng hook, theo cùng thứ tự, m�
 
 :::
 
-Sơ đồ dưới cho thấy điều gì xảy ra khi thứ tự hook thay đổi giữa 2 lần
-render — React khớp theo **index**, không theo tên biến:
+Sơ đồ dưới cho thấy điều gì xảy ra khi thứ tự hook thay đổi giữa 2 lần render — React khớp theo **index**, không theo tên biến:
 
 ```mermaid
 flowchart TD
@@ -287,8 +282,7 @@ Trade-off của design hooks dựa vào **call order**:
 - Phải tuân quy tắc nghiêm ngặt.
 - Không cho conditional hook → đôi khi gây dài dòng.
 
-React team đã cân nhắc API "named hook" (như `useState("count", 0)`)
-nhưng thấy phức tạp hơn, không đáng.
+React team đã cân nhắc API "named hook" (như `useState("count", 0)`) nhưng thấy phức tạp hơn, không đáng.
 
 :::info[Phân tích]
 
@@ -311,8 +305,7 @@ function Item({ promise, cond }) {
 - Nó không có state riêng — chỉ đọc value (Promise/Context).
 - React track theo Suspense boundary, không phải call order.
 
-Các hook khác (`useState`, `useEffect`, `useRef`...) **vẫn phải tuân
-Rules of Hooks**. `use` là exception duy nhất.
+Các hook khác (`useState`, `useEffect`, `useRef`...) **vẫn phải tuân Rules of Hooks**. `use` là exception duy nhất.
 
 :::
 
@@ -346,8 +339,7 @@ export default [
 2 rule chính:
 
 - **`rules-of-hooks`** — bắt vi phạm Rule 1 + 2.
-- **`exhaustive-deps`** — bắt thiếu/thừa dep trong `useEffect`,
-  `useCallback`, `useMemo`.
+- **`exhaustive-deps`** — bắt thiếu/thừa dep trong `useEffect`, `useCallback`, `useMemo`.
 
 :::tip[Mẹo]
 
@@ -359,8 +351,7 @@ export default [
   run: npm run lint -- --max-warnings 0
 ```
 
-Sửa warning ngay khi viết, không tích lũy. Rule này cứu rất nhiều bug
-production — không bỏ qua.
+Sửa warning ngay khi viết, không tích lũy. Rule này cứu rất nhiều bug production — không bỏ qua.
 
 :::
 
@@ -387,8 +378,7 @@ useEffect(() => {
 }, []);
 ```
 
-Đa số trường hợp **"không muốn re-run effect khi dep đổi"** thực ra là
-**design effect sai**. Nên refactor — không silence rule.
+Đa số trường hợp **"không muốn re-run effect khi dep đổi"** thực ra là **design effect sai**. Nên refactor — không silence rule.
 
 :::
 

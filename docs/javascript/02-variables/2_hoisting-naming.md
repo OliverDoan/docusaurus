@@ -36,8 +36,7 @@ title: "2. Hoisting và Quy tắc đặt tên"
 
 ## Hoisting là gì?
 
-**Hoisting** ("cẩu lên") là cơ chế JavaScript engine **đưa khai báo
-biến và hàm lên đầu scope** trước khi chạy code.
+**Hoisting** ("cẩu lên") là cơ chế JavaScript engine **đưa khai báo biến và hàm lên đầu scope** trước khi chạy code.
 
 Code thật:
 
@@ -58,8 +57,7 @@ x = 10;         // gán xảy ra ở đúng dòng
 
 ## Hoisting với var
 
-`var` được hoist với giá trị **`undefined`** — truy cập trước khai báo
-không lỗi, nhưng giá trị là `undefined`:
+`var` được hoist với giá trị **`undefined`** — truy cập trước khai báo không lỗi, nhưng giá trị là `undefined`:
 
 ```js
 console.log(name); // undefined
@@ -70,8 +68,7 @@ var name = "An";
 
 ## Hoisting với let / const
 
-`let` và `const` cũng được hoist, **nhưng** ở trong **Temporal Dead
-Zone (TDZ)** — truy cập trước khai báo ném `ReferenceError`:
+`let` và `const` cũng được hoist, **nhưng** ở trong **Temporal Dead Zone (TDZ)** — truy cập trước khai báo ném `ReferenceError`:
 
 ```js
 console.log(x); // ReferenceError
@@ -96,8 +93,7 @@ So với `var`:
 | Giá trị ban đầu | `undefined` | TDZ (không truy cập được) |
 | Truy cập trước khai báo | Trả về `undefined` | **ReferenceError** |
 
-Câu trả lời chuẩn cho phỏng vấn: "**Tất cả đều hoist**, nhưng `let`/`const`
-ở trong TDZ cho đến dòng khai báo."
+Câu trả lời chuẩn cho phỏng vấn: "**Tất cả đều hoist**, nhưng `let`/`const` ở trong TDZ cho đến dòng khai báo."
 
 :::
 
@@ -125,8 +121,7 @@ var greet = function () {
 };
 ```
 
-Vì `var greet` được hoist với giá trị `undefined`, tại thời điểm gọi
-`greet()` thì giá trị là `undefined`, không phải function.
+Vì `var greet` được hoist với giá trị `undefined`, tại thời điểm gọi `greet()` thì giá trị là `undefined`, không phải function.
 
 Arrow function (`const`/`let`) còn ném `ReferenceError`:
 
@@ -138,9 +133,7 @@ const greet = () => console.log("Hi");
 
 :::warning[Cần lưu ý]
 
-**Function trong block scope** behavior khác nhau giữa strict mode và
-sloppy mode. Trong strict mode, function declaration trong `if`/`for`
-được scope vào block:
+**Function trong block scope** behavior khác nhau giữa strict mode và sloppy mode. Trong strict mode, function declaration trong `if`/`for` được scope vào block:
 
 ```js
 "use strict";
@@ -152,13 +145,11 @@ foo(); // ReferenceError trong strict
        // OK trong sloppy mode (foo bị hoist ra ngoài)
 ```
 
-→ Không nên khai báo function trong block. Dùng function expression
-hoặc arrow function gán vào biến.
+→ Không nên khai báo function trong block. Dùng function expression hoặc arrow function gán vào biến.
 
 :::
 
-Sơ đồ dưới đây tóm tắt: mọi khai báo đều được hoist, nhưng cách truy cập
-trước dòng khai báo khác nhau tùy loại:
+Sơ đồ dưới đây tóm tắt: mọi khai báo đều được hoist, nhưng cách truy cập trước dòng khai báo khác nhau tùy loại:
 
 ```mermaid
 flowchart TD
@@ -221,8 +212,7 @@ while with yield let static
 
 :::tip[Mẹo]
 
-**Tên biến tốt** đáng giá hơn comment. Một tên rõ ràng giúp người đọc
-hiểu code mà không cần đọc context:
+**Tên biến tốt** đáng giá hơn comment. Một tên rõ ràng giúp người đọc hiểu code mà không cần đọc context:
 
 ```js
 // Tệ
@@ -232,8 +222,7 @@ const d = new Date() - user.createdAt;
 const accountAgeMs = Date.now() - user.createdAt.getTime();
 ```
 
-Trong code review, đổi tên thường là feedback **dễ nhất và hiệu quả
-nhất**. Đừng tiếc thời gian đặt tên cho rõ.
+Trong code review, đổi tên thường là feedback **dễ nhất và hiệu quả nhất**. Đừng tiếc thời gian đặt tên cho rõ.
 
 :::
 

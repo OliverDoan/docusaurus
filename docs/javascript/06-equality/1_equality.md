@@ -206,8 +206,7 @@ Vì `===` có hai "khuyết điểm" trong tình huống cần độ chính xác
 - `NaN === NaN` trả `false` (theo IEEE-754).
 - `+0 === -0` trả `true` (dù chúng là hai giá trị khác nhau về dấu).
 
-`Object.is` là **so sánh "đúng nhất"** — phản ánh đúng identity của giá
-trị. Use case:
+`Object.is` là **so sánh "đúng nhất"** — phản ánh đúng identity của giá trị. Use case:
 
 ```js
 // React dùng Object.is để so sánh state
@@ -223,8 +222,7 @@ function isNegativeZero(n) {
 }
 ```
 
-Trong code thường, **dùng `===`** vì nó đủ cho 99% trường hợp và đơn
-giản hơn.
+Trong code thường, **dùng `===`** vì nó đủ cho 99% trường hợp và đơn giản hơn.
 
 :::
 
@@ -259,8 +257,7 @@ import { isDeepStrictEqual } from "node:util";
 isDeepStrictEqual(a, b);
 ```
 
-JSON.stringify có pitfall: key order ảnh hưởng kết quả. Dùng thư viện
-hoặc Node util cho production.
+JSON.stringify có pitfall: key order ảnh hưởng kết quả. Dùng thư viện hoặc Node util cho production.
 
 :::
 
@@ -277,9 +274,7 @@ ESLint rule **`eqeqeq`** (built-in) ép dùng `===`/`!==`:
 }
 ```
 
-`"smart"` cho phép `== null` (idiom check cả null/undefined), nhưng cấm
-mọi `==` khác. Bật từ ngày đầu của project — nợ kỹ thuật sau 6 tháng
-rất khó migrate.
+`"smart"` cho phép `== null` (idiom check cả null/undefined), nhưng cấm mọi `==` khác. Bật từ ngày đầu của project — nợ kỹ thuật sau 6 tháng rất khó migrate.
 
 :::
 

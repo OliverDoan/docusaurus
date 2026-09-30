@@ -103,8 +103,7 @@ function useUser(id) {
 
 ## Hook là gì?
 
-**Hook** = function bắt đầu bằng `use*`, cho phép function component
-"hook into" feature của React (state, lifecycle, context...).
+**Hook** = function bắt đầu bằng `use*`, cho phép function component "hook into" feature của React (state, lifecycle, context...).
 
 ```jsx
 import { useState, useEffect } from "react";
@@ -211,11 +210,9 @@ setUser(prev => ({
 
 **Tại sao React dùng shallow comparison?**
 
-Tối ưu performance — kiểm tra `===` (reference) **nhanh hơn nhiều** so
-với deep equality (`a.x === b.x && a.y === b.y && ...`).
+Tối ưu performance — kiểm tra `===` (reference) **nhanh hơn nhiều** so với deep equality (`a.x === b.x && a.y === b.y && ...`).
 
-Trade-off: dev phải **maintain immutability**. React cố ý design để dev
-không thể "lười" mutation — đảm bảo render predictable.
+Trade-off: dev phải **maintain immutability**. React cố ý design để dev không thể "lười" mutation — đảm bảo render predictable.
 
 Workaround cho state phức tạp:
 
@@ -233,8 +230,7 @@ setUser(produce(draft => {
 - **Zustand + Immer middleware** — kết hợp cho state management.
 - **Redux Toolkit** — `createSlice` dùng Immer dưới hood.
 
-Với state nhỏ, spread native đủ. Với nested sâu, Immer giúp giảm boilerplate
-rất nhiều.
+Với state nhỏ, spread native đủ. Với nested sâu, Immer giúp giảm boilerplate rất nhiều.
 
 :::
 
@@ -312,8 +308,7 @@ function UserCard({ userId }) {
 }
 ```
 
-ESLint plugin `react-hooks/exhaustive-deps` **bắt** lỗi này. **Luôn bật**
-trong config:
+ESLint plugin `react-hooks/exhaustive-deps` **bắt** lỗi này. **Luôn bật** trong config:
 
 ```js
 {
@@ -374,8 +369,7 @@ useEffect(() => {
 
 **StrictMode + cleanup** — quan trọng cho production:
 
-Trong StrictMode (dev only), React **chạy effect 2 lần** để test cleanup
-đúng:
+Trong StrictMode (dev only), React **chạy effect 2 lần** để test cleanup đúng:
 
 ```
 1. Mount → effect chạy (effect 1)
@@ -398,12 +392,9 @@ useEffect(() => {
 }, []);
 ```
 
-→ Effect không có cleanup mà gây side effect "vĩnh viễn" thường là bug.
-Strict Mode bắt được.
+→ Effect không có cleanup mà gây side effect "vĩnh viễn" thường là bug. Strict Mode bắt được.
 
-Trong production (React 18+), component có thể mount/unmount/remount
-nhiều lần do offscreen rendering, hot reload, fast refresh. Cleanup đúng
-là yêu cầu, không phải optional.
+Trong production (React 18+), component có thể mount/unmount/remount nhiều lần do offscreen rendering, hot reload, fast refresh. Cleanup đúng là yêu cầu, không phải optional.
 
 :::
 
@@ -440,9 +431,7 @@ useEffect(() => {
 const filteredItems = items.filter(...);
 ```
 
-Quy tắc: **trước khi viết useEffect, hỏi "có cần effect không?"**.
-[Trang react.dev/learn/you-might-not-need-an-effect](https://react.dev/learn/you-might-not-need-an-effect)
-liệt kê 8 anti-pattern phổ biến.
+Quy tắc: **trước khi viết useEffect, hỏi "có cần effect không?"**. [Trang react.dev/learn/you-might-not-need-an-effect](https://react.dev/learn/you-might-not-need-an-effect) liệt kê 8 anti-pattern phổ biến.
 
 :::
 

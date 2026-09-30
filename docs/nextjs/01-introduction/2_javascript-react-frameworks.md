@@ -35,8 +35,7 @@ Trước khi học Next.js, bạn cần nắm vững **JavaScript** (ngôn ngữ
 
 ## JavaScript Basics cần biết
 
-Trước khi học Next.js, đảm bảo nắm chắc JS hiện đại. Tham khảo
-[JavaScript roadmap](/docs/javascript/01-gioi-thieu/1_javascript-la-gi):
+Trước khi học Next.js, đảm bảo nắm chắc JS hiện đại. Tham khảo [JavaScript roadmap](/docs/javascript/01-gioi-thieu/1_javascript-la-gi):
 
 - ES6+: arrow, destructuring, spread/rest, template literal, modules.
 - Promise + async/await.
@@ -45,8 +44,7 @@ Trước khi học Next.js, đảm bảo nắm chắc JS hiện đại. Tham kh�
 - Fetch API, FormData, Request/Response.
 - Module: `import`/`export`, dynamic `import()`.
 
-Next.js hiện đại dùng nhiều **Web Standards API** (Request, Response,
-FormData, Headers) — cần quen.
+Next.js hiện đại dùng nhiều **Web Standards API** (Request, Response, FormData, Headers) — cần quen.
 
 ---
 
@@ -129,8 +127,7 @@ export default function UsersPage() {
 - Triển khai trên platform không phải Vercel (Cloudflare, AWS Lambda).
 - Team thích **web standards** hơn convention.
 
-Remix merge thành React Router v7 (2024) — vẫn maintain, nhưng React 19 +
-Server Components Next.js đang dominate market share.
+Remix merge thành React Router v7 (2024) — vẫn maintain, nhưng React 19 + Server Components Next.js đang dominate market share.
 
 :::
 
@@ -183,8 +180,7 @@ Khi nào Next.js:
 
 ## TanStack Start
 
-[TanStack Start](https://tanstack.com/start) — framework mới (2024+),
-**type-safe end-to-end**, dựa trên TanStack Router.
+[TanStack Start](https://tanstack.com/start) — framework mới (2024+), **type-safe end-to-end**, dựa trên TanStack Router.
 
 ```tsx
 // app/routes/users/$userId.tsx
@@ -209,8 +205,7 @@ function UserPage() {
 - **TanStack Query integration** mượt.
 - **SSR + streaming**.
 
-Vẫn early stage. Đáng theo dõi cho 2027+ — nếu cần TS-heavy, type-safe
-API trong project mới.
+Vẫn early stage. Đáng theo dõi cho 2027+ — nếu cần TS-heavy, type-safe API trong project mới.
 
 ---
 
@@ -247,8 +242,7 @@ flowchart TD
 4. **Existing team**: dùng framework team đã biết. Switch chi phí cao.
 5. **Hosting constraint**: cloudflare/AWS Lambda → Remix/Astro tốt hơn.
 
-Đa số dự án mới 2026 chọn **Next.js** — ít rủi ro, tài liệu nhiều, dev
-nhiều.
+Đa số dự án mới 2026 chọn **Next.js** — ít rủi ro, tài liệu nhiều, dev nhiều.
 
 :::
 

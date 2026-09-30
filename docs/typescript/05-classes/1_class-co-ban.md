@@ -215,8 +215,7 @@ x["a"];  // 1
 x["#b"]; // undefined — true private
 ```
 
-→ Khi cần private **thực sự an toàn** (security, lib API), dùng `#field`.
-Còn private cho code app thì `private` TS đủ tốt và dễ debug hơn.
+→ Khi cần private **thực sự an toàn** (security, lib API), dùng `#field`. Còn private cho code app thì `private` TS đủ tốt và dễ debug hơn.
 
 :::
 
@@ -286,8 +285,7 @@ class App {
 - Khi method **liên quan trực tiếp** đến class (factory, helper, hằng số).
 - Khi cần **gom logic** thành namespace (vd `Math.*`, `Array.from`).
 
-Không nên dùng static để gom **mọi util** — sẽ thành "god class". Module
-file riêng (`utils/math.ts`) thường gọn hơn.
+Không nên dùng static để gom **mọi util** — sẽ thành "god class". Module file riêng (`utils/math.ts`) thường gọn hơn.
 
 :::
 

@@ -39,22 +39,16 @@ title: "1. this trong các ngữ cảnh"
 
 ## this là gì?
 
-`this` là **giá trị động** trỏ đến **context gọi function**. Giá trị
-`this` phụ thuộc **cách gọi**, không phải **nơi khai báo** (trừ arrow).
+`this` là **giá trị động** trỏ đến **context gọi function**. Giá trị `this` phụ thuộc **cách gọi**, không phải **nơi khai báo** (trừ arrow).
 
 :::danger[Strict mode quyết định giá trị `this`]
 
-Khi gọi hàm **standalone** (không có object đứng trước), kết quả `this`
-**khác nhau hoàn toàn** giữa hai chế độ:
+Khi gọi hàm **standalone** (không có object đứng trước), kết quả `this` **khác nhau hoàn toàn** giữa hai chế độ:
 
 - **Strict mode** (`"use strict"`, ES Module, body của `class`): `this === undefined`
-- **Sloppy mode** (script cũ, không khai báo strict): `this` bị **ép** về
-  `window` / `globalThis`
+- **Sloppy mode** (script cũ, không khai báo strict): `this` bị **ép** về `window` / `globalThis`
 
-ES Module (file dùng `import`/`export`, `<script type="module">`) và **mọi
-code bên trong `class` luôn chạy strict mode mặc định**. Vì vậy code hiện đại
-2026 gần như luôn rơi vào nhánh `undefined`. Các ví dụ dưới đây đều ghi rõ
-kết quả cho **cả hai chế độ**.
+ES Module (file dùng `import`/`export`, `<script type="module">`) và **mọi code bên trong `class` luôn chạy strict mode mặc định**. Vì vậy code hiện đại 2026 gần như luôn rơi vào nhánh `undefined`. Các ví dụ dưới đây đều ghi rõ kết quả cho **cả hai chế độ**.
 
 :::
 
@@ -70,11 +64,9 @@ Quy tắc tổng quát:
 | Event handler (function) | element gắn listener | element gắn listener |
 | Method trong class | instance (class luôn strict) | — (class luôn strict) |
 
-Chỉ cột **standalone** và **call/apply với primitive** là khác nhau giữa hai
-chế độ. Chi tiết về strict mode xem bài [Strict mode](../12-strict-mode/1_strict-mode.md).
+Chỉ cột **standalone** và **call/apply với primitive** là khác nhau giữa hai chế độ. Chi tiết về strict mode xem bài [Strict mode](../12-strict-mode/1_strict-mode.md).
 
-Có thể tóm gọn cách xác định `this` bằng sơ đồ — đi từ trên xuống, gặp
-nhánh "Có" đầu tiên là dừng:
+Có thể tóm gọn cách xác định `this` bằng sơ đồ — đi từ trên xuống, gặp nhánh "Có" đầu tiên là dừng:
 
 ```mermaid
 flowchart TD
@@ -94,8 +86,7 @@ flowchart TD
 
 ## Tại sao cần this?
 
-Bản chất `this` sinh ra để giải quyết **một vấn đề duy nhất**: làm sao để
-**cùng một đoạn code** chạy được trên **nhiều dữ liệu khác nhau**.
+Bản chất `this` sinh ra để giải quyết **một vấn đề duy nhất**: làm sao để **cùng một đoạn code** chạy được trên **nhiều dữ liệu khác nhau**.
 
 ### Vấn đề: nếu KHÔNG có this
 
@@ -135,13 +126,11 @@ an.greet(); // Xin chào An    → this = an
 binh.greet(); // Xin chào Bình → this = binh
 ```
 
-Cùng **một hàm `greet`**, nhưng `this` thay đổi theo object đứng trước dấu
-chấm lúc gọi. Đây chính là lý do `this` tồn tại.
+Cùng **một hàm `greet`**, nhưng `this` thay đổi theo object đứng trước dấu chấm lúc gọi. Đây chính là lý do `this` tồn tại.
 
 ### Nơi dùng this nhiều nhất: class
 
-Tình huống thực tế nhất. Một `class` là khuôn tạo ra **nhiều instance**, mỗi
-instance có dữ liệu riêng:
+Tình huống thực tế nhất. Một `class` là khuôn tạo ra **nhiều instance**, mỗi instance có dữ liệu riêng:
 
 ```js
 class TaiKhoan {
@@ -161,17 +150,13 @@ tk1.napTien(50); // chỉ tk1 đổi → 150
 tk2.napTien(20); // chỉ tk2 đổi → 520
 ```
 
-`napTien` viết **một lần**, nhưng nhờ `this` nó biết sửa số dư của `tk1` hay
-`tk2` tuỳ ai gọi. Không có `this` thì không thể có `class` hoạt động.
+`napTien` viết **một lần**, nhưng nhờ `this` nó biết sửa số dư của `tk1` hay `tk2` tuỳ ai gọi. Không có `this` thì không thể có `class` hoạt động.
 
 :::tip[Khi nào KHÔNG cần this?]
 
-Nếu bạn **không viết `class`** và **không cần một hàm dùng chung cho nhiều
-object**, thì thực tế **không cần `this`** — dùng biến/closure bình thường còn
-dễ hiểu hơn. `this` chỉ "đáng tiền" khi **nhiều object chia sẻ chung hành vi**.
+Nếu bạn **không viết `class`** và **không cần một hàm dùng chung cho nhiều object**, thì thực tế **không cần `this`** — dùng biến/closure bình thường còn dễ hiểu hơn. `this` chỉ "đáng tiền" khi **nhiều object chia sẻ chung hành vi**.
 
-Tóm gọn: `this` = **"đối tượng đang gọi hàm này là ai"**, xác định **lúc
-gọi**, không phải lúc viết.
+Tóm gọn: `this` = **"đối tượng đang gọi hàm này là ai"**, xác định **lúc gọi**, không phải lúc viết.
 
 :::
 
@@ -201,10 +186,7 @@ greet();
 // sloppy mode: this = window → in ra undefined (window.name là "")
 ```
 
-Lý do: cách gọi là `greet()`, không phải `user.greet()`. `this` được
-quyết định **tại lúc gọi**. Vì method được khai báo qua shorthand `greet()`
-nên thân hàm **không tự động strict** — chế độ phụ thuộc file chứa nó (Module
-→ strict; script thường → sloppy).
+Lý do: cách gọi là `greet()`, không phải `user.greet()`. `this` được quyết định **tại lúc gọi**. Vì method được khai báo qua shorthand `greet()` nên thân hàm **không tự động strict** — chế độ phụ thuộc file chứa nó (Module → strict; script thường → sloppy).
 
 ---
 
@@ -233,8 +215,7 @@ function test() {
 test();
 ```
 
-Trong callback truyền vào method — `setTimeout` gọi callback như hàm
-standalone nên `this` **không** phải `user`:
+Trong callback truyền vào method — `setTimeout` gọi callback như hàm standalone nên `this` **không** phải `user`:
 
 ```js
 const user = {
@@ -299,9 +280,7 @@ user.greet();
 // Script (sloppy): this = window → in ra undefined
 ```
 
-Arrow lấy `this` từ **scope chứa object literal**, không phải từ object.
-Ở top-level: Module có `this === undefined` (strict), còn script thường có
-`this === window` (sloppy). Method object → dùng shorthand `greet() {}`.
+Arrow lấy `this` từ **scope chứa object literal**, không phải từ object. Ở top-level: Module có `this === undefined` (strict), còn script thường có `this === window` (sloppy). Method object → dùng shorthand `greet() {}`.
 
 :::
 
@@ -369,11 +348,7 @@ greet(); // TypeError: Cannot read 'name' of undefined
 
 :::note[Vì sao class luôn báo lỗi, kể cả ở sloppy file?]
 
-Thân của `class` **luôn chạy strict mode**, không cần khai báo `"use strict"`.
-Do đó method tách rời gọi standalone có `this === undefined` → đọc
-`this.name` ném `TypeError` ngay. Đây là điểm khác với object literal sloppy
-(rơi về `window`, chỉ in `undefined`). Class “fail nhanh, fail rõ” nên dễ
-phát hiện bug `this` hơn.
+Thân của `class` **luôn chạy strict mode**, không cần khai báo `"use strict"`. Do đó method tách rời gọi standalone có `this === undefined` → đọc `this.name` ném `TypeError` ngay. Đây là điểm khác với object literal sloppy (rơi về `window`, chỉ in `undefined`). Class “fail nhanh, fail rõ” nên dễ phát hiện bug `this` hơn.
 
 :::
 
@@ -407,9 +382,7 @@ button.onclick = () => u.greet();
 
 **Tại sao JS có `this` "khó" như vậy?**
 
-Lịch sử: JS lấy cảm hứng từ Self và Scheme, không phải Java. `this` ban
-đầu được thiết kế là **late-bound** (xác định tại runtime) — cho phép
-một function dùng được với nhiều object qua `call`/`apply`.
+Lịch sử: JS lấy cảm hứng từ Self và Scheme, không phải Java. `this` ban đầu được thiết kế là **late-bound** (xác định tại runtime) — cho phép một function dùng được với nhiều object qua `call`/`apply`.
 
 Phản ứng của ngôn ngữ khác:
 
@@ -417,8 +390,7 @@ Phản ứng của ngôn ngữ khác:
 - **Java/C#**: `this` luôn là instance (không thay đổi).
 - **JS**: dynamic — quyền lực nhưng dễ sai.
 
-Arrow function (ES6) là **đáp lại quyết định thiết kế này** — đa số
-trường hợp dev muốn `this` ổn định (như Java), không phải dynamic.
+Arrow function (ES6) là **đáp lại quyết định thiết kế này** — đa số trường hợp dev muốn `this` ổn định (như Java), không phải dynamic.
 
 Quy tắc thực dụng cho 2026:
 - **Method**: function thường (lexical `this` = instance qua dispatch).
@@ -431,8 +403,7 @@ Quy tắc thực dụng cho 2026:
 
 :::tip[Mẹo]
 
-**Cách debug `this` nhanh** — `console.log(this)` ngay đầu function. Nếu
-không như mong đợi, hỏi 3 câu:
+**Cách debug `this` nhanh** — `console.log(this)` ngay đầu function. Nếu không như mong đợi, hỏi 3 câu:
 
 1. Function được gọi **như thế nào**? (`obj.fn()`, `fn()`, `new Fn()`?)
 2. Có `bind`/`call`/`apply` ở đâu không?

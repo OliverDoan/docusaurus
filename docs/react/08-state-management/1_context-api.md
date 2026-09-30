@@ -116,8 +116,7 @@ Lưu ý: Context hợp cho dữ liệu **ít thay đổi** (global). Nếu giá 
 
 ## Context là gì?
 
-**Context** = cơ chế built-in của React để **truyền data xuống subtree**
-mà không phải pass prop từng cấp (prop drilling).
+**Context** = cơ chế built-in của React để **truyền data xuống subtree** mà không phải pass prop từng cấp (prop drilling).
 
 ```
 App
@@ -254,14 +253,10 @@ function Profile() {
 
 **Lợi ích pattern này:**
 
-1. **Encapsulation** — implementation Context giấu trong file, caller
-   chỉ thấy hook.
-2. **Type-safe** — hook trả về type non-null, không cần check ở mọi
-   call site.
-3. **Defensive** — throw error nếu dùng ngoài Provider → bug rõ ràng,
-   không silent.
-4. **Refactor dễ** — đổi từ Context sang Zustand chỉ cần đổi `useAuth`
-   implementation.
+1. **Encapsulation** — implementation Context giấu trong file, caller chỉ thấy hook.
+2. **Type-safe** — hook trả về type non-null, không cần check ở mọi call site.
+3. **Defensive** — throw error nếu dùng ngoài Provider → bug rõ ràng, không silent.
+4. **Refactor dễ** — đổi từ Context sang Zustand chỉ cần đổi `useAuth` implementation.
 
 Đây là pattern de-facto cho mọi Context trong React app hiện đại.
 
@@ -339,8 +334,7 @@ function ThemedButton() {
 - Real-time data (đổi liên tục).
 - App state phức tạp (nhiều subscriber với pattern khác nhau).
 
-Với 3 case này, dùng **Zustand**, **Jotai**, hoặc **Redux Toolkit** —
-có selector, optimization built-in.
+Với 3 case này, dùng **Zustand**, **Jotai**, hoặc **Redux Toolkit** — có selector, optimization built-in.
 
 :::
 
@@ -400,14 +394,12 @@ const Providers = composeProviders(
 <ToastContext.Provider value={toasts}>
 ```
 
-Quy tắc: **mỗi Context = 1 concern**, không nhồi nhiều thứ vào cùng object.
-Một số dev tách thêm:
+Quy tắc: **mỗi Context = 1 concern**, không nhồi nhiều thứ vào cùng object. Một số dev tách thêm:
 
 - `UserStateContext` cho data.
 - `UserDispatchContext` cho action (setter).
 
-→ Component dùng `useUserState` re-render khi data đổi, dùng `useUserDispatch`
-không re-render (vì dispatch ổn định).
+→ Component dùng `useUserState` re-render khi data đổi, dùng `useUserDispatch` không re-render (vì dispatch ổn định).
 
 :::
 

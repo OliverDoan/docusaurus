@@ -475,8 +475,7 @@ async function cacheFirst(req) {
 | **SSE**           | Server → client    | Modern          | Low        | Notification, stock ticker, AI chat tokens |
 | **WebSocket**     | Bidirectional      | Modern          | High       | Chat, collaborative editing, gaming |
 
-WebSocket: full duplex, binary support, low overhead per message after handshake.
-SSE: simpler (over HTTP), auto-reconnect, only server→client.
+WebSocket: full duplex, binary support, low overhead per message after handshake. SSE: simpler (over HTTP), auto-reconnect, only server→client.
 
 ### Code minh hoạ
 

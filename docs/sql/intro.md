@@ -19,12 +19,9 @@ title: "Giới thiệu"
 
 ## SQL là gì?
 
-**SQL** (Structured Query Language - ngôn ngữ truy vấn có cấu trúc) là ngôn ngữ chuẩn dùng để
-làm việc với **cơ sở dữ liệu** (database - nơi lưu trữ dữ liệu một cách có tổ chức). Bằng SQL,
-bạn có thể thêm, sửa, xóa và truy vấn (lấy ra) dữ liệu theo đúng nhu cầu của mình.
+**SQL** (Structured Query Language - ngôn ngữ truy vấn có cấu trúc) là ngôn ngữ chuẩn dùng để làm việc với **cơ sở dữ liệu** (database - nơi lưu trữ dữ liệu một cách có tổ chức). Bằng SQL, bạn có thể thêm, sửa, xóa và truy vấn (lấy ra) dữ liệu theo đúng nhu cầu của mình.
 
-Hãy tưởng tượng SQL giống như cách bạn ra lệnh cho máy tính bằng những câu gần với tiếng Anh
-tự nhiên, ví dụ: "Cho tôi xem tất cả khách hàng ở Hà Nội" hay "Đếm số đơn hàng trong tháng này".
+Hãy tưởng tượng SQL giống như cách bạn ra lệnh cho máy tính bằng những câu gần với tiếng Anh tự nhiên, ví dụ: "Cho tôi xem tất cả khách hàng ở Hà Nội" hay "Đếm số đơn hàng trong tháng này".
 
 ## Database và bảng là gì?
 
@@ -43,12 +40,9 @@ Ví dụ một bảng `khach_hang` trông như sau:
 
 ## Vì sao cần học SQL?
 
-- **Dữ liệu ở khắp mọi nơi**: hầu hết ứng dụng (website, app điện thoại, phần mềm quản lý) đều
-  lưu dữ liệu trong database và dùng SQL để truy cập.
-- **Mạnh hơn Excel rất nhiều**: Excel xử lý tốt vài nghìn dòng, còn database có thể xử lý hàng
-  triệu, hàng tỷ dòng một cách nhanh chóng.
-- **Kỹ năng nền tảng**: lập trình viên, phân tích dữ liệu (data analyst), tester, quản trị
-  hệ thống... đều cần biết SQL.
+- **Dữ liệu ở khắp mọi nơi**: hầu hết ứng dụng (website, app điện thoại, phần mềm quản lý) đều lưu dữ liệu trong database và dùng SQL để truy cập.
+- **Mạnh hơn Excel rất nhiều**: Excel xử lý tốt vài nghìn dòng, còn database có thể xử lý hàng triệu, hàng tỷ dòng một cách nhanh chóng.
+- **Kỹ năng nền tảng**: lập trình viên, phân tích dữ liệu (data analyst), tester, quản trị hệ thống... đều cần biết SQL.
 - **Dễ bắt đầu**: cú pháp gần với tiếng Anh, người mới hoàn toàn có thể học được.
 
 ## Lộ trình học
@@ -78,13 +72,9 @@ Dưới đây là 16 bài học được sắp xếp theo thứ tự từ dễ �
 
 Hãy đi tuần tự từ **Bài 1 đến Bài 16**. Mỗi bài được xây dựng dựa trên kiến thức của bài trước:
 
-1. **Bài 1 - 2**: Nắm vững khái niệm nền tảng và cách lấy dữ liệu. Đây là phần quan trọng nhất
-   cho người mới, đừng vội bỏ qua.
-2. **Bài 3 - 6**: Học cách tạo bảng, thêm/sửa/xóa dữ liệu, tính toán và đặt ràng buộc. Sau phần
-   này bạn đã có thể tự quản lý một database nhỏ.
+1. **Bài 1 - 2**: Nắm vững khái niệm nền tảng và cách lấy dữ liệu. Đây là phần quan trọng nhất cho người mới, đừng vội bỏ qua.
+2. **Bài 3 - 6**: Học cách tạo bảng, thêm/sửa/xóa dữ liệu, tính toán và đặt ràng buộc. Sau phần này bạn đã có thể tự quản lý một database nhỏ.
 3. **Bài 7 - 11**: Nâng cao kỹ năng truy vấn với subquery, join nhiều bảng, hàm, view và index.
-4. **Bài 12 - 16**: Các chủ đề chuyên sâu về bảo mật, giao dịch, thủ tục, hiệu năng và kỹ thuật
-   nâng cao - dành cho khi bạn đã tự tin với phần cơ bản.
+4. **Bài 12 - 16**: Các chủ đề chuyên sâu về bảo mật, giao dịch, thủ tục, hiệu năng và kỹ thuật nâng cao - dành cho khi bạn đã tự tin với phần cơ bản.
 
-Lời khuyên: hãy **thực hành ngay** sau mỗi bài. Tự gõ lại câu lệnh, thử thay đổi điều kiện và
-quan sát kết quả sẽ giúp bạn nhớ lâu hơn rất nhiều so với chỉ đọc lý thuyết. Chúc bạn học tốt!
+Lời khuyên: hãy **thực hành ngay** sau mỗi bài. Tự gõ lại câu lệnh, thử thay đổi điều kiện và quan sát kết quả sẽ giúp bạn nhớ lâu hơn rất nhiều so với chỉ đọc lý thuyết. Chúc bạn học tốt!

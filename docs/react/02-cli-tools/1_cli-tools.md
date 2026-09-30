@@ -50,8 +50,7 @@ Năm 2026, **Vite** và **Next.js** là 2 lựa chọn chính.
 
 ## Vite
 
-[Vite](https://vitejs.dev) — bundler nhanh, dùng esbuild + Rollup, hot
-reload tức thì.
+[Vite](https://vitejs.dev) — bundler nhanh, dùng esbuild + Rollup, hot reload tức thì.
 
 Tạo project:
 
@@ -99,16 +98,12 @@ my-app/
 
 **Tại sao Vite nhanh hơn Webpack/CRA?**
 
-1. **Dev mode**: Vite serve file qua **native ES Module** trong browser
-   — không cần bundle toàn bộ codebase. Mỗi file được transform on-demand.
-2. **Pre-bundle dependencies**: chỉ bundle thư viện `node_modules` 1 lần
-   bằng esbuild (Go binary, nhanh hơn JS 10-100x).
+1. **Dev mode**: Vite serve file qua **native ES Module** trong browser — không cần bundle toàn bộ codebase. Mỗi file được transform on-demand.
+2. **Pre-bundle dependencies**: chỉ bundle thư viện `node_modules` 1 lần bằng esbuild (Go binary, nhanh hơn JS 10-100x).
 3. **HMR thông minh**: chỉ rebuild file thay đổi, không touch tree.
-4. **Build production**: dùng Rollup với code splitting, tree-shaking
-   chuẩn ES Module.
+4. **Build production**: dùng Rollup với code splitting, tree-shaking chuẩn ES Module.
 
-Webpack/CRA bundle toàn bộ trước khi serve → chậm khi codebase lớn.
-Vite chỉ làm việc thật sự cần → scale tốt cho project lớn.
+Webpack/CRA bundle toàn bộ trước khi serve → chậm khi codebase lớn. Vite chỉ làm việc thật sự cần → scale tốt cho project lớn.
 
 :::
 
@@ -116,8 +111,7 @@ Vite chỉ làm việc thật sự cần → scale tốt cho project lớn.
 
 ## Next.js CLI
 
-[Next.js](https://nextjs.org) — framework full-stack React của Vercel,
-hỗ trợ SSR/SSG/ISR, App Router, Server Components.
+[Next.js](https://nextjs.org) — framework full-stack React của Vercel, hỗ trợ SSR/SSG/ISR, App Router, Server Components.
 
 ```bash
 npx create-next-app@latest my-app
@@ -150,8 +144,7 @@ my-app/
 
 ## Bun create
 
-[Bun](https://bun.sh) — runtime + bundler + package manager bằng Zig,
-nhanh hơn Node + npm rất nhiều.
+[Bun](https://bun.sh) — runtime + bundler + package manager bằng Zig, nhanh hơn Node + npm rất nhiều.
 
 ```bash
 bun create vite my-app
@@ -167,9 +160,7 @@ bun create react ./my-app
 
 :::tip[Mẹo]
 
-Bun có **API tương thích với Node.js** + nhanh hơn 3-4x. Khi tạo project
-mới, dùng `bun` cho package install thay vì `npm` — nhanh hơn nhiều
-lần:
+Bun có **API tương thích với Node.js** + nhanh hơn 3-4x. Khi tạo project mới, dùng `bun` cho package install thay vì `npm` — nhanh hơn nhiều lần:
 
 ```bash
 bun install   # thay vì npm install
@@ -177,8 +168,7 @@ bun add react
 bun run dev
 ```
 
-Nếu lib không tương thích Bun runtime, vẫn build/dev được — chỉ là tốc
-độ npm install bình thường.
+Nếu lib không tương thích Bun runtime, vẫn build/dev được — chỉ là tốc độ npm install bình thường.
 
 :::
 
@@ -192,8 +182,7 @@ npx create-react-app my-app
 
 :::warning[Cần lưu ý]
 
-**CRA đã được Facebook deprecate chính thức từ 2023**. React docs đã gỡ
-khỏi trang Get Started.
+**CRA đã được Facebook deprecate chính thức từ 2023**. React docs đã gỡ khỏi trang Get Started.
 
 Vấn đề của CRA:
 
@@ -247,8 +236,7 @@ flowchart TD
 - Cùng team với TanStack Query, Form, Table.
 - Tích hợp tốt với React 19 features.
 
-Đang stage early — production-ready dần. Khi quyết định framework, cân
-nhắc:
+Đang stage early — production-ready dần. Khi quyết định framework, cân nhắc:
 
 - **Maturity**: Next.js > Remix > TanStack Start > Astro (cho React app).
 - **Ecosystem**: Next.js > Remix > TanStack Start.

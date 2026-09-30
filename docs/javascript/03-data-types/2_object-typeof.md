@@ -109,8 +109,7 @@ console.log(a.x); // 1
 
 :::warning[Cần lưu ý]
 
-Spread và `Object.assign` chỉ **shallow copy** — nested object vẫn dùng
-chung tham chiếu:
+Spread và `Object.assign` chỉ **shallow copy** — nested object vẫn dùng chung tham chiếu:
 
 ```js
 const a = { user: { name: "An" } };
@@ -127,9 +126,7 @@ c.user.name = "Cường";
 console.log(a.user.name);       // "An" — không bị ảnh hưởng
 ```
 
-`JSON.parse(JSON.stringify(a))` cũng deep copy nhưng **mất** function,
-`Date`, `Map`, `Set`, `undefined`, circular reference. Dùng
-`structuredClone` an toàn hơn.
+`JSON.parse(JSON.stringify(a))` cũng deep copy nhưng **mất** function, `Date`, `Map`, `Set`, `undefined`, circular reference. Dùng `structuredClone` an toàn hơn.
 
 :::
 
@@ -203,10 +200,8 @@ typeof {};         // "object"
 **`typeof null === "object"`** là bug từ phiên bản đầu của JS (1995):
 
 - Trong implementation gốc, kiểu được lưu ở 3 bit đầu của một con trỏ.
-- Object có tag `000`, và `null` được biểu diễn bằng pointer 0x00 →
-  tag cũng là `000`.
-- Khi đề xuất sửa trong ES5, đã có quá nhiều code dựa vào behavior này
-  → quyết định **giữ lại vĩnh viễn**.
+- Object có tag `000`, và `null` được biểu diễn bằng pointer 0x00 → tag cũng là `000`.
+- Khi đề xuất sửa trong ES5, đã có quá nhiều code dựa vào behavior này → quyết định **giữ lại vĩnh viễn**.
 
 Cách check chính xác — luồng quyết định khi cần biết kiểu thật của một giá trị:
 
@@ -251,8 +246,7 @@ const user = { name: "An" };
 "toString" in user;   // true — kế thừa từ Object.prototype
 ```
 
-`Object.hasOwn` (ES2022) — chỉ kiểm tra **own property**, không tính
-prototype:
+`Object.hasOwn` (ES2022) — chỉ kiểm tra **own property**, không tính prototype:
 
 ```js
 Object.hasOwn(user, "name");      // true

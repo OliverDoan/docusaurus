@@ -37,11 +37,7 @@ title: "2. Class Components (Legacy)"
 
 ## Vì sao (từng) có class component?
 
-**Vấn đề:** Trước khi có Hooks (React < 16.8), functional component
-**không giữ được state** và **không có lifecycle** — chỉ là "dumb
-component" nhận props rồi render ra UI. Không có cách nào để component
-có dữ liệu nội bộ thay đổi theo thời gian hay phản ứng theo vòng đời
-(mount/update/unmount).
+**Vấn đề:** Trước khi có Hooks (React < 16.8), functional component **không giữ được state** và **không có lifecycle** — chỉ là "dumb component" nhận props rồi render ra UI. Không có cách nào để component có dữ liệu nội bộ thay đổi theo thời gian hay phản ứng theo vòng đời (mount/update/unmount).
 
 ```jsx
 // Trước Hooks: functional component chỉ render, không state
@@ -52,10 +48,7 @@ function Counter() {
 }
 ```
 
-**Giải pháp:** Class component (`extends React.Component`) cho component
-một nơi giữ **state** riêng (`this.state` / `this.setState`) và bộ
-**lifecycle method** (`componentDidMount`, `componentDidUpdate`,
-`componentWillUnmount`...) để chạy logic ở từng giai đoạn vòng đời.
+**Giải pháp:** Class component (`extends React.Component`) cho component một nơi giữ **state** riêng (`this.state` / `this.setState`) và bộ **lifecycle method** (`componentDidMount`, `componentDidUpdate`, `componentWillUnmount`...) để chạy logic ở từng giai đoạn vòng đời.
 
 ```jsx
 import { Component } from "react";
@@ -73,9 +66,7 @@ class Counter extends Component {
 }
 ```
 
-Ngày nay phần lớn việc này đã được thay bằng Hooks, nhưng vẫn cần hiểu
-class component vì còn trong codebase cũ và Error Boundary đến nay vẫn
-phải dùng class.
+Ngày nay phần lớn việc này đã được thay bằng Hooks, nhưng vẫn cần hiểu class component vì còn trong codebase cũ và Error Boundary đến nay vẫn phải dùng class.
 
 :::tip[Dùng thực tế]
 
@@ -90,26 +81,22 @@ phải dùng class.
 
 ## Tại sao vẫn cần biết?
 
-Hooks (React 16.8, 2019) đã thay thế class component cho 99% use case
-mới. Nhưng vẫn nên biết để:
+Hooks (React 16.8, 2019) đã thay thế class component cho 99% use case mới. Nhưng vẫn nên biết để:
 
 - **Đọc code legacy** — codebase trước 2019.
 - **Maintain dự án cũ** — migrate dần sang hooks.
-- **Hiểu khái niệm** — lifecycle, this, bind... để giải thích tại sao
-  hooks ra đời.
+- **Hiểu khái niệm** — lifecycle, this, bind... để giải thích tại sao hooks ra đời.
 
 :::warning[Cần lưu ý]
 
-**Không viết code mới bằng class component.** React docs đã chuyển sang
-hooks-first hoàn toàn. Hooks:
+**Không viết code mới bằng class component.** React docs đã chuyển sang hooks-first hoàn toàn. Hooks:
 
 - Code ngắn hơn 30-50%.
 - Không có `this` binding rắc rối.
 - Reuse logic dễ qua custom hooks.
 - Type-safe với TypeScript tốt hơn.
 
-Class component **vẫn được hỗ trợ** vô thời hạn — không bị remove. Chỉ
-là không khuyến nghị cho code mới.
+Class component **vẫn được hỗ trợ** vô thời hạn — không bị remove. Chỉ là không khuyến nghị cho code mới.
 
 :::
 
@@ -181,8 +168,7 @@ this.setState(prev => ({ count: prev.count + 1 }));
 
 :::warning[Cần lưu ý]
 
-**`setState` là async + batched** — đừng dựa vào `this.state` ngay sau
-khi gọi:
+**`setState` là async + batched** — đừng dựa vào `this.state` ngay sau khi gọi:
 
 ```jsx
 this.setState({ count: 1 });
@@ -281,8 +267,7 @@ class DataLoader extends Component {
 | `getDerivedStateFromProps` | Tính từ props trong render |
 | `getSnapshotBeforeUpdate` | `useLayoutEffect` |
 
-Một `useEffect` thay thế **3 lifecycle method** (mount, update, unmount)
-trong một chỗ — dễ đọc, không bị tách logic.
+Một `useEffect` thay thế **3 lifecycle method** (mount, update, unmount) trong một chỗ — dễ đọc, không bị tách logic.
 
 Vd Pattern data fetching:
 
@@ -341,16 +326,13 @@ Có thư viện `react-error-boundary` wrap thành component dễ dùng hơn.
 
 :::tip[Mẹo]
 
-**Migrate class → hook**: làm dần từng component, không phải đập đi xây
-lại toàn bộ. Tool hỗ trợ:
+**Migrate class → hook**: làm dần từng component, không phải đập đi xây lại toàn bộ. Tool hỗ trợ:
 
 - **react-codemod** — script tự convert lifecycle → hooks.
 - **VSCode refactor** — đôi khi work.
 - Làm tay với pattern đã biết — an toàn nhất.
 
-Ưu tiên migrate component có **logic đơn giản** trước. Component có
-`shouldComponentUpdate`, `getSnapshotBeforeUpdate`, error boundary —
-để cuối hoặc giữ class.
+Ưu tiên migrate component có **logic đơn giản** trước. Component có `shouldComponentUpdate`, `getSnapshotBeforeUpdate`, error boundary — để cuối hoặc giữ class.
 
 :::
 

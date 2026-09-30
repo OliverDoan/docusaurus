@@ -806,8 +806,7 @@ Cả hai đều là synchronization aids (công cụ đồng bộ hoá) trong `j
 | Hành động khi đủ | Không có | Có thể chạy `Runnable` barrier action |
 | Use case | Chờ nhiều task hoàn thành | Các bước đồng bộ trong thuật toán song song |
 
-**CountDownLatch:** Một thread (hoặc nhiều) chờ cho đến khi N thao tác hoàn tất.
-**CyclicBarrier:** Tất cả N thread cùng chờ nhau tại một điểm, rồi cùng tiến.
+**CountDownLatch:** Một thread (hoặc nhiều) chờ cho đến khi N thao tác hoàn tất. **CyclicBarrier:** Tất cả N thread cùng chờ nhau tại một điểm, rồi cùng tiến.
 
 ### Code minh hoạ
 

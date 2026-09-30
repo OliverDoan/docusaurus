@@ -5,13 +5,9 @@ title: "2. Demo: React Host + Remote"
 
 # Demo: dựng Host + Remote với React
 
-Bài này dựng một demo Module Federation **hoàn chỉnh** với Webpack 5: một **remote**
-(app `remote_app`) expose một component, và một **host** (app `shell`) tải
-component đó về lúc runtime rồi render. Sau bài này bạn nắm được toàn bộ vòng đời:
-cấu hình plugin, **async boundary** (ranh giới bất đồng bộ), chạy, và xử lý lỗi.
+Bài này dựng một demo Module Federation **hoàn chỉnh** với Webpack 5: một **remote** (app `remote_app`) expose một component, và một **host** (app `shell`) tải component đó về lúc runtime rồi render. Sau bài này bạn nắm được toàn bộ vòng đời: cấu hình plugin, **async boundary** (ranh giới bất đồng bộ), chạy, và xử lý lỗi.
 
-> Ta dùng cấu hình **Webpack 5 kinh điển** vì dễ hiểu nhất. Có thể nâng lên
-> `@module-federation/enhanced` sau (xem bài trước).
+> Ta dùng cấu hình **Webpack 5 kinh điển** vì dễ hiểu nhất. Có thể nâng lên `@module-federation/enhanced` sau (xem bài trước).
 
 ---
 
@@ -44,10 +40,8 @@ cấu hình plugin, **async boundary** (ranh giới bất đồng bộ), chạy,
 ## Kết quả demo
 
 - **`remote_app`** chạy ở `http://localhost:3001`, expose component `Button`.
-- **`shell`** (host) chạy ở `http://localhost:3000`, tải `Button` từ remote lúc
-  runtime và hiển thị.
-- Khi bạn sửa & deploy lại `remote_app`, host **tự nhận bản mới** mà không build
-  lại — đó là điểm cốt lõi.
+- **`shell`** (host) chạy ở `http://localhost:3000`, tải `Button` từ remote lúc runtime và hiển thị.
+- Khi bạn sửa & deploy lại `remote_app`, host **tự nhận bản mới** mà không build lại — đó là điểm cốt lõi.
 
 ## Cấu trúc thư mục
 
@@ -113,8 +107,7 @@ module.exports = {
 }
 ```
 
-Sau khi chạy, remote phục vụ file tại
-`http://localhost:3001/remoteEntry.js` — đây là thứ host sẽ trỏ tới.
+Sau khi chạy, remote phục vụ file tại `http://localhost:3001/remoteEntry.js` — đây là thứ host sẽ trỏ tới.
 
 ## Phần 2 — Host: tiêu thụ component
 
@@ -148,8 +141,7 @@ module.exports = {
 
 ### Dùng component từ remote
 
-Import module remote như một module bình thường — Webpack hiểu `remote_app/Button`
-là "lấy từ remote". Dùng `React.lazy` + `Suspense` để tải bất đồng bộ:
+Import module remote như một module bình thường — Webpack hiểu `remote_app/Button` là "lấy từ remote". Dùng `React.lazy` + `Suspense` để tải bất đồng bộ:
 
 ```jsx
 // shell/src/App.jsx
@@ -171,8 +163,7 @@ export default function App() {
 ```
 
 :::tip TypeScript than phiền về `import('remote_app/Button')`?
-Module remote không có sẵn kiểu lúc biên dịch. Khai báo module để TypeScript thôi
-báo lỗi:
+Module remote không có sẵn kiểu lúc biên dịch. Khai báo module để TypeScript thôi báo lỗi:
 
 ```ts
 // shell/src/remotes.d.ts
@@ -186,8 +177,7 @@ Hoặc dùng `@module-federation/enhanced` để có **type hinting** tự độ
 
 ## Async boundary — vì sao cần file bootstrap
 
-Bạn sẽ thấy mẫu lặp lại: `index.js` **chỉ** `import('./bootstrap')`, còn code
-thật nằm trong `bootstrap.jsx`:
+Bạn sẽ thấy mẫu lặp lại: `index.js` **chỉ** `import('./bootstrap')`, còn code thật nằm trong `bootstrap.jsx`:
 
 ```js
 // src/index.js  (entry)
@@ -203,15 +193,10 @@ import App from './App'
 createRoot(document.getElementById('root')).render(<App />)
 ```
 
-**Vì sao tách ra?** Để chia sẻ dependency (React) lúc runtime, Webpack cần một
-**async boundary** (ranh giới bất đồng bộ) trước khi code dùng tới thư viện chia
-sẻ. Việc `import()` động `./bootstrap` tạo ra ranh giới đó: Webpack có "khoảng
-thở" để dàn xếp xem ai chia sẻ React bản nào trước khi app khởi động.
+**Vì sao tách ra?** Để chia sẻ dependency (React) lúc runtime, Webpack cần một **async boundary** (ranh giới bất đồng bộ) trước khi code dùng tới thư viện chia sẻ. Việc `import()` động `./bootstrap` tạo ra ranh giới đó: Webpack có "khoảng thở" để dàn xếp xem ai chia sẻ React bản nào trước khi app khởi động.
 
 :::danger Quên bootstrap = lỗi "Shared module is not available for eager consumption"
-Nếu bạn render thẳng trong `index.js` (không qua `import()` động), Webpack sẽ báo
-lỗi *eager consumption*. Mẫu `index.js → import('./bootstrap')` chính là cách xử
-lý chuẩn.
+Nếu bạn render thẳng trong `index.js` (không qua `import()` động), Webpack sẽ báo lỗi *eager consumption*. Mẫu `index.js → import('./bootstrap')` chính là cách xử lý chuẩn.
 :::
 
 ## Chạy demo
@@ -247,14 +232,11 @@ cd remote_app && npm install && npm start   # http://localhost:3001
 cd shell && npm install && npm start         # http://localhost:3000
 ```
 
-Mở `http://localhost:3000` → bạn thấy nút "Bấm tôi — từ remote_app 🎁" được render,
-**dù code nút nằm ở app khác**. Mở tab Network sẽ thấy host tải
-`remoteEntry.js` từ cổng 3001.
+Mở `http://localhost:3000` → bạn thấy nút "Bấm tôi — từ remote_app 🎁" được render, **dù code nút nằm ở app khác**. Mở tab Network sẽ thấy host tải `remoteEntry.js` từ cổng 3001.
 
 ## Xử lý lỗi khi tải remote
 
-Tải remote lúc runtime có thể **thất bại** (remote sập, sai URL, lệch mạng). Đừng
-để cả trang trắng — hãy bọc bằng **Error Boundary** (ranh giới bắt lỗi):
+Tải remote lúc runtime có thể **thất bại** (remote sập, sai URL, lệch mạng). Đừng để cả trang trắng — hãy bọc bằng **Error Boundary** (ranh giới bắt lỗi):
 
 ```jsx
 // shell/src/RemoteErrorBoundary.jsx
@@ -290,18 +272,14 @@ export default class RemoteErrorBoundary extends React.Component {
 </RemoteErrorBoundary>
 ```
 
-> Quy tắc: **mỗi remote** nên có Error Boundary riêng, để một mảnh hỏng không kéo
-> sập cả trang — đúng tinh thần **cô lập lỗi** của micro-frontend.
+> Quy tắc: **mỗi remote** nên có Error Boundary riêng, để một mảnh hỏng không kéo sập cả trang — đúng tinh thần **cô lập lỗi** của micro-frontend.
 
 ## Tóm tắt
 
 - **Remote** dùng `exposes` để mở component; sinh ra `remoteEntry.js`.
-- **Host** dùng `remotes` trỏ tới URL `remoteEntry.js`, rồi
-  `React.lazy(() => import('remote_app/Button'))` để tải lúc runtime.
-- **`shared` + `singleton`** cho `react`/`react-dom` ở cả hai app để không tải
-  trùng React.
-- Mẫu **`index.js → import('./bootstrap')`** tạo **async boundary** bắt buộc; quên
-  nó sẽ gặp lỗi *eager consumption*.
+- **Host** dùng `remotes` trỏ tới URL `remoteEntry.js`, rồi `React.lazy(() => import('remote_app/Button'))` để tải lúc runtime.
+- **`shared` + `singleton`** cho `react`/`react-dom` ở cả hai app để không tải trùng React.
+- Mẫu **`index.js → import('./bootstrap')`** tạo **async boundary** bắt buộc; quên nó sẽ gặp lỗi *eager consumption*.
 - Chạy **remote trước, host sau**; host tải remote qua mạng lúc runtime.
 - Luôn bọc remote bằng **Suspense** (chờ tải) và **Error Boundary** (cô lập lỗi).
 

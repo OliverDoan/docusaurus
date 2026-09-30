@@ -169,8 +169,7 @@ export default async function BlogPost({ params }) {
 }
 ```
 
-Không có `getServerSideProps` / `getStaticProps` — fetch trực tiếp trong
-async component, control behavior qua `fetch` options.
+Không có `getServerSideProps` / `getStaticProps` — fetch trực tiếp trong async component, control behavior qua `fetch` options.
 
 Cách Next.js ánh xạ cấu trúc thư mục `app/` thành URL:
 
@@ -299,11 +298,9 @@ Mới dùng **Web Standards** Request/Response thay vì Node API.
 
 **Migration challenges thường gặp:**
 
-1. **Server vs Client Components** — page App Router default Server.
-   Code dùng `useState`, `useEffect` phải đánh dấu `"use client"`.
+1. **Server vs Client Components** — page App Router default Server. Code dùng `useState`, `useEffect` phải đánh dấu `"use client"`.
 
-2. **Data fetching pattern khác** — không còn `getServerSideProps`.
-   Phải dùng `fetch()` trong component hoặc gọi function trực tiếp.
+2. **Data fetching pattern khác** — không còn `getServerSideProps`. Phải dùng `fetch()` trong component hoặc gọi function trực tiếp.
 
 3. **Routing API khác**:
    - `useRouter()` từ `next/router` (Pages) → `next/navigation` (App).
@@ -342,8 +339,7 @@ Migrate có rủi ro. Plan:
 - Có dependency không compat với App Router.
 - Resource hạn chế (migrate tốn 1-3 tháng cho app trung).
 
-App Router là **tương lai**, nhưng Pages Router **không bị bỏ rơi**. Quyết
-định dựa trên giá trị mang lại, không phải hype.
+App Router là **tương lai**, nhưng Pages Router **không bị bỏ rơi**. Quyết định dựa trên giá trị mang lại, không phải hype.
 
 :::
 
@@ -357,8 +353,7 @@ App Router là **tương lai**, nhưng Pages Router **không bị bỏ rơi**. Q
 - **Same URL không thể có cả hai** — Next.js báo lỗi.
 - **CSS global** — chia làm 2: `_app.tsx` cho pages, `layout.tsx` cho app.
 
-Trong giai đoạn migration, cấu trúc lai này chấp nhận được. Mục tiêu
-cuối: chỉ còn `app/`.
+Trong giai đoạn migration, cấu trúc lai này chấp nhận được. Mục tiêu cuối: chỉ còn `app/`.
 
 :::
 

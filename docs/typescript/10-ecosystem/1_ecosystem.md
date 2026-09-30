@@ -56,8 +56,7 @@ flowchart TD
 
 ## Formatting (Prettier)
 
-[Prettier](https://prettier.io) là tool format code chuẩn — gần như mặc
-định cho mọi project TS.
+[Prettier](https://prettier.io) là tool format code chuẩn — gần như mặc định cho mọi project TS.
 
 ```bash
 npm install --save-dev prettier
@@ -83,9 +82,7 @@ npx prettier --write "src/**/*.{ts,tsx}"
 
 :::tip[Mẹo]
 
-Bật **format on save** trong VSCode (`editor.formatOnSave: true`) + cài
-extension Prettier. Code tự format mỗi lần lưu, không bao giờ phải nghĩ
-về style.
+Bật **format on save** trong VSCode (`editor.formatOnSave: true`) + cài extension Prettier. Code tự format mỗi lần lưu, không bao giờ phải nghĩ về style.
 
 :::
 
@@ -93,8 +90,7 @@ về style.
 
 ## Linting (ESLint)
 
-[ESLint](https://eslint.org) — phát hiện lỗi logic, bad pattern, code
-smell. **TSLint đã bị deprecated** từ 2019.
+[ESLint](https://eslint.org) — phát hiện lỗi logic, bad pattern, code smell. **TSLint đã bị deprecated** từ 2019.
 
 Setup cho TypeScript:
 
@@ -122,10 +118,8 @@ export default tseslint.config(
 
 ESLint cho TS hoạt động ở **hai chế độ**:
 
-1. **Syntax-only** — chạy nhanh, không cần `tsc`. Chỉ check rule không
-   phụ thuộc type.
-2. **Type-aware** — bật `parserOptions.project: true`, cho phép rule
-   dùng thông tin type. Bắt được nhiều bug hơn nhưng chậm hơn 5-10 lần.
+1. **Syntax-only** — chạy nhanh, không cần `tsc`. Chỉ check rule không phụ thuộc type.
+2. **Type-aware** — bật `parserOptions.project: true`, cho phép rule dùng thông tin type. Bắt được nhiều bug hơn nhưng chậm hơn 5-10 lần.
 
 Rule type-aware mạnh:
 
@@ -134,8 +128,7 @@ Rule type-aware mạnh:
 - `strict-boolean-expressions` — cấm dùng truthy với nullable.
 - `no-unsafe-assignment` / `no-unsafe-call` — chặn lan truyền `any`.
 
-Trong CI nên chạy ESLint type-aware. Trong pre-commit hook nên dùng
-phiên bản nhẹ để không chậm dev.
+Trong CI nên chạy ESLint type-aware. Trong pre-commit hook nên dùng phiên bản nhẹ để không chậm dev.
 
 :::
 
@@ -156,8 +149,7 @@ phiên bản nhẹ để không chậm dev.
 
 :::warning[Cần lưu ý]
 
-**esbuild / swc / Bun không type-check** — chúng chỉ **strip type** rồi
-build. Lỗi type **không bị bắt** trong quá trình bundle.
+**esbuild / swc / Bun không type-check** — chúng chỉ **strip type** rồi build. Lỗi type **không bị bắt** trong quá trình bundle.
 
 → Workflow đúng:
 
@@ -218,29 +210,23 @@ npx vitest
 
 **Type utilities:**
 
-- [`type-fest`](https://github.com/sindresorhus/type-fest) — bộ utility
-  type bổ sung (DeepReadonly, RequireAtLeastOne, Promisable...).
-- [`ts-toolbelt`](https://github.com/millsp/ts-toolbelt) — utility cấp
-  cao hơn, dùng cho type metaprogramming.
+- [`type-fest`](https://github.com/sindresorhus/type-fest) — bộ utility type bổ sung (DeepReadonly, RequireAtLeastOne, Promisable...).
+- [`ts-toolbelt`](https://github.com/millsp/ts-toolbelt) — utility cấp cao hơn, dùng cho type metaprogramming.
 
 **Validation runtime:**
 
-- [`zod`](https://zod.dev) — schema validation, infer type tự động.
-  De-facto standard 2025+.
-- [`valibot`](https://valibot.dev) — alternative cho Zod, tree-shakeable
-  hơn.
+- [`zod`](https://zod.dev) — schema validation, infer type tự động. De-facto standard 2025+.
+- [`valibot`](https://valibot.dev) — alternative cho Zod, tree-shakeable hơn.
 - [`io-ts`](https://github.com/gcanti/io-ts) — functional style.
 
 **HTTP / API:**
 
-- [`trpc`](https://trpc.io) — end-to-end type-safe API, không cần code
-  gen.
+- [`trpc`](https://trpc.io) — end-to-end type-safe API, không cần code gen.
 - [`hono`](https://hono.dev) — framework web siêu nhẹ, type-safe.
 
 **ORM:**
 
-- [`drizzle-orm`](https://orm.drizzle.team) — SQL builder type-safe,
-  lightweight, không decorator.
+- [`drizzle-orm`](https://orm.drizzle.team) — SQL builder type-safe, lightweight, không decorator.
 - [`prisma`](https://www.prisma.io) — ORM phổ biến với schema riêng.
 
 :::tip[Mẹo]
@@ -257,8 +243,7 @@ npx vitest
 - Build: **Vite** / **Next** (Turbopack) / **Bun**.
 - Test: **Vitest**.
 
-Stack này tận dụng tối đa type system của TS — single source of truth
-từ DB → API → form, không phải duy trì type ở nhiều tầng.
+Stack này tận dụng tối đa type system của TS — single source of truth từ DB → API → form, không phải duy trì type ở nhiều tầng.
 
 :::
 

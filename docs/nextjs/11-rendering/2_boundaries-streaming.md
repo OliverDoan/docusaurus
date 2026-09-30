@@ -362,8 +362,7 @@ Equivalent với:
 </Suspense>
 ```
 
-`loading.tsx` ở level page. Suspense thủ công bên trong → từng section
-load riêng.
+`loading.tsx` ở level page. Suspense thủ công bên trong → từng section load riêng.
 
 :::tip[Mẹo]
 

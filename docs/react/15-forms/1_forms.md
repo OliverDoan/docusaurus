@@ -240,8 +240,7 @@ function ContactForm() {
 
 :::info[Phân tích]
 
-**RHF dùng uncontrolled + ref** thay vì state → component không re-render
-mỗi keystroke → form lớn (50+ field) vẫn smooth.
+**RHF dùng uncontrolled + ref** thay vì state → component không re-render mỗi keystroke → form lớn (50+ field) vẫn smooth.
 
 Lợi ích:
 
@@ -321,8 +320,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 ## TanStack Form
 
-[TanStack Form](https://tanstack.com/form) — mới, type-safe, framework-agnostic
-(React, Vue, Solid, Lit).
+[TanStack Form](https://tanstack.com/form) — mới, type-safe, framework-agnostic (React, Vue, Solid, Lit).
 
 ```tsx
 import { useForm } from "@tanstack/react-form";
@@ -370,8 +368,7 @@ function Form() {
 
 ## React 19 Actions
 
-React 19 + Next.js App Router có **Server Actions** — form submit không
-qua API route.
+React 19 + Next.js App Router có **Server Actions** — form submit không qua API route.
 
 ```tsx
 async function createUser(formData: FormData) {
@@ -479,15 +476,13 @@ Zod thắng vì:
 - **Composable** — schema kết hợp dễ.
 - **Tích hợp** RHF, tRPC, Drizzle, Astro Content.
 
-Alternatives: **Valibot** (nhẹ hơn, tree-shake tốt), **Yup** (cũ),
-**Joi** (Node-focused).
+Alternatives: **Valibot** (nhẹ hơn, tree-shake tốt), **Yup** (cũ), **Joi** (Node-focused).
 
 :::tip[Mẹo]
 
 **Stack form tiêu chuẩn 2026:**
 
-- **RHF** + **Zod** + **shadcn/ui Form components** — cho client-side
-  validation và UI.
+- **RHF** + **Zod** + **shadcn/ui Form components** — cho client-side validation và UI.
 - **Server Actions** + **Zod** — cho server-side validation và mutation.
 - **Both** — pattern "defense in depth": validate cả 2 phía.
 

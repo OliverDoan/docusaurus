@@ -260,8 +260,7 @@ export default function Layout({
 
 Use case:
 
-- **Dashboard với widget độc lập** — analytics, team, notifications load
-  song song.
+- **Dashboard với widget độc lập** — analytics, team, notifications load song song.
 - **Modal route** — kết hợp với Intercepting Routes.
 - **Tab giữ scroll** — mỗi tab là parallel slot.
 
@@ -296,8 +295,7 @@ flowchart TD
 
 ## Intercepting Routes
 
-**Intercept** một route để render trong layout hiện tại thay vì navigate
-full:
+**Intercept** một route để render trong layout hiện tại thay vì navigate full:
 
 ```
 app/
@@ -373,8 +371,7 @@ Cho phép **deep linking** + **seamless modal**:
 - Refresh → full page (không lost context).
 
 Đây là pattern khó implement với SPA thường — yêu cầu coordinate router
-+ modal state + URL state. Next.js App Router làm tự nhiên qua file
-convention.
++ modal state + URL state. Next.js App Router làm tự nhiên qua file convention.
 
 Pinterest, Twitter, Instagram đều dùng pattern này.
 
@@ -427,8 +424,7 @@ export default function Default() {
 
 - Đa số app **không cần** Parallel/Intercepting.
 - Dynamic routes + Route Groups đủ cho 90% case.
-- Chỉ dùng Parallel/Intercepting khi UX **thực sự cần** (modal deep link,
-  dashboard widget độc lập).
+- Chỉ dùng Parallel/Intercepting khi UX **thực sự cần** (modal deep link, dashboard widget độc lập).
 
 Trade-off:
 

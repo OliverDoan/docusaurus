@@ -280,8 +280,7 @@ class Dog extends Animal {
 }
 ```
 
-Lý do: trong subclass, `this` được tạo bởi `super()`. Đây là khác biệt
-với ngôn ngữ khác (Java tạo `this` ngay khi constructor chạy).
+Lý do: trong subclass, `this` được tạo bởi `super()`. Đây là khác biệt với ngôn ngữ khác (Java tạo `this` ngay khi constructor chạy).
 
 → Luôn gọi `super()` **đầu tiên** trong constructor của subclass.
 
@@ -330,8 +329,7 @@ acc["#balance"]; // undefined — cũng không lách được
 | Hiện trong `Object.keys` | Không | Có |
 | Hiện trong DevTools | Có nhưng đánh dấu | Như public |
 
-→ **Dùng `#field`** trong code mới. `_field` chỉ là quy ước, vẫn truy
-cập và sửa được, không cản trở user "bypass" private.
+→ **Dùng `#field`** trong code mới. `_field` chỉ là quy ước, vẫn truy cập và sửa được, không cản trở user "bypass" private.
 
 Pitfall: `#field` **không sync** với `private` của TypeScript:
 
@@ -346,8 +344,7 @@ a.x;     // 1 — TS không cản
 a.#y;    // SyntaxError — JS thực sự cấm
 ```
 
-Khi cần private **thực sự** (security, lib API), dùng `#`. Cho code app
-thường, `private` TS đủ tốt và dễ debug hơn.
+Khi cần private **thực sự** (security, lib API), dùng `#`. Cho code app thường, `private` TS đủ tốt và dễ debug hơn.
 
 :::
 

@@ -226,8 +226,7 @@ try {
 
 ## TanStack Query (khuyến nghị)
 
-[TanStack Query](https://tanstack.com/query) (trước là React Query) —
-**server state** library. Cache, retry, refetch tự động.
+[TanStack Query](https://tanstack.com/query) (trước là React Query) — **server state** library. Cache, retry, refetch tự động.
 
 ```bash
 npm install @tanstack/react-query
@@ -304,12 +303,9 @@ function CreateUser() {
 - **Optimistic update** — UI update ngay, rollback nếu fail.
 - **Devtools** — inspect query state real-time.
 
-Cốt lõi: tách **server state** (data từ API) khỏi **client state** (UI state).
-Hai loại có pattern khác nhau — server state cần cache + sync, client state
-chỉ cần store thường.
+Cốt lõi: tách **server state** (data từ API) khỏi **client state** (UI state). Hai loại có pattern khác nhau — server state cần cache + sync, client state chỉ cần store thường.
 
-Năm 2026, **TanStack Query là default** cho mọi React app cần fetch data.
-Không có lý do để fetch thủ công trong production.
+Năm 2026, **TanStack Query là default** cho mọi React app cần fetch data. Không có lý do để fetch thủ công trong production.
 
 :::
 
@@ -388,8 +384,7 @@ Phù hợp:
 
 ## tRPC
 
-[tRPC](https://trpc.io) — **end-to-end type-safe API**, không cần code gen
-hay schema riêng.
+[tRPC](https://trpc.io) — **end-to-end type-safe API**, không cần code gen hay schema riêng.
 
 ```ts
 // server
@@ -442,8 +437,7 @@ Project type?
 └─ Server Components (RSC) → fetch trực tiếp trong RSC + revalidate
 ```
 
-Đa số dự án mới: **TanStack Query** + **Axios/Fetch** đủ. Add tRPC khi
-team control cả backend + frontend.
+Đa số dự án mới: **TanStack Query** + **Axios/Fetch** đủ. Add tRPC khi team control cả backend + frontend.
 
 :::
 

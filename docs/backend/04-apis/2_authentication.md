@@ -398,8 +398,7 @@ Bạn nhờ người quen sang nhà **lấy hộ kiện hàng**. Có hai cách:
 - **Auth.js (NextAuth)** — Node/Next.js.
 - **Better Auth** — modern, framework-agnostic.
 
-Roll your own auth? **Đừng** — trừ khi học hoặc edge case. Auth có hàng
-chục pitfall security. Dùng provider mature.
+Roll your own auth? **Đừng** — trừ khi học hoặc edge case. Auth có hàng chục pitfall security. Dùng provider mature.
 
 :::
 
@@ -719,17 +718,13 @@ Nếu thật sự cần giấu nội dung, dùng **JWE** (JSON Web Encryption) h
 
 Bản chất vấn đề: JWT tự chứng minh tính hợp lệ, server không giữ danh sách token đã phát nên mặc định **không thể thu hồi**.
 
-- **Blacklist / denylist** — lưu `jti` của token đã logout vào Redis với TTL bằng thời gian còn lại. Verify xong phải tra thêm Redis.
-  *Đánh đổi:* mất tính stateless, thêm một lookup mỗi request — nhưng TTL ngắn nên store rất nhỏ.
+- **Blacklist / denylist** — lưu `jti` của token đã logout vào Redis với TTL bằng thời gian còn lại. Verify xong phải tra thêm Redis. *Đánh đổi:* mất tính stateless, thêm một lookup mỗi request — nhưng TTL ngắn nên store rất nhỏ.
 
-- **Token version / `tokenVersion` trong DB** — mỗi user có một số phiên bản; token mang theo version lúc phát. Logout toàn bộ thiết bị chỉ cần tăng version.
-  *Đánh đổi:* vẫn phải tra DB (hoặc cache) mỗi request; không thu hồi riêng lẻ từng thiết bị nếu chỉ có một biến đếm.
+- **Token version / `tokenVersion` trong DB** — mỗi user có một số phiên bản; token mang theo version lúc phát. Logout toàn bộ thiết bị chỉ cần tăng version. *Đánh đổi:* vẫn phải tra DB (hoặc cache) mỗi request; không thu hồi riêng lẻ từng thiết bị nếu chỉ có một biến đếm.
 
-- **Access token sống rất ngắn + refresh token server-side** — cách phổ biến nhất. Access token 5–15 phút, logout chỉ cần xoá refresh token.
-  *Đánh đổi:* còn cửa sổ vài phút token cũ dùng được — chấp nhận được với hầu hết ứng dụng.
+- **Access token sống rất ngắn + refresh token server-side** — cách phổ biến nhất. Access token 5–15 phút, logout chỉ cần xoá refresh token. *Đánh đổi:* còn cửa sổ vài phút token cũ dùng được — chấp nhận được với hầu hết ứng dụng.
 
-- **Quay về opaque token / session** cho các luồng cần revoke tuyệt đối.
-  *Đánh đổi:* mất lợi ích stateless hoàn toàn.
+- **Quay về opaque token / session** cho các luồng cần revoke tuyệt đối. *Đánh đổi:* mất lợi ích stateless hoàn toàn.
 
 </details>
 
@@ -923,15 +918,13 @@ Lưu ý: `state` chống CSRF, **`nonce`** (của OIDC) chống replay `id_token
 **Implicit grant** (trả `access_token` thẳng về browser qua fragment của URL) bị loại vì:
 
 - Token nằm trong **URL** → lọt vào lịch sử trình duyệt, log của proxy, header `Referer`.
-- **Không có refresh token** an toàn → buộc để access token sống dài, hoặc dùng iframe ẩn (nay hỏng vì trình duyệt chặn third-party cookie).
-  → Thay thế bằng **Authorization Code + PKCE**, hoạt động tốt cho cả SPA.
+- **Không có refresh token** an toàn → buộc để access token sống dài, hoặc dùng iframe ẩn (nay hỏng vì trình duyệt chặn third-party cookie). → Thay thế bằng **Authorization Code + PKCE**, hoạt động tốt cho cả SPA.
 
 **Password grant** (Resource Owner Password Credentials — app tự thu password của user rồi gửi đi) bị loại vì:
 
 - **Phá vỡ đúng lý do OAuth tồn tại**: app lại chạm vào password của user.
 - Không tương thích với **MFA**, passkey, captcha.
-- Tạo thói quen nguy hiểm: người dùng quen gõ mật khẩu vào giao diện bên thứ ba → mồi ngon cho phishing, và không dùng được với federation/SSO.
-  → Thay thế bằng Authorization Code + PKCE (kể cả app "của chính mình"), hoặc Device Code flow cho thiết bị không có trình duyệt.
+- Tạo thói quen nguy hiểm: người dùng quen gõ mật khẩu vào giao diện bên thứ ba → mồi ngon cho phishing, và không dùng được với federation/SSO. → Thay thế bằng Authorization Code + PKCE (kể cả app "của chính mình"), hoặc Device Code flow cho thiết bị không có trình duyệt.
 
 OAuth 2.1 đồng thời **bắt buộc PKCE** và yêu cầu `redirect_uri` so khớp chính xác.
 

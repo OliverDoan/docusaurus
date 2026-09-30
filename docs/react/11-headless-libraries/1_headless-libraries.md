@@ -100,8 +100,7 @@ flowchart TD
 
 ## Headless là gì?
 
-**Headless component** = thư viện cung cấp **logic + behavior + accessibility**
-nhưng **không có style sẵn**. Bạn tự style theo design.
+**Headless component** = thư viện cung cấp **logic + behavior + accessibility** nhưng **không có style sẵn**. Bạn tự style theo design.
 
 Lý do dùng:
 
@@ -109,8 +108,7 @@ Lý do dùng:
 - **Accessibility miễn phí** — keyboard nav, ARIA, focus trap đã làm sẵn.
 - **Composition tốt** — flexible hơn opinionated lib.
 
-Ví dụ: dropdown với keyboard navigation (↑↓ chọn, Enter confirm, Esc close,
-ARIA labels) **là phần khó nhất** — headless lib làm hộ.
+Ví dụ: dropdown với keyboard navigation (↑↓ chọn, Enter confirm, Esc close, ARIA labels) **là phần khó nhất** — headless lib làm hộ.
 
 Sơ đồ dưới đây cho thấy headless tách phần logic + a11y ra khỏi phần style do bạn tự lo:
 
@@ -178,8 +176,7 @@ shadcn/ui = Radix UI + Tailwind preset → đó là lý do shadcn boom 2024+.
 
 ## React Aria
 
-[React Aria](https://react-spectrum.adobe.com/react-aria) — của Adobe,
-**accessibility hardcore nhất**.
+[React Aria](https://react-spectrum.adobe.com/react-aria) — của Adobe, **accessibility hardcore nhất**.
 
 ```bash
 npm install react-aria-components
@@ -204,8 +201,7 @@ Phù hợp app cần a11y nghiêm túc (gov, healthcare, education).
 
 ## Ark UI
 
-[Ark UI](https://ark-ui.com) — multi-framework (React, Vue, Solid),
-state machine-based.
+[Ark UI](https://ark-ui.com) — multi-framework (React, Vue, Solid), state machine-based.
 
 ```jsx
 import { Dialog } from "@ark-ui/react";
@@ -250,8 +246,7 @@ import { Menu } from "@headlessui/react";
 - Tích hợp tốt với Tailwind.
 - API render prop (cũ hơn Radix).
 
-→ Radix UI thường được chọn hơn cho project mới, Headless UI cho project
-đã quen Tailwind ecosystem.
+→ Radix UI thường được chọn hơn cho project mới, Headless UI cho project đã quen Tailwind ecosystem.
 
 ---
 
@@ -283,9 +278,7 @@ import { Menu } from "@headlessui/react";
 7. **TanStack Router** hoặc **React Router** cho routing.
 8. **react-hook-form + Zod** cho form.
 
-Stack này = "default 2026" — phần lớn project SaaS, dashboard, internal
-tool đều dùng. shadcn/ui làm việc heavy lifting (component lib +
-accessibility + composition).
+Stack này = "default 2026" — phần lớn project SaaS, dashboard, internal tool đều dùng. shadcn/ui làm việc heavy lifting (component lib + accessibility + composition).
 
 :::
 

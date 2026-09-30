@@ -330,8 +330,7 @@ export async function updateProduct(id: string, data: ProductUpdate) {
 }
 ```
 
-`unstable_cache` — cache function (không phải chỉ fetch). Hữu ích cho
-DB query, computation.
+`unstable_cache` — cache function (không phải chỉ fetch). Hữu ích cho DB query, computation.
 
 :::tip[Mẹo]
 
@@ -367,11 +366,9 @@ export async function POST(request: NextRequest) {
 }
 ```
 
-CMS (Sanity, Contentful, Strapi) gọi webhook khi content publish → site
-update ngay không cần rebuild.
+CMS (Sanity, Contentful, Strapi) gọi webhook khi content publish → site update ngay không cần rebuild.
 
-Pattern này biến **static site** thành **dynamic-feel** mà không sacrifice
-performance.
+Pattern này biến **static site** thành **dynamic-feel** mà không sacrifice performance.
 
 :::
 
@@ -408,8 +405,7 @@ fetch("/api/categories/electronics/products", { next: { tags: ["products"] } });
 revalidateTag("products"); // cả 2 fetch trên đều invalidate
 ```
 
-Đây là **feature**, không bug — đảm bảo consistency. Nhưng đôi khi
-over-invalidate → cân nhắc tag granular hơn.
+Đây là **feature**, không bug — đảm bảo consistency. Nhưng đôi khi over-invalidate → cân nhắc tag granular hơn.
 
 :::
 
@@ -417,17 +413,13 @@ over-invalidate → cân nhắc tag granular hơn.
 
 **Performance impact của revalidation**:
 
-- **revalidateTag/Path**: chỉ mark dirty, **chưa rebuild**. Lần request
-  tiếp theo mới rebuild.
-- **Background revalidation** (ISR): rebuild song song, user vẫn nhận
-  cache cũ.
+- **revalidateTag/Path**: chỉ mark dirty, **chưa rebuild**. Lần request tiếp theo mới rebuild.
+- **Background revalidation** (ISR): rebuild song song, user vẫn nhận cache cũ.
 - **Per-request**: rebuild sẽ chậm hơn lần đầu.
 
-Cost của on-demand revalidate **không cao** — chỉ overhead nhỏ trong
-function gọi. Có thể gọi tự do.
+Cost của on-demand revalidate **không cao** — chỉ overhead nhỏ trong function gọi. Có thể gọi tự do.
 
-Trên Vercel, revalidation share infrastructure với render → không tốn
-thêm.
+Trên Vercel, revalidation share infrastructure với render → không tốn thêm.
 
 :::
 

@@ -36,8 +36,7 @@ React là một **thư viện JavaScript** (bộ công cụ viết sẵn để d
 
 ## Yêu cầu nền tảng
 
-React **không phải** là điểm bắt đầu của hành trình frontend. Trước khi
-học React, bạn cần nắm chắc các kiến thức nền:
+React **không phải** là điểm bắt đầu của hành trình frontend. Trước khi học React, bạn cần nắm chắc các kiến thức nền:
 
 | Kiến thức | Tại sao? |
 |-----------|----------|
@@ -77,8 +76,7 @@ Tham khảo [roadmap JavaScript](/docs/javascript/01-gioi-thieu/1_javascript-la-
 
 :::tip[Mẹo]
 
-Không cần **thuộc lòng**, nhưng phải đủ **nhận biết** khi gặp trong code.
-React code điển hình:
+Không cần **thuộc lòng**, nhưng phải đủ **nhận biết** khi gặp trong code. React code điển hình:
 
 ```jsx
 function UserList({ users, onSelect }) {
@@ -94,9 +92,7 @@ function UserList({ users, onSelect }) {
 }
 ```
 
-Trong 5 dòng có: destructuring, arrow, callback, `map`, template-like
-(`{user.name}`), spread (key prop), event handler. Nếu chưa quen các
-khái niệm này → quay lại JS trước.
+Trong 5 dòng có: destructuring, arrow, callback, `map`, template-like (`{user.name}`), spread (key prop), event handler. Nếu chưa quen các khái niệm này → quay lại JS trước.
 
 :::
 
@@ -104,8 +100,7 @@ khái niệm này → quay lại JS trước.
 
 ## TypeScript checklist
 
-TypeScript **không bắt buộc** nhưng **rất khuyến nghị** với React. Tham
-khảo [roadmap TypeScript](/docs/typescript/01-gioi-thieu/1_typescript-la-gi).
+TypeScript **không bắt buộc** nhưng **rất khuyến nghị** với React. Tham khảo [roadmap TypeScript](/docs/typescript/01-gioi-thieu/1_typescript-la-gi).
 
 Tối thiểu cần biết:
 
@@ -138,8 +133,7 @@ Tối thiểu cần biết:
 - Self-closing bắt buộc cho thẻ không có content: `<img />`, `<br />`.
 - Attribute camelCase: `onclick` → `onClick`, `tabindex` → `tabIndex`.
 
-Khi chuyển từ HTML thuần sang JSX, nhớ những điểm này. Tools (Tailwind
-IntelliSense, Prettier) sẽ tự động nhắc.
+Khi chuyển từ HTML thuần sang JSX, nhớ những điểm này. Tools (Tailwind IntelliSense, Prettier) sẽ tự động nhắc.
 
 :::
 
@@ -172,8 +166,7 @@ flowchart TD
 
 :::warning[Cần lưu ý]
 
-**Đừng dồn học cùng lúc React + TypeScript + Tailwind + Redux + Next.js**
-— quá tải sẽ làm bạn nản. Lộ trình hợp lý:
+**Đừng dồn học cùng lúc React + TypeScript + Tailwind + Redux + Next.js** — quá tải sẽ làm bạn nản. Lộ trình hợp lý:
 
 1. **JS thuần** → vững nền.
 2. **React cơ bản** (Vite + JSX + props/state + hooks) → 2-3 tuần.
@@ -183,8 +176,7 @@ flowchart TD
 6. **State management** chỉ khi thực sự cần → vài ngày.
 7. **Framework (Next.js)** khi đã quen React → 2-3 tuần.
 
-Mỗi bước **build dự án thật** — không phải xem video. Học bằng cách
-gặp bug và sửa, không phải bằng cách đọc.
+Mỗi bước **build dự án thật** — không phải xem video. Học bằng cách gặp bug và sửa, không phải bằng cách đọc.
 
 :::
 

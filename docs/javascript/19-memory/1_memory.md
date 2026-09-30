@@ -89,9 +89,7 @@ Mọi ngôn ngữ đều qua 3 giai đoạn quản lý bộ nhớ:
 2. **Use** — đọc/ghi bộ nhớ.
 3. **Release** — giải phóng khi không cần.
 
-JavaScript là **garbage-collected language** — bước 1 và 3 **tự động**.
-Dev không có `malloc`/`free` như C, nhưng vẫn có thể tạo leak nếu không
-hiểu cơ chế.
+JavaScript là **garbage-collected language** — bước 1 và 3 **tự động**. Dev không có `malloc`/`free` như C, nhưng vẫn có thể tạo leak nếu không hiểu cơ chế.
 
 ```mermaid
 stateDiagram-v2
@@ -108,14 +106,8 @@ stateDiagram-v2
 
 JS Engine chia bộ nhớ làm hai vùng với cách hoạt động khác nhau:
 
-- **Stack** (ngăn xếp — vùng nhớ kiểu "vào sau ra trước", LIFO): lưu các giá
-  trị có **kích thước cố định, biết trước** — các **primitive** (`number`,
-  `string`, `boolean`, `null`, `undefined`, `symbol`, `bigint`) và **function
-  frame** (khung hàm — vùng chứa biến cục bộ của mỗi lần gọi hàm). Cấp phát/thu
-  hồi chỉ là **push/pop** nên cực nhanh.
-- **Heap** (vùng nhớ động — kho lớn, không theo thứ tự): lưu các giá trị **kích
-  thước thay đổi, lớn** — `object`, `array`, và phần thân của function. Cấp phát
-  ở đâu tuỳ engine, và phải nhờ **GC** dọn dẹp về sau.
+- **Stack** (ngăn xếp — vùng nhớ kiểu "vào sau ra trước", LIFO): lưu các giá trị có **kích thước cố định, biết trước** — các **primitive** (`number`, `string`, `boolean`, `null`, `undefined`, `symbol`, `bigint`) và **function frame** (khung hàm — vùng chứa biến cục bộ của mỗi lần gọi hàm). Cấp phát/thu hồi chỉ là **push/pop** nên cực nhanh.
+- **Heap** (vùng nhớ động — kho lớn, không theo thứ tự): lưu các giá trị **kích thước thay đổi, lớn** — `object`, `array`, và phần thân của function. Cấp phát ở đâu tuỳ engine, và phải nhờ **GC** dọn dẹp về sau.
 
 | | Stack | Heap |
 |--|-------|------|
@@ -127,8 +119,7 @@ JS Engine chia bộ nhớ làm hai vùng với cách hoạt động khác nhau:
 
 ### Primitive nằm trên stack
 
-Primitive được lưu **trực tiếp** trên stack. Khi gán cho biến khác, giá trị được
-**copy hẳn** — hai biến độc lập, sửa cái này không ảnh hưởng cái kia:
+Primitive được lưu **trực tiếp** trên stack. Khi gán cho biến khác, giá trị được **copy hẳn** — hai biến độc lập, sửa cái này không ảnh hưởng cái kia:
 
 ```js
 let x = 10;
@@ -140,8 +131,7 @@ x; // 10 — x không đổi vì y là bản sao độc lập
 
 ### Object nằm trên heap, biến giữ pointer
 
-Với object, biến trên stack chỉ chứa **pointer** (con trỏ — địa chỉ tới object
-nằm trên heap), không chứa bản thân object:
+Với object, biến trên stack chỉ chứa **pointer** (con trỏ — địa chỉ tới object nằm trên heap), không chứa bản thân object:
 
 ```js
 const name = "An";
@@ -156,8 +146,7 @@ let user = { name };  // biến `user` ở stack — chỉ giữ pointer
  └─────────┘          └──────────────┘
 ```
 
-Vì biến chỉ giữ pointer nên khi gán biến này cho biến khác, ta **copy pointer,
-KHÔNG copy object** — cả hai cùng trỏ tới **một** object trên heap:
+Vì biến chỉ giữ pointer nên khi gán biến này cho biến khác, ta **copy pointer, KHÔNG copy object** — cả hai cùng trỏ tới **một** object trên heap:
 
 ```js
 const a = { x: 1 };
@@ -167,8 +156,7 @@ b.x = 2;
 a.x; // 2 — a và b cùng trỏ tới một object trên heap
 ```
 
-Đây cũng là lý do so sánh hai object luôn cho `false` nếu chúng là hai object
-khác nhau trên heap — vì `===` so sánh **pointer**, không so sánh nội dung:
+Đây cũng là lý do so sánh hai object luôn cho `false` nếu chúng là hai object khác nhau trên heap — vì `===` so sánh **pointer**, không so sánh nội dung:
 
 ```js
 { x: 1 } === { x: 1 }; // false — hai object khác nhau trên heap
@@ -180,23 +168,13 @@ c === a;               // true — cùng một pointer
 
 **Vì sao primitive ở stack, object ở heap?**
 
-Stack hoạt động theo nguyên tắc LIFO và cần **biết trước kích thước** của mỗi ô
-để push/pop chính xác. Primitive có kích thước cố định (một số `number` luôn 8
-byte) nên hợp với stack. Object/array có thể phình to tuỳ ý lúc chạy (thêm
-property, push phần tử) → không thể đặt cố định trên stack → phải nằm ở heap, nơi
-cấp phát linh hoạt.
+Stack hoạt động theo nguyên tắc LIFO và cần **biết trước kích thước** của mỗi ô để push/pop chính xác. Primitive có kích thước cố định (một số `number` luôn 8 byte) nên hợp với stack. Object/array có thể phình to tuỳ ý lúc chạy (thêm property, push phần tử) → không thể đặt cố định trên stack → phải nằm ở heap, nơi cấp phát linh hoạt.
 
 **Hệ quả thực tế cần nhớ:**
 
-- **Copy nông (shallow copy)**: `{ ...obj }` hay `[...arr]` chỉ copy pointer ở
-  tầng đầu. Object lồng bên trong vẫn dùng chung pointer → sửa object con sẽ ảnh
-  hưởng cả bản gốc. Cần **deep copy** (`structuredClone(obj)`) khi muốn tách hẳn.
-- **Truyền tham số**: truyền object vào hàm là truyền pointer → hàm sửa property
-  của object sẽ ảnh hưởng bên ngoài (theo nguyên tắc immutability nên trả về
-  object mới thay vì mutate).
-- **String "to" vẫn là primitive**: dù chuỗi dài, JS vẫn coi là giá trị bất biến
-  (immutable); engine có tối ưu lưu trữ riêng nhưng về mặt ngữ nghĩa nó so sánh
-  by value.
+- **Copy nông (shallow copy)**: `{ ...obj }` hay `[...arr]` chỉ copy pointer ở tầng đầu. Object lồng bên trong vẫn dùng chung pointer → sửa object con sẽ ảnh hưởng cả bản gốc. Cần **deep copy** (`structuredClone(obj)`) khi muốn tách hẳn.
+- **Truyền tham số**: truyền object vào hàm là truyền pointer → hàm sửa property của object sẽ ảnh hưởng bên ngoài (theo nguyên tắc immutability nên trả về object mới thay vì mutate).
+- **String "to" vẫn là primitive**: dù chuỗi dài, JS vẫn coi là giá trị bất biến (immutable); engine có tối ưu lưu trữ riêng nhưng về mặt ngữ nghĩa nó so sánh by value.
 
 :::
 
@@ -223,23 +201,18 @@ user = null;
 
 **V8 dùng Generational GC** — chia object thành 2 thế hệ:
 
-1. **Young generation (Nursery)** — object mới, GC chạy thường xuyên,
-   nhanh. Object sống sót sau vài lần GC → chuyển sang old.
+1. **Young generation (Nursery)** — object mới, GC chạy thường xuyên, nhanh. Object sống sót sau vài lần GC → chuyển sang old.
 2. **Old generation** — object sống lâu, GC chạy ít hơn, chậm hơn (full GC).
 
-Lý do: thực nghiệm chỉ ra **đa số object chết trẻ** (vd biến tạm trong
-function). Tối ưu cho case này → throughput tổng tốt hơn.
+Lý do: thực nghiệm chỉ ra **đa số object chết trẻ** (vd biến tạm trong function). Tối ưu cho case này → throughput tổng tốt hơn.
 
 GC trong V8 dùng nhiều thuật toán:
 
-- **Scavenger** (young) — copy object còn sống sang vùng mới, dọn nguyên
-  vùng cũ.
+- **Scavenger** (young) — copy object còn sống sang vùng mới, dọn nguyên vùng cũ.
 - **Mark-Compact** (old) — đánh dấu reachable, dồn các object liền nhau.
 - **Concurrent / Incremental** — chạy song song với JS để giảm pause.
 
-Trong code app, không cần biết chi tiết — nhưng hiểu cơ chế giúp viết
-code "GC-friendly" (không tạo nhiều object short-lived khi không cần,
-tránh giữ tham chiếu không cần thiết).
+Trong code app, không cần biết chi tiết — nhưng hiểu cơ chế giúp viết code "GC-friendly" (không tạo nhiều object short-lived khi không cần, tránh giữ tham chiếu không cần thiết).
 
 :::
 
@@ -296,8 +269,7 @@ V8 (Chrome, Node, Edge) và SpiderMonkey (Firefox) đều dùng Mark-and-Sweep.
 
 ## Memory Leaks
 
-Leak xảy ra khi object **không cần nữa** nhưng vẫn **reachable** → GC
-không dọn được.
+Leak xảy ra khi object **không cần nữa** nhưng vẫn **reachable** → GC không dọn được.
 
 **1. Global biến vô tình:**
 
@@ -369,8 +341,7 @@ document.body.innerHTML = ""; // xoá DOM nhưng list còn ref → leak
 
 **Debug memory leak** với Chrome DevTools:
 
-1. **Performance Monitor** — theo dõi JS heap size real-time. Heap
-   liên tục tăng = leak.
+1. **Performance Monitor** — theo dõi JS heap size real-time. Heap liên tục tăng = leak.
 
 2. **Heap Snapshot** — chụp ảnh heap, so sánh giữa các điểm:
    - "Take snapshot" trước thao tác.
@@ -378,8 +349,7 @@ document.body.innerHTML = ""; // xoá DOM nhưng list còn ref → leak
    - Take snapshot tiếp.
    - "Comparison" → tìm object increase liên tục.
 
-3. **Allocation Timeline** — record period, xem object nào được tạo
-   nhiều nhất.
+3. **Allocation Timeline** — record period, xem object nào được tạo nhiều nhất.
 
 Pattern phổ biến gây leak trong React app:
 
@@ -392,8 +362,7 @@ Pattern phổ biến gây leak trong React app:
 
 :::tip[Mẹo]
 
-**`WeakMap` / `WeakSet`** giúp tránh leak khi gắn metadata vào object
-có lifecycle riêng:
+**`WeakMap` / `WeakSet`** giúp tránh leak khi gắn metadata vào object có lifecycle riêng:
 
 ```js
 // Tệ — Map giữ DOM node mãi
@@ -423,8 +392,7 @@ reg.register(obj, "obj id");
 obj = null; // sau khi GC chạy → log "Cleanup: obj id"
 ```
 
-Dùng cho native resource (file handle, socket). **Không** đảm bảo chạy
-ngay — chỉ chạy "khi nào GC quyết định".
+Dùng cho native resource (file handle, socket). **Không** đảm bảo chạy ngay — chỉ chạy "khi nào GC quyết định".
 
 :::
 

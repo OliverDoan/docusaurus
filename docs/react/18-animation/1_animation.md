@@ -148,8 +148,7 @@ CSS transition + animation đáp ứng 70% nhu cầu:
 - Transition giữa 2 state → CSS `transition`.
 - Animation phức tạp (path, spring, gesture) → library.
 
-CSS animation **chạy trên GPU** (composite), không block main thread →
-performant hơn JS animation.
+CSS animation **chạy trên GPU** (composite), không block main thread → performant hơn JS animation.
 
 :::
 
@@ -157,8 +156,7 @@ performant hơn JS animation.
 
 ## Framer Motion (khuyến nghị)
 
-[Framer Motion](https://www.framer.com/motion/) — animation library
-phổ biến nhất React.
+[Framer Motion](https://www.framer.com/motion/) — animation library phổ biến nhất React.
 
 ```bash
 npm install motion
@@ -217,8 +215,7 @@ import { motion, AnimatePresence } from "motion/react";
 </AnimatePresence>
 ```
 
-`AnimatePresence` cho phép chạy đủ vòng đời enter → active → exit trước khi
-React gỡ DOM:
+`AnimatePresence` cho phép chạy đủ vòng đời enter → active → exit trước khi React gỡ DOM:
 
 ```mermaid
 stateDiagram-v2
@@ -262,8 +259,7 @@ Trade-off:
 - Bundle ~30KB (gzipped).
 - Learning curve khi đụng variants phức tạp.
 
-Năm 2026, **default** cho animation React. Đặc biệt khi cần shared element
-transition giữa 2 trang (`layoutId` prop).
+Năm 2026, **default** cho animation React. Đặc biệt khi cần shared element transition giữa 2 trang (`layoutId` prop).
 
 :::
 
@@ -300,8 +296,7 @@ Phù hợp:
 
 ## GSAP
 
-[GSAP](https://gsap.com) — animation library "kinh điển", powerful nhất.
-Có React adapter:
+[GSAP](https://gsap.com) — animation library "kinh điển", powerful nhất. Có React adapter:
 
 ```bash
 npm install gsap @gsap/react
@@ -333,18 +328,15 @@ function Component() {
 }
 ```
 
-GSAP có **plugin ecosystem rộng**: ScrollTrigger, MorphSVG, DrawSVG,
-SplitText... — phù hợp cho **marketing site, landing page, animation phức tạp**.
+GSAP có **plugin ecosystem rộng**: ScrollTrigger, MorphSVG, DrawSVG, SplitText... — phù hợp cho **marketing site, landing page, animation phức tạp**.
 
-Trade-off: GSAP **không free** cho dùng thương mại với một số plugin
-(Club GreenSock). Core thì free.
+Trade-off: GSAP **không free** cho dùng thương mại với một số plugin (Club GreenSock). Core thì free.
 
 ---
 
 ## View Transitions API
 
-Web API mới (Chrome 111+, Safari 18+) — animation giữa 2 trạng thái DOM
-**không cần library**:
+Web API mới (Chrome 111+, Safari 18+) — animation giữa 2 trạng thái DOM **không cần library**:
 
 ```jsx
 function navigate(url) {
@@ -391,9 +383,7 @@ Trade-off năm 2026:
 - API mới — không phải mọi dev quen.
 - React integration vẫn unstable.
 
-Hiện tại: **Framer Motion** cho animation thực dụng, **View Transitions**
-cho page transition khi browser support đủ. Tương lai gần (2027+) sẽ thay
-một phần.
+Hiện tại: **Framer Motion** cho animation thực dụng, **View Transitions** cho page transition khi browser support đủ. Tương lai gần (2027+) sẽ thay một phần.
 
 :::
 
@@ -422,8 +412,7 @@ React Native?
 └─ React Three Fiber + drei
 ```
 
-Đừng quá nhiều animation — UX tốt = nhẹ nhàng, có ý đồ. Reduce motion
-respect:
+Đừng quá nhiều animation — UX tốt = nhẹ nhàng, có ý đồ. Reduce motion respect:
 
 ```css
 @media (prefers-reduced-motion: reduce) {

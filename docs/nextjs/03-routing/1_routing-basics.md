@@ -187,8 +187,7 @@ Trong Client Component, dùng hook `useParams()` thay thế.
 
 ## Layouts
 
-`layout.tsx` wrap UI con. Layout **không re-render** khi navigate giữa
-child route → tốt cho navbar, sidebar.
+`layout.tsx` wrap UI con. Layout **không re-render** khi navigate giữa child route → tốt cho navbar, sidebar.
 
 ```tsx
 // app/layout.tsx — root layout (mandatory)
@@ -249,8 +248,7 @@ Hierarchy:
 </RootLayout>
 ```
 
-Mỗi layout nest có **independent data fetch** — không phụ thuộc nhau,
-fetch song song.
+Mỗi layout nest có **independent data fetch** — không phụ thuộc nhau, fetch song song.
 
 ```tsx
 // app/layout.tsx (root)
@@ -319,8 +317,7 @@ Equivalent:
 </Suspense>
 ```
 
-Loading UI **streams** từ server → user thấy ngay shell + skeleton, content
-fill in khi sẵn sàng.
+Loading UI **streams** từ server → user thấy ngay shell + skeleton, content fill in khi sẵn sàng.
 
 ---
 
@@ -352,8 +349,7 @@ export default function Error({
 - `reset` — function thử lại render.
 - Phải là Client Component.
 
-Phạm vi: bắt lỗi của **sibling page + nested route**, không bắt lỗi của
-layout cùng cấp.
+Phạm vi: bắt lỗi của **sibling page + nested route**, không bắt lỗi của layout cùng cấp.
 
 **`global-error.tsx`** — bắt lỗi root layout (rare):
 
@@ -411,8 +407,7 @@ app/dashboard/
 └── route.ts         # API (alternative cho page.tsx)
 ```
 
-Một segment **chỉ có một** trong `page.tsx` hoặc `route.ts` — không
-cùng tồn tại.
+Một segment **chỉ có một** trong `page.tsx` hoặc `route.ts` — không cùng tồn tại.
 
 :::
 

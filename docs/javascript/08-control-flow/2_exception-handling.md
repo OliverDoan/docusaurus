@@ -199,8 +199,7 @@ try {
 }
 ```
 
-Quy tắc: **chỉ catch khi bạn biết xử lý**. Còn lại để bubble lên cho
-nơi biết cách (top-level error handler, framework, monitoring).
+Quy tắc: **chỉ catch khi bạn biết xử lý**. Còn lại để bubble lên cho nơi biết cách (top-level error handler, framework, monitoring).
 
 :::
 
@@ -297,11 +296,9 @@ Lợi ích:
 
 - Phân loại lỗi qua `instanceof`.
 - Trung tâm hoá metadata (statusCode, code, retryable...).
-- Stack trace sạch — không có frame của `AppError` constructor (nhờ
-  `Error.captureStackTrace`).
+- Stack trace sạch — không có frame của `AppError` constructor (nhờ `Error.captureStackTrace`).
 
-Trong API server (Express, Fastify, Nest), middleware bắt error sẽ map
-class → HTTP response.
+Trong API server (Express, Fastify, Nest), middleware bắt error sẽ map class → HTTP response.
 
 :::
 
@@ -335,8 +332,7 @@ async function load() {
 
 :::warning[Cần lưu ý]
 
-**Unhandled promise rejection** — Promise bị reject mà không có `.catch`
-hoặc `try/catch`:
+**Unhandled promise rejection** — Promise bị reject mà không có `.catch` hoặc `try/catch`:
 
 ```js
 async function load() {
@@ -346,8 +342,7 @@ async function load() {
 load(); // không await, không catch → unhandled rejection
 ```
 
-Trong Node.js ≥ 15, unhandled rejection sẽ **crash app** mặc định.
-Browser hiện đại cũng warn trong console.
+Trong Node.js ≥ 15, unhandled rejection sẽ **crash app** mặc định. Browser hiện đại cũng warn trong console.
 
 Bắt tổng:
 
@@ -387,8 +382,7 @@ results.forEach((r, i) => {
 });
 ```
 
-`Promise.all` reject ngay khi có 1 promise fail → mất kết quả các promise
-còn lại. `allSettled` chờ tất cả, không reject.
+`Promise.all` reject ngay khi có 1 promise fail → mất kết quả các promise còn lại. `allSettled` chờ tất cả, không reject.
 
 :::
 

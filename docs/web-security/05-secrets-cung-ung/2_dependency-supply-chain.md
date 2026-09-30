@@ -5,10 +5,7 @@ title: "2. Dependency & Supply Chain"
 
 # Dependency & Supply Chain
 
-Một ứng dụng web hiện đại dùng **hàng trăm thư viện bên thứ ba**. Mỗi thư viện là
-một cánh cửa rủi ro: lỗ hổng đã biết, gói độc hại, hoặc gói bị chiếm quyền. Bài
-cuối này trình bày **rủi ro chuỗi cung ứng** (supply chain) và cách phòng thủ thực
-tế trong hệ sinh thái npm — kèm checklist tổng kết toàn bộ tài liệu.
+Một ứng dụng web hiện đại dùng **hàng trăm thư viện bên thứ ba**. Mỗi thư viện là một cánh cửa rủi ro: lỗ hổng đã biết, gói độc hại, hoặc gói bị chiếm quyền. Bài cuối này trình bày **rủi ro chuỗi cung ứng** (supply chain) và cách phòng thủ thực tế trong hệ sinh thái npm — kèm checklist tổng kết toàn bộ tài liệu.
 
 [![Sơ đồ tóm tắt bài: Dependency & Supply Chain](/img/web-security/dependency-supply-chain.webp)](pathname:///img/web-security/dependency-supply-chain.webp)
 
@@ -40,18 +37,13 @@ tế trong hệ sinh thái npm — kèm checklist tổng kết toàn bộ tài l
 
 ## Rủi ro chuỗi cung ứng là gì?
 
-**Supply chain attack** (tấn công chuỗi cung ứng) là khi kẻ tấn công không đánh
-thẳng vào bạn, mà **đánh vào thứ bạn phụ thuộc** — một thư viện, một công cụ build,
-một CI/CD. Khi bạn cài/chạy nó, mã độc chạy theo với chính quyền của bạn.
+**Supply chain attack** (tấn công chuỗi cung ứng) là khi kẻ tấn công không đánh thẳng vào bạn, mà **đánh vào thứ bạn phụ thuộc** — một thư viện, một công cụ build, một CI/CD. Khi bạn cài/chạy nó, mã độc chạy theo với chính quyền của bạn.
 
-> Vì bạn **tin** dependency (và cả dependency của dependency — *transitive*), một
-> gói bị nhiễm có thể ảnh hưởng tới rất nhiều dự án. Đây là nhóm **Software & Data
-> Integrity Failures** trong OWASP.
+> Vì bạn **tin** dependency (và cả dependency của dependency — *transitive*), một gói bị nhiễm có thể ảnh hưởng tới rất nhiều dự án. Đây là nhóm **Software & Data Integrity Failures** trong OWASP.
 
 ## Quét lỗ hổng đã biết: npm audit
 
-Công cụ đầu tiên và dễ nhất: **`npm audit`** rà các lỗ hổng *đã được công bố*
-trong cây dependency của bạn.
+Công cụ đầu tiên và dễ nhất: **`npm audit`** rà các lỗ hổng *đã được công bố* trong cây dependency của bạn.
 
 ```bash
 npm audit              # liệt kê lỗ hổng đã biết + mức độ
@@ -60,19 +52,15 @@ npm audit --production # chỉ xét dependency chạy thật (bỏ devDependenci
 ```
 
 - Tích hợp `npm audit` vào **CI** để chặn lỗ hổng nghiêm trọng trước khi merge.
-- Cân nhắc công cụ chuyên sâu hơn: **Dependabot/Renovate** (tự mở PR nâng cấp),
-  **Snyk**, **GitHub security alerts**.
+- Cân nhắc công cụ chuyên sâu hơn: **Dependabot/Renovate** (tự mở PR nâng cấp), **Snyk**, **GitHub security alerts**.
 
 :::tip Vá lỗ hổng đã biết là "quả ngọt dễ hái"
-Phần lớn sự cố supply chain thực ra đến từ **lỗ hổng đã biết mà không ai vá**.
-Chạy `npm audit` đều đặn + tự động hoá nâng cấp là biện pháp hiệu quả/chi phí cao
-nhất.
+Phần lớn sự cố supply chain thực ra đến từ **lỗ hổng đã biết mà không ai vá**. Chạy `npm audit` đều đặn + tự động hoá nâng cấp là biện pháp hiệu quả/chi phí cao nhất.
 :::
 
 ## Khoá phiên bản: lockfile
 
-File **lockfile** (`package-lock.json`, `pnpm-lock.yaml`, `yarn.lock`) ghi lại
-**chính xác phiên bản** của mọi dependency (kể cả transitive). Tác dụng:
+File **lockfile** (`package-lock.json`, `pnpm-lock.yaml`, `yarn.lock`) ghi lại **chính xác phiên bản** của mọi dependency (kể cả transitive). Tác dụng:
 
 - **Tái lập build** giống hệt nhau giữa các máy/lần cài → tránh "máy tôi chạy được".
 - **Chống đổi ngầm**: không bị tự kéo một bản mới (có thể đã bị nhiễm).
@@ -82,8 +70,7 @@ File **lockfile** (`package-lock.json`, `pnpm-lock.yaml`, `yarn.lock`) ghi lại
 npm ci
 ```
 
-> Luôn **commit lockfile**. Trong CI dùng `npm ci` (cài đúng lockfile) thay vì
-> `npm install` (có thể đổi lockfile).
+> Luôn **commit lockfile**. Trong CI dùng `npm ci` (cài đúng lockfile) thay vì `npm install` (có thể đổi lockfile).
 
 ## Các kiểu tấn công supply chain
 
@@ -97,16 +84,13 @@ npm ci
 
 ## Best practices chọn & dùng dependency
 
-- **Cân nhắc trước khi thêm** — mỗi dependency là rủi ro + gánh nặng bảo trì. Hỏi:
-  "tự viết vài dòng có hơn không?"
+- **Cân nhắc trước khi thêm** — mỗi dependency là rủi ro + gánh nặng bảo trì. Hỏi: "tự viết vài dòng có hơn không?"
 - **Ưu tiên gói uy tín** — nhiều người dùng, bảo trì tích cực, ít dependency con.
 - **Kiểm tra tên kỹ** trước khi cài (chống typosquatting).
 - **Giảm tối thiểu số dependency** — bề mặt tấn công nhỏ hơn.
-- **Cẩn trọng install script** — cân nhắc `npm install --ignore-scripts` cho môi
-  trường nhạy cảm.
+- **Cẩn trọng install script** — cân nhắc `npm install --ignore-scripts` cho môi trường nhạy cảm.
 - **Theo dõi & nâng cấp đều** — đừng để dependency mục ruỗng nhiều năm.
-- Cân nhắc **SBOM** (Software Bill of Materials — bản kê thành phần phần mềm) để
-  biết chính xác mình đang dùng gì.
+- Cân nhắc **SBOM** (Software Bill of Materials — bản kê thành phần phần mềm) để biết chính xác mình đang dùng gì.
 
 ## Checklist bảo mật tổng kết
 
@@ -135,16 +119,10 @@ npm ci
 
 ## Tóm tắt
 
-- **Supply chain attack**: kẻ tấn công nhắm vào **thứ bạn phụ thuộc** (thư viện,
-  tooling) — gồm cả dependency *transitive*.
-- **`npm audit`** (trong CI) + **Dependabot/Renovate/Snyk** vá lỗ hổng đã biết —
-  biện pháp hiệu quả nhất.
+- **Supply chain attack**: kẻ tấn công nhắm vào **thứ bạn phụ thuộc** (thư viện, tooling) — gồm cả dependency *transitive*.
+- **`npm audit`** (trong CI) + **Dependabot/Renovate/Snyk** vá lỗ hổng đã biết — biện pháp hiệu quả nhất.
 - **Lockfile** (committed) + **`npm ci`** đảm bảo build tái lập và chống đổi ngầm.
-- Cảnh giác **typosquatting, dependency confusion, account takeover, malicious
-  update, install script**.
+- Cảnh giác **typosquatting, dependency confusion, account takeover, malicious update, install script**.
 - **Giảm tối thiểu dependency**, ưu tiên gói uy tín, nâng cấp đều, cân nhắc SBOM.
 
-🎉 Đây là bài cuối của topic **Bảo mật web**. Bạn đã đi qua: tư duy nền tảng &
-OWASP → tấn công phổ biến → xác thực & phiên → transport & headers → secrets &
-chuỗi cung ứng. Hãy nhớ nguyên tắc xuyên suốt: **không tin input, phòng thủ nhiều
-lớp, và bảo mật là việc làm liên tục — không phải bước cuối.**
+🎉 Đây là bài cuối của topic **Bảo mật web**. Bạn đã đi qua: tư duy nền tảng & OWASP → tấn công phổ biến → xác thực & phiên → transport & headers → secrets & chuỗi cung ứng. Hãy nhớ nguyên tắc xuyên suốt: **không tin input, phòng thủ nhiều lớp, và bảo mật là việc làm liên tục — không phải bước cuối.**

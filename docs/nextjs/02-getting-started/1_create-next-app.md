@@ -194,8 +194,7 @@ npm run dev
 - **Hot Module Replacement** — không reload cả app.
 - **Type checking** chạy nền (Next.js 15+).
 
-Khi dev với Turbopack, lần đầu compile chậm — sau đó **cực nhanh** do
-incremental.
+Khi dev với Turbopack, lần đầu compile chậm — sau đó **cực nhanh** do incremental.
 
 ---
 
@@ -267,8 +266,7 @@ Mở file HTML report → thấy dependency nào chiếm bundle lớn.
 
 :::warning[Cần lưu ý]
 
-**`npm run start` không phải dev mode** — nó là production server đọc
-build từ `.next/`. Phải:
+**`npm run start` không phải dev mode** — nó là production server đọc build từ `.next/`. Phải:
 
 1. `npm run build` trước.
 2. `npm run start` sau.
@@ -287,8 +285,7 @@ Test:
 - Static generation.
 - Caching layer.
 
-Đôi khi dev và production behavior khác nhau (cache, hydration). Luôn
-test build production trước khi deploy.
+Đôi khi dev và production behavior khác nhau (cache, hydration). Luôn test build production trước khi deploy.
 
 :::
 
@@ -306,8 +303,7 @@ test build production trước khi deploy.
 | Loading state | Custom | `loading.tsx` |
 | Error handling | Custom | `error.tsx` |
 
-Năm 2026, **App Router là default**. Pages Router vẫn được hỗ trợ
-**vô thời hạn** — dùng cho:
+Năm 2026, **App Router là default**. Pages Router vẫn được hỗ trợ **vô thời hạn** — dùng cho:
 
 - Migrate dần codebase cũ.
 - Có dependency chưa compat (rare).

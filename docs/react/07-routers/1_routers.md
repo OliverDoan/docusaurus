@@ -162,8 +162,7 @@ Element của `<Route>` là JSX component, không phải string component name.
 
 ## TanStack Router
 
-[TanStack Router](https://tanstack.com/router) — router mới của TanStack
-team, **type-safe end-to-end**, file-based.
+[TanStack Router](https://tanstack.com/router) — router mới của TanStack team, **type-safe end-to-end**, file-based.
 
 ```bash
 npm install @tanstack/react-router
@@ -185,10 +184,8 @@ src/routes/
 
 **Tại sao TanStack Router đáng chú ý?**
 
-- **Type-safe param**: `useParams()` trả về object có type chính xác theo
-  route definition, không phải `Record<string, string>`.
-- **Search params type-safe**: query string được parse + validate qua
-  Zod (`?page=2&filter=active` → `{ page: 2, filter: "active" }`).
+- **Type-safe param**: `useParams()` trả về object có type chính xác theo route definition, không phải `Record<string, string>`.
+- **Search params type-safe**: query string được parse + validate qua Zod (`?page=2&filter=active` → `{ page: 2, filter: "active" }`).
 - **Data loader**: load data trước khi render route (giống Remix).
 - **Cache integration**: tích hợp tốt với TanStack Query.
 - **Code splitting tự động** qua file-based.
@@ -209,9 +206,7 @@ function UserPage() {
 }
 ```
 
-Trade-off: setup phức tạp hơn React Router, ecosystem nhỏ hơn (mới).
-Phù hợp project mới TypeScript-first. Project có sẵn React Router → cứ
-giữ.
+Trade-off: setup phức tạp hơn React Router, ecosystem nhỏ hơn (mới). Phù hợp project mới TypeScript-first. Project có sẵn React Router → cứ giữ.
 
 :::
 
@@ -299,8 +294,7 @@ function Layout() {
 }
 ```
 
-`<Outlet />` là placeholder render route con — pattern thay cho `children`
-trong layout.
+`<Outlet />` là placeholder render route con — pattern thay cho `children` trong layout.
 
 Sơ đồ cây route lồng nhau với layout dùng chung:
 
@@ -417,8 +411,7 @@ function LogoutButton() {
 }
 ```
 
-`replace: true` — thay thế history entry hiện tại thay vì push (không
-back được sau navigate).
+`replace: true` — thay thế history entry hiện tại thay vì push (không back được sau navigate).
 
 **Declarative — `<Navigate>`**:
 
@@ -447,8 +440,7 @@ function Home() {
 
 :::warning[Cần lưu ý]
 
-**Đừng dùng `<a href>` cho navigation nội bộ** — sẽ reload toàn trang,
-mất state, tải lại bundle:
+**Đừng dùng `<a href>` cho navigation nội bộ** — sẽ reload toàn trang, mất state, tải lại bundle:
 
 ```jsx
 // Sai
@@ -463,8 +455,7 @@ Chỉ dùng `<a>` cho:
 - Link đến file download.
 - Link `mailto:`, `tel:`.
 
-`<Link>` của React Router intercept click, dùng History API thay vì
-reload — instant navigation.
+`<Link>` của React Router intercept click, dùng History API thay vì reload — instant navigation.
 
 :::
 
@@ -477,14 +468,12 @@ reload — instant navigation.
 - Hỗ trợ loader, action, form action giống Remix.
 - Server rendering built-in.
 
-Migrate từ v6 → v7: docs có codemod sẵn. API client routing **không đổi**
-nhiều. Server features là feature thêm, opt-in.
+Migrate từ v6 → v7: docs có codemod sẵn. API client routing **không đổi** nhiều. Server features là feature thêm, opt-in.
 
 Lựa chọn 2026:
 
 - **SPA thuần**: React Router v7 client-only hoặc TanStack Router.
-- **SSR/full-stack**: Next.js (App Router) hoặc React Router v7 framework
-  mode (formerly Remix).
+- **SSR/full-stack**: Next.js (App Router) hoặc React Router v7 framework mode (formerly Remix).
 - **Type-safe TS first**: TanStack Router.
 - **Existing app**: stick with current → migrate khi cần.
 

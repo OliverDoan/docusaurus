@@ -5,11 +5,7 @@ title: "2. OWASP Top 10"
 
 # OWASP Top 10
 
-**OWASP Top 10** là danh sách 10 nhóm rủi ro bảo mật web nghiêm trọng và phổ biến
-nhất, do tổ chức **OWASP** (Open Worldwide Application Security Project) tổng hợp
-và cập nhật định kỳ. Đây là "bản đồ" chuẩn để biết nên ưu tiên phòng thủ điều gì.
-Bài này giới thiệu tổng quan 10 nhóm và chỉ ra bài học nào trong tài liệu xử lý
-từng nhóm.
+**OWASP Top 10** là danh sách 10 nhóm rủi ro bảo mật web nghiêm trọng và phổ biến nhất, do tổ chức **OWASP** (Open Worldwide Application Security Project) tổng hợp và cập nhật định kỳ. Đây là "bản đồ" chuẩn để biết nên ưu tiên phòng thủ điều gì. Bài này giới thiệu tổng quan 10 nhóm và chỉ ra bài học nào trong tài liệu xử lý từng nhóm.
 
 [![Sơ đồ tóm tắt bài: OWASP Top 10](/img/web-security/owasp-top-10.webp)](pathname:///img/web-security/owasp-top-10.webp)
 
@@ -37,18 +33,13 @@ từng nhóm.
 
 ## OWASP là gì?
 
-**OWASP** là một cộng đồng phi lợi nhuận chuyên về bảo mật ứng dụng. Tài liệu nổi
-tiếng nhất của họ là **OWASP Top 10** — được giới lập trình và bảo mật xem như
-chuẩn tham chiếu cơ bản.
+**OWASP** là một cộng đồng phi lợi nhuận chuyên về bảo mật ứng dụng. Tài liệu nổi tiếng nhất của họ là **OWASP Top 10** — được giới lập trình và bảo mật xem như chuẩn tham chiếu cơ bản.
 
-> Danh sách được cập nhật vài năm một lần (các phiên bản gần đây: 2017, 2021, và
-> các bản mới hơn). Tên gọi/thứ tự có thể đổi theo phiên bản, nhưng **bản chất các
-> rủi ro thì khá ổn định**. Hãy tra **owasp.org** để xem phiên bản mới nhất.
+> Danh sách được cập nhật vài năm một lần (các phiên bản gần đây: 2017, 2021, và các bản mới hơn). Tên gọi/thứ tự có thể đổi theo phiên bản, nhưng **bản chất các rủi ro thì khá ổn định**. Hãy tra **owasp.org** để xem phiên bản mới nhất.
 
 ## Danh sách Top 10
 
-Dưới đây là 10 nhóm rủi ro tiêu biểu (theo cách phân loại phổ biến của OWASP), kèm
-giải thích ngắn:
+Dưới đây là 10 nhóm rủi ro tiêu biểu (theo cách phân loại phổ biến của OWASP), kèm giải thích ngắn:
 
 | # | Nhóm rủi ro | Bản chất |
 | --- | --- | --- |
@@ -64,8 +55,7 @@ giải thích ngắn:
 | 10 | **Server-Side Request Forgery (SSRF)** | Server bị lừa gửi request tới đích do kẻ tấn công chỉ định |
 
 :::note Đừng học thuộc số thứ tự
-Quan trọng là **hiểu bản chất từng nhóm** và biết hệ thống của mình dính nhóm nào,
-chứ không phải nhớ "cái nào số mấy". Thứ tự thay đổi theo từng phiên bản.
+Quan trọng là **hiểu bản chất từng nhóm** và biết hệ thống của mình dính nhóm nào, chứ không phải nhớ "cái nào số mấy". Thứ tự thay đổi theo từng phiên bản.
 :::
 
 ## Bản đồ tới các bài trong tài liệu
@@ -85,20 +75,13 @@ Tài liệu này phủ phần lớn Top 10. Dùng bảng sau để biết học 
 | Integrity / Supply Chain | **5.** Dependency & Supply Chain |
 | SSRF | **2.** SSRF & Clickjacking |
 
-> Ngoài ra **CSRF** (Cross-Site Request Forgery) tuy không còn là một mục riêng
-> trong các bản Top 10 gần đây (vì framework hiện đại đã phòng sẵn), nhưng vẫn rất
-> quan trọng — có bài riêng ở mục 2.
+> Ngoài ra **CSRF** (Cross-Site Request Forgery) tuy không còn là một mục riêng trong các bản Top 10 gần đây (vì framework hiện đại đã phòng sẵn), nhưng vẫn rất quan trọng — có bài riêng ở mục 2.
 
 ## Tóm tắt
 
-- **OWASP Top 10** là danh sách 10 nhóm rủi ro web phổ biến & nghiêm trọng nhất,
-  do OWASP duy trì — chuẩn tham chiếu cơ bản cho mọi lập trình viên.
-- Các nhóm nổi bật: **Broken Access Control, Cryptographic Failures, Injection,
-  Insecure Design, Misconfiguration, Vulnerable Components, Auth Failures,
-  Integrity/Supply Chain, Logging Failures, SSRF**.
+- **OWASP Top 10** là danh sách 10 nhóm rủi ro web phổ biến & nghiêm trọng nhất, do OWASP duy trì — chuẩn tham chiếu cơ bản cho mọi lập trình viên.
+- Các nhóm nổi bật: **Broken Access Control, Cryptographic Failures, Injection, Insecure Design, Misconfiguration, Vulnerable Components, Auth Failures, Integrity/Supply Chain, Logging Failures, SSRF**.
 - **Hiểu bản chất** quan trọng hơn nhớ thứ tự; thứ tự đổi theo phiên bản.
-- Tài liệu này phủ phần lớn Top 10 qua các mục 2–5; tra **owasp.org** cho bản mới
-  nhất.
+- Tài liệu này phủ phần lớn Top 10 qua các mục 2–5; tra **owasp.org** cho bản mới nhất.
 
-Hết mục Nền tảng. Mục tiếp theo: đi sâu vào **các tấn công phổ biến**, bắt đầu với
-XSS.
+Hết mục Nền tảng. Mục tiếp theo: đi sâu vào **các tấn công phổ biến**, bắt đầu với XSS.

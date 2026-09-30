@@ -36,11 +36,7 @@ title: "2. Arrow Functions và IIFE"
 
 ## Vì sao arrow function ra đời?
 
-**Vấn đề:** Trước ES6, callback rất hay cần giữ `this` của scope ngoài.
-Vì `function(){}` tạo `this` riêng (thay đổi theo cách gọi), ta phải lưu
-`this` vào một biến trung gian (`var self = this;`) rồi dùng lại bên trong,
-hoặc `.bind(this)`. Cách này rườm rà và rất dễ quên. Cú pháp `function(){}`
-cũng dài dòng cho những callback ngắn như `map`/`filter`.
+**Vấn đề:** Trước ES6, callback rất hay cần giữ `this` của scope ngoài. Vì `function(){}` tạo `this` riêng (thay đổi theo cách gọi), ta phải lưu `this` vào một biến trung gian (`var self = this;`) rồi dùng lại bên trong, hoặc `.bind(this)`. Cách này rườm rà và rất dễ quên. Cú pháp `function(){}` cũng dài dòng cho những callback ngắn như `map`/`filter`.
 
 ```js
 // Cách CŨ — phải "cứu" this bằng biến trung gian
@@ -69,8 +65,7 @@ function Timer2() {
 });
 ```
 
-**Giải pháp:** ES6 thêm **arrow function** — **không có `this` riêng**
-(lexical this, tự lấy từ scope ngoài) và cú pháp ngắn gọn hơn hẳn.
+**Giải pháp:** ES6 thêm **arrow function** — **không có `this` riêng** (lexical this, tự lấy từ scope ngoài) và cú pháp ngắn gọn hơn hẳn.
 
 ```js
 // this tự lấy từ scope ngoài — không cần self / bind
@@ -85,20 +80,14 @@ function Timer() {
 [1, 2, 3].map((x) => x * 2);
 ```
 
-Lưu ý: chính vì **không có `this` riêng**, arrow function **không nên**
-dùng làm method của object hay làm constructor (xem
-[Khi nào không nên dùng arrow](#khi-nào-không-nên-dùng-arrow)).
+Lưu ý: chính vì **không có `this` riêng**, arrow function **không nên** dùng làm method của object hay làm constructor (xem [Khi nào không nên dùng arrow](#khi-nào-không-nên-dùng-arrow)).
 
 :::tip[Dùng thực tế]
 
-- **Callback trong array methods** (`map`/`filter`/`reduce`): viết gọn
-  `arr.filter((x) => x > 0)`.
-- **`setTimeout`/`setInterval` trong class**: giữ `this` của instance mà
-  không cần `bind`.
-- **Event listener trong component**: dùng `this` (hoặc state) của
-  component thay vì của DOM element.
-- **Promise `.then()`**: `fetchUser().then((user) => this.render(user))`
-  giữ đúng `this`.
+- **Callback trong array methods** (`map`/`filter`/`reduce`): viết gọn `arr.filter((x) => x > 0)`.
+- **`setTimeout`/`setInterval` trong class**: giữ `this` của instance mà không cần `bind`.
+- **Event listener trong component**: dùng `this` (hoặc state) của component thay vì của DOM element.
+- **Promise `.then()`**: `fetchUser().then((user) => this.render(user))` giữ đúng `this`.
 
 :::
 
@@ -132,8 +121,7 @@ const makeUser = name => ({ name, id: 1 });
 
 ## Khác biệt với function thường
 
-Arrow function **không phải** chỉ là "function ngắn gọn" — chúng có
-behavior khác:
+Arrow function **không phải** chỉ là "function ngắn gọn" — chúng có behavior khác:
 
 | | Arrow | Function thường |
 |--|-------|-----------------|
@@ -181,9 +169,7 @@ class Counter {
 }
 ```
 
-Sơ đồ dưới so sánh cách hai loại hàm xác định `this`: arrow function bỏ
-qua `this` của chính nó và lấy theo nơi **định nghĩa** (lexical), còn
-function thường quyết định `this` theo **cách gọi** tại thời điểm chạy.
+Sơ đồ dưới so sánh cách hai loại hàm xác định `this`: arrow function bỏ qua `this` của chính nó và lấy theo nơi **định nghĩa** (lexical), còn function thường quyết định `this` theo **cách gọi** tại thời điểm chạy.
 
 ```mermaid
 flowchart TD
@@ -247,8 +233,7 @@ Animal.prototype.greet = function () { console.log(this.name); }; // đúng
 
 :::info[Phân tích]
 
-**Class field với arrow** là pattern phổ biến trong React class component
-(legacy) để auto-bind:
+**Class field với arrow** là pattern phổ biến trong React class component (legacy) để auto-bind:
 
 ```js
 class Counter extends React.Component {
@@ -264,11 +249,9 @@ class Counter extends React.Component {
 }
 ```
 
-Pitfall: **arrow field tạo function mới mỗi instance** — nếu class có
-nhiều instance, tốn memory hơn method trên prototype.
+Pitfall: **arrow field tạo function mới mỗi instance** — nếu class có nhiều instance, tốn memory hơn method trên prototype.
 
-Trong React hiện đại (hooks), không còn vấn đề này — function được tạo
-mới mỗi render nhưng React đã tối ưu.
+Trong React hiện đại (hooks), không còn vấn đề này — function được tạo mới mỗi render nhưng React đã tối ưu.
 
 :::
 
@@ -276,8 +259,7 @@ mới mỗi render nhưng React đã tối ưu.
 
 ## IIFE
 
-**Immediately Invoked Function Expression** — function được gọi ngay
-khi khai báo:
+**Immediately Invoked Function Expression** — function được gọi ngay khi khai báo:
 
 ```js
 (function () {

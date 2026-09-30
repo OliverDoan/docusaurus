@@ -39,10 +39,7 @@ title: "1. DOM Manipulation và Events"
 
 ## Vì sao có DOM API?
 
-**Vấn đề:** HTML viết ra là **tĩnh** — render xong là cố định. Nhưng ta
-muốn nội dung trang **thay đổi** theo tương tác: bấm nút, gõ vào ô input,
-dữ liệu mới fetch về... mà **không tải lại cả trang**. Bản thân HTML không
-cho JavaScript "với tới" để sửa.
+**Vấn đề:** HTML viết ra là **tĩnh** — render xong là cố định. Nhưng ta muốn nội dung trang **thay đổi** theo tương tác: bấm nút, gõ vào ô input, dữ liệu mới fetch về... mà **không tải lại cả trang**. Bản thân HTML không cho JavaScript "với tới" để sửa.
 
 ```html
 <!-- HTML chỉ là văn bản tĩnh, không tự đổi được -->
@@ -51,9 +48,7 @@ cho JavaScript "với tới" để sửa.
 <!-- Bấm nút thì làm sao đổi "0" thành "1"? -->
 ```
 
-**Giải pháp:** Trình duyệt biểu diễn trang HTML thành **DOM** (Document
-Object Model) — một **cây object** mà JavaScript đọc và sửa được. Nhờ đó
-có trang web động và SPA.
+**Giải pháp:** Trình duyệt biểu diễn trang HTML thành **DOM** (Document Object Model) — một **cây object** mà JavaScript đọc và sửa được. Nhờ đó có trang web động và SPA.
 
 ```js
 const span = document.querySelector("span"); // chọn phần tử
@@ -65,9 +60,7 @@ document.querySelector("button").addEventListener("click", () => {
 });
 ```
 
-Qua DOM, JS có thể: **chọn** phần tử (`querySelector`), **đổi** nội
-dung/thuộc tính, **thêm/xoá** node, và **lắng nghe** sự kiện
-(`addEventListener`).
+Qua DOM, JS có thể: **chọn** phần tử (`querySelector`), **đổi** nội dung/thuộc tính, **thêm/xoá** node, và **lắng nghe** sự kiện (`addEventListener`).
 
 :::tip[Dùng thực tế]
 
@@ -82,8 +75,7 @@ dung/thuộc tính, **thêm/xoá** node, và **lắng nghe** sự kiện
 
 ## DOM là gì?
 
-**DOM (Document Object Model)** là cấu trúc cây mà trình duyệt tạo ra
-từ HTML — mỗi thẻ là một **node**.
+**DOM (Document Object Model)** là cấu trúc cây mà trình duyệt tạo ra từ HTML — mỗi thẻ là một **node**.
 
 ```html
 <div id="app">
@@ -92,9 +84,7 @@ từ HTML — mỗi thẻ là một **node**.
 </div>
 ```
 
-Trình duyệt biến HTML trên thành **cây node**: `document` là gốc, mỗi thẻ
-là một element node, còn chữ bên trong là text node — JavaScript đi lại và
-sửa từng node trên cây này:
+Trình duyệt biến HTML trên thành **cây node**: `document` là gốc, mỗi thẻ là một element node, còn chữ bên trong là text node — JavaScript đi lại và sửa từng node trên cây này:
 
 ```mermaid
 flowchart TD
@@ -162,9 +152,7 @@ const items2 = document.querySelectorAll(".item");
 // items2.length vẫn = 3 dù DOM thay đổi
 ```
 
-Live collection thuận tiện nhưng **chậm hơn** vì phải invalidate cache.
-Trong code mới, hầu như chỉ dùng `querySelector`/`querySelectorAll` để
-tránh nhầm.
+Live collection thuận tiện nhưng **chậm hơn** vì phải invalidate cache. Trong code mới, hầu như chỉ dùng `querySelector`/`querySelectorAll` để tránh nhầm.
 
 :::
 
@@ -223,8 +211,7 @@ import DOMPurify from "dompurify";
 el.innerHTML = DOMPurify.sanitize(userInput);
 ```
 
-React/Vue dùng `textContent` mặc định — `dangerouslySetInnerHTML` /
-`v-html` mới dùng `innerHTML` (kèm warning rõ trong tên).
+React/Vue dùng `textContent` mặc định — `dangerouslySetInnerHTML` / `v-html` mới dùng `innerHTML` (kèm warning rõ trong tên).
 
 :::
 
@@ -262,8 +249,7 @@ controller.abort(); // remove listener
 
 :::tip[Mẹo]
 
-**`AbortController` để cancel nhiều listener** cùng lúc — pattern hiện
-đại:
+**`AbortController` để cancel nhiều listener** cùng lúc — pattern hiện đại:
 
 ```js
 function setupComponent() {
@@ -279,8 +265,7 @@ function setupComponent() {
 }
 ```
 
-Tương tự `useEffect` cleanup trong React — gọn hơn maintain 3 cleanup
-function.
+Tương tự `useEffect` cleanup trong React — gọn hơn maintain 3 cleanup function.
 
 :::
 
@@ -388,26 +373,20 @@ Lợi ích:
 
 :::info[Phân tích]
 
-Event delegation là **cơ chế chính** mà React dùng dưới hood. Trong
-React 17+, mọi event được gắn ở **root** (`#root`), không phải từng
-element:
+Event delegation là **cơ chế chính** mà React dùng dưới hood. Trong React 17+, mọi event được gắn ở **root** (`#root`), không phải từng element:
 
 ```jsx
 <button onClick={handleClick}>Click</button>
 ```
 
-React thực ra không gắn `onclick` lên button — nó dùng synthetic event
-system với 1 listener ở root, sau đó dispatch về component đúng vị trí
-trong tree.
+React thực ra không gắn `onclick` lên button — nó dùng synthetic event system với 1 listener ở root, sau đó dispatch về component đúng vị trí trong tree.
 
 Lợi ích React tận dụng:
 - Tối ưu memory (1 listener cho cả app).
 - Cross-browser event normalization.
 - React batches state updates trong cùng event.
 
-Hiểu cơ chế này giúp debug khi gặp lỗi event trong React (vd
-`stopPropagation` không hoạt động như mong đợi vì event đã bubble qua
-React root).
+Hiểu cơ chế này giúp debug khi gặp lỗi event trong React (vd `stopPropagation` không hoạt động như mong đợi vì event đã bubble qua React root).
 
 :::
 

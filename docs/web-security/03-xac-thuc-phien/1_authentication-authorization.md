@@ -5,10 +5,7 @@ title: "1. Authentication & Authorization"
 
 # Authentication & Authorization
 
-Hai khái niệm nghe giống nhau nhưng khác hẳn: **authentication** (xác thực — *bạn
-là ai?*) và **authorization** (phân quyền — *bạn được làm gì?*). Hiểu sai hoặc làm
-ẩu hai phần này dẫn tới **Broken Access Control** — rủi ro đứng đầu OWASP. Bài này
-phân biệt rõ và nêu các lỗi phân quyền thường gặp cùng cách phòng.
+Hai khái niệm nghe giống nhau nhưng khác hẳn: **authentication** (xác thực — *bạn là ai?*) và **authorization** (phân quyền — *bạn được làm gì?*). Hiểu sai hoặc làm ẩu hai phần này dẫn tới **Broken Access Control** — rủi ro đứng đầu OWASP. Bài này phân biệt rõ và nêu các lỗi phân quyền thường gặp cùng cách phòng.
 
 [![Sơ đồ tóm tắt bài: Authentication & Authorization](/img/web-security/authentication-authorization.webp)](pathname:///img/web-security/authentication-authorization.webp)
 
@@ -47,29 +44,21 @@ phân biệt rõ và nêu các lỗi phân quyền thường gặp cùng cách p
 | Ví dụ | Nhập email + mật khẩu đúng | Chỉ admin mới xoá được bài viết |
 | Kết quả | Xác định danh tính | Cho phép / từ chối hành động |
 
-> Thứ tự: **xác thực trước, phân quyền sau**. Biết bạn là ai (AuthN) rồi mới quyết
-> định bạn được làm gì (AuthZ).
+> Thứ tự: **xác thực trước, phân quyền sau**. Biết bạn là ai (AuthN) rồi mới quyết định bạn được làm gì (AuthZ).
 
 ## Broken Access Control — rủi ro số 1
 
-**Broken Access Control** (kiểm soát truy cập hỏng) là khi người dùng làm được
-việc **ngoài quyền** của họ — đây là rủi ro đứng đầu OWASP Top 10 hiện nay.
+**Broken Access Control** (kiểm soát truy cập hỏng) là khi người dùng làm được việc **ngoài quyền** của họ — đây là rủi ro đứng đầu OWASP Top 10 hiện nay.
 
-Ví dụ kinh điển: ẩn nút "Xoá" trên giao diện với người dùng thường, nhưng **API
-xoá lại không kiểm tra quyền** ở server. Kẻ tấn công gọi thẳng API là xoá được.
+Ví dụ kinh điển: ẩn nút "Xoá" trên giao diện với người dùng thường, nhưng **API xoá lại không kiểm tra quyền** ở server. Kẻ tấn công gọi thẳng API là xoá được.
 
 :::danger Bảo mật ở client KHÔNG phải bảo mật
-Ẩn nút, vô hiệu hoá menu, kiểm tra quyền bằng JavaScript trên trình duyệt — tất
-cả chỉ là **trải nghiệm**, không phải bảo mật. Kẻ tấn công bỏ qua giao diện và gọi
-thẳng API. **Mọi kiểm tra quyền phải nằm ở server.**
+Ẩn nút, vô hiệu hoá menu, kiểm tra quyền bằng JavaScript trên trình duyệt — tất cả chỉ là **trải nghiệm**, không phải bảo mật. Kẻ tấn công bỏ qua giao diện và gọi thẳng API. **Mọi kiểm tra quyền phải nằm ở server.**
 :::
 
 ## Lỗi điển hình: IDOR
 
-**IDOR** (Insecure Direct Object Reference — tham chiếu đối tượng trực tiếp không
-an toàn) là dạng phổ biến nhất của Broken Access Control: server cho truy cập tài
-nguyên **chỉ dựa vào ID** mà **không kiểm tra ID đó có thuộc về người dùng hiện
-tại không**.
+**IDOR** (Insecure Direct Object Reference — tham chiếu đối tượng trực tiếp không an toàn) là dạng phổ biến nhất của Broken Access Control: server cho truy cập tài nguyên **chỉ dựa vào ID** mà **không kiểm tra ID đó có thuộc về người dùng hiện tại không**.
 
 ```js
 // LỖ HỔNG: ai có orderId là xem được, kể cả đơn của người khác
@@ -92,15 +81,13 @@ app.get('/orders/:id', requireAuth, async (req, res) => {
 })
 ```
 
-> Mẹo: trả **404** (không tìm thấy) thay vì **403** (cấm) khi người dùng không có
-> quyền, để không tiết lộ rằng tài nguyên đó tồn tại.
+> Mẹo: trả **404** (không tìm thấy) thay vì **403** (cấm) khi người dùng không có quyền, để không tiết lộ rằng tài nguyên đó tồn tại.
 
 ## Kiểm tra quyền ở đâu?
 
 - **Luôn ở phía server**, tại **mỗi endpoint** truy cập tài nguyên.
 - **Mặc định từ chối** (deny by default): chưa cấp quyền rõ ràng thì không cho.
-- Kiểm tra **cả quyền hành động lẫn quyền sở hữu** (được làm hành động này + trên
-  đúng tài nguyên của mình).
+- Kiểm tra **cả quyền hành động lẫn quyền sở hữu** (được làm hành động này + trên đúng tài nguyên của mình).
 
 ```js
 // Middleware kiểm tra vai trò, mặc định từ chối
@@ -128,26 +115,19 @@ app.delete('/posts/:id', requireAuth, requireRole('admin'), deletePost)
 
 ## Chống brute-force khi đăng nhập
 
-Xác thực mạnh tới đâu cũng vô nghĩa nếu kẻ tấn công **thử mật khẩu vô hạn lần**.
-Cần:
+Xác thực mạnh tới đâu cũng vô nghĩa nếu kẻ tấn công **thử mật khẩu vô hạn lần**. Cần:
 
 - **Rate limiting** (giới hạn số lần) cho endpoint đăng nhập (xem mục 5).
 - **Khoá tạm** tài khoản/IP sau nhiều lần sai liên tiếp.
-- **MFA** (Multi-Factor Authentication — xác thực đa yếu tố): thêm yếu tố thứ hai
-  (mã OTP, app authenticator) ngoài mật khẩu.
-- **Thông báo lỗi mơ hồ**: nói "email hoặc mật khẩu sai", đừng nói rõ "email không
-  tồn tại" (tránh lộ email nào đã đăng ký).
+- **MFA** (Multi-Factor Authentication — xác thực đa yếu tố): thêm yếu tố thứ hai (mã OTP, app authenticator) ngoài mật khẩu.
+- **Thông báo lỗi mơ hồ**: nói "email hoặc mật khẩu sai", đừng nói rõ "email không tồn tại" (tránh lộ email nào đã đăng ký).
 
 ## Tóm tắt
 
-- **Authentication** = *bạn là ai*; **Authorization** = *bạn được làm gì*. Xác
-  thực trước, phân quyền sau.
-- **Broken Access Control** là rủi ro số 1; **mọi kiểm tra quyền phải ở server**,
-  client chỉ là trải nghiệm.
-- **IDOR**: luôn kiểm tra **quyền sở hữu** tài nguyên, không chỉ dựa vào ID; trả
-  404 để không lộ sự tồn tại.
-- Kiểm tra quyền tại **mỗi endpoint**, **mặc định từ chối**; chọn mô hình **RBAC**
-  (đơn giản) → ABAC/ReBAC (phức tạp).
+- **Authentication** = *bạn là ai*; **Authorization** = *bạn được làm gì*. Xác thực trước, phân quyền sau.
+- **Broken Access Control** là rủi ro số 1; **mọi kiểm tra quyền phải ở server**, client chỉ là trải nghiệm.
+- **IDOR**: luôn kiểm tra **quyền sở hữu** tài nguyên, không chỉ dựa vào ID; trả 404 để không lộ sự tồn tại.
+- Kiểm tra quyền tại **mỗi endpoint**, **mặc định từ chối**; chọn mô hình **RBAC** (đơn giản) → ABAC/ReBAC (phức tạp).
 - Chống brute-force: **rate limit, khoá tạm, MFA, thông báo lỗi mơ hồ**.
 
 Bài tiếp theo: **Session, Cookie & JWT** — cách giữ trạng thái đăng nhập an toàn.

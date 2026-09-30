@@ -146,8 +146,7 @@ Rest:
 
 ## Call Stack
 
-**Call Stack** = ngăn xếp các function đang chạy. Khi gọi function, một
-**stack frame** được push; khi return, frame bị pop.
+**Call Stack** = ngăn xếp các function đang chạy. Khi gọi function, một **stack frame** được push; khi return, frame bị pop.
 
 ```js
 function third() {
@@ -174,9 +173,7 @@ Stack tại thời điểm `console.log` chạy:
 | <main> |  ← bottom
 ```
 
-Nhìn theo trục thời gian, mỗi lời gọi **push** một frame lên đỉnh stack,
-và mỗi `return` **pop** frame đó ra — frame nào push sau cùng thì pop
-trước (LIFO):
+Nhìn theo trục thời gian, mỗi lời gọi **push** một frame lên đỉnh stack, và mỗi `return` **pop** frame đó ra — frame nào push sau cùng thì pop trước (LIFO):
 
 ```mermaid
 sequenceDiagram
@@ -193,8 +190,7 @@ sequenceDiagram
     F-->>M: return và pop first
 ```
 
-Khi crash, **stack trace** liệt kê chuỗi gọi này — đọc từ trên xuống là
-biết hàm nào gọi hàm nào:
+Khi crash, **stack trace** liệt kê chuỗi gọi này — đọc từ trên xuống là biết hàm nào gọi hàm nào:
 
 ```
 Error: oops
@@ -206,8 +202,7 @@ Error: oops
 
 :::info[Phân tích]
 
-**JS là single-threaded** — chỉ có **1 call stack** chính. Khi nó busy,
-mọi thứ khác (event, callback, render) phải đợi.
+**JS là single-threaded** — chỉ có **1 call stack** chính. Khi nó busy, mọi thứ khác (event, callback, render) phải đợi.
 
 Đó là lý do code blocking gây "freeze" trình duyệt:
 
@@ -230,8 +225,7 @@ const worker = new Worker("worker.js");
 worker.postMessage(data);
 ```
 
-Trong Node.js, tương tự: code đồng bộ block toàn bộ event loop. Dùng
-`worker_threads` cho CPU-bound, `async I/O` cho I/O-bound.
+Trong Node.js, tương tự: code đồng bộ block toàn bộ event loop. Dùng `worker_threads` cho CPU-bound, `async I/O` cho I/O-bound.
 
 :::
 
@@ -239,8 +233,7 @@ Trong Node.js, tương tự: code đồng bộ block toàn bộ event loop. Dùn
 
 ## Stack Overflow
 
-Mỗi engine có **giới hạn độ sâu** của call stack (~10k-50k frame). Vượt
-quá → `RangeError: Maximum call stack size exceeded`.
+Mỗi engine có **giới hạn độ sâu** của call stack (~10k-50k frame). Vượt quá → `RangeError: Maximum call stack size exceeded`.
 
 ```js
 function recurse() {
@@ -250,8 +243,7 @@ function recurse() {
 recurse(); // RangeError
 ```
 
-Cơ chế: mỗi lời gọi push thêm một frame nhưng không bao giờ pop (vì thiếu
-base case), stack cứ cao dần đến khi vượt giới hạn engine và ném lỗi:
+Cơ chế: mỗi lời gọi push thêm một frame nhưng không bao giờ pop (vì thiếu base case), stack cứ cao dần đến khi vượt giới hạn engine và ném lỗi:
 
 ```mermaid
 flowchart TD
@@ -294,8 +286,7 @@ function depth(root) {
 }
 ```
 
-JS **không có tail-call optimization** trong các engine phổ biến (Safari
-có, V8/Firefox không). Đừng dựa vào TCO — viết iterative khi cần.
+JS **không có tail-call optimization** trong các engine phổ biến (Safari có, V8/Firefox không). Đừng dựa vào TCO — viết iterative khi cần.
 
 :::
 
@@ -355,8 +346,7 @@ Number.isNaN(NaN);       // true
 Number.isNaN(undefined); // false
 ```
 
-Tương tự `isFinite` vs `Number.isFinite`. **Luôn dùng phiên bản
-`Number.*`** — chính xác hơn và không coerce.
+Tương tự `isFinite` vs `Number.isFinite`. **Luôn dùng phiên bản `Number.*`** — chính xác hơn và không coerce.
 
 :::
 

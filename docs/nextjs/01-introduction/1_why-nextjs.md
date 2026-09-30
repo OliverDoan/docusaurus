@@ -36,8 +36,7 @@ title: "1. Tại sao chọn Next.js?"
 
 ## Next.js là gì?
 
-**Next.js** là framework full-stack React do **Vercel** phát triển. Nó
-bổ sung lên React:
+**Next.js** là framework full-stack React do **Vercel** phát triển. Nó bổ sung lên React:
 
 - **Routing** file-based.
 - **Server-side rendering (SSR)**, **Static generation (SSG)**, **ISR**.
@@ -62,8 +61,7 @@ React core chỉ là **UI library** — không giải quyết:
 Trước Next.js, dev phải **tự ghép** Webpack + React Router + Redux + Express
 + tools khác → mỗi project setup khác nhau.
 
-Next.js đóng gói **best practice** thành framework — install xong là code
-được.
+Next.js đóng gói **best practice** thành framework — install xong là code được.
 
 ---
 
@@ -110,16 +108,14 @@ sequenceDiagram
 4. React "hydrate" — gắn event listener vào HTML đã có.
 5. App trở nên interactive (TTI).
 
-Hydration mismatch (HTML server khác với React client render) → bug khó debug.
-Một số nguyên nhân:
+Hydration mismatch (HTML server khác với React client render) → bug khó debug. Một số nguyên nhân:
 
 - `Date.now()`, `Math.random()` khác giữa server/client.
 - `typeof window === "undefined"` check rồi render khác.
 - Browser extension thêm DOM.
 - Locale formatter khác (server UTC vs client local).
 
-→ Server Components (React 19) giảm hydration cost — chỉ Client Component
-cần hydrate.
+→ Server Components (React 19) giảm hydration cost — chỉ Client Component cần hydrate.
 
 :::
 
@@ -165,8 +161,7 @@ So với React thuần + Vite SPA:
 
 **Lợi thế cụ thể của Next.js 2026:**
 
-1. **React 19 first-class** — Server Components, Actions, `use`,
-   `useActionState` đều tested kỹ trong Next.js.
+1. **React 19 first-class** — Server Components, Actions, `use`, `useActionState` đều tested kỹ trong Next.js.
 2. **Turbopack** stable — bundler bằng Rust, dev nhanh hơn nhiều.
 3. **App Router** đã mature — phần lớn breaking change đã xong.
 4. **Ecosystem rộng**:
@@ -183,8 +178,7 @@ So với React thuần + Vite SPA:
 - **Vendor lock-in** một số feature (Edge Functions, ISR có cache provider).
 - **Bundle to** hơn Vite SPA cùng tính năng.
 
-Phần lớn project React production hiện đại chọn Next.js vì **ít rủi ro**:
-ecosystem rộng, ai cũng biết, tuyển dev dễ.
+Phần lớn project React production hiện đại chọn Next.js vì **ít rủi ro**: ecosystem rộng, ai cũng biết, tuyển dev dễ.
 
 :::
 
@@ -219,8 +213,7 @@ ecosystem rộng, ai cũng biết, tuyển dev dễ.
 - Cache layer phức tạp (Data Cache, Router Cache, Full Route Cache).
 - Special files: `loading.tsx`, `error.tsx`, `not-found.tsx`.
 
-Học Next.js = **học framework**, không chỉ học React. Đầu tư 2-3 tuần để
-nắm App Router model là đáng — sau đó productive nhanh.
+Học Next.js = **học framework**, không chỉ học React. Đầu tư 2-3 tuần để nắm App Router model là đáng — sau đó productive nhanh.
 
 :::
 

@@ -67,8 +67,7 @@ JRE cung cấp đủ thứ để **chạy** một chương trình Java đã đư
 - JVM (để thực thi bytecode)
 - Các thư viện chuẩn: `java.lang`, `java.util`, `java.io`, ...
 
-**Dùng khi nào?**
-Khi bạn chỉ cần **chạy** ứng dụng Java (không cần phát triển), ví dụ: người dùng cuối chạy phần mềm Java.
+**Dùng khi nào?** Khi bạn chỉ cần **chạy** ứng dụng Java (không cần phát triển), ví dụ: người dùng cuối chạy phần mềm Java.
 
 ---
 
@@ -87,8 +86,7 @@ JDK là bộ đầy đủ dành cho **lập trình viên**:
 | `jar` | Đóng gói file `.class` thành file `.jar` |
 | `jshell` | REPL — chạy code Java tương tác (từ Java 9) |
 
-**Dùng khi nào?**
-Khi bạn **viết và biên dịch** code Java — lập trình viên luôn cần cài JDK.
+**Dùng khi nào?** Khi bạn **viết và biên dịch** code Java — lập trình viên luôn cần cài JDK.
 
 ---
 

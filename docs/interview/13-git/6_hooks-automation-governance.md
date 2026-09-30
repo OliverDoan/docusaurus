@@ -339,8 +339,7 @@ Hai loại hook phục vụ hai mục đích khác nhau và **không thay thế 
 - Nhược chí mạng:
   1. **Bypass được** bằng `--no-verify` / `-n`.
   2. **Không tự share** — Git không clone `.git/hooks`; phải có Husky + `npm install` thì dev mới có hook (ai skip install là không có).
-  3. Phụ thuộc môi trường local của dev (version Node, tool cài đủ chưa).
-  → Vì vậy client hook **không bao giờ đáng tin để enforce**.
+  3. Phụ thuộc môi trường local của dev (version Node, tool cài đủ chưa). → Vì vậy client hook **không bao giờ đáng tin để enforce**.
 
 **Server-side hooks / CI** (GitHub Actions, branch protection, hoặc `pre-receive` trên Git server tự host): chạy trên server, sau khi code tới remote.
 - Ưu: **không bypass được**, áp đồng nhất cho mọi người, là **single source of truth** về chất lượng.

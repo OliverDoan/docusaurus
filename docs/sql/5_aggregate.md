@@ -329,8 +329,7 @@ HAVING SUM(thanh_tien) > 5000000;
 ```
 
 :::tip[Mẹo]
-Thứ tự logic thực thi của một câu SQL có GROUP BY là:
-`FROM` → `JOIN` → `WHERE` → `GROUP BY` → `HAVING` → `SELECT` → `ORDER BY` → `LIMIT`
+Thứ tự logic thực thi của một câu SQL có GROUP BY là: `FROM` → `JOIN` → `WHERE` → `GROUP BY` → `HAVING` → `SELECT` → `ORDER BY` → `LIMIT`
 
 Hiểu thứ tự này giúp bạn biết mệnh đề nào "thấy" được alias của mệnh đề nào.
 :::

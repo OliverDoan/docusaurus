@@ -67,8 +67,7 @@ Pattern: **graceful fallback** ở mọi non-critical path.
 
 ## Circuit Breaker
 
-**Ngắt mạch** khi downstream service fail liên tục → không waste time
-retry.
+**Ngắt mạch** khi downstream service fail liên tục → không waste time retry.
 
 :::tip[Ví dụ đời thường]
 
@@ -189,8 +188,7 @@ Delay sequence: 1s, 2s, 4s, 8s, 16s (+jitter).
 Idempotency:
 
 - **Idempotent operation** (GET, PUT, DELETE) → retry safe.
-- **Non-idempotent** (POST) → retry có thể duplicate. Dùng
-  **idempotency key**:
+- **Non-idempotent** (POST) → retry có thể duplicate. Dùng **idempotency key**:
 
 ```ts
 await fetch("/api/payment", {
@@ -292,8 +290,7 @@ Service A: 20s timeout
 DB query: 15s timeout
 ```
 
-Lý do: nếu DB hang, query timeout → service trả error → gateway trả error
-→ user thấy error sau ~15s, không 30s.
+Lý do: nếu DB hang, query timeout → service trả error → gateway trả error → user thấy error sau ~15s, không 30s.
 
 ---
 
@@ -427,8 +424,7 @@ async function callPaymentAPI(data) {
 }
 ```
 
-Mọi external call production nên có **timeout + retry + circuit breaker**
-minimum.
+Mọi external call production nên có **timeout + retry + circuit breaker** minimum.
 
 :::
 
@@ -448,11 +444,9 @@ Tools:
 - **Gremlin** — managed.
 - **AWS Fault Injection** — AWS native.
 
-Pattern: test failure mode **trước khi production fail**. Discover weak
-point ở dev, fix trước user gặp.
+Pattern: test failure mode **trước khi production fail**. Discover weak point ở dev, fix trước user gặp.
 
-Đáng đầu tư cho enterprise / mission-critical app. Startup nhỏ skip
-được — focus correctness + monitor.
+Đáng đầu tư cho enterprise / mission-critical app. Startup nhỏ skip được — focus correctness + monitor.
 
 :::
 
@@ -492,8 +486,7 @@ Retry 10 lần với 60s timeout → 10 phút latency.
 
 Fix: max retry 3, total < 30s.
 
-Resilience pattern complex — start simple (timeout + retry), add advanced
-khi đo cần.
+Resilience pattern complex — start simple (timeout + retry), add advanced khi đo cần.
 
 :::
 

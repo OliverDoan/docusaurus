@@ -199,8 +199,7 @@ Compare Apache:
 - Nginx faster cho static + high concurrent.
 - Apache flexible config `.htaccess` per directory.
 
-Năm 2026, Nginx default cho VPS deploy. Đối thủ chính: **Caddy** (modern,
-auto HTTPS), **HAProxy** (load balancer thuần).
+Năm 2026, Nginx default cho VPS deploy. Đối thủ chính: **Caddy** (modern, auto HTTPS), **HAProxy** (load balancer thuần).
 
 :::
 
@@ -437,8 +436,7 @@ Fix:
 - Token tự chứa info, không cần server store.
 - Scale tốt nhất.
 
-→ Modern app prefer **stateless** (JWT) hoặc **shared Redis** thay vì
-sticky session.
+→ Modern app prefer **stateless** (JWT) hoặc **shared Redis** thay vì sticky session.
 
 :::
 

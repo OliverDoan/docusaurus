@@ -41,9 +41,7 @@ title: "2. call, apply, bind và Function Borrowing"
 
 **Vấn đề:**
 
-Trong JavaScript, `this` được quyết định **lúc gọi hàm**, không phải
-lúc định nghĩa. Khi tách method khỏi object, hoặc truyền method làm
-callback (`setTimeout`, event listener), `this` bị mất:
+Trong JavaScript, `this` được quyết định **lúc gọi hàm**, không phải lúc định nghĩa. Khi tách method khỏi object, hoặc truyền method làm callback (`setTimeout`, event listener), `this` bị mất:
 
 ```js
 const user = {
@@ -71,14 +69,11 @@ const bound = user.greet.bind(user); // tạo HÀM MỚI gắn cứng this
 setTimeout(bound, 100); // "Hello, An" — this giữ nguyên là user
 ```
 
-- `call(thisArg, ...args)` — gọi ngay với `this` được chỉ định, đối
-  số truyền **rời**.
+- `call(thisArg, ...args)` — gọi ngay với `this` được chỉ định, đối số truyền **rời**.
 - `apply(thisArg, argsArray)` — giống `call`, nhưng đối số là **mảng**.
 - `bind(thisArg)` — tạo **hàm mới** gắn cứng `this`, **không gọi ngay**.
 
-Sơ đồ dưới tóm tắt khác biệt cốt lõi: `call`/`apply` thực thi hàm **ngay
-lập tức** (chỉ khác cách truyền đối số), còn `bind` **trả về một hàm mới**
-đã gắn cứng `this` để gọi sau này:
+Sơ đồ dưới tóm tắt khác biệt cốt lõi: `call`/`apply` thực thi hàm **ngay lập tức** (chỉ khác cách truyền đối số), còn `bind` **trả về một hàm mới** đã gắn cứng `this` để gọi sau này:
 
 ```mermaid
 flowchart TD
@@ -93,14 +88,10 @@ flowchart TD
 
 :::tip[Dùng thực tế]
 
-- **Method borrowing**: mượn `Array.prototype.slice.call(arguments)`
-  để biến `arguments` thành mảng thật (trước khi có rest params).
-- **Giữ `this` cho callback**: `this.handler.bind(this)` trong class
-  (trước khi có class fields) để event handler không mất context.
-- **Partial application**: dùng `bind` preset sẵn vài đối số, tạo hàm
-  chuyên biệt (vd `add.bind(null, 5)`).
-- **Variadic trước spread**: `Math.max.apply(null, arr)` để tìm max
-  của một mảng (trước khi có `Math.max(...arr)`).
+- **Method borrowing**: mượn `Array.prototype.slice.call(arguments)` để biến `arguments` thành mảng thật (trước khi có rest params).
+- **Giữ `this` cho callback**: `this.handler.bind(this)` trong class (trước khi có class fields) để event handler không mất context.
+- **Partial application**: dùng `bind` preset sẵn vài đối số, tạo hàm chuyên biệt (vd `add.bind(null, 5)`).
+- **Variadic trước spread**: `Math.max.apply(null, arr)` để tìm max của một mảng (trước khi có `Math.max(...arr)`).
 
 :::
 
@@ -108,8 +99,7 @@ flowchart TD
 
 ## Tại sao cần?
 
-Ba method này cho phép **chỉ định `this`** khi gọi function — hữu ích
-khi:
+Ba method này cho phép **chỉ định `this`** khi gọi function — hữu ích khi:
 
 - Mượn method từ object khác.
 - Cố định `this` cho callback.
@@ -143,8 +133,7 @@ greet.apply(ctx, ["Hello", "An"]);
 // "Hello, Mr. An"
 ```
 
-Lịch sử: trước rest/spread (ES6), `apply` dùng để truyền mảng làm
-argument:
+Lịch sử: trước rest/spread (ES6), `apply` dùng để truyền mảng làm argument:
 
 ```js
 const nums = [1, 5, 3, 7];
@@ -206,12 +195,9 @@ class Counter extends React.Component {
 }
 ```
 
-Mỗi lần render, `this.handleClick` cần tham chiếu ổn định — không
-bind, hoặc bind inline `onClick={() => this.handleClick()}` sẽ tạo
-function mới mỗi render → re-render child không cần thiết.
+Mỗi lần render, `this.handleClick` cần tham chiếu ổn định — không bind, hoặc bind inline `onClick={() => this.handleClick()}` sẽ tạo function mới mỗi render → re-render child không cần thiết.
 
-React hooks (function component) loại bỏ vấn đề này hoàn toàn — không
-còn `this`.
+React hooks (function component) loại bỏ vấn đề này hoàn toàn — không còn `this`.
 
 :::
 
@@ -225,8 +211,7 @@ const bound = fn.bind({ x: 1 });
 bound(); // window/undefined — bind bị bỏ qua
 ```
 
-Arrow đã capture `this` lexical, không thể override. Cũng vậy với
-`call`/`apply` — argument đầu tiên (this) bị ignore với arrow.
+Arrow đã capture `this` lexical, không thể override. Cũng vậy với `call`/`apply` — argument đầu tiên (this) bị ignore với arrow.
 
 :::
 

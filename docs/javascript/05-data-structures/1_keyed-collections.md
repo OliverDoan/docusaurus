@@ -137,12 +137,10 @@ m.forEach((v, k) => {});
 
 **Quy tắc thực dụng:**
 
-- **Map** khi: key động, key không phải string, cần size/iteration thường
-  xuyên, dictionary lớn (>100 entries).
+- **Map** khi: key động, key không phải string, cần size/iteration thường xuyên, dictionary lớn (>100 entries).
 - **Object** khi: shape cố định, cần JSON, dữ liệu config / DTO.
 
-Object có thể chạy nhanh hơn Map với shape cố định nhờ V8 hidden class —
-nhưng với operation thêm/xóa key liên tục, Map nhanh và ít rò bộ nhớ hơn.
+Object có thể chạy nhanh hơn Map với shape cố định nhờ V8 hidden class — nhưng với operation thêm/xóa key liên tục, Map nhanh và ít rò bộ nhớ hơn.
 
 :::
 
@@ -180,8 +178,7 @@ const unique = [...new Set(arr)]; // [1, 2, 3]
 [...new Set(arr)]
 ```
 
-Cho object thì phức tạp hơn — Set so sánh bằng reference, không phải
-value:
+Cho object thì phức tạp hơn — Set so sánh bằng reference, không phải value:
 
 ```js
 const a = { id: 1 };
@@ -262,16 +259,11 @@ function process(node) {
 
 :::warning[Cần lưu ý]
 
-**WeakMap/WeakSet không phải replacement cho Map/Set.** Chúng được thiết
-kế cho use case **gắn dữ liệu phụ trợ vào object có lifecycle riêng**.
+**WeakMap/WeakSet không phải replacement cho Map/Set.** Chúng được thiết kế cho use case **gắn dữ liệu phụ trợ vào object có lifecycle riêng**.
 
-Không có cách để **iterate** hay biết **có bao nhiêu entry** — vì entry
-có thể biến mất bất cứ lúc nào GC chạy. Nếu bạn cần `size`, `for...of`,
-`forEach`, dùng Map/Set thường.
+Không có cách để **iterate** hay biết **có bao nhiêu entry** — vì entry có thể biến mất bất cứ lúc nào GC chạy. Nếu bạn cần `size`, `for...of`, `forEach`, dùng Map/Set thường.
 
-Lưu ý quan trọng cho phỏng vấn: **giá trị (value)** của WeakMap có
-**giữ reference** — chỉ key là weak. Cẩn thận leak khi value chứa
-reference vòng:
+Lưu ý quan trọng cho phỏng vấn: **giá trị (value)** của WeakMap có **giữ reference** — chỉ key là weak. Cẩn thận leak khi value chứa reference vòng:
 
 ```js
 const wm = new WeakMap();
@@ -320,9 +312,7 @@ Có **iterator helper** mới (ES2024+) áp dụng được trên Map/Set:
 [...m.values()].filter(v => v > 10).map(v => v * 2);
 ```
 
-Hiện tại vẫn cần spread `[...]` để chuyển sang array. Tương lai sẽ
-dùng iterator helper native — performant hơn với dataset lớn vì lazy
-evaluation.
+Hiện tại vẫn cần spread `[...]` để chuyển sang array. Tương lai sẽ dùng iterator helper native — performant hơn với dataset lớn vì lazy evaluation.
 
 :::
 

@@ -37,8 +37,7 @@ title: "4. tsconfig.json và Compiler Options"
 
 ## tsconfig.json là gì?
 
-`tsconfig.json` là **file cấu hình** đặt ở thư mục gốc project, báo cho
-`tsc` biết:
+`tsconfig.json` là **file cấu hình** đặt ở thư mục gốc project, báo cho `tsc` biết:
 
 - Compile file nào (`include`, `exclude`, `files`).
 - Compile ra phiên bản JS nào (`target`).
@@ -144,8 +143,7 @@ flowchart TD
 
 :::info[Phân tích]
 
-**Luôn bật `"strict": true` cho project mới.** Nếu migrate codebase JS
-lớn, bật **từng flag một** theo thứ tự:
+**Luôn bật `"strict": true` cho project mới.** Nếu migrate codebase JS lớn, bật **từng flag một** theo thứ tự:
 
 1. `noImplicitAny` — buộc khai báo type rõ ràng.
 2. `strictNullChecks` — tốn công nhất nhưng quan trọng nhất.
@@ -157,8 +155,7 @@ Bật `strict` từ đầu rẻ hơn rất nhiều so với bật lại sau 6 th
 
 :::warning[Cần lưu ý]
 
-Bật `strict` nhưng **chưa đủ** — vẫn cần bật thủ công các flag sau, chúng
-**không** nằm trong `strict`:
+Bật `strict` nhưng **chưa đủ** — vẫn cần bật thủ công các flag sau, chúng **không** nằm trong `strict`:
 
 - `noUncheckedIndexedAccess` — truy cập `array[i]` trả về `T | undefined`.
 - `exactOptionalPropertyTypes` — phân biệt `{ x?: number }` với `{ x: number | undefined }`.
@@ -181,23 +178,17 @@ Bật `strict` nhưng **chưa đủ** — vẫn cần bật thủ công các fla
 }
 ```
 
-- `target`: trình duyệt/Node bạn deploy đến — JS sinh ra sẽ dùng cú pháp
-  của phiên bản này.
-- `module`: định dạng module trong output (`CommonJS` cho Node cũ,
-  `ESNext`/`NodeNext` cho hiện đại).
-- `moduleResolution`: cách TS tìm file khi gặp `import`. `Bundler` phù
-  hợp khi dùng Vite/Webpack/Next; `NodeNext` cho thuần Node ESM.
+- `target`: trình duyệt/Node bạn deploy đến — JS sinh ra sẽ dùng cú pháp của phiên bản này.
+- `module`: định dạng module trong output (`CommonJS` cho Node cũ, `ESNext`/`NodeNext` cho hiện đại).
+- `moduleResolution`: cách TS tìm file khi gặp `import`. `Bundler` phù hợp khi dùng Vite/Webpack/Next; `NodeNext` cho thuần Node ESM.
 
 :::tip[Mẹo]
 
 **Preset chuẩn 2026** cho từng môi trường:
 
-- **Frontend (Vite/Next.js)**: `target: ES2022`, `module: ESNext`,
-  `moduleResolution: Bundler`, `jsx: react-jsx`, `noEmit: true`.
-- **Backend Node**: `target: ES2022`, `module: NodeNext`,
-  `moduleResolution: NodeNext`.
-- **Thư viện publish npm**: thêm `declaration: true`, `sourceMap: true`,
-  `outDir: ./dist`.
+- **Frontend (Vite/Next.js)**: `target: ES2022`, `module: ESNext`, `moduleResolution: Bundler`, `jsx: react-jsx`, `noEmit: true`.
+- **Backend Node**: `target: ES2022`, `module: NodeNext`, `moduleResolution: NodeNext`.
+- **Thư viện publish npm**: thêm `declaration: true`, `sourceMap: true`, `outDir: ./dist`.
 
 :::
 
@@ -220,8 +211,7 @@ npm install --save-dev @tsconfig/node20
 }
 ```
 
-Repo **tsconfig/bases** (https://github.com/tsconfig/bases) chứa preset
-sẵn cho Node, Deno, Next.js, React Native, Astro, Svelte...
+Repo **tsconfig/bases** (https://github.com/tsconfig/bases) chứa preset sẵn cho Node, Deno, Next.js, React Native, Astro, Svelte...
 
 :::info[Phân tích]
 
@@ -236,8 +226,7 @@ Trong monorepo lớn, dùng **project references**:
 }
 ```
 
-Cho phép TS build **incremental** — chỉ rebuild package thay đổi, tiết
-kiệm hàng phút build cho monorepo nhiều package.
+Cho phép TS build **incremental** — chỉ rebuild package thay đổi, tiết kiệm hàng phút build cho monorepo nhiều package.
 
 :::
 

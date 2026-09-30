@@ -35,15 +35,12 @@ title: "1. TypeScript là gì?"
 
 ## Định nghĩa
 
-**TypeScript (TS)** là một **superset** của JavaScript do Microsoft phát
-triển từ năm 2012. "Superset" nghĩa là **mọi code JavaScript hợp lệ đều
-là code TypeScript hợp lệ** — TS chỉ thêm vào, không bỏ đi.
+**TypeScript (TS)** là một **superset** của JavaScript do Microsoft phát triển từ năm 2012. "Superset" nghĩa là **mọi code JavaScript hợp lệ đều là code TypeScript hợp lệ** — TS chỉ thêm vào, không bỏ đi.
 
 TS bổ sung hai thứ chính:
 
 1. **Hệ thống type tĩnh** (static typing) — kiểm tra kiểu tại compile-time.
-2. **Tính năng ngôn ngữ hiện đại** — sau đó được compile (transpile) về
-   JavaScript chạy được trên trình duyệt/Node.
+2. **Tính năng ngôn ngữ hiện đại** — sau đó được compile (transpile) về JavaScript chạy được trên trình duyệt/Node.
 
 ```ts
 // TypeScript
@@ -74,8 +71,7 @@ TypeScript ra đời để giải quyết vấn đề của JavaScript khi dự 
 
 ## TypeScript hoạt động ra sao?
 
-TypeScript là ngôn ngữ **compile-time** — không có runtime riêng. Quá
-trình chạy gồm 3 bước:
+TypeScript là ngôn ngữ **compile-time** — không có runtime riêng. Quá trình chạy gồm 3 bước:
 
 ```
 [file .ts]  →  tsc (compiler)  →  [file .js]  →  Node / Browser chạy
@@ -93,13 +89,10 @@ flowchart LR
 
 :::info[Phân tích]
 
-**Type erasure**: tất cả type annotation (`: string`, `: number`,
-`interface`, `type`) bị **xoá hoàn toàn** khi compile. Code JS sinh ra
-không biết gì về type. Hệ quả:
+**Type erasure**: tất cả type annotation (`: string`, `: number`, `interface`, `type`) bị **xoá hoàn toàn** khi compile. Code JS sinh ra không biết gì về type. Hệ quả:
 
 - **Không thể** check type tại runtime bằng `typeof MyInterface`.
-- Muốn validate dữ liệu runtime (API response, user input) phải dùng
-  thư viện như **Zod**, **io-ts**, hoặc viết type guard thủ công.
+- Muốn validate dữ liệu runtime (API response, user input) phải dùng thư viện như **Zod**, **io-ts**, hoặc viết type guard thủ công.
 
 ```ts
 interface User { id: number; name: string; }
@@ -120,14 +113,11 @@ TS và JS sống chung được trong cùng project — gọi là **interoperabi
 
 **Bạn có thể:**
 
-- Đổi tên file `.js` → `.ts` và TS sẽ chấp nhận (nhưng kiểu mặc định là
-  `any`).
+- Đổi tên file `.js` → `.ts` và TS sẽ chấp nhận (nhưng kiểu mặc định là `any`).
 - Import file `.js` từ file `.ts` bình thường.
 - Dùng thư viện JS thuần có sẵn trên npm.
 
-**Để TS hiểu type của thư viện JS**, cần file **type declaration** (đuôi
-`.d.ts`). Phần lớn thư viện phổ biến đã có sẵn trên **DefinitelyTyped**
-(npm namespace `@types/*`):
+**Để TS hiểu type của thư viện JS**, cần file **type declaration** (đuôi `.d.ts`). Phần lớn thư viện phổ biến đã có sẵn trên **DefinitelyTyped** (npm namespace `@types/*`):
 
 ```bash
 npm install lodash
@@ -136,19 +126,13 @@ npm install --save-dev @types/lodash
 
 :::tip[Mẹo]
 
-Bật flag `allowJs: true` trong `tsconfig.json` để TS compile cả file `.js`.
-Kết hợp `checkJs: true` để TS check type cả trong file `.js` qua JSDoc —
-chiến lược **migration dần dần** từ JS sang TS mà không phải đổi toàn bộ
-codebase một lúc.
+Bật flag `allowJs: true` trong `tsconfig.json` để TS compile cả file `.js`. Kết hợp `checkJs: true` để TS check type cả trong file `.js` qua JSDoc — chiến lược **migration dần dần** từ JS sang TS mà không phải đổi toàn bộ codebase một lúc.
 
 :::
 
 :::warning[Cần lưu ý]
 
-Khai báo `: any` hoặc gặp **implicit any** sẽ **vô hiệu hoá toàn bộ
-type-check** cho biến đó — TS sẽ im lặng cho qua mọi thứ. Đây là cách
-"lách luật" nguy hiểm nhất. Bật `noImplicitAny: true` trong `tsconfig.json`
-để TS báo lỗi khi gặp implicit any.
+Khai báo `: any` hoặc gặp **implicit any** sẽ **vô hiệu hoá toàn bộ type-check** cho biến đó — TS sẽ im lặng cho qua mọi thứ. Đây là cách "lách luật" nguy hiểm nhất. Bật `noImplicitAny: true` trong `tsconfig.json` để TS báo lỗi khi gặp implicit any.
 
 :::
 

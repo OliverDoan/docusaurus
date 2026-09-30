@@ -203,8 +203,7 @@ const result = await client.collections("products").documents().search({
 });
 ```
 
-So với Meilisearch: similar feature, performance vài % khác. **Cloud hosted**
-có sẵn (typesense.org).
+So với Meilisearch: similar feature, performance vài % khác. **Cloud hosted** có sẵn (typesense.org).
 
 ---
 
@@ -297,8 +296,7 @@ Project size?
 
 Use case: e-commerce site cần search UI nhanh, ít dev resource.
 
-Cộng đồng đang chuyển dần sang **Meilisearch/Typesense Cloud** vì pricing
-predictable hơn.
+Cộng đồng đang chuyển dần sang **Meilisearch/Typesense Cloud** vì pricing predictable hơn.
 
 :::
 
@@ -335,8 +333,7 @@ async function createProduct(data) {
 await queue.add("reindex-product", { productId });
 ```
 
-Đừng: query search engine cho mọi data needed. Search engine **search**,
-DB **detail + transaction**.
+Đừng: query search engine cho mọi data needed. Search engine **search**, DB **detail + transaction**.
 
 :::
 
@@ -354,8 +351,7 @@ Cẩn thận:
 - **Update in DB → reindex**.
 - **Failed sync** → reconciliation job định kỳ.
 
-Pattern: **CDC (Change Data Capture)** với Debezium → Kafka → consumer
-update search → đảm bảo eventual consistency.
+Pattern: **CDC (Change Data Capture)** với Debezium → Kafka → consumer update search → đảm bảo eventual consistency.
 
 :::
 

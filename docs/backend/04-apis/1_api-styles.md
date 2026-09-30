@@ -25,8 +25,7 @@ API Style là phong cách thiết kế API, tức là cách client và server "n
 
 ## API Styles là gì?
 
-**API Style** = **phong cách/kiến trúc thiết kế API** — quy ước về cách
-client và server giao tiếp với nhau qua mạng.
+**API Style** = **phong cách/kiến trúc thiết kế API** — quy ước về cách client và server giao tiếp với nhau qua mạng.
 
 :::tip[Ví dụ đời thường]
 
@@ -70,8 +69,7 @@ REST                           gRPC, tRPC, SOAP
 GET /users/1                   userService.getUser({id: 1})
 ```
 
-REST nói "đây là resource, dùng HTTP verb thao tác". RPC nói "gọi hàm này
-với tham số kia" — giống gọi function local.
+REST nói "đây là resource, dùng HTTP verb thao tác". RPC nói "gọi hàm này với tham số kia" — giống gọi function local.
 
 **Trục 2: Text vs Binary**
 
@@ -247,8 +245,7 @@ Stripe API là gold standard cho RESTful design.
 }
 ```
 
-Phù hợp khi cần **standard interoperable** giữa nhiều client. Hơi verbose
-→ ít dự án dùng đầy đủ. Nhiều lib hỗ trợ (`jsonapi-serializer`).
+Phù hợp khi cần **standard interoperable** giữa nhiều client. Hơi verbose → ít dự án dùng đầy đủ. Nhiều lib hỗ trợ (`jsonapi-serializer`).
 
 ---
 
@@ -363,8 +360,7 @@ type Mutation {
 - Public API — REST quen hơn.
 - Limited resource server — REST cheaper.
 
-Năm 2026, **REST + tRPC** thắng cho 80% case. GraphQL chỉ dùng khi
-**thực sự có lợi ích**.
+Năm 2026, **REST + tRPC** thắng cho 80% case. GraphQL chỉ dùng khi **thực sự có lợi ích**.
 
 :::
 
@@ -517,8 +513,7 @@ Default 80% web app?                  → REST + JSON
 - **Bandwidth critical hoặc flexible client**: GraphQL.
 - **Microservice internal**: gRPC.
 
-Đừng over-engineer — REST cover 80% nhu cầu. Add complexity chỉ khi
-có lý do rõ ràng.
+Đừng over-engineer — REST cover 80% nhu cầu. Add complexity chỉ khi có lý do rõ ràng.
 
 :::
 

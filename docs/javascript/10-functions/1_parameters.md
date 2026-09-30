@@ -183,9 +183,7 @@ function test(x) {
 
 :::
 
-Sơ đồ dưới tóm tắt quy tắc quyết định: default parameter chỉ "nhảy vào"
-khi đối số là `undefined`, còn mọi giá trị falsy khác (`null`, `0`, `""`,
-`false`) vẫn được giữ nguyên.
+Sơ đồ dưới tóm tắt quy tắc quyết định: default parameter chỉ "nhảy vào" khi đối số là `undefined`, còn mọi giá trị falsy khác (`null`, `0`, `""`, `false`) vẫn được giữ nguyên.
 
 ```mermaid
 flowchart TD
@@ -218,8 +216,7 @@ function log(level, ...messages) {
 log("info", "Hello", "World", 42);
 ```
 
-Với lời gọi trên, đối số đầu tiên được gán cho parameter thường `level`,
-còn tất cả đối số còn lại được **gom vào một mảng** `messages`:
+Với lời gọi trên, đối số đầu tiên được gán cho parameter thường `level`, còn tất cả đối số còn lại được **gom vào một mảng** `messages`:
 
 ```mermaid
 flowchart LR
@@ -286,8 +283,7 @@ head([1, 2, 3]); // 1
 
 ## Named arguments pattern
 
-JavaScript **không có named arguments** như Python (`fn(name="x")`).
-Pattern thay thế — **destructure object**:
+JavaScript **không có named arguments** như Python (`fn(name="x")`). Pattern thay thế — **destructure object**:
 
 ```js
 // Không tốt — thứ tự dễ nhớ sai
@@ -313,8 +309,7 @@ createButton({
 
 - Hàm ≤ 2 param → dùng positional `fn(a, b)`.
 - Hàm ≥ 3 param hoặc nhiều optional → dùng object destructuring.
-- Boolean parameter → **luôn** dùng object (`fn({ enabled: true })` rõ
-  hơn `fn(true)`).
+- Boolean parameter → **luôn** dùng object (`fn({ enabled: true })` rõ hơn `fn(true)`).
 
 ```js
 // Tệ — boolean lạc lõng
@@ -324,8 +319,7 @@ slice(arr, 0, 5, true);
 slice(arr, 0, 5, { inPlace: true });
 ```
 
-Bool argument ở vị trí giữa là "code smell" — khi đọc call site,
-không ai biết `true` nghĩa gì.
+Bool argument ở vị trí giữa là "code smell" — khi đọc call site, không ai biết `true` nghĩa gì.
 
 :::
 
@@ -347,8 +341,7 @@ function middleware(err, req, res, next) {} // length = 4 → error handler
 function middleware(req, res, next) {}      // length = 3 → normal
 ```
 
-Express dùng `length` để phân biệt error middleware. Đây là lý do thứ
-tự parameter trong Express cố định — không thể đảo.
+Express dùng `length` để phân biệt error middleware. Đây là lý do thứ tự parameter trong Express cố định — không thể đảo.
 
 :::
 

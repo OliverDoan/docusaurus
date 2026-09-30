@@ -164,8 +164,7 @@ function Counter() {
 - Giá trị hiện tại.
 - Setter function — gọi để update state.
 
-Khi setter được gọi → React **schedule re-render** → component chạy lại
-→ JSX mới render.
+Khi setter được gọi → React **schedule re-render** → component chạy lại → JSX mới render.
 
 ```mermaid
 flowchart TD
@@ -200,8 +199,7 @@ function tripleIncrement() {
 }
 ```
 
-Quy tắc: khi state **mới phụ thuộc state cũ**, **luôn dùng updater
-function** `setX(prev => ...)`.
+Quy tắc: khi state **mới phụ thuộc state cũ**, **luôn dùng updater function** `setX(prev => ...)`.
 
 :::
 
@@ -245,8 +243,7 @@ setUser(prev => ({
 }));
 ```
 
-Lý do React dùng **shallow comparison** để detect change. Mutation không
-đổi reference → React nghĩ không có gì thay đổi → skip re-render.
+Lý do React dùng **shallow comparison** để detect change. Mutation không đổi reference → React nghĩ không có gì thay đổi → skip re-render.
 
 Với state nested sâu, cân nhắc:
 
@@ -345,8 +342,7 @@ Pattern:
 - **State down** — prop.
 - **Event up** — callback.
 
-Đây chính là luồng dữ liệu **một chiều** của React — dữ liệu đi xuống qua
-props, sự kiện báo ngược lên qua callback:
+Đây chính là luồng dữ liệu **một chiều** của React — dữ liệu đi xuống qua props, sự kiện báo ngược lên qua callback:
 
 ```mermaid
 flowchart TD
@@ -381,8 +377,7 @@ Giải pháp:
 3. **URL state** — query string cho state cần shareable (filter, page).
 4. **Server state** — TanStack Query cho data từ API.
 
-Phân biệt rõ **client state** (UI) vs **server state** (data) là kỹ năng
-quan trọng — chọn đúng tool tránh over-engineer.
+Phân biệt rõ **client state** (UI) vs **server state** (data) là kỹ năng quan trọng — chọn đúng tool tránh over-engineer.
 
 :::
 

@@ -40,8 +40,7 @@ Trong JavaScript, mỗi object đều có một **prototype** (nguyên mẫu) �
 
 **Vấn đề:**
 
-Nếu mỗi object tự chứa **bản sao** của mọi method thì cùng một hàm bị lặp
-lại trên từng instance — tốn bộ nhớ và khó cập nhật chung:
+Nếu mỗi object tự chứa **bản sao** của mọi method thì cùng một hàm bị lặp lại trên từng instance — tốn bộ nhớ và khó cập nhật chung:
 
 ```js
 function createUser(name) {
@@ -60,9 +59,7 @@ u1.greet === u2.greet; // false — hai function khác nhau, tốn RAM
 
 **Giải pháp:**
 
-Prototype cho phép các instance **chia sẻ** method qua prototype chain thay
-vì copy. Khi tra cứu thuộc tính, JS đi ngược chuỗi prototype để tìm — nhờ
-vậy chỉ cần lưu một bản method, sửa một chỗ là mọi instance áp dụng:
+Prototype cho phép các instance **chia sẻ** method qua prototype chain thay vì copy. Khi tra cứu thuộc tính, JS đi ngược chuỗi prototype để tìm — nhờ vậy chỉ cần lưu một bản method, sửa một chỗ là mọi instance áp dụng:
 
 ```js
 function User(name) {
@@ -79,21 +76,14 @@ u1.greet === u2.greet; // true — chung một function, tiết kiệm bộ nh�
 // Sửa User.prototype.greet một lần → mọi instance đổi theo
 ```
 
-JS chọn mô hình **prototype-based** (lấy cảm hứng từ ngôn ngữ Self) thay vì
-**class-based** như Java/C++. `class` của ES6 chỉ là lớp đường (syntactic
-sugar) phủ lên prototype, không phải cơ chế mới.
+JS chọn mô hình **prototype-based** (lấy cảm hứng từ ngôn ngữ Self) thay vì **class-based** như Java/C++. `class` của ES6 chỉ là lớp đường (syntactic sugar) phủ lên prototype, không phải cơ chế mới.
 
 :::tip[Dùng thực tế]
 
-- **Thêm method dùng chung** cho mọi instance: gắn vào `Constructor.prototype`
-  để mọi object chia sẻ một bản, không lặp lại trên từng instance.
-- **Hiểu vì sao mọi mảng có `.map`**: `[].map` không nằm trên mảng mà nằm
-  trên `Array.prototype` — mọi mảng đều mượn được qua chuỗi prototype.
-- **Đọc/mở rộng built-in prototype**: biết các method như `.toUpperCase`,
-  `.filter` sống ở đâu (`String.prototype`, `Array.prototype`) để tra cứu
-  và debug nhanh.
-- **Hiểu `instanceof`**: toán tử này kiểm tra `Constructor.prototype` có nằm
-  trong chuỗi prototype của object hay không — gốc rễ chính là cơ chế này.
+- **Thêm method dùng chung** cho mọi instance: gắn vào `Constructor.prototype` để mọi object chia sẻ một bản, không lặp lại trên từng instance.
+- **Hiểu vì sao mọi mảng có `.map`**: `[].map` không nằm trên mảng mà nằm trên `Array.prototype` — mọi mảng đều mượn được qua chuỗi prototype.
+- **Đọc/mở rộng built-in prototype**: biết các method như `.toUpperCase`, `.filter` sống ở đâu (`String.prototype`, `Array.prototype`) để tra cứu và debug nhanh.
+- **Hiểu `instanceof`**: toán tử này kiểm tra `Constructor.prototype` có nằm trong chuỗi prototype của object hay không — gốc rễ chính là cơ chế này.
 
 :::
 
@@ -101,9 +91,7 @@ sugar) phủ lên prototype, không phải cơ chế mới.
 
 ## Prototype là gì?
 
-JavaScript dùng **prototype-based inheritance** — không có class thật
-như Java/C++. Mỗi object có một property ẩn `[[Prototype]]` trỏ tới
-**object cha**.
+JavaScript dùng **prototype-based inheritance** — không có class thật như Java/C++. Mỗi object có một property ẩn `[[Prototype]]` trỏ tới **object cha**.
 
 Truy cập qua `Object.getPrototypeOf`:
 
@@ -151,8 +139,7 @@ flowchart LR
     objProto --> null1(("null"))
 ```
 
-Mọi mũi tên trên đều là `[[Prototype]]` — khi không tìm thấy property,
-JS đi theo mũi tên cho đến khi gặp `null`.
+Mọi mũi tên trên đều là `[[Prototype]]` — khi không tìm thấy property, JS đi theo mũi tên cho đến khi gặp `null`.
 
 ---
 
@@ -168,8 +155,7 @@ dog.name = "Lulu";
 dog.eat(); // "Lulu đang ăn"
 ```
 
-`Object.create(null)` tạo object **không có prototype** — không có
-`toString`, `hasOwnProperty`...:
+`Object.create(null)` tạo object **không có prototype** — không có `toString`, `hasOwnProperty`...:
 
 ```js
 const plain = Object.create(null);
@@ -179,8 +165,7 @@ plain.toString; // undefined
 
 :::tip[Mẹo]
 
-`Object.create(null)` rất hữu ích cho **dictionary thuần** — tránh xung
-đột với property kế thừa:
+`Object.create(null)` rất hữu ích cho **dictionary thuần** — tránh xung đột với property kế thừa:
 
 ```js
 // Dictionary nguy hiểm
@@ -222,8 +207,7 @@ User.prototype.greet = function () {
 new User("An").greet(); // cả hai đều "Hi An"
 ```
 
-Method khai báo trong class được gắn vào `User.prototype`, không phải
-mỗi instance:
+Method khai báo trong class được gắn vào `User.prototype`, không phải mỗi instance:
 
 ```js
 const u1 = new User("An");
@@ -236,8 +220,7 @@ u1.greet === u2.greet; // true — chung một function
 
 ## Quan hệ với constructor function
 
-Mọi function có property `prototype` (chính là object sẽ làm parent cho
-instance):
+Mọi function có property `prototype` (chính là object sẽ làm parent cho instance):
 
 ```js
 function User(name) {
@@ -289,15 +272,13 @@ flowchart LR
     Op -->|"__proto__"| N(("null"))
 ```
 
-Hiểu được hai khái niệm này tách bạch là dấu hiệu nắm chắc JS — phân
-biệt junior và mid/senior.
+Hiểu được hai khái niệm này tách bạch là dấu hiệu nắm chắc JS — phân biệt junior và mid/senior.
 
 :::
 
 :::warning[Cần lưu ý]
 
-**Không sửa `Object.prototype` (prototype pollution)** — gây bug toàn hệ
-thống:
+**Không sửa `Object.prototype` (prototype pollution)** — gây bug toàn hệ thống:
 
 ```js
 // KHÔNG BAO GIỜ
@@ -305,8 +286,7 @@ Object.prototype.toString = "x";
 ({}).toString; // "x" — mọi object bị ảnh hưởng!
 ```
 
-Đây là loại lỗi bảo mật nghiêm trọng (CVE) khi nhận input không sanitize
-ghi vào `__proto__`:
+Đây là loại lỗi bảo mật nghiêm trọng (CVE) khi nhận input không sanitize ghi vào `__proto__`:
 
 ```js
 const config = {};
@@ -316,8 +296,7 @@ Object.assign(config, userInput);
 ({}).isAdmin; // true — mọi object trong app!
 ```
 
-→ Khi merge object từ untrusted source, dùng `Object.create(null)` hoặc
-filter `__proto__` thủ công. Thư viện lodash đã từng có CVE về vấn đề này.
+→ Khi merge object từ untrusted source, dùng `Object.create(null)` hoặc filter `__proto__` thủ công. Thư viện lodash đã từng có CVE về vấn đề này.
 
 :::
 

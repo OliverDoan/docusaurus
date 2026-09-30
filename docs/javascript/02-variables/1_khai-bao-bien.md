@@ -108,8 +108,7 @@ PI = 3.15; // TypeError
 
 :::warning[Cần lưu ý]
 
-`const` **không** có nghĩa là "immutable" — nó chỉ chặn **gán lại biến**.
-Object hoặc array bên trong vẫn sửa được:
+`const` **không** có nghĩa là "immutable" — nó chỉ chặn **gán lại biến**. Object hoặc array bên trong vẫn sửa được:
 
 ```js
 const user = { name: "An" };
@@ -128,8 +127,7 @@ const config = Object.freeze({ url: "/api" });
 config.url = "x"; // Silently fail (strict mode: TypeError)
 ```
 
-`Object.freeze` cũng chỉ **shallow** — nested object vẫn sửa được. Cần
-deep freeze tự viết hoặc dùng thư viện (Immer, Immutable.js).
+`Object.freeze` cũng chỉ **shallow** — nested object vẫn sửa được. Cần deep freeze tự viết hoặc dùng thư viện (Immer, Immutable.js).
 
 :::
 
@@ -140,8 +138,7 @@ deep freeze tự viết hoặc dùng thư viện (Immer, Immutable.js).
 **Quy tắc 2026:**
 
 1. **Mặc định dùng `const`**.
-2. **Chỉ dùng `let`** khi biết chắc sẽ gán lại (counter, accumulator, biến
-   trong loop...).
+2. **Chỉ dùng `let`** khi biết chắc sẽ gán lại (counter, accumulator, biến trong loop...).
 3. **Không bao giờ dùng `var`** trong code mới.
 
 ```mermaid
@@ -162,8 +159,7 @@ for (let i = 0; i < users.length; i++) {
 
 :::info[Phân tích]
 
-**Temporal Dead Zone (TDZ)** là khoảng từ đầu block tới dòng khai báo
-`let`/`const`. Truy cập biến trong TDZ ném `ReferenceError`:
+**Temporal Dead Zone (TDZ)** là khoảng từ đầu block tới dòng khai báo `let`/`const`. Truy cập biến trong TDZ ném `ReferenceError`:
 
 ```js
 console.log(x); // ReferenceError: Cannot access 'x' before initialization
@@ -177,11 +173,9 @@ console.log(y); // undefined (hoisted với giá trị undefined)
 var y = 10;
 ```
 
-→ TDZ giúp **phát hiện sớm bug** dùng biến trước khi khai báo. Đây là
-một trong các lý do `let`/`const` an toàn hơn `var`.
+→ TDZ giúp **phát hiện sớm bug** dùng biến trước khi khai báo. Đây là một trong các lý do `let`/`const` an toàn hơn `var`.
 
-Senior thường được hỏi: "Tại sao `typeof` an toàn với biến chưa khai báo
-nhưng không an toàn với `let` trong TDZ?":
+Senior thường được hỏi: "Tại sao `typeof` an toàn với biến chưa khai báo nhưng không an toàn với `let` trong TDZ?":
 
 ```js
 typeof undeclared; // "undefined" (an toàn)
@@ -189,15 +183,13 @@ typeof x;          // ReferenceError (TDZ với let/const)
 let x = 1;
 ```
 
-Lý do: TDZ là **trạng thái thực sự** của biến đã được tạo nhưng chưa
-khởi tạo — không phải "không tồn tại".
+Lý do: TDZ là **trạng thái thực sự** của biến đã được tạo nhưng chưa khởi tạo — không phải "không tồn tại".
 
 :::
 
 :::tip[Mẹo]
 
-Trong codebase hiện đại, ESLint rule **`no-var`** và **`prefer-const`**
-sẽ tự ép quy tắc trên. Bật chúng trong ESLint config:
+Trong codebase hiện đại, ESLint rule **`no-var`** và **`prefer-const`** sẽ tự ép quy tắc trên. Bật chúng trong ESLint config:
 
 ```js
 // eslint.config.js

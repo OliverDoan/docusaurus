@@ -40,10 +40,7 @@ title: "3. Scope (Phạm vi biến)"
 
 **Vấn đề:**
 
-Khi viết code, mọi biến nằm chung một "rổ" toàn cục thì rất dễ **đụng độ
-tên** và **làm bẩn global**. Hai đoạn code không liên quan vô tình dùng
-cùng tên biến sẽ ghi đè lẫn nhau. Tệ hơn, không có cách nào "giấu" dữ
-liệu nội bộ — ai cũng đọc/sửa được:
+Khi viết code, mọi biến nằm chung một "rổ" toàn cục thì rất dễ **đụng độ tên** và **làm bẩn global**. Hai đoạn code không liên quan vô tình dùng cùng tên biến sẽ ghi đè lẫn nhau. Tệ hơn, không có cách nào "giấu" dữ liệu nội bộ — ai cũng đọc/sửa được:
 
 ```js
 // Cách làm cũ: tất cả nằm chung global
@@ -58,11 +55,7 @@ count = 999; // "tai nạn" — không có gì bảo vệ
 
 **Giải pháp:**
 
-**Scope** ra đời để kiểm soát "biến nào nhìn thấy ở đâu", giữ biến nằm
-gọn trong phạm vi cần thiết. **Lexical scope** xác định phạm vi theo
-*nơi viết code*. Từ đó sinh ra **closure**: một hàm "nhớ" được biến của
-scope bên ngoài **kể cả sau khi scope đó đã kết thúc** — nhờ vậy ta tạo
-được biến **private** (đóng gói dữ liệu):
+**Scope** ra đời để kiểm soát "biến nào nhìn thấy ở đâu", giữ biến nằm gọn trong phạm vi cần thiết. **Lexical scope** xác định phạm vi theo *nơi viết code*. Từ đó sinh ra **closure**: một hàm "nhớ" được biến của scope bên ngoài **kể cả sau khi scope đó đã kết thúc** — nhờ vậy ta tạo được biến **private** (đóng gói dữ liệu):
 
 ```js
 function createCounter() {
@@ -94,8 +87,7 @@ Closure & scope xuất hiện ở khắp nơi trong code thực tế:
 
 ## Scope là gì?
 
-**Scope** là **phạm vi truy cập** của biến — vùng code mà biến có thể
-được nhìn thấy và sử dụng.
+**Scope** là **phạm vi truy cập** của biến — vùng code mà biến có thể được nhìn thấy và sử dụng.
 
 JavaScript có 3 loại scope chính:
 
@@ -109,8 +101,7 @@ JavaScript có 3 loại scope chính:
 
 ## Global Scope
 
-Biến khai báo **ngoài mọi function/block** thuộc global scope, truy
-cập được từ bất kỳ đâu.
+Biến khai báo **ngoài mọi function/block** thuộc global scope, truy cập được từ bất kỳ đâu.
 
 ```js
 const APP_NAME = "MyApp"; // global
@@ -122,8 +113,7 @@ function show() {
 
 :::warning[Cần lưu ý]
 
-Trong trình duyệt, biến global tạo bằng `var` (hoặc khai báo không
-từ khoá trong sloppy mode) sẽ trở thành property của `window`:
+Trong trình duyệt, biến global tạo bằng `var` (hoặc khai báo không từ khoá trong sloppy mode) sẽ trở thành property của `window`:
 
 ```js
 var x = 10;
@@ -137,8 +127,7 @@ let y = 20;
 console.log(window.y); // undefined
 ```
 
-Trong ES Module và strict mode, biến top-level **không** thuộc `window`/
-`global` — đây là behavior chuẩn nên dùng.
+Trong ES Module và strict mode, biến top-level **không** thuộc `window`/ `global` — đây là behavior chuẩn nên dùng.
 
 :::
 
@@ -176,8 +165,7 @@ function demo() {
 
 ## Block Scope
 
-Block scope = trong cặp `{}` (`if`, `for`, `while`, hoặc đơn giản là
-`{ ... }`).
+Block scope = trong cặp `{}` (`if`, `for`, `while`, hoặc đơn giản là `{ ... }`).
 
 ```js
 {
@@ -204,9 +192,7 @@ for (var j = 0; j < 3; j++) {
 
 :::info[Phân tích]
 
-**Mỗi iteration `for (let i...)` tạo một binding mới của `i`** trong
-một scope mới. Đây là behavior đặc biệt của `let` trong vòng lặp `for`,
-giải quyết vấn đề kinh điển của `var` trong closure.
+**Mỗi iteration `for (let i...)` tạo một binding mới của `i`** trong một scope mới. Đây là behavior đặc biệt của `let` trong vòng lặp `for`, giải quyết vấn đề kinh điển của `var` trong closure.
 
 Tương đương ngầm:
 
@@ -222,8 +208,7 @@ for (
 }
 ```
 
-→ Hiểu cơ chế này là chìa khoá đáp đúng câu hỏi phỏng vấn về closure +
-loop, một trong các topic kinh điển của JS.
+→ Hiểu cơ chế này là chìa khoá đáp đúng câu hỏi phỏng vấn về closure + loop, một trong các topic kinh điển của JS.
 
 :::
 
@@ -231,14 +216,9 @@ loop, một trong các topic kinh điển của JS.
 
 ## Lexical Scope
 
-**Lexical scope** (còn gọi là *static scope*) = scope được xác định bởi
-**vị trí code khi viết**, không phải bởi **vị trí khi gọi**.
+**Lexical scope** (còn gọi là *static scope*) = scope được xác định bởi **vị trí code khi viết**, không phải bởi **vị trí khi gọi**.
 
-> Chữ **"lexical"** nghĩa là "thuộc về văn bản code". Tức là chỉ cần
-> **nhìn vào nơi bạn viết** một function trong file — lồng bên trong
-> function/block nào — là đã biết nó truy cập được những biến nào.
-> Điều này được "chốt" ngay lúc viết code, và **không thay đổi** dù sau
-> này bạn gọi function đó từ đâu.
+> Chữ **"lexical"** nghĩa là "thuộc về văn bản code". Tức là chỉ cần **nhìn vào nơi bạn viết** một function trong file — lồng bên trong function/block nào — là đã biết nó truy cập được những biến nào. Điều này được "chốt" ngay lúc viết code, và **không thay đổi** dù sau này bạn gọi function đó từ đâu.
 
 ```js
 function outer() {
@@ -255,13 +235,11 @@ const fn = outer();
 fn(); // "An" — vẫn truy cập được name
 ```
 
-`inner` được **viết bên trong** `outer`, nên nó **luôn truy cập được**
-biến của `outer`, kể cả khi gọi từ bên ngoài.
+`inner` được **viết bên trong** `outer`, nên nó **luôn truy cập được** biến của `outer`, kể cả khi gọi từ bên ngoài.
 
 ### Quyết định lúc viết, không phải lúc gọi
 
-Điểm cốt lõi dễ nhầm: biến mà một function "nhìn thấy" phụ thuộc vào
-**nơi nó được định nghĩa**, KHÔNG phải nơi nó được gọi.
+Điểm cốt lõi dễ nhầm: biến mà một function "nhìn thấy" phụ thuộc vào **nơi nó được định nghĩa**, KHÔNG phải nơi nó được gọi.
 
 ```js
 const message = "global";
@@ -278,10 +256,7 @@ function outer() {
 outer(); // In ra "global", KHÔNG phải "local trong outer"
 ```
 
-`inner` được viết ở top-level (cạnh biến `message = "global"`), nên dù
-được **gọi bên trong** `outer`, nó vẫn lấy `message` ở nơi nó được viết
-ra. Nếu JavaScript dùng *dynamic scope* (lấy biến theo nơi gọi) thì kết
-quả sẽ là `"local trong outer"` — nhưng JS **không** làm vậy.
+`inner` được viết ở top-level (cạnh biến `message = "global"`), nên dù được **gọi bên trong** `outer`, nó vẫn lấy `message` ở nơi nó được viết ra. Nếu JavaScript dùng *dynamic scope* (lấy biến theo nơi gọi) thì kết quả sẽ là `"local trong outer"` — nhưng JS **không** làm vậy.
 
 :::info[Lexical scope vs Dynamic scope]
 
@@ -291,15 +266,11 @@ quả sẽ là `"local trong outer"` — nhưng JS **không** làm vậy.
 | Lấy biến từ đâu | Nơi hàm **được định nghĩa** | Nơi hàm **được gọi** |
 | Đoán kết quả | Dễ — nhìn cấu trúc code | Khó — phải lần theo call stack |
 
-Hầu hết ngôn ngữ hiện đại (JavaScript, Python, C...) dùng **lexical
-scope** vì nó dễ đọc, dễ suy luận và an toàn hơn. Dynamic scope hiếm gặp
-(vd Bash, Emacs Lisp cũ).
+Hầu hết ngôn ngữ hiện đại (JavaScript, Python, C...) dùng **lexical scope** vì nó dễ đọc, dễ suy luận và an toàn hơn. Dynamic scope hiếm gặp (vd Bash, Emacs Lisp cũ).
 
 :::
 
-Đây là nền tảng của **closure** (sẽ học sâu ở phần Functions): vì scope
-được "chốt" theo vị trí viết, function con vẫn nhớ và truy cập được biến
-của scope cha **kể cả khi scope cha đã kết thúc**.
+Đây là nền tảng của **closure** (sẽ học sâu ở phần Functions): vì scope được "chốt" theo vị trí viết, function con vẫn nhớ và truy cập được biến của scope cha **kể cả khi scope cha đã kết thúc**.
 
 ---
 
@@ -344,15 +315,13 @@ Tại runtime, mỗi function call tạo một **Lexical Environment** chứa:
 - **Environment Record**: bảng các biến của scope.
 - **Outer reference**: liên kết tới scope cha (theo lexical).
 
-Scope chain chính là chuỗi outer references này. Khi truy cập biến, JS
-duyệt qua từng environment cho đến khi tìm thấy (hoặc tới global).
+Scope chain chính là chuỗi outer references này. Khi truy cập biến, JS duyệt qua từng environment cho đến khi tìm thấy (hoặc tới global).
 
 Hiểu cơ chế này giải thích được:
 
 - Closure giữ biến sống dù function đã kết thúc.
 - Memory leak khi closure giữ tham chiếu DOM.
-- Performance: scope quá sâu → tìm biến chậm (V8 tối ưu nhưng vẫn có
-  chi phí).
+- Performance: scope quá sâu → tìm biến chậm (V8 tối ưu nhưng vẫn có chi phí).
 
 :::
 
@@ -372,8 +341,7 @@ Hiểu cơ chế này giải thích được:
 })();
 ```
 
-Trong code hiện đại với `let`/`const` + module, IIFE gần như không còn
-cần thiết.
+Trong code hiện đại với `let`/`const` + module, IIFE gần như không còn cần thiết.
 
 :::
 

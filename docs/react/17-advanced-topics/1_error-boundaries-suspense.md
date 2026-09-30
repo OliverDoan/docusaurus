@@ -83,8 +83,7 @@ function Page() {
 
 ## Error Boundary
 
-**Error Boundary** = component bắt lỗi của subtree, hiển thị fallback UI
-thay vì crash app.
+**Error Boundary** = component bắt lỗi của subtree, hiển thị fallback UI thay vì crash app.
 
 Sơ đồ dưới đây mô tả luồng render và cách Error Boundary chen vào khi có lỗi:
 
@@ -140,8 +139,7 @@ Error Boundary **không bắt được:**
 
 :::warning[Cần lưu ý]
 
-**Mỗi Error Boundary có "phạm vi" subtree** — không bắt được lỗi của
-parent:
+**Mỗi Error Boundary có "phạm vi" subtree** — không bắt được lỗi của parent:
 
 ```jsx
 <App>
@@ -167,8 +165,7 @@ Strategy: **nested error boundary** ở các cấp:
 </ErrorBoundary>
 ```
 
-Lỗi trong `DangerousFeature` chỉ ảnh hưởng section đó, Header/Footer
-vẫn render.
+Lỗi trong `DangerousFeature` chỉ ảnh hưởng section đó, Header/Footer vẫn render.
 
 :::
 
@@ -291,8 +288,7 @@ stateDiagram-v2
   Rejected --> [*]
 ```
 
-Khi `Pending`, React hiện `fallback` (Spinner/Skeleton); khi `Resolved` thì
-swap nội dung thật; nếu `Rejected` (lỗi) thì Error Boundary gần nhất tiếp quản.
+Khi `Pending`, React hiện `fallback` (Spinner/Skeleton); khi `Resolved` thì swap nội dung thật; nếu `Rejected` (lỗi) thì Error Boundary gần nhất tiếp quản.
 
 **Streaming** — nhiều `<Suspense>` để render dần:
 
@@ -312,8 +308,7 @@ function Page() {
 }
 ```
 
-Header render ngay. UserCard và OrderList stream vào khi sẵn sàng — UX
-faster perceived.
+Header render ngay. UserCard và OrderList stream vào khi sẵn sàng — UX faster perceived.
 
 :::info[Phân tích]
 
@@ -341,8 +336,7 @@ function Page() {
 }
 ```
 
-`useSuspenseQuery` (v5+) tích hợp Suspense — không cần check `isLoading`,
-chỉ render khi data sẵn sàng.
+`useSuspenseQuery` (v5+) tích hợp Suspense — không cần check `isLoading`, chỉ render khi data sẵn sàng.
 
 Pattern này gọn hơn nhiều so với manual loading state:
 
@@ -416,8 +410,7 @@ function App() {
 }
 ```
 
-Dù Modal render ngoài DOM tree, React context và event bubbling vẫn theo
-JSX tree. Đây là điểm khác biệt với portal của framework khác.
+Dù Modal render ngoài DOM tree, React context và event bubbling vẫn theo JSX tree. Đây là điểm khác biệt với portal của framework khác.
 
 :::
 
@@ -437,8 +430,7 @@ if (!mounted) return null;
 return createPortal(<Modal />, document.body);
 ```
 
-Hoặc dùng `<Modal />` trong Server Component nhưng wrap portal logic
-trong Client Component child.
+Hoặc dùng `<Modal />` trong Server Component nhưng wrap portal logic trong Client Component child.
 
 :::
 

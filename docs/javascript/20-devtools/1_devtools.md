@@ -158,8 +158,7 @@ function process(data) {
 // Có file bundle.min.js.map ánh xạ về src/index.ts gốc
 ```
 
-Khi DevTools tìm thấy `.map`, breakpoint sẽ đặt được vào **file
-TypeScript gốc**, không phải JS đã build.
+Khi DevTools tìm thấy `.map`, breakpoint sẽ đặt được vào **file TypeScript gốc**, không phải JS đã build.
 
 Source map có 3 chế độ:
 
@@ -167,8 +166,7 @@ Source map có 3 chế độ:
 - **separate**: file `.map` riêng, link qua `//# sourceMappingURL=...` (chuẩn production).
 - **hidden**: chỉ deploy `.map` lên server riêng (Sentry) cho monitoring.
 
-Sentry, Bugsnag, Rollbar đều cần source map upload để de-minify stack
-trace từ user — đây là phần quan trọng của observability cho frontend.
+Sentry, Bugsnag, Rollbar đều cần source map upload để de-minify stack trace từ user — đây là phần quan trọng của observability cho frontend.
 
 :::
 
@@ -215,8 +213,7 @@ fetch("https://api.example.com/users", {
 });
 ```
 
-Paste vào console để **replay request** với thông số khác — không phải
-tạo lại curl tay.
+Paste vào console để **replay request** với thông số khác — không phải tạo lại curl tay.
 
 Cũng có **"Copy as cURL"** để chạy ngoài terminal/Postman.
 
@@ -277,9 +274,7 @@ flowchart TD
     regression --> measure
 ```
 
-**Đừng optimize mò** — luôn có data trước khi sửa. "Premature
-optimization is the root of all evil" — code đơn giản, đúng trước,
-nhanh sau.
+**Đừng optimize mò** — luôn có data trước khi sửa. "Premature optimization is the root of all evil" — code đơn giản, đúng trước, nhanh sau.
 
 Các nguồn khác cần biết khi debug:
 
@@ -301,9 +296,7 @@ Các nguồn khác cần biết khi debug:
 4. Đặt breakpoint, refresh.
 5. Có source map → đặt được breakpoint vào file gốc.
 
-Combo với **"Local Overrides"** trong Sources → cho phép **sửa file
-production** trong DevTools và reload sẽ dùng file đã sửa. Test fix
-trước khi deploy mà không cần dev environment.
+Combo với **"Local Overrides"** trong Sources → cho phép **sửa file production** trong DevTools và reload sẽ dùng file đã sửa. Test fix trước khi deploy mà không cần dev environment.
 
 :::
 

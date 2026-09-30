@@ -35,10 +35,7 @@ title: "2. Abstract Classes và Inheritance"
 
 ## Vì sao có abstract class?
 
-**Vấn đề:** Bạn muốn định nghĩa một **lớp khuôn** (base) chứa logic dùng
-chung, nhưng **bắt buộc** mọi lớp con phải tự cài đặt vài method riêng,
-đồng thời **không cho phép** new trực tiếp lớp khuôn đó. JS thuần không có
-cơ chế ép buộc này.
+**Vấn đề:** Bạn muốn định nghĩa một **lớp khuôn** (base) chứa logic dùng chung, nhưng **bắt buộc** mọi lớp con phải tự cài đặt vài method riêng, đồng thời **không cho phép** new trực tiếp lớp khuôn đó. JS thuần không có cơ chế ép buộc này.
 
 ```ts
 // JS thuần — không ngăn được gì
@@ -54,9 +51,7 @@ s.area();              // Nổ lúc runtime, không nổ lúc compile
 class Circle extends Shape {} // Quên implement area() — không ai báo
 ```
 
-**Giải pháp:** `abstract class` + `abstract method` — không thể `new` lớp
-abstract; lớp con **bắt buộc** implement abstract method (compiler báo lỗi
-ngay nếu thiếu); vẫn chia sẻ được code chung qua kế thừa.
+**Giải pháp:** `abstract class` + `abstract method` — không thể `new` lớp abstract; lớp con **bắt buộc** implement abstract method (compiler báo lỗi ngay nếu thiếu); vẫn chia sẻ được code chung qua kế thừa.
 
 ```ts
 abstract class Shape {
@@ -80,12 +75,9 @@ class Square extends Shape {
 :::tip[Dùng thực tế]
 
 - **Base `Shape`** với `area()` trừu tượng — mỗi hình tự tính diện tích.
-- **Base `Repository`/`Service`** định khung CRUD chung, lớp con cài đặt
-  chi tiết truy vấn.
-- **Template Method pattern** — lớp cha định nghĩa flow, để lại các "lỗ
-  hổng" abstract cho lớp con điền vào.
-- **Framework/library** yêu cầu bạn override một số method bắt buộc khi
-  kế thừa class base của chúng.
+- **Base `Repository`/`Service`** định khung CRUD chung, lớp con cài đặt chi tiết truy vấn.
+- **Template Method pattern** — lớp cha định nghĩa flow, để lại các "lỗ hổng" abstract cho lớp con điền vào.
+- **Framework/library** yêu cầu bạn override một số method bắt buộc khi kế thừa class base của chúng.
 
 :::
 
@@ -152,8 +144,7 @@ class Puppy extends Dog {
 
 ## Abstract Class
 
-`abstract` — class **không thể new trực tiếp**, dùng để định nghĩa
-template cho class con.
+`abstract` — class **không thể new trực tiếp**, dùng để định nghĩa template cho class con.
 
 ```ts
 abstract class Shape {
@@ -210,8 +201,7 @@ Abstract class **khác** interface ở những điểm quan trọng:
 | Inheritance | `extends` (1 cha duy nhất) | `implements` (nhiều cùng lúc) |
 | Có constructor | Có | Không |
 
-→ Dùng **abstract class** khi muốn **chia sẻ code và bắt subclass tuân
-thủ contract** cùng lúc. Dùng **interface** khi chỉ cần contract.
+→ Dùng **abstract class** khi muốn **chia sẻ code và bắt subclass tuân thủ contract** cùng lúc. Dùng **interface** khi chỉ cần contract.
 
 :::
 
@@ -245,8 +235,7 @@ function printArea(shapes: Shape[]) {
 printArea([new Circle(5), new Square(4)]);
 ```
 
-TS hỗ trợ đa hình qua **dynamic dispatch** (giống Java) — runtime tự
-quyết định gọi method nào dựa trên class thực của object.
+TS hỗ trợ đa hình qua **dynamic dispatch** (giống Java) — runtime tự quyết định gọi method nào dựa trên class thực của object.
 
 ---
 
@@ -287,13 +276,10 @@ class UserRepo2 extends BaseRepo<User> {
 
 - Cần **chia sẻ logic** (template method, hook lifecycle) → abstract class.
 - Chỉ cần **shape contract** → interface.
-- Muốn class có thể implement **nhiều interface** → interface (TS chỉ
-  cho `extends` 1 class).
+- Muốn class có thể implement **nhiều interface** → interface (TS chỉ cho `extends` 1 class).
 - Muốn **type-only**, không tồn tại runtime → interface.
 
-Trong React/Node app hiện đại, **interface + composition** thường gọn
-và linh hoạt hơn abstract class. Abstract class hợp khi xây framework,
-ORM, hoặc library cần lifecycle phức tạp.
+Trong React/Node app hiện đại, **interface + composition** thường gọn và linh hoạt hơn abstract class. Abstract class hợp khi xây framework, ORM, hoặc library cần lifecycle phức tạp.
 
 :::
 

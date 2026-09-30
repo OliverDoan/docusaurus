@@ -306,8 +306,7 @@ async function processOrder(orderId: string) {
 }
 ```
 
-Trace cho phép debug **distributed system** — request đi qua client →
-edge → API → DB, mỗi step có timing và metadata.
+Trace cho phép debug **distributed system** — request đi qua client → edge → API → DB, mỗi step có timing và metadata.
 
 ```mermaid
 sequenceDiagram

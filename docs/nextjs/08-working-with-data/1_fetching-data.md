@@ -318,8 +318,7 @@ Lợi ích:
 - Sau đó client refresh tự do (TanStack Query manage).
 - SEO + interaction đồng thời.
 
-Pattern này phổ biến trong app vừa cần SEO vừa real-time (e-commerce
-product listing, news feed).
+Pattern này phổ biến trong app vừa cần SEO vừa real-time (e-commerce product listing, news feed).
 
 :::
 
@@ -343,8 +342,7 @@ fetch(url, {
 });
 ```
 
-Next.js override `fetch` global → mọi `fetch` tự động có cache layer. Các
-option `cache` và `next` chỉ work trong Server Components / Route Handler.
+Next.js override `fetch` global → mọi `fetch` tự động có cache layer. Các option `cache` và `next` chỉ work trong Server Components / Route Handler.
 
 Trong Client Component, `fetch` là native — không có `next.revalidate`.
 

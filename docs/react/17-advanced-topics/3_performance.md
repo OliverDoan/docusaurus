@@ -240,8 +240,7 @@ const handleClick = useCallback(() => {
 2. Child component **đã được memo** + receive object/function prop.
 3. Function/value là **dep của useEffect** khác.
 
-**React Compiler** sẽ tự xử lý — khi production-ready, không cần viết
-tay nữa.
+**React Compiler** sẽ tự xử lý — khi production-ready, không cần viết tay nữa.
 
 Sơ đồ quyết định khi nào nên memoize (tránh memo mặc định):
 
@@ -390,8 +389,7 @@ onINP((metric) => sendToAnalytics(metric));
 onLCP((metric) => sendToAnalytics(metric));
 ```
 
-Theo dõi Web Vitals **real users** (Field Data) — quan trọng hơn lab
-test (Lighthouse), vì user thật chạy trên thiết bị, mạng đa dạng.
+Theo dõi Web Vitals **real users** (Field Data) — quan trọng hơn lab test (Lighthouse), vì user thật chạy trên thiết bị, mạng đa dạng.
 
 :::
 

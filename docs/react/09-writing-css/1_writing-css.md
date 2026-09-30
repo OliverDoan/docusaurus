@@ -174,13 +174,11 @@ function Button({ primary, disabled, children }) {
 
 Phản đối thường gặp:
 
-- "Class name quá dài" → đúng, dùng `clsx` + extract pattern (`btn`,
-  `btn-primary`).
+- "Class name quá dài" → đúng, dùng `clsx` + extract pattern (`btn`, `btn-primary`).
 - "Khó đọc" → quen sau vài tuần.
 - "Mixing concerns" → utility-first là cố ý — đổi tư duy.
 
-Năm 2026, **Tailwind v4** (alpha→stable) đã ra với CSS-first config,
-nhanh hơn nhiều, syntax mới hơn.
+Năm 2026, **Tailwind v4** (alpha→stable) đã ra với CSS-first config, nhanh hơn nhiều, syntax mới hơn.
 
 :::
 
@@ -250,8 +248,7 @@ const Button = styled.button`
 **CSS-in-JS đang giảm phổ biến từ 2023+**. Lý do:
 
 1. **Runtime cost** — generate CSS string runtime, slow on hydration.
-2. **Server Components** không support tốt — phần lớn CSS-in-JS lib không
-   compat với React Server Components.
+2. **Server Components** không support tốt — phần lớn CSS-in-JS lib không compat với React Server Components.
 3. **Bundle size** — runtime ~10-30KB.
 4. **Maintain mode** — Styled Components đã giảm update.
 
@@ -262,8 +259,7 @@ Lựa chọn thay thế:
 - **vanilla-extract** — type-safe, compile-time.
 - **Panda CSS** — type-safe, atomic CSS compile-time.
 
-Project mới năm 2026 **không nên chọn Styled Components / Emotion** trừ
-khi có lý do rõ.
+Project mới năm 2026 **không nên chọn Styled Components / Emotion** trừ khi có lý do rõ.
 
 :::
 
@@ -303,8 +299,7 @@ import { button } from "./button.css";
 <button className={button}>Click</button>
 ```
 
-Cả hai compile thành **static CSS** tại build time → không có runtime
-overhead. Type-safe → autocomplete, refactor an toàn.
+Cả hai compile thành **static CSS** tại build time → không có runtime overhead. Type-safe → autocomplete, refactor an toàn.
 
 ---
 

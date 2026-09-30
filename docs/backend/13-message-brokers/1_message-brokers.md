@@ -483,8 +483,7 @@ new Worker("email", processor, {
 
 Failed job tự move DLQ sau N attempt. Manual inspect + replay.
 
-**3. Ordering** — Kafka partition đảm bảo order trong cùng partition.
-Cross-partition: không order.
+**3. Ordering** — Kafka partition đảm bảo order trong cùng partition. Cross-partition: không order.
 
 → **Same key cùng partition** (vd user_id key) → order trong user đó.
 

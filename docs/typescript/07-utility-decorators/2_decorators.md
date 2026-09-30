@@ -38,10 +38,7 @@ title: "2. Decorators"
 
 ## Vì sao có decorators?
 
-Nhiều mối quan tâm **cắt ngang (cross-cutting)** — ghi log, đo thời gian
-chạy, kiểm tra quyền, validate input, đăng ký metadata — không thuộc về
-logic chính của method. Nếu nhét thủ công vào từng method thì **lặp code**
-và **lẫn lộn** với nghiệp vụ:
+Nhiều mối quan tâm **cắt ngang (cross-cutting)** — ghi log, đo thời gian chạy, kiểm tra quyền, validate input, đăng ký metadata — không thuộc về logic chính của method. Nếu nhét thủ công vào từng method thì **lặp code** và **lẫn lộn** với nghiệp vụ:
 
 **Vấn đề:**
 
@@ -80,11 +77,7 @@ class Calc {
 }
 ```
 
-Decorator `@something` gắn lên **class / method / property / parameter** để
-**thêm hành vi hoặc metadata** một cách khai báo, tách khỏi logic nghiệp vụ.
-Đây là nền tảng của Angular, NestJS và TypeORM. (Lưu ý: cần bật
-`experimentalDecorators` cho decorator legacy, hoặc dùng decorator chuẩn ES
-trên TS 5.0+ — xem mục [Bật decorator](#bật-decorator).)
+Decorator `@something` gắn lên **class / method / property / parameter** để **thêm hành vi hoặc metadata** một cách khai báo, tách khỏi logic nghiệp vụ. Đây là nền tảng của Angular, NestJS và TypeORM. (Lưu ý: cần bật `experimentalDecorators` cho decorator legacy, hoặc dùng decorator chuẩn ES trên TS 5.0+ — xem mục [Bật decorator](#bật-decorator).)
 
 Khi nhiều decorator xếp chồng trên cùng một method, thứ tự đánh giá và thứ tự áp dụng ngược nhau — sơ đồ dưới minh hoạ với `@log` và `@timed`:
 
@@ -99,14 +92,10 @@ flowchart TD
 
 :::tip[Dùng thực tế]
 
-- **Angular / NestJS**: `@Component`, `@Injectable` đánh dấu class cho DI
-  container.
-- **TypeORM**: `@Entity`, `@Column` map class/property sang bảng và cột
-  trong database.
-- **Logging / đo hiệu năng**: `@log`, `@timed` wrap method để ghi log hoặc
-  đo thời gian mà không đụng vào nội dung method.
-- **Binding dữ liệu**: `@Input` (Angular) khai báo property nhận dữ liệu
-  từ component cha.
+- **Angular / NestJS**: `@Component`, `@Injectable` đánh dấu class cho DI container.
+- **TypeORM**: `@Entity`, `@Column` map class/property sang bảng và cột trong database.
+- **Logging / đo hiệu năng**: `@log`, `@timed` wrap method để ghi log hoặc đo thời gian mà không đụng vào nội dung method.
+- **Binding dữ liệu**: `@Input` (Angular) khai báo property nhận dữ liệu từ component cha.
 
 :::
 
@@ -114,8 +103,7 @@ flowchart TD
 
 ## Decorator là gì?
 
-Decorator là **hàm** gắn vào class, method, property hoặc parameter để
-**thêm hành vi** mà không sửa code gốc.
+Decorator là **hàm** gắn vào class, method, property hoặc parameter để **thêm hành vi** mà không sửa code gốc.
 
 Cú pháp dùng `@decoratorName`:
 
@@ -137,8 +125,7 @@ Decorator được dùng nhiều trong:
 
 ## Bật decorator
 
-TS 5.0 trở lên hỗ trợ **decorator chuẩn ECMAScript Stage 3** mặc định.
-Decorator **legacy** (cú pháp cũ) cần flag:
+TS 5.0 trở lên hỗ trợ **decorator chuẩn ECMAScript Stage 3** mặc định. Decorator **legacy** (cú pháp cũ) cần flag:
 
 ```json
 {
@@ -149,8 +136,7 @@ Decorator **legacy** (cú pháp cũ) cần flag:
 }
 ```
 
-Phần lớn framework hiện tại (NestJS, TypeORM) **vẫn dùng legacy**. Tài
-liệu dưới đây mô tả legacy decorator.
+Phần lớn framework hiện tại (NestJS, TypeORM) **vẫn dùng legacy**. Tài liệu dưới đây mô tả legacy decorator.
 
 ---
 
@@ -230,9 +216,7 @@ class User {
 }
 ```
 
-Property decorator **không** truy cập được giá trị runtime (chỉ biết
-tên property). Để validate giá trị, kết hợp với class decorator hoặc
-reflect-metadata.
+Property decorator **không** truy cập được giá trị runtime (chỉ biết tên property). Để validate giá trị, kết hợp với class decorator hoặc reflect-metadata.
 
 ---
 
@@ -257,10 +241,8 @@ class UserService {
 **Mô hình DI** của NestJS/Angular dựa hoàn toàn vào decorator + metadata:
 
 1. `@Injectable()` đánh dấu class có thể inject.
-2. Decorator parameter (`@Inject`) báo container biết cần inject loại
-   nào.
-3. `emitDecoratorMetadata: true` khiến TS sinh ra metadata về type tham
-   số (qua `reflect-metadata`).
+2. Decorator parameter (`@Inject`) báo container biết cần inject loại nào.
+3. `emitDecoratorMetadata: true` khiến TS sinh ra metadata về type tham số (qua `reflect-metadata`).
 4. Container đọc metadata tại runtime để khởi tạo dependency.
 
 Vì vậy cần cả `experimentalDecorators` lẫn `emitDecoratorMetadata` — và
@@ -293,8 +275,7 @@ class Calc {
 
 :::warning[Cần lưu ý]
 
-**Decorator legacy** và **decorator mới (Stage 3) không tương thích** —
-signature khác hẳn:
+**Decorator legacy** và **decorator mới (Stage 3) không tương thích** — signature khác hẳn:
 
 | | Legacy | Stage 3 (mới) |
 |--|--|--|
@@ -309,9 +290,7 @@ signature khác hẳn:
 
 :::tip[Mẹo]
 
-Trong code app thông thường, **đa số trường hợp không cần decorator** —
-chúng phù hợp cho framework metadata-driven (DI, ORM). Với app
-React/Next, dùng **higher-order function** hoặc **hook** thường gọn hơn:
+Trong code app thông thường, **đa số trường hợp không cần decorator** — chúng phù hợp cho framework metadata-driven (DI, ORM). Với app React/Next, dùng **higher-order function** hoặc **hook** thường gọn hơn:
 
 ```ts
 // Thay vì @logged

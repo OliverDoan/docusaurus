@@ -179,8 +179,7 @@ components/
     └── PageHeader.tsx
 ```
 
-Refactor pattern khi component được dùng ở nơi thứ 2 → **move lên root**
-`components/`. Không cố giữ trong feature folder.
+Refactor pattern khi component được dùng ở nơi thứ 2 → **move lên root** `components/`. Không cố giữ trong feature folder.
 
 :::
 
@@ -198,9 +197,7 @@ app/
     └── page.tsx
 ```
 
-`_components` và `_utils` chứa code helper. Folder thường (`components/`)
-**cũng không tạo route** trừ khi có `page.tsx` — nhưng `_` là rõ ý đồ
-hơn.
+`_components` và `_utils` chứa code helper. Folder thường (`components/`) **cũng không tạo route** trừ khi có `page.tsx` — nhưng `_` là rõ ý đồ hơn.
 
 ---
 
@@ -332,8 +329,7 @@ Lợi ích Web Standards:
 - **Streaming native** — `ReadableStream` standard.
 - **Test dễ** — không cần mock Node API.
 
-→ Đây là direction của toàn web ecosystem — Hono, Bun, Deno đều dùng
-Web Standards.
+→ Đây là direction của toàn web ecosystem — Hono, Bun, Deno đều dùng Web Standards.
 
 :::
 
@@ -394,8 +390,7 @@ Auth + error handling trung tâm → mọi route ngắn, consistent.
 - **OAuth callback**.
 - **Stream**, **SSE**, **file upload** đặc biệt.
 
-Trong App Router, đa số mutation form đi qua Server Action — gọn hơn,
-type-safe.
+Trong App Router, đa số mutation form đi qua Server Action — gọn hơn, type-safe.
 
 :::
 

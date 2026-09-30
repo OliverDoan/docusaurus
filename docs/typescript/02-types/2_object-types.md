@@ -132,8 +132,7 @@ interface Product {
 
 :::info[Phân tích]
 
-TypeScript dùng **structural typing** — hai object có cùng shape thì
-tương thích, không cần `implements` interface tường minh:
+TypeScript dùng **structural typing** — hai object có cùng shape thì tương thích, không cần `implements` interface tường minh:
 
 ```ts
 interface Point { x: number; y: number; }
@@ -202,8 +201,7 @@ enum Role {
 
 :::warning[Cần lưu ý]
 
-**Numeric enum** có behavior gọi là **reverse mapping** — vừa tra theo
-key, vừa tra theo value:
+**Numeric enum** có behavior gọi là **reverse mapping** — vừa tra theo key, vừa tra theo value:
 
 ```ts
 enum Status { Active, Inactive }
@@ -211,9 +209,7 @@ Status.Active     // 0
 Status[0]         // "Active"
 ```
 
-Điều này khiến enum sinh ra **runtime code** (object 2 chiều), không
-phải zero-cost như nhiều người tưởng. Trong codebase hiện đại, nhiều
-team dùng **union of string literal** thay cho enum:
+Điều này khiến enum sinh ra **runtime code** (object 2 chiều), không phải zero-cost như nhiều người tưởng. Trong codebase hiện đại, nhiều team dùng **union of string literal** thay cho enum:
 
 ```ts
 type Status = "Active" | "Inactive";
@@ -245,8 +241,7 @@ const users: User[] = [
 
 :::info[Phân tích]
 
-Bật flag `noUncheckedIndexedAccess: true` để TS hiểu rằng truy cập
-phần tử mảng có thể trả về `undefined`:
+Bật flag `noUncheckedIndexedAccess: true` để TS hiểu rằng truy cập phần tử mảng có thể trả về `undefined`:
 
 ```ts
 // noUncheckedIndexedAccess: true
@@ -254,8 +249,7 @@ const arr: number[] = [1, 2, 3];
 const first = arr[0]; // type: number | undefined
 ```
 
-Flag này không nằm trong `strict` nhưng cực kỳ quan trọng để tránh
-crash khi truy cập index ngoài phạm vi.
+Flag này không nằm trong `strict` nhưng cực kỳ quan trọng để tránh crash khi truy cập index ngoài phạm vi.
 
 :::
 
@@ -288,8 +282,7 @@ const data: StringFirst = ["scores", 90, 85, 70];
 
 :::tip[Mẹo]
 
-Tuple rất hữu dụng cho hàm trả về **nhiều giá trị có ý nghĩa khác nhau**,
-giống pattern `useState` của React:
+Tuple rất hữu dụng cho hàm trả về **nhiều giá trị có ý nghĩa khác nhau**, giống pattern `useState` của React:
 
 ```ts
 function useCounter(): [number, () => void] {

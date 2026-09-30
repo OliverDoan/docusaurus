@@ -95,8 +95,7 @@ export const config = {
 
 ## Middleware là gì?
 
-**Middleware** chạy **trước khi request đến route** — intercept để
-modify response, redirect, set header, check auth.
+**Middleware** chạy **trước khi request đến route** — intercept để modify response, redirect, set header, check auth.
 
 Flow:
 
@@ -257,14 +256,12 @@ export function middleware(request: NextRequest) {
 **Middleware chạy trên Edge Runtime** — có giới hạn:
 
 - **Không có Node.js APIs** (`fs`, `path`, `process`).
-- **Không có database client** Node-based (Prisma client cũ — cần Prisma
-  Accelerate).
+- **Không có database client** Node-based (Prisma client cũ — cần Prisma Accelerate).
 - **Code size limit** — 1MB sau bundle.
 - **CPU time limit** — vài chục ms (Vercel limits).
 - **Không truy cập `app/` data directly** — phải qua API call hoặc cookie.
 
-→ Logic phức tạp (database query, heavy computation) **không đặt trong
-middleware**. Đặt trong Server Component hoặc route handler.
+→ Logic phức tạp (database query, heavy computation) **không đặt trong middleware**. Đặt trong Server Component hoặc route handler.
 
 Middleware **chỉ nên làm**:
 
@@ -369,8 +366,7 @@ export async function middleware(request: NextRequest) {
 
 :::warning[Cần lưu ý]
 
-**Chỉ có 1 file `middleware.ts`** trong toàn project — không có "nested
-middleware" như framework khác.
+**Chỉ có 1 file `middleware.ts`** trong toàn project — không có "nested middleware" như framework khác.
 
 Khi cần phức tạp:
 

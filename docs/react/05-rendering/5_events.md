@@ -105,8 +105,7 @@ function Button() {
 
 ## Synthetic Events
 
-React **không gắn listener trực tiếp lên DOM** — nó dùng **synthetic
-event system** với delegation tại root.
+React **không gắn listener trực tiếp lên DOM** — nó dùng **synthetic event system** với delegation tại root.
 
 ```jsx
 function handleClick(e) {
@@ -137,14 +136,12 @@ Lợi ích:
 
 **React 17+ thay đổi event delegation:**
 
-Trước React 17: gắn listener ở `document`.
-React 17+: gắn ở **root container** (`#root`).
+Trước React 17: gắn listener ở `document`. React 17+: gắn ở **root container** (`#root`).
 
 Khác biệt thực tế:
 
 - Nếu có **multiple React app** trên cùng page, mỗi app có event system riêng.
-- `e.stopPropagation()` trong React app **không** stop được listener gắn
-  ngoài root (vd analytics gắn lên document).
+- `e.stopPropagation()` trong React app **không** stop được listener gắn ngoài root (vd analytics gắn lên document).
 - Khi dùng third-party widget với DOM event tay → cẩn thận timing.
 
 :::
@@ -385,8 +382,7 @@ function Form() {
 }
 ```
 
-Pattern này phổ biến trong Next.js App Router + React 19. Sẽ học chi tiết
-ở phần Forms.
+Pattern này phổ biến trong Next.js App Router + React 19. Sẽ học chi tiết ở phần Forms.
 
 :::
 

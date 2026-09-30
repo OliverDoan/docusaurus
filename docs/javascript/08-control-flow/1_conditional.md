@@ -77,8 +77,7 @@ const badge = isActive ? "active" : "inactive";
 const city = user?.address?.city ?? "Chưa cập nhật";
 ```
 
-Mỗi công cụ hợp với một tình huống: `switch` cho nhiều nhánh theo một giá trị,
-ternary cho gán nhanh, `?.` và `??` cho dữ liệu có thể thiếu.
+Mỗi công cụ hợp với một tình huống: `switch` cho nhiều nhánh theo một giá trị, ternary cho gán nhanh, `?.` và `??` cho dữ liệu có thể thiếu.
 
 :::tip[Dùng thực tế]
 
@@ -157,8 +156,7 @@ Trong JSX/template, ternary là **cách duy nhất** để conditional render:
 {items.length > 0 ? <List /> : <Empty />}
 ```
 
-ESLint rule `no-nested-ternary` ngăn lồng — buộc bạn extract function
-khi logic phức tạp.
+ESLint rule `no-nested-ternary` ngăn lồng — buộc bạn extract function khi logic phức tạp.
 
 :::
 
@@ -221,8 +219,7 @@ switch (x) {
 }
 ```
 
-Bật ESLint rule `no-fallthrough` để cảnh báo. Cố ý fall-through phải
-comment `// fall through`.
+Bật ESLint rule `no-fallthrough` để cảnh báo. Cố ý fall-through phải comment `// fall through`.
 
 Khi case có nhiều dòng + khai báo biến, **wrap trong `{}`**:
 
@@ -245,8 +242,7 @@ switch (action) {
 
 ## Short-circuit với &&, ||, ??
 
-Các toán tử logic **return giá trị**, không chỉ boolean — dùng làm
-shortcut cho conditional:
+Các toán tử logic **return giá trị**, không chỉ boolean — dùng làm shortcut cho conditional:
 
 **`||`** — lấy giá trị **truthy đầu tiên**:
 
@@ -284,12 +280,9 @@ const e = false || true;  // true
 const f = false ?? true;  // false
 ```
 
-→ Dùng `??` khi muốn **default chỉ cho null/undefined** — đúng với 90%
-trường hợp config, parameter default. `||` chỉ phù hợp khi mọi giá trị
-falsy đều cần fallback.
+→ Dùng `??` khi muốn **default chỉ cho null/undefined** — đúng với 90% trường hợp config, parameter default. `||` chỉ phù hợp khi mọi giá trị falsy đều cần fallback.
 
-ESLint rule `prefer-nullish-coalescing` sẽ nhắc bạn migrate từ `||` sang
-`??` ở chỗ phù hợp.
+ESLint rule `prefer-nullish-coalescing` sẽ nhắc bạn migrate từ `||` sang `??` ở chỗ phù hợp.
 
 :::
 
@@ -319,8 +312,7 @@ function process(user) {
 }
 ```
 
-Nguyên tắc: **xử lý case "không hợp lệ" trước**, trả về sớm; phần chính
-ở cuối, không lồng.
+Nguyên tắc: **xử lý case "không hợp lệ" trước**, trả về sớm; phần chính ở cuối, không lồng.
 
 :::
 

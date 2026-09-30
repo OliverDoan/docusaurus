@@ -135,8 +135,7 @@ renderCount.current++;
 
 ## useCallback
 
-Memoize **function** — trả về cùng reference giữa các render khi deps
-không đổi:
+Memoize **function** — trả về cùng reference giữa các render khi deps không đổi:
 
 ```jsx
 import { useCallback } from "react";
@@ -180,11 +179,9 @@ useEffect(() => {
 - Giữ closure cũ trong memory.
 - Code khó đọc hơn.
 
-Quy tắc: chỉ dùng khi **child đã memoized** hoặc function là **dep của
-effect**. Còn lại bỏ qua.
+Quy tắc: chỉ dùng khi **child đã memoized** hoặc function là **dep của effect**. Còn lại bỏ qua.
 
-React Compiler (sắp production-ready 2026) sẽ **tự động memoize** —
-không cần viết tay `useCallback`/`useMemo` nữa.
+React Compiler (sắp production-ready 2026) sẽ **tự động memoize** — không cần viết tay `useCallback`/`useMemo` nữa.
 
 :::
 
@@ -240,8 +237,7 @@ useCallback(() => doSomething(), [a]);
 useMemo(() => () => doSomething(), [a]);
 ```
 
-`useCallback` chỉ là sugar cho `useMemo` trả function. Đọc source React
-sẽ thấy implementation y hệt.
+`useCallback` chỉ là sugar cho `useMemo` trả function. Đọc source React sẽ thấy implementation y hệt.
 
 Quy tắc khi nào dùng cái nào:
 
@@ -406,8 +402,7 @@ function Profile() {
 
 :::warning[Cần lưu ý]
 
-**Context không phải state manager** — mỗi lần value đổi, **mọi consumer
-re-render**. Không có selector built-in.
+**Context không phải state manager** — mỗi lần value đổi, **mọi consumer re-render**. Không có selector built-in.
 
 Vấn đề:
 
@@ -468,8 +463,7 @@ function Page() {
 }
 ```
 
-Đây là feature mới quan trọng của React 19 cho Server Components và
-Suspense data fetching.
+Đây là feature mới quan trọng của React 19 cho Server Components và Suspense data fetching.
 
 :::
 
@@ -495,8 +489,7 @@ Suspense data fetching.
 | `useSyncExternalStore` | Subscribe external store (Redux, Zustand impl) |
 | `use` (React 19) | Đọc Promise / Context |
 
-Học theo độ phổ biến — 5 hook đầu (state, effect, ref, context, reducer)
-đủ cho 90% công việc.
+Học theo độ phổ biến — 5 hook đầu (state, effect, ref, context, reducer) đủ cho 90% công việc.
 
 :::
 

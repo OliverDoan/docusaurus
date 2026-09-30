@@ -80,8 +80,7 @@ tongDiem(10, 5);   // OK → 15
 
 ## Tổng quan
 
-TypeScript có 6 kiểu primitive kế thừa từ JavaScript, được kiểm tra
-chặt chẽ tại compile-time.
+TypeScript có 6 kiểu primitive kế thừa từ JavaScript, được kiểm tra chặt chẽ tại compile-time.
 
 | Kiểu | Lưu giá trị |
 |------|-------------|
@@ -128,8 +127,7 @@ let isDone: boolean = false;
 
 :::warning[Cần lưu ý]
 
-`boolean` (chữ thường) là **kiểu nguyên thủy**, còn `Boolean` (chữ hoa)
-là **object wrapper** — đừng nhầm lẫn.
+`boolean` (chữ thường) là **kiểu nguyên thủy**, còn `Boolean` (chữ hoa) là **object wrapper** — đừng nhầm lẫn.
 
 ```ts
 let a: boolean = true;
@@ -151,19 +149,16 @@ let hex: number = 0xff;
 
 :::info[Phân tích]
 
-TypeScript không phân biệt `int` / `float` — mọi số đều dùng chuẩn
-**IEEE-754 double precision (64-bit)** giống JavaScript.
+TypeScript không phân biệt `int` / `float` — mọi số đều dùng chuẩn **IEEE-754 double precision (64-bit)** giống JavaScript.
 
-Giới hạn số nguyên an toàn: `Number.MAX_SAFE_INTEGER = 2^53 - 1`.
-Vượt ngưỡng phải dùng `bigint`:
+Giới hạn số nguyên an toàn: `Number.MAX_SAFE_INTEGER = 2^53 - 1`. Vượt ngưỡng phải dùng `bigint`:
 
 ```ts
 const safe: number = 9007199254740991;
 const big: bigint = 9007199254740993n;
 ```
 
-`number` và `bigint` **không tự động convert** qua lại — phải ép kiểu
-tường minh.
+`number` và `bigint` **không tự động convert** qua lại — phải ép kiểu tường minh.
 
 :::
 
@@ -178,8 +173,7 @@ let greet: string = `Hello ${name}`;
 
 :::tip[Mẹo]
 
-TypeScript hỗ trợ **string literal type** — dùng chính giá trị chuỗi
-làm type, rất hữu ích để giới hạn input:
+TypeScript hỗ trợ **string literal type** — dùng chính giá trị chuỗi làm type, rất hữu ích để giới hạn input:
 
 ```ts
 let direction: "left" | "right" = "left";
@@ -203,13 +197,10 @@ function log(msg: string): void {
 :::warning[Cần lưu ý]
 
 `void` **khác** `undefined`:
-- `void`: dùng cho **return type** — nghĩa là "đừng quan tâm giá trị
-  trả về".
+- `void`: dùng cho **return type** — nghĩa là "đừng quan tâm giá trị trả về".
 - `undefined`: là một **giá trị thực** mà biến có thể giữ.
 
-Khi gán callback `() => void`, TypeScript **cho phép** hàm trả về giá
-trị — vì `void` chỉ có nghĩa "ignore return", không phải "phải là
-undefined":
+Khi gán callback `() => void`, TypeScript **cho phép** hàm trả về giá trị — vì `void` chỉ có nghĩa "ignore return", không phải "phải là undefined":
 
 ```ts
 type Callback = () => void;
@@ -232,13 +223,10 @@ let b: null = null;
 
 :::info[Phân tích]
 
-**`strictNullChecks`** là flag quan trọng nhất trong `tsconfig.json`
-đối với type safety:
+**`strictNullChecks`** là flag quan trọng nhất trong `tsconfig.json` đối với type safety:
 
-- **Tắt**: `null` và `undefined` được phép gán cho **mọi kiểu** →
-  mất hết lợi ích của TypeScript.
-- **Bật** (luôn nên bật): `null` và `undefined` là **kiểu riêng**,
-  phải khai báo tường minh qua union.
+- **Tắt**: `null` và `undefined` được phép gán cho **mọi kiểu** → mất hết lợi ích của TypeScript.
+- **Bật** (luôn nên bật): `null` và `undefined` là **kiểu riêng**, phải khai báo tường minh qua union.
 
 ```ts
 // strictNullChecks: true

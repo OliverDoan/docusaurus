@@ -331,8 +331,7 @@ k6 run load-test.js
 4. **Spike** — burst sudden user.
 5. **Soak** — long duration, find memory leak.
 
-Goal: **biết hệ thống chịu được bao nhiêu** trước khi user thấy degradation.
-Plan scale accordingly.
+Goal: **biết hệ thống chịu được bao nhiêu** trước khi user thấy degradation. Plan scale accordingly.
 
 :::
 
@@ -390,8 +389,7 @@ export function formatVND(n: number): string {
 - ❌ Exploration code — chưa biết shape final.
 - ❌ UI design — visual hard to assert.
 
-Đừng **dogmatic** — TDD là tool, không phải religion. Pattern phổ biến
-hơn:
+Đừng **dogmatic** — TDD là tool, không phải religion. Pattern phổ biến hơn:
 
 ```
 1. Sketch code (no test).
@@ -422,8 +420,7 @@ Goal: **code có test**, không phải "test trước hay sau".
 - Code generated, boilerplate không cần test.
 - Type checking đã cover phần lớn type bug.
 
-Focus test **critical path + business logic + edge case**. Không cần
-test getter/setter, simple mapping.
+Focus test **critical path + business logic + edge case**. Không cần test getter/setter, simple mapping.
 
 Tool đo coverage:
 

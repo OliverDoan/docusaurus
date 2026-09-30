@@ -5,11 +5,7 @@ title: "3. Injection (SQL & Command)"
 
 # Injection — SQL & Command
 
-**Injection** (tiêm mã) là khi dữ liệu do người dùng cung cấp bị **trộn vào một
-câu lệnh** (SQL, lệnh hệ điều hành...) khiến hệ thống thực thi điều kẻ tấn công
-muốn. Đây là nhóm rủi ro kinh điển trong OWASP Top 10. Bài này tập trung vào hai
-dạng nguy hiểm nhất: **SQL injection** và **command injection** — cùng cách phòng
-thủ bằng tham số hoá.
+**Injection** (tiêm mã) là khi dữ liệu do người dùng cung cấp bị **trộn vào một câu lệnh** (SQL, lệnh hệ điều hành...) khiến hệ thống thực thi điều kẻ tấn công muốn. Đây là nhóm rủi ro kinh điển trong OWASP Top 10. Bài này tập trung vào hai dạng nguy hiểm nhất: **SQL injection** và **command injection** — cùng cách phòng thủ bằng tham số hoá.
 
 [![Sơ đồ tóm tắt bài: Injection — SQL & Command](/img/web-security/injection.webp)](pathname:///img/web-security/injection.webp)
 
@@ -39,12 +35,9 @@ thủ bằng tham số hoá.
 
 ## Bản chất của injection
 
-Mọi lỗ hổng injection có chung một gốc: **trộn lẫn "lệnh" với "dữ liệu"**. Khi bạn
-ghép chuỗi input người dùng vào một câu lệnh, kẻ tấn công có thể thêm cú pháp để
-biến *dữ liệu* của họ thành *lệnh*.
+Mọi lỗ hổng injection có chung một gốc: **trộn lẫn "lệnh" với "dữ liệu"**. Khi bạn ghép chuỗi input người dùng vào một câu lệnh, kẻ tấn công có thể thêm cú pháp để biến *dữ liệu* của họ thành *lệnh*.
 
-> Giải pháp tổng quát: **tách bạch lệnh và dữ liệu**. Đưa dữ liệu cho hệ thống
-> *dưới dạng tham số*, không bao giờ *ghép chuỗi* nó vào lệnh.
+> Giải pháp tổng quát: **tách bạch lệnh và dữ liệu**. Đưa dữ liệu cho hệ thống *dưới dạng tham số*, không bao giờ *ghép chuỗi* nó vào lệnh.
 
 Cùng một input độc hại, hai con đường xử lý cho hai kết cục khác hẳn nhau:
 
@@ -59,8 +52,7 @@ flowchart TD
 
 ## SQL Injection
 
-**SQL injection (SQLi)** xảy ra khi input người dùng được ghép vào câu truy vấn
-SQL. Ví dụ kinh điển ở màn đăng nhập:
+**SQL injection (SQLi)** xảy ra khi input người dùng được ghép vào câu truy vấn SQL. Ví dụ kinh điển ở màn đăng nhập:
 
 ```js
 // LỖ HỔNG: ghép chuỗi input vào SQL
@@ -71,15 +63,11 @@ const sql = `SELECT * FROM users WHERE email = '${email}' AND password = '${pw}'
 // '1'='1' luôn đúng, "--" biến phần sau thành chú thích → đăng nhập không cần mật khẩu
 ```
 
-Hậu quả SQLi: vượt xác thực, đọc/sửa/xoá toàn bộ dữ liệu, đôi khi chiếm cả máy
-chủ DB.
+Hậu quả SQLi: vượt xác thực, đọc/sửa/xoá toàn bộ dữ liệu, đôi khi chiếm cả máy chủ DB.
 
 ## Phòng thủ SQLi: tham số hoá truy vấn
 
-Cách phòng thủ chuẩn là **parameterized query** (truy vấn tham số hoá, còn gọi
-*prepared statement*): bạn viết câu lệnh với chỗ giữ chỗ (`?` hoặc `$1`), và đưa
-dữ liệu **tách riêng**. Driver DB đảm bảo dữ liệu **không bao giờ** được hiểu là
-cú pháp SQL.
+Cách phòng thủ chuẩn là **parameterized query** (truy vấn tham số hoá, còn gọi *prepared statement*): bạn viết câu lệnh với chỗ giữ chỗ (`?` hoặc `$1`), và đưa dữ liệu **tách riêng**. Driver DB đảm bảo dữ liệu **không bao giờ** được hiểu là cú pháp SQL.
 
 ```js
 // ĐÚNG: tham số hoá — dữ liệu đi tách khỏi câu lệnh
@@ -96,8 +84,7 @@ const [rows] = await conn.execute(
 )
 ```
 
-Tốt hơn nữa, dùng **ORM/query builder** (Prisma, Drizzle, TypeORM...) — chúng tham
-số hoá tự động:
+Tốt hơn nữa, dùng **ORM/query builder** (Prisma, Drizzle, TypeORM...) — chúng tham số hoá tự động:
 
 ```js
 // Prisma: an toàn mặc định, không ghép chuỗi
@@ -105,14 +92,12 @@ const user = await prisma.user.findUnique({ where: { email } })
 ```
 
 :::danger Tuyệt đối không ghép chuỗi vào SQL
-Đừng bao giờ dùng template string / nối chuỗi để dựng SQL từ input. Kể cả khi
-"chắc chắn dữ liệu là số", hãy vẫn tham số hoá — đó là thói quen an toàn nhất.
+Đừng bao giờ dùng template string / nối chuỗi để dựng SQL từ input. Kể cả khi "chắc chắn dữ liệu là số", hãy vẫn tham số hoá — đó là thói quen an toàn nhất.
 :::
 
 ## Xử lý tên cột/bảng động
 
-Tham số hoá chỉ áp dụng cho **giá trị**, không áp dụng cho **tên cột/bảng** (vd
-`ORDER BY <cột>`). Với phần này, dùng **danh sách trắng (whitelist)**:
+Tham số hoá chỉ áp dụng cho **giá trị**, không áp dụng cho **tên cột/bảng** (vd `ORDER BY <cột>`). Với phần này, dùng **danh sách trắng (whitelist)**:
 
 ```js
 // LỖ HỔNG: nhét tên cột từ input thẳng vào SQL
@@ -126,8 +111,7 @@ const sql = `SELECT * FROM users ORDER BY ${sortBy}` // sortBy đã được ki�
 
 ## Command Injection
 
-**Command injection** xảy ra khi input người dùng được ghép vào **lệnh hệ điều
-hành** chạy trên server.
+**Command injection** xảy ra khi input người dùng được ghép vào **lệnh hệ điều hành** chạy trên server.
 
 ```js
 // LỖ HỔNG: ghép input vào lệnh shell
@@ -145,22 +129,18 @@ execFile('ping', ['-c', '1', host], (err, stdout) => { /* ... */ })
 
 Nguyên tắc:
 
-- **Tránh gọi shell** khi có thể; ưu tiên `execFile`/`spawn` với **mảng tham số**
-  (không để shell diễn giải chuỗi).
+- **Tránh gọi shell** khi có thể; ưu tiên `execFile`/`spawn` với **mảng tham số** (không để shell diễn giải chuỗi).
 - **Validate chặt** input (vd host phải khớp định dạng IP/tên miền).
 - Áp dụng **đặc quyền tối thiểu** cho tiến trình chạy lệnh.
 
-> Cùng tư duy với SQLi: **tách lệnh khỏi dữ liệu**. Truyền tham số dạng mảng tương
-> đương với tham số hoá truy vấn.
+> Cùng tư duy với SQLi: **tách lệnh khỏi dữ liệu**. Truyền tham số dạng mảng tương đương với tham số hoá truy vấn.
 
 ## Tóm tắt
 
 - **Injection** = trộn "lệnh" với "dữ liệu"; kẻ tấn công biến dữ liệu thành lệnh.
-- **SQL injection**: chống bằng **truy vấn tham số hoá** (prepared statement) hoặc
-  **ORM**; **không bao giờ ghép chuỗi** input vào SQL.
+- **SQL injection**: chống bằng **truy vấn tham số hoá** (prepared statement) hoặc **ORM**; **không bao giờ ghép chuỗi** input vào SQL.
 - Tên cột/bảng động: dùng **danh sách trắng**, vì không tham số hoá được.
-- **Command injection**: tránh shell, dùng `execFile`/`spawn` với **mảng tham
-  số**, validate chặt, đặc quyền tối thiểu.
+- **Command injection**: tránh shell, dùng `execFile`/`spawn` với **mảng tham số**, validate chặt, đặc quyền tối thiểu.
 - Tư duy chung cho mọi injection: **tách bạch lệnh và dữ liệu**.
 
 Bài tiếp theo: **SSRF & Clickjacking** — hai tấn công quan trọng còn lại.

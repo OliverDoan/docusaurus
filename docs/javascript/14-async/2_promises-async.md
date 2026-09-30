@@ -38,9 +38,7 @@ title: "2. Callbacks, Promises, async/await"
 
 ## Vì sao Promise & async/await ra đời?
 
-**Vấn đề:** Trước đây, mọi việc bất đồng bộ đều dùng **callback**. Khi nhiều
-bước phụ thuộc nhau, callback lồng callback tạo thành "callback hell" (kim tự
-tháp lệch — "pyramid of doom"): khó đọc, và **mỗi tầng phải tự kiểm tra lỗi**:
+**Vấn đề:** Trước đây, mọi việc bất đồng bộ đều dùng **callback**. Khi nhiều bước phụ thuộc nhau, callback lồng callback tạo thành "callback hell" (kim tự tháp lệch — "pyramid of doom"): khó đọc, và **mỗi tầng phải tự kiểm tra lỗi**:
 
 ```js
 loadUser(1, (err, user) => {
@@ -60,8 +58,7 @@ loadUser(1, (err, user) => {
 
 **Giải pháp:**
 
-**1. Promise (ES6)** — đối tượng đại diện cho giá trị "sẽ có trong tương lai".
-Cho phép nối chuỗi `.then()` **phẳng**, gom xử lý lỗi vào một `.catch()` duy nhất:
+**1. Promise (ES6)** — đối tượng đại diện cho giá trị "sẽ có trong tương lai". Cho phép nối chuỗi `.then()` **phẳng**, gom xử lý lỗi vào một `.catch()` duy nhất:
 
 ```js
 loadUser(1)
@@ -72,8 +69,7 @@ loadUser(1)
   .catch(handle); // một chỗ xử lý lỗi cho cả chuỗi
 ```
 
-**2. async/await (ES2017)** — viết code bất đồng bộ **trông như đồng bộ**, dùng
-`try/catch` quen thuộc. Dễ đọc nhất:
+**2. async/await (ES2017)** — viết code bất đồng bộ **trông như đồng bộ**, dùng `try/catch` quen thuộc. Dễ đọc nhất:
 
 ```js
 async function showInvoice() {
@@ -102,8 +98,7 @@ async function showInvoice() {
 
 ## Callbacks
 
-Callback = function được truyền vào function khác, gọi **sau khi** xong
-việc:
+Callback = function được truyền vào function khác, gọi **sau khi** xong việc:
 
 ```js
 function loadUser(id, callback) {
@@ -171,8 +166,7 @@ stateDiagram-v2
     Rejected --> [*]: .catch(error => ...)
 ```
 
-Promise chỉ chuyển trạng thái **một lần duy nhất** (settle) — đã
-fulfilled/rejected thì không đổi được nữa; `.finally()` chạy ở cả hai nhánh.
+Promise chỉ chuyển trạng thái **một lần duy nhất** (settle) — đã fulfilled/rejected thì không đổi được nữa; `.finally()` chạy ở cả hai nhánh.
 
 ```js
 const p = new Promise((resolve, reject) => {
@@ -230,8 +224,7 @@ const result = await Promise.race([
 ]);
 ```
 
-**`Promise.any`** — lấy fulfilled đầu tiên; reject nếu tất cả reject
-(với `AggregateError`):
+**`Promise.any`** — lấy fulfilled đầu tiên; reject nếu tất cả reject (với `AggregateError`):
 
 ```js
 const fastest = await Promise.any([
@@ -436,8 +429,7 @@ await fetch(url);
 console.log(performance.now() - start);
 ```
 
-`performance.now()` chính xác hơn `Date.now()` (microsecond resolution),
-phù hợp đo performance.
+`performance.now()` chính xác hơn `Date.now()` (microsecond resolution), phù hợp đo performance.
 
 :::
 

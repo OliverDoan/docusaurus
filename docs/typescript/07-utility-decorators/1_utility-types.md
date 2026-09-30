@@ -130,8 +130,7 @@ u.name = "Bình"; // Error
 
 :::warning[Cần lưu ý]
 
-`Readonly` chỉ **shallow** — không đệ quy. Property là object nested vẫn
-sửa được:
+`Readonly` chỉ **shallow** — không đệ quy. Property là object nested vẫn sửa được:
 
 ```ts
 type Config = Readonly<{ db: { host: string } }>;
@@ -139,8 +138,7 @@ const c: Config = { db: { host: "localhost" } };
 c.db.host = "x"; // Vẫn OK! (db không readonly)
 ```
 
-Cần đệ quy phải tự viết `DeepReadonly<T>` hoặc dùng thư viện
-(`type-fest`).
+Cần đệ quy phải tự viết `DeepReadonly<T>` hoặc dùng thư viện (`type-fest`).
 
 :::
 
@@ -166,8 +164,7 @@ type UserSafe = Omit<User, "password">;
 
 :::tip[Mẹo]
 
-`Omit` cực hữu dụng cho **DTO** — định nghĩa một entity gốc rồi tạo
-variant không có field nhạy cảm:
+`Omit` cực hữu dụng cho **DTO** — định nghĩa một entity gốc rồi tạo variant không có field nhạy cảm:
 
 ```ts
 type UserEntity = { id: number; name: string; password: string; };
@@ -244,16 +241,14 @@ type LoggerInstance = InstanceType<typeof Logger>; // Logger
 
 :::info[Phân tích]
 
-`typeof someFunction` lấy **function type** của giá trị, dùng kết hợp
-với utility:
+`typeof someFunction` lấy **function type** của giá trị, dùng kết hợp với utility:
 
 ```ts
 const config = { url: "/api", timeout: 5000 };
 type Config = typeof config; // { url: string; timeout: number }
 ```
 
-Pattern này — kết hợp `as const` + `typeof` + utility — là cách viết
-**type từ giá trị** (single source of truth) thay vì duy trì hai chỗ:
+Pattern này — kết hợp `as const` + `typeof` + utility — là cách viết **type từ giá trị** (single source of truth) thay vì duy trì hai chỗ:
 
 ```ts
 const STATUS = ["pending", "active", "done"] as const;
@@ -291,8 +286,7 @@ type Unwrap<T> = T extends Promise<infer U> ? U : T;
 type Unwrap<T> = Awaited<T>;
 ```
 
-Khi đọc kiểu `Awaited<ReturnType<typeof asyncFn>>` thấy quen rồi sẽ rất
-nhanh — đây là pattern xuất hiện đầy trong codebase Next.js, tRPC...
+Khi đọc kiểu `Awaited<ReturnType<typeof asyncFn>>` thấy quen rồi sẽ rất nhanh — đây là pattern xuất hiện đầy trong codebase Next.js, tRPC...
 
 :::
 

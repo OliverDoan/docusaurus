@@ -75,14 +75,11 @@ const GrandChild = () => {
 
 Redux được xây dựng trên ba nguyên tắc bất biến:
 
-**1. Single source of truth (Một nguồn sự thật duy nhất)**
-Toàn bộ state của ứng dụng được lưu trong một object tree duy nhất bên trong một `store`. Giúp dễ debug, dễ hydrate state từ server.
+**1. Single source of truth (Một nguồn sự thật duy nhất)** Toàn bộ state của ứng dụng được lưu trong một object tree duy nhất bên trong một `store`. Giúp dễ debug, dễ hydrate state từ server.
 
-**2. State is read-only (State chỉ đọc)**
-Cách duy nhất để thay đổi state là `dispatch` một `action` — một object mô tả điều gì đó đã xảy ra. Không ai được trực tiếp ghi vào state.
+**2. State is read-only (State chỉ đọc)** Cách duy nhất để thay đổi state là `dispatch` một `action` — một object mô tả điều gì đó đã xảy ra. Không ai được trực tiếp ghi vào state.
 
-**3. Changes are made with pure functions (Thay đổi thực hiện bằng pure function)**
-Reducer phải là pure function: cùng input thì luôn cho cùng output, không có side effect. Reducer nhận `(state, action)` và trả về state mới.
+**3. Changes are made with pure functions (Thay đổi thực hiện bằng pure function)** Reducer phải là pure function: cùng input thì luôn cho cùng output, không có side effect. Reducer nhận `(state, action)` và trả về state mới.
 
 ### Code minh hoạ
 

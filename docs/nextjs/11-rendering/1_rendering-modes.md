@@ -145,8 +145,7 @@ export default function Counter() {
 
 :::info[Phân tích]
 
-**`"use client"` đánh dấu boundary**, không phải component đó chỉ render
-client:
+**`"use client"` đánh dấu boundary**, không phải component đó chỉ render client:
 
 - Server pre-render HTML lần đầu (SSR).
 - Bundle JS gửi về client.
@@ -219,8 +218,7 @@ export function ClientWrapper({ children }) {
 }
 ```
 
-Pattern này gọi là **"Server in Client"** — children được render server,
-pass qua như slot.
+Pattern này gọi là **"Server in Client"** — children được render server, pass qua như slot.
 
 :::tip[Mẹo]
 
@@ -244,8 +242,7 @@ function Page() {
 }
 ```
 
-Pass JSX element làm prop — element được render server side, Client chỉ
-quyết định **đặt ở đâu**.
+Pass JSX element làm prop — element được render server side, Client chỉ quyết định **đặt ở đâu**.
 
 :::
 
@@ -269,8 +266,7 @@ quyết định **đặt ở đâu**.
 
 - **Default Server**.
 - Convert sang Client **chỉ khi cần** hook/event.
-- Push `"use client"` **càng sâu trong tree càng tốt** — leaf component
-  thôi.
+- Push `"use client"` **càng sâu trong tree càng tốt** — leaf component thôi.
 
 ```tsx
 // Tệ — toàn page là Client (mất Server benefit)
@@ -312,8 +308,7 @@ function ProductListInteractive({ products }) {
 
 ## "use server" directive
 
-`"use server"` đánh dấu **Server Action** — function chạy server, gọi
-từ client:
+`"use server"` đánh dấu **Server Action** — function chạy server, gọi từ client:
 
 ```ts
 // app/actions.ts
@@ -356,8 +351,7 @@ export default function Form() {
 | `"use server"` | Đầu file | File chứa Server Actions |
 | `"use server"` | Trong function | Function này là Server Action |
 
-`"use client"` và `"use server"` **không đối lập** — đánh dấu boundary
-khác nhau.
+`"use client"` và `"use server"` **không đối lập** — đánh dấu boundary khác nhau.
 
 Đừng:
 
@@ -389,11 +383,9 @@ Client browser nhận:
 - **RSC payload** (subsequent navigation).
 - **JS bundle** (Client Components hydrate).
 
-Server Component update qua RSC payload **không cần ship JS** — chỉ data.
-Nhỏ hơn nhiều so với ship cả component code.
+Server Component update qua RSC payload **không cần ship JS** — chỉ data. Nhỏ hơn nhiều so với ship cả component code.
 
-→ Lý do bundle Next.js App Router thường **nhỏ hơn** Pages Router cùng
-feature.
+→ Lý do bundle Next.js App Router thường **nhỏ hơn** Pages Router cùng feature.
 
 :::
 

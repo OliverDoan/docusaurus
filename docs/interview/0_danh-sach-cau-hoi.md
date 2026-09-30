@@ -9,8 +9,7 @@ title: "📋 Danh sách câu hỏi (tra cứu)"
 
 **Chú thích trạng thái:** ✅ Đã có · ⚠️ Mới có một phần · ❌ Chưa có
 
-> Vị trí ghi theo dạng `<file trong docs/interview/> • Câu N`.
-> Lưu ý: nhóm **JavaScript** trong file nguồn thực chất là câu hỏi **React** (trùng phần đầu nhóm React) — đối chiếu với `03-react/`. Nhóm **State Management** chưa có thư mục riêng, chỉ được phủ một phần trong `03-react/3_state-management.md`.
+> Vị trí ghi theo dạng `<file trong docs/interview/> • Câu N`. Lưu ý: nhóm **JavaScript** trong file nguồn thực chất là câu hỏi **React** (trùng phần đầu nhóm React) — đối chiếu với `03-react/`. Nhóm **State Management** chưa có thư mục riêng, chỉ được phủ một phần trong `03-react/3_state-management.md`.
 
 ---
 

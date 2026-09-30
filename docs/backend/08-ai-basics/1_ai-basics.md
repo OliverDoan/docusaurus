@@ -80,8 +80,7 @@ Lặp lại → sinh đoạn văn dài.
 
 ## Token và Pricing
 
-**Token** ≠ word. ~4 char tiếng Anh = 1 token. Tiếng Việt token nhiều hơn
-do unicode.
+**Token** ≠ word. ~4 char tiếng Anh = 1 token. Tiếng Việt token nhiều hơn do unicode.
 
 :::tip[Ví dụ đời thường]
 
@@ -118,8 +117,7 @@ Giá ước lượng 2026 (per 1M token):
 | Gemini 2.5 Pro | $7 | $30 |
 | Gemini 2.5 Flash | $0.5 | $2 |
 
-**Prompt caching** giảm cost 50-90% cho repeated context. Mọi provider lớn
-đều hỗ trợ.
+**Prompt caching** giảm cost 50-90% cho repeated context. Mọi provider lớn đều hỗ trợ.
 
 :::info[Phân tích]
 
@@ -150,8 +148,7 @@ Optimization:
 
 ## Embeddings và Vector
 
-**Embedding** = chuyển text/image thành **vector** (mảng số) — represent
-semantic meaning.
+**Embedding** = chuyển text/image thành **vector** (mảng số) — represent semantic meaning.
 
 :::tip[Ví dụ đời thường]
 
@@ -213,8 +210,7 @@ Range -1 (đối lập) → 1 (giống nhau). >0.8 = tương đồng cao.
 
 ## Vector Databases
 
-Lưu + search vector hiệu quả. Đa số dùng **HNSW** (Hierarchical Navigable
-Small World) algorithm cho approximate nearest neighbor.
+Lưu + search vector hiệu quả. Đa số dùng **HNSW** (Hierarchical Navigable Small World) algorithm cho approximate nearest neighbor.
 
 :::tip[Ví dụ đời thường]
 
@@ -281,8 +277,7 @@ Default 90% case: **pgvector** đủ. Đỡ thêm system component.
 
 ## RAG (Retrieval Augmented Generation)
 
-**Combine retrieval + LLM** — giúp LLM trả lời câu hỏi về data riêng (DB
-nội bộ, doc company).
+**Combine retrieval + LLM** — giúp LLM trả lời câu hỏi về data riêng (DB nội bộ, doc company).
 
 :::tip[Ví dụ đời thường]
 
@@ -385,8 +380,7 @@ Rerank improve accuracy 10-20%.
 - BM25: exact keyword match.
 - Combined: best of both.
 
-PostgreSQL có cả pgvector + `tsvector` full-text search → hybrid search
-trong 1 DB.
+PostgreSQL có cả pgvector + `tsvector` full-text search → hybrid search trong 1 DB.
 
 :::
 

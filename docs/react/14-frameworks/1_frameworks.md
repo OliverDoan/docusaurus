@@ -75,8 +75,7 @@ flowchart TD
 
 ## Next.js (khuyến nghị)
 
-[Next.js](https://nextjs.org) — framework full-stack React của Vercel,
-**phổ biến nhất**.
+[Next.js](https://nextjs.org) — framework full-stack React của Vercel, **phổ biến nhất**.
 
 ```bash
 npx create-next-app@latest my-app
@@ -142,10 +141,8 @@ sequenceDiagram
 
 **Tại sao Next.js dominate?**
 
-1. **Vercel backing** — đầu tư mạnh, ecosystem rộng (Vercel hosting,
-   analytics, edge).
-2. **React 19 first-class** — App Router là test bed của Server Components,
-   Actions, Suspense.
+1. **Vercel backing** — đầu tư mạnh, ecosystem rộng (Vercel hosting, analytics, edge).
+2. **React 19 first-class** — App Router là test bed của Server Components, Actions, Suspense.
 3. **SEO + Performance built-in** — image, font, script optimization mặc định.
 4. **Documentation** chất lượng cao.
 5. **Adoption** — Linear, Vercel, Notion, GitHub, Twitch, TikTok đều dùng.
@@ -165,8 +162,7 @@ Nhưng nếu cần SSR/SEO/Server Components — Next.js là lựa chọn an to�
 
 ## Remix / React Router v7
 
-[Remix](https://remix.run) đã merge thành **React Router v7** (2024).
-Framework full-stack hoặc client-only.
+[Remix](https://remix.run) đã merge thành **React Router v7** (2024). Framework full-stack hoặc client-only.
 
 ```bash
 npx create-remix@latest my-app
@@ -214,8 +210,7 @@ Phù hợp:
 
 ## Astro
 
-[Astro](https://astro.build) — **content-focused** framework, "island
-architecture" — JS chỉ load cho component cần interactive.
+[Astro](https://astro.build) — **content-focused** framework, "island architecture" — JS chỉ load cho component cần interactive.
 
 ```bash
 npm create astro@latest my-site
@@ -260,8 +255,7 @@ Không phù hợp:
 
 ## TanStack Start
 
-[TanStack Start](https://tanstack.com/start) — framework mới, type-safe,
-file-based router (TanStack Router).
+[TanStack Start](https://tanstack.com/start) — framework mới, type-safe, file-based router (TanStack Router).
 
 ```bash
 npm create @tanstack/start@latest my-app
@@ -280,8 +274,7 @@ Vẫn early stage (alpha-beta 2025+). Đáng theo dõi nếu thích TanStack eco
 
 ## Gatsby
 
-[Gatsby](https://www.gatsbyjs.com) — static site generator, plugin
-ecosystem khổng lồ.
+[Gatsby](https://www.gatsbyjs.com) — static site generator, plugin ecosystem khổng lồ.
 
 Năm 2026, **Gatsby đã giảm phổ biến mạnh**:
 
@@ -325,8 +318,7 @@ Project type?
 - **SPA đơn giản**: Vite + React + React Router.
 - **Experimental**: TanStack Start theo dõi cho 2027+.
 
-Đừng over-engineer — SPA đơn giản không cần Next.js. Nhưng khi đã cần
-SSR/SEO/Server Components → đi thẳng Next.js, không nhảy lib khác.
+Đừng over-engineer — SPA đơn giản không cần Next.js. Nhưng khi đã cần SSR/SEO/Server Components → đi thẳng Next.js, không nhảy lib khác.
 
 :::
 

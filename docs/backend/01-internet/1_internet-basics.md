@@ -36,8 +36,7 @@ Trước khi viết backend, bạn cần hiểu Internet vận hành thế nào:
 
 ## Internet là gì?
 
-**Internet** = mạng lưới toàn cầu của các máy tính kết nối qua **TCP/IP**.
-Mỗi máy có **IP address** duy nhất, giao tiếp với nhau qua các **protocol**.
+**Internet** = mạng lưới toàn cầu của các máy tính kết nối qua **TCP/IP**. Mỗi máy có **IP address** duy nhất, giao tiếp với nhau qua các **protocol**.
 
 Câu trên rất cô đọng, hãy tách ra từng ý:
 
@@ -100,8 +99,7 @@ flowchart TB
 
 
 
-**HTTPS (HTTP Secure)** = HTTP + **TLS encryption** — chống nghe lén, tamper. Bắt buộc
-trong production.
+**HTTPS (HTTP Secure)** = HTTP + **TLS encryption** — chống nghe lén, tamper. Bắt buộc trong production.
 
 ---
 
@@ -178,15 +176,13 @@ Khi nhập URL vào browser:
 
 **Hiểu browser flow giúp backend optimize**:
 
-- **TTFB (Time to First Byte)** — server response time. Optimize: cache,
-  CDN, database query.
+- **TTFB (Time to First Byte)** — server response time. Optimize: cache, CDN, database query.
 - **Resource hint**: `<link rel="preconnect">`, `dns-prefetch`, `preload`.
 - **Compression**: gzip/brotli giảm 70-80% size text.
 - **HTTP/2 Server Push** (deprecated, dùng `<link rel="preload">` thay).
 - **Cookie size**: limit ~4KB, gửi mọi request → giữ nhỏ.
 
-Backend không chỉ là "trả JSON" — cách trả ảnh hưởng frontend
-performance trực tiếp.
+Backend không chỉ là "trả JSON" — cách trả ảnh hưởng frontend performance trực tiếp.
 
 :::
 
@@ -202,8 +198,7 @@ performance trực tiếp.
 6. **JSON, XML, Form data** — format truyền.
 7. **Status codes** — biết ý nghĩa, dùng đúng.
 
-Không cần master ngay — học khi gặp. Nhưng nắm khái niệm để debug được
-khi network issue.
+Không cần master ngay — học khi gặp. Nhưng nắm khái niệm để debug được khi network issue.
 
 :::
 

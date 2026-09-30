@@ -91,8 +91,7 @@ flowchart TD
 
 ## Tổng quan
 
-React không có template syntax đặc biệt — dùng **JavaScript** để
-conditional render.
+React không có template syntax đặc biệt — dùng **JavaScript** để conditional render.
 
 ```jsx
 function Greeting({ user }) {
@@ -169,8 +168,7 @@ return (
 // Khi items.length = 0 → render số 0 trên màn hình!
 ```
 
-Lý do: `0` là falsy nhưng vẫn là **giá trị hợp lệ** để render. React
-render `0` thành text.
+Lý do: `0` là falsy nhưng vẫn là **giá trị hợp lệ** để render. React render `0` thành text.
 
 Fix:
 
@@ -184,8 +182,7 @@ Fix:
 {items.length > 0 ? <List /> : null}
 ```
 
-Tương tự với `""`, `NaN`. Đáng ngạc nhiên: `null`, `undefined`, `false`,
-`true` không render.
+Tương tự với `""`, `NaN`. Đáng ngạc nhiên: `null`, `undefined`, `false`, `true` không render.
 
 :::
 
@@ -285,8 +282,7 @@ function Page({ route }) {
 | Logic phức tạp, fall-through | Switch |
 | Cần exhaustive type check | Switch (với TypeScript) |
 
-Với TypeScript, switch tận dụng **discriminated union** + exhaustive
-check:
+Với TypeScript, switch tận dụng **discriminated union** + exhaustive check:
 
 ```tsx
 type Status = "pending" | "active" | "done" | "failed";
@@ -304,8 +300,7 @@ function badge(s: Status): string {
 }
 ```
 
-Thêm `Status` mới → TS báo lỗi tại `_exhaustive` → buộc xử lý. Lookup
-object không có cơ chế này.
+Thêm `Status` mới → TS báo lỗi tại `_exhaustive` → buộc xử lý. Lookup object không có cơ chế này.
 
 :::
 
@@ -329,8 +324,7 @@ function Component({ data }) {
 }
 ```
 
-Quy tắc vàng: **render phải là pure function của props + state**. Không
-side effect trong render.
+Quy tắc vàng: **render phải là pure function của props + state**. Không side effect trong render.
 
 :::
 

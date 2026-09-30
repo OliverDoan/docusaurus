@@ -38,8 +38,7 @@ title: "1. Generics"
 
 ## Vì sao generics ra đời?
 
-Khi muốn viết một hàm hay cấu trúc dữ liệu **tái sử dụng cho nhiều kiểu**,
-ta chỉ có hai cách dở nếu không có generics.
+Khi muốn viết một hàm hay cấu trúc dữ liệu **tái sử dụng cho nhiều kiểu**, ta chỉ có hai cách dở nếu không có generics.
 
 **Vấn đề:**
 
@@ -76,8 +75,7 @@ class Box<T> { constructor(public value: T) {} }
 const box = new Box("hi"); // Box<string>
 ```
 
-Generics còn hỗ trợ **ràng buộc** với `extends` và **kiểu mặc định** (default
-type) để vừa linh hoạt vừa chặt chẽ.
+Generics còn hỗ trợ **ràng buộc** với `extends` và **kiểu mặc định** (default type) để vừa linh hoạt vừa chặt chẽ.
 
 :::tip[Dùng thực tế]
 
@@ -92,8 +90,7 @@ type) để vừa linh hoạt vừa chặt chẽ.
 
 ## Generic là gì?
 
-Generic là **biến của type** — cho phép viết một đoạn code làm việc với
-**nhiều kiểu**, mà vẫn giữ type-safe.
+Generic là **biến của type** — cho phép viết một đoạn code làm việc với **nhiều kiểu**, mà vẫn giữ type-safe.
 
 Vấn đề khi không có generic:
 
@@ -220,8 +217,7 @@ getProp(user, "email");   // Error — không phải key
 
 :::info[Phân tích]
 
-Constraint **không làm hẹp** type bạn nhận — nó chỉ là điều kiện đầu vào.
-Type parameter `T` vẫn là chính nó, không bị "thu hẹp" về constraint:
+Constraint **không làm hẹp** type bạn nhận — nó chỉ là điều kiện đầu vào. Type parameter `T` vẫn là chính nó, không bị "thu hẹp" về constraint:
 
 ```ts
 function getName<T extends { name: string }>(x: T) {
@@ -281,15 +277,13 @@ type Event<TPayload = unknown> = {
 - `P` — property.
 - `R` — return type.
 
-Hoặc tên đầy đủ khi nhiều parameter: `<TUser, TOrder, TPayment>` — giúp
-đọc dễ hơn `<T, U, V>` khi generic phức tạp.
+Hoặc tên đầy đủ khi nhiều parameter: `<TUser, TOrder, TPayment>` — giúp đọc dễ hơn `<T, U, V>` khi generic phức tạp.
 
 :::
 
 :::warning[Cần lưu ý]
 
-**Inference fail** thường gặp với generic — khi TS không có đủ thông tin
-để suy ra `T`, nó sẽ widen lên `unknown`:
+**Inference fail** thường gặp với generic — khi TS không có đủ thông tin để suy ra `T`, nó sẽ widen lên `unknown`:
 
 ```ts
 function wrap<T>(value: T): { value: T } {

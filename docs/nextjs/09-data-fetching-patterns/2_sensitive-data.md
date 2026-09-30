@@ -176,8 +176,7 @@ const dbUrl = process.env.DATABASE_URL;          // undefined!
 
 :::warning[Cần lưu ý]
 
-**Đừng đặt secret trong `NEXT_PUBLIC_*`** — chúng được **inline vào client
-bundle**. Bất kỳ ai mở DevTools đều thấy.
+**Đừng đặt secret trong `NEXT_PUBLIC_*`** — chúng được **inline vào client bundle**. Bất kỳ ai mở DevTools đều thấy.
 
 ```env
 # SAI — secret bị expose
@@ -189,8 +188,7 @@ STRIPE_SECRET_KEY=sk_live_...           # server only
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_  # public OK
 ```
 
-Stripe có **publishable key** (public OK) và **secret key** (server only)
-— đừng nhầm.
+Stripe có **publishable key** (public OK) và **secret key** (server only) — đừng nhầm.
 
 :::
 
@@ -407,8 +405,7 @@ async function getUser(id: string) {
 }
 ```
 
-Nếu vô tình pass `user` qua Server → Client boundary, React **throw**
-tại build time.
+Nếu vô tình pass `user` qua Server → Client boundary, React **throw** tại build time.
 
 :::tip[Mẹo]
 

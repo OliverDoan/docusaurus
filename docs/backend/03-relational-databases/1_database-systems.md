@@ -38,9 +38,7 @@ Relational Database (cơ sở dữ liệu quan hệ) là cách lưu trữ data p
 
 ## Relational Database là gì?
 
-**Relational Database (RDB)** = database tổ chức data thành **bảng (table)**
-với **cột (column)** và **dòng (row)** có cấu trúc nghiêm ngặt
-(**schema**), liên kết qua **foreign key**.
+**Relational Database (RDB)** = database tổ chức data thành **bảng (table)** với **cột (column)** và **dòng (row)** có cấu trúc nghiêm ngặt (**schema**), liên kết qua **foreign key**.
 
 :::tip[Ví dụ đời thường]
 
@@ -54,12 +52,9 @@ Cái giá phải trả: ô nào cũng in sẵn nên muốn thêm một ô mới 
 
 :::info[Thuật ngữ]
 
-**RDBMS (Relational Database Management System)** = **Hệ quản trị Cơ sở
-dữ liệu Quan hệ** — phần mềm quản lý RDB.
+**RDBMS (Relational Database Management System)** = **Hệ quản trị Cơ sở dữ liệu Quan hệ** — phần mềm quản lý RDB.
 
-PostgreSQL, MySQL/MariaDB, SQLite, MS SQL Server, Oracle DB — tất cả
-đều là **các RDBMS**. Khi nghe "chọn RDBMS nào?" tức là chọn 1 trong
-nhóm trên.
+PostgreSQL, MySQL/MariaDB, SQLite, MS SQL Server, Oracle DB — tất cả đều là **các RDBMS**. Khi nghe "chọn RDBMS nào?" tức là chọn 1 trong nhóm trên.
 
 Phân biệt:
 
@@ -83,12 +78,9 @@ Vì mọi bếp đều nghe cùng một thứ tiếng, học SQL xong bạn đ�
 
 :::info[SQL là gì?]
 
-**SQL (Structured Query Language)** = **Ngôn ngữ truy vấn có cấu trúc**
-— ngôn ngữ **chuẩn ANSI/ISO** để giao tiếp với RDBMS: định nghĩa
-schema, thêm/sửa/xoá/đọc data, phân quyền, transaction.
+**SQL (Structured Query Language)** = **Ngôn ngữ truy vấn có cấu trúc** — ngôn ngữ **chuẩn ANSI/ISO** để giao tiếp với RDBMS: định nghĩa schema, thêm/sửa/xoá/đọc data, phân quyền, transaction.
 
-Mỗi RDBMS có **dialect (biến thể)** riêng nhưng phần lớn cú pháp giống
-nhau:
+Mỗi RDBMS có **dialect (biến thể)** riêng nhưng phần lớn cú pháp giống nhau:
 
 - **PostgreSQL** — PL/pgSQL
 - **MySQL** — MySQL SQL
@@ -130,8 +122,7 @@ BEGIN;
 COMMIT;
 ```
 
-**Học SQL quan trọng hơn học 1 RDBMS cụ thể** — vì khi đã thạo SQL,
-chuyển giữa Postgres/MySQL/SQLite chỉ là khác biệt nhỏ.
+**Học SQL quan trọng hơn học 1 RDBMS cụ thể** — vì khi đã thạo SQL, chuyển giữa Postgres/MySQL/SQLite chỉ là khác biệt nhỏ.
 
 :::
 
@@ -240,8 +231,7 @@ Cloud PostgreSQL provider hot 2026:
 - **Aiven**, **Render** — managed traditional.
 - **AWS RDS Postgres**, **GCP Cloud SQL**.
 
-Neon đặc biệt thú vị — **branch database** (snapshot trong giây) cho
-preview environment, không phải spin up DB mới.
+Neon đặc biệt thú vị — **branch database** (snapshot trong giây) cho preview environment, không phải spin up DB mới.
 
 ::: -->
 
@@ -284,11 +274,9 @@ docker run -d \
 - **Postgres**: project mới, complex query, feature-rich, JSON heavy.
 - **MySQL**: legacy, WordPress, simple CRUD, host cheap.
 
-Cả hai đều **production-ready cho hầu hết app**. Migrate giữa hai
-không quá khó với ORM (Prisma, Drizzle, TypeORM).
+Cả hai đều **production-ready cho hầu hết app**. Migrate giữa hai không quá khó với ORM (Prisma, Drizzle, TypeORM).
 
-PlanetScale (MySQL Vitess) đáng chú ý — **schema branching**, scale
-horizontal tự động.
+PlanetScale (MySQL Vitess) đáng chú ý — **schema branching**, scale horizontal tự động.
 
 :::
 
@@ -343,11 +331,9 @@ Trước 2022 thường nghĩ "không". Hiện tại **đang thay đổi**:
 - **Turso** — distributed SQLite serverless.
 - **Litestream** — backup SQLite to S3.
 
-Pattern: **SQLite + Litestream/LiteFS** cho app **read-heavy, low write
-concurrent** — single VM, low latency, ít moving parts.
+Pattern: **SQLite + Litestream/LiteFS** cho app **read-heavy, low write concurrent** — single VM, low latency, ít moving parts.
 
-Vẫn không thay PostgreSQL cho app concurrent write cao (e-commerce
-checkout), nhưng phù hợp blog, CMS, internal tool, mobile backend.
+Vẫn không thay PostgreSQL cho app concurrent write cao (e-commerce checkout), nhưng phù hợp blog, CMS, internal tool, mobile backend.
 
 :::
 
@@ -369,8 +355,7 @@ Microsoft database. **Windows-first** trước, giờ chạy được Linux/macO
 - **Developer** — free cho dev.
 - **Standard / Enterprise** — license $$$.
 
-Trong VN, **không phổ biến trong startup** — chủ yếu doanh nghiệp lớn,
-hệ thống legacy.
+Trong VN, **không phổ biến trong startup** — chủ yếu doanh nghiệp lớn, hệ thống legacy.
 
 ---
 
@@ -417,8 +402,7 @@ Project mới 2026?
 └─ Enterprise banking?       → Oracle (đã có)
 ```
 
-**Default: PostgreSQL** — bỏ qua decision paralysis, chọn nó cho 90%
-project mới.
+**Default: PostgreSQL** — bỏ qua decision paralysis, chọn nó cho 90% project mới.
 
 :::
 
@@ -430,8 +414,7 @@ project mới.
 - Quan trọng: **hiểu SQL + design schema đúng**, không phải DB engine.
 - Migrate DB engine khả thi với ORM hiện đại (Prisma, Drizzle).
 
-Tránh: "Pick MongoDB vì nó scale" — chưa cần thì pick relational + bình
-thường. NoSQL dùng đúng case, không phải default.
+Tránh: "Pick MongoDB vì nó scale" — chưa cần thì pick relational + bình thường. NoSQL dùng đúng case, không phải default.
 
 :::
 

@@ -258,16 +258,14 @@ perm |= ADMIN;                  // thêm
 perm &= ~WRITE;                 // xoá
 ```
 
-**Caveat**: bitwise convert sang **32-bit signed int** — không chính
-xác với số lớn hơn `2^31 - 1`. Với số lớn dùng `BigInt`:
+**Caveat**: bitwise convert sang **32-bit signed int** — không chính xác với số lớn hơn `2^31 - 1`. Với số lớn dùng `BigInt`:
 
 ```js
 2 ** 31 | 0;     // -2147483648 (overflow!)
 2n ** 31n & 0n;  // 0n
 ```
 
-Tricks bitwise đẹp nhưng **không nhanh hơn đáng kể** với V8 hiện đại
-— dùng vì rõ ý đồ (flag, bitmask), không phải tối ưu.
+Tricks bitwise đẹp nhưng **không nhanh hơn đáng kể** với V8 hiện đại — dùng vì rõ ý đồ (flag, bitmask), không phải tối ưu.
 
 :::
 
@@ -304,8 +302,7 @@ const safe = html`<div>${userInput}</div>`;
 
 :::tip[Mẹo]
 
-Tagged template là cơ chế đằng sau **styled-components**, **GraphQL
-query**, **SQL template tag**:
+Tagged template là cơ chế đằng sau **styled-components**, **GraphQL query**, **SQL template tag**:
 
 ```js
 const Button = styled.button`
@@ -400,16 +397,14 @@ const { address: { city } } = user;
 
 :::warning[Cần lưu ý]
 
-Destructuring với property **không tồn tại** trả về `undefined`. Để có
-default thực sự (nhận `undefined` mới apply):
+Destructuring với property **không tồn tại** trả về `undefined`. Để có default thực sự (nhận `undefined` mới apply):
 
 ```js
 const { x = 10 } = { x: undefined };  // x = 10 (apply default)
 const { x = 10 } = { x: null };        // x = null (KHÔNG apply)
 ```
 
-`null` **không** trigger default — chỉ `undefined`. Đây là pitfall hay
-gặp khi parse API trả về `null` cho field "không có giá trị".
+`null` **không** trigger default — chỉ `undefined`. Đây là pitfall hay gặp khi parse API trả về `null` cho field "không có giá trị".
 
 Cẩn thận khi destructure từ `null`/`undefined`:
 

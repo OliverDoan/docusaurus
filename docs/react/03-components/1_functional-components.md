@@ -37,9 +37,7 @@ title: "1. Functional Components"
 
 ## Vì sao dùng functional component?
 
-**Vấn đề:** Class component dài dòng — phải có `constructor`, bind `this`, và
-logic bị rải rác qua nhiều lifecycle method. Tái sử dụng logic stateful rất
-khó, phải dùng HOC hoặc render props gây lồng nhau rối rắm:
+**Vấn đề:** Class component dài dòng — phải có `constructor`, bind `this`, và logic bị rải rác qua nhiều lifecycle method. Tái sử dụng logic stateful rất khó, phải dùng HOC hoặc render props gây lồng nhau rối rắm:
 
 ```jsx
 // Cách cũ — class component
@@ -68,10 +66,7 @@ class Counter extends React.Component {
 }
 ```
 
-**Giải pháp:** Functional component chỉ là một hàm trả về JSX nên gọn hơn
-hẳn. Kết hợp **Hooks** (`useState`, `useEffect`) để quản lý state và side
-effect ngay trong hàm, và tái sử dụng logic qua **custom hook**. Đây là cách
-viết chuẩn từ React 16.8+:
+**Giải pháp:** Functional component chỉ là một hàm trả về JSX nên gọn hơn hẳn. Kết hợp **Hooks** (`useState`, `useEffect`) để quản lý state và side effect ngay trong hàm, và tái sử dụng logic qua **custom hook**. Đây là cách viết chuẩn từ React 16.8+:
 
 ```jsx
 import { useState, useEffect } from "react";
@@ -110,8 +105,7 @@ flowchart TD
 
 - **Mọi component UI mới** — luôn bắt đầu bằng functional component.
 - **Chia nhỏ UI** — tách màn hình thành nhiều hàm component gọn, dễ đọc.
-- **Tái dùng logic** — bóc logic stateful ra **custom hook** (`useAuth`,
-  `useFetch`) để xài lại nhiều nơi.
+- **Tái dùng logic** — bóc logic stateful ra **custom hook** (`useAuth`, `useFetch`) để xài lại nhiều nơi.
 - **Code dễ test** — hàm thuần với props rõ ràng, dễ viết unit test hơn class.
 
 :::
@@ -120,8 +114,7 @@ flowchart TD
 
 ## Component là gì?
 
-**Component** là khối **UI tái sử dụng**, nhận **input (props)** và trả về
-**JSX (mô tả UI)**.
+**Component** là khối **UI tái sử dụng**, nhận **input (props)** và trả về **JSX (mô tả UI)**.
 
 Mỗi component có thể là:
 
@@ -249,8 +242,7 @@ function Greeting({ name }) {
 }
 ```
 
-Quy tắc: **props từ trên xuống**, không bao giờ bottom-up. Muốn parent
-biết thay đổi, dùng **callback prop** (`onChange`, `onClick`...).
+Quy tắc: **props từ trên xuống**, không bao giờ bottom-up. Muốn parent biết thay đổi, dùng **callback prop** (`onChange`, `onClick`...).
 
 :::
 
@@ -327,8 +319,7 @@ React khuyên: **"composition over configuration"**. Lý do:
 - Reuse component dễ hơn — không phải predict mọi use case.
 - TypeScript intellisense rõ — child có type cụ thể.
 
-Pattern này dùng khắp nơi: **Radix UI**, **shadcn/ui**, **Mantine** đều
-build trên composition.
+Pattern này dùng khắp nơi: **Radix UI**, **shadcn/ui**, **Mantine** đều build trên composition.
 
 :::
 
@@ -365,8 +356,7 @@ function userCard() { return <div /> }
 <userCard /> // React coi là HTML <usercard>, không render component
 ```
 
-→ Luôn PascalCase cho component. ESLint rule `react/jsx-pascal-case` sẽ
-ép.
+→ Luôn PascalCase cho component. ESLint rule `react/jsx-pascal-case` sẽ ép.
 
 :::
 
@@ -386,8 +376,7 @@ function Button({ children }: Props) {
 
 Lý do:
 
-- `React.FC` ngầm thêm `children` vào type → khó kiểm soát (component
-  không nhận children vẫn pass type-check).
+- `React.FC` ngầm thêm `children` vào type → khó kiểm soát (component không nhận children vẫn pass type-check).
 - Không hỗ trợ generic component tốt.
 - React docs đã loại bỏ khỏi example.
 

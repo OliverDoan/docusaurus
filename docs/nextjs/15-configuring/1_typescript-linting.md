@@ -120,8 +120,7 @@ import Link from "next/link";
 <Link href="/blog/[slug]" />            // Type error (cần param thật)
 ```
 
-Tương lai sẽ stable. Pair với TanStack Router → type-safe routing trong
-toàn React ecosystem.
+Tương lai sẽ stable. Pair với TanStack Router → type-safe routing trong toàn React ecosystem.
 
 :::
 
@@ -188,8 +187,7 @@ npm install -D prettier eslint-config-prettier
 }
 ```
 
-`prettier-plugin-tailwindcss` — sort Tailwind class theo recommendation
-order tự động.
+`prettier-plugin-tailwindcss` — sort Tailwind class theo recommendation order tự động.
 
 Ba công cụ Prettier, ESLint và TypeScript ghép thành một pipeline kiểm tra chất lượng: mỗi lần lưu file, code lần lượt được format, lint và kiểm tra kiểu trước khi build:
 
@@ -239,8 +237,7 @@ Priority:
 .env
 ```
 
-`.env.local` **chỉ load local** — không production. `.env.production.local`
-cho production secret.
+`.env.local` **chỉ load local** — không production. `.env.production.local` cho production secret.
 
 **Type-safe env** (khuyến nghị):
 

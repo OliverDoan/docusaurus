@@ -121,8 +121,7 @@ flowchart TD
 
 ## Fetch Cache
 
-Từ Next.js 15, `fetch()` trong Server Component **mặc định KHÔNG cache** — phải
-opt-in bằng `cache: "force-cache"` hoặc `next: { revalidate }`:
+Từ Next.js 15, `fetch()` trong Server Component **mặc định KHÔNG cache** — phải opt-in bằng `cache: "force-cache"` hoặc `next: { revalidate }`:
 
 ```tsx
 async function Page() {
@@ -158,8 +157,7 @@ async function Page() {
 - **Next.js 14 và trước**: `fetch()` cache mặc định (`force-cache`).
 - **Next.js 15**: `fetch()` **không cache mặc định** (`no-store`).
 
-Đây là **breaking change** quan trọng. Phải khai báo `cache: "force-cache"`
-hoặc `next: { revalidate }` để cache:
+Đây là **breaking change** quan trọng. Phải khai báo `cache: "force-cache"` hoặc `next: { revalidate }` để cache:
 
 ```ts
 // Next.js 15
@@ -168,8 +166,7 @@ await fetch(url, { cache: "force-cache" });                // cache
 await fetch(url, { next: { revalidate: 60 } });            // ISR
 ```
 
-Lý do thay đổi: developer thường confused tại sao data không refresh.
-Default "no cache" trực giác hơn — phải opt-in cache.
+Lý do thay đổi: developer thường confused tại sao data không refresh. Default "no cache" trực giác hơn — phải opt-in cache.
 
 :::
 
@@ -177,8 +174,7 @@ Default "no cache" trực giác hơn — phải opt-in cache.
 
 ## Request Memoization
 
-**Trong 1 render**, cùng `fetch(url)` chỉ chạy **1 lần** dù gọi nhiều
-component:
+**Trong 1 render**, cùng `fetch(url)` chỉ chạy **1 lần** dù gọi nhiều component:
 
 ```tsx
 // Component A
@@ -199,8 +195,7 @@ function Page() {
 }
 ```
 
-Memoization theo URL + method + options. Tự động cho `fetch`. Cho function
-không phải `fetch`, dùng `cache()` từ React:
+Memoization theo URL + method + options. Tự động cho `fetch`. Cho function không phải `fetch`, dùng `cache()` từ React:
 
 ```ts
 import { cache } from "react";
@@ -292,8 +287,7 @@ import Link from "next/link";
 </Link>
 ```
 
-Khi user hover link → Next.js prefetch route + data. Click → navigation
-gần như **instant**.
+Khi user hover link → Next.js prefetch route + data. Click → navigation gần như **instant**.
 
 `prefetch={false}` để tắt:
 

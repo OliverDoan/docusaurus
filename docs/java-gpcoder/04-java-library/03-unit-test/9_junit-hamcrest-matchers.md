@@ -78,8 +78,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 ```
 
-Cú pháp: `assertThat(thực_tế, matcher)`
-Hoặc: `assertThat("Thông báo khi fail", thực_tế, matcher)`
+Cú pháp: `assertThat(thực_tế, matcher)` Hoặc: `assertThat("Thông báo khi fail", thực_tế, matcher)`
 
 ## Các Matcher phổ biến
 

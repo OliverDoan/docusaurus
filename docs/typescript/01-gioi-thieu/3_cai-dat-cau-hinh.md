@@ -60,8 +60,7 @@ npx tsc --version
 - CI/CD và dev khác máy phải có version giống hệt → reproducible build.
 - `package.json` ghi rõ version dùng → dễ track lịch sử.
 
-Phiên bản TS lock trong `package-lock.json` mới là phiên bản thật sự
-build production.
+Phiên bản TS lock trong `package-lock.json` mới là phiên bản thật sự build production.
 
 :::
 
@@ -125,8 +124,7 @@ npx tsc --watch
 
 ## Chạy trực tiếp bằng ts-node
 
-`ts-node` là REPL/runner cho phép chạy file `.ts` **không cần compile
-trước**, tiện cho dev và script:
+`ts-node` là REPL/runner cho phép chạy file `.ts` **không cần compile trước**, tiện cho dev và script:
 
 ```bash
 npm install --save-dev ts-node
@@ -158,8 +156,7 @@ npx ts-node
 
 ## TypeScript Playground
 
-Không muốn cài gì? Vào **https://www.typescriptlang.org/play** — môi
-trường TS chạy trên trình duyệt với:
+Không muốn cài gì? Vào **https://www.typescriptlang.org/play** — môi trường TS chạy trên trình duyệt với:
 
 - Compiler đầy đủ (đổi version được).
 - Xem output JS được sinh ra theo thời gian thực.
@@ -168,9 +165,7 @@ trường TS chạy trên trình duyệt với:
 
 :::tip[Mẹo]
 
-Playground là công cụ **debug type tốt nhất**. Khi bạn không hiểu vì sao
-TS báo lỗi, copy đoạn code lên Playground, hover vào biến để xem TS
-infer ra type gì. Cực kỳ hữu ích cho generic và conditional type phức tạp.
+Playground là công cụ **debug type tốt nhất**. Khi bạn không hiểu vì sao TS báo lỗi, copy đoạn code lên Playground, hover vào biến để xem TS infer ra type gì. Cực kỳ hữu ích cho generic và conditional type phức tạp.
 
 :::
 
@@ -195,12 +190,9 @@ npx tsx hello.ts
 
 :::info[Phân tích]
 
-Các runtime "chạy TS trực tiếp" thực ra chỉ **strip type annotation**
-(xóa `: string`, `: number`) chứ **không type-check**. Lỗi type sẽ
-**không bị bắt** khi chạy bằng Bun / Node `--strip-types` / tsx.
+Các runtime "chạy TS trực tiếp" thực ra chỉ **strip type annotation** (xóa `: string`, `: number`) chứ **không type-check**. Lỗi type sẽ **không bị bắt** khi chạy bằng Bun / Node `--strip-types` / tsx.
 
-→ Workflow chuẩn: dùng `tsc --noEmit` trong CI/pre-commit để type-check,
-dùng runtime nhanh (tsx/Bun) để chạy thực thi.
+→ Workflow chuẩn: dùng `tsc --noEmit` trong CI/pre-commit để type-check, dùng runtime nhanh (tsx/Bun) để chạy thực thi.
 
 Sơ đồ workflow chuẩn tách riêng hai việc: kiểm tra kiểu và chạy code:
 

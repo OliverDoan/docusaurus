@@ -107,8 +107,7 @@ arr.shift();     // bỏ đầu
 
 :::warning[Cần lưu ý]
 
-**Array trong JS là object** — không phải mảng C/Java thực thụ. Một số
-hệ quả:
+**Array trong JS là object** — không phải mảng C/Java thực thụ. Một số hệ quả:
 
 - Index có thể bị **"sparse"** (rỗng giữa chừng):
 
@@ -130,9 +129,7 @@ a.length;  // 3 (property không tính vào length)
 
 - `typeof` trả `"object"`. Dùng `Array.isArray(a)` để check.
 
-Engine V8 tối ưu cho **packed array** (không sparse, cùng kiểu). Khi bạn
-"đục lỗ" trong array, V8 chuyển sang **dictionary mode** chậm hơn nhiều.
-Pattern xấu nên tránh:
+Engine V8 tối ưu cho **packed array** (không sparse, cùng kiểu). Khi bạn "đục lỗ" trong array, V8 chuyển sang **dictionary mode** chậm hơn nhiều. Pattern xấu nên tránh:
 
 ```js
 const a = new Array(10000); // sparse, length lớn nhưng rỗng
@@ -221,8 +218,7 @@ console.log(arr);            // [3, 1, 2] — vẫn nguyên
 
 :::tip[Mẹo]
 
-Các method `to*` là chuẩn mới — phù hợp với functional style và React
-state (không bao giờ mutate state):
+Các method `to*` là chuẩn mới — phù hợp với functional style và React state (không bao giờ mutate state):
 
 ```js
 // React — set state không mutate
@@ -313,24 +309,20 @@ const enc = new TextEncoder().encode("Hello"); // Uint8Array
 new TextDecoder().decode(enc); // "Hello"
 ```
 
-TypedArray là **không có method mutating** như `splice`/`push` — vì size
-cố định. Chỉ có subset của Array API.
+TypedArray là **không có method mutating** như `splice`/`push` — vì size cố định. Chỉ có subset của Array API.
 
 :::
 
 :::warning[Cần lưu ý]
 
-`SharedArrayBuffer` cho phép chia sẻ TypedArray giữa **Worker threads**.
-Vì lý do bảo mật (Spectre/Meltdown), browser yêu cầu header
-**COOP/COEP** mới được dùng:
+`SharedArrayBuffer` cho phép chia sẻ TypedArray giữa **Worker threads**. Vì lý do bảo mật (Spectre/Meltdown), browser yêu cầu header **COOP/COEP** mới được dùng:
 
 ```
 Cross-Origin-Opener-Policy: same-origin
 Cross-Origin-Embedder-Policy: require-corp
 ```
 
-Trong Node.js dùng được không hạn chế. Khi cần shared memory đa luồng,
-dùng cùng với `Atomics` để đồng bộ.
+Trong Node.js dùng được không hạn chế. Khi cần shared memory đa luồng, dùng cùng với `Atomics` để đồng bộ.
 
 :::
 

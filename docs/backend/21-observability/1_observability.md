@@ -152,8 +152,7 @@ Alert send qua **Alertmanager** → Slack, PagerDuty, email.
 - **S**aturation — queue depth, backlog.
 - **E**rrors — error count.
 
-Mỗi service track 3 RED → biết health.
-Mỗi resource track 3 USE → biết bottleneck.
+Mỗi service track 3 RED → biết health. Mỗi resource track 3 USE → biết bottleneck.
 
 :::
 
@@ -374,8 +373,7 @@ Trước: mỗi vendor SDK riêng (Datadog, New Relic). Migrate đau đầu.
 
 Giờ: viết code OTel → xuất sang **bất kỳ** backend hỗ trợ OTLP.
 
-Năm 2026, **default cho project mới**. Vercel, Cloudflare, AWS đều
-hỗ trợ OTLP ingest.
+Năm 2026, **default cho project mới**. Vercel, Cloudflare, AWS đều hỗ trợ OTLP ingest.
 
 :::
 

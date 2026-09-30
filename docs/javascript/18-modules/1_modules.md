@@ -205,8 +205,7 @@ inc();
 console.log(count); // 0 — copy lúc require, không update
 ```
 
-→ Khi cần share state qua module, ESM rõ ràng hơn. Hoặc dùng object
-wrapper trong CJS.
+→ Khi cần share state qua module, ESM rõ ràng hơn. Hoặc dùng object wrapper trong CJS.
 
 :::
 
@@ -271,8 +270,7 @@ export * from "./utils.js";
 export { default as Header } from "./Header.js";
 ```
 
-Nhiều style guide (Airbnb, Google) khuyên **tránh default export**.
-Riêng React component, default export vẫn phổ biến vì 1 component / file.
+Nhiều style guide (Airbnb, Google) khuyên **tránh default export**. Riêng React component, default export vẫn phổ biến vì 1 component / file.
 
 Quy tắc thực dụng:
 
@@ -382,8 +380,7 @@ async function main() {
 }
 ```
 
-Node.js 22+ có **`--experimental-require-module`** cho phép `require()`
-ESM trong một số trường hợp. Đang dần ổn định trong các bản gần đây.
+Node.js 22+ có **`--experimental-require-module`** cho phép `require()` ESM trong một số trường hợp. Đang dần ổn định trong các bản gần đây.
 
 :::
 
@@ -407,8 +404,7 @@ Tránh CJS trừ khi:
 - Maintain library cũ.
 - Target Node version rất cũ (≤ 12).
 
-Bundler hiện đại (Vite, esbuild, Rollup) đều output cả ESM và CJS nếu
-publish thư viện — đảm bảo tương thích cả hai phía.
+Bundler hiện đại (Vite, esbuild, Rollup) đều output cả ESM và CJS nếu publish thư viện — đảm bảo tương thích cả hai phía.
 
 :::
 

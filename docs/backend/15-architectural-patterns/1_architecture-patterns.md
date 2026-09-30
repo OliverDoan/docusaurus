@@ -118,8 +118,7 @@ Lợi ích:
 - Scale code organization tốt.
 - Migrate sang microservice **dễ dàng** sau (mỗi module → 1 service).
 
-DDD (Domain-Driven Design) + modular monolith = pattern recommended 2026
-cho startup.
+DDD (Domain-Driven Design) + modular monolith = pattern recommended 2026 cho startup.
 
 :::
 
@@ -200,8 +199,7 @@ Mỗi service có **database riêng** và deploy độc lập; giao tiếp đồ
 
 → **80% startup không cần microservices**. Monolith đủ đến hàng triệu user.
 
-Famous quote: "*If you can't build a monolith, what makes you think
-microservices are the answer?*" — Simon Brown.
+Famous quote: "*If you can't build a monolith, what makes you think microservices are the answer?*" — Simon Brown.
 
 Migrate khi:
 
@@ -340,8 +338,7 @@ Cái giá phải trả: nuôi thêm một anh thư ký cho **mỗi** phòng, t�
 - **Consul Connect** — HashiCorp.
 - **Cilium** — eBPF-based, modern.
 
-Service mesh **chỉ cần** khi đã microservice scale lớn. Project nhỏ →
-overkill.
+Service mesh **chỉ cần** khi đã microservice scale lớn. Project nhỏ → overkill.
 
 ---
 
@@ -422,8 +419,7 @@ Use case?
 
 Đa số managed, ít ops, scale to millions before refactor.
 
-Khi thực sự cần microservices, **extract module → service** dần dần. Đừng
-start với 20 microservice.
+Khi thực sự cần microservices, **extract module → service** dần dần. Đừng start với 20 microservice.
 
 :::
 
@@ -436,11 +432,9 @@ start với 20 microservice.
 - **Segment** consolidated microservices.
 - **Shopify** stays modular monolith.
 
-Trend: "**Right-sized architecture**" — không over-engineer. Microservice
-khi **really** cần, không vì hype.
+Trend: "**Right-sized architecture**" — không over-engineer. Microservice khi **really** cần, không vì hype.
 
-Modular monolith → microservice migration **dễ hơn** ngược lại
-(microservice → monolith tốn rất nhiều).
+Modular monolith → microservice migration **dễ hơn** ngược lại (microservice → monolith tốn rất nhiều).
 
 → Start simple, scale architecture theo team + load thực tế.
 

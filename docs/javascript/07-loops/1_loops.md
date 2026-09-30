@@ -265,8 +265,7 @@ outer: for (let i = 0; i < 3; i++) {
 
 :::info[Phân tích]
 
-**`forEach` không hỗ trợ `break`/`continue`**. Đây là khác biệt quan
-trọng so với `for...of`:
+**`forEach` không hỗ trợ `break`/`continue`**. Đây là khác biệt quan trọng so với `for...of`:
 
 ```js
 arr.forEach(x => {
@@ -288,8 +287,7 @@ arr.some(x => {
 });
 ```
 
-`forEach` cũng **không await** trong async function — không xử lý được
-tuần tự async:
+`forEach` cũng **không await** trong async function — không xử lý được tuần tự async:
 
 ```js
 arr.forEach(async (item) => {
@@ -335,8 +333,7 @@ flowchart TD
 
 :::tip[Mẹo]
 
-**Functional style** (`map/filter/reduce`) ưu tiên cho transformation —
-ngắn, dễ đọc, dễ test:
+**Functional style** (`map/filter/reduce`) ưu tiên cho transformation — ngắn, dễ đọc, dễ test:
 
 ```js
 // Imperative
@@ -353,8 +350,7 @@ const total = items
   .reduce((sum, x) => sum + x.price, 0);
 ```
 
-Nhưng với loop **side-effect** (mutation, async, DOM), `for...of` rõ
-ràng và đáng tin hơn. Đừng "ép" mọi thứ thành functional.
+Nhưng với loop **side-effect** (mutation, async, DOM), `for...of` rõ ràng và đáng tin hơn. Đừng "ép" mọi thứ thành functional.
 
 :::
 

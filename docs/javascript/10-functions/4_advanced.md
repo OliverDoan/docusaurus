@@ -37,10 +37,7 @@ Bài này giới thiệu ba khái niệm quan trọng về hàm. **Recursion** (
 
 ## Vì sao closure ra đời?
 
-JS không có từ khóa `private` cho biến trong hàm như nhiều ngôn ngữ khác.
-Trước khi tận dụng closure, để giữ trạng thái qua nhiều lần gọi người ta
-phải đặt biến ở phạm vi global — dễ bị code khác sửa nhầm và làm bẩn
-global.
+JS không có từ khóa `private` cho biến trong hàm như nhiều ngôn ngữ khác. Trước khi tận dụng closure, để giữ trạng thái qua nhiều lần gọi người ta phải đặt biến ở phạm vi global — dễ bị code khác sửa nhầm và làm bẩn global.
 
 **Vấn đề:**
 
@@ -79,19 +76,14 @@ next(); // 2
 // Không cách nào truy cập hay ghi đè count từ bên ngoài
 ```
 
-Closure cho phép hàm trả về **vẫn nhớ** được biến của hàm cha sau khi hàm
-cha đã chạy xong, nhờ đó tạo ra biến "riêng tư" và đóng gói trạng thái.
+Closure cho phép hàm trả về **vẫn nhớ** được biến của hàm cha sau khi hàm cha đã chạy xong, nhờ đó tạo ra biến "riêng tư" và đóng gói trạng thái.
 
 :::tip[Dùng thực tế]
 
-- **State riêng tư**: counter, bộ tạo ID, biến cấu hình mà code ngoài
-  không được sửa trực tiếp.
-- **Factory hàm**: tạo hàm chuyên biệt từ hàm tổng quát (currying,
-  `greet("Hi")` ở mục dưới), hoặc hàm log có sẵn prefix.
-- **Event handler giữ context**: callback nhớ `label`/`id` của lúc đăng
-  ký mà không cần biến global.
-- **React hooks**: `useState`, `useEffect` dựa hoàn toàn vào closure để
-  giữ state giữa các lần render.
+- **State riêng tư**: counter, bộ tạo ID, biến cấu hình mà code ngoài không được sửa trực tiếp.
+- **Factory hàm**: tạo hàm chuyên biệt từ hàm tổng quát (currying, `greet("Hi")` ở mục dưới), hoặc hàm log có sẵn prefix.
+- **Event handler giữ context**: callback nhớ `label`/`id` của lúc đăng ký mà không cần biến global.
+- **React hooks**: `useState`, `useEffect` dựa hoàn toàn vào closure để giữ state giữa các lần render.
 
 :::
 
@@ -128,8 +120,7 @@ function sumTree(node) {
 
 ## Lexical Scope
 
-**Lexical** = "theo cú pháp" — scope của biến được xác định **tại nơi
-viết code**, không phải tại nơi gọi.
+**Lexical** = "theo cú pháp" — scope của biến được xác định **tại nơi viết code**, không phải tại nơi gọi.
 
 ```js
 const x = "outer";
@@ -148,12 +139,9 @@ const fn = outer();
 fn(); // "inner outer" — không phải "outer"
 ```
 
-Khi `inner` được viết bên trong `outer`, nó **vĩnh viễn** truy cập được
-biến của `outer`, dù `outer` đã return.
+Khi `inner` được viết bên trong `outer`, nó **vĩnh viễn** truy cập được biến của `outer`, dù `outer` đã return.
 
-Khi dùng một biến, engine dò theo **scope chain** — từ trong ra ngoài, hàm
-trong cùng trước, rồi ngược lên các scope cha, cuối cùng đến global; hễ
-gặp biến ở đâu thì dừng:
+Khi dùng một biến, engine dò theo **scope chain** — từ trong ra ngoài, hàm trong cùng trước, rồi ngược lên các scope cha, cuối cùng đến global; hễ gặp biến ở đâu thì dừng:
 
 ```mermaid
 flowchart TD
@@ -170,8 +158,7 @@ flowchart TD
 
 ## Closures
 
-**Closure** = function **giữ tham chiếu** đến biến của scope ngoài, kể
-cả khi scope đó đã kết thúc.
+**Closure** = function **giữ tham chiếu** đến biến của scope ngoài, kể cả khi scope đó đã kết thúc.
 
 ```js
 function makeCounter() {
@@ -189,13 +176,9 @@ counter(); // 2
 counter(); // 3
 ```
 
-Khi `makeCounter` chạy xong, biến `count` **đáng lẽ bị GC**. Nhưng vì
-function trả về vẫn tham chiếu `count`, nó được **giữ sống** trong
-closure.
+Khi `makeCounter` chạy xong, biến `count` **đáng lẽ bị GC**. Nhưng vì function trả về vẫn tham chiếu `count`, nó được **giữ sống** trong closure.
 
-Sơ đồ dưới cho thấy vì sao: function được trả về giữ tham chiếu tới
-Lexical Environment của `makeCounter`, nên Garbage Collector không thu hồi
-môi trường đó — `count` sống theo closure thay vì bị dọn dẹp:
+Sơ đồ dưới cho thấy vì sao: function được trả về giữ tham chiếu tới Lexical Environment của `makeCounter`, nên Garbage Collector không thu hồi môi trường đó — `count` sống theo closure thay vì bị dọn dẹp:
 
 ```mermaid
 flowchart LR
@@ -216,15 +199,13 @@ b(); // 1 — độc lập với a
 
 :::info[Phân tích]
 
-**Closure là khái niệm trung tâm của JS**. Mọi function tạo trong JS
-thực ra đều là closure — chỉ là có hoặc không truy cập biến outer.
+**Closure là khái niệm trung tâm của JS**. Mọi function tạo trong JS thực ra đều là closure — chỉ là có hoặc không truy cập biến outer.
 
 Mechanism kỹ thuật:
 
 1. Mỗi function khi gọi tạo một **Lexical Environment** chứa biến local.
 2. Function tham chiếu đến environment của scope cha (lexical link).
-3. Khi function chứa được giữ ở đâu đó (callback, return value, event
-   listener), environment cha không bị GC.
+3. Khi function chứa được giữ ở đâu đó (callback, return value, event listener), environment cha không bị GC.
 
 **Câu hỏi phỏng vấn kinh điển:**
 
@@ -252,8 +233,7 @@ for (let i = 0; i < 3; i++) {
 // Kết quả: 0, 1, 2 — mỗi iteration tạo binding i mới
 ```
 
-Hiểu được cơ chế "binding mới mỗi iteration của `for (let)`" là nắm
-chắc closure + scope.
+Hiểu được cơ chế "binding mới mỗi iteration của `for (let)`" là nắm chắc closure + scope.
 
 :::
 
@@ -320,8 +300,7 @@ function setupButton(id, label) {
 }
 ```
 
-**5. React hooks** — `useState`, `useEffect` đều dựa trên closure để
-giữ state giữa các render.
+**5. React hooks** — `useState`, `useEffect` đều dựa trên closure để giữ state giữa các render.
 
 ---
 
@@ -342,8 +321,7 @@ function setup() {
 }
 ```
 
-Engine có thể **không tối ưu** — khó biết closure dùng biến nào. Cách
-phòng:
+Engine có thể **không tối ưu** — khó biết closure dùng biến nào. Cách phòng:
 
 ```js
 function setup() {
@@ -375,16 +353,13 @@ function Counter() {
 setCount(c => c + 1);
 ```
 
-Đây là pitfall **rất phổ biến** trong React hooks — nguồn của nhiều bug
-khó debug.
+Đây là pitfall **rất phổ biến** trong React hooks — nguồn của nhiều bug khó debug.
 
 :::
 
 :::tip[Mẹo]
 
-**Đọc closure như đọc tree** — từ function trong cùng, ngược lên outer
-scope, đến global. Mỗi biến truy cập, hỏi: "Biến này được khai báo ở
-đâu? Có nằm trong scope chain của function này không?"
+**Đọc closure như đọc tree** — từ function trong cùng, ngược lên outer scope, đến global. Mỗi biến truy cập, hỏi: "Biến này được khai báo ở đâu? Có nằm trong scope chain của function này không?"
 
 Pattern hay dùng trong phỏng vấn:
 

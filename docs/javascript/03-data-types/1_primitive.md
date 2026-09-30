@@ -189,8 +189,7 @@ Number.MAX_SAFE_INTEGER; // 2^53 - 1
 
 :::warning[Cần lưu ý]
 
-JS dùng **IEEE-754 double precision** cho mọi số → không chính xác tuyệt
-đối với số thập phân:
+JS dùng **IEEE-754 double precision** cho mọi số → không chính xác tuyệt đối với số thập phân:
 
 ```js
 0.1 + 0.2;              // 0.30000000000000004
@@ -225,8 +224,7 @@ Boolean("");   // false
 !!"hello";     // true (idiom convert sang boolean)
 ```
 
-**Falsy values** (8 cái): `false`, `0`, `-0`, `0n`, `""`, `null`,
-`undefined`, `NaN`. Mọi thứ khác là truthy — kể cả `"0"`, `[]`, `{}`.
+**Falsy values** (8 cái): `false`, `0`, `-0`, `0n`, `""`, `null`, `undefined`, `NaN`. Mọi thứ khác là truthy — kể cả `"0"`, `[]`, `{}`.
 
 ---
 
@@ -247,10 +245,8 @@ null === undefined; // false
 
 **Quy ước thực dụng**:
 
-- `undefined`: dùng cho **giá trị mặc định** (biến chưa gán, hàm không
-  return, property không tồn tại). **Không nên gán thủ công**.
-- `null`: dùng khi **chủ ý gán** một giá trị "rỗng" (vd biến reset, API
-  trả về "không có").
+- `undefined`: dùng cho **giá trị mặc định** (biến chưa gán, hàm không return, property không tồn tại). **Không nên gán thủ công**.
+- `null`: dùng khi **chủ ý gán** một giá trị "rỗng" (vd biến reset, API trả về "không có").
 
 ```js
 function find(id) {
@@ -262,8 +258,7 @@ let user; // undefined — chưa load
 user = await fetchUser();
 ```
 
-Khi viết API/library, **nhất quán** chỉ dùng một trong hai cho ý nghĩa
-"rỗng" — đừng trộn lẫn (gây nhầm khi check).
+Khi viết API/library, **nhất quán** chỉ dùng một trong hai cho ý nghĩa "rỗng" — đừng trộn lẫn (gây nhầm khi check).
 
 :::
 
@@ -271,8 +266,7 @@ Khi viết API/library, **nhất quán** chỉ dùng một trong hai cho ý ngh�
 
 ## Symbol
 
-`Symbol` (ES6) tạo **identifier duy nhất** — hai symbol khác nhau dù
-cùng description:
+`Symbol` (ES6) tạo **identifier duy nhất** — hai symbol khác nhau dù cùng description:
 
 ```js
 const a = Symbol("id");
@@ -287,8 +281,7 @@ user[KEY]; // "secret"
 Symbol thường dùng để:
 
 - Tạo **property không trùng** với key của library/user.
-- Định nghĩa **well-known symbol** (`Symbol.iterator`, `Symbol.asyncIterator`,
-  `Symbol.toPrimitive`...).
+- Định nghĩa **well-known symbol** (`Symbol.iterator`, `Symbol.asyncIterator`, `Symbol.toPrimitive`...).
 
 :::tip[Mẹo]
 
@@ -346,9 +339,7 @@ Number(a) + b;   // 15
 
 BigInt **không có thập phân** — `10n / 3n === 3n` (cắt phần dư).
 
-Performance: BigInt **chậm hơn** Number đáng kể vì không dùng được CPU
-register trực tiếp. Chỉ dùng khi thực sự cần (crypto, ID khổng lồ, timestamp
-nanosecond...).
+Performance: BigInt **chậm hơn** Number đáng kể vì không dùng được CPU register trực tiếp. Chỉ dùng khi thực sự cần (crypto, ID khổng lồ, timestamp nanosecond...).
 
 :::
 

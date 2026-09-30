@@ -37,9 +37,7 @@ title: "1. Component Lifecycle"
 
 ## Vì sao cần vòng đời (lifecycle)?
 
-**Vấn đề:** Component cần làm việc **ở đúng thời điểm**: gọi API ngay khi
-vừa hiện, dọn dẹp (huỷ timer, gỡ listener) khi biến mất, chạy lại khi dữ
-liệu đổi. Làm sai thời điểm → rò rỉ bộ nhớ (leak), gọi API thừa, lỗi.
+**Vấn đề:** Component cần làm việc **ở đúng thời điểm**: gọi API ngay khi vừa hiện, dọn dẹp (huỷ timer, gỡ listener) khi biến mất, chạy lại khi dữ liệu đổi. Làm sai thời điểm → rò rỉ bộ nhớ (leak), gọi API thừa, lỗi.
 
 ```jsx
 // Gọi API ngay trong thân component → chạy lại MỖI lần render → API thừa
@@ -53,11 +51,7 @@ function Profile({ userId }) {
 }
 ```
 
-**Giải pháp:** Vòng đời chia thành 3 thời điểm — **mount** (vừa hiện),
-**update** (dữ liệu đổi), **unmount** (biến mất). Class dùng
-`componentDidMount` / `componentDidUpdate` / `componentWillUnmount`;
-component dạng hàm dùng `useEffect` (cùng cơ chế: chạy **sau render**, và
-**cleanup** khi unmount hoặc khi deps đổi).
+**Giải pháp:** Vòng đời chia thành 3 thời điểm — **mount** (vừa hiện), **update** (dữ liệu đổi), **unmount** (biến mất). Class dùng `componentDidMount` / `componentDidUpdate` / `componentWillUnmount`; component dạng hàm dùng `useEffect` (cùng cơ chế: chạy **sau render**, và **cleanup** khi unmount hoặc khi deps đổi).
 
 ```jsx
 function Profile({ userId }) {
@@ -84,14 +78,10 @@ function Profile({ userId }) {
 
 :::tip[Dùng thực tế]
 
-- **Fetch khi mount**: lấy dữ liệu lần đầu component hiện ra
-  (`useEffect(..., [])`).
-- **Subscribe / unsubscribe**: mở kết nối websocket khi mount, đóng lại
-  ở cleanup để tránh nhiều kết nối song song.
-- **Set / clear interval**: tạo `setInterval` (đồng hồ, polling) và
-  `clearInterval` ở cleanup để không rò rỉ.
-- **Đồng bộ theo prop đổi**: khi `userId` (hoặc filter, query) đổi thì
-  fetch lại đúng dữ liệu mới (`useEffect(..., [userId])`).
+- **Fetch khi mount**: lấy dữ liệu lần đầu component hiện ra (`useEffect(..., [])`).
+- **Subscribe / unsubscribe**: mở kết nối websocket khi mount, đóng lại ở cleanup để tránh nhiều kết nối song song.
+- **Set / clear interval**: tạo `setInterval` (đồng hồ, polling) và `clearInterval` ở cleanup để không rò rỉ.
+- **Đồng bộ theo prop đổi**: khi `userId` (hoặc filter, query) đổi thì fetch lại đúng dữ liệu mới (`useEffect(..., [userId])`).
 
 :::
 
@@ -109,8 +99,7 @@ Quá trình React render component:
 5. Run effects (useEffect, useLayoutEffect)
 ```
 
-Hình dung luồng render — chú ý vòng lặp: nếu effect lại gọi `setState`,
-chu trình bắt đầu lại từ đầu:
+Hình dung luồng render — chú ý vòng lặp: nếu effect lại gọi `setState`, chu trình bắt đầu lại từ đầu:
 
 ```mermaid
 flowchart LR
@@ -131,8 +120,7 @@ flowchart LR
 | **Update** | Props/state đổi | `useEffect(() => {}, [deps])` |
 | **Unmount** | Component bị remove | `useEffect` return cleanup |
 
-Ba giai đoạn này nối tiếp nhau như một máy trạng thái — component có thể
-update nhiều lần trước khi unmount:
+Ba giai đoạn này nối tiếp nhau như một máy trạng thái — component có thể update nhiều lần trước khi unmount:
 
 ```mermaid
 stateDiagram-v2
@@ -190,9 +178,7 @@ useEffect(() => { /* ... */ }, [a, b]);
 
 :::info[Phân tích]
 
-**`useEffect` không phải là lifecycle hook 1-1.** Nó là **synchronization
-primitive** — đồng bộ component với hệ thống bên ngoài (subscription,
-API, DOM).
+**`useEffect` không phải là lifecycle hook 1-1.** Nó là **synchronization primitive** — đồng bộ component với hệ thống bên ngoài (subscription, API, DOM).
 
 Trong tài liệu React mới (react.dev), hướng dẫn nghĩ về effect:
 
@@ -217,9 +203,7 @@ useEffect(() => {
 }, [url]); // re-sync khi URL đổi
 ```
 
-Nhiều bug "stale closure" và "effect chạy nhiều lần" sinh ra vì coi
-`useEffect` là `componentDidMount`. Tư duy theo "sync with external
-system" sẽ tránh được.
+Nhiều bug "stale closure" và "effect chạy nhiều lần" sinh ra vì coi `useEffect` là `componentDidMount`. Tư duy theo "sync with external system" sẽ tránh được.
 
 :::
 
@@ -231,8 +215,7 @@ Component **re-render** khi:
 
 1. **State đổi** — gọi `setState`.
 2. **Props đổi** — parent re-render → child nhận prop mới.
-3. **Parent re-render** — mặc định mọi child cũng re-render (trừ khi
-   `React.memo`).
+3. **Parent re-render** — mặc định mọi child cũng re-render (trừ khi `React.memo`).
 4. **Context value đổi** — mọi consumer của context đó re-render.
 
 ```jsx
@@ -249,14 +232,12 @@ function Parent() {
 
 :::warning[Cần lưu ý]
 
-**Không phải mọi re-render đều update DOM.** React dùng **reconciliation**
-(diff virtual DOM cũ vs mới) — chỉ commit thay đổi thực sự lên DOM.
+**Không phải mọi re-render đều update DOM.** React dùng **reconciliation** (diff virtual DOM cũ vs mới) — chỉ commit thay đổi thực sự lên DOM.
 
 Vì vậy:
 
 - Re-render thường **rất rẻ** (function chạy lại + diff).
-- Đừng tối ưu (memo, useMemo, useCallback) **trừ khi có vấn đề thực sự**
-  đo được.
+- Đừng tối ưu (memo, useMemo, useCallback) **trừ khi có vấn đề thực sự** đo được.
 - Code đơn giản, dễ đọc > tối ưu premature.
 
 Khi đo bằng React DevTools Profiler, chỉ tối ưu component:
@@ -270,8 +251,7 @@ Khi đo bằng React DevTools Profiler, chỉ tối ưu component:
 
 ## Strict Mode
 
-React Strict Mode (dev only) **chạy component, useEffect, state setter
-2 lần** để phát hiện side effect ngoài ý muốn:
+React Strict Mode (dev only) **chạy component, useEffect, state setter 2 lần** để phát hiện side effect ngoài ý muốn:
 
 ```jsx
 import { StrictMode } from "react";
@@ -288,9 +268,7 @@ Hệ quả:
 - Console log xuất hiện 2 lần.
 - `useEffect` chạy → cleanup → chạy lại.
 
-Lý do: trong React 18+ với offscreen rendering và Server Components,
-component có thể **mount/unmount nhiều lần**. Strict Mode mô phỏng để
-buộc dev viết effect đúng.
+Lý do: trong React 18+ với offscreen rendering và Server Components, component có thể **mount/unmount nhiều lần**. Strict Mode mô phỏng để buộc dev viết effect đúng.
 
 :::info[Phân tích]
 
@@ -314,14 +292,11 @@ useEffect(() => {
 }, []);
 ```
 
-Sau strict mode unmount → cleanup hủy sub đầu → mount lại tạo sub mới
-→ chỉ 1 sub active.
+Sau strict mode unmount → cleanup hủy sub đầu → mount lại tạo sub mới → chỉ 1 sub active.
 
-Đây là **lý do React khuyên LUÔN có cleanup** trong effect — production
-cũng có thể remount component (React Compiler, offscreen, fast refresh).
+Đây là **lý do React khuyên LUÔN có cleanup** trong effect — production cũng có thể remount component (React Compiler, offscreen, fast refresh).
 
-Tắt Strict Mode trong dev là **sai** — nó bảo vệ bạn khỏi bug production
-lúc nào không hay.
+Tắt Strict Mode trong dev là **sai** — nó bảo vệ bạn khỏi bug production lúc nào không hay.
 
 :::
 
@@ -337,11 +312,9 @@ lúc nào không hay.
 
 Pattern phổ biến gây re-render thừa:
 
-- Object/array literal làm prop: `<X opts={{ a: 1 }} />` → mỗi render
-  tạo object mới.
+- Object/array literal làm prop: `<X opts={{ a: 1 }} />` → mỗi render tạo object mới.
 - Function inline: `onClick={() => fn()}` → mỗi render function mới.
-- Context value object: `<Ctx.Provider value={{ ... }}>` → toàn bộ
-  consumer re-render.
+- Context value object: `<Ctx.Provider value={{ ... }}>` → toàn bộ consumer re-render.
 
 Fix bằng `useMemo`, `useCallback` — nhưng **chỉ khi đo có vấn đề**.
 

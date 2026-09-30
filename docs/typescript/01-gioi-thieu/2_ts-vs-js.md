@@ -66,8 +66,7 @@ x = "hello"; // Error: Type 'string' is not assignable to type 'number'
 
 :::info[Phân tích]
 
-TypeScript dùng **structural typing** (kiểu cấu trúc), không phải
-**nominal typing** (kiểu định danh) như Java/C#.
+TypeScript dùng **structural typing** (kiểu cấu trúc), không phải **nominal typing** (kiểu định danh) như Java/C#.
 
 Hai type khác tên nhưng cùng "hình dạng" thì **tương thích**:
 
@@ -79,8 +78,7 @@ const p: Point = { x: 1, y: 2 };
 const c: Coord = p; // OK — cùng shape
 ```
 
-Đây là lý do TypeScript rất linh hoạt khi làm việc với object literal,
-nhưng cũng là nguồn của một số bug "trùng shape không mong muốn".
+Đây là lý do TypeScript rất linh hoạt khi làm việc với object literal, nhưng cũng là nguồn của một số bug "trùng shape không mong muốn".
 
 :::
 
@@ -121,8 +119,7 @@ flowchart LR
 
 :::warning[Cần lưu ý]
 
-Type của TypeScript **không tồn tại tại runtime**. Code dưới đây pass
-compile nhưng vẫn có thể crash:
+Type của TypeScript **không tồn tại tại runtime**. Code dưới đây pass compile nhưng vẫn có thể crash:
 
 ```ts
 function process(data: User) {
@@ -134,8 +131,7 @@ const apiData = JSON.parse(response) as User; // 'as' chỉ nói dối TS
 process(apiData); // Crash nếu apiData.name không phải string
 ```
 
-→ Phải **validate runtime** ở biên hệ thống (API, user input, file).
-Đừng tin tưởng `as` để bỏ qua kiểm tra.
+→ Phải **validate runtime** ở biên hệ thống (API, user input, file). Đừng tin tưởng `as` để bỏ qua kiểm tra.
 
 :::
 
@@ -158,9 +154,7 @@ process(apiData); // Crash nếu apiData.name không phải string
 
 :::tip[Mẹo]
 
-Các framework hiện đại (Next.js, Nuxt, Remix, NestJS, Astro) đều có
-**TypeScript template** mặc định. Khi tạo project mới, chọn template
-TypeScript ngay từ đầu sẽ ít công hơn là migrate sau.
+Các framework hiện đại (Next.js, Nuxt, Remix, NestJS, Astro) đều có **TypeScript template** mặc định. Khi tạo project mới, chọn template TypeScript ngay từ đầu sẽ ít công hơn là migrate sau.
 
 :::
 

@@ -76,8 +76,7 @@ function LoginForm() {
 
 ## Refs là gì?
 
-**Ref** = "tham chiếu" tới element DOM hoặc giá trị **persist giữa các
-render** mà không trigger re-render khi đổi.
+**Ref** = "tham chiếu" tới element DOM hoặc giá trị **persist giữa các render** mà không trigger re-render khi đổi.
 
 Use case chính:
 
@@ -211,8 +210,7 @@ Hoặc dùng `useLayoutEffect` để đo trước khi browser paint (tránh flic
 
 ## Ref cho component
 
-Trong React **19+** — function component có thể nhận `ref` qua props
-trực tiếp:
+Trong React **19+** — function component có thể nhận `ref` qua props trực tiếp:
 
 ```jsx
 function MyInput({ ref, ...props }) {
@@ -238,8 +236,7 @@ const MyInput = forwardRef(function MyInput(props, ref) {
 
 :::info[Phân tích]
 
-**React 19 đơn giản hoá ref** — không cần `forwardRef` cho function
-component nữa:
+**React 19 đơn giản hoá ref** — không cần `forwardRef` cho function component nữa:
 
 ```jsx
 // React 18
@@ -253,11 +250,9 @@ function Button({ children, ref, ...props }) {
 }
 ```
 
-Migration: chạy codemod `react-codemod forward-refs-to-refs`. Hoặc làm
-tay khi quay lại file.
+Migration: chạy codemod `react-codemod forward-refs-to-refs`. Hoặc làm tay khi quay lại file.
 
-Class component vẫn có `React.createRef()` và bind ref qua `ref={this.myRef}`
-như cũ — không thay đổi.
+Class component vẫn có `React.createRef()` và bind ref qua `ref={this.myRef}` như cũ — không thay đổi.
 
 :::
 
@@ -344,18 +339,15 @@ function Form() {
 }
 ```
 
-Pattern này hữu ích cho **headless component** nhưng nên **tránh khi
-có thể** — React khuyến khích flow data, không imperative.
+Pattern này hữu ích cho **headless component** nhưng nên **tránh khi có thể** — React khuyến khích flow data, không imperative.
 
-Khi cần focus/scroll, ưu tiên: state-driven (prop `autoFocus`) →
-imperative ref (last resort).
+Khi cần focus/scroll, ưu tiên: state-driven (prop `autoFocus`) → imperative ref (last resort).
 
 :::
 
 :::warning[Cần lưu ý]
 
-**Đừng abuse ref để thay state.** Ref không trigger re-render → component
-sẽ "không thấy" thay đổi:
+**Đừng abuse ref để thay state.** Ref không trigger re-render → component sẽ "không thấy" thay đổi:
 
 ```jsx
 // SAI
@@ -376,8 +368,7 @@ function Counter() {
 }
 ```
 
-Quy tắc: **nếu giá trị hiện trong UI → dùng state**, **nếu chỉ cần
-behind-the-scenes → dùng ref**.
+Quy tắc: **nếu giá trị hiện trong UI → dùng state**, **nếu chỉ cần behind-the-scenes → dùng ref**.
 
 :::
 

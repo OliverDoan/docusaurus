@@ -113,8 +113,7 @@ function print(value: number | string) {
 
 :::info[Phân tích]
 
-Union là **disjunction (OR)** trong type theory. Khi truy cập thuộc tính
-của union, TS chỉ cho phép các thuộc tính **chung của mọi nhánh**:
+Union là **disjunction (OR)** trong type theory. Khi truy cập thuộc tính của union, TS chỉ cho phép các thuộc tính **chung của mọi nhánh**:
 
 ```ts
 type Animal = { name: string; legs: number };
@@ -126,8 +125,7 @@ function describe(x: Animal | Fish) {
 }
 ```
 
-→ Phải dùng **type guard** để narrow xuống một nhánh trước khi truy cập
-thuộc tính riêng.
+→ Phải dùng **type guard** để narrow xuống một nhánh trước khi truy cập thuộc tính riêng.
 
 :::
 
@@ -146,8 +144,7 @@ type Person = Named & Aged;
 const p: Person = { name: "An", age: 25 };
 ```
 
-Khác Union: Intersection là **conjunction (AND)** — phải có **đủ** các
-thuộc tính.
+Khác Union: Intersection là **conjunction (AND)** — phải có **đủ** các thuộc tính.
 
 ---
 
@@ -175,13 +172,10 @@ Khác `interface`:
 
 **Khi nào dùng `type` vs `interface`?**
 
-- `interface`: shape của object có thể bị extend/implement, đặc biệt
-  cho **public API thư viện** (cho phép consumer "vá" thêm field).
-- `type`: union, intersection, tuple, mapped, conditional — mọi thứ
-  không phải shape thuần.
+- `interface`: shape của object có thể bị extend/implement, đặc biệt cho **public API thư viện** (cho phép consumer "vá" thêm field).
+- `type`: union, intersection, tuple, mapped, conditional — mọi thứ không phải shape thuần.
 
-Trong code app, dùng cái nào cũng được — chọn một và **nhất quán** trong
-codebase.
+Trong code app, dùng cái nào cũng được — chọn một và **nhất quán** trong codebase.
 
 :::
 
@@ -211,8 +205,7 @@ const x = getProp(user, "email");    // Error: "email" không phải key
 
 :::info[Phân tích]
 
-`keyof` kết hợp với **indexed access type** (`T[K]`) là nền tảng của
-TypeScript metaprogramming:
+`keyof` kết hợp với **indexed access type** (`T[K]`) là nền tảng của TypeScript metaprogramming:
 
 ```ts
 type Values<T> = T[keyof T]; // Union các value type của T
@@ -221,8 +214,7 @@ type Color = { red: 1; green: 2; blue: 3 };
 type ColorValue = Values<Color>; // 1 | 2 | 3
 ```
 
-Khi áp dụng `keyof` lên type có **index signature**, kết quả là
-`string | number` thay vì literal cụ thể:
+Khi áp dụng `keyof` lên type có **index signature**, kết quả là `string | number` thay vì literal cụ thể:
 
 ```ts
 type Dict = { [key: string]: number };

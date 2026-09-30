@@ -157,8 +157,7 @@ Không bắt buộc, nhưng giúp tránh bug khi rename method ở cha.
 
 :::warning[Cần lưu ý]
 
-Bật flag `noImplicitOverride: true` trong `tsconfig.json` để TS **bắt
-buộc** dùng `override` mỗi khi ghi đè:
+Bật flag `noImplicitOverride: true` trong `tsconfig.json` để TS **bắt buộc** dùng `override` mỗi khi ghi đè:
 
 ```ts
 // noImplicitOverride: true
@@ -173,8 +172,7 @@ Tác dụng quan trọng — phát hiện khi:
 - Rename method ở class cha mà quên ở class con.
 - Vô tình "ghi đè" mà thực ra cha không có method đó (typo).
 
-Đây là một trong các flag "siêu strict" được khuyến nghị cho codebase
-nghiêm túc.
+Đây là một trong các flag "siêu strict" được khuyến nghị cho codebase nghiêm túc.
 
 :::
 
@@ -232,8 +230,7 @@ Point.fromXY(1, 2);
 Point.fromTuple([3, 4]);
 ```
 
-Mỗi factory **có tên rõ ràng**, dễ đọc, dễ test, không cần check `typeof`.
-Đây là pattern được khuyến khích trong codebase domain-driven.
+Mỗi factory **có tên rõ ràng**, dễ đọc, dễ test, không cần check `typeof`. Đây là pattern được khuyến khích trong codebase domain-driven.
 
 :::
 
@@ -271,8 +268,7 @@ flowchart TD
 
 :::tip[Mẹo]
 
-Trong code app, **generic** hoặc **union với type guard** thường rõ
-hơn overload:
+Trong code app, **generic** hoặc **union với type guard** thường rõ hơn overload:
 
 ```ts
 class Calculator {
@@ -282,8 +278,7 @@ class Calculator {
 }
 ```
 
-Overload chỉ thực sự cần khi **return type không thể biểu diễn bằng
-generic** (vd hai signature trả về type hoàn toàn khác nhau).
+Overload chỉ thực sự cần khi **return type không thể biểu diễn bằng generic** (vd hai signature trả về type hoàn toàn khác nhau).
 
 :::
 

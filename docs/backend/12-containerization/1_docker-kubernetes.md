@@ -393,12 +393,9 @@ Alternative đơn giản hơn:
 - **Nomad** — đơn giản hơn k8s.
 - **Docker Swarm** — built-in Docker.
 
-K8s **overhead 10-20% productivity** với team mới — đáng giá chỉ khi
-thực sự scale cần.
+K8s **overhead 10-20% productivity** với team mới — đáng giá chỉ khi thực sự scale cần.
 
-Năm 2026, **trend là "K8s-lite"** — Fly.io, Vercel, Railway, Cloudflare
-hide k8s phức tạp, expose app-level API. Đa số startup không touch k8s
-trực tiếp.
+Năm 2026, **trend là "K8s-lite"** — Fly.io, Vercel, Railway, Cloudflare hide k8s phức tạp, expose app-level API. Đa số startup không touch k8s trực tiếp.
 
 :::
 
@@ -474,8 +471,7 @@ process.on("SIGTERM", async () => {
 });
 ```
 
-K8s pod terminate → SIGTERM → app cleanup → exit. Không cleanup =
-connection drop, user thấy error.
+K8s pod terminate → SIGTERM → app cleanup → exit. Không cleanup = connection drop, user thấy error.
 
 :::
 

@@ -67,8 +67,7 @@ Solve theo thứ tự — không jump ngay multi-region.
 - **Horizontal**: nhiều app instance + load balancer.
 - **Vertical**: instance to hơn.
 
-Đa số stateless app → **horizontal** dễ. Khi state có (WebSocket
-connection), cần shared store (Redis).
+Đa số stateless app → **horizontal** dễ. Khi state có (WebSocket connection), cần shared store (Redis).
 
 ---
 
@@ -281,8 +280,7 @@ CloudFlare Workers, Vercel Edge model.
 - Tier 1 latency từ Singapore acceptable.
 - Cost-conscious.
 
-Đa số startup → **1 region (Singapore cho VN)** + CloudFlare CDN cho
-static. Đủ < 100ms latency cho VN user.
+Đa số startup → **1 region (Singapore cho VN)** + CloudFlare CDN cho static. Đủ < 100ms latency cho VN user.
 
 **Latency reference**:
 
@@ -321,8 +319,7 @@ static. Đủ < 100ms latency cho VN user.
 - `perf` — performance profile.
 - **`cat /proc/sys/...`** — kernel params.
 
-Backend dev không cần master ops — nhưng biết debug khi production có vấn
-đề là kỹ năng critical.
+Backend dev không cần master ops — nhưng biết debug khi production có vấn đề là kỹ năng critical.
 
 :::tip[Mẹo]
 
@@ -369,8 +366,7 @@ Code đúng pattern → scale là **config + infra**, không phải rewrite.
 
 → Cache chỉ khi đo cần. Read-heavy + acceptable stale.
 
-**Mindset**: **simplicity scales further than complexity**. 1 Postgres
-tuned đúng > 5 microservice mới setup.
+**Mindset**: **simplicity scales further than complexity**. 1 Postgres tuned đúng > 5 microservice mới setup.
 
 :::
 

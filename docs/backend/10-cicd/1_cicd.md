@@ -78,8 +78,7 @@ Flow chuẩn:
 | **ArgoCD** | Có | Kubernetes-native GitOps |
 | **Drone** | Self-host | Container-native, light |
 
-Năm 2026, **GitHub Actions** dominate cho open source + startup. Jenkins
-giữ enterprise legacy.
+Năm 2026, **GitHub Actions** dominate cho open source + startup. Jenkins giữ enterprise legacy.
 
 ---
 
@@ -303,8 +302,7 @@ if (featureFlag.isEnabled("new-checkout", userId)) {
 }
 ```
 
-Service: **LaunchDarkly**, **Flagsmith**, **PostHog Feature Flags**,
-**ConfigCat**.
+Service: **LaunchDarkly**, **Flagsmith**, **PostHog Feature Flags**, **ConfigCat**.
 
 - ✓ Decouple deploy + release.
 - ✓ Instant rollback (toggle off).
@@ -322,11 +320,9 @@ Service: **LaunchDarkly**, **Flagsmith**, **PostHog Feature Flags**,
 | 20-100 dev | Canary + feature flags |
 | 100+ dev | Canary + feature flags + chaos engineering |
 
-Đa số dự án nhỏ-vừa: **rolling deploy** đủ. PaaS như Vercel, Fly.io tự
-handle.
+Đa số dự án nhỏ-vừa: **rolling deploy** đủ. PaaS như Vercel, Fly.io tự handle.
 
-Khi cần canary cho microservice, dùng **Service Mesh** (Istio, Linkerd)
-hoặc **Argo Rollouts** trong Kubernetes.
+Khi cần canary cho microservice, dùng **Service Mesh** (Istio, Linkerd) hoặc **Argo Rollouts** trong Kubernetes.
 
 :::
 

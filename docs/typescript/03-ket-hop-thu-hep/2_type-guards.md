@@ -40,9 +40,7 @@ title: "2. Type Guards và Narrowing"
 
 ## Vì sao có type guard (thu hẹp kiểu)?
 
-**Vấn đề:** Khi một biến có kiểu union (`string | number`), bạn **không**
-gọi được method riêng của từng kiểu, vì compiler chưa biết hiện tại là
-kiểu nào.
+**Vấn đề:** Khi một biến có kiểu union (`string | number`), bạn **không** gọi được method riêng của từng kiểu, vì compiler chưa biết hiện tại là kiểu nào.
 
 ```ts
 function shout(x: string | number) {
@@ -52,11 +50,7 @@ function shout(x: string | number) {
 }
 ```
 
-**Giải pháp:** Dùng **type guard** để **thu hẹp** (narrow) union về một
-kiểu cụ thể trong từng nhánh — qua `typeof`, `instanceof`, toán tử `in`,
-kiểm tra truthy/null, hoặc **custom type guard** (`function isX(v): v is X`).
-Trong nhánh đã thu hẹp, TS hiểu đúng kiểu nên vừa an toàn vừa có
-autocomplete.
+**Giải pháp:** Dùng **type guard** để **thu hẹp** (narrow) union về một kiểu cụ thể trong từng nhánh — qua `typeof`, `instanceof`, toán tử `in`, kiểm tra truthy/null, hoặc **custom type guard** (`function isX(v): v is X`). Trong nhánh đã thu hẹp, TS hiểu đúng kiểu nên vừa an toàn vừa có autocomplete.
 
 ```ts
 function shout(x: string | number) {
@@ -69,14 +63,10 @@ function shout(x: string | number) {
 
 :::tip[Dùng thực tế]
 
-- **Xử lý `id: string | number`:** mỗi kiểu xử lý một cách (string thì
-  trim, number thì so sánh) — narrow trước khi dùng.
-- **Phân biệt loại đối tượng:** discriminated union theo field `"type"`/
-  `"kind"`, dùng `switch` để rẽ nhánh từng loại.
-- **Kiểm tra null trước khi dùng:** loại bỏ `null`/`undefined` để truy
-  cập thuộc tính an toàn.
-- **Custom guard cho dữ liệu API:** viết `isUser(data): data is User` để
-  xác thực shape của response trước khi xử lý tiếp.
+- **Xử lý `id: string | number`:** mỗi kiểu xử lý một cách (string thì trim, number thì so sánh) — narrow trước khi dùng.
+- **Phân biệt loại đối tượng:** discriminated union theo field `"type"`/ `"kind"`, dùng `switch` để rẽ nhánh từng loại.
+- **Kiểm tra null trước khi dùng:** loại bỏ `null`/`undefined` để truy cập thuộc tính an toàn.
+- **Custom guard cho dữ liệu API:** viết `isUser(data): data is User` để xác thực shape của response trước khi xử lý tiếp.
 
 :::
 
@@ -84,8 +74,7 @@ function shout(x: string | number) {
 
 ## Narrowing là gì?
 
-**Narrowing** là quá trình TS **thu hẹp** type của một biến dựa vào
-điều kiện kiểm tra.
+**Narrowing** là quá trình TS **thu hẹp** type của một biến dựa vào điều kiện kiểm tra.
 
 ```ts
 function format(x: string | number) {
@@ -98,8 +87,7 @@ function format(x: string | number) {
 }
 ```
 
-TS tự động theo dõi dòng chảy code (**control flow analysis**) để biết
-type tại mỗi điểm.
+TS tự động theo dõi dòng chảy code (**control flow analysis**) để biết type tại mỗi điểm.
 
 Sơ đồ dưới đây giúp chọn nhanh loại guard phù hợp cho từng tình huống — tất cả đều dẫn về cùng một đích: trong nhánh đã kiểm tra, TS biết kiểu cụ thể:
 
@@ -133,8 +121,7 @@ function pad(value: string | number) {
 }
 ```
 
-`typeof` chỉ trả về 8 giá trị: `"string"`, `"number"`, `"boolean"`,
-`"bigint"`, `"symbol"`, `"undefined"`, `"object"`, `"function"`.
+`typeof` chỉ trả về 8 giá trị: `"string"`, `"number"`, `"boolean"`, `"bigint"`, `"symbol"`, `"undefined"`, `"object"`, `"function"`.
 
 ---
 
@@ -220,8 +207,7 @@ function greet(name: string | null) {
 
 :::warning[Cần lưu ý]
 
-Truthiness check loại bỏ **toàn bộ falsy values**: `0`, `""`, `null`,
-`undefined`, `NaN`, `false`. Coi chừng với `number`:
+Truthiness check loại bỏ **toàn bộ falsy values**: `0`, `""`, `null`, `undefined`, `NaN`, `false`. Coi chừng với `number`:
 
 ```ts
 function setCount(n: number | undefined) {
@@ -263,14 +249,11 @@ function move(pet: Fish | Bird) {
 }
 ```
 
-Cú pháp `pet is Fish` là **type predicate** — báo TS biết hàm này dùng
-để narrow.
+Cú pháp `pet is Fish` là **type predicate** — báo TS biết hàm này dùng để narrow.
 
 :::info[Phân tích]
 
-**Discriminated union** là pattern mạnh nhất khi cần type guard nhiều
-nhánh. Mỗi nhánh có một field **literal chung** (gọi là "tag" hoặc
-"discriminator"):
+**Discriminated union** là pattern mạnh nhất khi cần type guard nhiều nhánh. Mỗi nhánh có một field **literal chung** (gọi là "tag" hoặc "discriminator"):
 
 ```ts
 type Shape =
@@ -287,8 +270,7 @@ function area(s: Shape): number {
 }
 ```
 
-TS tự narrow trong từng `case` — không cần predicate. Đây là pattern
-ưa thích của hàm xử lý state, action (Redux), AST...
+TS tự narrow trong từng `case` — không cần predicate. Đây là pattern ưa thích của hàm xử lý state, action (Redux), AST...
 
 :::
 
@@ -316,11 +298,9 @@ function upper(x: unknown) {
 Assertion function khác type predicate ở chỗ:
 
 - **Predicate** (`is`): trả về boolean → narrow trong nhánh `if`.
-- **Assertion** (`asserts`): không trả về (hoặc throw) → narrow **sau
-  khi gọi**.
+- **Assertion** (`asserts`): không trả về (hoặc throw) → narrow **sau khi gọi**.
 
-Hữu dụng cho validation: kết hợp với Zod, io-ts, hoặc custom logic để
-đảm bảo dữ liệu đúng kiểu trước khi tiếp tục.
+Hữu dụng cho validation: kết hợp với Zod, io-ts, hoặc custom logic để đảm bảo dữ liệu đúng kiểu trước khi tiếp tục.
 
 :::
 

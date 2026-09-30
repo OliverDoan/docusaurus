@@ -72,9 +72,7 @@ ORDER BY o.total DESC;
 
 ## Relational Database là gì?
 
-**Relational Database (RDB)** tổ chức dữ liệu thành **bảng (table)** gồm
-**cột (column)** và **dòng (row)**, liên kết với nhau qua **khóa ngoại
-(foreign key)**. Mọi bảng phải tuân theo **schema** được định nghĩa trước.
+**Relational Database (RDB)** tổ chức dữ liệu thành **bảng (table)** gồm **cột (column)** và **dòng (row)**, liên kết với nhau qua **khóa ngoại (foreign key)**. Mọi bảng phải tuân theo **schema** được định nghĩa trước.
 
 ```text
 ┌─────────────────────────────────┐    ┌──────────────────────────────┐
@@ -90,9 +88,7 @@ ORDER BY o.total DESC;
 
 :::info[Thuật ngữ]
 
-**RDBMS (Relational Database Management System)** — phần mềm hiện thực
-mô hình quan hệ. PostgreSQL, MySQL, SQLite, MS SQL Server, Oracle đều là
-các RDBMS.
+**RDBMS (Relational Database Management System)** — phần mềm hiện thực mô hình quan hệ. PostgreSQL, MySQL, SQLite, MS SQL Server, Oracle đều là các RDBMS.
 
 Phân biệt nhanh:
 - **RDB** = mô hình (table, row, column, foreign key)
@@ -143,9 +139,7 @@ CREATE TABLE orders (
 
 :::tip[Mẹo]
 
-Nếu bắt đầu dự án mới và không có ràng buộc đặc biệt, hãy chọn
-**PostgreSQL** — miễn phí, mã nguồn mở, hỗ trợ JSON, full-text search,
-window functions, và extensions phong phú.
+Nếu bắt đầu dự án mới và không có ràng buộc đặc biệt, hãy chọn **PostgreSQL** — miễn phí, mã nguồn mở, hỗ trợ JSON, full-text search, window functions, và extensions phong phú.
 
 :::
 
@@ -201,9 +195,7 @@ VALUES (9999, 100); -- Lỗi: user_id=9999 không tồn tại trong users
 
 :::warning[Cần lưu ý]
 
-RDBMS vẫn là lựa chọn mặc định tốt cho **phần lớn ứng dụng** — đặc biệt
-khi dữ liệu có cấu trúc rõ ràng và tính nhất quán quan trọng.
-Chỉ xem xét NoSQL khi thực sự cần thiết, tránh over-engineering.
+RDBMS vẫn là lựa chọn mặc định tốt cho **phần lớn ứng dụng** — đặc biệt khi dữ liệu có cấu trúc rõ ràng và tính nhất quán quan trọng. Chỉ xem xét NoSQL khi thực sự cần thiết, tránh over-engineering.
 
 :::
 
@@ -270,9 +262,7 @@ Chọn NoSQL khi:
 
 :::tip[Mẹo]
 
-Trong thực tế, nhiều hệ thống dùng **cả hai**:
-PostgreSQL cho business data cần ACID + Redis cho cache/session.
-Đây là pattern phổ biến — không cần phải chọn một.
+Trong thực tế, nhiều hệ thống dùng **cả hai**: PostgreSQL cho business data cần ACID + Redis cho cache/session. Đây là pattern phổ biến — không cần phải chọn một.
 
 :::
 

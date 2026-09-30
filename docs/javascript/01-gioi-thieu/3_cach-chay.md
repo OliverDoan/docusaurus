@@ -36,8 +36,7 @@ title: "3. Cách chạy JavaScript"
 
 ## Trong trình duyệt
 
-**Cách 1 — Console trình duyệt**: mở DevTools (F12) → tab Console, gõ
-trực tiếp:
+**Cách 1 — Console trình duyệt**: mở DevTools (F12) → tab Console, gõ trực tiếp:
 
 ```js
 console.log("Hello");
@@ -81,8 +80,7 @@ console.log("Hello");
 | `defer` | Song song | Sau khi HTML parse xong | Theo thứ tự script |
 | `type="module"` | Song song | Sau khi HTML parse xong | Theo thứ tự |
 
-→ Quy tắc: dùng **`defer`** cho hầu hết trường hợp; **`async`** cho
-analytics/ads độc lập; **`type="module"`** cho code dùng `import`/`export`.
+→ Quy tắc: dùng **`defer`** cho hầu hết trường hợp; **`async`** cho analytics/ads độc lập; **`type="module"`** cho code dùng `import`/`export`.
 
 Sơ đồ dưới đây so sánh thời điểm tải và chạy script của ba chế độ:
 
@@ -166,8 +164,7 @@ Chạy với watch mode (Node 18+):
 node --watch app.js
 ```
 
-Chạy ESM trực tiếp (cần `"type": "module"` trong `package.json` hoặc
-đuôi `.mjs`):
+Chạy ESM trực tiếp (cần `"type": "module"` trong `package.json` hoặc đuôi `.mjs`):
 
 ```js
 // app.mjs
@@ -204,16 +201,12 @@ deno run --allow-net server.ts
 
 **Web API vs Node.js API** — đừng nhầm:
 
-- `window`, `document`, `localStorage`, `fetch`, `alert` → **chỉ trong
-  trình duyệt**.
+- `window`, `document`, `localStorage`, `fetch`, `alert` → **chỉ trong trình duyệt**.
 - `fs`, `path`, `process`, `Buffer`, `require` → **chỉ trong Node.js**.
 
-Bun và Deno hỗ trợ **cả hai** ở một mức độ. Cloudflare Workers chỉ có
-**Web API**.
+Bun và Deno hỗ trợ **cả hai** ở một mức độ. Cloudflare Workers chỉ có **Web API**.
 
-Khi viết thư viện chạy đa môi trường, dùng các API chung của **WinterCG**
-(`fetch`, `Request`, `Response`, `URL`, `crypto`...) thay vì API chuyên
-biệt của Node.
+Khi viết thư viện chạy đa môi trường, dùng các API chung của **WinterCG** (`fetch`, `Request`, `Response`, `URL`, `crypto`...) thay vì API chuyên biệt của Node.
 
 :::
 
@@ -243,16 +236,14 @@ bun repl
 
 :::tip[Mẹo]
 
-REPL rất tiện để **thử nhanh** một đoạn code, một API mới, hoặc debug
-biểu thức phức tạp. Đừng quên các shortcut:
+REPL rất tiện để **thử nhanh** một đoạn code, một API mới, hoặc debug biểu thức phức tạp. Đừng quên các shortcut:
 
 - **Tab** — autocomplete (gợi ý property của object).
 - **Mũi tên ↑/↓** — duyệt lịch sử lệnh.
 - **`.help`** trong Node REPL — danh sách lệnh.
 - **`.editor`** — vào chế độ multi-line.
 
-Trong browser DevTools, REPL còn mạnh hơn — gõ tên biến, hover xem object,
-click vào DOM element được trả về để xem trên Inspector.
+Trong browser DevTools, REPL còn mạnh hơn — gõ tên biến, hover xem object, click vào DOM element được trả về để xem trên Inspector.
 
 :::
 

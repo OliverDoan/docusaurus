@@ -119,8 +119,7 @@ flowchart TD
     D -->|"Không"| SSG["SSG — build một lần,<br/>serve từ CDN"]
 ```
 
-App Router thay đổi cách định nghĩa — không còn `getStaticProps`/
-`getServerSideProps`. Thay vào đó dùng **fetch options + revalidate**.
+App Router thay đổi cách định nghĩa — không còn `getStaticProps`/ `getServerSideProps`. Thay vào đó dùng **fetch options + revalidate**.
 
 ---
 
@@ -310,8 +309,7 @@ CSR phù hợp:
 - **Real-time** — WebSocket, polling.
 - **Interactive heavy** — editor, game, dashboard.
 
-→ Nhưng vẫn nên dùng **Server Component cho shell** + Client Component
-chỉ cho interactive part. Đừng "use client" toàn app.
+→ Nhưng vẫn nên dùng **Server Component cho shell** + Client Component chỉ cho interactive part. Đừng "use client" toàn app.
 
 ---
 
@@ -362,8 +360,7 @@ export default function InteractiveButton() {
 | `searchParams` prop | **Dynamic** (SSR) |
 | Tất cả static | **Static** |
 
-Next.js tự detect — không phải khai báo SSR/SSG/ISR thủ công. Build
-output cho biết mỗi route mode nào:
+Next.js tự detect — không phải khai báo SSR/SSG/ISR thủ công. Build output cho biết mỗi route mode nào:
 
 ```
 ○ /                    Static
@@ -371,8 +368,7 @@ output cho biết mỗi route mode nào:
 ● /products/[id]       ISR (3600s)
 ```
 
-→ **Mental model mới**: nghĩ về **data**, không phải về "rendering mode".
-Data static → page static. Data dynamic → page dynamic.
+→ **Mental model mới**: nghĩ về **data**, không phải về "rendering mode". Data static → page static. Data dynamic → page dynamic.
 
 :::
 
@@ -395,8 +391,7 @@ Hạn chế:
 - Không API routes (route handlers).
 - Không dynamic API (`cookies`, `headers`).
 
-→ Chỉ dùng khi cần deploy **CDN tĩnh** (S3, GitHub Pages, Cloudflare Pages).
-Nếu cần feature đầy đủ, deploy lên Node server (Vercel, AWS Amplify, Railway).
+→ Chỉ dùng khi cần deploy **CDN tĩnh** (S3, GitHub Pages, Cloudflare Pages). Nếu cần feature đầy đủ, deploy lên Node server (Vercel, AWS Amplify, Railway).
 
 :::
 

@@ -39,9 +39,7 @@ title: "1. Typing Functions"
 
 **Vấn đề:**
 
-Trong JavaScript, gọi hàm thiếu, thừa hoặc sai kiểu đối số không hề báo gì
-lúc viết code. Quên `return` hoặc dùng sai kiểu giá trị trả về cũng chỉ lộ
-ra khi chạy.
+Trong JavaScript, gọi hàm thiếu, thừa hoặc sai kiểu đối số không hề báo gì lúc viết code. Quên `return` hoặc dùng sai kiểu giá trị trả về cũng chỉ lộ ra khi chạy.
 
 ```ts
 function add(a, b) {
@@ -55,9 +53,7 @@ add("1", 2);       // không báo lỗi — kết quả là "12" (nối chuỗi)
 
 **Giải pháp:**
 
-TypeScript định kiểu cho cả **tham số** và **giá trị trả về**. Compiler bắt
-lỗi gọi sai ngay khi viết, editor autocomplete đối số, và bạn biết chắc kiểu
-trả về.
+TypeScript định kiểu cho cả **tham số** và **giá trị trả về**. Compiler bắt lỗi gọi sai ngay khi viết, editor autocomplete đối số, và bạn biết chắc kiểu trả về.
 
 ```ts
 function add(a: number, b: number): number {
@@ -70,19 +66,14 @@ add("1", 2);       // Error — sai kiểu đối số
 add(1, 2);         // OK — trả về number
 ```
 
-Hỗ trợ đầy đủ: tham số optional `?`, default value, rest `...args: number[]`,
-và **function type** để mô tả chữ ký callback.
+Hỗ trợ đầy đủ: tham số optional `?`, default value, rest `...args: number[]`, và **function type** để mô tả chữ ký callback.
 
 :::tip[Dùng thực tế]
 
-- **Callback đúng chữ ký:** truyền hàm vào `.map`, `.filter`, hay event
-  handler mà không lo sai số lượng/kiểu tham số.
-- **Hàm tiện ích an toàn:** mọi nơi gọi hàm helper đều được kiểm tra kiểu,
-  giảm bug truyền nhầm dữ liệu.
-- **API rõ ràng cho người khác:** đồng đội dùng hàm export của bạn được
-  autocomplete và biết chính xác kiểu đầu vào/trả về.
-- **Tránh nhầm thứ tự đối số:** truyền sai thứ tự hay sai kiểu đối số bị
-  báo lỗi ngay, thay vì âm thầm chạy sai.
+- **Callback đúng chữ ký:** truyền hàm vào `.map`, `.filter`, hay event handler mà không lo sai số lượng/kiểu tham số.
+- **Hàm tiện ích an toàn:** mọi nơi gọi hàm helper đều được kiểm tra kiểu, giảm bug truyền nhầm dữ liệu.
+- **API rõ ràng cho người khác:** đồng đội dùng hàm export của bạn được autocomplete và biết chính xác kiểu đầu vào/trả về.
+- **Tránh nhầm thứ tự đối số:** truyền sai thứ tự hay sai kiểu đối số bị báo lỗi ngay, thay vì âm thầm chạy sai.
 
 :::
 
@@ -96,8 +87,7 @@ function add(a: number, b: number): number {
 }
 ```
 
-Return type thường được **infer tự động**, không bắt buộc khai báo trong
-hàm cục bộ. Với hàm export, nên khai báo rõ để làm contract.
+Return type thường được **infer tự động**, không bắt buộc khai báo trong hàm cục bộ. Với hàm export, nên khai báo rõ để làm contract.
 
 Arrow function:
 
@@ -151,8 +141,7 @@ b();           // Error — phải truyền argument
 b(undefined);  // OK
 ```
 
-`?` cho phép **không truyền**; `| undefined` bắt buộc truyền nhưng có
-thể là `undefined`. Trong public API, dùng `?` để cho phép caller bỏ qua.
+`?` cho phép **không truyền**; `| undefined` bắt buộc truyền nhưng có thể là `undefined`. Trong public API, dùng `?` để cho phép caller bỏ qua.
 
 :::
 
@@ -232,16 +221,13 @@ flowchart TD
 
 :::info[Phân tích]
 
-Overload trong TS **chỉ tồn tại ở compile-time** — runtime vẫn là một
-hàm JS duy nhất. Quy tắc viết overload:
+Overload trong TS **chỉ tồn tại ở compile-time** — runtime vẫn là một hàm JS duy nhất. Quy tắc viết overload:
 
 1. Liệt kê signature **cụ thể nhất trước**, **tổng quát nhất sau**.
-2. Signature implementation (cuối cùng) **không hiển thị** với caller —
-   nó chỉ là chỗ chứa logic.
+2. Signature implementation (cuối cùng) **không hiển thị** với caller — nó chỉ là chỗ chứa logic.
 3. Implementation phải **tương thích** với mọi overload signature.
 
-Nhiều trường hợp **generic** hoặc **union return type** thay thế được
-overload và dễ đọc hơn:
+Nhiều trường hợp **generic** hoặc **union return type** thay thế được overload và dễ đọc hơn:
 
 ```ts
 // Generic — dễ đọc hơn overload
@@ -253,15 +239,13 @@ function parse<T extends string | number>(
 }
 ```
 
-Chỉ dùng overload khi **return type khác hẳn nhau** và không biểu diễn
-được bằng generic.
+Chỉ dùng overload khi **return type khác hẳn nhau** và không biểu diễn được bằng generic.
 
 :::
 
 :::tip[Mẹo]
 
-**Call signature** trong interface dùng để mô tả hàm có thêm property
-(callable object) — pattern hay gặp khi typing thư viện cũ:
+**Call signature** trong interface dùng để mô tả hàm có thêm property (callable object) — pattern hay gặp khi typing thư viện cũ:
 
 ```ts
 interface Counter {

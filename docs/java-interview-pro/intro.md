@@ -6,15 +6,9 @@ slug: /java-interview-pro-intro
 
 # Phỏng vấn Java — Junior đến Senior (93 câu)
 
-Đây là bộ **93 câu hỏi phỏng vấn Java** trải dài từ nền tảng tới chuyên sâu, dành
-cho các vị trí **Junior → Mid → Senior**. So với bộ [Java Interview (Intern)](/java-interview-intro)
-thiên về cơ bản, bộ này đi xa hơn: **đồng thời (concurrency)**, **JVM & bộ nhớ**,
-**Java hiện đại (8 → 21)**, và cả **Spring Boot** từ cơ bản tới nâng cao (WebFlux,
-GraalVM, OAuth 2.1, observability).
+Đây là bộ **93 câu hỏi phỏng vấn Java** trải dài từ nền tảng tới chuyên sâu, dành cho các vị trí **Junior → Mid → Senior**. So với bộ [Java Interview (Intern)](/java-interview-intro) thiên về cơ bản, bộ này đi xa hơn: **đồng thời (concurrency)**, **JVM & bộ nhớ**, **Java hiện đại (8 → 21)**, và cả **Spring Boot** từ cơ bản tới nâng cao (WebFlux, GraalVM, OAuth 2.1, observability).
 
-> Tài liệu biên soạn dưới góc nhìn **người phỏng vấn (interviewer)**: mỗi câu có
-> kèm cách hỏi thực tế, lý thuyết nền, code minh hoạ và đáp án mẫu để bạn nói
-> trong 30–90 giây.
+> Tài liệu biên soạn dưới góc nhìn **người phỏng vấn (interviewer)**: mỗi câu có kèm cách hỏi thực tế, lý thuyết nền, code minh hoạ và đáp án mẫu để bạn nói trong 30–90 giây.
 
 ---
 
@@ -56,11 +50,9 @@ Mỗi câu gồm 4 phần:
 
 ## Lời khuyên
 
-1. **Hiểu bản chất, đừng học vẹt** — interviewer hay hỏi *"tại sao"* và *"khi nào
-   dùng"*.
+1. **Hiểu bản chất, đừng học vẹt** — interviewer hay hỏi *"tại sao"* và *"khi nào dùng"*.
 2. **Tự code lại** các ví dụ, đừng chỉ đọc.
-3. **Biết đánh đổi (trade-off)** — câu trả lời "tuỳ trường hợp, vì..." thường ghi
-   điểm hơn câu trả lời tuyệt đối.
+3. **Biết đánh đổi (trade-off)** — câu trả lời "tuỳ trường hợp, vì..." thường ghi điểm hơn câu trả lời tuyệt đối.
 4. **Thành thật khi chưa rõ**, rồi trình bày hướng suy nghĩ.
 
 Bắt đầu từ chủ đề **[1. Java Core & Cú pháp](./1_java-core.md)**.

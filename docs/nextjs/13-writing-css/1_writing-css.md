@@ -159,8 +159,7 @@ export default function RootLayout({ children }) {
 
 :::warning[Cần lưu ý]
 
-**Global CSS chỉ import trong app/layout.tsx (root)** — không import
-trong component khác:
+**Global CSS chỉ import trong app/layout.tsx (root)** — không import trong component khác:
 
 ```tsx
 // component/Button.tsx
@@ -337,8 +336,7 @@ $primary: #0070f3;
 }
 ```
 
-CSS native đã có **nesting**, **custom property**, `color-mix()` — đa
-số case không cần Sass.
+CSS native đã có **nesting**, **custom property**, `color-mix()` — đa số case không cần Sass.
 
 Sass còn hữu dụng cho:
 
@@ -346,8 +344,7 @@ Sass còn hữu dụng cho:
 - **Function** phức tạp.
 - **Module system** `@use`, `@forward`.
 
-Trong project mới, **Tailwind + CSS native** đủ. Sass cho codebase
-legacy hoặc team đã quen.
+Trong project mới, **Tailwind + CSS native** đủ. Sass cho codebase legacy hoặc team đã quen.
 
 ---
 
@@ -355,8 +352,7 @@ legacy hoặc team đã quen.
 
 :::warning[Cần lưu ý]
 
-**CSS-in-JS truyền thống (Styled Components, Emotion) gặp vấn đề với
-React Server Components**:
+**CSS-in-JS truyền thống (Styled Components, Emotion) gặp vấn đề với React Server Components**:
 
 - Runtime API — generate CSS client-side, không SSR được trong RSC.
 - Cần wrapper đặc biệt (`StyledComponentsRegistry`).

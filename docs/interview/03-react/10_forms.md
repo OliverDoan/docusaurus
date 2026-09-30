@@ -502,8 +502,7 @@ async function fakeRegisterApi(data: RegisterValues) {
 - Xác thực business rule phức tạp liên quan nhiều bảng.
 - Kiểm tra quyền truy cập (authorization).
 
-**Hiển thị lỗi server trong RHF:**
-Dùng `setError` để gắn lỗi thủ công vào field sau khi nhận response từ API.
+**Hiển thị lỗi server trong RHF:** Dùng `setError` để gắn lỗi thủ công vào field sau khi nhận response từ API.
 
 ### Code minh hoạ
 

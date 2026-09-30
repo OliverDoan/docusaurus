@@ -392,8 +392,7 @@ flowchart TB
 - Workaround tạm: test logic riêng, render bằng `renderToString`.
 - E2E (Playwright) thực sự test page Server Component → chạy thật.
 
-Đợi feature stable. Hiện tại E2E + unit test cho logic riêng là pattern
-phổ biến.
+Đợi feature stable. Hiện tại E2E + unit test cho logic riêng là pattern phổ biến.
 
 Lib alternative đang phát triển:
 
@@ -433,8 +432,7 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 ```
 
-MSW intercept `fetch` ở network layer → component test mà không touch
-network thật. Compat cả unit test + E2E.
+MSW intercept `fetch` ở network layer → component test mà không touch network thật. Compat cả unit test + E2E.
 
 :::
 

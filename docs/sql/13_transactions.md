@@ -40,8 +40,7 @@ Transaction (giao dịch) là một nhóm câu lệnh SQL được thực thi th
 
 ## Vì sao cần transaction?
 
-**Vấn đề:**
-Một nghiệp vụ thường gồm **nhiều bước phụ thuộc nhau**. Ví dụ chuyển tiền = trừ tài khoản A **và** cộng tài khoản B. Nếu chạy rời rạc, chỉ cần lỗi hoặc mất điện giữa chừng (đã trừ A nhưng chưa cộng B) là dữ liệu **SAI nghiêm trọng** — tiền biến mất. Ngoài ra, nhiều người thao tác đồng thời lên cùng dữ liệu gây tranh chấp, đọc nhầm số liệu nửa vời.
+**Vấn đề:** Một nghiệp vụ thường gồm **nhiều bước phụ thuộc nhau**. Ví dụ chuyển tiền = trừ tài khoản A **và** cộng tài khoản B. Nếu chạy rời rạc, chỉ cần lỗi hoặc mất điện giữa chừng (đã trừ A nhưng chưa cộng B) là dữ liệu **SAI nghiêm trọng** — tiền biến mất. Ngoài ra, nhiều người thao tác đồng thời lên cùng dữ liệu gây tranh chấp, đọc nhầm số liệu nửa vời.
 
 ```sql
 -- Chạy rời rạc, không bảo vệ
@@ -50,8 +49,7 @@ UPDATE accounts SET balance = balance - 500000 WHERE account_id = 'A';
 UPDATE accounts SET balance = balance + 500000 WHERE account_id = 'B';
 ```
 
-**Giải pháp:**
-**Transaction** gom nhiều lệnh thành **một đơn vị** "tất cả hoặc không gì cả", tuân theo tính chất **ACID**. Dùng `BEGIN` để mở, `COMMIT` để xác nhận, hoặc `ROLLBACK` để huỷ toàn bộ khi có lỗi. Mức cô lập (isolation level) kiểm soát việc đọc đồng thời để tránh tranh chấp.
+**Giải pháp:** **Transaction** gom nhiều lệnh thành **một đơn vị** "tất cả hoặc không gì cả", tuân theo tính chất **ACID**. Dùng `BEGIN` để mở, `COMMIT` để xác nhận, hoặc `ROLLBACK` để huỷ toàn bộ khi có lỗi. Mức cô lập (isolation level) kiểm soát việc đọc đồng thời để tránh tranh chấp.
 
 ```sql
 -- Gom thành một transaction an toàn
@@ -112,17 +110,13 @@ Mọi hệ quản trị cơ sở dữ liệu quan hệ đều đảm bảo trans
 | **I**solation | Tính cô lập | Các transaction đồng thời không ảnh hưởng lẫn nhau |
 | **D**urability | Tính bền vững | Sau khi COMMIT, dữ liệu được lưu vĩnh viễn dù hệ thống sập |
 
-**Atomicity — Tính nguyên tử:**
-Toàn bộ các thao tác trong transaction được coi là một khối không thể chia tách. Ví dụ: trừ tiền tài khoản A VÀ cộng tiền tài khoản B phải xảy ra đồng thời hoặc không xảy ra gì.
+**Atomicity — Tính nguyên tử:** Toàn bộ các thao tác trong transaction được coi là một khối không thể chia tách. Ví dụ: trừ tiền tài khoản A VÀ cộng tiền tài khoản B phải xảy ra đồng thời hoặc không xảy ra gì.
 
-**Consistency — Tính nhất quán:**
-Transaction chỉ được COMMIT khi CSDL vẫn đáp ứng tất cả ràng buộc (constraints, triggers, rules). Ví dụ: số dư tài khoản không được phép âm sau khi chuyển tiền nếu có ràng buộc `CHECK (balance >= 0)`.
+**Consistency — Tính nhất quán:** Transaction chỉ được COMMIT khi CSDL vẫn đáp ứng tất cả ràng buộc (constraints, triggers, rules). Ví dụ: số dư tài khoản không được phép âm sau khi chuyển tiền nếu có ràng buộc `CHECK (balance >= 0)`.
 
-**Isolation — Tính cô lập:**
-Kết quả tạm thời của một transaction đang thực thi không được hiển thị cho các transaction khác cho đến khi COMMIT. Ví dụ: trong lúc đang xử lý chuyển tiền, một query khác không được thấy số dư tạm thời bị trừ ở A nhưng chưa cộng vào B.
+**Isolation — Tính cô lập:** Kết quả tạm thời của một transaction đang thực thi không được hiển thị cho các transaction khác cho đến khi COMMIT. Ví dụ: trong lúc đang xử lý chuyển tiền, một query khác không được thấy số dư tạm thời bị trừ ở A nhưng chưa cộng vào B.
 
-**Durability — Tính bền vững:**
-Sau khi `COMMIT` thành công, dữ liệu được ghi vào đĩa (transaction log). Dù máy chủ mất điện ngay sau đó, dữ liệu vẫn được phục hồi.
+**Durability — Tính bền vững:** Sau khi `COMMIT` thành công, dữ liệu được ghi vào đĩa (transaction log). Dù máy chủ mất điện ngay sau đó, dữ liệu vẫn được phục hồi.
 
 :::warning[Cần lưu ý]
 ACID là cam kết của hệ thống RDBMS truyền thống (PostgreSQL, MySQL InnoDB, Oracle). Một số CSDL NoSQL hy sinh một phần ACID để đổi lấy hiệu năng và khả năng mở rộng.
@@ -158,8 +152,7 @@ SET SESSION CHARACTERISTICS AS TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 
 ## Các hiện tượng xảy ra khi thiếu cô lập
 
-**Dirty Read — Đọc bẩn:**
-Transaction A đọc dữ liệu mà transaction B đã sửa nhưng chưa COMMIT. Nếu B sau đó ROLLBACK, A đang làm việc với dữ liệu không tồn tại.
+**Dirty Read — Đọc bẩn:** Transaction A đọc dữ liệu mà transaction B đã sửa nhưng chưa COMMIT. Nếu B sau đó ROLLBACK, A đang làm việc với dữ liệu không tồn tại.
 
 ```sql
 -- Session B (chưa COMMIT)
@@ -171,11 +164,9 @@ UPDATE products SET price = 0 WHERE id = 1;
 SELECT price FROM products WHERE id = 1;
 ```
 
-**Non-repeatable Read — Đọc không lặp lại:**
-Transaction A đọc một hàng, sau đó transaction B sửa và COMMIT hàng đó. Khi A đọc lại cùng hàng đó, kết quả khác lần đầu.
+**Non-repeatable Read — Đọc không lặp lại:** Transaction A đọc một hàng, sau đó transaction B sửa và COMMIT hàng đó. Khi A đọc lại cùng hàng đó, kết quả khác lần đầu.
 
-**Phantom Read — Đọc ma:**
-Transaction A thực hiện query trả về tập hàng, sau đó B INSERT thêm hàng mới thoả điều kiện đó và COMMIT. Khi A query lại, xuất hiện hàng "ma" chưa có lần trước.
+**Phantom Read — Đọc ma:** Transaction A thực hiện query trả về tập hàng, sau đó B INSERT thêm hàng mới thoả điều kiện đó và COMMIT. Khi A query lại, xuất hiện hàng "ma" chưa có lần trước.
 
 ---
 

@@ -275,8 +275,7 @@ RETURN DISTINCT friend.name;
 - **TigerGraph** — performance focus.
 - **Apache AGE** — Graph extension cho Postgres.
 
-Phân tích graph trong **Postgres** vẫn được nhờ recursive CTE — nhưng
-Graph DB tối ưu hơn cho deep traversal.
+Phân tích graph trong **Postgres** vẫn được nhờ recursive CTE — nhưng Graph DB tối ưu hơn cho deep traversal.
 
 ---
 
@@ -346,8 +345,7 @@ Use case:
 - Log search.
 - Real-time analytics.
 
-10-100x faster than Postgres cho aggregation lớn. Trade-off: không phù
-hợp OLTP (high write, point query).
+10-100x faster than Postgres cho aggregation lớn. Trade-off: không phù hợp OLTP (high write, point query).
 
 :::
 
@@ -393,8 +391,7 @@ Trade-off:
 
 → **Start với 1 DB (Postgres)**, add NoSQL khi có **measurable bottleneck**.
 
-PostgreSQL hiện đại + extension (pgvector, TimescaleDB, pg_trgm) cover
-80% case mà không cần thêm DB.
+PostgreSQL hiện đại + extension (pgvector, TimescaleDB, pg_trgm) cover 80% case mà không cần thêm DB.
 
 :::
 

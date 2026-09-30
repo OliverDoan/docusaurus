@@ -130,8 +130,7 @@ flowchart TD
 
 ## Custom Hook là gì?
 
-**Custom Hook** = function JS bắt đầu bằng `use*`, có thể gọi các hook
-khác bên trong. Mục đích: **tái sử dụng logic** giữa nhiều component.
+**Custom Hook** = function JS bắt đầu bằng `use*`, có thể gọi các hook khác bên trong. Mục đích: **tái sử dụng logic** giữa nhiều component.
 
 ```jsx
 function useCounter(initial = 0) {
@@ -342,8 +341,7 @@ Tự viết khi: cần custom hành vi, hoặc thư viện không có cái cần
 
 ## Share state giữa các hook
 
-Custom hook **không tự share state** giữa nhiều component — mỗi component
-gọi hook là một instance độc lập:
+Custom hook **không tự share state** giữa nhiều component — mỗi component gọi hook là một instance độc lập:
 
 ```jsx
 function useCounter() {
@@ -491,8 +489,7 @@ Khi viết code:
 3. UI + state local → component.
 4. UI nhận state từ ngoài → controlled component.
 
-Phân biệt rõ 4 loại giúp codebase scale tốt — mỗi file 1 trách nhiệm,
-dễ test, dễ refactor.
+Phân biệt rõ 4 loại giúp codebase scale tốt — mỗi file 1 trách nhiệm, dễ test, dễ refactor.
 
 :::
 

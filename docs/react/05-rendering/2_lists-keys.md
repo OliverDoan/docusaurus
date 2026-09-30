@@ -54,10 +54,7 @@ function TodoList({ todos }) {
 }
 ```
 
-Khi list thay đổi (thêm/xoá/sắp xếp), React không biết phần tử nào là phần
-tử nào → re-render sai, mất state của input, hiệu năng kém. Dùng `index`
-làm key gây bug ngay khi thứ tự đổi: item ở vị trí cũ bị gán nhầm dữ liệu
-của item khác.
+Khi list thay đổi (thêm/xoá/sắp xếp), React không biết phần tử nào là phần tử nào → re-render sai, mất state của input, hiệu năng kém. Dùng `index` làm key gây bug ngay khi thứ tự đổi: item ở vị trí cũ bị gán nhầm dữ liệu của item khác.
 
 **Giải pháp:**
 
@@ -76,9 +73,7 @@ function TodoList({ todos }) {
 }
 ```
 
-`key` duy nhất giúp React **nhận diện** từng phần tử qua các lần render để
-reconcile chính xác, giữ đúng state của từng instance dù list thêm, xoá hay
-đảo thứ tự.
+`key` duy nhất giúp React **nhận diện** từng phần tử qua các lần render để reconcile chính xác, giữ đúng state của từng instance dù list thêm, xoá hay đảo thứ tự.
 
 Sơ đồ dưới đây so sánh reconciliation khi prepend một item với `key=index` và `key=id`:
 
@@ -93,14 +88,10 @@ flowchart TD
 
 :::tip[Dùng thực tế]
 
-- **Render danh sách từ API**: dùng `key={item.id}` (id từ database) để
-  React khớp đúng phần tử khi data cập nhật.
-- **Todo list thêm/xoá**: key ổn định giúp giữ nguyên state các todo còn
-  lại khi xoá một item ở giữa.
-- **Bảng có sắp xếp/lọc**: khi sort hay filter, key theo id giữ đúng state
-  từng dòng (checkbox, input) thay vì gán nhầm.
-- **Tránh dùng index** làm key khi list động (reorder/insert/delete giữa) —
-  chỉ dùng index cho list tĩnh, không đổi thứ tự.
+- **Render danh sách từ API**: dùng `key={item.id}` (id từ database) để React khớp đúng phần tử khi data cập nhật.
+- **Todo list thêm/xoá**: key ổn định giúp giữ nguyên state các todo còn lại khi xoá một item ở giữa.
+- **Bảng có sắp xếp/lọc**: khi sort hay filter, key theo id giữ đúng state từng dòng (checkbox, input) thay vì gán nhầm.
+- **Tránh dùng index** làm key khi list động (reorder/insert/delete giữa) — chỉ dùng index cho list tĩnh, không đổi thứ tự.
 
 :::
 
@@ -135,8 +126,7 @@ Có thể `.filter()` + `.map()` chain:
 
 ## Tại sao cần key?
 
-React dùng **key** để **identify** element giữa các lần render. Không có
-key → React phải so sánh theo index → re-render thừa và mất state.
+React dùng **key** để **identify** element giữa các lần render. Không có key → React phải so sánh theo index → re-render thừa và mất state.
 
 Vd: list với input.
 
@@ -175,8 +165,7 @@ React so sánh array cũ và mới qua **key**:
 - Key mới → **mount** component mới.
 - Key biến mất → **unmount** component.
 
-Không có key → React fallback dùng index → coi mọi item như "cùng instance",
-chỉ update props. Hậu quả:
+Không có key → React fallback dùng index → coi mọi item như "cùng instance", chỉ update props. Hậu quả:
 
 - DOM input vẫn cùng element → state hệ điều hành (caret, IME...) còn nguyên.
 - Component state (`useState`) bị nhầm.
@@ -218,8 +207,7 @@ chỉ update props. Hậu quả:
 - List có thể **insert/delete giữa** (không chỉ append/pop cuối).
 - Item có **state nội bộ** (input, form, animation).
 
-Đa số trường hợp gặp bug với key index là khi list "động". Quy tắc:
-**nếu order item có thể đổi → tuyệt đối không dùng index làm key**.
+Đa số trường hợp gặp bug với key index là khi list "động". Quy tắc: **nếu order item có thể đổi → tuyệt đối không dùng index làm key**.
 
 :::
 
@@ -295,11 +283,9 @@ Bug:
 ))}
 ```
 
-Hoặc thêm `useId` cho client-generated ID (nhưng `useId` không ổn định
-giữa render → không phù hợp làm key của data).
+Hoặc thêm `useId` cho client-generated ID (nhưng `useId` không ổn định giữa render → không phù hợp làm key của data).
 
-Tốt nhất: **đảm bảo data có id từ nguồn** (DB autoincrement, UUID, hash
-content).
+Tốt nhất: **đảm bảo data có id từ nguồn** (DB autoincrement, UUID, hash content).
 
 :::
 
@@ -318,8 +304,7 @@ function App() {
 }
 ```
 
-Hai list khác nhau → có thể trùng `id` nhưng React không nhầm vì chúng
-thuộc 2 list riêng.
+Hai list khác nhau → có thể trùng `id` nhưng React không nhầm vì chúng thuộc 2 list riêng.
 
 Nhưng nếu **merge thành 1 list**:
 

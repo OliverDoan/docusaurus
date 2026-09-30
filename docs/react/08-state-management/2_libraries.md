@@ -106,8 +106,7 @@ function ThemeToggle() {
 
 ## Zustand (khuyến nghị)
 
-[Zustand](https://zustand-demo.pmnd.rs) — nhẹ (~1KB), API đơn giản, **không
-cần Provider**.
+[Zustand](https://zustand-demo.pmnd.rs) — nhẹ (~1KB), API đơn giản, **không cần Provider**.
 
 ```bash
 npm install zustand
@@ -182,8 +181,7 @@ Cho phép store lớn vẫn tổ chức được — mỗi file 1 slice.
 - **Outside React** — gọi `useStore.getState()` từ utility, hook không phải component.
 - **Bundle nhẹ** — ~1KB minified gzipped vs Redux ~10KB.
 
-Trade-off: ít "structure" → team lớn cần quy ước. Đa số dự án hiện đại 2024+
-chọn Zustand làm default cho client state.
+Trade-off: ít "structure" → team lớn cần quy ước. Đa số dự án hiện đại 2024+ chọn Zustand làm default cho client state.
 
 :::
 
@@ -216,8 +214,7 @@ function Counter() {
 }
 ```
 
-Mỗi atom là **đơn vị nhỏ nhất** — chỉ component đọc atom mới re-render khi
-atom đổi. Tốt cho:
+Mỗi atom là **đơn vị nhỏ nhất** — chỉ component đọc atom mới re-render khi atom đổi. Tốt cho:
 
 - **Form lớn** — mỗi field 1 atom.
 - **Real-time data** — fine-grained subscription.
@@ -227,8 +224,7 @@ atom đổi. Tốt cho:
 
 ## Redux Toolkit
 
-[Redux Toolkit (RTK)](https://redux-toolkit.js.org) — Redux **chính thức**
-khuyến nghị từ team Redux. Đã bao gồm Immer + Thunk + DevTools.
+[Redux Toolkit (RTK)](https://redux-toolkit.js.org) — Redux **chính thức** khuyến nghị từ team Redux. Đã bao gồm Immer + Thunk + DevTools.
 
 > Học Redux chi tiết (slice, selector, async thunk, RTK Query, middleware): xem bài [Redux & Redux Toolkit](./3_redux.md).
 
@@ -236,8 +232,7 @@ khuyến nghị từ team Redux. Đã bao gồm Immer + Thunk + DevTools.
 npm install @reduxjs/toolkit react-redux
 ```
 
-Redux theo **Flux pattern** — luồng dữ liệu một chiều khép kín, mọi thay
-đổi state đều đi qua action → reducer nên dễ trace và debug:
+Redux theo **Flux pattern** — luồng dữ liệu một chiều khép kín, mọi thay đổi state đều đi qua action → reducer nên dễ trace và debug:
 
 ```mermaid
 flowchart LR
@@ -343,8 +338,7 @@ const Counter = observer(() => (
 ));
 ```
 
-MobX dùng **getter/setter proxy** để track dependency tự động — viết JS
-thường, MobX biết component nào dùng field nào.
+MobX dùng **getter/setter proxy** để track dependency tự động — viết JS thường, MobX biết component nào dùng field nào.
 
 Phù hợp:
 
@@ -409,8 +403,7 @@ Hầu hết app stop ở bước 2-3. Bước 4 chỉ dành cho app phức tạp
 | **URL state** | Filter, page, search trong URL | React Router `useSearchParams` |
 | **Client state** | UI state, form, modal | `useState`, Zustand, Jotai |
 
-Quy tắc: **dùng đúng tool cho đúng loại state**. Đa số bug "state management"
-xảy ra vì lẫn lộn — vd lưu data từ API vào Redux thay vì TanStack Query.
+Quy tắc: **dùng đúng tool cho đúng loại state**. Đa số bug "state management" xảy ra vì lẫn lộn — vd lưu data từ API vào Redux thay vì TanStack Query.
 
 :::
 

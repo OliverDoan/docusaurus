@@ -143,8 +143,7 @@ JSON.stringify(Infinity); // "null"
 
 Với Map, Set: cần convert tay (`Array.from`) trước khi stringify.
 
-Để JSON hỗ trợ kiểu phức tạp, dùng `JSON.stringify` với replacer hoặc
-thư viện như **superjson**, **devalue**.
+Để JSON hỗ trợ kiểu phức tạp, dùng `JSON.stringify` với replacer hoặc thư viện như **superjson**, **devalue**.
 
 :::
 
@@ -185,8 +184,7 @@ randInt(1, 6); // 1-6 (xí ngầu)
 
 :::tip[Mẹo]
 
-`Math.random()` **không phù hợp cho crypto** — không an toàn, có thể bị
-dự đoán. Khi cần random bảo mật (token, password):
+`Math.random()` **không phù hợp cho crypto** — không an toàn, có thể bị dự đoán. Khi cần random bảo mật (token, password):
 
 ```js
 // Browser
@@ -316,8 +314,7 @@ new Intl.DateTimeFormat("vi-VN", {
 
 :::info[Phân tích]
 
-`Intl` là API **chuẩn ECMA-402** — built-in, không cần thư viện cho format
-cơ bản. Các class hữu dụng:
+`Intl` là API **chuẩn ECMA-402** — built-in, không cần thư viện cho format cơ bản. Các class hữu dụng:
 
 - `Intl.NumberFormat` — format số, tiền, đơn vị.
 - `Intl.DateTimeFormat` — format ngày giờ.
@@ -327,8 +324,7 @@ cơ bản. Các class hữu dụng:
 - `Intl.Collator` — sort string theo locale.
 - `Intl.Segmenter` — chia string theo từ/câu/grapheme (hỗ trợ emoji).
 
-Sử dụng `Intl` thay vì viết tay format string khi cần đa ngôn ngữ —
-chính xác hơn nhiều, không phải maintain.
+Sử dụng `Intl` thay vì viết tay format string khi cần đa ngôn ngữ — chính xác hơn nhiều, không phải maintain.
 
 :::
 

@@ -38,10 +38,7 @@ title: "1. Mobile Applications (React Native)"
 
 ## Vì sao có React Native?
 
-**Vấn đề:** Làm app mobile native phải viết **riêng** cho từng nền tảng — iOS
-bằng Swift, Android bằng Kotlin. Hai codebase, hai đội, tốn gấp đôi công sức và
-chi phí maintain. Nhúng web view vào app thì trải nghiệm kém, cuộn giật, không
-có "native feel".
+**Vấn đề:** Làm app mobile native phải viết **riêng** cho từng nền tảng — iOS bằng Swift, Android bằng Kotlin. Hai codebase, hai đội, tốn gấp đôi công sức và chi phí maintain. Nhúng web view vào app thì trải nghiệm kém, cuộn giật, không có "native feel".
 
 ```jsx
 // iOS — Swift (codebase 1)
@@ -54,10 +51,7 @@ struct ContentView: View {
 fun Content() { Text("Hello") }
 ```
 
-**Giải pháp:** **React Native** — viết **một lần** bằng React/JS, render ra
-**component native thật** (không phải webview) cho cả iOS lẫn Android. Chia sẻ
-phần lớn code, dùng lại kiến thức React sẵn có. **Expo** giúp khởi tạo và build
-dễ dàng. Đánh đổi: vài tính năng sâu (hardware-heavy) vẫn cần native module.
+**Giải pháp:** **React Native** — viết **một lần** bằng React/JS, render ra **component native thật** (không phải webview) cho cả iOS lẫn Android. Chia sẻ phần lớn code, dùng lại kiến thức React sẵn có. **Expo** giúp khởi tạo và build dễ dàng. Đánh đổi: vài tính năng sâu (hardware-heavy) vẫn cần native module.
 
 ```jsx
 // Một codebase — chạy cả iOS lẫn Android
@@ -96,9 +90,7 @@ flowchart TD
 
 ## React Native là gì?
 
-**React Native (RN)** — framework dùng React để build mobile app **native**
-cho iOS và Android. Code JS dùng React, render thành native UI thật
-(không phải webview).
+**React Native (RN)** — framework dùng React để build mobile app **native** cho iOS và Android. Code JS dùng React, render thành native UI thật (không phải webview).
 
 ```jsx
 import { View, Text, Button } from "react-native";
@@ -128,8 +120,7 @@ Khác React web:
 
 ## Expo (khuyến nghị)
 
-[Expo](https://expo.dev) — framework + platform cho React Native, **default
-2026**.
+[Expo](https://expo.dev) — framework + platform cho React Native, **default 2026**.
 
 ```bash
 npx create-expo-app my-app
@@ -170,9 +161,7 @@ my-app/
 | Module ecosystem | **Rộng** | Manual install |
 | Bundle size | Lớn hơn | Nhỏ hơn |
 
-**Năm 2026, 90% RN project dùng Expo.** Expo đã giải quyết hầu hết
-limitation cũ — có **prebuild** để eject thành bare khi cần, có
-**config plugin** để inject native code.
+**Năm 2026, 90% RN project dùng Expo.** Expo đã giải quyết hầu hết limitation cũ — có **prebuild** để eject thành bare khi cần, có **config plugin** để inject native code.
 
 Lý do còn dùng Bare:
 
@@ -279,8 +268,7 @@ function Detail() {
 
 ## Animation: Reanimated
 
-[React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/)
-— animation chạy trên **UI thread**, không block JS thread.
+[React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/) — animation chạy trên **UI thread**, không block JS thread.
 
 ```bash
 npx expo install react-native-reanimated
@@ -316,8 +304,7 @@ const animatedStyle = useAnimatedStyle(() => ({
 }));
 ```
 
-Reanimated 3 hỗ trợ **shared element transition**, **gesture handler**,
-**layout animation** — gần ngang Framer Motion về capability.
+Reanimated 3 hỗ trợ **shared element transition**, **gesture handler**, **layout animation** — gần ngang Framer Motion về capability.
 
 ---
 
@@ -382,8 +369,7 @@ NativeWind compile Tailwind class → StyleSheet runtime → cùng API như web.
 - **react-native-mmkv** cho local storage (nhanh hơn AsyncStorage).
 - **Sentry** cho error tracking.
 
-Phần lớn library web (Zustand, TanStack, RHF, Zod) đã compat với RN — code
-share giữa web/mobile dễ hơn nhiều so với 5 năm trước.
+Phần lớn library web (Zustand, TanStack, RHF, Zod) đã compat với RN — code share giữa web/mobile dễ hơn nhiều so với 5 năm trước.
 
 :::
 
@@ -391,8 +377,7 @@ share giữa web/mobile dễ hơn nhiều so với 5 năm trước.
 
 **React Native năm 2026 — landscape:**
 
-- **New Architecture** (Fabric + TurboModules) — đã default trong Expo SDK 51+.
-  Performance tốt hơn, integration native dễ hơn.
+- **New Architecture** (Fabric + TurboModules) — đã default trong Expo SDK 51+. Performance tốt hơn, integration native dễ hơn.
 - **React Native for Web** — chia sẻ code với web qua Expo Web.
 - **Skia** (Shopify) — Canvas/2D rendering performant.
 - **Tamagui** — UI library tối ưu cho RN + Web.
@@ -401,10 +386,8 @@ share giữa web/mobile dễ hơn nhiều so với 5 năm trước.
 **Khi nào chọn React Native vs Flutter vs Native?**
 
 - **React Native**: team đã React web, cần share code, ecosystem npm.
-- **Flutter**: muốn pixel-perfect UI giống nhau 100%, không quan tâm
-  bundle nặng hơn.
-- **Native (Swift/Kotlin)**: app cần performance cực cao, hardware-heavy
-  (AR, game), không quan tâm chi phí maintain 2 codebase.
+- **Flutter**: muốn pixel-perfect UI giống nhau 100%, không quan tâm bundle nặng hơn.
+- **Native (Swift/Kotlin)**: app cần performance cực cao, hardware-heavy (AR, game), không quan tâm chi phí maintain 2 codebase.
 
 RN sweet spot: **app business** (banking, e-commerce, social, productivity).
 
@@ -420,8 +403,7 @@ RN sweet spot: **app business** (banking, e-commerce, social, productivity).
 - **CSS animation** → cần Reanimated/Animated.
 - **Fetch** → có, nhưng `Image` lazy loading khác.
 
-Khi share code, isolate **platform-agnostic logic** (hook, util, schema)
-vào package riêng. Component có platform-specific extension:
+Khi share code, isolate **platform-agnostic logic** (hook, util, schema) vào package riêng. Component có platform-specific extension:
 
 ```
 Button.tsx          # share

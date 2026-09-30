@@ -87,9 +87,7 @@ function MouseTracker({ children }) {
 
 ## Render Props là gì?
 
-**Render Props** = pattern truyền **function làm prop**, function này
-trả về JSX. Component logic gọi function với data, function quyết định
-render gì.
+**Render Props** = pattern truyền **function làm prop**, function này trả về JSX. Component logic gọi function với data, function quyết định render gì.
 
 ```jsx
 <DataLoader render={data => <div>{data}</div>} />
@@ -142,8 +140,7 @@ function MouseTracker({ children }) {
 </MouseTracker>
 ```
 
-Cho phép **logic** (track mouse) tách khỏi **render** (UI), reuse logic
-nhiều UI khác nhau.
+Cho phép **logic** (track mouse) tách khỏi **render** (UI), reuse logic nhiều UI khác nhau.
 
 ---
 
@@ -187,8 +184,7 @@ function Form({ initialValues, onSubmit, renderField }) {
 
 ## Render Props vs Custom Hook
 
-Trước hooks (React 16.8), render props là **cách chính** để share logic.
-Sau hooks → **custom hook** thay thế cho **đa số use case**:
+Trước hooks (React 16.8), render props là **cách chính** để share logic. Sau hooks → **custom hook** thay thế cho **đa số use case**:
 
 ```jsx
 // Cách cũ — Render Props
@@ -254,14 +250,11 @@ function Page() {
 }
 ```
 
-2. **TypeScript type inference**: hook return type được TS infer trực
-   tiếp; render props phải khai báo type cho render function.
+2. **TypeScript type inference**: hook return type được TS infer trực tiếp; render props phải khai báo type cho render function.
 
-3. **Test dễ hơn**: hook có thể test bằng `renderHook` từ React Testing
-   Library; render props phải mount cả component để test.
+3. **Test dễ hơn**: hook có thể test bằng `renderHook` từ React Testing Library; render props phải mount cả component để test.
 
-4. **Devtools**: hook hiện trong React DevTools với tên rõ; render props
-   ẩn trong tree.
+4. **Devtools**: hook hiện trong React DevTools với tên rõ; render props ẩn trong tree.
 
 :::
 

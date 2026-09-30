@@ -25,9 +25,7 @@ Caching là kỹ thuật lưu tạm kết quả của những thao tác tốn k�
 
 ## Caching là gì?
 
-**Caching** = **lưu tạm kết quả** của một phép tính/truy vấn **đắt tiền** ở
-một nơi **truy cập nhanh hơn**, để lần sau dùng lại mà không phải tính/query
-lại từ đầu.
+**Caching** = **lưu tạm kết quả** của một phép tính/truy vấn **đắt tiền** ở một nơi **truy cập nhanh hơn**, để lần sau dùng lại mà không phải tính/query lại từ đầu.
 
 Tương tự đời thường:
 
@@ -84,8 +82,7 @@ Cache không miễn phí — bạn đánh đổi:
 | **Throughput** cao hơn | **Complexity** — phải invalidate đúng lúc |
 | **Cost** thấp hơn (ít query DB) | **Memory** — cache tốn RAM |
 
-> *"There are only two hard things in Computer Science: cache invalidation
-> and naming things."* — Phil Karlton.
+> *"There are only two hard things in Computer Science: cache invalidation and naming things."* — Phil Karlton.
 
 ### Mental model: khi nào nên cache?
 
@@ -95,9 +92,7 @@ Cache không miễn phí — bạn đánh đổi:
 2. **Data có được đọc nhiều hơn ghi không?** (product catalog, user profile) → đáng cache.
 3. **Stale data trong N giây có chấp nhận được không?** (feed, dashboard) → đáng cache.
 
-Nếu cả 3 câu là **Có** → cache. Nếu data đổi liên tục và phải real-time
-(balance tài khoản, inventory bán hàng) → cân nhắc kỹ hoặc dùng cache với
-TTL rất ngắn + invalidate chặt.
+Nếu cả 3 câu là **Có** → cache. Nếu data đổi liên tục và phải real-time (balance tài khoản, inventory bán hàng) → cân nhắc kỹ hoặc dùng cache với TTL rất ngắn + invalidate chặt.
 
 ---
 
@@ -236,9 +231,7 @@ await redis.xadd("events", "*", "type", "login", "userId", "1");
 - **Redis Cloud** — Redis Labs managed.
 - **Valkey** — fork community sau Redis license change 2024.
 
-Năm 2024, Redis chuyển license sang **dual SSPL/RSAL** — không 100%
-open source nữa. **Valkey** (Linux Foundation) là fork miễn phí
-compatible. Cloud provider lớn (AWS, GCP) đã chuyển Valkey.
+Năm 2024, Redis chuyển license sang **dual SSPL/RSAL** — không 100% open source nữa. **Valkey** (Linux Foundation) là fork miễn phí compatible. Cloud provider lớn (AWS, GCP) đã chuyển Valkey.
 
 App code không cần đổi — protocol giống nhau. Chỉ chọn provider/distribution.
 
@@ -480,8 +473,7 @@ async function updatePost(id, data) {
 
 :::info[Phân tích]
 
-**Cache invalidation là 1 trong 2 vấn đề khó nhất trong CS** (cùng với
-naming).
+**Cache invalidation là 1 trong 2 vấn đề khó nhất trong CS** (cùng với naming).
 
 Pitfall thường gặp:
 
@@ -491,8 +483,7 @@ Pitfall thường gặp:
 
 **2. Cache stampede**:
 - 1000 user cùng request, key expire → 1000 query DB cùng lúc.
-- Fix: **lock** (chỉ 1 query DB, các request khác đợi), hoặc
-  **early refresh** (refresh background trước khi expire).
+- Fix: **lock** (chỉ 1 query DB, các request khác đợi), hoặc **early refresh** (refresh background trước khi expire).
 
 **3. Cache penetration**:
 - Query key không tồn tại (`user:non-exist`) → mỗi lần đều miss → DB.

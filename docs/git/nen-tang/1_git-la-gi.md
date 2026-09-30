@@ -153,8 +153,7 @@ CVS (1990) và SVN/Subversion (2000) ra đời với ý tưởng: **một server
       copy)        copy)        copy)
 ```
 
-**Ưu điểm:** Tốt hơn copy thủ công nhiều.
-**Nhược điểm:** Server chết = cả team dừng làm việc. Không có mạng = không commit được.
+**Ưu điểm:** Tốt hơn copy thủ công nhiều. **Nhược điểm:** Server chết = cả team dừng làm việc. Không có mạng = không commit được.
 
 ### Giai đoạn 3: Distributed VCS — Git (2005)
 
@@ -328,8 +327,7 @@ git merge feature/login
 git branch -d feature/login
 ```
 
-Trong SVN, branching là "việc lớn" — cần suy nghĩ trước khi làm.
-Trong Git, branching là "việc nhỏ" — tạo branch cho mỗi tính năng, mỗi bug fix.
+Trong SVN, branching là "việc lớn" — cần suy nghĩ trước khi làm. Trong Git, branching là "việc nhỏ" — tạo branch cho mỗi tính năng, mỗi bug fix.
 
 ### 5.3 Làm việc offline
 
@@ -534,8 +532,7 @@ Git lưu dữ liệu dạng snapshot. Mỗi commit là một ảnh chụp toàn 
 - **SVN (Subversion):** Centralized, phổ biến trước Git, vẫn dùng ở một số công ty lớn.
 - **Mercurial:** Distributed như Git, cú pháp dễ hơn nhưng ít phổ biến hơn.
 - **Perforce:** Centralized, mạnh về file lớn (game development, media).
-- **CVS:** Thế hệ đầu của centralized VCS, hiện đã lỗi thời.
-  Git thống trị nhờ tốc độ, branching mạnh, cộng đồng lớn, và sự tích hợp với GitHub/GitLab.
+- **CVS:** Thế hệ đầu của centralized VCS, hiện đã lỗi thời. Git thống trị nhờ tốc độ, branching mạnh, cộng đồng lớn, và sự tích hợp với GitHub/GitLab.
 
 </details>
 

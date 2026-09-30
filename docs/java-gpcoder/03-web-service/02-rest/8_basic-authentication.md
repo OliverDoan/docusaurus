@@ -23,9 +23,7 @@ Basic Authentication là cách xác thực HTTP đơn giản nhất: client gử
 
 Định dạng: `Authorization: Basic <Base64(username:password)>`
 
-Ví dụ: username=`admin`, password=`secret123`
-→ `admin:secret123` → Base64 → `YWRtaW46c2VjcmV0MTIz`
-→ Header: `Authorization: Basic YWRtaW46c2VjcmV0MTIz`
+Ví dụ: username=`admin`, password=`secret123` → `admin:secret123` → Base64 → `YWRtaW46c2VjcmV0MTIz` → Header: `Authorization: Basic YWRtaW46c2VjcmV0MTIz`
 
 **Lưu ý quan trọng**: Base64 là mã hóa, không phải mã hóa bảo mật (encryption). Bất kỳ ai có header đó đều có thể giải mã. Vì vậy, **phải dùng HTTPS** khi dùng Basic Authentication.
 

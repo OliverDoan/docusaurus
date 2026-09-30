@@ -226,8 +226,7 @@ Cái giá phải trả: gặp câu **dài dòng nhiều ẩn ý** thì bản d�
 | Learning | Thấp (giống SQL) | Trung bình |
 | Maturity | Newer | Mature |
 
-Drizzle thắng **performance + edge + bundle size**. Prisma thắng **DX,
-tooling (Studio)**.
+Drizzle thắng **performance + edge + bundle size**. Prisma thắng **DX, tooling (Studio)**.
 
 Trend 2026: Drizzle tăng nhanh, đặc biệt cho Next.js Edge / Bun project.
 
@@ -500,8 +499,7 @@ Cost-benefit:
 - **Replica**: medium-high, infra cost.
 - **Sharding**: complex, last resort.
 
-Đa số bottleneck giải quyết được với **index + query rewrite + cache**.
-Sharding rất hiếm cần với hardware modern.
+Đa số bottleneck giải quyết được với **index + query rewrite + cache**. Sharding rất hiếm cần với hardware modern.
 
 :::
 

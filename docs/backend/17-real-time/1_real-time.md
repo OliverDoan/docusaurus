@@ -233,8 +233,7 @@ Pattern scale:
                           [Redis Pub/Sub]
 ```
 
-Client1 send msg → WS Server 1 → publish Redis → WS Server 2 receive →
-forward to Client2.
+Client1 send msg → WS Server 1 → publish Redis → WS Server 2 receive → forward to Client2.
 
 Library handle:
 
@@ -383,8 +382,7 @@ Use case?
 - Low latency critical.
 - Binary data (gaming, file).
 
-Nhiều case "chat" thực ra **dùng SSE** + fetch POST cho gửi tin — đơn giản
-hơn WebSocket setup.
+Nhiều case "chat" thực ra **dùng SSE** + fetch POST cho gửi tin — đơn giản hơn WebSocket setup.
 
 :::
 
@@ -407,8 +405,7 @@ hơn WebSocket setup.
 - **Centrifugo** — Go-based, mạnh.
 - **NATS** — messaging + pub/sub.
 
-Cho startup 2026, **Supabase Realtime** hoặc **Liveblocks** giảm 90% effort
-so với roll-your-own.
+Cho startup 2026, **Supabase Realtime** hoặc **Liveblocks** giảm 90% effort so với roll-your-own.
 
 :::
 

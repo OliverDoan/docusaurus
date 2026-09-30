@@ -306,8 +306,7 @@ export const config = {
 
 Trade-off:
 
-- **JWT verify cần secret accessible Edge** — không phải mọi auth lib
-  hỗ trợ.
+- **JWT verify cần secret accessible Edge** — không phải mọi auth lib hỗ trợ.
 - **DB lookup không hợp Edge** — verify chỉ qua signature.
 
 **Pattern thực tế**:
@@ -400,8 +399,7 @@ export const config = {
 
 :::warning[Cần lưu ý]
 
-**`Access-Control-Allow-Origin: *`** rủi ro với API có credentials. Đối
-với API private, dùng whitelist:
+**`Access-Control-Allow-Origin: *`** rủi ro với API có credentials. Đối với API private, dùng whitelist:
 
 ```ts
 const allowed = ["https://app.example.com", "https://admin.example.com"];

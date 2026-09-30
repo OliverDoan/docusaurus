@@ -50,9 +50,7 @@ Next.js **không chỉ là static site**. Một phần ứng dụng chạy ở *
 - Server Actions   → mutation chạy trên server
 ```
 
-Nếu deploy như **web tĩnh thuần**, các tính năng động trên sẽ **mất**. Còn tự
-host thì phải tự lo: chạy **Node server**, build output đúng cách, **biến môi
-trường** production, **cache/ISR**, và **scale** khi traffic tăng.
+Nếu deploy như **web tĩnh thuần**, các tính năng động trên sẽ **mất**. Còn tự host thì phải tự lo: chạy **Node server**, build output đúng cách, **biến môi trường** production, **cache/ISR**, và **scale** khi traffic tăng.
 
 **Giải pháp:**
 
@@ -96,14 +94,10 @@ flowchart TD
 
 :::tip[Dùng thực tế]
 
-- **Deploy nhanh lên Vercel**: app có SSR/Server Actions → `vercel` hoặc
-  connect GitHub, không cần cấu hình gì thêm.
-- **Docker standalone tự host**: cần kiểm soát hạ tầng → `output: 'standalone'`
-  gói gọn server vào image nhỏ, chạy `node server.js`.
-- **Static export cho site thuần tĩnh**: blog/docs/portfolio không có
-  auth/mutation → `output: 'export'` rồi đẩy `./out` lên CDN.
-- **Cấu hình biến môi trường production**: tách env theo môi trường, set region
-  gần user, và lưu ý ISR cache khác nhau giữa Vercel và self-host.
+- **Deploy nhanh lên Vercel**: app có SSR/Server Actions → `vercel` hoặc connect GitHub, không cần cấu hình gì thêm.
+- **Docker standalone tự host**: cần kiểm soát hạ tầng → `output: 'standalone'` gói gọn server vào image nhỏ, chạy `node server.js`.
+- **Static export cho site thuần tĩnh**: blog/docs/portfolio không có auth/mutation → `output: 'export'` rồi đẩy `./out` lên CDN.
+- **Cấu hình biến môi trường production**: tách env theo môi trường, set region gần user, và lưu ý ISR cache khác nhau giữa Vercel và self-host.
 
 :::
 
@@ -159,13 +153,11 @@ Production app cần Pro ($20/user/month):
 - Password protection.
 - Team collaboration.
 
-Vercel **deeply integrated** với Next.js — feature Next.js mới luôn ra
-Vercel trước.
+Vercel **deeply integrated** với Next.js — feature Next.js mới luôn ra Vercel trước.
 
 Trade-off:
 
-- **Vendor lock-in** mức độ — một số feature (ISR cache, Edge Config)
-  Vercel-specific.
+- **Vendor lock-in** mức độ — một số feature (ISR cache, Edge Config) Vercel-specific.
 - **Cost scale** — traffic lớn có thể đắt hơn AWS/Cloudflare.
 - **Cold start** vẫn có (mạnh hơn Lambda nhưng không zero).
 
@@ -190,8 +182,7 @@ Tính năng:
 - Identity (auth).
 - Split Testing.
 
-So với Vercel: **support Next.js đầy đủ** nhưng có thể lag 1-2 phiên bản.
-Trade-off: ecosystem rộng hơn cho non-Next.js (Astro, Hugo, Eleventy).
+So với Vercel: **support Next.js đầy đủ** nhưng có thể lag 1-2 phiên bản. Trade-off: ecosystem rộng hơn cho non-Next.js (Astro, Hugo, Eleventy).
 
 ---
 
@@ -388,8 +379,7 @@ Deploy lên:
 
 Phù hợp **content site tĩnh**: blog, docs, portfolio.
 
-Không phù hợp **app có auth, mutation, real-time** — phải dùng deploy mode
-khác.
+Không phù hợp **app có auth, mutation, real-time** — phải dùng deploy mode khác.
 
 :::
 
@@ -421,8 +411,7 @@ Cost-conscious / hobby?
 └─ Self-host VPS $5/month
 ```
 
-**Vercel** là default cho phần lớn project — DX tốt nhất, support Next.js
-đầy đủ. Migrate sang option khác khi cost hoặc compliance buộc.
+**Vercel** là default cho phần lớn project — DX tốt nhất, support Next.js đầy đủ. Migrate sang option khác khi cost hoặc compliance buộc.
 
 :::
 
@@ -444,8 +433,7 @@ Cost-conscious / hobby?
    - Vercel: 1-click revert deploy.
    - Self-host: git revert + redeploy.
 
-Pattern này cover **fast iteration + safety**. Mỗi PR test isolated, main
-luôn deployable.
+Pattern này cover **fast iteration + safety**. Mỗi PR test isolated, main luôn deployable.
 
 :::
 

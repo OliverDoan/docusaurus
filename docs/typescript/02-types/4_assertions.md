@@ -81,9 +81,7 @@ const node = document.querySelector("#app")!;
 
 ## Assertion là gì?
 
-Assertion là cách **nói với TypeScript** rằng "tôi biết kiểu của giá trị
-này, hãy tin tôi". TS sẽ **không kiểm tra runtime** — chỉ nhận type bạn
-khai báo.
+Assertion là cách **nói với TypeScript** rằng "tôi biết kiểu của giá trị này, hãy tin tôi". TS sẽ **không kiểm tra runtime** — chỉ nhận type bạn khai báo.
 
 ```ts
 const data: unknown = "Hello";
@@ -123,16 +121,14 @@ const x = "hello" as unknown as number; // Hai bước, TS không cản
 
 :::warning[Cần lưu ý]
 
-`as` **không phải ép kiểu runtime** — nó chỉ "lừa" type system. Nếu giá
-trị thực sự không đúng, code vẫn crash:
+`as` **không phải ép kiểu runtime** — nó chỉ "lừa" type system. Nếu giá trị thực sự không đúng, code vẫn crash:
 
 ```ts
 const x = "hello" as unknown as number;
 const result = x.toFixed(2); // Crash runtime: x.toFixed is not a function
 ```
 
-→ Chỉ dùng `as` khi **bạn chắc chắn 100%** về kiểu. Với dữ liệu từ ngoài
-(API, user), dùng validation runtime (Zod) thay vì `as`.
+→ Chỉ dùng `as` khi **bạn chắc chắn 100%** về kiểu. Với dữ liệu từ ngoài (API, user), dùng validation runtime (Zod) thay vì `as`.
 
 :::
 
@@ -172,8 +168,7 @@ const config = {
 
 :::tip[Mẹo]
 
-`as const` cực mạnh khi kết hợp với `typeof` để tạo type từ giá trị
-thực — không phải maintain hai chỗ:
+`as const` cực mạnh khi kết hợp với `typeof` để tạo type từ giá trị thực — không phải maintain hai chỗ:
 
 ```ts
 const ROLES = ["admin", "user", "guest"] as const;
@@ -188,8 +183,7 @@ Một thay đổi (thêm "moderator" vào ROLES) tự động cập nhật type.
 
 ## as any
 
-Ép sang `any` — **tắt mọi check**. Dùng tạm khi không tìm được type
-đúng, nhưng để lại nợ kỹ thuật.
+Ép sang `any` — **tắt mọi check**. Dùng tạm khi không tìm được type đúng, nhưng để lại nợ kỹ thuật.
 
 ```ts
 const data = (response as any).user.name;
@@ -197,12 +191,9 @@ const data = (response as any).user.name;
 
 :::warning[Cần lưu ý]
 
-`as any` là **tệ hơn cả** việc không dùng TS — vì nó tạo cảm giác an
-toàn giả. Trong code review, mỗi lần thấy `as any` đều cần lý do rõ
-ràng và TODO khắc phục.
+`as any` là **tệ hơn cả** việc không dùng TS — vì nó tạo cảm giác an toàn giả. Trong code review, mỗi lần thấy `as any` đều cần lý do rõ ràng và TODO khắc phục.
 
-Nếu chỉ muốn "qua lỗi tạm thời", dùng `as unknown as T` ít nguy hiểm
-hơn — vì ít nhất bạn đã khai báo kiểu cuối mong muốn.
+Nếu chỉ muốn "qua lỗi tạm thời", dùng `as unknown as T` ít nguy hiểm hơn — vì ít nhất bạn đã khai báo kiểu cuối mong muốn.
 
 :::
 
@@ -245,8 +236,7 @@ if (!el) throw new Error("Missing #app");
 el.innerHTML = "Hi";
 ```
 
-`!` chỉ chấp nhận khi bạn có lý do logic chắc chắn (đã check ở chỗ
-khác, framework đảm bảo...).
+`!` chỉ chấp nhận khi bạn có lý do logic chắc chắn (đã check ở chỗ khác, framework đảm bảo...).
 
 :::
 
@@ -254,8 +244,7 @@ khác, framework đảm bảo...).
 
 ## Từ khóa satisfies
 
-`satisfies` (TS 4.9+) là cách **kiểm tra constraint** mà **không làm
-mất type chính xác** (literal narrowing).
+`satisfies` (TS 4.9+) là cách **kiểm tra constraint** mà **không làm mất type chính xác** (literal narrowing).
 
 ```ts
 type Palette = Record<string, string | number>;
@@ -285,8 +274,7 @@ Khác biệt cốt lõi giữa 3 dạng:
 | `const x = ... as T` | **Không** (lừa TS) | Tùy |
 | `const x = ... satisfies T` | Có | **Có** |
 
-`satisfies` là cách viết "đúng nhất" trong 90% trường hợp khi bạn vừa
-muốn ràng buộc shape, vừa muốn dùng được giá trị cụ thể bên trong.
+`satisfies` là cách viết "đúng nhất" trong 90% trường hợp khi bạn vừa muốn ràng buộc shape, vừa muốn dùng được giá trị cụ thể bên trong.
 
 :::
 

@@ -37,9 +37,7 @@ title: "4. Composition"
 
 ## Vì sao ưu tiên composition?
 
-**Vấn đề:** Tái sử dụng UI bằng **kế thừa (inheritance)** class rất cứng
-nhắc, dễ phình to và khó tùy biến. Một component cha "biết hết" về con
-thì khó mở rộng:
+**Vấn đề:** Tái sử dụng UI bằng **kế thừa (inheritance)** class rất cứng nhắc, dễ phình to và khó tùy biến. Một component cha "biết hết" về con thì khó mở rộng:
 
 ```jsx
 // Inheritance — cha "biết hết" về con, khó mở rộng
@@ -63,9 +61,7 @@ class WarningDialog extends Dialog {
 // Mỗi biến thể = một subclass mới → phình to, cứng nhắc
 ```
 
-**Giải pháp:** Dùng **composition** — ghép các component nhỏ lại, dùng
-`props.children` và truyền component qua props (slot pattern) để cha
-không cần biết chi tiết con:
+**Giải pháp:** Dùng **composition** — ghép các component nhỏ lại, dùng `props.children` và truyền component qua props (slot pattern) để cha không cần biết chi tiết con:
 
 ```jsx
 // Composition — cha không cần biết chi tiết con
@@ -88,13 +84,10 @@ React khuyến nghị composition thay vì inheritance.
 
 :::tip[Dùng thực tế]
 
-- **Card / Modal / Layout** bọc nội dung con qua `children` — không cần
-  biết trước render gì bên trong.
-- **Slot** (header / footer) truyền qua props để cha chừa sẵn nhiều "vùng"
-  tùy biến.
+- **Card / Modal / Layout** bọc nội dung con qua `children` — không cần biết trước render gì bên trong.
+- **Slot** (header / footer) truyền qua props để cha chừa sẵn nhiều "vùng" tùy biến.
 - **Wrapper component** bọc thêm style/hành vi quanh một component có sẵn.
-- **Specialized component** tạo từ generic — ví dụ `WarningDialog` chỉ là
-  `Dialog` với props khác, không cần subclass.
+- **Specialized component** tạo từ generic — ví dụ `WarningDialog` chỉ là `Dialog` với props khác, không cần subclass.
 
 :::
 
@@ -102,11 +95,9 @@ React khuyến nghị composition thay vì inheritance.
 
 ## Composition là gì?
 
-**Composition** = ghép nhiều component lại thành component lớn hơn,
-không phải kế thừa.
+**Composition** = ghép nhiều component lại thành component lớn hơn, không phải kế thừa.
 
-React **không khuyến khích inheritance** (vd `class A extends B` để
-reuse UI). Composition là cách chính thức để reuse.
+React **không khuyến khích inheritance** (vd `class A extends B` để reuse UI). Composition là cách chính thức để reuse.
 
 ```jsx
 // Component nhỏ
@@ -159,8 +150,7 @@ function Card({ children }) {
 </Card>
 ```
 
-Cho phép parent **quyết định nội dung** trong Card mà không cần định
-nghĩa trước.
+Cho phép parent **quyết định nội dung** trong Card mà không cần định nghĩa trước.
 
 ---
 
@@ -190,8 +180,7 @@ function Layout({ header, sidebar, main, footer }) {
 />
 ```
 
-Pattern "slot" này phổ biến trong Vue, Astro — React làm qua prop nhận
-ReactNode.
+Pattern "slot" này phổ biến trong Vue, Astro — React làm qua prop nhận ReactNode.
 
 ---
 
@@ -295,8 +284,7 @@ Dùng:
 </Accordion>
 ```
 
-Caller không phải biết về state — chỉ compose. Đây là pattern của **Radix
-UI**, **Headless UI**, **Mantine** — cực kỳ powerful cho UI library.
+Caller không phải biết về state — chỉ compose. Đây là pattern của **Radix UI**, **Headless UI**, **Mantine** — cực kỳ powerful cho UI library.
 
 :::
 
@@ -304,8 +292,7 @@ UI**, **Headless UI**, **Mantine** — cực kỳ powerful cho UI library.
 
 ## Composition vs Inheritance
 
-**React không có inheritance** trong hệ thống component (dù class JS
-có `extends`).
+**React không có inheritance** trong hệ thống component (dù class JS có `extends`).
 
 ```jsx
 // Sai trong React — đừng làm
@@ -337,8 +324,7 @@ Lý do composition tốt hơn:
 <DataLoader render={data => <List data={data} />} />
 ```
 
-**2. Higher-Order Component (HOC)** — function nhận component, trả về
-component mới (xem phần Rendering):
+**2. Higher-Order Component (HOC)** — function nhận component, trả về component mới (xem phần Rendering):
 
 ```jsx
 const EnhancedComponent = withAuth(MyComponent);
@@ -357,15 +343,13 @@ function ComponentA() {
 }
 ```
 
-Trong React hiện đại (2026), **custom hooks** là cách reuse logic ưa
-chuộng nhất — gọn, linh hoạt, type-safe.
+Trong React hiện đại (2026), **custom hooks** là cách reuse logic ưa chuộng nhất — gọn, linh hoạt, type-safe.
 
 :::
 
 :::warning[Cần lưu ý]
 
-**`React.cloneElement` để inject prop vào children** — pattern cũ, nay
-ít dùng:
+**`React.cloneElement` để inject prop vào children** — pattern cũ, nay ít dùng:
 
 ```jsx
 function Form({ children }) {

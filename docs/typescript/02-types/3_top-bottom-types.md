@@ -122,8 +122,7 @@ x.toUpperCase();   // OK lúc compile, crash runtime nếu x là number
 
 :::warning[Cần lưu ý]
 
-`any` lan truyền như **virus**: bất kỳ thao tác nào trên `any` cũng cho
-ra `any`, khiến cả chain mất type safety:
+`any` lan truyền như **virus**: bất kỳ thao tác nào trên `any` cũng cho ra `any`, khiến cả chain mất type safety:
 
 ```ts
 const data: any = fetchData();
@@ -131,8 +130,7 @@ const name = data.user.name; // type: any
 const upper = name.toUpperCase(); // type: any — không ai check
 ```
 
-Quy tắc: **không bao giờ dùng `any`** trừ khi migrate code JS cũ. Dùng
-`unknown` thay thế.
+Quy tắc: **không bao giờ dùng `any`** trừ khi migrate code JS cũ. Dùng `unknown` thay thế.
 
 :::
 
@@ -140,8 +138,7 @@ Quy tắc: **không bao giờ dùng `any`** trừ khi migrate code JS cũ. Dùng
 
 ## unknown
 
-`unknown` là phiên bản **an toàn** của `any`. Có thể **nhận** mọi giá trị,
-nhưng **không thao tác được** trước khi narrow type.
+`unknown` là phiên bản **an toàn** của `any`. Có thể **nhận** mọi giá trị, nhưng **không thao tác được** trước khi narrow type.
 
 ```ts
 let x: unknown = fetchData();
@@ -157,13 +154,11 @@ if (typeof x === "string") {
 
 `unknown` là kiểu **đúng nhất** cho:
 
-- Dữ liệu từ API (`fetch().then(r => r.json())` thực ra trả về `any`,
-  nên ép sang `unknown` rồi validate).
+- Dữ liệu từ API (`fetch().then(r => r.json())` thực ra trả về `any`, nên ép sang `unknown` rồi validate).
 - Biến trong `catch (e)` (nếu bật `useUnknownInCatchVariables`).
 - Tham số nhận từ ngoài hệ thống.
 
-Kết hợp với **type guard** hoặc thư viện validation (Zod, io-ts) để
-narrow an toàn:
+Kết hợp với **type guard** hoặc thư viện validation (Zod, io-ts) để narrow an toàn:
 
 ```ts
 async function loadUser(): Promise<User> {
@@ -194,10 +189,7 @@ const c: object = { x: 1 };  // OK
 
 :::warning[Cần lưu ý]
 
-`Object` (chữ hoa) gần như **vô dụng trong code thực** — nó nhận cả
-primitive, nên không có ý nghĩa ràng buộc. Linter (`@typescript-eslint`)
-mặc định cấm dùng `Object`, `Number`, `String`, `Boolean` chữ hoa làm
-type annotation.
+`Object` (chữ hoa) gần như **vô dụng trong code thực** — nó nhận cả primitive, nên không có ý nghĩa ràng buộc. Linter (`@typescript-eslint`) mặc định cấm dùng `Object`, `Number`, `String`, `Boolean` chữ hoa làm type annotation.
 
 :::
 
@@ -237,8 +229,7 @@ function area(s: Shape) {
 }
 ```
 
-Nếu sau này thêm `{ kind: "triangle" }` vào `Shape`, dòng `_exhaustive: never`
-sẽ báo lỗi compile → buộc bạn phải xử lý case mới.
+Nếu sau này thêm `{ kind: "triangle" }` vào `Shape`, dòng `_exhaustive: never` sẽ báo lỗi compile → buộc bạn phải xử lý case mới.
 
 :::info[Phân tích]
 
@@ -248,8 +239,7 @@ sẽ báo lỗi compile → buộc bạn phải xử lý case mới.
 - `never | T = T` (hợp với mọi type bị nuốt mất).
 - Mảng `never[]` chỉ có thể là `[]` (không nhét gì vào được).
 
-Điều này được khai thác trong **conditional types** để loại bỏ nhánh
-không hợp lệ:
+Điều này được khai thác trong **conditional types** để loại bỏ nhánh không hợp lệ:
 
 ```ts
 type NonNullable<T> = T extends null | undefined ? never : T;

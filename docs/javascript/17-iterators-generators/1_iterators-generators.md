@@ -82,8 +82,7 @@ gen.next().value; // 2 — không treo vì chỉ tính từng giá trị
 
 ## Iterable Protocol
 
-Object là **iterable** nếu có method `[Symbol.iterator]()` trả về iterator.
-Iterable dùng được trong:
+Object là **iterable** nếu có method `[Symbol.iterator]()` trả về iterator. Iterable dùng được trong:
 
 - `for...of`
 - Spread `[...obj]`
@@ -303,8 +302,7 @@ const gen = counter();
 [...gen]; // [] — đã exhausted
 ```
 
-Khác array (duyệt nhiều lần). Khi cần re-iterate, gọi lại generator
-function:
+Khác array (duyệt nhiều lần). Khi cần re-iterate, gọi lại generator function:
 
 ```js
 function* counter() { yield 1; yield 2; }
@@ -360,8 +358,7 @@ for await (const user of paginate("/api/users")) {
 }
 ```
 
-So với fetch all rồi loop — async generator **lazy**, dừng sớm được, ít
-memory hơn cho dataset lớn.
+So với fetch all rồi loop — async generator **lazy**, dừng sớm được, ít memory hơn cho dataset lớn.
 
 Node.js `fs.createReadStream` cũng support `for await...of`:
 

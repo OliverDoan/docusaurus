@@ -331,14 +331,11 @@ export function LikeButton({ postId }: { postId: string }) {
 
 Nguyên tắc cốt lõi: phân biệt **expected errors** (validation fail, không đủ quyền, record không tồn tại) và **unexpected errors** (DB sập, bug). Hai loại xử lý khác nhau:
 
-**1. Expected errors → return, đừng throw.**
-Pattern chuẩn là trả về object `{ success, error/errors }` và hiển thị qua `useActionState`. Lý do **không throw error thô**: trong production, Next.js **mask message của error** throw từ server (tránh leak thông tin nhạy cảm như connection string, stack trace) — client chỉ nhận message chung chung kèm digest. User sẽ không bao giờ thấy "Email đã tồn tại" nếu bạn throw nó.
+**1. Expected errors → return, đừng throw.** Pattern chuẩn là trả về object `{ success, error/errors }` và hiển thị qua `useActionState`. Lý do **không throw error thô**: trong production, Next.js **mask message của error** throw từ server (tránh leak thông tin nhạy cảm như connection string, stack trace) — client chỉ nhận message chung chung kèm digest. User sẽ không bao giờ thấy "Email đã tồn tại" nếu bạn throw nó.
 
-**2. Unexpected errors → log đầy đủ phía server, trả message thân thiện.**
-`console.error`/logger với context, rồi return `{ success: false, error: "Có lỗi xảy ra" }` — không bao giờ trả raw error message ra client.
+**2. Unexpected errors → log đầy đủ phía server, trả message thân thiện.** `console.error`/logger với context, rồi return `{ success: false, error: "Có lỗi xảy ra" }` — không bao giờ trả raw error message ra client.
 
-**3. `error.tsx` không phải lưới an toàn cho mọi action.**
-Error boundary chỉ bắt lỗi xảy ra **trong render flow** — action gọi qua `<form action>` hoặc trong `startTransition` thì lỗi throw không bắt được sẽ nổi lên error boundary gần nhất. Nhưng action gọi **trực tiếp trong event handler** (`onClick={() => await action()}`) chạy ngoài render flow — error boundary **không bắt** được, phải tự `try/catch` tại chỗ. Đây là điểm bẫy nhiều người dính.
+**3. `error.tsx` không phải lưới an toàn cho mọi action.** Error boundary chỉ bắt lỗi xảy ra **trong render flow** — action gọi qua `<form action>` hoặc trong `startTransition` thì lỗi throw không bắt được sẽ nổi lên error boundary gần nhất. Nhưng action gọi **trực tiếp trong event handler** (`onClick={() => await action()}`) chạy ngoài render flow — error boundary **không bắt** được, phải tự `try/catch` tại chỗ. Đây là điểm bẫy nhiều người dính.
 
 **4. `redirect()` hoạt động bằng cách throw** error đặc biệt `NEXT_REDIRECT` để Next bắt ở framework level. Hệ quả: **không đặt `redirect()` trong `try/catch`** — catch sẽ "nuốt" mất error và redirect không xảy ra, lại còn log nhầm là lỗi. Luôn gọi `redirect()` **sau** khối try/catch, hoặc re-throw khi `isRedirectError(error)`.
 

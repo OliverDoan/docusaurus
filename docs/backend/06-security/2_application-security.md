@@ -221,8 +221,7 @@ const safe = DOMPurify.sanitize(userInput, {
 
 **Modern framework + XSS**:
 
-React, Vue, Svelte **auto escape** — phần lớn XSS không xảy ra trong app
-hiện đại trừ khi:
+React, Vue, Svelte **auto escape** — phần lớn XSS không xảy ra trong app hiện đại trừ khi:
 
 - Dùng `dangerouslySetInnerHTML` / `v-html` với user input.
 - Server-side template không escape (EJS, Pug — check kỹ).
@@ -273,8 +272,7 @@ Cách chặn: ngân hàng bắt phải có thêm **mã số chỉ in trên tờ 
 <img src="https://bank.com/transfer?to=attacker&amount=1000000" />
 ```
 
-User logged in `bank.com` → browser **tự gửi cookie** → server tưởng user
-chủ động.
+User logged in `bank.com` → browser **tự gửi cookie** → server tưởng user chủ động.
 
 **Fix**:
 
@@ -312,8 +310,7 @@ Browser modern default `Lax` → block phần lớn CSRF.
 X-Requested-With: XMLHttpRequest
 ```
 
-Browser không tự thêm header này từ HTML form → kiểm tra header presence
-filter được nhiều CSRF.
+Browser không tự thêm header này từ HTML form → kiểm tra header presence filter được nhiều CSRF.
 
 **4. Same-origin check** — verify `Origin` / `Referer`:
 
@@ -328,8 +325,7 @@ if (req.headers.origin !== "https://app.example.com") {
 **Modern Next.js / framework**:
 
 - **Server Actions** — Next.js auto CSRF protection (encrypted form data).
-- **JWT trong Authorization header** — không CSRF (browser không tự thêm
-  custom header cross-site).
+- **JWT trong Authorization header** — không CSRF (browser không tự thêm custom header cross-site).
 - **Cookie httpOnly + SameSite=Lax** + JWT — combo an toàn.
 
 API-only backend ít CSRF — chỉ web form session-based mới cần CSRF token.
@@ -443,8 +439,7 @@ app.get("/proxy", async (req, res) => {
 Fix:
 
 - **Whitelist** domain được phép fetch.
-- **Block private IP** (`10.0.0.0/8`, `192.168.0.0/16`, `127.0.0.1`,
-  metadata endpoint).
+- **Block private IP** (`10.0.0.0/8`, `192.168.0.0/16`, `127.0.0.1`, metadata endpoint).
 - **Block redirect** đến internal.
 - **Use proxy** chỉ allow outbound.
 

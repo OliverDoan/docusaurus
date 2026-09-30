@@ -40,11 +40,7 @@ title: "1. TypeScript Modules"
 
 ## Vì sao có module (và namespace)?
 
-**Vấn đề:** Khi chia code ra nhiều file, ta cần cách **chia sẻ cả giá trị
-lẫn kiểu** giữa các file mà không làm bẩn global, đồng thời khai báo phụ
-thuộc thật rõ ràng. Riêng với TS còn rủi ro: import lẫn lộn giữa **import
-kiểu** và **import giá trị** có thể ảnh hưởng bundle / việc loại bỏ code
-lúc compile.
+**Vấn đề:** Khi chia code ra nhiều file, ta cần cách **chia sẻ cả giá trị lẫn kiểu** giữa các file mà không làm bẩn global, đồng thời khai báo phụ thuộc thật rõ ràng. Riêng với TS còn rủi ro: import lẫn lộn giữa **import kiểu** và **import giá trị** có thể ảnh hưởng bundle / việc loại bỏ code lúc compile.
 
 ```ts
 // file: format.ts — không có import/export → là "script"
@@ -56,12 +52,7 @@ function format(m: Money) { return `$${m}`; }
 function format() { /* ... */ }  // TRÙNG TÊN ngầm → xung đột global
 ```
 
-**Giải pháp:** Dùng **ES Modules** với `import` / `export` để chia sẻ cả
-kiểu lẫn giá trị, mỗi file có scope riêng. Khi chỉ cần kiểu, dùng
-`import type` / `export type` để TS **xoá hẳn lúc compile** (tránh side
-effect, giúp bundler strip type chính xác). `namespace` là giải pháp gom
-nhóm **cũ** trước khi có ES Module — nay hầu như không dùng cho code app,
-chỉ còn gặp trong file `.d.ts`.
+**Giải pháp:** Dùng **ES Modules** với `import` / `export` để chia sẻ cả kiểu lẫn giá trị, mỗi file có scope riêng. Khi chỉ cần kiểu, dùng `import type` / `export type` để TS **xoá hẳn lúc compile** (tránh side effect, giúp bundler strip type chính xác). `namespace` là giải pháp gom nhóm **cũ** trước khi có ES Module — nay hầu như không dùng cho code app, chỉ còn gặp trong file `.d.ts`.
 
 ```ts
 // file: types.ts
@@ -91,13 +82,10 @@ flowchart TD
 
 :::tip[Dùng thực tế]
 
-- **Tách kiểu dùng chung** ra một file `types.ts`, các module khác
-  `import type { ... }` về dùng.
-- **Tối ưu bundle**: dùng `import type` cho thứ chỉ cần kiểu → output JS
-  không kéo theo module thừa.
+- **Tách kiểu dùng chung** ra một file `types.ts`, các module khác `import type { ... }` về dùng.
+- **Tối ưu bundle**: dùng `import type` cho thứ chỉ cần kiểu → output JS không kéo theo module thừa.
 - **Code mới luôn dùng module**, không dùng `namespace` để gom nhóm.
-- **Khai báo kiểu cho thư viện** thiếu type bằng file `.d.ts` (nơi
-  `namespace` vẫn còn hữu dụng).
+- **Khai báo kiểu cho thư viện** thiếu type bằng file `.d.ts` (nơi `namespace` vẫn còn hữu dụng).
 
 :::
 
@@ -126,11 +114,9 @@ multiply(2, 3);
 
 :::warning[Cần lưu ý]
 
-**File có `import` hoặc `export` được coi là module** — biến/hàm trong
-file không tự động global.
+**File có `import` hoặc `export` được coi là module** — biến/hàm trong file không tự động global.
 
-File **không có** `import`/`export` được coi là **script** — mọi khai báo
-trở thành global → dễ trùng tên.
+File **không có** `import`/`export` được coi là **script** — mọi khai báo trở thành global → dễ trùng tên.
 
 Khi muốn file rỗng làm module (chỉ để augment), thêm `export {}`:
 
@@ -164,13 +150,10 @@ Khác `import` thường:
 
 :::info[Phân tích]
 
-Bật flag `verbatimModuleSyntax: true` (TS 5.0+) để TS **bắt buộc** dùng
-`type` keyword khi import chỉ để type. Lợi ích:
+Bật flag `verbatimModuleSyntax: true` (TS 5.0+) để TS **bắt buộc** dùng `type` keyword khi import chỉ để type. Lợi ích:
 
-1. **Bundler không cần biết** đâu là type, đâu là value — esbuild, swc,
-   Bun có thể strip type chính xác mà không cần TS compiler.
-2. **Loại bỏ import thừa** — file `import type` không bao giờ được giữ
-   trong output JS, tránh load module không cần thiết.
+1. **Bundler không cần biết** đâu là type, đâu là value — esbuild, swc, Bun có thể strip type chính xác mà không cần TS compiler.
+2. **Loại bỏ import thừa** — file `import type` không bao giờ được giữ trong output JS, tránh load module không cần thiết.
 3. **CommonJS/ESM interop** rõ ràng — type không lẫn vào require/import.
 
 Trong project Next.js 14+, Bun, Vite hiện đại, đây là flag nên bật.
@@ -209,8 +192,7 @@ import { fetchUser } from "@/lib/api";
 
 Barrel file dễ gây **tree-shaking kém** và **circular dependency**:
 
-- Nếu bundler không loại bỏ được code không dùng, import 1 hàm có thể
-  load cả 50 file.
+- Nếu bundler không loại bỏ được code không dùng, import 1 hàm có thể load cả 50 file.
 - Module A và B cùng re-export qua barrel → dễ tạo vòng tròn ngầm.
 
 Trong project lớn (Next.js, monorepo), cân nhắc:
@@ -243,8 +225,7 @@ Validators.isEmail("a@b.c");
 - Namespace không tree-shake được tốt.
 - Tooling hiện đại (Vite, esbuild, Bun) đều ưu tiên ESM.
 
-Namespace **vẫn hữu dụng** trong file `.d.ts` để khai báo type của thư
-viện UMD/global (jQuery, Lodash khi nạp qua `<script>`):
+Namespace **vẫn hữu dụng** trong file `.d.ts` để khai báo type của thư viện UMD/global (jQuery, Lodash khi nạp qua `<script>`):
 
 ```ts
 // jquery.d.ts
@@ -318,14 +299,11 @@ export {}; // Cần để file này là module
 
 :::info[Phân tích]
 
-Module augmentation là **kỹ thuật chỉ TS có**, không có gì tương đương
-trong JS. Cơ chế dựa vào **declaration merging** — khai báo `interface`
-cùng tên trong nhiều file sẽ tự gộp.
+Module augmentation là **kỹ thuật chỉ TS có**, không có gì tương đương trong JS. Cơ chế dựa vào **declaration merging** — khai báo `interface` cùng tên trong nhiều file sẽ tự gộp.
 
 Pattern hay gặp:
 
-- **Mở rộng request/response** của framework (Express, Fastify) với
-  field do middleware thêm vào.
+- **Mở rộng request/response** của framework (Express, Fastify) với field do middleware thêm vào.
 - **Thêm prop vào global** (Window, NodeJS.ProcessEnv).
 - **Vá type của thư viện npm** thiếu hoặc sai type.
 
@@ -341,9 +319,7 @@ declare global {
 }
 ```
 
-→ Cho phép `process.env.DATABASE_URL` có type `string` thay vì
-`string | undefined`. Đặt file này trong `src/types/env.d.ts` và include
-trong `tsconfig.json`.
+→ Cho phép `process.env.DATABASE_URL` có type `string` thay vì `string | undefined`. Đặt file này trong `src/types/env.d.ts` và include trong `tsconfig.json`.
 
 :::
 

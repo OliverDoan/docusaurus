@@ -124,8 +124,7 @@ const d: StringDict = { name: "An", city: "HN" };
 
 ## Extending interface
 
-`extends` để kế thừa từ interface khác. Khác `&` (intersection), `extends`
-phát hiện xung đột type ngay tại khai báo.
+`extends` để kế thừa từ interface khác. Khác `&` (intersection), `extends` phát hiện xung đột type ngay tại khai báo.
 
 ```ts
 interface Animal {
@@ -204,8 +203,7 @@ const u: User = { id: 1, name: "An" };
 
 :::info[Phân tích]
 
-Declaration merging cực hữu dụng để **mở rộng type của thư viện bên ngoài**
-(module augmentation):
+Declaration merging cực hữu dụng để **mở rộng type của thư viện bên ngoài** (module augmentation):
 
 ```ts
 // Mở rộng Window global
@@ -228,8 +226,7 @@ declare module "express" {
 }
 ```
 
-Đây là kỹ thuật **không thay thế được bằng `type`** — lý do chính nên
-biết cả hai.
+Đây là kỹ thuật **không thay thế được bằng `type`** — lý do chính nên biết cả hai.
 
 :::
 
@@ -299,11 +296,7 @@ flowchart TD
 
 :::warning[Cần lưu ý]
 
-Hiệu năng compile: với type chứa **nhiều intersection lồng nhau**,
-`interface` thường compile **nhanh hơn** `type` đáng kể, vì TS cache
-shape của interface tốt hơn intersection của type. Trong codebase lớn
-(monorepo > 100k LOC), khác biệt này có thể nhân lên hàng giây mỗi
-build.
+Hiệu năng compile: với type chứa **nhiều intersection lồng nhau**, `interface` thường compile **nhanh hơn** `type` đáng kể, vì TS cache shape của interface tốt hơn intersection của type. Trong codebase lớn (monorepo > 100k LOC), khác biệt này có thể nhân lên hàng giây mỗi build.
 
 :::
 

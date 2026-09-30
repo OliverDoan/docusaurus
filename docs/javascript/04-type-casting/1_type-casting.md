@@ -255,13 +255,9 @@ Quy tắc cơ bản (đơn giản hoá):
 
 **Tại sao `null == 0` lại `false` mà `null == undefined` lại `true`?**
 
-Spec ES định nghĩa `null == undefined` là **trường hợp đặc biệt** —
-được hard-code trả về `true`, không qua coercion. Với mọi cặp khác,
-`null` **không** coerce sang number, nên `null == 0` so sánh khác kiểu
-→ `false`.
+Spec ES định nghĩa `null == undefined` là **trường hợp đặc biệt** — được hard-code trả về `true`, không qua coercion. Với mọi cặp khác, `null` **không** coerce sang number, nên `null == 0` so sánh khác kiểu → `false`.
 
-Quy tắc thực tế: **luôn dùng `===`** trong code mới. ESLint rule `eqeqeq`
-sẽ bắt buộc điều này. Chỉ giữ `==` trong một trường hợp đặc biệt:
+Quy tắc thực tế: **luôn dùng `===`** trong code mới. ESLint rule `eqeqeq` sẽ bắt buộc điều này. Chỉ giữ `==` trong một trường hợp đặc biệt:
 
 ```js
 // Kiểm tra "null hoặc undefined" trong một dòng
@@ -312,9 +308,7 @@ const total = items.reduce((sum, item) => sum + item.price, 0);
 
 :::tip[Mẹo]
 
-Khi viết TypeScript, coercion implicit gần như biến mất — TS bắt mọi
-trường hợp khác kiểu tại compile time. Đây là một trong những lý do
-project lớn nên migrate sang TS.
+Khi viết TypeScript, coercion implicit gần như biến mất — TS bắt mọi trường hợp khác kiểu tại compile time. Đây là một trong những lý do project lớn nên migrate sang TS.
 
 Nhưng vẫn cần hiểu coercion vì:
 - Code review JS thuần.

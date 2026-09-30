@@ -37,9 +37,7 @@ title: "5. Type Inference và Compatibility"
 
 ## Vì sao cần type inference?
 
-**Vấn đề:** Nếu phải ghi chú thích kiểu cho **mọi** biến và **mọi** return,
-code trở nên rườm rà, trùng lặp — kiểu hiển nhiên vẫn phải viết lại, vừa
-dài vừa nản:
+**Vấn đề:** Nếu phải ghi chú thích kiểu cho **mọi** biến và **mọi** return, code trở nên rườm rà, trùng lặp — kiểu hiển nhiên vẫn phải viết lại, vừa dài vừa nản:
 
 ```ts
 const n: number = 5;
@@ -51,11 +49,7 @@ function add(a: number, b: number): number {
 }
 ```
 
-**Giải pháp:** TypeScript **tự suy luận kiểu** từ giá trị và ngữ cảnh
-(initializer, return, đối số mặc định, contextual typing) → code gọn
-**nhưng vẫn type-safe**. Nguyên tắc: để TS suy luận khi đã rõ ràng, chỉ
-annotate khi thật sự cần (tham số hàm, public API, hoặc khi inference sai
-hay quá rộng):
+**Giải pháp:** TypeScript **tự suy luận kiểu** từ giá trị và ngữ cảnh (initializer, return, đối số mặc định, contextual typing) → code gọn **nhưng vẫn type-safe**. Nguyên tắc: để TS suy luận khi đã rõ ràng, chỉ annotate khi thật sự cần (tham số hàm, public API, hoặc khi inference sai hay quá rộng):
 
 ```ts
 const n = 5;             // number
@@ -69,14 +63,10 @@ function add(a: number, b: number) {
 
 :::tip[Dùng thực tế]
 
-- Bỏ chú thích thừa cho biến khởi tạo: `const count = 0;` thay vì
-  `const count: number = 0;`.
-- Để return type tự suy ra cho hàm nội bộ, chỉ annotate return ở public
-  API để khoá hợp đồng (contract) rõ ràng.
-- Callback của array method tự biết kiểu phần tử:
-  `[1, 2, 3].map((x) => x * 2)` — TS biết `x: number`.
-- Cân bằng: để TS suy luận khi hiển nhiên, annotate tham số hàm và những
-  chỗ inference cho ra kiểu sai hoặc quá rộng.
+- Bỏ chú thích thừa cho biến khởi tạo: `const count = 0;` thay vì `const count: number = 0;`.
+- Để return type tự suy ra cho hàm nội bộ, chỉ annotate return ở public API để khoá hợp đồng (contract) rõ ràng.
+- Callback của array method tự biết kiểu phần tử: `[1, 2, 3].map((x) => x * 2)` — TS biết `x: number`.
+- Cân bằng: để TS suy luận khi hiển nhiên, annotate tham số hàm và những chỗ inference cho ra kiểu sai hoặc quá rộng.
 
 :::
 
@@ -84,8 +74,7 @@ function add(a: number, b: number) {
 
 ## Type Inference
 
-TypeScript có thể **tự suy ra type** mà không cần khai báo, dựa trên
-giá trị khởi tạo.
+TypeScript có thể **tự suy ra type** mà không cần khai báo, dựa trên giá trị khởi tạo.
 
 ```ts
 let count = 10;          // inferred: number
@@ -115,8 +104,7 @@ flowchart TD
 
 :::tip[Mẹo]
 
-**Quy tắc vàng**: chỉ khai báo type **khi inference không đủ rõ** hoặc
-đó là **public API**. Code đẹp là code ít annotation thừa:
+**Quy tắc vàng**: chỉ khai báo type **khi inference không đủ rõ** hoặc đó là **public API**. Code đẹp là code ít annotation thừa:
 
 ```ts
 // Thừa
@@ -151,8 +139,7 @@ Trong callback hoặc tham số, TS tìm signature mong đợi để gán type.
 
 ## Best Common Type
 
-Khi mảng có nhiều phần tử khác kiểu, TS chọn **kiểu chung tốt nhất**
-(thường là union):
+Khi mảng có nhiều phần tử khác kiểu, TS chọn **kiểu chung tốt nhất** (thường là union):
 
 ```ts
 const arr = [1, "hello", true];
@@ -177,8 +164,7 @@ let x = "hello";  // type: string (widened)
 const y = "hello"; // type: "hello" (literal, không widen)
 ```
 
-Lý do: `let` cho phép gán lại nên không thể giữ literal; `const` thì cố
-định.
+Lý do: `let` cho phép gán lại nên không thể giữ literal; `const` thì cố định.
 
 Sơ đồ sau đối chiếu hai chiều: widening mở rộng literal, còn narrowing thu hẹp union theo điều kiện kiểm tra.
 
@@ -203,8 +189,7 @@ function format(x: string | number) {
 
 :::info[Phân tích]
 
-**Control flow analysis** là engine giúp TS narrow type theo dòng chảy
-code. Nó hiểu được:
+**Control flow analysis** là engine giúp TS narrow type theo dòng chảy code. Nó hiểu được:
 
 - `typeof`, `instanceof`, `in`.
 - Truthy check (`if (x)`).
@@ -213,9 +198,7 @@ code. Nó hiểu được:
 - User-defined type guards (`function isUser(x): x is User`).
 - Assertion functions (`function assert(x): asserts x is string`).
 
-Hiểu sâu narrowing là kỹ năng phân biệt junior và senior khi viết TS.
-Một function được narrow đúng có thể loại bỏ hàng chục `as` không cần
-thiết.
+Hiểu sâu narrowing là kỹ năng phân biệt junior và senior khi viết TS. Một function được narrow đúng có thể loại bỏ hàng chục `as` không cần thiết.
 
 :::
 
@@ -223,8 +206,7 @@ thiết.
 
 ## Type Compatibility
 
-TS dùng **structural typing** — hai type tương thích nếu **shape** khớp,
-không cần cùng tên.
+TS dùng **structural typing** — hai type tương thích nếu **shape** khớp, không cần cùng tên.
 
 ```ts
 interface Named { name: string; }
@@ -233,16 +215,14 @@ class Person { constructor(public name: string) {} }
 const p: Named = new Person("An"); // OK — cùng shape
 ```
 
-**Quy tắc**: type **đích (target)** chỉ cần các thuộc tính của **nguồn
-(source)** là tập con — không thiếu là được.
+**Quy tắc**: type **đích (target)** chỉ cần các thuộc tính của **nguồn (source)** là tập con — không thiếu là được.
 
 ```ts
 interface Point { x: number; y: number; }
 const a: Point = { x: 1, y: 2, z: 3 }; // OK — z thừa nhưng không sao*
 ```
 
-(* `*` Khi gán object literal trực tiếp, TS có **excess property check**
-chặt hơn — sẽ báo lỗi `z`. Gán qua biến trung gian thì không.)
+(* `*` Khi gán object literal trực tiếp, TS có **excess property check** chặt hơn — sẽ báo lỗi `z`. Gán qua biến trung gian thì không.)
 
 :::warning[Cần lưu ý]
 
@@ -261,8 +241,7 @@ animalFn = dogFn; // Error (strictFunctionTypes)
 dogFn = animalFn; // OK
 ```
 
-Lý do: nếu một chỗ cần hàm xử lý mọi `Animal`, không thể đưa hàm chỉ
-biết xử lý `Dog`.
+Lý do: nếu một chỗ cần hàm xử lý mọi `Animal`, không thể đưa hàm chỉ biết xử lý `Dog`.
 
 - **Return type** kiểm tra theo **covariance** (chiều thuận):
 

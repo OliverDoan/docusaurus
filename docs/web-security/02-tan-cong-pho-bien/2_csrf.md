@@ -5,11 +5,7 @@ title: "2. CSRF (Cross-Site Request Forgery)"
 
 # CSRF — Cross-Site Request Forgery
 
-**CSRF** (Cross-Site Request Forgery — giả mạo yêu cầu xuyên trang) là tấn công
-**lừa trình duyệt của nạn nhân tự gửi một request** tới site mà nạn nhân đang đăng
-nhập, để thực hiện hành động ngoài ý muốn. Bài này giải thích cơ chế tấn công và
-các cách phòng thủ hiện đại: **SameSite cookie**, **CSRF token**, và kiểm tra
-nguồn gốc request.
+**CSRF** (Cross-Site Request Forgery — giả mạo yêu cầu xuyên trang) là tấn công **lừa trình duyệt của nạn nhân tự gửi một request** tới site mà nạn nhân đang đăng nhập, để thực hiện hành động ngoài ý muốn. Bài này giải thích cơ chế tấn công và các cách phòng thủ hiện đại: **SameSite cookie**, **CSRF token**, và kiểm tra nguồn gốc request.
 
 [![Sơ đồ tóm tắt bài: CSRF — Giả mạo yêu cầu](/img/web-security/csrf.webp)](pathname:///img/web-security/csrf.webp)
 
@@ -40,8 +36,7 @@ nguồn gốc request.
 
 ## CSRF hoạt động thế nào?
 
-Hãy hình dung nạn nhân đang đăng nhập `bank.com` (cookie phiên còn hiệu lực). Kẻ
-tấn công dụ họ truy cập trang độc `evil.com`, trong đó có:
+Hãy hình dung nạn nhân đang đăng nhập `bank.com` (cookie phiên còn hiệu lực). Kẻ tấn công dụ họ truy cập trang độc `evil.com`, trong đó có:
 
 ```html
 <!-- Trên evil.com: tự động gửi request chuyển tiền tới bank.com -->
@@ -52,12 +47,9 @@ tấn công dụ họ truy cập trang độc `evil.com`, trong đó có:
 <script>document.getElementById('f').submit()</script>
 ```
 
-Khi trang evil.com tải, form **tự submit** tới `bank.com`. Trình duyệt **tự động
-đính kèm cookie** của `bank.com` vào request → server tưởng đây là yêu cầu hợp lệ
-của nạn nhân và thực hiện chuyển tiền.
+Khi trang evil.com tải, form **tự submit** tới `bank.com`. Trình duyệt **tự động đính kèm cookie** của `bank.com` vào request → server tưởng đây là yêu cầu hợp lệ của nạn nhân và thực hiện chuyển tiền.
 
-> Điểm cốt lõi: kẻ tấn công **không cần đọc** cookie — chúng chỉ cần trình duyệt
-> *tự gửi kèm* cookie như thường lệ.
+> Điểm cốt lõi: kẻ tấn công **không cần đọc** cookie — chúng chỉ cần trình duyệt *tự gửi kèm* cookie như thường lệ.
 
 Toàn bộ luồng tấn công nhìn như sau:
 
@@ -79,15 +71,12 @@ sequenceDiagram
 
 Vì hai điều cộng lại:
 
-1. Trình duyệt **tự động gửi cookie** theo mọi request tới đúng domain, kể cả khi
-   request bắt nguồn từ một site khác.
-2. Server **chỉ dựa vào cookie** để xác định danh tính, mà **không kiểm tra
-   request có thực sự đến từ giao diện của mình hay không**.
+1. Trình duyệt **tự động gửi cookie** theo mọi request tới đúng domain, kể cả khi request bắt nguồn từ một site khác.
+2. Server **chỉ dựa vào cookie** để xác định danh tính, mà **không kiểm tra request có thực sự đến từ giao diện của mình hay không**.
 
 ## Phòng thủ 1: SameSite cookie
 
-Thuộc tính **`SameSite`** trên cookie kiểm soát việc cookie có được gửi kèm khi
-request đến từ **site khác** hay không:
+Thuộc tính **`SameSite`** trên cookie kiểm soát việc cookie có được gửi kèm khi request đến từ **site khác** hay không:
 
 | Giá trị | Hành vi |
 | --- | --- |
@@ -104,14 +93,11 @@ res.cookie('session', token, {
 })
 ```
 
-> **`SameSite=Lax`** (mặc định của trình duyệt hiện đại) đã chặn được phần lớn
-> CSRF kiểu POST. Đây là lớp phòng thủ nền tảng nên luôn bật.
+> **`SameSite=Lax`** (mặc định của trình duyệt hiện đại) đã chặn được phần lớn CSRF kiểu POST. Đây là lớp phòng thủ nền tảng nên luôn bật.
 
 ## Phòng thủ 2: CSRF token
 
-**CSRF token** (token chống CSRF, còn gọi *synchronizer token*) là một giá trị
-ngẫu nhiên, bí mật mà **chỉ giao diện hợp lệ của bạn mới biết**. Server cấp token,
-nhúng vào form, và **kiểm tra lại** khi nhận request:
+**CSRF token** (token chống CSRF, còn gọi *synchronizer token*) là một giá trị ngẫu nhiên, bí mật mà **chỉ giao diện hợp lệ của bạn mới biết**. Server cấp token, nhúng vào form, và **kiểm tra lại** khi nhận request:
 
 ```js
 // Server cấp token (gắn với phiên) và nhúng vào form
@@ -127,17 +113,13 @@ function verifyCsrf(req, res, next) {
 }
 ```
 
-Site `evil.com` **không thể đoán** token này (và không đọc được do same-origin
-policy), nên request giả mạo sẽ bị từ chối.
+Site `evil.com` **không thể đoán** token này (và không đọc được do same-origin policy), nên request giả mạo sẽ bị từ chối.
 
-> Nhiều framework có sẵn cơ chế này. Một biến thể phổ biến cho SPA là
-> **double-submit cookie**: gửi token vừa trong cookie vừa trong header, server
-> kiểm tra hai giá trị khớp nhau.
+> Nhiều framework có sẵn cơ chế này. Một biến thể phổ biến cho SPA là **double-submit cookie**: gửi token vừa trong cookie vừa trong header, server kiểm tra hai giá trị khớp nhau.
 
 ## Phòng thủ 3: kiểm tra Origin/Referer
 
-Server có thể kiểm tra header **`Origin`** (hoặc `Referer`) để chắc rằng request
-đến từ chính domain của mình:
+Server có thể kiểm tra header **`Origin`** (hoặc `Referer`) để chắc rằng request đến từ chính domain của mình:
 
 ```js
 function checkOrigin(req, res, next) {
@@ -149,8 +131,7 @@ function checkOrigin(req, res, next) {
 }
 ```
 
-> Đây là lớp **bổ sung**, không thay thế hai cách trên (header có thể thiếu trong
-> vài trường hợp). Kết hợp nhiều lớp = phòng thủ nhiều lớp.
+> Đây là lớp **bổ sung**, không thay thế hai cách trên (header có thể thiếu trong vài trường hợp). Kết hợp nhiều lớp = phòng thủ nhiều lớp.
 
 ## CSRF vs XSS
 
@@ -162,17 +143,13 @@ Hai cái hay bị nhầm nhưng khác hẳn nhau:
 | Cần đọc dữ liệu? | Không (chỉ cần trình duyệt gửi cookie) | Có (đọc được cookie/DOM...) |
 | Phòng thủ chính | SameSite cookie, CSRF token | Escape/sanitize output, CSP |
 
-> Lưu ý: nếu site dính **XSS**, kẻ tấn công thường **vượt qua được** mọi biện pháp
-> chống CSRF (vì script chạy ngay trong origin của bạn). Vì vậy chống XSS là ưu
-> tiên hàng đầu.
+> Lưu ý: nếu site dính **XSS**, kẻ tấn công thường **vượt qua được** mọi biện pháp chống CSRF (vì script chạy ngay trong origin của bạn). Vì vậy chống XSS là ưu tiên hàng đầu.
 
 ## Tóm tắt
 
-- **CSRF** lừa trình duyệt nạn nhân **tự gửi request** (kèm cookie) tới site họ
-  đang đăng nhập, thực hiện hành động ngoài ý muốn — không cần đọc cookie.
+- **CSRF** lừa trình duyệt nạn nhân **tự gửi request** (kèm cookie) tới site họ đang đăng nhập, thực hiện hành động ngoài ý muốn — không cần đọc cookie.
 - Nguyên nhân: trình duyệt tự gửi cookie + server chỉ dựa vào cookie để xác thực.
-- Phòng thủ: **`SameSite` cookie** (nền tảng), **CSRF token** (synchronizer /
-  double-submit), và **kiểm tra Origin/Referer** (bổ sung).
+- Phòng thủ: **`SameSite` cookie** (nền tảng), **CSRF token** (synchronizer / double-submit), và **kiểm tra Origin/Referer** (bổ sung).
 - **CSRF ≠ XSS**; và XSS có thể phá vỡ phòng thủ CSRF → ưu tiên chống XSS trước.
 
 Bài tiếp theo: **Injection** — SQL injection và command injection.

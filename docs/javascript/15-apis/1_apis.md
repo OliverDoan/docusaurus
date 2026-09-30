@@ -135,8 +135,7 @@ const res = await fetch("/api/users", {
 const data = await res.json();
 ```
 
-Về bản chất, `fetch` nhờ **trình duyệt** (nơi cung cấp Web API) gửi yêu cầu
-HTTP tới server rồi trả kết quả về cho JavaScript dưới dạng Promise:
+Về bản chất, `fetch` nhờ **trình duyệt** (nơi cung cấp Web API) gửi yêu cầu HTTP tới server rồi trả kết quả về cho JavaScript dưới dạng Promise:
 
 ```mermaid
 sequenceDiagram
@@ -196,8 +195,7 @@ res.url;
 
 :::warning[Cần lưu ý]
 
-**`fetch` không reject với HTTP error** (4xx, 5xx) — chỉ reject với
-**network error**:
+**`fetch` không reject với HTTP error** (4xx, 5xx) — chỉ reject với **network error**:
 
 ```js
 const res = await fetch("/not-exist");
@@ -218,8 +216,7 @@ if (!res.ok) {
 const data = await res.json();
 ```
 
-Sơ đồ dưới cho thấy vì sao phải tự kiểm tra `res.ok`: chỉ **lỗi mạng** mới
-làm Promise reject, còn 4xx/5xx vẫn resolve bình thường:
+Sơ đồ dưới cho thấy vì sao phải tự kiểm tra `res.ok`: chỉ **lỗi mạng** mới làm Promise reject, còn 4xx/5xx vẫn resolve bình thường:
 
 ```mermaid
 flowchart TD
@@ -231,8 +228,7 @@ flowchart TD
   E -->|"false"| G["Tự throw Error, vd HTTP 404"]
 ```
 
-Đây là behavior **theo design** — nhưng dễ gây bug. Wrapper hàm chung
-xử lý sớm:
+Đây là behavior **theo design** — nhưng dễ gây bug. Wrapper hàm chung xử lý sớm:
 
 ```js
 async function api(url, opts) {
@@ -353,8 +349,7 @@ const data = await ofetch("/api/users", {
 - Cần **transform** request/response.
 - Codebase lớn — muốn API thống nhất.
 
-Trong codebase 2026, **tRPC** hoặc **Hono client** thường thay thế HTTP
-client thường — type-safe end-to-end, không phải khai báo type response.
+Trong codebase 2026, **tRPC** hoặc **Hono client** thường thay thế HTTP client thường — type-safe end-to-end, không phải khai báo type response.
 
 :::
 
@@ -392,8 +387,7 @@ const users = await api("/users");
 const user = await api("/users", { method: "POST", body: { name: "An" } });
 ```
 
-Một wrapper duy nhất xử lý: auth, error format, refresh token, retry —
-không lặp ở mọi call site.
+Một wrapper duy nhất xử lý: auth, error format, refresh token, retry — không lặp ở mọi call site.
 
 :::
 

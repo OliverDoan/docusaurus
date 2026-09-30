@@ -36,8 +36,7 @@ title: "2. Forms & Validation Deep Dive"
 | Performance         | Slow với form to (10+ field re-render mỗi keystroke) | Fast |
 | Submit value        | Đọc từ state                        | Đọc từ ref                          |
 
-**react-hook-form** dùng uncontrolled (ref-based) → form to vẫn fast.
-**Formik / Redux Form** dùng controlled → form 20+ field bắt đầu lag.
+**react-hook-form** dùng uncontrolled (ref-based) → form to vẫn fast. **Formik / Redux Form** dùng controlled → form 20+ field bắt đầu lag.
 
 ### Code minh hoạ
 

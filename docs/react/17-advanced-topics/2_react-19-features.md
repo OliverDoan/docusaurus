@@ -117,9 +117,7 @@ function Input({ ref, ...props }) {
 
 ## Server Components
 
-**React Server Components (RSC)** — component chạy **trên server**, gửi
-HTML/data về client. Hoạt động trong Next.js App Router (production-ready
-2024+).
+**React Server Components (RSC)** — component chạy **trên server**, gửi HTML/data về client. Hoạt động trong Next.js App Router (production-ready 2024+).
 
 ```tsx
 // app/users/page.tsx — Server Component (default)
@@ -297,8 +295,7 @@ function LoginForm() {
 }
 ```
 
-Trình tự khi submit một form dùng `useActionState` (trạng thái pending/error
-được gói sẵn):
+Trình tự khi submit một form dùng `useActionState` (trạng thái pending/error được gói sẵn):
 
 ```mermaid
 sequenceDiagram
@@ -368,8 +365,7 @@ function TodoList({ todos, addTodo }) {
 }
 ```
 
-UX: user thấy item xuất hiện ngay khi click, không phải đợi server response.
-Nếu server fail → React tự rollback về state thật.
+UX: user thấy item xuất hiện ngay khi click, không phải đợi server response. Nếu server fail → React tự rollback về state thật.
 
 ---
 
@@ -390,15 +386,13 @@ function BlogPost({ post }) {
 }
 ```
 
-Trước đây phải dùng `react-helmet` hoặc Next.js `<Head>`. Giờ vanilla
-React 19 đã support.
+Trước đây phải dùng `react-helmet` hoặc Next.js `<Head>`. Giờ vanilla React 19 đã support.
 
 ---
 
 ## React Compiler
 
-[React Compiler](https://react.dev/learn/react-compiler) — auto-memoize
-component và value. Khi production-ready:
+[React Compiler](https://react.dev/learn/react-compiler) — auto-memoize component và value. Khi production-ready:
 
 - **Không cần** `useCallback`, `useMemo`, `React.memo` thủ công.
 - Compiler analyze code, insert memoization tự động.
@@ -434,9 +428,7 @@ Khi compiler stable:
 - Performance đồng đều — không bỏ sót useMemo cần thiết.
 - Junior dev viết code performant hơn mặc nhiên.
 
-Hiện tại (2026), **bật khi có cơ hội** — kiểm tra compatibility với
-codebase trước. ESLint plugin `eslint-plugin-react-compiler` cảnh báo
-code không compatible (mutation, side effect trong render).
+Hiện tại (2026), **bật khi có cơ hội** — kiểm tra compatibility với codebase trước. ESLint plugin `eslint-plugin-react-compiler` cảnh báo code không compatible (mutation, side effect trong render).
 
 :::
 
@@ -463,8 +455,7 @@ Một số breaking change minor — đa số app upgrade từ 18 không gặp i
 - **Remix v2+** — limited support.
 - **Vite SPA** — **không** có RSC.
 
-Project Vite không thể dùng `"use server"` actions. Vẫn dùng được hooks
-mới (`use`, `useActionState`, `useOptimistic`) trong client.
+Project Vite không thể dùng `"use server"` actions. Vẫn dùng được hooks mới (`use`, `useActionState`, `useOptimistic`) trong client.
 
 :::
 

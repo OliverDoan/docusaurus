@@ -451,8 +451,7 @@ import { db } from "@/lib/db";
 const users = await db.select().from(usersTable);
 ```
 
-ENV variable không có `NEXT_PUBLIC_*` prefix chỉ **available server-side**.
-DB client chỉ chạy Server Component / Server Action / Route Handler.
+ENV variable không có `NEXT_PUBLIC_*` prefix chỉ **available server-side**. DB client chỉ chạy Server Component / Server Action / Route Handler.
 
 Compile time Next.js warning, runtime error. Pattern đúng:
 

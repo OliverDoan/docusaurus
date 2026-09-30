@@ -37,9 +37,7 @@ title: "6. Higher Order Components (HOC)"
 
 ## Vì sao có HOC (Higher-Order Component)?
 
-**Vấn đề:** Nhiều component cần **cùng một logic bọc ngoài** — kiểm tra
-đăng nhập, inject dữ liệu, ghi log. Lặp lại ở từng component thì trùng
-code. Trước khi có Hooks, không có cách gọn để chia sẻ logic này.
+**Vấn đề:** Nhiều component cần **cùng một logic bọc ngoài** — kiểm tra đăng nhập, inject dữ liệu, ghi log. Lặp lại ở từng component thì trùng code. Trước khi có Hooks, không có cách gọn để chia sẻ logic này.
 
 ```jsx
 // Logic kiểm tra đăng nhập lặp lại ở mọi page
@@ -56,9 +54,7 @@ function Settings() {
 }
 ```
 
-**Giải pháp:** Dùng **HOC** — một **hàm** nhận vào component và trả về
-một component **mới** đã được "bọc" thêm hành vi. Logic cross-cutting viết
-một lần, dùng lại cho nhiều component.
+**Giải pháp:** Dùng **HOC** — một **hàm** nhận vào component và trả về một component **mới** đã được "bọc" thêm hành vi. Logic cross-cutting viết một lần, dùng lại cho nhiều component.
 
 ```jsx
 // Viết logic một lần trong HOC
@@ -75,8 +71,7 @@ const Dashboard = withAuth(Page);
 const Settings = withAuth(SettingsPage);
 ```
 
-(Nay phần lớn được thay bằng custom hook, nhưng HOC vẫn gặp: `connect`
-của Redux, `withRouter` cũ.)
+(Nay phần lớn được thay bằng custom hook, nhưng HOC vẫn gặp: `connect` của Redux, `withRouter` cũ.)
 
 :::tip[Dùng thực tế]
 
@@ -91,8 +86,7 @@ của Redux, `withRouter` cũ.)
 
 ## HOC là gì?
 
-**Higher-Order Component (HOC)** = function **nhận component, trả về
-component mới** đã được enhance.
+**Higher-Order Component (HOC)** = function **nhận component, trả về component mới** đã được enhance.
 
 ```jsx
 const EnhancedComponent = withFeature(BaseComponent);
@@ -217,8 +211,7 @@ flowchart TD
 
 **4. Không share state giữa nhiều HOC** một cách dễ dàng.
 
-Custom hooks giải quyết hầu hết các vấn đề này. Đó là lý do HOC bị
-giảm phổ biến mạnh từ React 16.8.
+Custom hooks giải quyết hầu hết các vấn đề này. Đó là lý do HOC bị giảm phổ biến mạnh từ React 16.8.
 
 :::
 
@@ -306,9 +299,7 @@ const OldWithAuth = withAuth(Old);
 - Mỗi HOC là một **transformation pure** component → component.
 - Có thể **compose** nhiều HOC: `compose(withA, withB, withC)(Component)`.
 
-Hiểu HOC giúp đọc code legacy và **tư duy functional** — nhiều pattern
-trong custom hooks thực ra cũng là application của functional programming
-principles.
+Hiểu HOC giúp đọc code legacy và **tư duy functional** — nhiều pattern trong custom hooks thực ra cũng là application của functional programming principles.
 
 Library hiện đại nào còn dùng HOC nhiều:
 
@@ -325,13 +316,11 @@ Library hiện đại nào còn dùng HOC nhiều:
 
 1. Đảm bảo HOC hiện tại có test cover.
 2. Viết custom hook **tương đương**.
-3. Migrate từng component dùng HOC — đổi sang hook, xoá HOC khi không
-   còn ai dùng.
+3. Migrate từng component dùng HOC — đổi sang hook, xoá HOC khi không còn ai dùng.
 4. Update test.
 5. Loại HOC khỏi codebase.
 
-Cẩn thận với HOC inject prop bị override — sau migrate hook cần verify
-behavior không đổi.
+Cẩn thận với HOC inject prop bị override — sau migrate hook cần verify behavior không đổi.
 
 :::
 

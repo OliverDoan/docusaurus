@@ -125,20 +125,16 @@ Attacker steal DB → brute force offline:
 - **MD5/SHA**: ~5 tỷ hash/second trên GPU → 8-char password vài giờ.
 - **bcrypt cost 12**: ~5 hash/second → 8-char password hàng nghìn năm.
 
-Slow hash = vô hiệu hóa brute force. Trade-off: login chậm vài trăm ms
-(acceptable).
+Slow hash = vô hiệu hóa brute force. Trade-off: login chậm vài trăm ms (acceptable).
 
 **Cost tuning**:
 
 - bcrypt: 12 rounds (2025+ standard). 10 cho legacy.
 - Argon2: memoryCost 19MB, timeCost 2.
 
-Mỗi 2-3 năm, tăng cost theo Moore's law. Khi user login, có thể
-**re-hash with higher cost** transparent.
+Mỗi 2-3 năm, tăng cost theo Moore's law. Khi user login, có thể **re-hash with higher cost** transparent.
 
-**Salt** — bcrypt và Argon2 **tự generate salt** lưu vào hash string.
-Không phải lưu salt riêng. Salt khác nhau mỗi user → rainbow table
-không work.
+**Salt** — bcrypt và Argon2 **tự generate salt** lưu vào hash string. Không phải lưu salt riêng. Salt khác nhau mỗi user → rainbow table không work.
 
 :::
 
@@ -176,8 +172,7 @@ if (input === stored) { ... }
 await bcrypt.compare(input, stored);
 ```
 
-Timing attack đo response time để guess char-by-char. Mọi password
-verify phải constant-time.
+Timing attack đo response time để guess char-by-char. Mọi password verify phải constant-time.
 
 :::
 
@@ -287,8 +282,7 @@ Cloudflare làm hộ phần lớn — free SSL + HSTS + auto renew.
 
 ## CORS
 
-**CORS (Cross-Origin Resource Sharing)** — browser security rule cho
-cross-origin request.
+**CORS (Cross-Origin Resource Sharing)** — browser security rule cho cross-origin request.
 
 **Same-origin policy**:
 - Protocol + host + port phải match.
@@ -378,8 +372,7 @@ app.use(cors({
 }));
 ```
 
-CORS **không phải security ở server** — chỉ browser enforce. Server vẫn
-phải check auth, không dựa CORS bảo vệ.
+CORS **không phải security ở server** — chỉ browser enforce. Server vẫn phải check auth, không dựa CORS bảo vệ.
 
 :::
 

@@ -184,8 +184,7 @@ class User {
 }
 ```
 
-Sơ đồ dưới tóm tắt cách trình duyệt/engine quyết định một đoạn code chạy ở
-strict mode hay sloppy mode:
+Sơ đồ dưới tóm tắt cách trình duyệt/engine quyết định một đoạn code chạy ở strict mode hay sloppy mode:
 
 ```mermaid
 flowchart TD
@@ -200,8 +199,7 @@ flowchart TD
 
 :::info[Phân tích]
 
-Trong code hiện đại (ES Module, React, Vue, Node ESM, TypeScript),
-**strict mode luôn bật**. Không cần thêm `"use strict"` thủ công.
+Trong code hiện đại (ES Module, React, Vue, Node ESM, TypeScript), **strict mode luôn bật**. Không cần thêm `"use strict"` thủ công.
 
 Chỉ cần khi:
 
@@ -209,8 +207,7 @@ Chỉ cần khi:
 - Embedded JS (vd `<script>` không có `type="module"`).
 - Code chạy với `--no-strict-mode` của Node (rất hiếm).
 
-Khi viết library publish, **giữ `"use strict"`** ở đầu file IIFE/UMD để
-đảm bảo strict ngay cả khi user load qua `<script>` cũ.
+Khi viết library publish, **giữ `"use strict"`** ở đầu file IIFE/UMD để đảm bảo strict ngay cả khi user load qua `<script>` cũ.
 
 :::
 
@@ -275,8 +272,7 @@ isStrict();
 // false → sloppy (this = global)
 ```
 
-Hữu dụng khi debug behavior bí ẩn — đôi khi function được load từ
-context khác có chế độ ngược lại bạn nghĩ.
+Hữu dụng khi debug behavior bí ẩn — đôi khi function được load từ context khác có chế độ ngược lại bạn nghĩ.
 
 :::
 

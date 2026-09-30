@@ -203,8 +203,7 @@ class Order {
 - Startup MVP.
 - Small project < 20k LOC.
 
-DDD đầu tư trước → payoff sau khi codebase + team lớn. Đừng dùng cho mọi
-project.
+DDD đầu tư trước → payoff sau khi codebase + team lớn. Đừng dùng cho mọi project.
 
 Pattern phổ biến hơn cho startup:
 
@@ -287,8 +286,7 @@ class EmailService {
 
 ## CQRS
 
-**Command Query Responsibility Segregation** — tách **write (command)**
-và **read (query)** thành 2 model khác nhau.
+**Command Query Responsibility Segregation** — tách **write (command)** và **read (query)** thành 2 model khác nhau.
 
 :::tip[Ví dụ đời thường]
 
@@ -418,8 +416,7 @@ Implementation:
 
 **Đừng over-architect**:
 
-CQRS + Event Sourcing là **powerful nhưng phức tạp**. Lý do failure phổ
-biến của startup dùng pattern này:
+CQRS + Event Sourcing là **powerful nhưng phức tạp**. Lý do failure phổ biến của startup dùng pattern này:
 
 - Team chưa familiar → bug + slow dev.
 - Over-engineering — CRUD app không cần.
@@ -431,8 +428,7 @@ Start **simple monolith CRUD**. Áp dụng CQRS/ES khi:
 - Audit trail legal requirement.
 - Team có experience.
 
-90% app **không cần** Event Sourcing. CQRS opt-in cho specific feature
-(reporting, dashboard) chứ không toàn app.
+90% app **không cần** Event Sourcing. CQRS opt-in cho specific feature (reporting, dashboard) chứ không toàn app.
 
 :::
 
@@ -457,8 +453,7 @@ Books:
 - **"System Design Interview"** — Alex Xu.
 - **"Building Microservices"** — Sam Newman.
 
-Senior interview thường hỏi system design scenarios — practice với
-[System Design Primer](https://github.com/donnemartin/system-design-primer).
+Senior interview thường hỏi system design scenarios — practice với [System Design Primer](https://github.com/donnemartin/system-design-primer).
 
 :::
 

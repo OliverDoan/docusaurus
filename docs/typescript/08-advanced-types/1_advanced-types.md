@@ -135,8 +135,7 @@ type Lang = "vi" | "en";
 type Greet = `hello-${Lang}`; // "hello-vi" | "hello-en"
 ```
 
-Kết hợp với utility build sẵn — `Uppercase`, `Lowercase`, `Capitalize`,
-`Uncapitalize`:
+Kết hợp với utility build sẵn — `Uppercase`, `Lowercase`, `Capitalize`, `Uncapitalize`:
 
 ```ts
 type EventName<T extends string> = `on${Capitalize<T>}`;
@@ -156,8 +155,7 @@ type Split<S extends string, D extends string> =
 type Parts = Split<"a,b,c,d", ",">; // ["a", "b", "c", "d"]
 ```
 
-Ứng dụng thực: typing **route param** trong Express/Next, key path
-trong i18n, SQL query builder type-safe...
+Ứng dụng thực: typing **route param** trong Express/Next, key path trong i18n, SQL query builder type-safe...
 
 :::
 
@@ -233,8 +231,7 @@ type Args<F>   = F extends (...args: infer A) => any ? A : never;
 
 :::info[Phân tích]
 
-**Distributive conditional types** — khi `T` là union, conditional sẽ
-**phân tán** lên từng nhánh union:
+**Distributive conditional types** — khi `T` là union, conditional sẽ **phân tán** lên từng nhánh union:
 
 ```ts
 type ToArray<T> = T extends any ? T[] : never;
@@ -255,16 +252,14 @@ flowchart TD
     R2 --> Merge
 ```
 
-Cơ chế này giúp viết hàm áp dụng cho từng nhánh union. Để tắt
-distribution, bọc trong tuple:
+Cơ chế này giúp viết hàm áp dụng cho từng nhánh union. Để tắt distribution, bọc trong tuple:
 
 ```ts
 type ToArrayNonDist<T> = [T] extends [any] ? T[] : never;
 type B = ToArrayNonDist<string | number>; // (string | number)[]
 ```
 
-Hiểu distribution là chìa khoá đọc được code utility-type phức tạp như
-trong `type-fest`, `ts-toolbelt`, React types...
+Hiểu distribution là chìa khoá đọc được code utility-type phức tạp như trong `type-fest`, `ts-toolbelt`, React types...
 
 :::
 
@@ -303,8 +298,7 @@ type DeepReadonly<T> = {
 
 :::warning[Cần lưu ý]
 
-TS có **giới hạn độ sâu** đệ quy (~50 lần) để tránh treo compiler. Type
-recursive quá sâu sẽ báo:
+TS có **giới hạn độ sâu** đệ quy (~50 lần) để tránh treo compiler. Type recursive quá sâu sẽ báo:
 
 ```
 Type instantiation is excessively deep and possibly infinite.
@@ -316,15 +310,13 @@ Khi gặp lỗi này:
 - Dùng **tail-recursion** trong type (đặt phép gọi đệ quy ở vị trí cuối).
 - Cân nhắc giải pháp runtime thay vì cố nhồi vào type system.
 
-Type system của TS **Turing-complete**, nhưng đừng lạm dụng — type
-phức tạp làm chậm compile và khó maintain.
+Type system của TS **Turing-complete**, nhưng đừng lạm dụng — type phức tạp làm chậm compile và khó maintain.
 
 :::
 
 :::tip[Mẹo]
 
-Khi cần "ép" TS infer literal type sâu hơn (vd object literal), dùng
-`as const`:
+Khi cần "ép" TS infer literal type sâu hơn (vd object literal), dùng `as const`:
 
 ```ts
 const config = {
@@ -338,8 +330,7 @@ type RouteKey = keyof typeof config.routes; // "home" | "profile"
 type RoutePath = typeof config.routes[RouteKey]; // "/" | "/profile"
 ```
 
-Pattern này biến **dữ liệu thành nguồn của type** — single source of
-truth, không phải duy trì hai chỗ.
+Pattern này biến **dữ liệu thành nguồn của type** — single source of truth, không phải duy trì hai chỗ.
 
 :::
 

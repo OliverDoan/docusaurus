@@ -37,9 +37,7 @@ title: "1. JSX"
 
 ## Vì sao có JSX?
 
-**Vấn đề:** tạo UI bằng `React.createElement(...)` lồng nhau rất khó đọc,
-khó hình dung cây UI. Còn tách hẳn HTML và JS (template string) thì mất
-type-check và dễ lỗi:
+**Vấn đề:** tạo UI bằng `React.createElement(...)` lồng nhau rất khó đọc, khó hình dung cây UI. Còn tách hẳn HTML và JS (template string) thì mất type-check và dễ lỗi:
 
 ```jsx
 // Lồng createElement — khó đọc, khó thấy cấu trúc cây
@@ -55,9 +53,7 @@ React.createElement("div", { className: "card" },
 const html = `<div class="card"><h1>${name}</h1></div>`;
 ```
 
-**Giải pháp:** JSX là cú pháp giống HTML viết **ngay trong JS**, được
-Babel biên dịch thành `React.createElement`. Markup gắn liền với logic
-của component, hỗ trợ biểu thức `{}`, dễ đọc và dễ bảo trì:
+**Giải pháp:** JSX là cú pháp giống HTML viết **ngay trong JS**, được Babel biên dịch thành `React.createElement`. Markup gắn liền với logic của component, hỗ trợ biểu thức `{}`, dễ đọc và dễ bảo trì:
 
 ```jsx
 function Card({ name, items }) {
@@ -87,15 +83,13 @@ function Card({ name, items }) {
 
 ## JSX là gì?
 
-**JSX (JavaScript XML)** là cú pháp **mở rộng JavaScript** cho phép viết
-"HTML" trong JS:
+**JSX (JavaScript XML)** là cú pháp **mở rộng JavaScript** cho phép viết "HTML" trong JS:
 
 ```jsx
 const element = <h1>Hello, world!</h1>;
 ```
 
-JSX không phải string, cũng không phải HTML thuần — nó được **biên dịch
-thành function call**:
+JSX không phải string, cũng không phải HTML thuần — nó được **biên dịch thành function call**:
 
 ```jsx
 const element = <h1 className="title">Hi</h1>;
@@ -168,8 +162,7 @@ Hai dấu ngoặc nhọn — ngoài là JSX expression, trong là object literal
 
 Tương tự `for` (vòng lặp) → `htmlFor`.
 
-Khi copy-paste HTML từ web vào JSX, **dùng tool convert** (nhiều plugin
-VSCode có sẵn). Hoặc nhớ replace:
+Khi copy-paste HTML từ web vào JSX, **dùng tool convert** (nhiều plugin VSCode có sẵn). Hoặc nhớ replace:
 
 - `class=` → `className=`
 - `for=` → `htmlFor=`
@@ -246,8 +239,7 @@ Mỗi item cần `key` duy nhất — sẽ học chi tiết ở phần Lists and
 
 ## Fragment
 
-`<>...</>` (short) hoặc `<Fragment>...</Fragment>` — wrap nhiều element
-**không tạo extra DOM node**:
+`<>...</>` (short) hoặc `<Fragment>...</Fragment>` — wrap nhiều element **không tạo extra DOM node**:
 
 ```jsx
 return (
@@ -275,8 +267,7 @@ items.map(item => (
 
 ## JSX biên dịch thành gì?
 
-JSX **không chạy trực tiếp** trong trình duyệt — phải qua bundler (Vite,
-Webpack) với plugin Babel/SWC.
+JSX **không chạy trực tiếp** trong trình duyệt — phải qua bundler (Vite, Webpack) với plugin Babel/SWC.
 
 Hành trình từ JSX đến DOM thật trên trình duyệt:
 
@@ -301,8 +292,7 @@ React.createElement("div", { className: "box" },
 );
 ```
 
-→ Mọi file JSX phải `import React from "react"` dù không dùng `React`
-trực tiếp.
+→ Mọi file JSX phải `import React from "react"` dù không dùng `React` trực tiếp.
 
 **Từ React 17 (new JSX transform):**
 
@@ -323,11 +313,9 @@ const App = () => _jsx("div", { children: "Hi" });
 
 **Sự ra đời của JSX transform mới (React 17)** giải quyết:
 
-1. **Bundle size**: cũ luôn cần `React` trong scope — bundler không
-   loại bỏ được dù file chỉ dùng JSX không gọi method React.
+1. **Bundle size**: cũ luôn cần `React` trong scope — bundler không loại bỏ được dù file chỉ dùng JSX không gọi method React.
 2. **Phân biệt prop key reserved** — `children` được tách rõ ràng.
-3. **Tối ưu compile**: phân biệt `jsx` (1 child static), `jsxs` (children
-   là array), `jsxDEV` (chứa source location cho dev).
+3. **Tối ưu compile**: phân biệt `jsx` (1 child static), `jsxs` (children là array), `jsxDEV` (chứa source location cho dev).
 
 Để bật:
 
@@ -340,19 +328,15 @@ const App = () => _jsx("div", { children: "Hi" });
 }
 ```
 
-Phần lớn project mới (Vite, Next.js) đã bật mặc định. Bạn vẫn thấy
-`import React from "react"` trong example cũ vì lý do legacy.
+Phần lớn project mới (Vite, Next.js) đã bật mặc định. Bạn vẫn thấy `import React from "react"` trong example cũ vì lý do legacy.
 
 :::
 
 :::tip[Mẹo]
 
-**JSX không phải duy nhất của React** — Solid.js, Preact, Stencil đều
-dùng JSX. Compiler khác nhau (Babel, SWC, esbuild, swc-jsx) nhưng cú
-pháp giống nhau.
+**JSX không phải duy nhất của React** — Solid.js, Preact, Stencil đều dùng JSX. Compiler khác nhau (Babel, SWC, esbuild, swc-jsx) nhưng cú pháp giống nhau.
 
-Vue có **template syntax** riêng, Svelte có **template Svelte** — không
-phải JSX. Khi đọc tài liệu UI library, kiểm tra trước:
+Vue có **template syntax** riêng, Svelte có **template Svelte** — không phải JSX. Khi đọc tài liệu UI library, kiểm tra trước:
 
 - React → JSX.
 - Vue → `<template>`.

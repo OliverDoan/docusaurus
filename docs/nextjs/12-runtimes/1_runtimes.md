@@ -191,8 +191,7 @@ Có:
 
 **Tại sao Edge Runtime nhanh?**
 
-1. **V8 isolate** — không phải full Node process. Mỗi isolate ~50-100MB
-   memory, share V8 engine.
+1. **V8 isolate** — không phải full Node process. Mỗi isolate ~50-100MB memory, share V8 engine.
 2. **Distributed** — chạy gần user (300+ location).
 3. **No cold start** — isolate "warm" sẵn ở mỗi edge node.
 4. **Streaming-friendly** — `ReadableStream` native.
@@ -208,8 +207,7 @@ Edge **không phù hợp** mọi case:
 - CPU limit (50ms - vài hundred ms tùy provider).
 - Không persistent memory state.
 
-→ Dùng Edge cho **light, latency-critical**. Dùng Node cho **complex,
-heavy**.
+→ Dùng Edge cho **light, latency-critical**. Dùng Node cho **complex, heavy**.
 
 :::
 
@@ -321,8 +319,7 @@ Pattern HTTP-based driver:
 - Latency cao hơn TCP (~50ms overhead per query).
 - Nhưng work mọi serverless/edge environment.
 
-Cho **read-heavy + cache**, Edge + serverless DB + KV cache (Upstash) là
-combo mạnh — chạy gần user, không tốn cold start.
+Cho **read-heavy + cache**, Edge + serverless DB + KV cache (Upstash) là combo mạnh — chạy gần user, không tốn cold start.
 
 :::
 
@@ -345,11 +342,9 @@ export const runtime = "edge";
 import sharp from "sharp"; // BUILD ERROR — sharp không Edge-compat
 ```
 
-Khi đổi từ Node → Edge: kiểm tra mọi dependency. ESLint sẽ warn nếu
-detect.
+Khi đổi từ Node → Edge: kiểm tra mọi dependency. ESLint sẽ warn nếu detect.
 
-Migrate Edge cẩn thận — không phải mọi page benefit. Đo lại latency
-trước/sau.
+Migrate Edge cẩn thận — không phải mọi page benefit. Đo lại latency trước/sau.
 
 :::
 

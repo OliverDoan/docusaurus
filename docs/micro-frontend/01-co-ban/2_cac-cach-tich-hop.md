@@ -5,10 +5,7 @@ title: "2. Các cách tích hợp"
 
 # Các cách tích hợp micro-frontend
 
-Chia giao diện thành nhiều mảnh là một chuyện; **ghép chúng lại** thành một trang
-là chuyện khác. Bài này điểm qua các kỹ thuật tích hợp (integration) phổ biến —
-từ đơn giản tới linh hoạt — cùng ưu/nhược của mỗi cách, để bạn biết vì sao
-**Module Federation** (bài học chính ở mục sau) lại được ưa chuộng.
+Chia giao diện thành nhiều mảnh là một chuyện; **ghép chúng lại** thành một trang là chuyện khác. Bài này điểm qua các kỹ thuật tích hợp (integration) phổ biến — từ đơn giản tới linh hoạt — cùng ưu/nhược của mỗi cách, để bạn biết vì sao **Module Federation** (bài học chính ở mục sau) lại được ưa chuộng.
 
 ---
 
@@ -43,18 +40,14 @@ từ đơn giản tới linh hoạt — cùng ưu/nhược của mỗi cách, đ
 
 Câu hỏi cốt lõi: **các mảnh được ghép vào lúc nào?**
 
-- **Build-time** (lúc đóng gói): mảnh được nhúng vào app chính *khi build*. Kết
-  quả là một gói duy nhất.
-- **Runtime** (lúc chạy): mảnh được tải về *khi trình duyệt chạy*, độc lập với
-  app chính.
+- **Build-time** (lúc đóng gói): mảnh được nhúng vào app chính *khi build*. Kết quả là một gói duy nhất.
+- **Runtime** (lúc chạy): mảnh được tải về *khi trình duyệt chạy*, độc lập với app chính.
 
-> Đây là điểm phân loại quan trọng nhất: chỉ tích hợp **runtime** mới cho phép
-> **độc lập deploy** thật sự (đặc tính cốt lõi của micro-frontend ở bài trước).
+> Đây là điểm phân loại quan trọng nhất: chỉ tích hợp **runtime** mới cho phép **độc lập deploy** thật sự (đặc tính cốt lõi của micro-frontend ở bài trước).
 
 ## 1. Build-time (qua npm package)
 
-Mỗi mảnh được publish thành một **package** (vd lên npm registry nội bộ), app
-chính `import` như thư viện bình thường.
+Mỗi mảnh được publish thành một **package** (vd lên npm registry nội bộ), app chính `import` như thư viện bình thường.
 
 ```ts
 // App chính import mảnh như một package
@@ -62,11 +55,9 @@ import { ProductList } from '@company/product-list'
 ```
 
 - ✅ **Đơn giản**, quen thuộc, type-safe.
-- ❌ **Mất tính độc lập deploy**: mỗi lần mảnh đổi, app chính phải **cập nhật
-  version, build lại, deploy lại**. Đây thực chất gần với monolith chia module.
+- ❌ **Mất tính độc lập deploy**: mỗi lần mảnh đổi, app chính phải **cập nhật version, build lại, deploy lại**. Đây thực chất gần với monolith chia module.
 
-> Phù hợp khi bạn chỉ muốn **chia sẻ component dùng chung** (design system), chứ
-> không thực sự cần các mảnh deploy riêng.
+> Phù hợp khi bạn chỉ muốn **chia sẻ component dùng chung** (design system), chứ không thực sự cần các mảnh deploy riêng.
 
 ## 2. Iframe
 
@@ -77,16 +68,13 @@ Mỗi mảnh là một trang web riêng, nhúng vào qua thẻ `<iframe>`.
 ```
 
 - ✅ **Cô lập tuyệt đối**: CSS và JavaScript của mảnh này không đụng mảnh kia.
-- ❌ Khó **chia sẻ state** và **điều hướng (routing)** giữa các mảnh; khó làm
-  responsive; trải nghiệm rời rạc; SEO kém.
+- ❌ Khó **chia sẻ state** và **điều hướng (routing)** giữa các mảnh; khó làm responsive; trải nghiệm rời rạc; SEO kém.
 
-> Hợp cho widget nhúng từ bên thứ ba, hoặc dashboard ghép các công cụ cũ — nơi sự
-> cô lập quan trọng hơn trải nghiệm liền mạch.
+> Hợp cho widget nhúng từ bên thứ ba, hoặc dashboard ghép các công cụ cũ — nơi sự cô lập quan trọng hơn trải nghiệm liền mạch.
 
 ## 3. Ghép phía server (server-side composition)
 
-Server lắp ghép HTML từ nhiều nguồn **trước khi** gửi về trình duyệt. Có thể dùng
-SSI (Server Side Includes), tầng Edge, hoặc framework chuyên dụng.
+Server lắp ghép HTML từ nhiều nguồn **trước khi** gửi về trình duyệt. Có thể dùng SSI (Server Side Includes), tầng Edge, hoặc framework chuyên dụng.
 
 - ✅ Tốt cho **tốc độ tải trang đầu** và **SEO** (trình duyệt nhận HTML đã đầy đủ).
 - ❌ Hạ tầng phức tạp; tương tác động phía client vẫn cần thêm giải pháp.
@@ -95,8 +83,7 @@ SSI (Server Side Includes), tầng Edge, hoặc framework chuyên dụng.
 
 ## 4. Runtime qua JavaScript
 
-App **"vỏ" (shell)** tải code của từng mảnh **lúc chạy** rồi gắn (mount) vào DOM.
-Mỗi mảnh được host độc lập (vd `cart.company.com/remoteEntry.js`).
+App **"vỏ" (shell)** tải code của từng mảnh **lúc chạy** rồi gắn (mount) vào DOM. Mỗi mảnh được host độc lập (vd `cart.company.com/remoteEntry.js`).
 
 ```ts
 // Shell tải mảnh lúc runtime rồi render
@@ -104,29 +91,24 @@ const { mount } = await import('https://cart.company.com/remoteEntry.js')
 mount(document.getElementById('cart-slot'))
 ```
 
-- ✅ **Linh hoạt nhất** — đúng tinh thần micro-frontend: mỗi mảnh deploy riêng,
-  shell tải về khi cần.
+- ✅ **Linh hoạt nhất** — đúng tinh thần micro-frontend: mỗi mảnh deploy riêng, shell tải về khi cần.
 - ✅ Chia sẻ được dependency (React...) nếu cấu hình đúng.
 - ❌ Cần điều phối cẩn thận: phiên bản, dependency trùng, xử lý lỗi khi tải.
 
-> **Module Federation** (mục 2 của tài liệu) và **single-spa** là hai đại diện
-> tiêu biểu của cách này. Đây là hướng phổ biến nhất hiện nay.
+> **Module Federation** (mục 2 của tài liệu) và **single-spa** là hai đại diện tiêu biểu của cách này. Đây là hướng phổ biến nhất hiện nay.
 
 ## 5. Web Components
 
-Mỗi mảnh được đóng gói thành một **custom element** (phần tử HTML tùy chỉnh) theo
-chuẩn web, dùng như thẻ HTML bình thường:
+Mỗi mảnh được đóng gói thành một **custom element** (phần tử HTML tùy chỉnh) theo chuẩn web, dùng như thẻ HTML bình thường:
 
 ```html
 <product-list category="sach"></product-list>
 ```
 
-- ✅ Theo **chuẩn web**, không phụ thuộc framework (framework-agnostic); **Shadow
-  DOM** giúp cô lập CSS.
+- ✅ Theo **chuẩn web**, không phụ thuộc framework (framework-agnostic); **Shadow DOM** giúp cô lập CSS.
 - ❌ Truyền dữ liệu phức tạp hơi vướng; tích hợp sâu với React/Vue cần lớp bọc.
 
-> Thường **kết hợp** với cách runtime ở trên: dùng Web Component làm "bao bì" cho
-> mảnh, còn Module Federation lo việc tải code.
+> Thường **kết hợp** với cách runtime ở trên: dùng Web Component làm "bao bì" cho mảnh, còn Module Federation lo việc tải code.
 
 ## Bảng so sánh
 
@@ -140,14 +122,11 @@ chuẩn web, dùng như thẻ HTML bình thường:
 
 ## Tóm tắt
 
-- Câu hỏi cốt lõi: ghép các mảnh **lúc build** hay **lúc runtime**? Chỉ runtime
-  mới cho **độc lập deploy** thật sự.
-- **Build-time (npm)**: đơn giản nhưng mất tính độc lập deploy — hợp cho chia sẻ
-  component dùng chung.
+- Câu hỏi cốt lõi: ghép các mảnh **lúc build** hay **lúc runtime**? Chỉ runtime mới cho **độc lập deploy** thật sự.
+- **Build-time (npm)**: đơn giản nhưng mất tính độc lập deploy — hợp cho chia sẻ component dùng chung.
 - **Iframe**: cô lập tuyệt đối nhưng trải nghiệm rời rạc, khó chia sẻ state.
 - **Server-side composition**: tốt cho SEO/tốc độ, đổi lại hạ tầng phức tạp.
-- **Runtime JS** (Module Federation, single-spa): linh hoạt nhất, phổ biến nhất —
-  trọng tâm của tài liệu này.
+- **Runtime JS** (Module Federation, single-spa): linh hoạt nhất, phổ biến nhất — trọng tâm của tài liệu này.
 - **Web Components**: theo chuẩn web, cô lập tốt, hay dùng kèm cách runtime.
 
 Bài tiếp theo: **ưu/nhược điểm và khi nào nên (không nên) dùng** micro-frontend.

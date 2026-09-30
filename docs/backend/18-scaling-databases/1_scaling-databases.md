@@ -87,8 +87,7 @@ Quán của bạn đông khách, hàng chờ tính tiền dài ra:
 - Modern Postgres handle **vài TB + hàng triệu user** trên 1 instance mạnh.
 - **Scale out** khi vertical đã max hoặc cần HA.
 
-Đừng shard sớm — Instagram chạy 1 PostgreSQL đến nhiều triệu user trước
-khi shard.
+Đừng shard sớm — Instagram chạy 1 PostgreSQL đến nhiều triệu user trước khi shard.
 
 :::
 
@@ -157,8 +156,7 @@ Pattern fix:
 - **Sync replication** (chậm hơn) — chờ replica ack.
 - **Wait for LSN** — so `pg_current_wal_lsn()` trên primary với `pg_last_wal_replay_lsn()` trên replica, chờ tới khi replica bắt kịp.
 
-Đa số app **chấp nhận lag** vài giây cho list/dashboard — chỉ critical
-path đọc master.
+Đa số app **chấp nhận lag** vài giây cho list/dashboard — chỉ critical path đọc master.
 
 :::
 

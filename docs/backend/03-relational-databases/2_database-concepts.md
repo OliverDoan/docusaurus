@@ -438,8 +438,7 @@ GraphQL có **DataLoader** pattern — batch + cache trong 1 request.
 
 ## Transactions
 
-Group nhiều query thành **đơn vị atomic** — hoặc thành công cả, hoặc fail
-cả.
+Group nhiều query thành **đơn vị atomic** — hoặc thành công cả, hoặc fail cả.
 
 :::tip[Ví dụ đời thường]
 

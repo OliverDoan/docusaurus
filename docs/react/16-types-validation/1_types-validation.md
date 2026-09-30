@@ -122,8 +122,7 @@ TypeScript là **default 2026** cho mọi project React mới. Lợi ích:
 - Refactor an toàn.
 - Documentation từ type.
 
-(Tham khảo [TypeScript roadmap](/docs/typescript/01-gioi-thieu/1_typescript-la-gi)
-cho cơ bản.)
+(Tham khảo [TypeScript roadmap](/docs/typescript/01-gioi-thieu/1_typescript-la-gi) cho cơ bản.)
 
 ---
 
@@ -240,8 +239,7 @@ function Button({ label }: ButtonProps) {
 
 Lý do:
 
-- `React.FC` ngầm thêm `children?: ReactNode` → component không nhận
-  children vẫn pass type-check.
+- `React.FC` ngầm thêm `children?: ReactNode` → component không nhận children vẫn pass type-check.
 - Generic component khó hơn.
 - React docs đã bỏ khỏi example.
 
@@ -280,8 +278,7 @@ function Select<T>({ options, value, onChange, renderOption }: SelectProps<T>) {
 
 ## Validation runtime
 
-TypeScript chỉ check **compile-time**. Data từ ngoài (API, user, localStorage)
-**không type-safe runtime**:
+TypeScript chỉ check **compile-time**. Data từ ngoài (API, user, localStorage) **không type-safe runtime**:
 
 ```tsx
 const user = await fetch("/api/user").then(r => r.json());
@@ -432,8 +429,7 @@ export async function POST(req: Request) {
 }
 ```
 
-**1 schema = 1 type + N validation point**. Đây là productivity boost
-lớn nhất khi TS gặp Zod.
+**1 schema = 1 type + N validation point**. Đây là productivity boost lớn nhất khi TS gặp Zod.
 
 :::
 
@@ -454,8 +450,7 @@ if (result.success) {
 }
 ```
 
-Trong API/server: dùng `parse`, để error bubble lên error handler.
-Trong form: dùng `safeParse` để hiển thị error đẹp.
+Trong API/server: dùng `parse`, để error bubble lên error handler. Trong form: dùng `safeParse` để hiển thị error đẹp.
 
 :::
 

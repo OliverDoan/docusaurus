@@ -81,8 +81,7 @@ export default async function CartPage() {
 
 ## Static vs Dynamic
 
-Next.js **tự detect** mỗi route là static hay dynamic dựa vào feature
-page dùng:
+Next.js **tự detect** mỗi route là static hay dynamic dựa vào feature page dùng:
 
 | Page dùng | Kết quả |
 |-----------|---------|
@@ -155,13 +154,11 @@ export const runtime = "edge";    // Edge Runtime
 **Khi nào cần force?**
 
 - **`force-static`**: page chỉ dùng external API nhưng muốn cache build time.
-- **`force-dynamic`**: page có data thay đổi mỗi request nhưng chưa dùng
-  dynamic API.
+- **`force-dynamic`**: page có data thay đổi mỗi request nhưng chưa dùng dynamic API.
 
 Đa số trường hợp: **để Next.js tự detect**. Force chỉ khi đặc biệt.
 
-Cẩn thận: nếu code dùng `cookies()` nhưng `dynamic = "force-static"` →
-**build error**. Khai báo đúng với code thực tế.
+Cẩn thận: nếu code dùng `cookies()` nhưng `dynamic = "force-static"` → **build error**. Khai báo đúng với code thực tế.
 
 :::
 
@@ -242,8 +239,7 @@ export default function Loading() {
 </Suspense>
 ```
 
-Loading.tsx ở page level. Suspense thủ công cho **section trong page** —
-combine cả hai cho UX tốt:
+Loading.tsx ở page level. Suspense thủ công cho **section trong page** — combine cả hai cho UX tốt:
 
 ```tsx
 // app/dashboard/page.tsx
@@ -423,8 +419,7 @@ export default {
 
 Pattern này cho **security header** chung cho mọi route.
 
-Mạnh hơn `<meta>` tag — server-side, áp dụng cho mọi response (kể cả
-asset).
+Mạnh hơn `<meta>` tag — server-side, áp dụng cho mọi response (kể cả asset).
 
 :::
 

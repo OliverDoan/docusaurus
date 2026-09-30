@@ -5,11 +5,7 @@ title: "1. Module Federation với Next.js"
 
 # Module Federation với Next.js
 
-Tích hợp Module Federation vào **Next.js** khó hơn React thuần, vì Next.js có
-kiến trúc riêng (SSR, không có async boundary mặc định). Bài này giải thích **vì
-sao cần plugin chuyên dụng `@module-federation/nextjs-mf`**, cách cấu hình host &
-remote, và — quan trọng — **những hạn chế** bạn phải biết trước khi chọn hướng
-này.
+Tích hợp Module Federation vào **Next.js** khó hơn React thuần, vì Next.js có kiến trúc riêng (SSR, không có async boundary mặc định). Bài này giải thích **vì sao cần plugin chuyên dụng `@module-federation/nextjs-mf`**, cách cấu hình host & remote, và — quan trọng — **những hạn chế** bạn phải biết trước khi chọn hướng này.
 
 ---
 
@@ -40,17 +36,12 @@ này.
 
 ## Vì sao Next.js cần plugin riêng?
 
-Ở demo React thuần, ta tạo **async boundary** (ranh giới bất đồng bộ) bằng mẫu
-`index.js → import('./bootstrap')`. Nhưng Next.js **tự quản entry point** — bạn
-không kiểm soát file khởi động, nên **không thể tự chèn** async boundary đó.
+Ở demo React thuần, ta tạo **async boundary** (ranh giới bất đồng bộ) bằng mẫu `index.js → import('./bootstrap')`. Nhưng Next.js **tự quản entry point** — bạn không kiểm soát file khởi động, nên **không thể tự chèn** async boundary đó.
 
-Vì vậy có package chuyên dụng **`@module-federation/nextjs-mf`**: nó vá
-(patch) cơ chế chia sẻ của Next.js để Module Federation hoạt động được, bù lại
-phần async boundary mà Next.js thiếu.
+Vì vậy có package chuyên dụng **`@module-federation/nextjs-mf`**: nó vá (patch) cơ chế chia sẻ của Next.js để Module Federation hoạt động được, bù lại phần async boundary mà Next.js thiếu.
 
 :::info Đây là kiến thức "vì sao", không cần thuộc lòng
-Bạn chỉ cần nhớ: **Next.js + Module Federation = phải dùng `@module-federation/nextjs-mf`**,
-không dùng `ModuleFederationPlugin` trần như React thuần.
+Bạn chỉ cần nhớ: **Next.js + Module Federation = phải dùng `@module-federation/nextjs-mf`**, không dùng `ModuleFederationPlugin` trần như React thuần.
 :::
 
 ## Cài đặt
@@ -126,8 +117,7 @@ Host chạy ở cổng **3000**.
 
 ## Dùng remote trong trang
 
-Tải remote bằng `next/dynamic` (cơ chế lazy của Next.js) với `ssr: false` cho an
-toàn ban đầu:
+Tải remote bằng `next/dynamic` (cơ chế lazy của Next.js) với `ssr: false` cho an toàn ban đầu:
 
 ```jsx
 // host/pages/index.js
@@ -148,46 +138,29 @@ export default function Home() {
 }
 ```
 
-> Để chống Next.js "tree-shake" (cắt bỏ code tưởng như không dùng) mất các phần
-> nội bộ cần thiết, một số thiết lập yêu cầu thêm import cao trong app (vd trong
-> `_app.js`): `import '@module-federation/nextjs-mf/lib/include-defaults'`. Hãy
-> kiểm tra tài liệu phiên bản bạn dùng.
+> Để chống Next.js "tree-shake" (cắt bỏ code tưởng như không dùng) mất các phần nội bộ cần thiết, một số thiết lập yêu cầu thêm import cao trong app (vd trong `_app.js`): `import '@module-federation/nextjs-mf/lib/include-defaults'`. Hãy kiểm tra tài liệu phiên bản bạn dùng.
 
 ## Hạn chế quan trọng
 
 :::warning Đọc kỹ trước khi chọn Next.js + Module Federation
-- **App Router còn hạn chế.** `@module-federation/nextjs-mf` chủ yếu ổn với
-  **Pages Router**. Với **App Router** (thư mục `app/`, React Server Components),
-  hỗ trợ chưa hoàn thiện và hay thay đổi — kiểm tra kỹ tài liệu/issue mới nhất.
-- **SSR phức tạp.** Server-side rendering xuyên remote là phần khó nhất; nhiều
-  team bắt đầu với `ssr: false` rồi mới tính tiếp.
-- **API đổi nhiều theo phiên bản.** Ví dụ cũ dùng `withModuleFederation` /
-  `patchSharing`, bản mới dùng `NextFederationPlugin`. Luôn đối chiếu version.
-- **CSS-in-JS có thể lỗi.** Việc chia sẻ CSS-in-JS giữa các mảnh đôi khi trục
-  trặc do một module nội bộ không được chia sẻ dạng singleton.
+- **App Router còn hạn chế.** `@module-federation/nextjs-mf` chủ yếu ổn với **Pages Router**. Với **App Router** (thư mục `app/`, React Server Components), hỗ trợ chưa hoàn thiện và hay thay đổi — kiểm tra kỹ tài liệu/issue mới nhất.
+- **SSR phức tạp.** Server-side rendering xuyên remote là phần khó nhất; nhiều team bắt đầu với `ssr: false` rồi mới tính tiếp.
+- **API đổi nhiều theo phiên bản.** Ví dụ cũ dùng `withModuleFederation` / `patchSharing`, bản mới dùng `NextFederationPlugin`. Luôn đối chiếu version.
+- **CSS-in-JS có thể lỗi.** Việc chia sẻ CSS-in-JS giữa các mảnh đôi khi trục trặc do một module nội bộ không được chia sẻ dạng singleton.
 :::
 
-> **Lời khuyên thực dụng:** nếu mục tiêu chính là micro-frontend "đúng bài" với
-> SSR, hãy cân nhắc các nền tảng/framework chuyên cho micro-frontend, hoặc giữ
-> remote ở dạng **client-side** (`ssr: false`). Đừng kỳ vọng "cắm là chạy" như
-> React thuần.
+> **Lời khuyên thực dụng:** nếu mục tiêu chính là micro-frontend "đúng bài" với SSR, hãy cân nhắc các nền tảng/framework chuyên cho micro-frontend, hoặc giữ remote ở dạng **client-side** (`ssr: false`). Đừng kỳ vọng "cắm là chạy" như React thuần.
 
 :::note Luôn tra cứu tài liệu phiên bản
-Khu vực Next.js + Module Federation thay đổi nhanh. Trước khi triển khai thật, đối
-chiếu với **module-federation.io** và README của `@module-federation/nextjs-mf`
-đúng phiên bản bạn cài.
+Khu vực Next.js + Module Federation thay đổi nhanh. Trước khi triển khai thật, đối chiếu với **module-federation.io** và README của `@module-federation/nextjs-mf` đúng phiên bản bạn cài.
 :::
 
 ## Tóm tắt
 
-- Next.js tự quản entry nên **thiếu async boundary** → phải dùng
-  **`@module-federation/nextjs-mf`** (`NextFederationPlugin`), không dùng plugin
-  Webpack trần.
-- **Remote** khai `exposes`; **host** khai `remotes` trỏ tới
-  `.../_next/static/chunks/remoteEntry.js`.
+- Next.js tự quản entry nên **thiếu async boundary** → phải dùng **`@module-federation/nextjs-mf`** (`NextFederationPlugin`), không dùng plugin Webpack trần.
+- **Remote** khai `exposes`; **host** khai `remotes` trỏ tới `.../_next/static/chunks/remoteEntry.js`.
 - Dùng remote qua **`next/dynamic`** (thường `ssr: false` lúc đầu).
-- **Hạn chế lớn**: App Router hỗ trợ chưa hoàn thiện, SSR phức tạp, API đổi theo
-  phiên bản, CSS-in-JS dễ lỗi.
+- **Hạn chế lớn**: App Router hỗ trợ chưa hoàn thiện, SSR phức tạp, API đổi theo phiên bản, CSS-in-JS dễ lỗi.
 - Luôn **đối chiếu tài liệu đúng phiên bản** trước khi triển khai thật.
 
 Mục tiếp theo: **thực tiễn** — design system, best practices và lỗi thường gặp.

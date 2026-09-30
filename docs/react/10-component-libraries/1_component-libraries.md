@@ -39,10 +39,7 @@ title: "1. Component Libraries"
 
 ## Vì sao dùng component library?
 
-**Vấn đề:** Tự xây mọi UI từ đầu — button, modal, dropdown, date picker,
-table — rất tốn thời gian và khó làm đúng accessibility (a11y), keyboard,
-responsive, các trạng thái (hover, disabled, loading, error). Dễ thiếu sót
-và giao diện không nhất quán giữa các phần.
+**Vấn đề:** Tự xây mọi UI từ đầu — button, modal, dropdown, date picker, table — rất tốn thời gian và khó làm đúng accessibility (a11y), keyboard, responsive, các trạng thái (hover, disabled, loading, error). Dễ thiếu sót và giao diện không nhất quán giữa các phần.
 
 ```jsx
 // Dropdown tự viết — phải lo đủ thứ: click ngoài để đóng, phím Esc/mũi tên,
@@ -58,9 +55,7 @@ function Dropdown({ options }) {
 }
 ```
 
-**Giải pháp:** Dùng component library (MUI, Ant Design, Chakra UI,
-shadcn/ui...) — bộ component dựng sẵn đã lo a11y, responsive, theme và đồng
-nhất giao diện, để bạn tập trung vào nghiệp vụ.
+**Giải pháp:** Dùng component library (MUI, Ant Design, Chakra UI, shadcn/ui...) — bộ component dựng sẵn đã lo a11y, responsive, theme và đồng nhất giao diện, để bạn tập trung vào nghiệp vụ.
 
 ```jsx
 import { Select } from "@mantine/core";
@@ -116,8 +111,7 @@ flowchart TD
 
 ## shadcn/ui (khuyến nghị)
 
-[shadcn/ui](https://ui.shadcn.com) — **không phải npm package**, là **bộ
-sưu tập component** bạn copy vào codebase.
+[shadcn/ui](https://ui.shadcn.com) — **không phải npm package**, là **bộ sưu tập component** bạn copy vào codebase.
 
 ```bash
 npx shadcn@latest init
@@ -155,8 +149,7 @@ Trade-off:
 - **Customize tự do** = tự chịu.
 - Cần Tailwind sẵn trong project.
 
-shadcn/ui đã thành **default choice** cho project React TypeScript +
-Tailwind 2024+. AI agent code generator cũng ưa thích pattern này.
+shadcn/ui đã thành **default choice** cho project React TypeScript + Tailwind 2024+. AI agent code generator cũng ưa thích pattern này.
 
 :::
 
@@ -214,15 +207,13 @@ import { Button, Box, Text } from "@chakra-ui/react";
 - **Accessibility** ngon nhất nhóm (focus, keyboard, ARIA).
 - **Theme tokens** dễ custom.
 
-Chakra UI v3 (2024) thay đổi nhiều — Chakra design hệ thống mới, dùng
-Panda CSS thay Emotion.
+Chakra UI v3 (2024) thay đổi nhiều — Chakra design hệ thống mới, dùng Panda CSS thay Emotion.
 
 ---
 
 ## Ant Design
 
-[Ant Design](https://ant.design) — design system từ Alibaba, phổ biến
-trong dashboard.
+[Ant Design](https://ant.design) — design system từ Alibaba, phổ biến trong dashboard.
 
 ```bash
 npm install antd
@@ -317,14 +308,11 @@ flowchart TD
 
 1. **Project mới, TS + Tailwind**: shadcn/ui (mặc định).
 2. **Enterprise legacy MUI**: stick với MUI.
-3. **Cần component phong phú đặc biệt** (date picker phức tạp, DataGrid):
-   bổ sung từ thư viện chuyên (TanStack Table, react-day-picker).
-4. **Brand identity mạnh**: shadcn/ui + custom Tailwind theme, hoặc
-   Radix UI + style tay.
+3. **Cần component phong phú đặc biệt** (date picker phức tạp, DataGrid): bổ sung từ thư viện chuyên (TanStack Table, react-day-picker).
+4. **Brand identity mạnh**: shadcn/ui + custom Tailwind theme, hoặc Radix UI + style tay.
 5. **Không học Tailwind**: Mantine hoặc Chakra UI.
 
-Tránh trộn nhiều UI lib trong cùng project — design ngắt nghé, bundle to,
-maintain khó.
+Tránh trộn nhiều UI lib trong cùng project — design ngắt nghé, bundle to, maintain khó.
 
 :::
 

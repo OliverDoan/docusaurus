@@ -82,9 +82,7 @@ Việc xếp lịch callback chia làm hai loại: **macrotask** (`setTimeout`, 
 
 ## Single-threaded model
 
-JavaScript chạy trên **một luồng duy nhất** — một thời điểm chỉ thực
-thi một thứ. Nhưng vẫn xử lý được nhiều việc cùng lúc nhờ **event
-loop** + I/O bất đồng bộ.
+JavaScript chạy trên **một luồng duy nhất** — một thời điểm chỉ thực thi một thứ. Nhưng vẫn xử lý được nhiều việc cùng lúc nhờ **event loop** + I/O bất đồng bộ.
 
 ```js
 console.log("1");
@@ -94,8 +92,7 @@ console.log("3");
 // In: 1, 3, 2
 ```
 
-Tại sao `2` ra cuối? Vì `setTimeout` đẩy callback vào **queue**, được
-chạy **sau** khi call stack rỗng.
+Tại sao `2` ra cuối? Vì `setTimeout` đẩy callback vào **queue**, được chạy **sau** khi call stack rỗng.
 
 ---
 
@@ -171,8 +168,7 @@ Giải thích:
 2. Call stack rỗng → flush microtask queue → `3`.
 3. Lấy macrotask → `2`.
 
-Điều này có hệ quả thực tế: **Promise.then chạy nhanh hơn setTimeout(0)**.
-Code dạng:
+Điều này có hệ quả thực tế: **Promise.then chạy nhanh hơn setTimeout(0)**. Code dạng:
 
 ```js
 function spam() {
@@ -181,8 +177,7 @@ function spam() {
 spam(); // browser bị treo
 ```
 
-Vô tận microtask → browser không bao giờ chạy macrotask (cả render UI).
-Trong khi:
+Vô tận microtask → browser không bao giờ chạy macrotask (cả render UI). Trong khi:
 
 ```js
 function spamMacro() {
@@ -248,8 +243,7 @@ queueMicrotask(fn);     // sớm hơn setTimeout(0)
 Promise.resolve().then(fn); // tương đương
 ```
 
-`setInterval` có drift — không chạy đúng `1000ms` mỗi lần nếu callback
-mất thời gian. Đếm chính xác nên dùng `Date.now()` so sánh:
+`setInterval` có drift — không chạy đúng `1000ms` mỗi lần nếu callback mất thời gian. Đếm chính xác nên dùng `Date.now()` so sánh:
 
 ```js
 const start = Date.now();
@@ -304,9 +298,7 @@ requestAnimationFrame(updateAnimation);
 4. **Render** (paint, composite).
 5. **Macrotask** (1 task).
 
-Trong Node.js cũng tương tự nhưng có thêm `process.nextTick` (ưu tiên cao
-nhất, cao hơn microtask) và các phase của libuv (timers, I/O callbacks,
-poll, check, close).
+Trong Node.js cũng tương tự nhưng có thêm `process.nextTick` (ưu tiên cao nhất, cao hơn microtask) và các phase của libuv (timers, I/O callbacks, poll, check, close).
 
 Hiểu thứ tự này giúp debug:
 - Tại sao state update không reflect trong DOM ngay.

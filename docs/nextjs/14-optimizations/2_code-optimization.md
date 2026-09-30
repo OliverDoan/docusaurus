@@ -262,8 +262,7 @@ const Map = dynamic(() => import("./Map"), {
 
 :::warning[Cần lưu ý]
 
-**`dynamic` chỉ work trong Client Component** trong App Router. Server
-Component dùng **Suspense + lazy** kiểu khác:
+**`dynamic` chỉ work trong Client Component** trong App Router. Server Component dùng **Suspense + lazy** kiểu khác:
 
 ```tsx
 // Server Component
@@ -280,8 +279,7 @@ export default function Page() {
 }
 ```
 
-`dynamic({ ssr: false })` — buộc client-only render, dùng cho widget
-phụ thuộc browser (canvas, mapbox, charting).
+`dynamic({ ssr: false })` — buộc client-only render, dùng cho widget phụ thuộc browser (canvas, mapbox, charting).
 
 :::
 
@@ -388,8 +386,7 @@ export default {
 };
 ```
 
-→ Native module hoặc package lớn không bundle vào server output → faster
-cold start.
+→ Native module hoặc package lớn không bundle vào server output → faster cold start.
 
 **`transpilePackages`** — buộc transpile package từ node_modules:
 
@@ -445,15 +442,13 @@ ANALYZE=true npm run build
 
 5. **Repeat** cho large chunk còn lại.
 
-Target: **First Load JS < 200KB** cho page chính. Báo cáo Vercel có
-hint khi vượt ngưỡng.
+Target: **First Load JS < 200KB** cho page chính. Báo cáo Vercel có hint khi vượt ngưỡng.
 
 :::
 
 :::warning[Cần lưu ý]
 
-**Bundle quá nhỏ cũng không tốt** — over-fragmentation gây nhiều HTTP
-request, slow on poor network.
+**Bundle quá nhỏ cũng không tốt** — over-fragmentation gây nhiều HTTP request, slow on poor network.
 
 Sweet spot:
 

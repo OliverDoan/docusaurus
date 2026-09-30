@@ -167,8 +167,7 @@ Migration Jest → Vitest:
 # Update config
 ```
 
-Vitest **nhanh hơn 3-10 lần** với Vite project. Project mới luôn dùng
-Vitest, project Jest cũ migrate dần.
+Vitest **nhanh hơn 3-10 lần** với Vite project. Project mới luôn dùng Vitest, project Jest cũ migrate dần.
 
 :::
 
@@ -176,8 +175,7 @@ Vitest, project Jest cũ migrate dần.
 
 ## React Testing Library
 
-[RTL](https://testing-library.com/react) — test theo cách user tương tác,
-không test implementation detail.
+[RTL](https://testing-library.com/react) — test theo cách user tương tác, không test implementation detail.
 
 ```tsx
 import { render, screen, fireEvent } from "@testing-library/react";
@@ -241,8 +239,7 @@ Pattern: **viết test theo "user story"**, không theo function name.
 
 ## Playwright (E2E)
 
-[Playwright](https://playwright.dev) — E2E testing chạy real browser
-(Chromium, Firefox, WebKit).
+[Playwright](https://playwright.dev) — E2E testing chạy real browser (Chromium, Firefox, WebKit).
 
 ```bash
 npm init playwright@latest
@@ -375,8 +372,7 @@ Khi refactor, test fail là **normal**. Đừng:
 - Đặt `.skip` "tạm thời".
 - Sửa test để pass mà không hiểu vì sao.
 
-→ Hiểu vì sao fail trước. Hoặc test đúng (sửa code), hoặc test sai (sửa
-test). Đừng "im lặng" — cuối cùng tạo nợ kỹ thuật lớn.
+→ Hiểu vì sao fail trước. Hoặc test đúng (sửa code), hoặc test sai (sửa test). Đừng "im lặng" — cuối cùng tạo nợ kỹ thuật lớn.
 
 :::
 

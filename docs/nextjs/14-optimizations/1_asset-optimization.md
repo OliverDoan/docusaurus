@@ -50,9 +50,7 @@ Tối ưu **asset** (tài nguyên tĩnh: ảnh, font chữ, script) là việc g
 <script src="https://analytics.example.com/tracker.js"></script>
 ```
 
-Hậu quả: trang nặng và chậm, layout nhảy (CLS) khi ảnh/font tải xong, chữ
-nhấp nháy, render bị chặn. Đây là nguyên nhân hàng đầu kéo điểm hiệu năng và
-SEO (Core Web Vitals) xuống thấp.
+Hậu quả: trang nặng và chậm, layout nhảy (CLS) khi ảnh/font tải xong, chữ nhấp nháy, render bị chặn. Đây là nguyên nhân hàng đầu kéo điểm hiệu năng và SEO (Core Web Vitals) xuống thấp.
 
 **Giải pháp:**
 
@@ -73,14 +71,10 @@ const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 :::tip[Dùng thực tế]
 
-- **Thay `<img>` bằng `<Image>`**: ảnh banner/sản phẩm tự nén WebP/AVIF, lazy
-  load ảnh ngoài viewport, hết giật layout khi cuộn.
-- **Dùng `next/font` cho Google Font**: self-host Inter/Roboto, chữ hiện mượt
-  từ đầu, không còn nhấp nháy hay nhảy chữ.
-- **Kiểm soát script analytics bằng `next/script`**: GA/pixel chạy
-  `afterInteractive` hoặc `lazyOnload`, không chặn lần hiển thị đầu tiên.
-- **Cải thiện Core Web Vitals**: LCP, CLS, INP tốt lên rõ → điểm Lighthouse và
-  thứ hạng SEO tăng theo.
+- **Thay `<img>` bằng `<Image>`**: ảnh banner/sản phẩm tự nén WebP/AVIF, lazy load ảnh ngoài viewport, hết giật layout khi cuộn.
+- **Dùng `next/font` cho Google Font**: self-host Inter/Roboto, chữ hiện mượt từ đầu, không còn nhấp nháy hay nhảy chữ.
+- **Kiểm soát script analytics bằng `next/script`**: GA/pixel chạy `afterInteractive` hoặc `lazyOnload`, không chặn lần hiển thị đầu tiên.
+- **Cải thiện Core Web Vitals**: LCP, CLS, INP tốt lên rõ → điểm Lighthouse và thứ hạng SEO tăng theo.
 
 :::
 

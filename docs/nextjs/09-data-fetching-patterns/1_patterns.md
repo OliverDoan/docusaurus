@@ -37,9 +37,7 @@ title: "1. Data Fetching Patterns"
 
 ## Vì sao cần các data fetching pattern?
 
-**Vấn đề:** fetch dữ liệu một cách ngây thơ — `await` tuần tự từng cái dù
-chúng độc lập — tạo ra **request waterfall**: thời gian cộng dồn, trang chậm.
-Tệ hơn, một phần data chậm có thể chặn hiển thị toàn bộ trang.
+**Vấn đề:** fetch dữ liệu một cách ngây thơ — `await` tuần tự từng cái dù chúng độc lập — tạo ra **request waterfall**: thời gian cộng dồn, trang chậm. Tệ hơn, một phần data chậm có thể chặn hiển thị toàn bộ trang.
 
 ```tsx
 // Waterfall — 3 request độc lập nhưng chạy nối tiếp
@@ -51,11 +49,7 @@ async function Page() {
 }
 ```
 
-**Giải pháp:** chọn đúng pattern theo quan hệ dữ liệu — **parallel**
-(`Promise.all` hoặc khởi tạo promise trước rồi await) cho data độc lập,
-**sequential** chỉ khi phụ thuộc nhau, **preload** để fetch sớm,
-**request memoization** (Next dedupe fetch trùng), và **streaming + Suspense**
-để hiện phần nhanh trước.
+**Giải pháp:** chọn đúng pattern theo quan hệ dữ liệu — **parallel** (`Promise.all` hoặc khởi tạo promise trước rồi await) cho data độc lập, **sequential** chỉ khi phụ thuộc nhau, **preload** để fetch sớm, **request memoization** (Next dedupe fetch trùng), và **streaming + Suspense** để hiện phần nhanh trước.
 
 ```tsx
 // Parallel — 3 request độc lập chạy cùng lúc
@@ -71,14 +65,10 @@ async function Page() {
 
 :::tip[Dùng thực tế]
 
-- **Tải song song** header + list + sidebar của một trang vì chúng không
-  phụ thuộc nhau → tổng thời gian bằng request chậm nhất, không cộng dồn.
-- **Tuần tự khi bắt buộc**: lấy `user` trước rồi mới `fetchOrders(user.id)`
-  vì cần `id` từ bước trước.
-- **Stream phần chậm** bằng Suspense: hiện ngay layout + skeleton, phần
-  data nặng (chart, thống kê) tự swap vào khi resolve.
-- **Tránh fetch trùng**: gọi `preload` ở layout, child `await` lại cùng
-  request — Next dedupe nên chỉ gọi mạng một lần.
+- **Tải song song** header + list + sidebar của một trang vì chúng không phụ thuộc nhau → tổng thời gian bằng request chậm nhất, không cộng dồn.
+- **Tuần tự khi bắt buộc**: lấy `user` trước rồi mới `fetchOrders(user.id)` vì cần `id` từ bước trước.
+- **Stream phần chậm** bằng Suspense: hiện ngay layout + skeleton, phần data nặng (chart, thống kê) tự swap vào khi resolve.
+- **Tránh fetch trùng**: gọi `preload` ở layout, child `await` lại cùng request — Next dedupe nên chỉ gọi mạng một lần.
 
 :::
 
@@ -172,8 +162,7 @@ export async function preload(userId: string) {
 }
 ```
 
-**Pattern: preload trong layout** — data fetch khi parent render, sẵn
-sàng khi child cần:
+**Pattern: preload trong layout** — data fetch khi parent render, sẵn sàng khi child cần:
 
 ```tsx
 // app/dashboard/layout.tsx
@@ -262,8 +251,7 @@ async function Orders() {
 }
 ```
 
-Mỗi Suspense boundary **independent** — User và Orders fetch song song,
-render khi sẵn sàng.
+Mỗi Suspense boundary **independent** — User và Orders fetch song song, render khi sẵn sàng.
 
 :::info[Phân tích]
 
@@ -339,8 +327,7 @@ User experience:
 3. Chart resolve sau 1s → swap.
 4. RecentActivity resolve sau 2s → swap.
 
-Mỗi phần load **độc lập**, **song song**. So với fetch hết rồi mới render
-= 2s nothing visible.
+Mỗi phần load **độc lập**, **song song**. So với fetch hết rồi mới render = 2s nothing visible.
 
 :::tip[Mẹo]
 
@@ -359,8 +346,7 @@ async function Dashboard() {
 }
 ```
 
-Loading.tsx wrap **toàn page**. Nếu data từng phần load thời gian khác
-nhau → user thấy skeleton lâu.
+Loading.tsx wrap **toàn page**. Nếu data từng phần load thời gian khác nhau → user thấy skeleton lâu.
 
 **Suspense thủ công** trong page → cho phép từng phần load độc lập:
 
@@ -388,13 +374,11 @@ Combo cả hai cho UX tốt nhất:
 
 **Trade-off của streaming**:
 
-1. **TTFB cao hơn** — server bắt đầu stream nhưng response time đo có
-   thể tệ hơn (HTTP header arrived sau).
+1. **TTFB cao hơn** — server bắt đầu stream nhưng response time đo có thể tệ hơn (HTTP header arrived sau).
 2. **HTML structure** — phải có placeholder, không phải HTML rỗng.
 3. **SEO** — Google crawl được stream HTML, nhưng cẩn thận với critical content.
 
-Khi data load **rất nhanh** (`<100ms`), Suspense không có ích — page render
-một lần là tốt hơn. Suspense shine khi:
+Khi data load **rất nhanh** (`<100ms`), Suspense không có ích — page render một lần là tốt hơn. Suspense shine khi:
 
 - Data lâu (>500ms).
 - Multiple sources song song.
