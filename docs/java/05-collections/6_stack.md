@@ -34,6 +34,7 @@ Stack (ngăn xếp) là cấu trúc xử lý phần tử theo nguyên tắc vào
 - [Ví dụ thực tế: kiểm tra ngoặc cân bằng](#ví-dụ-thực-tế-kiểm-tra-ngoặc-cân-bằng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -267,3 +268,163 @@ public static boolean kiemTraNgoac(String s) {
 - Java khuyến nghị dùng **`ArrayDeque`** làm Stack: nhanh hơn, sạch hơn, API giống nhau.
 - Stack rất hữu ích cho bài toán **hoàn tác (undo)**, **lịch sử trình duyệt**, **kiểm tra ngoặc cân bằng**.
 - Luôn kiểm tra `isEmpty()` trước khi `pop` để tránh lỗi.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Nguyên tắc LIFO của Stack là gì? Cho ví dụ thực tế ngoài đời.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**LIFO** (Last In, First Out — vào sau, ra trước): phần tử được thêm vào **gần nhất** sẽ được lấy ra **đầu tiên**.
+
+- Ví dụ ngoài đời: chồng đĩa trong bếp — bạn đặt đĩa mới rửa lên trên cùng, và khi cần dùng lại lấy đĩa trên cùng xuống trước, không rút được đĩa ở giữa hay dưới đáy.
+- Trong Java: `push(x)` đẩy `x` lên đỉnh, `pop()` lấy và xóa phần tử ở đỉnh, `peek()` xem đỉnh mà không xóa.
+
+</details>
+
+**2. Vì sao Java khuyến nghị không dùng lớp `Stack` (`java.util.Stack`) cho code mới?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Hai lý do chính:
+
+1. **Chậm không cần thiết**: `Stack` kế thừa từ `Vector`, khiến mọi thao tác (`push`, `pop`, `peek`) đều bị **đồng bộ hóa (synchronized)** — tốn chi phí khóa (lock) ngay cả khi chương trình chạy đơn luồng và không cần an toàn đa luồng.
+2. **Thiết kế kế thừa kém**: vì là subclass của `Vector`, `Stack` "lỡ" thừa hưởng các phương thức truy cập theo chỉ số như `get(i)`, `insertElementAt()`, `remove(i)` — những thao tác phá vỡ ngữ nghĩa thuần túy của một ngăn xếp (chỉ nên thao tác ở đỉnh), dễ khiến người dùng vô tình thao túng dữ liệu sai cách.
+
+Java documentation chính thức khuyến nghị dùng `ArrayDeque` thay thế, với API `push`/`pop`/`peek` giữ nguyên.
+
+</details>
+
+**3. `Deque` (`ArrayDeque`) thay thế `Stack` như thế nào? Vì hai đầu của `Deque`, làm sao biết đầu nào là "đỉnh"?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+Deque<Integer> stack = new ArrayDeque<>();
+stack.push(10); // thực chất gọi addFirst(10)
+stack.push(20); // thực chất gọi addFirst(20)
+System.out.println(stack.pop()); // thực chất gọi removeFirst() -> 20
+```
+
+- Khi dùng `Deque` làm Stack, **đầu (First)** luôn đóng vai trò "đỉnh": `push()` = `addFirst()`, `pop()` = `removeFirst()`, `peek()` = `peekFirst()`.
+- Miễn là chỉ dùng nhất quán bộ ba phương thức này (không trộn lẫn với `offerLast`/`pollLast`), logic LIFO luôn đúng, bất kể tên gọi bên trong là "đầu" hay "đỉnh".
+
+</details>
+
+**4. Đoạn code sau ném lỗi gì? So sánh cách xử lý lỗi giữa `Stack` cũ và `ArrayDeque`.**
+
+```java
+Stack<Integer> stack = new Stack<>();
+stack.pop();
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Ném `EmptyStackException` — một ngoại lệ **riêng của lớp `Stack`**, kế thừa `RuntimeException`.
+
+- Nếu thay bằng `ArrayDeque`: `new ArrayDeque<Integer>().pop()` sẽ ném `NoSuchElementException` thay vì `EmptyStackException` — vì `pop()` của `Deque` thực chất gọi `removeFirst()`, và mọi phương thức `removeXxx()` trên collection rỗng đều ném `NoSuchElementException` theo quy ước chung của Collections Framework.
+- Bài học: khi chuyển từ `Stack` sang `ArrayDeque`, nếu code cũ có bắt `catch (EmptyStackException e)`, phải đổi sang bắt `NoSuchElementException`.
+- Cách phòng tránh chung cho cả hai: luôn kiểm tra `isEmpty()` trước khi `pop()`, hoặc dùng `pollFirst()` (trả về `null` thay vì ném lỗi) nếu chấp nhận xử lý `null`.
+
+</details>
+
+**5. Trình bày thuật toán dùng Stack để kiểm tra chuỗi ngoặc `()[]{}` có cân bằng hay không. Vì sao phải dùng Stack thay vì đếm số lượng ngoặc mở/đóng đơn giản?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+boolean kiemTraNgoac(String s) {
+    Deque<Character> stack = new ArrayDeque<>();
+    for (char c : s.toCharArray()) {
+        if (c == '(' || c == '[' || c == '{') {
+            stack.push(c);
+        } else if (c == ')' || c == ']' || c == '}') {
+            if (stack.isEmpty()) return false;
+            char mo = stack.pop();
+            if ((c == ')' && mo != '(') || (c == ']' && mo != '[') || (c == '}' && mo != '{')) {
+                return false;
+            }
+        }
+    }
+    return stack.isEmpty();
+}
+```
+
+- Chỉ đếm số lượng ngoặc mở/đóng **không đủ**, vì không kiểm tra được **thứ tự lồng nhau đúng loại**. Ví dụ `"(a[b)]"` có số ngoặc mở/đóng bằng nhau, nhưng thứ tự sai — cặp `[...]` bị chồng chéo (overlap) không hợp lệ với `(...)`.
+- Stack giải quyết được vì bản chất bài toán này chính là kiểm tra **LIFO**: ngoặc đóng gặp phải phải khớp với ngoặc mở **gần nhất, chưa đóng** — đúng thứ tự mà Stack đảm bảo tự nhiên.
+
+</details>
+
+**6. Nêu mối liên hệ giữa Stack và cơ chế Call Stack (ngăn xếp lời gọi hàm) khi Java thực thi đệ quy (recursion).**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Mỗi khi một phương thức được gọi (kể cả gọi đệ quy chính nó), JVM đẩy một **stack frame** (khung ngăn xếp — chứa biến cục bộ, tham số, địa chỉ trả về) vào **Call Stack** của luồng hiện tại.
+- Khi phương thức kết thúc (`return`), frame tương ứng bị **pop** ra khỏi Call Stack, và luồng thực thi quay lại đúng vị trí đã gọi.
+- Đệ quy sâu quá mức (ví dụ vòng lặp vô hạn không có điều kiện dừng) sẽ khiến Call Stack tăng liên tục cho tới khi vượt quá dung lượng cho phép, ném ra `StackOverflowError`.
+- Vì cùng nguyên lý LIFO này, nhiều bài toán đệ quy có thể được **chuyển đổi thành vòng lặp tường minh (iterative)** bằng cách tự quản lý một `Deque`/`Stack` để mô phỏng call stack thủ công — tránh rủi ro `StackOverflowError` với dữ liệu lớn.
+
+</details>
+
+**7. Stack được dùng trong thuật toán DFS (Depth-First Search) như thế nào? So sánh với Queue trong BFS.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+Deque<Node> stack = new ArrayDeque<>();
+stack.push(root);
+Set<Node> daTham = new HashSet<>();
+
+while (!stack.isEmpty()) {
+    Node hienTai = stack.pop();
+    if (daTham.contains(hienTai)) continue;
+    daTham.add(hienTai);
+    xuLy(hienTai);
+    for (Node ke : hienTai.getNeighbors()) {
+        stack.push(ke);
+    }
+}
+```
+
+- **DFS** dùng Stack (LIFO): luôn đi **sâu vào nhánh vừa phát hiện gần nhất** trước khi quay lại các nhánh khác — vì phần tử `push` sau cùng luôn được `pop` ra xử lý trước.
+- **BFS** dùng Queue (FIFO): luôn xử lý hết các nút ở "lớp gần gốc hơn" trước khi sang lớp xa hơn.
+- Bản thân đệ quy DFS (không tự khai báo Stack) cũng hoạt động theo nguyên lý này, vì nó dựa trên Call Stack có sẵn của JVM.
+
+</details>
+
+**8. `ArrayDeque` khi dùng làm Stack có thread-safe không? Nếu cần Stack an toàn cho đa luồng thì làm sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không**, `ArrayDeque` không đồng bộ hóa, không an toàn khi nhiều luồng cùng `push`/`pop` đồng thời — đây chính là đánh đổi để đổi lấy tốc độ so với lớp `Stack` cũ.
+
+Các lựa chọn khi cần an toàn đa luồng:
+
+- `ConcurrentLinkedDeque` — cấu trúc **lock-free** (không dùng khóa truyền thống), phù hợp khi cần hiệu năng cao trong môi trường đa luồng mà không cần blocking.
+- `Collections.synchronizedDeque(...)` không tồn tại sẵn trong JDK chuẩn — thường phải tự bọc thủ công bằng khóa (`synchronized` block) nếu bắt buộc phải dùng `ArrayDeque` trong ngữ cảnh đa luồng đơn giản.
+- Nếu cần blocking (luồng tự chờ khi Stack rỗng/đầy), cân nhắc `LinkedBlockingDeque`.
+
+</details>
+
+**9. `EmptyStackException` và `NoSuchElementException` khác nhau thế nào trong hệ thống phân cấp exception của Java?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `EmptyStackException` (`java.util`): kế thừa trực tiếp từ `RuntimeException`, được thiết kế **riêng cho lớp `Stack`** — chỉ xuất hiện khi gọi `pop()`/`peek()` trên `Stack` rỗng.
+- `NoSuchElementException` (`java.util`): cũng kế thừa `RuntimeException`, nhưng là ngoại lệ **dùng chung cho nhiều cấu trúc** trong Collections Framework — ném ra khi gọi các phương thức `removeXxx()`/`getXxx()`/`next()` (kể cả `Iterator`) trên cấu trúc rỗng hoặc đã hết phần tử.
+- Cả hai đều là **unchecked exception** (không bắt buộc khai báo `throws` hay `try-catch`), nên lập trình viên dễ bỏ sót nếu không chủ động kiểm tra `isEmpty()` trước khi thao tác.
+
+</details>

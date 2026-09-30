@@ -35,6 +35,7 @@ TinyLog là một thư viện logging siêu nhẹ cho Java với triết lý đ�
 - [So sánh nhanh TinyLog với Logback/Log4j2](#so-sánh-nhanh-tinylog-với-logbacklog4j2)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -83,8 +84,7 @@ public class OrderService {
 
 ## TinyLog là gì?
 
-**TinyLog** (cái tên đã nói lên tất cả: "tiny" nghĩa là tí hon) là một thư viện logging
-**siêu nhẹ** cho Java. Toàn bộ thư viện chỉ vài trăm KB, rất gọn so với Logback hay Log4j2.
+**TinyLog** (cái tên đã nói lên tất cả: "tiny" nghĩa là tí hon) là một thư viện logging **siêu nhẹ** cho Java. Toàn bộ thư viện chỉ vài trăm KB, rất gọn so với Logback hay Log4j2.
 
 Điểm hấp dẫn nhất của TinyLog là **đơn giản tối đa**:
 
@@ -92,15 +92,13 @@ public class OrderService {
 - Cấu hình chỉ là một file `tinylog.properties` ngắn gọn vài dòng.
 - Tự động kèm tên lớp, tên hàm, số dòng vào log mà không cần khai báo gì.
 
-Nếu Logback/Log4j2 là "nhà máy điện" lớn với nhiều van điều khiển, thì TinyLog là một
-"viên pin nhỏ" — gọn nhẹ, cắm vào là chạy.
+Nếu Logback/Log4j2 là "nhà máy điện" lớn với nhiều van điều khiển, thì TinyLog là một "viên pin nhỏ" — gọn nhẹ, cắm vào là chạy.
 
 ---
 
 ## Cài đặt TinyLog
 
-TinyLog gồm hai phần: phần API (để gọi log) và phần implementation (để ghi log thật).
-Thêm cả hai vào Maven:
+TinyLog gồm hai phần: phần API (để gọi log) và phần implementation (để ghi log thật). Thêm cả hai vào Maven:
 
 ```xml
 <!-- pom.xml -->
@@ -124,8 +122,7 @@ Thêm cả hai vào Maven:
 
 ## Ghi log với Logger.info
 
-Khác với SLF4J (phải tạo logger riêng cho mỗi lớp), TinyLog cho phép gọi thẳng các phương
-thức **static** trên lớp `Logger`:
+Khác với SLF4J (phải tạo logger riêng cho mỗi lớp), TinyLog cho phép gọi thẳng các phương thức **static** trên lớp `Logger`:
 
 ```java
 import org.tinylog.Logger;
@@ -157,15 +154,13 @@ try {
 }
 ```
 
-> Lưu ý nhỏ: ở TinyLog, exception đứng ở vị trí **đầu** (`Logger.error(e, "...")`), khác
-> với SLF4J để exception ở **cuối**.
+> Lưu ý nhỏ: ở TinyLog, exception đứng ở vị trí **đầu** (`Logger.error(e, "...")`), khác với SLF4J để exception ở **cuối**.
 
 ---
 
 ## Cấu hình tối giản với tinylog.properties
 
-TinyLog cấu hình bằng file `tinylog.properties` đặt trong `src/main/resources/`. Cú pháp
-là dạng `khóa = giá trị`, rất dễ đọc:
+TinyLog cấu hình bằng file `tinylog.properties` đặt trong `src/main/resources/`. Cú pháp là dạng `khóa = giá trị`, rất dễ đọc:
 
 ```properties
 # Mức log tối thiểu sẽ được ghi (INFO trở lên).
@@ -180,8 +175,7 @@ writer        = console
 writer.format = {date: yyyy-MM-dd HH:mm:ss} {level}: {class}.{method}() - {message}
 ```
 
-Trong TinyLog, **writer** chính là khái niệm tương đương với "appender" của Logback —
-nó quyết định log được ghi ra đâu (console, file...).
+Trong TinyLog, **writer** chính là khái niệm tương đương với "appender" của Logback — nó quyết định log được ghi ra đâu (console, file...).
 
 Sơ đồ dưới minh hoạ luồng ghi log tối giản của TinyLog: gọi thẳng `Logger.info` rồi writer đưa log tới đích:
 
@@ -249,12 +243,9 @@ writer2.format = {date} {level}: {class} - {message}
 
 TinyLog phù hợp khi:
 
-- **Ứng dụng nhỏ, công cụ dòng lệnh (CLI), bài tập, demo.** Bạn muốn log nhanh gọn mà
-  không phải viết file XML dài.
-- **Cần thư viện nhẹ.** Dung lượng nhỏ, ít phụ thuộc, khởi động nhanh — hợp cho ứng dụng
-  cần gọn nhẹ.
-- **Muốn cấu hình tối giản.** Một file `.properties` vài dòng là đủ, không cần XML phức
-  tạp.
+- **Ứng dụng nhỏ, công cụ dòng lệnh (CLI), bài tập, demo.** Bạn muốn log nhanh gọn mà không phải viết file XML dài.
+- **Cần thư viện nhẹ.** Dung lượng nhỏ, ít phụ thuộc, khởi động nhanh — hợp cho ứng dụng cần gọn nhẹ.
+- **Muốn cấu hình tối giản.** Một file `.properties` vài dòng là đủ, không cần XML phức tạp.
 
 KHÔNG nên dùng TinyLog khi:
 
@@ -278,16 +269,11 @@ KHÔNG nên dùng TinyLog khi:
 
 ## Lỗi thường gặp
 
-- **Quên thêm `tinylog-impl`.** Chỉ có `tinylog-api` thì log không xuất hiện (giống SLF4J
-  thiếu implementation).
-- **Đặt sai vị trí `tinylog.properties`.** Phải nằm trong `src/main/resources/` để có mặt
-  trong classpath.
-- **Nhầm vị trí exception.** Ở TinyLog, exception đứng ĐẦU `Logger.error(e, "...")`, không
-  phải cuối như SLF4J.
-- **Dùng TinyLog trong dự án Spring Boot lớn.** Có thể chạy nhưng kém tích hợp; nên dùng
-  Logback mặc định.
-- **Đặt `level` quá cao.** Nếu để `level = error`, các log INFO/DEBUG sẽ biến mất khiến
-  bạn tưởng log "không chạy".
+- **Quên thêm `tinylog-impl`.** Chỉ có `tinylog-api` thì log không xuất hiện (giống SLF4J thiếu implementation).
+- **Đặt sai vị trí `tinylog.properties`.** Phải nằm trong `src/main/resources/` để có mặt trong classpath.
+- **Nhầm vị trí exception.** Ở TinyLog, exception đứng ĐẦU `Logger.error(e, "...")`, không phải cuối như SLF4J.
+- **Dùng TinyLog trong dự án Spring Boot lớn.** Có thể chạy nhưng kém tích hợp; nên dùng Logback mặc định.
+- **Đặt `level` quá cao.** Nếu để `level = error`, các log INFO/DEBUG sẽ biến mất khiến bạn tưởng log "không chạy".
 
 ---
 
@@ -299,3 +285,147 @@ KHÔNG nên dùng TinyLog khi:
 - Cấu hình bằng `tinylog.properties` vài dòng; **writer** đóng vai trò như appender.
 - Hợp với **ứng dụng nhỏ, CLI, demo**; dự án lớn nên dùng Logback/Log4j2.
 - Lưu ý exception đứng ở vị trí **đầu** trong `Logger.error(e, "...")`.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. TinyLog khác gì so với cách dùng SLF4J trong việc tạo logger cho mỗi lớp?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Với **SLF4J**, mỗi lớp phải tự khai báo một logger riêng: `private static final Logger log = LoggerFactory.getLogger(TenLop.class);`, rồi mới gọi `log.info(...)`.
+- Với **TinyLog**, bạn gọi thẳng phương thức **static** trên lớp `Logger`: `Logger.info(...)`, không cần khai báo hay tạo instance gì trong từng lớp. TinyLog tự nhận diện lớp/phương thức/dòng code phát ra log dựa trên stack trace tại thời điểm gọi.
+- Đánh đổi: cách gọi thẳng của TinyLog tiện lợi hơn nhưng phải trả giá bằng việc phân tích stack trace mỗi lần log, có thể chậm hơn một chút so với việc đã biết sẵn context qua đối tượng logger tạo trước.
+
+</details>
+
+**2. TinyLog gồm những thành phần dependency nào? Nếu chỉ thêm `tinylog-api` mà quên `tinylog-impl` thì xảy ra chuyện gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+TinyLog gồm hai phần tách biệt, giống mô hình facade/implementation:
+
+- **`tinylog-api`**: cung cấp lớp `Logger` để gọi log trong code.
+- **`tinylog-impl`**: implementation thực sự xử lý và ghi log ra đích (console/file).
+
+Nếu chỉ thêm `tinylog-api` mà quên `tinylog-impl`, chương trình vẫn biên dịch và chạy được (không lỗi), nhưng **log sẽ không xuất hiện ở đâu cả** vì thiếu phần thực thi việc ghi — tương tự tình huống dùng `SLF4J` mà quên thêm implementation như Logback.
+
+</details>
+
+**3. Trong TinyLog, vị trí tham số exception khi ghi log lỗi khác gì so với SLF4J? Cho ví dụ minh họa.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Ở **SLF4J**, exception được truyền làm tham số **cuối cùng**:
+
+```java
+logger.error("Thanh toán thất bại cho đơn {}", maDon, e);
+```
+
+- Ở **TinyLog**, exception được truyền làm tham số **đầu tiên**:
+
+```java
+Logger.error(e, "Thanh toán thất bại cho đơn {}", maDon);
+```
+
+- Đây là điểm khác biệt dễ gây nhầm lẫn nhất khi chuyển đổi qua lại giữa hai thư viện, cần đặc biệt lưu ý khi review code hoặc migrate giữa các dự án dùng logging khác nhau.
+
+</details>
+
+**4. `writer` trong file `tinylog.properties` tương đương với khái niệm nào trong Logback? Viết một cấu hình có cả writer ghi ra console lẫn writer ghi ra file cùng lúc.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`writer` trong TinyLog tương đương với **appender** trong Logback — cả hai đều quyết định log được ghi ra đích nào (console, file...).
+
+Cấu hình nhiều writer cùng lúc bằng cách đánh số:
+
+```properties
+level = info
+
+writer1        = console
+writer1.format = {level}: {message}
+
+writer2        = file
+writer2.file   = logs/app.log
+writer2.format = {date: yyyy-MM-dd HH:mm:ss} {level}: {class} - {message}
+```
+
+- Với cấu hình này, mỗi dòng log sẽ được ghi đồng thời ra cả console lẫn file `logs/app.log`, mỗi writer có định dạng (`format`) riêng độc lập với nhau.
+
+</details>
+
+**5. So sánh dung lượng, độ phức tạp cấu hình, và mức độ phù hợp của TinyLog so với Logback/Log4j2. Khi nào nên chọn TinyLog, khi nào tuyệt đối không nên?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Tiêu chí | TinyLog | Logback / Log4j2 |
+|---|---|---|
+| Dung lượng thư viện | Vài trăm KB, rất nhỏ | Lớn hơn đáng kể |
+| Cấu hình | File `.properties` vài dòng | File XML dài, nhiều thành phần |
+| Hệ sinh thái/tính linh hoạt | Vừa đủ cho nhu cầu cơ bản | Rất phong phú (nhiều appender, filter, layout, tích hợp) |
+
+- **Nên chọn TinyLog** khi: viết công cụ CLI, script nhỏ, bài demo/học tập, ứng dụng Android hoặc môi trường nhúng cần giữ dung lượng tối thiểu.
+- **Không nên dùng TinyLog** khi: dự án Spring Boot lớn (đã có sẵn Logback tích hợp tốt hơn), hoặc hệ thống cần cấu hình logging phức tạp — nhiều đích ghi log khác nhau, nhiều quy tắc lọc, tích hợp với hệ thống giám sát tập trung — nơi hệ sinh thái đầy đủ của Logback/Log4j2 phù hợp hơn nhiều.
+
+</details>
+
+**6. Đoạn cấu hình sau có vấn đề gì khiến lập trình viên tưởng rằng "logging không hoạt động", dù thực chất code hoàn toàn đúng?**
+
+```properties
+level = error
+
+writer        = console
+writer.format = {level}: {message}
+```
+
+```java
+Logger.info("Đơn hàng {} đã tạo", maDon);
+Logger.debug("Chi tiết xử lý: {}", chiTiet);
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không có bug trong code** — nguyên nhân là **`level = error`** đặt ngưỡng quá cao.
+
+- Với ngưỡng `error`, chỉ log ở mức `ERROR` mới được ghi ra; cả `Logger.info(...)` lẫn `Logger.debug(...)` đều **thấp hơn** ngưỡng này nên bị bỏ qua hoàn toàn, không xuất hiện ở console.
+- Đây là lỗi cấu hình rất dễ mắc phải: người mới thường để `level` mặc định hoặc copy nhầm từ một cấu hình khác, rồi tưởng rằng logging "không chạy" trong khi thực chất code log vẫn đúng, chỉ là bị lọc bởi ngưỡng level quá cao.
+- Cách sửa: hạ `level` xuống `info` hoặc `debug` tùy nhu cầu quan sát.
+
+</details>
+
+**7. Bạn cần viết một công cụ CLI nhỏ chuyển đổi định dạng file, chạy độc lập (không phải Spring Boot), muốn có log ra cả console và file mà không muốn viết cấu hình XML phức tạp. Bạn sẽ chọn thư viện logging nào và vì sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**TinyLog** là lựa chọn phù hợp nhất cho tình huống này.
+
+- Không cần khai báo logger riêng cho từng lớp — chỉ cần `import org.tinylog.Logger;` rồi gọi thẳng `Logger.info(...)` ở bất cứ đâu.
+- Cấu hình chỉ cần một file `tinylog.properties` vài dòng để khai báo hai writer (console + file), thay vì phải viết `logback.xml`/`log4j2.xml` với appender, encoder, pattern layout dài dòng.
+- Dung lượng thư viện nhỏ giúp công cụ CLI khởi động nhanh, phù hợp với những công cụ chạy ngắn hạn không cần một hệ sinh thái logging đầy đủ như Logback/Log4j2 vốn hướng tới ứng dụng server chạy dài hạn, phức tạp hơn.
+
+</details>
+
+**8. Nếu một dự án Spring Boot đã dùng sẵn Logback, có nên thêm TinyLog vào để dùng cho một module riêng biệt trong cùng dự án không? Vì sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không nên.** Dù về mặt kỹ thuật TinyLog và Logback có thể cùng tồn tại trong classpath (chúng không cạnh tranh vai trò SLF4J provider như Logback với Log4j2, vì TinyLog dùng API riêng `org.tinylog.Logger` chứ không qua SLF4J), việc trộn hai hệ thống logging trong cùng một dự án gây ra:
+
+- **Log không đồng nhất định dạng**: log từ Logback và log từ TinyLog có thể xuất hiện với format khác nhau, khó đọc và khó tổng hợp khi tra cứu sự cố.
+- **Khó quản lý cấu hình tập trung**: phải duy trì cả `logback-spring.xml` lẫn `tinylog.properties`, tăng chi phí bảo trì và dễ gây nhầm lẫn cho thành viên mới trong đội.
+- **Không tận dụng được các tính năng tích hợp** như đổi level runtime qua Spring Boot Actuator, vốn chỉ hoạt động với hệ thống logging chính thức của Spring Boot.
+- Nguyên tắc chung: một dự án nên **thống nhất một implementation logging duy nhất** trong toàn bộ codebase để dễ vận hành và giám sát.
+
+</details>

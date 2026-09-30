@@ -32,6 +32,7 @@ Method chaining là kỹ thuật gọi nhiều phương thức nối tiếp nhau
 - [Builder Pattern cơ bản](#builder-pattern-cơ-bản)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -261,3 +262,116 @@ Cách viết này rõ ràng hơn nhiều so với `new Pizza("day mong", "mozzar
 - Giúp code ngắn gọn, dễ đọc, thể hiện rõ chuỗi thao tác.
 - `StringBuilder.append()` là ví dụ chaining trong thư viện chuẩn.
 - **Builder Pattern** dùng chaining để tạo đối tượng phức tạp từng bước, kết thúc bằng `build()`.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Bí quyết kỹ thuật khiến method chaining hoạt động được là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Mỗi phương thức trong chuỗi phải **trả về chính đối tượng hiện tại** bằng `return this;` (hoặc trả về một Builder). Vì kết quả trả về vẫn là cùng một đối tượng (hoặc builder) có đầy đủ các phương thức đó, ta có thể gọi tiếp phương thức khác ngay trên giá trị trả về, tạo thành chuỗi `obj.a().b().c()`.
+
+</details>
+
+**2. Vì sao một phương thức khai báo kiểu trả về `void` thì không thể tham gia method chaining?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Vì `void` nghĩa là phương thức **không trả về giá trị nào**. Sau khi gọi một method `void`, biểu thức đó không còn "đối tượng" nào để gọi tiếp phương thức khác — trình biên dịch sẽ báo lỗi nếu bạn cố viết `obj.methodVoid().methodKhac()`. Muốn chaining, kiểu trả về phải là chính lớp đó (hoặc Builder/interface tương ứng).
+
+</details>
+
+**3. Method chaining và Builder Pattern có phải là một khái niệm không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không hoàn toàn.** Method chaining là một **kỹ thuật** (mỗi method `return this`), còn Builder Pattern là một **design pattern** ứng dụng kỹ thuật đó để giải quyết bài toán cụ thể: dựng một đối tượng phức tạp từng bước, thường qua một lớp `Builder` riêng, kết thúc bằng `build()`.
+
+Nói cách khác: mọi Builder Pattern đều dùng method chaining, nhưng không phải mọi method chaining đều là Builder Pattern — ví dụ `StringBuilder.append()` chaining trên chính đối tượng, không có bước `build()` tách biệt.
+
+</details>
+
+**4. Vì sao `StringBuilder` nhanh hơn nối chuỗi bằng toán tử `+` nhiều lần trong vòng lặp?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`String` trong Java là **bất biến** (immutable). Mỗi lần dùng `+` để nối, Java phải tạo ra một **chuỗi mới** hoàn toàn (sao chép lại toàn bộ nội dung cũ cộng thêm phần mới), gây lãng phí bộ nhớ và CPU nếu lặp nhiều lần.
+
+`StringBuilder` dùng một **mảng ký tự nội bộ có thể thay đổi** (mutable buffer). Phương thức `append()` chỉ ghi thêm vào buffer đó (mở rộng khi cần), không tạo bản sao toàn bộ mỗi lần — vì vậy hiệu quả hơn nhiều khi nối chuỗi lặp lại, ví dụ trong vòng lặp `for`.
+
+</details>
+
+**5. Đọc code sau — vì sao dòng cuối gây lỗi biên dịch?**
+
+```java
+public class LyCaPhe {
+    String noiDung = "";
+    void themDuong() { noiDung += "duong"; }
+    LyCaPhe themSua() { noiDung += " sua"; return this; }
+}
+
+LyCaPhe ly = new LyCaPhe();
+ly.themDuong().themSua();
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`themDuong()` khai báo kiểu trả về là `void` (không có `return this;`), nên `ly.themDuong()` không trả về giá trị nào để gọi tiếp `.themSua()` — trình biên dịch báo lỗi vì `void` không có phương thức `themSua()`. Cách sửa: đổi kiểu trả về của `themDuong()` thành `LyCaPhe` và thêm `return this;`.
+
+</details>
+
+**6. "Fluent API" là gì? Nêu một ví dụ trong thư viện chuẩn Java hiện đại (ngoài `StringBuilder`).**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Fluent API** (giao diện trôi chảy) là cách thiết kế API sao cho lời gọi đọc tự nhiên như một câu văn, thường dựa trên method chaining.
+
+Ví dụ điển hình: **Stream API** (Java 8+):
+
+```java
+List<String> ketQua = danhSach.stream()
+    .filter(s -> s.length() > 3)
+    .map(String::toUpperCase)
+    .collect(Collectors.toList());
+```
+
+Mỗi bước (`filter`, `map`) trả về một `Stream` mới để gọi tiếp bước sau, đọc rất giống mô tả tuần tự "lọc rồi biến đổi rồi thu thập".
+
+</details>
+
+**7. Method chaining có nhược điểm gì khi debug hoặc đọc code?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Khó đặt breakpoint/debug từng bước**: nhiều lời gọi nằm trên cùng một biểu thức, khó dừng lại kiểm tra giá trị trung gian sau mỗi bước như khi tách thành từng dòng riêng.
+- **Stack trace khó đọc**: nếu một bước giữa chuỗi ném exception, thông báo lỗi có thể chỉ trỏ tới đúng một dòng dài chứa nhiều lời gọi, khó biết bước nào gây lỗi.
+- **Chuỗi quá dài gây khó đọc**: nếu nhồi quá nhiều bước trên một dòng thay vì xuống dòng hợp lý, code trở nên rối mắt.
+
+Giải pháp thực hành: xuống dòng mỗi phương thức trong chuỗi, và với logic phức tạp nên tách thành các bước rõ ràng hơn là chaining quá dài.
+
+</details>
+
+**8. Tình huống: bạn thiết kế `HttpRequestBuilder` dùng method chaining để cấu hình URL, header, body rồi gọi `build()`. Builder này nên mutable (tự sửa state bên trong) hay immutable (mỗi bước trả về bản sao mới)? Đánh đổi là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Cả hai cách đều được dùng thực tế, tùy đánh đổi:
+
+- **Builder mutable** (mỗi method sửa field nội bộ rồi `return this;`): đơn giản, tiết kiệm bộ nhớ, là cách phổ biến nhất (giống ví dụ `Pizza.Builder` trong bài). Rủi ro: nếu builder được **tái sử dụng** hoặc chia sẻ giữa nhiều luồng (thread), việc sửa state chung có thể gây tranh chấp dữ liệu (race condition) hoặc lỗi khó lường nếu gọi `build()` nhiều lần với ý định độc lập.
+- **Builder immutable** (mỗi method trả về **bản builder mới** với state đã cập nhật, không sửa builder gốc): an toàn hơn khi chia sẻ giữa nhiều thread hoặc muốn tái sử dụng một builder gốc làm "khuôn" rồi tạo nhiều biến thể khác nhau từ nó, nhưng tốn thêm bộ nhớ vì tạo nhiều đối tượng trung gian.
+
+Với `HttpRequestBuilder` dùng trong một luồng, xây một request rồi bỏ đi — mutable đơn giản và đủ dùng. Nếu builder được giữ lại làm template dùng chung nhiều nơi, nên cân nhắc immutable để tránh side-effect ngoài ý muốn.
+
+</details>

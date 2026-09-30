@@ -35,6 +35,7 @@ Kiểu dữ liệu cho Java biết một giá trị là số nguyên, số thự
 - [Giá trị mặc định](#giá-trị-mặc-định)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -227,3 +228,225 @@ Lưu ý: **biến cục bộ** (local variable — biến khai báo trong hàm) 
 - **Kiểu tham chiếu** (như `String`, mảng) lưu địa chỉ trỏ tới dữ liệu.
 - `long` thêm hậu tố `L`, `float` thêm `f`; `char` dùng nháy đơn, `String` dùng nháy kép.
 - Biến cục bộ phải gán giá trị trước khi dùng.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Java có bao nhiêu kiểu nguyên thủy (primitive)? Kể tên và phân nhóm chúng.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Java có đúng **8 kiểu nguyên thủy**, chia thành 4 nhóm:
+
+- **Số nguyên**: `byte`, `short`, `int`, `long`.
+- **Số thực**: `float`, `double`.
+- **Ký tự**: `char`.
+- **Luận lý**: `boolean`.
+
+Đây là các kiểu dựng sẵn của ngôn ngữ, lưu trực tiếp giá trị (không phải object), khác với kiểu tham chiếu như `String` hay mảng.
+
+</details>
+
+**2. Phân biệt kiểu nguyên thủy (primitive) và kiểu tham chiếu (reference) trong Java. Cho ví dụ mỗi loại.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Tiêu chí | Kiểu nguyên thủy | Kiểu tham chiếu |
+|---|---|---|
+| Lưu trữ | Lưu **trực tiếp giá trị** | Lưu **địa chỉ** trỏ tới object trong bộ nhớ |
+| Ví dụ | `int`, `double`, `boolean`, `char`... | `String`, mảng, các class tự tạo |
+| Giá trị mặc định (biến instance) | `0`, `0.0`, `false`... | `null` |
+| Có thể là `null` | Không | Có |
+
+```java
+int soNguyen = 5;              // lưu trực tiếp giá trị 5
+String ten = "Java";           // "ten" lưu địa chỉ trỏ tới object chuỗi "Java"
+```
+
+</details>
+
+**3. So sánh `int` với `Integer`. `Autoboxing`/`unboxing` là gì và khi nào bạn buộc phải dùng `Integer` thay vì `int`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `int` — kiểu nguyên thủy, lưu trực tiếp giá trị, nhanh và nhẹ, **không** nhận `null`.
+- `Integer` — kiểu tham chiếu (wrapper class bọc quanh `int`), là object thật sự, **có thể** là `null`, dùng được ở nơi yêu cầu object (như generics, `Collection`).
+
+**Autoboxing**: Java tự động chuyển `int` → `Integer` khi cần một object (ví dụ đưa vào `List`). **Unboxing**: chiều ngược lại, tự động lấy giá trị `int` ra từ `Integer`.
+
+```java
+List<Integer> diem = new ArrayList<>();
+diem.add(9);              // autoboxing: int 9 → Integer tự động
+int x = diem.get(0);      // unboxing: Integer → int tự động
+```
+
+Bắt buộc dùng `Integer` (thay vì `int`) khi: dùng trong `List<Integer>`/`Map<..., Integer>` (generics không nhận primitive trực tiếp), hoặc khi field cần biểu diễn trạng thái "chưa có giá trị" bằng `null`.
+
+</details>
+
+**4. Vì sao khai báo số thực `float` cần thêm hậu tố `f` (ví dụ `36.6f`) nhưng `double` thì không cần hậu tố gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Trong Java, **một số thực viết trực tiếp (literal) không có hậu tố mặc định được hiểu là `double`** (độ chính xác 64-bit). Vì vậy:
+
+```java
+float nhietDo = 36.6;   // LỖI biên dịch: incompatible types (double → float cần ép kiểu tường minh)
+float nhietDo = 36.6f;  // ĐÚNG: hậu tố f báo cho compiler đây là giá trị float
+double soPi = 3.14;     // ĐÚNG: không cần hậu tố vì mặc định đã là double
+```
+
+Gán một giá trị `double` (64-bit) cho biến `float` (32-bit) là ép kiểu thu hẹp (narrowing) tiềm ẩn mất dữ liệu, nên compiler bắt buộc phải có hậu tố `f` hoặc ép kiểu `(float)` tường minh.
+
+</details>
+
+**5. Đoạn code sau có biên dịch được không? Nếu có lỗi, hãy chỉ ra dòng gây lỗi và giải thích.**
+
+```java
+public class Demo {
+    public static void main(String[] args) {
+        byte diem = 120;
+        byte tong = diem + 10;
+        System.out.println(tong);
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không biên dịch được** ở dòng `byte tong = diem + 10;`.
+
+Lý do: trong Java, mọi phép toán số học giữa các kiểu nhỏ hơn `int` (như `byte`, `short`) đều tự động được **nâng cấp lên `int`** trước khi tính (kể cả khi cả hai toán hạng đều là `byte`). Kết quả `diem + 10` có kiểu `int`, trong khi biến `tong` khai báo là `byte` → gán `int` cho `byte` là ép kiểu thu hẹp, cần ép kiểu tường minh:
+
+```java
+byte tong = (byte) (diem + 10); // phải ép kiểu rõ ràng
+```
+
+Ngoài ra cần lưu ý: nếu kết quả `diem + 10` vượt phạm vi `byte` (-128 đến 127), giá trị sẽ bị tràn số (overflow) và "cuộn vòng" ra một giá trị âm không như mong đợi.
+
+</details>
+
+**6. Đoạn code sau chạy có ném ngoại lệ (exception) không? Vì sao?**
+
+```java
+public class Demo {
+    public static void main(String[] args) {
+        Integer soLuong = null;
+        int tong = soLuong + 5;
+        System.out.println(tong);
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Có, ném `NullPointerException` (NPE) lúc chạy** (compile vẫn qua bình thường).
+
+Giải thích: `soLuong + 5` yêu cầu **unboxing** `Integer` thành `int` để cộng. Nhưng `soLuong` đang là `null` — không có giá trị `int` nào để "mở bọc" ra cả, nên JVM ném `NullPointerException` ngay tại phép unboxing này.
+
+Đây là lỗi rất dễ gặp khi trộn wrapper class (`Integer`, `Double`...) với primitive trong biểu thức tính toán — luôn kiểm tra `null` trước khi để wrapper tham gia phép toán, hoặc gán giá trị mặc định hợp lý.
+
+</details>
+
+**7. Vì sao đoạn code sau bị compiler báo lỗi "variable might not have been initialized", trong khi field cùng kiểu trong một class lại không bị lỗi này?**
+
+```java
+public class Demo {
+    static int tongInstance; // field static — KHÔNG lỗi, tự có giá trị mặc định 0
+
+    public static void main(String[] args) {
+        int tongCucBo;                 // biến cục bộ — chưa gán giá trị
+        System.out.println(tongCucBo); // LỖI: variable might not have been initialized
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Vì Java chỉ cấp **giá trị mặc định tự động** cho **biến instance/static** (field của class), còn **biến cục bộ** (khai báo trong method) thì **không** có giá trị mặc định.
+
+- `tongInstance` là field `static` → JVM tự gán `0` khi class được khởi tạo.
+- `tongCucBo` là biến cục bộ trong `main` → nếu bạn đọc giá trị của nó trước khi gán, compiler chủ động chặn lại bằng lỗi biên dịch, thay vì để chương trình chạy với một giá trị rác không xác định.
+
+Đây là một quyết định thiết kế an toàn của Java: buộc lập trình viên phải luôn khởi tạo biến cục bộ trước khi dùng.
+
+</details>
+
+**8. Bạn cần lưu số tiền (ví dụ giá sản phẩm, số dư tài khoản) trong một ứng dụng thương mại điện tử. Có nên dùng `double` không? Vì sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không nên** dùng `double` (hay `float`) để lưu tiền, vì các kiểu số thực dấu phẩy động (floating-point) biểu diễn giá trị theo hệ nhị phân, nên **không thể biểu diễn chính xác** nhiều số thập phân thông thường (ví dụ `0.1`), dẫn tới sai số tích lũy khi cộng/trừ nhiều lần:
+
+```java
+double a = 0.1 + 0.2;
+System.out.println(a); // in ra 0.30000000000000004, không phải 0.3
+```
+
+Trong tính toán tài chính, sai số nhỏ này có thể tích lũy thành chênh lệch tiền thật.
+
+**Nên dùng**:
+
+- `java.math.BigDecimal` — biểu diễn số thập phân chính xác tuyệt đối, có các phương thức tính toán và làm tròn tường minh (`setScale`, `RoundingMode`).
+- Hoặc lưu số tiền dưới dạng số nguyên nhỏ nhất (ví dụ lưu **xu/cent** bằng `long`) nếu hệ thống không cần độ chính xác thập phân phức tạp.
+
+</details>
+
+**9. Đoạn code sau in ra `true` hay `false`? Giải thích vì sao (đây là câu hỏi phỏng vấn Java kinh điển).**
+
+```java
+Integer a = 100;
+Integer b = 100;
+System.out.println(a == b);   // dòng 1
+
+Integer c = 200;
+Integer d = 200;
+System.out.println(c == d);   // dòng 2
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Dòng 1 in `true`, dòng 2 in `false`.
+
+Nguyên nhân: JVM có cơ chế **cache** (bộ nhớ đệm) sẵn các object `Integer` cho khoảng giá trị từ **-128 đến 127** (Integer Cache). Khi autoboxing một `int` trong khoảng này, Java trả về **cùng một object** đã cache sẵn, nên `a == b` (so sánh địa chỉ object) trả về `true`.
+
+Với `200` — nằm ngoài khoảng cache — mỗi lần autoboxing sẽ tạo ra một object `Integer` **mới**, nên `c == d` so sánh hai địa chỉ khác nhau → `false`.
+
+**Bài học thực hành**: luôn dùng `.equals()` để so sánh **giá trị** của các kiểu wrapper (`Integer`, `Long`...), không dùng `==` (chỉ nên dùng `==` cho kiểu nguyên thủy như `int`).
+
+```java
+System.out.println(c.equals(d)); // true — so sánh đúng giá trị
+```
+
+</details>
+
+**10. `char` trong Java chiếm 16 bit và biểu diễn Unicode. Điều gì xảy ra khi bạn cần lưu một ký tự emoji hoặc chữ Hán hiếm nằm ngoài phạm vi 16 bit cơ bản?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`char` trong Java lưu một đơn vị mã UTF-16 (16 bit), đủ để biểu diễn các ký tự trong **BMP** (Basic Multilingual Plane — vùng ký tự Unicode cơ bản, gồm hầu hết chữ cái, chữ số, ký hiệu và nhiều ngôn ngữ thông dụng).
+
+Tuy nhiên, nhiều **emoji** và một số chữ Hán/Hàn hiếm nằm **ngoài BMP** (mã Unicode lớn hơn giá trị 16 bit có thể biểu diễn) — các ký tự này cần **surrogate pair**: hai giá trị `char` (16 bit) ghép lại mới biểu diễn được một ký tự thật sự.
+
+```java
+String emoji = "😀";
+System.out.println(emoji.length());        // in ra 2, KHÔNG phải 1 (vì đây là surrogate pair)
+System.out.println(emoji.codePointCount(0, emoji.length())); // in ra 1 — đúng "1 ký tự" thật
+```
+
+Vì lý do này, khi xử lý chuỗi có thể chứa emoji/ký tự ngoài BMP, nên dùng các phương thức làm việc theo **code point** (như `codePointAt`, `codePoints()`) thay vì giả định một `char` luôn là một ký tự hiển thị hoàn chỉnh.
+
+</details>

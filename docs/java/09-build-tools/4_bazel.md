@@ -36,6 +36,7 @@ Bazel là công cụ build do Google tạo ra, dành cho các dự án rất l�
 - [So sánh nhanh với Maven và Gradle](#so-sánh-nhanh-với-maven-và-gradle)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -214,3 +215,118 @@ Cú pháp `//path:target` là cách Bazel chỉ đường tới một target: ph
 - **Build tái lập (reproducible)**: cùng mã nguồn cho kết quả giống hệt ở mọi máy.
 - Bazel dùng ngôn ngữ **Starlark** (giống Python), không phải XML.
 - **Người mới không nên dùng Bazel** — hãy học Maven và Gradle trước; chỉ cần biết Bazel dành cho dự án cực lớn.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. File `WORKSPACE` (hoặc `MODULE.bazel`) và file `BUILD` khác nhau thế nào về vai trò?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **`WORKSPACE`** (hoặc `MODULE.bazel` ở phiên bản mới hơn): chỉ có **một file duy nhất** ở gốc dự án, đánh dấu "đây là gốc của một workspace Bazel" và khai báo các phụ thuộc bên ngoài ở mức toàn dự án (ví dụ tải quy tắc build cho một ngôn ngữ).
+- **`BUILD`** (hoặc `BUILD.bazel`): có **nhiều file**, mỗi thư mục con chứa mã nguồn thường có một file `BUILD` riêng, khai báo các **target** cụ thể (thư viện, chương trình chạy được) trong thư mục đó cùng `deps` (phụ thuộc) của chúng.
+
+Nói cách khác: `WORKSPACE` trả lời câu hỏi "dự án bắt đầu từ đâu", còn `BUILD` trả lời câu hỏi "trong thư mục này có những gì cần build và chúng phụ thuộc vào đâu".
+
+</details>
+
+**2. Vì sao Bazel đạt được build tái lập (reproducible) tốt hơn hẳn Maven/Gradle theo mặc định?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Bazel build trong môi trường **hermetic** (đóng kín, cô lập) — mọi đầu vào ảnh hưởng tới kết quả build (phiên bản thư viện, phiên bản công cụ biên dịch, biến môi trường...) đều phải được **khai báo tường minh** trong cấu hình Bazel, thay vì "ngầm định phụ thuộc" vào những gì tình cờ có sẵn trên máy đang chạy build.
+
+Maven/Gradle mặc định có thể vô tình bị ảnh hưởng bởi những thứ có sẵn trên máy (phiên bản JDK hệ thống, biến môi trường, thư viện cached khác nhau) mà không phải lúc nào cũng được kiểm soát chặt như cách Bazel yêu cầu — nên khả năng "máy này build ra khác máy kia" cao hơn.
+
+</details>
+
+**3. Vì sao Bazel yêu cầu khai báo `deps` rất tường minh và chi tiết trong mỗi file `BUILD`? Lợi ích của việc này là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Vì Bazel dùng chính thông tin `deps` này để dựng một **"bản đồ quan hệ phụ thuộc"** chính xác giữa toàn bộ các target trong dự án — nhờ vậy khi một file thay đổi, Bazel biết **chính xác** những target nào bị ảnh hưởng và cần build lại, mà không cần đoán hay build lại "cho chắc" toàn bộ dự án.
+
+```python
+java_binary(
+    name = "app",
+    srcs = ["Main.java"],
+    deps = [":greeter"], # phải khai báo rõ, không được ngầm định
+)
+```
+
+Lợi ích: **incremental build cực kỳ chính xác** — chỉ build lại đúng phần bị ảnh hưởng thực sự, cực kỳ hiệu quả ở quy mô hàng nghìn module, thứ mà Maven/Gradle khó đạt được ở cùng mức độ chính xác vì chúng không bắt buộc khai báo tường minh tới từng target nhỏ như vậy.
+
+</details>
+
+**4. Cú pháp `//src/main/java/com/example:app` trong lệnh `bazel build` nghĩa là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Đây là **nhãn (label)** — cách Bazel định danh chính xác một target:
+
+- **`//`**: ký hiệu gốc của workspace (tương đương thư mục chứa file `WORKSPACE`).
+- **`src/main/java/com/example`**: đường dẫn thư mục chứa file `BUILD` khai báo target đó.
+- **`:app`**: tên target cụ thể, đã được khai báo trong file `BUILD` ở thư mục đó (ví dụ `java_binary(name = "app", ...)`).
+
+Thiếu `//` hoặc thiếu phần `:tên_target` đều khiến Bazel không xác định được target cần build.
+
+</details>
+
+**5. Tình huống: một dự án Java nhỏ, một nhóm 3 người, không có nhu cầu đa ngôn ngữ. Có nên đề xuất chuyển sang Bazel để "tối ưu tốc độ build cho tương lai" không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không nên.** Bazel được thiết kế cho quy mô **rất lớn** (monorepo hàng nghìn module, nhiều ngôn ngữ) — với dự án nhỏ, chi phí học và vận hành Bazel (viết `BUILD` cho từng thư mục, khai báo `deps` tường minh, hiểu Starlark) **vượt xa lợi ích** mà nó mang lại, vì Maven/Gradle vốn đã đủ nhanh và đơn giản hơn nhiều ở quy mô này.
+
+Nguyên tắc chọn công cụ: chọn dựa trên **nhu cầu thực tế hiện tại**, không phải "phòng xa cho tương lai xa vời" — nếu dự án phát triển tới quy mô thực sự cần Bazel, việc di chuyển (migrate) vẫn khả thi khi đó, và lúc đó quyết định sẽ có cơ sở rõ ràng hơn nhiều.
+
+</details>
+
+**6. Lập bảng so sánh nhanh Maven, Gradle, Bazel theo quy mô phù hợp và độ khó học.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Tiêu chí | Maven | Gradle | Bazel |
+|---|---|---|---|
+| Quy mô phù hợp | Nhỏ → vừa | Nhỏ → lớn | Rất lớn |
+| Độ dễ học | Dễ | Trung bình | Khó |
+| File cấu hình | `pom.xml` (XML) | `build.gradle`(`.kts`) (DSL) | `BUILD` + `WORKSPACE` (Starlark) |
+| Đa ngôn ngữ | Hạn chế | Hạn chế | Mạnh |
+
+Ghi nhớ nhanh: Maven/Gradle phù hợp phần lớn dự án Java/Android thông thường; Bazel chỉ nên cân nhắc khi dự án đạt quy mô monorepo cực lớn và đội ngũ đủ mạnh để duy trì nó.
+
+</details>
+
+**7. Starlark là gì? Nó khác gì so với XML của Maven hay Groovy/Kotlin DSL của Gradle?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Starlark** là ngôn ngữ cấu hình của Bazel, được thiết kế như một **biến thể đơn giản hóa của Python** — có cú pháp gần giống Python (thụt lề, hàm, danh sách) nhưng **hạn chế** nhiều tính năng động của Python thật (ví dụ không có vòng lặp `while` không giới hạn, không I/O tùy tiện) nhằm đảm bảo file cấu hình luôn **phân tích được nhanh và dự đoán được** (quan trọng cho việc build hermetic, tái lập).
+
+Khác biệt với hai công cụ kia:
+- **XML (Maven)**: hoàn toàn khai báo (declarative), không thể viết logic lập trình (điều kiện, vòng lặp) trực tiếp trong `pom.xml`.
+- **Groovy/Kotlin DSL (Gradle)**: là ngôn ngữ lập trình **đầy đủ tính năng**, cho phép viết logic tùy ý, kể cả các đoạn code phức tạp không liên quan trực tiếp tới build.
+- **Starlark (Bazel)**: nằm ở giữa — có cấu trúc lập trình cơ bản (biến, hàm, điều kiện) nhưng **cố tình giới hạn** để tránh việc build script trở nên khó dự đoán hoặc phụ thuộc vào trạng thái bên ngoài.
+
+</details>
+
+**8. Vì sao quên khai báo `deps` cho một target trong file `BUILD` sẽ khiến build thất bại NGAY LẬP TỨC ở Bazel, trong khi Maven/Gradle có thể "may mắn" build được nhờ dependency bắc cầu?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Bazel áp dụng nguyên tắc **"strict dependencies"** (phụ thuộc nghiêm ngặt): mỗi target **chỉ được phép sử dụng** đúng những gì nó khai báo trong `deps`, không được "mượn tạm" một class chỉ vì class đó tình cờ có mặt trên classpath nhờ một dependency khác kéo vào gián tiếp (transitive). Nếu code trong target dùng tới một class mà `deps` không khai báo, Bazel báo lỗi build thất bại ngay, không cho qua.
+
+Ngược lại, ở Maven/Gradle, nếu class đó tình cờ có mặt trên classpath (nhờ một thư viện khác đã kéo nó vào như transitive dependency), code vẫn **biên dịch và chạy được** dù bạn chưa bao giờ khai báo trực tiếp thư viện chứa class đó — đây là hiện tượng gọi là "phụ thuộc ẩn" (implicit/undeclared dependency), tiềm ẩn rủi ro: nếu sau này thư viện trung gian kia đổi version và không còn kéo theo class đó nữa, build sẽ đột ngột lỗi mà không rõ nguyên nhân. Cách tiếp cận nghiêm ngặt của Bazel buộc mọi phụ thuộc phải tường minh ngay từ đầu, tránh được rủi ro "bom hẹn giờ" này.
+
+</details>

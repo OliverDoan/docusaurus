@@ -34,6 +34,7 @@ Lập trình mạng là viết chương trình để các máy tính trao đổi
 - [Làm việc với URL](#làm-việc-với-url)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -304,3 +305,186 @@ public class UrlDemo {
 - Dùng **`ServerSocket`** cho server và **`Socket`** cho client với giao thức TCP.
 - Từ Java 11, dùng **`HttpClient`** để gọi API web qua HTTP một cách gọn gàng.
 - Lớp **`URL`** giúp phân tích địa chỉ tài nguyên trên mạng.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Một `Socket` được xác định (định danh duy nhất) bởi những thông tin nào? Vai trò của `ServerSocket` khác `Socket` ra sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Một kết nối socket được xác định bởi cặp **địa chỉ IP + cổng (port)** ở cả hai đầu (client và server) — cụ thể là bốn giá trị: IP nguồn, port nguồn, IP đích, port đích.
+
+- **`ServerSocket`**: dùng ở phía **server**, chỉ để **lắng nghe** (`accept()`) kết nối tới trên một cổng cố định; bản thân nó không dùng để gửi/nhận dữ liệu.
+- **`Socket`**: đại diện cho **một kết nối cụ thể** đã thiết lập — dùng ở phía client để chủ động kết nối tới server, và cũng chính là đối tượng server nhận được sau khi `ServerSocket.accept()` thành công để giao tiếp với client đó.
+
+</details>
+
+**2. Java `Socket`/`ServerSocket` mặc định dùng giao thức TCP. So sánh TCP với UDP (`DatagramSocket`) — khi nào nên chọn giao thức nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| | TCP (`Socket`/`ServerSocket`) | UDP (`DatagramSocket`) |
+|---|---|---|
+| Đảm bảo thứ tự & đầy đủ | Có — dữ liệu tới đúng thứ tự, không mất gói (tự động gửi lại nếu thất lạc) | Không — gói có thể mất, tới sai thứ tự, không tự gửi lại |
+| Kết nối | Hướng kết nối (connection-oriented) — bắt tay trước khi truyền | Không kết nối (connectionless) — gửi thẳng, không cần bắt tay |
+| Tốc độ/overhead | Chậm hơn do phải đảm bảo tin cậy | Nhanh hơn, overhead thấp |
+| Ví dụ dùng | Chat, truyền file, gọi API — cần dữ liệu chính xác tuyệt đối | Video call, game online, streaming — chấp nhận mất một ít gói để đổi lấy độ trễ thấp |
+
+Chọn TCP khi tính **đúng và đủ** của dữ liệu quan trọng hơn tốc độ; chọn UDP khi **độ trễ thấp** quan trọng hơn, và ứng dụng có thể tự chịu được việc mất một phần dữ liệu.
+
+</details>
+
+**3. Vì sao `SimpleServer` trong bài chỉ phục vụ được đúng **một** client rồi kết thúc chương trình? Làm sao sửa để nó phục vụ được nhiều client liên tục?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Vì `accept()` chỉ được gọi **một lần**, bên ngoài mọi vòng lặp — sau khi xử lý xong client đầu tiên, phương thức `main` kết thúc, `try-with-resources` đóng `ServerSocket` lại, chương trình dừng.
+
+Muốn phục vụ **nhiều client liên tục**, cần bọc `accept()` trong một vòng lặp vô hạn, và (để phục vụ nhiều client **cùng lúc** thay vì lần lượt) giao mỗi kết nối cho một luồng riêng xử lý:
+
+```java
+try (ServerSocket serverSocket = new ServerSocket(port)) {
+    while (true) { // luôn sẵn sàng nhận kết nối mới
+        Socket clientSocket = serverSocket.accept(); // chờ client tiếp theo
+        // Giao cho một luồng riêng xử lý để không chặn việc accept() client khác
+        new Thread(() -> xuLyClient(clientSocket)).start();
+    }
+}
+```
+
+Đây là mô hình "thread-per-connection" đơn giản — với số lượng client rất lớn, thực tế thường dùng virtual thread (Java 21+) hoặc NIO `Selector` để xử lý hiệu quả hơn.
+
+</details>
+
+**4. `accept()` và `readLine()` là các thao tác "blocking". Điều này có nghĩa là gì, và nó ảnh hưởng thế nào tới thiết kế chương trình?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Blocking** (chặn) nghĩa là luồng gọi phương thức đó sẽ **dừng lại chờ** cho đến khi có kết quả, không làm gì khác được trong lúc chờ:
+
+- `serverSocket.accept()`: luồng gọi bị "đứng" cho tới khi có client nào đó kết nối tới.
+- `in.readLine()`: luồng gọi bị "đứng" cho tới khi phía bên kia gửi xong một dòng dữ liệu (hoặc kết nối bị đóng).
+
+Ảnh hưởng tới thiết kế: nếu server chỉ có **một luồng duy nhất** vừa `accept()` vừa xử lý dữ liệu, nó sẽ **không thể** đồng thời chờ client mới và phục vụ client hiện tại — đây chính là lý do cần mô hình đa luồng (mỗi kết nối một luồng riêng) hoặc I/O bất đồng bộ/non-blocking (NIO) khi cần phục vụ nhiều client đồng thời.
+
+</details>
+
+**5. `HttpClient.send()` và `HttpClient.sendAsync()` khác nhau thế nào? Cho ví dụ dùng `sendAsync()`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **`send(request, bodyHandler)`**: gửi yêu cầu **đồng bộ (synchronous)** — luồng gọi bị **chặn**, đứng chờ cho tới khi có phản hồi mới chạy tiếp dòng code kế tiếp.
+- **`sendAsync(request, bodyHandler)`**: gửi yêu cầu **bất đồng bộ (asynchronous)** — trả về ngay một `CompletableFuture<HttpResponse<T>>`, luồng gọi **không bị chặn**, có thể làm việc khác trong lúc chờ; xử lý kết quả thông qua callback khi future hoàn tất.
+
+```java
+HttpClient client = HttpClient.newHttpClient();
+HttpRequest request = HttpRequest.newBuilder()
+        .uri(URI.create("https://api.github.com"))
+        .GET()
+        .build();
+
+// Không chặn luồng hiện tại; xử lý kết quả khi có phản hồi
+client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+      .thenApply(HttpResponse::body)
+      .thenAccept(System.out::println);
+
+System.out.println("Dòng này chạy NGAY, không chờ HTTP trả về");
+```
+
+`sendAsync()` phù hợp khi cần gọi nhiều API song song hoặc không muốn chặn luồng chính (ví dụ trong ứng dụng có giao diện người dùng).
+
+</details>
+
+**6. Có nên tạo mới một `HttpClient` cho mỗi lần gọi API không? Vì sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không nên.** `HttpClient` được thiết kế để **tái sử dụng** — nó quản lý bên trong một **connection pool** (bể kết nối tái sử dụng), cấu hình timeout, cookie handler... Tạo lại `HttpClient` mới cho mỗi request sẽ mất đi lợi ích tái sử dụng kết nối (phải bắt tay TCP/TLS lại từ đầu mỗi lần), tương tự như việc biên dịch lại `Pattern` mỗi lần thay vì tái sử dụng.
+
+```java
+// ĐÚNG: tạo một lần, dùng lại cho nhiều request
+private static final HttpClient CLIENT = HttpClient.newHttpClient();
+
+public String goiApi(String url) throws IOException, InterruptedException {
+    HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
+    return CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
+}
+```
+
+</details>
+
+**7. Đoạn code sau ném ngoại lệ gì, trong hai tình huống: (a) chạy `SimpleClient` trước khi `SimpleServer` đang chạy; (b) chạy `SimpleServer` hai lần liên tiếp cùng một cổng?**
+
+```java
+Socket socket = new Socket("localhost", 5000);
+```
+
+```java
+ServerSocket serverSocket = new ServerSocket(5000);
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **(a) Client chạy trước khi server lắng nghe**: ném **`ConnectException`** (thường kèm thông điệp "Connection refused") — vì chưa có ai lắng nghe ở cổng 5000 để chấp nhận kết nối.
+- **(b) Chạy `ServerSocket` hai lần trên cùng một cổng** (khi tiến trình đầu vẫn đang giữ cổng đó): ném **`BindException`** ("Address already in use") — hệ điều hành không cho hai tiến trình cùng lắng nghe một cổng TCP giống nhau tại cùng thời điểm.
+- Cả hai đều là `IOException`, nên có thể bắt gộp bằng `catch (IOException e)`, nhưng biết phân biệt hai loại lỗi cụ thể giúp debug nhanh hơn: "chưa ai lắng nghe" khác với "cổng đã bị chiếm".
+
+</details>
+
+**8. `URL` và `URI` (Uniform Resource Identifier) khác nhau thế nào? Vì sao nên dùng `URI` để phân tích cú pháp thay vì tạo `URL` trực tiếp?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **`URI`**: chỉ là một chuỗi định danh tài nguyên theo cú pháp chuẩn (RFC 3986) — thuần về **phân tích cú pháp (parsing)**, không thực hiện bất kỳ hành động mạng nào.
+- **`URL`**: là một `URI` cụ thể hơn, biết cách **định vị (locate)** tài nguyên đó, và có thể **mở kết nối thực sự** tới nó (`openStream()`, `openConnection()`).
+
+Java khuyến khích: dùng `URI` để phân tích cú pháp địa chỉ (an toàn, không gây side-effect), chỉ chuyển sang `URL` (qua `uri.toURL()`) khi thực sự cần **mở kết nối**. Lý do: một số phương thức cũ của `URL` như `equals()`/`hashCode()` có thể thực hiện **tra cứu DNS** (network call) ngầm để so sánh hai URL — gây độ trễ bất ngờ và hành vi khó đoán nếu dùng `URL` làm key trong `HashMap`/`HashSet`. Đây cũng là lý do các constructor `URL` cũ dần bị khuyến nghị thay bằng `URI` trong các phiên bản Java hiện đại.
+
+</details>
+
+**9. Tình huống: bạn cần nâng cấp `SimpleServer` trong bài để phục vụ **hàng nghìn** client kết nối đồng thời. Mô hình "mỗi client một `Thread`" có còn phù hợp không? Nêu hướng cải thiện.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Mô hình "thread-per-connection" (mỗi kết nối một luồng hệ điều hành riêng) sẽ **khó scale** tới hàng nghìn kết nối đồng thời với luồng nền tảng (platform thread) truyền thống, vì mỗi luồng chiếm bộ nhớ stack đáng kể và việc chuyển đổi ngữ cảnh (context switch) giữa hàng nghìn luồng gây tốn kém.
+
+Hai hướng cải thiện phổ biến:
+- **Virtual thread (Java 21+)**: vẫn giữ mô hình lập trình đơn giản "mỗi kết nối một luồng", nhưng virtual thread rất nhẹ (có thể tạo hàng triệu luồng), do JVM quản lý việc ánh xạ xuống một số ít luồng hệ điều hành thực khi luồng bị block (như lúc `accept()`/`readLine()` đang chờ).
+- **NIO non-blocking với `Selector`**: dùng một (hoặc vài) luồng để theo dõi **nhiều kênh (channel)** cùng lúc, chỉ xử lý khi kênh nào đó thực sự sẵn sàng đọc/ghi — phức tạp hơn để lập trình nhưng hiệu quả cao với kiến trúc truyền thống trước khi có virtual thread.
+
+Với dự án mới trên Java 21+, virtual thread thường là lựa chọn đơn giản và hiệu quả nhất để scale mô hình thread-per-connection sẵn có mà không cần viết lại theo NIO phức tạp.
+
+</details>
+
+**10. Vì sao khi bắt được `InterruptedException` từ `HttpClient.send()`, nên gọi `Thread.currentThread().interrupt()` ngay trong khối `catch` thay vì chỉ log lỗi rồi bỏ qua?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Khi một luồng đang bị **block** (chờ) trong một thao tác như `send()` bị ngắt (interrupt) từ bên ngoài, JVM ném `InterruptedException` và đồng thời **xóa (clear) cờ ngắt (interrupt status)** của luồng đó — coi như tín hiệu ngắt đã được "tiêu thụ" xong.
+
+Nếu chỉ bắt ngoại lệ rồi log và bỏ qua, **thông tin "luồng này đã được yêu cầu dừng"** sẽ bị mất hoàn toàn — các đoạn code gọi ở tầng cao hơn (ví dụ vòng lặp kiểm tra `Thread.currentThread().isInterrupted()` để biết khi nào nên dừng công việc) sẽ không còn biết rằng đã có yêu cầu ngắt.
+
+```java
+} catch (IOException | InterruptedException e) {
+    System.err.println("Lỗi khi gọi HTTP: " + e.getMessage());
+    Thread.currentThread().interrupt(); // khôi phục lại cờ ngắt cho tầng gọi cao hơn biết
+}
+```
+
+Gọi `Thread.currentThread().interrupt()` giúp **"khôi phục" lại tín hiệu ngắt**, đảm bảo hành vi ngắt luồng vẫn được tôn trọng đúng đắn xuyên suốt toàn bộ call stack, thay vì bị "nuốt mất" ở một tầng xử lý ngoại lệ nào đó.
+
+</details>

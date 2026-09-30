@@ -47,6 +47,7 @@ Stream API là công cụ xử lý một chuỗi phần tử theo kiểu dây ch
 - [Ví dụ tổng hợp thực tế](#ví-dụ-tổng-hợp-thực-tế)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -616,3 +617,247 @@ public class RealWorldDemo {
 - **`Collectors`** cung cấp công cụ gom mạnh mẽ: `toList`, `toSet`, `joining`, `groupingBy`, `counting`, `summingInt`...
 - **Lazy evaluation**: thao tác trung gian chỉ chạy khi có thao tác kết thúc, cho phép tối ưu (dừng sớm).
 - **Parallel stream** xử lý song song nhiều nhân CPU — chỉ dùng cho dữ liệu lớn, thao tác độc lập và bất biến.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Stream khác Collection (như `List`, `Set`) cốt lõi ở điểm nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Tiêu chí | Collection | Stream |
+|----------|-----------|--------|
+| Lưu trữ dữ liệu | Có (chứa phần tử thật sự trong bộ nhớ) | Không — chỉ "chảy qua" dữ liệu từ nguồn |
+| Số lần dùng | Duyệt được nhiều lần | Chỉ dùng được **một lần** |
+| Thời điểm tính toán | Ngay khi gọi phương thức | **Lazy** — chỉ chạy khi gặp thao tác kết thúc |
+| Thay đổi dữ liệu gốc | Có thể `add`/`remove` trực tiếp | Không sửa đổi nguồn, luôn tạo kết quả mới |
+| Phong cách lập trình | Mệnh lệnh (imperative — mô tả "làm thế nào") | Khai báo (declarative — mô tả "làm gì") |
+
+</details>
+
+**2. Vì sao chỉ có thao tác trung gian mà không có thao tác kết thúc thì "không có gì chạy cả"? Giải thích cơ chế lazy evaluation.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+List<Integer> numbers = List.of(1, 2, 3);
+numbers.stream()
+    .filter(n -> {
+        System.out.println("Đang lọc: " + n); // KHÔNG in ra dòng nào
+        return n % 2 == 0;
+    });
+// Không có collect/forEach/count... nên không có gì thực thi
+```
+
+- Mỗi thao tác trung gian (`filter`, `map`, `sorted`...) khi được gọi **chỉ tạo ra một "kế hoạch xử lý"** (một stream mới bọc quanh stream cũ), chưa thực sự duyệt qua phần tử nào.
+- Toàn bộ pipeline chỉ **thực sự chạy** khi gặp một **thao tác kết thúc** (`collect`, `forEach`, `count`, `reduce`...) — lúc đó Java mới bắt đầu kéo từng phần tử từ nguồn, đẩy qua toàn bộ chuỗi thao tác trung gian, rồi đưa vào thao tác kết thúc.
+- Thiết kế lazy này cho phép Java **tối ưu hóa**: gộp nhiều thao tác trung gian thành một lượt duyệt duy nhất, và **dừng sớm (short-circuit)** khi không cần xử lý hết toàn bộ dữ liệu.
+
+</details>
+
+**3. Đoạn code sau ném lỗi gì? Vì sao?**
+
+```java
+Stream<Integer> s = List.of(1, 2, 3).stream();
+s.forEach(System.out::println);
+long count = s.count();
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Ném `IllegalStateException` với thông báo dạng "stream has already been operated upon or closed".
+
+- Một `Stream` **chỉ dùng được đúng một lần** — sau khi gọi bất kỳ thao tác kết thúc nào (`forEach` ở đây), stream đó coi như đã "đóng" và không thể gọi thêm bất kỳ thao tác nào khác lên nó nữa, kể cả một thao tác kết thúc khác như `count()`.
+- Đây là khác biệt lớn so với `Collection` — bạn có thể duyệt một `List` bao nhiêu lần tùy thích, nhưng phải tạo **stream mới** từ nguồn (`list.stream()`) mỗi lần cần một pipeline xử lý khác.
+
+</details>
+
+**4. `findFirst()` có thể dừng sớm (short-circuit) mà không cần duyệt hết toàn bộ dữ liệu. Giải thích cơ chế này bằng ví dụ với `IntStream.rangeClosed(1, 1_000_000)`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+IntStream.rangeClosed(1, 1_000_000)
+    .filter(n -> n > 100)
+    .findFirst()
+    .ifPresent(System.out::println); // in ra 101, gần như tức thì
+```
+
+- Nhờ **lazy evaluation**, Java không xử lý toàn bộ 1 triệu phần tử qua `filter` trước rồi mới tìm phần tử đầu tiên. Thay vào đó, nó xử lý **từng phần tử một, theo chiều dọc qua toàn bộ pipeline**: lấy `1` → qua `filter` (fail) → lấy `2` → qua `filter` (fail) → ... → lấy `101` → qua `filter` (pass) → `findFirst` tìm thấy kết quả và **dừng ngay lập tức**, không cần sinh ra hay kiểm tra các số từ 102 đến 1 triệu.
+- Đây gọi là thao tác **short-circuiting** — bên cạnh `findFirst`, các thao tác `anyMatch`, `limit`, `findAny` cũng có khả năng dừng sớm tương tự khi điều kiện đã được thỏa mãn.
+
+</details>
+
+**5. `map` và `flatMap` khác nhau ở điểm nào? Cho ví dụ tình huống bắt buộc phải dùng `flatMap`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `map(Function<T, R>)`: biến đổi **mỗi phần tử thành đúng một phần tử khác**, kết quả vẫn là `Stream<R>` với số lượng phần tử **giữ nguyên**.
+- `flatMap(Function<T, Stream<R>>)`: biến đổi mỗi phần tử thành **một stream con**, rồi "làm phẳng" (flatten) tất cả các stream con đó thành **một stream duy nhất** — số lượng phần tử kết quả có thể khác với số lượng ban đầu.
+
+```java
+List<List<Integer>> nested = List.of(
+    List.of(1, 2, 3),
+    List.of(4, 5),
+    List.of(6)
+);
+
+// Sai: dùng map sẽ ra Stream<List<Integer>>, vẫn còn lồng nhau
+List<List<Integer>> viMap = nested.stream()
+    .map(list -> list)
+    .toList();
+
+// Đúng: flatMap làm phẳng thành Stream<Integer>
+List<Integer> phang = nested.stream()
+    .flatMap(List::stream)
+    .toList();
+System.out.println(phang); // [1, 2, 3, 4, 5, 6]
+```
+
+- Ứng dụng thực tế phổ biến: xử lý dữ liệu lồng nhau (`List<List<T>>`), hoặc tách một chuỗi thành các từ rồi gộp tất cả từ của nhiều câu vào một stream chung (`sentences.stream().flatMap(s -> Arrays.stream(s.split(" ")))`).
+
+</details>
+
+**6. `reduce()` có mấy overload phổ biến? Giải thích ý nghĩa từng tham số của phiên bản 3 tham số `reduce(identity, accumulator, combiner)`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Ba overload phổ biến của `reduce`:
+
+```java
+Optional<T> reduce(BinaryOperator<T> accumulator);           // không giá trị khởi đầu
+T reduce(T identity, BinaryOperator<T> accumulator);          // có giá trị khởi đầu
+<U> U reduce(U identity, BiFunction<U,T,U> accumulator, BinaryOperator<U> combiner); // dùng cho parallel stream
+```
+
+- **`identity`**: giá trị khởi đầu, đồng thời cũng là "giá trị trung tính" khi gộp với chính nó không đổi kết quả (ví dụ `0` cho phép cộng, `1` cho phép nhân).
+- **`accumulator`**: hàm gộp giá trị hiện tại (`U`) với một phần tử mới (`T`) thành giá trị `U` mới — dùng khi xử lý **tuần tự (sequential)**.
+- **`combiner`**: hàm gộp **hai kết quả riêng phần** (`U` với `U`) lại thành một — chỉ được dùng khi chạy **parallel stream**, vì lúc đó dữ liệu bị chia nhỏ ra xử lý ở nhiều luồng khác nhau, mỗi luồng cho ra một kết quả riêng phần cần `combiner` để gộp lại thành kết quả cuối cùng.
+- Với stream tuần tự (không `parallel()`), `combiner` gần như không bao giờ được gọi tới.
+
+</details>
+
+**7. `Collectors.groupingBy()` hoạt động thế nào? Viết code nhóm danh sách sinh viên theo điểm đạt/không đạt và đếm số lượng mỗi nhóm.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+record SinhVien(String ten, int diem) {}
+
+List<SinhVien> ds = List.of(
+    new SinhVien("An", 8),
+    new SinhVien("Bình", 3),
+    new SinhVien("Cường", 6)
+);
+
+Map<Boolean, Long> thongKe = ds.stream()
+    .collect(Collectors.groupingBy(
+        sv -> sv.diem() >= 5,      // hàm phân loại (classifier)
+        Collectors.counting()      // collector áp dụng cho từng nhóm
+    ));
+
+System.out.println(thongKe); // {false=1, true=2}
+```
+
+- `groupingBy(classifier)` mặc định gom mỗi nhóm thành `List<T>`.
+- `groupingBy(classifier, downstreamCollector)` cho phép áp dụng thêm một collector khác **lên từng nhóm**, ví dụ `Collectors.counting()` (đếm), `Collectors.summingInt(...)` (tính tổng), hay thậm chí một `groupingBy` khác để nhóm nhiều cấp (multi-level grouping).
+
+</details>
+
+**8. `Collectors.toMap()` có thể ném lỗi gì nếu dữ liệu nguồn có key trùng nhau? Cách khắc phục?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+List<String> ten = List.of("An", "Anh", "Bình"); // "An" và "Anh" cùng bắt đầu bằng chữ 'A'
+
+// Có thể ném IllegalStateException: Duplicate key
+Map<Character, String> loi = ten.stream()
+    .collect(Collectors.toMap(s -> s.charAt(0), s -> s));
+```
+
+- Mặc định, `Collectors.toMap(keyMapper, valueMapper)` ném `IllegalStateException` ("Duplicate key") nếu có hai phần tử cho ra **cùng một key**, vì nó không biết nên giữ giá trị nào.
+- Cách khắc phục: truyền thêm tham số thứ ba là **hàm giải quyết xung đột (merge function)**:
+
+```java
+Map<Character, String> ok = ten.stream()
+    .collect(Collectors.toMap(
+        s -> s.charAt(0),
+        s -> s,
+        (giaTriCu, giaTriMoi) -> giaTriCu + ", " + giaTriMoi // gộp lại khi trùng key
+    ));
+System.out.println(ok); // {A=An, Anh, B=Bình}
+```
+
+</details>
+
+**9. Vì sao dùng `IntStream`/`LongStream`/`DoubleStream` thay vì `Stream<Integer>`/`Stream<Long>`/`Stream<Double>` khi xử lý số lượng lớn phần tử số?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `Stream<Integer>` lưu trữ mỗi phần tử dưới dạng **object `Integer`** — mỗi lần tạo ra một số phải **autobox** từ `int` (kiểu nguyên thủy), tốn chi phí tạo object và tăng áp lực lên garbage collector.
+- `IntStream` (và tương tự `LongStream`, `DoubleStream`) làm việc **trực tiếp với kiểu nguyên thủy**, tránh hoàn toàn chi phí autoboxing/unboxing, đồng thời cung cấp sẵn các phương thức tiện lợi chuyên biệt như `sum()`, `average()`, `max()`, `min()` mà `Stream<Integer>` không có sẵn (phải tự viết bằng `reduce`).
+- Chuyển đổi qua lại: `stream.mapToInt(...)` (từ `Stream<T>` sang `IntStream`) và `intStream.boxed()` (từ `IntStream` ngược lại thành `Stream<Integer>`).
+
+</details>
+
+**10. `Optional` liên quan gì tới Stream API? Vì sao `findFirst()`, `max()`, `reduce()` (bản không identity) trả về `Optional` thay vì giá trị trực tiếp?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Các thao tác này có thể **không tìm thấy kết quả** — ví dụ `findFirst()` trên một stream rỗng (do bị `filter` lọc hết), hoặc `reduce()` không có `identity` trên stream rỗng thì không có giá trị nào để trả về.
+- Thay vì trả về `null` (dễ gây `NullPointerException` nếu người gọi quên kiểm tra), Java 8 giới thiệu `Optional<T>` — một **wrapper tường minh** buộc người gọi phải chủ động xử lý trường hợp "không có giá trị" bằng các phương thức như `isPresent()`, `ifPresent()`, `orElse()`, `orElseGet()`, `orElseThrow()`.
+- Đây là cách Java khuyến khích thiết kế API an toàn hơn: kiểu trả về (`Optional<T>`) tự nó đã "nói" cho người gọi biết rằng kết quả có thể vắng mặt, thay vì để lộ ra thành lỗi runtime khi quên kiểm tra `null`.
+
+</details>
+
+**11. Vì sao không nên thay đổi biến bên ngoài (biến ngoài phạm vi lambda) bên trong lambda của Stream, đặc biệt với `parallelStream()`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+// SAI: mutate một biến dùng chung từ nhiều luồng
+int[] total = {0};
+List.of(1, 2, 3, 4, 5).parallelStream()
+    .forEach(n -> total[0] += n); // race condition — kết quả có thể sai lệch, không ổn định
+System.out.println(total[0]); // kết quả không đáng tin cậy
+```
+
+- Với `parallelStream()`, nhiều luồng có thể cùng lúc đọc-sửa-ghi vào cùng một biến chia sẻ (`total[0] += n` không phải thao tác atomic — nó gồm đọc, cộng, rồi ghi lại), gây ra **race condition** (tranh chấp dữ liệu) và kết quả sai lệch không thể đoán trước, thậm chí khác nhau giữa các lần chạy.
+- Ngay cả với stream tuần tự (không parallel), việc mutate biến ngoài cũng đi ngược lại tinh thần **lập trình hàm** (functional programming) mà Stream API hướng tới — các thao tác nên là **thuần túy (pure)**, không có side effect.
+- Cách làm đúng: dùng `reduce()`, `collect()`, hoặc `Collectors.summingInt()` để Java tự quản lý việc gộp kết quả an toàn, thay vì tự tay mutate biến chia sẻ.
+
+</details>
+
+**12. Khi nào nên dùng `parallelStream()` và khi nào không nên? Vì sao dữ liệu nhỏ dùng `parallel()` có thể chậm hơn stream thường?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Nên dùng `parallelStream()` khi:
+
+- **Dữ liệu đủ lớn** (thường từ hàng chục nghìn phần tử trở lên) để lợi ích chia nhỏ xử lý song song vượt qua chi phí quản lý luồng.
+- **Thao tác trên mỗi phần tử độc lập, không có trạng thái chia sẻ (stateless)** và không mutate biến ngoài.
+- Máy chạy có **nhiều nhân CPU** thực sự để tận dụng.
+
+Không nên dùng khi:
+
+- Dữ liệu nhỏ: chi phí **tạo, phân chia (split), và gộp (merge) kết quả** giữa các luồng (thường dùng chung `ForkJoinPool.commonPool()`) có thể **lớn hơn** thời gian tiết kiệm được từ việc chạy song song — khiến `parallelStream()` chậm hơn stream tuần tự thông thường.
+- Thao tác có I/O (đọc file, gọi mạng) hoặc cần giữ đúng thứ tự xử lý.
+- Có thao tác mutate trạng thái chia sẻ, dễ gây race condition như đã nêu ở câu trên.
+
+</details>

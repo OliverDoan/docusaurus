@@ -35,6 +35,7 @@ OOP (Lập trình hướng đối tượng) là cách tổ chức chương trìn
 - [Trừu tượng (Abstraction)](#trừu-tượng-abstraction)
 - [Dẫn sang chủ đề tiếp theo](#dẫn-sang-chủ-đề-tiếp-theo)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -272,3 +273,309 @@ Bước tiếp theo là đào sâu vào **Lập trình hướng đối tượng 
 - Java hướng đối tượng để code dễ quản lý, tái sử dụng và bảo trì.
 - Bốn trụ cột: **đóng gói**, **kế thừa**, **đa hình**, **trừu tượng**.
 - Chủ đề tiếp theo sẽ trình bày chi tiết về OOP.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. OOP là gì? Nêu bốn trụ cột của OOP.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**OOP** (Object-Oriented Programming — lập trình hướng đối tượng) là cách tổ chức chương trình xoay quanh các **đối tượng** (object), mỗi đối tượng gói chung **dữ liệu** (thuộc tính) và **hành vi** (phương thức) mô phỏng một thực thể trong đời thực.
+
+Bốn trụ cột của OOP:
+
+- **Đóng gói** (Encapsulation) — ẩn dữ liệu, kiểm soát truy cập qua phương thức.
+- **Kế thừa** (Inheritance) — lớp con tái sử dụng thuộc tính/hành vi của lớp cha.
+- **Đa hình** (Polymorphism) — cùng một hành động nhưng hành vi khác nhau tùy đối tượng.
+- **Trừu tượng** (Abstraction) — chỉ phơi bày những gì cần thiết, ẩn chi tiết phức tạp.
+
+</details>
+
+**2. Phân biệt lớp (`class`) và đối tượng (object). Cho ví dụ.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Lớp** (`class`) là **bản thiết kế/khuôn mẫu** mô tả một loại đối tượng: khai báo có những thuộc tính gì, làm được những hành vi gì, nhưng bản thân lớp không chiếm bộ nhớ cho dữ liệu thật.
+- **Đối tượng** (object) là **thực thể cụ thể** được tạo ra từ lớp bằng từ khóa `new`, tồn tại thật trong bộ nhớ với giá trị riêng.
+
+```java
+class SinhVien {       // lớp: bản thiết kế
+    String ten;
+    int tuoi;
+}
+
+SinhVien sv1 = new SinhVien(); // đối tượng thứ nhất
+sv1.ten = "An";
+SinhVien sv2 = new SinhVien(); // đối tượng thứ hai, độc lập với sv1
+sv2.ten = "Binh";
+```
+
+Từ một lớp `SinhVien` có thể tạo ra vô số đối tượng khác nhau, giống như từ một bản vẽ nhà có thể xây nhiều căn nhà.
+
+</details>
+
+**3. Vì sao OOP ra đời? So sánh với lập trình thủ tục (procedural).**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Lập trình thủ tục viết chương trình như một dãy hàm xử lý dữ liệu **rời rạc** — dữ liệu (thường là biến toàn cục) và hàm xử lý tách biệt nhau, ai cũng có thể sửa dữ liệu ở bất kỳ đâu, dẫn tới khó kiểm soát và khó mở rộng khi chương trình lớn dần.
+
+| Tiêu chí | Thủ tục (procedural) | OOP |
+|---|---|---|
+| Tổ chức | Hàm xử lý dữ liệu rời rạc | Dữ liệu + hành vi gói chung trong đối tượng |
+| Kiểm soát truy cập | Biến toàn cục, sửa tự do | Đóng gói, kiểm soát qua phương thức |
+| Tái sử dụng | Sao chép hàm | Kế thừa, đa hình |
+| Mô phỏng thực tế | Khó, phải tự quy ước | Tự nhiên hơn (đối tượng ánh xạ sự vật) |
+
+OOP giải quyết vấn đề trên bằng cách gom dữ liệu và hành vi vào **đối tượng**, dựa trên 4 trụ cột giúp code dễ bảo trì, mở rộng và mô phỏng đúng nghiệp vụ hơn.
+
+</details>
+
+**4. Đóng gói (Encapsulation) là gì? Vì sao nên khai báo thuộc tính `private` thay vì để công khai?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Đóng gói** là việc giấu dữ liệu bên trong đối tượng (`private`), chỉ cho phép truy cập/thay đổi thông qua các phương thức công khai (`public`) đã được kiểm soát.
+
+Nếu để thuộc tính `public`, bất kỳ đoạn code nào cũng có thể gán giá trị bừa bãi, phá vỡ tính hợp lệ của dữ liệu:
+
+```java
+class TaiKhoan {
+    public double soDu; // KHÔNG kiểm soát được
+}
+tk.soDu = -1000; // gán âm tùy ý -> sai nghiệp vụ, không ai ngăn được
+```
+
+Với `private` cộng phương thức kiểm soát, mọi thay đổi đều phải đi qua logic kiểm tra:
+
+```java
+class TaiKhoan {
+    private double soDu;
+    public void napTien(double tien) {
+        if (tien > 0) soDu += tien; // chỉ nạp được số dương
+    }
+}
+```
+
+Lợi ích: bảo vệ tính toàn vẹn dữ liệu, dễ thay đổi cách lưu trữ bên trong mà không ảnh hưởng code bên ngoài đang dùng lớp.
+
+</details>
+
+**5. Kế thừa (Inheritance) hoạt động thế nào trong Java? Cho ví dụ với `extends`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Kế thừa** cho phép một lớp con (subclass) tự động nhận lại thuộc tính và phương thức của lớp cha (superclass) bằng từ khóa `extends`, giúp tái sử dụng code và mô hình hóa quan hệ "là một" (is-a).
+
+```java
+class DongVat {
+    void an() {
+        System.out.println("Dang an");
+    }
+}
+
+class Cho extends DongVat { // Cho LA MOT DongVat
+    void sua() {
+        System.out.println("Gau gau");
+    }
+}
+
+Cho c = new Cho();
+c.an();  // kế thừa từ DongVat -> "Dang an"
+c.sua(); // hành vi riêng -> "Gau gau"
+```
+
+Java chỉ hỗ trợ **đơn kế thừa** (một lớp chỉ `extends` được một lớp cha), khác với một số ngôn ngữ khác cho phép đa kế thừa từ nhiều class.
+
+</details>
+
+**6. Đa hình (Polymorphism) là gì? `@Override` liên quan thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Đa hình** là khả năng cùng một lời gọi phương thức nhưng cho ra hành vi khác nhau tùy loại đối tượng thực sự đứng sau tham chiếu.
+
+`@Override` là **annotation** (chú thích) đánh dấu một phương thức trong lớp con đang **ghi đè** (override) phương thức cùng tên/cùng tham số của lớp cha — giúp trình biên dịch kiểm tra và báo lỗi nếu viết sai chữ ký, tránh gõ nhầm tạo ra một phương thức mới thay vì ghi đè.
+
+```java
+class DongVat {
+    void keu() {
+        System.out.println("Tieng keu chung");
+    }
+}
+class Meo extends DongVat {
+    @Override
+    void keu() {
+        System.out.println("Meo meo");
+    }
+}
+
+DongVat dv = new Meo(); // tham chiếu kiểu cha, đối tượng thực là Meo
+dv.keu(); // in "Meo meo" -> quyết định bởi đối tượng thực sự, không phải kiểu tham chiếu
+```
+
+</details>
+
+**7. Trừu tượng (Abstraction) khác gì với đóng gói (Encapsulation)? Đây là hai khái niệm hay bị nhầm lẫn.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Hai khái niệm dễ nhầm vì đều liên quan tới việc "ẩn" một thứ gì đó, nhưng ẩn ở mức độ khác nhau:
+
+- **Đóng gói**: ẩn **dữ liệu** (trạng thái bên trong) khỏi bên ngoài, kiểm soát truy cập bằng `private`/`public`. Trả lời câu hỏi "ai được phép đụng vào dữ liệu này?".
+- **Trừu tượng**: ẩn **độ phức tạp của cách thực hiện**, chỉ phơi bày "làm được gì" chứ không lộ "làm như thế nào". Trả lời câu hỏi "người dùng cần biết gì để sử dụng?".
+
+Ví dụ: lái xe chỉ cần đạp ga/phanh (trừu tượng — ẩn cơ chế động cơ), còn số dư tài khoản chỉ đọc/sửa được qua phương thức `napTien()`/`xemSoDu()` chứ không truy cập biến trực tiếp (đóng gói — ẩn dữ liệu). Trong Java, trừu tượng thường được hiện thực bằng lớp trừu tượng (`abstract class`) và giao diện (`interface`).
+
+</details>
+
+**8. Đoạn code sau in ra gì? Vì sao?**
+
+```java
+class DongVat {
+    void keu() {
+        System.out.println("...");
+    }
+}
+class Meo extends DongVat {
+    @Override
+    void keu() {
+        System.out.println("Meo meo");
+    }
+}
+class Cho extends DongVat {
+    @Override
+    void keu() {
+        System.out.println("Gau gau");
+    }
+}
+
+public class ViDu {
+    public static void main(String[] args) {
+        DongVat[] danhSach = { new Meo(), new Cho() };
+        for (DongVat dv : danhSach) {
+            dv.keu();
+        }
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Kết quả in ra:
+
+```
+Meo meo
+Gau gau
+```
+
+Dù mảng khai báo kiểu `DongVat[]`, mỗi phần tử thực chất là đối tượng `Meo` hoặc `Cho`. Nhờ **đa hình**, lời gọi `dv.keu()` chạy đúng phiên bản đã bị `@Override` ở lớp con tương ứng với đối tượng thực sự — chứ không chạy phiên bản của `DongVat`. Đây chính là giá trị cốt lõi của đa hình: xử lý nhiều loại đối tượng khác nhau bằng cùng một đoạn code (`for-each` cộng `dv.keu()`).
+
+</details>
+
+**9. Đoạn code sau có lỗi gì?**
+
+```java
+class TaiKhoan {
+    private double soDu;
+}
+
+public class ViDu {
+    public static void main(String[] args) {
+        TaiKhoan tk = new TaiKhoan();
+        tk.soDu = 5000;
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Lỗi biên dịch**: `soDu` được khai báo `private` trong `TaiKhoan`, nghĩa là chỉ code **bên trong chính lớp `TaiKhoan`** mới truy cập được. Dòng `tk.soDu = 5000;` nằm ở lớp `ViDu` khác, nên trình biên dịch báo lỗi kiểu "soDu has private access in TaiKhoan".
+
+Đây chính là mục đích của đóng gói — ngăn code bên ngoài sửa dữ liệu trực tiếp. Cách sửa đúng là bổ sung phương thức công khai để thao tác có kiểm soát:
+
+```java
+class TaiKhoan {
+    private double soDu;
+    public void napTien(double tien) {
+        if (tien > 0) soDu += tien;
+    }
+}
+// bên ngoài gọi: tk.napTien(5000);
+```
+
+</details>
+
+**10. Thiết kế một lớp `TaiKhoanNganHang` áp dụng đóng gói: thuộc tính nào nên `private`, phương thức nào nên `public`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Nguyên tắc: thuộc tính lưu **trạng thái nội bộ** nên `private`; chỉ mở `public` các phương thức thể hiện **hành vi hợp lệ** mà đối tượng cho phép thực hiện.
+
+```java
+class TaiKhoanNganHang {
+    private String chuTaiKhoan; // trạng thái nội bộ - không cho sửa trực tiếp
+    private double soDu;        // trạng thái nội bộ - không cho sửa trực tiếp
+
+    public TaiKhoanNganHang(String chuTaiKhoan) {
+        this.chuTaiKhoan = chuTaiKhoan;
+        this.soDu = 0;
+    }
+
+    public void napTien(double tien) {           // hành vi hợp lệ
+        if (tien > 0) soDu += tien;
+    }
+
+    public boolean rutTien(double tien) {        // hành vi hợp lệ, có kiểm tra
+        if (tien > 0 && tien <= soDu) {
+            soDu -= tien;
+            return true;
+        }
+        return false; // rút vượt số dư -> từ chối
+    }
+
+    public double xemSoDu() {                    // chỉ đọc, không cho ghi trực tiếp
+        return soDu;
+    }
+}
+```
+
+Nhờ vậy, mọi thay đổi số dư đều đi qua `napTien`/`rutTien` với điều kiện kiểm tra, không thể gán số âm tùy tiện như khi để `soDu` là `public`.
+
+</details>
+
+**11. Khi nào nên dùng kế thừa (is-a), khi nào nên ưu tiên composition — "has-a" (gộp đối tượng làm thuộc tính) thay vì kế thừa?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Dùng **kế thừa** khi quan hệ thực sự là **"là một"** (is-a) và lớp con có thể dùng thay thế lớp cha ở mọi nơi: ví dụ `Cho extends DongVat` — một con Chó **là một** Động vật.
+- Dùng **composition** (has-a — một lớp chứa đối tượng của lớp khác làm thuộc tính) khi quan hệ chỉ là **"có một"/"sử dụng"**: ví dụ một `Xe` **có một** `DongCo`, chứ `Xe` không phải là một `DongCo`.
+
+```java
+// Sai: kế thừa dùng cho quan hệ has-a
+class Xe extends DongCo { }
+
+// Đúng: composition
+class Xe {
+    private DongCo dongCo; // Xe "có một" DongCo
+}
+```
+
+Kinh nghiệm phỏng vấn thường nhắc câu **"ưu tiên composition hơn kế thừa"** (favor composition over inheritance) vì kế thừa tạo ràng buộc chặt giữa lớp con và lớp cha (thay đổi lớp cha dễ ảnh hưởng dây chuyền tới mọi lớp con), trong khi composition linh hoạt hơn, dễ thay đổi hành vi bằng cách hoán đổi đối tượng thành phần.
+
+</details>

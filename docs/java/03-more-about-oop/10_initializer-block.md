@@ -34,6 +34,7 @@ Khối khởi tạo là một khối lệnh `{ }` chạy tự động để chu�
 - [Khi nào nên dùng?](#khi-nào-nên-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -305,3 +306,148 @@ Trên thực tế, phần lớn trường hợp bạn vẫn nên dùng **constru
 - **Static block** chạy MỘT lần khi lớp được nạp, trước cả `main`.
 - Thứ tự: static field/block → instance field/block → constructor.
 - Ưu tiên constructor cho dễ đọc; chỉ dùng block khi thật cần.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Instance initializer block và static initializer block khác nhau cốt lõi ở điểm nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Instance initializer block** (`{ }`) chạy **mỗi lần** một đối tượng mới được `new`, ngay trước phần thân constructor — gắn với **từng instance**.
+- **Static initializer block** (`static { }`) chạy **đúng một lần duy nhất**, khi lớp được **nạp (load)** vào JVM lần đầu tiên — gắn với **chính lớp**, không phụ thuộc số lượng object được tạo ra sau đó.
+
+</details>
+
+**2. Khi có kế thừa, thứ tự thực thi đầy đủ (static, instance, constructor) giữa lớp cha và lớp con diễn ra như thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Thứ tự đầy đủ khi `new` một đối tượng lớp con lần đầu tiên:
+
+1. **Static field + static block của lớp cha** (chỉ chạy lần đầu lớp cha được nạp).
+2. **Static field + static block của lớp con** (chỉ chạy lần đầu lớp con được nạp).
+3. **Instance field + instance block của lớp cha.**
+4. **Constructor của lớp cha** (chạy phần thân, sau khi `super()` của nó — nếu có — đã xong).
+5. **Instance field + instance block của lớp con.**
+6. **Constructor của lớp con.**
+
+Quy tắc chung: **static luôn đi trước instance**, và **phần của lớp cha luôn đi trước phần tương ứng của lớp con** (cả static lẫn instance).
+
+</details>
+
+**3. Đọc code sau — đoán chính xác thứ tự các dòng được in ra.**
+
+```java
+public class SanPham {
+    String ten = "mac dinh";
+    { System.out.println("Block: ten = " + ten); }
+    SanPham(String ten) {
+        System.out.println("Constructor bat dau");
+        this.ten = ten;
+    }
+}
+new SanPham("Sach");
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```
+Block: ten = mac dinh
+Constructor bat dau
+```
+
+Field `ten = "mac dinh"` và instance block chạy **theo đúng thứ tự xuất hiện trong code**, cả hai đều chạy **trước** phần thân constructor — nên tại thời điểm block chạy, `ten` đã có giá trị `"mac dinh"` (đã được gán ở dòng field). Constructor chạy sau cùng và mới gán `ten` thành `"Sach"`.
+
+</details>
+
+**4. Vì sao static initializer block KHÔNG thể truy cập biến instance? Nếu cố làm, Java báo lỗi gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Static block chạy khi **lớp được nạp vào JVM**, trước cả khi **bất kỳ đối tượng nào** của lớp đó được tạo ra — lúc này chưa hề có "instance" nào tồn tại để truy cập biến instance. Nếu cố viết:
+
+```java
+public class Vi {
+    int soDu; // biến instance
+    static {
+        System.out.println(soDu); // LỖI
+    }
+}
+```
+
+Java báo **lỗi biên dịch**: "non-static variable soDu cannot be referenced from a static context" — vì static block không gắn với bất kỳ object cụ thể nào để biết lấy `soDu` của object nào.
+
+</details>
+
+**5. Instance initializer block khác gì so với gán giá trị trực tiếp ngay tại khai báo field (`int x = 5;`)? Chúng có tương tác với nhau không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Về bản chất, cả hai đều là "code khởi tạo cấp instance" và được trình biên dịch **gộp chung, chạy theo đúng thứ tự xuất hiện** trong file nguồn — field initializer chỉ là dạng viết tắt của việc gán giá trị ngay khi khai báo, còn instance block cho phép viết **logic phức tạp hơn một dòng** (vòng lặp, điều kiện, xử lý ngoại lệ...) mà cú pháp field initializer không làm được gọn gàng.
+
+```java
+int a = 1;              // field initializer
+{ System.out.println(a); a = tinhToanPhucTap(); } // instance block, chạy NGAY SAU dòng trên
+int b = a + 1;           // field initializer tiếp theo, chạy SAU block ở trên
+```
+
+Thứ tự chạy tuân theo đúng vị trí xuất hiện trong code, không phải "tất cả field trước rồi mới tới block".
+
+</details>
+
+**6. Static block đôi khi được dùng để khởi tạo dữ liệu có thể ném exception (đọc file cấu hình, parse dữ liệu...). Điều gì xảy ra nếu static block ném một exception không được bắt?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Java sẽ bọc exception đó lại thành **`ExceptionInInitializerError`** (một `Error`, không phải `Exception` thường) và lớp sẽ **không nạp được** — mọi cố gắng sử dụng lớp đó sau này (tạo object, gọi static method) sẽ gặp **`NoClassDefFoundError`** ở những lần gọi tiếp theo, vì JVM đánh dấu lớp là "lỗi khởi tạo" và không thử nạp lại.
+
+Vì hậu quả nghiêm trọng và khó debug (lỗi xảy ra rất sớm, trước cả `main`), nên bọc `try/catch` cẩn thận bên trong static block nếu logic có khả năng ném exception, thay vì để nó tự do lan ra ngoài.
+
+</details>
+
+**7. Khi nào bạn thật sự cần dùng static block thay vì chỉ gán trực tiếp `static Type x = giaTri;`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Chỉ cần static block khi việc khởi tạo **không thể gói gọn trong một biểu thức đơn giản**, ví dụ:
+
+- Cần **vòng lặp hoặc điều kiện** để dựng dữ liệu (ví dụ dựng một `Map` tra cứu có hàng chục entry).
+- Cần **bắt exception** trong lúc khởi tạo (đọc file, parse cấu hình).
+- Cần khởi tạo **nhiều static field có phụ thuộc lẫn nhau** theo một trình tự logic phức tạp.
+
+Nếu chỉ là gán một giá trị đơn giản (`static int MAX = 100;`), không cần static block — gán trực tiếp gọn hơn nhiều và có tác dụng tương đương.
+
+</details>
+
+**8. "Double brace initialization" (khởi tạo hai lớp ngoặc `{{ }}`) là một kỹ thuật dùng instance initializer block của anonymous class để khởi tạo collection gọn gàng. Vì sao kỹ thuật này bị khuyến cáo tránh dùng trong thực tế?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+// "Double brace": {} ngoài tạo anonymous subclass, {} trong là instance block
+List<String> ds = new ArrayList<String>() {{
+    add("a"); add("b");
+}};
+```
+
+Kỹ thuật này thực chất tạo ra một **lớp con vô danh (anonymous subclass)** của `ArrayList` chỉ để chạy instance block bên trong. Vấn đề:
+
+- Mỗi lần dùng, JVM phải sinh ra một **class file mới** — tốn bộ nhớ metaspace không cần thiết cho việc đơn giản là khởi tạo dữ liệu.
+- Nếu class đó là **non-static inner class** trong ngữ cảnh có instance bao ngoài, nó **giữ tham chiếu ngầm tới outer instance**, dễ gây **memory leak** nếu list được giữ lâu dài trong khi outer object lẽ ra phải bị GC.
+- `equals()`/`serialization` có thể ứng xử khác vì thực chất đây là một **subclass**, không phải `ArrayList` gốc.
+
+Thay thế hiện đại, gọn và an toàn hơn nhiều: `List.of("a", "b")` nếu chỉ cần danh sách bất biến, hoặc `new ArrayList<>(List.of("a", "b"))` nếu cần một list có thể sửa đổi (mutable) sau đó — thay vì double brace initialization.
+
+</details>

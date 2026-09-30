@@ -35,6 +35,7 @@ Mảng là một dãy các phần tử cùng kiểu được đánh số thứ t
 - [Một vài tiện ích với Arrays](#một-vài-tiện-ích-với-arrays)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -258,3 +259,197 @@ Lưu ý: phải `import java.util.Arrays;` ở đầu file mới dùng được 
 - Số phần tử lấy bằng `.length`; phần tử cuối ở chỉ số `length - 1`.
 - Duyệt bằng `for` (cần chỉ số) hoặc `for-each` (chỉ cần giá trị).
 - **Mảng nhiều chiều** truy cập theo `a[hàng][cột]`.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Mảng (array) là gì? Đặc điểm quan trọng nhất phân biệt mảng với các cấu trúc dữ liệu khác như `ArrayList` là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Mảng** là một dãy các phần tử **cùng kiểu dữ liệu**, được đánh **chỉ số** (index) liên tục bắt đầu từ `0`, lưu trong một vùng nhớ liền kề.
+
+Đặc điểm quan trọng nhất: **kích thước cố định** (fixed size) — một khi đã tạo mảng với `new int[5]`, bạn không thể thêm/bớt phần tử, chỉ có thể đọc/ghi giá trị vào các ô có sẵn. Ngược lại, `ArrayList` (học ở phần Collection) có thể co giãn kích thước linh hoạt khi thêm/xóa phần tử.
+
+</details>
+
+**2. Phân biệt `.length` (trên mảng) và `.length()` (trên `String`).**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `array.length` — là một **thuộc tính** (field), không có dấu ngoặc, dùng cho mảng.
+- `str.length()` — là một **phương thức** (method), có dấu ngoặc, dùng cho `String`.
+
+```java
+int[] so = {1, 2, 3};
+String ten = "Java";
+
+System.out.println(so.length);   // 3  — không có ()
+System.out.println(ten.length()); // 4  — bắt buộc có ()
+```
+
+Nhầm lẫn hai cú pháp này (viết `so.length()` hoặc `ten.length`) sẽ gây lỗi biên dịch.
+
+</details>
+
+**3. Khi khai báo `int[] a = new int[5];` và `String[] b = new String[5];`, các phần tử có giá trị mặc định là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Java tự động khởi tạo giá trị mặc định theo kiểu dữ liệu:
+
+| Kiểu phần tử | Giá trị mặc định |
+|---|---|
+| Số nguyên (`int`, `long`...) | `0` |
+| Số thực (`double`, `float`) | `0.0` |
+| `boolean` | `false` |
+| `char` | `'\u0000'` (ký tự rỗng) |
+| Kiểu tham chiếu (`String`, object...) | `null` |
+
+Với `String[] b = new String[5]`, mỗi phần tử là `null` chứ **không phải** chuỗi rỗng `""` — gọi `b[0].length()` sẽ ném `NullPointerException`.
+
+</details>
+
+**4. So sánh vòng `for` thường và vòng `for-each` khi duyệt mảng. Khi nào bắt buộc phải dùng `for` thường?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Tiêu chí | `for` thường | `for-each` |
+|---|---|---|
+| Biết chỉ số phần tử | Có (`i`) | Không |
+| Sửa được giá trị phần tử | Có (`a[i] = ...`) | Không (biến lặp chỉ là bản sao giá trị) |
+| Độ gọn | Dài hơn | Ngắn gọn hơn |
+| Duyệt ngược, bỏ qua phần tử | Dễ dàng | Khó/không làm được |
+
+`for-each` chỉ phù hợp khi **chỉ cần đọc** giá trị lần lượt. Khi cần **ghi đè phần tử**, biết **vị trí** (ví dụ để in "phần tử thứ mấy"), hoặc duyệt theo thứ tự đặc biệt (ngược, cách quãng), bắt buộc phải dùng `for` thường với chỉ số.
+
+</details>
+
+**5. Đoạn code sau chạy có vấn đề gì? Giải thích lỗi và cách sửa.**
+
+```java
+int[] so = {10, 20, 30, 40};
+for (int i = 0; i <= so.length; i++) {
+    System.out.println(so[i]);
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Lỗi ở điều kiện `i <= so.length` — mảng có `4` phần tử với chỉ số hợp lệ từ `0` đến `3` (`so.length - 1`), nhưng vòng lặp cho phép `i` chạy tới `4` (bằng `so.length`). Khi `i = 4`, `so[4]` không tồn tại nên chương trình ném ra `ArrayIndexOutOfBoundsException` lúc chạy.
+
+Cách sửa: đổi điều kiện thành `i < so.length` (dùng `<` thay vì `<=`).
+
+</details>
+
+**6. Output của đoạn code duyệt mảng hai chiều sau là gì?**
+
+```java
+int[][] bang = {
+    {1, 2, 3},
+    {4, 5, 6}
+};
+
+int tong = 0;
+for (int h = 0; h < bang.length; h++) {
+    for (int c = 0; c < bang[h].length; c++) {
+        tong += bang[h][c];
+    }
+}
+System.out.println(tong);
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Output: `21`**
+
+`bang.length` là số hàng (`2`), `bang[h].length` là số cột của hàng `h` (ở đây đều là `3`). Vòng lặp cộng dồn toàn bộ phần tử: `1+2+3+4+5+6 = 21`.
+
+Lưu ý mở rộng: với mảng hai chiều **không đều** (jagged array — mỗi hàng có số cột khác nhau), `bang[h].length` vẫn đúng vì nó lấy độ dài của **hàng thứ h**, không phải một giá trị cố định chung cho cả bảng.
+
+</details>
+
+**7. Mảng có phải là một object trong Java không? Khi truyền mảng vào một method, sửa đổi bên trong method có ảnh hưởng ra ngoài không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Có, **mảng là object** trong Java (kể cả mảng kiểu nguyên thủy như `int[]`), được cấp phát trên heap và biến mảng chỉ lưu **tham chiếu** (địa chỉ) tới vùng nhớ đó.
+
+Java luôn truyền tham trị (pass-by-value), nhưng với object/mảng, giá trị được truyền là **tham chiếu**, nên:
+
+```java
+static void sua(int[] a) {
+    a[0] = 999;      // SỬA nội dung qua tham chiếu → ảnh hưởng ra ngoài
+    a = new int[3];  // GÁN LẠI biến cục bộ a trỏ tới mảng mới → không ảnh hưởng ra ngoài
+}
+```
+
+- Thay đổi **nội dung phần tử** của mảng (`a[0] = 999`) sẽ ảnh hưởng tới mảng gốc bên ngoài, vì cả hai biến cùng trỏ tới một vùng nhớ.
+- Gán lại biến `a` để trỏ sang một mảng khác chỉ thay đổi tham chiếu cục bộ bên trong method, không ảnh hưởng biến gốc bên ngoài.
+
+</details>
+
+**8. Vì sao `mang1 == mang2` thường cho kết quả `false` dù hai mảng có nội dung giống hệt nhau? Nên so sánh nội dung mảng bằng cách nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Toán tử `==` trên mảng (là object) so sánh **địa chỉ tham chiếu**, không so sánh nội dung. Hai mảng được tạo riêng biệt dù chứa cùng giá trị vẫn là hai object khác nhau trong bộ nhớ:
+
+```java
+int[] a = {1, 2, 3};
+int[] b = {1, 2, 3};
+System.out.println(a == b);              // false — khác địa chỉ
+System.out.println(Arrays.equals(a, b)); // true  — so sánh nội dung
+```
+
+Muốn so sánh **nội dung từng phần tử**, dùng `Arrays.equals(a, b)` (mảng một chiều) hoặc `Arrays.deepEquals(a, b)` (mảng nhiều chiều).
+
+</details>
+
+**9. `int[] b = a;` và `int[] b = Arrays.copyOf(a, a.length);` khác nhau thế nào? Vì sao sự khác biệt này quan trọng?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `int[] b = a;` — chỉ **sao chép tham chiếu**, `b` và `a` cùng trỏ tới **một** mảng trong bộ nhớ. Sửa `b[0]` cũng làm `a[0]` thay đổi theo.
+- `Arrays.copyOf(a, a.length)` (hoặc `a.clone()`) — tạo ra một **mảng mới** với nội dung được sao chép, `b` và `a` là hai vùng nhớ độc lập.
+
+```java
+int[] a = {1, 2, 3};
+int[] b = a;
+b[0] = 99;
+System.out.println(a[0]); // 99 — a cũng bị đổi!
+
+int[] c = Arrays.copyOf(a, a.length);
+c[0] = 5;
+System.out.println(a[0]); // 99 — a không đổi
+```
+
+Quan trọng vì bug loại này rất khó phát hiện: code tưởng đang làm việc trên "bản sao" nhưng thực chất đang sửa trực tiếp dữ liệu gốc, gây tác dụng phụ (side effect) ngoài ý muốn — nhất là khi truyền mảng qua nhiều method.
+
+</details>
+
+**10. Tình huống: bạn cần lưu danh sách tên sản phẩm nhưng số lượng sản phẩm thay đổi liên tục (thêm/xóa trong lúc chạy). Dùng mảng có phù hợp không? Nên chọn cấu trúc dữ liệu nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Mảng **không phù hợp** cho trường hợp này vì kích thước cố định — muốn "thêm" một phần tử thực chất phải tạo mảng mới lớn hơn rồi copy toàn bộ dữ liệu cũ sang (tốn kém và dễ lỗi nếu tự cài đặt thủ công).
+
+Nên dùng `ArrayList<String>` (thuộc Java Collections Framework, sẽ học ở bài sau): hỗ trợ sẵn `add`, `remove`, tự động co giãn kích thước bên trong, code gọn và an toàn hơn nhiều so với tự quản lý mảng động.
+
+Mảng vẫn nên dùng khi: biết trước và **cố định** số lượng phần tử, cần hiệu năng tối đa (không có overhead của Collection), hoặc làm việc với dữ liệu kiểu nguyên thủy số lượng lớn (ví dụ xử lý ảnh, ma trận số).
+
+</details>
+

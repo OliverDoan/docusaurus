@@ -35,6 +35,7 @@ Ngoại lệ (exception) là những sự kiện bất thường xảy ra khi ch
 - [try-with-resources](#try-with-resources)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -343,3 +344,228 @@ So với cách cũ phải gọi `finally { reader.close(); }` thủ công, cách
 - **Checked exception** bắt buộc xử lý lúc biên dịch; **unchecked exception** thì không.
 - Bạn có thể **tự tạo ngoại lệ** bằng cách kế thừa `Exception` hoặc `RuntimeException`.
 - **`try-with-resources`** tự động đóng tài nguyên, giúp code an toàn và gọn gàng hơn.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Vì sao Java dùng cơ chế ngoại lệ (exception) thay vì báo lỗi bằng mã trả về (return code) như C truyền thống?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Tách bạch luồng lỗi khỏi luồng logic chính**: code xử lý nghiệp vụ không bị trộn lẫn với hàng loạt `if (ma == -1)` kiểm tra lỗi ở mọi tầng gọi.
+- **Không thể "quên" xử lý một cách âm thầm**: mã trả về có thể bị bỏ qua mà chương trình vẫn biên dịch và chạy (dù sai); ngoại lệ nếu không được bắt sẽ tự "nổi" (propagate) lên tầng trên, và nếu không ai xử lý thì chương trình dừng hẳn kèm thông báo rõ ràng — không có chuyện lỗi trôi qua trong im lặng.
+- **Mang theo thông tin phong phú**: message mô tả lỗi, stack trace (dấu vết ngăn xếp gọi hàm) cho biết lỗi xảy ra ở đâu, và nguyên nhân gốc (`cause`) khi lỗi được bọc qua nhiều tầng.
+- **Checked exception ép kiểm tra lúc biên dịch**: với các lỗi quan trọng (I/O, DB), compiler bắt buộc phải xử lý hoặc khai báo `throws`, giảm khả năng quên.
+
+</details>
+
+**2. Phân biệt checked exception và unchecked exception. Cho ví dụ mỗi loại.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| | Checked Exception | Unchecked Exception |
+|---|---|---|
+| Kiểm tra lúc biên dịch | Bắt buộc (`try-catch` hoặc `throws`) | Không bắt buộc |
+| Kế thừa từ | `Exception` (trừ nhánh `RuntimeException`) | `RuntimeException` |
+| Nguyên nhân điển hình | Sự cố bên ngoài, khó lường trước (file không tồn tại, mất kết nối mạng) | Lỗi lập trình (bug) |
+| Ví dụ | `IOException`, `SQLException` | `NullPointerException`, `ArithmeticException`, `ArrayIndexOutOfBoundsException`, `IllegalArgumentException` |
+
+- Checked exception dùng cho những tình huống **người gọi nên và có thể xử lý** (ví dụ: thử kết nối lại khi mất mạng).
+- Unchecked exception thường báo hiệu **lỗi logic của lập trình viên** — về nguyên tắc nên sửa code chứ không phải `catch` để che đi.
+
+</details>
+
+**3. Phân biệt `throw` và `throws`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| | `throw` | `throws` |
+|---|---|---|
+| Vị trí | Trong thân phương thức | Trên chữ ký (signature) phương thức |
+| Tác dụng | **Ném thật** một đối tượng ngoại lệ ngay lập tức | **Khai báo** rằng phương thức có khả năng ném ra ngoại lệ đó |
+| Số lượng | Chỉ ném một đối tượng mỗi lần | Có thể khai báo nhiều loại, cách nhau bằng dấu phẩy |
+
+```java
+// throws: khai báo trên chữ ký
+static void doc(String path) throws java.io.IOException {
+    if (path == null) {
+        // throw: ném thật một đối tượng cụ thể
+        throw new java.io.IOException("Đường dẫn null");
+    }
+}
+```
+
+</details>
+
+**4. `Error` khác `Exception` như thế nào trong cây `Throwable`? Có nên viết `catch (Error e)` không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Cả hai đều kế thừa từ `Throwable`, nhưng mang ý nghĩa khác nhau:
+
+- **`Exception`**: sự cố ở tầng ứng dụng, thường **có thể phục hồi** được (đọc lại file, thử lại kết nối...). Đây là loại nên `catch` và xử lý.
+- **`Error`**: sự cố **nghiêm trọng ở tầng JVM/hệ thống**, ví dụ `OutOfMemoryError` (hết bộ nhớ) hay `StackOverflowError` (tràn ngăn xếp do đệ quy vô hạn). Những lỗi này thường **không thể phục hồi** một cách đáng tin cậy bằng code ứng dụng.
+- **Không nên** viết `catch (Error e)` (hay tệ hơn là `catch (Throwable e)`) để "nuốt" và cố chạy tiếp — chương trình đang ở trạng thái không ổn định, cố gắng tiếp tục có thể gây hậu quả khó lường hơn là để nó dừng lại.
+
+</details>
+
+**5. Đoạn code sau in ra gì?**
+
+```java
+public class Test {
+    static int demo() {
+        try {
+            return 1;
+        } finally {
+            return 2;
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(demo());
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+In ra **`2`**.
+
+- Khối `try` chuẩn bị trả về `1`, nhưng trước khi giá trị đó thực sự được trả về, `finally` luôn được thực thi.
+- Vì `finally` ở đây có một `return 2;` riêng, nó **ghi đè** hoàn toàn giá trị trả về của `try` — giá trị `1` bị bỏ qua.
+- Đây là lý do vì sao đặt `return` (hoặc `throw`) bên trong `finally` bị coi là **anti-pattern** nguy hiểm: nó có thể âm thầm nuốt mất kết quả hoặc ngoại lệ từ khối `try`/`catch`.
+
+</details>
+
+**6. Nếu cả thân khối `try-with-resources` và phương thức `close()` của resource đều ném ngoại lệ, ngoại lệ nào được ném ra cho người gọi? Ngoại lệ còn lại đi đâu?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Ngoại lệ từ **thân khối `try`** được ném ra cho người gọi; ngoại lệ từ `close()` bị **"nén" (suppressed)** vào ngoại lệ chính, có thể lấy lại bằng `getSuppressed()`.
+
+```java
+class TaiNguyenLoi implements AutoCloseable {
+    @Override
+    public void close() {
+        throw new IllegalStateException("Lỗi khi đóng");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        try (TaiNguyenLoi r = new TaiNguyenLoi()) {
+            throw new RuntimeException("Lỗi trong thân try");
+        } catch (RuntimeException e) {
+            System.out.println("Bắt được: " + e.getMessage()); // "Lỗi trong thân try"
+            for (Throwable s : e.getSuppressed()) {
+                System.out.println("Bị nén: " + s.getMessage()); // "Lỗi khi đóng"
+            }
+        }
+    }
+}
+```
+
+- Java ưu tiên giữ lại ngoại lệ **gốc** (có ý nghĩa nghiệp vụ hơn, thường xảy ra trước) làm ngoại lệ chính, tránh việc lỗi đóng tài nguyên che mất lỗi thật sự gây ra vấn đề.
+
+</details>
+
+**7. Vì sao viết `catch (Exception e) {}` (bắt rồi để trống) bị coi là một anti-pattern nghiêm trọng?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Nuốt lỗi hoàn toàn**: chương trình tiếp tục chạy như không có gì xảy ra, trong khi trạng thái nội bộ có thể đã sai lệch.
+- **Cực kỳ khó debug**: khi hệ thống có hành vi bất thường về sau, không có bất kỳ dấu vết (log, stack trace) nào chỉ ra nguyên nhân gốc.
+- **Che giấu lỗi nghiêm trọng lẫn lỗi nhỏ như nhau**: `catch (Exception e)` bắt luôn cả những lỗi không liên quan tới ý định ban đầu.
+- **Cách làm đúng tối thiểu**: luôn ghi log (`logger.error("...", e)`), và cân nhắc rethrow dưới dạng ngoại lệ phù hợp hơn nếu tầng hiện tại không đủ khả năng xử lý.
+
+</details>
+
+**8. Khi tự tạo custom exception, nên kế thừa `Exception` (checked) hay `RuntimeException` (unchecked)? Dựa vào tiêu chí nào để quyết định?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Không có quy tắc tuyệt đối, nhưng tiêu chí thường dùng:
+
+- Kế thừa **`Exception`** (checked) khi lỗi là tình huống **người gọi có khả năng và nên xử lý ngay tại chỗ gọi**, ví dụ `TaiKhoanKhongTonTaiException` khi tra cứu — người gọi có thể bắt và hiển thị thông báo phù hợp.
+- Kế thừa **`RuntimeException`** (unchecked) khi lỗi phản ánh **vi phạm hợp đồng/logic lập trình** mà việc bắt buộc `try-catch` ở mọi nơi gọi chỉ gây phiền toái, ví dụ lỗi validate tham số đầu vào không hợp lệ.
+- Nhiều framework hiện đại (Spring, JPA) có xu hướng **ưu tiên unchecked exception** ngay cả cho lỗi nghiệp vụ, vì checked exception buộc mọi tầng gọi phải khai báo `throws` hoặc bắt, gây "ô nhiễm" chữ ký phương thức qua nhiều lớp kiến trúc (đặc biệt khó khi dùng cùng Stream API, vì lambda không khai báo được `throws` cho checked exception).
+
+</details>
+
+**9. Java 7 cho phép bắt nhiều loại ngoại lệ trong cùng một khối `catch` bằng cú pháp nào? Có ràng buộc gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Multi-catch**, dùng dấu `|` để liệt kê nhiều loại trong một khối `catch`:
+
+```java
+try {
+    xuLy();
+} catch (java.io.IOException | java.sql.SQLException e) {
+    // Xử lý chung cho cả hai loại
+    System.out.println("Lỗi: " + e.getMessage());
+}
+```
+
+- Các loại liệt kê phải **không có quan hệ cha-con** với nhau (ví dụ không được viết `IOException | FileNotFoundException` vì `FileNotFoundException` đã là con của `IOException`).
+- Biến `e` trong khối multi-catch được compiler suy ra kiểu là **giao (LUB — least upper bound)** của các loại, và biến này **effectively final** (không được gán lại).
+- Lợi ích: tránh lặp code xử lý giống hệt nhau ở nhiều khối `catch` riêng lẻ.
+
+</details>
+
+**10. Tình huống: bạn xây một API rút tiền ngân hàng. Có nên dùng exception để báo "số dư không đủ", hay nên trả về một kiểu kết quả (ví dụ `Result`/`Optional`) thay vì ném lỗi? Phân tích trade-off.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Cả hai cách đều hợp lý tùy ngữ cảnh, quan trọng là **exception nên dành cho tình huống thực sự bất thường**, không phải để thay thế luồng điều khiển (`if-else`) thông thường:
+
+- **Dùng exception** (`SoDuKhongDuException`) khi "số dư không đủ" là **hiếm gặp** và cần dừng luồng xử lý ngay, buộc mọi tầng gọi phải chú ý xử lý (đặc biệt hợp với checked exception ở đây).
+- **Dùng kiểu kết quả** (`Result`, hoặc đơn giản là trả về một đối tượng có cờ `thanhCong`) khi tình huống "số dư không đủ" là **một nhánh nghiệp vụ bình thường**, xảy ra thường xuyên (ví dụ trong flow kiểm tra hạn mức trước khi cho phép giao dịch) — dùng exception cho luồng điều khiển thông thường sẽ **tốn hiệu năng** hơn (do JVM phải tạo stack trace) và làm code khó đọc theo kiểu "nhảy" bất ngờ.
+- Nguyên tắc chung: **exception cho lỗi (điều không nên xảy ra)**, **kiểu kết quả/giá trị cho các nhánh nghiệp vụ dự kiến trước**.
+
+</details>
+
+**11. Trong kiến trúc nhiều tầng (Controller → Service → Repository), khi tầng Repository ném `SQLException` (checked), tầng Service nên xử lý thế nào để không làm "rò rỉ" chi tiết công nghệ (JDBC) lên tầng trên?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Nên **bọc (wrap)** ngoại lệ tầng thấp thành một ngoại lệ nghiệp vụ ở tầng cao hơn, vẫn giữ nguyên nhân gốc để không mất thông tin debug:
+
+```java
+class DuLieuException extends RuntimeException {
+    public DuLieuException(String thongBao, Throwable nguyenNhan) {
+        super(thongBao, nguyenNhan); // giữ lại cause gốc
+    }
+}
+
+class NguoiDungService {
+    NguoiDung timNguoiDung(int id) {
+        try {
+            return repository.timTheoId(id); // ném SQLException (checked)
+        } catch (java.sql.SQLException e) {
+            // Bọc lại thành ngoại lệ tầng nghiệp vụ, không lộ SQLException ra Controller
+            throw new DuLieuException("Không thể tìm người dùng " + id, e);
+        }
+    }
+}
+```
+
+- **Lợi ích**: tầng Controller/API không cần biết Repository đang dùng JDBC hay JPA hay công nghệ gì khác — nó chỉ cần biết "có lỗi dữ liệu".
+- Truyền `e` vào constructor `super(message, cause)` để giữ **nguyên nhân gốc (cause)** — khi debug vẫn xem được đầy đủ stack trace ban đầu qua `getCause()`, thay vì mất dấu vết.
+- Cách này cũng giúp gom nhiều loại lỗi công nghệ khác nhau (SQL, kết nối, timeout...) về một loại exception nghiệp vụ thống nhất mà tầng trên dễ xử lý.
+
+</details>

@@ -36,6 +36,7 @@ Generic (kiểu tổng quát) là phần `<...>` mà bạn thấy ở `ArrayList
 - [Tự viết phương thức generic](#tự-viết-phương-thức-generic)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -294,3 +295,245 @@ Integer n = layPhanTuDau(java.util.List.of(10, 20));       // T = Integer
 - **Wildcard `?`** cho phép viết phương thức nhận collection bất kỳ kiểu (chủ yếu để đọc).
 - **Bounded type** (`<? extends Number>`) giới hạn chỉ nhận một nhóm kiểu nhất định.
 - Có thể tự viết **phương thức generic** với `<T>` để dùng cho mọi kiểu mà vẫn an toàn.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Generics mang lại lợi ích gì so với dùng raw type (kiểu thô)?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Type safety (an toàn kiểu)**: trình biên dịch bắt lỗi sai kiểu **ngay lúc biên dịch**, thay vì để lộ ra thành `ClassCastException` lúc chạy.
+- **Không cần ép kiểu (cast)**: lấy phần tử ra từ `List<String>` đã đúng kiểu `String` sẵn, không cần viết `(String) list.get(i)`.
+- **Code rõ ràng, dễ đọc**: nhìn `List<User>` là biết ngay collection chứa gì, không cần đoán hay xem tài liệu.
+- **IDE hỗ trợ tốt hơn**: autocomplete, gợi ý phương thức đúng theo kiểu phần tử.
+
+</details>
+
+**2. Generics trong Java được cài đặt bằng cơ chế nào? Điều này dẫn tới hệ quả gì lúc runtime?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Generics được cài đặt bằng **type erasure** (xóa kiểu): trình biên dịch dùng thông tin generic để **kiểm tra kiểu lúc biên dịch**, nhưng sau khi biên dịch xong, mọi thông tin generic bị **xóa bỏ** khỏi bytecode — `List<String>` và `List<Integer>` đều trở thành cùng một `List` (chứa `Object`) khi chạy.
+
+```java
+List<String> a = new ArrayList<>();
+List<Integer> b = new ArrayList<>();
+System.out.println(a.getClass() == b.getClass()); // true — cùng là ArrayList.class lúc runtime
+```
+
+Hệ quả: không thể lấy được kiểu generic thực tế lúc runtime bằng reflection (ví dụ không thể viết `if (list instanceof List<String>)` — đây là lỗi biên dịch), và không thể tạo mảng generic trực tiếp (`new T[10]` không hợp lệ).
+
+</details>
+
+**3. Đoạn code sau ném lỗi gì lúc chạy? Vì sao trình biên dịch không bắt được ở lúc biên dịch?**
+
+```java
+List raw = new ArrayList();
+raw.add("An");
+raw.add(123);
+
+List<String> ten = raw; // generic warning, nhưng vẫn biên dịch được
+for (String t : ten) {
+    System.out.println(t.toUpperCase());
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Ném `ClassCastException` khi vòng lặp `for-each` chạy tới phần tử `123` — vì bên dưới, Java tự động chèn một lệnh ép kiểu ẩn `(String) raw.get(i)`, và `123` (kiểu `Integer`) không thể ép sang `String`.
+
+- Vì `raw` là **raw type** (không có `<>`), trình biên dịch **không kiểm tra được kiểu phần tử thêm vào** (`raw.add(123)` biên dịch bình thường, chỉ mất type safety).
+- Khi gán `raw` vào biến `List<String> ten`, trình biên dịch chỉ đưa ra **cảnh báo (unchecked warning)**, không phải lỗi cứng, vì về mặt kỹ thuật (do type erasure) nó không thể chứng minh được điều này sai lúc biên dịch.
+- Lỗi chỉ thực sự lộ ra khi chương trình **chạy đến** dòng cố ép kiểu phần tử sai — minh chứng rõ ràng cho việc mất type safety khi trộn raw type với generic.
+
+</details>
+
+**4. `List<?>` (unbounded wildcard) khác gì với `List<Object>`? Vì sao không thể `add()` phần tử vào `List<?>`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `List<Object>` là một List **cụ thể chỉ chứa `Object`** — có thể `add()` bất kỳ object nào vào, vì mọi kiểu đều là subtype của `Object`.
+- `List<?>` nghĩa là "một List chứa **một kiểu nào đó, chưa xác định**" — có thể là `List<String>`, `List<Integer>`, hay bất kỳ `List<T>` nào, nhưng compiler **không biết chính xác `T` là gì** tại điểm đó.
+- Vì không biết `T` là gì, trình biên dịch **không thể đảm bảo an toàn** nếu cho phép `add()` một giá trị cụ thể (ví dụ `add("abc")` có thể phá vỡ tính đúng đắn nếu List thật sự là `List<Integer>`). Do đó Java **cấm** `add()` vào `List<?>` (trừ `add(null)`, vì `null` hợp lệ với mọi kiểu tham chiếu).
+- `List<?>` chủ yếu dùng để **đọc (read-only)** — lấy phần tử ra dưới dạng `Object`.
+
+</details>
+
+**5. Giải thích nguyên tắc PECS (Producer Extends, Consumer Super) khi chọn giữa `<? extends T>` và `<? super T>`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**PECS** = **P**roducer **E**xtends, **C**onsumer **S**uper — quy tắc ghi nhớ khi nào dùng wildcard nào:
+
+- Dùng `<? extends T>` khi collection đóng vai trò **producer** (nguồn cung cấp dữ liệu) — bạn chỉ **đọc** phần tử ra từ nó.
+
+```java
+public static double tinhTong(List<? extends Number> ds) { // chỉ đọc (produce)
+    double tong = 0;
+    for (Number n : ds) tong += n.doubleValue();
+    return tong;
+}
+```
+
+- Dùng `<? super T>` khi collection đóng vai trò **consumer** (nơi tiếp nhận dữ liệu) — bạn chỉ **ghi** phần tử vào nó.
+
+```java
+public static void themSo(List<? super Integer> ds) { // chỉ ghi (consume)
+    ds.add(1);
+    ds.add(2);
+}
+// Dùng được với List<Integer>, List<Number>, List<Object>
+```
+
+- Nếu vừa cần đọc vừa cần ghi cùng kiểu cụ thể, không dùng wildcard mà dùng kiểu tham số thông thường (ví dụ `<T>`).
+
+</details>
+
+**6. Vì sao không thể viết `List<int>` mà phải viết `List<Integer>`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Generics trong Java chỉ hoạt động với **kiểu tham chiếu (reference type)**, vì cơ chế type erasure biến mọi tham số kiểu generic (`T`, `E`...) thành `Object` lúc runtime — và kiểu nguyên thủy (`int`, `double`, `boolean`...) không phải là subtype của `Object`, không thể "erasure" về `Object` được.
+- Vì vậy phải dùng **lớp bọc (wrapper class)** tương ứng: `Integer` thay `int`, `Double` thay `double`.
+- Nhờ **autoboxing/unboxing** (Java 5+), bạn vẫn viết `list.add(5)` tự nhiên — Java tự động bọc `5` thành `Integer.valueOf(5)` phía sau.
+
+</details>
+
+**7. Bounded type `<T extends Comparable<T>>` nghĩa là gì? Cho ví dụ ứng dụng thực tế.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`<T extends Comparable<T>>` giới hạn `T` phải là một kiểu **có khả năng so sánh với chính nó** — tức là đã cài đặt interface `Comparable<T>` (có phương thức `compareTo(T o)`).
+
+```java
+public static <T extends Comparable<T>> T timMax(List<T> ds) {
+    T max = ds.get(0);
+    for (T x : ds) {
+        if (x.compareTo(max) > 0) {
+            max = x;
+        }
+    }
+    return max;
+}
+
+// Dùng được vì Integer, String đều implement Comparable
+System.out.println(timMax(List.of(3, 7, 2)));       // 7
+System.out.println(timMax(List.of("cam", "buoi"))); // "cam" (theo thứ tự chữ cái)
+```
+
+- Nhờ bounded type, phương thức `timMax` có thể gọi `x.compareTo(max)` một cách an toàn — nếu không giới hạn, trình biên dịch sẽ báo lỗi vì `T` (không giới hạn) không đảm bảo có phương thức `compareTo()`.
+
+</details>
+
+**8. Vì sao Java không cho phép tạo mảng generic trực tiếp, ví dụ `new T[10]` hay `new List<String>[10]`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Vì mảng trong Java là **reified (giữ lại thông tin kiểu lúc runtime)** — mảng biết chính xác kiểu phần tử của nó và kiểm tra kiểu khi gán (`ArrayStoreException` nếu sai). Trong khi đó, generics dùng **type erasure**, nghĩa là thông tin kiểu (`T`, `String` trong `List<String>`) **bị xóa lúc runtime**.
+
+- Nếu Java cho phép `new List<String>[10]`, rồi gán một `List<Integer>` vào một phần tử của mảng đó (do mảng chỉ kiểm tra kiểu "thô" là `List`, không phân biệt được `List<String>` hay `List<Integer>` lúc runtime), sẽ phá vỡ tính an toàn kiểu mà mảng vốn đảm bảo — dẫn tới lỗi `ClassCastException` âm thầm ở một chỗ khác không liên quan.
+- Vì hai cơ chế (mảng reified và generic type-erased) mâu thuẫn nhau về triết lý, Java chọn **cấm tạo mảng generic** để tránh lỗ hổng an toàn kiểu này.
+
+</details>
+
+**9. Sự khác nhau giữa phương thức generic (`<T> void method(T t)`) và class generic (`class Box<T>`)?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Class generic**: tham số kiểu `<T>` gắn với **toàn bộ instance** của class — một khi tạo `Box<String>`, mọi field/method dùng `T` trong instance đó đều là `String`.
+
+```java
+class Box<T> {
+    private T value;
+    public void set(T value) { this.value = value; }
+    public T get() { return value; }
+}
+Box<String> hop = new Box<>();
+```
+
+- **Phương thức generic**: tham số kiểu `<T>` chỉ có phạm vi trong **một lời gọi phương thức**, độc lập với class chứa nó (class có thể không generic). Mỗi lần gọi, Java tự suy luận `T` khác nhau tùy tham số truyền vào.
+
+```java
+public static <T> T layPhanTuDau(List<T> ds) { return ds.get(0); }
+String a = layPhanTuDau(List.of("x", "y")); // T = String ở lần gọi này
+Integer b = layPhanTuDau(List.of(1, 2));    // T = Integer ở lần gọi khác
+```
+
+</details>
+
+**10. Diamond operator (`<>`) là gì? Nó khác gì so với việc viết đầy đủ kiểu ở cả hai vế?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Diamond operator** (toán tử kim cương, Java 7+) cho phép bỏ trống phần kiểu ở vế phải khi khởi tạo, vì trình biên dịch **tự suy luận (type inference)** kiểu dựa trên khai báo ở vế trái:
+
+```java
+// Trước Java 7: phải lặp lại kiểu ở cả hai vế
+List<String> ten = new ArrayList<String>();
+
+// Từ Java 7: dùng diamond operator, gọn hơn
+List<String> ten = new ArrayList<>();
+```
+
+- Hai cách hoàn toàn tương đương về mặt kiểu tại thời điểm biên dịch — diamond operator chỉ là cú pháp rút gọn (syntactic sugar), không thay đổi hành vi runtime.
+- Lưu ý: vẫn phải giữ `<>` (không được bỏ hẳn thành `new ArrayList()`) — nếu bỏ hẳn, đó lại là raw type, mất type safety.
+
+</details>
+
+**11. Nêu một ví dụ thực tế cho thấy sự khác nhau giữa `List<Object>` và `List<? extends Object>` khi truyền tham số cho một phương thức.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+public static void inTatCa(List<Object> ds) {
+    for (Object o : ds) System.out.println(o);
+}
+
+public static void inTatCaLinhHoat(List<? extends Object> ds) {
+    for (Object o : ds) System.out.println(o);
+}
+
+List<String> ten = List.of("An", "Bình");
+
+// inTatCa(ten);          // LỖI biên dịch! List<String> KHÔNG phải là List<Object>
+inTatCaLinhHoat(ten);     // OK — List<String> là một List<? extends Object> hợp lệ
+```
+
+- Generics **không có tính hiệp biến (covariance)** như mảng: dù `String` là subtype của `Object`, `List<String>` **không phải** là subtype của `List<Object>`. Đây là quy tắc quan trọng khác biệt hoàn toàn so với mảng (`String[]` là subtype của `Object[]`).
+- Muốn phương thức nhận được `List` của **bất kỳ subtype nào của `Object`** (tức là mọi `List` nói chung, vì mọi kiểu đều là subtype của `Object`), phải dùng wildcard `List<? extends Object>` (tương đương `List<?>`).
+
+</details>
+
+**12. Vì sao mảng (`Array`) trong Java được coi là hiệp biến (covariant) trong khi Generic List thì không? Điều này có rủi ro gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Mảng Java **hiệp biến**: nếu `Sub` là subtype của `Super`, thì `Sub[]` cũng được coi là subtype của `Super[]` — có thể gán `Sub[] s = ...; Super[] sup = s;`.
+- Điều này tiềm ẩn rủi ro **runtime error**, vì mảng vẫn "nhớ" kiểu thật của nó:
+
+```java
+Object[] arr = new String[3]; // hợp lệ vì mảng hiệp biến
+arr[0] = 123; // biên dịch OK (kiểu khai báo là Object[])... nhưng ném ArrayStoreException lúc CHẠY!
+// vì mảng thật sự là String[], không chấp nhận phần tử Integer
+```
+
+- Generic Collections **cố tình không hiệp biến** (`List<String>` không phải subtype của `List<Object>`) chính là để **tránh lặp lại rủi ro này** — lỗi sai kiểu bị đẩy về phát hiện lúc **biên dịch** thay vì rơi vào bẫy `ArrayStoreException` lúc chạy như mảng.
+- Đây là lý do thiết kế Generics ưu tiên an toàn kiểu tĩnh (static type safety) hơn là tính linh hoạt hiệp biến mà mảng cho phép.
+
+</details>

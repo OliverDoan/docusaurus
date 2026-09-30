@@ -35,6 +35,7 @@ Map (ánh xạ) lưu dữ liệu dưới dạng các cặp khóa - giá trị (k
 - [Ví dụ thực tế: đếm số lần xuất hiện](#ví-dụ-thực-tế-đếm-số-lần-xuất-hiện)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -307,3 +308,215 @@ System.out.println(demTu); // {mèo=3, chó=2, cá=1}
 - Duyệt Map tốt nhất bằng `entrySet()` để lấy cả key và value.
 - **HashMap** (nhanh, không thứ tự), **LinkedHashMap** (giữ thứ tự thêm), **TreeMap** (sắp xếp khóa).
 - Map rất hữu ích cho bài toán **đếm số lần xuất hiện** và **tra cứu nhanh**.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. `Map` khác `List` và `Set` cốt lõi ở điểm nào? Vì sao `Map` không kế thừa `Collection`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `Map` lưu dữ liệu dạng **cặp key-value**, tra cứu bằng khóa; `List` và `Set` chỉ lưu **một giá trị** cho mỗi phần tử.
+- `Map` là một **nhánh interface riêng** trong Java Collections Framework, không kế thừa `Collection`, vì đơn vị làm việc của nó là **cặp** (key, value) chứ không phải phần tử đơn lẻ — các phương thức như `add(e)` của `Collection` không có ý nghĩa với Map (phải là `put(k, v)`).
+- Tuy vậy `Map` vẫn cung cấp `keySet()`, `values()`, `entrySet()` trả về các view dạng `Collection`, giúp tận dụng lại API duyệt/lọc quen thuộc.
+
+</details>
+
+**2. `HashMap` xác định vị trí lưu một cặp key-value bằng cách nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+1. Gọi `key.hashCode()` để tính ra một số nguyên, rồi qua một hàm băm nội bộ để xác định **bucket** (ngăn chứa) trong mảng bên trong `HashMap`.
+2. Nếu bucket đó trống, đặt cặp key-value vào ngay.
+3. Nếu bucket đã có phần tử khác (**collision** — đụng độ băm), `HashMap` so sánh key mới với các key đã có trong bucket bằng `equals()`; nếu trùng thì ghi đè value, nếu không trùng thì thêm vào (dùng danh sách liên kết, hoặc cây đỏ-đen nếu bucket quá đông từ Java 8).
+
+Vì vậy, key dùng cho `HashMap` **bắt buộc phải override `hashCode()` và `equals()` nhất quán** nếu là object tự định nghĩa, nếu không việc tra cứu sẽ sai hoặc luôn miss.
+
+</details>
+
+**3. Đoạn code sau ném lỗi gì? Vì sao?**
+
+```java
+Map<String, Integer> map = new HashMap<>();
+int soDT = map.get("Dũng");
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Ném `NullPointerException` ngay tại dòng gán.
+
+- `map.get("Dũng")` trả về `null` vì khóa `"Dũng"` không tồn tại trong Map.
+- `int soDT = null;` yêu cầu Java **unbox** (chuyển từ `Integer` sang `int`) giá trị `null` — nhưng `null` không thể unbox thành kiểu nguyên thủy, gây `NullPointerException`.
+- Cách phòng tránh: dùng `map.getOrDefault("Dũng", 0)`, hoặc kiểm tra `map.containsKey("Dũng")` trước, hoặc gán vào biến kiểu `Integer` (kiểu tham chiếu) rồi tự kiểm tra `null`.
+
+</details>
+
+**4. `HashMap`, `LinkedHashMap`, `TreeMap` khác nhau về thứ tự khóa và độ phức tạp như thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Loại | Thứ tự khóa | `get`/`put` | Cấu trúc bên trong |
+|------|-------------|-------------|---------------------|
+| `HashMap` | Không xác định | O(1) trung bình | Bảng băm |
+| `LinkedHashMap` | Theo thứ tự thêm vào (hoặc thứ tự truy cập nếu cấu hình `accessOrder`) | O(1) trung bình | Bảng băm + danh sách liên kết đôi |
+| `TreeMap` | Tăng dần theo khóa (`Comparable`/`Comparator`) | O(log n) | Cây đỏ-đen |
+
+- `LinkedHashMap` với `accessOrder = true` còn được dùng để cài đặt **LRU cache** (Least Recently Used — loại bỏ mục ít dùng gần đây nhất) bằng cách override `removeEldestEntry()`.
+
+</details>
+
+**5. Nếu dùng một object tự định nghĩa làm key cho `HashMap` mà quên override `hashCode()`/`equals()`, chuyện gì xảy ra?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+class UserId {
+    int id;
+    UserId(int id) { this.id = id; }
+}
+
+Map<UserId, String> map = new HashMap<>();
+map.put(new UserId(1), "An");
+
+System.out.println(map.get(new UserId(1))); // in ra null, KHÔNG phải "An"
+```
+
+- Vì `UserId` không override `hashCode()`/`equals()`, Java dùng bản mặc định của `Object` — so sánh theo **địa chỉ tham chiếu**.
+- `new UserId(1)` ở dòng `get` là một object **hoàn toàn khác** với object đã dùng ở `put`, dù cùng giá trị `id`. `HashMap` tính `hashCode` khác nhau (hoặc bằng nhau nhưng `equals` trả `false`), nên không tìm thấy — trả về `null`.
+- Bài học: key cho `HashMap`/`HashSet` phải là **immutable** và override đúng `hashCode()`/`equals()` (hoặc dùng kiểu có sẵn như `String`, `Integer`, hoặc `record`).
+
+</details>
+
+**6. Điều gì xảy ra nếu bạn thay đổi (mutate) một object đang được dùng làm key trong `HashMap` sau khi đã `put()`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Rất nguy hiểm — Map có thể **"mất" cặp key-value đó vĩnh viễn**, dù nó vẫn còn nằm trong bộ nhớ.
+
+- `HashMap` xác định bucket dựa trên `hashCode()` của key **tại thời điểm `put()`**.
+- Nếu sau đó bạn sửa field ảnh hưởng tới `hashCode()` của key (ví dụ đổi giá trị field dùng để tính hash), `hashCode()` mới sẽ khác, nhưng object vẫn nằm ở **bucket cũ**.
+- Khi gọi `get(keyDaSua)`, `HashMap` tính `hashCode` mới và tìm ở bucket mới — không tìm thấy vì dữ liệu thực tế vẫn nằm ở bucket cũ.
+- Đây là lý do quan trọng khiến quy tắc **key của Map/Set nên là immutable** (bất biến) trở thành best practice bắt buộc, không chỉ là khuyến nghị phong cách.
+
+</details>
+
+**7. Cách nào để duyệt một `Map` hiệu quả nhất khi cần cả key lẫn value? Vì sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Dùng `entrySet()`:
+
+```java
+for (Map.Entry<String, Integer> entry : map.entrySet()) {
+    System.out.println(entry.getKey() + " -> " + entry.getValue());
+}
+```
+
+- `entrySet()` chỉ cần **duyệt bảng băm một lần**, mỗi entry đã sẵn cả key và value.
+- Nếu dùng `keySet()` rồi gọi `map.get(key)` bên trong vòng lặp, mỗi lần `get()` lại là một lần tra cứu bảng băm **riêng biệt** — tốn thêm chi phí không cần thiết (dù vẫn O(1), nhưng gấp đôi số lần truy cập bảng băm so với dùng `entrySet()`).
+
+```java
+// Kém hiệu quả hơn: mỗi vòng lặp gọi thêm một lần get() riêng
+for (String key : map.keySet()) {
+    System.out.println(key + " -> " + map.get(key));
+}
+```
+
+</details>
+
+**8. `computeIfAbsent()` và `merge()` (Java 8+) giúp viết code đếm/gom nhóm gọn hơn thế nào so với `getOrDefault`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+Map<String, Integer> demTu = new HashMap<>();
+
+// Cách cũ (Java 7 trở về trước)
+demTu.put(t, demTu.getOrDefault(t, 0) + 1);
+
+// Cách mới, gọn hơn, dùng merge (Java 8+)
+demTu.merge(t, 1, Integer::sum);
+```
+
+- `merge(key, value, function)`: nếu key chưa có, đặt giá trị = `value`; nếu đã có, áp dụng `function` lên (giá trị cũ, `value`) để ra giá trị mới.
+- `computeIfAbsent(key, function)` thường dùng để **gom nhóm (group by)** — tự tạo collection rỗng nếu key chưa có:
+
+```java
+Map<String, List<String>> theoNhom = new HashMap<>();
+theoNhom.computeIfAbsent("A", k -> new ArrayList<>()).add("An");
+theoNhom.computeIfAbsent("A", k -> new ArrayList<>()).add("Anh");
+// {"A": ["An", "Anh"]} — chỉ tạo ArrayList mới ở lần gọi đầu tiên
+```
+
+</details>
+
+**9. `TreeMap` yêu cầu gì ở khóa để có thể sắp xếp? Nếu key là kiểu tự định nghĩa mà không đáp ứng, chuyện gì xảy ra?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Giống `TreeSet`, `TreeMap` cần biết cách so sánh các khóa, thông qua:
+
+- Khóa cài đặt `Comparable` (override `compareTo()`), hoặc
+- Truyền một `Comparator` khi khởi tạo: `new TreeMap<>(comparator)`.
+
+Nếu khóa là object tự định nghĩa không thỏa một trong hai điều kiện trên, `TreeMap` sẽ ném `ClassCastException` ngay khi `put()` phần tử đầu tiên có khóa đó, vì nó không biết đặt khóa này vào đâu trong cây đỏ-đen.
+
+</details>
+
+**10. `HashMap` có cho phép key hoặc value là `null` không? So với `Hashtable` và `ConcurrentHashMap`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Loại | Key `null`? | Value `null`? | Thread-safe? |
+|------|-------------|----------------|--------------|
+| `HashMap` | Cho phép (1 key `null` duy nhất) | Cho phép | Không |
+| `Hashtable` (legacy, ít dùng) | Không cho phép | Không cho phép | Có (đồng bộ toàn bộ, chậm) |
+| `ConcurrentHashMap` | Không cho phép | Không cho phép | Có (khóa chia nhỏ, hiệu năng tốt) |
+
+- Lý do `ConcurrentHashMap` cấm `null`: trong môi trường đa luồng, `get(key)` trả về `null` sẽ **mơ hồ** — không phân biệt được "key không tồn tại" hay "key tồn tại nhưng value đang là `null`" khi có luồng khác đang thao tác đồng thời, dễ gây race condition khó phát hiện.
+
+</details>
+
+**11. Trong một ứng dụng đa luồng, tại sao không nên dùng `HashMap` trực tiếp? Nêu cách thay thế phù hợp.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Nhiều luồng cùng `put()` đồng thời vào `HashMap` **không đồng bộ** có thể gây hỏng cấu trúc bảng băm nội bộ (ví dụ vòng lặp vô hạn khi resize ở các phiên bản Java cũ), mất dữ liệu, hoặc `ConcurrentModificationException` khi một luồng duyệt trong lúc luồng khác sửa đổi.
+- Giải pháp:
+  - `Collections.synchronizedMap(new HashMap<>())` — đơn giản, khóa toàn bộ Map cho mỗi thao tác, nhưng giảm khả năng chạy song song.
+  - `ConcurrentHashMap` — lựa chọn phổ biến nhất trong thực tế, chia khóa (lock) theo từng phần dữ liệu (segment/bucket) nên nhiều luồng có thể đọc/ghi các phần khác nhau **đồng thời** mà không chặn nhau, hiệu năng tốt hơn hẳn `synchronizedMap` trong tải cao.
+
+</details>
+
+**12. So sánh `equals()`/`hashCode()` mặc định của `record` (Java 16+) với việc tự viết bằng tay khi dùng làm key cho `Map`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+record ToaDo(int x, int y) {}
+
+Map<ToaDo, String> oNho = new HashMap<>();
+oNho.put(new ToaDo(1, 2), "Kho bau");
+
+System.out.println(oNho.get(new ToaDo(1, 2))); // "Kho bau" — hoạt động đúng
+```
+
+- `record` (từ Java 16) **tự động sinh** `equals()`, `hashCode()`, và `toString()` dựa trên **toàn bộ các field khai báo trong phần header**, theo đúng hợp đồng contract giữa hai phương thức — không cần tự viết tay và không lo viết sai/thiếu field.
+- So với việc tự override bằng tay: `record` giảm rủi ro lỗi con người (quên override một trong hai, hoặc tính hash dựa trên field khác với field dùng trong `equals`), rất phù hợp để làm key bất biến (immutable) cho `Map`/`Set` — vì `record` mặc định cũng là immutable (mọi field đều `final`).
+
+</details>

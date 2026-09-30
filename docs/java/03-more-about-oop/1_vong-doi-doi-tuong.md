@@ -34,6 +34,7 @@ Vòng đời đối tượng mô tả toàn bộ quá trình một đối tượ
 - [finalize — phương thức lỗi thời](#finalize--phương-thức-lỗi-thời)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -254,3 +255,150 @@ public class Main {
 - Khi không còn tham chiếu, đối tượng thành **rác**.
 - **Garbage Collection** tự động giải phóng bộ nhớ — bạn không cần làm thủ công.
 - `finalize()` đã **lỗi thời**; dùng `try-with-resources` để dọn dẹp tài nguyên.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Phân biệt "đối tượng" (object) và "tham chiếu" (reference) trong Java.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Đối tượng** (object) là vùng dữ liệu thực sự nằm trên **heap**, được tạo ra bởi `new`.
+- **Tham chiếu** (reference) là biến chứa **địa chỉ** trỏ tới đối tượng đó, không phải chính đối tượng.
+- Nhiều biến tham chiếu có thể cùng trỏ tới một đối tượng; sửa qua biến này sẽ thấy thay đổi ở biến kia vì cả hai cùng trỏ chung một chỗ.
+- Ví dụ: `XeOto xe1 = new XeOto("do"); XeOto xe2 = xe1;` — `xe1` và `xe2` là hai tham chiếu khác nhau nhưng cùng trỏ một object.
+
+</details>
+
+**2. Một đối tượng được xem là "đủ điều kiện" (eligible) để Garbage Collector thu hồi khi nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Khi **không còn tham chiếu mạnh (strong reference) nào** từ một "root" (biến local đang chạy, biến `static`, thread đang sống...) trỏ tới nó. Các trường hợp phổ biến:
+
+- Gán `null` cho biến duy nhất đang trỏ tới object.
+- Biến local ra khỏi phạm vi (scope) khi phương thức kết thúc.
+- Gán lại biến để trỏ sang object khác, bỏ rơi object cũ.
+- Object chỉ được tham chiếu bởi các object khác cũng đang là rác (cả một "đảo" object cô lập cũng bị thu gom).
+
+Lưu ý: object nằm trong biến `static` hoặc collection còn sống thì **không bao giờ** đủ điều kiện GC cho tới khi bị xóa khỏi đó — đây là nguyên nhân phổ biến của memory leak.
+
+</details>
+
+**3. Heap và Stack khác nhau thế nào trong việc lưu trữ dữ liệu Java?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Tiêu chí | Stack | Heap |
+|---|---|---|
+| Lưu gì | Biến cục bộ, tham chiếu, khung gọi hàm | Các đối tượng thực sự (`new`) |
+| Vòng đời | Tự động dọn khi hàm return | Do Garbage Collector quản lý |
+| Tốc độ | Rất nhanh | Chậm hơn stack |
+| Chia sẻ giữa thread | Mỗi thread một stack riêng | Dùng chung giữa các thread |
+
+Khi một phương thức kết thúc, các biến cục bộ (kể cả tham chiếu) trên stack bị dọn, nhưng object trên heap chỉ mất đi khi không còn ai tham chiếu tới.
+
+</details>
+
+**4. Vì sao Java không cho lập trình viên tự `free`/`delete` bộ nhớ như C/C++? Đánh đổi là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Tự quản lý bộ nhớ dễ gây **memory leak** (quên free), **double free**, hoặc **dangling pointer** (dùng sau khi free) — những lỗi rất khó debug và có thể gây crash hoặc lỗ hổng bảo mật.
+- Java giao việc này cho **Garbage Collector**, tự động phát hiện và thu hồi object không còn tham chiếu, giúp code an toàn hơn và giảm gánh nặng cho lập trình viên.
+- Đánh đổi: mất quyền kiểm soát chính xác thời điểm giải phóng, và GC tốn thêm CPU/có thể gây độ trễ (pause) không dự đoán trước — đây là lý do các hệ thống hiệu năng cực cao đôi khi phải tinh chỉnh GC hoặc chọn GC phù hợp (G1, ZGC...).
+
+</details>
+
+**5. `finalize()` là gì và vì sao bị deprecated? Thay thế bằng gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`finalize()` là phương thức được JVM gọi (không đảm bảo) ngay trước khi GC thu hồi object, từng dùng để "dọn dẹp" tài nguyên.
+
+Bị deprecated (từ Java 9, dự kiến loại bỏ) vì:
+
+- **Không đảm bảo chạy**, và nếu chạy thì không biết chạy lúc nào — tài nguyên có thể bị giữ rất lâu.
+- Làm **chậm** quá trình GC vì object có `finalize()` phải qua thêm một bước xử lý đặc biệt.
+- Dễ gây lỗi nếu `finalize()` "hồi sinh" object (gán lại tham chiếu) hoặc ném exception.
+
+Thay thế: implement `AutoCloseable` và dùng khối `try-with-resources`, hoặc dùng `java.lang.ref.Cleaner` cho các trường hợp cần dọn dẹp gắn với vòng đời GC.
+
+</details>
+
+**6. Đọc code sau — biến `xe1` có bị lỗi khi gọi `xe1.an()` ở dòng cuối không? Giải thích.**
+
+```java
+XeOto xe1 = new XeOto("do");
+XeOto xe2 = xe1;
+xe1 = null;
+xe2.an();
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không lỗi.** `xe1 = null` chỉ cắt đứt tham chiếu của **biến `xe1`**, không xóa đối tượng. Đối tượng `XeOto("do")` vẫn còn tồn tại trên heap vì `xe2` vẫn đang trỏ tới nó — object chỉ đủ điều kiện GC khi **không còn bất kỳ tham chiếu nào** trỏ tới, chứ không phải khi một biến cụ thể bị gán `null`. Vì vậy `xe2.an()` chạy bình thường.
+
+</details>
+
+**7. `System.gc()` có đảm bảo Garbage Collector chạy ngay lập tức không? Có nên gọi trong code production không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `System.gc()` chỉ là một **gợi ý** (hint) cho JVM rằng "bây giờ là thời điểm tốt để chạy GC", nhưng JVM **có quyền bỏ qua** hoàn toàn.
+- Không nên gọi trong code production vì: không đáng tin cậy, có thể gây một đợt "stop-the-world" tốn kém không cần thiết, làm giảm hiệu năng ứng dụng một cách khó dự đoán.
+- JVM hiện đại tự quyết định thời điểm chạy GC dựa trên áp lực bộ nhớ tốt hơn nhiều so với gọi thủ công.
+
+</details>
+
+**8. Mô tả ngắn gọn cơ chế Generational Garbage Collection (Young Generation / Old Generation) mà JVM hiện đại dùng.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- JVM chia heap thành **Young Generation** (nơi object mới sinh ra, gồm Eden + hai vùng Survivor) và **Old Generation** (nơi chứa object sống lâu).
+- Giả định: phần lớn object "chết trẻ" (weak generational hypothesis), nên GC quét Young Generation thường xuyên bằng **Minor GC** — nhanh vì vùng nhỏ.
+- Object sống sót qua nhiều lần Minor GC sẽ được **promote** (thăng cấp) sang Old Generation.
+- Old Generation ít bị quét hơn, dùng **Major/Full GC** — chậm hơn nhưng ít xảy ra.
+- Các GC hiện đại như **G1**, **ZGC**, **Shenandoah** tối ưu thêm để giảm thời gian "stop-the-world".
+
+</details>
+
+**9. Nêu một tình huống memory leak thực tế trong Java dù đã có GC, và cách khắc phục.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Memory leak trong Java xảy ra khi object vẫn còn tham chiếu (nên GC không thu hồi được) nhưng thực tế không còn cần dùng nữa. Ví dụ phổ biến:
+
+- **`static` collection tích lũy dần**: thêm phần tử vào `List`/`Map` khai báo `static` mà không bao giờ xóa → object bên trong không bao giờ bị GC.
+- **Listener/callback không gỡ đăng ký**: đăng ký listener vào một object sống lâu (như UI framework) mà quên `removeListener` khi không cần nữa.
+- **`ThreadLocal` không `remove()`** trong môi trường thread pool (thread được tái sử dụng nên giá trị cũ vẫn còn).
+
+Khắc phục: chủ động xóa khỏi collection/gỡ listener khi không dùng nữa, dùng `WeakReference`/`WeakHashMap` khi tham chiếu chỉ nên "giữ nếu còn ai khác cần", và luôn `remove()` `ThreadLocal` sau khi dùng xong (ví dụ trong `finally`).
+
+</details>
+
+**10. Bạn được giao debug một ứng dụng Java bị `OutOfMemoryError` tăng dần theo thời gian chạy. Bạn sẽ tiếp cận theo quy trình nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+1. **Xác nhận là leak thật** chứ không phải chỉ cần tăng heap (`-Xmx`) — theo dõi biểu đồ heap usage theo thời gian, nếu tăng dần không giảm sau GC thì đúng là leak.
+2. **Chụp heap dump** (`jmap -dump` hoặc bật `-XX:+HeapDumpOnOutOfMemoryError`) tại thời điểm bộ nhớ cao.
+3. Dùng công cụ phân tích (**Eclipse MAT**, VisualVM) để tìm **object nào chiếm nhiều bộ nhớ nhất** và xem "đường đi tới GC root" (ai đang giữ tham chiếu tới nó).
+4. Tập trung vào các nghi phạm quen thuộc: `static` collection phình to, cache không giới hạn kích thước, listener/`ThreadLocal` không gỡ.
+5. Sửa bằng cách xóa tham chiếu đúng lúc, hoặc dùng cache có giới hạn (LRU) / `WeakReference`.
+6. Chạy lại với công cụ profiling (JFR, async-profiler) để xác nhận vấn đề đã hết trước khi deploy.
+
+</details>

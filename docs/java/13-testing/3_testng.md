@@ -36,6 +36,7 @@ TestNG là một framework test cho Java, ra đời như lựa chọn thay thế
 - [So sánh TestNG với JUnit](#so-sánh-testng-với-junit)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -334,3 +335,222 @@ flowchart TD
 - TestNG có hệ thống annotation vòng đời phong phú: `@BeforeSuite/@BeforeClass/@BeforeMethod`...
 - Với unit test thông thường, JUnit 5 đủ dùng; TestNG mạnh hơn cho integration/E2E và automation.
 - Bài tiếp theo: **Mockito** — công cụ tạo đối tượng giả lập (mock) khi test.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. TestNG ra đời để giải quyết những hạn chế nào của JUnit (đặc biệt là JUnit 3/4)?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Không có cơ chế nhóm test (groups)** built-in: JUnit 3/4 khó chạy chọn lọc một tập con test (ví dụ chỉ chạy "smoke test") mà không tách thành class/package riêng.
+- **`@Parameterized` của JUnit 4 cồng kềnh**: phải viết constructor riêng và một phương thức static trả về `Collection<Object[]>`, nhiều boilerplate hơn `@DataProvider` của TestNG.
+- **Khó cấu hình chạy song song (parallel)**: JUnit 4 không hỗ trợ tốt việc chạy nhiều test cùng lúc để rút ngắn thời gian.
+- **Không có cơ chế khai báo phụ thuộc giữa các test**: JUnit 4 không có cách chuẩn để nói "testB chỉ nên chạy nếu testA đã pass", trong khi TestNG hỗ trợ qua `dependsOnMethods`.
+- TestNG (ra đời 2004) bổ sung `groups`, `@DataProvider`, `priority`, và hệ thống vòng đời phong phú hơn để giải quyết các hạn chế này.
+
+</details>
+
+**2. Cho đoạn code sau, đâu là lỗi phổ biến khi lập trình viên quen JUnit chuyển sang viết test bằng TestNG?**
+
+```java
+import org.testng.Assert;
+
+@Test
+void testAdd() {
+    Calculator calc = new Calculator();
+    int ketQua = calc.add(2, 3);
+    Assert.assertEquals(5, ketQua);
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Lỗi**: viết `Assert.assertEquals(5, ketQua)` theo thói quen JUnit (mong đợi trước, thực tế sau), nhưng **TestNG quy ước ngược lại**: `assertEquals(thucTe, mongDoi)` — tham số đầu là giá trị **thực tế**, tham số sau mới là giá trị **mong đợi**.
+
+- Về mặt kết quả pass/fail, thứ tự này **không ảnh hưởng** vì so sánh bằng nhau có tính đối xứng — test vẫn pass nếu `ketQua == 5`.
+- Nhưng nếu test fail, **thông báo lỗi sẽ bị đọc ngược**: TestNG sẽ hiển thị dạng `expected [ketQua_value] but found [5]`, gây hiểu nhầm khi debug vì "expected" và "actual" bị hoán đổi vai trò so với những gì lập trình viên quen với JUnit mong đợi.
+- Cách viết đúng theo quy ước TestNG: `Assert.assertEquals(ketQua, 5)` — thực tế trước, mong đợi sau.
+
+</details>
+
+**3. `priority` trong TestNG dùng để làm gì? Vì sao tài liệu khuyến cáo không nên lạm dụng thuộc tính này cho unit test thông thường?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`priority` chỉ định **thứ tự chạy** các phương thức `@Test` — số càng nhỏ chạy càng sớm (mặc định TestNG chạy theo thứ tự bảng chữ cái tên phương thức nếu không đặt `priority`).
+
+```java
+@Test(priority = 1) void dangNhap() { ... }
+@Test(priority = 2) void themSanPhamVaoGio() { ... }
+@Test(priority = 3) void thanhToan() { ... }
+```
+
+- Không nên lạm dụng cho **unit test** vì unit test tốt phải **độc lập (Independent)** — không phụ thuộc thứ tự chạy, có thể chạy riêng lẻ hoặc song song mà vẫn ra kết quả đúng.
+- `priority` chỉ thực sự hữu ích khi mô phỏng một **luồng nghiệp vụ tuần tự** có thật (ví dụ test kịch bản E2E: đăng nhập → thêm giỏ hàng → thanh toán, nơi các bước phụ thuộc lẫn nhau một cách tự nhiên), chứ không nên dùng để "vá" cho một unit test thiết kế sai khiến nó phụ thuộc trạng thái từ test khác.
+
+</details>
+
+**4. `groups` trong TestNG giải quyết vấn đề gì trong CI/CD? Cho ví dụ cấu hình `testng.xml` chỉ chạy nhóm `smoke`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`groups` cho phép gắn "nhãn" lên từng test, sau đó **chạy chọn lọc** theo nhãn thay vì phải chạy toàn bộ test suite mỗi lần.
+
+- Trong CI/CD, điều này rất hữu ích: pipeline có thể chạy nhóm **`smoke`** (test nhanh, kiểm tra các chức năng cốt lõi) ngay sau mỗi lần commit để phản hồi nhanh, còn nhóm **`regression`** (test đầy đủ, chạy lâu hơn) chỉ chạy định kỳ hoặc trước khi release.
+
+```xml
+<suite name="BoTestCuaToi">
+    <test name="ChiChaySmoke">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="GroupTest"/>
+        </classes>
+    </test>
+</suite>
+```
+
+- Một test có thể thuộc **nhiều nhóm cùng lúc** (`@Test(groups = {"smoke", "regression"})`), giúp linh hoạt tổ chức nhiều chiến lược chạy test khác nhau từ cùng một bộ test case.
+
+</details>
+
+**5. So sánh `@DataProvider` của TestNG với `@ParameterizedTest` + `@CsvSource` của JUnit 5. Vì sao `@DataProvider` được xem là linh hoạt hơn trong một số trường hợp?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Cả hai đều giải quyết cùng vấn đề: chạy một logic test với nhiều bộ dữ liệu, tránh copy-paste.
+
+```java
+@DataProvider(name = "duLieuPhepCong")
+public Object[][] cungCapDuLieu() {
+    return new Object[][] { {1, 1, 2}, {2, 3, 5} };
+}
+
+@Test(dataProvider = "duLieuPhepCong")
+void testAdd(int a, int b, int mongDoi) {
+    Assert.assertEquals(calc.add(a, b), mongDoi);
+}
+```
+
+- `@DataProvider` là **một phương thức Java bình thường** trả về `Object[][]` — có thể chứa **logic tùy ý**: đọc từ file Excel, gọi database, gọi API, tính toán động dữ liệu test.
+- `@CsvSource` của JUnit 5 chỉ nhận **chuỗi tĩnh viết cứng** trong annotation, phù hợp với dữ liệu đơn giản; khi cần dữ liệu phức tạp hoặc động, JUnit 5 phải chuyển sang dùng `@MethodSource` (tương tự về bản chất với `@DataProvider`, nhưng cú pháp khai báo khác).
+- Nhìn chung, `@DataProvider` của TestNG có phần **gọn và mạnh hơn ngay từ đầu** cho các trường hợp dữ liệu phức tạp, không cần "chuyển đổi" sang một annotation khác như JUnit 5.
+
+</details>
+
+**6. Trình bày đầy đủ thứ tự chạy các annotation vòng đời trong TestNG khi một class có nhiều `@Test`, gồm `@BeforeSuite`, `@BeforeClass`, `@BeforeMethod`, `@AfterMethod`, `@AfterClass`, `@AfterSuite`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Thứ tự chạy:
+
+1. **`@BeforeSuite`** — chạy **một lần duy nhất** trước toàn bộ suite (tập hợp nhiều test class).
+2. **`@BeforeClass`** — chạy **một lần** trước tất cả test trong class.
+3. Với **mỗi** phương thức `@Test`:
+   - **`@BeforeMethod`** chạy trước.
+   - **`@Test`** chạy.
+   - **`@AfterMethod`** chạy sau.
+4. **`@AfterClass`** — chạy **một lần** sau khi tất cả test trong class đã chạy xong.
+5. **`@AfterSuite`** — chạy **một lần duy nhất** sau toàn bộ suite.
+
+- Đây là hệ thống vòng đời **phong phú hơn** JUnit 5 (chỉ có `@BeforeAll`/`@BeforeEach`/`@AfterEach`/`@AfterAll` ở cấp class), vì TestNG có thêm cấp độ **suite** — hữu ích khi tổ chức nhiều class test thành một bộ suite lớn qua `testng.xml`.
+
+</details>
+
+**7. So sánh `@BeforeEach`/`@AfterEach` của JUnit 5 với `@BeforeMethod`/`@AfterMethod` của TestNG — chúng có tương đương hoàn toàn không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Về mặt **thời điểm chạy**, chúng tương đương: cả hai đều chạy **trước/sau mỗi phương thức test**.
+
+Khác biệt:
+
+- **Import**: JUnit dùng `org.junit.jupiter.api.BeforeEach`/`AfterEach`; TestNG dùng `org.testng.annotations.BeforeMethod`/`AfterMethod`.
+- **Cấp độ vòng đời**: TestNG có thêm các cấp **suite** (`@BeforeSuite`/`@AfterSuite`) mà JUnit 5 không có khái niệm tương đương trực tiếp ở cấp class đơn lẻ (JUnit 5 quản lý việc gom nhiều class qua cấu hình runner/IDE/build tool, không qua annotation trong code).
+- **Instance lifecycle**: JUnit 5 mặc định tạo instance mới cho mỗi test method (`PER_METHOD`), còn TestNG theo mặc định dùng **chung một instance** cho tất cả test method trong class — đây là khác biệt quan trọng ảnh hưởng tới cách quản lý state giữa các test.
+
+</details>
+
+**8. Vì sao trong một dự án dùng Gradle, nếu quên cấu hình `useTestNG()` trong khối `test { ... }`, các test viết bằng TestNG có thể hoàn toàn không được chạy dù không báo lỗi biên dịch?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Gradle mặc định dùng **JUnit Platform** để chạy test, nên nếu không khai báo rõ `useTestNG()`, Gradle sẽ cố tìm và chạy test theo cơ chế nhận diện của JUnit — mà annotation `@Test` của TestNG (`org.testng.annotations.Test`) **không được JUnit engine nhận diện**.
+- Kết quả: các test class dùng TestNG **âm thầm không được chạy** — Gradle không báo lỗi (vì code biên dịch bình thường), báo cáo test có thể hiển thị "0 test" hoặc bỏ qua hoàn toàn các class đó, dễ khiến lập trình viên tưởng nhầm là "không có test nào cần chạy" hoặc mọi thứ đều ổn.
+- Cách khắc phục: thêm `useTestNG()` vào khối `test { ... }` trong `build.gradle` để báo Gradle chuyển sang dùng TestNG engine.
+
+```groovy
+test {
+    useTestNG()
+}
+```
+
+</details>
+
+**9. Trong tình huống nào nên chọn TestNG thay vì JUnit 5 cho một dự án mới? Nêu ít nhất hai lý do cụ thể.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Nên cân nhắc TestNG khi:
+
+- **Automation testing với Selenium/Appium**: TestNG là lựa chọn phổ biến nhất trong cộng đồng automation testing nhờ khả năng quản lý nhóm test (`groups`) tách biệt smoke/regression, và tích hợp `testng.xml` mạnh để cấu hình chạy theo môi trường (dev/staging/prod).
+- **Cần khai báo phụ thuộc rõ ràng giữa các test**: ví dụ test kịch bản E2E nhiều bước, nơi bước sau chỉ có ý nghĩa khi bước trước đã pass (`dependsOnMethods`), mà JUnit 5 không có cơ chế tương đương trực tiếp trong core.
+- **Cần chạy test song song ở nhiều cấp độ** (method, class, suite) với cấu hình linh hoạt qua XML, phù hợp cho bộ test E2E lớn cần tối ưu thời gian chạy trong CI/CD.
+- Ngược lại, nếu chỉ cần **unit test thông thường** cho logic nghiệp vụ, JUnit 5 vẫn là lựa chọn phổ biến, đơn giản và đủ dùng hơn cho đa số dự án.
+
+</details>
+
+**10. Một team đang có sẵn hàng trăm unit test viết bằng JUnit 5, giờ muốn thêm bộ test automation bằng Selenium dùng TestNG trong cùng dự án. Điều này có khả thi không, và cần lưu ý gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Khả thi**, và trên thực tế khá phổ biến — nhiều dự án dùng JUnit 5 cho unit test và TestNG riêng cho automation/E2E test, vì hai framework không nhất thiết loại trừ lẫn nhau trong cùng một dự án (miễn có đủ dependency cho cả hai).
+
+Lưu ý quan trọng:
+
+- **Tách rõ thư mục/package** giữa hai loại test để tránh nhầm lẫn khi maintain, ví dụ `src/test/java/unit/` (JUnit 5) và `src/test/java/e2e/` (TestNG).
+- **Cấu hình build tool đúng cách**: với Maven, Surefire plugin cần được cấu hình để nhận diện cả hai loại test engine (JUnit Platform và TestNG); với Gradle, cần tách task test riêng cho từng loại nếu muốn chạy độc lập, vì mặc định một khối `test { }` chỉ dùng một engine tại một thời điểm.
+- **Nhất quán trong team**: cần thống nhất rõ ràng khi nào dùng framework nào (ví dụ "TestNG chỉ dùng cho automation, JUnit 5 dùng cho mọi unit test khác") để tránh tình trạng lẫn lộn, mỗi người viết theo một kiểu khác nhau không có lý do rõ ràng.
+
+</details>
+
+**11. Đoạn code TestNG sau minh họa cơ chế `dependsOnMethods`. Nếu `testDangNhap()` fail, điều gì xảy ra với `testMuaHang()`?**
+
+```java
+@Test(groups = "smoke")
+public void testDangNhap() {
+    Assert.assertTrue(dangNhapThanhCong());
+}
+
+@Test(groups = "regression", dependsOnMethods = "testDangNhap")
+public void testMuaHang() {
+    Assert.assertTrue(muaHangThanhCong());
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Nếu `testDangNhap()` **fail** (hoặc ném exception), `testMuaHang()` sẽ **không được thực thi** mà tự động được đánh dấu là **`SKIPPED`** (bị bỏ qua), chứ không phải chạy bình thường rồi fail theo.
+
+- Đây chính là cơ chế **khai báo phụ thuộc giữa các test** mà TestNG hỗ trợ qua `dependsOnMethods` — đảm bảo logic: nếu bước trước (`đăng nhập`) đã thất bại, việc chạy tiếp bước sau (`mua hàng`) là vô nghĩa vì chắc chắn cũng sẽ fail (do phụ thuộc trạng thái từ bước trước), gây lãng phí thời gian chạy test và làm nhiễu báo cáo với nhiều lỗi cùng một nguyên nhân gốc.
+- Trong báo cáo test, `testMuaHang` sẽ hiển thị trạng thái riêng biệt là **SKIP**, giúp phân biệt rõ với trạng thái **FAIL** thực sự — người xem báo cáo biết ngay cần tập trung điều tra `testDangNhap` trước.
+
+</details>

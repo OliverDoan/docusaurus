@@ -35,6 +35,7 @@ Biến là một cái tên đại diện cho ô nhớ chứa dữ liệu, giốn
 - [Hằng số với final](#hằng-số-với-final)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -251,3 +252,194 @@ public class ViDuHangSo {
 - **Scope** (phạm vi) của biến giới hạn trong cặp `{ }` chứa nó.
 - `var` cho phép Java **tự suy luận kiểu** của biến cục bộ.
 - `final` tạo **hằng số** không thể thay đổi.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Ba loại biến trong Java (cục bộ, instance, static) khác nhau thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Loại biến | Khai báo ở đâu | Số bản sao | Giá trị mặc định | Thời điểm sống |
+|---|---|---|---|---|
+| Cục bộ (local) | Trong hàm/khối lệnh | Riêng mỗi lần hàm chạy | Không có, phải tự gán | Từ lúc khai báo tới hết khối `{ }` |
+| Instance | Trong class, ngoài hàm, không có `static` | Mỗi object (đối tượng) một bản riêng | Có (`0`, `null`, `false`...) | Từ lúc tạo object tới lúc object bị dọn rác (garbage collected) |
+| Static | Trong class, có từ khóa `static` | Một bản **duy nhất** dùng chung cho cả class | Có | Từ lúc class được nạp (loaded) tới khi chương trình kết thúc |
+
+- Biến cục bộ nằm trên **stack**, biến instance/static nằm trên **heap** (là một phần của object hoặc class).
+- Sửa biến static ở một object sẽ ảnh hưởng tới tất cả object khác, vì chúng cùng dùng chung một ô nhớ.
+
+</details>
+
+**2. Vì sao biến cục bộ bắt buộc phải gán giá trị trước khi dùng, còn biến instance và biến static thì Java tự gán giá trị mặc định?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Biến cục bộ** nằm trên stack, compiler không có bước "khởi tạo mặc định" cho stack — nếu cho phép dùng biến chưa gán, giá trị đọc được sẽ là rác bộ nhớ còn sót lại, dẫn tới lỗi khó lường. Vì vậy Java bắt compiler kiểm tra **definite assignment** (phải chắc chắn đã gán trước khi dùng) và báo lỗi biên dịch nếu chưa.
+- **Biến instance/static** nằm trên heap. Khi JVM cấp phát vùng nhớ cho object hoặc nạp class, nó luôn dọn vùng nhớ đó về giá trị mặc định trước (`0` cho số, `false` cho `boolean`, `null` cho kiểu tham chiếu) — đây là hành vi được đảm bảo bởi JVM, nên không bắt buộc lập trình viên phải tự gán.
+- Đây cũng là lý do lỗi "variable might not have been initialized" chỉ xảy ra với biến cục bộ, không xảy ra với field của class.
+
+</details>
+
+**3. Từ khóa `var` (Java 10+) hoạt động thế nào? Dùng `var` có làm Java trở thành ngôn ngữ kiểu động (dynamically typed) không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `var` là **type inference** (suy luận kiểu tại thời điểm biên dịch): compiler nhìn vào giá trị khởi tạo để tự xác định kiểu, rồi "khắc cứng" kiểu đó vào biến — giống hệt như bạn tự gõ kiểu ra.
+- Java **vẫn là ngôn ngữ kiểu tĩnh (statically typed)**: kiểu được quyết định lúc biên dịch, không đổi được sau đó, và compiler vẫn bắt lỗi gán sai kiểu.
+
+```java
+var soLuong = 10;      // compiler suy ra kiểu int
+soLuong = 20;          // OK
+// soLuong = "abc";    // Lỗi biên dịch: incompatible types
+```
+
+- Hạn chế: chỉ dùng được cho **biến cục bộ** có gán giá trị ngay (không dùng cho field, tham số hàm, kiểu trả về, hay `var x;` không gán).
+- Dùng `var` hợp lý khi kiểu đã rõ ràng từ vế phải (ví dụ `var list = new ArrayList<String>();`); nên tránh khi làm giảm khả năng đọc code (ví dụ `var result = xuLy();` mà không rõ `xuLy` trả về gì).
+
+</details>
+
+**4. Khai báo `final List<String> ds = new ArrayList<>();` rồi gọi `ds.add("A")` có hợp lệ không? Vì sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Hợp lệ.** `final` trên một biến kiểu tham chiếu chỉ khóa **tham chiếu** (reference — địa chỉ mà biến đang trỏ tới), không khóa **nội dung bên trong object** mà nó trỏ tới.
+
+```java
+final List<String> ds = new ArrayList<>();
+ds.add("A");       // OK — sửa nội dung object, không đổi tham chiếu
+// ds = new ArrayList<>(); // LỖI — không được gán lại tham chiếu khác
+```
+
+- Muốn danh sách thực sự không đổi được, phải bọc bằng `List.copyOf(...)` hoặc `Collections.unmodifiableList(...)`, gọi `.add()` trên đó sẽ ném `UnsupportedOperationException`.
+- Đây là điểm hay bị hỏi để phân biệt "final reference" và "immutable object" — hai khái niệm khác nhau.
+
+</details>
+
+**5. Đoạn code dưới đây in ra gì? Nếu bỏ comment dòng cuối thì lỗi gì xảy ra?**
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        int x = 5;
+        if (x > 0) {
+            int y = 10;
+            System.out.println(x + y);
+        }
+        // System.out.println(y);
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Chương trình in ra `15` (`x + y` = `5 + 10`).
+- Nếu bỏ comment `System.out.println(y);`, chương trình **không biên dịch được** — lỗi `cannot find symbol` vì `y` chỉ tồn tại trong **scope** của khối `if`, đã "biến mất" khi ra khỏi cặp `{ }` đó.
+- Đây là ví dụ điển hình của nguyên tắc: biến chỉ sống trong khối lệnh khai báo ra nó.
+
+</details>
+
+**6. Cho đoạn code sau, `Counter.count` in ra giá trị bao nhiêu? Giải thích.**
+
+```java
+public class Counter {
+    static int count = 0;
+    Counter() {
+        count++;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        new Counter();
+        new Counter();
+        new Counter();
+        System.out.println(Counter.count);
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Kết quả in ra là **`3`**.
+
+- `count` là biến **static** — chỉ có **một bản duy nhất** thuộc về class `Counter`, không phải thuộc về từng object.
+- Mỗi lần `new Counter()` chạy, constructor tăng `count` lên 1, và vì cả ba object cùng chia sẻ một ô nhớ `count`, giá trị cộng dồn qua cả ba lần khởi tạo.
+- Đây chính là kỹ thuật thường dùng để đếm số lượng object đã được tạo ra từ một class.
+
+</details>
+
+**7. "Effectively final" là gì? Vì sao lambda expression hoặc anonymous inner class chỉ được truy cập biến cục bộ effectively final (hoặc `final`) từ scope bao ngoài?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Effectively final** (hiệu quả như final): một biến cục bộ tuy không khai báo `final` nhưng **không hề bị gán lại giá trị** sau khi khởi tạo — Java coi nó tương đương biến `final`.
+
+```java
+int soLuong = 10; // không có final, nhưng không đổi -> effectively final
+Runnable r = () -> System.out.println(soLuong); // OK
+```
+
+- Lý do kỹ thuật: lambda/anonymous class không thực sự "dùng chung" biến cục bộ của method bao ngoài — chúng **copy giá trị** tại thời điểm tạo ra (vì biến cục bộ nằm trên stack, có thể bị hủy khi method kết thúc trong khi lambda vẫn còn sống, ví dụ khi trả về hoặc chạy ở thread khác). Nếu cho phép sửa biến gốc sau đó, giá trị bên trong lambda và bên ngoài sẽ lệch nhau mà lập trình viên không hay biết — vì vậy Java bắt buộc biến phải bất biến trong toàn bộ scope chứa lambda.
+
+</details>
+
+**8. Bạn cần đếm số lượng object đã tạo ra từ một class (ví dụ số `User` đã đăng ký). Bạn dùng biến instance hay biến static? Vì sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Dùng **biến static**, vì đây là thông tin thuộc về **cả class** (tổng số lượng), không phải thông tin riêng của từng object.
+
+```java
+public class User {
+    static int soLuongDaTao = 0;
+    String ten;
+
+    User(String ten) {
+        this.ten = ten;
+        soLuongDaTao++;
+    }
+}
+```
+
+- Nếu dùng biến instance, mỗi `User` sẽ có một bộ đếm riêng, luôn bằng `1` hoặc không phản ánh đúng tổng số — sai mục đích.
+- Lưu ý thực tế: nếu chương trình đa luồng (multi-thread), tăng biến static kiểu `count++` không an toàn (không phải thao tác nguyên tử — atomic), cần dùng `AtomicInteger` hoặc đồng bộ hóa (`synchronized`) để tránh đếm sai.
+
+</details>
+
+**9. Khi truyền một biến kiểu nguyên thủy (`int`) và một biến kiểu tham chiếu (object) vào method, thay đổi bên trong method có ảnh hưởng tới biến gốc bên ngoài không? Java truyền tham số theo kiểu gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Java **luôn truyền tham số theo giá trị (pass-by-value)** — kể cả với object.
+
+```java
+static void doiSo(int x) { x = 100; }
+static void doiTen(StringBuilder sb) { sb.append(" - da doi"); }
+
+int a = 5;
+doiSo(a);
+System.out.println(a); // vẫn là 5 — giá trị int được copy, đổi bản copy không ảnh hưởng bản gốc
+
+StringBuilder sb = new StringBuilder("Ten");
+doiTen(sb);
+System.out.println(sb); // "Ten - da doi" — vì cái được copy là THAM CHIẾU (địa chỉ),
+                          // cả bản copy và bản gốc cùng trỏ tới MỘT object trên heap
+```
+
+- Với kiểu nguyên thủy: giá trị được copy, method sửa bản copy, không ảnh hưởng biến gốc.
+- Với kiểu tham chiếu: **tham chiếu** (địa chỉ) được copy, không phải object. Sửa **nội dung** object qua tham chiếu đó sẽ thấy thay đổi ở ngoài; nhưng nếu gán tham chiếu tham số sang object khác (`sb = new StringBuilder("Khac");`) thì biến gốc bên ngoài **không** đổi theo, vì chỉ bản copy tham chiếu trong method bị đổi hướng.
+
+</details>

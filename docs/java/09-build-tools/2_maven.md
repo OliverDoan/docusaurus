@@ -36,6 +36,7 @@ Maven là công cụ build phổ biến nhất cho Java, hoạt động theo ngu
 - [Plugin](#plugin)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -295,3 +296,191 @@ flowchart LR
 - Các lệnh chính: `mvn clean`, `compile`, `test`, `package`, `install`.
 - **Vòng đời** chạy tuần tự; gọi một phase sẽ tự chạy các phase trước nó.
 - **Plugin** là thứ thực sự thực thi công việc trong từng phase.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. `pom.xml` là gì? Nguyên tắc "convention over configuration" thể hiện ở đâu trong Maven?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`pom.xml` (**Project Object Model**) là file cấu hình trung tâm của một dự án Maven — khai báo định danh dự án (GAV), dependencies, plugin và các thiết lập build khác.
+
+**"Convention over configuration"** (quy ước hơn cấu hình) thể hiện ở cấu trúc thư mục **cố định** mà Maven mặc định hiểu, không cần khai báo lại trong `pom.xml`:
+
+```text
+src/main/java/        # mã nguồn chính
+src/main/resources/   # tài nguyên đi kèm
+src/test/java/        # mã nguồn test
+```
+
+Nếu bạn đặt file đúng các vị trí quy ước này, Maven tự biết cách biên dịch/đóng gói mà không cần chỉ định đường dẫn thủ công — khác với việc phải khai báo tường minh từng đường dẫn như một số công cụ khác.
+
+</details>
+
+**2. Liệt kê các `<scope>` phổ biến của dependency trong Maven và cho ví dụ tình huống dùng mỗi loại.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Scope | Ý nghĩa | Ví dụ |
+|---|---|---|
+| `compile` (mặc định) | Dùng ở mọi giai đoạn: biên dịch, test, chạy; được đóng gói vào sản phẩm cuối | Thư viện nghiệp vụ chính như Gson, Jackson |
+| `test` | Chỉ dùng khi biên dịch/chạy test, không đóng gói vào sản phẩm cuối | JUnit, Mockito |
+| `provided` | Cần lúc biên dịch, nhưng **môi trường chạy đã có sẵn** nên không đóng gói kèm | `servlet-api` khi deploy lên Tomcat (Tomcat đã có sẵn) |
+| `runtime` | Không cần lúc biên dịch, chỉ cần khi **chạy chương trình** | JDBC driver cụ thể (code chỉ gọi qua interface JDBC chuẩn lúc compile) |
+
+Chọn sai `scope` — ví dụ quên đặt `provided` cho `servlet-api` — có thể khiến file `.war` bị đóng gói dư thừa thư viện đã có sẵn ở server, hoặc gây xung đột phiên bản với server đích.
+
+</details>
+
+**3. Khi bạn chạy `mvn package`, Maven thực hiện đúng các bước nào? Liệt kê theo đúng thứ tự.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Maven sẽ tự động chạy **tất cả các phase đứng trước** `package` trong vòng đời, theo thứ tự:
+
+```text
+validate → compile → test → package
+```
+
+Cụ thể: `validate` (kiểm tra cấu trúc dự án hợp lệ) → `compile` (biên dịch mã nguồn chính) → `test` (chạy unit test) → `package` (đóng gói thành `.jar`/`.war`). Nếu bất kỳ phase nào trước đó thất bại (ví dụ một test fail), Maven sẽ **dừng lại ngay**, không tiếp tục sang `package`.
+
+</details>
+
+**4. Maven Central và local repository (`~/.m2`) khác nhau thế nào? Điều gì xảy ra ở lần build đầu tiên so với các lần build sau?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Maven Central**: kho công khai trên Internet, chứa gần như mọi thư viện Java mã nguồn mở — nơi Maven tải thư viện về lần đầu.
+- **Local repository** (`~/.m2/repository`): thư mục cục bộ trên máy bạn, nơi Maven **lưu cache** lại mọi thư viện đã tải.
+
+Lần build **đầu tiên**: Maven phải tải thư viện từ Maven Central về (tốn thời gian, cần mạng). Các lần build **sau**: nếu thư viện với đúng GAV đã có sẵn trong `~/.m2`, Maven **dùng lại luôn** từ cache cục bộ, không tải lại — giúp các lần build sau nhanh hơn nhiều và có thể build offline nếu mọi dependency đã có sẵn trong cache.
+
+</details>
+
+**5. Hậu tố `-SNAPSHOT` trong version (ví dụ `1.0.0-SNAPSHOT`) có ý nghĩa gì? Khác gì so với version release bình thường (`1.0.0`)?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`-SNAPSHOT` đánh dấu đây là một **bản đang phát triển (development version)**, chưa ổn định và có thể thay đổi liên tục — trái với version release (`1.0.0` không có hậu tố) được coi là **bất biến (immutable)**, một khi đã publish thì nội dung không đổi nữa.
+
+Khác biệt quan trọng về hành vi:
+- Với dependency có `-SNAPSHOT`, Maven sẽ **định kỳ kiểm tra và tải lại bản mới nhất** từ repository (vì nội dung có thể đã thay đổi), thay vì chỉ dùng mãi bản đã cache trong `~/.m2`.
+- Với version release, một khi đã tải về, Maven **tin tưởng tuyệt đối** cache cục bộ, không bao giờ tải lại — vì theo quy ước, nội dung của một version release đã publish sẽ không bao giờ thay đổi.
+
+Trong thực tế, các bản release **không nên** phụ thuộc vào bất kỳ `-SNAPSHOT` nào của thư viện khác, vì bản SNAPSHOT có thể thay đổi bất cứ lúc nào, làm build không còn tái lập được.
+
+</details>
+
+**6. Plugin trong Maven là gì? Vì sao nói "bản thân Maven không tự làm gì cả"?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Plugin** (phần mở rộng) là thành phần thực sự **thực thi công việc** trong mỗi phase của vòng đời build — Maven chỉ đóng vai trò điều phối, gọi đúng plugin tương ứng ở đúng thời điểm.
+
+Ví dụ: phase `compile` được thực thi bởi `maven-compiler-plugin`; phase `test` được thực thi bởi `maven-surefire-plugin`; đóng gói thành `.jar` chạy được (kèm `Main-Class` trong manifest) cần `maven-jar-plugin`.
+
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <configuration>
+        <archive>
+            <manifest>
+                <mainClass>com.example.Main</mainClass>
+            </manifest>
+        </archive>
+    </configuration>
+</plugin>
+```
+
+Vì mọi hành động cụ thể đều do plugin đảm nhiệm, Maven tự nó chỉ là một "khung điều phối" (framework) — muốn thay đổi hành vi của một phase, bạn cấu hình hoặc thay plugin tương ứng, không sửa "lõi" của Maven.
+
+</details>
+
+**7. Tình huống: dự án của bạn có thư viện X yêu cầu `commons-lang3:3.9`, còn thư viện Y yêu cầu `commons-lang3:3.12`. Maven chọn phiên bản nào? Làm sao ép Maven dùng một version cụ thể nếu cần?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Mặc định, Maven áp dụng quy tắc **"nearest wins"** (phiên bản khai báo **gần nhất** với dự án gốc trong cây phụ thuộc sẽ được chọn) khi có xung đột phiên bản của cùng một artifact.
+
+Muốn **ép** Maven dùng đúng một version cụ thể bất kể quy tắc mặc định, khai báo **tường minh** dependency đó ngay trong `pom.xml` của dự án — vì dependency khai báo trực tiếp luôn có độ ưu tiên cao nhất (khoảng cách gần nhất = 0):
+
+```xml
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version> <!-- ép dùng đúng version này, ghi đè quy tắc mặc định -->
+</dependency>
+```
+
+Ngoài ra có thể dùng `<dependencyManagement>` ở mức cha (parent POM) để quản lý version tập trung cho toàn bộ dự án đa module.
+
+</details>
+
+**8. `mvn clean install` khác `mvn clean package` ở điểm nào? Khi nào cần dùng `install`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`install` là một phase đứng **sau** `package` trong vòng đời build, nên `mvn clean install` sẽ tự động chạy hết `package` trước, rồi thêm một bước: **sao chép file đã đóng gói vào local repository** (`~/.m2`).
+
+Cần dùng `install` khi bạn có một dự án **khác trên cùng máy** (ví dụ một module khác trong dự án đa module, hay một thư viện nội bộ dùng chung) cần **tham chiếu tới artifact này như một dependency** — chúng chỉ tìm thấy được nó nếu nó đã được `install` vào `~/.m2`. Nếu chỉ cần file `.jar` để chạy độc lập, không có dự án nào khác phụ thuộc vào nó, `mvn clean package` là đủ.
+
+</details>
+
+**9. Dự án Maven đa module (multi-module project) là gì? `<parent>` và thẻ `<modules>` đóng vai trò gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Dự án đa module** là một dự án lớn được chia thành nhiều dự án con (module) độc lập, mỗi module có `pom.xml` riêng, nhưng dùng chung một **parent POM** ở thư mục gốc để quản lý tập trung.
+
+```xml
+<!-- pom.xml gốc (parent) -->
+<packaging>pom</packaging>
+<modules>
+    <module>api</module>
+    <module>service</module>
+    <module>web</module>
+</modules>
+```
+
+```xml
+<!-- pom.xml của module con, ví dụ api/pom.xml -->
+<parent>
+    <groupId>com.example</groupId>
+    <artifactId>my-app-parent</artifactId>
+    <version>1.0.0</version>
+</parent>
+```
+
+- **`<parent>`**: giúp module con **kế thừa** cấu hình chung (version Java, danh sách plugin, quản lý version dependency qua `<dependencyManagement>`) từ POM cha, tránh lặp lại cấu hình ở từng module.
+- **`<modules>`**: khai báo ở POM cha, liệt kê các module con để khi build ở thư mục gốc, Maven biết build **tất cả** các module theo đúng thứ tự phụ thuộc giữa chúng.
+
+</details>
+
+**10. Gặp lỗi `Could not find artifact ... in central` khi chạy `mvn compile`. Liệt kê các nguyên nhân phổ biến và cách kiểm tra.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Nguyên nhân phổ biến:
+- **Sai `groupId`/`artifactId`/`version`**: gõ nhầm hoặc copy sai từ tài liệu — kiểm tra lại chính xác trên [search.maven.org](https://search.maven.org).
+- **Thư viện nội bộ chưa được `install`**: nếu dependency là một module nội bộ của công ty/nhóm, cần chạy `mvn install` cho module đó trước để nó có mặt trong `~/.m2`.
+- **Thiếu cấu hình repository riêng**: một số thư viện không nằm trên Maven Central mà ở kho riêng (ví dụ Nexus/Artifactory nội bộ công ty) — cần khai báo thêm thẻ `<repositories>` trỏ tới kho đó trong `pom.xml`.
+- **Sự cố mạng/proxy**: máy không truy cập được Internet hoặc cần cấu hình proxy trong `settings.xml`.
+
+Cách kiểm tra nhanh: chạy `mvn compile -X` (chế độ debug chi tiết) để xem chính xác Maven đang cố tải từ repository nào và thông điệp lỗi cụ thể.
+
+</details>

@@ -34,6 +34,7 @@ Dependency Injection (DI) là kỹ thuật cho một đối tượng nhận các
 - [Spring làm việc này tự động](#spring-làm-việc-này-tự-động)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -328,3 +329,213 @@ Bạn chỉ cần khai báo (qua annotation) rằng lớp nào cần được qu
 - **Inversion of Control (IoC)** là nguyên tắc đảo ngược quyền kiểm soát việc tạo phụ thuộc; DI là cách hiện thực nó.
 - DI giúp việc **kiểm thử** dễ dàng nhờ tiêm được các bản giả (mock).
 - Framework **Spring** tự động hóa DI thông qua **IoC Container** và annotation.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Dependency Injection là gì? Nó giải quyết vấn đề gì so với việc một lớp tự tạo phụ thuộc bằng `new`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Dependency Injection (DI)** là kỹ thuật cho một đối tượng **nhận** các phụ thuộc (dependency) từ bên ngoài, thay vì **tự tạo** chúng bên trong bằng `new`.
+
+Nếu tự tạo phụ thuộc bên trong, lớp bị **gắn kết chặt (tight coupling)** với một cài đặt cụ thể:
+
+- **Khó thay đổi**: muốn đổi `EmailService` sang `SmsService` phải sửa code của lớp dùng nó.
+- **Khó kiểm thử**: không thể thay phụ thuộc thật bằng bản giả (mock) khi viết test.
+- **Khó tái sử dụng**: lớp bị dính chặt vào một cài đặt, không linh hoạt trong ngữ cảnh khác.
+
+DI giải quyết bằng cách để phụ thuộc được **tiêm từ ngoài vào** (thường qua constructor), và lớp chỉ nên phụ thuộc vào **abstraction** (interface) thay vì lớp cụ thể.
+
+</details>
+
+**2. So sánh ba cách tiêm phụ thuộc: Constructor Injection, Setter Injection, Field Injection. Vì sao Constructor Injection được khuyến nghị nhất?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| | Constructor Injection | Setter Injection | Field Injection |
+|---|---|---|---|
+| Cách tiêm | Qua tham số hàm dựng | Qua phương thức `setXxx()` | Trực tiếp vào field (thường qua Reflection, ví dụ `@Autowired` trên field) |
+| Có thể dùng `final` | **Có** — phụ thuộc bất biến | Không | Không |
+| Phụ thuộc bắt buộc | Rõ ràng (không tạo được object nếu thiếu tham số) | Có thể quên gọi setter, để object ở trạng thái thiếu phụ thuộc | Object trông "đủ" nhưng field có thể vẫn `null` khi test |
+| Dễ viết unit test | Rất dễ — tự `new` với tham số mock, không cần framework | Cần gọi thêm setter | Khó nhất — cần Reflection hoặc chạy trong container để field được điền |
+
+```java
+class OrderService {
+    private final PaymentService paymentService; // final -> bất biến, bắt buộc phải có
+
+    public OrderService(PaymentService paymentService) { // Constructor Injection
+        this.paymentService = paymentService;
+    }
+}
+```
+
+Constructor Injection được ưa chuộng nhất vì phụ thuộc trở thành **bắt buộc và bất biến** (`final`) — không thể tạo ra một `OrderService` "nửa vời" thiếu phụ thuộc, và không cần framework mới test được.
+
+</details>
+
+**3. Inversion of Control (IoC) là gì? Quan hệ giữa IoC và DI như thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Inversion of Control (đảo ngược điều khiển)** là nguyên tắc: thay vì một đối tượng **tự quyết định và tự tạo** các phụ thuộc của nó, quyền kiểm soát đó được **chuyển ra bên ngoài** — một thành phần khác (người viết code, hoặc một container) quyết định cài đặt cụ thể nào sẽ được cung cấp.
+
+- **IoC** là **nguyên tắc/tư tưởng thiết kế** tổng quát (đảo ngược ai kiểm soát việc tạo phụ thuộc).
+- **DI** là **cách phổ biến nhất để hiện thực hóa** nguyên tắc IoC trong thực tế — tiêm phụ thuộc qua constructor/setter chính là một dạng cụ thể của việc "đảo ngược quyền kiểm soát".
+- Nói cách khác: mọi DI đều là một hình thức IoC, nhưng IoC còn có thể được hiện thực bằng những cách khác (ví dụ Service Locator, Template Method...).
+
+</details>
+
+**4. DI giúp ích gì cho việc viết unit test? Minh họa bằng ví dụ tiêm một bản giả (mock/fake).**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+DI cho phép **tiêm một phiên bản giả** (mock hoặc fake) thay cho phụ thuộc thật khi test, giúp kiểm thử logic của lớp mà **không cần gọi service thật** (không tốn tiền, không cần mạng, không phụ thuộc trạng thái bên ngoài).
+
+```java
+class FakePayment implements PaymentService {
+    boolean daGoi = false;
+
+    @Override
+    public void thanhToan(double soTien) {
+        daGoi = true; // Chỉ đánh dấu, không thanh toán thật
+    }
+}
+
+// Test: tiêm bản giả vào OrderService qua constructor
+OrderService dichVu = new OrderService(new FakePayment());
+dichVu.datHang(50_000);
+```
+
+Nếu `OrderService` **tự tạo** `PaymentService` bên trong (không có DI), việc thay thế này là **không thể** — mỗi lần chạy test sẽ luôn gọi phải service thật.
+
+</details>
+
+**5. Vấn đề phụ thuộc vòng (circular dependency) trong DI là gì? Ví dụ và cách Spring xử lý (hoặc không xử lý được) với Constructor Injection.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Phụ thuộc vòng** xảy ra khi module/bean A cần B để khởi tạo, đồng thời B lại cần A — không bên nào có thể được tạo xong trước.
+
+```java
+class ServiceA {
+    ServiceA(ServiceB b) { } // A cần B để khởi tạo
+}
+class ServiceB {
+    ServiceB(ServiceA a) { } // B cần A để khởi tạo -> KẸT, không ai tạo trước được
+}
+```
+
+- Với **Constructor Injection**, Spring **không thể** giải quyết vòng lặp này — sẽ ném lỗi `BeanCurrentlyInCreationException` lúc khởi động ứng dụng.
+- Với **Setter Injection** hoặc `@Lazy`, Spring có thể "chữa cháy" bằng cách tạo bean rỗng trước rồi tiêm phụ thuộc sau khi cả hai đã tồn tại — nhưng đây chỉ là giải pháp tình thế.
+- **Cách xử lý đúng đắn**: coi phụ thuộc vòng là **dấu hiệu thiết kế sai** — nên tách logic dùng chung ra một lớp thứ ba mà cả A và B cùng phụ thuộc vào, thay vì để chúng phụ thuộc lẫn nhau.
+
+</details>
+
+**6. Mô tả ngắn gọn Spring IoC Container hoạt động thế nào khi dùng annotation `@Autowired` trên constructor.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+1. Spring quét các class được đánh dấu quản lý (`@Service`, `@Component`, `@Repository`...).
+2. Với mỗi class, Spring xem xét constructor: nếu chỉ có **một constructor**, Spring tự động dùng nó để tiêm (từ Spring 4.3+, không bắt buộc phải có `@Autowired` trên constructor nếu class chỉ có một constructor).
+3. Với mỗi tham số của constructor, Spring tìm trong container một **bean phù hợp về kiểu** (interface hoặc class) để truyền vào.
+4. Nếu bean phụ thuộc đó **chưa tồn tại**, Spring sẽ **tạo nó trước** (đệ quy theo đồ thị phụ thuộc), rồi mới quay lại tạo bean hiện tại.
+5. Bean hoàn chỉnh được lưu vào container để tái sử dụng cho các bean khác cần đến, tránh phải tạo lại nhiều lần (mặc định là singleton).
+
+</details>
+
+**7. Nếu constructor của một lớp có 8, 9 tham số phụ thuộc, đây có phải dấu hiệu tốt không? Vì sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Đây là dấu hiệu cảnh báo (code smell)**, thường vi phạm **nguyên tắc đơn nhiệm (Single Responsibility Principle)**.
+
+- Một lớp cần quá nhiều phụ thuộc thường có nghĩa nó đang **làm quá nhiều việc** — nên được tách thành các lớp nhỏ hơn, mỗi lớp đảm nhiệm một trách nhiệm rõ ràng, rồi lớp gốc chỉ điều phối (orchestrate) các lớp con đó.
+- Cách xử lý thực tế: nhóm các phụ thuộc liên quan lại thành một đối tượng cấu hình/facade riêng, hoặc tách lớp theo use-case cụ thể thay vì một "God class" ôm hết logic nghiệp vụ liên quan.
+- Constructor Injection có một lợi ích phụ đáng giá ở đây: nó khiến vấn đề "quá nhiều phụ thuộc" **hiện rõ ngay khi đọc code** (constructor dài loằng ngoằng), trong khi Field Injection dễ che giấu vấn đề này vì các field cứ thế được thêm dần mà không "đau" ngay lập tức.
+
+</details>
+
+**8. DI có bắt buộc phải dùng framework như Spring không? Viết một ví dụ DI thủ công (không dùng framework).**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không bắt buộc.** DI là một **nguyên tắc thiết kế**, hoàn toàn có thể áp dụng thủ công bằng tay — Spring chỉ là công cụ **tự động hóa** việc tạo và nối các phụ thuộc khi số lượng bean lớn.
+
+```java
+interface Notifier {
+    void gui(String noiDung);
+}
+
+class EmailNotifier implements Notifier {
+    public void gui(String noiDung) { System.out.println("Email: " + noiDung); }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // "Wiring" thủ công: tự tạo và tự tiêm, không cần framework nào
+        Notifier notifier = new EmailNotifier();
+        OrderService dichVu = new OrderService(notifier);
+        dichVu.datHang();
+    }
+}
+```
+
+Với dự án nhỏ, việc "wiring" thủ công như trên hoàn toàn hợp lý. Spring chỉ thực sự cần thiết khi số lượng bean và mối quan hệ giữa chúng lớn tới mức tự quản lý bằng tay trở nên cồng kềnh.
+
+</details>
+
+**9. So sánh Dependency Injection với mẫu thiết kế Service Locator. Vì sao DI thường được ưa chuộng hơn trong thiết kế hiện đại?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Service Locator** là một mẫu thiết kế khác cũng hiện thực IoC: thay vì tiêm phụ thuộc từ ngoài vào, lớp **tự chủ động hỏi** một "bộ định vị dịch vụ" trung tâm để lấy phụ thuộc nó cần.
+
+```java
+class OrderService {
+    private final PaymentService paymentService =
+        ServiceLocator.get(PaymentService.class); // TỰ đi hỏi, không được tiêm
+}
+```
+
+| | Dependency Injection | Service Locator |
+|---|---|---|
+| Phụ thuộc có hiện rõ trong chữ ký không | Có — nhìn constructor là biết ngay cần gì | Không — phải đọc cả thân phương thức mới biết nó dùng dịch vụ gì |
+| Dễ test | Rất dễ — tiêm mock trực tiếp | Khó hơn — phải cấu hình `ServiceLocator` toàn cục trước khi test |
+| Gắn kết với hạ tầng | Thấp — lớp không biết gì về cách phụ thuộc được tạo | Cao — lớp phải biết và gọi trực tiếp `ServiceLocator` |
+
+DI được ưa chuộng hơn vì nó giữ cho phụ thuộc của một lớp **minh bạch, hiện rõ trong chữ ký**, dễ kiểm thử hơn, và không làm lớp phụ thuộc ngược vào một "bộ định vị" toàn cục.
+
+</details>
+
+**10. Tình huống: bạn cần đổi từ `CardPayment` sang `PayPalPayment` cho một số khách hàng cụ thể (theo cấu hình), mà không sửa code của `OrderService`. DI giúp gì ở đây?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Vì `OrderService` chỉ phụ thuộc vào **abstraction** `PaymentService` (không phụ thuộc lớp cụ thể), việc đổi cài đặt chỉ đơn giản là **tiêm một implementation khác** vào lúc khởi tạo — hoàn toàn không cần sửa `OrderService`:
+
+```java
+PaymentService phuongThuc = khachHang.dungPayPal()
+    ? new PayPalPayment()
+    : new CardPayment();
+
+OrderService dichVu = new OrderService(phuongThuc); // Tiêm đúng cài đặt theo điều kiện
+```
+
+- Với Spring, việc này thường được làm gọn hơn bằng cách khai báo nhiều bean cùng implement một interface, dùng `@Qualifier` hoặc cấu hình `@Profile`/`@ConditionalOnProperty` để chọn bean phù hợp theo môi trường/cấu hình, mà code nghiệp vụ (`OrderService`) không hề thay đổi.
+- Đây chính là giá trị cốt lõi của DI: **thay đổi hành vi bằng cách thay đổi thứ được tiêm vào**, không phải sửa logic bên trong lớp dùng nó.
+
+</details>

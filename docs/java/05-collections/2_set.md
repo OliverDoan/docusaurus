@@ -36,6 +36,7 @@ Set (tập hợp) là cấu trúc dữ liệu mà mỗi giá trị chỉ xuất 
 - [Các thao tác trên tập hợp](#các-thao-tác-trên-tập-hợp)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -319,3 +320,197 @@ hieu.removeAll(b); // {1}
 - **TreeSet**: **tự sắp xếp tăng dần** — dùng khi cần dữ liệu đã sắp xếp.
 - Đổ một List vào Set là cách nhanh để **loại bỏ giá trị trùng**.
 - Set hỗ trợ các phép `addAll` (hợp), `retainAll` (giao), `removeAll` (hiệu).
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. `Set` khác `List` cốt lõi ở điểm nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `Set` **không cho phần tử trùng lặp**; `List` cho phép trùng và giữ nguyên số lần xuất hiện.
+- `Set` **không truy cập theo chỉ số** (không có `get(0)`); `List` truy cập được qua `get(i)`.
+- `Set` không đảm bảo thứ tự trừ khi dùng `LinkedHashSet`/`TreeSet`; `List` luôn giữ đúng thứ tự đã thêm vào.
+- Cả hai đều là interface con của `Collection`, đều có `add()`, `remove()`, `contains()`, `size()`.
+
+</details>
+
+**2. `HashSet`, `LinkedHashSet`, `TreeSet` khác nhau thế nào về thứ tự phần tử và tốc độ?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Loại | Thứ tự | Tốc độ `add`/`contains` | Cấu trúc bên trong |
+|------|--------|--------------------------|---------------------|
+| `HashSet` | Không xác định | O(1) trung bình | Bảng băm (hash table) |
+| `LinkedHashSet` | Theo thứ tự thêm vào | O(1) trung bình (chậm hơn `HashSet` một chút) | Bảng băm + danh sách liên kết đôi để nhớ thứ tự |
+| `TreeSet` | Tăng dần theo `Comparable`/`Comparator` | O(log n) | Cây đỏ-đen (red-black tree) |
+
+- Chọn `HashSet` khi chỉ cần kiểm tra tồn tại nhanh, không quan tâm thứ tự.
+- Chọn `LinkedHashSet` khi cần loại trùng nhưng vẫn giữ thứ tự người dùng thêm vào (ví dụ hiển thị lịch sử duyệt trang, không trùng URL).
+- Chọn `TreeSet` khi cần dữ liệu luôn ở trạng thái sắp xếp, hoặc cần các truy vấn dải như `first()`, `last()`, `headSet()`, `tailSet()`.
+
+</details>
+
+**3. `HashSet` dựa vào đâu để biết hai phần tử là "trùng nhau"?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`HashSet` dùng cặp phương thức **`hashCode()` và `equals()`** của phần tử:
+
+1. Khi `add(x)`, `HashSet` gọi `x.hashCode()` để xác định **bucket** (ngăn chứa) trong bảng băm.
+2. Nếu bucket đó đã có phần tử, `HashSet` gọi `equals()` để so sánh xem `x` có trùng với phần tử đã tồn tại không.
+3. Chỉ khi cả hai điều kiện — cùng bucket (`hashCode` bằng nhau) và `equals()` trả về `true` — mới coi là trùng và bỏ qua.
+
+Vì vậy nếu bạn thêm một object tự định nghĩa vào `HashSet` mà **chưa override `hashCode()` và `equals()`**, `HashSet` sẽ dùng bản mặc định của `Object` (so sánh theo địa chỉ bộ nhớ), khiến hai object có nội dung giống hệt nhau vẫn bị coi là khác nhau và không loại trùng được.
+
+</details>
+
+**4. Đoạn code sau in ra gì? Vì sao?**
+
+```java
+class DiemThi {
+    int diem;
+    DiemThi(int diem) { this.diem = diem; }
+}
+
+Set<DiemThi> set = new HashSet<>();
+set.add(new DiemThi(9));
+set.add(new DiemThi(9));
+System.out.println(set.size());
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+In ra **`2`**, không phải `1` như nhiều người nghĩ.
+
+- Lớp `DiemThi` **không override `hashCode()` và `equals()`**, nên `HashSet` dùng bản mặc định kế thừa từ `Object` — so sánh hai tham chiếu (reference) có trỏ tới cùng một object trong bộ nhớ hay không.
+- Hai lời gọi `new DiemThi(9)` tạo ra **hai object khác nhau trên heap**, dù có cùng giá trị `diem`. Vì vậy `HashSet` coi chúng là hai phần tử khác nhau, không loại trùng.
+- Muốn loại trùng theo giá trị `diem`, phải override `hashCode()` và `equals()` trong `DiemThi` (hoặc dùng `record`, tự động sinh cả hai theo mọi field).
+
+</details>
+
+**5. Vì sao cần override cả `hashCode()` lẫn `equals()` cùng lúc, chứ không chỉ một trong hai?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Java có một **hợp đồng (contract)** bắt buộc giữa hai phương thức: nếu `a.equals(b)` trả về `true` thì `a.hashCode()` phải bằng `b.hashCode()`.
+
+- Nếu chỉ override `equals()` mà giữ nguyên `hashCode()` mặc định (dựa trên địa chỉ bộ nhớ), hai object "bằng nhau" theo `equals()` vẫn rơi vào **bucket khác nhau** trong bảng băm — `HashSet` sẽ không bao giờ tìm thấy chúng là trùng, phá vỡ tính năng loại trùng.
+- Nếu chỉ override `hashCode()` mà không override `equals()`, hai object có thể rơi cùng bucket nhưng `equals()` mặc định vẫn so theo địa chỉ, nên vẫn bị coi là khác nhau.
+- Vì vậy phải luôn override **cả hai cùng lúc và nhất quán** (dựa trên cùng tập field). IDE hiện đại và `record` (Java 16+) tự sinh cặp này đúng chuẩn.
+
+</details>
+
+**6. `TreeSet` yêu cầu gì ở các phần tử để có thể sắp xếp? Điều gì xảy ra nếu thiếu?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`TreeSet` cần biết cách **so sánh** hai phần tử để quyết định thứ tự, thông qua một trong hai cách:
+
+- Phần tử tự định nghĩa (custom class) cài đặt interface `Comparable` và override `compareTo()`.
+- Hoặc truyền một `Comparator` khi tạo `TreeSet`: `new TreeSet<>(comparator)`.
+
+```java
+class SinhVien implements Comparable<SinhVien> {
+    String ten;
+    int diem;
+    // ...
+    @Override
+    public int compareTo(SinhVien khac) {
+        return Integer.compare(this.diem, khac.diem);
+    }
+}
+```
+
+Nếu thêm một object **không cài đặt `Comparable`** vào `TreeSet` mà cũng không truyền `Comparator`, chương trình sẽ ném `ClassCastException` ngay tại thời điểm `add()`, vì `TreeSet` không biết đặt phần tử đó vào đâu trong cây.
+
+</details>
+
+**7. Nêu cách thực hiện phép hợp, giao, hiệu giữa hai `Set` bằng các phương thức có sẵn.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+Set<Integer> a = new HashSet<>(Set.of(1, 2, 3));
+Set<Integer> b = new HashSet<>(Set.of(2, 3, 4));
+
+Set<Integer> hop = new HashSet<>(a);
+hop.addAll(b);      // {1, 2, 3, 4} — hợp (union)
+
+Set<Integer> giao = new HashSet<>(a);
+giao.retainAll(b);  // {2, 3} — giao (intersection)
+
+Set<Integer> hieu = new HashSet<>(a);
+hieu.removeAll(b);  // {1} — hiệu (difference)
+```
+
+- Lưu ý: các phương thức này **thay đổi trực tiếp (mutate)** tập hợp gọi chúng, nên luôn tạo bản sao (`new HashSet<>(a)`) trước khi gọi nếu muốn giữ nguyên tập gốc.
+
+</details>
+
+**8. Làm thế nào để loại bỏ phần tử trùng khỏi một `List` mà vẫn giữ nguyên thứ tự ban đầu?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Đổ thẳng `List` vào `HashSet` sẽ loại trùng nhưng **mất thứ tự ban đầu**. Muốn vừa loại trùng vừa giữ thứ tự, dùng `LinkedHashSet`:
+
+```java
+List<Integer> coTrung = List.of(3, 1, 2, 3, 1, 4);
+
+// Sai cách nếu cần giữ thứ tự: HashSet không đảm bảo thứ tự
+Set<Integer> mat_thu_tu = new HashSet<>(coTrung);
+
+// Đúng cách: LinkedHashSet giữ nguyên thứ tự xuất hiện lần đầu
+List<Integer> khongTrungGiuThuTu = new ArrayList<>(new LinkedHashSet<>(coTrung));
+// Kết quả: [3, 1, 2, 4]
+```
+
+Từ Java 8 trở đi, cũng có thể dùng Stream API: `list.stream().distinct().toList()` (giữ thứ tự gặp lần đầu, do `distinct()` bảo toàn thứ tự nguồn).
+
+</details>
+
+**9. `Set.of(...)` (Java 9+) tạo ra Set có đặc điểm gì khác với `new HashSet<>()`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`Set.of(...)` tạo ra một **immutable Set (tập hợp bất biến)**, có từ Java 9:
+
+- Không thể `add()`, `remove()`, hay `clear()` — mọi thao tác sửa đổi đều ném `UnsupportedOperationException` ngay khi gọi.
+- Không chấp nhận phần tử `null` — thêm `null` sẽ ném `NullPointerException` ngay khi tạo.
+- Không cho phép phần tử trùng lặp ngay trong lời gọi khởi tạo — `Set.of(1, 1)` ném `IllegalArgumentException` tại thời điểm tạo.
+
+```java
+Set<String> vaiTro = Set.of("ADMIN", "USER");
+vaiTro.add("GUEST"); // LỖI: UnsupportedOperationException
+```
+
+Phù hợp khi muốn khai báo một tập hợp hằng số, không đổi trong suốt vòng đời chương trình — an toàn hơn `HashSet` thông thường vì tránh được sửa đổi ngoài ý muốn.
+
+</details>
+
+**10. Trong một hệ thống đa luồng, `HashSet` có an toàn không? Có lựa chọn nào thay thế?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không**, `HashSet` (và cả `LinkedHashSet`, `TreeSet`) không thread-safe. Nhiều luồng cùng `add()`/`remove()` đồng thời có thể làm hỏng cấu trúc bảng băm nội bộ hoặc ném `ConcurrentModificationException` khi một luồng đang duyệt (`for-each`) trong lúc luồng khác sửa đổi.
+
+Các lựa chọn thay thế:
+
+- `Collections.synchronizedSet(new HashSet<>())` — bọc lại bằng khóa (lock) chung cho mọi thao tác, đơn giản nhưng giảm khả năng chạy song song.
+- `ConcurrentHashMap.newKeySet()` (trong `java.util.concurrent`) — tạo một Set dựa trên `ConcurrentHashMap`, cho phép nhiều luồng đọc/ghi hiệu quả hơn nhờ khóa được chia nhỏ theo từng phần (segment) thay vì khóa toàn bộ.
+- `CopyOnWriteArraySet` — phù hợp khi **đọc nhiều, ghi ít**, vì mỗi lần ghi tạo bản sao mảng mới, đọc không cần khóa.
+
+</details>

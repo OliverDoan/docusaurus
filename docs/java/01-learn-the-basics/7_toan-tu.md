@@ -36,6 +36,7 @@ Toán tử là các ký hiệu thực hiện phép tính hoặc thao tác trên 
 - [Lớp Math](#lớp-math)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -285,3 +286,184 @@ public class ViDuMath {
 - `x++` dùng giá trị cũ rồi tăng; `++x` tăng trước rồi dùng.
 - Toán tử có **thứ tự ưu tiên**; dùng `()` để kiểm soát rõ ràng.
 - Lớp **Math** cung cấp `max`, `min`, `abs`, `pow`, `sqrt`, `random`...
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Phân biệt "toán tử" (operator) và "toán hạng" (operand). Cho một ví dụ minh họa.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Toán tử**: ký hiệu thực hiện một phép tính hoặc thao tác, ví dụ `+`, `-`, `>`, `&&`.
+- **Toán hạng**: giá trị hoặc biến mà toán tử tác động lên.
+
+Ví dụ trong biểu thức `a + b * c`:
+- `+` và `*` là toán tử.
+- `a`, `b`, `c` là toán hạng.
+
+Một số toán tử chỉ cần 1 toán hạng (toán tử một ngôi, ví dụ `!x`, `-x`, `x++`), số khác cần 2 toán hạng (toán tử hai ngôi, ví dụ `a + b`).
+
+</details>
+
+**2. `=` và `==` khác nhau thế nào? Vì sao nhầm lẫn hai toán tử này lại nguy hiểm?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `=` là **toán tử gán** — gán giá trị bên phải cho biến bên trái.
+- `==` là **toán tử so sánh bằng** — trả về `boolean` (`true`/`false`) khi so sánh hai giá trị.
+
+```java
+int a = 5;      // gán 5 cho a
+boolean b = (a == 5); // so sánh: true
+```
+
+Nguy hiểm vì với biến `boolean`, viết nhầm `if (dangDangNhap = true)` (gán) thay vì `if (dangDangNhap == true)` (so sánh) làm biến bị **ghi đè giá trị** và điều kiện luôn đúng — Java may mắn báo lỗi biên dịch trong trường hợp này vì kiểu không khớp (`int` gán cho `boolean`), nhưng nếu cả hai vế đều là `boolean` thì code vẫn biên dịch được và gây bug âm thầm rất khó phát hiện.
+
+</details>
+
+**3. Toán tử `%` (modulo) hoạt động thế nào? Với số âm, kết quả mang dấu của số nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`%` trả về **phần dư** của phép chia nguyên. Trong Java, dấu của kết quả `%` luôn theo dấu của **số bị chia** (toán hạng bên trái), không theo số chia:
+
+```java
+System.out.println(7 % 3);   // 1
+System.out.println(-7 % 3);  // -1 (theo dấu của -7)
+System.out.println(7 % -3);  // 1  (theo dấu của 7)
+```
+
+Ứng dụng phổ biến: kiểm tra chẵn/lẻ (`n % 2 == 0`), lấy phần tử theo vòng (circular index: `i % array.length`).
+
+</details>
+
+**4. Toán tử đoản mạch (`&&`, `||`) khác gì với `&`, `|` khi dùng cho `boolean`? Cho một tình huống thực tế nơi đoản mạch giúp tránh lỗi.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `&&`, `||` là **đoản mạch** (short-circuit): dừng đánh giá ngay khi biết chắc kết quả — với `&&`, vế đầu sai thì không xét vế sau; với `||`, vế đầu đúng thì bỏ qua vế sau.
+- `&`, `|` (khi dùng với `boolean`) luôn đánh giá **cả hai vế**, dù kết quả vế đầu đã đủ để quyết định.
+
+Tình huống thực tế: tránh `NullPointerException` khi kiểm tra null trước rồi mới gọi method:
+
+```java
+String ten = null;
+if (ten != null && ten.length() > 0) {
+    // an toàn: vì ten != null sai nên && dừng lại, không gọi ten.length()
+}
+```
+
+Nếu dùng `&` thay `&&`, Java vẫn sẽ đánh giá `ten.length()` dù `ten` là `null`, gây `NullPointerException` ngay lập tức.
+
+</details>
+
+**5. Output của đoạn code sau là gì? Giải thích từng bước.**
+
+```java
+int x = 5;
+int y = x++ + ++x;
+System.out.println(x + " " + y);
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Output: `x = 7, y = 12`**
+
+Diễn giải từng bước:
+1. `x++` (hậu tố): lấy giá trị **cũ** của `x` là `5` để tính, sau đó `x` tăng lên `6`.
+2. `++x` (tiền tố): tăng `x` từ `6` lên `7` **trước**, rồi lấy giá trị mới `7` để tính.
+3. `y = 5 + 7 = 12`.
+4. Cuối cùng `x` bằng `7` (đã tăng hai lần: `5 → 6 → 7`).
+
+Đây là lỗi rất dễ mắc khi trộn `x++`/`++x` nhiều lần trong cùng một biểu thức — nên tránh viết code kiểu này trong thực tế vì khó đọc.
+
+</details>
+
+**6. Output của đoạn code sau là gì?**
+
+```java
+int ketQua = 10 - 2 * 3 + 4 / 2;
+System.out.println(ketQua);
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Output: `6`**
+
+Theo thứ tự ưu tiên, `*` và `/` được tính trước `+` và `-`, sau đó Java tính từ trái sang phải giữa các toán tử cùng cấp:
+
+1. `2 * 3 = 6`
+2. `4 / 2 = 2`
+3. `10 - 6 + 2` → tính từ trái sang phải: `10 - 6 = 4`, rồi `4 + 2 = 6`.
+
+Trong thực tế phỏng vấn, câu này thường được hỏi tiếp: nếu đổi thành `10 - (2 * 3 + 4) / 2` thì kết quả khác hẳn — minh chứng vì sao nên dùng `()` khi biểu thức phức tạp.
+
+</details>
+
+**7. Vì sao `0.1 + 0.2 == 0.3` trả về `false` trong Java? Nên so sánh hai số `double` thế nào cho đúng?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Vì `double` lưu số thực dưới dạng **dấu phẩy động nhị phân** (binary floating-point) theo chuẩn IEEE 754, và nhiều số thập phân (như `0.1`, `0.2`) **không biểu diễn chính xác tuyệt đối** ở hệ nhị phân — giống như `1/3` không viết hết được ở hệ thập phân. Kết quả thực tế của `0.1 + 0.2` là `0.30000000000000004`, khác với giá trị literal `0.3`.
+
+Cách so sánh đúng: dùng một **sai số cho phép** (epsilon):
+
+```java
+double a = 0.1 + 0.2;
+double b = 0.3;
+boolean ganBang = Math.abs(a - b) < 1e-9; // true
+```
+
+Nếu cần độ chính xác tuyệt đối (ví dụ tính tiền), nên dùng `BigDecimal` thay vì `double`/`float`.
+
+</details>
+
+**8. Số nguyên `int` bị tràn (overflow) khi tính toán thì điều gì xảy ra? Cho ví dụ và cách phòng tránh.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`int` trong Java chiếm 32 bit, có giới hạn từ `Integer.MIN_VALUE` (`-2147483648`) đến `Integer.MAX_VALUE` (`2147483647`). Khi phép tính vượt giới hạn này, Java **không báo lỗi** mà **quay vòng** (wrap around) sang phía đối diện:
+
+```java
+int max = Integer.MAX_VALUE;
+System.out.println(max + 1); // -2147483648 (tràn xuống MIN_VALUE)
+```
+
+Cách phòng tránh:
+- Dùng `long` nếu giá trị có thể lớn hơn phạm vi `int`.
+- Dùng `Math.addExact`, `Math.multiplyExact`... (ném `ArithmeticException` khi tràn) để phát hiện sớm thay vì để lỗi âm thầm.
+- Với số cực lớn, cân nhắc `BigInteger`.
+
+</details>
+
+**9. Tình huống: bạn viết điều kiện kiểm tra đơn hàng hợp lệ là `soLuong > 0 && soLuong <= tonKho && giaTien >= 0`. Vì sao nên đặt các điều kiện rẻ/dễ sai trước, và thứ tự này có ảnh hưởng gì tới hiệu năng và độ an toàn?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Nhờ cơ chế **đoản mạch** của `&&`, Java đánh giá từ trái sang phải và dừng ngay khi gặp điều kiện sai — nên:
+
+- **Hiệu năng**: nên đặt điều kiện **rẻ và dễ sai nhất** lên trước (ví dụ kiểm tra `soLuong > 0` trước khi làm phép tính hay gọi hàm tốn kém), để tránh tính toán không cần thiết ở các vế sau.
+- **An toàn**: nếu một điều kiện phía sau phụ thuộc vào điều kiện phía trước để không bị lỗi (ví dụ kiểm tra `obj != null` trước khi gọi method trên `obj`), thứ tự **bắt buộc** phải đúng — đảo ngược thứ tự có thể gây `NullPointerException` hoặc lỗi runtime khác.
+
+Ví dụ thực tế:
+
+```java
+if (gioHang != null && !gioHang.isEmpty() && gioHang.get(0).getGiaTien() >= 0) {
+    // an toàn: kiểm tra null trước, rồi mới truy cập phần tử
+}
+```
+
+</details>
+

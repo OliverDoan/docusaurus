@@ -35,6 +35,7 @@ Iterator (bộ lặp) là công cụ giúp bạn duyệt qua từng phần tử 
 - [ListIterator — duyệt hai chiều](#listiterator--duyệt-hai-chiều)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -291,3 +292,169 @@ while (lit.hasPrevious()) {
 - Sửa đổi collection trực tiếp khi for-each gây **`ConcurrentModificationException`**.
 - Vòng lặp **for-each** thực chất dùng Iterator bên dưới.
 - **ListIterator** (chỉ cho List) mạnh hơn: duyệt **hai chiều**, có thể `add` và `set`.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Vì sao Java thiết kế Iterator như một interface thống nhất thay vì để mỗi collection tự cung cấp cách duyệt riêng?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Mỗi cấu trúc dữ liệu lưu trữ khác nhau (mảng liên tục, node liên kết, cây, bảng băm...), nếu duyệt theo cách riêng của từng loại, code gọi sẽ **phụ thuộc chặt (tight coupling)** vào chi tiết cài đặt bên trong — khó thay đổi loại collection sau này mà không sửa code duyệt.
+- `Iterator` là một ví dụ kinh điển của nguyên tắc **lập trình theo interface, không theo implementation cụ thể**: chỉ cần gọi `hasNext()`/`next()`, không cần biết bên dưới là `ArrayList` hay `LinkedList` hay `HashSet`.
+- Đây cũng chính là nền tảng để vòng lặp `for-each` hoạt động thống nhất trên mọi lớp implement `Iterable`.
+
+</details>
+
+**2. Đoạn code sau ném lỗi gì? Giải thích nguyên nhân sâu xa.**
+
+```java
+List<Integer> list = new ArrayList<>(List.of(1, 2, 3));
+for (Integer n : list) {
+    if (n == 2) {
+        list.remove(n);
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Ném `ConcurrentModificationException`.
+
+- Vòng lặp `for-each` thực chất dùng `Iterator` bên dưới. `ArrayList` có một biến đếm nội bộ gọi là **`modCount`** (số lần cấu trúc bị sửa đổi cấu trúc — thêm/xóa phần tử).
+- `Iterator` ghi nhớ giá trị `modCount` tại thời điểm được tạo ra (`expectedModCount`). Mỗi lần gọi `next()`, nó so sánh `modCount` hiện tại của list với `expectedModCount` đã lưu.
+- `list.remove(n)` gọi trực tiếp trên list (không qua iterator) làm tăng `modCount`, nhưng không cập nhật `expectedModCount` của iterator đang duyệt dở. Lần gọi `next()` kế tiếp phát hiện chênh lệch và ném exception ngay — đây gọi là cơ chế **fail-fast**.
+
+</details>
+
+**3. `iterator.remove()` giải quyết vấn đề trên như thế nào? Vì sao nó được coi là an toàn?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+Iterator<Integer> it = list.iterator();
+while (it.hasNext()) {
+    if (it.next() == 2) {
+        it.remove(); // an toàn
+    }
+}
+```
+
+- `iterator.remove()` xóa phần tử **thông qua chính iterator đang duyệt**, nên nó có thể đồng bộ lại `expectedModCount` của iterator bằng `modCount` mới nhất của collection ngay sau khi xóa — không gây ra sự chênh lệch bị fail-fast phát hiện ở lần `next()` kế tiếp.
+- Đây là lý do `iterator.remove()` được coi là cách **duy nhất an toàn** để xóa phần tử trong lúc đang duyệt bằng Iterator (for-each không cung cấp cách nào để xóa an toàn, vì nó không cho truy cập trực tiếp vào iterator ẩn bên dưới).
+
+</details>
+
+**4. Cơ chế fail-fast của Iterator có đảm bảo phát hiện MỌI trường hợp sửa đổi đồng thời không? Vì sao Javadoc khuyến cáo không nên dựa vào nó để viết logic quan trọng?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không đảm bảo tuyệt đối.** Javadoc của `ConcurrentModificationException` nêu rõ: cơ chế fail-fast chỉ nỗ lực **phát hiện lỗi tốt nhất có thể (best-effort)**, không phải một đảm bảo chắc chắn.
+
+- Trong môi trường đa luồng, có những tình huống race condition (tranh chấp luồng) mà `modCount` vẫn khớp một cách "may mắn" dù dữ liệu đã bị sửa đổi không nhất quán, khiến fail-fast **không phát hiện ra** lỗi.
+- Vì vậy, Javadoc khuyến cáo: **không nên viết chương trình mà tính đúng đắn phụ thuộc vào việc `ConcurrentModificationException` chắc chắn được ném ra** — nó chỉ nên dùng để phát hiện bug khi debug/phát triển, không phải cơ chế đồng bộ hóa (synchronization) đáng tin cậy.
+- Với môi trường đa luồng thực sự, cần dùng các cấu trúc thread-safe chuyên dụng như `CopyOnWriteArrayList` hoặc `ConcurrentHashMap` thay vì trông chờ vào fail-fast.
+
+</details>
+
+**5. `ListIterator` khác `Iterator` ở những điểm nào? Vì sao `ListIterator` chỉ áp dụng được cho `List`, không áp dụng cho `Set`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Khả năng | `Iterator` | `ListIterator` |
+|----------|-----------|-----------------|
+| Duyệt tiến (`hasNext`/`next`) | Có | Có |
+| Duyệt lùi (`hasPrevious`/`previous`) | Không | Có |
+| Xóa phần tử (`remove()`) | Có | Có |
+| Sửa phần tử vừa duyệt (`set()`) | Không | Có |
+| Thêm phần tử mới (`add()`) | Không | Có |
+| Lấy chỉ số hiện tại (`nextIndex`/`previousIndex`) | Không | Có |
+
+- `ListIterator` cần khái niệm **vị trí/chỉ số (index)** để hỗ trợ duyệt lùi và `add`/`set` đúng vị trí — điều mà chỉ `List` (có thứ tự, truy cập theo chỉ số) mới có ý nghĩa.
+- `Set` (không có thứ tự chỉ số cố định, đặc biệt `HashSet`) không có khái niệm "vị trí i" để `ListIterator` có thể thao tác, nên interface `Set` không cung cấp `listIterator()`.
+
+</details>
+
+**6. Vì sao gọi `it.remove()` hai lần liên tiếp (không gọi `next()` ở giữa) lại ném lỗi? Lỗi gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Ném `IllegalStateException`.
+
+- `remove()` chỉ được phép xóa phần tử **vừa mới được trả về bởi lần gọi `next()` gần nhất**. Nội bộ, Iterator ghi nhớ "phần tử hiện tại đã hợp lệ để xóa" chỉ ngay sau `next()`.
+- Sau khi `remove()` được gọi một lần, trạng thái "hợp lệ để xóa" bị **reset**. Gọi `remove()` lần thứ hai mà chưa có `next()` mới ở giữa sẽ vi phạm điều kiện tiên quyết này, và Iterator ném `IllegalStateException` để báo lỗi sử dụng sai quy trình.
+- Quy tắc đúng: mỗi lần `remove()` phải có đúng một lần `next()` đứng ngay trước nó.
+
+</details>
+
+**7. Điều gì xảy ra khi gọi `next()` trên một Iterator đã duyệt hết phần tử (khi `hasNext()` trả về `false`)?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Ném `NoSuchElementException`.
+
+- Đây là lý do quy trình chuẩn luôn là: kiểm tra `hasNext()` **trước**, chỉ gọi `next()` khi `hasNext()` trả về `true`.
+- Đây cũng là ngoại lệ dùng chung trong nhiều tình huống "hết phần tử" khác của Collections Framework (ví dụ `Deque.remove()` khi rỗng), không riêng gì Iterator.
+
+</details>
+
+**8. `Iterable` và `Iterator` khác nhau thế nào? Vai trò của mỗi interface trong việc cho phép một class dùng được với vòng lặp `for-each`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **`Iterable<T>`**: interface chỉ có một phương thức `iterator()`, trả về một `Iterator<T>`. Một class **implements `Iterable`** thì mới dùng được trực tiếp trong cú pháp `for (T x : obj)`.
+- **`Iterator<T>`**: interface đại diện cho "trạng thái duyệt hiện tại" — có `hasNext()`, `next()`, `remove()`. Nó là đối tượng được **`Iterable.iterator()`** tạo ra và trả về mỗi lần gọi.
+- Quan hệ: mọi `Collection` (List, Set...) đều `extends Iterable`, nên chúng đều dùng được với for-each. Nếu bạn tự viết một class dữ liệu tùy chỉnh (ví dụ cây nhị phân riêng) và muốn nó dùng được với for-each, class đó phải tự `implements Iterable<T>` và cài đặt `iterator()` trả về một `Iterator` tùy chỉnh.
+
+</details>
+
+**9. Vì sao Iterator có thể coi là một ứng dụng của Iterator Design Pattern? Lợi ích chính của pattern này là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Iterator Pattern** (một trong các Gang of Four design pattern) tách rời **logic duyệt** ra khỏi **cấu trúc dữ liệu lưu trữ** — cho phép truy cập tuần tự các phần tử của một tập hợp mà không cần lộ chi tiết cài đặt bên trong (mảng, node, cây...).
+
+Lợi ích chính:
+
+- **Tính đa hình khi duyệt (polymorphic traversal)**: cùng một đoạn code duyệt (`hasNext`/`next`) hoạt động với mọi loại collection.
+- **Nhiều iterator độc lập trên cùng một collection**: có thể tạo nhiều `Iterator` khác nhau đang duyệt collection đồng thời, mỗi cái giữ trạng thái vị trí riêng (con trỏ nội bộ) mà không ảnh hưởng lẫn nhau.
+- **Tách biệt trách nhiệm (separation of concerns)**: collection chỉ lo lưu trữ dữ liệu, còn Iterator lo việc duyệt — tuân theo nguyên tắc Single Responsibility trong SOLID.
+
+</details>
+
+**10. Duyệt và xóa phần tử trong một `Map` (ví dụ xóa các entry có value âm) an toàn nhất bằng cách nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+Map<String, Integer> map = new HashMap<>();
+map.put("A", -1);
+map.put("B", 5);
+
+// Đúng cách: lấy Iterator từ entrySet() rồi remove qua iterator
+Iterator<Map.Entry<String, Integer>> it = map.entrySet().iterator();
+while (it.hasNext()) {
+    Map.Entry<String, Integer> entry = it.next();
+    if (entry.getValue() < 0) {
+        it.remove(); // xóa an toàn khỏi map gốc
+    }
+}
+```
+
+- `Map` không implement `Iterable` trực tiếp và không có `remove()` an toàn khi duyệt trực tiếp bằng for-each trên `entrySet()`/`keySet()`. Phải lấy `Iterator` tường minh từ view (`entrySet().iterator()`) rồi gọi `it.remove()`, tương tự nguyên tắc áp dụng cho `List`/`Set`.
+- Một lựa chọn thay thế gọn hơn từ Java 8: `map.values().removeIf(v -> v < 0)` hoặc `map.entrySet().removeIf(e -> e.getValue() < 0)` — dùng `Predicate` để lọc và xóa mà không cần tự viết Iterator thủ công.
+
+</details>

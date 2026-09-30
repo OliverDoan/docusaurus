@@ -35,6 +35,7 @@ Array (mảng) và ArrayList (danh sách động) là hai cách cơ bản nhất
 - [Giới thiệu Collections Framework](#giới-thiệu-collections-framework)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -287,3 +288,149 @@ Tất cả đều giúp bạn không phải tự viết lại các cấu trúc d
 - ArrayList chỉ chứa object nên dùng lớp bọc (`Integer`, `Double`) thay kiểu nguyên thủy.
 - Cả hai đều nằm trong **Collections Framework** — bộ thư viện cấu trúc dữ liệu chuẩn của Java.
 - Khi phân vân, người mới nên ưu tiên ArrayList vì sự linh hoạt.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. `Array` và `ArrayList` khác nhau cốt lõi ở điểm nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Kích thước**: `Array` cố định ngay khi khởi tạo (`new int[5]` mãi mãi chỉ có 5 ô); `ArrayList` tự co giãn khi `add`/`remove`.
+- **Kiểu dữ liệu chứa được**: `Array` chứa được cả kiểu nguyên thủy (`int[]`, `double[]`) lẫn object; `ArrayList` chỉ chứa object, nên phải dùng lớp bọc (`Integer`, `Double`).
+- **API**: `Array` chỉ có `[]` và `.length`; `ArrayList` có sẵn `add()`, `remove()`, `contains()`, `indexOf()`...
+- **Hiệu năng**: `Array` truy cập nhanh hơn một chút vì không có lớp bọc và overhead quản lý kích thước.
+
+</details>
+
+**2. Vì sao `ArrayList<int>` là cú pháp sai? Cách khắc phục?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Generic trong Java Collections Framework chỉ hoạt động với **kiểu tham chiếu (reference type)**, không chấp nhận kiểu nguyên thủy (`int`, `double`, `boolean`...), vì generic được cài đặt bằng cơ chế **type erasure** — tại runtime, mọi generic đều bị xóa và xử lý như `Object`, mà kiểu nguyên thủy không phải là object.
+- Khắc phục: dùng **lớp bọc (wrapper class)** tương ứng — `Integer` thay cho `int`, `Double` thay cho `double`, `Boolean` thay cho `boolean`.
+
+```java
+ArrayList<Integer> diem = new ArrayList<>(); // đúng
+```
+
+- Nhờ **autoboxing/unboxing** (Java tự động chuyển đổi qua lại giữa `int` và `Integer`), bạn vẫn viết `diem.add(8)` tự nhiên như đang thêm `int`.
+
+</details>
+
+**3. `list.length` có gọi được không? Vì sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không** — đây là lỗi biên dịch (compile error). `length` là một **thuộc tính (field)** chỉ tồn tại trên `Array`, không phải phương thức. `ArrayList` không có field này; nó dùng phương thức `size()` để lấy số phần tử.
+
+```java
+int[] a = {1, 2, 3};
+System.out.println(a.length);   // đúng — field
+
+ArrayList<Integer> list = new ArrayList<>();
+System.out.println(list.length); // LỖI biên dịch: cannot find symbol
+System.out.println(list.size());  // đúng — method
+```
+
+</details>
+
+**4. Đoạn code sau ném ngoại lệ gì? Giải thích vì sao.**
+
+```java
+int[] diem = new int[5];
+diem[5] = 100;
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Ném `ArrayIndexOutOfBoundsException`.
+
+- `new int[5]` tạo mảng có **chỉ số hợp lệ từ 0 đến 4**, tổng cộng 5 phần tử. Chỉ số 5 nằm ngoài phạm vi này.
+- Đây là ngoại lệ **unchecked (runtime exception)** — trình biên dịch không bắt lỗi này, nó chỉ xuất hiện khi chương trình thực sự chạy tới dòng truy cập sai chỉ số.
+- Với `ArrayList`, thao tác tương tự (`list.get(5)` khi chỉ có 5 phần tử, chỉ số 0–4) ném `IndexOutOfBoundsException` (lớp cha của `ArrayIndexOutOfBoundsException`).
+
+</details>
+
+**5. `ArrayList` bên trong hoạt động dựa trên cấu trúc dữ liệu nào? Khi hết chỗ chứa, nó xử lý ra sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Bên trong, `ArrayList` vẫn dùng một **mảng (array)** thông thường để lưu dữ liệu — đó là lý do truy cập theo chỉ số (`get(i)`) có độ phức tạp **O(1)**, giống như mảng thật.
+- Khi mảng nội bộ đầy và bạn tiếp tục `add()`, `ArrayList` sẽ: tạo một mảng mới **lớn hơn** (thường tăng khoảng 50% dung lượng cũ), copy toàn bộ phần tử cũ sang, rồi mới thêm phần tử mới vào. Việc này gọi là **resize/grow**, có chi phí O(n) tại thời điểm đó nhưng amortized (phân bổ đều) vẫn là O(1) cho mỗi lần `add()` trung bình.
+- Có thể giảm số lần resize bằng cách khởi tạo trước dung lượng dự kiến: `new ArrayList<>(1000)`.
+
+</details>
+
+**6. So sánh độ phức tạp của các thao tác `add`, `get`, `remove` giữa `Array` và `ArrayList`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Thao tác | Array | ArrayList |
+|----------|-------|-----------|
+| Đọc theo chỉ số `get`/`[i]` | O(1) | O(1) |
+| Ghi theo chỉ số `set`/`[i]=` | O(1) | O(1) |
+| Thêm vào cuối | không hỗ trợ | O(1) amortized (thỉnh thoảng O(n) khi resize) |
+| Thêm/xóa ở giữa hoặc đầu | không hỗ trợ (phải tự dời tay) | O(n) — phải dịch chuyển các phần tử phía sau |
+
+- Lý do thêm/xóa ở giữa `ArrayList` tốn O(n): vì dữ liệu lưu trong mảng liên tục, chèn/xóa một phần tử buộc phải dịch chuyển tất cả phần tử phía sau sang trái/phải một ô.
+
+</details>
+
+**7. Trong thực tế, khi nào nên ưu tiên `Array` thay vì `ArrayList` dù `ArrayList` linh hoạt hơn?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Khi làm việc với **số lượng lớn kiểu nguyên thủy** (ví dụ hàng triệu số `double` trong tính toán khoa học) — `int[]`/`double[]` tiết kiệm bộ nhớ hơn hẳn vì không cần lớp bọc (`Integer`, `Double`) với overhead object header của từng phần tử.
+- Khi kích thước **biết trước và không đổi trong suốt vòng đời**, ví dụ bảng tra cứu cố định (7 ngày trong tuần, 12 tháng).
+- Khi cần **hiệu năng tối đa** ở tầng thấp (low-level), ví dụ xử lý ảnh, buffer dữ liệu nhị phân, thuật toán số học nặng.
+- Ngược lại, với logic nghiệp vụ thông thường (danh sách sản phẩm, danh sách người dùng...), `ArrayList` vẫn là lựa chọn mặc định vì API tiện lợi và ít lỗi hơn.
+
+</details>
+
+**8. `list.remove(2)` và `list.remove(Integer.valueOf(2))` trên `ArrayList<Integer>` khác nhau thế nào? Đây là lỗi hay gặp ra sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`ArrayList` có hai phương thức `remove` bị **overload (nạp chồng)**:
+
+- `remove(int index)` — xóa phần tử tại **chỉ số**.
+- `remove(Object o)` — xóa phần tử đầu tiên có **giá trị** bằng `o`.
+
+```java
+ArrayList<Integer> list = new ArrayList<>(List.of(10, 20, 30));
+
+list.remove(2);               // gọi remove(int) -> xóa chỉ số 2 -> còn [10, 20]
+list.remove(Integer.valueOf(2)); // gọi remove(Object) -> tìm giá trị 2 -> không có gì bị xóa (không tồn tại giá trị 2)
+```
+
+- Vì `Integer` là kiểu tham chiếu, khi bạn viết `list.remove(2)`, Java ưu tiên khớp overload `remove(int)` (không cần autoboxing) thay vì `remove(Object)`. Đây là lỗi rất hay gặp khi người mới muốn xóa **theo giá trị** một số nguyên nhưng vô tình xóa nhầm **theo chỉ số**.
+- Cách xóa đúng theo giá trị: ép kiểu tường minh về `Integer` bằng `Integer.valueOf(...)` hoặc autobox rõ ràng.
+
+</details>
+
+**9. `ArrayList` có phải là cấu trúc dữ liệu an toàn luồng (thread-safe) không? Nếu không, giải pháp thay thế là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không**, `ArrayList` không thread-safe. Nhiều luồng cùng đọc/ghi vào một `ArrayList` có thể gây `ConcurrentModificationException` (khi một luồng sửa trong lúc luồng khác đang duyệt) hoặc dữ liệu sai lệch (do race condition — nhiều luồng tranh chấp cùng lúc trên một dữ liệu).
+
+Các giải pháp thay thế:
+
+- `Collections.synchronizedList(new ArrayList<>())` — bọc danh sách lại, đồng bộ hóa (synchronize) toàn bộ thao tác bằng một khóa (lock) chung, đơn giản nhưng làm giảm khả năng chạy song song.
+- `CopyOnWriteArrayList` (trong `java.util.concurrent`) — mỗi lần ghi sẽ tạo bản sao mảng mới; phù hợp khi **đọc nhiều, ghi ít**, vì đọc không cần khóa.
+- Với nhu cầu phức tạp hơn, cân nhắc các cấu trúc trong `java.util.concurrent` được thiết kế riêng cho môi trường đa luồng.
+
+</details>

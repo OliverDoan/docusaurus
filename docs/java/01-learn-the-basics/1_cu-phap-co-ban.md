@@ -36,6 +36,7 @@ Cú pháp là bộ quy tắc viết code mà Java bắt buộc bạn tuân theo,
 - [Comment — ghi chú trong code](#comment--ghi-chú-trong-code)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -262,3 +263,193 @@ Comment rất quan trọng để bạn (và người khác) hiểu code sau này
 - Cặp `{ }` gom các câu lệnh thành một **khối**.
 - `System.out.println` in ra màn hình rồi xuống dòng; `print` thì không.
 - **Comment** giúp giải thích code và không ảnh hưởng tới kết quả chạy.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Vì sao trong Java, tất cả biến và hàm đều phải khai báo bên trong một `class`, không thể tồn tại "trôi nổi" như ở một số ngôn ngữ khác?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Java là ngôn ngữ hướng đối tượng thuần túy (mọi thứ xoay quanh **class**), nên trình biên dịch (compiler) yêu cầu mọi thành phần đều thuộc về một class cụ thể vì các lý do:
+
+- **Không gian tên (namespace)**: class đóng vai trò như một "hộp chứa" giúp phân biệt các hàm/biến trùng tên ở nơi khác nhau (ví dụ `Car.start()` khác `Computer.start()`).
+- **Đơn vị nạp của JVM**: khi chạy, JVM nạp (load) chương trình theo từng class — mỗi file `.class` tương ứng một class; JVM không có cơ chế nạp một hàm "tự do" không thuộc class nào.
+- **Tính nhất quán hướng đối tượng**: ép buộc tư duy đóng gói dữ liệu và hành vi cùng nhau ngay từ đầu, tránh code rải rác khó bảo trì.
+
+Một số ngôn ngữ khác (Python, JavaScript, C) cho phép hàm/biến toàn cục vì chúng không bắt buộc mô hình hướng đối tượng.
+
+</details>
+
+**2. Quy tắc về tên file `.java` so với tên class `public` bên trong là gì? Điều gì xảy ra nếu vi phạm quy tắc này?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Một file `.java` có thể chứa nhiều class, nhưng **tối đa một class `public`**.
+- Nếu file có một class `public`, **tên file bắt buộc trùng chính xác** (kể cả chữ hoa/thường) với tên class đó.
+
+```java
+// File: HelloWorld.java
+public class HelloWorld {   // OK, tên class trùng tên file
+    // ...
+}
+```
+
+Nếu đặt sai — ví dụ class là `HelloWorld` nhưng file lưu thành `hello.java` — trình biên dịch `javac` sẽ báo lỗi dạng `class HelloWorld is public, should be declared in a file named HelloWorld.java`.
+
+Nếu file không có class nào là `public` (chỉ có class mặc định/package-private), tên file không bị ràng buộc phải trùng tên class.
+
+</details>
+
+**3. Phân biệt `System.out.println` với `System.out.print`. Ba loại comment trong Java khác nhau ở điểm nào và khi nào nên dùng loại nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `System.out.println(...)` — in ra rồi **tự động xuống dòng**.
+- `System.out.print(...)` — in ra nhưng **giữ nguyên con trỏ trên cùng dòng**, lần in tiếp theo nối ngay sau.
+
+Ba loại comment:
+
+| Loại | Cú pháp | Khi dùng |
+|------|---------|----------|
+| Một dòng | `// nội dung` | Ghi chú ngắn cho một dòng code |
+| Nhiều dòng | `/* ... */` | Ghi chú dài, tạm vô hiệu hóa (comment out) một đoạn code |
+| Tài liệu (Javadoc) | `/** ... */` | Mô tả class/method để công cụ `javadoc` sinh tài liệu API tự động |
+
+Javadoc thường đặt ngay trước khai báo class/method, có thể chứa các thẻ như `@param`, `@return`, `@author` để công cụ đọc và xuất ra trang tài liệu.
+
+</details>
+
+**4. Vì sao Java bắt buộc kết thúc mỗi câu lệnh bằng dấu `;`, trong khi một số ngôn ngữ như Python lại không cần? Điều này liên quan thế nào đến cách trình biên dịch hoạt động?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Python dùng xuống dòng và thụt lề làm ranh giới câu lệnh/khối lệnh — trình thông dịch dựa vào cấu trúc dòng để hiểu code.
+- Java (giống C/C++) coi khoảng trắng và xuống dòng là **không có ý nghĩa cú pháp**; nhiều câu lệnh có thể viết trên cùng một dòng hoặc một câu lệnh trải dài nhiều dòng. Vì vậy `javac` cần một ký hiệu tường minh để biết "câu lệnh kết thúc ở đây" — đó là dấu `;`.
+
+```java
+int a = 1; int b = 2; // hai câu lệnh trên cùng một dòng — hợp lệ vì có dấu ;
+```
+
+Thiếu `;`, compiler báo lỗi `';' expected` vì nó không xác định được ranh giới câu lệnh.
+
+</details>
+
+**5. Đoạn code dưới đây in ra gì?**
+
+```java
+public class Demo {
+    public static void main(String[] args) {
+        System.out.print("Ket qua: ");
+        System.out.print(5);
+        System.out.println(5);
+        System.out.println("Xong");
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Output:
+
+```
+Ket qua: 55
+Xong
+```
+
+Giải thích: `print` không xuống dòng nên `"Ket qua: "`, `5` (từ `print`) và `5` (từ `println`) nối liền nhau trên cùng một dòng thành `Ket qua: 55`; `println` in xong số `5` đó rồi mới xuống dòng. Câu lệnh `println("Xong")` in tiếp ở dòng kế.
+
+</details>
+
+**6. Đoạn code sau có biên dịch được không? Nếu không, chỉ ra lỗi và cách sửa.**
+
+```java
+public class Demo {
+    public static void main(String[] args) {
+        int diem = 10
+        System.out.println("Diem: " + diem);
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không biên dịch được.** Lỗi: thiếu dấu chấm phẩy `;` sau `int diem = 10`. Compiler báo `';' expected` tại vị trí đó.
+
+Sửa lại:
+
+```java
+public class Demo {
+    public static void main(String[] args) {
+        int diem = 10;
+        System.out.println("Diem: " + diem);
+    }
+}
+```
+
+Đây là lỗi cú pháp phổ biến nhất với người mới học Java.
+
+</details>
+
+**7. Chữ ký `public static void main(String[] args)` có ý nghĩa gì ở từng từ khóa? Nếu đổi thành `public void main(String[] args)` (bỏ `static`), chương trình có chạy được không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `public` — JVM (gọi từ bên ngoài class) phải truy cập được hàm này.
+- `static` — hàm chạy được mà không cần tạo đối tượng (instance) của class trước; JVM gọi thẳng `main` khi khởi động chương trình, lúc đó chưa có đối tượng nào tồn tại.
+- `void` — không trả về giá trị.
+- `main` — tên cố định do đặc tả Java quy định, JVM chỉ tìm đúng tên này.
+- `String[] args` — mảng chứa các tham số truyền từ dòng lệnh.
+
+**Nếu bỏ `static`:** chương trình **không chạy được**. JVM báo lỗi runtime dạng `Main method is not static in class Demo, please define the main method as: public static void main(String[] args)`, vì JVM cần gọi `main` mà không phải tạo đối tượng trước — thiếu `static` phá vỡ điều kiện đó.
+
+</details>
+
+**8. Bạn viết `public class Employee { ... }` nhưng vô tình lưu file thành `employee.java` (chữ thường). Trên Linux và trên macOS/Windows, kết quả biên dịch có giống nhau không? Vì sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không giống nhau**, vì hệ thống file của các hệ điều hành xử lý chữ hoa/thường khác nhau:
+
+- **Linux**: hệ thống file phân biệt hoa/thường (case-sensitive) → `employee.java` và `Employee.java` là hai file khác nhau → `javac` báo lỗi ngay vì tên file không khớp tên class `public`.
+- **macOS mặc định (APFS) và Windows (NTFS)**: hệ thống file không phân biệt hoa/thường với người dùng thông thường → việc biên dịch/chạy đôi khi vẫn "qua" được một cách tình cờ, gây ảo giác code đúng.
+
+Đây là lý do dự án thực tế nên luôn kiểm thử trên môi trường Linux (thường dùng cho server/CI) để tránh lỗi "chạy được ở máy tôi nhưng lỗi trên server".
+
+</details>
+
+**9. Một file `.java` có được phép chứa nhiều class không? Nêu quy tắc và khi nào nên tách class ra file riêng.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Được phép, với điều kiện:
+
+- Chỉ tối đa **một** class trong file được khai báo `public`.
+- Các class còn lại phải là package-private (không có từ khóa `public`), và tên file phải trùng với tên class `public` (nếu có).
+
+```java
+// File: Bank.java
+public class Bank {
+    // ...
+}
+
+class Account { // không public — hợp lệ trong cùng file Bank.java
+    // ...
+}
+```
+
+**Khi nào nên tách file riêng:** khi class có kích thước lớn, được dùng lại ở nhiều nơi khác, hoặc cần khai báo `public` riêng để các package khác truy cập trực tiếp. Trong dự án thực tế, quy ước phổ biến là mỗi class `public` một file để dễ tìm kiếm, review và quản lý qua hệ thống quản lý phiên bản.
+
+</details>

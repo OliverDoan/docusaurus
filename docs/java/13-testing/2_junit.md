@@ -36,6 +36,7 @@ JUnit là framework test phổ biến nhất trong thế giới Java, gần như
 - [Ví dụ đầy đủ: test lớp Calculator](#ví-dụ-đầy-đủ-test-lớp-calculator)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -367,3 +368,196 @@ Chạy test: trong IDE (IntelliJ/Eclipse) bấm nút "Run", hoặc dùng lệnh 
 - **`assertThrows`** kiểm tra code có ném đúng ngoại lệ mong đợi không.
 - **`@ParameterizedTest`** chạy cùng một test với nhiều bộ dữ liệu khác nhau.
 - Bài tiếp theo sẽ giới thiệu **TestNG** — một framework test thay thế JUnit.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. JUnit 5 (Jupiter) khác gì so với JUnit 4 ở mức cơ bản? Vì sao không nên trộn lẫn import của hai phiên bản trong cùng một class?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **JUnit 5** (còn gọi **JUnit Jupiter**) là bản viết lại kiến trúc so với JUnit 4, tách thành ba module: **JUnit Platform** (nền tảng chạy test), **Jupiter** (API và engine test mới), và **Vintage** (engine cho phép chạy lại test viết bằng JUnit 3/4 cũ).
+- Package import cũng đổi: JUnit 5 dùng `org.junit.jupiter.api.*` (ví dụ `org.junit.jupiter.api.Test`), còn JUnit 4 dùng `org.junit.*` (ví dụ `org.junit.Test`).
+- Nếu vô tình trộn lẫn (ví dụ import `@Test` từ `org.junit.jupiter.api` nhưng lại import `assertEquals` từ `org.junit.Assert` của JUnit 4), code có thể biên dịch nhưng annotation sẽ không được engine tương ứng nhận diện đúng cách, hoặc test không chạy như mong đợi, thậm chí bị bỏ qua âm thầm mà không báo lỗi rõ ràng.
+
+</details>
+
+**2. Annotation `@Test` có tác dụng gì? Điều gì xảy ra nếu bạn viết một phương thức test đầy đủ logic nhưng quên thêm `@Test`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`@Test` đánh dấu một phương thức là một **test case** để JUnit tự động phát hiện và chạy khi thực thi test suite.
+
+- Nếu quên `@Test`, phương thức đó vẫn biên dịch bình thường (nó chỉ là một method Java thông thường), nhưng **JUnit sẽ hoàn toàn bỏ qua nó** — không chạy, không báo pass, không báo fail.
+- Đây là lỗi nguy hiểm vì âm thầm: khi xem báo cáo test, bạn sẽ thấy tổng số test ít hơn dự kiến (thiếu mất test đó), nhưng dễ nhầm tưởng "mọi test đều pass" nếu không để ý kỹ số lượng test đã chạy — tạo cảm giác an toàn giả trong khi thực chất một hành vi quan trọng chưa hề được kiểm tra.
+
+</details>
+
+**3. `assertEquals(mongDoi, thucTe)` — thứ tự hai tham số này quan trọng như thế nào? Cho ví dụ về thông báo lỗi khi viết ngược.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Quy ước của JUnit: `assertEquals(expected, actual)` — tham số **đầu tiên** là giá trị **mong đợi (expected)**, tham số **thứ hai** là giá trị **thực tế (actual)** mà code trả về.
+
+- Việc này không ảnh hưởng đến kết quả pass/fail (vì so sánh bằng nhau có tính đối xứng), nhưng ảnh hưởng trực tiếp tới **nội dung thông báo lỗi** khi test fail.
+- Ví dụ nếu viết đúng và test fail:
+
+```text
+expected: <5> but was: <6>
+```
+
+- Nếu viết ngược `assertEquals(ketQua, 5)` (tức truyền giá trị thực tế làm "expected"), khi fail thông báo sẽ hiển thị ngược, gây hiểu nhầm khi debug:
+
+```text
+expected: <6> but was: <5>
+```
+
+- Dù cùng một lỗi, thông báo ngược khiến người đọc mất thời gian hiểu sai vấn đề — vì vậy luôn giữ đúng thứ tự "mong đợi trước, thực tế sau".
+
+</details>
+
+**4. Phân biệt `@BeforeEach`, `@AfterEach`, `@BeforeAll`, `@AfterAll`. Vì sao `@BeforeAll`/`@AfterAll` bắt buộc phải là phương thức `static` (theo lifecycle mặc định)?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Annotation | Chạy khi nào |
+|---|---|
+| `@BeforeEach` | Trước **mỗi** phương thức `@Test` |
+| `@AfterEach` | Sau **mỗi** phương thức `@Test` |
+| `@BeforeAll` | **Một lần duy nhất** trước tất cả test trong class |
+| `@AfterAll` | **Một lần duy nhất** sau tất cả test trong class |
+
+- Theo lifecycle **mặc định** của JUnit 5 (`PER_METHOD`), JUnit tạo một **instance mới** của lớp test cho **mỗi** phương thức `@Test` (để đảm bảo test độc lập, không chia sẻ trạng thái ngoài ý muốn). Vì vậy `@BeforeAll`/`@AfterAll` — chỉ chạy một lần cho cả class — không thể là phương thức instance (vì không gắn với một instance cụ thể nào cố định); chúng buộc phải là `static` để tồn tại độc lập với các instance được tạo/hủy liên tục.
+- Ngoại lệ: nếu đổi lifecycle sang `@TestInstance(Lifecycle.PER_CLASS)` (chỉ tạo một instance dùng chung cho cả class), `@BeforeAll`/`@AfterAll` **không cần** `static` nữa.
+
+</details>
+
+**5. Vì sao mỗi phương thức `@Test` trong JUnit 5 (mặc định) chạy trên một instance riêng của class test, thay vì dùng chung một instance cho cả class?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Lifecycle mặc định của JUnit 5 là `PER_METHOD`: mỗi khi chạy một phương thức `@Test`, JUnit tạo **một instance hoàn toàn mới** của class test.
+- Mục đích: đảm bảo các test **độc lập (Independent)** với nhau — field instance được set trong test này (hoặc trong `@BeforeEach`) không thể vô tình "rò rỉ" sang test khác, vì mỗi test có bộ field riêng, khởi tạo lại từ đầu.
+- Nếu dùng chung một instance cho cả class (như `PER_CLASS`), lập trình viên phải tự cẩn thận reset trạng thái trong `@BeforeEach`, nếu không dữ liệu để lại từ test trước có thể ảnh hưởng ngầm tới test sau — vi phạm nguyên tắc Independent và Repeatable trong FIRST.
+
+</details>
+
+**6. `assertThrows` dùng để làm gì? Viết một test kiểm tra rằng `calc.divide(10, 0)` ném ra `ArithmeticException`, và giải thích vì sao cách viết bằng lambda lại cần thiết (thay vì gọi trực tiếp `calc.divide(10, 0)` trong `assertThrows`).**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`assertThrows` dùng để kiểm tra rằng một đoạn code **thực sự ném ra đúng loại exception mong đợi** — kiểm tra "đường đi lỗi" (error path), không chỉ đường đi thành công.
+
+```java
+assertThrows(ArithmeticException.class, () -> {
+    calc.divide(10, 0);
+});
+```
+
+- Phải bọc lời gọi `calc.divide(10, 0)` trong một **lambda** (`() -> ...`, kiểu `Executable`) vì nếu gọi trực tiếp `calc.divide(10, 0)` như một tham số bình thường, exception sẽ được ném ra **ngay khi Java đánh giá tham số** đó — tức là trước khi lời gọi `assertThrows(...)` thực sự bắt đầu chạy logic kiểm tra của nó, khiến test bị crash bởi exception không được xử lý thay vì được `assertThrows` bắt và xác nhận đúng loại.
+- Lambda trì hoãn việc thực thi `calc.divide(10, 0)` cho tới khi `assertThrows` chủ động gọi nó bên trong một khối `try-catch` nội bộ, từ đó bắt được exception và so sánh với class mong đợi.
+
+</details>
+
+**7. `@ParameterizedTest` giải quyết vấn đề gì so với việc viết nhiều `@Test` riêng lẻ? Với đoạn `@CsvSource` sau, test sẽ chạy bao nhiêu lần và với bộ giá trị nào?**
+
+```java
+@ParameterizedTest
+@CsvSource({
+    "1, 1, 2",
+    "2, 3, 5",
+    "10, 20, 30",
+    "-1, 1, 0"
+})
+void testAddNhieuTruongHop(int a, int b, int mongDoi) {
+    assertEquals(mongDoi, calc.add(a, b));
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`@ParameterizedTest` cho phép chạy **cùng một logic test** với **nhiều bộ dữ liệu đầu vào** khác nhau, tránh phải copy-paste nhiều phương thức test gần giống hệt nhau (chỉ khác số liệu).
+
+- Với `@CsvSource` gồm 4 dòng, test `testAddNhieuTruongHop` sẽ chạy **4 lần độc lập**, mỗi lần với một bộ `(a, b, mongDoi)` tương ứng:
+  1. `a=1, b=1, mongDoi=2`
+  2. `a=2, b=3, mongDoi=5`
+  3. `a=10, b=20, mongDoi=30`
+  4. `a=-1, b=1, mongDoi=0`
+- Nếu một trong bốn lần fail (ví dụ dòng thứ 3), JUnit vẫn báo cáo riêng biệt lần chạy đó là fail, các lần khác vẫn hiển thị pass — giúp xác định chính xác bộ dữ liệu nào gây lỗi.
+
+</details>
+
+**8. Ngoài `@CsvSource`, JUnit 5 còn hỗ trợ những nguồn dữ liệu nào khác cho `@ParameterizedTest`? Khi nào nên dùng `@MethodSource` thay vì `@CsvSource`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Các nguồn dữ liệu phổ biến khác:
+
+- **`@ValueSource`**: cung cấp một danh sách giá trị đơn giản cùng kiểu (ví dụ danh sách `int`, `String`), dùng khi test chỉ cần **một** tham số đầu vào.
+- **`@MethodSource`**: lấy dữ liệu test từ một phương thức trả về `Stream`/`List` các đối tượng phức tạp hơn (ví dụ đối tượng tùy chỉnh, hoặc bộ dữ liệu cần logic tính toán để tạo ra).
+- **`@EnumSource`**: cung cấp dữ liệu test từ các giá trị của một `enum`.
+
+Nên dùng `@MethodSource` khi:
+
+- Dữ liệu test **quá phức tạp** để viết gọn trong một chuỗi CSV (ví dụ cần truyền đối tượng, danh sách lồng nhau).
+- Dữ liệu test cần được **tính toán động** (ví dụ sinh ngẫu nhiên có kiểm soát seed, hoặc đọc từ một cấu trúc dữ liệu có sẵn trong code) thay vì viết cứng.
+
+</details>
+
+**9. Vì sao khi so sánh số thực (`double`/`float`), không nên dùng `assertEquals(0.3, ketQua)` mà cần dùng `assertEquals(0.3, ketQua, delta)`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Số thực (`double`/`float`) trong Java được biểu diễn theo chuẩn dấu phẩy động (floating-point, IEEE 754), vốn **không thể biểu diễn chính xác tuyệt đối** hầu hết các số thập phân — dẫn tới sai số làm tròn (rounding error) rất nhỏ trong tính toán. Ví dụ `0.1 + 0.2` trong Java thường không cho ra chính xác `0.3` mà là `0.30000000000000004`.
+- Nếu dùng `assertEquals(0.3, ketQua)` để so sánh **chính xác tuyệt đối**, test có thể fail dù về mặt toán học hai giá trị "coi như bằng nhau", chỉ vì lệch nhau ở phần thập phân rất nhỏ do sai số làm tròn.
+- Cách đúng: truyền thêm tham số thứ ba là **delta** (sai số cho phép), ví dụ `assertEquals(0.3, ketQua, 0.0001)` — test chỉ fail nếu độ chênh lệch giữa hai giá trị **vượt quá** delta này, phù hợp với bản chất không chính xác tuyệt đối của số thực.
+
+</details>
+
+**10. `@Nested` và `assertAll` trong JUnit 5 dùng để giải quyết vấn đề gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **`@Nested`**: cho phép định nghĩa các class test **lồng nhau** bên trong một class test chính, giúp nhóm các test liên quan theo ngữ cảnh (ví dụ nhóm test cho "khi tài khoản có số dư dương" tách biệt với "khi tài khoản âm"), làm báo cáo test có cấu trúc rõ ràng và dễ đọc hơn khi số lượng test case lớn.
+- **`assertAll`**: cho phép nhóm **nhiều assertion độc lập** vào một khối, sao cho nếu một assertion fail, các assertion còn lại **vẫn được chạy và báo cáo đầy đủ**, thay vì dừng ngay ở assertion đầu tiên fail như cách gọi `assertEquals` liên tiếp thông thường.
+
+```java
+@Test
+void testThongTinNguoiDung() {
+    User user = getUser();
+    assertAll(
+        () -> assertEquals("An", user.getTen()),
+        () -> assertEquals("an@gmail.com", user.getEmail()),
+        () -> assertTrue(user.getTuoi() > 0)
+    );
+}
+```
+
+- Với `assertAll`, nếu cả `getTen()` và `getEmail()` đều sai, báo cáo test sẽ liệt kê **cả hai** lỗi cùng lúc, giúp sửa nhanh hơn thay vì phải sửa từng lỗi rồi chạy lại nhiều lần mới thấy lỗi tiếp theo.
+
+</details>
+
+**11. Trong một dự án CI/CD, nếu một test bị lỗi không ổn định (flaky) do phụ thuộc vào thứ tự chạy giữa các test trong cùng một class, nguyên nhân thường gặp nhất là gì và JUnit 5 có đảm bảo thứ tự chạy test theo thứ tự khai báo trong code không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Không**, theo mặc định JUnit 5 **không đảm bảo** thứ tự chạy các phương thức `@Test` trong cùng một class theo đúng thứ tự khai báo trong source code — thứ tự thực thi có thể khác nhau giữa các lần chạy hoặc giữa các phiên bản JUnit.
+- Nguyên nhân phổ biến nhất gây flaky do phụ thuộc thứ tự: dùng **biến `static` hoặc trạng thái chia sẻ** giữa các test (ví dụ một danh sách static được test A thêm phần tử, rồi test B kỳ vọng danh sách đó đã có sẵn dữ liệu) — vi phạm nguyên tắc **Independent** của FIRST.
+- Nếu thực sự cần một thứ tự chạy cụ thể (trường hợp hiếm, thường không khuyến khích vì phá vỡ tính độc lập), JUnit 5 cung cấp `@TestMethodOrder` kèm một `MethodOrderer` cụ thể (ví dụ `OrderAnnotation` kết hợp `@Order(n)`) để ép thứ tự chạy tường minh.
+- Giải pháp bền vững hơn: thiết kế lại test để mỗi test tự chuẩn bị đầy đủ dữ liệu nó cần trong `@BeforeEach`, không phụ thuộc vào "tàn dư" trạng thái từ test chạy trước.
+
+</details>

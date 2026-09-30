@@ -34,6 +34,7 @@ Vòng lặp là cấu trúc cho phép lặp lại một khối lệnh nhiều l�
 - [Vòng lặp lồng nhau](#vòng-lặp-lồng-nhau)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -245,3 +246,235 @@ Với mỗi lần chạy vòng ngoài, toàn bộ vòng trong chạy hết một
 - `for` khi biết trước số lần; `while` khi lặp theo điều kiện; `do-while` chạy ít nhất một lần; `for-each` để duyệt phần tử.
 - `break` thoát khỏi vòng lặp; `continue` bỏ qua phần còn lại của lần lặp hiện tại.
 - Luôn đảm bảo điều kiện sẽ có lúc sai để tránh **vòng lặp vô hạn**.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Vòng lặp (loop) là gì và Java có những loại vòng lặp nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Vòng lặp** là cấu trúc điều khiển cho phép lặp lại một khối lệnh nhiều lần thay vì viết tay từng dòng lặp lại. Java có 4 loại chính:
+
+- `for` — dùng khi biết trước số lần lặp, gồm 3 phần: khởi tạo, điều kiện, bước nhảy.
+- `while` — lặp chừng nào điều kiện còn đúng, kiểm tra điều kiện **trước**.
+- `do-while` — giống `while` nhưng kiểm tra điều kiện **sau**, nên luôn chạy thân vòng ít nhất 1 lần.
+- `for-each` (enhanced for) — duyệt từng phần tử của mảng/collection mà không cần quản lý chỉ số.
+
+</details>
+
+**2. So sánh `for` và `while`. Khi nào nên dùng loại nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Tiêu chí | `for` | `while` |
+|---|---|---|
+| Số lần lặp | Biết trước (hoặc tính được) | Không biết trước, phụ thuộc điều kiện |
+| Cấu trúc | Khởi tạo + điều kiện + bước nhảy gọn trong 1 dòng | Chỉ có điều kiện; khởi tạo/cập nhật viết rời |
+| Ví dụ điển hình | Duyệt mảng theo chỉ số, đếm từ 1 đến n | Đọc dữ liệu tới khi hết, chờ nhập đúng |
+
+Hai vòng lặp này có thể chuyển đổi qua lại về bản chất — khác biệt chủ yếu là **cách trình bày** giúp code dễ đọc theo đúng ý định. Dùng `for` khi số lần lặp rõ ràng ngay từ đầu; dùng `while` khi điều kiện dừng phụ thuộc trạng thái lúc chạy (ví dụ đọc file tới khi hết dòng).
+
+</details>
+
+**3. Phân biệt `while` và `do-while`. Cho một tình huống thực tế nên dùng `do-while`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `while`: kiểm tra điều kiện **trước** khi chạy thân vòng → có thể chạy 0 lần nếu điều kiện sai ngay từ đầu.
+- `do-while`: chạy thân vòng **trước**, kiểm tra điều kiện **sau** → luôn chạy tối thiểu 1 lần dù điều kiện sai ngay từ đầu.
+
+Tình huống phù hợp: hiển thị menu và đọc lựa chọn của người dùng — luôn cần hiện menu ít nhất 1 lần trước khi biết người dùng có muốn thoát hay không:
+
+```java
+int luaChon;
+do {
+    System.out.println("1. Xem so du | 2. Nap tien | 0. Thoat");
+    luaChon = docLuaChon(); // giả định hàm đọc input
+} while (luaChon != 0);
+```
+
+</details>
+
+**4. `for-each` hoạt động thế nào? Ưu điểm và hạn chế so với `for` truyền thống?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`for-each` (`for (Kieu bien : mang)`) tự động duyệt qua từng phần tử mà không cần khai báo và quản lý chỉ số.
+
+Ưu điểm:
+- Code ngắn gọn, ít khả năng sai chỉ số (off-by-one, tràn mảng).
+- Đọc dễ hiểu: "với mỗi phần tử trong tập hợp, làm việc X".
+
+Hạn chế:
+- Không có sẵn chỉ số của phần tử đang duyệt.
+- Không thể sửa trực tiếp phần tử theo vị trí trong mảng nguyên thủy qua biến lặp (biến lặp chỉ là bản sao giá trị).
+- Không duyệt ngược hay nhảy cách phần tử được.
+
+→ Dùng `for-each` khi chỉ cần **đọc** tuần tự; dùng `for` khi cần chỉ số hoặc sửa phần tử theo vị trí.
+
+</details>
+
+**5. `break` và `continue` khác nhau thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `break`: thoát **hẳn** khỏi vòng lặp đang chạy, nhảy ra ngoài ngay lập tức, các lần lặp còn lại không chạy nữa.
+- `continue`: bỏ qua phần **còn lại** của lần lặp hiện tại, nhảy thẳng tới bước kiểm tra/tăng biến để bắt đầu lần lặp kế tiếp.
+
+```java
+for (int i = 1; i <= 5; i++) {
+    if (i == 3) break;     // dừng hẳn khi i = 3 -> in 1, 2
+    System.out.println(i);
+}
+for (int i = 1; i <= 5; i++) {
+    if (i == 3) continue;  // bỏ qua i = 3 -> in 1, 2, 4, 5
+    System.out.println(i);
+}
+```
+
+</details>
+
+**6. Đoạn code sau in ra gì?**
+
+```java
+int tong = 0;
+for (int i = 1; i <= 5; i++) {
+    if (i % 2 == 0) {
+        continue;
+    }
+    tong += i;
+}
+System.out.println("Tong: " + tong);
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Kết quả: `Tong: 9`.
+
+Vòng lặp chạy `i` từ 1 đến 5; `continue` bỏ qua các số chẵn (2 và 4), chỉ cộng các số lẻ vào `tong`: `1 + 3 + 5 = 9`.
+
+</details>
+
+**7. Đoạn code sau có bug gì? Sửa lại cho đúng.**
+
+```java
+int[] diem = {8, 9, 7};
+for (int i = 0; i <= diem.length; i++) {
+    System.out.println(diem[i]);
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Đây là lỗi **lệch một đơn vị** (off-by-one): điều kiện dùng `i <= diem.length` (tức chạy tới `i = 3`) trong khi chỉ số hợp lệ của mảng chỉ chạy từ `0` đến `length - 1` (tức `0, 1, 2`). Khi `i = 3`, `diem[3]` không tồn tại → ném `ArrayIndexOutOfBoundsException` lúc chạy.
+
+Sửa lại bằng cách đổi thành `i < diem.length`:
+
+```java
+for (int i = 0; i < diem.length; i++) {
+    System.out.println(diem[i]);
+}
+```
+
+Hoặc dùng `for-each` để tránh hoàn toàn lỗi chỉ số:
+
+```java
+for (int d : diem) {
+    System.out.println(d);
+}
+```
+
+</details>
+
+**8. Đoạn code sau chạy có vấn đề gì?**
+
+```java
+int dem = 1;
+while (dem <= 5) {
+    System.out.println("Dem = " + dem);
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Đây là **vòng lặp vô hạn** (infinite loop): thân vòng quên cập nhật biến `dem`, nên điều kiện luôn đúng mãi mãi, chương trình không bao giờ dừng và sẽ in `Dem = 1` liên tục cho tới khi bị dừng thủ công (hoặc hết tài nguyên).
+
+Sửa lại bằng cách thêm bước cập nhật biến điều kiện trong thân vòng:
+
+```java
+int dem = 1;
+while (dem <= 5) {
+    System.out.println("Dem = " + dem);
+    dem++;
+}
+```
+
+</details>
+
+**9. Trong vòng lặp lồng nhau, `break` ở vòng trong sẽ thoát khỏi vòng nào? Làm sao thoát cả hai vòng cùng lúc?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`break` chỉ thoát khỏi vòng lặp **gần nhất** chứa nó — tức vòng trong; vòng ngoài vẫn tiếp tục chạy các lần lặp còn lại.
+
+```java
+for (int i = 1; i <= 3; i++) {
+    for (int j = 1; j <= 3; j++) {
+        if (j == 2) break; // chỉ thoát vòng j, vòng i vẫn tiếp tục
+        System.out.println(i + "-" + j);
+    }
+}
+```
+
+Để thoát cả hai vòng cùng lúc, Java hỗ trợ **nhãn** (labeled break) — đặt tên trước vòng ngoài rồi `break` kèm tên nhãn:
+
+```java
+ngoai:
+for (int i = 1; i <= 3; i++) {
+    for (int j = 1; j <= 3; j++) {
+        if (i == 2 && j == 2) break ngoai; // thoát hẳn cả 2 vòng
+        System.out.println(i + "-" + j);
+    }
+}
+```
+
+</details>
+
+**10. Bạn cần viết vòng lặp thử kết nối lại một dịch vụ tối đa 3 lần, dừng sớm nếu kết nối thành công. Nên dùng loại vòng lặp nào và thiết kế ra sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Nên dùng `for` vì đã biết trước giới hạn số lần thử tối đa (3 lần), kết hợp `break` để dừng sớm ngay khi thành công:
+
+```java
+boolean thanhCong = false;
+for (int lanThu = 1; lanThu <= 3; lanThu++) {
+    thanhCong = ketNoi(); // giả định trả về true/false
+    if (thanhCong) {
+        System.out.println("Ket noi thanh cong o lan " + lanThu);
+        break; // không cần thử tiếp
+    }
+    System.out.println("Lan " + lanThu + " that bai, thu lai...");
+}
+if (!thanhCong) {
+    System.out.println("Khong the ket noi sau 3 lan thu");
+}
+```
+
+Nếu số lần thử không cố định (ví dụ thử cho tới khi thành công hoặc hết thời gian timeout), `while` sẽ phù hợp hơn vì điều kiện dừng phụ thuộc trạng thái lúc chạy chứ không phải một con số cố định trước.
+
+</details>

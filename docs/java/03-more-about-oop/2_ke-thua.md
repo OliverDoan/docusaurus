@@ -35,6 +35,7 @@ Kế thừa là một trụ cột của lập trình hướng đối tượng, c
 - [Object là lớp gốc của mọi lớp](#object-là-lớp-gốc-của-mọi-lớp)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -308,3 +309,164 @@ public class Main {
 - Kế thừa giúp **tái sử dụng code**, sửa một nơi áp dụng mọi nơi.
 - Java chỉ cho **kế thừa đơn** (một lớp cha trực tiếp), nhưng có thể nhiều tầng.
 - Mọi lớp đều ngầm kế thừa lớp `Object` — lớp gốc của tất cả.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Quan hệ "is-a" của kế thừa khác gì quan hệ "has-a" của composition?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **"is-a" (kế thừa)**: lớp con **là một loại** của lớp cha. Ví dụ: "Chó **là một** Động vật" → `Cho extends DongVat`.
+- **"has-a" (composition)**: một lớp **chứa** một đối tượng khác như thuộc tính, không phải là loại của nó. Ví dụ: "Ô tô **có một** Động cơ" → class `OTo` có field `Động cơ dongCo`.
+
+Chọn sai quan hệ dễ dẫn tới thiết kế cứng nhắc — ví dụ không nên cho `OTo extends DongCo` vì ô tô không phải "là một" động cơ.
+
+</details>
+
+**2. Vì sao Java chỉ hỗ trợ kế thừa đơn (single inheritance) đối với class, mà không cho `extends` nhiều lớp cùng lúc?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Để tránh **diamond problem** (vấn đề hình thoi): nếu một lớp kế thừa hai lớp cha cùng có một phương thức giống chữ ký, trình biên dịch không biết chọn cài đặt của lớp cha nào — gây nhập nhằng (ambiguity).
+
+Java giải quyết nhu cầu "đa kế thừa hành vi" bằng **interface** — một lớp có thể `implements` nhiều interface. Từ Java 8, interface có `default method`, nhưng Java bắt buộc lớp phải override tường minh nếu hai interface có `default method` trùng chữ ký, nên vẫn tránh được nhập nhằng.
+
+</details>
+
+**3. Khi tạo một đối tượng của lớp con kế thừa nhiều tầng (ví dụ `Cho extends ThuCung extends DongVat`), thứ tự gọi constructor diễn ra như thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Constructor luôn chạy từ **lớp gốc xuống lớp con cùng**, vì mỗi constructor bắt buộc gọi `super(...)` (tường minh hoặc ngầm định) trước khi chạy phần thân của chính nó:
+
+```java
+// Thứ tự chạy: Object() -> DongVat() -> ThuCung() -> Cho()
+```
+
+Nghĩa là `DongVat` khởi tạo xong hoàn toàn trước khi `ThuCung` bắt đầu, rồi `ThuCung` xong mới tới `Cho`. Điều này đảm bảo phần dữ liệu kế thừa từ lớp cha luôn sẵn sàng trước khi lớp con dùng tới.
+
+</details>
+
+**4. Nếu lớp cha KHÔNG có constructor không tham số, và lớp con không gọi `super(...)` tường minh, chuyện gì xảy ra?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Lỗi biên dịch.** Nếu constructor của lớp con không gọi `super(...)` tường minh ở dòng đầu, Java tự động chèn `super()` (không tham số) ngầm định. Nhưng nếu lớp cha không có constructor không tham số nào (chỉ có constructor nhận tham số), lệnh `super()` ngầm định đó không tồn tại → biên dịch lỗi. Cách sửa: gọi tường minh `super(thamSo)` khớp với constructor có sẵn của lớp cha.
+
+</details>
+
+**5. So sánh phạm vi truy cập `private`, `protected`, `public` trong ngữ cảnh kế thừa — lớp con thấy được gì từ lớp cha?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Phạm vi | Lớp con cùng package | Lớp con khác package |
+|---|---|---|
+| `private` | Không thấy | Không thấy |
+| (default/package) | Thấy | Không thấy |
+| `protected` | Thấy | Thấy (qua kế thừa) |
+| `public` | Thấy | Thấy |
+
+- `private` chỉ dùng được bên trong chính lớp khai báo nó, kể cả lớp con cũng không truy cập trực tiếp được — muốn lớp con dùng thì phải để `protected` hoặc cung cấp getter/setter `public`/`protected`.
+- `protected` được thiết kế riêng cho mục đích kế thừa: lớp con ở bất kỳ package nào cũng truy cập được thành viên `protected` của lớp cha.
+
+</details>
+
+**6. "Composition over inheritance" (ưu tiên composition hơn kế thừa) nghĩa là gì? Vì sao nguyên tắc này được khuyến nghị?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Nguyên tắc khuyên: khi không thực sự là quan hệ "is-a" rõ ràng, nên cho một lớp **chứa** đối tượng khác (composition) thay vì kế thừa nó.
+
+Lý do:
+
+- Kế thừa tạo **coupling rất chặt** — sửa lớp cha có thể vô tình phá vỡ hành vi lớp con (fragile base class problem).
+- Kế thừa là quan hệ cố định lúc biên dịch; composition linh hoạt hơn, có thể **đổi hành vi lúc chạy** (ví dụ thay implementation của field chứa).
+- Kế thừa lộ toàn bộ API `public`/`protected` của lớp cha ra lớp con, kể cả phần không cần dùng; composition chỉ lộ ra những gì lớp bao ngoài chủ động expose.
+
+Ví dụ: thay vì `Stack extends Vector` (kế thừa sai — Stack không nên có toàn bộ method chèn/xóa tùy tiện của Vector), nên cho `Stack` **chứa** một `Deque` bên trong và chỉ expose `push()`/`pop()`.
+
+</details>
+
+**7. Đọc code sau — phương thức nào của `toString()` được gọi khi in `System.out.println(cho)`, và giải thích lý do.**
+
+```java
+public class DongVat {
+    @Override
+    public String toString() { return "Toi la dong vat"; }
+}
+
+public class Cho extends DongVat {
+    @Override
+    public String toString() { return "Toi la cho"; }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        DongVat dv = new Cho();
+        System.out.println(dv);
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+In ra **"Toi la cho"**. Dù biến `dv` có kiểu khai báo là `DongVat`, `println()` bên trong gọi `dv.toString()` — và vì `toString()` bị **override** (ghi đè), Java dùng **dynamic binding**: chọn phương thức theo kiểu **thực** của đối tượng (`Cho`), không phải kiểu khai báo. Đây chính là cơ chế đa hình kế thừa từ `Object.toString()`.
+
+</details>
+
+**8. Tình huống thiết kế: bạn cần mô hình hóa `NhanVien`, `NhanVienQuanLy` (Manager), và mỗi nhân viên có một `HopDongLaoDong` (hợp đồng lao động) riêng. Bạn sẽ dùng kế thừa ở đâu và composition ở đâu?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Kế thừa** cho `NhanVienQuanLy extends NhanVien`: một quản lý **là một** nhân viên (is-a), có thêm hành vi riêng như quản lý cấp dưới.
+- **Composition** cho quan hệ `NhanVien` — `HopDongLaoDong`: nhân viên **có một** hợp đồng (has-a), không phải "nhân viên là một hợp đồng". Nên cho `NhanVien` chứa field `HopDongLaoDong hopDong` thay vì kế thừa.
+
+Nguyên tắc chọn: chỉ kế thừa khi quan hệ thực sự "is-a" và lớp con cần **toàn bộ** hành vi công khai của lớp cha; còn lại nên composition để giảm coupling.
+
+</details>
+
+**9. `instanceof` và ép kiểu (downcasting) dùng để làm gì trong ngữ cảnh kế thừa? Rủi ro khi lạm dụng là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+DongVat dv = new Cho();
+if (dv instanceof Cho) {          // kiểm tra kiểu THỰC trước khi ép
+    Cho c = (Cho) dv;             // downcasting: từ lớp cha ép xuống lớp con
+    c.sua();                       // gọi được method riêng của Cho
+}
+```
+
+`instanceof` kiểm tra xem đối tượng có phải kiểu cụ thể nào đó không; downcasting để truy cập các phương thức **chỉ có ở lớp con**, không có ở lớp cha. Ép kiểu sai (không kiểm tra `instanceof` trước) ném `ClassCastException` lúc chạy.
+
+Rủi ro khi lạm dụng: nếu code thường xuyên phải `instanceof` + ép kiểu để rẽ nhánh theo từng loại lớp con, đó thường là dấu hiệu **thiết kế đa hình chưa tốt** — nên đưa hành vi đó thành một phương thức override ở lớp cha/con thay vì kiểm tra kiểu thủ công.
+
+</details>
+
+**10. Java 17 có tính năng `sealed class` liên quan tới kế thừa. Nó giải quyết vấn đề gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`sealed class` (lớp niêm phong, chính thức từ Java 17) cho phép lớp cha **giới hạn chính xác** danh sách lớp nào được phép kế thừa nó, khai báo qua từ khóa `permits`:
+
+```java
+public sealed class PhuongTien permits XeMay, MayBay { }
+```
+
+Vấn đề nó giải quyết: kế thừa thông thường cho phép **bất kỳ ai** cũng `extends` một lớp `public`, khiến tác giả lớp cha không kiểm soát được hết các lớp con có thể xuất hiện — gây khó khăn khi muốn `switch` pattern matching xử lý "đầy đủ mọi trường hợp" (exhaustiveness). Với `sealed`, compiler biết chính xác tập lớp con nên có thể kiểm tra tính đầy đủ của các nhánh xử lý.
+
+</details>

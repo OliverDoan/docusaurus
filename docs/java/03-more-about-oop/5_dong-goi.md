@@ -34,6 +34,7 @@ title: "5. Đóng gói (Encapsulation)"
 - [Quy ước đặt tên getter/setter](#quy-ước-đặt-tên-gettersetter)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -321,3 +322,119 @@ Tuân theo quy ước này giúp nhiều thư viện và công cụ Java tự đ
 - Lợi ích: kiểm soát truy cập, **bảo vệ dữ liệu**, dễ thay đổi sau này.
 - **Validation** trong setter chặn dữ liệu không hợp lệ ngay từ đầu.
 - Tuân theo quy ước đặt tên JavaBeans (`get`/`set`/`is`).
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Vì sao để thuộc tính (field) `public` bị coi là vi phạm nguyên tắc đóng gói? Hậu quả thực tế là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Field `public` cho phép **bất kỳ đoạn code nào** ở bất kỳ đâu gán trực tiếp giá trị, không qua bước kiểm tra nào — đối tượng có thể rơi vào trạng thái phi logic (số dư âm, tuổi âm...). Ngoài ra, mọi nơi dùng lớp đó đều **phụ thuộc trực tiếp vào tên và kiểu field**; sau này muốn đổi cách lưu trữ bên trong (ví dụ đổi từ `double` sang một kiểu tiền tệ riêng) sẽ phải sửa code ở **mọi nơi** đang truy cập field đó, rất dễ vỡ (breaking change). Encapsulation (field `private` + getter/setter) tránh cả hai vấn đề này.
+
+</details>
+
+**2. Khi nào bạn nên chỉ cung cấp getter mà KHÔNG cung cấp setter cho một thuộc tính?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Khi thuộc tính đó nên là **chỉ đọc** (read-only) sau khi khởi tạo — ví dụ `id`, ngày tạo (`createdAt`), hoặc bất kỳ giá trị nào không được phép thay đổi trong suốt vòng đời đối tượng. Chỉ cung cấp getter (không setter) là cách thể hiện **tính bất biến (immutability)** cho riêng thuộc tính đó: giá trị chỉ được gán một lần trong constructor, sau đó không ai sửa được nữa, giúp tránh side-effect ngoài ý muốn.
+
+</details>
+
+**3. Setter có validate và setter không validate khác nhau thế nào về mặt bảo vệ tính nhất quán (invariant) của đối tượng?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Setter không validate** chỉ đơn thuần gán giá trị (`this.x = x;`), tương đương với để field `public` về mặt an toàn dữ liệu — vẫn có thể gán giá trị phi logic.
+- **Setter có validate** kiểm tra điều kiện hợp lệ (ví dụ `if (soDu < 0) throw ...`) **trước khi** gán, đảm bảo đối tượng **luôn ở trạng thái hợp lệ** (invariant) tại mọi thời điểm — đây mới là giá trị thật sự của encapsulation, không chỉ là "ẩn field đi cho có hình thức".
+
+</details>
+
+**4. Quy ước JavaBeans (`getX()`, `setX()`, `isX()` cho boolean) quan trọng vì sao, ngoài việc dễ đọc?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Rất nhiều thư viện và framework Java (Spring, Jackson, JPA/Hibernate, JSP/JSF cũ...) dùng **reflection** để tự động dò tìm getter/setter theo đúng quy ước JavaBeans nhằm: chuyển đổi object sang JSON (`ObjectMapper`), ánh xạ dữ liệu từ form/request vào object, hoặc map cột database vào field. Nếu đặt tên sai quy ước (ví dụ `layTen()` thay vì `getTen()`), các công cụ này sẽ **không nhận diện được** thuộc tính đó, dẫn tới lỗi serialize/deserialize hoặc field bị bỏ sót.
+
+</details>
+
+**5. Đọc code sau — setter có hoạt động đúng không? Vì sao?**
+
+```java
+public class SanPham {
+    private double gia;
+
+    public void setGia(double gia) {
+        gia = gia; // không có this.
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không hoạt động đúng** — đây là lỗi rất phổ biến. Vì tham số của setter cũng tên `gia`, dòng `gia = gia;` chỉ đang **gán tham số cục bộ cho chính nó**, không hề đụng tới field `this.gia` của đối tượng. Kết quả: field `gia` của object luôn giữ giá trị mặc định (`0.0`), dù gọi `setGia(100)` bao nhiêu lần. Cách sửa: phải viết `this.gia = gia;` để phân biệt rõ field (`this.gia`) với tham số (`gia`).
+
+</details>
+
+**6. Đóng gói (encapsulation) và tính bất biến (immutability) liên hệ với nhau thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Immutability có thể xem là **hình thức đóng gói triệt để nhất**: thay vì chỉ kiểm soát việc ghi qua setter có validate, ta **loại bỏ hoàn toàn khả năng ghi** sau khi tạo — mọi field là `private final`, không có setter nào cả, muốn "thay đổi" phải tạo đối tượng mới (giống cách `record` hoạt động). Điều này triệt tiêu hoàn toàn rủi ro dữ liệu bị sửa lén từ nơi khác, đơn giản hoá việc suy luận về trạng thái đối tượng, và an toàn hơn khi chia sẻ giữa nhiều luồng (thread) vì không có ai ghi đè được.
+
+</details>
+
+**7. "Defensive copy" (sao chép phòng thủ) là gì và liên quan gì tới encapsulation khi field là kiểu tham chiếu như `List` hoặc `Date`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Nếu getter trả về **trực tiếp tham chiếu** tới một field kiểu mutable (như `List`, mảng, `Date` cũ), người gọi có thể sửa nội dung của nó từ bên ngoài mà không qua bất kỳ setter nào — phá vỡ encapsulation dù field là `private`:
+
+```java
+public List<String> getDanhSach() {
+    return danhSach; // rò rỉ tham chiếu — bên ngoài sửa được list gốc!
+}
+```
+
+**Defensive copy** là trả về (hoặc nhận vào ở constructor) một **bản sao độc lập** thay vì tham chiếu gốc:
+
+```java
+public List<String> getDanhSach() {
+    return new ArrayList<>(danhSach); // bản sao — sửa nó không ảnh hưởng field gốc
+}
+```
+
+Đây là kỹ thuật cần thiết để encapsulation thực sự hiệu quả với các kiểu dữ liệu có thể thay đổi được (mutable).
+
+</details>
+
+**8. Tình huống: bạn thiết kế `TaiKhoanNganHang` với field `soDu`. Vì sao nên cung cấp các phương thức nghiệp vụ như `napTien(soTien)`, `rutTien(soTien)` thay vì chỉ để `getSoDu()`/`setSoDu(giaTri)` chung chung?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Setter chung chung như `setSoDu(giaTri)` chỉ kiểm tra được điều kiện đơn giản (ví dụ "không âm"), nhưng **không mô tả được nghiệp vụ thực tế** và dễ bị dùng sai — ai cũng có thể gọi `setSoDu(1000000)` để "hô biến" ra tiền mà không qua giao dịch thật.
+
+Phương thức nghiệp vụ như `rutTien(soTien)` gói cả **quy tắc nghiệp vụ** vào một chỗ: kiểm tra `soTien > 0`, kiểm tra `soTien <= soDu`, rồi mới trừ tiền — thể hiện đúng ý nghĩa hành động ("rút tiền" chứ không phải "gán số dư tùy ý"), và là nơi duy nhất được phép thay đổi `soDu` nên dễ đảm bảo tính nhất quán, dễ ghi log/audit giao dịch. Đây là encapsulation ở mức nghiệp vụ, không chỉ ở mức kỹ thuật field/getter/setter.
+
+</details>
+
+**9. Nếu muốn lớp con truy cập trực tiếp được thuộc tính của lớp cha, nhưng vẫn giấu khỏi code bên ngoài không liên quan, bạn dùng access modifier nào? Vì sao không dùng `private` hay `public`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Dùng **`protected`**. `private` sẽ chặn luôn cả lớp con (lớp con không thấy được thành viên `private` của lớp cha dù có kế thừa), còn `public` thì lộ ra cho mọi code bên ngoài — vi phạm mục tiêu che giấu dữ liệu ban đầu. `protected` là điểm cân bằng: cho phép lớp con (dù ở package khác) truy cập trực tiếp để tái sử dụng và mở rộng logic, nhưng vẫn chặn code không liên quan (không phải lớp con) truy cập tùy tiện từ bên ngoài.
+
+</details>

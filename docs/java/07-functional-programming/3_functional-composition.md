@@ -35,6 +35,7 @@ Kết hợp hàm (functional composition) là việc ghép nhiều hàm nhỏ l�
 - [Kết hợp Consumer với andThen](#kết-hợp-consumer-với-andthen)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -289,3 +290,180 @@ public class ConsumerCompositionDemo {
 - **`Predicate`** ghép bằng **`and`** (và), **`or`** (hoặc), **`negate`** (phủ định) để tạo điều kiện phức tạp rõ ràng.
 - **`Consumer`** ghép bằng **`andThen`** để chạy nhiều hành vi liên tiếp trên cùng một giá trị.
 - Mọi phép kết hợp đều tạo ra **hàm mới**, không làm thay đổi hàm gốc.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. `andThen` và `compose` của `Function` khác nhau ở điểm nào? Cho ví dụ minh họa bằng số cụ thể.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `a.andThen(b)`: chạy `a` **trước**, lấy kết quả làm đầu vào cho `b` — đọc xuôi trái sang phải.
+- `a.compose(b)`: chạy `b` **trước**, lấy kết quả làm đầu vào cho `a` — giống cách toán học viết `f(g(x))`, hàm trong ngoặc chạy trước.
+
+```java
+Function<Integer, Integer> doubleIt = x -> x * 2;
+Function<Integer, Integer> addThree = x -> x + 3;
+
+doubleIt.andThen(addThree).apply(5); // (5*2)+3 = 13
+doubleIt.compose(addThree).apply(5); // (5+3)*2 = 16
+```
+
+</details>
+
+**2. Đoạn code sau in ra gì? Giải thích từng bước.**
+
+```java
+Function<String, String> trim = String::trim;
+Function<String, Integer> length = String::length;
+Function<String, Integer> pipeline = trim.andThen(length);
+System.out.println(pipeline.apply("  hello  "));
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+In ra `5`.
+
+- `trim.andThen(length)` tạo ra một `Function<String, Integer>` mới: đầu vào chạy qua `trim` trước, kết quả của `trim` lại chạy tiếp qua `length`.
+- `"  hello  "` → `trim()` → `"hello"` → `length()` → `5`.
+- Đây là ví dụ cho thấy `andThen` có thể ghép hai hàm có **kiểu trả về khác nhau** (`Function<String, String>` nối với `Function<String, Integer>`), miễn là kiểu đầu ra của hàm trước khớp với kiểu đầu vào của hàm sau.
+
+</details>
+
+**3. Vì sao `a.andThen(b)` không làm thay đổi `a` hay `b`? Đoạn code sau có lỗi logic gì?**
+
+```java
+Function<Integer, Integer> doubleIt = x -> x * 2;
+Function<Integer, Integer> addThree = x -> x + 3;
+doubleIt.andThen(addThree);
+System.out.println(doubleIt.apply(5));
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+In ra `10`, không phải `13` như người viết code có thể kỳ vọng nhầm.
+
+- `andThen()` (và `compose()`) là các phương thức **thuần túy (pure)** theo tinh thần lập trình hàm — chúng không sửa đổi (mutate) đối tượng `doubleIt` hay `addThree` gốc, mà **luôn tạo ra và trả về một `Function` hoàn toàn mới**.
+- Dòng `doubleIt.andThen(addThree);` tạo ra một hàm mới nhưng **không gán vào đâu cả** — kết quả bị bỏ đi ngay lập tức, không có tác dụng gì.
+- `doubleIt` vẫn là hàm gốc `x -> x * 2`, nên `doubleIt.apply(5)` vẫn trả về `10`.
+- Cách sửa đúng: `Function<Integer, Integer> combined = doubleIt.andThen(addThree);` rồi gọi `combined.apply(5)`.
+
+</details>
+
+**4. `Predicate.and()`, `or()`, `negate()` hoạt động thế nào? Đoạn code sau in ra gì?**
+
+```java
+Predicate<Integer> isPositive = n -> n > 0;
+Predicate<Integer> isEven = n -> n % 2 == 0;
+Predicate<Integer> ketQua = isPositive.and(isEven).negate();
+System.out.println(ketQua.test(4));
+System.out.println(ketQua.test(-3));
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+In ra `false` rồi `true`.
+
+- `isPositive.and(isEven)` tạo ra một `Predicate` mới: chỉ `true` khi **cả hai** điều kiện đều đúng (dương VÀ chẵn).
+- `.negate()` đảo ngược kết quả của toàn bộ biểu thức `and` đó: `true` thành `false` và ngược lại.
+- Với `4`: `isPositive.and(isEven)` là `true` (dương và chẵn) → `negate()` → `false`.
+- Với `-3`: `isPositive.and(isEven)` là `false` (không dương, không chẵn) → `negate()` → `true`.
+- Lưu ý thứ tự áp dụng: `and()` được tính trước, `negate()` áp dụng lên **kết quả cuối cùng** của toàn biểu thức `and`, không phải chỉ lên `isEven`.
+
+</details>
+
+**5. `Consumer.andThen()` khác `Function.andThen()` ở điểm nào về cách xử lý dữ liệu?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `Function.andThen()`: đầu ra của hàm trước **trở thành đầu vào** của hàm sau — dữ liệu được biến đổi qua từng bước (khác kiểu hoặc khác giá trị ở mỗi bước).
+- `Consumer.andThen()`: cả hai `Consumer` đều nhận **cùng một giá trị đầu vào gốc**, chạy tuần tự lần lượt (không có khái niệm "kết quả" để truyền tiếp, vì `Consumer` không trả về gì).
+
+```java
+Consumer<String> inHoa = s -> System.out.println(s.toUpperCase());
+Consumer<String> inDoDai = s -> System.out.println(s.length());
+
+Consumer<String> ca_hai = inHoa.andThen(inDoDai);
+ca_hai.accept("hello"); // cả inHoa và inDoDai đều nhận "hello" làm đầu vào, không phải kết quả của nhau
+```
+
+</details>
+
+**6. Vì sao nói `Function.compose()` và `Function.andThen()` đều dựa trên nguyên lý toán học của "hàm hợp" (function composition)? Viết `f.compose(g)` tương đương biểu thức toán học nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Trong toán học, "hàm hợp" của `f` và `g`, ký hiệu `(f ∘ g)(x)`, được định nghĩa là `f(g(x))` — tức là áp dụng `g` trước, rồi lấy kết quả đưa vào `f`.
+
+- `f.compose(g)` trong Java tương ứng chính xác với `(f ∘ g)(x) = f(g(x))`: `g` chạy trước, `f` chạy sau.
+- `f.andThen(g)` tương đương `(g ∘ f)(x) = g(f(x))`: `f` chạy trước, `g` chạy sau — tức là hàm hợp theo chiều **ngược lại** so với `compose`.
+- Việc Java cung cấp cả hai (`andThen` đọc xuôi tự nhiên theo code, `compose` đúng quy ước toán học) là để lập trình viên chọn cách viết dễ đọc nhất theo ngữ cảnh, mà không mất đi ý nghĩa toán học chuẩn.
+
+</details>
+
+**7. Vì sao nên chia một phép biến đổi phức tạp thành nhiều hàm nhỏ rồi ghép lại bằng composition, thay vì viết trực tiếp một hàm lớn làm hết mọi việc?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Dễ test từng phần (unit test độc lập)**: mỗi hàm nhỏ chỉ làm một việc, có thể viết test riêng cho từng bước, dễ xác định lỗi nằm ở bước nào khi có sai sót.
+- **Dễ tái sử dụng**: một hàm nhỏ như `trim` hay `toLowerCase` có thể dùng lại trong nhiều pipeline khác nhau, không phải copy-paste logic.
+- **Dễ đọc, đúng nguyên tắc Single Responsibility**: đọc `trim.andThen(lower).andThen(noSpace)` gần như đọc một câu tiếng Anh mô tả các bước xử lý, thay vì phải đọc và hiểu toàn bộ logic lồng nhau trong một hàm khổng lồ.
+- Đánh đổi: ghép quá nhiều hàm nhỏ trên cùng một dòng dài cũng có thể khó đọc — nên đặt tên rõ ràng cho các bước trung gian khi pipeline dài.
+
+</details>
+
+**8. `UnaryOperator<T>` khác `Function<T, T>` ở điểm nào? Vì sao nó tồn tại như một interface riêng?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Về mặt chữ ký, `UnaryOperator<T>` (kế thừa `Function<T, T>`) có cùng ý nghĩa với `Function<T, T>`: nhận vào và trả về **cùng một kiểu** `T`.
+- Sự khác biệt chủ yếu là **ngữ nghĩa (semantic) và tính rõ ràng khi đọc code**: `UnaryOperator<T>` nói rõ ngay từ khai báo rằng "đây là một phép biến đổi giữ nguyên kiểu" (ví dụ `String -> String`, dùng cho các thao tác như chuẩn hóa chuỗi), thay vì phải nhìn cả hai tham số generic của `Function<T, T>` để nhận ra điều đó.
+- Trong thực tế, `List.replaceAll(UnaryOperator<E> operator)` là một ví dụ dùng `UnaryOperator` thay vì `Function` chung chung, vì ngữ nghĩa "thay thế phần tử bằng giá trị cùng kiểu" khớp chính xác với `UnaryOperator`.
+
+</details>
+
+**9. Trong Stream API, phương thức nào thể hiện rõ nhất tinh thần function composition? Cho ví dụ.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+List<String> ketQua = danhSach.stream()
+    .map(String::trim)
+    .map(String::toLowerCase)
+    .filter(s -> !s.isEmpty())
+    .toList();
+```
+
+- Mỗi lời gọi `.map()`/`.filter()` liên tiếp trong Stream pipeline chính là một dạng **function composition tường minh**: đầu ra của bước trước (sau `map(String::trim)`) trở thành đầu vào của bước sau (`map(String::toLowerCase)`), tương tự cách `andThen()` nối các `Function` lại với nhau.
+- Về bản chất, Stream API được xây dựng hoàn toàn trên nền tảng functional composition — đây là lý do bài học về `andThen`/`compose`/`and`/`or`/`negate` là kiến thức nền tảng bắt buộc trước khi học sâu Stream API.
+
+</details>
+
+**10. Nêu một rủi ro khi ghép quá nhiều hàm liên tiếp trong một pipeline dài (ví dụ 8-10 bước andThen). Cách khắc phục?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Rủi ro chính:
+
+- **Khó đọc và khó debug**: khi pipeline dài, nếu kết quả sai, khó xác định ngay bước nào trong chuỗi gây ra lỗi, vì tất cả nằm trên một biểu thức liên tiếp không có điểm dừng trung gian để kiểm tra (inspect).
+- **Stack trace khó theo dõi**: nếu một bước ném exception, stack trace chỉ ra lỗi nằm "đâu đó trong lambda", không rõ ràng bằng việc có tên hàm cụ thể.
+
+Cách khắc phục:
+
+- **Đặt tên có ý nghĩa cho các bước trung gian**: thay vì ghép hết trên một dòng, gán từng cụm nhỏ vào biến có tên rõ ràng (`Function<String, String> chuanHoaVanBan = trim.andThen(lower);`), rồi ghép các biến đã đặt tên đó lại.
+- **Giới hạn độ dài pipeline hợp lý** (ví dụ 3-5 bước), tách thành nhiều pipeline con có tên nghiệp vụ rõ ràng nếu logic quá phức tạp.
+
+</details>

@@ -34,6 +34,7 @@ Annotation (chú thích) là một dạng "nhãn dán" metadata mà bạn gắn 
 - [Annotation trong các framework](#annotation-trong-các-framework)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -281,3 +282,181 @@ flowchart TD
 - Bạn có thể **tự tạo** annotation bằng `@interface`.
 - **Retention** quyết định vòng đời (`SOURCE`, `CLASS`, `RUNTIME`); **`@Target`** quyết định vị trí áp dụng.
 - Các framework như **Spring, JUnit, JPA** dùng annotation rất nhiều để cấu hình gọn gàng.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Annotation là gì? Bản thân annotation có tự thay đổi hành vi chương trình không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Annotation** (chú thích) là một dạng "nhãn dán" metadata (siêu dữ liệu) gắn vào lớp, phương thức, biến, tham số..., luôn bắt đầu bằng ký hiệu `@`.
+
+- **Không**, bản thân annotation **không tự thay đổi** cách code chạy. Nó chỉ cung cấp thông tin để compiler, công cụ, hoặc framework **đọc và xử lý** (thường qua Reflection lúc chạy).
+- Ví dụ: `@Entity` trên một class tự nó không làm gì cả — phải có Hibernate/JPA quét annotation này và tạo ra hành vi ánh xạ tới bảng dữ liệu tương ứng.
+
+</details>
+
+**2. Nêu công dụng của bốn annotation có sẵn thường gặp: `@Override`, `@Deprecated`, `@FunctionalInterface`, `@SuppressWarnings`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Annotation | Công dụng |
+|---|---|
+| `@Override` | Báo compiler kiểm tra phương thức có thực sự ghi đè phương thức lớp cha/interface không; gõ sai tên/tham số sẽ báo lỗi ngay thay vì âm thầm tạo ra một phương thức mới. |
+| `@Deprecated` | Đánh dấu thành phần đã lỗi thời, cảnh báo không nên dùng vì có thể bị xóa trong tương lai. |
+| `@FunctionalInterface` | Đánh dấu interface chỉ có đúng một phương thức trừu tượng; compiler báo lỗi nếu ai đó vô tình thêm phương thức trừu tượng thứ hai, phá vỡ khả năng dùng lambda. |
+| `@SuppressWarnings` | Yêu cầu compiler bỏ qua một số cảnh báo cụ thể (ví dụ `"unchecked"`), tránh làm nhiễu log build với cảnh báo đã biết và chấp nhận được. |
+
+</details>
+
+**3. `@Retention` là gì? Phân biệt ba giá trị của `RetentionPolicy`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`@Retention` (vòng đời lưu giữ) quy định annotation tồn tại đến giai đoạn nào trong vòng đời biên dịch/chạy:
+
+| `RetentionPolicy` | Tồn tại đến khi nào | Ví dụ |
+|---|---|---|
+| `SOURCE` | Chỉ trong mã nguồn, bị bỏ khi biên dịch | `@Override`, `@SuppressWarnings` |
+| `CLASS` (mặc định) | Trong file `.class` nhưng JVM không nạp lúc chạy | Ít dùng trực tiếp, chủ yếu cho công cụ phân tích bytecode |
+| `RUNTIME` | Còn tồn tại lúc chương trình chạy, đọc được bằng Reflection | `@Entity`, `@Autowired`, `@Test` |
+
+- Các framework như Spring, JUnit, JPA **luôn** dùng `RUNTIME` vì chúng cần quét annotation bằng Reflection khi ứng dụng khởi động hoặc chạy.
+
+</details>
+
+**4. `@Target` dùng để làm gì? Kể tên vài giá trị `ElementType` thường gặp.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`@Target` xác định annotation được phép gắn ở **vị trí nào** trong code. Nếu gắn sai vị trí không được cho phép, compiler sẽ báo lỗi.
+
+Một số `ElementType` thường gặp:
+
+- `TYPE` — lớp, interface, enum.
+- `METHOD` — phương thức.
+- `FIELD` — biến thành viên (field).
+- `PARAMETER` — tham số phương thức.
+- `CONSTRUCTOR` — hàm dựng.
+
+```java
+@Target({ElementType.METHOD, ElementType.FIELD}) // cho phép cả hai vị trí
+@interface KiemTra {
+}
+```
+
+</details>
+
+**5. Viết một annotation tùy chỉnh có phần tử bắt buộc và phần tử có giá trị mặc định. Cú pháp `@interface` khác gì so với `interface` thường?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@interface ThongTinApi {
+    String phienBan();                 // Phần tử BẮT BUỘC — phải truyền khi dùng
+    String moTa() default "Không có";  // Phần tử có giá trị MẶC ĐỊNH — có thể bỏ qua
+}
+
+@ThongTinApi(phienBan = "1.0") // moTa dùng giá trị mặc định "Không có"
+class NguoiDungController {
+}
+```
+
+- `@interface` định nghĩa một **loại annotation**, không phải interface thông thường — các "phương thức" khai báo bên trong thực chất là **các phần tử (element)**, giống như tham số có tên.
+- Nếu phần tử không có `default`, người dùng annotation **bắt buộc** phải truyền giá trị, nếu không sẽ lỗi biên dịch.
+
+</details>
+
+**6. Phân biệt hai cách một annotation có thể được xử lý: annotation processing lúc biên dịch (compile-time) và đọc qua Reflection lúc chạy (runtime).**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| | Compile-time (Annotation Processing / APT) | Runtime (Reflection) |
+|---|---|---|
+| Thời điểm xử lý | Trong lúc biên dịch, trước khi sinh bytecode | Sau khi chương trình đã chạy |
+| Yêu cầu Retention | `SOURCE` hoặc `CLASS` là đủ | Bắt buộc `RUNTIME` |
+| Ví dụ công cụ | Lombok (sinh getter/setter), MapStruct (sinh code mapper), `javac`'s `@Override` check | Spring (`@Autowired`, `@Component`), JUnit (`@Test`), JPA/Hibernate (`@Entity`) |
+| Ưu điểm | Sinh code thật lúc build, **không tốn chi phí Reflection lúc chạy** | Linh hoạt hơn, không cần bước build riêng, dễ áp dụng cho ứng dụng đã đóng gói |
+| Nhược điểm | Cần công cụ xử lý annotation riêng, phức tạp khi tự viết | Chậm hơn một chút do chi phí Reflection, lỗi cấu hình chỉ phát hiện lúc chạy |
+
+</details>
+
+**7. Đoạn code sau có biên dịch được không? Vì sao?**
+
+```java
+@Target(ElementType.METHOD)
+@interface ChiDanhChoMethod {
+}
+
+@ChiDanhChoMethod // Gắn lên một CLASS, không phải method
+class ViDu {
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không biên dịch được.** Annotation `ChiDanhChoMethod` khai báo `@Target(ElementType.METHOD)`, nghĩa là nó **chỉ được phép** gắn lên phương thức. Việc gắn nó lên khai báo `class ViDu` (một `TYPE`, không phải `METHOD`) vi phạm ràng buộc `@Target`, nên compiler báo lỗi ngay tại vị trí sử dụng sai — đây chính là lợi ích của `@Target`: bắt lỗi sử dụng sai sớm, ngay lúc biên dịch, thay vì để annotation bị dùng tùy tiện rồi gây lỗi khó hiểu lúc chạy.
+
+</details>
+
+**8. Mô tả (ở mức khái niệm) luồng hoạt động khi Spring quét và xử lý annotation như `@Component`/`@Autowired` lúc khởi động ứng dụng.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+1. **Quét package (component scan)**: Spring dò qua các package được cấu hình, tìm các class có annotation đánh dấu như `@Component`, `@Service`, `@Repository`, `@RestController`.
+2. **Đọc annotation bằng Reflection**: với mỗi class tìm thấy, Spring dùng Reflection để đọc annotation gắn trên class, constructor, field, method (annotation này phải có `@Retention(RUNTIME)` mới đọc được lúc chạy).
+3. **Tạo bean**: Spring gọi constructor (hoặc factory method) để tạo instance — đây là nơi diễn ra Dependency Injection: nếu constructor có tham số, Spring tìm bean phù hợp để tiêm vào (dựa trên annotation `@Autowired` hoặc tự động từ Java 4.3+ nếu chỉ có một constructor).
+4. **Lưu vào IoC Container**: bean được lưu vào container để tái sử dụng và tiêm cho các bean khác cần đến.
+5. **Ánh xạ hành vi khác**: với `@RestController`/`@GetMapping`, Spring còn đọc annotation để đăng ký ánh xạ URL tới đúng phương thức xử lý.
+
+Annotation ở đây đóng vai trò "khai báo ý định", còn Spring Container là nơi thực sự đọc và biến ý định đó thành hành vi.
+
+</details>
+
+**9. `@Repeatable` (Java 8) giải quyết vấn đề gì? Cho ví dụ.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Trước Java 8, mỗi phần tử code chỉ được gắn **một lần** cho mỗi loại annotation. `@Repeatable` cho phép gắn **nhiều annotation cùng loại** lên cùng một vị trí.
+
+```java
+import java.lang.annotation.Repeatable;
+
+@Repeatable(LichLamViecs.class) // annotation "chứa" bắt buộc phải khai báo trước
+@interface LichLamViec {
+    String thu();
+}
+
+@interface LichLamViecs {
+    LichLamViec[] value(); // annotation gom nhiều LichLamViec lại thành mảng
+}
+
+@LichLamViec(thu = "Thứ 2")
+@LichLamViec(thu = "Thứ 4") // Gắn LẶP LẠI annotation cùng loại — chỉ hợp lệ nhờ @Repeatable
+class NhanVien {
+}
+```
+
+- Ứng dụng thực tế: định nghĩa nhiều ràng buộc validate trên cùng một field, hoặc khai báo nhiều lịch/nhiều vai trò cho cùng một phần tử mà không cần gộp thủ công vào một mảng khi khai báo.
+
+</details>

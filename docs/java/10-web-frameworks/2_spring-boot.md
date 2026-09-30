@@ -39,15 +39,13 @@ Spring là framework Java phổ biến nhất thế giới để xây ứng dụ
 - [File application.properties](#file-applicationproperties)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
 ## Vì sao có Spring Boot?
 
-**Vấn đề:** Spring Framework rất mạnh nhưng cấu hình thủ công cực kỳ nặng nề. Bạn
-phải viết hàng đống XML/bean, tự tay chọn version từng thư viện sao cho tương thích
-với nhau, rồi tự cấu hình và deploy ứng dụng lên một server riêng (ví dụ Tomcat).
-Chỉ riêng việc khởi tạo một dự án chạy được đã mất nhiều ngày và rất dễ sai.
+**Vấn đề:** Spring Framework rất mạnh nhưng cấu hình thủ công cực kỳ nặng nề. Bạn phải viết hàng đống XML/bean, tự tay chọn version từng thư viện sao cho tương thích với nhau, rồi tự cấu hình và deploy ứng dụng lên một server riêng (ví dụ Tomcat). Chỉ riêng việc khởi tạo một dự án chạy được đã mất nhiều ngày và rất dễ sai.
 
 ```xml
 <!-- Spring thuần: tự khai báo từng bean, tự dò version thư viện -->
@@ -67,14 +65,11 @@ Chỉ riêng việc khởi tạo một dự án chạy được đã mất nhi�
 </beans>
 ```
 
-**Giải pháp:** **Spring Boot** áp dụng triết lý "convention over configuration"
-(quy ước hơn cấu hình) với ba điểm cốt lõi:
+**Giải pháp:** **Spring Boot** áp dụng triết lý "convention over configuration" (quy ước hơn cấu hình) với ba điểm cốt lõi:
 
 - **Auto-configuration**: tự cấu hình hợp lý dựa trên những thư viện đang có mặt.
-- **Starter dependency**: mỗi `starter` gói sẵn một bộ thư viện đã chọn version
-  tương thích, bạn không phải tự dò.
-- **Server nhúng** (embedded server): server web nằm luôn trong ứng dụng, chỉ cần
-  `java -jar` là chạy, không cần cài Tomcat riêng.
+- **Starter dependency**: mỗi `starter` gói sẵn một bộ thư viện đã chọn version tương thích, bạn không phải tự dò.
+- **Server nhúng** (embedded server): server web nằm luôn trong ứng dụng, chỉ cần `java -jar` là chạy, không cần cài Tomcat riêng.
 
 ```java
 // Cả ứng dụng web chạy được chỉ với 1 starter + 1 class này
@@ -98,21 +93,15 @@ class HelloController {
 ```
 
 :::tip[Dùng thực tế]
-- **Dựng REST API nhanh**: thêm `spring-boot-starter-web` và một `@RestController`
-  là có ngay API, không phải cấu hình servlet hay view resolver thủ công.
-- **Chạy jar độc lập**: đóng gói thành một file `.jar` có server nhúng, deploy bằng
-  `java -jar app.jar` trên bất kỳ máy nào có Java — không cần cài Tomcat riêng.
-- **Thêm tính năng bằng starter**: cần database thì thêm `starter-data-jpa`, cần
-  bảo mật thì thêm `starter-security` — mỗi starter tự kéo bộ thư viện tương thích.
-- **Cấu hình tập trung**: chỉnh cổng, kết nối database, log... qua một file
-  `application.yml` (hoặc `application.properties`) duy nhất.
+- **Dựng REST API nhanh**: thêm `spring-boot-starter-web` và một `@RestController` là có ngay API, không phải cấu hình servlet hay view resolver thủ công.
+- **Chạy jar độc lập**: đóng gói thành một file `.jar` có server nhúng, deploy bằng `java -jar app.jar` trên bất kỳ máy nào có Java — không cần cài Tomcat riêng.
+- **Thêm tính năng bằng starter**: cần database thì thêm `starter-data-jpa`, cần bảo mật thì thêm `starter-security` — mỗi starter tự kéo bộ thư viện tương thích.
+- **Cấu hình tập trung**: chỉnh cổng, kết nối database, log... qua một file `application.yml` (hoặc `application.properties`) duy nhất.
 :::
 
 ## Spring là gì?
 
-**Spring** (tên đầy đủ là Spring Framework) là framework Java phổ biến nhất thế giới
-để xây dựng ứng dụng phía server (backend). Nó ra đời năm 2003 và đến nay vẫn là lựa
-chọn số một khi đi làm.
+**Spring** (tên đầy đủ là Spring Framework) là framework Java phổ biến nhất thế giới để xây dựng ứng dụng phía server (backend). Nó ra đời năm 2003 và đến nay vẫn là lựa chọn số một khi đi làm.
 
 Spring rất mạnh nhưng cũng rất lớn. Nó gồm nhiều phần (gọi là **module** — mô-đun):
 
@@ -123,38 +112,28 @@ Spring rất mạnh nhưng cũng rất lớn. Nó gồm nhiều phần (gọi l�
 
 ## Vấn đề của Spring thuần và sự ra đời của Spring Boot
 
-Ngày xưa, dùng Spring thuần rất cực: bạn phải viết hàng trăm dòng cấu hình (XML hoặc
-Java) chỉ để chạy được một ứng dụng đơn giản. Phải khai báo từng thứ một, dễ sai và
-mất thời gian.
+Ngày xưa, dùng Spring thuần rất cực: bạn phải viết hàng trăm dòng cấu hình (XML hoặc Java) chỉ để chạy được một ứng dụng đơn giản. Phải khai báo từng thứ một, dễ sai và mất thời gian.
 
-**Spring Boot** ra đời để giải quyết điều đó. Cái tên "Boot" nghĩa là "khởi động" —
-nó giúp bạn khởi động một ứng dụng Spring cực nhanh với rất ít cấu hình. Triết lý của
-Spring Boot là:
+**Spring Boot** ra đời để giải quyết điều đó. Cái tên "Boot" nghĩa là "khởi động" — nó giúp bạn khởi động một ứng dụng Spring cực nhanh với rất ít cấu hình. Triết lý của Spring Boot là:
 
-> **Convention over Configuration** (quy ước hơn cấu hình): thay vì bắt bạn khai báo
-> mọi thứ, Spring Boot tự đoán những gì hợp lý nhất. Bạn chỉ cần khai báo khi muốn
-> làm khác đi.
+> **Convention over Configuration** (quy ước hơn cấu hình): thay vì bắt bạn khai báo mọi thứ, Spring Boot tự đoán những gì hợp lý nhất. Bạn chỉ cần khai báo khi muốn làm khác đi.
 
-Ví dụ: Spring Boot mặc định chạy ở cổng `8080`, mặc định tìm file cấu hình tên
-`application.properties`. Bạn không cần khai báo gì, nó vẫn chạy.
+Ví dụ: Spring Boot mặc định chạy ở cổng `8080`, mặc định tìm file cấu hình tên `application.properties`. Bạn không cần khai báo gì, nó vẫn chạy.
 
 ## Auto-configuration là gì?
 
-**Auto-configuration** (tự động cấu hình) là tính năng cốt lõi của Spring Boot. Nó
-tự động thiết lập mọi thứ dựa trên những thư viện bạn thêm vào dự án.
+**Auto-configuration** (tự động cấu hình) là tính năng cốt lõi của Spring Boot. Nó tự động thiết lập mọi thứ dựa trên những thư viện bạn thêm vào dự án.
 
 Hãy hiểu đơn giản: Spring Boot nhìn vào dự án của bạn và "đoán":
 
 - "À, dự án này có thư viện web → mình tự khởi động server web cho họ."
 - "À, dự án này có thư viện database MySQL → mình tự thiết lập kết nối database."
 
-Nhờ vậy bạn không phải viết code thiết lập thủ công. Đây chính là lý do Spring Boot
-được yêu thích: viết ít, làm được nhiều.
+Nhờ vậy bạn không phải viết code thiết lập thủ công. Đây chính là lý do Spring Boot được yêu thích: viết ít, làm được nhiều.
 
 ## Tạo dự án Spring Boot đầu tiên
 
-Cách dễ nhất để tạo dự án là dùng **Spring Initializr** (công cụ tạo dự án online tại
-địa chỉ `start.spring.io`). Bạn chọn:
+Cách dễ nhất để tạo dự án là dùng **Spring Initializr** (công cụ tạo dự án online tại địa chỉ `start.spring.io`). Bạn chọn:
 
 - **Project**: Maven hoặc Gradle (công cụ quản lý thư viện và build dự án).
 - **Language**: Java.
@@ -184,8 +163,7 @@ Chạy hàm `main` này là server đã chạy ở `http://localhost:8080`. Đơ
 
 ## Cấu trúc một ứng dụng Spring Boot
 
-Một ứng dụng Spring Boot thường được chia thành các tầng (layer — lớp) để code gọn
-gàng, mỗi tầng lo một việc:
+Một ứng dụng Spring Boot thường được chia thành các tầng (layer — lớp) để code gọn gàng, mỗi tầng lo một việc:
 
 ```
 Controller (tầng tiếp nhận)  ->  nhận request, trả response
@@ -222,9 +200,7 @@ sequenceDiagram
 
 ## Viết REST API đầu tiên với @RestController
 
-**@RestController** (bộ điều khiển kiểu REST) là một **annotation** (chú thích — một
-thẻ đánh dấu bắt đầu bằng `@` để báo cho Spring biết vai trò của class) đánh dấu rằng
-class này chuyên xử lý các request và trả về dữ liệu (thường là JSON).
+**@RestController** (bộ điều khiển kiểu REST) là một **annotation** (chú thích — một thẻ đánh dấu bắt đầu bằng `@` để báo cho Spring biết vai trò của class) đánh dấu rằng class này chuyên xử lý các request và trả về dữ liệu (thường là JSON).
 
 ```java
 package com.example.demo;
@@ -245,8 +221,7 @@ public class HelloController {
 }
 ```
 
-Chạy ứng dụng rồi mở trình duyệt vào `http://localhost:8080/hello`, bạn sẽ thấy dòng
-chữ "Xin chào từ Spring Boot!". Bạn vừa viết xong API đầu tiên!
+Chạy ứng dụng rồi mở trình duyệt vào `http://localhost:8080/hello`, bạn sẽ thấy dòng chữ "Xin chào từ Spring Boot!". Bạn vừa viết xong API đầu tiên!
 
 ## @GetMapping và @PostMapping
 
@@ -282,19 +257,15 @@ public class ProductController {
 
 Một số annotation hữu ích để đọc dữ liệu từ request:
 
-- **@PathVariable** (biến trong đường dẫn): lấy giá trị từ URL, ví dụ `/products/5`
-  thì `5` là path variable.
-- **@RequestParam** (tham số truy vấn): lấy giá trị sau dấu `?`, ví dụ
-  `/products?page=2` thì `page` là request param.
+- **@PathVariable** (biến trong đường dẫn): lấy giá trị từ URL, ví dụ `/products/5` thì `5` là path variable.
+- **@RequestParam** (tham số truy vấn): lấy giá trị sau dấu `?`, ví dụ `/products?page=2` thì `page` là request param.
 - **@RequestBody** (phần thân request): lấy dữ liệu JSON trong body, thường khi POST.
 
 ## Dependency Injection là gì?
 
-**Dependency Injection** (DI — tiêm phụ thuộc) là một khái niệm quan trọng nhất của
-Spring. Nghe khó nhưng ý tưởng rất đời thường.
+**Dependency Injection** (DI — tiêm phụ thuộc) là một khái niệm quan trọng nhất của Spring. Nghe khó nhưng ý tưởng rất đời thường.
 
-**Dependency** (phụ thuộc) nghĩa là một đối tượng cần một đối tượng khác để làm việc.
-Ví dụ `Controller` cần `Service` để xử lý logic.
+**Dependency** (phụ thuộc) nghĩa là một đối tượng cần một đối tượng khác để làm việc. Ví dụ `Controller` cần `Service` để xử lý logic.
 
 Cách thông thường (không có DI): bạn tự tạo đối tượng cần dùng.
 
@@ -305,8 +276,7 @@ public class UserController {
 }
 ```
 
-Cách dùng DI: bạn **không tự tạo**, mà nhờ Spring tạo sẵn rồi "tiêm" (inject) vào cho
-bạn. Giống như bạn không tự nấu ăn mà có người mang sẵn món tới.
+Cách dùng DI: bạn **không tự tạo**, mà nhờ Spring tạo sẵn rồi "tiêm" (inject) vào cho bạn. Giống như bạn không tự nấu ăn mà có người mang sẵn món tới.
 
 ```java
 // CÓ DI: Spring tự tạo UserService và đưa vào cho bạn
@@ -330,8 +300,7 @@ Lợi ích của DI:
 
 Để Spring biết đối tượng nào cần quản lý và tiêm cho nhau, bạn dùng các annotation:
 
-- **@Service** (dịch vụ): đánh dấu một class là tầng xử lý nghiệp vụ. Spring sẽ tự
-  tạo và quản lý đối tượng này (gọi là **bean** — đối tượng do Spring quản lý).
+- **@Service** (dịch vụ): đánh dấu một class là tầng xử lý nghiệp vụ. Spring sẽ tự tạo và quản lý đối tượng này (gọi là **bean** — đối tượng do Spring quản lý).
 - **@Component** (thành phần): tương tự @Service nhưng tổng quát hơn.
 - **@Repository** (kho dữ liệu): đánh dấu tầng làm việc với database.
 - **@Autowired** (tự động nối dây): báo cho Spring "tiêm" đối tượng vào chỗ này.
@@ -350,8 +319,7 @@ public class UserService {
 }
 ```
 
-Hiện nay khuyến khích dùng **constructor injection** (tiêm qua hàm khởi tạo) thay cho
-`@Autowired` đặt trực tiếp trên biến, vì rõ ràng và an toàn hơn:
+Hiện nay khuyến khích dùng **constructor injection** (tiêm qua hàm khởi tạo) thay cho `@Autowired` đặt trực tiếp trên biến, vì rõ ràng và an toàn hơn:
 
 ```java
 @RestController
@@ -367,8 +335,7 @@ public class UserController {
 
 ## Ghép tất cả lại: API quản lý người dùng
 
-Bây giờ ta ghép tất cả khái niệm trên thành một API hoàn chỉnh có 2 tầng: Controller
-và Service.
+Bây giờ ta ghép tất cả khái niệm trên thành một API hoàn chỉnh có 2 tầng: Controller và Service.
 
 ```java
 import org.springframework.stereotype.Service;
@@ -412,13 +379,11 @@ public class UserController {
 }
 ```
 
-Chạy ứng dụng và truy cập `http://localhost:8080/users/5`, bạn sẽ thấy
-"Người dùng số 5". Đây là mô hình chuẩn mà hầu hết dự án Spring Boot đều dùng.
+Chạy ứng dụng và truy cập `http://localhost:8080/users/5`, bạn sẽ thấy "Người dùng số 5". Đây là mô hình chuẩn mà hầu hết dự án Spring Boot đều dùng.
 
 ## File application.properties
 
-**application.properties** là file cấu hình chính của Spring Boot, nằm trong thư mục
-`src/main/resources/`. Đây là nơi bạn thay đổi các thiết lập mặc định.
+**application.properties** là file cấu hình chính của Spring Boot, nằm trong thư mục `src/main/resources/`. Đây là nơi bạn thay đổi các thiết lập mặc định.
 
 ```properties
 # Đổi cổng chạy server từ 8080 sang 9090
@@ -434,8 +399,7 @@ spring.datasource.username=root
 spring.datasource.password=${DB_PASSWORD}
 ```
 
-Một số người thích dùng file `application.yml` (định dạng YAML — gọn hơn) thay vì
-`.properties`. Cả hai đều được, chọn cái nào tùy bạn:
+Một số người thích dùng file `application.yml` (định dạng YAML — gọn hơn) thay vì `.properties`. Cả hai đều được, chọn cái nào tùy bạn:
 
 ```yaml
 server:
@@ -447,32 +411,320 @@ spring:
 
 ## Lỗi thường gặp
 
-- **Quên annotation @RestController hoặc @Service**: nếu thiếu, Spring không biết
-  quản lý class đó, dẫn đến lỗi "không tìm thấy bean" hoặc API không hoạt động.
-- **Đặt class controller ngoài package gốc**: Spring Boot chỉ quét các class nằm
-  cùng package hoặc package con của class có `@SpringBootApplication`. Đặt sai chỗ
-  thì Spring không thấy.
-- **Tự `new` đối tượng Service thay vì để Spring tiêm**: làm vậy mất hết lợi ích của
-  DI và đối tượng đó sẽ không được Spring quản lý.
-- **Cổng 8080 đã bị dùng**: lỗi "Port 8080 was already in use". Đổi `server.port`
-  sang cổng khác hoặc tắt ứng dụng đang chiếm cổng.
-- **Hardcode mật khẩu vào application.properties**: tuyệt đối không. Dùng biến môi
-  trường như `${DB_PASSWORD}` để bảo mật.
-- **Nhầm @PathVariable với @RequestParam**: `@PathVariable` lấy từ đường dẫn
-  (`/users/5`), `@RequestParam` lấy sau dấu `?` (`/users?id=5`).
+- **Quên annotation @RestController hoặc @Service**: nếu thiếu, Spring không biết quản lý class đó, dẫn đến lỗi "không tìm thấy bean" hoặc API không hoạt động.
+- **Đặt class controller ngoài package gốc**: Spring Boot chỉ quét các class nằm cùng package hoặc package con của class có `@SpringBootApplication`. Đặt sai chỗ thì Spring không thấy.
+- **Tự `new` đối tượng Service thay vì để Spring tiêm**: làm vậy mất hết lợi ích của DI và đối tượng đó sẽ không được Spring quản lý.
+- **Cổng 8080 đã bị dùng**: lỗi "Port 8080 was already in use". Đổi `server.port` sang cổng khác hoặc tắt ứng dụng đang chiếm cổng.
+- **Hardcode mật khẩu vào application.properties**: tuyệt đối không. Dùng biến môi trường như `${DB_PASSWORD}` để bảo mật.
+- **Nhầm @PathVariable với @RequestParam**: `@PathVariable` lấy từ đường dẫn (`/users/5`), `@RequestParam` lấy sau dấu `?` (`/users?id=5`).
 
 ## Tóm tắt
 
-- **Spring** là framework Java backend phổ biến nhất; **Spring Boot** giúp khởi động
-  ứng dụng Spring cực nhanh với rất ít cấu hình.
+- **Spring** là framework Java backend phổ biến nhất; **Spring Boot** giúp khởi động ứng dụng Spring cực nhanh với rất ít cấu hình.
 - **Auto-configuration** tự động thiết lập mọi thứ dựa trên thư viện bạn thêm vào.
-- **@RestController** đánh dấu class xử lý API; **@GetMapping/@PostMapping** ánh xạ
-  từng HTTP method tới hàm xử lý.
-- Đọc dữ liệu request qua **@PathVariable** (đường dẫn), **@RequestParam** (sau `?`),
-  **@RequestBody** (JSON trong body).
-- **Dependency Injection** giúp Spring tự tạo và "tiêm" đối tượng cho nhau, làm code
-  dễ thay đổi và dễ test. Ưu tiên **constructor injection**.
-- **@Service** đánh dấu tầng nghiệp vụ; ứng dụng thường chia thành Controller →
-  Service → Repository.
+- **@RestController** đánh dấu class xử lý API; **@GetMapping/@PostMapping** ánh xạ từng HTTP method tới hàm xử lý.
+- Đọc dữ liệu request qua **@PathVariable** (đường dẫn), **@RequestParam** (sau `?`), **@RequestBody** (JSON trong body).
+- **Dependency Injection** giúp Spring tự tạo và "tiêm" đối tượng cho nhau, làm code dễ thay đổi và dễ test. Ưu tiên **constructor injection**.
+- **@Service** đánh dấu tầng nghiệp vụ; ứng dụng thường chia thành Controller → Service → Repository.
 - **application.properties** là nơi cấu hình: đổi cổng, kết nối database, đặt tên app.
 - Đây là framework quan trọng nhất nên đầu tư học thật kỹ.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Auto-configuration của Spring Boot hoạt động theo cơ chế nào? Cho ví dụ cụ thể khi thêm `spring-boot-starter-web` vào dự án.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Auto-configuration dựa trên nguyên tắc **"nhìn vào classpath (các thư viện đang có mặt) để tự đoán cấu hình hợp lý"**, thực hiện qua các class được đánh dấu `@Conditional...` (ví dụ `@ConditionalOnClass`, `@ConditionalOnMissingBean`) — chỉ kích hoạt một cấu hình nếu điều kiện tương ứng đúng.
+
+Ví dụ với `spring-boot-starter-web`:
+
+- Spring Boot phát hiện có thư viện Tomcat nhúng trên classpath → tự tạo và khởi động một `TomcatServletWebServerFactory`, mở cổng `8080` mặc định.
+- Phát hiện có Spring MVC → tự đăng ký `DispatcherServlet` (bộ điều phối request trung tâm), cấu hình sẵn bộ chuyển đổi JSON (Jackson) để tự động serialize/deserialize.
+- Nếu bạn tự khai báo bean của riêng mình (ví dụ tự định nghĩa `ObjectMapper`), Spring Boot sẽ **ưu tiên bean của bạn** thay vì bean tự động (nhờ `@ConditionalOnMissingBean`) — đây chính là ý nghĩa "quy ước hơn cấu hình": tự làm sẵn nhưng vẫn cho ghi đè khi cần.
+
+</details>
+
+**2. Spring Boot khác gì so với Spring Framework thuần? Có phải Spring Boot là một framework hoàn toàn khác thay thế Spring không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Không, **Spring Boot không thay thế Spring** — nó là một lớp tiện ích được xây **trên nền Spring Framework**, giúp khởi động ứng dụng Spring nhanh hơn.
+
+| | Spring Framework (thuần) | Spring Boot |
+|---|---|---|
+| Cấu hình | Thủ công, thường bằng XML hoặc nhiều class `@Configuration` | Tự động (auto-configuration), chỉ ghi đè khi cần |
+| Quản lý thư viện | Tự chọn version từng thư viện, dễ xung đột | Dùng `starter`, version đã được chọn tương thích sẵn |
+| Server | Phải cài và deploy lên server ngoài (Tomcat riêng, đóng gói `.war`) | Server nhúng (embedded), chạy trực tiếp bằng `java -jar` |
+| Mục tiêu | Cung cấp bộ khung linh hoạt, đầy đủ tính năng | Giảm thời gian cấu hình, giúp khởi động dự án nhanh |
+
+Nói ngắn gọn: Spring Boot = Spring Framework + auto-configuration + starter + embedded server, giúp bạn dùng được sức mạnh của Spring mà không phải cấu hình thủ công nặng nề.
+
+</details>
+
+**3. `@RestController` khác `@Controller` ở điểm nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **`@Controller`**: đánh dấu class xử lý request theo mô hình MVC truyền thống — giá trị trả về từ hàm xử lý thường là **tên view** (ví dụ tên file HTML/Thymeleaf) để Spring render ra trang web.
+- **`@RestController`**: là sự kết hợp của `@Controller` + `@ResponseBody` — giá trị trả về được **serialize thẳng thành JSON (hoặc text)** gửi về client, không tìm view nào cả. Đây là annotation dùng cho hầu hết REST API hiện đại.
+
+```java
+@Controller
+public class PageController {
+    @GetMapping("/home")
+    public String home() {
+        return "home"; // Spring tìm file view tên "home" (vd home.html) để render
+    }
+}
+
+@RestController
+public class ApiController {
+    @GetMapping("/api/home")
+    public String home() {
+        return "home"; // Trả thẳng chuỗi "home" làm response body, KHÔNG tìm view
+    }
+}
+```
+
+Nếu dùng `@Controller` mà muốn một hàm cụ thể trả JSON, phải thêm `@ResponseBody` riêng cho hàm đó.
+
+</details>
+
+**4. Phân biệt `@PathVariable`, `@RequestParam` và `@RequestBody`. Viết một endpoint dùng cả ba trong cùng một hàm.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Annotation | Lấy dữ liệu từ đâu | Ví dụ URL/body |
+|---|---|---|
+| `@PathVariable` | Một đoạn trong đường dẫn URL | `/orders/10` → `id = 10` |
+| `@RequestParam` | Tham số sau dấu `?` | `/orders?status=paid` → `status = "paid"` |
+| `@RequestBody` | Dữ liệu JSON trong phần thân request | body: `{"note": "giao giờ hành chính"}` |
+
+```java
+// PUT /orders/10?status=paid   body: {"note": "giao giờ hành chính"}
+@PutMapping("/orders/{id}")
+public String updateOrder(
+        @PathVariable int id,
+        @RequestParam String status,
+        @RequestBody OrderUpdateRequest body) {
+    return "Cập nhật đơn " + id + " sang " + status + ", ghi chú: " + body.note();
+}
+```
+
+</details>
+
+**5. Spring hỗ trợ mấy cách Dependency Injection? Vì sao constructor injection được khuyến nghị hơn field injection (`@Autowired` trên field)?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Ba cách: **constructor injection** (qua hàm khởi tạo), **setter injection** (qua hàm `set...`), và **field injection** (`@Autowired` gắn thẳng lên field).
+
+Constructor injection được khuyến nghị vì:
+
+- **Cho phép field là `final`** — dependency chắc chắn được gán ngay khi tạo object, không thể quên gán hay bị thay đổi sau đó (đúng tinh thần immutability).
+- **Dễ viết unit test hơn**: có thể `new UserController(fakeService)` trực tiếp trong test mà không cần khởi động Spring context, trong khi field injection bắt buộc phải dùng cơ chế reflection hoặc chạy Spring để inject.
+- **Phát hiện circular dependency (phụ thuộc vòng) sớm**: nếu hai bean phụ thuộc vòng qua constructor, Spring báo lỗi ngay lúc khởi động thay vì có thể "chữa cháy" ngầm như field injection.
+- **Tường minh**: nhìn vào constructor là biết ngay class cần những dependency nào, không phải lướt qua toàn bộ class tìm field có `@Autowired`.
+
+</details>
+
+**6. Đoạn code sau có vấn đề gì? Hãy chỉ ra và sửa lại theo hướng khuyến nghị.**
+
+```java
+@RestController
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/users/{id}")
+    public String getUser(@PathVariable int id) {
+        return userService.findUserName(id);
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Vấn đề: dùng **field injection** (`@Autowired` trực tiếp trên field) thay vì constructor injection. Hệ quả:
+
+- `userService` không thể là `final` → có nguy cơ bị gán lại (dù hiếm khi cố ý) hoặc bị bỏ quên chưa gán nếu object được tạo bằng cách khác ngoài Spring.
+- Khó viết unit test: muốn test `UserController` độc lập, không thể truyền `UserService` giả vào qua constructor thông thường.
+
+Sửa lại bằng constructor injection:
+
+```java
+@RestController
+public class UserController {
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/users/{id}")
+    public String getUser(@PathVariable int id) {
+        return userService.findUserName(id);
+    }
+}
+```
+
+</details>
+
+**7. `@Component`, `@Service`, `@Repository`, `@Controller` đều là các "stereotype annotation" (annotation đánh dấu vai trò) và về bản chất Spring xử lý chúng giống nhau khi quét bean. Vậy vì sao vẫn cần dùng annotation riêng biệt thay vì dùng chung `@Component`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Về mặt kỹ thuật**: `@Service`, `@Repository`, `@Controller` đều được đánh dấu **`@Component` bên trong** (gọi là meta-annotation), nên Spring vẫn nhận diện và tạo bean bình thường dù bạn dùng annotation nào.
+- **Về mặt ý nghĩa (semantic)**: dùng đúng annotation giúp code **tự mô tả vai trò** — người đọc (và cả IDE) biết ngay class này thuộc tầng nào (nghiệp vụ, dữ liệu, hay tiếp nhận request) mà không cần đọc code bên trong.
+- **`@Repository` có thêm hành vi đặc biệt**: Spring tự động bật cơ chế **exception translation** — chuyển các exception đặc thù của công nghệ lưu trữ (ví dụ `SQLException` của JDBC) thành các exception thống nhất của Spring (`DataAccessException`), giúp tầng Service không cần biết đang dùng công nghệ database cụ thể nào bên dưới.
+
+Kết luận: dùng đúng annotation theo tầng vừa để code rõ ràng, vừa tận dụng được hành vi đặc biệt Spring cung cấp riêng cho từng vai trò.
+
+</details>
+
+**8. Spring bean mặc định có scope (phạm vi) gì? Điều này ảnh hưởng thế nào nếu một `@Service` có field có thể thay đổi (mutable field)?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Mặc định, mọi Spring bean có scope **`singleton`** — Spring chỉ tạo **một instance duy nhất** cho cả ứng dụng, và instance đó được **chia sẻ (dùng chung)** cho mọi nơi cần tiêm nó vào.
+
+Hệ quả nếu bean có field mutable (thay đổi được):
+
+```java
+@Service
+public class CounterService {
+    private int count = 0; // NGUY HIỂM: field mutable trong singleton bean
+
+    public void increment() {
+        count++;
+    }
+}
+```
+
+- Vì chỉ có một instance dùng chung cho **mọi request, mọi luồng (thread)**, nếu nhiều request gọi `increment()` đồng thời, sẽ xảy ra **race condition** (tranh chấp dữ liệu) — kết quả đếm sai lệch.
+- Nguyên tắc an toàn: các bean singleton (Controller, Service, Repository...) nên **không giữ trạng thái thay đổi được ở field**; dữ liệu thay đổi theo từng request nên là **biến cục bộ (local variable)** trong hàm, hoặc lưu ở nơi khác (database, cache) chứ không phải field của bean.
+
+</details>
+
+**9. Đoạn code sau in ra gì? Giải thích dựa trên scope mặc định của Spring bean.**
+
+```java
+@Service
+public class UserService { }
+
+@RestController
+public class DebugController {
+    private final UserService a;
+    private final UserService b;
+
+    public DebugController(UserService a, UserService b) {
+        this.a = a;
+        this.b = b;
+    }
+
+    @GetMapping("/debug")
+    public String debug() {
+        return String.valueOf(a == b);
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+In ra **`true`**.
+
+- `a` và `b` đều được Spring tiêm cùng một kiểu bean `UserService`. Vì scope mặc định là **singleton**, Spring chỉ tạo **đúng một instance** `UserService` trong toàn bộ ứng dụng và tiêm **cùng một tham chiếu (reference)** đó vào mọi nơi cần dùng.
+- Do đó `a` và `b` cùng trỏ tới một object trên bộ nhớ, nên `a == b` (so sánh địa chỉ) trả về `true`.
+- Nếu muốn mỗi lần tiêm là một instance mới, phải khai báo `@Scope("prototype")` trên bean đó — khi ấy Spring sẽ tạo instance mới mỗi lần bean được yêu cầu.
+
+</details>
+
+**10. Ứng dụng báo lỗi "Port 8080 was already in use" khi khởi động. Nêu cách khắc phục, và cách cấu hình để chạy các cổng/cấu hình khác nhau giữa môi trường phát triển (dev) và môi trường thật (production).**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Khắc phục nhanh: đổi cổng khác trong `application.properties` (`server.port=9090`) hoặc tắt tiến trình đang chiếm cổng `8080`.
+
+Về lâu dài, dùng cơ chế **Profile** (hồ sơ cấu hình) của Spring Boot để tách cấu hình theo môi trường:
+
+```properties
+# application-dev.properties
+server.port=8080
+spring.datasource.url=jdbc:mysql://localhost:3306/mydb_dev
+
+# application-prod.properties
+server.port=80
+spring.datasource.url=jdbc:mysql://prod-host:3306/mydb
+```
+
+Kích hoạt profile mong muốn khi chạy:
+
+```bash
+java -jar app.jar --spring.profiles.active=prod
+```
+
+Cách này giúp mỗi môi trường có cấu hình riêng (cổng, database, log level...) mà không cần sửa code hay commit thông tin nhạy cảm của production vào file chung.
+
+</details>
+
+**11. Bạn cần xử lý lỗi tập trung cho toàn bộ REST API — khi bất kỳ Controller nào ném exception, ứng dụng phải trả về JSON lỗi có cấu trúc thống nhất (status code, message) thay vì để lộ stack trace mặc định. Nên thiết kế thế nào trong Spring Boot?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Dùng **`@ControllerAdvice`** (hoặc `@RestControllerAdvice`) kết hợp **`@ExceptionHandler`** để bắt lỗi tập trung một chỗ, áp dụng cho mọi Controller, thay vì viết `try-catch` lặp lại trong từng hàm:
+
+```java
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequest(IllegalArgumentException ex) {
+        ErrorResponse body = new ErrorResponse(400, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleUnknown(Exception ex) {
+        ErrorResponse body = new ErrorResponse(500, "Đã có lỗi xảy ra");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
+    }
+}
+
+record ErrorResponse(int status, String message) { }
+```
+
+- **`@RestControllerAdvice`** = `@ControllerAdvice` + `@ResponseBody`, áp dụng cho toàn bộ Controller trong ứng dụng.
+- Mỗi `@ExceptionHandler` xử lý một loại exception cụ thể — nên bắt exception nghiệp vụ cụ thể trước (`IllegalArgumentException`...), để `Exception` chung ở cuối làm lưới an toàn cuối cùng, tránh lộ thông tin nội bộ (stack trace) ra client.
+
+</details>
+
+**12. Vì sao trong Spring, người ta thường khuyến nghị Controller/Service nên phụ thuộc vào một `interface` (ví dụ `UserService`) thay vì phụ thuộc trực tiếp vào class hiện thực cụ thể (ví dụ `UserServiceImpl`)?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Loose coupling** (kết nối lỏng): Controller chỉ cần biết "tôi cần một thứ biết làm `findUserName`", không quan tâm cách hiện thực bên trong ra sao. Muốn đổi cách hiện thực (ví dụ đổi nguồn dữ liệu, thêm cache) chỉ cần viết class mới implement cùng interface, không phải sửa Controller.
+- **Dễ viết unit test**: khi test Controller, có thể tạo một implementation giả (fake/mock) của interface để kiểm soát hoàn toàn kết quả trả về, mà không cần khởi động toàn bộ logic thật hay database.
+- **Hỗ trợ nhiều hiện thực cùng lúc**: Spring có thể tiêm đúng bean cần thiết dựa trên `@Qualifier` khi có nhiều class cùng implement một interface (ví dụ `EmailNotificationService` và `SmsNotificationService` cùng implement `NotificationService`).
+
+Lưu ý: với Service đơn giản, chỉ có đúng một hiện thực và không có kế hoạch thay đổi, việc tạo interface riêng đôi khi chỉ là thêm tầng gián tiếp không cần thiết — nên áp dụng khi thực sự có lợi ích rõ ràng (test, đa hiện thực), không phải quy tắc bắt buộc cho mọi trường hợp.
+
+</details>

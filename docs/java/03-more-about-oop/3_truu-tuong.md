@@ -34,6 +34,7 @@ Trừu tượng là cách bạn tập trung mô tả "làm gì" mà giấu đi c
 - [Kết hợp method thường và abstract](#kết-hợp-method-thường-và-abstract)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -303,3 +304,145 @@ Phương thức thường `tinhTongLuong()` có thể gọi phương thức tr�
 - **Abstract method** chỉ có tên, không có thân; lớp con **bắt buộc** viết phần thân.
 - Trừu tượng giúp đặt "hợp đồng" và viết code linh hoạt với nhiều loại lớp con.
 - Abstract class có thể trộn cả phương thức thường lẫn phương thức trừu tượng.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Vì sao `abstract class` không thể tạo đối tượng trực tiếp bằng `new`? Điều gì xảy ra nếu cố làm vậy?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Vì abstract class có thể chứa **abstract method** — phương thức chỉ có tên, không có phần thân. Nếu cho phép `new` một abstract class, chương trình sẽ gọi được một phương thức không có cài đặt nào để chạy, điều này vô nghĩa và không an toàn.
+
+Nếu cố viết `new PhuongTien()` với `PhuongTien` là abstract class, Java báo **lỗi biên dịch**: "`PhuongTien` is abstract; cannot be instantiated". Bạn chỉ có thể `new` một lớp con **cụ thể** (concrete class) đã cài đặt đầy đủ mọi abstract method.
+
+</details>
+
+**2. Một `abstract class` có bắt buộc mọi phương thức đều phải là `abstract` không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không.** Một abstract class có thể trộn cả phương thức thường (có thân, dùng chung cho mọi lớp con) và abstract method (chưa có thân, bắt buộc lớp con cài đặt). Thậm chí một abstract class có thể **không có** abstract method nào — chỉ đơn giản là đánh dấu "không cho tạo trực tiếp", nhưng cách dùng phổ biến nhất vẫn là kết hợp cả hai loại, ví dụ method thường gọi abstract method bên trong (nền tảng của Template Method pattern).
+
+</details>
+
+**3. `abstract class` có được phép có constructor không? Nếu không thể `new` được thì constructor để làm gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Có**, abstract class được phép (và thường nên) có constructor. Constructor này không dùng để `new` trực tiếp abstract class, mà được **lớp con gọi qua `super(...)`** khi lớp con khởi tạo — dùng để thiết lập các thuộc tính chung khai báo ở lớp cha (ví dụ `ten` trong `PhuongTien`). Đây là điểm khác biệt lớn với interface — interface không có constructor vì không lưu trạng thái field thường.
+
+</details>
+
+**4. So sánh `default method` của interface (Java 8+) với method thường của abstract class — chúng có thay thế được nhau hoàn toàn không?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Cả hai đều cho phép cung cấp cài đặt sẵn để lớp con dùng lại mà không bắt buộc override. Tuy nhiên khác biệt quan trọng:
+
+- **Method thường trong abstract class** có thể truy cập **field/thuộc tính** của lớp (`this.ten`), và abstract class có constructor để khởi tạo field đó.
+- **`default method` trong interface** không có field thường để dựa vào (interface chỉ có hằng số `public static final`), nên thường chỉ gọi qua các abstract method khác của chính interface đó, không lưu trạng thái riêng.
+
+Vì vậy không thay thế hoàn toàn nhau: cần **chia sẻ dữ liệu và code** giữa các lớp có quan hệ "is-a" → abstract class; chỉ cần chia sẻ **hành vi không phụ thuộc field riêng** → default method của interface đủ dùng.
+
+</details>
+
+**5. Template Method là một design pattern gắn liền với abstract class. Mô tả ý tưởng và cho ví dụ ngắn.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Template Method** (phương thức khuôn mẫu): lớp cha (abstract class) định nghĩa **khung/luồng xử lý chung** trong một method thường, còn các **bước chi tiết** được để trống dưới dạng abstract method cho lớp con tự điền vào.
+
+```java
+abstract class QuyTrinhPhaCafe {
+    // Template method: luồng cố định, không cho lớp con đổi thứ tự
+    final void phaCafe() {
+        dunNuoc();
+        phaTheoKieuRieng(); // bước riêng do lớp con quyết định
+        rotVaoLy();
+    }
+    void dunNuoc() { System.out.println("Dun nuoc soi"); }
+    abstract void phaTheoKieuRieng();
+    void rotVaoLy() { System.out.println("Rot ra ly"); }
+}
+```
+
+Lớp con (`CaPhePhin`, `CaPheMay`...) chỉ cần cài đặt `phaTheoKieuRieng()`, còn luồng tổng thể không đổi — tránh lặp code và đảm bảo mọi lớp con tuân theo đúng quy trình.
+
+</details>
+
+**6. Đọc code sau — dòng nào gây lỗi biên dịch và vì sao?**
+
+```java
+abstract class Hinh {
+    abstract double dienTich();
+}
+
+class TamGiac extends Hinh {
+    double day, cao;
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Lỗi ở khai báo `class TamGiac extends Hinh`**: `TamGiac` kế thừa `Hinh` nhưng **không cài đặt** `dienTich()`, trong khi bản thân `TamGiac` lại không được khai báo là `abstract`. Java bắt buộc: một lớp **cụ thể** (không phải abstract) kế thừa abstract class phải cài đặt **đầy đủ** mọi abstract method còn sót lại.
+
+Cách sửa: hoặc thêm phần thân cho `dienTich()` trong `TamGiac`, hoặc khai báo `abstract class TamGiac extends Hinh` để đẩy trách nhiệm cài đặt xuống lớp con tiếp theo.
+
+</details>
+
+**7. Từ Java 8 trở đi, interface đã có `default method` và `static method`, ranh giới với abstract class bị mờ đi nhiều. Vậy khi nào bạn vẫn chọn abstract class thay vì interface?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Chọn **abstract class** khi:
+
+- Các lớp con có **quan hệ họ hàng rõ ràng** (is-a) và cần **chia sẻ trạng thái** (field) chung, không chỉ hành vi.
+- Cần **constructor** để khởi tạo dữ liệu chung bắt buộc.
+- Muốn kiểm soát chặt hơn về access modifier (`protected`, `private` cho method nội bộ) — điều interface không hỗ trợ đầy đủ.
+
+Chọn **interface** khi:
+
+- Muốn mô tả một **khả năng** (capability) mà nhiều lớp không họ hàng đều có thể có (`Comparable`, `Runnable`).
+- Cần **đa kế thừa hành vi** — một lớp implement nhiều interface, nhưng chỉ extends được một lớp cha.
+
+Quy tắc kinh điển: "is-a và cần state chung" → abstract class; "can-do và không quan tâm state" → interface.
+
+</details>
+
+**8. `abstract method` có thể khai báo là `private`, `static`, hoặc `final` không? Giải thích.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không được**, cả ba đều mâu thuẫn với bản chất của abstract method:
+
+- `private`: abstract method cần lớp con **override** được, mà `private` thì lớp con không nhìn thấy để override.
+- `static`: method `static` gắn với lớp, không tham gia cơ chế **dynamic binding/override** — không có ý nghĩa để trừu tượng hóa.
+- `final`: `final` nghĩa là **không được override**, trong khi mục đích của abstract method chính là bắt buộc lớp con phải override.
+
+Kết hợp bất kỳ từ khóa nào ở trên với `abstract` đều gây **lỗi biên dịch**.
+
+</details>
+
+**9. Trừu tượng (abstraction) và đóng gói (encapsulation) là hai khái niệm hay bị nhầm lẫn. Phân biệt chúng.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Trừu tượng (abstraction)**: tập trung vào **thiết kế ở mức khái niệm** — phơi bày "làm được gì" (what), giấu "làm thế nào" (how). Công cụ: `abstract class`, `interface`.
+- **Đóng gói (encapsulation)**: tập trung vào **bảo vệ dữ liệu ở mức cài đặt** — giấu chi tiết lưu trữ bên trong đối tượng, chỉ cho truy cập qua getter/setter được kiểm soát. Công cụ: `private` + getter/setter.
+
+Nói ngắn gọn: trừu tượng là "che giấu độ phức tạp trong thiết kế API", còn đóng gói là "che giấu dữ liệu trong cài đặt". Hai khái niệm bổ trợ nhau: một `interface` (trừu tượng tốt) vẫn có thể được cài đặt bởi một lớp có field `private` (đóng gói tốt).
+
+</details>

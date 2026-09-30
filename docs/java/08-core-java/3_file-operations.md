@@ -35,6 +35,7 @@ Thao tác với file là việc đọc và ghi dữ liệu xuống ổ cứng đ
 - [try-with-resources khi xử lý file lớn](#try-with-resources-khi-xử-lý-file-lớn)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -339,3 +340,180 @@ public class ReadLargeFile {
 - **`Files.readAllLines()`** đọc nhanh file nhỏ; **`Files.write()`** / **`Files.writeString()`** ghi nhanh.
 - Với file lớn, dùng `Files.newBufferedReader()` trong **try-with-resources** để tiết kiệm bộ nhớ.
 - Luôn dùng `Path.of(...)` thay vì ghép đường dẫn thủ công để chạy đa nền tảng.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. `Path` và `File` có phải là "nội dung file" không? Vai trò thực sự của chúng là gì, và `Files` khác gì hai lớp đó?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Không. Cả `Path` và `File` chỉ đại diện cho **đường dẫn** (vị trí) tới một file hoặc thư mục, không phải dữ liệu bên trong file đó.
+
+- **`File`** (`java.io`, cách cũ): vừa là đường dẫn, vừa có sẵn một số method thao tác (nhưng yếu, trả `boolean` khi lỗi).
+- **`Path`** (`java.nio.file`, Java 7+): chỉ thuần là đường dẫn, **không tự thao tác được** — mọi hành động đọc/ghi/copy/xóa phải thông qua lớp tiện ích riêng là **`Files`**.
+- Tách vai trò rõ ràng: `Path` mô tả "ở đâu", `Files` thực hiện "làm gì" — giúp API mạch lạc và dễ mở rộng hơn so với `File` gộp chung cả hai.
+
+</details>
+
+**2. Nêu hai điểm yếu cụ thể của `java.io.File` mà `Path`/`Files` (NIO.2) đã khắc phục.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Báo lỗi mập mờ**: các method của `File` như `delete()`, `mkdir()`, `renameTo()` chỉ trả về `boolean` khi thất bại — không biết vì sao (thiếu quyền? file đang bị khóa? không tồn tại?). Method tương ứng của `Files` (`Files.delete()`...) ném `IOException` với thông điệp rõ ràng.
+- **Đường dẫn phụ thuộc hệ điều hành**: `File` khuyến khích ghép chuỗi đường dẫn thủ công (dễ hardcode `\` của Windows), trong khi `Path.resolve()` tự xử lý đúng dấu phân cách theo OS đang chạy.
+- Ngoài ra `Files` còn có nhiều thao tác `File` không hỗ trợ sẵn: duyệt cây thư mục (`Files.walk`), đọc thuộc tính/metadata, làm việc với symbolic link.
+
+</details>
+
+**3. `Files.readAllLines()` và `Files.newBufferedReader()` khác nhau thế nào? Khi nào chọn cái nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| | `Files.readAllLines()` | `Files.newBufferedReader()` |
+|---|---|---|
+| Trả về | `List<String>` chứa **toàn bộ** các dòng | Một `BufferedReader` để đọc **tuần tự** từng dòng |
+| Bộ nhớ | Nạp **hết** nội dung file vào RAM cùng lúc | Chỉ giữ một phần nhỏ (buffer) tại mỗi thời điểm |
+| Phù hợp | File nhỏ, cần xử lý ngẫu nhiên/nhiều lần trên toàn bộ nội dung | File lớn, chỉ cần xử lý tuần tự từng dòng một lần |
+
+```java
+// File nhỏ: gọn, tiện khi cần duyệt lại nhiều lần
+List<String> dong = Files.readAllLines(path);
+
+// File lớn: đọc từng dòng, không tràn RAM
+try (BufferedReader reader = Files.newBufferedReader(path)) {
+    String dong2;
+    while ((dong2 = reader.readLine()) != null) { /* xử lý */ }
+}
+```
+
+</details>
+
+**4. Đoạn code sau ném ngoại lệ gì nếu chạy hai lần liên tiếp? Vì sao?**
+
+```java
+Path path = Path.of("test.txt");
+Files.createFile(path);
+System.out.println("Đã tạo file: " + path);
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Lần chạy thứ hai sẽ ném **`FileAlreadyExistsException`** (một loại `IOException`), vì `Files.createFile()` yêu cầu file **chưa tồn tại** — nó không giống `mkdir -p` là "tạo nếu chưa có, bỏ qua nếu đã có".
+
+Cách xử lý đúng: kiểm tra `Files.exists(path)` trước khi tạo (như ví dụ trong bài), hoặc bọc trong `try-catch` bắt riêng `FileAlreadyExistsException` nếu muốn coi việc file đã tồn tại là bình thường, không phải lỗi nghiêm trọng.
+
+</details>
+
+**5. Đoạn code sau có thực sự an toàn tuyệt đối không, dù đã kiểm tra `Files.exists()` trước khi tạo?**
+
+```java
+if (!Files.exists(path)) {
+    Files.createFile(path);
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không tuyệt đối an toàn** trong môi trường đa luồng/đa tiến trình. Đây là mẫu lỗi kinh điển gọi là **TOCTOU (Time-Of-Check to Time-Of-Use)**: giữa lúc kiểm tra (`Files.exists()`) và lúc thực sự tạo file (`Files.createFile()`) có một khoảng thời gian rất ngắn nhưng vẫn tồn tại — nếu một luồng hoặc tiến trình khác **tạo file đó ngay trong khoảng thời gian này**, `Files.createFile()` vẫn sẽ ném `FileAlreadyExistsException` dù bước kiểm tra trước đó trả về "chưa tồn tại".
+
+Cách an toàn hơn trong ngữ cảnh đa luồng: bỏ qua bước kiểm tra riêng, gọi thẳng `Files.createFile()` và bắt `FileAlreadyExistsException`, hoặc dùng các API nguyên tử (atomic) hơn nếu nền tảng hỗ trợ. Với ứng dụng đơn luồng đơn giản thì mẫu check-then-act trong bài vẫn đủ dùng.
+
+</details>
+
+**6. `Files.write(path, data)` gọi hai lần liên tiếp cho cùng một file sẽ cho kết quả gì? Làm sao để ghi thêm (append) thay vì ghi đè?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Mặc định, `Files.write()` **ghi đè hoàn toàn** nội dung cũ của file (tương đương mở file ở chế độ `CREATE` + `TRUNCATE_EXISTING`). Gọi hai lần liên tiếp, lần sau sẽ xóa sạch nội dung lần trước rồi ghi nội dung mới vào.
+
+```java
+Files.write(path, List.of("Dòng A")); // file chỉ còn "Dòng A"
+Files.write(path, List.of("Dòng B")); // file chỉ còn "Dòng B", "Dòng A" bị mất
+
+// Muốn GHI THÊM vào cuối, phải truyền rõ StandardOpenOption.APPEND
+Files.write(path, List.of("Dòng C"), StandardOpenOption.APPEND); // giữ nội dung cũ, thêm "Dòng C"
+```
+
+</details>
+
+**7. `Files.copy(nguon, dich)` sẽ ném lỗi gì nếu file đích đã tồn tại? Cách xử lý?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Mặc định `Files.copy()` sẽ ném **`FileAlreadyExistsException`** nếu file đích đã có sẵn — nó không tự động ghi đè để tránh vô tình mất dữ liệu.
+
+```java
+// Muốn cho phép ghi đè nếu đích đã tồn tại, phải khai báo rõ
+Files.copy(nguon, dich, StandardCopyOption.REPLACE_EXISTING);
+```
+
+Đây là thiết kế an toàn có chủ đích của NIO.2: hành vi phá hủy dữ liệu (ghi đè) phải được yêu cầu **tường minh**, không phải mặc định ngầm.
+
+</details>
+
+**8. `Files.delete()` và `Files.deleteIfExists()` khác nhau thế nào khi file không tồn tại?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **`Files.delete(path)`**: nếu file **không tồn tại**, ném **`NoSuchFileException`**. Dùng khi bạn chắc chắn file phải tồn tại, và việc thiếu file là một lỗi cần biết.
+- **`Files.deleteIfExists(path)`**: nếu file không tồn tại, **không ném lỗi**, chỉ trả về `false` một cách êm ả; trả về `true` nếu đã xóa thành công.
+
+```java
+Files.delete(path);            // ném NoSuchFileException nếu path không tồn tại
+boolean daXoa = Files.deleteIfExists(path); // false nếu không tồn tại, không ném lỗi
+```
+
+Chọn `deleteIfExists` khi việc "file không có sẵn để xóa" là tình huống bình thường (ví dụ dọn dẹp file tạm), chọn `delete` khi sự vắng mặt của file là bất thường cần được báo lỗi rõ ràng.
+
+</details>
+
+**9. `Path.resolve()` hoạt động thế nào khi tham số truyền vào là một đường dẫn tuyệt đối? Cho ví dụ.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`resolve()` thường dùng để **nối** một đường dẫn con vào đường dẫn gốc, nhưng nếu tham số truyền vào là một **đường dẫn tuyệt đối**, `resolve()` sẽ **bỏ qua hoàn toàn** đường dẫn gốc và trả về **chính tham số tuyệt đối đó** — vì một đường dẫn tuyệt đối vốn đã tự xác định vị trí, không cần "nối thêm" vào đâu cả.
+
+```java
+Path goc = Path.of("data");
+
+System.out.println(goc.resolve("users.txt"));        // "data/users.txt" — nối bình thường
+System.out.println(goc.resolve("/etc/passwd"));       // "/etc/passwd" — bỏ qua "data", trả nguyên vẹn tham số tuyệt đối
+```
+
+Đây là cạm bẫy tiềm ẩn về bảo mật nếu phần đường dẫn con lấy trực tiếp từ input người dùng mà không kiểm tra: kẻ tấn công có thể truyền một đường dẫn tuyệt đối để "thoát" ra khỏi thư mục gốc dự kiến (liên quan tới lỗ hổng **path traversal**).
+
+</details>
+
+**10. Vì sao `Files.walk(path)` nên luôn được dùng trong khối `try-with-resources`, dù nó trả về một `Stream`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`Files.walk()` trả về một `Stream<Path>`, nhưng khác với hầu hết các `Stream` khác trong Java (vốn không cần đóng), stream này **giữ tài nguyên hệ thống** (một hoặc nhiều **file handle/thư mục đang mở**) để duyệt cây thư mục một cách "lazy" (chỉ đọc tới đâu khi cần tới đó).
+
+Nếu không đóng, các file handle này có thể bị **rò rỉ**, gây ra lỗi khó chịu như hết file handle khi chương trình duyệt nhiều cây thư mục liên tục, hoặc trên Windows là không xóa/đổi tên được thư mục vì vẫn còn tiến trình "giữ" nó.
+
+```java
+// ĐÚNG: try-with-resources đảm bảo đóng tài nguyên duyệt thư mục
+try (Stream<Path> cay = Files.walk(goc)) {
+    cay.filter(Files::isRegularFile).forEach(System.out::println);
+}
+
+// SAI: không đóng stream, có thể rò rỉ file handle nếu gọi lặp lại nhiều lần
+Files.walk(goc).filter(Files::isRegularFile).forEach(System.out::println);
+```
+
+</details>

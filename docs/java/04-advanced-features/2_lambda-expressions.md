@@ -35,6 +35,7 @@ Biểu thức Lambda (có từ Java 8) là cách viết ngắn gọn cho một h
 - [Capture biến (bắt biến từ bên ngoài)](#capture-biến-bắt-biến-từ-bên-ngoài)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -280,3 +281,215 @@ Lý do của quy tắc này: lambda có thể chạy ở thời điểm khác (v
 - Lambda thay thế **anonymous class** giúp code gọn hơn nhiều.
 - Thường dùng với `Runnable`, `Comparator` và các interface trong `java.util.function`.
 - Lambda có thể **capture** biến bên ngoài nhưng biến đó phải **effectively final**.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Biểu thức Lambda là gì? Cú pháp cơ bản gồm những phần nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Lambda expression** là cách viết ngắn gọn cho một hàm ẩn danh (không tên), được giới thiệu từ **Java 8**, dùng để truyền hành vi (behavior) đi như một tham số.
+
+Cú pháp gồm ba phần: `(tham số) -> { thân hàm }`.
+
+```java
+(a, b) -> a + b;                 // Rút gọn: 1 dòng, tự return
+x -> x * x;                      // Rút gọn: 1 tham số, bỏ ngoặc đơn
+() -> System.out.println("Hi");  // Không tham số
+(a, b) -> {                      // Thân nhiều dòng, cần return rõ ràng
+    int tong = a + b;
+    return tong;
+};
+```
+
+</details>
+
+**2. Functional interface là gì? Vì sao lambda chỉ hoạt động được với nó?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Functional interface** (giao diện hàm) là một interface chỉ có **đúng một** phương thức trừu tượng (`abstract method`) — dù có thể có thêm các `default`/`static method`.
+
+- Lambda thực chất là **phần triển khai (implementation)** cho đúng phương thức trừu tượng duy nhất đó, nên compiler cần biết chính xác "khuôn" (kiểu tham số, kiểu trả về) để suy luận — điều này chỉ rõ ràng khi interface có duy nhất một phương thức trừu tượng.
+- Annotation `@FunctionalInterface` không bắt buộc nhưng nên dùng: nó khiến compiler báo lỗi ngay nếu ai đó vô tình thêm phương thức trừu tượng thứ hai, phá vỡ khả năng dùng lambda.
+- Ví dụ có sẵn: `Runnable`, `Comparator`, `Callable`, và các interface trong `java.util.function`.
+
+</details>
+
+**3. So sánh lambda và anonymous class (lớp ẩn danh). Nêu ít nhất hai khác biệt quan trọng ngoài việc lambda ngắn hơn.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| | Lambda | Anonymous class |
+|---|---|---|
+| `this` bên trong | Trỏ tới **đối tượng bao ngoài (enclosing instance)** | Trỏ tới **chính đối tượng anonymous class** đó |
+| Tạo instance mới | Có thể được JVM tối ưu, không nhất thiết tạo object mới mỗi lần gọi | Luôn tạo một `.class` file riêng và một object mới mỗi lần khởi tạo |
+| Phạm vi áp dụng | Chỉ dùng được với **functional interface** (1 phương thức trừu tượng) | Dùng được với bất kỳ interface hoặc lớp trừu tượng nào, kể cả nhiều phương thức |
+| Khai báo biến mới | Không tạo scope lồng mới cho tên biến (biến trùng tên với lớp ngoài sẽ báo lỗi) | Tạo một scope class riêng |
+
+- Khác biệt về `this` là điểm hay bị hỏi nhất: trong anonymous class, `this.ten` (nếu có field `ten`) sẽ ưu tiên field của chính anonymous class; còn trong lambda, `this` "xuyên qua" và trỏ về đối tượng chứa lambda đó.
+
+</details>
+
+**4. "Effectively final" nghĩa là gì? Vì sao lambda chỉ capture (bắt) được biến effectively final?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Effectively final** là một biến **không có từ khóa `final`** nhưng **thực tế không bao giờ bị gán lại giá trị** sau khi khởi tạo — về mặt ngữ nghĩa, nó tương đương với `final`.
+
+```java
+int soLan = 3; // không có từ khóa final
+Runnable r = () -> System.out.println(soLan); // OK vì soLan effectively final
+
+// soLan = 5; // Nếu bỏ comment dòng này -> lỗi biên dịch!
+// Vì lúc đó soLan không còn effectively final nữa
+```
+
+- Lý do ràng buộc này: lambda có thể được **chạy ở một thời điểm khác**, thậm chí trên **luồng khác** với nơi nó được tạo ra. Nếu cho phép capture biến có thể thay đổi, giá trị lambda "nhìn thấy" sẽ không xác định (tùy thời điểm chạy) — Java loại bỏ hẳn rủi ro này bằng cách bắt buộc giá trị phải cố định tại thời điểm capture.
+- Lambda thực chất **copy giá trị** của biến tại thời điểm capture, chứ không giữ tham chiếu tới chính biến cục bộ đó (khác với capture field của object, có thể thay đổi được qua getter/setter).
+
+</details>
+
+**5. Method reference là gì? Liệt kê các loại phổ biến kèm ví dụ.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Method reference** (`::`) là cú pháp rút gọn hơn nữa cho lambda khi thân lambda chỉ đơn giản là **gọi lại một phương thức có sẵn**.
+
+| Loại | Ví dụ lambda | Method reference |
+|---|---|---|
+| Static method | `x -> Integer.parseInt(x)` | `Integer::parseInt` |
+| Instance method của một đối tượng cụ thể | `x -> System.out.println(x)` | `System.out::println` |
+| Instance method của tham số đầu tiên (unbound) | `s -> s.toUpperCase()` | `String::toUpperCase` |
+| Constructor reference | `() -> new ArrayList<>()` | `ArrayList::new` |
+
+```java
+List<String> ten = List.of("cuong", "an", "binh");
+ten.stream().map(String::toUpperCase).forEach(System.out::println);
+```
+
+</details>
+
+**6. Kể tên và nêu công dụng bốn functional interface cơ bản nhất trong package `java.util.function`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Interface | Phương thức trừu tượng | Ý nghĩa |
+|---|---|---|
+| `Function<T, R>` | `R apply(T t)` | Nhận một giá trị kiểu `T`, trả về giá trị kiểu `R` (biến đổi/ánh xạ) |
+| `Predicate<T>` | `boolean test(T t)` | Nhận một giá trị, trả về `true`/`false` (kiểm tra điều kiện) |
+| `Consumer<T>` | `void accept(T t)` | Nhận một giá trị, không trả về gì (thực hiện hành động) |
+| `Supplier<T>` | `T get()` | Không nhận gì, trả về một giá trị (cung cấp/tạo giá trị) |
+
+```java
+Function<Integer, Integer> nhanDoi = x -> x * 2;
+Predicate<Integer> laSoDuong = x -> x > 0;
+Consumer<String> inRa = System.out::println;
+Supplier<String> taoChuoi = () -> "Xin chào";
+```
+
+Đây chính là các interface nền tảng cho `map` (`Function`), `filter` (`Predicate`), `forEach` (`Consumer`) trong Stream API.
+
+</details>
+
+**7. Đoạn code sau có biên dịch được không? Vì sao?**
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        Runnable[] tacVu = new Runnable[3];
+        for (int i = 0; i < 3; i++) {
+            int gia = i; // biến effectively final RIÊNG cho mỗi vòng lặp
+            tacVu[i] = () -> System.out.println("Giá trị: " + gia);
+        }
+        for (Runnable r : tacVu) {
+            r.run();
+        }
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Biên dịch được** và in ra `Giá trị: 0`, `Giá trị: 1`, `Giá trị: 2`.
+
+- Mấu chốt là dòng `int gia = i;` bên trong thân vòng lặp: mỗi lần lặp, một biến `gia` **mới** được khai báo và gán giá trị một lần duy nhất, nên nó là effectively final trong phạm vi (scope) của lần lặp đó — dù `i` (biến điều khiển vòng lặp) liên tục thay đổi.
+- Nếu bỏ dòng `int gia = i;` và lambda cố capture trực tiếp biến `i` của vòng lặp `for` kiểu C (biến bị thay đổi mỗi vòng), code sẽ **báo lỗi biên dịch** vì `i` không phải effectively final.
+- Đây là lý do lambda trong vòng lặp `for-each` (`for (String s : list)`) luôn an toàn để capture biến lặp — mỗi vòng, biến đó được coi như một biến effectively final riêng biệt.
+
+</details>
+
+**8. Trong đoạn code sau, `this.ten` bên trong lambda và bên trong anonymous class lần lượt tham chiếu tới đối tượng nào?**
+
+```java
+class ViDu {
+    String ten = "Ngoài";
+
+    Runnable dungLambda() {
+        return () -> System.out.println(this.ten);
+    }
+
+    Runnable dungAnonymous() {
+        return new Runnable() {
+            String ten = "Trong";
+            @Override
+            public void run() {
+                System.out.println(this.ten);
+            }
+        };
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `dungLambda().run()` in ra **`"Ngoài"`**: lambda **không tạo scope `this` riêng**, nên `this` bên trong lambda chính là `this` của đối tượng `ViDu` bao ngoài.
+- `dungAnonymous().run()` in ra **`"Trong"`**: anonymous class **tạo ra một lớp con thật sự** của `Runnable`, nên nó có `this` của riêng nó, và field `ten` tự khai báo (`"Trong"`) che khuất (shadow) field `ten` của lớp ngoài.
+- Đây là khác biệt ngữ nghĩa quan trọng thường bị bỏ qua khi chỉ nghĩ lambda là "anonymous class viết gọn hơn".
+
+</details>
+
+**9. Khi nào KHÔNG nên viết logic phức tạp trực tiếp bên trong một biểu thức lambda?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Nên tách lambda phức tạp ra thành một **phương thức riêng có tên rõ ràng** (rồi dùng method reference) khi:
+
+- Thân lambda có **nhiều bước logic, rẽ nhánh, hoặc lồng nhiều lambda khác** — khó đọc khi nằm giữa một chuỗi Stream dài.
+- Logic đó **cần được test độc lập** (unit test) — một method riêng dễ viết test hơn một lambda ẩn danh nằm giữa code.
+- Logic đó **được tái sử dụng ở nhiều nơi** — tách ra tránh lặp code.
+- Ví dụ cải thiện:
+
+```java
+// Khó đọc: logic phức tạp nhồi hết vào lambda
+list.stream().filter(x -> x.getTuoi() > 18 && x.getDiem() >= 5 && !x.daNghiHoc()).toList();
+
+// Rõ ràng hơn: tách thành method có tên
+list.stream().filter(HocSinh::duDieuKienTotNghiep).toList();
+```
+
+</details>
+
+**10. Lambda có tự động cache/tái sử dụng instance khi không capture biến ngoài nào không? Điều này ảnh hưởng thế nào tới hiệu năng khi tạo lambda trong vòng lặp lớn?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Với lambda **không capture** biến nào từ môi trường xung quanh (stateless), JVM **có thể** (nhưng không đảm bảo theo đặc tả) tái sử dụng cùng một instance đã tạo, vì hành vi của nó không phụ thuộc ngữ cảnh — tương tự như một hằng số.
+- Với lambda **có capture** biến ngoài, mỗi lần biểu thức lambda được thực thi (ví dụ mỗi vòng lặp) sẽ tạo ra **một instance mới** giữ giá trị capture riêng — không thể tái sử dụng vì mỗi instance mang dữ liệu khác nhau.
+- Về thực tế: chi phí tạo lambda **rất nhỏ** so với anonymous class cũ (JVM dùng cơ chế `invokedynamic` để sinh lambda hiệu quả hơn là tạo hẳn một `.class` file), nên trong tuyệt đại đa số trường hợp không cần lo lắng về hiệu năng khi dùng lambda trong vòng lặp — chỉ cần tránh capture những đối tượng nặng một cách không cần thiết.
+
+</details>

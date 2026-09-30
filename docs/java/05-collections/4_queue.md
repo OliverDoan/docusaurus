@@ -35,6 +35,7 @@ Queue (hàng đợi) là cấu trúc xử lý phần tử theo nguyên tắc và
 - [Ví dụ thực tế](#ví-dụ-thực-tế)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -294,3 +295,194 @@ System.out.println("Đã in xong tất cả!");
 - **LinkedList** là lớp phổ biến để tạo Queue.
 - **PriorityQueue** lấy ra phần tử **nhỏ nhất trước**, dùng cho bài toán ưu tiên.
 - Queue phù hợp cho các bài toán **xử lý lần lượt theo thứ tự đến**.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. `Queue` khác `Stack` ở nguyên tắc xử lý nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `Queue` theo nguyên tắc **FIFO** (First In, First Out — vào trước ra trước): thêm ở cuối bằng `offer()`, lấy ở đầu bằng `poll()`.
+- `Stack` theo nguyên tắc **LIFO** (Last In, First Out — vào sau ra trước): thêm và lấy đều ở cùng một đầu (đỉnh stack) bằng `push()`/`pop()`.
+- Ví dụ trực quan: `Queue` giống hàng người xếp hàng mua vé (ai đến trước ra trước); `Stack` giống chồng đĩa (đĩa đặt lên sau cùng lại được lấy ra trước).
+
+</details>
+
+**2. Vì sao nên ưu tiên `offer`/`poll`/`peek` thay vì `add`/`remove`/`element`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Cả hai bộ phương thức làm cùng chức năng, nhưng khác nhau cách xử lý khi hàng đợi **rỗng hoặc đầy**:
+
+| Thao tác | Bộ an toàn | Bộ ném ngoại lệ |
+|----------|-----------|------------------|
+| Thêm | `offer(x)` → `false` nếu thất bại | `add(x)` → ném `IllegalStateException` |
+| Lấy & xóa đầu | `poll()` → `null` nếu rỗng | `remove()` → ném `NoSuchElementException` |
+| Xem đầu | `peek()` → `null` nếu rỗng | `element()` → ném `NoSuchElementException` |
+
+- Dùng bộ `offer/poll/peek` giúp code không bị dừng đột ngột (crash) vì ngoại lệ không mong muốn khi hàng đợi rỗng — chỉ cần kiểm tra giá trị trả về (`null`/`false`) là đủ, phù hợp với các vòng lặp xử lý liên tục kiểu `while (!queue.isEmpty())`.
+
+</details>
+
+**3. `LinkedList` và `ArrayDeque` — cùng cài đặt `Queue`, khi nào nên chọn cái nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **`ArrayDeque`** dùng mảng động (resizable array) làm cấu trúc bên trong, không có overhead của con trỏ liên kết như `LinkedList` — **nhanh hơn** và tiết kiệm bộ nhớ hơn cho hầu hết trường hợp dùng làm Queue hoặc Stack thuần túy.
+- **`LinkedList`** dùng danh sách liên kết đôi (doubly linked list), phù hợp hơn khi cần **thêm/xóa thường xuyên ở giữa danh sách** (không chỉ hai đầu) hoặc cần vừa dùng như `List` vừa như `Queue`.
+- Java Docs khuyến nghị: khi chỉ cần dùng thuần túy như Queue/Stack (chỉ thao tác ở hai đầu), nên ưu tiên `ArrayDeque` thay vì `LinkedList` vì hiệu năng tốt hơn trong đa số trường hợp.
+
+</details>
+
+**4. `PriorityQueue` sắp xếp thứ tự lấy ra dựa trên tiêu chí nào? Mặc định lấy ra phần tử như thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Mặc định, `PriorityQueue` lấy ra phần tử **nhỏ nhất trước** (min-heap), dựa trên **thứ tự tự nhiên (natural ordering)** — yêu cầu phần tử cài đặt `Comparable` (ví dụ `Integer`, `String` đã có sẵn).
+- Có thể tùy chỉnh thứ tự bằng cách truyền một `Comparator` khi khởi tạo, ví dụ để lấy ra phần tử **lớn nhất trước** (max-heap):
+
+```java
+PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
+maxHeap.offer(30);
+maxHeap.offer(10);
+maxHeap.offer(20);
+System.out.println(maxHeap.poll()); // 30 — lớn nhất trước
+```
+
+- Cấu trúc bên trong là **heap nhị phân (binary heap)**, đảm bảo `offer()`/`poll()` có độ phức tạp O(log n), còn `peek()` là O(1).
+
+</details>
+
+**5. Đoạn code sau in ra thứ tự nào? Giải thích vì sao nhiều người nhầm.**
+
+```java
+Queue<Integer> pq = new PriorityQueue<>();
+pq.offer(30);
+pq.offer(10);
+pq.offer(20);
+System.out.println(pq); // in trực tiếp cả Queue
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`System.out.println(pq)` **không** in ra theo thứ tự `10, 20, 30` mà in ra thứ tự **lưu trữ nội bộ** của heap (ví dụ có thể là `[10, 30, 20]` tùy cách heap sắp xếp cây), vì `toString()` của `PriorityQueue` duyệt mảng nội bộ chứ không đảm bảo thứ tự ưu tiên.
+
+- Chỉ có `poll()` (gọi liên tục) mới đảm bảo lấy ra đúng thứ tự ưu tiên: nhỏ nhất trước.
+- Đây là lỗi rất hay gặp: nhầm rằng in trực tiếp `PriorityQueue` sẽ hiện ra thứ tự đã sắp xếp, trong khi thực chất phải `poll()` từng phần tử ra mới đúng thứ tự.
+
+```java
+while (!pq.isEmpty()) {
+    System.out.println(pq.poll()); // đúng thứ tự: 10, 20, 30
+}
+```
+
+</details>
+
+**6. `Deque` (Double-Ended Queue) khác `Queue` ở điểm nào? Vì sao `Deque` có thể đóng vai trò cả Stack lẫn Queue?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `Deque` (đọc là "deck", viết tắt của **Double-Ended Queue** — hàng đợi hai đầu) cho phép thêm/xóa hiệu quả ở **cả hai đầu**: `addFirst()`/`addLast()`, `removeFirst()`/`removeLast()`, `peekFirst()`/`peekLast()`.
+- `Queue` thường chỉ thêm ở một đầu (cuối) và lấy ở đầu kia (đầu hàng) — chỉ hỗ trợ FIFO.
+- Vì thao tác được ở cả hai đầu, `Deque` có thể mô phỏng:
+  - **Queue (FIFO)**: dùng `addLast()` + `removeFirst()`.
+  - **Stack (LIFO)**: dùng `addFirst()` (hoặc `push()`) + `removeFirst()` (hoặc `pop()`).
+- Trong Java hiện đại, `ArrayDeque` được khuyến nghị dùng thay cho lớp `Stack` cũ (kế thừa `Vector`, đồng bộ hóa không cần thiết, được coi là legacy).
+
+</details>
+
+**7. Nêu một ứng dụng thực tế của `Queue` trong thuật toán duyệt đồ thị.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`Queue` là cấu trúc trung tâm của thuật toán **BFS (Breadth-First Search — duyệt theo chiều rộng)**: duyệt đồ thị hoặc cây theo từng "lớp" (level) tính từ nút gốc, thay vì đi sâu như DFS (Depth-First Search).
+
+```java
+Queue<Node> queue = new LinkedList<>();
+queue.offer(root);
+Set<Node> daTham = new HashSet<>();
+daTham.add(root);
+
+while (!queue.isEmpty()) {
+    Node hienTai = queue.poll();
+    xuLy(hienTai);
+    for (Node ke : hienTai.getNeighbors()) {
+        if (!daTham.contains(ke)) {
+            daTham.add(ke);
+            queue.offer(ke); // thêm các nút kề vào cuối hàng đợi
+        }
+    }
+}
+```
+
+- Nguyên tắc FIFO của Queue đảm bảo các nút ở "lớp gần gốc hơn" luôn được xử lý trước các nút ở lớp xa hơn — đúng bản chất của BFS.
+
+</details>
+
+**8. `BlockingQueue` là gì và giải quyết bài toán gì trong lập trình đa luồng?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`BlockingQueue` (trong `java.util.concurrent`) là một `Queue` **thread-safe**, hỗ trợ mô hình **producer-consumer** (nhà sản xuất - người tiêu thụ):
+
+- `put(x)`: nếu hàng đợi đầy, luồng gọi sẽ **tự động chờ (block)** cho đến khi có chỗ trống, thay vì báo lỗi ngay.
+- `take()`: nếu hàng đợi rỗng, luồng gọi sẽ tự động chờ cho đến khi có phần tử mới.
+
+```java
+BlockingQueue<String> hangDoi = new LinkedBlockingQueue<>(100);
+
+// Luồng producer: sản xuất dữ liệu
+hangDoi.put("Đơn hàng #1"); // tự chờ nếu hàng đợi đầy
+
+// Luồng consumer: xử lý dữ liệu
+String donHang = hangDoi.take(); // tự chờ nếu hàng đợi rỗng
+```
+
+- Giải quyết được bài toán đồng bộ hóa giữa nhiều luồng ghi/đọc mà không cần tự viết `wait()`/`notify()` thủ công — an toàn và ít lỗi hơn.
+
+</details>
+
+**9. Vì sao dùng `list.remove(0)` liên tục trên `ArrayList` để mô phỏng Queue lại kém hiệu quả?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- `ArrayList` lưu dữ liệu trong một **mảng liên tục**. `remove(0)` xóa phần tử đầu tiên, buộc phải **dịch chuyển tất cả các phần tử còn lại lên trước một ô** để lấp chỗ trống — độ phức tạp **O(n)** cho mỗi lần gọi.
+- Nếu lặp lại `remove(0)` cho `n` phần tử, tổng chi phí là **O(n²)**.
+- Trong khi đó, `LinkedList`/`ArrayDeque` khi dùng đúng API `poll()` (lấy từ đầu) chỉ tốn **O(1)** mỗi lần, vì cấu trúc bên trong được thiết kế để thao tác ở hai đầu hiệu quả (không cần dịch chuyển phần tử khác).
+- Bài học: chọn đúng cấu trúc dữ liệu theo đúng thao tác cần làm — không nên dùng `List` để giả lập `Queue`.
+
+</details>
+
+**10. Trong bài toán "K phần tử lớn nhất trong mảng lớn", vì sao `PriorityQueue` thường được chọn thay vì sắp xếp toàn bộ mảng?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Sắp xếp toàn bộ mảng `n` phần tử rồi lấy `k` phần tử cuối có độ phức tạp **O(n log n)**.
+- Dùng `PriorityQueue` (min-heap) kích thước cố định `k`: duyệt qua từng phần tử của mảng, nếu heap chưa đủ `k` phần tử thì `offer()` vào; nếu đã đủ `k` mà phần tử mới lớn hơn phần tử nhỏ nhất trong heap (`peek()`), thì `poll()` phần tử nhỏ nhất ra rồi `offer()` phần tử mới vào. Độ phức tạp tổng thể chỉ **O(n log k)** — nhanh hơn hẳn khi `k` nhỏ hơn nhiều so với `n`.
+
+```java
+PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+for (int x : mang) {
+    minHeap.offer(x);
+    if (minHeap.size() > k) {
+        minHeap.poll(); // loại bỏ phần tử nhỏ nhất, chỉ giữ lại k phần tử lớn nhất
+    }
+}
+// minHeap giờ chứa đúng k phần tử lớn nhất của mảng
+```
+
+</details>

@@ -37,6 +37,7 @@ Apache JMeter là công cụ mã nguồn mở dùng để test hiệu năng và 
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Vì sao JMeter ra đời?](#vì-sao-jmeter-ra-đời)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -198,3 +199,140 @@ JMeter **không thay thế** unit test hay integration test. Nó trả lời câ
 - Test tải thật nên chạy ở **chế độ non-GUI** (`jmeter -n -t ...`) để chính xác.
 - Dùng JMeter trước khi ra mắt tính năng quan trọng hoặc sau khi tối ưu hệ thống.
 - Bài tiếp theo: **Behavior Testing & Cucumber-JVM** — viết test theo ngôn ngữ tự nhiên.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. JMeter khác gì so với JUnit/REST Assured về mục đích kiểm thử? Vì sao không thể dùng JMeter để thay thế hoàn toàn unit test hay integration test?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **JUnit/REST Assured** trả lời câu hỏi: **"code/API có chạy đúng logic không?"** — kiểm tra tính đúng đắn (correctness) của một hành vi cụ thể với một lượng request nhỏ, thường chỉ 1 request tại một thời điểm.
+- **JMeter** trả lời câu hỏi hoàn toàn khác: **"hệ thống chịu tải đến đâu, phản hồi nhanh tới mức nào khi có nhiều người dùng cùng lúc?"** — tập trung vào hiệu năng (performance), không phải tính đúng đắn của logic nghiệp vụ.
+- Hai loại test này **bổ sung** chứ không thay thế nhau: một API có thể trả đúng kết quả (unit/integration test pass) nhưng vẫn sập hoặc phản hồi chậm không chấp nhận được khi có 10.000 người dùng cùng lúc truy cập — chỉ performance test như JMeter mới phát hiện được vấn đề này.
+
+</details>
+
+**2. Nêu và giải thích ba chỉ số quan trọng nhất khi đo hiệu năng hệ thống bằng JMeter.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Response time (thời gian phản hồi)**: khoảng thời gian từ lúc gửi request tới lúc nhận được phản hồi đầy đủ. Đây là chỉ số người dùng cảm nhận trực tiếp — thời gian phản hồi càng thấp, trải nghiệm càng tốt.
+- **Throughput (thông lượng)**: số lượng request hệ thống xử lý được trong một đơn vị thời gian (thường tính request/giây). Chỉ số này cho biết khả năng "gánh" tải của hệ thống.
+- **Error rate (tỉ lệ lỗi)**: phần trăm request bị lỗi (timeout, mã lỗi 5xx, kết nối bị từ chối...) trong tổng số request gửi đi. Tỉ lệ lỗi tăng cao khi tải vượt quá khả năng xử lý là dấu hiệu hệ thống đang "gãy".
+- Ba chỉ số này thường được xem xét **cùng nhau**: một hệ thống có throughput cao nhưng error rate cũng cao không phải là hệ thống tốt — nó chỉ đang "cố" xử lý nhiều request mà không đảm bảo chất lượng phản hồi.
+
+</details>
+
+**3. So sánh Load Test, Stress Test, Spike Test và Endurance (Soak) Test. Mỗi loại phù hợp trả lời câu hỏi nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Loại | Cách thực hiện | Câu hỏi trả lời |
+|---|---|---|
+| **Load Test** | Tạo tải đúng bằng mức **dự kiến thực tế** (ví dụ 1000 người dùng đồng thời) | "Hệ thống có chạy ổn định ở mức tải bình thường không?" |
+| **Stress Test** | Tăng tải **dần dần vượt quá** mức dự kiến cho tới khi hệ thống "gãy" | "Giới hạn chịu tải tối đa của hệ thống là bao nhiêu? Nó gãy như thế nào (từ từ hay sập đột ngột)?" |
+| **Spike Test** | Tăng tải **đột ngột** trong thời gian ngắn rồi giảm về bình thường | "Hệ thống có xử lý được cú sốc tải bất ngờ không (ví dụ flash sale), và có phục hồi được sau đó không?" |
+| **Endurance/Soak Test** | Giữ tải **vừa phải nhưng kéo dài** (vài giờ đến vài ngày) | "Hệ thống có vấn đề rò rỉ bộ nhớ (memory leak) hay suy giảm hiệu năng dần theo thời gian không?" |
+
+</details>
+
+**4. Trong Thread Group, giải thích ý nghĩa của "Number of Threads", "Ramp-up Period", và "Loop Count". Với cấu hình 200 threads, ramp-up 20 giây, loop count 3, tổng số lượt gọi request là bao nhiêu và tốc độ tăng người dùng ảo như thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Number of Threads**: số **người dùng ảo** được mô phỏng — mỗi "thread" tương ứng với một người dùng độc lập gửi request.
+- **Ramp-up Period**: khoảng thời gian (giây) để **khởi động dần** toàn bộ số luồng, tránh tạo cú sốc tải tức thời không thực tế.
+- **Loop Count**: số lần **mỗi** người dùng ảo lặp lại toàn bộ kịch bản request của mình.
+
+Với cấu hình **200 threads, ramp-up 20 giây, loop count 3**:
+
+- Tốc độ tăng người dùng ảo: mỗi giây có thêm `200 / 20 = 10` người dùng ảo bắt đầu hoạt động, cho tới khi đủ 200 người sau 20 giây.
+- Tổng số lượt gọi request: `200 × 3 = 600` lượt (giả sử mỗi vòng lặp gửi đúng 1 request; nếu kịch bản có nhiều sampler trong một vòng lặp thì nhân thêm số sampler đó).
+
+</details>
+
+**5. Vì sao khi chạy test tải thật (nhiều luồng, mô phỏng đông người dùng), tài liệu khuyến cáo nên chạy JMeter ở chế độ non-GUI (`jmeter -n -t ...`) thay vì chế độ giao diện đồ họa thông thường?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Chế độ **GUI** của JMeter phải liên tục **vẽ và cập nhật giao diện** để hiển thị tiến trình test theo thời gian thực — việc này tiêu tốn đáng kể CPU và bộ nhớ của chính máy đang chạy JMeter.
+- Khi mô phỏng số lượng lớn người dùng ảo (hàng trăm, hàng nghìn thread), tài nguyên máy chạy JMeter bị **chia sẻ** giữa việc gửi request thật và việc vẽ giao diện — dẫn tới **kết quả đo bị sai lệch** (response time bị "phồng" lên do máy JMeter chính nó cũng đang quá tải bởi việc render GUI, không phản ánh đúng hiệu năng thực sự của hệ thống đích).
+- Chế độ **non-GUI** (`jmeter -n -t test.jmx -l result.jtl -e -o report`) loại bỏ hoàn toàn overhead của giao diện, dành toàn bộ tài nguyên máy cho việc gửi request và đo lường, cho kết quả chính xác hơn nhiều — đây là cách chạy **bắt buộc** cho mọi bài test tải thật sự, GUI chỉ nên dùng để **thiết kế và gỡ lỗi** kịch bản test với số luồng nhỏ.
+
+</details>
+
+**6. Test sau có vấn đề gì khiến kết quả có thể bị hiểu sai là "100% request thành công" dù thực tế server đang trả về lỗi?**
+
+```text
+Cấu hình: Thread Group (100 threads) → HTTP Request Sampler (GET /api/orders)
+          → Summary Report Listener
+(Không có Assertion nào được thêm vào Sampler)
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Vấn đề**: kịch bản test **thiếu Assertion** (ví dụ Response Assertion) để kiểm tra **nội dung/mã trạng thái** thực sự của phản hồi.
+
+- Mặc định, JMeter chỉ tính một request là "lỗi" khi xảy ra lỗi ở tầng **giao thức** (ví dụ không kết nối được, timeout, hoặc server trả về mã lỗi HTTP như `500`) — nhưng nếu server trả về **HTTP 200** kèm theo một **trang lỗi** (ví dụ trang thông báo lỗi HTML, hoặc JSON rỗng do một lỗi logic nội bộ) thay vì dữ liệu mong đợi, JMeter mặc định vẫn tính đó là request **"thành công"** vì về mặt giao thức HTTP nó nhận được phản hồi hợp lệ với mã 200.
+- Kết quả: báo cáo Summary Report có thể hiển thị tỉ lệ lỗi là `0%`, tạo cảm giác an toàn giả, trong khi thực tế server đang trả về nội dung sai hoàn toàn.
+- Cách khắc phục: thêm **Response Assertion** vào Sampler để kiểm tra nội dung phản hồi có chứa đúng dữ liệu mong đợi (hoặc không chứa từ khóa lỗi như "error", "exception"), giúp JMeter phân biệt chính xác giữa "phản hồi có nhận được" và "phản hồi đúng nội dung mong đợi".
+
+</details>
+
+**7. Vì sao không nên chạy JMeter và server đang được test trên cùng một máy vật lý khi thực hiện load test nghiêm túc?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Khi cả JMeter (đóng vai trò tạo tải) và server (đối tượng bị test) cùng chạy trên **một máy**, cả hai sẽ **tranh giành cùng một nguồn tài nguyên** (CPU, RAM, băng thông mạng nội bộ) — dẫn tới hai vấn đề:
+  - **JMeter không đủ tài nguyên** để tạo đủ tải như cấu hình mong muốn (ví dụ không thể thực sự mô phỏng 1000 luồng đồng thời nếu CPU máy đã bị server chiếm dụng phần lớn).
+  - **Server bị "đánh cắp" tài nguyên** bởi chính JMeter đang chạy cùng máy, khiến response time đo được **cao hơn thực tế** — không phản ánh đúng hiệu năng server sẽ có khi chạy độc lập trên hạ tầng production thật.
+- Khuyến nghị: chạy JMeter (hoặc dùng JMeter ở chế độ **distributed testing** — nhiều máy JMeter "worker" phối hợp) trên một máy **tách biệt hoàn toàn** với máy chạy server đích, đảm bảo kết quả đo phản ánh đúng khả năng chịu tải thực sự của hệ thống.
+
+</details>
+
+**8. Aggregate Report trong JMeter cung cấp thông tin gì mà Summary Report không có? Vì sao chỉ nhìn "response time trung bình (average)" có thể đánh lừa khi đánh giá trải nghiệm người dùng?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Aggregate Report** bổ sung thêm các **phân vị (percentile)** như 90%, 95%, 99% — ví dụ "percentile 95% là 800ms" nghĩa là 95% số request có thời gian phản hồi **dưới hoặc bằng** 800ms.
+- Chỉ nhìn **response time trung bình (average)** có thể đánh lừa vì trung bình dễ bị "kéo lệch" bởi một số ít request rất nhanh, che giấu việc có một tỉ lệ đáng kể request bị **chậm bất thường** (outlier). Ví dụ: average là 200ms nghe có vẻ tốt, nhưng nếu percentile 99% lại là 5000ms, nghĩa là **1% người dùng** (có thể là hàng nghìn người trong hệ thống lớn) đang trải nghiệm độ trễ rất tệ mà con số trung bình hoàn toàn không phản ánh được.
+- Vì vậy, khi đánh giá trải nghiệm thực tế của **đa số** người dùng, các đội performance engineering thường ưu tiên nhìn vào **percentile cao (95%, 99%)** thay vì chỉ dựa vào con số trung bình.
+
+</details>
+
+**9. Trong một pipeline CI/CD, làm thế nào để JMeter được dùng để "tự động cảnh báo khi hiệu năng tụt sau mỗi lần deploy"? Mô tả ý tưởng ở mức khái niệm.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Ý tưởng ở mức khái niệm:
+
+1. **Chạy JMeter tự động** ở chế độ non-GUI (`jmeter -n -t test.jmx -l result.jtl`) ngay sau mỗi lần deploy lên môi trường staging/test, như một bước trong pipeline CI/CD.
+2. **Thu thập kết quả** (response time, throughput, error rate) từ file `.jtl` sinh ra, thường qua một công cụ phân tích hoặc script tùy chỉnh để trích xuất các chỉ số quan trọng.
+3. **So sánh với ngưỡng (threshold) đã định trước** — ví dụ "percentile 95% không được vượt quá 1 giây", hoặc so sánh với kết quả của lần chạy trước đó (baseline) để phát hiện **hiệu năng suy giảm tương đối** (ví dụ chậm hơn 20% so với trước).
+4. Nếu vượt ngưỡng hoặc suy giảm đáng kể, pipeline **đánh dấu build fail** hoặc gửi cảnh báo cho đội phát triển, giúp phát hiện vấn đề hiệu năng **ngay khi vừa được đưa vào**, thay vì phát hiện muộn khi đã ảnh hưởng người dùng thật ở production.
+
+</details>
+
+**10. Vì sao đặt Ramp-up Period bằng 0 (khởi động tất cả luồng cùng lúc) thường không mô phỏng đúng tình huống thực tế, ngoại trừ khi đang cố tình thực hiện Spike Test?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Trong thực tế, người dùng **hiếm khi** truy cập một hệ thống theo kiểu "tất cả cùng bấm nút trong cùng một mili-giây" — lưu lượng người dùng thường **tăng dần** theo thời gian (ví dụ trong vài phút đầu giờ làm việc, lượng truy cập tăng từ từ chứ không nhảy vọt tức thì).
+- Nếu đặt Ramp-up = 0, JMeter sẽ cố gắng khởi động **toàn bộ** số luồng cấu hình **ngay lập tức** — tạo ra một "cú sốc tải" (traffic spike) cực đoan mà bản thân máy chạy JMeter cũng phải chịu áp lực tạo ra hàng loạt kết nối cùng lúc, có thể khiến kết quả đo bị nhiễu bởi giới hạn của chính máy JMeter, chứ không phản ánh đúng hành vi tải tăng dần tự nhiên.
+- Ramp-up = 0 chỉ **hợp lý và có chủ đích** khi bạn đang thực hiện **Spike Test** — vì mục tiêu của loại test này chính là mô phỏng một cú sốc tải đột ngột (ví dụ hàng chục nghìn người cùng vào trang bán vé đúng giờ mở bán) để kiểm tra khả năng chống chịu và phục hồi của hệ thống trước tình huống cực đoan đó.
+
+</details>

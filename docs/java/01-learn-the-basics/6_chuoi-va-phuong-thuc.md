@@ -35,6 +35,7 @@ String là kiểu dùng để lưu văn bản, tức một dãy các ký tự nh
 - [StringBuilder — chỉnh sửa chuỗi hiệu quả](#stringbuilder--chỉnh-sửa-chuỗi-hiệu-quả)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -289,3 +290,239 @@ Khi nào dùng StringBuilder? Khi bạn cần ghép/sửa chuỗi nhiều lần,
 - Nhiều phương thức hữu ích: `length`, `charAt`, `substring`, `indexOf`, `toUpperCase`, `trim`, `split`, `replace`.
 - So sánh nội dung dùng `.equals()`, KHÔNG dùng `==`.
 - **StringBuilder** dùng khi cần ghép/sửa chuỗi nhiều lần để chạy nhanh hơn.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Vì sao `String` trong Java được thiết kế là bất biến (immutable)? Nêu ít nhất hai lợi ích cụ thể.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **An toàn khi chia sẻ (đa luồng)**: nhiều đối tượng/luồng có thể cùng giữ tham chiếu tới một chuỗi mà không lo bị nơi khác sửa đổi ngầm — không cần khóa (`lock`) khi đọc.
+- **Dùng làm key của `HashMap`/`HashSet` an toàn**: nếu chuỗi có thể đổi nội dung sau khi đã dùng làm key, `hashCode()` của nó sẽ thay đổi, khiến việc tra cứu trong bảng băm (hash table) bị sai — vì phần tử bị "lạc" ở bucket cũ.
+- **Cache được trong String Pool**: vì nội dung không đổi, Java có thể an toàn cho nhiều biến literal giống nhau dùng chung một object, tiết kiệm bộ nhớ.
+- **Bảo mật**: các thông tin nhạy cảm truyền qua `String` (ví dụ tên file, URL, tham số kết nối) không thể bị đổi sau khi đã được kiểm tra (validate), tránh một dạng lỗ hổng gọi là time-of-check-to-time-of-use.
+
+</details>
+
+**2. String Pool là gì? Tạo chuỗi bằng literal `"Java"` khác gì so với `new String("Java")`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**String Pool** (còn gọi String Constant Pool) là một vùng nhớ đặc biệt trong heap, nơi Java lưu trữ và **tái sử dụng** các chuỗi literal — hai chuỗi literal giống hệt nội dung sẽ dùng chung một object duy nhất trong pool.
+
+```java
+String a = "Java";        // lấy (hoặc thêm mới) từ String Pool
+String b = "Java";        // trùng nội dung -> dùng lại CHÍNH object trong pool, không tạo mới
+String c = new String("Java"); // từ khóa new -> LUÔN tạo object MỚI trên heap, ngoài pool
+
+System.out.println(a == b); // true — cùng một object trong pool
+System.out.println(a == c); // false — c là object riêng, dù nội dung giống nhau
+```
+
+- Dùng literal giúp tiết kiệm bộ nhớ nhờ tái sử dụng; dùng `new String(...)` gần như không cần thiết trong code thông thường vì luôn tạo rác thêm.
+
+</details>
+
+**3. Output của đoạn code sau là gì? Vì sao?**
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        String a = "Java";
+        String b = "Java";
+        String c = new String("Java");
+
+        System.out.println(a == b);
+        System.out.println(a == c);
+        System.out.println(a.equals(c));
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Kết quả lần lượt: **`true`**, **`false`**, **`true`**.
+
+- `a == b` → `true`: cả hai là literal `"Java"`, cùng trỏ tới **một object duy nhất** trong String Pool.
+- `a == c` → `false`: `c` được tạo bằng `new String(...)`, ép Java tạo một object **mới** trên heap, khác object trong pool — dù nội dung ký tự giống hệt nhau, `==` so sánh **địa chỉ** nên vẫn là `false`.
+- `a.equals(c)` → `true`: `equals()` của `String` so sánh **từng ký tự nội dung**, không quan tâm địa chỉ, nên trả về `true`.
+- Ghi nhớ: **luôn dùng `.equals()`** để so sánh nội dung chuỗi; chỉ dùng `==` khi cố ý kiểm tra hai biến có cùng trỏ tới một object hay không.
+
+</details>
+
+**4. So sánh `String`, `StringBuilder` và `StringBuffer`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| | `String` | `StringBuilder` | `StringBuffer` |
+|---|---|---|---|
+| Tính chất | Bất biến (immutable) | Thay đổi được (mutable) | Thay đổi được (mutable) |
+| Thread-safe (an toàn đa luồng) | Có (do bất biến) | Không | Có (các phương thức được đồng bộ hóa — `synchronized`) |
+| Hiệu năng | Chậm khi nối chuỗi nhiều lần | Nhanh nhất (đơn luồng) | Chậm hơn `StringBuilder` do chi phí đồng bộ hóa |
+| Khi nào dùng | Chuỗi cố định, ít thay đổi | Ghép/sửa chuỗi nhiều lần trong một luồng (đa số trường hợp thực tế) | Ghép/sửa chuỗi được chia sẻ giữa nhiều luồng cùng lúc |
+
+Trong thực tế, `StringBuilder` được dùng phổ biến hơn hẳn `StringBuffer` vì phần lớn thao tác ghép chuỗi diễn ra trong một luồng duy nhất (ví dụ bên trong một method), không cần trả chi phí đồng bộ hóa không cần thiết.
+
+</details>
+
+**5. Đoạn code sau in ra gì? Vì sao nhiều người mới hay nhầm lẫn ở đây?**
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        String s = "hello";
+        s.toUpperCase();
+        System.out.println(s);
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+In ra **`hello`** (chữ thường, không đổi).
+
+- Vì `String` bất biến, `s.toUpperCase()` **tạo ra một chuỗi mới** `"HELLO"` và trả về, nhưng không hề sửa `s` tại chỗ.
+- Do kết quả trả về không được gán lại (`s = s.toUpperCase();`), chuỗi mới bị "rơi" mất, còn `s` vẫn giữ nguyên giá trị cũ.
+- Đây là lỗi kinh điển nhất của người mới học String: quên rằng mọi phương thức "biến đổi" trên `String` đều trả về object mới, không sửa đối tượng gốc.
+
+</details>
+
+**6. Vì sao nối chuỗi bằng `+` trong vòng lặp lớn lại chậm? `StringBuilder` giải quyết vấn đề này như thế nào?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+String s = "";
+for (int i = 0; i < 10000; i++) {
+    s = s + i; // mỗi vòng lặp tạo ra MỘT chuỗi mới hoàn toàn
+}
+```
+
+- Vì `String` bất biến, mỗi lần `s + i` chạy, Java phải cấp phát một object `String` mới, **copy toàn bộ nội dung cũ** của `s` cộng thêm phần mới vào, rồi bỏ object cũ làm rác cho garbage collector dọn. Với vòng lặp `n` lần, tổng chi phí copy tăng theo cấp **O(n²)**.
+- `StringBuilder` dùng một **mảng ký tự nội bộ (`char[]`) có thể thay đổi được**, và tự động cấp phát dư ra (capacity) để `append()` phần lớn các lần chỉ cần ghi thêm vào mảng có sẵn, không phải copy lại toàn bộ nội dung cũ mỗi lần — đưa độ phức tạp về gần **O(n)**.
+
+```java
+StringBuilder sb = new StringBuilder();
+for (int i = 0; i < 10000; i++) {
+    sb.append(i); // sửa tại chỗ, không tạo object String mới mỗi vòng
+}
+String ketQua = sb.toString();
+```
+
+- Mẹo thêm: nếu biết trước số lượng ký tự cần ghép sẽ lớn, có thể khởi tạo `new StringBuilder(kichThuocDuKien)` để giảm số lần `StringBuilder` phải tự cấp phát lại mảng nội bộ khi đầy.
+
+</details>
+
+**7. Phương thức `intern()` của `String` làm gì? Khi nào nên cân nhắc dùng nó?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+`intern()` trả về **bản trong String Pool** có cùng nội dung với chuỗi hiện tại — nếu pool đã có chuỗi giống hệt, trả về tham chiếu tới bản đó; nếu chưa có, thêm chuỗi hiện tại vào pool rồi trả về chính nó.
+
+```java
+String a = new String("Java").intern();
+String b = "Java";
+System.out.println(a == b); // true — nhờ intern(), a trỏ vào cùng object trong pool với b
+```
+
+- Cân nhắc dùng khi chương trình xử lý **rất nhiều chuỗi trùng lặp nội dung** được tạo động (ví dụ đọc hàng triệu dòng log, mỗi dòng parse ra vài chuỗi lặp lại nhiều lần) — gọi `intern()` giúp gom chúng lại dùng chung object, giảm bộ nhớ.
+- Không nên lạm dụng: nếu chuỗi phần lớn là duy nhất (không lặp), `intern()` chỉ tốn thêm chi phí tra cứu pool mà không tiết kiệm được gì.
+
+</details>
+
+**8. `String` có phù hợp làm key cho `HashMap` không? Vì sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Rất phù hợp**, và là lựa chọn phổ biến nhất cho key trong thực tế, nhờ hai đặc điểm:
+
+- **Bất biến (immutable)**: một khi đã dùng làm key, nội dung (và do đó `hashCode()`) không thể bị thay đổi ngầm từ bên ngoài — tránh được lỗi "key bị đổi sau khi đưa vào Map khiến tra cứu sai bucket", vốn là rủi ro lớn nếu dùng một object mutable làm key.
+- **`equals()` và `hashCode()` đã được cài đặt đúng đắn (well-defined)**: hai chuỗi có nội dung giống nhau luôn cho `hashCode()` giống nhau và `equals()` trả về `true` — đúng hợp đồng (contract) mà `HashMap` yêu cầu ở key.
+- Thêm lợi thế hiệu năng: `String` **cache lại giá trị `hashCode()`** đã tính (tính một lần, lưu lại trong field nội bộ), nên các lần tra cứu Map sau không phải tính lại từ đầu.
+
+</details>
+
+**9. Đoạn code sau in ra `true`/`false` như thế nào ở mỗi dòng? Giải thích khái niệm compile-time constant liên quan tới String Pool.**
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        String s1 = "ab";
+        String s2 = "a" + "b";
+
+        String x = "a";
+        String s3 = x + "b";
+
+        System.out.println(s1 == s2);
+        System.out.println(s1 == s3);
+    }
+}
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Kết quả: `s1 == s2` là **`true`**, `s1 == s3` là **`false`**.
+
+- `"a" + "b"` khi cả hai vế đều là **literal cố định** (compile-time constant) được compiler **tính sẵn ngay lúc biên dịch** thành `"ab"`, rồi đưa thẳng vào String Pool — nên `s2` trỏ tới **cùng object** với `s1` trong pool.
+- `x + "b"` thì `x` là một **biến**, giá trị của nó (dù không đổi lúc chạy) vẫn được compiler coi là chỉ biết ở **runtime**, nên phép nối chuỗi này được thực hiện thật lúc chương trình chạy (thường qua `StringBuilder` ẩn), tạo ra một object **mới trên heap**, không nằm trong pool — vì vậy `s1 == s3` là `false` dù nội dung hai chuỗi giống hệt nhau.
+- Đây là lý do nhiều câu hỏi phỏng vấn dùng ví dụ này để kiểm tra hiểu biết sâu về String Pool, chứ không chỉ dừng ở "literal thì bằng nhau, `new String` thì không".
+
+</details>
+
+**10. `substring()` trong các bản Java cũ (trước Java 7u6) từng gây rò rỉ bộ nhớ (memory leak) như thế nào? Java hiện tại (7u6 trở lên) đã khắc phục ra sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Trước Java 7u6**: `String` lưu dữ liệu trong một mảng `char[]` dùng chung, cùng với hai chỉ số `offset` (điểm bắt đầu) và `count` (độ dài). Khi gọi `substring()`, chuỗi con **không copy mảng ký tự mới** mà chỉ tạo object `String` mới trỏ vào **cùng mảng gốc**, chỉ đổi `offset`/`count`. Hệ quả: nếu bạn cắt ra một chuỗi con rất ngắn từ một chuỗi gốc rất dài (ví dụ đọc một file text khổng lồ rồi chỉ giữ lại vài ký tự), toàn bộ mảng ký tự khổng lồ của chuỗi gốc **vẫn bị giữ trong bộ nhớ** chỉ vì chuỗi con nhỏ xíu còn tham chiếu tới nó — gây rò rỉ bộ nhớ âm thầm, khó phát hiện.
+- **Từ Java 7u6 trở đi (và Java 8+)**: `substring()` được đổi cách cài đặt — luôn **copy** ra một mảng ký tự mới, độc lập với chuỗi gốc. Chuỗi con giờ chỉ chiếm đúng bộ nhớ tương ứng với độ dài của nó, không còn giữ cả mảng gốc.
+- Đánh đổi: cách mới tốn thêm chi phí copy mỗi lần gọi `substring()`, nhưng đổi lại tránh được lớp lỗi rò rỉ bộ nhớ khó chẩn đoán — được đánh giá là đánh đổi hợp lý hơn cho đa số ứng dụng.
+
+</details>
+
+**11. Text block (Java 15+) là gì? Cho ví dụ cú pháp và nêu lợi ích so với nối chuỗi nhiều dòng bằng `+`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Text block** là cú pháp viết chuỗi nhiều dòng gọn gàng, được chính thức đưa vào từ **Java 15**, dùng ba dấu nháy kép `"""` để mở và đóng.
+
+```java
+// Trước đây: nối chuỗi nhiều dòng bằng +, khó đọc
+String html1 = "<html>\n" +
+               "  <body>\n" +
+               "    <p>Xin chao</p>\n" +
+               "  </body>\n" +
+               "</html>\n";
+
+// Từ Java 15: text block, giữ nguyên định dạng, dễ đọc hơn hẳn
+String html2 = """
+        <html>
+          <body>
+            <p>Xin chao</p>
+          </body>
+        </html>
+        """;
+```
+
+Lợi ích:
+
+- Không cần escape dấu nháy kép bên trong (`\"`) hay nối `+` giữa các dòng, giảm lỗi cú pháp.
+- Java tự xử lý thụt lề (indentation) hợp lý dựa trên dòng đóng `"""`, giữ code nguồn dễ đọc mà không làm lệch định dạng chuỗi kết quả.
+- Rất hữu ích khi viết chuỗi JSON, SQL, HTML mẫu ngay trong code Java mà không mất công escape.
+- Kết quả trả về vẫn là một `String` bình thường (vẫn bất biến, vẫn dùng được mọi phương thức của `String`) — chỉ là cú pháp viết gọn hơn.
+
+</details>

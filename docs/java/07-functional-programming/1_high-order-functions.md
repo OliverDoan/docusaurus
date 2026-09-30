@@ -33,6 +33,7 @@ Hàm bậc cao (high order function) là hàm nhận một hàm khác làm tham 
 - [Method Reference (toán tử ::)](#method-reference-toán-tử-)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -329,3 +330,190 @@ Mẹo nhớ: nếu lambda của bạn có dạng `x -> someMethod(x)` thì gần
 - Trong Java, hàm được biểu diễn bằng **lambda** hoặc **method reference**, luôn gắn với một **functional interface**.
 - **Method reference** (`::`) là cách viết tắt của lambda khi chỉ gọi đúng một phương thức có sẵn, gồm 4 loại: static, đối tượng cụ thể, đối tượng bất kỳ, và constructor.
 - Phân biệt rõ: **gọi hàm** (`method()`) khác **truyền hành vi** (`Class::method`).
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Hàm bậc cao (higher-order function) là gì? Cho ví dụ trong Java Standard Library.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Hàm bậc cao là hàm thỏa mãn ít nhất một trong hai điều kiện:
+
+1. **Nhận một hàm khác làm tham số**.
+2. **Trả về một hàm** làm kết quả.
+
+Ví dụ tiêu biểu trong Java: `list.stream().filter(predicate)`, `stream.map(function)`, `list.forEach(consumer)` — tất cả đều nhận một hàm (dưới dạng lambda hoặc method reference) làm tham số. Đây chính là nền tảng của toàn bộ Stream API.
+
+</details>
+
+**2. Vì sao Java không có khái niệm "hàm tự do" (hàm độc lập không thuộc class nào) như JavaScript hay Python?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Java là ngôn ngữ **hướng đối tượng thuần túy (pure OOP)** ở cấp độ tổ chức code — mọi đoạn code thực thi phải nằm trong một phương thức của một class. Không có khái niệm hàm đứng độc lập ngoài class.
+
+Để mô phỏng "truyền hàm như dữ liệu" (first-class function), Java dùng cơ chế:
+
+- **Functional interface**: một interface chỉ có đúng một phương thức trừu tượng (abstract method), đóng vai trò làm "khuôn" (khai báo chữ ký) cho hàm.
+- **Lambda expression** hoặc **method reference**: là cách viết ngắn gọn để tạo ra một **object ẩn danh implement functional interface đó** ngay tại chỗ.
+
+Vậy về bản chất, một "hàm" truyền đi trong Java vẫn luôn là một **object**, chỉ là được viết bằng cú pháp gọn hơn so với việc viết hẳn một anonymous class.
+
+</details>
+
+**3. `Predicate`, `Function`, `Consumer`, `Supplier` khác nhau thế nào về số lượng tham số và giá trị trả về?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+| Interface | Phương thức trừu tượng | Nhận vào | Trả về |
+|-----------|--------------------------|----------|--------|
+| `Predicate<T>` | `boolean test(T t)` | 1 giá trị | `boolean` |
+| `Function<T, R>` | `R apply(T t)` | 1 giá trị | 1 giá trị (kiểu khác) |
+| `Consumer<T>` | `void accept(T t)` | 1 giá trị | không trả gì (`void`) |
+| `Supplier<T>` | `T get()` | không nhận gì | 1 giá trị |
+
+- Mẹo nhớ theo tên tiếng Anh: `Predicate` (mệnh đề đúng/sai), `Function` (hàm biến đổi), `Consumer` (tiêu thụ — chỉ nhận vào để xử lý, không trả ra), `Supplier` (nhà cung cấp — chỉ tạo ra giá trị, không cần đầu vào).
+
+</details>
+
+**4. Method reference (`::`) là gì? Vì sao `System.out::println` khác với `System.out.println()`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Method reference** là cách viết tắt của một lambda khi lambda đó **chỉ đơn thuần gọi lại đúng một phương thức có sẵn**, không có logic gì thêm.
+
+```java
+names.forEach(System.out::println); // ĐÚNG: truyền hành vi, gọi sau
+// names.forEach(System.out.println()); // SAI: gọi ngay, biên dịch lỗi vì println() trả về void
+```
+
+- `System.out::println` không gọi phương thức ngay — nó tạo ra một **object implement `Consumer<String>`** mà bên trong, khi `accept(x)` được gọi, sẽ thực thi `System.out.println(x)`.
+- `System.out.println()` là **gọi hàm ngay lập tức**, trả về `void` — không có ý nghĩa "hành vi để truyền đi", nên không thể dùng làm tham số cho `forEach`.
+
+</details>
+
+**5. Liệt kê 4 loại method reference và cho ví dụ mỗi loại.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+// 1. Static method reference: Lớp::phươngThứcTĩnh
+Function<Integer, Integer> square = Test::squareIt;
+
+// 2. Bound instance method reference: đốiTượngCụThể::phươngThức
+String s = "Xin chào";
+Supplier<Integer> lengthGetter = s::length;
+
+// 3. Unbound instance method reference: Lớp::phươngThức (đối tượng bất kỳ)
+Function<String, String> upper = String::toUpperCase;
+// tương đương lambda: (str) -> str.toUpperCase()
+
+// 4. Constructor reference: Lớp::new
+Supplier<StringBuilder> factory = StringBuilder::new;
+```
+
+- Điểm khác biệt then chốt giữa loại 2 và loại 3: loại 2 lambda tương đương `() -> s.length()` (đối tượng đã cố định), còn loại 3 lambda tương đương `(str) -> str.toUpperCase()` (đối tượng là tham số truyền vào lúc gọi).
+
+</details>
+
+**6. Vì sao lambda chỉ dùng được với functional interface (interface có đúng một phương thức trừu tượng)?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Một biểu thức lambda về bản chất chỉ cung cấp **một khối code duy nhất** (thân hàm), không có tên phương thức đi kèm. Để trình biên dịch biết lambda đó đang cài đặt (implement) **phương thức trừu tượng nào**, interface đích phải có **chính xác một phương thức trừu tượng** — không thừa, không thiếu — để không bị mơ hồ (ambiguous) về việc lambda đang định nghĩa hành vi cho phương thức nào.
+
+- Interface có 2+ phương thức trừu tượng: không thể dùng lambda (phải viết hẳn class hoặc anonymous class implement đầy đủ).
+- Interface chỉ có 1 phương thức trừu tượng nhưng có thêm `default`/`static` method: **vẫn dùng được lambda bình thường**, vì các phương thức `default`/`static` đã có sẵn cài đặt, không cần lambda cung cấp.
+- Annotation `@FunctionalInterface` (tùy chọn) giúp trình biên dịch **kiểm tra và báo lỗi sớm** nếu ai đó vô tình thêm phương thức trừu tượng thứ hai vào interface, phá vỡ tính "functional".
+
+</details>
+
+**7. Đoạn code sau có biên dịch được không? Giải thích.**
+
+```java
+interface KhongPhaiFunctional {
+    void a();
+    void b();
+}
+
+// ...
+KhongPhaiFunctional x = () -> System.out.println("test");
+```
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không biên dịch được.** Lỗi: "target type of a lambda conversion must be an interface".
+
+- `KhongPhaiFunctional` có **hai** phương thức trừu tượng (`a()` và `b()`), không phải là functional interface.
+- Lambda `() -> System.out.println("test")` chỉ cung cấp **một** khối thân hàm, nhưng trình biên dịch không biết nó nên gán cho `a()` hay `b()` — mơ hồ, nên bị từ chối ngay lúc biên dịch.
+- Cách sửa: nếu thật sự cần cài đặt cả hai phương thức, phải dùng anonymous class (`new KhongPhaiFunctional() { ... }`) thay vì lambda.
+
+</details>
+
+**8. Vì sao "trả về một hàm" (như ví dụ `multiplier(int factor)`) lại hữu ích? Nêu khái niệm closure liên quan.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```java
+static Function<Integer, Integer> multiplier(int factor) {
+    return number -> number * factor; // lambda "nhớ" factor
+}
+
+Function<Integer, Integer> doubleIt = multiplier(2);
+System.out.println(doubleIt.apply(10)); // 20
+```
+
+- Đây là ví dụ của **closure** (bao đóng): lambda trả về "ghi nhớ" giá trị của biến `factor` tại thời điểm nó được tạo ra, dù `multiplier()` đã kết thúc thực thi từ lâu.
+- Hữu ích để tạo ra các **hàm đã cấu hình sẵn (pre-configured/curried function)** — thay vì phải truyền `factor` mỗi lần gọi, bạn tạo sẵn một hàm `doubleIt` đã "khóa cứng" `factor = 2`, dùng lại nhiều lần mà không cần lặp lại tham số.
+- Lưu ý ràng buộc trong Java: biến ngoài (`factor`) mà lambda tham chiếu tới phải là **effectively final** (không bị gán lại giá trị sau khi khai báo) — nếu không sẽ bị lỗi biên dịch.
+
+</details>
+
+**9. `IntBinaryOperator` khác `BiFunction<Integer, Integer, Integer>` ở điểm nào? Vì sao Java cung cấp thêm các interface chuyên biệt cho kiểu nguyên thủy?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- Cả hai đều nhận 2 tham số `int`/`Integer` và trả về `int`/`Integer`, về mặt logic tương đương nhau.
+- `BiFunction<Integer, Integer, Integer>` dùng **generic**, nên tham số/kết quả thực chất là `Integer` (kiểu tham chiếu) — mỗi lần gọi phải **autobox** `int` thành `Integer` và **unbox** ngược lại, tốn chi phí tạo object thừa.
+- `IntBinaryOperator` (và các interface chuyên biệt khác như `IntPredicate`, `ToIntFunction`, `IntConsumer`...) làm việc **trực tiếp với kiểu nguyên thủy `int`**, tránh hoàn toàn chi phí autoboxing/unboxing — hiệu năng tốt hơn đáng kể khi xử lý số lượng lớn phần tử (ví dụ trong `IntStream`).
+- Đây là lý do `java.util.function` cung cấp cả phiên bản generic lẫn phiên bản chuyên biệt hóa cho từng kiểu nguyên thủy phổ biến (`int`, `long`, `double`).
+
+</details>
+
+**10. Nêu một ví dụ thực tế trong thiết kế phần mềm mà "truyền hành vi" (Strategy Pattern) qua hàm bậc cao thay thế cho việc viết nhiều class con.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Trước Java 8, để có nhiều "chiến lược" (strategy) khác nhau, người ta thường phải định nghĩa một interface rồi viết **nhiều class implement** nó (ví dụ `SapXepTangDan`, `SapXepGiamDan`), rồi truyền instance của class tương ứng vào.
+
+```java
+// Trước Java 8: phải viết hẳn class hoặc anonymous class
+list.sort(new Comparator<Integer>() {
+    @Override
+    public int compare(Integer a, Integer b) {
+        return b - a; // giảm dần
+    }
+});
+
+// Từ Java 8: chỉ cần một lambda, không cần viết class riêng
+list.sort((a, b) -> b - a);
+```
+
+- Hàm bậc cao cho phép thay thế **nhiều class chỉ khác nhau một hành vi nhỏ** bằng **một lambda truyền trực tiếp tại chỗ gọi**, giảm đáng kể số lượng class boilerplate (thừa thãi, lặp khuôn mẫu) trong codebase, đồng thời code đọc gần với ý định nghiệp vụ hơn (đọc `(a, b) -> b - a` hiểu ngay là "so sánh giảm dần").
+- Đây chính là bản chất của **Strategy Design Pattern** được đơn giản hóa nhờ lambda: thay vì đóng gói hành vi trong một class riêng, ta truyền thẳng hành vi dưới dạng hàm.
+
+</details>

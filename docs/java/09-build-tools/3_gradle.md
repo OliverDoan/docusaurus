@@ -35,6 +35,7 @@ Gradle là công cụ build hiện đại, linh hoạt và nhanh, dùng ngôn ng
 - [So sánh cú pháp Gradle với Maven](#so-sánh-cú-pháp-gradle-với-maven)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
 - [Tóm tắt](#tóm-tắt)
+- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -283,3 +284,173 @@ implementation 'com.google.code.gson:gson:2.10.1'
 - **Gradle Wrapper** (`./gradlew`) đảm bảo cả nhóm dùng đúng một phiên bản Gradle.
 - Gradle nhanh hơn Maven nhờ **incremental build**, **build cache** và **daemon**.
 - Cú pháp Gradle ngắn gọn và mạnh hơn XML của Maven.
+
+---
+
+## Câu hỏi phỏng vấn
+
+Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
+
+**1. Gradle hỗ trợ hai loại DSL nào để viết file cấu hình? Khác biệt chính giữa chúng là gì?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **Groovy DSL** — file `build.gradle`: cú pháp truyền thống, ngắn gọn, linh hoạt nhưng ít được IDE hỗ trợ gợi ý/kiểm tra kiểu chặt chẽ.
+- **Kotlin DSL** — file `build.gradle.kts`: an toàn kiểu (type-safe) hơn, IDE gợi ý và tự động hoàn thành (autocomplete) tốt hơn nhờ Kotlin có kiểm tra kiểu tĩnh.
+
+```groovy
+// Groovy: gán trực tiếp bằng dấu =, hoặc gọi hàm không cần ngoặc
+mainClass = 'com.example.Main'
+```
+
+```kotlin
+// Kotlin: gọi phương thức .set(...) một cách tường minh
+mainClass.set("com.example.Main")
+```
+
+Cả hai đều biên dịch xuống cùng một mô hình Gradle bên dưới, khác biệt chủ yếu ở cú pháp và trải nghiệm IDE, không phải ở khả năng của Gradle.
+
+</details>
+
+**2. `implementation` và `api` khác nhau thế nào khi khai báo dependency? Vì sao Gradle khuyến nghị ưu tiên `implementation`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **`api`**: dependency được khai báo bằng `api` sẽ **lộ ra (expose)** cho bất kỳ dự án nào phụ thuộc vào module hiện tại — họ có thể truy cập trực tiếp các class của dependency đó thông qua module của bạn.
+- **`implementation`**: dependency chỉ dùng **nội bộ** trong module hiện tại, **không lộ ra** classpath biên dịch của module phụ thuộc vào nó.
+
+```groovy
+dependencies {
+    api 'com.example:public-api:1.0'          // lộ ra cho module khác
+    implementation 'com.example:internal:1.0'  // chỉ dùng nội bộ
+}
+```
+
+Gradle khuyến nghị ưu tiên `implementation` vì nó giúp **giảm phạm vi rò rỉ chi tiết cài đặt nội bộ** ra bên ngoài, và quan trọng hơn về hiệu năng build: khi một dependency khai báo bằng `implementation` thay đổi, Gradle chỉ cần **build lại module hiện tại**; nếu khai báo bằng `api`, mọi module phụ thuộc "xuôi dòng" (downstream) cũng phải **build lại theo**, vì chúng có thể đang dùng trực tiếp dependency đó.
+
+</details>
+
+**3. Task trong Gradle là gì? Viết một task tùy chỉnh in ra một dòng chữ khi chạy.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Task (tác vụ)** là đơn vị công việc cơ bản mà Gradle thực thi — mọi hành động Gradle làm (biên dịch, test, đóng gói) đều được mô hình hóa thành một task, và bạn có thể định nghĩa thêm task riêng.
+
+```groovy
+tasks.register('hello') {
+    doLast {
+        println 'Xin chào từ Gradle!' // chạy khi task được thực thi
+    }
+}
+```
+
+```bash
+gradle hello
+# In ra: Xin chào từ Gradle!
+```
+
+`doLast` chỉ định hành động chạy **sau cùng** khi task được thực thi (còn có `doFirst` để chạy hành động ngay khi task bắt đầu, trước các hành động khác).
+
+</details>
+
+**4. Gradle Wrapper (`./gradlew`) giải quyết vấn đề gì? Vì sao nên luôn dùng nó thay vì lệnh `gradle` cài trực tiếp trên máy?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Vấn đề: nếu mỗi thành viên trong nhóm tự cài Gradle trên máy riêng, họ có thể đang dùng **các phiên bản Gradle khác nhau** — dẫn tới build không nhất quán, có thể chạy được ở máy này nhưng lỗi ở máy khác do khác biệt hành vi giữa các phiên bản Gradle.
+
+**Gradle Wrapper** là một bộ script (`gradlew`, `gradlew.bat`) đi kèm ngay trong mã nguồn dự án, tự động **tải đúng phiên bản Gradle** mà dự án yêu cầu (ghi trong `gradle/wrapper/gradle-wrapper.properties`) nếu máy chưa có sẵn — đảm bảo **mọi người, mọi máy CI** đều build bằng chính xác cùng một phiên bản Gradle, loại bỏ hoàn toàn rủi ro lệch phiên bản.
+
+</details>
+
+**5. Vì sao Gradle thường nhanh hơn Maven ở các lần build sau (không phải lần đầu tiên)? Nêu ba cơ chế chính.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+1. **Incremental build (build tăng tiến)**: Gradle theo dõi input/output của từng task; nếu input không đổi so với lần build trước, task đó được **bỏ qua** (đánh dấu "UP-TO-DATE"), không chạy lại.
+2. **Build cache**: lưu lại **kết quả** của các task đã chạy (kể cả từ máy khác/CI nếu dùng cache chia sẻ); nếu một task có cùng input y hệt đã từng chạy ở đâu đó, Gradle **lấy lại kết quả cũ** thay vì thực thi lại từ đầu.
+3. **Gradle Daemon**: một tiến trình JVM chạy **ngầm, sẵn sàng** giữa các lần build, giữ lại các thông tin đã "làm nóng" (như class đã load, cache trong bộ nhớ) — tránh việc phải khởi động lại toàn bộ JVM và nạp lại mọi thứ từ đầu ở mỗi lần gọi `gradle`/`./gradlew`.
+
+Maven theo mặc định không có ba cơ chế này ở mức tương đương, nên với dự án lớn, các lần build lặp lại của Gradle thường nhanh hơn đáng kể.
+
+</details>
+
+**6. `testImplementation` và `runtimeOnly` khác nhau thế nào? Cho ví dụ tình huống dùng `runtimeOnly`.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+- **`testImplementation`**: dependency chỉ cần khi biên dịch và chạy **mã test** (thư mục `src/test`), không có mặt trong classpath biên dịch/chạy của mã chính (`src/main`).
+- **`runtimeOnly`**: dependency **không cần thiết lúc biên dịch** (code chính không gọi trực tiếp tới class của nó), nhưng **bắt buộc phải có mặt lúc chạy chương trình**.
+
+```groovy
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0' // chỉ cho test
+
+    // Code chỉ gọi qua interface JDBC chuẩn (java.sql.*) lúc biên dịch,
+    // nhưng cần driver cụ thể của MySQL có mặt lúc CHẠY để kết nối thật
+    runtimeOnly 'com.mysql:mysql-connector-j:8.3.0'
+}
+```
+
+</details>
+
+**7. Tình huống: nhóm bạn đang dùng Maven cho một dự án Java thuần, không có nhu cầu tùy biến logic build phức tạp và không quan tâm tốc độ build (dự án nhỏ). Có nên chuyển sang Gradle không? Vì sao?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+**Không nhất thiết cần chuyển.** Lợi ích chính của Gradle (tốc độ nhờ incremental build/cache, khả năng lập trình linh hoạt trong build script) phát huy rõ rệt nhất ở **dự án lớn** hoặc khi cần **logic build tùy biến** phức tạp — cả hai điều kiện này đều **không xuất hiện** trong tình huống được mô tả.
+
+Với dự án nhỏ, ổn định, không cần tùy biến: chi phí chuyển đổi (học DSL mới, viết lại cấu hình, đào tạo lại nhóm) thường **không tương xứng** với lợi ích thu được. Nguyên tắc chung: chỉ đổi công cụ build khi có **nhu cầu cụ thể** mà công cụ hiện tại không đáp ứng được, không đổi chỉ vì công cụ mới "nghe có vẻ hiện đại hơn".
+
+</details>
+
+**8. `compile` (đã bị loại bỏ) từng dùng để làm gì trong Gradle cũ? Vì sao nó bị thay thế bằng `implementation`?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Trong các phiên bản Gradle cũ, `compile` từng là cấu hình dependency mặc định phổ biến nhất, có hành vi **tương tự `api` hiện nay** — mọi dependency khai báo bằng `compile` đều tự động **lộ ra** cho các module phụ thuộc.
+
+Vấn đề: hầu hết dependency thực ra chỉ cần dùng **nội bộ**, không cần lộ ra ngoài — nhưng vì `compile` là lựa chọn mặc định "dễ dùng nhất", lập trình viên thường dùng nó cho mọi trường hợp, dẫn tới **rò rỉ dependency nội bộ** ra module khác một cách không cần thiết, và làm chậm build (mọi thay đổi dependency đều kéo theo build lại các module downstream). Gradle giới thiệu `implementation` làm lựa chọn **mặc định nên dùng**, buộc lập trình viên phải cân nhắc rõ ràng khi thực sự cần dùng `api`.
+
+</details>
+
+**9. Gradle biết một task đã "up-to-date" (không cần chạy lại) dựa vào đâu?**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+Gradle theo dõi **input** (file mã nguồn, tham số cấu hình, dependency...) và **output** (file/thư mục được task tạo ra) đã khai báo của mỗi task, rồi lưu lại một "dấu vân tay" (checksum/hash) của chúng sau mỗi lần chạy.
+
+Ở lần chạy tiếp theo, trước khi thực thi một task, Gradle **so sánh** dấu vân tay input/output hiện tại với dấu vân tay đã lưu lần trước:
+- Nếu **giống hệt** (không file nào trong input thay đổi) → task được đánh dấu **UP-TO-DATE**, bỏ qua không chạy lại, giữ nguyên output cũ.
+- Nếu **khác** → task được chạy lại bình thường.
+
+Đây chính là cơ chế nền tảng của **incremental build** — nó chỉ hoạt động chính xác nếu task được khai báo **đầy đủ và đúng** input/output của mình (một task tự viết mà khai báo thiếu input có thể bị Gradle nhầm là "up-to-date" dù thực ra cần chạy lại).
+
+</details>
+
+**10. Viết một task Gradle tùy chỉnh phụ thuộc vào task khác, sao cho task `hello` luôn chạy sau khi `compileJava` hoàn tất.**
+
+<details className="qa">
+<summary>Xem đáp án</summary>
+
+```groovy
+tasks.register('hello') {
+    dependsOn 'compileJava' // khai báo phụ thuộc: compileJava phải chạy XONG trước hello
+    doLast {
+        println 'Đã biên dịch xong, chào từ task hello!'
+    }
+}
+```
+
+`dependsOn` khai báo **quan hệ phụ thuộc** giữa các task — khi bạn chạy `gradle hello`, Gradle sẽ tự động chạy `compileJava` trước (nếu nó chưa "up-to-date"), tương tự cách một phase trong vòng đời Maven tự chạy các phase đứng trước nó, nhưng ở Gradle quan hệ này có thể được khai báo tường minh, linh hoạt giữa bất kỳ hai task nào, không giới hạn theo một vòng đời cố định.
+
+</details>
