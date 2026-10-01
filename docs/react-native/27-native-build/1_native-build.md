@@ -14,7 +14,7 @@ Khi code JavaScript/TypeScript đã sẵn sàng, RN cần "biên dịch" nó cù
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **Mỗi lần thêm/gỡ thư viện native phải chạy lại `pod install` (iOS)** -- Podfile.lock không tự cập nhật, quên bước này build vẫn có thể pass nhưng app crash lúc chạy vì thiếu module.
-- ⭐ **`newArchEnabled=true` (Android) / `RCT_NEW_ARCH_ENABLED=1` (iOS)** -- bật New Architecture; đổi cờ này luôn phải `pod install` lại vì codegen sinh code khác hoàn toàn.
+- ⭐ **Cờ `newArchEnabled` (Android) / `RCT_NEW_ARCH_ENABLED` (iOS)** -- từ RN 0.82 New Architecture luôn bật, cờ tắt bị bỏ qua; nhưng khi nâng RN hoặc đổi thư viện có codegen vẫn phải `pod install` lại và build sạch.
 - **Autolinking** -- CLI tự quét `node_modules` để nối thư viện native vào Podfile/Gradle, không cần sửa tay `MainApplication`/`AppDelegate` như RN thời trước 0.60.
 - **`pnpm patch` / `patch-package`** -- sửa lỗi thư viện bên thứ ba mà không fork cả repo, nhưng phải làm lại patch mỗi khi nâng version thư viện.
 - **`nodeLinker: hoisted`** -- pnpm phải trải `node_modules` phẳng cho React Native, vì Gradle/CocoaPods/CLI đều giả định layout này.
@@ -278,7 +278,7 @@ android {
 ### `gradle.properties`
 
 ```properties
-newArchEnabled=true      # bat New Architecture (TurboModule + Fabric)
+newArchEnabled=true      # tu RN 0.82 New Architecture luon bat, dat false cung bi bo qua
 hermesEnabled=true       # dung Hermes engine thay JavaScriptCore
 reactNativeArchitectures=armeabi-v7a,arm64-v8a,x86,x86_64
 ```
@@ -595,12 +595,12 @@ Giống `package-lock.json`/`pnpm-lock.yaml` -- pin chính xác version từng p
 
 </details>
 
-**4. `newArchEnabled=true` và `RCT_NEW_ARCH_ENABLED` ảnh hưởng gì tới build?**
+**4. Cờ `newArchEnabled` và `RCT_NEW_ARCH_ENABLED` còn tác dụng gì với build?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-Bật New Architecture (TurboModule và Fabric renderer). Vì cơ chế codegen sinh code khác hoàn toàn so với kiến trúc cũ, đổi cờ này bắt buộc `pod install` lại toàn bộ (không chỉ pod vừa đổi) và build sạch lại Android, nếu không dễ gặp lỗi linker hoặc thiếu symbol.
+Hai cờ này từng dùng để bật/tắt New Architecture (TurboModule và Fabric renderer). Từ RN 0.76 New Architecture bật mặc định, và từ RN 0.82 cờ tắt **bị bỏ qua** -- app luôn chạy New Architecture. Với dự án cũ đang nâng cấp qua mốc này, codegen sinh code khác hoàn toàn so với kiến trúc cũ, nên phải `pod install` lại toàn bộ (không chỉ pod vừa đổi) và build sạch lại Android, nếu không dễ gặp lỗi linker hoặc thiếu symbol.
 
 </details>
 
