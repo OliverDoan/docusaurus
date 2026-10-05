@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "1. Primitive Types"
+title: "⭐ 1. Primitive Types"
 ---
 
 # Primitive Types
@@ -50,12 +50,12 @@ const user = { id: 1 };
 user.id = "private-token"; // ghi đè mất id gốc của library!
 
 // 2. Số nguyên lớn VƯỢT giới hạn an toàn của Number → sai số
-const bigId = 9007199254740993;     // id từ DB
-bigId === 9007199254740992;         // true (!) — mất 1 đơn vị
-Number.MAX_SAFE_INTEGER;            // 9007199254740991
+const bigId = 9007199254740993; // id từ DB
+bigId === 9007199254740992; // true (!) — mất 1 đơn vị
+Number.MAX_SAFE_INTEGER; // 9007199254740991
 
 // 3. Không phân biệt được "chưa load" và "không có"
-let user2;          // undefined hay null? code khác đọc sẽ đoán mò
+let user2; // undefined hay null? code khác đọc sẽ đoán mò
 ```
 
 **Giải pháp:**
@@ -67,12 +67,12 @@ const user = { [ID]: 1 };
 user[ID]; // 1 — an toàn, không ai vô tình ghi đè
 
 // 2. BigInt (ES2020) — số nguyên lớn KHÔNG sai số
-const bigId = 9007199254740993n;    // suffix n
-bigId === 9007199254740992n;        // false — chính xác
+const bigId = 9007199254740993n; // suffix n
+bigId === 9007199254740992n; // false — chính xác
 
 // 3. null vs undefined — quy ước rõ ràng
-let user2 = null;   // CỐ Ý rỗng: "đã check, không có user"
-let user3;          // undefined: "chưa gán / chưa load"
+let user2 = null; // CỐ Ý rỗng: "đã check, không có user"
+let user3; // undefined: "chưa gán / chưa load"
 ```
 
 :::tip[Dùng thực tế]
@@ -90,15 +90,15 @@ let user3;          // undefined: "chưa gán / chưa load"
 
 JavaScript có **7 kiểu primitive**:
 
-| Kiểu | Giá trị |
-|------|---------|
-| `string` | Chuỗi ký tự |
-| `number` | Số (int + float, IEEE-754) |
-| `boolean` | `true` / `false` |
-| `null` | Rỗng có chủ ý |
-| `undefined` | Chưa được gán |
-| `symbol` | ID duy nhất |
-| `bigint` | Số nguyên cực lớn |
+| Kiểu        | Giá trị                    |
+| ----------- | -------------------------- |
+| `string`    | Chuỗi ký tự                |
+| `number`    | Số (int + float, IEEE-754) |
+| `boolean`   | `true` / `false`           |
+| `null`      | Rỗng có chủ ý              |
+| `undefined` | Chưa được gán              |
+| `symbol`    | ID duy nhất                |
+| `bigint`    | Số nguyên cực lớn          |
 
 Primitive là **immutable** — không sửa được, chỉ thay bằng giá trị mới.
 
@@ -122,10 +122,10 @@ flowchart TD
 
 ```js
 const a = "double quotes";
-const b = 'single quotes';
+const b = "single quotes";
 const c = `template literal với ${a}`;
 
-c.length;       // số ký tự
+c.length; // số ký tự
 c.toUpperCase();
 c.includes("quote");
 c.split(" ");
@@ -148,10 +148,10 @@ JS string là **immutable UTF-16**. Một số hệ quả quan trọng:
 
 ```js
 "😀".length; // 2 — emoji chiếm 2 code unit UTF-16
-"😀"[0];     // "\uD83D" (surrogate pair, vô nghĩa)
+"😀"[0]; // "\uD83D" (surrogate pair, vô nghĩa)
 
-[..."😀"].length;        // 1 — iterator hiểu code point
-"😀".codePointAt(0);     // 128512
+[..."😀"].length; // 1 — iterator hiểu code point
+"😀".codePointAt(0); // 128512
 ```
 
 Khi xử lý string có emoji, ký tự đặc biệt, ngôn ngữ phức tạp:
@@ -169,10 +169,10 @@ Khi xử lý string có emoji, ký tự đặc biệt, ngôn ngữ phức tạp:
 ```js
 const dec = 42;
 const float = 3.14;
-const hex = 0xff;       // 255
-const bin = 0b1010;     // 10
-const oct = 0o777;      // 511
-const exp = 1.5e3;      // 1500
+const hex = 0xff; // 255
+const bin = 0b1010; // 10
+const oct = 0o777; // 511
+const exp = 1.5e3; // 1500
 ```
 
 Giá trị đặc biệt:
@@ -180,10 +180,10 @@ Giá trị đặc biệt:
 ```js
 Infinity;
 -Infinity;
-NaN;            // Not-a-Number
+NaN; // Not-a-Number
 
-Number.isFinite(42);    // true
-Number.isNaN(NaN);      // true
+Number.isFinite(42); // true
+Number.isNaN(NaN); // true
 Number.MAX_SAFE_INTEGER; // 2^53 - 1
 ```
 
@@ -192,8 +192,8 @@ Number.MAX_SAFE_INTEGER; // 2^53 - 1
 JS dùng **IEEE-754 double precision** cho mọi số → không chính xác tuyệt đối với số thập phân:
 
 ```js
-0.1 + 0.2;              // 0.30000000000000004
-0.1 + 0.2 === 0.3;      // false
+0.1 + 0.2; // 0.30000000000000004
+0.1 + 0.2 === 0.3; // false
 ```
 
 Khi cần chính xác (tiền tệ, đo lường):
@@ -219,9 +219,9 @@ const totalCents = Math.round(priceCents * 0.1);
 const yes = true;
 const no = false;
 
-Boolean(1);    // true
-Boolean("");   // false
-!!"hello";     // true (idiom convert sang boolean)
+Boolean(1); // true
+Boolean(""); // false
+!!"hello"; // true (idiom convert sang boolean)
 ```
 
 **Falsy values** (8 cái): `false`, `0`, `-0`, `0n`, `""`, `null`, `undefined`, `NaN`. Mọi thứ khác là truthy — kể cả `"0"`, `[]`, `{}`.
@@ -231,13 +231,13 @@ Boolean("");   // false
 ## null và undefined
 
 ```js
-let a;            // a = undefined (mặc định)
-let b = null;     // null — chủ ý gán
+let a; // a = undefined (mặc định)
+let b = null; // null — chủ ý gán
 
 typeof undefined; // "undefined"
-typeof null;      // "object" (bug lịch sử của JS)
+typeof null; // "object" (bug lịch sử của JS)
 
-null == undefined;  // true (loose equality)
+null == undefined; // true (loose equality)
 null === undefined; // false
 ```
 
@@ -289,14 +289,18 @@ Pattern phổ biến — implement iterator protocol:
 
 ```js
 class Range {
-  constructor(start, end) { this.start = start; this.end = end; }
+  constructor(start, end) {
+    this.start = start;
+    this.end = end;
+  }
 
   [Symbol.iterator]() {
     let i = this.start;
     return {
-      next: () => i <= this.end
-        ? { value: i++, done: false }
-        : { value: undefined, done: true },
+      next: () =>
+        i <= this.end
+          ? { value: i++, done: false }
+          : { value: undefined, done: true },
     };
   }
 }
@@ -315,13 +319,13 @@ for (const n of new Range(1, 5)) console.log(n); // 1, 2, 3, 4, 5
 `BigInt` (ES2020) — số nguyên cực lớn, không bị giới hạn 2^53.
 
 ```js
-const big = 9007199254740993n;       // suffix n
+const big = 9007199254740993n; // suffix n
 const fromNumber = BigInt(10);
 const fromString = BigInt("12345678901234567890");
 
-big + 1n;        // OK
-big + 1;         // TypeError — không trộn với number
-Number(big);     // convert tường minh
+big + 1n; // OK
+big + 1; // TypeError — không trộn với number
+Number(big); // convert tường minh
 ```
 
 :::warning[Cần lưu ý]
@@ -332,9 +336,9 @@ Number(big);     // convert tường minh
 const a = 10n;
 const b = 5;
 
-a + b;           // TypeError
-a + BigInt(b);   // 15n
-Number(a) + b;   // 15
+a + b; // TypeError
+a + BigInt(b); // 15n
+Number(a) + b; // 15
 ```
 
 BigInt **không có thập phân** — `10n / 3n === 3n` (cắt phần dư).
@@ -356,15 +360,15 @@ Những câu thường gặp về chủ đề này. Tự trả lời trước, r
 
 JavaScript có **7 kiểu primitive**:
 
-| Kiểu | Giá trị |
-|------|---------|
-| `string` | Chuỗi ký tự (UTF-16) |
-| `number` | Số nguyên + thực, theo IEEE-754 |
-| `boolean` | `true` / `false` |
-| `null` | Rỗng có chủ ý |
-| `undefined` | Chưa được gán |
-| `symbol` | ID duy nhất (ES6) |
-| `bigint` | Số nguyên cực lớn (ES2020) |
+| Kiểu        | Giá trị                         |
+| ----------- | ------------------------------- |
+| `string`    | Chuỗi ký tự (UTF-16)            |
+| `number`    | Số nguyên + thực, theo IEEE-754 |
+| `boolean`   | `true` / `false`                |
+| `null`      | Rỗng có chủ ý                   |
+| `undefined` | Chưa được gán                   |
+| `symbol`    | ID duy nhất (ES6)               |
+| `bigint`    | Số nguyên cực lớn (ES2020)      |
 
 Điểm chung của chúng:
 
@@ -387,8 +391,8 @@ Mọi thứ còn lại trong JS (`object`, `array`, `function`, `Date`, `Map`...
 ```js
 let s = "hello";
 s.toUpperCase(); // "HELLO" — giá trị mới
-s;               // "hello" — không đổi
-s = "world";     // đây là gán lại BIẾN, không phải sửa giá trị cũ
+s; // "hello" — không đổi
+s = "world"; // đây là gán lại BIẾN, không phải sửa giá trị cũ
 ```
 
 Về `str[0] = "X"`:
@@ -410,11 +414,11 @@ Còn chuyện không báo lỗi: các index của string là property **read-onl
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| | Primitive | Object |
-|---|---|---|
-| Biến chứa gì | **Chính giá trị** | **Tham chiếu** tới vùng nhớ chứa object |
-| Gán `b = a` | Copy giá trị — hai biến độc lập | Copy tham chiếu — hai biến trỏ cùng một object |
-| So sánh `===` | Theo giá trị | Theo tham chiếu (cùng một object hay không) |
+|               | Primitive                       | Object                                         |
+| ------------- | ------------------------------- | ---------------------------------------------- |
+| Biến chứa gì  | **Chính giá trị**               | **Tham chiếu** tới vùng nhớ chứa object        |
+| Gán `b = a`   | Copy giá trị — hai biến độc lập | Copy tham chiếu — hai biến trỏ cùng một object |
+| So sánh `===` | Theo giá trị                    | Theo tham chiếu (cùng một object hay không)    |
 
 ```js
 let a = 1;
@@ -434,8 +438,8 @@ console.log({ n: 1 } === { n: 1 }); // false — hai object khác nhau
 
 ```js
 function f(obj) {
-  obj.n = 99;        // ảnh hưởng ra ngoài
-  obj = { n: 0 };    // KHÔNG ảnh hưởng — chỉ đổi biến cục bộ
+  obj.n = 99; // ảnh hưởng ra ngoài
+  obj = { n: 0 }; // KHÔNG ảnh hưởng — chỉ đổi biến cục bộ
 }
 const o = { n: 1 };
 f(o);
@@ -452,8 +456,8 @@ Cơ chế này thường được gọi là **pass by sharing**.
 <summary>Xem đáp án</summary>
 
 ```js
-typeof NaN;   // "number"
-NaN === NaN;  // false
+typeof NaN; // "number"
+NaN === NaN; // false
 ```
 
 **`typeof NaN` là `"number"`** — nghe nghịch lý nhưng đúng: `NaN` (Not-a-Number) là một **giá trị đặc biệt thuộc kiểu number** theo chuẩn IEEE-754, dùng để biểu diễn kết quả của một phép toán số không cho ra số hợp lệ (`0/0`, `Math.sqrt(-1)`, `Number("abc")`). Nó nói "phép tính số này thất bại", chứ không nói "đây không phải kiểu số".
@@ -463,11 +467,11 @@ NaN === NaN;  // false
 Cách kiểm tra đúng chuẩn:
 
 ```js
-Number.isNaN(x);   // chuẩn nhất — không ép kiểu
+Number.isNaN(x); // chuẩn nhất — không ép kiểu
 Object.is(x, NaN); // cũng đúng
-x !== x;           // trick cũ, vẫn chính xác
+x !== x; // trick cũ, vẫn chính xác
 
-isNaN(x);          // TRÁNH — ép kiểu trước khi kiểm tra
+isNaN(x); // TRÁNH — ép kiểu trước khi kiểm tra
 ```
 
 </details>
@@ -477,25 +481,25 @@ isNaN(x);          // TRÁNH — ép kiểu trước khi kiểm tra
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| | `isNaN(x)` (toàn cục) | `Number.isNaN(x)` (ES6) |
-|---|---|---|
-| Cách hoạt động | **Ép `x` sang number trước**, rồi mới kiểm tra | Kiểm tra trực tiếp: `x` có đúng là giá trị `NaN` không |
-| Trả về `true` khi | `x` không chuyển được sang số hợp lệ | Chỉ khi `x` **chính là** `NaN` |
-| Nên dùng | Không | Có |
+|                   | `isNaN(x)` (toàn cục)                          | `Number.isNaN(x)` (ES6)                                |
+| ----------------- | ---------------------------------------------- | ------------------------------------------------------ |
+| Cách hoạt động    | **Ép `x` sang number trước**, rồi mới kiểm tra | Kiểm tra trực tiếp: `x` có đúng là giá trị `NaN` không |
+| Trả về `true` khi | `x` không chuyển được sang số hợp lệ           | Chỉ khi `x` **chính là** `NaN`                         |
+| Nên dùng          | Không                                          | Có                                                     |
 
 ```js
-isNaN("foo");          // true
-Number.isNaN("foo");   // false
+isNaN("foo"); // true
+Number.isNaN("foo"); // false
 
-isNaN("123");          // false — "123" ép được thành 123
-isNaN(undefined);      // true  — Number(undefined) là NaN
+isNaN("123"); // false — "123" ép được thành 123
+isNaN(undefined); // true  — Number(undefined) là NaN
 Number.isNaN(undefined); // false
 
-isNaN(NaN);            // true
-Number.isNaN(NaN);     // true
+isNaN(NaN); // true
+Number.isNaN(NaN); // true
 ```
 
-**Vì sao `isNaN("foo")` là `true`?** Vì nó thực hiện `Number("foo")` trước, ra `NaN`, rồi kết luận "đúng là NaN". Nói chính xác thì `isNaN` trả lời câu hỏi *"giá trị này có ép sang số được không?"*, chứ không phải *"giá trị này có phải `NaN` không?"* — cái tên gây hiểu nhầm. Trong code hiện đại luôn dùng `Number.isNaN` (hoặc `Object.is(x, NaN)`).
+**Vì sao `isNaN("foo")` là `true`?** Vì nó thực hiện `Number("foo")` trước, ra `NaN`, rồi kết luận "đúng là NaN". Nói chính xác thì `isNaN` trả lời câu hỏi _"giá trị này có ép sang số được không?"_, chứ không phải _"giá trị này có phải `NaN` không?"_ — cái tên gây hiểu nhầm. Trong code hiện đại luôn dùng `Number.isNaN` (hoặc `Object.is(x, NaN)`).
 
 </details>
 
@@ -505,7 +509,7 @@ Number.isNaN(NaN);     // true
 <summary>Xem đáp án</summary>
 
 ```js
-0.1 + 0.2;         // 0.30000000000000004
+0.1 + 0.2; // 0.30000000000000004
 0.1 + 0.2 === 0.3; // false
 ```
 
@@ -538,9 +542,9 @@ const totalCents = Math.round(priceCents * 0.1);
 `Number.MAX_SAFE_INTEGER` = **2^53 − 1 = 9007199254740991**. "An toàn" nghĩa là trong khoảng này, mọi số nguyên đều biểu diễn được **chính xác và duy nhất** bằng IEEE-754 double. Vượt quá, phần định trị 52 bit không đủ chỗ, nên nhiều số nguyên khác nhau bị làm tròn về **cùng một giá trị**:
 
 ```js
-const bigId = 9007199254740993;  // id từ DB
-bigId === 9007199254740992;      // true (!) — mất 1 đơn vị
-Number.MAX_SAFE_INTEGER;         // 9007199254740991
+const bigId = 9007199254740993; // id từ DB
+bigId === 9007199254740992; // true (!) — mất 1 đơn vị
+Number.MAX_SAFE_INTEGER; // 9007199254740991
 ```
 
 **Khi backend trả id vượt giới hạn** (id 64-bit kiểu snowflake của Twitter/Discord, `BIGINT` của DB): `JSON.parse` sẽ biến nó thành `number` bị **sai lệch âm thầm** — hai bản ghi khác nhau có thể nhận cùng một id, hoặc gửi id lên server lại thành id của người khác. Nguy hiểm vì không hề có lỗi nào được ném ra.
@@ -559,19 +563,19 @@ Cách xử lý:
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| | `undefined` | `null` |
-|---|---|---|
-| Ý nghĩa | "**Chưa gán**" — giá trị mặc định | "**Cố ý rỗng**" — chủ ý gán |
-| Ai tạo ra | Engine (biến chưa gán, hàm không `return`, property không tồn tại, tham số thiếu) | Lập trình viên gán tay |
-| `typeof` | `"undefined"` | `"object"` |
-| Nên gán thủ công? | Không nên | Có, khi muốn nói "không có" |
+|                   | `undefined`                                                                       | `null`                      |
+| ----------------- | --------------------------------------------------------------------------------- | --------------------------- |
+| Ý nghĩa           | "**Chưa gán**" — giá trị mặc định                                                 | "**Cố ý rỗng**" — chủ ý gán |
+| Ai tạo ra         | Engine (biến chưa gán, hàm không `return`, property không tồn tại, tham số thiếu) | Lập trình viên gán tay      |
+| `typeof`          | `"undefined"`                                                                     | `"object"`                  |
+| Nên gán thủ công? | Không nên                                                                         | Có, khi muốn nói "không có" |
 
 ```js
-let a;            // undefined — chưa load
-let b = null;     // null — đã check, không có
+let a; // undefined — chưa load
+let b = null; // null — đã check, không có
 
 function find(id) {
-  return null;    // chủ ý: "không tìm thấy"
+  return null; // chủ ý: "không tìm thấy"
 }
 ```
 
@@ -585,7 +589,7 @@ function find(id) {
 <summary>Xem đáp án</summary>
 
 ```js
-null == undefined;  // true  — loose equality
+null == undefined; // true  — loose equality
 null === undefined; // false — khác kiểu
 ```
 
@@ -599,7 +603,8 @@ if (value == null) {
 }
 
 // Tương đương, dài hơn:
-if (value === null || value === undefined) { }
+if (value === null || value === undefined) {
+}
 ```
 
 Rất tiện khi xử lý dữ liệu từ API — nơi một field vắng mặt có thể là `undefined` (không có key) hoặc `null` (server trả rõ là rỗng).
@@ -613,19 +618,19 @@ Cùng họ với idiom này là `??` và `?.`, vì chúng cũng chỉ phản ứ
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| | `\|\|` (logical OR) | `??` (nullish coalescing) |
-|---|---|---|
-| Lấy vế phải khi vế trái là | Bất kỳ giá trị **falsy** nào | **Chỉ** `null` hoặc `undefined` |
-| Bao gồm `0`, `""`, `false`, `NaN` | Có — bị coi là "không có" | Không — vẫn là giá trị hợp lệ |
+|                                   | `\|\|` (logical OR)          | `??` (nullish coalescing)       |
+| --------------------------------- | ---------------------------- | ------------------------------- |
+| Lấy vế phải khi vế trái là        | Bất kỳ giá trị **falsy** nào | **Chỉ** `null` hoặc `undefined` |
+| Bao gồm `0`, `""`, `false`, `NaN` | Có — bị coi là "không có"    | Không — vẫn là giá trị hợp lệ   |
 
 ```js
 const count = 0;
-count || 10;   // 10 — sai ý định! 0 là giá trị thật
-count ?? 10;   // 0  — đúng
+count || 10; // 10 — sai ý định! 0 là giá trị thật
+count ?? 10; // 0  — đúng
 
 const name = "";
-name || "Ẩn danh";  // "Ẩn danh"
-name ?? "Ẩn danh";  // ""  — chuỗi rỗng là lựa chọn hợp lệ của người dùng
+name || "Ẩn danh"; // "Ẩn danh"
+name ?? "Ẩn danh"; // ""  — chuỗi rỗng là lựa chọn hợp lệ của người dùng
 ```
 
 Đây là nguồn bug rất phổ biến: dùng `||` để đặt giá trị mặc định cho các option số hoặc chuỗi, rồi `0`, `""`, `false` âm thầm bị thay bằng default.
@@ -649,9 +654,9 @@ Lưu ý cú pháp: không được trộn `??` với `&&`/`||` mà không có ng
 Mọi thứ khác đều **truthy** — bao gồm `"0"`, `"false"`, `[]`, `{}`, `function(){}`, `Infinity`, `-1`.
 
 ```js
-Boolean("0");  // true — chuỗi khác rỗng
-Boolean([]);   // true
-Boolean({});   // true
+Boolean("0"); // true — chuỗi khác rỗng
+Boolean([]); // true
+Boolean({}); // true
 if ([]) console.log("chạy vào đây"); // có chạy
 ```
 
@@ -684,14 +689,14 @@ const user2 = { [ID]: 1 };
 user2[ID]; // 1 — an toàn, không ai vô tình ghi đè
 ```
 
-**`Symbol("id") === Symbol("id")` là `false`** — mỗi lần gọi `Symbol()` tạo ra một symbol **hoàn toàn mới**; chuỗi truyền vào chỉ là *description* để debug, không tham gia so sánh.
+**`Symbol("id") === Symbol("id")` là `false`** — mỗi lần gọi `Symbol()` tạo ra một symbol **hoàn toàn mới**; chuỗi truyền vào chỉ là _description_ để debug, không tham gia so sánh.
 
 **`Symbol.for("id")` khác ở chỗ** nó dùng một **registry toàn cục**: gọi lần đầu thì tạo và lưu lại, gọi lại cùng khoá thì **trả về đúng symbol cũ**:
 
 ```js
-Symbol("id") === Symbol("id");         // false
+Symbol("id") === Symbol("id"); // false
 Symbol.for("id") === Symbol.for("id"); // true
-Symbol.keyFor(Symbol.for("id"));       // "id"
+Symbol.keyFor(Symbol.for("id")); // "id"
 ```
 
 Dùng `Symbol()` khi muốn key thật sự riêng tư trong module của mình; dùng `Symbol.for()` khi cần **chia sẻ cùng một symbol qua nhiều file, iframe hay realm**.
@@ -709,10 +714,11 @@ Dùng `Symbol()` khi muốn key thật sự riêng tư trong module của mình;
 const KEY = Symbol("user.private");
 const user = { name: "An", [KEY]: "secret" };
 
-Object.keys(user);          // ["name"]
-for (const k in user) {}    // chỉ "name"
-JSON.stringify(user);       // '{"name":"An"}'
-Object.entries(user);       // [["name", "An"]]
+Object.keys(user); // ["name"]
+for (const k in user) {
+} // chỉ "name"
+JSON.stringify(user); // '{"name":"An"}'
+Object.entries(user); // [["name", "An"]]
 ```
 
 Đây là lý do symbol hợp để gắn **metadata riêng tư**: nó không lộ ra khi log, serialize hay lặp qua object. Lưu ý đây là "riêng tư theo quy ước", **không phải bảo mật** — ai có tham chiếu tới symbol vẫn đọc được.
@@ -721,8 +727,8 @@ Cách lấy ra:
 
 ```js
 Object.getOwnPropertySymbols(user); // [Symbol(user.private)]
-Reflect.ownKeys(user);             // ["name", Symbol(user.private)]
-user[KEY];                          // "secret" — nếu có sẵn symbol
+Reflect.ownKeys(user); // ["name", Symbol(user.private)]
+user[KEY]; // "secret" — nếu có sẵn symbol
 ```
 
 Ngoài ra, `Object.assign` và spread `{ ...user }` **có** copy key symbol (chúng copy mọi own enumerable property, kể cả symbol) — khác với `JSON.stringify`. Muốn serialize được, phải tự xử lý qua `toJSON` hoặc chuyển sang key string.
@@ -734,26 +740,30 @@ Ngoài ra, `Object.assign` và spread `{ ...user }` **có** copy key symbol (ch�
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-`Symbol.iterator` là một **well-known symbol**: nó là "cái móc" mà JS dùng để hỏi một object *"làm sao lặp qua bạn?"*. Object nào có method ở key `[Symbol.iterator]` trả về một iterator (object có `next()` cho ra `{ value, done }`) thì được coi là **iterable**.
+`Symbol.iterator` là một **well-known symbol**: nó là "cái móc" mà JS dùng để hỏi một object _"làm sao lặp qua bạn?"_. Object nào có method ở key `[Symbol.iterator]` trả về một iterator (object có `next()` cho ra `{ value, done }`) thì được coi là **iterable**.
 
 ```js
 class Range {
-  constructor(start, end) { this.start = start; this.end = end; }
+  constructor(start, end) {
+    this.start = start;
+    this.end = end;
+  }
 
   [Symbol.iterator]() {
     let i = this.start;
     return {
-      next: () => i <= this.end
-        ? { value: i++, done: false }
-        : { value: undefined, done: true },
+      next: () =>
+        i <= this.end
+          ? { value: i++, done: false }
+          : { value: undefined, done: true },
     };
   }
 }
 
 const r = new Range(1, 5);
 for (const n of r) console.log(n); // 1, 2, 3, 4, 5
-[...r];                            // [1, 2, 3, 4, 5]
-const [first, second] = r;         // 1, 2
+[...r]; // [1, 2, 3, 4, 5]
+const [first, second] = r; // 1, 2
 ```
 
 Ba cú pháp trong ví dụ đều **gọi ngầm `[Symbol.iterator]()`**: `for...of`, spread (`[...r]`, và cả khi truyền đối số) và destructuring mảng. `Array.from`, `Promise.all`, `new Map(...)`, `yield*` cũng vậy.
@@ -770,17 +780,17 @@ Nhờ cơ chế này, `Array`, `String`, `Map`, `Set`, `arguments`, `NodeList` �
 **`BigInt` (ES2020)** ra đời cho **số nguyên vượt quá `Number.MAX_SAFE_INTEGER` (2^53 − 1)** — nơi `number` bắt đầu mất chính xác: id 64-bit (snowflake của Twitter/Discord), `BIGINT` từ DB, timestamp nanosecond, crypto.
 
 ```js
-const bigId = 9007199254740993n;  // suffix n
-bigId === 9007199254740992n;      // false — chính xác
+const bigId = 9007199254740993n; // suffix n
+bigId === 9007199254740992n; // false — chính xác
 BigInt("12345678901234567890");
 ```
 
 **Vì sao `10n + 1` ném `TypeError`?** Vì `bigint` và `number` là **hai kiểu khác nhau với ngữ nghĩa khác nhau** — `number` có thập phân và làm tròn, `bigint` là số nguyên chính xác tuyệt đối. Nếu cho trộn ngầm, engine sẽ phải chọn ép về bên nào, và ép về `number` thì lại **âm thầm mất chính xác** — đúng thứ mà `BigInt` sinh ra để tránh. Nên spec bắt **convert tường minh**:
 
 ```js
-10n + 1;          // TypeError
-10n + BigInt(1);  // 11n
-Number(10n) + 1;  // 11
+10n + 1; // TypeError
+10n + BigInt(1); // 11n
+Number(10n) + 1; // 11
 ```
 
 **`10n / 3n` bằng `3n`** — `BigInt` không có thập phân, phép chia **cắt bỏ phần dư** (truncate về phía 0).
@@ -795,8 +805,8 @@ Lưu ý: `BigInt` chậm hơn `number` đáng kể vì không dùng trực tiế
 <summary>Xem đáp án</summary>
 
 ```js
-10n == 10;   // true
-10n === 10;  // false
+10n == 10; // true
+10n === 10; // false
 ```
 
 Khác nhau vì hai toán tử làm hai việc khác nhau:
@@ -807,14 +817,14 @@ Khác nhau vì hai toán tử làm hai việc khác nhau:
 Vài ví dụ liên quan:
 
 ```js
-0n == 0;         // true
-0n === 0;        // false
-10n == "10";     // true  — chuỗi được parse thành bigint
-10n > 9;         // true  — toán tử so sánh CÓ cho trộn kiểu
-10n + 1;         // TypeError — toán tử số học thì KHÔNG
+0n == 0; // true
+0n === 0; // false
+10n == "10"; // true  — chuỗi được parse thành bigint
+10n > 9; // true  — toán tử so sánh CÓ cho trộn kiểu
+10n + 1; // TypeError — toán tử số học thì KHÔNG
 
-typeof 10n;      // "bigint"
-Boolean(0n);     // false — 0n là một trong 8 giá trị falsy
+typeof 10n; // "bigint"
+Boolean(0n); // false — 0n là một trong 8 giá trị falsy
 ```
 
 Điểm dễ nhầm: `BigInt` cấm trộn kiểu ở **toán tử số học** (vì dễ mất chính xác), nhưng vẫn cho **so sánh** (`==`, `<`, `>`) giữa bigint và number.
@@ -838,17 +848,17 @@ Hệ quả dễ thấy của việc object tạm bị vứt đi:
 
 ```js
 let s = "hello";
-s.custom = 1;   // gán lên object tạm rồi bỏ
-s.custom;       // undefined
+s.custom = 1; // gán lên object tạm rồi bỏ
+s.custom; // undefined
 ```
 
 **Vì sao `new String("a") === "a"` là `false`?** Vì `new String("a")` tạo một **object thật sự**, còn `"a"` là primitive:
 
 ```js
-typeof "a";                // "string"
-typeof new String("a");    // "object"
-new String("a") === "a";   // false — khác kiểu
-new String("a") == "a";    // true  — == ép object về primitive
+typeof "a"; // "string"
+typeof new String("a"); // "object"
+new String("a") === "a"; // false — khác kiểu
+new String("a") == "a"; // true  — == ép object về primitive
 new String("a") === new String("a"); // false — hai object khác nhau
 ```
 
@@ -863,7 +873,7 @@ Vì vậy **không bao giờ dùng `new String`/`new Number`/`new Boolean`** —
 
 ```js
 "😀".length; // 2
-"😀"[0];     // "\uD83D" — nửa surrogate pair, vô nghĩa
+"😀"[0]; // "\uD83D" — nửa surrogate pair, vô nghĩa
 ```
 
 Vì string trong JS là dãy **UTF-16 code unit**, và `.length` đếm **code unit chứ không đếm ký tự**. Các ký tự nằm ngoài mặt phẳng cơ bản (emoji, một số chữ Hán hiếm, ký hiệu toán học) cần **2 code unit** — gọi là **surrogate pair** — nên `.length` trả về 2.
@@ -871,8 +881,8 @@ Vì string trong JS là dãy **UTF-16 code unit**, và `.length` đếm **code u
 Cách đếm đúng hơn:
 
 ```js
-[..."😀"].length;      // 1 — iterator của string hiểu code point
-"😀".codePointAt(0);   // 128512
+[..."😀"].length; // 1 — iterator của string hiểu code point
+"😀".codePointAt(0); // 128512
 
 // Đếm theo "ký tự người dùng nhìn thấy" (grapheme cluster):
 const seg = new Intl.Segmenter("vi", { granularity: "grapheme" });
@@ -890,28 +900,28 @@ Lưu ý thực tế: tránh `slice`/`substring` cắt giữa surrogate pair (s�
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| | `==` (loose equality) | `===` (strict equality) |
-|---|---|---|
-| Kiểu khác nhau | **Ép kiểu** rồi mới so | Trả `false` ngay |
-| Quy tắc | Phức tạp, nhiều bước theo spec | Đơn giản: cùng kiểu và cùng giá trị |
-| Nên dùng | Chỉ trong idiom `x == null` | **Mặc định dùng cái này** |
+|                | `==` (loose equality)          | `===` (strict equality)             |
+| -------------- | ------------------------------ | ----------------------------------- |
+| Kiểu khác nhau | **Ép kiểu** rồi mới so         | Trả `false` ngay                    |
+| Quy tắc        | Phức tạp, nhiều bước theo spec | Đơn giản: cùng kiểu và cùng giá trị |
+| Nên dùng       | Chỉ trong idiom `x == null`    | **Mặc định dùng cái này**           |
 
 Các trường hợp coercion gây bất ngờ:
 
 ```js
-"" == 0;            // true  — "" ép thành 0
-"0" == 0;           // true
-"" == "0";          // false — hai chuỗi khác nhau (!)
+"" == 0; // true  — "" ép thành 0
+"0" == 0; // true
+"" == "0"; // false — hai chuỗi khác nhau (!)
 
-[] == false;        // true  — [] → "" → 0, false → 0
-[] == ![];          // true  — cùng lý do
-[1] == 1;           // true  — [1] → "1" → 1
+[] == false; // true  — [] → "" → 0, false → 0
+[] == ![]; // true  — cùng lý do
+[1] == 1; // true  — [1] → "1" → 1
 
-null == undefined;  // true  — luật riêng của spec
-null == 0;          // false — null KHÔNG ép sang số
-NaN == NaN;         // false — NaN không bằng chính nó
+null == undefined; // true  — luật riêng của spec
+null == 0; // false — null KHÔNG ép sang số
+NaN == NaN; // false — NaN không bằng chính nó
 
-"1" === 1;          // false — khác kiểu, rõ ràng
+"1" === 1; // false — khác kiểu, rõ ràng
 ```
 
 Chú ý `==` **không có tính bắc cầu**: `"" == 0` và `"0" == 0` đều `true` nhưng `"" == "0"` lại `false` — đủ thấy nó khó suy luận tới mức nào.

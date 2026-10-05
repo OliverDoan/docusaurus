@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "2. Hoisting và Quy tắc đặt tên"
+title: "⭐ 2. Hoisting và Quy tắc đặt tên"
 ---
 
 # Hoisting và Quy tắc đặt tên
@@ -48,9 +48,9 @@ var x = 10;
 Engine xử lý như:
 
 ```js
-var x;          // khai báo được "cẩu" lên đầu
+var x; // khai báo được "cẩu" lên đầu
 console.log(x); // undefined (chưa gán)
-x = 10;         // gán xảy ra ở đúng dòng
+x = 10; // gán xảy ra ở đúng dòng
 ```
 
 ---
@@ -87,11 +87,11 @@ Thực tế:
 
 So với `var`:
 
-| | `var` | `let` / `const` |
-|--|--|--|
-| Được hoist? | Có | **Có** |
-| Giá trị ban đầu | `undefined` | TDZ (không truy cập được) |
-| Truy cập trước khai báo | Trả về `undefined` | **ReferenceError** |
+|                         | `var`              | `let` / `const`           |
+| ----------------------- | ------------------ | ------------------------- |
+| Được hoist?             | Có                 | **Có**                    |
+| Giá trị ban đầu         | `undefined`        | TDZ (không truy cập được) |
+| Truy cập trước khai báo | Trả về `undefined` | **ReferenceError**        |
 
 Câu trả lời chuẩn cho phỏng vấn: "**Tất cả đều hoist**, nhưng `let`/`const` ở trong TDZ cho đến dòng khai báo."
 
@@ -142,7 +142,7 @@ if (true) {
   function foo() {}
 }
 foo(); // ReferenceError trong strict
-       // OK trong sloppy mode (foo bị hoist ra ngoài)
+// OK trong sloppy mode (foo bị hoist ra ngoài)
 ```
 
 → Không nên khai báo function trong block. Dùng function expression hoặc arrow function gán vào biến.
@@ -201,14 +201,14 @@ while with yield let static
 
 ## Convention đặt tên
 
-| Loại | Convention | Ví dụ |
-|------|-----------|-------|
-| Biến, hàm | camelCase | `userName`, `getCurrentUser()` |
-| Class, constructor | PascalCase | `User`, `UserService` |
-| Hằng số global | UPPER_SNAKE_CASE | `MAX_RETRIES`, `API_URL` |
-| Private (theo quy ước) | `_camelCase` | `_internalState` |
-| Private thật (class) | `#camelCase` | `#password` |
-| Boolean | `is/has/can` prefix | `isActive`, `hasPermission` |
+| Loại                   | Convention          | Ví dụ                          |
+| ---------------------- | ------------------- | ------------------------------ |
+| Biến, hàm              | camelCase           | `userName`, `getCurrentUser()` |
+| Class, constructor     | PascalCase          | `User`, `UserService`          |
+| Hằng số global         | UPPER_SNAKE_CASE    | `MAX_RETRIES`, `API_URL`       |
+| Private (theo quy ước) | `_camelCase`        | `_internalState`               |
+| Private thật (class)   | `#camelCase`        | `#password`                    |
+| Boolean                | `is/has/can` prefix | `isActive`, `hasPermission`    |
 
 :::tip[Mẹo]
 
@@ -246,7 +246,7 @@ Vì vậy khi code chạy tới dòng đầu tiên thì tất cả tên đã t�
 
 ```js
 console.log(x); // undefined — x đã tồn tại, chưa gán
-var x = 10;     // gán xảy ra ở đúng dòng này
+var x = 10; // gán xảy ra ở đúng dòng này
 ```
 
 Hiểu đúng: hoisting **không di chuyển code**, nó chỉ là hệ quả của việc engine đăng ký khai báo trước khi chạy.
@@ -283,12 +283,12 @@ let x = "ngoài";
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| Loại khai báo | Được hoist? | Trạng thái ban đầu | Truy cập trước dòng khai báo |
-|---|---|---|---|
-| `var` | Có | Khởi tạo sẵn `undefined` | Trả về `undefined` |
-| `let` / `const` | **Có** | Uninitialized (TDZ) | **`ReferenceError`** |
-| `function` declaration | Có | Đã gán **toàn bộ body** | Gọi được bình thường |
-| `class` | Có | Uninitialized (TDZ) | `ReferenceError` |
+| Loại khai báo          | Được hoist? | Trạng thái ban đầu       | Truy cập trước dòng khai báo |
+| ---------------------- | ----------- | ------------------------ | ---------------------------- |
+| `var`                  | Có          | Khởi tạo sẵn `undefined` | Trả về `undefined`           |
+| `let` / `const`        | **Có**      | Uninitialized (TDZ)      | **`ReferenceError`**         |
+| `function` declaration | Có          | Đã gán **toàn bộ body**  | Gọi được bình thường         |
+| `class`                | Có          | Uninitialized (TDZ)      | `ReferenceError`             |
 
 Điểm mấu chốt: hoisting là chuyện **tên được đăng ký trước**, còn khác biệt nằm ở **giá trị khởi tạo**. `var` được khởi tạo `undefined` ngay; `function` declaration được gán luôn hàm nên gọi trước cũng chạy; `let`/`const`/`class` thì chưa khởi tạo gì cả nên chạm vào là lỗi.
 
@@ -298,7 +298,9 @@ console.log(fn()); // "ok"
 console.log(b); // ReferenceError
 
 var a = 1;
-function fn() { return "ok"; }
+function fn() {
+  return "ok";
+}
 let b = 2;
 ```
 
@@ -319,16 +321,16 @@ var name = "An";
 Engine xử lý tương đương như sau:
 
 ```js
-var name;          // khai báo hoist lên đầu, khởi tạo undefined
+var name; // khai báo hoist lên đầu, khởi tạo undefined
 console.log(name); // undefined — biến tồn tại nhưng chưa gán
-name = "An";       // phép gán ở lại đúng vị trí ban đầu
+name = "An"; // phép gán ở lại đúng vị trí ban đầu
 ```
 
 Vì sao **không** phải `ReferenceError`? Vì biến `name` đã được đăng ký và **khởi tạo sẵn `undefined`** trong pha tạo. Chỉ có `let`/`const` mới ném `ReferenceError` do nằm trong TDZ.
 
 Vì sao **không** phải `"An"`? Vì hoisting chỉ cẩu **khai báo**, không cẩu **phép gán** — `name = "An"` vẫn chạy ở dòng thứ hai.
 
-*(Lưu ý nhỏ: nếu chạy đoạn này ở scope toàn cục của trình duyệt, `name` trùng với `window.name` có sẵn nên kết quả có thể là chuỗi rỗng. Chạy trong hàm hoặc module thì đúng là `undefined`.)*
+_(Lưu ý nhỏ: nếu chạy đoạn này ở scope toàn cục của trình duyệt, `name` trùng với `window.name` có sẵn nên kết quả có thể là chuỗi rỗng. Chạy trong hàm hoặc module thì đúng là `undefined`.)_
 
 </details>
 
@@ -402,9 +404,9 @@ const greet = () => console.log("Hi");
 
 Khác biệt nằm ở **cách khai báo biến**, không phải ở arrow function:
 
-| | `var greet = function(){}` | `const greet = () => {}` |
-|---|---|---|
-| Biến được hoist | Có, khởi tạo `undefined` | Có, nhưng **uninitialized (TDZ)** |
+|                    | `var greet = function(){}`      | `const greet = () => {}`             |
+| ------------------ | ------------------------------- | ------------------------------------ |
+| Biến được hoist    | Có, khởi tạo `undefined`        | Có, nhưng **uninitialized (TDZ)**    |
 | Gọi trước khai báo | `undefined()` → **`TypeError`** | Chạm vào biến → **`ReferenceError`** |
 
 Với `var`, engine cho phép **đọc** biến (ra `undefined`), lỗi chỉ phát sinh khi gọi nó như hàm. Với `const`/`let`, engine **chặn ngay từ bước đọc biến** vì nó đang trong TDZ — chưa kịp tới chuyện gọi hàm hay không.
@@ -418,18 +420,18 @@ Lỗi TDZ thực ra "tốt" hơn: nó báo đúng bản chất vấn đề (dùn
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| Tiêu chí | Function declaration | Function expression |
-|---|---|---|
-| Cú pháp | `function greet() {}` | `const greet = function () {}` / `() => {}` |
-| Hoisting | Hoist **cả tên lẫn body** | Chỉ hoist **biến** chứa nó |
-| Gọi trước khi khai báo | Chạy được | `TypeError` (`var`) hoặc `ReferenceError` (`let`/`const`) |
-| Trong block scope | Hành vi khác nhau giữa strict/sloppy mode | Tuân theo scope của biến, nhất quán |
+| Tiêu chí               | Function declaration                      | Function expression                                       |
+| ---------------------- | ----------------------------------------- | --------------------------------------------------------- |
+| Cú pháp                | `function greet() {}`                     | `const greet = function () {}` / `() => {}`               |
+| Hoisting               | Hoist **cả tên lẫn body**                 | Chỉ hoist **biến** chứa nó                                |
+| Gọi trước khi khai báo | Chạy được                                 | `TypeError` (`var`) hoặc `ReferenceError` (`let`/`const`) |
+| Trong block scope      | Hành vi khác nhau giữa strict/sloppy mode | Tuân theo scope của biến, nhất quán                       |
 
 ```js
-sayHi();             // OK — declaration
+sayHi(); // OK — declaration
 function sayHi() {}
 
-sayBye();            // ReferenceError — expression với const
+sayBye(); // ReferenceError — expression với const
 const sayBye = () => {};
 ```
 
@@ -452,7 +454,7 @@ if (true) {
   function foo() {}
 }
 foo(); // ReferenceError trong strict
-       // OK trong sloppy mode (foo bị hoist ra ngoài)
+// OK trong sloppy mode (foo bị hoist ra ngoài)
 ```
 
 - **Strict mode**: function declaration trong block được **scope vào chính block đó** — ra ngoài block là không còn tồn tại.
@@ -465,7 +467,9 @@ Hệ quả: cùng một đoạn code cho hai kết quả khác nhau tùy môi tr
 ```js
 let foo;
 if (true) {
-  foo = () => { /* ... */ };
+  foo = () => {
+    /* ... */
+  };
 }
 ```
 
@@ -562,22 +566,26 @@ Vài lưu ý thực tế:
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| Loại | Convention | Ví dụ |
-|------|-----------|-------|
-| Biến, hàm | camelCase | `userName`, `getCurrentUser()` |
-| Class, constructor | PascalCase | `User`, `UserService` |
-| Hằng số global | UPPER_SNAKE_CASE | `MAX_RETRIES`, `API_URL` |
-| Private (theo quy ước) | `_camelCase` | `_internalState` |
-| Private thật (class) | `#camelCase` | `#password` |
-| Boolean | `is`/`has`/`can` prefix | `isActive`, `hasPermission` |
+| Loại                   | Convention              | Ví dụ                          |
+| ---------------------- | ----------------------- | ------------------------------ |
+| Biến, hàm              | camelCase               | `userName`, `getCurrentUser()` |
+| Class, constructor     | PascalCase              | `User`, `UserService`          |
+| Hằng số global         | UPPER_SNAKE_CASE        | `MAX_RETRIES`, `API_URL`       |
+| Private (theo quy ước) | `_camelCase`            | `_internalState`               |
+| Private thật (class)   | `#camelCase`            | `#password`                    |
+| Boolean                | `is`/`has`/`can` prefix | `isActive`, `hasPermission`    |
 
 **Vì sao boolean nên có prefix:** prefix biến tên biến thành một **câu hỏi có/không**, nên vừa đọc đã biết ngay giá trị chỉ là `true`/`false` và ý nghĩa của từng nhánh.
 
 ```js
-if (user.admin) { }      // admin là boolean? là object? là id?
-if (user.isAdmin) { }    // rõ ràng ngay
-if (cart.items) { }      // mảng — luôn truthy, dễ sai
-if (cart.hasItems) { }   // đúng ý định
+if (user.admin) {
+} // admin là boolean? là object? là id?
+if (user.isAdmin) {
+} // rõ ràng ngay
+if (cart.items) {
+} // mảng — luôn truthy, dễ sai
+if (cart.hasItems) {
+} // đúng ý định
 ```
 
 Quy ước chung: `is` cho trạng thái (`isLoading`), `has` cho sở hữu (`hasError`), `can`/`should` cho quyền hoặc quyết định (`canEdit`, `shouldRetry`).
@@ -589,24 +597,26 @@ Quy ước chung: `is` cho trạng thái (`isLoading`), `has` cho sở hữu (`h
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| | `_privateField` | `#privateField` |
-|---|---|---|
-| Bản chất | **Quy ước đặt tên**, không có gì ép buộc | **Tính năng ngôn ngữ** (private class field) |
-| Truy cập từ bên ngoài | Vẫn được, chỉ là "không nên" | `SyntaxError` — không thể truy cập |
-| Xuất hiện khi lặp/`JSON.stringify` | Có | Không |
-| Phạm vi hỗ trợ | Mọi nơi (object thường, class...) | Chỉ trong thân class |
+|                                    | `_privateField`                          | `#privateField`                              |
+| ---------------------------------- | ---------------------------------------- | -------------------------------------------- |
+| Bản chất                           | **Quy ước đặt tên**, không có gì ép buộc | **Tính năng ngôn ngữ** (private class field) |
+| Truy cập từ bên ngoài              | Vẫn được, chỉ là "không nên"             | `SyntaxError` — không thể truy cập           |
+| Xuất hiện khi lặp/`JSON.stringify` | Có                                       | Không                                        |
+| Phạm vi hỗ trợ                     | Mọi nơi (object thường, class...)        | Chỉ trong thân class                         |
 
 ```js
 class User {
-  _token = "abc";   // quy ước
+  _token = "abc"; // quy ước
   #password = "123"; // private thật
 
-  check() { return this.#password; } // OK trong class
+  check() {
+    return this.#password;
+  } // OK trong class
 }
 
 const u = new User();
-u._token;     // "abc" — vẫn đọc được
-u.#password;  // SyntaxError
+u._token; // "abc" — vẫn đọc được
+u.#password; // SyntaxError
 ```
 
 Ý nghĩa thực tế: `_` là **tín hiệu cho đồng đội** ("đây là nội bộ, đừng phụ thuộc vào nó"), còn `#` là **rào chắn thật** do engine bảo đảm. Trong code mới viết bằng `class`, ưu tiên `#` khi muốn đóng gói thực sự; dùng `_` khi chỉ cần đánh dấu ý định hoặc khi cần truy cập trong test/kế thừa.
@@ -652,10 +662,10 @@ let message = "ngoài";
 
 {
   let message = "trong"; // che biến ngoài
-  console.log(message);  // "trong"
+  console.log(message); // "trong"
 }
 
-console.log(message);    // "ngoài" — biến ngoài không bị ảnh hưởng
+console.log(message); // "ngoài" — biến ngoài không bị ảnh hưởng
 ```
 
 Shadowing hợp lệ và đôi khi hữu ích (ví dụ tham số hàm trùng tên biến ngoài), nhưng lạm dụng sẽ khiến code khó theo dõi.

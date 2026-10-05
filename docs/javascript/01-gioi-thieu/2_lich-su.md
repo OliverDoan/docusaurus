@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "2. Lịch sử & các phiên bản JavaScript"
+title: "⭐ 2. Lịch sử & các phiên bản JavaScript"
 ---
 
 # Lịch sử & các phiên bản JavaScript
@@ -42,7 +42,7 @@ Bài này kể lại hành trình của JavaScript: từ lúc ra đời chỉ tr
 
 Năm **1995**, **Brendan Eich** tại Netscape được giao nhiệm vụ tạo ngôn ngữ kịch bản cho trình duyệt **Netscape Navigator**. Ông hoàn thành prototype đầu tiên trong **10 ngày**.
 
-> **Prototype** (bản mẫu) là một **phiên bản thử nghiệm sơ khai** của sản phẩm, làm nhanh để chạy thử và chứng minh ý tưởng khả thi — chưa hoàn chỉnh, còn thiếu tính năng. Ở đây nghĩa là Brendan Eich dựng được bản JavaScript chạy được đầu tiên chỉ trong 10 ngày, rồi mới hoàn thiện dần sau đó. (Lưu ý: từ này khác với khái niệm *prototype* trong cơ chế kế thừa của JavaScript.)
+> **Prototype** (bản mẫu) là một **phiên bản thử nghiệm sơ khai** của sản phẩm, làm nhanh để chạy thử và chứng minh ý tưởng khả thi — chưa hoàn chỉnh, còn thiếu tính năng. Ở đây nghĩa là Brendan Eich dựng được bản JavaScript chạy được đầu tiên chỉ trong 10 ngày, rồi mới hoàn thiện dần sau đó. (Lưu ý: từ này khác với khái niệm _prototype_ trong cơ chế kế thừa của JavaScript.)
 
 Tên ngôn ngữ qua các giai đoạn:
 
@@ -135,21 +135,21 @@ Nói "ES6" hay "ES2015" đều chỉ cùng một phiên bản tiêu chuẩn.
 
 ## Các phiên bản đáng nhớ
 
-| Phiên bản | Năm | Tính năng nổi bật |
-|-----------|-----|-------------------|
-| ES1 | 1997 | Phiên bản đầu tiên |
-| ES3 | 1999 | RegExp, try/catch — chuẩn ổn định lâu dài |
-| ES5 | 2009 | `strict mode`, `JSON`, array method (map, filter, reduce) |
-| **ES6 / ES2015** | 2015 | `let`/`const`, arrow function, class, Promise, module — **cuộc cách mạng** |
-| ES2016 | 2016 | `**` toán tử, `Array.prototype.includes` |
-| ES2017 | 2017 | `async`/`await`, `Object.entries`, `Object.values` |
-| ES2018 | 2018 | Rest/spread cho object, `for await...of` |
-| ES2019 | 2019 | `Array.flat`, `Object.fromEntries`, optional catch |
-| ES2020 | 2020 | `?.` optional chaining, `??` nullish coalescing, `BigInt`, dynamic `import()` |
-| ES2021 | 2021 | `String.replaceAll`, logical assignment `??=` `\|\|=` `&&=` |
-| ES2022 | 2022 | Top-level `await`, `#field` private, `at()` |
-| ES2023 | 2023 | `Array.findLast`, `toSorted` (immutable methods) |
-| ES2024 | 2024 | `Object.groupBy`, `Promise.withResolvers` |
+| Phiên bản        | Năm  | Tính năng nổi bật                                                             |
+| ---------------- | ---- | ----------------------------------------------------------------------------- |
+| ES1              | 1997 | Phiên bản đầu tiên                                                            |
+| ES3              | 1999 | RegExp, try/catch — chuẩn ổn định lâu dài                                     |
+| ES5              | 2009 | `strict mode`, `JSON`, array method (map, filter, reduce)                     |
+| **ES6 / ES2015** | 2015 | `let`/`const`, arrow function, class, Promise, module — **cuộc cách mạng**    |
+| ES2016           | 2016 | `**` toán tử, `Array.prototype.includes`                                      |
+| ES2017           | 2017 | `async`/`await`, `Object.entries`, `Object.values`                            |
+| ES2018           | 2018 | Rest/spread cho object, `for await...of`                                      |
+| ES2019           | 2019 | `Array.flat`, `Object.fromEntries`, optional catch                            |
+| ES2020           | 2020 | `?.` optional chaining, `??` nullish coalescing, `BigInt`, dynamic `import()` |
+| ES2021           | 2021 | `String.replaceAll`, logical assignment `??=` `\|\|=` `&&=`                   |
+| ES2022           | 2022 | Top-level `await`, `#field` private, `at()`                                   |
+| ES2023           | 2023 | `Array.findLast`, `toSorted` (immutable methods)                              |
+| ES2024           | 2024 | `Object.groupBy`, `Promise.withResolvers`                                     |
 
 ---
 
@@ -183,7 +183,7 @@ Person.prototype.greet = function () {
 const add = (a, b) => a + b;
 
 const users = [{ name: "An" }, { name: "Bình" }];
-const names = users.map(u => u.name);
+const names = users.map((u) => u.name);
 
 class Person {
   constructor(name) {
@@ -244,7 +244,7 @@ a &&= b; // a = a && b
 
 ```js
 // module.js
-const data = await fetch("/api").then(r => r.json());
+const data = await fetch("/api").then((r) => r.json());
 export { data };
 ```
 
@@ -344,13 +344,13 @@ Chi tiết "10 ngày" thường được hỏi để dẫn sang ý: nhiều đi�
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| | ECMAScript | JavaScript |
-|---|---|---|
-| Bản chất | **Chuẩn** (specification) — mô tả ngôn ngữ trên giấy | **Implementation** — bản triển khai chuẩn đó |
-| Ai làm | ECMA International, ủy ban TC39 | Trình duyệt (V8, SpiderMonkey, JavaScriptCore), Node.js |
+|          | ECMAScript                                            | JavaScript                                                         |
+| -------- | ----------------------------------------------------- | ------------------------------------------------------------------ |
+| Bản chất | **Chuẩn** (specification) — mô tả ngôn ngữ trên giấy  | **Implementation** — bản triển khai chuẩn đó                       |
+| Ai làm   | ECMA International, ủy ban TC39                       | Trình duyệt (V8, SpiderMonkey, JavaScriptCore), Node.js            |
 | Nội dung | Cú pháp, kiểu dữ liệu, `Object`, `Promise`, `Math`... | ECMAScript + các API của môi trường (`document`, `fetch`, `fs`...) |
 
-Nói ngắn gọn: ECMAScript là *bản thiết kế*, JavaScript là *sản phẩm chạy được* dựng theo bản thiết kế đó.
+Nói ngắn gọn: ECMAScript là _bản thiết kế_, JavaScript là _sản phẩm chạy được_ dựng theo bản thiết kế đó.
 
 **Vì sao chuẩn không tên là "JavaScript"?** Vì **"JavaScript" là trademark** thuộc về Sun Microsystems (sau này là Oracle), Netscape chỉ được cấp phép sử dụng. Khi năm 1997 Netscape gửi ngôn ngữ lên **ECMA International** để chuẩn hoá, tổ chức này không thể dùng một cái tên đang bị đăng ký bản quyền cho chuẩn mở, nên đặt tên là **ECMAScript**.
 
@@ -489,7 +489,7 @@ Person.prototype.greet = function () {
 const add = (a, b) => a + b;
 
 const users = [{ name: "An" }, { name: "Bình" }];
-const names = users.map(u => u.name);
+const names = users.map((u) => u.name);
 
 class Person {
   constructor(name) {
@@ -510,12 +510,12 @@ Bốn thay đổi tương ứng: `var` → `const` (block scope, không bị hoi
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| Phiên bản | Tính năng nổi bật |
-|---|---|
-| **ES2017** | `async`/`await`, `Object.entries`, `Object.values` |
+| Phiên bản  | Tính năng nổi bật                                                             |
+| ---------- | ----------------------------------------------------------------------------- |
+| **ES2017** | `async`/`await`, `Object.entries`, `Object.values`                            |
 | **ES2020** | `?.` optional chaining, `??` nullish coalescing, `BigInt`, dynamic `import()` |
-| **ES2021** | `String.replaceAll`, logical assignment `??=` `\|\|=` `&&=` |
-| **ES2022** | Top-level `await`, private field `#field`, `at()` |
+| **ES2021** | `String.replaceAll`, logical assignment `??=` `\|\|=` `&&=`                   |
+| **ES2022** | Top-level `await`, private field `#field`, `at()`                             |
 
 ```js
 // ES2017 — async/await
@@ -532,7 +532,7 @@ const port = config.port ?? 3000;
 a ??= b; // a = a ?? b
 
 // ES2022 — top-level await (chỉ trong ES Module)
-const data = await fetch("/api").then(r => r.json());
+const data = await fetch("/api").then((r) => r.json());
 ```
 
 Trong đó `async`/`await` (ES2017) và optional chaining (ES2020) là hai tính năng được dùng nhiều nhất trong code hiện đại.
@@ -547,7 +547,7 @@ Trong đó `async`/`await` (ES2017) và optional chaining (ES2020) là hai tính
 Khác biệt nằm ở **điều kiện kích hoạt giá trị fallback**:
 
 - `||` lấy vế phải khi vế trái là **falsy** — tức `false`, `0`, `""`, `null`, `undefined`, `NaN`.
-- `??` chỉ lấy vế phải khi vế trái là **`null` hoặc `undefined`** (gọi chung là *nullish*).
+- `??` chỉ lấy vế phải khi vế trái là **`null` hoặc `undefined`** (gọi chung là _nullish_).
 
 ```js
 const config = { port: 0, name: "" };
@@ -574,7 +574,7 @@ Quy tắc thực dụng: dùng `??` cho **giá trị mặc định của cấu h
 
 ```js
 // module.js
-const data = await fetch("/api").then(r => r.json());
+const data = await fetch("/api").then((r) => r.json());
 export { data };
 ```
 
@@ -636,11 +636,11 @@ Trong thực tế thường không cấu hình tay: chỉ cần đặt `target` 
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| Khái niệm | Bản chất |
-|---|---|
-| **Compile** | Dịch từ ngôn ngữ **cấp cao xuống cấp thấp hơn** — ví dụ C → mã máy, Java → JVM bytecode |
+| Khái niệm     | Bản chất                                                                                                                               |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| **Compile**   | Dịch từ ngôn ngữ **cấp cao xuống cấp thấp hơn** — ví dụ C → mã máy, Java → JVM bytecode                                                |
 | **Transpile** | Dịch giữa hai ngôn ngữ/phiên bản **cùng cấp độ trừu tượng** — ES2022 → ES5, TypeScript → JavaScript. Đầu ra vẫn là code người đọc được |
-| **Polyfill** | **Đoạn code bổ sung lúc runtime** để cung cấp một API còn thiếu trong môi trường cũ |
+| **Polyfill**  | **Đoạn code bổ sung lúc runtime** để cung cấp một API còn thiếu trong môi trường cũ                                                    |
 
 Điểm mấu chốt: Babel/SWC chỉ xử lý được **cú pháp**, không tạo ra được **API mới**.
 
@@ -649,7 +649,7 @@ Trong thực tế thường không cấu hình tay: chỉ cần đặt `target` 
 
 ```js
 // Babel tự lo được — chỉ là cú pháp
-const nums = [1, 2, 3].map(n => n * 2);
+const nums = [1, 2, 3].map((n) => n * 2);
 
 // Babel KHÔNG tạo ra được — cần polyfill (core-js)
 [1, 2, 3].includes(2);

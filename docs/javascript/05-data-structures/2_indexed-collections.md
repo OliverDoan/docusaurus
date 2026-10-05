@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "2. Arrays và Typed Arrays"
+title: "⭐ 2. Arrays và Typed Arrays"
 ---
 
 # Arrays và Typed Arrays

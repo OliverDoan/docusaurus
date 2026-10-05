@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "3. Cách chạy JavaScript"
+title: "⭐ 3. Cách chạy JavaScript"
 ---
 
 # Cách chạy JavaScript

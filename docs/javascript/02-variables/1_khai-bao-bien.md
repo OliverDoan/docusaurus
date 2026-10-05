@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "1. Khai báo biến: var, let, const"
+title: "⭐ 1. Khai báo biến: var, let, const"
 ---
 
 # Khai báo biến: var, let, const
@@ -38,11 +38,11 @@ Biến (variable) là "cái hộp" có tên dùng để lưu trữ dữ liệu �
 
 JavaScript có **3 từ khoá** để khai báo biến:
 
-| Từ khoá | Scope | Hoisting | Reassign | TDZ |
-|---------|-------|----------|----------|-----|
-| `var` | Function | Có (giá trị `undefined`) | Có | Không |
-| `let` | Block | Có (TDZ) | Có | **Có** |
-| `const` | Block | Có (TDZ) | **Không** | **Có** |
+| Từ khoá | Scope    | Hoisting                 | Reassign  | TDZ    |
+| ------- | -------- | ------------------------ | --------- | ------ |
+| `var`   | Function | Có (giá trị `undefined`) | Có        | Không  |
+| `let`   | Block    | Có (TDZ)                 | Có        | **Có** |
+| `const` | Block    | Có (TDZ)                 | **Không** | **Có** |
 
 ---
 
@@ -112,12 +112,12 @@ PI = 3.15; // TypeError
 
 ```js
 const user = { name: "An" };
-user.name = "Bình";  // OK — sửa property
-user.age = 25;       // OK — thêm property
+user.name = "Bình"; // OK — sửa property
+user.age = 25; // OK — thêm property
 
 const arr = [1, 2, 3];
-arr.push(4);         // OK — sửa nội dung
-arr = [];            // Error — gán lại biến
+arr.push(4); // OK — sửa nội dung
+arr = []; // Error — gán lại biến
 ```
 
 Muốn immutable thực sự, dùng `Object.freeze()`:
@@ -151,7 +151,7 @@ flowchart TD
 
 ```js
 const users = await fetchUsers(); // không gán lại → const
-let total = 0;                     // sẽ thay đổi → let
+let total = 0; // sẽ thay đổi → let
 for (let i = 0; i < users.length; i++) {
   total += users[i].score;
 }
@@ -179,7 +179,7 @@ Senior thường được hỏi: "Tại sao `typeof` an toàn với biến chưa
 
 ```js
 typeof undeclared; // "undefined" (an toàn)
-typeof x;          // ReferenceError (TDZ với let/const)
+typeof x; // ReferenceError (TDZ với let/const)
 let x = 1;
 ```
 
@@ -216,11 +216,11 @@ Những câu thường gặp về chủ đề này. Tự trả lời trước, r
 
 JavaScript có **3 từ khoá** khai báo biến: `var` (từ thời đầu) cùng `let` và `const` (thêm từ ES6/2015).
 
-| Từ khoá | Scope | Hoisting | Gán lại | TDZ |
-|---|---|---|---|---|
-| `var` | **Function** | Có — khởi tạo sẵn giá trị `undefined` | Có | Không |
-| `let` | **Block** | Có — nhưng chưa khởi tạo (TDZ) | Có | **Có** |
-| `const` | **Block** | Có — nhưng chưa khởi tạo (TDZ) | **Không** | **Có** |
+| Từ khoá | Scope        | Hoisting                              | Gán lại   | TDZ    |
+| ------- | ------------ | ------------------------------------- | --------- | ------ |
+| `var`   | **Function** | Có — khởi tạo sẵn giá trị `undefined` | Có        | Không  |
+| `let`   | **Block**    | Có — nhưng chưa khởi tạo (TDZ)        | Có        | **Có** |
+| `const` | **Block**    | Có — nhưng chưa khởi tạo (TDZ)        | **Không** | **Có** |
 
 Vài điểm bổ sung:
 
@@ -265,15 +265,15 @@ Vì sao block scope tốt hơn: biến chỉ tồn tại đúng nơi cần dùng
 ```js
 // var — hợp lệ, không báo lỗi gì
 var name = "An";
-var name = "Bình";     // OK, name === "Bình"
+var name = "Bình"; // OK, name === "Bình"
 
 // let — lỗi cú pháp
 let age = 20;
-let age = 30;          // SyntaxError: Identifier 'age' has already been declared
+let age = 30; // SyntaxError: Identifier 'age' has already been declared
 
 // const — cũng lỗi cú pháp
 const PI = 3.14;
-const PI = 3.15;       // SyntaxError: Identifier 'PI' has already been declared
+const PI = 3.15; // SyntaxError: Identifier 'PI' has already been declared
 ```
 
 Lưu ý quan trọng: `SyntaxError` ở đây được phát hiện **lúc parse**, trước khi bất kỳ dòng nào chạy — nên cả file không chạy được, kể cả `console.log` ở dòng đầu tiên.
@@ -295,14 +295,14 @@ Với kiểu nguyên thủy (number, string...) thì điều này trông giống
 
 ```js
 const user = { name: "An" };
-user.name = "Bình";  // OK — sửa property
-user.age = 25;       // OK — thêm property
-user = {};           // TypeError: Assignment to constant variable
+user.name = "Bình"; // OK — sửa property
+user.age = 25; // OK — thêm property
+user = {}; // TypeError: Assignment to constant variable
 
 const arr = [1, 2, 3];
-arr.push(4);         // OK — [1, 2, 3, 4]
-arr[0] = 99;         // OK
-arr = [];            // TypeError
+arr.push(4); // OK — [1, 2, 3, 4]
+arr[0] = 99; // OK
+arr = []; // TypeError
 ```
 
 Cách hiểu đúng: biến `const` giống một cái hộp bị dán niêm phong — bạn không đổi được **cái hộp** (địa chỉ tham chiếu), nhưng vẫn thò tay vào sắp xếp lại **đồ bên trong**.
@@ -320,7 +320,7 @@ Dùng **`Object.freeze()`** — nó chặn thêm, xóa và sửa property của 
 
 ```js
 const config = Object.freeze({ url: "/api" });
-config.url = "x";  // Silently fail (ở strict mode: TypeError)
+config.url = "x"; // Silently fail (ở strict mode: TypeError)
 console.log(config.url); // "/api"
 ```
 
@@ -328,8 +328,8 @@ console.log(config.url); // "/api"
 
 ```js
 const cfg = Object.freeze({ db: { host: "localhost" } });
-cfg.db.host = "remote";       // vẫn sửa được!
-console.log(cfg.db.host);     // "remote"
+cfg.db.host = "remote"; // vẫn sửa được!
+console.log(cfg.db.host); // "remote"
 ```
 
 Hạn chế khác: ở **non-strict mode** việc gán bị thất bại **im lặng**, không báo lỗi gì — rất khó phát hiện bug.
@@ -356,7 +356,7 @@ Hạn chế khác: ở **non-strict mode** việc gán bị thất bại **im l�
 {
   // ── TDZ của x bắt đầu từ đây ──
   console.log(x); // ReferenceError: Cannot access 'x' before initialization
-  let x = 10;     // ── TDZ kết thúc tại đây ──
+  let x = 10; // ── TDZ kết thúc tại đây ──
   console.log(x); // 10
 }
 ```
@@ -403,7 +403,7 @@ Hành vi `undefined` im lặng của `var` chính là thứ TDZ sinh ra để kh
 
 ```js
 typeof undeclared; // "undefined" — an toàn
-typeof x;          // ReferenceError — TDZ
+typeof x; // ReferenceError — TDZ
 let x = 1;
 ```
 
@@ -478,10 +478,10 @@ Trước ES6, IIFE là cách chuẩn mực để mô phỏng block scope. Ngày 
 
 ```js
 function f() {
-  x = 5;  // không có var/let/const
+  x = 5; // không có var/let/const
 }
 f();
-console.log(x);        // 5 — rò ra global!
+console.log(x); // 5 — rò ra global!
 console.log(window.x); // 5
 ```
 
@@ -521,7 +521,7 @@ x = 5; // ReferenceError: x is not defined
 
 ```js
 const users = await fetchUsers(); // không gán lại → const
-let total = 0;                    // sẽ thay đổi → let
+let total = 0; // sẽ thay đổi → let
 ```
 
 Bật ESLint `no-var` và `prefer-const` để cả nhóm tuân thủ tự động.
