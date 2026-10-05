@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "1. Lớp và Đối tượng (Class & Object)"
+title: "⭐ 1. Lớp và Đối tượng (Class & Object)"
 ---
 
 # Lớp và Đối tượng (Class & Object)
@@ -70,6 +70,7 @@ u1.chao(); // Xin chào, tôi là An
 ```
 
 :::tip[Dùng thực tế]
+
 - **Tạo nhiều thực thể từ một khuôn:** một class `User` sinh ra hàng trăm user mà không cần viết lại cấu trúc.
 - **Mỗi object giữ state riêng:** sửa `u1` không ảnh hưởng `u2`.
 - **Gắn method với dữ liệu:** hành vi (`chao()`) đi kèm ngay dữ liệu nó cần.
@@ -122,9 +123,9 @@ Tên class trong Java được viết theo kiểu **PascalCase**: chữ cái đ�
 
 **Object** (đối tượng — một thực thể cụ thể được tạo ra từ class) chính là "ngôi nhà thật" được xây từ bản vẽ. Từ một class `Car`, ta có thể tạo ra rất nhiều object: chiếc xe đỏ của bạn, chiếc xe trắng của hàng xóm... Mỗi object có dữ liệu riêng của nó.
 
-| Khái niệm | Ví dụ thực tế | Trong code |
-|-----------|---------------|------------|
-| Class (khuôn mẫu) | Bản vẽ thiết kế xe | `class Car { ... }` |
+| Khái niệm         | Ví dụ thực tế      | Trong code               |
+| ----------------- | ------------------ | ------------------------ |
+| Class (khuôn mẫu) | Bản vẽ thiết kế xe | `class Car { ... }`      |
 | Object (thực thể) | Chiếc xe đỏ cụ thể | `Car myCar = new Car();` |
 
 Một object còn được gọi là một **instance** (thể hiện — một bản cụ thể của class).
@@ -207,6 +208,68 @@ System.out.println(myCar.brand); // Toyota
 :::info Constructor mặc định
 Nếu bạn KHÔNG viết constructor nào, Java tự cấp cho class một **constructor mặc định** (default constructor) rỗng, không tham số. Nhưng khi bạn đã tự viết một constructor có tham số, Java sẽ KHÔNG còn tự cấp cái rỗng nữa.
 :::
+
+### 1. Không viết constructor nào
+
+Java tự cấp một **constructor mặc định không tham số**.
+
+```java
+class Car {
+    String color;
+}
+
+Car myCar = new Car(); // ✅ Hợp lệ
+```
+
+Constructor được Java tự cấp tương đương:
+
+```java
+Car() {
+    super();
+}
+```
+
+### 2. Đã viết constructor có tham số
+
+Java **không tự cấp constructor không tham số nữa**.
+
+```java
+class Car {
+    String color;
+
+    Car(String color) {
+        this.color = color;
+    }
+}
+
+Car car1 = new Car("Đỏ"); // ✅ Hợp lệ
+Car car2 = new Car();     // ❌ Lỗi: không có constructor Car()
+```
+
+### 3. Muốn dùng cả hai cách tạo đối tượng
+
+Bạn cần tự viết cả hai constructor:
+
+```java
+class Car {
+    String color;
+
+    Car() {
+        this.color = "Trắng";
+    }
+
+    Car(String color) {
+        this.color = color;
+    }
+}
+
+Car car1 = new Car();     // ✅ color = "Trắng"
+Car car2 = new Car("Đỏ"); // ✅ color = "Đỏ"
+```
+
+> **Ghi nhớ:** Java chỉ tự cấp constructor mặc định khi class chưa khai báo bất kỳ constructor nào.
+>
+> Constructor không tham số do bạn tự viết được gọi là **no-arg constructor**, không phải constructor mặc định do Java tự cấp.
 
 ---
 

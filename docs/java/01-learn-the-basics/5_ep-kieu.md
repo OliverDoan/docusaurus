@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-title: "5. Ép kiểu (Type Casting)"
+title: "✅ 5. Ép kiểu (Type Casting)"
 ---
 
 # Ép kiểu (Type Casting)

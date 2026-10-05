@@ -1,6 +1,6 @@
 ---
 sidebar_position: 6
-title: "6. Chuỗi (String) và các phương thức"
+title: "✅ 6. Chuỗi (String)"
 ---
 
 # Chuỗi (String) và các phương thức
@@ -80,6 +80,7 @@ String s = sb.toString();
 ```
 
 :::tip[Dùng thực tế]
+
 - Dùng `String` làm **key của Map** mà không lo bị một chỗ khác sửa làm hỏng tra cứu.
 - **Chia sẻ chuỗi giữa nhiều luồng** an toàn, không cần khóa (lock).
 - Cần **nối/sửa chuỗi trong vòng lặp** thì dùng `StringBuilder` cho nhanh.
@@ -362,12 +363,12 @@ Kết quả lần lượt: **`true`**, **`false`**, **`true`**.
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| | `String` | `StringBuilder` | `StringBuffer` |
-|---|---|---|---|
-| Tính chất | Bất biến (immutable) | Thay đổi được (mutable) | Thay đổi được (mutable) |
-| Thread-safe (an toàn đa luồng) | Có (do bất biến) | Không | Có (các phương thức được đồng bộ hóa — `synchronized`) |
-| Hiệu năng | Chậm khi nối chuỗi nhiều lần | Nhanh nhất (đơn luồng) | Chậm hơn `StringBuilder` do chi phí đồng bộ hóa |
-| Khi nào dùng | Chuỗi cố định, ít thay đổi | Ghép/sửa chuỗi nhiều lần trong một luồng (đa số trường hợp thực tế) | Ghép/sửa chuỗi được chia sẻ giữa nhiều luồng cùng lúc |
+|                                | `String`                     | `StringBuilder`                                                     | `StringBuffer`                                         |
+| ------------------------------ | ---------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------ |
+| Tính chất                      | Bất biến (immutable)         | Thay đổi được (mutable)                                             | Thay đổi được (mutable)                                |
+| Thread-safe (an toàn đa luồng) | Có (do bất biến)             | Không                                                               | Có (các phương thức được đồng bộ hóa — `synchronized`) |
+| Hiệu năng                      | Chậm khi nối chuỗi nhiều lần | Nhanh nhất (đơn luồng)                                              | Chậm hơn `StringBuilder` do chi phí đồng bộ hóa        |
+| Khi nào dùng                   | Chuỗi cố định, ít thay đổi   | Ghép/sửa chuỗi nhiều lần trong một luồng (đa số trường hợp thực tế) | Ghép/sửa chuỗi được chia sẻ giữa nhiều luồng cùng lúc  |
 
 Trong thực tế, `StringBuilder` được dùng phổ biến hơn hẳn `StringBuffer` vì phần lớn thao tác ghép chuỗi diễn ra trong một luồng duy nhất (ví dụ bên trong một method), không cần trả chi phí đồng bộ hóa không cần thiết.
 

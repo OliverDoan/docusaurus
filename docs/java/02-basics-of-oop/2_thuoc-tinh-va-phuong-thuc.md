@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "2. Thuộc tính và Phương thức"
+title: "⭐ 2. Thuộc tính và Phương thức"
 ---
 
 # Thuộc tính và Phương thức

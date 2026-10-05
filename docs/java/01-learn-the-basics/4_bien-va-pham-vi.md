@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "4. Biến và phạm vi"
+title: "✅ 4. Biến và phạm vi"
 ---
 
 # Biến và phạm vi
