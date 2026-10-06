@@ -11,6 +11,8 @@ title: "1. Advanced Types"
 
 [![Sơ đồ tóm tắt bài: Advanced Types (phần 2)](/img/typescript/advanced-types-2.webp)](pathname:///img/typescript/advanced-types-2.webp)
 
+[![Sơ đồ tóm tắt bài: Advanced Types (phần 3)](/img/typescript/advanced-types-3.webp)](pathname:///img/typescript/advanced-types-3.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

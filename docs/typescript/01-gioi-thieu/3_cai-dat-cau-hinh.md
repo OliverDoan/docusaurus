@@ -7,7 +7,11 @@ title: "3. Cài đặt và chạy TypeScript"
 
 Vì trình duyệt và Node.js không hiểu file `.ts` trực tiếp, bạn cần một **compiler** (trình biên dịch) để chuyển TypeScript thành JavaScript trước khi chạy. Bài này hướng dẫn cài TypeScript qua npm, dùng `tsc` (compiler chính thức) để biên dịch, và các cách chạy nhanh như `ts-node` hay `tsx` cho người mới bắt đầu.
 
-[![Sơ đồ tóm tắt bài: Cài đặt và chạy TypeScript](/img/typescript/cai-dat-cau-hinh.webp)](pathname:///img/typescript/cai-dat-cau-hinh.webp)
+[![Sơ đồ tóm tắt bài: Cài đặt và chạy TypeScript (phần 1)](/img/typescript/cai-dat-cau-hinh-1.webp)](pathname:///img/typescript/cai-dat-cau-hinh-1.webp)
+
+[![Sơ đồ tóm tắt bài: Cài đặt và chạy TypeScript (phần 2)](/img/typescript/cai-dat-cau-hinh-2.webp)](pathname:///img/typescript/cai-dat-cau-hinh-2.webp)
+
+[![Sơ đồ tóm tắt bài: Cài đặt và chạy TypeScript (phần 3)](/img/typescript/cai-dat-cau-hinh-3.webp)](pathname:///img/typescript/cai-dat-cau-hinh-3.webp)
 
 ---
 

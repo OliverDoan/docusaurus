@@ -7,7 +7,9 @@ title: "1. Generics"
 
 **Generic** (kiểu tổng quát, tái dùng cho nhiều kiểu) cho phép bạn viết hàm, interface hay class hoạt động với nhiều kiểu dữ liệu khác nhau mà vẫn giữ được an toàn kiểu. Thay vì viết riêng một phiên bản cho `number`, một phiên bản cho `string`, bạn dùng một tham số kiểu (thường ký hiệu là `T`) để đại diện cho kiểu sẽ được quyết định lúc sử dụng. Bài này giúp người mới học hiểu cách tạo code linh hoạt, tái dùng nhưng vẫn được trình biên dịch kiểm tra kiểu chặt chẽ.
 
-[![Sơ đồ tóm tắt bài: Generics](/img/typescript/generics.webp)](pathname:///img/typescript/generics.webp)
+[![Sơ đồ tóm tắt bài: Generics (phần 1)](/img/typescript/generics-1.webp)](pathname:///img/typescript/generics-1.webp)
+
+[![Sơ đồ tóm tắt bài: Generics (phần 2)](/img/typescript/generics-2.webp)](pathname:///img/typescript/generics-2.webp)
 
 ---
 

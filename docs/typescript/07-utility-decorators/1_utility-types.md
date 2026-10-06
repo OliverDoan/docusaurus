@@ -7,7 +7,9 @@ title: "1. Utility Types"
 
 **Utility type** (kiểu tiện ích dựng sẵn) là các kiểu có sẵn trong TypeScript giúp bạn biến đổi nhanh một kiểu đã có thành kiểu mới mà không phải viết lại từ đầu. Ví dụ `Partial` làm mọi thuộc tính thành tùy chọn, `Pick` chọn ra một vài thuộc tính, `Readonly` khóa không cho sửa. Bài này giúp người mới học nắm các utility type thông dụng để xử lý kiểu gọn gàng và ít lặp lại hơn.
 
-[![Sơ đồ tóm tắt bài: Utility Types](/img/typescript/utility-types.webp)](pathname:///img/typescript/utility-types.webp)
+[![Sơ đồ tóm tắt bài: Utility Types (phần 1)](/img/typescript/utility-types-1.webp)](pathname:///img/typescript/utility-types-1.webp)
+
+[![Sơ đồ tóm tắt bài: Utility Types (phần 2)](/img/typescript/utility-types-2.webp)](pathname:///img/typescript/utility-types-2.webp)
 
 ---
 

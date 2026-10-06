@@ -7,7 +7,11 @@ title: "1. TypeScript là gì?"
 
 **TypeScript** là một ngôn ngữ mở rộng của JavaScript, bổ sung **hệ thống kiểu tĩnh** (static typing) để bắt lỗi ngay khi viết code thay vì lúc chạy. Bài này giúp người mới nắm bản chất của TypeScript và cách nó phối hợp với JavaScript.
 
-[![Sơ đồ tóm tắt bài: TypeScript là gì?](/img/typescript/typescript-la-gi.webp)](pathname:///img/typescript/typescript-la-gi.webp)
+[![Sơ đồ tóm tắt bài: TypeScript là gì? (phần 1)](/img/typescript/typescript-la-gi-1.webp)](pathname:///img/typescript/typescript-la-gi-1.webp)
+
+[![Sơ đồ tóm tắt bài: TypeScript là gì? (phần 2)](/img/typescript/typescript-la-gi-2.webp)](pathname:///img/typescript/typescript-la-gi-2.webp)
+
+[![Sơ đồ tóm tắt bài: TypeScript là gì? (phần 3)](/img/typescript/typescript-la-gi-3.webp)](pathname:///img/typescript/typescript-la-gi-3.webp)
 
 ---
 

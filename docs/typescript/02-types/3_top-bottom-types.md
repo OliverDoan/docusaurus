@@ -7,7 +7,9 @@ title: "3. Top types và Bottom types"
 
 **Top type** (kiểu đỉnh) là kiểu chứa được mọi giá trị, còn **bottom type** (kiểu đáy) là kiểu không chứa bất kỳ giá trị nào. Hiểu hai khái niệm này giúp bạn dùng đúng `any`, `unknown` (các kiểu đỉnh) và `never` (kiểu đáy) để viết code vừa linh hoạt vừa an toàn. Bài này giải thích từng kiểu và khi nào nên dùng chúng.
 
-[![Sơ đồ tóm tắt bài: Top & Bottom Types](/img/typescript/top-bottom-types.webp)](pathname:///img/typescript/top-bottom-types.webp)
+[![Sơ đồ tóm tắt bài: Top & Bottom Types (phần 1)](/img/typescript/top-bottom-types-1.webp)](pathname:///img/typescript/top-bottom-types-1.webp)
+
+[![Sơ đồ tóm tắt bài: Top & Bottom Types (phần 2)](/img/typescript/top-bottom-types-2.webp)](pathname:///img/typescript/top-bottom-types-2.webp)
 
 ---
 
