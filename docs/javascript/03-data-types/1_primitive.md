@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "⭐ 1. Primitive Types"
+title: "1. Primitive Types"
 ---
 
 # Primitive Types

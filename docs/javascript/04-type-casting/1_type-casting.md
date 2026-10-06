@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "⭐ 1. Type Casting"
+title: "1. Type Casting"
 ---
 
 # Type Casting

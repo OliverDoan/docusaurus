@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "⭐ 2. Object và typeof"
+title: "2. Object và typeof"
 ---
 
 # Object và typeof

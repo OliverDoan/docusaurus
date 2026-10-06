@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "⭐ 1. Khai báo biến: var, let, const"
+title: "1. Khai báo biến: var, let, const"
 ---
 
 # Khai báo biến: var, let, const

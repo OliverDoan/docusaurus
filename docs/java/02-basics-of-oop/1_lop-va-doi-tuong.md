@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "⭐ 1. Lớp và Đối tượng (Class & Object)"
+title: "1. Lớp và Đối tượng (Class & Object)"
 ---
 
 # Lớp và Đối tượng (Class & Object)
@@ -75,7 +75,7 @@ u1.chao(); // Xin chào, tôi là An
 - **Mỗi object giữ state riêng:** sửa `u1` không ảnh hưởng `u2`.
 - **Gắn method với dữ liệu:** hành vi (`chao()`) đi kèm ngay dữ liệu nó cần.
 - **Mô hình hoá thực thể nghiệp vụ:** sản phẩm, đơn hàng, tài khoản... mỗi loại là một class.
-:::
+  :::
 
 ---
 

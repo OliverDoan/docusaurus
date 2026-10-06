@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "⭐ 4. Built-in Objects"
+title: "4. Built-in Objects"
 ---
 
 # Built-in Objects

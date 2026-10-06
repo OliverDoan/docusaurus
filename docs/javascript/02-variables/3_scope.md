@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "⭐ 3. Scope (Phạm vi biến)"
+title: "3. Scope (Phạm vi biến)"
 ---
 
 # Scope (Phạm vi biến)

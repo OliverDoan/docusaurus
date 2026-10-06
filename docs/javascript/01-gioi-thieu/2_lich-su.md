@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "⭐ 2. Lịch sử & các phiên bản JavaScript"
+title: "2. Lịch sử & các phiên bản JavaScript"
 ---
 
 # Lịch sử & các phiên bản JavaScript

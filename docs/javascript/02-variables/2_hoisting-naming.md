@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "⭐ 2. Hoisting và Quy tắc đặt tên"
+title: "2. Hoisting và Quy tắc đặt tên"
 ---
 
 # Hoisting và Quy tắc đặt tên

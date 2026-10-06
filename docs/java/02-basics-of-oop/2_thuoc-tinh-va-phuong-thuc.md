@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "⭐ 2. Thuộc tính và Phương thức"
+title: "2. Thuộc tính và Phương thức"
 ---
 
 # Thuộc tính và Phương thức
@@ -369,7 +369,7 @@ Với kiểu nguyên thủy, thay đổi tham số bên trong method **không** 
 
 </details>
 
-**6. Với tham số kiểu object (ví dụ một `List`), thay đổi *nội dung* bên trong method có ảnh hưởng ra ngoài không? Vì sao khác với ví dụ `int` ở câu trên?**
+**6. Với tham số kiểu object (ví dụ một `List`), thay đổi _nội dung_ bên trong method có ảnh hưởng ra ngoài không? Vì sao khác với ví dụ `int` ở câu trên?**
 
 <details className="qa">
 <summary>Xem đáp án</summary>

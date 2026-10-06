@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "⭐ 1. Map, Set, WeakMap, WeakSet"
+title: "1. Map, Set, WeakMap, WeakSet"
 ---
 
 # Map, Set, WeakMap, WeakSet
@@ -66,8 +66,8 @@ map.set(1, "số một");
 map.set("1", "chuỗi một");
 map.set({ id: 1 }, "data"); // object làm key thoải mái
 
-map.get(1);   // "số một" — key giữ nguyên kiểu, không ép chuỗi
-map.size;     // 3 — có size trực tiếp
+map.get(1); // "số một" — key giữ nguyên kiểu, không ép chuỗi
+map.size; // 3 — có size trực tiếp
 // giữ đúng thứ tự chèn, không dính prototype, duyệt thẳng bằng for...of
 
 const unique = [...new Set([1, 2, 2, 3])]; // [1, 2, 3] — tự loại trùng
@@ -95,9 +95,9 @@ m.set("name", "An");
 m.set(1, "số 1");
 m.set({ id: 1 }, "object key"); // object cũng làm key được
 
-m.get("name");      // "An"
-m.has(1);           // true
-m.size;             // 3
+m.get("name"); // "An"
+m.has(1); // true
+m.size; // 3
 
 m.delete("name");
 m.clear();
@@ -115,9 +115,13 @@ const m = new Map([
 Iteration (giữ **thứ tự thêm vào**):
 
 ```js
-for (const [key, value] of m) { /* ... */ }
-for (const key of m.keys()) {}
-for (const value of m.values()) {}
+for (const [key, value] of m) {
+  /* ... */
+}
+for (const key of m.keys()) {
+}
+for (const value of m.values()) {
+}
 m.forEach((v, k) => {});
 ```
 
@@ -125,15 +129,15 @@ m.forEach((v, k) => {});
 
 **Map vs Object** — khi nào dùng cái nào?
 
-| | `Map` | `Object` |
-|--|--|--|
-| Key | **Bất kỳ** (kể cả object, function) | String / Symbol |
-| Thứ tự | Giữ nguyên thứ tự insert | Không đảm bảo (engine tự sort key số) |
-| Size | `.size` trực tiếp | Phải `Object.keys(o).length` |
-| Iteration | Built-in iterable | Cần `Object.entries` / `for...in` |
-| Performance | Tối ưu cho thêm/xóa nhiều | Tối ưu cho property cố định |
-| JSON | Không (cần convert) | Native |
-| Prototype chain | Không có | Có (dễ bị xung đột) |
+|                 | `Map`                               | `Object`                              |
+| --------------- | ----------------------------------- | ------------------------------------- |
+| Key             | **Bất kỳ** (kể cả object, function) | String / Symbol                       |
+| Thứ tự          | Giữ nguyên thứ tự insert            | Không đảm bảo (engine tự sort key số) |
+| Size            | `.size` trực tiếp                   | Phải `Object.keys(o).length`          |
+| Iteration       | Built-in iterable                   | Cần `Object.entries` / `for...in`     |
+| Performance     | Tối ưu cho thêm/xóa nhiều           | Tối ưu cho property cố định           |
+| JSON            | Không (cần convert)                 | Native                                |
+| Prototype chain | Không có                            | Có (dễ bị xung đột)                   |
 
 **Quy tắc thực dụng:**
 
@@ -156,11 +160,13 @@ s.add(1);
 s.add(2);
 s.add(1); // bỏ qua, đã có
 
-s.size;       // 2
-s.has(1);     // true
+s.size; // 2
+s.has(1); // true
 s.delete(1);
 
-for (const v of s) { /* ... */ }
+for (const v of s) {
+  /* ... */
+}
 ```
 
 Khởi tạo từ array — **loại trùng lặp**:
@@ -175,7 +181,7 @@ const unique = [...new Set(arr)]; // [1, 2, 3]
 **Idiom loại trùng lặp một dòng**:
 
 ```js
-[...new Set(arr)]
+[...new Set(arr)];
 ```
 
 Cho object thì phức tạp hơn — Set so sánh bằng reference, không phải value:
@@ -189,7 +195,7 @@ new Set([a, b]).size; // 2 — hai reference khác nhau
 Cần loại trùng theo property: dùng Map làm index:
 
 ```js
-const unique = [...new Map(arr.map(o => [o.id, o])).values()];
+const unique = [...new Map(arr.map((o) => [o.id, o])).values()];
 ```
 
 :::
@@ -280,13 +286,13 @@ wm.set(key, value);
 
 ## Khi nào dùng cái nào?
 
-| Tình huống | Dùng |
-|------------|------|
-| Dictionary với key string cố định | `Object` |
-| Dictionary với key động hoặc non-string | `Map` |
-| Tập hợp giá trị duy nhất | `Set` |
-| Cache theo object lifecycle | `WeakMap` |
-| Đánh dấu object đã xử lý | `WeakSet` |
+| Tình huống                              | Dùng      |
+| --------------------------------------- | --------- |
+| Dictionary với key string cố định       | `Object`  |
+| Dictionary với key động hoặc non-string | `Map`     |
+| Tập hợp giá trị duy nhất                | `Set`     |
+| Cache theo object lifecycle             | `WeakMap` |
+| Đánh dấu object đã xử lý                | `WeakSet` |
 
 Sơ đồ quyết định giúp chọn nhanh cấu trúc phù hợp:
 
@@ -309,7 +315,7 @@ Có **iterator helper** mới (ES2024+) áp dụng được trên Map/Set:
 
 ```js
 // Sắp ra: Iterator.from(map.values()).filter(...).map(...).toArray()
-[...m.values()].filter(v => v > 10).map(v => v * 2);
+[...m.values()].filter((v) => v > 10).map((v) => v * 2);
 ```
 
 Hiện tại vẫn cần spread `[...]` để chuyển sang array. Tương lai sẽ dùng iterator helper native — performant hơn với dataset lớn vì lazy evaluation.
@@ -327,15 +333,15 @@ Những câu thường gặp về chủ đề này. Tự trả lời trước, r
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| | `Map` | `Object` |
-|---|---|---|
-| Key | **Bất kỳ kiểu** — object, function, số, `NaN` | Chỉ String / Symbol (mọi key khác bị ép về string) |
-| Thứ tự | Giữ nguyên thứ tự chèn | Key số bị engine tự sắp tăng dần trước |
-| Size | `.size` trực tiếp | Phải `Object.keys(o).length` |
-| Iteration | Iterable sẵn, `for...of` chạy thẳng | Cần `Object.entries()` / `for...in` |
-| Prototype | Không có prototype chain gây nhiễu | Kế thừa `Object.prototype` → dễ xung đột (`toString`...) |
-| JSON | Không hỗ trợ trực tiếp | Native |
-| Hiệu năng | Tốt khi thêm/xoá key liên tục | Tốt khi shape cố định (nhờ hidden class của V8) |
+|           | `Map`                                         | `Object`                                                 |
+| --------- | --------------------------------------------- | -------------------------------------------------------- |
+| Key       | **Bất kỳ kiểu** — object, function, số, `NaN` | Chỉ String / Symbol (mọi key khác bị ép về string)       |
+| Thứ tự    | Giữ nguyên thứ tự chèn                        | Key số bị engine tự sắp tăng dần trước                   |
+| Size      | `.size` trực tiếp                             | Phải `Object.keys(o).length`                             |
+| Iteration | Iterable sẵn, `for...of` chạy thẳng           | Cần `Object.entries()` / `for...in`                      |
+| Prototype | Không có prototype chain gây nhiễu            | Kế thừa `Object.prototype` → dễ xung đột (`toString`...) |
+| JSON      | Không hỗ trợ trực tiếp                        | Native                                                   |
+| Hiệu năng | Tốt khi thêm/xoá key liên tục                 | Tốt khi shape cố định (nhờ hidden class của V8)          |
 
 **Chọn thế nào:**
 
@@ -356,16 +362,16 @@ const map = {};
 
 map[1] = "số một";
 map["1"] = "chuỗi một";
-map[1];            // "chuỗi một" — key số bị ép thành string, đè lên nhau!
+map[1]; // "chuỗi một" — key số bị ép thành string, đè lên nhau!
 
 const user = { id: 1 };
 map[user] = "data"; // key thành "[object Object]" — mọi object đều đè nhau
 
-map["toString"];    // vốn đã tồn tại từ prototype, dù ta chưa set gì
+map["toString"]; // vốn đã tồn tại từ prototype, dù ta chưa set gì
 ```
 
 - **Key luôn bị ép về string**: `1` và `"1"` là cùng một key, nên dữ liệu ghi đè âm thầm. Object làm key thì thành `"[object Object]"` — mọi object khác nhau đều trỏ về một ô.
-- **Ô nhiễm prototype**: object kế thừa `Object.prototype`, nên `"toString"`, `"constructor"`, `"__proto__"` luôn "có sẵn". Kiểm tra `if (map[key])` với dữ liệu người dùng nhập có thể ra kết quả sai, thậm chí dẫn tới lỗ hổng *prototype pollution*.
+- **Ô nhiễm prototype**: object kế thừa `Object.prototype`, nên `"toString"`, `"constructor"`, `"__proto__"` luôn "có sẵn". Kiểm tra `if (map[key])` với dữ liệu người dùng nhập có thể ra kết quả sai, thậm chí dẫn tới lỗ hổng _prototype pollution_.
 - **Thứ tự và đếm**: key dạng số nguyên bị engine sắp lại, và không có `.size`.
 
 Nếu buộc dùng object, hãy tạo bằng `Object.create(null)` để bỏ prototype — còn tốt nhất là dùng `Map`.
@@ -383,14 +389,14 @@ Nếu buộc dùng object, hãy tạo bằng `Object.create(null)` để bỏ pr
 - **`+0` và `-0` được coi là cùng một giá trị** (khác `Object.is`, vốn phân biệt hai giá trị này).
 
 ```js
-new Set([NaN, NaN]).size;   // 1 — SameValueZero coi hai NaN là một
-NaN === NaN;                // false
-new Set([0, -0]).size;      // 1 — +0 và -0 gộp làm một
-Object.is(0, -0);           // false — Object.is thì phân biệt
+new Set([NaN, NaN]).size; // 1 — SameValueZero coi hai NaN là một
+NaN === NaN; // false
+new Set([0, -0]).size; // 1 — +0 và -0 gộp làm một
+Object.is(0, -0); // false — Object.is thì phân biệt
 
 const m = new Map();
 m.set(NaN, "ok");
-m.get(NaN);                 // "ok" — tra cứu bằng NaN vẫn ra kết quả
+m.get(NaN); // "ok" — tra cứu bằng NaN vẫn ra kết quả
 ```
 
 Đây là lựa chọn thiết kế thực dụng: nếu dùng `===`, bạn sẽ không bao giờ lấy lại được giá trị đã lưu với key `NaN`. Lưu ý quan trọng: SameValueZero **vẫn so sánh object theo reference**, nên hai object có nội dung giống nhau vẫn là hai phần tử khác nhau.
@@ -408,7 +414,7 @@ Output là **`2`**.
 new Set([{ a: 1 }, { a: 1 }]).size; // 2
 
 const a = { id: 1 };
-new Set([a, a]).size;               // 1 — cùng một reference
+new Set([a, a]).size; // 1 — cùng một reference
 ```
 
 Lý do: `Set` so sánh bằng **SameValueZero**, mà với object thì thuật toán này so sánh **reference** (địa chỉ trong bộ nhớ), không so sánh nội dung. Hai literal `{a: 1}` tạo ra **hai object riêng biệt** nằm ở hai vùng nhớ khác nhau, nên `{a:1} === {a:1}` là `false` — với `Set` chúng là hai phần tử hợp lệ.
@@ -433,7 +439,7 @@ const arr = [
   { id: 1, name: "An (bản mới)" },
 ];
 
-const unique = [...new Map(arr.map(o => [o.id, o])).values()];
+const unique = [...new Map(arr.map((o) => [o.id, o])).values()];
 // [{id:1, name:"An (bản mới)"}, {id:2, name:"Bình"}]
 ```
 
@@ -441,7 +447,7 @@ Lưu ý hành vi: khi trùng `id`, bản **xuất hiện sau sẽ ghi đè** b�
 
 ```js
 const seen = new Set();
-const unique2 = arr.filter(o => !seen.has(o.id) && seen.add(o.id));
+const unique2 = arr.filter((o) => !seen.has(o.id) && seen.add(o.id));
 ```
 
 </details>
@@ -456,12 +462,19 @@ const unique2 = arr.filter(o => !seen.has(o.id) && seen.add(o.id));
 Duyệt `Map` bằng `for...of` trả về **từng cặp `[key, value]`** dạng mảng hai phần tử, nên thường destructuring luôn:
 
 ```js
-const m = new Map([["name", "An"], ["age", 25]]);
+const m = new Map([
+  ["name", "An"],
+  ["age", 25],
+]);
 
-for (const [k, v] of m) {}          // ["name","An"], rồi ["age",25]
-for (const k of m.keys()) {}        // "name", "age"
-for (const v of m.values()) {}      // "An", 25
-for (const e of m.entries()) {}     // giống for...of trực tiếp
+for (const [k, v] of m) {
+} // ["name","An"], rồi ["age",25]
+for (const k of m.keys()) {
+} // "name", "age"
+for (const v of m.values()) {
+} // "An", 25
+for (const e of m.entries()) {
+} // giống for...of trực tiếp
 ```
 
 - `keys()` → iterator các key.
@@ -480,15 +493,18 @@ Với `Set`, key và value là một, nên `keys()` và `values()` cho cùng k�
 `JSON.stringify` chỉ duyệt các **own enumerable property** của object. Dữ liệu của `Map` không nằm ở property nào cả — nó được giữ trong **internal slot** của engine, chỉ truy cập được qua `get`/`set`/iterator. Không có property nào để duyệt nên kết quả là `{}`.
 
 ```js
-const m = new Map([["name", "An"], ["age", 25]]);
-JSON.stringify(m);                  // "{}" — mất sạch dữ liệu
+const m = new Map([
+  ["name", "An"],
+  ["age", 25],
+]);
+JSON.stringify(m); // "{}" — mất sạch dữ liệu
 ```
 
 **Serialize** — chuyển Map về dạng JSON hiểu được:
 
 ```js
-JSON.stringify([...m]);                      // '[["name","An"],["age",25]]'
-JSON.stringify(Object.fromEntries(m));       // '{"name":"An","age":25}'
+JSON.stringify([...m]); // '[["name","An"],["age",25]]'
+JSON.stringify(Object.fromEntries(m)); // '{"name":"An","age":25}'
 ```
 
 **Khôi phục:**
@@ -507,19 +523,19 @@ Dạng **mảng tuple** giữ được key không phải string (số, boolean) 
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| | `Map` | `WeakMap` |
-|---|---|---|
-| Key | Bất kỳ kiểu | **Bắt buộc là object** (hoặc symbol không đăng ký) |
-| Tham chiếu tới key | Mạnh — giữ key sống mãi | **Yếu** — GC được phép thu hồi |
-| API | `size`, `keys`, `values`, `entries`, `forEach`, `clear` | Chỉ `get`, `set`, `has`, `delete` |
-| Iterable | Có | **Không** |
+|                    | `Map`                                                   | `WeakMap`                                          |
+| ------------------ | ------------------------------------------------------- | -------------------------------------------------- |
+| Key                | Bất kỳ kiểu                                             | **Bắt buộc là object** (hoặc symbol không đăng ký) |
+| Tham chiếu tới key | Mạnh — giữ key sống mãi                                 | **Yếu** — GC được phép thu hồi                     |
+| API                | `size`, `keys`, `values`, `entries`, `forEach`, `clear` | Chỉ `get`, `set`, `has`, `delete`                  |
+| Iterable           | Có                                                      | **Không**                                          |
 
 ```js
 const wm = new WeakMap();
 const key = { id: 1 };
 wm.set(key, "secret");
-wm.get(key);    // "secret"
-wm.size;        // undefined
+wm.get(key); // "secret"
+wm.size; // undefined
 ```
 
 **Vì sao không có `size` và không duyệt được?** Vì nội dung của `WeakMap` **không xác định (non-deterministic)**: một entry có thể biến mất bất cứ lúc nào khi GC chạy, mà thời điểm GC chạy thì JavaScript không kiểm soát và không nên để lập trình viên quan sát. Nếu cho phép đọc `size` hay duyệt, cùng một đoạn code sẽ cho kết quả khác nhau giữa hai lần chạy, và chương trình sẽ "nhìn thấy" được hành vi của bộ dọn rác — điều spec cố tình che giấu.
@@ -539,10 +555,10 @@ Object (và từ ES2023 là **symbol không đăng ký**, tức không tạo qua
 
 ```js
 const wm = new WeakMap();
-wm.set("key", 1);          // TypeError: Invalid value used as weak map key
-wm.set(1, "x");            // TypeError
+wm.set("key", 1); // TypeError: Invalid value used as weak map key
+wm.set(1, "x"); // TypeError
 
-wm.set({}, "ok");          // hợp lệ
+wm.set({}, "ok"); // hợp lệ
 wm.set(Symbol("id"), "ok"); // hợp lệ (ES2023+)
 wm.set(Symbol.for("id"), "x"); // TypeError — symbol đăng ký sống mãi trong registry
 ```
@@ -562,8 +578,10 @@ Riêng `get`/`has` với primitive thì không ném lỗi, chỉ trả `undefine
 
 ```js
 let key = { id: 1 };
-const m = new Map(); m.set(key, "data");
-const wm = new WeakMap(); wm.set(key, "data");
+const m = new Map();
+m.set(key, "data");
+const wm = new WeakMap();
+wm.set(key, "data");
 
 key = null;
 // Với m: object vẫn sống vì Map giữ reference mạnh → leak nếu quên delete
@@ -579,14 +597,14 @@ key = null;
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-`WeakMap` **chỉ weak ở key**. Value được giữ bằng **tham chiếu mạnh** — nó sống chừng nào entry còn sống. Cơ chế đúng là: *nếu key còn sống thì value còn sống; khi key chết, cả entry (kể cả value) mới được dọn*.
+`WeakMap` **chỉ weak ở key**. Value được giữ bằng **tham chiếu mạnh** — nó sống chừng nào entry còn sống. Cơ chế đúng là: _nếu key còn sống thì value còn sống; khi key chết, cả entry (kể cả value) mới được dọn_.
 
 Vấn đề phát sinh khi **value trỏ ngược lại key**, tạo thành vòng:
 
 ```js
 const wm = new WeakMap();
 let key = {};
-const value = { key };   // value giữ reference mạnh tới key
+const value = { key }; // value giữ reference mạnh tới key
 wm.set(key, value);
 
 key = null;
@@ -628,8 +646,12 @@ function expensiveCalc(obj) {
 ```js
 const privates = new WeakMap();
 class User {
-  constructor(pwd) { privates.set(this, { pwd }); }
-  check(p) { return privates.get(this).pwd === p; }
+  constructor(pwd) {
+    privates.set(this, { pwd });
+  }
+  check(p) {
+    return privates.get(this).pwd === p;
+  }
 }
 ```
 
@@ -650,7 +672,7 @@ class User {
 const visited = new WeakSet();
 
 function process(node) {
-  if (visited.has(node)) return;  // đã xử lý rồi, bỏ qua
+  if (visited.has(node)) return; // đã xử lý rồi, bỏ qua
   visited.add(node);
   // ... xử lý node
   node.children.forEach(process);
@@ -670,11 +692,11 @@ Các ứng dụng khác: đánh dấu instance đã khởi tạo đúng cách, �
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| Thao tác | `Map`/`Set` | `Array` |
-|---|---|---|
-| Tra cứu (`has`/`get` vs `includes`/`indexOf`) | ~**O(1)** trung bình (bảng băm) | **O(n)** — quét tuần tự |
-| Thêm | ~O(1) (`set`/`add`) | O(1) với `push` |
-| Xoá | ~O(1) (`delete`) | O(n) với `splice` (phải dời phần tử) |
+| Thao tác                                      | `Map`/`Set`                     | `Array`                              |
+| --------------------------------------------- | ------------------------------- | ------------------------------------ |
+| Tra cứu (`has`/`get` vs `includes`/`indexOf`) | ~**O(1)** trung bình (bảng băm) | **O(n)** — quét tuần tự              |
+| Thêm                                          | ~O(1) (`set`/`add`)             | O(1) với `push`                      |
+| Xoá                                           | ~O(1) (`delete`)                | O(n) với `splice` (phải dời phần tử) |
 
 Hệ quả rõ nhất là ở bài toán **lọc trùng hoặc kiểm tra thành viên trong vòng lặp**:
 
@@ -684,7 +706,7 @@ const dup = arr.filter((x, i) => arr.indexOf(x) !== i);
 
 // O(n) — nhanh hơn hàng nghìn lần ở dữ liệu lớn
 const seen = new Set();
-const dup2 = arr.filter(x => seen.has(x) ? true : (seen.add(x), false));
+const dup2 = arr.filter((x) => (seen.has(x) ? true : (seen.add(x), false)));
 ```
 
 Lưu ý thực tế: với mảng **rất nhỏ** (vài chục phần tử), `includes` thường vẫn nhanh hơn vì `Set` tốn chi phí khởi tạo và băm. Ngoài ra, nếu bạn phải duyệt mảng để **dựng** `Set` rồi chỉ tra cứu đúng một lần thì không lợi gì — `Set` chỉ đáng giá khi tra cứu lặp lại nhiều lần. Và nhớ rằng `includes` dùng SameValueZero nên tìm được `NaN`, còn `indexOf` (dùng `===`) thì không.

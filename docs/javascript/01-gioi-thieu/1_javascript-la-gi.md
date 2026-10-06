@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "⭐ 1. JavaScript là gì?"
+title: "1. JavaScript là gì?"
 ---
 
 # JavaScript là gì?

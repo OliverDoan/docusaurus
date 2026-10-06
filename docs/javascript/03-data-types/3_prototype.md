@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "⭐ 3. Prototype và Prototypal Inheritance"
+title: "3. Prototype và Prototypal Inheritance"
 ---
 
 # Prototype và Prototypal Inheritance
@@ -46,7 +46,9 @@ Nếu mỗi object tự chứa **bản sao** của mọi method thì cùng một
 function createUser(name) {
   return {
     name,
-    greet() { return `Hi ${this.name}`; }, // mỗi object một bản sao greet
+    greet() {
+      return `Hi ${this.name}`;
+    }, // mỗi object một bản sao greet
   };
 }
 
@@ -147,7 +149,9 @@ Mọi mũi tên trên đều là `[[Prototype]]` — khi không tìm thấy prop
 
 ```js
 const animal = {
-  eat() { console.log(`${this.name} đang ăn`); },
+  eat() {
+    console.log(`${this.name} đang ăn`);
+  },
 };
 
 const dog = Object.create(animal); // dog kế thừa từ animal
@@ -171,12 +175,16 @@ plain.toString; // undefined
 // Dictionary nguy hiểm
 const dict = {};
 dict["toString"] = "value"; // ghi đè method!
-if (dict["toString"]) { /* always true vì toString tồn tại */ }
+if (dict["toString"]) {
+  /* always true vì toString tồn tại */
+}
 
 // Dictionary an toàn
 const dict = Object.create(null);
 dict["toString"] = "value"; // không xung đột
-if (dict["toString"]) { /* chỉ true khi có key */ }
+if (dict["toString"]) {
+  /* chỉ true khi có key */
+}
 ```
 
 Map (ES6) là lựa chọn hiện đại hơn — type-safe key, iterable, có `size`.
@@ -192,8 +200,12 @@ Map (ES6) là lựa chọn hiện đại hơn — type-safe key, iterable, có `
 ```js
 // ES6 class
 class User {
-  constructor(name) { this.name = name; }
-  greet() { return `Hi ${this.name}`; }
+  constructor(name) {
+    this.name = name;
+  }
+  greet() {
+    return `Hi ${this.name}`;
+  }
 }
 
 // Tương đương prototype
@@ -229,8 +241,8 @@ function User(name) {
 
 const u = new User("An");
 
-u.__proto__ === User.prototype;        // true
-User.prototype.constructor === User;   // true
+u.__proto__ === User.prototype; // true
+User.prototype.constructor === User; // true
 ```
 
 `new` thực ra làm 4 việc:
@@ -244,11 +256,11 @@ User.prototype.constructor === User;   // true
 
 **Câu hỏi phỏng vấn kinh điển**: "Khác biệt giữa `__proto__` và `prototype`?"
 
-| | `__proto__` | `prototype` |
-|--|--|--|
-| Thuộc về | **Mọi object** (instance) | **Chỉ function** (constructor) |
-| Trỏ tới | Object cha trong chain | Object sẽ làm cha của instance |
-| Truy cập đúng | `Object.getPrototypeOf(obj)` | `Constructor.prototype` |
+|               | `__proto__`                  | `prototype`                    |
+| ------------- | ---------------------------- | ------------------------------ |
+| Thuộc về      | **Mọi object** (instance)    | **Chỉ function** (constructor) |
+| Trỏ tới       | Object cha trong chain       | Object sẽ làm cha của instance |
+| Truy cập đúng | `Object.getPrototypeOf(obj)` | `Constructor.prototype`        |
 
 Mối quan hệ:
 
@@ -256,7 +268,7 @@ Mối quan hệ:
 function User() {}
 const u = new User();
 
-u.__proto__ === User.prototype;       // true
+u.__proto__ === User.prototype; // true
 User.__proto__ === Function.prototype; // true (User cũng là object)
 User.prototype.__proto__ === Object.prototype; // true
 ```
@@ -313,18 +325,22 @@ Những câu thường gặp về chủ đề này. Tự trả lời trước, r
 
 **Prototypal inheritance** là cơ chế trong đó mỗi object có một liên kết ẩn `[[Prototype]]` trỏ tới một **object khác**. Khi truy cập property không có sẵn, engine đi ngược theo chuỗi liên kết (prototype chain) để tìm. Nhờ vậy nhiều object có thể **dùng chung** một bản method thay vì mỗi object giữ một bản sao.
 
-| | Class-based (Java/C++) | Prototype-based (JS) |
-|---|---|---|
-| Đơn vị kế thừa | Class — bản thiết kế, không tồn tại lúc chạy | Object thật, tồn tại trong bộ nhớ |
-| Quan hệ | Class kế thừa class, instance sinh từ class | Object liên kết tới object |
-| Thời điểm cố định | Lúc compile | Lúc runtime — đổi prototype được |
-| Thêm method sau khi tạo | Không | Có — sửa `prototype` là mọi instance đổi theo |
+|                         | Class-based (Java/C++)                       | Prototype-based (JS)                          |
+| ----------------------- | -------------------------------------------- | --------------------------------------------- |
+| Đơn vị kế thừa          | Class — bản thiết kế, không tồn tại lúc chạy | Object thật, tồn tại trong bộ nhớ             |
+| Quan hệ                 | Class kế thừa class, instance sinh từ class  | Object liên kết tới object                    |
+| Thời điểm cố định       | Lúc compile                                  | Lúc runtime — đổi prototype được              |
+| Thêm method sau khi tạo | Không                                        | Có — sửa `prototype` là mọi instance đổi theo |
 
 ```js
-const animal = { eat() { console.log(`${this.name} đang ăn`); } };
-const dog = Object.create(animal);   // object kế thừa object
+const animal = {
+  eat() {
+    console.log(`${this.name} đang ăn`);
+  },
+};
+const dog = Object.create(animal); // object kế thừa object
 dog.name = "Lulu";
-dog.eat();                           // "Lulu đang ăn"
+dog.eat(); // "Lulu đang ăn"
 ```
 
 JS lấy mô hình này từ ngôn ngữ **Self**. `class` của ES6 chỉ là lớp đường phủ lên đúng cơ chế prototype này, không phải kế thừa class-based thật.
@@ -343,11 +359,11 @@ JS lấy mô hình này từ ngôn ngữ **Self**. `class` của ES6 chỉ là l
 ```js
 const user = { name: "An" };
 
-user.__proto__ === Object.prototype;                 // true
-Object.getPrototypeOf(user) === Object.prototype;    // true
+user.__proto__ === Object.prototype; // true
+Object.getPrototypeOf(user) === Object.prototype; // true
 ```
 
-**Code mới nên dùng `Object.getPrototypeOf`.** Lý do: `__proto__` không tồn tại trên object tạo bằng `Object.create(null)`, có thể bị shadow, và là nguồn gốc của lỗ hổng **prototype pollution** khi ghi từ dữ liệu người dùng. Muốn *tạo* object với prototype chỉ định thì dùng `Object.create(proto)` — vừa rõ ràng vừa không phạt hiệu năng.
+**Code mới nên dùng `Object.getPrototypeOf`.** Lý do: `__proto__` không tồn tại trên object tạo bằng `Object.create(null)`, có thể bị shadow, và là nguồn gốc của lỗ hổng **prototype pollution** khi ghi từ dữ liệu người dùng. Muốn _tạo_ object với prototype chỉ định thì dùng `Object.create(proto)` — vừa rõ ràng vừa không phạt hiệu năng.
 
 </details>
 
@@ -356,21 +372,21 @@ Object.getPrototypeOf(user) === Object.prototype;    // true
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| | `__proto__` | `prototype` |
-|---|---|---|
-| Thuộc về | **Mọi object** (kể cả function, vì function cũng là object) | **Chỉ function** (constructor) |
-| Trỏ tới | Object cha trong prototype chain | Object sẽ trở thành cha của các instance sinh ra bằng `new` |
-| Truy cập đúng chuẩn | `Object.getPrototypeOf(obj)` | `Constructor.prototype` |
-| Vai trò | Liên kết **đang có** của object | **Khuôn** dùng để gắn liên kết cho instance tương lai |
+|                     | `__proto__`                                                 | `prototype`                                                 |
+| ------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- |
+| Thuộc về            | **Mọi object** (kể cả function, vì function cũng là object) | **Chỉ function** (constructor)                              |
+| Trỏ tới             | Object cha trong prototype chain                            | Object sẽ trở thành cha của các instance sinh ra bằng `new` |
+| Truy cập đúng chuẩn | `Object.getPrototypeOf(obj)`                                | `Constructor.prototype`                                     |
+| Vai trò             | Liên kết **đang có** của object                             | **Khuôn** dùng để gắn liên kết cho instance tương lai       |
 
 ```js
 function User() {}
 const u = new User();
 
-u.__proto__ === User.prototype;                 // true — new gắn liên kết này
-User.__proto__ === Function.prototype;          // true — User cũng là object
-User.prototype.__proto__ === Object.prototype;  // true
-u.prototype;                                    // undefined — u không phải function
+u.__proto__ === User.prototype; // true — new gắn liên kết này
+User.__proto__ === Function.prototype; // true — User cũng là object
+User.prototype.__proto__ === Object.prototype; // true
+u.prototype; // undefined — u không phải function
 ```
 
 Cách nhớ: `prototype` là **thứ constructor phát ra**, `__proto__` là **thứ object đang cầm**. Chain của `u` là `u → User.prototype → Object.prototype → null`. Nhầm lẫn hai khái niệm này là dấu hiệu chưa nắm chắc mô hình object của JS.
@@ -418,9 +434,9 @@ Vì `.map` **không nằm trên mảng** — nó nằm trên **`Array.prototype`
 ```js
 const arr = [1, 2, 3];
 
-Object.hasOwn(arr, "map");                    // false — không phải own property
+Object.hasOwn(arr, "map"); // false — không phải own property
 Object.getPrototypeOf(arr) === Array.prototype; // true
-arr.map === Array.prototype.map;              // true — chung một function
+arr.map === Array.prototype.map; // true — chung một function
 ```
 
 Khi gọi `arr.map(...)`, engine tìm `map` trên `arr` → không có → đi lên `Array.prototype` → tìm thấy → gọi với `this = arr`.
@@ -447,8 +463,8 @@ Mô phỏng bằng code:
 
 ```js
 function myNew(Ctor, ...args) {
-  const obj = Object.create(Ctor.prototype);   // bước 1 + 2
-  const result = Ctor.apply(obj, args);        // bước 3
+  const obj = Object.create(Ctor.prototype); // bước 1 + 2
+  const result = Ctor.apply(obj, args); // bước 3
   return typeof result === "object" && result !== null ? result : obj; // bước 4
 }
 ```
@@ -456,11 +472,17 @@ function myNew(Ctor, ...args) {
 **Return một object thì sao?** `new` trả về **object đó**, bỏ qua object vừa tạo:
 
 ```js
-function A() { this.x = 1; return { y: 2 }; }
-new A();          // { y: 2 } — mất this.x
+function A() {
+  this.x = 1;
+  return { y: 2 };
+}
+new A(); // { y: 2 } — mất this.x
 
-function B() { this.x = 1; return 42; }
-new B();          // { x: 1 } — return primitive bị BỎ QUA
+function B() {
+  this.x = 1;
+  return 42;
+}
+new B(); // { x: 1 } — return primitive bị BỎ QUA
 ```
 
 Chỉ giá trị **object** (kể cả mảng, function) mới ghi đè; primitive thì bị phớt lờ. Đây là nền tảng của pattern singleton viết bằng constructor.
@@ -472,25 +494,29 @@ Chỉ giá trị **object** (kể cả mảng, function) mới ghi đè; primiti
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| | `Object.create(proto)` | `new Constructor()` |
-|---|---|---|
-| Prototype của object mới | Chính `proto` bạn truyền vào | `Constructor.prototype` |
-| Chạy hàm khởi tạo | **Không** | Có — thân constructor chạy với `this` |
-| Object trả về | Rỗng hoàn toàn (trừ `propertiesObject` tuỳ chọn) | Đã có các property gán trong constructor |
+|                          | `Object.create(proto)`                           | `new Constructor()`                      |
+| ------------------------ | ------------------------------------------------ | ---------------------------------------- |
+| Prototype của object mới | Chính `proto` bạn truyền vào                     | `Constructor.prototype`                  |
+| Chạy hàm khởi tạo        | **Không**                                        | Có — thân constructor chạy với `this`    |
+| Object trả về            | Rỗng hoàn toàn (trừ `propertiesObject` tuỳ chọn) | Đã có các property gán trong constructor |
 
 ```js
-const animal = { eat() { console.log(`${this.name} đang ăn`); } };
-const dog = Object.create(animal);  // chưa có property nào
+const animal = {
+  eat() {
+    console.log(`${this.name} đang ăn`);
+  },
+};
+const dog = Object.create(animal); // chưa có property nào
 dog.name = "Lulu";
-dog.eat();                          // "Lulu đang ăn"
+dog.eat(); // "Lulu đang ăn"
 ```
 
 **`Object.create(null)`** tạo object **không có prototype** — chain kết thúc ngay lập tức. Nó không có `toString`, `hasOwnProperty`, `valueOf`, `__proto__`:
 
 ```js
 const dict = Object.create(null);
-dict.toString = "value";   // không ghi đè gì cả, chỉ là data thường
-dict.hasOwnProperty;       // undefined
+dict.toString = "value"; // không ghi đè gì cả, chỉ là data thường
+dict.hasOwnProperty; // undefined
 Object.hasOwn(dict, "toString"); // true — vẫn kiểm tra được
 ```
 
@@ -510,13 +536,19 @@ Dùng khi cần **dictionary thuần** với key đến từ dữ liệu ngoài:
 ```js
 function A(name) {
   this.name = name;
-  this.greet = function () { return `Hi ${this.name}`; }; // mỗi instance một bản
+  this.greet = function () {
+    return `Hi ${this.name}`;
+  }; // mỗi instance một bản
 }
-new A("An").greet === new A("Bình").greet;   // false
+new A("An").greet === new A("Bình").greet; // false
 
-function B(name) { this.name = name; }
-B.prototype.greet = function () { return `Hi ${this.name}`; };
-new B("An").greet === new B("Bình").greet;   // true — cùng một function object
+function B(name) {
+  this.name = name;
+}
+B.prototype.greet = function () {
+  return `Hi ${this.name}`;
+};
+new B("An").greet === new B("Bình").greet; // true — cùng một function object
 ```
 
 `=== ` so sánh tham chiếu. Ở cách prototype, cả `u1.greet` và `u2.greet` đều **không phải own property** — engine tra lên và lấy đúng một object hàm nằm trên `B.prototype`, nên hai biểu thức trỏ tới cùng địa chỉ → `true`.
@@ -569,8 +601,8 @@ Vì phép so sánh là `===` trên **tham chiếu**, nên nó phụ thuộc vào
 
 ```js
 const arr = new iframe.contentWindow.Array(1, 2, 3);
-arr instanceof Array;  // false — khác realm
-Array.isArray(arr);    // true  — kiểm tra internal slot, vượt realm
+arr instanceof Array; // false — khác realm
+Array.isArray(arr); // true  — kiểm tra internal slot, vượt realm
 ```
 
 Vì thế nên dùng `Array.isArray()`, `Object.prototype.toString.call()` hoặc duck typing thay cho `instanceof` ở ranh giới realm. Lưu ý thêm: `Symbol.hasInstance` cho phép class tự định nghĩa lại hành vi của `instanceof`.
@@ -586,21 +618,25 @@ Khi bạn khai báo một function, JS tự tạo cho nó object `prototype`, v�
 
 ```js
 function User() {}
-User.prototype.constructor === User;   // true
-new User().constructor === User;       // true — kế thừa qua chain
+User.prototype.constructor === User; // true
+new User().constructor === User; // true — kế thừa qua chain
 ```
 
 Nếu **gán đè** cả object prototype, liên kết ngược đó biến mất:
 
 ```js
-function User(name) { this.name = name; }
+function User(name) {
+  this.name = name;
+}
 User.prototype = {
-  greet() { return `Hi ${this.name}`; },
+  greet() {
+    return `Hi ${this.name}`;
+  },
 };
 
 const u = new User("An");
-u.greet();                // "Hi An" — vẫn chạy
-u.constructor === User;   // false!
+u.greet(); // "Hi An" — vẫn chạy
+u.constructor === User; // false!
 u.constructor === Object; // true — kế thừa từ Object.prototype
 ```
 
@@ -609,7 +645,12 @@ Hậu quả: code dựa vào `obj.constructor` để clone (`new obj.constructor
 Cách xử lý: hoặc gán từng method (`User.prototype.greet = ...`), hoặc khôi phục thủ công:
 
 ```js
-User.prototype = { constructor: User, greet() { /* ... */ } };
+User.prototype = {
+  constructor: User,
+  greet() {
+    /* ... */
+  },
+};
 ```
 
 </details>
@@ -628,11 +669,11 @@ User.prototype = { constructor: User, greet() { /* ... */ } };
 const obj = {};
 obj.toString = () => "custom";
 
-obj.toString();                    // "custom" — own property che khuất
-({}).toString();                   // "[object Object]" — Object.prototype nguyên vẹn
-Object.hasOwn(obj, "toString");    // true
+obj.toString(); // "custom" — own property che khuất
+({}).toString(); // "[object Object]" — Object.prototype nguyên vẹn
+Object.hasOwn(obj, "toString"); // true
 delete obj.toString;
-obj.toString();                    // "[object Object]" — lộ lại bản kế thừa
+obj.toString(); // "[object Object]" — lộ lại bản kế thừa
 ```
 
 Đây là lý do `Object.prototype` an toàn khi bạn chỉ gán lên instance — muốn làm ô nhiễm nó thì phải ghi trực tiếp `Object.prototype.x = ...` hoặc ghi qua `__proto__`.
@@ -659,9 +700,9 @@ Engine tối ưu việc truy cập property bằng **hidden class (shape)** và 
 **Thay thế:** quyết định prototype **ngay lúc tạo**:
 
 ```js
-const dog = Object.create(animal);          // đặt prototype lúc khởi tạo
+const dog = Object.create(animal); // đặt prototype lúc khởi tạo
 const obj = { __proto__: animal, name: "Lulu" }; // literal, cũng nhanh
-class Dog extends Animal {}                 // cách chuẩn cho hệ thống class
+class Dog extends Animal {} // cách chuẩn cho hệ thống class
 ```
 
 Nếu buộc phải "đổi kiểu" lúc chạy thì thường nên tạo object mới và copy dữ liệu sang, thay vì setPrototypeOf.
@@ -676,7 +717,9 @@ Nếu buộc phải "đổi kiểu" lúc chạy thì thường nên tạo object
 Cả ba đều là **`true`**, và mỗi câu nói về một chuỗi khác nhau:
 
 ```js
-function User(name) { this.name = name; }
+function User(name) {
+  this.name = name;
+}
 const u = new User("An");
 ```
 
@@ -707,10 +750,12 @@ Kịch bản kinh điển — hàm merge/clone đệ quy không lọc key:
 ```js
 const config = {};
 const userInput = JSON.parse(req.body); // {"__proto__": {"isAdmin": true}}
-deepMerge(config, userInput);           // ghi vào Object.prototype
+deepMerge(config, userInput); // ghi vào Object.prototype
 
-({}).isAdmin;        // true — mọi object trong app!
-if (user.isAdmin) { /* bypass phân quyền */ }
+({}).isAdmin; // true — mọi object trong app!
+if (user.isAdmin) {
+  /* bypass phân quyền */
+}
 ```
 
 Ngoài leo thang quyền, nó còn gây DoS (ghi đè `toString`), hoặc biến thành RCE khi kết hợp với template engine. Nhiều thư viện lớn (lodash, jQuery, minimist) từng dính CVE dạng này.
@@ -737,11 +782,11 @@ const animal = { eat() {} };
 const dog = Object.create(animal);
 dog.name = "Lulu";
 
-"name" in dog;                  // true
-"eat" in dog;                   // true  — kế thừa từ animal
-"toString" in dog;              // true  — kế thừa từ Object.prototype
-Object.hasOwn(dog, "eat");      // false
-Object.hasOwn(dog, "name");     // true
+"name" in dog; // true
+"eat" in dog; // true  — kế thừa từ animal
+"toString" in dog; // true  — kế thừa từ Object.prototype
+Object.hasOwn(dog, "eat"); // false
+Object.hasOwn(dog, "name"); // true
 ```
 
 **`for...in` gây bug** vì nó duyệt **mọi property enumerable, kể cả kế thừa**:
@@ -764,11 +809,15 @@ Thực tế nên tránh `for...in`: dùng `Object.keys` / `Object.entries` cho o
 `extends` thiết lập **hai** liên kết prototype, không phải một:
 
 ```js
-class A { greet() { return "A"; } }
-class B extends A { }
+class A {
+  greet() {
+    return "A";
+  }
+}
+class B extends A {}
 
 Object.getPrototypeOf(B.prototype) === A.prototype; // true — kế thừa method instance
-Object.getPrototypeOf(B) === A;                     // true — kế thừa static member
+Object.getPrototypeOf(B) === A; // true — kế thừa static member
 ```
 
 - Liên kết thứ nhất nối `B.prototype → A.prototype`, nhờ đó instance của `B` tra được method của `A` qua chain: `b → B.prototype → A.prototype → Object.prototype → null`.
