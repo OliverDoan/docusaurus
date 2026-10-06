@@ -135,6 +135,8 @@ const config: Config = {
             {type: 'docSidebar', sidebarId: 'nodejsSidebar', label: 'Node.js'},
             {type: 'docSidebar', sidebarId: 'dockerSidebar', label: 'Docker'},
             {type: 'docSidebar', sidebarId: 'systemDesignSidebar', label: 'System Design'},
+            {type: 'docSidebar', sidebarId: 'computerScienceSidebar', label: 'Computer Science'},
+            {type: 'docSidebar', sidebarId: 'softwareArchitectSidebar', label: 'Software Architect'},
           ],
         },
         {

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "3. Prototype và Prototypal Inheritance"
+title: "⭐ 3. Prototype và Prototypal Inheritance"
 ---
 
 # Prototype và Prototypal Inheritance

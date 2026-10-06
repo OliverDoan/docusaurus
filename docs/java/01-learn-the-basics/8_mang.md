@@ -1,6 +1,6 @@
 ---
 sidebar_position: 8
-title: "8. Mảng (Arrays)"
+title: "✅ 8. Mảng (Arrays)"
 ---
 
 # Mảng (Arrays)

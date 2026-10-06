@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "2. Vòng đời của chương trình"
+title: "✅ 2. Vòng đời của chương trình"
 ---
 
 # Vòng đời của chương trình

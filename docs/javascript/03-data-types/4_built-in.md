@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-title: "4. Built-in Objects"
+title: "⭐ 4. Built-in Objects"
 ---
 
 # Built-in Objects
@@ -43,7 +43,11 @@ title: "4. Built-in Objects"
 ```js
 // Tự viết hàm làm tròn, đổi object thành chuỗi, validate email...
 function round(n) {
-  return n >= 0 ? (n - Math.floor(n) >= 0.5 ? Math.floor(n) + 1 : Math.floor(n)) : 0;
+  return n >= 0
+    ? n - Math.floor(n) >= 0.5
+      ? Math.floor(n) + 1
+      : Math.floor(n)
+    : 0;
 }
 
 function toJson(obj) {
@@ -57,8 +61,8 @@ function toJson(obj) {
 **Giải pháp:** JavaScript cung cấp sẵn các built-in object đã được chuẩn hoá và tối ưu — dùng ngay, không cần tự viết:
 
 ```js
-Math.round(3.5);              // 4 — toán học
-new Date().toISOString();     // ngày giờ
+Math.round(3.5); // 4 — toán học
+new Date().toISOString(); // ngày giờ
 JSON.stringify({ name: "An" }); // '{"name":"An"}' — đổi sang chuỗi
 /^[^@]+@[^@]+\.[^@]+$/.test("a@b.com"); // true — tìm theo mẫu
 ```
@@ -113,12 +117,12 @@ Replacer + reviver:
 
 ```js
 // Lọc property
-JSON.stringify(user, ["name"]);    // '{"name":"An"}'
+JSON.stringify(user, ["name"]); // '{"name":"An"}'
 
 // Custom transform
-JSON.stringify(user, (k, v) => k === "age" ? undefined : v);
+JSON.stringify(user, (k, v) => (k === "age" ? undefined : v));
 
-JSON.parse(json, (k, v) => k === "age" ? v + 1 : v);
+JSON.parse(json, (k, v) => (k === "age" ? v + 1 : v));
 ```
 
 :::warning[Cần lưu ý]
@@ -127,17 +131,17 @@ JSON.parse(json, (k, v) => k === "age" ? v + 1 : v);
 
 ```js
 JSON.stringify({
-  fn: () => {},          // function → bỏ
-  undef: undefined,      // undefined → bỏ
-  sym: Symbol(),         // symbol → bỏ
-  big: 10n,              // bigint → TypeError
+  fn: () => {}, // function → bỏ
+  undef: undefined, // undefined → bỏ
+  sym: Symbol(), // symbol → bỏ
+  big: 10n, // bigint → TypeError
 });
 // '{}'
 
 JSON.stringify({ d: new Date() });
 // '{"d":"2026-01-01T..."}' — Date thành string ISO
 
-JSON.stringify(NaN);     // "null"
+JSON.stringify(NaN); // "null"
 JSON.stringify(Infinity); // "null"
 ```
 
@@ -154,22 +158,22 @@ Với Map, Set: cần convert tay (`Array.from`) trước khi stringify.
 Hằng số và method toán học (static — không cần `new`):
 
 ```js
-Math.PI;          // 3.141592...
-Math.E;           // 2.718...
+Math.PI; // 3.141592...
+Math.E; // 2.718...
 
-Math.abs(-5);     // 5
-Math.floor(3.9);  // 3
-Math.ceil(3.1);   // 4
-Math.round(3.5);  // 4
-Math.trunc(3.9);  // 3 (cắt phần thập phân, không làm tròn)
+Math.abs(-5); // 5
+Math.floor(3.9); // 3
+Math.ceil(3.1); // 4
+Math.round(3.5); // 4
+Math.trunc(3.9); // 3 (cắt phần thập phân, không làm tròn)
 
-Math.max(1, 5, 3);    // 5
-Math.min(1, 5, 3);    // 1
+Math.max(1, 5, 3); // 5
+Math.min(1, 5, 3); // 1
 Math.max(...[1, 5, 3]); // dùng spread cho mảng
 
-Math.pow(2, 10);  // 1024 — hoặc 2 ** 10
-Math.sqrt(16);    // 4
-Math.random();    // [0, 1)
+Math.pow(2, 10); // 1024 — hoặc 2 ** 10
+Math.sqrt(16); // 4
+Math.random(); // [0, 1)
 ```
 
 Random integer trong khoảng:
@@ -211,12 +215,12 @@ const specific = new Date("2026-01-15");
 const fromMs = new Date(1735689600000);
 
 now.getFullYear();
-now.getMonth();      // 0-11
-now.getDate();       // 1-31
-now.getDay();        // 0-6 (0 = Chủ nhật)
+now.getMonth(); // 0-11
+now.getDate(); // 1-31
+now.getDay(); // 0-6 (0 = Chủ nhật)
 now.getHours();
 
-now.toISOString();   // "2026-01-15T08:00:00.000Z"
+now.toISOString(); // "2026-01-15T08:00:00.000Z"
 now.toLocaleString("vi-VN");
 ```
 
@@ -239,12 +243,12 @@ const elapsed = Date.now() - start;
 
 **Năm 2026, dùng thư viện hoặc Temporal API**:
 
-| Lựa chọn | Khi nào |
-|----------|---------|
-| **date-fns** | Functional, tree-shakeable, gọn |
-| **Day.js** | API giống Moment, nhẹ |
-| **Luxon** | Timezone tốt, API hiện đại |
-| **Temporal** (đang Stage 3) | Native API mới của JS, sắp ra |
+| Lựa chọn                    | Khi nào                         |
+| --------------------------- | ------------------------------- |
+| **date-fns**                | Functional, tree-shakeable, gọn |
+| **Day.js**                  | API giống Moment, nhẹ           |
+| **Luxon**                   | Timezone tốt, API hiện đại      |
+| **Temporal** (đang Stage 3) | Native API mới của JS, sắp ra   |
 
 Đừng dùng **Moment.js** trong code mới — đã được deprecate.
 
@@ -257,26 +261,26 @@ const elapsed = Date.now() - start;
 Regular Expression — pattern match cho string.
 
 ```js
-const re = /hello/i;       // i = case-insensitive
+const re = /hello/i; // i = case-insensitive
 const re2 = new RegExp("hello", "i");
 
-re.test("Hello world");    // true
+re.test("Hello world"); // true
 
 "hello hello".match(/hello/g); // ["hello", "hello"]
 "hello".replace(/l/g, "L"); // "heLLo"
-"a,b;c".split(/[,;]/);     // ["a", "b", "c"]
+"a,b;c".split(/[,;]/); // ["a", "b", "c"]
 ```
 
 Flags hay dùng:
 
-| Flag | Ý nghĩa |
-|------|---------|
-| `g` | Global — match tất cả |
-| `i` | Case-insensitive |
-| `m` | Multi-line — `^`/`$` match đầu/cuối dòng |
-| `s` | Dotall — `.` match cả `\n` |
-| `u` | Unicode |
-| `y` | Sticky |
+| Flag | Ý nghĩa                                  |
+| ---- | ---------------------------------------- |
+| `g`  | Global — match tất cả                    |
+| `i`  | Case-insensitive                         |
+| `m`  | Multi-line — `^`/`$` match đầu/cuối dòng |
+| `s`  | Dotall — `.` match cả `\n`               |
+| `u`  | Unicode                                  |
+| `y`  | Sticky                                   |
 
 Capture groups:
 
@@ -343,15 +347,15 @@ Những câu thường gặp về chủ đề này. Tự trả lời trước, r
 
 Những cái dùng thường xuyên:
 
-| Built-in | Mục đích |
-|---|---|
-| `JSON` | Serialize/deserialize dữ liệu — gọi API, lưu `localStorage` |
-| `Math` | Toán học: làm tròn, `max`/`min`, luỹ thừa, `random` |
-| `Date` | Ngày giờ, timestamp, đo khoảng thời gian |
-| `RegExp` | Tìm kiếm, validate, tách và thay thế chuỗi theo mẫu |
-| `Intl` | Định dạng số, tiền tệ, ngày giờ theo locale |
-| `Object`, `Array`, `String`, `Number` | Kiểu dữ liệu nền tảng cùng bộ method của chúng |
-| `Map`, `Set`, `Promise`, `Symbol` | Cấu trúc dữ liệu và bất đồng bộ |
+| Built-in                              | Mục đích                                                    |
+| ------------------------------------- | ----------------------------------------------------------- |
+| `JSON`                                | Serialize/deserialize dữ liệu — gọi API, lưu `localStorage` |
+| `Math`                                | Toán học: làm tròn, `max`/`min`, luỹ thừa, `random`         |
+| `Date`                                | Ngày giờ, timestamp, đo khoảng thời gian                    |
+| `RegExp`                              | Tìm kiếm, validate, tách và thay thế chuỗi theo mẫu         |
+| `Intl`                                | Định dạng số, tiền tệ, ngày giờ theo locale                 |
+| `Object`, `Array`, `String`, `Number` | Kiểu dữ liệu nền tảng cùng bộ method của chúng              |
+| `Map`, `Set`, `Promise`, `Symbol`     | Cấu trúc dữ liệu và bất đồng bộ                             |
 
 Lưu ý phân biệt: `console`, `fetch`, `setTimeout`, `document` **không phải** built-in của ngôn ngữ — chúng do **runtime** (trình duyệt/Node.js) cung cấp, không nằm trong chuẩn ECMAScript.
 
@@ -368,12 +372,12 @@ Vì hai thứ này thuộc hai loại khác nhau:
 - **`Date` là một constructor function**. Mỗi đối tượng ngày giờ là một **instance** mang trạng thái riêng (một timestamp), nên cần `new` để tạo.
 
 ```js
-typeof Math;        // "object"
-new Math();         // TypeError: Math is not a constructor
+typeof Math; // "object"
+new Math(); // TypeError: Math is not a constructor
 
-typeof Date;        // "function"
+typeof Date; // "function"
 const d = new Date(); // instance riêng, có state
-Date.now();         // Date cũng có method static
+Date.now(); // Date cũng có method static
 ```
 
 Lý do thiết kế: `Math.round(3.5)` không cần nhớ gì giữa các lần gọi — hàm thuần, không state. Còn một `Date` phải lưu "thời điểm nào" để `getFullYear()`, `setHours()` thao tác lên.
@@ -393,8 +397,8 @@ Bẫy nhỏ: gọi `Date()` **không có `new`** không tạo object mà trả v
 ```js
 const user = { name: "An", age: 25 };
 
-const json = JSON.stringify(user);  // '{"name":"An","age":25}'
-const back = JSON.parse(json);      // { name: "An", age: 25 }
+const json = JSON.stringify(user); // '{"name":"An","age":25}'
+const back = JSON.parse(json); // { name: "An", age: 25 }
 ```
 
 Lý do cần: dữ liệu đi qua mạng hay lưu xuống đĩa chỉ là **text/bytes**, không thể truyền thẳng một object trong bộ nhớ.
@@ -415,22 +419,22 @@ Lưu ý `JSON.parse` ném `SyntaxError` với chuỗi không hợp lệ (ví d�
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| Giá trị | Kết quả |
-|---|---|
+| Giá trị                           | Kết quả                                                                   |
+| --------------------------------- | ------------------------------------------------------------------------- |
 | `undefined`, `function`, `symbol` | **Bị bỏ qua** khi là property của object; thành `null` khi nằm trong mảng |
-| `NaN`, `Infinity`, `-Infinity` | Thành `null` |
-| `Date` | Thành **chuỗi ISO** (do `Date.prototype.toJSON`) |
-| `BigInt` | Ném **`TypeError`** |
-| `Map`, `Set` | Thành `{}` — **mất sạch dữ liệu** |
-| Circular reference | Ném `TypeError` |
+| `NaN`, `Infinity`, `-Infinity`    | Thành `null`                                                              |
+| `Date`                            | Thành **chuỗi ISO** (do `Date.prototype.toJSON`)                          |
+| `BigInt`                          | Ném **`TypeError`**                                                       |
+| `Map`, `Set`                      | Thành `{}` — **mất sạch dữ liệu**                                         |
+| Circular reference                | Ném `TypeError`                                                           |
 
 ```js
 JSON.stringify({ fn: () => {}, u: undefined, s: Symbol() }); // '{}'
-JSON.stringify([undefined, () => {}]);        // '[null,null]'
-JSON.stringify({ n: NaN, i: Infinity });      // '{"n":null,"i":null}'
-JSON.stringify({ d: new Date() });            // '{"d":"2026-01-01T..."}'
-JSON.stringify({ s: new Set([1, 2]) });       // '{"s":{}}'
-JSON.stringify({ b: 10n });                   // TypeError
+JSON.stringify([undefined, () => {}]); // '[null,null]'
+JSON.stringify({ n: NaN, i: Infinity }); // '{"n":null,"i":null}'
+JSON.stringify({ d: new Date() }); // '{"d":"2026-01-01T..."}'
+JSON.stringify({ s: new Set([1, 2]) }); // '{"s":{}}'
+JSON.stringify({ b: 10n }); // TypeError
 ```
 
 Nguyên nhân: JSON là format rất tối giản, chỉ có object, array, string, number, boolean, `null`.
@@ -450,7 +454,7 @@ Cách xử lý: convert tay trước khi stringify (`Array.from(set)`), dùng `r
 const user = { name: "An", age: 25, password: "x" };
 
 // Dạng mảng: whitelist property
-JSON.stringify(user, ["name"]);                 // '{"name":"An"}'
+JSON.stringify(user, ["name"]); // '{"name":"An"}'
 
 // Dạng hàm: trả undefined để loại bỏ
 JSON.stringify(user, (k, v) => (k === "password" ? undefined : v));
@@ -466,9 +470,7 @@ JSON.stringify(user, null, 2); // xuống dòng, thụt 2 space
 
 ```js
 const json = '{"createdAt":"2026-01-15T00:00:00.000Z"}';
-const obj = JSON.parse(json, (k, v) =>
-  k === "createdAt" ? new Date(v) : v
-);
+const obj = JSON.parse(json, (k, v) => (k === "createdAt" ? new Date(v) : v));
 obj.createdAt instanceof Date; // true
 ```
 
@@ -488,7 +490,7 @@ const user = {
   name: "An",
   password: "secret",
   toJSON() {
-    return { name: this.name };   // tự quyết định hình dạng JSON
+    return { name: this.name }; // tự quyết định hình dạng JSON
   },
 };
 
@@ -548,18 +550,18 @@ Hai giới hạn của `structuredClone`: không clone được **function** (n�
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| Hàm | Quy tắc | `3.5` | `3.2` | `-3.5` | `-3.2` |
-|---|---|---|---|---|---|
-| `Math.round` | Làm tròn về số nguyên gần nhất, `.5` làm tròn **lên phía `+∞`** | 4 | 3 | **-3** | -3 |
-| `Math.floor` | Luôn xuống phía `-∞` | 3 | 3 | -4 | -4 |
-| `Math.ceil` | Luôn lên phía `+∞` | 4 | 4 | -3 | -3 |
-| `Math.trunc` | Cắt bỏ phần thập phân | 3 | 3 | -3 | -3 |
+| Hàm          | Quy tắc                                                         | `3.5` | `3.2` | `-3.5` | `-3.2` |
+| ------------ | --------------------------------------------------------------- | ----- | ----- | ------ | ------ |
+| `Math.round` | Làm tròn về số nguyên gần nhất, `.5` làm tròn **lên phía `+∞`** | 4     | 3     | **-3** | -3     |
+| `Math.floor` | Luôn xuống phía `-∞`                                            | 3     | 3     | -4     | -4     |
+| `Math.ceil`  | Luôn lên phía `+∞`                                              | 4     | 4     | -3     | -3     |
+| `Math.trunc` | Cắt bỏ phần thập phân                                           | 3     | 3     | -3     | -3     |
 
 **`Math.round(-3.5)` bằng `-3`.** Lý do: đặc tả định nghĩa `Math.round(x)` là `Math.floor(x + 0.5)`. Với `-3.5` thì `-3.5 + 0.5 = -3`, `floor(-3)` = `-3`. Nói cách khác, khi gặp đúng nửa đơn vị, JS luôn làm tròn về phía **dương vô cực**, chứ không phải "làm tròn ra xa số 0" như nhiều người tưởng.
 
 ```js
-Math.round(-3.5);  // -3  (không phải -4)
-Math.round(-3.6);  // -4
+Math.round(-3.5); // -3  (không phải -4)
+Math.round(-3.6); // -4
 ```
 
 Điểm dễ nhầm còn lại: với số âm thì `floor` và `trunc` cho kết quả **khác nhau** (`-4` vs `-3`) — với số dương thì giống nhau, nên bug chỉ lộ khi gặp giá trị âm.
@@ -609,14 +611,14 @@ Hậu quả thực tế: token reset mật khẩu, OTP, session id, mã mời si
 
 ```js
 // Browser
-crypto.randomUUID();                            // UUID v4
-crypto.getRandomValues(new Uint32Array(1))[0];  // số ngẫu nhiên an toàn
+crypto.randomUUID(); // UUID v4
+crypto.getRandomValues(new Uint32Array(1))[0]; // số ngẫu nhiên an toàn
 
 // Node.js
 import { randomBytes, randomUUID, randomInt } from "node:crypto";
 randomUUID();
 randomBytes(32).toString("hex");
-randomInt(100000, 1000000);   // OTP 6 chữ số, không lệch phân phối
+randomInt(100000, 1000000); // OTP 6 chữ số, không lệch phân phối
 ```
 
 Quy tắc: bất cứ giá trị nào mà việc **đoán trúng gây hại** thì phải dùng `crypto`, không dùng `Math.random`.
@@ -649,10 +651,10 @@ Vì vậy code hiện đại nên dùng date-fns, Day.js, Luxon hoặc Temporal 
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| | Trả về | Mốc gốc | Đặc điểm |
-|---|---|---|---|
-| `Date.now()` | Số nguyên (ms) | Unix epoch (1/1/1970 UTC) | Nhanh, không tạo object; phụ thuộc **đồng hồ hệ thống** |
-| `new Date()` | Object `Date` | Unix epoch | Đầy đủ API ngày giờ, nhưng tạo object nên nặng hơn |
+|                     | Trả về                          | Mốc gốc                              | Đặc điểm                                                      |
+| ------------------- | ------------------------------- | ------------------------------------ | ------------------------------------------------------------- |
+| `Date.now()`        | Số nguyên (ms)                  | Unix epoch (1/1/1970 UTC)            | Nhanh, không tạo object; phụ thuộc **đồng hồ hệ thống**       |
+| `new Date()`        | Object `Date`                   | Unix epoch                           | Đầy đủ API ngày giờ, nhưng tạo object nên nặng hơn            |
 | `performance.now()` | Số thực (ms, có phần thập phân) | **Time origin** của trang/tiến trình | **Monotonic** — luôn tăng, không bị đồng hồ hệ thống tác động |
 
 ```js
@@ -676,13 +678,13 @@ Lưu ý: vì lý do bảo mật (Spectre), trình duyệt đã **làm thô** đ�
 
 ```js
 function addDay(d) {
-  d.setDate(d.getDate() + 1);  // sửa object GỐC!
+  d.setDate(d.getDate() + 1); // sửa object GỐC!
   return d;
 }
 
 const start = new Date("2026-01-15");
 const end = addDay(start);
-start.getDate();   // 16 — start đã bị đổi, end === start
+start.getDate(); // 16 — start đã bị đổi, end === start
 ```
 
 Cách viết an toàn là clone trước: `const copy = new Date(d)`.
@@ -690,8 +692,8 @@ Cách viết an toàn là clone trước: `const copy = new Date(d)`.
 **Vượt qua cuối tháng thì sao?** `Date` tự động **tràn (roll over)** sang tháng/năm kế tiếp một cách đúng đắn:
 
 ```js
-const d = new Date(2026, 0, 31);   // 31/01/2026
-d.setDate(d.getDate() + 1);        // 01/02/2026 — tự sang tháng 2
+const d = new Date(2026, 0, 31); // 31/01/2026
+d.setDate(d.getDate() + 1); // 01/02/2026 — tự sang tháng 2
 ```
 
 Đây là hành vi mong muốn. Nhưng `setMonth` thì có bẫy: từ 31/01 cộng 1 tháng sẽ ra **03/03** (vì 31/02 không tồn tại nên tràn tiếp), chứ không phải 28/02. Các thư viện như date-fns xử lý trường hợp này hợp lý hơn.
@@ -714,7 +716,7 @@ new Date("2026-01-15").toString();
 new Date("2026/01/15").toString();
 // Thu Jan 15 2026 00:00:00 GMT+0700 — giờ local
 
-new Date("2026-01-15").getDate();  // ở múi giờ âm (vd UTC-5) sẽ ra 14!
+new Date("2026-01-15").getDate(); // ở múi giờ âm (vd UTC-5) sẽ ra 14!
 ```
 
 Hệ quả nguy hiểm: cùng một chuỗi ngày, người dùng ở châu Mỹ nhìn thấy **lệch một ngày** so với người dùng ở châu Á.
@@ -769,11 +771,11 @@ Vài lưu ý thêm: lấy timezone người dùng bằng `Intl.DateTimeFormat().
 
 Trong thời gian chờ Temporal phổ biến:
 
-| Thư viện | Điểm mạnh |
-|---|---|
-| **date-fns** | Hàm thuần, tree-shakeable — chỉ bundle những gì dùng |
-| **Day.js** | Rất nhẹ (~2KB), API giống Moment nên dễ migrate |
-| **Luxon** | Xử lý timezone và i18n mạnh nhất, do chính tác giả Moment viết |
+| Thư viện     | Điểm mạnh                                                      |
+| ------------ | -------------------------------------------------------------- |
+| **date-fns** | Hàm thuần, tree-shakeable — chỉ bundle những gì dùng           |
+| **Day.js**   | Rất nhẹ (~2KB), API giống Moment nên dễ migrate                |
+| **Luxon**    | Xử lý timezone và i18n mạnh nhất, do chính tác giả Moment viết |
 
 **Không dùng Moment.js cho code mới** vì nhóm phát triển đã tuyên bố dự án ở **chế độ bảo trì (legacy)**: bundle lớn và không tree-shake được, object **mutable** dễ gây bug, API kiểu cũ. Dự án đang dùng Moment thì giữ được, nhưng code mới nên chọn một trong ba lựa chọn trên.
 
@@ -784,21 +786,21 @@ Trong thời gian chờ Temporal phổ biến:
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| Method | Trả về | Dùng khi |
-|---|---|---|
-| `regex.test(str)` | `true` / `false` | Chỉ cần biết **có khớp hay không** — validate |
-| `str.match(regex)` | Không cờ `g`: mảng chi tiết (match, capture group, `index`); có `g`: mảng **chuỗi** khớp, **mất** group | Lấy một kết quả kèm group, hoặc lấy nhanh danh sách chuỗi khớp |
-| `str.matchAll(regex)` | **Iterator** các object match đầy đủ (kèm group) — **bắt buộc** cờ `g` | Cần tất cả kết quả **và** capture group |
-| `regex.exec(str)` | Một match kèm group, hoặc `null`; với cờ `g` thì gọi lặp để duyệt tiếp | Duyệt thủ công, cần kiểm soát `lastIndex` |
+| Method                | Trả về                                                                                                  | Dùng khi                                                       |
+| --------------------- | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| `regex.test(str)`     | `true` / `false`                                                                                        | Chỉ cần biết **có khớp hay không** — validate                  |
+| `str.match(regex)`    | Không cờ `g`: mảng chi tiết (match, capture group, `index`); có `g`: mảng **chuỗi** khớp, **mất** group | Lấy một kết quả kèm group, hoặc lấy nhanh danh sách chuỗi khớp |
+| `str.matchAll(regex)` | **Iterator** các object match đầy đủ (kèm group) — **bắt buộc** cờ `g`                                  | Cần tất cả kết quả **và** capture group                        |
+| `regex.exec(str)`     | Một match kèm group, hoặc `null`; với cờ `g` thì gọi lặp để duyệt tiếp                                  | Duyệt thủ công, cần kiểm soát `lastIndex`                      |
 
 ```js
 const re = /(\d{4})-(\d{2})/g;
 const s = "2026-01 và 2027-02";
 
-/\d/.test(s);                  // true
-s.match(/(\d{4})-(\d{2})/);    // ["2026-01", "2026", "01", index: 0, ...]
-s.match(re);                   // ["2026-01", "2027-02"] — mất group!
-[...s.matchAll(re)];           // 2 match, mỗi cái đầy đủ group
+/\d/.test(s); // true
+s.match(/(\d{4})-(\d{2})/); // ["2026-01", "2026", "01", index: 0, ...]
+s.match(re); // ["2026-01", "2027-02"] — mất group!
+[...s.matchAll(re)]; // 2 match, mỗi cái đầy đủ group
 ```
 
 Quy tắc chọn: **validate** → `test`; **lấy tất cả kèm group** → `matchAll` (hiện đại, sạch nhất); **lấy một match** → `match` không cờ `g`. Chỉ dùng `exec` khi thực sự cần vòng lặp thủ công.
@@ -815,9 +817,9 @@ Regex có cờ `g` (hoặc `y`) mang **trạng thái**: property `lastIndex` ghi
 ```js
 const re = /abc/g;
 
-re.test("abc");  // true  — lastIndex = 3
-re.test("abc");  // false — bắt đầu dò từ vị trí 3, hết chuỗi → reset về 0
-re.test("abc");  // true
+re.test("abc"); // true  — lastIndex = 3
+re.test("abc"); // false — bắt đầu dò từ vị trí 3, hết chuỗi → reset về 0
+re.test("abc"); // true
 ```
 
 Bug này đặc biệt hiểm khi regex được khai báo ở **module scope** hoặc dùng làm hằng số chia sẻ giữa nhiều lần validate — form lúc pass lúc fail mà không rõ lý do.
@@ -841,11 +843,11 @@ Cách phòng:
 **Capture group thường** `(...)` đánh số theo thứ tự dấu mở ngoặc, truy cập qua chỉ số. **Named group** `(?<tên>...)` (ES2018) đặt tên, truy cập qua `.groups` — dễ đọc và không vỡ khi bạn thêm/bớt nhóm:
 
 ```js
-"2026-01-15".match(/(\d{4})-(\d{2})-(\d{2})/)[1];              // "2026"
+"2026-01-15".match(/(\d{4})-(\d{2})-(\d{2})/)[1]; // "2026"
 
 const m = "2026-01-15".match(/(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/);
-m.groups.year;   // "2026"
-m.groups.month;  // "01"
+m.groups.year; // "2026"
+m.groups.month; // "01"
 ```
 
 Còn `(?:...)` là **non-capturing group** — nhóm để gom mà không lưu kết quả.
@@ -854,8 +856,8 @@ Còn `(?:...)` là **non-capturing group** — nhóm để gom mà không lưu k
 
 ```js
 const html = "<b>a</b><i>b</i>";
-html.match(/<.+>/)[0];    // "<b>a</b><i>b</i>" — greedy, nuốt hết
-html.match(/<.+?>/)[0];   // "<b>"              — lazy, dừng sớm nhất
+html.match(/<.+>/)[0]; // "<b>a</b><i>b</i>" — greedy, nuốt hết
+html.match(/<.+?>/)[0]; // "<b>"              — lazy, dừng sớm nhất
 ```
 
 Chọn sai giữa greedy và lazy là lỗi thường gặp nhất khi trích xuất nội dung giữa hai dấu phân cách.
@@ -897,11 +899,11 @@ Tự format bằng tay nghĩa là bạn phải tự gánh toàn bộ khác biệ
 - **Timezone và calendar** được xử lý sẵn.
 
 ```js
-new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" })
-  .format(1234567);                    // "1.234.567 ₫"
+new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(
+  1234567,
+); // "1.234.567 ₫"
 
-new Intl.DateTimeFormat("vi-VN", { dateStyle: "full" })
-  .format(new Date());                 // "Thứ Năm, 15 tháng 1, 2026"
+new Intl.DateTimeFormat("vi-VN", { dateStyle: "full" }).format(new Date()); // "Thứ Năm, 15 tháng 1, 2026"
 ```
 
 Ngoài ra `Intl` là **chuẩn ECMA-402 built-in** — không tốn bundle size, được engine cài đặt bằng dữ liệu CLDR và cập nhật theo trình duyệt, nên bạn không phải bảo trì.
@@ -925,8 +927,8 @@ Mẹo hiệu năng: khởi tạo formatter **một lần** rồi tái sử dụn
 - **`Intl.PluralRules`** — chọn dạng số nhiều đúng theo locale. Tiếng Anh có 2 dạng, tiếng Nga/Ba Lan có tới 4 — không thể xử lý bằng `if (n > 1)`.
 
   ```js
-  new Intl.PluralRules("en-US").select(1);  // "one"
-  new Intl.PluralRules("en-US").select(5);  // "other"
+  new Intl.PluralRules("en-US").select(1); // "one"
+  new Intl.PluralRules("en-US").select(5); // "other"
   ```
 
 - **`Intl.Collator`** — sắp xếp chuỗi đúng theo ngôn ngữ. `sort()` mặc định so theo mã Unicode nên tiếng Việt có dấu sẽ sai thứ tự.

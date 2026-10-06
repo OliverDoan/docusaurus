@@ -1,6 +1,6 @@
 ---
 sidebar_position: 7
-title: "7. Toán tử và phép toán"
+title: "✅ 7. Toán tử và phép toán"
 ---
 
 # Toán tử và phép toán

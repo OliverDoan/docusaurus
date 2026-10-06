@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "1. Map, Set, WeakMap, WeakSet"
+title: "⭐ 1. Map, Set, WeakMap, WeakSet"
 ---
 
 # Map, Set, WeakMap, WeakSet

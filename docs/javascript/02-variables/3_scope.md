@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-title: "3. Scope (Phạm vi biến)"
+title: "⭐ 3. Scope (Phạm vi biến)"
 ---
 
 # Scope (Phạm vi biến)
@@ -14,7 +14,7 @@ title: "3. Scope (Phạm vi biến)"
 :::note[Ghi nhớ nhanh]
 
 - ⭐ **JS có 3 loại scope**: global (ngoài mọi hàm/block), function (`var`), và block (`let`/`const` trong `{}`) — `var` lọt ra ngoài block, `let`/`const` thì không.
-- ⭐ **Lexical scope**: biến một hàm nhìn thấy được quyết định bởi *nơi hàm được viết*, KHÔNG phải nơi được gọi — nền tảng của closure.
+- ⭐ **Lexical scope**: biến một hàm nhìn thấy được quyết định bởi _nơi hàm được viết_, KHÔNG phải nơi được gọi — nền tảng của closure.
 - **Mỗi vòng `for (let i...)` tạo binding `i` mới** — giải quyết bug kinh điển của `var` trong closure (`var` in ra `3,3,3`, `let` in ra `0,1,2`).
 - **Scope chain** — JS tìm biến từ trong ra ngoài (inner → outer → global), không thấy thì ném `ReferenceError`.
 - **Đặt biến càng gần nơi dùng càng tốt**, tránh biến global (trừ hằng số); với `let`/`const` + module thì IIFE gần như không còn cần.
@@ -55,7 +55,7 @@ count = 999; // "tai nạn" — không có gì bảo vệ
 
 **Giải pháp:**
 
-**Scope** ra đời để kiểm soát "biến nào nhìn thấy ở đâu", giữ biến nằm gọn trong phạm vi cần thiết. **Lexical scope** xác định phạm vi theo *nơi viết code*. Từ đó sinh ra **closure**: một hàm "nhớ" được biến của scope bên ngoài **kể cả sau khi scope đó đã kết thúc** — nhờ vậy ta tạo được biến **private** (đóng gói dữ liệu):
+**Scope** ra đời để kiểm soát "biến nào nhìn thấy ở đâu", giữ biến nằm gọn trong phạm vi cần thiết. **Lexical scope** xác định phạm vi theo _nơi viết code_. Từ đó sinh ra **closure**: một hàm "nhớ" được biến của scope bên ngoài **kể cả sau khi scope đó đã kết thúc** — nhờ vậy ta tạo được biến **private** (đóng gói dữ liệu):
 
 ```js
 function createCounter() {
@@ -91,11 +91,11 @@ Closure & scope xuất hiện ở khắp nơi trong code thực tế:
 
 JavaScript có 3 loại scope chính:
 
-| Scope | Tạo bởi |
-|-------|---------|
-| Global | Ngoài mọi function và block |
+| Scope    | Tạo bởi                          |
+| -------- | -------------------------------- |
+| Global   | Ngoài mọi function và block      |
 | Function | Bên trong function (kể cả `var`) |
-| Block | Bên trong `{}` (`let`/`const`) |
+| Block    | Bên trong `{}` (`let`/`const`)   |
 
 ---
 
@@ -198,11 +198,7 @@ Tương đương ngầm:
 
 ```js
 // for (let i = 0; i < 3; i++) ... thực ra là:
-for (
-  let _binding = 0;
-  _binding < 3;
-  _binding++
-) {
+for (let _binding = 0; _binding < 3; _binding++) {
   let i = _binding; // tạo mới mỗi vòng
   // ...
 }
@@ -216,7 +212,7 @@ for (
 
 ## Lexical Scope
 
-**Lexical scope** (còn gọi là *static scope*) = scope được xác định bởi **vị trí code khi viết**, không phải bởi **vị trí khi gọi**.
+**Lexical scope** (còn gọi là _static scope_) = scope được xác định bởi **vị trí code khi viết**, không phải bởi **vị trí khi gọi**.
 
 > Chữ **"lexical"** nghĩa là "thuộc về văn bản code". Tức là chỉ cần **nhìn vào nơi bạn viết** một function trong file — lồng bên trong function/block nào — là đã biết nó truy cập được những biến nào. Điều này được "chốt" ngay lúc viết code, và **không thay đổi** dù sau này bạn gọi function đó từ đâu.
 
@@ -256,15 +252,15 @@ function outer() {
 outer(); // In ra "global", KHÔNG phải "local trong outer"
 ```
 
-`inner` được viết ở top-level (cạnh biến `message = "global"`), nên dù được **gọi bên trong** `outer`, nó vẫn lấy `message` ở nơi nó được viết ra. Nếu JavaScript dùng *dynamic scope* (lấy biến theo nơi gọi) thì kết quả sẽ là `"local trong outer"` — nhưng JS **không** làm vậy.
+`inner` được viết ở top-level (cạnh biến `message = "global"`), nên dù được **gọi bên trong** `outer`, nó vẫn lấy `message` ở nơi nó được viết ra. Nếu JavaScript dùng _dynamic scope_ (lấy biến theo nơi gọi) thì kết quả sẽ là `"local trong outer"` — nhưng JS **không** làm vậy.
 
 :::info[Lexical scope vs Dynamic scope]
 
-| Tiêu chí | Lexical scope (JS dùng) | Dynamic scope |
-|----------|-------------------------|---------------|
-| Quyết định khi nào | Lúc **viết** code (static) | Lúc **chạy/gọi** hàm |
-| Lấy biến từ đâu | Nơi hàm **được định nghĩa** | Nơi hàm **được gọi** |
-| Đoán kết quả | Dễ — nhìn cấu trúc code | Khó — phải lần theo call stack |
+| Tiêu chí           | Lexical scope (JS dùng)     | Dynamic scope                  |
+| ------------------ | --------------------------- | ------------------------------ |
+| Quyết định khi nào | Lúc **viết** code (static)  | Lúc **chạy/gọi** hàm           |
+| Lấy biến từ đâu    | Nơi hàm **được định nghĩa** | Nơi hàm **được gọi**           |
+| Đoán kết quả       | Dễ — nhìn cấu trúc code     | Khó — phải lần theo call stack |
 
 Hầu hết ngôn ngữ hiện đại (JavaScript, Python, C...) dùng **lexical scope** vì nó dễ đọc, dễ suy luận và an toàn hơn. Dynamic scope hiếm gặp (vd Bash, Emacs Lisp cũ).
 
@@ -286,8 +282,8 @@ function outer() {
 
   function inner() {
     const b = "B";
-    console.log(b);      // inner scope
-    console.log(a);      // outer scope
+    console.log(b); // inner scope
+    console.log(a); // outer scope
     console.log(global); // global scope
   }
 
@@ -360,21 +356,21 @@ Những câu thường gặp về chủ đề này. Tự trả lời trước, r
 
 JavaScript có 3 loại scope chính:
 
-| Scope | Tạo bởi | Ví dụ khai báo |
-|-------|---------|----------------|
-| Global | Ngoài mọi function và block | `const APP_NAME = "MyApp"` ở top-level |
-| Function | Bên trong một function | `var`, `let`, `const` trong thân hàm |
-| Block | Bên trong cặp `{}` (`if`, `for`, `while`, block trần) | chỉ `let` / `const` |
+| Scope    | Tạo bởi                                               | Ví dụ khai báo                         |
+| -------- | ----------------------------------------------------- | -------------------------------------- |
+| Global   | Ngoài mọi function và block                           | `const APP_NAME = "MyApp"` ở top-level |
+| Function | Bên trong một function                                | `var`, `let`, `const` trong thân hàm   |
+| Block    | Bên trong cặp `{}` (`if`, `for`, `while`, block trần) | chỉ `let` / `const`                    |
 
 ```js
 const APP_NAME = "MyApp"; // global
 
 function show() {
-  var inFn = 1;           // function scope
+  var inFn = 1; // function scope
   if (true) {
-    let inBlock = 2;      // block scope
+    let inBlock = 2; // block scope
   }
-  console.log(inBlock);   // ReferenceError
+  console.log(inBlock); // ReferenceError
 }
 ```
 
@@ -387,12 +383,12 @@ function show() {
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| | `var` | `let` / `const` |
-|---|---|---|
-| Phạm vi | **Function scope** | **Block scope** |
-| Trong `if` / `for` | Lọt ra ngoài block | Bị giới hạn trong block |
-| Khai báo lại cùng scope | Được | `SyntaxError` |
-| Truy cập trước khai báo | `undefined` | `ReferenceError` (TDZ) |
+|                         | `var`              | `let` / `const`         |
+| ----------------------- | ------------------ | ----------------------- |
+| Phạm vi                 | **Function scope** | **Block scope**         |
+| Trong `if` / `for`      | Lọt ra ngoài block | Bị giới hạn trong block |
+| Khai báo lại cùng scope | Được               | `SyntaxError`           |
+| Truy cập trước khai báo | `undefined`        | `ReferenceError` (TDZ)  |
 
 ```js
 function demo() {
@@ -426,7 +422,7 @@ function demo() {
 {
   // TDZ của x bắt đầu từ đây
   console.log(x); // ReferenceError: Cannot access 'x' before initialization
-  let x = 10;     // TDZ kết thúc
+  let x = 10; // TDZ kết thúc
   console.log(x); // 10
 }
 ```
@@ -459,7 +455,7 @@ function outer() {
 outer(); // In ra "global", KHÔNG phải "local trong outer"
 ```
 
-Nếu JS dùng *dynamic scope* (lấy biến theo nơi gọi) thì kết quả sẽ là `"local trong outer"` — nhưng JS **không** làm vậy. Chính đặc tính này là nền tảng của **closure**.
+Nếu JS dùng _dynamic scope_ (lấy biến theo nơi gọi) thì kết quả sẽ là `"local trong outer"` — nhưng JS **không** làm vậy. Chính đặc tính này là nền tảng của **closure**.
 
 </details>
 
@@ -468,11 +464,11 @@ Nếu JS dùng *dynamic scope* (lấy biến theo nơi gọi) thì kết quả s
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| Tiêu chí | Lexical scope (JS dùng) | Dynamic scope |
-|----------|-------------------------|---------------|
-| Quyết định khi nào | Lúc **viết** code (static) | Lúc **chạy/gọi** hàm |
-| Lấy biến từ đâu | Nơi hàm **được định nghĩa** | Nơi hàm **được gọi** |
-| Đoán kết quả | Dễ — nhìn cấu trúc code | Khó — phải lần theo call stack |
+| Tiêu chí           | Lexical scope (JS dùng)     | Dynamic scope                  |
+| ------------------ | --------------------------- | ------------------------------ |
+| Quyết định khi nào | Lúc **viết** code (static)  | Lúc **chạy/gọi** hàm           |
+| Lấy biến từ đâu    | Nơi hàm **được định nghĩa** | Nơi hàm **được gọi**           |
+| Đoán kết quả       | Dễ — nhìn cấu trúc code     | Khó — phải lần theo call stack |
 
 **JavaScript dùng lexical scope.** Lợi ích cho việc suy luận code:
 
@@ -500,8 +496,8 @@ function outer() {
 
   function inner() {
     const b = "B";
-    console.log(b);      // thấy ngay ở inner scope
-    console.log(a);      // không có ở inner → lên outer scope
+    console.log(b); // thấy ngay ở inner scope
+    console.log(a); // không có ở inner → lên outer scope
     console.log(global); // lên tiếp tới global scope
   }
 
@@ -667,7 +663,7 @@ let y = 20;
 console.log(window.y); // undefined
 ```
 
-Lý do: ở top-level của một script trong trình duyệt, môi trường toàn cục có **hai phần**. `var` và `function` declaration được ghi vào **object environment record** — chính là object `window`, nên chúng thành property của `window`. Còn `let`, `const`, `class` được ghi vào một **declarative record** riêng (thường gọi là *global declarative environment*) — vẫn là biến toàn cục, truy cập được ở mọi nơi, nhưng **không gắn vào `window`**. ES6 cố ý thiết kế vậy để ngừng làm bẩn object global.
+Lý do: ở top-level của một script trong trình duyệt, môi trường toàn cục có **hai phần**. `var` và `function` declaration được ghi vào **object environment record** — chính là object `window`, nên chúng thành property của `window`. Còn `let`, `const`, `class` được ghi vào một **declarative record** riêng (thường gọi là _global declarative environment_) — vẫn là biến toàn cục, truy cập được ở mọi nơi, nhưng **không gắn vào `window`**. ES6 cố ý thiết kế vậy để ngừng làm bẩn object global.
 
 **Trong ES Module** (`<script type="module">` hoặc file `.mjs`): mọi biến top-level đều thuộc **module scope**, kể cả `var` — không có gì lọt ra `window`. Module cũng luôn chạy ở **strict mode**, nên không thể tạo biến global ngầm bằng cách gán vào tên chưa khai báo (`z = 1` sẽ ném `ReferenceError` thay vì âm thầm tạo `window.z`). Đây là behavior chuẩn nên dùng.
 
@@ -681,7 +677,7 @@ Lý do: ở top-level của một script trong trình duyệt, môi trường to
 Mỗi function call tạo một **Lexical Environment** gồm hai phần:
 
 - **Environment Record**: bảng lưu các biến/tham số/hàm được khai báo trong scope đó (tên → giá trị).
-- **Outer reference**: con trỏ tới Lexical Environment của **scope cha theo lexical** — tức nơi hàm được *viết*, không phải nơi được *gọi*.
+- **Outer reference**: con trỏ tới Lexical Environment của **scope cha theo lexical** — tức nơi hàm được _viết_, không phải nơi được _gọi_.
 
 **Scope chain chính là chuỗi outer reference này.** Khi truy cập một biến, engine tra trong Environment Record hiện tại; không thấy thì đi theo outer reference lên tiếp, cho tới global — hết chuỗi vẫn không thấy thì ném `ReferenceError`.
 
@@ -709,7 +705,7 @@ function setup() {
 }
 ```
 
-Hai vấn đề: (1) listener chưa gỡ nên closure còn sống; (2) closure tham chiếu `el`, nên dù node bị xoá khỏi DOM nó vẫn nằm trong bộ nhớ (*detached DOM node*) — kéo theo `bigData`.
+Hai vấn đề: (1) listener chưa gỡ nên closure còn sống; (2) closure tham chiếu `el`, nên dù node bị xoá khỏi DOM nó vẫn nằm trong bộ nhớ (_detached DOM node_) — kéo theo `bigData`.
 
 Cách phòng tránh:
 
@@ -725,13 +721,13 @@ Cách phòng tránh:
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| Ứng dụng | Closure giữ lại gì |
-|---|---|
-| `debounce` | `timerId` của lần hẹn giờ gần nhất, để huỷ và đặt lại |
-| `throttle` | Mốc **thời gian gọi gần nhất** (hoặc cờ đang khoá) |
+| Ứng dụng         | Closure giữ lại gì                                     |
+| ---------------- | ------------------------------------------------------ |
+| `debounce`       | `timerId` của lần hẹn giờ gần nhất, để huỷ và đặt lại  |
+| `throttle`       | Mốc **thời gian gọi gần nhất** (hoặc cờ đang khoá)     |
 | Factory function | **Cấu hình/state riêng** của từng instance được tạo ra |
-| Module pattern | Các biến/hàm **private**, chỉ lộ ra API công khai |
-| `memoize` | **Cache** kết quả đã tính theo tham số |
+| Module pattern   | Các biến/hàm **private**, chỉ lộ ra API công khai      |
+| `memoize`        | **Cache** kết quả đã tính theo tham số                 |
 
 ```js
 function debounce(fn, delay) {

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "1. Type Casting"
+title: "⭐ 1. Type Casting"
 ---
 
 # Type Casting
@@ -10,8 +10,8 @@ title: "1. Type Casting"
 Vì sao cần? Vì dữ liệu thường đến ở dạng không mong muốn — ví dụ ô nhập liệu trên web luôn trả về **chuỗi**, nên muốn tính toán bạn phải đổi nó sang **số** trước.
 
 ```js
-"42" + 1            // "421"  -> bị nối chuỗi vì "42" là string
-Number("42") + 1    // 43     -> đã ép sang số nên cộng đúng
+"42" + 1; // "421"  -> bị nối chuỗi vì "42" là string
+Number("42") + 1; // 43     -> đã ép sang số nên cộng đúng
 ```
 
 Trong JavaScript, việc ép kiểu xảy ra theo **hai cách**: do bạn chủ động làm, hoặc do JavaScript **tự động** làm ngầm — đó chính là nội dung phần dưới đây.
@@ -51,10 +51,10 @@ Trong JavaScript, việc ép kiểu xảy ra theo **hai cách**: do bạn chủ 
 JavaScript **tự động ép kiểu** (implicit coercion) trong rất nhiều phép toán. Nếu không nắm quy tắc, bạn nhận về kết quả bất ngờ và những bug rất khó truy vết — nhất là khi dữ liệu từ input/form/API hầu hết đều là **string**.
 
 ```js
-"5" + 3;   // "53" — nối chuỗi, KHÔNG phải 8
-"5" - 3;   // 2    — cùng dữ liệu nhưng lại ra số
-[] + {};   // "[object Object]" — khó đoán
-1 == "1";  // true — khác kiểu vẫn bằng nhau
+"5" + 3; // "53" — nối chuỗi, KHÔNG phải 8
+"5" - 3; // 2    — cùng dữ liệu nhưng lại ra số
+[] + {}; // "[object Object]" — khó đoán
+1 == "1"; // true — khác kiểu vẫn bằng nhau
 ```
 
 **Giải pháp:**
@@ -62,12 +62,12 @@ JavaScript **tự động ép kiểu** (implicit coercion) trong rất nhiều p
 Hiểu quy tắc coercion và chủ động **ép kiểu tường minh** (explicit), dùng `===` thay cho `==` để JavaScript không phải "đoán" giúp bạn.
 
 ```js
-Number("5") + 3;          // 8    — ép sang số trước khi cộng
-String(42) + " điểm";     // "42 điểm"
-Boolean(0);               // false — kiểm soát truthy/falsy
-parseInt("42px", 10);     // 42   — đọc số từ chuỗi có hậu tố
+Number("5") + 3; // 8    — ép sang số trước khi cộng
+String(42) + " điểm"; // "42 điểm"
+Boolean(0); // false — kiểm soát truthy/falsy
+parseInt("42px", 10); // 42   — đọc số từ chuỗi có hậu tố
 
-1 === "1";                // false — so sánh đúng kiểu, an toàn
+1 === "1"; // false — so sánh đúng kiểu, an toàn
 ```
 
 :::tip[Dùng thực tế]
@@ -83,11 +83,11 @@ parseInt("42px", 10);     // 42   — đọc số từ chuỗi có hậu tố
 
 ## Conversion vs Coercion
 
-| | Type Conversion | Type Coercion |
-|--|----------------|---------------|
-| Cách gọi | Explicit (tường minh) | Implicit (ngầm) |
-| Ai làm | Lập trình viên | JavaScript engine |
-| Ví dụ | `Number("42")` | `"42" * 1` |
+|          | Type Conversion       | Type Coercion     |
+| -------- | --------------------- | ----------------- |
+| Cách gọi | Explicit (tường minh) | Implicit (ngầm)   |
+| Ai làm   | Lập trình viên        | JavaScript engine |
+| Ví dụ    | `Number("42")`        | `"42" * 1`        |
 
 Cả hai đều chuyển kiểu, nhưng **conversion là chủ ý**, **coercion là tự động**.
 
@@ -98,47 +98,47 @@ Cả hai đều chuyển kiểu, nhưng **conversion là chủ ý**, **coercion 
 **Convert sang Number:**
 
 ```js
-Number("42");      // 42
-Number("42px");    // NaN
-Number("");        // 0
-Number(true);      // 1
-Number(false);     // 0
-Number(null);      // 0
+Number("42"); // 42
+Number("42px"); // NaN
+Number(""); // 0
+Number(true); // 1
+Number(false); // 0
+Number(null); // 0
 Number(undefined); // NaN
-Number([1]);       // 1
-Number([1, 2]);    // NaN
-Number({});        // NaN
+Number([1]); // 1
+Number([1, 2]); // NaN
+Number({}); // NaN
 
-parseInt("42px");  // 42 — chấp nhận trailing
+parseInt("42px"); // 42 — chấp nhận trailing
 parseFloat("3.14abc"); // 3.14
 ```
 
 **Convert sang String:**
 
 ```js
-String(42);        // "42"
-String(true);      // "true"
-String(null);      // "null"
+String(42); // "42"
+String(true); // "true"
+String(null); // "null"
 String(undefined); // "undefined"
-String([1, 2]);    // "1,2"
-String({});        // "[object Object]"
+String([1, 2]); // "1,2"
+String({}); // "[object Object]"
 
-(42).toString();   // "42"
-(42).toString(2);  // "101010" — binary
+(42).toString(); // "42"
+(42).toString(2); // "101010" — binary
 (42).toString(16); // "2a" — hex
 ```
 
 **Convert sang Boolean:**
 
 ```js
-Boolean(0);     // false
-Boolean("");    // false
-Boolean(null);  // false
-Boolean(NaN);   // false
-Boolean({});    // true (mọi object đều truthy)
-Boolean([]);    // true (kể cả array rỗng)
+Boolean(0); // false
+Boolean(""); // false
+Boolean(null); // false
+Boolean(NaN); // false
+Boolean({}); // true (mọi object đều truthy)
+Boolean([]); // true (kể cả array rỗng)
 
-!!"hello";      // true (idiom)
+!!"hello"; // true (idiom)
 ```
 
 :::info[Phân tích]
@@ -165,8 +165,12 @@ Mọi giá trị khác đều **truthy** — bao gồm:
 Đây là nguồn gốc nhiều bug — đặc biệt với `[]` và `{}`:
 
 ```js
-if ([] == false) { /* true! */ }
-if ([]) { /* cũng true! */ }
+if ([] == false) {
+  /* true! */
+}
+if ([]) {
+  /* cũng true! */
+}
 ```
 
 Nhớ thuộc lòng 8 falsy values là kiến thức nền tảng để đoán đúng coercion.
@@ -180,20 +184,22 @@ Nhớ thuộc lòng 8 falsy values là kiến thức nền tảng để đoán �
 JS tự động convert khi cần:
 
 ```js
-"5" + 3;      // "53" — string concat
-"5" - 3;      // 2 — số học, "5" → 5
-"5" * "2";    // 10
-"abc" - 1;    // NaN
+"5" + 3; // "53" — string concat
+"5" - 3; // 2 — số học, "5" → 5
+"5" * "2"; // 10
+"abc" - 1; // NaN
 
-1 + null;     // 1 (null → 0)
+1 + null; // 1 (null → 0)
 1 + undefined; // NaN
 
-[] + [];      // "" — cả hai thành ""
-[] + {};      // "[object Object]"
-{} + [];      // 0 (trong console — {} bị parse là block)
+[] + []; // "" — cả hai thành ""
+[] + {}; // "[object Object]"
+{
+}
++[]; // 0 (trong console — {} bị parse là block)
 
-true + 1;     // 2
-false + 1;    // 1
+true + 1; // 2
+false + 1; // 1
 ```
 
 :::warning[Cần lưu ý]
@@ -204,9 +210,9 @@ false + 1;    // 1
 - Ngược lại → cộng số.
 
 ```js
-1 + 2;       // 3
-1 + "2";     // "12"
-"1" + 2;     // "12"
+1 + 2; // 3
+1 + "2"; // "12"
+"1" + 2; // "12"
 1 + 2 + "3"; // "33" — trái sang phải: (1+2) + "3"
 "1" + 2 + 3; // "123" — đã thành string từ đầu
 ```
@@ -233,14 +239,14 @@ Các toán tử khác (`-`, `*`, `/`, `%`, `**`) **luôn cố convert sang numbe
 `==` (loose equality) áp dụng **coercion** khi hai vế khác kiểu:
 
 ```js
-1 == "1";        // true
-0 == false;      // true
-0 == "";         // true
+1 == "1"; // true
+0 == false; // true
+0 == ""; // true
 null == undefined; // true
-null == 0;       // false (!)
-"" == 0;         // true (!)
-[] == false;     // true
-[1] == 1;        // true
+null == 0; // false (!)
+"" == 0; // true (!)
+[] == false; // true
+[1] == 1; // true
 ```
 
 Quy tắc cơ bản (đơn giản hoá):
@@ -261,7 +267,9 @@ Quy tắc thực tế: **luôn dùng `===`** trong code mới. ESLint rule `eqeq
 
 ```js
 // Kiểm tra "null hoặc undefined" trong một dòng
-if (value == null) { /* ... */ }
+if (value == null) {
+  /* ... */
+}
 // Tương đương: value === null || value === undefined
 ```
 
@@ -275,17 +283,20 @@ if (value == null) { /* ... */ }
 
 ```js
 // Tệ
-if (count == "0") {}
+if (count == "0") {
+}
 
 // Tốt
-if (count === 0) {}
+if (count === 0) {
+}
 ```
 
 **2. Convert tường minh trước khi so sánh**:
 
 ```js
 const input = "42";
-if (Number(input) > 10) {}  // rõ ràng
+if (Number(input) > 10) {
+} // rõ ràng
 ```
 
 **3. Validate đầu vào tại boundary**:
@@ -311,6 +322,7 @@ const total = items.reduce((sum, item) => sum + item.price, 0);
 Khi viết TypeScript, coercion implicit gần như biến mất — TS bắt mọi trường hợp khác kiểu tại compile time. Đây là một trong những lý do project lớn nên migrate sang TS.
 
 Nhưng vẫn cần hiểu coercion vì:
+
 - Code review JS thuần.
 - Đọc thư viện cũ.
 - Debug khi data từ API về có kiểu sai.
@@ -331,15 +343,15 @@ Những câu thường gặp về chủ đề này. Tự trả lời trước, r
 
 Cả hai đều là chuyển giá trị từ kiểu này sang kiểu khác, khác nhau ở **ai chủ động**:
 
-| | Type Conversion | Type Coercion |
-|---|---|---|
-| Cách gọi | Explicit (tường minh) | Implicit (ngầm) |
-| Ai làm | Lập trình viên viết ra | JavaScript engine tự làm |
-| Ví dụ | `Number("42")`, `String(42)`, `Boolean(0)` | `"42" * 1`, `"5" + 3`, `if (value)` |
+|          | Type Conversion                            | Type Coercion                       |
+| -------- | ------------------------------------------ | ----------------------------------- |
+| Cách gọi | Explicit (tường minh)                      | Implicit (ngầm)                     |
+| Ai làm   | Lập trình viên viết ra                     | JavaScript engine tự làm            |
+| Ví dụ    | `Number("42")`, `String(42)`, `Boolean(0)` | `"42" * 1`, `"5" + 3`, `if (value)` |
 
 ```js
-Number("42") + 1;  // 43 — conversion: mình chủ động ép
-"42" * 1;          // 42 — coercion: engine tự ép "42" sang số
+Number("42") + 1; // 43 — conversion: mình chủ động ép
+"42" * 1; // 42 — coercion: engine tự ép "42" sang số
 ```
 
 Coercion xảy ra khi engine gặp một toán tử/ngữ cảnh đòi hỏi kiểu cụ thể (`-`, `*`, `if`, `==`...) mà giá trị lại không đúng kiểu đó, nên nó tự "đoán" giúp. Đây chính là nguồn gốc của phần lớn bug khó truy vết. Nguyên tắc thực hành: **luôn ưu tiên conversion** để code nói rõ ý định, và dùng `===` để engine không phải đoán.
@@ -357,10 +369,14 @@ Coercion xảy ra khi engine gặp một toán tử/ngữ cảnh đòi hỏi ki�
 - `[]` là **object**, và mọi object đều truthy, kể cả array rỗng hay `{}`. Không có bước "xem bên trong có phần tử không".
 
 ```js
-Boolean("0");   // true
-Boolean([]);    // true
-if ([] == false) { /* true! — vì == ép [] về "" rồi về 0 */ }
-if ([]) { /* cũng chạy — vì Boolean([]) là true */ }
+Boolean("0"); // true
+Boolean([]); // true
+if ([] == false) {
+  /* true! — vì == ép [] về "" rồi về 0 */
+}
+if ([]) {
+  /* cũng chạy — vì Boolean([]) là true */
+}
 ```
 
 Hai dòng cuối là bẫy kinh điển: `[]` vừa truthy vừa `== false`, vì hai ngữ cảnh dùng hai thuật toán ép kiểu khác nhau.
@@ -377,8 +393,8 @@ Vì `+` trong JavaScript **mang hai nghĩa**: cộng số và nối chuỗi. Quy
 Các toán tử `-`, `*`, `/`, `%`, `**` **không có nghĩa thứ hai** — chúng luôn ép cả hai vế sang number.
 
 ```js
-"5" + 3;   // "53" — có string → concat: "5" + "3"
-"5" - 3;   // 2    — ép số: 5 - 3
+"5" + 3; // "53" — có string → concat: "5" + "3"
+"5" - 3; // 2    — ép số: 5 - 3
 "5" * "2"; // 10
 "abc" - 1; // NaN  — "abc" ép sang số ra NaN
 ```
@@ -393,8 +409,8 @@ Hệ quả thực tế: dữ liệu từ form/API là string mà đem `+` thì �
 <summary>Xem đáp án</summary>
 
 ```js
-1 + 2 + "3";  // "33"
-"1" + 2 + 3;  // "123"
+1 + 2 + "3"; // "33"
+"1" + 2 + 3; // "123"
 ```
 
 Toán tử `+` có **tính kết hợp trái sang phải**, nên biểu thức được tính theo từng cặp:
@@ -405,7 +421,7 @@ Toán tử `+` có **tính kết hợp trái sang phải**, nên biểu thức �
 Bài học: chỉ cần **một string xuất hiện sớm** là toàn bộ chuỗi phép `+` phía sau bị "nhiễm" thành nối chuỗi. Đây chính là bug hay gặp trong `reduce` khi tính tổng:
 
 ```js
-[{price: "10"}, {price: 5}].reduce((s, i) => s + i.price, 0); // "0105"
+[{ price: "10" }, { price: 5 }].reduce((s, i) => s + i.price, 0); // "0105"
 ```
 
 </details>
@@ -416,16 +432,16 @@ Bài học: chỉ cần **một string xuất hiện sớm** là toàn bộ chu�
 <summary>Xem đáp án</summary>
 
 ```js
-Number("42px");         // NaN
-parseInt("42px", 10);   // 42
-parseFloat("3.14abc");  // 3.14
+Number("42px"); // NaN
+parseInt("42px", 10); // 42
+parseFloat("3.14abc"); // 3.14
 ```
 
-| Hàm | Cách hoạt động |
-|---|---|
-| `Number(x)` | Ép **toàn bộ** chuỗi; chỉ cần một ký tự thừa là ra `NaN` (`Number("") === 0`) |
-| `parseInt(s, radix)` | Đọc từ trái sang, **lấy phần số nguyên đầu tiên rồi dừng** khi gặp ký tự lạ |
-| `parseFloat(s)` | Giống `parseInt` nhưng giữ cả phần thập phân |
+| Hàm                  | Cách hoạt động                                                                |
+| -------------------- | ----------------------------------------------------------------------------- |
+| `Number(x)`          | Ép **toàn bộ** chuỗi; chỉ cần một ký tự thừa là ra `NaN` (`Number("") === 0`) |
+| `parseInt(s, radix)` | Đọc từ trái sang, **lấy phần số nguyên đầu tiên rồi dừng** khi gặp ký tự lạ   |
+| `parseFloat(s)`      | Giống `parseInt` nhưng giữ cả phần thập phân                                  |
 
 Dùng `parseInt`/`parseFloat` khi chuỗi **cố ý có hậu tố** — ví dụ đọc `"42px"` từ CSS, `"10kg"`, `"3.5em"`. Dùng `Number()` khi bạn muốn **validate nghiêm ngặt**: dữ liệu phải là số sạch, sai một ký tự là biết ngay qua `NaN`. Lưu ý luôn truyền `radix` cho `parseInt` (`parseInt(s, 10)`) để tránh hiểu nhầm hệ cơ số.
 
@@ -437,9 +453,9 @@ Dùng `parseInt`/`parseFloat` khi chuỗi **cố ý có hậu tố** — ví d�
 <summary>Xem đáp án</summary>
 
 ```js
-Number("");        // 0
-Number("   ");     // 0 — chuỗi toàn khoảng trắng cũng vậy
-Number(null);      // 0
+Number(""); // 0
+Number("   "); // 0 — chuỗi toàn khoảng trắng cũng vậy
+Number(null); // 0
 Number(undefined); // NaN
 ```
 
@@ -468,12 +484,16 @@ Khi cần một primitive từ object, engine gọi thuật toán nội bộ **`
 
 ```js
 const money = {
-  valueOf() { return 100; },
-  toString() { return "một trăm"; }
+  valueOf() {
+    return 100;
+  },
+  toString() {
+    return "một trăm";
+  },
 };
-money - 0;        // 100 — hint "number" → valueOf()
-`${money}`;       // "một trăm" — hint "string" → toString()
-money + "";       // "100" — toán tử + dùng hint "default" → valueOf()
+money - 0; // 100 — hint "number" → valueOf()
+`${money}`; // "một trăm" — hint "string" → toString()
+money + ""; // "100" — toán tử + dùng hint "default" → valueOf()
 ```
 
 Object thường (`{}`) không override gì nên `valueOf()` trả về chính nó (không phải primitive) → rơi xuống `toString()` → `"[object Object]"`.
@@ -486,10 +506,10 @@ Object thường (`{}`) không override gì nên `valueOf()` trả về chính n
 <summary>Xem đáp án</summary>
 
 ```js
-Number([]);      // 0
-Number([1]);     // 1
-Number([1, 2]);  // NaN
-Number({});      // NaN
+Number([]); // 0
+Number([1]); // 1
+Number([1, 2]); // NaN
+Number({}); // NaN
 ```
 
 Cả bốn đều đi qua `ToPrimitive` với hint `"number"`: gọi `valueOf()` trước — array và object thường trả về **chính nó** (không phải primitive) — nên rơi xuống `toString()`:
@@ -511,8 +531,8 @@ Mẹo nhớ: array ép về số thực chất là **`join(",")` rồi ép chu�
 Toán tử `+` ép cả hai vế về primitive với hint `"default"`, mà array/object đều ra **string**. Khi đã có string, `+` chuyển sang nối chuỗi:
 
 ```js
-[] + [];   // "" + ""                → ""
-[] + {};   // "" + "[object Object]" → "[object Object]"
+[] + []; // "" + ""                → ""
+[] + {}; // "" + "[object Object]" → "[object Object]"
 ```
 
 - `[].toString()` là `""` (array rỗng join ra chuỗi rỗng).
@@ -521,8 +541,10 @@ Toán tử `+` ép cả hai vế về primitive với hint `"default"`, mà arra
 **Trường hợp `{} + []` trong console** lại ra `0`, không phải `"[object Object]"` — nhưng lý do không nằm ở coercion mà ở **parsing**. Ở vị trí đầu câu lệnh, `{}` được parser hiểu là một **block rỗng**, không phải object literal. Phần còn lại `+[]` trở thành **toán tử `+` một ngôi**, ép `[]` về số: `+""` → `0`.
 
 ```js
-{} + [];          // 0 — {} là block, +[] là unary plus
-({}) + [];        // "[object Object]" — bọc ngoặc thì {} là object
+{
+}
++[]; // 0 — {} là block, +[] là unary plus
+({}) + []; // "[object Object]" — bọc ngoặc thì {} là object
 console.log({} + []); // "[object Object]" — trong ngữ cảnh biểu thức
 ```
 
@@ -539,15 +561,21 @@ Hai ngữ cảnh dùng **hai thuật toán khác nhau**:
 - `value == true` → so sánh lỏng. Vế `true` là boolean nên **bị ép sang number `1`** trước, rồi `value` cũng bị ép về number để so sánh. Đây là đường đi qua `ToNumber`, hoàn toàn khác `ToBoolean`.
 
 ```js
-if ("0") { /* chạy — "0" truthy */ }
-"0" == true;     // false — 0 == 1
+if ("0") {
+  /* chạy — "0" truthy */
+}
+"0" == true; // false — 0 == 1
 
-if ([]) { /* chạy — object luôn truthy */ }
-[] == true;      // false — 0 == 1
-[] == false;     // true  — 0 == 0
+if ([]) {
+  /* chạy — object luôn truthy */
+}
+[] == true; // false — 0 == 1
+[] == false; // true  — 0 == 0
 
-if ("1") { /* chạy */ }
-"1" == true;     // true — 1 == 1
+if ("1") {
+  /* chạy */
+}
+"1" == true; // true — 1 == 1
 ```
 
 Kết luận: **đừng bao giờ viết `x == true`**. Nếu muốn kiểm tra truthy thì dùng thẳng `if (x)`; nếu muốn đúng giá trị boolean thì dùng `x === true`.
@@ -573,9 +601,9 @@ Kết luận: **đừng bao giờ viết `x == true`**. Nếu muốn kiểm tra 
 2. So sánh chuỗi theo từng ký tự: `""` có độ dài 0, `"0"` có độ dài 1 → khác nhau → **`false`**.
 
 ```js
-"" == 0;    // true  — ép "" về 0
-"" == "0";  // false — cùng kiểu, so sánh chuỗi
-0 == "0";   // true  — ép "0" về 0
+"" == 0; // true  — ép "" về 0
+"" == "0"; // false — cùng kiểu, so sánh chuỗi
+0 == "0"; // true  — ép "0" về 0
 ```
 
 Ba dòng trên cho thấy `==` **không có tính bắc cầu**: `"" == 0` và `0 == "0"` đều true, nhưng `"" == "0"` lại false. Một quan hệ "bằng nhau" mà mất tính bắc cầu thì không đáng tin — lý do rất mạnh để luôn dùng `===`.
@@ -593,15 +621,17 @@ Spec ECMAScript xử lý cặp này như một **trường hợp đặc biệt �
 
 ```js
 null == undefined; // true  — hard-code trong spec
-null == 0;         // false — null không coerce sang số ở đây
-null >= 0;         // true (!) — toán tử so sánh lại dùng ToNumber: 0 >= 0
-Number(null);      // 0 — ép tường minh thì null vẫn ra 0
+null == 0; // false — null không coerce sang số ở đây
+null >= 0; // true (!) — toán tử so sánh lại dùng ToNumber: 0 >= 0
+Number(null); // 0 — ép tường minh thì null vẫn ra 0
 ```
 
 Ứng dụng duy nhất đáng giữ của `==`:
 
 ```js
-if (value == null) { /* bắt cả null lẫn undefined trong một dòng */ }
+if (value == null) {
+  /* bắt cả null lẫn undefined trong một dòng */
+}
 ```
 
 </details>
@@ -614,23 +644,23 @@ if (value == null) { /* bắt cả null lẫn undefined trong một dòng */ }
 `NaN` (Not-a-Number) là giá trị đặc biệt thuộc kiểu **number**, sinh ra khi một phép toán số học **không cho kết quả số hợp lệ**: ép chuỗi không phải số (`Number("42px")`), phép toán vô nghĩa (`"abc" - 1`, `0/0`, `Math.sqrt(-1)`), hoặc lan truyền từ một `NaN` khác.
 
 ```js
-typeof NaN;        // "number" — nghe vô lý nhưng đúng theo IEEE 754
-NaN === NaN;       // false — NaN không bằng chính nó
+typeof NaN; // "number" — nghe vô lý nhưng đúng theo IEEE 754
+NaN === NaN; // false — NaN không bằng chính nó
 ```
 
 Vì `NaN !== NaN`, không thể kiểm tra bằng `===`. Có hai hàm:
 
-| Hàm | Hành vi |
-|---|---|
-| `isNaN(x)` | **Ép `x` sang number trước** rồi mới kiểm tra → báo `true` cho cả thứ không phải `NaN` |
-| `Number.isNaN(x)` | Không ép kiểu; chỉ `true` khi `x` **đúng là** giá trị `NaN` |
+| Hàm               | Hành vi                                                                                |
+| ----------------- | -------------------------------------------------------------------------------------- |
+| `isNaN(x)`        | **Ép `x` sang number trước** rồi mới kiểm tra → báo `true` cho cả thứ không phải `NaN` |
+| `Number.isNaN(x)` | Không ép kiểu; chỉ `true` khi `x` **đúng là** giá trị `NaN`                            |
 
 ```js
-isNaN("abc");         // true
-isNaN("42px");        // true
-isNaN({});            // true — nhưng {} đâu phải NaN!
-Number.isNaN("abc");  // false — chính xác
-Number.isNaN(NaN);    // true
+isNaN("abc"); // true
+isNaN("42px"); // true
+isNaN({}); // true — nhưng {} đâu phải NaN!
+Number.isNaN("abc"); // false — chính xác
+Number.isNaN(NaN); // true
 ```
 
 Luôn dùng `Number.isNaN()` (hoặc `Number.isFinite()`) trong code mới.
@@ -652,15 +682,15 @@ Khác nhau ở **mục đích sử dụng**:
 
 ```js
 Boolean("hello"); // true
-!!"hello";        // true
-!!0;              // false
+!!"hello"; // true
+!!0; // false
 ```
 
 `!!` thành idiom vì nó **ngắn, không cần gọi hàm** và rất tiện khi cần chuẩn hoá giá trị trả về:
 
 ```js
-const hasItems = !!list.length;     // trả boolean thật, không phải số
-return { isValid: !!user?.email };  // tránh lọt undefined ra API response
+const hasItems = !!list.length; // trả boolean thật, không phải số
+return { isValid: !!user?.email }; // tránh lọt undefined ra API response
 ```
 
 Nhược điểm là hơi khó đọc với người mới; nhiều team quy ước dùng `Boolean(x)` cho rõ nghĩa.

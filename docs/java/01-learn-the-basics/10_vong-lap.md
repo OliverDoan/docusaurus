@@ -1,6 +1,6 @@
 ---
 sidebar_position: 10
-title: "10. Vòng lặp (Loops)"
+title: "✅ 10. Vòng lặp (Loops)"
 ---
 
 # Vòng lặp (Loops)

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: "2. Object và typeof"
+title: "⭐ 2. Object và typeof"
 ---
 
 # Object và typeof
@@ -44,9 +44,9 @@ function shout(value) {
   return value.toUpperCase(); // chỉ hợp lệ với string
 }
 
-shout("hi");  // "HI"
-shout(42);    // TypeError: value.toUpperCase is not a function
-shout(null);  // TypeError: Cannot read properties of null
+shout("hi"); // "HI"
+shout(42); // TypeError: value.toUpperCase is not a function
+shout(null); // TypeError: Cannot read properties of null
 ```
 
 **Giải pháp:** Toán tử `typeof` ra đời để **kiểm tra kiểu lúc chạy** trước khi xử lý. Nhưng nó có vài quirk lịch sử cần nhớ: `typeof null === "object"` (bug giữ lại để tương thích) và `typeof [] === "object"` (mảng cũng là object) — nên muốn nhận diện mảng phải dùng `Array.isArray()`.
@@ -57,10 +57,10 @@ function shout(value) {
   return value.toUpperCase();
 }
 
-typeof null;            // "object" — quirk, KHÔNG phải "null"
-typeof [];              // "object" — mảng vẫn là object
-Array.isArray([1, 2]);  // true  — cách đúng để nhận diện mảng
-Array.isArray({});      // false
+typeof null; // "object" — quirk, KHÔNG phải "null"
+typeof []; // "object" — mảng vẫn là object
+Array.isArray([1, 2]); // true  — cách đúng để nhận diện mảng
+Array.isArray({}); // false
 ```
 
 :::tip[Dùng thực tế]
@@ -121,9 +121,9 @@ console.log(a.user.name); // "Bình" — bị thay đổi!
 Deep copy:
 
 ```js
-const c = structuredClone(a);   // built-in từ Node 17, browser hiện đại
+const c = structuredClone(a); // built-in từ Node 17, browser hiện đại
 c.user.name = "Cường";
-console.log(a.user.name);       // "An" — không bị ảnh hưởng
+console.log(a.user.name); // "An" — không bị ảnh hưởng
 ```
 
 `JSON.parse(JSON.stringify(a))` cũng deep copy nhưng **mất** function, `Date`, `Map`, `Set`, `undefined`, circular reference. Dùng `structuredClone` an toàn hơn.
@@ -139,9 +139,9 @@ Hai cú pháp:
 ```js
 const user = { name: "An", "full-name": "An Nguyễn" };
 
-user.name;          // dot notation
-user["name"];       // bracket notation
-user["full-name"];  // bracket cho key không hợp lệ với dot
+user.name; // dot notation
+user["name"]; // bracket notation
+user["full-name"]; // bracket cho key không hợp lệ với dot
 ```
 
 Dùng bracket khi:
@@ -182,17 +182,17 @@ const obj = {
 `typeof` trả về **chuỗi** mô tả kiểu.
 
 ```js
-typeof "hi";       // "string"
-typeof 42;         // "number"
-typeof true;       // "boolean"
-typeof undefined;  // "undefined"
-typeof 10n;        // "bigint"
-typeof Symbol();   // "symbol"
-typeof function(){}; // "function"
+typeof "hi"; // "string"
+typeof 42; // "number"
+typeof true; // "boolean"
+typeof undefined; // "undefined"
+typeof 10n; // "bigint"
+typeof Symbol(); // "symbol"
+typeof function () {}; // "function"
 
-typeof null;       // "object" — BUG lịch sử
-typeof [];         // "object"
-typeof {};         // "object"
+typeof null; // "object" — BUG lịch sử
+typeof []; // "object"
+typeof {}; // "object"
 ```
 
 :::info[Phân tích]
@@ -226,8 +226,8 @@ function getType(v) {
 Hoặc dùng `Object.prototype.toString.call`:
 
 ```js
-Object.prototype.toString.call(null);       // "[object Null]"
-Object.prototype.toString.call([]);         // "[object Array]"
+Object.prototype.toString.call(null); // "[object Null]"
+Object.prototype.toString.call([]); // "[object Array]"
 Object.prototype.toString.call(new Date()); // "[object Date]"
 ```
 
@@ -242,15 +242,15 @@ Object.prototype.toString.call(new Date()); // "[object Date]"
 ```js
 const user = { name: "An" };
 
-"name" in user;       // true
-"toString" in user;   // true — kế thừa từ Object.prototype
+"name" in user; // true
+"toString" in user; // true — kế thừa từ Object.prototype
 ```
 
 `Object.hasOwn` (ES2022) — chỉ kiểm tra **own property**, không tính prototype:
 
 ```js
-Object.hasOwn(user, "name");      // true
-Object.hasOwn(user, "toString");  // false
+Object.hasOwn(user, "name"); // true
+Object.hasOwn(user, "toString"); // false
 ```
 
 :::tip[Mẹo]
@@ -288,13 +288,15 @@ Những câu thường gặp về chủ đề này. Tự trả lời trước, r
 Khác biệt cốt lõi nằm ở **cách lưu**: biến primitive giữ luôn giá trị, còn biến object chỉ giữ **tham chiếu** (địa chỉ) tới vùng nhớ chứa object. Vì vậy object được gọi là **reference type**:
 
 ```js
-let a = 1, b = a;
+let a = 1,
+  b = a;
 b = 2;
-console.log(a);       // 1 — copy giá trị
+console.log(a); // 1 — copy giá trị
 
-const o1 = { x: 1 }, o2 = o1;
+const o1 = { x: 1 },
+  o2 = o1;
 o2.x = 2;
-console.log(o1.x);    // 2 — copy tham chiếu, cùng một object
+console.log(o1.x); // 2 — copy tham chiếu, cùng một object
 
 console.log({ x: 1 } === { x: 1 }); // false — khác tham chiếu
 ```
@@ -312,8 +314,8 @@ Output: **`2`**.
 
 ```js
 const a = { x: 1 };
-const b = a;   // KHÔNG tạo object mới — b giữ cùng tham chiếu với a
-b.x = 2;       // sửa property của object mà cả hai cùng trỏ tới
+const b = a; // KHÔNG tạo object mới — b giữ cùng tham chiếu với a
+b.x = 2; // sửa property của object mà cả hai cùng trỏ tới
 console.log(a.x); // 2
 ```
 
@@ -324,9 +326,9 @@ Lý do: object là **reference type**. Dòng `const b = a` chỉ copy **địa c
 Muốn `a` không bị ảnh hưởng thì phải copy thật:
 
 ```js
-const b = { ...a };  // shallow copy — b là object mới
+const b = { ...a }; // shallow copy — b là object mới
 b.x = 2;
-console.log(a.x);    // 1
+console.log(a.x); // 1
 ```
 
 </details>
@@ -344,7 +346,7 @@ Vì vậy `obj[1]` và `obj["1"]` là **cùng một property** — số `1` đư
 const obj = {};
 obj[1] = "a";
 obj["1"] = "b";
-console.log(obj[1]);          // "b" — ghi đè lên cùng key
+console.log(obj[1]); // "b" — ghi đè lên cùng key
 console.log(Object.keys(obj)); // ["1"] — key là string
 ```
 
@@ -354,9 +356,9 @@ console.log(Object.keys(obj)); // ["1"] — key là string
 const id = Symbol("id");
 const user = { name: "An", [id]: 123 };
 
-Object.keys(user);          // ["name"] — không thấy symbol
-JSON.stringify(user);       // '{"name":"An"}'
-user[id];                   // 123 — vẫn truy cập được
+Object.keys(user); // ["name"] — không thấy symbol
+JSON.stringify(user); // '{"name":"An"}'
+user[id]; // 123 — vẫn truy cập được
 Object.getOwnPropertySymbols(user); // [Symbol(id)]
 ```
 
@@ -381,11 +383,11 @@ Dot notation chỉ dùng được khi key là một **identifier hợp lệ** vi
 const user = { name: "An", "full-name": "An Nguyễn" };
 
 const key = "name";
-user.key;        // undefined — tìm property tên đúng là "key"
-user[key];       // "An"     — lấy giá trị của biến key
+user.key; // undefined — tìm property tên đúng là "key"
+user[key]; // "An"     — lấy giá trị của biến key
 
-user["full-name"];          // "An Nguyễn"
-user[`user_${1}`] = true;   // key ghép động
+user["full-name"]; // "An Nguyễn"
+user[`user_${1}`] = true; // key ghép động
 ```
 
 Lỗi kinh điển của người mới: dùng `obj.key` khi `key` là biến. Nhớ quy tắc — **dot lấy tên chữ, bracket lấy giá trị biểu thức**.
@@ -401,13 +403,13 @@ Lỗi kinh điển của người mới: dùng `obj.key` khi `key` là biến. N
 
 ```js
 const key = "name";
-const user = { [key]: "An" };   // { name: "An" }
+const user = { [key]: "An" }; // { name: "An" }
 
 const prefix = "user_";
 const obj = {
   [`${prefix}id`]: 1,
   [`${prefix}name`]: "An",
-};                              // { user_id: 1, user_name: "An" }
+}; // { user_id: 1, user_name: "An" }
 ```
 
 Trước ES6 phải tạo object rỗng rồi gán từng key bằng bracket — dài dòng và không dùng được trong literal.
@@ -436,10 +438,10 @@ const a = { x: 1, user: { name: "An" } };
 const b = { ...a };
 
 b.x = 99;
-console.log(a.x);           // 1   — tầng 1 độc lập
+console.log(a.x); // 1   — tầng 1 độc lập
 
 b.user.name = "Bình";
-console.log(a.user.name);   // "Bình" — tầng 2 dùng chung tham chiếu!
+console.log(a.user.name); // "Bình" — tầng 2 dùng chung tham chiếu!
 ```
 
 Muốn độc lập hoàn toàn, dùng `structuredClone`:
@@ -447,7 +449,7 @@ Muốn độc lập hoàn toàn, dùng `structuredClone`:
 ```js
 const c = structuredClone(a);
 c.user.name = "Cường";
-console.log(a.user.name);   // "An"
+console.log(a.user.name); // "An"
 ```
 
 Đây là nguồn bug rất hay gặp khi làm việc với state lồng nhau (React, Redux) — tưởng đã copy an toàn nhưng vẫn vô tình mutate dữ liệu gốc.
@@ -459,14 +461,14 @@ console.log(a.user.name);   // "An"
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| Tiêu chí | `structuredClone` | `JSON.parse(JSON.stringify(...))` |
-|---|---|---|
-| Hỗ trợ | Built-in từ Node 17 và trình duyệt hiện đại | Chạy ở mọi nơi |
-| `Date` | Giữ nguyên là `Date` | Biến thành **string** |
-| `Map`, `Set` | Clone đúng | **Mất** — thành `{}` |
+| Tiêu chí                          | `structuredClone`                             | `JSON.parse(JSON.stringify(...))`          |
+| --------------------------------- | --------------------------------------------- | ------------------------------------------ |
+| Hỗ trợ                            | Built-in từ Node 17 và trình duyệt hiện đại   | Chạy ở mọi nơi                             |
+| `Date`                            | Giữ nguyên là `Date`                          | Biến thành **string**                      |
+| `Map`, `Set`                      | Clone đúng                                    | **Mất** — thành `{}`                       |
 | `undefined`, `function`, `symbol` | `undefined` giữ được; function/symbol gây lỗi | Bị **bỏ qua** hoặc thành `null` trong mảng |
-| `NaN`, `Infinity` | Giữ nguyên | Thành `null` |
-| Circular reference | Xử lý được | Ném `TypeError` |
+| `NaN`, `Infinity`                 | Giữ nguyên                                    | Thành `null`                               |
+| Circular reference                | Xử lý được                                    | Ném `TypeError`                            |
 
 ```js
 const a = { d: new Date(), s: new Set([1]), u: undefined, n: NaN };
@@ -488,11 +490,11 @@ Kết luận: `structuredClone` là lựa chọn mặc định. Hai giới hạn
 <summary>Xem đáp án</summary>
 
 ```js
-typeof null;          // "object"   — quirk, KHÔNG phải "null"
-typeof [];            // "object"   — mảng cũng là object
-typeof {};            // "object"
-typeof function(){};  // "function" — ngoại lệ đặc biệt
-typeof NaN;           // "number"   — NaN là một giá trị số
+typeof null; // "object"   — quirk, KHÔNG phải "null"
+typeof []; // "object"   — mảng cũng là object
+typeof {}; // "object"
+typeof function () {}; // "function" — ngoại lệ đặc biệt
+typeof NaN; // "number"   — NaN là một giá trị số
 ```
 
 **Vì sao `typeof null === "object"`?** Đây là **bug lịch sử** từ bản JS đầu tiên năm 1995: trong implementation gốc, kiểu của giá trị được mã hoá ở **3 bit đầu** của con trỏ. Object mang tag `000`, còn `null` được biểu diễn bằng pointer `0x00` — cũng cho ra tag `000`. Vì thế `typeof null` rơi vào nhánh "object".
@@ -508,16 +510,16 @@ Hệ quả thực tế: không bao giờ dùng `typeof x === "object"` để k�
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| Cách | Ưu | Nhược |
-|---|---|---|
-| `Array.isArray(v)` | Chuẩn xác, hoạt động cả cross-realm (iframe) | Chỉ dùng cho mảng |
-| `v instanceof Date` | Đọc dễ, dùng được với mọi class | Sai khi giá trị đến từ realm khác; phụ thuộc prototype chain |
-| `Object.prototype.toString.call(v)` | Phân biệt được hầu hết built-in type bằng một hàm | Dài dòng; có thể bị `Symbol.toStringTag` giả mạo |
+| Cách                                | Ưu                                                | Nhược                                                        |
+| ----------------------------------- | ------------------------------------------------- | ------------------------------------------------------------ |
+| `Array.isArray(v)`                  | Chuẩn xác, hoạt động cả cross-realm (iframe)      | Chỉ dùng cho mảng                                            |
+| `v instanceof Date`                 | Đọc dễ, dùng được với mọi class                   | Sai khi giá trị đến từ realm khác; phụ thuộc prototype chain |
+| `Object.prototype.toString.call(v)` | Phân biệt được hầu hết built-in type bằng một hàm | Dài dòng; có thể bị `Symbol.toStringTag` giả mạo             |
 
 ```js
-Object.prototype.toString.call(null);       // "[object Null]"
-Object.prototype.toString.call([]);         // "[object Array]"
-Object.prototype.toString.call({});         // "[object Object]"
+Object.prototype.toString.call(null); // "[object Null]"
+Object.prototype.toString.call([]); // "[object Array]"
+Object.prototype.toString.call({}); // "[object Object]"
 Object.prototype.toString.call(new Date()); // "[object Date]"
 ```
 
@@ -549,8 +551,8 @@ const iframe = document.createElement("iframe");
 document.body.appendChild(iframe);
 const arr = new iframe.contentWindow.Array(1, 2, 3);
 
-arr instanceof Array;   // false — khác realm!
-Array.isArray(arr);     // true  — vẫn đúng
+arr instanceof Array; // false — khác realm!
+Array.isArray(arr); // true  — vẫn đúng
 ```
 
 `Array.isArray` được đặc tả ở mức thấp hơn: nó kiểm tra **internal slot** của giá trị chứ không dựa vào prototype, nên vượt qua được ranh giới realm.
@@ -568,10 +570,10 @@ Kết quả là chuỗi **`"undefined"`**, không ném lỗi:
 
 ```js
 console.log(typeof khongTonTai); // "undefined" — an toàn
-console.log(khongTonTai);        // ReferenceError: khongTonTai is not defined
+console.log(khongTonTai); // ReferenceError: khongTonTai is not defined
 ```
 
-`typeof` là toán tử **duy nhất** được đặc tả cho phép nhận một tham chiếu chưa resolve được mà vẫn trả kết quả thay vì ném lỗi. Trong spec, `typeof` không thực hiện `GetValue` theo cách thông thường khi toán hạng là một *unresolvable reference* — nó trả thẳng `"undefined"`.
+`typeof` là toán tử **duy nhất** được đặc tả cho phép nhận một tham chiếu chưa resolve được mà vẫn trả kết quả thay vì ném lỗi. Trong spec, `typeof` không thực hiện `GetValue` theo cách thông thường khi toán hạng là một _unresolvable reference_ — nó trả thẳng `"undefined"`.
 
 Mục đích thực tế: cho phép **dò xem một API có tồn tại hay không** mà không cần try/catch — rất hữu ích thời chưa có module:
 
@@ -595,22 +597,22 @@ let x = 1;
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| Cách | Xét prototype? | Sai ở đâu |
-|---|---|---|
-| `"k" in obj` | **Có** | Trả `true` với property kế thừa (`"toString" in obj`) — không phải lúc nào cũng mong muốn |
-| `Object.hasOwn(obj, "k")` | Không | Gần như không có nhược điểm; chỉ cần môi trường hỗ trợ ES2022 |
-| `obj.k !== undefined` | Có (đọc qua chain) | **Sai khi property tồn tại nhưng giá trị là `undefined`** |
+| Cách                      | Xét prototype?     | Sai ở đâu                                                                                 |
+| ------------------------- | ------------------ | ----------------------------------------------------------------------------------------- |
+| `"k" in obj`              | **Có**             | Trả `true` với property kế thừa (`"toString" in obj`) — không phải lúc nào cũng mong muốn |
+| `Object.hasOwn(obj, "k")` | Không              | Gần như không có nhược điểm; chỉ cần môi trường hỗ trợ ES2022                             |
+| `obj.k !== undefined`     | Có (đọc qua chain) | **Sai khi property tồn tại nhưng giá trị là `undefined`**                                 |
 
 ```js
 const user = { name: "An", nickname: undefined };
 
-"name" in user;                  // true
-"toString" in user;              // true — kế thừa từ Object.prototype
+"name" in user; // true
+"toString" in user; // true — kế thừa từ Object.prototype
 Object.hasOwn(user, "toString"); // false
 
-"nickname" in user;                  // true  — property có tồn tại
-Object.hasOwn(user, "nickname");     // true
-user.nickname !== undefined;         // false — kết luận SAI
+"nickname" in user; // true  — property có tồn tại
+Object.hasOwn(user, "nickname"); // true
+user.nickname !== undefined; // false — kết luận SAI
 ```
 
 Quy tắc chọn: muốn biết object **tự** có property → `Object.hasOwn`. Muốn biết truy cập được property (kể cả kế thừa từ class/prototype) → `in`. Còn `!== undefined` chỉ nên dùng khi bạn chắc chắn giá trị `undefined` không phải là dữ liệu hợp lệ.
@@ -628,8 +630,8 @@ Ba lý do:
 
 ```js
 const obj = { hasOwnProperty: () => false };
-obj.hasOwnProperty("a");        // false — luôn sai!
-Object.hasOwn(obj, "a");        // false (đúng), và không bị đánh lừa
+obj.hasOwnProperty("a"); // false — luôn sai!
+Object.hasOwn(obj, "a"); // false (đúng), và không bị đánh lừa
 ```
 
 **2. Dùng được với object không có prototype.** `Object.create(null)` tạo object "sạch" (hay dùng làm dictionary), nó **không hề có** `hasOwnProperty`:
@@ -637,8 +639,8 @@ Object.hasOwn(obj, "a");        // false (đúng), và không bị đánh lừa
 ```js
 const dict = Object.create(null);
 dict.a = 1;
-dict.hasOwnProperty("a");    // TypeError: is not a function
-Object.hasOwn(dict, "a");    // true
+dict.hasOwnProperty("a"); // TypeError: is not a function
+Object.hasOwn(dict, "a"); // true
 ```
 
 **3. Ngắn hơn cách viết an toàn cũ.** Trước ES2022 phải viết `Object.prototype.hasOwnProperty.call(obj, key)` — dài và khó đọc.
@@ -655,17 +657,17 @@ Object.hasOwn(dict, "a");    // true
 `?.` giải quyết việc truy cập sâu vào object có thể `null`/`undefined` mà không ném `TypeError`. Nếu toán hạng bên trái là `null` hoặc `undefined`, biểu thức **short-circuit** và trả về `undefined`:
 
 ```js
-user?.address?.city;      // undefined nếu user hoặc address là null/undefined
-user.getName?.();         // chỉ gọi nếu getName tồn tại
-arr?.[0];                 // optional với bracket
+user?.address?.city; // undefined nếu user hoặc address là null/undefined
+user.getName?.(); // chỉ gọi nếu getName tồn tại
+arr?.[0]; // optional với bracket
 ```
 
 **Khác gì `&&`?**
 
-| | `a && a.b` | `a?.b` |
-|---|---|---|
-| Điều kiện dừng | Mọi giá trị **falsy** (`0`, `""`, `NaN`, `false`...) | Chỉ `null` và `undefined` |
-| Giá trị trả về khi dừng | Chính giá trị falsy đó (`0`, `""`...) | Luôn là `undefined` |
+|                         | `a && a.b`                                           | `a?.b`                    |
+| ----------------------- | ---------------------------------------------------- | ------------------------- |
+| Điều kiện dừng          | Mọi giá trị **falsy** (`0`, `""`, `NaN`, `false`...) | Chỉ `null` và `undefined` |
+| Giá trị trả về khi dừng | Chính giá trị falsy đó (`0`, `""`...)                | Luôn là `undefined`       |
 
 Vì vậy `count && count.toFixed()` sẽ trả `0` khi `count = 0`, còn `count?.toFixed()` vẫn chạy đúng.
 
@@ -683,7 +685,7 @@ Kết quả là **`false`**. Object là reference type, `===` so sánh **tham ch
 ```js
 const a = { x: 1 };
 console.log(a === { x: 1 }); // false
-console.log(a === a);        // true — cùng tham chiếu
+console.log(a === a); // true — cùng tham chiếu
 ```
 
 Các cách so sánh sâu:
@@ -704,11 +706,11 @@ Các cách so sánh sâu:
 <details className="qa">
 <summary>Xem đáp án</summary>
 
-| Cách | Trả về | Own property? | Kế thừa? | Symbol key? |
-|---|---|---|---|---|
-| `Object.keys(obj)` | Mảng các key (string) | Có (enumerable) | **Không** | Không |
-| `Object.entries(obj)` | Mảng `[key, value]` | Có (enumerable) | **Không** | Không |
-| `for...in` | Lặp qua từng key | Có (enumerable) | **Có** | Không |
+| Cách                  | Trả về                | Own property?   | Kế thừa?  | Symbol key? |
+| --------------------- | --------------------- | --------------- | --------- | ----------- |
+| `Object.keys(obj)`    | Mảng các key (string) | Có (enumerable) | **Không** | Không       |
+| `Object.entries(obj)` | Mảng `[key, value]`   | Có (enumerable) | **Không** | Không       |
+| `for...in`            | Lặp qua từng key      | Có (enumerable) | **Có**    | Không       |
 
 Chỉ `for...in` duyệt cả property **enumerable kế thừa** từ prototype chain:
 
@@ -717,8 +719,8 @@ const base = { shared: 1 };
 const obj = Object.create(base);
 obj.own = 2;
 
-Object.keys(obj);                    // ["own"]
-Object.entries(obj);                 // [["own", 2]]
+Object.keys(obj); // ["own"]
+Object.entries(obj); // [["own", 2]]
 for (const k in obj) console.log(k); // "own", "shared"
 ```
 
@@ -737,8 +739,8 @@ Thực tế: ưu tiên `Object.keys` / `Object.entries` (kết quả là mảng,
 
 ```js
 const obj = {};
-obj.x = 1;        // OK — tham chiếu không đổi
-obj = { x: 1 };   // TypeError: Assignment to constant variable
+obj.x = 1; // OK — tham chiếu không đổi
+obj = { x: 1 }; // TypeError: Assignment to constant variable
 ```
 
 `Object.freeze(obj)` mới thực sự đóng băng: không thêm, không xoá, không sửa property, không đổi prototype. Ở strict mode (và trong module), vi phạm sẽ ném `TypeError`; ở sloppy mode thì **thất bại im lặng**.
@@ -747,8 +749,8 @@ Nhưng `Object.freeze` chỉ **shallow** — object lồng bên trong vẫn sử
 
 ```js
 const o = Object.freeze({ a: 1, nested: { b: 2 } });
-o.a = 99;          // không đổi
-o.nested.b = 99;   // ĐỔI được — nested không bị freeze
+o.a = 99; // không đổi
+o.nested.b = 99; // ĐỔI được — nested không bị freeze
 ```
 
 Muốn deep freeze phải tự đệ quy:
@@ -780,8 +782,9 @@ Dùng `Map` khi:
 ```js
 const m = new Map();
 m.set({ id: 1 }, "a").set(42, "b");
-m.size;                    // 2
-for (const [k, v] of m) {} // duyệt trực tiếp, đúng thứ tự chèn
+m.size; // 2
+for (const [k, v] of m) {
+} // duyệt trực tiếp, đúng thứ tự chèn
 ```
 
 Ngược lại, dùng **object thuần** khi cấu trúc cố định, key là string biết trước, hoặc cần `JSON.stringify` (Map không serialize được sang JSON).

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: "1. Cú pháp cơ bản"
+title: "✅ 1. Cú pháp cơ bản"
 ---
 
 # Cú pháp cơ bản
