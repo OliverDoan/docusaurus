@@ -7,7 +7,13 @@ title: "2. Khái niệm Database quan trọng"
 
 Khi đã chọn được database, bạn cần nắm vài khái niệm cốt lõi để dùng nó hiệu quả và tránh lỗi thường gặp. Bài này giải thích schema và migration, index, join, foreign key, vấn đề N+1 và transaction. Đây là những kiến thức nền tảng giúp bạn thiết kế dữ liệu gọn gàng và viết truy vấn chạy nhanh, đúng đắn.
 
-[![Sơ đồ tóm tắt bài: Khái niệm Database quan trọng](/img/backend/database-concepts.webp)](pathname:///img/backend/database-concepts.webp)
+[![Sơ đồ tóm tắt bài: Khái niệm Database quan trọng (phần 1)](/img/backend/database-concepts-1.webp)](pathname:///img/backend/database-concepts-1.webp)
+
+[![Sơ đồ tóm tắt bài: Khái niệm Database quan trọng (phần 2)](/img/backend/database-concepts-2.webp)](pathname:///img/backend/database-concepts-2.webp)
+
+[![Sơ đồ tóm tắt bài: Khái niệm Database quan trọng (phần 3)](/img/backend/database-concepts-3.webp)](pathname:///img/backend/database-concepts-3.webp)
+
+[![Sơ đồ tóm tắt bài: Khái niệm Database quan trọng (phần 4)](/img/backend/database-concepts-4.webp)](pathname:///img/backend/database-concepts-4.webp)
 
 ---
 

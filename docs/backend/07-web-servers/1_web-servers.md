@@ -7,7 +7,9 @@ title: "1. Web Servers: Nginx, Apache, Caddy"
 
 Web server là một **phần mềm** chạy trên máy chủ, nhận request HTTP từ internet và trả về response. Khi lên production, người ta thường đặt một web server chuyên dụng như Nginx đứng trước app Node/Python của bạn để làm "người gác cửa": tự trả file tĩnh, xử lý HTTPS, rồi chuyển request cần logic vào app. Bài này giải thích web server là gì, vì sao cần nó dù app đã tự nhận được HTTP, sau đó giới thiệu Nginx, Apache, Caddy cùng hai khái niệm reverse proxy và load balancing.
 
-[![Sơ đồ tóm tắt bài: Web Servers: Nginx, Apache, Caddy](/img/backend/web-servers.webp)](pathname:///img/backend/web-servers.webp)
+[![Sơ đồ tóm tắt bài: Web Servers: Nginx, Apache, Caddy (phần 1)](/img/backend/web-servers-1.webp)](pathname:///img/backend/web-servers-1.webp)
+
+[![Sơ đồ tóm tắt bài: Web Servers: Nginx, Apache, Caddy (phần 2)](/img/backend/web-servers-2.webp)](pathname:///img/backend/web-servers-2.webp)
 
 ---
 

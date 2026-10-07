@@ -7,7 +7,11 @@ title: "1. Mitigation Strategies"
 
 Trong thực tế, các service và dependency luôn có lúc bị chậm hoặc lỗi, nên hệ thống cần được thiết kế để chịu đựng và phục hồi thay vì sập hoàn toàn. Bài này giới thiệu các chiến lược giảm thiểu sự cố (mitigation/resilience) như graceful degradation, circuit breaker, retry với exponential backoff, bulkhead, timeout, backpressure và load shedding. Áp dụng những pattern này giúp ứng dụng của bạn "đỡ đòn" tốt hơn khi gặp lỗi và tránh sự cố lan rộng theo dây chuyền.
 
-[![Sơ đồ tóm tắt bài: Mitigation Strategies](/img/backend/mitigation-strategies.webp)](pathname:///img/backend/mitigation-strategies.webp)
+[![Sơ đồ tóm tắt bài: Mitigation Strategies (phần 1)](/img/backend/mitigation-strategies-1.webp)](pathname:///img/backend/mitigation-strategies-1.webp)
+
+[![Sơ đồ tóm tắt bài: Mitigation Strategies (phần 2)](/img/backend/mitigation-strategies-2.webp)](pathname:///img/backend/mitigation-strategies-2.webp)
+
+[![Sơ đồ tóm tắt bài: Mitigation Strategies (phần 3)](/img/backend/mitigation-strategies-3.webp)](pathname:///img/backend/mitigation-strategies-3.webp)
 
 ---
 

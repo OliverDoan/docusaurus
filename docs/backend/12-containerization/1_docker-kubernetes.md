@@ -7,7 +7,11 @@ title: "1. Docker và Kubernetes"
 
 Docker giúp đóng gói ứng dụng cùng mọi thứ nó cần vào một "container" gọn nhẹ, để chạy ở đâu cũng giống nhau, không còn cảnh "máy tôi chạy được mà máy bạn thì lỗi". Kubernetes là công cụ điều phối nhiều container ở quy mô lớn với khả năng tự mở rộng và tự phục hồi. Bài này giới thiệu container so với máy ảo, lệnh Docker cơ bản, Dockerfile, Docker Compose, khái niệm Kubernetes và các best practice khi chạy container trên production.
 
-[![Sơ đồ tóm tắt bài: Docker và Kubernetes](/img/backend/docker-kubernetes.webp)](pathname:///img/backend/docker-kubernetes.webp)
+[![Sơ đồ tóm tắt bài: Docker và Kubernetes (phần 1)](/img/backend/docker-kubernetes-1.webp)](pathname:///img/backend/docker-kubernetes-1.webp)
+
+[![Sơ đồ tóm tắt bài: Docker và Kubernetes (phần 2)](/img/backend/docker-kubernetes-2.webp)](pathname:///img/backend/docker-kubernetes-2.webp)
+
+[![Sơ đồ tóm tắt bài: Docker và Kubernetes (phần 3)](/img/backend/docker-kubernetes-3.webp)](pathname:///img/backend/docker-kubernetes-3.webp)
 
 ---
 

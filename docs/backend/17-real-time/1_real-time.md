@@ -7,7 +7,11 @@ title: "1. WebSocket, SSE, Long Polling"
 
 Đây là các kỹ thuật giúp server và trình duyệt trao đổi dữ liệu theo thời gian thực, ví dụ như chat, thông báo tức thì hay xem giá cổ phiếu cập nhật liên tục mà không cần tải lại trang. Hiểu chúng quan trọng vì mỗi cách phù hợp với một tình huống khác nhau: một chiều hay hai chiều, đơn giản hay cần độ trễ thấp. Bài này giới thiệu WebSocket, SSE, Long Polling và WebRTC; phần chi tiết nằm bên dưới.
 
-[![Sơ đồ tóm tắt bài: WebSocket, SSE, Long Polling](/img/backend/real-time.webp)](pathname:///img/backend/real-time.webp)
+[![Sơ đồ tóm tắt bài: WebSocket, SSE, Long Polling (phần 1)](/img/backend/real-time-1.webp)](pathname:///img/backend/real-time-1.webp)
+
+[![Sơ đồ tóm tắt bài: WebSocket, SSE, Long Polling (phần 2)](/img/backend/real-time-2.webp)](pathname:///img/backend/real-time-2.webp)
+
+[![Sơ đồ tóm tắt bài: WebSocket, SSE, Long Polling (phần 3)](/img/backend/real-time-3.webp)](pathname:///img/backend/real-time-3.webp)
 
 ---
 
