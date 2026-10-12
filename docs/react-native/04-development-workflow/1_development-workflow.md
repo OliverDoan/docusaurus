@@ -9,7 +9,7 @@ Workflow tốt giúp **iterate cực nhanh** -- sửa code, thấy ngay. Bài n�
 
 **Tương tự đơn giản:** Workflow giống **dây chuyền lắp ráp** -- mỗi công đoạn (edit, save, reload, debug) phải trơn tru. Một mắt xích chậm -> năng suất giảm cả ngày.
 
-[![Sơ đồ tóm tắt bài: Development Workflow](/img/react-native/development-workflow.webp)](pathname:///img/react-native/development-workflow.webp)
+[![Sơ đồ tóm tắt bài: Development Workflow](/img/react-native/development-workflow-1.webp)](pathname:///img/react-native/development-workflow-1.webp)
 
 ---
 

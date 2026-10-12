@@ -9,7 +9,7 @@ Mobile app hầu hết là danh sách: feed, chat, products. React Native cung c
 
 **Tương tự đơn giản:** **ScrollView** giống **tờ giấy dài** -- cuộn được nhưng render toàn bộ luôn. **FlatList** giống **rạp chiếu phim** -- chỉ chiếu cảnh hiện tại, cảnh chưa tới chưa load -- tiết kiệm tài nguyên.
 
-[![Sơ đồ tóm tắt bài: Lists & Scrolling](/img/react-native/lists-and-scrolling.webp)](pathname:///img/react-native/lists-and-scrolling.webp)
+[![Sơ đồ tóm tắt bài: Lists & Scrolling](/img/react-native/lists-and-scrolling-1.webp)](pathname:///img/react-native/lists-and-scrolling-1.webp)
 
 ---
 

@@ -9,7 +9,7 @@ iOS và Android có behavior khác nhau (haptic, navigation, header...). RN cung
 
 **Tương tự đơn giản:** Giống ổ cắm điện -- Việt Nam dùng 220V, Mỹ dùng 110V. Adapter chuyển đổi cho phù hợp. RN cho phép detect platform và "chuyển đổi" code phù hợp.
 
-[![Sơ đồ tóm tắt bài: Platform Specific Code](/img/react-native/platform-specific.webp)](pathname:///img/react-native/platform-specific.webp)
+[![Sơ đồ tóm tắt bài: Platform Specific Code](/img/react-native/platform-specific-1.webp)](pathname:///img/react-native/platform-specific-1.webp)
 
 ---
 

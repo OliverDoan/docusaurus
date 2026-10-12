@@ -9,7 +9,9 @@ RN dùng **StyleSheet** (JS object) thay CSS. **Flexbox** là hệ layout chính
 
 **Tương tự đơn giản:** Style RN giống **viết CSS bằng JavaScript** -- camelCase thay vì kebab-case, value là number (px) hoặc string. Không có cascade, không có pseudo-class -- ít magic hơn web.
 
-[![Sơ đồ tóm tắt bài: Styling](/img/react-native/styling.webp)](pathname:///img/react-native/styling.webp)
+[![Sơ đồ tóm tắt bài: Styling (phần 1)](/img/react-native/styling-1.webp)](pathname:///img/react-native/styling-1.webp)
+
+[![Sơ đồ tóm tắt bài: Styling (phần 2)](/img/react-native/styling-2.webp)](pathname:///img/react-native/styling-2.webp)
 
 ---
 
