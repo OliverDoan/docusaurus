@@ -9,6 +9,12 @@ Bài **Interactions** đã giới thiệu sơ lược Push Notifications (notifi
 
 **Tương tự đơn giản:** Push notification giống như **bưu điện chuyển thư**: server của bạn (người gửi) không giao thư trực tiếp đến tay người nhận, mà gửi qua bưu điện của Apple (APNs) hoặc Google (FCM) -- bưu điện biết chính xác địa chỉ (**device token**) để giao đúng nhà. Permission giống như **gõ cửa xin phép** trước khi vào phòng riêng của ai đó (camera, micro, ảnh) -- gõ đúng lúc, đúng lý do thì người ta mở cửa; gõ bừa lúc mới gặp thì bị từ chối và rất khó gõ lại.
 
+[![Sơ đồ tóm tắt bài: Push Notification & Permissions (phần 1)](/img/react-native/push-permissions-1.webp)](pathname:///img/react-native/push-permissions-1.webp)
+
+[![Sơ đồ tóm tắt bài: Push Notification & Permissions (phần 2)](/img/react-native/push-permissions-2.webp)](pathname:///img/react-native/push-permissions-2.webp)
+
+[![Sơ đồ tóm tắt bài: Push Notification & Permissions (phần 3)](/img/react-native/push-permissions-3.webp)](pathname:///img/react-native/push-permissions-3.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

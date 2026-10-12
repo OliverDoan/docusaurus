@@ -9,6 +9,12 @@ Realtime (thời gian thực) là cách app nhận dữ liệu mới ngay khi n�
 
 **Tương tự đơn giản:** Realtime giống việc bạn cầm bộ đàm (walkie-talkie) thay vì gọi điện hỏi "có tin gì mới chưa" mỗi 5 giây -- kênh luôn mở, bên kia nói gì là nghe ngay.
 
+[![Sơ đồ tóm tắt bài: Realtime: WebSocket, Socket.IO & WebRTC (phần 1)](/img/react-native/realtime-1.webp)](pathname:///img/react-native/realtime-1.webp)
+
+[![Sơ đồ tóm tắt bài: Realtime: WebSocket, Socket.IO & WebRTC (phần 2)](/img/react-native/realtime-2.webp)](pathname:///img/react-native/realtime-2.webp)
+
+[![Sơ đồ tóm tắt bài: Realtime: WebSocket, Socket.IO & WebRTC (phần 3)](/img/react-native/realtime-3.webp)](pathname:///img/react-native/realtime-3.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

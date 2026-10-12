@@ -14,7 +14,9 @@ RN có nhiều cách lưu data offline: **AsyncStorage** (key-value), **SecureSt
 - **SQLite** = thư viện -- nhiều ngăn, query phức tạp
 - **FileSystem** = nhà kho -- chứa file lớn
 
-[![Sơ đồ tóm tắt bài: Storage](/img/react-native/storage.webp)](pathname:///img/react-native/storage.webp)
+[![Sơ đồ tóm tắt bài: Storage (phần 1)](/img/react-native/storage-1.webp)](pathname:///img/react-native/storage-1.webp)
+
+[![Sơ đồ tóm tắt bài: Storage (phần 2)](/img/react-native/storage-2.webp)](pathname:///img/react-native/storage-2.webp)
 
 ---
 

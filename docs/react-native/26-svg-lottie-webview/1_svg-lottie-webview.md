@@ -9,6 +9,12 @@ Không phải mọi giao diện đều vẽ được bằng `View`/`Text` thuầ
 
 **Tương tự đơn giản:** SVG là **bản vẽ kỹ thuật** (co giãn thoải mái, luôn sắc nét); Lottie là **đoạn phim hoạt hình đóng gói sẵn** (chỉ cần bấm play); WebView là **một cửa sổ trình duyệt mini** mở ngay trong app để hiển thị thứ mà "ngôn ngữ native" không tiện diễn đạt.
 
+[![Sơ đồ tóm tắt bài: Đồ hoạ & nội dung web: SVG, Lottie, WebView (phần 1)](/img/react-native/svg-lottie-webview-1.webp)](pathname:///img/react-native/svg-lottie-webview-1.webp)
+
+[![Sơ đồ tóm tắt bài: Đồ hoạ & nội dung web: SVG, Lottie, WebView (phần 2)](/img/react-native/svg-lottie-webview-2.webp)](pathname:///img/react-native/svg-lottie-webview-2.webp)
+
+[![Sơ đồ tóm tắt bài: Đồ hoạ & nội dung web: SVG, Lottie, WebView (phần 3)](/img/react-native/svg-lottie-webview-3.webp)](pathname:///img/react-native/svg-lottie-webview-3.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

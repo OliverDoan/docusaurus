@@ -9,7 +9,9 @@ Hầu hết app mobile gọi API server. RN có **Fetch API** (giống browser),
 
 **Tương tự đơn giản:** App mobile giống **điện thoại của bạn** -- không có sóng = không gọi được. Networking là module quản lý "sóng" của app: gọi REST API, real-time WebSocket, check có mạng không.
 
-[![Sơ đồ tóm tắt bài: Networking](/img/react-native/networking.webp)](pathname:///img/react-native/networking.webp)
+[![Sơ đồ tóm tắt bài: Networking (phần 1)](/img/react-native/networking-1.webp)](pathname:///img/react-native/networking-1.webp)
+
+[![Sơ đồ tóm tắt bài: Networking (phần 2)](/img/react-native/networking-2.webp)](pathname:///img/react-native/networking-2.webp)
 
 ---
 

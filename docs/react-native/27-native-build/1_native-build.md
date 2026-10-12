@@ -9,6 +9,12 @@ Khi code JavaScript/TypeScript đã sẵn sàng, RN cần "biên dịch" nó cù
 
 **Tương tự đơn giản:** iOS/Android build giống 2 xưởng lắp ráp riêng biệt dùng chung một bản vẽ (JS bundle) -- xưởng iOS cần "giấy phép nhập phụ tùng" (CocoaPods), xưởng Android cần "dây chuyền lắp ráp" (Gradle), và cả hai phải cùng đóng dấu (signing) mới xuất xưởng được.
 
+[![Sơ đồ tóm tắt bài: Build native: CocoaPods, Gradle, signing & patch thư viện (phần 1)](/img/react-native/native-build-1.webp)](pathname:///img/react-native/native-build-1.webp)
+
+[![Sơ đồ tóm tắt bài: Build native: CocoaPods, Gradle, signing & patch thư viện (phần 2)](/img/react-native/native-build-2.webp)](pathname:///img/react-native/native-build-2.webp)
+
+[![Sơ đồ tóm tắt bài: Build native: CocoaPods, Gradle, signing & patch thư viện (phần 3)](/img/react-native/native-build-3.webp)](pathname:///img/react-native/native-build-3.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

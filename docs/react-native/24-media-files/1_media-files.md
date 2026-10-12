@@ -9,6 +9,12 @@ Gần như mọi app di động đều cần xử lý **media** (ảnh, video) v
 
 **Tương tự đơn giản:** Coi app như một **bưu cục**. Người dùng mang đồ đến (chọn ảnh/file), bưu cục đóng gói đúng chuẩn (multipart/form-data) rồi gửi đi (upload); khi có đồ gửi đến, bưu cục tải về, cất vào kho tạm (cache thư mục local) để lần sau khỏi tải lại, và có thể đưa cho người khác xem hoặc mang đi (share/view).
 
+[![Sơ đồ tóm tắt bài: Media & File: ảnh, video, tài liệu, upload/download (phần 1)](/img/react-native/media-files-1.webp)](pathname:///img/react-native/media-files-1.webp)
+
+[![Sơ đồ tóm tắt bài: Media & File: ảnh, video, tài liệu, upload/download (phần 2)](/img/react-native/media-files-2.webp)](pathname:///img/react-native/media-files-2.webp)
+
+[![Sơ đồ tóm tắt bài: Media & File: ảnh, video, tài liệu, upload/download (phần 3)](/img/react-native/media-files-3.webp)](pathname:///img/react-native/media-files-3.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

@@ -13,7 +13,9 @@ Test mobile khó hơn web -- cần test trên thiết bị/simulator, có nhiề
 - **Component test** = kiểm tra cụm (hệ thống lái)
 - **E2E test** = lái thử nguyên xe trên đường
 
-[![Sơ đồ tóm tắt bài: Testing](/img/react-native/testing.webp)](pathname:///img/react-native/testing.webp)
+[![Sơ đồ tóm tắt bài: Testing (phần 1)](/img/react-native/testing-1.webp)](pathname:///img/react-native/testing-1.webp)
+
+[![Sơ đồ tóm tắt bài: Testing (phần 2)](/img/react-native/testing-2.webp)](pathname:///img/react-native/testing-2.webp)
 
 ---
 

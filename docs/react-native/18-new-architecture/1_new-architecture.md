@@ -9,6 +9,12 @@ Bài **Native Modules** đã giới thiệu nhanh khái niệm TurboModule. Bài
 
 **Tương tự đơn giản:** Kiến trúc cũ giống **gửi thư qua bưu điện** -- muốn nói gì với native phải viết ra (serialize JSON), bỏ vào phong bì, chờ người đưa thư (bridge) mang đi rồi mang thư trả lời về. Kiến trúc mới giống **gọi điện thoại trực tiếp** (JSI) -- nói chuyện ngay lập tức, không cần đóng gói.
 
+[![Sơ đồ tóm tắt bài: New Architecture: JSI, TurboModules, Fabric (phần 1)](/img/react-native/new-architecture-1.webp)](pathname:///img/react-native/new-architecture-1.webp)
+
+[![Sơ đồ tóm tắt bài: New Architecture: JSI, TurboModules, Fabric (phần 2)](/img/react-native/new-architecture-2.webp)](pathname:///img/react-native/new-architecture-2.webp)
+
+[![Sơ đồ tóm tắt bài: New Architecture: JSI, TurboModules, Fabric (phần 3)](/img/react-native/new-architecture-3.webp)](pathname:///img/react-native/new-architecture-3.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

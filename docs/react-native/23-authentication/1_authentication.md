@@ -9,6 +9,12 @@ Authentication (xác thực danh tính người dùng) trên mobile phức tạp
 
 **Tương tự đơn giản:** Token giống **vé xem phim có giờ hết hạn** -- access token là vé vào rạp ngay bây giờ (hết hạn nhanh, 15 phút - 1 giờ), refresh token là **thẻ thành viên** đổi được vé mới mà không cần xếp hàng mua lại (sống lâu hơn, vài tuần - vài tháng). Mất thẻ thành viên thì phải ra quầy đăng nhập lại từ đầu.
 
+[![Sơ đồ tóm tắt bài: Authentication: Social Login & quản lý token (phần 1)](/img/react-native/authentication-1.webp)](pathname:///img/react-native/authentication-1.webp)
+
+[![Sơ đồ tóm tắt bài: Authentication: Social Login & quản lý token (phần 2)](/img/react-native/authentication-2.webp)](pathname:///img/react-native/authentication-2.webp)
+
+[![Sơ đồ tóm tắt bài: Authentication: Social Login & quản lý token (phần 3)](/img/react-native/authentication-3.webp)](pathname:///img/react-native/authentication-3.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

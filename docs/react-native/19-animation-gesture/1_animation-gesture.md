@@ -9,6 +9,12 @@ Bài [Interactions](../09-interactions/1_interactions.md) đã giới thiệu s�
 
 **Tương tự đơn giản:** Nếu JS thread là "bộ não" ra quyết định logic, UI thread là "cơ bắp" thực thi chuyển động. Reanimated cho phép "cơ bắp" tự phản xạ theo cử chỉ (kéo tới đâu, lò xo bật lại tới đó) mà không cần hỏi "bộ não" từng khung hình — đó là lý do animation mượt 60fps ngay cả khi JS thread đang bận tải dữ liệu.
 
+[![Sơ đồ tóm tắt bài: Animation & Gesture nâng cao: Reanimated 4, Gesture Handler, Keyboard (phần 1)](/img/react-native/animation-gesture-1.webp)](pathname:///img/react-native/animation-gesture-1.webp)
+
+[![Sơ đồ tóm tắt bài: Animation & Gesture nâng cao: Reanimated 4, Gesture Handler, Keyboard (phần 2)](/img/react-native/animation-gesture-2.webp)](pathname:///img/react-native/animation-gesture-2.webp)
+
+[![Sơ đồ tóm tắt bài: Animation & Gesture nâng cao: Reanimated 4, Gesture Handler, Keyboard (phần 3)](/img/react-native/animation-gesture-3.webp)](pathname:///img/react-native/animation-gesture-3.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

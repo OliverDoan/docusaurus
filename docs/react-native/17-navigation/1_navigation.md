@@ -9,6 +9,12 @@ title: "1. Navigation với React Navigation 7"
 
 **Tương tự đơn giản:** React Navigation giống một cuốn sổ tay nhiều trang xếp chồng lên nhau -- mở trang mới là `push`, gấp lại một trang là `goBack`, còn các tab dưới cùng màn hình là những cuốn sổ tay khác nhau mà bạn chuyển qua lại.
 
+[![Sơ đồ tóm tắt bài: Navigation với React Navigation 7 (phần 1)](/img/react-native/navigation-1.webp)](pathname:///img/react-native/navigation-1.webp)
+
+[![Sơ đồ tóm tắt bài: Navigation với React Navigation 7 (phần 2)](/img/react-native/navigation-2.webp)](pathname:///img/react-native/navigation-2.webp)
+
+[![Sơ đồ tóm tắt bài: Navigation với React Navigation 7 (phần 3)](/img/react-native/navigation-3.webp)](pathname:///img/react-native/navigation-3.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

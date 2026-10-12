@@ -9,6 +9,12 @@ title: "1. Super-app với Re.Pack & Module Federation"
 
 **Tương tự đơn giản:** Host là **trung tâm thương mại**, mini-app là **từng gian hàng**. Trung tâm xây một lần, gian hàng nào cũng thay bảng hiệu, sửa hàng hoá được **mà không cần đập lại cả toà nhà**.
 
+[![Sơ đồ tóm tắt bài: Super-app với Re.Pack & Module Federation (phần 1)](/img/react-native/super-app-1.webp)](pathname:///img/react-native/super-app-1.webp)
+
+[![Sơ đồ tóm tắt bài: Super-app với Re.Pack & Module Federation (phần 2)](/img/react-native/super-app-2.webp)](pathname:///img/react-native/super-app-2.webp)
+
+[![Sơ đồ tóm tắt bài: Super-app với Re.Pack & Module Federation (phần 3)](/img/react-native/super-app-3.webp)](pathname:///img/react-native/super-app-3.webp)
+
 ---
 
 :::note[Ghi nhớ nhanh]

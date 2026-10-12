@@ -9,7 +9,9 @@ Bảo mật mobile **khác web** -- attacker có thể decompile APK/IPA, revers
 
 **Tương tự đơn giản:** App mobile giống **nhà ở** -- attacker có thể "phá cửa" (decompile), "lục ngăn kéo" (đọc storage), "nghe trộm" (intercept network). Security là **khóa, két sắt, mành cửa** -- nhiều lớp phòng vệ.
 
-[![Sơ đồ tóm tắt bài: Security](/img/react-native/security.webp)](pathname:///img/react-native/security.webp)
+[![Sơ đồ tóm tắt bài: Security (phần 1)](/img/react-native/security-1.webp)](pathname:///img/react-native/security-1.webp)
+
+[![Sơ đồ tóm tắt bài: Security (phần 2)](/img/react-native/security-2.webp)](pathname:///img/react-native/security-2.webp)
 
 ---
 

@@ -9,7 +9,9 @@ Sau khi dev xong, **đưa app lên store** là bước cuối. Quy trình **iOS 
 
 **Tương tự đơn giản:** Publish app giống **bán hàng vào siêu thị**. Phải đóng gói đẹp (build), có giấy phép (cert, signing), qua kiểm định (review) -- mới được lên kệ.
 
-[![Sơ đồ tóm tắt bài: Publishing](/img/react-native/publishing.webp)](pathname:///img/react-native/publishing.webp)
+[![Sơ đồ tóm tắt bài: Publishing (phần 1)](/img/react-native/publishing-1.webp)](pathname:///img/react-native/publishing-1.webp)
+
+[![Sơ đồ tóm tắt bài: Publishing (phần 2)](/img/react-native/publishing-2.webp)](pathname:///img/react-native/publishing-2.webp)
 
 ---
 
