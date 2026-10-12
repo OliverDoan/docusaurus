@@ -161,6 +161,7 @@ flowchart TB
         JS2["JS"] <-->|"gọi C++ trực tiếp<br/>(sync, gần như zero overhead)"| N2["Native<br/>Fabric + TurboModules"]
     end
     Old --> New
+```
 
 ---
 
