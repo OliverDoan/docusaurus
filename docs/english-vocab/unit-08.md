@@ -1,0 +1,59 @@
+---
+sidebar_position: 8
+title: "Unit 8: Sự thật về thủ đô"
+---
+
+# Unit 8: Sự thật về thủ đô
+
+Sống ở thủ đô một thời gian, cô ấy nhận ra mặt trái: giá đắt, ô nhiễm, đông đúc và nhiều tệ nạn.
+
+| # | Từ | Phiên âm | Nghĩa | Ví dụ |
+| --- | --- | --- | --- | --- |
+| 1 | **pricey** *(adj)* | /ˈpraɪsi/ | đắt đỏ, đắt tiền | Restaurants in the centre are a bit **pricey**. |
+| 2 | **affordable** *(adj)* | /əˈfɔːdəbl/ | giá phải chăng, có thể chi trả | She finally found an **affordable** room. |
+| 3 | **population** *(n)* | /ˌpɒpjuˈleɪʃn/ | dân số | The city's **population** is over eight million. |
+| 4 | **overpopulated** *(adj)* | /ˌəʊvəˈpɒpjuleɪtɪd/ | quá đông dân | The capital is becoming **overpopulated**. |
+| 5 | **demand** *(n)* | /dɪˈmɑːnd/ | nhu cầu | The **demand** for housing keeps rising. |
+| 6 | **accommodation** *(n)* | /əˌkɒməˈdeɪʃn/ | chỗ ở, nơi ăn ở | Finding cheap **accommodation** was hard for her. |
+| 7 | **room** *(n)* | /ruːm/ | không gian, chỗ trống | There's no **room** to park in the city centre. |
+| 8 | **vehicle** *(n)* | /ˈviːəkl/ | phương tiện giao thông | There are too many **vehicles** on the roads. |
+| 9 | **pollution** *(n)* | /pəˈluːʃn/ | sự ô nhiễm | Air **pollution** is a serious problem here. |
+| 10 | **unhealthy** *(adj)* | /ʌnˈhelθi/ | không lành mạnh, có hại cho sức khỏe | The dirty air is **unhealthy** for children. |
+| 11 | **throw** *(v)* | /θrəʊ/ | vứt, ném | Some people **throw** litter into the lake. |
+| 12 | **rubbish** *(n)* | /ˈrʌbɪʃ/ | rác, rác rưởi | **Rubbish** piles up on the street corners. |
+| 13 | **lack** *(v)* | /læk/ | thiếu, thiếu hụt | Many areas **lack** green space. |
+| 14 | **facility** *(n)* | /fəˈsɪləti/ | cơ sở vật chất, tiện ích | Some schools have poor **facilities**. |
+| 15 | **build** *(v)* | /bɪld/ | xây dựng | The government plans to **build** more roads. |
+| 16 | **bridge** *(n)* | /brɪdʒ/ | cây cầu | A new **bridge** was built across the river. |
+| 17 | **pickpocket** *(n)* | /ˈpɪkpɒkɪt/ | kẻ móc túi | Watch out for **pickpockets** in crowded places. |
+| 18 | **scam** *(n)* | /skæm/ | trò lừa đảo | She almost fell for a phone **scam**. |
+| 19 | **crime** *(n)* | /kraɪm/ | tội phạm, tội ác | **Crime** is higher in some districts. |
+| 20 | **security** *(n)* | /sɪˈkjʊərəti/ | an ninh | Her building has 24-hour **security**. |
+| 21 | **beggar** *(n)* | /ˈbeɡə(r)/ | người ăn xin | She saw a **beggar** outside the station. |
+| 22 | **poor** *(adj)* | /pɔː(r)/ | nghèo | Not everyone in the city is rich; many are **poor**. |
+| 23 | **selfish** *(adj)* | /ˈselfɪʃ/ | ích kỷ | Some drivers are **selfish** and never give way. |
+| 24 | **daily** *(adv)* | /ˈdeɪli/ | hàng ngày | She takes the crowded bus **daily**. |
+
+## Nhóm từ liên quan
+
+| Nhóm từ | Liên hệ | Mẹo nhớ |
+| --- | --- | --- |
+| **pricey** ↔ **affordable** | trái nghĩa | đắt đỏ ↔ vừa túi tiền |
+| **population** → **overpopulated** | cùng họ từ | dân số → quá đông dân (*over-* = quá mức) |
+| **demand** → **accommodation** · **room** | nguyên nhân – kết quả | nhu cầu cao → thiếu chỗ ở, không còn chỗ trống |
+| **vehicle** → **pollution** → **unhealthy** | chuỗi hệ quả | nhiều xe → ô nhiễm → hại sức khoẻ |
+| **throw** + **rubbish** | đi cùng nhau | *throw rubbish* – xả rác (*daily* = mỗi ngày) |
+| **lack** + **facility** | đi cùng nhau | *lack facilities* – thiếu cơ sở vật chất (lack không cần *of* khi là động từ) |
+| **build** + **bridge** | đi cùng nhau | *build a bridge* – xây cầu |
+| **pickpocket** · **scam** · **crime** | cùng chủ đề | móc túi, lừa đảo đều là tội phạm vặt |
+| **crime** ↔ **security** | trái nghĩa | tội phạm nhiều ↔ an ninh tốt |
+| **beggar** · **poor** · **selfish** | cùng chủ đề | người ăn xin nghèo khổ, người ích kỷ làm ngơ |
+
+## Cụm từ hay dùng
+
+- **air pollution** — ô nhiễm không khí
+- **throw rubbish** — vứt rác
+- **lack of facilities** — thiếu cơ sở vật chất
+- **commit a crime** — phạm tội
+- **fall for a scam** — bị lừa đảo
+- **affordable accommodation** — chỗ ở giá phải chăng

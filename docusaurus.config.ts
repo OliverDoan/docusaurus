@@ -82,7 +82,7 @@ const config: Config = {
           onUntruncatedBlogPosts: 'warn',
         },
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: ['./src/css/custom.css', './src/css/english-vocab.css'],
         },
       } satisfies Preset.Options,
     ],
@@ -169,6 +169,12 @@ const config: Config = {
           sidebarId: 'webSecuritySidebar',
           position: 'left',
           label: 'Bảo mật web',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'englishVocabSidebar',
+          position: 'left',
+          label: 'Từ vựng tiếng Anh',
         },
         {
           type: 'dropdown',
