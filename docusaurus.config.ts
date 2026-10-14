@@ -146,6 +146,7 @@ const config: Config = {
           items: [
             {type: 'docSidebar', sidebarId: 'javaSidebar', label: 'Java'},
             {type: 'docSidebar', sidebarId: 'javaGpcoderSidebar', label: 'Java (gpcoder)'},
+            {type: 'docSidebar', sidebarId: 'springBootSidebar', label: 'Spring Boot'},
           ],
         },
         {
