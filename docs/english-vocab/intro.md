@@ -7,7 +7,7 @@ title: "Giới thiệu"
 
 :::note[Ghi nhớ nhanh]
 
-- ⭐ **20 unit, 480 từ** — mỗi unit xoay quanh một chủ đề đời sống: du học, đi học, tìm việc, chuyển nhà, du lịch, văn hoá, nấu ăn…
+- ⭐ **50 unit, 1200 từ** — mỗi unit xoay quanh một chủ đề đời sống: du học, đi học, tìm việc, chuyển nhà, du lịch, văn hoá, nấu ăn, thiên nhiên, sức khoẻ, thể thao, âm nhạc, công nghệ, tình cảm, mua sắm, thời trang, pháp luật, kinh doanh, vũ trụ…
 - ⭐ **Học theo ngữ cảnh** — từ trong cùng unit xoay quanh một tình huống, nên nhớ cả cụm thay vì nhớ từng từ rời rạc.
 - **Mỗi từ gồm** — từ (kèm loại từ) · phiên âm IPA · nghĩa · câu ví dụ tiếng Anh.
 - **Cách ôn** — che cột nghĩa, đọc từ và phiên âm, tự đoán nghĩa rồi đặt câu của riêng mình.
@@ -38,6 +38,36 @@ title: "Giới thiệu"
 | [18](./unit-18.md) | Công thức & kỹ thuật nấu |
 | [19](./unit-19.md) | Ăn uống lành mạnh |
 | [20](./unit-20.md) | Vườn rau trái |
+| [21](./unit-21.md) | Thiên nhiên và làng quê |
+| [22](./unit-22.md) | Cảnh đẹp thiên nhiên |
+| [23](./unit-23.md) | Sức khỏe thể chất và tinh thần |
+| [24](./unit-24.md) | Bệnh tật và triệu chứng |
+| [25](./unit-25.md) | Thuốc men và hồi phục |
+| [26](./unit-26.md) | Nghỉ ngơi và thư giãn |
+| [27](./unit-27.md) | Thể thao và thi đấu |
+| [28](./unit-28.md) | Rèn luyện thể chất |
+| [29](./unit-29.md) | Giao thông và đường phố |
+| [30](./unit-30.md) | Xe cộ và sửa chữa |
+| [31](./unit-31.md) | Âm nhạc và biểu diễn |
+| [32](./unit-32.md) | Nghệ thuật và sáng tạo |
+| [33](./unit-33.md) | Người nổi tiếng và danh vọng |
+| [34](./unit-34.md) | Mạng xã hội |
+| [35](./unit-35.md) | Công nghệ và thiết bị |
+| [36](./unit-36.md) | Tính cách và cách nhìn người |
+| [37](./unit-37.md) | Ngoại hình |
+| [38](./unit-38.md) | Tình bạn và tình yêu |
+| [39](./unit-39.md) | Cảm xúc và tâm trạng |
+| [40](./unit-40.md) | Giải trí và đi chơi |
+| [41](./unit-41.md) | Mua sắm |
+| [42](./unit-42.md) | Phụ kiện thời trang |
+| [43](./unit-43.md) | Tủ quần áo |
+| [44](./unit-44.md) | Thói quen hằng ngày |
+| [45](./unit-45.md) | Sở thích và thời gian rảnh |
+| [46](./unit-46.md) | Đại học và thi cử |
+| [47](./unit-47.md) | Tội phạm và pháp luật |
+| [48](./unit-48.md) | Chính trị và quyền lực |
+| [49](./unit-49.md) | Khởi nghiệp và tài chính |
+| [50](./unit-50.md) | Trái Đất và vũ trụ |
 
 ## Ký hiệu loại từ
 
@@ -47,6 +77,7 @@ title: "Giới thiệu"
 | v | động từ (verb) |
 | adj | tính từ (adjective) |
 | adv | trạng từ (adverb) |
+| prep | giới từ (preposition) |
 | adj/n | vừa là tính từ vừa là danh từ |
 | phr v | cụm động từ (phrasal verb) |
 | excl | thán từ (exclamation) |
