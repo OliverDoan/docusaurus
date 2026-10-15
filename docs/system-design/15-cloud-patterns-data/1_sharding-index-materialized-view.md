@@ -33,7 +33,6 @@ title: "33. Data Patterns: Sharding, Index Table, Materialized View"
 - [5. So sánh ba pattern](#5-so-sánh-ba-pattern)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -320,56 +319,3 @@ Consumer cộng dồn doanh thu, broker giao lại event (at-least-once) → doa
 ### Lỗi 5: `REFRESH MATERIALIZED VIEW` không `CONCURRENTLY`
 
 Trong PostgreSQL, refresh thường sẽ **khoá view**, dashboard bị treo trong lúc refresh. **Sửa:** tạo unique index và dùng `CONCURRENTLY`.
-
----
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. So sánh lookup, range và hash sharding. Khi nào chọn cái nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-- **Lookup:** có shard map ánh xạ khoá → shard. Linh hoạt, dễ dời tenant lớn; hợp SaaS multi-tenant. Cần cache shard map.
-- **Range:** khoá liên tiếp nằm cùng shard. Tốt cho range query, time-series, archive; dễ hotspot.
-- **Hash:** băm khoá để phân bố đều. Tránh hotspot; range query phải scatter-gather; rebalance khó nếu dùng `% N` → dùng consistent hashing / virtual shard.
-
-</details>
-
-**2. Tiêu chí chọn shard key tốt?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Cardinality cao, phân bố đều (không có giá trị chiếm phần lớn dữ liệu/traffic), xuất hiện trong hầu hết truy vấn nóng để truy vấn chỉ chạm một shard, ổn định (ít khi đổi giá trị), và gom được dữ liệu hay đọc cùng nhau (vd `user_id` cho dữ liệu của một user).
-
-</details>
-
-**3. Index Table khác secondary index của database thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Secondary index do DB quản lý, cập nhật cùng transaction, nhất quán mạnh nhưng thường chỉ trong một node/partition. Index table là **bảng do ứng dụng (hoặc hệ thống như DynamoDB GSI) tự duy trì**, có thể shard riêng, có thể denormalize thêm field, nhưng thường **eventual consistency** và tăng chi phí ghi.
-
-</details>
-
-**4. Materialized view khác cache thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Cả hai là dữ liệu phái sinh để đọc nhanh. Cache thường lưu **bản sao nguyên dạng** theo key, có TTL, có thể mất bất cứ lúc nào (cache miss thì đọc nguồn). Materialized view lưu **kết quả đã biến đổi/tổng hợp** theo hình dạng của truy vấn, thường bền vững (nằm trong DB), được cập nhật chủ động qua refresh/event, và là nơi đọc chính chứ không phải lớp tăng tốc tuỳ chọn.
-
-</details>
-
-**5. Làm sao xử lý truy vấn cần dữ liệu trên nhiều shard?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Ưu tiên tránh: thiết kế shard key để truy vấn nóng chạm 1 shard, replicate bảng tham chiếu nhỏ. Nếu buộc phải: fan-out song song tới các shard rồi gộp kết quả ở ứng dụng (có timeout, chấp nhận kết quả một phần), hoặc dựng **materialized view / index table** tổng hợp sẵn dữ liệu cross-shard, hoặc đẩy dữ liệu sang data warehouse/search engine cho truy vấn phân tích.
-
-</details>

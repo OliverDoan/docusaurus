@@ -33,7 +33,6 @@ Một hệ thống không thể coi là **đáng tin cậy** nếu kẻ tấn c�
 - [5. Kết hợp các pattern](#5-kết-hợp-các-pattern)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -326,54 +325,3 @@ Tầng tiếp xúc Internet có credential DB "cho tiện" → mất ý nghĩa p
 ### Lỗi 5: Dùng email làm định danh người dùng từ IdP
 
 Email đổi, hoặc IdP cho phép email chưa xác minh → chiếm tài khoản. **Sửa:** dùng `(iss, sub)`; chỉ liên kết tài khoản theo email khi `email_verified` là true và có quy trình xác nhận.
-
----
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. OAuth 2.0 và OpenID Connect khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-OAuth 2.0 là giao thức **uỷ quyền**: cho ứng dụng access token để truy cập tài nguyên thay người dùng, không định nghĩa cách biết người dùng là ai. OIDC là lớp **xác thực** xây trên OAuth 2.0: thêm ID token (JWT) chứa danh tính người dùng, scope `openid`, endpoint userinfo, discovery. Dùng access token của OAuth làm bằng chứng đăng nhập là sai lầm.
-
-</details>
-
-**2. Mô tả Authorization Code Flow với PKCE. Vì sao cần `state` và `nonce`?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-App sinh `code_verifier` ngẫu nhiên, gửi `code_challenge` (hash của verifier) khi redirect tới IdP. Người dùng đăng nhập ở IdP, IdP redirect về kèm `code`. App đổi `code` + `code_verifier` lấy token — kẻ đánh cắp `code` không có verifier nên không đổi được. `state` chống CSRF trên callback (đảm bảo phản hồi thuộc phiên đăng nhập do app khởi tạo). `nonce` gắn ID token với phiên đó, chống replay token.
-
-</details>
-
-**3. Khi nào chọn SAML, khi nào chọn OIDC?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-OIDC cho ứng dụng mới, SPA, mobile, API — JSON/JWT đơn giản, hỗ trợ tốt. SAML khi phải tích hợp SSO doanh nghiệp mà khách hàng/IdP chỉ hỗ trợ SAML, hoặc ứng dụng web truyền thống trong hệ sinh thái doanh nghiệp. Nhiều IdP (Entra ID, Okta, Keycloak) hỗ trợ cả hai.
-
-</details>
-
-**4. Gatekeeper pattern khác API Gateway thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-API Gateway tập trung vào routing, offloading, aggregation cho nhiều service. Gatekeeper tập trung vào **bảo mật**: một lớp trung gian tách biệt, quyền tối thiểu, validate/sanitize request và **không giữ bí mật**, để nếu bị chiếm thì kẻ tấn công vẫn không chạm được dữ liệu. Một API Gateway/WAF có thể đóng vai gatekeeper nếu thoả các điều kiện đó và backend bị cô lập.
-
-</details>
-
-**5. Ứng dụng nhận được JWT, cần kiểm tra những gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Chữ ký hợp lệ với public key của issuer (qua JWKS, đúng `kid`); thuật toán thuộc danh sách cho phép; `iss` đúng issuer tin cậy; `aud` chứa client_id/API của mình; `exp` chưa hết hạn, `nbf`/`iat` hợp lý (chấp nhận lệch đồng hồ nhỏ); với ID token kiểm tra `nonce`; sau đó mới đọc claims để phân quyền.
-
-</details>

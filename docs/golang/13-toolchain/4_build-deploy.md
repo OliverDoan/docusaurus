@@ -34,7 +34,6 @@ Một trong những lý do lớn nhất khiến Go được chọn cho backend v
 - [Dockerfile multi-stage](#dockerfile-multi-stage)
 - [GoReleaser](#goreleaser)
 - [Kích thước binary](#kích-thước-binary)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -454,61 +453,3 @@ go version -m ./bin/api | grep dep                    # danh sách dependency đ
 ```
 
 Công cụ cộng đồng như `goweight`, `go-size-analyzer` cho báo cáo trực quan theo package.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Làm thế nào build binary Go cho Linux ARM64 từ máy Windows?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Đặt biến môi trường rồi build: `set GOOS=linux`, `set GOARCH=arm64`, `set CGO_ENABLED=0`, `go build -o api ./cmd/api` (PowerShell: `$env:GOOS="linux"`...). Không cần cài thêm gì vì compiler Go hỗ trợ sẵn mọi nền tảng đích. Nếu code dùng cgo thì cần thêm C cross-compiler cho nền tảng đích (hoặc dùng Zig làm `CC`), phức tạp hơn nhiều.
-
-</details>
-
-**2. `CGO_ENABLED=0` ảnh hưởng gì? Khi nào phải bật cgo?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Tắt cgo khiến binary liên kết tĩnh hoàn toàn: chạy trên `scratch`/distroless/alpine, cross-compile dễ. Các package như `net` và `os/user` dùng hiện thực Go thuần thay vì gọi libc. Phải bật cgo khi dùng thư viện C (SQLite bản cgo, librdkafka, OpenCV...), hoặc cần hành vi resolver/NSS của hệ thống (vd tích hợp LDAP qua NSS). Khi đó image runtime phải có libc tương thích.
-
-</details>
-
-**3. Nhúng version vào binary Go thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khai báo biến `var version = "dev"` ở package-level, build với `-ldflags "-X main.version=v1.2.3"` (package khác thì dùng import path đầy đủ). Biến phải là `string`, không phải `const`, không khởi tạo bằng lời gọi hàm. Ngoài ra Go tự nhúng build info (phiên bản Go, module, dependency, `vcs.revision`...), đọc bằng `debug.ReadBuildInfo()` hoặc `go version -m`. Trong Docker build thường không có `.git` nên `vcs.*` vắng mặt — vẫn cần `-X`.
-
-</details>
-
-**4. Vì sao nên dùng Dockerfile multi-stage và distroless cho Go?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Stage build cần toolchain Go (~800 MB) nhưng image chạy chỉ cần binary. Multi-stage giữ image cuối nhỏ (vài MB đến vài chục MB), pull/deploy nhanh, ít package hệ điều hành nên ít CVE và bề mặt tấn công nhỏ; distroless không có shell nên kẻ tấn công khó khai thác hơn. Distroless static còn có sẵn CA cert, tzdata, user `nonroot` — thứ mà `scratch` phải tự thêm.
-
-</details>
-
-**5. `-ldflags "-s -w"` có làm mất stack trace khi panic không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không. Runtime Go dùng bảng `pclntab` riêng để ánh xạ địa chỉ sang tên hàm/file/dòng, bảng này không bị `-s -w` xoá. Thứ mất đi là bảng symbol (cho `nm`, công cụ ngoài) và DWARF (cho debugger như Delve, gdb). Vì vậy binary production thường dùng `-s -w`, còn khi cần debug thì build bản riêng.
-
-</details>
-
-**6. `-trimpath` dùng để làm gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Xoá đường dẫn tuyệt đối của máy build khỏi binary, thay bằng module path hoặc import path. Giúp build tái lập (cùng input → cùng binary ở mọi máy), không lộ tên user và cấu trúc thư mục trong stack trace, và giảm nhẹ kích thước. Nên luôn bật cho bản phát hành.
-
-</details>

@@ -156,6 +156,7 @@ const config: Config = {
           position: 'left',
           items: [
             {type: 'docSidebar', sidebarId: 'interviewSidebar', label: 'FE Interview'},
+            {type: 'docSidebar', sidebarId: 'interviewLessonsSidebar', label: 'Câu hỏi theo bài học'},
             {type: 'docSidebar', sidebarId: 'javaInterviewSidebar', label: 'Java Interview (Intern)'},
             {type: 'docSidebar', sidebarId: 'javaInterviewProSidebar', label: 'Java Interview (Pro)'},
           ],

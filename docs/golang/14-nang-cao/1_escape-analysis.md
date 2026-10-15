@@ -32,7 +32,6 @@ Trong Go, bạn không tự quyết định một biến nằm trên **stack** h
 - [Struct alignment và padding](#struct-alignment-và-padding)
 - [Kỹ thuật giảm allocation](#kỹ-thuật-giảm-allocation)
 - [Đo bằng benchmark](#đo-bằng-benchmark)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -517,61 +516,3 @@ func TestRenderNoAlloc(t *testing.T) {
 	}
 }
 ```
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Escape analysis là gì? Tại sao Go cho phép trả con trỏ tới biến cục bộ?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Là bước compiler phân tích xem một giá trị có thể được tham chiếu sau khi hàm tạo ra nó kết thúc hay không. Nếu có (hoặc không chứng minh được là không), giá trị được cấp phát trên heap và GC quản lý; nếu không, đặt trên stack. Vì vậy trả `&u` là an toàn: compiler tự chuyển `u` lên heap, không có dangling pointer như C. Lập trình viên không chọn stack/heap trực tiếp, chỉ ảnh hưởng gián tiếp qua cách viết code.
-
-</details>
-
-**2. Kể các trường hợp khiến biến thoát lên heap.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Trả con trỏ ra khỏi hàm (không được inline); gán giá trị vào interface (boxing — vd truyền vào `fmt.Println`); biến bị closure tồn tại lâu hơn hàm giữ; slice/map có kích thước động hoặc quá lớn; lưu con trỏ vào biến global, channel, map, hoặc struct đã nằm trên heap; truyền con trỏ/slice cho method gọi qua interface (compiler không biết hiện thực có giữ lại không).
-
-</details>
-
-**3. Truyền struct theo con trỏ có luôn nhanh hơn theo giá trị không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không. Con trỏ tránh copy nhưng dễ khiến struct thoát lên heap (tốn allocation, tạo việc cho GC) và truy cập gián tiếp kém thân thiện cache. Struct nhỏ (vài word) truyền giá trị thường nhanh hơn. Struct rất lớn, hoặc cần sửa nội dung, hoặc chứa `sync.Mutex` thì dùng con trỏ. Quyết định bằng benchmark `-benchmem`, không bằng cảm giác.
-
-</details>
-
-**4. Padding trong struct là gì? Làm sao giảm?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Compiler chèn byte đệm giữa các field để mỗi field nằm ở địa chỉ căn lề theo kích thước của nó (vd `int64` ở bội số của 8), và thêm đệm cuối để kích thước struct là bội số alignment lớn nhất. Ví dụ `{bool; int64; bool}` chiếm 24 byte nhưng `{int64; bool; bool}` chỉ 16 byte. Giảm bằng cách xếp field từ alignment lớn đến nhỏ; dùng `unsafe.Sizeof` để kiểm tra và analyzer `fieldalignment` để phát hiện. Chỉ đáng làm với struct có số lượng lớn.
-
-</details>
-
-**5. Inlining ảnh hưởng thế nào tới escape analysis?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Escape analysis phân tích theo từng hàm. Khi hàm `NewX()` trả `&X{}` không được inline, kết quả bắt buộc lên heap. Nếu được inline, thân hàm nằm trong hàm gọi, compiler thấy con trỏ không rời hàm gọi nên có thể giữ trên stack. Vì vậy constructor nhỏ, đơn giản (dưới inline budget) thường không gây allocation; thêm logic phức tạp vào constructor có thể đột ngột làm tăng allocation.
-
-</details>
-
-**6. Bạn tìm và giảm allocation trong một service như thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Bắt đầu từ dữ liệu: heap profile `alloc_space`/`alloc_objects` (pprof) để tìm hàm cấp phát nhiều nhất trên production; viết benchmark `-benchmem` cho hàm đó; dùng `-gcflags=-m` để biết vì sao biến thoát. Kỹ thuật: cấp sẵn capacity cho slice/map, `strings.Builder`/`bytes.Buffer` thay `+=`, `sync.Pool` cho buffer tạm, API kiểu `Append` nhận buffer từ ngoài, tránh boxing vào interface trên đường nóng, tránh chuyển `[]byte`↔`string` thừa. Kiểm chứng bằng `benchstat` và chốt bằng `testing.AllocsPerRun` trong test.
-
-</details>

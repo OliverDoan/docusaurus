@@ -31,7 +31,6 @@ JSON là định dạng trao đổi dữ liệu phổ biến nhất của API we
 - [Tuỳ biến với MarshalJSON và UnmarshalJSON](#tuỳ-biến-với-marshaljson-và-unmarshaljson)
 - [Xử lý lỗi và các bẫy hay gặp](#xử-lý-lỗi-và-các-bẫy-hay-gặp)
 - [encoding/json/v2](#encodingjsonv2)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -454,61 +453,3 @@ GOEXPERIMENT=jsonv2 go run .
 ```
 
 Nếu cần hiệu năng cao ngay hôm nay, các thư viện bên thứ ba phổ biến là `github.com/goccy/go-json` và `github.com/bytedance/sonic` (API gần như tương thích `encoding/json`).
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Vì sao một field trong struct không xuất hiện trong JSON sau khi marshal?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Các nguyên nhân thường gặp: (1) field **unexported** (chữ thường đầu) — `encoding/json` ở package khác nên không truy cập được qua reflection, và không báo lỗi; (2) tag `json:"-"`; (3) có `omitempty`/`omitzero` và giá trị đang rỗng/zero; (4) kiểu có `MarshalJSON` tự viết không xuất trường đó; (5) field embedded bị trùng tên với field khác cùng cấp nên bị loại.
-
-</details>
-
-**2. Unmarshal JSON vào `map[string]any` thì số có kiểu gì? Có vấn đề gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Mọi number thành `float64`. Vấn đề: (1) phải type assertion `m["id"].(float64)` rồi ép kiểu, dễ panic; (2) số nguyên lớn hơn 2^53 bị làm tròn — ID 64-bit bị sai. Cách xử lý: decode vào struct với kiểu cụ thể (`int64`), hoặc dùng `json.NewDecoder` + `UseNumber()` để nhận `json.Number` rồi gọi `.Int64()`. Khi gửi ID lớn cho JavaScript, dùng tag `,string`.
-
-</details>
-
-**3. `omitempty` khác `omitzero` thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`omitempty` bỏ trường khi giá trị là `false`, `0`, `""`, `nil`, hoặc slice/map/array độ dài 0 — nhưng **không bao giờ** bỏ struct (kể cả `time.Time` zero). `omitzero` (Go 1.24) bỏ trường khi giá trị là zero value của kiểu, và nếu kiểu có method `IsZero() bool` thì dùng method đó — nên `time.Time{}` bị bỏ đúng ý. `omitzero` cũng phân biệt slice `nil` (bỏ) với slice rỗng không nil (giữ `[]`). Hai tag có thể dùng cùng nhau: trường bị bỏ nếu thoả một trong hai.
-
-</details>
-
-**4. Khi nào dùng `json.Unmarshal`, khi nào dùng `json.NewDecoder`?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`Unmarshal` khi đã có sẵn `[]byte` (đọc từ cache, file nhỏ) — nó kiểm tra cả dữ liệu thừa phía sau. `NewDecoder` khi dữ liệu đến từ `io.Reader` (HTTP body, file lớn, socket), cần đọc nhiều giá trị liên tiếp (NDJSON), cần stream mảng lớn bằng `Token`/`More`, hoặc cần các tuỳ chọn `DisallowUnknownFields`/`UseNumber`. Lưu ý decoder không báo lỗi với dữ liệu rác sau giá trị đầu tiên và có thể đọc trước nhiều hơn mức cần.
-
-</details>
-
-**5. Làm sao xử lý message có cấu trúc `payload` thay đổi theo trường `type`?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khai báo `Payload json.RawMessage` để giữ nguyên byte, unmarshal lần một để đọc `Type`, sau đó `switch` theo `Type` và unmarshal `Payload` vào struct tương ứng. Cách khác là tự viết `UnmarshalJSON` cho kiểu event để đóng gói logic này. Tránh decode vào `map[string]any` rồi chuyển đổi thủ công vì mất kiểu và dễ lỗi.
-
-</details>
-
-**6. Viết `MarshalJSON` cho một struct mà vẫn muốn giữ cách mã hoá mặc định cho các trường khác thì làm thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không gọi `json.Marshal(u)` trực tiếp trong method vì sẽ đệ quy vô hạn. Khai báo kiểu cục bộ `type alias User` — kiểu mới có cùng field nhưng không có method — rồi marshal một struct ẩn danh embed `alias` cộng thêm các trường mới hoặc trường ghi đè. Tương tự cho `UnmarshalJSON`: decode vào `*alias` để dùng logic mặc định rồi xử lý thêm.
-
-</details>

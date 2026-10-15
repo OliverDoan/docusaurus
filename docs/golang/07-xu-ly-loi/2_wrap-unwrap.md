@@ -32,7 +32,6 @@ Khi lỗi đi từ tầng database lên tầng service rồi tới HTTP handler,
 - [Thêm ngữ cảnh đúng cách](#thêm-ngữ-cảnh-đúng-cách)
 - [Khi nào wrap, khi nào không](#khi-nào-wrap-khi-nào-không)
 - [Xử lý lỗi một lần](#xử-lý-lỗi-một-lần)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -484,61 +483,3 @@ sequenceDiagram
     S-->>H: "lấy hồ sơ: query user 42: timeout"
     Note over H: Log MỘT lần + trả 504
 ```
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. `%w` khác `%v` trong `fmt.Errorf` thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Cả hai cho cùng thông điệp. `%w` tạo lỗi có method `Unwrap()` trỏ về lỗi gốc, nên `errors.Is`/`errors.As` tìm được lỗi gốc trong chuỗi. `%v` chỉ chèn chuỗi, lỗi gốc bị mất — dùng khi cố ý không muốn người gọi phụ thuộc vào lỗi bên dưới. Từ Go 1.20, một `fmt.Errorf` có thể chứa nhiều `%w`.
-
-</details>
-
-**2. `errors.Is` và `errors.As` khác nhau thế nào? Vì sao không dùng `==` và type assertion?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`errors.Is(err, target)` kiểm tra trong chuỗi có lỗi **bằng** target (so sánh giá trị hoặc qua method `Is`) — dùng cho sentinel. `errors.As(err, &target)` tìm lỗi đầu tiên **có kiểu** gán được vào target và gán nó — dùng cho custom error type để lấy dữ liệu. `==` và `err.(*T)` chỉ xét lớp ngoài cùng, nên thất bại ngay khi lỗi đã bị wrap.
-
-</details>
-
-**3. `errors.Join` dùng khi nào? `errors.Unwrap` trên lỗi Join trả gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Dùng để gộp nhiều lỗi thành một: validate nhiều trường, đóng nhiều tài nguyên, chạy nhiều tác vụ song song. `errors.Join` bỏ qua `nil` và trả `nil` nếu mọi lỗi đều nil; thông điệp nối bằng xuống dòng. Lỗi Join hiện thực `Unwrap() []error`, nên `errors.Unwrap` (chỉ gọi `Unwrap() error`) trả `nil`; nhưng `errors.Is`/`As` vẫn duyệt cả cây.
-
-</details>
-
-**4. Khi nào không nên wrap lỗi bằng `%w`?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khi lỗi gốc là chi tiết hiện thực mà bạn không muốn cam kết với người gọi — ví dụ lỗi driver DB đi ra khỏi package public. Wrap biến lỗi gốc thành một phần API: người gọi có thể `errors.Is(err, sql.ErrNoRows)`, và khi bạn đổi hiện thực thì code họ hỏng âm thầm. Khi đó hãy dịch sang lỗi domain (`ErrUserNotFound`) hoặc dùng `%v`. Ngoài ra không trả `err.Error()` nội bộ về client HTTP.
-
-</details>
-
-**5. "Handle errors once" nghĩa là gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Mỗi lỗi chỉ được xử lý một lần — hoặc log, hoặc trả lên, hoặc retry/fallback — không vừa log vừa trả về. Nếu tầng nào cũng log, một sự cố in ra nhiều dòng, log nhiễu và khó đếm. Tầng dưới chỉ thêm ngữ cảnh bằng `%w` và return; tầng biên (HTTP handler, worker loop, `main`) log một lần với đầy đủ chuỗi ngữ cảnh.
-
-</details>
-
-**6. Làm sao để custom error type của bạn hoạt động với `errors.Is`?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Nếu nó bọc lỗi khác, hiện thực `Unwrap() error` (hoặc `Unwrap() []error` nếu bọc nhiều) để `Is` duyệt xuống được. Nếu muốn so sánh theo nội dung thay vì danh tính con trỏ (ví dụ mọi `*StatusError` có cùng `Code` là bằng nhau), hiện thực method `Is(target error) bool`. Tương tự có thể hiện thực `As(any) bool` để tuỳ biến `errors.As`, nhưng hiếm khi cần.
-
-</details>

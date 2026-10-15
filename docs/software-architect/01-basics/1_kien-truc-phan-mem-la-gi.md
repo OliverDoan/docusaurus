@@ -35,7 +35,6 @@ title: "1. Kiến trúc phần mềm là gì"
 - [7. Định luật Conway](#7-định-luật-conway)
 - [Khi nào cần nhớ?](#khi-nào-cần-nhớ)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -269,54 +268,3 @@ Họp ba tuần để chọn thư viện log, nhưng chọn database chính tron
 ### Lỗi 5: Không ghi lại lý do
 
 Hai năm sau không ai nhớ vì sao lại dùng hai database, vì sao service A gọi B qua queue. Người mới hoặc sợ không dám sửa, hoặc sửa bừa và phá vỡ một giả định quan trọng.
-
----
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Kiến trúc phần mềm là gì? Nêu theo cách của bạn.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Kiến trúc là tập hợp các **quyết định cấu trúc quan trọng** của hệ thống: chia thành những thành phần nào, chúng giao tiếp ra sao, dữ liệu nằm ở đâu, cùng với **lý do** của các quyết định đó. "Quan trọng" ở đây nghĩa là **khó và đắt để thay đổi** (theo Booch, Fowler). Kiến trúc được dẫn dắt bởi thuộc tính chất lượng và ràng buộc, không chỉ bởi chức năng.
-
-</details>
-
-**2. Kiến trúc khác thiết kế ở điểm nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Đó là một dải liên tục. Kiến trúc ở mức toàn hệ thống: ranh giới thành phần, cách giao tiếp, công nghệ nền tảng, ảnh hưởng nhiều đội và đắt để đổi. Thiết kế ở mức bên trong một thành phần: class, pattern, cấu trúc hàm, thường gói gọn trong một đội và đổi rẻ hơn. Tiêu chí thực dụng: hỏi chi phí sửa nếu quyết định sai.
-
-</details>
-
-**3. Thuộc tính chất lượng là gì? Vì sao không thể tối đa tất cả?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Là các yêu cầu phi chức năng như hiệu năng, độ tin cậy, bảo mật, khả năng bảo trì, khả năng mở rộng (ISO/IEC 25010 là một bộ phân loại chuẩn). Chúng thường mâu thuẫn: bảo mật cao hơn thường chậm hơn, nhất quán mạnh làm giảm tính sẵn sàng khi có phân vùng mạng, phân tán để mở rộng làm tăng độ phức tạp. Vì vậy phải ưu tiên vài thuộc tính quan trọng nhất cho từng hệ thống và viết chúng thành mục tiêu đo được.
-
-</details>
-
-**4. Định luật Conway nói gì? Ứng dụng thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Hệ thống có xu hướng sao chép cấu trúc giao tiếp của tổ chức tạo ra nó. Ứng dụng: muốn có các service độc lập thì cần các đội tự chủ tương ứng; có thể dùng "inverse Conway maneuver", tổ chức đội theo miền nghiệp vụ để kiến trúc đi theo hướng mong muốn. Bỏ qua định luật này thường dẫn tới distributed monolith.
-
-</details>
-
-**5. Làm sao biết một quyết định cần cân nhắc kỹ hay quyết nhanh?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Xét khả năng đảo ngược. Cửa một chiều (database chính, hợp đồng API công khai, ranh giới service) cần phân tích phương án, prototype, ghi ADR. Cửa hai chiều (thư viện tiện ích, cấu hình) nên quyết nhanh rồi đo và điều chỉnh. Ngoài ra nên tìm cách biến cửa một chiều thành hai chiều bằng lớp trừu tượng, feature flag, và trì hoãn quyết định tới "last responsible moment".
-
-</details>

@@ -31,7 +31,6 @@ Một goroutine thường phải chờ **nhiều thứ cùng lúc**: dữ liệu
 - [Vòng lặp for-select](#vòng-lặp-for-select)
 - [Tắt case bằng nil channel](#tắt-case-bằng-nil-channel)
 - [Việc định kỳ với Ticker](#việc-định-kỳ-với-ticker)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -497,61 +496,3 @@ func batcher(ctx context.Context, in <-chan Record, flush func([]Record)) {
 	}
 }
 ```
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Nếu nhiều case trong `select` cùng sẵn sàng thì case nào chạy?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Go chọn **ngẫu nhiên đều** một case trong số các case sẵn sàng, không theo thứ tự viết. Mục đích là tránh starvation. Muốn ưu tiên một channel (ví dụ `ctx.Done()`), phải tự kiểm tra trước bằng một `select` có `default`, rồi mới vào `select` chính.
-
-</details>
-
-**2. `select` không có case nào sẵn sàng và không có `default` thì sao? `select {}` làm gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Goroutine chặn cho tới khi một case sẵn sàng. `select {}` không có case nào nên chặn vĩnh viễn — đôi khi dùng ở cuối `main` để giữ chương trình sống trong khi các goroutine khác làm việc (nhưng nếu mọi goroutine khác cũng chặn, runtime báo deadlock). Có `default` thì không bao giờ chặn.
-
-</details>
-
-**3. Làm timeout cho thao tác chờ channel thế nào? Có vấn đề gì với `time.After` trong vòng lặp?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Thêm case `<-time.After(d)` hoặc `<-ctx.Done()` với context có timeout. `time.After` trong vòng lặp tạo timer mới mỗi vòng; trước Go 1.23 timer chưa kích hoạt không được GC thu hồi nên vòng lặp nóng với timeout dài có thể tốn nhiều bộ nhớ. Từ Go 1.23 vấn đề GC được sửa, nhưng vẫn nên dùng một `time.NewTimer` và `Reset`, hoặc context. Ngoài ra cần phân biệt timeout tổng (tạo timer ngoài vòng lặp) và timeout mỗi lần chờ (tạo trong vòng lặp).
-
-</details>
-
-**4. `break` bên trong `select` nằm trong `for` thoát khỏi đâu?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Chỉ thoát khỏi `select`, vòng `for` tiếp tục chạy. Để thoát vòng lặp: dùng `break` với label đặt trước `for`, dùng `return` (tách vòng lặp thành hàm riêng), hoặc biến cờ. Đây là lỗi phổ biến khiến goroutine không dừng khi channel đóng.
-
-</details>
-
-**5. Kỹ thuật gán channel thành `nil` trong `select` dùng để làm gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Case gửi/nhận trên nil channel không bao giờ sẵn sàng nên bị bỏ qua. Gán nil cho channel đã đóng để không bị chọn liên tục (nhận từ channel đóng trả về ngay), hoặc chỉ bật case gửi khi đang có dữ liệu cần gửi (biến `sendCh` nil khi hàng đợi rỗng). Giúp một `select` duy nhất xử lý trạng thái thay đổi mà không cần nhiều nhánh `if`.
-
-</details>
-
-**6. Viết goroutine định kỳ mỗi 5 giây làm việc X và dừng được khi tắt server.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Dùng `time.NewTicker(5 * time.Second)` với `defer ticker.Stop()`, vòng for-select có hai case: `<-ctx.Done()` để return và `<-ticker.C` để làm X. Context được huỷ khi server nhận SIGTERM (ví dụ qua `signal.NotifyContext`). Nếu X có thể chạy lâu hơn chu kỳ, ticker sẽ bỏ bớt tick chứ không dồn đống; truyền `ctx` vào X để X cũng dừng được.
-
-</details>

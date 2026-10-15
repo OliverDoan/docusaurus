@@ -27,7 +27,6 @@ Local SEO giúp doanh nghiệp xuất hiện khi người dùng tìm kiếm theo
 - [5. Local Keyword Targeting](#5-local-keyword-targeting)
 - [6. Reviews và Reputation Management](#6-reviews-và-reputation-management)
 - [7. Lỗi thường gặp](#7-lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -655,54 +654,3 @@ Ignore reviews (cả positive và negative) là tín hiệu xấu. Google khuy�
 ### Lỗi 5: Embed Google Maps làm chậm trang
 
 Iframe Google Maps block render. Luôn dùng `loading="lazy"` và cân nhắc lazy-load bằng Intersection Observer để không ảnh hưởng Core Web Vitals.
-
----
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. NAP consistency là gì và tại sao quan trọng cho Local SEO?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-: NAP là Name, Address, Phone — ba thông tin cốt lõi của doanh nghiệp. Google cross-reference NAP từ nhiều nguồn (website, GBP, directories, social media) để xác minh doanh nghiệp. Nếu NAP không nhất quán (ví dụ website ghi "Q.1" nhưng GBP ghi "Quận 1"), Google mất confidence vào accuracy của listing và giảm ranking trong Local Pack. Phải chuẩn hóa NAP về một format duy nhất trên tất cả platforms.
-
-</details>
-
-**2. Local Pack ranking factors khác gì so với organic ranking?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-: Local Pack dựa vào 3 yếu tố chính: (1) **Relevance** — doanh nghiệp có liên quan đến search query không, (2) **Distance** — doanh nghiệp gần user bao nhiêu, (3) **Prominence** — doanh nghiệp nổi tiếng ra sao (reviews, citations, backlinks). Organic ranking chủ yếu dựa vào content quality, backlinks, technical SEO. Local Pack thiên về GBP optimization, reviews, và NAP consistency hơn là on-page content.
-
-</details>
-
-**3. Làm sao phân biệt doorway pages và legitimate location pages?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-: Doorway pages là nhiều trang gần giống nhau, chỉ thay tên location, không có unique value. Legitimate location pages có nội dung thật sự khác nhau: reviews riêng cho location đó, hình ảnh thật của cửa hàng, staff list, dịch vụ đặc thù cho khu vực, địa chỉ và giờ mở cửa riêng. Rule of thumb: nếu bạn xóa tên location khỏi 2 trang mà nội dung giống nhau, đó là doorway pages.
-
-</details>
-
-**4. Schema.org type nào phù hợp cho từng loại doanh nghiệp local?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-: Schema.org có nhiều subtypes của `LocalBusiness`: `Restaurant` cho nhà hàng, `Dentist` cho phòng nha, `AutoRepair` cho gara, `LegalService` cho luật sư, `RealEstateAgent` cho bất động sản. Nên dùng type cụ thể nhất có thể thay vì `LocalBusiness` chung. Ví dụ quán phở dùng `Restaurant` với `servesCuisine: "Vietnamese"`, tiệm cắt tóc dùng `HairSalon`. Type cụ thể giúp Google hiểu rõ hơn và hiển thị rich results phù hợp.
-
-</details>
-
-**5. Embedded Google Maps ảnh hưởng thế nào đến SEO và performance?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-: Google Maps embed bản thân không tạo ranking signal trực tiếp, nhưng giúp user experience (dễ tìm đường) và gián tiếp hỗ trợ local signals. Tuy nhiên, iframe Maps nặng khoảng 800KB-1MB, ảnh hưởng xấu đến Core Web Vitals (LCP, FCP). Giải pháp: dùng `loading="lazy"`, hoặc tốt hơn là lazy-load bằng Intersection Observer — chỉ load map khi user scroll đến section đó. Đặt map ở trang Contact/About thay vì homepage.
-
-</details>

@@ -36,7 +36,6 @@ title: "21. Asynchronism: Message Queue, Task Queue & Back Pressure"
 - [7. Exponential backoff và jitter](#7-exponential-backoff-và-jitter)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -450,61 +449,3 @@ Ghi đơn hàng vào DB thành công nhưng publish event lỗi (hoặc ngược
 ### Lỗi 6: Visibility timeout ngắn hơn thời gian xử lý
 
 Với SQS, nếu job chạy 2 phút mà visibility timeout là 30 giây, message hiện lại và bị worker khác xử lý song song. **Sửa:** đặt timeout lớn hơn thời gian xử lý tối đa, hoặc gia hạn (`ChangeMessageVisibility`) trong lúc chạy.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Vì sao dùng message queue? Đánh đổi là gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Lợi ích: tách producer/consumer (decoupling), giảm latency phía user, hấp thụ đột biến tải, scale worker độc lập, cô lập lỗi của dịch vụ phía sau, retry dễ dàng. Đánh đổi: thêm một thành phần phải vận hành và giám sát; eventual consistency; phải xử lý trùng lặp, thứ tự, poison message; debug khó hơn vì luồng bị cắt rời (cần tracing có correlation id).
-
-</details>
-
-**2. Phân biệt at-most-once, at-least-once, exactly-once. Bạn chọn cái nào cho hệ thống thanh toán?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-At-most-once: ack trước khi xử lý, có thể mất. At-least-once: ack sau khi xử lý, có thể trùng. Exactly-once: không mất không trùng, rất khó đạt end-to-end qua mạng. Với thanh toán: dùng **at-least-once** + consumer **idempotent** (idempotency key, unique constraint, bảng processed_messages) để đạt "effectively exactly-once". Kafka transactions chỉ cho exactly-once trong phạm vi Kafka.
-
-</details>
-
-**3. Kafka khác RabbitMQ thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-RabbitMQ là broker truyền thống: exchange route vào queue, message bị xoá khi ack, routing linh hoạt, phù hợp work queue. Kafka là distributed log: message giữ theo retention, consumer tự giữ offset, có thể replay, nhiều consumer group đọc độc lập, thứ tự trong partition, throughput rất cao -- phù hợp event streaming, CDC, analytics. Chọn RabbitMQ cho task/routing phức tạp; Kafka khi cần lưu lịch sử và nhiều hệ thống cùng tiêu thụ.
-
-</details>
-
-**4. Back pressure là gì? Hãy thiết kế cách xử lý khi queue tăng nhanh hơn tốc độ xử lý.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Back pressure là cơ chế để phía sau báo ngược lên phía trước giảm tốc. Thiết kế: (1) queue có giới hạn dựa trên Little's Law và SLA chờ tối đa; (2) API trả 429/503 + `Retry-After` khi vượt ngưỡng; (3) consumer dùng pull với prefetch/concurrency cố định; (4) autoscale worker theo độ dài queue/consumer lag; (5) load shedding việc ít quan trọng; (6) client retry bằng exponential backoff + jitter.
-
-</details>
-
-**5. Task queue khác message queue ở điểm nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Message queue là hạ tầng truyền message (thường là sự kiện, có thể nhiều consumer). Task queue (Celery, BullMQ, Sidekiq) xây trên broker, truyền **mệnh lệnh** cho đúng một worker, kèm tính năng: retry backoff, delay/cron, priority, rate limit, theo dõi trạng thái và kết quả job.
-
-</details>
-
-**6. Làm sao đảm bảo ghi DB và publish event cùng thành công?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không dùng two-phase commit giữa DB và broker (chậm, broker thường không hỗ trợ). Dùng **Transactional Outbox**: trong cùng transaction, ghi dữ liệu nghiệp vụ và một bản ghi vào bảng `outbox`. Relay process (polling hoặc CDC qua Debezium) đọc outbox và publish, đánh dấu đã gửi. Có thể publish trùng nên consumer phải idempotent.
-
-</details>

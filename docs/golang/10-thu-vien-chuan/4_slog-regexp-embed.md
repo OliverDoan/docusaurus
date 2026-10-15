@@ -29,7 +29,6 @@ Bài này gom ba công cụ nhỏ nhưng có mặt trong hầu hết service Go:
 - [Handler tuỳ biến](#handler-tuỳ-biến)
 - [regexp: biểu thức chính quy kiểu RE2](#regexp-biểu-thức-chính-quy-kiểu-re2)
 - [Nhúng file với go:embed](#nhúng-file-với-goembed)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -415,61 +414,3 @@ func main() {
 Mọi thứ nhúng vào đều làm binary to ra tương ứng và nằm trong bộ nhớ khi chạy. Đừng nhúng video, dataset vài trăm MB — để chúng ở object storage. Khi phát triển giao diện, có thể dùng `os.DirFS("static")` ở chế độ dev (sửa file thấy ngay) và `embed.FS` ở bản build production — cả hai đều là `fs.FS` nên code phục vụ không đổi.
 
 :::
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Structured logging là gì? Vì sao nên dùng `log/slog` thay vì `log`?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Structured logging ghi log thành các trường key-value (thường là JSON) thay vì chuỗi tự do, nên hệ thống log tập trung lọc/thống kê được chính xác (`user_id = 42 AND level = ERROR`). `log/slog` (Go 1.21) cung cấp level, handler text/JSON, `With`/`WithGroup` cho trường chung, biến thể nhận `context`, interface `Handler` để mở rộng, và là chuẩn chung nên thư viện có thể nhận `*slog.Logger`. `log` chỉ in chuỗi, không level, không cấu trúc.
-
-</details>
-
-**2. Làm sao để mọi log trong một HTTP request đều có `request_id`?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Hai cách: (1) trong middleware tạo `logger.With("request_id", id)` rồi truyền logger con (qua context hoặc struct) cho handler; (2) đưa `request_id` vào `context`, viết `slog.Handler` bọc handler gốc, trong `Handle` đọc ID từ `ctx` và `r.AddAttrs(...)`; mọi chỗ log dùng `InfoContext(ctx, ...)`. Khi bọc handler phải hiện thực lại `WithAttrs`/`WithGroup` để trả về handler đã bọc, nếu không `With` sẽ làm mất lớp bọc.
-
-</details>
-
-**3. Regexp của Go khác của Java/Python/JavaScript ở điểm nào? Vì sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Go dùng RE2: không backtracking, đảm bảo thời gian chạy tuyến tính theo độ dài đầu vào, nên miễn nhiễm ReDoS — an toàn khi chạy regex trên dữ liệu người dùng gửi lên. Đổi lại, không hỗ trợ backreference (`\1`) và lookahead/lookbehind, vì các tính năng đó không thể hiện thực trong thời gian tuyến tính. Cần những tính năng đó thì tách logic ra code Go hoặc dùng thư viện bên thứ ba (chấp nhận rủi ro).
-
-</details>
-
-**4. Vì sao nên khai báo regex bằng `MustCompile` ở cấp package?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Compile regex tốn chi phí (parse, dựng automaton). Đặt ở biến package-level thì chỉ compile một lần khi chương trình khởi động, mọi lời gọi sau dùng lại; `*regexp.Regexp` an toàn cho nhiều goroutine. `MustCompile` panic nếu pattern sai, và vì chạy lúc khởi tạo nên lỗi lộ ra ngay khi start (hoặc khi chạy test) thay vì giữa lúc phục vụ request. Pattern động từ người dùng thì dùng `Compile` và xử lý lỗi.
-
-</details>
-
-**5. `//go:embed` có những giới hạn gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Chỉ dùng cho biến cấp package kiểu `string`, `[]byte` hoặc `embed.FS`; `string`/`[]byte` chỉ nhúng được một file. Đường dẫn tương đối với thư mục package, không được chứa `..`, không trỏ ra ngoài module, không nhúng symlink bất thường. File/thư mục bắt đầu bằng `.` hoặc `_` bị bỏ qua trừ khi dùng tiền tố `all:`. Nội dung cố định tại thời điểm build và chỉ đọc. Binary to ra theo kích thước file nhúng.
-
-</details>
-
-**6. Phục vụ một SPA đã build từ binary Go thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`//go:embed dist` vào biến `embed.FS`, dùng `fs.Sub(distFS, "dist")` để bỏ tiền tố thư mục, rồi `mux.Handle("GET /", http.FileServerFS(sub))` (Go 1.22) hoặc `http.FileServer(http.FS(sub))`. API đăng ký ở route cụ thể hơn như `/api/`. Với SPA dùng client-side routing, cần thêm handler trả `index.html` cho các đường dẫn không khớp file thật để F5 trên `/orders/7` không bị 404.
-
-</details>

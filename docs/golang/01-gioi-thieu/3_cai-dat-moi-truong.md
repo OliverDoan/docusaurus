@@ -31,7 +31,6 @@ Bài này dựng môi trường Go từ đầu: cài toolchain, hiểu sự khá
 - [go run và go build](#go-run-và-go-build)
 - [Cấu hình editor](#cấu-hình-editor)
 - [Tổng quan lệnh go](#tổng-quan-lệnh-go)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -426,52 +425,3 @@ go vet ./...
 go test ./...
 go build ./...
 ```
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. GOPATH và GOROOT khác nhau thế nào? Hiện nay GOPATH còn dùng làm gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-**GOROOT** là nơi cài toolchain Go (compiler, thư viện chuẩn) — gần như không cần đặt tay. **GOPATH** trước đây là workspace bắt buộc chứa toàn bộ code; từ khi có module (mặc định từ 1.16), code dự án đặt ở đâu cũng được, GOPATH (mặc định `~/go`) chỉ còn dùng để chứa **module cache** (`pkg/mod`) và **binary** cài bằng `go install` (`bin`).
-
-</details>
-
-**2. Điều kiện để một chương trình Go chạy được là gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Phải có package tên `main` chứa hàm `func main()` không tham số, không giá trị trả về. Tham số dòng lệnh lấy qua `os.Args` (hoặc package `flag`), mã thoát đặt bằng `os.Exit`. Trước `main`, Go chạy khởi tạo biến cấp package và các hàm `init()` của mọi package được import (theo thứ tự phụ thuộc).
-
-</details>
-
-**3. `go run` và `go build` khác nhau thế nào? `go install` thì sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`go run` biên dịch vào thư mục tạm, chạy ngay rồi bỏ binary — dùng khi phát triển. `go build` tạo binary trong thư mục hiện tại (hoặc theo `-o`) — dùng để đóng gói. `go install` build và đặt binary vào `GOBIN` (mặc định `~/go/bin`), dùng để cài công cụ; dạng `go install pkg@version` cài từ module bên ngoài mà không đụng tới `go.mod` của dự án hiện tại.
-
-</details>
-
-**4. `go mod tidy` làm gì? Khi nào cần chạy?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Quét toàn bộ import trong code (kể cả test), thêm vào `go.mod` các module còn thiếu, xoá module không còn dùng, và cập nhật `go.sum`. Nên chạy sau khi thêm/xoá import, trước khi commit; nhiều đội cho CI kiểm tra `go mod tidy` không làm thay đổi file (`git diff --exit-code go.mod go.sum`).
-
-</details>
-
-**5. Làm sao build binary Go cho Linux từ máy macOS? Có lưu ý gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Đặt biến `GOOS` và `GOARCH`: `GOOS=linux GOARCH=amd64 go build -o app .`. Go hỗ trợ cross-compile sẵn, không cần toolchain phụ. Lưu ý: nếu code dùng **cgo** (gọi C) thì cross-compile cần C compiler cho nền tảng đích; thường đặt `CGO_ENABLED=0` để có binary tĩnh thuần Go, chạy được trên image `scratch`/`distroless`.
-
-</details>

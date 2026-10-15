@@ -33,7 +33,6 @@ Bốn pattern trong bài chia làm hai cặp. **Sidecar** và **Ambassador** tr�
 - [5. So sánh nhanh](#5-so-sánh-nhanh)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -356,54 +355,3 @@ Trả nguyên DTO của ERP ra ngoài "cho nhanh" → code mới bắt đầu d�
 ### Lỗi 5: Bỏ qua tách dữ liệu khi strangle
 
 Service mới vẫn đọc/ghi bảng của monolith mãi mãi → coupling qua DB, không deploy độc lập được. **Sửa:** kế hoạch tách dữ liệu (CDC, sync, rồi chuyển ownership) cho từng phần.
-
----
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Sidecar pattern là gì? Ưu nhược điểm?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Thành phần phụ chạy cùng đơn vị triển khai với app (cùng Pod), chia sẻ network/volume, cùng vòng đời. Ưu: độc lập ngôn ngữ, tách trách nhiệm, nâng cấp hạ tầng không cần sửa app, dùng được cho legacy. Nhược: tốn tài nguyên trên mỗi instance, thêm độ trễ, phức tạp vòng đời (thứ tự khởi động/tắt), khó debug hơn.
-
-</details>
-
-**2. Ambassador khác Sidecar thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Ambassador là một dạng sidecar chuyên làm **proxy outbound**: app gọi localhost, ambassador lo service discovery, retry, timeout, circuit breaker, mTLS khi gọi ra ngoài. Sidecar là khái niệm rộng hơn, gồm cả log agent, config watcher, proxy inbound.
-
-</details>
-
-**3. Anti-corruption Layer dùng để làm gì? Đặt ở đâu?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Lớp phiên dịch giữa bounded context mới và hệ thống cũ/bên ngoài, chuyển đổi giao thức và model hai chiều, giữ domain mới không bị lây khái niệm legacy. Có thể là module adapter trong service hoặc service riêng đứng giữa. Là nơi duy nhất biết chi tiết legacy.
-
-</details>
-
-**4. Bạn sẽ chuyển một monolith sang microservice thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Dùng Strangler Fig: đặt facade trước monolith; xác định bounded context; chọn phần ít phụ thuộc/giá trị cao để tách trước; xây service mới, gọi ngược monolith qua ACL khi cần; chuyển route dần (canary theo tỷ lệ), giám sát, sẵn sàng rollback; tách dữ liệu bằng CDC/sync rồi chuyển ownership; tính năng mới chỉ làm ở hệ thống mới; lặp tới khi tắt monolith.
-
-</details>
-
-**5. Vì sao service mesh đang hướng tới "sidecarless"?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Sidecar proxy ở mỗi pod tốn RAM/CPU nhân theo số pod, thêm độ trễ, phức tạp khi nâng cấp (phải restart pod để đổi phiên bản proxy). Các hướng như Istio ambient mode (proxy theo node cho L4, waypoint proxy cho L7) hoặc eBPF giảm chi phí đó, đổi lại cô lập kém hơn ở mức pod.
-
-</details>

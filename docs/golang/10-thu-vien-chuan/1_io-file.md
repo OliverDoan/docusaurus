@@ -30,7 +30,6 @@ Gần như mọi chương trình đều đọc và ghi dữ liệu: file cấu h
 - [bufio: đọc ghi có bộ đệm](#bufio-đọc-ghi-có-bộ-đệm)
 - [Đóng file đúng cách](#đóng-file-đúng-cách)
 - [path/filepath và io/fs](#pathfilepath-và-iofs)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -528,61 +527,3 @@ countGoFiles(fstest.MapFS{
 | `fs.Glob(fsys, pattern)` | Khớp mẫu |
 | `fs.Sub(fsys, dir)` | Lấy cây con (hay dùng với `embed` để bỏ tiền tố thư mục) |
 | `fs.Stat(fsys, name)` | Thông tin file |
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. `io.Reader` và `io.Writer` là gì? Vì sao chúng quan trọng trong Go?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Là hai interface một method: `Read(p []byte) (n int, err error)` và `Write(p []byte) (n int, err error)`. Vì interface trong Go là ngầm định và rất nhỏ, hàng trăm kiểu trong thư viện chuẩn hiện thực chúng (file, socket, HTTP body, buffer, gzip, hash, cipher...). Hàm viết theo `io.Reader`/`io.Writer` dùng lại được cho mọi nguồn/đích, ghép nối được (`io.Copy`, `TeeReader`, `MultiWriter`) và dễ test bằng `strings.NewReader`/`bytes.Buffer`. Đây là ví dụ kinh điển cho triết lý "interface nhỏ, kết hợp mạnh".
-
-</details>
-
-**2. Khi đọc bằng `Read`, xử lý `n` và `err` theo thứ tự nào? `io.EOF` có phải lỗi không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`Read` có thể trả về đồng thời `n > 0` và `err != nil` (kể cả `io.EOF`), nên phải xử lý `p[:n]` **trước**, rồi mới xét `err`. `io.EOF` là tín hiệu "hết dữ liệu", không phải lỗi thật — các hàm như `io.ReadAll`, `io.Copy` coi nó là kết thúc bình thường và trả `nil`. `Read` cũng có thể trả `n < len(p)` mà chưa hết dữ liệu, nên muốn đọc đủ số byte thì dùng `io.ReadFull`.
-
-</details>
-
-**3. Vì sao `defer f.Close()` có thể gây mất lỗi khi ghi file? Sửa thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Dữ liệu ghi có thể còn trong buffer của hệ điều hành; lỗi như đĩa đầy hay mất kết nối ổ mạng chỉ lộ ra ở `Close`. `defer f.Close()` bỏ qua giá trị trả về nên hàm báo thành công dù file hỏng. Cách sửa: dùng named return `err` và trong `defer` gán `err = cerr` nếu `Close` lỗi và trước đó chưa có lỗi. Với `bufio.Writer` còn phải kiểm tra lỗi `Flush()`. Dữ liệu quan trọng thì `Sync()` rồi ghi file tạm + `os.Rename` để đảm bảo nguyên tử.
-
-</details>
-
-**4. Đọc một file log 20GB để lọc dòng lỗi, bạn làm thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không dùng `os.ReadFile` (nạp 20GB vào RAM). Mở bằng `os.Open`, dùng `bufio.Scanner` đọc từng dòng — bộ nhớ chỉ tốn vài KB. Lưu ý tăng giới hạn bằng `sc.Buffer(...)` nếu có dòng dài hơn 64KB và **luôn kiểm tra `sc.Err()`** sau vòng lặp. Nếu cần nhanh hơn có thể chia file theo offset và đọc song song bằng `ReadAt`/`io.NewSectionReader`, cẩn thận cắt đúng ranh giới dòng.
-
-</details>
-
-**5. `filepath` khác `path` thế nào? `io/fs` dùng để làm gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`path/filepath` xử lý đường dẫn theo hệ điều hành (dấu `\` trên Windows) — dùng cho file trên đĩa. `path` luôn dùng `/` — dùng cho URL và đường dẫn bên trong `fs.FS`. `io/fs` định nghĩa interface `fs.FS` là filesystem chỉ đọc trừu tượng; nhờ đó cùng một code có thể đọc thư mục thật (`os.DirFS`), file nhúng (`embed.FS`), file zip, hoặc `fstest.MapFS` trong test.
-
-</details>
-
-**6. `bufio.Writer` có rủi ro gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Dữ liệu nằm trong bộ đệm cho tới khi đầy hoặc gọi `Flush()`. Quên `Flush()` (hoặc `os.Exit` trước khi flush) sẽ mất phần dữ liệu cuối mà không có lỗi nào. Ngoài ra lỗi ghi có thể chỉ xuất hiện khi flush, nên phải kiểm tra lỗi trả về của `Flush()`. `bufio.Writer` cũng không an toàn khi dùng đồng thời từ nhiều goroutine nếu không có khoá.
-
-</details>

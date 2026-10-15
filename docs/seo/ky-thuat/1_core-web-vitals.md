@@ -26,7 +26,6 @@ Core Web Vitals là bộ ba chỉ số (LCP, INP, CLS) do Google đặt ra để
 - [Đo lường Core Web Vitals](#đo-lường-core-web-vitals)
 - [Ảnh hưởng đến Google Ranking](#ảnh-hưởng-đến-google-ranking)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -429,60 +428,3 @@ Core Web Vitals là một trong nhiều yếu tố xếp hạng (ranking signal)
 4. **Load quá nhiều third-party script** — Mỗi script thêm vào là thêm long task, ảnh hưởng INP
 5. **Dùng font-display: swap cho mọi font** — Swap gây layout shift, nên dùng `optional` cho font không quan trọng
 6. **Tối ưu cho mobile nhưng quên desktop** — CrUX tách riêng mobile và desktop, cần tối ưu cả hai
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. LCP, INP, CLS đo lường cái gì? Giá trị mục tiêu của mỗi chỉ số?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-- **LCP (Largest Contentful Paint)**: Đo thời gian render phần tử nội dung lớn nhất trong viewport. Mục tiêu: dưới 2.5 giây.
-- **INP (Interaction to Next Paint)**: Đo thời gian phản hồi tương tác (click, tap, keypress) tính từ lúc user tương tác đến khi frame mới được paint. Mục tiêu: dưới 200ms.
-- **CLS (Cumulative Layout Shift)**: Đo tổng mức độ dịch chuyển bất ngờ của bố cục trang. Mục tiêu: dưới 0.1.
-
-</details>
-
-**2. Tại sao Google thay FID bằng INP?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-FID chỉ đo input delay của tương tác đầu tiên, bỏ qua processing time và presentation delay. INP đo toàn bộ lifecycle của mọi tương tác trong session, chọn giá trị xấu nhất (gần percentile thứ 98) làm đại diện. INP phản ánh chính xác hơn trải nghiệm thực tế vì user không chỉ tương tác một lần.
-
-</details>
-
-**3. Làm sao tối ưu CLS khi trang có quảng cáo load muộn?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-- Dành sẵn không gian (placeholder) cho vùng quảng cáo bằng CSS `min-height`
-- Dùng CSS `aspect-ratio` hoặc `padding-bottom` trick để giữ tỷ lệ
-- Đặt quảng cáo bên dưới viewport (below the fold) để shift không ảnh hưởng score
-- Tránh inject quảng cáo vào giữa nội dung đang hiển thị
-- Nếu ad slot trống (không có ad), giữ nguyên placeholder thay vì collapse
-
-</details>
-
-**4. Sự khác nhau giữa Lab data và Field data? Google dùng loại nào để xếp hạng?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-- **Lab data**: Đo trên môi trường giả lập (Lighthouse, WebPageTest), kết quả nhất quán nhưng không phản ánh thiết bị thực
-- **Field data**: Thu thập từ người dùng thật (CrUX, web-vitals library), phản ánh trải nghiệm thực nhưng biến động theo thiết bị và mạng
-- Google dùng **field data từ CrUX** (Chrome User Experience Report) để xếp hạng, không dùng Lighthouse score
-
-</details>
-
-**5. Giải thích cách hoạt động của INP. Tại sao một event handler chạy 300ms sẽ cho INP kém?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-INP bao gồm 3 giai đoạn: Input Delay (chờ main thread rảnh) + Processing Time (chạy handler) + Presentation Delay (browser render frame mới). Nếu handler chạy 300ms, chỉ riêng processing time đã vượt ngưỡng 200ms, chưa kể input delay và presentation delay. Giải pháp: chia handler thành nhiều phần nhỏ, dùng `scheduler.yield()` hoặc `requestAnimationFrame` để nhường main thread cho browser paint frame trung gian.
-
-</details>

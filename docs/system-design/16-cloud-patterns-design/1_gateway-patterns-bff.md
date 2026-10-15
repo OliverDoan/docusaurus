@@ -34,7 +34,6 @@ Khi hệ thống tách thành nhiều microservice, client không nên (và thư
 - [6. So sánh và kết hợp](#6-so-sánh-và-kết-hợp)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -316,58 +315,3 @@ Service đọc `x-user-id` để phân quyền, nhưng vẫn mở port cho mọi
 ### Lỗi 5: Chỉ chạy một instance gateway
 
 Gateway sập là toàn hệ thống sập. **Sửa:** nhiều instance, nhiều AZ, health check, autoscale.
-
----
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Phân biệt Gateway Routing, Offloading và Aggregation.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-- **Routing:** một endpoint, gateway định tuyến theo path/host/header tới service hoặc phiên bản phù hợp.
-- **Offloading:** gateway gánh việc cắt ngang (TLS, auth, rate limit, logging) để service không phải tự làm.
-- **Aggregation:** một request client → gateway gọi song song nhiều service rồi gộp kết quả, giảm round-trip.
-
-Một sản phẩm API Gateway thường làm cả ba.
-
-</details>
-
-**2. BFF là gì? Khi nào nên dùng?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Backend riêng cho từng loại trải nghiệm frontend (web, mobile, đối tác), do team frontend sở hữu, chuyên gộp và định dạng dữ liệu cho client đó. Dùng khi các client có nhu cầu dữ liệu, xác thực, nhịp phát hành khác nhau rõ rệt. Không dùng khi chỉ có một frontend hoặc các client gần giống nhau.
-
-</details>
-
-**3. API Gateway khác load balancer và service mesh thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Load balancer chủ yếu phân phối traffic tới các instance giống nhau (L4/L7). API Gateway là điểm vào cho traffic **bắc-nam** (client → hệ thống), có routing theo API, auth, rate limit, aggregation, quản lý API key. Service mesh (Istio, Linkerd) quản lý traffic **đông-tây** (service ↔ service) bằng sidecar: mTLS, retry, circuit breaker, telemetry.
-
-</details>
-
-**4. Gateway Aggregation có rủi ro gì? Giảm thiểu thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Gateway thành nút cổ chai và điểm lỗi; một service chậm kéo chậm cả response; dễ bị nhồi logic. Giảm thiểu: gọi song song, timeout từng call, circuit breaker, degrade phần tuỳ chọn, scale ngang gateway, giữ aggregation mỏng.
-
-</details>
-
-**5. Gateway đã xác thực JWT, service phía sau có cần xác thực lại không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Theo zero trust thì service vẫn cần đảm bảo request đến từ nguồn tin cậy: mTLS giữa gateway và service, network policy chỉ cho gateway gọi vào, hoặc gateway chuyển token xuống để service tự verify (chi phí thấp vì chỉ kiểm tra chữ ký). Phân quyền theo nghiệp vụ (authorization chi tiết) luôn nằm ở service.
-
-</details>

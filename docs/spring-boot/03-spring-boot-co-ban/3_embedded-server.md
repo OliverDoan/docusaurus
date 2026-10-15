@@ -29,7 +29,6 @@ Một trong những thay đổi lớn nhất Spring Boot mang lại là **đảo
 - [Cấu hình server thường dùng](#cấu-hình-server-thường-dùng)
 - [Fat jar hoạt động thế nào](#fat-jar-hoạt-động-thế-nào)
 - [So với triển khai WAR](#so-với-triển-khai-war)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -353,61 +352,3 @@ public class ShopApplication extends SpringBootServletInitializer {
 Deploy WAR Spring Boot 3 lên **Tomcat 9** → lỗi vì Tomcat 9 dùng `javax.servlet`, còn Boot 3 cần Servlet `jakarta.servlet` (Tomcat 10.1+). Kiểm tra phiên bản server ngoài trước khi deploy.
 
 :::
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Embedded server là gì? Lợi ích so với deploy WAR truyền thống?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Embedded server là web server (Tomcat, Jetty, Undertow, Netty) được nhúng như một thư viện trong ứng dụng; ứng dụng tự khởi động server trong `main()` và đóng gói thành một fat jar chạy bằng `java -jar`. Lợi ích: không cần cài/cấu hình server riêng; phiên bản server đi theo ứng dụng nên dev và prod giống nhau; mỗi app một process cô lập; rất hợp container, microservices, CI/CD; cấu hình server nằm trong source code (`server.*`).
-
-</details>
-
-**2. Spring Boot hỗ trợ những embedded server nào? Đổi server thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Với Servlet stack: Tomcat (mặc định), Jetty, Undertow (Boot 3; bị bỏ ở Boot 4). Với reactive stack: Reactor Netty (mặc định), cũng có thể dùng Tomcat, Jetty. Đổi bằng cách exclude `spring-boot-starter-tomcat` khỏi `spring-boot-starter-web` và thêm starter của server mới; auto-configuration (`ServletWebServerFactoryAutoConfiguration`) dựa vào class trên classpath để tạo factory tương ứng.
-
-</details>
-
-**3. Fat jar của Spring Boot khác jar thường thế nào? Vì sao chạy được bằng `java -jar`?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Fat jar chứa code (`BOOT-INF/classes`), mọi thư viện phụ thuộc dạng jar lồng (`BOOT-INF/lib`), và Spring Boot Loader. `MANIFEST.MF` có `Main-Class` trỏ tới `JarLauncher` (Boot 3.2+: `org.springframework.boot.loader.launch.JarLauncher`) và `Start-Class` trỏ tới class main của bạn. JDK không đọc được jar lồng nhau nên `JarLauncher` tạo ClassLoader riêng nạp các jar trong `BOOT-INF/lib`, rồi gọi `main()` của `Start-Class`. File được tạo bởi goal `repackage` của `spring-boot-maven-plugin` (hoặc task `bootJar` của Gradle).
-
-</details>
-
-**4. Graceful shutdown là gì, cấu hình thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khi nhận tín hiệu tắt (SIGTERM), server ngừng nhận request mới nhưng chờ các request đang xử lý hoàn tất (trong giới hạn thời gian) rồi mới đóng context. Cấu hình `server.shutdown=graceful` (mặc định từ Boot 3.4) và `spring.lifecycle.timeout-per-shutdown-phase=30s`. Trên Kubernetes cần kết hợp readiness probe (Actuator chuyển trạng thái readiness sang `REFUSING_TRAFFIC` khi bắt đầu tắt) và `terminationGracePeriodSeconds` đủ lớn để rolling update không làm rớt request.
-
-</details>
-
-**5. Muốn deploy Spring Boot dưới dạng WAR thì cần làm gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-(1) Đổi `packaging` thành `war`; (2) đánh dấu `spring-boot-starter-tomcat` là `provided` để không đóng gói server; (3) class main kế thừa `SpringBootServletInitializer` và override `configure()` để server ngoài khởi tạo được Spring context qua Servlet 3+ `ServletContainerInitializer`. Server ngoài phải hỗ trợ Jakarta Servlet phiên bản Boot yêu cầu (Boot 3 cần Tomcat 10.1+).
-
-</details>
-
-**6. Cấu hình thread pool của Tomcat ảnh hưởng hiệu năng thế nào? Virtual thread thay đổi điều gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Mỗi request Spring MVC chiếm một thread Tomcat (`server.tomcat.threads.max`, mặc định 200) cho đến khi xong. Nếu thread bị block lâu chờ I/O (DB, API ngoài), pool cạn và request mới phải đợi trong `accept-count`. Tăng thread giúp đến khi chạm giới hạn khác (DB pool, CPU, RAM). Với Java 21 và `spring.threads.virtual.enabled=true`, Tomcat dùng virtual thread cho mỗi request — rẻ hơn rất nhiều so với platform thread, nên chịu được nhiều request đồng thời đang chờ I/O mà vẫn giữ code blocking dễ đọc; tuy vậy vẫn cần giới hạn tài nguyên phía sau như DB pool.
-
-</details>

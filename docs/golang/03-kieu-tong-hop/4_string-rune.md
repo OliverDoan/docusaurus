@@ -31,7 +31,6 @@ String trong Go là **dãy byte bất biến** (immutable), quy ước chứa v�
 - [Package strings](#package-strings)
 - [Package unicode/utf8 và unicode](#package-unicodeutf8-và-unicode)
 - [Nối chuỗi hiệu quả với strings.Builder](#nối-chuỗi-hiệu-quả-với-stringsbuilder)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -376,61 +375,3 @@ fmt.Println(sb.String(), sb.Len()) // "dòng 0;dòng 1;dòng 2;" và số BYTE
 `strings.Builder` chứa con trỏ tới chính nó để phát hiện copy; copy một Builder đã có dữ liệu rồi ghi tiếp sẽ **panic**. Truyền vào hàm thì dùng con trỏ `*strings.Builder`.
 
 :::
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. `len("Việt Nam")` bằng bao nhiêu? Vì sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Bằng 10. `len` trên string trả về **số byte**. Chuỗi được mã hoá UTF-8: "ệ" chiếm 3 byte, các ký tự ASCII còn lại 1 byte (7 ký tự ASCII + 3 byte = 10). Số ký tự (rune) là 8, lấy bằng `utf8.RuneCountInString` hoặc `len([]rune(s))`.
-
-</details>
-
-**2. byte và rune khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`byte` là alias của `uint8`, biểu diễn một byte dữ liệu. `rune` là alias của `int32`, biểu diễn một Unicode code point. `s[i]` trả về byte; `for _, r := range s` trả về rune (giải mã UTF-8). Rune literal viết bằng nháy đơn `'a'`.
-
-</details>
-
-**3. Duyệt chuỗi bằng `for i := 0; i < len(s); i++` và `for i, r := range s` khác gì nhau?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Vòng `for` theo index đi qua từng **byte**, `s[i]` là byte — ký tự nhiều byte bị tách rời. `for range` giải mã UTF-8 và đi qua từng **rune**; `i` là vị trí byte bắt đầu của rune nên có thể nhảy cóc (0, 1, 2, 5...). Byte không hợp lệ được trả về là `utf8.RuneError` và tiến 1 byte.
-
-</details>
-
-**4. Vì sao string trong Go là bất biến? Lợi ích là gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Bất biến cho phép chia sẻ vùng nhớ an toàn: substring `s[a:b]` và gán string chỉ copy header (con trỏ + độ dài), không copy dữ liệu; string an toàn khi dùng từ nhiều goroutine mà không cần khoá; dùng làm key map ổn định vì hash không đổi. Đổi lại, sửa nội dung phải chuyển sang `[]byte`/`[]rune` (có copy) và nối chuỗi lặp lại tốn kém.
-
-</details>
-
-**5. Vì sao nên dùng `strings.Builder` thay vì `+=` trong vòng lặp?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Mỗi `s += x` cấp phát chuỗi mới và copy toàn bộ nội dung cũ → n lần nối tốn O(n²) thời gian và tạo nhiều rác cho GC. `strings.Builder` giữ buffer `[]byte` tăng trưởng kiểu `append` (amortized O(1) mỗi lần ghi), có `Grow` để cấp trước, và `String()` trả về chuỗi mà không copy lại buffer.
-
-</details>
-
-**6. `string(65)` cho ra gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Ra `"A"`, vì chuyển số nguyên sang string được hiểu là chuyển **code point** sang ký tự UTF-8. `go vet` cảnh báo cách viết này. Muốn được `"65"` phải dùng `strconv.Itoa(65)` hoặc `fmt.Sprint(65)`.
-
-</details>

@@ -36,7 +36,6 @@ Sau khi bạn làm việc trên một branch riêng và hoàn thành công việ
 - [8. Thực hành -- Trải nghiệm tất cả các kiểu merge](#8-thực-hành-trải-nghiệm-tất-cả-các-kiểu-merge)
 - [9. Best practices khi merge](#9-best-practices-khi-merge)
 - [10. Lỗi thường gặp](#10-lỗi-thường-gặp)
-- [11. Câu hỏi phỏng vấn](#11-câu-hỏi-phỏng-vấn)
 - [Tóm tắt](#tóm-tắt)
 
 ---
@@ -645,57 +644,6 @@ git reset --hard HEAD~1  # Quay lại
 git merge --no-ff feature/small
 # Bây giờ có merge commit
 ```
-
----
-
-## 11. Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Giải thích sự khác nhau giữa fast-forward merge và 3-way merge.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-**Fast-forward** xảy ra khi branch đích không có commit mới nào kể từ khi tạo branch nguồn -- Git chỉ di chuyển pointer, không tạo merge commit. **3-way merge** xảy ra khi cả hai branch đều có commit mới -- Git phải so sánh 3 điểm (merge base, tip của mỗi branch), kết hợp thay đổi và tạo merge commit có 2 parent. Fast-forward cho lịch sử phẳng nhưng mất thông tin branch; 3-way merge giữ lại lịch sử branch nhưng phức tạp hơn.
-
-</details>
-
-**2. `--no-ff` flag làm gì và tại sao nhiều team bắt buộc dùng nó?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`--no-ff` (no fast-forward) ép Git **luôn tạo merge commit**, kể cả khi có thể fast-forward. Nhiều team dùng nó vì: (1) merge commit là "mốc" đánh dấu một feature hoàn thành, (2) dễ rollback cả feature bằng `git revert`, (3) `git log --graph` hiển thị rõ cấu trúc branch, (4) biết ai merge và khi nào. Đây là cấu hình mặc định trong nhiều Git workflow (Git Flow, GitHub Flow).
-
-</details>
-
-**3. Squash merge là gì? Khi nào nên dùng và không nên dùng?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Squash merge gộp tất cả commit từ branch nguồn thành một thay đổi duy nhất trên branch đích, rồi bạn tự commit. **Nên dùng** khi feature branch có nhiều commit nhỏ không có ý nghĩa (wip, fix typo, test), muốn main có lịch sử sạch. **Không nên dùng** khi mỗi commit trong branch đều quan trọng và cần truy vết, hoặc khi nhiều người cùng làm trên một branch (mất thông tin ai làm gì). Lưu ý: sau squash merge, Git không biết branch đã merge, cần xóa branch thủ công bằng `-D`.
-
-</details>
-
-**4. Bạn đang ở main và merge nhầm branch. Chưa push. Làm sao khắc phục?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Dùng `git reset --hard HEAD~1` để quay lại commit trước merge commit (vì merge commit là commit mới nhất). Nếu là squash merge (bạn đã commit), tương tự dùng `git reset --hard HEAD~1`. Nếu đã push lên remote, dùng `git revert -m 1 <merge-commit-hash>` để tạo commit mới đảo ngược thay đổi -- KHÔNG dùng `reset --hard` trên branch đã push vì sẽ gây conflict cho đồng nghiệp.
-
-</details>
-
-**5. Giải thích `-s ours` và `-X ours` khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`-s ours` là **merge strategy** -- nó bỏ **toàn bộ** thay đổi từ branch kia, chỉ giữ nội dung của branch hiện tại, nhưng vẫn tạo merge commit (đánh dấu là đã merge). Dùng khi muốn "đóng" một branch cũ mà không lấy code. `-X ours` là **strategy option** cho recursive merge -- nó chỉ áp dụng khi có **conflict**: chọn phiên bản của branch hiện tại cho những dòng conflict, còn những thay đổi không conflict vẫn được merge bình thường. Tương tự, `-X theirs` chọn phiên bản của branch kia khi conflict.
-
-</details>
 
 ---
 

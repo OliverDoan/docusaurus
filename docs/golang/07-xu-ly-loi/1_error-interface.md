@@ -30,7 +30,6 @@ Go không có exception và `try/catch`. Thay vào đó, **lỗi là giá trị*
 - [Custom error type](#custom-error-type)
 - [Sentinel error](#sentinel-error)
 - [So sánh với try/catch](#so-sánh-với-trycatch)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -472,61 +471,3 @@ if err != nil {
 ```
 
 Thay vì stack trace, Go dựa vào **chuỗi ngữ cảnh** do mỗi tầng thêm vào: `xử lý request: lấy danh sách user: kết nối db: dial tcp 10.0.0.5:5432: connection refused` — đọc từ trái sang phải là thấy đường đi của lỗi.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Vì sao Go không dùng exception? Ưu nhược điểm của cách "lỗi là giá trị"?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Go muốn luồng lỗi hiện rõ trong code: lỗi nằm trong chữ ký hàm, người gọi buộc phải nhìn thấy và quyết định tại chỗ, không có bước nhảy vô hình. Ưu: dễ đọc luồng điều khiển, chi phí thấp (không tạo stack trace), lỗi được xử lý như dữ liệu (lưu, so sánh, gộp, wrap). Nhược: code dài vì `if err != nil` lặp lại; có thể vô tình bỏ qua lỗi (cần linter `errcheck`); không có stack trace sẵn — phải thêm ngữ cảnh khi wrap.
-
-</details>
-
-**2. `error` trong Go là gì? Làm sao tạo một kiểu lỗi riêng?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`error` là interface dựng sẵn với một method `Error() string`. Tạo lỗi riêng bằng cách định nghĩa struct và hiện thực `Error()` — thường với pointer receiver — rồi trả `&MyError{...}`. Người gọi lấy lại dữ liệu bằng `errors.As(err, &target)`. Hàm luôn khai báo kiểu trả về là `error` (không phải `*MyError`) và `return nil` tường minh khi không có lỗi để tránh bẫy nil interface.
-
-</details>
-
-**3. Sentinel error là gì? Cho ví dụ trong thư viện chuẩn.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Là biến lỗi khai báo sẵn ở cấp package để so sánh danh tính: `io.EOF`, `sql.ErrNoRows`, `fs.ErrNotExist`, `http.ErrServerClosed`, `context.Canceled`. Kiểm tra bằng `errors.Is(err, io.EOF)` (không dùng `==` vì lỗi có thể đã bị wrap). Nhược điểm: sentinel là một phần API public, tạo phụ thuộc giữa package; không mang thêm dữ liệu.
-
-</details>
-
-**4. `errors.New("x") == errors.New("x")` trả về gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`false`. `errors.New` trả con trỏ tới một struct mới mỗi lần gọi, nên hai lỗi cùng thông điệp vẫn là hai giá trị khác nhau. Đây cũng là lý do sentinel error phải được khai báo một lần thành biến package và mọi nơi trả về **cùng biến đó**.
-
-</details>
-
-**5. Vì sao thông điệp lỗi trong Go nên viết thường và không có dấu chấm cuối?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Vì lỗi thường được nối thêm ngữ cảnh khi truyền lên: `lưu đơn: thanh toán: timeout`. Chữ hoa hoặc dấu chấm ở giữa chuỗi trông sai. Đây là quy ước trong Go Code Review Comments, được `staticcheck` ST1005 kiểm tra. Ngoại lệ: danh từ riêng, từ viết tắt (`HTTP`, `JSON`).
-
-</details>
-
-**6. Khi nào dùng sentinel error, khi nào dùng custom error type?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Sentinel khi trạng thái lỗi đơn giản, người gọi chỉ cần biết "có phải lỗi X không": không tìm thấy, hết dữ liệu, đã đóng. Custom error type khi người gọi cần dữ liệu đi kèm: trường không hợp lệ, mã lỗi nghiệp vụ, HTTP status, có retry được không. Nếu chỉ cần thông điệp cho người đọc log, dùng `fmt.Errorf` là đủ — không phải lỗi nào cũng cần kiểu riêng.
-
-</details>

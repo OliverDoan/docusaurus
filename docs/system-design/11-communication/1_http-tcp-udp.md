@@ -35,7 +35,6 @@ Mọi hệ thống phân tán đều là các máy **nói chuyện với nhau qu
 - [6. HTTP/1.1, HTTP/2, HTTP/3](#6-http11-http2-http3)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -374,61 +373,3 @@ Domain sharding làm HTTP/2 mở nhiều kết nối, mất lợi thế multiple
 ### Lỗi 5: Dùng sai status code
 
 Trả `200 OK` kèm body `{"error": ...}` khiến proxy, cache, monitoring, retry logic đều hiểu sai. **Sửa:** trả đúng `4xx`/`5xx`, kèm body lỗi có cấu trúc (ví dụ RFC 9457 Problem Details).
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Khác biệt giữa TCP và UDP? Cho ví dụ khi nào dùng mỗi loại.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-TCP có kết nối (bắt tay 3 bước), tin cậy (ACK, gửi lại), đúng thứ tự, có flow control và congestion control -- dùng cho web, API, database, file. UDP không kết nối, không đảm bảo, header nhỏ, latency thấp, hỗ trợ broadcast/multicast -- dùng cho video/voice real-time, game, DNS, metrics, và làm nền cho QUIC.
-
-</details>
-
-**2. Mô tả TCP three-way handshake. Vì sao kết nối đầu tiên chậm?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Client gửi SYN, server trả SYN-ACK, client gửi ACK -- mất 1 RTT trước khi gửi dữ liệu. Thêm TLS 1.3 tốn 1 RTT nữa (TLS 1.2 là 2). Sau đó slow start làm cwnd nhỏ lúc đầu. Giảm bằng keep-alive/connection pool, TLS session resumption, CDN gần user, HTTP/3 (gộp bắt tay, 0-RTT).
-
-</details>
-
-**3. HTTP/2 cải thiện gì so với HTTP/1.1? HTTP/3 giải quyết vấn đề gì còn lại?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-HTTP/2: binary framing, multiplexing nhiều stream trên một kết nối (hết HOL ở tầng HTTP), nén header HPACK, ưu tiên stream. Vấn đề còn lại: HOL ở tầng TCP -- mất một gói chặn mọi stream. HTTP/3 dùng QUIC trên UDP: stream độc lập ở tầng transport, bắt tay gộp TLS (1 RTT, 0-RTT khi kết nối lại), connection migration khi đổi mạng.
-
-</details>
-
-**4. Flow control và congestion control khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Flow control bảo vệ bên nhận: receiver window cho biết bộ đệm còn bao nhiêu. Congestion control bảo vệ mạng: congestion window điều chỉnh theo tín hiệu mất gói/độ trễ (slow start, AIMD, CUBIC, BBR). Lượng dữ liệu được gửi chưa ACK là min của hai cửa sổ.
-
-</details>
-
-**5. Phân biệt 401 và 403, 502 và 504. Lỗi nào nên retry?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-401: chưa xác thực hoặc token không hợp lệ. 403: đã xác thực nhưng không có quyền. 502: gateway nhận response không hợp lệ từ upstream. 504: gateway chờ upstream quá thời gian. Nên retry (có backoff, giới hạn) với 429, 502, 503, 504 và lỗi mạng tạm thời, chỉ khi thao tác idempotent hoặc có idempotency key. Không retry 400, 401, 403, 404, 422.
-
-</details>
-
-**6. Vì sao DNS dùng UDP? Khi nào DNS dùng TCP?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Truy vấn và trả lời DNS thường nhỏ, vừa một gói; UDP tránh được RTT bắt tay, giảm tải cho server phục vụ lượng truy vấn khổng lồ; mất thì client tự gửi lại sau timeout. DNS dùng TCP khi response quá lớn (bị truncate, cờ TC), khi zone transfer giữa các name server, và với DNS over TLS/HTTPS.
-
-</details>

@@ -31,7 +31,6 @@ Code thật luôn có phụ thuộc bên ngoài: database, API thanh toán, dị
 - [Mock với testify/mock và mockery](#mock-với-testifymock-và-mockery)
 - [Fake hay mock?](#fake-hay-mock)
 - [Test với database thật: testcontainers-go](#test-với-database-thật-testcontainers-go)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -515,61 +514,3 @@ func TestPostgresUserStore_DuplicateEmail(t *testing.T) {
 Module có sẵn cho MySQL, Redis, Kafka, MongoDB, LocalStack (giả lập AWS)... Lưu ý chi phí: khởi động container mất vài giây — chia sẻ một container cho cả package (qua `TestMain` hoặc `sync.Once`) và tách dữ liệu giữa các test bằng transaction rollback hoặc schema riêng. CI cần có Docker.
 
 **Chiến lược tổng thể** thường gặp: service/business logic → unit test với fake/stub (nhanh, nhiều); repository → integration test với DB thật (ít hơn, chậm hơn); một vài test end-to-end cho luồng quan trọng.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Phân biệt stub, fake, spy và mock.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Stub trả về dữ liệu định sẵn, không có logic. Fake là hiện thực chạy được nhưng đơn giản hoá (store bằng map thay DB, SMTP in ra log). Spy là stub có ghi lại các lời gọi để test kiểm tra sau. Mock được lập trình sẵn kỳ vọng về lời gọi (method nào, tham số gì, bao nhiêu lần, thứ tự) và tự làm test fail nếu không đúng. Stub/fake phục vụ kiểm tra trạng thái/kết quả; mock phục vụ kiểm tra hành vi tương tác.
-
-</details>
-
-**2. Làm sao thiết kế code Go để dễ mock?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Phụ thuộc vào interface thay vì kiểu cụ thể; khai báo interface **ở package dùng** và chỉ gồm các method thực sự cần (interface nhỏ); nhận phụ thuộc qua constructor (dependency injection thủ công) thay vì tạo bên trong hoặc dùng biến global; với phụ thuộc đơn lẻ như thời gian hay sinh ID, truyền kiểu hàm (`now func() time.Time`). Nguyên tắc "accept interfaces, return structs". Nhờ interface ngầm định, kiểu của thư viện bên thứ ba tự động thoả interface mà không cần sửa.
-
-</details>
-
-**3. Vì sao cộng đồng Go hay khuyên dùng fake viết tay thay cho mock framework?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Interface Go thường nhỏ nên viết fake chỉ vài dòng, không cần sinh code hay thư viện. Test với fake kiểm tra kết quả cuối cùng nên ít phụ thuộc vào chi tiết hiện thực — refactor không làm vỡ test. Fake dùng lại được cho nhiều test và dễ đọc hơn chuỗi `EXPECT()`. Mock framework vẫn hữu ích khi lời gọi chính là điều cần kiểm tra (gửi email, gọi API thanh toán) hoặc interface lớn không tách được.
-
-</details>
-
-**4. gomock hiện nay nên dùng package nào? `ctrl.Finish()` còn cần không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`github.com/golang/mock` đã ngừng bảo trì (archived); dùng bản fork được Uber duy trì `go.uber.org/mock` với công cụ `mockgen` tương ứng. Với Go 1.14+ và gomock đủ mới, `gomock.NewController(t)` tự đăng ký kiểm tra kỳ vọng qua `t.Cleanup`, nên không cần `defer ctrl.Finish()`.
-
-</details>
-
-**5. Mock repository khi test service có đủ không? Test tầng repository thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không đủ: mock chỉ chứng minh service gọi repository đúng, không chứng minh câu SQL, mapping cột, ràng buộc, transaction hoạt động đúng. Tầng repository nên có integration test với database thật — dùng `testcontainers-go` khởi động PostgreSQL/MySQL trong Docker ngay trong test, chạy migration, rồi test các method. Để tiết kiệm thời gian, chia sẻ container cho cả package và cô lập dữ liệu giữa các test; bỏ qua bằng `testing.Short()` khi chạy nhanh ở máy dev.
-
-</details>
-
-**6. Test một hàm phụ thuộc `time.Now()` thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không gọi `time.Now()` trực tiếp trong logic mà inject nó: field `now func() time.Time` (production gán `time.Now`), hoặc interface `Clock`. Test truyền hàm trả về thời điểm cố định để kết quả xác định. Với code dùng goroutine, timer và `time.Sleep`, Go 1.25 có `testing/synctest` cung cấp đồng hồ ảo trong một "bong bóng" test, giúp test các timeout dài mà chạy tức thì.
-
-</details>

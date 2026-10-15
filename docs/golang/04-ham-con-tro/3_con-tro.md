@@ -31,7 +31,6 @@ Con trỏ (pointer) là biến chứa **địa chỉ bộ nhớ** của một bi
 - [Hàm new và con trỏ tới giá trị](#hàm-new-và-con-trỏ-tới-giá-trị)
 - [nil pointer](#nil-pointer)
 - [Go không có pointer arithmetic](#go-không-có-pointer-arithmetic)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -412,61 +411,3 @@ func NewUser(name string) *User {
 `unsafe.Pointer` và `unsafe.Add` cho phép thao tác địa chỉ như C, bỏ qua mọi đảm bảo an toàn kiểu và có thể không tương thích giữa các phiên bản Go. Chỉ thấy trong thư viện tối ưu hiệu năng cấp thấp hoặc khi gọi C (cgo); code ứng dụng gần như không bao giờ cần.
 
 :::
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Go truyền tham số theo giá trị hay tham chiếu?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Luôn theo giá trị — mọi đối số được copy vào tham số. Với con trỏ, thứ được copy là địa chỉ, nên hàm sửa được giá trị qua `*p`. Slice, map, channel "trông như" tham chiếu vì giá trị của chúng chứa con trỏ tới dữ liệu bên dưới: hàm sửa phần tử thì caller thấy, nhưng gán lại cả biến (hay `append` làm đổi header slice) thì caller không thấy.
-
-</details>
-
-**2. Khi nào nên truyền con trỏ `*T` thay vì giá trị `T`?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khi hàm/method cần sửa giá trị; khi struct lớn và copy tốn kém; khi struct chứa thứ không được copy (`sync.Mutex`, `strings.Builder`); khi cần biểu diễn "không có giá trị" bằng `nil`. Dùng `T` khi kiểu nhỏ, bất biến hoặc muốn đảm bảo hàm không sửa bản gốc. Con trỏ có thể khiến biến escape lên heap, nên không mặc định "con trỏ = nhanh hơn".
-
-</details>
-
-**3. Hàm nhận slice và gọi `append` — vì sao caller không thấy phần tử mới?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Hàm nhận bản copy của slice header. `append` trả về header mới (len tăng, có thể trỏ tới mảng nền mới) và chỉ gán vào biến cục bộ. Header của caller vẫn giữ len cũ (và có thể trỏ mảng cũ). Cách sửa: trả về slice mới và để caller gán lại (`s = f(s)`), hoặc nhận `*[]T` và gán `*s = append(*s, x)`.
-
-</details>
-
-**4. Trả về con trỏ tới biến cục bộ trong Go có an toàn không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-An toàn. Trình biên dịch dùng escape analysis, thấy địa chỉ biến thoát ra ngoài hàm thì cấp phát biến trên heap thay vì stack; GC thu hồi khi không còn ai tham chiếu. Khác với C, nơi trả con trỏ tới biến stack tạo dangling pointer. Xem quyết định bằng `go build -gcflags=-m`.
-
-</details>
-
-**5. `new(T)` và `&T{}` khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Với struct, cả hai đều cấp phát giá trị zero và trả về `*T`; `&T{...}` còn cho phép khởi tạo trường ngay nên phổ biến hơn. `new` dùng được với mọi kiểu kể cả kiểu không có composite literal (`new(int)`). Từ Go 1.26, `new` còn nhận biểu thức: `new(30)` trả về `*int` trỏ tới 30 — thay cho helper `ptr` tự viết.
-
-</details>
-
-**6. Vì sao Go không cho phép pointer arithmetic?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Để đảm bảo an toàn bộ nhớ: không đọc/ghi ra ngoài vùng được cấp phát (buffer overflow), không tạo con trỏ trỏ vào giữa object làm GC khó theo dõi. Duyệt dữ liệu dùng slice/index có bounds check. Trường hợp thật sự cần (tối ưu cấp thấp, cgo) có package `unsafe`, chấp nhận mất đảm bảo an toàn.
-
-</details>

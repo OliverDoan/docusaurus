@@ -31,7 +31,6 @@ Thời gian là nguồn bug kinh điển: lệch múi giờ, parse sai định d
 - [Monotonic clock và đo thời gian](#monotonic-clock-và-đo-thời-gian)
 - [Timer và Ticker](#timer-và-ticker)
 - [Package flag](#package-flag)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -401,61 +400,3 @@ go run . list -all               # liệt kê, all = true
 ### Khi nào cần thư viện ngoài?
 
 `flag` không hỗ trợ cờ ngắn/dài kiểu POSIX (`-v`/`--verbose` gộp `-abc`), tự động đọc biến môi trường, hay cây lệnh con nhiều tầng có help đẹp. CLI lớn thường dùng `github.com/spf13/cobra` (kubectl, gh, hugo dùng) kết hợp `spf13/pflag`, hoặc `github.com/urfave/cli`.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Vì sao Go dùng `2006-01-02 15:04:05` để định dạng thời gian?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Go chọn một thời điểm tham chiếu cố định `Mon Jan 2 15:04:05 MST 2006` — các thành phần tương ứng với dãy 1 (tháng), 2 (ngày), 3 (giờ, dạng 15), 4 (phút), 5 (giây), 6 (năm), -7 (múi giờ). Layout là "thời điểm đó được viết theo định dạng bạn muốn", nên đọc layout là thấy ngay kết quả. Nhược điểm là phải nhớ con số, và viết nhầm (vd `2006-02-01`) vẫn biên dịch được. Nên dùng các hằng `time.RFC3339`, `time.DateTime`, `time.DateOnly`.
-
-</details>
-
-**2. `time.Parse("2006-01-02 15:04", "2026-10-15 09:00")` cho ra thời điểm múi giờ nào? Muốn hiểu là giờ Việt Nam thì làm sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Chuỗi không chứa thông tin múi giờ nên `time.Parse` coi là **UTC** — tức 16:00 giờ Việt Nam, lệch 7 tiếng. Muốn hiểu là giờ địa phương thì dùng `loc, _ := time.LoadLocation("Asia/Ho_Chi_Minh")` rồi `time.ParseInLocation(layout, s, loc)`. Trong container tối giản cần `import _ "time/tzdata"` để `LoadLocation` không lỗi.
-
-</details>
-
-**3. Vì sao không nên so sánh `time.Time` bằng `==`?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`time.Time` là struct chứa wall time, monotonic reading và con trỏ `*Location`. `==` so sánh tất cả các trường, nên cùng một thời điểm nhưng khác múi giờ (`t` và `t.UTC()`), hoặc một bên có monotonic một bên không, sẽ cho `false`. Dùng `t1.Equal(t2)` (hoặc `Before`/`After`/`Compare`) để so sánh theo thời điểm thực. Cũng vì vậy, tránh dùng `time.Time` làm key map nếu chưa chuẩn hoá.
-
-</details>
-
-**4. Monotonic clock là gì, vì sao `time.Since` dùng nó?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Wall clock có thể nhảy khi NTP đồng bộ hoặc người dùng chỉnh giờ; đo thời gian bằng nó có thể ra số âm hoặc sai lớn. Monotonic clock chỉ tăng đều, không bị chỉnh. Từ Go 1.9, `time.Now()` lưu cả hai và `Sub`/`Since`/`Until` dùng phần monotonic khi cả hai giá trị đều có. Phần monotonic bị bỏ khi gọi `UTC()`, `In()`, `Round(0)` hoặc khi serialize, vì nó chỉ có nghĩa trong tiến trình hiện tại.
-
-</details>
-
-**5. Dùng `time.After` trong vòng lặp `select` có vấn đề gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Mỗi lần lặp tạo một timer mới. Trước Go 1.23, timer chỉ được thu hồi sau khi hết hạn, nên vòng lặp chạy nhanh với timeout dài sẽ tích tụ rất nhiều timer, gây tốn bộ nhớ. Từ Go 1.23 (module khai báo `go 1.23`+), timer không còn tham chiếu được GC ngay nên vấn đề bộ nhớ không còn. Tuy vậy, về logic, timeout bị "đặt lại" sau mỗi lần lặp — nếu muốn timeout cho toàn bộ vòng lặp, tạo một timer/`context.WithTimeout` bên ngoài vòng lặp.
-
-</details>
-
-**6. Viết CLI có lệnh con bằng thư viện chuẩn thế nào? Khi nào nên dùng cobra?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Đọc `os.Args[1]` làm tên lệnh con, mỗi lệnh tạo một `flag.NewFlagSet(name, flag.ExitOnError)` riêng với các cờ của nó, rồi `fs.Parse(os.Args[2:])`; tham số còn lại lấy qua `fs.Args()`. Cách này đủ cho tool nhỏ, không phụ thuộc thư viện ngoài. Khi CLI có nhiều tầng lệnh, cần cờ POSIX (`-v`/`--verbose`), tự sinh help/completion cho shell, đọc config/biến môi trường, thì dùng `cobra` (+`viper`).
-
-</details>

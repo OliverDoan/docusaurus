@@ -31,7 +31,6 @@ Không phải ứng dụng Spring nào cũng chỉ trả JSON. Trang quản tr�
 - [Form và validation với Thymeleaf](#form-và-validation-với-thymeleaf)
 - [Layout dùng chung với fragment](#layout-dùng-chung-với-fragment)
 - [So sánh các lựa chọn view](#so-sánh-các-lựa-chọn-view)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -366,61 +365,3 @@ Header, footer lặp lại ở nhiều trang được tách thành **fragment**:
 | Escape mặc định | Không (`${}` thô, cần `c:out`) | Có | Tuỳ cấu hình | Framework tự escape |
 | Hỗ trợ trong Spring Boot | Hạn chế | Starter chính thức | Starter chính thức | `@RestController` |
 | Phù hợp | Bảo trì hệ thống cũ | Admin, email, trang server-render | Email, sinh file | Ứng dụng tương tác nhiều |
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. JSP được xử lý như thế nào khi chạy?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Lần đầu được gọi (hoặc khi file thay đổi), container dịch file JSP thành mã nguồn một servlet, biên dịch thành class rồi nạp và chạy như servlet bình thường. Các request sau dùng lại servlet đã biên dịch. Vì vậy JSP thực chất là một servlet viết theo dạng template.
-
-</details>
-
-**2. Vì sao Spring Boot không khuyến khích JSP?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Với server nhúng, JSP chỉ chạy khi đóng gói war, không chạy với jar thực thi; Undertow không hỗ trợ JSP; cần thêm Jasper và JSTL; không phải natural template; dễ trộn logic Java vào view qua scriptlet. Spring Boot khuyên dùng Thymeleaf, FreeMarker hoặc Mustache.
-
-</details>
-
-**3. Natural template trong Thymeleaf nghĩa là gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Template là file HTML hợp lệ: các thuộc tính `th:*` bị trình duyệt bỏ qua, nội dung tĩnh bên trong thẻ đóng vai trò dữ liệu mẫu. Designer có thể mở trực tiếp file để xem giao diện, còn khi render qua Thymeleaf thì nội dung mẫu được thay bằng dữ liệu thật.
-
-</details>
-
-**4. th:text và th:utext khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`th:text` escape ký tự đặc biệt HTML (dấu nhỏ hơn, lớn hơn, nháy, ampersand) nên an toàn với dữ liệu người dùng. `th:utext` (unescaped) chèn nguyên văn, cho phép HTML chạy — chỉ dùng với nội dung tin cậy, nếu không sẽ gây XSS.
-
-</details>
-
-**5. Model, ModelMap, ModelAndView khác nhau ra sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`Model` là interface chứa attribute cho view, khai báo làm tham số method. `ModelMap` là hiện thực dạng `LinkedHashMap` với API tương tự. `ModelAndView` gói cả model lẫn tên view vào một object để trả về. Cách hiện đại phổ biến: nhận `Model` làm tham số và trả về chuỗi tên view.
-
-</details>
-
-**6. Mẫu Post/Redirect/Get là gì và vì sao cần?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Sau khi xử lý POST thành công, server trả redirect (302/303) tới một URL GET thay vì render trang trực tiếp. Trình duyệt khi đó nằm ở trang GET, nên nhấn F5 không gửi lại form, tránh tạo bản ghi trùng. Dữ liệu cần hiển thị một lần (thông báo thành công) truyền qua flash attribute.
-
-</details>

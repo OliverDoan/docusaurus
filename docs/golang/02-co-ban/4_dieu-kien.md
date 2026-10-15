@@ -32,7 +32,6 @@ Go chỉ có hai câu lệnh rẽ nhánh: `if` và `switch` — không có toán
 - [Switch không biểu thức](#switch-không-biểu-thức)
 - [fallthrough](#fallthrough)
 - [break trong switch](#break-trong-switch)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -524,61 +523,3 @@ loop: // nhãn (label) gắn cho vòng for
 ```
 
 Cũng có thể tránh nhãn bằng cách tách thân vòng lặp thành hàm và dùng `return`. Chi tiết về nhãn có ở bài vòng lặp.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Câu lệnh khởi tạo trong `if` có tác dụng gì? Cho ví dụ.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`if init; cond { }` cho phép khai báo biến chỉ sống trong khối `if` và các nhánh `else if`/`else`. Lợi ích: giới hạn scope, tránh biến tạm rò rỉ và xung đột tên (nhất là `err`). Ví dụ: `if err := db.Ping(); err != nil { return err }` hoặc `if v, ok := m[k]; ok { use(v) }`. Không nên dùng khi giá trị cần dùng tiếp sau `if` — khi đó khai báo bên ngoài để tránh dồn logic vào `else`.
-
-</details>
-
-**2. `switch` trong Go khác C/Java thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Go tự `break` sau mỗi case (muốn rơi xuống phải dùng `fallthrough`); case có thể là biểu thức bất kỳ, không cần hằng; một case nhận nhiều giá trị phân tách bằng dấu phẩy; có câu lệnh khởi tạo; có dạng không biểu thức (`switch { case cond: }`) thay cho `if-else` dài; có type switch để rẽ nhánh theo kiểu. So sánh được với mọi kiểu comparable (string, struct...).
-
-</details>
-
-**3. `fallthrough` hoạt động thế nào? Có kiểm tra điều kiện của case kế tiếp không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`fallthrough` chuyển điều khiển sang **thân** của case kế tiếp **mà không đánh giá điều kiện** của case đó. Nó phải là câu lệnh cuối trong case, không dùng ở case cuối cùng và không dùng trong type switch. Vì dễ gây hiểu nhầm nên ít được dùng; thường thay bằng nhiều giá trị trong một case hoặc tách hàm.
-
-</details>
-
-**4. Trong vòng `for` có `switch`, `break` thoát khỏi đâu? Làm sao thoát cả vòng lặp?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`break` thoát khỏi câu lệnh `for`, `switch` hoặc `select` **trong cùng nhất** — tức chỉ thoát `switch`, vòng lặp vẫn chạy tiếp. Muốn thoát vòng lặp: gắn nhãn cho `for` và dùng `break label`, hoặc tách thân vòng lặp vào hàm và `return`, hoặc dùng biến cờ. Lỗi này rất hay gặp với `select` trong vòng lặp đọc channel.
-
-</details>
-
-**5. Go không có toán tử 3 ngôi — vì sao? Viết thay thế thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-FAQ của Go giải thích: toán tử 3 ngôi hay bị lạm dụng tạo ra biểu thức lồng nhau khó đọc; `if-else` dài hơn một chút nhưng rõ ràng hơn, và ngôn ngữ chỉ cần **một** cấu trúc rẽ nhánh. Thay thế: gán giá trị mặc định rồi `if` ghi đè (`s := "b"; if cond { s = "a" }`), hoặc viết hàm nhỏ. Từ Go 1.18 có thể viết hàm generic `func If[T any](c bool, a, b T) T`, nhưng lưu ý cả `a` và `b` đều được tính trước khi gọi (không short-circuit).
-
-</details>
-
-**6. Phong cách "return sớm" là gì và vì sao code Go ưa chuộng?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Xử lý lỗi và trường hợp đặc biệt ở đầu hàm bằng `if ... { return }`, để luồng chính (happy path) chạy thẳng ở mức thụt lề ngoài cùng, không bị bọc trong `else`. Vì Go xử lý lỗi bằng giá trị trả về, nếu không return sớm thì code sẽ lồng sâu theo số bước có thể lỗi. Return sớm giúp đọc từ trên xuống thấy ngay mọi điều kiện thoát, và linter (indent-error-flow) khuyến khích phong cách này.
-
-</details>

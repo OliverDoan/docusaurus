@@ -37,7 +37,6 @@ title: "39. Reliability: Availability & High Availability"
 - [8. Queue-Based Load Leveling](#8-queue-based-load-leveling)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -446,54 +445,3 @@ Giới hạn 100 request/phút nhưng chạy 10 instance sau LB → thực tế 
 ### Lỗi 5: Không bao giờ thử failover
 
 Có standby nhưng chưa từng chuyển thử; khi sự cố thật, failover hỏng. **Sửa:** diễn tập định kỳ (game day, chaos engineering).
-
----
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. 99.99% availability nghĩa là bao nhiêu downtime? Hệ thống gồm 3 thành phần nối tiếp 99.9% thì availability tổng là bao nhiêu?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-99.99% khoảng 52.6 phút/năm, khoảng 4.3 phút/tháng. Ba thành phần nối tiếp 99.9%: 0.999³ ≈ 99.7%, khoảng 26 giờ downtime/năm. Muốn tăng thì đặt song song (dư thừa) cho từng thành phần hoặc giảm số phụ thuộc đồng bộ.
-
-</details>
-
-**2. Liveness và readiness probe khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Liveness hỏi "process có treo không" — fail thì restart; phải nhẹ, không phụ thuộc bên ngoài. Readiness hỏi "có nhận traffic được không" — fail thì gỡ khỏi load balancer nhưng không restart; có thể kiểm tra phụ thuộc thiết yếu. Trộn hai cái (liveness kiểm tra DB) gây restart dây chuyền khi DB chậm.
-
-</details>
-
-**3. Deployment Stamps khác Geodes thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Stamps: nhiều bản sao độc lập của hệ thống, mỗi stamp giữ dữ liệu riêng của một nhóm tenant/vùng, định tuyến theo tenant — mục tiêu chính là scale và giới hạn blast radius. Geodes: nhiều node phân tán địa lý, dữ liệu replicate toàn cầu, node nào cũng phục vụ được mọi user — mục tiêu là độ trễ thấp và chịu mất cả region; đổi lại phức tạp về nhất quán dữ liệu.
-
-</details>
-
-**4. Thiết kế rate limiter cho API công khai chạy trên nhiều instance?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Chọn thuật toán (token bucket cho phép burst, sliding window cho chính xác), khoá theo API key/user/IP và endpoint. Lưu trạng thái trong Redis, cập nhật nguyên tử bằng Lua (hoặc dùng rate limit của gateway). Trả `429` + `Retry-After` + header remaining. Xử lý khi Redis lỗi (fail-open hay fail-closed tuỳ mức rủi ro). Có hạn mức theo gói dịch vụ, giám sát tỷ lệ bị chặn.
-
-</details>
-
-**5. Throttling khác Queue-Based Load Leveling thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Throttling **từ chối hoặc giảm chất lượng** phần tải vượt ngưỡng — phù hợp request đồng bộ, bảo vệ hệ thống và công bằng giữa client. Queue-Based Load Leveling **hoãn** phần tải vượt bằng hàng đợi rồi xử lý dần — không mất request nhưng tăng độ trễ, phù hợp tác vụ bất đồng bộ. Thường dùng kết hợp.
-
-</details>

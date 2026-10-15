@@ -32,7 +32,6 @@ Map là bảng băm (hash table) có sẵn trong ngôn ngữ, ánh xạ key sang
 - [Kiểu key hợp lệ](#kiểu-key-hợp-lệ)
 - [Map và concurrency](#map-và-concurrency)
 - [Package maps](#package-maps)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -460,61 +459,3 @@ for k, v := range maps.All(a) {
 }
 fmt.Println(keys, len(vals))
 ```
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Đọc một key không tồn tại trong map thì sao? Làm sao biết key có tồn tại?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Trả về zero value của kiểu value (`0`, `""`, `nil`...), không panic, không lỗi. Để phân biệt, dùng comma-ok: `v, ok := m[k]` — `ok` là `true` nếu key tồn tại. Điều này quan trọng khi zero value cũng là giá trị hợp lệ (ví dụ tồn kho = 0).
-
-</details>
-
-**2. Vì sao ghi vào nil map gây panic còn đọc thì không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-nil map không có hash table bên dưới. Đọc chỉ cần trả zero value nên runtime xử lý được; ghi thì cần chỗ lưu mà không có, nên panic `assignment to entry in nil map`. Map khai báo bằng `var m map[K]V` hoặc là trường struct chưa khởi tạo đều là nil — phải `make` hoặc dùng literal trước khi ghi.
-
-</details>
-
-**3. Vì sao thứ tự duyệt map trong Go ngẫu nhiên? Muốn duyệt theo thứ tự thì làm gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Hash table không có thứ tự tự nhiên, và Go cố ý ngẫu nhiên hoá điểm bắt đầu duyệt để code không vô tình phụ thuộc vào một thứ tự tình cờ (vốn có thể đổi giữa các phiên bản hoặc khi map mở rộng). Muốn có thứ tự: lấy key ra slice, sort, rồi duyệt — Go 1.23+ viết gọn `for _, k := range slices.Sorted(maps.Keys(m))`.
-
-</details>
-
-**4. Map có an toàn khi dùng từ nhiều goroutine không? Có những cách xử lý nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không. Nhiều goroutine chỉ đọc thì an toàn, nhưng nếu có ít nhất một goroutine ghi thì phải đồng bộ; runtime phát hiện sẽ dừng chương trình với `fatal error: concurrent map writes` (không recover được). Cách xử lý: bọc map bằng `sync.Mutex`/`sync.RWMutex` (phổ biến, có kiểu); dùng `sync.Map` cho trường hợp đọc nhiều ghi ít hoặc các goroutine dùng tập key tách biệt; hoặc giao quyền sở hữu map cho một goroutine duy nhất và giao tiếp qua channel. Dùng `go test -race` để phát hiện.
-
-</details>
-
-**5. Những kiểu nào dùng được làm key của map?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Kiểu comparable: bool, số, string, con trỏ, channel, interface, array và struct có các phần tử/trường comparable. Không dùng được slice, map, func (và struct/array chứa chúng). Riêng key kiểu interface: biên dịch được nhưng nếu giá trị động là slice thì panic lúc chạy. Floating point NaN dùng làm key được nhưng `NaN != NaN` nên không bao giờ đọc lại được.
-
-</details>
-
-**6. Map truyền vào hàm là truyền tham chiếu hay giá trị?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Go luôn truyền theo giá trị, nhưng giá trị của biến map là một con trỏ tới cấu trúc hash table của runtime. Vì vậy hàm nhận map có thể thêm/sửa/xoá phần tử và caller thấy ngay. Tuy nhiên gán `m = make(...)` bên trong hàm chỉ đổi biến cục bộ, không ảnh hưởng caller.
-
-</details>

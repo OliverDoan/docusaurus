@@ -35,7 +35,6 @@ Hai pattern cuối của nhóm Messaging giải quyết bài toán **công việ
 - [6. Workflow engine hiện đại](#6-workflow-engine-hiện-đại)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -432,61 +431,3 @@ Retry sau timeout tạo booking trùng, trừ tiền hai lần. Mọi lời gọ
 ### Lỗi 5: Trạng thái quy trình chỉ nằm trong bộ nhớ
 
 Scheduler crash → mất toàn bộ quy trình đang chạy dở, vé đã giữ không ai huỷ. Trạng thái phải được ghi bền vững sau mỗi bước.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Thiết kế API xuất báo cáo mất 5 phút. Client gọi thế nào và nhận kết quả ra sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`POST /reports` → validate đồng bộ, tạo job, đẩy vào queue, trả **202 Accepted** + `Location: /reports/status/{id}` + `Retry-After`. Client poll status: đang chạy trả 200 + tiến độ; xong trả 303 tới `/reports/{id}` (hoặc presigned URL tới file trên S3); lỗi trả trạng thái FAILED. Thêm Idempotency-Key cho POST, UUID + kiểm tra quyền cho status, hết hạn kết quả, và tuỳ chọn webhook/SSE để thông báo tức thì.
-
-</details>
-
-**2. Vì sao không giữ HTTP request mở cho tới khi xử lý xong?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Load balancer/API gateway có timeout (ví dụ AWS API Gateway REST mặc định 29 giây, ALB idle 60 giây); client mobile mất mạng giữa chừng là mất kết quả; mỗi kết nối chiếm tài nguyên server; không retry được an toàn. Tách nhận yêu cầu và trả kết quả giúp xử lý bền vững qua queue và client có thể quay lại bất cứ lúc nào.
-
-</details>
-
-**3. Polling, webhook và WebSocket/SSE -- chọn thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Polling: đơn giản nhất, client không cần endpoint, hợp trình duyệt/mobile, đánh đổi bằng request thừa và độ trễ phát hiện. Webhook: tức thì, hợp tích hợp server-với-server, cần client có endpoint công khai, ký HMAC và retry. WebSocket/SSE: realtime cho UI, nhưng duy trì kết nối lâu dài khó scale. Thường giữ status endpoint làm nền tảng và thêm webhook hoặc SSE.
-
-</details>
-
-**4. Scheduler Agent Supervisor gồm những thành phần nào? Supervisor làm gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Scheduler điều phối các bước và ghi trạng thái kèm hạn hoàn thành vào State Store; Agent đóng gói lời gọi tới từng dịch vụ từ xa; Supervisor chạy định kỳ, tìm bước quá hạn/thất bại, quyết định retry (qua scheduler) hoặc kích hoạt bù trừ, hoặc chuyển cho con người. State Store bền vững giúp khôi phục khi scheduler crash.
-
-</details>
-
-**5. Supervisor retry một bước đặt phòng đã thành công nhưng message kết quả bị mất. Làm sao tránh đặt trùng?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Agent phải idempotent: gửi idempotency key cố định theo `workflowId + stepName` cho dịch vụ khách sạn (nếu hỗ trợ), hoặc trước khi gọi đặt phòng thì truy vấn xem đã có booking với mã tham chiếu đó chưa. Ở phía mình, ghi nhận kết quả bằng thao tác upsert theo khoá (workflow_id, step_name).
-
-</details>
-
-**6. Khi nào nên dùng Temporal/Step Functions thay vì tự xây Scheduler Agent Supervisor?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Hầu hết các trường hợp. Workflow engine đã giải sẵn các phần khó: lưu trạng thái bền vững, timeout từng bước, retry có backoff, khôi phục khi worker crash, xem lịch sử từng workflow, phiên bản hoá workflow. Tự xây chỉ đáng khi yêu cầu rất đơn giản (vài bước, một bảng trạng thái + cron) hoặc ràng buộc không cho dùng thêm hạ tầng.
-
-</details>

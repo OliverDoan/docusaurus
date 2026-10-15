@@ -35,8 +35,7 @@ Khi dự án của bạn đạt đến một mốc quan trọng — phiên bản
 - [6. Workflow đầy đủ: Từ commit đến Release](#6-workflow-đầy-đủ-từ-commit-đến-release)
 - [7. Versioning strategies cho different project types](#7-versioning-strategies-cho-different-project-types)
 - [8. Lỗi thường gặp](#8-lỗi-thường-gặp)
-- [9. Câu hỏi phỏng vấn](#9-câu-hỏi-phỏng-vấn)
-- [10. Tóm tắt](#10-tóm-tắt)
+- [9. Tóm tắt](#9-tóm-tắt)
 
 ---
 
@@ -693,58 +692,7 @@ gh release create v1.0.0 --generate-notes
 
 ---
 
-## 9. Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Lightweight tag khác annotated tag như thế nào? Khi nào dùng loại nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Lightweight tag chỉ là một pointer đến commit, không lưu thêm thông tin nào. Annotated tag là một Git object riêng biệt, lưu tên người tạo (tagger), ngày tạo, message, và có thể ký GPG. Dùng annotated tag cho release chính thức vì cần ghi lại ai tạo, khi nào, và tại sao. Lightweight tag dùng cho tag tạm thời hoặc nội bộ.
-
-</details>
-
-**2. Semantic Versioning là gì? Khi nào tăng MAJOR, MINOR, PATCH?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-SemVer là quy ước đặt tên version theo format MAJOR.MINOR.PATCH. Tăng PATCH khi sửa lỗi mà không đổi API (backward compatible). Tăng MINOR khi thêm tính năng mới mà vẫn backward compatible. Tăng MAJOR khi có breaking changes — thay đổi không tương thích ngược. Khi tăng MINOR thì PATCH reset về 0, khi tăng MAJOR thì cả MINOR và PATCH reset về 0.
-
-</details>
-
-**3. Làm sao để tự động tạo release mới khi push tag?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Dùng GitHub Actions với trigger `on: push: tags`. Khi push tag mới, workflow sẽ tự động: (1) Build ứng dụng, (2) Chạy tests, (3) Tạo artifacts (binaries), (4) Tạo GitHub Release với `gh release create` hoặc action như `softprops/action-gh-release`, (5) Upload artifacts vào release. Kết hợp với Conventional Commits và standard-version, toàn bộ quy trình từ commit -> tag -> release -> deploy có thể tự động hóa.
-
-</details>
-
-**4. Pre-release version dùng như thế nào? Cho ví dụ.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Pre-release version sử dụng dash sau version chính: `v2.0.0-alpha.1`, `v2.0.0-beta.1`, `v2.0.0-rc.1`. Thứ tự: alpha (phát triển sớm, nhiều bug) -> beta (feature complete, còn bug) -> rc (Release Candidate, gần sẵn sàng) -> stable release. Trên GitHub, tạo pre-release với flag `--prerelease` để hiển thị bằng màu vàng và không được coi là "latest release". Điều này cho phép early adopters test trước mà không ảnh hưởng người dùng bình thường.
-
-</details>
-
-**5. Team bạn dùng monorepo với 3 packages. Làm sao quản lý versioning?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Có 2 cách: (1) **Independent versioning** — mỗi package có version riêng, tag dạng `@package-name@1.2.0`. Dùng khi các packages phát triển độc lập, ví dụ `@mylib/core@1.2.0` và `@mylib/ui@3.0.0`. (2) **Fixed versioning** — tất cả packages dùng chung 1 version, tag dạng `v1.2.0`. Đơn giản hơn nhưng bắt buộc tất cả packages release cùng lúc. Tools như Lerna, Changesets, hoặc Nx hỗ trợ cả 2 cách. Phổ biến nhất là independent versioning vì linh hoạt hơn.
-
-</details>
-
----
-
-## 10. Tóm tắt
+## 9. Tóm tắt
 
 ```
 +--------------------------------------------------------------+

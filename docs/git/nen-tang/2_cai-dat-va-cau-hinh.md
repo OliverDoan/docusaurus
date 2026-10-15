@@ -34,7 +34,6 @@ Trước khi dùng Git, bạn cần cài đặt nó trên máy và thiết lập
 - [7. Bảng tổng hợp cấu hình quan trọng](#7-bảng-tổng-hợp-cấu-hình-quan-trọng)
 - [8. Xem và sửa file cấu hình trực tiếp](#8-xem-và-sửa-file-cấu-hình-trực-tiếp)
 - [9. Lỗi thường gặp](#9-lỗi-thường-gặp)
-- [10. Câu hỏi phỏng vấn](#10-câu-hỏi-phỏng-vấn)
 - [Tổng kết](#tổng-kết)
 
 ---
@@ -612,65 +611,6 @@ git remote set-url origin git@github.com:user/repo.git
 git remote -v
 # origin  git@github.com:user/repo.git  <-- SSH
 ```
-
----
-
-## 10. Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Có bao nhiêu cấp cấu hình trong Git? Giải thích thứ tự ưu tiên.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Git có 3 cấp cấu hình: system (/etc/gitconfig — toàn máy), global (~/.gitconfig — user hiện tại), và local (.git/config — repo hiện tại). Thứ tự ưu tiên từ cao đến thấp: local > global > system. Nghĩa là cấu hình local sẽ ghi đè global, và global ghi đè system. Điều này cho phép cấu hình chung ở global nhưng tuỳ chỉnh riêng cho từng repo ở local.
-
-</details>
-
-**2. Làm thế nào để dùng email khác nhau cho repo cá nhân và repo công ty?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Dùng `git config --global user.email` để thiết lập email mặc định (cá nhân). Trong repo công ty, dùng `git config --local user.email "email@company.com"` để ghi đè. Config local chỉ áp dụng cho repo hiện tại, không ảnh hưởng các repo khác.
-
-</details>
-
-**3. SSH và HTTPS khác nhau thế nào khi làm việc với remote repo?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-HTTPS yêu cầu nhập username/password (hoặc Personal Access Token) mỗi lần push/pull, có thể cache bằng credential helper. SSH dùng cặp key (public/private), sau khi thiết lập một lần thì không cần nhập lại. SSH bảo mật hơn và tiện hơn cho việc sử dụng hàng ngày. HTTPS dễ thiết lập hơn ban đầu và không bị chặn bởi firewall công ty.
-
-</details>
-
-**4. `core.autocrlf` là gì và tại sao cần cấu hình?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`core.autocrlf` xử lý sự khác biệt về line ending giữa Windows (CRLF - \r\n) và Unix/macOS (LF - \n). Trên Windows, đặt `true` để Git tự động chuyển CRLF -> LF khi commit và LF -> CRLF khi checkout. Trên macOS/Linux, đặt `input` để chỉ chuyển CRLF -> LF khi commit. Điều này ngăn việc line ending tạo ra diff giả khi làm việc nhóm đa nền tảng.
-
-</details>
-
-**5. Làm sao để xem toàn bộ cấu hình Git hiện tại và biết cấu hình nào đến từ file nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Dùng `git config --list` để xem toàn bộ cấu hình. Để biết cấu hình đến từ file nào, dùng `git config --list --show-origin`. Lệnh này hiển thị đường dẫn file trước mỗi giá trị, giúp debug khi cấu hình không như mong đợi.
-
-```bash
-# Ví dụ output
-git config --list --show-origin
-# file:/home/user/.gitconfig    user.name=Nguyen Van A
-# file:/home/user/.gitconfig    user.email=personal@gmail.com
-# file:.git/config              user.email=work@company.com
-```
-
-</details>
 
 ---
 

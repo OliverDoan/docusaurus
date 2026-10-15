@@ -36,7 +36,6 @@ Một thao tác **idempotent** (lũy đẳng) là thao tác mà **thực hiện 
 - [7. Ví dụ thực tế: thanh toán kiểu Stripe](#7-ví-dụ-thực-tế-thanh-toán-kiểu-stripe)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -430,61 +429,3 @@ Consumer tự sinh UUID cho mỗi lần nhận thì message giao lại sẽ có 
 ### Lỗi 5: Dùng PATCH/POST cho thao tác tăng giảm mà proxy tự retry
 
 Một số proxy, SDK cấu hình retry cả request không idempotent. **Sửa:** kiểm soát cấu hình retry, chỉ retry tự động cho method idempotent hoặc request có idempotency key.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Idempotent là gì? Phân biệt với safe.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Idempotent: thực hiện một hay nhiều lần cho cùng trạng thái cuối. Safe: không làm thay đổi trạng thái. GET là safe và idempotent; PUT, DELETE là idempotent nhưng không safe; POST không có tính chất nào mặc định. Idempotency nói về trạng thái, không đòi hỏi response giống hệt (DELETE lần 2 có thể trả 404).
-
-</details>
-
-**2. Client gọi API thanh toán bị timeout. Thiết kế thế nào để client retry an toàn?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Client sinh idempotency key một lần cho ý định thanh toán và gửi kèm mọi lần retry. Server: bảng `idempotency_keys` với primary key `(account_id, key)`; trong một transaction, insert key trạng thái processing (ON CONFLICT DO NOTHING), thực hiện thanh toán, lưu response và đánh dấu completed. Gặp lại key: completed thì trả response cũ, processing thì 409, hash body khác thì 422. Truyền key xuống cổng thanh toán. Key có TTL (ví dụ 24 giờ). Client retry bằng exponential backoff.
-
-</details>
-
-**3. Queue đảm bảo at-least-once. Làm sao consumer không xử lý trùng?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Mỗi message có ID ổn định từ lúc publish. Consumer, trong cùng transaction với side effect, insert `message_id` vào bảng processed_messages có primary key; nếu insert không thêm dòng nào thì message đã xử lý, bỏ qua và ack. Ngoài ra dùng upsert, conditional update, unique constraint trên khoá nghiệp vụ. Redis SETNX nhanh nhưng không atomic với DB.
-
-</details>
-
-**4. PUT và POST khác nhau thế nào về idempotency? Khi nào nên dùng PUT để tạo resource?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-PUT thay thế toàn bộ resource tại một URI xác định -- lặp lại cho cùng kết quả. POST gửi tới collection, server sinh id -- lặp lại có thể tạo nhiều resource. Dùng PUT để tạo khi client có thể tự quyết định id (UUID sinh phía client, hoặc khoá tự nhiên như username), khi đó retry an toàn mà không cần idempotency key.
-
-</details>
-
-**5. Vì sao "check rồi insert" không đủ để chống trùng?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Race condition: hai request đồng thời cùng SELECT thấy chưa có, rồi cùng INSERT. Muốn đúng phải để DB làm trọng tài bằng unique constraint (INSERT ON CONFLICT), hoặc khoá (SELECT FOR UPDATE, advisory lock), hoặc isolation SERIALIZABLE. Unique constraint là cách đơn giản và chắc chắn nhất.
-
-</details>
-
-**6. Exactly-once có tồn tại không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Exactly-once **delivery** qua mạng không đáng tin cậy là không thể đảm bảo tuyệt đối (giới hạn kiểu Two Generals). Thứ đạt được là exactly-once **processing/effect**: at-least-once delivery + xử lý idempotent (dedupe), hoặc transaction bao trọn đọc-xử lý-ghi trong một hệ thống (Kafka transactions trong phạm vi Kafka).
-
-</details>

@@ -32,7 +32,6 @@ Bài này gom ba pattern về **điều phối và vận hành** trong nhóm Des
 - [4. Các pattern khác cùng nhóm](#4-các-pattern-khác-cùng-nhóm)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -335,54 +334,3 @@ Một giá trị sai làm sập tất cả. **Sửa:** validate schema, rollout 
 ### Lỗi 5: Gộp tác vụ critical với tác vụ không ổn định
 
 Job thử nghiệm rò bộ nhớ làm chết worker thanh toán chung process. **Sửa:** tách theo mức độ quan trọng, đặt giới hạn tài nguyên.
-
----
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Thiết kế cron job chỉ chạy một lần trong cụm 10 instance?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Lựa chọn: (1) Leader election qua etcd/Kubernetes Lease/Redis, chỉ leader chạy cron; (2) đơn giản hơn: scheduler tập trung (Kubernetes CronJob `concurrencyPolicy: Forbid`) đẩy job vào queue, một worker nhận; (3) lock theo từng lần chạy (`job:2026-10-01T08:00`) bằng `SET NX` hoặc bảng DB có unique constraint. Kèm theo: tác vụ idempotent để chạy trùng không gây hại.
-
-</details>
-
-**2. Fencing token là gì, vì sao lease thôi chưa đủ?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Lease có thể hết hạn mà leader cũ không biết (GC pause, mạng chậm), leader cũ tiếp tục ghi trong khi leader mới đã lên → hai bên cùng ghi. Fencing token là số tăng đơn điệu cấp mỗi lần có leader mới; mọi thao tác ghi kèm token, tài nguyên đích từ chối token nhỏ hơn token lớn nhất đã thấy. Điều kiện: tài nguyên đích phải hỗ trợ kiểm tra token.
-
-</details>
-
-**3. So sánh Redis lock và etcd/ZooKeeper cho leader election.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Redis `SET NX PX`: nhanh, dễ dùng, nhưng một node hoặc replication bất đồng bộ có thể mất lock khi failover; không có fencing token sẵn → phù hợp khi chỉ cần tránh trùng cho hiệu quả. etcd/ZooKeeper: đồng thuận Raft/ZAB theo quorum, nhất quán mạnh, có revision/zxid làm fencing token, có watch để biết leader thay đổi → phù hợp khi tính đúng quan trọng; đổi lại vận hành phức tạp hơn và chậm hơn.
-
-</details>
-
-**4. External Config Store khác Secret Manager thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Config store cho cấu hình không nhạy cảm (timeout, URL, feature flag), ưu tiên version, rollout, reload nhanh. Secret manager cho thông tin nhạy cảm (mật khẩu, key), có mã hoá khi lưu, kiểm soát truy cập chi tiết, audit, xoay vòng (rotation) tự động. Nhiều hệ thống để config tham chiếu tới secret thay vì chứa giá trị secret.
-
-</details>
-
-**5. Khi nào nên gộp nhiều tác vụ vào chung một đơn vị tính toán?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khi các tác vụ nhỏ, dùng ít tài nguyên, đặc tính tài nguyên bổ sung nhau, vòng đời/deploy/scale tương tự, cùng ranh giới bảo mật và mức độ quan trọng. Không gộp khi cần cô lập lỗi, bảo mật, hoặc yêu cầu scale khác nhau. Đặt giới hạn tài nguyên để tránh noisy neighbor.
-
-</details>

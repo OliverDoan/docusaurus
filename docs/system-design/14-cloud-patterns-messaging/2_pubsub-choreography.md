@@ -34,7 +34,6 @@ Bài trước tập trung vào **queue** -- mỗi message được một consume
 - [6. So sánh bốn pattern](#6-so-sánh-bốn-pattern)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -473,61 +472,3 @@ Hai filter cùng đọc/ghi một bảng tạm → không còn độc lập, kh�
 ### Lỗi 5: Consumer xoá payload Claim Check khi còn subscriber khác
 
 Subscriber đầu tiên xử lý xong xoá file S3, subscriber thứ hai nhận "NoSuchKey". Dùng lifecycle rule thay vì xoá thủ công khi có nhiều consumer.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Queue và Pub/Sub khác nhau thế nào? Làm sao kết hợp cả hai?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Queue (point-to-point): mỗi message được một consumer xử lý -- phân chia công việc. Pub/Sub: mỗi message tới mọi subscriber -- phát tán sự kiện. Kết hợp: fan-out SNS → nhiều SQS (mỗi service một queue, trong mỗi queue nhiều instance cạnh tranh); trong Kafka, mỗi consumer group nhận toàn bộ message (pub/sub), các consumer trong group chia partition (queue).
-
-</details>
-
-**2. Choreography và orchestration -- khi nào chọn cái nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Choreography khi luồng ngắn, ít nhánh, các service do team độc lập sở hữu, muốn ghép lỏng và dễ thêm bên quan tâm. Orchestration khi luồng dài, nhiều điều kiện/timeout/bù phức tạp, cần nhìn thấy trạng thái từng instance quy trình (Temporal, Step Functions). Thường lai: orchestration trong một domain, choreography giữa các domain.
-
-</details>
-
-**3. Làm sao đảm bảo event được publish khi đã ghi DB thành công?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Transactional Outbox: trong cùng transaction ghi dữ liệu nghiệp vụ và ghi event vào bảng `outbox`; một relay (polling hoặc CDC như Debezium đọc WAL/binlog) đọc outbox và publish lên broker, đánh dấu đã gửi. Relay có thể gửi trùng → subscriber idempotent theo `eventId`.
-
-</details>
-
-**4. Pipes and Filters có ưu điểm gì so với một service xử lý nguyên khối?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Mỗi filter scale độc lập theo tài nguyên nó cần (bước resize cần nhiều CPU chạy 10 instance, bước lưu chạy 1); deploy, thay thế, tái sử dụng riêng; lỗi được cô lập ở từng bước với DLQ riêng; dễ thêm bước mới. Đổi lại: độ trễ cộng dồn, nhiều thành phần cần vận hành và giám sát, không có transaction xuyên pipeline.
-
-</details>
-
-**5. Claim Check là gì? Cần chú ý gì về vòng đời dữ liệu?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Lưu payload lớn vào object storage, gửi qua broker chỉ tham chiếu (key). Chú ý: ghi payload xong mới gửi message; dọn payload bằng lifecycle rule với thời hạn dài hơn retention của message (tránh xoá khi consumer chưa đọc, đặc biệt khi có nhiều subscriber); kiểm soát quyền truy cập storage; xử lý trường hợp payload không còn.
-
-</details>
-
-**6. Subscriber mới cần đọc lại toàn bộ sự kiện cũ. Chọn broker nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Broker dạng log lưu lâu dài như Kafka, Kinesis, Event Hubs -- subscriber mới tạo consumer group và đọc từ offset đầu (trong giới hạn retention, hoặc dùng compacted topic để giữ bản mới nhất theo key). SNS/SQS hay RabbitMQ xoá message sau khi giao, không đọc lại được; khi đó cần event store riêng hoặc snapshot từ DB.
-
-</details>

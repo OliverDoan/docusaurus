@@ -35,7 +35,6 @@ title: "2. Kiến trúc sư phần mềm"
 - [7. Anti-pattern của kiến trúc sư](#7-anti-pattern-của-kiến-trúc-sư)
 - [Khi nào cần nhớ?](#khi-nào-cần-nhớ)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -242,54 +241,3 @@ Không kiểm tra đội có làm theo không, không xem lại khi bối cảnh
 ### Lỗi 5: Rời xa code quá lâu
 
 Sau vài năm chỉ họp và vẽ, kiến trúc sư đánh giá sai độ khó, đề xuất công nghệ đã lỗi thời và mất uy tín với đội.
-
----
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Theo bạn, trách nhiệm chính của một kiến trúc sư phần mềm là gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Ra các quyết định kỹ thuật quan trọng dựa trên thuộc tính chất lượng và ràng buộc, ghi lại lý do, truyền đạt cho các bên liên quan, đảm bảo đội thực thi nhất quán và liên tục đánh giá lại kiến trúc khi bối cảnh đổi. Bên cạnh đó là hướng dẫn đội và làm cầu nối giữa kỹ thuật với kinh doanh.
-
-</details>
-
-**2. Kiến trúc sư khác tech lead thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Tech lead thường gắn với một đội, chịu trách nhiệm đội giao việc đúng hạn và chất lượng, thời gian nhìn khoảng vài sprint. Kiến trúc sư có phạm vi nhiều đội hoặc nhiều hệ thống, tập trung vào hình dạng hệ thống và các quyết định xuyên suốt, nhìn xa hơn. Ở công ty nhỏ một người có thể làm cả hai.
-
-</details>
-
-**3. "Ivory tower architect" là gì và làm sao tránh?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Là kiến trúc sư tách biệt khỏi đội, quyết định từ trên xuống mà không hiểu thực tế triển khai. Cách tránh: vẫn viết code (prototype, spike, phần then chốt), ngồi cùng đội, đưa quyết định ra thảo luận, nhận phản hồi và sẵn sàng điều chỉnh.
-
-</details>
-
-**4. Làm sao đảm bảo các đội tuân thủ quyết định kiến trúc?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Kết hợp con người và tự động hoá: giải thích lý do (đội hiểu "tại sao" thì tự nguyện làm theo), ghi ADR, review thiết kế ở những điểm then chốt, và viết **fitness function**, tức các kiểm tra tự động như test kiến trúc bằng ArchUnit, rule lint chặn import chéo module, kiểm tra phụ thuộc trong CI.
-
-</details>
-
-**5. Kiến trúc sư cần chiều sâu hay chiều rộng kỹ thuật?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Cả hai, nhưng ưu tiên chiều rộng. Kiến trúc sư cần biết nhiều lựa chọn tồn tại và điểm mạnh yếu của chúng để so sánh, đồng thời giữ chiều sâu ở một vài mảng để đánh giá đúng độ khó và đáng tin với đội. Chuyển từ developer lên architect là chấp nhận đánh đổi một phần chiều sâu lấy chiều rộng.
-
-</details>

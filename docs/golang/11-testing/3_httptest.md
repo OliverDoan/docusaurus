@@ -29,7 +29,6 @@ Phần lớn service Go là HTTP API, và phần lớn service cũng **gọi** H
 - [Kiểm tra JSON response](#kiểm-tra-json-response)
 - [Test middleware](#test-middleware)
 - [Giả lập API bên ngoài với NewServer](#giả-lập-api-bên-ngoài-với-newserver)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -493,61 +492,3 @@ func TestWeatherClient_Timeout(t *testing.T) {
 | `srv.Close()` | Tắt server, chờ các request đang xử lý xong |
 
 `NewServer` cũng dùng được để test **toàn bộ** ứng dụng qua mạng thật (`httptest.NewServer(app.Routes())`) — gần với end-to-end hơn, kiểm tra được cả những thứ `NewRecorder` bỏ qua như hành vi của `http.Server` với header lớn, keep-alive, streaming.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. `httptest.NewRecorder` và `httptest.NewServer` khác nhau thế nào? Khi nào dùng cái nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`NewRecorder` tạo một `ResponseWriter` ghi lại kết quả trong bộ nhớ; ta gọi `handler.ServeHTTP(rec, req)` trực tiếp — không có mạng, rất nhanh, dùng để unit test handler, router, middleware. `NewServer` khởi động một HTTP server thật trên loopback với cổng ngẫu nhiên; dùng khi cần một endpoint mạng thật — chủ yếu để test **HTTP client** (giả lập API bên ngoài), hoặc test tích hợp toàn bộ ứng dụng qua mạng.
-
-</details>
-
-**2. Làm sao test code gọi API bên thứ ba mà không gọi API thật?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Thiết kế client nhận base URL và `*http.Client` qua constructor (không hard-code URL hay dùng `http.DefaultClient`). Trong test dựng `httptest.NewServer` với handler trả về dữ liệu giả cho từng kịch bản (200, 4xx, 5xx, JSON hỏng, chậm để test timeout), rồi truyền `srv.URL` và `srv.Client()` cho client. Handler giả cũng kiểm tra request client gửi (path, query, header, body). Cách khác là thay `http.Client.Transport` bằng một `RoundTripper` giả — không cần mở socket.
-
-</details>
-
-**3. Test một handler dùng `r.PathValue("id")` mà không qua router thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Từ Go 1.22, `*http.Request` có `SetPathValue(name, value)`. Trong test tạo request bằng `httptest.NewRequest`, gọi `req.SetPathValue("id", "1")`, rồi gọi hàm handler trực tiếp. Nếu không gán, `PathValue` trả chuỗi rỗng. Tuy vậy, test qua `mux.ServeHTTP` với pattern thật thường tốt hơn vì kiểm tra luôn việc đăng ký route và method.
-
-</details>
-
-**4. Vì sao không nên so sánh JSON response bằng chuỗi?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Chuỗi JSON phụ thuộc thứ tự key, khoảng trắng, ký tự `\n` cuối do `json.Encoder` thêm, cách escape — những thứ không ảnh hưởng ngữ nghĩa. Thêm một trường mới vào response cũng làm vỡ test so chuỗi. Nên decode response vào struct (hoặc `map[string]any`) và so sánh giá trị bằng `==`, `cmp.Diff`, hoặc dùng `assert.JSONEq` của testify. Decode cũng đồng thời kiểm tra response là JSON hợp lệ.
-
-</details>
-
-**5. Test một middleware xác thực thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Tạo `next` là một `http.HandlerFunc` giả ghi lại việc được gọi (và có thể đọc context để kiểm tra dữ liệu middleware gắn vào). Bọc `next` bằng middleware, rồi chạy table-driven test qua các trường hợp: thiếu header, header sai, header đúng. Với mỗi case kiểm tra status code từ `NewRecorder` và việc `next` có được gọi hay không — middleware chặn đúng thì `next` không bao giờ được gọi.
-
-</details>
-
-**6. Trong handler của `httptest.NewServer`, gọi `t.Fatal` có được không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không nên. Handler chạy trong goroutine do server tạo, không phải goroutine của test; `t.Fatal` gọi `runtime.Goexit` chỉ dừng goroutine đó (handler), test chính vẫn chạy và có thể treo chờ response. Dùng `t.Errorf` để ghi lỗi rồi trả response bình thường, hoặc gửi thông tin về goroutine test qua channel.
-
-</details>

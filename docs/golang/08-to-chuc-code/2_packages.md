@@ -33,7 +33,6 @@ Nếu module là đơn vị **phát hành**, thì package là đơn vị **tổ 
 - [Bố cục dự án thường gặp](#bố-cục-dự-án-thường-gặp)
 - [Dùng thư viện bên thứ ba](#dùng-thư-viện-bên-thứ-ba)
 - [Publish module](#publish-module)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -521,61 +520,3 @@ func Make(s string) string {
 Tag một khi đã được proxy cache thì **không thể sửa nội dung** — xoá rồi tag lại cùng tên, người dùng sẽ gặp lỗi checksum mismatch. Sai thì phát hành bản mới và `retract` bản lỗi.
 
 :::
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Go kiểm soát truy cập (public/private) như thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Bằng chữ cái đầu của định danh: chữ hoa là exported (package khác dùng được), chữ thường là unexported (chỉ trong package). Áp dụng đồng nhất cho hàm, kiểu, biến, hằng, method và field struct. Ranh giới là **package**, không phải type — các file và type trong cùng package thấy hết nhau. Ngoài ra có `internal/` để giới hạn ở cấp cây thư mục.
-
-</details>
-
-**2. Tại sao Go cấm import vòng? Gặp thì xử lý thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Cấm để đồ thị phụ thuộc là DAG: compile nhanh và song song được, thứ tự khởi tạo package xác định rõ, và buộc thiết kế có tầng lớp rõ ràng. Xử lý: tách kiểu/logic dùng chung ra package thứ ba; đảo phụ thuộc bằng interface đặt ở phía dùng (consumer); hoặc gộp hai package nếu chúng thực sự không tách rời.
-
-</details>
-
-**3. Thư mục `internal` hoạt động thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Package có path chứa phần tử `internal` chỉ được import bởi code nằm trong cây thư mục có gốc là cha của `internal`. Ví dụ `a/b/internal/c` chỉ import được từ `a/b/...`. Quy tắc do compiler (go command) bắt buộc, không chỉ là quy ước. Dùng để giữ quyền thay đổi API nội bộ mà không lo phá vỡ người dùng bên ngoài.
-
-</details>
-
-**4. Blank import `_` dùng để làm gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Để import một package chỉ vì tác dụng phụ của việc khởi tạo nó — các biến cấp package và hàm `init()` — mà không dùng định danh nào. Ví dụ phổ biến: đăng ký driver database (`_ "github.com/jackc/pgx/v5/stdlib"`), decoder ảnh (`_ "image/png"`), hoặc `_ "net/http/pprof"` để gắn endpoint profiling. Nếu không có `_`, import không dùng sẽ là lỗi biên dịch.
-
-</details>
-
-**5. Thứ tự chạy của `init()` và vì sao nên hạn chế dùng?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Package phụ thuộc được khởi tạo trước; trong mỗi package, biến cấp package khởi tạo trước, sau đó các `init()` chạy theo thứ tự file và thứ tự trong file; cuối cùng là `main()`. Nên hạn chế vì `init()` không trả lỗi được, chạy ngầm cả khi test, tạo trạng thái toàn cục khó kiểm soát và phụ thuộc vào tên file. Chỉ nên dùng cho việc đăng ký đơn giản; còn lại khởi tạo tường minh.
-
-</details>
-
-**6. `cmd/`, `internal/`, `pkg/` có phải chuẩn bắt buộc không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không. Chỉ `internal/` có ý nghĩa với compiler; `cmd/` và `pkg/` là quy ước cộng đồng. Repo `golang-standards/project-layout` không phải của Go team. Hướng dẫn chính thức (go.dev/doc/modules/layout) khuyên bắt đầu đơn giản, dùng `cmd/` khi có nhiều binary và `internal/` cho code không muốn lộ ra. Dự án nhỏ để phẳng là hoàn toàn ổn.
-
-</details>

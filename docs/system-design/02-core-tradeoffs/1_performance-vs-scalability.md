@@ -34,7 +34,6 @@ title: "3. Performance vs Scalability"
 - [6. Đo lường và chẩn đoán](#6-đo-lường-và-chẩn-đoán)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -352,58 +351,3 @@ Benchmark một request 10ms trên máy dev rồi kết luận hệ thống ch�
 ### Lỗi 5: Tối ưu sớm cho quy mô chưa tồn tại
 
 Sharding DB cho sản phẩm 1.000 user. Phức tạp hoá vận hành mà không có lợi ích. Scale khi có số liệu.
-
----
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Phân biệt performance và scalability.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-- **Performance:** hệ thống xử lý một lượng việc nhanh/hiệu quả thế nào. Chậm với 1 user → vấn đề performance.
-- **Scalability:** khả năng giữ performance khi tải tăng bằng cách thêm tài nguyên. Nhanh với 1 user nhưng chậm khi tải lớn → vấn đề scalability.
-
-Hệ thống scalable khi thêm tài nguyên thì năng lực tăng gần tương ứng.
-
-</details>
-
-**2. Vertical scaling và horizontal scaling: ưu nhược điểm?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-- **Vertical:** nâng cấp một máy. Đơn giản, không đổi code; nhưng có trần phần cứng, giá tăng phi tuyến, là SPOF, thường cần downtime.
-- **Horizontal:** thêm máy. Gần như không trần, chịu lỗi tốt, dùng máy phổ thông; nhưng cần LB, stateless, xử lý dữ liệu phân tán, phức tạp hơn.
-
-</details>
-
-**3. Định luật Amdahl nói gì và áp dụng thế nào vào hệ thống web?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Tăng tốc tối đa bị giới hạn bởi phần tuần tự: `Speedup = 1 / ((1 - p) + p/N)`. Với 5% tuần tự, tối đa chỉ 20× dù có vô số máy. Trong web, phần tuần tự là các điểm tranh chấp chung: DB primary duy nhất, lock toàn cục, counter chung, một service phụ thuộc. Muốn scale phải loại bỏ/giảm những điểm đó (sharding, cache, bất đồng bộ).
-
-</details>
-
-**4. Thêm app server nhưng throughput không tăng. Bạn điều tra thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Tìm tài nguyên chung bị bão hoà: CPU/IO/lock wait của DB, số kết nối DB, hit rate cache, hot key, service bên ngoài chậm, bandwidth mạng, LB. Dùng metrics + tracing để thấy thời gian bị tiêu ở đâu. Giải pháp tuỳ điểm nghẽn: cache, read replica, connection pooler, sharding, chuyển sang bất đồng bộ.
-
-</details>
-
-**5. Vì sao nên tối ưu performance trước khi scale?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Scale một hệ thống kém hiệu quả là nhân bản sự lãng phí: chi phí tăng tuyến tính theo số máy mà latency của từng request không cải thiện. Một index đúng có thể giảm 100× thời gian query — rẻ hơn rất nhiều so với thêm 100 máy. Ngoài ra, tải thừa do code kém có thể làm điểm nghẽn chung (DB) quá tải sớm hơn.
-
-</details>

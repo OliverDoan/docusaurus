@@ -30,7 +30,6 @@ Spring hiện đại gần như được "điều khiển" hoàn toàn bằng an
 - [Nhóm vòng đời và khởi tạo](#nhóm-vòng-đời-và-khởi-tạo)
 - [Meta-annotation và annotation tự định nghĩa](#meta-annotation-và-annotation-tự-định-nghĩa)
 - [Bảng tra nhanh](#bảng-tra-nhanh)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -393,61 +392,3 @@ public class ProductQueryService {
 | `@PostConstruct` / `@PreDestroy` | Method | `jakarta.annotation` | Callback vòng đời |
 
 (`o.s` = `org.springframework`)
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. `@Component`, `@Service`, `@Repository`, `@Controller` khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Cả bốn đều đăng ký bean qua component scan (`@Service`, `@Repository`, `@Controller` được meta-annotate bởi `@Component`). Khác biệt: `@Service` chỉ mang ý nghĩa tầng nghiệp vụ; `@Repository` thêm dịch exception đặc thù của công nghệ lưu trữ (SQLException, JPA exception) sang hệ `DataAccessException` thống nhất; `@Controller` được Spring MVC nhận diện là handler web (cùng `@RequestMapping`). Dùng đúng stereotype giúp code rõ tầng và cho phép AOP nhắm theo stereotype.
-
-</details>
-
-**2. `@Component` và `@Bean` khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`@Component` đánh trên **class**, Spring tự phát hiện qua component scan và tự gọi constructor — dùng cho class bạn viết. `@Bean` đánh trên **method** trong class `@Configuration`; bạn tự viết code tạo object và trả về — dùng cho class thư viện (không sửa source để thêm annotation được), khi cần logic khởi tạo phức tạp, hoặc cần nhiều bean cùng class với cấu hình khác nhau.
-
-</details>
-
-**3. `@RestController` khác `@Controller` thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`@RestController` = `@Controller` + `@ResponseBody`. Với `@Controller`, giá trị trả về của method mặc định được hiểu là tên view (Thymeleaf/JSP) để render HTML. Với `@RestController`, giá trị trả về được ghi thẳng vào response body qua `HttpMessageConverter` (thường là JSON bằng Jackson). REST API dùng `@RestController`.
-
-</details>
-
-**4. `@PostConstruct` dùng để làm gì? Khác constructor thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`@PostConstruct` đánh dấu method chạy **sau khi** bean được tạo và **đã tiêm xong mọi phụ thuộc** (kể cả field/setter injection), trước khi bean được đưa vào sử dụng. Constructor chạy trước field/setter injection nên chưa dùng được các phụ thuộc đó. Dùng để khởi tạo cache, kiểm tra cấu hình. Ở Spring Boot 3 annotation nằm trong `jakarta.annotation`. Với constructor injection, có thể làm việc khởi tạo ngay trong constructor, nhưng tránh tác vụ nặng hoặc gọi ra ngoài (I/O) quá lâu vì làm chậm khởi động.
-
-</details>
-
-**5. `@Conditional` dùng để làm gì? Kể vài biến thể của Spring Boot.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`@Conditional(SomeCondition.class)` chỉ đăng ký bean/class cấu hình khi `Condition.matches()` trả về `true`. Spring Boot xây auto-configuration hoàn toàn dựa trên nó với các biến thể: `@ConditionalOnClass`, `@ConditionalOnMissingClass`, `@ConditionalOnBean`, `@ConditionalOnMissingBean`, `@ConditionalOnProperty`, `@ConditionalOnWebApplication`, `@ConditionalOnResource`, `@ConditionalOnExpression`. `@Profile` thực chất cũng được hiện thực bằng `@Conditional`.
-
-</details>
-
-**6. `@Lazy` hoạt động thế nào? Có rủi ro gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Trên class/method `@Bean`: bean không được tạo lúc khởi động mà khi lần đầu được yêu cầu. Tại điểm inject: Spring tiêm một proxy, bean thật chỉ resolve khi gọi method đầu tiên — cũng là cách phá vòng tròn phụ thuộc. Rủi ro: lỗi cấu hình của bean chỉ lộ ra lúc runtime (mất fail fast), request đầu tiên bị chậm. Lazy toàn cục (`spring.main.lazy-initialization=true`) hữu ích khi dev để khởi động nhanh, nên cân nhắc kỹ ở production.
-
-</details>

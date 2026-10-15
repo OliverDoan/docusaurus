@@ -29,7 +29,6 @@ Generics (lập trình tổng quát) cho phép viết một hàm hay kiểu dùn
 - [Type inference](#type-inference)
 - [Generics trong thư viện chuẩn](#generics-trong-thư-viện-chuẩn)
 - [Khi nào không nên dùng generics](#khi-nào-không-nên-dùng-generics)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -450,61 +449,3 @@ func Do(s []Status, f func(Status) string) []string
 | Cấu trúc dữ liệu tổng quát (Set, Stack, Tree, Cache) | Mỗi kiểu cần hiện thực riêng |
 | Đang copy-paste cùng thuật toán cho nhiều kiểu | Chỉ có một kiểu thực sự dùng |
 | Muốn tránh `any` + type assertion | Làm chữ ký hàm khó hiểu hơn lợi ích mang lại |
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Trước Go 1.18, người ta xử lý bài toán "viết một lần cho nhiều kiểu" thế nào? Nhược điểm?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Ba cách: (1) copy-paste cho từng kiểu — trùng lặp, khó bảo trì; (2) `interface{}` + type assertion — mất kiểm tra kiểu lúc biên dịch, có thể panic lúc runtime, phải chuyển `[]int` sang `[]interface{}` từng phần tử, giá trị bị boxing lên heap; (3) sinh code bằng `go generate` (genny, template) — an toàn kiểu nhưng thêm bước build và code sinh ra cồng kềnh. Generics giải quyết bằng cách để compiler kiểm tra kiểu cho từng lần instantiate.
-
-</details>
-
-**2. Constraint là gì? `any` và `comparable` khác nhau ra sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Constraint là interface giới hạn tập kiểu mà tham số kiểu có thể nhận và quy định thao tác được phép. `any` cho phép mọi kiểu nhưng không hỗ trợ toán tử nào (chỉ gán, truyền). `comparable` chỉ cho phép kiểu so sánh được bằng `==`/`!=` — cần khi dùng làm key của map hoặc so sánh bằng (`Contains`, `Index`). Slice, map, func không thoả `comparable`.
-
-</details>
-
-**3. Khi nào phải ghi tham số kiểu tường minh khi gọi hàm generic?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khi compiler không suy ra được từ đối số: tham số kiểu chỉ xuất hiện ở kiểu trả về (`Zero[int]()`, `Convert[float64](x)`), hoặc không có đối số mang kiểu đó. Có thể ghi một phần từ trái sang phải, phần còn lại được suy luận — nên đặt tham số kiểu khó suy ra lên đầu. Cũng phải ghi khi muốn lấy hàm cụ thể làm giá trị: `f := Max[int]`.
-
-</details>
-
-**4. Khi nào không nên dùng generics?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khi chỉ cần gọi method của tham số (dùng interface là đủ); khi mỗi kiểu có hiện thực khác nhau (dùng interface + method); khi thực tế chỉ có một kiểu được dùng; khi generics làm chữ ký khó đọc hơn lợi ích. Nguyên tắc: viết code cụ thể trước, chỉ generic hoá khi thấy lặp lại cùng thuật toán cho nhiều kiểu.
-
-</details>
-
-**5. Làm sao trả về "giá trị rỗng" trong hàm generic?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khai báo `var zero T` rồi `return zero` — đó là zero value của `T` (0, "", nil, struct rỗng…). Không viết được `return nil` vì `T` có thể là kiểu không nil được như `int`. Pattern thường gặp là trả cặp `(T, bool)` hoặc `(T, error)` như `Find`.
-
-</details>
-
-**6. Generics trong Go có làm chậm chương trình không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Go dùng GC shape stenciling + dictionary: các kiểu cùng "hình dạng" (ví dụ mọi con trỏ) dùng chung mã máy và tra thông tin kiểu qua dictionary. Nhờ vậy binary nhỏ hơn so với C++ template, thời gian biên dịch ổn, nhưng gọi method qua tham số kiểu kiểu con trỏ/interface có thể chậm hơn code viết tay (khó inline, gọi gián tiếp). Với kiểu số cơ bản (mỗi kiểu một shape riêng) thì hiệu năng gần như viết tay. Nên đo bằng benchmark khi hiệu năng quan trọng.
-
-</details>

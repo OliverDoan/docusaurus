@@ -36,7 +36,6 @@ Go không có một ORM "chính thức" như Hibernate hay Entity Framework. Tha
 - [GORM](#gorm)
 - [Migration](#migration)
 - [Bảng so sánh](#bảng-so-sánh)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -601,61 +600,3 @@ goose -dir migrations postgres "$DATABASE_URL" status
 | Đường cong học | Thấp | Trung bình | Thấp | Thấp (biết SQL) | Trung bình, nhiều quy ước ngầm |
 
 Gợi ý: **sqlc + pgx** cho service PostgreSQL mới; **sqlx** khi muốn nhẹ và linh hoạt; **GORM** khi ưu tiên tốc độ phát triển CRUD và team quen ORM; kết hợp với **golang-migrate** hoặc **goose** cho schema.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. `sql.Open` có mở kết nối không? `*sql.DB` là gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không. `sql.Open` chỉ kiểm tra tên driver và tạo đối tượng `*sql.DB` — một **connection pool** quản lý nhiều kết nối, kết nối thật được mở lười khi cần. Muốn biết DB có truy cập được không thì gọi `PingContext`. `*sql.DB` an toàn khi dùng đồng thời, nên tạo **một lần** và dùng chung toàn ứng dụng; tạo/đóng `sql.DB` mỗi request là sai lầm phổ biến, làm mất tác dụng của pool.
-
-</details>
-
-**2. Cấu hình connection pool thế nào? Hậu quả khi sai?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`SetMaxOpenConns` giới hạn tổng kết nối (mặc định không giới hạn → tải cao có thể vượt `max_connections` của DB); `SetMaxIdleConns` giữ kết nối rảnh (mặc định 2 → tải cao liên tục mở/đóng kết nối); `SetConnMaxLifetime`/`SetConnMaxIdleTime` thay kết nối cũ định kỳ. Cần tính `MaxOpenConns × số instance` nhỏ hơn giới hạn của DB. Quan sát `db.Stats()`: `WaitCount`/`WaitDuration` tăng tức là pool thiếu hoặc có chỗ giữ kết nối quá lâu (quên `rows.Close`, transaction dài).
-
-</details>
-
-**3. Làm sao phân biệt "không tìm thấy" với lỗi thật khi truy vấn một dòng?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`QueryRowContext(...).Scan(...)` trả `sql.ErrNoRows` khi không có dòng nào. Kiểm tra bằng `errors.Is(err, sql.ErrNoRows)` rồi chuyển thành lỗi nghiệp vụ (vd `ErrNotFound` → HTTP 404); các lỗi khác là lỗi hệ thống (500). pgx dùng `pgx.ErrNoRows`, GORM dùng `gorm.ErrRecordNotFound` (với `First`/`Take`/`Last`; `Find` không trả lỗi này). Lưu ý `QueryContext` cho nhiều dòng không bao giờ trả `ErrNoRows` — chỉ là slice rỗng.
-
-</details>
-
-**4. Vì sao tham số hoá chống được SQL injection? Nếu cần ORDER BY động thì sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Với `$1`/`?`, câu SQL và giá trị được gửi tách biệt (hoặc driver escape đúng chuẩn), DB phân tích cú pháp câu lệnh trước rồi mới gắn giá trị như dữ liệu thuần — giá trị không bao giờ trở thành code SQL. Tham số chỉ dùng cho giá trị, không dùng cho tên bảng/cột/từ khoá; phần động như cột sắp xếp phải kiểm tra qua whitelist (map tên hợp lệ → tên cột) trước khi ghép chuỗi.
-
-</details>
-
-**5. Viết transaction đúng cách trong Go thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`tx, err := db.BeginTx(ctx, opts)`; ngay sau đó `defer tx.Rollback()` để mọi nhánh lỗi (kể cả panic) đều rollback; mọi câu lệnh dùng `tx.ExecContext`/`tx.QueryContext` (không phải `db.`); cuối cùng `return tx.Commit()`. Rollback sau Commit chỉ trả `sql.ErrTxDone`, vô hại. Giữ transaction ngắn, không gọi dịch vụ ngoài bên trong, chọn isolation level phù hợp và cân nhắc `SELECT ... FOR UPDATE` cho tình huống tranh chấp.
-
-</details>
-
-**6. So sánh GORM và sqlc. Khi nào chọn cái nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-GORM là ORM: model struct, CRUD không viết SQL, association, hook, soft delete, truy vấn động dễ; đổi lại dùng reflection (chậm hơn), SQL sinh ra khó đoán, có bẫy như `Updates(struct)` bỏ qua giá trị zero và lỗi nằm trong `.Error`. sqlc ngược lại: viết SQL thuần, sinh code Go type-safe, phát hiện sai cột/kiểu lúc sinh code, hiệu năng như viết tay; nhưng truy vấn động khó hơn. Chọn GORM khi app nhiều CRUD đơn giản, cần làm nhanh; chọn sqlc khi truy vấn phức tạp, cần hiệu năng và kiểm soát SQL.
-
-</details>

@@ -35,7 +35,6 @@ Channel không phải công cụ duy nhất — và không phải lúc nào cũn
 - [sync.Map](#syncmap)
 - [errgroup](#errgroup)
 - [Mutex hay channel?](#mutex-hay-channel)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -547,61 +546,3 @@ return g.Wait()
 | Khởi tạo một lần | `sync.Once*` | |
 
 Quy tắc ngón tay cái từ Go wiki: **dùng thứ nào làm code dễ hiểu nhất**. Đừng ép mọi thứ thành channel cho "đúng chất Go" — một struct với mutex được đóng gói tốt rất idiomatic.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. `Mutex` và `RWMutex` khác nhau thế nào? Khi nào `RWMutex` lại chậm hơn?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`Mutex` chỉ cho một goroutine vào vùng khoá. `RWMutex` cho nhiều reader (`RLock`) cùng lúc hoặc một writer (`Lock`) độc quyền. `RWMutex` có chi phí quản lý cao hơn (đếm reader, đồng bộ trên nhiều core), nên khi vùng khoá rất ngắn hoặc tỉ lệ ghi cao, nó có thể chậm hơn `Mutex`. Chỉ nên dùng khi đọc áp đảo ghi và có benchmark chứng minh.
-
-</details>
-
-**2. Vì sao không được copy một struct chứa `sync.Mutex`?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Mutex chứa trạng thái (đã khoá chưa, ai đang chờ). Copy tạo một mutex độc lập với trạng thái tại thời điểm copy — khoá bản sao không bảo vệ bản gốc, hoặc copy một mutex đang khoá thì bản sao khoá vĩnh viễn. Thường xảy ra khi method dùng value receiver hoặc truyền struct theo giá trị. Dùng pointer receiver; `go vet` (analyzer copylocks) phát hiện lỗi này. Tương tự cho `WaitGroup`, `Once`, `Cond`.
-
-</details>
-
-**3. Lỗi gì khi gọi `wg.Add(1)` bên trong goroutine?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Race giữa `Add` và `Wait`: goroutine cha có thể gọi `Wait` khi bộ đếm vẫn là 0 (goroutine con chưa kịp chạy `Add`) nên `Wait` trả về ngay, trước khi công việc xong. Phải gọi `Add` trước câu lệnh `go`. Từ Go 1.25 dùng `wg.Go(f)` để tránh hẳn lỗi này.
-
-</details>
-
-**4. Khi nào dùng `sync/atomic` thay vì `Mutex`?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khi trạng thái là **một biến đơn lẻ** — bộ đếm, cờ bool, con trỏ tới cấu hình bất biến — và thao tác là load/store/add/CAS. Atomic nhanh hơn và không chặn. Khi cần giữ bất biến giữa nhiều biến hoặc thao tác phức tạp (đọc-sửa-ghi map), phải dùng mutex. Từ Go 1.19 dùng kiểu `atomic.Int64`, `atomic.Bool`, `atomic.Pointer[T]` thay vì hàm `atomic.AddInt64` để tránh truy cập không nguyên tử vô tình.
-
-</details>
-
-**5. `sync.Map` có nên thay thế `map` + `Mutex` không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không nói chung. `sync.Map` tối ưu cho hai trường hợp: key ghi một lần đọc nhiều lần, và các goroutine thao tác trên tập key rời nhau. Ngoài ra, `map` + `Mutex`/`RWMutex` thường nhanh tương đương hoặc hơn, và có kiểu tĩnh an toàn (sync.Map dùng `any`, phải type assertion). `sync.Map` cũng không có `Len`.
-
-</details>
-
-**6. `errgroup` khác `WaitGroup` thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`errgroup.Group.Go` nhận hàm trả `error`; `Wait` trả lỗi khác nil đầu tiên. `errgroup.WithContext` trả về context bị huỷ ngay khi một goroutine lỗi (hoặc khi `Wait` trả về), để các goroutine khác dừng sớm. `SetLimit(n)` giới hạn số goroutine chạy đồng thời, `TryGo` thử chạy không chặn. `WaitGroup` chỉ đếm và chờ, không có lỗi hay huỷ.
-
-</details>

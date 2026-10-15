@@ -32,7 +32,6 @@ title: "4. cgo, compiler flags và plugin"
 - [Compiler và linker flags](#compiler-và-linker-flags)
 - [Package plugin](#package-plugin)
 - [Thay thế plugin: go-plugin và WebAssembly](#thay-thế-plugin-go-plugin-và-webassembly)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -465,61 +464,3 @@ Plugin biên dịch thành module `.wasm` (từ Go, Rust, C, AssemblyScript...),
 | Hiệu năng lời gọi | Như gọi hàm | IPC — chậm nhất | Trung bình |
 | Ngôn ngữ plugin | Chỉ Go | Bất kỳ (qua gRPC) | Bất kỳ biên dịch ra Wasm |
 | Unload | Không | Có (kill tiến trình) | Có |
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Viết code gọi hàm C nhận chuỗi từ Go thế nào cho đúng?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khai báo/`#include` hàm trong preamble ngay trên `import "C"`. Chuyển chuỗi bằng `cs := C.CString(s)` — hàm này `malloc` vùng nhớ C và copy dữ liệu — rồi `defer C.free(unsafe.Pointer(cs))` (cần `#include <stdlib.h>`). Gọi `C.ham(cs)`. Nếu C trả về chuỗi, chuyển ngược bằng `C.GoString` (copy sang bộ nhớ Go), và nếu chuỗi đó do C `malloc` thì cũng phải `C.free`. GC không quản lý bộ nhớ C nên quên `free` là rò rỉ.
-
-</details>
-
-**2. Vì sao nói "cgo is not Go"? Khi nào vẫn nên dùng cgo?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Bật cgo đánh mất nhiều ưu điểm của Go: build chậm hơn, cross-compile cần C toolchain, binary phụ thuộc libc, mỗi lời gọi tốn hàng chục ns, lỗi bộ nhớ C làm crash cả tiến trình, công cụ Go (pprof, race detector) không nhìn thấy phía C. Vẫn nên dùng khi không có lựa chọn Go thuần đủ tốt và chi phí viết lại quá lớn: thư viện đã kiểm định (OpenCV, libvips, SQLite khi cần đúng bản C), API hệ điều hành/phần cứng. Khi đó cô lập vào một package nhỏ, gom lời gọi thành ít lần lớn.
-
-</details>
-
-**3. Quy tắc truyền con trỏ giữa Go và C là gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Go được truyền cho C con trỏ tới bộ nhớ Go nếu vùng nhớ đó không chứa con trỏ Go nào khác (vd `&buf[0]` của `[]byte`); C không được giữ con trỏ đó sau khi lời gọi trả về; C không được lưu con trỏ Go vào bộ nhớ của nó. Runtime kiểm tra với `GODEBUG=cgocheck=1` (mặc định) và panic khi vi phạm. Cần tham chiếu lâu dài tới đối tượng Go (callback) thì dùng `runtime/cgo.Handle`. Dữ liệu cần sống lâu bên C thì cấp phát bằng `C.malloc`.
-
-</details>
-
-**4. `-gcflags` và `-ldflags` khác nhau thế nào? Cho ví dụ.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`-gcflags` truyền cờ cho compiler (`go tool compile`): `-m` xem escape/inline, `-N -l` tắt tối ưu và inline để debug, `-S` in assembly. `-ldflags` truyền cờ cho linker (`go tool link`): `-s -w` bỏ symbol/DWARF thu nhỏ binary, `-X pkg.var=value` gán biến string lúc link, `-extldflags` truyền cho linker C khi dùng cgo. Mặc định cờ chỉ áp dụng cho package trên dòng lệnh; tiền tố `all=` áp dụng cho mọi package.
-
-</details>
-
-**5. Vì sao package `plugin` ít được dùng trong production? Có gì thay thế?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Chỉ hỗ trợ Linux/FreeBSD/macOS; app và plugin phải build bằng đúng cùng toolchain, build tag và cùng mã nguồn dependency — gần như phải build cùng nhau, mất ý nghĩa "plugin độc lập"; không unload được; plugin lỗi làm sập host; cần cgo. Thay thế: `hashicorp/go-plugin` — plugin là tiến trình riêng giao tiếp gRPC, cách ly lỗi, độc lập phiên bản (Terraform, Vault dùng); WebAssembly với runtime như wazero — sandbox an toàn, đa ngôn ngữ; hoặc đơn giản là sinh code import các module rồi build một binary (Caddy/xcaddy).
-
-</details>
-
-**6. Làm sao cho ngôn ngữ khác (Python, C) gọi được code Go?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Đánh dấu hàm bằng `//export TenHam` trong package `main` có `import "C"`, build với `-buildmode=c-shared` (ra `.so`/`.dll`/`.dylib` + file header) hoặc `-buildmode=c-archive` (ra `.a` tĩnh). Bên C/C++ include header và link; Python dùng `ctypes`/`cffi`. Lưu ý: chỉ trao đổi kiểu C (số, `*C.char`, struct C), không truyền con trỏ Go ra ngoài lâu dài, và runtime Go sẽ được khởi tạo trong tiến trình của ngôn ngữ kia.
-
-</details>

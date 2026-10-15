@@ -34,7 +34,6 @@ title: "4. Latency vs Throughput"
 - [6. Kỹ thuật cải thiện và các đánh đổi](#6-kỹ-thuật-cải-thiện-và-các-đánh-đổi)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -381,60 +380,3 @@ Một service phụ thuộc chậm → theo Little's Law, số request treo tăn
 ### Lỗi 5: Lấy trung bình của p99
 
 Trung bình p99 của các instance không phải p99 của toàn hệ thống. Gộp histogram rồi mới tính.
-
----
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Latency và throughput khác nhau thế nào? Cho ví dụ cải thiện cái này mà không cải thiện cái kia.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-- **Latency:** thời gian hoàn thành một thao tác.
-- **Throughput:** số thao tác hoàn thành mỗi đơn vị thời gian.
-
-Ví dụ: **batching** tăng throughput nhưng tăng latency (mỗi item chờ đủ batch). **Scale ngang** tăng throughput nhưng không làm một request đơn lẻ nhanh hơn. Gửi dữ liệu bằng xe tải chở ổ cứng: throughput cực cao, latency vài ngày.
-
-</details>
-
-**2. Vì sao dùng p99 thay vì latency trung bình?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Phân phối latency lệch phải; trung bình bị outlier kéo lệch và không phản ánh trải nghiệm của ai cả. p50 cho biết trải nghiệm điển hình, p99 cho biết trải nghiệm của nhóm tệ nhất — thường là user có nhiều dữ liệu nhất (quan trọng nhất). Với fan-out, tail latency bị khuếch đại: gọi 100 service thì ~63% request người dùng sẽ gặp ít nhất một lời gọi chậm hơn p99.
-
-</details>
-
-**3. Phát biểu Little's Law và áp dụng một ví dụ.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`L = λ × W`: số request đồng thời trong hệ thống = throughput × latency trung bình. Ví dụ: 1.000 QPS, latency 200ms → 200 request đồng thời → cần pool ít nhất ~200 worker/connection. Nếu latency tăng lên 2s, cần 2.000 → nếu pool không đủ, request xếp hàng và latency tiếp tục tăng (cascading failure).
-
-</details>
-
-**4. Vì sao latency tăng vọt khi utilization tiến gần 100%?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Request đến ngẫu nhiên, không đều. Khi utilization cao, xác suất request mới phải chờ trong hàng đợi tăng nhanh; theo mô hình M/M/1 thời gian trong hệ thống tỉ lệ `1/(1-ρ)`: 50% → 2×, 90% → 10×, 99% → 100×. Do đó nên giữ dư phòng và autoscale ở ngưỡng 60–70%.
-
-</details>
-
-**5. Làm thế nào giảm tail latency trong hệ thống fan-out?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-- **Hedged request:** sau một ngưỡng (vd p95), gửi request dự phòng tới replica khác, dùng kết quả về trước.
-- Giảm số lời gọi fan-out, cache kết quả.
-- Timeout và trả kết quả một phần (graceful degradation).
-- Giảm nguyên nhân gốc: GC pause, noisy neighbor, hàng đợi cục bộ.
-
-</details>

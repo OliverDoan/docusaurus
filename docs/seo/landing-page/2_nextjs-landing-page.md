@@ -27,7 +27,6 @@ Next.js là framework React được nhiều người chọn để làm landing 
 - [Font optimization với next/font](#font-optimization-với-nextfont)
 - [Component structure cho landing page SEO-friendly](#component-structure-cho-landing-page-seo-friendly)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -569,52 +568,3 @@ Mỗi landing page phải có title và description **duy nhất**. Google sẽ 
 ### 5. Không dùng generateStaticParams
 
 Nếu có dynamic landing pages mà không dùng `generateStaticParams`, trang sẽ SSR thay vì SSG, chậm hơn đáng kể.
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Next.js App Router xử lý metadata cho SEO như thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-App Router cung cấp 2 cách: (1) Export `metadata` object từ `layout.tsx` hoặc `page.tsx` cho static metadata, (2) Export `generateMetadata` async function cho dynamic metadata dựa trên params hoặc data fetch. Metadata tự động merge từ root layout đến page, với page-level metadata override layout-level. Template pattern (ví dụ `title.template: '%s | Brand'`) cho phép tự động format title ở mọi trang con.
-
-</details>
-
-**2. Tại sao Server Components tốt cho SEO hơn Client Components?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Server Components render HTML trên server và gửi HTML hoàn chỉnh cho client. Search engine crawlers nhận được nội dung đầy đủ mà không cần chạy JavaScript. Client Components cần hydration trên browser, crawler có thể không thấy nội dung nếu không chạy JS. Ngoài ra, Server Components giảm JavaScript bundle size vì code không gửi xuống client, cải thiện tốc độ tải.
-
-</details>
-
-**3. Khi nào nên dùng SSG vs ISR vs SSR cho landing page?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-SSG (Static Site Generation) cho landing page nội dung cố định, hiếm khi thay đổi - tốc độ nhanh nhất, SEO tốt nhất. ISR (Incremental Static Regeneration) cho landing page nội dung từ CMS, cần cập nhật định kỳ nhưng không real-time - set `revalidate` để cân bằng freshness và performance. SSR (Server-Side Rendering) cho landing page cá nhân hóa theo user/location - chậm hơn nhưng cần thiết khi nội dung thay đổi theo context.
-
-</details>
-
-**4. `next/image` cải thiện Core Web Vitals như thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`next/image` tự động optimize ảnh: convert sang WebP/AVIF (giảm size), generate responsive srcset (đúng size cho mỗi viewport), lazy loading mặc định (giảm initial load), width/height bắt buộc (tránh CLS), blur placeholder (cải thiện perceived performance). Prop `priority` preload hero image, giảm LCP. Props `sizes` giúp browser chọn đúng image size từ srcset.
-
-</details>
-
-**5. Giải thích cách `next/font` loại bỏ layout shift do font loading?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`next/font` self-host font files tại build time, loại bỏ network request đến Google Fonts. Sử dụng `font-display: swap` để text hiển thị ngay với fallback font. Quan trọng nhất là tự động tính `size-adjust` cho fallback font, giúp fallback font có cùng kích thước với custom font, nên khi swap font không gây layout shift (CLS = 0). Font files được inline trong HTML, không cần thêm request.
-
-</details>

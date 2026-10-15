@@ -36,7 +36,6 @@ Bên cạnh REST, có hai cách giao tiếp hiện đại xuất hiện rất th
 - [7. So sánh REST, gRPC và GraphQL](#7-so-sánh-rest-grpc-và-graphql)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -523,61 +522,3 @@ Mặc định không có deadline, một service treo kéo theo cả chuỗi. **
 ### Lỗi 6: Cache DataLoader dùng chung giữa các request
 
 Tạo DataLoader một lần ở module level: dữ liệu user A có thể bị trả cho user B, và cache không bao giờ hết hạn. **Sửa:** khởi tạo trong context cho từng request.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. gRPC nhanh hơn REST+JSON nhờ đâu?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Protobuf nhị phân (nhỏ, không lặp tên field, parse nhanh bằng code sinh sẵn); HTTP/2 multiplexing nhiều lời gọi trên một kết nối lâu dài, nén header; codegen loại bỏ mapping thủ công. Thêm streaming và deadline propagation giúp xây hệ phân tán hiệu quả. Đổi lại: khó debug, trình duyệt cần gRPC-Web, cần L7 load balancing.
-
-</details>
-
-**2. Bốn kiểu RPC của gRPC là gì? Cho ví dụ.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Unary (lấy một đơn hàng), server streaming (theo dõi trạng thái đơn, tải danh sách lớn), client streaming (upload file theo chunk, import hàng loạt), bidirectional streaming (chat, đồng bộ vị trí tài xế). Streaming dựa trên HTTP/2 stream nên có flow control sẵn.
-
-</details>
-
-**3. N+1 problem trong GraphQL là gì và giải quyết thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Resolver chạy theo từng object: 1 query lấy N post rồi N query lấy author cho từng post. Giải quyết bằng DataLoader: gom các `load(id)` trong cùng tick thành một truy vấn `WHERE id IN (...)`, và cache theo request. Ngoài ra có thể dùng join/lookahead (phân tích query để join trước) cho trường hợp đặc biệt.
-
-</details>
-
-**4. GraphQL khác REST thế nào? Khi nào không nên dùng GraphQL?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-GraphQL có một endpoint, schema có kiểu, client chọn đúng field, lấy dữ liệu lồng nhau trong một round-trip, không cần versioning. REST nhiều endpoint theo resource, tận dụng cache HTTP, đơn giản. Không nên dùng GraphQL cho API CRUD đơn giản, khi cần cache CDN mạnh, upload file lớn, hoặc team chưa sẵn sàng với N+1, cost limit, phân quyền theo field.
-
-</details>
-
-**5. Làm sao bảo vệ GraphQL server khỏi query độc hại?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Giới hạn depth; tính cost/complexity theo số node dự kiến và từ chối query vượt ngưỡng; rate limit theo cost thay vì theo request; timeout thực thi; persisted queries (chỉ chấp nhận query đã đăng ký); tắt introspection ở production nếu là API nội bộ; giới hạn `first`/`limit` tối đa cho danh sách.
-
-</details>
-
-**6. Làm sao tiến hoá schema protobuf mà không làm vỡ client?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Chỉ thêm field mới với số mới; không đổi số hay kiểu của field cũ; khi xoá thì `reserved` cả số và tên; enum luôn có giá trị 0 UNSPECIFIED và chỉ thêm giá trị mới. Client cũ bỏ qua field lạ, client mới nhận giá trị mặc định cho field thiếu. Kiểm tra tự động bằng `buf breaking` trong CI; thay đổi phá vỡ thì tạo package version mới (`v2`).
-
-</details>

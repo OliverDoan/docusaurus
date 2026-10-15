@@ -32,7 +32,6 @@ title: "2. Reflection"
 - [Reflection trong thư viện thực tế](#reflection-trong-thư-viện-thực-tế)
 - [Chi phí và rủi ro](#chi-phí-và-rủi-ro)
 - [Reflection hay generics?](#reflection-hay-generics)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -511,61 +510,3 @@ func Contains[T comparable](s []T, target T) bool {
 | Liệt kê field/method, đọc tag của kiểu tuỳ ý | **Reflection** |
 | Hiệu năng cao trên kiểu cố định | **Sinh code** (`go generate`) |
 | Phân nhánh theo vài kiểu cụ thể | **Type switch** |
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. `reflect.Type` và `reflect.Kind` khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`Type` mô tả kiểu đầy đủ, có tên và package (vd `main.UserID`, `*main.User`, `map[string]int`). `Kind` là loại nền tảng trong một tập hữu hạn (`Int`, `String`, `Struct`, `Pointer`, `Slice`, `Map`...). Với `type UserID int`, Type là `main.UserID` còn Kind là `Int`. Code reflection tổng quát thường switch theo Kind để biết cần gọi `Int()`, `Field()`, `Elem()` hay `Len()`.
-
-</details>
-
-**2. Vì sao `reflect.ValueOf(x).SetInt(5)` panic? Sửa thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`ValueOf(x)` nhận bản copy của `x`, Value đó không addressable nên không settable (sửa nó cũng không ảnh hưởng `x`). Phải truyền con trỏ rồi lấy phần tử: `reflect.ValueOf(&x).Elem().SetInt(5)`. Ngoài ra field unexported của struct cũng không set được dù struct addressable. Kiểm tra bằng `CanSet()` trước khi gán.
-
-</details>
-
-**3. `encoding/json` dùng reflection thế nào, và làm sao nó không quá chậm?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`Marshal` lấy `reflect.TypeOf` của giá trị, duyệt field exported, đọc tag `json` (tên, `omitempty`, `-`, `string`), rồi đọc từng field qua `reflect.Value`. `Unmarshal` cần con trỏ để set giá trị. Để giảm chi phí, nó cache encoder/decoder đã phân tích cho từng kiểu (phân tích tag chỉ một lần), và gọi thẳng `MarshalJSON`/`UnmarshalJSON` nếu kiểu implement các interface đó. Khi cần nhanh hơn nữa thì dùng thư viện sinh code.
-
-</details>
-
-**4. Khi nào nên dùng reflection, khi nào dùng generics?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Generics khi cần **cùng một thuật toán** trên nhiều kiểu mà thao tác được mô tả bằng constraint (so sánh, cộng, method) — an toàn kiểu, nhanh. Reflection khi cần **khám phá cấu trúc** của kiểu không biết trước: liệt kê field, đọc struct tag, gọi method theo tên nhận lúc chạy — như serializer, ORM, validator, DI. Nếu chỉ vài kiểu cụ thể thì type switch đơn giản hơn cả hai.
-
-</details>
-
-**5. Rủi ro lớn nhất của reflection là gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Mất kiểm tra kiểu lúc biên dịch: sai Kind, sai số tham số `Call`, gán sai kiểu, field unexported đều thành **panic lúc chạy**. Code khó đọc, đổi tên field không gây lỗi biên dịch. Hiệu năng thấp hơn truy cập trực tiếp nhiều lần (tra theo tên còn chậm hơn nữa). Vì vậy giới hạn reflection trong một lớp nhỏ, được test kỹ, cache metadata, và kiểm tra `Kind`/`IsValid`/`CanSet` trước mọi thao tác.
-
-</details>
-
-**6. Có lấy được tên tham số của một hàm qua reflection không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không. `reflect.Type` của hàm chỉ có số lượng và **kiểu** tham số/kết quả (`NumIn`, `In(i)`, `NumOut`, `Out(i)`, `IsVariadic`), không lưu tên tham số. Đó là lý do các framework DI của Go tiêm theo **kiểu** chứ không theo tên, và router HTTP không thể tự ánh xạ query param vào tham số hàm theo tên như một số framework ngôn ngữ khác.
-
-</details>

@@ -33,7 +33,6 @@ Goroutine giúp chạy nhiều việc đồng thời, nhưng các việc đó c�
 - [Nil channel](#nil-channel)
 - [Bảng hành vi channel](#bảng-hành-vi-channel)
 - [Share memory by communicating](#share-memory-by-communicating)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -452,61 +451,3 @@ func main() {
 Đây là **định hướng**, không phải luật tuyệt đối. Bảo vệ một bộ đếm hay một map cache bằng `sync.Mutex` thường **đơn giản và nhanh hơn** channel. Go wiki gợi ý: dùng channel khi **chuyển quyền sở hữu dữ liệu**, phân phối công việc, truyền kết quả bất đồng bộ; dùng mutex cho **cache, trạng thái dùng chung** đơn giản. Xem thêm bài Package sync.
 
 :::
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Channel unbuffered và buffered khác nhau thế nào? Khi nào dùng loại nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Unbuffered: gửi chặn tới khi có người nhận và ngược lại — đồng bộ hoá hai goroutine tại điểm trao đổi; bên gửi biết chắc bên nhận đã nhận. Buffered với sức chứa n: gửi chỉ chặn khi đầy, nhận chỉ chặn khi rỗng — tách rời tốc độ hai bên. Unbuffered cho tín hiệu và handoff cần đảm bảo; buffered cho job queue, semaphore, hoặc buffer 1 để goroutine gửi kết quả không bị kẹt khi bên nhận đã bỏ đi.
-
-</details>
-
-**2. Điều gì xảy ra khi gửi, nhận, đóng trên nil channel và channel đã đóng?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Nil channel: gửi và nhận chặn vĩnh viễn, đóng thì panic. Channel đã đóng: gửi panic, đóng lại panic, nhận trả hết dữ liệu còn trong buffer rồi trả zero value ngay lập tức với `ok == false`. Channel mở: gửi/nhận chặn theo buffer, đóng thành công và đánh thức mọi goroutine đang nhận.
-
-</details>
-
-**3. Ai nên đóng channel? Làm sao đóng an toàn khi có nhiều goroutine gửi?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Bên gửi (người sở hữu channel) đóng, bên nhận không đóng. Với nhiều bên gửi: dùng `sync.WaitGroup` đếm các bên gửi và một goroutine riêng `wg.Wait()` rồi `close(ch)`. Hoặc không đóng channel dữ liệu mà dùng một channel/context riêng để báo dừng. Không bắt buộc đóng mọi channel — chỉ đóng khi bên nhận cần biết đã hết dữ liệu.
-
-</details>
-
-**4. Lỗi "all goroutines are asleep - deadlock!" xuất hiện khi nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khi runtime thấy **mọi** goroutine đều đang chặn (chờ channel, lock...) và không goroutine nào có thể đánh thức chúng — ví dụ gửi vào channel unbuffered trong `main` mà không có goroutine nhận, hoặc `range` một channel không bao giờ đóng. Nếu vẫn còn goroutine khác chạy hoặc đang chờ I/O mạng/timer (như HTTP server), runtime không báo lỗi mà chương trình chỉ treo một phần — vì vậy deadlock trong service thật thường khó phát hiện hơn.
-
-</details>
-
-**5. Channel có hướng (`chan<- T`, `<-chan T`) dùng để làm gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Giới hạn thao tác tại compile time: `chan<- T` chỉ gửi (và đóng), `<-chan T` chỉ nhận. Channel hai chiều tự chuyển thành một chiều khi truyền vào tham số. Giúp chữ ký hàm thể hiện rõ vai trò producer/consumer, ngăn bên nhận lỡ đóng hoặc gửi ngược, và làm rõ ai sở hữu channel.
-
-</details>
-
-**6. Nil channel có ích gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Trong `select`, case với nil channel không bao giờ được chọn. Gán một channel thành nil sau khi nó đóng (hoặc khi tạm thời không muốn gửi/nhận) giúp tắt động nhánh đó — ví dụ gộp nhiều channel đóng vào các thời điểm khác nhau, hoặc chỉ bật case gửi khi có dữ liệu chờ gửi. Nếu không, case của channel đã đóng được chọn liên tục làm vòng lặp quay vô ích.
-
-</details>

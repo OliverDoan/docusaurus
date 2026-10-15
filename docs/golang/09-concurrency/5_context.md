@@ -34,7 +34,6 @@ Một request HTTP đi vào server có thể kéo theo hàng chục goroutine: g
 - [AfterFunc và WithoutCancel](#afterfunc-và-withoutcancel)
 - [Quy ước sử dụng](#quy-ước-sử-dụng)
 - [Context trong HTTP và database](#context-trong-http-và-database)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -486,61 +485,3 @@ func main() {
 ```
 
 Chi tiết tắt server êm ở bài Các pattern concurrency.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Context dùng để làm gì? Vì sao nó là tham số đầu tiên?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Context mang tín hiệu huỷ, deadline và giá trị phạm vi request qua ranh giới hàm và goroutine, để khi request bị huỷ/hết hạn, mọi công việc liên quan (DB, HTTP, goroutine con) cùng dừng. Đặt làm tham số đầu tiên là quy ước của package `context` — nhìn chữ ký là biết hàm có thể bị huỷ, nhất quán trong toàn hệ sinh thái, và tránh lưu ctx trong struct (gây mơ hồ về vòng đời).
-
-</details>
-
-**2. Vì sao phải `defer cancel()`? Nếu quên thì sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`cancel` giải phóng tài nguyên gắn với context con: gỡ liên kết khỏi cha, dừng timer (với `WithTimeout`/`WithDeadline`), đóng `Done` để goroutine đang chờ thoát. Quên gọi thì các tài nguyên này chỉ được giải phóng khi cha bị huỷ hoặc timer hết hạn — với cha là `Background` có thể là không bao giờ, gây rò rỉ. `go vet` có analyzer `lostcancel` cảnh báo.
-
-</details>
-
-**3. Huỷ context con có ảnh hưởng tới context cha không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không. Huỷ chỉ lan từ cha xuống con. Huỷ cha sẽ huỷ mọi con cháu; huỷ con chỉ ảnh hưởng con và cháu của nó. Tương tự, con không kéo dài được deadline của cha — deadline hiệu lực là cái sớm hơn. Muốn tách khỏi việc huỷ của cha (chạy nền sau request) thì dùng `context.WithoutCancel` (Go 1.21).
-
-</details>
-
-**4. Dùng `context.WithValue` thế nào cho đúng?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Chỉ cho dữ liệu phạm vi request đi xuyên API: request ID, trace span, user đã xác thực. Key phải là kiểu riêng chưa export (`type ctxKey int`) để không đụng với package khác; đóng gói bằng hàm `WithX(ctx, v)` và `X(ctx)`. Không dùng để truyền phụ thuộc (DB, logger) hay tham số nghiệp vụ, vì đó là phụ thuộc ẩn, mất kiểm tra kiểu và khó test.
-
-</details>
-
-**5. `ctx.Err()` và `context.Cause(ctx)` khác gì nhau?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`ctx.Err()` chỉ trả `nil`, `context.Canceled` hoặc `context.DeadlineExceeded`. `context.Cause(ctx)` (Go 1.20) trả lỗi cụ thể được truyền vào khi huỷ qua `WithCancelCause`, `WithTimeoutCause`, `WithDeadlineCause`; nếu huỷ theo cách thường thì trả giống `Err()`. Giúp log và phân biệt nguyên nhân (người dùng huỷ, timeout gọi service nào...).
-
-</details>
-
-**6. Gửi email nền sau khi handler trả response, dùng context nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không dùng thẳng `r.Context()` vì nó bị huỷ khi handler trả về. Cũng không nên dùng `context.Background()` vì mất request ID/trace. Dùng `context.WithoutCancel(r.Context())` để giữ giá trị nhưng bỏ việc huỷ, rồi bọc thêm `WithTimeout` để goroutine nền có giới hạn thời gian riêng. Trong hệ thống cần đảm bảo gửi, nên đưa vào hàng đợi bền vững (outbox, message queue) thay vì goroutine.
-
-</details>

@@ -33,7 +33,6 @@ Ai cũng mắc sai lầm khi commit — viết sai message, quên thêm file, ho
 - [5. Decision Tree: Chọn lệnh nào?](#5-decision-tree-chọn-lệnh-nào)
 - [6. Ví dụ thực tế: Undo sai lầm phổ biến](#6-ví-dụ-thực-tế-undo-sai-lầm-phổ-biến)
 - [7. Lỗi thường gặp](#7-lỗi-thường-gặp)
-- [8. Câu hỏi phỏng vấn](#8-câu-hỏi-phỏng-vấn)
 - [Tóm tắt](#tóm-tắt)
 
 ---
@@ -536,65 +535,6 @@ git reset --mixed HEAD~1
 git status
 # Changes not staged for commit: (unstaged)
 ```
-
----
-
-## 8. Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Sự khác nhau giữa `git reset` và `git revert`?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-- `git reset` thay đổi history bằng cách di chuyển HEAD về commit trước. Commits bị "xóa" khỏi branch. Nguy hiểm trên shared branches vì thay đổi history mà người khác đã có.
-- `git revert` tạo một commit MỚI chứa nội dung đảo ngược. History được giữ nguyên, chỉ thêm commit. An toàn cho shared branches.
-- Nguyên tắc: dùng `reset` cho local, `revert` cho shared branches.
-
-</details>
-
-**2. Giải thích 3 mode của `git reset`.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-- `--soft`: Chỉ di chuyển HEAD. Staging area và working directory giữ nguyên. Thay đổi nằm ở staged.
-- `--mixed` (mặc định): Di chuyển HEAD + reset staging area. Working directory giữ nguyên. Thay đổi nằm ở unstaged.
-- `--hard`: Di chuyển HEAD + reset staging area + reset working directory. Mọi thay đổi bị xóa. Nguy hiểm nhất.
-
-</details>
-
-**3. Làm sao undo commit cuối mà không mất code?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-```bash
-git reset --soft HEAD~1
-```
-
-Commit cuối bị undo, nhưng mọi thay đổi vẫn nằm trong staging area, sẵn sàng commit lại. Đây là cách an toàn nhất để undo commit trên local.
-
-</details>
-
-**4. `git commit --amend` có tạo commit mới không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Có. `--amend` thực chất tạo một commit hoàn toàn mới (SHA khác) thay thế commit cuối. Commit cũ vẫn tồn tại trong reflog nhưng không còn được branch nào trỏ tới. Đó là lý do amend sau khi push sẽ gây conflict.
-
-</details>
-
-**5. Khi nào dùng `--force-with-lease` thay vì `--force`?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`--force-with-lease` an toàn hơn `--force` vì nó kiểm tra xem remote branch có commit mới (từ người khác) hay không trước khi force push. Nếu có, lệnh sẽ bị từ chối thay vì ghi đè code đồng nghiệp. Luôn ưu tiên `--force-with-lease` khi cần force push.
-
-</details>
 
 ---
 

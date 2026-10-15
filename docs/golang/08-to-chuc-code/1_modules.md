@@ -35,7 +35,6 @@ Module là đơn vị phát hành và quản lý phụ thuộc của Go: một t
 - [Workspace với go.work](#workspace-với-gowork)
 - [GOPROXY, GOPRIVATE và repo private](#goproxy-goprivate-và-repo-private)
 - [Directive go và toolchain](#directive-go-và-toolchain)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -473,61 +472,3 @@ go get toolchain@go1.25.3  # đặt dòng toolchain
 Đừng nâng dòng `go` của **thư viện** lên quá cao khi không cần — mọi người dùng thư viện sẽ bị buộc nâng theo. Ứng dụng (service, CLI) thì nâng thoải mái hơn.
 
 :::
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. GOPATH và Go module khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-GOPATH là workspace toàn cục: mọi code (của bạn lẫn thư viện) nằm trong `$GOPATH/src`, mỗi thư viện chỉ có một bản, không có khái niệm phiên bản nên build không lặp lại được. Module (Go 1.11, mặc định từ 1.16) để mỗi dự án tự khai báo phụ thuộc kèm phiên bản trong `go.mod`, xác minh bằng `go.sum`, đặt ở đâu trên ổ đĩa cũng được; thư viện được cache theo từng phiên bản trong `$GOPATH/pkg/mod`, nhiều dự án dùng nhiều phiên bản song song.
-
-</details>
-
-**2. `go.sum` có phải lock file không? Có nên commit không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không hẳn. Phiên bản thực sự được dùng do `go.mod` và thuật toán MVS quyết định — vì `go.mod` đã ghi phiên bản cụ thể nên build đã lặp lại được. `go.sum` chứa hash của nội dung và `go.mod` từng phiên bản module, dùng để **xác minh** thứ tải về đúng là thứ mong đợi. Phải commit `go.sum` để CI và đồng nghiệp được bảo vệ khỏi việc module bị thay đổi nội dung (tấn công chuỗi cung ứng).
-
-</details>
-
-**3. Minimal Version Selection hoạt động thế nào? Khác npm/Maven ra sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Mỗi module khai báo phiên bản **tối thiểu** nó cần. Go duyệt toàn bộ đồ thị và với mỗi module chọn **bản lớn nhất trong các bản tối thiểu được yêu cầu** — không chọn bản mới nhất đang có. Vì thế kết quả chỉ phụ thuộc vào các file `go.mod`, không phụ thuộc thời điểm build, không cần lock file và không cần SAT solver. npm với range `^1.2.0` có thể lấy bản mới nhất lúc cài (nên cần lock file); Maven chọn "nearest wins" theo độ sâu cây, có thể hạ phiên bản ngoài ý muốn.
-
-</details>
-
-**4. Vì sao thư viện lên v2 phải đổi import path thành `/v2`?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Do import compatibility rule: cùng import path thì phải tương thích ngược. Major version mới phá vỡ tương thích nên phải là một path khác (`github.com/x/lib/v2`). Lợi ích: một chương trình có thể dùng cùng lúc v1 và v2 (ví dụ hai thư viện phụ thuộc hai major khác nhau), di chuyển dần được; MVS không bao giờ tự đẩy bạn từ v1 sang v2. v0 và v1 không cần hậu tố.
-
-</details>
-
-**5. Khi nào dùng `replace`, khi nào dùng `go.work`?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`replace` ghi vào `go.mod`, chỉ có tác dụng ở module chính, phù hợp khi cố ý dùng fork hoặc bản vá trong thời gian dài và muốn commit điều đó. `go.work` (Go 1.18+) là file riêng, thường không commit, dùng khi phát triển song song nhiều module trên máy local — tránh lỡ commit `replace => ../thu-muc` làm CI vỡ. Tắt tạm workspace bằng `GOWORK=off`.
-
-</details>
-
-**6. Làm sao dùng module trong repo private của công ty?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Đặt `GOPRIVATE` (vd `gitlab.cong-ty.vn/*`) để Go bỏ qua proxy công khai và checksum database cho các module đó, tải trực tiếp qua git. Cấu hình git xác thực (SSH key hoặc token, thường kèm `url.insteadOf` hoặc `.netrc`). Trong CI, truyền token qua biến môi trường. Tổ chức lớn có thể dựng proxy nội bộ (Athens, Artifactory) và trỏ `GOPROXY` vào đó.
-
-</details>

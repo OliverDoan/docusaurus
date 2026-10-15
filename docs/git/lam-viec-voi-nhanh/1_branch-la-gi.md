@@ -37,7 +37,6 @@ Khi làm việc với Git, bạn sẽ nhanh chóng nhận ra rằng làm tất c
 - [8. Quản lý branches -- Khi nào tạo, khi nào xoá](#8-quản-lý-branches-khi-nào-tạo-khi-nào-xoá)
 - [9. Thực hành -- Bài tập tự làm](#9-thực-hành-bài-tập-tự-làm)
 - [10. Lỗi thường gặp](#10-lỗi-thường-gặp)
-- [11. Câu hỏi phỏng vấn](#11-câu-hỏi-phỏng-vấn)
 - [Tóm tắt](#tóm-tắt)
 
 ---
@@ -615,61 +614,6 @@ git switch -c feature/login@v2        # Ký tự @
 git switch -c feature/my-feature      # Dấu gạch nối
 git switch -c feature/login-v2        # Dấu gạch nối
 ```
-
----
-
-## 11. Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Branch trong Git hoạt động như thế nào? Tại sao tạo branch trong Git nhanh hơn SVN?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Trong Git, branch chỉ là một **pointer (con trỏ) nhẹ** trỏ đến một commit cụ thể. Tạo branch chỉ cần tạo một file 41 bytes chứa commit hash -- thao tác O(1). Trong SVN, tạo branch nghĩa là **sao chép toàn bộ thư mục** dự án -- thao tác O(n) với n là kích thước dự án. Đây là lý do Git khuyến khích sử dụng branch nhiều, trong khi SVN coi branch là thao tác "nặng".
-
-</details>
-
-**2. HEAD là gì? Detached HEAD là gì và khi nào xảy ra?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`HEAD` là pointer trỏ đến branch hiện tại. Bình thường: `HEAD -> main -> commit-C`. **Detached HEAD** xảy ra khi HEAD trỏ trực tiếp vào một commit thay vì một branch (ví dụ: `git checkout abc1234`). Trong trạng thái này, các commit mới sẽ không thuộc branch nào và có thể bị mất khi chuyển branch. Cách xử lý: tạo branch mới từ vị trí đó bằng `git switch -c branch-name`.
-
-</details>
-
-**3. Sự khác nhau giữa `git switch` và `git checkout` là gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`git checkout` là lệnh cũ, làm nhiều việc cùng lúc: chuyển branch, khôi phục file, tạo branch. Từ Git 2.23, lệnh này được tách thành hai lệnh riêng biệt: `git switch` (chuyển/tạo branch) và `git restore` (khôi phục file). `git switch` an toàn hơn vì nó **chỉ làm một việc** -- chuyển branch, tránh nhầm lẫn giữa chuyển branch và khôi phục file.
-
-</details>
-
-**4. Làm thế nào để biết branch nào đã merge và có thể xoá an toàn?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Dùng `git branch --merged main` để liệt kê các branch đã merge vào main. Những branch này có thể xoá an toàn bằng `git branch -d`. Dùng `git branch --no-merged main` để xem các branch chưa merge -- cẩn thận khi xoá những branch này. Trong teamwork, thường dọn dẹp branch sau khi PR đã merge trên GitHub/GitLab.
-
-</details>
-
-**5. Giải thích sự khác nhau giữa local branch, remote branch và remote-tracking branch.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-- **Local branch** (`main`): tồn tại trên máy bạn, bạn có thể commit trực tiếp
-- **Remote branch** (`origin/main` trên server): tồn tại trên server (GitHub/GitLab)
-- **Remote-tracking branch** (`origin/main` trên máy bạn): bản sao local của remote branch, được cập nhật khi `git fetch`. Đây là "ảnh chụp" trạng thái của remote, giúp bạn so sánh local với remote mà không cần kết nối mạng
-
-Lệnh `git fetch` cập nhật remote-tracking branches. Lệnh `git pull` = `git fetch` + `git merge`.
-
-</details>
 
 ---
 

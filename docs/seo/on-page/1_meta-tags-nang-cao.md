@@ -28,7 +28,6 @@ Meta tags là những thẻ HTML nằm trong phần `<head>` của trang, cung c
 - [Triển khai với React Helmet](#triển-khai-với-react-helmet)
 - [Robots Meta Tag](#robots-meta-tag)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -454,52 +453,3 @@ curl -s https://example.com/seo-guide | grep -i "og:"
 # - Twitter Card Validator: https://cards-dev.twitter.com/validator
 # - LinkedIn Post Inspector: https://www.linkedin.com/post-inspector/
 ```
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Sự khác nhau giữa `<meta name="description">` và `<meta property="og:description">` là gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`<meta name="description">` là description hiển thị trên kết quả tìm kiếm Google (SERP). `<meta property="og:description">` là description hiển thị khi chia sẻ trang trên mạng xã hội (Facebook, LinkedIn, Zalo). Chúng có thể có nội dung giống hoặc khác nhau. Nên tối ưu description cho SERP ngắn gọn hơn (120-160 ký tự), còn OG description có thể dài hơn và hấp dẫn hơn để thu hút click trên social.
-
-</details>
-
-**2. Canonical tag giúp gì cho SEO? Khi nào cần sử dụng?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Canonical tag (`<link rel="canonical">`) cho Google biết URL nào là phiên bản "chính thức" khi có nhiều URL dẫn đến cùng nội dung. Nên dùng khi: (1) Trang có query parameters (`?utm_source=...`), (2) Trang có www và non-www, (3) Nội dung được syndicate trên nhiều domain, (4) Trang phân trang. Mỗi trang nên có self-referencing canonical để tránh vấn đề duplicate content.
-
-</details>
-
-**3. Tại sao cần khai báo hreflang hai chiều? Nếu chỉ khai báo một chiều thì sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Google yêu cầu hreflang phải là bidirectional (hai chiều) để xác nhận mối quan hệ giữa các phiên bản ngôn ngữ. Nếu trang tiếng Việt chỉ đến trang tiếng Anh nhưng trang tiếng Anh không chỉ ngược lại, Google có thể bỏ qua hreflang vì không có sự "xác nhận" từ cả hai phía. Kết quả là Google có thể hiển thị sai phiên bản ngôn ngữ cho người dùng.
-
-</details>
-
-**4. Làm sao biết meta tags đã được setup đúng?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Có nhiều cách kiểm tra: (1) Xem page source (`Ctrl+U`) và kiểm tra trong `<head>`, (2) Dùng Facebook Sharing Debugger để xem OG tags, (3) Dùng Google Search Console để phát hiện vấn đề indexing, (4) Dùng Lighthouse audit để kiểm tra SEO cơ bản, (5) Dùng extension như SEO Meta in 1 Click. Trong CI/CD, có thể viết test kiểm tra sự tồn tại của các meta tags bắt buộc.
-
-</details>
-
-**5. `<meta name="robots" content="noindex">` khác gì với `Disallow` trong robots.txt?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`robots.txt Disallow` ngăn crawler truy cập trang (không crawl), nhưng nếu có trang khác link đến trang đó, Google vẫn có thể index URL (chỉ không biết nội dung). `noindex` cho phép crawler truy cập trang nhưng yêu cầu không đưa trang vào index. Để đảm bảo trang không xuất hiện trên Google, nên dùng `noindex` thay vì `Disallow`. Lưu ý: nếu đã Disallow trang trong robots.txt thì Google sẽ không đọc được thẻ `noindex` trên trang đó.
-
-</details>

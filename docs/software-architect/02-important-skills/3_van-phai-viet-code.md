@@ -35,7 +35,6 @@ title: "3. Vẫn phải viết code"
 - [7. Biến quy tắc kiến trúc thành code](#7-biến-quy-tắc-kiến-trúc-thành-code)
 - [Khi nào cần nhớ?](#khi-nào-cần-nhớ)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -290,58 +289,3 @@ Sau vài năm, đề xuất của kiến trúc sư bắt đầu xa thực tế, 
 ### Lỗi 5: Code review để thể hiện quyền lực
 
 Chặn PR vì sở thích cá nhân, không giải thích lý do. Đội sẽ né kiến trúc sư thay vì học từ họ. Góp ý kèm "vì sao", phân biệt bắt buộc và gợi ý.
-
----
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Kiến trúc sư có cần viết code không? Vì sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Có, nhưng với mục đích khác developer. Viết code giúp quyết định kiến trúc bám thực tế, ước lượng sát, đánh giá công nghệ bằng thử nghiệm thay vì đọc quảng cáo, và giữ uy tín với đội. Loại code phù hợp: spike, PoC, walking skeleton, module mẫu, công cụ kiểm tra kiến trúc, review các PR quan trọng. Tránh nhận việc nằm trên đường găng.
-
-</details>
-
-**2. Spike, proof of concept và prototype khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-- **Spike:** thí nghiệm có timebox để trả lời một câu hỏi kỹ thuật hẹp (hiệu năng, cách dùng API). Kết quả là kiến thức.
-- **Proof of concept:** chứng minh một ý tưởng hoặc rủi ro lớn nhất là khả thi.
-- **Prototype:** bản thử để lấy phản hồi về trải nghiệm hoặc thiết kế, thường cho người dùng hoặc các bên liên quan xem.
-
-Cả ba thường được vứt đi sau khi có kết luận. Khác với **walking skeleton**, là bộ khung được giữ lại và phát triển tiếp.
-
-</details>
-
-**3. Walking skeleton là gì và vì sao nên làm sớm?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Là cài đặt nhỏ nhất của hệ thống nhưng chạy được từ đầu đến cuối qua mọi thành phần kiến trúc chính (UI, API, DB, auth) và được deploy bằng pipeline thật. Làm sớm để kiểm chứng kiến trúc trên giấy, phát hiện vấn đề tích hợp và hạ tầng ngay từ đầu, chốt các quy ước nền (cấu trúc thư mục, logging, migration), và cho đội một mẫu để phát triển tiếp.
-
-</details>
-
-**4. Làm sao để quy tắc kiến trúc không chỉ nằm trên giấy?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Biến chúng thành kiểm tra tự động chạy trong CI: ArchUnit cho Java, dependency-cruiser hoặc ESLint cho TypeScript để chặn import sai ranh giới; kiểm tra schema API bằng contract test; ngưỡng hiệu năng trong test tải. Kết hợp với `CODEOWNERS` để người hiểu kiến trúc được mời review các vùng nhạy cảm. Đây là ý tưởng fitness function trong kiến trúc tiến hoá.
-
-</details>
-
-**5. Khi review code, kiến trúc sư nên chú ý điều gì khác so với developer?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Ranh giới module và chiều phụ thuộc, dependency mới được thêm vào, sự nhất quán của chiến lược xử lý lỗi, retry, timeout, các lời gọi mạng trong vòng lặp, thay đổi shape API hoặc schema dữ liệu. Quan trọng hơn là nhìn **xu hướng** qua nhiều PR: một vi phạm lặp lại cho thấy quy tắc chưa rõ hoặc thiết kế đang gây khó cho đội.
-
-</details>

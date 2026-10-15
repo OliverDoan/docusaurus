@@ -35,7 +35,6 @@ Phần 2 tiếp tục danh mục **Performance antipatterns for cloud applicatio
 - [6. Tổng kết 10 antipattern](#6-tổng-kết-10-antipattern)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -514,61 +513,3 @@ Tenant lớn có nhiều IP vẫn chiếm tài nguyên; người dùng sau NAT c
 ### Lỗi 5: Async nhưng vẫn tuần tự
 
 Đổi sang async/await nhưng `await` từng lời gọi độc lập lần lượt -- không chặn thread nhưng latency vẫn là tổng. **Sửa:** `Promise.all` cho các I/O độc lập, có giới hạn concurrency (p-limit) để không dội tải xuống service sau.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Retry storm là gì? Thiết kế retry thế nào cho an toàn?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Retry không kiểm soát khi service phía sau đang yếu làm nhân tải lên (đặc biệt retry ở nhiều tầng: 3 tầng x 3 lần = 27 lần), khiến service không thể hồi phục. An toàn: giới hạn số lần và tổng deadline; exponential backoff + jitter; tôn trọng Retry-After; chỉ retry lỗi tạm thời và thao tác idempotent; retry ở một tầng; circuit breaker; retry budget (retry không vượt một tỉ lệ request); server load shedding trả 503 sớm.
-
-</details>
-
-**2. Circuit breaker hoạt động thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Ba trạng thái: Closed (gọi bình thường, đếm lỗi); Open (khi tỉ lệ lỗi vượt ngưỡng trong cửa sổ đủ lớn -- trả lỗi/fallback ngay, không gọi xuống, cho service phía sau thời gian hồi phục); Half-open (sau thời gian chờ, cho vài request thử -- thành công thì về Closed, thất bại thì về Open). Kết hợp fallback (giá trị mặc định, dữ liệu cache cũ).
-
-</details>
-
-**3. Noisy neighbor trong SaaS multi-tenant xử lý thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Đo tài nguyên theo tenant; rate limit và quota theo tenant/gói (token bucket theo tenantId); fair queuing thay vì FIFO chung; bulkhead (pool riêng theo nhóm); tách tenant lớn sang cell/shard/stamp riêng hoặc DB riêng; giới hạn kích thước job/import; với hạ tầng đặt resource limits cho container. Đánh đổi giữa chi phí chia sẻ và mức cô lập.
-
-</details>
-
-**4. Synchronous I/O ảnh hưởng thế nào tới khả năng chịu tải?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Thread bị chặn khi chờ I/O nhưng vẫn chiếm bộ nhớ và slot trong pool; số request đồng thời bị giới hạn bởi số thread, khi I/O chậm thì pool cạn dù CPU rảnh. Với Node.js, hàm Sync chặn cả event loop. Giải pháp: non-blocking I/O (event loop, async/await), virtual threads/goroutine, song song hoá I/O độc lập, đẩy việc dài vào queue.
-
-</details>
-
-**5. Khi nào nên tách một database thành nhiều kho (polyglot persistence)?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khi có số liệu cho thấy các workload khác đặc tính tranh chấp nhau: log/event ghi liên tục làm chậm giao dịch, báo cáo quét bảng làm tụt hiệu năng giờ cao điểm, session đọc ghi dày đặc, file/blob làm DB phình. Tách sang kho phù hợp (Redis, object storage, log store, warehouse, search engine). Đánh đổi: thêm chi phí vận hành, mất transaction xuyên kho, cần đồng bộ (CDC, outbox).
-
-</details>
-
-**6. Hệ thống không có cache, traffic tăng gấp 10 lần. Bạn làm gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Xác định dữ liệu đọc nhiều ít đổi qua thống kê query; thêm cache-aside (Redis) với TTL + jitter, single-flight chống stampede, negative caching; nội dung công khai thì CDN/HTTP cache; invalidation khi ghi. Song song: read replica, rate limit/load shedding bảo vệ DB, đảm bảo client retry có backoff để không tạo retry storm khi DB chậm.
-
-</details>

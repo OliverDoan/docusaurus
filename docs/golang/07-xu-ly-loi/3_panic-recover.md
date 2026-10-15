@@ -31,7 +31,6 @@ title: "3. Panic và Recover"
 - [Panic trong goroutine](#panic-trong-goroutine)
 - [Đọc stack trace](#đọc-stack-trace)
 - [Debug cơ bản với Delve](#debug-cơ-bản-với-delve)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -550,61 +549,3 @@ Delve **tự dừng khi có panic chưa được recover**, nên chỉ cần `co
 `dlv debug` tự build với `-gcflags="all=-N -l"` (tắt tối ưu và inline). Nếu tự build binary để debug sau, dùng cùng cờ đó; binary build bình thường vẫn debug được nhưng một số biến có thể hiện `optimized away`.
 
 :::
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Khi nào nên dùng panic thay vì trả error?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Chỉ khi gặp lỗi lập trình hoặc tình huống không thể phục hồi: bất biến bị vi phạm, trạng thái "không thể xảy ra", khởi tạo giá trị cố định sai (`regexp.MustCompile`), thiếu cấu hình bắt buộc lúc khởi động. Mọi lỗi có thể dự đoán (input sai, I/O, mạng, không tìm thấy bản ghi) phải trả `error`. Thư viện không nên để panic thoát ra API public.
-
-</details>
-
-**2. Vì sao `recover()` chỉ hoạt động trong defer? Đoạn `defer recover()` có tác dụng không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khi panic, hàm bình thường không còn chạy tiếp — chỉ các hàm defer được thực thi trong lúc unwinding, nên đó là nơi duy nhất có thể chặn panic. Quy tắc cụ thể: `recover` phải được gọi **trực tiếp bởi hàm được defer**. `defer recover()` không hoạt động vì `recover` khi đó chính là hàm được defer (được runtime gọi), không phải được gọi bởi một hàm defer. Gọi `recover` trong hàm helper mà helper lại được gọi từ closure defer cũng không hoạt động; phải `defer helper()` trực tiếp.
-
-</details>
-
-**3. Một goroutine con panic, `main` có `defer recover()` đúng cách. Chương trình có sập không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Có. Panic chỉ unwind stack của **goroutine đang panic**; nếu goroutine đó không tự recover thì runtime kết thúc toàn bộ process — recover ở goroutine khác không có tác dụng. Vì thế mọi goroutine (đặc biệt goroutine sinh ra từ HTTP handler, worker) phải tự có `defer func() { if r := recover(); r != nil { ... } }()`, thường gói vào helper như `SafeGo`.
-
-</details>
-
-**4. `net/http` có tự recover panic trong handler không? Vậy sao vẫn cần middleware recover?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Có, server recover panic của từng handler, in stack trace bằng logger của server và đóng kết nối — client nhận lỗi kết nối chứ không phải response 500. Middleware recover cho phép trả 500 đúng chuẩn, log có cấu trúc (slog, request ID, stack), gửi cảnh báo. Middleware cũng không cứu được panic ở goroutine do handler tự tạo. Lưu ý chừa `http.ErrAbortHandler` cho `net/http` xử lý.
-
-</details>
-
-**5. Làm sao lấy stack trace khi recover? `GOTRACEBACK` dùng để làm gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Trong hàm defer sau khi recover, gọi `debug.Stack()` (trả `[]byte`) hoặc `debug.PrintStack()` — stack lúc này vẫn còn khung của nơi panic. `runtime.Stack(buf, true)` lấy stack mọi goroutine. `GOTRACEBACK` điều khiển lượng stack in ra khi chương trình sập: `none`, `single` (mặc định), `all`, `system`, `crash` (tạo core dump để phân tích bằng `dlv core`).
-
-</details>
-
-**6. Những lỗi nào không thể recover?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Các **fatal error** của runtime không đi qua cơ chế panic nên `recover` không bắt được: ghi/đọc map đồng thời (`concurrent map writes`), deadlock toàn bộ (`all goroutines are asleep`), stack overflow, hết bộ nhớ. Ngoài ra `os.Exit` và `log.Fatal` thoát ngay, không chạy defer. Cách duy nhất là sửa bug — dùng `go test -race` để phát hiện truy cập map đồng thời sớm.
-
-</details>

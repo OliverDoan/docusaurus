@@ -33,7 +33,6 @@ Bug concurrency đáng sợ nhất là bug **không lặp lại được**: ch�
 - [Những race khó thấy](#những-race-khó-thấy)
 - [Memory model và happens-before](#memory-model-và-happens-before)
 - [Race detector trong CI](#race-detector-trong-ci)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -513,61 +512,3 @@ func TestCounterConcurrent(t *testing.T) {
 	}
 }
 ```
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Data race là gì? Khác race condition thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Data race: hai goroutine truy cập cùng vùng nhớ đồng thời, ít nhất một truy cập là ghi, và không có thao tác đồng bộ nào tạo quan hệ happens-before giữa chúng. Race condition: tính đúng đắn phụ thuộc vào thứ tự/thời điểm thực thi — có thể xảy ra ngay cả khi mọi truy cập đều có khoá (ví dụ check-then-act: kiểm tra tồn kho rồi trừ ở hai lần khoá riêng). Race detector chỉ bắt data race; race condition logic phải thiết kế đúng (gộp thao tác trong một vùng khoá, dùng transaction/ràng buộc DB).
-
-</details>
-
-**2. Race detector hoạt động thế nào? Có hạn chế gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Dựa trên ThreadSanitizer: compiler chèn mã theo dõi vào mọi lần truy cập bộ nhớ và các thao tác đồng bộ, runtime dùng vector clock để phát hiện hai truy cập xung đột không có happens-before. Không có false positive. Hạn chế: chỉ bắt race trên đường code thực sự chạy trong lần đó (không chứng minh được "không có race"), chậm 2–20 lần, tốn 5–10 lần bộ nhớ, cần cgo trên Linux — nên thường dùng trong test/CI/staging.
-
-</details>
-
-**3. Vì sao `count++` từ nhiều goroutine cho kết quả sai? Có những cách sửa nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`count++` gồm đọc - cộng - ghi, không nguyên tử; hai goroutine đọc cùng giá trị cũ rồi cùng ghi giá trị mới nên mất một lần tăng. Sửa bằng: `sync.Mutex` bao quanh; `atomic.Int64.Add(1)`; một goroutine sở hữu biến, các goroutine khác gửi yêu cầu qua channel; hoặc mỗi goroutine đếm cục bộ rồi cộng tổng sau `Wait`.
-
-</details>
-
-**4. Happens-before là gì? Kể vài thao tác tạo quan hệ này trong Go.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Là quan hệ thứ tự đảm bảo hiệu ứng của thao tác A nhìn thấy được bởi thao tác B. Không có happens-before thì compiler/CPU có thể sắp xếp lại và goroutine khác có thể thấy giá trị cũ hoặc thứ tự khác. Các thao tác tạo quan hệ: lệnh `go` (trước khi goroutine bắt đầu), gửi channel trước khi nhận tương ứng hoàn tất, `close` trước lần nhận do đóng, `Unlock` trước `Lock` kế tiếp, `once.Do` hoàn tất trước các `Do` khác trả về, `wg.Done` trước `Wait` trả về, và các thao tác atomic (nhất quán tuần tự).
-
-</details>
-
-**5. Ghi vào các phần tử khác nhau của cùng một slice từ nhiều goroutine có race không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không, nếu mỗi goroutine ghi vào chỉ số riêng và slice không bị `append`/gán lại trong lúc đó — mỗi phần tử là vùng nhớ riêng. Đọc kết quả sau `wg.Wait()` là an toàn nhờ happens-before của WaitGroup. Ngược lại, `append` vào cùng một slice từ nhiều goroutine là race (cùng đọc/ghi header slice và có thể cấp phát lại mảng). Ghi vào các field khác nhau của cùng struct cũng không race; nhưng ghi vào cùng một map (kể cả key khác nhau) là race.
-
-</details>
-
-**6. Đưa race detector vào CI thế nào cho hiệu quả?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Chạy `go test -race -count=1 ./...` trên mọi PR (bật cgo, image có gcc), tăng timeout. Viết test có tính đồng thời thật (nhiều goroutine gọi cùng API, `t.Parallel()`), vì race detector chỉ thấy race trên đường code chạy. Thêm job nightly với `-count` lớn để bắt race hiếm. Bổ sung `go vet` (copylocks, lostcancel) và `goleak`. Với integration/load test, build binary `-race` chạy trên staging.
-
-</details>

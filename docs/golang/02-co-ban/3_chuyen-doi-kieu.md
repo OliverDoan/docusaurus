@@ -30,7 +30,6 @@ Go **không có ép kiểu ngầm định** (implicit conversion): cộng `int` 
 - [Package strconv](#package-strconv)
 - [Bẫy string(65)](#bẫy-string65)
 - [Type definition và type alias](#type-definition-và-type-alias)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -454,61 +453,3 @@ Từ Go 1.24, alias có thể có tham số kiểu (generic type alias): `` type
 | Định nghĩa method mới | ✅ | Chỉ khi B khai báo trong cùng package |
 | `%T` khi in | Tên A | Tên B |
 | Mục đích | An toàn kiểu, enum, gắn method | Refactor, rút gọn tên |
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Go có ép kiểu ngầm định không? Ví dụ `var a int = 1; var b int64 = a` có chạy không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không. Go không có implicit conversion giữa các kiểu có tên khác nhau, kể cả `int` và `int64` cùng 64 bit — `var b int64 = a` lỗi biên dịch, phải viết `int64(a)`. Ngoại lệ duy nhất "trông như ngầm định" là **hằng untyped**: `var b int64 = 1` hợp lệ vì `1` chưa có kiểu và tự khớp với `int64`. Lý do thiết kế: mọi chỗ có thể mất dữ liệu đều phải lộ rõ trong code.
-
-</details>
-
-**2. `string(65)` trả về gì? Cách đúng để chuyển số thành chuỗi?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Trả về `"A"` — chuyển số nguyên sang string nghĩa là lấy ký tự có code point đó. `go vet` cảnh báo trường hợp này với kiểu `int`. Cách đúng: `strconv.Itoa(n)` cho `int`, `strconv.FormatInt(n, 10)` cho `int64`, hoặc `fmt.Sprint(n)` nếu không quan trọng hiệu năng. Muốn ký tự thật thì viết rõ `string(rune(n))`.
-
-</details>
-
-**3. `int(f)` với `f := 2.99` cho kết quả gì? `uint8(-1)` thì sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`int(2.99)` (với `f` là biến) cho `2` — chuyển float sang int **cắt phần thập phân về phía 0**, không làm tròn; muốn làm tròn dùng `math.Round`. `uint8(-1)` với hằng là lỗi biên dịch (overflow); với biến `n := -1` thì `uint8(n)` cho `255` vì giữ 8 bit thấp của biểu diễn bù hai. Chuyển đổi số không bao giờ panic, nên phải tự kiểm tra phạm vi.
-
-</details>
-
-**4. `strconv.Atoi` và `strconv.ParseInt` khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`Atoi(s)` tương đương `ParseInt(s, 10, 0)` rồi chuyển về `int` — chỉ cơ số 10, trả `int`. `ParseInt(s, base, bitSize)` cho chọn cơ số (2–36, hoặc 0 để tự nhận theo tiền tố `0x`, `0o`, `0b`), kiểm tra phạm vi theo `bitSize` và luôn trả `int64`. Cả hai trả `*strconv.NumError` khi lỗi; dùng `errors.Is(err, strconv.ErrSyntax)` hoặc `strconv.ErrRange` để phân biệt sai cú pháp và vượt phạm vi.
-
-</details>
-
-**5. Type definition và type alias khác nhau thế nào? Khi nào dùng alias?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`type A B` tạo **kiểu mới** có cùng underlying type với B: không gán trực tiếp qua lại được, không mang method của B, có thể gắn method riêng — dùng cho an toàn kiểu (`UserID`, `Celsius`) và enum. `type A = B` chỉ là **tên khác** của cùng một kiểu: gán tự do, có đủ method của B, `%T` in ra tên B. Alias chủ yếu dùng khi refactor — di chuyển kiểu sang package mới mà vẫn giữ tương thích cho code cũ — và cho các tên ngắn gọn như `byte`, `rune`, `any`.
-
-</details>
-
-**6. Chuyển `[]byte` sang `string` có tốn chi phí không? Vì sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Thường có: cấp phát bộ nhớ mới và copy dữ liệu, vì string bất biến còn `[]byte` có thể bị sửa sau đó — nếu dùng chung bộ nhớ thì string sẽ "bị đổi" ngầm. Trình biên dịch bỏ được copy trong vài trường hợp an toàn (tra map `m[string(b)]`, so sánh, nối chuỗi tạm). Ở đường nóng, nên làm việc trực tiếp với `[]byte` qua package `bytes` và `strconv.Append*` để tránh chuyển đổi qua lại.
-
-</details>

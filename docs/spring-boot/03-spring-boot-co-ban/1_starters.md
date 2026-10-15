@@ -29,7 +29,6 @@ Starter là cách Spring Boot giải quyết "địa ngục dependency": thay v�
 - [BOM và quản lý phiên bản](#bom-và-quản-lý-phiên-bản)
 - [Bên trong một starter](#bên-trong-một-starter)
 - [Loại trừ và ghi đè dependency](#loại-trừ-và-ghi-đè-dependency)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -369,61 +368,3 @@ extra["postgresql.version"] = "42.7.4"
 Ghi đè phiên bản **lớn** (major) của thư viện lõi như Hibernate, Jackson, Spring Framework khác với phiên bản Boot đã kiểm thử → hành vi khó đoán. Chỉ ghi đè bản vá (patch) và chạy lại toàn bộ test.
 
 :::
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Spring Boot Starter là gì? Vì sao cần nó?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Starter là một dependency "gom nhóm" (thường chỉ có `pom.xml`) kéo theo bộ thư viện cần cho một tính năng, với phiên bản đã được kiểm thử tương thích. Nó giải quyết việc tự chọn từng thư viện và xung đột phiên bản. Ví dụ `spring-boot-starter-web` kéo Spring MVC, Jackson, Tomcat nhúng, validation API. Kết hợp với auto-configuration, thêm starter là có ngay tính năng chạy được.
-
-</details>
-
-**2. Vì sao trong `pom.xml` Spring Boot thường không ghi `version` cho dependency?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Vì phiên bản được quản lý tập trung bởi BOM `spring-boot-dependencies` (thông qua parent `spring-boot-starter-parent` hoặc import BOM trong `dependencyManagement`). Maven lấy phiên bản từ `dependencyManagement` khi dependency không ghi version. Lợi ích: mọi thư viện đồng bộ với phiên bản Spring Boot đã kiểm thử; nâng cấp Boot là nâng cả bộ.
-
-</details>
-
-**3. `spring-boot-starter-parent` và import BOM `spring-boot-dependencies` khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`spring-boot-starter-parent` kế thừa `spring-boot-dependencies` (quản lý phiên bản) **và** thêm cấu hình build mặc định: Java version qua `java.version`, encoding UTF-8, cấu hình `spring-boot-maven-plugin`, resource filtering cho `application*.yml`, các plugin khác. Import BOM chỉ lấy phần quản lý phiên bản — dùng khi dự án đã có parent riêng (của công ty) vì Maven chỉ cho một parent.
-
-</details>
-
-**4. Làm sao thay Tomcat bằng Jetty hoặc Undertow?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Trong dependency `spring-boot-starter-web`, thêm `exclusion` cho `spring-boot-starter-tomcat`, sau đó thêm `spring-boot-starter-jetty` (hoặc `spring-boot-starter-undertow`). Auto-configuration thấy class Jetty trên classpath và không thấy Tomcat sẽ tự dựng Jetty. Lưu ý: hỗ trợ Undertow đã bị bỏ ở Spring Boot 4 vì Undertow chưa hỗ trợ Servlet 6.1.
-
-</details>
-
-**5. Cần vá lỗ hổng một thư viện (ví dụ driver PostgreSQL) mà chưa có bản Spring Boot mới, làm thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Ghi đè phiên bản qua thuộc tính mà BOM định nghĩa, ví dụ `<postgresql.version>` trong `properties` (Maven) hoặc `extra["postgresql.version"]` (Gradle với plugin dependency-management). Không ghi version trực tiếp ở dependency để tránh lệch với các module khác dùng chung. Chỉ nên nâng bản vá (patch/minor tương thích), chạy lại test, và gỡ ghi đè khi nâng Spring Boot.
-
-</details>
-
-**6. Đặt tên starter tự viết thế nào cho đúng quy ước?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Tiền tố `spring-boot-starter-*` dành riêng cho starter chính thức của Spring Boot. Starter bên thứ ba/nội bộ đặt dạng `tenduan-spring-boot-starter` (ví dụ `acme-audit-spring-boot-starter`). Thông thường tách hai module: `...-spring-boot-autoconfigure` chứa code auto-configuration và `...-spring-boot-starter` chỉ là pom kéo module autoconfigure cùng thư viện cần thiết.
-
-</details>

@@ -32,7 +32,6 @@ Goroutine là "luồng nhẹ" do Go runtime quản lý — chỉ cần thêm t�
 - [GOMAXPROCS](#gomaxprocs)
 - [Chờ goroutine kết thúc](#chờ-goroutine-kết-thúc)
 - [Goroutine leak](#goroutine-leak)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -449,61 +448,3 @@ func search(ctx context.Context, query string) (string, error) {
 Quy tắc vàng: **trước khi viết `go`, trả lời được câu hỏi "goroutine này dừng khi nào và ai làm nó dừng?"**. Không trả lời được thì gần như chắc chắn có leak.
 
 :::
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Goroutine khác OS thread thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Goroutine do Go runtime quản lý trong user space, stack khởi đầu khoảng 2KB và tự co giãn; tạo và chuyển ngữ cảnh rẻ vì không cần system call. OS thread do kernel quản lý, stack lớn cố định (~1MB+), tạo và chuyển ngữ cảnh đắt. Runtime ánh xạ nhiều goroutine lên ít thread (M:N) qua scheduler G-M-P. Goroutine không có ID công khai, không có độ ưu tiên, không thể bị kill từ bên ngoài.
-
-</details>
-
-**2. Giải thích mô hình G-M-P.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-G là goroutine, M là OS thread, P là processor logic chứa local run queue; M phải giữ P mới chạy được code Go, số P bằng `GOMAXPROCS`. G mới vào local queue của P hiện tại; P rảnh lấy từ global queue hoặc work-stealing từ P khác. Khi G gọi syscall chặn, P được tách khỏi M để M khác tiếp tục chạy các G còn lại. I/O mạng đi qua network poller nên không chặn M. Từ Go 1.14 có asynchronous preemption để G chạy lâu không độc chiếm P.
-
-</details>
-
-**3. Concurrency và parallelism khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Concurrency là cách cấu trúc chương trình thành nhiều tác vụ độc lập có thể tiến triển đan xen — chạy được cả trên 1 core. Parallelism là thực thi nhiều tác vụ cùng một thời điểm trên nhiều core. Concurrency là điều kiện để có parallelism nhưng không đảm bảo nó; Go cho bạn viết code concurrent và runtime tận dụng parallelism theo `GOMAXPROCS`.
-
-</details>
-
-**4. Goroutine leak là gì? Lấy ví dụ và cách phòng tránh.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Là goroutine bị chặn vĩnh viễn (chờ gửi/nhận channel, chờ lock, vòng lặp không điều kiện dừng) nên không bao giờ kết thúc; GC không thu hồi được nó. Ví dụ: goroutine gửi kết quả vào channel unbuffered nhưng hàm gọi đã return vì timeout. Phòng tránh: dùng buffer phù hợp, luôn có đường thoát qua `ctx.Done()`, đóng channel từ phía gửi, `defer cancel()`. Phát hiện bằng `runtime.NumGoroutine`, pprof goroutine profile, `goleak` trong test.
-
-</details>
-
-**5. Panic trong một goroutine có bị `recover` ở `main` bắt không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không. `recover` chỉ có tác dụng trong hàm `defer` của **chính goroutine** đang panic. Panic không được recover trong bất kỳ goroutine nào sẽ làm sập toàn bộ process. Goroutine chạy code có thể panic (handler do người dùng cung cấp, plugin) cần tự `defer func() { recover() ... }()` ở đầu.
-
-</details>
-
-**6. `GOMAXPROCS` là gì? Có vấn đề gì khi chạy trong container?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Là số P — số goroutine tối đa thực thi code Go cùng lúc; mặc định bằng số CPU logic. Trước Go 1.25, Go không đọc CPU limit của cgroup, nên container giới hạn 2 CPU trên node 64 core vẫn có `GOMAXPROCS=64`, dẫn tới bị CFS throttling và latency cao; giải pháp là `go.uber.org/automaxprocs` hoặc đặt biến môi trường. Từ Go 1.25, runtime tự tôn trọng CPU limit của cgroup trên Linux.
-
-</details>

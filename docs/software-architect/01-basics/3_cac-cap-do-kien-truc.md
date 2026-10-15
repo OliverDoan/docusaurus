@@ -35,7 +35,6 @@ title: "3. Các cấp độ kiến trúc"
 - [7. Các cấp độ phối hợp với nhau thế nào](#7-các-cấp-độ-phối-hợp-với-nhau-thế-nào)
 - [Khi nào cần nhớ?](#khi-nào-cần-nhớ)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -265,58 +264,3 @@ Vẽ một bản đồ hệ thống đẹp rồi để đó. Sau một năm, t�
 ### Lỗi 5: Solution design bỏ quên hệ thống có sẵn
 
 Thiết kế giải pháp như thể bắt đầu từ con số không, rồi phát hiện muộn rằng phải tích hợp với ERP cũ, có giới hạn tốc độ gọi API và chỉ nhận file theo lô hằng đêm.
-
----
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Phân biệt application, solution và enterprise architecture.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-- **Application:** cấu trúc bên trong một ứng dụng (layer, module, pattern, công nghệ), gần code nhất.
-- **Solution:** thiết kế một giải pháp cho một nhu cầu kinh doanh, ghép nhiều hệ thống mới và cũ, tập trung vào tích hợp, yêu cầu phi chức năng, chi phí.
-- **Enterprise:** toàn tổ chức, năng lực kinh doanh, danh mục ứng dụng, chuẩn công nghệ và lộ trình nhiều năm.
-
-Cấp trên đặt ràng buộc cho cấp dưới, cấp dưới phản hồi thực tế lên cấp trên.
-
-</details>
-
-**2. Solution architect thường tạo ra những sản phẩm gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Solution design document (bối cảnh, yêu cầu, phương án, lựa chọn, rủi ro), sơ đồ tích hợp và luồng dữ liệu, sequence diagram cho luồng chính, danh sách yêu cầu phi chức năng và cách đáp ứng, ước lượng chi phí và công sức, đôi khi là phân tích mua hay tự xây.
-
-</details>
-
-**3. TOGAF là gì? Bốn miền kiến trúc trong TOGAF là gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-TOGAF là khung enterprise architecture của The Open Group, có phương pháp ADM là một vòng lặp phát triển kiến trúc. Bốn miền: business, data, application và technology architecture.
-
-</details>
-
-**4. Ở công ty nhỏ không có enterprise architect thì sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Các câu hỏi của cấp enterprise vẫn tồn tại (chuẩn công nghệ, nguồn gốc dữ liệu, chọn mua hay xây), chỉ là do CTO hoặc kiến trúc sư/tech lead cấp cao đảm nhận. Điều quan trọng là nhận ra mình đang quyết ở cấp nào để chọn mức chi tiết, thời gian cân nhắc và người cần tham gia phù hợp.
-
-</details>
-
-**5. Một đội muốn dùng công nghệ khác chuẩn chung của công ty. Bạn xử lý thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không cấm ngay cũng không cho lách. Hỏi lý do và yêu cầu cụ thể mà chuẩn hiện tại không đáp ứng, đánh giá chi phí lâu dài (vận hành, tuyển người, bảo mật, tích hợp), rồi nâng lên đúng cấp quyết định. Nếu lý do chính đáng, có thể chấp nhận như ngoại lệ có ghi ADR, hoặc cập nhật chính chuẩn chung.
-
-</details>

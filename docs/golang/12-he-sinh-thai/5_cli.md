@@ -31,7 +31,6 @@ Go là một trong những ngôn ngữ được ưa chuộng nhất để viết
 - [urfave/cli](#urfavecli)
 - [TUI với Bubble Tea và Lip Gloss](#tui-với-bubble-tea-và-lip-gloss)
 - [Phân phối binary](#phân-phối-binary)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -579,61 +578,3 @@ func main() {
 goreleaser init                        # tạo .goreleaser.yaml mẫu
 goreleaser release --snapshot --clean  # chạy thử local, không phát hành
 ```
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Vì sao Go phù hợp để viết CLI?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Biên dịch ra một binary tĩnh duy nhất, không cần runtime hay thư viện đi kèm; khởi động gần như tức thì (khác JVM/Node); cross-compile chỉ bằng `GOOS`/`GOARCH`; thư viện chuẩn mạnh (HTTP, JSON, file, crypto); concurrency dễ dùng cho tác vụ song song. Hệ sinh thái có Cobra, Viper, Bubble Tea, GoReleaser. Các tool lớn như Docker, kubectl, Terraform, gh đều viết bằng Go.
-
-</details>
-
-**2. Persistent flag và local flag trong Cobra khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Persistent flag (khai báo bằng `cmd.PersistentFlags()`) có hiệu lực ở lệnh khai báo và **mọi lệnh con** — dùng cho tuỳ chọn toàn cục như `--config`, `--verbose`, `--output`. Local flag (`cmd.Flags()`) chỉ có ở đúng lệnh đó, ví dụ `--priority` của `todo add`. Khai báo persistent flag ở root là cách phổ biến để mọi lệnh đều đọc được cấu hình chung.
-
-</details>
-
-**3. `Run` và `RunE` trong Cobra khác gì? Nên dùng cái nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`Run` không trả giá trị, nên lỗi phải tự in và gọi `os.Exit` bên trong — khó test, bỏ qua `defer`. `RunE` trả `error`, Cobra đưa lỗi về `Execute()`, nơi bạn xử lý tập trung (in ra stderr, chọn exit code). Nên dùng `RunE` (và `PersistentPreRunE`...). Kết hợp `SilenceUsage: true` để lỗi khi chạy không in kèm usage dài, và `SilenceErrors` nếu muốn tự định dạng thông báo lỗi.
-
-</details>
-
-**4. Viper lấy giá trị cấu hình theo thứ tự ưu tiên nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Từ cao xuống thấp: giá trị đặt bằng `viper.Set` → flag (đã `BindPFlag`, và flag được người dùng truyền) → biến môi trường (`AutomaticEnv`/`BindEnv`) → file config → key/value store từ xa → giá trị mặc định (`SetDefault`). Nhờ đó một CLI có thể có default hợp lý, cho phép ghi đè bằng file, bằng env trong CI, và bằng flag khi chạy tay.
-
-</details>
-
-**5. Kiến trúc Elm trong Bubble Tea gồm những gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Ba phần: **Model** (struct trạng thái), **Update** (nhận `tea.Msg` như phím bấm, kết quả việc nền; trả model mới và `tea.Cmd` tiếp theo), **View** (hàm thuần biến model thành chuỗi). Luồng dữ liệu một chiều: sự kiện → Update → Model mới → View. Việc bất đồng bộ được mô tả bằng `Cmd` (hàm trả về `Msg`), runtime chạy nó trong goroutine và gửi kết quả về Update, nên state chỉ thay đổi ở một chỗ, dễ suy luận và dễ test.
-
-</details>
-
-**6. Làm sao nhúng phiên bản vào binary lúc build?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khai báo biến package-level kiểu string (vd `var version = "dev"` trong `main`) rồi build với `go build -ldflags "-X main.version=1.2.0"` (đường dẫn đầy đủ của package nếu biến không ở `main`, vd `-X example.com/todo/internal/build.Version=1.2.0`). GoReleaser tự truyền `-X` với tag git. Ngoài ra từ Go 1.18, `runtime/debug.ReadBuildInfo()` cho biết module version (khi cài bằng `go install ...@v1.2.0`) và thông tin VCS (commit, thời gian) được nhúng tự động.
-
-</details>

@@ -30,7 +30,6 @@ Go tự quản lý bộ nhớ: bạn không gọi `malloc`/`free`, trình biên 
 - [GOGC và GOMEMLIMIT](#gogc-và-gomemlimit)
 - [Giảm áp lực GC](#giảm-áp-lực-gc)
 - [Memory leak thường gặp trong Go](#memory-leak-thường-gặp-trong-go)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -519,61 +518,3 @@ go test -bench=. -benchmem   # số lần cấp phát (allocs/op) mỗi thao tá
 ```
 
 So sánh hai heap profile chụp cách nhau vài phút (`go tool pprof -base old.pb.gz new.pb.gz`) là cách nhanh nhất để tìm thứ đang tăng dần.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Làm sao biết một biến trong Go nằm trên stack hay heap?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Lập trình viên không chọn — trình biên dịch quyết định bằng escape analysis. Biến mà địa chỉ có thể thoát khỏi hàm (trả về con trỏ, gán vào nơi sống lâu hơn, bị closure sống lâu bắt, truyền qua interface mà compiler không phân tích được, quá lớn hoặc kích thước không xác định) sẽ lên heap; còn lại có thể nằm trên stack. Xem bằng `go build -gcflags=-m` (thông báo "moved to heap", "escapes to heap"). `new` hay `&T{}` không đồng nghĩa với heap.
-
-</details>
-
-**2. Trình bày cách GC của Go hoạt động.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-GC của Go là concurrent tri-color mark-and-sweep, không phân thế hệ, không dời object. Pha mark bắt đầu từ các root (biến toàn cục, stack goroutine), dùng ba màu trắng/xám/đen để duyệt đồ thị tham chiếu, chạy song song với chương trình; write barrier đảm bảo không bỏ sót tham chiếu mới tạo trong lúc mark. Chỉ có hai pha stop-the-world rất ngắn (bật write barrier, kết thúc mark). Object còn trắng bị thu hồi trong pha sweep, thực hiện dần khi cấp phát. Goroutine cấp phát nhanh bị bắt phụ mark (mark assist). Từ Go 1.26, hiện thực mặc định là Green Tea GC quét theo span để tăng cache locality.
-
-</details>
-
-**3. `GOGC` và `GOMEMLIMIT` khác nhau thế nào? Khi chạy trong Kubernetes nên cấu hình ra sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`GOGC` (mặc định 100) quy định heap được tăng bao nhiêu phần trăm so với live heap trước khi GC chạy — tỉ lệ tương đối, không biết giới hạn RAM. `GOMEMLIMIT` (Go 1.19) là giới hạn mềm tuyệt đối cho bộ nhớ runtime quản lý; gần chạm thì GC chạy dày hơn. Trong Kubernetes nên đặt `GOMEMLIMIT` khoảng 80–90% memory limit của container (chừa chỗ cho bộ nhớ ngoài heap); giữ `GOGC` mặc định, hoặc `GOGC=off` nếu muốn tận dụng tối đa RAM và service là tiến trình duy nhất.
-
-</details>
-
-**4. Go có GC thì có bị memory leak không? Cho ví dụ.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Có — leak trong Go là giữ tham chiếu ngoài ý muốn. Phổ biến nhất: goroutine leak (goroutine bị chặn mãi ở gửi/nhận channel hoặc chờ I/O không timeout, thường do thiếu `ctx.Done()` hoặc channel unbuffered không ai đọc); sub-slice/substring nhỏ giữ mảng nền lớn; map dùng làm cache không bao giờ xoá; `time.Ticker` không `Stop`; quên đóng `resp.Body`. Điều tra bằng `pprof` (heap, goroutine), `runtime.NumGoroutine()`, `goleak` trong test.
-
-</details>
-
-**5. `sync.Pool` dùng để làm gì và có những lưu ý gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`sync.Pool` là cache các object tạm thời để tái sử dụng giữa nhiều goroutine, giảm số lần cấp phát và áp lực GC (ví dụ `bytes.Buffer` trong `fmt`, encoder JSON). Lưu ý: object trong pool có thể bị GC xoá bất kỳ lúc nào nên không dùng để lưu trạng thái; phải reset object trước khi `Put`; nên lưu con trỏ để tránh cấp phát khi chuyển sang `any`; tránh giữ object quá lớn; chỉ dùng khi profile chứng minh có lợi.
-
-</details>
-
-**6. Vì sao service Go cấp phát nhiều lại có độ trễ p99 cao dù GC là concurrent?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Vì (1) GC chiếm khoảng 25% CPU trong pha mark, cạnh tranh với code xử lý request; (2) goroutine cấp phát trong lúc mark bị bắt làm mark assist tỉ lệ với lượng cấp phát, nên chính request đang cấp phát nhiều bị chậm; (3) tốc độ cấp phát cao khiến chu kỳ GC lặp lại dày. Cách giảm: bớt cấp phát ở hot path (cấp sẵn cap, tái dùng buffer, `sync.Pool`), giảm con trỏ trong dữ liệu sống lâu, tăng `GOGC` hoặc dùng `GOMEMLIMIT` nếu còn dư RAM.
-
-</details>

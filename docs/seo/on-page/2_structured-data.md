@@ -26,7 +26,6 @@ Structured data là cách bạn "giải thích" cho Google hiểu ý nghĩa củ
 - [Triển khai JSON-LD trong Next.js](#triển-khai-json-ld-trong-nextjs)
 - [Kiểm tra Structured Data](#kiểm-tra-structured-data)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -500,52 +499,3 @@ Mỗi schema type có các thuộc tính **required** và **recommended**. Thi�
 ### 5. Không cập nhật schema khi nội dung thay đổi
 
 Nếu bạn thay đổi giá sản phẩm, ngày sửa bài, hoặc tác giả nhưng không cập nhật schema, Google có thể phạt vì thông tin không nhất quán. **Luôn generate schema từ cùng data source với nội dung trang.**
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Structured data có phải là ranking factor trực tiếp không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không, structured data không phải là ranking factor trực tiếp — Google đã xác nhận điều này. Tuy nhiên, structured data giúp trang hiển thị rich snippets (sao đánh giá, giá, FAQ dropdown), làm tăng CTR (click-through rate). CTR cao gián tiếp báo hiệu cho Google rằng trang có giá trị, từ đó có thể cải thiện ranking. Ngoài ra, structured data giúp Google hiểu nội dung chính xác hơn, có thể cải thiện relevance.
-
-</details>
-
-**2. Tại sao Google khuyên dùng JSON-LD thay vì Microdata?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-JSON-LD tách biệt khỏi HTML markup, không làm phức tạp cấu trúc DOM. Điều này giúp: (1) Dễ maintain — có thể thêm/sửa/xóa mà không ảnh hưởng giao diện, (2) Dễ generate tự động từ API hoặc CMS, (3) Dễ test và validate, (4) Không bị ảnh hưởng khi thay đổi giao diện. Microdata phải gắn trực tiếp vào HTML elements nên khi thay đổi layout, structured data có thể bị hỏng.
-
-</details>
-
-**3. Làm sao để biết schema nào phù hợp với trang của mình?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Dựa trên loại nội dung: (1) Bài blog/tin tức dùng `Article`, (2) Sản phẩm dùng `Product`, (3) Trang FAQ dùng `FAQPage`, (4) Hướng dẫn từng bước dùng `HowTo`, (5) Trang chủ dùng `Organization` + `WebSite`, (6) Trang danh mục dùng `BreadcrumbList`. Có thể kết hợp nhiều schema trên một trang (ví dụ Article + BreadcrumbList + FAQ). Kiểm tra Google's Search Gallery để xem các rich result types được hỗ trợ.
-
-</details>
-
-**4. Nếu JSON-LD có lỗi cú pháp thì sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Nếu JSON không hợp lệ (trailing comma, single quotes, syntax error), Google sẽ bỏ qua toàn bộ block structured data đó. Trang vẫn được index bình thường nhưng sẽ không có rich snippets. Để phòng ngừa: (1) Luôn dùng `JSON.stringify()` để generate JSON từ code, không viết tay, (2) Validate bằng Google Rich Results Test trước khi deploy, (3) Thêm validation vào CI/CD pipeline.
-
-</details>
-
-**5. Có thể đặt JSON-LD ở đâu trong HTML?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-JSON-LD có thể đặt bất kỳ đâu trong HTML — trong `<head>` hoặc `<body>`. Google sẽ đọc được ở cả hai vị trí. Tuy nhiên, Google khuyên đặt trong `<head>` để search engine đọc được sớm nhất. Trong các framework như Next.js, thường đặt trong component render để JSON-LD gần với nội dung liên quan, và điều này hoàn toàn hợp lệ.
-
-</details>

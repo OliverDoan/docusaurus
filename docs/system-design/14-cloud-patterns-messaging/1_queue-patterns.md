@@ -36,7 +36,6 @@ title: "30. Messaging Patterns: Queue"
 - [7. So sánh bốn pattern](#7-so-sánh-bốn-pattern)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -452,61 +451,3 @@ Consumer bị lỗi âm thầm, queue tăng tới hàng triệu message trong nh
 ### Lỗi 5: Dùng competing consumers cho dữ liệu cần thứ tự
 
 Sự kiện "cập nhật số dư" của cùng một tài khoản bị xử lý đảo thứ tự → số dư sai. Dùng partition key/message group theo ID tài khoản.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Queue-Based Load Leveling giải quyết vấn đề gì? Metric nào quan trọng nhất khi vận hành?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-San phẳng đỉnh tải để bảo vệ downstream có giới hạn throughput: producer ghi vào queue nhanh, consumer xử lý đều đặn theo khả năng của downstream. Metric quan trọng: độ dài queue (backlog) và tuổi của message cũ nhất -- cho biết độ trễ thực tế user phải chịu; consumer lag với Kafka. Kết hợp autoscaling theo backlog nhưng không vượt giới hạn downstream.
-
-</details>
-
-**2. Với competing consumers, vì sao phải idempotent? Làm idempotent thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Hầu hết queue giao at-least-once: consumer xử lý xong nhưng chết trước khi ack, hoặc visibility timeout hết, message sẽ được giao lại cho consumer khác. Cách làm: lưu message ID (hoặc idempotency key nghiệp vụ) vào bảng có ràng buộc unique trong cùng transaction với thay đổi nghiệp vụ; dùng upsert; hoặc kiểm tra trạng thái (chỉ chuyển PENDING → PAID nếu đang PENDING).
-
-</details>
-
-**3. Làm sao vừa xử lý song song vừa đảm bảo thứ tự sự kiện của từng đơn hàng?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Sequential Convoy: dùng khoá nhóm là `orderId` -- Kafka partition key, SQS FIFO `MessageGroupId`, Service Bus `SessionId`. Message cùng khoá vào cùng làn và được một consumer xử lý tuần tự; các làn khác nhau chạy song song. Lưu ý head-of-line blocking khi một message lỗi, và hot partition nếu phân phối khoá lệch.
-
-</details>
-
-**4. Triển khai priority queue trên SQS (không hỗ trợ priority) thế nào? Tránh starvation ra sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Tạo nhiều queue theo mức (high/normal/low). Hoặc cấp pool consumer riêng với số lượng khác nhau cho mỗi queue, hoặc một pool đọc theo trọng số (weighted round-robin). Tránh starvation bằng trọng số tối thiểu cho queue thấp, consumer chuyên trách cho queue thấp, hoặc aging -- chuyển message chờ quá lâu lên queue cao hơn. Mức ưu tiên do server quyết định, không để client tự đặt.
-
-</details>
-
-**5. Kafka topic có 6 partition, bạn chạy 10 consumer trong cùng consumer group. Chuyện gì xảy ra?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Mỗi partition chỉ được gán cho tối đa một consumer trong group, nên chỉ 6 consumer hoạt động, 4 consumer ngồi không (có thể đóng vai dự phòng khi rebalance). Muốn tăng song song phải tăng số partition -- nhưng việc này thay đổi ánh xạ key → partition, cần cân nhắc với các luồng phụ thuộc thứ tự.
-
-</details>
-
-**6. Poison message là gì và xử lý thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Message luôn làm consumer lỗi (dữ liệu hỏng, schema sai, bug) -- nếu không xử lý, nó được retry vô hạn, tốn tài nguyên và chặn cả nhóm trong FIFO. Xử lý: giới hạn số lần retry (maxReceiveCount), chuyển sang dead-letter queue, alert khi DLQ có message, có công cụ xem và redrive (đẩy lại) sau khi sửa bug.
-
-</details>

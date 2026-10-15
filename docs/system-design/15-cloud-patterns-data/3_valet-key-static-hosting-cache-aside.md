@@ -32,7 +32,6 @@ Ba pattern trong bài này cùng một tinh thần: **đừng bắt application 
 - [4. Ba pattern phối hợp trong một hệ thống](#4-ba-pattern-phối-hợp-trong-một-hệ-thống)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -294,54 +293,3 @@ Không kiểm tra lại kích thước, loại thực sự, malware. **Sửa:** 
 ### Lỗi 5: Cache-Aside không có TTL
 
 Bug invalidate bị sót → dữ liệu sai nằm mãi trong cache. **Sửa:** luôn có TTL làm lưới an toàn.
-
----
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Thiết kế tính năng upload video 1 GB cho app có hàng triệu user?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Dùng Valet Key: client xin URL, server auth + kiểm tra quota rồi trả **multipart presigned URL** (mỗi part một URL). Client upload song song trực tiếp lên S3, có thể resume part lỗi. S3 event kích hoạt worker transcode, quét malware, ghi metadata. App server không chạm byte dữ liệu nào.
-
-</details>
-
-**2. Presigned URL bị lộ thì sao? Làm sao giảm rủi ro?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Ai có URL đều dùng được tới khi hết hạn. Giảm rủi ro: TTL ngắn, phạm vi một object một thao tác, không log URL, dùng HTTPS, ràng buộc content-type, với download có thể dùng CloudFront signed cookie/URL kèm điều kiện. Cần thu hồi khẩn cấp thì vô hiệu credential dùng để ký (hoặc Azure stored access policy).
-
-</details>
-
-**3. Vì sao khi ghi nên xoá cache thay vì cập nhật cache?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Hai request ghi đồng thời có thể cập nhật DB theo thứ tự A→B nhưng set cache theo thứ tự B→A → cache giữ giá trị cũ vô thời hạn. Xoá key thì lần đọc tiếp theo luôn nạp giá trị mới nhất từ DB. Ngoài ra tính toán giá trị cache có thể đắt mà chưa chắc có ai đọc.
-
-</details>
-
-**4. Cache stampede là gì và xử lý thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Key nóng hết hạn, rất nhiều request cùng miss và cùng truy vấn DB, có thể làm DB sập. Xử lý: single-flight/lock để chỉ một request nạp lại, các request khác chờ hoặc trả giá trị cũ (stale-while-revalidate); TTL có jitter; làm mới chủ động trước hạn (probabilistic early expiration).
-
-</details>
-
-**5. Static Content Hosting xử lý cache khi deploy phiên bản mới thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Asset dùng tên có hash nội dung và cache dài hạn `immutable`; `index.html` cache ngắn hoặc `no-cache`. Deploy: upload asset mới trước, `index.html` sau; giữ asset cũ một thời gian. Nếu buộc phải, invalidate CDN cho `index.html`.
-
-</details>

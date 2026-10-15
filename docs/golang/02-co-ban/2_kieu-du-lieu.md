@@ -33,7 +33,6 @@ Go là ngôn ngữ kiểu tĩnh với một bộ kiểu cơ bản nhỏ nhưng r
 - [String](#string)
 - [byte và rune](#byte-và-rune)
 - [Raw string và interpreted string](#raw-string-và-interpreted-string)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -518,61 +517,3 @@ type User struct {
 ```
 
 :::
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. `len("Việt Nam")` bằng bao nhiêu? Làm sao đếm số ký tự?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Bằng 10: `len` trả số **byte** của chuỗi UTF-8; "ệ" chiếm 3 byte nên "Việt" là 6 byte, cộng dấu cách và "Nam" là 10. Đếm số ký tự (code point) dùng `utf8.RuneCountInString(s)` hoặc `len([]rune(s))` (cách sau cấp phát thêm bộ nhớ). Nếu cần đếm "ký tự nhìn thấy" chính xác với dữ liệu tổ hợp, phải chuẩn hoá Unicode (NFC) trước.
-
-</details>
-
-**2. `byte` và `rune` khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`byte` là bí danh của `uint8`, biểu diễn một byte thô; `rune` là bí danh của `int32`, biểu diễn một Unicode code point. `s[i]` trả `byte` tại vị trí byte `i`; `for i, r := range s` giải mã UTF-8 và trả `rune` cùng vị trí byte bắt đầu. Dùng `[]byte` khi xử lý dữ liệu nhị phân, I/O; dùng `[]rune` khi cần thao tác theo ký tự.
-
-</details>
-
-**3. Vì sao string trong Go bất biến? Hệ quả là gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Bất biến giúp string an toàn khi chia sẻ giữa nhiều goroutine mà không cần khoá, dùng làm key map an toàn, và truyền/gán rẻ (chỉ copy header gồm con trỏ + độ dài). Cắt chuỗi dùng chung bộ nhớ gốc. Hệ quả: mọi "sửa đổi" đều tạo string mới; nối chuỗi nhiều lần trong vòng lặp bằng `+` có độ phức tạp O(n²) — nên dùng `strings.Builder` hoặc `bytes.Buffer`. Lưu ý cắt một phần nhỏ từ chuỗi rất lớn có thể giữ cả chuỗi lớn trong bộ nhớ; dùng `strings.Clone` để tách ra.
-
-</details>
-
-**4. Chuyện gì xảy ra khi số nguyên bị tràn trong Go?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Lúc chạy, Go **không panic** — giá trị quay vòng theo modulo 2^n (vd `int8(127) + 1` thành `-128`, `uint(0) - 1` thành giá trị lớn nhất). Tràn khi gán **hằng** thì bị bắt lúc biên dịch. Chia nguyên cho 0 thì panic. Muốn phát hiện tràn phải tự kiểm tra trước phép toán hoặc dùng `math/bits` (`bits.Add64`, `bits.Mul64` trả về carry/hi).
-
-</details>
-
-**5. `int` có bao nhiêu bit? Có nên dùng `int` thay `int64` không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`int` có kích thước bằng word của kiến trúc: 32 bit trên hệ 32 bit, 64 bit trên hệ 64 bit. Dùng `int` cho đếm, chỉ số, độ dài (thư viện chuẩn trả `int` cho `len`, `cap`). Dùng `int64` khi giá trị có ý nghĩa vượt phạm vi 32 bit bất kể nền tảng (ID, timestamp, tiền) hoặc khi cần định dạng cố định (serialization, database). `int` và `int64` là hai kiểu khác nhau, phải chuyển đổi tường minh.
-
-</details>
-
-**6. Vì sao không nên dùng `float64` để lưu tiền?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`float64` là số thực nhị phân IEEE 754, không biểu diễn chính xác được nhiều số thập phân như 0.1 — cộng hai biến `float64` 0.1 và 0.2 ra `0.30000000000000004`. Cộng dồn nhiều giao dịch sẽ sai lệch, so sánh `==` không tin cậy. Giải pháp: lưu số nguyên ở đơn vị nhỏ nhất (`int64` đồng/cent), hoặc dùng thư viện decimal (`shopspring/decimal`), và ở database dùng kiểu `NUMERIC`/`DECIMAL`.
-
-</details>

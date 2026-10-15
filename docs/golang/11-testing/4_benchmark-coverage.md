@@ -29,7 +29,6 @@ Ngoài unit test, package `testing` còn ba công cụ quan trọng mà nhiều 
 - [Fuzzing](#fuzzing)
 - [Coverage](#coverage)
 - [Example test](#example-test)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -418,61 +417,3 @@ func ExampleReverse() {
 | `ExampleGrade_second()` | Example thứ hai của `Grade` (hậu tố viết thường) |
 
 Example thường đặt trong file `example_test.go` thuộc package `xxx_test` — để chúng gọi API giống hệt người dùng (`strutil.Reverse(...)`). Nhiều package trong thư viện chuẩn dùng example làm tài liệu chính; đây là cách rẻ nhất để tài liệu không bao giờ lỗi thời.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Viết và đọc kết quả benchmark trong Go thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Viết `func BenchmarkXxx(b *testing.B)` trong file `_test.go`, thân là `for b.Loop() { ... }` (Go 1.24) hoặc `for i := 0; i < b.N; i++` (cũ). Chạy `go test -run='^$' -bench=. -benchmem`. Kết quả gồm số vòng lặp, `ns/op` (thời gian mỗi lần gọi), `B/op` (byte cấp phát trên heap) và `allocs/op` (số lần cấp phát). Giảm `allocs/op` thường là cách hiệu quả nhất để tăng tốc vì giảm áp lực GC. So sánh hai phiên bản bằng `-count=10` + `benchstat`.
-
-</details>
-
-**2. `b.Loop()` khác vòng `b.N` thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Với `b.N`, framework gọi hàm benchmark nhiều lần với `b.N` tăng dần, nên setup trước vòng lặp chạy lại nhiều lần và phải `b.ResetTimer()` để loại khỏi phép đo; compiler còn có thể loại bỏ lời gọi nếu kết quả không được dùng, phải gán vào biến `sink`. `b.Loop()` (Go 1.24) chỉ gọi hàm benchmark một lần cho mỗi lần đếm, tự quản lý timer nên setup và cleanup ngoài vòng lặp không bị tính, và giữ cho các lời gọi trong vòng lặp không bị tối ưu mất.
-
-</details>
-
-**3. Fuzzing là gì? Viết fuzz test trong Go như thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Fuzzing là kỹ thuật tự động sinh và đột biến đầu vào, dựa trên coverage để khám phá nhánh code mới, nhằm tìm input gây panic hoặc vi phạm tính chất. Trong Go (1.18+): viết `func FuzzXxx(f *testing.F)`, thêm seed bằng `f.Add(...)`, gọi `f.Fuzz(func(t *testing.T, args...) {...})` và kiểm tra các tính chất (round-trip, không panic, kết quả hợp lệ). `go test` thường chỉ chạy seed; `go test -fuzz=FuzzXxx -fuzztime=30s` mới thực sự fuzz. Input gây lỗi được lưu vào `testdata/fuzz/FuzzXxx/` — commit lại để thành test hồi quy.
-
-</details>
-
-**4. Coverage 100% có nghĩa là code không còn bug không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không. Coverage chỉ cho biết dòng nào **đã được thực thi** khi chạy test, không cho biết kết quả có được kiểm tra hay không, cũng không bao phủ mọi tổ hợp giá trị (một dòng `a / b` chạy với `b = 2` vẫn được tính là đã cover dù `b = 0` gây panic). Coverage hữu ích để tìm vùng code chưa được test; chất lượng test phụ thuộc vào assertion, case biên, và các kỹ thuật bổ sung như fuzzing, race detector.
-
-</details>
-
-**5. Làm sao đo coverage khi chạy integration test với binary thật?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Từ Go 1.20: build binary bằng `go build -cover`, chạy với biến môi trường `GOCOVERDIR=<thư mục>`, thực hiện integration/e2e test, rồi tắt chương trình bình thường để dữ liệu được ghi ra. Dùng `go tool covdata percent -i=<dir>` để xem phần trăm, `go tool covdata textfmt` để chuyển sang định dạng profile và mở bằng `go tool cover -html`. Có thể gộp nhiều lần chạy bằng `go tool covdata merge`.
-
-</details>
-
-**6. Example test có tác dụng gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Hàm `ExampleXxx` vừa là tài liệu hiển thị trên pkg.go.dev/godoc cạnh hàm/kiểu tương ứng, vừa là test: `go test` chạy nó và so khớp stdout với comment `// Output:` (hoặc `// Unordered output:`). Nhờ đó ví dụ trong tài liệu luôn biên dịch được và cho đúng kết quả — không bị lỗi thời khi API thay đổi. Example không có comment Output chỉ được biên dịch chứ không chạy.
-
-</details>

@@ -37,7 +37,6 @@ Conflict (xung đột) là điều **không thể tránh khỏi** khi làm việ
 - [9. Tips phòng tránh conflict](#9-tips-phòng-tránh-conflict)
 - [10. Conflict trong file binary](#10-conflict-trong-file-binary)
 - [11. Lỗi thường gặp](#11-lỗi-thường-gặp)
-- [12. Câu hỏi phỏng vấn](#12-câu-hỏi-phỏng-vấn)
 - [Tóm tắt](#tóm-tắt)
 
 ---
@@ -875,57 +874,6 @@ git commit
 # 2. Review kết quả merge (git diff HEAD~1)
 # 3. Build và test trước khi push
 ```
-
----
-
-## 12. Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Conflict trong Git xảy ra khi nào? Cho ví dụ cụ thể.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Conflict xảy ra khi hai branch cùng thay đổi **cùng dòng** trong **cùng file**. Ví dụ: developer A sửa dòng 10 của `app.js` thành `color: blue`, developer B cũng sửa dòng 10 thành `color: green`. Khi merge, Git không biết chọn phiên bản nào nên đánh dấu conflict. Conflict KHÔNG xảy ra khi: sửa khác file, sửa khác dòng trong cùng file, hoặc chỉ một phía sửa.
-
-</details>
-
-**2. Mô tả quy trình giải quyết merge conflict.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-(1) Chạy `git merge` và nhận thông báo conflict, (2) dùng `git status` để xem file nào conflict, (3) mở từng file, tìm conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`), (4) quyết định giữ code nào (ours, theirs, hoặc kết hợp), (5) xóa tất cả conflict markers, (6) `git add` các file đã sửa, (7) `git commit` để hoàn tất merge. Trước khi commit, nên kiểm tra bằng `grep "<<<<<<< "` để đảm bảo không còn markers.
-
-</details>
-
-**3. `--ours` và `--theirs` trong merge và rebase có gì khác nhau?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Trong **merge**: `--ours` = branch hiện tại (đang đứng trên), `--theirs` = branch đang merge vào. Trong **rebase**: bị **đảo ngược** -- `--ours` = branch base (main), `--theirs` = branch của bạn (feature). Lý do: khi rebase, Git tạm thời "bỏ bạn sang một bên" và áp dụng commit của bạn lên base, nên base trở thành "ours". Đây là điểm gây nhầm lẫn nhất và thường bị hỏi trong phỏng vấn.
-
-</details>
-
-**4. Làm sao phòng tránh conflict khi làm việc nhóm?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-(1) **Pull thường xuyên** -- cập nhật main mỗi ngày và merge/rebase vào feature branch, (2) **Chia nhỏ PR** -- PR nhỏ ít conflict hơn và merge nhanh hơn, (3) **Phân chia công việc rõ** -- tránh 2 người cùng sửa 1 file, (4) **Giao tiếp** -- thông báo khi sửa file quan trọng, (5) **Merge PR sớm** -- không để branch tồn đọng quá lâu, (6) dùng `.gitattributes` cho file đặc biệt như lock files.
-
-</details>
-
-**5. Giải quyết conflict khi merge và khi rebase khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khi **merge**, bạn giải quyết **tất cả conflict 1 lần** rồi commit (merge commit). Khi **rebase**, Git áp dụng **từng commit một**, nên bạn có thể phải giải quyết conflict **nhiều lần** (mỗi commit có thể gây conflict riêng). Sau khi resolve conflict khi merge, dùng `git commit`. Sau khi resolve conflict khi rebase, dùng `git rebase --continue` (không dùng `git commit`). Cả hai đều có thể hủy bằng `--abort`.
-
-</details>
 
 ---
 

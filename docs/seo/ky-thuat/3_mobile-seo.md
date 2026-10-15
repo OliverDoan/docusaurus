@@ -29,7 +29,6 @@ Mobile SEO là việc tối ưu website cho thiết bị di động, vốn cực
 - [Structured Data cho Mobile](#structured-data-cho-mobile)
 - [Checklist Mobile SEO](#checklist-mobile-seo)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -452,52 +451,3 @@ async function checkMobileFriendly(url) {
 5. **Dùng separate mobile URL (m.example.com)** — Phức tạp hóa maintenance, dễ quên sync nội dung, backlink bị phân tán
 6. **Desktop-first CSS** — Viết CSS cho desktop trước rồi override bằng `max-width` media queries, code thừa và khó maintain
 7. **Không test trên thiết bị thật** — Chrome DevTools emulation không chính xác 100%, đặc biệt về touch events và performance
-
-## Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Mobile-First Indexing là gì? Developer cần làm gì để đảm bảo website tương thích?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Mobile-First Indexing nghĩa là Google dùng phiên bản mobile của website để crawl, index và xếp hạng. Developer cần: (1) Dùng responsive design để mobile và desktop dùng cùng URL và HTML; (2) Đảm bảo mobile version có đầy đủ nội dung, structured data, meta tags như desktop; (3) Không ẩn nội dung quan trọng trên mobile bằng CSS; (4) Đảm bảo hình ảnh trên mobile có alt text đầy đủ; (5) Kiểm tra robots.txt không chặn mobile crawler.
-
-</details>
-
-**2. So sánh Responsive Design, Adaptive Design, và Separate URLs. Google khuyên dùng phương pháp nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Responsive Design: cùng URL, cùng HTML, dùng CSS media queries để thay đổi layout. Adaptive (Dynamic Serving): cùng URL, server trả HTML khác nhau dựa trên User-Agent. Separate URLs: mobile dùng m.example.com, desktop dùng example.com. Google khuyến nghị Responsive Design vì: (1) một URL duy nhất, không bị duplicate content; (2) Googlebot crawl dễ hơn; (3) backlink tập trung vào 1 URL; (4) chia sẻ trên social media đơn giản hơn.
-
-</details>
-
-**3. Tại sao font-size dưới 16px gây vấn đề trên iOS Safari?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-iOS Safari tự động zoom vào `<input>` khi `font-size` dưới 16px để giúp người dùng đọc dễ hơn. Hành vi zoom này gây CLS (layout shift) và trải nghiệm kém vì sau khi nhập xong, user phải zoom out thủ công. Giải pháp: đặt `font-size: 16px` (hoặc `1rem` với base 16px) cho tất cả input, textarea, select trên mobile.
-
-</details>
-
-**4. Tại sao không nên chặn user zoom trên mobile?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Chặn zoom (bằng `maximum-scale=1` hoặc `user-scalable=no`) vi phạm WCAG 2.1 Success Criterion 1.4.4 (Resize Text). Người dùng khiếm thị hoặc có vấn đề về thị lực cần zoom để đọc nội dung. Google Search Console sẽ báo lỗi accessibility, và Google có thể đánh giá tiêu cực trong page experience signals. Thay vì chặn zoom, hãy thiết kế responsive đúng cách để nội dung hiển thị tốt ở mọi zoom level.
-
-</details>
-
-**5. AMP còn cần thiết cho SEO năm 2025 không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Không bắt buộc. Từ 2021, Google bỏ yêu cầu AMP để xuất hiện trong Top Stories carousel. AMP không có ranking boost riêng. Với sự ra đời của Core Web Vitals, Google đánh giá tốc độ dựa trên LCP, INP, CLS — bất kể trang dùng AMP hay không. Một trang non-AMP tối ưu tốt có thể nhanh tương đương AMP. AMP chỉ còn phù hợp cho publisher lớn đã đầu tư infrastructure, chưa có lý do convert sang non-AMP. Dự án mới nên tập trung vào Core Web Vitals thay vì AMP.
-
-</details>

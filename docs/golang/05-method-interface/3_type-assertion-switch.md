@@ -29,7 +29,6 @@ Một biến interface chỉ cho phép gọi các method mà interface khai báo
 - [Assertion sang interface khác](#assertion-sang-interface-khác)
 - [Ứng dụng thực tế](#ứng-dụng-thực-tế)
 - [Những lưu ý và bẫy](#những-lưu-ý-và-bẫy)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -416,61 +415,3 @@ func area(s any) float64 {
 // Tốt hơn: đa hình qua interface
 type Shape interface{ Area() float64 }
 ```
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. Type assertion là gì? Khác type conversion thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Type assertion `x.(T)` chỉ áp dụng cho biến interface, kiểm tra lúc runtime xem kiểu động bên trong có phải `T` (hoặc thoả mãn interface `T`) không, rồi lấy giá trị ra — không biến đổi dữ liệu. Type conversion `T(x)` biến đổi giá trị giữa các kiểu tương thích (`float64(n)`, `[]byte(s)`), được kiểm tra lúc biên dịch.
-
-</details>
-
-**2. Điều gì xảy ra khi type assertion sai kiểu? Làm sao tránh?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Dạng một giá trị `t := v.(T)` sẽ panic với thông báo `interface conversion: interface {} is string, not int`. Tránh bằng dạng comma-ok `t, ok := v.(T)` — sai kiểu thì `ok = false`, `t` là zero value, không panic. Hoặc dùng type switch, nhánh `default` xử lý kiểu không mong đợi.
-
-</details>
-
-**3. Trong type switch, biến `x` có kiểu gì khi `case int, string:`?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khi `case` liệt kê nhiều kiểu, `x` giữ kiểu của biểu thức interface gốc (ví dụ `any`) vì compiler không biết chính xác kiểu nào. Chỉ khi `case` có đúng một kiểu thì `x` mới mang kiểu đó. Ở `default` và `case nil`, `x` cũng mang kiểu interface gốc.
-
-</details>
-
-**4. Làm sao kiểm tra một `io.Writer` có hỗ trợ `Flush` hay không?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Assertion sang interface khác: `if f, ok := w.(interface{ Flush() error }); ok { f.Flush() }` hoặc với HTTP là `w.(http.Flusher)`. Đây là pattern "interface upgrade" mà `io.Copy` dùng với `io.WriterTo`/`io.ReaderFrom`. Với `http.ResponseWriter` bị middleware bọc, dùng `http.NewResponseController(w).Flush()` (Go 1.20+) để dò qua `Unwrap`.
-
-</details>
-
-**5. Vì sao không nên dùng `err.(*MyError)` để kiểm tra lỗi?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Vì lỗi thường được wrap nhiều lớp (`fmt.Errorf("lưu đơn: %w", err)`); type assertion chỉ xét lớp ngoài cùng nên thất bại dù bên trong có `*MyError`. Dùng `var me *MyError; if errors.As(err, &me) { ... }` — `errors.As` duyệt cả chuỗi `Unwrap`.
-
-</details>
-
-**6. Khi nào type switch là dấu hiệu thiết kế chưa tốt?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Khi cùng một tập kiểu bị switch ở nhiều nơi để chọn hành vi — mỗi lần thêm kiểu phải sửa mọi switch (vi phạm Open/Closed). Nên đưa hành vi thành method của interface để đa hình xử lý. Type switch hợp lý khi dữ liệu thật sự là "hộp đen" từ bên ngoài (JSON động, giá trị cấu hình, serialize) hoặc khi kiểm tra khả năng tuỳ chọn.
-
-</details>

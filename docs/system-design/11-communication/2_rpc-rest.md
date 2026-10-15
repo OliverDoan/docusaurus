@@ -35,7 +35,6 @@ Khi hai service cần nói chuyện qua HTTP (hoặc giao thức khác), câu h�
 - [6. Chọn RPC hay REST?](#6-chọn-rpc-hay-rest)
 - [Khi nào dùng?](#khi-nào-dùng)
 - [Lỗi thường gặp](#lỗi-thường-gặp)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -385,61 +384,3 @@ Câu hỏi gợi ý khi quyết định:
 ### Lỗi 5: Quên rằng RPC là gọi qua mạng
 
 Gọi RPC trong vòng lặp như hàm cục bộ (N lời gọi cho N item), không timeout, không retry. **Sửa:** API batch (`GetUsers(ids)`), deadline cho mỗi lời gọi, retry có backoff cho thao tác idempotent.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. RPC và REST khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-RPC xoay quanh hành động (gọi hàm từ xa), thường dùng IDL + codegen, binary, chủ yếu POST hoặc giao thức riêng; hiệu năng cao, coupling chặt, hợp nội bộ. REST xoay quanh resource, dùng method HTTP theo ngữ nghĩa, status code, cache HTTP, stateless; coupling lỏng, dễ debug, hợp public API. Nhiều hệ thống dùng REST ở biên và gRPC bên trong.
-
-</details>
-
-**2. Nêu các ràng buộc của REST. Stateless có nghĩa là gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Client-server, stateless, cacheable, uniform interface (định danh resource, thao tác qua representation, message tự mô tả, HATEOAS), layered system, code on demand (tuỳ chọn). Stateless: mỗi request mang đủ thông tin để xử lý (token, tham số), server không giữ session giữa các request -- nhờ vậy request nào cũng có thể vào server nào, dễ scale ngang và retry.
-
-</details>
-
-**3. Thiết kế API REST cho tính năng huỷ đơn hàng và chuyển tiền.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Danh từ hoá hành động: `POST /orders/42/cancellation` (trả 201, hoặc 409 nếu đã giao, 404 nếu không tồn tại) và `POST /transfers` với body chứa tài khoản nguồn, đích, số tiền, kèm `Idempotency-Key`. Transfer là resource có trạng thái (`pending`, `completed`, `failed`) truy vấn qua `GET /transfers/{id}`. Cách khác: custom method `POST /orders/42:cancel`.
-
-</details>
-
-**4. Offset pagination và cursor pagination khác nhau ra sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Offset (`limit`, `offset`): đơn giản, nhảy trang được, nhưng DB phải quét và bỏ qua offset dòng (chậm khi offset lớn) và kết quả lệch khi có bản ghi mới chèn vào. Cursor/keyset: dùng giá trị của bản ghi cuối (ví dụ `created_at`, `id`) làm điểm bắt đầu, truy vấn qua index nên nhanh ổn định, không lệch; nhược điểm là không nhảy thẳng tới trang N. Feed vô tận và API lớn nên dùng cursor.
-
-</details>
-
-**5. Khi nào bạn chọn RPC thay vì REST?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Giao tiếp service-to-service nội bộ với lưu lượng lớn và yêu cầu latency thấp; cần hợp đồng chặt và codegen cho nhiều ngôn ngữ; cần streaming; thao tác chủ yếu là hành động nghiệp vụ hơn là CRUD. Ngược lại, API public, client đa dạng, cần cache HTTP và dễ tiếp cận thì REST.
-
-</details>
-
-**6. Làm sao versioning API mà không làm vỡ client cũ?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Ưu tiên thay đổi tương thích ngược: thêm field optional, thêm endpoint mới, không đổi nghĩa field cũ. Khi buộc phải phá vỡ: version trong URL (`/v2`), header media type, hoặc version theo ngày như Stripe (mỗi tài khoản ghim một version, server chuyển đổi response). Thông báo deprecation (header `Deprecation`, `Sunset`), theo dõi client còn dùng bản cũ trước khi gỡ.
-
-</details>

@@ -31,7 +31,6 @@ Go có sẵn công cụ test ngay trong ngôn ngữ: package `testing` cùng l�
 - [Helper, Cleanup, TempDir, Context](#helper-cleanup-tempdir-context)
 - [Tổ chức test: TestMain, black-box, testdata](#tổ-chức-test-testmain-black-box-testdata)
 - [So sánh với testify](#so-sánh-với-testify)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -418,61 +417,3 @@ func TestDivide(t *testing.T) {
 | Thêm | — | `suite`, `mock` |
 
 Cả hai đều chấp nhận được; quan trọng là **thống nhất trong một dự án**. Nếu dùng `testing` thuần, `go-cmp` (`cmp.Diff(want, got)`) là bạn đồng hành tốt để so sánh struct phức tạp với diff dễ đọc.
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. `t.Error` và `t.Fatal` khác nhau thế nào? Khi nào dùng cái nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Cả hai đánh dấu test fail và ghi message. `t.Error` cho test chạy tiếp — hữu ích khi kiểm tra nhiều điều kiện độc lập để thấy hết lỗi trong một lần. `t.Fatal` gọi `runtime.Goexit` dừng test ngay — dùng khi các bước sau vô nghĩa hoặc sẽ panic (setup lỗi, `err != nil` mà cần dùng kết quả). `t.Fatal` chỉ dừng goroutine hiện tại, nên không gọi nó từ goroutine tự tạo trong test.
-
-</details>
-
-**2. Table-driven test là gì và có lợi ích gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Là cách khai báo các trường hợp test thành một slice (hoặc map) struct gồm đầu vào và kết quả mong đợi, rồi lặp qua và chạy mỗi case trong `t.Run`. Lợi ích: thêm case chỉ cần thêm một dòng; logic kiểm tra viết một lần; tên case hiện trong output; chạy riêng được từng case bằng `-run`; dễ thấy case nào còn thiếu (biên, lỗi, rỗng). Kết hợp `t.Parallel()` để chạy song song.
-
-</details>
-
-**3. Vì sao code test cũ có dòng `tt := tt` trước `t.Run`? Go 1.22 thay đổi gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Trước Go 1.22, biến vòng lặp `for _, tt := range` là một biến duy nhất được gán lại mỗi lần lặp. Subtest gọi `t.Parallel()` bị tạm dừng tới khi vòng lặp kết thúc, nên closure của mọi subtest đều thấy giá trị cuối cùng của `tt` — chỉ case cuối được kiểm tra. `tt := tt` tạo bản sao riêng cho mỗi lần lặp. Từ Go 1.22 (module khai báo `go 1.22` trở lên), mỗi lần lặp tạo biến mới nên không cần dòng này.
-
-</details>
-
-**4. `t.Cleanup` khác `defer` thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`defer` chạy khi hàm chứa nó return; `t.Cleanup` chạy khi **test** (cùng mọi subtest của nó) kết thúc. Nhờ vậy (1) hàm helper có thể tự đăng ký dọn dẹp tài nguyên nó tạo mà người gọi không cần nhớ; (2) với subtest song song, `defer` trong test cha chạy quá sớm (trước khi subtest chạy) còn `Cleanup` thì chờ đúng lúc. Các `Cleanup` chạy theo thứ tự LIFO. `t.TempDir` và `t.Context` cũng dựa trên cơ chế này.
-
-</details>
-
-**5. Package `foo` và `foo_test` trong cùng thư mục khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-File test khai báo `package foo` là white-box: truy cập được mọi thứ unexported, dùng để test chi tiết nội bộ. File khai báo `package foo_test` là package riêng (black-box): phải import `foo` và chỉ thấy API public — test đúng như người dùng sử dụng, giúp phát hiện API khó dùng, và tránh import cycle (ví dụ khi test cần import một package khác vốn đã import `foo`). Go cho phép cả hai cùng nằm trong một thư mục.
-
-</details>
-
-**6. `TestMain` dùng để làm gì? Có nhược điểm gì?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`func TestMain(m *testing.M)` thay thế điểm vào mặc định của binary test trong package: chạy setup một lần (khởi động DB/container, nạp cấu hình), gọi `m.Run()` để chạy mọi test, rồi teardown. Nhược điểm: tạo trạng thái dùng chung cho cả package nên test dễ phụ thuộc nhau; chạy kể cả khi chỉ cần một test nhỏ (`-run`); khó đọc vì setup ẩn khỏi từng test. Khi chỉ một vài test cần tài nguyên, dùng helper + `t.Cleanup` (có thể kết hợp `sync.Once`) thay thế.
-
-</details>

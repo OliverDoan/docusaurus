@@ -34,8 +34,7 @@ Khi làm việc trong một team lớn, bạn sẽ gặp câu hỏi: "Ai làm nh
 - [6. Khi nào nên dùng Git Flow?](#6-khi-nào-nên-dùng-git-flow)
 - [7. Tổng quan quy trình đầy đủ](#7-tổng-quan-quy-trình-đầy-đủ)
 - [8. Lỗi thường gặp](#8-lỗi-thường-gặp)
-- [9. Câu hỏi phỏng vấn](#9-câu-hỏi-phỏng-vấn)
-- [10. Tóm tắt](#10-tóm-tắt)
+- [9. Tóm tắt](#9-tóm-tắt)
 
 ---
 
@@ -561,58 +560,7 @@ git merge develop  # Cập nhật code mới nhất từ develop
 
 ---
 
-## 9. Câu hỏi phỏng vấn
-
-Những câu thường gặp về chủ đề này. Tự trả lời trước, rồi bấm **Xem đáp án** để đối chiếu.
-
-**1. Git Flow là gì? Giải thích các nhánh chính.**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Git Flow là mô hình branching được Vincent Driessen giới thiệu năm 2010. Nó định nghĩa 5 loại nhánh: 2 nhánh vĩnh viễn (main cho production, develop cho tích hợp) và 3 nhánh tạm thời (feature cho tính năng mới, release cho chuẩn bị phát hành, hotfix cho sửa lỗi khẩn cấp trên production). Mỗi loại nhánh có quy tắc rõ ràng về việc tạo từ đâu và merge vào đâu.
-
-</details>
-
-**2. Tại sao Git Flow dùng `--no-ff` khi merge?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Flag `--no-ff` (no fast-forward) buộc Git tạo một merge commit riêng biệt, ngay cả khi có thể fast-forward. Điều này giữ lại lịch sử của feature branch trong git log — bạn có thể thấy rõ ràng feature nào được merge vào lúc nào, bao gồm tất cả các commit của nó. Nếu dùng fast-forward, các commit sẽ "phẳng" trên 1 dòng và bạn không phân biệt được boundary giữa các feature.
-
-</details>
-
-**3. Khi nào tạo hotfix branch? Nó khác gì với feature branch?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Hotfix branch được tạo khi có bug khẩn cấp trên production cần sửa ngay lập tức, không thể đợi đến release tiếp theo. Khác biệt lớn nhất: hotfix tạo từ `main` (code production) và merge vào cả `main` lẫn `develop`. Feature branch tạo từ `develop` và chỉ merge vào `develop`. Hotfix cũng được tag version (patch increment, ví dụ v1.0.0 -> v1.0.1).
-
-</details>
-
-**4. Git Flow có nhược điểm gì? Khi nào không nên dùng?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Git Flow phức tạp với nhiều loại nhánh và bước merge, tạo overhead lớn cho team nhỏ. Nó không phù hợp với CI/CD continuous deployment vì được thiết kế cho scheduled release. Long-lived feature branches có thể drift xa khỏi develop gây merge conflict lớn. Nên cân nhắc GitHub Flow (đơn giản hơn) cho web app deploy liên tục, hoặc Trunk-Based Development cho team có CI/CD hoàn chỉnh.
-
-</details>
-
-**5. Trong Git Flow, nếu đang có release branch và phát hiện bug trên production thì xử lý thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Tạo hotfix branch từ main như bình thường. Sau khi fix xong, merge hotfix vào main (tag version mới) và merge vào **release branch** (thay vì develop). Lý do: release branch cuối cùng sẽ merge vào develop, nên bug fix sẽ được truyền xuống develop thông qua release branch. Nếu merge hotfix trực tiếp vào develop mà không qua release branch, có thể gây conflict khi release branch merge vào develop sau đó.
-
-</details>
-
----
-
-## 10. Tóm tắt
+## 9. Tóm tắt
 
 ```
 +----------------------------------------------------------+

@@ -33,7 +33,6 @@ title: "1. net/http"
 - [Graceful shutdown](#graceful-shutdown)
 - [HTTP client](#http-client)
 - [CRUD API mẫu](#crud-api-mẫu)
-- [Câu hỏi phỏng vấn](#câu-hỏi-phỏng-vấn)
 
 ---
 
@@ -652,61 +651,3 @@ curl -i -X PATCH localhost:8080/users/1   # 405 Method Not Allowed (mux tự x�
 curl -i -X DELETE localhost:8080/users/1  # 204 No Content
 curl -i localhost:8080/users/1            # 404 {"error":"không tìm thấy user"}
 ```
-
----
-
-## Câu hỏi phỏng vấn
-
-**1. `http.Handler` và `http.HandlerFunc` khác nhau thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-`http.Handler` là **interface** với một method `ServeHTTP(ResponseWriter, *Request)`. `http.HandlerFunc` là **kiểu hàm** `func(ResponseWriter, *Request)` có gắn sẵn method `ServeHTTP` gọi lại chính nó — tức là một adapter biến hàm thường thành `Handler`. Nhờ vậy có thể viết handler bằng hàm/closure thay vì phải khai báo struct; middleware cũng thường trả về `http.HandlerFunc(func(w, r) {...})`.
-
-</details>
-
-**2. Vì sao không nên dùng `http.ListenAndServe` và `http.Get` trong production?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Cả hai dùng cấu hình mặc định **không có timeout**. Ở server, client chậm hoặc tấn công Slowloris giữ kết nối vô hạn, làm cạn file descriptor/goroutine — cần tự tạo `http.Server` với `ReadHeaderTimeout`, `ReadTimeout`, `WriteTimeout`, `IdleTimeout`. Ở client, `http.DefaultClient` không timeout nên API phía bên kia treo thì goroutine gọi cũng treo theo — cần `http.Client{Timeout: ...}` và/hoặc context có deadline. Ngoài ra `DefaultClient` là biến toàn cục, thư viện khác có thể sửa `Transport` của nó.
-
-</details>
-
-**3. ServeMux của Go 1.22 có gì mới? Khi hai pattern cùng khớp thì chọn cái nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Thêm method trong pattern (`"POST /users"`), wildcard `{id}` đọc bằng `r.PathValue`, wildcard bắt phần còn lại `{path...}`, `{$}` để khớp chính xác đường dẫn kết thúc bằng `/`, tự trả 405 khi sai method. Khi nhiều pattern khớp, pattern **cụ thể hơn** thắng (khớp tập request nhỏ hơn), ví dụ `/users/me` thắng `/users/{id}`, `GET /x` thắng `/x`. Nếu hai pattern chồng lấn mà không cái nào cụ thể hơn, `Handle` **panic ngay lúc đăng ký**, nên lỗi lộ ra từ khi khởi động. Yêu cầu `go.mod` khai báo `go 1.22+`.
-
-</details>
-
-**4. Graceful shutdown trong Go hoạt động thế nào?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Dùng `signal.NotifyContext` để nhận một context bị huỷ khi có SIGINT/SIGTERM. Server chạy `ListenAndServe` trong goroutine; `main` chặn ở `<-ctx.Done()`. Khi có tín hiệu, gọi `srv.Shutdown(ctx)` với một context **mới** có timeout: server đóng listener (không nhận kết nối mới), đóng kết nối idle, chờ các request đang xử lý xong. Lúc đó `ListenAndServe` trả `http.ErrServerClosed` (không phải lỗi thật). Quá timeout thì `Shutdown` trả `context.DeadlineExceeded`, có thể gọi `srv.Close()` để buộc đóng. Sau đó đóng DB, flush log.
-
-</details>
-
-**5. Quên `resp.Body.Close()` ở client thì sao?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Kết nối TCP không được trả về pool của `Transport` để tái sử dụng, kèm theo goroutine đọc/ghi của kết nối đó bị giữ lại → rò rỉ kết nối, file descriptor và goroutine, lâu dần hết port hoặc bộ nhớ. Muốn kết nối được tái sử dụng, body cũng nên được **đọc hết** trước khi đóng (`io.Copy(io.Discard, resp.Body)`) trong trường hợp bạn không đọc nó. Lưu ý: `err != nil` thì `resp` là nil, không cần đóng.
-
-</details>
-
-**6. Làm sao truyền thông tin từ middleware xuống handler?**
-
-<details className="qa">
-<summary>Xem đáp án</summary>
-
-Qua `context` của request: middleware tạo context mới bằng `context.WithValue(r.Context(), key, value)` rồi gọi `next.ServeHTTP(w, r.WithContext(ctx))`; handler đọc bằng `r.Context().Value(key)`. Key nên là kiểu chưa export (vd `type ctxKey string`) để tránh đụng key của package khác. Chỉ đưa dữ liệu thuộc phạm vi request (user ID, request ID, trace) vào context, không dùng context để truyền phụ thuộc như DB.
-
-</details>
