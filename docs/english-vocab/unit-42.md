@@ -11,34 +11,34 @@ Cô ấy diện đồ thật sành điệu: túi xách, vòng tay bạc, kính r
 | --- | --- | --- | --- | --- |
 | 1 | **well** *(adv)* | /wel/ | tốt, giỏi | I don't speak French **well**. |
 | 2 | **stylish** *(adj)* | /ˈstaɪlɪʃ/ | sành điệu, hợp thời trang | She always looks **stylish** in simple clothes. |
-| 3 | **handbag** *(n)* | /ˈhændbæɡ/ | túi xách tay | She left her **handbag** on the bus. |
-| 4 | **notice** *(v)* | /ˈnəʊtɪs/ | chú ý, để ý thấy | Did you **notice** her new earrings? |
-| 5 | **trainer** *(n)* | /ˈtreɪnə(r)/ | giày thể thao | He wears white **trainers** to school. |
-| 6 | **colourful** *(adj)* | /ˈkʌləfl/ | nhiều màu sắc | Kids love **colourful** T-shirts. |
-| 7 | **flip-flop** *(n)* | /ˈflɪp flɒp/ | dép xỏ ngón, dép tông | Don't forget your **flip-flops** for the beach. |
-| 8 | **sandal** *(n)* | /ˈsændl/ | dép quai hậu, xăng-đan | These leather **sandals** are very comfortable. |
-| 9 | **sunglasses** *(n)* | /ˈsʌnɡlɑːsɪz/ | kính râm | Wear **sunglasses** to protect your eyes. |
-| 10 | **metal** *(n)* | /ˈmetl/ | kim loại | The watch has a **metal** strap. |
-| 11 | **bracelet** *(n)* | /ˈbreɪslət/ | vòng tay | He gave her a gold **bracelet**. |
-| 12 | **hairband** *(n)* | /ˈheəbænd/ | băng đô, bờm tóc | She pushed her hair back with a **hairband**. |
-| 13 | **lipstick** *(n)* | /ˈlɪpstɪk/ | son môi | Red **lipstick** suits you. |
-| 14 | **necklace** *(n)* | /ˈnekləs/ | vòng cổ, dây chuyền | Her **necklace** was a gift from her grandma. |
-| 15 | **fur** *(n)* | /fɜː(r)/ | lông thú | Many brands no longer use real **fur**. |
-| 16 | **basket** *(n)* | /ˈbɑːskɪt/ | giỏ, rổ | She carries a straw **basket** to the market. |
-| 17 | **silver** *(adj/n)* | /ˈsɪlvə(r)/ | (bằng) bạc | I bought a **silver** ring for my sister. |
-| 18 | **ring** *(n)* | /rɪŋ/ | nhẫn | He put the **ring** on her finger. |
-| 19 | **hair dryer** *(n)* | /ˈheə draɪə(r)/ | máy sấy tóc | Can I borrow your **hair dryer**? |
-| 20 | **fasten** *(v)* | /ˈfɑːsn/ | cài, thắt chặt | Please **fasten** your seat belt. |
-| 21 | **belt** *(n)* | /belt/ | thắt lưng | These trousers are too big, so I need a **belt**. |
-| 22 | **cap** *(n)* | /kæp/ | mũ lưỡi trai | He wore his **cap** backwards. |
-| 23 | **tie** *(n)* | /taɪ/ | cà vạt | You must wear a **tie** to the interview. |
-| 24 | **sock** *(n)* | /sɒk/ | tất, vớ | I can't find the other **sock**. |
+| 3 | **notice** *(v)* | /ˈnəʊtɪs/ | chú ý, để ý thấy | Did you **notice** her new earrings? |
+| 4 | **trainer** *(n)* | /ˈtreɪnə(r)/ | giày thể thao | He wears white **trainers** to school. |
+| 5 | **flip-flop** *(n)* | /ˈflɪp flɒp/ | dép xỏ ngón, dép tông | Don't forget your **flip-flops** for the beach. |
+| 6 | **sandal** *(n)* | /ˈsændl/ | dép quai hậu, xăng-đan | These leather **sandals** are very comfortable. |
+| 7 | **sock** *(n)* | /sɒk/ | tất, vớ | I can't find the other **sock**. |
+| 8 | **bracelet** *(n)* | /ˈbreɪslət/ | vòng tay | He gave her a gold **bracelet**. |
+| 9 | **necklace** *(n)* | /ˈnekləs/ | vòng cổ, dây chuyền | Her **necklace** was a gift from her grandma. |
+| 10 | **ring** *(n)* | /rɪŋ/ | nhẫn | He put the **ring** on her finger. |
+| 11 | **metal** *(n)* | /ˈmetl/ | kim loại | The watch has a **metal** strap. |
+| 12 | **silver** *(adj/n)* | /ˈsɪlvə(r)/ | (bằng) bạc | I bought a **silver** ring for my sister. |
+| 13 | **cap** *(n)* | /kæp/ | mũ lưỡi trai | He wore his **cap** backwards. |
+| 14 | **tie** *(n)* | /taɪ/ | cà vạt | You must wear a **tie** to the interview. |
+| 15 | **belt** *(n)* | /belt/ | thắt lưng | These trousers are too big, so I need a **belt**. |
+| 16 | **hairband** *(n)* | /ˈheəbænd/ | băng đô, bờm tóc | She pushed her hair back with a **hairband**. |
+| 17 | **hair dryer** *(n)* | /ˈheə draɪə(r)/ | máy sấy tóc | Can I borrow your **hair dryer**? |
+| 18 | **lipstick** *(n)* | /ˈlɪpstɪk/ | son môi | Red **lipstick** suits you. |
+| 19 | **fasten** *(v)* | /ˈfɑːsn/ | cài, thắt chặt | Please **fasten** your seat belt. |
+| 20 | **handbag** *(n)* | /ˈhændbæɡ/ | túi xách tay | She left her **handbag** on the bus. |
+| 21 | **basket** *(n)* | /ˈbɑːskɪt/ | giỏ, rổ | She carries a straw **basket** to the market. |
+| 22 | **sunglasses** *(n)* | /ˈsʌnɡlɑːsɪz/ | kính râm | Wear **sunglasses** to protect your eyes. |
+| 23 | **colourful** *(adj)* | /ˈkʌləfl/ | nhiều màu sắc | Kids love **colourful** T-shirts. |
+| 24 | **fur** *(n)* | /fɜː(r)/ | lông thú | Many brands no longer use real **fur**. |
 
 ## Nhóm từ liên quan
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **stylish** + **notice** | nguyên nhân – kết quả | ăn mặc sành điệu thì ai cũng để ý |
+| **well** · **stylish** + **notice** | nguyên nhân – kết quả | *dress well* = ăn mặc đẹp; sành điệu thì ai cũng để ý |
 | **trainer** · **flip-flop** · **sandal** · **sock** | cùng chủ đề | đồ dưới chân |
 | **bracelet** · **necklace** · **ring** | cùng chủ đề | trang sức: tay, cổ, ngón |
 | **metal** → **silver** | cái chung – cái riêng | bạc là một loại kim loại |
@@ -48,6 +48,7 @@ Cô ấy diện đồ thật sành điệu: túi xách, vòng tay bạc, kính r
 | **fasten** + **belt** | đi cùng nhau | cài thắt lưng / thắt dây an toàn |
 | **handbag** · **basket** | cùng chủ đề | đồ để đựng, mang theo |
 | **sunglasses** · **colourful** | cùng chủ đề | kính râm, đồ sặc sỡ — phong cách mùa hè |
+| **fur** · **metal** | cùng chủ đề | chất liệu làm đồ thời trang: áo *fur* lông thú, vòng *metal* kim loại |
 
 ## Cụm từ hay dùng
 

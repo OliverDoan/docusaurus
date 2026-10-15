@@ -15,24 +15,24 @@ Anh ấy đi chợ và vào bếp nấu một bữa tối thật ngon để mờ
 | 4 | **boil** *(v)* | /bɔɪl/ | luộc, đun sôi | **Boil** the eggs for eight minutes. |
 | 5 | **grill** *(v)* | /ɡrɪl/ | nướng | He **grilled** some fish for dinner. |
 | 6 | **stir-fry** *(v)* | /ˈstɜː fraɪ/ | xào | He **stir-fried** the vegetables quickly. |
-| 7 | **prepare** *(v)* | /prɪˈpeə(r)/ | chuẩn bị | He **prepared** dinner for his girlfriend. |
-| 8 | **serve** *(v)* | /sɜːv/ | phục vụ | **Serve** the soup while it's hot. |
-| 9 | **stove** *(n)* | /stəʊv/ | bếp | Don't leave the pan on the **stove**! |
-| 10 | **hotpot** *(n)* | /ˈhɒtpɒt/ | lẩu | Let's have **hotpot** on a rainy night. |
-| 11 | **soup** *(n)* | /suːp/ | súp, canh | A bowl of hot **soup** is perfect in winter. |
-| 12 | **chilli** *(n)* | /ˈtʃɪli/ | ớt | She can't eat **chilli**. |
-| 13 | **spicy** *(adj)* | /ˈspaɪsi/ | cay | This soup is too **spicy** for me. |
-| 14 | **sweet** *(adj)* | /swiːt/ | ngọt | The dessert is a bit too **sweet**. |
-| 15 | **savoury** *(adj)* | /ˈseɪvəri/ | mặn, đậm đà | He prefers **savoury** food to sweets. |
-| 16 | **oily** *(adj)* | /ˈɔɪli/ | nhiều dầu mỡ | Fried food is often too **oily**. |
-| 17 | **dry** *(adj)* | /draɪ/ | khô | The chicken is a little **dry**. |
-| 18 | **crispy** *(adj)* | /ˈkrɪspi/ | giòn | The spring rolls are hot and **crispy**. |
-| 19 | **stomach** *(n)* | /ˈstʌmək/ | dạ dày | My **stomach** is full. |
-| 20 | **hangry** *(adj)* | /ˈhæŋɡri/ | cáu vì đói | She gets **hangry** if dinner is late. |
-| 21 | **sauce** *(n)* | /sɔːs/ | nước sốt | Dip the meat in the **sauce**. |
-| 22 | **yummy** *(adj)* | /ˈjʌmi/ | ngon | "This is so **yummy**!" she said. |
-| 23 | **vegetarian** *(adj/n)* | /ˌvedʒəˈteəriən/ | người ăn chay; thuộc về ăn chay | Her best friend is a **vegetarian**. |
-| 24 | **groceries** *(n)* | /ˈɡrəʊsəriz/ | thực phẩm tạp hóa | He bought the **groceries** after work. |
+| 7 | **groceries** *(n)* | /ˈɡrəʊsəriz/ | thực phẩm tạp hóa | He bought the **groceries** after work. |
+| 8 | **prepare** *(v)* | /prɪˈpeə(r)/ | chuẩn bị | He **prepared** dinner for his girlfriend. |
+| 9 | **serve** *(v)* | /sɜːv/ | phục vụ | **Serve** the soup while it's hot. |
+| 10 | **stove** *(n)* | /stəʊv/ | bếp | Don't leave the pan on the **stove**! |
+| 11 | **hotpot** *(n)* | /ˈhɒtpɒt/ | lẩu | Let's have **hotpot** on a rainy night. |
+| 12 | **soup** *(n)* | /suːp/ | súp, canh | A bowl of hot **soup** is perfect in winter. |
+| 13 | **chilli** *(n)* | /ˈtʃɪli/ | ớt | She can't eat **chilli**. |
+| 14 | **spicy** *(adj)* | /ˈspaɪsi/ | cay | This soup is too **spicy** for me. |
+| 15 | **sweet** *(adj)* | /swiːt/ | ngọt | The dessert is a bit too **sweet**. |
+| 16 | **savoury** *(adj)* | /ˈseɪvəri/ | mặn, đậm đà | He prefers **savoury** food to sweets. |
+| 17 | **oily** *(adj)* | /ˈɔɪli/ | nhiều dầu mỡ | Fried food is often too **oily**. |
+| 18 | **dry** *(adj)* | /draɪ/ | khô | The chicken is a little **dry**. |
+| 19 | **crispy** *(adj)* | /ˈkrɪspi/ | giòn | The spring rolls are hot and **crispy**. |
+| 20 | **stomach** *(n)* | /ˈstʌmək/ | dạ dày | My **stomach** is full. |
+| 21 | **hangry** *(adj)* | /ˈhæŋɡri/ | cáu vì đói | She gets **hangry** if dinner is late. |
+| 22 | **sauce** *(n)* | /sɔːs/ | nước sốt | Dip the meat in the **sauce**. |
+| 23 | **yummy** *(adj)* | /ˈjʌmi/ | ngon | "This is so **yummy**!" she said. |
+| 24 | **vegetarian** *(adj/n)* | /ˌvedʒəˈteəriən/ | người ăn chay; thuộc về ăn chay | Her best friend is a **vegetarian**. |
 
 ## Nhóm từ liên quan
 
@@ -40,7 +40,7 @@ Anh ấy đi chợ và vào bếp nấu một bữa tối thật ngon để mờ
 | --- | --- | --- |
 | **beef** · **pork** · **bacon** | cùng chủ đề | thịt bò · thịt lợn · ba chỉ xông khói (làm từ thịt lợn) |
 | **boil** · **grill** · **stir-fry** | cùng chủ đề | 3 cách nấu: luộc trong nước · nướng trên lửa · xào trong chảo |
-| **prepare** → **serve** | trình tự | chuẩn bị món trước → dọn ra phục vụ sau |
+| **groceries** → **prepare** → **serve** | trình tự | đi chợ mua thực phẩm → chuẩn bị món → dọn ra phục vụ |
 | **stove** + **hotpot** · **soup** | đi cùng nhau | nồi lẩu, nồi canh đều đặt trên bếp |
 | **chilli** → **spicy** | nguyên nhân – kết quả | cho ớt vào thì món cay |
 | **sweet** ↔ **savoury** | trái nghĩa | vị ngọt (bánh, kẹo) ↔ vị mặn đậm (món chính) |

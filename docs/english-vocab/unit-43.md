@@ -10,29 +10,29 @@ Cô ấy mở tủ quần áo, lục từ áo mưa, áo khoác da, quần jeans 
 | # | Từ | Phiên âm | Nghĩa | Ví dụ |
 | --- | --- | --- | --- | --- |
 | 1 | **wardrobe** *(n)* | /ˈwɔː.drəʊb/ | tủ quần áo | Her **wardrobe** wasn't large enough to fit all her clothes. |
-| 2 | **raincoat** *(n)* | /ˈreɪnkəʊt/ | áo mưa | Take your **raincoat**, it's going to rain. |
-| 3 | **loose** *(adj)* | /luːs/ | rộng, lỏng | I prefer **loose** clothes in summer. |
-| 4 | **pocket** *(n)* | /ˈpɒkɪt/ | túi (quần áo) | He put his keys in his **pocket**. |
-| 5 | **pattern** *(n)* | /ˈpætn/ | họa tiết, hoa văn | I like the flower **pattern** on this dress. |
-| 6 | **match** *(v)* | /mætʃ/ | hợp, ăn nhập | Your shoes **match** your bag perfectly. |
-| 7 | **leather** *(n)* | /ˈleðə(r)/ | da (thuộc) | This bag is made of real **leather**. |
-| 8 | **eye-catching** *(adj)* | /ˈaɪ kætʃɪŋ/ | bắt mắt | She wore an **eye-catching** red dress. |
-| 9 | **jacket** *(n)* | /ˈdʒækɪt/ | áo khoác | Put on a **jacket**, it's cold outside. |
-| 10 | **outfit** *(n)* | /ˈaʊtfɪt/ | bộ trang phục | I need a new **outfit** for the party. |
-| 11 | **unzip** *(v)* | /ʌnˈzɪp/ | kéo khóa ra | He **unzipped** his bag and took out a book. |
-| 12 | **fashion** *(n)* | /ˈfæʃn/ | thời trang | She's really into **fashion**. |
-| 13 | **jeans** *(n)* | /dʒiːnz/ | quần bò, quần jeans | These **jeans** are too tight. |
-| 14 | **hoodie** *(n)* | /ˈhʊdi/ | áo nỉ có mũ | He always wears a grey **hoodie**. |
-| 15 | **silk** *(n)* | /sɪlk/ | lụa | Her ao dai is made of **silk**. |
-| 16 | **cotton** *(n)* | /ˈkɒtn/ | vải bông, cotton | **Cotton** shirts are cool in hot weather. |
-| 17 | **underwear** *(n)* | /ˈʌndəweə(r)/ | đồ lót | Pack enough **underwear** for the trip. |
-| 18 | **tailor-made** *(adj)* | /ˌteɪlə ˈmeɪd/ | may đo | He wore a **tailor-made** suit to the wedding. |
-| 19 | **old-fashioned** *(adj)* | /ˌəʊld ˈfæʃnd/ | lỗi thời, cổ lỗ | That hat looks a bit **old-fashioned**. |
-| 20 | **mend** *(v)* | /mend/ | vá, sửa | My grandma **mended** the hole in my shirt. |
+| 2 | **outfit** *(n)* | /ˈaʊtfɪt/ | bộ trang phục | I need a new **outfit** for the party. |
+| 3 | **raincoat** *(n)* | /ˈreɪnkəʊt/ | áo mưa | Take your **raincoat**, it's going to rain. |
+| 4 | **jacket** *(n)* | /ˈdʒækɪt/ | áo khoác | Put on a **jacket**, it's cold outside. |
+| 5 | **hoodie** *(n)* | /ˈhʊdi/ | áo nỉ có mũ | He always wears a grey **hoodie**. |
+| 6 | **jeans** *(n)* | /dʒiːnz/ | quần bò, quần jeans | These **jeans** are too tight. |
+| 7 | **shorts** *(n)* | /ʃɔːts/ | quần soóc, quần đùi | He wears **shorts** at home. |
+| 8 | **underwear** *(n)* | /ˈʌndəweə(r)/ | đồ lót | Pack enough **underwear** for the trip. |
+| 9 | **leather** *(n)* | /ˈleðə(r)/ | da (thuộc) | This bag is made of real **leather**. |
+| 10 | **silk** *(n)* | /sɪlk/ | lụa | Her ao dai is made of **silk**. |
+| 11 | **cotton** *(n)* | /ˈkɒtn/ | vải bông, cotton | **Cotton** shirts are cool in hot weather. |
+| 12 | **pocket** *(n)* | /ˈpɒkɪt/ | túi (quần áo) | He put his keys in his **pocket**. |
+| 13 | **sleeve** *(n)* | /sliːv/ | tay áo | Roll up your **sleeves** before washing up. |
+| 14 | **collar** *(n)* | /ˈkɒlə(r)/ | cổ áo | There's a stain on your **collar**. |
+| 15 | **fashion** *(n)* | /ˈfæʃn/ | thời trang | She's really into **fashion**. |
+| 16 | **old-fashioned** *(adj)* | /ˌəʊld ˈfæʃnd/ | lỗi thời, cổ lỗ | That hat looks a bit **old-fashioned**. |
+| 17 | **eye-catching** *(adj)* | /ˈaɪ kætʃɪŋ/ | bắt mắt | She wore an **eye-catching** red dress. |
+| 18 | **pattern** *(n)* | /ˈpætn/ | họa tiết, hoa văn | I like the flower **pattern** on this dress. |
+| 19 | **match** *(v)* | /mætʃ/ | hợp, ăn nhập | Your shoes **match** your bag perfectly. |
+| 20 | **unzip** *(v)* | /ʌnˈzɪp/ | kéo khóa ra | He **unzipped** his bag and took out a book. |
 | 21 | **undress** *(v)* | /ʌnˈdres/ | cởi quần áo | The baby **undressed** quickly before the bath. |
-| 22 | **sleeve** *(n)* | /sliːv/ | tay áo | Roll up your **sleeves** before washing up. |
-| 23 | **collar** *(n)* | /ˈkɒlə(r)/ | cổ áo | There's a stain on your **collar**. |
-| 24 | **shorts** *(n)* | /ʃɔːts/ | quần soóc, quần đùi | He wears **shorts** at home. |
+| 22 | **tailor-made** *(adj)* | /ˌteɪlə ˈmeɪd/ | may đo | He wore a **tailor-made** suit to the wedding. |
+| 23 | **mend** *(v)* | /mend/ | vá, sửa | My grandma **mended** the hole in my shirt. |
+| 24 | **loose** *(adj)* | /luːs/ | rộng, lỏng | I prefer **loose** clothes in summer. |
 
 ## Nhóm từ liên quan
 
@@ -48,6 +48,7 @@ Cô ấy mở tủ quần áo, lục từ áo mưa, áo khoác da, quần jeans 
 | **match** + **outfit** | đi cùng nhau | phối đồ cho hợp |
 | **unzip** → **undress** | trình tự | kéo khóa → cởi đồ |
 | **tailor-made** · **mend** | cùng chủ đề | việc của thợ may: may đo, vá sửa |
+| **loose** ↔ **tailor-made** | đối lập | đồ *loose* rộng thùng thình ↔ đồ *tailor-made* may đo vừa khít |
 
 ## Cụm từ hay dùng
 

@@ -21,18 +21,18 @@ Sống ở thủ đô một thời gian, cô ấy nhận ra mặt trái: giá đ
 | 10 | **unhealthy** *(adj)* | /ʌnˈhelθi/ | không lành mạnh, có hại cho sức khỏe | The dirty air is **unhealthy** for children. |
 | 11 | **throw** *(v)* | /θrəʊ/ | vứt, ném | Some people **throw** litter into the lake. |
 | 12 | **rubbish** *(n)* | /ˈrʌbɪʃ/ | rác, rác rưởi | **Rubbish** piles up on the street corners. |
-| 13 | **lack** *(v)* | /læk/ | thiếu, thiếu hụt | Many areas **lack** green space. |
-| 14 | **facility** *(n)* | /fəˈsɪləti/ | cơ sở vật chất, tiện ích | Some schools have poor **facilities**. |
-| 15 | **build** *(v)* | /bɪld/ | xây dựng | The government plans to **build** more roads. |
-| 16 | **bridge** *(n)* | /brɪdʒ/ | cây cầu | A new **bridge** was built across the river. |
-| 17 | **pickpocket** *(n)* | /ˈpɪkpɒkɪt/ | kẻ móc túi | Watch out for **pickpockets** in crowded places. |
-| 18 | **scam** *(n)* | /skæm/ | trò lừa đảo | She almost fell for a phone **scam**. |
-| 19 | **crime** *(n)* | /kraɪm/ | tội phạm, tội ác | **Crime** is higher in some districts. |
-| 20 | **security** *(n)* | /sɪˈkjʊərəti/ | an ninh | Her building has 24-hour **security**. |
-| 21 | **beggar** *(n)* | /ˈbeɡə(r)/ | người ăn xin | She saw a **beggar** outside the station. |
-| 22 | **poor** *(adj)* | /pɔː(r)/ | nghèo | Not everyone in the city is rich; many are **poor**. |
-| 23 | **selfish** *(adj)* | /ˈselfɪʃ/ | ích kỷ | Some drivers are **selfish** and never give way. |
-| 24 | **daily** *(adv)* | /ˈdeɪli/ | hàng ngày | She takes the crowded bus **daily**. |
+| 13 | **daily** *(adv)* | /ˈdeɪli/ | hàng ngày | She takes the crowded bus **daily**. |
+| 14 | **lack** *(v)* | /læk/ | thiếu, thiếu hụt | Many areas **lack** green space. |
+| 15 | **facility** *(n)* | /fəˈsɪləti/ | cơ sở vật chất, tiện ích | Some schools have poor **facilities**. |
+| 16 | **build** *(v)* | /bɪld/ | xây dựng | The government plans to **build** more roads. |
+| 17 | **bridge** *(n)* | /brɪdʒ/ | cây cầu | A new **bridge** was built across the river. |
+| 18 | **pickpocket** *(n)* | /ˈpɪkpɒkɪt/ | kẻ móc túi | Watch out for **pickpockets** in crowded places. |
+| 19 | **scam** *(n)* | /skæm/ | trò lừa đảo | She almost fell for a phone **scam**. |
+| 20 | **crime** *(n)* | /kraɪm/ | tội phạm, tội ác | **Crime** is higher in some districts. |
+| 21 | **security** *(n)* | /sɪˈkjʊərəti/ | an ninh | Her building has 24-hour **security**. |
+| 22 | **beggar** *(n)* | /ˈbeɡə(r)/ | người ăn xin | She saw a **beggar** outside the station. |
+| 23 | **poor** *(adj)* | /pɔː(r)/ | nghèo | Not everyone in the city is rich; many are **poor**. |
+| 24 | **selfish** *(adj)* | /ˈselfɪʃ/ | ích kỷ | Some drivers are **selfish** and never give way. |
 
 ## Nhóm từ liên quan
 
@@ -42,7 +42,7 @@ Sống ở thủ đô một thời gian, cô ấy nhận ra mặt trái: giá đ
 | **population** → **overpopulated** | cùng họ từ | dân số → quá đông dân (*over-* = quá mức) |
 | **demand** → **accommodation** · **room** | nguyên nhân – kết quả | nhu cầu cao → thiếu chỗ ở, không còn chỗ trống |
 | **vehicle** → **pollution** → **unhealthy** | chuỗi hệ quả | nhiều xe → ô nhiễm → hại sức khoẻ |
-| **throw** + **rubbish** | đi cùng nhau | *throw rubbish* – xả rác (*daily* = mỗi ngày) |
+| **throw** + **rubbish** + **daily** | đi cùng nhau | *throw rubbish daily* – xả rác hằng ngày |
 | **lack** + **facility** | đi cùng nhau | *lack facilities* – thiếu cơ sở vật chất (lack không cần *of* khi là động từ) |
 | **build** + **bridge** | đi cùng nhau | *build a bridge* – xây cầu |
 | **pickpocket** · **scam** · **crime** | cùng chủ đề | móc túi, lừa đảo đều là tội phạm vặt |

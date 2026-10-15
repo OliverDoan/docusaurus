@@ -12,24 +12,24 @@ Anh bạn mọt máy tính chê chiếc máy in cũ đã lỗi thời, liền c�
 | 1 | **nerd** *(n)* | /nɜːd/ | mọt sách, người mê máy tính | My brother is a computer **nerd**. |
 | 2 | **technology** *(n)* | /tekˈnɒlədʒi/ | công nghệ | **Technology** changes our lives every day. |
 | 3 | **advanced** *(adj)* | /ədˈvɑːnst/ | tiên tiến, hiện đại | This phone has very **advanced** features. |
-| 4 | **western** *(adj)* | /ˈwestən/ | thuộc phương Tây | Many **western** brands sell laptops here. |
-| 5 | **smart** *(adj)* | /smɑːt/ | thông minh | We bought a **smart** TV for the living room. |
-| 6 | **screen** *(n)* | /skriːn/ | màn hình | The **screen** is cracked again. |
-| 7 | **information** *(n)* | /ˌɪnfəˈmeɪʃn/ | thông tin | You can find all the **information** online. |
+| 4 | **outdated** *(adj)* | /ˌaʊtˈdeɪtɪd/ | lỗi thời, lạc hậu | This old printer is totally **outdated**. |
+| 5 | **western** *(adj)* | /ˈwestən/ | thuộc phương Tây | Many **western** brands sell laptops here. |
+| 6 | **smart** *(adj)* | /smɑːt/ | thông minh | We bought a **smart** TV for the living room. |
+| 7 | **screen** *(n)* | /skriːn/ | màn hình | The **screen** is cracked again. |
 | 8 | **printer** *(n)* | /ˈprɪntə(r)/ | máy in | The office **printer** has run out of ink. |
-| 9 | **outdated** *(adj)* | /ˌaʊtˈdeɪtɪd/ | lỗi thời, lạc hậu | This old printer is totally **outdated**. |
-| 10 | **totally** *(adv)* | /ˈtəʊtəli/ | hoàn toàn | I **totally** forgot to save the file. |
-| 11 | **extremely** *(adv)* | /ɪkˈstriːmli/ | cực kỳ, vô cùng | The new laptop is **extremely** fast. |
-| 12 | **hardware** *(n)* | /ˈhɑːdweə(r)/ | phần cứng | The problem is with the **hardware**, not the app. |
-| 13 | **software** *(n)* | /ˈsɒftweə(r)/ | phần mềm | You need special **software** to edit videos. |
-| 14 | **install** *(v)* | /ɪnˈstɔːl/ | cài đặt, lắp đặt | He **installed** a new game last night. |
-| 15 | **update** *(v)* | /ˌʌpˈdeɪt/ | cập nhật | Please **update** the app to the latest version. |
-| 16 | **support** *(v)* | /səˈpɔːt/ | hỗ trợ | Old phones don't **support** this app anymore. |
-| 17 | **replace** *(v)* | /rɪˈpleɪs/ | thay thế | We need to **replace** the battery. |
-| 18 | **change** *(v)* | /tʃeɪndʒ/ | thay đổi | You can **change** the password in settings. |
-| 19 | **select** *(v)* | /sɪˈlekt/ | chọn, lựa chọn | **Select** the file you want to print. |
-| 20 | **delete** *(v)* | /dɪˈliːt/ | xoá, xoá bỏ | I accidentally **deleted** all my photos. |
-| 21 | **button** *(n)* | /ˈbʌtn/ | nút bấm | Press the red **button** to start. |
+| 9 | **button** *(n)* | /ˈbʌtn/ | nút bấm | Press the red **button** to start. |
+| 10 | **information** *(n)* | /ˌɪnfəˈmeɪʃn/ | thông tin | You can find all the **information** online. |
+| 11 | **totally** *(adv)* | /ˈtəʊtəli/ | hoàn toàn | I **totally** forgot to save the file. |
+| 12 | **extremely** *(adv)* | /ɪkˈstriːmli/ | cực kỳ, vô cùng | The new laptop is **extremely** fast. |
+| 13 | **hardware** *(n)* | /ˈhɑːdweə(r)/ | phần cứng | The problem is with the **hardware**, not the app. |
+| 14 | **software** *(n)* | /ˈsɒftweə(r)/ | phần mềm | You need special **software** to edit videos. |
+| 15 | **install** *(v)* | /ɪnˈstɔːl/ | cài đặt, lắp đặt | He **installed** a new game last night. |
+| 16 | **delete** *(v)* | /dɪˈliːt/ | xoá, xoá bỏ | I accidentally **deleted** all my photos. |
+| 17 | **support** *(v)* | /səˈpɔːt/ | hỗ trợ | Old phones don't **support** this app anymore. |
+| 18 | **update** *(v)* | /ˌʌpˈdeɪt/ | cập nhật | Please **update** the app to the latest version. |
+| 19 | **replace** *(v)* | /rɪˈpleɪs/ | thay thế | We need to **replace** the battery. |
+| 20 | **change** *(v)* | /tʃeɪndʒ/ | thay đổi | You can **change** the password in settings. |
+| 21 | **select** *(v)* | /sɪˈlekt/ | chọn, lựa chọn | **Select** the file you want to print. |
 | 22 | **power** *(n)* | /ˈpaʊə(r)/ | nguồn điện; sức mạnh | The **power** went out during the storm. |
 | 23 | **lightning** *(n)* | /ˈlaɪtnɪŋ/ | tia chớp, sét; nhanh như chớp | The new phone charges at **lightning** speed. |
 | 24 | **future** *(n)* | /ˈfjuːtʃə(r)/ | tương lai | Robots will do more jobs in the **future**. |
@@ -38,16 +38,20 @@ Anh bạn mọt máy tính chê chiếc máy in cũ đã lỗi thời, liền c�
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **hardware** ↔ **software** | cặp đôi đối lập | hard = cứng (thiết bị), soft = mềm (chương trình) |
+| **nerd** + **technology** | đi cùng nhau | mọt máy tính mê công nghệ |
 | **advanced** ↔ **outdated** | trái nghĩa | hiện đại ↔ lỗi thời |
+| **western** + **technology** | đi cùng nhau | nhiều hãng *phương Tây* bán laptop, đồ công nghệ ở đây |
+| **technology** → **smart** | cái chung – cái riêng | công nghệ làm ra đồ thông minh |
+| **screen** · **printer** · **button** | cùng chủ đề | các bộ phận, thiết bị quen thuộc |
+| **screen** → **information** | đi cùng nhau | màn hình hiển thị *thông tin* |
+| **totally** · **extremely** | cùng chủ đề | trạng từ nhấn mạnh: hoàn toàn, cực kỳ |
+| **hardware** ↔ **software** | cặp đôi đối lập | hard = cứng (thiết bị), soft = mềm (chương trình) |
 | **install** ↔ **delete** | trái nghĩa | cài vào ↔ xoá đi |
+| **support** → **update** | nhân – quả | máy cũ không còn *hỗ trợ* app mới → phải *cập nhật* |
 | **update** · **replace** · **change** | gần nghĩa | đều là làm cho khác đi: cập nhật, thay thế, thay đổi |
 | **select** + **button** | đi cùng nhau | chọn rồi bấm nút |
-| **totally** · **extremely** | cùng chủ đề | trạng từ nhấn mạnh: hoàn toàn, cực kỳ |
-| **screen** · **printer** · **button** | cùng chủ đề | các bộ phận, thiết bị quen thuộc |
-| **technology** → **smart** | cái chung – cái riêng | công nghệ làm ra đồ thông minh |
 | **power** + **lightning** | đi cùng nhau | sét có thể làm mất điện |
-| **nerd** + **technology** | đi cùng nhau | mọt máy tính mê công nghệ |
+| **advanced** → **future** | cùng chủ đề | công nghệ càng *tiên tiến*, *tương lai* robot càng làm nhiều việc |
 
 ## Cụm từ hay dùng
 

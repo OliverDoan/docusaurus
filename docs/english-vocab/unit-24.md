@@ -11,25 +11,25 @@ Từ một cơn cảm lạnh với ho và đau họng, cô ấy lo sợ mình m�
 | --- | --- | --- | --- | --- |
 | 1 | **ill** *(adj)* | /ɪl/ | ốm | She felt **ill** and stayed home from work. |
 | 2 | **cold** *(n)* | /kəʊld/ | cảm lạnh | She caught a **cold** after the rain. |
-| 3 | **cough** *(v)* | /kɒf/ | ho | She **coughed** all night. |
-| 4 | **throat** *(n)* | /θrəʊt/ | cổ họng | Her **throat** felt dry and sore. |
+| 3 | **flu** *(n)* | /fluː/ | cúm | Maybe it's the **flu**, not just a cold. |
+| 4 | **cough** *(v)* | /kɒf/ | ho | She **coughed** all night. |
 | 5 | **sore** *(adj)* | /sɔː(r)/ | đau nhức | I have a **sore** throat. |
-| 6 | **headache** *(n)* | /ˈhedeɪk/ | đau đầu | She also had a terrible **headache**. |
-| 7 | **ache** *(n)* | /eɪk/ | đau âm ỉ | There was a dull **ache** in her back. |
-| 8 | **hurt** *(v)* | /hɜːt/ | làm đau | My whole body **hurts**. |
-| 9 | **flu** *(n)* | /fluː/ | cúm | Maybe it's the **flu**, not just a cold. |
-| 10 | **fear** *(n)* | /fɪə(r)/ | nỗi sợ | Her biggest **fear** was something serious. |
-| 11 | **disease** *(n)* | /dɪˈziːz/ | bệnh | Heart **disease** runs in her family. |
+| 6 | **throat** *(n)* | /θrəʊt/ | cổ họng | Her **throat** felt dry and sore. |
+| 7 | **headache** *(n)* | /ˈhedeɪk/ | đau đầu | She also had a terrible **headache**. |
+| 8 | **ache** *(n)* | /eɪk/ | đau âm ỉ | There was a dull **ache** in her back. |
+| 9 | **pain** *(n)* | /peɪn/ | cơn đau | The **pain** in his knee got worse. |
+| 10 | **hurt** *(v)* | /hɜːt/ | làm đau | My whole body **hurts**. |
+| 11 | **fear** *(n)* | /fɪə(r)/ | nỗi sợ | Her biggest **fear** was something serious. |
 | 12 | **seriously** *(adv)* | /ˈsɪəriəsli/ | nghiêm trọng | Her grandfather was **seriously** ill last year. |
-| 13 | **cancer** *(n)* | /ˈkænsə(r)/ | ung thư | Early checks can find **cancer** in time. |
-| 14 | **diabetes** *(n)* | /ˌdaɪəˈbiːtiːz/ | tiểu đường | Her uncle has **diabetes**. |
-| 15 | **autism** *(n)* | /ˈɔːtɪzəm/ | tự kỷ | Her cousin was diagnosed with **autism** as a child. |
-| 16 | **suffer** *(v)* | /ˈsʌfə(r)/ | chịu đựng | Millions of people **suffer** from back pain. |
-| 17 | **curable** *(adj)* | /ˈkjʊərəbl/ | chữa được | Many diseases are **curable** if found early. |
-| 18 | **check** *(v)* | /tʃek/ | kiểm tra | The doctor **checked** her temperature. |
+| 13 | **disease** *(n)* | /dɪˈziːz/ | bệnh | Heart **disease** runs in her family. |
+| 14 | **cancer** *(n)* | /ˈkænsə(r)/ | ung thư | Early checks can find **cancer** in time. |
+| 15 | **diabetes** *(n)* | /ˌdaɪəˈbiːtiːz/ | tiểu đường | Her uncle has **diabetes**. |
+| 16 | **autism** *(n)* | /ˈɔːtɪzəm/ | tự kỷ | Her cousin was diagnosed with **autism** as a child. |
+| 17 | **suffer** *(v)* | /ˈsʌfə(r)/ | chịu đựng | Millions of people **suffer** from back pain. |
+| 18 | **curable** *(adj)* | /ˈkjʊərəbl/ | chữa được | Many diseases are **curable** if found early. |
 | 19 | **injure** *(v)* | /ˈɪndʒə(r)/ | làm bị thương | He **injured** his leg playing football. |
 | 20 | **bleed** *(v)* | /bliːd/ | chảy máu | His knee was **bleeding** badly. |
-| 21 | **pain** *(n)* | /peɪn/ | cơn đau | The **pain** in his knee got worse. |
+| 21 | **check** *(v)* | /tʃek/ | kiểm tra | The doctor **checked** her temperature. |
 | 22 | **prescription** *(n)* | /prɪˈskrɪpʃn/ | đơn thuốc | The doctor gave her a **prescription**. |
 | 23 | **drop** *(n)* | /drɒp/ | giọt (thuốc) | Put two **drops** in each eye. |
 | 24 | **ease** *(v)* | /iːz/ | làm dịu | This medicine will **ease** the pain. |
@@ -38,16 +38,18 @@ Từ một cơn cảm lạnh với ho và đau họng, cô ấy lo sợ mình m�
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **cold** · **flu** | dễ nhầm | cảm lạnh nhẹ, cúm nặng hơn |
+| **ill** → **cold** · **flu** | cái chung – cái riêng | *ill* = bị ốm nói chung; cảm lạnh nhẹ, cúm nặng hơn |
 | **cough** · **sore** **throat** · **headache** | triệu chứng | ho, đau họng, đau đầu |
 | **ache** → **headache** | gốc từ | head + ache; còn có toothache, backache |
 | **ache** · **pain** · **hurt** | gần nghĩa | ache âm ỉ, pain cơn đau nói chung, hurt là động từ |
+| **fear** · **seriously** | cùng chủ đề | sợ bệnh nghiêm trọng |
 | **disease** · **cancer** · **diabetes** · **autism** | cái chung – cái riêng | các loại bệnh / tình trạng lâu dài |
+| **suffer** + **disease** | đi cùng nhau | *suffer from a disease / back pain* – mắc bệnh, chịu đựng cơn đau |
 | **curable** ↔ incurable | trái nghĩa | cure (chữa) + -able |
 | **injure** → **bleed** | nguyên nhân – kết quả | bị thương thì chảy máu |
+| **check** → **prescription** | trình tự | bác sĩ *check* (khám) → kê *prescription* (đơn thuốc) |
 | **prescription** · **drop** | cùng chủ đề | đơn thuốc ghi nhỏ mấy giọt |
 | **ease** + **pain** | đi cùng nhau | làm dịu cơn đau |
-| **fear** · **seriously** | cùng chủ đề | sợ bệnh nghiêm trọng |
 
 ## Cụm từ hay dùng
 

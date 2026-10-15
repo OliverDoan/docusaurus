@@ -13,26 +13,26 @@ Một nữ diễn viên nổi tiếng bước qua cánh cổng mạ vàng tới 
 | 2 | **star** *(n)* | /stɑː(r)/ | ngôi sao | She became a **star** overnight. |
 | 3 | **actress** *(n)* | /ˈæktrəs/ | nữ diễn viên | The **actress** won an award last night. |
 | 4 | **model** *(n)* | /ˈmɒdl/ | người mẫu | She worked as a **model** before acting. |
-| 5 | **film** *(n)* | /fɪlm/ | phim | Her new **film** comes out next month. |
+| 5 | **lucky** *(adj)* | /ˈlʌki/ | may mắn | He was **lucky** to get the role. |
 | 6 | **comedy** *(n)* | /ˈkɒmədi/ | hài kịch | I love romantic **comedies**. |
 | 7 | **drama** *(n)* | /ˈdrɑːmə/ | tác phẩm kịch | He starred in a TV **drama**. |
 | 8 | **cartoon** *(n)* | /kɑːˈtuːn/ | phim hoạt hình | Kids watch **cartoons** every morning. |
-| 9 | **fan** *(n)* | /fæn/ | người hâm mộ | Thousands of **fans** waited at the airport. |
-| 10 | **scream** *(v)* | /skriːm/ | thét lên | The fans **screamed** when she appeared. |
-| 11 | **copy** *(v)* | /ˈkɒpi/ | bắt chước | Teenagers often **copy** their idols' style. |
-| 12 | **interested** *(adj)* | /ˈɪntrəstɪd/ | có hứng thú | I'm not **interested** in celebrity gossip. |
-| 13 | **paparazzi** *(n)* | /ˌpæpəˈrætsi/ | thợ săn ảnh | The **paparazzi** followed her everywhere. |
-| 14 | **private** *(adj)* | /ˈpraɪvət/ | riêng tư | She keeps her love life **private**. |
-| 15 | **personal** *(adj)* | /ˈpɜːsənl/ | riêng tư, thuộc về cá nhân | Please don't ask **personal** questions. |
-| 16 | **lucky** *(adj)* | /ˈlʌki/ | may mắn | He was **lucky** to get the role. |
-| 17 | **fancy** *(adj)* | /ˈfænsi/ | sang chảnh, đắt tiền | They stayed at a **fancy** hotel. |
-| 18 | **golden** *(adj)* | /ˈɡəʊldən/ | làm bằng vàng | The house has a **golden** gate. |
-| 19 | **gate** *(n)* | /ɡeɪt/ | cổng | Fans gathered outside the **gate**. |
-| 20 | **shiny** *(adj)* | /ˈʃaɪni/ | bóng loáng | He arrived in a **shiny** black car. |
-| 21 | **charity** *(n)* | /ˈtʃærəti/ | tổ chức từ thiện | She gives a lot of money to **charity**. |
-| 22 | **immigration** *(n)* | /ˌɪmɪˈɡreɪʃn/ | thủ tục nhập cảnh | It took an hour to get through **immigration**. |
-| 23 | **refuse** *(v)* | /rɪˈfjuːz/ | từ chối | He **refused** to answer the reporters. |
-| 24 | **enter** *(v)* | /ˈentə(r)/ | đi vào | Fans can't **enter** the backstage area. |
+| 9 | **film** *(n)* | /fɪlm/ | phim | Her new **film** comes out next month. |
+| 10 | **interested** *(adj)* | /ˈɪntrəstɪd/ | có hứng thú | I'm not **interested** in celebrity gossip. |
+| 11 | **fan** *(n)* | /fæn/ | người hâm mộ | Thousands of **fans** waited at the airport. |
+| 12 | **scream** *(v)* | /skriːm/ | thét lên | The fans **screamed** when she appeared. |
+| 13 | **copy** *(v)* | /ˈkɒpi/ | bắt chước | Teenagers often **copy** their idols' style. |
+| 14 | **paparazzi** *(n)* | /ˌpæpəˈrætsi/ | thợ săn ảnh | The **paparazzi** followed her everywhere. |
+| 15 | **private** *(adj)* | /ˈpraɪvət/ | riêng tư | She keeps her love life **private**. |
+| 16 | **personal** *(adj)* | /ˈpɜːsənl/ | riêng tư, thuộc về cá nhân | Please don't ask **personal** questions. |
+| 17 | **golden** *(adj)* | /ˈɡəʊldən/ | làm bằng vàng | The house has a **golden** gate. |
+| 18 | **shiny** *(adj)* | /ˈʃaɪni/ | bóng loáng | He arrived in a **shiny** black car. |
+| 19 | **fancy** *(adj)* | /ˈfænsi/ | sang chảnh, đắt tiền | They stayed at a **fancy** hotel. |
+| 20 | **charity** *(n)* | /ˈtʃærəti/ | tổ chức từ thiện | She gives a lot of money to **charity**. |
+| 21 | **gate** *(n)* | /ɡeɪt/ | cổng | Fans gathered outside the **gate**. |
+| 22 | **enter** *(v)* | /ˈentə(r)/ | đi vào | Fans can't **enter** the backstage area. |
+| 23 | **immigration** *(n)* | /ˌɪmɪˈɡreɪʃn/ | thủ tục nhập cảnh | It took an hour to get through **immigration**. |
+| 24 | **refuse** *(v)* | /rɪˈfjuːz/ | từ chối | He **refused** to answer the reporters. |
 
 ## Nhóm từ liên quan
 
@@ -40,12 +40,15 @@ Một nữ diễn viên nổi tiếng bước qua cánh cổng mạ vàng tới 
 | --- | --- | --- |
 | **celebrity** · **star** | đồng nghĩa gần | người nổi tiếng = ngôi sao |
 | **actress** · **model** | cùng chủ đề | nghề của người nổi tiếng |
+| **actress** + **lucky** | đi cùng nhau | *lucky to get the role* = may mắn được nhận vai |
 | **comedy** · **drama** · **cartoon** → **film** | cái riêng – cái chung | các thể loại phim |
+| **interested** → **fan** | thang mức độ | có hứng thú → thành người hâm mộ |
 | **fan** + **scream** | đi cùng nhau | fan cuồng thét lên khi thấy thần tượng |
 | **fan** → **copy** | nhân – quả | hâm mộ → bắt chước phong cách |
 | **paparazzi** ↔ **private** | đối lập | thợ săn ảnh xâm phạm sự riêng tư |
 | **private** · **personal** | đồng nghĩa gần | riêng tư, thuộc về cá nhân |
 | **golden** · **shiny** · **fancy** | cùng chủ đề | những thứ hào nhoáng, sang chảnh |
+| **celebrity** + **charity** | đi cùng nhau | người nổi tiếng hay làm từ thiện: *give money to charity* |
 | **gate** + **enter** | đi cùng nhau | đi vào qua cổng |
 | **immigration** · **refuse** | cùng chủ đề | bị từ chối ở cửa nhập cảnh |
 

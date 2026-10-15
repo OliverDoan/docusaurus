@@ -10,14 +10,14 @@ Cô ấy ăn mặc sang trọng, da rám nắng, tóc xoăn, có hình xăm nh�
 | # | Từ | Phiên âm | Nghĩa | Ví dụ |
 | --- | --- | --- | --- | --- |
 | 1 | **outside** *(n)* | /ˌaʊtˈsaɪd/ | bên ngoài, vẻ bề ngoài | Don't judge people from the **outside**. |
-| 2 | **ordinary** *(adj)* | /ˈɔːdnri/ | bình thường, tầm thường | He looks like an **ordinary** guy. |
+| 2 | **figure** *(n)* | /ˈfɪɡə(r)/ | dáng người, vóc dáng | She goes to the gym to keep her **figure**. |
 | 3 | **attractive** *(adj)* | /əˈtræktɪv/ | hấp dẫn, thu hút | She has a very **attractive** smile. |
-| 4 | **good-looking** *(adj)* | /ˌɡʊd ˈlʊkɪŋ/ | ưa nhìn, đẹp | Her brother is really **good-looking**. |
-| 5 | **figure** *(n)* | /ˈfɪɡə(r)/ | dáng người, vóc dáng | She goes to the gym to keep her **figure**. |
-| 6 | **slim** *(adj)* | /slɪm/ | mảnh mai, thon gọn | She's tall and **slim**. |
-| 7 | **skinny** *(adj)* | /ˈskɪni/ | gầy nhom, gầy trơ xương | He was so **skinny** as a teenager. |
-| 8 | **chubby** *(adj)* | /ˈtʃʌbi/ | mũm mĩm, bụ bẫm | The baby has **chubby** cheeks. |
-| 9 | **curvy** *(adj)* | /ˈkɜːvi/ | đầy đặn, có đường cong | This dress looks great on **curvy** women. |
+| 4 | **ordinary** *(adj)* | /ˈɔːdnri/ | bình thường, tầm thường | He looks like an **ordinary** guy. |
+| 5 | **good-looking** *(adj)* | /ˌɡʊd ˈlʊkɪŋ/ | ưa nhìn, đẹp | Her brother is really **good-looking**. |
+| 6 | **skinny** *(adj)* | /ˈskɪni/ | gầy nhom, gầy trơ xương | He was so **skinny** as a teenager. |
+| 7 | **slim** *(adj)* | /slɪm/ | mảnh mai, thon gọn | She's tall and **slim**. |
+| 8 | **curvy** *(adj)* | /ˈkɜːvi/ | đầy đặn, có đường cong | This dress looks great on **curvy** women. |
+| 9 | **chubby** *(adj)* | /ˈtʃʌbi/ | mũm mĩm, bụ bẫm | The baby has **chubby** cheeks. |
 | 10 | **skin** *(n)* | /skɪn/ | làn da | She has smooth, clear **skin**. |
 | 11 | **tanned** *(adj)* | /tænd/ | (da) rám nắng | He came back from the beach really **tanned**. |
 | 12 | **curly** *(adj)* | /ˈkɜːli/ | xoăn (tóc) | She has long **curly** hair. |
@@ -38,16 +38,20 @@ Cô ấy ăn mặc sang trọng, da rám nắng, tóc xoăn, có hình xăm nh�
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
+| **outside** · **figure** | cùng chủ đề | vẻ *bề ngoài* gồm cả *dáng người*: *keep your figure* = giữ dáng |
+| **attractive** ↔ **ordinary** | trái nghĩa | nổi bật ↔ bình thường |
+| **attractive** · **good-looking** | đồng nghĩa | đều là đẹp, cuốn hút |
 | **skinny** → **slim** → **curvy** → **chubby** | thang mức độ | từ gầy nhom → thon → đầy đặn → mũm mĩm |
 | **slim** vs **skinny** | sắc thái | slim là khen (thon), skinny thường chê (gầy nhom) |
-| **attractive** · **good-looking** | đồng nghĩa | đều là đẹp, cuốn hút |
-| **attractive** ↔ **ordinary** | trái nghĩa | nổi bật ↔ bình thường |
-| **tidy** ↔ **messy** | trái nghĩa | gọn gàng ↔ luộm thuộm |
-| **messy** · **dirty** | gần nghĩa | bừa bộn thường đi với bẩn |
-| **dress** vs **wear** | dễ nhầm | dress = hành động ăn mặc (dress well), wear + món đồ (wear a hat) |
-| **tattoo** · **piercing** | cùng chủ đề | trang trí trên cơ thể |
 | **skin** + **tanned** | đi cùng nhau | da rám nắng |
 | **curly** · **shave** | cùng chủ đề | tóc và râu |
+| **tattoo** · **piercing** | cùng chủ đề | trang trí trên cơ thể |
+| **dress** vs **wear** | dễ nhầm | dress = hành động ăn mặc (dress well), wear + món đồ (wear a hat) |
+| **classy** · **tidy** | gần nghĩa | ăn mặc *sang trọng* thường đi với *gọn gàng* |
+| **tidy** ↔ **messy** | trái nghĩa | gọn gàng ↔ luộm thuộm |
+| **messy** · **dirty** | gần nghĩa | bừa bộn thường đi với bẩn |
+| **wear** → **show** | nhân – quả | đồ bạn *mặc* *thể hiện* cá tính của bạn |
+| **especially** · **politely** | cùng cấu trúc | trạng từ đuôi -ly: khen *nhất là* đôi giày, nói *lịch sự* rằng cô ấy xinh |
 
 ## Cụm từ hay dùng
 

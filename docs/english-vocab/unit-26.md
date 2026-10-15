@@ -10,9 +10,9 @@ Làm việc chăm chỉ đến mức ám ảnh, một cô gái học cách ngh�
 | # | Từ | Phiên âm | Nghĩa | Ví dụ |
 | --- | --- | --- | --- | --- |
 | 1 | **hard** *(adv)* | /hɑːd/ | chăm chỉ | She works **hard** from morning till night. |
-| 2 | **quite** *(adv)* | /kwaɪt/ | khá | Her job is **quite** demanding. |
-| 3 | **stressful** *(adj)* | /ˈstresfl/ | căng thẳng | This month has been really **stressful**. |
-| 4 | **obsess** *(v)* | /əbˈses/ | ám ảnh | She is **obsessed** with finishing every task. |
+| 2 | **stressful** *(adj)* | /ˈstresfl/ | căng thẳng | This month has been really **stressful**. |
+| 3 | **obsess** *(v)* | /əbˈses/ | ám ảnh | She is **obsessed** with finishing every task. |
+| 4 | **quite** *(adv)* | /kwaɪt/ | khá | Her job is **quite** demanding. |
 | 5 | **forget** *(v)* | /fəˈɡet/ | quên | She often **forgets** to eat lunch. |
 | 6 | **waste** *(v)* | /weɪst/ | lãng phí | She feels resting is **wasting** time. |
 | 7 | **detective** *(n)* | /dɪˈtektɪv/ | thám tử | In her free time, she reads **detective** novels. |
@@ -24,29 +24,33 @@ Làm việc chăm chỉ đến mức ám ảnh, một cô gái học cách ngh�
 | 13 | **lie** *(v)* | /laɪ/ | nằm | She **lay** on the sofa for ten minutes. |
 | 14 | **imagine** *(v)* | /ɪˈmædʒɪn/ | tưởng tượng | **Imagine** you are lying on a quiet beach. |
 | 15 | **silent** *(adj)* | /ˈsaɪlənt/ | im lặng | The room was completely **silent**. |
-| 16 | **meditate** *(v)* | /ˈmedɪteɪt/ | thiền | She **meditates** for fifteen minutes a day. |
-| 17 | **calm** *(adj)* | /kɑːm/ | bình tĩnh | Meditation helps her stay **calm**. |
-| 18 | **relaxation** *(n)* | /ˌriːlækˈseɪʃn/ | sự thư giãn | Music is her favourite form of **relaxation**. |
-| 19 | **lazy** *(adj)* | /ˈleɪzi/ | lười biếng | Resting doesn't mean you are **lazy**. |
-| 20 | **active** *(adj)* | /ˈæktɪv/ | năng động | After a break, she feels more **active**. |
-| 21 | **rest** *(v)* | /rest/ | nghỉ ngơi | You should **rest** before you get sick. |
-| 22 | **sleep** *(v)* | /sliːp/ | ngủ | She now **sleeps** eight hours a night. |
-| 23 | **through** *(prep)* | /θruː/ | xuyên suốt | She slept **through** the night without waking up. |
-| 24 | **dream** *(n)* | /driːm/ | giấc mơ | She had a sweet **dream** about the beach. |
+| 16 | **calm** *(adj)* | /kɑːm/ | bình tĩnh | Meditation helps her stay **calm**. |
+| 17 | **meditate** *(v)* | /ˈmedɪteɪt/ | thiền | She **meditates** for fifteen minutes a day. |
+| 18 | **rest** *(v)* | /rest/ | nghỉ ngơi | You should **rest** before you get sick. |
+| 19 | **relaxation** *(n)* | /ˌriːlækˈseɪʃn/ | sự thư giãn | Music is her favourite form of **relaxation**. |
+| 20 | **sleep** *(v)* | /sliːp/ | ngủ | She now **sleeps** eight hours a night. |
+| 21 | **lazy** *(adj)* | /ˈleɪzi/ | lười biếng | Resting doesn't mean you are **lazy**. |
+| 22 | **active** *(adj)* | /ˈæktɪv/ | năng động | After a break, she feels more **active**. |
+| 23 | **dream** *(n)* | /driːm/ | giấc mơ | She had a sweet **dream** about the beach. |
+| 24 | **through** *(prep)* | /θruː/ | xuyên suốt | She slept **through** the night without waking up. |
 
 ## Nhóm từ liên quan
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
 | **hard** · **stressful** · **obsess** | cùng chủ đề | làm việc quá sức sinh căng thẳng, ám ảnh |
+| **quite** + **stressful** | thang mức độ | *quite* (khá) < *really* (thật sự): *quite stressful* = khá căng thẳng |
 | **hard** · hardly | dễ nhầm | hard = chăm chỉ; hardly = hầu như không |
 | **forget** · **waste** | cùng chủ đề | quên ăn, coi nghỉ ngơi là phí thời gian |
 | **detective** + **defeat** | đi cùng nhau | thám tử đánh bại tội phạm |
 | **free** · **noon** · **break** | cùng chủ đề | giờ rảnh, nghỉ trưa |
+| **proper** + **break** | đi cùng nhau | *a proper break / a proper lunch* – nghỉ, ăn cho đàng hoàng |
+| **lie** + **imagine** | tình huống | *lie* xuống, nhắm mắt *imagine* (tưởng tượng) một bãi biển yên tĩnh |
 | **silent** · **calm** · **meditate** | cùng chủ đề | thiền trong im lặng để bình tĩnh |
-| **lazy** ↔ **active** | trái nghĩa | lười biếng ↔ năng động |
 | **rest** · **relaxation** · **sleep** | gần nghĩa | các cách cho cơ thể nghỉ |
+| **lazy** ↔ **active** | trái nghĩa | lười biếng ↔ năng động |
 | **lie** → **sleep** → **dream** | trình tự | nằm xuống → ngủ → mơ |
+| **sleep** + **through** | đi cùng nhau | *sleep through the night* – ngủ một mạch tới sáng |
 | **lie** (nằm) · lie (nói dối) | dễ nhầm | lie – lay – lain (nằm) ↔ lie – lied – lied (nói dối) |
 
 ## Cụm từ hay dùng

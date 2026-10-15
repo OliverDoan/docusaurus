@@ -18,19 +18,19 @@ Sau một đêm như ác mộng, kiệt sức và mất nước, anh ấy phải
 | 7 | **admit** *(v)* | /ədˈmɪt/ | nhập viện | He was **admitted** to hospital for two days. |
 | 8 | **patient** *(n)* | /ˈpeɪʃnt/ | bệnh nhân | The nurse took good care of every **patient**. |
 | 9 | **explain** *(v)* | /ɪkˈspleɪn/ | giải thích | The doctor **explained** what was wrong. |
-| 10 | **medicine** *(n)* | /ˈmedsn/ | thuốc | Take this **medicine** after meals. |
-| 11 | **pill** *(n)* | /pɪl/ | viên thuốc | He has to take three **pills** a day. |
-| 12 | **capsule** *(n)* | /ˈkæpsjuːl/ | viên nang | Swallow the **capsule** with water. |
-| 13 | **painkiller** *(n)* | /ˈpeɪnkɪlə(r)/ | thuốc giảm đau | The **painkiller** worked within an hour. |
-| 14 | **effect** *(n)* | /ɪˈfekt/ | tác dụng | This drug has few side **effects**. |
-| 15 | **consider** *(v)* | /kənˈsɪdə(r)/ | cân nhắc | The doctor **considered** changing his medicine. |
+| 10 | **consider** *(v)* | /kənˈsɪdə(r)/ | cân nhắc | The doctor **considered** changing his medicine. |
+| 11 | **medicine** *(n)* | /ˈmedsn/ | thuốc | Take this **medicine** after meals. |
+| 12 | **pill** *(n)* | /pɪl/ | viên thuốc | He has to take three **pills** a day. |
+| 13 | **capsule** *(n)* | /ˈkæpsjuːl/ | viên nang | Swallow the **capsule** with water. |
+| 14 | **painkiller** *(n)* | /ˈpeɪnkɪlə(r)/ | thuốc giảm đau | The **painkiller** worked within an hour. |
+| 15 | **effect** *(n)* | /ɪˈfekt/ | tác dụng | This drug has few side **effects**. |
 | 16 | **pharmacy** *(n)* | /ˈfɑːməsi/ | hiệu thuốc | On the way home, they stopped at a **pharmacy**. |
 | 17 | **chemist** *(n)* | /ˈkemɪst/ | dược sĩ | The **chemist** told him how to take the pills. |
 | 18 | **packet** *(n)* | /ˈpækɪt/ | gói | She bought a **packet** of rehydration salts. |
 | 19 | **remove** *(v)* | /rɪˈmuːv/ | loại bỏ | The medicine helps **remove** toxins from the body. |
 | 20 | **repair** *(v)* | /rɪˈpeə(r)/ | phục hồi | Sleep helps the body **repair** itself. |
-| 21 | **slowly** *(adv)* | /ˈsləʊli/ | chậm rãi | He is **slowly** getting better. |
-| 22 | **recover** *(v)* | /rɪˈkʌvə(r)/ | hồi phục | It took him a week to fully **recover**. |
+| 21 | **recover** *(v)* | /rɪˈkʌvə(r)/ | hồi phục | It took him a week to fully **recover**. |
+| 22 | **slowly** *(adv)* | /ˈsləʊli/ | chậm rãi | He is **slowly** getting better. |
 | 23 | **speedy** *(adj)* | /ˈspiːdi/ | nhanh chóng | His friends wished him a **speedy** recovery. |
 | 24 | **fit** *(adj)* | /fɪt/ | khỏe mạnh | Now he is back to work and feeling **fit**. |
 
@@ -38,16 +38,19 @@ Sau một đêm như ác mộng, kiệt sức và mất nước, anh ấy phải
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **exhausted** · **dehydrated** · **painful** | triệu chứng | kiệt sức, mất nước, đau đớn |
+| **nightmare** → **painful** · **exhausted** · **dehydrated** | triệu chứng | một đêm ác mộng: đau đớn, kiệt sức, mất nước |
+| **lose** → **dehydrated** | nguyên nhân – kết quả | *lose* (mất) nhiều nước → *dehydrated* (de- = mất, hydr = nước) |
 | **emergency** → **admit** → **patient** | trình tự | cấp cứu → nhập viện → thành bệnh nhân |
+| **explain** → **consider** → **medicine** | trình tự | bác sĩ giải thích bệnh → cân nhắc → chọn thuốc phù hợp |
 | **medicine** → **pill** · **capsule** · **painkiller** | cái chung – cái riêng | các dạng thuốc |
-| **pharmacy** · **chemist** | dễ nhầm | pharmacy là nơi bán, chemist là người (trong Anh-Anh cũng chỉ cửa hàng) |
 | **painful** · **painkiller** | gốc từ | pain + -ful / pain + killer |
 | **effect** · affect | dễ nhầm | effect (n) tác dụng; affect (v) ảnh hưởng |
+| **pharmacy** · **chemist** | dễ nhầm | pharmacy là nơi bán, chemist là người (trong Anh-Anh cũng chỉ cửa hàng) |
+| **pharmacy** + **packet** | đi cùng nhau | ghé hiệu thuốc mua *a packet of* oresol – một gói bù nước |
+| **remove** · **lose** | cùng chủ đề | mất đi, loại bỏ |
 | **repair** · **recover** | gần nghĩa | cơ thể tự sửa chữa → hồi phục |
 | **slowly** ↔ **speedy** | trái nghĩa | chậm rãi ↔ nhanh chóng |
 | **nightmare** ↔ **fit** | đầu – cuối | từ đêm ác mộng đến khi khỏe lại |
-| **remove** · **lose** | cùng chủ đề | mất đi, loại bỏ |
 
 ## Cụm từ hay dùng
 

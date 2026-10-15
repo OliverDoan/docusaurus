@@ -27,12 +27,12 @@ Cô ấy chuyển đến một căn hộ mới đầy đủ nội thất, có ba
 | 16 | **rug** *(n)* | /rʌɡ/ | tấm thảm nhỏ | She put a small **rug** next to the bed. |
 | 17 | **housemate** *(n)* | /ˈhaʊsmeɪt/ | người ở chung nhà | Her **housemate** is very tidy. |
 | 18 | **roommate** *(n)* | /ˈruːmmeɪt/ | người ở chung phòng | At university, she had a noisy **roommate**. |
-| 19 | **decorate** *(v)* | /ˈdekəreɪt/ | trang trí | She **decorated** the walls with photos. |
-| 20 | **beautifully** *(adv)* | /ˈbjuːtɪfli/ | một cách đẹp đẽ | The living room is **beautifully** designed. |
-| 21 | **antique** *(n)* | /ænˈtiːk/ | đồ cổ | There's an old **antique** clock in the hall. |
-| 22 | **comfortable** *(adj)* | /ˈkʌmftəbl/ | thoải mái, tiện nghi | The sofa is really **comfortable**. |
-| 23 | **cramped** *(adj)* | /kræmpt/ | chật chội | Her old room was dark and **cramped**. |
-| 24 | **share** *(v)* | /ʃeə(r)/ | chia sẻ, dùng chung | She **shares** the kitchen with another girl. |
+| 19 | **share** *(v)* | /ʃeə(r)/ | chia sẻ, dùng chung | She **shares** the kitchen with another girl. |
+| 20 | **decorate** *(v)* | /ˈdekəreɪt/ | trang trí | She **decorated** the walls with photos. |
+| 21 | **beautifully** *(adv)* | /ˈbjuːtɪfli/ | một cách đẹp đẽ | The living room is **beautifully** designed. |
+| 22 | **antique** *(n)* | /ænˈtiːk/ | đồ cổ | There's an old **antique** clock in the hall. |
+| 23 | **comfortable** *(adj)* | /ˈkʌmftəbl/ | thoải mái, tiện nghi | The sofa is really **comfortable**. |
+| 24 | **cramped** *(adj)* | /kræmpt/ | chật chội | Her old room was dark and **cramped**. |
 
 ## Nhóm từ liên quan
 
@@ -45,7 +45,7 @@ Cô ấy chuyển đến một căn hộ mới đầy đủ nội thất, có ba
 | **fully** + **furniture** | đi cùng nhau | *fully furnished* – đầy đủ nội thất |
 | **bookshelf** · **curtain** · **air conditioner** | cùng chủ đề | các món nội thất trong phòng |
 | **carpet** ↔ **rug** | dễ nhầm | *carpet* = trải kín sàn, *rug* = tấm nhỏ đặt rời |
-| **housemate** ↔ **roommate** | dễ nhầm | *housemate* = chung nhà, *roommate* = chung phòng – đều phải *share* |
+| **housemate** ↔ **roommate** → **share** | dễ nhầm | *housemate* = chung nhà, *roommate* = chung phòng – đều phải *share* (dùng chung) đồ đạc |
 | **decorate** + **beautifully** + **antique** | đi cùng nhau | *beautifully decorated with antiques* |
 | **comfortable** ↔ **cramped** | trái nghĩa | thoải mái ↔ chật chội |
 
