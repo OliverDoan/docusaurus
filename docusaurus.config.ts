@@ -133,6 +133,7 @@ const config: Config = {
             {type: 'docSidebar', sidebarId: 'backendSidebar', label: 'Backend'},
             {type: 'docSidebar', sidebarId: 'sqlSidebar', label: 'SQL'},
             {type: 'docSidebar', sidebarId: 'nodejsSidebar', label: 'Node.js'},
+            {type: 'docSidebar', sidebarId: 'golangSidebar', label: 'Go'},
             {type: 'docSidebar', sidebarId: 'dockerSidebar', label: 'Docker'},
             {type: 'docSidebar', sidebarId: 'systemDesignSidebar', label: 'System Design'},
             {type: 'docSidebar', sidebarId: 'computerScienceSidebar', label: 'Computer Science'},
