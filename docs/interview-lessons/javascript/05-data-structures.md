@@ -1,9 +1,9 @@
 ---
 sidebar_position: 5
-title: "✅ 5. Data Structures"
+title: "5. Data Structures"
 ---
 
-# ✅ 5. Data Structures
+# 5. Data Structures
 
 ## 1. Map, Set, WeakMap, WeakSet
 

@@ -1,9 +1,9 @@
 ---
 sidebar_position: 6
-title: "✅ 6. Equality Comparisons"
+title: "6. Equality Comparisons"
 ---
 
-# ✅ 6. Equality Comparisons
+# 6. Equality Comparisons
 
 ## 1. Equality Comparisons
 

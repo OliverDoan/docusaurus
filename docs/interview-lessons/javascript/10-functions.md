@@ -1,9 +1,9 @@
 ---
 sidebar_position: 10
-title: "✅ 10. Functions"
+title: "10. Functions"
 ---
 
-# ✅ 10. Functions
+# 10. Functions
 
 ## 1. Function Parameters
 

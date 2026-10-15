@@ -1,9 +1,9 @@
 ---
 sidebar_position: 1
-title: "✅ 1. Giới thiệu"
+title: "1. Giới thiệu"
 ---
 
-# ✅ 1. Giới thiệu
+# 1. Giới thiệu
 
 ## 1. JavaScript là gì?
 

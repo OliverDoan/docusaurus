@@ -1,9 +1,9 @@
 ---
 sidebar_position: 8
-title: "✅ 8. Control Flow"
+title: "8. Control Flow"
 ---
 
-# ✅ 8. Control Flow
+# 8. Control Flow
 
 ## 1. Conditional Statements
 

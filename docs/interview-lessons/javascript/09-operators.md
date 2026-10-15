@@ -1,9 +1,9 @@
 ---
 sidebar_position: 9
-title: "✅ 9. Expressions & Operators"
+title: "9. Expressions & Operators"
 ---
 
-# ✅ 9. Expressions & Operators
+# 9. Expressions & Operators
 
 ## 1. Operators
 

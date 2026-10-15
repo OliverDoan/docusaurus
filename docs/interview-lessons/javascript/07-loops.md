@@ -1,9 +1,9 @@
 ---
 sidebar_position: 7
-title: "✅ 7. Loops and Iterations"
+title: "7. Loops and Iterations"
 ---
 
-# ✅ 7. Loops and Iterations
+# 7. Loops and Iterations
 
 ## 1. Loops and Iterations
 

@@ -1,9 +1,9 @@
 ---
 sidebar_position: 4
-title: "✅ 4. Type Casting"
+title: "4. Type Casting"
 ---
 
-# ✅ 4. Type Casting
+# 4. Type Casting
 
 ## 1. Type Casting
 

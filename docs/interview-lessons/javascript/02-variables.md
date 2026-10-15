@@ -1,9 +1,9 @@
 ---
 sidebar_position: 2
-title: "✅ 2. Variables"
+title: "2. Variables"
 ---
 
-# ✅ 2. Variables
+# 2. Variables
 
 ## 1. Khai báo biến: var, let, const
 

@@ -1,9 +1,9 @@
 ---
 sidebar_position: 3
-title: "✅ 3. Data Types"
+title: "3. Data Types"
 ---
 
-# ✅ 3. Data Types
+# 3. Data Types
 
 ## 1. Primitive Types
 

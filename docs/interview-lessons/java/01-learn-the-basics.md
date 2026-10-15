@@ -1,9 +1,9 @@
 ---
 sidebar_position: 1
-title: "✅ 1. Học cơ bản"
+title: "1. Học cơ bản"
 ---
 
-# ✅ 1. Học cơ bản
+# 1. Học cơ bản
 
 ## 1. Cú pháp cơ bản
 
