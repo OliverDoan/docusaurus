@@ -29,7 +29,7 @@ Mỗi câu hỏi gồm 4 phần:
 2. **TypeScript** → bắt buộc cho mọi codebase modern
 3. **React** → framework chiếm thị phần lớn nhất
 4. **Next.js** → fullstack FE, rendering modes, App Router
-5. **CSS & Browser** → câu hỏi mà nhiều dev "code lâu năm" vẫn trượt
+5. **HTML, CSS & Browser** → HTML nền tảng, form, CSS cascade, stacking context — câu hỏi mà nhiều dev "code lâu năm" vẫn trượt
 6. **System Design** → vòng quyết định Senior vs Mid
 7. **Behavioral** → vòng cuối, không thể "cày" trước được nhưng có thể chuẩn bị
 8. **SQL & Databases** → hay xuất hiện ở vị trí fullstack; JOIN, index, transaction là phần dễ lộ điểm yếu
