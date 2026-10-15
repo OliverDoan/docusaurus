@@ -1,6 +1,6 @@
 ---
 sidebar_position: 6
-title: "✅ 6. Chuỗi (String)"
+title: "6. Chuỗi (String)"
 ---
 
 # Chuỗi (String) và các phương thức
