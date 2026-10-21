@@ -1,25 +1,25 @@
 /* ===== Từ vựng tiếng Anh: bảng chuyển thành thẻ trên màn hình hẹp ===== */
 
 @media (max-width: 576px) {
-  html[class*='docs-doc-id-english-vocab/unit-'] .markdown table {
+  html:is([class*='docs-doc-id-english-vocab/unit-'], [class*='docs-doc-id-english-vocab/ielts/']) .markdown table {
     display: block;
     width: 100%;
     border: 0;
     overflow: visible;
   }
 
-  html[class*='docs-doc-id-english-vocab/unit-'] .markdown thead {
+  html:is([class*='docs-doc-id-english-vocab/unit-'], [class*='docs-doc-id-english-vocab/ielts/']) .markdown thead {
     display: none;
   }
 
-  html[class*='docs-doc-id-english-vocab/unit-'] .markdown tbody {
+  html:is([class*='docs-doc-id-english-vocab/unit-'], [class*='docs-doc-id-english-vocab/ielts/']) .markdown tbody {
     display: flex;
     width: 100%;
     flex-direction: column;
     gap: 0.75rem;
   }
 
-  html[class*='docs-doc-id-english-vocab/unit-'] .markdown tr {
+  html:is([class*='docs-doc-id-english-vocab/unit-'], [class*='docs-doc-id-english-vocab/ielts/']) .markdown tr {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
     column-gap: 0.75rem;
@@ -30,7 +30,7 @@
     background: var(--ifm-table-stripe-background);
   }
 
-  html[class*='docs-doc-id-english-vocab/unit-'] .markdown td {
+  html:is([class*='docs-doc-id-english-vocab/unit-'], [class*='docs-doc-id-english-vocab/ielts/']) .markdown td {
     display: block;
     min-width: 0;
     border: 0;
@@ -39,31 +39,31 @@
   }
 
   /* Bảng từ (5 cột): # ẩn · từ + phiên âm cùng dòng · nghĩa · ví dụ */
-  html[class*='docs-doc-id-english-vocab/unit-'] .markdown tr:has(td:nth-child(5)) td:nth-child(1) {
+  html:is([class*='docs-doc-id-english-vocab/unit-'], [class*='docs-doc-id-english-vocab/ielts/']) .markdown tr:has(td:nth-child(5)) td:nth-child(1) {
     display: none;
   }
 
-  html[class*='docs-doc-id-english-vocab/unit-'] .markdown tr:has(td:nth-child(5)) td:nth-child(3) {
+  html:is([class*='docs-doc-id-english-vocab/unit-'], [class*='docs-doc-id-english-vocab/ielts/']) .markdown tr:has(td:nth-child(5)) td:nth-child(3) {
     align-self: center;
     color: var(--ifm-color-emphasis-700);
   }
 
-  html[class*='docs-doc-id-english-vocab/unit-'] .markdown tr:has(td:nth-child(5)) td:nth-child(4),
-  html[class*='docs-doc-id-english-vocab/unit-'] .markdown tr:has(td:nth-child(5)) td:nth-child(5) {
+  html:is([class*='docs-doc-id-english-vocab/unit-'], [class*='docs-doc-id-english-vocab/ielts/']) .markdown tr:has(td:nth-child(5)) td:nth-child(4),
+  html:is([class*='docs-doc-id-english-vocab/unit-'], [class*='docs-doc-id-english-vocab/ielts/']) .markdown tr:has(td:nth-child(5)) td:nth-child(5) {
     grid-column: 1 / -1;
   }
 
-  html[class*='docs-doc-id-english-vocab/unit-'] .markdown tr:has(td:nth-child(5)) td:nth-child(5) {
+  html:is([class*='docs-doc-id-english-vocab/unit-'], [class*='docs-doc-id-english-vocab/ielts/']) .markdown tr:has(td:nth-child(5)) td:nth-child(5) {
     color: var(--ifm-color-emphasis-700);
     font-style: italic;
   }
 
   /* Bảng nhóm từ (3 cột): nhóm · liên hệ · mẹo nhớ xếp chồng */
-  html[class*='docs-doc-id-english-vocab/unit-'] .markdown tr:not(:has(td:nth-child(4))) td {
+  html:is([class*='docs-doc-id-english-vocab/unit-'], [class*='docs-doc-id-english-vocab/ielts/']) .markdown tr:not(:has(td:nth-child(4))) td {
     grid-column: 1 / -1;
   }
 
-  html[class*='docs-doc-id-english-vocab/unit-'] .markdown tr:not(:has(td:nth-child(4))) td:nth-child(2) {
+  html:is([class*='docs-doc-id-english-vocab/unit-'], [class*='docs-doc-id-english-vocab/ielts/']) .markdown tr:not(:has(td:nth-child(4))) td:nth-child(2) {
     color: var(--ifm-color-primary);
     font-size: 0.8rem;
     font-weight: 600;

@@ -9,6 +9,7 @@ title: "Giới thiệu"
 
 - ⭐ **50 unit, 1200 từ** — mỗi unit xoay quanh một chủ đề đời sống: du học, đi học, tìm việc, chuyển nhà, du lịch, văn hoá, nấu ăn, thiên nhiên, sức khoẻ, thể thao, âm nhạc, công nghệ, tình cảm, mua sắm, thời trang, pháp luật, kinh doanh, vũ trụ…
 - ⭐ **Học theo ngữ cảnh** — từ trong cùng unit xoay quanh một tình huống, nên nhớ cả cụm thay vì nhớ từng từ rời rạc.
+- ⭐ **Thêm 25 chủ đề IELTS, 5000 từ** — từ vựng học thuật cho Writing Task 2 và Speaking Part 3, kèm cách dùng và ví dụ.
 - **Mỗi từ gồm** — từ (kèm loại từ) · phiên âm IPA · nghĩa · câu ví dụ tiếng Anh.
 - **Cách ôn** — che cột nghĩa, đọc từ và phiên âm, tự đoán nghĩa rồi đặt câu của riêng mình.
 
@@ -69,6 +70,38 @@ title: "Giới thiệu"
 | [49](./unit-49.md) | Khởi nghiệp và tài chính |
 | [50](./unit-50.md) | Trái Đất và vũ trụ |
 
+## Từ vựng IELTS theo chủ đề
+
+25 chủ đề thường gặp trong IELTS Writing Task 2 và Speaking Part 3, mỗi chủ đề 200 từ và cụm từ. Mỗi từ có nghĩa, cách dùng (collocation, đếm được hay không) và hai câu ví dụ.
+
+| Topic | Chủ đề | Nghĩa |
+| --- | --- | --- |
+| [1](./ielts/01-health-well-being.md) | Health & Well-being | Sức khoẻ & đời sống khoẻ mạnh |
+| [2](./ielts/02-technology-digital-life.md) | Technology & Digital Life | Công nghệ & đời sống số |
+| [3](./ielts/03-education-learning.md) | Education & Learning | Giáo dục & học tập |
+| [4](./ielts/04-environment-climate.md) | Environment & Climate | Môi trường & khí hậu |
+| [5](./ielts/05-work-employment.md) | Work & Employment | Công việc & việc làm |
+| [6](./ielts/06-economy-consumerism.md) | Economy & Consumerism | Kinh tế & chủ nghĩa tiêu dùng |
+| [7](./ielts/07-cities-urban-life.md) | Cities & Urban Life | Thành phố & đời sống đô thị |
+| [8](./ielts/08-transport-mobility.md) | Transport & Mobility | Giao thông & đi lại |
+| [9](./ielts/09-crime-justice.md) | Crime & Justice | Tội phạm & công lý |
+| [10](./ielts/10-government-policy.md) | Government & Policy | Chính phủ & chính sách |
+| [11](./ielts/11-media-advertising.md) | Media & Advertising | Truyền thông & quảng cáo |
+| [12](./ielts/12-culture-heritage.md) | Culture & Heritage | Văn hoá & di sản |
+| [13](./ielts/13-globalisation-trade.md) | Globalisation & Trade | Toàn cầu hoá & thương mại |
+| [14](./ielts/14-science-research.md) | Science & Research | Khoa học & nghiên cứu |
+| [15](./ielts/15-family-children.md) | Family & Children | Gia đình & trẻ em |
+| [16](./ielts/16-food-agriculture.md) | Food & Agriculture | Thực phẩm & nông nghiệp |
+| [17](./ielts/17-tourism-travel.md) | Tourism & Travel | Du lịch |
+| [18](./ielts/18-housing-communities.md) | Housing & Communities | Nhà ở & cộng đồng |
+| [19](./ielts/19-energy-resources.md) | Energy & Resources | Năng lượng & tài nguyên |
+| [20](./ielts/20-equality-social-change.md) | Equality & Social Change | Bình đẳng & biến đổi xã hội |
+| [21](./ielts/21-language-communication.md) | Language & Communication | Ngôn ngữ & giao tiếp |
+| [22](./ielts/22-population-migration.md) | Population & Migration | Dân số & di cư |
+| [23](./ielts/23-sport-active-lifestyles.md) | Sport & Active Lifestyles | Thể thao & lối sống năng động |
+| [24](./ielts/24-oceans-water.md) | Oceans & Water | Đại dương & nguồn nước |
+| [25](./ielts/25-personal-finance-household-life.md) | Personal Finance & Household Life | Tài chính cá nhân & đời sống gia đình |
+
 ## Ký hiệu loại từ
 
 | Ký hiệu | Loại từ |
@@ -81,3 +114,7 @@ title: "Giới thiệu"
 | adj/n | vừa là tính từ vừa là danh từ |
 | phr v | cụm động từ (phrasal verb) |
 | excl | thán từ (exclamation) |
+| n phr | cụm danh từ (noun phrase) |
+| adj phr | cụm tính từ (adjective phrase) |
+| prep phr | cụm giới từ (prepositional phrase) |
+| idiom | thành ngữ |
