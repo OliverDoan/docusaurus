@@ -215,6 +215,49 @@ for (let _binding = 0; _binding < 3; _binding++) {
 
 > Chữ **"lexical"** nghĩa là "thuộc về văn bản code". Tức là chỉ cần **nhìn vào nơi bạn viết** một function trong file — lồng bên trong function/block nào — là đã biết nó truy cập được những biến nào. Điều này được "chốt" ngay lúc viết code, và **không thay đổi** dù sau này bạn gọi function đó từ đâu.
 
+### Ví dụ đời thường: những chiếc hộp lồng nhau
+
+Hãy tưởng tượng code như **các chiếc hộp kính lồng vào nhau**:
+
+- File JS là **hộp lớn nhất** (global scope).
+- Mỗi function viết ra là **một hộp nhỏ hơn** đặt bên trong hộp chứa nó.
+- Mỗi biến là **một món đồ** đặt trong hộp nơi nó được khai báo.
+
+Quy tắc nhìn của hộp kính: **đứng trong hộp nhỏ thì nhìn xuyên ra được các hộp bên ngoài**, nhưng **đứng ngoài thì không nhìn vào được hộp nhỏ** (hộp nhỏ có nắp đậy riêng).
+
+```mermaid
+flowchart TB
+  subgraph G["Hộp global: city = 'Hà Nội'"]
+    subgraph O["Hộp outer(): name = 'An'"]
+      subgraph I["Hộp inner(): age = 20"]
+        X["Đứng ở đây thấy được: age, name, city"]
+      end
+    end
+  end
+```
+
+Vị trí của mỗi hộp được quyết định **khi bạn viết code** (bạn đặt function ở dòng nào, lồng trong function nào). Bạn có mang hộp `inner` đi đâu để gọi thì nó vẫn **nằm nguyên trong hộp `outer`**, nên vẫn nhìn thấy `name` và `city`. Đó chính là "lexical": vị trí trong văn bản code quyết định tất cả.
+
+```js
+const city = "Hà Nội"; // hộp global
+
+function outer() {
+  const name = "An"; // hộp outer
+
+  function inner() {
+    const age = 20; // hộp inner
+    console.log(age, name, city); // ✅ nhìn ra ngoài được cả 3
+  }
+
+  inner();
+  console.log(age); // ❌ ReferenceError: outer không nhìn vào trong inner
+}
+```
+
+**Nhìn một chiều:** trong thấy ngoài, ngoài không thấy trong. Đây là lý do biến khai báo trong function được coi là "riêng tư" với code bên ngoài.
+
+### Function con nhớ biến của function cha
+
 ```js
 function outer() {
   const name = "An";
@@ -262,6 +305,48 @@ outer(); // In ra "global", KHÔNG phải "local trong outer"
 | Đoán kết quả       | Dễ — nhìn cấu trúc code     | Khó — phải lần theo call stack |
 
 Hầu hết ngôn ngữ hiện đại (JavaScript, Python, C...) dùng **lexical scope** vì nó dễ đọc, dễ suy luận và an toàn hơn. Dynamic scope hiếm gặp (vd Bash, Emacs Lisp cũ).
+
+:::
+
+### Cách tự đoán kết quả: đọc code, đừng lần theo lời gọi
+
+Khi gặp một biến trong function và muốn biết nó lấy giá trị ở đâu, làm theo 3 bước **chỉ bằng cách nhìn code**:
+
+1. Tìm biến đó trong **chính function** đang chứa nó. Có thì dùng luôn.
+2. Không có thì **nhìn ra hộp bao ngoài gần nhất** (function hoặc block chứa function đó trong file), tìm tiếp.
+3. Cứ thế đi ra tới global. Vẫn không có thì báo `ReferenceError`.
+
+Không bước nào hỏi "function này **được gọi từ đâu**". Áp dụng cho ví dụ phía trên: `inner` không có `message` → hộp bao ngoài của `inner` (theo văn bản code) là global → lấy `"global"`. Hàm `outer` không phải hộp bao ngoài của `inner`, nên `message` trong `outer` không liên quan.
+
+### Callback cũng tuân theo lexical scope
+
+Trường hợp hay gặp ngoài thực tế: truyền function vào một function khác (callback). Callback vẫn nhìn biến theo **nơi nó được viết**, không theo nơi nó bị gọi bên trong function kia.
+
+```js
+function runTwice(callback) {
+  const count = 999; // biến riêng của runTwice
+  callback();
+  callback();
+}
+
+function setup() {
+  let count = 0; // biến của setup
+
+  runTwice(() => {
+    count++; // arrow function viết TRONG setup → dùng count của setup
+  });
+
+  console.log(count); // 2 — không đụng gì tới count = 999 của runTwice
+}
+
+setup();
+```
+
+Arrow function được viết bên trong `setup`, nên `count` nó dùng là `count` của `setup`. Việc nó bị gọi bên trong `runTwice` không làm nó nhìn thấy biến của `runTwice`.
+
+:::tip[Một câu để nhớ]
+
+**Muốn biết function dùng biến nào, hãy nhìn nó được viết ở đâu, đừng nhìn nó được gọi ở đâu.**
 
 :::
 
