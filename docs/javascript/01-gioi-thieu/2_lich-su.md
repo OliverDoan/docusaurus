@@ -128,6 +128,21 @@ Stage 3 là điểm các trình duyệt và Babel/SWC bắt đầu implement. Kh
 - **ECMAScript (ES)** là **chuẩn**, mô tả ngôn ngữ trên giấy.
 - **JavaScript** là **implementation** (bản triển khai) chuẩn đó, do trình duyệt và Node.js thực hiện.
 
+### Ví dụ đời thường: công thức nấu phở và các quán phở
+
+**ECMAScript giống cuốn sách công thức nấu phở.** Một hội đồng đầu bếp (tổ chức ECMA) viết ra công thức chuẩn: phở phải có bánh phở, nước dùng, thịt bò; khách gọi "phở tái" thì phải ra phở có thịt tái. Cuốn sách này **không ăn được**, nó chỉ là chữ trên giấy mô tả *món phở đúng chuẩn phải như thế nào*.
+
+**JavaScript giống bát phở thật do các quán nấu theo công thức đó.** Mỗi quán đọc công thức rồi nấu thành món ăn thật cho khách:
+
+- Quán **Chrome**, quán **Firefox**, quán **Safari** nấu theo cùng một công thức.
+- Quán **Node.js** nấu "mang đi", tức chạy JavaScript ngoài trình duyệt (trên máy chủ, trên máy tính).
+
+Mỗi quán có bếp và cách nấu riêng (gọi là **engine**: V8 của Chrome và Node.js, SpiderMonkey của Firefox, JavaScriptCore của Safari). Nhưng vì cùng theo một công thức nên **phở quán nào ra cũng giống nhau**, nghĩa là cùng một đoạn code chạy được ở mọi nơi.
+
+**Các phiên bản ES6, ES2015... giống các lần tái bản cuốn công thức.** Mỗi lần tái bản thêm vài món mới. Có quán chưa kịp học món mới thì chưa phục vụ được, phải đợi quán cập nhật. Đó là lý do một số cú pháp mới chưa chạy trên trình duyệt cũ.
+
+> **Tóm lại:** ECMAScript là **bản quy định**, JavaScript là **thứ chạy thật** làm theo bản quy định đó. Giống như luật giao thông (giấy tờ) và người lái xe thật trên đường (người làm theo luật).
+
 Nói "ES6" hay "ES2015" đều chỉ cùng một phiên bản tiêu chuẩn.
 
 ---
