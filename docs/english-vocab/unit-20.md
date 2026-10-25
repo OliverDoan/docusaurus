@@ -38,16 +38,16 @@ Cô ấy trồng một khu vườn nhỏ, cùng người yêu thu hoạch rau, t
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **plant** → **sprout** → **harvest** | trình tự | gieo trồng → nảy mầm → thu hoạch |
-| **cabbage** · **lettuce** · **onion** · **cucumber** | cùng chủ đề | các loại rau củ trong vườn |
-| **herb** → **basil** | cái chung – cái riêng | húng quế là một loại rau thơm |
-| **mushroom** · **olive** | cùng chủ đề | nấm, ô liu — hay dùng trong món Âu |
-| **grapefruit** · **mandarin** · **kumquat** | thang kích thước | họ cam quýt: bưởi (to) → quýt → quất (nhỏ) |
-| **kumquat** + **sour** | đi cùng nhau | quất rất chua |
-| **durian** · **jackfruit** · **mangosteen** | cùng chủ đề | trái cây nhiệt đới đặc trưng Việt Nam |
-| **juicy** · **seedless** | cùng chủ đề | 2 điểm cộng của trái cây: mọng nước, không hạt |
-| **slice** + **bowl** | đi cùng nhau | thái lát rồi cho vào tô |
-| **pickle** ↔ **spoil** | trái nghĩa | muối chua để giữ lâu ↔ để lâu thì hỏng |
+| **plant** *(v)* → **sprout** *(n)* → **harvest** *(v)* | trình tự | gieo trồng → nảy mầm → thu hoạch |
+| **cabbage** *(n)* · **lettuce** *(n)* · **onion** *(n)* · **cucumber** *(n)* | cùng chủ đề | các loại rau củ trong vườn |
+| **herb** *(n)* → **basil** *(n)* | cái chung – cái riêng | húng quế là một loại rau thơm |
+| **mushroom** *(n)* · **olive** *(n)* | cùng chủ đề | nấm, ô liu — hay dùng trong món Âu |
+| **grapefruit** *(n)* · **mandarin** *(n)* · **kumquat** *(n)* | thang kích thước | họ cam quýt: bưởi (to) → quýt → quất (nhỏ) |
+| **kumquat** *(n)* + **sour** *(adj)* | đi cùng nhau | quất rất chua |
+| **durian** *(n)* · **jackfruit** *(n)* · **mangosteen** *(n)* | cùng chủ đề | trái cây nhiệt đới đặc trưng Việt Nam |
+| **juicy** *(adj)* · **seedless** *(adj)* | cùng chủ đề | 2 điểm cộng của trái cây: mọng nước, không hạt |
+| **slice** *(n)* + **bowl** *(n)* | đi cùng nhau | thái lát rồi cho vào tô |
+| **pickle** *(v)* ↔ **spoil** *(v)* | trái nghĩa | muối chua để giữ lâu ↔ để lâu thì hỏng |
 
 ## Cụm từ hay dùng
 

@@ -38,17 +38,17 @@ Cuối tuần, nhóm bạn đi xem xiếc và ảo thuật, rồi kéo nhau ra q
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **entertain** → **circus** · **magic** · **show** | cái chung – cái riêng | xiếc, ảo thuật, buổi diễn đều để *giải trí* |
-| **excellent** · **enjoyable** · **engaging** | gần nghĩa | các tính từ khen hay |
-| **party** + **pop** + **dance** | đi cùng nhau | tiệc tùng, nhạc pop, nhảy múa |
-| **bar** → **barman** | cùng gốc | quán bar + man = người pha chế |
-| **drink** · **snack** | cùng chủ đề | đồ uống và đồ ăn vặt khi đi chơi |
-| **comic** → **hero** · **character** | cái chung – cái riêng | truyện tranh có anh hùng và nhân vật |
-| **series** → **scene** | cái chung – cái riêng | một bộ phim gồm nhiều cảnh |
-| **engaging** ↔ **silly** | trái nghĩa | cuốn hút ↔ ngớ ngẩn |
-| **hero** ↔ **punish** | đi cùng nhau | anh hùng thắng, kẻ xấu bị trừng phạt |
-| **review** + **particularly** | đi cùng nhau | viết nhận xét, nhất là về đoạn kết |
-| **scene** → **leave** | trình tự | xem xong *cảnh* cuối mới *rời* rạp: *leave the cinema* |
+| **entertain** *(v)* → **circus** *(n)* · **magic** *(n)* · **show** *(n)* | cái chung – cái riêng | xiếc, ảo thuật, buổi diễn đều để *giải trí* |
+| **excellent** *(adj)* · **enjoyable** *(adj)* · **engaging** *(adj)* | gần nghĩa | các tính từ khen hay |
+| **party** *(n)* + **pop** *(n)* + **dance** *(v)* | đi cùng nhau | tiệc tùng, nhạc pop, nhảy múa |
+| **bar** *(n)* → **barman** *(n)* | cùng gốc | quán bar + man = người pha chế |
+| **drink** *(n)* · **snack** *(n)* | cùng chủ đề | đồ uống và đồ ăn vặt khi đi chơi |
+| **comic** *(n)* → **hero** *(n)* · **character** *(n)* | cái chung – cái riêng | truyện tranh có anh hùng và nhân vật |
+| **series** *(n)* → **scene** *(n)* | cái chung – cái riêng | một bộ phim gồm nhiều cảnh |
+| **engaging** *(adj)* ↔ **silly** *(adj)* | trái nghĩa | cuốn hút ↔ ngớ ngẩn |
+| **hero** *(n)* ↔ **punish** *(v)* | đi cùng nhau | anh hùng thắng, kẻ xấu bị trừng phạt |
+| **review** *(n)* + **particularly** *(adv)* | đi cùng nhau | viết nhận xét, nhất là về đoạn kết |
+| **scene** *(n)* → **leave** *(v)* | trình tự | xem xong *cảnh* cuối mới *rời* rạp: *leave the cinema* |
 
 ## Cụm từ hay dùng
 

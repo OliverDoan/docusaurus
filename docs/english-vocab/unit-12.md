@@ -38,16 +38,16 @@ Anh ấy dẫn bạn gái đi tham quan thành phố: từ lăng, chùa, nhà th
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **church** · **temple** · **pagoda** · **mausoleum** | cùng chủ đề | nhà thờ (Công giáo) · đền · chùa (Phật giáo) · lăng |
-| **history** · **war** | cùng chủ đề | bảo tàng lịch sử thường kể về chiến tranh |
-| **touristy** ↔ **hidden** | trái nghĩa | nơi đông khách ↔ góc ẩn mình ít người biết (*hidden gem*) |
-| **lovely** ↔ **lover** | dễ nhầm | *lovely* (adj) = đáng yêu; *lover* (n) = người yêu |
-| **resort** · **campsite** · **homestay** | cùng chủ đề | 3 kiểu chỗ ở: sang trọng · cắm trại · ở nhà dân |
-| **try** ↔ **taste** | gần nghĩa | *try* = thử nói chung; *taste* = nếm bằng lưỡi |
-| **guide** → **recommend** → **option** | chuỗi ý | hướng dẫn viên gợi ý cho bạn vài lựa chọn |
-| **local** · **market** | đi cùng nhau | *local market* = chợ địa phương |
-| **route** · **hike** | đi cùng nhau | *hiking route* = cung đường đi bộ |
-| **leisure** · **sightseeing** | cùng chủ đề | thời gian rảnh dành để ngắm cảnh |
+| **church** *(n)* · **temple** *(n)* · **pagoda** *(n)* · **mausoleum** *(n)* | cùng chủ đề | nhà thờ (Công giáo) · đền · chùa (Phật giáo) · lăng |
+| **history** *(n)* · **war** *(n)* | cùng chủ đề | bảo tàng lịch sử thường kể về chiến tranh |
+| **touristy** *(adj)* ↔ **hidden** *(adj)* | trái nghĩa | nơi đông khách ↔ góc ẩn mình ít người biết (*hidden gem*) |
+| **lovely** *(adj)* ↔ **lover** *(n)* | dễ nhầm | *lovely* (adj) = đáng yêu; *lover* (n) = người yêu |
+| **resort** *(n)* · **campsite** *(n)* · **homestay** *(n)* | cùng chủ đề | 3 kiểu chỗ ở: sang trọng · cắm trại · ở nhà dân |
+| **try** *(v)* ↔ **taste** *(v)* | gần nghĩa | *try* = thử nói chung; *taste* = nếm bằng lưỡi |
+| **guide** *(n)* → **recommend** *(v)* → **option** *(n)* | chuỗi ý | hướng dẫn viên gợi ý cho bạn vài lựa chọn |
+| **local** *(adj)* · **market** *(n)* | đi cùng nhau | *local market* = chợ địa phương |
+| **route** *(n)* · **hike** *(v)* | đi cùng nhau | *hiking route* = cung đường đi bộ |
+| **leisure** *(n)* · **sightseeing** *(n)* | cùng chủ đề | thời gian rảnh dành để ngắm cảnh |
 
 ## Cụm từ hay dùng
 

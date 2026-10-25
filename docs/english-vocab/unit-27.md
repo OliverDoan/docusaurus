@@ -38,17 +38,17 @@ Một giải đấu cầu lông thu hút các vận động viên mạnh nhất,
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **tournament** · **contest** · **match** · **final** | cùng chủ đề | giải đấu gồm nhiều trận, cuối cùng là chung kết |
-| **badminton** + **racquet** | đi cùng nhau | cầu lông chơi bằng vợt |
-| **athlete** · **sportsman** · **footballer** | gần nghĩa | athlete chung, footballer riêng bóng đá |
-| **strong** ↔ **weak** | trái nghĩa | mạnh ↔ yếu |
-| **compete** → **competitor** | gốc từ | compete + -itor = người thi đấu, đối thủ |
-| **supporter** + **argue** | tình huống | cổ động viên tranh cãi về trọng tài |
-| **team** · **captain** · **coach** | cùng chủ đề | đội, đội trưởng, huấn luyện viên |
-| **practice** · practise | dễ nhầm | Anh-Anh: practice (n), practise (v) |
-| **score** → **win** | nguyên nhân – kết quả | *score* (tỉ số) nghiêng về mình → *win* (thắng) |
-| **win** + **cup** | đi cùng nhau | thắng thì giành cúp |
-| **win** → **winner** ↔ **loser** | gốc từ, trái nghĩa | win/lose + -er = người thắng/thua |
+| **tournament** *(n)* · **contest** *(n)* · **match** *(n)* · **final** *(n)* | cùng chủ đề | giải đấu gồm nhiều trận, cuối cùng là chung kết |
+| **badminton** *(n)* + **racquet** *(n)* | đi cùng nhau | cầu lông chơi bằng vợt |
+| **athlete** *(n)* · **sportsman** *(n)* · **footballer** *(n)* | gần nghĩa | athlete chung, footballer riêng bóng đá |
+| **strong** *(adj)* ↔ **weak** *(adj)* | trái nghĩa | mạnh ↔ yếu |
+| **compete** *(v)* → **competitor** *(n)* | gốc từ | compete + -itor = người thi đấu, đối thủ |
+| **supporter** *(n)* + **argue** *(v)* | tình huống | cổ động viên tranh cãi về trọng tài |
+| **team** *(n)* · **captain** *(n)* · **coach** *(n)* | cùng chủ đề | đội, đội trưởng, huấn luyện viên |
+| **practice** *(n)* · practise *(v)* | dễ nhầm | Anh-Anh: practice (n), practise (v) |
+| **score** *(n)* → **win** *(v)* | nguyên nhân – kết quả | *score* (tỉ số) nghiêng về mình → *win* (thắng) |
+| **win** *(v)* + **cup** *(n)* | đi cùng nhau | thắng thì giành cúp |
+| **win** *(v)* → **winner** *(n)* ↔ **loser** *(n)* | gốc từ, trái nghĩa | win/lose + -er = người thắng/thua |
 
 ## Cụm từ hay dùng
 

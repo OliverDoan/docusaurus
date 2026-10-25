@@ -38,16 +38,16 @@ Sau một tối vui ở quán rượu, anh ấy tỉnh dậy với cơn say và 
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **beer** · **wine** · **shot** | cùng chủ đề | bia · rượu vang · chén rượu nhỏ, đều là **alcohol** |
-| **bottle** · **glass** · **bucket** | thang kích thước | chai → cốc → xô (bia xô) |
-| **pour** → **cheers** | trình tự | rót đầy ly rồi cụng ly |
-| **drinking** → **tipsy** → **hangover** | trình tự | uống → ngà ngà say → sáng hôm sau mệt |
-| **pub** + **drinking** | đi cùng nhau | ra quán rượu để nhậu |
-| **thirsty** → **smoothie** · **sparkling** | nguyên nhân – kết quả | khát thì uống sinh tố hoặc nước có ga |
-| **coffee** + **cream** + **stir** | đi cùng nhau | cho kem vào cà phê rồi khuấy đều |
-| **detox** ↔ **alcohol** | trái nghĩa | thải độc ↔ nạp đồ có cồn |
-| **energy** ↔ **useless** | trái nghĩa | đầy năng lượng ↔ vô dụng (sau cơn say) |
-| **habit** + **litre** | đi cùng nhau | thói quen uống 2 lít nước mỗi ngày |
+| **beer** *(n)* · **wine** *(n)* · **shot** *(n)* | cùng chủ đề | bia · rượu vang · chén rượu nhỏ, đều là **alcohol** |
+| **bottle** *(n)* · **glass** *(n)* · **bucket** *(n)* | thang kích thước | chai → cốc → xô (bia xô) |
+| **pour** *(v)* → **cheers** *(excl)* | trình tự | rót đầy ly rồi cụng ly |
+| **drinking** *(n)* → **tipsy** *(adj)* → **hangover** *(n)* | trình tự | uống → ngà ngà say → sáng hôm sau mệt |
+| **pub** *(n)* + **drinking** *(n)* | đi cùng nhau | ra quán rượu để nhậu |
+| **thirsty** *(adj)* → **smoothie** *(n)* · **sparkling** *(adj)* | nguyên nhân – kết quả | khát thì uống sinh tố hoặc nước có ga |
+| **coffee** *(n)* + **cream** *(n)* + **stir** *(v)* | đi cùng nhau | cho kem vào cà phê rồi khuấy đều |
+| **detox** *(n)* ↔ **alcohol** *(n)* | trái nghĩa | thải độc ↔ nạp đồ có cồn |
+| **energy** *(n)* ↔ **useless** *(adj)* | trái nghĩa | đầy năng lượng ↔ vô dụng (sau cơn say) |
+| **habit** *(n)* + **litre** *(n)* | đi cùng nhau | thói quen uống 2 lít nước mỗi ngày |
 
 ## Cụm từ hay dùng
 

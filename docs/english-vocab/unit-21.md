@@ -38,17 +38,17 @@ Hai bạn trẻ về một ngôi làng yên tĩnh trong thung lũng, thong thả
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **part** → **range** · **hill** · **valley** | địa hình | mỗi *part* (vùng) một địa hình: dãy núi → đồi → thung lũng nằm giữa |
-| **hill** + **steep** | đi cùng nhau | đồi dốc khó leo |
-| **quiet** · **leisurely** → **explore** | cùng chủ đề | nhịp sống làng quê yên tĩnh, thong thả dạo bước khám phá |
-| **neighbour** · **permission** | cùng chủ đề | lịch sự ở làng: chào hàng xóm, xin phép trước |
-| **custom** · **architecture** · **handicraft** | cùng chủ đề | ba nét văn hoá của một vùng quê |
-| **grow** · **buffalo** · **rely** | cùng chủ đề | nông dân trồng trọt, dựa vào con trâu |
-| **rainforest** · **bug** | đi cùng nhau | rừng nhiệt đới đầy côn trùng |
-| **hardly** | dễ nhầm | hardly = hầu như không, KHÔNG phải "một cách chăm chỉ" (hard) |
-| **dangerous** ↔ **brave** | đối lập | có nguy hiểm mới cần dũng cảm |
-| **nature** + **protect** | đi cùng nhau | bảo vệ thiên nhiên |
-| **explore** → **satisfied** | nguyên nhân – kết quả | khám phá cả ngày → về nhà mệt nhưng *satisfied* (hài lòng) |
+| **part** *(n)* → **range** *(n)* · **hill** *(n)* · **valley** *(n)* | địa hình | mỗi *part* (vùng) một địa hình: dãy núi → đồi → thung lũng nằm giữa |
+| **hill** *(n)* + **steep** *(adj)* | đi cùng nhau | đồi dốc khó leo |
+| **quiet** *(adj)* · **leisurely** *(adv)* → **explore** *(v)* | cùng chủ đề | nhịp sống làng quê yên tĩnh, thong thả dạo bước khám phá |
+| **neighbour** *(n)* · **permission** *(n)* | cùng chủ đề | lịch sự ở làng: chào hàng xóm, xin phép trước |
+| **custom** *(n)* · **architecture** *(n)* · **handicraft** *(n)* | cùng chủ đề | ba nét văn hoá của một vùng quê |
+| **grow** *(v)* · **buffalo** *(n)* · **rely** *(v)* | cùng chủ đề | nông dân trồng trọt, dựa vào con trâu |
+| **rainforest** *(n)* · **bug** *(n)* | đi cùng nhau | rừng nhiệt đới đầy côn trùng |
+| **hardly** *(adv)* | dễ nhầm | hardly = hầu như không, KHÔNG phải "một cách chăm chỉ" (hard) |
+| **dangerous** *(adj)* ↔ **brave** *(adj)* | đối lập | có nguy hiểm mới cần dũng cảm |
+| **nature** *(n)* + **protect** *(v)* | đi cùng nhau | bảo vệ thiên nhiên |
+| **explore** *(v)* → **satisfied** *(adj)* | nguyên nhân – kết quả | khám phá cả ngày → về nhà mệt nhưng *satisfied* (hài lòng) |
 
 ## Cụm từ hay dùng
 

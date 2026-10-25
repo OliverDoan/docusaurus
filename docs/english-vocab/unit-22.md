@@ -38,18 +38,18 @@ Cầm tấm bản đồ, nhóm bạn đi dọc bờ biển ngắm vịnh và đ�
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **map** → **coast** · **bay** · **island** · **cliff** | cùng chủ đề | mở bản đồ dò cảnh biển: bờ biển, vịnh, đảo, vách đá |
-| **scenery** + **gorgeous** | đi cùng nhau | phong cảnh tuyệt đẹp |
-| **bay** → **wonder** | đi cùng nhau | vịnh Hạ Long là một kỳ quan (*wonders of nature* – kỳ quan thiên nhiên) |
-| **island** + **surround** | đi cùng nhau | đảo là đất được nước bao quanh |
-| **sunbathe** · **fishing** | cùng chủ đề | hoạt động trên biển |
-| **mountain** · **forest** · **waterfall** · **cave** · **lake** | cùng chủ đề | cảnh núi rừng |
-| **rough** ↔ smooth | trái nghĩa | gồ ghề ↔ bằng phẳng |
-| **forest** + **bamboo** | đi cùng nhau | *bamboo forest* – rừng tre, lối đi hai bên tre cao vút |
-| **waterfall** + **icy** | đi cùng nhau | nước thác lạnh như băng |
-| **cave** + **lighter** + **spider** | tình huống | vào hang tối phải bật lửa, gặp nhện |
-| **sanctuary** → **wildlife** | đi cùng nhau | khu bảo tồn để bảo vệ động vật hoang dã |
-| **surprisingly** | gốc từ | surprise (ngạc nhiên) + -ing + -ly |
+| **map** *(n)* → **coast** *(n)* · **bay** *(n)* · **island** *(n)* · **cliff** *(n)* | cùng chủ đề | mở bản đồ dò cảnh biển: bờ biển, vịnh, đảo, vách đá |
+| **scenery** *(n)* + **gorgeous** *(adj)* | đi cùng nhau | phong cảnh tuyệt đẹp |
+| **bay** *(n)* → **wonder** *(n)* | đi cùng nhau | vịnh Hạ Long là một kỳ quan (*wonders of nature* – kỳ quan thiên nhiên) |
+| **island** *(n)* + **surround** *(v)* | đi cùng nhau | đảo là đất được nước bao quanh |
+| **sunbathe** *(v)* · **fishing** *(n)* | cùng chủ đề | hoạt động trên biển |
+| **mountain** *(n)* · **forest** *(n)* · **waterfall** *(n)* · **cave** *(n)* · **lake** *(n)* | cùng chủ đề | cảnh núi rừng |
+| **rough** *(adj)* ↔ smooth *(adj)* | trái nghĩa | gồ ghề ↔ bằng phẳng |
+| **forest** *(n)* + **bamboo** *(n)* | đi cùng nhau | *bamboo forest* – rừng tre, lối đi hai bên tre cao vút |
+| **waterfall** *(n)* + **icy** *(adj)* | đi cùng nhau | nước thác lạnh như băng |
+| **cave** *(n)* + **lighter** *(n)* + **spider** *(n)* | tình huống | vào hang tối phải bật lửa, gặp nhện |
+| **sanctuary** *(n)* → **wildlife** *(n)* | đi cùng nhau | khu bảo tồn để bảo vệ động vật hoang dã |
+| **surprisingly** *(adv)* | gốc từ | surprise (ngạc nhiên) + -ing + -ly |
 
 ## Cụm từ hay dùng
 

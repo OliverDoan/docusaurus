@@ -38,16 +38,16 @@ Một bạn trẻ ấp ủ ước mơ đi du học, nhưng trước hết phải
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **foreigner** ↔ **visitor** | gần nghĩa | *foreigner* = người nước khác; *visitor* = người đến thăm (có thể cùng nước) |
-| **abroad** → **foreigner** → **culture** | cùng chủ đề | ra **nước ngoài** thành **người nước ngoài**, gặp **văn hoá** mới |
-| **shy** → **scared** ↔ **confident** | thang cảm xúc | nhút nhát → sợ hãi ↔ tự tin |
-| **beginner** → **progress** → **certificate** | thang tiến bộ | mới bắt đầu → tiến bộ → lấy chứng chỉ |
-| **improve** ↔ **progress** | cùng ý | *improve* là động từ (cải thiện), *progress* là danh từ (sự tiến bộ): *make progress* |
-| **language** → **vocabulary** → **skill** | đi cùng nhau | học ngôn ngữ = học từ vựng + luyện kỹ năng |
-| **speaker** → **conversation** → **communicate** | cùng chủ đề | người nói tham gia cuộc trò chuyện để giao tiếp |
-| **follow** ↔ **understand** | đi cùng nhau | *follow* a conversation = theo kịp; *understand* = hiểu hết |
-| **course** → **topic** | đi cùng nhau | một khoá học gồm nhiều chủ đề |
-| **idea** ↔ **original** ↔ **difficulty** | đi cùng nhau | *an original idea* = ý tưởng mới lạ; *have difficulty* = gặp khó khăn |
+| **foreigner** *(n)* ↔ **visitor** *(n)* | gần nghĩa | *foreigner* = người nước khác; *visitor* = người đến thăm (có thể cùng nước) |
+| **abroad** *(adv)* → **foreigner** *(n)* → **culture** *(n)* | cùng chủ đề | ra **nước ngoài** thành **người nước ngoài**, gặp **văn hoá** mới |
+| **shy** *(adj)* → **scared** *(adj)* ↔ **confident** *(adj)* | thang cảm xúc | nhút nhát → sợ hãi ↔ tự tin |
+| **beginner** *(n)* → **progress** *(n)* → **certificate** *(n)* | thang tiến bộ | mới bắt đầu → tiến bộ → lấy chứng chỉ |
+| **improve** *(v)* ↔ **progress** *(n)* | cùng ý | *improve* là động từ (cải thiện), *progress* là danh từ (sự tiến bộ): *make progress* |
+| **language** *(n)* → **vocabulary** *(n)* → **skill** *(n)* | đi cùng nhau | học ngôn ngữ = học từ vựng + luyện kỹ năng |
+| **speaker** *(n)* → **conversation** *(n)* → **communicate** *(v)* | cùng chủ đề | người nói tham gia cuộc trò chuyện để giao tiếp |
+| **follow** *(v)* ↔ **understand** *(v)* | đi cùng nhau | *follow* a conversation = theo kịp; *understand* = hiểu hết |
+| **course** *(n)* → **topic** *(n)* | đi cùng nhau | một khoá học gồm nhiều chủ đề |
+| **idea** *(n)* ↔ **original** *(adj)* ↔ **difficulty** *(n)* | đi cùng nhau | *an original idea* = ý tưởng mới lạ; *have difficulty* = gặp khó khăn |
 
 ## Cụm từ hay dùng
 

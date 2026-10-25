@@ -38,16 +38,16 @@ Mình và bạn gái nhận ra những khác biệt văn hoá giữa hai ngườ
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **normal** ↔ **strange** | trái nghĩa | bình thường ↔ kì lạ |
-| **familiar** ↔ **strange** | trái nghĩa | quen thuộc ↔ lạ lẫm |
-| **difference** · **respect** | đi cùng nhau | *respect the differences* = tôn trọng sự khác biệt |
-| **rule** ↔ **taboo** → **avoid** | gần nghĩa | quy tắc nên làm ↔ điều cấm kỵ cần tránh |
-| **religion** · **Buddhist** · **shrine** · **believe** | cùng chủ đề | tôn giáo, Phật tử, miếu thờ, niềm tin |
-| **traditional** · **pillar** · **marriage** | cùng chủ đề | nhà truyền thống có cột; hôn nhân truyền thống |
-| **angry** ↔ **proud** | cảm xúc đối lập | tức giận ↔ tự hào |
-| **expect** ↔ **surprise** | trái nghĩa | đã mong đợi ↔ bất ngờ |
-| **persuade** · **control** | dễ nhầm | *persuade* = thuyết phục bằng lời; *control* = điều khiển bằng quyền lực |
-| **fair** · **mean** · **care** | chuỗi ý | *I didn't mean it, I just care about being fair.* |
+| **normal** *(adj)* ↔ **strange** *(adj)* | trái nghĩa | bình thường ↔ kì lạ |
+| **familiar** *(adj)* ↔ **strange** *(adj)* | trái nghĩa | quen thuộc ↔ lạ lẫm |
+| **difference** *(n)* · **respect** *(v)* | đi cùng nhau | *respect the differences* = tôn trọng sự khác biệt |
+| **rule** *(n)* ↔ **taboo** *(n)* → **avoid** *(v)* | gần nghĩa | quy tắc nên làm ↔ điều cấm kỵ cần tránh |
+| **religion** *(n)* · **Buddhist** *(n)* · **shrine** *(n)* · **believe** *(v)* | cùng chủ đề | tôn giáo, Phật tử, miếu thờ, niềm tin |
+| **traditional** *(adj)* · **pillar** *(n)* · **marriage** *(n)* | cùng chủ đề | nhà truyền thống có cột; hôn nhân truyền thống |
+| **angry** *(adj)* ↔ **proud** *(adj)* | cảm xúc đối lập | tức giận ↔ tự hào |
+| **expect** *(v)* ↔ **surprise** *(v)* | trái nghĩa | đã mong đợi ↔ bất ngờ |
+| **persuade** *(v)* · **control** *(v)* | dễ nhầm | *persuade* = thuyết phục bằng lời; *control* = điều khiển bằng quyền lực |
+| **fair** *(adj)* · **mean** *(v)* · **care** *(n)* | chuỗi ý | *I didn't mean it, I just care about being fair.* |
 
 ## Cụm từ hay dùng
 

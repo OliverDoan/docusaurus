@@ -38,17 +38,17 @@ Giáo sư cảnh báo cả lớp phải hoàn thành bài thuyết trình trư�
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **application** → **university** → **degree** | trình tự | nộp đơn → vào đại học → nhận bằng |
-| **professor** · **instructor** → **provide** | cùng chủ đề | người dạy *provide* cung cấp kiến thức, tài liệu cho sinh viên |
-| **lecture** · **session** · **presentation** | cùng chủ đề | các buổi học, bài giảng, bài thuyết trình |
-| **degree** · **qualification** | gần nghĩa | bằng đại học là một loại bằng cấp |
-| **achieve** ↔ **fail** | trái nghĩa | đạt được ↔ thất bại |
-| **warn** → **fail** | nguyên nhân – kết quả | thầy *warn* cảnh báo trước để mình không *fail* trượt |
-| **term** → **exam** → **score** | trình tự | hết học kỳ → thi → có điểm |
-| **stress** ↔ **focused** | đối lập trạng thái | căng thẳng thì khó tập trung |
-| **plan** → **complete** | trình tự | lên kế hoạch → hoàn thành |
-| **major** · **poetry** | cái chung – cái riêng | thơ ca có thể là một môn trong chuyên ngành văn |
-| **advanced** · **further** | cùng chủ đề | học nâng cao, học thêm |
+| **application** *(n)* → **university** *(n)* → **degree** *(n)* | trình tự | nộp đơn → vào đại học → nhận bằng |
+| **professor** *(n)* · **instructor** *(n)* → **provide** *(v)* | cùng chủ đề | người dạy *provide* cung cấp kiến thức, tài liệu cho sinh viên |
+| **lecture** *(n)* · **session** *(n)* · **presentation** *(n)* | cùng chủ đề | các buổi học, bài giảng, bài thuyết trình |
+| **degree** *(n)* · **qualification** *(n)* | gần nghĩa | bằng đại học là một loại bằng cấp |
+| **achieve** *(v)* ↔ **fail** *(v)* | trái nghĩa | đạt được ↔ thất bại |
+| **warn** *(v)* → **fail** *(v)* | nguyên nhân – kết quả | thầy *warn* cảnh báo trước để mình không *fail* trượt |
+| **term** *(n)* → **exam** *(n)* → **score** *(n)* | trình tự | hết học kỳ → thi → có điểm |
+| **stress** *(n)* ↔ **focused** *(adj)* | đối lập trạng thái | căng thẳng thì khó tập trung |
+| **plan** *(v)* → **complete** *(v)* | trình tự | lên kế hoạch → hoàn thành |
+| **major** *(n)* · **poetry** *(n)* | cái chung – cái riêng | thơ ca có thể là một môn trong chuyên ngành văn |
+| **advanced** *(adj)* · **further** *(adj)* | cùng chủ đề | học nâng cao, học thêm |
 
 ## Cụm từ hay dùng
 

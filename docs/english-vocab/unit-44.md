@@ -38,17 +38,17 @@ Sáng nào anh ấy cũng ngủ quên dù báo thức kêu, vội chải tóc đ
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **alarm** ↔ **oversleep** | trái ngược | báo thức kêu mà vẫn ngủ quên |
-| **routine** · **same** · **repeat** · **boredom** | nguyên nhân – kết quả | ngày nào cũng giống nhau, lặp lại → chán |
-| **housework** · **broom** · **dust** | cùng chủ đề | quét bụi bằng chổi là việc nhà |
-| **dust** + **float** | đi cùng nhau | quét nhà thì bụi *float* lơ lửng trong không khí |
-| **dirty** + **dish** + **wash** | đi cùng nhau | rửa bát đĩa bẩn |
-| **mess** ↔ **order** → **perfectly** | thang mức độ | bừa bộn ↔ ngăn nắp → gọn gàng hoàn hảo (*perfectly tidy*) |
-| **workload** → **reschedule** | nguyên nhân – kết quả | việc nhiều quá thì phải dời lịch |
-| **reduce** + **workload** | đi cùng nhau | giảm tải công việc |
-| **midday** · **weekly** | cùng chủ đề | mốc thời gian: buổi trưa, hằng tuần |
-| **return** · **become** | cùng chủ đề | động từ chỉ sự chuyển đổi trạng thái, nơi chốn |
-| **comb** · **wash** | cùng chủ đề | vệ sinh cá nhân buổi sáng |
+| **alarm** *(n)* ↔ **oversleep** *(v)* | trái ngược | báo thức kêu mà vẫn ngủ quên |
+| **routine** *(n)* · **same** *(adj)* · **repeat** *(v)* · **boredom** *(n)* | nguyên nhân – kết quả | ngày nào cũng giống nhau, lặp lại → chán |
+| **housework** *(n)* · **broom** *(n)* · **dust** *(n)* | cùng chủ đề | quét bụi bằng chổi là việc nhà |
+| **dust** *(n)* + **float** *(v)* | đi cùng nhau | quét nhà thì bụi *float* lơ lửng trong không khí |
+| **dirty** *(adj)* + **dish** *(n)* + **wash** *(v)* | đi cùng nhau | rửa bát đĩa bẩn |
+| **mess** *(n)* ↔ **order** *(n)* → **perfectly** *(adv)* | thang mức độ | bừa bộn ↔ ngăn nắp → gọn gàng hoàn hảo (*perfectly tidy*) |
+| **workload** *(n)* → **reschedule** *(v)* | nguyên nhân – kết quả | việc nhiều quá thì phải dời lịch |
+| **reduce** *(v)* + **workload** *(n)* | đi cùng nhau | giảm tải công việc |
+| **midday** *(n)* · **weekly** *(adj)* | cùng chủ đề | mốc thời gian: buổi trưa, hằng tuần |
+| **return** *(v)* · **become** *(v)* | cùng chủ đề | động từ chỉ sự chuyển đổi trạng thái, nơi chốn |
+| **comb** *(v)* · **wash** *(v)* | cùng chủ đề | vệ sinh cá nhân buổi sáng |
 
 ## Cụm từ hay dùng
 

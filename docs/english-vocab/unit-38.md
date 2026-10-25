@@ -38,18 +38,18 @@ Từ người lạ thành bạn thân, rồi thành người yêu — mối quan
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **stranger** → **buddy** → **bestie** | thang mức độ | người lạ → bạn → bạn thân nhất |
-| **friendship** + **interest** | đi cùng nhau | chung *sở thích* (*share interests*) thì *tình bạn* bền lâu |
-| **bestie** · **soulmate** | gần nghĩa | người hiểu mình nhất |
-| **single** → **flirt** → **date** → **relationship** | trình tự | độc thân → thả thính → hẹn hò → yêu nhau |
-| **romantic** · **romance** | cùng gốc | adj lãng mạn / n chuyện tình |
-| **boyfriend** · **girlfriend** · **partner** | cùng chủ đề | các cách gọi người yêu |
-| **cuddle** → **clingy** | thang mức độ | *ôm ấp* thì dễ thương, quá đà thành *bám dính* |
-| **clingy** · **needy** | gần nghĩa | đều là bám người yêu quá mức |
-| **honest** + **understand** | đi cùng nhau | thật lòng thì mới thấu hiểu |
-| **argument** · **mistake** | cùng chủ đề | sóng gió trong mối quan hệ |
-| **single** ↔ **married** | trái nghĩa | độc thân ↔ đã kết hôn |
-| **married** ↔ **divorce** | trái nghĩa | kết hôn ↔ ly hôn |
+| **stranger** *(n)* → **buddy** *(n)* → **bestie** *(n)* | thang mức độ | người lạ → bạn → bạn thân nhất |
+| **friendship** *(n)* + **interest** *(n)* | đi cùng nhau | chung *sở thích* (*share interests*) thì *tình bạn* bền lâu |
+| **bestie** *(n)* · **soulmate** *(n)* | gần nghĩa | người hiểu mình nhất |
+| **single** *(adj)* → **flirt** *(v)* → **date** *(n)* → **relationship** *(n)* | trình tự | độc thân → thả thính → hẹn hò → yêu nhau |
+| **romantic** *(adj)* · **romance** *(n)* | cùng gốc | adj lãng mạn / n chuyện tình |
+| **boyfriend** *(n)* · **girlfriend** *(n)* · **partner** *(n)* | cùng chủ đề | các cách gọi người yêu |
+| **cuddle** *(v)* → **clingy** *(adj)* | thang mức độ | *ôm ấp* thì dễ thương, quá đà thành *bám dính* |
+| **clingy** *(adj)* · **needy** *(adj)* | gần nghĩa | đều là bám người yêu quá mức |
+| **honest** *(adj)* + **understand** *(v)* | đi cùng nhau | thật lòng thì mới thấu hiểu |
+| **argument** *(n)* · **mistake** *(n)* | cùng chủ đề | sóng gió trong mối quan hệ |
+| **single** *(adj)* ↔ **married** *(adj)* | trái nghĩa | độc thân ↔ đã kết hôn |
+| **married** *(adj)* ↔ **divorce** *(n)* | trái nghĩa | kết hôn ↔ ly hôn |
 
 ## Cụm từ hay dùng
 

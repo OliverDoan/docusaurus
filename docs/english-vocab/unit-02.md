@@ -38,16 +38,16 @@ Một bạn trẻ kể lại chặng đường đi học của mình, từ trư�
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **kindergarten** → **primary** → **secondary** | thang cấp học | mẫu giáo → tiểu học → trung học |
-| **mathematics** · **science** · **engineering** · **art** | cùng nhóm | các môn học (**subject**) |
-| **subject** ↔ **curriculum** | gần nghĩa | *subject* = một môn; *curriculum* = cả chương trình gồm nhiều môn |
-| **enroll** → **attend** → **drop out** | thang hành trình | đăng ký → đi học → bỏ học |
-| **attend** ↔ **absent** | trái nghĩa | có mặt ↔ vắng mặt |
-| **revise** ↔ **memorise** | gần nghĩa | *revise* = ôn lại; *memorise* = học thuộc lòng |
-| **assignment** → **grade** | đi cùng nhau | nộp bài tập → nhận điểm |
-| **continue** ↔ **drop out** | trái nghĩa | tiếp tục học ↔ bỏ học giữa chừng |
-| **nervous** ↔ **succeed** | đi cùng nhau | hồi hộp trước kỳ thi → vượt qua thì thành công |
-| **announce** · **term** · **uniform** · **popular** | cùng chủ đề | nhà trường **thông báo** lịch **học kỳ**, **đồng phục**, môn **được yêu thích** |
+| **kindergarten** *(n)* → **primary** *(adj/n)* → **secondary** *(adj/n)* | thang cấp học | mẫu giáo → tiểu học → trung học |
+| **mathematics** *(n)* · **science** *(n)* · **engineering** *(n)* · **art** *(n)* | cùng nhóm | các môn học (**subject**) |
+| **subject** *(n)* ↔ **curriculum** *(n)* | gần nghĩa | *subject* = một môn; *curriculum* = cả chương trình gồm nhiều môn |
+| **enroll** *(v)* → **attend** *(v)* → **drop out** *(phr v)* | thang hành trình | đăng ký → đi học → bỏ học |
+| **attend** *(v)* ↔ **absent** *(adj)* | trái nghĩa | có mặt ↔ vắng mặt |
+| **revise** *(v)* ↔ **memorise** *(v)* | gần nghĩa | *revise* = ôn lại; *memorise* = học thuộc lòng |
+| **assignment** *(n)* → **grade** *(n)* | đi cùng nhau | nộp bài tập → nhận điểm |
+| **continue** *(v)* ↔ **drop out** *(phr v)* | trái nghĩa | tiếp tục học ↔ bỏ học giữa chừng |
+| **nervous** *(adj)* ↔ **succeed** *(v)* | đi cùng nhau | hồi hộp trước kỳ thi → vượt qua thì thành công |
+| **announce** *(v)* · **term** *(n)* · **uniform** *(n)* · **popular** *(adj)* | cùng chủ đề | nhà trường **thông báo** lịch **học kỳ**, **đồng phục**, môn **được yêu thích** |
 
 ## Cụm từ hay dùng
 

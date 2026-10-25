@@ -38,20 +38,20 @@ Anh bạn mọt máy tính chê chiếc máy in cũ đã lỗi thời, liền c�
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **nerd** + **technology** | đi cùng nhau | mọt máy tính mê công nghệ |
-| **advanced** ↔ **outdated** | trái nghĩa | hiện đại ↔ lỗi thời |
-| **western** + **technology** | đi cùng nhau | nhiều hãng *phương Tây* bán laptop, đồ công nghệ ở đây |
-| **technology** → **smart** | cái chung – cái riêng | công nghệ làm ra đồ thông minh |
-| **screen** · **printer** · **button** | cùng chủ đề | các bộ phận, thiết bị quen thuộc |
-| **screen** → **information** | đi cùng nhau | màn hình hiển thị *thông tin* |
-| **totally** · **extremely** | cùng chủ đề | trạng từ nhấn mạnh: hoàn toàn, cực kỳ |
-| **hardware** ↔ **software** | cặp đôi đối lập | hard = cứng (thiết bị), soft = mềm (chương trình) |
-| **install** ↔ **delete** | trái nghĩa | cài vào ↔ xoá đi |
-| **support** → **update** | nhân – quả | máy cũ không còn *hỗ trợ* app mới → phải *cập nhật* |
-| **update** · **replace** · **change** | gần nghĩa | đều là làm cho khác đi: cập nhật, thay thế, thay đổi |
-| **select** + **button** | đi cùng nhau | chọn rồi bấm nút |
-| **power** + **lightning** | đi cùng nhau | sét có thể làm mất điện |
-| **advanced** → **future** | cùng chủ đề | công nghệ càng *tiên tiến*, *tương lai* robot càng làm nhiều việc |
+| **nerd** *(n)* + **technology** *(n)* | đi cùng nhau | mọt máy tính mê công nghệ |
+| **advanced** *(adj)* ↔ **outdated** *(adj)* | trái nghĩa | hiện đại ↔ lỗi thời |
+| **western** *(adj)* + **technology** *(n)* | đi cùng nhau | nhiều hãng *phương Tây* bán laptop, đồ công nghệ ở đây |
+| **technology** *(n)* → **smart** *(adj)* | cái chung – cái riêng | công nghệ làm ra đồ thông minh |
+| **screen** *(n)* · **printer** *(n)* · **button** *(n)* | cùng chủ đề | các bộ phận, thiết bị quen thuộc |
+| **screen** *(n)* → **information** *(n)* | đi cùng nhau | màn hình hiển thị *thông tin* |
+| **totally** *(adv)* · **extremely** *(adv)* | cùng chủ đề | trạng từ nhấn mạnh: hoàn toàn, cực kỳ |
+| **hardware** *(n)* ↔ **software** *(n)* | cặp đôi đối lập | hard = cứng (thiết bị), soft = mềm (chương trình) |
+| **install** *(v)* ↔ **delete** *(v)* | trái nghĩa | cài vào ↔ xoá đi |
+| **support** *(v)* → **update** *(v)* | nhân – quả | máy cũ không còn *hỗ trợ* app mới → phải *cập nhật* |
+| **update** *(v)* · **replace** *(v)* · **change** *(v)* | gần nghĩa | đều là làm cho khác đi: cập nhật, thay thế, thay đổi |
+| **select** *(v)* + **button** *(n)* | đi cùng nhau | chọn rồi bấm nút |
+| **power** *(n)* + **lightning** *(n)* | đi cùng nhau | sét có thể làm mất điện |
+| **advanced** *(adj)* → **future** *(n)* | cùng chủ đề | công nghệ càng *tiên tiến*, *tương lai* robot càng làm nhiều việc |
 
 ## Cụm từ hay dùng
 

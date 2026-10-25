@@ -38,17 +38,17 @@ Từ đài thiên văn trên Trái Đất, cô ấy ngắm Mặt Trăng, các v�
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **star** → **cluster** → **galaxy** | thang kích thước | ngôi sao → cụm sao → thiên hà |
-| **earth** · **moon** · **planet** | cùng chủ đề | các thiên thể quen thuộc |
-| **moon** → **lunar** · **star** → **stellar** | danh từ – tính từ | lunar = thuộc mặt trăng, stellar = thuộc sao |
-| **star** → **direction** | đi cùng nhau | thuỷ thủ nhìn sao để tìm *direction* phương hướng |
-| **observatory** → **spacecraft** | trình tự | quan sát từ xa → bay tới tận nơi |
-| **space** + **travel** | đi cùng nhau | du hành vũ trụ |
-| **life** ↔ **death** | trái nghĩa | sự sống ↔ cái chết |
-| **life** → **liveable** · **alien** | cùng chủ đề | tìm hành tinh sống được, gặp người ngoài hành tinh |
-| **amaze** · **mind-blowing** | gần nghĩa | làm kinh ngạc ↔ choáng ngợp |
-| **shine** ↔ **explode** | cùng chủ đề | sao toả sáng khi sống, nổ tung khi chết |
-| **dust** · **object** · **freeze** | cùng chủ đề | bụi, vật thể trôi nổi trong không gian lạnh giá |
+| **star** *(n)* → **cluster** *(n)* → **galaxy** *(n)* | thang kích thước | ngôi sao → cụm sao → thiên hà |
+| **earth** *(n)* · **moon** *(n)* · **planet** *(n)* | cùng chủ đề | các thiên thể quen thuộc |
+| **moon** *(n)* → **lunar** *(adj)* · **star** *(n)* → **stellar** *(adj)* | danh từ – tính từ | lunar = thuộc mặt trăng, stellar = thuộc sao |
+| **star** *(n)* → **direction** *(n)* | đi cùng nhau | thuỷ thủ nhìn sao để tìm *direction* phương hướng |
+| **observatory** *(n)* → **spacecraft** *(n)* | trình tự | quan sát từ xa → bay tới tận nơi |
+| **space** *(n)* + **travel** *(v)* | đi cùng nhau | du hành vũ trụ |
+| **life** *(n)* ↔ **death** *(n)* | trái nghĩa | sự sống ↔ cái chết |
+| **life** *(n)* → **liveable** *(adj)* · **alien** *(n)* | cùng chủ đề | tìm hành tinh sống được, gặp người ngoài hành tinh |
+| **amaze** *(v)* · **mind-blowing** *(adj)* | gần nghĩa | làm kinh ngạc ↔ choáng ngợp |
+| **shine** *(v)* ↔ **explode** *(v)* | cùng chủ đề | sao toả sáng khi sống, nổ tung khi chết |
+| **dust** *(n)* · **object** *(n)* · **freeze** *(v)* | cùng chủ đề | bụi, vật thể trôi nổi trong không gian lạnh giá |
 
 ## Cụm từ hay dùng
 

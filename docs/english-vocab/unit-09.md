@@ -38,16 +38,16 @@ Cô ấy chuyển đến một căn hộ mới đầy đủ nội thất, có ba
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **flat** ⊂ **building** ⊂ **place** | thang phạm vi | căn hộ nằm trong toà nhà, toà nhà là một địa điểm |
-| **drive** + **away** | đi cùng nhau | *drive away* – lái xe đi xa |
-| **face** + **light** · **view** | đi cùng nhau | căn hộ *faces* hướng nắng nên nhiều *light* và *view* đẹp |
-| **balcony** + **view** | đi cùng nhau | *a balcony with a view* – ban công có tầm nhìn |
-| **fully** + **furniture** | đi cùng nhau | *fully furnished* – đầy đủ nội thất |
-| **bookshelf** · **curtain** · **air conditioner** | cùng chủ đề | các món nội thất trong phòng |
-| **carpet** ↔ **rug** | dễ nhầm | *carpet* = trải kín sàn, *rug* = tấm nhỏ đặt rời |
-| **housemate** ↔ **roommate** → **share** | dễ nhầm | *housemate* = chung nhà, *roommate* = chung phòng – đều phải *share* (dùng chung) đồ đạc |
-| **decorate** + **beautifully** + **antique** | đi cùng nhau | *beautifully decorated with antiques* |
-| **comfortable** ↔ **cramped** | trái nghĩa | thoải mái ↔ chật chội |
+| **flat** *(n)* ⊂ **building** *(n)* ⊂ **place** *(n)* | thang phạm vi | căn hộ nằm trong toà nhà, toà nhà là một địa điểm |
+| **drive** *(v)* + **away** *(adv)* | đi cùng nhau | *drive away* – lái xe đi xa |
+| **face** *(v)* + **light** *(n)* · **view** *(n)* | đi cùng nhau | căn hộ *faces* hướng nắng nên nhiều *light* và *view* đẹp |
+| **balcony** *(n)* + **view** *(n)* | đi cùng nhau | *a balcony with a view* – ban công có tầm nhìn |
+| **fully** *(adv)* + **furniture** *(n)* | đi cùng nhau | *fully furnished* – đầy đủ nội thất |
+| **bookshelf** *(n)* · **curtain** *(n)* · **air conditioner** *(n)* | cùng chủ đề | các món nội thất trong phòng |
+| **carpet** *(n)* ↔ **rug** *(n)* | dễ nhầm | *carpet* = trải kín sàn, *rug* = tấm nhỏ đặt rời |
+| **housemate** *(n)* ↔ **roommate** *(n)* → **share** *(v)* | dễ nhầm | *housemate* = chung nhà, *roommate* = chung phòng – đều phải *share* (dùng chung) đồ đạc |
+| **decorate** *(v)* + **beautifully** *(adv)* + **antique** *(n)* | đi cùng nhau | *beautifully decorated with antiques* |
+| **comfortable** *(adj)* ↔ **cramped** *(adj)* | trái nghĩa | thoải mái ↔ chật chội |
 
 ## Cụm từ hay dùng
 

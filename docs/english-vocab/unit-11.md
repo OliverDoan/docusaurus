@@ -38,16 +38,16 @@ Một cặp đôi lên kế hoạch cho chuyến du lịch đầu tiên cùng nh
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **excited** ↔ **disappointed** | trái nghĩa | hào hứng trước chuyến đi ↔ thất vọng khi bị hoãn |
-| **flight** → **delay** | đi cùng nhau | *flight delay* = chuyến bay bị hoãn |
-| **visa** → **reservation** → **reception** | thứ tự chuyến đi | xin thị thực → đặt chỗ → nhận phòng ở quầy lễ tân |
-| **travelling** · **journey** · **tour** | gần nghĩa | *travelling* = việc đi du lịch nói chung, *journey* = một chặng đi, *tour* = chuyến tham quan có lịch trình |
-| **tour** → **tourist** | cùng họ từ | thêm *-ist* chỉ người: chuyến tham quan → khách du lịch |
-| **destination** · **stay** | cùng chủ đề | nơi đến ↔ quãng thời gian ở lại đó |
-| **adventure** · **discover** · **experience** · **escape** | cùng chủ đề | thoát khỏi thường ngày để phiêu lưu, khám phá, trải nghiệm |
-| **amazing** · **huge** | đi cùng nhau | *an amazing view, a huge city* — hai tính từ khen "wow" |
-| **moment** → **memory** → **postcard** | chuỗi ý | khoảnh khắc trở thành kỉ niệm, lưu lại trên tấm bưu thiếp |
-| **chance** · **nowadays** | đi cùng nhau | *Nowadays, people have more chances to travel.* |
+| **excited** *(adj)* ↔ **disappointed** *(adj)* | trái nghĩa | hào hứng trước chuyến đi ↔ thất vọng khi bị hoãn |
+| **flight** *(n)* → **delay** *(n)* | đi cùng nhau | *flight delay* = chuyến bay bị hoãn |
+| **visa** *(n)* → **reservation** *(n)* → **reception** *(n)* | thứ tự chuyến đi | xin thị thực → đặt chỗ → nhận phòng ở quầy lễ tân |
+| **travelling** *(n)* · **journey** *(n)* · **tour** *(n)* | gần nghĩa | *travelling* = việc đi du lịch nói chung, *journey* = một chặng đi, *tour* = chuyến tham quan có lịch trình |
+| **tour** *(n)* → **tourist** *(n)* | cùng họ từ | thêm *-ist* chỉ người: chuyến tham quan → khách du lịch |
+| **destination** *(n)* · **stay** *(n)* | cùng chủ đề | nơi đến ↔ quãng thời gian ở lại đó |
+| **adventure** *(n)* · **discover** *(v)* · **experience** *(v)* · **escape** *(v)* | cùng chủ đề | thoát khỏi thường ngày để phiêu lưu, khám phá, trải nghiệm |
+| **amazing** *(adj)* · **huge** *(adj)* | đi cùng nhau | *an amazing view, a huge city* — hai tính từ khen "wow" |
+| **moment** *(n)* → **memory** *(n)* → **postcard** *(n)* | chuỗi ý | khoảnh khắc trở thành kỉ niệm, lưu lại trên tấm bưu thiếp |
+| **chance** *(n)* · **nowadays** *(adv)* | đi cùng nhau | *Nowadays, people have more chances to travel.* |
 
 ## Cụm từ hay dùng
 

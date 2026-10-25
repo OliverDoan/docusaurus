@@ -38,16 +38,16 @@ Anh ấy kể cho bạn gái về mùa cưới, các lễ hội và ngày lễ �
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **wedding** · **anniversary** · **celebration** · **party** | cùng chủ đề | các dịp ăn mừng: cưới, kỉ niệm, tiệc |
-| **occasion** ↔ **holiday** | gần nghĩa | *occasion* = dịp đặc biệt bất kỳ; *holiday* = ngày lễ được nghỉ |
-| **festival** · **national** · **public** | đi cùng nhau | *national festival, public holiday* |
-| **lantern** · **firework** | cùng chủ đề | hai thứ làm sáng bầu trời đêm hội |
-| **guest** ↔ **welcome** | đi cùng nhau | *welcome the guests* = đón khách |
-| **relative** · **loved one** | gần nghĩa | họ hàng ↔ người thân yêu (rộng hơn, cả bạn đời, bạn thân) |
-| **pray** → **offering** → **priest** | cùng chủ đề | cầu nguyện, dâng lễ vật, linh mục làm lễ |
-| **luck** · **peace** | đi cùng nhau | lời chúc đầu năm: *wish you luck and peace* |
-| **congratulations** · **exchange** | đi cùng nhau | trao lời chúc mừng, *exchange gifts* = trao quà |
-| **tidy** · **generally** | chuỗi ý | *Generally, we tidy the house before the holiday.* |
+| **wedding** *(n)* · **anniversary** *(n)* · **celebration** *(n)* · **party** *(v)* | cùng chủ đề | các dịp ăn mừng: cưới, kỉ niệm, tiệc |
+| **occasion** *(n)* ↔ **holiday** *(n)* | gần nghĩa | *occasion* = dịp đặc biệt bất kỳ; *holiday* = ngày lễ được nghỉ |
+| **festival** *(n)* · **national** *(adj)* · **public** *(n)* | đi cùng nhau | *national festival, public holiday* |
+| **lantern** *(n)* · **firework** *(n)* | cùng chủ đề | hai thứ làm sáng bầu trời đêm hội |
+| **guest** *(n)* ↔ **welcome** *(v)* | đi cùng nhau | *welcome the guests* = đón khách |
+| **relative** *(n)* · **loved one** *(n)* | gần nghĩa | họ hàng ↔ người thân yêu (rộng hơn, cả bạn đời, bạn thân) |
+| **pray** *(v)* → **offering** *(n)* → **priest** *(n)* | cùng chủ đề | cầu nguyện, dâng lễ vật, linh mục làm lễ |
+| **luck** *(n)* · **peace** *(n)* | đi cùng nhau | lời chúc đầu năm: *wish you luck and peace* |
+| **congratulations** *(n)* · **exchange** *(v)* | đi cùng nhau | trao lời chúc mừng, *exchange gifts* = trao quà |
+| **tidy** *(v)* · **generally** *(adv)* | chuỗi ý | *Generally, we tidy the house before the holiday.* |
 
 ## Cụm từ hay dùng
 

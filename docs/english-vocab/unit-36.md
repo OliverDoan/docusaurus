@@ -38,20 +38,20 @@ title: "Unit 36: Tính cách và cách nhìn người"
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **judge** + **attitude** | đi cùng nhau | đánh giá người qua thái độ |
-| **type** · **attitude** | cùng chủ đề | nhìn *kiểu người* và thái độ để đoán tính cách: *not my type* = không hợp gu |
-| **sociable** ↔ **lonely** | trái nghĩa | hoà đồng ↔ cô đơn |
-| **funny** · **playful** · **joyful** · **hyper** | cùng chủ đề | tính cách vui nhộn, nhiều năng lượng |
-| **playful** · **joyful** | cùng cấu trúc | đuôi -ful = đầy (đầy trò chơi, đầy niềm vui) |
-| **short-tempered** ↔ **easy-going** | trái nghĩa | nóng tính ↔ dễ tính |
-| **kind** · **warm-hearted** | đồng nghĩa | tốt bụng, ấm áp |
-| **kind** → **pushover** | nhân – quả | tốt bụng quá thì dễ bị coi là *người dễ bắt nạt* |
-| **kind** ↔ **cruel** | trái nghĩa | tử tế ↔ tàn nhẫn |
-| **cruel** · **rude** | gần nghĩa | tính xấu: tàn nhẫn, thô lỗ — *rude to the waiter* |
-| **short-tempered** → **mad** | nguyên nhân – kết quả | nóng tính thì dễ nổi điên |
-| **neat** · **girly** · **enthusiast** | cùng chủ đề | nét riêng trong phong cách sống: gọn gàng, điệu đà, *mê* một thứ (*a football enthusiast*) |
-| **trust** ↔ **distance** | trái nghĩa | tin tưởng thì lại gần ↔ không tin thì giữ khoảng cách |
-| **trust** → **develop** → **result** | trình tự | tin nhau → tình bạn *phát triển* → *kết quả* là thành bạn thân (*as a result*) |
+| **judge** *(v)* + **attitude** *(n)* | đi cùng nhau | đánh giá người qua thái độ |
+| **type** *(n)* · **attitude** *(n)* | cùng chủ đề | nhìn *kiểu người* và thái độ để đoán tính cách: *not my type* = không hợp gu |
+| **sociable** *(adj)* ↔ **lonely** *(adj)* | trái nghĩa | hoà đồng ↔ cô đơn |
+| **funny** *(adj)* · **playful** *(adj)* · **joyful** *(adj)* · **hyper** *(adj)* | cùng chủ đề | tính cách vui nhộn, nhiều năng lượng |
+| **playful** *(adj)* · **joyful** *(adj)* | cùng cấu trúc | đuôi -ful = đầy (đầy trò chơi, đầy niềm vui) |
+| **short-tempered** *(adj)* ↔ **easy-going** *(adj)* | trái nghĩa | nóng tính ↔ dễ tính |
+| **kind** *(adj)* · **warm-hearted** *(adj)* | đồng nghĩa | tốt bụng, ấm áp |
+| **kind** *(adj)* → **pushover** *(n)* | nhân – quả | tốt bụng quá thì dễ bị coi là *người dễ bắt nạt* |
+| **kind** *(adj)* ↔ **cruel** *(adj)* | trái nghĩa | tử tế ↔ tàn nhẫn |
+| **cruel** *(adj)* · **rude** *(adj)* | gần nghĩa | tính xấu: tàn nhẫn, thô lỗ — *rude to the waiter* |
+| **short-tempered** *(adj)* → **mad** *(adj)* | nguyên nhân – kết quả | nóng tính thì dễ nổi điên |
+| **neat** *(adj)* · **girly** *(adj)* · **enthusiast** *(n)* | cùng chủ đề | nét riêng trong phong cách sống: gọn gàng, điệu đà, *mê* một thứ (*a football enthusiast*) |
+| **trust** *(v)* ↔ **distance** *(n)* | trái nghĩa | tin tưởng thì lại gần ↔ không tin thì giữ khoảng cách |
+| **trust** *(v)* → **develop** *(v)* → **result** *(n)* | trình tự | tin nhau → tình bạn *phát triển* → *kết quả* là thành bạn thân (*as a result*) |
 
 ## Cụm từ hay dùng
 

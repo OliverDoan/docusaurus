@@ -38,16 +38,16 @@ Thất nghiệp và gần như tuyệt vọng, anh ấy vay vốn mở công ty 
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **unemployment** → **start-up** | trình tự | thất nghiệp thì tự khởi nghiệp |
-| **loan** · **cheque** · **transfer** · **currency** | cùng chủ đề | những thứ liên quan đến tiền và ngân hàng |
-| **research** → **product** → **customer** | trình tự | nghiên cứu → làm sản phẩm → bán cho khách |
-| **goods** · **product** | gần nghĩa | hàng hoá nói chung ↔ một sản phẩm cụ thể |
-| **trade** + **abroad** | đi cùng nhau | buôn bán ra nước ngoài |
-| **hopeless** ↔ **possible** | trái nghĩa | vô vọng ↔ còn có thể |
-| **situation** → **recover** | đi cùng nhau | tình hình xấu rồi hồi phục |
-| **discussion** → **advice** | trình tự | thảo luận xong thì nhận lời khuyên |
-| **business** + **manage** · **professional** | đi cùng nhau | quản lý doanh nghiệp chuyên nghiệp |
-| **average** · **percent** · **financial** | cùng chủ đề | từ dùng trong báo cáo số liệu |
+| **unemployment** *(n)* → **start-up** *(n)* | trình tự | thất nghiệp thì tự khởi nghiệp |
+| **loan** *(n)* · **cheque** *(n)* · **transfer** *(v)* · **currency** *(n)* | cùng chủ đề | những thứ liên quan đến tiền và ngân hàng |
+| **research** *(n)* → **product** *(n)* → **customer** *(n)* | trình tự | nghiên cứu → làm sản phẩm → bán cho khách |
+| **goods** *(n)* · **product** *(n)* | gần nghĩa | hàng hoá nói chung ↔ một sản phẩm cụ thể |
+| **trade** *(v)* + **abroad** *(adv)* | đi cùng nhau | buôn bán ra nước ngoài |
+| **hopeless** *(adj)* ↔ **possible** *(adj)* | trái nghĩa | vô vọng ↔ còn có thể |
+| **situation** *(n)* → **recover** *(v)* | đi cùng nhau | tình hình xấu rồi hồi phục |
+| **discussion** *(n)* → **advice** *(n)* | trình tự | thảo luận xong thì nhận lời khuyên |
+| **business** *(n)* + **manage** *(v)* · **professional** *(adj)* | đi cùng nhau | quản lý doanh nghiệp chuyên nghiệp |
+| **average** *(adj)* · **percent** *(n)* · **financial** *(adj)* | cùng chủ đề | từ dùng trong báo cáo số liệu |
 
 ## Cụm từ hay dùng
 

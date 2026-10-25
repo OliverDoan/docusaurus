@@ -38,17 +38,17 @@ Xa nhà, cô ấy thấy nhớ nhà, buồn chán và ẩm ương; may có ngư�
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **human** + **feeling** | đi cùng nhau | con người ai cũng có cảm xúc |
-| **mood** → **moody** | cùng gốc | tâm trạng + -y = hay đổi tâm trạng |
-| **confused** · **jealous** · **homesick** | cùng chủ đề | cảm xúc tiêu cực hay gặp |
-| **dull** · **gloomy** | gần nghĩa | u ám, buồn tẻ — dùng cho cả trời và tâm trạng |
-| **sadness** ↔ **happiness** | trái nghĩa | cùng đuôi -ness tạo danh từ |
-| **depressed** ↔ **delighted** | trái nghĩa | chán nản ↔ vui sướng |
-| **lie** → **fault** → **ashamed** | nguyên nhân – kết quả | nói dối, có lỗi rồi thấy xấu hổ |
-| **willing** · **helpful** | cùng chủ đề | tính cách sẵn lòng giúp người |
-| **feed** · **pamper** | gần nghĩa | chăm sóc, chiều chuộng ai đó |
-| **grateful** + **enough** | đi cùng nhau | biết ơn bao nhiêu cũng không đủ |
-| **serious** ↔ **laugh** | đối lập | mặt *nghiêm túc* ↔ bật *cười* — *Are you serious?* = thật hay đùa vậy? |
+| **human** *(n)* + **feeling** *(n)* | đi cùng nhau | con người ai cũng có cảm xúc |
+| **mood** *(n)* → **moody** *(adj)* | cùng gốc | tâm trạng + -y = hay đổi tâm trạng |
+| **confused** *(adj)* · **jealous** *(adj)* · **homesick** *(adj)* | cùng chủ đề | cảm xúc tiêu cực hay gặp |
+| **dull** *(adj)* · **gloomy** *(adj)* | gần nghĩa | u ám, buồn tẻ — dùng cho cả trời và tâm trạng |
+| **sadness** *(n)* ↔ **happiness** *(n)* | trái nghĩa | cùng đuôi -ness tạo danh từ |
+| **depressed** *(adj)* ↔ **delighted** *(adj)* | trái nghĩa | chán nản ↔ vui sướng |
+| **lie** *(v)* → **fault** *(n)* → **ashamed** *(adj)* | nguyên nhân – kết quả | nói dối, có lỗi rồi thấy xấu hổ |
+| **willing** *(adj)* · **helpful** *(adj)* | cùng chủ đề | tính cách sẵn lòng giúp người |
+| **feed** *(v)* · **pamper** *(v)* | gần nghĩa | chăm sóc, chiều chuộng ai đó |
+| **grateful** *(adj)* + **enough** *(adv)* | đi cùng nhau | biết ơn bao nhiêu cũng không đủ |
+| **serious** *(adj)* ↔ **laugh** *(v)* | đối lập | mặt *nghiêm túc* ↔ bật *cười* — *Are you serious?* = thật hay đùa vậy? |
 
 ## Cụm từ hay dùng
 

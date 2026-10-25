@@ -38,20 +38,20 @@ Làm việc chăm chỉ đến mức ám ảnh, một cô gái học cách ngh�
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **hard** · **stressful** · **obsess** | cùng chủ đề | làm việc quá sức sinh căng thẳng, ám ảnh |
-| **quite** + **stressful** | thang mức độ | *quite* (khá) < *really* (thật sự): *quite stressful* = khá căng thẳng |
-| **hard** · hardly | dễ nhầm | hard = chăm chỉ; hardly = hầu như không |
-| **forget** · **waste** | cùng chủ đề | quên ăn, coi nghỉ ngơi là phí thời gian |
-| **detective** + **defeat** | đi cùng nhau | thám tử đánh bại tội phạm |
-| **free** · **noon** · **break** | cùng chủ đề | giờ rảnh, nghỉ trưa |
-| **proper** + **break** | đi cùng nhau | *a proper break / a proper lunch* – nghỉ, ăn cho đàng hoàng |
-| **lie** + **imagine** | tình huống | *lie* xuống, nhắm mắt *imagine* (tưởng tượng) một bãi biển yên tĩnh |
-| **silent** · **calm** · **meditate** | cùng chủ đề | thiền trong im lặng để bình tĩnh |
-| **rest** · **relaxation** · **sleep** | gần nghĩa | các cách cho cơ thể nghỉ |
-| **lazy** ↔ **active** | trái nghĩa | lười biếng ↔ năng động |
-| **lie** → **sleep** → **dream** | trình tự | nằm xuống → ngủ → mơ |
-| **sleep** + **through** | đi cùng nhau | *sleep through the night* – ngủ một mạch tới sáng |
-| **lie** (nằm) · lie (nói dối) | dễ nhầm | lie – lay – lain (nằm) ↔ lie – lied – lied (nói dối) |
+| **hard** *(adv)* · **stressful** *(adj)* · **obsess** *(v)* | cùng chủ đề | làm việc quá sức sinh căng thẳng, ám ảnh |
+| **quite** *(adv)* + **stressful** *(adj)* | thang mức độ | *quite* (khá) < *really* (thật sự): *quite stressful* = khá căng thẳng |
+| **hard** *(adv)* · hardly *(adv)* | dễ nhầm | hard = chăm chỉ; hardly = hầu như không |
+| **forget** *(v)* · **waste** *(v)* | cùng chủ đề | quên ăn, coi nghỉ ngơi là phí thời gian |
+| **detective** *(n)* + **defeat** *(v)* | đi cùng nhau | thám tử đánh bại tội phạm |
+| **free** *(adj)* · **noon** *(n)* · **break** *(n)* | cùng chủ đề | giờ rảnh, nghỉ trưa |
+| **proper** *(adj)* + **break** *(n)* | đi cùng nhau | *a proper break / a proper lunch* – nghỉ, ăn cho đàng hoàng |
+| **lie** *(v)* + **imagine** *(v)* | tình huống | *lie* xuống, nhắm mắt *imagine* (tưởng tượng) một bãi biển yên tĩnh |
+| **silent** *(adj)* · **calm** *(adj)* · **meditate** *(v)* | cùng chủ đề | thiền trong im lặng để bình tĩnh |
+| **rest** *(v)* · **relaxation** *(n)* · **sleep** *(v)* | gần nghĩa | các cách cho cơ thể nghỉ |
+| **lazy** *(adj)* ↔ **active** *(adj)* | trái nghĩa | lười biếng ↔ năng động |
+| **lie** *(v)* → **sleep** *(v)* → **dream** *(n)* | trình tự | nằm xuống → ngủ → mơ |
+| **sleep** *(v)* + **through** *(prep)* | đi cùng nhau | *sleep through the night* – ngủ một mạch tới sáng |
+| **lie** *(v)* (nằm) · lie *(v)* (nói dối) | dễ nhầm | lie – lay – lain (nằm) ↔ lie – lied – lied (nói dối) |
 
 ## Cụm từ hay dùng
 

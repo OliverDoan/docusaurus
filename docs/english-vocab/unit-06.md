@@ -38,16 +38,16 @@ Cô ấy tiêu tiền quá tay, đến cuối tháng thì cháy túi và học �
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **borrow** ↔ **lend** | dễ nhầm | *borrow* = mượn **vào** (from), *lend* = cho mượn **ra** (to) |
-| **borrow** → **owe** | nguyên nhân – kết quả | vay xong thì mang nợ: *owe someone money* |
-| **cheap** → **reasonable** → **expensive** | thang giá | rẻ → vừa phải → đắt |
-| **rich** ↔ **broke** | trái nghĩa | giàu ↔ cháy túi |
-| **spend** ↔ **save** | trái nghĩa | tiêu tiền ↔ để dành tiền |
-| **wasteful** ↔ **generous** | dễ nhầm | *wasteful* = phí phạm cho bản thân, *generous* = rộng rãi với người khác |
-| **cost** · **expense** · **price** | gần nghĩa | *price* = giá ghi trên món hàng, *cost* = cái giá phải trả, *expense* = khoản đã chi |
-| **bill** · **fee** · **rent** · **due** | cùng chủ đề | hoá đơn, lệ phí, tiền nhà – đều có hạn *due* phải trả |
-| **raise** ↔ **decrease** | trái nghĩa | tăng (lương) ↔ giảm |
-| **manage** + **note** + **luxury** | đi cùng nhau | ghi *note* từng khoản để *manage* tiền, bớt mua đồ *luxury* |
+| **borrow** *(v)* ↔ **lend** *(v)* | dễ nhầm | *borrow* = mượn **vào** (from), *lend* = cho mượn **ra** (to) |
+| **borrow** *(v)* → **owe** *(v)* | nguyên nhân – kết quả | vay xong thì mang nợ: *owe someone money* |
+| **cheap** *(adj)* → **reasonable** *(adj)* → **expensive** *(adj)* | thang giá | rẻ → vừa phải → đắt |
+| **rich** *(adj)* ↔ **broke** *(adj)* | trái nghĩa | giàu ↔ cháy túi |
+| **spend** *(v)* ↔ **save** *(v)* | trái nghĩa | tiêu tiền ↔ để dành tiền |
+| **wasteful** *(adj)* ↔ **generous** *(adj)* | dễ nhầm | *wasteful* = phí phạm cho bản thân, *generous* = rộng rãi với người khác |
+| **cost** *(n)* · **expense** *(n)* · **price** *(n)* | gần nghĩa | *price* = giá ghi trên món hàng, *cost* = cái giá phải trả, *expense* = khoản đã chi |
+| **bill** *(n)* · **fee** *(n)* · **rent** *(n)* · **due** *(adj)* | cùng chủ đề | hoá đơn, lệ phí, tiền nhà – đều có hạn *due* phải trả |
+| **raise** *(n)* ↔ **decrease** *(v)* | trái nghĩa | tăng (lương) ↔ giảm |
+| **manage** *(v)* + **note** *(n)* + **luxury** *(n)* | đi cùng nhau | ghi *note* từng khoản để *manage* tiền, bớt mua đồ *luxury* |
 
 ## Cụm từ hay dùng
 

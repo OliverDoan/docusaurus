@@ -38,16 +38,16 @@ Một bạn trẻ giới thiệu bản thân: quê hương, nơi sống, thông 
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **nickname** ↔ **surname** | dễ nhầm | *nickname* = biệt danh; *surname* = họ |
-| **town** ↔ **hometown** | cùng họ từ | *hometown* = home + town: thị trấn/quê nhà |
-| **north** ↔ **south** | trái nghĩa | phía bắc ↔ phía nam |
-| **peaceful** ↔ **crowded** | trái nghĩa | yên bình ↔ đông đúc |
-| **special** ↔ **common** | trái nghĩa | đặc biệt ↔ thông thường |
-| **tell** ↔ **describe** | gần nghĩa | *tell* = kể; *describe* = mô tả chi tiết |
-| **call** → **meaning** → **know** | đi cùng nhau | *what do they call you?* → nghĩa là gì → giờ thì đã biết |
-| **spell** → **sign** | thang thủ tục | đánh vần tên → ký tên vào giấy |
-| **address** · **contact** · **distance** | cùng chủ đề | địa chỉ, thông tin liên lạc, khoảng cách đến nơi ở |
-| **live** → **centre** → **beautiful** · **favourite** | cùng chủ đề | sống ở trung tâm, mô tả nơi đẹp, yêu thích |
+| **nickname** *(n)* ↔ **surname** *(n)* | dễ nhầm | *nickname* = biệt danh; *surname* = họ |
+| **town** *(n)* ↔ **hometown** *(n)* | cùng họ từ | *hometown* = home + town: thị trấn/quê nhà |
+| **north** *(n)* ↔ **south** *(n)* | trái nghĩa | phía bắc ↔ phía nam |
+| **peaceful** *(adj)* ↔ **crowded** *(adj)* | trái nghĩa | yên bình ↔ đông đúc |
+| **special** *(adj)* ↔ **common** *(adj)* | trái nghĩa | đặc biệt ↔ thông thường |
+| **tell** *(v)* ↔ **describe** *(v)* | gần nghĩa | *tell* = kể; *describe* = mô tả chi tiết |
+| **call** *(v)* → **meaning** *(n)* → **know** *(v)* | đi cùng nhau | *what do they call you?* → nghĩa là gì → giờ thì đã biết |
+| **spell** *(v)* → **sign** *(v)* | thang thủ tục | đánh vần tên → ký tên vào giấy |
+| **address** *(n)* · **contact** *(n)* · **distance** *(n)* | cùng chủ đề | địa chỉ, thông tin liên lạc, khoảng cách đến nơi ở |
+| **live** *(v)* → **centre** *(n)* → **beautiful** *(adj)* · **favourite** *(adj)* | cùng chủ đề | sống ở trung tâm, mô tả nơi đẹp, yêu thích |
 
 ## Cụm từ hay dùng
 

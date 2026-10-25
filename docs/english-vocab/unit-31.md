@@ -38,18 +38,18 @@ Ban nhạc biểu diễn trực tiếp những giai điệu bắt tai, khán gi�
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **musician** · **singer** → **style** | cùng chủ đề | người chơi nhạc ↔ người hát, mỗi người một *phong cách* riêng: *her style of music* |
-| **flute** · **guitar** · **drum** → **instrument** | cái riêng – cái chung | sáo, ghi ta, trống đều là nhạc cụ |
-| **play** + **instrument** | đi cùng nhau | play the guitar / drums |
-| **perform** + **live** | đi cùng nhau | biểu diễn trực tiếp trên sân khấu |
-| **perform** ↔ **record** | đối lập | hát tại chỗ ↔ thu âm trong phòng |
-| **tune** · **lyrics** | cùng chủ đề | bài hát = giai điệu + lời |
-| **catchy** · **upbeat** | đồng nghĩa gần | bài hát bắt tai, sôi động |
-| **classical** ↔ **electronic** | đối lập | nhạc cổ điển ↔ nhạc điện tử |
-| **loud** → **volume** | đi cùng nhau | nhạc quá to thì vặn nhỏ âm lượng: *turn the volume down* |
-| **loud** ↔ **quietly** | trái nghĩa | to ồn ↔ khe khẽ |
-| **clap** + **encourage** | đi cùng nhau | khán giả *vỗ tay* để *khích lệ* người biểu diễn |
-| **remind** → **cry** | nhân – quả | bài hát gợi nhớ → bật khóc |
+| **musician** *(n)* · **singer** *(n)* → **style** *(n)* | cùng chủ đề | người chơi nhạc ↔ người hát, mỗi người một *phong cách* riêng: *her style of music* |
+| **flute** *(n)* · **guitar** *(n)* · **drum** *(n)* → **instrument** *(n)* | cái riêng – cái chung | sáo, ghi ta, trống đều là nhạc cụ |
+| **play** *(v)* + **instrument** *(n)* | đi cùng nhau | play the guitar / drums |
+| **perform** *(v)* + **live** *(adj)* | đi cùng nhau | biểu diễn trực tiếp trên sân khấu |
+| **perform** *(v)* ↔ **record** *(v)* | đối lập | hát tại chỗ ↔ thu âm trong phòng |
+| **tune** *(n)* · **lyrics** *(n)* | cùng chủ đề | bài hát = giai điệu + lời |
+| **catchy** *(adj)* · **upbeat** *(adj)* | đồng nghĩa gần | bài hát bắt tai, sôi động |
+| **classical** *(adj)* ↔ **electronic** *(adj)* | đối lập | nhạc cổ điển ↔ nhạc điện tử |
+| **loud** *(adj)* → **volume** *(n)* | đi cùng nhau | nhạc quá to thì vặn nhỏ âm lượng: *turn the volume down* |
+| **loud** *(adj)* ↔ **quietly** *(adv)* | trái nghĩa | to ồn ↔ khe khẽ |
+| **clap** *(v)* + **encourage** *(v)* | đi cùng nhau | khán giả *vỗ tay* để *khích lệ* người biểu diễn |
+| **remind** *(v)* → **cry** *(v)* | nhân – quả | bài hát gợi nhớ → bật khóc |
 
 ## Cụm từ hay dùng
 

@@ -38,19 +38,19 @@ Một nữ diễn viên nổi tiếng bước qua cánh cổng mạ vàng tới 
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **celebrity** · **star** | đồng nghĩa gần | người nổi tiếng = ngôi sao |
-| **actress** · **model** | cùng chủ đề | nghề của người nổi tiếng |
-| **actress** + **lucky** | đi cùng nhau | *lucky to get the role* = may mắn được nhận vai |
-| **comedy** · **drama** · **cartoon** → **film** | cái riêng – cái chung | các thể loại phim |
-| **interested** → **fan** | thang mức độ | có hứng thú → thành người hâm mộ |
-| **fan** + **scream** | đi cùng nhau | fan cuồng thét lên khi thấy thần tượng |
-| **fan** → **copy** | nhân – quả | hâm mộ → bắt chước phong cách |
-| **paparazzi** ↔ **private** | đối lập | thợ săn ảnh xâm phạm sự riêng tư |
-| **private** · **personal** | đồng nghĩa gần | riêng tư, thuộc về cá nhân |
-| **golden** · **shiny** · **fancy** | cùng chủ đề | những thứ hào nhoáng, sang chảnh |
-| **celebrity** + **charity** | đi cùng nhau | người nổi tiếng hay làm từ thiện: *give money to charity* |
-| **gate** + **enter** | đi cùng nhau | đi vào qua cổng |
-| **immigration** · **refuse** | cùng chủ đề | bị từ chối ở cửa nhập cảnh |
+| **celebrity** *(n)* · **star** *(n)* | đồng nghĩa gần | người nổi tiếng = ngôi sao |
+| **actress** *(n)* · **model** *(n)* | cùng chủ đề | nghề của người nổi tiếng |
+| **actress** *(n)* + **lucky** *(adj)* | đi cùng nhau | *lucky to get the role* = may mắn được nhận vai |
+| **comedy** *(n)* · **drama** *(n)* · **cartoon** *(n)* → **film** *(n)* | cái riêng – cái chung | các thể loại phim |
+| **interested** *(adj)* → **fan** *(n)* | thang mức độ | có hứng thú → thành người hâm mộ |
+| **fan** *(n)* + **scream** *(v)* | đi cùng nhau | fan cuồng thét lên khi thấy thần tượng |
+| **fan** *(n)* → **copy** *(v)* | nhân – quả | hâm mộ → bắt chước phong cách |
+| **paparazzi** *(n)* ↔ **private** *(adj)* | đối lập | thợ săn ảnh xâm phạm sự riêng tư |
+| **private** *(adj)* · **personal** *(adj)* | đồng nghĩa gần | riêng tư, thuộc về cá nhân |
+| **golden** *(adj)* · **shiny** *(adj)* · **fancy** *(adj)* | cùng chủ đề | những thứ hào nhoáng, sang chảnh |
+| **celebrity** *(n)* + **charity** *(n)* | đi cùng nhau | người nổi tiếng hay làm từ thiện: *give money to charity* |
+| **gate** *(n)* + **enter** *(v)* | đi cùng nhau | đi vào qua cổng |
+| **immigration** *(n)* · **refuse** *(v)* | cùng chủ đề | bị từ chối ở cửa nhập cảnh |
 
 ## Cụm từ hay dùng
 

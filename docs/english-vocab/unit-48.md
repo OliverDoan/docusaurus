@@ -38,18 +38,18 @@ Người dân đi bỏ phiếu chọn lãnh đạo, chính phủ họp hội ngh
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **request** → **demand** | thang mức độ | đề nghị nhẹ nhàng → đòi hỏi mạnh mẽ |
-| **agree** ↔ **demand** | đi cùng nhau | một bên đòi hỏi, bên kia đồng ý hay không |
-| **allow** → **decision** | đi cùng nhau | quyết định có cho phép hay không |
-| **power** → **leader** · **conference** | cùng chủ đề | người lãnh đạo nắm *power* quyền lực, gặp nhau ở *conference* hội nghị |
-| **leader** → **president** · **politician** | cái chung – cái riêng | tổng thống, chính trị gia đều là người lãnh đạo |
-| **government** · **state** · **party** | cùng chủ đề | các tổ chức quyền lực của một quốc gia |
-| **vote** → **change** | trình tự | bỏ phiếu để tạo ra thay đổi |
-| **vote** + **suitable** · **leader** | đi cùng nhau | bỏ phiếu chọn người *suitable* phù hợp làm lãnh đạo |
-| **soldier** · **patriot** → **independence** | cùng chủ đề | người lính, người yêu nước chiến đấu vì độc lập |
-| **issue** · **case** | cùng chủ đề | vấn đề chung ↔ một trường hợp cụ thể |
-| **goal** ↔ **uninterested** | trái nghĩa | có mục tiêu thì quan tâm, thờ ơ thì không có mục tiêu |
-| **nationality** · **state** | cùng chủ đề | quốc tịch gắn với một nhà nước |
+| **request** *(n)* → **demand** *(v)* | thang mức độ | đề nghị nhẹ nhàng → đòi hỏi mạnh mẽ |
+| **agree** *(v)* ↔ **demand** *(v)* | đi cùng nhau | một bên đòi hỏi, bên kia đồng ý hay không |
+| **allow** *(v)* → **decision** *(n)* | đi cùng nhau | quyết định có cho phép hay không |
+| **power** *(n)* → **leader** *(n)* · **conference** *(n)* | cùng chủ đề | người lãnh đạo nắm *power* quyền lực, gặp nhau ở *conference* hội nghị |
+| **leader** *(n)* → **president** *(n)* · **politician** *(n)* | cái chung – cái riêng | tổng thống, chính trị gia đều là người lãnh đạo |
+| **government** *(n)* · **state** *(n)* · **party** *(n)* | cùng chủ đề | các tổ chức quyền lực của một quốc gia |
+| **vote** *(v)* → **change** *(n)* | trình tự | bỏ phiếu để tạo ra thay đổi |
+| **vote** *(v)* + **suitable** *(adj)* · **leader** *(n)* | đi cùng nhau | bỏ phiếu chọn người *suitable* phù hợp làm lãnh đạo |
+| **soldier** *(n)* · **patriot** *(n)* → **independence** *(n)* | cùng chủ đề | người lính, người yêu nước chiến đấu vì độc lập |
+| **issue** *(n)* · **case** *(n)* | cùng chủ đề | vấn đề chung ↔ một trường hợp cụ thể |
+| **goal** *(n)* ↔ **uninterested** *(adj)* | trái nghĩa | có mục tiêu thì quan tâm, thờ ơ thì không có mục tiêu |
+| **nationality** *(n)* · **state** *(n)* | cùng chủ đề | quốc tịch gắn với một nhà nước |
 
 ## Cụm từ hay dùng
 

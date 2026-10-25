@@ -38,17 +38,17 @@ Cô nàng nghiện mua sắm lượn khắp trung tâm thương mại mùa xả 
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **shopaholic** + **overspend** | đi cùng nhau | nghiện mua sắm thì hay tiêu quá tay |
-| **shopping** · **mall** · **shelf** | cùng chủ đề | đi mua sắm ở trung tâm, chọn đồ trên kệ |
-| **sale** · **clearance** · **discount** · **bargain** | cùng chủ đề | giảm giá, xả hàng → vớ được món hời |
-| **order** → **delivery** → **receipt** | trình tự | đặt hàng → giao hàng → nhận hóa đơn |
-| **order** ↔ **cancel** | trái nghĩa | đặt ↔ hủy |
-| **return** · **exchange** | gần nghĩa | trả lại hàng / đổi hàng khác |
-| **damaged** → **return** | nguyên nhân – kết quả | hàng hỏng thì mang đi trả |
-| **rare** · **unusual** · **ancient** | cùng chủ đề | đồ hiếm, lạ, cổ — thường rất đắt |
-| **inexpensive** · **wholesale** | cùng chủ đề | mua sỉ thì giá rẻ hơn |
-| **seller** · **cash** | đi cùng nhau | trả tiền mặt cho người bán |
-| **gift** + **receipt** → **exchange** | đi cùng nhau | *gift receipt* = hoá đơn quà tặng, người nhận cầm nó đi đổi hàng khác |
+| **shopaholic** *(n)* + **overspend** *(v)* | đi cùng nhau | nghiện mua sắm thì hay tiêu quá tay |
+| **shopping** *(n)* · **mall** *(n)* · **shelf** *(n)* | cùng chủ đề | đi mua sắm ở trung tâm, chọn đồ trên kệ |
+| **sale** *(n)* · **clearance** *(n)* · **discount** *(n)* · **bargain** *(n)* | cùng chủ đề | giảm giá, xả hàng → vớ được món hời |
+| **order** *(v)* → **delivery** *(n)* → **receipt** *(n)* | trình tự | đặt hàng → giao hàng → nhận hóa đơn |
+| **order** *(v)* ↔ **cancel** *(v)* | trái nghĩa | đặt ↔ hủy |
+| **return** *(v)* · **exchange** *(v)* | gần nghĩa | trả lại hàng / đổi hàng khác |
+| **damaged** *(adj)* → **return** *(v)* | nguyên nhân – kết quả | hàng hỏng thì mang đi trả |
+| **rare** *(adj)* · **unusual** *(adj)* · **ancient** *(adj)* | cùng chủ đề | đồ hiếm, lạ, cổ — thường rất đắt |
+| **inexpensive** *(adj)* · **wholesale** *(adj)* | cùng chủ đề | mua sỉ thì giá rẻ hơn |
+| **seller** *(n)* · **cash** *(n)* | đi cùng nhau | trả tiền mặt cho người bán |
+| **gift** *(n)* + **receipt** *(n)* → **exchange** *(v)* | đi cùng nhau | *gift receipt* = hoá đơn quà tặng, người nhận cầm nó đi đổi hàng khác |
 
 ## Cụm từ hay dùng
 

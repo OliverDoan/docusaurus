@@ -38,18 +38,18 @@ Từ một cơn cảm lạnh với ho và đau họng, cô ấy lo sợ mình m�
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **ill** → **cold** · **flu** | cái chung – cái riêng | *ill* = bị ốm nói chung; cảm lạnh nhẹ, cúm nặng hơn |
-| **cough** · **sore** **throat** · **headache** | triệu chứng | ho, đau họng, đau đầu |
-| **ache** → **headache** | gốc từ | head + ache; còn có toothache, backache |
-| **ache** · **pain** · **hurt** | gần nghĩa | ache âm ỉ, pain cơn đau nói chung, hurt là động từ |
-| **fear** · **seriously** | cùng chủ đề | sợ bệnh nghiêm trọng |
-| **disease** · **cancer** · **diabetes** · **autism** | cái chung – cái riêng | các loại bệnh / tình trạng lâu dài |
-| **suffer** + **disease** | đi cùng nhau | *suffer from a disease / back pain* – mắc bệnh, chịu đựng cơn đau |
-| **curable** ↔ incurable | trái nghĩa | cure (chữa) + -able |
-| **injure** → **bleed** | nguyên nhân – kết quả | bị thương thì chảy máu |
-| **check** → **prescription** | trình tự | bác sĩ *check* (khám) → kê *prescription* (đơn thuốc) |
-| **prescription** · **drop** | cùng chủ đề | đơn thuốc ghi nhỏ mấy giọt |
-| **ease** + **pain** | đi cùng nhau | làm dịu cơn đau |
+| **ill** *(adj)* → **cold** *(n)* · **flu** *(n)* | cái chung – cái riêng | *ill* = bị ốm nói chung; cảm lạnh nhẹ, cúm nặng hơn |
+| **cough** *(v)* · **sore** *(adj)* **throat** *(n)* · **headache** *(n)* | triệu chứng | ho, đau họng, đau đầu |
+| **ache** *(n)* → **headache** *(n)* | gốc từ | head + ache; còn có toothache, backache |
+| **ache** *(n)* · **pain** *(n)* · **hurt** *(v)* | gần nghĩa | ache âm ỉ, pain cơn đau nói chung, hurt là động từ |
+| **fear** *(n)* · **seriously** *(adv)* | cùng chủ đề | sợ bệnh nghiêm trọng |
+| **disease** *(n)* · **cancer** *(n)* · **diabetes** *(n)* · **autism** *(n)* | cái chung – cái riêng | các loại bệnh / tình trạng lâu dài |
+| **suffer** *(v)* + **disease** *(n)* | đi cùng nhau | *suffer from a disease / back pain* – mắc bệnh, chịu đựng cơn đau |
+| **curable** *(adj)* ↔ incurable *(adj)* | trái nghĩa | cure (chữa) + -able |
+| **injure** *(v)* → **bleed** *(v)* | nguyên nhân – kết quả | bị thương thì chảy máu |
+| **check** *(v)* → **prescription** *(n)* | trình tự | bác sĩ *check* (khám) → kê *prescription* (đơn thuốc) |
+| **prescription** *(n)* · **drop** *(n)* | cùng chủ đề | đơn thuốc ghi nhỏ mấy giọt |
+| **ease** *(v)* + **pain** *(n)* | đi cùng nhau | làm dịu cơn đau |
 
 ## Cụm từ hay dùng
 

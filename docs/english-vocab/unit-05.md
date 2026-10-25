@@ -38,16 +38,16 @@ title: "Unit 5: Hành trình tìm việc"
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **jobless** ↔ **employed** | trái nghĩa | thất nghiệp ↔ có việc làm |
-| **employed** ↔ **freelancer** | dễ nhầm | *employed* = làm cho công ty; *freelancer* = làm tự do |
-| **prepare** → **application** → **interview** → **contract** | thang tìm việc | chuẩn bị → nộp đơn → phỏng vấn → ký hợp đồng |
-| **document** ↔ **file** | gần nghĩa | *document* = một văn bản; *file* = tập hồ sơ chứa nhiều văn bản |
-| **prepare** ↔ **arrange** | gần nghĩa | chuẩn bị đồ ↔ sắp xếp cho gọn |
-| **reporter** ↔ **photographer** | đi cùng nhau | phóng viên viết tin, nhiếp ảnh gia chụp ảnh |
-| **film maker** · **musician** · **designer** | cùng nhóm | nghề sáng tạo |
-| **secretary** · **bank teller** · **nurse** · **builder** | cùng nhóm | nghề phục vụ, hỗ trợ |
-| **qualified** → **expert** | thang năng lực | đủ năng lực → chuyên gia |
-| **tool** ↔ **customer** · **career** | cùng chủ đề | *tool* để làm việc, *customer* để phục vụ, *career* là con đường dài hạn |
+| **jobless** *(adj)* ↔ **employed** *(adj)* | trái nghĩa | thất nghiệp ↔ có việc làm |
+| **employed** *(adj)* ↔ **freelancer** *(n)* | dễ nhầm | *employed* = làm cho công ty; *freelancer* = làm tự do |
+| **prepare** *(v)* → **application** *(n)* → **interview** *(n)* → **contract** *(n)* | thang tìm việc | chuẩn bị → nộp đơn → phỏng vấn → ký hợp đồng |
+| **document** *(n)* ↔ **file** *(n)* | gần nghĩa | *document* = một văn bản; *file* = tập hồ sơ chứa nhiều văn bản |
+| **prepare** *(v)* ↔ **arrange** *(v)* | gần nghĩa | chuẩn bị đồ ↔ sắp xếp cho gọn |
+| **reporter** *(n)* ↔ **photographer** *(n)* | đi cùng nhau | phóng viên viết tin, nhiếp ảnh gia chụp ảnh |
+| **film maker** *(n)* · **musician** *(n)* · **designer** *(n)* | cùng nhóm | nghề sáng tạo |
+| **secretary** *(n)* · **bank teller** *(n)* · **nurse** *(n)* · **builder** *(n)* | cùng nhóm | nghề phục vụ, hỗ trợ |
+| **qualified** *(adj)* → **expert** *(n)* | thang năng lực | đủ năng lực → chuyên gia |
+| **tool** *(n)* ↔ **customer** *(n)* · **career** *(n)* | cùng chủ đề | *tool* để làm việc, *customer* để phục vụ, *career* là con đường dài hạn |
 
 ## Cụm từ hay dùng
 

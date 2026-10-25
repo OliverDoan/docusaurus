@@ -38,17 +38,17 @@ Giờ cao điểm giao thông đông đúc, người ta bấm còi inh ỏi, m�
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **traffic** + **heavy** | đi cùng nhau | heavy traffic = kẹt xe, đông đúc |
-| **light** → **patient** ↔ **annoyed** | tình huống, trái nghĩa | chờ đèn đỏ: kiên nhẫn ↔ bực mình bấm còi |
-| **honk** + **annoyed** | nhân – quả | bị bấm còi thì bực mình |
-| **cyclist** · **pedestrian** · **passenger** | cùng chủ đề | những người tham gia giao thông |
-| **hole** → **push** | tình huống | xe sập *hole* (ổ gà) hỏng bánh → phải *push* (đẩy) vào lề |
-| **fast** · **pass** · **crazy** → **accident** | nhân – quả | phóng nhanh, vượt ẩu → tai nạn |
-| **fast** → **quickly** | tính từ – trạng từ | nhanh (adj) → một cách nhanh (adv) |
-| **officer** + **speed** + **fine** | trình tự | cảnh sát bắt quá tốc độ → nộp phạt |
-| **carefully** · **safely** | cùng chủ đề | lái cẩn thận để về an toàn |
-| **station** + **fuel** | đi cùng nhau | đổ nhiên liệu ở trạm xăng |
-| **traffic** → **worse** | so sánh hơn | *traffic gets worse* – giao thông ngày càng tệ (*bad* → *worse*, bất quy tắc) |
+| **traffic** *(n)* + **heavy** *(adj)* | đi cùng nhau | heavy traffic = kẹt xe, đông đúc |
+| **light** *(n)* → **patient** *(adj)* ↔ **annoyed** *(adj)* | tình huống, trái nghĩa | chờ đèn đỏ: kiên nhẫn ↔ bực mình bấm còi |
+| **honk** *(v)* + **annoyed** *(adj)* | nhân – quả | bị bấm còi thì bực mình |
+| **cyclist** *(n)* · **pedestrian** *(n)* · **passenger** *(n)* | cùng chủ đề | những người tham gia giao thông |
+| **hole** *(n)* → **push** *(v)* | tình huống | xe sập *hole* (ổ gà) hỏng bánh → phải *push* (đẩy) vào lề |
+| **fast** *(adj)* · **pass** *(v)* · **crazy** *(adj)* → **accident** *(n)* | nhân – quả | phóng nhanh, vượt ẩu → tai nạn |
+| **fast** *(adj)* → **quickly** *(adv)* | tính từ – trạng từ | nhanh (adj) → một cách nhanh (adv) |
+| **officer** *(n)* + **speed** *(n)* + **fine** *(n)* | trình tự | cảnh sát bắt quá tốc độ → nộp phạt |
+| **carefully** *(adv)* · **safely** *(adv)* | cùng chủ đề | lái cẩn thận để về an toàn |
+| **station** *(n)* + **fuel** *(n)* | đi cùng nhau | đổ nhiên liệu ở trạm xăng |
+| **traffic** *(n)* → **worse** *(adj)* | so sánh hơn | *traffic gets worse* – giao thông ngày càng tệ (*bad* → *worse*, bất quy tắc) |
 
 ## Cụm từ hay dùng
 

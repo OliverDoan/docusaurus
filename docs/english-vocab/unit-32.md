@@ -38,18 +38,18 @@ Cô ấy thường xuyên đi xem triển lãm, đắm chìm trong tranh và đi
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **artist** · **artistic** · **artwork** | họ từ | gốc *art*: người, tính chất, tác phẩm |
-| **painter** · **painting** | họ từ | gốc *paint*: -er = người vẽ, -ing = bức tranh |
-| **create** → **inventive** | cùng chủ đề | sáng tạo cần óc phát minh |
-| **painter** + **technique** | đi cùng nhau | mỗi hoạ sĩ có *kỹ thuật* riêng, ví dụ vẽ sơn mài |
-| **drawing** · **painting** · **photography** · **sculpture** | cùng chủ đề | các loại hình nghệ thuật thị giác |
-| **artwork** + **exhibition** | đi cùng nhau | tác phẩm được trưng bày ở triển lãm |
-| **literature** · **theatre** · **concert** | cùng chủ đề | văn học, kịch, âm nhạc |
-| **concert** → **shout** | đi cùng nhau | cuối buổi hoà nhạc, khán giả *hét* "encore!" đòi hát thêm |
-| **well-known** · **fantastic** | cùng chủ đề | nghệ sĩ nổi tiếng, tác phẩm tuyệt vời |
-| **beauty** · **value** | cùng chủ đề | vẻ đẹp và giá trị của nghệ thuật |
-| **frequently** + **immerse** | đi cùng nhau | thường xuyên đắm chìm trong nghệ thuật |
-| **personally** · **remember** | cùng chủ đề | cảm nhận cá nhân, kỷ niệm đáng nhớ |
+| **artist** *(n)* · **artistic** *(adj)* · **artwork** *(n)* | họ từ | gốc *art*: người, tính chất, tác phẩm |
+| **painter** *(n)* · **painting** *(n)* | họ từ | gốc *paint*: -er = người vẽ, -ing = bức tranh |
+| **create** *(v)* → **inventive** *(adj)* | cùng chủ đề | sáng tạo cần óc phát minh |
+| **painter** *(n)* + **technique** *(n)* | đi cùng nhau | mỗi hoạ sĩ có *kỹ thuật* riêng, ví dụ vẽ sơn mài |
+| **drawing** *(n)* · **painting** *(n)* · **photography** *(n)* · **sculpture** *(n)* | cùng chủ đề | các loại hình nghệ thuật thị giác |
+| **artwork** *(n)* + **exhibition** *(n)* | đi cùng nhau | tác phẩm được trưng bày ở triển lãm |
+| **literature** *(n)* · **theatre** *(n)* · **concert** *(n)* | cùng chủ đề | văn học, kịch, âm nhạc |
+| **concert** *(n)* → **shout** *(v)* | đi cùng nhau | cuối buổi hoà nhạc, khán giả *hét* "encore!" đòi hát thêm |
+| **well-known** *(adj)* · **fantastic** *(adj)* | cùng chủ đề | nghệ sĩ nổi tiếng, tác phẩm tuyệt vời |
+| **beauty** *(n)* · **value** *(n)* | cùng chủ đề | vẻ đẹp và giá trị của nghệ thuật |
+| **frequently** *(adv)* + **immerse** *(v)* | đi cùng nhau | thường xuyên đắm chìm trong nghệ thuật |
+| **personally** *(adv)* · **remember** *(v)* | cùng chủ đề | cảm nhận cá nhân, kỷ niệm đáng nhớ |
 
 ## Cụm từ hay dùng
 

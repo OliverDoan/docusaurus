@@ -38,16 +38,16 @@ Anh ấy đi xe máy theo đường tắt rồi lạc, đột nhiên động cơ
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **motorbike** · **truck** · **boat** | cùng chủ đề | các loại phương tiện |
-| **full** + **regularly** | đi cùng nhau | đổ đầy bình, bảo dưỡng thường xuyên |
-| **navigate** · **turn** · **shortcut** | cùng chủ đề | tìm đường: định hướng, rẽ, đi tắt |
-| **shortcut** → **lost** → **nightmare** | nhân – quả | đi đường tắt → lạc → ác mộng |
-| **suddenly** + **smoke** + **engine** | trình tự | đột nhiên động cơ bốc khói |
-| **brake** + **hit** | nhân – quả | phanh hỏng → đâm xe |
-| **bicycle** · **tricycle** · **motorbike** | họ từ | bi- = 2 bánh, tri- = 3 bánh, motor- = có động cơ |
-| **lift** ↔ **fare** | trái nghĩa | đi nhờ thì miễn phí ↔ đi xe khách phải trả tiền vé |
-| **garage** · **mechanic** · **fix** · **charge** | trình tự | mang ra xưởng → thợ sửa → tính tiền |
-| **engine** · **brake** · **wheel** | cùng chủ đề | bộ phận của xe |
+| **motorbike** *(n)* · **truck** *(n)* · **boat** *(n)* | cùng chủ đề | các loại phương tiện |
+| **full** *(adj)* + **regularly** *(adv)* | đi cùng nhau | đổ đầy bình, bảo dưỡng thường xuyên |
+| **navigate** *(v)* · **turn** *(v)* · **shortcut** *(n)* | cùng chủ đề | tìm đường: định hướng, rẽ, đi tắt |
+| **shortcut** *(n)* → **lost** *(adj)* → **nightmare** *(n)* | nhân – quả | đi đường tắt → lạc → ác mộng |
+| **suddenly** *(adv)* + **smoke** *(n)* + **engine** *(n)* | trình tự | đột nhiên động cơ bốc khói |
+| **brake** *(n)* + **hit** *(v)* | nhân – quả | phanh hỏng → đâm xe |
+| **bicycle** *(n)* · **tricycle** *(n)* · **motorbike** *(n)* | họ từ | bi- = 2 bánh, tri- = 3 bánh, motor- = có động cơ |
+| **lift** *(n)* ↔ **fare** *(n)* | trái nghĩa | đi nhờ thì miễn phí ↔ đi xe khách phải trả tiền vé |
+| **garage** *(n)* · **mechanic** *(n)* · **fix** *(v)* · **charge** *(v)* | trình tự | mang ra xưởng → thợ sửa → tính tiền |
+| **engine** *(n)* · **brake** *(n)* · **wheel** *(n)* | cùng chủ đề | bộ phận của xe |
 
 ## Cụm từ hay dùng
 

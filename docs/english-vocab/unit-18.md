@@ -38,16 +38,16 @@ Cô ấy học công thức bí mật của một đầu bếp để nấu món 
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **cooking** · **chef** · **recipe** · **cuisine** | cùng chủ đề | việc nấu → người nấu → công thức → cả nền ẩm thực |
-| **seasoning** → **flavour** | nguyên nhân – kết quả | thêm gia vị để món có hương vị |
-| **plain** ↔ **strong** | trái nghĩa | vị nhạt ↔ vị đậm, nồng |
-| **delicious** · **tasty** ↔ **terrible** | gần nghĩa ↔ trái nghĩa | *delicious* mạnh hơn *tasty*; cả hai ngược với *terrible* |
-| **raw** → **undercooked** → **roast** | thang mức độ | sống → chưa chín → nướng chín |
-| **fresh** ↔ **frozen** | trái nghĩa | hải sản tươi ↔ đông lạnh |
-| **seafood** + **lemon** | đi cùng nhau | vắt chanh lên hải sản cho bớt tanh |
-| **add** + **secret** | đi cùng nhau | thêm nguyên liệu bí mật vào công thức |
-| **leftovers** ↔ **takeaway** | dễ nhầm | đồ ăn **thừa** của bữa trước ↔ đồ ăn **mua mang về** |
-| **hunger** + **chopstick** | đi cùng nhau | đói thì cầm đũa lên ăn ngay |
+| **cooking** *(n)* · **chef** *(n)* · **recipe** *(n)* · **cuisine** *(n)* | cùng chủ đề | việc nấu → người nấu → công thức → cả nền ẩm thực |
+| **seasoning** *(n)* → **flavour** *(n)* | nguyên nhân – kết quả | thêm gia vị để món có hương vị |
+| **plain** *(adj)* ↔ **strong** *(adj)* | trái nghĩa | vị nhạt ↔ vị đậm, nồng |
+| **delicious** *(adj)* · **tasty** *(adj)* ↔ **terrible** *(adj)* | gần nghĩa ↔ trái nghĩa | *delicious* mạnh hơn *tasty*; cả hai ngược với *terrible* |
+| **raw** *(adj)* → **undercooked** *(adj)* → **roast** *(v)* | thang mức độ | sống → chưa chín → nướng chín |
+| **fresh** *(adj)* ↔ **frozen** *(adj)* | trái nghĩa | hải sản tươi ↔ đông lạnh |
+| **seafood** *(n)* + **lemon** *(n)* | đi cùng nhau | vắt chanh lên hải sản cho bớt tanh |
+| **add** *(v)* + **secret** *(n)* | đi cùng nhau | thêm nguyên liệu bí mật vào công thức |
+| **leftovers** *(n)* ↔ **takeaway** *(n)* | dễ nhầm | đồ ăn **thừa** của bữa trước ↔ đồ ăn **mua mang về** |
+| **hunger** *(n)* + **chopstick** *(n)* | đi cùng nhau | đói thì cầm đũa lên ăn ngay |
 
 ## Cụm từ hay dùng
 

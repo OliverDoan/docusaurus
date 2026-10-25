@@ -38,19 +38,19 @@ Một blogger đăng bài lên trang cá nhân, video bỗng lan truyền khắp
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **user** · **blogger** | cùng chủ đề | người dùng, người viết blog |
-| **page** · **website** · **feed** | cùng chủ đề | những nơi hiển thị nội dung |
-| **access** → **website** | đi cùng nhau | *access a website* = truy cập trang web |
-| **upload** ↔ **download** | trái nghĩa | up = lên, down = xuống |
-| **post** · **status** | cùng chủ đề | bài đăng và dòng trạng thái |
-| **swipe** + **feed** | đi cùng nhau | *vuốt* màn hình để lướt bảng tin |
-| **viral** · **trend** | đồng nghĩa gần | gây sốt, thành trào lưu |
-| **viral** ↔ **reliable** | đối lập | tin *lan truyền* nhanh chưa chắc đã *đáng tin cậy* |
-| **attract** → **attention** | nhân – quả | thu hút → được chú ý |
-| **advertisement** → **profitable** | nhân – quả | quảng cáo mang lại lợi nhuận |
-| **opinion** → **complain** → **unfriend** | trình tự | khác quan điểm → phàn nàn → huỷ kết bạn |
-| **unfriend** · **unnecessary** | cùng cấu trúc | tiền tố un-: *friend* → huỷ kết bạn, *necessary* → không cần thiết |
-| **chat** → **socially** | đi cùng nhau | *nhắn tin* trò chuyện giúp ta gắn kết *về mặt xã hội*: *socially connected* |
+| **user** *(n)* · **blogger** *(n)* | cùng chủ đề | người dùng, người viết blog |
+| **page** *(n)* · **website** *(n)* · **feed** *(n)* | cùng chủ đề | những nơi hiển thị nội dung |
+| **access** *(v)* → **website** *(n)* | đi cùng nhau | *access a website* = truy cập trang web |
+| **upload** *(v)* ↔ **download** *(v)* | trái nghĩa | up = lên, down = xuống |
+| **post** *(n)* · **status** *(n)* | cùng chủ đề | bài đăng và dòng trạng thái |
+| **swipe** *(v)* + **feed** *(n)* | đi cùng nhau | *vuốt* màn hình để lướt bảng tin |
+| **viral** *(adj)* · **trend** *(n)* | đồng nghĩa gần | gây sốt, thành trào lưu |
+| **viral** *(adj)* ↔ **reliable** *(adj)* | đối lập | tin *lan truyền* nhanh chưa chắc đã *đáng tin cậy* |
+| **attract** *(v)* → **attention** *(n)* | nhân – quả | thu hút → được chú ý |
+| **advertisement** *(n)* → **profitable** *(adj)* | nhân – quả | quảng cáo mang lại lợi nhuận |
+| **opinion** *(n)* → **complain** *(v)* → **unfriend** *(v)* | trình tự | khác quan điểm → phàn nàn → huỷ kết bạn |
+| **unfriend** *(v)* · **unnecessary** *(adj)* | cùng cấu trúc | tiền tố un-: *friend* → huỷ kết bạn, *necessary* → không cần thiết |
+| **chat** *(v)* → **socially** *(adv)* | đi cùng nhau | *nhắn tin* trò chuyện giúp ta gắn kết *về mặt xã hội*: *socially connected* |
 
 ## Cụm từ hay dùng
 

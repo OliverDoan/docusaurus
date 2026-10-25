@@ -38,16 +38,16 @@ Một bạn trẻ đến ngày hội nghề nghiệp, gặp nhà tuyển dụng 
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **employer** ↔ **employee** | dễ nhầm | đuôi **-er** = người thuê; đuôi **-ee** = người được thuê |
-| **owner** → **manager** → **assistant** | thang chức vụ | chủ → quản lý → trợ lý |
-| **company** → **open** → **offer** | đi cùng nhau | công ty mở ngày hội, đưa ra lời mời làm việc |
-| **architect** ↔ **engineer** | gần nghĩa | *architect* thiết kế toà nhà; *engineer* tính kỹ thuật để xây |
-| **design** → **architect** | đi cùng nhau | kiến trúc sư làm việc **design** |
-| **journalist** ↔ **lawyer** ↔ **accountant** | cùng nhóm | nghề văn phòng: viết báo, luật, sổ sách |
-| **cook** · **hairdresser** · **housewife** | cùng nhóm | nghề làm bằng tay, phục vụ hằng ngày |
-| **pilot** · **salesperson** · **receptionist** | cùng nhóm | nghề tiếp xúc khách: bay, bán hàng, đón tiếp |
-| **punctual** · **acceptable** · **challenging** | cùng chủ đề | tính từ mô tả người/công việc: đúng giờ, chấp nhận được, thử thách |
-| **form** → **offer** | thang tuyển dụng | điền mẫu đơn → được mời làm |
+| **employer** *(n)* ↔ **employee** *(n)* | dễ nhầm | đuôi **-er** = người thuê; đuôi **-ee** = người được thuê |
+| **owner** *(n)* → **manager** *(n)* → **assistant** *(n)* | thang chức vụ | chủ → quản lý → trợ lý |
+| **company** *(n)* → **open** *(v)* → **offer** *(v)* | đi cùng nhau | công ty mở ngày hội, đưa ra lời mời làm việc |
+| **architect** *(n)* ↔ **engineer** *(n)* | gần nghĩa | *architect* thiết kế toà nhà; *engineer* tính kỹ thuật để xây |
+| **design** *(v)* → **architect** *(n)* | đi cùng nhau | kiến trúc sư làm việc **design** |
+| **journalist** *(n)* ↔ **lawyer** *(n)* ↔ **accountant** *(n)* | cùng nhóm | nghề văn phòng: viết báo, luật, sổ sách |
+| **cook** *(n)* · **hairdresser** *(n)* · **housewife** *(n)* | cùng nhóm | nghề làm bằng tay, phục vụ hằng ngày |
+| **pilot** *(n)* · **salesperson** *(n)* · **receptionist** *(n)* | cùng nhóm | nghề tiếp xúc khách: bay, bán hàng, đón tiếp |
+| **punctual** *(adj)* · **acceptable** *(adj)* · **challenging** *(adj)* | cùng chủ đề | tính từ mô tả người/công việc: đúng giờ, chấp nhận được, thử thách |
+| **form** *(n)* → **offer** *(v)* | thang tuyển dụng | điền mẫu đơn → được mời làm |
 
 ## Cụm từ hay dùng
 

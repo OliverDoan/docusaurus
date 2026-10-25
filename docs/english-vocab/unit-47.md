@@ -38,17 +38,17 @@ Tên trộm có súng đột nhập vào căn hộ, cảnh sát bắt giữ, cò
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **steal** → **arrest** → **prove** → **prison** | trình tự | phạm tội → bị bắt → chứng minh tội → đi tù |
-| **criminal** · **thief** · **outlaw** · **spy** | cái chung – cái riêng | các loại người phạm pháp |
-| **policeman** · **guard** → **stop** | cùng chủ đề | người giữ an ninh *stop* chặn kẻ xấu lại |
-| **jail** · **prison** | đồng nghĩa | đều là nhà tù |
-| **prison** → **prisoner** | gốc từ – từ phái sinh | nhà tù → người ở tù |
-| **arrest** + **handcuffs** | đi cùng nhau | bắt giữ thì còng tay |
-| **guilty** ↔ **defence** | đối lập | bên buộc tội ↔ bên bào chữa |
-| **murder** · **attack** · **gun** | cùng chủ đề | tội ác bạo lực |
-| **serious** + **murder** | đi cùng nhau | *a serious crime* = tội nghiêm trọng, như giết người |
-| **trick** · **blame** | cùng chủ đề | lừa người rồi đổ lỗi cho người khác |
-| **law** · **tax** | đi cùng nhau | luật bắt buộc đóng thuế |
+| **steal** *(v)* → **arrest** *(v)* → **prove** *(v)* → **prison** *(n)* | trình tự | phạm tội → bị bắt → chứng minh tội → đi tù |
+| **criminal** *(n)* · **thief** *(n)* · **outlaw** *(n)* · **spy** *(n)* | cái chung – cái riêng | các loại người phạm pháp |
+| **policeman** *(n)* · **guard** *(n)* → **stop** *(v)* | cùng chủ đề | người giữ an ninh *stop* chặn kẻ xấu lại |
+| **jail** *(n)* · **prison** *(n)* | đồng nghĩa | đều là nhà tù |
+| **prison** *(n)* → **prisoner** *(n)* | gốc từ – từ phái sinh | nhà tù → người ở tù |
+| **arrest** *(v)* + **handcuffs** *(n)* | đi cùng nhau | bắt giữ thì còng tay |
+| **guilty** *(adj)* ↔ **defence** *(n)* | đối lập | bên buộc tội ↔ bên bào chữa |
+| **murder** *(v)* · **attack** *(v)* · **gun** *(n)* | cùng chủ đề | tội ác bạo lực |
+| **serious** *(adj)* + **murder** *(v)* | đi cùng nhau | *a serious crime* = tội nghiêm trọng, như giết người |
+| **trick** *(v)* · **blame** *(v)* | cùng chủ đề | lừa người rồi đổ lỗi cho người khác |
+| **law** *(n)* · **tax** *(n)* | đi cùng nhau | luật bắt buộc đóng thuế |
 
 ## Cụm từ hay dùng
 

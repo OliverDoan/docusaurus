@@ -38,16 +38,16 @@ Sống ở thủ đô một thời gian, cô ấy nhận ra mặt trái: giá đ
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **pricey** ↔ **affordable** | trái nghĩa | đắt đỏ ↔ vừa túi tiền |
-| **population** → **overpopulated** | cùng họ từ | dân số → quá đông dân (*over-* = quá mức) |
-| **demand** → **accommodation** · **room** | nguyên nhân – kết quả | nhu cầu cao → thiếu chỗ ở, không còn chỗ trống |
-| **vehicle** → **pollution** → **unhealthy** | chuỗi hệ quả | nhiều xe → ô nhiễm → hại sức khoẻ |
-| **throw** + **rubbish** + **daily** | đi cùng nhau | *throw rubbish daily* – xả rác hằng ngày |
-| **lack** + **facility** | đi cùng nhau | *lack facilities* – thiếu cơ sở vật chất (lack không cần *of* khi là động từ) |
-| **build** + **bridge** | đi cùng nhau | *build a bridge* – xây cầu |
-| **pickpocket** · **scam** · **crime** | cùng chủ đề | móc túi, lừa đảo đều là tội phạm vặt |
-| **crime** ↔ **security** | trái nghĩa | tội phạm nhiều ↔ an ninh tốt |
-| **beggar** · **poor** · **selfish** | cùng chủ đề | người ăn xin nghèo khổ, người ích kỷ làm ngơ |
+| **pricey** *(adj)* ↔ **affordable** *(adj)* | trái nghĩa | đắt đỏ ↔ vừa túi tiền |
+| **population** *(n)* → **overpopulated** *(adj)* | cùng họ từ | dân số → quá đông dân (*over-* = quá mức) |
+| **demand** *(n)* → **accommodation** *(n)* · **room** *(n)* | nguyên nhân – kết quả | nhu cầu cao → thiếu chỗ ở, không còn chỗ trống |
+| **vehicle** *(n)* → **pollution** *(n)* → **unhealthy** *(adj)* | chuỗi hệ quả | nhiều xe → ô nhiễm → hại sức khoẻ |
+| **throw** *(v)* + **rubbish** *(n)* + **daily** *(adv)* | đi cùng nhau | *throw rubbish daily* – xả rác hằng ngày |
+| **lack** *(v)* + **facility** *(n)* | đi cùng nhau | *lack facilities* – thiếu cơ sở vật chất (lack không cần *of* khi là động từ) |
+| **build** *(v)* + **bridge** *(n)* | đi cùng nhau | *build a bridge* – xây cầu |
+| **pickpocket** *(n)* · **scam** *(n)* · **crime** *(n)* | cùng chủ đề | móc túi, lừa đảo đều là tội phạm vặt |
+| **crime** *(n)* ↔ **security** *(n)* | trái nghĩa | tội phạm nhiều ↔ an ninh tốt |
+| **beggar** *(n)* · **poor** *(adj)* · **selfish** *(adj)* | cùng chủ đề | người ăn xin nghèo khổ, người ích kỷ làm ngơ |
 
 ## Cụm từ hay dùng
 

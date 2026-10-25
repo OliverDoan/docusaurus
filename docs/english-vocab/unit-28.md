@@ -38,18 +38,18 @@ Anh ấy lập thời gian biểu tập luyện cùng huấn luyện viên, ch�
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **train** → **trainer** | họ từ | -er = người làm: tập luyện → huấn luyện viên |
-| **timetable** · **form** · **ability** | cùng chủ đề | có lịch tập đều → phong độ tốt → khả năng tăng |
-| **age** + **form** | tình huống | ở *age* (tuổi) nào cũng có thể lấy lại *form* (phong độ) |
-| **jogging** · **running** · **racing** | thang tốc độ | chạy chậm → chạy → đua |
-| **burn** ↔ **gain** | trái nghĩa | đốt calo ↔ tăng cân |
-| **push-up** · **lift** · **beast** | cùng chủ đề | hít đất, nâng tạ nhiều thành "quái vật" |
-| **tear** + **train** | đi cùng nhau | tập đến phát khóc ra nước mắt |
-| **hiking** · **ride** | cùng chủ đề | hoạt động ngoài trời: đi bộ đường dài, đạp xe |
-| **swimming** · **diving** · **snorkel** | cùng chủ đề | các môn dưới nước: bơi, lặn, lặn ống thở |
-| **paddle** · **sailing** | cùng chủ đề | chèo tay bằng mái chèo ↔ đi bằng buồm gió |
-| **brave** + **diving** | đi cùng nhau | lặn sâu cần dũng cảm |
-| **net** | dễ nhầm | *net* = lưới (bóng chạm lưới, lưới đánh cá); đừng nhầm với *nest* (tổ chim) |
+| **train** *(v)* → **trainer** *(n)* | họ từ | -er = người làm: tập luyện → huấn luyện viên |
+| **timetable** *(n)* · **form** *(n)* · **ability** *(n)* | cùng chủ đề | có lịch tập đều → phong độ tốt → khả năng tăng |
+| **age** *(n)* + **form** *(n)* | tình huống | ở *age* (tuổi) nào cũng có thể lấy lại *form* (phong độ) |
+| **jogging** *(n)* · **running** *(n)* · **racing** *(n)* | thang tốc độ | chạy chậm → chạy → đua |
+| **burn** *(v)* ↔ **gain** *(v)* | trái nghĩa | đốt calo ↔ tăng cân |
+| **push-up** *(n)* · **lift** *(v)* · **beast** *(n)* | cùng chủ đề | hít đất, nâng tạ nhiều thành "quái vật" |
+| **tear** *(n)* + **train** *(v)* | đi cùng nhau | tập đến phát khóc ra nước mắt |
+| **hiking** *(n)* · **ride** *(v)* | cùng chủ đề | hoạt động ngoài trời: đi bộ đường dài, đạp xe |
+| **swimming** *(n)* · **diving** *(n)* · **snorkel** *(v)* | cùng chủ đề | các môn dưới nước: bơi, lặn, lặn ống thở |
+| **paddle** *(v)* · **sailing** *(n)* | cùng chủ đề | chèo tay bằng mái chèo ↔ đi bằng buồm gió |
+| **brave** *(adj)* + **diving** *(n)* | đi cùng nhau | lặn sâu cần dũng cảm |
+| **net** *(n)* | dễ nhầm | *net* = lưới (bóng chạm lưới, lưới đánh cá); đừng nhầm với *nest* (tổ chim) |
 
 ## Cụm từ hay dùng
 

@@ -38,19 +38,19 @@ Lo lắng vì cân nặng và tình trạng sức khoẻ, một chàng trai bắ
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **health** · **care** · **condition** | cùng chủ đề | health care = chăm sóc sức khoẻ; condition = tình trạng |
-| **weight** → **anxious** · **embarrassed** | nguyên nhân – kết quả | lo về *weight* (cân nặng) → lo lắng, xấu hổ vì áo chật |
-| **damage** ↔ **prevent** | đối lập | làm hại ↔ ngăn ngừa tác hại |
-| **exercise** → **muscular** | nguyên nhân – kết quả | tập luyện thì có cơ bắp |
-| **body** ↔ **mind** | cặp đôi | thân và tâm |
-| **heartbeat** · **blood** | cùng chủ đề | tim đập để bơm máu |
-| **mind** → **mindful** | gốc từ | mind + -ful = chú tâm |
-| **brain** → **awake** | cùng chủ đề | não được nghỉ ngơi thì đầu óc *awake* (tỉnh táo) |
-| **remain** + **mindful** | đi cùng nhau | *remain mindful / remain calm* – vẫn giữ chú tâm, bình tĩnh |
-| **curious** · **extraordinary** | cùng chủ đề | tò mò về cơ thể phi thường |
-| **brain** · **sight** | bộ phận – chức năng | não bộ, thị lực |
-| **sight** · **dentist** | cùng chủ đề | giữ thị lực tốt, gặp *dentist* (nha sĩ) 2 lần/năm – chăm sóc định kỳ |
-| **obviously** ↔ **unlikely** | thang chắc chắn | *obviously* = rõ là vậy ↔ *unlikely* = khó xảy ra (un- + *likely*) |
+| **health** *(n)* · **care** *(n)* · **condition** *(n)* | cùng chủ đề | health care = chăm sóc sức khoẻ; condition = tình trạng |
+| **weight** *(n)* → **anxious** *(adj)* · **embarrassed** *(adj)* | nguyên nhân – kết quả | lo về *weight* (cân nặng) → lo lắng, xấu hổ vì áo chật |
+| **damage** *(v)* ↔ **prevent** *(v)* | đối lập | làm hại ↔ ngăn ngừa tác hại |
+| **exercise** *(v)* → **muscular** *(adj)* | nguyên nhân – kết quả | tập luyện thì có cơ bắp |
+| **body** *(n)* ↔ **mind** *(n)* | cặp đôi | thân và tâm |
+| **heartbeat** *(n)* · **blood** *(n)* | cùng chủ đề | tim đập để bơm máu |
+| **mind** *(n)* → **mindful** *(adj)* | gốc từ | mind + -ful = chú tâm |
+| **brain** *(n)* → **awake** *(adj)* | cùng chủ đề | não được nghỉ ngơi thì đầu óc *awake* (tỉnh táo) |
+| **remain** *(v)* + **mindful** *(adj)* | đi cùng nhau | *remain mindful / remain calm* – vẫn giữ chú tâm, bình tĩnh |
+| **curious** *(adj)* · **extraordinary** *(adj)* | cùng chủ đề | tò mò về cơ thể phi thường |
+| **brain** *(n)* · **sight** *(n)* | bộ phận – chức năng | não bộ, thị lực |
+| **sight** *(n)* · **dentist** *(n)* | cùng chủ đề | giữ thị lực tốt, gặp *dentist* (nha sĩ) 2 lần/năm – chăm sóc định kỳ |
+| **obviously** *(adv)* ↔ **unlikely** *(adj)* | thang chắc chắn | *obviously* = rõ là vậy ↔ *unlikely* = khó xảy ra (un- + *likely*) |
 
 ## Cụm từ hay dùng
 

@@ -38,17 +38,17 @@ Cô ấy diện đồ thật sành điệu: túi xách, vòng tay bạc, kính r
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **well** · **stylish** + **notice** | nguyên nhân – kết quả | *dress well* = ăn mặc đẹp; sành điệu thì ai cũng để ý |
-| **trainer** · **flip-flop** · **sandal** · **sock** | cùng chủ đề | đồ dưới chân |
-| **bracelet** · **necklace** · **ring** | cùng chủ đề | trang sức: tay, cổ, ngón |
-| **metal** → **silver** | cái chung – cái riêng | bạc là một loại kim loại |
-| **silver** + **ring** | đi cùng nhau | nhẫn bạc |
-| **cap** · **tie** · **belt** | cùng chủ đề | phụ kiện quen thuộc của nam |
-| **hairband** · **hair dryer** · **lipstick** | cùng chủ đề | đồ làm đẹp cho tóc và môi |
-| **fasten** + **belt** | đi cùng nhau | cài thắt lưng / thắt dây an toàn |
-| **handbag** · **basket** | cùng chủ đề | đồ để đựng, mang theo |
-| **sunglasses** · **colourful** | cùng chủ đề | kính râm, đồ sặc sỡ — phong cách mùa hè |
-| **fur** · **metal** | cùng chủ đề | chất liệu làm đồ thời trang: áo *fur* lông thú, vòng *metal* kim loại |
+| **well** *(adv)* · **stylish** *(adj)* + **notice** *(v)* | nguyên nhân – kết quả | *dress well* = ăn mặc đẹp; sành điệu thì ai cũng để ý |
+| **trainer** *(n)* · **flip-flop** *(n)* · **sandal** *(n)* · **sock** *(n)* | cùng chủ đề | đồ dưới chân |
+| **bracelet** *(n)* · **necklace** *(n)* · **ring** *(n)* | cùng chủ đề | trang sức: tay, cổ, ngón |
+| **metal** *(n)* → **silver** *(adj/n)* | cái chung – cái riêng | bạc là một loại kim loại |
+| **silver** *(adj/n)* + **ring** *(n)* | đi cùng nhau | nhẫn bạc |
+| **cap** *(n)* · **tie** *(n)* · **belt** *(n)* | cùng chủ đề | phụ kiện quen thuộc của nam |
+| **hairband** *(n)* · **hair dryer** *(n)* · **lipstick** *(n)* | cùng chủ đề | đồ làm đẹp cho tóc và môi |
+| **fasten** *(v)* + **belt** *(n)* | đi cùng nhau | cài thắt lưng / thắt dây an toàn |
+| **handbag** *(n)* · **basket** *(n)* | cùng chủ đề | đồ để đựng, mang theo |
+| **sunglasses** *(n)* · **colourful** *(adj)* | cùng chủ đề | kính râm, đồ sặc sỡ — phong cách mùa hè |
+| **fur** *(n)* · **metal** *(n)* | cùng chủ đề | chất liệu làm đồ thời trang: áo *fur* lông thú, vòng *metal* kim loại |
 
 ## Cụm từ hay dùng
 

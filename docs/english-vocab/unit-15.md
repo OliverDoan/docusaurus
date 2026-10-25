@@ -38,16 +38,16 @@ Mình giới thiệu cho bạn gái về khí hậu quê nhà — từ những n
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **climate** · **season** | dễ nhầm | *climate* = khí hậu lâu dài; *season* = từng mùa trong năm |
-| **beginning** → **middle** → **end** | thứ tự | đầu → giữa → cuối (mùa, tháng) |
-| **sunny** ↔ **rainy** | trái nghĩa | nắng ↔ mưa (thêm *-y* biến danh từ thành tính từ) |
-| **drizzle** → **shower** → **typhoon** | thang mức độ | mưa phùn → mưa rào → bão |
-| **typhoon** → **flood** | nhân quả | bão kéo theo lũ lụt |
-| **pleasant** ↔ **nasty** · **awful** | trái nghĩa | dễ chịu ↔ khó chịu → kinh khủng |
-| **humid** · **breeze** · **cloud** | cùng chủ đề | độ ẩm, gió nhẹ, mây — các yếu tố thời tiết |
-| **forecast** · **temperature** · **Celsius** | đi cùng nhau | *The forecast says the temperature is 30 Celsius.* |
-| **last** · **period** | đi cùng nhau | *The rainy period lasts for months.* |
-| **approach** · **typical** | chuỗi ý | *A typhoon is approaching — typical for this season.* |
+| **climate** *(n)* · **season** *(n)* | dễ nhầm | *climate* = khí hậu lâu dài; *season* = từng mùa trong năm |
+| **beginning** *(n)* → **middle** *(n)* → **end** *(n)* | thứ tự | đầu → giữa → cuối (mùa, tháng) |
+| **sunny** *(adj)* ↔ **rainy** *(adj)* | trái nghĩa | nắng ↔ mưa (thêm *-y* biến danh từ thành tính từ) |
+| **drizzle** *(n)* → **shower** *(n)* → **typhoon** *(n)* | thang mức độ | mưa phùn → mưa rào → bão |
+| **typhoon** *(n)* → **flood** *(n)* | nhân quả | bão kéo theo lũ lụt |
+| **pleasant** *(adj)* ↔ **nasty** *(adj)* · **awful** *(adj)* | trái nghĩa | dễ chịu ↔ khó chịu → kinh khủng |
+| **humid** *(adj)* · **breeze** *(n)* · **cloud** *(n)* | cùng chủ đề | độ ẩm, gió nhẹ, mây — các yếu tố thời tiết |
+| **forecast** *(v)* · **temperature** *(n)* · **Celsius** *(n)* | đi cùng nhau | *The forecast says the temperature is 30 Celsius.* |
+| **last** *(v)* · **period** *(n)* | đi cùng nhau | *The rainy period lasts for months.* |
+| **approach** *(v)* · **typical** *(adj)* | chuỗi ý | *A typhoon is approaching — typical for this season.* |
 
 ## Cụm từ hay dùng
 

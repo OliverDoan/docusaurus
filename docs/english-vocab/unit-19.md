@@ -38,16 +38,16 @@ Hai người cùng theo một chế độ ăn lành mạnh: bớt đường, n�
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **follow** · **stay** + **diet** | đi cùng nhau | *follow a diet* (theo chế độ ăn) · *stay on a diet* (duy trì chế độ ăn) |
-| **strict** ↔ **crappy** | trái nghĩa | ăn uống kỷ luật ↔ ăn uống tệ hại |
-| **useful** · **efficient** → **benefit** | gần nghĩa | hữu ích · hiệu quả → đều mang lại lợi ích |
-| **sugar** → **ageing** | nguyên nhân – kết quả | ăn nhiều đường làm lão hoá nhanh |
-| **ingredient** + **amount** | đi cùng nhau | nguyên liệu nào, lượng bao nhiêu |
-| **home-cooked** ↔ **snack** | trái nghĩa | bữa cơm nhà ↔ ăn vặt linh tinh |
-| **allergic** + **peanut** | đi cùng nhau | *allergic to peanuts* — dị ứng đậu phộng |
-| **pea** · **leaf** · **peel** | cùng chủ đề | hạt · lá · vỏ — các phần của rau củ |
-| **crop** → **variety** | đi cùng nhau | nhiều loại cây trồng = sự đa dạng |
-| **mix** · **breathe** · **tiring** | cùng chủ đề | trộn salad, hít thở sâu, đỡ mệt mỏi |
+| **follow** *(v)* · **stay** *(v)* + **diet** *(n)* | đi cùng nhau | *follow a diet* (theo chế độ ăn) · *stay on a diet* (duy trì chế độ ăn) |
+| **strict** *(adj)* ↔ **crappy** *(adj)* | trái nghĩa | ăn uống kỷ luật ↔ ăn uống tệ hại |
+| **useful** *(adj)* · **efficient** *(adj)* → **benefit** *(n)* | gần nghĩa | hữu ích · hiệu quả → đều mang lại lợi ích |
+| **sugar** *(n)* → **ageing** *(n)* | nguyên nhân – kết quả | ăn nhiều đường làm lão hoá nhanh |
+| **ingredient** *(n)* + **amount** *(n)* | đi cùng nhau | nguyên liệu nào, lượng bao nhiêu |
+| **home-cooked** *(adj)* ↔ **snack** *(v)* | trái nghĩa | bữa cơm nhà ↔ ăn vặt linh tinh |
+| **allergic** *(adj)* + **peanut** *(n)* | đi cùng nhau | *allergic to peanuts* — dị ứng đậu phộng |
+| **pea** *(n)* · **leaf** *(n)* · **peel** *(n)* | cùng chủ đề | hạt · lá · vỏ — các phần của rau củ |
+| **crop** *(n)* → **variety** *(n)* | đi cùng nhau | nhiều loại cây trồng = sự đa dạng |
+| **mix** *(v)* · **breathe** *(v)* · **tiring** *(adj)* | cùng chủ đề | trộn salad, hít thở sâu, đỡ mệt mỏi |
 
 ## Cụm từ hay dùng
 

@@ -38,17 +38,17 @@ Cô ấy mở tủ quần áo, lục từ áo mưa, áo khoác da, quần jeans 
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **wardrobe** → **outfit** | cái chung – cái riêng | tủ chứa đồ, mỗi lần lấy ra một bộ |
-| **raincoat** · **jacket** · **hoodie** | cùng chủ đề | các loại áo khoác ngoài |
-| **jeans** · **shorts** · **underwear** | cùng chủ đề | đồ mặc phần dưới / bên trong |
-| **leather** · **silk** · **cotton** | cùng chủ đề | các chất liệu vải, da |
-| **pocket** · **sleeve** · **collar** | cái chung – cái riêng | các bộ phận của một chiếc áo |
-| **fashion** ↔ **old-fashioned** | trái nghĩa | thời trang ↔ lỗi mốt |
-| **eye-catching** · **pattern** | đi cùng nhau | họa tiết nổi bật thì bắt mắt |
-| **match** + **outfit** | đi cùng nhau | phối đồ cho hợp |
-| **unzip** → **undress** | trình tự | kéo khóa → cởi đồ |
-| **tailor-made** · **mend** | cùng chủ đề | việc của thợ may: may đo, vá sửa |
-| **loose** ↔ **tailor-made** | đối lập | đồ *loose* rộng thùng thình ↔ đồ *tailor-made* may đo vừa khít |
+| **wardrobe** *(n)* → **outfit** *(n)* | cái chung – cái riêng | tủ chứa đồ, mỗi lần lấy ra một bộ |
+| **raincoat** *(n)* · **jacket** *(n)* · **hoodie** *(n)* | cùng chủ đề | các loại áo khoác ngoài |
+| **jeans** *(n)* · **shorts** *(n)* · **underwear** *(n)* | cùng chủ đề | đồ mặc phần dưới / bên trong |
+| **leather** *(n)* · **silk** *(n)* · **cotton** *(n)* | cùng chủ đề | các chất liệu vải, da |
+| **pocket** *(n)* · **sleeve** *(n)* · **collar** *(n)* | cái chung – cái riêng | các bộ phận của một chiếc áo |
+| **fashion** *(n)* ↔ **old-fashioned** *(adj)* | trái nghĩa | thời trang ↔ lỗi mốt |
+| **eye-catching** *(adj)* · **pattern** *(n)* | đi cùng nhau | họa tiết nổi bật thì bắt mắt |
+| **match** *(v)* + **outfit** *(n)* | đi cùng nhau | phối đồ cho hợp |
+| **unzip** *(v)* → **undress** *(v)* | trình tự | kéo khóa → cởi đồ |
+| **tailor-made** *(adj)* · **mend** *(v)* | cùng chủ đề | việc của thợ may: may đo, vá sửa |
+| **loose** *(adj)* ↔ **tailor-made** *(adj)* | đối lập | đồ *loose* rộng thùng thình ↔ đồ *tailor-made* may đo vừa khít |
 
 ## Cụm từ hay dùng
 

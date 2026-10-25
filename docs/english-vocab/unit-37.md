@@ -38,20 +38,20 @@ Cô ấy ăn mặc sang trọng, da rám nắng, tóc xoăn, có hình xăm nh�
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **outside** · **figure** | cùng chủ đề | vẻ *bề ngoài* gồm cả *dáng người*: *keep your figure* = giữ dáng |
-| **attractive** ↔ **ordinary** | trái nghĩa | nổi bật ↔ bình thường |
-| **attractive** · **good-looking** | đồng nghĩa | đều là đẹp, cuốn hút |
-| **skinny** → **slim** → **curvy** → **chubby** | thang mức độ | từ gầy nhom → thon → đầy đặn → mũm mĩm |
-| **slim** vs **skinny** | sắc thái | slim là khen (thon), skinny thường chê (gầy nhom) |
-| **skin** + **tanned** | đi cùng nhau | da rám nắng |
-| **curly** · **shave** | cùng chủ đề | tóc và râu |
-| **tattoo** · **piercing** | cùng chủ đề | trang trí trên cơ thể |
-| **dress** vs **wear** | dễ nhầm | dress = hành động ăn mặc (dress well), wear + món đồ (wear a hat) |
-| **classy** · **tidy** | gần nghĩa | ăn mặc *sang trọng* thường đi với *gọn gàng* |
-| **tidy** ↔ **messy** | trái nghĩa | gọn gàng ↔ luộm thuộm |
-| **messy** · **dirty** | gần nghĩa | bừa bộn thường đi với bẩn |
-| **wear** → **show** | nhân – quả | đồ bạn *mặc* *thể hiện* cá tính của bạn |
-| **especially** · **politely** | cùng cấu trúc | trạng từ đuôi -ly: khen *nhất là* đôi giày, nói *lịch sự* rằng cô ấy xinh |
+| **outside** *(n)* · **figure** *(n)* | cùng chủ đề | vẻ *bề ngoài* gồm cả *dáng người*: *keep your figure* = giữ dáng |
+| **attractive** *(adj)* ↔ **ordinary** *(adj)* | trái nghĩa | nổi bật ↔ bình thường |
+| **attractive** *(adj)* · **good-looking** *(adj)* | đồng nghĩa | đều là đẹp, cuốn hút |
+| **skinny** *(adj)* → **slim** *(adj)* → **curvy** *(adj)* → **chubby** *(adj)* | thang mức độ | từ gầy nhom → thon → đầy đặn → mũm mĩm |
+| **slim** *(adj)* vs **skinny** *(adj)* | sắc thái | slim là khen (thon), skinny thường chê (gầy nhom) |
+| **skin** *(n)* + **tanned** *(adj)* | đi cùng nhau | da rám nắng |
+| **curly** *(adj)* · **shave** *(v)* | cùng chủ đề | tóc và râu |
+| **tattoo** *(n)* · **piercing** *(n)* | cùng chủ đề | trang trí trên cơ thể |
+| **dress** *(v)* vs **wear** *(v)* | dễ nhầm | dress = hành động ăn mặc (dress well), wear + món đồ (wear a hat) |
+| **classy** *(adj)* · **tidy** *(adj)* | gần nghĩa | ăn mặc *sang trọng* thường đi với *gọn gàng* |
+| **tidy** *(adj)* ↔ **messy** *(adj)* | trái nghĩa | gọn gàng ↔ luộm thuộm |
+| **messy** *(adj)* · **dirty** *(adj)* | gần nghĩa | bừa bộn thường đi với bẩn |
+| **wear** *(v)* → **show** *(v)* | nhân – quả | đồ bạn *mặc* *thể hiện* cá tính của bạn |
+| **especially** *(adv)* · **politely** *(adv)* | cùng cấu trúc | trạng từ đuôi -ly: khen *nhất là* đôi giày, nói *lịch sự* rằng cô ấy xinh |
 
 ## Cụm từ hay dùng
 

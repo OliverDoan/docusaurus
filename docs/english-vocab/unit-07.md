@@ -38,16 +38,16 @@ Cô ấy lần đầu lên thủ đô và bị cuốn hút bởi nhịp sống h
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **skyscraper** · **tower** · **highway** | cùng chủ đề | cảnh thủ đô hiện đại: nhà chọc trời, tháp, cao tốc |
-| **capital** → **central** → **district** | thang phạm vi | thủ đô → khu trung tâm → từng quận |
-| **district** · **neighbourhood** · **square** | gần nghĩa | quận (hành chính) · khu dân cư (nơi sống) · quảng trường (khoảng trống công cộng) |
-| **lively** ≈ **bustling** ≈ **exciting** | gần nghĩa | *lively* = vui nhộn, *bustling* = tấp nập người qua lại, *exciting* = gây phấn khích |
-| **atmosphere** + **lively** | đi cùng nhau | *a lively atmosphere* – bầu không khí náo nhiệt |
-| **pavement** ↔ **alley** | dễ nhầm | *pavement* = vỉa hè cạnh đường lớn, *alley* = hẻm nhỏ giữa nhà |
-| **nightlife** ⊃ **nightclub** | cùng họ từ | cả hai bắt đầu bằng *night*: đời sống về đêm có vũ trường |
-| **modern** + **convenient** + **system** | đi cùng nhau | *a modern, convenient transport system* |
-| **quality** + **service** · **various** | đi cùng nhau | *high-quality service*, *various services* |
-| **appealing** + **opportunity** | đi cùng nhau | thủ đô hấp dẫn vì nhiều cơ hội |
+| **skyscraper** *(n)* · **tower** *(n)* · **highway** *(n)* | cùng chủ đề | cảnh thủ đô hiện đại: nhà chọc trời, tháp, cao tốc |
+| **capital** *(n)* → **central** *(adj)* → **district** *(n)* | thang phạm vi | thủ đô → khu trung tâm → từng quận |
+| **district** *(n)* · **neighbourhood** *(n)* · **square** *(n)* | gần nghĩa | quận (hành chính) · khu dân cư (nơi sống) · quảng trường (khoảng trống công cộng) |
+| **lively** *(adj)* ≈ **bustling** *(adj)* ≈ **exciting** *(adj)* | gần nghĩa | *lively* = vui nhộn, *bustling* = tấp nập người qua lại, *exciting* = gây phấn khích |
+| **atmosphere** *(n)* + **lively** *(adj)* | đi cùng nhau | *a lively atmosphere* – bầu không khí náo nhiệt |
+| **pavement** *(n)* ↔ **alley** *(n)* | dễ nhầm | *pavement* = vỉa hè cạnh đường lớn, *alley* = hẻm nhỏ giữa nhà |
+| **nightlife** *(n)* ⊃ **nightclub** *(n)* | cùng họ từ | cả hai bắt đầu bằng *night*: đời sống về đêm có vũ trường |
+| **modern** *(adj)* + **convenient** *(adj)* + **system** *(n)* | đi cùng nhau | *a modern, convenient transport system* |
+| **quality** *(n)* + **service** *(n)* · **various** *(adj)* | đi cùng nhau | *high-quality service*, *various services* |
+| **appealing** *(adj)* + **opportunity** *(n)* | đi cùng nhau | thủ đô hấp dẫn vì nhiều cơ hội |
 
 ## Cụm từ hay dùng
 

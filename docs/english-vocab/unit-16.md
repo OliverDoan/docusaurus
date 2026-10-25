@@ -38,16 +38,16 @@ Anh ấy đi chợ và vào bếp nấu một bữa tối thật ngon để mờ
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **beef** · **pork** · **bacon** | cùng chủ đề | thịt bò · thịt lợn · ba chỉ xông khói (làm từ thịt lợn) |
-| **boil** · **grill** · **stir-fry** | cùng chủ đề | 3 cách nấu: luộc trong nước · nướng trên lửa · xào trong chảo |
-| **groceries** → **prepare** → **serve** | trình tự | đi chợ mua thực phẩm → chuẩn bị món → dọn ra phục vụ |
-| **stove** + **hotpot** · **soup** | đi cùng nhau | nồi lẩu, nồi canh đều đặt trên bếp |
-| **chilli** → **spicy** | nguyên nhân – kết quả | cho ớt vào thì món cay |
-| **sweet** ↔ **savoury** | trái nghĩa | vị ngọt (bánh, kẹo) ↔ vị mặn đậm (món chính) |
-| **oily** ↔ **dry** | trái nghĩa | ngập dầu mỡ ↔ khô ráo, ít nước |
-| **grill** → **crispy** | nguyên nhân – kết quả | nướng kỹ thì da giòn |
-| **stomach** → **hangry** | nguyên nhân – kết quả | bụng đói meo → cáu kỉnh (*hungry + angry*) |
-| **sauce** · **yummy** · **vegetarian** | cùng chủ đề | món chay chấm sốt vẫn ngon |
+| **beef** *(n)* · **pork** *(n)* · **bacon** *(n)* | cùng chủ đề | thịt bò · thịt lợn · ba chỉ xông khói (làm từ thịt lợn) |
+| **boil** *(v)* · **grill** *(v)* · **stir-fry** *(v)* | cùng chủ đề | 3 cách nấu: luộc trong nước · nướng trên lửa · xào trong chảo |
+| **groceries** *(n)* → **prepare** *(v)* → **serve** *(v)* | trình tự | đi chợ mua thực phẩm → chuẩn bị món → dọn ra phục vụ |
+| **stove** *(n)* + **hotpot** *(n)* · **soup** *(n)* | đi cùng nhau | nồi lẩu, nồi canh đều đặt trên bếp |
+| **chilli** *(n)* → **spicy** *(adj)* | nguyên nhân – kết quả | cho ớt vào thì món cay |
+| **sweet** *(adj)* ↔ **savoury** *(adj)* | trái nghĩa | vị ngọt (bánh, kẹo) ↔ vị mặn đậm (món chính) |
+| **oily** *(adj)* ↔ **dry** *(adj)* | trái nghĩa | ngập dầu mỡ ↔ khô ráo, ít nước |
+| **grill** *(v)* → **crispy** *(adj)* | nguyên nhân – kết quả | nướng kỹ thì da giòn |
+| **stomach** *(n)* → **hangry** *(adj)* | nguyên nhân – kết quả | bụng đói meo → cáu kỉnh (*hungry + angry*) |
+| **sauce** *(n)* · **yummy** *(adj)* · **vegetarian** *(adj/n)* | cùng chủ đề | món chay chấm sốt vẫn ngon |
 
 ## Cụm từ hay dùng
 

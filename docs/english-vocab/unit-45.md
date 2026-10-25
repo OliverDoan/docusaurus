@@ -38,16 +38,16 @@ Cuối tuần, hai người bạn thân rủ nhau đi cắm trại, nướng bá
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **hobby** · **pleasure** · **enjoy** | cùng chủ đề | sở thích mang lại niềm vui, ta tận hưởng nó |
-| **chess** · **indoor** | đi cùng nhau | cờ vua là trò chơi trong nhà |
-| **champion** → **championship** | gốc từ – từ phái sinh | nhà vô địch thắng giải vô địch |
-| **ace** · **champion** | gần nghĩa | đều chỉ người giỏi nhất |
-| **camping** + **stuff** · **getaway** | cùng chủ đề | soạn đồ cắm trại (*camping stuff*) cho một chuyến đi nghỉ ngắn |
-| **social** · **musical** · **event** · **get-together** | cùng chủ đề | hoạt động giao lưu, *musical event* (sự kiện âm nhạc), buổi họp mặt |
-| **connect** · **news** · **confide** | cùng chủ đề | gặp bạn để kết nối, kể *news* tin tức rồi *confide* tâm sự |
-| **sew** · **knit** | cùng chủ đề | hai việc thủ công với kim chỉ, len |
-| **bake** ↔ **destroy** | trái nghĩa | làm ra cái bánh ↔ phá huỷ |
-| **manicure** + **afford** | đi cùng nhau | làm móng thường xuyên cần đủ tiền |
+| **hobby** *(n)* · **pleasure** *(n)* · **enjoy** *(v)* | cùng chủ đề | sở thích mang lại niềm vui, ta tận hưởng nó |
+| **chess** *(n)* · **indoor** *(adj)* | đi cùng nhau | cờ vua là trò chơi trong nhà |
+| **champion** *(n)* → **championship** *(n)* | gốc từ – từ phái sinh | nhà vô địch thắng giải vô địch |
+| **ace** *(adj/n)* · **champion** *(n)* | gần nghĩa | đều chỉ người giỏi nhất |
+| **camping** *(n)* + **stuff** *(n)* · **getaway** *(n)* | cùng chủ đề | soạn đồ cắm trại (*camping stuff*) cho một chuyến đi nghỉ ngắn |
+| **social** *(adj)* · **musical** *(adj)* · **event** *(n)* · **get-together** *(n)* | cùng chủ đề | hoạt động giao lưu, *musical event* (sự kiện âm nhạc), buổi họp mặt |
+| **connect** *(v)* · **news** *(n)* · **confide** *(v)* | cùng chủ đề | gặp bạn để kết nối, kể *news* tin tức rồi *confide* tâm sự |
+| **sew** *(v)* · **knit** *(v)* | cùng chủ đề | hai việc thủ công với kim chỉ, len |
+| **bake** *(v)* ↔ **destroy** *(v)* | trái nghĩa | làm ra cái bánh ↔ phá huỷ |
+| **manicure** *(n)* + **afford** *(v)* | đi cùng nhau | làm móng thường xuyên cần đủ tiền |
 
 ## Cụm từ hay dùng
 

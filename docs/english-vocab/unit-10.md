@@ -38,17 +38,17 @@ Cô ấy làm quen với khu phố mới: hàng xóm thân thiện, đủ tiện
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **area** ⊃ **block** · **property** | thang phạm vi | khu vực gồm nhiều dãy nhà, mỗi nơi là một tài sản |
-| **vibrant** ≈ **noisy** | dễ nhầm | *vibrant* = sôi động (khen), *noisy* = ồn ào (chê) |
-| **vibe** · **chilled** | đi cùng nhau | *a chilled vibe* – không khí thư thái |
-| **comfy** ≈ **cosy** | gần nghĩa | *comfy* = êm, dễ chịu; *cosy* = ấm cúng, gần gũi |
-| **friendly** + **safe** | cùng chủ đề | khu phố lý tưởng: hàng xóm thân thiện, an toàn |
-| **inform** ↔ **invite** | dễ nhầm | *inform* = báo tin, *invite* = mời tham gia |
-| **complicated** + **one-way** | đi cùng nhau | đường *one-way* chằng chịt nên đi lại *complicated* |
-| **clinic** · **gym** · **playground** · **pool** | cùng chủ đề | tiện ích trong khu phố |
-| **ground** (+ floor) | đi cùng nhau | *on the ground floor* – ở tầng trệt |
-| **always** → **mostly** · **everywhere** | thang tần suất | luôn luôn → hầu hết; khắp nơi (chỉ không gian) |
-| **develop** + **area** | đi cùng nhau | *a developing area* – khu đang phát triển |
+| **area** *(n)* ⊃ **block** *(n)* · **property** *(n)* | thang phạm vi | khu vực gồm nhiều dãy nhà, mỗi nơi là một tài sản |
+| **vibrant** *(adj)* ≈ **noisy** *(adj)* | dễ nhầm | *vibrant* = sôi động (khen), *noisy* = ồn ào (chê) |
+| **vibe** *(n)* · **chilled** *(adj)* | đi cùng nhau | *a chilled vibe* – không khí thư thái |
+| **comfy** *(adj)* ≈ **cosy** *(adj)* | gần nghĩa | *comfy* = êm, dễ chịu; *cosy* = ấm cúng, gần gũi |
+| **friendly** *(adj)* + **safe** *(adj)* | cùng chủ đề | khu phố lý tưởng: hàng xóm thân thiện, an toàn |
+| **inform** *(v)* ↔ **invite** *(v)* | dễ nhầm | *inform* = báo tin, *invite* = mời tham gia |
+| **complicated** *(adj)* + **one-way** *(adj)* | đi cùng nhau | đường *one-way* chằng chịt nên đi lại *complicated* |
+| **clinic** *(n)* · **gym** *(n)* · **playground** *(n)* · **pool** *(n)* | cùng chủ đề | tiện ích trong khu phố |
+| **ground** *(n)* (+ floor *(n)*) | đi cùng nhau | *on the ground floor* – ở tầng trệt |
+| **always** *(adv)* → **mostly** *(adv)* · **everywhere** *(adv)* | thang tần suất | luôn luôn → hầu hết; khắp nơi (chỉ không gian) |
+| **develop** *(v)* + **area** *(n)* | đi cùng nhau | *a developing area* – khu đang phát triển |
 
 ## Cụm từ hay dùng
 

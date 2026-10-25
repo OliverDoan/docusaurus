@@ -38,19 +38,19 @@ Sau một đêm như ác mộng, kiệt sức và mất nước, anh ấy phải
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
 | --- | --- | --- |
-| **nightmare** → **painful** · **exhausted** · **dehydrated** | triệu chứng | một đêm ác mộng: đau đớn, kiệt sức, mất nước |
-| **lose** → **dehydrated** | nguyên nhân – kết quả | *lose* (mất) nhiều nước → *dehydrated* (de- = mất, hydr = nước) |
-| **emergency** → **admit** → **patient** | trình tự | cấp cứu → nhập viện → thành bệnh nhân |
-| **explain** → **consider** → **medicine** | trình tự | bác sĩ giải thích bệnh → cân nhắc → chọn thuốc phù hợp |
-| **medicine** → **pill** · **capsule** · **painkiller** | cái chung – cái riêng | các dạng thuốc |
-| **painful** · **painkiller** | gốc từ | pain + -ful / pain + killer |
-| **effect** · affect | dễ nhầm | effect (n) tác dụng; affect (v) ảnh hưởng |
-| **pharmacy** · **chemist** | dễ nhầm | pharmacy là nơi bán, chemist là người (trong Anh-Anh cũng chỉ cửa hàng) |
-| **pharmacy** + **packet** | đi cùng nhau | ghé hiệu thuốc mua *a packet of* oresol – một gói bù nước |
-| **remove** · **lose** | cùng chủ đề | mất đi, loại bỏ |
-| **repair** · **recover** | gần nghĩa | cơ thể tự sửa chữa → hồi phục |
-| **slowly** ↔ **speedy** | trái nghĩa | chậm rãi ↔ nhanh chóng |
-| **nightmare** ↔ **fit** | đầu – cuối | từ đêm ác mộng đến khi khỏe lại |
+| **nightmare** *(n)* → **painful** *(adj)* · **exhausted** *(adj)* · **dehydrated** *(adj)* | triệu chứng | một đêm ác mộng: đau đớn, kiệt sức, mất nước |
+| **lose** *(v)* → **dehydrated** *(adj)* | nguyên nhân – kết quả | *lose* (mất) nhiều nước → *dehydrated* (de- = mất, hydr = nước) |
+| **emergency** *(n)* → **admit** *(v)* → **patient** *(n)* | trình tự | cấp cứu → nhập viện → thành bệnh nhân |
+| **explain** *(v)* → **consider** *(v)* → **medicine** *(n)* | trình tự | bác sĩ giải thích bệnh → cân nhắc → chọn thuốc phù hợp |
+| **medicine** *(n)* → **pill** *(n)* · **capsule** *(n)* · **painkiller** *(n)* | cái chung – cái riêng | các dạng thuốc |
+| **painful** *(adj)* · **painkiller** *(n)* | gốc từ | pain + -ful / pain + killer |
+| **effect** *(n)* · affect *(v)* | dễ nhầm | effect (n) tác dụng; affect (v) ảnh hưởng |
+| **pharmacy** *(n)* · **chemist** *(n)* | dễ nhầm | pharmacy là nơi bán, chemist là người (trong Anh-Anh cũng chỉ cửa hàng) |
+| **pharmacy** *(n)* + **packet** *(n)* | đi cùng nhau | ghé hiệu thuốc mua *a packet of* oresol – một gói bù nước |
+| **remove** *(v)* · **lose** *(v)* | cùng chủ đề | mất đi, loại bỏ |
+| **repair** *(v)* · **recover** *(v)* | gần nghĩa | cơ thể tự sửa chữa → hồi phục |
+| **slowly** *(adv)* ↔ **speedy** *(adj)* | trái nghĩa | chậm rãi ↔ nhanh chóng |
+| **nightmare** *(n)* ↔ **fit** *(adj)* | đầu – cuối | từ đêm ác mộng đến khi khỏe lại |
 
 ## Cụm từ hay dùng
 
