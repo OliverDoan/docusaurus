@@ -34,6 +34,14 @@ Cô ấy tiêu tiền quá tay, đến cuối tháng thì cháy túi và học �
 | 23 | **note** *(n)* | /nəʊt/ | giấy nhắc nợ; ghi chú | The landlord left a **note** on her door. |
 | 24 | **luxury** *(n)* | /ˈlʌkʃəri/ | sự xa hoa, sang trọng | She bought a **luxury** handbag last week. |
 
+## Chuyện chêm
+
+Mới giữa tháng mà Mai đã phải **borrow** tiền bạn. Cô bạn thân **lend** cho năm trăm nghìn, vậy là giờ Mai **owe** cả bạn lẫn chị gái. Thấy món nào **cheap** hay giá **reasonable** là cô mua, đôi khi cả đồ **expensive** nữa, cứ như mình **rich** lắm. Kết quả: cuối tháng nào cũng **broke**.
+
+Mai **spend** cả tháng lương chỉ trong hai tuần, chẳng **save** được đồng nào. Mẹ bảo cô quá **wasteful**, lại còn **generous** với bạn bè, bữa nào cũng giành trả tiền. Ngồi cộng lại, cô mới thấy **cost** sinh hoạt cao thế nào: **expense** ăn uống, **price** quần áo, **bill** điện nước, **fee** phòng gym, và **rent** nhà sắp **due**.
+
+Sếp chưa hứa **raise** lương, nên Mai đành **decrease** chi tiêu. Cô học cách **manage** tiền: dán một tờ **note** lên tủ lạnh ghi rõ từng khoản nợ. Từ nay, **luxury** chỉ dành cho dịp thật đặc biệt.
+
 ## Nhóm từ liên quan
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
