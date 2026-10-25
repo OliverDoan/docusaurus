@@ -34,6 +34,14 @@ Một bạn trẻ đến ngày hội nghề nghiệp, gặp nhà tuyển dụng 
 | 23 | **challenging** *(adj)* | /ˈtʃælɪndʒɪŋ/ | đầy thử thách | He wants a **challenging** job. |
 | 24 | **form** *(n)* | /fɔːm/ | mẫu đơn, biểu mẫu | Please fill in this **form**. |
 
+## Chuyện chêm
+
+Ở ngày hội nghề nghiệp, các **employer** đang tìm người trẻ. Có hãng đã có hai trăm **employee**, có người chỉ là **owner** một quán cà phê nhỏ. Một **manager** kiên nhẫn trả lời mọi câu hỏi của Tùng, còn văn phòng bên cạnh đang cần thêm **assistant**. Hơn năm mươi **company** có mặt khi hội chợ **open** lúc chín giờ, và quầy nào cũng **offer** áo phông miễn phí.
+
+Tùng đi một vòng tìm hiểu nghề: **architect** vẽ nhà, **engineer** là nghề cậu mơ, còn công ty kia thì **design** ứng dụng điện thoại. Một **journalist** đang phỏng vấn khách. Tùng nghĩ tới anh họ là **lawyer** ở Hà Nội, tới **accountant** suốt ngày với con số, tới **cook** khách sạn đang cần tuyển, tới **hairdresser** phải khéo giao tiếp, và mẹ cậu, người làm **housewife** nhiều năm.
+
+**Pilot** phải học mấy năm trời, còn **salesperson** ở quầy cuối thì rất thân thiện. Cô **receptionist** đưa Tùng tấm danh thiếp và dặn: nhân viên giỏi luôn **punctual**, đi muộn ở đây là không **acceptable**. Muốn một công việc **challenging**, Tùng hít một hơi rồi điền vào **form** ứng tuyển.
+
 ## Nhóm từ liên quan
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
