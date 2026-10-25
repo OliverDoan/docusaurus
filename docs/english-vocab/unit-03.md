@@ -34,6 +34,14 @@ Một bạn trẻ giới thiệu bản thân: quê hương, nơi sống, thông 
 | 23 | **beautiful** *(adj)* | /ˈbjuːtɪfl/ | đẹp | His hometown has a **beautiful** river. |
 | 24 | **favourite** *(adj)* | /ˈfeɪvərɪt/ | yêu thích | Summer is his **favourite** season. |
 
+## Chuyện chêm
+
+**Nickname** của Nam là Sunny, còn **surname** thì là Nguyễn. Cậu lớn lên ở một **town** nhỏ, **hometown** nằm ở **north**, xa hẳn vùng **south** nơi mẹ cậu sinh ra. Quê cậu **peaceful**, không **crowded** như thành phố.
+
+Cái tên Sunny có một câu chuyện **special**, chẳng **common** chút nào. Để Nam **tell** bạn nghe: hồi nhỏ ai cũng **describe** cậu là đứa lúc nào cũng cười, nên cả xóm **call** cậu là Sunny. **Meaning** của nó là tươi sáng, vui vẻ. Giờ ít ai **know** tên thật của cậu nữa.
+
+Lần đầu điền hồ sơ đi làm, Nam phải **spell** tên thật, **sign** vào giấy, ghi **address** mới và **contact** của mình. **Distance** từ quê lên thành phố chỉ một trăm cây số. Giờ cậu **live** và làm việc ở **centre** thành phố, nhưng vẫn nhớ dòng sông **beautiful** ở quê và mùa hè, mùa **favourite** của cậu.
+
 ## Nhóm từ liên quan
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
