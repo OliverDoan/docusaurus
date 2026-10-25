@@ -34,6 +34,14 @@ Cô ấy làm quen với khu phố mới: hàng xóm thân thiện, đủ tiện
 | 23 | **everywhere** *(adv)* | /ˈevriweə(r)/ | khắp mọi nơi | There are food stalls **everywhere**. |
 | 24 | **develop** *(v)* | /dɪˈveləp/ | phát triển | This area has **developed** quickly in recent years. |
 
+## Chuyện chêm
+
+**Area** Mai mới chuyển đến gồm nhiều **block** chung cư, **property** ở đây tăng giá đều. Ban ngày khu phố **vibrant** nhưng không **noisy**. **Vibe** buổi tối thì **chilled**, quán cà phê đầu ngõ vừa **comfy** vừa **cosy**.
+
+Hàng xóm rất **friendly**, khu phố lại **safe**. Bác tổ trưởng **inform** lịch họp dân phố, rồi **invite** Mai sang nhà ăn cơm. Chỉ có đường xá hơi **complicated**, nhiều phố **one-way** khiến cô lạc mấy lần.
+
+Bù lại, tiện ích có đủ: **clinic** ngay cổng, **gym** tầng hầm, **playground** cho trẻ con và **pool** trên sân thượng. Có cả siêu thị ở tầng **ground**. Hàng xóm **always** chào hỏi, cư dân **mostly** là gia đình trẻ, cây xanh mọc **everywhere**. Mai tin khu phố này sẽ còn **develop** hơn nữa.
+
 ## Nhóm từ liên quan
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
