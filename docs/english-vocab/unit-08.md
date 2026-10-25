@@ -34,6 +34,14 @@ Sống ở thủ đô một thời gian, cô ấy nhận ra mặt trái: giá đ
 | 23 | **poor** *(adj)* | /pɔː(r)/ | nghèo | Not everyone in the city is rich; many are **poor**. |
 | 24 | **selfish** *(adj)* | /ˈselfɪʃ/ | ích kỷ | Some drivers are **selfish** and never give way. |
 
+## Chuyện chêm
+
+Sống ở thủ đô vài tháng, Mai mới thấy mặt trái. Mọi thứ đều **pricey**, khó tìm được chỗ nào **affordable**. **Population** tăng nhanh khiến thành phố **overpopulated**, **demand** về **accommodation** lớn đến mức phòng trọ chẳng còn **room** để xoay người.
+
+**Vehicle** chen chúc ngoài đường, **pollution** dày đặc, không khí **unhealthy**. Người ta vẫn **throw** **rubbish** bừa bãi **daily**. Nhiều khu dân cư **lack** **facility** cơ bản, thành phố cứ phải **build** thêm đường, thêm **bridge** mà vẫn tắc.
+
+Mai từng bị **pickpocket** lấy ví ở chợ, lại suýt dính một vụ **scam** qua điện thoại. **Crime** nhiều hơn cô tưởng, **security** ở khu trọ thì lỏng lẻo. Đi đâu cũng gặp **beggar**, gặp những người **poor** chật vật mưu sinh, và cả những kẻ **selfish** chỉ biết lợi cho mình.
+
 ## Nhóm từ liên quan
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
