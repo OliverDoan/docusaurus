@@ -34,6 +34,14 @@ Cô ấy lần đầu lên thủ đô và bị cuốn hút bởi nhịp sống h
 | 23 | **appealing** *(adj)* | /əˈpiːlɪŋ/ | hấp dẫn, lôi cuốn | The idea of living here is very **appealing**. |
 | 24 | **opportunity** *(n)* | /ˌɒpəˈtjuːnəti/ | cơ hội | The city has many job **opportunities**. |
 
+## Chuyện chêm
+
+Lần đầu lên Hà Nội, Mai ngước nhìn những **skyscraper** và **tower** sáng đèn, nối với nhau bằng **highway** rộng thênh thang. **Capital** khác hẳn quê cô. Nhà trọ nằm ở quận **central**, một **district** đông vui, ngay cạnh **neighbourhood** cổ và một **square** lớn.
+
+Thành phố **lively** cả ngày lẫn đêm. Phố xá **bustling**, mọi thứ đều **exciting**, **atmosphere** lúc nào cũng rộn ràng. Người bán hàng ngồi kín **pavement**, mỗi **alley** nhỏ lại giấu một quán ăn ngon. **Nightlife** sôi động, nhóm bạn mới còn rủ cô đi **nightclub**.
+
+Mai thích cuộc sống **modern** và **convenient** ở đây: **system** xe buýt dày đặc, **quality** bệnh viện tốt, **service** nhanh gọn, đồ ăn **various** đủ kiểu. Với một cô gái trẻ, thủ đô thật **appealing**, nơi có biết bao **opportunity** đang chờ.
+
 ## Nhóm từ liên quan
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
