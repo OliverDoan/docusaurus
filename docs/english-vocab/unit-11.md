@@ -36,11 +36,11 @@ Một cặp đôi lên kế hoạch cho chuyến du lịch đầu tiên cùng nh
 
 ## Chuyện chêm
 
-Đêm trước chuyến đi, Nam **excited** đến mất ngủ. Sáng ra sân bay thì **disappointed**, vì **flight** bị **delay** hai tiếng. May mà **visa** đã xong từ trước và **reservation** khách sạn vẫn giữ nguyên. Tới nơi, cả hai để vali ở **reception** rồi đi ngay.
+Đêm trước chuyến đi, tôi **excited** đến mất ngủ. Sáng ra sân bay thì **disappointed**, vì **flight** bị **delay** hai tiếng. May mà **visa** đã xong từ trước và **reservation** khách sạn vẫn giữ nguyên. Tới nơi, hai đứa để vali ở **reception** rồi đi ngay.
 
-Linh mê **travelling**, nên dù **journey** dài cô vẫn hào hứng đặt thêm một **tour** thuyền. Bãi biển đông nghịt **tourist**, nhưng **destination** đầu tiên này vẫn đẹp hơn tưởng tượng. Suốt quãng **stay**, mỗi ngày là một **adventure**: hai người **discover** một bãi biển vắng, **experience** món ăn địa phương, và **escape** khỏi thành phố ồn ào.
+Bạn gái tôi mê **travelling**, nên dù **journey** dài vẫn hào hứng đặt thêm một **tour** thuyền. Bãi biển đông nghịt **tourist**, nhưng **destination** đầu tiên này vẫn đẹp hơn tưởng tượng. Suốt quãng **stay**, mỗi ngày là một **adventure**: chúng tôi **discover** một bãi biển vắng, **experience** món ăn địa phương, và **escape** khỏi thành phố ồn ào.
 
-Cảnh hoàng hôn **amazing** nhìn từ căn phòng **huge** hướng biển là **moment** Nam nhớ nhất. Để giữ **memory** ấy, Linh gửi một tấm **postcard** về cho bố mẹ. Với họ, chuyến đi là **chance** để hiểu nhau hơn. **Nowadays**, nhiều cặp đôi trẻ cũng đi du lịch cùng nhau như thế.
+Cảnh hoàng hôn **amazing** nhìn từ căn phòng **huge** hướng biển là **moment** tôi nhớ nhất. Để giữ **memory** ấy, bạn gái tôi gửi một tấm **postcard** về cho bố mẹ. Với chúng tôi, chuyến đi là **chance** để hiểu nhau hơn. **Nowadays**, nhiều cặp đôi trẻ cũng đi du lịch cùng nhau như thế.
 
 ## Nhóm từ liên quan
 

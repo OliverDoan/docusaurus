@@ -36,11 +36,11 @@ Anh ấy dẫn bạn gái đi tham quan thành phố: từ lăng, chùa, nhà th
 
 ## Chuyện chêm
 
-Nam dẫn Linh đi một vòng thành phố: ghé **church** cổ, thắp hương ở **temple** và **pagoda**, rồi xếp hàng vào **mausoleum**. Linh mê **history**, nghe Nam kể về thời **war** mà chăm chú lắng nghe. Phố cổ hơi **touristy**, nhưng Nam biết một quán cà phê **hidden** trong ngõ, nhỏ xinh và **lovely**, toàn các cặp **lover** ngồi tâm sự.
+Tôi dẫn bạn gái đi một vòng thành phố: ghé **church** cổ, thắp hương ở **temple** và **pagoda**, rồi xếp hàng vào **mausoleum**. Bạn gái tôi mê **history**, nghe tôi kể về thời **war** mà chăm chú lắng nghe. Phố cổ hơi **touristy**, nhưng tôi biết một quán cà phê **hidden** trong ngõ, nhỏ xinh và **lovely**, toàn các cặp **lover** ngồi tâm sự.
 
-Uống cà phê xong, hai người bàn chỗ nghỉ cho chuyến sau: **resort** ven biển, **campsite** trên núi hay **homestay** nhà dân. Linh muốn **try** sống cùng người bản địa và **taste** món ăn nhà làm. Anh **guide** quen của Nam cũng **recommend** homestay là **option** hay nhất.
+Uống cà phê xong, hai đứa bàn chỗ nghỉ cho chuyến sau: **resort** ven biển, **campsite** trên núi hay **homestay** nhà dân. Bạn gái tôi muốn **try** sống cùng người bản địa và **taste** món ăn nhà làm. Anh **guide** quen của tôi cũng **recommend** homestay là **option** hay nhất.
 
-Chiều đó, họ ghé một **local** **market** mua đặc sản. Nam lên sẵn **route** cho chuyến sau: sáng **hike** lên đồi, chiều dành **leisure** nghỉ ngơi, tối đi **sightseeing** phố đêm.
+Chiều đó, chúng tôi ghé một **local** **market** mua đặc sản. Tôi lên sẵn **route** cho chuyến sau: sáng **hike** lên đồi, chiều dành **leisure** nghỉ ngơi, tối đi **sightseeing** phố đêm.
 
 ## Nhóm từ liên quan
 

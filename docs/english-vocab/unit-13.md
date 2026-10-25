@@ -36,11 +36,11 @@ Anh ấy kể cho bạn gái về mùa cưới, các lễ hội và ngày lễ �
 
 ## Chuyện chêm
 
-Nam kể cho Linh nghe về mùa **wedding** ở quê. Tháng nào cũng có đám cưới, rồi **anniversary** của ông bà, những buổi **celebration** cả họ cùng **party** đến khuya. Với người quê anh, **occasion** nào cũng là dịp để gặp nhau.
+Tôi kể cho bạn gái nghe về mùa **wedding** ở quê. Tháng nào cũng có đám cưới, rồi **anniversary** của ông bà, những buổi **celebration** cả họ cùng **party** đến khuya. Với người quê tôi, **occasion** nào cũng là dịp để gặp nhau.
 
-Đông vui nhất là các **holiday** và **festival** lớn. Ngày lễ **national** thì cả **public** đổ ra đường, trẻ con rước **lantern**, nửa đêm có **firework** rực trời. Nhà anh lúc nào cũng tấp nập **guest**. Bố mẹ **welcome** mọi người, từ **relative** xa đến từng **loved one** trong nhà.
+Đông vui nhất là các **holiday** và **festival** lớn. Ngày lễ **national** thì cả **public** đổ ra đường, trẻ con rước **lantern**, nửa đêm có **firework** rực trời. Nhà tôi lúc nào cũng tấp nập **guest**. Bố mẹ **welcome** mọi người, từ **relative** xa đến từng **loved one** trong nhà.
 
-Đầu năm, bà nội ra chùa **pray**, bày **offering** lên bàn thờ. Nhà hàng xóm theo Công giáo thì đến nhà thờ nghe **priest** giảng. Ai cũng cầu **luck** và **peace** cho năm mới, gặp nhau là nói lời **congratulations**, **exchange** quà và **tidy** nhà cửa sạch sẽ. **Generally**, đó là quãng thời gian Nam yêu nhất trong năm.
+Đầu năm, bà nội ra chùa **pray**, bày **offering** lên bàn thờ. Nhà hàng xóm theo Công giáo thì đến nhà thờ nghe **priest** giảng. Ai cũng cầu **luck** và **peace** cho năm mới, gặp nhau là nói lời **congratulations**, **exchange** quà và **tidy** nhà cửa sạch sẽ. **Generally**, đó là quãng thời gian tôi yêu nhất trong năm.
 
 ## Nhóm từ liên quan
 

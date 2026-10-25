@@ -36,11 +36,11 @@ Mình giới thiệu cho bạn gái về khí hậu quê nhà — từ những n
 
 ## Chuyện chêm
 
-Trước chuyến về quê, Nam kể cho Linh về **climate** ở đó. Mỗi **season** một khác: **beginning** năm thì lạnh, **middle** năm nóng bức, **end** năm lại se lạnh. Mùa hè **sunny** gay gắt, mùa thu thì **rainy** triền miên.
+Trước chuyến về quê, tôi kể cho bạn gái về **climate** ở đó. Mỗi **season** một khác: **beginning** năm thì lạnh, **middle** năm nóng bức, **end** năm lại se lạnh. Mùa hè **sunny** gay gắt, mùa thu thì **rainy** triền miên.
 
 Mùa xuân có **drizzle** lất phất, mùa hè hay có **shower** bất chợt. Tháng chín là mùa **typhoon**, có năm còn **flood** ngập cả làng. Những ngày **pleasant** thì ít, ngày **nasty** thì nhiều, có hôm nắng nóng thật **awful**, không khí **humid** đến mức quần áo phơi mãi không khô.
 
-Chiều về có **breeze** từ sông thổi vào, trời lác đác vài **cloud**. Nam xem bản tin **forecast**: tuần sau **temperature** khoảng ba mươi lăm độ **Celsius**, đợt nắng nóng sẽ **last** cả một **period** dài. Có một cơn bão đang **approach** nhưng chưa vào bờ. Anh dặn Linh mang áo mỏng và ô, vì đó là kiểu thời tiết **typical** của quê anh.
+Chiều về có **breeze** từ sông thổi vào, trời lác đác vài **cloud**. Tôi xem bản tin **forecast**: tuần sau **temperature** khoảng ba mươi lăm độ **Celsius**, đợt nắng nóng sẽ **last** cả một **period** dài. Có một cơn bão đang **approach** nhưng chưa vào bờ. Tôi dặn bạn gái mang áo mỏng và ô, vì đó là kiểu thời tiết **typical** của quê tôi.
 
 ## Nhóm từ liên quan
 

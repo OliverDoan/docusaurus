@@ -36,11 +36,11 @@ Mình và bạn gái nhận ra những khác biệt văn hoá giữa hai ngườ
 
 ## Chuyện chêm
 
-Có những điều với Nam là **normal**, nhưng với Linh lại **strange**, và ngược lại. Cái gì **familiar** với người này lại lạ lẫm với người kia. Dần dần, hai người học cách nhìn thấy **difference** và **respect** nhau.
+Có những điều với tôi là **normal**, nhưng với bạn gái tôi lại **strange**, và ngược lại. Cái gì **familiar** với người này lại lạ lẫm với người kia. Dần dần, hai đứa học cách nhìn thấy **difference** và **respect** nhau.
 
-Nhà Nam có nhiều **rule** lắm. Ví dụ, có một **taboo** là phải **avoid** quét nhà ngày mùng Một Tết. Về **religion**, mẹ Nam là **Buddhist**, trong vườn còn có một **shrine** nhỏ. Bà **believe** vào những điều **traditional**, như không được ngồi tựa vào **pillar** giữa nhà.
+Nhà tôi có nhiều **rule** lắm. Ví dụ, có một **taboo** là phải **avoid** quét nhà ngày mùng Một Tết. Về **religion**, mẹ tôi là **Buddhist**, trong vườn còn có một **shrine** nhỏ. Bà nội **believe** vào những điều **traditional**, như không được ngồi tựa vào **pillar** giữa nhà.
 
-Nói chuyện **marriage**, có lần Linh **angry** vì gia đình Nam đòi hỏi quá nhiều. Nam thì **proud** về văn hoá quê mình và **expect** cô sẽ hiểu. Rồi Linh làm Nam **surprise** khi tự học cách nấu cỗ. Không ai **persuade** hay **control** được ai, nhưng cả hai đều sống **fair** với nhau. Họ không **mean** làm tổn thương nhau, chỉ cần thêm chút **care** mà thôi.
+Nói chuyện **marriage**, có lần bạn gái tôi **angry** vì gia đình tôi đòi hỏi quá nhiều. Tôi thì **proud** về văn hoá quê mình và **expect** bạn gái sẽ hiểu. Rồi bạn gái tôi làm tôi **surprise** khi tự học cách nấu cỗ. Không ai **persuade** hay **control** được ai, nhưng cả hai đều sống **fair** với nhau. Chúng tôi không **mean** làm tổn thương nhau, chỉ cần thêm chút **care** mà thôi.
 
 ## Nhóm từ liên quan
 

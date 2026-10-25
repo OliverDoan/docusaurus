@@ -36,11 +36,11 @@ title: "Unit 5: Hành trình tìm việc"
 
 ## Chuyện chêm
 
-Quân đã **jobless** ba tháng. Cậu chỉ mong được **employed** ở một nơi ổn định, thay vì làm **freelancer** nay đây mai đó. Cậu **prepare** thật kỹ: tuần trước gửi mười lá **application**, mong được gọi đi **interview** rồi ký **contract**. Mọi **document** và bằng cấp đều được cất gọn trong một **file**.
+Tôi đã **jobless** ba tháng, chỉ mong được **employed** ở một nơi ổn định, thay vì làm **freelancer** nay đây mai đó. Tôi **prepare** thật kỹ: tuần trước gửi mười lá **application**, mong được gọi đi **interview** rồi ký **contract**. Mọi **document** và bằng cấp đều được cất gọn trong một **file**.
 
-Cuối cùng một công ty **arrange** buổi phỏng vấn vào thứ Sáu. Trên đường đi, Quân lướt tin tuyển dụng: báo cần **reporter** thể thao, một **photographer** đã chụp ảnh hồ sơ cho cậu, một **film maker** trẻ đang tìm trợ lý. Làm **musician** là giấc mơ thầm kín của cậu, nhưng vị trí cậu ứng tuyển là **designer** web.
+Cuối cùng một công ty **arrange** buổi phỏng vấn vào thứ Sáu. Trên đường đi, tôi lướt tin tuyển dụng: báo cần **reporter** thể thao, một **photographer** đã chụp ảnh hồ sơ cho tôi, một **film maker** trẻ đang tìm trợ lý. Làm **musician** là giấc mơ thầm kín của tôi, nhưng vị trí tôi ứng tuyển là **designer** web.
 
-Cô **secretary** dẫn Quân vào phòng họp. Ngồi chờ, cậu nghĩ tới bạn làm **bank teller**, chị gái là **nurse**, bố từng là **builder**. Người phỏng vấn gật đầu: cậu đủ **qualified** cho việc này. Quân muốn thành **expert** trong nghề, laptop là **tool** quan trọng nhất, và sẵn sàng nói chuyện với **customer** mỗi ngày. Từ đây, **career** IT của Quân chính thức bắt đầu.
+Cô **secretary** dẫn tôi vào phòng họp. Ngồi chờ, tôi nghĩ tới người bạn làm **bank teller**, chị gái là **nurse**, bố từng là **builder**. Người phỏng vấn gật đầu: tôi đủ **qualified** cho việc này. Tôi muốn thành **expert** trong nghề, laptop là **tool** quan trọng nhất, và sẵn sàng nói chuyện với **customer** mỗi ngày. Từ đây, **career** IT của tôi chính thức bắt đầu.
 
 ## Nhóm từ liên quan
 

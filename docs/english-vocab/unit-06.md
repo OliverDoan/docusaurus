@@ -36,11 +36,11 @@ Cô ấy tiêu tiền quá tay, đến cuối tháng thì cháy túi và học �
 
 ## Chuyện chêm
 
-Mới giữa tháng mà Mai đã phải **borrow** tiền bạn. Cô bạn thân **lend** cho năm trăm nghìn, vậy là giờ Mai **owe** cả bạn lẫn chị gái. Thấy món nào **cheap** hay giá **reasonable** là cô mua, đôi khi cả đồ **expensive** nữa, cứ như mình **rich** lắm. Kết quả: cuối tháng nào cũng **broke**.
+Mới giữa tháng mà bạn gái tôi đã phải **borrow** tiền. Cô bạn thân **lend** cho năm trăm nghìn, vậy là giờ bạn gái tôi **owe** cả bạn lẫn tôi. Thấy món nào **cheap** hay giá **reasonable** là mua, đôi khi cả đồ **expensive** nữa, cứ như mình **rich** lắm. Kết quả: cuối tháng nào cũng **broke**.
 
-Mai **spend** cả tháng lương chỉ trong hai tuần, chẳng **save** được đồng nào. Mẹ bảo cô quá **wasteful**, lại còn **generous** với bạn bè, bữa nào cũng giành trả tiền. Ngồi cộng lại, cô mới thấy **cost** sinh hoạt cao thế nào: **expense** ăn uống, **price** quần áo, **bill** điện nước, **fee** phòng gym, và **rent** nhà sắp **due**.
+Cả tháng lương, bạn gái tôi **spend** hết chỉ trong hai tuần, chẳng **save** được đồng nào. Tôi chê bạn gái tôi quá **wasteful**, lại còn **generous** với bạn bè, bữa nào cũng giành trả tiền. Hai đứa ngồi cộng lại mới thấy **cost** sinh hoạt cao thế nào: **expense** ăn uống, **price** quần áo, **bill** điện nước, **fee** phòng gym, và **rent** nhà sắp **due**.
 
-Sếp chưa hứa **raise** lương, nên Mai đành **decrease** chi tiêu. Cô học cách **manage** tiền: dán một tờ **note** lên tủ lạnh ghi rõ từng khoản nợ. Từ nay, **luxury** chỉ dành cho dịp thật đặc biệt.
+Sếp chưa hứa **raise** lương, nên bạn gái tôi đành **decrease** chi tiêu và học cách **manage** tiền: dán một tờ **note** lên tủ lạnh ghi rõ từng khoản nợ. Từ nay, **luxury** chỉ dành cho dịp thật đặc biệt.
 
 ## Nhóm từ liên quan
 

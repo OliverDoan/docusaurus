@@ -36,11 +36,11 @@ Một bạn trẻ giới thiệu bản thân: quê hương, nơi sống, thông 
 
 ## Chuyện chêm
 
-**Nickname** của Nam là Sunny, còn **surname** thì là Nguyễn. Cậu lớn lên ở một **town** nhỏ, **hometown** nằm ở **north**, xa hẳn vùng **south** nơi mẹ cậu sinh ra. Quê cậu **peaceful**, không **crowded** như thành phố.
+**Nickname** của tôi là Sunny, còn **surname** là Nguyễn. Tôi lớn lên ở một **town** nhỏ, **hometown** nằm ở **north**, xa hẳn vùng **south** nơi mẹ tôi sinh ra. Quê tôi **peaceful**, không **crowded** như thành phố.
 
-Cái tên Sunny có một câu chuyện **special**, chẳng **common** chút nào. Để Nam **tell** bạn nghe: hồi nhỏ ai cũng **describe** cậu là đứa lúc nào cũng cười, nên cả xóm **call** cậu là Sunny. **Meaning** của nó là tươi sáng, vui vẻ. Giờ ít ai **know** tên thật của cậu nữa.
+Cái tên Sunny có một câu chuyện **special**, chẳng **common** chút nào. Để tôi **tell** bạn nghe: hồi nhỏ ai cũng **describe** tôi là đứa lúc nào cũng cười, nên cả xóm **call** tôi là Sunny. **Meaning** của nó là tươi sáng, vui vẻ. Giờ ít ai **know** tên thật của tôi nữa.
 
-Lần đầu điền hồ sơ đi làm, Nam phải **spell** tên thật, **sign** vào giấy, ghi **address** mới và **contact** của mình. **Distance** từ quê lên thành phố chỉ một trăm cây số. Giờ cậu **live** và làm việc ở **centre** thành phố, nhưng vẫn nhớ dòng sông **beautiful** ở quê và mùa hè, mùa **favourite** của cậu.
+Lần đầu điền hồ sơ đi làm, tôi phải **spell** tên thật, **sign** vào giấy, ghi **address** mới và **contact** của mình. **Distance** từ quê lên thành phố chỉ một trăm cây số. Giờ tôi **live** và làm việc ở **centre** thành phố, nhưng vẫn nhớ dòng sông **beautiful** ở quê và mùa hè, mùa **favourite** của tôi.
 
 ## Nhóm từ liên quan
 

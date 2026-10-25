@@ -36,11 +36,11 @@ Cô ấy chuyển đến một căn hộ mới đầy đủ nội thất, có ba
 
 ## Chuyện chêm
 
-Mai chuyển tới một **flat** mới ở tầng tám của một **building** yên tĩnh. **Place** này chỉ cách công ty mười phút **drive**, lại **away** khỏi khu chợ ồn ào. Căn hộ **face** hướng đông nên tràn **light** buổi sáng, **view** nhìn ra công viên, có cả **balcony** nhỏ để phơi đồ.
+Bạn gái tôi chuyển tới một **flat** mới ở tầng tám của một **building** yên tĩnh. **Place** này chỉ cách công ty mười phút **drive**, lại **away** khỏi khu chợ ồn ào. Căn hộ **face** hướng đông nên tràn **light** buổi sáng, **view** nhìn ra công viên, có cả **balcony** nhỏ để phơi đồ.
 
-Căn hộ được trang bị **fully** **furniture**: một **bookshelf** cao, **curtain** màu kem, **air conditioner** mới, **carpet** trải phòng khách và một tấm **rug** cạnh giường. Mai sống cùng một **housemate**, nhưng không phải **roommate**, vì mỗi người một phòng, chỉ **share** bếp và phòng tắm.
+Căn hộ được trang bị **fully** **furniture**: một **bookshelf** cao, **curtain** màu kem, **air conditioner** mới, **carpet** trải phòng khách và một tấm **rug** cạnh giường. Bạn gái tôi sống cùng một **housemate**, nhưng không phải **roommate**, vì mỗi người một phòng, chỉ **share** bếp và phòng tắm.
 
-Cuối tuần, cô tự **decorate** căn hộ thật **beautifully**: cắm hoa, treo tranh, đặt một món **antique** mua ở phố cổ lên kệ. Giờ căn hộ thật **comfortable**, khác hẳn căn phòng trọ **cramped** ngày trước.
+Cuối tuần, tôi sang giúp bạn gái **decorate** căn hộ thật **beautifully**: cắm hoa, treo tranh, đặt một món **antique** mua ở phố cổ lên kệ. Giờ căn hộ thật **comfortable**, khác hẳn căn phòng trọ **cramped** ngày trước.
 
 ## Nhóm từ liên quan
 

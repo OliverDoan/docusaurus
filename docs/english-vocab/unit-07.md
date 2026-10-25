@@ -36,11 +36,11 @@ Cô ấy lần đầu lên thủ đô và bị cuốn hút bởi nhịp sống h
 
 ## Chuyện chêm
 
-Lần đầu lên Hà Nội, Mai ngước nhìn những **skyscraper** và **tower** sáng đèn, nối với nhau bằng **highway** rộng thênh thang. **Capital** khác hẳn quê cô. Nhà trọ nằm ở quận **central**, một **district** đông vui, ngay cạnh **neighbourhood** cổ và một **square** lớn.
+Lần đầu lên Hà Nội, bạn gái tôi ngước nhìn những **skyscraper** và **tower** sáng đèn, nối với nhau bằng **highway** rộng thênh thang. **Capital** khác hẳn quê nhà. Phòng trọ nằm ở quận **central**, một **district** đông vui, ngay cạnh **neighbourhood** cổ và một **square** lớn.
 
-Thành phố **lively** cả ngày lẫn đêm. Phố xá **bustling**, mọi thứ đều **exciting**, **atmosphere** lúc nào cũng rộn ràng. Người bán hàng ngồi kín **pavement**, mỗi **alley** nhỏ lại giấu một quán ăn ngon. **Nightlife** sôi động, nhóm bạn mới còn rủ cô đi **nightclub**.
+Thành phố **lively** cả ngày lẫn đêm. Phố xá **bustling**, mọi thứ đều **exciting**, **atmosphere** lúc nào cũng rộn ràng. Người bán hàng ngồi kín **pavement**, mỗi **alley** nhỏ lại giấu một quán ăn ngon. **Nightlife** sôi động, tôi còn dẫn bạn gái đi thử **nightclub**.
 
-Mai thích cuộc sống **modern** và **convenient** ở đây: **system** xe buýt dày đặc, **quality** bệnh viện tốt, **service** nhanh gọn, đồ ăn **various** đủ kiểu. Với một cô gái trẻ, thủ đô thật **appealing**, nơi có biết bao **opportunity** đang chờ.
+Bạn gái tôi thích cuộc sống **modern** và **convenient** ở đây: **system** xe buýt dày đặc, **quality** bệnh viện tốt, **service** nhanh gọn, đồ ăn **various** đủ kiểu. Với một cô gái trẻ, thủ đô thật **appealing**, nơi có biết bao **opportunity** đang chờ.
 
 ## Nhóm từ liên quan
 

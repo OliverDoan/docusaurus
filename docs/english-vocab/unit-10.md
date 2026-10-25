@@ -36,11 +36,11 @@ Cô ấy làm quen với khu phố mới: hàng xóm thân thiện, đủ tiện
 
 ## Chuyện chêm
 
-**Area** Mai mới chuyển đến gồm nhiều **block** chung cư, **property** ở đây tăng giá đều. Ban ngày khu phố **vibrant** nhưng không **noisy**. **Vibe** buổi tối thì **chilled**, quán cà phê đầu ngõ vừa **comfy** vừa **cosy**.
+**Area** bạn gái tôi mới chuyển đến gồm nhiều **block** chung cư, **property** ở đây tăng giá đều. Ban ngày khu phố **vibrant** nhưng không **noisy**. **Vibe** buổi tối thì **chilled**, quán cà phê đầu ngõ nơi hai đứa hay hẹn nhau vừa **comfy** vừa **cosy**.
 
-Hàng xóm rất **friendly**, khu phố lại **safe**. Bác tổ trưởng **inform** lịch họp dân phố, rồi **invite** Mai sang nhà ăn cơm. Chỉ có đường xá hơi **complicated**, nhiều phố **one-way** khiến cô lạc mấy lần.
+Hàng xóm rất **friendly**, khu phố lại **safe**. Bác tổ trưởng **inform** lịch họp dân phố, rồi **invite** bạn gái tôi sang nhà ăn cơm. Chỉ có đường xá hơi **complicated**, nhiều phố **one-way** khiến tôi lạc mấy lần mỗi khi đến đón.
 
-Bù lại, tiện ích có đủ: **clinic** ngay cổng, **gym** tầng hầm, **playground** cho trẻ con và **pool** trên sân thượng. Có cả siêu thị ở tầng **ground**. Hàng xóm **always** chào hỏi, cư dân **mostly** là gia đình trẻ, cây xanh mọc **everywhere**. Mai tin khu phố này sẽ còn **develop** hơn nữa.
+Bù lại, tiện ích có đủ: **clinic** ngay cổng, **gym** tầng hầm, **playground** cho trẻ con và **pool** trên sân thượng. Có cả siêu thị ở tầng **ground**. Hàng xóm **always** chào hỏi, cư dân **mostly** là gia đình trẻ, cây xanh mọc **everywhere**. Bạn gái tôi tin khu phố này sẽ còn **develop** hơn nữa.
 
 ## Nhóm từ liên quan
 
