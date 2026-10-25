@@ -34,6 +34,14 @@ Một bạn trẻ ấp ủ ước mơ đi du học, nhưng trước hết phải
 | 23 | **original** *(adj)* | /əˈrɪdʒənl/ | nguyên bản, ban đầu | His **original** plan was to study in Australia. |
 | 24 | **difficulty** *(n)* | /ˈdɪfɪkəlti/ | khó khăn | He has **difficulty** understanding native speakers. |
 
+## Chuyện chêm
+
+Minh luôn run khi một **foreigner** bắt chuyện, kể cả khi đó chỉ là một **visitor** hỏi đường. Cậu mơ được du học **abroad** để tìm hiểu **culture** nước khác, nhưng tính lại **shy**, đứng trước lớp là **scared** đến đỏ mặt, chẳng bao giờ thấy **confident**.
+
+Là một **beginner** thật sự, Minh quyết tâm tạo **progress** để lấy được **certificate** IELTS. Cậu muốn **improve** cả thứ **language** khó nhằn này: mỗi ngày học mười từ **vocabulary**, luyện từng **skill** một. Cậu nghe một **speaker** người Anh nói chuyện, tập một đoạn **conversation** ngắn, rồi thử **communicate** với bạn nước ngoài.
+
+Lúc đầu cậu không **follow** kịp khi người ta nói nhanh, cũng chẳng **understand** hết. Rồi Minh đăng ký một **course** tiếng Anh, mỗi buổi học một **topic** mới. Du học vẫn là **idea** hay nhất của cậu, dù kế hoạch **original** là sang Úc. Giờ Minh vẫn còn **difficulty** khi nghe người bản xứ, nhưng đã không còn sợ nữa.
+
 ## Nhóm từ liên quan
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
