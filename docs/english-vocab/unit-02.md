@@ -34,6 +34,14 @@ Một bạn trẻ kể lại chặng đường đi học của mình, từ trư�
 | 23 | **uniform** *(n)* | /ˈjuːnɪfɔːm/ | đồng phục | Students must wear a **uniform** every day. |
 | 24 | **popular** *(adj)* | /ˈpɒpjələ/ | phổ biến, được yêu thích | He was the most **popular** boy in class. |
 
+## Chuyện chêm
+
+Hồi bốn tuổi, Huy vào **kindergarten** gần nhà, rồi lên trường **primary** với cô giáo cậu quý nhất. Đến trường **secondary** thì mọi thứ khó hơn hẳn: **mathematics** chưa bao giờ là thế mạnh, **science** thì học từ sáng thứ Hai, dù cậu mơ sau này theo **engineering**. Chỉ có giờ **art** là Huy vẽ mèo cho vui.
+
+**Subject** cậu thích nhất là lịch sử, dù **curriculum** dày đặc với hai ngoại ngữ. Hè nào bố mẹ cũng **enroll** cho cậu một lớp học thêm. Huy vẫn **attend** đều đặn, trong khi một người bạn đã **drop out** năm mười sáu tuổi. Có lần cậu **absent** vì cảm, về nhà phải thức khuya **revise** bài và **memorise** cả một bài thơ dài.
+
+Cậu kịp nộp **assignment** sát giờ và được **grade** cao môn tiếng Anh, nên quyết tâm **continue** học lên. Trước kỳ thi đầu tiên Huy rất **nervous**, nhưng chăm chỉ đã giúp cậu **succeed**. Hôm thầy **announce** kết quả cũng là ngày cuối **term**. Trong bộ **uniform** quen thuộc, Huy là cậu bạn **popular** nhất lớp.
+
 ## Nhóm từ liên quan
 
 | Nhóm từ | Liên hệ | Mẹo nhớ |
