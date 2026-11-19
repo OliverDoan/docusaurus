@@ -138,6 +138,7 @@ const config: Config = {
             {type: 'docSidebar', sidebarId: 'systemDesignSidebar', label: 'System Design'},
             {type: 'docSidebar', sidebarId: 'computerScienceSidebar', label: 'Computer Science'},
             {type: 'docSidebar', sidebarId: 'softwareArchitectSidebar', label: 'Software Architect'},
+            {type: 'docSidebar', sidebarId: 'dataEngineeringSidebar', label: 'Data Engineering'},
           ],
         },
         {
