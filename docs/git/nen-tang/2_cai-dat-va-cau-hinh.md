@@ -426,13 +426,138 @@ Từ năm 2020, `main` trở thành tên mặc định trên GitHub. Nên đồn
 
 ### 6.3 Pull Strategy
 
-```bash
-# Dùng rebase thay vì merge khi pull (giữ lịch sử sạch hơn)
-git config --global pull.rebase true
+`git pull` thực chất chạy hai lệnh liên tiếp:
 
-# Hoặc chỉ rebase khi có thể fast-forward
+```
+git pull  =  git fetch  +  (merge HOẶC rebase)
+```
+
+`fetch` tải commit mới từ remote về. Bước sau là **ghép** commit đó với commit của bạn ở máy local. Pull strategy quyết định bước ghép này chạy theo cách nào.
+
+#### Tình huống chung để so sánh
+
+Bạn và đồng nghiệp cùng làm trên `main`, bắt đầu từ commit `B`:
+
+```
+Remote (origin/main):   A ── B ── D        ← đồng nghiệp đã push D
+Local  (main):          A ── B ── C        ← bạn commit C nhưng chưa push
+```
+
+Hai nhánh đã **rẽ đôi** (diverged). Mỗi bên có một commit bên kia chưa có. Giờ bạn chạy `git pull`.
+
+#### Cách 1: Merge (`pull.rebase false`)
+
+```bash
+git config --global pull.rebase false
+```
+
+Git tạo thêm một **merge commit** `M` để nối hai nhánh:
+
+```
+A ── B ── C ──── M      ← main
+      \         /
+       └── D ──┘
+```
+
+```bash
+$ git log --oneline --graph
+*   f3a1b2c (HEAD -> main) Merge branch 'main' of github.com:team/repo
+|\
+| * 9d8e7f6 (origin/main) feat: thêm API login      ← D
+* | 4c5d6e7 fix: sửa validate email                  ← C
+|/
+* 1a2b3c4 init                                       ← B
+```
+
+- **Ưu điểm:** giữ đúng lịch sử thật, không viết lại commit nào. Gặp conflict thì chỉ giải quyết một lần.
+- **Nhược điểm:** mỗi lần pull lại sinh thêm một commit "Merge branch 'main' of ...". Team đông người pull nhiều lần một ngày thì graph thành mạng nhện, khó đọc.
+
+#### Cách 2: Rebase (`pull.rebase true`)
+
+```bash
+git config --global pull.rebase true
+```
+
+Git tạm cất commit `C` của bạn, kéo `D` về, rồi **chép lại** `C` lên trên `D` thành commit mới `C'`:
+
+```
+A ── B ── D ── C'      ← main (thẳng một đường)
+```
+
+```bash
+$ git log --oneline --graph
+* 7b8c9d0 (HEAD -> main) fix: sửa validate email     ← C' (hash MỚI)
+* 9d8e7f6 (origin/main) feat: thêm API login         ← D
+* 1a2b3c4 init                                       ← B
+```
+
+- **Ưu điểm:** lịch sử thẳng, không có merge commit thừa, trông như bạn viết `C` sau khi đã có `D`.
+- **Nhược điểm:**
+  - `C'` có **hash khác** `C`, vì commit đã bị viết lại.
+  - Có N commit local thì có thể phải giải quyết conflict tới N lần, mỗi commit một lần.
+
+Khi gặp conflict trong lúc rebase:
+
+```bash
+# Sửa file bị conflict, rồi:
+git add <file>
+git rebase --continue    # tiếp tục với commit kế tiếp
+git rebase --abort       # hoặc huỷ, quay về trạng thái trước khi pull
+```
+
+Việc viết lại commit ở đây khá an toàn, vì Git chỉ chép lại những commit **chưa push**. Chưa ai khác có các commit đó.
+
+#### Cách 3: Chỉ fast-forward (`pull.ff only`)
+
+```bash
 git config --global pull.ff only
 ```
+
+Git **chỉ** cập nhật khi có thể "tua nhanh", tức là local không có commit riêng nào. Khi đó Git chỉ dời con trỏ nhánh, không merge, không rebase, không tạo commit mới:
+
+```
+Trước:  Local  A ── B
+        Remote A ── B ── D
+Sau:    Local  A ── B ── D       ✅ chỉ dời con trỏ
+```
+
+Nếu hai nhánh đã rẽ đôi như tình huống chung, Git **từ chối**:
+
+```bash
+$ git pull
+fatal: Not possible to fast-forward, aborting.
+```
+
+Lúc đó bạn tự chọn cách xử lý: `git pull --rebase` hoặc `git pull --no-ff`.
+
+- **Ưu điểm:** an toàn nhất. Git không bao giờ tự tạo commit hay tự viết lại lịch sử sau lưng bạn.
+- **Nhược điểm:** gặp nhánh rẽ đôi là phải xử lý tay.
+
+#### Bảng so sánh
+
+| Tiêu chí              | Merge                             | Rebase                       | FF only                       |
+| --------------------- | --------------------------------- | ---------------------------- | ----------------------------- |
+| Config                | `pull.rebase false`               | `pull.rebase true`           | `pull.ff only`                |
+| Khi nhánh rẽ đôi      | Tạo merge commit                  | Chép commit local lên trên   | Báo lỗi, dừng                 |
+| Hình dạng lịch sử     | Phân nhánh                        | Thẳng                        | Thẳng                         |
+| Viết lại commit?      | Không                             | Có (commit chưa push)        | Không                         |
+| Số lần giải conflict  | 1 lần                             | Có thể N lần                 | Không xảy ra (tự xử lý)       |
+| Hợp với               | Người mới, cần lịch sử chính xác  | Team muốn log sạch           | Người muốn kiểm soát hoàn toàn |
+
+#### Nên chọn cái nào?
+
+Cấu hình phổ biến nhất là rebase, kèm tự cất các thay đổi chưa commit:
+
+```bash
+git config --global pull.rebase true
+git config --global rebase.autoStash true   # tự stash file đang sửa dở trước khi rebase, xong tự lấy lại
+```
+
+Nếu chưa quen xử lý conflict khi rebase, dùng `pull.ff only` để Git dừng lại báo cho bạn biết, thay vì tự làm thay.
+
+:::tip
+Các bản Git mới (khoảng từ 2.33 trở đi) sẽ báo lỗi `Need to specify how to reconcile divergent branches` nếu bạn chưa cấu hình gì mà nhánh đã rẽ đôi. Đó là lý do nên cấu hình mục này ngay từ đầu.
+:::
 
 ### 6.4 Color Output
 
@@ -587,14 +712,110 @@ git config --global core.editor "code --wait"
 
 ### Lỗi 4: Line ending gây ra diff giả
 
-```bash
-# Triệu chứng: git diff hiển thị mọi dòng đã thay đổi, dù bạn chỉ sửa 1 dòng
-# Nguyên nhân: Line ending khác nhau (CRLF vs LF)
+**Triệu chứng:** bạn chỉ sửa 1 dòng nhưng `git diff` báo **toàn bộ file** bị xoá rồi thêm lại.
 
-# Sửa:
+#### Line ending là gì?
+
+Cuối mỗi dòng trong file text có một ký tự vô hình đánh dấu xuống dòng. Mỗi hệ điều hành dùng một kiểu:
+
+| Hệ điều hành  | Ký hiệu | Byte                 | Tên                         |
+| ------------- | ------- | -------------------- | --------------------------- |
+| Windows       | `CRLF`  | `\r\n` (0x0D 0x0A)   | Carriage Return + Line Feed |
+| macOS / Linux | `LF`    | `\n` (0x0A)          | Line Feed                   |
+
+Tên gọi đến từ máy đánh chữ: CR là kéo đầu in về đầu dòng, LF là cuộn giấy xuống một dòng. Windows giữ cả hai, Unix chỉ giữ LF.
+
+#### Vì sao sinh ra diff giả?
+
+Git so sánh từng byte, nên `hello\n` và `hello\r\n` là **hai dòng khác nhau**. Tình huống thường gặp:
+
+1. Bạn A dùng macOS, commit file `App.java` với LF.
+2. Bạn B dùng Windows, sửa đúng 1 dòng. Editor tự đổi cả file sang CRLF khi lưu.
+3. `git diff` hiện mọi dòng đều thay đổi:
+
+```diff
+-public class App {
+-    int x = 1;
++public class App {^M
++    int x = 2;^M
+```
+
+Ký tự `^M` chính là `\r`. Nội dung không đổi, chỉ ký tự xuống dòng đổi. Hậu quả:
+
+- Code review không nhìn ra dòng nào thật sự thay đổi.
+- `git blame` ghi tên bạn B cho mọi dòng, mất lịch sử tác giả thật.
+- Dễ conflict khi merge vì nhánh nào cũng "sửa" mọi dòng.
+- Script shell lưu dạng CRLF chạy trên Linux báo lỗi `/bin/bash^M: bad interpreter`.
+
+#### Cách 1: `core.autocrlf` (cấu hình trên từng máy)
+
+```bash
 git config --global core.autocrlf input   # macOS/Linux
 git config --global core.autocrlf true    # Windows
 ```
+
+Git chuyển đổi ký tự xuống dòng ở hai thời điểm: khi **commit** và khi **checkout**.
+
+| Giá trị | Khi commit | Khi checkout | Dùng cho                             |
+| ------- | ---------- | ------------ | ------------------------------------ |
+| `true`  | CRLF → LF  | LF → CRLF    | Windows                              |
+| `input` | CRLF → LF  | giữ nguyên   | macOS/Linux                          |
+| `false` | giữ nguyên | giữ nguyên   | Không khuyến nghị cho team nhiều OS  |
+
+Cả hai cách cấu hình đều nhắm tới một điều: **trong repo luôn lưu LF**. Windows được đổi sang CRLF khi checkout để editor hiển thị đúng; macOS/Linux dùng `input` để chặn file CRLF lỡ lọt vào khi commit.
+
+Hạn chế: đây là cấu hình riêng từng máy. Chỉ cần một người trong team quên cấu hình là lỗi quay lại.
+
+#### Cách 2: `.gitattributes` (khuyến nghị khi làm theo team)
+
+Tạo file `.gitattributes` ở gốc repo và commit nó. Quy tắc này áp dụng cho mọi người clone repo, và được ưu tiên hơn `core.autocrlf`:
+
+```gitattributes
+# Mặc định: Git tự nhận file text, lưu LF trong repo
+* text=auto eol=lf
+
+# File chỉ chạy trên Windows thì giữ CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# File nhị phân: không bao giờ chuyển đổi
+*.png binary
+*.jpg binary
+*.jar binary
+```
+
+#### Repo đã lẫn file CRLF thì sao?
+
+Bật `autocrlf` hay thêm `.gitattributes` **không tự sửa file đã commit sai**. Cần chuẩn hoá lại một lần, commit riêng để không lẫn với thay đổi thật:
+
+```bash
+git add --renormalize .
+git commit -m "chore: normalize line endings to LF"
+```
+
+#### Cách chẩn đoán
+
+```bash
+# Xem line ending của từng file (i/ = trong repo, w/ = working dir)
+git ls-files --eol
+# i/lf    w/crlf  attr/text=auto  src/App.java
+
+# Diff bỏ qua khác biệt CR ở cuối dòng: phần còn lại mới là thay đổi thật
+git diff --ignore-cr-at-eol
+
+# Kiểm tra một file cụ thể
+file src/App.java
+# src/App.java: ASCII text, with CRLF line terminators
+```
+
+Nên cấu hình editor cho đồng bộ: trong VS Code đặt `"files.eol": "\n"`, hoặc thêm `.editorconfig` với `end_of_line = lf` để editor không tự đổi khi lưu.
+
+| Tình huống              | Cách xử lý                                                       |
+| ----------------------- | ---------------------------------------------------------------- |
+| Làm một mình            | `core.autocrlf` (`input` trên macOS/Linux, `true` trên Windows)  |
+| Làm theo team           | Commit `.gitattributes` với `* text=auto eol=lf`                 |
+| Repo đã lẫn CRLF        | `git add --renormalize .` rồi commit riêng                       |
+| Muốn xem diff thật      | `git diff --ignore-cr-at-eol`                                    |
 
 ### Lỗi 5: Dùng HTTPS thay vì SSH
 
