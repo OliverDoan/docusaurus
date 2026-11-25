@@ -62,6 +62,23 @@ flowchart TD
     D --> I["Ứng phó sự cố (Incident response)"]
 ```
 
+### Thuật ngữ trong bài — hiểu nôm na
+
+Ví dụ dùng chuỗi trà sữa **Mây** (30 cửa hàng, xem [phần giới thiệu](../intro.md)) và đường ống dữ liệu đã dựng ở [bài 2](./2_thu-nap-chuyen-doi-cung-cap.md).
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+| --- | --- | --- |
+| Cron job | Báo thức hẹn giờ cho máy tính: đúng giờ thì chạy, không quan tâm việc trước đã xong chưa | "2 giờ sáng chạy làm sạch, 3 giờ sáng chạy tổng hợp" |
+| Orchestration (điều phối) | Người điều độ biết việc nào phải chờ việc nào | "Chỉ tổng hợp khi đã làm sạch xong cả 30 cửa hàng" |
+| DAG | Sơ đồ các bước nối bằng mũi tên một chiều, không vòng lại | Lấy đơn → làm sạch → tổng hợp → dashboard |
+| CI/CD | Mỗi lần sửa code là tự kiểm tra và tự đưa lên hệ thống thật | Sửa cách tính doanh thu, máy tự chạy thử trên dữ liệu mẫu trước |
+| Observability (khả năng quan sát) | Nhìn vào là biết hệ thống khoẻ hay ốm, ốm ở đâu | Bảng theo dõi: đêm qua mỗi cửa hàng gửi bao nhiêu đơn |
+| Alert (cảnh báo) | Tin nhắn tự động khi có gì bất thường | "Q7 không có đơn nào hôm qua" gửi vào nhóm chat |
+| Incident (sự cố) | Một lần hệ thống hỏng ảnh hưởng người dùng | Dashboard sáng nay hiện doanh thu app bằng 0 |
+| Backfill | Chạy bù cho những ngày đã lỡ | Đường ống hỏng 3 ngày, sửa xong chạy lại cho 3 ngày đó |
+| IaC (Infrastructure as code) | Mô tả máy móc, dịch vụ cần thuê bằng file chữ, để dựng lại y hệt bất cứ lúc nào | File mô tả "kho dữ liệu, 1 máy chạy đường ống, 1 nơi lưu file thô" |
+| Unit test | Kiểm tra từng mảnh nhỏ của code | Kiểm tra hàm "đổi `30.000đ` thành `30000`" |
+
 ### 1.1. Tự động hoá
 
 Tự động hoá mang lại **độ tin cậy và tính nhất quán**, cho phép kỹ sư nhanh chóng đưa tính năng mới vào workflow hiện có. Khung và quy trình giống DevOps: **quản lý thay đổi** (kiểm soát môi trường, code, phiên bản dữ liệu), **CI/CD** (tích hợp liên tục, triển khai liên tục) và **configuration as code**. Cùng với giám sát độ tin cậy của công nghệ và hệ thống (pipeline, orchestration...), DataOps còn thêm **kiểm tra chất lượng dữ liệu, data/model drift (độ lệch dữ liệu hay mô hình), tính toàn vẹn metadata**...
@@ -91,6 +108,41 @@ Nhóm dùng DataOps tốt có thể nhanh chóng giao sản phẩm dữ liệu m
 Nó không chỉ là công nghệ và công cụ; còn là **giao tiếp cởi mở, không đổ lỗi** trong nhóm và toàn tổ chức. Như Werner Vogels (CTO của AWS) nổi tiếng nói: "**Everything breaks all the time**" (mọi thứ luôn hỏng). Kỹ sư dữ liệu phải chuẩn bị cho thảm hoạ và sẵn sàng ứng phó hiệu quả.
 
 Hãy **chủ động tìm ra vấn đề trước khi doanh nghiệp báo**. Khi stakeholder thấy lỗi, họ không vui; nhưng cảm giác khác nếu họ báo và thấy nhóm đang tích cực xử lý. Niềm tin mất rất nhiều thời gian để xây và có thể mất trong vài phút. Ứng phó sự cố gồm cả **phản ứng hồi tố** và **chủ động xử lý trước khi xảy ra**.
+
+### Áp vào chuỗi Mây: DataOps trong đời thực
+
+**Ba nấc tự động hoá ở Mây.** Câu chuyện tổ chức giả định của sách xảy ra gần như y hệt ở Mây:
+
+| Nấc | Mây làm thế nào | Chuyện gì xảy ra |
+| --- | --- | --- |
+| 1. Cron job | 2:00 kéo đơn, 3:00 làm sạch, 4:00 tổng hợp | Đêm sinh nhật Mây đơn gấp ba, kéo đơn tới 3:20 mới xong. Bước làm sạch lúc 3:00 chạy trên dữ liệu thiếu, dashboard sáng ra sai mà không ai biết |
+| 2. Orchestration | Công cụ điều phối chỉ chạy làm sạch khi đã kéo xong đơn của cả 30 cửa hàng | Đêm đông đơn thì cả chuỗi chạy trễ hơn, nhưng số liệu đúng |
+| 3. Triển khai tự động có kiểm thử | Mọi thay đổi đường ống phải chạy thử trên dữ liệu mẫu trước khi lên hệ thống thật | Một lần sửa nhầm công thức hoa hồng bị bắt ngay ở bước chạy thử |
+
+**Giám sát kiểu SPC.** SPC (kiểm soát quy trình thống kê) nghe phức tạp nhưng ý rất đơn giản: biết "bình thường" trông thế nào, rồi báo động khi lệch xa. Bảng dưới theo dõi số đơn mỗi đêm của vài cửa hàng:
+
+| cua_hang | so_don_trung_binh_30_ngay | so_don_dem_qua | danh_gia |
+| --- | --- | --- | --- |
+| Q1-Lê Lợi | 320 | 312 | Bình thường |
+| Q3-Võ Văn Tần | 280 | 265 | Bình thường |
+| Q7-Nguyễn Thị Thập | 250 | 0 | **Bất thường, báo động** |
+| Thủ Đức-Võ Văn Ngân | 300 | 610 | **Bất thường, kiểm tra** (khuyến mãi hay đơn bị nhân đôi?) |
+
+**Ứng phó sự cố: phát hiện trước khi sếp phát hiện.** Sơ đồ dưới cho thấy cùng một sự cố "Q7 mất đơn" diễn ra theo thời gian khi có giám sát. Điểm mấu chốt: chủ chuỗi được báo trước khi tự nhìn thấy số sai.
+
+```mermaid
+sequenceDiagram
+    participant Orc as Công cụ điều phối
+    participant Mon as Hệ thống giám sát
+    participant DE as Kỹ sư dữ liệu
+    participant Sep as Chủ chuỗi
+    Orc->>Mon: 02.30 báo cáo Q7 có 0 đơn
+    Mon->>DE: Cảnh báo Q7 lệch xa mức bình thường
+    DE->>DE: Kiểm tra, máy POS Q7 mất mạng từ chiều qua
+    DE->>Sep: 06.00 báo trước dashboard Q7 tạm thiếu số liệu
+    DE->>Orc: Q7 có mạng lại, chạy backfill cho ngày hôm qua
+    Orc-->>Sep: 09.00 dashboard Q7 đã đủ số liệu
+```
 
 ### 1.4. Tóm lược DataOps
 
@@ -141,6 +193,42 @@ Sách giả định hệ thống orchestration **luôn trực tuyến và có đ
 - Xây khả năng **lịch sử job, trực quan hoá và cảnh báo**.
 - Công cụ nâng cao có thể **backfill** DAG hoặc task mới khi được thêm vào DAG, và hỗ trợ **phụ thuộc theo khoảng thời gian**: ví dụ job báo cáo hàng tháng kiểm tra xem ETL đã xong cho cả tháng chưa trước khi bắt đầu.
 
+### Áp vào chuỗi Mây: DAG chạy mỗi đêm
+
+Đây là DAG thật của đường ống Mây, nối các bước đã gặp ở [bài 2](./2_thu-nap-chuyen-doi-cung-cap.md). Mũi tên nghĩa là "phải xong bước trước mới chạy bước sau". Các bước không nối với nhau (như kéo đơn POS và kéo đơn app) được chạy song song cho nhanh.
+
+```mermaid
+flowchart LR
+    A1["Kéo đơn POS<br/>30 cửa hàng"] --> C["Làm sạch đơn"]
+    A2["Kéo đơn app"] --> C
+    A3["Kéo bảng giá chuẩn"] --> C
+    C --> Q{"Kiểm tra<br/>chất lượng"}
+    Q -->|"Đạt"| B["Áp logic doanh thu"]
+    Q -->|"Không đạt"| AL["Gửi cảnh báo, dừng"]
+    B --> G["Tổng hợp theo ngày,<br/>cửa hàng"]
+    B --> F["Tạo bảng đặc trưng"]
+    G --> D["Cập nhật dashboard"]
+    F --> M["Chạy dự báo trân châu"]
+```
+
+Viết bằng code kiểu "pipeline as code", DAG trên chỉ là vài dòng khai báo thứ tự (minh hoạ, không phải cú pháp chính xác của công cụ nào):
+
+```python
+[keo_don_pos, keo_don_app, keo_bang_gia] >> lam_sach >> kiem_tra_chat_luong
+kiem_tra_chat_luong >> ap_logic_doanh_thu >> [tong_hop, tao_dac_trung]
+tong_hop >> cap_nhat_dashboard
+tao_dac_trung >> chay_du_bao
+```
+
+So sánh cron và orchestration trên cùng đêm đông đơn (kéo đơn mất 80 phút thay vì 20 phút):
+
+| Thời điểm | Với cron | Với orchestration |
+| --- | --- | --- |
+| 02:00 | Bắt đầu kéo đơn | Bắt đầu kéo đơn |
+| 03:00 | Làm sạch chạy theo giờ, trên dữ liệu mới có 3/4 | Vẫn chờ, vì kéo đơn chưa xong |
+| 03:20 | Kéo đơn xong, nhưng không ai dùng phần còn lại | Kéo đơn xong, làm sạch bắt đầu ngay |
+| 07:00 | Dashboard hiện doanh thu thiếu 25%, không ai hay | Dashboard đúng; nếu trễ quá 10 giờ thì gửi cảnh báo |
+
 ### 3.1. Lịch sử các công cụ orchestration
 
 - Orchestration từ lâu là khả năng quan trọng cho xử lý dữ liệu nhưng ít được chú ý và chỉ các công ty lớn tiếp cận được. Công cụ workflow cũ đắt, ngoài tầm với startup nhỏ và nhìn chung khó mở rộng.
@@ -158,6 +246,16 @@ Software engineering luôn là kỹ năng cốt lõi của kỹ sư dữ liệu.
 ### 4.1. Code xử lý dữ liệu cốt lõi
 
 Code xử lý dữ liệu cốt lõi vẫn phải được viết và xuất hiện xuyên suốt vòng đời (ingestion, transformation, serving). Kỹ sư dữ liệu cần thành thạo và năng suất với framework và ngôn ngữ như **Spark, SQL, Beam**; tác giả **bác bỏ quan điểm "SQL không phải code"**. Họ cũng phải hiểu các phương pháp **kiểm thử code** phù hợp: **unit, regression, integration, end-to-end, smoke test**.
+
+Áp vào chuỗi Mây, các loại kiểm thử mà sách liệt kê trông như sau:
+
+| Loại kiểm thử | Hiểu nôm na | Ở đường ống Mây |
+| --- | --- | --- |
+| Unit test | Thử từng linh kiện | Hàm đổi `30.000đ` thành `30000` có trả đúng không |
+| Integration test | Thử các linh kiện ghép với nhau | Bước làm sạch có đọc được đúng bảng do bước kéo đơn ghi ra không |
+| Regression test | Sửa chỗ này có làm hỏng chỗ cũ không | Sau khi thêm đơn app, doanh thu quầy của tháng trước có còn y nguyên không |
+| End-to-end test | Thử cả dây chuyền từ đầu đến cuối | Đưa 10 đơn mẫu vào đầu, kiểm tra dashboard ra đúng 173.000đ cho Q1 |
+| Smoke test | Bật lên xem có "bốc khói" không | Sau khi triển khai, chạy thử một lần xem có lỗi ngay không |
 
 ### 4.2. Phát triển framework mã nguồn mở
 

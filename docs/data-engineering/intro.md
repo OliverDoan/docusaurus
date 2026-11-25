@@ -23,6 +23,106 @@ title: "Giới thiệu"
 
 ---
 
+## Tình huống xuyên suốt: chuỗi trà sữa Mây
+
+Sách viết cho người đã biết kỹ thuật. Để người chưa quen cũng theo được, ghi chép này dùng **một ví dụ chung cho mọi bài**: chuỗi trà sữa **"Mây"** với 30 cửa hàng. Mỗi khi gặp một khái niệm mới, bạn có thể tự hỏi: *"Ở chuỗi Mây, cái này là gì?"*.
+
+### Mây có những nguồn dữ liệu nào?
+
+Mỗi ngày, rất nhiều "máy móc" và con người ở Mây tạo ra dữ liệu. Bảng dưới liệt kê các nguồn chính, sẽ được nhắc lại ở hầu hết các bài sau.
+
+| Nguồn dữ liệu | Nó ghi lại gì | Trông như thế nào | Tần suất |
+| --- | --- | --- | --- |
+| Máy bán hàng ở quầy (**POS** — Point of Sale) | Từng đơn khách mua tại quầy | Dòng trong cơ sở dữ liệu | Mỗi đơn, vài giây một lần |
+| App đặt món giao tận nơi | Đơn online, địa chỉ giao, trạng thái giao | Dữ liệu gửi qua **API** (cổng để hai phần mềm nói chuyện với nhau) | Liên tục |
+| Website khuyến mãi | Ai xem trang nào, bấm vào voucher nào | Nhật ký truy cập (**log**) | Liên tục |
+| Phần mềm kho | Nhập/xuất trà, sữa, trân châu | Bảng trong phần mềm kho | Vài lần mỗi ngày |
+| File Excel lương | Ca làm, lương nhân viên | File `.xlsx` gửi qua email | Mỗi tháng |
+| Cảm biến nhiệt độ tủ mát (**IoT** — thiết bị nối mạng) | Nhiệt độ tủ mỗi phút | Chuỗi số đo kèm giờ | Mỗi phút, 24/7 |
+| Mạng xã hội | Khách khen, chê, đánh giá sao | Văn bản tự do | Bất chợt |
+
+### Ai cần dùng dữ liệu của Mây?
+
+| Người dùng | Họ cần gì | Ví dụ câu hỏi |
+| --- | --- | --- |
+| Chủ chuỗi | **Dashboard** (bảng điều khiển gồm biểu đồ, con số) doanh thu | "Tuần này cửa hàng nào bán kém nhất?" |
+| Quản lý cửa hàng | Số liệu của riêng cửa hàng mình | "Hôm nay còn bao nhiêu kg trân châu?" |
+| Marketing | Danh sách khách để gửi voucher | "Ai mua hơn 5 lần tháng trước mà tuần này chưa quay lại?" |
+| Nhà khoa học dữ liệu | Dữ liệu lịch sử sạch để làm mô hình dự báo | "Thứ Bảy tới cần chuẩn bị bao nhiêu trân châu?" |
+| Kế toán | Số liệu chính xác, khớp từng đồng | "Doanh thu tháng 3 của quận 1 là bao nhiêu?" |
+
+### Một dòng dữ liệu mẫu
+
+Đây là bảng đơn hàng mà bạn sẽ gặp đi gặp lại. Mỗi dòng là một món trong một đơn.
+
+| order_id | thoi_gian | cua_hang | mon | so_luong | gia | kenh |
+| --- | --- | --- | --- | --- | --- | --- |
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 35000 | quầy |
+| DH002 | 2026-03-01 08:17 | Q3-Võ Văn Tần | Trà đào | 1 | 30000 | app |
+| DH003 | 2026-03-01 08:20 | Q1-Lê Lợi | Sữa tươi trân châu đường đen | 1 | 40000 | quầy |
+
+### Vòng đời dữ liệu áp vào chuỗi Mây
+
+Kỹ sư dữ liệu của Mây làm đúng việc của "người vận hành hệ thống cấp nước" ở trên: gom dữ liệu từ mọi nguồn, làm sạch, cất vào kho, rồi cung cấp cho từng người cần. Sơ đồ dưới cho thấy toàn bộ hành trình đó. Mỗi khối tương ứng với một giai đoạn của **vòng đời kỹ thuật dữ liệu** mà Chương 2 sẽ đi sâu.
+
+```mermaid
+flowchart LR
+    subgraph gen["1. Tạo dữ liệu (nguồn)"]
+        POS["Máy POS<br/>30 cửa hàng"]
+        APP["App giao hàng"]
+        KHO["Phần mềm kho"]
+        IOT["Cảm biến tủ mát"]
+        XLS["Excel lương"]
+    end
+    subgraph ing["2. Thu nạp"]
+        GOM["Gom về một chỗ<br/>theo lô mỗi đêm hoặc liên tục"]
+    end
+    subgraph sto["3. Lưu trữ"]
+        RAW["Kho dữ liệu thô"]
+        DW["Kho dữ liệu đã sạch<br/>(data warehouse)"]
+    end
+    subgraph tra["4. Chuyển đổi"]
+        CLEAN["Bỏ đơn trùng, sửa ngày,<br/>tính tổng theo ngày"]
+    end
+    subgraph ser["5. Cung cấp"]
+        DASH["Dashboard chủ chuỗi"]
+        MKT["Danh sách voucher"]
+        ML["Mô hình dự báo trân châu"]
+        KT["Báo cáo kế toán"]
+    end
+    POS --> GOM
+    APP --> GOM
+    KHO --> GOM
+    IOT --> GOM
+    XLS --> GOM
+    GOM --> RAW
+    RAW --> CLEAN
+    CLEAN --> DW
+    DW --> DASH
+    DW --> MKT
+    DW --> ML
+    DW --> KT
+```
+
+:::tip[Đọc sơ đồ thế nào]
+
+Đi từ trái sang phải là đi theo dòng dữ liệu. Thứ tự đánh số (tạo → thu nạp → lưu trữ → chuyển đổi → cung cấp) là thứ tự *dữ liệu trải qua*. Trong sách, "lưu trữ" được xếp ngay sau "tạo dữ liệu" vì dữ liệu được cất ở nhiều điểm suốt hành trình, không chỉ một lần.
+
+:::
+
+### Thuật ngữ sẽ gặp nhiều — hiểu nôm na
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+| --- | --- | --- |
+| Database (cơ sở dữ liệu) | Cuốn sổ cái điện tử, ghi có hàng có cột, tìm nhanh | Sổ đơn hàng trong máy POS |
+| SQL | Ngôn ngữ để "hỏi" cơ sở dữ liệu | "Cho tôi tổng doanh thu ngày 1/3" |
+| Cloud (đám mây) | Thuê máy tính, ổ cứng của công ty khác qua Internet thay vì tự mua | Mây thuê chỗ lưu dữ liệu trên AWS hoặc Google Cloud |
+| Pipeline (đường ống dữ liệu) | Chuỗi bước tự động đưa dữ liệu từ nguồn tới nơi dùng | Mỗi đêm lấy đơn từ 30 máy POS, làm sạch, cập nhật dashboard |
+| Batch (theo lô) | Gom lại xử lý một lần, như giặt đồ cả tuần một lượt | Tổng hợp doanh thu lúc 2 giờ sáng |
+| Streaming (luồng liên tục) | Xử lý ngay khi có, như vòi nước chảy liên tục | Báo động ngay khi tủ mát vượt 8°C |
+| Data warehouse | Kho dữ liệu đã sắp xếp gọn để phân tích | Bảng doanh thu sạch theo ngày, cửa hàng, món |
+| Data lake | "Hồ" chứa mọi thứ ở dạng thô, chưa sắp xếp | Ảnh hoá đơn, log website, bình luận Facebook |
+
 ## Cuốn sách dành cho ai?
 
 - **Kỹ sư phần mềm, nhà khoa học dữ liệu, nhà phân tích** muốn chuyển sang hoặc hiểu rõ công việc kỹ thuật dữ liệu.

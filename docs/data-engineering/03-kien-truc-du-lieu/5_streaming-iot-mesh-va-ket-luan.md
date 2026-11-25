@@ -36,6 +36,25 @@ Bài cuối của chương đi qua các kiến trúc xoay quanh **dữ liệu st
 - 8. Kết luận
 - Tóm tắt
 
+:::info[Thuật ngữ trong bài — hiểu nôm na]
+
+Ví dụ trong bài dùng chuỗi trà sữa **Mây** (30 cửa hàng, mỗi cửa hàng có cảm biến nhiệt độ tủ mát, xem [phần giới thiệu](../intro.md)).
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+| --- | --- | --- |
+| Append-only (chỉ ghi thêm) | Sổ chỉ được viết thêm dòng mới, không tẩy xoá dòng cũ | Nhật ký số đo tủ mát |
+| Codebase | Toàn bộ mã nguồn của một hệ thống | Bộ code tính doanh thu |
+| NoSQL | Loại database không dùng bảng cố định, đọc ghi rất nhanh | Nơi giữ "doanh thu tạm tính hôm nay" cập nhật liên tục |
+| Replay (phát lại) | Tua lại băng ghi để xử lý lại từ đầu | Đọc lại số đo tủ mát cả tháng để tính lại |
+| Bounded / unbounded | Có điểm đầu điểm cuối / chảy mãi không dừng | Đơn ngày 1/3 / dòng số đo tủ mát |
+| Window (cửa sổ) | Một khoảng thời gian để gom dữ liệu lại tính | "Nhiệt độ trung bình mỗi 5 phút" |
+| Edge computing | Tính toán ngay tại thiết bị trước khi gửi | Cảm biến tự tính trung bình 1 phút rồi mới gửi |
+| Gateway (cổng) | Trạm trung chuyển gom dữ liệu thiết bị gần đó rồi gửi lên Internet | Một hộp nhỏ ở mỗi cửa hàng gom số đo của 2 tủ |
+| Time-series database | Database chuyên cho chuỗi số đo theo thời gian | Nơi lưu nhiệt độ từng phút của 60 tủ |
+| Domain-driven design | Thiết kế phần mềm bám theo các mảng nghiệp vụ thật | Mảng bán hàng, mảng kho, mảng nhân sự |
+
+:::
+
 ## 1. Kiến trúc Lambda
 
 Vào "ngày xưa" (đầu đến giữa thập niên 2010), làm việc với dữ liệu streaming bùng nổ nhờ **Kafka** (message queue) và các framework mở rộng cao như **Apache Storm** và **Samza** cho phân tích streaming/thời gian thực. Công ty có thể làm các loại phân tích và mô hình hoá mới trên lượng dữ liệu lớn: tổng hợp, xếp hạng người dùng, gợi ý sản phẩm. Bài toán: **hoà giải dữ liệu batch và streaming vào một kiến trúc**. **Lambda** là một trong những lời giải phổ biến đầu tiên.
@@ -58,6 +77,19 @@ flowchart LR
 - **Serving layer (lớp phục vụ):** cung cấp **view kết hợp** bằng cách gộp kết quả truy vấn từ hai lớp.
 
 **Chỉ trích:** quản lý nhiều hệ thống với **các codebase khác nhau** nghe đã khó, tạo ra hệ thống **dễ lỗi**, với mã và dữ liệu cực kỳ khó điều hoà. Sách nhắc đến Lambda vì nó vẫn nổi bật trong kết quả tìm kiếm về kiến trúc dữ liệu, nhưng **không phải đề xuất đầu tiên** nếu bạn kết hợp dữ liệu streaming và batch cho phân tích; công nghệ và thực hành đã tiến lên.
+
+### Áp vào chuỗi Mây: Lambda và nỗi khổ hai codebase
+
+Giả sử chủ chuỗi muốn xem **doanh thu hôm nay** cập nhật liên tục. Theo Lambda, Mây có hai đường: speed layer cộng nhanh từng đơn trong ngày, batch layer tính lại cẩn thận mỗi đêm. Serving layer ghép "số chính xác đến hết hôm qua" với "số tạm tính hôm nay".
+
+Rắc rối đến khi hai đội viết hai bộ code khác nhau. Đội streaming quên trừ đơn huỷ, đội batch thì nhớ. Bảng dưới cho thấy cùng một ngày, hai lớp ra hai số:
+
+| Thời điểm | Speed layer (tạm tính) | Batch layer (chính xác) | Chủ chuỗi thấy |
+| --- | --- | --- | --- |
+| 1/3, 22:00 | 203.000đ | Chưa chạy | 203.000đ |
+| 2/3, 07:00 | (đã chuyển sang ngày mới) | 173.000đ | 173.000đ |
+
+Doanh thu "tự nhiên giảm" 30.000đ qua đêm (đúng bằng đơn DH004 đã huỷ), và chủ chuỗi hỏi "sao số bị tụt?". Đây chính là lời chỉ trích "mã và dữ liệu cực kỳ khó điều hoà" của sách.
 
 ## 2. Kiến trúc Kappa
 
@@ -89,6 +121,19 @@ Một trong những vấn đề trọng tâm là **thống nhất nhiều đư�
 - Kỹ sư chọn các loại cửa sổ để tổng hợp thời gian thực, ví dụ **sliding (trượt)** hoặc **tumbling (lật)**.
 - Xử lý batch và thời gian thực chạy **trong cùng một hệ thống với code gần như giống hệt nhau**.
 
+**Hai loại cửa sổ, minh hoạ bằng tủ mát Q1-TU01.** Giả sử số đo mỗi phút từ 08:00 như bảng dưới. **Tumbling window** (cửa sổ lật) cắt thành các khúc liền nhau, không chồng lấn. **Sliding window** (cửa sổ trượt) luôn nhìn "5 phút gần nhất" và trượt theo từng phút.
+
+| Phút | 08:00 | 08:01 | 08:02 | 08:03 | 08:04 | 08:05 | 08:06 | 08:07 | 08:08 | 08:09 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Nhiệt độ (°C) | 4 | 4 | 5 | 5 | 6 | 7 | 8 | 9 | 9 | 10 |
+
+| Loại cửa sổ | Các khúc được tính | Kết quả trung bình |
+| --- | --- | --- |
+| Tumbling 5 phút | 08:00-08:04, 08:05-08:09 | 4,8°C rồi 8,6°C |
+| Sliding 5 phút, trượt mỗi phút | 08:00-08:04, 08:01-08:05, 08:02-08:06, ... | 4,8 → 5,4 → 6,2 → 7,0 → 7,8 → 8,6°C |
+
+Cửa sổ trượt cho thấy nhiệt độ tăng **dần từng phút**, nên báo động "trung bình 5 phút vượt 7°C" kêu ngay lúc 08:08 (trung bình 7,8°C), còn cửa sổ lật phải đợi hết khúc 08:05-08:09 mới tính được. Một phút sớm hơn với tủ sữa là đáng kể. Theo mô hình Dataflow, "toàn bộ số đo ngày 1/3" cũng chỉ là một cửa sổ rất lớn, có giới hạn, nên cùng một đoạn code tính trung bình dùng được cho cả hai.
+
 Triết lý **"batch là trường hợp đặc biệt của streaming"** nay đã phổ biến hơn; **Flink và Spark** cũng áp dụng cách tiếp cận tương tự.
 
 | | Lambda | Kappa | Dataflow / Beam |
@@ -96,6 +141,14 @@ Triết lý **"batch là trường hợp đặc biệt của streaming"** nay đ
 | Số đường code | Hai (batch và stream) | Một nền tảng luồng, nhưng vẫn có công cụ khác nhau | Gần như một |
 | Ý tưởng | Hai lớp song song và một lớp phục vụ | Mọi thứ là luồng, replay để batch | Batch là luồng có giới hạn |
 | Nhược điểm | Dễ lỗi, khó đồng bộ | Phức tạp, đắt với dữ liệu lịch sử lớn | Cần framework hỗ trợ |
+
+Áp vào chuỗi Mây, ba kiểu kiến trúc trên nên dùng khi nào:
+
+| Nhu cầu của Mây | Lambda | Kappa | Dataflow / Beam | Nên chọn |
+| --- | --- | --- | --- | --- |
+| Doanh thu mỗi sáng | Thừa | Thừa | Thừa | Chỉ cần batch thường |
+| Cảnh báo tủ mát quá nóng | Thừa | Được | Được | Một job streaming nhỏ là đủ |
+| Doanh thu tạm tính trong ngày + số chính xác mỗi đêm | Được, nhưng dễ lệch số | Được, tốn kém | Tốt nhất: một bộ code | Dataflow, nếu Mây thật sự cần |
 
 ## 4. Kiến trúc cho IoT
 
@@ -145,6 +198,37 @@ flowchart LR
 
 Sách coi đây chỉ là giới thiệu sơ lược; kịch bản IoT rất phức tạp và kỹ sư dữ liệu, vốn quen dữ liệu kinh doanh, ít quen thuộc. Hy vọng nó khuyến khích bạn tìm hiểu thêm mảng hấp dẫn và đang phát triển nhanh này.
 
+### Áp vào chuỗi Mây: hệ thống cảm biến tủ mát
+
+Hệ thống IoT của Mây đi qua đủ các khâu sách mô tả. Sơ đồ dưới cho thấy dữ liệu tách thành hai nhánh: nhánh **gấp** (cảnh báo trong vài giây) và nhánh **thong thả** (cất để phân tích tháng).
+
+```mermaid
+flowchart LR
+    subgraph ch1["Cửa hàng Q1"]
+        T1["Tủ Q1-TU01"] --> GW1["Cổng IoT Q1"]
+        T2["Tủ Q1-TU02"] --> GW1
+    end
+    subgraph ch3["Cửa hàng Q3"]
+        T3["Tủ Q3-TU01"] --> GW3["Cổng IoT Q3"]
+    end
+    GW1 --> MQ["Hàng đợi tin nhắn"]
+    GW3 --> MQ
+    MQ --> SP["Xử lý luồng<br/>trung bình 5 phút"]
+    SP -->|"vượt 7 độ"| AL["Tin nhắn cảnh báo<br/>quản lý ca"]
+    MQ --> TS["Time-series database"]
+    TS --> RP["Báo cáo tháng<br/>tủ nào hay hỏng"]
+```
+
+Các vấn đề IoT của sách, ở Mây trông như sau:
+
+| Vấn đề | Ở chuỗi Mây | Cách xử lý |
+| --- | --- | --- |
+| Mất kết nối | Cửa hàng Q7 rớt mạng 2 tiếng | Cổng IoT giữ số đo, có mạng lại thì gửi bù |
+| Dữ liệu đến muộn | Số đo 08:15 tới lúc 10:20 | Ghi theo **giờ đo**, không theo giờ nhận; cảnh báo cũ thì không gửi nữa |
+| Schema khác nhau | Tủ mới đời 2026 gửi thêm cột `do_am` | Chấp nhận cột mới, tủ cũ để trống |
+| Dữ liệu hỏng | Cảm biến lỗi báo -40°C | Loại các giá trị ngoài khoảng hợp lý |
+| "Reverse ETL" cho thiết bị | Phân tích thấy tủ Q1-TU02 hay vượt ngưỡng giờ trưa | Gửi lệnh hạ nhiệt độ cài đặt của tủ đó 1°C |
+
 ## 5. Data mesh
 
 **Data mesh** là phản hồi gần đây trước các nền tảng dữ liệu monolith khổng lồ (data lake tập trung, data warehouse) và trước **"great divide of data"** (sự chia rẽ lớn của dữ liệu), nơi ngữ cảnh bị chia giữa dữ liệu vận hành và dữ liệu phân tích. Nó cố **đảo ngược các thách thức của kiến trúc dữ liệu tập trung**, dùng khái niệm **domain-driven design** (thiết kế hướng miền, thường dùng trong kiến trúc phần mềm) và áp vào kiến trúc dữ liệu.
@@ -174,6 +258,20 @@ flowchart TD
 ```
 
 Sơ đồ trên là phiên bản đơn giản do người ghi chép vẽ lại ý của hình trong sách. Để tìm hiểu sâu hơn, xem sách *Data Mesh* (O'Reilly) của Dehghani. Vì data mesh thu hút nhiều chú ý gần đây nên bạn nên biết về nó.
+
+### Áp vào chuỗi Mây: có nên làm data mesh?
+
+Data mesh chỉ có ý nghĩa khi có **nhiều miền lớn**, mỗi miền đủ người để tự lo dữ liệu. Bảng dưới so sánh Mây hôm nay với "Tập đoàn Mây" giả định trong tương lai.
+
+| | Chuỗi Mây hôm nay | Tập đoàn Mây tương lai (trà sữa, cà phê, bánh, giao hàng) |
+| --- | --- | --- |
+| Số miền | 3 (bán hàng, kho, nhân sự) | Hơn 10 |
+| Đội dữ liệu | 2-3 kỹ sư chung | Mỗi thương hiệu có đội kỹ thuật riêng |
+| Nút cổ chai | Chưa có | Đội dữ liệu trung tâm nhận 200 yêu cầu mỗi tháng, xử lý không kịp |
+| Dữ liệu như sản phẩm | Đội trung tâm làm bảng doanh thu | Thương hiệu cà phê tự xuất bản bảng "doanh thu cà phê" có cam kết chất lượng |
+| Nên chọn | **Kho tập trung** | Cân nhắc **data mesh** |
+
+Data mesh không phải nâng cấp kỹ thuật mà là thay đổi **cách tổ chức con người**. Với Mây 30 cửa hàng, làm data mesh là "dùng dao mổ trâu giết gà".
 
 ## 6. Các ví dụ kiến trúc khác
 

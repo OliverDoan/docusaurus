@@ -36,6 +36,19 @@ Kỹ sư dữ liệu không làm việc trong chân không. Bài này mô tả h
 
 Kỹ sư dữ liệu phục vụ nhiều người dùng cuối, cả bên trong lẫn bên ngoài tổ chức. Tùy trường hợp sử dụng cuối, trách nhiệm chính có thể hướng ra ngoài, hướng vào trong, hoặc cả hai.
 
+### Thuật ngữ trong bài — hiểu nôm na
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+| --- | --- | --- |
+| Producer (bên tạo dữ liệu) | Người/hệ thống sinh ra dữ liệu ở đầu dòng | Đội viết app đặt món, nhà cung cấp máy POS |
+| Consumer (bên dùng dữ liệu) | Người/hệ thống dùng dữ liệu ở cuối dòng | Chủ chuỗi xem dashboard, marketing gửi voucher |
+| Truy vấn đồng thời (concurrency) | Nhiều người hỏi dữ liệu cùng một lúc | 50.000 khách cùng mở app xem điểm thưởng lúc 12 giờ trưa |
+| Multitenant | Dữ liệu của nhiều khách nằm chung một bảng, phải tách quyền xem cẩn thận | Bảng điểm thưởng chứa mọi khách, mỗi người chỉ được thấy dòng của mình |
+| Event log (nhật ký sự kiện) | Sổ ghi lại từng hành động, kèm giờ | "10:02 khách A mở app, 10:03 bấm voucher, 10:05 đặt đơn" |
+| On-premises (tại chỗ) | Tự mua máy chủ, đặt ở văn phòng mình | Một máy chủ đặt trong kho của Mây |
+| Sprint, standup | Chu kỳ làm việc ngắn (1-2 tuần) và buổi họp nhanh mỗi sáng | Sprint này: thêm dữ liệu cảm biến tủ mát vào kho |
+| Sản phẩm dữ liệu (data product) | Dữ liệu được đóng gói thành thứ người khác dùng được, có chủ, có chất lượng cam kết | Bảng "doanh thu ngày" cập nhật trước 7 giờ sáng, sai thì có người chịu trách nhiệm |
+
 ### Kỹ sư dữ liệu hướng ngoại (external-facing)
 
 - Thường gắn với người dùng của các ứng dụng bên ngoài: mạng xã hội, thiết bị **IoT** (Internet of Things), nền tảng thương mại điện tử.
@@ -56,6 +69,29 @@ Hai loại trách nhiệm thường **trộn lẫn**. Trên thực tế, dữ li
 flowchart LR
     P["Producer: kỹ sư phần mềm, kiến trúc sư, DevOps/SRE"] --> DE["Kỹ sư dữ liệu"]
     DE --> C["Consumer: nhà phân tích, nhà khoa học, kỹ sư ML"]
+```
+
+### Áp vào chuỗi Mây: hướng nội hay hướng ngoại?
+
+Cùng là dữ liệu đơn hàng của Mây, nhưng phục vụ người trong công ty và khách hàng bên ngoài là hai bài toán khác hẳn. Bảng dưới so sánh.
+
+| | Hướng nội | Hướng ngoại |
+| --- | --- | --- |
+| Ví dụ ở Mây | Dashboard doanh thu cho chủ chuỗi và 30 quản lý cửa hàng | Mục "Lịch sử đơn và điểm thưởng" trong app cho khách |
+| Số người dùng cùng lúc | Vài chục | Có thể hàng chục nghìn vào giờ cao điểm |
+| Chậm vài giây có sao không | Chấp nhận được | Khách bực, xoá app |
+| Bảo mật | Nhân viên đã được phân quyền | Mỗi khách **chỉ** được thấy dữ liệu của mình |
+| Dữ liệu lấy từ đâu | Kho dữ liệu sạch | Thường cũng từ kho dữ liệu sạch, được tính sẵn rồi đẩy sang app |
+
+Hàng cuối chính là ý "dữ liệu hướng nội là điều kiện tiên quyết cho hướng ngoại": điểm thưởng của khách phải được tính đúng trong kho nội bộ trước, rồi mới hiển thị cho khách. Sơ đồ dưới cho thấy **vòng phản hồi** đó.
+
+```mermaid
+flowchart LR
+    APP["App đặt món<br/>(khách dùng)"] -->|"đơn hàng"| PIPE["Đường ống dữ liệu"]
+    PIPE --> DW["Kho dữ liệu nội bộ"]
+    DW -->|"tính điểm thưởng"| PT["Bảng điểm thưởng"]
+    PT -->|"hiển thị lại cho khách"| APP
+    DW --> DASH["Dashboard nội bộ<br/>chủ chuỗi"]
 ```
 
 ## 2. Các bên liên quan kỹ thuật
@@ -84,6 +120,26 @@ Kỹ sư dữ liệu là trung tâm giữa **producer** (người tạo/cung c�
 
 - Thường tạo dữ liệu qua giám sát vận hành. Sách xếp họ ở thượng nguồn, nhưng họ cũng có thể ở hạ nguồn (dùng dữ liệu qua dashboard) hoặc phối hợp trực tiếp để vận hành hệ thống dữ liệu.
 
+#### Áp vào chuỗi Mây: vì sao phải thống nhất với bên thượng nguồn
+
+Một ngày, đội app của Mây đổi tên cột `gia` thành `don_gia` để "cho rõ nghĩa" mà không báo ai. Sơ đồ dưới cho thấy chuyện gì xảy ra theo thời gian: lỗi chỉ lộ ra khi chủ chuỗi đã nhìn thấy số sai.
+
+```mermaid
+sequenceDiagram
+    participant App as Đội app (thượng nguồn)
+    participant DE as Kỹ sư dữ liệu
+    participant Kho as Kho dữ liệu
+    participant Sep as Chủ chuỗi
+    App->>App: Đổi tên cột gia thành don_gia
+    App->>DE: Gửi đơn đêm nay với cột mới
+    DE->>Kho: Đường ống không tìm thấy cột gia, ghi giá trống
+    Kho->>Sep: Dashboard sáng mai báo doanh thu app bằng 0
+    Sep->>DE: Sao doanh thu app mất hết vậy?
+    DE->>App: Hỏi lại, phát hiện cột bị đổi tên
+```
+
+Cách phòng: hai bên thoả thuận trước "dữ liệu gửi sang gồm những cột nào, kiểu gì" và báo trước khi đổi. Sách gọi việc này là *thống nhất kỳ vọng với bên upstream*; các chương sau sẽ gọi nó là **data contract** (hợp đồng dữ liệu).
+
 ### 2.2. Hạ nguồn
 
 Kỹ thuật dữ liệu tồn tại để phục vụ consumer dữ liệu và các trường hợp sử dụng.
@@ -109,6 +165,33 @@ Kỹ thuật dữ liệu tồn tại để phục vụ consumer dữ liệu và 
 - Kỹ thuật ML đang phát triển song song với kỹ thuật dữ liệu: vài năm trước trọng tâm là xây mô hình, nay ngày càng nhấn mạnh việc đưa các thực hành tốt của **MLOps** (vận hành học máy) và công nghệ phần mềm/DevOps vào.
 - **Nhà nghiên cứu AI** nghiên cứu kỹ thuật ML mới, tiên tiến; có thể ở công ty công nghệ lớn, startup chuyên về sở hữu trí tuệ (OpenAI, DeepMind) hoặc học viện. Một số làm bán thời gian kèm trách nhiệm kỹ thuật ML. Ví dụ dự án nghiên cứu: DALL-E, Gato, AlphaGo, GPT-3/GPT-4. Nhà nghiên cứu ở tổ chức nhiều nguồn lực có tính chuyên môn hóa cao, được đội kỹ sư hỗ trợ; ở học viện thì thường dựa vào sinh viên sau đại học, postdoc và nhân viên trường.
 
+#### Áp vào chuỗi Mây: toàn cảnh những người kỹ sư dữ liệu làm việc cùng
+
+Sơ đồ dưới đặt tên cụ thể cho từng vai trò ở Mây. Kỹ sư dữ liệu đứng giữa, nhận dữ liệu từ bên trái, phục vụ bên phải.
+
+```mermaid
+flowchart LR
+    subgraph up["Thượng nguồn"]
+        SWE["Đội app đặt món"]
+        POSV["Nhà cung cấp máy POS"]
+        IT["IT lo mạng, cảm biến tủ mát"]
+    end
+    DE["Kỹ sư dữ liệu Mây"]
+    subgraph down["Hạ nguồn"]
+        DA["Nhà phân tích<br/>báo cáo doanh thu"]
+        DS["Nhà khoa học dữ liệu<br/>dự báo trân châu"]
+        MKT["Marketing<br/>gửi voucher"]
+        KT["Kế toán"]
+    end
+    SWE --> DE
+    POSV --> DE
+    IT --> DE
+    DE --> DA
+    DE --> DS
+    DE --> MKT
+    DE --> KT
+```
+
 ## 3. Kỹ sư dữ liệu và lãnh đạo doanh nghiệp
 
 Ngoài vai trò kỹ thuật, kỹ sư dữ liệu còn là người kết nối tổ chức, thường ở vai trò phi kỹ thuật. Doanh nghiệp ngày càng dựa vào dữ liệu như phần cốt lõi của sản phẩm hoặc chính là sản phẩm, nên kỹ sư dữ liệu tham gia hoạch định chiến lược và dẫn dắt sáng kiến vượt ra ngoài ranh giới CNTT. Họ thường hỗ trợ kiến trúc sư dữ liệu bằng cách làm "chất kết dính" giữa doanh nghiệp và khoa học/phân tích dữ liệu. Các lãnh đạo cấp C ngày càng quan tâm đến dữ liệu như tài sản quan trọng; chẳng hạn CEO nay quan tâm các sáng kiến từng là lãnh địa của CNTT như di chuyển lên đám mây hay triển khai nền tảng dữ liệu khách hàng (customer data platform) mới.
@@ -122,6 +205,15 @@ Ngoài vai trò kỹ thuật, kỹ sư dữ liệu còn là người kết nối
 | **CAO** (Chief Analytics Officer) | Biến thể của CDO. Khi có cả hai: CDO lo công nghệ và tổ chức để cung cấp dữ liệu, CAO lo phân tích, chiến lược và ra quyết định kinh doanh. Có thể giám sát khoa học dữ liệu và ML, tùy công ty có CDO hay CTO. |
 | **Chief Algorithms Officer** (giám đốc thuật toán) | Vai trò gần đây trong C-suite, rất kỹ thuật, tập trung vào khoa học dữ liệu và ML. Thường từng là người đóng góp cá nhân và trưởng nhóm dự án khoa học dữ liệu hoặc ML, có nền tảng nghiên cứu ML và bằng cấp cao. Phải thông thạo nghiên cứu ML hiện tại và hiểu sâu sáng kiến ML của công ty; ngoài sáng kiến kinh doanh còn lãnh đạo kỹ thuật, đặt chương trình nghiên cứu và phát triển, xây nhóm nghiên cứu. |
 
+Ở một chuỗi cỡ Mây, ít khi có đủ các chức danh trên. Thường một người kiêm nhiều vai, như bảng dưới.
+
+| Chức danh trong sách | Ở chuỗi Mây là ai | Kỹ sư dữ liệu nói chuyện với họ về gì |
+| --- | --- | --- |
+| CEO | Chủ chuỗi | "Có dữ liệu thì mình biết được những gì?", ví dụ biết món nào lỗ, cửa hàng nào nên đóng |
+| CIO / CTO | Trưởng phòng IT kiêm lo app | Chọn phần mềm POS mới, có nên chuyển hết lên đám mây |
+| CDO / CAO | Chưa có, chủ chuỗi tự quyết | Ưu tiên dự án dữ liệu nào trước |
+| Giám đốc thuật toán | Không cần ở quy mô này | — |
+
 (Lưu ý: bản dịch tiếng Việt viết tắt cả hai chức danh CAO giống nhau; ở đây ghi tên đầy đủ để tránh nhầm.)
 
 ## 4. Quản lý dự án, sản phẩm và các quản lý khác
@@ -132,6 +224,15 @@ Ngoài vai trò kỹ thuật, kỹ sư dữ liệu còn là người kết nối
 - Những sáng kiến này hưởng lợi từ quản lý dự án (khác với quản lý sản phẩm). Kỹ sư hoạt động ở mảng hạ tầng và khả năng cung cấp dịch vụ, còn người quản lý dự án "điều khiển giao thông" và đóng vai **gác cổng**. Phần lớn dùng biến thể của Agile và Scrum, đôi khi vẫn có waterfall.
 - Hoạt động kinh doanh không ngủ, các bên liên quan luôn có lượng tồn đọng yêu cầu lớn. Người quản lý dự án phải lọc danh sách dài và ưu tiên các sản phẩm quan trọng.
 - Kỹ sư dữ liệu thường lập kế hoạch **sprint** và dự các **standup** liên quan. Phản hồi đi cả hai chiều: kỹ sư báo tiến độ và các yếu tố cản trở. Quản lý dự án cân bằng năng lực nhóm công nghệ với nhu cầu thay đổi liên tục của doanh nghiệp.
+
+Ví dụ một danh sách việc tồn đọng (backlog) của đội dữ liệu Mây mà người quản lý dự án phải sắp xếp. Cột cuối cho thấy lý do xếp thứ tự, không phải ai kêu to thì làm trước.
+
+| Yêu cầu | Người yêu cầu | Ưu tiên | Lý do |
+| --- | --- | --- | --- |
+| Sửa doanh thu app hiển thị bằng 0 | Chủ chuỗi | 1 | Số sai đang được dùng để ra quyết định |
+| Thêm dữ liệu cảm biến tủ mát | Quản lý vận hành | 2 | Tủ hỏng làm hỏng sữa, mất tiền thật |
+| Danh sách khách lâu không quay lại | Marketing | 3 | Có giá trị, nhưng chờ một sprint được |
+| Dashboard màu sắc đẹp hơn | Quản lý cửa hàng | 4 | Không ảnh hưởng quyết định |
 
 ### Quản lý sản phẩm (product management)
 

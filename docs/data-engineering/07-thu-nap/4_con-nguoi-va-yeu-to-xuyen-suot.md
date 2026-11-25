@@ -63,6 +63,22 @@ Cũng có thể mời **cấp điều hành** tham gia. Văn hóa dựa trên d�
 
 Một lần nữa, **giao tiếp là khẩu hiệu**: trung thực, sớm và thường xuyên với các bên liên quan để thu nạp thực sự tăng thêm giá trị.
 
+### Áp vào chuỗi Mây: ai đứng hai đầu đường ống
+
+Ở chuỗi trà sữa Mây (30 cửa hàng), đội dữ liệu chỉ có 2 người nhưng phải làm việc với rất nhiều bên. Bảng dưới liệt kê họ và điều mỗi bên cần, hoặc có thể giúp.
+
+| Bên | Phía | Họ cần gì / giúp được gì | Nếu không nói chuyện với nhau thì |
+|---|---|---|---|
+| Công ty viết phần mềm POS | Ngược dòng | Báo trước khi đổi cột, đổi định dạng ngày | Báo cáo sáng hôm sau trống hoặc sai |
+| Đội IT quản lý phần mềm kho | Ngược dòng | Cho đọc từ bản sao, không đụng DB chính giờ cao điểm | Truy vấn nặng làm chậm nhập kho |
+| Nhà cung cấp cảm biến tủ mát | Ngược dòng | Báo lịch cập nhật phần mềm cảm biến | Message đổi dạng, rơi vào dead-letter queue hàng loạt |
+| Chủ chuỗi | Xuôi dòng | Dashboard doanh thu trước 7h sáng | Ra quyết định nhập hàng bằng cảm tính |
+| Marketing | Xuôi dòng | Danh sách khách để gửi voucher, kết quả chiến dịch | Vẫn tải tay báo cáo quảng cáo mỗi tuần |
+| Kế toán | Xuôi dòng | Số liệu khớp từng đồng với hoá đơn | Mất ngày đối soát mỗi cuối tháng |
+| Nhà khoa học dữ liệu | Xuôi dòng | Lịch sử bán đầy đủ, kể cả đơn huỷ | Mô hình dự báo trân châu học từ dữ liệu thiếu |
+
+Bài học "nhà quản lý marketing vẫn tải thủ công báo cáo" của sách áp thẳng vào Mây: tự động kéo báo cáo quảng cáo mỗi sáng cho marketing có thể đáng giá hơn một hệ thống streaming hoành tráng.
+
 ## 2. Yếu tố xuyên suốt
 
 Hầu như mọi yếu tố xuyên suốt đều chạm tới giai đoạn thu nạp; sách nhấn mạnh những yếu tố nổi bật nhất.
@@ -115,6 +131,22 @@ Lời khuyên cuối: cảnh giác với **giải pháp công nghệ ngây thơ 
 
 Về tokenization, dùng thường thức và đánh giá các kịch bản truy cập: nếu ai đó có email một khách hàng, họ có băm email đó dễ dàng rồi tìm thấy khách hàng trong dữ liệu của bạn không? Băm thiếu suy nghĩ, không thêm **salt** (muối) và chiến lược khác, có thể không bảo vệ quyền riêng tư tốt như bạn nghĩ.
 
+#### Áp vào chuỗi Mây: bớt dữ liệu nhạy cảm ngay lúc thu nạp
+
+**Băm** (hash) là biến một giá trị thành chuỗi ký tự "lộn xộn" cố định: cùng đầu vào luôn ra cùng kết quả, nhưng không đảo ngược được. **Salt** là một chuỗi bí mật trộn thêm trước khi băm, để người ngoài không tự băm số điện thoại rồi dò ngược. Đơn app của Mây ban đầu chứa thông tin khách:
+
+| order_id | so_dien_thoai | ten_khach | dia_chi_giao | mon | gia |
+|---|---|---|---|---|---|
+| DH002 | 0901234567 | Nguyễn Văn An | 15 Võ Văn Tần, Q3 | Trà đào | 40000 |
+
+Nhà khoa học dữ liệu chỉ cần biết "đơn này của cùng một khách với đơn trước không" và "khách ở quận nào". Vì vậy pipeline biến đổi ngay khi thu nạp, trước khi lưu:
+
+| order_id | ma_khach (băm số điện thoại kèm salt) | quan_giao | mon | gia |
+|---|---|---|---|---|
+| DH002 | 7f3a91c2e0 | Q3 | Trà đào | 40000 |
+
+Tên và địa chỉ chi tiết **không bao giờ vào kho** — đúng tinh thần "dữ liệu không thể bị rò rỉ nếu chưa từng được thu thập". Bộ phận giao hàng vẫn thấy đầy đủ trong app vận hành, nơi họ thật sự cần.
+
 ### 2.3. DataOps
 
 Data pipeline đáng tin cậy là **nền tảng** của vòng đời kỹ thuật dữ liệu. Khi chúng hỏng, mọi thứ phụ thuộc phía sau đều dừng: warehouse và lake không được nạp dữ liệu mới, data scientist và analyst không làm việc được, doanh nghiệp "bay mù".
@@ -131,9 +163,22 @@ Cũng cần hiểu hoạt động của **hệ thống ngược dòng** bạn ph
 
 Nếu pipeline thu nạp **tự xây**, bạn có tự động hóa triển khai và kiểm thử để đảm bảo mã chạy được trên production? Nếu mã lỗi, bạn có **rollback** về phiên bản chạy được không?
 
+#### Áp vào chuỗi Mây: theo dõi gì trên pipeline thu nạp
+
+Bảng dưới là "bảng đồng hồ" tối thiểu đội dữ liệu Mây gắn vào pipeline thu nạp ngay từ ngày đầu, kèm ngưỡng cảnh báo.
+
+| Chỉ số theo dõi | Nghĩa đời thường | Ngưỡng cảnh báo ở Mây |
+|---|---|---|
+| Uptime | Đường ống có đang chạy không | Job đêm không chạy xong trước 5h sáng |
+| Độ trễ (ingestion time trừ event time) | Dữ liệu tới kho chậm bao lâu | Chỉ số tủ mát trễ quá 10 phút |
+| Khối lượng | Hôm nay chở về bao nhiêu | Một cửa hàng có 0 đơn trong giờ mở cửa |
+| Kích thước trung bình mỗi sự kiện | Kiện hàng có to bất thường không | Message tủ mát lớn gấp 10 lần bình thường |
+| Dead-letter queue | Bao nhiêu message bị loại | Hơn 50 message lỗi mỗi giờ |
+| Dịch vụ bên thứ ba | API app giao hàng có trả lời không | 3 lần gọi liên tiếp thất bại |
+
 ### 2.4. Kiểm tra chất lượng dữ liệu
 
-Sách thường coi dữ liệu là **kẻ giết người thầm lặng**. Nếu dữ liệu chất lượng, hợp lệ là nền tảng thành công, thì dùng **dữ liệu xấu để ra quyết định còn tệ hơn không có dữ liệu**. Dữ liệu xấu đã gây thiệt hại khôn lường; các thảm họa này đôi khi gọi là **data cascades** (dữ liệu "thác lũ", lỗi dữ liệu lan chuyền thành hậu quả lớn).
+Sách thường gọi dữ liệu (kém chất lượng) là **kẻ giết người thầm lặng**: nó gây hại mà không ai nhận ra. Nếu dữ liệu chất lượng, hợp lệ là nền tảng thành công, thì dùng **dữ liệu xấu để ra quyết định còn tệ hơn không có dữ liệu**. Dữ liệu xấu đã gây thiệt hại khôn lường; các thảm họa này đôi khi gọi là **data cascades** (dữ liệu "thác lũ", lỗi dữ liệu lan chuyền thành hậu quả lớn).
 
 Dữ liệu có tính **entropic**: hay thay đổi theo cách không ngờ mà không báo trước. Một khác biệt cố hữu giữa **DevOps** và **DataOps**: với phần mềm ta chỉ mong đợi hồi quy (regression) khi **triển khai thay đổi**, còn dữ liệu thường **hồi quy độc lập** do các sự kiện ngoài tầm kiểm soát.
 
@@ -150,6 +195,32 @@ Khuyến nghị:
 
 *Ví dụ minh hoạ (người viết thêm):* kiểm tra nhị phân hỏi "cột `country` có null không"; kiểm tra thống kê hỏi "tỉ lệ đơn hàng từ Việt Nam hôm nay có bất thường so với trung bình 30 ngày không".
 
+#### Áp vào chuỗi Mây: một hồi quy dữ liệu âm thầm
+
+Phần mềm POS cập nhật và bắt đầu ghi giá theo **nghìn đồng** (35 thay vì 35000) mà không báo ai. Không có gì "hỏng": pipeline vẫn chạy xanh, không có lỗi, không có ô trống.
+
+| order_id | gia trước cập nhật | gia sau cập nhật |
+|---|---|---|
+| DH001 | 35000 | 35 |
+| DH003 | 40000 | 40 |
+
+Dashboard sáng hôm sau:
+
+| ngay | cua_hang | doanh_thu |
+|---|---|---|
+| 2026-03-09 | Q1-Lê Lợi | 4.200.000 |
+| 2026-03-10 | Q1-Lê Lợi | 4.350 |
+
+Bảng dưới cho thấy hai kiểu kiểm tra phản ứng thế nào với lỗi này.
+
+| Kiểu kiểm tra | Câu hỏi | Bắt được lỗi này không |
+|---|---|---|
+| Nhị phân | Cột `gia` có trống không? Có âm không? | Không — 35 là số dương hợp lệ |
+| Nhị phân có ngưỡng | `gia` có nằm trong khoảng 15.000–100.000 không? | Có |
+| Thống kê | Doanh thu hôm nay có lệch quá 50% so với trung bình 30 ngày không? | Có |
+
+Nếu không có kiểm tra nào, chủ chuỗi có thể nghĩ Q1 vừa "sập doanh thu" và ra quyết định sai — đúng như sách nói, dữ liệu xấu còn tệ hơn không có dữ liệu.
+
 ### 2.5. Orchestration
 
 Thu nạp thường nằm ở **đầu một đồ thị dữ liệu lớn và phức tạp**: vì là giai đoạn đầu tiên, dữ liệu thu nạp chảy qua nhiều bước xử lý khác, và dữ liệu từ nhiều nguồn kết hợp theo cách phức tạp. Orchestration là quá trình quan trọng để điều phối các bước này.
@@ -164,6 +235,38 @@ flowchart LR
     B["Thu nạp nguồn B"] --> T
     T --> S["Phục vụ: dashboard / ML"]
 ```
+
+#### Áp vào chuỗi Mây: một đêm của hệ thống điều phối
+
+Hồi mới làm, Mây chạy thu nạp bằng **cron** (đặt giờ cố định): 1h kéo đơn POS, 2h kéo đơn app, 3h tính doanh thu. Đêm nào kéo POS chậm tới 3h30 thì bước 3h tính trên dữ liệu thiếu mà không ai hay. Khi chuyển sang hệ thống điều phối (orchestration), mỗi bước chỉ chạy khi các bước trước đã **thật sự xong**:
+
+```mermaid
+sequenceDiagram
+    participant ORC as Hệ thống điều phối
+    participant P as Job kéo đơn POS
+    participant A as Job kéo đơn app
+    participant T as Job tính doanh thu
+    participant KS as Kỹ sư trực
+    ORC->>P: 1h00 bắt đầu
+    ORC->>A: 1h00 bắt đầu song song
+    A-->>ORC: Xong lúc 1h20
+    P-->>ORC: Xong lúc 3h30, chậm vì nhiều đơn
+    ORC->>T: Cả hai đã xong, bắt đầu tính
+    T-->>ORC: Xong lúc 3h50
+    ORC->>ORC: Kiểm tra số đơn mỗi cửa hàng
+    alt Có cửa hàng 0 đơn
+        ORC->>KS: Cảnh báo, cửa hàng Q7 không có đơn
+    else Đủ dữ liệu
+        ORC->>ORC: Làm mới dashboard trước 5h
+    end
+```
+
+| | Cron | Hệ thống điều phối |
+|---|---|---|
+| Biết bước trước xong chưa | Không, chỉ biết giờ | Có, chờ đúng bước trước |
+| Một bước lỗi | Bước sau vẫn chạy trên dữ liệu thiếu | Dừng lại và báo |
+| Chạy lại | Phải chạy tay từng lệnh | Chạy lại đúng bước hỏng và các bước phía sau |
+| Hợp với Mây khi | Mới có 1–2 job đơn giản | Đã có hàng chục job phụ thuộc nhau |
 
 ### 2.6. Kỹ thuật phần mềm
 

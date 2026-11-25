@@ -36,6 +36,7 @@ Truy vấn lấy dữ liệu ra; **chuyển đổi (transformation)** thì **lư
 - 9. Logic nghiệp vụ và dữ liệu dẫn xuất
 - 10. MapReduce và sau MapReduce
 - 11. View, materialized view, federated query và data virtualization
+- 12. Áp vào chuỗi trà sữa Mây: pipeline batch mỗi đêm
 - Tóm tắt
 
 ---
@@ -54,6 +55,39 @@ Hai điểm khác biệt giữa transformation và query:
 Transformation dựa nhiều vào một yếu tố xuyên suốt chính: **orchestration**. Orchestration kết hợp nhiều hoạt động riêng lẻ (transformation trung gian, lưu trữ tạm hoặc vĩnh viễn, phân phối phía dưới). Ngày càng nhiều, pipeline không chỉ trải qua nhiều bảng, tập dữ liệu mà còn qua **nhiều hệ thống**.
 
 **Chuyển đổi batch** chạy trên các **khối dữ liệu rời rạc**, trái với streaming xử lý liên tục khi dữ liệu đến. Chạy theo lịch cố định (hằng ngày, hằng giờ, 15 phút) để hỗ trợ báo cáo, phân tích và mô hình ML liên tục.
+
+### Ở chuỗi Mây: dữ liệu trông thế nào qua từng bước chuyển đổi
+
+Mỗi đêm lúc 2 giờ, Mây chạy một **batch** (một mẻ xử lý gom cả ngày) để chuẩn bị số liệu cho dashboard sáng hôm sau. Ba bảng dưới cho thấy cùng một dữ liệu "trông" ra sao trước và sau mỗi bước.
+
+**Bước 1 — dữ liệu thô** gom từ máy POS và app. Có đủ kiểu lỗi đời thực:
+
+| order_id | thoi_gian | cua_hang | mon | so_luong | gia | kenh |
+|---|---|---|---|---|---|---|
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 35000 | quầy |
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 35000 | quầy |
+| DH002 | 01/03/2026 8:20 | q1 - le loi | Trà đào | 1 | 30000 | app |
+| DH003 | 2026-03-01 09:05 | Q3-Võ Văn Tần | Trà sữa matcha | 1 |  | app |
+| DH004 | 2026-03-01 09:30 | Q3-Võ Văn Tần | Trà sữa trân châu | -1 | 35000 | quầy |
+
+Vấn đề: DH001 bị **trùng** (máy POS gửi lại khi rớt mạng), DH002 có **ngày sai định dạng** và tên cửa hàng viết kiểu khác, DH003 **thiếu giá**, DH004 có **số lượng âm** (đơn trả lại).
+
+**Bước 2 — sau làm sạch:** bỏ dòng trùng, chuẩn hoá ngày và tên cửa hàng, điền giá từ bảng menu, tách đơn trả lại sang bảng riêng.
+
+| order_id | thoi_gian | cua_hang | mon | so_luong | gia | kenh | ghi_chu |
+|---|---|---|---|---|---|---|---|
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 35000 | quầy | |
+| DH002 | 2026-03-01 08:20 | Q1-Lê Lợi | Trà đào | 1 | 30000 | app | đã chuẩn hoá ngày và tên |
+| DH003 | 2026-03-01 09:05 | Q3-Võ Văn Tần | Trà sữa matcha | 1 | 40000 | app | giá lấy từ menu |
+
+**Bước 3 — sau tổng hợp** theo ngày và cửa hàng, đúng thứ chủ chuỗi nhìn trên dashboard:
+
+| ngay | cua_hang | so_don | so_ly | doanh_thu |
+|---|---|---|---|---|
+| 2026-03-01 | Q1-Lê Lợi | 2 | 3 | 100000 |
+| 2026-03-01 | Q3-Võ Văn Tần | 1 | 1 | 40000 |
+
+Nếu chỉ **truy vấn** thì mỗi lần mở dashboard lại phải làm sạch và cộng lại từ đầu. **Chuyển đổi** thì làm một lần lúc 2 giờ sáng, **lưu** bảng bước 3 lại, và cả ngày ai mở dashboard cũng đọc ngay bảng nhỏ này.
 
 ---
 
@@ -84,6 +118,8 @@ Khi không bảng nào đủ nhỏ để vừa một nút, query engine dùng **
 | Cách làm | Phát bảng nhỏ tới mọi nút | Băm lại cả hai bảng theo khoá join và xáo trộn |
 | Chi phí | Thấp hơn | Cao hơn |
 
+**Ở Mây:** bảng `cua_hang` chỉ có 30 dòng, còn bảng `don_hang` có hàng chục triệu dòng chia cho nhiều máy. Ghép hai bảng này thì dùng **broadcast join**: photo bảng 30 cửa hàng gửi cho mọi máy, giống phát cho mỗi nhân viên một tờ danh bạ cửa hàng. Ngược lại, ghép `don_hang` với `lich_su_click_app` (cũng hàng chục triệu dòng) thì không bảng nào đủ nhỏ để photo, nên phải **shuffle**: chia lại cả hai bảng theo mã khách, đưa mọi dữ liệu của cùng một khách về cùng một máy rồi mới ghép.
+
 ---
 
 ## 3. ETL, ELT và data pipeline
@@ -97,6 +133,24 @@ ETL bị chi phối bởi giới hạn của cả nguồn lẫn đích: bước 
 Có một khái niệm ELT thứ hai, hơi khác, phổ biến cùng **data lake**: dữ liệu **không** được biến đổi lúc nạp, có thể nạp lượng lớn mà không chuẩn bị hay kế hoạch, với giả định bước chuyển đổi sẽ xảy ra vào một thời điểm chưa xác định trong tương lai. Nạp dữ liệu không có kế hoạch là công thức tuyệt vời cho **data swamp**. Inmon nói đại ý: ông luôn thích ETL vì nó buộc bạn biến đổi dữ liệu thành dạng làm việc được *trước khi* chuyển đi; ông đã thấy quá nhiều tổ chức nói "cứ nạp vào rồi biến đổi sau", và sáu tháng sau dữ liệu đó chưa bao giờ được đụng tới.
 
 Ranh giới giữa ETL và ELT cũng ngày càng mờ: với **object storage** làm lớp nền, không còn rõ cái gì "trong DB" và "ngoài DB", càng mờ hơn với federated query, data virtualization và live table. Tác giả cho rằng thuật ngữ ETL/ELT chỉ nên áp dụng ở **cấp vi mô** (từng pipeline) thay vì ở **cấp vĩ mô** (mô tả mẫu chuyển đổi của cả tổ chức). Tổ chức không cần chuẩn hoá ETL hay ELT mà nên tập trung chọn kỹ thuật phù hợp cho từng trường hợp khi xây pipeline.
+
+**Hình dung bằng việc nhập nguyên liệu:** ETL giống sơ chế rau ở chợ rồi mới mang về bếp (bếp nhỏ, không có chỗ sơ chế). ELT giống mang cả bao rau về bếp lớn rồi sơ chế tại chỗ. Sơ đồ dưới đặt hai cách cạnh nhau với dữ liệu của Mây.
+
+```mermaid
+flowchart TB
+    subgraph etl["ETL: biến đổi trước khi nạp"]
+        E1["POS, app"] --> E2["Máy chủ trung gian<br/>làm sạch, chuẩn hoá"] --> E3["Kho dữ liệu<br/>chỉ nhận dữ liệu sạch"]
+    end
+    subgraph elt["ELT: nạp thô rồi biến đổi trong kho"]
+        L1["POS, app"] --> L2["Kho dữ liệu<br/>vùng dữ liệu thô"] --> L3["Kho dữ liệu<br/>vùng dữ liệu sạch"]
+    end
+```
+
+| Pipeline ở Mây | Nên chọn | Vì sao |
+|---|---|---|
+| File Excel lương nhân viên | ETL | Che bớt cột nhạy cảm (số tài khoản) **trước** khi vào kho, để không ai lỡ thấy bản thô |
+| Đơn hàng từ POS và app | ELT | Kho đám mây đủ mạnh; giữ bản thô giúp làm lại khi phát hiện lỗi làm sạch |
+| Bình luận mạng xã hội | ELT, nhưng phải có kế hoạch xử lý | Nạp thô rồi bỏ đó sáu tháng thì thành "đầm lầy dữ liệu" như Inmon cảnh báo |
 
 ---
 
@@ -210,6 +264,19 @@ Các cách đưa DB cột lại gần thời gian thực: BigQuery cho chèn b�
 | Delete | Cứng, mềm, hoặc insert-delete | Xoá đắt hơn chèn trong hệ cột |
 | Upsert/Merge | Khớp theo khoá rồi cập nhật/chèn (và xoá) | COW; không merge quá thường xuyên |
 
+**Mỗi mẫu dùng vào việc gì ở Mây:**
+
+| Tình huống ở Mây | Mẫu phù hợp | Bảng trước | Bảng sau |
+|---|---|---|---|
+| Bảng tổng hợp doanh thu ngày, tính lại mỗi đêm | Truncate và reload | Số liệu của hôm qua | Xoá sạch, tính lại từ đầu |
+| Nhật ký nhiệt độ tủ mát | Insert-only | 10.000 dòng | 10.288 dòng (thêm số đo mới, không sửa số cũ) |
+| Khách K01 đổi số điện thoại | Upsert | K01, 0901 | K01, 0988 (cập nhật dòng có sẵn) |
+| Khách mới K99 đăng ký app | Upsert | Chưa có K99 | Thêm dòng K99 |
+| Đơn DH050 bị huỷ vì khách đổi ý | Xoá mềm | DH050, da_huy = false | DH050, da_huy = true (vẫn giữ để đối soát) |
+| Khách yêu cầu xoá toàn bộ dữ liệu cá nhân | Xoá cứng | Có dòng của khách | Dòng biến mất hẳn |
+
+Lưu ý về **copy-on-write** bằng ví dụ đời thường: dữ liệu trong kho cột được lưu thành từng "tập hồ sơ" (file) đóng gáy. Muốn sửa một số điện thoại thì không tẩy được, phải **photo lại cả tập** với dòng đã sửa. Sửa một lần mỗi giờ thì ổn; sửa mỗi giây (theo kiểu CDC gần thời gian thực) thì máy photo chạy không kịp.
+
 ---
 
 ## 6. Cập nhật schema
@@ -278,6 +345,16 @@ Quan điểm của tác giả: đây là lời chỉ trích chính đáng nhưng
 
 Một giải pháp thay thế thú vị là đẩy logic nghiệp vụ vào **metrics layer (lớp số liệu)** nhưng vẫn dùng warehouse hoặc công cụ khác làm phần tính toán nặng. Lớp metrics mã hoá logic nghiệp vụ, cho analyst và người dùng dashboard dựng phân tích phức tạp từ thư viện các metric đã định nghĩa; nó sinh truy vấn từ metric và gửi tới DB. (Semantic layer và metrics layer sẽ được bàn kỹ hơn ở Chương 9.)
 
+**Ở Mây: "doanh thu" có mấy loại?** Cùng một ngày ở cửa hàng Q1-Lê Lợi, ba con số đều gọi là "doanh thu" nhưng tính khác nhau. Đây đều là **dữ liệu dẫn xuất**: tính ra từ bảng đơn hàng, voucher và chi phí.
+
+| Chỉ số | Cách tính | Giá trị | Ai dùng |
+|---|---|---|---|
+| Doanh thu gộp | Tổng số lượng × giá niêm yết | 5.000.000 | Chủ chuỗi xem nhanh |
+| Doanh thu thuần | Doanh thu gộp trừ voucher và đơn bị huỷ | 4.550.000 | Kế toán |
+| Lợi nhuận sau marketing | Doanh thu thuần trừ giá vốn nguyên liệu và chi phí quảng cáo phân bổ cho cửa hàng | 1.900.000 | Chủ chuỗi khi quyết định mở thêm quán |
+
+Nếu công thức "phân bổ chi phí quảng cáo" đổi (chia theo số đơn thay vì theo doanh thu), mọi báo cáo dùng con số thứ ba phải đổi theo. Đặt công thức ở **một chỗ** (một bảng chuyển đổi hoặc metrics layer) thay vì rải trong 10 file báo cáo giúp tránh cảnh mỗi báo cáo ra một số.
+
 ---
 
 ## 10. MapReduce và sau MapReduce
@@ -298,6 +375,28 @@ GROUP BY user_id;
 - Sau đó cần **tổng hợp (reduce)** để gom kết quả toàn cụm. Không gom về một nút; thay vào đó **phân phối lại kết quả theo khoá** sao cho mỗi khoá nằm trên một và chỉ một nút. Đây là bước **shuffle**, thường dùng thuật toán băm trên khoá. Sau shuffle, ta cộng kết quả cho từng khoá. Các cặp khoá/đếm có thể ghi ra đĩa cục bộ trên nút tính ra chúng, rồi thu thập từ các nút để xem kết quả đầy đủ.
 
 Job MapReduce thực tế phức tạp hơn nhiều: truy vấn lọc bằng `WHERE`, join ba bảng và áp hàm cửa sổ gồm nhiều giai đoạn map và reduce.
+
+**Hình dung bằng việc kiểm kê ở Mây:** muốn đếm tổng số ly mỗi món bán cả năm, Mây chia sổ bán hàng cho ba nhân viên (ba "nút"). Mỗi người đếm phần sổ của mình (**map**). Sau đó cả nhóm thống nhất: người 1 cộng mọi số liệu trà sữa, người 2 cộng trà đào, người 3 cộng matcha, và ai đếm được gì thì chuyển giấy cho đúng người (**shuffle**). Cuối cùng mỗi người cộng phần của mình (**reduce**).
+
+```mermaid
+flowchart LR
+    subgraph map["Map: mỗi nút đếm phần của mình"]
+        N1["Nút 1<br/>trà sữa 40, trà đào 10"]
+        N2["Nút 2<br/>trà sữa 35, matcha 12"]
+        N3["Nút 3<br/>trà đào 8, matcha 5"]
+    end
+    subgraph reduce["Reduce: mỗi món về một nút để cộng"]
+        R1["Trà sữa<br/>40 + 35 = 75"]
+        R2["Trà đào<br/>10 + 8 = 18"]
+        R3["Matcha<br/>12 + 5 = 17"]
+    end
+    N1 -->|"shuffle"| R1
+    N2 -->|"shuffle"| R1
+    N1 -->|"shuffle"| R2
+    N3 -->|"shuffle"| R2
+    N2 -->|"shuffle"| R3
+    N3 -->|"shuffle"| R3
+```
 
 ### Sau MapReduce
 
@@ -365,6 +464,65 @@ Liên quan chặt với federated query, nhưng thường cần một **hệ tru
 | Materialized view | Có (kết quả tính trước) | Tính sẵn, tối ưu truy vấn, DB quản lý |
 | Federated query | Không (đọc nguồn ngoài) | DB OLAP chọn từ object storage, RDBMS khác |
 | Data virtualization | Không lưu nội bộ | Trino/Presto; pushdown; cẩn thận tải lên hệ production |
+
+**View và materialized view ở Mây:**
+
+| | View `v_doanh_thu_marketing` | Materialized view `mv_doanh_thu_ngay` |
+|---|---|---|
+| Là gì | Một câu hỏi đặt sẵn tên, không lưu kết quả | Câu hỏi đặt sẵn **kèm kết quả đã tính** |
+| Ví dụ đời thường | Công thức pha chế dán trên tường: mỗi lần pha phải làm lại từ đầu | Nồi trà ủ sẵn: ai cần thì rót ngay |
+| Dùng ở Mây | Cho marketing xem đơn hàng nhưng **ẩn số điện thoại khách** | Dashboard doanh thu ngày, mở hàng chục lần mỗi ngày |
+| Độ tươi | Luôn mới nhất | Cập nhật khi bảng nguồn đổi, có thể trễ một chút |
+| Chi phí mỗi lần mở | Chạy lại cả truy vấn | Gần như bằng không |
+
+---
+
+## 12. Áp vào chuỗi trà sữa Mây: pipeline batch mỗi đêm
+
+Gom các mảnh của bài lại thành pipeline thật của Mây. Công cụ orchestration (như Airflow) đóng vai "quản đốc ca đêm", bấm giờ và gọi từng bước theo thứ tự; bước sau chỉ chạy khi bước trước xong.
+
+```mermaid
+flowchart LR
+    subgraph thu["Thu nạp lúc 01.00"]
+        A1["POS 30 cửa hàng"]
+        A2["App đặt món"]
+        A3["Phần mềm kho"]
+    end
+    subgraph tho["Vùng thô"]
+        B["Bảng thô<br/>giữ nguyên như nhận"]
+    end
+    subgraph sach["Làm sạch lúc 02.00"]
+        C["Bỏ trùng, chuẩn hoá ngày,<br/>điền giá, tách đơn trả"]
+    end
+    subgraph mohinh["Mô hình hoá lúc 02.30"]
+        D1["fact_ban_hang"]
+        D2["dim_cua_hang<br/>dim_mon"]
+    end
+    subgraph phucvu["Phục vụ lúc 06.00"]
+        E1["Dashboard chủ chuỗi"]
+        E2["Bảng rộng cho<br/>dự báo trân châu"]
+        E3["Báo cáo kế toán"]
+    end
+    A1 --> B
+    A2 --> B
+    A3 --> B
+    B --> C
+    C -->|"upsert khách, insert-only đơn"| D1
+    C --> D2
+    D1 --> E1
+    D2 --> E1
+    D1 --> E2
+    D1 --> E3
+```
+
+| Bước | Kỹ thuật trong bài | Nếu bỏ qua thì sao |
+|---|---|---|
+| Nạp thô vào kho | ELT | Phát hiện lỗi làm sạch thì không còn bản gốc để làm lại |
+| Làm sạch | Data wrangling | Dashboard đếm đơn trùng, doanh thu bị đội |
+| Ghép với cửa hàng | Broadcast join | Job chạy chậm hơn nhiều lần |
+| Cập nhật thông tin khách | Upsert hoặc merge, chạy theo giờ chứ không theo giây | Kho cột bị quá tải vì copy-on-write |
+| Tính lợi nhuận | Dữ liệu dẫn xuất đặt ở một chỗ | Mỗi báo cáo một con số |
+| Dashboard sáng | Materialized view | Mỗi lần mở dashboard lại tốn tiền quét |
 
 ---
 

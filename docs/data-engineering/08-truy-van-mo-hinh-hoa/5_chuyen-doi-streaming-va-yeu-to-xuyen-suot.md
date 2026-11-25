@@ -39,6 +39,19 @@ Bài cuối của Chương 8 nói về **chuyển đổi và xử lý streaming*
 
 Việc xử lý stream đã được bàn trong ngữ cảnh truy vấn (bài 1). Sự khác biệt giữa **chuyển đổi streaming** và **truy vấn streaming** rất nhỏ, nên cần giải thích thêm.
 
+**Thuật ngữ trong bài — hiểu nôm na:**
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+|---|---|---|
+| Stream | Dòng dữ liệu chảy liên tục, không có điểm kết thúc | Số đo nhiệt độ tủ mát gửi về mỗi phút |
+| Batch | Một mẻ dữ liệu gom lại rồi xử lý một lần | Toàn bộ đơn của ngày hôm qua |
+| Micro-batch | Mẻ rất nhỏ, xử lý dày đặc | Cứ 5 phút gom đơn một lần |
+| Enrichment (làm giàu) | Ghép thêm thông tin để bản ghi tự đủ nghĩa | Thêm tên cửa hàng vào bản tin cảm biến |
+| DAG | Sơ đồ các bước, bước nào phải chờ bước nào | Làm sạch xong mới được tổng hợp |
+| Data lineage | "Gia phả" của dữ liệu: bảng này sinh ra từ bảng nào | Bảng doanh thu thuần lấy từ đơn hàng và voucher |
+| MDM | Một bản danh sách "chuẩn" cho các đối tượng quan trọng | Danh sách 30 cửa hàng với một mã duy nhất mỗi cửa hàng |
+| Data observability | Theo dõi "sức khoẻ" dữ liệu như theo dõi nhịp tim | Cảnh báo khi số đơn hôm nay bỗng bằng 0 |
+
 ### 1.1. Khái niệm cơ bản
 
 - **Truy vấn streaming** chạy **động** để hiển thị góc nhìn dữ liệu hiện tại (như đã bàn).
@@ -53,6 +66,16 @@ flowchart LR
     P --> E["Stream đã làm giàu"]
     E --> Q["Truy vấn trực tiếp<br/>và metric kích hoạt"]
 ```
+
+**Cùng ví dụ ở chuỗi Mây:** mỗi tủ mát có một cảm biến gửi số đo mỗi phút. Bản tin gốc chỉ có mã cảm biến và nhiệt độ, chưa biết tủ nằm ở cửa hàng nào hay ai cần được báo. Chuyển đổi streaming tra bảng thông tin thiết bị và ghép thêm, ngay khi bản tin vừa tới.
+
+| Giai đoạn | Nội dung bản tin |
+|---|---|
+| Bản tin gốc từ cảm biến | cam_bien S17, nhiet_do 9.1, luc 08:14 |
+| Thông tin tra từ bảng thiết bị | S17 thuộc cửa hàng Q1-Lê Lợi, tủ đựng sữa tươi, ngưỡng an toàn 8°C, quản lý là anh Tuấn |
+| Bản tin sau làm giàu | cam_bien S17, cua_hang Q1-Lê Lợi, loai_tu sữa tươi, nhiet_do 9.1, vuot_nguong có, bao_cho anh Tuấn, luc 08:14 |
+
+Bản tin sau làm giàu "tự đủ nghĩa": hệ thống cảnh báo không cần hỏi thêm gì, chỉ việc đọc trường `vuot_nguong` và gửi tin nhắn cho đúng người.
 
 ### 1.2. Chuyển đổi và truy vấn nằm trên một phổ liên tục
 
@@ -96,6 +119,48 @@ Khi dùng cửa sổ và trigger (tức xử lý theo batch), hãy hỏi: **tầ
 
 **Khi nào dùng cái nào?** Thành thật: **không có câu trả lời chung**. Thuật ngữ "micro-batch" thường được dùng để loại bỏ công nghệ đối thủ, nhưng nó có thể chạy tốt cho use case của bạn và có thể vượt trội ở nhiều mặt. **Không gì thay thế được kiến thức miền và thử nghiệm thực tế.** Hãy nói chuyện với chuyên gia để có ý kiến công bằng, và dễ dàng thử các lựa chọn bằng thí nghiệm trên hạ tầng cloud. Cũng cẩn thận với **benchmark giả do nhà cung cấp đưa ra**: nhà cung cấp nổi tiếng chọn benchmark có lợi và dựng ví dụ nhân tạo không giống thực tế (nhớ cuộc trò chuyện về benchmark ở Chương 4); họ thể hiện lợi thế lớn trong kết quả nhưng không thể hiện trong thế giới thực cho use case của bạn.
 
+### Áp vào chuỗi trà sữa Mây: batch, micro-batch hay streaming?
+
+**Hình dung bằng việc rửa ly:** batch là gom ly bẩn cả ngày rồi rửa một lần lúc đóng cửa; micro-batch là cứ 5 phút gom một khay đi rửa; true streaming là ly nào khách trả là rửa ngay ly đó. Cả ba đều "rửa ly", chỉ khác **bao lâu thì sạch** và **tốn bao nhiêu công**.
+
+Sơ đồ dưới cho thấy cùng ba đơn hàng đi qua ba cách xử lý, và lúc nào dashboard mới thấy chúng.
+
+```mermaid
+sequenceDiagram
+    participant POS as Máy POS
+    participant H as Hệ thống xử lý
+    participant D as Dashboard
+    POS->>H: Đơn DH001 lúc 08.15
+    Note over H,D: True streaming đẩy ngay sau 1 giây
+    H->>D: Cập nhật DH001
+    POS->>H: Đơn DH002 lúc 08.17
+    H->>D: Cập nhật DH002
+    POS->>H: Đơn DH003 lúc 08.19
+    Note over H,D: Micro-batch 5 phút gom cả ba đơn lúc 08.20
+    H->>D: Cập nhật DH001, DH002, DH003
+    Note over H,D: Batch hằng đêm chờ tới 02.00 sáng hôm sau
+    H->>D: Cập nhật cả ngày
+```
+
+| Nhu cầu ở Mây | Độ trễ chấp nhận được | Nên chọn | Vì sao |
+|---|---|---|---|
+| Báo cáo doanh thu cho kế toán | 1 ngày | Batch hằng đêm | Rẻ, đơn giản, kế toán chỉ đối soát cuối ngày |
+| Dashboard doanh thu ngày khai trương cửa hàng mới | Vài phút | Micro-batch 5 phút | Chủ chuỗi muốn theo dõi trong ngày, không cần từng giây |
+| Cảnh báo tủ mát vượt 8°C | Dưới 1 phút | Streaming | Sữa hỏng sau ít phút ở nhiệt độ cao; chậm là mất hàng |
+| Phát hiện một thẻ thanh toán quẹt bất thường nhiều lần | Vài giây | Streaming | Phải chặn trước khi giao dịch tiếp theo diễn ra |
+| Dự báo số trân châu cần nấu ngày mai | 1 ngày | Batch | Mô hình chỉ cần chạy một lần mỗi tối |
+
+```mermaid
+flowchart TD
+    A["Nhu cầu mới ở Mây"] --> B{"Chậm 1 ngày<br/>có gây thiệt hại không?"}
+    B -->|"Không"| BA["Batch hằng đêm"]
+    B -->|"Có"| C{"Chậm vài phút<br/>có gây thiệt hại không?"}
+    C -->|"Không"| MB["Micro-batch"]
+    C -->|"Có"| ST["True streaming"]
+```
+
+Nguyên tắc cho đội nhỏ như Mây: **bắt đầu bằng batch**, chỉ nâng lên micro-batch hay streaming khi có một nhu cầu kinh doanh cụ thể cần nhanh hơn.
+
 ---
 
 ## 4. Bạn sẽ làm việc với ai
@@ -117,6 +182,33 @@ Transformation là nơi dữ liệu bắt đầu **cung cấp tiện ích** cho 
 - **Hiệu năng:** truy vấn phải chạy nhanh nhất có thể theo cách tiết kiệm chi phí nhất.
 - **Hữu ích:** analyst, data scientist và ML engineer phải truy vấn nguồn dữ liệu với tin tưởng rằng dữ liệu có **chất lượng và độ đầy đủ cao nhất**, và tích hợp được vào workflow và sản phẩm dữ liệu của họ. Doanh nghiệp phải tin rằng dữ liệu đã biến đổi **chính xác và hành động được**.
 
+### 4.3. Những người kỹ sư dữ liệu của Mây làm việc cùng
+
+Sơ đồ dưới đặt kỹ sư dữ liệu ở giữa: bên trái là những người **tạo ra hoặc định nghĩa** dữ liệu, bên phải là những người **dùng** kết quả chuyển đổi.
+
+```mermaid
+flowchart LR
+    subgraph thuong["Thượng nguồn"]
+        U1["Đội IT bán phần mềm POS<br/>quyết định cột và định dạng"]
+        U2["Nhà cung cấp cảm biến<br/>cập nhật firmware"]
+        U3["Chủ chuỗi, kế toán<br/>định nghĩa doanh thu, khách hàng"]
+    end
+    KS["Kỹ sư dữ liệu Mây<br/>mô hình hoá, chuyển đổi"]
+    subgraph ha["Hạ nguồn"]
+        D1["Nhà phân tích<br/>dashboard"]
+        D2["Nhà khoa học dữ liệu<br/>dự báo trân châu"]
+        D3["Marketing<br/>gửi voucher"]
+    end
+    U1 -->|"báo trước khi đổi schema"| KS
+    U2 -->|"báo trước khi đổi bản tin"| KS
+    U3 -->|"thống nhất định nghĩa"| KS
+    KS --> D1
+    KS --> D2
+    KS --> D3
+```
+
+Câu chuyện điển hình nếu thiếu giao tiếp hai chiều: đội POS đổi cột `gia` thành `don_gia` trong bản cập nhật cuối tuần, không báo ai. Sáng thứ Hai, pipeline đêm qua chạy lỗi, dashboard của chủ chuỗi trống trơn. Một tin nhắn báo trước một tuần là đủ tránh chuyện này.
+
 ---
 
 ## 5. Các yếu tố xuyên suốt (undercurrents)
@@ -130,6 +222,15 @@ Truy vấn và transformation kết hợp các tập dữ liệu thành tập m�
 - Nhận biết các **vector tấn công** nhằm vào DB lúc truy vấn. Đặc quyền đọc/ghi vào DB phải được giám sát và kiểm soát chặt; quyền truy cập truy vấn phải được kiểm soát giống cách bạn kiểm soát truy cập hệ thống và môi trường của tổ chức.
 - **Giữ kín thông tin xác thực:** tránh sao chép dán mật khẩu, access token hay credential vào mã hoặc file không mã hoá. (Sách kể thấy mã trong repo GitHub dán thẳng username và password DB vào codebase!) Không chia sẻ mật khẩu với người dùng khác.
 - Không bao giờ cho phép dữ liệu chưa được bảo vệ hoặc chưa mã hoá đi qua internet công cộng.
+
+**Kiểm soát đến cột, hàng, ô ở Mây:** cùng một bảng khách hàng, mỗi người thấy một phiên bản khác nhau.
+
+| Người xem | Thấy gì | Ví dụ một dòng |
+|---|---|---|
+| Kỹ sư dữ liệu (quyền đầy đủ) | Mọi cột, mọi hàng | K01, Lan, 0901234567, Quận 3, hạng Vàng |
+| Marketing | Che số điện thoại (kiểm soát cột) | K01, Lan, 090\*\*\*\*567, Quận 3, hạng Vàng |
+| Quản lý cửa hàng Quận 3 | Chỉ khách của cửa hàng mình (kiểm soát hàng) | K01, Lan, 090\*\*\*\*567, Quận 3, hạng Vàng |
+| Quản lý cửa hàng Quận 1 | Không thấy dòng này | (trống) |
 
 ### 5.2. Quản lý dữ liệu (Data management)
 
@@ -186,6 +287,18 @@ Sách khuyên data engineer đặc biệt chú ý **best practice kỹ thuật p
 | Kiến trúc | Chọn đúng DB và pipeline cho khối lượng OLAP; nạp và lưu trữ phải khớp mẫu truy vấn |
 | Orchestration | Dựa trên phụ thuộc thay vì chỉ cron; keo dính các pipeline đa hệ thống |
 | Kỹ thuật phần mềm | Tránh UDF khi có hàm gốc; analytics as code (dbt, CI/CD); hiểu mã do công cụ low-code sinh |
+
+**Các yếu tố xuyên suốt nhìn từ chuỗi Mây:**
+
+| Undercurrent | Câu hỏi đội dữ liệu Mây phải trả lời | Ví dụ việc làm cụ thể |
+|---|---|---|
+| Bảo mật | Ai được xem bảng lương sau khi đã ghép với bảng ca làm? | Chỉ kế toán; mật khẩu kho dữ liệu cất trong trình quản lý bí mật, không dán vào code |
+| Quản lý dữ liệu | Cột `doanh_thu` nghĩa là gộp hay thuần? Nó được tính từ bảng nào? | Ghi định nghĩa vào data catalog; xem lineage để biết bảng nào bị ảnh hưởng khi khách xin xoá dữ liệu |
+| DataOps | Làm sao biết bảng doanh thu sáng nay đúng? | Kiểm tra tự động: số đơn không được giảm hơn 50% so với hôm qua, `gia` không được rỗng |
+| FinOps | Tháng này hoá đơn kho dữ liệu tăng gấp đôi vì sao? | Tìm truy vấn `SELECT *` chạy mỗi 5 phút và sửa lại |
+| Kiến trúc | Có nên dùng luôn database của app làm kho phân tích? | Không; tách kho phân tích riêng để app đặt món không bị chậm |
+| Orchestration | Bước tổng hợp có chạy khi bước làm sạch chưa xong? | Dùng công cụ orchestration chạy theo phụ thuộc thay vì hẹn giờ cron rời rạc |
+| Kỹ thuật phần mềm | Ai sửa câu SQL tính doanh thu, sửa khi nào, có ai duyệt? | Lưu SQL trong Git, dùng dbt và CI để kiểm tra trước khi đưa lên |
 
 ---
 

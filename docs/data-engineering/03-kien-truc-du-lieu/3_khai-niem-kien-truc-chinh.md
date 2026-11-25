@@ -62,6 +62,45 @@ Ví dụ trong sách: miền bán hàng gồm đơn đặt hàng, lập hoá đ�
 
 **Cách xác định miền:** tập trung vào miền *đại diện cho cái gì trong thế giới thực* rồi suy ngược lại. Đừng sao chép mẫu có sẵn của công ty khác, vì chức năng bán hàng của công ty bạn có thể có điểm đặc thù. Lời khuyên tốt nhất: **đi nói chuyện với người dùng và các bên liên quan**, lắng nghe, rồi xây dịch vụ giúp họ làm việc; tránh cái bẫy "kiến trúc trong chân không" (architecting in a vacuum).
 
+### Áp vào chuỗi Mây: miền và dịch vụ
+
+Ở chuỗi trà sữa **Mây** (30 cửa hàng, xem [phần giới thiệu](../intro.md)), sơ đồ dưới cho thấy ba miền và các dịch vụ bên trong. Dịch vụ **thanh toán** được dùng chung: bán hàng cần nó để thu tiền, kế toán cần nó để đối soát.
+
+```mermaid
+flowchart LR
+    subgraph ban["Miền bán hàng"]
+        DON["Dịch vụ đơn hàng"]
+        MENU["Dịch vụ thực đơn và giá"]
+        DIEM["Dịch vụ tích điểm"]
+        TT["Dịch vụ thanh toán"]
+    end
+    subgraph kho["Miền kho nguyên liệu"]
+        NX["Dịch vụ nhập xuất kho"]
+        DB["Dịch vụ dự báo nguyên liệu"]
+    end
+    subgraph ketoan["Miền kế toán"]
+        TT
+        LUONG["Dịch vụ tính lương"]
+    end
+```
+
+Để xác định miền đúng, kỹ sư dữ liệu của Mây đi hỏi người thật: quản lý kho nói "tôi cần biết trân châu còn bao nhiêu kg", kế toán nói "tôi cần khớp tiền máy POS với tiền ngân hàng". Mỗi câu nói như vậy gợi ra một dịch vụ.
+
+### Thuật ngữ trong bài — hiểu nôm na
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+| --- | --- | --- |
+| Scale dọc (vertical) | Thay máy mạnh hơn | Đổi laptop của kế toán sang máy cấu hình cao |
+| Scale ngang (horizontal) | Thêm nhiều máy cùng làm | 10 máy cùng đếm đơn, mỗi máy đếm 3 cửa hàng |
+| Node (nút) | Một máy trong nhóm máy | Một trong 10 máy đếm đơn ở trên |
+| Tầng (tier) | Lớp chức năng tách riêng | Màn hình app / phần xử lý / database |
+| Monolith | Một khối phần mềm làm tất cả | Một phần mềm quản lý vừa bán hàng, vừa kho, vừa lương |
+| Microservice | Nhiều dịch vụ nhỏ, mỗi cái một việc | Dịch vụ đơn hàng riêng, dịch vụ tích điểm riêng |
+| Tenant | Một "người thuê" chung hệ thống | Mỗi cửa hàng nhượng quyền là một tenant |
+| Noisy neighbor | Hàng xóm ồn ào: một người dùng nặng làm chậm người khác | Một báo cáo nặng của marketing làm dashboard của chủ chuỗi chậm |
+| Event (sự kiện) | Một việc vừa xảy ra | "Đơn DH001 vừa được tạo" |
+| Brownfield / greenfield | Cải tạo nhà cũ / xây nhà trên đất trống | Thay dần file Excel cũ / dựng hệ thống dữ liệu từ đầu cho chuỗi mới |
+
 ## 2. Hệ thống phân tán, khả năng mở rộng và thiết kế cho thất bại
 
 Phần này gắn với nguyên tắc 2 và 3. Kỹ sư dữ liệu quan tâm bốn đặc tính liên quan chặt chẽ:
@@ -92,6 +131,17 @@ flowchart TD
     W3 --> L
 ```
 
+Áp vào chuỗi Mây: muốn tính doanh thu 3 năm của 30 cửa hàng (khoảng 3 triệu đơn), một hệ thống phân tán chia việc như bảng dưới. Leader chia việc, mỗi worker cộng phần của mình, rồi leader cộng các kết quả lại.
+
+| Máy | Nhận việc | Kết quả trả về leader |
+| --- | --- | --- |
+| Worker 1 | Đơn của cửa hàng 1-10 | 9,1 tỷ |
+| Worker 2 | Đơn của cửa hàng 11-20 | 8,7 tỷ |
+| Worker 3 | Đơn của cửa hàng 21-30 | 8,4 tỷ |
+| Leader | Cộng ba kết quả | 26,2 tỷ |
+
+Nếu Worker 2 hỏng giữa chừng, leader giao lại phần cửa hàng 11-20 cho máy khác. Thực tế, 3 triệu đơn vẫn là ít; một kho dữ liệu đám mây tự làm việc chia này bên trong mà Mây không cần biết.
+
 Các kiến trúc phân tán hiện đại cũng thường **dự phòng (redundant)**: dữ liệu được sao chép, nên nếu một máy hỏng, máy khác tiếp tục phần việc còn dang dở, và cụm có thể thêm máy để khôi phục công suất.
 
 Gần như mọi object storage và data warehouse đám mây bạn dùng đều có yếu tố phân tán bên trong. Chi tiết quản lý thường được che đi để bạn tập trung vào kiến trúc cấp cao. Tuy vậy sách khuyên học thêm về hệ thống phân tán vì nó giúp hiểu và cải thiện hiệu năng pipeline; tài liệu gợi ý: *Designing Data-Intensive Applications* (Martin Kleppmann).
@@ -121,6 +171,14 @@ flowchart LR
 ```
 
 Sách thấy nhiều kiến trúc một tầng ở production: đơn giản nhưng có giới hạn nghiêm trọng, "chạy tốt cho đến khi hết chạy tốt". Ví dụ, lớp dữ liệu và lớp logic cạnh tranh tài nguyên (đĩa, CPU, bộ nhớ). Lời khuyên: dùng khái niệm tầng để đánh giá kiến trúc phân lớp và các phụ thuộc; **bắt đầu đơn giản và tiến lên thêm tầng khi kiến trúc phức tạp hơn**.
+
+Áp vào chuỗi Mây, vì sao không nên để phân tích chạy chung với bán hàng:
+
+| | Một tầng (kiểu cũ của Mây) | Ba tầng |
+| --- | --- | --- |
+| Cách bố trí | Máy tính ở văn phòng vừa chạy phần mềm bán hàng, vừa chứa database, vừa để kế toán chạy báo cáo | Màn hình POS / máy chủ xử lý đơn / database tách riêng; báo cáo chạy trên kho dữ liệu khác |
+| Khi kế toán chạy báo cáo cả năm | Máy chậm, thu ngân 30 cửa hàng không in được hoá đơn | Bán hàng không bị ảnh hưởng |
+| Khi máy hỏng | Cả chuỗi ngừng bán | Chỉ một tầng gặp sự cố, có thể thay riêng |
 
 #### Chia sẻ tài nguyên giữa các nút
 
@@ -164,6 +222,16 @@ Kiến trúc đa tầng giải quyết thách thức **kỹ thuật** của tài
 1. **Tập trung hoá:** một nhóm duy nhất thu thập dữ liệu từ mọi miền và đối chiếu để dùng toàn tổ chức (cách phổ biến trong data warehousing truyền thống).
 2. **Data mesh:** mỗi nhóm phần mềm chịu trách nhiệm chuẩn bị dữ liệu của mình để phần còn lại của tổ chức dùng (xem bài 5).
 
+Ở chuỗi Mây, hai cách chia sẻ miền trông như sau:
+
+| | Tập trung hoá | Data mesh |
+| --- | --- | --- |
+| Ai chuẩn bị dữ liệu bán hàng | Đội dữ liệu trung tâm (2-3 kỹ sư) | Đội phần mềm bán hàng tự chuẩn bị |
+| Ai chuẩn bị dữ liệu kho | Cũng đội dữ liệu trung tâm | Đội phần mềm kho tự chuẩn bị |
+| Ưu điểm | Thống nhất, dễ kiểm soát | Không dồn việc vào một đội |
+| Nhược điểm | Đội trung tâm thành nút cổ chai khi nhiều yêu cầu | Cần nhiều đội có kỹ năng dữ liệu |
+| Mây nên chọn | **Tập trung hoá**, vì Mây chỉ có vài kỹ sư và vài miền | Hợp khi Mây thành tập đoàn nhiều mảng kinh doanh |
+
 **Lời khuyên của sách:** monolith không hẳn xấu; trong một số điều kiện, bắt đầu bằng monolith là hợp lý. Khi cần triển khai nhanh, nó thường là lựa chọn đơn giản hơn. Nhưng hãy **chuẩn bị tách nó thành các thành phần nhỏ hơn về sau** và đừng quá phụ thuộc vào cấu trúc ban đầu.
 
 ## 5. Quyền truy cập người dùng: single-tenant và multitenant
@@ -178,6 +246,15 @@ Hai yếu tố cần cân nhắc:
 |---|---|
 | **Hiệu năng** | Hệ thống có cho hiệu năng nhất quán cho mọi tenant, hay sẽ có vấn đề **noisy neighbor** (hàng xóm ồn ào): tenant này dùng nhiều làm giảm hiệu năng tenant khác? |
 | **Bảo mật** | Dữ liệu của các tenant có được **cách ly đúng cách**? Với tenant là khách hàng bên ngoài, họ không được biết đến nhau, và kỹ sư phải **ngăn rò rỉ dữ liệu** |
+
+Áp vào chuỗi Mây: giả sử Mây cho đối tác mở **cửa hàng nhượng quyền** và cung cấp dashboard cho mỗi chủ nhượng quyền. Dữ liệu mọi cửa hàng nằm chung một bảng, mỗi chủ chỉ được thấy phần của mình:
+
+| ngay | cua_hang | chu_so_huu | doanh_thu |
+| --- | --- | --- | --- |
+| 2026-03-01 | NQ-Biên Hoà | Đối tác A | 5.200.000 |
+| 2026-03-01 | NQ-Thủ Dầu Một | Đối tác B | 4.800.000 |
+
+Đối tác A mở dashboard chỉ thấy dòng NQ-Biên Hoà. Nếu Đối tác B chạy một báo cáo quá nặng làm dashboard của Đối tác A chậm theo, đó là vấn đề **noisy neighbor**.
 
 Chiến lược cách ly khác nhau tuỳ hệ thống. Ví dụ dùng bảng multitenant và cách ly bằng **view** thường chấp nhận được, nhưng phải chắc chắn các view không thể làm rò rỉ dữ liệu. Hãy đọc tài liệu nhà cung cấp hoặc dự án để hiểu chiến lược và rủi ro phù hợp.
 
@@ -196,6 +273,26 @@ flowchart LR
 
 *Ví dụ minh hoạ (do người ghi chép thêm):* dịch vụ đơn hàng phát sự kiện "OrderCreated"; dịch vụ kho trừ tồn, dịch vụ hoá đơn lập hoá đơn, và pipeline phân tích cùng tiêu thụ sự kiện đó mà dịch vụ đơn hàng không cần biết họ là ai.
 
+Áp vào chuỗi Mây: khi khách đặt một ly trà sữa trân châu qua app, dịch vụ đơn hàng chỉ cần **phát một sự kiện**. Ba bên khác tự lắng nghe và làm việc của mình. Dịch vụ đơn hàng không cần biết có bao nhiêu bên đang nghe.
+
+```mermaid
+sequenceDiagram
+    participant Don as Dịch vụ đơn hàng
+    participant R as Bộ định tuyến sự kiện
+    participant Kho as Dịch vụ kho
+    participant Diem as Dịch vụ tích điểm
+    participant PL as Đường ống dữ liệu
+    Don->>R: Sự kiện đơn APP7782 đã tạo
+    R->>Kho: Chuyển sự kiện
+    R->>Diem: Chuyển sự kiện
+    R->>PL: Chuyển sự kiện
+    Kho->>Kho: Trừ 100 gram trân châu ở Q1
+    Diem->>Diem: Cộng 10 điểm cho khách
+    PL->>PL: Ghi vào vùng dữ liệu thô
+```
+
+Nếu dịch vụ tích điểm đang bảo trì, sự kiện vẫn nằm chờ ở bộ định tuyến. Khi dịch vụ chạy lại, nó lấy sự kiện ra xử lý. Đơn hàng vẫn đặt được bình thường.
+
 ## 7. Dự án brownfield và greenfield
 
 Trước khi thiết kế, cần biết bạn bắt đầu từ **trang giấy trắng** hay **thiết kế lại cái đang có**. Mỗi loại cần đánh giá đánh đổi khác nhau.
@@ -213,6 +310,19 @@ Cách giới thiệu kiến trúc mới và loại bỏ cái cũ:
 
 Lưu ý: việc ngừng sử dụng (deprecation) có thể chỉ là lời khuyên "tháp ngà", không thực tế hoặc không thể làm được ở tổ chức lớn. Ai đó, ở đâu đó, đang dùng các thành phần legacy. Như câu nói trích trong sách: *"Legacy là cách nói trịch thượng để mô tả thứ gì đó đang kiếm ra tiền."* Nếu có thể ngừng dùng, hãy chứng minh giá trị trên nền tảng mới bằng cách tăng dần độ trưởng thành, đưa ra bằng chứng thành công, rồi mới thực hiện **kế hoạch rút lui** (exit plan) đóng các hệ thống cũ.
 
+#### Áp vào chuỗi Mây: dùng strangler pattern để thay "file Excel tổng"
+
+Mây đang dùng một file Excel tổng 40 sheet (một hệ thống brownfield điển hình). Thay vì bỏ hẳn trong một ngày, kỹ sư dữ liệu "bóp" dần từng phần:
+
+| Giai đoạn | Phần được thay | Phần Excel còn lại | Quay lại được không |
+| --- | --- | --- | --- |
+| Tháng 1 | Doanh thu 3 cửa hàng thử nghiệm lấy từ kho dữ liệu | 27 cửa hàng, tồn kho, lương | Được |
+| Tháng 2 | Doanh thu cả 30 cửa hàng | Tồn kho, lương | Được |
+| Tháng 4 | Tồn kho nguyên liệu | Lương | Được |
+| Tháng 6 | Đối chiếu 2 tháng không lệch, tắt các sheet doanh thu và tồn kho | Lương (kế toán vẫn muốn giữ) | Có bản lưu |
+
+Sheet lương có thể giữ thêm nhiều năm. Đúng câu "legacy là thứ đang kiếm ra tiền": kế toán vẫn làm việc tốt với nó, chưa có lý do ép bỏ.
+
 ### Greenfield
 
 Dự án **greenfield** cho phép bạn khởi đầu mới, không bị ràng buộc bởi lịch sử hay legacy. Chúng thường **dễ hơn brownfield** và nhiều kiến trúc sư thấy thú vị hơn: có dịp thử công cụ và mẫu kiến trúc mới nhất. Nhưng cần chú ý:
@@ -221,6 +331,16 @@ Dự án **greenfield** cho phép bạn khởi đầu mới, không bị ràng b
 - **Phát triển hướng sơ yếu lý lịch (resume-driven development):** tích hợp công nghệ ấn tượng mà không ưu tiên mục tiêu cuối cùng của dự án.
 
 **Luôn ưu tiên yêu cầu hơn là xây thứ gì đó thú vị.**
+
+Ví dụ greenfield ở Mây: Mây mở thêm thương hiệu cà phê mới, dựng hệ thống dữ liệu từ đầu. Bảng dưới so sánh hai đề xuất.
+
+| | Đề xuất "vật thể sáng bóng" | Đề xuất bám yêu cầu |
+| --- | --- | --- |
+| Thu nạp | Nền tảng streaming tự dựng, cập nhật từng mili giây | Công cụ kéo dữ liệu có sẵn, chạy mỗi đêm |
+| Lưu trữ | Cụm máy phân tán tự quản lý | Kho dữ liệu đám mây trả theo dùng |
+| Nhu cầu thực tế | Chủ thương hiệu xem doanh thu mỗi sáng | Như bên trái |
+| Chi phí và công sức | Cao, cần 3 kỹ sư chuyên trách | Thấp, 1 kỹ sư lo được |
+| Đẹp trong CV | Rất đẹp | Bình thường |
 
 Dù brownfield hay greenfield, hãy luôn bám các nguyên tắc kiến trúc "tốt": đánh giá đánh đổi, ra quyết định linh hoạt và đảo ngược được, và hướng tới ROI dương.
 

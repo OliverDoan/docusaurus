@@ -60,6 +60,68 @@ Ba giai đoạn giữa (storage, ingestion, transformation) có thể **đan xen
 
 Bên dưới các giai đoạn là các **undercurrents** (dòng ngầm / yếu tố xuyên suốt). Chúng là nền tảng mà nếu thiếu thì hầu như không giai đoạn nào hoạt động đầy đủ được. Sáu undercurrents sẽ được trình bày ở bài 3 và 4.
 
+### Áp vào chuỗi Mây: một ly trà sữa đi qua vòng đời
+
+Tình huống chuỗi trà sữa **Mây** (30 cửa hàng, xem [phần giới thiệu](../intro.md)) sẽ đi cùng bạn qua cả Chương 2. Sơ đồ dưới đặt tên cụ thể cho từng giai đoạn ở Mây. Để ý khối lưu trữ nằm bên dưới, nối vào mọi giai đoạn: dữ liệu được cất ở nhiều chỗ chứ không chỉ một lần.
+
+```mermaid
+flowchart LR
+    subgraph g["Generation"]
+        POS["Máy POS ghi đơn DH001"]
+        APP["App ghi đơn giao hàng"]
+        IOT["Cảm biến tủ mát"]
+    end
+    subgraph i["Ingestion"]
+        ING["Mỗi đêm kéo đơn của<br/>30 cửa hàng về chỗ chung"]
+    end
+    subgraph t["Transformation"]
+        TR["Bỏ đơn trùng, chuẩn hoá ngày giờ,<br/>cộng doanh thu theo ngày"]
+    end
+    subgraph sv["Serving"]
+        DASH["Dashboard chủ chuỗi"]
+        ML["Dự báo trân châu"]
+    end
+    subgraph st["Storage - nền móng"]
+        S1["Bộ nhớ máy POS"]
+        S2["Kho dữ liệu thô"]
+        S3["Kho dữ liệu sạch"]
+    end
+    POS --> ING
+    APP --> ING
+    IOT --> ING
+    ING --> TR
+    TR --> DASH
+    TR --> ML
+    POS -.- S1
+    ING -.- S2
+    TR -.- S3
+```
+
+Bảng dưới là "bản đồ" của cả chương: ở mỗi giai đoạn, dữ liệu của Mây trông ra sao và câu hỏi chính là gì. Bài 2 sẽ đi sâu từng bước thu nạp, chuyển đổi, cung cấp với bảng dữ liệu cụ thể.
+
+| Giai đoạn | Ở chuỗi Mây | Dữ liệu trông như thế nào | Câu hỏi chính |
+| --- | --- | --- | --- |
+| Generation | Máy POS, app, cảm biến, Excel lương | Mỗi nguồn một kiểu, tên cột khác nhau, có lỗi | Nguồn nào, ai sở hữu, sinh nhanh cỡ nào? |
+| Storage | Bộ nhớ máy POS, kho thô, kho sạch | Cùng dữ liệu, cất ở nhiều tầng | Cất ở đâu, bao lâu, tốn bao nhiêu? |
+| Ingestion | Kéo đơn của 30 cửa hàng về một chỗ | Một bảng lớn gộp mọi nguồn, vẫn bẩn | Lấy theo lô hay liên tục? |
+| Transformation | Làm sạch, gộp, tính tổng | Bảng sạch, rồi bảng tổng theo ngày | Biến đổi gì để dùng được? |
+| Serving | Dashboard, voucher, dự báo | Con số, biểu đồ, danh sách | Ai dùng, dùng thế nào? |
+
+### Thuật ngữ trong bài — hiểu nôm na
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+| --- | --- | --- |
+| Source system (hệ thống nguồn) | Nơi dữ liệu sinh ra lần đầu | Máy POS ở quầy |
+| Database giao dịch | Cuốn sổ điện tử ghi từng giao dịch, phục vụ việc bán hàng hằng ngày | Bảng đơn hàng trong máy POS |
+| Message queue (hàng đợi tin nhắn) | "Băng chuyền" nhận tin từ bên gửi, giữ tạm để bên nhận lấy dần | Cảm biến tủ mát gửi số đo lên băng chuyền, hệ thống trung tâm lấy xuống |
+| Schema | Bản mô tả dữ liệu gồm những cột nào, mỗi cột kiểu gì | Bảng đơn có cột `order_id` (chữ), `so_luong` (số nguyên), `gia` (số) |
+| CDC (Change Data Capture) | Chỉ ghi lại những gì **thay đổi**, thay vì chụp lại toàn bộ | "Đơn DH005 vừa đổi trạng thái từ *đang pha* sang *đã giao*" |
+| Snapshot | Chụp toàn bộ trạng thái tại một thời điểm | Bản sao toàn bộ bảng khách hàng lúc 0 giờ |
+| Object storage | Kho chứa file khổng lồ, rẻ, cất được mọi loại file | Ảnh hoá đơn, file Excel lương, file log app |
+| SLA | Cam kết về chất lượng dịch vụ | "Dashboard có số liệu hôm qua trước 7 giờ sáng" |
+| Data lineage | Gia phả của dữ liệu: con số này đến từ đâu, qua những bước nào | "Doanh thu Q1 = cộng từ bảng đơn sạch, bảng đơn sạch lấy từ máy POS" |
+| Metadata | Dữ liệu mô tả dữ liệu | "Bảng đơn có 1,2 triệu dòng, cập nhật lúc 2 giờ sáng" |
+
 ## 2. Vòng đời dữ liệu so với vòng đời kỹ thuật dữ liệu
 
 Hai khái niệm này khác nhau tinh tế:
@@ -70,6 +132,28 @@ Hai khái niệm này khác nhau tinh tế:
 | **Data engineering lifecycle** | Tập con của vòng đời dữ liệu, tập trung vào **phần mà kỹ sư dữ liệu kiểm soát** |
 
 Nói cách khác, vòng đời kỹ thuật dữ liệu là "khúc" nằm trong tầm tay của kỹ sư dữ liệu, còn vòng đời dữ liệu đầy đủ còn gồm những thứ ngoài tầm kiểm soát (ví dụ ứng dụng nguồn sinh dữ liệu ra sao, người dùng cuối dùng kết quả thế nào).
+
+### Áp vào chuỗi Mây: đời của một đơn hàng
+
+Hãy theo dõi đơn DH001 từ lúc sinh ra tới lúc bị xoá. Chỉ khúc giữa là việc của kỹ sư dữ liệu; đầu và cuối thuộc về người khác.
+
+```mermaid
+flowchart LR
+    A["Thu ngân bấm máy POS<br/>đơn DH001 ra đời"] --> B["Kéo về kho chung"]
+    subgraph de["Vòng đời kỹ thuật dữ liệu - kỹ sư dữ liệu kiểm soát"]
+        B --> C["Làm sạch, gộp"]
+        C --> D["Đưa lên dashboard"]
+    end
+    D --> E["Chủ chuỗi đọc, quyết định<br/>khuyến mãi tuần sau"]
+    E --> F["Sau 10 năm, kế toán<br/>cho phép xoá"]
+```
+
+| Khúc đời của đơn DH001 | Ai quyết định | Thuộc vòng đời nào |
+| --- | --- | --- |
+| Máy POS ghi những cột nào | Nhà cung cấp máy POS | Chỉ vòng đời dữ liệu |
+| Gom, làm sạch, lưu, đưa lên dashboard | Kỹ sư dữ liệu | Cả hai |
+| Chủ chuỗi dùng con số để ra quyết định gì | Chủ chuỗi | Chỉ vòng đời dữ liệu |
+| Giữ bao lâu rồi xoá | Kế toán, luật | Chỉ vòng đời dữ liệu (kỹ sư dữ liệu thực hiện việc xoá) |
 
 ## 3. Generation: hệ thống nguồn
 
@@ -137,6 +221,47 @@ Hệ thống nguồn được bàn kỹ hơn ở Chương 5; schema và mô hìn
 
 **Ví dụ minh hoạ (do người viết thêm, không phải của tác giả):** đội ứng dụng đổi tên cột `phone` thành `phone_number` mà không báo. Pipeline đang đọc `phone` sẽ hỏng, hoặc tệ hơn là chạy tiếp với toàn giá trị rỗng. Đây chính là lý do cần kênh liên lạc với chủ nguồn.
 
+### 3.3. Áp vào chuỗi Mây: các hệ thống nguồn trông ra sao
+
+Để thấy "các nguồn rất khác nhau" nghĩa là gì, hãy nhìn dữ liệu thật từ ba nguồn của Mây.
+
+**Nguồn 1: máy POS (database giao dịch, schema cố định).** Mỗi dòng một món, cột đã định sẵn. Máy POS từ chối nếu ghi thiếu cột bắt buộc.
+
+| order_id | thoi_gian | cua_hang | mon | so_luong | gia | trang_thai |
+| --- | --- | --- | --- | --- | --- | --- |
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 35000 | đã thanh toán |
+| DH004 | 2026-03-01 08:31 | Q1-Lê Lợi | Trà đào | 1 | 30000 | huỷ |
+
+**Nguồn 2: app đặt món (sự kiện, gần như schemaless).** App gửi từng "sự kiện" dạng **JSON** (kiểu ghi dữ liệu theo cặp *tên: giá trị*, dễ thêm bớt trường). Hai sự kiện dưới cùng loại nhưng sự kiện thứ hai có thêm trường `voucher` vì app vừa ra bản mới.
+
+```json
+{"su_kien": "dat_don", "ma_don": "APP7781", "luc": "2026-03-01T08:17:05", "cua_hang": "q3-vo-van-tan", "mon": [{"ten": "Trà đào", "sl": 1}], "tong": 30000}
+{"su_kien": "dat_don", "ma_don": "APP7782", "luc": "2026-03-01T08:18:40", "cua_hang": "q1-le-loi", "mon": [{"ten": "Trà sữa trân châu", "sl": 2}], "tong": 63000, "voucher": "GIAM10"}
+```
+
+**Nguồn 3: cảm biến tủ mát (IoT, qua message queue).** Mỗi phút một dòng, 30 cửa hàng × 2 tủ × 1.440 phút = khoảng 86.000 dòng mỗi ngày.
+
+| ma_tu | thoi_diem | nhiet_do_c |
+| --- | --- | --- |
+| Q1-TU01 | 2026-03-01 08:15:00 | 4.1 |
+| Q1-TU01 | 2026-03-01 08:16:00 | 4.3 |
+| Q1-TU01 | 2026-03-01 08:15:00 | 4.1 |
+
+Dòng cuối là bản ghi **đến muộn và trùng**: cảm biến mất mạng, khi có mạng lại gửi lại số đo cũ. Đây đúng là các câu hỏi "có duplicate không, có late data không" ở mục 3.1.
+
+Đặt bộ câu hỏi của mục 3.1 vào ba nguồn này, ta có bảng đánh giá:
+
+| Câu hỏi | Máy POS | App đặt món | Cảm biến tủ mát |
+| --- | --- | --- | --- |
+| Ai sở hữu | Nhà cung cấp POS | Đội app của Mây | Đội IT |
+| Tốc độ sinh dữ liệu | Vài nghìn dòng/ngày | Vài nghìn sự kiện/ngày, dồn vào giờ trưa | ~86.000 dòng/ngày, đều đặn |
+| Schema | Cố định | Linh hoạt, hay thêm trường mới | Cố định, rất đơn giản |
+| Có trùng, đến muộn không | Ít | Có khi gửi lại | Thường xuyên khi mất mạng |
+| Dữ liệu giữ bao lâu ở nguồn | Máy POS chỉ giữ 90 ngày | Lâu dài | Cảm biến không giữ, gửi xong là mất |
+| Đọc từ nguồn có làm chậm không | Có, nếu truy vấn nặng giờ cao điểm | Ít | Không |
+
+Hàng "giữ bao lâu" rất quan trọng: nếu kỹ sư dữ liệu không kéo kịp, đơn cũ hơn 90 ngày trong máy POS sẽ mất vĩnh viễn.
+
 ## 4. Storage: lưu trữ
 
 Bạn cần nơi để chứa dữ liệu. Chọn giải pháp lưu trữ là chìa khoá cho thành công của phần còn lại, và đây cũng là một trong những giai đoạn **phức tạp nhất**, vì ba lý do:
@@ -178,6 +303,32 @@ Ngày xưa dữ liệu nguội được lưu vào băng từ và chuyển tới 
 ### 4.3. Chọn hệ thống lưu trữ
 
 Nên dùng loại nào? Còn tuỳ **trường hợp sử dụng, khối lượng dữ liệu, tần suất ingestion, định dạng và kích thước dữ liệu**; về bản chất là các câu hỏi ở mục 4.1. **Không có khuyến nghị chung** nào phù hợp cho mọi người, và mọi công nghệ lưu trữ đều có nhược điểm. Có vô số lựa chọn nên rất dễ bị choáng ngợp. Chương 6 đi sâu hơn về lưu trữ và giao thoa của nó với các giai đoạn khác.
+
+### 4.4. Áp vào chuỗi Mây: cất dữ liệu ở đâu, nóng hay nguội
+
+Cùng là dữ liệu của Mây, nhưng mức "nóng" rất khác nhau. Bảng dưới gợi ý cách xếp tầng, và vì sao chọn vậy.
+
+| Dữ liệu của Mây | Ai dùng, bao lâu một lần | Nhiệt độ | Nên cất ở đâu |
+| --- | --- | --- | --- |
+| Nhiệt độ tủ mát 1 giờ gần nhất | Hệ thống báo động, mỗi phút | Hot | Nơi đọc nhanh nhất, chấp nhận đắt |
+| Doanh thu 30 ngày gần nhất | Chủ chuỗi, quản lý, mỗi ngày | Hot | Kho dữ liệu đám mây, truy vấn được ngay |
+| Đơn hàng năm ngoái | Nhà phân tích, vài lần mỗi tháng | Warm | Kho dữ liệu, tầng rẻ hơn |
+| Đơn hàng 8 năm trước | Kế toán, gần như chỉ khi thanh tra thuế | Cold | Tầng lưu trữ lâu dài, rất rẻ, lấy ra chậm và tốn phí |
+| Ảnh hoá đơn giấy đã quét | Chỉ khi có tranh chấp | Cold | Object storage tầng lưu trữ lâu dài |
+
+Dữ liệu "nguội dần" theo thời gian. Sơ đồ dưới cho thấy một đơn hàng chuyển tầng ra sao; mỗi lần chuyển xuống, tiền lưu rẻ đi nhưng lấy ra chậm hơn.
+
+```mermaid
+stateDiagram-v2
+    direction LR
+    Hot: Hot - 30 ngày đầu
+    Warm: Warm - đến 1 năm
+    Cold: Cold - đến 10 năm
+    [*] --> Hot: Đơn vừa ra đời
+    Hot --> Warm: Sau 30 ngày
+    Warm --> Cold: Sau 1 năm
+    Cold --> [*]: Hết hạn lưu, xoá
+```
 
 ## Tóm tắt
 

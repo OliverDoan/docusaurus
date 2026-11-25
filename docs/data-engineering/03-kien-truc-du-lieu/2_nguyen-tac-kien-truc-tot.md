@@ -36,6 +36,7 @@ Bài này trình bày "cái nhìn 10.000 foot" (từ trên cao) về kiến trú
 - Nguyên tắc 7: Đưa ra quyết định có thể đảo ngược
 - Nguyên tắc 8: Ưu tiên bảo mật
 - Nguyên tắc 9: Áp dụng FinOps
+- Áp vào chuỗi trà sữa Mây
 - Tóm tắt
 
 ## Hai khung tham chiếu: AWS và Google Cloud
@@ -62,6 +63,23 @@ Sách khuyên đọc kỹ cả hai, chọn ý hay và xác định chỗ bạn k
 7. Đưa ra quyết định có thể đảo ngược.
 8. Ưu tiên bảo mật.
 9. Áp dụng FinOps.
+
+### Thuật ngữ trong bài — hiểu nôm na
+
+Ví dụ trong bài dùng chuỗi trà sữa **Mây** (30 cửa hàng, xem [phần giới thiệu](../intro.md)).
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+| --- | --- | --- |
+| Object storage | Kho chứa file khổng lồ, rẻ, cất được mọi loại file | Nơi cất file đơn thô mỗi đêm, ảnh hoá đơn |
+| Version control | Hệ thống lưu lại mọi phiên bản của code, quay lại bản cũ được | Lịch sử sửa đổi công thức tính doanh thu |
+| Uptime | Thời gian hệ thống chạy được | Dashboard chạy 99,9% thời gian = sập tối đa khoảng 43 phút mỗi tháng |
+| Failover | Có máy dự phòng tự thay khi máy chính hỏng | Máy chủ app hỏng, máy thứ hai tự nhận việc |
+| Serverless | Không phải thuê máy chạy cả ngày, chỉ trả tiền đúng lúc có việc | Chương trình kiểm tra nhiệt độ tủ chỉ chạy khi có số đo mới |
+| API | "Quầy giao dịch" để hai phần mềm nhờ nhau làm việc theo quy tắc chung | App hỏi dịch vụ tích điểm "khách KH0001 có bao nhiêu điểm?" |
+| Message bus | Băng chuyền tin nhắn chung giữa các hệ thống | Đơn mới đặt trên app được thả lên băng chuyền, ai cần thì lấy |
+| VPC | Mạng riêng ảo thuê trên đám mây | Mạng riêng nối kho dữ liệu và máy chạy đường ống của Mây |
+| Bucket | Một "thùng" chứa file trong object storage | Thùng `may-don-tho` chứa file đơn hằng đêm |
+| Spot instance | Máy đám mây giá rẻ nhưng có thể bị thu hồi bất cứ lúc nào | Dùng cho việc chạy lại được, như huấn luyện lại mô hình dự báo |
 
 ## Nguyên tắc 1: Chọn thành phần chung một cách khôn ngoan
 
@@ -91,6 +109,15 @@ RTO thường được đặt bằng cách xác định **tác động kinh doan
 
 *Ví dụ minh hoạ (do người ghi chép thêm):* pipeline nạp dữ liệu bán hàng chạy mỗi giờ. Nếu RPO là 1 giờ, mất tối đa 1 giờ dữ liệu là chấp nhận được, nên sao lưu mỗi giờ là đủ. Nếu RPO là 0 (không được mất giao dịch nào), bạn cần cơ chế sao chép liên tục.
 
+Áp vào chuỗi Mây, mỗi hệ thống có RTO và RPO rất khác nhau, tuỳ thiệt hại khi nó hỏng:
+
+| Hệ thống của Mây | Nếu hỏng thì sao | RTO hợp lý | RPO hợp lý | Hệ quả thiết kế |
+| --- | --- | --- | --- | --- |
+| Máy POS ở quầy | Không bán được hàng | Vài phút | 0 (không được mất đơn nào) | Máy POS phải ghi đơn được cả khi mất mạng, gửi bù sau |
+| App đặt món | Mất đơn online giờ trưa | 15 phút | 0 | Có máy dự phòng tự thay |
+| Dashboard doanh thu | Chủ chuỗi xem trễ | 1 ngày | 1 ngày | Sao lưu mỗi đêm là đủ |
+| Mô hình dự báo trân châu | Bếp dùng số của hôm trước | 2 ngày | 1 tuần | Không cần dự phòng đắt tiền |
+
 ## Nguyên tắc 3: Kiến trúc cho khả năng mở rộng
 
 Khả năng mở rộng (scalability) trong hệ thống dữ liệu gồm **hai chiều**:
@@ -101,6 +128,17 @@ Khả năng mở rộng (scalability) trong hệ thống dữ liệu gồm **hai
 Hệ thống có thể mở rộng **linh hoạt theo tải**, lý tưởng là tự động, gọi là **elastic** (đàn hồi). Một số hệ thống còn **scale to zero**: tắt hoàn toàn khi không dùng. Ví dụ: cụm huấn luyện xoá sau khi xong việc; nhiều hệ thống serverless (serverless functions, serverless OLAP database) tự scale về 0.
 
 **Cảnh báo:** áp dụng chiến lược mở rộng không phù hợp sẽ dẫn đến hệ thống quá phức tạp và đắt đỏ. Một cơ sở dữ liệu quan hệ đơn giản với một nút failover (chuyển đổi dự phòng) có thể là đủ cho một ứng dụng, thay vì cụm phức tạp. Hãy **đo tải hiện tại, các đỉnh tải, ước tính tải vài năm tới** để quyết định. Nếu startup tăng trưởng nhanh hơn dự kiến, thì cũng sẽ có thêm nguồn lực để tái cấu trúc.
+
+Áp vào chuỗi Mây, tải không đều theo giờ trong ngày. Bảng dưới cho thấy vì sao "scale xuống" quan trọng không kém "scale lên":
+
+| Khung giờ | Việc đang chạy | Tải | Hệ thống đàn hồi nên làm gì |
+| --- | --- | --- | --- |
+| 02:00-03:00 | Đường ống kéo và làm sạch đơn | Cao | Bật thêm máy xử lý |
+| 03:00-07:00 | Gần như không có gì | Gần 0 | Tắt hết máy xử lý (scale to zero) |
+| 11:00-13:00 | Quản lý xem dashboard, app nhiều đơn | Trung bình | Giữ ở mức vừa |
+| Ngày sinh nhật Mây | Đơn gấp ba | Rất cao | Tự bật thêm, xong ngày thì tắt |
+
+Với vài nghìn đơn mỗi ngày, Mây **không cần** cụm máy phân tán phức tạp. Một kho dữ liệu đám mây trả tiền theo truy vấn đã đủ, đúng cảnh báo "đừng phức tạp thừa" của nguyên tắc 3.
 
 ## Nguyên tắc 4: Kiến trúc là sự lãnh đạo
 
@@ -153,6 +191,31 @@ Quy định này được coi là bước ngoặt: đặt dữ liệu và dịch
 4. Có thể phát hành cập nhật với thời gian ngừng hoạt động tối thiểu, phát hành liên tục trong giờ làm việc.
 
 Liên kết lỏng cả ở hệ thống kỹ thuật lẫn hệ thống con người giúp nhóm kỹ thuật dữ liệu cộng tác hiệu quả hơn, và trực tiếp tạo điều kiện cho nguyên tắc 7.
+
+### Áp vào chuỗi Mây: liên kết chặt và liên kết lỏng
+
+Hai sơ đồ dưới cho thấy khác biệt. Ở kiểu liên kết chặt, dashboard và marketing đọc thẳng vào database của máy POS và app. Đổi nhà cung cấp POS là mọi thứ phía sau gãy theo.
+
+```mermaid
+flowchart LR
+    POSDB["Database máy POS"] --> DASH["Dashboard"]
+    POSDB --> MKT["Công cụ marketing"]
+    APPDB["Database app"] --> DASH
+    APPDB --> MKT
+    APPDB --> KT["File kế toán"]
+```
+
+Ở kiểu liên kết lỏng, mọi nguồn chỉ giao tiếp qua một lớp trung gian (công cụ thu nạp và kho dữ liệu với các bảng đã thống nhất). Đổi máy POS chỉ cần sửa một chỗ: phần kéo dữ liệu từ POS.
+
+```mermaid
+flowchart LR
+    POSDB["Database máy POS"] --> ING["Lớp thu nạp"]
+    APPDB["Database app"] --> ING
+    ING --> DW["Kho dữ liệu<br/>bảng chuẩn đã thống nhất"]
+    DW --> DASH["Dashboard"]
+    DW --> MKT["Công cụ marketing"]
+    DW --> KT["Kế toán"]
+```
 
 ## Nguyên tắc 7: Đưa ra quyết định có thể đảo ngược
 
@@ -219,6 +282,33 @@ Trước đây kỹ sư nghĩ về *performance engineering*: tối đa hoá hi�
 - Ngoài ra còn có **tấn công chi phí**, tương tự DDoS: nhiều công ty phát hiện việc tải xuống quá mức từ một S3 bucket có thể làm chi phí tăng vọt, đe doạ cả startup nhỏ. Khi chia sẻ dữ liệu công khai, có thể đặt chính sách **người yêu cầu trả tiền** (requester pays) hoặc giám sát mức chi tiêu truy cập và nhanh chóng thu hồi quyền nếu vượt ngưỡng.
 
 FinOps là phương pháp mới được chính thức hoá (FinOps Foundation bắt đầu năm 2019). Sách khuyên nghĩ về FinOps sớm, trước khi gặp hoá đơn đám mây quá lớn, và khuyến khích kỹ sư dữ liệu tham gia xây dựng thực hành FinOps cho kỹ thuật dữ liệu, một lĩnh vực còn nhiều "lãnh thổ chưa vạch bản đồ".
+
+## Áp vào chuỗi trà sữa Mây
+
+Chín nguyên tắc nghe như dành cho tập đoàn lớn, nhưng áp vào một chuỗi 30 cửa hàng vẫn rất cụ thể. Bảng dưới gom lại.
+
+| # | Nguyên tắc | Ở chuỗi Mây trông như thế nào |
+| --- | --- | --- |
+| 1 | Thành phần chung | Một kho dữ liệu chung cho cả phân tích, marketing và dự báo, không mỗi bộ phận một bản Excel |
+| 2 | Lập kế hoạch cho thất bại | Máy POS ghi được khi mất mạng; đường ống có chạy bù (backfill) |
+| 3 | Mở rộng được | Tắt máy xử lý lúc không có việc; tự bật thêm ngày khuyến mãi |
+| 4 | Kiến trúc là lãnh đạo | Kỹ sư dữ liệu hướng dẫn nhà phân tích tự viết SQL, thay vì ôm hết việc |
+| 5 | Luôn là kiến trúc sư | Mỗi quý xem lại: thêm nguồn mới nào, bỏ công cụ nào |
+| 6 | Liên kết lỏng | Mọi bên dùng dữ liệu qua kho, không đọc thẳng database máy POS |
+| 7 | Quyết định đảo ngược được | Dùng định dạng file mở, thử công cụ theo tháng trước khi ký năm |
+| 8 | Ưu tiên bảo mật | Thùng chứa file không bao giờ để công khai; che số điện thoại khách |
+| 9 | FinOps | Theo dõi hoá đơn đám mây mỗi tuần, đặt cảnh báo khi vượt ngân sách |
+
+**FinOps ở Mây, minh hoạ bằng hoá đơn một tháng (số liệu giả định).** Kỹ sư dữ liệu xem hoá đơn như xem dashboard, và phát hiện chỗ lãng phí:
+
+| Khoản | Tháng 2 | Tháng 3 | Nhận xét |
+| --- | --- | --- | --- |
+| Lưu trữ kho dữ liệu | 0,8 triệu | 0,9 triệu | Tăng đều theo dữ liệu, bình thường |
+| Chạy truy vấn | 2,0 triệu | 6,5 triệu | **Bất thường**: một dashboard tự làm mới mỗi phút, quét toàn bộ 3 năm đơn hàng |
+| Máy chạy đường ống | 1,5 triệu | 1,5 triệu | Có thể giảm nếu tắt lúc rảnh |
+| Lưu trữ ảnh hoá đơn cũ | 0,6 triệu | 0,6 triệu | Nên chuyển sang tầng lưu trữ lâu dài rẻ hơn |
+
+Sửa dashboard chỉ làm mới mỗi giờ và chỉ quét 30 ngày gần nhất, tiền truy vấn tháng 4 quay về khoảng 2 triệu. Không cần công nghệ mới, chỉ cần **nhìn vào hoá đơn**.
 
 ## Tóm tắt
 

@@ -27,11 +27,29 @@ Bài cuối của chương đi qua ba nhóm: quyết định giữa **serverless
 
 - 1. Serverless so với máy chủ
 - 2. Tối ưu hóa, hiệu suất và chiến tranh benchmark
-- 3. Các yếu tố xuyên suốt và tác động đến lựa chọn công nghệ
-- 4. Ví dụ orchestration: Airflow
-- 5. Kỹ thuật phần mềm
+- 3. Các yếu tố xuyên suốt và tác động đến lựa chọn công nghệ (gồm ví dụ orchestration: Airflow)
+- 4. Kỹ thuật phần mềm
 - Kết luận và tài nguyên
 - Tóm tắt
+
+:::info[Thuật ngữ trong bài — hiểu nôm na]
+
+Ví dụ trong bài dùng chuỗi trà sữa **Mây** (30 cửa hàng, 60 tủ mát có cảm biến, xem [phần giới thiệu](../intro.md)).
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+| --- | --- | --- |
+| Serverless | Đi taxi: trả theo chuyến, không lo xe | Đoạn code kiểm tra nhiệt độ chỉ chạy khi có số đo mới |
+| FaaS (Function as a Service) | Thuê chạy từng "hàm" nhỏ theo sự kiện | Mỗi số đo tủ mát gọi một hàm kiểm tra |
+| Concurrency | Số việc chạy cùng lúc | 60 tủ gửi số đo cùng một phút |
+| Container | Hộp đóng gói chương trình cùng mọi thứ nó cần | Bước làm sạch đơn chạy trong hộp riêng |
+| Kubernetes | Hệ thống quản lý rất nhiều container | Quá nặng cho quy mô của Mây |
+| Bootstrap script / image | Kịch bản tự cài đặt / bản chụp máy đã cài sẵn | Máy chạy đường ống tự dựng lại từ bản chụp mỗi đêm |
+| Benchmark | Bài đo tốc độ để so sánh | "Kho X nhanh gấp 3 lần kho Y" |
+| Cache | Bộ nhớ tạm để lần sau trả lời nhanh hơn | Truy vấn lặp lại lần hai nhanh bất thường vì đã nhớ kết quả |
+| SLA | Cam kết chất lượng dịch vụ của nhà cung cấp | "Kho dữ liệu chạy 99,9% thời gian, sập thì hoàn tiền" |
+| DDoS | Tấn công bằng cách gửi ồ ạt yêu cầu giả | Bot gửi hàng triệu đơn ảo vào app |
+
+:::
 
 ## 1. Serverless so với máy chủ
 
@@ -48,6 +66,18 @@ Serverless có nhiều hương vị. **FaaS (Function as a Service)** rất ph�
 - Mặt tốt: có kỹ sư tìm ra thủ thuật chạy workload batch với chi phí thấp trên AWS Lambda.
 - Mặt xấu: hàm serverless có **sự kém hiệu quả chi phí cố hữu**. Xử lý một sự kiện cho mỗi lần gọi hàm ở tốc độ sự kiện cao có thể đắt khủng khiếp, nhất là khi các cách đơn giản như đa luồng hoặc đa tiến trình là phương án thay thế tuyệt vời.
 - Cần **giám sát** (xác định chi phí mỗi sự kiện trong môi trường thực và thời gian thực thi tối đa) và **lập mô hình** (dùng chi phí mỗi sự kiện để tính tổng chi phí khi tốc độ sự kiện tăng), gồm cả tình huống xấu nhất: điều gì xảy ra nếu website bị một đàn bot hoặc DDoS tấn công?
+
+#### Áp vào chuỗi Mây: khi nào serverless rẻ, khi nào đắt
+
+Mây cân nhắc dùng hàm serverless để kiểm tra mỗi số đo tủ mát. Bảng dưới (số liệu giả định: 5.000đ cho mỗi 1 triệu lần gọi hàm; một máy chủ nhỏ chạy 24/7 là 1,5 triệu đồng mỗi tháng) cho thấy phải lập mô hình chi phí cho **cả tình huống xấu**.
+
+| Tình huống | Số sự kiện mỗi tháng | Chi phí serverless | Chi phí máy chủ chạy suốt | Bên rẻ hơn |
+| --- | --- | --- | --- | --- |
+| 60 tủ, mỗi phút một số đo | ~2,6 triệu | ~13.000đ | 1,5 triệu | Serverless |
+| Mở rộng 600 tủ, mỗi giây một số đo | ~1,5 tỷ | ~7,8 triệu | 1,5 triệu (có thể cần máy lớn hơn) | Máy chủ |
+| Bot tấn công app, mỗi lượt gọi một hàm | ~3 tỷ trong 1 tuần | ~15 triệu | Máy chủ quá tải nhưng hoá đơn không tăng | Phải có giới hạn chi tiêu |
+
+Ở quy mô hiện tại, serverless gần như miễn phí với Mây. Nhưng nếu Mây gắn cảm biến dày hơn, hoặc bị tấn công, hoá đơn có thể tăng gấp nghìn lần. Vì vậy cần đo "chi phí mỗi sự kiện" và đặt cảnh báo ngân sách ngay từ đầu.
 
 ### 1.2. Container
 
@@ -95,6 +125,18 @@ flowchart LR
     B -->|"Cần kiểm soát hơn"| C["Kubernetes / máy chủ tự quản"]
 ```
 
+### Áp vào chuỗi Mây: mỗi việc chạy ở đâu
+
+Theo lời khuyên "thử serverless trước", các việc của Mây được xếp như sau:
+
+| Việc ở Mây | Đặc điểm | Nên chạy bằng | Vì sao |
+| --- | --- | --- | --- |
+| Kiểm tra nhiệt độ từng số đo | Nhỏ, rời rạc, theo sự kiện | Hàm serverless | Rẻ, tự co giãn |
+| Truy vấn doanh thu | Thất thường, lúc nhiều lúc không | Kho dữ liệu serverless (trả theo dữ liệu quét) | Không phải giữ máy chạy suốt |
+| Làm sạch đơn mỗi đêm, cần thư viện đọc Excel và CSV | Chạy 20-40 phút, nhiều phụ thuộc | Container được quản lý | Vượt giới hạn thời gian của hàm serverless, cần thư viện riêng |
+| Huấn luyện lại mô hình dự báo mỗi tuần | Cần nhiều bộ nhớ, chạy 1-2 tiếng | Máy ảo tạm thời, xong thì xoá | Cần sức mạnh, nhưng không cần chạy suốt |
+| Cụm Kubernetes riêng | | Không cần | Quá phức tạp cho đội 1-3 người |
+
 ## 2. Tối ưu hóa, hiệu suất và chiến tranh benchmark
 
 Hãy tưởng tượng bạn là tỷ phú đang chọn phương tiện, thu hẹp còn hai lựa chọn: một máy bay phản lực thương gia thân rộng (tầm bay khoảng 9.945 hải lý, tốc độ hành trình 0,85 Mach...) và một siêu xe điện Tesla Model S Plaid (0-100 km/h trong 2,1 giây, 1020 mã lực...). Cái nào "hiệu suất tốt hơn"? Không cần biết nhiều về xe hay máy bay cũng thấy đó là so sánh vô nghĩa: một bên thiết kế để bay xuyên lục địa, một bên là siêu xe.
@@ -106,6 +148,15 @@ Tác giả thấy so sánh "táo với cam" như vậy suốt trong không gian 
 | **Big data... cho những năm 1990** | Sản phẩm tuyên bố hỗ trợ "big data" quy mô petabyte nhưng dùng dataset nhỏ đến mức nằm gọn trong bộ nhớ điện thoại. Với hệ thống dựa vào cache, dataset thử nghiệm nằm hoàn toàn trong SSD hoặc RAM, truy vấn lặp đi lặp lại cùng dữ liệu nên hiệu năng rất cao; dataset nhỏ còn giảm chi phí RAM/SSD khi so giá | Mô phỏng kích thước truy vấn và dữ liệu thực tế; đánh giá hiệu năng truy vấn và chi phí tài nguyên dựa trên nhu cầu chi tiết của bạn |
 | **So sánh chi phí vô nghĩa** | Nhiều hệ thống MPP không dễ tạo và xóa dù trên cloud, chạy liên tục nhiều năm sau khi cấu hình; các cơ sở dữ liệu khác tính toán động và tính phí theo truy vấn hoặc theo giây. So sánh hệ thống tạm thời và không tạm thời theo chi phí mỗi giây là vô nghĩa nhưng rất hay gặp | So sánh trên cùng mô hình sử dụng thực tế |
 | **Tối ưu hóa bất đối xứng** | Ví dụ: so hệ thống MPP hướng hàng với cơ sở dữ liệu cột bằng benchmark chạy join phức tạp trên dữ liệu chuẩn hóa cao. Mô hình chuẩn hóa tối ưu cho hệ thống hướng hàng, còn hệ thống cột chỉ phát huy hết khi đổi schema. Tệ hơn, nhà cung cấp tối ưu thêm join cho hệ thống của mình (ví dụ lập chỉ mục trước) mà không áp dụng tương đương cho đối thủ (ví dụ đặt join vào materialized view) | Kiểm tra mỗi hệ thống được tối ưu đồng đều như nhau |
+
+Áp vào chuỗi Mây: hai hãng kho dữ liệu đều khoe benchmark "nhanh nhất". Thay vì tin, Mây tự làm một bài thử nhỏ mô phỏng **nhu cầu thật của mình**:
+
+| Bước | Mây làm gì | Tránh thủ thuật nào |
+| --- | --- | --- |
+| Dữ liệu thử | Nạp đúng 3 năm đơn hàng thật (khoảng 10 triệu dòng), không dùng bộ mẫu của hãng | Dataset nhỏ nằm gọn trong RAM |
+| Truy vấn thử | 5 truy vấn mà dashboard dùng hằng ngày, chạy mỗi truy vấn với tham số khác nhau | Truy vấn lặp lại trúng cache |
+| Cách tính tiền | Ước tính hoá đơn **cả tháng** theo cách Mây dùng thật, không so "giá mỗi giây" | So sánh chi phí vô nghĩa |
+| Tối ưu | Áp cùng mức tinh chỉnh cho cả hai hãng | Tối ưu bất đối xứng |
 
 **Lời kết:** như mọi thứ trong công nghệ dữ liệu, *caveat emptor* (người mua hãy cẩn thận). Hãy làm bài tập về nhà trước khi mù quáng tin benchmark của nhà cung cấp để đánh giá và chọn công nghệ.
 
@@ -134,6 +185,18 @@ Sự cố rồi sẽ xảy ra: server hoặc cơ sở dữ liệu ngừng chạy
 ### 3.3. Kiến trúc dữ liệu
 
 Như Chương 3: kiến trúc tốt là đánh giá các sự đánh đổi, chọn công cụ tốt nhất cho việc đồng thời giữ quyết định **đảo ngược được**. Bối cảnh đổi chóng mặt nên "công cụ tốt nhất cho việc" là mục tiêu di động. Mục tiêu chính: **tránh lock-in không cần thiết, đảm bảo khả năng tương tác xuyên suốt data stack, và tạo ROI cao**.
+
+#### Áp vào chuỗi Mây: bảng câu hỏi trước khi ký với nhà cung cấp
+
+Gom các câu hỏi về yếu tố xuyên suốt thành một bảng kiểm mà Mây mang theo khi gặp nhà cung cấp công cụ kéo dữ liệu:
+
+| Yếu tố xuyên suốt | Câu hỏi Mây cần hỏi | Câu trả lời đáng lo |
+| --- | --- | --- |
+| Bảo mật | Số điện thoại khách đi qua hệ thống của anh có được mã hoá không? | "Chúng tôi lưu tạm dạng thường để xử lý nhanh" |
+| Quản lý dữ liệu | Dữ liệu có được lưu ở Việt Nam hoặc vùng Mây chọn không? | "Chỉ có máy chủ ở Mỹ" (nếu luật yêu cầu lưu trong nước) |
+| DataOps | Khi connector lỗi, Mây được báo thế nào, bao lâu sửa? | "Khách tự kiểm tra trên trang quản trị" |
+| Kiến trúc | Muốn rời đi, Mây lấy cấu hình và dữ liệu ra bằng cách nào? | "Chỉ xuất được định dạng riêng của chúng tôi" |
+| Orchestration | Công cụ có cho công cụ điều phối của Mây gọi chạy qua API không? | "Chỉ chạy theo lịch cố định" |
 
 ### 3.4. Orchestration: ví dụ Airflow
 

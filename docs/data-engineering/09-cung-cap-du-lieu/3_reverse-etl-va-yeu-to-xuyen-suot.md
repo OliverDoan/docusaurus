@@ -45,6 +45,17 @@ Bài cuối của Chương 9 nói về **Reverse ETL** (đẩy dữ liệu đã 
 
 Nói cách khác: reverse ETL lấy dữ liệu đã xử lý từ **phía đầu ra** của vòng đời kỹ thuật dữ liệu rồi đưa về hệ thống nguồn.
 
+**Thuật ngữ trong bài — hiểu nôm na:**
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+|---|---|---|
+| CRM | Phần mềm quản lý khách hàng, nơi đội bán hàng hoặc marketing làm việc hằng ngày | Phần mềm gửi tin nhắn và voucher của Mây |
+| Lead scoring | Chấm điểm khả năng một người sẽ mua | Ở Mây là chấm điểm khả năng khách **rời bỏ** |
+| Feedback loop | Kết quả đầu ra quay lại ảnh hưởng đầu vào lần sau | Voucher thay đổi hành vi khách, hành vi khách lại thay đổi điểm |
+| Guardrails | Rào chắn tự động ngăn hệ thống đi quá đà | Trần ngân sách voucher mỗi tuần |
+| Least privilege | Chỉ cấp đúng quyền cần dùng, không hơn | Công cụ đồng bộ chỉ được ghi hai trường |
+| Service account | Tài khoản dành cho **máy** chứ không phải người | Tài khoản của công cụ reverse ETL |
+
 ```mermaid
 flowchart LR
   CRM["CRM (hệ thống nguồn)"] --> W["Data warehouse"]
@@ -58,6 +69,70 @@ flowchart LR
 **Bắt đầu thế nào:** bạn có thể tự xây giải pháp, nhưng đã có nhiều lựa chọn sẵn; tác giả khuyên dùng **mã nguồn mở hoặc dịch vụ thương mại được quản lý**. Không gian này thay đổi cực nhanh, chưa có người thắng rõ ràng và nhiều sản phẩm sẽ bị các nhà cung cấp cloud lớn hoặc nhà cung cấp sản phẩm dữ liệu khác thâu tóm. **Hãy chọn cẩn thận.**
 
 **Cảnh báo: vòng phản hồi.** Reverse ETL vốn tạo ra feedback loop. Ví dụ: tải dữ liệu Google Ads xuống, dùng mô hình tính giá thầu mới, nạp giá thầu lại vào Google Ads, rồi lặp lại. Nếu mô hình giá thầu có lỗi khiến giá thầu ngày càng cao và quảng cáo nhận ngày càng nhiều click, bạn có thể **nhanh chóng đốt một khoản tiền lớn**. Hãy xây hệ thống giám sát và **guardrails** (lan can bảo vệ).
+
+### Áp vào chuỗi trà sữa Mây: đẩy danh sách khách sắp rời bỏ về hệ thống gửi voucher
+
+**Bối cảnh:** đội marketing của Mây dùng một phần mềm gửi tin nhắn và voucher cho khách (giống CRM thu nhỏ). Nhà khoa học dữ liệu đã có mô hình chấm "nguy cơ rời bỏ" cho từng khách, kết quả nằm trong kho dữ liệu. Câu hỏi: làm sao để điểm số đó **đến tay marketing ở đúng chỗ họ làm việc**?
+
+**Cách cũ và cách reverse ETL:**
+
+| | Cách cũ: xuất Excel gửi email | Reverse ETL |
+|---|---|---|
+| Quy trình | Mỗi thứ Hai, nhà phân tích xuất file, gửi email; marketing tải lên phần mềm voucher bằng tay | Mỗi đêm, công cụ reverse ETL tự đồng bộ cột `nguy_co_roi_bo` vào hồ sơ khách trong phần mềm voucher |
+| Độ tươi | Trễ tới 7 ngày | Trễ tối đa 1 ngày |
+| Lỗi thường gặp | Quên gửi, tải nhầm file tuần trước, lệch phiên bản | Đồng bộ thất bại thì có cảnh báo |
+| Marketing phải làm gì | Mở email, tải file, ghép tay | Không gì cả; chỉ cần lọc khách có nguy cơ cao trong phần mềm quen thuộc |
+
+**Dữ liệu trông thế nào ở hai đầu.** Trong kho, bảng điểm do mô hình sinh ra:
+
+| ma_khach | lan_mua_cuoi | so_don_90_ngay | nguy_co_roi_bo | mon_hay_mua |
+|---|---|---|---|---|
+| K01 | 2026-02-10 | 2 | 0,82 | Trà sữa trân châu |
+| K02 | 2026-03-20 | 11 | 0,08 | Trà đào |
+| K03 | 2026-01-28 | 1 | 0,91 | Trà sữa matcha |
+
+Sau khi reverse ETL đồng bộ, hồ sơ khách trong phần mềm voucher có thêm hai trường, và marketing đặt quy tắc tự động "nguy cơ trên 0,8 thì gửi voucher món hay mua":
+
+| Khách trong phần mềm voucher | Nhóm nguy cơ (mới) | Món hay mua (mới) | Hành động tự động |
+|---|---|---|---|
+| Lan (K01) | Cao | Trà sữa trân châu | Gửi voucher giảm 30% trà sữa trân châu |
+| Minh (K02) | Thấp | Trà đào | Không gửi |
+| Hoa (K03) | Cao | Trà sữa matcha | Gửi voucher giảm 30% trà sữa matcha |
+
+Sơ đồ dưới cho thấy trình tự mỗi đêm, từ lúc kho có điểm mới tới lúc khách nhận tin nhắn.
+
+```mermaid
+sequenceDiagram
+    participant K as Kho dữ liệu
+    participant M as Mô hình rời bỏ
+    participant R as Công cụ reverse ETL
+    participant V as Phần mềm voucher
+    participant C as Khách hàng
+    K->>M: Gửi lịch sử mua 90 ngày
+    M->>K: Ghi điểm nguy cơ mới cho từng khách
+    R->>K: Đọc các khách có điểm thay đổi
+    R->>V: Cập nhật trường nguy cơ và món hay mua
+    V->>V: Chạy quy tắc nguy cơ trên 0.8
+    V->>C: Tin nhắn kèm voucher 30 phần trăm
+```
+
+**Vòng phản hồi ở Mây và rào chắn cần có.** Voucher làm khách mua lại, điểm nguy cơ giảm; nhưng nếu mô hình học nhầm, nó có thể tạo vòng xoáy tốn tiền như sơ đồ dưới.
+
+```mermaid
+flowchart LR
+    A["Mô hình gắn nguy cơ cao<br/>cho nhiều khách"] --> B["Gửi voucher<br/>cho nhiều khách"]
+    B --> C["Khách quen học cách<br/>chờ voucher mới mua"]
+    C --> D["Khách quen mua thưa hơn<br/>khi không có voucher"]
+    D --> A
+    G["Rào chắn<br/>tối đa 1 voucher mỗi khách mỗi tháng<br/>ngân sách voucher theo tuần<br/>nhóm đối chứng không nhận voucher"] -.->|"chặn vòng xoáy"| B
+```
+
+| Rào chắn | Bảo vệ khỏi điều gì |
+|---|---|
+| Mỗi khách tối đa 1 voucher mỗi tháng | Khách "nghiện" voucher |
+| Trần ngân sách voucher mỗi tuần; vượt thì dừng và báo marketing | Đốt tiền khi mô hình lỗi |
+| Giữ 10% khách nguy cơ cao **không** nhận voucher (nhóm đối chứng) | Biết voucher có thật sự giữ chân khách hay không |
+| Cảnh báo khi số khách "nguy cơ cao" tăng gấp đôi qua một đêm | Phát hiện mô hình hoặc dữ liệu đầu vào bị hỏng |
 
 ## 2. Bạn sẽ làm việc với ai
 
@@ -90,6 +165,15 @@ Các thực hành:
 - Thu hẹp quyền tới **trường, hàng, cột, ô** của tập dữ liệu nếu cần; kiểm soát càng chi tiết càng tốt và **thu hồi** khi không còn cần.
 - Môi trường **multitenant**: đảm bảo người dùng chỉ truy cập dữ liệu của họ. Cách tốt là dàn xếp truy cập qua **view đã lọc** để giảm rủi ro khi chia sẻ quyền vào một bảng chung; hoặc dùng **tính năng chia sẻ dữ liệu** cho kiểm soát chỉ đọc chi tiết giữa bạn và consumer.
 - Kiểm tra tần suất dùng sản phẩm dữ liệu và cân nhắc **ngừng chia sẻ** cái ít dùng. Rất phổ biến: giám đốc gấp rút yêu cầu báo cáo rồi báo cáo nhanh chóng bị bỏ xó. Nếu không được dùng, hỏi người dùng có còn cần không; nếu không thì **gỡ bỏ**, nghĩa là bớt lỗ hổng bảo mật.
+- **Ở Mây**, đặc quyền tối thiểu nghĩa là mỗi người, mỗi hệ thống chỉ có đúng quyền mình cần:
+
+  | Người hoặc hệ thống | Được làm | Không được làm |
+  |---|---|---|
+  | Chủ chuỗi | Đọc dashboard doanh thu | Sửa dữ liệu trong kho |
+  | Quản lý cửa hàng Q1 | Đọc số liệu của cửa hàng Q1 | Xem cửa hàng khác, xem lương |
+  | Tài khoản dịch vụ của công cụ reverse ETL | Đọc **một** bảng điểm rời bỏ; ghi **hai** trường trong phần mềm voucher | Đọc bảng lương, xoá khách trong phần mềm voucher |
+  | Nhà khoa học dữ liệu | Đọc bảng đặc trưng đã ẩn danh | Xem số điện thoại khách |
+
 - Xem kiểm soát truy cập và bảo mật là **yếu tố hỗ trợ**, không phải trở ngại. Tác giả biết nhiều hệ thống dữ liệu tiên tiến được xây nhưng do bảo mật triển khai kém nên rất ít người được phép truy cập, hệ thống trì trệ. Kiểm soát truy cập mạnh, chi tiết cho phép làm analytics/ML thú vị hơn mà vẫn bảo vệ doanh nghiệp và khách hàng.
 
 ### 3.2. Quản lý dữ liệu (data management)
@@ -98,6 +182,15 @@ Tác động của các nỗ lực quản lý dữ liệu xuyên suốt vòng đ
 
 - **Niềm tin** là biến số quan trọng nhất. Dữ liệu được tin thì được dùng, không đáng tin thì bị bỏ. Hãy biến việc xây niềm tin và cải thiện dữ liệu thành quy trình chủ động bằng **vòng phản hồi**: người dùng báo sự cố, yêu cầu cải tiến; bạn chủ động báo lại khi có thay đổi.
 - Mọi người cần dữ liệu gì để làm việc? Với áp lực quy định và tuân thủ, việc cấp **dữ liệu thô** (kể cả giới hạn trường/hàng) gây khó truy vết về một thực thể (một người hay nhóm người). May mắn, các tiến bộ trong **làm xáo trộn dữ liệu** (data obfuscation) cho phép cung cấp dữ liệu **tổng hợp, bị xáo trộn hoặc ẩn danh**. Bộ dữ liệu "giả" này đủ để analyst/data scientist lấy tín hiệu cần thiết nhưng khó xác định thông tin được bảo vệ. Không hoàn hảo (với đủ nỗ lực, nhiều tập dữ liệu có thể bị **khử ẩn danh** hoặc dịch ngược), nhưng ít nhất giảm nguy cơ rò rỉ.
+- **Ví dụ làm xáo trộn ở Mây:** nhà khoa học dữ liệu cần dữ liệu khách để huấn luyện mô hình rời bỏ, nhưng không cần biết khách là ai. Bảng trước và sau khi ẩn danh:
+
+  | | Mã khách | Tên | Số điện thoại | Tuổi | Quận | Số đơn 90 ngày |
+  |---|---|---|---|---|---|---|
+  | Trước | K01 | Lan | 0901234567 | 27 | Quận 3 | 2 |
+  | Sau | a9f3c1 | (bỏ) | (bỏ) | 25–29 | Quận 3 | 2 |
+
+  Mã khách được thay bằng chuỗi băm, tuổi gom thành khoảng. Mô hình vẫn học được quy luật, nhưng người xem bảng không nhận ra Lan.
+
 - Đưa **semantic layer và metrics layer** vào lớp serving, cùng mô hình hoá dữ liệu chặt chẽ để thể hiện đúng định nghĩa và logic kinh doanh. Điều này tạo **nguồn sự thật duy nhất** (single source of truth) cho analytics, ML, reverse ETL hay mục đích khác.
 
 ### 3.3. DataOps

@@ -36,7 +36,7 @@ Bài này mở đầu Chương 1 của sách *Fundamentals of Data Engineering*.
 
 Dù đang rất nóng, vẫn còn nhiều nhầm lẫn về việc kỹ thuật dữ liệu là gì và kỹ sư dữ liệu làm gì. Lĩnh vực này đã tồn tại dưới nhiều hình thức từ khi các công ty bắt đầu làm việc với dữ liệu (phân tích dự đoán, phân tích mô tả, báo cáo), và được chú ý hơn khi khoa học dữ liệu bùng nổ trong thập niên 2010. Theo các tác giả, đầu năm 2022 chỉ riêng tìm kiếm khớp chính xác cụm "what is data engineering?" trên Google đã trả về hơn 91.000 kết quả khác nhau, cho thấy có vô số cách định nghĩa.
 
-Sách trích ba định nghĩa của các chuyên gia để thấy mức độ khác biệt:
+Sách trích bốn định nghĩa của các chuyên gia để thấy mức độ khác biệt:
 
 | Tác giả | Ý chính |
 |---|---|
@@ -47,6 +47,22 @@ Sách trích ba định nghĩa của các chuyên gia để thấy mức độ k
 
 Các định nghĩa này khác nhau nhiều, nhưng có mẫu số chung: kỹ sư dữ liệu lấy dữ liệu, lưu trữ nó và chuẩn bị cho nhà khoa học, nhà phân tích và những người khác dùng.
 
+### Thuật ngữ trong bài — hiểu nôm na
+
+Bài này dùng nhiều từ chuyên môn. Bảng dưới giải nghĩa bằng lời thường và gắn với chuỗi trà sữa **Mây** (30 cửa hàng, xem [phần giới thiệu](../intro.md)).
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+| --- | --- | --- |
+| Dữ liệu thô (raw data) | Dữ liệu đúng như lúc mới sinh ra, chưa ai sửa | Từng dòng đơn trong máy POS, có cả đơn bị bấm nhầm |
+| Cơ sở dữ liệu quan hệ (relational database) | Bộ sổ sách điện tử gồm nhiều bảng có hàng, có cột, nối được với nhau | Bảng `don_hang` nối với bảng `cua_hang` qua mã cửa hàng |
+| SQL | Ngôn ngữ để đặt câu hỏi cho cơ sở dữ liệu | "Tổng tiền các đơn ngày 1/3 ở Q1-Lê Lợi là bao nhiêu?" |
+| ETL (Extract, Transform, Load) | Lấy ra, biến đổi, nạp vào: ba bước chuyển dữ liệu từ nơi này sang nơi khác | Lấy đơn từ POS, bỏ đơn trùng, nạp vào kho báo cáo |
+| Business intelligence (BI) | Báo cáo, biểu đồ giúp lãnh đạo ra quyết định | Dashboard doanh thu theo cửa hàng của chủ chuỗi |
+| Data warehouse (kho dữ liệu) | Kho đã sắp xếp gọn, chuyên để phân tích, tách khỏi hệ thống bán hàng | Bảng doanh thu sạch của cả 30 cửa hàng trong 3 năm |
+| Hệ thống phân tán | Nhiều máy tính cùng chia nhau làm một việc lớn | Thay vì 1 máy đếm 10 triệu đơn, 10 máy mỗi máy đếm 1 triệu |
+| Batch / streaming | Xử lý theo lô (gom lại làm một lượt) / xử lý liên tục ngay khi có | Tổng hợp doanh thu lúc 2 giờ sáng / báo động tủ mát quá nóng ngay lập tức |
+| Upstream / downstream (thượng nguồn / hạ nguồn) | Khâu trước / khâu sau trong dòng chảy dữ liệu | Máy POS ở thượng nguồn, dashboard ở hạ nguồn |
+
 ## 2. Định nghĩa của sách
 
 > **Kỹ thuật dữ liệu** là sự phát triển, triển khai và bảo trì các hệ thống và quy trình lấy dữ liệu thô và tạo ra thông tin nhất quán, chất lượng cao, hỗ trợ các trường hợp sử dụng ở hạ nguồn như phân tích và học máy.
@@ -56,6 +72,29 @@ Ba điểm cần để ý trong định nghĩa này:
 1. **Kỹ thuật dữ liệu là giao điểm của 6 mảng:** bảo mật (security), quản lý dữ liệu (data management), DataOps, kiến trúc dữ liệu (data architecture), orchestration (điều phối) và công nghệ phần mềm (software engineering).
 2. **Phạm vi xuyên suốt:** kỹ sư dữ liệu quản lý cả vòng đời, bắt đầu từ lúc lấy dữ liệu từ hệ thống nguồn (source system) và kết thúc khi cung cấp dữ liệu cho các trường hợp sử dụng như phân tích hay ML.
 3. **Tập trung vào dữ liệu, không chỉ công nghệ:** công cụ chỉ là phương tiện, mục tiêu là dữ liệu đáng tin cậy phục vụ nhu cầu cuối.
+
+### Áp vào chuỗi trà sữa Mây: "biến dữ liệu thô thành thông tin chất lượng cao" là gì?
+
+Định nghĩa nghe trừu tượng, nhưng nhìn dữ liệu trước và sau là hiểu ngay. Dưới đây là vài dòng **dữ liệu thô** gom từ máy POS và app của Mây sáng 1/3. Để ý các chỗ "bẩn".
+
+| order_id | thoi_gian | cua_hang | mon | so_luong | gia | kenh |
+| --- | --- | --- | --- | --- | --- | --- |
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 35000 | quầy |
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 35000 | quầy |
+| DH002 | 01/03/2026 8:17 | q3 - vo van tan | Trà đào | 1 | 30.000đ | app |
+| DH003 | 2026-03-01 08:20 | Q1-Lê Lợi | STTC đường đen | 1 | (trống) | quầy |
+
+Vấn đề: DH001 bị ghi **hai lần** (máy POS gửi lại khi rớt mạng), DH002 dùng **định dạng ngày và giá khác** (app ghi kiểu khác máy POS), tên cửa hàng viết không dấu, DH003 **thiếu giá** và tên món viết tắt. Nếu cộng thẳng, doanh thu sẽ sai.
+
+Sau khi kỹ sư dữ liệu làm sạch, cùng dữ liệu đó trở thành **thông tin nhất quán**:
+
+| order_id | thoi_gian | cua_hang | mon | so_luong | gia | kenh |
+| --- | --- | --- | --- | --- | --- | --- |
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 35000 | quầy |
+| DH002 | 2026-03-01 08:17 | Q3-Võ Văn Tần | Trà đào | 1 | 30000 | app |
+| DH003 | 2026-03-01 08:20 | Q1-Lê Lợi | Sữa tươi trân châu đường đen | 1 | 40000 | quầy |
+
+Giá của DH003 được bù từ **bảng giá chuẩn** (bảng ghi mỗi món giá bao nhiêu). Giờ chủ chuỗi có thể tin con số: sáng 1/3, Q1-Lê Lợi bán 2 ly trà sữa trân châu và 1 ly sữa tươi trân châu đường đen, thu 110.000đ. Đó chính là "hỗ trợ các trường hợp sử dụng ở hạ nguồn" trong định nghĩa.
 
 ## 3. Vòng đời kỹ thuật dữ liệu
 
@@ -69,6 +108,22 @@ flowchart LR
     D --> E["Phục vụ (Serving)"]
 ```
 
+:::info[Một khái niệm, nhiều cách gọi]
+
+Trong ghi chép này, *Ingestion* có lúc được dịch là "nhập", có lúc là "thu nạp"; *Serving* có lúc là "phục vụ", có lúc là "cung cấp dữ liệu". Đó là cùng một giai đoạn. Từ Chương 2 trở đi chủ yếu dùng "thu nạp" và "cung cấp dữ liệu".
+
+:::
+
+Ở chuỗi Mây, năm giai đoạn này giống hành trình của một ly trà sữa đi ngược lại thành con số trên dashboard:
+
+| Giai đoạn | Câu hỏi đơn giản | Ở chuỗi Mây |
+| --- | --- | --- |
+| Tạo dữ liệu | Dữ liệu sinh ra ở đâu? | Thu ngân bấm máy POS khi bán một ly |
+| Lưu trữ | Cất dữ liệu ở đâu, bao lâu? | Đơn được lưu trong máy POS, rồi trong kho dữ liệu chung |
+| Thu nạp | Đưa dữ liệu về chỗ chung bằng cách nào? | Mỗi đêm hệ thống tự kéo đơn của 30 cửa hàng về |
+| Chuyển đổi | Làm sạch, gộp, tính toán ra sao? | Bỏ đơn trùng, chuẩn hoá tên cửa hàng, cộng doanh thu theo ngày |
+| Cung cấp | Ai dùng, dùng thế nào? | Chủ chuỗi xem dashboard, marketing lấy danh sách gửi voucher |
+
 Bên cạnh 5 giai đoạn là **undercurrents** (yếu tố xuyên suốt), những ý tưởng áp dụng cho mọi giai đoạn: bảo mật, quản lý dữ liệu, DataOps, kiến trúc dữ liệu, orchestration và công nghệ phần mềm. Chương 2 của sách sẽ đi sâu; ở đây chỉ cần nhớ vì nó nằm trong định nghĩa.
 
 ## 4. Sự phát triển của kỹ sư dữ liệu
@@ -81,6 +136,17 @@ flowchart TD
     B --> C["2010: đơn giản hóa, hết thời big data"]
     C --> D["2020: kỹ sư vòng đời dữ liệu"]
 ```
+
+Để dễ hình dung mỗi thời kỳ khác nhau ra sao, hãy tưởng tượng chuỗi Mây tồn tại qua cả 40 năm. Bảng dưới cho thấy cùng một việc "báo cáo doanh thu" được làm thế nào ở mỗi thời.
+
+| Thời kỳ | Mây sẽ làm báo cáo doanh thu thế nào | Người làm |
+| --- | --- | --- |
+| 1980-2000 | Mua một máy chủ đắt tiền đặt ở văn phòng, chạy data warehouse thương mại, mỗi đêm chạy ETL | Kỹ sư BI, nhà phát triển ETL |
+| Đầu 2000 | Nếu Mây lớn cỡ Amazon: dựng cụm hàng trăm máy Hadoop để xử lý hàng tỷ đơn | Kỹ sư big data, rất giỏi lập trình hệ thống |
+| 2010 | Thuê dịch vụ đám mây, không cần tự lo máy, nhưng nhiều công ty vẫn dựng Hadoop cho vài GB dữ liệu (thừa) | Kỹ sư dữ liệu |
+| 2020 | Ghép vài dịch vụ có sẵn: công cụ kéo dữ liệu, kho dữ liệu đám mây, công cụ vẽ dashboard | Kỹ sư vòng đời dữ liệu |
+
+Với quy mô 30 cửa hàng (khoảng vài nghìn đơn mỗi ngày), dữ liệu của Mây là **dữ liệu nhỏ** theo tiêu chuẩn hiện nay. Dựng cụm big data cho Mây chính là sai lầm "dùng dao mổ trâu giết gà" mà mục 4.3 mô tả.
 
 ### 4.1. Những ngày đầu: 1980 đến 2000, từ kho dữ liệu đến web
 
@@ -127,6 +193,22 @@ flowchart LR
     A["Kỹ thuật dữ liệu (thượng nguồn)"] --> B["Khoa học dữ liệu (hạ nguồn)"]
 ```
 
+Sơ đồ dưới cho thấy ở chuỗi Mây, ai đứng ở thượng nguồn, ai ở hạ nguồn. Kỹ sư dữ liệu không trực tiếp dự báo nhu cầu, nhưng không có họ thì nhà khoa học dữ liệu không có dữ liệu sạch để dự báo.
+
+```mermaid
+flowchart LR
+    subgraph up["Thượng nguồn - kỹ sư dữ liệu"]
+        SRC["Máy POS, app,<br/>phần mềm kho"] --> PIPE["Đường ống gom<br/>và làm sạch"]
+        PIPE --> DW["Kho dữ liệu sạch"]
+    end
+    subgraph down["Hạ nguồn - người dùng dữ liệu"]
+        DS["Nhà khoa học dữ liệu<br/>dự báo trân châu"]
+        DA["Nhà phân tích<br/>báo cáo doanh thu"]
+    end
+    DW --> DS
+    DW --> DA
+```
+
 ### Kim tự tháp nhu cầu của khoa học dữ liệu
 
 Năm 2017 Monica Rogati công bố **Data Science Hierarchy of Needs** (Hệ thống phân cấp nhu cầu của khoa học dữ liệu), mô phỏng kim tự tháp Maslow. Ý tưởng: AI và ML nằm trên đỉnh, còn nền là những việc "trần tục" như di chuyển và lưu trữ dữ liệu, thu thập, hạ tầng.
@@ -141,6 +223,20 @@ Năm 2017 Monica Rogati công bố **Data Science Hierarchy of Needs** (Hệ th�
 - Rogati lập luận công ty cần xây nền tảng dữ liệu vững (ba tầng dưới) trước khi nghĩ đến AI/ML.
 - Nhà khoa học dữ liệu thường không được đào tạo để thiết kế hệ thống dữ liệu cấp sản xuất, nên làm việc này một cách chắp vá khi thiếu kỹ sư dữ liệu. Lý tưởng, họ nên dành hơn **90%** thời gian cho các tầng trên: phân tích, thử nghiệm, ML.
 - Kỹ sư dữ liệu tập trung vào các tầng dưới sẽ tạo nền tảng để nhà khoa học dữ liệu thành công.
+
+### Áp vào chuỗi Mây: kim tự tháp nhu cầu
+
+Giả sử Mây muốn "dùng AI dự báo bán bao nhiêu trân châu mỗi ngày". Kim tự tháp cho thấy phải đi từ dưới lên. Thiếu một tầng dưới là tầng trên đổ.
+
+| Tầng (từ dưới lên) | Ở chuỗi Mây cần có gì | Ai lo chính |
+| --- | --- | --- |
+| Thu thập, hạ tầng | Máy POS của cả 30 cửa hàng ghi đủ đơn, có chỗ lưu chung | Kỹ sư dữ liệu |
+| Chuyển động, lưu trữ | Đơn được tự động gom về kho chung mỗi đêm | Kỹ sư dữ liệu |
+| Làm sạch, xử lý | Bỏ đơn trùng, thống nhất tên món, bù giá thiếu | Kỹ sư dữ liệu |
+| Phân tích, thử nghiệm | Biết món nào bán chạy theo giờ, theo thời tiết | Nhà phân tích |
+| Học máy, AI | Mô hình dự báo lượng trân châu cần nấu ngày mai | Nhà khoa học dữ liệu |
+
+Nếu Mây thuê ngay một nhà khoa học dữ liệu mà chưa có ba tầng dưới, người đó sẽ mất 70-80% thời gian đi xin file Excel từng cửa hàng, ngồi sửa tên món, gộp tay. Đúng như Rogati cảnh báo.
 
 Sách kết luận: kỹ thuật dữ liệu **vượt qua khoảng cách** giữa việc có được dữ liệu và việc nhận được giá trị từ dữ liệu. Nó quan trọng và đáng được nhìn thấy ngang với khoa học dữ liệu, vì kỹ sư dữ liệu đóng vai trò then chốt để khoa học dữ liệu thành công trong môi trường sản xuất.
 

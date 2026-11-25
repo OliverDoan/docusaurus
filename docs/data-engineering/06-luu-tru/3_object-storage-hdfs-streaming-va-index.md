@@ -40,6 +40,23 @@ Object store lên ngôi cùng big data và cloud. Phổ biến: **Amazon S3, Azu
 
 Về vận hành, điểm hấp dẫn là nó **dễ quản lý và dễ dùng**: có thể coi là một trong những dịch vụ "serverless" đầu tiên, kỹ sư không phải để ý đặc tính cụm server hay đĩa bên dưới.
 
+### Thuật ngữ trong bài — hiểu nôm na
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi trà sữa Mây |
+|---|---|---|
+| Object | Một "kiện hàng" dữ liệu đóng gói kín, kèm nhãn | File đơn hàng ngày 01/03 của cửa hàng Q1 |
+| Bucket | Một khu kho lớn có tên riêng | Khu kho `may-data-lake` |
+| Key | Mã dán trên kiện hàng, dùng để tìm lại | `don_hang/2026/03/01/q1.parquet` |
+| Immutable (bất biến) | Đã đóng thùng thì không mở ra sửa, chỉ thay thùng mới | Muốn sửa 1 đơn sai giá thì ghi lại cả file của ngày đó |
+| Serverless | Dùng dịch vụ mà không phải lo máy chủ bên dưới | Chỉ việc bỏ file vào kho, không cần biết bao nhiêu ổ đĩa |
+| Tách compute khỏi storage | Kho để hàng và xưởng chế biến là hai nơi riêng, xưởng chỉ thuê khi cần | Thuê máy tính báo cáo 1 tiếng mỗi đêm, dữ liệu vẫn nằm yên trong kho |
+| Storage class | Hạng kho: kho mặt tiền đắt mà lấy nhanh, kho ngoại ô rẻ mà lấy lâu | Đơn tháng này để hạng thường, đơn 5 năm trước để hạng lưu trữ |
+| Versioning | Giữ mọi phiên bản cũ của một kiện hàng | Lỡ ghi đè file đơn hàng sai thì lấy lại bản hôm qua |
+| Replay | Tua lại cuốn băng sự kiện để xem lại từ một thời điểm | Chạy lại toàn bộ đơn từ 8h sáng sau khi sửa lỗi tính tiền |
+| Index | Mục lục giúp tìm từng dòng nhanh | Tra đơn DH001 tức thì |
+| Partition | Chia bảng thành các ngăn theo một trường, thường là ngày | Mỗi ngày bán hàng là một ngăn riêng |
+| Clustering | Trong mỗi ngăn, xếp các dòng giống nhau cạnh nhau | Trong ngăn ngày 01/03, đơn của cùng cửa hàng nằm liền nhau |
+
 ### 1.1. Bản chất: key-value store cho dữ liệu bất biến
 
 Mất đi nhiều sự linh hoạt khi ghi so với file cục bộ:
@@ -55,6 +72,40 @@ Với lập trình viên quen file cục bộ đây giống ràng buộc, nhưng
 
 **Dung lượng** gần như không giới hạn: giới hạn thực tế của khách hàng public cloud chủ yếu là ngân sách, không cần lên kế hoạch mua server/đĩa trước hàng tháng.
 
+### Áp vào chuỗi Mây: "không sửa, chỉ thay" và "kho riêng, xưởng thuê"
+
+Log nhiệt độ tủ mát của Mây được gom thành từng file theo giờ. Bảng dưới so sánh việc "thêm một chỉ số đến muộn" trên ổ đĩa thường và trên object storage — đây là ràng buộc bất biến ở mục 1.1.
+
+| Bước | Ổ đĩa thường (file) | Object storage |
+|---|---|---|
+| Có sẵn | File `tu_mat_14h` có 59 dòng | Object `tu_mat/2026/03/01/14h.json` có 59 dòng |
+| Chỉ số lúc 14:59 đến muộn | Mở file, nối thêm 1 dòng | Không nối được |
+| Cách làm | Xong ngay | Đọc 59 dòng, thêm dòng mới, ghi lại **cả** object 60 dòng dưới cùng key |
+
+Vì vậy ở Mây, dữ liệu đến liên tục (như từng chỉ số tủ mát) thường được **gom lại một lúc** rồi mới ghi thành object, chứ không ghi từng dòng.
+
+Đổi lại, object storage cho phép tách "kho" khỏi "xưởng". Sơ đồ dưới là cách Mây chạy báo cáo mỗi đêm mà không phải nuôi máy chủ cả ngày.
+
+```mermaid
+flowchart LR
+    subgraph kho["Kho, chạy liên tục và trả tiền theo dung lượng"]
+        OS["Object storage<br/>đơn hàng, log tủ mát, ảnh món"]
+    end
+    subgraph xuong["Xưởng, chỉ thuê 1 giờ mỗi đêm"]
+        C1["Máy tính 1"]
+        C2["Máy tính 2"]
+        C3["Máy tính 3"]
+    end
+    OS -->|"đọc song song"| C1
+    OS --> C2
+    OS --> C3
+    C1 -->|"ghi kết quả"| R["Bảng tổng hợp<br/>doanh thu theo ngày"]
+    C2 --> R
+    C3 --> R
+```
+
+Bảng tổng hợp cũng được ghi lại vào object storage. Xong việc, ba máy tính được tắt và không tốn thêm đồng nào; dữ liệu vẫn nằm yên trong kho cho lần chạy sau.
+
 ### 1.2. Object store trong kỹ thuật dữ liệu
 
 - Hiệu năng xuất sắc cho **đọc/ghi batch lớn**, hợp với hệ OLAP lớn.
@@ -68,9 +119,19 @@ Khác file store, object store **không dùng cây thư mục** để tìm objec
 
 Dù giao diện cloud có vẻ hỗ trợ "thư mục", ví dụ key `project-data/11/23/2021/data.txt` trông như chuỗi thư mục lồng nhau và công cụ dòng lệnh cho phép `ls` trong "thư mục", thực chất hệ thống chỉ thấy **một key** tình cờ có dạng đường dẫn. Hệ quả: một số thao tác ở mức "thư mục" **tốn kém**. Để liệt kê `project-data/11/`, object store phải lọc key theo tiền tố; với bucket hàng triệu object, thao tác này có thể chậm dù "thư mục" chỉ chứa vài object.
 
+Ví dụ ở Mây: bucket `may-data-lake` có các key dưới đây. Giao diện hiển thị như cây thư mục, nhưng thực chất chỉ là **danh sách phẳng** các chuỗi ký tự.
+
+| Giao diện hiển thị như thư mục | Thực tế object store lưu |
+|---|---|
+| `don_hang` → `2026` → `03` → `01` → `q1.parquet` | Một key duy nhất `don_hang/2026/03/01/q1.parquet` |
+| `don_hang` → `2026` → `03` → `01` → `q3.parquet` | Một key duy nhất `don_hang/2026/03/01/q3.parquet` |
+| `tu_mat` → `2026` → `03` → `01` → `14h.json` | Một key duy nhất `tu_mat/2026/03/01/14h.json` |
+
+Khi kỹ sư "mở thư mục" `don_hang/2026/03/`, hệ thống phải dò mọi key bắt đầu bằng chuỗi đó — giống tìm trong danh bạ mọi tên bắt đầu bằng "Nguyễn".
+
 ### 1.4. Nhất quán và versioning
 
-Vì không cập nhật tại chỗ, ta ghi object mới **cùng key** để cập nhật. Cần biết object store nhất quán eventual hay strong. Ví dụ S3 trước đây là eventually consistent: sau khi ghi bản mới dưới cùng key, đôi lúc vẫn trả về bản cũ; "eventual" nghĩa là sau đủ thời gian chỉ còn trả về bản mới nhất. (Ngược lại, đĩa cục bộ có strong consistency: đọc sau ghi trả về dữ liệu mới nhất.)
+Vì không cập nhật tại chỗ, ta ghi object mới **cùng key** để cập nhật. Cần biết object store nhất quán eventual hay strong. Ví dụ S3 trước đây là eventually consistent: sau khi ghi bản mới dưới cùng key, đôi lúc vẫn trả về bản cũ; "eventual" nghĩa là sau đủ thời gian chỉ còn trả về bản mới nhất. (Ngược lại, đĩa cục bộ có strong consistency: đọc sau ghi trả về dữ liệu mới nhất.) Lưu ý thêm (ghi chú của người tóm tắt): từ cuối năm 2020, Amazon S3 đã chuyển sang nhất quán mạnh kiểu read-after-write cho mọi thao tác ghi và đọc object; nhưng bài học "phải biết mô hình nhất quán của hệ mình dùng" vẫn nguyên giá trị với các object store khác.
 
 **Cách ép strong consistency lên object store** (một cách phổ biến): thêm một database nhất quán mạnh (ví dụ PostgreSQL).
 
@@ -105,6 +166,29 @@ Nhà cung cấp cung cấp các storage class giảm giá lưu trữ đổi lấ
 | S3 Glacier Deep Archive | Từ khoảng 1 USD/TB mỗi tháng; khôi phục mất 12 giờ; dành cho dữ liệu lưu 7–10 năm, chỉ truy cập 1–2 lần mỗi năm |
 
 Cẩn thận khi dùng archival: dễ đưa dữ liệu vào nhưng truy xuất thường đắt, nhất là nếu cần dùng thường xuyên hơn dự tính (xem Chương 4 về kinh tế lưu trữ archival).
+
+### Áp vào chuỗi Mây: vòng đời của file đơn hàng
+
+Dữ liệu đơn hàng càng cũ càng ít ai xem. Mây đặt **lifecycle policy** để kho tự chuyển file xuống hạng rẻ hơn theo tuổi, giống đẩy hàng cũ từ kệ mặt tiền ra kho ngoại ô. Sơ đồ trạng thái dưới cho thấy hành trình của một file đơn hàng ngày.
+
+```mermaid
+stateDiagram-v2
+    state "Standard, xem hằng ngày" as STD
+    state "Infrequent Access, xem vài lần mỗi tháng" as IA
+    state "Glacier, hầu như không xem" as GL
+    state "Đã xoá" as DEL
+    [*] --> STD : file đơn hàng ngày được ghi
+    STD --> IA : sau 90 ngày
+    IA --> GL : sau 1 năm
+    GL --> DEL : sau 10 năm, hết hạn lưu theo luật
+    DEL --> [*]
+```
+
+| Tuổi dữ liệu | Ai dùng ở Mây | Hạng lưu | Đánh đổi |
+|---|---|---|---|
+| Dưới 90 ngày | Dashboard doanh thu, mô hình dự báo trân châu | Standard | Đắt nhất khi lưu, đọc thoải mái |
+| 90 ngày – 1 năm | So sánh cùng kỳ, báo cáo quý | Infrequent Access | Lưu rẻ hơn, mỗi lần đọc mất phí |
+| 1 – 10 năm | Kế toán khi thanh tra thuế | Glacier | Lưu rất rẻ, lấy ra mất từ vài phút tới vài giờ và tốn phí cao |
 
 ### 1.6. Hệ file dựa trên object store
 
@@ -165,6 +249,26 @@ Dù quét cột nhanh, vẫn nên giảm tối đa lượng dữ liệu bị qu�
 - **Clustering:** tổ chức chi tiết hơn bên trong partition: sắp xếp dữ liệu theo một hoặc vài trường, đặt các giá trị giống nhau gần nhau, cải thiện hiệu năng lọc, sắp xếp, join trên các giá trị đó.
 
 *Ví dụ minh hoạ (do người viết thêm):* bảng `events` partition theo `event_date` và cluster theo `user_id` — truy vấn một ngày chỉ đụng partition của ngày đó, và bên trong partition các hàng cùng `user_id` nằm gần nhau.
+
+### Áp vào chuỗi Mây: partition và clustering bảng đơn hàng
+
+Mây có khoảng 10 triệu đơn mỗi năm. Kế toán hỏi: "Doanh thu cửa hàng Q1-Lê Lợi ngày 01/03 là bao nhiêu?". Bảng dưới cho thấy lượng dữ liệu phải lục tìm thay đổi thế nào qua từng cách tổ chức.
+
+| Cách tổ chức bảng | Phải đọc | Ước lượng (1 năm, 30 cửa hàng) |
+|---|---|---|
+| Một bảng lớn, không chia | Toàn bộ đơn của cả năm | ~10 triệu đơn |
+| Partition theo ngày | Chỉ ngăn ngày 01/03 | ~27 nghìn đơn (1/365) |
+| Partition theo ngày + clustering theo cửa hàng | Chỉ đoạn của Q1 trong ngăn 01/03 | ~1 nghìn đơn |
+
+Hình dung partition như xếp hoá đơn vào **365 hộp**, mỗi hộp một ngày; clustering là trong mỗi hộp lại **kẹp hoá đơn theo cửa hàng**. Ngăn ngày 01/03 sau khi clustering trông như sau:
+
+| order_id | thoi_gian | cua_hang | mon | so_luong | gia | kenh |
+|---|---|---|---|---|---|---|
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 35000 | quầy |
+| DH003 | 2026-03-01 08:22 | Q1-Lê Lợi | Trà đào | 1 | 40000 | quầy |
+| DH002 | 2026-03-01 08:20 | Q3-Võ Văn Tần | Trà đào | 1 | 40000 | app |
+
+Các đơn của Q1 nằm liền nhau dù không theo thứ tự thời gian, nên hệ thống đọc một đoạn là đủ. Chọn trường partition sai (ví dụ theo `mon`) thì câu hỏi theo ngày lại phải mở mọi ngăn.
 
 ### 5.3. Ví dụ: micro-partitioning của Snowflake
 

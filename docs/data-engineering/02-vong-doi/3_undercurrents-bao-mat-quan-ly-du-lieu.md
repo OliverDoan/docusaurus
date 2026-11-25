@@ -42,6 +42,12 @@ Kỹ thuật dữ liệu đang trưởng thành nhanh. Trước đây trọng t�
 
 ## 1. Security (bảo mật)
 
+:::info[Tình huống xuyên suốt]
+
+Ví dụ trong bài dùng chuỗi trà sữa **Mây** (30 cửa hàng, xem [phần giới thiệu](../intro.md)). Nếu 5 giai đoạn ở [bài 2](./2_thu-nap-chuyen-doi-cung-cap.md) là "đường ống nước" của Mây, thì bảo mật là ổ khoá trên đường ống, còn quản lý dữ liệu là sổ sách ghi rõ ống nào chảy nước gì, ai chịu trách nhiệm.
+
+:::
+
 Bảo mật phải được ưu tiên hàng đầu với kỹ sư dữ liệu; ai bỏ qua nó sẽ gặp nguy hiểm. Đó là lý do nó đứng đầu danh sách. Kỹ sư dữ liệu phải hiểu cả **bảo mật dữ liệu** lẫn **kiểm soát truy cập**, và thực thi **principle of least privilege** (nguyên tắc đặc quyền tối thiểu): chỉ cấp cho người dùng hoặc hệ thống quyền truy cập vào dữ liệu và tài nguyên **cần thiết để thực hiện chức năng dự định**, không hơn.
 
 Một **anti-pattern** thường gặp ở kỹ sư ít kinh nghiệm bảo mật là cấp quyền admin cho tất cả người dùng. Đó là thảm hoạ đang chờ xảy ra. Lời khuyên cụ thể:
@@ -56,6 +62,41 @@ Một **anti-pattern** thường gặp ở kỹ sư ít kinh nghiệm bảo mậ
 Bảo mật cũng liên quan đến **thời gian**: cấp quyền cho đúng người và hệ thống cần, và **chỉ trong khoảng thời gian cần thiết**. Dữ liệu phải được bảo vệ khỏi bị nhìn thấy ngoài ý muốn, cả khi **đang truyền** lẫn khi **lưu trữ**, bằng: **mã hoá (encryption)**, **tokenization**, **data masking (che giấu dữ liệu)** và các kiểm soát truy cập đơn giản mà mạnh.
 
 Kỹ sư dữ liệu phải là **quản trị viên bảo mật có năng lực**, hiểu thực hành tốt nhất cho cả cloud và on-premises. Những điểm khởi đầu tốt: **IAM** (Identity and Access Management, quản lý danh tính và truy cập) gồm vai trò, chính sách, nhóm; bảo mật mạng; chính sách mật khẩu; mã hoá. Chương 10 đi sâu hơn.
+
+### Thuật ngữ trong bài — hiểu nôm na
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+| --- | --- | --- |
+| Least privilege (đặc quyền tối thiểu) | Chỉ đưa chìa khoá phòng mà người đó cần vào | Quản lý cửa hàng Q1 chỉ xem được số liệu Q1 |
+| Encryption (mã hoá) | Biến dữ liệu thành chuỗi ký tự vô nghĩa, chỉ ai có "chìa" mới đọc được | Số điện thoại khách được mã hoá khi lưu |
+| Masking (che giấu) | Che bớt một phần khi hiển thị | `090****567` thay vì số điện thoại đầy đủ |
+| Tokenization | Thay giá trị thật bằng một mã thay thế vô hại | Số thẻ ngân hàng thay bằng mã `TK-8F2A` |
+| IAM | Hệ thống quản lý ai là ai, được làm gì | Danh sách tài khoản và quyền của từng nhân viên trên đám mây |
+| Governance (quản trị dữ liệu) | Bộ luật chơi về dữ liệu: ai được dùng, dùng thế nào, ai chịu trách nhiệm | Quy định "chỉ marketing và kế toán được xem số điện thoại khách" |
+| Golden record (bản ghi vàng) | Phiên bản "chuẩn" duy nhất của một đối tượng | Một hồ sơ duy nhất cho mỗi khách, dù khách mua ở quầy hay qua app |
+| PII | Thông tin nhận ra được một người cụ thể | Họ tên, số điện thoại, địa chỉ giao hàng |
+| Data catalog | "Mục lục thư viện" của dữ liệu trong công ty | Tra cứu "bảng doanh thu ngày ở đâu, ai phụ trách" |
+
+### Áp vào chuỗi Mây: ai được xem gì
+
+Nguyên tắc đặc quyền tối thiểu nghe trừu tượng, nhưng áp vào Mây thì thành một bảng phân quyền rất cụ thể:
+
+| Vai trò | Được xem | Không được xem | Vì sao |
+| --- | --- | --- | --- |
+| Chủ chuỗi | Doanh thu mọi cửa hàng | Số điện thoại đầy đủ của khách | Không cần để ra quyết định kinh doanh |
+| Quản lý Q1-Lê Lợi | Doanh thu, tồn kho của Q1 | Số liệu 29 cửa hàng còn lại, lương | Chỉ quản lý một cửa hàng |
+| Marketing | Lịch sử mua, số điện thoại để gửi voucher | Lương nhân viên | Cần liên hệ khách, không cần lương |
+| Kế toán | Doanh thu, lương | Nhiệt độ tủ mát | Không liên quan công việc |
+| Kỹ sư dữ liệu | Quyền vận hành đường ống | Không dùng quyền admin cho việc hằng ngày | Tránh lỡ tay xoá nhầm |
+
+**Che giấu dữ liệu (masking)** giúp nhà phân tích vẫn làm việc được mà không thấy thông tin nhạy cảm. Cùng một bảng khách hàng, mỗi người thấy một kiểu:
+
+| Người xem | ma_khach | ho_ten | so_dien_thoai |
+| --- | --- | --- | --- |
+| Marketing (dữ liệu gốc) | KH0001 | Nguyễn Thị Lan | 0901234567 |
+| Nhà phân tích (đã che) | KH0001 | N*** T*** L*** | 090****567 |
+
+Nhà phân tích vẫn đếm được "khách KH0001 mua 48 ly năm nay" mà không biết khách là ai.
 
 ## 2. Data management (quản lý dữ liệu)
 
@@ -123,6 +164,17 @@ Về operational metadata: hệ thống orchestration chỉ cho thấy phần h�
 
 Về reference metadata: phần lớn được quản lý nội bộ, nhưng mã địa lý có thể đến từ chuẩn bên ngoài. Nó là chuẩn để diễn giải dữ liệu khác nên thay đổi **chậm** theo thời gian.
 
+#### Áp vào chuỗi Mây: bốn loại metadata của bảng doanh thu
+
+Lấy bảng `doanh_thu_ngay` (bảng tổng theo ngày và cửa hàng ở [bài 2](./2_thu-nap-chuyen-doi-cung-cap.md)) làm ví dụ. Mỗi loại metadata trả lời một câu hỏi khác nhau về nó:
+
+| Loại metadata | Câu hỏi | Ở bảng `doanh_thu_ngay` của Mây |
+| --- | --- | --- |
+| Business | Nó nghĩa là gì, ai sở hữu? | "Doanh thu = số lượng × giá sau giảm, không tính đơn huỷ. Chủ sở hữu: kế toán trưởng" |
+| Technical | Nó có cấu trúc gì, lấy từ đâu? | Cột `ngay` (ngày), `cua_hang` (chữ), `doanh_thu` (số). Lấy từ bảng đơn sạch |
+| Operational | Lần chạy gần nhất ra sao? | "Chạy lúc 02:14 ngày 2/3, thành công, 30 dòng, mất 3 phút" |
+| Reference | Dùng bảng tra nào để phân loại? | Bảng danh sách 30 cửa hàng và quận; bảng giá chuẩn từng món |
+
 ### 2.3. Data accountability (trách nhiệm giải trình)
 
 **Data accountability** là giao cho **một cá nhân** phụ trách một phần dữ liệu. Người này điều phối các hoạt động governance của các bên liên quan khác. Quản lý chất lượng dữ liệu rất khó nếu không ai chịu trách nhiệm.
@@ -154,6 +206,29 @@ Mỗi đặc điểm đều có sắc thái:
 
 Chất lượng dữ liệu nằm ở **ranh giới giữa con người và công nghệ**. Cần quy trình mạnh để thu phản hồi của con người về chất lượng, và công cụ công nghệ để phát hiện vấn đề **trước khi** người dùng downstream thấy.
 
+#### Áp vào chuỗi Mây: kiểm tra chất lượng trước khi lên dashboard
+
+Ba đặc điểm chất lượng biến thành ba nhóm phép kiểm tra tự động chạy mỗi đêm. Bảng dưới là các dòng mà phép kiểm tra sẽ bắt được.
+
+| Dòng dữ liệu bị bắt | Vi phạm đặc điểm | Phép kiểm tra | Xử lý |
+| --- | --- | --- | --- |
+| DH001 xuất hiện 2 lần | Accuracy (chính xác) | `order_id` không được trùng | Giữ 1 dòng |
+| DH010 có `so_luong` = -1 | Accuracy | Số lượng phải lớn hơn 0 | Đưa vào danh sách cần xem lại |
+| DH003 thiếu `gia` | Completeness (đầy đủ) | Cột giá không được trống | Bù từ bảng giá chuẩn |
+| Cửa hàng Q7 không gửi đơn nào hôm qua | Completeness | Mỗi cửa hàng phải có ít nhất 1 đơn/ngày | Báo quản lý Q7 kiểm tra máy POS |
+| Dữ liệu app tới lúc 9 giờ sáng | Timeliness (kịp thời) | Phải có trước 6 giờ sáng | Dashboard ghi chú "số liệu app chưa đầy đủ" |
+
+Sơ đồ dưới cho thấy phép kiểm tra hoạt động như một **cửa chặn**: dữ liệu không đạt thì không được đi tiếp lên dashboard, để chủ chuỗi không ra quyết định dựa trên số sai.
+
+```mermaid
+flowchart LR
+    IN["Bảng đơn sau làm sạch"] --> CK{"Qua đủ<br/>phép kiểm tra?"}
+    CK -->|"Đạt"| DASH["Cập nhật dashboard"]
+    CK -->|"Không đạt"| ALERT["Báo kỹ sư dữ liệu<br/>và người chịu trách nhiệm"]
+    ALERT --> FIX["Sửa nguồn hoặc<br/>sửa quy tắc"]
+    FIX --> IN
+```
+
 ### 2.5. Master data management (MDM)
 
 **Master data** là dữ liệu về các **thực thể kinh doanh** như nhân viên, khách hàng, sản phẩm, địa điểm. Khi tổ chức lớn lên và phức tạp hơn (qua tăng trưởng tự nhiên, mua lại, hợp tác), việc giữ bức tranh nhất quán về thực thể ngày càng khó.
@@ -161,6 +236,24 @@ Chất lượng dữ liệu nằm ở **ranh giới giữa con người và côn
 **MDM** là thực hành xây dựng các định nghĩa thực thể nhất quán gọi là **golden record** (bản ghi vàng). Golden record hài hoà dữ liệu thực thể trong toàn tổ chức và với đối tác. MDM là quy trình nghiệp vụ được hỗ trợ bởi công cụ công nghệ. Ví dụ: nhóm MDM định nghĩa **định dạng chuẩn cho địa chỉ**, rồi cùng kỹ sư dữ liệu xây API trả về địa chỉ nhất quán và hệ thống dùng địa chỉ để khớp hồ sơ khách hàng giữa các bộ phận.
 
 MDM bao quát toàn bộ chu trình dữ liệu tới database vận hành. Nó có thể thuộc phạm vi trực tiếp của data engineering nhưng thường là trách nhiệm của một **nhóm chuyên trách** toàn tổ chức. Dù không sở hữu MDM, kỹ sư dữ liệu vẫn nên biết vì có thể cộng tác trong các sáng kiến MDM.
+
+#### Áp vào chuỗi Mây: một khách, ba hồ sơ
+
+Chị Lan mua ở quầy (đọc số điện thoại tích điểm), đặt qua app, và nhắn tin trên trang mạng xã hội của Mây. Không có MDM, ba hệ thống tưởng đó là ba người khác nhau:
+
+| Hệ thống | Mã | Họ tên | Số điện thoại | Email |
+| --- | --- | --- | --- | --- |
+| Máy POS | POS-55102 | LAN NGUYEN | 0901234567 | (trống) |
+| App | APP-U8812 | Nguyễn Thị Lan | +84 901 234 567 | lan.nt@example.com |
+| Mạng xã hội | FB-993 | Lan Nguyễn | (trống) | lan.nt@example.com |
+
+Nhóm MDM đặt quy tắc: chuẩn hoá số điện thoại về dạng `0901234567`, khớp hồ sơ khi trùng số điện thoại **hoặc** trùng email. Kết quả là **golden record** duy nhất:
+
+| ma_khach | ho_ten | so_dien_thoai | email | ma_lien_ket |
+| --- | --- | --- | --- | --- |
+| KH0001 | Nguyễn Thị Lan | 0901234567 | lan.nt@example.com | POS-55102, APP-U8812, FB-993 |
+
+Nhờ vậy marketing không gửi ba voucher cho cùng một người, và báo cáo "số khách hàng" không bị đếm dư.
 
 ### 2.6. Mô hình hoá và thiết kế dữ liệu
 
@@ -177,6 +270,21 @@ Khi dữ liệu di chuyển qua vòng đời, làm sao biết hệ thống nào 
 Lợi ích: theo dõi lỗi, trách nhiệm giải trình, **debug** dữ liệu và hệ thống xử lý nó; cung cấp audit trail và giúp **tuân thủ**. Ví dụ: người dùng muốn xoá dữ liệu của họ khỏi hệ thống, lineage cho biết dữ liệu đó được lưu ở đâu và các phụ thuộc của nó.
 
 Lineage từ lâu đã có ở công ty lớn với chuẩn tuân thủ nghiêm; nay lan sang công ty nhỏ hơn khi quản lý dữ liệu thành xu hướng chính. Sách cũng nhắc **DODD** (Data-Observability Driven Development, của Andy Petrella) liên quan chặt chẽ: quan sát dữ liệu dọc theo lineage của nó, áp dụng trong phát triển, kiểm thử và cả production để đảm bảo chất lượng và khớp kỳ vọng.
+
+#### Áp vào chuỗi Mây: con số này từ đâu ra?
+
+Chủ chuỗi thắc mắc: "Doanh thu Q1-Lê Lợi ngày 1/3 là 173.000đ, con số này lấy từ đâu?". Lineage trả lời bằng một "gia phả" như sơ đồ dưới. Nếu con số sai, kỹ sư dữ liệu lần ngược mũi tên để tìm khâu hỏng.
+
+```mermaid
+flowchart RL
+    DASH["Dashboard<br/>Q1 ngày 1/3 = 173.000đ"] --> AGG["Bảng doanh_thu_ngay"]
+    AGG --> BIZ["Bảng doanh thu từng đơn<br/>đã bỏ đơn huỷ"]
+    BIZ --> CLEAN["Bảng đơn sạch"]
+    BIZ --> STT["Trạng thái đơn<br/>từ máy POS"]
+    CLEAN --> RAWPOS["Đơn thô máy POS Q1"]
+    CLEAN --> RAWAPP["Đơn thô app"]
+    CLEAN --> PRICE["Bảng giá chuẩn"]
+```
 
 ### 2.8. Tích hợp dữ liệu và interoperability
 
@@ -199,6 +307,27 @@ So sánh khả năng xoá:
 | Data lake (mặc định ghi một lần, đọc nhiều lần) | Khó hơn; các công cụ như **Hive ACID** và **Delta Lake** giúp quản lý giao dịch xoá ở quy mô lớn |
 
 Thế hệ công cụ metadata, lineage và catalog mới cũng sẽ giúp đơn giản hoá phần cuối vòng đời.
+
+#### Áp vào chuỗi Mây: khách yêu cầu xoá dữ liệu
+
+Chị Lan (KH0001) xoá tài khoản app và yêu cầu Mây xoá thông tin cá nhân. Lineage và golden record cho biết dữ liệu của chị nằm ở những đâu. Sơ đồ dưới là trình tự xử lý.
+
+```mermaid
+sequenceDiagram
+    participant K as Chị Lan
+    participant App as App Mây
+    participant DE as Kỹ sư dữ liệu
+    participant Kho as Kho dữ liệu
+    K->>App: Yêu cầu xoá thông tin cá nhân
+    App->>DE: Chuyển yêu cầu cho mã khách KH0001
+    DE->>Kho: Tra lineage, tìm mọi bảng chứa KH0001
+    Kho-->>DE: Bảng khách hàng, bảng điểm thưởng, danh sách voucher
+    DE->>Kho: Xoá họ tên, số điện thoại, email
+    DE->>Kho: Giữ đơn hàng nhưng đổi mã khách thành ẩn danh
+    DE-->>App: Báo đã xử lý xong
+```
+
+Đơn hàng vẫn được giữ (kế toán cần cho sổ sách thuế), nhưng không còn nối được với chị Lan. Vừa tôn trọng quyền riêng tư, vừa không làm sai số doanh thu.
 
 ### 2.10. Đạo đức và quyền riêng tư
 

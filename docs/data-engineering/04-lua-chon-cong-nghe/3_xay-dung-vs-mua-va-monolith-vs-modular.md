@@ -32,6 +32,24 @@ Hai cuộc tranh luận lâu đời của ngành phần mềm áp dụng thẳng
 - 5. Monolith so với modular
 - Tóm tắt
 
+:::info[Thuật ngữ trong bài — hiểu nôm na]
+
+Ví dụ trong bài dùng chuỗi trà sữa **Mây** (30 cửa hàng, xem [phần giới thiệu](../intro.md)).
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+| --- | --- | --- |
+| Build / buy | Tự làm lấy / mua hoặc thuê cái có sẵn | Tự viết công cụ kéo dữ liệu / thuê công cụ có sẵn |
+| OSS (nguồn mở) | Phần mềm miễn phí, công khai mã, nhưng tự cài tự lo | Tự cài công cụ điều phối nguồn mở trên máy ảo |
+| COSS | Công ty lấy phần mềm nguồn mở đó, vận hành giúp bạn, thu phí | Thuê bản được quản lý của chính công cụ điều phối kia |
+| Proprietary (độc quyền) | Phần mềm đóng mã, chỉ hãng làm ra mới sửa được | Kho dữ liệu riêng của một hãng đám mây |
+| Walled garden (vườn có tường) | Hệ sinh thái khép kín, đồ trong vườn chơi tốt với nhau nhưng khó mang ra ngoài | Dùng toàn bộ dịch vụ của một hãng đám mây |
+| Runway (đường băng) | Số tháng một công ty còn sống được bằng tiền đang có | Hãng công cụ nhỏ chỉ còn tiền cho 8 tháng |
+| Dependency (phụ thuộc) | Thư viện, phần mềm khác mà một chương trình cần để chạy | Đường ống cần thư viện đọc Excel phiên bản 3 |
+| Container | "Hộp" đóng gói chương trình cùng mọi thứ nó cần, chạy đâu cũng giống nhau | Mỗi bước đường ống chạy trong hộp riêng, không giẫm chân nhau |
+| Parquet | Định dạng file mở, lưu theo cột, nhiều công cụ đọc được | File đơn hàng mỗi ngày cất dạng Parquet |
+
+:::
+
 ## 1. Xây dựng so với mua
 
 **Lập luận cho việc xây:** bạn kiểm soát từ đầu đến cuối và không phụ thuộc nhà cung cấp hay cộng đồng nguồn mở. **Lập luận cho việc mua:** xuất phát từ hạn chế về nguồn lực và chuyên môn — bạn có đủ chuyên môn để xây giải pháp tốt hơn cái đã có không? Quyết định xoay quanh **TCO, TOCO** và việc giải pháp có mang lại **lợi thế cạnh tranh** cho tổ chức hay không.
@@ -41,6 +59,31 @@ Quan điểm của sách: nếu bạn nắm được một chủ đề xuyên su
 Liên hệ với **kỹ sư dữ liệu loại A (abstraction) và loại B (build)**: hai vai trò này thường nằm trong cùng một kỹ sư, nhất là ở tổ chức nhỏ. Hãy **nghiêng về hành vi loại A**: tránh việc nặng nhọc không tạo khác biệt (undifferentiated heavy lifting), nắm lấy sự trừu tượng; dùng framework nguồn mở, hoặc nếu quá rắc rối thì mua giải pháp độc quyền/được quản lý phù hợp. Cả hai nhóm đều có nhiều dịch vụ mô-đun tuyệt vời.
 
 Một thay đổi thực tế: trước đây **IT quyết định mua và dùng phần mềm theo kiểu từ trên xuống**; ngày nay việc áp dụng phần mềm đi **từ dưới lên**, do developer, kỹ sư dữ liệu, nhà khoa học dữ liệu và các vai trò kỹ thuật thúc đẩy — thành một quá trình hữu cơ, liên tục.
+
+### Áp vào chuỗi Mây: xây cái gì, mua cái gì
+
+Câu hỏi then chốt của sách là "**cái này có tạo lợi thế cạnh tranh không?**". Khách đến Mây vì trà sữa ngon và voucher hợp lý, không phải vì Mây tự viết kho dữ liệu. Bảng dưới áp câu hỏi đó vào từng khối.
+
+| Khối | Tạo lợi thế cạnh tranh? | Quyết định | Vì sao |
+| --- | --- | --- | --- |
+| Kho dữ liệu | Không | Mua (dịch vụ đám mây) | Tự viết database là "ngu ngốc" theo đúng lời sách |
+| Kéo dữ liệu từ app, phần mềm kho | Không | Mua (công cụ có connector) | Việc nặng nhọc không tạo khác biệt |
+| Kéo dữ liệu từ máy POS hãng nhỏ | Không, nhưng không ai bán connector | Tự viết phần nhỏ | Không có lựa chọn mua |
+| Dashboard | Không | Mua | Có rất nhiều công cụ tốt |
+| Mô hình dự báo trân châu theo thời tiết, lễ hội ở từng quận | **Có**: giảm trân châu bỏ đi, ly nào cũng có trân châu tươi | **Xây** | Hiểu biết riêng của Mây, đối thủ không mua được |
+
+Sơ đồ quyết định dưới gói gọn cách nghĩ.
+
+```mermaid
+flowchart TD
+    Q1{"Khối này có tạo<br/>lợi thế cạnh tranh?"}
+    Q1 -->|"Có"| B["Xây, đầu tư người giỏi"]
+    Q1 -->|"Không"| Q2{"Có nguồn mở hoặc<br/>dịch vụ có sẵn phù hợp?"}
+    Q2 -->|"Có"| Q3{"Đội đủ sức tự vận hành<br/>bản nguồn mở?"}
+    Q2 -->|"Không"| SMALL["Tự viết phần nhỏ nhất có thể"]
+    Q3 -->|"Có, và rẻ hơn"| OSS["Dùng OSS tự vận hành"]
+    Q3 -->|"Không"| BUY["Thuê bản được quản lý<br/>COSS hoặc độc quyền"]
+```
 
 ## 2. Phần mềm nguồn mở (OSS)
 
@@ -106,6 +149,18 @@ Nhà cung cấp cloud phát triển và bán dịch vụ độc quyền về lư
 
 Tiêu chí: **so sánh hiệu suất và giá** (bản cloud có tốt hơn đáng kể bản độc lập hoặc OSS không? TCO của việc chọn dịch vụ cloud?), và **cân nhắc mua hàng** (giá on-demand có thể đắt; có giảm chi phí bằng reserved capacity hoặc cam kết dài hạn không?).
 
+### Áp vào chuỗi Mây: ba con đường cho cùng một công cụ điều phối
+
+Mây cần một công cụ điều phối (orchestration) để chạy DAG mỗi đêm. Có ba con đường, mỗi con đường một kiểu đánh đổi:
+
+| | OSS tự vận hành | COSS (bản được quản lý) | Dịch vụ độc quyền của cloud |
+| --- | --- | --- | --- |
+| Tiền bản quyền | 0 | Trả theo tháng | Trả theo dùng |
+| Ai cài, cập nhật, sửa khi hỏng | Kỹ sư của Mây | Nhà cung cấp | Hãng cloud |
+| Mang sang nơi khác được không | Dễ | Khá dễ (cùng mã nguồn mở) | Khó hơn (tính năng riêng của hãng) |
+| Rủi ro nhà cung cấp | Cộng đồng bỏ dự án | Công ty hết tiền ("runway") | Thấp, hãng lớn |
+| Hợp với Mây khi | Có kỹ sư rảnh và thích vận hành | Đội 1-3 người, muốn yên tâm | Đã dùng sâu hệ sinh thái của hãng đó |
+
 ## 4. Lời khuyên về xây dựng so với mua
 
 - Xây hay mua gắn với việc biết **lợi thế cạnh tranh của bạn** và đâu là chỗ đáng đầu tư tùy chỉnh.
@@ -160,6 +215,34 @@ Trong môi trường microservice mô-đun, các thành phần **hoán đổi đ
 Công nghệ mới xuất hiện chóng mặt và phần lớn nhanh lỗi thời ("rửa sạch và lặp lại"), nên khả năng đổi công cụ khi công nghệ đổi là vô giá. Sách coi **modular data là mô hình mạnh hơn kỹ thuật dữ liệu nguyên khối**: cho phép chọn công nghệ tốt nhất cho từng việc hoặc từng bước.
 
 **Nhược điểm:** có nhiều thứ hơn để lo. Thay vì một hệ thống, bạn có vô số hệ thống phải hiểu và vận hành; khả năng tương tác có thể là nỗi đau đầu, chỉ mong chúng phối hợp tốt. Chính vấn đề này khiến tác giả tách **orchestration** thành một yếu tố xuyên suốt riêng thay vì đặt dưới data management. Orchestration cũng quan trọng với kiến trúc nguyên khối (ví dụ Control-M của BMC Software trong data warehousing truyền thống), nhưng điều phối năm hay mười công cụ phức tạp hơn nhiều so với một. Orchestration trở thành **chất keo** gắn các mô-đun của data stack.
+
+#### Áp vào chuỗi Mây: phần mềm "tất cả trong một" hay ghép từng khối
+
+Một hãng mời Mây mua phần mềm "tất cả trong một": vừa kéo dữ liệu, vừa lưu, vừa vẽ dashboard, vừa dự báo. Bảng dưới so sánh với cách ghép từng khối.
+
+| Tình huống | Monolith "tất cả trong một" | Modular (ghép từng khối) |
+| --- | --- | --- |
+| Ngày đầu dựng | Nhanh, một hợp đồng, một giao diện | Chậm hơn, phải nối các khối |
+| Đội cần học | Một công cụ | Bốn, năm công cụ |
+| Phần dashboard của hãng xấu, chậm | Phải chịu, không đổi riêng được | Thay riêng công cụ dashboard |
+| Đường ống lỗi ở bước dự báo | Có khi phải chạy lại cả chuỗi | Chỉ chạy lại bước dự báo |
+| Hãng tăng giá 50% | Khó rời đi, mọi thứ nằm trong đó | Đổi một khối, dữ liệu vẫn ở định dạng mở |
+| Cần gì để chạy êm | Ít | Công cụ điều phối làm "keo dán" |
+
+Sơ đồ dưới cho thấy vì sao modular dễ thay: các khối chỉ "nói chuyện" với nhau qua dữ liệu ở định dạng mở trong object storage và kho dữ liệu.
+
+```mermaid
+flowchart LR
+    ING["Công cụ kéo dữ liệu"] --> OS["Object storage<br/>file Parquet"]
+    OS --> DW["Kho dữ liệu<br/>external table"]
+    OS --> ML["Công cụ dự báo"]
+    DW --> BI["Công cụ dashboard"]
+    ORC["Công cụ điều phối"] -.-> ING
+    ORC -.-> DW
+    ORC -.-> ML
+```
+
+Muốn đổi công cụ dự báo, Mây chỉ cần công cụ mới đọc được Parquet. Các khối khác không biết là có thay đổi.
 
 ### 5.3. Mẫu monolith phân tán (distributed monolith pattern)
 

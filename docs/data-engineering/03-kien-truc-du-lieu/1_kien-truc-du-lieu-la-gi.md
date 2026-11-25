@@ -39,6 +39,20 @@ Giống như chính khái niệm "kỹ thuật dữ liệu" ở Chương 1, "ki�
 
 Để định nghĩa kiến trúc dữ liệu, trước hết phải hiểu ngữ cảnh chứa nó: **kiến trúc doanh nghiệp**.
 
+### Thuật ngữ trong bài — hiểu nôm na
+
+Ví dụ trong chương này dùng chuỗi trà sữa **Mây** (30 cửa hàng, xem [phần giới thiệu](../intro.md)).
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+| --- | --- | --- |
+| Kiến trúc dữ liệu | Bản quy hoạch: dữ liệu sinh ra ở đâu, chảy qua đâu, cất ở đâu, ai dùng | Sơ đồ "30 máy POS → kho dữ liệu đám mây → dashboard" |
+| Trade-off (đánh đổi) | Được cái này thì mất cái kia | Dữ liệu cập nhật tức thì thì đắt hơn, cập nhật mỗi đêm thì rẻ hơn |
+| Liên kết chặt (tight coupling) | Các phần dính chặt vào nhau, sửa một chỗ hỏng chỗ khác | Dashboard đọc thẳng vào máy POS, đổi máy POS là dashboard chết |
+| Technical debt (nợ kỹ thuật) | Đi đường tắt hôm nay, trả giá bằng công sửa sau này | File Excel gộp tay "tạm thời" dùng suốt 2 năm |
+| Microservice | Ứng dụng chia thành nhiều dịch vụ nhỏ, mỗi dịch vụ một việc | App của Mây có dịch vụ đặt đơn, dịch vụ tích điểm, dịch vụ thanh toán riêng |
+| Data lake | Kho chứa mọi loại dữ liệu ở dạng thô | Nơi cất ảnh hoá đơn, log app, file Excel lương |
+| Big ball of mud | Hệ thống lộn xộn, không ai hiểu hết, ai cũng sợ sửa | Một file Excel 40 sheet, công thức chồng chéo, chỉ một người biết dùng |
+
 ## 2. Kiến trúc doanh nghiệp (Enterprise Architecture)
 
 Kiến trúc doanh nghiệp có nhiều tập con: **kinh doanh, kỹ thuật, ứng dụng và dữ liệu**. Kiến trúc dữ liệu chính là một tập con của nó.
@@ -84,6 +98,18 @@ Jeff Bezos (Amazon) được ghi nhận là người đưa ra hình ảnh hai lo
 
 Rủi ro của cửa hai chiều thấp, nên tổ chức có thể ra nhiều quyết định hơn, lặp nhanh hơn, thu thập dữ liệu nhanh hơn.
 
+#### Áp vào chuỗi Mây: cửa nào một chiều, cửa nào hai chiều?
+
+Bảng dưới phân loại vài quyết định thật mà Mây phải đưa ra. Quyết định cửa hai chiều có thể làm nhanh; cửa một chiều cần cân nhắc kỹ.
+
+| Quyết định ở Mây | Loại cửa | Vì sao |
+| --- | --- | --- |
+| Thử công cụ vẽ dashboard A trong 1 tháng | Hai chiều | Không hợp thì đổi công cụ khác, dữ liệu vẫn nằm trong kho |
+| Đổi lịch chạy đường ống từ 2 giờ sang 1 giờ sáng | Hai chiều | Sửa một dòng cấu hình là quay lại được |
+| Ký hợp đồng 5 năm với một hãng máy POS, dữ liệu chỉ xuất được bằng định dạng riêng của hãng | Một chiều | Muốn đổi phải thay máy ở 30 cửa hàng và mất lịch sử |
+| Xoá vĩnh viễn đơn hàng cũ hơn 2 năm để tiết kiệm | Một chiều | Xoá rồi không lấy lại được, mô hình dự báo mất dữ liệu học |
+| Cất dữ liệu ở định dạng mở (đọc được bằng nhiều công cụ) | Biến cửa một chiều thành hai chiều | Sau này đổi nhà cung cấp kho vẫn mang dữ liệu đi được |
+
 ### Quản lý thay đổi
 
 Quản lý thay đổi gắn chặt với quyết định đảo ngược được. Doanh nghiệp vẫn cần các sáng kiến lớn; cách làm lý tưởng là **chia nhỏ thành nhiều thay đổi nhỏ, mỗi thay đổi là một cửa hai chiều**. Sách lấy ví dụ DynamoDB: từ bài báo khái niệm (2007) đến lúc Werner Vogels công bố dịch vụ trên AWS (2012) là khoảng 5 năm, trong đó các nhóm đã thực hiện vô số hành động nhỏ để biến nó thành sản phẩm thật. Quản lý những hành động nhỏ như vậy là cốt lõi của quản lý thay đổi.
@@ -95,6 +121,21 @@ Kiến trúc sư không chỉ vẽ sơ đồ IT rồi mơ về tương lai xa. H
 3. Hiện thực hoá bằng các bước nhỏ, cụ thể, lặp đi lặp lại.
 
 Và một câu cần nhớ: **giải pháp kỹ thuật tồn tại để phục vụ mục tiêu kinh doanh, không phải vì bản thân chúng.**
+
+#### Áp vào chuỗi Mây: chia sáng kiến lớn thành bước nhỏ
+
+Mây muốn chuyển từ "mỗi cửa hàng gửi file Excel" sang "kho dữ liệu đám mây tự động". Thay vì một cú chuyển lớn rủi ro, kỹ sư dữ liệu chia thành các bước nhỏ, mỗi bước đều quay lại được:
+
+```mermaid
+flowchart LR
+    S0["Hiện tại<br/>30 file Excel mỗi tuần"] --> S1["Bước 1<br/>Tự kéo đơn của 3 cửa hàng<br/>chạy song song với Excel"]
+    S1 --> S2["Bước 2<br/>So khớp số liệu<br/>2 tuần liền không lệch"]
+    S2 --> S3["Bước 3<br/>Mở rộng ra 30 cửa hàng"]
+    S3 --> S4["Bước 4<br/>Dashboard thay Excel"]
+    S4 --> S5["Bước 5<br/>Thêm dữ liệu app, kho, tủ mát"]
+```
+
+Ở bước 1 và 2, Excel vẫn chạy song song. Nếu hệ thống mới sai, Mây chỉ cần quay về Excel, không mất gì.
 
 ### Đánh giá đánh đổi
 
@@ -135,6 +176,14 @@ flowchart LR
     V["Kiến trúc vận hành: làm gì?"] --> K["Kiến trúc kỹ thuật: làm thế nào?"]
 ```
 
+Áp vào chuỗi Mây, cùng một nhu cầu được nhìn từ hai phía như sau:
+
+| Kiến trúc vận hành (cần gì) | Kiến trúc kỹ thuật (làm thế nào) |
+| --- | --- |
+| Chủ chuỗi cần doanh thu hôm qua của từng cửa hàng trước 7 giờ sáng | Mỗi đêm 2 giờ kéo đơn từ 30 máy POS, làm sạch, nạp vào kho dữ liệu đám mây, công cụ điều phối báo động nếu 6 giờ chưa xong |
+| Quản lý ca phải biết ngay khi tủ mát quá 8°C | Cảm biến đẩy số đo mỗi phút vào hàng đợi tin nhắn, chương trình nhỏ kiểm tra và gửi tin nhắn cảnh báo |
+| Số điện thoại khách chỉ marketing được xem | Phân quyền trong kho dữ liệu, che số điện thoại với mọi vai trò khác |
+
 Nói gọn: vận hành mô tả *việc cần làm*, kỹ thuật mô tả *cách làm*.
 
 ## 5. Thế nào là kiến trúc dữ liệu "tốt"?
@@ -159,6 +208,52 @@ Nếu thiết kế có tính đến khả năng đảo ngược, thay đổi s�
 Sáu **yếu tố xuyên suốt** (undercurrents) của vòng đời kỹ thuật dữ liệu là nền tảng của kiến trúc tốt cho mọi giai đoạn trưởng thành dữ liệu: bảo mật, quản trị dữ liệu (data management), DataOps, kiến trúc dữ liệu, orchestration và công nghệ phần mềm.
 
 Cuối cùng: kiến trúc dữ liệu tốt là **một thực thể sống, không bao giờ kết thúc**. Theo định nghĩa của tác giả, thay đổi và tiến hoá chính là trọng tâm ý nghĩa của kiến trúc.
+
+### Áp vào chuỗi Mây: kiến trúc xấu và kiến trúc tốt
+
+Hai sơ đồ dưới cùng giải bài toán "báo cáo doanh thu" của Mây. Sơ đồ đầu là kiểu **quả bóng bùn**: mọi thứ dồn vào một file và một người.
+
+```mermaid
+flowchart LR
+    C1["Cửa hàng 1<br/>gửi Excel qua Zalo"] --> F["File Excel tổng<br/>40 sheet, công thức chồng chéo"]
+    C2["Cửa hàng 2<br/>gửi ảnh chụp sổ"] --> F
+    C3["App<br/>xuất CSV khi nhớ"] --> F
+    F --> P["Một nhân viên kế toán<br/>cộng tay mỗi thứ Hai"]
+    P --> R["Báo cáo cho chủ chuỗi"]
+```
+
+Sơ đồ sau là kiến trúc có các **khối riêng biệt**: mỗi khối một việc, thay một khối không ảnh hưởng khối khác.
+
+```mermaid
+flowchart LR
+    subgraph src["Nguồn"]
+        POS["30 máy POS"]
+        APP["App"]
+    end
+    subgraph ing["Thu nạp"]
+        ING["Công cụ kéo dữ liệu<br/>theo lịch"]
+    end
+    subgraph sto["Lưu trữ và chuyển đổi"]
+        DW["Kho dữ liệu đám mây"]
+    end
+    subgraph ser["Cung cấp"]
+        BI["Công cụ dashboard"]
+    end
+    POS --> ING
+    APP --> ING
+    ING --> DW
+    DW --> BI
+```
+
+| Tiêu chí | Quả bóng bùn (Excel) | Kiến trúc khối riêng |
+| --- | --- | --- |
+| Thêm cửa hàng thứ 31 | Thêm sheet, sửa hàng chục công thức | Thêm một nguồn vào công cụ kéo dữ liệu |
+| Kế toán nghỉ phép | Không ai làm được báo cáo | Hệ thống vẫn tự chạy |
+| Đổi công cụ dashboard | Không áp dụng | Chỉ thay khối cuối, dữ liệu giữ nguyên |
+| Chi phí ban đầu | Gần như 0 | Có, nhưng thấp nếu dùng dịch vụ có sẵn |
+| Phù hợp khi | Mây còn 1-3 cửa hàng | Mây có 30 cửa hàng trở lên |
+
+Hàng cuối nhắc lại tinh thần "ít bất lợi nhất": Excel không sai ở quy mô 3 cửa hàng, nó chỉ trở thành bất lợi khi Mây lớn lên.
 
 ## Tóm tắt
 

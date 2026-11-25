@@ -31,6 +31,7 @@ Bài này là phần thân của chương: các loại phân tích (kinh doanh, 
 - 3. Các cách phân phát dữ liệu cho analytics và ML
 - 4. Lớp ngữ nghĩa và số liệu
 - 5. Cung cấp dữ liệu trong notebook
+- 6. Áp vào chuỗi trà sữa Mây
 - Tóm tắt
 
 ## 1. Phân tích
@@ -50,6 +51,19 @@ Dùng dữ liệu lịch sử và hiện tại để đưa ra quyết định **
 **Ví dụ xuyên suốt của sách (quần short chạy bộ):** nhà bán lẻ online thấy tỷ lệ trả hàng của quần short chạy bộ nữ cao hơn dự kiến. Analyst chạy SQL trên data warehouse, tổng hợp mã lý do trả hàng và phát hiện vải kém chất lượng, nhanh cũ sau vài lần dùng. Kết quả được báo cho bộ phận sản xuất và kiểm soát chất lượng, tóm tắt thành báo cáo đưa lên cùng công cụ BI chứa dashboard. Sau đó analyst biết nhà sản xuất có thêm thông tin chuỗi cung ứng; kỹ sư dữ liệu làm dự án nạp dữ liệu này vào warehouse. Analyst nối số seri hàng may mặc với nhà cung cấp vải, phát hiện phần lớn lỗi đến từ một trong ba nhà cung cấp, và nhà máy ngừng dùng vải của họ.
 
 Rút ra: analyst giỏi liên tục dấn sâu vào nghiệp vụ, và phản hồi cho kỹ sư dữ liệu về chất lượng, độ tin cậy, yêu cầu bộ dữ liệu mới; kỹ sư dữ liệu có trách nhiệm xử lý phản hồi đó.
+
+**Câu chuyện tương tự ở chuỗi Mây:** doanh thu trà sữa matcha giảm 30% trong tháng 4. Sơ đồ dưới cho thấy một câu hỏi ad hoc lớn dần thành báo cáo rồi thành dashboard, và kỹ sư dữ liệu tham gia ở khâu nào.
+
+```mermaid
+flowchart TD
+    A["Chủ chuỗi thấy matcha<br/>bán giảm trên dashboard"] --> B["Nhà phân tích điều tra ad hoc<br/>bằng SQL trên kho"]
+    B --> C["Phát hiện giảm từ ngày 05/04,<br/>ở cả 30 cửa hàng"]
+    C --> D["Cần thêm dữ liệu bình luận<br/>mạng xã hội"]
+    D --> E["Kỹ sư dữ liệu nạp bình luận<br/>vào kho"]
+    E --> F["Khách chê vị đắng từ 05/04,<br/>trùng ngày đổi nhà cung cấp bột matcha"]
+    F --> G["Báo cáo gửi bộ phận mua hàng,<br/>đổi lại nhà cung cấp cũ"]
+    G --> H["Thêm chỉ số<br/>điểm hài lòng theo món<br/>vào dashboard"]
+```
 
 **Về mặt cung cấp dữ liệu:**
 
@@ -85,6 +99,16 @@ Ví dụ trong sách:
 - Nền tảng thương mại điện tử bên thứ ba cung cấp cho người bán dashboard doanh số, tồn kho, hàng trả lại theo thời gian thực; người bán có thể dùng để tung ưu đãi gần như tức thời.
 
 Cả hai cho phép người dùng ra quyết định (thủ công hay tự động) theo thời gian thực dựa trên dữ liệu.
+
+**Ba loại phân tích đặt cạnh nhau ở chuỗi Mây:**
+
+| Loại | Câu hỏi ở Mây | Ai xem | Độ tươi cần có | Hành động |
+|---|---|---|---|---|
+| Kinh doanh | Doanh thu quý này so với quý trước, theo vùng? | Chủ chuỗi | Hằng ngày là đủ | Quyết định mở thêm quán ở vùng tăng trưởng |
+| Hoạt động | Tủ mát nào đang vượt 8°C? Máy POS nào mất kết nối? | Quản lý cửa hàng, đội kỹ thuật | Vài giây tới vài phút | Kiểm tra tủ ngay, gọi kỹ thuật |
+| Nhúng | Tôi còn bao nhiêu điểm, sắp được ly miễn phí chưa? | Khách hàng trên app | Gần như tức thì sau khi mua | Khách quay lại mua để đổi quà |
+
+Phân tích nhúng ở Mây đặt ra đúng ba thách thức sách nêu: khách vừa thanh toán xong mở app là muốn thấy điểm cộng ngay (**độ trễ dữ liệu thấp**), mở màn hình phải hiện trong 1–2 giây (**truy vấn nhanh**), và giờ cao điểm trưa có hàng nghìn khách cùng mở app (**đồng thời cao**).
 
 **Vai trò của kỹ sư dữ liệu:** thường không làm giao diện (nhà phát triển ứng dụng làm), nhưng chịu trách nhiệm cơ sở dữ liệu phục vụ phân tích nhúng nên phải hiểu yêu cầu tốc độ và độ trễ. Hiệu năng gồm **ba vấn đề**:
 
@@ -123,6 +147,39 @@ Không cần hiểu sâu, nhưng nắm cơ bản ML cổ điển và nguyên t�
 - Dữ liệu **có cấu trúc và phi cấu trúc**: phân cụm khách hàng từ bảng (có cấu trúc), hay nhận dạng ảnh bằng mạng neuron (phi cấu trúc).
 
 Sách không dạy ML; gợi ý đọc *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow* của Aurélien Géron (O'Reilly).
+
+### Hiểu nôm na vài khái niệm ML qua chuỗi Mây
+
+| Khái niệm | Nghĩa đời thường | Ví dụ ở Mây |
+|---|---|---|
+| Học có giám sát | Cho máy xem nhiều ví dụ **có sẵn đáp án** để nó tự rút ra quy luật | Cho xem 2 năm dữ liệu "ngày như thế này thì dùng hết bao nhiêu kg trân châu" |
+| Học không giám sát | Cho máy dữ liệu **không có đáp án**, để nó tự chia nhóm | Tự chia khách thành nhóm "dân văn phòng mua trưa", "học sinh mua chiều" |
+| Hồi quy | Dự đoán một **con số** | Ngày mai cần 12,5 kg trân châu |
+| Phân loại | Dự đoán một **nhãn**, thường là có hoặc không | Khách K01 có sắp rời bỏ không? |
+| Feature (đặc trưng) | Các "manh mối" đưa cho mô hình, đã đổi thành số | Thứ trong tuần, nhiệt độ ngoài trời, có khuyến mãi không |
+| Featurization | Biến dữ liệu thô thành bảng manh mối | Từ hàng triệu đơn, tính ra "số ly trà sữa trân châu bán hôm qua" |
+| Dự đoán batch | Chạy một lần cho nhiều trường hợp | Mỗi tối dự báo lượng trân châu cho 30 cửa hàng |
+| Dự đoán thời gian thực | Chạy ngay khi có yêu cầu | Khách mở app, gợi ý ngay món hợp khẩu vị |
+| Data cascades | Lỗi nhỏ ở đầu nguồn lan và phình to ở cuối | POS ghi trùng đơn, mô hình tưởng nhu cầu cao, bếp nấu dư trân châu |
+
+**Kỹ sư dữ liệu chuẩn bị gì cho mô hình dự báo trân châu?** Mô hình không đọc được đơn hàng thô; nó cần một bảng mỗi dòng là một "ví dụ học" gồm manh mối và đáp án. Hai bảng dưới cho thấy dữ liệu trước và sau featurization.
+
+Trước, đơn hàng thô:
+
+| order_id | thoi_gian | cua_hang | mon | so_luong |
+|---|---|---|---|---|
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 |
+| DH004 | 2026-03-01 12:30 | Q1-Lê Lợi | Trà sữa trân châu | 3 |
+| ... | ... | ... | ... | ... |
+
+Sau, bảng đặc trưng (mỗi dòng là một cửa hàng trong một ngày):
+
+| cua_hang | ngay | thu | nhiet_do_ngoai_troi | co_khuyen_mai | ly_tran_chau_hom_qua | ly_tran_chau_7_ngay_tb | kg_tran_chau_dung (đáp án) |
+|---|---|---|---|---|---|---|---|
+| Q1-Lê Lợi | 2026-03-01 | 8 | 34 | 1 | 180 | 165 | 9,5 |
+| Q1-Lê Lợi | 2026-03-02 | 2 | 31 | 0 | 210 | 168 | 8,0 |
+
+(`thu` = 8 nghĩa là Chủ nhật, 2 là thứ Hai; `co_khuyen_mai` = 1 là có. Mọi cột đều đã ở dạng số để mô hình đọc được.)
 
 ## 3. Các cách phân phát dữ liệu cho analytics và ML
 
@@ -216,6 +273,8 @@ Kỹ sư dữ liệu hay nghĩ về công nghệ lưu trữ và xử lý: Spark 
 
 Tác giả tin rằng công cụ metrics layer sẽ ngày càng phổ biến, giúp trả lời câu hỏi trọng tâm khiến nhiều tổ chức vất vả: **"Những con số này có chính xác không?"** Có nhiều người chơi mới trong không gian này ngoài các công cụ đã nêu.
 
+Ở Mây, câu hỏi "những con số này có chính xác không?" thường bắt đầu bằng việc hai người cầm hai báo cáo khác số. Có metrics layer thì câu trả lời là "cả hai đều lấy `doanh_thu_thuan` từ cùng một định nghĩa", và cuộc tranh luận chuyển sang ý nghĩa của con số thay vì cách tính.
+
 *Ví dụ minh hoạ do người ghi chép thêm (không có trong sách):* một "định nghĩa số liệu" viết một lần có thể là một view SQL mà mọi dashboard cùng dùng lại:
 
 ```sql
@@ -255,6 +314,52 @@ Xử lý sai credential trong notebook và code data science là **rủi ro bả
 Mục tiêu: đưa data scientist ra khỏi laptop để tận dụng sức mạnh và khả năng mở rộng của cloud. Kỹ sư dữ liệu và ML engineer đóng vai trò quan trọng trong việc chuyển lên hạ tầng cloud có thể mở rộng; phân công cụ thể tuỳ tổ chức, nhưng nên dẫn đầu việc dựng hạ tầng, giám sát quản lý môi trường và đào tạo data scientist dùng công cụ cloud. Môi trường cloud đòi hỏi công việc vận hành (quản lý phiên bản và cập nhật, kiểm soát truy cập, duy trì SLA); làm tốt "data science operations" sẽ có lợi nhuận đáng kể.
 
 **Notebook trong sản xuất:** notebook thậm chí có thể là một phần của data science sản xuất, được triển khai rộng rãi ở **Netflix**. Ưu điểm: data scientist đưa công việc vào sản xuất nhanh hơn nhiều; nhược điểm: về bản chất đó là một dạng sản xuất "dưới chuẩn". Phương án thay thế là bắt ML/data engineer chuyển notebook sang sản xuất, dồn gánh nặng lớn lên các nhóm này. Kết hợp có thể lý tưởng: notebook cho sản xuất "nhẹ", quy trình sản xuất đầy đủ cho dự án giá trị cao.
+
+## 6. Áp vào chuỗi trà sữa Mây
+
+### Chọn cách phân phát cho từng người dùng
+
+| Người dùng ở Mây | Cần gì | Cách phân phát hợp | Vì sao |
+|---|---|---|---|
+| Kế toán | Bảng doanh thu tháng để đối soát | Trao đổi tệp (file Excel trên ổ chung, một bản duy nhất) | Kế toán quen Excel; dùng ổ chung để tránh mỗi người một bản |
+| Chủ chuỗi | Dashboard doanh thu | Cơ sở dữ liệu OLAP cộng công cụ BI | Dữ liệu có cấu trúc, cần phân quyền và truy vấn nhanh |
+| Quản lý cửa hàng | Cảnh báo tủ mát | Hệ thống streaming | Cần biết trong vài phút |
+| Nhà phân tích | Ghép đơn hàng với dữ liệu khách trong hệ thống app, thử trước khi dựng pipeline | Truy vấn liên kết | Khám phá nhanh, không cần dựng ETL ngay |
+| Nhà cung cấp trân châu | Dự báo lượng đặt hàng tuần tới | Chia sẻ dữ liệu qua kho đám mây | Họ tự truy vấn phần được phép, Mây không phải gửi file mỗi tuần |
+| Nhà khoa học dữ liệu | Bảng đặc trưng để huấn luyện | Cơ sở dữ liệu, đọc vào notebook trên cloud | Dữ liệu 2 năm của 30 cửa hàng có thể vượt bộ nhớ laptop |
+
+### Từ kho tới bếp: pipeline dự báo trân châu
+
+Sơ đồ dưới cho thấy dữ liệu đi từ quầy bán hàng tới con số gợi ý trên máy tính bảng ở bếp, và mỗi khâu do ai phụ trách.
+
+```mermaid
+flowchart LR
+    subgraph de["Kỹ sư dữ liệu"]
+        A["Đơn hàng, thời tiết,<br/>lịch khuyến mãi"] --> B["Làm sạch và<br/>featurization"]
+        B --> C["Bảng đặc trưng<br/>mỗi cửa hàng mỗi ngày"]
+    end
+    subgraph ds["Nhà khoa học dữ liệu và ML engineer"]
+        C --> D["Huấn luyện mô hình<br/>hồi quy"]
+        D --> E["Mô hình đã duyệt"]
+        C --> F["Dự đoán batch<br/>mỗi tối lúc 21.00"]
+        E --> F
+    end
+    subgraph dung["Người dùng"]
+        F --> G["Máy tính bảng ở bếp<br/>ngày mai nấu 9 kg"]
+    end
+```
+
+Nếu ở khâu đầu có lỗi (ví dụ đơn bị ghi trùng), mọi khâu sau đều sai theo: đó chính là **data cascades**. Vì vậy kiểm tra chất lượng dữ liệu ở khâu của kỹ sư dữ liệu quan trọng không kém việc chọn mô hình.
+
+### Credential trong notebook: sai và đúng
+
+Nhà khoa học dữ liệu của Mây kết nối kho dữ liệu từ notebook. Bảng dưới so sánh hai cách xử lý mật khẩu.
+
+| | Cách sai | Cách đúng |
+|---|---|---|
+| Mật khẩu nằm ở đâu | Gõ thẳng trong ô code của notebook | Trong trình quản lý bí mật hoặc biến môi trường |
+| Khi notebook được đẩy lên Git | Mật khẩu lộ cho mọi người xem repo | Không có gì để lộ |
+| Khi nhân viên nghỉ việc | Phải đổi mật khẩu dùng chung cho cả đội | Chỉ thu hồi quyền của người đó |
 
 ## Tóm tắt
 

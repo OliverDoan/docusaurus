@@ -49,6 +49,23 @@ Các nhóm hay làm ngược (chọn công nghệ trước) vì ba lý do: **h�
 
 Chương liệt kê các cân nhắc khi chọn công nghệ trong vòng đời: quy mô và năng lực nhóm; tốc độ ra thị trường; khả năng tương tác; chi phí và giá trị kinh doanh; hôm nay và tương lai (bất biến/nhất thời); vị trí (cloud, on premises, hybrid, multicloud); xây dựng so với mua; monolith so với modular; serverless so với máy chủ; tối ưu hóa, hiệu suất và "chiến tranh benchmark"; các yếu tố xuyên suốt (undercurrents).
 
+### Thuật ngữ trong bài — hiểu nôm na
+
+Ví dụ trong chương này dùng chuỗi trà sữa **Mây** (30 cửa hàng, xem [phần giới thiệu](../intro.md)). Kiến trúc của Mây đã được bàn ở [Chương 3](../03-kien-truc-du-lieu/4_kien-truc-theo-lo.md); chương này hỏi: **dùng công cụ nào** để dựng nó.
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+| --- | --- | --- |
+| SaaS | Phần mềm thuê theo tháng qua Internet, nhà cung cấp lo vận hành | Thuê công cụ vẽ dashboard |
+| Managed service (dịch vụ được quản lý) | Dịch vụ đám mây mà nhà cung cấp lo cài đặt, cập nhật, sao lưu | Kho dữ liệu đám mây, Mây chỉ việc dùng |
+| Open source (nguồn mở) | Phần mềm miễn phí, ai cũng xem được mã, nhưng tự lo vận hành | Tự cài công cụ điều phối trên máy riêng |
+| Low-code / code-first | Làm bằng kéo thả / làm bằng viết code | Kéo thả tạo đường ống / viết Python |
+| Connector | "Ổ cắm" có sẵn để một công cụ nối được với một hệ thống | Connector cho phần mềm kế toán |
+| JDBC / ODBC | Chuẩn chung để phần mềm kết nối với database, như ổ cắm điện chuẩn | Công cụ dashboard kết nối kho dữ liệu qua ODBC |
+| REST API | Cách phổ biến để hai phần mềm trao đổi qua Internet, nhưng mỗi nơi làm một kiểu | App giao hàng đối tác cho lấy đơn qua REST API |
+| Capex / Opex | Chi tiền mua đứt một lần / chi đều đặn theo mức dùng | Mua máy chủ 200 triệu / trả 5 triệu mỗi tháng cho đám mây |
+| ROI | Bỏ ra bao nhiêu, thu về bao nhiêu | Dashboard giúp giảm 10% nguyên liệu hỏng |
+| Over-engineering | Làm phức tạp quá mức cần | Dựng hệ thống streaming cho báo cáo xem mỗi sáng |
+
 ## 1. Quy mô và năng lực của nhóm
 
 Điều đầu tiên cần đánh giá là **nhóm của bạn lớn cỡ nào và dùng được công nghệ gì**.
@@ -66,6 +83,18 @@ Lời khuyên cho nhóm nhỏ hoặc kỹ thuật còn yếu: **dùng càng nhi�
 - Giỏi ngôn ngữ nào (Java, Python, Go...)?
 - Công nghệ có đủ mọi sở thích từ low-code đến code nặng — hãy **gắn bó với công nghệ và quy trình nhóm đã quen**.
 - Học công nghệ/ngôn ngữ/công cụ mới là khoản đầu tư thời gian đáng kể; đã có nhóm tốn nhiều thời gian học mà không bao giờ đưa vào production. Hãy đầu tư khôn ngoan.
+
+### Áp vào chuỗi Mây: nhóm 1 người khác nhóm 10 người
+
+Cùng nhu cầu "dashboard doanh thu mỗi sáng", lựa chọn công cụ thay đổi theo quy mô đội. Bảng dưới cho thấy vì sao đội nhỏ nên thuê nhiều hơn tự làm.
+
+| Phần việc | Mây có 1 kỹ sư dữ liệu | Mây có 10 kỹ sư dữ liệu |
+| --- | --- | --- |
+| Kéo dữ liệu từ POS, app | Công cụ SaaS có sẵn connector | Có thể tự viết cho nguồn đặc thù |
+| Lưu trữ | Kho dữ liệu đám mây được quản lý | Vẫn kho đám mây (không có lý do tự vận hành) |
+| Điều phối | Lịch chạy có sẵn trong công cụ kéo dữ liệu | Công cụ điều phối riêng, nhiều DAG |
+| Dashboard | Công cụ BI thuê theo tháng | Công cụ BI thuê theo tháng |
+| Bẫy cần tránh | Bắt chước kiến trúc streaming của Grab, Shopee (cargo cult) | Mỗi người chọn một công cụ, không ai bảo trì nổi |
 
 ## 2. Tốc độ tiếp cận thị trường
 
@@ -87,6 +116,17 @@ Khi đánh giá công nghệ A và B, hãy hỏi: A tích hợp với B dễ đ�
 - **Không có tiêu chuẩn:** **REST** thực ra không phải là tiêu chuẩn API; mỗi API REST đều có điểm kỳ quặc riêng. Khi đó trách nhiệm tích hợp suôn sẻ thuộc về nhà cung cấp hoặc dự án nguồn mở.
 
 Hãy thiết kế **theo mô-đun** để dễ thay công nghệ khi có phương pháp hoặc giải pháp thay thế mới.
+
+Áp vào chuỗi Mây, các nguồn dữ liệu kết nối dễ khó rất khác nhau:
+
+| Nguồn của Mây | Cách lấy dữ liệu | Mức dễ | Ghi chú |
+| --- | --- | --- | --- |
+| Kho dữ liệu → công cụ dashboard | ODBC/JDBC chuẩn | Rất dễ | Cắm là chạy |
+| Phần mềm kho nguyên liệu | REST API có tài liệu | Dễ | Công cụ kéo dữ liệu có sẵn connector |
+| Máy POS hãng nhỏ | Chỉ xuất được file CSV mỗi đêm | Trung bình | Phải tự viết bước lấy file |
+| App giao hàng đối tác | REST API riêng, đổi phiên bản liên tục | Khó | Mỗi lần đối tác đổi API là phải sửa |
+
+Khi chọn hãng máy POS mới, Mây nên hỏi "có API hoặc connector với các công cụ phổ biến không?" ngay từ đầu, đó là câu hỏi về khả năng tương tác.
 
 ## 4. Tối ưu hóa chi phí và giá trị kinh doanh
 
@@ -124,6 +164,21 @@ Chọn data stack A nghĩa là bạn chọn lợi ích của A và loại trừ 
 
 Bước đầu giảm chi phí cơ hội là đánh giá nó một cách **tỉnh táo, nhìn xa**. Sách ví công nghệ không linh hoạt như **bẫy gấu (bear trap)**: dễ bước vào, cực kỳ đau đớn khi thoát ra.
 
+#### Áp vào chuỗi Mây: so sánh TCO và TOCO của hai phương án
+
+Mây cần nơi chứa dữ liệu cho 3 năm tới. Hai phương án (số liệu giả định để minh hoạ):
+
+| Khoản | Phương án A: tự mua máy chủ đặt ở văn phòng | Phương án B: kho dữ liệu đám mây |
+| --- | --- | --- |
+| Tiền ban đầu (capex) | 250 triệu mua máy, bản quyền | 0 |
+| Chi hằng tháng (opex) | Điện, mạng: 3 triệu | Theo mức dùng: khoảng 5 triệu |
+| Người vận hành | Cần nửa thời gian một kỹ sư lo máy, sao lưu, vá lỗi | Gần như không |
+| Tổng 3 năm (chưa tính người) | 250 + 3 × 36 = 358 triệu | 5 × 36 = 180 triệu |
+| Khi Mây mở thêm 30 cửa hàng | Có thể phải mua máy mới | Tự tăng theo, trả thêm theo dùng |
+| Máy hỏng lúc 2 giờ sáng | Kỹ sư phải dậy sửa | Nhà cung cấp lo |
+
+**TOCO**, tức chi phí cơ hội, mới là phần dễ bị bỏ qua. Với phương án A, nửa thời gian kỹ sư dành để "chăm máy" là nửa thời gian **không** dùng để làm dự báo trân châu hay danh sách voucher. Nếu sau 1 năm Mây muốn chuyển sang công nghệ khác, chiếc máy 250 triệu thành "bẫy gấu": đã trót mua thì khó bỏ.
+
 ### 4.3. FinOps
 
 **FinOps** (đã nói ở Nguyên tắc 9 của Chương 3): chi tiêu trên đám mây về bản chất là opex — công ty trả tiền cho dịch vụ chạy pipeline thay vì mua trước. Mục tiêu của FinOps là vận hành đầy đủ **trách nhiệm tài chính và giá trị kinh doanh**, bằng cách giám sát và điều chỉnh hệ thống linh hoạt giống DevOps.
@@ -160,6 +215,32 @@ flowchart TD
 - **Đánh giá lại công cụ hai năm một lần** (Hình 4-2).
 - Bất cứ khi nào có thể, tìm công nghệ bất biến làm cơ sở; xây công cụ nhất thời xung quanh chúng.
 - Vì xác suất thất bại của nhiều công nghệ dữ liệu khá cao, hãy xét **dễ rời đi đến đâu** (rào cản rời bỏ là gì), tránh bẫy gấu. Bước vào công nghệ mới với "đôi mắt mở to": dự án có thể bị bỏ dở, công ty có thể không trụ nổi, hoặc công nghệ đơn giản là không còn phù hợp.
+
+### Áp vào chuỗi Mây: phần nào bất biến, phần nào nhất thời
+
+Bảng dưới xếp các lựa chọn công nghệ của Mây theo hiệu ứng Lindy. Phần bất biến là "móng nhà", phần nhất thời là "đồ nội thất" có thể thay.
+
+| Thành phần ở Mây | Bất biến hay nhất thời | Cách đối xử |
+| --- | --- | --- |
+| Cất file thô trong object storage | Bất biến | Dùng yên tâm, làm nền |
+| Viết biến đổi bằng SQL | Bất biến | Kỹ năng nên đầu tư |
+| Định dạng file mở (CSV, Parquet) | Gần bất biến | Giúp sau này đổi công cụ dễ |
+| Công cụ kéo dữ liệu hãng X | Nhất thời | Dùng, nhưng xem lại mỗi 2 năm |
+| Công cụ dashboard hãng Y | Nhất thời | Dùng, giữ logic tính toán trong kho chứ không trong dashboard |
+| Thư viện dự báo mới nổi | Nhất thời | Thử nghiệm nhỏ trước khi dựa vào |
+
+Gộp cả bài lại, cách Mây chọn một công cụ có thể đi theo các câu hỏi dưới, theo đúng thứ tự: kiến trúc trước, công nghệ sau.
+
+```mermaid
+flowchart TD
+    A["Kiến trúc cần khối nào?<br/>ví dụ khối thu nạp"] --> B{"Có SaaS hoặc dịch vụ<br/>được quản lý phù hợp?"}
+    B -->|"Có"| C{"Nối được với<br/>các khối khác không?"}
+    B -->|"Không"| D["Cân nhắc nguồn mở<br/>hoặc tự viết phần nhỏ"]
+    C -->|"Có"| E{"Chi phí 3 năm và<br/>chi phí rời đi chấp nhận được?"}
+    C -->|"Không"| D
+    E -->|"Có"| F["Chọn, hẹn 2 năm sau<br/>đánh giá lại"]
+    E -->|"Không"| D
+```
 
 ## Tóm tắt
 

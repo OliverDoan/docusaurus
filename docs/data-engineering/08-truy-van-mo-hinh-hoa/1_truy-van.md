@@ -31,11 +31,32 @@ Sách tập trung vào truy vấn trên hệ thống **OLAP** (data warehouse, d
 - 2. Vòng đời của một truy vấn và query optimizer
 - 3. Cải thiện hiệu suất truy vấn
 - 4. Truy vấn trên dữ liệu streaming
+- Áp vào chuỗi trà sữa Mây
 - Tóm tắt
 
 ---
 
 ## 1. Truy vấn là gì
+
+### Thuật ngữ trong bài — hiểu nôm na
+
+Trước khi vào chi tiết, bảng dưới giải nghĩa các từ sẽ gặp nhiều lần. Ví dụ lấy từ chuỗi trà sữa **Mây** (30 cửa hàng) dùng xuyên suốt topic này.
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+|---|---|---|
+| Truy vấn (query) | Một câu hỏi gửi cho kho dữ liệu, viết theo cú pháp máy hiểu | "Hôm qua cửa hàng Q1-Lê Lợi bán bao nhiêu ly?" |
+| SQL | Ngôn ngữ phổ biến nhất để viết câu hỏi đó | `SELECT SUM(so_luong) FROM don_hang WHERE ...` |
+| Bảng (table) | Giống một sheet Excel: mỗi hàng là một bản ghi, mỗi cột là một thuộc tính | Bảng `don_hang`, mỗi hàng là một đơn |
+| Predicate | Điều kiện lọc, phần `WHERE ...` | Chỉ lấy đơn của ngày 01/03 |
+| OLAP | Hệ thống chuyên trả lời câu hỏi phân tích trên rất nhiều dữ liệu | Kho dữ liệu nơi chủ chuỗi xem doanh thu cả năm |
+| OLTP | Hệ thống phục vụ thao tác hằng ngày, ghi từng giao dịch nhỏ | Máy POS ghi từng đơn ở quầy |
+| Query engine | "Đầu bếp" nhận câu hỏi và đi lục dữ liệu để trả lời | BigQuery, Snowflake, PostgreSQL |
+| Index | Mục lục ở cuối sách, giúp tìm nhanh mà không lật từng trang | Index theo `order_id` để tra một đơn ngay lập tức |
+| Partition | Chia bảng thành nhiều ngăn kéo theo một tiêu chí, thường là ngày | Mỗi ngày bán hàng là một ngăn riêng |
+| Join | Ghép hai bảng dựa trên cột chung | Ghép `don_hang` với `cua_hang` để biết đơn thuộc quận nào |
+| Latency (độ trễ) | Khoảng chờ từ lúc hỏi tới lúc có câu trả lời | Dashboard mở mất 2 giây hay 2 phút |
+
+### Truy vấn trông thế nào trên dữ liệu thật
 
 Truy vấn cho phép bạn **truy xuất và tác động lên dữ liệu**. Nhắc lại CRUD ở Chương 5: khi truy vấn lấy dữ liệu, đó là thao tác **R (Read)**. Ví dụ:
 
@@ -43,6 +64,33 @@ Truy vấn cho phép bạn **truy xuất và tác động lên dữ liệu**. Nh
 SELECT * FROM foo;            -- lấy mọi bản ghi của bảng foo
 SELECT * FROM foo WHERE id=1; -- dùng predicate (điều kiện lọc) để chỉ lấy bản ghi có id = 1
 ```
+
+Áp vào Mây cho dễ hình dung. Giả sử bảng `don_hang` có vài dòng như sau:
+
+| order_id | thoi_gian | cua_hang | mon | so_luong | gia | kenh |
+|---|---|---|---|---|---|---|
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 35000 | quầy |
+| DH002 | 2026-03-01 08:20 | Q3-Võ Văn Tần | Trà đào | 1 | 30000 | app |
+| DH003 | 2026-03-01 09:05 | Q1-Lê Lợi | Trà sữa matcha | 1 | 40000 | app |
+| DH004 | 2026-03-02 10:10 | Q1-Lê Lợi | Trà sữa trân châu | 3 | 35000 | quầy |
+
+Câu hỏi "ngày 01/03, mỗi cửa hàng bán được bao nhiêu tiền?" viết bằng SQL:
+
+```sql
+SELECT cua_hang, SUM(so_luong * gia) AS doanh_thu
+FROM don_hang
+WHERE DATE(thoi_gian) = '2026-03-01'   -- predicate: chỉ lấy ngày 01/03
+GROUP BY cua_hang;                      -- gom theo cửa hàng
+```
+
+Kết quả trả về là một bảng nhỏ, đúng thứ chủ chuỗi cần:
+
+| cua_hang | doanh_thu |
+|---|---|
+| Q1-Lê Lợi | 110000 |
+| Q3-Võ Văn Tần | 30000 |
+
+Đơn DH004 không có mặt vì thuộc ngày 02/03, bị predicate loại ra. Đây là toàn bộ tinh thần của truy vấn: **mô tả kết quả mong muốn**, để hệ thống tự lo cách lấy.
 
 Nhiều DB còn cho phép **C, U, D** (tạo, cập nhật, xoá). Các nhóm lệnh SQL thường gặp:
 
@@ -84,6 +132,15 @@ Hiểu DCL giúp bạn xử lý khi ai đó không truy cập được dữ li�
 | DCL | Phân quyền | GRANT, DENY, REVOKE |
 | TCL | Giao dịch | COMMIT, ROLLBACK |
 
+Ở chuỗi Mây, mỗi nhóm lệnh ứng với một việc rất đời thường:
+
+| Nhóm | Việc ở Mây | Ai thường làm |
+|---|---|---|
+| DDL | Tạo bảng `nhiet_do_tu_mat` khi lắp cảm biến cho tủ mát | Kỹ sư dữ liệu |
+| DML | Ghi thêm đơn mới, sửa giá món sau khi đổi menu, đọc doanh thu | Hệ thống POS, kỹ sư, nhà phân tích |
+| DCL | Cho kế toán xem bảng lương, nhưng không cho marketing xem | Kỹ sư dữ liệu hoặc quản trị viên |
+| TCL | Chuyển nguyên liệu từ kho tổng sang cửa hàng: trừ kho tổng và cộng kho cửa hàng phải cùng thành công hoặc cùng huỷ | Phần mềm kho |
+
 ---
 
 ## 2. Vòng đời của một truy vấn và query optimizer
@@ -107,6 +164,18 @@ flowchart LR
 
 Cùng một truy vấn có thể chạy nhanh chậm rất khác nhau tuỳ cách thực thi. Việc của optimizer là chia truy vấn thành các bước hợp lý theo thứ tự hiệu quả, dựa trên join, index, kích thước dữ liệu phải quét và nhiều yếu tố khác, để **tốn ít chi phí nhất**. Mỗi DB có optimizer khác nhau. Bạn không làm việc trực tiếp với optimizer, nhưng hiểu chức năng của nó giúp viết truy vấn hiệu quả hơn, và bạn cần biết phân tích hiệu suất bằng `EXPLAIN` plan hoặc công cụ profiling truy vấn.
 
+**Ví dụ ở Mây:** câu hỏi "doanh thu ngày 01/03 của các cửa hàng ở Quận 1" cần ghép bảng `don_hang` (hàng triệu dòng) với bảng `cua_hang` (30 dòng). Bảng dưới cho thấy hai kế hoạch cùng ra một đáp án nhưng khối lượng việc chênh nhau rất xa.
+
+| Bước | Kế hoạch vụng | Kế hoạch optimizer chọn |
+|---|---|---|
+| 1 | Ghép toàn bộ đơn hàng (5 triệu dòng) với bảng cửa hàng | Lọc đơn ngày 01/03 trước, còn khoảng 15 nghìn dòng |
+| 2 | Lọc ngày 01/03 trên 5 triệu dòng đã ghép | Lọc cửa hàng Quận 1, còn 4 cửa hàng |
+| 3 | Lọc Quận 1 | Ghép 15 nghìn dòng với 4 cửa hàng |
+| 4 | Cộng tổng | Cộng tổng |
+| Khối lượng | Xử lý hàng triệu dòng | Xử lý vài chục nghìn dòng |
+
+Nguyên tắc rút ra: **lọc càng sớm càng đỡ việc**. Optimizer thường tự làm điều này, nhưng không phải lúc nào cũng làm được (xem row explosion ngay dưới).
+
 ---
 
 ## 3. Cải thiện hiệu suất truy vấn
@@ -129,6 +198,36 @@ Xảy ra khi có rất nhiều kết quả khớp **nhiều-nhiều** do khoá j
 **Ví dụ:** khoá join trong bảng A có giá trị X lặp 5 lần, bảng B cũng có X lặp 10 lần. Kết quả là tích chéo: 5 × 10 = 50 hàng đầu ra. Nếu còn nhiều khoá lặp khác nữa, số hàng tăng vọt, ngốn tài nguyên hoặc làm truy vấn thất bại.
 
 Cần biết optimizer của DB xử lý join thế nào. Có DB tự sắp xếp lại join và predicate, có DB thì không. Nếu row explosion xảy ra ở giai đoạn đầu của truy vấn thì truy vấn có thể thất bại dù predicate phía sau sẽ loại bỏ các bản lặp. Đưa predicate lên sớm có thể giảm mạnh tài nguyên.
+
+**Minh hoạ ở Mây:** nhà phân tích muốn biết doanh thu theo chương trình khuyến mãi, nên ghép bảng đơn hàng với bảng khuyến mãi theo cột `cua_hang`. Nhưng bảng khuyến mãi có **nhiều dòng cho cùng một cửa hàng** (mỗi tháng một chương trình), nên mỗi đơn bị nhân bản.
+
+Bảng đơn hàng (2 đơn ở Q1-Lê Lợi):
+
+| order_id | cua_hang | gia |
+|---|---|---|
+| DH001 | Q1-Lê Lợi | 70000 |
+| DH003 | Q1-Lê Lợi | 40000 |
+
+Bảng khuyến mãi (3 chương trình ở Q1-Lê Lợi):
+
+| cua_hang | chuong_trinh |
+|---|---|
+| Q1-Lê Lợi | Mua 2 tặng 1 (tháng 1) |
+| Q1-Lê Lợi | Giảm 20% (tháng 2) |
+| Q1-Lê Lợi | Tặng topping (tháng 3) |
+
+Kết quả ghép: 2 × 3 = **6 dòng**, và nếu cộng `gia` thì doanh thu bị đội lên gấp 3 (330000 thay vì 110000):
+
+| order_id | cua_hang | gia | chuong_trinh |
+|---|---|---|---|
+| DH001 | Q1-Lê Lợi | 70000 | Mua 2 tặng 1 (tháng 1) |
+| DH001 | Q1-Lê Lợi | 70000 | Giảm 20% (tháng 2) |
+| DH001 | Q1-Lê Lợi | 70000 | Tặng topping (tháng 3) |
+| DH003 | Q1-Lê Lợi | 40000 | Mua 2 tặng 1 (tháng 1) |
+| DH003 | Q1-Lê Lợi | 40000 | Giảm 20% (tháng 2) |
+| DH003 | Q1-Lê Lợi | 40000 | Tặng topping (tháng 3) |
+
+Với 2 đơn thì chỉ là con số sai. Với 5 triệu đơn và 36 chương trình, kết quả trung gian lên tới 180 triệu dòng, đủ làm truy vấn chạy mãi không xong. Cách sửa: ghép theo **cả cửa hàng lẫn tháng**, để mỗi đơn chỉ khớp đúng một chương trình.
 
 ### 3.3. Dùng CTE thay vì subquery lồng nhau
 
@@ -169,6 +268,26 @@ Hãy dùng **pruning (cắt tỉa)** để giảm lượng dữ liệu quét. C�
 |---|---|
 | Hướng cột (columnar) | Chỉ chọn những cột cần dùng. Với bảng rất lớn (hàng terabyte), Snowflake và BigQuery cho định nghĩa **clustering key** để sắp xếp dữ liệu giúp truy cập từng phần hiệu quả. BigQuery còn cho **partition** bảng thành các phân đoạn nhỏ để chỉ truy vấn partition cần thiết. (Chọn clustering/partition key không phù hợp có thể làm giảm hiệu suất.) |
 | Hướng hàng (row-oriented) | Chủ yếu dựa vào **index** của bảng (đã học ở Chương 6). Tạo index phục vụ các truy vấn nhạy cảm nhất về hiệu suất, nhưng không đánh quá nhiều index vì sẽ làm chậm lại. |
+
+**Hình dung pruning bằng tủ hồ sơ:** bảng `don_hang` của Mây được chia **partition theo ngày**, giống một tủ có 365 ngăn kéo, mỗi ngăn đựng đơn của một ngày. Khi hỏi doanh thu ngày 01/03, hệ thống chỉ cần mở đúng một ngăn. Sơ đồ dưới so sánh lượng dữ liệu phải đọc trong hai trường hợp.
+
+```mermaid
+flowchart LR
+    Q["Câu hỏi<br/>doanh thu ngày 01/03"]
+    subgraph khong["Không partition, SELECT *"]
+        K1["Đọc cả năm<br/>mọi cột<br/>khoảng 50 GB"]
+    end
+    subgraph co["Có partition, chỉ chọn 3 cột"]
+        P1["Mở ngăn 01/03"]
+        P2["Chỉ đọc cột cua_hang,<br/>so_luong, gia"]
+        P3["Khoảng 30 MB"]
+        P1 --> P2 --> P3
+    end
+    Q --> K1
+    Q --> P1
+```
+
+Với kho tính tiền theo dung lượng quét (như BigQuery), chênh lệch 50 GB và 30 MB nghĩa là hoá đơn chênh nhau hàng nghìn lần cho **cùng một câu trả lời**. Các con số trên chỉ để minh hoạ tỷ lệ.
 
 ### 3.6. Hiểu cách DB xử lý commit
 
@@ -258,9 +377,41 @@ Các sự kiện được nhóm vào cửa sổ có độ dài cố định như
 | Tumbling | Độ dài cố định, không chồng nhau | Thống kê mỗi 20 giây |
 | Sliding | Độ dài cố định, chồng nhau | Cửa sổ 60 giây tạo mỗi 30 giây |
 
+**Ba loại cửa sổ ở chuỗi Mây:**
+
+| Loại cửa sổ | Câu hỏi ở Mây | Cách chia |
+|---|---|---|
+| Tumbling | Nhiệt độ trung bình tủ mát mỗi 5 phút | 08:00–08:05, 08:05–08:10, 08:10–08:15... không chồng nhau |
+| Sliding | Trong 10 phút gần nhất, tủ có lúc nào vượt 8°C không, cập nhật mỗi phút | 08:00–08:10, 08:01–08:11, 08:02–08:12... chồng lên nhau |
+| Session | Một khách lướt app đặt món bao lâu rồi mới chốt đơn | Mỗi khách một chuỗi riêng, đóng khi khách im 5 phút |
+
+Ví dụ cụ thể với cảm biến tủ mát của cửa hàng Q1-Lê Lợi, tumbling window 5 phút biến các số đo rời rạc thành từng dòng tổng hợp:
+
+| Số đo thô (thời điểm, °C) | Cửa sổ | Trung bình xuất ra |
+|---|---|---|
+| 08:01 → 4.0, 08:03 → 4.2 | 08:00–08:05 | 4.1 |
+| 08:06 → 4.4, 08:09 → 6.8 | 08:05–08:10 | 5.6 |
+| 08:11 → 8.5, 08:14 → 9.1 | 08:10–08:15 | 8.8 (vượt ngưỡng, báo quản lý cửa hàng) |
+
 #### Watermark
 
 Dữ liệu đôi khi đến không đúng thứ tự (Chương 7). **Watermark** là ngưỡng mà cửa sổ dùng để xác định dữ liệu có nằm trong khoảng thời gian đã định hay bị coi là **muộn**. Nếu dữ liệu đến là mới với cửa sổ nhưng có timestamp cũ hơn watermark thì nó được coi là dữ liệu đến muộn (late-arriving data).
+
+**Ví dụ đời thường:** watermark giống giờ chốt sổ của thu ngân. Ca sáng chốt lúc 12:00 nhưng vẫn nhận hoá đơn ca sáng nộp trễ tới 12:10. Hoá đơn ca sáng nộp lúc 12:30 thì bị coi là muộn và xử lý riêng. Ở Mây, đơn từ app đặt món có thể tới trễ vì điện thoại khách mất sóng; sơ đồ dưới cho thấy hệ thống quyết định nhận hay xếp riêng một đơn như vậy.
+
+```mermaid
+sequenceDiagram
+    participant App as App đặt món
+    participant S as Hệ thống streaming
+    participant D as Dashboard doanh thu
+    App->>S: Đơn DH101 lúc 09.58 tới đúng giờ
+    S->>D: Cửa sổ 09.00 tới 10.00 tạm tính
+    Note over S: Watermark cho phép trễ tối đa 10 phút
+    App->>S: Đơn DH102 lúc 09.59 tới lúc 10.05
+    S->>D: Vẫn cộng vào cửa sổ 09.00 tới 10.00
+    App->>S: Đơn DH103 lúc 09.57 tới lúc 10.30
+    S->>S: Quá watermark, ghi vào bảng dữ liệu đến muộn
+```
 
 ### 4.3. Kết hợp stream với dữ liệu khác
 
@@ -278,6 +429,49 @@ flowchart LR
     B2 --> J
     J --> O["Stream kết quả"]
 ```
+
+**Enrichment ở Mây:** stream đơn hàng từ app chỉ chứa mã khách và mã món. Trước khi đưa sang bộ phận marketing, hệ thống tra thêm hạng thành viên và tên món, để mỗi sự kiện "tự đủ nghĩa":
+
+| Sự kiện gốc | Sự kiện sau khi làm giàu |
+|---|---|
+| order DH205, khach K88, mon M03 | order DH205, khach K88 (hạng Vàng, Quận 3), mon M03 (Trà sữa trân châu, 35000) |
+
+---
+
+## Áp vào chuỗi trà sữa Mây
+
+Gom các ý của bài lại, đây là cách đội dữ liệu của Mây dùng truy vấn hằng ngày:
+
+```mermaid
+flowchart LR
+    subgraph nguon["Nguồn"]
+        POS["POS ở quầy"]
+        APP["App đặt món"]
+        IOT["Cảm biến tủ mát"]
+    end
+    subgraph kho["Kho dữ liệu OLAP"]
+        DH["Bảng don_hang<br/>partition theo ngày"]
+        ND["Bảng nhiet_do"]
+    end
+    subgraph dung["Người dùng"]
+        CHU["Chủ chuỗi<br/>dashboard doanh thu"]
+        QL["Quản lý cửa hàng<br/>cảnh báo tủ mát"]
+    end
+    POS -->|"CDC, fast-follower"| DH
+    APP -->|"CDC, fast-follower"| DH
+    IOT -->|"stream, tumbling 5 phút"| ND
+    DH -->|"truy vấn batch, có cache"| CHU
+    ND -->|"truy vấn streaming"| QL
+```
+
+| Tình huống ở Mây | Kỹ thuật trong bài | Lợi ích |
+|---|---|---|
+| Chủ chuỗi mở dashboard 20 lần mỗi ngày | Cache kết quả truy vấn | Lần mở thứ hai trở đi gần như tức thì, không tốn thêm tiền quét |
+| Báo cáo doanh thu tháng chạy chậm | Partition theo ngày, chỉ chọn cột cần | Quét ít dữ liệu, rẻ và nhanh hơn |
+| Không muốn làm chậm máy POS khi phân tích | Fast-follower bằng CDC | Phân tích trên bản sao, quầy thu ngân không bị ảnh hưởng |
+| Báo cáo khuyến mãi ra số gấp 3 bất thường | Kiểm tra row explosion | Phát hiện khoá join bị lặp |
+| Thôi việc một nhân viên phân tích | DCL `REVOKE` | Thu hồi quyền xem dữ liệu ngay |
+| Tủ mát nóng lên giữa ca | Tumbling window và watermark | Cảnh báo trong vài phút thay vì đợi báo cáo cuối ngày |
 
 ---
 

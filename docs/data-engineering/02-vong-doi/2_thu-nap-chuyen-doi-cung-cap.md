@@ -33,6 +33,12 @@ Bài này đi qua ba giai đoạn còn lại của vòng đời: **Ingestion** (
 
 ## 1. Ingestion (thu nạp dữ liệu)
 
+:::info[Tình huống xuyên suốt]
+
+Bài này theo chân dữ liệu của chuỗi trà sữa **Mây** (30 cửa hàng, xem [phần giới thiệu](../intro.md)) qua ba giai đoạn. Cuối mỗi phần có mục "Áp vào chuỗi Mây" với **bảng dữ liệu mẫu** cho thấy dữ liệu trông thế nào trước và sau mỗi bước. Dữ liệu nguồn của Mây đã được giới thiệu ở [bài 1](./1_tong-quan-va-nguon-du-lieu.md).
+
+:::
+
 Sau khi hiểu nguồn dữ liệu, đặc điểm hệ thống nguồn và cách lưu trữ, bạn cần **thu thập** dữ liệu. Theo kinh nghiệm của tác giả, **hệ thống nguồn và ingestion là những nút thắt cổ chai quan trọng nhất** của vòng đời:
 
 - Hệ thống nguồn thường nằm ngoài tầm kiểm soát trực tiếp, có thể **ngẫu nhiên không phản hồi** hoặc cung cấp dữ liệu **chất lượng kém**.
@@ -40,6 +46,23 @@ Sau khi hiểu nguồn dữ liệu, đặc điểm hệ thống nguồn và các
 - Kết quả: luồng dữ liệu bị dừng hoặc không đủ dữ liệu để lưu trữ, xử lý, phân phối.
 
 Nguồn và ingestion kém tin cậy sẽ có **tác động lan toả** khắp vòng đời.
+
+### Thuật ngữ trong bài — hiểu nôm na
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+| --- | --- | --- |
+| Ingestion (thu nạp) | Chở dữ liệu từ nơi sinh ra về chỗ tập trung | Kéo đơn của 30 máy POS về kho chung |
+| Batch (theo lô) | Gom lại, xử lý một lượt theo lịch, như giặt đồ cả tuần một lần | 2 giờ sáng lấy toàn bộ đơn hôm qua |
+| Streaming (luồng) | Có dữ liệu là xử lý ngay, như vòi nước chảy liên tục | Số đo tủ mát vừa gửi là hệ thống kiểm tra ngay |
+| Micro-batch | Lô rất nhỏ, chạy dày đặc (mỗi phút) | Mỗi 5 phút cập nhật số đơn app đang chờ |
+| Latency (độ trễ) | Khoảng thời gian từ lúc dữ liệu sinh ra tới lúc dùng được | Đơn bán lúc 8:15, 7 giờ sáng hôm sau mới lên dashboard: trễ gần 23 tiếng |
+| Push / pull | Nguồn tự gửi đi / bên nhận chủ động tới lấy | Cảm biến tự gửi số đo / hệ thống tới máy POS lấy đơn |
+| ETL / ELT | Lấy ra, biến đổi, rồi nạp / lấy ra, nạp vào trước, biến đổi sau | ELT: đổ đơn thô vào kho trước, làm sạch trong kho sau |
+| Endpoint | "Địa chỉ nhận hàng" của một hệ thống trên mạng | Địa chỉ mà cảm biến gửi số đo tới |
+| Event (sự kiện) | Một việc vừa xảy ra, kèm thời điểm | "8:16, tủ Q1-TU01 đo được 4,3°C" |
+| Data model (mô hình dữ liệu) | Cách sắp xếp dữ liệu để phản ánh đúng nghiệp vụ | Bảng "doanh thu theo ngày, cửa hàng, món" |
+| Feature (đặc trưng) | Thông tin đầu vào cho mô hình máy học | "Hôm đó có mưa không", "có phải cuối tuần không" |
+| Reverse ETL | Đưa dữ liệu đã xử lý ngược lại các phần mềm vận hành | Đẩy danh sách khách cần tặng voucher vào app |
 
 ### 1.1. Câu hỏi cần đặt ra khi thu nạp
 
@@ -110,6 +133,60 @@ WHERE updated_at > :last_run_time;
 
 **Streaming ingestion.** Dữ liệu **bỏ qua database backend** và được đẩy thẳng đến một endpoint, thường được đệm bởi nền tảng event streaming. Mẫu này hữu ích với các đàn cảm biến IoT: thay vì dựa vào database duy trì trạng thái hiện tại, mỗi lần đo được coi là một **sự kiện**. Mô hình này cũng ngày càng phổ biến trong ứng dụng phần mềm vì đơn giản hoá xử lý real-time, cho phép dev điều chỉnh message phục vụ phân tích downstream, và giúp đời kỹ sư dữ liệu dễ hơn nhiều.
 
+### 1.5. Áp vào chuỗi Mây: thu nạp
+
+**Mây chọn batch hay streaming cho từng nguồn?** Câu trả lời khác nhau theo nguồn, đúng như sách nói "tuỳ trường hợp sử dụng". Bảng dưới đặt hai cách cạnh nhau.
+
+| Nguồn | Batch (theo lô) | Streaming (liên tục) | Mây nên chọn | Vì sao |
+| --- | --- | --- | --- | --- |
+| Đơn POS 30 cửa hàng | Kéo một lần lúc 2 giờ sáng | Mỗi đơn gửi ngay khi bán | **Batch** | Chủ chuỗi chỉ xem doanh thu mỗi sáng, chậm vài giờ không sao |
+| Cảm biến tủ mát | Gom cả ngày rồi kiểm tra | Kiểm tra từng số đo | **Streaming** | Tủ quá 8°C phải báo ngay, đợi đến sáng thì sữa đã hỏng |
+| App đặt món (đơn chờ pha) | Cập nhật mỗi đêm | Cập nhật tức thì | **Micro-batch 5 phút** | Quản lý cửa hàng cần biết số đơn đang chờ, trễ vài phút chấp nhận được |
+| Excel lương | Nhận file mỗi tháng | Không có ý nghĩa | **Batch** | Dữ liệu chỉ sinh ra mỗi tháng một lần |
+
+Sơ đồ quyết định dưới tóm tắt cách suy nghĩ đó. Câu hỏi đầu tiên luôn là "chậm thì thiệt gì?", không phải "công nghệ nào hay".
+
+```mermaid
+flowchart TD
+    Q1{"Dữ liệu đến trễ vài giờ<br/>có gây thiệt hại không?"}
+    Q1 -->|"Không"| B["Batch<br/>rẻ, đơn giản"]
+    Q1 -->|"Có"| Q2{"Trễ vài phút<br/>có chấp nhận được không?"}
+    Q2 -->|"Được"| MB["Micro-batch"]
+    Q2 -->|"Không, cần tính bằng giây"| Q3{"Lợi ích có đủ bù<br/>chi phí và độ phức tạp?"}
+    Q3 -->|"Có"| ST["Streaming"]
+    Q3 -->|"Không"| MB
+```
+
+**Push và pull ở Mây.** Máy POS không tự gửi dữ liệu, nên hệ thống thu nạp phải tới **kéo** (pull). Cảm biến thì ngược lại, tự **đẩy** (push) số đo đi mỗi phút. Sơ đồ dưới cho thấy hai kiểu diễn ra theo thời gian.
+
+```mermaid
+sequenceDiagram
+    participant Ing as Hệ thống thu nạp
+    participant POS as Máy POS Q1-Lê Lợi
+    participant Cam as Cảm biến tủ Q1-TU01
+    participant Q as Hàng đợi tin nhắn
+    Note over Ing,POS: Pull - 2 giờ sáng, theo lịch
+    Ing->>POS: Cho tôi các đơn đổi sau lần lấy trước
+    POS-->>Ing: Trả về 312 đơn hôm qua
+    Note over Cam,Q: Push - mỗi phút, không cần ai hỏi
+    Cam->>Q: 08.16 đo được 4,3 độ
+    Cam->>Q: 08.17 đo được 4,4 độ
+    Q-->>Ing: Chuyển tiếp từng số đo
+```
+
+**Dữ liệu sau khi thu nạp trông thế nào?** Thu nạp chỉ *chở về*, chưa *làm sạch*. Bảng dưới là đơn của POS và app sau khi được đổ chung vào **vùng dữ liệu thô** (raw zone) của kho. Mây thêm hai cột kỹ thuật: `nguon` (dữ liệu đến từ đâu) và `luc_nap` (lúc được chở về) để sau này truy vết.
+
+| order_id | thoi_gian | cua_hang | mon | so_luong | gia | kenh | nguon | luc_nap |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 35000 | quầy | pos_q1 | 2026-03-02 02:00 |
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 35000 | quầy | pos_q1 | 2026-03-02 02:00 |
+| APP7781 | 2026-03-01T08:17:05 | q3-vo-van-tan | Trà đào | 1 | 30000 | app | app | 2026-03-02 02:05 |
+| DH003 | 2026-03-01 08:20 | Q1-Lê Lợi | STTC đường đen | 1 | (trống) | quầy | pos_q1 | 2026-03-02 02:00 |
+| DH004 | 2026-03-01 08:31 | Q1-Lê Lợi | Trà đào | 1 | 30000 | quầy | pos_q1 | 2026-03-02 02:00 |
+| APP7782 | 2026-03-01T08:18:40 | q1-le-loi | Trà sữa trân châu | 2 | 31500 | app | app | 2026-03-02 02:05 |
+
+Vẫn còn đủ thứ lộn xộn: DH001 trùng, ngày giờ hai kiểu, tên cửa hàng hai kiểu, DH003 thiếu giá, DH004 thật ra là đơn **đã huỷ** (thông tin nằm ở cột trạng thái mà bảng này chưa có). Dọn dẹp là việc của giai đoạn tiếp theo.
+
 ## 2. Transformation (chuyển đổi)
 
 Sau khi nhập và lưu, bạn cần làm gì đó với dữ liệu. **Transformation** là thay đổi dữ liệu từ dạng ban đầu thành dạng hữu ích cho các trường hợp sử dụng phía sau. Không có transformation phù hợp, dữ liệu sẽ "trì trệ", không dùng được cho báo cáo, phân tích hay ML. Đây thường là nơi dữ liệu **bắt đầu tạo giá trị** cho người dùng cuối.
@@ -148,6 +225,55 @@ Mô hình hoá giúp có bức tranh rõ ràng, cập nhật về các quy trìn
 **Featurization** (đặc trưng hoá) là trích xuất và nâng cao các đặc trưng hữu ích để huấn luyện mô hình ML. Nó có thể là "nghệ thuật đen tối", kết hợp **chuyên môn lĩnh vực** (đặc trưng nào có thể quan trọng để dự đoán) với **kinh nghiệm data science** sâu rộng. Điểm chính với sách: khi data scientist đã xác định cách featurize, **kỹ sư dữ liệu có thể tự động hoá** quy trình đó trong giai đoạn transformation của pipeline.
 
 Transformation là chủ đề sâu; Chương 8 đi vào truy vấn, mô hình hoá và các phương pháp biến đổi.
+
+### 2.5. Áp vào chuỗi Mây: chuyển đổi từng bước
+
+Đây là phần dễ thấy giá trị nhất. Ta lấy đúng bảng thô ở mục 1.5 và đi qua ba mức chuyển đổi mà sách liệt kê.
+
+```mermaid
+flowchart LR
+    R["Bảng thô<br/>6 dòng, lộn xộn"] -->|"Bước 1: làm sạch cơ bản"| C["Bảng sạch<br/>5 dòng"]
+    C -->|"Bước 2: áp logic nghiệp vụ"| B["Bảng doanh thu<br/>4 dòng hợp lệ"]
+    B -->|"Bước 3: tổng hợp"| A["Bảng tổng theo ngày<br/>và cửa hàng"]
+    B -->|"Featurization"| F["Bảng đặc trưng<br/>cho dự báo"]
+```
+
+**Bước 1: làm sạch cơ bản (ngay sau thu nạp).** Đưa ngày giờ về một định dạng, đưa tên cửa hàng về tên chuẩn, đổi tên món viết tắt, bỏ dòng trùng, bù giá thiếu từ bảng giá chuẩn. Kết quả:
+
+| order_id | thoi_gian | cua_hang | mon | so_luong | gia | kenh |
+| --- | --- | --- | --- | --- | --- | --- |
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 35000 | quầy |
+| APP7781 | 2026-03-01 08:17 | Q3-Võ Văn Tần | Trà đào | 1 | 30000 | app |
+| APP7782 | 2026-03-01 08:18 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 31500 | app |
+| DH003 | 2026-03-01 08:20 | Q1-Lê Lợi | Sữa tươi trân châu đường đen | 1 | 40000 | quầy |
+| DH004 | 2026-03-01 08:31 | Q1-Lê Lợi | Trà đào | 1 | 30000 | quầy |
+
+**Bước 2: áp logic nghiệp vụ.** Đây là chỗ cần hỏi kế toán, không tự đoán. Ở Mây, quy tắc là: *doanh thu = số lượng × giá sau giảm; đơn huỷ không tính; đơn app trả 15% hoa hồng cho đối tác giao hàng*. Kỹ sư dữ liệu nối thêm trạng thái đơn từ máy POS rồi tính:
+
+| order_id | cua_hang | kenh | trang_thai | doanh_thu | hoa_hong | thuc_thu |
+| --- | --- | --- | --- | --- | --- | --- |
+| DH001 | Q1-Lê Lợi | quầy | đã thanh toán | 70000 | 0 | 70000 |
+| APP7781 | Q3-Võ Văn Tần | app | đã giao | 30000 | 4500 | 25500 |
+| APP7782 | Q1-Lê Lợi | app | đã giao | 63000 | 9450 | 53550 |
+| DH003 | Q1-Lê Lợi | quầy | đã thanh toán | 40000 | 0 | 40000 |
+
+DH004 bị loại vì đã huỷ. Đây chính là ví dụ "12 khung ảnh × 30 đô" của sách, phiên bản trà sữa: một con số "doanh thu" chỉ có nghĩa khi mọi người thống nhất cách tính.
+
+**Bước 3: tổng hợp cho báo cáo.** Chủ chuỗi không cần từng đơn, chỉ cần tổng mỗi cửa hàng mỗi ngày:
+
+| ngay | cua_hang | so_don | doanh_thu | thuc_thu |
+| --- | --- | --- | --- | --- |
+| 2026-03-01 | Q1-Lê Lợi | 3 | 173000 | 163550 |
+| 2026-03-01 | Q3-Võ Văn Tần | 1 | 30000 | 25500 |
+
+**Featurization cho dự báo trân châu.** Nhà khoa học dữ liệu đã xác định: lượng trân châu bán ra phụ thuộc thứ trong tuần, trời mưa hay không, có khuyến mãi không. Kỹ sư dữ liệu tự động hoá việc tạo bảng đặc trưng mỗi đêm (số liệu minh hoạ cho cả ngày):
+
+| ngay | cua_hang | thu | cuoi_tuan | co_mua | co_khuyen_mai | ly_tran_chau_ban |
+| --- | --- | --- | --- | --- | --- | --- |
+| 2026-03-01 | Q1-Lê Lợi | Chủ nhật | 1 | 0 | 1 | 412 |
+| 2026-03-02 | Q1-Lê Lợi | Thứ hai | 0 | 1 | 0 | 238 |
+
+Mô hình học từ hàng trăm dòng như vậy để đoán cột cuối của ngày mai.
 
 ## 3. Serving (cung cấp dữ liệu)
 
@@ -223,6 +349,45 @@ Từng có thời reverse ETL bị coi là anti-pattern, ít ai muốn nhắc t�
 Hiện đã có vài nhà cung cấp xây sản phẩm quanh khái niệm này, như **Hightouch** và **Census**. Reverse ETL còn non trẻ nhưng tác giả nghi rằng nó sẽ tồn tại. Nó đặc biệt quan trọng khi doanh nghiệp phụ thuộc nhiều hơn vào SaaS và nền tảng bên ngoài, ví dụ đẩy số liệu từ warehouse sang **customer data platform** hoặc **CRM**; nền tảng quảng cáo là trường hợp thường nhật khác.
 
 Một số kỹ sư cho rằng có thể loại bỏ reverse ETL bằng cách xử lý transformation ngay trong **event stream** rồi gửi sự kiện ngược về nguồn khi cần. Việc mô hình này được áp dụng rộng rãi trong doanh nghiệp lại là chuyện khác. Ý chính: dữ liệu đã chuyển đổi cần được **trả về hệ thống nguồn** theo cách nào đó, lý tưởng là với lineage chính xác và quy trình kinh doanh gắn với hệ thống nguồn.
+
+### 3.4. Áp vào chuỗi Mây: cung cấp dữ liệu
+
+Bảng tổng hợp ở mục 2.5 giờ được dùng theo nhiều cách. Bảng dưới xếp các kiểu serving của sách vào từng người dùng ở Mây.
+
+| Kiểu serving | Ở chuỗi Mây | Ai dùng | Độ trễ chấp nhận |
+| --- | --- | --- | --- |
+| BI | Dashboard doanh thu theo ngày, cửa hàng, món | Chủ chuỗi, kế toán | Đến 7 giờ sáng hôm sau |
+| Self-service analytics | Quản lý cửa hàng tự lọc số liệu cửa hàng mình | 30 quản lý cửa hàng | Hằng ngày |
+| Operational analytics | Màn hình cảnh báo nhiệt độ tủ mát, đơn app đang chờ | Quản lý ca | Vài giây đến vài phút |
+| Embedded analytics | Mục "Ly trà sữa của bạn năm 2026" trong app | Khách hàng | Hằng ngày |
+| ML | Dự báo lượng trân châu cần nấu ngày mai | Bếp trung tâm | Mỗi tối |
+| Reverse ETL | Đẩy danh sách khách lâu không quay lại vào app để tặng voucher | Marketing | Hằng ngày |
+
+**Embedded analytics và multitenancy ở Mây.** Bảng điểm thưởng chứa dữ liệu của mọi khách. Khi khách mở app, họ chỉ được thấy **dòng của chính mình**:
+
+| ma_khach | so_ly_2026 | diem | mon_hay_uong |
+| --- | --- | --- | --- |
+| KH0001 | 48 | 480 | Trà sữa trân châu |
+| KH0002 | 12 | 120 | Trà đào |
+
+Khách KH0001 mở app chỉ thấy dòng đầu. Nếu lộ dòng của KH0002 cho KH0001, đó là sự cố rò rỉ dữ liệu, đúng loại "vi phạm niềm tin nghiêm trọng" sách cảnh báo.
+
+**Reverse ETL ở Mây.** Kho dữ liệu tính ra danh sách khách cần chăm sóc, rồi đẩy ngược vào app để app tự gửi voucher. Sơ đồ dưới cho thấy dữ liệu đi một vòng: sinh ra từ app, qua kho, rồi quay về app.
+
+```mermaid
+sequenceDiagram
+    participant App as App đặt món
+    participant Kho as Kho dữ liệu
+    participant RE as Công cụ reverse ETL
+    participant Khach as Khách KH0002
+    App->>Kho: Đơn hàng mỗi ngày (thu nạp)
+    Kho->>Kho: Tìm khách mua trên 5 lần tháng trước, 14 ngày chưa quay lại
+    Kho->>RE: Danh sách 1.240 khách
+    RE->>App: Gắn nhãn cần tặng voucher cho từng khách
+    App->>Khach: Thông báo tặng voucher giảm 20 phần trăm
+```
+
+Trước khi có reverse ETL, marketing của Mây phải tải file Excel từ dashboard về, rồi tự tải lên phần mềm gửi tin. Làm tay, dễ sai, và không ai biết danh sách đó lấy từ đâu.
 
 ## Tóm tắt
 

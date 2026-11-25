@@ -42,6 +42,23 @@ Năm 1989, **Bill Inmon** khởi xướng khái niệm và mô tả nó là *"m�
 
 Trước đây data warehouse chủ yếu thuộc về các doanh nghiệp ngân sách lớn (thường hàng triệu đô) vừa mua hệ thống vừa trả đội ngũ nội bộ bảo trì: rất tốn kém và nhiều công sức. Mô hình trả tiền theo nhu cầu có thể mở rộng đã đưa data warehouse đám mây đến cả công ty nhỏ; nhà cung cấp bên thứ ba quản lý hạ tầng nên công ty làm được nhiều việc hơn với ít người hơn.
 
+### Thuật ngữ trong bài — hiểu nôm na
+
+Ví dụ trong bài dùng chuỗi trà sữa **Mây** (30 cửa hàng, xem [phần giới thiệu](../intro.md)).
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+| --- | --- | --- |
+| Data warehouse | Thư viện dữ liệu đã sắp xếp, chuyên để phân tích | Bảng doanh thu sạch theo ngày, cửa hàng, món |
+| Data lake | Nhà kho chứa mọi thứ ở dạng thô, rẻ | Ảnh hoá đơn, log app, bình luận mạng xã hội, file Excel lương |
+| Lakehouse | Nhà kho có thêm hệ thống phân loại và quy tắc của thư viện | Một nơi vừa chứa ảnh, log, vừa có bảng doanh thu sạch truy vấn được |
+| OLTP | Hệ thống phục vụ giao dịch hằng ngày: ghi nhanh từng việc nhỏ | Máy POS ghi từng đơn |
+| OLAP | Hệ thống phục vụ phân tích: đọc, cộng gộp hàng triệu dòng | Tính doanh thu 3 năm theo tháng |
+| Staging | Vùng "chờ", chứa dữ liệu thô vừa nạp | Bảng đơn thô vừa kéo từ POS lúc 2 giờ sáng |
+| Columnar (lưu theo cột) | Cất dữ liệu theo từng cột thay vì từng dòng, cộng một cột rất nhanh | Cộng cột `gia` của 3 triệu đơn mà không phải đọc cột `mon` |
+| Data mart | Góc thư viện riêng cho một bộ phận | Bộ bảng riêng cho marketing |
+| ACID | Bộ bảo đảm giao dịch: hoặc xong trọn vẹn, hoặc như chưa làm gì | Sửa giá 1.000 đơn: không bao giờ có cảnh sửa được nửa chừng |
+| DML | Các lệnh thêm, sửa, xoá dòng dữ liệu | Xoá dữ liệu của khách yêu cầu xoá tài khoản |
+
 ### Hai loại kiến trúc data warehouse
 
 - **Kiến trúc tổ chức (organizational):** tổ chức dữ liệu theo cấu trúc và quy trình của các nhóm kinh doanh.
@@ -63,6 +80,18 @@ Một công ty có thể có data warehouse mà không có hệ thống MPP, ho�
 flowchart LR
     S["Hệ thống nguồn"] --> E["Extract"] --> T["Transform"] --> L["Load"] --> W["Data warehouse"]
 ```
+
+#### Áp vào chuỗi Mây: vì sao phải tách OLAP khỏi OLTP
+
+Máy POS (OLTP) và kho dữ liệu (OLAP) làm hai việc rất khác nhau. Bảng dưới đặt chúng cạnh nhau.
+
+| | OLTP: máy POS | OLAP: kho dữ liệu |
+| --- | --- | --- |
+| Câu hỏi điển hình | "Ghi đơn DH001: 2 trà sữa trân châu" | "Doanh thu từng tháng trong 3 năm của 30 cửa hàng?" |
+| Mỗi lần chạm bao nhiêu dòng | 1 dòng | Hàng triệu dòng |
+| Bao nhiêu lần mỗi giây | Rất nhiều, mỗi đơn một lần | Ít, vài chục lần mỗi ngày |
+| Cần nhanh thế nào | Tức thì, khách đang chờ | Vài giây là được |
+| Nếu chạy chung | Báo cáo nặng làm máy POS đứng, thu ngân không in được hoá đơn | |
 
 ### Kiến trúc kỹ thuật: MPP
 
@@ -88,6 +117,42 @@ FROM staging.orders_raw
 WHERE status = 'completed'
 GROUP BY order_date;
 ```
+
+#### Áp vào chuỗi Mây: ETL và ELT khác nhau ở đâu
+
+Hai sơ đồ dưới cùng đưa đơn từ máy POS vào kho. Khác biệt nằm ở **chỗ làm sạch**: trước khi vào kho (ETL) hay bên trong kho (ELT).
+
+```mermaid
+flowchart LR
+    subgraph etl["ETL"]
+        P1["Máy POS"] --> X1["Máy chủ riêng<br/>làm sạch, tính toán"]
+        X1 --> W1["Kho dữ liệu<br/>chỉ chứa bảng đã sạch"]
+    end
+    subgraph elt["ELT"]
+        P2["Máy POS"] --> W2["Kho dữ liệu<br/>vùng staging thô"]
+        W2 -->|"SQL chạy trong kho"| W3["Bảng đã sạch<br/>trong cùng kho"]
+    end
+```
+
+Phiên bản ELT của Mây, viết bằng SQL chạy ngay trong kho (giống ví dụ trên nhưng với bảng của Mây):
+
+```sql
+-- Bảng staging.don_tho chứa đơn thô vừa nạp lúc 2 giờ sáng
+CREATE TABLE phan_tich.doanh_thu_ngay AS
+SELECT DATE(thoi_gian) AS ngay,
+       cua_hang,
+       SUM(so_luong * gia) AS doanh_thu
+FROM staging.don_tho
+WHERE trang_thai <> 'huỷ'
+GROUP BY DATE(thoi_gian), cua_hang;
+```
+
+| | ETL ở Mây | ELT ở Mây |
+| --- | --- | --- |
+| Giữ lại dữ liệu thô không | Thường không, chỉ còn bản sạch | Có, nằm ở staging |
+| Khi kế toán đổi quy tắc tính doanh thu | Phải kéo lại dữ liệu từ máy POS (máy chỉ giữ 90 ngày) | Chạy lại SQL trên dữ liệu thô đã có |
+| Cần thêm máy chủ riêng | Có | Không, dùng sức mạnh của kho |
+| Mây nên chọn | | **ELT**, vì dùng kho đám mây và muốn giữ dữ liệu thô |
 
 Phiên bản ELT thứ hai (**transform-on-read**, biến đổi khi đọc) phổ biến trong làn sóng big data của hệ sinh thái Hadoop; sẽ nói ở mục data lake.
 
@@ -122,6 +187,15 @@ flowchart LR
     W --> M3["Data mart tài chính"]
 ```
 
+Ở chuỗi Mây, data mart của marketing chứa sẵn bảng đã nối và tính toán, để marketing không phải tự nối bảng đơn với bảng khách hàng mỗi lần:
+
+| ma_khach | so_don_30_ngay | tong_chi_30_ngay | lan_mua_cuoi | mon_hay_uong |
+| --- | --- | --- | --- | --- |
+| KH0001 | 9 | 342000 | 2026-02-27 | Trà sữa trân châu |
+| KH0002 | 1 | 30000 | 2026-02-10 | Trà đào |
+
+Muốn tìm "khách lâu chưa quay lại", marketing chỉ cần lọc cột `lan_mua_cuoi`, không cần biết SQL nối bảng phức tạp.
+
 (Chương 8 bàn thêm về data mart và mô hình hoá dữ liệu.)
 
 ## 4. Data lake
@@ -143,6 +217,21 @@ Data lake 1.0 bắt đầu với **HDFS** (hệ thống file phân tán của Ha
 
 Tuy vậy, **đừng đánh giá thấp** lake thế hệ đầu. Nhiều tổ chức thấy giá trị lớn, nhất là các công ty công nghệ khổng lồ, tập trung nhiều vào dữ liệu ở Thung lũng Silicon như **Netflix và Facebook**, có đủ nguồn lực xây thực hành dữ liệu thành công và tạo công cụ riêng dựa trên Hadoop. Nhưng với nhiều tổ chức khác, lake thành một "khu Superfund" nội bộ đầy lãng phí, thất vọng và chi phí tăng vọt.
 
+#### Áp vào chuỗi Mây: thứ gì hợp với data lake?
+
+Không phải dữ liệu nào của Mây cũng xếp gọn được vào bảng có hàng, có cột. Bảng dưới phân loại.
+
+| Dữ liệu của Mây | Có cấu trúc rõ (hàng, cột) | Hợp với |
+| --- | --- | --- |
+| Đơn hàng POS, app | Có | Warehouse |
+| Nhiệt độ tủ mát | Có | Warehouse (hoặc lake nếu rất nhiều) |
+| Log truy cập website khuyến mãi | Bán cấu trúc (mỗi dòng một kiểu) | Lake |
+| Bình luận mạng xã hội | Không, văn bản tự do | Lake |
+| Ảnh hoá đơn giấy đã quét | Không | Lake |
+| File Excel lương | Có nhưng mỗi tháng một mẫu | Lake trước, làm sạch rồi đưa vào warehouse |
+
+Cảnh báo **data swamp** ở Mây: nếu cứ đổ ảnh, log, bình luận vào lake mà không ghi chú "file này là gì, của cửa hàng nào, ngày nào, ai phụ trách", sau một năm sẽ không ai dám dùng. Đó là WORN, ghi một lần, không bao giờ đọc.
+
 ## 5. Hội tụ: lakehouse và nền tảng dữ liệu
 
 Để khắc phục giới hạn của lake thế hệ đầu, nhiều bên tìm cách hoàn thiện khái niệm này:
@@ -157,6 +246,29 @@ Quan điểm của tác giả:
 - Xu hướng hội tụ **sẽ tiếp tục**. Lake và warehouse vẫn tồn tại như các kiến trúc khác nhau, nhưng khả năng sẽ hội tụ đến mức người dùng ít nhận ra ranh giới trong công việc hằng ngày.
 - Một số nhà cung cấp đang bán **nền tảng dữ liệu** kết hợp khả năng của lake và warehouse. Theo sách, **AWS, Azure, Google Cloud, Snowflake và Databricks** là các bên dẫn đầu, mỗi bên có bộ công cụ tích hợp chặt để làm việc với dữ liệu từ quan hệ đến hoàn toàn phi cấu trúc.
 - Tương lai, kỹ sư dữ liệu sẽ **chọn nền tảng dữ liệu hội tụ** dựa trên nhiều yếu tố: nhà cung cấp, hệ sinh thái và mức độ mở tương đối, thay vì chọn "lake hay warehouse".
+
+### Áp vào chuỗi Mây: warehouse, lake hay lakehouse?
+
+Bảng dưới so sánh ba lựa chọn và chốt cho Mây.
+
+| | Data warehouse | Data lake | Lakehouse |
+| --- | --- | --- | --- |
+| Chứa gì | Dữ liệu có cấu trúc, đã sạch | Mọi thứ, chủ yếu thô | Mọi thứ, có thêm quản lý kiểu warehouse |
+| Truy vấn bằng SQL | Rất tốt | Cần thêm công cụ | Tốt |
+| Sửa, xoá từng dòng | Dễ | Khó | Dễ (có ACID) |
+| Chi phí lưu nhiều ảnh, log | Đắt | Rẻ | Rẻ |
+| Ở chuỗi Mây | Đủ cho doanh thu, kho, khách hàng | Hợp cho ảnh hoá đơn, bình luận | Hợp khi Mây muốn phân tích cả bình luận khách lẫn doanh thu ở một nơi |
+
+**Chốt cho Mây hôm nay:** bắt đầu bằng **cloud data warehouse** cho dữ liệu có cấu trúc (phần lớn giá trị nằm ở đây), cộng một thùng object storage để cất ảnh và log. Khi nhu cầu phân tích bình luận, ảnh lớn dần, cân nhắc chuyển sang nền tảng lakehouse. Sơ đồ quyết định dưới tóm tắt cách nghĩ.
+
+```mermaid
+flowchart TD
+    Q1{"Phần lớn dữ liệu<br/>có dạng bảng không?"}
+    Q1 -->|"Có"| Q2{"Có nhiều ảnh, văn bản, log<br/>cần phân tích cùng không?"}
+    Q1 -->|"Không"| LK["Data lake hoặc lakehouse"]
+    Q2 -->|"Không"| WH["Cloud data warehouse"]
+    Q2 -->|"Có"| LH["Lakehouse hoặc<br/>nền tảng dữ liệu hội tụ"]
+```
 
 ## 6. Modern Data Stack
 
@@ -178,6 +290,35 @@ flowchart LR
 - **Cộng đồng** là khía cạnh trung tâm: khác với sản phẩm cũ có bản phát hành và lộ trình ẩn khỏi người dùng, các dự án và công ty trong MDS thường có cơ sở người dùng mạnh, cộng đồng tham gia phát triển bằng cách dùng sớm, đề xuất tính năng và gửi pull request.
 
 Tác giả cho rằng khái niệm cốt lõi, **mô-đun plug-and-play với giá và cách triển khai dễ hiểu**, là con đường của tương lai. Đặc biệt trong **analytics engineering**, MDS đang và sẽ là lựa chọn mặc định về kiến trúc dữ liệu. Xuyên suốt cuốn sách, các kiến trúc được nhắc đến gồm các phần của MDS như thành phần mô-đun cắm-và-chạy trên đám mây. (Chương 11 chia sẻ thêm suy nghĩ về tương lai.)
+
+### Áp vào chuỗi Mây: một Modern Data Stack gọn nhẹ
+
+Mây có thể ghép một bộ MDS từ các loại công cụ có sẵn, mỗi khối thuê riêng, thay được riêng. Sơ đồ dưới gọi tên theo **loại** công cụ chứ không theo hãng, vì hãng thay đổi liên tục.
+
+```mermaid
+flowchart LR
+    subgraph src["Nguồn"]
+        POS["Máy POS"]
+        APP["App"]
+        XL["Excel lương"]
+    end
+    ING["Công cụ kéo dữ liệu<br/>có sẵn connector"]
+    DW["Cloud data warehouse"]
+    TF["Công cụ biến đổi bằng SQL"]
+    BI["Công cụ dashboard"]
+    RE["Công cụ reverse ETL"]
+    POS --> ING
+    APP --> ING
+    XL --> ING
+    ING --> DW
+    DW --> TF
+    TF --> DW
+    DW --> BI
+    DW --> RE
+    RE -->|"danh sách voucher"| APP
+```
+
+Mũi tên qua lại giữa kho và công cụ biến đổi thể hiện đúng tinh thần ELT: dữ liệu nằm yên trong kho, công cụ biến đổi chỉ "ra lệnh" cho kho tự tính.
 
 ## Tóm tắt
 

@@ -43,6 +43,22 @@ Dữ liệu streaming (message và stream) đi qua **nhiều giai đoạn** củ
 
 Message queue giúp **tách rời** (decouple) ứng dụng và hệ thống, dùng rộng rãi trong kiến trúc microservice. Nó đệm message để chịu các đợt tải tăng đột biến tạm thời và làm message bền vững nhờ kiến trúc phân tán có sao chép. Ba điều cần chú ý: thứ tự message, tần suất giao và khả năng mở rộng.
 
+### Thuật ngữ trong bài — hiểu nôm na
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi trà sữa Mây |
+|---|---|---|
+| Kiến trúc hướng sự kiện | Hệ thống phản ứng mỗi khi "có chuyện xảy ra", thay vì đợi ai đó hỏi | Có đơn mới là màn hình bếp tự hiện món cần pha |
+| Bất đồng bộ (asynchronous) | Gửi xong là đi làm việc khác, không đứng chờ trả lời | Thu ngân chốt đơn xong phục vụ khách tiếp, không chờ hệ thống tích điểm |
+| Publish / subscribe | Bên gửi "đăng bài", bên nào quan tâm thì "theo dõi" để nhận | Cảm biến tủ mát đăng nhiệt độ; app quản lý cửa hàng theo dõi |
+| Producer / consumer | Người sản xuất message / người tiêu thụ message | Máy POS (producer), hệ thống tích điểm (consumer) |
+| Microservice | Phần mềm chia thành nhiều phần nhỏ, mỗi phần lo một việc | Phần lo thanh toán, phần lo tích điểm, phần lo giao hàng |
+| Tách rời (decouple) | Hai bên không cần biết nhau, chỉ cần biết "hộp thư" chung | Hệ thống tích điểm sập thì quầy vẫn bán được, message nằm chờ |
+| FIFO | Vào trước ra trước, như xếp hàng mua trà sữa | Đơn 08:15 được xử lý trước đơn 08:16 |
+| Idempotent (lũy đẳng) | Làm một lần hay mười lần kết quả vẫn y nguyên | Bấm "cộng điểm cho đơn DH001" hai lần vẫn chỉ cộng một lần |
+| Topic | Một "kênh" gom các sự kiện cùng loại | Kênh `don_hang`, kênh `nhiet_do_tu_mat` |
+| Partition | Chia một kênh thành nhiều làn để xử lý song song | Kênh đơn hàng chia 3 làn |
+| Hotspot | Một làn bị dồn quá nhiều việc trong khi làn khác rảnh | Mọi đơn của cửa hàng đông nhất dồn vào một làn |
+
 ### Thứ tự và giao message
 
 Thứ tự tạo, gửi, nhận message có thể tác động lớn đến subscriber phía cuối, và thứ tự trong queue phân tán là bài toán phức tạp. Queue thường áp dụng khái niệm **FIFO** (vào trước, ra trước) một cách "mờ". FIFO nghiêm ngặt nghĩa là message A vào trước B thì A luôn giao trước B; thực tế message có thể xuất bản và nhận không theo thứ tự, nhất là ở hệ rất phân tán. Ví dụ hàng đợi tiêu chuẩn của Amazon SQS cố gắng hết sức giữ thứ tự (best effort), còn SQS cũng có **hàng đợi FIFO** với đảm bảo mạnh hơn nhưng tốn thêm phí.
@@ -63,6 +79,33 @@ INSERT INTO orders (order_id, amount)
 VALUES (12345, 100)
 ON CONFLICT (order_id) DO UPDATE SET amount = EXCLUDED.amount;
 ```
+
+### Áp vào chuỗi Mây: khi một message đến hai lần
+
+Mỗi đơn hoàn tất, máy POS gửi một message "cộng điểm cho khách" vào hàng đợi. Hệ thống tích điểm nhận, cộng điểm, rồi gửi xác nhận. Sơ đồ dưới cho thấy chuyện gì xảy ra nếu hệ thống tích điểm bị treo **đúng lúc** sắp gửi xác nhận.
+
+```mermaid
+sequenceDiagram
+    participant POS as Máy POS Q1
+    participant Q as Hàng đợi message
+    participant TD as Hệ thống tích điểm
+    POS->>Q: Đơn DH001 xong, cộng 7 điểm cho khách K88
+    Q->>TD: Giao message DH001
+    TD->>TD: Cộng 7 điểm
+    Note over TD: Bị treo trước khi kịp xác nhận
+    Q->>TD: Không thấy xác nhận nên giao lại DH001
+    TD->>TD: Kiểm tra DH001 đã cộng chưa
+    TD-->>Q: Xác nhận đã xử lý
+```
+
+Kết quả khác hẳn tuỳ hệ thống tích điểm có idempotent hay không:
+
+| | Lần giao 1 | Lần giao 2 (trùng) | Điểm cuối cùng của khách K88 |
+|---|---|---|---|
+| Không idempotent (cứ nhận là cộng) | +7 | +7 | 14 điểm — sai, Mây mất tiền |
+| Idempotent (nhớ đơn nào đã cộng) | +7 | Bỏ qua vì DH001 đã cộng | 7 điểm — đúng |
+
+Bài học cho kỹ sư dữ liệu của Mây: luôn có một mã duy nhất (ở đây là `order_id`) để nhận ra message trùng, và viết bước xử lý sao cho chạy lại không làm sai số.
 
 ### Khả năng mở rộng
 
@@ -105,6 +148,34 @@ Hãy đặt khóa sao cho các message cần xử lý cùng nhau có cùng khóa
 
 Mối lo chính là khóa phân vùng **không được tạo hotspot** (điểm nóng) — một partition nhận số message không cân xứng. Ví dụ: nếu dùng "bang của Hoa Kỳ" làm khóa trong khi số thiết bị tỷ lệ với dân số bang, các partition chứa California, Texas, Florida, New York sẽ quá tải, partition khác ít việc. Hãy đảm bảo khóa phân phối message đồng đều.
 
+### Áp vào chuỗi Mây: chọn khóa phân vùng cho kênh đơn hàng
+
+Mây có kênh (topic) `don_hang` chia 3 làn (partition), mỗi làn có một máy xử lý riêng. Câu hỏi: đơn nào đi làn nào? Bảng dưới so sánh ba cách chọn khóa với lượng đơn một buổi trưa.
+
+| Khóa phân vùng | Làn 0 | Làn 1 | Làn 2 | Nhận xét |
+|---|---|---|---|---|
+| Quận của cửa hàng (Q1 → làn 0, Q3 → làn 1, còn lại → làn 2) | 4.000 đơn | 600 đơn | 900 đơn | Hotspot: Q1 có nhiều cửa hàng đông khách, làn 0 nghẹt |
+| `order_id` chia 3 lấy dư | 1.830 đơn | 1.840 đơn | 1.830 đơn | Đều nhất, nhưng đơn của cùng một khách rải ra nhiều làn |
+| Mã khách hàng chia 3 lấy dư | 1.800 đơn | 1.900 đơn | 1.800 đơn | Khá đều, và mọi đơn của một khách nằm cùng làn — tiện cho tích điểm |
+
+Mây chọn **mã khách hàng**: vừa đều, vừa giữ được thứ tự các đơn của cùng một khách (điều quan trọng khi cộng/trừ điểm). Sơ đồ dưới minh hoạ cách các làn chạy song song.
+
+```mermaid
+flowchart LR
+    POS["Máy POS và app<br/>(producer)"] --> K["Tính khóa<br/>mã khách chia 3 lấy dư"]
+    subgraph topic["Topic don_hang"]
+        P0["Làn 0"]
+        P1["Làn 1"]
+        P2["Làn 2"]
+    end
+    K -->|"dư 0"| P0
+    K -->|"dư 1"| P1
+    K -->|"dư 2"| P2
+    P0 --> C0["Máy xử lý A"]
+    P1 --> C1["Máy xử lý B"]
+    P2 --> C2["Máy xử lý C"]
+```
+
 ### Chịu lỗi và khả năng phục hồi
 
 Nền tảng streaming thường là hệ phân tán, stream lưu trên nhiều nút. Nếu một nút hỏng, nút khác thay thế và stream vẫn truy cập được. Bản ghi không bị mất (bạn có thể chọn xóa, nhưng đó là chuyện khác). Khả năng chịu lỗi và phục hồi nhanh khiến nền tảng streaming phù hợp khi cần hệ thống **tạo, lưu và thu nạp dữ liệu sự kiện một cách đáng tin cậy**.
@@ -144,6 +215,22 @@ Nên lưu hợp đồng ở nơi nổi tiếng, dễ tìm (kho GitHub hoặc tra
 Nên cân nhắc thiết lập **SLA** (Service Level Agreement) với nhà cung cấp thượng nguồn: nêu kỳ vọng về những gì bạn có thể trông chờ từ hệ thống nguồn. Ví dụ SLA: "dữ liệu từ hệ thống nguồn sẽ sẵn sàng đáng tin cậy và chất lượng cao". **SLO** (Service Level Objective) đo hiệu năng so với điều đã cam kết trong SLA, ví dụ: "hệ thống nguồn sẽ có 99% thời gian hoạt động (uptime)".
 
 Nếu hợp đồng dữ liệu hay SLA/SLO có vẻ quá hình thức, ít nhất hãy **đặt kỳ vọng bằng lời** về uptime, chất lượng dữ liệu và bất cứ điều gì quan trọng với bạn. Chủ sở hữu thượng nguồn cần hiểu yêu cầu của bạn để cung cấp đúng dữ liệu.
+
+### Áp vào chuỗi Mây: một hợp đồng dữ liệu mẫu
+
+Phần mềm POS do một công ty bên ngoài viết; phần mềm kho do đội IT nội bộ quản lý. Kỹ sư dữ liệu không sửa được hai hệ thống này, nên cần "giao kèo" rõ ràng. Bảng dưới là hợp đồng dữ liệu rút gọn giữa đội IT (chủ phần mềm kho) và đội dữ liệu của Mây.
+
+| Mục | Nội dung thoả thuận |
+|---|---|
+| Dữ liệu nào | Bảng `nhap_xuat_kho`: mã nguyên liệu, cửa hàng, số lượng, thời điểm |
+| Cách lấy | Tăng dần (chỉ lấy dòng mới hoặc dòng bị sửa từ lần trước) |
+| Tần suất | Mỗi giờ, từ 6h đến 23h |
+| Schema | Không đổi tên hay xoá cột mà không báo trước ít nhất 2 tuần |
+| SLA | Dữ liệu sẵn sàng trước 6h05 sáng cho báo cáo đặt hàng |
+| SLO (đo được) | 99% số ngày trong tháng đạt mốc 6h05 |
+| Đầu mối | Anh Tùng (IT, phần mềm kho) và chị Lan (đội dữ liệu) |
+
+Vì sao cần? Hình dung đội IT đổi tên cột `so_luong` thành `sl` mà không báo: báo cáo đặt trân châu sáng hôm sau trống trơn, vài cửa hàng hết hàng buổi chiều. Hợp đồng dữ liệu biến lời hứa miệng thành điều khoản có người chịu trách nhiệm.
 
 ## 4. Yếu tố xuyên suốt và tác động lên hệ thống nguồn
 

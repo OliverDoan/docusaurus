@@ -39,6 +39,41 @@ Nó điều phối nhiều server để lưu, truy xuất và xử lý dữ li�
 
 Hệ quả là kỹ sư dữ liệu phải hiểu mô hình nhất quán của hệ phân tán đang dùng.
 
+### Thuật ngữ trong bài — hiểu nôm na
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi trà sữa Mây |
+|---|---|---|
+| Server, node | Một máy tính trong phòng máy; "node" là một máy trong một nhóm máy làm chung việc | Một trong ba máy cùng giữ dữ liệu đơn hàng |
+| Distributed storage | Chia dữ liệu và bản sao ra nhiều máy, như chia hàng ra nhiều kho | Đơn hàng của Mây nằm ở 3 máy, mất 1 máy vẫn còn 2 |
+| Redundancy (dư thừa) | Cố ý giữ thêm bản sao để phòng hỏng | Mỗi đơn được chép sang 3 nơi |
+| Replication (nhân bản) | Việc chép thay đổi từ máy này sang máy khác | Đơn mới ghi ở máy A rồi được chép sang B và C |
+| Consistency (nhất quán) | Hỏi máy nào cũng nhận cùng một câu trả lời | Điểm tích luỹ xem ở quầy và trên app giống nhau |
+| VM (máy ảo) | Một "máy tính" thuê trên cloud, thực chất là phần chia ra từ máy thật lớn hơn | Máy chạy phần mềm POS trung tâm thuê trên cloud |
+| Availability zone (AZ) | Một khu trung tâm dữ liệu độc lập về điện, mạng | Bản sao đặt ở hai khu khác nhau để phòng cháy nổ |
+| Snapshot | Ảnh chụp toàn bộ ổ đĩa tại một thời điểm, khôi phục được | Chụp ổ máy POS trung tâm mỗi đêm |
+
+### Ẩn dụ kho bãi: một kho hay nhiều kho
+
+Khi Mây còn 3 cửa hàng, mọi dữ liệu nằm trên **một máy chủ** — như một nhà kho duy nhất. Khi lên 30 cửa hàng, một kho không đủ chỗ và cháy kho là mất sạch. Lưu trữ phân tán giống mở **nhiều kho**, mỗi món hàng có bản sao ở hơn một kho.
+
+```mermaid
+flowchart LR
+    subgraph mot["Một máy chủ"]
+        S1["Máy duy nhất<br/>chứa mọi đơn hàng"]
+    end
+    subgraph phantan["Lưu trữ phân tán"]
+        A["Máy A<br/>đơn tháng 1, 2"]
+        B["Máy B<br/>đơn tháng 2, 3"]
+        C["Máy C<br/>đơn tháng 1, 3"]
+    end
+    U["Báo cáo doanh thu"] --> S1
+    U2["Báo cáo doanh thu"] --> A
+    U2 --> B
+    U2 --> C
+```
+
+Bên phải, mỗi tháng có mặt ở hai máy: một máy hỏng vẫn đủ dữ liệu, và ba máy cùng đọc song song nên báo cáo chạy nhanh hơn. Cái giá phải trả là bài toán "các bản sao có khớp nhau không" ở mục 2.
+
 ## 2. Eventual so với strong consistency
 
 Khi dữ liệu rải trên nhiều server, làm sao giữ cho nó nhất quán? Việc nhân bản thay đổi tới mọi node cần thời gian, nên luôn có sự cân bằng giữa việc đọc được dữ liệu **mới nhất** và đọc được dữ liệu "gần như mới nhất".
@@ -65,6 +100,36 @@ Kỹ sư dữ liệu cần hiểu sâu database của mình xử lý nhất quá
 
 *Ví dụ minh hoạ (do người viết ghi chép thêm, không phải của sách):* một bảng số dư tài khoản cần strong consistency; còn bộ đếm lượt xem video thì eventual consistency là đủ.
 
+### Áp vào chuỗi Mây: khi các bản sao chưa kịp khớp
+
+Khách K88 vừa đổi 50 điểm lấy một ly miễn phí ở quầy. Lệnh trừ điểm ghi vào máy A; việc chép sang máy B mất vài giây. Đúng lúc đó khách mở app, và app hỏi máy B.
+
+```mermaid
+sequenceDiagram
+    participant Q as Quầy Q1
+    participant A as Máy A
+    participant B as Máy B
+    participant APP as App của khách
+    Q->>A: Trừ 50 điểm của K88, còn 20
+    A-->>Q: Đã ghi
+    APP->>B: K88 còn bao nhiêu điểm
+    B-->>APP: 70 điểm, bản cũ vì chưa nhận bản chép
+    A->>B: Chép thay đổi, K88 còn 20
+    APP->>B: Hỏi lại sau 3 giây
+    B-->>APP: 20 điểm, đã khớp
+```
+
+Đó là eventual consistency: **sớm muộn** sẽ đúng, nhưng có một khoảng ngắn đọc ra số cũ. Với strong consistency, máy A sẽ chờ B xác nhận đã chép xong rồi mới báo "đã ghi" — đúng ngay, nhưng quầy chờ lâu hơn.
+
+Không phải dữ liệu nào cũng cần chặt như nhau. Bảng dưới là lựa chọn hợp lý ở Mây:
+
+| Dữ liệu ở Mây | Đọc phải bản cũ vài giây thì sao | Nên chọn |
+|---|---|---|
+| Điểm tích luỹ dùng để đổi quà | Khách có thể đổi quà hai lần bằng cùng số điểm | Strong |
+| Tồn kho trân châu để nhận đơn app | Nhận đơn khi thực ra đã hết hàng | Strong |
+| Số lượt xem món trên app | Lệch vài lượt, không ai để ý | Eventual |
+| Dashboard doanh thu của chủ chuỗi | Chậm vài giây, không ảnh hưởng quyết định | Eventual |
+
 ## 3. File storage
 
 **File** là thực thể dữ liệu có đặc tính đọc, ghi, tham chiếu riêng, được phần mềm và hệ điều hành sử dụng. Sách định nghĩa file có ba đặc điểm:
@@ -73,11 +138,21 @@ Kỹ sư dữ liệu cần hiểu sâu database của mình xử lý nhất quá
 - **Append operations:** có thể nối thêm byte vào file, tới giới hạn của hệ lưu trữ.
 - **Random access:** đọc từ vị trí bất kỳ hoặc ghi cập nhật tại vị trí bất kỳ.
 
-Object storage cũng giống file storage nhưng khác biệt then chốt (chỉ giữ đặc điểm đầu tiên). Sách nhấn mạnh với kỹ thuật dữ liệu hiện nay object storage quan trọng hơn nhiều.
+Object storage trông giống file storage nhưng khác ở điểm then chốt: nó chỉ giữ đặc điểm đầu tiên (độ dài hữu hạn). Object không cho nối thêm byte, cũng không cho sửa một đoạn ở giữa — muốn đổi thì phải ghi lại cả object. Sách nhấn mạnh với kỹ thuật dữ liệu hiện nay object storage quan trọng hơn nhiều.
 
 **Cây thư mục:** hệ file tổ chức file thành cây thư mục, ví dụ `/Users/matthewhousley/output.txt`. Hệ điều hành bắt đầu từ thư mục gốc `/`, tìm `Users`, rồi `matthewhousley`, cuối cùng là `output.txt`. Mỗi thư mục được lưu như **metadata** gồm tên từng thực thể con, thông tin quyền và con trỏ tới thực thể thật. Để tìm file, hệ điều hành đọc metadata từng cấp và lần theo con trỏ.
 
 **Lời khuyên cho pipeline:** nếu buộc phải dùng mô hình file, hãy cẩn thận với trạng thái (state) và cố dùng môi trường ephemeral (tạm thời). Ngay cả khi phải xử lý file trên server gắn đĩa, hãy dùng object storage cho lưu trữ trung gian giữa các bước. Dành xử lý file thủ công, mức thấp cho các bước nhập một lần hoặc giai đoạn khám phá khi phát triển pipeline.
+
+### Ẩn dụ kho bãi: file, block và object khác nhau thế nào
+
+Trước khi đi vào chi tiết, bảng dưới đặt ba kiểu lưu trữ cạnh nhau bằng hình ảnh kho bãi (object storage được nói kỹ ở bài sau). Cột cuối cho thấy ở Mây mỗi kiểu hợp việc gì.
+
+| Kiểu | Ẩn dụ kho bãi | Cách tìm đồ | Sửa một phần được không | Ở chuỗi Mây dùng cho |
+|---|---|---|---|---|
+| File storage | Tủ hồ sơ có ngăn, thư mục lồng nhau | Theo đường dẫn: tủ → ngăn → kẹp hồ sơ | Được, thêm trang hay sửa trang giữa | Thư mục chung chứa file Excel lương của 30 cửa hàng |
+| Block storage | Dãy ô gửi đồ đánh số, ai dùng tự nhớ ô nào chứa gì | Theo số ô | Được, thay đúng một ô | Ổ đĩa của máy chủ POS (database tự quản lý các ô) |
+| Object storage | Kho container khổng lồ, mỗi container có mã | Theo mã container | Không, muốn đổi phải thay cả container | Toàn bộ dữ liệu lịch sử cho phân tích, ảnh món, log tủ mát |
 
 ### 3.1. Ổ đĩa cục bộ (local disk storage)
 
@@ -140,6 +215,28 @@ Giống SAN nhưng không phải lo cụm SAN và chi tiết mạng. Ví dụ ch
 Dù vậy rất hữu ích khi dùng như **cache cục bộ**. Ví dụ sách nêu: chạy AWS EMR trên EC2, một job tạm thời đọc dữ liệu từ S3, lưu tạm trong hệ file phân tán chạy trên các instance, xử lý rồi ghi kết quả về S3. Hệ file của EMR đã có nhân bản và dư thừa, đóng vai trò cache chứ không phải kho lâu dài, nên instance store hoàn toàn phù hợp và còn nhanh hơn vì dữ liệu xử lý cục bộ không đi qua mạng.
 
 **Cách suy nghĩ khuyến nghị:** hãy nghĩ tới kịch bản xấu nhất. Đĩa cục bộ hỏng thì sao? VM/cluster tắt nhầm thì sao? Sự cố cả zone hoặc region thì sao? Nếu mất dữ liệu trên đĩa cục bộ không gây hậu quả nghiêm trọng thì lưu cục bộ là lựa chọn rẻ và nhanh; thêm biện pháp đơn giản như checkpoint định kỳ lên S3 để tránh mất dữ liệu.
+
+### Áp vào chuỗi Mây: EBS hay instance store
+
+Kỹ sư dữ liệu của Mây thuê hai loại máy ảo trên cloud: một máy chạy database đơn hàng trung tâm, và vài máy chạy tạm mỗi đêm để tính báo cáo rồi tắt. Sơ đồ quyết định dưới đây áp đúng câu hỏi "kịch bản xấu nhất" của sách.
+
+```mermaid
+flowchart TD
+    Q1{"Mất dữ liệu trên đĩa<br/>thì có tạo lại được không?"}
+    Q1 -->|"Không, đây là bản gốc"| EBS["Dùng EBS<br/>bền, có snapshot"]
+    Q1 -->|"Có, bản gốc nằm ở S3"| Q2{"Cần đọc ghi thật nhanh<br/>và rẻ?"}
+    Q2 -->|"Có"| IS["Dùng instance store<br/>làm chỗ nháp"]
+    Q2 -->|"Không"| EBS
+    EBS --> V1["Ví dụ ở Mây<br/>database đơn hàng trung tâm"]
+    IS --> V2["Ví dụ ở Mây<br/>máy tính báo cáo chạy đêm"]
+```
+
+| | EBS | Instance store |
+|---|---|---|
+| Ẩn dụ | Kho thuê dài hạn, có bảo hiểm và camera | Mặt bàn trong xe tải: tiện, nhanh, xe trả là dọn sạch |
+| Tắt máy ảo | Dữ liệu còn nguyên | Mất sạch |
+| Giá | Trả thêm theo dung lượng | Đã gồm trong giá máy ảo |
+| Ở Mây | Database đơn hàng, không được phép mất | File nháp khi tính báo cáo, mất thì chạy lại từ S3 |
 
 ## Tóm tắt
 

@@ -44,6 +44,30 @@ Nếu bài 2 và 3 nói về hệ thống lưu trữ (block, file, object, HDFS.
 
 Cần biết rằng việc tách storage khỏi compute ngày càng phổ biến làm ranh giới giữa **database OLAP** và **data lake** càng mờ. Các cloud data warehouse lớn và data lake đang "đâm vào nhau"; sau này khác biệt có thể chỉ còn trên danh nghĩa vì bên dưới chúng giống nhau cả về chức năng lẫn kỹ thuật.
 
+### Thuật ngữ trong bài — hiểu nôm na
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi trà sữa Mây |
+|---|---|---|
+| Storage abstraction | "Cách tổ chức kho" mà người dùng nhìn thấy, che đi ổ đĩa và máy chủ bên dưới | Chủ chuỗi chỉ thấy "kho dữ liệu doanh thu" |
+| Data warehouse | Siêu thị: hàng đã làm sạch, dán nhãn, xếp kệ theo ngành hàng | Bảng doanh thu sạch theo ngày, cửa hàng, món |
+| Data lake | Bãi tập kết: hàng gì cũng đổ vào, chưa phân loại | File log tủ mát, ảnh món, bình luận khách, file Excel lương |
+| Data lakehouse | Bãi tập kết có thêm quản lý kho, sổ sách và kệ cho phần hàng cần ngăn nắp | Vẫn giữ file thô, nhưng phần đơn hàng có bảng chuẩn, sửa/xoá được |
+| Schema | Mẫu quy định cột và kiểu dữ liệu | Bảng doanh thu luôn có `ngay`, `cua_hang`, `doanh_thu` |
+| Upsert | "Có thì sửa, chưa có thì thêm" | Đơn DH001 đã có thì cập nhật giá, chưa có thì thêm dòng mới |
+| Metadata | Dữ liệu mô tả dữ liệu, như nhãn ghi trên thùng hàng | "File này gồm đơn ngày 01/03, 2.315 dòng, cập nhật lúc 23:00" |
+| Rollback | Quay về phiên bản trước khi lỡ làm hỏng | Lỡ chạy sai bước làm sạch, quay bảng về trạng thái tối qua |
+| Định dạng file mở | Định dạng ai cũng đọc được, không phụ thuộc một hãng | Parquet: công cụ BI và công cụ ML cùng đọc được |
+| Vendor lock-in | Bị "trói" vào một nhà cung cấp, muốn đổi thì rất tốn | Mọi báo cáo viết riêng cho một hãng, chuyển hãng phải làm lại từ đầu |
+
+### Áp vào chuỗi Mây: trả lời bốn câu hỏi
+
+| Câu hỏi | Câu trả lời của Mây |
+|---|---|
+| Mục đích | Dashboard doanh thu mỗi sáng, dự báo nhu cầu trân châu, lưu ảnh món và bình luận khách cho marketing |
+| Kiểu cập nhật | Đơn hàng đổ vào hằng giờ (thêm mới), thỉnh thoảng sửa đơn bị huỷ (upsert); log tủ mát đến liên tục (streaming) |
+| Chi phí | Đội dữ liệu chỉ 2 người, ngân sách nhỏ: ưu tiên dịch vụ cloud trả theo mức dùng |
+| Tách hay gộp compute và storage | Tách: dữ liệu nằm trên object storage, chỉ thuê sức tính khi chạy báo cáo |
+
 ## 2. Data warehouse
 
 Data warehouse là kiến trúc dữ liệu **OLAP** tiêu chuẩn. Như ở Chương 3, thuật ngữ này chỉ: nền tảng công nghệ (như Google BigQuery, Teradata), kiến trúc tập trung hoá dữ liệu, và mẫu tổ chức trong công ty.
@@ -86,6 +110,84 @@ Một hệ lakehouse là một **lớp quản lý metadata và file** triển kh
 
 Công nghệ lakehouse đang phát triển rất nhanh.
 
+### Ẩn dụ kho bãi: siêu thị, bãi tập kết và bãi có quản lý
+
+Để thấy ba trừu tượng khác nhau ở đâu, hãy nhìn **cùng một dữ liệu** của Mây ở từng nơi. Đây là vài đơn hàng **thô** đổ vào data lake từ POS và app — trùng đơn, ngày ghi lộn xộn, thiếu giá:
+
+| order_id | thoi_gian | cua_hang | mon | so_luong | gia | kenh |
+|---|---|---|---|---|---|---|
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 35000 | quầy |
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 35000 | quầy |
+| DH002 | 01/03/2026 8:20 AM | q3-vo van tan | Trà đào | 1 | 40000 | app |
+| DH003 | 2026-03-01 08:22 | Q1-Lê Lợi | Trà đào | 1 | | quầy |
+
+Trong **data warehouse**, dữ liệu chỉ được đưa vào sau khi đã làm sạch: bỏ dòng trùng, thống nhất định dạng ngày và tên cửa hàng, bù giá từ bảng menu.
+
+| order_id | thoi_gian | cua_hang | mon | so_luong | gia | kenh |
+|---|---|---|---|---|---|---|
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 35000 | quầy |
+| DH002 | 2026-03-01 08:20 | Q3-Võ Văn Tần | Trà đào | 1 | 40000 | app |
+| DH003 | 2026-03-01 08:22 | Q1-Lê Lợi | Trà đào | 1 | 40000 | quầy |
+
+Rồi tổng hợp thành bảng chủ chuỗi xem mỗi sáng:
+
+| ngay | cua_hang | so_ly | doanh_thu |
+|---|---|---|---|
+| 2026-03-01 | Q1-Lê Lợi | 3 | 110000 |
+| 2026-03-01 | Q3-Võ Văn Tần | 1 | 40000 |
+
+**Lakehouse** giữ cả ba bảng trên cùng một kho object storage: bảng thô vẫn còn để tra lại khi nghi ngờ, bảng sạch và bảng tổng hợp có schema, sửa/xoá được, quay lại phiên bản cũ được. Ảnh món và bình luận khách nằm cạnh đó ở dạng thô.
+
+```mermaid
+flowchart LR
+    subgraph nguon["Nguồn của Mây"]
+        POS["POS"]
+        APP["App"]
+        IOT["Cảm biến tủ mát"]
+        IMG["Ảnh món, bình luận"]
+    end
+    subgraph lh["Lakehouse trên object storage"]
+        RAW["Vùng thô<br/>giữ nguyên như nhận được"]
+        CLEAN["Vùng sạch<br/>bỏ trùng, chuẩn hoá"]
+        AGG["Vùng tổng hợp<br/>doanh thu theo ngày"]
+        META["Lớp metadata<br/>schema, phiên bản, lịch sử"]
+    end
+    POS --> RAW
+    APP --> RAW
+    IOT --> RAW
+    IMG --> RAW
+    RAW --> CLEAN --> AGG
+    META -.-> CLEAN
+    META -.-> AGG
+    AGG --> DASH["Dashboard chủ chuỗi"]
+    CLEAN --> ML["Mô hình dự báo trân châu"]
+```
+
+Bảng so sánh dưới gom lại ba lựa chọn, kèm gợi ý cho Mây.
+
+| Tiêu chí | Data warehouse | Data lake | Data lakehouse |
+|---|---|---|---|
+| Ẩn dụ | Siêu thị, hàng xếp kệ sẵn | Bãi tập kết, đổ gì cũng được | Bãi tập kết có quản lý kho và kệ |
+| Dữ liệu chứa | Bảng có cấu trúc, đã sạch | Mọi thứ thô: bảng, JSON, ảnh, video | Cả hai |
+| Áp schema lúc nào | Trước khi ghi vào | Lúc đọc ra dùng | Tuỳ vùng: thô thì lúc đọc, sạch thì lúc ghi |
+| Sửa/xoá từng dòng | Dễ | Khó, phải ghi lại cả file | Dễ, nhờ lớp metadata |
+| Ảnh, video, âm thanh | Không | Có | Có |
+| Người dùng hợp | Phân tích viên, chủ chuỗi xem báo cáo | Nhà khoa học dữ liệu thích dữ liệu thô | Cả hai nhóm |
+| Rủi ro | Đắt nếu nhồi mọi thứ vào | Thành "đầm lầy dữ liệu" không ai tìm được gì | Công nghệ còn mới, cần người hiểu |
+| Ở chuỗi Mây | Đủ dùng nếu chỉ cần báo cáo doanh thu | Không nên dùng một mình vì kế toán cần số liệu sạch | **Hợp nhất**: vừa báo cáo, vừa giữ ảnh và log cho ML |
+
+Sơ đồ quyết định dưới tóm lại cách Mây chọn.
+
+```mermaid
+flowchart TD
+    Q1{"Chỉ cần báo cáo<br/>từ dữ liệu dạng bảng?"}
+    Q1 -->|"Có"| DW["Data warehouse"]
+    Q1 -->|"Không, còn ảnh, log, văn bản"| Q2{"Có cần sửa xoá từng dòng<br/>và bảng sạch cho báo cáo?"}
+    Q2 -->|"Không"| DL["Data lake"]
+    Q2 -->|"Có"| LH["Data lakehouse"]
+    LH --> MAY["Lựa chọn của chuỗi Mây"]
+```
+
 ## 5. Data platform
 
 Ngày càng nhiều nhà cung cấp gọi sản phẩm của mình là **data platform**: họ dựng hệ sinh thái công cụ có thể tương tác, tích hợp chặt vào lớp lưu trữ dữ liệu lõi.
@@ -108,6 +210,17 @@ flowchart LR
   S --> B["Consumer batch: Firehose ghi object S3"]
   B --> L["Lưu trữ dài hạn và truy vấn batch"]
 ```
+
+### Áp vào chuỗi Mây: một luồng tủ mát, hai cách dùng
+
+Chỉ số nhiệt độ từ 30 tủ mát chảy vào một topic. Cùng dòng dữ liệu đó phục vụ hai nhu cầu rất khác nhau — đó chính là ý của stream-to-batch.
+
+| | Consumer thời gian thực | Consumer batch |
+|---|---|---|
+| Làm gì | Thấy tủ nào trên 8°C quá 10 phút thì nhắn quản lý cửa hàng | Gom chỉ số mỗi giờ thành một file, ghi vào object storage |
+| Cần nhanh đến đâu | Vài giây | Chậm một giờ cũng được |
+| Ai dùng | Quản lý cửa hàng | Nhà khoa học dữ liệu tìm tủ sắp hỏng, kế toán tính hao hụt sữa |
+| Giữ dữ liệu bao lâu | Vài phút gần nhất | Nhiều năm |
 
 ## Tóm tắt
 

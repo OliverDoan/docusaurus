@@ -31,11 +31,23 @@ Phụ lục này đi sâu vào hai chủ đề đã được nhắc ở Chương
 - [4. Tuần tự hoá lai (hybrid)](#4-tuần-tự-hoá-lai-hybrid)
 - [5. Storage engine của cơ sở dữ liệu](#5-storage-engine-của-cơ-sở-dữ-liệu)
 - [6. Nén](#6-nén)
+- [7. Áp vào chuỗi trà sữa Mây: một đơn hàng, nhiều định dạng](#7-áp-vào-chuỗi-trà-sữa-mây-một-đơn-hàng-nhiều-định-dạng)
 - [Tóm tắt](#tóm-tắt)
 
 ---
 
 ## 1. Định dạng tuần tự hoá
+
+**Tuần tự hoá là gì, nói nôm na?** Trong bộ nhớ máy tính, một đơn hàng là một "vật thể" có nhiều ngăn (mã đơn, món, giá...). Muốn cất nó vào ổ đĩa hay gửi qua mạng, máy phải "xếp hàng" các ngăn đó thành một dãy byte nối đuôi nhau, giống như đọc số điện thoại cho người khác qua điện thoại: phải đọc lần lượt từng số theo một thứ tự hai bên cùng hiểu. Bên nhận làm ngược lại (giải tuần tự hoá) để dựng lại vật thể.
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+|---|---|---|
+| Serialization | Xếp dữ liệu thành dãy byte để cất hoặc gửi | App đặt món đóng gói đơn hàng thành JSON gửi về máy chủ |
+| Deserialization | Đọc dãy byte và dựng lại dữ liệu | Kho dữ liệu đọc file đơn hàng thành bảng |
+| Định dạng văn bản | Mở bằng Notepad đọc được | CSV, JSON |
+| Định dạng nhị phân | Mở bằng Notepad chỉ thấy ký tự lạ; cần phần mềm chuyên dụng | Parquet, Avro |
+| Schema | Bản mô tả: có những cột nào, kiểu gì | `order_id` là chuỗi, `so_luong` là số nguyên |
+| Nén | Làm dữ liệu nhỏ lại bằng cách tìm chỗ lặp | Cột `cua_hang` lặp "Q1-Lê Lợi" hàng nghìn lần |
 
 Kỹ sư dữ liệu có rất nhiều thuật toán và định dạng tuần tự hoá để chọn. Sự phong phú này vừa là nguồn gây đau đầu, vừa là cơ hội lớn để cải thiện hiệu năng: tác giả kể từng thấy công việc nhanh hơn **100 lần** chỉ nhờ đổi CSV sang Parquet.
 
@@ -223,6 +235,13 @@ Giống Hudi, Iceberg là công nghệ quản lý bảng:
 - Hỗ trợ **schema evolution** (phát triển schema).
 - Quản lý dễ dàng bảng cỡ **petabyte**.
 
+**Time travel ở Mây:** ngày 05/03, kế toán phát hiện đơn DH001 ngày 01/03 bị nhập sai giá và sửa lại. Chủ chuỗi hỏi: "Báo cáo tôi xem sáng 02/03 ghi bao nhiêu?" Với Iceberg, mỗi lần thay đổi tạo một snapshot, nên trả lời được cả hai câu hỏi.
+
+| Snapshot | Thời điểm | Doanh thu ngày 01/03 của Q1-Lê Lợi | Ghi chú |
+|---|---|---|---|
+| S1 | 2026-03-02 02:00 | 110000 | Báo cáo chủ chuỗi đã xem |
+| S2 | 2026-03-05 10:30 | 100000 | Sau khi kế toán sửa giá DH001 |
+
 ---
 
 ## 5. Storage engine của cơ sở dữ liệu
@@ -263,6 +282,93 @@ Kỹ sư dữ liệu có thể gặp nén lossy trong pipeline xử lý đa phư
 - **Thế hệ mới: Snappy, Zstandard, LZFSE, LZ4.** Những năm gần đây các kỹ sư tạo ra thế hệ ưu tiên **tốc độ và hiệu quả CPU hơn tỷ lệ nén**. Thường dùng để nén dữ liệu trong data lake hoặc cơ sở dữ liệu cột nhằm tối ưu hiệu năng truy vấn nhanh.
 
 Cách nghĩ: gzip/bzip2 "nén chặt nhưng chậm hơn", Snappy/LZ4 "nén vừa phải nhưng cực nhanh" — với phân tích, thời gian giải nén thường quan trọng hơn vài phần trăm dung lượng.
+
+**Vì sao lưu theo cột lại nén tốt? Minh hoạ với cột `cua_hang` của Mây.** Trong một file chứa đơn của một ngày, đã sắp theo cửa hàng, cột này lặp lại liên tục. Một kỹ thuật đơn giản (run-length encoding, ghi "giá trị × số lần lặp") đã thu gọn rất nhiều:
+
+| Cách ghi | Nội dung | Số ô phải lưu |
+|---|---|---|
+| Ghi đầy đủ | Q1-Lê Lợi, Q1-Lê Lợi, Q1-Lê Lợi, ... (520 lần), Q3-Võ Văn Tần, ... (410 lần) | 930 |
+| Ghi "giá trị × số lần" | (Q1-Lê Lợi × 520), (Q3-Võ Văn Tần × 410) | 2 |
+
+Lưu theo hàng thì các giá trị "Q1-Lê Lợi" nằm xen giữa mã đơn, giờ, món, giá, nên khó gom lại như vậy.
+
+---
+
+## 7. Áp vào chuỗi trà sữa Mây: một đơn hàng, nhiều định dạng
+
+Lấy đơn DH001 của Mây (khách mua 2 trà sữa trân châu và 1 trà đào) và xem nó "trông" thế nào ở mỗi định dạng.
+
+**CSV** (mỗi món một dòng, thông tin đơn bị lặp lại):
+
+```text
+order_id,thoi_gian,cua_hang,mon,so_luong,gia,kenh
+DH001,2026-03-01 08:15,Q1-Lê Lợi,Trà sữa trân châu,2,35000,quầy
+DH001,2026-03-01 08:15,Q1-Lê Lợi,Trà đào,1,30000,quầy
+```
+
+Nếu tên cửa hàng có dấu phẩy, ví dụ "Q1, Lê Lợi", thì parser hiểu nhầm thành hai cột, đúng kiểu rắc rối "tiêu chuẩn không chuẩn" ở mục 2.1.
+
+**JSON** (một đơn là một đối tượng, các món lồng bên trong):
+
+```json
+{
+  "order_id": "DH001",
+  "thoi_gian": "2026-03-01T08:15:00",
+  "cua_hang": "Q1-Lê Lợi",
+  "kenh": "quầy",
+  "mon": [
+    {"ten": "Trà sữa trân châu", "so_luong": 2, "gia": 35000},
+    {"ten": "Trà đào", "so_luong": 1, "gia": 30000}
+  ]
+}
+```
+
+**JSONL** (mỗi đơn gọn trên một dòng, nhiều đơn xếp chồng, hợp để ghi nối liên tục khi app gửi về):
+
+```text
+{"order_id": "DH001", "cua_hang": "Q1-Lê Lợi", "mon": [{"ten": "Trà sữa trân châu", "so_luong": 2}, {"ten": "Trà đào", "so_luong": 1}]}
+{"order_id": "DH002", "cua_hang": "Q3-Võ Văn Tần", "mon": [{"ten": "Trà đào", "so_luong": 1}], "ma_voucher": "FREESHIP"}
+```
+
+**Parquet** là nhị phân, mở bằng Notepad chỉ thấy ký tự lạ. Về mặt logic, các giá trị được gom **theo cột**, kèm schema và thống kê (min, max) cho từng khối:
+
+```text
+Schema    : order_id string, thoi_gian timestamp, cua_hang string, mon string, so_luong int32, gia int64
+order_id  : [DH001, DH001]
+cua_hang  : [Q1-Lê Lợi × 2]
+mon       : [Trà sữa trân châu, Trà đào]
+so_luong  : [2, 1]
+gia       : [35000, 30000]          min 30000, max 35000
+```
+
+Nhờ thống kê min/max, câu hỏi "có đơn nào giá trên 50000 không?" có thể bỏ qua cả khối mà không cần đọc từng giá trị.
+
+### So sánh cho một năm đơn hàng của Mây
+
+Giả sử một năm có khoảng 5 triệu dòng đơn hàng. Các con số dưới đây là **ước lượng minh hoạ** để thấy tỷ lệ, không phải số đo thực tế; kết quả thật tuỳ dữ liệu và công cụ.
+
+| Định dạng | Dung lượng ước lượng | Hỏi "doanh thu theo cửa hàng" phải đọc | Mở bằng Excel được không | Ở Mây dùng khi |
+|---|---|---|---|---|
+| CSV | khoảng 500 MB | Toàn bộ file, mọi cột | Được | Xuất file cho kế toán, nhận báo giá từ nhà cung cấp |
+| JSON / JSONL | khoảng 900 MB | Toàn bộ file, phải phân tích cú pháp từng dòng | Không tiện | Nhận đơn từ app qua API, lưu bản thô vừa nhận |
+| JSONL nén gzip | khoảng 90 MB | Phải giải nén toàn bộ rồi đọc | Không | Lưu trữ bản thô lâu dài cho rẻ |
+| Parquet nén Snappy | khoảng 40 MB | Chỉ 2 cột `cua_hang` và `gia` | Không | Bảng đơn hàng trong data lake cho phân tích, dự báo |
+| Avro | khoảng 150 MB | Toàn bộ bản ghi | Không | Truyền sự kiện cảm biến tủ mát qua hệ thống streaming |
+
+### Định dạng thay đổi dọc pipeline của Mây
+
+Mỗi khâu dùng định dạng hợp với việc của nó; kỹ sư dữ liệu lo phần "tuần tự hoá lại" giữa các khâu.
+
+```mermaid
+flowchart LR
+    APP["App đặt món"] -->|"JSON qua API"| RAW["Vùng thô<br/>JSONL nén gzip"]
+    IOT["Cảm biến tủ mát"] -->|"Avro qua streaming"| RAW
+    POS["Máy POS"] -->|"CSV xuất cuối ngày"| RAW
+    RAW -->|"làm sạch, tuần tự hoá lại"| LAKE["Data lake<br/>Parquet nén Snappy"]
+    LAKE --> BI["Dashboard"]
+    LAKE --> ML["Dự báo trân châu"]
+    LAKE -->|"xuất theo yêu cầu"| KT["Kế toán<br/>file CSV"]
+```
 
 ---
 

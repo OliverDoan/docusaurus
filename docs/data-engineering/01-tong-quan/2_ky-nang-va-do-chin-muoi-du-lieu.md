@@ -49,6 +49,33 @@ Bộ kỹ năng của kỹ sư dữ liệu bao trùm vòng đời kỹ thuật d
 
 Thường không trực tiếp: xây mô hình ML, tạo báo cáo hoặc dashboard, phân tích dữ liệu, xây KPI (chỉ số hiệu suất chính), phát triển ứng dụng phần mềm. Tuy vậy họ phải hiểu các lĩnh vực đó để phục vụ tốt các bên liên quan.
 
+### Thuật ngữ trong bài — hiểu nôm na
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+| --- | --- | --- |
+| Pipeline (đường ống dữ liệu) | Chuỗi bước tự động đưa dữ liệu từ nơi sinh ra tới nơi dùng | Mỗi đêm lấy đơn từ 30 máy POS, làm sạch, cập nhật dashboard |
+| Job | Một "phần việc" máy tính chạy theo lịch | Job 2 giờ sáng cộng doanh thu hôm qua |
+| Cụm (cluster) | Nhiều máy tính nối với nhau, làm việc như một máy lớn | Mây không cần, vì dữ liệu còn nhỏ |
+| KPI | Chỉ số đo hiệu quả công việc | Doanh thu trung bình mỗi cửa hàng mỗi ngày |
+| Ad hoc | Phát sinh tại chỗ, không theo kế hoạch | Chủ chuỗi nhắn "gửi anh số bán trà đào tuần trước" lúc 9 giờ tối |
+| Nợ kỹ thuật (technical debt) | Làm tắt cho nhanh hôm nay, phải "trả" bằng công sửa sau này | Viết vội file Excel gộp tay, tháng sau ai cũng phải làm tay tiếp |
+| DevOps, DataOps | Cách làm việc chú trọng tự động hoá, kiểm thử, phát hành thường xuyên (DevOps cho phần mềm, DataOps cho dữ liệu) | Mỗi lần sửa đường ống đều có kiểm tra tự động, không sửa thẳng trên hệ thống thật |
+| Self-service (tự phục vụ) | Người dùng tự lấy dữ liệu, không cần nhờ kỹ sư | Quản lý cửa hàng tự lọc doanh thu cửa hàng mình trên dashboard |
+| Metadata | Dữ liệu mô tả dữ liệu | "Bảng `don_hang` cập nhật lúc 2 giờ sáng, cột `gia` tính bằng đồng" |
+| SaaS | Phần mềm thuê theo tháng qua Internet, không phải cài đặt | Thuê công cụ vẽ dashboard thay vì tự viết |
+
+### Áp vào chuỗi Mây: kỹ sư dữ liệu làm gì, không làm gì
+
+Ở Mây, ranh giới công việc rõ hơn khi nhìn theo từng yêu cầu cụ thể. Bảng dưới cho thấy kỹ sư dữ liệu "lo phần ống nước", còn người khác dùng nước.
+
+| Yêu cầu | Ai làm chính | Kỹ sư dữ liệu đóng góp gì |
+| --- | --- | --- |
+| Dashboard doanh thu cho chủ chuỗi | Nhà phân tích dữ liệu | Bảo đảm bảng doanh thu sạch, cập nhật đúng giờ |
+| Mô hình dự báo trân châu | Nhà khoa học dữ liệu | Gom đủ 2 năm lịch sử đơn, dữ liệu thời tiết, ngày lễ |
+| Danh sách khách gửi voucher | Marketing | Tạo bảng "khách hàng thân thiết" tự cập nhật mỗi ngày |
+| App đặt món | Kỹ sư phần mềm | Thoả thuận app gửi dữ liệu đơn theo định dạng thống nhất |
+| Đường ống gom dữ liệu từ 30 cửa hàng | **Kỹ sư dữ liệu** | Thiết kế, xây, giám sát, sửa khi hỏng |
+
 ## 2. Độ chín muồi của dữ liệu
 
 **Data maturity** là mức độ tiến triển trong việc sử dụng, năng lực và tích hợp dữ liệu trong toàn tổ chức. Nó không chỉ phụ thuộc tuổi đời hay doanh thu: một startup giai đoạn đầu có thể chín muồi dữ liệu hơn một công ty trăm năm doanh thu hàng tỷ USD. Điều quan trọng là dữ liệu được tận dụng như lợi thế cạnh tranh thế nào.
@@ -126,6 +153,42 @@ flowchart LR
 | Trọng tâm | Chiến thắng nhanh, nền tảng | Thực hành chính thức, mở rộng, DataOps, ML | Tự động hóa, tự phục vụ, governance |
 | Rủi ro | Nợ kỹ thuật, làm việc trong bong bóng | Chạy theo công nghệ, nút thắt là nhóm | Tự mãn, xao nhãng công nghệ |
 
+### Áp vào chuỗi Mây: từ quán nhỏ đến chuỗi dẫn đầu bằng dữ liệu
+
+Hãy theo chân Mây qua ba giai đoạn. Bảng dưới cho thấy cùng một câu hỏi "hôm qua bán được bao nhiêu?" được trả lời rất khác nhau ở mỗi giai đoạn.
+
+| | Giai đoạn 1 (Mây có 3 cửa hàng) | Giai đoạn 2 (Mây có 30 cửa hàng) | Giai đoạn 3 (Mây có 200 cửa hàng) |
+| --- | --- | --- | --- |
+| Trả lời câu hỏi doanh thu | Quản lý gửi ảnh chụp sổ qua Zalo, một người cộng Excel | Đường ống tự gom đơn mỗi đêm, dashboard có số lúc 7 giờ sáng | Dashboard cập nhật gần như tức thì, quản lý tự lọc theo ý |
+| Đội dữ liệu | 1 người kiêm luôn IT | 3-5 người, mỗi người lo một phần | Nhiều nhóm: nền tảng, phân tích, ML |
+| Việc nên ưu tiên | Quick win: dashboard doanh thu đơn giản | Chuẩn hoá quy trình, kiểm tra chất lượng tự động | Tự động hoá thêm nguồn mới, danh mục dữ liệu, quản trị |
+| Cái bẫy | Nhảy vào AI dự báo khi dữ liệu còn nằm trong sổ tay | Mua công nghệ "giống Netflix" mà không cần | Tự mãn, để dữ liệu cũ dần sai mà không ai kiểm |
+
+Sơ đồ dưới cho thấy Mây chuyển giai đoạn khi nào. Mũi tên ngược là cảnh báo của sách: dừng cải tiến thì có thể tụt hạng.
+
+```mermaid
+stateDiagram-v2
+    direction LR
+    GD1: Giai đoạn 1 - Bắt đầu
+    GD2: Giai đoạn 2 - Mở rộng
+    GD3: Giai đoạn 3 - Dẫn đầu
+    [*] --> GD1
+    GD1 --> GD2: Có dashboard tin được, đội dữ liệu riêng
+    GD2 --> GD3: Ai cũng tự phục vụ được, thêm nguồn mới dễ dàng
+    GD3 --> GD2: Tự mãn, bỏ bê chất lượng
+```
+
+Muốn biết công ty mình đang ở đâu, có thể tự hỏi lần lượt các câu trong sơ đồ quyết định sau.
+
+```mermaid
+flowchart TD
+    Q1{"Báo cáo hằng ngày<br/>có tự động không?"}
+    Q1 -->|"Không, vẫn gộp tay"| S1["Giai đoạn 1"]
+    Q1 -->|"Có"| Q2{"Nhân viên không biết kỹ thuật<br/>có tự lấy số liệu được không?"}
+    Q2 -->|"Chưa, phải nhờ đội dữ liệu"| S2["Giai đoạn 2"]
+    Q2 -->|"Được"| S3["Giai đoạn 3"]
+```
+
 ## 3. Nền tảng và kỹ năng của kỹ sư dữ liệu
 
 Kỹ thuật dữ liệu là lĩnh vực mới nên có rất ít chương trình đào tạo chính thức; đại học chưa có lộ trình chuẩn, chưa có giáo trình chung. Người vào nghề đến từ nhiều nền tảng, và ai cũng phải đầu tư nhiều thời gian tự học. Việc chuyển nghề dễ nhất khi đi từ lĩnh vực lân cận: công nghệ phần mềm, phát triển ETL, quản trị cơ sở dữ liệu, khoa học dữ liệu, phân tích dữ liệu, vì họ vốn "nhận thức được dữ liệu".
@@ -178,6 +241,26 @@ GROUP BY 1
 ORDER BY 1;
 ```
 
+Áp vào chuỗi Mây, câu SQL dưới đây hỏi "mỗi cửa hàng bán được bao nhiêu tiền ngày 1/3?". Bạn không cần biết lập trình để đọc nó: gần như là câu tiếng Anh.
+
+```sql
+-- Doanh thu từng cửa hàng ngày 1/3 (bảng don_hang của chuỗi Mây)
+SELECT cua_hang,
+       SUM(so_luong * gia) AS doanh_thu
+FROM don_hang
+WHERE thoi_gian >= '2026-03-01' AND thoi_gian < '2026-03-02'
+GROUP BY cua_hang;
+```
+
+Với ba đơn mẫu ở [phần giới thiệu](../intro.md), kết quả trả về là:
+
+| cua_hang | doanh_thu |
+| --- | --- |
+| Q1-Lê Lợi | 110000 |
+| Q3-Võ Văn Tần | 30000 |
+
+Q1-Lê Lợi có DH001 (2 ly × 35.000đ) và DH003 (1 ly × 40.000đ), cộng lại 110.000đ. Người viết SQL chỉ nói *muốn gì* (cộng tiền theo cửa hàng), còn *làm cách nào* (đọc bảng ra sao, cộng theo thứ tự nào) là việc của hệ thống.
+
 Nhưng SQL không phải ngôn ngữ vạn năng:
 
 - Nó mạnh ở các bài toán phân tích và biến đổi dữ liệu phức tạp. Vì thời gian là ràng buộc chính của thông lượng nhóm, hãy dùng công cụ kết hợp được **đơn giản và năng suất**.
@@ -207,6 +290,16 @@ Tương tự, hai loại kỹ sư dữ liệu:
 | Triết lý | Tránh công việc nặng nhọc không tạo khác biệt, giữ kiến trúc đơn giản và trừu tượng, không phát minh lại bánh xe | Xây công cụ và hệ thống dữ liệu mở rộng, tận dụng năng lực cốt lõi và lợi thế cạnh tranh của công ty |
 | Cách làm | Quản lý vòng đời chủ yếu bằng sản phẩm, dịch vụ, công cụ có sẵn | Tự xây khi cần |
 | Thường gặp ở | Công ty mọi ngành, mọi mức trưởng thành | Công ty giai đoạn 2 và 3, hoặc khi trường hợp sử dụng ban đầu quá độc đáo, cần công cụ tùy chỉnh ngay từ đầu |
+
+Áp vào chuỗi Mây, hai kiểu kỹ sư sẽ giải cùng một bài toán theo hai cách khác nhau:
+
+| Bài toán ở Mây | Kỹ sư loại A làm | Kỹ sư loại B làm |
+| --- | --- | --- |
+| Gom đơn từ 30 máy POS | Thuê công cụ kéo dữ liệu có sẵn, cấu hình trong một buổi chiều | Tự viết chương trình kéo dữ liệu (chỉ đáng khi máy POS quá đặc thù, không công cụ nào hỗ trợ) |
+| Dự báo nhu cầu trân châu | Dùng tính năng dự báo có sẵn của kho dữ liệu đám mây | Xây hệ thống dự báo riêng kết hợp thời tiết, lễ hội, khuyến mãi, nếu đây là lợi thế cạnh tranh của Mây |
+| Dashboard | Thuê công cụ BI | Hầu như không bao giờ tự viết |
+
+Với Mây ở giai đoạn 2, lựa chọn hợp lý là **loại A trước**: dùng đồ có sẵn để có kết quả nhanh, chỉ tự xây ở chỗ thật sự tạo khác biệt.
 
 Hai loại có thể làm trong cùng công ty, thậm chí là cùng một người. Thường thì kỹ sư loại A được thuê trước để dựng nền tảng, kỹ năng loại B được học thêm hoặc thuê khi công ty cần.
 

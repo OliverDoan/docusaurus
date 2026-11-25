@@ -32,6 +32,7 @@ Bài này đi qua các kỹ thuật mô hình hoá dữ liệu phân tích **bat
 - 5. Bảng denormalized rộng
 - 6. Nếu không mô hình hoá dữ liệu
 - 7. Mô hình hoá dữ liệu streaming
+- 8. Áp vào chuỗi trà sữa Mây: một dữ liệu, bốn cách mô hình hoá
 - Tóm tắt
 
 ---
@@ -39,6 +40,19 @@ Bài này đi qua các kỹ thuật mô hình hoá dữ liệu phân tích **bat
 ## 1. Tổng quan các cách tiếp cận cho batch
 
 Khi mô hình hoá cho data lake hay data warehouse, hãy giả định dữ liệu thô có nhiều dạng (có cấu trúc, bán cấu trúc) nhưng **đầu ra là mô hình có cấu trúc gồm hàng và cột**. Ba cách tiếp cận lớn: **Kimball, Inmon, Data Vault**. Thực tế có thể kết hợp, ví dụ nhiều nhóm bắt đầu với Data Vault rồi thêm star schema Kimball lên trên.
+
+### Thuật ngữ trong bài — hiểu nôm na
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+|---|---|---|
+| Data warehouse | Kho dữ liệu đã sắp xếp gọn để phân tích | Nơi chứa toàn bộ đơn hàng, kho, lương đã làm sạch |
+| Data mart | Một "quầy" nhỏ trong kho, bày sẵn dữ liệu cho một bộ phận | Mart marketing chỉ có khách, đơn, voucher |
+| ETL | Lấy ra (Extract), sửa sang (Transform), cất vào (Load) | Lấy đơn từ POS, chuẩn hoá ngày giờ, nạp vào kho |
+| Fact | Bảng ghi **sự việc đã xảy ra** kèm con số | Mỗi lần bán một món: số lượng, thành tiền |
+| Dimension | Bảng **mô tả** để hiểu sự việc | Cửa hàng ở quận nào, món thuộc nhóm nào |
+| Business key | Mã mà người trong nghề dùng để gọi tên một thứ | Mã đơn DH001, mã cửa hàng CH01 |
+| Schema | Bản thiết kế: bảng có những cột nào, kiểu gì | Bảng đơn hàng có 7 cột như bảng mẫu |
+| SCD | Cách lưu thông tin mô tả **thay đổi chậm** theo thời gian | Cửa hàng đổi vùng quản lý, khách lên hạng thành viên |
 
 Tác giả lưu ý phần trình bày ba phương pháp này rất sơ lược, chưa phản ánh đúng độ phức tạp của từng cái. Cuối mỗi phương pháp sách có liệt kê sách kinh điển của người sáng lập; các sách này được coi là bắt buộc đọc với kỹ sư dữ liệu (xem phần tài nguyên ở cuối chương).
 
@@ -155,6 +169,14 @@ Ví dụ Type 3: ban đầu Matt có `ZipCode = 84101`. Khi anh chuyển, bảng
 | 7 | Matt | Housley | 84101 | 84123 | 2021-09-19 |
 
 Type 1 là hành vi mặc định của hầu hết data warehouse; Type 2 là loại thường thấy nhất trong thực tế.
+
+**SCD ở chuỗi Mây:** cửa hàng CH05 ban đầu thuộc vùng "Quận 7", đến 2026-04-01 công ty sắp xếp lại và đưa nó vào vùng "Nam Sài Gòn". Câu hỏi khó: doanh thu tháng 3 của CH05 nên tính cho vùng nào? Ba loại SCD cho ba câu trả lời khác nhau.
+
+| Loại | Bảng `dim_cua_hang` sau thay đổi | Báo cáo tháng 3 của vùng "Quận 7" |
+|---|---|---|
+| Type 1 (ghi đè) | Một dòng: CH05, vùng Nam Sài Gòn | Mất doanh thu CH05, vì giờ hệ thống nghĩ CH05 luôn ở Nam Sài Gòn |
+| Type 2 (thêm dòng) | Dòng 1: CH05, Quận 7, hiệu lực 2024-06-01 tới 2026-04-01. Dòng 2: CH05, Nam Sài Gòn, hiệu lực 2026-04-01 tới 9999-01-01 | Đúng: tháng 3 vẫn tính cho Quận 7 |
+| Type 3 (thêm cột) | Một dòng: CH05, vung_cu Quận 7, vung_hien_tai Nam Sài Gòn | Đúng cho lần đổi này, nhưng đổi vùng lần nữa thì mất vùng đầu tiên |
 
 ### 3.4. Star schema
 
@@ -322,9 +344,136 @@ Thách thức: có hai loại stream chính (**event stream** và **CDC**), dữ
 - Thiết bị IoT nâng cấp firmware, thêm một trường mới; warehouse đích hoặc pipeline phía sau không biết thay đổi này và bị gián đoạn.
 - Hệ thống CDC viết lại một trường sang kiểu khác (ví dụ chuỗi thay vì định dạng datetime ISO). Đích xử lý thay đổi ngẫu nhiên này thế nào?
 
+**Ví dụ ở Mây:** nhà cung cấp cảm biến tủ mát cập nhật firmware vào ban đêm. Sáng hôm sau, mỗi bản tin gửi về có thêm trường độ ẩm và thời gian chuyển sang dạng số giây:
+
+| Thời điểm | Bản tin cảm biến gửi về |
+|---|---|
+| Trước cập nhật | `{"tu": "Q1-01", "nhiet_do": 4.2, "luc": "2026-03-01T08:00:00"}` |
+| Sau cập nhật | `{"tu": "Q1-01", "nhiet_do": 4.2, "do_am": 61, "luc": 1772352000}` |
+
+Nếu bảng đích ép cứng "`luc` phải là ngày giờ", pipeline gãy và quản lý cửa hàng mất cảnh báo tủ mát cả buổi sáng. Schema linh hoạt nghĩa là: vẫn nhận bản tin, lưu trường lạ vào chỗ riêng và báo cho kỹ sư biết có thay đổi.
+
 Lời khuyên của các chuyên gia streaming: **dự đoán thay đổi ở nguồn và duy trì schema linh hoạt**. Nghĩa là không có mô hình dữ liệu cứng nhắc trong DB phân tích. Thay vào đó, giả định hệ nguồn cung cấp dữ liệu chính xác với định nghĩa và logic nghiệp vụ đúng như hiện nay; vì lưu trữ rẻ, hãy lưu dữ liệu lịch sử và dữ liệu streaming gần đây sao cho truy vấn chung được, tối ưu cho phân tích toàn diện trên tập dữ liệu có schema linh hoạt. Hơn nữa, thay vì chỉ phản ứng với báo cáo, hãy tạo **tự động hoá** phản hồi các bất thường và thay đổi trong stream.
 
 Sách dự đoán sẽ sớm có một thay đổi lớn trong mô hình hoá dữ liệu: các cách tiếp cận mới có thể kết hợp **lớp metrics và lớp ngữ nghĩa (semantic layer)**, data pipeline và quy trình phân tích truyền thống thành **một lớp streaming** nằm ngay trên hệ nguồn. Khi dữ liệu được tạo theo thời gian thực, việc tách nhân tạo hệ nguồn và hệ phân tích thành hai nhóm có thể không còn nhiều ý nghĩa như khi dữ liệu chậm và dễ đoán. Chương 11 sẽ nói thêm về tương lai này.
+
+---
+
+## 8. Áp vào chuỗi trà sữa Mây: một dữ liệu, bốn cách mô hình hoá
+
+Lấy cùng hai đơn hàng của Mây và xem mỗi trường phái cất chúng vào kho ra sao. Dữ liệu gốc từ máy POS và app:
+
+| order_id | thoi_gian | cua_hang | khach | mon | so_luong | gia | kenh |
+|---|---|---|---|---|---|---|---|
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Lan | Trà sữa trân châu | 2 | 35000 | quầy |
+| DH002 | 2026-03-01 08:20 | Q3-Võ Văn Tần | Minh | Trà đào | 1 | 30000 | app |
+
+### Cách 1: Inmon — kho trung tâm chuẩn hoá, rồi chia "quầy" cho từng bộ phận
+
+Mọi nguồn (POS, app, kho nguyên liệu, file lương) được gom về **một kho 3NF** giống kết quả bài 2: các bảng `don_hang`, `dong_don`, `cua_hang`, `khach_hang`, `mon`, `nguyen_lieu`. Sau đó mới tạo data mart riêng cho từng bộ phận.
+
+```mermaid
+flowchart LR
+    subgraph nguon["Nguồn của Mây"]
+        POS["POS"]
+        APP["App"]
+        KHO["Phần mềm kho"]
+        LUONG["Excel lương"]
+    end
+    subgraph edw["Kho trung tâm 3NF"]
+        T["don_hang, dong_don,<br/>cua_hang, khach_hang,<br/>mon, nguyen_lieu, nhan_vien"]
+    end
+    subgraph mart["Data mart"]
+        MB["Mart bán hàng<br/>cho chủ chuỗi"]
+        MM["Mart marketing<br/>cho gửi voucher"]
+        MK["Mart kế toán"]
+    end
+    POS --> T
+    APP --> T
+    KHO --> T
+    LUONG --> T
+    T --> MB
+    T --> MM
+    T --> MK
+```
+
+### Cách 2: Kimball — dựng ngay "ngôi sao" để phân tích
+
+Một bảng fact chứa **con số** (số lượng, tiền), bao quanh là các bảng dimension chứa **mô tả** (ngày, cửa hàng, món, khách).
+
+**fact_ban_hang** (hẹp và dài, chỉ thêm)
+
+| order_id | ngay_key | cua_hang_key | mon_key | khach_key | so_luong | thanh_tien |
+|---|---|---|---|---|---|---|
+| DH001 | 20260301 | 1 | 10 | 501 | 2 | 70000 |
+| DH002 | 20260301 | 2 | 11 | 502 | 1 | 30000 |
+
+**dim_cua_hang** (rộng và ngắn)
+
+| cua_hang_key | ten | quan | vung | dien_tich_m2 |
+|---|---|---|---|---|
+| 1 | Q1-Lê Lợi | Quận 1 | Trung tâm | 60 |
+| 2 | Q3-Võ Văn Tần | Quận 3 | Trung tâm | 45 |
+
+```mermaid
+flowchart TD
+    F["fact_ban_hang<br/>so_luong, thanh_tien"]
+    D1["dim_ngay<br/>thứ, tháng, ngày lễ"] --- F
+    D2["dim_cua_hang<br/>quận, vùng"] --- F
+    D3["dim_mon<br/>tên, nhóm, size"] --- F
+    D4["dim_khach<br/>hạng thành viên"] --- F
+    D5["dim_kenh<br/>quầy, app, web"] --- F
+```
+
+Chủ chuỗi hỏi "doanh thu thứ Bảy theo vùng" thì chỉ cần nối fact với `dim_ngay` và `dim_cua_hang`.
+
+### Cách 3: Data Vault — ghi chép trung thực, diễn giải sau
+
+Tách ra ba loại bảng: hub giữ **mã nhận diện**, link giữ **mối quan hệ**, satellite giữ **thông tin mô tả** kèm ngày nạp.
+
+| Bảng | Dữ liệu của Mây |
+|---|---|
+| hub_don_hang | DH001 (nạp 2026-03-01, nguồn POS), DH002 (nạp 2026-03-01, nguồn App) |
+| hub_mon | M10, M11 |
+| hub_cua_hang | CH01, CH02 |
+| link_don_mon | DH001 nối M10, DH002 nối M11 |
+| link_don_cua_hang | DH001 nối CH01, DH002 nối CH02 |
+| sat_mon | M10 là Trà sữa trân châu giá 35000 (nạp 2026-01-01). Khi tăng giá lên 38000 thì **thêm** một dòng mới, không sửa dòng cũ |
+
+Lợi thế ở Mây: tháng sau Mây mở thêm kênh bán qua sàn giao hàng, chỉ cần thêm hub và link mới, các bảng cũ giữ nguyên.
+
+### Cách 4: Bảng rộng — một bảng to cho tất cả
+
+| order_id | thoi_gian | cua_hang | quan | vung | khach | hang_thanh_vien | mon | nhom_mon | so_luong | gia | kenh | thoi_tiet | khuyen_mai |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Quận 1 | Trung tâm | Lan | Vàng | Trà sữa trân châu | Trà sữa | 2 | 35000 | quầy | Nắng | null |
+| DH002 | 2026-03-01 08:20 | Q3-Võ Văn Tần | Quận 3 | Trung tâm | Minh | Bạc | Trà đào | Trà trái cây | 1 | 30000 | app | Nắng | FREESHIP |
+
+Nhà phân tích không cần join gì cả. Đổi lại, khi đổi tên nhóm món "Trà trái cây" thành "Trà hoa quả" phải sửa trên hàng triệu dòng.
+
+### So sánh và lựa chọn cho Mây
+
+| Tiêu chí | Inmon | Kimball | Data Vault | Bảng rộng |
+|---|---|---|---|---|
+| Số bảng cho ví dụ trên | Nhiều (3NF) cộng các mart | 1 fact cộng 5 dimension | Nhiều hub, link, satellite | 1 |
+| Dễ cho người không rành kỹ thuật | Thấp, phải qua mart | Cao | Thấp | Rất cao |
+| Thời gian dựng ban đầu | Lâu | Vừa | Vừa | Nhanh |
+| Thêm nguồn mới (sàn giao hàng) | Phải sửa mô hình trung tâm | Thêm dimension hoặc fact | Rất dễ | Thêm cột |
+| Giữ lịch sử thay đổi | Có | Có, qua SCD | Rất tốt | Kém |
+| Ở Mây nên dùng khi | Mây lớn lên hàng trăm cửa hàng, nhiều phòng ban cần một nguồn sự thật | Ngay bây giờ, cho dashboard doanh thu và báo cáo hằng ngày | Mây thường xuyên thêm nguồn mới, cần lưu vết kiểm toán | Nhà khoa học dữ liệu cần bảng phẳng để huấn luyện mô hình dự báo |
+
+Thực tế Mây có thể **kết hợp**: dữ liệu thô vào Data Vault làm vùng đáp, dựng star schema Kimball cho dashboard, và sinh thêm bảng rộng cho đội ML. Sơ đồ dưới gợi ý cách chọn nhanh.
+
+```mermaid
+flowchart TD
+    A["Mây cần mô hình cho việc gì?"] --> B{"Có cần dashboard<br/>cho người không rành kỹ thuật?"}
+    B -->|"Có"| K["Kimball star schema"]
+    B -->|"Không"| C{"Nguồn dữ liệu<br/>thay đổi thường xuyên?"}
+    C -->|"Có"| V["Data Vault làm vùng đáp"]
+    C -->|"Không"| D{"Cần một nguồn sự thật<br/>cho nhiều phòng ban?"}
+    D -->|"Có"| I["Inmon 3NF cộng data mart"]
+    D -->|"Không"| W["Bảng rộng"]
+```
 
 ---
 

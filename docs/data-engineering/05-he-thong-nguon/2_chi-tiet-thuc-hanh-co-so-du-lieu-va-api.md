@@ -49,6 +49,23 @@ Các ý tưởng sau xuất hiện ở nhiều công nghệ cơ sở dữ liệu
 
 Sách chia cơ sở dữ liệu thành quan hệ và phi quan hệ. Nhóm phi quan hệ đa dạng hơn nhiều, nhưng CSDL quan hệ vẫn chiếm phần lớn backend ứng dụng.
 
+### Thuật ngữ trong bài — hiểu nôm na
+
+Bảng trên dùng nhiều từ chuyên môn. Dưới đây là cách hiểu bằng lời thường, kèm ví dụ ở chuỗi trà sữa Mây (30 cửa hàng, có máy POS ở quầy, app đặt món, phần mềm kho, cảm biến tủ mát).
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+|---|---|---|
+| CSDL / DBMS | Phần mềm quản lý "cuốn sổ" dữ liệu: cất, tìm, sửa, sao lưu | Phần mềm đứng sau máy POS |
+| Backend ứng dụng | Phần "hậu trường" của app, nơi lưu và xử lý dữ liệu | Máy chủ của app đặt món |
+| Schema | "Mẫu biểu" quy định sổ có những cột nào, mỗi cột chứa kiểu gì | Bảng đơn hàng phải có `order_id` (chữ), `so_luong` (số nguyên), `gia` (số) |
+| Index (chỉ mục) | Mục lục cuối sách giúp lật thẳng tới trang cần tìm | Tìm nhanh đơn theo `order_id` mà không lật cả sổ |
+| Query optimizer | "Người tính đường đi" chọn cách tìm dữ liệu nhanh nhất | Tự quyết dùng mục lục hay đọc cả bảng |
+| Mở rộng ngang / dọc | Thêm máy (ngang) hay nâng cấp một máy mạnh hơn (dọc) | Thêm máy chủ khi mở cửa hàng thứ 50, hay mua máy chủ to hơn |
+| Full scan | Đọc từ trang đầu đến trang cuối cuốn sổ | Đếm tổng số ly bán từ trước tới nay |
+| Eventual consistency | "Rồi sẽ khớp": các bản sao có thể lệch nhau vài giây rồi mới giống nhau | Điểm tích luỹ trên app cập nhật chậm hơn quầy vài giây |
+| NoSQL | Mọi loại CSDL không lưu theo kiểu bảng–hàng–cột truyền thống | Lưu giỏ hàng trên app dạng JSON |
+| Endpoint | Một "địa chỉ" cụ thể của API để gửi yêu cầu | Địa chỉ `/orders` của app giao hàng |
+
 ## 2. Cơ sở dữ liệu quan hệ
 
 **RDBMS** (hệ quản trị cơ sở dữ liệu quan hệ) là một trong những backend ứng dụng phổ biến nhất. Cơ sở dữ liệu quan hệ do IBM phát triển từ những năm 1970 và được Oracle phổ biến những năm 1980. Sự bùng nổ Internet kéo theo bộ **LAMP** (Linux, Apache, MySQL, PHP) và nhiều lựa chọn RDBMS mã nguồn mở lẫn thương mại. Dù NoSQL phát triển, CSDL quan hệ vẫn cực kỳ phổ biến.
@@ -63,6 +80,32 @@ Sách chia cơ sở dữ liệu thành quan hệ và phi quan hệ. Nhóm phi qu
 - RDBMS thường tuân thủ ACID. Chuẩn hóa + ACID + hỗ trợ tốc độ giao dịch cao khiến chúng lý tưởng để lưu trạng thái ứng dụng thay đổi nhanh. **Thách thức của kỹ sư dữ liệu là nắm bắt thông tin trạng thái theo thời gian.**
 
 Sách khuyên tự tìm hiểu thêm về RDBMS, đại số quan hệ và chuẩn hóa vì sẽ gặp rất thường xuyên.
+
+### Áp vào chuỗi Mây: primary key, foreign key và chuẩn hoá
+
+Giả sử máy POS ghi mọi thứ vào **một bảng duy nhất**. Địa chỉ cửa hàng bị chép lại ở từng đơn:
+
+| order_id | cua_hang | dia_chi_cua_hang | mon | so_luong | gia |
+|---|---|---|---|---|---|
+| DH001 | Q1-Lê Lợi | 12 Lê Lợi, Q1 | Trà sữa trân châu | 2 | 35000 |
+| DH003 | Q1-Lê Lợi | 12 Lê Lợi, Q1 | Trà đào | 1 | 40000 |
+| DH004 | Q1-Lê Lợi | 12 Lê Lợi, Quận 1 | Trà sữa trân châu | 1 | 35000 |
+
+Dòng DH004 ghi địa chỉ hơi khác (`Quận 1` thay vì `Q1`) — đó là kiểu lệch dữ liệu sinh ra khi một thông tin bị chép ở nhiều nơi. Nếu cửa hàng chuyển địa điểm, phải sửa hàng nghìn dòng.
+
+Sau khi **chuẩn hoá**, địa chỉ chỉ nằm ở một chỗ. Bảng đơn hàng chỉ giữ mã cửa hàng (**foreign key**) trỏ tới bảng cửa hàng (nơi mã đó là **primary key**):
+
+| ma_cua_hang (primary key) | ten | dia_chi |
+|---|---|---|
+| CH01 | Q1-Lê Lợi | 12 Lê Lợi, Q1 |
+
+| order_id (primary key) | ma_cua_hang (foreign key) | mon | so_luong | gia |
+|---|---|---|---|---|
+| DH001 | CH01 | Trà sữa trân châu | 2 | 35000 |
+| DH003 | CH01 | Trà đào | 1 | 40000 |
+| DH004 | CH01 | Trà sữa trân châu | 1 | 35000 |
+
+Với kỹ sư dữ liệu, chuẩn hoá có hai mặt: ở nguồn thì dữ liệu sạch, nhưng khi lấy về phân tích phải **nối (join)** nhiều bảng lại với nhau mới có bức tranh đầy đủ.
 
 ## 3. Cơ sở dữ liệu phi quan hệ (NoSQL)
 
@@ -130,7 +173,7 @@ Hạn chế: quét nhanh nhưng **không hỗ trợ truy vấn phức tạp**; c
 
 CSDL đồ thị lưu dữ liệu rõ ràng theo cấu trúc đồ thị toán học (tập **nút** và **cạnh**). Neo4j rất phổ biến; Amazon, Oracle và nhiều hãng khác cũng có sản phẩm. Hợp khi muốn phân tích **khả năng kết nối giữa các phần tử**.
 
-Ví dụ của sách: với document store mỗi user một document, thêm mảng "connections" chứa ID user kết nối trực tiếp. Đếm số kết nối trực tiếp dễ. Nhưng hỏi "đi qua hai kết nối thì tiếp cận được bao nhiêu user?" thì phải viết code phức tạp, mỗi truy vấn chậm và tốn tài nguyên — document store không tối ưu cho việc này. CSDL đồ thị được thiết kế đúng cho loại truy vấn đường đi phức tạp đó. Chúng dùng các ngôn ngữ truy vấn chuyên dụng như SPARQL, RDF, GQL, Cypher.
+Ví dụ của sách: với document store mỗi user một document, thêm mảng "connections" chứa ID user kết nối trực tiếp. Đếm số kết nối trực tiếp dễ. Nhưng hỏi "đi qua hai kết nối thì tiếp cận được bao nhiêu user?" thì phải viết code phức tạp, mỗi truy vấn chậm và tốn tài nguyên — document store không tối ưu cho việc này. CSDL đồ thị được thiết kế đúng cho loại truy vấn đường đi phức tạp đó. Chúng dùng các ngôn ngữ truy vấn chuyên dụng như SPARQL (truy vấn dữ liệu dạng RDF), GQL, Cypher. RDF thực ra là mô hình dữ liệu chứ không phải ngôn ngữ truy vấn, dù hay được nhắc cùng nhóm.
 
 Ví dụ mạng xã hội 4 người: User 1 theo dõi User 2; User 2 theo dõi User 3 và User 4; User 3 cũng theo dõi User 4.
 
@@ -185,6 +228,19 @@ Bảng tổng hợp do người ghi chép tóm lại từ nội dung sách:
 | Search | Tìm văn bản, phân tích log | Thường dùng bổ trợ |
 | Time-series | Ghi nhanh, thống kê theo thời gian | Hợp phân tích vận hành hơn BI; ít join |
 
+### Áp vào chuỗi Mây: mỗi việc một loại cơ sở dữ liệu
+
+Không có loại CSDL nào "tốt nhất"; chỉ có loại hợp việc. Bảng dưới gợi ý Mây có thể gặp loại nào ở đâu, và kỹ sư dữ liệu cần lưu ý gì khi lấy dữ liệu từ đó.
+
+| Việc ở Mây | Loại CSDL hợp | Vì sao | Lưu ý khi lấy dữ liệu |
+|---|---|---|---|
+| Ghi đơn tại quầy, trừ kho | Quan hệ (RDBMS) | Cần ACID, dữ liệu có cấu trúc rõ | Không chạy truy vấn nặng giờ cao điểm, ưu tiên CDC |
+| Giỏ hàng, phiên đăng nhập trên app | Key-value trong bộ nhớ | Tra theo mã khách cực nhanh | Dữ liệu tạm, thường không cần đưa vào kho |
+| Hồ sơ món (topping, size, ảnh) thay đổi thường xuyên | Document | Mỗi món có thuộc tính khác nhau | Schema hay đổi, phải theo dõi để pipeline không vỡ |
+| Khách giới thiệu bạn bè dùng app | Graph | Hỏi "bạn của bạn" dễ | Phải chuyển sang dạng bảng nếu muốn phân tích chung |
+| Ô tìm món trên app | Search | Gõ "tra dao" vẫn ra "Trà đào" | Ít khi là nguồn chính cho báo cáo |
+| Nhiệt độ tủ mát mỗi phút | Time-series | Ghi liên tục, hỏi theo khoảng thời gian | Dữ liệu rất nhiều, thường tổng hợp theo giờ trước khi đưa vào kho |
+
 ## 4. API: REST, GraphQL, webhook, RPC/gRPC
 
 API hiện là cách trao đổi dữ liệu tiêu chuẩn trên đám mây, với nền tảng SaaS và giữa các hệ thống nội bộ. Có nhiều loại giao diện, nhưng sách chủ yếu quan tâm loại xây trên **HTTP**.
@@ -229,6 +285,47 @@ gRPC nhấn mạnh trao đổi dữ liệu **hai chiều hiệu quả** qua **HT
 | Webhook | Nguồn chủ động gọi endpoint của bên nhận khi có sự kiện (API đảo ngược) |
 | gRPC | RPC hiệu quả, hai chiều qua HTTP/2, dùng Protocol Buffers |
 
+### Áp vào chuỗi Mây: kéo đơn từ app giao hàng bằng REST và nhận báo bằng webhook
+
+Hình dung API như **quầy giao dịch ngân hàng**: bạn điền phiếu đúng mẫu (yêu cầu), nhân viên trả giấy tờ (dữ liệu). Bạn không được vào thẳng kho hồ sơ. Mây bán qua một app giao hàng của đối tác; kỹ sư dữ liệu có hai cách lấy đơn.
+
+**Cách 1 — REST, Mây chủ động hỏi (pull).** Mỗi 15 phút, chương trình của Mây gửi yêu cầu. Vì đơn nhiều, đối tác trả từng "trang" một (gọi là phân trang).
+
+```mermaid
+sequenceDiagram
+    participant M as Chương trình của Mây
+    participant API as API app giao hàng
+    M->>API: GET /orders từ 08h00 tới 08h15, trang 1
+    API-->>M: 100 đơn và báo còn trang 2
+    M->>API: GET /orders từ 08h00 tới 08h15, trang 2
+    API-->>M: 37 đơn, hết dữ liệu
+    M->>API: GET /orders quá nhiều lần trong 1 phút
+    API-->>M: Lỗi 429, gọi quá giới hạn, chờ rồi thử lại
+```
+
+**Cách 2 — Webhook, đối tác chủ động báo (push).** Mây đăng ký một địa chỉ nhận; có đơn mới là đối tác gọi tới ngay.
+
+```mermaid
+sequenceDiagram
+    participant KH as Khách đặt món
+    participant APP as App giao hàng
+    participant WH as Địa chỉ nhận webhook của Mây
+    participant Q as Hàng đợi message của Mây
+    KH->>APP: Đặt 1 trà đào
+    APP->>WH: POST đơn DH005 vừa tạo
+    WH-->>APP: 200 OK, đã nhận
+    WH->>Q: Đẩy DH005 vào hàng đợi để xử lý sau
+```
+
+| | REST (pull) | Webhook (push) |
+|---|---|---|
+| Ai bắt đầu | Mây hỏi | Đối tác báo |
+| Độ tươi dữ liệu | Trễ tới 15 phút (theo lịch hỏi) | Gần như tức thì |
+| Rủi ro | Bị giới hạn số lần gọi, phải xử lý phân trang | Mây sập lúc đối tác gọi thì có thể mất sự kiện |
+| Ở Mây nên dùng khi | Đối soát cuối ngày, lấy lại dữ liệu cũ | Cập nhật đơn mới cho màn hình bếp, cảnh báo |
+
+Thực tế Mây hay **dùng cả hai**: webhook cho tốc độ, REST chạy mỗi đêm để "vá" những đơn webhook lỡ bỏ sót.
+
 ## 5. Chia sẻ dữ liệu
 
 Khái niệm cốt lõi của **chia sẻ dữ liệu trên đám mây**: hệ thống **đa đối tượng thuê** (multitenant) hỗ trợ chính sách bảo mật để chia sẻ dữ liệu giữa các tenant. Cụ thể, bất kỳ hệ object storage đám mây công cộng nào có hệ thống cấp quyền chi tiết đều có thể làm nền tảng chia sẻ; các nền tảng data warehouse đám mây phổ biến cũng hỗ trợ. Dĩ nhiên vẫn có thể chia sẻ bằng tải xuống hoặc email, nhưng hệ multitenant làm dễ hơn nhiều.
@@ -244,6 +341,19 @@ Công nghệ phổ biến khiến công ty nào nay cũng gần như là công t
 Vì sao họ muốn cung cấp dữ liệu? Để tạo **độ gắn kết và "bánh đà"**: cho người dùng tích hợp và mở rộng ứng dụng của họ vào ứng dụng của người dùng. Càng nhiều người dùng chấp nhận, càng nhiều dữ liệu, càng nhiều dữ liệu có thể tích hợp. Tác dụng phụ: nay có lượng nguồn dữ liệu bên thứ ba gần như vô tận.
 
 Truy cập thường qua **API**, **chia sẻ dữ liệu trên nền tảng đám mây** hoặc **tải xuống**. API thường cho tích hợp sâu, kéo và đẩy dữ liệu. Ví dụ phổ biến sách nêu: lấy dữ liệu từ CRM, trộn qua mô hình chấm điểm khách hàng (lead scoring), rồi dùng **reverse ETL** gửi ngược về CRM để nhân viên bán hàng liên hệ khách tiềm năng chất lượng hơn.
+
+### Áp vào chuỗi Mây: dữ liệu không do Mây tạo ra
+
+Mây cũng dùng dữ liệu "mượn" từ bên ngoài. Bảng dưới liệt kê vài nguồn bên thứ ba, cách lấy, và việc chúng giúp được.
+
+| Nguồn bên thứ ba | Cách lấy | Mây dùng để làm gì |
+|---|---|---|
+| Dự báo thời tiết | API | Trời nóng bán nhiều trà trái cây — nhà khoa học dữ liệu đưa vào mô hình dự báo nhu cầu |
+| Đánh giá, bình luận trên mạng xã hội | API (có giới hạn số lần gọi) | Marketing theo dõi khách khen chê cửa hàng nào |
+| Báo cáo doanh số từ app giao hàng đối tác | Chia sẻ dữ liệu trên nền tảng đám mây, hoặc file tải về | Kế toán đối soát tiền đối tác phải trả |
+| Lịch lễ, sự kiện của thành phố | File tải về | Chuẩn bị thêm nguyên liệu cho ngày đông khách |
+
+Thuật ngữ **reverse ETL** nghe lạ nhưng ý đơn giản: dữ liệu đã phân tích xong được **gửi ngược** về phần mềm vận hành. Ví dụ Mây tính được "khách sắp bỏ đi" trong kho dữ liệu, rồi đẩy danh sách đó sang phần mềm gửi voucher của bộ phận marketing.
 
 ## Tóm tắt
 

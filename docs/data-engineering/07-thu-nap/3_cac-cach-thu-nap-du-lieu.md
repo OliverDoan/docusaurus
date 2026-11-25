@@ -48,6 +48,37 @@ Có thể lấy dữ liệu từ database bằng cách **truy vấn và đọc q
 - **ODBC:** máy khách dùng một **driver** để dịch các lệnh gọi theo API ODBC chuẩn thành lệnh riêng của database. Database trả kết quả qua mạng, driver nhận và dịch lại về dạng chuẩn. Ứng dụng dùng driver ODBC chính là một công cụ thu nạp; có thể lấy dữ liệu qua nhiều truy vấn nhỏ hoặc một truy vấn lớn.
 - **JDBC:** về khái niệm rất giống ODBC, nhưng là driver Java, đóng vai lớp dịch giữa API JDBC chuẩn và giao diện mạng gốc của database đích.
 
+### Thuật ngữ trong bài — hiểu nôm na
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi trà sữa Mây |
+|---|---|---|
+| Driver (ODBC/JDBC) | "Phiên dịch viên" giữa chương trình của bạn và một loại database | Giúp chương trình của Mây "nói chuyện" với database của POS |
+| Replica chỉ đọc | Bản sao của database chỉ để đọc, không ai ghi vào | Bản sao DB POS dành riêng cho đội dữ liệu kéo số liệu |
+| CDC | Theo dõi và chuyển đi mọi thay đổi trong database | Mỗi đơn mới, đơn huỷ ở POS được báo về kho |
+| Binary log | Nhật ký nội bộ của database, ghi mọi thao tác theo thứ tự | Nhật ký ghi "08:15 thêm DH001", "08:17 xoá DH001" |
+| Connector managed | Thuê dịch vụ có sẵn "ống nối" tới các nguồn phổ biến | Dịch vụ kéo dữ liệu mạng xã hội về Mây mà không phải tự viết |
+| Signed URL | Đường link tải tạm thời, hết hạn sau một thời gian | Gửi đối tác link tải file doanh số, link hết hạn sau 24 giờ |
+| EDI | Trao đổi file theo kiểu cũ: email, USB | Cửa hàng gửi file Excel lương qua email |
+| SFTP / SCP | Cách gửi file qua mạng có mã hoá | Đối tác cung cấp nguyên liệu gửi bảng giá qua SFTP |
+| Bastion host | "Phòng bảo vệ" duy nhất được ra vào, mọi người phải qua đó mới tới database | Kỹ sư làm từ xa phải đi qua máy này mới vào được DB POS |
+| Webhook | Bên kia tự gọi tới khi có chuyện | App giao hàng báo ngay khi có đơn mới |
+| Web scraping | Cho máy tự đọc trang web và chép số liệu | Cào giá trà sữa của đối thủ trên trang đặt món |
+
+### Áp vào chuỗi Mây: nguồn nào dùng cách nào
+
+Danh sách các cách thu nạp trong bài khá dài. Bảng dưới gắn mỗi nguồn của Mây với cách phù hợp nhất, để thấy một công ty bình thường cũng dùng cùng lúc nhiều cách.
+
+| Nguồn ở Mây | Cách thu nạp | Mục trong bài | Lý do |
+|---|---|---|---|
+| Database của POS | CDC liên tục, đọc từ replica | 2 | Hàng chục nghìn đơn mỗi ngày, cần cả đơn bị huỷ |
+| Phần mềm kho | Kết nối trực tiếp (JDBC), batch mỗi giờ | 1 | Bảng nhỏ, đội IT cho phép đọc |
+| App giao hàng đối tác | API + webhook | 3, 10 | Đối tác chỉ mở API, có hỗ trợ webhook |
+| Cảm biến tủ mát | Nền tảng streaming sự kiện | 4 | Dữ liệu liên tục, cần cảnh báo nhanh |
+| Mạng xã hội | Connector managed | 5 | Không đáng tự viết và bảo trì |
+| File Excel lương | EDI qua email, tự động lưu vào object storage | 7 | Cửa hàng chỉ biết gửi email |
+| Bảng giá nhà cung cấp nguyên liệu | SFTP | 9 | Nhà cung cấp chỉ hỗ trợ cách này |
+| Dữ liệu thời tiết | Chia sẻ dữ liệu trên nền tảng cloud | 13 | Có sẵn trên chợ dữ liệu, không cần sở hữu |
+
 Vì sao có API database dành riêng cho một ngôn ngữ? Vì **JVM** là máy chuẩn, di động trên nhiều kiến trúc phần cứng/hệ điều hành, và cho hiệu suất mã biên dịch nhờ JIT. Driver ODBC là **nhị phân gốc** của hệ điều hành và kiến trúc, nên nhà cung cấp phải duy trì phiên bản cho từng tổ hợp. Còn với JDBC, nhà cung cấp chỉ cần phát hành **một driver** dùng được cho mọi ngôn ngữ JVM (Java, Scala, Clojure, Kotlin) và các framework dữ liệu JVM (như Spark). JDBC phổ biến đến mức cả ngôn ngữ ngoài JVM như Python cũng dùng được qua các công cụ dịch.
 
 **Tăng tốc:** nhiều framework có thể **song song hóa** kết nối và truy vấn phân vùng đồng thời để lấy dữ liệu song song. Nhưng không có gì miễn phí: kết nối song song **tăng tải lên database nguồn**.
@@ -94,6 +125,24 @@ WHERE updated_at > :last_extracted_at;
 ```
 
 **Hạn chế chính:** ta dễ xác định hàng nào đổi kể từ một thời điểm, nhưng **không nhất thiết có mọi thay đổi** áp lên hàng đó. Ví dụ bảng số dư tài khoản ngân hàng, chạy CDC batch mỗi 24 giờ: nếu khách rút tiền năm lần trong ngày, truy vấn chỉ trả về **số dư cuối cùng** trong 24 giờ; bốn trạng thái trung gian không xuất hiện. Có thể giảm nhẹ bằng schema **insert-only**, nơi mỗi giao dịch là một bản ghi mới trong bảng.
+
+### Áp vào chuỗi Mây: CDC batch bỏ sót gì
+
+Bảng điểm tích luỹ của Mây có cột `updated_at`. Trong ngày 01/03, điểm của khách K88 thay đổi ba lần:
+
+| Thời điểm | Chuyện xảy ra | Điểm của K88 trong DB |
+|---|---|---|
+| 08:15 | Mua 2 ly, +7 điểm | 57 |
+| 12:30 | Đổi quà, −50 điểm | 7 |
+| 19:00 | Mua 1 ly, +4 điểm | 11 |
+
+Hai kiểu CDC lấy về những thứ khác nhau:
+
+| CDC batch lúc 23:00 (dựa trên `updated_at`) | CDC liên tục (dựa trên log) |
+|---|---|
+| 1 dòng: K88, 11 điểm, cập nhật 19:00 | 3 sự kiện: 08:15 thành 57, 12:30 thành 7, 19:00 thành 11 |
+
+Với CDC batch, marketing không bao giờ biết K88 đã **đổi quà** trong ngày — thông tin quan trọng để đo hiệu quả chương trình khuyến mãi. Đổi lại, CDC batch chỉ cần một câu truy vấn mỗi đêm, còn CDC liên tục cần cài công cụ đọc log và tốn thêm tài nguyên của database nguồn.
 
 ### 2.2. CDC liên tục
 
@@ -193,6 +242,35 @@ Theo quan điểm sách, object storage là cách **tối ưu và an toàn nhấ
 
 Ít nhất kỹ sư có thể **nâng cấp EDI bằng tự động hóa**: ví dụ thiết lập máy chủ email trên cloud để **lưu tệp vào object storage** ngay khi nhận, rồi kích hoạt quy trình orchestration để thu nạp và xử lý. Mạnh hơn nhiều so với cảnh nhân viên tải tệp đính kèm rồi tự tay upload vào hệ thống nội bộ.
 
+### Áp vào chuỗi Mây: tự động hoá file lương gửi qua email
+
+Trước đây kế toán của Mây mở 30 email mỗi cuối tháng, tải từng file Excel, chép vào một thư mục. Sau khi tự động hoá, chuỗi việc diễn ra như sơ đồ dưới — không ai phải tải file bằng tay.
+
+```mermaid
+sequenceDiagram
+    participant CH as Quản lý cửa hàng Q1
+    participant MAIL as Hộp thư luong của Mây
+    participant OS as Object storage
+    participant ORC as Hệ thống điều phối
+    participant KT as Kế toán
+    CH->>MAIL: Gửi email kèm file cham_cong_Q1.xlsx
+    MAIL->>OS: Tự lưu file đính kèm vào thư mục luong/2026-03
+    OS->>ORC: Báo có file mới
+    ORC->>ORC: Kiểm tra cột, đổi sang bảng chuẩn
+    alt File đúng mẫu
+        ORC->>OS: Ghi bảng chuẩn vào vùng sạch
+        ORC->>KT: Đã nhận đủ dữ liệu của Q1
+    else File sai mẫu
+        ORC->>CH: Email báo file thiếu cột so_gio, xin gửi lại
+    end
+```
+
+| | Trước | Sau |
+|---|---|---|
+| Ai làm | Kế toán tải tay 30 file | Máy tự làm |
+| File sai mẫu | Phát hiện khi tính lương, đã muộn | Báo lại cho cửa hàng ngay lúc gửi |
+| Biết cửa hàng nào chưa gửi | Phải dò từng email | Hệ thống điều phối liệt kê sẵn |
+
 ## 8. Database và xuất tệp
 
 Kỹ sư cần biết hệ thống database nguồn xử lý xuất tệp ra sao. Xuất tệp gồm các lần **quét dữ liệu lớn** gây tải đáng kể lên nhiều hệ thống giao dịch. Kỹ sư hệ thống nguồn phải đánh giá khi nào chạy được mà không ảnh hưởng hiệu năng ứng dụng, và có thể chọn chiến lược giảm tải:
@@ -216,6 +294,27 @@ Các định dạng mạnh và biểu đạt hơn: **Parquet, Avro, Arrow, ORC, 
 | Dữ liệu lồng nhau | Không hỗ trợ trực tiếp | Hỗ trợ gốc |
 | Chuỗi chứa dấu phẩy, xuống dòng | Phải tự quy định quote/escape | Xử lý tự nhiên |
 | Hỗ trợ ở nguồn | Gần như ở đâu cũng có | Không phải nguồn nào cũng hỗ trợ |
+
+### Áp vào chuỗi Mây: một dấu phẩy làm hỏng cả dòng
+
+Mây vừa thêm món "Trà sữa, size L". File CSV xuất từ POS dùng dấu phẩy để phân cách cột, và không đặt tên món trong dấu ngoặc kép:
+
+```text
+order_id,thoi_gian,cua_hang,mon,so_luong,gia,kenh
+DH010,2026-03-05 09:00,Q1-Lê Lợi,Trà sữa, size L,1,45000,quầy
+```
+
+Hệ thống nhận đọc dòng thứ hai thành **8 cột** thay vì 7, mọi giá trị sau tên món bị lệch sang phải:
+
+| order_id | thoi_gian | cua_hang | mon | so_luong | gia | kenh | (thừa) |
+|---|---|---|---|---|---|---|---|
+| DH010 | 2026-03-05 09:00 | Q1-Lê Lợi | Trà sữa | size L | 1 | 45000 | quầy |
+
+`so_luong` thành "size L", `gia` thành 1 đồng. Nếu pipeline không kiểm tra, doanh thu hôm đó bị tính sai mà không ai biết. Cùng dữ liệu xuất ra Parquet thì không có chuyện này, vì Parquet lưu riêng từng cột kèm kiểu dữ liệu, không dựa vào dấu phân cách:
+
+| order_id | thoi_gian | cua_hang | mon | so_luong | gia | kenh |
+|---|---|---|---|---|---|---|
+| DH010 | 2026-03-05 09:00 | Q1-Lê Lợi | Trà sữa, size L | 1 | 45000 | quầy |
 
 ## 9. Shell, SSH, SFTP và SCP
 

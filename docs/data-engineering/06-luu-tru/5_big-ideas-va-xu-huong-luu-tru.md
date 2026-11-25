@@ -50,6 +50,37 @@ Các thành phần:
 
 **Ca sử dụng:** về kỹ thuật, cấp metadata cho hệ thống (ví dụ catalog là thành phần chủ chốt của lakehouse, cho phép khám phá bảng khi truy vấn). Về tổ chức, giúp người dùng nghiệp vụ, analyst, data scientist, kỹ sư tìm dữ liệu để trả lời câu hỏi, và hợp lý hoá giao tiếp, cộng tác giữa các nhóm.
 
+### Thuật ngữ trong bài — hiểu nôm na
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi trà sữa Mây |
+|---|---|---|
+| Data catalog | Sổ danh mục kho: hàng gì, để đâu, ai phụ trách | Tra "doanh thu theo ngày" ra ngay bảng nào, ai làm |
+| Metadata | Nhãn dán trên thùng hàng | "Bảng này cập nhật lúc 6h sáng, đơn vị là đồng" |
+| Data lineage (dòng dõi dữ liệu) | Gia phả của một con số: nó được tính từ đâu | Doanh thu trên dashboard ← bảng sạch ← đơn POS và đơn app |
+| Data sharing | Cho người khác xem một phần kho mà không phải gửi bản sao | Cho đối tác app giao hàng xem đơn của họ |
+| Zero-copy cloning | Photo "ảo" một bảng: chỉ ghi chú "dùng chung dữ liệu với bảng gốc" | Tạo bảng thử nghiệm từ bảng đơn hàng trong 1 giây |
+| Hot / warm / cold | Hàng hay lấy để ở kệ trước, ít lấy để kho sau, gần như không lấy để kho ngoại ô | Đơn tuần này / đơn năm ngoái / hoá đơn 7 năm trước |
+| Data retention | Quy định giữ dữ liệu bao lâu rồi bỏ | Giữ log tủ mát 2 năm, hoá đơn 10 năm |
+| TTL (time to live) | "Hạn sử dụng" gắn lên dữ liệu, hết hạn tự xoá | Cache doanh thu hôm nay hết hạn sau 5 phút |
+| Tenant | Một "khách thuê" dùng chung hạ tầng | Mỗi đối tác nhượng quyền thương hiệu Mây |
+| Least privilege | Chỉ đưa chìa khoá đúng phòng cần vào | Quản lý cửa hàng chỉ xem được số liệu cửa hàng mình |
+| FinOps | Quản lý hoá đơn cloud như quản lý chi phí nguyên liệu | Theo dõi tiền lưu trữ và tiền chạy truy vấn mỗi tháng |
+
+### Áp vào chuỗi Mây: một mục trong data catalog
+
+Khi nhà khoa học dữ liệu mới vào Mây hỏi "dữ liệu bán hàng ở đâu?", thay vì đi hỏi từng người, họ tra catalog. Một mục trong catalog trông như sau:
+
+| Trường | Nội dung |
+|---|---|
+| Tên bảng | `doanh_thu_ngay` |
+| Mô tả | Doanh thu và số ly theo ngày, theo cửa hàng, gồm cả quầy và app |
+| Cột | `ngay` (ngày), `cua_hang` (chữ), `so_ly` (số nguyên), `doanh_thu` (đồng) |
+| Cập nhật | Mỗi ngày lúc 6h sáng |
+| Phụ trách | Đội dữ liệu |
+| Lineage | Tính từ `don_hang_sach`, vốn lấy từ DB của POS và API app giao hàng |
+| Nhạy cảm | Không chứa thông tin cá nhân khách |
+| Ghi chú của người dùng | "Đơn huỷ đã bị loại, đừng cộng lại" — Kế toán |
+
 ## 2. Data sharing
 
 **Data sharing** cho phép tổ chức và cá nhân chia sẻ dữ liệu cụ thể với các thực thể cụ thể, kèm quyền được định nghĩa cẩn thận. Trong nội bộ: data scientist chia sẻ dữ liệu từ sandbox cho cộng sự. Giữa tổ chức: hỗ trợ cộng tác giữa đối tác (ví dụ công ty ad tech chia sẻ dữ liệu quảng cáo cho khách hàng).
@@ -65,9 +96,29 @@ Dữ liệu có hình dạng ra sao? Định dạng file gì? Có cấu trúc, b
 | Mẫu | Mô tả | Ưu | Nhược |
 |---|---|---|---|
 | **Schema on write** | Mẫu data warehouse truyền thống: bảng có schema tích hợp, mọi lần ghi phải tuân thủ. Data lake muốn hỗ trợ cần có schema metastore | Ép chuẩn dữ liệu, sau này dễ dùng hơn | Kém linh hoạt |
-| **Schema on read** | Schema được tạo động khi ghi, người đọc phải xác định schema khi đọc | Linh hoạt: ghi gần như mọi dữ liệu | Khó tiêu thụ dữ liệu hơn về sau |
+| **Schema on read** | Không ép schema lúc ghi (dữ liệu đến sao ghi vậy); người đọc phải tự xác định schema khi đọc | Linh hoạt: ghi gần như mọi dữ liệu | Khó tiêu thụ dữ liệu hơn về sau |
 
 Với schema on read, lý tưởng là dùng định dạng file có thông tin schema tích hợp như **Parquet** hoặc **JSON**. **CSV** nổi tiếng không nhất quán về schema và không được khuyến nghị trong bối cảnh này.
+
+### Áp vào chuỗi Mây: schema on write và schema on read với file lương
+
+Mỗi tháng, 30 cửa hàng gửi file Excel chấm công. Mỗi nơi đặt tên cột một kiểu:
+
+| Cửa hàng | Các cột trong file gửi lên |
+|---|---|
+| Q1-Lê Lợi | `Họ tên`, `Số giờ`, `Tháng` |
+| Q3-Võ Văn Tần | `Nhân viên`, `Giờ làm`, `Thang` |
+| Q7 | `ten_nv`, `gio`, `thang`, `ghi_chu` |
+
+Hai cách xử lý cho kết quả khác nhau:
+
+| | Schema on write | Schema on read |
+|---|---|---|
+| Lúc nhận file | Bắt buộc khớp mẫu `ho_ten`, `so_gio`, `thang`; file sai mẫu bị trả lại cho cửa hàng | Nhận hết, cất nguyên trạng vào data lake |
+| Ai vất vả | Cửa hàng phải sửa file trước khi gửi | Kế toán, người đọc dữ liệu, phải tự đoán `gio` với `Giờ làm` là một |
+| Cuối tháng tính lương | Chạy ngay, số liệu đồng nhất | Phải viết bước "ánh xạ tên cột" cho từng cửa hàng, dễ sót |
+| Thêm cột mới (`ghi_chu`) | Phải sửa mẫu chung trước | Cứ thế thêm, không ai cản |
+| Ở Mây nên chọn | **Có** cho dữ liệu lương vì cần chính xác | Hợp cho bình luận khách, ảnh món, nơi cấu trúc thay đổi liên tục |
 
 ## 4. Tách compute khỏi storage
 
@@ -108,6 +159,27 @@ Tính năng hấp dẫn nhưng phải hiểu điểm mạnh và giới hạn:
 - Với hệ data lake như Databricks, kỹ sư có quyền truy cập object storage bên dưới nhiều hơn — vừa là phước vừa là hoạ. Hãy cực kỳ thận trọng trước khi xoá file thô trong object store nền.
 - Databricks và các công nghệ quản lý data lake khác đôi khi hỗ trợ **deep copy** (sao chép toàn bộ object dữ liệu bên dưới): đắt hơn nhưng bền vững hơn khi file bị mất hoặc xoá ngoài ý muốn.
 
+### Áp vào chuỗi Mây: bản sao "ảo" để thử khuyến mãi
+
+Marketing muốn thử công thức "giảm 10% cho đơn trên 100.000 đồng" trên dữ liệu đơn hàng năm ngoái mà không đụng bảng thật. Kỹ sư dùng zero-copy cloning tạo bảng `don_hang_thu_nghiem`. Sơ đồ dưới cho thấy hai bảng **dùng chung** file dữ liệu; chỉ phần bị sửa mới sinh file riêng.
+
+```mermaid
+flowchart LR
+    G["Bảng gốc<br/>don_hang"] --> F1["File tháng 1"]
+    G --> F2["File tháng 2"]
+    G --> F3["File tháng 3"]
+    C["Bản sao<br/>don_hang_thu_nghiem"] --> F1
+    C --> F2
+    C --> F3M["File tháng 3 đã áp giảm giá<br/>chỉ bản sao thấy"]
+    G -.->|"vẫn trỏ file cũ"| F3
+```
+
+| | Bảng gốc | Bản sao zero-copy |
+|---|---|---|
+| Tạo mất bao lâu | — | Vài giây, không chép dữ liệu |
+| Tốn thêm dung lượng | — | Chỉ phần bị sửa (file tháng 3 mới) |
+| Nếu ai đó xoá thẳng "File tháng 1" trong object storage | Mất dữ liệu tháng 1 | **Cũng mất** tháng 1 — đây là cái bẫy sách cảnh báo |
+
 ## 6. Vòng đời lưu trữ và lưu giữ dữ liệu
 
 Lưu dữ liệu không đơn giản là ghi vào object storage hay đĩa rồi quên. Phải nghĩ tới **data storage lifecycle** ("dữ liệu quan trọng với người dùng hạ nguồn thế nào, họ cần truy cập bao nhiêu lần?") và **data retention** ("giữ dữ liệu này bao lâu? vô thời hạn hay bỏ sau một mốc?").
@@ -136,6 +208,19 @@ Thuở đầu big data có xu hướng tích trữ mọi dữ liệu có thể, 
 - **Thời gian (time):** dữ liệu mới thường giá trị hơn và truy cập nhiều hơn. Giới hạn kỹ thuật có thể quy định thời gian lưu ở một tầng. Ví dụ dữ liệu nóng ở cache/bộ nhớ thường phải đặt **TTL (time to live)** để hết hạn sau một mốc hoặc chuyển sang tầng ấm/lạnh; nếu không tầng nóng đầy và truy vấn bị chậm.
 - **Tuân thủ (compliance):** một số quy định (ví dụ HIPAA, PCI) yêu cầu giữ dữ liệu trong một thời gian, phải truy cập được khi được yêu cầu dù khả năng bị yêu cầu thấp. Quy định khác chỉ cho giữ trong thời hạn giới hạn và cần khả năng xoá thông tin cụ thể đúng hạn. Cần quy trình lưu trữ/archive cùng khả năng tìm kiếm dữ liệu phù hợp. Dĩ nhiên phải cân bằng tuân thủ với chi phí.
 - **Chi phí (cost):** dữ liệu là tài sản (hy vọng) có ROI; phía chi phí có chi phí lưu trữ. Dùng quản lý vòng đời tự động, chuyển dữ liệu sang cold storage khi không cần sau ngày hết hạn giữ, hoặc xoá hẳn nếu thật sự không cần.
+
+### Áp vào chuỗi Mây: nhiệt độ và hạn giữ của từng loại dữ liệu
+
+Bảng dưới áp hai ý tưởng "nhiệt độ dữ liệu" và "data retention" vào kho của Mây. (Hành trình chuyển tầng tự động của một file đơn hàng đã được vẽ ở [bài trước](./3_object-storage-hdfs-streaming-va-index.md).)
+
+| Dữ liệu ở Mây | Nhiệt độ | Để ở đâu | Giữ bao lâu | Vì sao giữ như vậy |
+|---|---|---|---|---|
+| Doanh thu hôm nay trên dashboard | Hot | Cache trong bộ nhớ, TTL 5 phút | Vài phút | Chủ chuỗi mở liên tục, số liệu tự làm mới |
+| Đơn hàng 3 tháng gần nhất | Hot | Kho dữ liệu, object storage hạng thường | Sau 90 ngày chuyển xuống warm | Dùng hằng ngày cho báo cáo, dự báo |
+| Đơn hàng 3 tháng – 1 năm | Warm | Object storage hạng truy cập không thường xuyên | Sau 1 năm chuyển xuống cold | So sánh cùng kỳ, báo cáo quý |
+| Hoá đơn trên 1 năm | Cold | Lưu trữ archive | Theo luật kế toán, thuế | **Tuân thủ**: phải xuất trình được khi thanh tra |
+| Log tủ mát chi tiết từng phút | Warm rồi cold | Object storage | 2 năm, sau đó chỉ giữ bản tổng hợp theo giờ | **Giá trị** giảm nhanh theo thời gian, **chi phí** tăng đều |
+| Số điện thoại khách đã yêu cầu xoá tài khoản | — | — | Xoá khi khách yêu cầu | **Riêng tư**: luật bảo vệ dữ liệu cá nhân |
 
 ## 7. Single-tenant so với multitenant
 

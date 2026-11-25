@@ -52,6 +52,32 @@ Cần phân biệt với hai khái niệm dễ nhầm:
 
 Sách xếp data integration vào phần **transformation** (Chương 8), còn **reverse ETL** (đẩy hồ sơ người dùng mới tạo ngược về CRM để nhân viên sales ưu tiên khách tiềm năng) nằm ở Chương 9. Việc sao chép dữ liệu nội bộ cũng được coi là một phần của chuyển đổi, không phải ingestion.
 
+### Thuật ngữ trong bài — hiểu nôm na
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi trà sữa Mây (30 cửa hàng) |
+|---|---|---|
+| Ingestion (thu nạp) | Chở hàng từ nơi sản xuất về kho | Chở đơn hàng từ máy POS về kho dữ liệu |
+| Data pipeline | Cả dây chuyền: chở, rửa, sơ chế, đóng gói, giao | Từ đơn ở quầy tới con số trên dashboard của chủ chuỗi |
+| ETL | Lấy ra (Extract), chế biến (Transform) rồi mới cất (Load) | Làm sạch đơn hàng xong mới đưa vào kho |
+| ELT | Lấy ra, cất nguyên trạng, chế biến sau trong kho | Đổ đơn thô vào kho trước, sáng hôm sau mới làm sạch |
+| Batch (lô) | Gom lại rồi chở một chuyến | Mỗi đêm chở toàn bộ đơn trong ngày |
+| Streaming (luồng) | Băng chuyền chạy liên tục, có gì chở nấy | Mỗi chỉ số tủ mát đến là gửi ngay |
+| Micro-batch | Chuyến xe nhỏ chạy dày | Cứ 5 phút gom đơn một lần |
+| Bounded / unbounded | Có điểm đầu cuối / chảy mãi không dừng | "Đơn ngày 01/03" (bounded) / dòng đơn của Mây (unbounded) |
+| Latency (độ trễ) | Từ lúc sự việc xảy ra tới lúc thấy nó trong kho | Bán ly trà lúc 8:15, 8:20 mới hiện trên dashboard: trễ 5 phút |
+| Throughput (thông lượng) | Bao nhiêu hàng chở được mỗi giờ | Bao nhiêu đơn mỗi giây hệ thống nhận kịp |
+| Payload | Chính "kiện hàng" dữ liệu được chở | Một file CSV đơn hàng, một gói JSON tủ mát |
+| Push / pull / poll | Người gửi tự mang tới / mình tự đi lấy / chốc chốc ghé hỏi "có gì mới không" | Cảm biến tự gửi / Mây tự kéo dữ liệu kho / Mây hỏi API app mỗi 15 phút |
+
+Bảng dưới áp ba khái niệm dễ nhầm ở mục trên vào việc cụ thể ở Mây:
+
+| Việc ở Mây | Thuộc loại nào | Vì sao |
+|---|---|---|
+| Kéo bảng đơn hàng từ DB của POS về object storage | Ingestion | Chỉ di chuyển từ nguồn vào lưu trữ |
+| Gộp đơn POS + đơn app + điểm tích luỹ thành "hồ sơ khách hàng" | Data integration (thuộc transformation) | Kết hợp nhiều nguồn thành dữ liệu mới |
+| Chép bảng `don_hang_sach` thành `don_hang_backup` trong cùng kho | Sao chép nội bộ | Không lấy gì từ nguồn bên ngoài |
+| Đẩy danh sách "khách lâu không quay lại" sang phần mềm gửi voucher | Reverse ETL (Chương 9) | Dữ liệu đi ngược từ kho ra hệ thống vận hành |
+
 ## 2. Định nghĩa data pipeline
 
 Một data pipeline **bắt đầu từ hệ thống nguồn**, nhưng ingestion là giai đoạn mà kỹ sư dữ liệu bắt đầu **chủ động thiết kế** hoạt động của pipeline.
@@ -71,6 +97,49 @@ Lý do: thế giới đang rời bỏ cách tiếp cận nguyên khối (monolit
 
 Pipeline phải đủ linh hoạt cho mọi nhu cầu trong suốt vòng đời.
 
+### Áp vào chuỗi Mây: pipeline trông như thế nào
+
+Sơ đồ dưới là pipeline dữ liệu của Mây, chia theo các tầng của vòng đời. Chương này chỉ bàn tầng **thu nạp** — chỗ dữ liệu được "chở" từ nguồn về kho; các tầng còn lại thuộc những chương khác.
+
+```mermaid
+flowchart LR
+    subgraph nguon["Nguồn"]
+        POS["DB của POS"]
+        APP["API app giao hàng"]
+        KHO["DB phần mềm kho"]
+        IOT["Cảm biến tủ mát"]
+        XLS["File Excel lương"]
+    end
+    subgraph thunap["Thu nạp (chương này)"]
+        B1["Batch mỗi đêm"]
+        B2["Kéo API mỗi 15 phút"]
+        S1["Streaming liên tục"]
+    end
+    subgraph luutru["Lưu trữ"]
+        RAW["Vùng thô trên object storage"]
+    end
+    subgraph chuyendoi["Chuyển đổi"]
+        CLEAN["Làm sạch, gộp, tổng hợp"]
+    end
+    subgraph cungcap["Cung cấp"]
+        D1["Dashboard chủ chuỗi"]
+        D2["Dự báo trân châu"]
+        D3["Voucher cho marketing"]
+    end
+    POS --> B1
+    KHO --> B1
+    XLS --> B1
+    APP --> B2
+    IOT --> S1
+    B1 --> RAW
+    B2 --> RAW
+    S1 --> RAW
+    RAW --> CLEAN
+    CLEAN --> D1
+    CLEAN --> D2
+    CLEAN --> D3
+```
+
 ## 3. Những câu hỏi cần tự hỏi
 
 Khi chuẩn bị xây kiến trúc thu nạp, sách đề nghị tự hỏi:
@@ -85,6 +154,22 @@ Khi chuẩn bị xây kiến trúc thu nạp, sách đề nghị tự hỏi:
 - Nếu nguồn là streaming, dữ liệu có cần xử lý ngay trong lúc thu nạp không?
 
 Các câu hỏi này áp dụng cho cả batch và streaming. Và bất kể tần suất nào, cần xem xét thêm 8 yếu tố: bounded/unbounded, tần suất, đồng bộ/không đồng bộ, serialization/deserialization, thông lượng và khả năng mở rộng, độ tin cậy và độ bền, payload, đẩy/kéo/thăm dò. Các mục dưới đây lần lượt đi qua.
+
+### Áp vào chuỗi Mây: trả lời các câu hỏi cho hai nguồn
+
+Bảng dưới trả lời bộ câu hỏi trên cho hai nguồn rất khác nhau của Mây. Cùng một danh sách câu hỏi nhưng câu trả lời dẫn tới hai thiết kế thu nạp khác hẳn.
+
+| Câu hỏi | Đơn hàng POS | Cảm biến tủ mát |
+|---|---|---|
+| Dùng để làm gì | Dashboard doanh thu, dự báo nhu cầu | Cảnh báo tủ nóng, tìm tủ sắp hỏng |
+| Tái sử dụng được không | Có: marketing, kế toán, khoa học dữ liệu dùng chung một bảng | Có: cảnh báo và phân tích dùng chung một luồng |
+| Đi đâu | Vùng thô trên object storage, rồi vào kho dữ liệu | Hàng đợi streaming, rồi object storage |
+| Bao lâu cập nhật | Liên tục, nhưng báo cáo chỉ cần mỗi ngày | Mỗi phút một chỉ số |
+| Khối lượng | Khoảng 27 nghìn đơn mỗi ngày | 30 tủ × 1.440 phút = 43.200 chỉ số mỗi ngày |
+| Định dạng | Bảng trong database | JSON nhỏ |
+| Chất lượng | Có đơn trùng khi máy POS mất mạng gửi lại | Có chỉ số lỗi (ví dụ −50°C khi cảm biến hỏng) |
+| Xử lý ngay khi thu nạp không | Không cần | Cần: phát hiện tủ nóng trong vài phút |
+| Kết luận | **Batch** mỗi đêm là đủ | **Streaming** |
 
 ## 4. Bounded và unbounded
 
@@ -147,6 +232,17 @@ flowchart LR
 
 Ý lớn: thay vì mỗi giai đoạn chờ lô đầu vào kết thúc rồi mới chạy, mỗi giai đoạn xử lý từng mục dữ liệu **ngay khi có**, song song trên cụm Beam. Tốc độ phụ thuộc tài nguyên sẵn có. Luồng Kinesis đóng vai **bộ giảm chấn**: điều tiết tải để đợt sự kiện tăng đột biến không đè bẹp xử lý phía sau. Khi lượng sự kiện thấp và hết tồn đọng, sự kiện chạy qua pipeline rất nhanh. Ta cũng có thể biến kịch bản này để dùng Kinesis làm nơi lưu trữ, rồi trích sự kiện sang S3 trước khi chúng hết hạn khỏi luồng.
 
+### Áp vào chuỗi Mây: khi một bước bị hỏng
+
+Pipeline đêm của Mây có ba bước: (A) kéo đơn từ POS, (B) làm sạch, (C) tính doanh thu theo cửa hàng. Đêm nọ, máy POS của cửa hàng Q7 mất mạng nên bước A lấy thiếu đơn của Q7. Bảng dưới so sánh hậu quả.
+
+| | Đồng bộ (A xong hết mới tới B, B xong hết mới tới C) | Không đồng bộ (mỗi đơn đi qua A, B, C ngay khi đến) |
+|---|---|---|
+| Đơn của 29 cửa hàng còn lại | Bị giữ lại chờ Q7, không bước nào chạy | Đã vào kho, đã được tính |
+| Sáng hôm sau chủ chuỗi thấy | Dashboard trống, số liệu cũ từ hôm kia | Số liệu đủ 29 cửa hàng, Q7 tạm thiếu |
+| Khi Q7 có mạng lại | Chạy lại **toàn bộ** A → B → C cho cả 30 cửa hàng | Đơn Q7 chảy vào và được tính bù |
+| Đổi lại | Đơn giản, dễ hiểu | Cần bộ đệm (hàng đợi) và cách xử lý đơn đến muộn |
+
 ## 7. Serialization và deserialization
 
 Di chuyển dữ liệu từ nguồn đến đích luôn kéo theo **serialization** (tuần tự hóa: mã hóa dữ liệu từ nguồn, chuẩn bị cấu trúc để truyền và lưu trung gian) và **deserialization** (giải tuần tự hóa: ngược lại).
@@ -196,7 +292,7 @@ Hình dạng mô tả "kích cỡ" của dữ liệu và rất quan trọng su�
 
 ### 10.3. Size (kích thước)
 
-Kích thước là số byte của payload, từ một byte đến terabyte hay hơn. Có thể giảm bằng **nén** (ZIP, TAR; xem Phụ lục A). Payload lớn cũng có thể được **chia thành nhiều phần**: khi tải tệp lớn lên object storage hay cloud warehouse đây là thực hành phổ biến, vì các tệp nhỏ dễ truyền qua mạng hơn (nhất là khi đã nén). Các phần được gửi tới đích rồi ghép lại khi đủ dữ liệu.
+Kích thước là số byte của payload, từ một byte đến terabyte hay hơn. Có thể giảm bằng **nén** (ví dụ ZIP, gzip; TAR thực ra chỉ gom nhiều tệp thành một, thường đi kèm gzip mới nén; xem Phụ lục A). Payload lớn cũng có thể được **chia thành nhiều phần**: khi tải tệp lớn lên object storage hay cloud warehouse đây là thực hành phổ biến, vì các tệp nhỏ dễ truyền qua mạng hơn (nhất là khi đã nén). Các phần được gửi tới đích rồi ghép lại khi đủ dữ liệu.
 
 ### 10.4. Schema và kiểu dữ liệu
 
@@ -216,6 +312,27 @@ Phần lớn công việc xử lý schema nguồn diễn ra ở giai đoạn **t
 
 Payload thường kèm **metadata** (dữ liệu về dữ liệu), có thể quan trọng ngang chính dữ liệu. Một hạn chế lớn của cách tiếp cận data lake thuở đầu - biến thành "đầm lầy dữ liệu" (data swamp), thậm chí thành "bãi dữ liệu độc hại" - là hoàn toàn thiếu chú ý tới metadata. Không có mô tả chi tiết thì dữ liệu ít giá trị.
 
+### Áp vào chuỗi Mây: "kiện hàng" của từng nguồn
+
+Bảng dưới mô tả payload của các nguồn ở Mây theo năm đặc điểm trên. Nhìn vào đây, kỹ sư biết ngay nguồn nào cần chú ý điều gì khi thu nạp.
+
+| Nguồn | Kind | Shape | Size mỗi lần | Schema | Metadata đi kèm |
+|---|---|---|---|---|---|
+| Đơn POS | Bảng, CSV hoặc Parquet | ~27 nghìn hàng × 7 cột | Vài MB mỗi ngày | Rõ ràng, cố định | Cửa hàng, giờ xuất file |
+| Đơn app | JSON bán cấu trúc | Lồng 2–3 cấp (đơn → danh sách món → topping) | Vài KB mỗi đơn | Có, nhưng đối tác hay thêm trường | Phiên bản API |
+| Tủ mát | JSON nhỏ | 4 trường: mã tủ, thời điểm, nhiệt độ, pin | Dưới 1 KB mỗi chỉ số | Rõ ràng | Mã thiết bị, phiên bản phần mềm cảm biến |
+| Ảnh món cho menu | Ảnh JPG | 1080 × 1080 pixel | 300–500 KB mỗi ảnh | Không có | Tên món, người chụp, ngày chụp |
+| Excel lương | Bảng trong file XLSX | Khác nhau tuỳ cửa hàng | Vài chục KB | Không thống nhất | Gần như không có |
+
+Thay đổi schema ở nguồn là nỗi lo lớn nhất. Ví dụ phần mềm POS cập nhật phiên bản mới, tách cột `gia` thành hai cột:
+
+| Trước khi cập nhật | Sau khi cập nhật |
+|---|---|
+| `order_id, mon, so_luong, gia` | `order_id, mon, so_luong, gia_goc, giam_gia` |
+| `DH001, Trà sữa trân châu, 2, 35000` | `DH001, Trà sữa trân châu, 2, 40000, 5000` |
+
+Nếu pipeline vẫn tìm cột `gia`, nó sẽ lỗi (may mắn — vì có người biết) hoặc tệ hơn là ghi giá trống mà không ai hay. Nên công cụ thu nạp cần **phát hiện và cảnh báo**, và đội POS cần **báo trước** cho đội dữ liệu.
+
 ## 11. Mô hình đẩy, kéo và thăm dò
 
 Đã nhắc ở Chương 2 khi giới thiệu vòng đời:
@@ -232,6 +349,32 @@ flowchart LR
     D2["Đích"] -- "kéo" --> S2["Nguồn"]
     D3["Đích"] -- "hỏi định kỳ: có gì mới?" --> S3["Nguồn"]
 ```
+
+### Áp vào chuỗi Mây: ba kiểu lấy dữ liệu theo thời gian
+
+Sơ đồ trên cho thấy hướng mũi tên; sơ đồ dưới cho thấy chúng diễn ra **theo thời gian** ở Mây — cảm biến tủ mát tự đẩy, còn Mây phải đi hỏi phần mềm kho.
+
+```mermaid
+sequenceDiagram
+    participant TM as Cảm biến tủ mát
+    participant MAY as Hệ thống thu nạp của Mây
+    participant KHO as Phần mềm kho
+    TM->>MAY: Push 4°C lúc 10h00
+    TM->>MAY: Push 4°C lúc 10h01
+    MAY->>KHO: Poll lúc 10h00, có phiếu nhập mới không
+    KHO-->>MAY: Không có gì mới
+    MAY->>KHO: Poll lúc 11h00, có phiếu nhập mới không
+    KHO-->>MAY: Có 2 phiếu mới
+    MAY->>KHO: Pull 2 phiếu nhập mới
+    KHO-->>MAY: Trả 2 phiếu nhập trân châu
+```
+
+| | Push | Pull | Poll |
+|---|---|---|---|
+| Ai chủ động | Nguồn | Đích | Đích, theo lịch |
+| Ở Mây | Cảm biến tủ mát, webhook của app | Kéo bảng đơn POS mỗi đêm | Hỏi phần mềm kho mỗi giờ |
+| Ưu | Dữ liệu tới ngay | Đích kiểm soát giờ lấy, không làm phiền giờ cao điểm | Không phải kéo khi không có gì mới |
+| Nhược | Đích sập thì có thể mất dữ liệu nếu nguồn không gửi lại | Có thể trễ tới một chu kỳ | Hỏi dày quá thì tốn tài nguyên nguồn, thưa quá thì trễ |
 
 ## Tóm tắt
 

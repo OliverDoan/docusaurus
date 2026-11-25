@@ -51,6 +51,60 @@ Dữ liệu là tập hợp các sự kiện và con số chưa có tổ chức,
 
 Dữ liệu có ở khắp nơi: thiết bị IoT, máy quẹt thẻ, cảm biến kính thiên văn, giao dịch chứng khoán... Lời khuyên của sách: làm quen với hệ thống nguồn, **đọc tài liệu**, hiểu các mẫu hoạt động và điểm kỳ quặc của nó. Nếu nguồn là RDBMS, hãy hiểu cách nó ghi, commit, truy vấn — vì những chi tiết đó ảnh hưởng đến khả năng thu nạp của bạn.
 
+### Thuật ngữ trong bài — hiểu nôm na
+
+Bài này dùng nhiều từ kỹ thuật. Bảng dưới giải nghĩa bằng lời thường, kèm ví dụ ở **chuỗi trà sữa Mây** (30 cửa hàng) — tình huống dùng xuyên suốt cả topic.
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+|---|---|---|
+| Hệ thống nguồn (source system) | Nơi dữ liệu "ra đời" lần đầu | Máy bán hàng (POS) ở quầy, app đặt món, phần mềm kho |
+| Cơ sở dữ liệu (database, DB) | Cuốn sổ cái điện tử, ghi và tra rất nhanh | Sổ đơn hàng phía sau máy POS |
+| Bản ghi (record), hàng (row) | Một dòng trong sổ | Đơn DH001 bán 2 ly trà sữa trân châu |
+| API | "Quầy giao dịch" của một phần mềm: gửi yêu cầu đúng mẫu thì nhận dữ liệu | App giao hàng cho phép hỏi "đưa tôi các đơn hôm nay" |
+| OLTP | Hệ thống phục vụ việc bán hàng hằng ngày, từng đơn một | DB của máy POS |
+| OLAP | Hệ thống chuyên trả lời câu hỏi tổng hợp trên rất nhiều dữ liệu | Kho dữ liệu cho dashboard doanh thu của chủ chuỗi |
+| Commit | Bấm "lưu chính thức" một thay đổi | POS chốt đơn, đơn được ghi hẳn vào sổ |
+| CDC | Người "ghi chép lại mọi lần sổ bị sửa" rồi báo đi nơi khác | Mỗi đơn mới hoặc đơn bị huỷ ở POS đều được báo về kho dữ liệu |
+| Log | Nhật ký: ai làm gì, lúc nào | Nhật ký cảm biến tủ mát: "tủ Q1, 10:00, 4°C" |
+| Message queue | Hộp thư trung chuyển: bỏ thư vào, người nhận lấy ra rồi thư biến mất | Cảnh báo "tủ mát quá nóng" gửi cho quản lý cửa hàng |
+| Stream | Cuốn băng ghi hình liên tục, tua lại được | Toàn bộ chỉ số nhiệt độ tủ mát trong 30 ngày |
+| Latency (độ trễ) | Thời gian chờ từ lúc hỏi đến lúc có câu trả lời | Bấm "thanh toán" trên POS mất 0,2 giây |
+
+### Áp vào chuỗi trà sữa Mây: dữ liệu được sinh ra ở đâu
+
+Kỹ sư dữ liệu của Mây chưa cần biết làm sạch hay báo cáo vội. Việc đầu tiên là vẽ "bản đồ" mọi nơi dữ liệu ra đời. Sơ đồ dưới cho thấy mỗi nguồn có hình dạng khác nhau, nên cách lấy cũng khác nhau.
+
+```mermaid
+flowchart LR
+    subgraph nguon["Hệ thống nguồn của Mây"]
+        POS["Máy POS ở 30 quầy<br/>(database)"]
+        APP["App đặt món giao tận nơi<br/>(database + API)"]
+        KHO["Phần mềm kho nguyên liệu<br/>(database)"]
+        LUONG["File Excel lương<br/>(file)"]
+        IOT["Cảm biến tủ mát<br/>(IoT, message)"]
+        MXH["Ý kiến khách trên mạng xã hội<br/>(API bên thứ ba)"]
+    end
+    DE["Kỹ sư dữ liệu<br/>thu nạp"]
+    POS --> DE
+    APP --> DE
+    KHO --> DE
+    LUONG --> DE
+    IOT --> DE
+    MXH --> DE
+    DE --> DW["Kho dữ liệu phân tích"]
+```
+
+Bảng dưới đặt các nguồn cạnh nhau để thấy "tính khí" của từng nguồn — đây chính là điều sách bảo phải tìm hiểu trước khi lấy dữ liệu.
+
+| Nguồn ở Mây | Dữ liệu sinh ra | Dạng | Bao lâu có dữ liệu mới | Điểm "kỳ quặc" cần biết |
+|---|---|---|---|---|
+| Máy POS | Từng đơn bán tại quầy | Bảng trong database | Mỗi vài giây vào giờ cao điểm | Giờ trưa rất bận, truy vấn nặng lúc này làm chậm quầy |
+| App đặt món | Đơn giao tận nơi, trạng thái đơn | Database, có API | Liên tục | Đơn đổi trạng thái nhiều lần (đặt → pha → giao → xong) |
+| Phần mềm kho | Nhập/xuất trà, sữa, trân châu | Database | Vài lần mỗi ngày | Nhân viên hay nhập bù cuối ngày |
+| Excel lương | Giờ làm, lương nhân viên | File | Mỗi tháng | Mỗi cửa hàng tự đặt tên cột khác nhau |
+| Cảm biến tủ mát | Nhiệt độ mỗi phút | Message, log | Mỗi phút | Mất wifi thì gửi dồn một lượt |
+| Mạng xã hội | Bình luận, đánh giá | API bên thứ ba | Bất kỳ lúc nào | Giới hạn số lần gọi API mỗi giờ |
+
 ## 2. Tệp và dữ liệu phi cấu trúc
 
 **Tệp** (file) là một chuỗi byte, thường nằm trên đĩa. Ứng dụng ghi tham số, sự kiện, log, hình ảnh, âm thanh vào tệp. Tệp cũng là phương tiện trao đổi dữ liệu rất phổ biến: kỹ sư dữ liệu mong lấy dữ liệu bằng chương trình, nhưng phần lớn thế giới vẫn gửi nhận tệp. Ví dụ dữ liệu từ cơ quan nhà nước thường là Excel, CSV hoặc gửi qua email.
@@ -65,6 +119,16 @@ Các định dạng nguồn bạn hay gặp (do con người tạo tay hoặc do
 | TXT | Không cấu trúc |
 
 Các định dạng "của kỹ sư dữ liệu" như Parquet, ORC, Avro được bàn ở chương Lưu trữ (Chương 6).
+
+"Có cấu trúc" nghĩa là dữ liệu xếp sẵn thành hàng và cột như bảng; "bán cấu trúc" là có nhãn nhưng lồng nhau, không đều; "không cấu trúc" là chữ tự do. Ở Mây, cùng một thông tin "đơn hàng" có thể đến ở cả ba dạng:
+
+| Mức cấu trúc | Ví dụ ở chuỗi Mây | Trông như thế nào |
+|---|---|---|
+| Có cấu trúc (CSV xuất từ POS) | File đơn hàng cuối ngày | `DH001,2026-03-01 08:15,Q1-Lê Lợi,Trà sữa trân châu,2,35000,quầy` |
+| Bán cấu trúc (JSON từ app) | Đơn giao tận nơi | `{"order_id": "DH002", "mon": [{"ten": "Trà đào", "sl": 1}], "giao_den": {"quan": "Q3"}}` |
+| Không cấu trúc (TXT, bình luận) | Ý kiến khách trên mạng | `Trà sữa Q1 hôm nay ngọt quá, trân châu hơi cứng` |
+
+Càng ít cấu trúc, kỹ sư càng tốn công "dịch" dữ liệu thành bảng trước khi phân tích.
 
 ## 3. API
 
@@ -106,6 +170,19 @@ UPDATE accounts SET balance = balance + 100 WHERE id = 'B';
 COMMIT;  -- nếu có lỗi giữa chừng thì ROLLBACK, cả hai cùng không đổi
 ```
 
+### Áp vào chuỗi Mây: một đơn hàng và chuyện "làm trọn hoặc không làm gì"
+
+Khi thu ngân ở Q1-Lê Lợi bấm "thanh toán" đơn DH001 (2 ly trà sữa trân châu), hệ thống phải làm **hai việc**: ghi đơn vào sổ bán hàng và trừ 2 phần trân châu trong kho. Bảng dưới so sánh chuyện xảy ra nếu máy bị mất điện đúng giữa hai việc.
+
+| Tình huống | Sổ đơn hàng | Tồn kho trân châu | Hậu quả |
+|---|---|---|---|
+| Trước khi bấm thanh toán | Chưa có DH001 | 100 phần | — |
+| Không có atomicity, mất điện giữa chừng | Có DH001 | Vẫn 100 phần | Kho "ảo": báo còn nhiều hơn thực tế, quản lý đặt hàng thiếu |
+| Có atomicity (ACID), mất điện giữa chừng | Chưa có DH001 | Vẫn 100 phần | Cả hai cùng huỷ, thu ngân bấm lại là xong |
+| Có atomicity, chạy trót lọt | Có DH001 | 98 phần | Đúng như mong đợi |
+
+Với kỹ sư dữ liệu, điều này quan trọng vì nếu nguồn **không** đảm bảo ACID, dữ liệu lấy về có thể "lệch" giữa các bảng và cần bước kiểm tra chéo.
+
 ## 5. OLTP và phân tích, OLAP
 
 ### Chạy phân tích trên OLTP
@@ -128,9 +205,65 @@ Vì sao nói OLAP trong chương về hệ thống nguồn? Vì kỹ sư thườ
 | Điểm mạnh | Độ trễ thấp, đồng thời cao | Quét khối lớn, tổng hợp |
 | Điểm yếu | Quét phân tích lớn | Tra cứu hàng nghìn bản ghi lẻ mỗi giây |
 
+### Áp vào chuỗi Mây: câu hỏi nào gửi cho OLTP, câu hỏi nào gửi cho OLAP
+
+Cách dễ phân biệt: OLTP giống **thu ngân** — phục vụ từng khách thật nhanh; OLAP giống **kế toán cuối tháng** — ngồi cộng hàng vạn hoá đơn. Bắt thu ngân làm việc của kế toán giữa giờ cao điểm thì khách xếp hàng dài.
+
+| Câu hỏi ở Mây | Ai hỏi | Bao nhiêu dữ liệu phải đọc | Nên hỏi hệ nào |
+|---|---|---|---|
+| "Đơn DH001 đã thanh toán chưa?" | Thu ngân | 1 dòng | OLTP (DB của POS) |
+| "Khách này còn bao nhiêu điểm tích luỹ?" | App đặt món | 1 dòng | OLTP |
+| "Doanh thu 30 cửa hàng tháng 3, theo từng món?" | Chủ chuỗi | Hàng trăm nghìn dòng | OLAP (kho dữ liệu) |
+| "Tuần tới mỗi cửa hàng cần bao nhiêu kg trân châu?" | Nhà khoa học dữ liệu | Toàn bộ lịch sử bán | OLAP |
+
+Sơ đồ dưới cho thấy vì sao Mây tách hai hệ: dữ liệu được **sao** từ OLTP sang OLAP, để dashboard chạy nặng đến đâu cũng không làm chậm quầy.
+
+```mermaid
+flowchart LR
+    subgraph banhang["Phía bán hàng (OLTP)"]
+        TN["Thu ngân bấm đơn"] --> POSDB["DB của POS<br/>ghi từng đơn"]
+    end
+    subgraph phantich["Phía phân tích (OLAP)"]
+        DW["Kho dữ liệu"] --> DB1["Dashboard doanh thu"]
+        DW --> DB2["Mô hình dự báo trân châu"]
+    end
+    POSDB -->|"sao chép định kỳ hoặc qua CDC"| DW
+```
+
 ## 6. Change Data Capture (CDC)
 
 **CDC** (thu thập dữ liệu thay đổi) là phương pháp trích xuất **từng sự kiện thay đổi** (insert, update, delete) xảy ra trong cơ sở dữ liệu. Thường dùng để sao chép giữa các cơ sở dữ liệu gần thời gian thực, hoặc tạo luồng sự kiện cho xử lý tiếp. Cách thực hiện tùy công nghệ: cơ sở dữ liệu quan hệ thường tạo log sự kiện lưu ngay trên máy chủ DB, có thể xử lý thành luồng; nhiều cơ sở dữ liệu NoSQL trên đám mây có thể đẩy log hoặc luồng sự kiện đến nơi lưu đích.
+
+### Áp vào chuỗi Mây: CDC từng bước
+
+Không có CDC, kỹ sư của Mây phải "chụp" toàn bộ bảng đơn hàng mỗi đêm rồi so với hôm trước để tìm chỗ khác. Có CDC, mỗi thay đổi được báo đi ngay khi nó xảy ra. Sơ đồ dưới theo dõi một đơn từ lúc tạo đến lúc bị khách huỷ.
+
+```mermaid
+sequenceDiagram
+    participant TN as Thu ngân Q1
+    participant DB as DB của POS
+    participant LOG as Nhật ký thay đổi của DB
+    participant CDC as Công cụ CDC
+    participant DW as Kho dữ liệu
+    TN->>DB: Tạo đơn DH001, 2 ly
+    DB->>LOG: Ghi sự kiện INSERT DH001
+    CDC->>LOG: Đọc sự kiện mới
+    CDC->>DW: Gửi INSERT DH001
+    TN->>DB: Sửa DH001 thành 3 ly
+    DB->>LOG: Ghi sự kiện UPDATE DH001
+    CDC->>DW: Gửi UPDATE DH001
+    TN->>DB: Khách huỷ DH001
+    DB->>LOG: Ghi sự kiện DELETE DH001
+    CDC->>DW: Gửi DELETE DH001
+```
+
+Kết quả, kho dữ liệu nhận được một chuỗi sự kiện thay vì chỉ "trạng thái cuối". Bảng dưới là thứ CDC giao tới — nhờ nó, Mây biết cả những đơn **đã bị huỷ**, điều mà ảnh chụp cuối ngày sẽ bỏ sót.
+
+| Thứ tự | Loại thay đổi | order_id | so_luong | Thời điểm |
+|---|---|---|---|---|
+| 1 | INSERT (tạo mới) | DH001 | 2 | 08:15:02 |
+| 2 | UPDATE (sửa) | DH001 | 3 | 08:15:40 |
+| 3 | DELETE (xoá) | DH001 | — | 08:17:10 |
 
 ## 7. Nhật ký (logs)
 
@@ -142,11 +275,11 @@ Mọi log theo dõi sự kiện và metadata của nó; tối thiểu phải có
 - **Chuyện gì đã xảy ra**: sự kiện và metadata liên quan.
 - **Khi nào**: dấu thời gian.
 
-### Mã hóa log
+### Định dạng ghi log (log encoding)
 
 | Loại | Đặc điểm |
 |---|---|
-| Log mã hóa nhị phân | Định dạng nhỏ gọn tùy chỉnh, tiết kiệm không gian, I/O nhanh. Ví dụ chuẩn: log cơ sở dữ liệu. |
+| Log nhị phân (binary-encoded) | Định dạng nhỏ gọn tùy chỉnh, tiết kiệm không gian, I/O nhanh. Ví dụ chuẩn: log cơ sở dữ liệu. |
 | Log bán cấu trúc | Văn bản ở dạng tuần tự hóa đối tượng (thường JSON). Máy đọc được, di động, nhưng kém hiệu quả hơn nhị phân và thường cần code tùy chỉnh để trích giá trị. |
 | Log văn bản thuần (không cấu trúc) | Về cơ bản là đầu ra console của phần mềm; không có chuẩn chung, trích thông tin có thể phức tạp. |
 
@@ -182,6 +315,27 @@ Nhược điểm:
 1. Bảng có thể phình to, nhất là khi dữ liệu thay đổi nhiều (mỗi thay đổi là một dòng). Đôi khi người ta xóa bản ghi theo ngày kết thúc hoặc số phiên bản tối đa để giữ kích thước hợp lý.
 2. Tra cứu tốn thêm chi phí vì lấy trạng thái hiện tại phải chạy kiểu `MAX(created_timestamp)`; nếu một ID có hàng trăm hay hàng nghìn bản ghi thì thao tác này đắt.
 
+### Áp vào chuỗi Mây: theo dõi trạng thái một đơn giao tận nơi
+
+Đơn app DH002 đi qua 4 trạng thái: đặt → đang pha → đang giao → hoàn tất. Hai bảng dưới cho thấy cùng câu chuyện đó được lưu theo hai cách.
+
+**Cách CRUD** — chỉ có một dòng, bị sửa đè liên tục. Cuối ngày nhìn vào chỉ thấy:
+
+| order_id | trang_thai | cap_nhat_luc |
+|---|---|---|
+| DH002 | hoàn tất | 2026-03-01 09:02 |
+
+**Cách insert-only** — mỗi lần đổi trạng thái thêm một dòng mới, không xoá gì:
+
+| order_id | trang_thai | cap_nhat_luc |
+|---|---|---|
+| DH002 | đặt | 2026-03-01 08:20 |
+| DH002 | đang pha | 2026-03-01 08:24 |
+| DH002 | đang giao | 2026-03-01 08:35 |
+| DH002 | hoàn tất | 2026-03-01 09:02 |
+
+Với bảng thứ hai, quản lý cửa hàng trả lời được "pha mất bao lâu, giao mất bao lâu" — câu hỏi mà bảng CRUD không trả lời nổi vì lịch sử đã bị ghi đè. Đổi lại, bảng dài gấp 4 lần.
+
 ## 9. Message và stream
 
 Trong kiến trúc hướng sự kiện, hai thuật ngữ hay bị dùng lẫn lộn là **message queue** và **nền tảng streaming**, nhưng có khác biệt tinh tế mà thiết yếu.
@@ -208,6 +362,18 @@ Thời gian quan trọng với mọi hoạt động thu nạp, nhưng càng quan
 - **Process time** (thời gian xử lý): xảy ra sau ingestion time, khi dữ liệu được xử lý (thường là một phép biến đổi); tính bằng giây, phút, giờ...
 
 Lời khuyên: **luôn đóng dấu thời gian cho từng giai đoạn** sự kiện đi qua (tạo, thu nạp, xử lý), tốt nhất là tự động, và thiết lập giám sát dọc pipeline để theo dõi chính xác dữ liệu di chuyển ra sao.
+
+### Áp vào chuỗi Mây: ba mốc thời gian của một chỉ số tủ mát
+
+Cảm biến tủ mát ở cửa hàng Q7 đo được 9°C lúc 14:00, nhưng wifi cửa hàng rớt nên tới 14:25 số liệu mới gửi được về. Bảng dưới cho thấy vì sao phải ghi cả ba mốc.
+
+| Mốc | Giá trị | Nghĩa |
+|---|---|---|
+| Event time | 14:00 | Lúc tủ thật sự nóng lên |
+| Ingestion time | 14:25 | Lúc số liệu tới hệ thống của Mây |
+| Process time | 14:26 | Lúc hệ thống tính toán và bắn cảnh báo |
+
+Nếu chỉ ghi ingestion time, báo cáo sẽ nói "tủ nóng lúc 14:25" — sai 25 phút. Với sữa tươi trong tủ, 25 phút đó quyết định có phải bỏ nguyên liệu hay không. Khoảng chênh giữa event time và ingestion time cũng là chỉ số để phát hiện cửa hàng nào hay mất mạng.
 
 ## Tóm tắt
 

@@ -49,6 +49,54 @@ Cũng cần phân biệt với Chương 5: ở đó là **hệ thống nguồn**
 
 Tác giả nhận xét nhiều kỹ sư dùng lưu trữ mỗi ngày mà không hiểu nó chạy ra sao và đánh đổi gì, dẫn tới những cách dùng "khá thú vị". Dù dịch vụ managed giúp khỏi phải quản server, bạn vẫn cần biết đặc tính cốt lõi, hiệu năng, độ bền và chi phí của các thành phần bên dưới.
 
+### Ẩn dụ kho bãi: ba tầng lưu trữ của chuỗi trà sữa Mây
+
+Hãy hình dung chuỗi trà sữa Mây (30 cửa hàng) cần chỗ cất **hàng hoá thật**. Ba tầng của chương giống ba cấp độ khi xây hệ thống kho:
+
+- **Nguyên liệu thô** = gạch, kệ sắt, tủ lạnh, xe tải — từng món có giá và độ bền riêng.
+- **Hệ thống lưu trữ** = từng loại kho dựng từ các món đó: kho lạnh, kho container, tủ trưng bày ở quầy.
+- **Trừu tượng lưu trữ** = "trung tâm phân phối" mà quản lý chỉ cần gọi tên: "lấy cho tôi số liệu bán tháng 3", không cần biết hàng nằm kệ nào.
+
+```mermaid
+flowchart BT
+    subgraph t1["Tầng 1: nguyên liệu thô"]
+        HDD["HDD"]
+        SSD["SSD"]
+        RAM["RAM"]
+        NET["Mạng, CPU"]
+    end
+    subgraph t2["Tầng 2: hệ thống lưu trữ"]
+        OBJ["Object storage"]
+        BLK["Block storage"]
+        CACHE["Cache trong bộ nhớ"]
+    end
+    subgraph t3["Tầng 3: trừu tượng lưu trữ"]
+        DW["Kho dữ liệu doanh thu của Mây"]
+        DL["Hồ dữ liệu chứa log tủ mát, ảnh, bình luận"]
+    end
+    t1 --> t2
+    t2 --> t3
+```
+
+Sơ đồ đọc từ dưới lên: chủ chuỗi chỉ nhìn thấy tầng 3, nhưng chi phí và tốc độ của tầng 3 do tầng 1 quyết định.
+
+### Thuật ngữ trong bài — hiểu nôm na
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+|---|---|---|
+| Storage (lưu trữ) | Nơi cất dữ liệu để dùng lại sau | Chỗ giữ toàn bộ đơn hàng 3 năm qua |
+| HDD | Ổ cứng có đĩa quay, như máy hát đĩa than | Ổ chứa bản sao lưu đơn hàng cũ |
+| SSD | Ổ cứng không có bộ phận chuyển động, như thẻ nhớ cỡ lớn | Ổ của máy chủ POS, cần ghi đơn thật nhanh |
+| RAM | "Mặt bàn làm việc" của máy tính: rất nhanh nhưng tắt điện là trống | Nơi giữ menu và giỏ hàng đang mở trên app |
+| Latency (độ trễ) | Thời gian chờ từ lúc hỏi đến lúc dữ liệu bắt đầu về | Bấm xem báo cáo, đợi bao lâu mới thấy số đầu tiên |
+| Bandwidth / throughput (băng thông) | Bao nhiêu dữ liệu chảy qua mỗi giây, như độ rộng ống nước | Tải 1 năm đơn hàng mất bao lâu |
+| IOPS | Số lần đọc/ghi lẻ mỗi giây | Số đơn POS ghi được mỗi giây giờ cao điểm |
+| Volatile | "Dễ bay hơi": mất điện là mất dữ liệu | RAM |
+| Serialization | Gói dữ liệu thành dạng chuẩn để cất hoặc gửi đi, như đóng thùng hàng | Xuất đơn hàng ra file CSV hoặc Parquet |
+| Compression (nén) | Ép dữ liệu cho gọn, như hút chân không quần áo | Nén log tủ mát trước khi cất lâu dài |
+| Cache | Kệ "hàng hay dùng" đặt sát tay | Giữ doanh thu hôm nay trong RAM để dashboard mở nhanh |
+| Archival storage | Kho lưu trữ hồ sơ ở ngoại ô: rẻ nhưng lấy ra mất nửa ngày | Hoá đơn 7 năm trước, chỉ cần khi thanh tra thuế |
+
 ## 2. Ổ đĩa từ (Magnetic disk drive, HDD)
 
 **Cơ chế:** các đĩa quay phủ màng sắt từ. Đầu đọc/ghi từ hoá màng để mã hoá bit khi ghi, và đọc từ trường để ra dòng bit khi đọc. Công nghệ do IBM phát triển từ thập niên 1950 (ổ IBM 350 đầu tiên chỉ có 3,75 MB; nay có ổ 20 TB). Nhờ các kỹ thuật như HAMR, SMR, ổ chứa khí heli, dung lượng vẫn tăng đều.
@@ -124,6 +172,32 @@ Mỗi lựa chọn là một đánh đổi, và kỹ sư tinh chỉnh theo yêu 
 
 Sách khuyên làm quen với các định dạng phổ biến, đặc biệt **Apache Parquet**, định dạng lai **Apache Hudi** và dạng trong bộ nhớ **Apache Arrow** (chi tiết ở Phụ lục A).
 
+### Áp vào chuỗi Mây: lưu theo hàng hay theo cột
+
+Lấy bảng đơn hàng của Mây:
+
+| order_id | thoi_gian | cua_hang | mon | so_luong | gia | kenh |
+|---|---|---|---|---|---|---|
+| DH001 | 2026-03-01 08:15 | Q1-Lê Lợi | Trà sữa trân châu | 2 | 35000 | quầy |
+| DH002 | 2026-03-01 08:20 | Q3-Võ Văn Tần | Trà đào | 1 | 40000 | app |
+| DH003 | 2026-03-01 08:22 | Q1-Lê Lợi | Trà đào | 1 | 40000 | quầy |
+
+Trên đĩa, dữ liệu là một dải dài liên tục. Hai cách xếp cùng bảng trên thành dải:
+
+| Cách xếp | Dải dữ liệu trên đĩa (đọc từ trái sang phải) |
+|---|---|
+| Theo hàng (row-oriented) | `DH001, 08:15, Q1-Lê Lợi, Trà sữa trân châu, 2, 35000, quầy` → `DH002, 08:20, Q3-Võ Văn Tần, ...` → `DH003, ...` |
+| Theo cột (columnar) | `DH001, DH002, DH003` → `08:15, 08:20, 08:22` → `Q1-Lê Lợi, Q3-Võ Văn Tần, Q1-Lê Lợi` → ... → `35000, 40000, 40000` → ... |
+
+Giờ đặt hai câu hỏi thực tế ở Mây và xem mỗi cách phải đọc bao nhiêu:
+
+| Câu hỏi | Lưu theo hàng | Lưu theo cột | Bên thắng |
+|---|---|---|---|
+| Thu ngân: "Cho xem toàn bộ đơn DH002" | Đọc đúng 1 đoạn liền nhau | Phải nhặt ở 7 chỗ khác nhau (mỗi cột một chỗ) | Hàng |
+| Chủ chuỗi: "Tổng tiền bán năm nay?" (cần `so_luong` và `gia`) | Đọc cả 7 cột của mọi đơn dù chỉ cần 2 | Chỉ đọc 2 cột, bỏ qua 5 cột còn lại | Cột |
+
+Vì thế máy POS (hỏi từng đơn) dùng lưu trữ theo hàng, còn kho dữ liệu phân tích (cộng hàng triệu đơn) dùng lưu trữ theo cột như Parquet. Với 10 triệu đơn và 7 cột, câu hỏi tổng tiền ở dạng cột chỉ phải đọc khoảng 2/7 dữ liệu — chưa tính phần nén thêm ở mục sau.
+
 ## 7. Compression (nén)
 
 Nén làm dữ liệu nhỏ hơn, nhưng thuật toán nén tương tác với các chi tiết khác của hệ lưu trữ một cách phức tạp. Ba lợi ích chính:
@@ -133,6 +207,17 @@ Nén làm dữ liệu nhỏ hơn, nhưng thuật toán nén tương tác với c
 3. Tăng hiệu năng mạng. Ví dụ kết nối EC2–S3 có 10 Gbps; nén 10:1 nâng băng thông hiệu dụng lên 100 Gbps.
 
 **Nhược điểm:** nén/giải nén tốn thêm thời gian và tài nguyên khi đọc hoặc ghi. Chi tiết các thuật toán và đánh đổi ở Phụ lục A.
+
+### Áp vào chuỗi Mây: vì sao dữ liệu cột nén rất tốt
+
+Trong một cột, các giá trị thường giống nhau. Cột `kenh` của Mây chỉ có hai giá trị "quầy" và "app"; cột `cua_hang` lặp lại tên 30 cửa hàng. Một cách nén đơn giản là ghi "giá trị × số lần lặp liên tiếp" (gọi là run-length encoding):
+
+| | Dữ liệu cột `kenh` của 10 đơn liên tiếp |
+|---|---|
+| Trước khi nén | quầy, quầy, quầy, quầy, quầy, quầy, app, app, quầy, quầy |
+| Sau khi nén | quầy × 6, app × 2, quầy × 2 |
+
+Ở dạng lưu theo hàng, "quầy" nằm xen giữa tên món, giá, giờ... nên khó gom như vậy. Đây là lý do định dạng cột vừa đọc ít hơn vừa nén gọn hơn — hai lợi ích cộng dồn cho các câu hỏi phân tích.
 
 ## 8. Caching và cache hierarchy
 
@@ -163,6 +248,20 @@ flowchart TD
   D --> E["Object storage"]
   E --> F["Archival - chậm nhất, rẻ nhất"]
 ```
+
+### Áp vào chuỗi Mây: dữ liệu nào để ở tầng nào
+
+Con số nano giây, mili giây khó hình dung. Thử phóng đại: nếu lấy dữ liệu từ CPU cache mất **1 giây**, thì theo tỉ lệ Bảng 6-1, RAM mất gần 2 phút, SSD hơn 1 ngày, HDD khoảng 1,5 tháng, object storage hơn 3 năm, còn archival hơn một triệu năm. Khoảng chênh lớn đến vậy nên chọn sai tầng là chậm hoặc tốn tiền thấy rõ.
+
+Bảng dưới là cách Mây xếp dữ liệu vào từng tầng, dựa trên "hay dùng tới mức nào" và "cần nhanh tới mức nào".
+
+| Dữ liệu ở Mây | Bao lâu dùng một lần | Tầng phù hợp | Lý do |
+|---|---|---|---|
+| Menu, giá món đang bán | Mỗi lần khách mở app | RAM (cache) | Hàng nghìn lượt xem mỗi phút, cần tức thì |
+| Đơn hàng đang ghi ở quầy | Liên tục | SSD (máy chủ POS) | Nhiều thao tác ghi lẻ, cần IOPS cao |
+| Đơn hàng 3 năm cho phân tích | Mỗi ngày khi chạy báo cáo | Object storage | Rất nhiều dữ liệu, cần rẻ, đọc song song được |
+| Log nhiệt độ tủ mát năm ngoái | Hiếm khi | Object storage lớp rẻ | Chỉ xem khi điều tra sự cố |
+| Hoá đơn 7 năm theo luật thuế | Gần như không bao giờ | Archival | Rẻ nhất, chấp nhận chờ nửa ngày khi cần |
 
 ## Tóm tắt
 

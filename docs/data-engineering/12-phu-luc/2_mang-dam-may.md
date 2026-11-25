@@ -33,6 +33,7 @@ Phụ lục ngắn này nói về những yếu tố mạng mà kỹ sư dữ li
 - [6. Kết nối mạng trực tiếp tới đám mây](#6-kết-nối-mạng-trực-tiếp-tới-đám-mây)
 - [7. CDN](#7-cdn)
 - [8. Tương lai của phí data egress](#8-tương-lai-của-phí-data-egress)
+- [9. Áp vào chuỗi trà sữa Mây](#9-áp-vào-chuỗi-trà-sữa-mây)
 - [Tóm tắt](#tóm-tắt)
 
 ---
@@ -40,6 +41,20 @@ Phụ lục ngắn này nói về những yếu tố mạng mà kỹ sư dữ li
 ## 1. Cấu trúc liên kết mạng đám mây
 
 **Cloud network topology** (cấu trúc liên kết mạng đám mây) mô tả cách các thành phần trong đám mây được sắp xếp và kết nối: dịch vụ đám mây, mạng, vị trí (zone, region)... Kỹ sư dữ liệu phải luôn biết topology này ảnh hưởng thế nào tới **khả năng kết nối giữa các hệ thống dữ liệu** mình xây.
+
+**Thuật ngữ trong bài — hiểu nôm na:**
+
+| Thuật ngữ | Nghĩa đời thường | Ví dụ ở chuỗi Mây |
+|---|---|---|
+| Region | Một "thành phố" của nhà cung cấp đám mây, nơi có nhiều trung tâm dữ liệu | Region Singapore, gần Việt Nam |
+| Availability zone (AZ) | Một "khu" độc lập trong thành phố đó, có điện, nước, mạng riêng | Zone A và zone B của region Singapore |
+| VPC | Mạng nội bộ riêng của Mây trên đám mây, như hàng rào bao quanh các máy của mình | Các máy chạy pipeline của Mây nằm trong một VPC |
+| IP riêng / IP công cộng | Số máy lẻ nội bộ / số điện thoại gọi được từ bên ngoài | Máy pipeline gọi kho bằng IP riêng để khỏi tốn phí |
+| Ingress / Egress | Dữ liệu đi **vào** đám mây / đi **ra** khỏi đám mây | Đơn hàng từ POS đẩy lên: vào. Nhà khoa học tải dữ liệu về laptop: ra |
+| Băng thông | Độ rộng của "con đường": mỗi giây chở được bao nhiêu dữ liệu | Đường cao tốc so với đường hẻm |
+| Độ trễ (latency) | Thời gian một gói dữ liệu đi tới nơi | Vài chục mili giây tới Singapore so với vài trăm tới Mỹ |
+| Hop | Mỗi trạm trung chuyển (router) gói dữ liệu đi qua | Càng nhiều trạm, càng chậm |
+| CDN | Mạng "kho vệ tinh" giữ sẵn bản sao gần người dùng | Ảnh menu món trên app được giữ sẵn ở máy chủ gần khách |
 
 Azure, GCP và AWS đều dùng hệ thống phân cấp tài nguyên khá giống nhau gồm **availability zone** và **region**. Tại thời điểm sách được viết, GCP thêm một lớp nữa (multiregion, xem mục 5).
 
@@ -66,6 +81,18 @@ Chương 4 đã bàn về kinh tế đám mây: chi phí thực của nhà cung 
 
 Ví dụ minh hoạ (do người ghi chép thêm): nếu bạn có 50 TB dữ liệu và muốn chuyển sang đám mây khác, bạn trả phí egress cho toàn bộ 50 TB trước khi kể chi phí gì khác. Đó là lý do dữ liệu khó rời khỏi nơi nó đang nằm.
 
+**Phí egress ở Mây, tính nhẩm.** Dùng mức giá ví dụ của sách (9 xu mỗi GB ra internet công cộng); các khối lượng là giả định minh hoạ.
+
+| Tình huống ở Mây | Chiều | Khối lượng mỗi tháng | Phí ước tính |
+|---|---|---|---|
+| 30 máy POS đẩy đơn hàng lên kho | Vào | khoảng 5 GB | Miễn phí |
+| Cảm biến tủ mát gửi số đo | Vào | khoảng 2 GB | Miễn phí |
+| Nhà khoa học dữ liệu tải toàn bộ dữ liệu 2 năm về laptop mỗi tuần | Ra | khoảng 4 × 50 GB = 200 GB | khoảng 18 USD |
+| Công cụ BI đặt ở một nhà cung cấp đám mây khác, kéo dữ liệu mỗi giờ | Ra | khoảng 600 GB | khoảng 54 USD |
+| Chuyển toàn bộ kho 5 TB sang nhà cung cấp khác (một lần) | Ra | 5.000 GB | khoảng 450 USD |
+
+Với Mây, các con số còn nhỏ. Nhưng chúng **tăng theo dữ liệu** và thường bị quên khi lập ngân sách; cách rẻ nhất là để công cụ và người dùng làm việc **ngay trong đám mây**, gần dữ liệu, thay vì kéo dữ liệu ra ngoài.
+
 ---
 
 ## 3. Availability zone
@@ -81,6 +108,8 @@ Ví dụ minh hoạ (do người ghi chép thêm): nếu bạn có 50 TB dữ li
   - Máy ảo cũng có thể được gán IP công cộng để nói chuyện với bên ngoài và nhận lưu lượng từ internet, nhưng giao tiếp qua IP bên ngoài **có thể bị tính phí egress**.
 
 Mẹo (người ghi chép thêm): các node trong cùng cụm nên gọi nhau bằng IP/hostname nội bộ, không bằng IP công cộng, kẻo trả phí cho chính lưu lượng nội bộ.
+
+**Hình dung bằng tổng đài nội bộ:** hai phòng trong cùng văn phòng gọi nhau bằng số máy lẻ thì miễn phí. Nếu một phòng lại bấm số di động của phòng kia, cuộc gọi đi ra mạng ngoài rồi quay lại, và bị tính tiền, dù hai người ngồi cách nhau một bức tường.
 
 ---
 
@@ -101,6 +130,14 @@ Hiệu năng và chi phí theo phạm vi:
 | Giữa các region | Chậm hơn nữa | Có thể phí egress cao hơn |
 
 **Object storage** nhìn chung là tài nguyên **cấp region**. Dữ liệu có thể đi giữa các zone để tới máy ảo, nhưng việc này chủ yếu vô hình với khách hàng và **không bị tính phí mạng trực tiếp** (khách vẫn trả chi phí truy cập đối tượng như thường).
+
+**Chọn region cho Mây:** người dùng (máy POS, app của khách) đều ở Việt Nam, nên đặt hệ thống ở region gần nhất có lợi rõ rệt. Các con số độ trễ dưới đây là ước lượng minh hoạ.
+
+| Region đặt kho dữ liệu | Độ trễ ước lượng từ TP.HCM | App hiển thị điểm tích luỹ | Ghi chú |
+|---|---|---|---|
+| Singapore | vài chục mili giây | Gần như tức thì | Hợp lý nhất cho Mây |
+| Tokyo | khoảng 1–2 lần Singapore | Vẫn nhanh | Có thể làm region dự phòng |
+| Bắc Mỹ | vài trăm mili giây | Chậm thấy rõ khi phải gọi nhiều lần | Chỉ hợp nếu khách chủ yếu ở Mỹ |
 
 **Lỗi tương quan (correlated failure):** dù region được thiết kế dự phòng địa lý, nhiều sự cố dịch vụ đám mây lớn đã ảnh hưởng **cả region**. Lý do: kỹ sư thường triển khai mã và cấu hình cho cả region, nên các lỗi cấp region mà tác giả quan sát thường xuất phát từ vấn đề mã hoặc cấu hình ở cấp region, không phải do cháy hay mất điện.
 
@@ -150,6 +187,22 @@ Lưu ý của sách:
 - Phải **đọc kỹ điều khoản chi tiết** ("fine print") về giá và giới hạn.
 - CDN **không hoạt động ở mọi nơi**: một số quốc gia có thể chặn lưu lượng internet và việc phân phối qua CDN.
 
+**CDN ở Mây:** ảnh menu của 40 món được hàng chục nghìn khách tải mỗi ngày. Đây đúng là trường hợp "cùng một dữ liệu phân phối nhiều lần". Sơ đồ dưới cho thấy lần đầu và các lần sau khác nhau ra sao.
+
+```mermaid
+sequenceDiagram
+    participant K1 as Khách thứ nhất ở TP.HCM
+    participant C as Máy chủ CDN gần TP.HCM
+    participant G as Kho ảnh gốc của Mây
+    participant K2 as Khách thứ hai ở TP.HCM
+    K1->>C: Xin ảnh trà sữa trân châu
+    C->>G: Chưa có bản sao, lấy từ kho gốc
+    G-->>C: Gửi ảnh, tính phí egress một lần
+    C-->>K1: Trả ảnh
+    K2->>C: Xin cùng ảnh đó
+    C-->>K2: Trả ngay từ bản sao, không đụng tới kho gốc
+```
+
 ---
 
 ## 8. Tương lai của phí data egress
@@ -165,6 +218,42 @@ Dự đoán của tác giả:
 
 - Nghi ngờ GCP, AWS hoặc Azure sẽ công bố **cắt giảm đáng kể phí egress trong vài năm tới**, dẫn tới một thay đổi lớn trong mô hình kinh doanh đám mây.
 - Cũng hoàn toàn có thể phí egress **biến mất hẳn**, giống như số phút gọi điện thoại di động đắt đỏ và bị giới hạn đã biến mất cách đây nhiều thập kỷ.
+
+---
+
+## 9. Áp vào chuỗi trà sữa Mây
+
+Sơ đồ dưới gom các ý của phụ lục vào hạ tầng của Mây: chỗ nào miễn phí, chỗ nào tốn phí, chỗ nào nhanh nhất.
+
+```mermaid
+flowchart LR
+    subgraph vn["Việt Nam"]
+        POS["30 máy POS"]
+        LAP["Laptop nhà khoa học dữ liệu"]
+        KH["App của khách"]
+    end
+    subgraph sg["Region Singapore"]
+        OBJ["Object storage<br/>cấp region"]
+        subgraph za["Zone A, trong VPC"]
+            PIPE["Cụm xử lý pipeline"]
+            KHO["Kho dữ liệu"]
+        end
+        CDN["CDN ảnh menu"]
+    end
+    POS -->|"vào, miễn phí"| OBJ
+    OBJ -->|"cùng region, không tính phí mạng"| PIPE
+    PIPE -->|"IP riêng cùng zone, miễn phí, nhanh nhất"| KHO
+    KHO -->|"ra internet, tính phí egress"| LAP
+    CDN -->|"bản sao gần khách"| KH
+```
+
+| Quyết định ở Mây | Lý do theo phụ lục |
+|---|---|
+| Đặt mọi thứ ở region Singapore | Gần người dùng Việt Nam, độ trễ thấp |
+| Cụm xử lý và kho dữ liệu chạy cùng một zone, gọi nhau bằng IP riêng | Băng thông cao nhất, không tốn phí giữa các máy |
+| Nhà khoa học dữ liệu dùng notebook trên đám mây thay vì tải dữ liệu về laptop | Tránh phí egress và tránh để dữ liệu khách nằm trên laptop |
+| Ảnh menu phát qua CDN | Cùng một ảnh tải hàng chục nghìn lần mỗi ngày |
+| Sao lưu bản quan trọng sang region khác (ví dụ Tokyo) | Phòng khi cả region Singapore gặp sự cố tương quan; chấp nhận tốn thêm phí truyền giữa region |
 
 ---
 
