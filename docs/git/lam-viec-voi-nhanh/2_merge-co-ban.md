@@ -149,7 +149,7 @@ git commit -m "Thêm navigation"
 
 # Quay lại main và merge
 git switch main
-git merge feature/login
+git merge feature/header
 # Kết quả:
 # Updating abc1234..def5678
 # Fast-forward          <-- Git báo bạn: đây là fast-forward
@@ -381,20 +381,189 @@ git status
 | Điều kiện        | Main không có commit mới | Cả hai có commit mới     | Bất kỳ                |
 | Lệnh             | `git merge` (tự động)    | `git merge` (tự động)    | `git merge --squash`  |
 
-### Minh họa trực quan
+### 6.1. Trước hết: commit và branch thực chất là gì?
+
+Muốn hình dung merge, cần nhớ 2 điều:
+
+- **Commit** = ảnh chụp (snapshot) toàn bộ project + **con trỏ tới commit cha (parent)** + mã hash. Hash được tính từ chính nội dung đó, nên **đổi parent là đổi hash** — tức thành commit khác.
+- **Branch** chỉ là **một nhãn dán** lên một commit. `main` không "chứa" commit nào cả, nó chỉ trỏ vào commit mới nhất; Git đi ngược theo con trỏ parent để ra lịch sử.
+
+Vì vậy, mọi kiểu merge chỉ khác nhau ở 3 câu hỏi:
+
+1. Có **tạo commit mới** không?
+2. Commit mới đó có **mấy parent**?
+3. Các commit F, G, H của feature có **nằm trên đường đi ngược từ `main`** nữa không, và có **giữ nguyên hash** không?
+
+### 6.2. Tình huống 1 — main đứng yên (chưa ai commit thêm)
+
+Bạn rẽ nhánh `feature` từ C, làm 3 commit F, G, H. Trong lúc đó `main` **không có commit mới**.
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C" tag: "main"
+    branch feature
+    checkout feature
+    commit id: "F"
+    commit id: "G"
+    commit id: "H" tag: "feature"
+```
+
+**Cách 1: `git merge feature` → Fast-forward**
+
+Git thấy H đã "nối thẳng" phía sau C, nên **không tạo commit nào**, chỉ **bóc nhãn `main` từ C dán sang H**:
 
 ```
-# Fast-forward:
-main: A---B---C---D---E---F  (phẳng, không thấy branch)
+Trước:  A---B---C          ← main
+                 \
+                  F---G---H ← feature
 
-# 3-way merge (--no-ff):
-main: A---B---C---D---E---M  (thấy rõ branch)
-               \         /
-feature:        F---G---H
-
-# Squash merge:
-main: A---B---C---D---E---S  (phẳng, 1 commit gọn)
+Sau:    A---B---C---F---G---H   ← main, feature  (cùng trỏ vào H)
 ```
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    commit id: "F"
+    commit id: "G"
+    commit id: "H" tag: "main = feature"
+```
+
+- Không có commit mới, F, G, H **giữ nguyên hash**.
+- Nhìn log sau này **không biết** F, G, H từng nằm trên một nhánh riêng.
+
+**Cách 2: `git merge --no-ff feature` → ép tạo merge commit**
+
+Dù có thể fast-forward, Git vẫn tạo **commit M có 2 parent** (C và H):
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch feature
+    checkout feature
+    commit id: "F"
+    commit id: "G"
+    commit id: "H"
+    checkout main
+    merge feature id: "M (parent: C + H)" tag: "main"
+```
+
+- Có thêm 1 commit M. F, G, H **giữ nguyên hash**, nằm trên "đường vòng" qua parent thứ 2 của M.
+- Muốn gỡ cả feature: `git revert -m 1 M` — một lệnh là xong.
+
+### 6.3. Tình huống 2 — main đã có commit mới (hai nhánh phân kỳ)
+
+Trong lúc bạn làm F, G, H thì đồng đội đã đưa D, E vào `main`. Fast-forward **không thể** xảy ra nữa, vì H không nằm "phía sau" E.
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch feature
+    checkout feature
+    commit id: "F"
+    commit id: "G"
+    commit id: "H" tag: "feature"
+    checkout main
+    commit id: "D"
+    commit id: "E" tag: "main"
+```
+
+**Cách 3: `git merge feature` → 3-way merge (merge commit)**
+
+Git so sánh C (base) ↔ E (main) ↔ H (feature), gộp hai phía thành **M có 2 parent: E và H**:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch feature
+    checkout feature
+    commit id: "F"
+    commit id: "G"
+    commit id: "H"
+    checkout main
+    commit id: "D"
+    commit id: "E"
+    merge feature id: "M (parent: E + H)" tag: "main"
+```
+
+- F, G, H **giữ nguyên hash**, vẫn thấy rõ "đây là một nhánh đã nhập vào".
+- `git log` trên main sẽ liệt kê cả D, E, F, G, H, M (xen kẽ theo thời gian).
+
+**Cách 4: `git merge --squash feature` + `git commit` → Squash**
+
+Git lấy **tổng thay đổi** của F + G + H, đắp lên E và bạn tự commit thành **S — commit thường, chỉ 1 parent là E**:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch feature
+    checkout feature
+    commit id: "F"
+    commit id: "G"
+    commit id: "H" tag: "feature"
+    checkout main
+    commit id: "D"
+    commit id: "E"
+    commit id: "S = F+G+H" type: HIGHLIGHT tag: "main"
+```
+
+- **Nội dung code** của S giống hệt M ở cách 3, nhưng **lịch sử** khác hẳn: S **không có dây nối** nào sang H.
+- F, G, H **không nằm trên main**; chúng chỉ còn trên nhánh `feature`. Xóa nhánh đi là chúng "mồ côi" và sau này bị Git dọn mất.
+- Đó là lý do Git coi `feature` là "chưa merge" và `git branch -d` từ chối xóa.
+
+**Cách 5 (để so sánh): Rebase rồi merge — nút "Rebase and merge" trên GitHub**
+
+Git **chép lại** F, G, H lên trên E thành F', G', H' (cùng nội dung thay đổi, nhưng parent khác nên **hash khác**), rồi fast-forward `main`:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    commit id: "D"
+    commit id: "E"
+    commit id: "F'"
+    commit id: "G'"
+    commit id: "H'" tag: "main"
+```
+
+- Lịch sử thẳng, giữ đủ từng commit, nhưng là **bản sao mới**; F, G, H gốc bị bỏ lại. Chi tiết ở bài [Rebase cơ bản](./3_rebase-co-ban.md).
+
+### 6.4. Bảng "số phận" của commit F, G, H
+
+| Kiểu merge         | Commit mới?            | Số parent của commit mới | F, G, H có trên main? | Hash F, G, H  | Nhìn `git log --graph` |
+| ------------------ | ---------------------- | ------------------------ | --------------------- | ------------- | ---------------------- |
+| Fast-forward       | Không                  | —                        | Có                    | Giữ nguyên    | Một đường thẳng        |
+| `--no-ff` / 3-way  | Có (M)                 | **2**                    | Có (qua parent 2)     | Giữ nguyên    | Có "mắt lưới" rẽ ra rồi nhập lại |
+| Squash             | Có (S, bạn tự commit)  | 1                        | **Không**             | Không lên main | Đường thẳng, 1 commit gọn |
+| Rebase + merge     | Có (F', G', H')        | 1 mỗi commit             | Bản sao F', G', H'    | **Đổi hash**  | Đường thẳng, đủ từng commit |
+
+:::tip[Tự kiểm chứng trên máy]
+
+Lệnh sau in thêm **hash của parent** (`%p`) cho từng commit — nhìn vào là biết commit nào có 2 parent (merge commit):
+
+```bash
+git log --graph --format='%h  parent=[%p]  %s' --all
+# *   9c1e2f0  parent=[7ab31d2 4f0e9aa]  Merge branch 'feature'   <-- 2 parent
+# |\
+# | * 4f0e9aa  parent=[c3d2b10]  H
+# ...
+```
+
+Chạy lại với từng cách ở trên (tạo repo thử, reset về trước merge giữa mỗi lần) để thấy F, G, H còn hay mất, hash có đổi không.
+
+:::
 
 ---
 
