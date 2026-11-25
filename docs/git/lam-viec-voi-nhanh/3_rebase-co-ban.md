@@ -234,41 +234,152 @@ git log --oneline --graph --all
 | **Rollback**     | Dễ (revert merge commit)             | Khó hơn (commits đã bị viết lại)          |
 | **Thông tin**    | Giữ đầy đủ (ai, khi nào, branch nào) | Mất thông tin về branch gốc               |
 
-### 3.2. Minh họa trực quan
+### 3.2. Minh họa: cùng một tình huống, dùng và không dùng rebase
 
-```
-# MERGE: Giữ nguyên lịch sử, có merge commit
-main: A---B---C---D---E---M
-               \         /
-feature:        F---G---H
-
-# REBASE: Viết lại lịch sử, một đường thẳng
-main: A---B---C---D---E
-                        \
-feature:                 F'---G'---H'
-
-# Sau khi merge feature vào main (fast-forward vì rebase):
-main: A---B---C---D---E---F'---G'---H'
-# Một đường thẳng hoàn hảo!
-```
-
-Sơ đồ so sánh trước và sau khi rebase — chú ý các commit F, G trở thành F', G' với hash mới:
+**Điểm xuất phát (giống hệt bài Merge):** bạn rẽ `feature` từ C, làm F, G, H. Trong lúc đó đồng đội đưa D, E vào `main`.
 
 ```mermaid
-flowchart TB
-    subgraph truoc["Trước rebase (feature tách từ C)"]
-        direction LR
-        A1["A"] --> B1["B"] --> C1["C"]
-        C1 --> D1["D"] --> E1["E (main)"]
-        C1 --> F1["F"] --> G1["G (feature)"]
-    end
-    subgraph sau["Sau rebase (lịch sử thẳng)"]
-        direction LR
-        A2["A"] --> B2["B"] --> C2["C"] --> D2["D"] --> E2["E (main)"]
-        E2 --> F2["F' (hash mới)"] --> G2["G' (feature)"]
-    end
-    truoc -.->|"git rebase main"| sau
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch feature
+    checkout feature
+    commit id: "F"
+    commit id: "G"
+    commit id: "H" tag: "feature"
+    checkout main
+    commit id: "D"
+    commit id: "E" tag: "main"
 ```
+
+Bạn cần làm 2 việc: **(1) cập nhật feature theo main mới nhất**, rồi **(2) đưa feature vào main**. Rebase chỉ thay đổi cách làm bước (1), nhưng kéo theo bước (2) cũng khác.
+
+#### Bước 1 — Cập nhật feature theo main
+
+**KHÔNG rebase: `git switch feature && git merge main`**
+
+Git tạo **merge commit M1** trên `feature`, có 2 parent (H và E). F, G, H **giữ nguyên hash**.
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch feature
+    checkout feature
+    commit id: "F"
+    commit id: "G"
+    commit id: "H"
+    checkout main
+    commit id: "D"
+    commit id: "E" tag: "main"
+    checkout feature
+    merge main id: "M1 (main vào feature)" tag: "feature"
+```
+
+**CÓ rebase: `git switch feature && git rebase main`**
+
+Git **nhấc** F, G, H ra, **áp lại từng cái** lên đỉnh E thành F', G', H'. Không có merge commit nào; F', G', H' là **commit mới, hash mới** (vì parent đổi). F, G, H gốc bị bỏ lại, không nhánh nào trỏ tới.
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    commit id: "D"
+    commit id: "E" tag: "main"
+    branch feature
+    checkout feature
+    commit id: "F'"
+    commit id: "G'"
+    commit id: "H'" tag: "feature"
+```
+
+> Nội dung code của H' (sau rebase) và M1 (sau merge) **giống hệt nhau** — đều là "code của main + thay đổi của feature". Khác nhau **chỉ ở lịch sử**.
+
+#### Bước 2 — Đưa feature vào main
+
+**KHÔNG rebase trước:** `main` và `feature` vẫn phân kỳ ⇒ `git merge feature` thành **3-way merge**, sinh thêm M2. Lịch sử có 2 merge commit đan chéo:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch feature
+    checkout feature
+    commit id: "F"
+    commit id: "G"
+    commit id: "H"
+    checkout main
+    commit id: "D"
+    commit id: "E"
+    checkout feature
+    merge main id: "M1"
+    checkout main
+    merge feature id: "M2" tag: "main"
+```
+
+**CÓ rebase trước:** `feature` đã nằm ngay sau E ⇒ `git merge feature` chỉ **fast-forward** (dời nhãn `main` lên H'). Không có merge commit nào:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    commit id: "D"
+    commit id: "E"
+    commit id: "F'"
+    commit id: "G'"
+    commit id: "H'" tag: "main = feature"
+```
+
+(Nếu team vẫn muốn thấy "đây là một feature", dùng `git merge --no-ff feature` — được 1 merge commit duy nhất, nhánh rẽ gọn gàng ngay sau E.)
+
+#### Hệ quả khi nhánh đã push lên remote
+
+Đây là chỗ khác biệt **thực tế nhất**. Giả sử bạn đã `git push` F, G, H lên `origin/feature` trước đó:
+
+- **Không rebase:** M1 là commit **thêm vào** sau H ⇒ `git push` bình thường.
+- **Có rebase:** local có F', G', H', còn remote vẫn là F, G, H — hai bên **phân kỳ**. `git push` thường bị **từ chối** (non-fast-forward), bạn phải `git push --force-with-lease`. Ai đã pull F, G, H về máy sẽ bị lệch lịch sử ⇒ đây chính là lý do của [Golden Rule](#4-golden-rule-quy-tắc-vàng).
+
+```mermaid
+gitGraph
+    commit id: "C"
+    branch origin-feature
+    checkout origin-feature
+    commit id: "F"
+    commit id: "G"
+    commit id: "H" tag: "origin/feature"
+    checkout main
+    commit id: "D"
+    commit id: "E"
+    branch feature-local
+    checkout feature-local
+    commit id: "F'"
+    commit id: "G'"
+    commit id: "H'" tag: "feature (local)"
+```
+
+#### Tóm gọn: dùng vs không dùng rebase
+
+| Tiêu chí                         | Không rebase (`git merge main`)       | Có rebase (`git rebase main`)              |
+| -------------------------------- | ------------------------------------- | ------------------------------------------ |
+| Commit F, G, H                   | Giữ nguyên hash                       | Thay bằng bản sao F', G', H' (hash mới)    |
+| Merge commit khi cập nhật        | Có (M1), mỗi lần cập nhật thêm 1 cái  | Không có                                   |
+| Merge feature vào main           | 3-way, sinh thêm M2                   | Fast-forward (hoặc 1 merge commit nếu `--no-ff`) |
+| Hình dạng `git log --graph`      | Nhiều đường đan chéo                  | Một đường thẳng                            |
+| Conflict                         | Giải quyết **1 lần** tại M1           | Có thể giải quyết **từng commit** (F', rồi G', rồi H') |
+| Push sau khi cập nhật            | `git push` bình thường                | Phải `--force-with-lease` nếu đã push trước |
+| An toàn với nhánh dùng chung     | An toàn                               | Nguy hiểm — người khác bị lệch lịch sử      |
+| Code cuối cùng                   | **Giống nhau**                        | **Giống nhau**                             |
+
+:::tip[Một câu để nhớ]
+
+Merge **ghi thêm** một commit nói rằng "hai dòng lịch sử đã gặp nhau". Rebase **viết lại** dòng lịch sử của bạn như thể bạn bắt đầu làm sau E. Code giống nhau — chỉ khác câu chuyện mà `git log` kể lại.
+
+:::
 
 ### 3.3. Khi nào dùng merge, khi nào dùng rebase?
 
