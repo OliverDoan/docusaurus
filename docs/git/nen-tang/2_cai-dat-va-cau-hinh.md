@@ -194,6 +194,14 @@ Date:   Mon Mar 25 10:30:00 2025 +0700
 
 Nếu bạn không cấu hình, Git sẽ **từ chối commit** hoặc dùng thông tin mặc định của hệ thống (có thể không chính xác).
 
+:::info[Ẩn dụ: chữ ký sau mỗi tấm ảnh]
+
+Mỗi commit giống một tấm ảnh chụp dự án. Tên và email là **chữ ký bạn ghi sau lưng tấm ảnh**: "ai chụp, lúc nào". Sau này cả team lật album ra sẽ biết dòng code nào do ai viết. Chữ ký được ghi **vào chính commit** — đổi cấu hình về sau **không** sửa lại được chữ ký trên các commit cũ, nên hãy khai báo đúng ngay từ đầu.
+
+Lưu ý: tên/email này **không phải** là tài khoản đăng nhập. Nó chỉ là "chữ ký" — GitHub dùng email để nối commit với hồ sơ của bạn (hiện avatar), còn việc được phép push hay không do SSH key hoặc token quyết định (mục 5).
+
+:::
+
 ### Kiểm tra cấu hình
 
 ```bash
@@ -232,6 +240,50 @@ Git có 3 cấp cấu hình, **cấp dưới ghi đè cấp trên**:
 |  .git/config (trong thư mục repo)                 |
 |  Chỉ áp dụng cho REPO hiện tại                   |
 +--------------------------------------------------+
+```
+
+### Git chọn giá trị nào khi ba cấp "cãi nhau"?
+
+:::info[Ẩn dụ: nội quy toà nhà, quy tắc nhà bạn, quy tắc phòng riêng]
+
+- **System** = nội quy **cả toà nhà** (mọi người dùng trên máy).
+- **Global** = quy tắc **trong căn hộ của bạn** (tài khoản người dùng của bạn, mọi repo).
+- **Local** = quy tắc **dán trên cửa một phòng** (chỉ một repo).
+
+Quy tắc càng **gần** bạn càng được ưu tiên: phòng ghi "không mang giày" thì vẫn cởi giày, dù nội quy toà nhà cho phép.
+
+:::
+
+Khi cần một giá trị như `user.email`, Git hỏi lần lượt từ **gần nhất** ra **xa nhất** và dừng ngay ở chỗ đầu tiên tìm thấy:
+
+```mermaid
+flowchart TD
+    Q["Git cần user.email"] --> L{"Có trong .git/config<br/>của repo này? (local)"}
+    L -->|"Có"| UL["Dùng giá trị LOCAL"]
+    L -->|"Không"| G{"Có trong ~/.gitconfig?<br/>(global)"}
+    G -->|"Có"| UG["Dùng giá trị GLOBAL"]
+    G -->|"Không"| S{"Có trong /etc/gitconfig?<br/>(system)"}
+    S -->|"Có"| US["Dùng giá trị SYSTEM"]
+    S -->|"Không"| E["Báo lỗi<br/>Please tell me who you are"]
+```
+
+Áp vào ví dụ email công ty ở dưới: cùng một máy, cùng một người, nhưng commit ở hai thư mục khác nhau sẽ mang hai email khác nhau:
+
+```mermaid
+flowchart LR
+    subgraph GL["Global - ~/.gitconfig"]
+        E1["user.email = personal@gmail.com"]
+    end
+    subgraph R1["~/hobby/blog"]
+        C1["Không có local<br/>dùng personal@gmail.com"]
+    end
+    subgraph R2["~/work/company-project"]
+        LC["Local - .git/config<br/>user.email = nguyenvana@company.com"]
+        C2["Commit mang email công ty"]
+        LC --> C2
+    end
+    E1 --> C1
+    E1 -.->|"bị local ghi đè"| C2
 ```
 
 ### Khi nào dùng cấp nào?
@@ -309,6 +361,33 @@ Nếu bạn bị "mắc kẹt" trong vim (chuyện thật sự xảy ra với ng
 ## 5. Thiết lập SSH Key
 
 SSH Key cho phép bạn kết nối với GitHub/GitLab mà **không cần nhập mật khẩu** mỗi lần push/pull.
+
+:::info[Ẩn dụ: ổ khoá và chìa khoá]
+
+Lệnh `ssh-keygen` tạo ra **một cặp** file đi đôi với nhau:
+
+- **Public key** (`id_ed25519.pub`, "khoá công khai") = **cái ổ khoá**. Bạn đem ổ khoá này gắn lên GitHub. Ai nhìn thấy ổ khoá cũng không sao — nó không mở được gì.
+- **Private key** (`id_ed25519`, "khoá bí mật") = **chiếc chìa duy nhất** mở được ổ khoá đó. Chìa này **chỉ nằm trên máy bạn**, không bao giờ gửi đi, không bao giờ dán lên đâu cả.
+- **ssh-agent** = **người giữ chùm chìa** giúp bạn, để không phải lục túi (gõ passphrase) mỗi lần mở cửa.
+
+:::
+
+Mỗi lần bạn `git push`, GitHub không hỏi mật khẩu mà "thách" máy bạn chứng minh đang giữ đúng chìa. Chìa bí mật **không hề rời máy** trong suốt quá trình:
+
+```mermaid
+sequenceDiagram
+    participant U as Máy bạn (giữ private key)
+    participant G as GitHub (giữ public key)
+    U->>G: Tôi muốn push, đây là public key của tôi
+    G->>G: Tìm thấy key này trong Settings của tài khoản nguyenvana
+    G->>U: Gửi một câu đố ngẫu nhiên
+    U->>U: Dùng private key ký vào câu đố
+    U->>G: Gửi lại chữ ký (không gửi private key)
+    G->>G: Dùng public key kiểm tra chữ ký
+    G-->>U: Hợp lệ - cho phép push
+```
+
+Vì vậy: lộ public key không sao, nhưng **lộ private key = mất chìa nhà**. Nếu lỡ để lộ, hãy xoá public key tương ứng trên GitHub và tạo cặp mới.
 
 ### 5.1 Kiểm tra SSH key hiện có
 
@@ -409,7 +488,7 @@ Nếu thấy lỗi `Permission denied`, kiểm tra lại:
 # Windows: Tự động chuyển LF -> CRLF khi checkout, CRLF -> LF khi commit
 git config --global core.autocrlf true
 
-# macOS/Linux: Chỉ cảnh báo nếu có CRLF, chuyển về LF khi commit
+# macOS/Linux: Chuyển CRLF -> LF khi commit, khi checkout giữ nguyên (không đổi sang CRLF)
 git config --global core.autocrlf input
 ```
 
@@ -445,6 +524,29 @@ Local  (main):          A ── B ── C        ← bạn commit C nhưng ch�
 
 Hai nhánh đã **rẽ đôi** (diverged). Mỗi bên có một commit bên kia chưa có. Giờ bạn chạy `git pull`.
 
+Vẽ bằng sơ đồ (nhánh `origin-main` là bản sao `origin/main` mà máy bạn biết sau khi `fetch`):
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    branch origin-main
+    checkout origin-main
+    commit id: "D (đồng nghiệp)" tag: "origin/main"
+    checkout main
+    commit id: "C (của bạn)" tag: "main"
+```
+
+:::info[Ẩn dụ: hai người cùng viết tiếp một cuốn nhật ký]
+
+Bạn và đồng nghiệp cùng cầm bản photo cuốn nhật ký tới trang B. Bạn viết thêm trang C, đồng nghiệp viết trang D và nộp lên trước. Giờ bạn muốn gộp lại thành một cuốn. Có ba cách:
+
+1. **Merge** — đóng hai bản lại với nhau, thêm một trang "ghi chú gộp" M ở cuối.
+2. **Rebase** — chép lại trang C của bạn **sau** trang D, như thể bạn viết sau khi đã đọc D.
+3. **FF only** — "tôi chỉ nhận nếu không phải gộp gì cả", còn không thì dừng lại hỏi bạn.
+
+:::
+
 #### Cách 1: Merge (`pull.rebase false`)
 
 ```bash
@@ -457,6 +559,18 @@ Git tạo thêm một **merge commit** `M` để nối hai nhánh:
 A ── B ── C ──── M      ← main
       \         /
        └── D ──┘
+```
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    branch origin-main
+    checkout origin-main
+    commit id: "D" tag: "origin/main"
+    checkout main
+    commit id: "C"
+    merge origin-main id: "M (merge commit)" tag: "main"
 ```
 
 ```bash
@@ -483,6 +597,16 @@ Git tạm cất commit `C` của bạn, kéo `D` về, rồi **chép lại** `C`
 ```
 A ── B ── D ── C'      ← main (thẳng một đường)
 ```
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "D" tag: "origin/main"
+    commit id: "C' (hash mới)" type: HIGHLIGHT tag: "main"
+```
+
+C gốc không mất ngay (vẫn tìm được qua `git reflog`), nhưng không còn nhánh nào trỏ tới nó.
 
 ```bash
 $ git log --oneline --graph
@@ -521,6 +645,15 @@ Trước:  Local  A ── B
 Sau:    Local  A ── B ── D       ✅ chỉ dời con trỏ
 ```
 
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "D" tag: "main = origin/main"
+```
+
+Không có commit mới nào sinh ra — nhãn `main` chỉ được "trượt" từ B lên D.
+
 Nếu hai nhánh đã rẽ đôi như tình huống chung, Git **từ chối**:
 
 ```bash
@@ -554,6 +687,16 @@ git config --global rebase.autoStash true   # tự stash file đang sửa dở t
 ```
 
 Nếu chưa quen xử lý conflict khi rebase, dùng `pull.ff only` để Git dừng lại báo cho bạn biết, thay vì tự làm thay.
+
+Hoặc tự trả lời theo sơ đồ dưới:
+
+```mermaid
+flowchart TD
+    Q{"Bạn đã quen giải conflict<br/>khi rebase chưa?"} -->|"Chưa"| FF["pull.ff only<br/>Git dừng lại khi nhánh rẽ đôi"]
+    Q -->|"Rồi"| T{"Team muốn lịch sử<br/>thẳng một đường?"}
+    T -->|"Có"| RB["pull.rebase true<br/>+ rebase.autoStash true"]
+    T -->|"Không, cần giữ đúng lịch sử thật"| MG["pull.rebase false<br/>(merge)"]
+```
 
 :::tip
 Các bản Git mới (khoảng từ 2.33 trở đi) sẽ báo lỗi `Need to specify how to reconcile divergent branches` nếu bạn chưa cấu hình gì mà nhánh đã rẽ đôi. Đó là lý do nên cấu hình mục này ngay từ đầu.
@@ -763,6 +906,20 @@ Git chuyển đổi ký tự xuống dòng ở hai thời điểm: khi **commit*
 | `false` | giữ nguyên | giữ nguyên   | Không khuyến nghị cho team nhiều OS  |
 
 Cả hai cách cấu hình đều nhắm tới một điều: **trong repo luôn lưu LF**. Windows được đổi sang CRLF khi checkout để editor hiển thị đúng; macOS/Linux dùng `input` để chặn file CRLF lỡ lọt vào khi commit.
+
+Hình dung đường đi của file `App.java` giữa hai máy khi cả hai đã cấu hình đúng. Trong repo chỉ có một dạng duy nhất là LF, nên `git diff` chỉ còn hiện dòng thật sự thay đổi:
+
+```mermaid
+sequenceDiagram
+    participant W as Máy Windows (autocrlf true)
+    participant R as Repo (luôn lưu LF)
+    participant M as Máy macOS (autocrlf input)
+    R->>W: checkout - đổi LF thành CRLF cho editor Windows
+    W->>W: Sửa 1 dòng, editor lưu CRLF
+    W->>R: commit - đổi CRLF về LF, chỉ 1 dòng khác
+    R->>M: checkout - giữ nguyên LF
+    M->>R: commit - nếu lỡ có CRLF thì đổi về LF
+```
 
 Hạn chế: đây là cấu hình riêng từng máy. Chỉ cần một người trong team quên cấu hình là lỗi quay lại.
 

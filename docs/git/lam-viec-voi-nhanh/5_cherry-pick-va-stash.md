@@ -132,6 +132,55 @@ Stash hoạt động như một **ngăn xếp (stack)** -- Last In, First Out (L
 +-------------------+
 ```
 
+### 1.3. Hình dung bằng ngăn kéo tạm
+
+:::info[Ẩn dụ: dọn bàn vào ngăn kéo]
+
+Bạn đang bày giấy tờ dở dang đầy bàn (working directory có thay đổi chưa commit) thì sếp gọi làm việc gấp, cần **bàn trống**. Bạn **gạt hết vào ngăn kéo** (`git stash`), dán mẩu giấy ghi chú lên trên (message). Xong việc gấp, bạn **lấy đúng xấp đó ra bày lại** (`git stash pop`).
+
+- Ngăn kéo là **chồng giấy**: xấp cất sau nằm trên cùng (`stash@{0}`), lấy ra trước.
+- Ngăn kéo **chỉ nằm ở bàn của bạn** — không ai khác thấy (stash không được push lên remote).
+- Ngăn kéo **không gắn với nhánh nào** — cất ở nhánh A, lấy ra ở nhánh B vẫn được (đôi khi lại rất tiện, đôi khi gây nhầm).
+
+Thuật ngữ: **WIP** = *work in progress* (việc đang làm dở); **stack** = chồng/ngăn xếp.
+
+:::
+
+Stash lấy thay đổi từ **cả Working Directory lẫn Staging Area**, cất vào ngăn kéo, để lại hai vùng đó sạch như vừa commit. `pop` làm chiều ngược lại:
+
+```mermaid
+flowchart LR
+    subgraph BAN["Bàn làm việc"]
+        WD["Working Directory<br/>dashboard.css (sửa dở)"]
+        SA["Staging Area<br/>dashboard.js (đã add)"]
+    end
+    subgraph NK["Ngăn kéo - stash stack"]
+        S0["stash@{0}<br/>mới nhất"]
+        S1["stash@{1}<br/>cũ hơn"]
+    end
+    RP[("Repository<br/>commit HEAD - không đổi")]
+    WD -->|"git stash"| S0
+    SA -->|"git stash"| S0
+    S0 -.->|"git stash pop / apply"| WD
+```
+
+Một vòng "cất → đi làm việc khác → lấy lại" diễn ra theo thời gian như sau:
+
+```mermaid
+sequenceDiagram
+    participant W as Bàn làm việc (feature/dashboard)
+    participant S as Ngăn kéo stash
+    participant H as Nhánh hotfix
+    Note over W: Đang sửa dở dashboard.js, dashboard.css
+    W->>S: git stash push -m "Dashboard dang lam"
+    Note over W: Bàn sạch - git status báo clean
+    W->>H: git switch hotfix/urgent
+    H->>H: Sửa bug, git commit, git push
+    H->>W: git switch feature/dashboard
+    S->>W: git stash pop
+    Note over W: Việc dở quay lại y như cũ, stash@{0} bị xoá khỏi ngăn kéo
+```
+
 ---
 
 ## 2. Các lệnh stash cơ bản
@@ -163,7 +212,7 @@ git switch hotfix/urgent
 git stash list
 # stash@{0}: WIP on feature/dashboard: abc1234 Thêm dashboard layout
 # stash@{1}: WIP on feature/login: def5678 Tạo form login
-# stash@{2}: WIP on main: ghi9012 Update README
+# stash@{2}: WIP on main: 9e19012 Update README
 
 # Mỗi entry có:
 # stash@{n}  -- index (0 = mới nhất)
@@ -181,6 +230,9 @@ git stash pop
 #         modified:   dashboard.js
 #         modified:   dashboard.css
 # Dropped refs/stash@{0} (abc1234...)
+
+# Lưu ý: dashboard.js lúc stash ĐÃ được staged, nhưng pop trả về dạng
+# "not staged". Muốn khôi phục đúng cả trạng thái staging: git stash pop --index
 
 # stash@{0} đã bị XÓA khỏi stash list
 git stash list
@@ -417,6 +469,79 @@ develop:           D---E---F---G---H
 # Vì F' có parent khác (C thay vì E)
 ```
 
+### 5.4. Minh hoạ trước / sau bằng gitGraph
+
+:::info[Ẩn dụ: chép một công thức từ sổ tay người khác]
+
+Đồng nghiệp có cuốn sổ tay (nhánh `develop`) với 5 công thức D, E, F, G, H. Bạn chỉ cần công thức F nên **chép tay** F sang sổ của mình (`main`). Bản chép (F') có **nội dung y hệt**, nhưng là **trang mới trong sổ của bạn** — đánh số khác, nằm sau trang C của bạn chứ không nằm sau trang E của đồng nghiệp. Sổ của đồng nghiệp không hề bị đụng tới.
+
+:::
+
+**Trước:** `main` dừng ở C, `develop` có D…H.
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C" tag: "main"
+    branch develop
+    checkout develop
+    commit id: "D"
+    commit id: "E"
+    commit id: "F - sua bug"
+    commit id: "G"
+    commit id: "H" tag: "develop"
+```
+
+**Sau `git switch main && git cherry-pick F`:** `main` có thêm **một** commit mới F' (Mermaid vẽ kèm chú thích "cherry-pick" trỏ về F). D, E, G, H **không** sang main; `develop` giữ nguyên:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch develop
+    checkout develop
+    commit id: "D"
+    commit id: "E"
+    commit id: "F - sua bug"
+    commit id: "G"
+    commit id: "H" tag: "develop"
+    checkout main
+    cherry-pick id: "F - sua bug"
+```
+
+### 5.5. Cherry-pick vs merge — cùng tình huống
+
+Nếu thay vì cherry-pick, bạn `git merge develop` vào `main`, thì main nhận **tất cả** D, E, F, G, H qua merge commit M — kể cả G, H chưa sẵn sàng:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch develop
+    checkout develop
+    commit id: "D"
+    commit id: "E"
+    commit id: "F - sua bug"
+    commit id: "G (chua xong)"
+    commit id: "H (chua xong)"
+    checkout main
+    merge develop id: "M" tag: "main"
+```
+
+| Tiêu chí                                | `git cherry-pick F`                         | `git merge develop`                          |
+| --------------------------------------- | ------------------------------------------- | -------------------------------------------- |
+| Main nhận những gì                      | **Chỉ** thay đổi của F                      | Toàn bộ D, E, F, G, H                        |
+| Commit mới trên main                    | F' (bản sao, hash mới, 1 parent là C)       | M (merge commit, 2 parent là C và H)         |
+| Commit gốc F                            | Vẫn ở develop, không liên kết với F'        | Nằm trong lịch sử main (qua M), giữ hash     |
+| Git có "nhớ" là đã lấy F không          | **Không** — F và F' là hai commit khác nhau | Có — lần merge sau chỉ lấy phần mới          |
+| Rủi ro                                  | Thiếu commit phụ thuộc (vd F cần E), trùng lặp | Kéo theo code chưa sẵn sàng                 |
+| Hợp với                                 | Hotfix, backport, lấy lẻ 1–2 commit         | Đưa cả một nhánh đã hoàn thành vào           |
+
+**Một câu để nhớ:** merge là **nhập cả nhánh** (Git nhớ đã nhập), cherry-pick là **chép lẻ từng commit** (Git không nhớ, chỉ tạo bản sao).
+
 ---
 
 ## 6. Cherry-pick cơ bản
@@ -426,7 +551,7 @@ develop:           D---E---F---G---H
 ```bash
 # Bước 1: Tìm commit hash cần cherry-pick
 git log --oneline develop
-# ghi9012 (develop) Thêm feature H
+# 9e19012 (develop) Thêm feature H
 # def5678 Sửa bug F          <-- Cần commit này!
 # abc1234 Thêm feature E
 # ...
@@ -447,16 +572,16 @@ git cherry-pick def5678
 
 ```bash
 # Cherry-pick nhiều commit riêng lẻ
-git cherry-pick abc1234 def5678 ghi9012
+git cherry-pick abc1234 def5678 9e19012
 # Áp dụng 3 commit theo thứ tự
 
 # Cherry-pick một RANGE (từ commit A đến commit B)
-git cherry-pick abc1234..ghi9012
-# Áp dụng tất cả commit SAU abc1234 đến ghi9012
+git cherry-pick abc1234..9e19012
+# Áp dụng tất cả commit SAU abc1234 đến 9e19012
 # CHÚ Ý: KHÔNG bao gồm abc1234!
 
 # Bao gồm cả commit đầu:
-git cherry-pick abc1234^..ghi9012
+git cherry-pick abc1234^..9e19012
 # ^ nghĩa là "cha của abc1234" -> bao gồm abc1234
 ```
 
@@ -571,6 +696,29 @@ develop:           D---E---F---G---H
 # Nhưng lịch sử sẽ có 2 commit giống nhau -- confusing
 ```
 
+Vẽ ra cho dễ thấy: sau khi merge, đi ngược từ M trên `main` sẽ gặp **cả F' lẫn F** — hai commit cùng nội dung, hai hash khác nhau:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch develop
+    checkout develop
+    commit id: "D"
+    commit id: "E"
+    commit id: "F"
+    checkout main
+    cherry-pick id: "F"
+    checkout develop
+    commit id: "G"
+    commit id: "H"
+    checkout main
+    merge develop id: "M" tag: "main"
+```
+
+`git log main` sẽ liệt kê hai dòng "Sửa bug F". Nếu sau khi cherry-pick, một trong hai bên **sửa tiếp** đúng đoạn code đó, lúc merge còn có thể **conflict** với chính bản sao của mình.
+
 ### 8.2. Mất context
 
 ```bash
@@ -628,6 +776,84 @@ git switch hotfix/urgent
 git switch wip/feature-X-paused
 # Tiếp tục làm
 ```
+
+### Stash vs commit tạm (WIP commit) — cùng một tình huống
+
+Còn một cách thứ ba rất phổ biến: **không tạo nhánh mới**, cứ commit luôn việc dở trên nhánh hiện tại với message "WIP", lát quay lại thì "gỡ" commit đó ra. Cùng tình huống: bạn đang ở `feature-x` (đã có commit F1), sửa dở thì phải đi sửa hotfix.
+
+:::info[Ẩn dụ: ngăn kéo vs kẹp tạm vào hồ sơ]
+
+- **Stash** = gạt vào **ngăn kéo bàn** — nhanh, nhưng ngăn kéo không ghi là của hồ sơ nào, và chỉ bàn bạn có.
+- **Commit tạm** = **kẹp xấp giấy dở vào cuối hồ sơ** với tờ ghi chú "CHƯA XONG". Nó nằm đúng hồ sơ (đúng nhánh), mang theo được (push được), nhưng phải nhớ **gỡ tờ ghi chú** trước khi nộp.
+
+:::
+
+**Cách A — `git stash`:** lịch sử nhánh **không đổi**. Việc dở nằm ngoài, trong ngăn kéo:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    branch feature-x
+    checkout feature-x
+    commit id: "F1" tag: "feature-x (không đổi)"
+```
+
+**Cách B — commit tạm:** `git add . && git commit -m "WIP: dang lam X"` → nhánh có thêm commit W:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    branch feature-x
+    checkout feature-x
+    commit id: "F1"
+    commit id: "W - WIP dang lam X" type: HIGHLIGHT tag: "feature-x"
+```
+
+Quay lại làm tiếp, có hai cách "gỡ" W:
+
+```bash
+# B1. Gỡ W ra, trả việc dở về Working Directory + Staging như trước khi commit
+git reset --soft HEAD~1     # nhãn feature-x lùi về F1, thay đổi vẫn còn (đã staged)
+
+# B2. Hoặc cứ làm tiếp, xong thì "đè" lên W bằng commit hoàn chỉnh
+git add .
+git commit --amend -m "feat: hoan thanh X"   # W được thay bằng commit mới (hash mới)
+```
+
+Sau B2, lịch sử sạch như thể chưa từng có commit tạm:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    branch feature-x
+    checkout feature-x
+    commit id: "F1"
+    commit id: "F2 - hoan thanh X" tag: "feature-x"
+```
+
+| Tiêu chí                                | Stash                                     | Commit tạm (WIP)                                     |
+| --------------------------------------- | ----------------------------------------- | ---------------------------------------------------- |
+| Số lệnh để cất                          | 1 (`git stash -u`)                        | 2 (`git add .` + `git commit`)                       |
+| Gắn với nhánh nào                       | Không gắn — dễ pop nhầm nhánh             | Nằm đúng trên nhánh đang làm                         |
+| Hiện trong `git log`                    | Không                                     | Có (commit "WIP")                                    |
+| Push lên remote / đổi máy làm tiếp      | Không được                                | Được                                                 |
+| File untracked                          | Phải nhớ thêm `-u`                        | `git add .` tự gom                                   |
+| Rủi ro                                  | Quên trong ngăn kéo, `stash clear` là mất | Quên gỡ → commit "WIP" lọt vào main                  |
+| Khôi phục sau khi lỡ tay                | Khó (phải mò `git fsck`)                  | Dễ (`git reflog`)                                    |
+| Hợp với                                 | Gián đoạn ngắn, vài phút–vài giờ          | Gián đoạn dài, hoặc cần chuyển máy                   |
+
+Chọn nhanh:
+
+```mermaid
+flowchart TD
+    Q["Cần cất việc dở<br/>để làm việc khác"] --> T{"Bao lâu mới<br/>quay lại?"}
+    T -->|"Vài phút - vài giờ"| M{"Cần mang sang<br/>máy khác?"}
+    M -->|"Không"| ST["git stash push -u -m ...<br/>rồi git stash pop"]
+    M -->|"Có"| WIP["Commit tạm WIP + push<br/>quay lại thì reset --soft hoặc amend"]
+    T -->|"Vài ngày trở lên"| BR["Nhánh riêng wip/...<br/>+ commit (bảng so sánh ở trên)"]
+```
+
+**Một câu để nhớ:** stash là ngăn kéo riêng của bàn bạn; commit tạm là kẹp giấy vào đúng hồ sơ — nhớ gỡ trước khi nộp.
 
 ---
 
@@ -814,6 +1040,11 @@ git cherry-pick wrong-hash
 # Hủy commit vừa tạo (chưa push):
 git reset --hard HEAD~1
 # Quay lại trạng thái trước cherry-pick
+# CẨN THẬN: --hard xoá luôn mọi thay đổi chưa commit đang có trong
+# working directory. Nếu đang có việc dở, dùng: git reset --keep HEAD~1
+
+# Nếu ĐÃ push: đừng reset, hãy tạo commit đảo ngược
+git revert HEAD
 ```
 
 ### Lỗi 4: Cherry-pick mà quên dependency

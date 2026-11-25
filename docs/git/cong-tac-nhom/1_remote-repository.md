@@ -102,6 +102,38 @@ Hãy tưởng tượng thế này:
 | **CI/CD**       | Tự động kiểm tra và triển khai code    |
 | **Code review** | Đồng đội review code trước khi merge   |
 
+### 1.1. Ẩn dụ: cuốn sổ chung và bản chép tay
+
+:::info[Hình dung bằng đời thường]
+
+Hãy coi dự án như **một cuốn sổ ghi chép của cả nhóm**:
+
+- **Remote** (kho từ xa) = **cuốn sổ gốc đặt ở văn phòng** (GitHub). Ai cũng đọc được, nhưng muốn ghi thêm thì phải mang trang mới tới nộp.
+- **Local repo** (kho trên máy) = **bản chép tay đầy đủ** mà mỗi người mang về nhà. Bạn ghi thêm vào bản của mình thoải mái, không cần mạng.
+- **`push`** (đẩy lên) = mang các trang mới viết tới **dán vào sổ gốc**.
+- **`fetch`** (lấy về) = **chụp lại những trang người khác mới dán** vào sổ gốc, mang về để xem — chưa chép vào bản của mình.
+- **`pull`** (kéo về) = chụp về **và chép luôn** vào bản của mình.
+
+Điểm then chốt: sổ gốc và bản chép tay **không tự đồng bộ**. Bạn chỉ biết sổ gốc có gì mới khi bạn chủ động đi xem (`fetch`/`pull`).
+
+:::
+
+Sơ đồ dưới đây vẽ các "vùng chứa" của Git: ba vùng trên máy bạn, một vùng trên server. Mũi tên là lệnh di chuyển thay đổi giữa các vùng.
+
+```mermaid
+flowchart LR
+    subgraph LOCAL["Máy của bạn"]
+        WD["Working directory<br/>(file đang sửa)"] -->|"git add"| SA["Staging area<br/>(chờ commit)"]
+        SA -->|"git commit"| LR["Local repo (.git)<br/>main, origin/main"]
+    end
+    subgraph SERVER["Remote trên GitHub"]
+        RR["Remote repo<br/>main, develop"]
+    end
+    LR -->|"git push"| RR
+    RR -->|"git fetch"| LR
+    RR -->|"git clone (lần đầu)"| LOCAL
+```
+
 ---
 
 ## 2. `origin` — Remote mặc định
@@ -256,6 +288,17 @@ Một repo local có thể kết nối đến **nhiều remote** cùng lúc. Đ�
 +-------------------+
 ```
 
+Cùng sơ đồ trên, vẽ kèm chiều đi của dữ liệu: bạn **chỉ đọc** từ `upstream` (không có quyền ghi), còn **đọc và ghi** với `origin`.
+
+```mermaid
+flowchart TD
+    UP["upstream<br/>(repo gốc của tác giả)"] -->|"Fork trên web GitHub"| OR["origin<br/>(bản fork của bạn)"]
+    OR -->|"git clone"| LC["Local repo<br/>(máy của bạn)"]
+    UP -->|"git fetch upstream (chỉ đọc)"| LC
+    LC -->|"git push origin"| OR
+    OR -.->|"mở Pull Request"| UP
+```
+
 ```bash
 # Clone fork của bạn (tự động tạo "origin")
 git clone https://github.com/your-username/project.git
@@ -357,6 +400,96 @@ git log main..origin/main --oneline
 # def5678 fix: button alignment
 # ghi9012 docs: update README
 ```
+
+### `main` và `origin/main` khác nhau thế nào? (minh hoạ từng bước)
+
+Người mới hay nghĩ `origin/main` **chính là** nhánh `main` trên GitHub. Không phải vậy. Trên máy bạn có **hai nhãn** khác nhau:
+
+- **`main`** — nhánh **của bạn**. Bạn commit lên nó, nó tiến lên.
+- **`origin/main`** — **tấm ảnh chụp** nhánh `main` trên GitHub **ở lần cuối bạn liên lạc với GitHub** (lần `clone`/`fetch`/`pull`/`push` gần nhất). Bạn không commit lên nó được; chỉ Git dời nó khi bạn liên lạc với remote.
+
+Ta theo dõi một tình huống xuyên suốt: repo có 3 commit **A, B, C**. Đồng đội sẽ push thêm **D, E**; bạn tự làm commit **F**.
+
+**Bước 1 — Vừa `git clone` xong.** Cả ba nơi giống hệt nhau: `main` (local), `origin/main` (ảnh chụp) và `main` trên GitHub đều trỏ vào C.
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C" tag: "main = origin/main"
+```
+
+**Bước 2 — Đồng đội push D, E lên GitHub; bạn commit F trên máy (chưa fetch).**
+
+Trên **GitHub**, nhánh `main` lúc này là:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    commit id: "D"
+    commit id: "E" tag: "main trên GitHub"
+```
+
+Còn trên **máy bạn**, Git **chưa hề biết** D, E tồn tại. `origin/main` vẫn đứng ở C (ảnh chụp cũ), chỉ `main` của bạn tiến lên F:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C" tag: "origin/main (ảnh cũ)"
+    commit id: "F" type: HIGHLIGHT tag: "main"
+```
+
+Lúc này `git status` sẽ báo *"Your branch is ahead of 'origin/main' by 1 commit"* — nghe như mọi thứ ổn, nhưng thực ra nó đang so với **ảnh cũ**.
+
+**Bước 3 — Bạn chạy `git fetch`.** Git tải D, E về và **dời nhãn `origin/main` sang E**. Nhánh `main` của bạn **không bị đụng tới**:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch origin-main
+    checkout origin-main
+    commit id: "D"
+    commit id: "E" tag: "origin/main"
+    checkout main
+    commit id: "F" type: HIGHLIGHT tag: "main"
+```
+
+Giờ `git status` mới báo đúng sự thật: *"Your branch and 'origin/main' have diverged, and have 1 and 2 different commits each"*. Bước tiếp theo là gộp E vào F (bằng `merge` hoặc `rebase`) — xem chi tiết ở bài [Clone, Fetch, Pull, Push](./2_clone-fetch-pull-push.md).
+
+| Nhãn | Nằm ở đâu | Ai làm nó di chuyển | Cập nhật khi nào |
+| --- | --- | --- | --- |
+| `main` (local) | Máy bạn | Bạn (commit, merge, reset...) | Mỗi khi bạn làm việc |
+| `origin/main` | Máy bạn (`.git/refs/remotes/`) | Chỉ Git, khi liên lạc với remote | `clone`, `fetch`, `pull`, `push` |
+| `main` trên GitHub | Server | Bất kỳ ai push được | Khi có người push / merge PR |
+
+Trình tự cập nhật ở trên, vẽ theo thời gian:
+
+```mermaid
+sequenceDiagram
+    participant DD as Đồng đội
+    participant GH as GitHub (main)
+    participant OM as origin/main (máy bạn)
+    participant M as main (máy bạn)
+    DD->>GH: git push (thêm D, E)
+    Note over OM,M: Máy bạn chưa biết gì, origin/main vẫn ở C
+    M->>M: git commit (thêm F)
+    OM->>GH: git fetch, hỏi có gì mới
+    GH-->>OM: gửi D, E, dời origin/main sang E
+    Note over M: main vẫn ở F, chưa đổi
+    M->>OM: git merge origin/main (hoặc rebase)
+    Note over M: main giờ chứa cả D, E, F
+```
+
+:::tip[Một câu để nhớ]
+
+`origin/main` là **ảnh chụp lần cuối** của GitHub, không phải GitHub "trực tiếp". Muốn ảnh mới, phải `git fetch`.
+
+:::
 
 ### Thiết lập tracking
 
@@ -539,6 +672,25 @@ git config --global credential.helper 'cache --timeout=3600'
                         |  |  origin/develop       |               |
                         |  +-----------------------+               |
                         +------------------------------------------+
+```
+
+Cùng sơ đồ đó dạng Mermaid. Lưu ý `origin/main` nằm **trên máy bạn**, không nằm trên GitHub:
+
+```mermaid
+flowchart TB
+    subgraph REMOTE["REMOTE (GitHub server)"]
+        RM["main"]
+        RD["develop"]
+    end
+    subgraph LOCAL["LOCAL (máy bạn)"]
+        WD["Working directory"] -->|"git add"| SA["Staging area"]
+        SA -->|"git commit"| LM["main (nhánh của bạn)"]
+        OM["origin/main, origin/develop<br/>(ảnh chụp remote, chỉ đọc)"]
+    end
+    RM -->|"git fetch"| OM
+    RD -->|"git fetch"| OM
+    OM -->|"git merge / rebase"| LM
+    LM -->|"git push"| RM
 ```
 
 ---

@@ -113,6 +113,8 @@ Git thông minh hơn bạn nghĩ. Nhiều trường hợp Git tự động giả
 # Trường hợp 2: Sửa KHÁC DÒNG trong cùng file
 # A sửa dòng 5, B sửa dòng 20
 # => Không conflict, Git gộp cả hai
+# (Ngoại lệ: hai dòng SÁT NHAU, vd A sửa dòng 5, B sửa dòng 6,
+#  Git vẫn có thể báo conflict vì không chắc thứ tự gộp)
 
 # Trường hợp 3: Một người sửa, người kia không
 # A sửa file.txt, B không động file.txt
@@ -128,6 +130,166 @@ Git thông minh hơn bạn nghĩ. Nhiều trường hợp Git tự động giả
 | **Pull conflict**        | `git pull` -- remote và local cùng sửa một dòng                    |
 | **Cherry-pick conflict** | `git cherry-pick hash` -- commit chọn conflict với branch hiện tại |
 | **Stash pop conflict**   | `git stash pop` -- stash conflict với thay đổi hiện tại            |
+
+### 1.4. Minh hoạ trọn vẹn: An và Bình cùng sửa một dòng
+
+:::info[Ẩn dụ: hai người cùng sửa một câu trong bản photo]
+
+Trưởng phòng đưa An và Bình mỗi người **một bản photo** của cùng một tờ thông báo. Câu thứ ba ghi "Họp lúc **9 giờ**". An sửa thành "**8 giờ**", Bình sửa thành "**10 giờ**". Cuối ngày, thư ký phải chép hai bản vào **bản gốc** — các câu khác ai sửa thì chép theo người đó, nhưng câu thứ ba thì **thư ký không thể tự đoán** nên ghi cả hai lên giấy, khoanh lại và hỏi: "Chốt giờ nào?".
+
+Git chính là người thư ký đó. **Conflict** (xung đột) không phải lỗi — đó là Git đang **hỏi bạn**. Các dấu `<<<<<<<`, `=======`, `>>>>>>>` chính là cái **khoanh tròn** trên giấy.
+
+:::
+
+**Bối cảnh:** file `style.css` trên `main` (commit C) có dòng 5 là `body { color: red; }`. An và Bình cùng lấy về từ C.
+
+```mermaid
+sequenceDiagram
+    participant An as An (máy An)
+    participant GH as GitHub main
+    participant Binh as Bình (máy Bình)
+    GH->>An: pull - cả hai cùng có commit C (red)
+    GH->>Binh: pull - cả hai cùng có commit C (red)
+    An->>An: Sửa dòng 5 thành blue, commit A1
+    Binh->>Binh: Sửa dòng 5 thành green, commit B1
+    Binh->>GH: push B1 trước - thành công
+    An->>GH: push A1 - bị từ chối (rejected) vì GitHub đã có B1
+    GH->>An: git pull - tải B1 về và thử gộp
+    Note over An: CONFLICT ở style.css dòng 5 - Git dừng lại hỏi An
+    An->>An: Sửa file, git add, git commit tạo M
+    An->>GH: push M - thành công
+```
+
+**Lịch sử lúc conflict xảy ra** (nhánh `origin-main` là bản của GitHub mà An vừa tải về):
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "C (red)"
+    branch origin-main
+    checkout origin-main
+    commit id: "B1 Binh (green)" tag: "origin/main"
+    checkout main
+    commit id: "A1 An (blue)" tag: "main"
+```
+
+**Ba phiên bản của cùng một dòng** mà Git đang phải cân:
+
+| Phiên bản                       | Dòng 5 của `style.css`   | Ai làm   |
+| ------------------------------- | ------------------------ | -------- |
+| Base (tổ tiên chung, commit C)  | `body { color: red; }`   | —        |
+| Ours (HEAD, bên An đang đứng)   | `body { color: blue; }`  | An       |
+| Theirs (bên đang được gộp vào)  | `body { color: green; }` | Bình     |
+
+Git so sánh từng bên với **base**: chỉ một bên đổi thì lấy bên đó; **cả hai cùng đổi, đổi khác nhau** thì conflict.
+
+**File `style.css` mà An nhìn thấy sau `git pull`** — Git đã tự gộp các dòng khác, chỉ chèn "khoanh tròn" ở dòng 5:
+
+```css
+/* style.css */
+* { box-sizing: border-box; }
+h1 { font-size: 2rem; }
+p  { line-height: 1.6; }
+<<<<<<< HEAD
+body { color: blue; }
+=======
+body { color: green; }
+>>>>>>> 4f2a9c1 (doi mau chu sang green)
+footer { padding: 1rem; }
+```
+
+Đọc từng phần:
+
+| Dòng                          | Ý nghĩa                                                                         |
+| ----------------------------- | ------------------------------------------------------------------------------- |
+| `<<<<<<< HEAD`                | Bắt đầu vùng xung đột. Từ đây tới `=======` là **bản của bạn** (An, ours)        |
+| `body { color: blue; }`       | Nội dung An viết                                                                |
+| `=======`                     | Đường ranh giữa hai bản                                                         |
+| `body { color: green; }`      | Nội dung Bình viết (theirs)                                                     |
+| `>>>>>>> 4f2a9c1 (...)`       | Kết thúc vùng xung đột, kèm tên nhánh hoặc commit của **bên kia**              |
+| Các dòng ngoài vùng           | Git đã tự gộp xong, **không cần đụng tới**                                      |
+
+**Sau khi sửa** — An hỏi Bình, hai người chốt dùng `green` (hoặc một màu mới). An **xoá toàn bộ 3 dòng marker** và chỉ để lại nội dung cuối cùng:
+
+```css
+/* style.css */
+* { box-sizing: border-box; }
+h1 { font-size: 2rem; }
+p  { line-height: 1.6; }
+body { color: green; }
+footer { padding: 1rem; }
+```
+
+```bash
+git add style.css      # báo cho Git: "file này đã giải quyết xong"
+git commit             # tạo merge commit M (message mặc định là đủ)
+git push
+```
+
+**Lịch sử sau khi giải quyết** — M có hai parent (A1 và B1), giữ dấu vết cả hai người:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "C (red)"
+    branch origin-main
+    checkout origin-main
+    commit id: "B1 Binh (green)"
+    checkout main
+    commit id: "A1 An (blue)"
+    merge origin-main id: "M (chot green)" tag: "main = origin/main"
+```
+
+Các cách "chốt" mà An có thể chọn, cùng kết quả:
+
+| Cách xử lý                                | Dòng 5 sau khi sửa        | Khi nào hợp lý                              |
+| ----------------------------------------- | ------------------------- | ------------------------------------------- |
+| Giữ bản của mình (Accept Current / ours)  | `body { color: blue; }`   | Chắc chắn bản mình đúng, đã báo bên kia     |
+| Lấy bản bên kia (Accept Incoming / theirs) | `body { color: green; }` | Bản bên kia mới hơn / đúng yêu cầu hơn      |
+| Viết bản mới kết hợp                      | `body { color: teal; }`   | Cả hai đều đúng một phần                    |
+| Giữ cả hai (Accept Both)                  | hai dòng `body {...}`     | Hiếm khi đúng với CSS/config — đọc kỹ!       |
+| Bỏ cuộc: `git merge --abort`              | quay về `blue`, chưa gộp  | Cần hỏi lại người kia trước khi quyết       |
+
+:::tip[Tự kiểm chứng trên máy — và bật hiển thị cả bản gốc]
+
+Chạy đoạn ở mục 8 để tự tạo conflict. Muốn marker hiện **cả bản base** (rất có ích để hiểu "ai đã đổi gì"), bật:
+
+```bash
+git config --global merge.conflictStyle zdiff3   # Git >= 2.35; bản cũ hơn dùng diff3
+```
+
+File sẽ có thêm phần `||||||| base` ở giữa:
+
+```text
+<<<<<<< HEAD
+body { color: blue; }
+||||||| 9b1c2d3
+body { color: red; }
+=======
+body { color: green; }
+>>>>>>> 4f2a9c1 (doi mau chu sang green)
+```
+
+Nhìn vào là thấy: gốc là `red`, An đổi sang `blue`, Bình đổi sang `green`.
+
+:::
+
+**Một câu để nhớ:** conflict = Git khoanh tròn chỗ hai người cùng sửa và hỏi bạn chốt bản nào; bạn sửa file cho đúng, xoá hết marker, `git add` rồi commit.
+
+### 1.5. Git tự gộp được hay phải hỏi bạn?
+
+Với mỗi đoạn trong file, Git làm phép so sánh 3 bên (base, ours, theirs) như sau:
+
+```mermaid
+flowchart TD
+    S["Một đoạn code trong file"] --> Q1{"Ours có đổi<br/>so với base?"}
+    Q1 -->|"Không"| T["Lấy bản theirs<br/>(hoặc giữ nguyên nếu theirs cũng không đổi)"]
+    Q1 -->|"Có"| Q2{"Theirs có đổi<br/>so với base?"}
+    Q2 -->|"Không"| O["Lấy bản ours"]
+    Q2 -->|"Có"| Q3{"Hai bên đổi<br/>giống hệt nhau?"}
+    Q3 -->|"Có"| SAME["Lấy bản đó, không conflict"]
+    Q3 -->|"Không"| C["CONFLICT<br/>chèn marker, chờ bạn quyết"]
+```
 
 ---
 
@@ -341,6 +503,24 @@ git log --oneline --graph -5
 # Chạy tests, build, etc.
 ```
 
+Toàn bộ quy trình 6 bước gói trong một sơ đồ — bao gồm "lối thoát hiểm" `--abort` nếu chưa sẵn sàng:
+
+```mermaid
+flowchart TD
+    M["git merge / pull / rebase<br/>báo CONFLICT"] --> ST["git status<br/>xem danh sách both modified"]
+    ST --> R{"Đủ thông tin<br/>để quyết chưa?"}
+    R -->|"Chưa"| AB["git merge --abort<br/>(hoặc rebase --abort)<br/>quay về như trước"]
+    R -->|"Rồi"| ED["Mở từng file, sửa nội dung<br/>xoá HẾT marker"]
+    ED --> AD["git add file"]
+    AD --> MORE{"Còn file<br/>conflict nào?"}
+    MORE -->|"Còn"| ED
+    MORE -->|"Hết"| KIND{"Đang merge<br/>hay rebase?"}
+    KIND -->|"merge / pull"| CM["git commit"]
+    KIND -->|"rebase"| RC["git rebase --continue"]
+    CM --> TEST["Chạy test, build"]
+    RC --> TEST
+```
+
 ---
 
 ## 4. Dùng VS Code để resolve conflict
@@ -417,19 +597,20 @@ git mergetool
 # Git sẽ mở từng file conflict trong tool đã cấu hình
 
 # Với VS Code: mở 3-way merge editor
-# Panel trái: LOCAL (code của bạn)
-# Panel phải: REMOTE (code từ branch kia)
-# Panel dưới: KẾT QUẢ (bạn chỉnh sửa ở đây)
-# Panel trên: BASE (phiên bản chung trước khi cả hai sửa)
+# Ô trên-trái:  Incoming = REMOTE (code từ branch kia)
+# Ô trên-phải:  Current  = LOCAL (code của bạn)
+# Ô dưới:       Result   = KẾT QUẢ (bạn chỉnh sửa ở đây)
+# BASE (phiên bản chung trước khi cả hai sửa) dùng để so sánh,
+# bật xem bằng nút "Compare with Base" nếu cần
 ```
 
 ### 5.3. 3-way merge editor trong VS Code
 
 ```
 +------------------+------------------+
-|   LOCAL (Ours)   |  REMOTE (Theirs) |
+| INCOMING(Theirs) |  CURRENT (Ours)  |
 |  body {          |  body {          |
-|    color: blue;  |    color: green; |
+|    color: green; |    color: blue;  |
 |  }               |  }               |
 +------------------+------------------+
 |            RESULT (Merged)           |
@@ -499,6 +680,36 @@ git rebase main
 # Tổng cộng: giải quyết 2 lần
 ```
 
+Vì sao rebase có thể bắt bạn giải nhiều lần? So hai lịch sử kết quả: merge gộp **một lần** tại M, còn rebase **chép lại từng commit** F1…F5 lên đỉnh main — mỗi lần chép là một cơ hội conflict (ở đây là F1' và F3'):
+
+```mermaid
+gitGraph
+    commit id: "C"
+    branch feature
+    checkout feature
+    commit id: "F1"
+    commit id: "F2"
+    commit id: "F3"
+    commit id: "F4"
+    commit id: "F5"
+    checkout main
+    commit id: "D"
+    merge feature id: "M (giai conflict 1 lan)" tag: "main sau merge"
+```
+
+```mermaid
+gitGraph
+    commit id: "C"
+    commit id: "D" tag: "main"
+    branch feature
+    checkout feature
+    commit id: "F1' (conflict)" type: HIGHLIGHT
+    commit id: "F2'"
+    commit id: "F3' (conflict)" type: HIGHLIGHT
+    commit id: "F4'"
+    commit id: "F5'" tag: "feature sau rebase"
+```
+
 ---
 
 ## 7. `--ours` vs `--theirs`
@@ -517,9 +728,12 @@ git add app.js
 git checkout --theirs style.css
 git add style.css
 
-# Áp dụng cho TẤT CẢ conflict files:
-git merge -X ours feature/login     # Ưu tiên phiên bản bạn
-git merge -X theirs feature/login   # Ưu tiên phiên bản branch kia
+# Áp dụng cho TẤT CẢ conflict files (chạy merge lại từ đầu,
+# nếu đang kẹt conflict thì git merge --abort trước):
+git merge -X ours feature/login     # Đoạn nào conflict thì lấy bản của bạn
+git merge -X theirs feature/login   # Đoạn nào conflict thì lấy bản branch kia
+# Lưu ý: -X chỉ quyết định các ĐOẠN conflict; phần không conflict
+# của cả hai bên vẫn được gộp bình thường.
 ```
 
 ### 7.2. Ours và Theirs trỏ đến đâu?
@@ -547,6 +761,20 @@ git rebase main
 ```
 
 **Đây là điều gây nhầm lẫn nhất!** Khi rebase, Git "đặt bạn sang một bên" và áp dụng từng commit của bạn lên main. Nên "ours" là main (base mới), "theirs" là commit của bạn.
+
+Mẹo nhớ: **"ours" luôn là nhánh mà HEAD đang đứng lúc Git gộp**. Khi merge, bạn đứng trên `main`. Khi rebase, Git lặng lẽ **chuyển HEAD sang `main`** rồi chép từng commit của bạn lên — nên lúc đó "nhà" là `main`:
+
+```mermaid
+flowchart LR
+    subgraph MG["git merge feature (đang ở main)"]
+        H1["HEAD đứng ở main"] --> O1["ours = main"]
+        T1["theirs = feature<br/>(được kéo vào)"]
+    end
+    subgraph RB["git rebase main (đang ở feature)"]
+        H2["Git chuyển HEAD sang đỉnh main"] --> O2["ours = main"]
+        T2["theirs = commit của bạn<br/>(đang được chép lên)"]
+    end
+```
 
 ### 7.3. Bảng tóm tắt
 
@@ -681,9 +909,9 @@ git log --oneline --graph
 # *   abc1234 (HEAD -> main) Merge feature/dark-theme
 # |\
 # | * def5678 (feature/dark-theme) Chuyển sang dark theme
-# * | ghi9012 Nâng cấp lên Pro version
+# * | 9e19012 Nâng cấp lên Pro version
 # |/
-# * jkl3456 Initial: tạo app.js
+# * 1a73456 Initial: tạo app.js
 ```
 
 ---
@@ -816,18 +1044,23 @@ git add .
 git commit --amend
 ```
 
-### Lỗi 2: Merge --abort không hoạt động
+### Lỗi 2: Merge bị chặn vì có thay đổi chưa commit
 
 ```bash
-git merge --abort
-# error: Entry 'file.txt' would be overwritten by merge. Cannot merge.
+git merge feature/login
+# error: Your local changes to the following files would be overwritten by merge:
+#         file.txt
+# Please commit your changes or stash them before you merge.
+# Aborting
 
-# Nguyên nhân: bạn có thay đổi chưa commit
-# Cách xử lý:
+# Nguyên nhân: bạn có thay đổi CHƯA COMMIT ở file mà merge cần sửa
+# Cách xử lý: cất đi TRƯỚC khi merge
 git stash
-git merge --abort
+git merge feature/login
 git stash pop
 ```
+
+Lưu ý: đừng `git stash` khi đang **kẹt giữa conflict** — Git sẽ từ chối (`needs merge`). Lúc đó hoặc giải quyết xong, hoặc `git merge --abort` để quay về trạng thái trước merge. Nếu trước khi merge bạn đã có thay đổi chưa commit, `--abort` có thể không khôi phục chúng trọn vẹn — vì vậy luôn merge với working tree sạch.
 
 ### Lỗi 3: Nhầm lẫn ours/theirs khi rebase
 

@@ -93,6 +93,30 @@ git status
 
 `.gitignore` là file đặc biệt mà Git đọc để biết **những file/thư mục nào cần bỏ qua** — không track, không commit.
 
+:::info[Ẩn dụ: bảo vệ cầm danh sách ở cửa phòng chụp ảnh]
+
+Nhớ ẩn dụ ở bài Khái niệm: `git add` là mời người lên **bục chụp ảnh**. `.gitignore` là **danh sách "không cho lên bục"** dán ở cửa — ai có tên trong danh sách thì `git add .` sẽ lặng lẽ bỏ qua, `git status` cũng không nhắc tới.
+
+Nhưng bảo vệ chỉ **chặn người mới tới**. Ai **đã có mặt trong album** (file đã được commit trước đó) thì danh sách không đuổi ra được — phải tự tay mời họ ra bằng `git rm --cached`.
+
+Thuật ngữ: **track** = "theo dõi". File *tracked* là file Git đang theo dõi (đã từng được add/commit); file *untracked* là file mới Git chưa theo dõi; file *ignored* là file untracked mà khớp `.gitignore`.
+
+:::
+
+Git quyết định một file có bị bỏ qua hay không theo đúng thứ tự dưới đây. Ô đầu tiên là nơi người mới hay vấp nhất:
+
+```mermaid
+flowchart TD
+    F["Một file trong thư mục dự án"] --> T{"File đã được Git<br/>track (commit) chưa?"}
+    T -->|"Rồi"| TR["Vẫn bị theo dõi<br/>.gitignore KHÔNG có tác dụng"]
+    TR --> FIX["Muốn bỏ: git rm --cached file<br/>rồi commit"]
+    T -->|"Chưa"| M{"Khớp pattern nào<br/>trong .gitignore?"}
+    M -->|"Không"| U["Untracked<br/>hiện trong git status"]
+    M -->|"Có"| L{"Pattern khớp CUỐI CÙNG<br/>có dấu ! không?"}
+    L -->|"Có dấu !"| U
+    L -->|"Không"| I["Ignored<br/>git add . bỏ qua, git status im lặng"]
+```
+
 ### Tại sao cần .gitignore?
 
 | Loại file        | Lý do bỏ qua                        | Ví dụ                             |
@@ -207,12 +231,21 @@ Khi có nhiều rule mâu thuẫn, **rule cuối cùng thắng**:
 ```gitignore
 # Không hoạt động như mong đợi!
 build/
-!build/important.js    # KHÔNG CÓ TÁC DỤNG vì build/ đã bị ignore hoàn toàn
+# Dòng dưới KHÔNG CÓ TÁC DỤNG vì build/ đã bị ignore hoàn toàn
+!build/important.js
 
 # Sửa: Dùng pattern cụ thể hơn
-build/*                 # Ignore nội dung trong build/
-!build/important.js     # Giữ file này — BÂY GIỜ HOẠT ĐỘNG
+# Ignore nội dung trong build/ (chứ không ignore chính thư mục)
+build/*
+# Giữ file này — BÂY GIỜ HOẠT ĐỘNG
+!build/important.js
 ```
+
+:::warning[Comment trong .gitignore phải nằm trên dòng riêng]
+
+Trong `.gitignore`, dấu `#` chỉ là comment khi nó **đứng đầu dòng**. Viết `build/*   # giải thích` trên cùng một dòng thì Git hiểu cả cụm `build/*   # giải thích` là **một pattern** — và pattern đó không khớp file nào. Luôn đặt comment ở dòng riêng phía trên.
+
+:::
 
 ---
 
@@ -439,8 +472,10 @@ Trường hợp phổ biến: Giữ thư mục `logs/` nhưng không track nội
 
 ```gitignore
 # .gitignore
-logs/*           # Ignore tất cả file trong logs/
-!logs/.gitkeep   # Ngoại trừ .gitkeep
+# Ignore tất cả file trong logs/
+logs/*
+# Ngoại trừ .gitkeep
+!logs/.gitkeep
 ```
 
 ---
@@ -479,6 +514,36 @@ git commit -m "chore: them secret.env vao gitignore"
 | File cần giữ trên máy, chỉ xoá khỏi Git | `git rm --cached file.txt`   |
 | Xoá cả thư mục                          | `git rm -r folder/`          |
 | Xoá thư mục khỏi Git, giữ trên máy      | `git rm -r --cached folder/` |
+
+### So sánh `rm`, `git rm` và `git rm --cached` trên cùng một file
+
+Cùng xuất phát từ `old-file.js` đang được track. Sơ đồ cho thấy mỗi lệnh tác động tới **vùng nào** (nhắc lại 3 vùng ở bài Khái niệm):
+
+```mermaid
+flowchart LR
+    subgraph RM["rm old-file.js"]
+        A1["Working Directory<br/>file BIẾN MẤT"]
+        A2["Staging<br/>chưa ghi nhận việc xoá"]
+    end
+    subgraph GRM["git rm old-file.js"]
+        B1["Working Directory<br/>file BIẾN MẤT"]
+        B2["Staging<br/>đã ghi nhận xoá"]
+    end
+    subgraph GRMC["git rm --cached old-file.js"]
+        C1["Working Directory<br/>file VẪN CÒN"]
+        C2["Staging<br/>đã ghi nhận xoá khỏi Git"]
+    end
+```
+
+| Sau khi `git commit`…                 | `rm` (chưa add)          | `git rm`         | `git rm --cached`                   |
+| ------------------------------------- | ------------------------ | ---------------- | ----------------------------------- |
+| File còn trên máy bạn?                | Không                    | Không            | **Có**                              |
+| Commit mới có ghi nhận xoá?           | **Không** (quên stage)   | Có               | Có                                  |
+| File còn trong các commit cũ?         | Có                       | Có               | Có                                  |
+| Đồng đội `pull` về thì file của họ…   | Không đổi                | Bị xoá           | **Bị xoá** (cẩn thận với file config) |
+| Dùng khi                              | Không nên dùng một mình  | Bỏ hẳn file      | Ngừng theo dõi nhưng giữ bản trên máy |
+
+Hai dòng cuối là điều nhiều người không ngờ: `git rm --cached` giữ file **trên máy bạn**, nhưng với Git thì đó vẫn là một lần **xoá** — ai pull commit đó về sẽ bị xoá file khỏi máy họ. Và **mọi commit cũ vẫn chứa file** — muốn xoá khỏi quá khứ phải dùng cách ở mục 8.
 
 ### Ví dụ thực tế: Xoá node_modules đã commit nhầm
 
@@ -535,14 +600,14 @@ git status
 ### Trường hợp 1: File thường (chưa push)
 
 ```bash
-# Xoá file khỏi commit cuối
-git reset HEAD~1              # Undo commit
-git reset HEAD secret.txt     # Unstage file
-git rm --cached secret.txt    # Xoá khỏi tracking
-echo "secret.txt" >> .gitignore
-git add .
-git commit -m "fix: xoa file nhay cam va them gitignore"
+# Gỡ file khỏi commit cuối, giữ nguyên các file khác trong commit đó
+git rm --cached secret.txt         # Bỏ khỏi staging, file trên máy VẪN CÒN
+echo "secret.txt" >> .gitignore    # Chặn không cho add lại
+git add .gitignore
+git commit --amend --no-edit       # Làm lại commit cuối (hash mới), không còn secret.txt
 ```
+
+(Bản cũ của đoạn này dùng `git reset HEAD~1` rồi `git rm --cached secret.txt` — sau `reset`, file đã trở về dạng untracked nên `git rm --cached` báo lỗi *did not match any files*. Cách `--amend` ở trên gọn và không làm rơi file nào.)
 
 ### Trường hợp 2: Secrets đã push lên remote (NGUY HIỂM!)
 
@@ -551,6 +616,42 @@ git commit -m "fix: xoa file nhay cam va them gitignore"
 1. **NGAY LẬP TỨC rotate (đổi) tất cả secrets đã lộ**
 2. Xoá file khỏi lịch sử Git
 3. Force push (sau khi thông báo team)
+
+Vì sao **đổi secret** lại đứng đầu, trước cả việc xoá khỏi lịch sử? Vì từ lúc push tới lúc bạn kịp dọn, secret đã có thể bị sao chép đi nơi khác — mà bạn không thu hồi được bản sao:
+
+```mermaid
+sequenceDiagram
+    participant B as Bạn
+    participant G as GitHub
+    participant K as Bot quét secret
+    participant D as Đồng đội
+    B->>G: git push (commit chứa .env)
+    G-->>K: Repo public, bot đọc được trong vài phút
+    G-->>D: Đồng đội git pull, .env nằm trong lịch sử máy họ
+    B->>G: Xoá khỏi lịch sử rồi force push
+    Note over K,D: Bản sao ở bot và máy đồng đội KHÔNG bị xoá theo
+    B->>B: Đổi API key, mật khẩu (rotate)
+    Note over B,D: Chỉ bước này mới làm secret cũ vô dụng
+```
+
+Viết lại lịch sử cũng có cái giá của nó: mọi commit **từ commit chứa secret trở đi** đều bị tạo lại với hash mới, nên cả team phải clone lại (bước 4):
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    branch truoc-khi-don
+    checkout truoc-khi-don
+    commit id: "C (có .env)" type: HIGHLIGHT
+    commit id: "D"
+    commit id: "E" tag: "bản cũ đồng đội đang giữ"
+    checkout main
+    commit id: "C' (không còn .env)"
+    commit id: "D'"
+    commit id: "E'" tag: "main sau force push"
+```
+
+A, B không chứa secret nên giữ nguyên; C, D, E bị thay bằng C', D', E' (nội dung giống, trừ `.env`).
 
 ```bash
 # Bước 1: Đổi mật khẩu/API key NGAY (quan trọng nhất!)
@@ -659,6 +760,21 @@ git clean -fd
 | `-X` | CHỈ xoá file bị ignore            | `git clean -fX` |
 | `-i` | Interactive (hỏi từng file)       | `git clean -i`  |
 
+Chọn cờ nào cho đúng? Đi theo sơ đồ — và luôn bắt đầu bằng `-n`:
+
+```mermaid
+flowchart TD
+    S["Muốn dọn file rác"] --> N["git clean -n<br/>xem trước danh sách"]
+    N --> Q1{"Danh sách có<br/>file mình cần không?"}
+    Q1 -->|"Có"| STOP["Dừng lại<br/>add/commit hoặc dời file đó trước"]
+    Q1 -->|"Không"| Q2{"Muốn xoá cả<br/>thư mục untracked?"}
+    Q2 -->|"Không"| F["git clean -f"]
+    Q2 -->|"Có"| Q3{"Muốn xoá cả file bị ignore<br/>như node_modules, .env?"}
+    Q3 -->|"Không"| FD["git clean -fd"]
+    Q3 -->|"Chỉ file ignore"| FX["git clean -fdX"]
+    Q3 -->|"Xoá hết, kể cả .env"| FDX["git clean -fdx<br/>NGUY HIỂM - mất luôn .env"]
+```
+
 ---
 
 ## 10. Kiểm tra .gitignore có hoạt động không
@@ -740,12 +856,11 @@ git commit -m "fix: xoa node_modules va them gitignore"
 ```bash
 # NGUY HIỂM! Đã commit .env chứa API key
 
-# Nếu CHƯA push:
-git reset HEAD~1                    # Undo commit
-git rm --cached .env
+# Nếu CHƯA push: gỡ .env khỏi commit cuối, giữ các file khác
+git rm --cached .env                # File .env trên máy vẫn còn
 echo ".env" >> .gitignore
 git add .gitignore
-git commit -m "fix: xoa .env va them gitignore"
+git commit --amend --no-edit        # Commit cuối được làm lại, không còn .env
 
 # Nếu ĐÃ push: Đổi NGAY tất cả credentials đã lộ!
 # Rồi dùng BFG hoặc filter-branch để xoá khỏi lịch sử

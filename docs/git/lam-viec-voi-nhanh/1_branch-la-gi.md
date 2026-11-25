@@ -100,6 +100,31 @@ main ----*----*----*----*
 
 Mỗi nhánh cây có thể **phát triển độc lập** mà không ảnh hưởng đến thân chính. Khi nhánh đã "chín" (hoàn thành), bạn **ghép nó lại** vào thân chính.
 
+:::info[Ẩn dụ thứ hai: bản nháp song song của cùng một bài văn]
+
+Bạn có bài văn đã nộp (`main`). Muốn thử viết lại đoạn mở bài theo hai kiểu, bạn **photo ra hai bản nháp** và sửa trên từng bản — bài gốc không bị đụng tới. Kiểu nào hay thì chép vào bài gốc (**merge** — gộp), kiểu nào dở thì vứt bản nháp (**xoá branch**).
+
+Điểm khác duy nhất: Git **không photo thật**. Mọi "bản nháp" dùng chung những trang cũ, chỉ những trang bạn viết thêm mới thuộc riêng nhánh đó. Vì vậy tạo branch gần như không tốn gì.
+
+:::
+
+Sơ đồ ASCII ở trên vẽ lại bằng gitGraph: `main` là đường chính, hai nhánh rẽ ra từ cùng một commit và phát triển song song (tên nhánh trong sơ đồ dùng `-` thay cho `/`):
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    branch feature-login
+    branch bugfix-header
+    checkout feature-login
+    commit id: "L1 form login"
+    checkout bugfix-header
+    commit id: "H1 sua header"
+    checkout main
+    commit id: "C"
+    commit id: "D" tag: "main"
+```
+
 ### 1.2. Định nghĩa kỹ thuật -- Branch là một pointer
 
 Trong Git, branch **không phải là một bản sao của toàn bộ dự án**. Nó chỉ là một **con trỏ (pointer)** trỏ đến một commit cụ thể.
@@ -133,6 +158,31 @@ HEAD --> feature/login --> commit-C
 
 Khi bạn commit, branch mà HEAD đang trỏ đến sẽ **di chuyển lên phía trước** (trỏ đến commit mới). Các branch khác giữ nguyên.
 
+Minh hoạ cụ thể: hai nhãn `main` và `feature/login` cùng dán ở commit C, HEAD đang theo `feature/login`. Bạn commit một lần:
+
+**Trước** — một commit, hai nhãn:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C" tag: "main = feature/login (HEAD)"
+```
+
+**Sau `git commit`** — chỉ nhãn mà HEAD đang theo được dời sang commit mới D; `main` đứng yên ở C:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C" tag: "main"
+    branch feature-login
+    checkout feature-login
+    commit id: "D" type: HIGHLIGHT tag: "feature/login (HEAD)"
+```
+
+Nếu lúc commit HEAD đang theo `main` thì ngược lại: `main` sang D, `feature/login` đứng yên. **"Đang đứng ở nhánh nào" quyết định nhãn nào được dời** — đó là lý do luôn kiểm tra `git status` (dòng `On branch ...`) trước khi commit.
+
 ---
 
 ## 2. Tại sao cần branch?
@@ -155,6 +205,26 @@ Developer B: làm trên feature/dashboard
 => Mỗi người một nhánh, không cản nhau
 ```
 
+Cùng một buổi sáng của hai người, có và không có branch. Điểm khác là **lúc nào** phải "chạm" vào code của nhau:
+
+```mermaid
+sequenceDiagram
+    participant A as Dev A
+    participant M as main trên GitHub
+    participant B as Dev B
+    Note over A,B: KHÔNG dùng branch - cả hai commit thẳng vào main
+    A->>M: push sửa login.js (dở dang)
+    B->>M: pull về - nhận luôn code dở của A, app chạy lỗi
+    B->>M: push - phải xử lý xung đột với A ngay giữa chừng
+    Note over A,B: CÓ branch - mỗi người một nhánh
+    A->>A: commit nhiều lần trên feature/login
+    B->>B: commit nhiều lần trên feature/dashboard
+    A->>M: merge feature/login khi đã xong và review
+    B->>M: merge feature/dashboard khi đã xong và review
+```
+
+Có branch, `main` chỉ nhận code **đã hoàn chỉnh**; mỗi người chỉ phải "gặp" code của người kia **một lần** lúc merge, thay vì liên tục cả ngày.
+
 ### 2.2. Isolation -- Cô lập thay đổi
 
 Branch tạo ra một **không gian làm việc riêng**. Nếu bạn làm hỏng gì đó trên branch của mình, **main vẫn an toàn**. Bạn có thể:
@@ -174,7 +244,8 @@ git switch -c experiment/new-algorithm
 # Làm gì thì làm...
 # Nếu thành công -> merge vào main
 # Nếu thất bại -> xoá branch, không ai biết :)
-git branch -d experiment/new-algorithm
+git switch main
+git branch -D experiment/new-algorithm   # -D vì nhánh CHƯA merge (-d sẽ bị từ chối)
 ```
 
 ---
@@ -195,8 +266,8 @@ git branch
 git branch -v
 # Kết quả:
 #   feature/login  a1b2c3d Thêm form đăng nhập
-# * main           e4f5g6h Update README
-#   bugfix/header  i7j8k9l Sửa header responsive
+# * main           e4f5a6b Update README
+#   bugfix/header  9c7d8e1 Sửa header responsive
 
 # Xem TẤT CẢ branch (cả local và remote)
 git branch -a
@@ -251,6 +322,43 @@ git push origin :feature/login
 ```
 
 **Lưu ý quan trọng:** Không thể xoá branch mà bạn đang đứng trên đó. Phải chuyển sang branch khác trước.
+
+#### Xoá branch thực chất là xoá gì? `-d` vs `-D`
+
+Xoá branch = **bóc tờ nhãn** ra, chứ không xoá commit. Câu hỏi là: bóc nhãn xong, các commit đó còn đường nào để tìm lại không?
+
+**Trường hợp 1 — nhánh đã merge** (`git branch -d feature/login` thành công). F, G vẫn nằm trên đường đi ngược từ `main` (qua merge commit M), nên bóc nhãn không mất gì:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    branch feature-login
+    checkout feature-login
+    commit id: "F"
+    commit id: "G"
+    checkout main
+    merge feature-login id: "M" tag: "main"
+```
+
+**Trường hợp 2 — nhánh chưa merge** (`-d` bị từ chối, bạn ép bằng `-D`). X, Y **không** nằm trên đường nào từ `main`; bóc nhãn đi là chúng thành "trẻ lạc", chỉ còn tìm qua `git reflog`:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B" tag: "main"
+    branch experiment
+    checkout experiment
+    commit id: "X" type: HIGHLIGHT
+    commit id: "Y (nhãn experiment bị bóc)" type: HIGHLIGHT
+```
+
+| Tiêu chí                       | `git branch -d`                     | `git branch -D`                              |
+| ------------------------------ | ----------------------------------- | -------------------------------------------- |
+| Nhánh đã merge                 | Xoá nhãn, không mất gì              | Xoá nhãn, không mất gì                       |
+| Nhánh chưa merge               | **Từ chối** ("not fully merged")    | Xoá nhãn, commit thành "trẻ lạc"             |
+| Cứu lại được không             | Không cần                           | Được, bằng `git reflog` (thường trong ~30–90 ngày) |
+| Nên dùng khi                   | Mặc định                            | Chắc chắn muốn bỏ thí nghiệm                 |
 
 ```bash
 # KHÔNG ĐƯỢC: đang ở main mà xoá main
@@ -378,6 +486,30 @@ bugfix/header           -->  (chưa push lên)
 - **Remote-tracking branch:** Bản sao của branch trên remote, lưu ở local với tên `origin/<branch>`
 - **Tracking relationship:** Liên kết giữa local và remote branch
 
+:::info[Ẩn dụ: sổ của bạn, tấm ảnh chụp bảng tin, và bảng tin thật]
+
+- **Remote branch** (trên GitHub) = **bảng tin thật** ở văn phòng — ai cũng ghim thêm được.
+- **Remote-tracking branch** (`origin/main` trên máy bạn) = **tấm ảnh bạn chụp bảng tin** lần gần nhất. Nó **không tự cập nhật**; muốn ảnh mới phải chụp lại (`git fetch`).
+- **Local branch** (`main`) = **cuốn sổ của bạn**, nơi bạn tự viết. **Tracking** (theo dõi) = ghi chú trên bìa sổ "sổ này đối chiếu với bảng tin `main`", để `git status` nói được "bạn đang hơn/kém bảng tin mấy mục".
+
+:::
+
+Ba "bản" của cùng một nhánh nằm ở ba chỗ khác nhau, và mỗi lệnh chỉ di chuyển dữ liệu giữa hai chỗ:
+
+```mermaid
+flowchart LR
+    subgraph LOCAL["Máy bạn"]
+        L["main<br/>(local branch - bạn commit vào đây)"]
+        T["origin/main<br/>(remote-tracking - ảnh chụp lần fetch cuối)"]
+    end
+    subgraph REMOTE["GitHub"]
+        R["main<br/>(nhánh thật trên remote)"]
+    end
+    R -->|"git fetch<br/>cập nhật ảnh chụp"| T
+    T -->|"git merge origin/main<br/>(hoặc rebase)"| L
+    L -->|"git push"| R
+```
+
 ### 6.2. Thiết lập tracking
 
 ```bash
@@ -390,8 +522,8 @@ git push -u origin feature/login
 git branch -vv
 # Kết quả:
 #   feature/login  a1b2c3d [origin/feature/login] Thêm form login
-# * main           e4f5g6h [origin/main] Update README
-#   bugfix/header  i7j8k9l Sửa header  <-- không có tracking
+# * main           e4f5a6b [origin/main] Update README
+#   bugfix/header  9c7d8e1 Sửa header  <-- không có tracking
 
 # Thiết lập tracking cho branch đã tồn tại
 git branch --set-upstream-to=origin/feature/login feature/login
@@ -413,6 +545,36 @@ git pull origin main
 # git fetch origin
 # git merge origin/main
 ```
+
+Cùng tình huống: đồng đội vừa push commit D lên `main` trên GitHub, còn máy bạn đang dừng ở C.
+
+```mermaid
+sequenceDiagram
+    participant W as main (local)
+    participant T as origin/main (trên máy bạn)
+    participant G as main trên GitHub
+    Note over G: Đồng đội đã push D
+    rect rgb(230, 240, 255)
+    Note over W,G: git fetch
+    G->>T: Tải D về, dời origin/main sang D
+    Note over W: main vẫn ở C - code của bạn chưa đổi gì
+    end
+    rect rgb(230, 255, 230)
+    Note over W,G: git pull = fetch + merge
+    G->>T: Tải D về, dời origin/main sang D
+    T->>W: Gộp D vào main (fast-forward hoặc merge commit)
+    end
+```
+
+| Tiêu chí                         | `git fetch`                              | `git pull`                                     |
+| -------------------------------- | ---------------------------------------- | ---------------------------------------------- |
+| Tải commit mới về máy            | Có                                       | Có                                             |
+| Đổi file bạn đang mở             | **Không**                                | Có                                             |
+| Có thể gây conflict              | Không                                    | Có                                             |
+| Dùng khi                         | Muốn **xem trước** rồi mới quyết định    | Đã tin tưởng, muốn cập nhật ngay               |
+| Ví von                           | Chụp lại bảng tin, chưa chép vào sổ      | Chụp lại và chép luôn vào sổ                   |
+
+Mẹo an toàn cho người mới: `git fetch` rồi `git log --oneline main..origin/main` để xem "trên GitHub có gì mới mà mình chưa có", sau đó mới `git merge` hoặc `git pull`.
 
 ---
 
@@ -441,6 +603,43 @@ feature/login:           F---G---H
 main:          A---B---C---D---E---M
 ```
 
+Vẽ lại các bước trên bằng gitGraph. **Bước "làm việc trên cả 2 branch"** — hai nhánh phân kỳ từ C:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch feature-login
+    checkout feature-login
+    commit id: "F"
+    commit id: "G"
+    commit id: "H" tag: "feature/login"
+    checkout main
+    commit id: "D"
+    commit id: "E" tag: "main"
+```
+
+**Sau `git merge feature/login`** trên `main` — merge commit M có 2 parent (E và H). Xoá nhãn `feature/login` sau đó không làm mất F, G, H vì chúng vẫn nối vào M:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch feature-login
+    checkout feature-login
+    commit id: "F"
+    commit id: "G"
+    commit id: "H"
+    checkout main
+    commit id: "D"
+    commit id: "E"
+    merge feature-login id: "M" tag: "main"
+```
+
+Chi tiết các kiểu merge (fast-forward, 3-way, squash) xem ở bài [Merge cơ bản](./2_merge-co-ban.md).
+
 Xem trực quan bằng lệnh:
 
 ```bash
@@ -454,9 +653,9 @@ git log --oneline --graph --all
 # * | E Update homepage
 # * | D Thêm footer
 # |/
-# * C Initial commit
+# * C Thêm trang chủ
 # * B Thêm README
-# * A First commit
+# * A Initial commit
 ```
 
 ---
@@ -565,6 +764,8 @@ git branch -d feature/footer
 # Chuyển sang main mà chưa commit
 git switch main
 # Các thay đổi CHƯA COMMIT sẽ đi theo bạn sang main!
+# (Nếu chúng đụng file mà main có nội dung khác, Git TỪ CHỐI chuyển:
+#  "Your local changes ... would be overwritten by checkout")
 # => Dùng git stash hoặc commit trước khi chuyển
 
 # Cách xử lý:
@@ -573,6 +774,18 @@ git switch main              # Chuyển branch
 # ... làm việc ...
 git switch feature/login     # Quay lại
 git stash pop                # Lấy lại thay đổi
+```
+
+Trước khi `git switch`, tự hỏi theo sơ đồ này:
+
+```mermaid
+flowchart TD
+    S["Muốn chuyển sang nhánh khác"] --> Q{"git status có<br/>thay đổi chưa commit?"}
+    Q -->|"Không"| OK["git switch an toàn"]
+    Q -->|"Có"| W{"Thay đổi này thuộc<br/>nhánh hiện tại?"}
+    W -->|"Có, đã xong một bước"| C["git commit rồi switch"]
+    W -->|"Có, nhưng đang dở"| ST["git stash, switch,<br/>quay lại thì git stash pop"]
+    W -->|"Không, lỡ sửa nhầm nhánh"| MV["git switch luôn<br/>(thay đổi đi theo sang nhánh đúng)<br/>rồi commit ở đó"]
 ```
 
 ### Lỗi 2: Xoá nhầm branch chưa merge
@@ -608,7 +821,7 @@ git switch -c feature/new main
 ```bash
 # SAI:
 git switch -c "feature/my feature"    # Dấu cách
-git switch -c feature/login@v2        # Ký tự @
+git switch -c feature/login:v2        # Ký tự : (Git không cho phép, cùng với ~ ^ ? * [ \ và "..")
 
 # ĐÚNG:
 git switch -c feature/my-feature      # Dấu gạch nối

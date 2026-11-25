@@ -30,30 +30,12 @@ GitHub là nền tảng phổ biến nhất thế giới để lưu trữ code v
 - [2. GitHub vs GitLab vs Bitbucket](#2-github-vs-gitlab-vs-bitbucket)
 - [3. Tạo Repository trên GitHub](#3-tạo-repository-trên-github)
 - [4. README.md — Bộ mặt của dự án](#4-readmemd-bộ-mặt-của-dự-án)
-- [Features](#features)
-- [Demo](#demo)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 - [5. Issues — Quản lý công việc](#5-issues-quản-lý-công-việc)
-- [Bug: Login form doesn't validate email](#bug-login-form-doesnt-validate-email)
 - [6. GitHub Projects — Kanban Board](#6-github-projects-kanban-board)
 - [7. GitHub Pages — Hosting miễn phí](#7-github-pages-hosting-miễn-phí)
 - [8. GitHub Actions — CI/CD Overview](#8-github-actions-cicd-overview)
 - [9. Settings quan trọng](#9-settings-quan-trọng)
 - [10. Thư mục `.github/` — Cấu hình dự án](#10-thư-mục-github-cấu-hình-dự-án)
-- [Describe the bug](#describe-the-bug)
-- [Steps to reproduce](#steps-to-reproduce)
-- [Expected behavior](#expected-behavior)
-- [Screenshots](#screenshots)
-- [Environment](#environment)
-- [Summary](#summary)
-- [Type of change](#type-of-change)
-- [Checklist](#checklist)
-- [Test plan](#test-plan)
-- [Screenshots (if applicable)](#screenshots-if-applicable)
 - [11. Lỗi thường gặp](#11-lỗi-thường-gặp)
 
 ---
@@ -102,6 +84,43 @@ GitHub không chỉ là nơi lưu code. Nó cung cấp:
 | **Wiki**               | Tài liệu dự án                   |
 | **Security**           | Quét lỗ hổng bảo mật tự động     |
 | **Codespaces**         | Môi trường phát triển trên cloud |
+
+### 1.1. Ẩn dụ: Git là cuốn sổ, GitHub là văn phòng chung
+
+:::info[Hình dung bằng đời thường]
+
+- **Git** = **cuốn sổ ghi chép** của bạn. Nó ghi lại mọi lần sửa, chạy ngay trên máy, không cần mạng.
+- **GitHub** = **văn phòng chung** của cả nhóm, nơi để **bản gốc** của cuốn sổ. Văn phòng còn có thêm:
+  - **bảng ghim việc** (Issues, Projects) — ghi ai đang làm gì, lỗi nào cần sửa;
+  - **phòng họp duyệt bài** (Pull Request) — đồng đội đọc và góp ý trước khi chép vào bản gốc;
+  - **robot trực ca** (Actions) — tự kiểm tra mỗi khi có trang mới nộp vào;
+  - **ổ khóa ở cửa** (Branch protection) — không ai được ghi thẳng vào bản gốc mà bỏ qua bước duyệt.
+
+Không có GitHub, Git vẫn chạy bình thường. Nhưng không có Git, GitHub chẳng có gì để lưu.
+
+:::
+
+Sơ đồ dưới đây cho thấy GitHub là **một lớp phía trên** Git: phần lõi (lưu commit, nhánh) là Git thuần; các tính năng cộng tác là của riêng GitHub, máy bạn không có.
+
+```mermaid
+flowchart TB
+    subgraph LOCAL["Máy bạn - chỉ có Git"]
+        G1["commit, branch, merge<br/>(làm việc offline)"]
+    end
+    subgraph GH["GitHub - Git + lớp cộng tác"]
+        G2["Kho Git trên cloud<br/>(bản gốc của repo)"]
+        PR["Pull Request<br/>và code review"]
+        IS["Issues, Projects"]
+        AC["Actions (CI/CD)"]
+        BP["Branch protection"]
+        G2 --- PR
+        G2 --- IS
+        G2 --- AC
+        G2 --- BP
+    end
+    G1 -->|"git push"| G2
+    G2 -->|"git fetch / pull"| G1
+```
 
 ---
 
@@ -162,6 +181,27 @@ git remote add origin https://github.com/username/my-project.git
 git branch -M main
 git push -u origin main
 ```
+
+Cách 2 hay làm người mới bối rối nhất, nên đây là trình tự từng bước giữa máy bạn và GitHub:
+
+```mermaid
+sequenceDiagram
+    participant B as Bạn (máy local)
+    participant GH as GitHub
+    B->>GH: Tạo repo RỖNG trên web (không tick README)
+    GH-->>B: Trả về URL của repo
+    B->>B: git remote add origin URL (ghi nhớ địa chỉ, chưa gửi gì)
+    B->>B: git branch -M main (đổi tên nhánh hiện tại thành main)
+    B->>GH: git push -u origin main
+    GH-->>B: Nhận toàn bộ commit, tạo nhánh main trên GitHub
+    Note over B: -u ghi nhớ main local theo dõi origin/main, lần sau chỉ cần git push
+```
+
+:::caution[Vì sao nên tạo repo RỖNG khi đã có code sẵn?]
+
+Nếu tick **"Initialize with README"**, GitHub tạo sẵn một commit trên `main`. Repo local của bạn có lịch sử riêng, **không chung gốc** với commit đó, nên `git push` sẽ bị từ chối (*rejected*). Tick README chỉ hợp với **Cách 1** (tạo trên GitHub trước rồi clone).
+
+:::
 
 ---
 
@@ -347,6 +387,27 @@ GitHub Projects hỗ trợ tự động hóa:
 - PR được merge -> issue tự động chuyển sang **Done**
 - Issue được assign -> chuyển sang **In Progress**
 
+### Vòng đời một Issue
+
+Một issue thường đi qua các trạng thái sau. Cột trên Kanban chính là các trạng thái này; mũi tên ghi việc làm nó chuyển cột:
+
+```mermaid
+stateDiagram-v2
+    [*] --> Backlog: Ai đó tạo issue
+    Backlog --> InProgress: Được assign, bắt đầu làm
+    InProgress --> Review: Mở PR có ghi Fixes 12
+    Review --> InProgress: Reviewer yêu cầu sửa
+    Review --> Done: PR được merge, issue tự đóng
+    Backlog --> Done: Đóng vì trùng hoặc không sửa (wontfix)
+    Done --> [*]
+```
+
+:::tip[Mẹo: tự đóng issue khi merge PR]
+
+Trong mô tả PR, viết `Fixes #12` (hoặc `Closes #12`, `Resolves #12`). Khi PR được merge vào nhánh mặc định, GitHub **tự đóng** issue #12 và ghi lại liên kết giữa hai bên.
+
+:::
+
 ---
 
 ## 7. GitHub Pages — Hosting miễn phí
@@ -440,6 +501,22 @@ jobs:
         run: npm run build
 ```
 
+Hình dung Actions như **robot trực ca**: mỗi lần có sự kiện (push, mở PR...), GitHub thuê một máy ảo sạch, chạy lần lượt các bước trong file YAML, rồi báo kết quả:
+
+```mermaid
+sequenceDiagram
+    participant B as Bạn
+    participant GH as GitHub
+    participant R as Máy ảo (runner)
+    B->>GH: git push lên develop
+    GH->>GH: Đọc .github/workflows/ci.yml, sự kiện push khớp
+    GH->>R: Tạo máy ảo ubuntu-latest
+    R->>R: checkout, setup Node, npm install
+    R->>R: npm test, lint, build
+    R-->>GH: Kết quả từng bước (pass hoặc fail)
+    GH-->>B: Dấu xanh hoặc đỏ cạnh commit, email nếu fail
+```
+
 ### Workflow trigger (khi nào chạy)
 
 | Trigger             | Mô tả                  |
@@ -477,6 +554,21 @@ Nhánh: main
   ☐ CI (chọn workflow cần pass)
 ☑ Require conversation resolution before merging
 ☑ Do not allow bypassing the above settings
+```
+
+Khi đã bật các ô trên, đường duy nhất để code vào `main` là đi qua PR:
+
+```mermaid
+flowchart LR
+    DEV["Bạn có commit mới"] --> Q{"Push thẳng<br/>vào main?"}
+    Q -->|"Có"| X["GitHub từ chối<br/>(GH006 Protected branch)"]
+    Q -->|"Không, push nhánh feature"| PR["Mở Pull Request"]
+    PR --> CI{"CI pass?"}
+    CI -->|"Không"| FIX["Sửa, push thêm commit"]
+    FIX --> CI
+    CI -->|"Có"| AP{"Đủ approval?"}
+    AP -->|"Chưa"| FIX
+    AP -->|"Đủ"| MG["Nút Merge mở khóa<br/>code vào main"]
 ```
 
 **Tại sao cần branch protection:**
@@ -548,9 +640,10 @@ Dockerfile       @devops-team
 
 ### Issue Template
 
-```markdown
-## <!-- .github/ISSUE_TEMPLATE/bug_report.md -->
+File `.github/ISSUE_TEMPLATE/bug_report.md` (phần giữa hai dòng `---` ở đầu là cấu hình để GitHub biết tên template, nhãn tự gắn...):
 
+```markdown
+---
 name: Bug Report
 about: Report a bug to help us improve
 title: '[BUG] '

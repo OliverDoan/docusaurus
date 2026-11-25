@@ -105,6 +105,23 @@ main-project/           ← repo chính
 - Quản lý phiên bản thư viện chung (pin version cụ thể)
 - Giữ repo chính nhẹ (không chứa code thư viện)
 
+:::info[Hình dung: trích dẫn sách có ghi rõ lần in]
+
+Tưởng tượng bạn viết một **giáo trình** (repo cha) và cần dùng một chương của **cuốn từ điển** do nhóm khác biên soạn (repo con).
+
+- **Copy-paste** = photo chương đó dán vào giáo trình. Từ điển sửa lỗi chính tả thì bản photo vẫn sai.
+- **Submodule** = **không** photo, chỉ ghi một dòng trích dẫn: *"Xem Từ điển X, **bản in lần 3, mã số def5678**"*. Ai đọc giáo trình sẽ tự lấy đúng bản in đó về đặt cạnh. Từ điển ra bản in lần 4 thì giáo trình **vẫn trỏ bản lần 3** — cho tới khi bạn chủ động sửa dòng trích dẫn.
+- **Monorepo** = gom giáo trình lẫn từ điển vào **một bộ sách duy nhất**, sửa cả hai trong cùng một lần xuất bản.
+
+Thuật ngữ:
+
+- **Repo cha / superproject** = repo chính, chứa dòng trích dẫn.
+- **Repo con / submodule** = repo được nhúng vào, có lịch sử và remote riêng.
+- **`.gitmodules`** = file ghi "từ điển lấy ở đâu" (URL) và "đặt ở thư mục nào" (path). **Mã commit cụ thể thì không nằm trong file này** — nó nằm trong chính commit của repo cha.
+- **Gitlink** = cái "dòng trích dẫn" đó: một mục đặc biệt trong cây thư mục của repo cha, chỉ chứa SHA của repo con.
+
+:::
+
 ### Thêm submodule
 
 ```bash
@@ -165,7 +182,50 @@ Khi bạn "git submodule update":
   (KHÔNG phải branch mới nhất, mà đúng commit được pin)
 ```
 
+Sơ đồ dưới cho thấy điều quan trọng nhất: **mỗi commit của repo cha ghim một commit cụ thể của repo con**. Repo con có chạy tới đâu (S4 là mới nhất) thì repo cha cũng chỉ thấy commit mà nó đã ghim.
+
+```mermaid
+flowchart LR
+    subgraph CHA["Repo cha - main-project"]
+        direction LR
+        P1["P1 - thêm submodule"] --> P2["P2 - sửa trang chủ"] --> P3["P3 - nâng shared-lib"]
+    end
+    subgraph CON["Repo con - shared-lib"]
+        direction LR
+        S1["S1 abc1111"] --> S2["S2 def5678"] --> S3["S3 777aaaa"] --> S4["S4 999bbbb (mới nhất)"]
+    end
+    P1 -.->|"ghim"| S2
+    P2 -.->|"vẫn ghim"| S2
+    P3 -.->|"ghim"| S3
+```
+
+- Checkout P1 hoặc P2 rồi `git submodule update` → thư mục `libs/shared` có code của **S2**.
+- Checkout P3 → code của **S3**. **S4 chưa được ai dùng**, dù nó đã nằm trên GitHub.
+- Muốn dùng S4 phải tạo thêm commit P4 trong repo cha để "dời đinh ghim".
+
+Tự kiểm chứng: trong repo cha chạy `git ls-tree HEAD libs/shared` sẽ thấy dòng kiểu `160000 commit def5678...  libs/shared` — mode `160000` chính là gitlink, và SHA đó là commit được ghim.
+
 ### Update submodule lên version mới
+
+**Dời đinh ghim là việc của hai repo**: phải có commit mới bên repo con, rồi repo cha phải **commit thêm một lần nữa** để ghi SHA mới. Thiếu bước thứ hai thì đồng nghiệp vẫn nhận code cũ:
+
+```mermaid
+sequenceDiagram
+    participant An as An (máy local)
+    participant Con as GitHub shared-lib
+    participant Cha as GitHub main-project
+    participant Binh as Bình (máy local)
+    An->>Con: commit S3 trong libs/shared rồi push
+    Note over An: repo cha báo modified libs/shared (new commits)
+    An->>An: git add libs/shared rồi commit P3 (ghim S3)
+    An->>Cha: push P3
+    Binh->>Cha: git pull, nhận P3
+    Note over Binh: Thư mục libs/shared vẫn đang là code S2
+    Binh->>Con: git submodule update, tải S3 về
+    Note over Binh: Giờ libs/shared mới đúng là S3
+```
+
+Hai bẫy hay gặp nằm ngay trên sơ đồ: **An quên commit P3** (đồng nghiệp không bao giờ thấy S3 — xem Lỗi 2 bên dưới), và **Bình quên `git submodule update` sau khi pull** (code trong máy Bình lệch với cái repo cha ghim). Đặt `git config --global submodule.recurse true` để `pull`/`switch` tự cập nhật submodule.
 
 ```bash
 # Bước 1: Vào thư mục submodule
@@ -421,6 +481,25 @@ Submodule: repo chính chứa CON TRỎ đến repo con
 Subtree:   repo chính chứa TOÀN BỘ CODE của repo con
 ```
 
+Cùng nhu cầu "dùng shared-lib trong main-project", hai cách để lại hai thứ khác nhau trong repo cha:
+
+```mermaid
+flowchart LR
+    subgraph SM["Dùng submodule"]
+        direction TB
+        A1["main-project"] --> A2[".gitmodules - URL"]
+        A1 --> A3["libs/shared - chỉ 1 SHA"]
+        A3 -.->|"phải tải riêng"| A4["repo shared-lib"]
+    end
+    subgraph ST["Dùng subtree"]
+        direction TB
+        B1["main-project"] --> B3["libs/shared - đủ mọi file code"]
+        B3 -.->|"subtree pull hoặc push khi cần đồng bộ"| B4["repo shared-lib"]
+    end
+```
+
+Với subtree, người clone **không cần biết** có repo shared-lib tồn tại — code đã nằm sẵn. Với submodule, thiếu bước `submodule update` là thư mục trống.
+
 ### Thêm subtree
 
 ```bash
@@ -486,6 +565,17 @@ Bạn cần chia sẻ code giữa nhiều repos?
 └── Không, mỗi project độc lập
     └── Polyrepo
         (Mỗi project 1 repo, đơn giản nhất)
+```
+
+```mermaid
+flowchart TD
+    Q0{"Cần chia sẻ code<br/>giữa nhiều project?"}
+    Q0 -->|"Không"| POLY["Polyrepo - mỗi project 1 repo"]
+    Q0 -->|"Có"| Q1{"Các project do cùng team<br/>và hay sửa chung một lúc?"}
+    Q1 -->|"Có"| MONO["Monorepo"]
+    Q1 -->|"Không, team khác nhau"| Q2{"Cần ghim đúng version<br/>và tách quyền truy cập?"}
+    Q2 -->|"Có"| SUB["Submodule"]
+    Q2 -->|"Không, muốn team clone là chạy"| TREE["Subtree"]
 ```
 
 ### Tóm tắt theo quy mô

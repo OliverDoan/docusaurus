@@ -31,12 +31,6 @@ title: "5. Fork và đóng góp Open Source"
 - [3. Workflow đóng góp Open Source — Từng bước chi tiết](#3-workflow-đóng-góp-open-source-từng-bước-chi-tiết)
 - [4. Sync Fork với Upstream](#4-sync-fork-với-upstream)
 - [5. CONTRIBUTING.md — Đọc trước khi đóng góp](#5-contributingmd-đọc-trước-khi-đóng-góp)
-- [Getting Started](#getting-started)
-- [Development Workflow](#development-workflow)
-- [Coding Standards](#coding-standards)
-- [Commit Convention](#commit-convention)
-- [Pull Request Process](#pull-request-process)
-- [Code of Conduct](#code-of-conduct)
 - [6. Code of Conduct — Quy tắc ứng xử](#6-code-of-conduct-quy-tắc-ứng-xử)
 - [7. Good First Issues — Bắt đầu từ đâu?](#7-good-first-issues-bắt-đầu-từ-đâu)
 - [8. Etiquette — Quy tắc ứng xử khi đóng góp](#8-etiquette-quy-tắc-ứng-xử-khi-đóng-góp)
@@ -89,6 +83,16 @@ Bạn muốn đóng góp cho một dự án mã nguồn mở, nhưng bạn **kh�
 +------------------------------------------+
 ```
 
+:::info[Hình dung bằng đời thường: cuốn sách công thức của một đầu bếp nổi tiếng]
+
+- **Repo gốc (upstream)** = **cuốn sách công thức** của đầu bếp nổi tiếng, đặt trong nhà hàng của họ. Bạn được đọc, nhưng không được viết vào.
+- **Fork** = bạn **photo nguyên cuốn sách** và đặt bản photo **trên kệ của riêng bạn** (tài khoản GitHub của bạn). Bản này của bạn, muốn ghi chú gì cũng được.
+- **Clone fork về máy** = mang bản photo **về bếp nhà mình** để thử nấu.
+- **Pull Request** = viết thư gửi đầu bếp: *"Tôi thấy công thức món X thiếu muối, đây là bản sửa, mời anh xem"*. Đầu bếp đọc, có thể hỏi lại, rồi **tự quyết** có chép vào sách gốc hay không.
+- **Sync fork** = định kỳ **photo thêm những trang mới** mà đầu bếp vừa viết, để bản của bạn không cũ.
+
+:::
+
 **Tại sao cần fork?**
 
 Bạn không thể push code trực tiếp vào repo của người khác (trừ khi được thêm làm collaborator). Fork cho phép bạn:
@@ -126,6 +130,17 @@ Bạn KHÔNG phải collaborator (open source, repo người khác):
   → Fork trước → Clone fork về local → Code → Push lên fork → Tạo PR về repo gốc
 ```
 
+Hay vẽ thành cây quyết định:
+
+```mermaid
+flowchart TD
+    Q{"Bạn có quyền push<br/>vào repo này không?"} -->|"Có (thành viên team)"| C["Clone thẳng repo<br/>tạo branch, push, mở PR"]
+    Q -->|"Không (repo người khác)"| F["Fork trên GitHub"]
+    F --> C2["Clone FORK về máy"]
+    C2 --> U["Thêm remote upstream<br/>trỏ về repo gốc"]
+    U --> P["Push lên fork, mở PR về repo gốc"]
+```
+
 ---
 
 ## 3. Workflow đóng góp Open Source — Từng bước chi tiết
@@ -158,6 +173,55 @@ Bạn KHÔNG phải collaborator (open source, repo người khác):
         |   7. Create PR          |                         |
         |<------------------------|                         |
         |                         |                         |
+```
+
+### Ba repo, ba vai trò
+
+Điều khiến người mới rối nhất là **có tới 3 bản** của cùng một dự án. Sơ đồ dưới đây vẽ cả ba và chiều đi của code giữa chúng:
+
+```mermaid
+flowchart LR
+    subgraph GITHUB["Trên GitHub"]
+        UP["upstream<br/>facebook/react<br/>(repo gốc, bạn chỉ đọc)"]
+        OR["origin<br/>your-name/react<br/>(fork, của bạn)"]
+    end
+    subgraph MAY["Máy bạn"]
+        LC["local repo<br/>(nơi bạn code)"]
+    end
+    UP -->|"1. Fork (nút trên web)"| OR
+    OR -->|"2. git clone"| LC
+    UP -->|"git fetch upstream<br/>(lấy code mới)"| LC
+    LC -->|"6. git push origin"| OR
+    OR -->|"7. Pull Request"| UP
+```
+
+| Repo | Ở đâu | Của ai | Bạn push được? | Tên remote trên máy bạn |
+| --- | --- | --- | --- | --- |
+| Repo gốc | GitHub | Maintainers | **Không** | `upstream` (bạn tự thêm) |
+| Fork | GitHub | Bạn | Có | `origin` (tự có khi clone) |
+| Local | Máy bạn | Bạn | (không cần push, code trực tiếp) | — |
+
+Mấu chốt: code **không bao giờ đi thẳng** từ máy bạn vào repo gốc. Nó luôn vòng qua fork rồi vào bằng Pull Request.
+
+Toàn bộ 7 bước bên dưới, vẽ theo thời gian và có cả maintainer:
+
+```mermaid
+sequenceDiagram
+    participant UP as upstream (repo gốc)
+    participant OR as origin (fork của bạn)
+    participant LC as Máy bạn
+    participant MT as Maintainer
+    UP->>OR: 1. Fork (bấm nút trên web)
+    OR->>LC: 2. git clone fork
+    LC->>LC: 3. git remote add upstream
+    UP->>LC: git fetch upstream, cập nhật main
+    LC->>LC: 4-5. Tạo branch, code, commit
+    LC->>OR: 6. git push -u origin fix/typo-in-readme
+    OR->>UP: 7. Mở Pull Request
+    UP->>MT: Thông báo có PR mới
+    MT-->>LC: Review, yêu cầu sửa
+    LC->>OR: Push thêm commit (PR tự cập nhật)
+    MT->>UP: Approve và merge
 ```
 
 ### Bước 1: Fork repo gốc
@@ -351,6 +415,69 @@ Local:
                                 \
                                  X'---Y' (feature)
 ```
+
+### Minh hoạ bằng gitGraph: sync rồi rebase nhánh feature
+
+Cùng tình huống như ASCII ở trên nhưng rút gọn: bạn rẽ nhánh `feature` từ C và làm X, Y. Trong lúc đó repo gốc có thêm D, E.
+
+**Trước khi sync** — trên máy bạn, `main` vẫn ở C, chưa biết D, E:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C" tag: "main"
+    branch feature
+    checkout feature
+    commit id: "X"
+    commit id: "Y" tag: "feature"
+```
+
+**Sau `git fetch upstream`** — D, E được tải về và gắn nhãn `upstream/main`; `main` và `feature` chưa đổi:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C" tag: "main"
+    branch feature
+    checkout feature
+    commit id: "X"
+    commit id: "Y" tag: "feature"
+    checkout main
+    branch upstream-main
+    checkout upstream-main
+    commit id: "D"
+    commit id: "E" tag: "upstream/main"
+```
+
+**Sau `git merge upstream/main` (trên main) + `git rebase main` (trên feature)** — `main` chỉ dời nhãn lên E (fast-forward, vì bạn không commit gì lên main). X, Y được chép thành X', Y' nối sau E:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    commit id: "D"
+    commit id: "E" tag: "main = upstream/main"
+    branch feature
+    checkout feature
+    commit id: "X'"
+    commit id: "Y'" type: HIGHLIGHT tag: "feature"
+```
+
+| | Không sync, mở PR luôn | Sync + rebase rồi mới mở PR |
+| --- | --- | --- |
+| PR dựa trên | C (cũ) | E (mới nhất) |
+| Nguy cơ conflict khi maintainer merge | Cao, maintainer phải nhờ bạn sửa | Thấp, bạn đã gỡ trên máy mình |
+| Code của bạn đã chạy thử cùng D, E? | Chưa | Rồi |
+| Phải force push? | Không | Có, nếu nhánh đã push trước đó (`--force-with-lease`) |
+
+:::tip[Một câu để nhớ]
+
+**Lấy về từ `upstream`, đẩy lên `origin`, xin vào `upstream` bằng PR.** Đừng bao giờ commit lên `main` của fork — giữ nó sạch để sync.
+
+:::
 
 ---
 

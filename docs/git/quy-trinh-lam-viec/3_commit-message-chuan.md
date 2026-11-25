@@ -33,8 +33,6 @@ Commit message là "nhật ký" của dự án. Một commit message tốt giúp
 - [5. Semantic Versioning và Conventional Commits](#5-semantic-versioning-và-conventional-commits)
 - [6. Tools tự động hóa](#6-tools-tự-động-hóa)
 - [7. Auto-generate CHANGELOG](#7-auto-generate-changelog)
-- [[2.1.0] - 2024-03-15](#210-2024-03-15)
-- [[2.0.0] - 2024-02-01](#200-2024-02-01)
 - [8. Bảng tóm tắt Types với Emoji (optional)](#8-bảng-tóm-tắt-types-với-emoji-optional)
 - [9. Lỗi thường gặp](#9-lỗi-thường-gặp)
 - [10. Tóm tắt](#10-tóm-tắt)
@@ -49,10 +47,10 @@ Commit message là "nhật ký" của dự án. Một commit message tốt giúp
 # Lịch sử commit kiểu này — 6 tháng sau không ai hiểu gì
 git log --oneline
 # a1b2c3d fix
-# d4e5f6g update
-# g7h8i9j asdf
-# j0k1l2m WIP
-# m3n4o5p done
+# d4e5f6a update
+# 9a8b7c6 asdf
+# 0e1f2a3 WIP
+# 3c4d5e6 done
 
 # Hậu quả:
 # - Không biết commit "fix" sửa cái gì, vì sao sửa
@@ -68,9 +66,9 @@ git log --oneline
 # Format: type(scope): description
 git log --oneline
 # a1b2c3d feat(auth): add OAuth2 login with Google
-# d4e5f6g fix(cart): prevent duplicate items on fast click
-# g7h8i9j refactor(db): extract connection pooling logic
-# j0k1l2m docs: add commit message guide
+# d4e5f6a fix(cart): prevent duplicate items on fast click
+# 9a8b7c6 refactor(db): extract connection pooling logic
+# 0e1f2a3 docs: add commit message guide
 
 # Lợi ích:
 # - Message nói rõ "làm gì + vì sao", đọc là hiểu ngay
@@ -92,7 +90,28 @@ git log --oneline
 
 ## 1. Tại sao commit message quan trọng?
 
-Trước khi học cách viết, hãy hiểu **tại sao** commit message tốt lại quan trọng đến vậy:
+Trước khi học cách viết, hãy hiểu **tại sao** commit message tốt lại quan trọng đến vậy.
+
+:::info[Hình dung: nhãn dán trên thùng đồ khi chuyển nhà]
+
+Mỗi commit giống **một thùng đồ đóng gói khi chuyển nhà**, commit message là **nhãn dán trên thùng**.
+
+- Nhãn ghi **"đồ"** → tới nhà mới phải mở từng thùng ra xem. Đó là log kiểu `fix`, `update`, `asdf`.
+- Nhãn ghi **"Bếp — bát đĩa sứ, DỄ VỠ, mua thêm vì bộ cũ sứt"** → không cần mở cũng biết bên trong là gì, để ở đâu, vì sao có nó.
+
+Một commit message đầy đủ có 3 phần, giống một lá thư:
+
+- **Subject** (dòng tiêu đề) = dòng đầu tiên, ngắn (~50 ký tự): *làm gì*. Đây là thứ hiện ra trong `git log --oneline`.
+- **Body** (thân) = các dòng sau một dòng trống: *vì sao* làm, bối cảnh.
+- **Footer** (chân) = thông tin cho máy đọc: `Closes #123`, `BREAKING CHANGE: ...`.
+
+Thêm vài thuật ngữ sẽ gặp trong bài:
+
+- **Type** = loại thay đổi (`feat` tính năng mới, `fix` sửa lỗi...). **Scope** = phạm vi (`auth`, `cart`...).
+- **Imperative mood** (thể mệnh lệnh) = viết như ra lệnh: "add", "fix" — không phải "added", "fixing".
+- **CHANGELOG** = file liệt kê "phiên bản này có gì mới" cho người dùng đọc.
+
+:::
 
 ### 1.1. Git log — Lịch sử dự án
 
@@ -100,18 +119,18 @@ Trước khi học cách viết, hãy hiểu **tại sao** commit message tốt 
 # Commit message xấu — đọc không hiểu gì
 git log --oneline
 # a1b2c3d fix
-# d4e5f6g update
-# g7h8i9j change stuff
-# j0k1l2m WIP
-# m3n4o5p done
+# d4e5f6a update
+# 9a8b7c6 change stuff
+# 0e1f2a3 WIP
+# 3c4d5e6 done
 
 # Commit message tốt — hiểu ngay dự án đang làm gì
 git log --oneline
 # a1b2c3d fix: resolve login timeout on slow networks
-# d4e5f6g feat: add dark mode toggle to settings page
-# g7h8i9j refactor: extract validation logic to shared utils
-# j0k1l2m docs: add API authentication guide
-# m3n4o5p perf: optimize image loading with lazy load
+# d4e5f6a feat: add dark mode toggle to settings page
+# 9a8b7c6 refactor: extract validation logic to shared utils
+# 0e1f2a3 docs: add API authentication guide
+# 3c4d5e6 perf: optimize image loading with lazy load
 ```
 
 ### 1.2. Git blame — Ai viết dòng này và tại sao?
@@ -306,6 +325,25 @@ Closes #456
 | **chore**    | Công việc bảo trì                 | `chore: update dependencies`        |
 | **revert**   | Revert commit trước               | `revert: revert "feat: add search"` |
 
+Phân vân giữa các type? Đi theo câu hỏi dưới đây — hỏi lần lượt từ trên xuống, gặp "Có" đầu tiên thì dừng:
+
+```mermaid
+flowchart TD
+    Q1{"Người dùng thấy được<br/>một khả năng MỚI?"} -->|"Có"| FEAT["feat"]
+    Q1 -->|"Không"| Q2{"Sửa một hành vi SAI<br/>mà người dùng gặp?"}
+    Q2 -->|"Có"| FIX["fix"]
+    Q2 -->|"Không"| Q3{"Chạy nhanh hơn hoặc<br/>tốn ít tài nguyên hơn?"}
+    Q3 -->|"Có"| PERF["perf"]
+    Q3 -->|"Không"| Q4{"Đổi cấu trúc code<br/>nhưng hành vi giữ nguyên?"}
+    Q4 -->|"Có"| REF["refactor"]
+    Q4 -->|"Không"| Q5{"Chỉ đụng tới..."}
+    Q5 -->|"Tài liệu"| DOCS["docs"]
+    Q5 -->|"Dấu cách, format"| STYLE["style"]
+    Q5 -->|"File test"| TEST["test"]
+    Q5 -->|"Pipeline CI"| CI["ci"]
+    Q5 -->|"Build, dependency"| BUILD["build hoặc chore"]
+```
+
 ### 3.3. Scope (phạm vi)
 
 Scope là optional nhưng rất hữu ích cho dự án lớn:
@@ -402,6 +440,57 @@ transient failures. After 3 retries, show user-friendly error.
 Closes #789"
 ```
 
+### Cùng một tuần làm việc: log xấu vs log đẹp
+
+Hai lịch sử dưới đây chứa **đúng cùng 6 thay đổi code** của một tuần — chỉ khác nhãn dán. Một commit trong số đó đã làm hỏng trang thanh toán.
+
+**Log xấu** — người khác (hoặc chính bạn 6 tháng sau) nhìn vào không biết gì:
+
+```mermaid
+gitGraph
+    commit id: "update"
+    commit id: "fix"
+    commit id: "WIP"
+    commit id: "asdf"
+    commit id: "fix bug"
+    commit id: "done" tag: "v1.3.0"
+```
+
+**Log đẹp** — cùng 6 commit đó, đọc lướt là thấy câu chuyện của cả tuần:
+
+```mermaid
+gitGraph
+    commit id: "feat(cart): add coupon field"
+    commit id: "fix(cart): round total to 2 decimals"
+    commit id: "refactor(payment): extract gateway client"
+    commit id: "test(payment): cover refund flow"
+    commit id: "perf(cart): cache shipping fee"
+    commit id: "docs: update checkout guide" tag: "v1.3.0"
+```
+
+Giờ sếp hỏi: **"Trang thanh toán hỏng từ lúc nào, tuần này có gì mới để ghi release note?"**
+
+| Việc cần làm                                 | Với log xấu                                           | Với log đẹp                                                     |
+| -------------------------------------------- | ----------------------------------------------------- | --------------------------------------------------------------- |
+| Đoán commit nào đụng tới thanh toán          | Mở diff từng commit một (6 lần)                        | `git log --oneline --grep="payment"` → 2 commit, đọc tên là đoán ra `refactor(payment)` |
+| Viết release note "tuần này có gì mới"       | Đọc code để tự tóm tắt                                 | Lọc `feat` và `fix` → có ngay 2 dòng                             |
+| Quyết định version tiếp theo                 | Phải hỏi người viết                                    | Có `feat`, không có breaking → tăng MINOR                         |
+| Revert đúng thứ gây lỗi                      | Sợ revert nhầm "fix bug" vì không biết nó sửa gì       | Revert `refactor(payment)`, yên tâm không mất coupon hay phí ship |
+| Thời gian bỏ ra                              | Vài chục phút đến vài giờ                              | Vài phút                                                         |
+
+Cái giá của log đẹp chỉ là **thêm 10–20 giây** mỗi lần commit để nghĩ một câu cho tử tế.
+
+:::tip[Tự kiểm chứng trên máy]
+
+Chạy lệnh sau trong một repo bạn đang làm và tự chấm điểm: đọc 20 dòng gần nhất, bao nhiêu dòng bạn hiểu ngay mà không cần mở diff?
+
+```bash
+git log --oneline -20
+git log --oneline --grep="^fix"     # chỉ có tác dụng khi team viết theo chuẩn
+```
+
+:::
+
 ---
 
 ## 5. Semantic Versioning và Conventional Commits
@@ -433,6 +522,23 @@ v1.1.1   # fix: dark mode flickering
 v1.2.0   # feat: add export to PDF
 v2.0.0   # feat!: redesign entire API (breaking change)
 ```
+
+Vì message có cấu trúc, **máy đọc được** — đây là đường đi từ các commit tới số version và CHANGELOG mà công cụ như `semantic-release` / `standard-version` tự làm:
+
+```mermaid
+flowchart LR
+    subgraph C["Commit từ bản v1.1.1"]
+        C1["fix: dark mode flickering"]
+        C2["feat: add export to PDF"]
+        C3["docs: update README"]
+    end
+    C --> R{"Tool đọc type<br/>lấy mức cao nhất"}
+    R -->|"có feat, không có breaking"| V["v1.2.0"]
+    R --> L["CHANGELOG<br/>Features - export to PDF<br/>Bug Fixes - dark mode"]
+    C3 -.->|"docs không vào changelog"| X["bỏ qua"]
+```
+
+Mức cao nhất thắng: chỉ cần **một** commit `feat!` hoặc có footer `BREAKING CHANGE` là cả đợt release tăng MAJOR, dù các commit khác chỉ là `fix`.
 
 ---
 
@@ -627,22 +733,22 @@ npm run release
 ### Features
 
 - **search:** add full-text search with Elasticsearch ([a1b2c3d])
-- **auth:** implement OAuth2 login with Google ([d4e5f6g])
+- **auth:** implement OAuth2 login with Google ([d4e5f6a])
 
 ### Bug Fixes
 
-- **cart:** prevent duplicate items when clicking fast ([g7h8i9j])
-- **email:** correct template rendering on Outlook ([j0k1l2m])
+- **cart:** prevent duplicate items when clicking fast ([9a8b7c6])
+- **email:** correct template rendering on Outlook ([0e1f2a3])
 
 ### Performance Improvements
 
-- **images:** add WebP conversion and lazy loading ([m3n4o5p])
+- **images:** add WebP conversion and lazy loading ([3c4d5e6])
 
 ## [2.0.0] - 2024-02-01
 
 ### BREAKING CHANGES
 
-- **api:** change response format from XML to JSON ([p6q7r8s])
+- **api:** change response format from XML to JSON ([6f7a8b9])
 ```
 
 ---

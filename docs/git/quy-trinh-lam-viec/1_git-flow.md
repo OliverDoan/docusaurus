@@ -136,6 +136,16 @@ gitGraph
     merge hotfix/crash id: "sync hotfix"
 ```
 
+:::info[Hình dung bằng đời thường: một nhà hàng]
+
+- **`main`** = **những món đang được phục vụ cho khách** (production — bản thật người dùng đang dùng). Chỉ món đã kiểm tra kỹ mới được lên đây.
+- **`develop`** = **bếp chính**, nơi các món mới được ghép vào thực đơn nháp. Lúc nào cũng có đồ mới, nhưng chưa chắc đã ngon.
+- **`feature/*`** = **thớt riêng của từng đầu bếp** để thử món mới. Làm xong mới bưng sang bếp chính.
+- **`release/*`** = **bàn nếm thử trước giờ mở thực đơn mới**. Chỉ được nêm lại, sửa lỗi nhỏ — **không thêm món mới**. Trong lúc đó bếp chính vẫn tiếp tục nghĩ món cho đợt sau.
+- **`hotfix/*`** = khách phản ánh món đang bán bị lỗi → **sửa gấp ngay trên món đang phục vụ**, rồi báo lại cho bếp chính để đợt sau không lặp lại.
+
+:::
+
 **Ý tưởng cốt lõi:** Tách biệt hoàn toàn giữa code đang phát triển (develop), code đã sẵn sàng (release), và code đang chạy trên production (main).
 
 ---
@@ -151,8 +161,8 @@ Git Flow có **2 nhánh song song vĩnh viễn** — chúng tồn tại suốt v
 # Mỗi commit trên main = 1 phiên bản đã release
 git log --oneline main
 # a1b2c3d (tag: v2.1.0) Release 2.1.0
-# d4e5f6g (tag: v2.0.0) Release 2.0.0
-# h7i8j9k (tag: v1.0.0) Release 1.0.0
+# d4e5f6a (tag: v2.0.0) Release 2.0.0
+# b7c8d9e (tag: v1.0.0) Release 1.0.0
 ```
 
 | Đặc điểm                 | Mô tả                                           |
@@ -171,13 +181,13 @@ git checkout develop
 git log --oneline
 # f1a2b3c feat: add payment module
 # c4d5e6f feat: add user profile page
-# g7h8i9j fix: correct email validation
+# e7f8a9b fix: correct email validation
 ```
 
 | Đặc điểm          | Mô tả                                      |
 | ----------------- | ------------------------------------------ |
 | Mục đích          | Tích hợp tất cả feature mới                |
-| Ai được merge vào | `feature/*` branches                       |
+| Ai được merge vào | `feature/*`; và `release/*`, `hotfix/*` (merge ngược để giữ bản sửa) |
 | Trạng thái        | Luôn có code mới nhất, có thể chưa ổn định |
 | Tạo từ            | Được tạo từ `main` khi khởi tạo dự án      |
 
@@ -246,6 +256,25 @@ git push origin --delete feature/login
 * Previous develop commit
 ```
 
+Cùng ý đó bằng gitGraph. Feature `login` có 3 commit; `--no-ff` tạo commit M trên develop, nhờ vậy cả cụm L1–L3 hiện thành một "vòng" riêng:
+
+```mermaid
+gitGraph
+    commit id: "init"
+    branch develop
+    checkout develop
+    commit id: "D1"
+    branch feature/login
+    checkout feature/login
+    commit id: "L1 form"
+    commit id: "L2 API"
+    commit id: "L3 tests"
+    checkout develop
+    merge feature/login id: "M (--no-ff)" type: HIGHLIGHT tag: "develop"
+```
+
+Nếu bỏ `--no-ff` (và develop chưa có commit mới), Git chỉ dời nhãn develop lên L3 — lịch sử thành một đường thẳng `init - D1 - L1 - L2 - L3`, không còn dấu vết "đây từng là feature login". Muốn gỡ cả feature cũng khó hơn, vì không có một commit M để `git revert -m 1`.
+
 ### 3.2. Release Branches (`release/*`)
 
 Khi develop đã có đủ feature cho phiên bản mới, tạo release branch để "đóng băng" và chuẩn bị release.
@@ -283,6 +312,30 @@ git merge --no-ff release/1.0.0
 git branch -d release/1.0.0
 ```
 
+Vẽ lại bằng gitGraph, có thêm chi tiết quan trọng: **trong lúc QA test `release/1.0.0`, develop vẫn nhận feature mới** (commit "N1 next"). Feature đó **không** lọt vào v1.0.0:
+
+```mermaid
+gitGraph
+    commit id: "init"
+    branch develop
+    checkout develop
+    commit id: "F1 login"
+    commit id: "F2 search"
+    branch release/1.0.0
+    checkout release/1.0.0
+    commit id: "bump 1.0.0"
+    commit id: "fix typo"
+    checkout develop
+    commit id: "N1 next"
+    checkout main
+    merge release/1.0.0 id: "R1" tag: "v1.0.0"
+    checkout develop
+    merge release/1.0.0 id: "back-merge"
+```
+
+- `main` nhận đúng những gì đã "đóng băng" ở release: F1, F2 và hai commit sửa.
+- `back-merge` đưa "fix typo" về develop — nếu quên, lỗi typo sẽ quay lại ở bản sau.
+
 **Lưu ý quan trọng:** Trong khi release branch đang tồn tại, team vẫn có thể tiếp tục code feature mới trên develop. Đây là ưu điểm lớn của Git Flow — phát triển song song!
 
 ### 3.3. Hotfix Branches (`hotfix/*`)
@@ -293,10 +346,10 @@ Bug khẩn cấp trên production! Không thể đợi đến release tiếp the
 Workflow:
   main    ---*-----------*----> (tag v1.0.1)
               \         /
-  hotfix/      *---*---*
-  fix-crash   (sửa bug khẩn cấp)
-              \         \
-  develop      *---------*----> (nhận được hotfix)
+  hotfix/      *---*---*          (sửa bug khẩn cấp, rẽ từ MAIN)
+  fix-crash             \
+                         \
+  develop ---*---*---*----*----> (nhận được hotfix)
 ```
 
 ```bash
@@ -319,6 +372,31 @@ git merge --no-ff hotfix/fix-payment-crash
 # Bước 5: Xóa hotfix branch
 git branch -d hotfix/fix-payment-crash
 ```
+
+Bằng gitGraph: hotfix **rẽ từ main** (đúng bản đang chạy), không rẽ từ develop — vì develop đang chứa feature dở dang chưa được phép lên production:
+
+```mermaid
+gitGraph
+    commit id: "init"
+    branch develop
+    checkout develop
+    commit id: "F1"
+    checkout main
+    merge develop id: "R1" tag: "v1.0.0"
+    checkout develop
+    commit id: "dở dang 1"
+    commit id: "dở dang 2"
+    checkout main
+    branch hotfix/fix-crash
+    checkout hotfix/fix-crash
+    commit id: "fix crash" type: HIGHLIGHT
+    checkout main
+    merge hotfix/fix-crash id: "H1" tag: "v1.0.1"
+    checkout develop
+    merge hotfix/fix-crash id: "đồng bộ fix"
+```
+
+Nếu rẽ hotfix từ develop, bản v1.0.1 sẽ kéo theo cả "dở dang 1, 2" lên production — đúng điều Git Flow muốn tránh.
 
 **Chú ý:** Nếu đang có release branch tồn tại, hotfix nên merge vào release branch thay vì develop (vì release branch sẽ merge vào develop sau).
 
@@ -491,6 +569,43 @@ git flow hotfix finish fix-crash
 8. Hotfix xong: merge vào main (tag v1.0.1) + merge ngược develop
 9. Lặp lại từ bước 2
 
+### 7.1. Theo chân một tính năng: "tìm kiếm sản phẩm"
+
+Để so sánh với GitHub Flow và Trunk-based ở [bài sau](./2_github-flow-va-trunk-based.md), ta theo **cùng một tính năng** — *tìm kiếm sản phẩm* — từ lúc bắt đầu code đến khi khách hàng dùng được:
+
+```mermaid
+sequenceDiagram
+    participant DEV as Dev
+    participant FB as feature/search
+    participant DV as develop
+    participant RL as release/1.2.0
+    participant QA as QA
+    participant MN as main (production)
+    DEV->>FB: Rẽ nhánh từ develop, code 3-5 ngày
+    FB->>DV: PR, review, merge --no-ff
+    Note over DV: Chờ các feature khác của đợt 1.2 cùng xong
+    DV->>RL: Cắt release khi đủ feature
+    RL->>QA: Đưa lên staging để test
+    QA-->>RL: Báo lỗi, sửa ngay trên release
+    RL->>MN: Merge, tag v1.2.0, deploy
+    RL->>DV: Merge ngược các bản sửa
+    Note over MN: Khách dùng được tính năng, có thể sau 1-3 tuần kể từ khi code xong
+```
+
+Điểm cần thấy: code "tìm kiếm" xong **không có nghĩa** là lên production ngay. Nó phải chờ cả đợt release. Đó là cái giá của sự kiểm soát.
+
+### 7.2. Việc này thì rẽ nhánh từ đâu, gộp vào đâu?
+
+```mermaid
+flowchart TD
+    Q{"Bạn sắp làm gì?"} -->|"Tính năng mới"| F["feature/ten-tinh-nang<br/>rẽ từ develop"]
+    Q -->|"Chuẩn bị phát hành"| R["release/x.y.0<br/>rẽ từ develop"]
+    Q -->|"Lỗi khẩn trên production"| H["hotfix/ten-loi<br/>rẽ từ main"]
+    F -->|"xong"| FD["merge vào develop"]
+    R -->|"QA xong"| RM["merge vào main + tag<br/>rồi merge ngược develop"]
+    H -->|"sửa xong"| HM["merge vào main + tag<br/>rồi merge vào develop<br/>(hoặc release đang mở)"]
+```
+
 ---
 
 ## 8. Lỗi thường gặp
@@ -569,7 +684,7 @@ git merge develop  # Cập nhật code mới nhất từ develop
 |  main       = production (chỉ release và hotfix)         |
 |  develop    = integration (nơi feature hợp nhất)         |
 |  feature/*  = tính năng mới (từ develop, vào develop)    |
-|  release/*  = chuẩn bị release (từ develop, vào main)    |
+|  release/*  = chuẩn bị release (từ develop, vào main+develop) |
 |  hotfix/*   = sửa khẩn cấp (từ main, vào main+develop)   |
 +----------------------------------------------------------+
 |  CLI tool: git flow init / feature / release / hotfix    |

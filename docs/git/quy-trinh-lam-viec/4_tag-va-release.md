@@ -31,7 +31,6 @@ Khi dự án của bạn đạt đến một mốc quan trọng — phiên bản
 - [3. Các thao tác với Tag](#3-các-thao-tác-với-tag)
 - [4. Semantic Versioning (SemVer)](#4-semantic-versioning-semver)
 - [5. GitHub Releases](#5-github-releases)
-- [Bug Fixes](#bug-fixes)
 - [6. Workflow đầy đủ: Từ commit đến Release](#6-workflow-đầy-đủ-từ-commit-đến-release)
 - [7. Versioning strategies cho different project types](#7-versioning-strategies-cho-different-project-types)
 - [8. Lỗi thường gặp](#8-lỗi-thường-gặp)
@@ -83,6 +82,40 @@ gh release create v1.2.0 --generate-notes
 ## 1. Tag là gì?
 
 Tag là một **"nhãn dán" (label)** trên một commit cụ thể trong lịch sử Git. Khác với branch (thay đổi theo thời gian), tag là **cố định** — nó luôn trỏ đến cùng một commit.
+
+:::info[Hình dung: cột mốc cây số và dải ruy băng đánh dấu sách]
+
+- **Branch** giống **dải ruy băng kẹp trong cuốn sách đang đọc**: đọc tới đâu, ruy băng dời theo tới đó. Mỗi commit mới, nhãn `main` lại nhích lên.
+- **Tag** giống **cột mốc cây số trên quốc lộ** hoặc **tờ giấy note dán cứng vào một trang**: "Trang này là bản phát hành 1.0". Đường có làm dài thêm bao nhiêu thì cột mốc vẫn đứng yên chỗ cũ.
+- **Release** (trên GitHub) = **hộp sản phẩm xuất xưởng**: lấy đúng trang có tag, đóng hộp kèm tờ hướng dẫn "bản này có gì mới" (release notes) và file cài đặt để người dùng tải.
+
+Thuật ngữ:
+
+- **Version** (phiên bản) = con số đặt cho một lần phát hành, ví dụ `v1.2.0`.
+- **Annotated tag** = tag "có lý lịch": ghi ai tạo, lúc nào, lời nhắn. **Lightweight tag** = chỉ là một nhãn trơn.
+- **Detached HEAD** = trạng thái bạn đang "đứng xem" một trang cụ thể (ví dụ một tag) mà không cầm ruy băng nào — commit lúc này không thuộc branch nào.
+
+:::
+
+**Tag đứng yên, branch đi tiếp.** Trước: `main` và tag `v1.0.0` cùng ở commit C.
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C" tag: "v1.0.0"
+```
+
+Sau khi commit thêm D, E: nhãn `main` (tên nhánh ở đầu đường kẻ) đã chạy tới E, còn `v1.0.0` **vẫn dán ở C**. Một năm sau, `git checkout v1.0.0` vẫn ra đúng code của C.
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C" tag: "v1.0.0"
+    commit id: "D"
+    commit id: "E" type: HIGHLIGHT
+```
 
 ```
   main:  --o---o---o---o---o---o---o---o--->
@@ -301,6 +334,22 @@ git log v1.0.0..v2.0.0 --oneline
 # Thấy tất cả commits giữa 2 versions
 ```
 
+**Minh họa: vá lỗi cho bản cũ từ một tag.** `main` đã đi tới v2.0.0, nhưng một khách hàng vẫn dùng v1.0.0 và gặp lỗi bảo mật. Bạn rẽ nhánh `hotfix` **từ đúng commit có tag v1.0.0**, sửa, rồi gắn tag `v1.0.1` trên nhánh đó — không cần kéo theo các tính năng của 2.0:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B" tag: "v1.0.0"
+    branch hotfix-v1
+    checkout main
+    commit id: "C (feat!)"
+    commit id: "D" tag: "v2.0.0"
+    checkout hotfix-v1
+    commit id: "H (fix bảo mật)" type: HIGHLIGHT tag: "v1.0.1"
+```
+
+Tag `v1.0.1` **không nằm trên `main`** — hoàn toàn bình thường. Tag chỉ cần dán lên commit, không quan tâm commit thuộc nhánh nào. (Nếu `main` cũng dính lỗi đó, cherry-pick H sang `main`.)
+
 ---
 
 ## 4. Semantic Versioning (SemVer)
@@ -316,9 +365,14 @@ MAJOR.MINOR.PATCH
 
 Ví dụ: 2.4.1
        | | |
-       | | +-- Patch: lần sửa lỗi thứ 1
-       | +-- Minor: lần thêm tính năng thứ 4
-       +-- Major: lần breaking change thứ 2
+       | | +-- Patch: đợt sửa lỗi thứ 1 kể từ bản 2.4.0
+       | +-- Minor: đợt thêm tính năng thứ 4 kể từ bản 2.0.0
+       +-- Major: thế hệ thứ 2 (đã có 1 lần breaking change kể từ 1.x)
+
+Khi tăng số bên trái, các số bên phải RESET về 0:
+  2.4.1 → (fix)      2.4.2
+  2.4.1 → (feat)     2.5.0
+  2.4.1 → (breaking) 3.0.0
 ```
 
 ### 4.2. Khi nào tăng version nào?
@@ -331,6 +385,33 @@ Ví dụ: 2.4.1
 | Sửa nhiều lỗi            | PATCH | 1.2.3 → 1.2.4 | Vẫn là patch dù sửa nhiều bug                   |
 | Thêm tính năng + sửa lỗi | MINOR | 1.2.3 → 1.3.0 | MINOR "thắng" PATCH, reset PATCH về 0           |
 | Breaking + tính năng mới | MAJOR | 1.2.3 → 2.0.0 | MAJOR "thắng" tất cả, reset MINOR và PATCH về 0 |
+
+Hình dung bằng **ổ cắm điện**: PATCH = siết lại con ốc lỏng (cắm vẫn như cũ); MINOR = thêm một cổng USB (phích cũ vẫn cắm được, có thêm lựa chọn mới); MAJOR = đổi chuẩn ổ cắm (phích cũ **không vừa nữa**, người dùng phải đổi theo).
+
+```mermaid
+flowchart TD
+    START["Gom tất cả thay đổi từ bản trước"] --> Q1{"Có thay đổi nào khiến<br/>người dùng cũ phải sửa code<br/>hoặc đổi cách dùng?"}
+    Q1 -->|"Có"| MAJ["Tăng MAJOR<br/>1.4.2 thành 2.0.0"]
+    Q1 -->|"Không"| Q2{"Có tính năng mới<br/>người dùng thấy được?"}
+    Q2 -->|"Có"| MIN["Tăng MINOR<br/>1.4.2 thành 1.5.0"]
+    Q2 -->|"Không"| Q3{"Có sửa lỗi?"}
+    Q3 -->|"Có"| PAT["Tăng PATCH<br/>1.4.2 thành 1.4.3"]
+    Q3 -->|"Không, chỉ docs hay refactor"| NONE["Không cần phát hành"]
+```
+
+**Cả vòng đời trên một lịch sử:** mỗi commit ghi type theo Conventional Commits, tag version được gắn khi phát hành:
+
+```mermaid
+gitGraph
+    commit id: "feat: login" tag: "v1.0.0"
+    commit id: "fix: login crash" tag: "v1.0.1"
+    commit id: "feat: dark mode"
+    commit id: "fix: dark mode flicker" tag: "v1.1.0"
+    commit id: "feat!: new API" type: HIGHLIGHT tag: "v2.0.0"
+    commit id: "fix: API timeout" tag: "v2.0.1"
+```
+
+Để ý đợt `v1.1.0`: có cả `feat` lẫn `fix` nhưng chỉ tăng MINOR (MINOR "thắng" PATCH), và PATCH quay về 0.
 
 ### 4.3. Pre-release versions
 
@@ -360,6 +441,17 @@ alpha.1 < alpha.2 < beta.1 < beta.2 < rc.1 < rc.2 < release
 Vòng đời đầy đủ:
 v2.0.0-alpha.1 → v2.0.0-alpha.2 → v2.0.0-beta.1 →
 v2.0.0-beta.2 → v2.0.0-rc.1 → v2.0.0-rc.2 → v2.0.0
+```
+
+Trên lịch sử, các tag pre-release chỉ là những cột mốc "chạy thử" dọc đường trước cột mốc chính thức:
+
+```mermaid
+gitGraph
+    commit id: "P1" tag: "v2.0.0-alpha.1"
+    commit id: "P2"
+    commit id: "P3" tag: "v2.0.0-beta.1"
+    commit id: "P4" tag: "v2.0.0-rc.1"
+    commit id: "P5 (chỉ fix)" type: HIGHLIGHT tag: "v2.0.0"
 ```
 
 ### 4.4. Build metadata
@@ -554,6 +646,34 @@ gh release edit v2.0.0 --notes "Updated release notes"
      - Staging → Production
 ```
 
+Cùng quy trình đó dưới dạng "ai nói chuyện với ai" — để ý: **chỉ bước push tag là do người làm**, mọi thứ sau đó máy tự chạy:
+
+```mermaid
+sequenceDiagram
+    participant Dev as Bạn
+    participant Git as Máy local
+    participant GH as GitHub
+    participant CI as GitHub Actions
+    Dev->>Git: git tag -a v1.2.0 -m "Release v1.2.0"
+    Dev->>GH: git push origin v1.2.0
+    GH->>CI: có tag mới khớp v*, chạy workflow release
+    CI->>CI: checkout đúng commit của tag, build, test
+    alt Test pass
+        CI->>GH: tạo Release v1.2.0, đính kèm file build
+        CI->>GH: sinh release notes từ commit messages
+        GH-->>Dev: thông báo Release đã sẵn sàng
+    else Test fail
+        CI-->>Dev: báo lỗi, KHÔNG tạo Release
+    end
+```
+
+| Bước                     | Không dùng tag + release                    | Dùng tag + release                              |
+| ------------------------ | ------------------------------------------- | ----------------------------------------------- |
+| Biết production chạy gì  | "Hình như commit 7f3a9b2?"                  | "v1.2.0" — ghi rõ trên trang Releases           |
+| Rollback khi bản mới lỗi | Đào log tìm commit ổn định gần nhất         | Deploy lại `v1.1.0`                             |
+| Người dùng tải bản cũ    | Không có chỗ tải                            | Trang Releases giữ mọi bản kèm file             |
+| Viết "bản này có gì mới" | Tự đọc log rồi gõ tay                       | `--generate-notes` sinh tự động                 |
+
 **Script tự động hóa:**
 
 ```bash
@@ -607,7 +727,9 @@ git tag -a v2024.03.15 -m "Release March 15, 2024"
 git tag -a v2024.03.15.2 -m "Second release of the day"
 
 # Mobile app với build number
-git tag -a v2.1.0-build.142 -m "Build 142 submitted to App Store"
+git tag -a v2.1.0+build.142 -m "Build 142 submitted to App Store"
+# Dùng dấu + (build metadata), KHÔNG dùng dấu -:
+# v2.1.0-build.142 bị SemVer hiểu là bản PRE-RELEASE, xếp TRƯỚC v2.1.0
 
 # Monorepo — tag per package
 git tag -a core@1.2.0 -m "Core package v1.2.0"

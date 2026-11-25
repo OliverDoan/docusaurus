@@ -88,6 +88,24 @@ git push
 
 Git Hooks là **scripts tự động chạy** khi một sự kiện Git xảy ra. Ví dụ: trước khi commit, Git có thể chạy linter; trước khi push, Git có thể chạy tests.
 
+:::info[Hình dung: các trạm kiểm tra ở sân bay]
+
+Đưa code từ máy bạn lên server giống **đi máy bay**, và hook là **các trạm kiểm tra tự động** dọc đường:
+
+- **`pre-commit`** = **máy soi hành lý**: soát nội dung bạn sắp đóng gói (code đã `git add`). Có "vật cấm" (lỗi lint, `console.log`, API key) → không cho qua.
+- **`commit-msg`** = **kiểm tra vé**: tên trên vé (commit message) phải đúng định dạng, kiểu `feat: ...`, `fix: ...`.
+- **`pre-push`** = **cổng lên máy bay**: kiểm tra lần cuối (chạy test) trước khi rời khỏi máy bạn.
+- **Server-side hook** (`pre-receive`...) = **hải quan nơi đến**: chạy trên server, bạn **không né được** dù đã bỏ qua các trạm ở nhà.
+
+Thuật ngữ:
+
+- **Hook** = "cái móc": một điểm trong quy trình Git mà bạn được phép "móc" script của mình vào.
+- **Exit code** = con số script trả về khi chạy xong: `0` = cho qua, khác `0` = chặn lại.
+- **Husky** = công cụ giúp **cả team dùng chung** bộ hook (vì mặc định hook không được chia sẻ qua Git).
+- **`--no-verify`** = "đi lối ưu tiên", bỏ qua trạm kiểm tra phía máy bạn.
+
+:::
+
 ```
 Workflow Git với hooks:
 
@@ -118,6 +136,72 @@ Workflow Git với hooks:
       ▼ Có
   Push thành công!
 ```
+
+### Dòng thời gian: hook nào chạy lúc nào?
+
+Sơ đồ dưới đi theo trình tự thời gian từ lúc bạn gõ `git commit` tới lúc code nằm trên server. Mỗi hook là một "điểm dừng"; script trả về khác 0 ở hook có chữ **pre** (hoặc `commit-msg`) là **dừng cả quy trình**.
+
+```mermaid
+sequenceDiagram
+    participant Dev as Bạn
+    participant Git as Git trên máy
+    participant H as Hook trên máy
+    participant Srv as Git server
+    participant SH as Hook trên server
+    Dev->>Git: git commit -m "feat ..."
+    Git->>H: pre-commit (soát code đã stage)
+    H-->>Git: exit 0 thì đi tiếp, khác 0 thì huỷ commit
+    Git->>H: prepare-commit-msg (soạn sẵn message)
+    Git->>H: commit-msg (kiểm tra message)
+    H-->>Git: exit 0 thì đi tiếp, khác 0 thì huỷ commit
+    Git->>Git: tạo commit
+    Git->>H: post-commit (chỉ để thông báo, không chặn được)
+    Dev->>Git: git push
+    Git->>H: pre-push (chạy test)
+    H-->>Git: exit 0 thì gửi đi, khác 0 thì huỷ push
+    Git->>Srv: gửi commit
+    Srv->>SH: pre-receive (kiểm tra chính sách)
+    SH-->>Srv: khác 0 thì từ chối toàn bộ push
+    Srv->>SH: update (chạy cho từng branch)
+    Srv->>Srv: cập nhật branch
+    Srv->>SH: post-receive (deploy, báo Slack)
+    Srv-->>Dev: push thành công
+```
+
+Quy luật dễ nhớ: hook tên **`pre-...`** chạy **trước** sự kiện nên **chặn được**; hook **`post-...`** chạy **sau** khi mọi chuyện đã xong nên **chỉ để báo tin**, không huỷ được gì.
+
+### Có hook và không có hook: cùng một lần commit vội
+
+Tình huống: bạn vội, commit file có `console.log("debug")` với message `"fix bug"` rồi push.
+
+```mermaid
+sequenceDiagram
+    participant Dev as Bạn
+    participant Local as Máy bạn
+    participant CI as CI trên server
+    participant Team as Đồng đội
+    Note over Dev,Team: Không có hook
+    Dev->>Local: commit "fix bug" kèm console.log
+    Local-->>Dev: OK, không ai kiểm tra
+    Dev->>CI: push
+    CI-->>Dev: 5 phút sau báo lint fail
+    Team->>CI: pull về code đang đỏ
+    Note over Dev,Team: Có hook
+    Dev->>Local: commit "fix bug" kèm console.log
+    Local-->>Dev: pre-commit chặn ngay, chỉ ra dòng console.log
+    Dev->>Local: xoá dòng đó, commit lại
+    Local-->>Dev: commit-msg chặn, message phải bắt đầu bằng fix và dấu hai chấm
+    Dev->>Local: commit lại với message chuẩn
+    Dev->>CI: push, CI xanh
+```
+
+| Tiêu chí                         | Không có hook                       | Có hook                                  |
+| -------------------------------- | ----------------------------------- | ---------------------------------------- |
+| Phát hiện lỗi lúc nào            | Sau khi push, chờ CI vài phút       | Ngay lúc gõ `git commit`, vài giây       |
+| Ai thấy lỗi của bạn              | Cả team (branch chung đỏ)            | Chỉ bạn                                  |
+| Lịch sử commit                   | Thêm commit "fix lint", "fix lint 2" | Sạch ngay từ đầu                         |
+| Cái giá phải trả                 | Không                               | Commit chậm hơn vài giây; cần cài Husky  |
+| Có thay thế CI được không?       | —                                   | **Không** — hook né được bằng `--no-verify`, CI vẫn là chốt chặn cuối |
 
 ---
 
@@ -211,6 +295,27 @@ Giải pháp: Dùng Husky (hoặc tool tương tự)
 => Hooks nằm trong .husky/ (tracked bởi Git)
 => Đồng nghiệp clone + npm install → tự động có hooks
 ```
+
+```mermaid
+flowchart LR
+    subgraph MAY_AN["Máy An"]
+        A1[".git/hooks/pre-commit<br/>tự viết tay"]
+        A2[".husky/pre-commit<br/>nằm trong code"]
+    end
+    subgraph GH["GitHub"]
+        G2[".husky/pre-commit"]
+    end
+    subgraph MAY_BINH["Máy Bình sau khi clone"]
+        B1[".git/hooks - chỉ có file .sample"]
+        B2[".husky/pre-commit<br/>npm install tự kích hoạt"]
+    end
+    A1 -.->|"KHÔNG được push"| GH
+    A2 -->|"git push"| G2
+    G2 -->|"git clone"| B2
+    GH -.->|"không có gì để tải"| B1
+```
+
+Thư mục `.git/` (kể cả `.git/hooks/`) **không bao giờ** đi theo `push`/`clone`. Husky giải quyết bằng cách để hook trong `.husky/` — một thư mục bình thường được commit — rồi bảo Git "hãy tìm hook ở đây" (qua `core.hooksPath`).
 
 ---
 
@@ -596,7 +701,7 @@ echo "Tất cả kiểm tra PASSED! Đang push..."
 ## 9. --no-verify: Bypass hooks
 
 ```bash
-# Bỏ qua pre-commit hook
+# Bỏ qua pre-commit VÀ commit-msg hook
 git commit --no-verify -m "wip: work in progress"
 # Hoặc viết tắt:
 git commit -n -m "wip: work in progress"
@@ -625,7 +730,7 @@ KHÔNG NÊN:
 
 ### Protect main branch
 
-Server-side hooks chạy trên Git server (GitHub, GitLab, Bitbucket), không phụ thuộc client. Developer KHÔNG thể bypass.
+Server-side hooks chạy trên Git server (server Git tự dựng, GitLab self-managed, GitHub Enterprise Server...), không phụ thuộc client. Developer KHÔNG thể bypass. Riêng GitHub.com / GitLab.com bản cloud **không cho** cài hook server tuỳ ý — ở đó bạn dùng Branch Protection (xem bên dưới).
 
 ```bash
 #!/bin/bash

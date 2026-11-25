@@ -25,6 +25,7 @@ Bài này hướng dẫn chi tiết các lệnh Git bạn sẽ dùng **hàng ng�
 
 ## Mục lục
 
+- [Vì sao cần nắm các lệnh Git cơ bản?](#vì-sao-cần-nắm-các-lệnh-git-cơ-bản)
 - [1. git init — Tạo repository mới](#1-git-init-tạo-repository-mới)
 - [2. git clone — Sao chép repository](#2-git-clone-sao-chép-repository)
 - [3. git status — Xem trạng thái hiện tại](#3-git-status-xem-trạng-thái-hiện-tại)
@@ -36,7 +37,6 @@ Bài này hướng dẫn chi tiết các lệnh Git bạn sẽ dùng **hàng ng�
 - [9. Bảng tổng hợp các lệnh](#9-bảng-tổng-hợp-các-lệnh)
 - [10. Workflow thực tế: Từ 0 đến commit đầu tiên](#10-workflow-thực-tế-từ-0-đến-commit-đầu-tiên)
 - [11. Lỗi thường gặp](#11-lỗi-thường-gặp)
-- [Vì sao cần nắm các lệnh Git cơ bản?](#vì-sao-cần-nắm-các-lệnh-git-cơ-bản)
 - [Tổng kết luồng làm việc hàng ngày](#tổng-kết-luồng-làm-việc-hàng-ngày)
 
 ---
@@ -194,6 +194,38 @@ Nên `git clone` làm tất cả trong 1 lệnh.
 | Lấy dự án đã có trên GitHub/GitLab    | `git clone`                   |
 | Đã có repo local, muốn kết nối remote | `git init` + `git remote add` |
 
+:::info[Ẩn dụ: mở sổ mới vs photo nguyên cuốn sổ của người khác]
+
+- `git init` = **mua một cuốn sổ trắng** và tuyên bố "từ giờ thư mục này được ghi lịch sử". Sổ trống, chưa có trang nào (chưa có commit).
+- `git clone` = **photo nguyên cuốn sổ** đang nằm trên GitHub về nhà — đủ mọi trang cũ (toàn bộ lịch sử), kèm ghi chú "bản gốc ở đâu" (remote tên `origin`) để sau này còn gửi trang mới lên.
+
+:::
+
+Chọn lệnh nào? Chỉ cần trả lời một câu hỏi:
+
+```mermaid
+flowchart TD
+    Q{"Dự án đã có sẵn<br/>trên GitHub/GitLab chưa?"} -->|"Có rồi"| CL["git clone URL<br/>tải về kèm toàn bộ lịch sử"]
+    Q -->|"Chưa, tôi bắt đầu từ đầu"| IN["git init<br/>trong thư mục dự án"]
+    IN --> LATER{"Sau này muốn<br/>đưa lên GitHub?"}
+    LATER -->|"Có"| RA["Tạo repo trống trên GitHub<br/>rồi git remote add origin URL<br/>và git push"]
+    LATER -->|"Không"| LOCAL["Dùng Git hoàn toàn trên máy"]
+```
+
+Những gì `git clone` làm sau hậu trường (đúng như đoạn lệnh "tương đương" ở trên):
+
+```mermaid
+sequenceDiagram
+    participant Y as Máy bạn
+    participant G as GitHub (origin)
+    Y->>Y: Tạo thư mục repo-name và git init
+    Y->>Y: Ghi nhớ remote tên origin trỏ tới URL
+    Y->>G: git fetch - xin toàn bộ commit và nhánh
+    G-->>Y: Gửi về toàn bộ lịch sử
+    Y->>Y: git checkout main - bày file ra Working Directory
+    Note over Y: Giờ máy bạn có bản sao ĐẦY ĐỦ, làm offline được
+```
+
 ---
 
 ## 3. git status — Xem trạng thái hiện tại
@@ -263,6 +295,22 @@ M  index.html       # M  = Modified và đã stage
 ### Công dụng
 
 Chuyển thay đổi từ Working Directory vào Staging Area, chuẩn bị cho commit tiếp theo.
+
+:::info[Ẩn dụ: bỏ hàng vào giỏ trước khi thanh toán]
+
+Đi siêu thị, bạn **bỏ từng món vào giỏ** (`git add`), có thể bỏ ra nếu đổi ý (`git restore --staged`), rồi mới **ra quầy thanh toán** một lần (`git commit`). Hoá đơn (commit) chỉ ghi những món **đang trong giỏ lúc thanh toán** — món bạn còn cầm trên tay nhưng chưa bỏ vào giỏ thì không tính.
+
+:::
+
+Các biến thể của `git add` khác nhau ở chỗ **"bỏ những món nào vào giỏ"**. Giả sử bạn đang ở thư mục gốc, có 1 file mới `README.md`, 1 file sửa `style.css`, 1 file đã xoá `old.js`:
+
+| Lệnh          | File mới (`README.md`) | File sửa (`style.css`) | File xoá (`old.js`) |
+| ------------- | ---------------------- | ---------------------- | ------------------- |
+| `git add .`   | Có                     | Có                     | Có (Git 2.x)        |
+| `git add -u`  | **Không**              | Có                     | Có                  |
+| `git add -A`  | Có                     | Có                     | Có                  |
+
+(Khác biệt giữa `.` và `-A` chỉ lộ ra khi bạn đứng trong **thư mục con** — xem Lỗi 2 ở cuối bài.)
 
 ### Cú pháp và ví dụ
 
@@ -371,6 +419,37 @@ git commit --amend -m "feat: them tinh nang dang nhap hoan chinh"
 
 **CẢNH BÁO:** Chỉ dùng `--amend` cho commit **chưa push** lên remote. Nếu đã push, amend sẽ thay đổi lịch sử và gây conflict cho người khác.
 
+#### Minh hoạ: commit thường vs `--amend`
+
+Tình huống: lịch sử đang là A → B → C, bạn vừa commit C thì nhớ ra quên `forgotten-file.js`.
+
+**Cách 1 — commit thêm** (`git add forgotten-file.js && git commit -m "them file bi quen"`): có thêm commit D, C giữ nguyên.
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C - thieu file"
+    commit id: "D - them file bi quen" tag: "main"
+```
+
+**Cách 2 — `--amend`** (`git add forgotten-file.js && git commit --amend`): Git **không sửa** C mà tạo **commit mới C'** thay chỗ C (cùng cha là B, nội dung = C + file quên), rồi dời nhãn `main` sang C'. C cũ bị bỏ lại, không nhánh nào trỏ tới:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C' - day du (hash moi)" type: HIGHLIGHT tag: "main"
+```
+
+| Tiêu chí                       | Commit thêm (D)                    | `--amend` (C')                                  |
+| ------------------------------ | ---------------------------------- | ----------------------------------------------- |
+| Số commit trong lịch sử        | Tăng thêm 1                        | Giữ nguyên                                      |
+| Hash của commit cuối           | C giữ nguyên hash                  | Đổi hash (C → C')                               |
+| Lịch sử trông thế nào          | Lộ ra "lỡ quên file"               | Gọn, như thể chưa từng quên                     |
+| Đã push C lên remote rồi thì?  | An toàn, push bình thường          | **Nguy hiểm**: phải force push, đồng đội bị lệch |
+| Dùng khi                       | Commit đã push, hoặc thay đổi lớn  | Commit **chưa push**, sửa vặt / sửa message     |
+
 ### Viết commit message tốt
 
 ```bash
@@ -449,10 +528,10 @@ git diff --stat
 
 ```diff
 diff --git a/index.html b/index.html    <-- File được so sánh
-index 1234567..abcdefg 100644           <-- Hash của 2 version
+index 1234567..abcdef0 100644           <-- Hash của 2 version
 --- a/index.html                        <-- Phiên bản cũ (trước thay đổi)
 +++ b/index.html                        <-- Phiên bản mới (sau thay đổi)
-@@ -10,6 +10,8 @@                       <-- Vị trí thay đổi: dòng 10, 6 dòng cũ -> 8 dòng mới
+@@ -10,5 +10,8 @@                       <-- Vị trí thay đổi: từ dòng 10, 5 dòng cũ -> 8 dòng mới
  <body>                                  <-- Dòng không đổi (context)
    <h1>Hello</h1>                        <-- Dòng không đổi
 +  <nav>                                 <-- Dòng THÊM MỚI (dấu +, màu xanh)
@@ -477,6 +556,28 @@ Working Directory  <---|                    |                      |
    [file đã sửa]   [chưa add]  [đã add]   [sắp      [đã          [mọi thay
                                            commit]   commit]      đổi]
 ```
+
+Vẽ lại cho dễ nhìn: mỗi lệnh `diff` là **một cây thước đo khoảng cách giữa hai vùng**. Hỏi "tôi muốn so vùng nào với vùng nào?" là biết dùng lệnh nào:
+
+```mermaid
+flowchart LR
+    WD["Working Directory<br/>(file đang sửa)"]
+    SA["Staging Area<br/>(đã git add)"]
+    RP["Repository<br/>(commit HEAD)"]
+    SA <-->|"git diff<br/>sửa nhưng CHƯA add"| WD
+    RP <-->|"git diff --staged<br/>đã add, SẮP commit"| SA
+    RP <-.->|"git diff HEAD<br/>tất cả thay đổi"| WD
+```
+
+Ví dụ với `hello.txt`: commit đang là `Xin chào`, bạn sửa thành `Xin chào bạn` rồi `git add`, sau đó sửa tiếp thành `Xin chào bạn nhé`:
+
+| Lệnh                | So sánh                  | Kết quả hiển thị                      |
+| ------------------- | ------------------------ | ------------------------------------- |
+| `git diff`          | Staging ↔ Working        | `Xin chào bạn` → `Xin chào bạn nhé`   |
+| `git diff --staged` | Repository ↔ Staging     | `Xin chào` → `Xin chào bạn`           |
+| `git diff HEAD`     | Repository ↔ Working     | `Xin chào` → `Xin chào bạn nhé`       |
+
+Mẹo: nếu `git diff` **trống trơn** mà bạn chắc đã sửa file, rất có thể bạn đã `git add` hết rồi — thử `git diff --staged`.
 
 ---
 
@@ -720,9 +821,18 @@ git commit -m "feat: ket noi CSS vao trang HTML"
 
 # Xem lịch sử hoàn chỉnh
 git log --oneline --graph
-# * ghi7890 (HEAD -> main) feat: ket noi CSS vao trang HTML
+# * 9a8b7c6 (HEAD -> main) feat: ket noi CSS vao trang HTML
 # * def5678 feat: them file CSS co ban
 # * abc1234 feat: tao trang HTML co ban
+```
+
+Kết quả sau 11 bước, vẽ thành sơ đồ: ba "tấm ảnh" nối tiếp nhau trên nhánh `main`, nhãn `main` (và HEAD) nằm ở commit mới nhất:
+
+```mermaid
+gitGraph
+    commit id: "abc1234 tao trang HTML"
+    commit id: "def5678 them CSS"
+    commit id: "9a8b7c6 ket noi CSS" tag: "HEAD → main"
 ```
 
 ---
@@ -733,9 +843,13 @@ git log --oneline --graph
 
 ```bash
 git commit -m "them tinh nang"
-# nothing to commit, working tree clean
+# Changes not staged for commit:
+#         modified:   index.html
+# no changes added to commit (use "git add" and/or "git commit -a")
 
-# Nguyên nhân: Chưa git add!
+# Nguyên nhân: Đã sửa file nhưng chưa git add — Staging Area đang trống!
+# (Nếu Git báo "nothing to commit, working tree clean" thì nghĩa là
+#  bạn thật sự chưa sửa gì, hoặc file đó đang bị .gitignore bỏ qua)
 # Sửa:
 git add .
 git commit -m "them tinh nang"
@@ -761,12 +875,14 @@ git add -A      # Add toàn bộ thay đổi trong repo
 ```bash
 # Tình huống: vừa commit nhầm file .env (chứa mật khẩu!)
 
-# Cách 1: Xoá file khỏi commit cuối (nếu CHƯA push)
-git reset HEAD~1                    # Undo commit cuối
-git reset HEAD .env                 # Unstage file .env
+# Cách 1: Gỡ .env ra khỏi commit cuối (nếu CHƯA push)
+git rm --cached .env                # Bỏ .env khỏi staging, file trên máy VẪN CÒN
 echo ".env" >> .gitignore          # Thêm vào gitignore
 git add .gitignore
-git commit -m "chore: them .env vao gitignore"
+git commit --amend --no-edit        # Làm lại commit cuối: không còn .env, có thêm .gitignore
+# Các file khác trong commit đó được giữ nguyên.
+# (Cách cũ "git reset HEAD~1" rồi chỉ commit .gitignore sẽ làm RƠI
+#  mọi file khác của commit đó ra ngoài, phải add + commit lại.)
 
 # Cách 2: Nếu ĐÃ push — cần xoá khỏi toàn bộ lịch sử
 # (Xem bài về .gitignore và quản lý file)
@@ -818,6 +934,20 @@ git commit -m "them tinh nang moi"
                   |
               git status
               git diff
+```
+
+Cùng vòng lặp đó dưới dạng sơ đồ quyết định — đi hết một vòng là có một commit "sạch":
+
+```mermaid
+flowchart TD
+    W["Viết / sửa code"] --> S["git status<br/>có gì thay đổi?"]
+    S --> D["git diff<br/>đọc lại từng dòng"]
+    D --> OK{"Thay đổi này<br/>đúng ý chưa?"}
+    OK -->|"Chưa"| W
+    OK -->|"Rồi"| A["git add file<br/>(hoặc git add -p)"]
+    A --> DS["git diff --staged<br/>kiểm tra lần cuối"]
+    DS --> C["git commit -m ..."]
+    C --> W
 ```
 
 10 lệnh bạn dùng mỗi ngày:

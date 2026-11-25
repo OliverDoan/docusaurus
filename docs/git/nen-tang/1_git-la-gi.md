@@ -108,6 +108,35 @@ Hãy tưởng tượng bạn đang viết một ứng dụng. Hôm nay code ch�
 git checkout abc1234
 ```
 
+### Hình dung bằng đời thường: Git là "nút lưu game" cho thư mục của bạn
+
+:::info[Ẩn dụ dễ nhớ]
+
+Hãy nghĩ tới một trò chơi điện tử có **điểm lưu (save point)**. Trước khi đánh trùm, bạn bấm "Lưu". Đánh thua thì **tải lại** điểm lưu đó, chơi tiếp như chưa có gì xảy ra.
+
+Git làm đúng việc đó, nhưng cho **một thư mục chứa file** (code, tài liệu, thiết kế…):
+
+| Từ tiếng Anh       | Nghĩa bằng lời thường                                                                 | Ẩn dụ                              |
+| ------------------ | ------------------------------------------------------------------------------------- | ---------------------------------- |
+| **Repository** (repo) | Thư mục dự án được Git theo dõi, kèm toàn bộ lịch sử các lần lưu                   | Cuốn album ảnh của dự án           |
+| **Commit**         | Một lần "bấm lưu" — chụp lại toàn bộ dự án tại thời điểm đó, kèm lời ghi chú         | Một tấm ảnh trong album / save game |
+| **Snapshot**       | "Ảnh chụp nhanh" — trạng thái đầy đủ của mọi file ở một thời điểm                     | Tấm ảnh                            |
+| **Hash** (vd `abc1234`) | Mã số duy nhất Git tự đặt cho mỗi commit, như số seri                            | Số thứ tự dán sau tấm ảnh          |
+| **Checkout**       | Mở lại (xem) một lần lưu cũ                                                           | Lật album về tấm ảnh cũ            |
+
+:::
+
+Sơ đồ dưới đây là "dòng thời gian" của một dự án. Mỗi chấm tròn là một lần lưu (commit). Hôm thứ Tư sửa hỏng? Chỉ cần quay về chấm "Thứ Ba — chạy tốt":
+
+```mermaid
+gitGraph
+    commit id: "Thứ Hai: tạo trang chủ"
+    commit id: "Thứ Ba: thêm form - chạy tốt" tag: "abc1234"
+    commit id: "Thứ Tư: sửa form - HỎNG" type: HIGHLIGHT
+```
+
+Không có Git, bạn chỉ có **phiên bản cuối cùng** (thứ Tư, đang hỏng) và trí nhớ của mình. Có Git, cả ba "tấm ảnh" đều còn nguyên, lấy lại tấm nào cũng được.
+
 ### Không chỉ dành cho code
 
 VCS không chỉ dùng cho lập trình. Bất kỳ ai làm việc với file thay đổi theo thời gian đều cần:
@@ -226,6 +255,57 @@ Thời gian:  1990      2000      2005      Hiện tại
       --> Server chết? Vẫn làm việc bình thường
 ```
 
+### Cùng một ý, vẽ lại bằng sơ đồ
+
+:::info[Ẩn dụ: thư viện duy nhất vs mỗi người một bản sao]
+
+- **Centralized (tập trung)** giống **một thư viện duy nhất** của thành phố: muốn đọc sách hay ghi chú vào sổ mượn đều phải tới tận nơi. Thư viện đóng cửa (server sập) thì cả thành phố chịu.
+- **Distributed (phân tán)** giống việc **mỗi người photo nguyên bộ sách về nhà**, kể cả sổ ghi chép lịch sử. Ở nhà vẫn đọc, vẫn ghi chú thoải mái; lúc nào có mạng thì mang tới "điểm hẹn chung" (GitHub) để trao đổi với nhau.
+
+:::
+
+Mũi tên trong sơ đồ dưới là **những lúc bắt buộc phải nói chuyện qua mạng**. Bên trái mọi thao tác đều phải qua server; bên phải, mỗi máy tự đủ và chỉ nối mạng khi muốn chia sẻ:
+
+```mermaid
+flowchart LR
+    subgraph C["Centralized - SVN"]
+        S1[("Server<br/>giữ TOÀN BỘ lịch sử")]
+        A1["Dev A<br/>chỉ có bản mới nhất"]
+        B1["Dev B<br/>chỉ có bản mới nhất"]
+        A1 <-->|"commit, log, diff<br/>đều cần mạng"| S1
+        B1 <-->|"commit, log, diff<br/>đều cần mạng"| S1
+    end
+    subgraph D["Distributed - Git"]
+        S2[("GitHub<br/>điểm hẹn chung")]
+        A2["Dev A<br/>repo đầy đủ + lịch sử"]
+        B2["Dev B<br/>repo đầy đủ + lịch sử"]
+        A2 <-.->|"chỉ khi push, pull"| S2
+        B2 <-.->|"chỉ khi push, pull"| S2
+    end
+```
+
+Hình dung một ngày **mất mạng** của hai người, một người dùng SVN và một người dùng Git:
+
+```mermaid
+sequenceDiagram
+    participant SV as Dev dùng SVN
+    participant SS as Server SVN
+    participant GD as Dev dùng Git
+    participant GH as GitHub
+    Note over SV,GH: Mạng bị mất
+    SV->>SS: svn commit
+    SS--xSV: Lỗi - không kết nối được server
+    GD->>GD: git commit (lưu ngay trên máy)
+    GD->>GD: git log, git branch, git diff đều chạy
+    Note over SV,GH: Có mạng trở lại
+    SV->>SS: svn commit
+    SS-->>SV: Thành công
+    GD->>GH: git push (gửi tất cả commit đã lưu lúc offline)
+    GH-->>GD: Thành công
+```
+
+Điểm mấu chốt: với Git, mạng chỉ cần cho bước **chia sẻ** (push/pull), không cần cho bước **lưu** (commit).
+
 ### Bảng so sánh chi tiết
 
 | Tiêu chí                | Centralized (SVN)        | Distributed (Git)           |
@@ -326,6 +406,20 @@ git merge feature/login
 git branch -d feature/login
 ```
 
+Đoạn lệnh trên vẽ ra thành hình như sau. **Branch** (nhánh) là một "dòng thời gian song song": bạn rẽ ra thử tính năng login mà không đụng tới bản chính `main`, xong xuôi thì **merge** (gộp) trở lại:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    branch feature-login
+    checkout feature-login
+    commit id: "them form login"
+    commit id: "them validation"
+    checkout main
+    merge feature-login id: "M" tag: "main"
+```
+
 Trong SVN, branching là "việc lớn" — cần suy nghĩ trước khi làm. Trong Git, branching là "việc nhỏ" — tạo branch cho mỗi tính năng, mỗi bug fix.
 
 ### 5.3 Làm việc offline
@@ -370,6 +464,42 @@ Git là phần mềm **miễn phí**, **mã nguồn mở**, phát triển bởi 
         | (như Word)                 | (như Google Docs)
         +----------------------------+
 ```
+
+### Git và GitHub nối với nhau thế nào?
+
+:::info[Ẩn dụ: máy ảnh và trang chia sẻ ảnh]
+
+**Git** giống **chiếc máy ảnh** trong tay bạn: chụp (commit), xem lại ảnh cũ, xoá, sắp xếp — tất cả làm được ngay cả khi không có mạng.
+**GitHub** giống **trang web chia sẻ album ảnh**: bạn tải album lên để cất giữ an toàn và để người khác xem, góp ý, thêm ảnh của họ. Không có trang web, máy ảnh vẫn chụp bình thường; nhưng không có máy ảnh thì chẳng có gì để tải lên.
+
+:::
+
+Sơ đồ dưới cho thấy Git chạy **trên từng máy**, còn GitHub là **kho chung trên mạng** (gọi là *remote* — "kho ở xa"). Lệnh `push` (đẩy lên) và `pull` (kéo về) là "cây cầu" giữa hai bên:
+
+```mermaid
+flowchart LR
+    subgraph M1["Máy của bạn"]
+        G1["Git<br/>repo + lịch sử"]
+    end
+    subgraph WEB["Trên mạng"]
+        GH[("GitHub / GitLab / Bitbucket<br/>remote repository")]
+    end
+    subgraph M2["Máy đồng nghiệp"]
+        G2["Git<br/>repo + lịch sử"]
+    end
+    G1 -->|"git push"| GH
+    GH -->|"git pull"| G1
+    G2 -->|"git push"| GH
+    GH -->|"git pull"| G2
+```
+
+| Câu hỏi                                   | Chỉ có Git (không GitHub)        | Git + GitHub                                |
+| ----------------------------------------- | -------------------------------- | ------------------------------------------- |
+| Lưu lịch sử, quay lại bản cũ?             | Được                             | Được                                        |
+| Làm offline?                              | Được                             | Được (trừ lúc push/pull)                    |
+| Máy hỏng thì sao?                         | Mất hết nếu không tự sao lưu     | Còn nguyên bản trên GitHub                  |
+| Nhiều người cùng làm?                     | Khó (phải tự chép qua lại)       | Dễ: ai cũng push/pull vào một kho chung     |
+| Review code, quản lý công việc trên web?  | Không có                         | Có (Pull Request, Issues…)                  |
 
 ### Các dịch vụ tương tự GitHub
 
@@ -435,6 +565,41 @@ Commit 3:  [File A v3] [File B v2] [File C v1] <-- link đến các version cũ
 ```
 
 Nếu file không đổi, Git **không copy lại** mà chỉ tạo một **link** đến phiên bản trước. Nên Git vừa nhanh vừa tiết kiệm dung lượng.
+
+### Minh hoạ: 3 commit, 3 file — Git thực sự lưu bao nhiêu bản?
+
+:::info[Ẩn dụ: "ảnh chụp" vs "ghi chú sửa đổi"]
+
+- Cách **delta** (SVN) giống như chỉ giữ bản gốc rồi ghi **"trang 3 dòng 5 sửa chữ A thành B"**. Muốn có bản mới nhất phải đọc bản gốc rồi áp lần lượt từng ghi chú.
+- Cách **snapshot** (Git) giống **chụp nguyên cả bàn làm việc** mỗi lần lưu. Món đồ nào không đổi thì trong ảnh mới chỉ ghi "giống ảnh trước", không chụp lại.
+
+:::
+
+Mỗi ô dưới đây là **một bản nội dung file** mà Git thực sự cất giữ. Mũi tên nét đứt nghĩa là "commit này dùng lại đúng bản cũ, không tốn thêm chỗ":
+
+```mermaid
+flowchart LR
+    subgraph C1["Commit 1"]
+        A1["A v1"]
+        B1["B v1"]
+        F1["C v1"]
+    end
+    subgraph C2["Commit 2"]
+        A2["A v2"]
+        B2["B v2"]
+        F2["C"]
+    end
+    subgraph C3["Commit 3"]
+        A3["A v3"]
+        B3["B"]
+        F3["C"]
+    end
+    F2 -.->|"dùng lại"| F1
+    B3 -.->|"dùng lại"| B2
+    F3 -.->|"dùng lại"| F1
+```
+
+Kết quả: 3 commit nhưng Git chỉ cất **6 bản nội dung** (A v1, A v2, A v3, B v1, B v2, C v1) chứ không phải 9. Và vì mỗi commit đã là **ảnh đầy đủ**, mở lại commit nào cũng tức thì — không phải "cộng dồn" ghi chú như cách delta.
 
 ---
 

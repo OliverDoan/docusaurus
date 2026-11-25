@@ -99,6 +99,25 @@ jobs:
 
 CI là quy trình **tự động kiểm tra code** mỗi khi developer push hoặc tạo PR.
 
+:::info[Hình dung: bếp nhà hàng có tổ kiểm tra chất lượng]
+
+- **Không có CI** = mỗi đầu bếp tự nấu rồi bưng thẳng ra cho khách, ai nhớ thì nếm thử, ai quên thì thôi. Khách là người phát hiện món mặn.
+- **CI** (Continuous Integration — "tích hợp liên tục") = mỗi món vừa nấu xong (mỗi lần **push**) đều phải đi qua **bàn kiểm tra tự động**: nếm vị (test), soi cách trình bày (lint), kiểm tra món có thành hình không (build). Bàn kiểm tra báo đỏ thì món không được ra.
+- **CD** (Continuous Delivery/Deployment — "giao hàng liên tục") = món đạt rồi thì **có xe tự chở tới bàn khách** (server), không cần ai bưng tay.
+
+Thuật ngữ GitHub Actions dịch sang "ngôn ngữ bếp":
+
+- **Workflow** = tờ **quy trình** dán trên tường (file `.yml`): khi nào làm, làm những gì.
+- **Trigger / event** = **tiếng chuông gọi món**: `push`, mở PR, gắn tag, đúng 9 giờ sáng thứ Hai...
+- **Job** = một **trạm bếp** (trạm nếm, trạm đóng hộp...). Các trạm có thể làm song song hoặc chờ nhau (`needs`).
+- **Step** = từng **thao tác** trong một trạm.
+- **Runner** = **căn bếp thuê theo phút**: máy ảo sạch tinh GitHub cấp cho mỗi job, chạy xong là xoá.
+- **Pipeline** = cả **dây chuyền** từ lúc gọi món tới lúc món tới bàn.
+- **Artifact** = **hộp thành phẩm** trạm trước để lại cho trạm sau (ví dụ thư mục `build/`).
+- **Secret** = **két sắt** chứa chìa khoá (token, mật khẩu) — dùng được nhưng không ai nhìn thấy.
+
+:::
+
 ```
   Developer push code
         |
@@ -151,6 +170,20 @@ CI là quy trình **tự động kiểm tra code** mỗi khi developer push ho�
 | **Continuous Delivery**   | Tự động build và chuẩn bị deploy, nhưng **cần người bấm nút** để deploy lên production              |
 | **Continuous Deployment** | Tự động deploy lên production **không cần người bấm nút** — mỗi commit qua test -> tự động lên prod |
 
+Hai chữ "D" chỉ khác nhau đúng **một bước cuối**: Delivery giống shipper giao tới cửa và **chờ bạn ký nhận**; Deployment giống shipper có chìa khoá, **tự đặt hàng vào nhà**.
+
+```mermaid
+flowchart LR
+    subgraph DEL["Continuous Delivery"]
+        direction LR
+        D1["CI xanh"] --> D2["Build"] --> D3["Deploy staging"] --> D4{"Người bấm<br/>Approve"} -->|"đồng ý"| D5["Production"]
+    end
+    subgraph DEP["Continuous Deployment"]
+        direction LR
+        P1["CI xanh"] --> P2["Build"] --> P3["Deploy staging"] --> P5["Production<br/>tự động"]
+    end
+```
+
 ### 1.3. Tại sao CI/CD quan trọng?
 
 | Lợi ích           | Không có CI/CD             | Có CI/CD                   |
@@ -160,6 +193,46 @@ CI là quy trình **tự động kiểm tra code** mỗi khi developer push ho�
 | **Nhất quán**     | "Works on my machine"      | Môi trường giống nhau      |
 | **Tự tin**        | "Không dám merge, sợ hỏng" | "CI xanh, merge thoải mái" |
 | **Tốc độ ship**   | 1-2 lần/tháng              | Nhiều lần/ngày             |
+
+### 1.4. Minh họa: từ `git push` tới khi lên production
+
+Toàn bộ hành trình của một thay đổi, từ máy bạn tới server thật. Phần **trong khung `alt`** là chỗ CI quyết định: xanh thì cho đi tiếp, đỏ thì dừng và báo lại.
+
+```mermaid
+sequenceDiagram
+    participant Dev as Bạn
+    participant GH as GitHub
+    participant GA as GitHub Actions
+    participant R as Runner (máy ảo)
+    participant Rev as Người review
+    participant Prod as Server production
+    Dev->>GH: git push nhánh feature, mở Pull Request
+    GH->>GA: sự kiện pull_request, đọc file ci.yml
+    GA->>R: cấp máy ảo sạch, chạy job
+    R->>R: checkout code, npm ci, lint, test, build
+    alt CI đỏ
+        R-->>GH: báo FAIL
+        GH-->>Dev: PR hiện dấu X đỏ, nút Merge bị khoá
+        Dev->>GH: sửa code, push lại, CI chạy lại từ đầu
+    else CI xanh
+        R-->>GH: báo PASS
+        GH-->>Rev: PR hiện dấu tích xanh, chờ review
+        Rev->>GH: Approve rồi Merge vào main
+        GH->>GA: sự kiện push lên main, đọc file deploy.yml
+        GA->>R: test, build, deploy staging
+        R->>Prod: deploy production (sau khi được duyệt)
+        Prod-->>Dev: bản mới đã chạy
+    end
+```
+
+So sánh cùng một lỗi nhỏ (quên sửa test sau khi đổi logic) trong hai đội:
+
+| Thời điểm          | Đội không có CI                                    | Đội có CI                                    |
+| ------------------ | -------------------------------------------------- | -------------------------------------------- |
+| Lúc push           | Không ai biết                                      | 3–5 phút sau, PR báo đỏ                      |
+| Lúc merge          | Merge bình thường, lỗi vào `main`                  | Nút Merge bị khoá cho tới khi sửa xong       |
+| Hôm sau            | Đồng đội pull về, test của họ cũng đỏ, mất buổi sáng | Không ai bị ảnh hưởng                        |
+| Lúc deploy         | Deploy tay, lỗi lên production                     | Deploy chỉ chạy khi mọi job đã xanh          |
 
 ---
 
@@ -197,6 +270,25 @@ CI là quy trình **tự động kiểm tra code** mỗi khi developer push ho�
 | **Step**          | 1 bước cụ thể trong job               | checkout, install, run tests    |
 | **Action**        | Bước được đóng gói sẵn, tái sử dụng   | `actions/checkout@v4`           |
 | **Runner**        | Máy ảo chạy job                       | `ubuntu-latest`, `macos-latest` |
+
+Quan hệ "lồng nhau" giữa các khái niệm: một **sự kiện** đánh thức một **workflow**; workflow có nhiều **job**, mỗi job được cấp **một runner riêng** và chạy lần lượt các **step** của nó.
+
+```mermaid
+flowchart TD
+    EV["Event: push, pull_request, tag..."] --> WF["Workflow - file ci.yml"]
+    WF --> J1
+    WF --> J2
+    subgraph J1["Job test - runner ubuntu số 1"]
+        direction TB
+        S11["Step checkout"] --> S12["Step npm ci"] --> S13["Step npm test"]
+    end
+    subgraph J2["Job build - runner ubuntu số 2"]
+        direction TB
+        S21["Step checkout"] --> S22["Step npm ci"] --> S23["Step npm run build"]
+    end
+```
+
+Vì mỗi job chạy trên **một máy ảo khác nhau**, job `build` **không thấy** `node_modules` hay file mà job `test` đã tạo — nên job nào cũng phải `checkout` và `npm ci` lại, còn muốn truyền file giữa các job thì phải dùng artifact (mục 9).
 
 ### 2.2. Cấu trúc file workflow
 
@@ -537,7 +629,8 @@ jobs:
 
     strategy:
       matrix:
-        # Chạy trên 3 OS x 3 Node versions = 9 jobs song song
+        # 3 OS x 3 Node versions = 9 tổ hợp; trừ 1 tổ hợp bị exclude bên dưới
+        # → còn 8 jobs chạy song song
         os: [ubuntu-latest, macos-latest, windows-latest]
         node-version: [18, 20, 22]
 
@@ -820,6 +913,18 @@ jobs:
                                     (người review bấm "Approve")
 ```
 
+```mermaid
+flowchart LR
+    T["test<br/>lint + unit test"] -->|"needs"| B["build<br/>upload artifact"]
+    B -->|"needs"| S["deploy-staging<br/>download artifact"]
+    S -->|"needs"| G{"Environment production<br/>chờ người duyệt"}
+    G -->|"Approve"| P["deploy-production"]
+    G -->|"Reject"| X["Dừng, production giữ bản cũ"]
+    T -.->|"fail"| STOP["Các job sau bị skip"]
+```
+
+Mỗi mũi tên `needs` là một "cửa chặn": job trước đỏ thì mọi job phía sau **tự động bị bỏ qua** (skipped), không có chuyện build hỏng vẫn được deploy.
+
 ---
 
 ## 12. GitHub Actions Marketplace — Popular Actions
@@ -938,6 +1043,22 @@ jobs:
     runs-on: ubuntu-latest
     needs: test              # ĐỢI test pass trước
     steps: ...
+```
+
+```mermaid
+flowchart LR
+    subgraph SAI["Không có needs - chạy song song"]
+        direction TB
+        A1["push"] --> A2["test"]
+        A1 --> A3["deploy"]
+        A2 -.->|"fail thì đã muộn"| A4["code lỗi đã lên server"]
+    end
+    subgraph DUNG["Có needs test - chạy nối tiếp"]
+        direction TB
+        B1["push"] --> B2["test"]
+        B2 -->|"pass"| B3["deploy"]
+        B2 -->|"fail"| B4["deploy bị skip"]
+    end
 ```
 
 ### Lỗi 5: Cache không hoạt động

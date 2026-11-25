@@ -47,8 +47,8 @@ git log --oneline v1.2.0..HEAD | wc -l
 # => 327 commits
 
 # Kiểm tra từng commit một (tuyến tính) → cực kỳ tốn thời gian
-git checkout HEAD~1 && npm test   # commit 1...
-git checkout HEAD~2 && npm test   # commit 2...
+git checkout main~1 && npm test   # commit 1...
+git checkout main~2 && npm test   # commit 2...
 # ... lặp lại tới 327 lần? Mất cả ngày!
 ```
 
@@ -97,6 +97,22 @@ Tại sao hiệu quả?
 Thay vì kiểm tra hàng nghìn commits, bạn chỉ cần ~14 bước!
 ```
 
+:::info[Hình dung: trò đoán số và dây đèn nháy]
+
+- **Trò đoán số 1–100:** bạn hỏi "lớn hơn 50 không?" → "có" → "lớn hơn 75 không?" → ... Mỗi câu hỏi loại **một nửa** khả năng, nên chỉ ~7 câu là ra. **Binary search** (tìm kiếm nhị phân) chính là cách hỏi "chia đôi" này.
+- **Dây đèn nháy 100 bóng không sáng:** thay vì thử từng bóng, cắt đôi dây, nửa nào không sáng thì bóng hỏng nằm ở nửa đó, lại cắt đôi tiếp.
+
+Với bisect, "dây đèn" là chuỗi commit, "bóng hỏng" là **commit đầu tiên gây bug**. Bạn chỉ cần trả lời một câu cho mỗi commit Git đưa ra: **"bản này có bug không?"** — `good` (không) hay `bad` (có).
+
+Thuật ngữ:
+
+- **good** = commit bạn chắc chắn **chưa** có bug (ví dụ bản release tuần trước).
+- **bad** = commit **đã** có bug (thường là HEAD hiện tại).
+- **first bad commit** = commit "bad" sớm nhất — nơi bug được đưa vào.
+- **regression** = tính năng đang chạy tốt bỗng hỏng sau một thay đổi.
+
+:::
+
 ### Cách hoạt động (ASCII diagram)
 
 ```
@@ -121,6 +137,99 @@ Bước 3: Bug ở C..E, chọn giữa → D
 
 Bước 4: Bug ở C..D → D là commit đầu tiên gây bug!
          KẾT QUẢ: D introduced the bug
+```
+
+### Minh họa từng bước chia đôi
+
+Cùng tình huống trên, vẽ lại bằng sơ đồ. **Điểm xuất phát:** 10 commit A → J. Bạn biết A chạy tốt (`good`), J có bug (`bad`). Thủ phạm nằm đâu đó trong B…J — **9 ứng viên**.
+
+```mermaid
+gitGraph
+    commit id: "A" tag: "good"
+    commit id: "B"
+    commit id: "C"
+    commit id: "D"
+    commit id: "E"
+    commit id: "F"
+    commit id: "G"
+    commit id: "H"
+    commit id: "I"
+    commit id: "J" type: REVERSE tag: "bad"
+```
+
+**Bước 1 — Git checkout E (giữa A và J).** Bạn chạy thử: **có bug** → `git bisect bad`. Vậy F…J chắc chắn cũng "bad" vì đều nằm sau E — **loại một lúc 5 commit**.
+
+```mermaid
+gitGraph
+    commit id: "A" tag: "good"
+    commit id: "B"
+    commit id: "C"
+    commit id: "D"
+    commit id: "E" type: HIGHLIGHT tag: "test 1 - bad"
+    commit id: "F" type: REVERSE
+    commit id: "G" type: REVERSE
+    commit id: "H" type: REVERSE
+    commit id: "I" type: REVERSE
+    commit id: "J" type: REVERSE tag: "bad"
+```
+
+**Bước 2 — Git checkout C (giữa A và E).** Chạy thử: **không có bug** → `git bisect good`. Vậy B, C đều sạch, thủ phạm chỉ còn là D hoặc E.
+
+```mermaid
+gitGraph
+    commit id: "A" tag: "good"
+    commit id: "B"
+    commit id: "C" type: HIGHLIGHT tag: "test 2 - good"
+    commit id: "D"
+    commit id: "E" type: REVERSE tag: "bad"
+    commit id: "F" type: REVERSE
+    commit id: "G" type: REVERSE
+    commit id: "H" type: REVERSE
+    commit id: "I" type: REVERSE
+    commit id: "J" type: REVERSE
+```
+
+**Bước 3 — Git checkout D.** Chạy thử: **có bug** → `git bisect bad`. C good, D bad, không còn gì ở giữa → Git kết luận: **D is the first bad commit**.
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C" tag: "good"
+    commit id: "D" type: HIGHLIGHT tag: "THỦ PHẠM"
+    commit id: "E" type: REVERSE
+    commit id: "F" type: REVERSE
+    commit id: "G" type: REVERSE
+    commit id: "H" type: REVERSE
+    commit id: "I" type: REVERSE
+    commit id: "J" type: REVERSE
+```
+
+| Bước | Khoảng còn nghi ngờ | Số ứng viên | Git checkout | Kết quả test | Lệnh bạn gõ        |
+| ---- | ------------------- | ----------- | ------------ | ------------ | ------------------ |
+| 0    | B…J                 | 9           | —            | —            | `start`, `bad`, `good A` |
+| 1    | B…J                 | 9           | E            | Có bug       | `git bisect bad`   |
+| 2    | B…E                 | 4           | C            | Không bug    | `git bisect good`  |
+| 3    | D…E                 | 2           | D            | Có bug       | `git bisect bad`   |
+| Xong | D                   | 1           | —            | —            | `git bisect reset` |
+
+**Dùng vs không dùng bisect** trên cùng 10 commit này: thử tay lần lượt từ J lùi về (J, I, H, G, F, E, D, C) mất **8 lần build + test** mới thấy C sạch; bisect chỉ cần **3 lần**. Với 1000 commit, con số là ~1000 lần so với ~10 lần.
+
+Vòng lặp bạn (hoặc script) thực hiện cho tới khi Git tìm ra thủ phạm:
+
+```mermaid
+flowchart TD
+    S["git bisect start<br/>git bisect bad HEAD<br/>git bisect good v1.2.0"] --> CO["Git checkout commit ở GIỮA khoảng nghi ngờ"]
+    CO --> T{"Chạy thử - có bug không?"}
+    T -->|"Có bug"| B["git bisect bad<br/>bỏ nửa SAU"]
+    T -->|"Không bug"| G["git bisect good<br/>bỏ nửa TRƯỚC"]
+    T -->|"Không build được"| K["git bisect skip<br/>thử commit bên cạnh"]
+    B --> Q{"Còn hơn 1 ứng viên?"}
+    G --> Q
+    K --> Q
+    Q -->|"Còn"| CO
+    Q -->|"Hết"| R["Git in: SHA is the first bad commit"]
+    R --> E["git bisect reset - quay về branch cũ"]
 ```
 
 ### Quy trình sử dụng
@@ -229,6 +338,25 @@ git bisect run npm test
 # Tự động bisect với script tùy chỉnh
 git bisect start HEAD v1.0.0
 git bisect run ./test-bug.sh
+```
+
+Khi dùng `bisect run`, bạn chỉ việc "giao việc" một lần — Git và script tự hỏi đáp với nhau:
+
+```mermaid
+sequenceDiagram
+    participant Ban as Bạn
+    participant Git as git bisect
+    participant SH as test-bug.sh
+    Ban->>Git: bisect start HEAD v1.0.0
+    Ban->>Git: bisect run ./test-bug.sh
+    loop Mỗi bước chia đôi
+        Git->>Git: checkout commit ở giữa
+        Git->>SH: chạy script
+        SH-->>Git: exit 0 nghĩa là good, 1 nghĩa là bad, 125 nghĩa là skip
+        Git->>Git: bỏ một nửa khoảng nghi ngờ
+    end
+    Git-->>Ban: in ra first bad commit
+    Ban->>Git: bisect reset
 ```
 
 Script `test-bug.sh` cần:
@@ -476,6 +604,22 @@ Phát hiện bug
     │
     └── Muốn tìm khi nào logic thay đổi?
         └── git log -G "regex_pattern" -p
+```
+
+Cùng cây quyết định ở dạng sơ đồ:
+
+```mermaid
+flowchart TD
+    BUG["Phát hiện bug"] --> Q1{"Đã biết dòng code nào sai?"}
+    Q1 -->|"Biết"| BL["git blame file<br/>xem commit nào sửa dòng đó"]
+    BL --> SH["git show SHA"]
+    Q1 -->|"Chưa biết"| Q2{"Có một mốc chạy tốt<br/>và một mốc bị hỏng?"}
+    Q2 -->|"Có"| BI["git bisect<br/>tìm commit gây bug"]
+    BI --> SH
+    Q2 -->|"Không"| Q3{"Biết tên hàm hoặc chuỗi liên quan?"}
+    Q3 -->|"Có"| LS["git log -S chuỗi<br/>hoặc git log -G regex"]
+    LS --> SH
+    Q3 -->|"Không"| LP["git log -p -- file nghi ngờ"]
 ```
 
 ---

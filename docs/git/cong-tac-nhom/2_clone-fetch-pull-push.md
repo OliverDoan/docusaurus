@@ -73,6 +73,15 @@ flowchart LR
     RM -->|"git clone / git pull<br/>(cập nhật cả code)"| WD
 ```
 
+:::info[Hình dung bằng đời thường: tờ báo chung của cả nhóm]
+
+- **`clone`** (nhân bản) = lần đầu **photo nguyên cuốn sổ chung** mang về nhà, kèm toàn bộ lịch sử các trang.
+- **`fetch`** (lấy về) = **ra sạp xem báo hôm nay có tin gì**, mua về để đó — chưa cắt dán gì vào sổ của mình.
+- **`pull`** (kéo về) = mua báo về **và cắt dán luôn** tin mới vào sổ của mình. Nhanh, nhưng nếu tin mới "đè" lên trang bạn đang viết thì phải xử lý ngay (conflict).
+- **`push`** (đẩy lên) = mang trang mình viết **tới dán vào sổ chung**. Nếu sổ chung đã có trang mới mà bạn chưa xem, người giữ sổ **từ chối** — bạn phải về cập nhật trước.
+
+:::
+
 :::tip[Dùng thực tế]
 
 - **Clone dự án về máy mới:** `git clone <url>` để có toàn bộ code và lịch sử.
@@ -459,6 +468,137 @@ git branch -d feature/old
 - **Vừa bắt đầu ngày mới** -> dùng `git pull --rebase`
 - **Nhánh chung nhiều người** -> dùng `git fetch` + review + `git merge`
 
+### 5.1. Minh hoạ: cùng một tình huống, ba cách cập nhật
+
+Để thấy rõ khác biệt, ta dùng **một tình huống xuyên suốt**:
+
+- Repo chung đang có 3 commit **A, B, C**. Bạn và đồng đội đều đã clone.
+- Đồng đội push thêm **D, E** lên GitHub.
+- Cùng lúc, bạn commit **F** trên máy mình (chưa push).
+
+Nhớ lại từ bài [Remote Repository](./1_remote-repository.md): trên máy bạn có hai nhãn — `main` (nhánh của bạn) và `origin/main` (**ảnh chụp** nhánh main trên GitHub ở lần liên lạc gần nhất).
+
+**Trạng thái xuất phát — trên GitHub:**
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    commit id: "D"
+    commit id: "E" tag: "main trên GitHub"
+```
+
+**Trạng thái xuất phát — trên máy bạn** (chưa biết D, E):
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C" tag: "origin/main"
+    commit id: "F" type: HIGHLIGHT tag: "main"
+```
+
+**Cách 1: `git fetch` — chỉ cập nhật ảnh chụp**
+
+Git tải D, E về và **dời nhãn `origin/main` sang E**. Nhánh `main` vẫn ở F, file trong thư mục làm việc **không đổi một byte**:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch origin-main
+    checkout origin-main
+    commit id: "D"
+    commit id: "E" tag: "origin/main"
+    checkout main
+    commit id: "F" type: HIGHLIGHT tag: "main"
+```
+
+Giờ bạn có thể bình tĩnh xem `git log main..origin/main` (D, E là gì) rồi mới quyết định gộp bằng merge hay rebase.
+
+**Cách 2: `git pull` (mặc định = fetch + merge)**
+
+Làm đúng Cách 1, **rồi tự động** `git merge origin/main`. Vì F và E đã rẽ hai ngả, Git tạo **merge commit M có 2 parent (F và E)**:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch origin-main
+    checkout origin-main
+    commit id: "D"
+    commit id: "E" tag: "origin/main"
+    checkout main
+    commit id: "F"
+    merge origin-main id: "M" type: HIGHLIGHT tag: "main"
+```
+
+- F giữ nguyên hash. Lịch sử có một "mắt lưới" rẽ ra rồi nhập lại.
+- Nếu ngày nào cũng pull kiểu này, log sẽ đầy commit kiểu *"Merge branch 'main' of github.com/..."* — chẳng mang thông tin gì.
+
+**Cách 3: `git pull --rebase` (= fetch + rebase)**
+
+Làm đúng Cách 1, **rồi** nhấc F ra, đặt lại lên trên E thành **F'** (cùng nội dung thay đổi, nhưng parent mới nên **hash mới**):
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    commit id: "D"
+    commit id: "E" tag: "origin/main"
+    commit id: "F'" type: HIGHLIGHT tag: "main"
+```
+
+- Lịch sử thẳng, như thể bạn bắt đầu làm F **sau khi** đồng đội xong D, E.
+- F cũ bị bỏ lại (sẽ bị Git dọn sau). An toàn vì F **chưa push** — chưa ai khác có nó.
+
+### 5.2. Bảng "dùng cái nào thì sao"
+
+| | `git fetch` | `git pull` (merge) | `git pull --rebase` |
+| --- | --- | --- | --- |
+| Tải D, E về máy? | Có | Có | Có |
+| Nhãn `origin/main` | Dời sang E | Dời sang E | Dời sang E |
+| Nhánh `main` của bạn | **Đứng yên ở F** | Tiến lên M | Tiến lên F' |
+| Commit mới được tạo | Không | M (2 parent) | F' (bản sao của F) |
+| Hash của F | Giữ nguyên | Giữ nguyên | **Đổi** (thành F') |
+| File đang sửa có bị đụng? | Không | Có thể | Có thể |
+| Có thể gặp conflict? | Không bao giờ | Có | Có (từng commit) |
+| Push được ngay sau đó? | Chưa (vẫn thiếu D, E) | Được | Được |
+
+:::caution[Git đời mới không còn tự đoán]
+
+Từ Git 2.27 trở đi, nếu hai nhánh đã rẽ ngả (như F và E ở trên) mà bạn **chưa cấu hình** `pull.rebase`, `git pull` sẽ in cảnh báo; bản mới hơn (2.33+) còn **dừng hẳn** với thông báo *"Need to specify how to reconcile divergent branches"*. Hãy chọn một lần cho xong:
+
+```bash
+git config --global pull.rebase true    # pull = fetch + rebase
+# hoặc
+git config --global pull.rebase false   # pull = fetch + merge
+```
+
+:::
+
+### 5.3. Chọn lệnh nào?
+
+```mermaid
+flowchart TD
+    Q1{"Đang code dở,<br/>có file chưa commit?"} -->|"Có"| A1["git fetch<br/>xem trước, chưa đụng code"]
+    Q1 -->|"Không"| Q2{"Đã có commit local<br/>chưa push?"}
+    Q2 -->|"Không"| A2["git pull<br/>(chỉ fast-forward, merge hay rebase như nhau)"]
+    Q2 -->|"Có"| Q3{"Commit đó đã push<br/>hoặc người khác đang dùng?"}
+    Q3 -->|"Chưa"| A3["git pull --rebase<br/>lịch sử thẳng"]
+    Q3 -->|"Rồi"| A4["git pull (merge)<br/>không viết lại commit đã chia sẻ"]
+```
+
+:::tip[Một câu để nhớ]
+
+**`pull` = `fetch` + (`merge` hoặc `rebase`).** `fetch` không bao giờ làm hỏng gì; phần "+" mới là nơi có thể phát sinh conflict.
+
+:::
+
 ---
 
 ## 6. `git push --force` và `--force-with-lease`
@@ -541,6 +681,42 @@ Local:   A---B---C---E (main)   <-- bạn có commit E
 Git từ chối push vì nếu cho phép, commit D sẽ bị mất!
 ```
 
+### Minh hoạ: vì sao Git chặn lại?
+
+Quay lại tình huống ở mục 5.1: GitHub có `A-B-C-D-E`, máy bạn có `A-B-C-F` và bạn **quên fetch**, gõ thẳng `git push`.
+
+```mermaid
+sequenceDiagram
+    participant B as Bạn (main = F)
+    participant GH as GitHub (main = E)
+    B->>GH: git push, xin đặt main trên GitHub thành F
+    GH->>GH: Kiểm tra, E có nằm trong lịch sử của F không?
+    Note over GH: Không. Lịch sử của F là A-B-C-F, không có D, E
+    GH-->>B: rejected (fetch first)
+    B->>GH: git pull --rebase
+    GH-->>B: gửi D, E. F được đặt lại thành F' trên E
+    B->>GH: git push lần 2 (main = F')
+    GH->>GH: E nằm trong lịch sử của F', chỉ cần dời nhãn
+    GH-->>B: OK, main trên GitHub = F'
+```
+
+Quy tắc GitHub áp dụng gọi là **fast-forward only**: chỉ nhận push nếu commit mới **nối tiếp** commit hiện có. Nếu cho push F đè lên, nhánh main trên GitHub sẽ thành `A-B-C-F` và **D, E của đồng đội biến mất** khỏi main:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch mat
+    checkout mat
+    commit id: "D (sẽ mất)"
+    commit id: "E (sẽ mất)"
+    checkout main
+    commit id: "F" type: HIGHLIGHT tag: "main nếu --force"
+```
+
+Đó chính xác là điều `git push --force` làm — nên mới bị cấm trên nhánh chung.
+
 ### Cách xử lý (đúng)
 
 ```bash
@@ -559,9 +735,9 @@ git pull origin main
 git push origin main
 
 # Kết quả:
-# Remote:  A---B---C---D
-#                   \    \
-#                    E---M (main)  <-- merge commit
+# Remote:  A---B---C---D-------M (main)   <-- M = merge commit, 2 parent: D và E
+#                   \         /
+#                    E-------+
 ```
 
 ### Cách xử lý (SAI — tránh làm)

@@ -29,12 +29,6 @@ Pull Request (PR) và Code Review là **hai trụ cột** của quy trình phát
 - [1. Pull Request (PR) là gì?](#1-pull-request-pr-là-gì)
 - [2. Tạo Pull Request trên GitHub](#2-tạo-pull-request-trên-github)
 - [3. PR Template — Mẫu mô tả PR](#3-pr-template-mẫu-mô-tả-pr)
-- [Summary](#summary)
-- [Changes](#changes)
-- [Type of Change](#type-of-change)
-- [Test Plan](#test-plan)
-- [Screenshots](#screenshots)
-- [Checklist](#checklist)
 - [4. Code Review — Tại sao quan trọng?](#4-code-review-tại-sao-quan-trọng)
 - [5. Review trên GitHub](#5-review-trên-github)
 - [6. Suggestion Feature — Đề xuất code trực tiếp](#6-suggestion-feature-đề-xuất-code-trực-tiếp)
@@ -67,6 +61,20 @@ Pull Request (PR) và Code Review là **hai trụ cột** của quy trình phát
 ## 1. Pull Request (PR) là gì?
 
 **Pull Request** là một **đề xuất** (request) để merge code từ nhánh này sang nhánh khác. Nó nói: "Tôi đã hoàn thành code trên nhánh feature, hãy **kéo** (pull) code của tôi vào nhánh main."
+
+:::info[Hình dung bằng đời thường: nộp bài cho ban biên tập]
+
+Hãy coi nhánh `main` là **số báo sắp in**. Không phóng viên nào được tự tay nhét bài vào số báo. Thay vào đó:
+
+1. Bạn viết bài trên **bản nháp riêng** (nhánh `feature`).
+2. Bạn **nộp bài cho ban biên tập** — đó là mở **Pull Request** (PR, "yêu cầu kéo bài của tôi vào").
+3. **Biên tập viên** (reviewer) đọc, gạch đỏ, ghi chú bên lề — đó là **code review**.
+4. **Máy kiểm tra chính tả tự động** chạy song song — đó là **CI** (Continuous Integration, kiểm tra tự động).
+5. Khi bài đạt, tổng biên tập bấm **duyệt và đưa vào số báo** — đó là **Merge**.
+
+Cái tên "Pull Request" nghe ngược vì nó nhìn từ phía người giữ `main`: *bạn đề nghị họ **kéo** (pull) thay đổi của bạn vào*. GitLab gọi đúng hơn là **Merge Request**.
+
+:::
 
 ### Tại sao không push thẳng vào main?
 
@@ -140,6 +148,34 @@ git push -u origin feature/add-search
 # GitHub sẽ hiển thị banner "Compare & pull request" sau khi push
 # Hoặc vào tab "Pull requests" → "New pull request"
 ```
+
+### Vòng đời một PR theo thời gian
+
+Sơ đồ ở mục 1 cho thấy **các bước**; sơ đồ dưới đây cho thấy **ai nói gì với ai** từ lúc push tới lúc merge. Ví dụ: bạn làm tính năng tìm kiếm trên nhánh `feature/add-search`.
+
+```mermaid
+sequenceDiagram
+    participant B as Bạn
+    participant GH as GitHub
+    participant CI as CI (GitHub Actions)
+    participant R as Reviewer
+    B->>GH: git push -u origin feature/add-search
+    B->>GH: Mở PR từ feature/add-search vào main
+    GH->>CI: Kích hoạt build, lint, test
+    GH->>R: Gửi thông báo review
+    CI-->>GH: test FAIL (dấu đỏ)
+    R->>GH: Comment, Request changes
+    GH-->>B: Thông báo cần sửa
+    B->>B: Sửa code, commit
+    B->>GH: git push (cùng nhánh, PR tự cập nhật)
+    GH->>CI: Chạy lại
+    CI-->>GH: PASS (dấu xanh)
+    R->>GH: Approve
+    B->>GH: Bấm Merge
+    GH->>GH: Gộp vào main, xoá nhánh feature (tuỳ chọn)
+```
+
+Điểm người mới hay bỏ lỡ: muốn sửa PR, **không cần mở PR mới**. Cứ commit và push tiếp lên **cùng nhánh**, PR tự nhận commit mới, CI tự chạy lại.
 
 ### Các thành phần của PR
 
@@ -433,6 +469,25 @@ Trên GitHub khi tạo PR:
 - Muốn thảo luận design trước khi code xong
 - WIP (Work In Progress) cần nhiều ngày
 
+### Các trạng thái của một PR
+
+```mermaid
+stateDiagram-v2
+    [*] --> Draft: Create draft pull request
+    [*] --> Open: Create pull request
+    Draft --> Open: Ready for review
+    Open --> ChangesRequested: Reviewer yêu cầu sửa
+    ChangesRequested --> Open: Push commit mới
+    Open --> Approved: Reviewer approve
+    Approved --> Merged: Checks xanh, bấm Merge
+    Open --> Closed: Đóng không merge
+    Draft --> Closed: Bỏ ý tưởng
+    Merged --> [*]
+    Closed --> [*]
+```
+
+Draft chỉ khác Open ở chỗ **chưa thể merge** và **chưa làm phiền reviewer**. Một PR đã `Closed` (không merge) vẫn có thể mở lại; `Merged` thì không.
+
 ### Chuyển từ Draft sang Ready
 
 Khi code hoàn thành, click **"Ready for review"** ở cuối PR. PR chuyển từ Draft sang Open, reviewer nhận thông báo.
@@ -509,6 +564,72 @@ Sau rebase merge:
 - Hash commit thay đổi (D -> D')
 - **Phù hợp:** Team muốn lịch sử linear
 
+### Minh hoạ 3 cách bằng sơ đồ
+
+Cùng một PR: nhánh `feature` rẽ từ C, có 3 commit D, E, F. Trạng thái **trước** khi bấm nút:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C" tag: "main"
+    branch feature
+    checkout feature
+    commit id: "D"
+    commit id: "E"
+    commit id: "F" tag: "feature"
+```
+
+**Create a merge commit** — GitHub **luôn** tạo commit M có 2 parent (C và F), kể cả khi có thể fast-forward:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch feature
+    checkout feature
+    commit id: "D"
+    commit id: "E"
+    commit id: "F"
+    checkout main
+    merge feature id: "M" type: HIGHLIGHT tag: "main"
+```
+
+**Squash and merge** — gộp D + E + F thành **một** commit S chỉ có 1 parent là C. D, E, F không lên main:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch feature
+    checkout feature
+    commit id: "D"
+    commit id: "E"
+    commit id: "F" tag: "feature"
+    checkout main
+    commit id: "S = D+E+F" type: HIGHLIGHT tag: "main"
+```
+
+**Rebase and merge** — chép D, E, F thành D', E', F' (hash mới) nối thẳng sau C, không có merge commit:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    commit id: "D'"
+    commit id: "E'"
+    commit id: "F'" type: HIGHLIGHT tag: "main"
+```
+
+:::caution[Sau Squash hoặc Rebase, đừng tiếp tục dùng nhánh feature cũ]
+
+Vì commit trên main (S hoặc D', E', F') **khác hash** với D, E, F, Git trên máy bạn sẽ coi nhánh `feature` là "chưa merge". Nếu bạn tiếp tục commit lên nó rồi mở PR mới, D, E, F sẽ hiện lại và dễ gây conflict. Hãy xoá nhánh cũ, `git pull` main rồi tạo nhánh mới. Phân tích kỹ hơn trong bài [Merge cơ bản](../lam-viec-voi-nhanh/2_merge-co-ban.md).
+
+:::
+
 ### So sánh 3 options
 
 | Tiêu chí         | Merge Commit        | Squash                | Rebase                 |
@@ -570,6 +691,25 @@ git push origin feature/add-search
 
 # PR trên GitHub sẽ tự cập nhật — conflict đã được giải quyết
 ```
+
+Nhìn bằng sơ đồ: trong lúc PR chờ review, đồng đội đã merge G vào main, và G sửa đúng dòng mà E của bạn cũng sửa. Lệnh `git merge main` ở trên tạo commit **X** trên nhánh feature, kéo G về và chứa phần bạn sửa conflict:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    branch feature
+    checkout feature
+    commit id: "D"
+    commit id: "E"
+    checkout main
+    commit id: "G (sửa cùng dòng)"
+    checkout feature
+    merge main id: "X (gỡ conflict)" type: HIGHLIGHT tag: "feature"
+```
+
+Sau khi push X, nhánh feature đã "chứa" G, nên GitHub không còn báo conflict và nút Merge sáng lại.
 
 ```bash
 # Cách 2: Giải quyết trên GitHub (conflict đơn giản)

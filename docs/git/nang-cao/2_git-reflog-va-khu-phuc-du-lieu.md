@@ -17,7 +17,7 @@ Bạn đã bao giờ `reset --hard` nhầm và nghĩ rằng code đã mất vĩn
 - ⭐ **Quy trình khôi phục** — `git reflog` tìm SHA rồi `git reset --hard <sha>`, hoặc an toàn hơn là `git switch -c <nhánh> <sha>`.
 - **Reflog chỉ ở local** — không được push lên remote; repo vừa clone reflog gần như trống.
 - **Thời gian lưu** — reachable 90 ngày, unreachable 30 ngày; sau đó `git gc` mới xóa object thật.
-- **Đừng chạy `git gc --prune=now`** khi đang cần recovery — nó xóa sạch dangling objects lẫn reflog.
+- **Đừng chạy `git gc --prune=now`** (nhất là kèm `git reflog expire --expire=now`) khi đang cần recovery — object mồ côi bị xóa ngay, không cứu được.
 
 :::
 
@@ -101,6 +101,35 @@ Reflog = Nhật ký di chuyển của HEAD
 - Reflog chỉ tồn tại trên **máy local** — không được push lên remote
 - Reflog giữ entries trong **90 ngày** (mặc định)
 - Reflog ghi lại cả các commits mà `git log` không hiển thị
+
+:::info[Hình dung: reflog là camera an ninh của repo]
+
+- **`git log`** giống **sơ đồ gia phả**: bắt đầu từ commit mà branch đang trỏ, lần ngược "cha → ông → cụ". Commit nào không còn nằm trên dòng họ đó thì `git log` **không nhìn thấy**.
+- **`git reflog`** giống **camera an ninh gắn trên đầu HEAD**: nó không quan tâm gia phả, chỉ ghi lại *"lúc 10:05 HEAD đứng ở commit X, lúc 10:07 nhảy sang Y vì lệnh reset"*. Commit bị "đuổi" khỏi branch vẫn còn trong đoạn băng ghi hình.
+- **Commit "mất"** thật ra giống **món đồ bị gỡ nhãn tên**, vẫn nằm trong kho. Chỉ cần tua băng camera xem nó ở đâu, rồi dán nhãn lại (tạo branch) là xong.
+- **Garbage collection (GC)** = **xe rác định kỳ**: chỉ dọn những món không có nhãn **và** đã quá hạn lưu băng (mặc định 30–90 ngày).
+
+Băng camera chỉ lưu **trên máy bạn** — máy đồng nghiệp có camera riêng, GitHub cũng không có băng của bạn.
+
+:::
+
+```mermaid
+flowchart LR
+    subgraph LOG["git log - đi theo gia phả"]
+        direction RL
+        L3["C"] --> L2["B"] --> L1["A"]
+    end
+    subgraph RL["git reflog - băng camera theo thời gian"]
+        direction TB
+        R0["HEAD@{0} reset về A"]
+        R1["HEAD@{1} commit C"]
+        R2["HEAD@{2} commit B"]
+        R3["HEAD@{3} commit A"]
+        R0 --- R1 --- R2 --- R3
+    end
+```
+
+Hai cách "nhìn" khác nhau: `git log` đi theo mũi tên parent nên sau khi reset về A chỉ còn thấy A; reflog thì liệt kê **mọi vị trí HEAD từng đứng**, nên B và C vẫn hiện ra.
 
 ---
 
@@ -210,6 +239,61 @@ git reset --hard HEAD@{1}
 git switch -c recovered-branch f4e5d6c
 ```
 
+### Minh họa: commit tưởng mất được cứu ra sao
+
+**Trước khi lỡ tay:** `main` có A, B, C, D, E — ba commit cuối là công sức cả tuần.
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    commit id: "D"
+    commit id: "E" tag: "main = HEAD"
+```
+
+**Sau `git reset --hard HEAD~3`:** nhãn `main` lùi về B. C, D, E **không bị xoá** — chúng chỉ bị gỡ nhãn, `git log` không đi tới được nữa (vẽ ở nhánh phụ nét mờ chỉ để minh hoạ, thực tế chúng không có tên).
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B" tag: "main = HEAD"
+    branch mat-nhan
+    checkout mat-nhan
+    commit id: "C" type: REVERSE
+    commit id: "D" type: REVERSE
+    commit id: "E" type: REVERSE
+```
+
+Lúc này "băng camera" ghi:
+
+```
+f4e5d6c HEAD@{0}: reset: moving to HEAD~3     ← HEAD đang ở B
+a1b2c3d HEAD@{1}: commit: E                   ← vị trí ngay trước khi reset
+...
+```
+
+**Cứu bằng `git switch -c cuu-ho HEAD@{1}`:** dán một nhãn mới lên E. Vì E vẫn nhớ parent là D, D nhớ C, nên **cả chuỗi C → D → E sống lại** cùng lúc, hash giữ nguyên.
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B" tag: "main"
+    branch cuu-ho
+    checkout cuu-ho
+    commit id: "C"
+    commit id: "D"
+    commit id: "E" type: HIGHLIGHT tag: "cuu-ho = HEAD"
+```
+
+Kiểm tra kỹ rồi, muốn `main` quay lại như cũ thì `git switch main && git merge cuu-ho` (fast-forward, `main` nhảy tới E) — hoặc `git reset --hard a1b2c3d` ngay trên `main`.
+
+| Cách cứu                               | `main` sau khi chạy | Rủi ro                                                    | Khi nào dùng                       |
+| -------------------------------------- | ------------------- | --------------------------------------------------------- | ---------------------------------- |
+| `git reset --hard <sha>`               | Nhảy về E ngay      | Xoá luôn mọi thay đổi chưa commit đang có trên bàn        | Chắc chắn 100% đúng commit         |
+| `git switch -c cuu-ho <sha>`           | Vẫn ở B             | Gần như không — chỉ thêm một nhãn                          | Chưa chắc, muốn xem trước          |
+| Không làm gì                           | Ở B                 | Sau ~30 ngày + GC, C, D, E bị dọn thật                    | —                                  |
+
 ### Quy trình hoàn chỉnh
 
 ```
@@ -243,13 +327,14 @@ git branch -D feature-quan-trong
 git reflog
 # ... tìm entry liên quan đến feature-quan-trong ...
 
-# Hoặc xem reflog của branch cụ thể (nếu chưa bị GC)
-git reflog show feature-quan-trong
+# (Reflog riêng của branch đã bị xoá cùng branch — xem lưu ý bên dưới)
 
 # Bước 2: Tạo lại branch từ SHA
 git switch -c feature-quan-trong abc1234
 # Branch feature-quan-trong đã hồi sinh!
 ```
+
+> Lưu ý: khi xoá branch, **reflog riêng của branch đó cũng bị xoá theo**, nên `git reflog show feature-quan-trong` thường báo lỗi. Hãy tìm trong reflog của **HEAD** (`git reflog`) — mỗi lần bạn từng `switch` sang hay commit trên branch đó đều được ghi lại.
 
 Mẹo: Khi Git báo `Deleted branch X (was abc1234)`, hãy **ghi lại SHA abc1234** ngay. Đó là cách nhanh nhất để recovery.
 
@@ -361,6 +446,23 @@ Object lifecycle:
                   (reset, delete)    (30-90 ngày)
 ```
 
+Cùng vòng đời đó dưới dạng sơ đồ trạng thái — để ý mũi tên **quay ngược** từ "Chỉ còn trong reflog" về "Có nhãn": đó chính là lúc bạn cứu commit.
+
+```mermaid
+stateDiagram-v2
+    [*] --> CoNhan: git commit
+    CoNhan: Có nhãn (branch/tag trỏ tới)
+    ChiConReflog: Chỉ còn trong reflog
+    MoCoi: Mồ côi hẳn (reflog đã hết hạn)
+    DaXoa: Bị xoá thật khỏi ổ đĩa
+    CoNhan --> ChiConReflog: reset --hard, branch -D, amend, rebase
+    ChiConReflog --> CoNhan: switch -c hoặc reset --hard về sha
+    ChiConReflog --> MoCoi: quá hạn reflog (mặc định 30 ngày)
+    MoCoi --> CoNhan: tìm bằng git fsck rồi switch -c
+    MoCoi --> DaXoa: git gc dọn (object đủ cũ)
+    DaXoa --> [*]
+```
+
 ### Các lệnh GC
 
 ```bash
@@ -373,8 +475,10 @@ git gc
 # Chạy GC mạnh (nén tối đa, xóa dangling objects hết hạn)
 git gc --aggressive --prune=now
 
-# CHÚ Ý: --prune=now xóa NGAY các dangling objects
-# Sau lệnh này, reflog cũng bị xóa → không recovery được nữa!
+# CHÚ Ý: --prune=now xóa NGAY các object không còn ai tham chiếu
+# (commit còn được reflog nhắc tới vẫn được giữ). Nguy hiểm nhất là cặp:
+#   git reflog expire --expire=now --all && git gc --prune=now
+# → xóa băng camera trước, rồi dọn rác ngay → không recovery được nữa!
 ```
 
 ### Timeline xóa object
@@ -387,12 +491,30 @@ Ngày 30+:  git gc chạy → object bị xóa THẬT SỰ
            (nếu không có reference nào khác)
 
 => Bạn có ~30 ngày để recovery commits "mồ côi"
-=> Commits trên branch vẫn an toàn 90 ngày
+=> Commits còn trên branch thì an toàn mãi (90 ngày chỉ là hạn của các
+   entry reflog, không phải của bản thân commit)
 ```
 
 ---
 
 ## 10. Workflow khôi phục hoàn chỉnh
+
+Trước khi đi vào từng tình huống, đây là "bản đồ cứu hộ" chung — bắt đầu từ chỗ ít tốn công nhất:
+
+```mermaid
+flowchart TD
+    START["Lỡ tay: reset, xoá branch, rebase hỏng..."] --> STOP["Dừng lại, không chạy gc hay lệnh dọn dẹp"]
+    STOP --> Q1{"Git có in sẵn SHA không?<br/>vd Deleted branch X (was abc1234)"}
+    Q1 -->|"Có"| FIX["git switch -c cuu-ho SHA"]
+    Q1 -->|"Không"| Q2{"git reflog có thấy<br/>vị trí trước khi lỡ tay?"}
+    Q2 -->|"Có"| SHOW["git show SHA --stat để chắc chắn"]
+    SHOW --> FIX
+    Q2 -->|"Không, quá cũ"| Q3{"git fsck --lost-found<br/>có dangling commit?"}
+    Q3 -->|"Có"| SHOW
+    Q3 -->|"Không"| Q4{"Đã từng push lên remote<br/>hoặc máy đồng nghiệp còn?"}
+    Q4 -->|"Có"| REMOTE["git fetch rồi lấy lại từ origin"]
+    Q4 -->|"Không"| LOST["Mất thật - bài học: push sớm, tag backup"]
+```
 
 ### Tình huống: "Tôi vừa reset --hard nhầm!"
 
@@ -517,11 +639,14 @@ git reflog
 
 ```bash
 git reset --hard HEAD~5
-git gc --prune=now          # XÓA NGAY mọi dangling objects
-git reflog                   # Reflog cũng bị dọn!
+git reflog expire --expire=now --all   # "dọn dẹp" reflog cho gọn...
+git gc --prune=now                     # ...rồi XÓA NGAY mọi object không còn tham chiếu
+git reflog                             # 5 commit kia không còn dấu vết
 # Quá muộn, không recovery được nữa.
 
-# BÀI HỌC: KHÔNG BAO GIỜ chạy gc --prune=now khi đang cần recovery
+# Lưu ý: chỉ chạy gc --prune=now (không expire reflog) thì commit vẫn được
+# reflog giữ lại. Nhưng đừng thử vận may.
+# BÀI HỌC: KHÔNG BAO GIỜ dọn reflog / chạy gc --prune=now khi đang cần recovery
 ```
 
 ### Lỗi 3: Nhầm lẫn `HEAD@{n}` với `HEAD~n`

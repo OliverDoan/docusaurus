@@ -80,6 +80,14 @@ GitHub Flow là mô hình branching **cực kỳ đơn giản** được GitHub 
 +--------------------------------------------------+
 ```
 
+:::info[Hình dung bằng đời thường]
+
+So với Git Flow (một nhà hàng có bếp chính, bàn nếm thử, đợt ra thực đơn mới...), **GitHub Flow** giống **một quán nhỏ**: mỗi món mới được nấu trên **một thớt riêng** (branch), **chủ quán nếm** (review + CI), đạt là **bưng ra cho khách ngay** (merge = deploy). Không có "đợt ra thực đơn", không có bếp trung gian.
+
+Quy tắc duy nhất phải giữ: **món trên bàn khách (`main`) lúc nào cũng ăn được** — tức là luôn deploy được.
+
+:::
+
 ### 1.2. Workflow chi tiết
 
 ```
@@ -89,6 +97,51 @@ GitHub Flow là mô hình branching **cực kỳ đơn giản** được GitHub 
               feature/login  fix/header-bug
               |           |
               PR created  PR merged + deployed
+```
+
+Cùng sơ đồ trên bằng gitGraph, dùng lại tính năng **tìm kiếm** đã theo dõi ở bài [Git Flow](./1_git-flow.md#71-theo-chân-một-tính-năng-tìm-kiếm-sản-phẩm). Song song có một bạn khác sửa lỗi header. Mỗi merge vào `main` là một lần deploy:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B" tag: "deploy"
+    branch feature/add-search-bar
+    checkout feature/add-search-bar
+    commit id: "S1 component"
+    commit id: "S2 tích hợp"
+    checkout main
+    branch fix/header-bug
+    checkout fix/header-bug
+    commit id: "H1 fix"
+    checkout main
+    merge fix/header-bug id: "PR 41" tag: "deploy"
+    checkout feature/add-search-bar
+    commit id: "S3 tests"
+    checkout main
+    merge feature/add-search-bar id: "PR 42" type: HIGHLIGHT tag: "deploy"
+```
+
+- Chỉ có **một** nhánh sống lâu: `main`. Mọi nhánh khác sống vài giờ tới vài ngày rồi xoá.
+- Bản sửa header lên production **trước** tính năng tìm kiếm, không phải chờ nhau — khác hẳn Git Flow, nơi cả hai sẽ chờ cùng một đợt release.
+
+Cũng quy trình đó, nhìn theo thời gian:
+
+```mermaid
+sequenceDiagram
+    participant DEV as Dev
+    participant FB as feature/add-search-bar
+    participant MN as main
+    participant CI as CI/CD
+    participant PROD as Production
+    DEV->>FB: Rẽ nhánh từ main mới nhất
+    DEV->>FB: Commit, push, mở PR
+    FB->>CI: Chạy lint, test, build
+    CI-->>FB: Xanh
+    Note over FB: Review, sửa theo góp ý (vài giờ đến 1-2 ngày)
+    FB->>MN: Merge PR (thường là squash)
+    MN->>CI: Trigger pipeline deploy
+    CI->>PROD: Deploy tự động
+    Note over PROD: Khách dùng được ngay trong ngày merge
 ```
 
 **Bước 1: Tạo branch từ main**
@@ -238,6 +291,14 @@ Trunk-Based Development là mô hình mà **tất cả developer commit trực t
 +----------------------------------------------------------+
 ```
 
+:::info[Hình dung bằng đời thường]
+
+**Trunk** nghĩa là **thân cây** — nhánh chính duy nhất. Trunk-Based giống **cả nhóm cùng viết trên một tấm bảng chung**: mỗi người viết **từng dòng ngắn** và viết thường xuyên, nên ai cũng luôn thấy bản mới nhất của nhau và không bao giờ có chuyện "hai bản nháp lệch nhau cả tuần".
+
+Phần chưa viết xong thì sao? Che lại bằng **một tấm vải** — đó là **Feature Flag** (cờ bật/tắt tính năng). Chữ đã nằm trên bảng (code đã ở `main`, đã deploy), nhưng khách chưa nhìn thấy cho tới khi bạn kéo tấm vải ra (bật cờ).
+
+:::
+
 ### 2.2. Nguyên tắc cốt lõi
 
 ```
@@ -291,6 +352,28 @@ git push -u origin alice/add-date-formatter
 
 # KHÔNG để branch qua đêm!
 ```
+
+**Minh hoạ bằng gitGraph:** vẫn tính năng **tìm kiếm**, nhưng thay vì một nhánh sống 3–5 ngày, nó được **cắt thành lát mỏng**, mỗi lát lên `main` trong ngày, giấu sau cờ `NEW_SEARCH`:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "search API (flag OFF)"
+    commit id: "B của người khác"
+    branch alice/search-ui
+    checkout alice/search-ui
+    commit id: "search UI (flag OFF)"
+    checkout main
+    merge alice/search-ui id: "PR < 1 ngày"
+    commit id: "C của người khác"
+    commit id: "bật flag 10% user" type: HIGHLIGHT
+    commit id: "bật flag 100%" tag: "release"
+    commit id: "xoá flag cũ"
+```
+
+- Code tìm kiếm nằm trên `main` (và đã deploy) **từ ngày đầu**, nhưng người dùng chỉ thấy khi cờ được bật.
+- "Release" ở đây **không phải** một lần merge hay deploy, mà là **một lần bật cờ**. Lỗi? Tắt cờ là xong, không cần revert.
+- Commit cuối "xoá flag cũ" là bước hay bị quên (xem [Lỗi 4: Feature Flag debt](#lỗi-4-feature-flag-debt)).
 
 ### 2.4. Feature Flags — "Vũ khí bí mật" của TBD
 
@@ -348,6 +431,16 @@ if (getFeatureFlag("NEW_CHECKOUT", currentUser.id)) {
 }
 ```
 
+Mỗi lần người dùng mở trang, code hỏi cờ trước rồi mới quyết định hiển thị gì:
+
+```mermaid
+flowchart LR
+    U["Người dùng mở trang"] --> F{"Cờ NEW_SEARCH<br/>bật cho người này?"}
+    F -->|"Không"| OLD["OldSearchBar<br/>(bản cũ, ổn định)"]
+    F -->|"Có (beta hoặc trong 10%)"| NEW["NewSearchBar<br/>(bản mới)"]
+    ADMIN["Bảng điều khiển cờ"] -.->|"bật hoặc tắt, không cần deploy"| F
+```
+
 **Các công cụ Feature Flag phổ biến:**
 
 | Tool                      | Miễn phí?    | Phù hợp                      |
@@ -380,7 +473,7 @@ if (getFeatureFlag("NEW_CHECKOUT", currentUser.id)) {
 
 | Ưu điểm                   | Chi tiết                                  |
 | ------------------------- | ----------------------------------------- |
-| **Không merge conflict**  | Không có long-lived branch -> không drift |
+| **Rất ít merge conflict** | Không có long-lived branch -> không drift; conflict (nếu có) nhỏ và gỡ ngay trong ngày |
 | **CI liên tục**           | Mọi commit được test ngay                 |
 | **Deploy nhanh**          | Main luôn sẵn sàng deploy                 |
 | **Đơn giản**              | Không cần nhớ quy trình phức tạp          |
@@ -464,6 +557,91 @@ if (getFeatureFlag("NEW_CHECKOUT", currentUser.id)) {
 | **Linux Kernel**        | Giống Git Flow | Release versioned, nhiều maintainer             |
 | **React (open source)** | GitHub Flow    | Open source, PR-driven development              |
 | **Enterprise banks**    | Git Flow       | Compliance, audit trail, scheduled release      |
+
+### 3.4. Cùng một tính năng đi qua 3 quy trình
+
+Tình huống: team cần làm **tính năng tìm kiếm**, ước chừng 4 ngày công. Đây là "hình dạng" lịch sử Git ở mỗi quy trình — so sánh ba sơ đồ dưới đây là thấy ngay khác biệt.
+
+**Git Flow** — đi qua `feature` → `develop` → `release` → `main`:
+
+```mermaid
+gitGraph
+    commit id: "v1.1" tag: "v1.1.0"
+    branch develop
+    checkout develop
+    commit id: "d1"
+    branch feature/search
+    checkout feature/search
+    commit id: "S1"
+    commit id: "S2"
+    commit id: "S3"
+    checkout develop
+    merge feature/search id: "M feature"
+    branch release/1.2.0
+    checkout release/1.2.0
+    commit id: "fix QA"
+    checkout main
+    merge release/1.2.0 id: "R" type: HIGHLIGHT tag: "v1.2.0"
+    checkout develop
+    merge release/1.2.0 id: "back"
+```
+
+**GitHub Flow** — một nhánh ngắn, merge thẳng vào `main` và deploy:
+
+```mermaid
+gitGraph
+    commit id: "A" tag: "deploy"
+    branch feature/search
+    checkout feature/search
+    commit id: "S1"
+    commit id: "S2"
+    commit id: "S3"
+    checkout main
+    merge feature/search id: "PR" type: HIGHLIGHT tag: "deploy"
+```
+
+**Trunk-Based** — không có nhánh dài, từng lát nhỏ vào thẳng `main` sau cờ:
+
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "S1 (flag OFF)"
+    commit id: "x của người khác"
+    commit id: "S2 (flag OFF)"
+    commit id: "S3 (flag OFF)"
+    commit id: "bật flag" type: HIGHLIGHT tag: "release"
+```
+
+| Câu hỏi | Git Flow | GitHub Flow | Trunk-Based |
+| --- | --- | --- | --- |
+| Code tìm kiếm nằm ngoài `main` bao lâu? | Đến khi cả đợt release xong (1–3 tuần) | Đến khi PR được merge (1–4 ngày) | Gần như không (vài giờ) |
+| Số lần merge để tới production | 3 (feature→develop, release→main, release→develop) | 1 | Nhiều lần nhỏ, mỗi lát 1 lần |
+| Khách thấy tính năng khi nào? | Khi tag v1.2.0 được deploy | Ngay sau khi merge PR | Khi bật cờ (có thể bật dần 10% → 100%) |
+| Đồng đội thấy code của bạn khi nào? | Khi merge vào develop | Khi merge PR | Gần như ngay lập tức |
+| Nếu tính năng có lỗi sau khi lên | Mở `hotfix/*` từ main | Revert PR hoặc sửa tiếp bằng PR mới | Tắt cờ, sửa sau |
+| Nguy cơ conflict lớn | Cao (nhánh sống lâu) | Trung bình | Thấp |
+| Đòi hỏi về CI và test | Vừa phải | Khá cao | Rất cao |
+
+:::tip[Một câu để nhớ]
+
+**Git Flow** gom tính năng thành **đợt** rồi mới phát hành. **GitHub Flow** phát hành **từng PR**. **Trunk-Based** tách "đưa code lên" khỏi "cho khách thấy" bằng **cờ**.
+
+:::
+
+### 3.5. Cây quyết định dạng sơ đồ
+
+Phiên bản Mermaid của mục 3.2, gộp ba câu hỏi thành một luồng:
+
+```mermaid
+flowchart TD
+    Q1{"Cần duy trì nhiều phiên bản<br/>song song? (app mobile, SDK, v1.x và v2.x)"} -->|"Có"| GF["Git Flow"]
+    Q1 -->|"Không"| Q2{"Deploy bao lâu một lần?"}
+    Q2 -->|"Vài lần mỗi tháng, theo lịch"| GF
+    Q2 -->|"Vài lần mỗi tuần"| GH["GitHub Flow"]
+    Q2 -->|"Nhiều lần mỗi ngày"| Q3{"CI nhanh dưới 10 phút,<br/>test tốt, có Feature Flag?"}
+    Q3 -->|"Có"| TBD["Trunk-Based"]
+    Q3 -->|"Chưa"| GH2["GitHub Flow trước,<br/>xây dần nền tảng rồi chuyển"]
+```
 
 ---
 
